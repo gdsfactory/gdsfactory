@@ -8,65 +8,212 @@ from pydantic import BaseModel, Field
 from rich.console import Console
 from rich.table import Table
 
-from gdsfactory.component import Component, boolean_operations
+from gdsfactory.component import Component
 
 if TYPE_CHECKING:
     from gdsfactory.technology import LayerViews
+
+
+class GDSLayer(BaseModel):
+    """GDS design layer."""
+
+    layer: tuple[int, int] | kf.LayerEnum
+
+    # Boolean AND (&)
+    def __and__(self, other: GDSLayer | DerivedLayer) -> DerivedLayer:
+        """Represents boolean AND (&) operation between two layers.
+
+        Args:
+            other (GDSLayer | DerivedLayer): Another Layer object to perform AND operation.
+
+        Returns:
+            A new DerivedLayer with the AND operation logged.
+        """
+        return DerivedLayer(layer1=self, layer2=other, operation="and")
+
+    # Boolean OR (|, +)
+    def __or__(self, other: GDSLayer | DerivedLayer) -> DerivedLayer:
+        """Represents boolean OR (|) operation between two layers.
+
+        Args:
+            other (GDSLayer | DerivedLayer): Another Layer object to perform OR operation.
+
+        Returns:
+            A new DerivedLayer with the OR operation logged.
+        """
+        return DerivedLayer(layer1=self, layer2=other, operation="or")
+
+    def __add__(self, other: GDSLayer | DerivedLayer) -> DerivedLayer:
+        """Represents boolean OR (+) operation between two derived layers.
+
+        Args:
+            other (GDSLayer | DerivedLayer): Another Layer object to perform OR operation.
+
+        Returns:
+            A new DerivedLayer with the AND operation logged.
+        """
+        return DerivedLayer(layer1=self, layer2=other, operation="or")
+
+    # Boolean XOR (^)
+    def __xor__(self, other: GDSLayer | DerivedLayer) -> DerivedLayer:
+        """Represents boolean XOR (^) operation between two derived layers.
+
+        Args:
+            other (GDSLayer | DerivedLayer): Another Layer object to perform XOR operation.
+
+        Returns:
+            A new DerivedLayer with the XOR operation logged.
+        """
+        return DerivedLayer(layer1=self, layer2=other, operation="xor")
+
+    # Boolean NOT (-)
+    def __sub__(self, other: GDSLayer | DerivedLayer) -> DerivedLayer:
+        """Represents boolean NOT (-) operation on a derived layer.
+
+        Args:
+            other (GDSLayer | DerivedLayer): Another Layer object to perform NOT operation.
+
+        Returns:
+            A new DerivedLayer with the NOT operation logged.
+        """
+        return DerivedLayer(layer1=self, layer2=other, operation="not")
+
+
+class DerivedLayer(BaseModel):
+    """Physical "derived layer", resulting from a combination of GDS design layers. Can be used by renderers and simulators.
+
+    Overloads operators for simpler expressions.
+
+    Attributes:
+        input_layer1: primary layer comprising the derived layer. Can be a GDS design layer (kf.LayerEnum, tuple[int, int]), or another derived layer.
+        input_layer2: secondary layer comprising the derived layer. Can be a GDS design layer (kf.LayerEnum, tuple[int, int]), or another derived layer.
+        operation: operation to perform between layer1 and layer2. One of "and", "or", "xor", or "not" or associated symbols.
+    """
+
+    layer1: GDSLayer | DerivedLayer
+    layer2: GDSLayer | DerivedLayer
+    operation: Literal["and", "&", "or", "|", "xor", "^", "not", "-"]
+
+    # Boolean AND (&)
+    def __and__(self, other: GDSLayer | DerivedLayer) -> DerivedLayer:
+        """Represents boolean AND (&) operation between two layers.
+
+        Args:
+            other (GDSLayer | DerivedLayer): Another Layer object to perform AND operation.
+
+        Returns:
+            A new DerivedLayer with the AND operation logged.
+        """
+        return DerivedLayer(layer1=self, layer2=other, operation="and")
+
+    # Boolean OR (|, +)
+    def __or__(self, other: GDSLayer | DerivedLayer) -> DerivedLayer:
+        """Represents boolean OR (|) operation between two layers.
+
+        Args:
+            other (GDSLayer | DerivedLayer): Another Layer object to perform OR operation.
+
+        Returns:
+            A new DerivedLayer with the OR operation logged.
+        """
+        return DerivedLayer(layer1=self, layer2=other, operation="or")
+
+    def __add__(self, other: GDSLayer | DerivedLayer) -> DerivedLayer:
+        """Represents boolean OR (+) operation between two derived layers.
+
+        Args:
+            other (GDSLayer | DerivedLayer): Another Layer object to perform OR operation.
+
+        Returns:
+            A new DerivedLayer with the AND operation logged.
+        """
+        return DerivedLayer(layer1=self, layer2=other, operation="or")
+
+    # Boolean XOR (^)
+    def __xor__(self, other: GDSLayer | DerivedLayer) -> DerivedLayer:
+        """Represents boolean XOR (^) operation between two derived layers.
+
+        Args:
+            other (GDSLayer | DerivedLayer): Another Layer object to perform XOR operation.
+
+        Returns:
+            A new DerivedLayer with the XOR operation logged.
+        """
+        return DerivedLayer(layer1=self, layer2=other, operation="xor")
+
+    # Boolean NOT (-)
+    def __sub__(self, other: GDSLayer | DerivedLayer) -> DerivedLayer:
+        """Represents boolean NOT (-) operation on a derived layer.
+
+        Args:
+            other (GDSLayer | DerivedLayer): Another Layer object to perform NOT operation.
+
+        Returns:
+            A new DerivedLayer with the NOT operation logged.
+        """
+        return DerivedLayer(layer1=self, layer2=other, operation="not")
 
 
 class LayerLevel(BaseModel):
     """Level for 3D LayerStack.
 
     Parameters:
-        layer: (GDSII Layer number, GDSII datatype).
-        thickness: layer thickness in um.
-        thickness_tolerance: layer thickness tolerance in um.
-        zmin: height position where material starts in um.
-        zmin_tolerance: layer height tolerance in um.
-        material: material name.
-        sidewall_angle: in degrees with respect to normal.
-        sidewall_angle_tolerance: in degrees.
-        width_to_z: if sidewall_angle, relative z-position (0 --> zmin, 1 --> zmin + thickness).
-        z_to_bias: parametrizes shrinking/expansion of the design GDS layer \
-                when extruding from zmin (0) to zmin + thickness (1).\
-                Defaults no buffering [[0, 1], [0, 0]].
-        mesh_order: lower mesh order (1) will have priority over higher \
-                mesh order (2) in the regions where materials overlap.
-        refractive_index: int, complex or function that depends on wavelength (um).
-        type: grow, etch, implant, or background.
-        mode: octagon, taper, round. https://gdsfactory.github.io/klayout_pyxs/DocGrow.html
-        into: etch into another layer. https://gdsfactory.github.io/klayout_pyxs/DocGrow.html
-        resistivity: for metals.
-        bias: in um for the etch. Can be a single number or 2 numbers (bias_x, bias_y)
-        derived_layer: Optional derived layer, used for layer_type='etch' to define the slab.
-        info: simulation_info and other types of metadata.
-        background_doping_concentration: uniform base doping level in the material (cm-3)
-        background_doping_ion: uniform base doping ion in the material
-        orientation: of the wafer (Miller indices of the plane)
+
+        # Identification
+            name: str
+            layer: GDSLayer or DerivedLayer. DerivedLayers can be composed of operations consisting of multiple other GDSLayers or other DerivedLayers.
+            derived_layer: if the layer is derived, GDSLayer to assign to the derived layer.
+
+        # Extrusion
+            thickness: layer thickness in um.
+            thickness_tolerance: layer thickness tolerance in um.
+            zmin: height position where material starts in um.
+            zmin_tolerance: layer height tolerance in um.
+
+            One of:
+                sidewall_angle: in degrees with respect to normal.
+                sidewall_angle_tolerance: in degrees.
+                width_to_z: if sidewall_angle, reference z-position (0 --> zmin, 1 --> zmin + thickness, 0.5 in the middle).
+
+                bias: shrink/grow of the level compared to the mask
+
+                z_to_bias: most generic way to specify an extrusion.\
+                    Two tuples of the same length specifying the shrink/grow (float) to apply between zmin (0) and zmin + thickness (1)\
+                    I.e. [[z1, z2, ..., zN], [bias1, bias2, ..., biasN]]\
+                    Defaults no buffering [[0, 1], [0, 0]].
+                    NOTE: A dict might be more expressive.
+
+        # Rendering
+            mesh_order: lower mesh order (e.g. 1) will have priority over higher \
+                    mesh order (e.g. 2) in the regions where materials overlap.
+            material: used in the klayout script
+
+        # Other
+            info: all other rendering and simulation metadata should go here.
     """
 
+    # ID
     name: str | None = None
-    layer: kf.LayerEnum | tuple[int, int] | None = None
+    layer: GDSLayer | DerivedLayer | None = None
+    derived_layer: GDSLayer | None = None
+
+    # Extrusion rules
     thickness: float
     thickness_tolerance: float | None = None
     zmin: float
     zmin_tolerance: float | None = None
-    material: str | None = None
     sidewall_angle: float = 0.0
     sidewall_angle_tolerance: float | None = None
     width_to_z: float = 0.0
     z_to_bias: tuple[list[float], list[float]] | None = None
-    mesh_order: int = 3
-    layer_type: Literal["grow", "etch", "implant", "background"] = "grow"
-    mode: Literal["octagon", "taper", "round"] | None = None
-    into: list[str] | None = None
-    resistivity: float | None = None
     bias: tuple[float, float] | float | None = None
-    derived_layer: tuple[int, int] | None = None
+
+    # Rendering
+    mesh_order: int = 3
+    material: str | None = None
+
+    # Other
     info: dict[str, Any] = Field(default_factory=dict)
-    background_doping_concentration: float | None = None
-    background_doping_ion: str | None = None
-    orientation: str | None = "100"
 
     @property
     def bounds(self) -> tuple[float, float]:
@@ -375,6 +522,58 @@ class LayerStack(BaseModel):
         return self
 
 
+def get_shapes_from_arbitrary_layer(
+    layer: DerivedLayer | GDSLayer,
+    component: Component,
+) -> kf.kdb.Region:
+    """Recursively evaluate the derived layer operations on the component.
+
+    Arguments:
+        layer: derived layer whose shapes to add.
+        component: to read polygons from,
+
+    Returns:
+        r: KLayout region corresponding to the component's derived layer.
+    """
+    from gdsfactory.pdk import get_layer
+
+    # Component polygons
+    polygons_per_layer = component.get_polygons()
+
+    # If we hit a GDSLayer, retrieve the polygons
+    if isinstance(layer, GDSLayer):
+        layer_index = get_layer(layer.layer)
+        polygons = polygons_per_layer[layer_index]
+        r = kf.kdb.Region(polygons)
+        return r
+
+    # If we hit a DerivedLayer, process its two input layers
+    elif isinstance(layer, DerivedLayer):
+        # Recurse through derived layer1 if needed
+        if isinstance(layer.layer1, GDSLayer):
+            layer_index = get_layer(layer.layer1.layer)
+            polygons = polygons_per_layer[layer_index]
+            r1 = kf.kdb.Region(polygons)
+        elif isinstance(layer.layer1, DerivedLayer):
+            r1 = get_shapes_from_arbitrary_layer(layer.layer1, component)
+
+        # Recurse through derived layer2 if needed
+        if isinstance(layer.layer2, GDSLayer):
+            layer_index = get_layer(layer.layer2.layer)
+            polygons = polygons_per_layer[layer_index]
+            r2 = kf.kdb.Region(polygons)
+        elif isinstance(layer.layer2, DerivedLayer):
+            r2 = get_shapes_from_arbitrary_layer(layer.layer2, component)
+
+        # Get new region from boolean operation
+        r = gf.component.boolean_operations[layer.operation](r1, r2)
+
+        return r
+
+    else:
+        raise ValueError("layer must be one of GDSLayer or DerivedLayer")
+
+
 def get_component_with_derived_layers(component, layer_stack: LayerStack) -> Component:
     """Returns a component with derived layers.
 
@@ -384,119 +583,80 @@ def get_component_with_derived_layers(component, layer_stack: LayerStack) -> Com
     """
     from gdsfactory.pdk import get_layer
 
-    unetched_layers = [
-        layer_name
-        for layer_name, level in layer_stack.layers.items()
-        if level.layer and level.layer_type == "grow"
-    ]
-    etch_layers = [
-        layer_name
-        for layer_name, level in layer_stack.layers.items()
-        if level.layer and level.layer_type == "etch"
-    ]
+    component_derived = gf.Component()
 
-    # remove all etched layers from the grown layers
-    unetched_layers_dict = defaultdict(list)
-    for layer_name in etch_layers:
-        level = layer_stack.layers[layer_name]
-        into = level.into or []
-        for layer_name_etched in into:
-            unetched_layers_dict[layer_name_etched].append(layer_name)
-            if layer_name_etched in unetched_layers:
-                unetched_layers.remove(layer_name_etched)
+    for layer_name, level in layer_stack.layers.items():
+        if isinstance(level.layer, GDSLayer):
+            derived_layer_index = get_layer(level.layer.layer)
+        elif isinstance(level.layer, DerivedLayer):
+            if level.derived_layer is not None:
+                derived_layer_index = get_layer(level.derived_layer.layer)
+            else:
+                raise ValueError(
+                    f"Error at LayerLevel {layer_name}: derived_layer must be provided if the level's layer is a DerivedLayer"
+                )
+        else:
+            raise ValueError("layer must be one of GDSLayer or DerivedLayer")
 
-    polygons_per_layer = component.get_polygons()
-    component_layers = polygons_per_layer.keys()
-
-    # Define pure grown layers
-    unetched_layer_numbers = [
-        layer_stack.layers[layer_name].layer
-        for layer_name in unetched_layers
-        if layer_stack.layers[layer_name].layer in component_layers
-    ]
-    component_derived = component.extract(unetched_layer_numbers)
-
-    # Define unetched layers
-    for unetched_layer_name, unetched_layers in unetched_layers_dict.items():
-        layer_index = layer_stack.layers[unetched_layer_name].layer
-        polygons = polygons_per_layer[layer_index]
-        for polygon in polygons:
-            component_derived.shapes(layer_index).insert(polygon)
-
-        # Add all the etching layers (OR)
-        for etching_layers in unetched_layers:
-            layer = layer_stack.layers[etching_layers].layer
-            if layer in polygons_per_layer:
-                layer_index = get_layer(layer)
-                B_polys = polygons_per_layer[layer]
-                derived_layer = layer_stack.layers[etching_layers].derived_layer
-                if derived_layer:
-                    r1 = polygons
-                    r2 = B_polys
-                    operation = "and"
-
-                    r1 = kf.kdb.Region(r1)
-                    r2 = kf.kdb.Region(r2)
-                    f = boolean_operations[operation]
-                    r = f(r1, r2)
-                    r = component_derived.shapes(layer_index).insert(r)
-
-        # Remove all etching layers
-        # layer = layer_stack.layers[unetched_layer_name].layer
-        # polygons = polygons_per_layer[layer]
-        # unetched_polys = boolean(
-        #     polygons,
-        #     polygons_to_remove,
-        #     operation="not",
-        #     layer=layer
-        # )
-        # component_derived.shapes(layer_index).insert(unetched_polys)
+        shapes = get_shapes_from_arbitrary_layer(layer=level.layer, component=component)
+        component_derived.shapes(derived_layer_index).insert(shapes)
 
     component_derived.add_ports(component.ports)
     return component_derived
 
 
 if __name__ == "__main__":
+    # For now, make regular layers trivial DerivedLayers
+    # This might be automatable during LayerStack instantiation, or we could modify the Layer object in LayerMap too
+    layer1 = GDSLayer(layer=(1, 0))
+    layer2 = GDSLayer(layer=(2, 0))
+
+    ls = LayerStack(
+        layers={
+            "layerlevel_layer1": LayerLevel(layer=layer1, thickness=10, zmin=0),
+            "layerlevel_layer2": LayerLevel(layer=layer2, thickness=10, zmin=10),
+            "layerlevel_and_layer": LayerLevel(
+                layer=layer1 & layer2,
+                thickness=10,
+                zmin=0,
+                derived_layer=GDSLayer(layer=(3, 0)),
+            ),
+            "layerlevel_xor_layer": LayerLevel(
+                layer=layer1 ^ layer2,
+                thickness=10,
+                zmin=0,
+                derived_layer=GDSLayer(layer=(4, 0)),
+            ),
+            "layerlevel_not_layer": LayerLevel(
+                layer=layer1 - layer2,
+                thickness=10,
+                zmin=0,
+                derived_layer=GDSLayer(layer=(5, 0)),
+            ),
+            "layerlevel_or_layer": LayerLevel(
+                layer=layer1 | layer2,
+                thickness=10,
+                zmin=0,
+                derived_layer=GDSLayer(layer=(6, 0)),
+            ),
+            "layerlevel_composed_layer": LayerLevel(
+                layer=layer1 - (layer1 & layer2),
+                thickness=10,
+                zmin=0,
+                derived_layer=GDSLayer(layer=(7, 0)),
+            ),
+        }
+    )
+
+    # Test with simple component
     import gdsfactory as gf
-    from gdsfactory.generic_tech import LAYER_STACK
 
-    layer_stack = LAYER_STACK
+    c = gf.Component()
 
-    c = gf.components.straight_heater_metal()
+    rect1 = c << gf.components.rectangle(size=(10, 10), layer=(1, 0))
+    rect2 = c << gf.components.rectangle(size=(10, 10), layer=(2, 0))
+    rect2.dmove((5, 5))
     c.show()
 
-    # import gdsfactory as gf
-    # from gdsfactory.generic_tech import LAYER_STACK
-    # component = c = gf.components.grating_coupler_elliptical_trenches()
-    component = c = gf.components.taper_strip_to_ridge_trenches()
-    # script = LAYER_STACK.get_klayout_3d_script()
-    # print(script)
-    # ls = layer_stack = LAYER_STACK
-    # layer_to_thickness = layer_stack.get_layer_to_thickness()
-    c = layer_stack.get_component_with_derived_layers(component)
+    c = get_component_with_derived_layers(c, ls)
     c.show()
-    # import pathlib
-    # filepath = pathlib.Path(
-    #     "/home/jmatres/gdslib/sp/temp/write_sparameters_meep_mpi.json"
-    # )
-    # ls_json = filepath.read_bytes()
-    # ls2 = LayerStack.parse_raw(ls_json)
-    # from gdsfactory.generic_tech import LAYER_STACK
-    # from gdsfactory.technology.klayout_tech import KLayoutTechnology
-
-    # lyp = LayerViews.from_lyp(str(PATH.klayout_lyp))
-
-    # # str_xml = open(PATH.klayout_tech / "tech.lyt").read()
-    # # new_tech = db.Technology.technology_from_xml(str_xml)
-    # # generic_tech = KLayoutTechnology(layer_views=lyp)
-    # connectivity = [("M1", "VIA1", "M2"), ("M2", "VIA2", "M3")]
-
-    # c = generic_tech = KLayoutTechnology(
-    #     name="generic_tech", layer_views=lyp, connectivity=connectivity
-    # )
-    # tech_dir = PATH.klayout_tech
-    # # tech_dir = pathlib.Path("/home/jmatres/.klayout/salt/gdsfactory/tech/")
-    # tech_dir.mkdir(exist_ok=True, parents=True)
-    # generic_tech.write_tech(tech_dir=tech_dir, layer_stack=LAYER_STACK)
-
-    # yaml_test()
