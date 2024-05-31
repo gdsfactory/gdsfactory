@@ -1,7 +1,5 @@
 info: {}
-name: 'from_yaml_YS
-
-  name__dxdy_2e52ecad'
+name: dxdy
 settings:
   label_instance_function: add_instance_label
   name: Unnamed

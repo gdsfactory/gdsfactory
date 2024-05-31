@@ -1,7 +1,5 @@
 info: {}
-name: 'from_yaml_YS
-
-  name__mirr_a6f7d2c7'
+name: mirror_port
 settings:
   label_instance_function: add_instance_label
   name: Unnamed

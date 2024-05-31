@@ -2,9 +2,7 @@ info:
   description: just a demo on adding metadata
   polarization: te
   wavelength: 1.55
-name: 'from_yaml_YS
-
-  name__samp_0bf047f2'
+name: sample_mmis
 settings:
   label_instance_function: add_instance_label
   name: Unnamed

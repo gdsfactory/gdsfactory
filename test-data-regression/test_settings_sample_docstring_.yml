@@ -1,7 +1,5 @@
 info: {}
-name: 'from_yaml_YS
-
-  name__samp_ca860404'
+name: sample_docstring
 settings:
   label_instance_function: add_instance_label
   name: Unnamed

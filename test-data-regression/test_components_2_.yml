@@ -1,7 +1,5 @@
 info: {}
-name: 'from_yaml_YS
-
-  name__rota_5009f148'
+name: rotation
 settings:
   label_instance_function: add_instance_label
   name: Unnamed

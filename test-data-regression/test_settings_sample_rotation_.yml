@@ -1,7 +1,5 @@
 info: {}
-name: 'from_yaml_YS
-
-  name__samp_da025421'
+name: sample_rotation
 settings:
   label_instance_function: add_instance_label
   name: Unnamed

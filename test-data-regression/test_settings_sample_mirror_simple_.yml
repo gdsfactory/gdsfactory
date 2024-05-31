@@ -1,7 +1,5 @@
 info: {}
-name: 'from_yaml_YS
-
-  name__samp_eba52652'
+name: sample_mirror_simple
 settings:
   label_instance_function: add_instance_label
   name: Unnamed

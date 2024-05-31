@@ -1,7 +1,5 @@
 info: {}
-name: 'from_yaml_YS
-
-  name__comp_97d704d4'
+name: component_yaml_ports
 settings:
   label_instance_function: add_instance_label
   name: Unnamed

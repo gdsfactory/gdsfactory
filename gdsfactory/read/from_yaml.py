@@ -587,7 +587,7 @@ def cell_from_yaml(
     )
 
 
-@kf.cell(check_instances=False)
+@kf.cell(check_instances=False, set_name=False)
 def from_yaml(
     yaml_str: str | pathlib.Path | IO[Any] | dict[str, Any] | DictConfig,
     routing_strategy: dict[str, Callable] | None = None,

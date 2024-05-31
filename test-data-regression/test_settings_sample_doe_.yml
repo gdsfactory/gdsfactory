@@ -1,7 +1,5 @@
 info: {}
-name: 'from_yaml_YS
-
-  name__mask_5cc64b26'
+name: mask
 settings:
   label_instance_function: add_instance_label
   name: Unnamed

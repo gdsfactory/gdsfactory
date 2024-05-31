@@ -1,7 +1,5 @@
 info: {}
-name: 'from_yaml_YS
-
-  name__yaml_50666d68'
+name: yaml_anchor
 settings:
   label_instance_function: add_instance_label
   name: Unnamed
