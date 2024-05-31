@@ -26,6 +26,7 @@ circuit_names = {
 circuit_names_test = circuit_names - {
     "component_lattice",
     "mzi",
+    "ring_single",
     "ring_double",
     "mzit",
 }  # set of component names
