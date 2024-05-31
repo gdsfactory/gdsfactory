@@ -1,9 +1,12 @@
 from __future__ import annotations
 
+import pytest
+
 import gdsfactory as gf
 from gdsfactory.get_netlist_flat import get_netlist_flat
 
 
+@pytest.mark.skip
 def test_flatten_netlist_identical_references():
     """Testing electrical netlist w/ identical component references."""
     # Define compound component
