@@ -360,7 +360,7 @@ class Path(_GeometryHelper):
         y = self.points[:, 1]
         dx = np.diff(x)
         dy = np.diff(y)
-        return np.sum(np.sqrt((dx) ** 2 + (dy) ** 2))
+        return float(np.sum(np.sqrt((dx) ** 2 + (dy) ** 2)))
 
     def curvature(self):
         """Calculates Path curvature.

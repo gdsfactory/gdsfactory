@@ -27,7 +27,7 @@ import numpy as np
 from gdsfactory import Port
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.name import clean_name
-from gdsfactory.serialization import clean_dict, clean_value_json
+from gdsfactory.serialization import clean_dict
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import LayerSpec
 
@@ -165,7 +165,7 @@ def get_netlist(
         instance = {}
 
         if c.info:
-            instance.update(component=c.name, info=clean_value_json(c.info))
+            instance.update(component=c.name, info=c.info.model_dump(exclude_none=True))
 
         # Prefer name from settings over c.name
         if c.settings:
@@ -173,7 +173,7 @@ def get_netlist(
 
             instance.update(
                 component=c.function_name,
-                settings=clean_value_json(settings),
+                settings=settings,
             )
 
         instances[reference_name] = instance

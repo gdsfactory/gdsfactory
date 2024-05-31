@@ -71,8 +71,8 @@ def _bend_euler(
     )
     c = p.extrude(x, all_angle=all_angle)
     min_bend_radius = float(np.round(p.info["Rmin"], 3))
-    c.info["length"] = np.round(p.length(), 3)
-    c.info["dy"] = np.round(abs(float(p.points[0][0] - p.points[-1][0])), 3)
+    c.info["length"] = float(np.round(p.length(), 3))
+    c.info["dy"] = float(np.round(abs(float(p.points[0][0] - p.points[-1][0])), 3))
     c.info["min_bend_radius"] = min_bend_radius
     c.info["radius"] = float(radius)
 
