@@ -88,7 +88,6 @@ def _bend_euler(
         n_bend_90=abs(angle / 90.0),
         min_bend_radius=min_bend_radius,
     )
-    c.flatten()
     return c
 
 
