@@ -28,4 +28,3 @@ if __name__ == "__main__":
     gf.clear_cache()
     filepath = PATH.netlists / "bend_translated_rotated.yml"
     c = gf.read.from_yaml(filepath)
-    c.name = "reconstructed"

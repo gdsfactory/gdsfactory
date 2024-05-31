@@ -1,23 +1,10 @@
 info: {}
-name: sample_mirror_simple
+name: 'from_yaml_YS
+
+  name__samp_eba52652'
 settings:
-  conf:
-    connections:
-      b,o1: s,o2
-    instances:
-      b:
-        component: bend_circular
-      s:
-        component: straight
-    name: sample_mirror_simple
-    placements:
-      b:
-        mirror: true
-        port: o1
   label_instance_function: add_instance_label
-  mode: layout
-  name: sample_mirror_simple
-  routing_strategy:
-    route_bundle: route_bundle
-    route_bundle_all_angle: route_bundle_all_angle
-    route_bundle_electrical: Froute_bundle_Mgdsfactoryproutingproute_bundle_SBwire_corner_CSmetal_routing_PTelectrical_AWMTrue
+  name: Unnamed
+  yaml_str: "\nname: sample_mirror_simple\n\ninstances:\n    s:\n        component:\
+    \ straight\n\n    b:\n        component: bend_circular\n\nplacements:\n    b:\n\
+    \        mirror: True\n        port: o1\n\nconnections:\n    b,o1: s,o2\n\n"

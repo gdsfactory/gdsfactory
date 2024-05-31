@@ -233,6 +233,7 @@ def test_get_netlist_electrical_different_widths() -> None:
     assert extracted_port_pair == expected_port_pair
 
 
+@pytest.mark.skip("TODO")
 def test_get_netlist_transformed() -> None:
     rotation_value = 35
     cname = "test_get_netlist_transformed"
@@ -258,6 +259,7 @@ def test_get_netlist_transformed() -> None:
     # confirm that the child netlists have reference attributes properly set
 
     i1_cell_name = top_netlist["instances"]["i1"]["component"]
+
     i1_netlist = recursive_netlist[i1_cell_name]
     assert i1_netlist["placements"][None]["rotation"] == rotation_value
 

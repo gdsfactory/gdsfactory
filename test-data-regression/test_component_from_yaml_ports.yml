@@ -1,52 +1,15 @@
 info: {}
-name: component_yaml_ports
+name: 'from_yaml_YS
+
+  name__comp_97d704d4'
 settings:
-  conf:
-    instances:
-      mmi_bot:
-        component: compass
-        settings:
-          port_type: None
-          size:
-          - 13.5
-          - 7
-    name: component_yaml_ports
-    ports:
-      o1:
-        center:
-        - -0.5
-        - 0.225
-        layer: WG
-        name: o1
-        orientation: 180
-        port_type: optical
-        width: 0.45
-      o2:
-        center:
-        - 13
-        - 3.675
-        layer:
-        - 1
-        - 0
-        name: o2
-        orientation: 0
-        port_type: optical
-        width: 0.45
-      o3:
-        center:
-        - 13
-        - -3.225
-        layer:
-        - 1
-        - 0
-        name: o3
-        orientation: 0
-        port_type: optical
-        width: 0.45
   label_instance_function: add_instance_label
-  mode: layout
-  name: component_yaml_ports
-  routing_strategy:
-    route_bundle: route_bundle
-    route_bundle_all_angle: route_bundle_all_angle
-    route_bundle_electrical: Froute_bundle_Mgdsfactoryproutingproute_bundle_SBwire_corner_CSmetal_routing_PTelectrical_AWMTrue
+  name: Unnamed
+  yaml_str: "\nname: component_yaml_ports\n\nports:\n  o1:\n    name: o1\n    center:\n\
+    \        - -0.5\n        - 0.225\n    width: 0.45\n    orientation: 180\n    port_type:\
+    \ optical\n    layer: WG\n  o2:\n    name: o2\n    center:\n        - 13\n   \
+    \     - 3.675\n    width: 0.45\n    orientation: 0\n    port_type: optical\n \
+    \   layer: [1, 0]\n  o3:\n    name: o3\n    center:\n        - 13\n        - -3.225\n\
+    \    width: 0.45\n    orientation: 0\n    port_type: optical\n    layer: [1, 0]\n\
+    \ninstances:\n    mmi_bot:\n      component: compass\n      settings:\n      \
+    \  port_type: None\n        size: [13.5, 7]\n\n"

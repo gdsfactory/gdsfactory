@@ -1,28 +1,11 @@
 info: {}
-name: rotation
+name: 'from_yaml_YS
+
+  name__rota_5009f148'
 settings:
-  conf:
-    instances:
-      mmi_long:
-        component: mmi1x2
-        settings:
-          length_mmi: 5
-          width_mmi: 4.5
-    name: rotation
-    placements:
-      mmi_long:
-        port: o1
-        rotation: 90
-        x: 10
-        y: 20
-    ports:
-      o1: mmi_long,o3
-      o2: mmi_long,o2
-      o3: mmi_long,o1
   label_instance_function: add_instance_label
-  mode: layout
-  name: rotation
-  routing_strategy:
-    route_bundle: route_bundle
-    route_bundle_all_angle: route_bundle_all_angle
-    route_bundle_electrical: Froute_bundle_Mgdsfactoryproutingproute_bundle_SBwire_corner_CSmetal_routing_PTelectrical_AWMTrue
+  name: Unnamed
+  yaml_str: "\nname: rotation\ninstances:\n    mmi_long:\n      component: mmi1x2\n\
+    \      settings:\n        width_mmi: 4.5\n        length_mmi: 5\nplacements:\n\
+    \    mmi_long:\n        port: o1\n        x: 10\n        y: 20\n        rotation:\
+    \ 90\nports:\n    o1: mmi_long,o3\n    o2: mmi_long,o2\n    o3: mmi_long,o1\n"

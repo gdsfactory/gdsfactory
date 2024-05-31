@@ -1,23 +1,10 @@
 info: {}
-name: sample_connections
+name: 'from_yaml_YS
+
+  name__samp_d56e35f4'
 settings:
-  conf:
-    connections:
-      wgw,o1: wgn,o2
-    instances:
-      wgn:
-        component: straight
-        settings:
-          length: 0.5
-      wgw:
-        component: straight
-        settings:
-          length: 1
-    name: sample_connections
   label_instance_function: add_instance_label
-  mode: layout
-  name: sample_connections
-  routing_strategy:
-    route_bundle: route_bundle
-    route_bundle_all_angle: route_bundle_all_angle
-    route_bundle_electrical: Froute_bundle_Mgdsfactoryproutingproute_bundle_SBwire_corner_CSmetal_routing_PTelectrical_AWMTrue
+  name: Unnamed
+  yaml_str: "\nname: sample_connections\n\ninstances:\n    wgw:\n      component:\
+    \ straight\n      settings:\n        length: 1\n    wgn:\n      component: straight\n\
+    \      settings:\n        length: 0.5\n\nconnections:\n    wgw,o1: wgn,o2\n\n"

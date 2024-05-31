@@ -1,26 +1,11 @@
 info: {}
-name: mask
+name: 'from_yaml_YS
+
+  name__mask_5cc64b26'
 settings:
-  conf:
-    instances:
-      mmi1x2_sweep:
-        component: pack_doe
-        settings:
-          do_permutations: true
-          doe: mmi1x2
-          settings:
-            length_mmi:
-            - 2
-            - 100
-            width_mmi:
-            - 4
-            - 10
-          spacing: 100
-    name: mask
   label_instance_function: add_instance_label
-  mode: layout
-  name: mask
-  routing_strategy:
-    route_bundle: route_bundle
-    route_bundle_all_angle: route_bundle_all_angle
-    route_bundle_electrical: Froute_bundle_Mgdsfactoryproutingproute_bundle_SBwire_corner_CSmetal_routing_PTelectrical_AWMTrue
+  name: Unnamed
+  yaml_str: "\nname: mask\n\ninstances:\n    mmi1x2_sweep:\n       component: pack_doe\n\
+    \       settings:\n         doe: mmi1x2\n         do_permutations: True\n    \
+    \     spacing: 100\n         settings:\n           length_mmi: [2, 100]\n    \
+    \       width_mmi: [4, 10]\n"

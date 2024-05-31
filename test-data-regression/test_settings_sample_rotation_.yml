@@ -1,33 +1,11 @@
 info: {}
-name: sample_rotation
+name: 'from_yaml_YS
+
+  name__samp_da025421'
 settings:
-  conf:
-    instances:
-      r1:
-        component: rectangle
-        settings:
-          size:
-          - 4
-          - 2
-      r2:
-        component: rectangle
-        settings:
-          size:
-          - 2
-          - 4
-    name: sample_rotation
-    placements:
-      r1:
-        xmin: 0
-        ymin: 0
-      r2:
-        rotation: -90
-        xmin: r1,east
-        ymin: 0
   label_instance_function: add_instance_label
-  mode: layout
-  name: sample_rotation
-  routing_strategy:
-    route_bundle: route_bundle
-    route_bundle_all_angle: route_bundle_all_angle
-    route_bundle_electrical: Froute_bundle_Mgdsfactoryproutingproute_bundle_SBwire_corner_CSmetal_routing_PTelectrical_AWMTrue
+  name: Unnamed
+  yaml_str: "\nname: sample_rotation\n\ninstances:\n  r1:\n    component: rectangle\n\
+    \    settings:\n        size: [4, 2]\n  r2:\n    component: rectangle\n    settings:\n\
+    \        size: [2, 4]\n\nplacements:\n    r1:\n        xmin: 0\n        ymin:\
+    \ 0\n    r2:\n        rotation: -90\n        xmin: r1,east\n        ymin: 0\n\n"
