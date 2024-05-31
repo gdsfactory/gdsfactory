@@ -19,7 +19,7 @@ def straight_with_bend(radius: float = 10):
 def test_netlist_read() -> None:
     filepath = PATH.netlists / "straight_with_bend.yml"
     c = gf.read.from_yaml(filepath)
-    assert len(c.insts) == 1, len(c.insts)
+    assert len(c.insts) == 2, len(c.insts)
 
 
 def regenerate_regression_test() -> None:

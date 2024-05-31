@@ -1,4 +1,5 @@
 connections:
+  b1,o2: b2,o2
 instances:
   b1:
     component: bend_circular
@@ -11,6 +12,7 @@ instances:
       route_info_weight: 15.708
       route_info_xs_34e31a19_length: 15.708
       route_info_n_bend_90: 1.0
+      route_info_min_bend_radius: 10.0
     settings:
       angle: 90.0
       cross_section: strip
@@ -26,6 +28,7 @@ instances:
       route_info_weight: 15.708
       route_info_xs_34e31a19_length: 15.708
       route_info_n_bend_90: 1.0
+      route_info_min_bend_radius: 10.0
     settings:
       angle: 90.0
       cross_section: strip
@@ -42,7 +45,7 @@ placements:
     rotation: 180.0
     mirror: true
 ports: {}
-name: original
+name: test_netlist_yaml5
 warnings:
   optical:
     orientation_mismatch:

@@ -83,7 +83,7 @@ def boolean(
         if isinstance(A, kf.Instance):
             r1.transform(A.cplx_trans)
         if isinstance(B, kf.Instance):
-            r1.transform(B.cplx_trans)
+            r2.transform(B.cplx_trans)
         f = boolean_operations[operation]
         r = f(r1, r2)
         r = c.shapes(layer_index).insert(r)

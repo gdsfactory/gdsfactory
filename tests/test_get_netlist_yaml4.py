@@ -7,11 +7,11 @@ from gdsfactory.config import PATH
 def test_netlist_read_translated_rotated() -> None:
     filepath = PATH.netlists / "bend_translated_rotated.yml"
     c = gf.read.from_yaml(filepath)
-    assert len(c.insts) == 1, len(c.insts)
+    assert len(c.insts) == 2, len(c.insts)
 
 
 def regenerate_regression_test() -> None:
-    c = gf.Component()
+    c = gf.Component("test_netlist_yaml4")
     ref = c.add_ref(gf.components.bend_circular())
     ref.name = "b1"
     ref = c.add_ref(gf.components.bend_circular())
@@ -20,7 +20,6 @@ def regenerate_regression_test() -> None:
     ref.dmirror()
     ref.drotate(180)
     filepath = PATH.netlists / "bend_translated_rotated.yml"
-    c.name = "original"
     c.write_netlist(filepath)
 
 

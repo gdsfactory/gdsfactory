@@ -73,9 +73,10 @@ def bend_euler(
     )
     ref = c << p.extrude(x)
     c.add_ports(ref.ports)
+    min_bend_radius = float(np.round(p.info["Rmin"], 3))
     c.info["length"] = np.round(p.length(), 3)
     c.info["dy"] = np.round(abs(float(p.points[0][0] - p.points[-1][0])), 3)
-    c.info["radius_min"] = float(np.round(p.info["Rmin"], 3))
+    c.info["min_bend_radius"] = min_bend_radius
     c.info["radius"] = float(radius)
 
     if clockwise:
@@ -88,7 +89,10 @@ def bend_euler(
     bottom = 0 if int(angle) in {-90} else None
     x.add_bbox(c, top=top, bottom=bottom)
     c.add_route_info(
-        cross_section=x, length=c.info["length"], n_bend_90=abs(angle / 90.0)
+        cross_section=x,
+        length=c.info["length"],
+        n_bend_90=abs(angle / 90.0),
+        min_bend_radius=min_bend_radius,
     )
     c.flatten()
     return c

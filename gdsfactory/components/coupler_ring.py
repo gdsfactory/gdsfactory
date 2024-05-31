@@ -24,6 +24,7 @@ def coupler_ring(
     cross_section: CrossSectionSpec = "strip",
     cross_section_bend: CrossSectionSpec | None = None,
     length_extension: float = 3,
+    **kwargs,
 ) -> Component:
     r"""Coupler for ring.
 
@@ -37,6 +38,7 @@ def coupler_ring(
         cross_section: cross_section spec.
         cross_section_bend: optional bend cross_section spec.
         length_extension: for the ports.
+        kwargs: cross_section settings.
 
     .. code::
 
@@ -50,21 +52,23 @@ def coupler_ring(
     """
     c = Component()
     gap = gf.snap.snap_to_grid(gap, grid_factor=2)
-    xs = gf.get_cross_section(cross_section)
+    xs = gf.get_cross_section(cross_section, **kwargs)
 
     cross_section_bend = cross_section_bend or xs
     xs_bend = gf.get_cross_section(cross_section_bend)
     xs_bend = xs_bend.copy(radius=radius)
 
     # define subcells
-    coupler90_component = coupler90(
+    coupler90_component = gf.get_component(
+        coupler90,
         gap=gap,
         radius=radius,
         bend=bend,
         cross_section=xs,
         cross_section_bend=xs_bend,
     )
-    coupler_straight_component = coupler_straight(
+    coupler_straight_component = gf.get_component(
+        coupler_straight,
         gap=gap,
         length=length_x,
         cross_section=xs,
@@ -79,7 +83,7 @@ def coupler_ring(
     cs.connect(port="o4", other=cbr.ports["o1"])
     cbl.connect(port="o2", other=cs.ports["o2"], mirror=True)
 
-    s = straight(length=length_extension, cross_section=xs)
+    s = gf.get_component(straight, length=length_extension, cross_section=xs)
     s1 = c << s
     s2 = c << s
 

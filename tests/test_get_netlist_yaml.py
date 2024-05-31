@@ -7,7 +7,7 @@ from gdsfactory.config import PATH
 def test_netlist_read() -> None:
     filepath = PATH.netlists / "mzi.yml"
     c = gf.read.from_yaml(filepath)
-    assert len(c.insts) == 1, len(c.insts)
+    assert len(c.insts) == 18, len(c.insts)
 
 
 def regenerate_regression_test() -> None:

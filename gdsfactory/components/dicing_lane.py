@@ -33,12 +33,12 @@ def dicing_lane(
     mbr.dxmin = r.dxmax
 
     mbl = c << m
-    mbl.dmirror_x()
+    mbl.dmirror()
     mbl.dxmax = r.dxmin
     mbl.dymin = r.dymin
 
     mtr = c << m
-    mtr.dmirror()
+    mtr.dmirror_y()
     mtr.dxmin = r.dxmax
     mtr.dymax = r.dymax
 

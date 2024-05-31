@@ -24,7 +24,7 @@ def test_extract() -> None:
     p = 1
     c2_polygons = c2.get_polygons()
     assert len(c2_polygons) == p, len(c2_polygons)
-    assert LAYER.WGCLAD in c2.layers, c2.layers
+    assert tuple(LAYER.WGCLAD) in c2.layers, c2.layers
 
 
 def test_hierarchy():

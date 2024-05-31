@@ -56,9 +56,6 @@ def ring_double(
              o1──────▼─────────o4
     """
     gap = gf.snap.snap_to_grid(gap, grid_factor=2)
-    xs = gf.get_cross_section(cross_section, **kwargs)
-    radius = radius or xs.radius
-    cross_section = xs.copy(radius=radius)
 
     coupler_component = gf.get_component(
         coupler_ring,
@@ -67,8 +64,11 @@ def ring_double(
         length_x=length_x,
         bend=bend,
         cross_section=cross_section,
+        **kwargs,
     )
-    straight_component = straight(length=length_y, cross_section=cross_section)
+    straight_component = straight(
+        length=length_y, cross_section=cross_section, **kwargs
+    )
 
     c = Component()
     cb = c.add_ref(coupler_component)
@@ -91,5 +91,5 @@ def ring_double(
 
 
 if __name__ == "__main__":
-    c = ring_double(length_y=0, length_x=0, layer=(2, 0))
+    c = ring_double(length_y=0, length_x=0, layer=(2, 0), width=2)
     c.show()

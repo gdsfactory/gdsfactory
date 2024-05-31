@@ -36,8 +36,7 @@ def bend_circular(
                   |
                  /
                 /
-               /
-       o1_____/
+        o1_____/
     """
     x = gf.get_cross_section(cross_section)
     radius = radius or x.radius
@@ -56,7 +55,10 @@ def bend_circular(
     if not allow_min_radius_violation:
         x.validate_radius(radius)
     c.add_route_info(
-        cross_section=x, length=c.info["length"], n_bend_90=abs(angle / 90.0)
+        cross_section=x,
+        length=c.info["length"],
+        n_bend_90=abs(angle / 90.0),
+        min_bend_radius=radius,
     )
     c.flatten()
     return c

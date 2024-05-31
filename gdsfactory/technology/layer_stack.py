@@ -46,7 +46,7 @@ class LayerLevel(BaseModel):
     """
 
     name: str | None = None
-    layer: kf.LayerEnum | tuple[int, int] | None = None
+    layer: kf.LayerEnum | tuple[int, int] | int | None = None
     thickness: float
     thickness_tolerance: float | None = None
     zmin: float

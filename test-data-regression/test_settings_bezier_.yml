@@ -2,6 +2,12 @@ info:
   end_angle: 0
   length: 10.226
   min_bend_radius: 10.885
+  route_info_length: 10.226
+  route_info_min_bend_radius: 10.885
+  route_info_n_bend_s: 1
+  route_info_type: xs_34e31a19
+  route_info_weight: 10.226
+  route_info_xs_34e31a19_length: 10.226
   start_angle: 0
 name: bezier_CP0_0_5_0_5_1p8__9eb21687
 settings:

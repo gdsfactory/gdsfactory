@@ -24,7 +24,7 @@ def test_add_ports_from_pins() -> None:
 
 def test_add_ports_from_pins_path() -> None:
     c = gf.components.straight(length=1.239)
-    c = gf.add_pins.add_pins_siepic(c)
+    c = gf.add_pins.add_pins_siepic_container(c)
     gdspath = c.write_gds()
     c2 = gf.import_gds(gdspath, post_process=add_ports_from_siepic_pins)
     assert c2.ports["o1"].dcenter[0] == 0

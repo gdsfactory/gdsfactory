@@ -74,6 +74,12 @@ def bezier(
     c.info["min_bend_radius"] = min_bend_radius
     c.info["start_angle"] = path.start_angle
     c.info["end_angle"] = path.end_angle
+    c.add_route_info(
+        cross_section=xs,
+        length=c.info["length"],
+        n_bend_s=1,
+        min_bend_radius=min_bend_radius,
+    )
 
     if not allow_min_radius_violation:
         xs.validate_radius(min_bend_radius, bend_radius_error_type)
