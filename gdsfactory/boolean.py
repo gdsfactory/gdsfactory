@@ -21,16 +21,14 @@ def boolean(
 ) -> Component:
     """Performs boolean operations between 2 Component/Reference/list objects.
 
-    ``operation`` should be one of {'not', 'and', 'or', 'xor', 'A-B', 'B-A', 'A+B'}.
-    Note that 'A+B' is equivalent to 'or', 'A-B' is equivalent to 'not', and
-    'B-A' is equivalent to 'not' with the operands switched
-
-    You can also use gdsfactory.drc.boolean_klayout
+    ``operation`` should be one of {'not', 'and', 'or', 'xor', '-', '&', '|', '^'}.
+    Note that '|' is equivalent to 'or', '-' is equivalent to 'not',
+    '&' is equivalent to 'and', and '^' is equivalent to 'xor'.
 
     Args:
         A: Component(/Reference) or list of Component(/References).
         B: Component(/Reference) or list of Component(/References).
-        operation: {'not', 'and', 'or', 'xor', 'A-B', 'B-A', 'A+B'}.
+        operation: {'not', 'and', 'or', 'xor', '-', '&', '|', '^'}.
         layer1: Specific layer to get polygons.
         layer2: Specific layer to get polygons.
         layer: Specific layer to put polygon geometry on.
@@ -40,9 +38,10 @@ def boolean(
 
     Notes:
     -----
-    - 'A+B' is equivalent to 'or'.
-    - 'A-B' is equivalent to 'not'.
-    - 'B-A' is equivalent to 'not' with the operands switched.
+    - '|' is equivalent to 'or'.
+    - '-' is equivalent to 'not'.
+    - '&' is equivalent to 'and'.
+    - '^' is equivalent to 'not'.
 
     .. plot::
       :include-source:
