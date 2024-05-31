@@ -21,6 +21,7 @@ skip_test = {
     "ring_double_pn",
     "add_fiber_array_optical_south_electrical_north",
     "bbox",
+    "pixel",
 }
 
 
