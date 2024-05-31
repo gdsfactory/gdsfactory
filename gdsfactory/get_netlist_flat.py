@@ -196,7 +196,6 @@ def _map_connections_ports(
                     higher_component,
                     level,
                     hierarchy,
-                    hierarchy_delimiter,
                 )
             )
             # Traverse up to higher level
