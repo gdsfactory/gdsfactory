@@ -35,6 +35,10 @@ def bend_s(
 
     """
     dx, dy = size
+
+    if dy == 0:
+        return gf.components.straight(length=dx, cross_section=cross_section, **kwargs)
+
     return bezier(
         control_points=((0, 0), (dx / 2, 0), (dx / 2, dy), (dx, dy)),
         npoints=npoints,
@@ -103,7 +107,7 @@ def get_min_sbend_size(
 
 
 if __name__ == "__main__":
-    c = bend_s()
+    c = bend_s(size=(10, 0))
     # c = bend_s(bbox_offsets=[0.5], bbox_layers=[(111, 0)], width=2)
     # c = bend_s(size=[10, 2.5])  # 10um bend radius
     # c = bend_s(size=[20, 3], cross_section="rib")  # 10um bend radius

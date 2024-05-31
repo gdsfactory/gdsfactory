@@ -11,13 +11,13 @@ def test_netlist_read() -> None:
 
 
 def regenerate_regression_test() -> None:
-    c = gf.components.mzi()
+    c = gf.components.mzi(delta_length=0.123)
     filepath = PATH.netlists / "mzi.yml"
     c.write_netlist(filepath)
 
 
 if __name__ == "__main__":
-    # regenerate_regression_test()
+    regenerate_regression_test()
     gf.clear_cache()
     filepath = PATH.netlists / "mzi.yml"
     c = gf.read.from_yaml(filepath)

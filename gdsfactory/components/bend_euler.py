@@ -5,14 +5,13 @@ from functools import partial
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.component import Component
+from gdsfactory.component import Component, ComponentAllAngle, ComponentBase
 from gdsfactory.components.wire import wire_corner
 from gdsfactory.path import euler
 from gdsfactory.typings import CrossSectionSpec
 
 
-@gf.cell
-def bend_euler(
+def _bend_euler(
     radius: float | None = None,
     angle: float = 90.0,
     p: float = 0.5,
@@ -20,10 +19,10 @@ def bend_euler(
     npoints: int | None = None,
     layer: gf.typings.LayerSpec | None = None,
     width: float | None = None,
-    clockwise: bool = False,
     cross_section: CrossSectionSpec = "strip",
     allow_min_radius_violation: bool = False,
-) -> Component:
+    all_angle: bool = False,
+) -> ComponentBase:
     """Euler bend with changing bend radius.
 
     By default, `radius` corresponds to the minimum radius of curvature of the bend.
@@ -45,9 +44,9 @@ def bend_euler(
         npoints: Number of points used per 360 degrees.
         layer: layer to use. Defaults to cross_section.layer.
         width: width to use. Defaults to cross_section.width.
-        clockwise: if True, the curve is drawn in the clockwise direction.
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
         allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
+        all_angle: if True, the bend is drawn with a single euler curve.
 
     .. code::
 
@@ -67,20 +66,15 @@ def bend_euler(
     if layer or width:
         x = x.copy(layer=layer or x.layer, width=width or x.width)
 
-    c = Component()
     p = euler(
         radius=radius, angle=angle, p=p, use_eff=with_arc_floorplan, npoints=npoints
     )
-    ref = c << p.extrude(x)
-    c.add_ports(ref.ports)
+    c = p.extrude(x, all_angle=all_angle)
     min_bend_radius = float(np.round(p.info["Rmin"], 3))
-    c.info["length"] = np.round(p.length(), 3)
-    c.info["dy"] = np.round(abs(float(p.points[0][0] - p.points[-1][0])), 3)
+    c.info["length"] = float(np.round(p.length(), 3))
+    c.info["dy"] = float(np.round(abs(float(p.points[0][0] - p.points[-1][0])), 3))
     c.info["min_bend_radius"] = min_bend_radius
     c.info["radius"] = float(radius)
-
-    if clockwise:
-        ref.dmirror(p1=gf.kdb.DPoint(0, 0), p2=gf.kdb.DPoint(1, 0))
 
     if not allow_min_radius_violation:
         x.validate_radius(radius)
@@ -94,11 +88,7 @@ def bend_euler(
         n_bend_90=abs(angle / 90.0),
         min_bend_radius=min_bend_radius,
     )
-    c.flatten()
     return c
-
-
-bend_euler180 = partial(bend_euler, angle=180)
 
 
 @gf.cell
@@ -143,6 +133,68 @@ def bend_euler_s(**kwargs) -> Component:
     return c
 
 
+@gf.cell
+def bend_euler(
+    radius: float | None = None,
+    angle: float = 90.0,
+    p: float = 0.5,
+    with_arc_floorplan: bool = True,
+    npoints: int | None = None,
+    layer: gf.typings.LayerSpec | None = None,
+    width: float | None = None,
+    cross_section: CrossSectionSpec = "strip",
+    allow_min_radius_violation: bool = False,
+) -> Component:
+    """Regular degree euler bend."""
+    if angle not in {90, 180}:
+        gf.logger.warning(
+            f"bend_euler angle should be 90 or 180. Got {angle}. Use bend_euler_all_angle instead."
+        )
+
+    return _bend_euler(
+        radius=radius,
+        angle=angle,
+        p=p,
+        with_arc_floorplan=with_arc_floorplan,
+        npoints=npoints,
+        layer=layer,
+        width=width,
+        cross_section=cross_section,
+        allow_min_radius_violation=allow_min_radius_violation,
+        all_angle=False,
+    )
+
+
+@gf.vcell
+def bend_euler_all_angle(
+    radius: float | None = None,
+    angle: float = 90.0,
+    p: float = 0.5,
+    with_arc_floorplan: bool = True,
+    npoints: int | None = None,
+    layer: gf.typings.LayerSpec | None = None,
+    width: float | None = None,
+    cross_section: CrossSectionSpec = "strip",
+    allow_min_radius_violation: bool = False,
+) -> ComponentAllAngle:
+    """Regular degree euler bend."""
+    return _bend_euler(
+        radius=radius,
+        angle=angle,
+        p=p,
+        with_arc_floorplan=with_arc_floorplan,
+        npoints=npoints,
+        layer=layer,
+        width=width,
+        cross_section=cross_section,
+        allow_min_radius_violation=allow_min_radius_violation,
+        all_angle=True,
+    )
+
+
+bend_euler180 = partial(bend_euler, angle=180)
+
+
 def _compare_bend_euler180() -> None:
     """Compare 180 bend euler with 2 90deg euler bends."""
     import gdsfactory as gf
@@ -179,5 +231,5 @@ def _compare_bend_euler90():
 if __name__ == "__main__":
     # c = bend_euler(cross_section="rib", angle=90, radius=5)
     # c = bend_euler(cross_section="rib", angle=90, radius=20, clockwise=True)
-    c = bend_euler_s()
+    c = bend_euler(angle=35)
     c.show()

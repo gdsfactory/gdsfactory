@@ -1,3 +1,9 @@
 info: {}
 name: mirror_x
-settings: {}
+settings:
+  label_instance_function: add_instance_label
+  name: Unnamed
+  yaml_str: "\nname: mirror_x\ninstances:\n    mmi_long:\n      component: mmi1x2\n\
+    \      settings:\n        width_mmi: 4.5\n        length_mmi: 5\nplacements:\n\
+    \    mmi_long:\n        x: 0\n        y: 0\n        mirror: 25\nports:\n    o1:\
+    \ mmi_long,o3\n    o2: mmi_long,o2\n    o3: mmi_long,o1\n"

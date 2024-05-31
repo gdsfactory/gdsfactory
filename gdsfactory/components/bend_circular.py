@@ -44,13 +44,10 @@ def bend_circular(
         x = x.copy(layer=layer or x.layer, width=width or x.width)
 
     p = arc(radius=radius, angle=angle, npoints=npoints)
-    c = Component()
-    path = p.extrude(x)
-    ref = c << path
-    c.add_ports(ref.ports)
+    c = p.extrude(x)
 
     c.info["length"] = float(snap_to_grid(p.length()))
-    c.info["dy"] = snap_to_grid(float(abs(p.points[0][0] - p.points[-1][0])))
+    c.info["dy"] = float(abs(p.points[0][0] - p.points[-1][0]))
     c.info["radius"] = float(radius)
     if not allow_min_radius_violation:
         x.validate_radius(radius)
@@ -60,7 +57,6 @@ def bend_circular(
         n_bend_90=abs(angle / 90.0),
         min_bend_radius=radius,
     )
-    c.flatten()
     return c
 
 

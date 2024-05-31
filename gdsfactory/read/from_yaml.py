@@ -587,6 +587,7 @@ def cell_from_yaml(
     )
 
 
+@kf.cell(check_instances=False, set_name=False)
 def from_yaml(
     yaml_str: str | pathlib.Path | IO[Any] | dict[str, Any] | DictConfig,
     routing_strategy: dict[str, Callable] | None = None,
@@ -672,7 +673,8 @@ def from_yaml(
                     mmi_top,o3: mmi_bot,o1
 
     """
-    from gdsfactory.pdk import get_routing_strategies
+    from gdsfactory.generic_tech import get_generic_pdk
+    from gdsfactory.pdk import get_active_pdk, get_routing_strategies
 
     if routing_strategy is None:
         routing_strategy = get_routing_strategies()
@@ -701,39 +703,10 @@ def from_yaml(
             raise ValueError(f"{key!r} not in {settings.keys()}")
         else:
             conf["settings"][key] = value
+
     conf = OmegaConf.to_container(conf, resolve=True)
     name = conf.get("name", None)
-    return _from_yaml(
-        conf=conf,
-        routing_strategy=routing_strategy,
-        label_instance_function=label_instance_function,
-        name=name,
-        mode=mode,
-    )
 
-
-# @gf.cell(rec_dicts=True, set_name=False)
-def _from_yaml(
-    conf,
-    routing_strategy: dict[str, Callable],
-    label_instance_function: Callable = add_instance_label,
-    mode: str = "layout",
-    name: str = "Unnamed",
-) -> Component:
-    """Returns component from YAML decorated with cell for caching and autonaming.
-
-    Args:
-        conf: dict.
-        routing_strategy: for each route.
-        label_instance_function: to label each instance.
-        mode: layout or schematic.
-        name: cell name.
-
-    """
-    from gdsfactory.generic_tech import get_generic_pdk
-    from gdsfactory.pdk import get_active_pdk
-
-    GENERIC = get_generic_pdk()
     c = Component(name)
     instances = {}
     routes = {}
@@ -750,6 +723,7 @@ def _from_yaml(
         c.info[key] = value
 
     if pdk and pdk == "generic":
+        GENERIC = get_generic_pdk()
         GENERIC.activate()
 
     elif pdk:

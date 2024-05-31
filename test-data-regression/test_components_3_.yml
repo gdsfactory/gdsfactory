@@ -1,3 +1,11 @@
 info: {}
 name: dxdy
-settings: {}
+settings:
+  label_instance_function: add_instance_label
+  name: Unnamed
+  yaml_str: "\nname: dxdy\ninstances:\n    mmi_long:\n      component: mmi1x2\n  \
+    \    settings:\n        width_mmi: 4.5\n        length_mmi: 10\n    mmi_short:\n\
+    \      component: mmi1x2\n      settings:\n        width_mmi: 4.5\n        length_mmi:\
+    \ 5\n\nplacements:\n    mmi_short:\n        port: o1\n        x: 0\n        y:\
+    \ 0\n    mmi_long:\n        port: o1\n        x: mmi_short,o2\n        y: mmi_short,o2\n\
+    \        dx: 10\n        dy: -10\nports:\n    o1: mmi_long,o3\n"

@@ -18,7 +18,7 @@ import numpy as np
 from numpy import mod, pi
 
 from gdsfactory import cell
-from gdsfactory.component import Component
+from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.component_layout import (
     _GeometryHelper,
     _parse_move,
@@ -360,7 +360,7 @@ class Path(_GeometryHelper):
         y = self.points[:, 1]
         dx = np.diff(x)
         dy = np.diff(y)
-        return np.sum(np.sqrt((dx) ** 2 + (dy) ** 2))
+        return float(np.round(np.sum(np.sqrt((dx) ** 2 + (dy) ** 2)), 3))
 
     def curvature(self):
         """Calculates Path curvature.
@@ -472,6 +472,7 @@ class Path(_GeometryHelper):
         layer: LayerSpec | None = None,
         width: float | None = None,
         simplify: float | None = None,
+        all_angle: bool = False,
     ) -> Component:
         """Returns Component by extruding a Path with a CrossSection.
 
@@ -485,6 +486,8 @@ class Path(_GeometryHelper):
             simplify: Tolerance value for the simplification algorithm. \
                     All points that can be removed without changing the resulting polygon\
                     by more than the value listed here will be removed.
+
+            all_angle: if True, the bend is drawn with a single euler curve.
 
         .. plot::
             :include-source:
@@ -501,6 +504,7 @@ class Path(_GeometryHelper):
             layer=layer,
             width=width,
             simplify=simplify,
+            all_angle=all_angle,
         )
 
     def copy(self):
@@ -760,6 +764,7 @@ def extrude(
     layer: LayerSpec | None = None,
     width: float | None = None,
     simplify: float | None = None,
+    all_angle: bool = False,
 ) -> Component:
     """Returns Component extruding a Path with a cross_section.
 
@@ -774,6 +779,7 @@ def extrude(
         simplify: Tolerance value for the simplification algorithm. \
                 All points that can be removed without changing the resulting polygon \
                 by more than the value listed here will be removed.
+        all_angle: if True, the bend is drawn with a single euler curve.
     """
     from gdsfactory.pdk import (
         get_cross_section,
@@ -798,7 +804,7 @@ def extrude(
         cross_section = CrossSection(sections=(s,))
 
     xsection_points = []
-    c = Component()
+    c = ComponentAllAngle() if all_angle else Component()
     x = get_cross_section(cross_section)
 
     if isinstance(x, Transition):

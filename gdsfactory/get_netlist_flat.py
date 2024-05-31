@@ -111,7 +111,16 @@ def _get_leaf(
     all_netlists,
     hierarchy_delimiter: str = "~",
 ):
-    """Given a instance, port and its netlist, maps ports down to the lowest hierarchy level."""
+    """Given a instance, port and its netlist, maps ports down to the lowest hierarchy level.
+
+    Args:
+        instance_port: instance, port pair.
+        netlist: netlist name.
+        flat_name: flat name of the instance.
+        all_netlists: all netlists.
+        hierarchy_delimiter: delimiter for hierarchy levels.
+
+    """
     instance, port = instance_port.split(",")
     netlist = all_netlists[netlist]["instances"][instance]["component"]
     found_lower_level = netlist in all_netlists.keys()
@@ -119,7 +128,7 @@ def _get_leaf(
         instance_port = all_netlists[netlist]["ports"][port]
         flat_name = f"{flat_name}{hierarchy_delimiter}{instance}"
         found_lower_level, flat_name = _get_leaf(
-            instance_port, netlist, flat_name, all_netlists
+            instance_port, netlist, flat_name, all_netlists, hierarchy_delimiter
         )
     else:
         found_lower_level = False
@@ -133,6 +142,7 @@ def _lateral_map(
     higher_component: str,
     level: int,
     hierarchy,
+    hierarchy_delimiter: str = "~",
 ):
     """Returns connected ports at this hierarchical level.
 
@@ -142,17 +152,30 @@ def _lateral_map(
         higher_component: component name at this level
         level: level of hierarchy
         hierarchy: hierarchy list
+        hierarchy_delimiter: delimiter for hierarchy levels
     """
     lateral_equivalencies = []
     for port1, port2 in all_netlists[higher_component]["connections"].items():
         flat_name_prefix = _flat_name(hierarchy[: len(hierarchy) - level - 1])
         if local_leaf_port == port1 and local_leaf_port != port2:
             lateral_equivalencies.append(
-                _get_leaf(port2, higher_component, flat_name_prefix, all_netlists)[1]
+                _get_leaf(
+                    port2,
+                    higher_component,
+                    flat_name_prefix,
+                    all_netlists,
+                    hierarchy_delimiter,
+                )[1]
             )
         elif local_leaf_port == port2 and local_leaf_port != port1:
             lateral_equivalencies.append(
-                _get_leaf(port1, higher_component, flat_name_prefix, all_netlists)[1]
+                _get_leaf(
+                    port1,
+                    higher_component,
+                    flat_name_prefix,
+                    all_netlists,
+                    hierarchy_delimiter,
+                )[1]
             )
     return lateral_equivalencies
 
@@ -217,10 +240,7 @@ def _map_connections_ports(
     return connections, ports
 
 
-def _accumulate_placements(
-    hierarchy,
-    all_netlists,
-):
+def _accumulate_placements(hierarchy, all_netlists):
     """Iterate through hierarchy tuples, accumulating placement information."""
     placements = {key: 0 for key in ["x", "y", "mirror", "rotation"]}
     for (higher_component, _higher_instance), (_lower_component, lower_instance) in zip(
@@ -249,7 +269,14 @@ def _flatten_hierarchy(
     hierarchy_delimiter: str = "~",
     component_instance_delimiter: str = ";",
 ):
-    """Converts _flatten_netlist output str's to list of hierarchical (component, instance) tuples."""
+    """Converts _flatten_netlist output str's to list of hierarchical (component, instance) tuples.
+
+    Args:
+        netlist_name: netlist entry to flatten.
+        all_netlists: list of all possible netlists (output of get_netlist_recursive).
+        hierarchy_delimiter: str to separate hierarchy levels in flattened keys.
+        component_instance_delimiter: str to separate instance name from component name for netlist reconstruction.
+    """
     instance_dict = _flatten_hierarchy_recurse(
         netlist_name=netlist_name,
         all_netlists=all_netlists,
