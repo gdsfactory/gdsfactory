@@ -6,6 +6,7 @@ from pytest_regressions.data_regression import DataRegressionFixture
 from gdsfactory.components import cells
 from gdsfactory.config import PATH
 from gdsfactory.difftest import difftest
+from gdsfactory.serialization import clean_value_json
 
 skip_test = {
     "version_stamp",
@@ -42,7 +43,7 @@ def test_gds(component_name: str) -> None:
 def test_settings(component_name: str, data_regression: DataRegressionFixture) -> None:
     """Avoid regressions when exporting settings."""
     component = cells[component_name]()
-    data_regression.check(component.to_dict())
+    data_regression.check(clean_value_json(component.to_dict()))
 
 
 if __name__ == "__main__":
