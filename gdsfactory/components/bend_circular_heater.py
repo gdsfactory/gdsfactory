@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import numpy as np
-
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.path import arc
@@ -55,9 +53,9 @@ def bend_circular_heater(
     path = p.extrude(xs)
     ref = c << path
     c.add_ports(ref.ports)
-    c.info["length"] = np.round(p.length(), 3)
-    c.info["dx"] = abs(p.points[0][0] - p.points[-1][0])
-    c.info["dy"] = abs(p.points[0][0] - p.points[-1][0])
+    c.info["length"] = p.length()
+    c.info["dx"] = float(abs(p.points[0][0] - p.points[-1][0]))
+    c.info["dy"] = float(abs(p.points[0][0] - p.points[-1][0]))
     if not allow_min_radius_violation:
         x.validate_radius(radius)
     c.flatten()

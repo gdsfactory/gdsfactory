@@ -47,7 +47,7 @@ def bend_circular(
     c = p.extrude(x)
 
     c.info["length"] = float(snap_to_grid(p.length()))
-    c.info["dy"] = snap_to_grid(float(abs(p.points[0][0] - p.points[-1][0])))
+    c.info["dy"] = float(abs(p.points[0][0] - p.points[-1][0]))
     c.info["radius"] = float(radius)
     if not allow_min_radius_violation:
         x.validate_radius(radius)

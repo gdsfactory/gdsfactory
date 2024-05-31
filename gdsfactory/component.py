@@ -17,7 +17,6 @@ from kfactory.kcell import cell, save_layout_options
 
 from gdsfactory.config import CONF, GDSDIR_TEMP
 from gdsfactory.port import pprint_ports, select_ports, to_dict
-from gdsfactory.serialization import clean_value_json
 
 if TYPE_CHECKING:
     from gdsfactory.typings import (
@@ -861,13 +860,11 @@ class ComponentBase:
 
     def to_dict(self, with_ports: bool = False) -> dict[str, Any]:
         """Returns a dictionary representation of the Component."""
-        d = clean_value_json(
-            {
-                "name": self.name,
-                "info": self.info.model_dump(exclude_none=True),
-                "settings": self.settings.model_dump(exclude_none=True),
-            }
-        )
+        d = {
+            "name": self.name,
+            "info": self.info.model_dump(exclude_none=True),
+            "settings": self.settings.model_dump(exclude_none=True),
+        }
         if with_ports:
             d["ports"] = {port.name: to_dict(port) for port in self.ports}
         return d

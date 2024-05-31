@@ -61,7 +61,7 @@ def snap_to_grid(
 
     grid_size = gf.kcl.dbu
 
-    nm = nm or int(grid_size * 1000 * grid_factor)
+    nm = nm or round(grid_size * 1000 * grid_factor)
     return nm * np.round(np.asarray(x, dtype=float) * 1e3 / nm) / 1e3
 
 
