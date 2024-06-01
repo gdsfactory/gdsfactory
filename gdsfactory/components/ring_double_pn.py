@@ -61,7 +61,7 @@ def ring_double_pn(
     doped_heater_waveguide_offset: float = 2.175,
     heater_vias: ComponentSpec = heater_vias,
     **kwargs,
-) -> gf.Component:
+) -> gf.ComponentAllAngle:
     """Returns add-drop pn ring with optional doped heater.
 
     Args:
