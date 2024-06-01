@@ -134,6 +134,7 @@ def coupler_bent(
 
 
 if __name__ == "__main__":
-    # c = coupler_bent_half()
     c = coupler_bent()
+    # c = coupler_bent_half()
+    # c = coupler_bent()
     c.show()

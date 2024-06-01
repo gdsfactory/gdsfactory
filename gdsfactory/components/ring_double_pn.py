@@ -46,7 +46,7 @@ heater_vias = partial(
 )
 
 
-@gf.vcell
+@gf.cell
 def ring_double_pn(
     add_gap: float = 0.3,
     drop_gap: float = 0.3,
@@ -61,7 +61,7 @@ def ring_double_pn(
     doped_heater_waveguide_offset: float = 2.175,
     heater_vias: ComponentSpec = heater_vias,
     **kwargs,
-) -> gf.ComponentAllAngle:
+) -> gf.Component:
     """Returns add-drop pn ring with optional doped heater.
 
     Args:
@@ -84,7 +84,7 @@ def ring_double_pn(
     """
     add_gap = gf.snap.snap_to_grid(add_gap, grid_factor=2)
     drop_gap = gf.snap.snap_to_grid(drop_gap, grid_factor=2)
-    c = gf.ComponentAllAngle()
+    c = gf.Component()
 
     pn_cross_section = gf.get_cross_section(pn_cross_section)
     pn_cross_section = pn_cross_section.copy(**kwargs)
@@ -98,9 +98,7 @@ def ring_double_pn(
     th_waveguide_path.append(
         gf.path.straight(length=2 * radius * np.sin(np.pi / 360 * undoping_angle))
     )
-    th_waveguide = c << th_waveguide_path.extrude(
-        cross_section=cross_section, all_angle=True
-    )
+    th_waveguide = c << th_waveguide_path.extrude(cross_section=cross_section)
     th_waveguide.dx = 0
     th_waveguide.dy = (
         -radius
@@ -113,9 +111,7 @@ def ring_double_pn(
     drop_waveguide_path.append(
         gf.path.straight(length=2 * radius * np.sin(np.pi / 360 * undoping_angle))
     )
-    drop_waveguide = c << drop_waveguide_path.extrude(
-        cross_section=cross_section, all_angle=True
-    )
+    drop_waveguide = c << drop_waveguide_path.extrude(cross_section=cross_section)
     drop_waveguide.dx = 0
 
     doped_path = gf.Path()
@@ -124,28 +120,28 @@ def ring_double_pn(
     undoped_path.append(gf.path.arc(radius=radius, angle=undoping_angle))
 
     r = gf.ComponentAllAngle()
-    left_doped_ring_ref = r << doped_path.extrude(
-        cross_section=pn_cross_section, all_angle=True
+    left_doped_ring_ref = r.create_vinst(
+        doped_path.extrude(cross_section=pn_cross_section, all_angle=True)
     )
-    right_doped_ring_ref = r << doped_path.extrude(
-        cross_section=pn_cross_section, all_angle=True
+    right_doped_ring_ref = r.create_vinst(
+        doped_path.extrude(cross_section=pn_cross_section, all_angle=True)
     )
-    bottom_undoped_ring_ref = r << undoped_path.extrude(
-        cross_section=cross_section, all_angle=True
+    bottom_undoped_ring_ref = r.create_vinst(
+        undoped_path.extrude(cross_section=cross_section, all_angle=True)
     )
-    top_undoped_ring_ref = r << undoped_path.extrude(
-        cross_section=cross_section, all_angle=True
+    top_undoped_ring_ref = r.create_vinst(
+        undoped_path.extrude(cross_section=cross_section, all_angle=True)
     )
 
-    bottom_undoped_ring_ref.rotate(-undoping_angle / 2)
+    bottom_undoped_ring_ref.drotate(-undoping_angle / 2)
     bottom_undoped_ring_ref.dx = th_waveguide.dx
 
     left_doped_ring_ref.connect("o1", bottom_undoped_ring_ref.ports["o1"])
     right_doped_ring_ref.connect("o2", bottom_undoped_ring_ref.ports["o2"])
     top_undoped_ring_ref.connect("o2", left_doped_ring_ref.ports["o2"])
 
-    ring = c << r
-    ring.dy = 0
+    ring = c.create_vinst(r)
+    ring.dcenter = (0, 0)
     drop_waveguide.dy = (
         radius
         + drop_gap
@@ -162,17 +158,17 @@ def ring_double_pn(
             )
         )
 
-        top_heater_ref = c << heater_path.extrude(
-            width=0.5, layer=doped_heater_layer, all_angle=True
-        )
-        top_heater_ref.rotate(180 - (undoping_angle - doped_heater_angle_buffer) / 2)
+        heater = heater_path.extrude(width=0.5, layer=doped_heater_layer)
+
+        top_heater_ref = c << heater
+        top_heater_ref.drotate(180 - (undoping_angle - doped_heater_angle_buffer) / 2)
         top_heater_ref.dx = th_waveguide.dx
         top_heater_ref.dy = drop_waveguide.dy - (
             doped_heater_waveguide_offset + doped_heater_width / 2 + drop_gap
         )
 
         top_left_heater_via = c << heater_vias
-        top_left_heater_via.rotate(top_heater_ref.ports["o2"].orientation)
+        top_left_heater_via.drotate(top_heater_ref.ports["o2"].orientation)
 
         deltax = -abs(
             top_heater_ref.ports["o2"].dx - top_left_heater_via.ports["e3"].dx
@@ -191,9 +187,7 @@ def ring_double_pn(
         )
         top_right_heater_via.dmove((deltax, deltay))
 
-        bottom_heater_ref = c << heater_path.extrude(
-            width=0.5, layer=doped_heater_layer, all_angle=True
-        )
+        bottom_heater_ref = c << heater
         bottom_heater_ref.drotate(-(undoping_angle - doped_heater_angle_buffer) / 2)
         bottom_heater_ref.dx = th_waveguide.dx
         bottom_heater_ref.dy = th_waveguide.dy + (

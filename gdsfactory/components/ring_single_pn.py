@@ -83,7 +83,6 @@ def ring_single_pn(
     c = gf.Component()
 
     undoping_angle = 360 - doping_angle
-
     bus_waveguide_path = gf.Path()
     bus_waveguide_path.append(
         gf.path.straight(length=2 * radius * np.sin(np.pi / 360 * undoping_angle))
@@ -107,7 +106,6 @@ def ring_single_pn(
         + radius
     )
     undoped_ring_ref.dx = bus_waveguide.dx
-
     doped_ring_ref.connect("o1", undoped_ring_ref.ports["o1"])
 
     if doped_heater:
@@ -125,7 +123,6 @@ def ring_single_pn(
         heater_ref.dy = doped_heater_waveguide_offset + doped_heater_width / 2 + gap
 
         heater_vias = gf.get_component(heater_vias)
-
         left_heater_via = c << heater_vias
         left_heater_via.drotate(heater_ref.ports["o1"].orientation)
 
