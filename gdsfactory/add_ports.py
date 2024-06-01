@@ -443,7 +443,7 @@ def add_ports_from_boxes(
         if orientation == -1:
             raise ValueError(f"Unable to detector port at ({dx}, {dy})")
 
-        width = width - pin_extra_width
+        width = np.round(width - pin_extra_width, 3)
 
         if (x, y) not in port_locations:
             port_locations.append((x, y))
