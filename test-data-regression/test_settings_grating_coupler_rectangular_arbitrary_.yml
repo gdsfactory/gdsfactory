@@ -17,13 +17,13 @@ settings:
   - 0.2
   - 0.2
   - 0.2
-  length_taper: 150.0
+  length_taper: 150
   polarization: te
-  slab_offset: 1.0
-  slab_xmin: -1.0
+  slab_offset: 1
+  slab_xmin: -1
   taper: taper
   wavelength: 1.55
-  width_grating: 11.0
+  width_grating: 11
   widths:
   - 0.5
   - 0.5

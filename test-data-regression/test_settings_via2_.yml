@@ -1,17 +1,17 @@
 info:
-  enclosure: 1.0
+  enclosure: 1
   xsize: 0.7
-  xspacing: 2.0
+  xspacing: 2
   ysize: 0.7
-  yspacing: 2.0
+  yspacing: 2
 name: via_S0p7_0p7_S2_2_GNone_c4f19208
 settings:
   bbox_offset: 0
-  enclosure: 1.0
+  enclosure: 1
   layer: VIA2
   size:
   - 0.7
   - 0.7
   spacing:
-  - 2.0
-  - 2.0
+  - 2
+  - 2

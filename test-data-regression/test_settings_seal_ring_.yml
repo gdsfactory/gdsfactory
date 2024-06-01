@@ -2,7 +2,7 @@ info: {}
 name: seal_ring_Crectangle_Sv_f34f177a
 settings:
   component: rectangle
-  padding: 10.0
+  padding: 10
   seal: via_stack
   width: 10
   with_east: true

@@ -8,4 +8,4 @@ settings:
   cross_section_bends: strip
   crossing: crossing
   npoints: 101
-  port_spacing: 40.0
+  port_spacing: 40

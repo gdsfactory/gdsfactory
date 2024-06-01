@@ -6,5 +6,5 @@ settings:
   cross_section: strip
   noutputs: 4
   spacing:
-  - 90.0
-  - 50.0
+  - 90
+  - 50

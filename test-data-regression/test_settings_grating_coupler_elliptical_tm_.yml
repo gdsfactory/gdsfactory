@@ -5,16 +5,16 @@ name: grating_coupler_ellipti_68e2db8b
 settings:
   big_last_tooth: false
   cross_section: strip
-  fiber_angle: 15.0
+  fiber_angle: 15
   grating_line_width: 0.707
   layer_slab: SLAB150
   n_periods: 16
   nclad: 1.443
   neff: 1.8
   polarization: tm
-  slab_offset: 2.0
+  slab_offset: 2
   slab_xmin: -2
   spiked: true
-  taper_angle: 40.0
+  taper_angle: 40
   taper_length: 30
   wavelength: 1.554

@@ -3,7 +3,7 @@ name: edge_coupler_array_ECFt_56edc37d
 settings:
   edge_coupler: Ftaper_Mgdsfactorypcomponentsptaper_SW0p2_L100_WTPTrue
   n: 5
-  pitch: 127.0
+  pitch: 127
   text: text_rectangular
   text_offset:
   - 10

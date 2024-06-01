@@ -46,7 +46,7 @@ heater_vias = partial(
 )
 
 
-@gf.cell
+@gf.cell(check_instances=False)
 def ring_double_pn(
     add_gap: float = 0.3,
     drop_gap: float = 0.3,
@@ -91,8 +91,7 @@ def ring_double_pn(
     cross_section = gf.get_cross_section(cross_section)
     cross_section = cross_section.copy(**kwargs)
 
-    heater_radius = gf.get_component(heater_vias)
-
+    heater_vias = gf.get_component(heater_vias)
     undoping_angle = 180 - doping_angle
 
     add_waveguide_path = gf.Path()
@@ -120,8 +119,11 @@ def ring_double_pn(
     top_undoped_ring_ref = c << undoped_path.extrude(cross_section=cross_section)
 
     bottom_undoped_ring_ref.drotate(-undoping_angle / 2)
-    bottom_undoped_ring_ref.dymin = (
-        add_waveguide.dymin + add_waveguide.ports["o1"].width + add_gap
+    bottom_undoped_ring_ref.dy = (
+        add_waveguide.dy
+        + add_waveguide.ports[0].dwidth / 2
+        + bottom_undoped_ring_ref.ports[0].dwidth / 2
+        + add_gap
     )
     bottom_undoped_ring_ref.dx = add_waveguide.dx
 
@@ -133,9 +135,9 @@ def ring_double_pn(
         2 * radius
         + add_gap
         + drop_gap
-        + add_waveguide.ports["o1"].width / 2
-        + top_undoped_ring_ref.ports["o1"].width
-        + drop_waveguide.ports["o1"].width / 2
+        + add_waveguide.ports["o1"].dwidth / 2
+        + top_undoped_ring_ref.ports["o1"].dwidth
+        + drop_waveguide.ports["o1"].dwidth / 2
     )
 
     if doped_heater:
@@ -150,7 +152,7 @@ def ring_double_pn(
         top_heater_ref = c << heater_path.extrude(width=0.5, layer=doped_heater_layer)
         top_heater_ref.drotate(180 - (undoping_angle - doped_heater_angle_buffer) / 2)
         top_heater_ref.dx = add_waveguide.dx
-        top_heater_ref.dymax = drop_waveguide.dy - (
+        top_heater_ref.dy = drop_waveguide.dy - (
             doped_heater_waveguide_offset + doped_heater_width / 2 + drop_gap
         )
 
@@ -179,7 +181,7 @@ def ring_double_pn(
         )
         bottom_heater_ref.drotate(-(undoping_angle - doped_heater_angle_buffer) / 2)
         bottom_heater_ref.dx = add_waveguide.dx
-        bottom_heater_ref.dymin = (
+        bottom_heater_ref.dy = (
             doped_heater_waveguide_offset + doped_heater_width / 2 + add_gap
         )
 
@@ -193,7 +195,6 @@ def ring_double_pn(
             bottom_heater_ref.ports["o1"].dy - bottom_left_heater_via.ports["e3"].dy
         )
         bottom_left_heater_via.dmove((deltax, deltay))
-
         bottom_right_heater_via = c << heater_vias
         bottom_right_heater_via.drotate(bottom_heater_ref.ports["o2"].orientation)
 

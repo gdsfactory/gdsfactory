@@ -10,22 +10,11 @@ from gdsfactory.serialization import clean_value_json
 
 skip_test = {
     "version_stamp",
-    "extend_ports_list",
-    "extend_port",
-    "component_sequence",
-    "mzi_arm",
-    "pack_doe",
-    "pack_doe_grid",
-    "crossing",
-    "spiral_racetrack",
-    "ring_section_based",
-    "ring_double_pn",
-    "add_fiber_array_optical_south_electrical_north",
     "bbox",
-    "pixel",
+    "component_sequence",
+    "extend_ports_list",
+    "add_fiber_array_optical_south_electrical_north",
 }
-
-
 cells_to_test = set(cells.keys()) - skip_test
 
 

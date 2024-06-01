@@ -6,15 +6,15 @@ settings:
   coupler2: coupler
   coupler_gap1: 0.2
   coupler_gap2: 0.3
-  coupler_length1: 5.0
-  coupler_length2: 10.0
+  coupler_length1: 5
+  coupler_length2: 10
   cross_section: strip
-  delta_length: 10.0
-  dy: 2.0
-  length: 1.0
+  delta_length: 10
+  dy: 2
+  length: 1
   straight: straight
   taper: taper
-  taper_length: 5.0
+  taper_length: 5
   w0: 0.5
   w1: 0.45
   w2: 0.55
