@@ -145,7 +145,19 @@ def bend_euler(
     cross_section: CrossSectionSpec = "strip",
     allow_min_radius_violation: bool = False,
 ) -> Component:
-    """Regular degree euler bend."""
+    """Regular degree euler bend.
+
+    Args:
+        radius: in um. Defaults to cross_section_radius.
+        angle: total angle of the curve.
+        p: Proportion of the curve that is an Euler curve.
+        with_arc_floorplan: If False: `radius` is the minimum radius of curvature.
+        npoints: Number of points used per 360 degrees.
+        layer: layer to use. Defaults to cross_section.layer.
+        width: width to use. Defaults to cross_section.width.
+        cross_section: specification (CrossSection, string, CrossSectionFactory dict).
+        allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
+    """
     if angle not in {90, 180}:
         gf.logger.warning(
             f"bend_euler angle should be 90 or 180. Got {angle}. Use bend_euler_all_angle instead."
@@ -177,7 +189,20 @@ def bend_euler_all_angle(
     cross_section: CrossSectionSpec = "strip",
     allow_min_radius_violation: bool = False,
 ) -> ComponentAllAngle:
-    """Regular degree euler bend."""
+    """Regular degree euler bend.
+
+    Args:
+        radius: in um. Defaults to cross_section_radius.
+        angle: total angle of the curve.
+        p: Proportion of the curve that is an Euler curve.
+        with_arc_floorplan: If False: `radius` is the minimum radius of curvature
+        npoints: Number of points used per 360 degrees.
+        layer: layer to use. Defaults to cross_section.layer.
+        width: width to use. Defaults to cross_section.width.
+        cross_section: specification (CrossSection, string, CrossSectionFactory dict).
+        allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
+
+    """
     return _bend_euler(
         radius=radius,
         angle=angle,

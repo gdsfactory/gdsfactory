@@ -1,21 +1,21 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.component import Component
-from gdsfactory.components.bend_circular import bend_circular
+from gdsfactory.component import Component, ComponentAllAngle
+from gdsfactory.components.bend_circular import bend_circular_all_angle
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell(check_instances=False)
+@gf.vcell
 def coupler_bend(
     radius: float = 10.0,
     coupler_gap: float = 0.2,
     coupling_angle_coverage: float = 120.0,
     cross_section_inner: CrossSectionSpec = "strip",
     cross_section_outer: CrossSectionSpec = "strip",
-    bend: ComponentSpec = bend_circular,
+    bend: ComponentSpec = bend_circular_all_angle,
 ) -> Component:
     r"""Compact curved coupler with bezier escape.
 
@@ -38,7 +38,7 @@ def coupler_bend(
         2____/ /
         1_____/
     """
-    c = Component()
+    c = ComponentAllAngle()
 
     xi = gf.get_cross_section(cross_section_inner)
     xo = gf.get_cross_section(cross_section_outer)
@@ -76,7 +76,7 @@ def coupler_bend(
     return c
 
 
-@gf.cell(check_instances=False)
+@gf.vcell
 def coupler_ring_bend(
     radius: float = 10.0,
     coupler_gap: float = 0.2,
@@ -84,8 +84,8 @@ def coupler_ring_bend(
     length_x: float = 0.0,
     cross_section_inner: CrossSectionSpec = "strip",
     cross_section_outer: CrossSectionSpec = "strip",
-    bend: ComponentSpec = bend_circular,
-) -> Component:
+    bend: ComponentSpec = bend_circular_all_angle,
+) -> ComponentAllAngle:
     r"""Two back-to-back coupler_bend.
 
     Args:
@@ -99,7 +99,7 @@ def coupler_ring_bend(
         cross_section_outer: spec outer bend.
         bend: for bend.
     """
-    c = Component()
+    c = ComponentAllAngle()
     cp = coupler_bend(
         radius=radius,
         coupler_gap=coupler_gap,
@@ -129,7 +129,7 @@ def coupler_ring_bend(
     c.add_port("o2", port=coupler_left.ports["o4"])
     c.add_port("o4", port=coupler_right.ports["o3"])
     c.add_port("o3", port=coupler_right.ports["o4"])
-    c.flatten()
+    # c.flatten()
     return c
 
 
@@ -138,7 +138,7 @@ def ring_single_bend_coupler(
     radius: float = 5.0,
     gap: float = 0.2,
     coupling_angle_coverage: float = 180.0,
-    bend: ComponentSpec = bend_circular,
+    bend: ComponentSpec = bend_circular_all_angle,
     length_x: float = 0.6,
     length_y: float = 0.6,
     cross_section_inner: CrossSectionSpec = "strip",
@@ -164,7 +164,7 @@ def ring_single_bend_coupler(
     """
     c = Component()
 
-    cb = c << coupler_ring_bend(
+    coupler = coupler_ring_bend(
         radius=radius,
         coupler_gap=gap,
         coupling_angle_coverage=coupling_angle_coverage,
@@ -173,6 +173,7 @@ def ring_single_bend_coupler(
         cross_section_outer=cross_section_outer,
         bend=bend,
     )
+    cb = c.create_vinst(coupler)
 
     cross_section = cross_section_inner
     sx = gf.get_component(
@@ -182,11 +183,11 @@ def ring_single_bend_coupler(
         straight, length=length_y, cross_section=cross_section, **kwargs
     )
     b = gf.get_component(bend, cross_section=cross_section, radius=radius, **kwargs)
-    sl = c << sy
-    sr = c << sy
-    bl = c << b
-    br = c << b
-    st = c << sx
+    sl = c.create_vinst(sy)
+    sr = c.create_vinst(sy)
+    bl = c.create_vinst(b)
+    br = c.create_vinst(b)
+    st = c.create_vinst(sx)
 
     sl.connect(port="o1", other=cb["o2"])
     bl.connect(port="o2", other=sl["o2"], mirror=True)

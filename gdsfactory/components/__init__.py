@@ -16,7 +16,11 @@ from gdsfactory.components.add_trenches import add_trenches, add_trenches90
 from gdsfactory.components.align import add_frame, align_wafer
 from gdsfactory.components.array_component import array
 from gdsfactory.components.bbox import bbox
-from gdsfactory.components.bend_circular import bend_circular, bend_circular180
+from gdsfactory.components.bend_circular import (
+    bend_circular,
+    bend_circular180,
+    bend_circular_all_angle,
+)
 from gdsfactory.components.bend_circular_heater import bend_circular_heater
 from gdsfactory.components.bend_euler import (
     bend_euler,
@@ -308,6 +312,7 @@ __all__ = [
     "bend_circular",
     "bend_circular180",
     "bend_circular_heater",
+    "bend_circular_all_angle",
     "bend_euler",
     "bend_euler_all_angle",
     "bend_euler180",
