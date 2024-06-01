@@ -6,10 +6,10 @@ settings:
   draw_corners: false
   layer: FLOORPLAN
   size:
-  - 10000.0
-  - 10000.0
-  street_length: 1000.0
-  street_width: 100.0
+  - 10000
+  - 10000
+  street_length: 1000
+  street_width: 100
   text: text
   text_location: SW
-  text_size: 100.0
+  text_size: 100

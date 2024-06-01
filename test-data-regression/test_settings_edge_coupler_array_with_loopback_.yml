@@ -3,9 +3,9 @@ name: edge_coupler_array_with_1f8813cc
 settings:
   cross_section: strip
   edge_coupler: Ftaper_Mgdsfactorypcomponentsptaper_SW0p2_L100_WTPTrue
-  extension_length: 1.0
+  extension_length: 1
   n: 8
-  pitch: 127.0
+  pitch: 127
   radius: 30
   text: text_rectangular
   text_offset:

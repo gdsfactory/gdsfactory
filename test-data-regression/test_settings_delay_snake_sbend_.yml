@@ -1,14 +1,14 @@
 info:
-  bend180_radius: 5.0
+  bend180_radius: 5
   min_bend_radius: 364.774
 name: delay_snake_sbend_L100__a249e5b3
 settings:
   bend: bend_euler
   cross_section: strip
-  length: 100.0
-  length1: 0.0
-  length4: 0.0
-  radius: 5.0
+  length: 100
+  length1: 0
+  length4: 0
+  radius: 5
   sbend: bend_s
-  sbend_xsize: 100.0
-  waveguide_spacing: 5.0
+  sbend_xsize: 100
+  waveguide_spacing: 5

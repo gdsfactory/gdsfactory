@@ -60,6 +60,8 @@ def clean_value_json(
         return int(value)
 
     elif isinstance(value, float | np.inexact | np.float64):
+        if value == round(value):
+            return int(value)
         return float(np.round(value, DEFAULT_SERIALIZATION_MAX_DIGITS))
 
     elif isinstance(value, complex | np.complex64 | np.complex128):

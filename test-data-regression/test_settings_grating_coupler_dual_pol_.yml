@@ -5,13 +5,13 @@ name: grating_coupler_dual_po_b95dc69d
 settings:
   base_layer: WG
   cross_section: strip
-  length_taper: 150.0
+  length_taper: 150
   period_x: 0.58
   period_y: 0.58
   polarization: dual
   taper: taper
   unit_cell: Frectangle_Mgdsfactorypcomponentsprectangle_SS0p3_0p3_LSLAB150_CTrue_PTNone
   wavelength: 1.55
-  width_taper: 10.0
+  width_taper: 10
   x_span: 11
   y_span: 11

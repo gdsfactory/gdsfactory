@@ -4,5 +4,5 @@ settings:
   cross_section: strip
   gap: 0.2
   parity: 1
-  radius: 10.0
-  wrap_angle_deg: 180.0
+  radius: 10
+  wrap_angle_deg: 180

@@ -5,7 +5,7 @@ name: grating_coupler_ellipti_961359c2
 settings:
   bias_gap: 0
   cross_section: strip
-  fiber_angle: 15.0
+  fiber_angle: 15
   fill_factor: 0.5
   gaps:
   - 0.375
@@ -34,9 +34,9 @@ settings:
   period: 0.75
   polarization: te
   spiked: true
-  taper_angle: 60.0
+  taper_angle: 60
   taper_length: 16.6
-  taper_to_slab_offset: -3.0
+  taper_to_slab_offset: -3
   wavelength: 1.554
   widths:
   - 0.375

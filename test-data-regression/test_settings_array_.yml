@@ -7,5 +7,5 @@ settings:
   component: pad
   rows: 1
   spacing:
-  - 150.0
-  - 150.0
+  - 150
+  - 150

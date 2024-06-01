@@ -16,7 +16,11 @@ from gdsfactory.components.add_trenches import add_trenches, add_trenches90
 from gdsfactory.components.align import add_frame, align_wafer
 from gdsfactory.components.array_component import array
 from gdsfactory.components.bbox import bbox
-from gdsfactory.components.bend_circular import bend_circular, bend_circular180
+from gdsfactory.components.bend_circular import (
+    bend_circular,
+    bend_circular180,
+    bend_circular_all_angle,
+)
 from gdsfactory.components.bend_circular_heater import bend_circular_heater
 from gdsfactory.components.bend_euler import (
     bend_euler,
@@ -209,8 +213,8 @@ from gdsfactory.components.ring import ring
 from gdsfactory.components.ring_crow import ring_crow
 from gdsfactory.components.ring_crow_couplers import ring_crow_couplers
 from gdsfactory.components.ring_double import ring_double
-from gdsfactory.components.ring_double_heater import ring_double_heater
 from gdsfactory.components.ring_double_pn import ring_double_pn
+from gdsfactory.components.ring_heater import ring_double_heater, ring_single_heater
 from gdsfactory.components.ring_single import ring_single
 from gdsfactory.components.ring_single_array import ring_single_array
 from gdsfactory.components.ring_single_bend_coupler import (
@@ -218,7 +222,6 @@ from gdsfactory.components.ring_single_bend_coupler import (
     ring_single_bend_coupler,
 )
 from gdsfactory.components.ring_single_dut import ring_single_dut, taper2
-from gdsfactory.components.ring_single_heater import ring_single_heater
 from gdsfactory.components.ring_single_pn import ring_single_pn
 from gdsfactory.components.seal_ring import seal_ring
 from gdsfactory.components.snspd import snspd
@@ -308,6 +311,7 @@ __all__ = [
     "bend_circular",
     "bend_circular180",
     "bend_circular_heater",
+    "bend_circular_all_angle",
     "bend_euler",
     "bend_euler_all_angle",
     "bend_euler180",

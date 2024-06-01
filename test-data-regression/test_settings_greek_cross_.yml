@@ -7,5 +7,5 @@ settings:
   length: 30
   via_stack: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLWG_NPP_M1_VNone_None_Fvia_Mgdsfactorypcomponentspvia_SLVIAC
   widths:
-  - 2.0
-  - 3.0
+  - 2
+  - 3

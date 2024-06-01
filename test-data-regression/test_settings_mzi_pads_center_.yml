@@ -3,7 +3,7 @@ name: mzi_pads_center_PTFstra_edc7dd86
 settings:
   cross_section: strip
   cross_section_metal: metal_routing
-  delta_length: 40.0
+  delta_length: 40
   length_x: 500
   length_y: 40
   mzi: mzi

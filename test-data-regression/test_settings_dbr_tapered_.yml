@@ -7,8 +7,8 @@ settings:
   - 0.2
   - 0.05
   fins: false
-  length: 10.0
+  length: 10
   period: 0.85
-  taper_length: 20.0
+  taper_length: 20
   w1: 0.4
-  w2: 1.0
+  w2: 1

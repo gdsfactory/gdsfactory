@@ -1,5 +1,5 @@
 info:
-  end_angle: 0.0
+  end_angle: 0
   length: 10.226
   min_bend_radius: 10.885
   route_info_length: 10.226
@@ -8,18 +8,18 @@ info:
   route_info_type: xs_34e31a19
   route_info_weight: 10.226
   route_info_xs_34e31a19_length: 10.226
-  start_angle: 0.0
+  start_angle: 0
 name: bezier_CP0_0_5_0_5_1p8__9eb21687
 settings:
   allow_min_radius_violation: false
   control_points:
-  - - 0.0
-    - 0.0
-  - - 5.0
-    - 0.0
-  - - 5.0
+  - - 0
+    - 0
+  - - 5
+    - 0
+  - - 5
     - 1.8
-  - - 10.0
+  - - 10
     - 1.8
   cross_section: strip
   npoints: 201

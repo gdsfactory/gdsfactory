@@ -2,15 +2,15 @@ info: {}
 name: straight_heater_meander_2e902fd2
 settings:
   cross_section: strip
-  extension_length: 15.0
+  extension_length: 15
   heater_width: 1.5
   layers_doping:
   - P
   - PP
   - PPP
-  length: 300.0
-  radius: 5.0
-  spacing: 2.0
+  length: 300
+  radius: 5
+  spacing: 2
   straight_widths:
   - 0.8
   - 0.9

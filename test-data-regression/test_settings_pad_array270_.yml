@@ -7,8 +7,8 @@ settings:
   port_orientation: 270
   rows: 1
   size:
-  - 100.0
-  - 100.0
+  - 100
+  - 100
   spacing:
-  - 150.0
-  - 150.0
+  - 150
+  - 150

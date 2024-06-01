@@ -5,9 +5,9 @@ settings:
   - 0.2
   - 0.3
   coupler_lengths:
-  - 10.0
-  - 20.0
+  - 10
+  - 20
   delta_lengths:
-  - 10.0
+  - 10
   mzi: Fmzi_Mgdsfactorypcomponentspmzi_SScoupler_Ccoupler_PESo3_PESo4_PECo3_PECo4_LXNone
   splitter: coupler
