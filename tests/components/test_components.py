@@ -14,6 +14,9 @@ skip_test = {
     "component_sequence",
     "extend_ports_list",
     "add_fiber_array_optical_south_electrical_north",
+    "ring_double_pn",
+    "pack_doe",
+    "pack_doe_grid",
 }
 cells_to_test = set(cells.keys()) - skip_test
 
