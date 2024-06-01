@@ -1,10 +1,13 @@
 from __future__ import annotations
 
+from functools import partial
+
 import gdsfactory as gf
 from gdsfactory.add_ports import (
     add_ports_from_markers_inside,
     add_ports_from_siepic_pins,
 )
+from gdsfactory.generic_tech import LAYER
 
 
 def test_add_ports() -> None:
@@ -15,16 +18,28 @@ def test_add_ports() -> None:
 
 
 def test_add_ports_from_pins() -> None:
-    c = gf.components.straight(length=1.235)
+    x = 1.235
+    c = gf.components.straight(length=x)
     c = gf.add_pins.add_pins_container(c)
     gdspath = c.write_gds()
-    c2 = gf.import_gds(gdspath, post_process=add_ports_from_markers_inside)
+    add_ports = partial(
+        add_ports_from_markers_inside, pin_layer=LAYER.PORT, inside=False
+    )
+
+    c2 = gf.import_gds(gdspath, post_process=add_ports)
     assert c2.ports["o1"].dcenter[0] == 0
+    assert c2.ports["o2"].dcenter[0] == x, c2.ports["o2"].dcenter[0]
 
 
 def test_add_ports_from_pins_path() -> None:
-    c = gf.components.straight(length=1.239)
+    x = 1.239
+    c = gf.components.straight(length=x)
     c = gf.add_pins.add_pins_siepic_container(c)
     gdspath = c.write_gds()
     c2 = gf.import_gds(gdspath, post_process=add_ports_from_siepic_pins)
     assert c2.ports["o1"].dcenter[0] == 0
+    assert c2.ports["o2"].dcenter[0] == x, c2.ports["o2"].dcenter[0]
+
+
+if __name__ == "__main__":
+    test_add_ports_from_pins()

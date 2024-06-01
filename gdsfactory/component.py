@@ -616,6 +616,33 @@ class ComponentBase:
             )
         return paths
 
+    def get_boxes(self, layer: LayerSpec, recursive: bool = True) -> list[kf.kdb.Box]:
+        """Returns a list of boxes.
+
+        Args:
+            layer: layer to get boxes from.
+            recursive: if True, gets boxes recursively.
+        """
+        from gdsfactory import get_layer
+
+        boxes = []
+
+        layer = get_layer(layer)
+
+        if recursive:
+            iterator = self.begin_shapes_rec(layer)
+
+            while not (iterator.at_end()):
+                shape = iterator.shape()
+                iterator.next()
+                if shape.is_box():
+                    boxes.append(shape.dbox.transformed(iterator.dtrans()))
+        else:
+            boxes.extend(
+                shape.dbox for shape in self.shapes(layer).each(kdb.Shapes.Boxes)
+            )
+        return boxes
+
     def area(self, layer: LayerSpec) -> float:
         """Returns the area of the Component in um2."""
         from gdsfactory import get_layer
@@ -1045,11 +1072,15 @@ if __name__ == "__main__":
     # c = c.remove_layers(layers=[(1, 0), (2, 0)], recursive=True)
     # c = c.extract(layers=[(1, 0)])
 
+    c1 = Component()
+    s = c1.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=(1, 0))
     c = Component()
-    s = c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=(1, 0))
-    r = kdb.Region(s.polygon)
-    r.size(2000)  # size in DBU, and 1DBU = 1nm
-    c.add_polygon(r, layer=(2, 0))
+    c << c1
+    # r = kdb.Region(s.polygon)
+    # r.size(2000)  # size in DBU, and 1DBU = 1nm
+    # c.add_polygon(r, layer=(2, 0))
+    p = c.get_polygons()
+    print(p)
 
     # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer="SLAB150")
     # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=LAYER.WG)
