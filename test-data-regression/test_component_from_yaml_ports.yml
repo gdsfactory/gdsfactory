@@ -1,3 +1,13 @@
 info: {}
 name: component_yaml_ports
-settings: {}
+settings:
+  label_instance_function: add_instance_label
+  name: Unnamed
+  yaml_str: "\nname: component_yaml_ports\n\nports:\n  o1:\n    name: o1\n    center:\n\
+    \        - -0.5\n        - 0.225\n    width: 0.45\n    orientation: 180\n    port_type:\
+    \ optical\n    layer: WG\n  o2:\n    name: o2\n    center:\n        - 13\n   \
+    \     - 3.675\n    width: 0.45\n    orientation: 0\n    port_type: optical\n \
+    \   layer: [1, 0]\n  o3:\n    name: o3\n    center:\n        - 13\n        - -3.225\n\
+    \    width: 0.45\n    orientation: 0\n    port_type: optical\n    layer: [1, 0]\n\
+    \ninstances:\n    mmi_bot:\n      component: compass\n      settings:\n      \
+    \  port_type: None\n        size: [13.5, 7]\n\n"

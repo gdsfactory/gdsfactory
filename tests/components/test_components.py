@@ -6,24 +6,18 @@ from pytest_regressions.data_regression import DataRegressionFixture
 from gdsfactory.components import cells
 from gdsfactory.config import PATH
 from gdsfactory.difftest import difftest
+from gdsfactory.serialization import clean_value_json
 
 skip_test = {
     "version_stamp",
-    "extend_ports_list",
-    "extend_port",
+    "bbox",
     "component_sequence",
-    "mzi_arm",
+    "extend_ports_list",
+    "add_fiber_array_optical_south_electrical_north",
+    "ring_double_pn",
     "pack_doe",
     "pack_doe_grid",
-    "crossing",
-    "spiral_racetrack",
-    "ring_section_based",
-    "ring_double_pn",
-    "add_fiber_array_optical_south_electrical_north",
-    "bbox",
 }
-
-
 cells_to_test = set(cells.keys()) - skip_test
 
 
@@ -41,7 +35,7 @@ def test_gds(component_name: str) -> None:
 def test_settings(component_name: str, data_regression: DataRegressionFixture) -> None:
     """Avoid regressions when exporting settings."""
     component = cells[component_name]()
-    data_regression.check(component.to_dict())
+    data_regression.check(clean_value_json(component.to_dict()))
 
 
 if __name__ == "__main__":

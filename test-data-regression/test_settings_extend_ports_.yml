@@ -3,5 +3,5 @@ name: extend_ports_Cmmi1x2_PN_711b560f
 settings:
   centered: false
   component: mmi1x2
-  length: 5.0
+  length: 5
   port_type: optical

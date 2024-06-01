@@ -101,7 +101,7 @@ def wire_corner45(
         port_type="electrical",
         cross_section=x,
     )
-    c.info["length"] = np.sqrt(2) * radius
+    c.info["length"] = float(np.sqrt(2) * radius)
     return c
 
 

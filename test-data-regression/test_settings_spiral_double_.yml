@@ -4,7 +4,7 @@ name: spiral_double_MBR10_S2__307e8b5a
 settings:
   bend: bend_circular
   cross_section: strip
-  min_bend_radius: 10.0
+  min_bend_radius: 10
   npoints: 1000
   number_of_loops: 3
-  separation: 2.0
+  separation: 2

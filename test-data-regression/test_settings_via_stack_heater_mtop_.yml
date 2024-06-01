@@ -1,6 +1,6 @@
 info:
-  xsize: 11.0
-  ysize: 11.0
+  xsize: 11
+  ysize: 11
 name: via_stack_S11_11_LHEATE_67ffcdf5
 settings:
   correct_size: true
@@ -9,8 +9,8 @@ settings:
   - M2
   - MTOP
   size:
-  - 11.0
-  - 11.0
+  - 11
+  - 11
   slot_horizontal: false
   slot_vertical: false
   vias:

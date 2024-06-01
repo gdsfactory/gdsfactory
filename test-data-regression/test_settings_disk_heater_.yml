@@ -3,12 +3,12 @@ name: disk_heater_R10_G0p2_WA_14c266ed
 settings:
   cross_section: strip
   gap: 0.2
-  heater_extent: 2.0
+  heater_extent: 2
   heater_layer: HEATER
-  heater_width: 5.0
+  heater_width: 5
   parity: 1
   port_orientation: 90
-  radius: 10.0
+  radius: 10
   via_stack: via_stack_heater_mtop
-  via_width: 10.0
-  wrap_angle_deg: 180.0
+  via_width: 10
+  wrap_angle_deg: 180

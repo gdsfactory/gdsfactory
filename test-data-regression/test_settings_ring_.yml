@@ -4,5 +4,5 @@ settings:
   angle: 360
   angle_resolution: 2.5
   layer: WG
-  radius: 10.0
+  radius: 10
   width: 0.5

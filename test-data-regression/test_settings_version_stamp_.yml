@@ -1,0 +1,9 @@
+info: {}
+name: version_stamp_Ldemo_lab_f7f46037
+settings:
+  labels:
+  - demo_label
+  layer: WG
+  pixel_size: 1
+  text_size: 10
+  with_qr_code: false

@@ -27,7 +27,7 @@ def ramp(
     xpts = [0, length, length, 0]
     ypts = [width1, width2, 0, 0]
     c = Component()
-    c.add_polygon([xpts, ypts], layer=layer)
+    c.add_polygon(tuple(zip(xpts, ypts)), layer=layer)
     c.add_port(
         name="o1", center=[0, width1 / 2], width=width1, orientation=180, layer=layer
     )

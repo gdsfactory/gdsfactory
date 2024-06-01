@@ -23,6 +23,7 @@ from gdsfactory.technology import LayerStack, LayerViews
 from gdsfactory.typings import (
     CellSpec,
     Component,
+    ComponentBase,
     ComponentFactory,
     ComponentSpec,
     ConnectivitySpec,
@@ -318,11 +319,11 @@ class Pdk(BaseModel):
         component: ComponentSpec,
         cells: dict[str, Callable],
         **kwargs,
-    ) -> Component:
+    ) -> ComponentBase:
         """Returns component from a component spec."""
         cells = set(cells.keys())
 
-        if isinstance(component, Component):
+        if isinstance(component, ComponentBase):
             if kwargs:
                 raise ValueError(f"Cannot apply kwargs {kwargs} to {component.name!r}")
             return component

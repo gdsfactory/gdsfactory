@@ -2,13 +2,13 @@ info: {}
 name: straight_heater_meander_a75cb930
 settings:
   cross_section: Fcross_section_Mgdsfactorypcross_section_SR10_RM5
-  extension_length: 15.0
-  heater_taper_length: 10.0
+  extension_length: 15
+  heater_taper_length: 10
   heater_width: 2.5
   layer_heater: HEATER
-  length: 300.0
-  radius: 5.0
-  spacing: 2.0
+  length: 300
+  radius: 5
+  spacing: 2
   straight: straight
   straight_widths:
   - 0.8

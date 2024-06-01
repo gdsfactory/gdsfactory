@@ -2,10 +2,10 @@ info: {}
 name: straight_pin_slot_L500__fbb1b820
 settings:
   cross_section: pin
-  length: 500.0
+  length: 500
   taper: taper_strip_to_ridge
   via_stack: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLM1_M2_MTOP_VFvia_Mgdsfactorypcomponentspvia_SLVIA1_E2_Fvia_Mgdsfactorypcomponentspvia_SLVIA2_None
   via_stack_slab: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLSLAB90_M1_VFvia_Mgdsfactorypcomponentspvia_SLVIAC_Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2_SHTrue
-  via_stack_slab_spacing: 2.0
-  via_stack_spacing: 3.0
-  via_stack_width: 10.0
+  via_stack_slab_spacing: 2
+  via_stack_spacing: 3
+  via_stack_width: 10

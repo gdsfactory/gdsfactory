@@ -4,11 +4,11 @@ settings:
   balanced_phase_shifters: false
   cross_section: strip
   mzm: Fmzi_Mgdsfactorypcomponentspmzi_SSXTstraight_pin_CSXTpin_DL0
-  mzm_length: 200.0
-  mzm_ps_spacing: 40.0
-  mzm_y_spacing: 50.0
+  mzm_length: 200
+  mzm_ps_spacing: 40
+  mzm_y_spacing: 50
   pad_array: pad_array
   phase_shifter: straight_pin
-  phase_shifter_length: 100.0
+  phase_shifter_length: 100
   splitter: mmi1x2
-  xspacing: 40.0
+  xspacing: 40

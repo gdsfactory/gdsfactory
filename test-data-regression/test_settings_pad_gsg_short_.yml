@@ -2,7 +2,7 @@ info: {}
 name: pad_gsg_short_VSFrectan_3b6761d1
 settings:
   layer_metal: MTOP
-  metal_spacing: 5.0
+  metal_spacing: 5
   pad: pad
   pad_spacing: 150
   route_xsize: 50

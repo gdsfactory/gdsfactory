@@ -6,8 +6,8 @@ settings:
   cross_section_metal: metal2
   cross_section_metal_top: metal3
   det_spacing:
-  - 60.0
-  - 50.0
+  - 60
+  - 50
   detector: ge_detector_straight_si_contacts
   hybrid_90deg: mmi_90degree_hybrid
-  in_wg_length: 20.0
+  in_wg_length: 20

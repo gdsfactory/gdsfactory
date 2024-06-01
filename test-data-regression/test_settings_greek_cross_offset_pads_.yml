@@ -8,10 +8,10 @@ settings:
   contact_offset: 10
   cross_implant_layers:
   - N
-  cross_implant_length: 30.0
-  cross_implant_width: 2.0
+  cross_implant_length: 30
+  cross_implant_width: 2
   cross_struct_layers:
   - WG
-  cross_struct_length: 30.0
-  cross_struct_width: 1.0
+  cross_struct_length: 30
+  cross_struct_width: 1
   pad_width: 50

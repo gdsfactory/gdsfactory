@@ -91,7 +91,7 @@ settings:
   spiked: true
   taper_angle: 55
   taper_length: 12.6
-  taper_to_slab_offset: -3.0
+  taper_to_slab_offset: -3
   wavelength: 1.554
   widths:
   - 0.48

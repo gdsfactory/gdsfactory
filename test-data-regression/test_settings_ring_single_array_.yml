@@ -3,4 +3,4 @@ name: ring_single_array_Rring_c44178b9
 settings:
   cross_section: strip
   ring: ring_single
-  spacing: 5.0
+  spacing: 5

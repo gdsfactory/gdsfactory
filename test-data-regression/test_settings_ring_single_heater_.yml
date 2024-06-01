@@ -1,15 +1,18 @@
 info: {}
-name: ring_single_heater_G0p2_bbd0120d
+name: ring_double_heater_G0p2_c563baa5
 settings:
   bend: bend_euler
   coupler_ring: coupler_ring
   cross_section: strip
+  cross_section_heater: heater_metal
   cross_section_waveguide_heater: strip_heater_metal
   gap: 0.2
-  length_x: 4.0
-  length_y: 0.6
-  radius: 10.0
+  length_x: 1
+  length_y: 0.01
+  radius: 10
+  straight: straight
   via_stack: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLHEATER_M2_MTOP_VNone_Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2_Fvia_Mgdsfactorypcomponentspvia_SLVIA2_S4_4
   via_stack_offset:
+  - 1
   - 0
-  - 0
+  with_drop: false

@@ -5,6 +5,6 @@ name: coupler_symmetric_Bbend_7b4ba87e
 settings:
   bend: bend_s
   cross_section: strip
-  dx: 10.0
-  dy: 4.0
+  dx: 10
+  dy: 4
   gap: 0.234

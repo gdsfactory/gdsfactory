@@ -13,13 +13,13 @@ name: bezier_CP0_0_5_0_5_1p8__9eb21687
 settings:
   allow_min_radius_violation: false
   control_points:
-  - - 0.0
-    - 0.0
-  - - 5.0
-    - 0.0
-  - - 5.0
+  - - 0
+    - 0
+  - - 5
+    - 0
+  - - 5
     - 1.8
-  - - 10.0
+  - - 10
     - 1.8
   cross_section: strip
   npoints: 201

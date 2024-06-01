@@ -6,7 +6,7 @@ settings:
   coupler_straight: coupler_straight
   coupler_symmetric: coupler_symmetric
   cross_section: strip
-  dx: 10.0
-  dy: 4.0
+  dx: 10
+  dy: 4
   gap: 0.236
-  length: 20.0
+  length: 20

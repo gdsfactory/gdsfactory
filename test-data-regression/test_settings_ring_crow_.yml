@@ -13,9 +13,9 @@ settings:
   input_straight_cross_section: strip
   output_straight_cross_section: strip
   radius:
-  - 10.0
-  - 10.0
-  - 10.0
+  - 10
+  - 10
+  - 10
   ring_cross_sections:
   - strip
   - strip

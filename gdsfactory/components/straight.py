@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.component import Component
+from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.cross_section import CrossSectionSpec
 
 
@@ -27,20 +27,45 @@ def straight(
         o1 -------------- o2
                 length
     """
-    c = Component()
-
     x = gf.get_cross_section(cross_section, **kwargs)
     p = gf.path.straight(length=length, npoints=npoints)
-    path = p.extrude(x)
-    ref = c << path
-    c.add_ports(ref.ports)
-    # x.apply_enclosure(c)
+    c = p.extrude(x)
     x.add_bbox(c)
 
     c.info["length"] = length
     c.info["width"] = x.width if len(x.sections) == 0 else x.sections[0].width
     c.add_route_info(cross_section=x, length=length)
-    c.flatten()
+    return c
+
+
+@gf.vcell
+def straight_all_angle(
+    length: float = 10.0,
+    npoints: int = 2,
+    cross_section: CrossSectionSpec = "strip",
+    **kwargs,
+) -> ComponentAllAngle:
+    """Returns a Straight waveguide with offgrid ports.
+
+    Args:
+        length: straight length (um).
+        npoints: number of points.
+        cross_section: specification (CrossSection, string or dict).
+        kwargs: additional cross_section arguments.
+
+    .. code::
+
+        o1 -------------- o2
+                length
+    """
+    x = gf.get_cross_section(cross_section, **kwargs)
+    p = gf.path.straight(length=length, npoints=npoints)
+    c = p.extrude(x, all_angle=True)
+    x.add_bbox(c)
+
+    c.info["length"] = length
+    c.info["width"] = x.width if len(x.sections) == 0 else x.sections[0].width
+    c.add_route_info(cross_section=x, length=length)
     return c
 
 

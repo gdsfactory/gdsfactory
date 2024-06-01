@@ -19,11 +19,11 @@ settings:
     - 0
   - - 5.5
     - 1.8
-  - - 11.0
+  - - 11
     - 1.8
   cross_section: strip
   npoints: 99
   size:
-  - 11.0
+  - 11
   - 1.8
   with_manhattan_facing_angles: true

@@ -4,19 +4,19 @@ settings:
   cross_section: strip_heater_doped
   cross_section_heater: rib_heater_doped
   heater_gap: 0.8
-  heater_width: 2.0
-  length: 320.0
+  heater_width: 2
+  length: 320
   nsections: 3
   taper: taper_cross_section
   via_stack: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLWG_NPP_M1_VNone_None_Fvia_Mgdsfactorypcomponentspvia_SLVIAC
-  via_stack_gap: 0.0
+  via_stack_gap: 0
   via_stack_metal: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLM1_M2_MTOP_VFvia_Mgdsfactorypcomponentspvia_SLVIA1_E2_Fvia_Mgdsfactorypcomponentspvia_SLVIA2_None
   via_stack_metal_size:
-  - 10.0
-  - 10.0
+  - 10
+  - 10
   via_stack_size:
-  - 10.0
-  - 10.0
+  - 10
+  - 10
   width: 0.5
   xoffset_tip1: 0.2
   xoffset_tip2: 0.4

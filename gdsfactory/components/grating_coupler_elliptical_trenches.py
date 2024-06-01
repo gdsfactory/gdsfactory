@@ -121,7 +121,7 @@ def grating_coupler_elliptical_trenches(
         layer=layer,
         cross_section=xs,
     )
-    c.info["period"] = period
+    c.info["period"] = float(np.round(period, 3))
     c.info["polarization"] = polarization
     c.info["wavelength"] = wavelength
     xs.add_bbox(c)
