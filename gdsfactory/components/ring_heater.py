@@ -29,6 +29,7 @@ def ring_double_heater(
     via_stack: ComponentSpec = via_stack_heater_m3_mini,
     port_orientation: float | None = None,
     via_stack_offset: Float2 = (1, 0),
+    with_drop: bool = True,
 ) -> Component:
     """Returns a double bus ring with heater on top.
 
@@ -50,6 +51,7 @@ def ring_double_heater(
         via_stack: for heater to routing metal.
         port_orientation: for electrical ports to promote from via_stack.
         via_stack_offset: x,y offset for via_stack.
+        with_drop: adds drop ports.
 
     .. code::
 
@@ -99,18 +101,47 @@ def ring_double_heater(
     )
 
     c = Component()
+
     cb = c.add_ref(coupler_component)
-    ct = c.add_ref(coupler_component_top)
     sl = c.add_ref(straight_component)
     sr = c.add_ref(straight_component)
 
-    sl.connect(port="o1", other=cb.ports["o2"])
-    ct.connect(port="o3", other=sl.ports["o2"])
-    sr.connect(port="o2", other=ct.ports["o2"])
-    c.add_port("o1", port=cb.ports["o1"])
-    c.add_port("o2", port=cb.ports["o4"])
-    c.add_port("o3", port=ct.ports["o4"])
-    c.add_port("o4", port=ct.ports["o1"])
+    if with_drop:
+        ct = c.add_ref(coupler_component_top)
+        sl.connect(port="o1", other=cb.ports["o2"])
+        ct.connect(port="o3", other=sl.ports["o2"])
+        sr.connect(port="o2", other=ct.ports["o2"])
+        c.add_port("o1", port=cb.ports["o1"])
+        c.add_port("o2", port=cb.ports["o4"])
+        c.add_port("o3", port=ct.ports["o4"])
+        c.add_port("o4", port=ct.ports["o1"])
+        heater_top = c << straight(
+            length=length_x,
+            cross_section=cross_section_heater,
+        )
+        heater_top.connect("e1", ct["e1"])
+
+    else:
+        straight_top = straight(
+            length=length_x,
+            cross_section=cross_section_waveguide_heater,
+        )
+        bend = gf.get_component(
+            bend,
+            radius=radius,
+            cross_section=cross_section_waveguide_heater,
+        )
+        bl = c << bend
+        br = c << bend
+        st = c << straight_top
+
+        sl.connect(port="o1", other=cb.ports["o2"])
+        bl.connect(port="o2", other=sl.ports["o2"])
+
+        st.connect(port="o2", other=bl.ports["o1"])
+        br.connect(port="o2", other=st.ports["o1"])
+        sr.connect(port="o1", other=br.ports["o1"])
+        sr.connect(port="o2", other=cb.ports["o3"])
 
     via = gf.get_component(via_stack)
     c1 = c << via
@@ -131,15 +162,12 @@ def ring_double_heater(
 
     c.add_ports(p1, prefix="l_")
     c.add_ports(p2, prefix="r_")
-
-    heater_top = c << straight(
-        length=length_x,
-        cross_section=cross_section_heater,
-    )
-    heater_top.connect("e1", ct["e1"])
     return c
 
 
+ring_single_heater = partial(ring_double_heater, with_drop=False)
+
+
 if __name__ == "__main__":
-    c = ring_double_heater()
+    c = ring_double_heater(with_drop=True)
     c.show()
