@@ -214,7 +214,7 @@ from gdsfactory.components.ring_crow import ring_crow
 from gdsfactory.components.ring_crow_couplers import ring_crow_couplers
 from gdsfactory.components.ring_double import ring_double
 from gdsfactory.components.ring_double_heater import ring_double_heater
-from gdsfactory.components.ring_double_pn import ring_double_pn
+from gdsfactory.components.ring_pn import ring_double_pn, ring_single_pn
 from gdsfactory.components.ring_single import ring_single
 from gdsfactory.components.ring_single_array import ring_single_array
 from gdsfactory.components.ring_single_bend_coupler import (
@@ -223,7 +223,6 @@ from gdsfactory.components.ring_single_bend_coupler import (
 )
 from gdsfactory.components.ring_single_dut import ring_single_dut, taper2
 from gdsfactory.components.ring_single_heater import ring_single_heater
-from gdsfactory.components.ring_single_pn import ring_single_pn
 from gdsfactory.components.seal_ring import seal_ring
 from gdsfactory.components.snspd import snspd
 from gdsfactory.components.spiral import spiral
