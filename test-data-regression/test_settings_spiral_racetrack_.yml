@@ -1,0 +1,19 @@
+info:
+  length: 670.47
+name: spiral_racetrack_MR5_SL_c093e93e
+settings:
+  bend_factory: bend_euler
+  bend_s_factory: bend_s
+  cross_section: strip
+  extra_90_deg_bend: false
+  min_radius: 5
+  spacings:
+  - 2
+  - 2
+  - 3
+  - 3
+  - 2
+  - 2
+  straight_factory: straight
+  straight_length: 20
+  with_inner_ports: false
