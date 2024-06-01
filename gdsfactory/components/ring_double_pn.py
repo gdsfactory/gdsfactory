@@ -88,8 +88,7 @@ def ring_double_pn(
     drop_gap = gf.snap.snap_to_grid(drop_gap, grid_factor=2)
     c = gf.Component()
 
-    pn_cross_section = gf.get_cross_section(pn_cross_section)
-    pn_cross_section = pn_cross_section.copy(**kwargs)
+    pn_cross_section = gf.get_cross_section(pn_cross_section, **kwargs)
     cross_section = gf.get_cross_section(cross_section)
     cross_section = cross_section.copy(**kwargs)
 
