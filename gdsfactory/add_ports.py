@@ -80,7 +80,7 @@ def add_ports_from_markers_center(
     ycenter: float | None = None,
     port_name_prefix: str | None = None,
     port_type: str = "optical",
-    short_ports: bool = False,
+    ports_on_short_side: bool = False,
     auto_rename_ports: bool = True,
     debug: bool = False,
 ) -> Component:
@@ -100,7 +100,7 @@ def add_ports_from_markers_center(
         ycenter: for guessing orientation of rectangular ports.
         port_name_prefix: defaults to 'o' for optical and 'e' for electrical ports.
         port_type: type of port (optical, electrical ...).
-        short_ports: if the port is on the short side rather than the long side.
+        ports_on_short_side: if the port is on the short side rather than the long side.
         auto_rename_ports: if True auto rename ports to avoid duplicates.
         debug: if True prints ports that are skipped.
 
@@ -190,21 +190,21 @@ def add_ports_from_markers_center(
         orientation = -1
 
         # rectangular ports orientation is easier to detect
-        if dy < dx if short_ports else dx < dy:
+        if dy < dx if ports_on_short_side else dx < dy:
             if x > xc:  # east
                 orientation = 0
                 width = dy
                 x = pxmax if inside else x
-            elif x < xc:  # west
+            elif x <= xc:  # west
                 orientation = 180
                 width = dy
                 x = pxmin if inside else x
-        elif dy > dx if short_ports else dx > dy:
+        elif dy > dx if ports_on_short_side else dx > dy:
             if y > yc:  # north
                 orientation = 90
                 width = dx
                 y = pymax if inside else y
-            elif y < yc:  # south
+            elif y <= yc:  # south
                 orientation = 270
                 width = dx
                 y = pymin if inside else y
@@ -232,13 +232,13 @@ def add_ports_from_markers_center(
             width = dy
             x = pxmax if inside else x
 
-        elif pxmax < xc:
+        elif pxmax <= xc:
             orientation = 180
             width = dy
             x = pxmin if inside else x
 
         if orientation == -1:
-            raise ValueError(f"Unable to detector port at ({dx}, {dy})")
+            raise ValueError(f"Unable to detect port at ({dx}, {dy})")
 
         width = width - pin_extra_width
 
@@ -286,7 +286,7 @@ def add_ports_from_boxes(
     ycenter: float | None = None,
     port_name_prefix: str | None = None,
     port_type: str = "optical",
-    short_ports: bool = False,
+    ports_on_short_side: bool = False,
     auto_rename_ports: bool = True,
     debug: bool = False,
 ) -> Component:
@@ -306,7 +306,7 @@ def add_ports_from_boxes(
         ycenter: for guessing orientation of rectangular ports.
         port_name_prefix: defaults to 'o' for optical and 'e' for electrical ports.
         port_type: type of port (optical, electrical ...).
-        short_ports: if the port is on the short side rather than the long side.
+        ports_on_short_side: if the port is on the short side rather than the long side.
         auto_rename_ports: if True auto rename ports to avoid duplicates.
         debug: if True prints ports that are skipped.
 
@@ -393,21 +393,21 @@ def add_ports_from_boxes(
         orientation = -1
 
         # rectangular ports orientation is easier to detect
-        if dy < dx if short_ports else dx < dy:
+        if dy < dx if ports_on_short_side else dx < dy:
             if x > xc:  # east
                 orientation = 0
                 width = dy
                 x = pxmax if inside else x
-            elif x < xc:  # west
+            elif x <= xc:  # west
                 orientation = 180
                 width = dy
                 x = pxmin if inside else x
-        elif dy > dx if short_ports else dx > dy:
+        elif dy > dx if ports_on_short_side else dx > dy:
             if y > yc:  # north
                 orientation = 90
                 width = dx
                 y = pymax if inside else y
-            elif y < yc:  # south
+            elif y <= yc:  # south
                 orientation = 270
                 width = dx
                 y = pymin if inside else y
@@ -435,15 +435,17 @@ def add_ports_from_boxes(
             width = dy
             x = pxmax if inside else x
 
-        elif pxmax < xc:
+        elif pxmax <= xc:
             orientation = 180
             width = dy
             x = pxmin if inside else x
 
         if orientation == -1:
-            raise ValueError(f"Unable to detector port at ({dx}, {dy})")
+            raise ValueError(
+                f"Unable to detect port at ({dx=}, {dy=}, {x=}, {y=}, {xc=}, {yc=}"
+            )
 
-        width = width - pin_extra_width
+        width = np.round(width - pin_extra_width, 3)
 
         if (x, y) not in port_locations:
             port_locations.append((x, y))
