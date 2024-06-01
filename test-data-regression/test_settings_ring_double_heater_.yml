@@ -1,5 +1,5 @@
 info: {}
-name: ring_double_heater_G0p2_4035f865
+name: ring_double_heater_G0p2_c21cabc8
 settings:
   bend: bend_euler
   coupler_ring: coupler_ring
@@ -15,3 +15,4 @@ settings:
   via_stack_offset:
   - 1
   - 0
+  with_drop: true

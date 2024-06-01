@@ -1,14 +1,16 @@
 info: {}
-name: ring_single_pn_G0p3_R5__b0270650
+name: ring_double_pn_AG0p3_DG_86dade65
 settings:
-  cross_section: Fcross_section_Mgdsfactorypcross_section_SR10_RM5_Sslab
+  add_gap: 0.3
+  cross_section: Fcross_section_Mgdsfactorypcross_section_SR20_RM20_Sslab
   doped_heater: true
   doped_heater_angle_buffer: 10
   doped_heater_layer: NPP
   doped_heater_waveguide_offset: 2.175
   doped_heater_width: 0.5
-  doping_angle: 250
-  gap: 0.3
+  doping_angle: 85
+  drop_gap: 0.3
   heater_vias: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SS0p5_0p5_LM1_M2_VFvia_Mgdsfactorypcomponentspvia_SLVIAC_S0p1_0p1_S0p2_0p2_E0p1_Fvia_Mgdsfactorypcomponentspvia_SLVIA1_S0p1_0p1_S0p2_0p2_E0p1
   pn_cross_section: Fpn_Mgdsfactorypcross_section_SWD2p425_WS4p85_LVVIAC_WV0p5_LMM1_WM0p5
   radius: 5
+  with_drop: false
