@@ -22,6 +22,7 @@ def grating_coupler_rectangular_arbitrary_slab(
     wavelength: float = 1.55,
     taper: ComponentSpec = taper_strip_to_slab150,
     layer_slab: LayerSpec | None = "SLAB150",
+    layer_grating: LayerSpec | None = None,
     slab_offset: float = 2.0,
     fiber_angle: float = 15,
     cross_section: CrossSectionSpec = "strip",
@@ -38,6 +39,7 @@ def grating_coupler_rectangular_arbitrary_slab(
         wavelength: in um.
         taper: function.
         layer_slab: for pedestal.
+        layer_grating: for grating.
         slab_offset: from edge.
         fiber_angle: in degrees.
         cross_section: for input waveguide port.
@@ -72,7 +74,7 @@ def grating_coupler_rectangular_arbitrary_slab(
     """
     xs = gf.get_cross_section(cross_section, **kwargs)
     wg_width = xs.width
-    layer = xs.layer
+    layer = layer_grating or xs.layer
 
     c = Component()
     taper = gf.get_component(

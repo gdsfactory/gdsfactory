@@ -20,6 +20,7 @@ def grating_coupler_rectangular(
     wavelength: float = 1.55,
     taper: ComponentSpec = taper_function,
     layer_slab: LayerSpec | None = "SLAB150",
+    layer_grating: LayerSpec | None = None,
     fiber_angle: float = 15,
     slab_xmin: float = -1.0,
     slab_offset: float = 1.0,
@@ -42,6 +43,7 @@ def grating_coupler_rectangular(
         wavelength: in um.
         taper: function.
         layer_slab: layer that protects the slab under the grating.
+        layer_grating: layer for the grating.
         fiber_angle: in degrees.
         slab_xmin: where 0 is at the start of the taper.
         slab_offset: from edge of grating to edge of the slab.
@@ -76,7 +78,7 @@ def grating_coupler_rectangular(
     """
     xs = gf.get_cross_section(cross_section, **kwargs)
     wg_width = xs.width
-    layer = xs.layer
+    layer = layer_grating or xs.layer
 
     c = Component()
     taper_ref = c << gf.get_component(
