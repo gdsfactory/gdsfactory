@@ -17,7 +17,7 @@ if TYPE_CHECKING:
 class LogicalLayer(BaseModel):
     """GDS design layer."""
 
-    layer: tuple[int, int] | kf.LayerEnum
+    layer: tuple[int, int] | kf.LayerEnum | int
 
     def __eq__(self, other):
         """Check if two LogicalLayer instances are equal.
@@ -118,8 +118,8 @@ class DerivedLayer(BaseModel):
         operation: operation to perform between layer1 and layer2. One of "and", "or", "xor", or "not" or associated symbols.
     """
 
-    layer1: LogicalLayer | DerivedLayer
-    layer2: LogicalLayer | DerivedLayer
+    layer1: LogicalLayer | DerivedLayer | int
+    layer2: LogicalLayer | DerivedLayer | int
     operation: Literal["and", "&", "or", "|", "xor", "^", "not", "-"]
 
     # Boolean AND (&)
@@ -636,8 +636,11 @@ def get_component_with_derived_layers(component, layer_stack: LayerStack) -> Com
 if __name__ == "__main__":
     # For now, make regular layers trivial DerivedLayers
     # This might be automatable during LayerStack instantiation, or we could modify the Layer object in LayerMap too
-    layer1 = LogicalLayer(layer=(1, 0))
-    layer2 = LogicalLayer(layer=(2, 0))
+
+    from gdsfactory.generic_tech import LAYER
+
+    layer1 = LogicalLayer(layer=(2, 0))
+    layer2 = LogicalLayer(layer=LAYER.WG)
 
     ls = LayerStack(
         layers={
@@ -689,6 +692,4 @@ if __name__ == "__main__":
     c = get_component_with_derived_layers(c, ls)
     c.show()
 
-    from gdsfactory.generic_tech import LAYER_STACK
-
-    LAYER_STACK.get_klayout_3d_script()
+    # LAYER_STACK.get_klayout_3d_script()
