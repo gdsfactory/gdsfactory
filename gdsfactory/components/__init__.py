@@ -270,7 +270,7 @@ from gdsfactory.components.taper_cross_section import (
 from gdsfactory.components.taper_from_csv import taper_from_csv
 from gdsfactory.components.taper_parabolic import taper_parabolic
 from gdsfactory.components.terminator import terminator
-from gdsfactory.components.text import text, text_lines
+from gdsfactory.components.text import text, text_klayout, text_lines
 from gdsfactory.components.text_freetype import text_freetype
 from gdsfactory.components.text_rectangular import (
     text_rectangular,
@@ -522,6 +522,7 @@ __all__ = [
     "taper_strip_to_ridge_trenches",
     "terminator",
     "text",
+    "text_klayout",
     "text_freetype",
     "text_lines",
     "text_rectangular",
