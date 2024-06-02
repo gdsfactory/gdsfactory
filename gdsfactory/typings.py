@@ -41,7 +41,7 @@ import numpy as np
 from kfactory.kcell import LayerEnum
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-from gdsfactory.component import Component, ComponentBase, ComponentReference
+from gdsfactory.component import Component, ComponentReference
 from gdsfactory.cross_section import CrossSection, Section, Transition, WidthTypes
 from gdsfactory.port import Port
 from gdsfactory.technology import LayerLevel, LayerMap, LayerStack
@@ -143,7 +143,7 @@ LayerSpec = LayerEnum | str | tuple[int, int]
 LayerSpecs = list[LayerSpec] | tuple[LayerSpec, ...] | None
 
 ComponentParams = ParamSpec("ComponentParams")
-ComponentFactory = Callable[..., ComponentBase]
+ComponentFactory = Callable[..., Component]
 ComponentFactoryDict = dict[str, ComponentFactory]
 PathType = str | pathlib.Path
 PathTypes = tuple[PathType, ...]
