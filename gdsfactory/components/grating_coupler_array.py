@@ -46,7 +46,7 @@ def grating_coupler_array(
     if with_loopback:
         if rotation != -90:
             raise ValueError(
-                "with_loopback is currently only programmed to work with rotation = 90"
+                f"with_loopback works only with rotation = -90, got {rotation=}"
             )
         routing_xs = gf.get_cross_section(cross_section)
         radius = routing_xs.radius
