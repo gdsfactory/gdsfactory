@@ -4,7 +4,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.typings import ComponentFactory, CrossSectionSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -15,8 +15,8 @@ def mmi2x2(
     length_mmi: float = 5.5,
     width_mmi: float = 2.5,
     gap_mmi: float = 0.25,
-    taper: ComponentFactory = taper_function,
-    straight: ComponentFactory = straight_function,
+    taper: ComponentSpec = taper_function,
+    straight: ComponentSpec = straight_function,
     cross_section: CrossSectionSpec = "strip",
 ) -> Component:
     r"""Mmi 2x2.
@@ -59,7 +59,8 @@ def mmi2x2(
     xs_mmi = gf.get_cross_section(cross_section, width=width_mmi)
     width = width or x.width
 
-    _taper = taper(
+    _taper = gf.get_component(
+        taper,
         length=length_taper,
         width1=width,
         width2=w_taper,
@@ -67,7 +68,7 @@ def mmi2x2(
     )
 
     a = gap_mmi / 2 + width_taper / 2
-    _ = c << straight(length=length_mmi, cross_section=xs_mmi)
+    _ = c << gf.get_component(straight, length=length_mmi, cross_section=xs_mmi)
 
     ports = [
         gf.Port("o1", orientation=180, center=(0, -a), width=w_taper, cross_section=x),
