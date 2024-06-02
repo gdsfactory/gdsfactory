@@ -17,6 +17,7 @@ from kfactory.kcell import cell, save_layout_options
 
 from gdsfactory.config import CONF, GDSDIR_TEMP
 from gdsfactory.port import pprint_ports, select_ports, to_dict
+from gdsfactory.serialization import clean_value_json
 
 if TYPE_CHECKING:
     from gdsfactory.typings import (
@@ -894,7 +895,7 @@ class ComponentBase:
         }
         if with_ports:
             d["ports"] = {port.name: to_dict(port) for port in self.ports}
-        return d
+        return clean_value_json(d)
 
     def plot(
         self,
