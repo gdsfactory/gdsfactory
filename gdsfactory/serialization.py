@@ -10,6 +10,7 @@ from collections.abc import KeysView as dict_keys
 from typing import Any
 
 import gdstk
+import kfactory as kf
 import numpy as np
 import orjson
 import pydantic
@@ -87,6 +88,9 @@ def clean_value_json(
             if include_module
             else {"function": value.__name__}
         )
+
+    elif isinstance(value, kf.LayerEnum):
+        return str(value)
 
     elif isinstance(value, Path):
         return value.hash_geometry()
