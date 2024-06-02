@@ -119,8 +119,7 @@ def grating_coupler_rectangular(
             ],
             layer_slab,
         )
-    # xs.add_bbox(c)
-
+    xs.add_bbox(c)
     xport = np.round((x0 + cgrating.dx) / 2, 3)
     c.add_port(
         name="o2",
@@ -130,12 +129,13 @@ def grating_coupler_rectangular(
         width=width_grating,
         layer=layer,
     )
+    c.flatten()
     return c
 
 
 if __name__ == "__main__":
     # c = grating_coupler_rectangular(name='gcu', partial_etch=True)
-    c = grating_coupler_rectangular(cross_section="strip")
+    c = grating_coupler_rectangular(cross_section="rib_bbox")
     # c = gf.routing.add_fiber_array(grating_coupler=grating_coupler_rectangular)
     print(c.ports)
     c.show()
