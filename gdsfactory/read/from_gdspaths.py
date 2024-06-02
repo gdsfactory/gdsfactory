@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import pathlib
 
+from gdsfactory import logger
 from gdsfactory.component import Component
-from gdsfactory.config import CONF
 from gdsfactory.read.import_gds import import_gds
 from gdsfactory.typings import ComponentOrPath, PathType
 
@@ -19,7 +19,7 @@ def from_gdspaths(cells: tuple[ComponentOrPath, ...]) -> Component:
 
     for c in cells:
         if isinstance(c, str | pathlib.Path):
-            CONF.logger.info(f"Loading {c!r}")
+            logger.info(f"Loading {c!r}")
             c = import_gds(c)
 
         assert isinstance(c, Component)

@@ -4,7 +4,8 @@ from collections.abc import Iterable
 from functools import partial
 from inspect import getmembers, isfunction, signature
 
-from gdsfactory.config import CONF
+from kfactory import logger
+
 from gdsfactory.typings import Any, Callable, Component
 
 
@@ -35,5 +36,5 @@ def get_cells(modules: Any, verbose: bool = False) -> dict[str, Callable]:
                             cells[name] = member
                     except ValueError as e:
                         if verbose:
-                            CONF.logger.warn(f"error in {name}: {e}")
+                            logger.warn(f"error in {name}: {e}")
     return cells

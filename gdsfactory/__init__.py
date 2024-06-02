@@ -24,6 +24,7 @@ from aenum import constant  # type: ignore[import-untyped]
 
 import kfactory as kf
 from kfactory.kcell import LayerEnum, kcl, show, cell, vcell
+from kfactory import logger
 import klayout.db as kdb
 
 from gdsfactory.path import Path
@@ -77,7 +78,6 @@ from gdsfactory.cross_section import get_cross_sections
 from gdsfactory.grid import grid, grid_with_text
 
 c = components
-looger = kf.logger
 
 
 def clear_cache(kcl: kf.KCLayout = kf.kcl) -> None:
