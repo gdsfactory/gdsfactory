@@ -1,9 +1,3 @@
 info: {}
 name: mirror_port
-settings:
-  label_instance_function: add_instance_label
-  name: Unnamed
-  yaml_str: "\nname: mirror_port\ninstances:\n    mmi_long:\n      component: mmi1x2\n\
-    \      settings:\n        width_mmi: 4.5\n        length_mmi: 5\nplacements:\n\
-    \    mmi_long:\n        port: o1\n        x: 20\n        y: 10\n        mirror:\
-    \ True\n\nports:\n    o1: mmi_long,o3\n    o2: mmi_long,o2\n    o3: mmi_long,o1\n"
+settings: {}

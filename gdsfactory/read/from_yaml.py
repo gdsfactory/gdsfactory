@@ -587,12 +587,11 @@ def cell_from_yaml(
     )
 
 
-@kf.cell(check_instances=False, set_name=False)
 def from_yaml(
     yaml_str: str | pathlib.Path | IO[Any] | dict[str, Any] | DictConfig,
     routing_strategy: dict[str, Callable] | None = None,
     label_instance_function: Callable = add_instance_label,
-    name: str = "Unnamed",
+    name: str | None = None,
     **kwargs,
 ) -> Component:
     """Returns Component from YAML string or file.
@@ -705,7 +704,7 @@ def from_yaml(
             conf["settings"][key] = value
 
     conf = OmegaConf.to_container(conf, resolve=True)
-    name = conf.get("name", None)
+    name = conf.get("name", name)
 
     c = Component(name)
     instances = {}
