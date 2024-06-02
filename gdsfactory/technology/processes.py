@@ -138,7 +138,7 @@ class Grow(Lithography):
     thickness: float
     material: str
     type: str
-    rate: float = None
+    rate: float | None = None
 
 
 @dataclass(kw_only=True)
@@ -164,7 +164,7 @@ class Etch(Lithography):
     material: str
     depth: float
     type: str = "anisotropic"
-    rate: float = None
+    rate: float | None = None
 
 
 @dataclass(kw_only=True)
@@ -218,8 +218,8 @@ class ImplantGaussian(Lithography):
     ion: str
     peak_conc: float
     range: float
-    vertical_straggle: float = None
-    lateral_straggle: float = None
+    vertical_straggle: float | None = None
+    lateral_straggle: float | None = None
 
 
 @dataclass(kw_only=True)
@@ -244,7 +244,7 @@ class DopingConstant(Lithography):
     ion: str
     peak_conc: float
     zmin: float
-    zmax: float = None
+    zmax: float | None = None
     into_materials: list[str]
 
 

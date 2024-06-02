@@ -572,10 +572,7 @@ def get_shapes_from_arbitrary_layer(
     if isinstance(layer, LogicalLayer):
         layer_index = get_layer(layer.layer)
         polygons = polygons_per_layer[layer_index]
-        r = kf.kdb.Region(polygons)
-        return r
-
-    # If we hit a DerivedLayer, process its two input layers
+        return kf.kdb.Region(polygons)
     elif isinstance(layer, DerivedLayer):
         # Recurse through derived layer1 if needed
         if isinstance(layer.layer1, LogicalLayer):
@@ -594,9 +591,7 @@ def get_shapes_from_arbitrary_layer(
             r2 = get_shapes_from_arbitrary_layer(layer.layer2, component)
 
         # Get new region from boolean operation
-        r = gf.component.boolean_operations[layer.operation](r1, r2)
-
-        return r
+        return gf.component.boolean_operations[layer.operation](r1, r2)
 
     else:
         raise ValueError("layer must be one of LogicalLayer or DerivedLayer")
@@ -611,7 +606,7 @@ def get_component_with_derived_layers(component, layer_stack: LayerStack) -> Com
     """
     from gdsfactory.pdk import get_layer
 
-    component_derived = gf.Component()
+    component_derived = Component()
 
     for layer_name, level in layer_stack.layers.items():
         if isinstance(level.layer, LogicalLayer):
