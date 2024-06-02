@@ -369,6 +369,7 @@ def test_docstring_sample() -> None:
     route_name = "mmi_top,o3:mmi_bot,o1"
     length = 38750
     assert np.isclose(c.routes[route_name].length, length), c.routes[route_name].length
+    c.delete()
 
 
 yaml_fail = """
