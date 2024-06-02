@@ -185,6 +185,7 @@ def taper_strip_to_ridge(
 
     if length:
         xs.add_bbox(c)
+    c.flatten()
     return c
 
 
