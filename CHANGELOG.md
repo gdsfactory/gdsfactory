@@ -2476,7 +2476,7 @@ from functools import partial to all files and makes the docs cleaner by renderi
 | PORT           | optical port pins. For connectivity checks.                  |
 | PORTE          | electrical port pins. For connectivity checks.               |
 | DEVREC         | device recognition layer. For connectivity checks.           |
-| SHOW_PORTS     | add port pin markers when `Component.show(show_ports=True)`  |
+| SHOW_PORTS     | add port pin markers when `Component.show()`  |
 | LABEL_INSTANCE | for adding instance labels on `gf.read.from_yaml`            |
 | LABEL          | for adding labels to grating couplers for automatic testing. |
 | TE             | for TE polarization fiber marker.                            |
@@ -4256,7 +4256,7 @@ from functools import partial to all files and makes the docs cleaner by renderi
 
 ## 2.5.7
 
-- Component.show(show_ports=True) adds port names and pins by default (before show_ports=False)
+- Component.show() adds port names and pins by default (before show_ports=False)
 - splitter_tree, also propagates extra coupler ports
 - add_ports_from_markers has an optional `port_layer` for the new created port.
 - component_settings = OmegaConf.to_container(component_settings, resolve=True)
@@ -4385,7 +4385,7 @@ from pydantic import validate_arguments
 - add vertical_te and vertical_tm ports to grating couplers
 - remove klive warning when not klayout is not open (if klayout is not installed or running it will just fail silently)
 - replace cladding for bend_circular and bend_euler with square cladding
-- added `component.show(show_ports=True)`
+- added `component.show()`
 - added `component.show(show_subports=True)`
 - added `pf merge-cells`
 - added `auto_taper_to_wide_waveguides` option to add_fiber_array
@@ -4452,7 +4452,7 @@ from pydantic import validate_arguments
 - rename from `from pp.testing import difftest` to `from pp.difftest import difftest`
 - remove pp.container containerize
 - better type annontations
-- replace some `c.show(show_ports=True)` by a simpler `c.show()`
+- replace some `c.show()` by a simpler `c.show()`
 
 ## 2.2.9
 

@@ -63,10 +63,9 @@ def mmi(
     c = Component()
     gap_input_tapers = gf.snap.snap_to_grid(gap_input_tapers, grid_factor=2)
     gap_output_tapers = gf.snap.snap_to_grid(gap_output_tapers, grid_factor=2)
-    w_mmi = width_mmi
     w_taper = width_taper
     x = gf.get_cross_section(cross_section)
-    xs_mmi = x.copy(width=w_mmi)
+    xs_mmi = gf.get_cross_section(cross_section, width=width_mmi)
     width = width or x.width
 
     _taper = taper(
