@@ -77,14 +77,13 @@ from gdsfactory.cross_section import get_cross_sections
 from gdsfactory.grid import grid, grid_with_text
 
 c = components
+looger = kf.logger
 
 
 def clear_cache(kcl: kf.KCLayout = kf.kcl) -> None:
     """Clears the whole layout object cache for the default layout."""
     kcl.clear_kcells()
 
-
-logger = CONF.logger
 
 __all__ = (
     "CONF",
