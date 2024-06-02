@@ -1,13 +1,13 @@
 info: {}
-name: mzi_DL10_LY2_LX0p1_Bben_ceb5535c
+name: mzi_DL10_LY2_LX0p1_Bben_626af48d
 settings:
   add_optical_ports_arms: false
   auto_rename_ports: true
   bend: bend_euler_nc
   cross_section: xs_134304f7
-  delta_length: 10.0
+  delta_length: 10
   length_x: 0.1
-  length_y: 2.0
+  length_y: 2
   min_length: 0.01
   mirror_bot: false
   nbends: 2

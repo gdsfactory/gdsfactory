@@ -65,12 +65,14 @@ def test_sample() -> None:
     c = from_yaml(sample_mmis)
     assert len(c.insts) == 6, len(c.insts)
     assert len(c.ports) == 3, len(c.ports)
+    c.delete()
 
 
 def test_connections() -> None:
     c = from_yaml(sample_connections)
     assert len(c.insts) == 2
     assert len(c.ports) == 0
+    c.delete()
 
 
 sample_2x2_connections = """
@@ -111,6 +113,7 @@ def test_connections_2x2() -> None:
 
     length = c.routes["mmi_bottom,o3:mmi_top,o2"].length
     assert np.isclose(length, 135000), length
+    c.delete()
 
 
 sample_different_factory = """
@@ -366,6 +369,7 @@ def test_docstring_sample() -> None:
     route_name = "mmi_top,o3:mmi_bot,o1"
     length = 38750
     assert np.isclose(c.routes[route_name].length, length), c.routes[route_name].length
+    c.delete()
 
 
 yaml_fail = """
@@ -512,22 +516,15 @@ yaml_strings = dict(
 
 
 @pytest.mark.parametrize("yaml_key", yaml_strings.keys())
-def test_gds(yaml_key: str, data_regression: DataRegressionFixture) -> None:
+def test_gds_and_settings(
+    yaml_key: str, data_regression: DataRegressionFixture, check: bool = True
+) -> None:
     """Avoid regressions in GDS geometry shapes and layers."""
     yaml_string = yaml_strings[yaml_key]
     c = from_yaml(yaml_string)
     difftest(c)
 
-
-@pytest.mark.parametrize("yaml_key", yaml_strings.keys())
-def test_settings(
-    yaml_key: str, data_regression: DataRegressionFixture, check: bool = True
-) -> None:
-    """Avoid regressions when exporting settings."""
     if check:
-        yaml_string = yaml_strings[yaml_key]
-        c = from_yaml(yaml_string)
-
         data_regression.check(c.to_dict())
 
 

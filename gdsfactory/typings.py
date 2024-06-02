@@ -143,7 +143,7 @@ LayerSpec = LayerEnum | str | tuple[int, int]
 LayerSpecs = list[LayerSpec] | tuple[LayerSpec, ...] | None
 
 ComponentParams = ParamSpec("ComponentParams")
-ComponentFactory = Callable[..., ComponentBase]
+ComponentFactory = Callable[..., Component]
 ComponentFactoryDict = dict[str, ComponentFactory]
 PathType = str | pathlib.Path
 PathTypes = tuple[PathType, ...]
@@ -271,6 +271,7 @@ __all__ = (
     "Any",
     "Callable",
     "Component",
+    "ComponentBase",
     "ComponentFactory",
     "ComponentFactoryDict",
     "ComponentOrPath",

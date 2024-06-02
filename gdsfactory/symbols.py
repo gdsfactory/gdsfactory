@@ -3,8 +3,6 @@ from __future__ import annotations
 import functools
 from collections.abc import Callable
 
-import gdstk
-
 from gdsfactory import cell
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpecs
@@ -94,9 +92,7 @@ def floorplan_with_block_letters(
     if copy_layers:
         for layer in copy_layers:
             layer = gf.get_layer(layer)
-            polys = component.get_polygons()[layer]
-            # run OR to simplify shapes
-            polys = gdstk.boolean(polys, [], "or", layer=layer[0], datatype=layer[1])
+            polys = component.get_polygons(merge=True)[layer]
             sym.add_polygon(polys, layer=layer)
 
     return sym

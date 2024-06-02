@@ -21,7 +21,7 @@ def spiral_racetrack(
     bend_s_factory: ComponentFactory = bend_s,
     cross_section: CrossSectionSpec = "strip",
     cross_section_s: CrossSectionSpec | None = None,
-    n_bend_points: int | None = None,
+    n_bend_points: int = 99,
     with_inner_ports: bool = False,
     extra_90_deg_bend: bool = False,
 ) -> Component:
@@ -47,7 +47,7 @@ def spiral_racetrack(
         bend_s = bend_s_factory(
             (straight_length, -min_radius * 2 + 1 * spacings[0]),
             cross_section=cross_section_s or cross_section,
-            **({"npoints": n_bend_points} if n_bend_points else {}),
+            npoints=n_bend_points,
         )
         c.info["length"] = 0
         c.add_port(
@@ -66,7 +66,7 @@ def spiral_racetrack(
         _bend_s = bend_s_factory(
             (straight_length, -min_radius * 2 + 1 * spacings[0]),
             cross_section=cross_section_s or cross_section,
-            **({"npoints": n_bend_points} if n_bend_points else {}),
+            npoints=n_bend_points,
         )
         bend_s = c << _bend_s
         c.info["length"] = _bend_s.info["length"]
@@ -79,7 +79,7 @@ def spiral_racetrack(
                 radius=min_radius + np.sum(spacings[:i]),
                 p=0,
                 cross_section=cross_section,
-                **({"npoints": n_bend_points} if n_bend_points else {}),
+                npoints=n_bend_points,
             )
             bend = c << _bend
             bend.connect("o1", port)
@@ -100,7 +100,7 @@ def spiral_racetrack(
             radius=min_radius + np.sum(spacings),
             p=0,
             cross_section=cross_section,
-            **({"npoints": n_bend_points} if n_bend_points else {}),
+            npoints=n_bend_points,
         )
         bend.connect("o1", ports[1])
         c.add_port("o2", port=bend.ports["o2"])
@@ -122,7 +122,7 @@ def spiral_racetrack_fixed_length(
     bend_s_factory: ComponentFactory = bend_s,
     cross_section: CrossSectionSpec = "strip",
     cross_section_s: CrossSectionSpec | None = None,
-    n_bend_points: int | None = None,
+    n_bend_points: int = 99,
     with_inner_ports: bool = False,
 ) -> Component:
     """Returns Racetrack-Spiral with a specified total length.
@@ -219,8 +219,8 @@ def spiral_racetrack_fixed_length(
         cross_section=gf.get_cross_section(xs_s_bend),
     )
 
-    c.info["length"] += route.length * c.kcl.dbu
     c.add_port("o1", port=in_wg.ports["o2"])
+    c.info["length"] += route.length * c.kcl.dbu
     return c
 
 
@@ -451,7 +451,6 @@ def spiral_racetrack_heater_doped(
         allow_type_mismatch=True,
     )
     heater_bot.dmovey(-spacing * (num // 2 - 1))
-
     heater_top.connect(
         "e1",
         spiral.ports["o2"].copy_polar(),

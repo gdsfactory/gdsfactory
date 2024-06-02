@@ -1,7 +1,8 @@
 info: {}
-name: coupler_bend_R10_CG0p2__8940e2b6
+name: coupler_bend_R10_CG0p2__141a1fb0
 settings:
   bend: bend_circular_all_angle
+  bend_output: bend_euler_all_angle
   coupler_gap: 0.2
   coupling_angle_coverage: 120
   cross_section_inner: strip

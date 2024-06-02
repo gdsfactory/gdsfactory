@@ -9,7 +9,7 @@ from pathlib import Path
 
 import klayout.db as pya
 
-from gdsfactory.config import CONF
+from gdsfactory import logger
 from gdsfactory.typings import PathType
 
 
@@ -80,5 +80,5 @@ def write_labels(
     with open(filepath, "w", newline="") as f:
         writer = csv.writer(f)
         writer.writerows(labels)
-    CONF.logger.info(f"Wrote {len(labels)} labels to CSV {filepath.absolute()}")
+    logger.info(f"Wrote {len(labels)} labels to CSV {filepath.absolute()}")
     return filepath

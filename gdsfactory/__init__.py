@@ -24,6 +24,7 @@ from aenum import constant  # type: ignore[import-untyped]
 
 import kfactory as kf
 from kfactory.kcell import LayerEnum, kcl, show, cell, vcell
+from kfactory import logger
 import klayout.db as kdb
 
 from gdsfactory.path import Path
@@ -83,8 +84,6 @@ def clear_cache(kcl: kf.KCLayout = kf.kcl) -> None:
     """Clears the whole layout object cache for the default layout."""
     kcl.clear_kcells()
 
-
-logger = CONF.logger
 
 __all__ = (
     "CONF",

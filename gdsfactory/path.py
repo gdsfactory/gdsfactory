@@ -17,7 +17,7 @@ from typing import Any
 import numpy as np
 from numpy import mod, pi
 
-from gdsfactory import cell
+from gdsfactory import cell, logger
 from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.component_layout import (
     _GeometryHelper,
@@ -25,7 +25,6 @@ from gdsfactory.component_layout import (
     _reflect_points,
     _rotate_points,
 )
-from gdsfactory.config import CONF
 from gdsfactory.cross_section import CrossSection, Section, Transition
 from gdsfactory.typings import (
     ComponentSpec,
@@ -102,7 +101,7 @@ class Path(_GeometryHelper):
             "ymax",
             "ysize",
         }:
-            CONF.logger.warning(
+            logger.warning(
                 f"`Path.{__k}` is deprecated and will be removed soon."
                 f" Please use Path.`d{__k}` instead. For further information, please"
                 "consult the migration guide "

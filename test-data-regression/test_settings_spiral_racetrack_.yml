@@ -1,12 +1,13 @@
 info:
-  length: 670.47
-name: spiral_racetrack_MR5_SL_c093e93e
+  length: 670.464
+name: spiral_racetrack_MR5_SL_50cc2a10
 settings:
   bend_factory: bend_euler
   bend_s_factory: bend_s
   cross_section: strip
   extra_90_deg_bend: false
   min_radius: 5
+  n_bend_points: 99
   spacings:
   - 2
   - 2

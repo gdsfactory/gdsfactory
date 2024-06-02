@@ -1,12 +1,13 @@
 from __future__ import annotations
 
+import kfactory as kf
 import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.constants import _glyph, _indent, _width
-from gdsfactory.typings import Coordinate, LayerSpec
+from gdsfactory.typings import Coordinate, LayerSpec, LayerSpecs
 
 
 @gf.cell
@@ -102,17 +103,33 @@ def logo(text: str = "GDSFACTORY", text_function=text, spacing=1) -> Component:
     return c
 
 
+@kf.cell
+def text_klayout(
+    text: str = "a", layer: LayerSpec = "WG", bbox_layers: LayerSpecs | None = None
+) -> Component:
+    c = gf.Component()
+    layer = gf.get_layer(layer)
+    gen = kf.kdb.TextGenerator.default_generator()
+    reg = gen.text(text, kf.kcl.dbu)
+    c.shapes(layer).insert(reg)
+    for layer in bbox_layers or []:
+        layer = gf.get_layer(layer)
+        c.shapes(layer).insert(reg.bbox())
+    return c
+
+
 if __name__ == "__main__":
     # c1 = gf.components.text("hello", size=10, layer=(1, 0))
     # c2 = gf.components.text("10.0")
-    c = text(
+    c = text_klayout(
         text=".[,ABCDEFGHIKKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789:/",
-        size=4.0,
-        justify="center",
-        position=(0, 0),
+        # size=4.0,
+        # justify="center",
+        bbox_layers=("M3",),
+        # position=(0, 0),
     )
-    c = text_lines(text=("a", "b"), size=10)
-    c = logo()
+    # c = text_lines(text=("a", "b"), size=10)
+    # c = logo()
     # c2.show( )
     # c.plot()
     c.show()
