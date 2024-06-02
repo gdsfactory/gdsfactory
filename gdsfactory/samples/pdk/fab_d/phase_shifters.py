@@ -17,7 +17,7 @@ class LayerMap:
     HEATER: Layer = (6, 0)
 
 
-LAYER = LayerMap()
+LAYER = LayerMap
 
 
 xs_strip = partial(gf.cross_section.strip, layer=(1, 0), width=1)

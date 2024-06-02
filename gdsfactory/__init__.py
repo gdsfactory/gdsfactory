@@ -23,12 +23,15 @@ from toolz import compose
 from aenum import constant  # type: ignore[import-untyped]
 
 import kfactory as kf
-from kfactory.kcell import LayerEnum, kcl, show, cell
+from kfactory.kcell import LayerEnum, kcl, show, cell, vcell
+from kfactory import logger
 import klayout.db as kdb
 
 from gdsfactory.path import Path
 from gdsfactory.component import (
     Component,
+    ComponentBase,
+    ComponentAllAngle,
     ComponentReference,
     Instance,
 )
@@ -82,11 +85,11 @@ def clear_cache(kcl: kf.KCLayout = kf.kcl) -> None:
     kcl.clear_kcells()
 
 
-logger = CONF.logger
-
 __all__ = (
     "CONF",
     "Component",
+    "ComponentAllAngle",
+    "ComponentBase",
     "ComponentReference",
     "CrossSection",
     "Instance",
@@ -139,5 +142,6 @@ __all__ = (
     "snap",
     "technology",
     "typings",
+    "vcell",
     "write_cells",
 )

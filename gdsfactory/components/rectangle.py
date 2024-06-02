@@ -35,6 +35,7 @@ def rectangle(
         ref.dmove((size[0] / 2, size[1] / 2))
     if port_type:
         c.add_ports(ref.ports)
+    c.flatten()
     return c
 
 

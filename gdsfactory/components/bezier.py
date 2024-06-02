@@ -64,16 +64,16 @@ def bezier(
 
     c = path.extrude(xs)
     curv = curvature(path_points, t)
-    length = gf.snap.snap_to_grid(path.length())
+    length = path.length()
     if max(np.abs(curv)) == 0:
         min_bend_radius = np.inf
     else:
-        min_bend_radius = gf.snap.snap_to_grid(1 / max(np.abs(curv)))
+        min_bend_radius = float(gf.snap.snap_to_grid(1 / max(np.abs(curv))))
 
     c.info["length"] = length
     c.info["min_bend_radius"] = min_bend_radius
-    c.info["start_angle"] = path.start_angle
-    c.info["end_angle"] = path.end_angle
+    c.info["start_angle"] = float(path.start_angle)
+    c.info["end_angle"] = float(path.end_angle)
     c.add_route_info(
         cross_section=xs,
         length=c.info["length"],

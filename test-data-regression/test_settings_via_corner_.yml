@@ -1,8 +1,8 @@
 info:
-  length: 10.0
+  length: 10
   size:
-  - 10.0
-  - 10.0
+  - 10
+  - 10
 name: via_corner_CSFcross_sec_da01ea22
 settings:
   cross_section:

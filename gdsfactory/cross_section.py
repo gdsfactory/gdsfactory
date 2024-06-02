@@ -16,6 +16,7 @@ from types import ModuleType
 from typing import TYPE_CHECKING, Any, Literal
 
 import numpy as np
+from kfactory import logger
 from pydantic import (
     BaseModel,
     ConfigDict,
@@ -2361,7 +2362,7 @@ def get_cross_sections(
                         xs[t[0]] = t[1]
                 except Exception as e:
                     if verbose:
-                        CONF.logger.warn(f"error in {t[0]}: {e}")
+                        logger.warn(f"error in {t[0]}: {e}")
     return xs
 
 

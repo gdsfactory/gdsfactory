@@ -1,12 +1,12 @@
 info: {}
 name: litho_steps_LW1_2_4_8_1_f9d120ba
 settings:
-  height: 100.0
+  height: 100
   layer: WG
-  line_spacing: 10.0
+  line_spacing: 10
   line_widths:
-  - 1.0
-  - 2.0
-  - 4.0
-  - 8.0
-  - 16.0
+  - 1
+  - 2
+  - 4
+  - 8
+  - 16

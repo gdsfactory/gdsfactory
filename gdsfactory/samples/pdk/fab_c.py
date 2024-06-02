@@ -234,7 +234,7 @@ if __name__ == "__main__":
     # from jsondiff import diff
 
     # d = diff(d1, d2)
-    # c.show(show_ports=True)
+    # c.show()
 
     # c = straight_nc()
     c = mzi_nc(length_x=100)

@@ -2,7 +2,7 @@ info:
   fiber_angle: 15
   polarization: te
   wavelength: 1.55
-name: grating_coupler_rectang_33af11f3
+name: grating_coupler_rectang_4d3073b6
 settings:
   cross_section: strip
   fiber_angle: 15
@@ -18,12 +18,12 @@ settings:
   - 0.2
   - 0.2
   layer_slab: SLAB150
-  length_taper: 150.0
+  length_taper: 150
   polarization: te
-  slab_offset: 2.0
+  slab_offset: 2
   taper: Ftaper_strip_to_ridge_Mgdsfactorypcomponentsptaper_SLSSLAB150
   wavelength: 1.55
-  width_grating: 11.0
+  width_grating: 11
   widths:
   - 0.5
   - 0.5

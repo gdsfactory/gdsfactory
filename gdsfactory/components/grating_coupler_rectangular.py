@@ -20,6 +20,7 @@ def grating_coupler_rectangular(
     wavelength: float = 1.55,
     taper: ComponentSpec = taper_function,
     layer_slab: LayerSpec | None = "SLAB150",
+    layer_grating: LayerSpec | None = None,
     fiber_angle: float = 15,
     slab_xmin: float = -1.0,
     slab_offset: float = 1.0,
@@ -42,6 +43,7 @@ def grating_coupler_rectangular(
         wavelength: in um.
         taper: function.
         layer_slab: layer that protects the slab under the grating.
+        layer_grating: layer for the grating.
         fiber_angle: in degrees.
         slab_xmin: where 0 is at the start of the taper.
         slab_offset: from edge of grating to edge of the slab.
@@ -76,7 +78,7 @@ def grating_coupler_rectangular(
     """
     xs = gf.get_cross_section(cross_section, **kwargs)
     wg_width = xs.width
-    layer = xs.layer
+    layer = layer_grating or xs.layer
 
     c = Component()
     taper_ref = c << gf.get_component(
@@ -117,8 +119,7 @@ def grating_coupler_rectangular(
             ],
             layer_slab,
         )
-    # xs.add_bbox(c)
-
+    xs.add_bbox(c)
     xport = np.round((x0 + cgrating.dx) / 2, 3)
     c.add_port(
         name="o2",
@@ -128,12 +129,13 @@ def grating_coupler_rectangular(
         width=width_grating,
         layer=layer,
     )
+    c.flatten()
     return c
 
 
 if __name__ == "__main__":
     # c = grating_coupler_rectangular(name='gcu', partial_etch=True)
-    c = grating_coupler_rectangular(cross_section="strip")
+    c = grating_coupler_rectangular(cross_section="rib_bbox")
     # c = gf.routing.add_fiber_array(grating_coupler=grating_coupler_rectangular)
     print(c.ports)
     c.show()

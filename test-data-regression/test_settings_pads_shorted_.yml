@@ -5,4 +5,4 @@ settings:
   layer_metal: MTOP
   metal_width: 10
   pad: pad
-  pad_spacing: 150.0
+  pad_spacing: 150

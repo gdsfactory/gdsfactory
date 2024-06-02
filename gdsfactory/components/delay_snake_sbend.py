@@ -119,7 +119,7 @@ def delay_snake_sbend(
     c.add_port("o1", port=s1.ports["o1"])
     c.add_port("o2", port=s4.ports["o2"])
 
-    c.info["min_bend_radius"] = sbend.info["min_bend_radius"]
+    c.info["min_bend_radius"] = float(sbend.info["min_bend_radius"])
     c.info["bend180_radius"] = bend180_radius
     return c
 

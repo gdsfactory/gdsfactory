@@ -1,11 +1,11 @@
 info:
-  length: 10.0
+  length: 10
   width1: 0.5
   width2: 0.5
 name: taper_L10_W0p5_WNone_PN_19aa93b7
 settings:
   cross_section: strip
-  length: 10.0
+  length: 10
   port_names:
   - o1
   - o2

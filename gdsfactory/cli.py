@@ -10,7 +10,7 @@ import typer
 from rich import print as pprint
 
 from gdsfactory import show as _show
-from gdsfactory.config import print_version_pdks, print_version_plugins
+from gdsfactory.config import print_version_plugins
 from gdsfactory.difftest import diff
 from gdsfactory.install import install_gdsdiff, install_klayout_package
 from gdsfactory.read.from_updk import from_updk
@@ -104,12 +104,6 @@ def install_git_diff() -> None:
 def print_plugins() -> None:
     """Show installed plugin versions."""
     print_version_plugins()
-
-
-@app.command()
-def print_pdks() -> None:
-    """Show installed PDK versions."""
-    print_version_pdks()
 
 
 @app.command(name="from_updk")
@@ -237,53 +231,49 @@ def migrate(
                         )
                     )
                 )
-    else:
-        if output != input:
-            for inp in input.rglob("*.py"):
-                with open(inp, encoding="utf-8") as file:
-                    content = file.read()
-                new_content = pattern2.sub(
-                    replacement, pattern1.sub(replacement, content)
-                )
+    elif output == input:
+        for inp in input.rglob("*.py"):
+            with open(inp, encoding="utf-8") as file:
+                content = file.read()
+            new_content = pattern2.sub(replacement, pattern1.sub(replacement, content))
+            if content != new_content:
                 out = output / inp.relative_to(input)
                 out.parent.mkdir(parents=True, exist_ok=True)
                 with open(out, "w", encoding="utf-8") as file:
                     file.write(new_content)
-                if content != new_content:
-                    pprint(f"Updated [bold violet]{out}[/]")
-                    pprint(
-                        "\n".join(
-                            unified_diff(
-                                a=content.splitlines(),
-                                b=new_content.splitlines(),
-                                fromfile=str(inp.resolve()),
-                                tofile=str(out.resolve()),
-                            )
+                pprint(f"Updated [bold violet]{out}[/]")
+                pprint(
+                    "\n".join(
+                        unified_diff(
+                            a=content.splitlines(),
+                            b=new_content.splitlines(),
+                            fromfile=str(inp.resolve()),
+                            tofile=str(out.resolve()),
                         )
                     )
-        else:
-            for inp in input.rglob("*.py"):
-                with open(inp, encoding="utf-8") as file:
-                    content = file.read()
-                new_content = pattern2.sub(
-                    replacement, pattern1.sub(replacement, content)
                 )
-                if content != new_content:
-                    out = output / inp.relative_to(input)
-                    out.parent.mkdir(parents=True, exist_ok=True)
-                    with open(out, "w", encoding="utf-8") as file:
-                        file.write(new_content)
-                    pprint(f"Updated [bold violet]{out}[/]")
-                    pprint(
-                        "\n".join(
-                            unified_diff(
-                                a=content.splitlines(),
-                                b=new_content.splitlines(),
-                                fromfile=str(inp.resolve()),
-                                tofile=str(out.resolve()),
-                            )
+
+    else:
+        for inp in input.rglob("*.py"):
+            with open(inp, encoding="utf-8") as file:
+                content = file.read()
+            new_content = pattern2.sub(replacement, pattern1.sub(replacement, content))
+            out = output / inp.relative_to(input)
+            out.parent.mkdir(parents=True, exist_ok=True)
+            with open(out, "w", encoding="utf-8") as file:
+                file.write(new_content)
+            if content != new_content:
+                pprint(f"Updated [bold violet]{out}[/]")
+                pprint(
+                    "\n".join(
+                        unified_diff(
+                            a=content.splitlines(),
+                            b=new_content.splitlines(),
+                            fromfile=str(inp.resolve()),
+                            tofile=str(out.resolve()),
                         )
                     )
+                )
 
 
 if __name__ == "__main__":

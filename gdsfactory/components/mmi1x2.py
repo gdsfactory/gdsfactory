@@ -18,7 +18,6 @@ def mmi1x2(
     taper: ComponentSpec = taper_function,
     straight: ComponentSpec = straight_function,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs,
 ) -> Component:
     r"""1x2 MultiMode Interferometer (MMI).
 
@@ -32,7 +31,6 @@ def mmi1x2(
         taper: taper function.
         straight: straight function.
         cross_section: specification (CrossSection, string or dict).
-        kwargs: cross_section settings.
 
 
     .. code::
@@ -56,8 +54,8 @@ def mmi1x2(
     """
     c = Component()
     gap_mmi = gf.snap.snap_to_grid(gap_mmi, grid_factor=2)
-    x = gf.get_cross_section(cross_section, **kwargs)
-    xs_mmi = x.copy(width=width_mmi)
+    x = gf.get_cross_section(cross_section)
+    xs_mmi = gf.get_cross_section(cross_section, width=width_mmi)
     width = width or x.width
 
     _taper = gf.get_component(
@@ -109,5 +107,5 @@ def mmi1x2(
 
 
 if __name__ == "__main__":
-    c = mmi1x2(cross_section="rib")
+    c = mmi1x2(cross_section="rib_bbox")
     c.show()

@@ -4,5 +4,5 @@ settings:
   bend: bend_circular
   cross_section: strip
   gap: 0.2
-  radius: 10.0
+  radius: 10
   straight: straight

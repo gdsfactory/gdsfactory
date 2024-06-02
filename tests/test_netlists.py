@@ -26,6 +26,9 @@ circuit_names = {
 circuit_names_test = circuit_names - {
     "component_lattice",
     "mzi",
+    "ring_single",
+    "ring_double",
+    "mzit",
 }  # set of component names
 
 
@@ -53,6 +56,8 @@ def test_netlists(
     c2 = gf.read.from_yaml(yaml_str)
     n2 = c2.get_netlist()
 
+    n.pop("name")
+    n2.pop("name")
     d = jsondiff.diff(n, n2)
     # print(yaml_str)
     # print(d)

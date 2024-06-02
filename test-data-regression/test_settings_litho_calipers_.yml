@@ -4,9 +4,9 @@ settings:
   layer1: WG
   layer2: SLAB150
   notch_size:
-  - 2.0
-  - 5.0
-  notch_spacing: 2.0
+  - 2
+  - 5
+  notch_spacing: 2
   num_notches: 11
   offset_per_notch: 0.1
-  row_spacing: 0.0
+  row_spacing: 0

@@ -4,6 +4,6 @@ settings:
   L: 3.4
   cross_section: strip
   layer_slab: SLAB150
-  r1: 3.0
+  r1: 3
   r2: 1.1
   w: 1.2

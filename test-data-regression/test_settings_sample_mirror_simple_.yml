@@ -1,3 +1,8 @@
 info: {}
 name: sample_mirror_simple
-settings: {}
+settings:
+  label_instance_function: add_instance_label
+  name: Unnamed
+  yaml_str: "\nname: sample_mirror_simple\n\ninstances:\n    s:\n        component:\
+    \ straight\n\n    b:\n        component: bend_circular\n\nplacements:\n    b:\n\
+    \        mirror: True\n        port: o1\n\nconnections:\n    b,o1: s,o2\n\n"

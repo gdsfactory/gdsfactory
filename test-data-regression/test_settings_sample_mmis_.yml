@@ -3,4 +3,14 @@ info:
   polarization: te
   wavelength: 1.55
 name: sample_mmis
-settings: {}
+settings:
+  label_instance_function: add_instance_label
+  name: Unnamed
+  yaml_str: "\nname: sample_mmis\n\ninfo:\n    polarization: te\n    wavelength: 1.55\n\
+    \    description: just a demo on adding metadata\n\ninstances:\n    mmi_long:\n\
+    \      component: mmi1x2\n      settings:\n        width_mmi: 4.5\n        length_mmi:\
+    \ 10\n    mmi_short:\n      component: mmi1x2\n      settings:\n        width_mmi:\
+    \ 4.5\n        length_mmi: 5\n\nplacements:\n    mmi_long:\n        rotation:\
+    \ 180\n        x: 100\n        y: 100\n\nroutes:\n    route_name1:\n        links:\n\
+    \            mmi_short,o2: mmi_long,o1\n\nports:\n    o1: mmi_short,o1\n    o2:\
+    \ mmi_long,o2\n    o3: mmi_long,o3\n"

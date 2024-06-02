@@ -37,7 +37,6 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.port import Port
 from gdsfactory.typings import (
     ComponentFactory,
@@ -55,7 +54,7 @@ def route_single(
     port2: Port,
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
-    taper: ComponentFactory | None = taper_function,
+    taper: ComponentFactory | None = None,
     start_straight_length: float = 0.0,
     end_straight_length: float = 0.0,
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "strip",
@@ -315,10 +314,5 @@ if __name__ == "__main__":
     p0 = top.ports["o2"]
     p1 = bot.ports["o2"]
 
-    r = gf.routing.route_single(
-        c,
-        p0,
-        p1,
-        cross_section="rib",
-    )
+    r = gf.routing.route_single(c, p0, p1, cross_section="rib", taper=None)
     c.show()

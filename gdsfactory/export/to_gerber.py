@@ -140,7 +140,7 @@ if __name__ == "__main__":
         PORT: Layer = (1, 10)
         PORTE: Layer = (1, 11)
 
-    LAYER = LayerMap()
+    LAYER = LayerMap
 
     class PCBViews(LayerViews):
         F_Cu: LayerView = LayerView(

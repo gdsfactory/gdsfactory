@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from functools import partial
 
-import gdstk
 import numpy as np
 
 from gdsfactory import cell
@@ -26,8 +25,19 @@ def regular_polygon(
         port_type: optical, electrical.
     """
     c = Component()
-    polygon = gdstk.regular_polygon((0, 0), side_length, sides)
-    c.add_polygon(polygon.points, layer=layer)
+    angle_step = 2 * np.pi / sides
+    radius = side_length / (2 * np.sin(np.pi / sides))
+
+    # Rotate the polygon to make one facet flat
+    rotation_angle = np.pi / 2 - angle_step / 2
+    points = [
+        (
+            radius * np.cos(i * angle_step + rotation_angle),
+            radius * np.sin(i * angle_step + rotation_angle),
+        )
+        for i in range(sides)
+    ]
+    c.add_polygon(points, layer=layer)
     a = side_length / (2 * np.tan(np.pi / sides))
 
     if port_type:
@@ -54,5 +64,5 @@ octagon = partial(regular_polygon, sides=8)
 if __name__ == "__main__":
     # c = regular_polygon(sides=8, side_length=20)
     # c = rectangle(size=(3, 2), centered=True, layer=(2, 3))
-    c = octagon(side_length=20)
+    c = octagon(sides=8)
     c.show()

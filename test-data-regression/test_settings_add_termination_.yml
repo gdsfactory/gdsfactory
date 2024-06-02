@@ -1,9 +1,9 @@
 info:
-  length: 10.0
-  route_info_length: 10.0
+  length: 10
+  route_info_length: 10
   route_info_type: xs_34e31a19
-  route_info_weight: 10.0
-  route_info_xs_34e31a19_length: 10.0
+  route_info_weight: 10
+  route_info_xs_34e31a19_length: 10
   width: 0.5
 name: add_termination_Cstraig_a456518a
 settings:

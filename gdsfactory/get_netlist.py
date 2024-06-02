@@ -165,7 +165,7 @@ def get_netlist(
         instance = {}
 
         if c.info:
-            instance.update(component=c.name, info=clean_value_json(c.info))
+            instance.update(component=c.name, info=c.info.model_dump(exclude_none=True))
 
         # Prefer name from settings over c.name
         if c.settings:
@@ -173,7 +173,7 @@ def get_netlist(
 
             instance.update(
                 component=c.function_name,
-                settings=clean_value_json(settings),
+                settings=settings,
             )
 
         instances[reference_name] = instance
@@ -258,7 +258,7 @@ def get_netlist(
     }
     if warnings:
         netlist["warnings"] = warnings
-    return netlist
+    return clean_value_json(netlist)
 
 
 def extract_connections(

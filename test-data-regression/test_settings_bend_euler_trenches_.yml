@@ -1,11 +1,11 @@
 info:
-  dy: 10.0
+  dy: 10
   length: 16.637
   min_bend_radius: 7.061
-  radius: 10.0
+  radius: 10
   route_info_length: 16.637
   route_info_min_bend_radius: 7.061
-  route_info_n_bend_90: 1.0
+  route_info_n_bend_90: 1
   route_info_type: xs_34e31a19
   route_info_weight: 16.637
   route_info_xs_34e31a19_length: 16.637
@@ -18,4 +18,4 @@ settings:
   left: 0
   right: 0
   top: 0
-  width_trench: 2.0
+  width_trench: 2

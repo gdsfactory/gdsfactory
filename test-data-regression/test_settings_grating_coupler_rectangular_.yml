@@ -2,18 +2,18 @@ info:
   fiber_angle: 15
   polarization: te
   wavelength: 1.55
-name: grating_coupler_rectang_9095c90b
+name: grating_coupler_rectang_e12f140d
 settings:
   cross_section: strip
   fiber_angle: 15
   fill_factor: 0.5
   layer_slab: SLAB150
-  length_taper: 150.0
+  length_taper: 150
   n_periods: 20
   period: 0.75
   polarization: te
-  slab_offset: 1.0
-  slab_xmin: -1.0
+  slab_offset: 1
+  slab_xmin: -1
   taper: taper
   wavelength: 1.55
-  width_grating: 11.0
+  width_grating: 11

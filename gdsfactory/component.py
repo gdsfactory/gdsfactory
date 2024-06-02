@@ -12,10 +12,10 @@ import kfactory as kf
 import klayout.db as db  # noqa: F401
 import klayout.lay as lay
 import numpy as np
-from kfactory import Instance, kdb
+from kfactory import Instance, kdb, logger
 from kfactory.kcell import cell, save_layout_options
 
-from gdsfactory.config import CONF, GDSDIR_TEMP
+from gdsfactory.config import GDSDIR_TEMP
 from gdsfactory.port import pprint_ports, select_ports, to_dict
 from gdsfactory.serialization import clean_value_json
 
@@ -83,37 +83,6 @@ def copy(region: kdb.Region) -> kdb.Region:
     return region.dup()
 
 
-class Region(kdb.Region):
-    def __iadd__(self, offset) -> kdb.Region:
-        """Adds an offset to the layer."""
-        return size(self, offset)
-
-    def __isub__(self, offset) -> kdb.Region:
-        """Adds an offset to the layer."""
-        return size(self, -offset)
-
-    def __add__(self, element) -> kdb.Region:
-        """Adds an element to the region."""
-        if isinstance(element, float | int):
-            return size(self, element)
-
-        elif isinstance(element, kdb.Region):
-            return boolean_or(self, element)
-        else:
-            raise ValueError(f"Cannot add type {type(element)} to region")
-
-    def __sub__(self, element) -> kdb.Region | None:
-        """Subtracts an element from the region."""
-        if isinstance(element, float | int):
-            return size(self, -element)
-
-        elif isinstance(element, kdb.Region):
-            return boolean_not(self, element)
-
-    def copy(self) -> kdb.Region:
-        return self.dup()
-
-
 _deprecated_attributes = {
     "center",
     "mirror",
@@ -154,7 +123,7 @@ class ComponentReference(kf.Instance):
         if __k == "_kfinst":
             return object.__getattribute__(self, "_kfinst")
         if __k in _deprecated_attributes:
-            CONF.logger.warning(
+            logger.warning(
                 f"`{self._kfinst.name}.{__k}` is deprecated and will be removed soon."
                 f" Please use `{self._kfinst.name}.d{__k}` instead. For further information, please"
                 "consult the migration guide "
@@ -197,7 +166,7 @@ class ComponentReference(kf.Instance):
     def __setattr__(self, __k: str, __v: Any) -> None:
         """Set attribute with deprecation warning for dbu based attributes."""
         if __k in _deprecated_attributes_instance_settr:
-            CONF.logger.warning(
+            logger.warning(
                 f"Setting `{self._kfinst.name}.{__k}` is deprecated and will be removed soon."
                 f" Please use `{self._kfinst.name}.d{__k}` instead.",
             )
@@ -228,7 +197,7 @@ class ComponentReferences(kf.kcell.Instances):
             self._insts.remove(item)
 
 
-class Component(kf.KCell):
+class ComponentBase:
     """Canvas where you add polygons, instances and ports.
 
     - stores settings that you use to build the component
@@ -241,17 +210,6 @@ class Component(kf.KCell):
     Properties:
         info: dictionary that includes derived properties, simulation_settings, settings (test_protocol, docs, ...)
     """
-
-    def __init__(
-        self,
-        name: str | None = None,
-        kcl: kf.KCLayout | None = None,
-        kdb_cell: kdb.Cell | None = None,
-        ports: kf.Ports | None = None,
-    ):
-        """Initializes a Component."""
-        self.insts = ComponentReferences()
-        super().__init__(name=name, kcl=kcl, kdb_cell=kdb_cell, ports=ports)
 
     @property
     def layers(self) -> list[tuple[int, int]]:
@@ -329,7 +287,7 @@ class Component(kf.KCell):
     def __getattribute__(self, __k: str) -> Any:
         """Shadow dbu based attributes with um based ones."""
         if __k in _deprecated_attributes_component_gettr:
-            CONF.logger.warning(
+            logger.warning(
                 f"`{self.name}.{__k}` is deprecated and will be removed soon."
                 f" Please use {self.name}.`d{__k}` instead. For further information, please"
                 "consult the migration guide "
@@ -351,10 +309,6 @@ class Component(kf.KCell):
         c._settings = self.settings.model_copy()
         c.info = self.info.model_copy()
         return c
-
-    def __lshift__(self, component: gf.Component) -> ComponentReference:  # type: ignore[override]
-        """Creates a Componenteference reference to a Component."""
-        return ComponentReference(kf.KCell.create_inst(self, component))
 
     def copy(self) -> Component:
         return self.dup()
@@ -379,10 +333,14 @@ class Component(kf.KCell):
 
     def add_polygon(
         self,
-        points: np.ndarray | kdb.DPolygon | kdb.Polygon | Region | list[list[float]],
+        points: np.ndarray
+        | kdb.DPolygon
+        | kdb.Polygon
+        | kdb.Region
+        | list[list[float]],
         layer: LayerSpec,
-    ) -> kdb.DPolygon | kdb.Polygon | Region:
-        """Adds a Polygon to the Component.
+    ) -> kdb.Shape:
+        """Adds a Polygon to the Component and returns a klayout Shape.
 
         Args:
             points: Coordinates of the vertices of the Polygon.
@@ -391,8 +349,6 @@ class Component(kf.KCell):
         from gdsfactory.pdk import get_layer
 
         layer = get_layer(layer)
-        if len(points) == 2:
-            points = tuple(zip(points[0], points[1]))
 
         if isinstance(points, tuple | list | np.ndarray):
             points = ensure_tuple_of_tuples(points)
@@ -403,13 +359,10 @@ class Component(kf.KCell):
             points, kdb.Polygon | kdb.DPolygon | kdb.DSimplePolygon | kdb.Region
         ):
             polygon = points
-
-        self.shapes(layer).insert(polygon)
-
-        if not isinstance(polygon, kdb.Region):
-            return Region(polygon.to_itype(self.kcl.dbu))
         else:
-            return polygon
+            polygon = kf.kdb.DPolygon(points)
+
+        return self.shapes(layer).insert(polygon)
 
     def add_label(
         self,
@@ -664,6 +617,33 @@ class Component(kf.KCell):
             )
         return paths
 
+    def get_boxes(self, layer: LayerSpec, recursive: bool = True) -> list[kf.kdb.Box]:
+        """Returns a list of boxes.
+
+        Args:
+            layer: layer to get boxes from.
+            recursive: if True, gets boxes recursively.
+        """
+        from gdsfactory import get_layer
+
+        boxes = []
+
+        layer = get_layer(layer)
+
+        if recursive:
+            iterator = self.begin_shapes_rec(layer)
+
+            while not (iterator.at_end()):
+                shape = iterator.shape()
+                iterator.next()
+                if shape.is_box():
+                    boxes.append(shape.dbox.transformed(iterator.dtrans()))
+        else:
+            boxes.extend(
+                shape.dbox for shape in self.shapes(layer).each(kdb.Shapes.Boxes)
+            )
+        return boxes
+
     def area(self, layer: LayerSpec) -> float:
         """Returns the area of the Component in um2."""
         from gdsfactory import get_layer
@@ -908,16 +888,14 @@ class Component(kf.KCell):
 
     def to_dict(self, with_ports: bool = False) -> dict[str, Any]:
         """Returns a dictionary representation of the Component."""
-        d = clean_value_json(
-            {
-                "name": self.name,
-                "info": self.info.model_dump(exclude_none=True),
-                "settings": self.settings.model_dump(exclude_none=True),
-            }
-        )
+        d = {
+            "name": self.name,
+            "info": self.info.model_dump(exclude_none=True),
+            "settings": self.settings.model_dump(exclude_none=True),
+        }
         if with_ports:
             d["ports"] = {port.name: to_dict(port) for port in self.ports}
-        return d
+        return clean_value_json(d)
 
     def plot(
         self,
@@ -938,16 +916,21 @@ class Component(kf.KCell):
 
         from gdsfactory.pdk import get_layer_views
 
-        gdspath = self.write_gds()
-        lyp_path = gdspath.with_suffix(".lyp")
-
+        lyp_path = GDSDIR_TEMP / "layer_properties.lyp"
         layer_views = get_layer_views()
         layer_views.to_lyp(filepath=lyp_path)
 
         layout_view = lay.LayoutView()
-        layout_view.load_layout(str(gdspath.absolute()))
+        cell_view_index = layout_view.create_layout(True)
+        layout_view.active_cellview_index = cell_view_index
+        cell_view = layout_view.cellview(cell_view_index)
+        layout = cell_view.layout()
+        layout.assign(kf.kcl.layout)
+        cell_view.cell = layout.cell(self.name)
+
         layout_view.max_hier()
         layout_view.load_layer_props(str(lyp_path))
+        layout_view.zoom_fit()
 
         layout_view.set_config("text-visible", "true" if show_labels else "false")
         layout_view.set_config("grid-show-ruler", "true" if show_ruler else "false")
@@ -994,6 +977,47 @@ class Component(kf.KCell):
     def ref(self, *args, **kwargs) -> kdb.DCellInstArray:
         """Returns a Component Instance."""
         raise ValueError("ref() is deprecated. Use add_ref() instead")
+
+
+class Component(ComponentBase, kf.KCell):
+    """Canvas where you add polygons, instances and ports.
+
+    - stores settings that you use to build the component
+    - stores info that you want to use
+    - can return ports by type (optical, electrical ...)
+    - can return netlist for circuit simulation
+    - can write to GDS, OASIS
+    - can show in KLayout, matplotlib or 3D
+
+    Properties:
+        info: dictionary that includes derived properties, simulation_settings, settings (test_protocol, docs, ...)
+    """
+
+    def __init__(
+        self,
+        name: str | None = None,
+        kcl: kf.KCLayout | None = None,
+        kdb_cell: kdb.Cell | None = None,
+        ports: kf.Ports | None = None,
+    ):
+        """Initializes a Component."""
+        self.insts = ComponentReferences()
+        super().__init__(name=name, kcl=kcl, kdb_cell=kdb_cell, ports=ports)
+
+    def __lshift__(self, component: gf.Component) -> ComponentReference:  # type: ignore[override]
+        """Creates a Componenteference reference to a Component."""
+        return ComponentReference(kf.KCell.create_inst(self, component))
+
+
+class ComponentAllAngle(ComponentBase, kf.VKCell):
+    def plot(self, **kwargs) -> None:
+        """Plots the Component using klayout."""
+        c = Component()
+        if self.name is not None:
+            c.name = self.name
+
+        kf.VInstance(self).insert_into_flat(c, levels=0)
+        c.plot(**kwargs)
 
 
 @kf.cell
@@ -1049,8 +1073,16 @@ if __name__ == "__main__":
     # c = c.remove_layers(layers=[(1, 0), (2, 0)], recursive=True)
     # c = c.extract(layers=[(1, 0)])
 
-    # c = Component()
-    # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=(1, 0))
+    c1 = Component()
+    s = c1.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=(1, 0))
+    c = Component()
+    c << c1
+    # r = kdb.Region(s.polygon)
+    # r.size(2000)  # size in DBU, and 1DBU = 1nm
+    # c.add_polygon(r, layer=(2, 0))
+    p = c.get_polygons()
+    print(p)
+
     # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer="SLAB150")
     # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=LAYER.WG)
     # c.create_port(name="o1", position=(10, 10), angle=1, layer=LAYER.WG, width=2000)
@@ -1077,7 +1109,7 @@ if __name__ == "__main__":
     # scene = c.to_3d()
     # scene.show()
 
-    c = gf.c.straight()
+    # c = gf.c.straight()
     # print(c.to_dict())
     # print(c.area(layer=(1, 0)))
     # stl = gf.export.to_stl(c)

@@ -78,9 +78,8 @@ def mzit(
     """
     c = gf.Component()
 
-    xs = gf.get_cross_section(cross_section)
-    xs1 = xs.copy(width=w1)
-    xs2 = xs.copy(width=w2)
+    xs1 = gf.get_cross_section(cross_section=cross_section, width=w1)
+    xs2 = gf.get_cross_section(cross_section=cross_section, width=w2)
 
     cp2 = c << gf.get_component(
         coupler2,

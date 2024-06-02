@@ -68,7 +68,7 @@ def taper(
     if length:
         xpts = [0, length, length, 0]
         ypts = [y1, y2, -y2, -y1]
-        c.add_polygon((xpts, ypts), layer=layer)
+        c.add_polygon(tuple(zip(xpts, ypts)), layer=layer)
 
         xpts = [0, length, length, 0]
         for section in x.sections[1:]:
@@ -82,7 +82,7 @@ def taper(
                 y2 = section.width / 2 + delta_width / 2
                 ypts = [y1, y2, -y2, -y1]
                 ypts = [y - section.offset for y in ypts]
-            c.add_polygon((xpts, ypts), layer=layer)
+            c.add_polygon(tuple(zip(xpts, ypts)), layer=layer)
 
     if with_bbox:
         x.add_bbox(c)
@@ -185,6 +185,7 @@ def taper_strip_to_ridge(
 
     if length:
         xs.add_bbox(c)
+    c.flatten()
     return c
 
 

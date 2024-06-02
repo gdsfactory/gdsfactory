@@ -44,20 +44,6 @@ plugins = [
     "lumapi",
     "sax",
 ]
-pdks = [
-    "aim",
-    "amf",
-    "ct",
-    "gf180",
-    "gf45",
-    "hhi",
-    "imec",
-    "sky130",
-    "sph",
-    "tj",
-    "ubcpdk",
-    "gvtt",
-]
 
 
 class ErrorType(Enum):
@@ -104,27 +90,6 @@ def print_version_plugins_raw() -> None:
                 print(plugin)
         except ImportError:
             print(plugin, "not installed", "")
-
-
-def print_version_pdks() -> None:
-    """Print gdsfactory PDK versions and paths."""
-    table = Table(title="PDKs")
-    table.add_column("Package", justify="right", style="cyan", no_wrap=True)
-    table.add_column("version", style="magenta")
-    table.add_column("Path", justify="right", style="green")
-
-    for pdk in pdks:
-        try:
-            m = importlib.import_module(pdk)
-            try:
-                table.add_row(pdk, str(m.__version__), str(m.__path__))
-            except AttributeError:
-                table.add_row(pdk, "", "")
-        except ImportError:
-            table.add_row(pdk, "not installed", "")
-
-    console = Console()
-    console.print(table)
 
 
 CONF = config

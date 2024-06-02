@@ -96,6 +96,7 @@ def version_stamp(
 
 
 if __name__ == "__main__":
+    c = pixel()
     c = version_stamp(
         pixel_size=4,
         layer="M1",

@@ -6,4 +6,4 @@ settings:
   layer_cladding: WGCLAD
   layer_core: WG
   n: 8
-  pitch: 127.0
+  pitch: 127

@@ -16,6 +16,7 @@ from kfactory import LayerEnum
 from omegaconf import DictConfig
 from pydantic import BaseModel, ConfigDict, Field
 
+from gdsfactory import logger
 from gdsfactory.config import CONF
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
 from gdsfactory.symbols import floorplan_with_block_letters
@@ -23,6 +24,7 @@ from gdsfactory.technology import LayerStack, LayerViews
 from gdsfactory.typings import (
     CellSpec,
     Component,
+    ComponentBase,
     ComponentFactory,
     ComponentSpec,
     ConnectivitySpec,
@@ -176,7 +178,7 @@ class Pdk(BaseModel):
         if self is _ACTIVE_PDK:
             return None
 
-        CONF.logger.debug(f"{self.name!r} PDK is now active")
+        logger.debug(f"{self.name!r} PDK is now active")
 
         for pdk in self.base_pdks:
             cross_sections = pdk.cross_sections
@@ -249,20 +251,20 @@ class Pdk(BaseModel):
                         f"ERROR: Cell name {name!r} from {filepath} already registered."
                     )
                 self.cells[name] = cell_from_yaml_template(filepath, name=name)
-                CONF.logger.info(f"{message} cell {name!r}")
+                logger.info(f"{message} cell {name!r}")
 
         for k, v in kwargs.items():
             if not update and k in self.cells:
                 raise ValueError(f"ERROR: Cell name {k!r} already registered.")
             self.cells[k] = v
-            CONF.logger.info(f"{message} cell {k!r}")
+            logger.info(f"{message} cell {k!r}")
 
     def remove_cell(self, name: str):
         """Removes cell from a PDK."""
         if name not in self.cells:
             raise ValueError(f"{name!r} not in {list(self.cells.keys())}")
         self.cells.pop(name)
-        CONF.logger.info(f"Removed cell {name!r}")
+        logger.info(f"Removed cell {name!r}")
 
     def get_cell(self, cell: CellSpec, **kwargs) -> ComponentFactory:
         """Returns ComponentFactory from a cell spec."""
@@ -318,11 +320,11 @@ class Pdk(BaseModel):
         component: ComponentSpec,
         cells: dict[str, Callable],
         **kwargs,
-    ) -> Component:
+    ) -> ComponentBase:
         """Returns component from a component spec."""
         cells = set(cells.keys())
 
-        if isinstance(component, Component):
+        if isinstance(component, ComponentBase):
             if kwargs:
                 raise ValueError(f"Cannot apply kwargs {kwargs} to {component.name!r}")
             return component
@@ -520,7 +522,7 @@ def get_active_pdk(name: str | None = None) -> Pdk:
             pdk_module.PDK.activate()
 
         else:
-            CONF.logger.debug("No active PDK. Activating generic PDK.\n")
+            logger.debug("No active PDK. Activating generic PDK.\n")
             from gdsfactory.generic_tech import get_generic_pdk
 
             PDK = get_generic_pdk()

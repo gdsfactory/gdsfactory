@@ -16,11 +16,16 @@ from gdsfactory.components.add_trenches import add_trenches, add_trenches90
 from gdsfactory.components.align import add_frame, align_wafer
 from gdsfactory.components.array_component import array
 from gdsfactory.components.bbox import bbox
-from gdsfactory.components.bend_circular import bend_circular, bend_circular180
+from gdsfactory.components.bend_circular import (
+    bend_circular,
+    bend_circular180,
+    bend_circular_all_angle,
+)
 from gdsfactory.components.bend_circular_heater import bend_circular_heater
 from gdsfactory.components.bend_euler import (
     bend_euler,
     bend_euler180,
+    bend_euler_all_angle,
     bend_euler_s,
 )
 from gdsfactory.components.bend_s import bend_s
@@ -208,8 +213,8 @@ from gdsfactory.components.ring import ring
 from gdsfactory.components.ring_crow import ring_crow
 from gdsfactory.components.ring_crow_couplers import ring_crow_couplers
 from gdsfactory.components.ring_double import ring_double
-from gdsfactory.components.ring_double_heater import ring_double_heater
 from gdsfactory.components.ring_double_pn import ring_double_pn
+from gdsfactory.components.ring_heater import ring_double_heater, ring_single_heater
 from gdsfactory.components.ring_single import ring_single
 from gdsfactory.components.ring_single_array import ring_single_array
 from gdsfactory.components.ring_single_bend_coupler import (
@@ -217,7 +222,6 @@ from gdsfactory.components.ring_single_bend_coupler import (
     ring_single_bend_coupler,
 )
 from gdsfactory.components.ring_single_dut import ring_single_dut, taper2
-from gdsfactory.components.ring_single_heater import ring_single_heater
 from gdsfactory.components.ring_single_pn import ring_single_pn
 from gdsfactory.components.seal_ring import seal_ring
 from gdsfactory.components.snspd import snspd
@@ -231,7 +235,7 @@ from gdsfactory.components.spiral_heater import (
 )
 from gdsfactory.components.splitter_chain import splitter_chain
 from gdsfactory.components.splitter_tree import splitter_tree, switch_tree
-from gdsfactory.components.straight import straight
+from gdsfactory.components.straight import straight, straight_all_angle
 from gdsfactory.components.straight_array import straight_array
 from gdsfactory.components.straight_heater_doped import (
     straight_heater_doped_rib,
@@ -266,7 +270,7 @@ from gdsfactory.components.taper_cross_section import (
 from gdsfactory.components.taper_from_csv import taper_from_csv
 from gdsfactory.components.taper_parabolic import taper_parabolic
 from gdsfactory.components.terminator import terminator
-from gdsfactory.components.text import text, text_lines
+from gdsfactory.components.text import text, text_klayout, text_lines
 from gdsfactory.components.text_freetype import text_freetype
 from gdsfactory.components.text_rectangular import (
     text_rectangular,
@@ -307,7 +311,9 @@ __all__ = [
     "bend_circular",
     "bend_circular180",
     "bend_circular_heater",
+    "bend_circular_all_angle",
     "bend_euler",
+    "bend_euler_all_angle",
     "bend_euler180",
     "bend_euler_s",
     "bend_s",
@@ -487,6 +493,7 @@ __all__ = [
     "splitter_tree",
     "staircase",
     "straight",
+    "straight_all_angle",
     "straight_array",
     "straight_heater_doped_rib",
     "straight_heater_doped_strip",
@@ -515,6 +522,7 @@ __all__ = [
     "taper_strip_to_ridge_trenches",
     "terminator",
     "text",
+    "text_klayout",
     "text_freetype",
     "text_lines",
     "text_rectangular",

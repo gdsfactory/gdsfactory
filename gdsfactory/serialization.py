@@ -9,7 +9,7 @@ import pathlib
 from collections.abc import KeysView as dict_keys
 from typing import Any
 
-import gdstk
+import kfactory as kf
 import numpy as np
 import orjson
 import pydantic
@@ -60,6 +60,8 @@ def clean_value_json(
         return int(value)
 
     elif isinstance(value, float | np.inexact | np.float64):
+        if value == round(value):
+            return int(value)
         return float(np.round(value, DEFAULT_SERIALIZATION_MAX_DIGITS))
 
     elif isinstance(value, complex | np.complex64 | np.complex128):
@@ -86,6 +88,9 @@ def clean_value_json(
             else {"function": value.__name__}
         )
 
+    elif isinstance(value, kf.LayerEnum):
+        return str(value)
+
     elif isinstance(value, Path):
         return value.hash_geometry()
 
@@ -100,9 +105,6 @@ def clean_value_json(
 
     elif isinstance(value, list | tuple | set | dict_keys):
         return tuple([clean_value_json(i) for i in value])
-
-    elif isinstance(value, gdstk.Polygon):
-        return np.round(value.points, DEFAULT_SERIALIZATION_MAX_DIGITS)
 
     else:
         try:

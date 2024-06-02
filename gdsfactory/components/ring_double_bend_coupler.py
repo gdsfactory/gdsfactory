@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bend_circular import bend_circular
+from gdsfactory.components.bend_circular import bend_circular_all_angle
 from gdsfactory.components.ring_single_bend_coupler import coupler_ring_bend
 from gdsfactory.components.straight import straight
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
@@ -13,7 +13,7 @@ def ring_double_bend_coupler(
     radius: float = 5.0,
     gap: float = 0.2,
     coupling_angle_coverage: float = 70.0,
-    bend: ComponentSpec = bend_circular,
+    bend: ComponentSpec = bend_circular_all_angle,
     length_x: float = 0.6,
     length_y: float = 0.6,
     cross_section_inner: CrossSectionSpec = "strip",

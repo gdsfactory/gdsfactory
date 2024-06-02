@@ -7,7 +7,7 @@ from functools import partial
 
 import numpy as np
 
-Value = float | tuple | np.ndarray
+Value = float | tuple[float, ...] | np.ndarray
 
 
 def is_on_grid(
@@ -61,14 +61,8 @@ def snap_to_grid(
 
     grid_size = gf.kcl.dbu
 
-    nm = nm or int(grid_size * 1000 * grid_factor)
-    y = nm * np.round(np.asarray(x, dtype=float) * 1e3 / nm) / 1e3
-
-    if isinstance(x, tuple):
-        return tuple(y)
-    elif isinstance(x, int | float | str | np.float_):
-        return float(y)
-    return y
+    nm = nm or round(grid_size * 1000 * grid_factor)
+    return nm * np.round(np.asarray(x, dtype=float) * 1e3 / nm) / 1e3
 
 
 snap_to_grid2x = partial(snap_to_grid, grid_factor=2)

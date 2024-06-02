@@ -9,9 +9,9 @@ settings:
   - SLAB90
   - NPP
   pad: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLSLAB90_NPP_M1_VNone_None_Fvia_Mgdsfactorypcomponentspvia_SLVIAC_S80_80
-  pad_pitch: 100.0
+  pad_pitch: 100
   pad_port_name: e4
   pad_size:
-  - 50.0
-  - 50.0
-  width: 10.0
+  - 50
+  - 50
+  width: 10

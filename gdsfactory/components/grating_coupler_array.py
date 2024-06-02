@@ -46,7 +46,7 @@ def grating_coupler_array(
     if with_loopback:
         if rotation != -90:
             raise ValueError(
-                "with_loopback is currently only programmed to work with rotation = 90"
+                f"with_loopback works only with rotation = -90, got {rotation=}"
             )
         routing_xs = gf.get_cross_section(cross_section)
         radius = routing_xs.radius
@@ -55,14 +55,15 @@ def grating_coupler_array(
         port1 = c.ports[f"o{n-1}"]
         radius = radius
         radius_dbu = round(radius / c.kcl.dbu)
-
+        d_loop_um = straight_to_grating_spacing + max(
+            [grating_coupler.dysize, grating_coupler.dxsize]
+        )
+        d_loop = round(d_loop_um / c.kcl.dbu) + radius_dbu
         waypoints = kf.routing.optical.route_loopback(
             port0,
             port1,
             bend90_radius=radius_dbu,
-            d_loop=round(straight_to_grating_spacing / c.kcl.dbu)
-            + radius_dbu
-            + gc.ysize,
+            d_loop=d_loop,
         )
 
         gf.routing.route_single(

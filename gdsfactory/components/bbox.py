@@ -36,8 +36,8 @@ def bbox_to_points(
 
 @gf.cell
 def bbox(
-    component: gf.Component | gf.Instance = "L",
-    layer: LayerSpec = (1, 0),
+    component: gf.Component | gf.Instance,
+    layer: LayerSpec,
     top: float = 0,
     bottom: float = 0,
     left: float = 0,

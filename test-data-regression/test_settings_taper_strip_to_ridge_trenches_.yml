@@ -2,9 +2,9 @@ info: {}
 name: taper_strip_to_ridge_tr_15447408
 settings:
   layer_wg: WG
-  length: 10.0
-  slab_offset: 3.0
+  length: 10
+  slab_offset: 3
   trench_layer: DEEP_ETCH
   trench_offset: 0.1
-  trench_width: 2.0
+  trench_width: 2
   width: 0.5
