@@ -62,8 +62,8 @@ def splitter_tree(
     dx, dy = spacing
 
     coupler = gf.get_component(coupler)
-    coupler_ports_west = coupler.get_ports_list(port_type="optical", orientation=180)
-    coupler_ports_east = coupler.get_ports_list(port_type="optical", orientation=0)
+    coupler_ports_west = coupler.ports.filter(port_type="optical", orientation=180)
+    coupler_ports_east = coupler.ports.filter(port_type="optical", orientation=0)
 
     e1_port_name = coupler_ports_east[0].name
     e0_port_name = coupler_ports_east[1].name
@@ -100,9 +100,9 @@ def splitter_tree(
                         i += 1
             if col > 0:
                 if row % 2 == 0:
-                    port_name = e1_port_name
-                if row % 2 == 1:
                     port_name = e0_port_name
+                if row % 2 == 1:
+                    port_name = e1_port_name
                 gf.routing.route_single(
                     c,
                     c.insts[f"coupler_{col-1}_{row//2}"].ports[port_name],
@@ -127,7 +127,8 @@ def splitter_tree(
             if col == cols - 1 and bend_s:
                 btop = c << bend_s
                 bbot = c << bend_s
-                btop.connect("o1", coupler_ref.ports[e1_port_name], mirror=True)
+                bbot.mirror()
+                btop.connect("o1", coupler_ref.ports[e1_port_name])
                 bbot.connect("o1", coupler_ref.ports[e0_port_name])
                 port = btop.ports["o2"]
                 c.add_port(name=f"{port.name}_{col}_{i}", port=port)
@@ -183,14 +184,14 @@ if __name__ == "__main__":
     #     # dy=100.0,
     #     # layer=(2, 0),
     # )
-    # c = splitter_tree(
-    #     noutputs=2**3,
-    #     spacing=(120.0, 100.0),
-    #     # bend_length=30,
-    #     # bend_s=None,
-    #     # cross_section="rib2",
-    # )
-    c = switch_tree(noutputs=2**3)
+    c = splitter_tree(
+        noutputs=2**3,
+        spacing=(120.0, 100.0),
+        # bend_length=30,
+        # bend_s=None,
+        # cross_section="rib2",
+    )
+    # c = switch_tree(noutputs=2**3)
     # c = _mzi1x2_2x2()
     c.show()
     # print(len(c.ports))
