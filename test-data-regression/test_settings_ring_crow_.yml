@@ -1,17 +1,17 @@
 info: {}
-name: ring_crow_G0p2_0p2_0p2__3f923492
+name: ring_crow_G0p2_0p2_0p2__5abcdbba
 settings:
-  bends:
-  - bend_circular
-  - bend_circular
-  - bend_circular
+  cross_section: strip
   gaps:
   - 0.2
   - 0.2
   - 0.2
   - 0.2
-  input_straight_cross_section: strip
-  output_straight_cross_section: strip
+  length_x: 0
+  lengths_y:
+  - 0
+  - 0
+  - 0
   radius:
   - 10
   - 10
