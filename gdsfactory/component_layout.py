@@ -5,17 +5,12 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 
 from __future__ import annotations
 
-import typing
-
 import kfactory as kf
 import numpy as np
 from numpy import cos, pi, sin
 from numpy.linalg import norm
 from rich.console import Console
 from rich.table import Table
-
-if typing.TYPE_CHECKING:
-    pass
 
 Coordinate = tuple[float, float]
 
