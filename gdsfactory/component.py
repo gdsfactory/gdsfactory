@@ -540,7 +540,7 @@ class ComponentBase:
         """
         polygons_dict = self.get_polygons(merge=merge)
         polygons_points = {}
-        for layer_tuple, polygons in polygons_dict.items():
+        for layer, polygons in polygons_dict.items():
             all_points = []
             for polygon in polygons:
                 if scale:
@@ -558,7 +558,7 @@ class ComponentBase:
                         .each_point()
                     ]
                 all_points.append(points)
-            polygons_points[layer_tuple] = all_points
+            polygons_points[layer] = all_points
         return polygons_points
 
     def get_labels(
