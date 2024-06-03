@@ -108,8 +108,8 @@ def get_pin_triangle_polygon_tip(
     if orientation is None:
         raise ValueError("Port {port.name!r} needs to have an orientation.")
 
-    ca = np.cos(orientation * np.pi / 180)
-    sa = np.sin(orientation * np.pi / 180)
+    ca = np.round(np.cos(orientation * np.pi / 180), 12)
+    sa = np.round(np.sin(orientation * np.pi / 180), 12)
     rot_mat = np.array([[ca, -sa], [sa, ca]])
     d = p.width / 2
 
