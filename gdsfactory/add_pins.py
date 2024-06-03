@@ -111,7 +111,7 @@ def get_pin_triangle_polygon_tip(
     ca = np.round(np.cos(orientation * np.pi / 180), 12)
     sa = np.round(np.sin(orientation * np.pi / 180), 12)
     rot_mat = np.array([[ca, -sa], [sa, ca]])
-    d = p.width / 2
+    d = p.dwidth / 2
 
     dtip = np.array([d, 0])
 
