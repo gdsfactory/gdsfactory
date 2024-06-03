@@ -20,7 +20,7 @@ def straight_heater_meander(
     port_orientation1: float | None = None,
     port_orientation2: float | None = None,
     heater_taper_length: float | None = 10.0,
-    straight_widths: Floats = (0.8, 0.9, 0.8),
+    straight_widths: Floats | None = (0.8, 0.9, 0.8),
     taper_length: float = 10,
     n: int | None = None,
     straight: ComponentSpec = straight_function,
@@ -61,6 +61,15 @@ def straight_heater_meander(
         (length - (rows - 1) * route_length * c.kcl.dbu) / rows, grid_factor=2
     )
     ports = {}
+
+    x = gf.get_cross_section(cross_section)
+
+    radius = radius or x.radius
+
+    if n and not straight_widths:
+        if n % 2 == 0:
+            raise ValueError(f"n={n} should be odd")
+        straight_widths = [x.width] * n
 
     ##############
     # Straights

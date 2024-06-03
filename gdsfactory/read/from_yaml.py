@@ -280,19 +280,21 @@ def place(
             elif isinstance(mirror, int | float):
                 ref.dmirror_x(x=ref.dx)
             else:
+                port_names = [port.name for port in ref.ports]
                 raise ValueError(
-                    f"{mirror!r} can only be a port name {ref.ports.keys()}, "
+                    f"{mirror!r} can only be a port name {port_names}, "
                     "x value or True/False"
                 )
 
         if port:
             a = _get_anchor_point_from_name(ref, port)
             if a is None:
+                port_names = [port.name for port in ref.ports]
                 raise ValueError(
                     f"Port {port!r} is neither a valid port on {ref.parent.name!r}"
                     " nor a recognized anchor keyword.\n"
                     "Valid ports: \n"
-                    f"{list(ref.ports.keys())}. \n"
+                    f"{port_names}. \n"
                     "Valid keywords: \n"
                     f"{valid_anchor_point_keywords}",
                 )
@@ -912,8 +914,8 @@ def from_yaml(
                     #         f" {instance_dst_name!r}"
                     #     )
 
-                    ports1.append(instance_src.ports[port_src_name])
-                    ports2.append(instance_dst.ports[port_dst_name])
+                    ports1.append(instance_src[port_src_name])
+                    ports2.append(instance_dst[port_dst_name])
                     route_name = f"{port_src_string}:{port_dst_string}"
                     route_names.append(route_name)
 

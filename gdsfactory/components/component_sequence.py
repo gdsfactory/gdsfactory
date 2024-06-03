@@ -133,9 +133,10 @@ def component_sequence(
     try:
         component.add_port(name=port_name1, port=prev_device.ports[input_port])
     except KeyError as exc:
+        port_names = [port.name for port in prev_device.ports]
         raise KeyError(
             f"{prev_device.parent.name!r} input_port {input_port!r} "
-            f"not in {list(prev_device.ports.keys())}"
+            f"not in {port_names}"
         ) from exc
 
     while index < len(sequence):
@@ -167,9 +168,10 @@ def component_sequence(
         try:
             ref.connect(input_port, prev_device.ports[prev_port])
         except KeyError as exc:
+            port_names = [port.name for port in prev_device.ports]
             raise KeyError(
                 f"{prev_device.parent.name!r} port {prev_port!r} "
-                f"not in {list(prev_device.ports.keys())}"
+                f"not in {port_names}"
             ) from exc
 
         prev_device = ref

@@ -23,7 +23,7 @@ placements:
 
 routes:
     optical:
-        routing_strategy: get_bundle_all_angle
+        routing_strategy: route_bundle_all_angle
         settings:
           bend:  # you can specify a custom bend to use, either by name or with expanded syntax as shown
             component: bend_circular

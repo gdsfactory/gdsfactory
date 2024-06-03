@@ -76,20 +76,12 @@ def compass(
                 layer=layer,
                 port_type=port_type,
             )
-        if port_orientations is None:
-            c.add_port(
-                name="pad",
-                center=(0, 0),
-                width=dy,
-                orientation=None,
-                layer=layer,
-                port_type=port_type,
-            )
 
         c.auto_rename_ports()
     return c
 
 
 if __name__ == "__main__":
-    c = compass(size=(0, 0), port_type=None)
+    c = compass(size=(10, 4), port_type="electrical")
+    c.pprint_ports()
     c.show()
