@@ -557,7 +557,7 @@ class ComponentBase:
                         .to_dtype(self.kcl.dbu)
                         .each_point()
                     ]
-                all_points.extend(points)
+                all_points.append(points)
             polygons_points[layer] = all_points
         return polygons_points
 
