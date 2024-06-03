@@ -14,7 +14,7 @@ from gdsfactory.read.import_gds import import_gds
 from gdsfactory.typings import PathType
 
 script_prefix = """
-from pathlib import PosixPath
+from pathlib import Path
 from functools import partial
 import gdsfactory as gf
 
@@ -56,7 +56,7 @@ def {cell}()->gf.Component:
       c = {module}.{cell}()
       c.plot()
     '''
-    return import_gds({str(gdspath)!r})
+    return import_gds(gdsdir/{str(gdspath)!r})
 
 """
 
@@ -66,7 +66,7 @@ def {cell}()->gf.Component:
 @gf.cell
 def {cell}()->gf.Component:
     '''Returns {cell} fixed cell.'''
-    return import_gds({str(gdspath)!r})
+    return import_gds(gdsdir/{str(gdspath)!r})
 
 """
 
@@ -91,10 +91,8 @@ def get_import_gds_script(dirpath: PathType, module: str | None = None) -> str:
     logger.info(f"Writing {len(gdspaths)} cells from {dirpath.absolute()!r}")
 
     script = [script_prefix]
-    script += [f"gdsdir = {str(dirpath.absolute())!r}\n"]
-    script += [
-        "import_gds = partial(gf.import_gds, gdsdir=gdsdir, decorator=add_ports)\n"
-    ]
+    script += [f"gdsdir = Path({str(dirpath.absolute())!r})\n"]
+    script += ["import_gds = partial(gf.import_gds, decorator=add_ports)\n"]
 
     cells = [get_script(gdspath, module=module) for gdspath in gdspaths]
     script += sorted(cells)
