@@ -545,7 +545,7 @@ def add_ports_from_labels(
                 orientation = 270
 
         if fail_on_duplicates and port_name in component.ports:
-            component_ports = list(component.ports.keys())
+            component_ports = [port.name for port in component.ports]
             raise ValueError(
                 f"port {port_name!r} already in {component_ports}. "
                 "You can pass a port_name_prefix to add it with a different name."
