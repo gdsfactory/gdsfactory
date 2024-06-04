@@ -1,0 +1,19 @@
+info:
+  xsize: 11
+  ysize: 11
+name: via_stack_S11_11_LWG_NP_ad1281ff
+settings:
+  correct_size: true
+  layers:
+  - WG
+  - NPP
+  - M1
+  size:
+  - 11
+  - 11
+  slot_horizontal: false
+  slot_vertical: false
+  vias:
+  - null
+  - null
+  - Fvia_Mgdsfactorypcomponentspvia_SLVIAC
