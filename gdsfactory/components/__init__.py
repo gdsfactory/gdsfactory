@@ -271,6 +271,7 @@ from gdsfactory.components.text import text, text_klayout, text_lines
 from gdsfactory.components.text_freetype import text_freetype
 from gdsfactory.components.text_rectangular import (
     text_rectangular,
+    text_rectangular_mini,
     text_rectangular_multi_layer,
 )
 from gdsfactory.components.triangles import triangle, triangle2, triangle4
@@ -526,6 +527,7 @@ __all__ = [
     "text_lines",
     "text_rectangular",
     "text_rectangular_multi_layer",
+    "text_rectangular_mini",
     "triangle",
     "triangle2",
     "triangle4",

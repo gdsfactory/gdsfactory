@@ -56,7 +56,7 @@ if __name__ == "__main__":
     component_type = "ring_double"
     component_type = "ring_single_array"
     component_type = "ring_single"
-    component_type = "pad_array"
+    component_type = "cdsem_straight"
     c1 = cells[component_type]()
     n = c1.get_netlist(allow_multiple=True)
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
@@ -65,5 +65,6 @@ if __name__ == "__main__":
     c2 = gf.read.from_yaml(yaml_str)
     n2 = c2.get_netlist()
     d = jsondiff.diff(n, n2)
-    print(d)
+    d.pop("warnings", None)
+    assert len(d) == 0, d
     c2.show()

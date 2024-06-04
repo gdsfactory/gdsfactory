@@ -167,7 +167,6 @@ def get_netlist(
             "mirror": reference.dtrans.mirror,
         }
         if is_array:
-            parent_ports = c.ports
             for i in range(reference.nb):
                 for j in range(reference.na):
                     reference_name = f"{base_reference_name}__{i + 1}_{j + 1}"
@@ -181,17 +180,6 @@ def get_netlist(
                         "mirror": reference.dcplx_trans.mirror,
                     }
 
-                    parent_port_names = [port.name for port in parent_ports]
-                    for parent_port_name in parent_port_names:
-                        top_name = f"{parent_port_name}_{i + 1}_{j + 1}"
-                        lower_name = f"{reference_name},{parent_port_name}"
-                        # a bit of a hack... get the top-level port for the
-                        # ComponentArray, by our known naming convention. I hope no one
-                        # renames these ports!
-                        parent_port = component.ports[top_name]
-                        name2port[lower_name] = parent_port
-                        top_ports_list.add(top_name)
-                        ports_by_type[parent_port.port_type].append(lower_name)
         else:
             # lower level ports
             for port in reference.ports:
