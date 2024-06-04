@@ -545,14 +545,17 @@ if __name__ == "__main__":
 
     import gdsfactory as gf
 
-    c = gf.Component()
-    mzi = c << gf.c.mzi()
-    mzi.dxmin = 10
+    # c = gf.Component()
+    # mzi = c << gf.c.mzi()
+    # mzi.dxmin = 10
+    # mzi.name = "mzi"
+    # bend = c << gf.c.bend_euler()
+    # bend.connect("o1", mzi.ports["o2"])
+    # bend.name = "bend"
+    # c.add_port("o1", port=mzi.ports["o1"])
+    # c.add_port("o2", port=bend.ports["o2"])
 
-    mzi.name = "mzi"
-    bend = c << gf.c.bend_euler()
-    bend.connect("o1", mzi.ports["o2"])
-    bend.name = "bend"
+    c = gf.c.array()
     n0 = c.get_netlist()
     # pprint(n0)
 
