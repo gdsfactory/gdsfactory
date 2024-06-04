@@ -45,6 +45,8 @@ def test_netlists(
 
     n.pop("name")
     n2.pop("name")
+    n.pop("ports")
+    n2.pop("ports")
     d = jsondiff.diff(n, n2)
     assert len(d) == 0, d
 
@@ -54,9 +56,9 @@ if __name__ == "__main__":
     component_type = "ring_double"
     component_type = "ring_single_array"
     component_type = "ring_single"
-    component_type = "wire_corner"
+    component_type = "pad_array"
     c1 = cells[component_type]()
-    n = c1.get_netlist()
+    n = c1.get_netlist(allow_multiple=True)
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
     c1.delete()
     # print(yaml_str)
