@@ -1,0 +1,20 @@
+connections: {}
+instances:
+  boolean_Abbox_Cbend_eul_eaa29dee_5125_3875:
+    component: boolean
+    info: {}
+    settings:
+      A: bbox_Cbend_euler_RNone__3a63f3ab
+      B: bend_euler_RNone_A90_P0_d7c3a5a9
+      layer: DEEP_ETCH
+      layer1: DEEP_ETCH
+      layer2: WG
+      operation: not
+name: add_trenches_Cbend_eule_455642d5
+placements:
+  boolean_Abbox_Cbend_eul_eaa29dee_5125_3875:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+ports: {}

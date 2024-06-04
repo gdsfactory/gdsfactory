@@ -1,0 +1,39 @@
+connections: {}
+instances:
+  taper_L150_W0p5_W11_PNo_497f27e7_75000_0:
+    component: taper
+    info:
+      length: 150
+      width1: 0.5
+      width2: 11
+    settings:
+      cross_section: strip
+      length: 150
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
+      width1: 0.5
+      width2: 11
+      with_bbox: true
+      with_two_ports: true
+name: grating_coupler_rectang_484ead2a
+placements:
+  taper_L150_W0p5_W11_PNo_497f27e7_75000_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+ports:
+  o1: taper_L150_W0p5_W11_PNo_497f27e7_75000_0,o1
+warnings:
+  optical:
+    unconnected_ports:
+    - message: 1 unconnected optical ports!
+      ports:
+      - taper_L150_W0p5_W11_PNo_497f27e7_75000_0,o2
+      values:
+      - - 150000
+        - 0

@@ -1,0 +1,6 @@
+connections: {}
+instances: {}
+name: wire_corner_CSmetal_routing
+placements: {}
+ports:
+  e1: e2

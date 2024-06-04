@@ -1,0 +1,20 @@
+connections: {}
+instances:
+  boolean_Abbox_Ccoupler__307de0a7_10000_368:
+    component: boolean
+    info: {}
+    settings:
+      A: bbox_Ccoupler_G0p236_L2_6896f805
+      B: coupler_G0p236_L20_CSco_6803887a
+      layer: DEEP_ETCH
+      layer1: DEEP_ETCH
+      layer2: WG
+      operation: not
+name: add_trenches_Ccoupler_L_e65e8363
+placements:
+  boolean_Abbox_Ccoupler__307de0a7_10000_368:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+ports: {}

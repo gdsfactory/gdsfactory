@@ -1,0 +1,20 @@
+connections: {}
+instances:
+  boolean_Abbox_Cring_sin_57fc561c_-2000_10650:
+    component: boolean
+    info: {}
+    settings:
+      A: bbox_Cring_single_G0p2__aa4d4174
+      B: ring_single_G0p2_R10_LX_3ca26ca7
+      layer: DEEP_ETCH
+      layer1: DEEP_ETCH
+      layer2: WG
+      operation: not
+name: add_trenches_Cring_sing_5d85bfe1
+placements:
+  boolean_Abbox_Cring_sin_57fc561c_-2000_10650:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+ports: {}

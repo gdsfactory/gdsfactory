@@ -37,7 +37,6 @@ def add_trenches(
         kwargs: component settings.
     """
     component = gf.get_component(component, **kwargs)
-    c = gf.Component(f"{component.name}_trenches")
     xs = gf.get_cross_section(cross_section)
 
     top = top if top is not None else width_trench
@@ -47,7 +46,7 @@ def add_trenches(
 
     core = component
     clad = bbox(core, layer=layer_trench, top=top, bottom=bot, left=left, right=right)
-    trenches = gf.boolean(
+    c = gf.boolean(
         clad,
         core,
         operation="not",
@@ -56,14 +55,13 @@ def add_trenches(
         layer2=layer_component,
     )
 
-    _ = c << trenches
     c.add_ports(component.ports)
     c.copy_child_info(component)
     xs.add_bbox(c)
     return c
 
 
-add_trenches90 = partial(add_trenches, component=bend_euler, top=0, left=0)
+add_trenches90 = partial(add_trenches, component=bend_euler, top=0, left=0, right=None)
 
 if __name__ == "__main__":
     c = add_trenches90()

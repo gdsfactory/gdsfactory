@@ -5,29 +5,24 @@ from __future__ import annotations
 from functools import partial
 
 import gdsfactory as gf
-from gdsfactory.components.pad import pad as pad_function
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.typings import ComponentSpec, Float2, LayerSpec
-
-rectangle_m3 = partial(rectangle, layer="MTOP")
 
 
 @gf.cell
 def pad_gsg_short(
-    via_stack: ComponentSpec = rectangle_m3,
     size: Float2 = (22, 7),
     layer_metal: LayerSpec = "MTOP",
     metal_spacing: float = 5.0,
     short: bool = True,
-    pad: ComponentSpec = pad_function,
+    pad: ComponentSpec = "pad",
     pad_spacing: float = 150,
     route_xsize: float = 50,
 ) -> gf.Component:
     """Returns high speed GSG pads for calibrating the RF probes.
 
     Args:
-        via_stack: where the RF pads connect to.
-        size: for the via_stack.
+        size: for the short.
         layer_metal: for the short.
         metal_spacing: in um.
         short: if False returns an open.
@@ -37,7 +32,7 @@ def pad_gsg_short(
     """
     c = gf.Component()
 
-    via = gf.get_component(via_stack, size=size)
+    via = rectangle(size=size, layer=layer_metal)
     gnd_top = c << via
 
     if short:
