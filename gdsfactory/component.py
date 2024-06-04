@@ -103,6 +103,7 @@ _deprecated_attributes = {
 
 _deprecated_attributes_instance_settr = _deprecated_attributes - {"size_info"}
 _deprecated_attributes_component_gettr = _deprecated_attributes - {"move"}
+_deprecation_um = "in um is deprecated and will change to DataBaseUnits in gdsfactory9"
 
 
 class ComponentReference(kf.Instance):
@@ -124,8 +125,8 @@ class ComponentReference(kf.Instance):
             return object.__getattribute__(self, "_kfinst")
         if __k in _deprecated_attributes:
             logger.warning(
-                f"`{self._kfinst.name}.{__k}` is deprecated and will be removed soon."
-                f" Please use `{self._kfinst.name}.d{__k}` instead. For further information, please"
+                f"`{self._kfinst.name}.{__k}` {_deprecation_um}. "
+                f"Please use `{self._kfinst.name}.d{__k}` instead. For further information, please"
                 "consult the migration guide "
                 "https://gdsfactory.github.io/gdsfactory/notebooks/"
                 "21_migration_guide_7_8.html",
@@ -167,10 +168,10 @@ class ComponentReference(kf.Instance):
         """Set attribute with deprecation warning for dbu based attributes."""
         if __k in _deprecated_attributes_instance_settr:
             logger.warning(
-                f"Setting `{self._kfinst.name}.{__k}` is deprecated and will be removed soon."
-                f" Please use `{self._kfinst.name}.d{__k}` instead.",
+                f"Setting `{self._kfinst.name}.{__k}` {_deprecation_um}. "
+                f"Please use `{self._kfinst.name}.d{__k}` instead.",
             )
-            return super().__setattr__("d" + __k, __v)
+            return super().__setattr__(f"d{__k}", __v)
         super().__setattr__(__k, __v)
 
 
@@ -288,8 +289,8 @@ class ComponentBase:
         """Shadow dbu based attributes with um based ones."""
         if __k in _deprecated_attributes_component_gettr:
             logger.warning(
-                f"`{self.name}.{__k}` is deprecated and will be removed soon."
-                f" Please use {self.name}.`d{__k}` instead. For further information, please"
+                f"`{self.name}.{__k}` {_deprecation_um}. "
+                f"Please use {self.name}.`d{__k}` instead. For further information, please"
                 "consult the migration guide "
                 "https://gdsfactory.github.io/gdsfactory/notebooks/"
                 "21_migration_guide_7_8.html",
@@ -811,7 +812,13 @@ class ComponentBase:
     def get_netlist(
         self, recursive: bool = False, flat: bool = False, **kwargs
     ) -> dict[str, Any]:
-        """Returns a netlist for circuit simulation."""
+        """Returns a netlist for circuit simulation.
+
+        Args:
+            recursive: if True, returns a recursive netlist.
+            flat: if True, returns a flat netlist.
+            kwargs: keyword arguments to get_netlist.
+        """
         from gdsfactory.get_netlist import get_netlist, get_netlist_recursive
         from gdsfactory.get_netlist_flat import get_netlist_flat
 
@@ -1087,10 +1094,13 @@ if __name__ == "__main__":
     c1 = Component()
     s = c1.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=(1, 0))
     c = Component()
-    c << c1
+    ref = c << c1
+    ref.xmin = 10
+    ref.rotate(90)
     # r = kdb.Region(s.polygon)
     # r.size(2000)  # size in DBU, and 1DBU = 1nm
     # c.add_polygon(r, layer=(2, 0))
+
     p = c.get_polygons()
     print(p)
 
