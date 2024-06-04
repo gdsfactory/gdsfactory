@@ -1,14 +1,14 @@
 connections:
-  Unnamed_991_-999_-995,o1: bend_circular_R5_A180_N_5c159005_-2624_-5000,o1
-  Unnamed_991_999_995,o1: bend_circular_R5_A180_N_5c159005_2624_5000,o2
+  Unnamed_2_-999_-995,o1: bend_circular_R5_A180_N_5c159005_-2624_-5000,o1
+  Unnamed_2_999_995,o1: bend_circular_R5_A180_N_5c159005_2624_5000,o2
   bend_circular_R5_A180_N_5c159005_-2624_-5000,o2: bend_circular_R5_A180_N_5c159005_2624_5000,o1
 instances:
-  Unnamed_991_-999_-995:
+  Unnamed_2_-999_-995:
     component: null
     info:
       length: 301.839
     settings: {}
-  Unnamed_991_999_995:
+  Unnamed_2_999_995:
     component: null
     info:
       length: 301.839
@@ -49,12 +49,12 @@ instances:
       radius: 5
 name: spiral_double_MBR10_S2__307e8b5a
 placements:
-  Unnamed_991_-999_-995:
+  Unnamed_2_-999_-995:
     mirror: true
     rotation: 0
     x: 0
     y: 0
-  Unnamed_991_999_995:
+  Unnamed_2_999_995:
     mirror: true
     rotation: 180
     x: 0
@@ -70,5 +70,5 @@ placements:
     x: 0
     y: 0
 ports:
-  o1: Unnamed_991_999_995,o2
-  o2: Unnamed_991_-999_-995,o2
+  o1: Unnamed_2_999_995,o2
+  o2: Unnamed_2_-999_-995,o2

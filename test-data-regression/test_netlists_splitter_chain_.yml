@@ -1,0 +1,135 @@
+connections:
+  bend_s_S11_1p8_N99_CSst_71d8cbbd_21000_1525,o1: mmi1x2_WNone_WT1_LT10_L_4e0f7121_2750_0,o2
+  bend_s_S11_1p8_N99_CSst_71d8cbbd_21000_1525,o2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_39250_2425,o1
+  bend_s_S11_1p8_N99_CSst_71d8cbbd_57500_3950,o1: mmi1x2_WNone_WT1_LT10_L_4e0f7121_39250_2425,o2
+  bend_s_S11_1p8_N99_CSst_71d8cbbd_57500_3950,o2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_75750_4850,o1
+instances:
+  bend_s_S11_1p8_N99_CSst_71d8cbbd_21000_1525:
+    component: bend_s
+    info:
+      end_angle: 0
+      length: 11.206
+      min_bend_radius: 13.012
+      route_info_length: 11.206
+      route_info_min_bend_radius: 13.012
+      route_info_n_bend_s: 1
+      route_info_type: xs_34e31a19
+      route_info_weight: 11.206
+      route_info_xs_34e31a19_length: 11.206
+      start_angle: 0
+    settings:
+      allow_min_radius_violation: false
+      control_points:
+      - - 0
+        - 0
+      - - 5.5
+        - 0
+      - - 5.5
+        - 1.8
+      - - 11
+        - 1.8
+      cross_section: strip
+      npoints: 99
+      size:
+      - 11
+      - 1.8
+      with_manhattan_facing_angles: true
+  bend_s_S11_1p8_N99_CSst_71d8cbbd_57500_3950:
+    component: bend_s
+    info:
+      end_angle: 0
+      length: 11.206
+      min_bend_radius: 13.012
+      route_info_length: 11.206
+      route_info_min_bend_radius: 13.012
+      route_info_n_bend_s: 1
+      route_info_type: xs_34e31a19
+      route_info_weight: 11.206
+      route_info_xs_34e31a19_length: 11.206
+      start_angle: 0
+    settings:
+      allow_min_radius_violation: false
+      control_points:
+      - - 0
+        - 0
+      - - 5.5
+        - 0
+      - - 5.5
+        - 1.8
+      - - 11
+        - 1.8
+      cross_section: strip
+      npoints: 99
+      size:
+      - 11
+      - 1.8
+      with_manhattan_facing_angles: true
+  mmi1x2_WNone_WT1_LT10_L_4e0f7121_2750_0:
+    component: mmi1x2
+    info: {}
+    settings:
+      cross_section: strip
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10
+      straight: straight
+      taper: taper
+      width_mmi: 2.5
+      width_taper: 1
+  mmi1x2_WNone_WT1_LT10_L_4e0f7121_39250_2425:
+    component: mmi1x2
+    info: {}
+    settings:
+      cross_section: strip
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10
+      straight: straight
+      taper: taper
+      width_mmi: 2.5
+      width_taper: 1
+  mmi1x2_WNone_WT1_LT10_L_4e0f7121_75750_4850:
+    component: mmi1x2
+    info: {}
+    settings:
+      cross_section: strip
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10
+      straight: straight
+      taper: taper
+      width_mmi: 2.5
+      width_taper: 1
+name: splitter_chain_Smmi1x2__10cafd81
+placements:
+  bend_s_S11_1p8_N99_CSst_71d8cbbd_21000_1525:
+    mirror: false
+    rotation: 0
+    x: 15.5
+    y: 0.625
+  bend_s_S11_1p8_N99_CSst_71d8cbbd_57500_3950:
+    mirror: false
+    rotation: 0
+    x: 52
+    y: 3.05
+  mmi1x2_WNone_WT1_LT10_L_4e0f7121_2750_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  mmi1x2_WNone_WT1_LT10_L_4e0f7121_39250_2425:
+    mirror: false
+    rotation: 0
+    x: 36.5
+    y: 2.425
+  mmi1x2_WNone_WT1_LT10_L_4e0f7121_75750_4850:
+    mirror: false
+    rotation: 0
+    x: 73
+    y: 4.85
+ports:
+  o1: mmi1x2_WNone_WT1_LT10_L_4e0f7121_2750_0,o1
+  o2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_2750_0,o3
+  o3: mmi1x2_WNone_WT1_LT10_L_4e0f7121_39250_2425,o3
+  o4: mmi1x2_WNone_WT1_LT10_L_4e0f7121_75750_4850,o3
+  o5: mmi1x2_WNone_WT1_LT10_L_4e0f7121_75750_4850,o2

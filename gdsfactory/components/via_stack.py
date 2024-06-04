@@ -74,7 +74,7 @@ def via_stack(
             ref = c << compass(size=size_m, layer=layer, port_type="electrical")
             c.add_ports(ref.ports)
         else:
-            ref = c << compass(size=size_m, layer=layer, port_type="electrical")
+            ref = c << compass(size=size_m, layer=layer, port_type=None)
 
     vias = vias or []
     for via, offset in zip(vias, layer_offsets):

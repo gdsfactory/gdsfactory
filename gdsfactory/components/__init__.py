@@ -172,6 +172,7 @@ from gdsfactory.components.mzi import (
     mzi_coupler,
     mzi_phase_shifter,
     mzi_phase_shifter_top_heater_metal,
+    mzi_pin,
     mzm,
 )
 from gdsfactory.components.mzi_arm import mzi_arm
@@ -435,6 +436,7 @@ __all__ = [
     "mzi_pads_center",
     "mzi_phase_shifter",
     "mzi_phase_shifter_top_heater_metal",
+    "mzi_pin",
     "mzit",
     "mzit_lattice",
     "mzm",

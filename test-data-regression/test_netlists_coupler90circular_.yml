@@ -1,0 +1,48 @@
+connections: {}
+instances:
+  bend_circular_RNone_A90_35590aa7_5125_5575:
+    component: bend_circular
+    info:
+      dy: 10
+      length: 15.708
+      radius: 10
+      route_info_length: 15.708
+      route_info_min_bend_radius: 10
+      route_info_n_bend_90: 1
+      route_info_type: xs_34e31a19
+      route_info_weight: 15.708
+      route_info_xs_34e31a19_length: 15.708
+    settings:
+      allow_min_radius_violation: false
+      angle: 90
+      cross_section: strip
+  straight_L10_N2_CSstrip_5000_0:
+    component: straight
+    info:
+      length: 10
+      route_info_length: 10
+      route_info_type: xs_34e31a19
+      route_info_weight: 10
+      route_info_xs_34e31a19_length: 10
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 10
+      npoints: 2
+name: coupler90_G0p2_R10_Bben_0c9734ee
+placements:
+  bend_circular_RNone_A90_35590aa7_5125_5575:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0.7
+  straight_L10_N2_CSstrip_5000_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+ports:
+  o1: straight_L10_N2_CSstrip_5000_0,o1
+  o2: bend_circular_RNone_A90_35590aa7_5125_5575,o1
+  o3: bend_circular_RNone_A90_35590aa7_5125_5575,o2
+  o4: straight_L10_N2_CSstrip_5000_0,o2

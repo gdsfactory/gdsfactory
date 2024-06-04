@@ -166,6 +166,7 @@ def wire_corner_sections(
 
 
 if __name__ == "__main__":
-    # c = wire_corner()
-    c = wire_corner45()
+    c = wire_corner()
+    n = c.get_netlist()
+    # c = wire_corner45()
     c.show()

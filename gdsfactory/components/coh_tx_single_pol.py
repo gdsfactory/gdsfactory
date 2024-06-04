@@ -3,7 +3,6 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory import cell
 from gdsfactory.component import Component
-from gdsfactory.components.mzi import mzi_pin
 from gdsfactory.routing.route_single import route_single
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
@@ -17,7 +16,7 @@ def coh_tx_single_pol(
     mzm_ps_spacing: float = 40.0,
     splitter: ComponentSpec = "mmi1x2",
     combiner: ComponentSpec | None = None,
-    mzm: ComponentSpec = mzi_pin,
+    mzm: ComponentSpec = "mzi_pin",
     mzm_length: float = 200.0,
     xspacing: float = 40.0,
     input_coupler: ComponentSpec | None = None,
