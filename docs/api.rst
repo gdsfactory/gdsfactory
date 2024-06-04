@@ -144,10 +144,3 @@ Netlist
    :toctree: _autosummary/
 
    get_netlist
-
-.. currentmodule:: gdsfactory.get_netlist_flat
-
-.. autosummary::
-   :toctree: _autosummary/
-
-   get_netlist_flat

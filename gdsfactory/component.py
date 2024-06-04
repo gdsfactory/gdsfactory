@@ -809,24 +809,17 @@ class ComponentBase:
             exclude_layers=exclude_layers,
         )
 
-    def get_netlist(
-        self, recursive: bool = False, flat: bool = False, **kwargs
-    ) -> dict[str, Any]:
+    def get_netlist(self, recursive: bool = False, **kwargs) -> dict[str, Any]:
         """Returns a netlist for circuit simulation.
 
         Args:
             recursive: if True, returns a recursive netlist.
-            flat: if True, returns a flat netlist.
             kwargs: keyword arguments to get_netlist.
         """
         from gdsfactory.get_netlist import get_netlist, get_netlist_recursive
-        from gdsfactory.get_netlist_flat import get_netlist_flat
 
         if recursive:
             return get_netlist_recursive(self, **kwargs)
-
-        elif flat:
-            return get_netlist_flat(self, **kwargs)
 
         return get_netlist(self, **kwargs)
 
@@ -841,7 +834,7 @@ class ComponentBase:
 
     def plot_netlist(
         self,
-        flat: bool = False,
+        recursive: bool = False,
         with_labels: bool = True,
         font_weight: str = "normal",
         **kwargs,
@@ -849,7 +842,7 @@ class ComponentBase:
         """Plots a netlist graph with networkx.
 
         Args:
-            flat: if True, returns a flat netlist.
+            recursive: if True, returns a recursive netlist.
             with_labels: add label to each node.
             font_weight: normal, bold.
             kwargs: keyword arguments to get_netlist.
@@ -865,7 +858,7 @@ class ComponentBase:
         import networkx as nx
 
         plt.figure()
-        netlist = self.get_netlist(flat=flat, **kwargs)
+        netlist = self.get_netlist(recursive=recursive, **kwargs)
         connections = netlist["connections"]
         placements = netlist["placements"]
         G = nx.Graph()
