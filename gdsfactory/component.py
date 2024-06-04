@@ -859,17 +859,37 @@ class ComponentBase:
 
         plt.figure()
         netlist = self.get_netlist(recursive=recursive, **kwargs)
-        connections = netlist["connections"]
-        placements = netlist["placements"]
         G = nx.Graph()
-        G.add_edges_from(
-            [
-                (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
-                for k, v in connections.items()
-            ]
-        )
-        pos = {k: (v["x"], v["y"]) for k, v in placements.items()}
-        labels = {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
+
+        if recursive:
+            pos = {}
+            labels = {}
+            for net in netlist.values():
+                connections = net["connections"]
+                placements = net["placements"]
+                G.add_edges_from(
+                    [
+                        (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
+                        for k, v in connections.items()
+                    ]
+                )
+                pos.update({k: (v["x"], v["y"]) for k, v in placements.items()})
+                labels.update(
+                    {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
+                )
+
+        else:
+            connections = netlist["connections"]
+            placements = netlist["placements"]
+            G.add_edges_from(
+                [
+                    (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
+                    for k, v in connections.items()
+                ]
+            )
+            pos = {k: (v["x"], v["y"]) for k, v in placements.items()}
+            labels = {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
+
         nx.draw(
             G,
             with_labels=with_labels,
@@ -1052,7 +1072,20 @@ def container(component, function, **kwargs) -> Component:
 
 
 if __name__ == "__main__":
+    import matplotlib.pyplot as plt
+
     import gdsfactory as gf
+
+    cpl = (10, 20, 30, 40)
+    cpg = (0.2, 0.3, 0.5, 0.5)
+    dl0 = (0, 50, 100)
+
+    c = gf.c.mzi_lattice(
+        coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0, length_x=1
+    )
+    n = c.get_netlist(recursive=True)
+    c.plot_netlist(recursive=True)
+    plt.show()
 
     # c = gf.Component()
     # wg1 = c << gf.c.straight(length=10, cross_section="rib")
@@ -1084,18 +1117,18 @@ if __name__ == "__main__":
     # c = c.remove_layers(layers=[(1, 0), (2, 0)], recursive=True)
     # c = c.extract(layers=[(1, 0)])
 
-    c1 = Component()
-    s = c1.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=(1, 0))
-    c = Component()
-    ref = c << c1
-    ref.xmin = 10
-    ref.rotate(90)
-    # r = kdb.Region(s.polygon)
-    # r.size(2000)  # size in DBU, and 1DBU = 1nm
-    # c.add_polygon(r, layer=(2, 0))
+    # c1 = Component()
+    # s = c1.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=(1, 0))
+    # c = Component()
+    # ref = c << c1
+    # ref.xmin = 10
+    # ref.rotate(90)
+    # # r = kdb.Region(s.polygon)
+    # # r.size(2000)  # size in DBU, and 1DBU = 1nm
+    # # c.add_polygon(r, layer=(2, 0))
 
-    p = c.get_polygons()
-    print(p)
+    # p = c.get_polygons()
+    # print(p)
 
     # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer="SLAB150")
     # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=LAYER.WG)
