@@ -233,8 +233,7 @@ def test_get_netlist_electrical_different_widths() -> None:
     assert extracted_port_pair == expected_port_pair
 
 
-@pytest.mark.skip("TODO")
-def test_get_netlist_transformed() -> None:
+def test_get_netlist_recursive() -> None:
     rotation_value = 35
     cname = "test_get_netlist_transformed"
     c = gf.Component(cname)

@@ -808,14 +808,20 @@ class ComponentBase:
             exclude_layers=exclude_layers,
         )
 
-    def get_netlist(self, flat: bool = False, **kwargs) -> dict[str, Any]:
+    def get_netlist(
+        self, recursive: bool = False, flat: bool = False, **kwargs
+    ) -> dict[str, Any]:
         """Returns a netlist for circuit simulation."""
-        from gdsfactory.get_netlist import get_netlist as _get_netlist
-        from gdsfactory.get_netlist_flat import get_netlist_flat as _get_netlist_flat
+        from gdsfactory.get_netlist import get_netlist, get_netlist_recursive
+        from gdsfactory.get_netlist_flat import get_netlist_flat
 
-        return (
-            _get_netlist_flat(self, **kwargs) if flat else _get_netlist(self, **kwargs)
-        )
+        if recursive:
+            return get_netlist_recursive(self, **kwargs)
+
+        elif flat:
+            return get_netlist_flat(self, **kwargs)
+
+        return get_netlist(self, **kwargs)
 
     def write_netlist(self, filepath: str, **kwargs) -> None:
         """Write netlist in YAML."""
@@ -827,11 +833,16 @@ class ComponentBase:
         filepath.write_text(yaml_component)
 
     def plot_netlist(
-        self, with_labels: bool = True, font_weight: str = "normal", **kwargs
+        self,
+        flat: bool = False,
+        with_labels: bool = True,
+        font_weight: str = "normal",
+        **kwargs,
     ):
         """Plots a netlist graph with networkx.
 
         Args:
+            flat: if True, returns a flat netlist.
             with_labels: add label to each node.
             font_weight: normal, bold.
             kwargs: keyword arguments to get_netlist.
@@ -847,7 +858,7 @@ class ComponentBase:
         import networkx as nx
 
         plt.figure()
-        netlist = self.get_netlist(**kwargs)
+        netlist = self.get_netlist(flat=flat, **kwargs)
         connections = netlist["connections"]
         placements = netlist["placements"]
         G = nx.Graph()
