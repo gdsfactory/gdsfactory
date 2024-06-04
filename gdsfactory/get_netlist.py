@@ -28,7 +28,6 @@ from gdsfactory import Port
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.name import clean_name
 from gdsfactory.serialization import clean_dict, clean_value_json
-from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import LayerSpec
 
 
@@ -65,8 +64,8 @@ def get_instance_name_from_label(
 
     layer_label = get_layer(layer_label)
 
-    x = snap_to_grid(reference.dx)
-    y = snap_to_grid(reference.dy)
+    x = reference.dx
+    y = reference.dy
     labels = component.labels
 
     # default instance name follows component.aliases
@@ -74,8 +73,8 @@ def get_instance_name_from_label(
 
     # try to get the instance name from a label
     for label in labels:
-        xl = snap_to_grid(label.dposition[0])
-        yl = snap_to_grid(label.dposition[1])
+        xl = label.dposition[0]
+        yl = label.dposition[1]
         if x == xl and y == yl and label.layer == layer_label[0]:
             # print(label.text, xl, yl, x, y)
             return label.text
