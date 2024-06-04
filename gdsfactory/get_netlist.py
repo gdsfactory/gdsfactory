@@ -138,11 +138,7 @@ def get_netlist(
         x = origin.x
         y = origin.y
         reference_name = get_instance_name(reference)
-        if (
-            isinstance(reference, ComponentReference)
-            and hasattr(reference, "columns")
-            and (reference.columns > 1 or reference.rows > 1)
-        ):
+        if reference.nb > 1 or reference.na > 1:
             is_array = True
             base_reference_name = reference_name
             reference_name += "__1_1"
@@ -172,11 +168,11 @@ def get_netlist(
         }
         if is_array:
             parent_ports = c.ports
-            for i in range(reference.rows):
-                for j in range(reference.columns):
+            for i in range(reference.nb):
+                for j in range(reference.na):
                     reference_name = f"{base_reference_name}__{i + 1}_{j + 1}"
-                    xj = x + j * reference.spacing[0]
-                    yi = y + i * reference.spacing[1]
+                    xj = x + j * reference.da.x
+                    yi = y + i * reference.da.y
                     instances[reference_name] = instance
                     placements[reference_name] = {
                         "x": xj,
@@ -184,7 +180,9 @@ def get_netlist(
                         "rotation": reference.dcplx_trans.angle,
                         "mirror": reference.dcplx_trans.mirror,
                     }
-                    for parent_port_name in parent_ports:
+
+                    parent_port_names = [port.name for port in parent_ports]
+                    for parent_port_name in parent_port_names:
                         top_name = f"{parent_port_name}_{i + 1}_{j + 1}"
                         lower_name = f"{reference_name},{parent_port_name}"
                         # a bit of a hack... get the top-level port for the
