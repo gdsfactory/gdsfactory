@@ -504,7 +504,7 @@ if __name__ == "__main__":
 
     # c = spiral_racetrack(cross_section="rib")
     # c = spiral_racetrack()
-    # c = spiral_racetrack_fixed_length()
-    c = spiral_racetrack_heater_metal()
+    c = spiral_racetrack_fixed_length()
+    # c = spiral_racetrack_heater_metal()
     # c = spiral_racetrack_heater_doped()
     c.show()

@@ -1,11 +1,11 @@
 info: {}
-name: greek_cross_L30_LWG_N_W_90adb163
+name: greek_cross_L30_LWG_N_W_d7395c88
 settings:
   layers:
   - WG
   - N
   length: 30
-  via_stack: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLWG_NPP_M1_VNone_None_Fvia_Mgdsfactorypcomponentspvia_SLVIAC
+  via_stack: via_stack_npp_m1
   widths:
   - 2
   - 3

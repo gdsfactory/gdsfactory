@@ -1,8 +1,8 @@
 info: {}
-name: greek_cross_with_pads_P_c6184280
+name: greek_cross_with_pads_P_fa616bf3
 settings:
+  cross_section: Fcross_section_Mgdsfactorypcross_section_SLM1_W10_PNe1_e2_PTelectrical_electrical_RNone
   greek_cross_component: greek_cross
   pad: pad
   pad_spacing: 150
-  pad_via: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLM1_M2_MTOP_VFvia_Mgdsfactorypcomponentspvia_SLVIA1_E2_Fvia_Mgdsfactorypcomponentspvia_SLVIA2_None
-  xs_metal: Fcross_section_Mgdsfactorypcross_section_SLM1_W10_PNe1_e2_PTelectrical_electrical_RNone
+  pad_via: via_stack_m1_mtop

@@ -3,7 +3,6 @@ from __future__ import annotations
 import pytest
 
 import gdsfactory as gf
-from gdsfactory.get_netlist import get_netlist_recursive
 
 
 def test_netlist_simple() -> None:
@@ -233,11 +232,9 @@ def test_get_netlist_electrical_different_widths() -> None:
     assert extracted_port_pair == expected_port_pair
 
 
-@pytest.mark.skip("TODO")
 def test_get_netlist_transformed() -> None:
     rotation_value = 35
-    cname = "test_get_netlist_transformed"
-    c = gf.Component(cname)
+    c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
     i1.drotate(rotation_value)
@@ -246,31 +243,12 @@ def test_get_netlist_transformed() -> None:
     # perform the initial sanity checks on the netlist
     netlist = c.get_netlist()
     connections = netlist["connections"]
-    assert len(connections) == 1
+    assert len(connections) == 1, len(connections)
     cpairs = list(connections.items())
     extracted_port_pair = set(cpairs[0])
     expected_port_pair = {"i2,o2", "i1,o1"}
     assert extracted_port_pair == expected_port_pair
 
-    recursive_netlist = get_netlist_recursive(c)
-    top_netlist = recursive_netlist[cname]
-    # the recursive netlist should have 3 entries, for the top level and two rotated straights
-    assert len(recursive_netlist) == 1, len(recursive_netlist)
-    # confirm that the child netlists have reference attributes properly set
-
-    i1_cell_name = top_netlist["instances"]["i1"]["component"]
-
-    i1_netlist = recursive_netlist[i1_cell_name]
-    assert i1_netlist["placements"][None]["rotation"] == rotation_value
-
-    i2_cell_name = top_netlist["instances"]["i2"]["component"]
-    i2_netlist = recursive_netlist[i2_cell_name]
-    assert i2_netlist["placements"][None]["rotation"] == rotation_value
-
 
 if __name__ == "__main__":
-    test_get_netlist_electrical_rotated_joint()
-    # test_get_netlist_electrical_different_widths()
-    # test_netlist_simple_width_mismatch_throws_error()
-    # test_get_netlist_cell_array()
-    # test_get_netlist_transformed()
+    test_get_netlist_transformed()

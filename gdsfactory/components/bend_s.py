@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import copy
-
 import numpy as np
 
 import gdsfactory as gf
@@ -61,8 +59,8 @@ def get_min_sbend_size(
         cross_section: spec.
         num_points: number of points to iterate over between max_size and 0.1 * max_size.
         kwargs: cross_section settings.
-
     """
+    size = list(size)
     cross_section_f = gf.get_cross_section(cross_section, **kwargs)
 
     if size[0] is None:
@@ -84,13 +82,11 @@ def get_min_sbend_size(
     # Guess sizes, iterate over them until we cannot achieve the min radius
     # the max size corresponds to an ellipsoid
     max_size = 2.5 * np.sqrt(np.abs(min_radius * known_s))
-
     sizes = np.linspace(max_size, 0.1 * max_size, num_points)
 
     for i, s in enumerate(sizes):
-        sz = copy.deepcopy(size)
+        sz = size
         sz[ind] = s
-        # print(sz)
         try:
             bend_s(
                 size=tuple(sz),
@@ -98,7 +94,6 @@ def get_min_sbend_size(
                 bend_radius_error_type=ErrorType.ERROR,
                 **kwargs,
             )
-            # print(c.info['min_bend_radius'])
             min_size = sizes[i]
         except ValueError:
             break
@@ -107,11 +102,12 @@ def get_min_sbend_size(
 
 
 if __name__ == "__main__":
-    c = bend_s(size=(10, 0))
+    get_min_sbend_size()
+    # c = bend_s(size=(10, 0))
     # c = bend_s(bbox_offsets=[0.5], bbox_layers=[(111, 0)], width=2)
     # c = bend_s(size=[10, 2.5])  # 10um bend radius
     # c = bend_s(size=[20, 3], cross_section="rib")  # 10um bend radius
     # c.pprint()
     # c = bend_s_biased()
     # print(c.info["min_bend_radius"])
-    c.show()
+    # c.show()

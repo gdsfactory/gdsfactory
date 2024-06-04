@@ -548,13 +548,13 @@ radius_nitride = 20
 radius_rib = 20
 
 strip = strip = partial(cross_section, radius=10, radius_min=5)
-rib = rib = partial(
+rib2 = partial(
     strip,
     sections=(Section(width=6, layer="SLAB90", name="slab", simplify=50 * nm),),
     radius=radius_rib,
     radius_min=radius_rib,
 )
-rib2 = partial(
+rib = partial(
     strip,
     cladding_layers=("SLAB90",),
     cladding_offsets=(3,),

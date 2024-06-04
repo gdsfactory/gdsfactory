@@ -103,6 +103,7 @@ _deprecated_attributes = {
 
 _deprecated_attributes_instance_settr = _deprecated_attributes - {"size_info"}
 _deprecated_attributes_component_gettr = _deprecated_attributes - {"move"}
+_deprecation_um = "in um is deprecated and will change to DataBaseUnits in gdsfactory9"
 
 
 class ComponentReference(kf.Instance):
@@ -124,8 +125,8 @@ class ComponentReference(kf.Instance):
             return object.__getattribute__(self, "_kfinst")
         if __k in _deprecated_attributes:
             logger.warning(
-                f"`{self._kfinst.name}.{__k}` is deprecated and will be removed soon."
-                f" Please use `{self._kfinst.name}.d{__k}` instead. For further information, please"
+                f"`{self._kfinst.name}.{__k}` {_deprecation_um}. "
+                f"Please use `{self._kfinst.name}.d{__k}` instead. For further information, please"
                 "consult the migration guide "
                 "https://gdsfactory.github.io/gdsfactory/notebooks/"
                 "21_migration_guide_7_8.html",
@@ -167,10 +168,10 @@ class ComponentReference(kf.Instance):
         """Set attribute with deprecation warning for dbu based attributes."""
         if __k in _deprecated_attributes_instance_settr:
             logger.warning(
-                f"Setting `{self._kfinst.name}.{__k}` is deprecated and will be removed soon."
-                f" Please use `{self._kfinst.name}.d{__k}` instead.",
+                f"Setting `{self._kfinst.name}.{__k}` {_deprecation_um}. "
+                f"Please use `{self._kfinst.name}.d{__k}` instead.",
             )
-            return super().__setattr__("d" + __k, __v)
+            return super().__setattr__(f"d{__k}", __v)
         super().__setattr__(__k, __v)
 
 
@@ -288,8 +289,8 @@ class ComponentBase:
         """Shadow dbu based attributes with um based ones."""
         if __k in _deprecated_attributes_component_gettr:
             logger.warning(
-                f"`{self.name}.{__k}` is deprecated and will be removed soon."
-                f" Please use {self.name}.`d{__k}` instead. For further information, please"
+                f"`{self.name}.{__k}` {_deprecation_um}. "
+                f"Please use {self.name}.`d{__k}` instead. For further information, please"
                 "consult the migration guide "
                 "https://gdsfactory.github.io/gdsfactory/notebooks/"
                 "21_migration_guide_7_8.html",
@@ -808,14 +809,19 @@ class ComponentBase:
             exclude_layers=exclude_layers,
         )
 
-    def get_netlist(self, flat: bool = False, **kwargs) -> dict[str, Any]:
-        """Returns a netlist for circuit simulation."""
-        from gdsfactory.get_netlist import get_netlist as _get_netlist
-        from gdsfactory.get_netlist_flat import get_netlist_flat as _get_netlist_flat
+    def get_netlist(self, recursive: bool = False, **kwargs) -> dict[str, Any]:
+        """Returns a netlist for circuit simulation.
 
-        return (
-            _get_netlist_flat(self, **kwargs) if flat else _get_netlist(self, **kwargs)
-        )
+        Args:
+            recursive: if True, returns a recursive netlist.
+            kwargs: keyword arguments to get_netlist.
+        """
+        from gdsfactory.get_netlist import get_netlist, get_netlist_recursive
+
+        if recursive:
+            return get_netlist_recursive(self, **kwargs)
+
+        return get_netlist(self, **kwargs)
 
     def write_netlist(self, filepath: str, **kwargs) -> None:
         """Write netlist in YAML."""
@@ -827,11 +833,16 @@ class ComponentBase:
         filepath.write_text(yaml_component)
 
     def plot_netlist(
-        self, with_labels: bool = True, font_weight: str = "normal", **kwargs
+        self,
+        recursive: bool = False,
+        with_labels: bool = True,
+        font_weight: str = "normal",
+        **kwargs,
     ):
         """Plots a netlist graph with networkx.
 
         Args:
+            recursive: if True, returns a recursive netlist.
             with_labels: add label to each node.
             font_weight: normal, bold.
             kwargs: keyword arguments to get_netlist.
@@ -847,18 +858,38 @@ class ComponentBase:
         import networkx as nx
 
         plt.figure()
-        netlist = self.get_netlist(**kwargs)
-        connections = netlist["connections"]
-        placements = netlist["placements"]
+        netlist = self.get_netlist(recursive=recursive, **kwargs)
         G = nx.Graph()
-        G.add_edges_from(
-            [
-                (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
-                for k, v in connections.items()
-            ]
-        )
-        pos = {k: (v["x"], v["y"]) for k, v in placements.items()}
-        labels = {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
+
+        if recursive:
+            pos = {}
+            labels = {}
+            for net in netlist.values():
+                connections = net["connections"]
+                placements = net["placements"]
+                G.add_edges_from(
+                    [
+                        (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
+                        for k, v in connections.items()
+                    ]
+                )
+                pos.update({k: (v["x"], v["y"]) for k, v in placements.items()})
+                labels.update(
+                    {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
+                )
+
+        else:
+            connections = netlist["connections"]
+            placements = netlist["placements"]
+            G.add_edges_from(
+                [
+                    (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
+                    for k, v in connections.items()
+                ]
+            )
+            pos = {k: (v["x"], v["y"]) for k, v in placements.items()}
+            labels = {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
+
         nx.draw(
             G,
             with_labels=with_labels,
@@ -1041,7 +1072,20 @@ def container(component, function, **kwargs) -> Component:
 
 
 if __name__ == "__main__":
+    import matplotlib.pyplot as plt
+
     import gdsfactory as gf
+
+    cpl = (10, 20, 30, 40)
+    cpg = (0.2, 0.3, 0.5, 0.5)
+    dl0 = (0, 50, 100)
+
+    c = gf.c.mzi_lattice(
+        coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0, length_x=1
+    )
+    n = c.get_netlist(recursive=True)
+    c.plot_netlist(recursive=True)
+    plt.show()
 
     # c = gf.Component()
     # wg1 = c << gf.c.straight(length=10, cross_section="rib")
@@ -1073,15 +1117,18 @@ if __name__ == "__main__":
     # c = c.remove_layers(layers=[(1, 0), (2, 0)], recursive=True)
     # c = c.extract(layers=[(1, 0)])
 
-    c1 = Component()
-    s = c1.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=(1, 0))
-    c = Component()
-    c << c1
-    # r = kdb.Region(s.polygon)
-    # r.size(2000)  # size in DBU, and 1DBU = 1nm
-    # c.add_polygon(r, layer=(2, 0))
-    p = c.get_polygons()
-    print(p)
+    # c1 = Component()
+    # s = c1.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=(1, 0))
+    # c = Component()
+    # ref = c << c1
+    # ref.xmin = 10
+    # ref.rotate(90)
+    # # r = kdb.Region(s.polygon)
+    # # r.size(2000)  # size in DBU, and 1DBU = 1nm
+    # # c.add_polygon(r, layer=(2, 0))
+
+    # p = c.get_polygons()
+    # print(p)
 
     # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer="SLAB150")
     # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=LAYER.WG)

@@ -83,7 +83,7 @@ def mzi_lattice(
         delta_length=delta_lengths[0],
         **kwargs,
     )
-    c.add_ports(sprevious.ports)
+    c.add_ports(sprevious.ports.filter(port_type="electrical"))
 
     stages = []
 
@@ -106,7 +106,7 @@ def mzi_lattice(
         splitter_settings = combiner_settings
 
         stages.append(stage)
-        c.add_ports(stage.ports)
+        c.add_ports(stage.ports.filter(port_type="electrical"))
 
     for stage in stages:
         stage.connect("o1", sprevious.ports["o4"])
@@ -336,30 +336,31 @@ def mzi_lattice_mmi(
 
 
 if __name__ == "__main__":
-    cpl = [10, 20, 30]
-    cpg = [0.1, 0.2, 0.3]
-    dl0 = [100, 200]
+    cpl = (10, 20, 30)
+    cpg = (0.1, 0.2, 0.3)
+    dl0 = (100, 200)
 
-    # cpl = [10, 20, 30, 40]
-    # cpg = [0.2, 0.3, 0.5, 0.5]
-    # dl0 = [0, 50, 100]
+    cpl = (10, 20, 30, 40)
+    cpg = (0.2, 0.3, 0.5, 0.5)
+    dl0 = (0, 50, 100)
 
-    # c = mzi_lattice(
-    #     coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0, length_x=1
-    # )
-    # c = mzi_lattice(delta_lengths=(20,))
-    # c.show( )
-
-    c = mzi_lattice_mmi(
-        coupler_widths=(None,) * 5,
-        coupler_widths_tapers=(1.0,) * 5,
-        coupler_lengths_tapers=(10.0,) * 5,
-        coupler_lengths_mmis=(5.5,) * 5,
-        coupler_widths_mmis=(2.5,) * 5,
-        coupler_gaps_mmis=(0.25,) * 5,
-        taper_functions_mmis=(taper_function,) * 5,
-        straight_functions_mmis=(straight_function,) * 5,
-        cross_sections_mmis=("strip",) * 5,
-        delta_lengths=(10.0,) * 4,
+    c = mzi_lattice(
+        coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0, length_x=1
     )
+    # c = mzi_lattice(delta_lengths=(20,))
     c.show()
+
+    # c = mzi_lattice_mmi(
+    #     coupler_widths=(None,) * 5,
+    #     coupler_widths_tapers=(1.0,) * 5,
+    #     coupler_lengths_tapers=(10.0,) * 5,
+    #     coupler_lengths_mmis=(5.5,) * 5,
+    #     coupler_widths_mmis=(2.5,) * 5,
+    #     coupler_gaps_mmis=(0.25,) * 5,
+    #     taper_functions_mmis=(taper_function,) * 5,
+    #     straight_functions_mmis=(straight_function,) * 5,
+    #     cross_sections_mmis=("strip",) * 5,
+    #     delta_lengths=(10.0,) * 4,
+    # )
+    # c = mzi_lattice()
+    # c.get_netlist()

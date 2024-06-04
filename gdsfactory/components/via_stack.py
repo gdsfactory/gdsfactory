@@ -142,7 +142,7 @@ def via_stack(
     return c
 
 
-via_stack_m1_m3 = partial(
+via_stack_m1_mtop = via_stack_m1_m3 = partial(
     via_stack,
     layers=("M1", "M2", "MTOP"),
     vias=(via1, via2, None),

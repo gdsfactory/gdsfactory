@@ -28,7 +28,6 @@ from gdsfactory import Port
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.name import clean_name
 from gdsfactory.serialization import clean_dict, clean_value_json
-from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import LayerSpec
 
 
@@ -65,8 +64,8 @@ def get_instance_name_from_label(
 
     layer_label = get_layer(layer_label)
 
-    x = snap_to_grid(reference.dx)
-    y = snap_to_grid(reference.dy)
+    x = reference.dx
+    y = reference.dy
     labels = component.labels
 
     # default instance name follows component.aliases
@@ -74,8 +73,8 @@ def get_instance_name_from_label(
 
     # try to get the instance name from a label
     for label in labels:
-        xl = snap_to_grid(label.dposition[0])
-        yl = snap_to_grid(label.dposition[1])
+        xl = label.dposition[0]
+        yl = label.dposition[1]
         if x == xl and y == yl and label.layer == layer_label[0]:
             # print(label.text, xl, yl, x, y)
             return label.text
@@ -90,28 +89,16 @@ def get_netlist(
     allow_multiple: bool = False,
     connection_error_types: dict[str, list[str]] | None = None,
 ) -> dict[str, Any]:
-    """From Component returns instances, connections and placements dict.
-
-    Does two sweeps over the connections:
-
-    1. first tries to connect everything assuming perfect connections at each port.
-    2. Then gathers ports which did not perfectly connect to anything and tries \
-            to find imperfect connections, by grouping ports on a coarse grid.
+    """From Component returns a dict with instances, connections and placements.
 
     warnings collected during netlisting are reported back into the netlist.
     These include warnings about mismatched port widths, orientations, shear angles, excessive offsets, etc.
     You can also configure warning types which should throw an error when encountered
     by modifying connection_error_types.
-    Validators, which will produce warnings for each port type,
-    can be overridden with DEFAULT_CONNECTION_VALIDATORS
     A key difference in this algorithm is that we group each port type independently.
     This allows us to use different logic to determine i.e.
     if an electrical port is properly connected vs an optical port.
     In this function, the core logic is the same, but we employ extra validation for optical ports.
-    snap_to_grid() allows a value of 0, which will return the original value,
-    is more efficient when the value is 1, and will throw a more descriptive error when the value is <0
-    the default value of tolerance is 5nm because it should allow better performance with the two-grid-sweep approach.
-
 
     Args:
         component: to extract netlist.
@@ -558,14 +545,17 @@ if __name__ == "__main__":
 
     import gdsfactory as gf
 
-    c = gf.Component()
-    mzi = c << gf.c.mzi()
-    mzi.dxmin = 10
+    # c = gf.Component()
+    # mzi = c << gf.c.mzi()
+    # mzi.dxmin = 10
+    # mzi.name = "mzi"
+    # bend = c << gf.c.bend_euler()
+    # bend.connect("o1", mzi.ports["o2"])
+    # bend.name = "bend"
+    # c.add_port("o1", port=mzi.ports["o1"])
+    # c.add_port("o2", port=bend.ports["o2"])
 
-    mzi.name = "mzi"
-    bend = c << gf.c.bend_euler()
-    bend.connect("o1", mzi.ports["o2"])
-    bend.name = "bend"
+    c = gf.c.array()
     n0 = c.get_netlist()
     # pprint(n0)
 

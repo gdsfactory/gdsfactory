@@ -4,10 +4,10 @@ info:
   route_info_weight: 10
   route_info_xs_87fc063d_length: 10
   route_info_xs_87fc063d_taper_length: 10
-name: taper_cross_section_CSF_719e342c
+name: taper_cross_section_CSs_9478a791
 settings:
-  cross_section1: Fcross_section_Mgdsfactorypcross_section_SR10_RM5_Sslab
-  cross_section2: rib
+  cross_section1: strip_rib_tip
+  cross_section2: rib2
   length: 10
   linear: false
   npoints: 101

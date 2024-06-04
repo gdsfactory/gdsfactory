@@ -39,7 +39,6 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.port import Port
 from gdsfactory.typings import (
-    ComponentFactory,
     ComponentSpec,
     Coordinates,
     CrossSectionSpec,
@@ -54,7 +53,7 @@ def route_single(
     port2: Port,
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
-    taper: ComponentFactory | None = None,
+    taper: ComponentSpec | None = None,
     start_straight_length: float = 0.0,
     end_straight_length: float = 0.0,
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "strip",
@@ -111,7 +110,7 @@ def route_single(
     width = xs.width
     width_dbu = width / component.kcl.dbu
     # straight = partial(straight, width=width, cross_section=cross_section)
-    taper_cell = taper(cross_section=cross_section) if taper else None
+    taper_cell = gf.get_component(taper, cross_section=cross_section) if taper else None
     bend90 = (
         bend
         if isinstance(bend, Component)
