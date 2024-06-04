@@ -286,6 +286,7 @@ from gdsfactory.components.via_stack import (
     via_stack_heater_mtop,
     via_stack_m1_mtop,
     via_stack_npp_m1,
+    via_stack_slab_m1_horizontal,
     via_stack_slab_m3,
 )
 from gdsfactory.components.via_stack_with_offset import via_stack_with_offset
@@ -541,6 +542,7 @@ __all__ = [
     "via_stack",
     "via_stack_heater_m3",
     "via_stack_m1_mtop",
+    "via_stack_slab_m1_horizontal",
     "via_stack_heater_mtop",
     "via_stack_slab_m3",
     "via_stack_with_offset",

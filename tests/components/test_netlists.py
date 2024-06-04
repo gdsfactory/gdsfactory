@@ -57,6 +57,7 @@ if __name__ == "__main__":
     component_type = "ring_single_array"
     component_type = "ring_single"
     component_type = "cdsem_straight"
+    component_type = "grating_coupler_loss_fiber_array"
     c1 = cells[component_type]()
     n = c1.get_netlist(allow_multiple=True)
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)

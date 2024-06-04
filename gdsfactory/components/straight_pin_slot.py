@@ -6,28 +6,23 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.taper import taper_strip_to_ridge
-from gdsfactory.components.via_stack import (
-    via_stack_m1_m3,
-    via_stack_slab_m1_horizontal,
-)
-from gdsfactory.cross_section import pin, pn
+from gdsfactory.cross_section import pn
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
 def straight_pin_slot(
     length: float = 500.0,
-    cross_section: CrossSectionSpec = pin,
-    via_stack: ComponentSpec | None = via_stack_m1_m3,
+    cross_section: CrossSectionSpec = "pin",
+    via_stack: ComponentSpec | None = "via_stack_m1_mtop",
     via_stack_width: float = 10.0,
-    via_stack_slab: ComponentSpec | None = via_stack_slab_m1_horizontal,
+    via_stack_slab: ComponentSpec | None = "via_stack_slab_m1_horizontal",
     via_stack_slab_top: ComponentSpec | None = None,
     via_stack_slab_bot: ComponentSpec | None = None,
     via_stack_slab_width: float | None = None,
     via_stack_spacing: float = 3.0,
     via_stack_slab_spacing: float = 2.0,
-    taper: ComponentSpec | None = taper_strip_to_ridge,
+    taper: ComponentSpec | None = "taper_strip_to_ridge",
     **kwargs,
 ) -> Component:
     """Returns a PIN straight waveguide with slotted via.
@@ -82,10 +77,12 @@ def straight_pin_slot(
     via_stack_length = length
 
     if via_stack:
-        via_stack_top = c << via_stack(
+        via_stack_top = c << gf.get_component(
+            via_stack,
             size=(via_stack_length, via_stack_width),
         )
-        via_stack_bot = c << via_stack(
+        via_stack_bot = c << gf.get_component(
+            via_stack,
             size=(via_stack_length, via_stack_width),
         )
 
@@ -101,14 +98,16 @@ def straight_pin_slot(
     via_stack_slab_bot = via_stack_slab_bot or via_stack_slab
 
     if via_stack_slab_top:
-        slot_top = c << via_stack_slab_top(
+        slot_top = c << gf.get_component(
+            via_stack_slab_top,
             size=(via_stack_length, via_stack_slab_width),
         )
         slot_top.dx = wg.dx
         slot_top.dymin = +via_stack_slab_spacing / 2
 
     if via_stack_slab_bot:
-        slot_bot = c << via_stack_slab_bot(
+        slot_bot = c << gf.get_component(
+            via_stack_slab_bot,
             size=(via_stack_length, via_stack_slab_width),
         )
         slot_bot.dx = wg.dx
