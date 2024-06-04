@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from functools import partial
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight as straight_function
@@ -142,8 +144,8 @@ def straight_heater_meander(
     c.add_port("o2", port=straight2.ports["o2"])
 
     if layer_heater:
-        heater_cross_section = gf.cross_section.cross_section(
-            width=heater_width, layer=layer_heater
+        heater_cross_section = partial(
+            gf.cross_section.cross_section, width=heater_width, layer=layer_heater
         )
 
         heater = c << gf.c.straight(

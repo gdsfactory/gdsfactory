@@ -56,7 +56,6 @@ def mmi2x2(
     gap_mmi = gf.snap.snap_to_grid(gap_mmi, grid_factor=2)
     w_taper = width_taper
     x = gf.get_cross_section(cross_section)
-    xs_mmi = gf.get_cross_section(cross_section, width=width_mmi)
     width = width or x.width
 
     _taper = gf.get_component(
@@ -64,11 +63,13 @@ def mmi2x2(
         length=length_taper,
         width1=width,
         width2=w_taper,
-        cross_section=x,
+        cross_section=cross_section,
     )
 
     a = gap_mmi / 2 + width_taper / 2
-    _ = c << gf.get_component(straight, length=length_mmi, cross_section=xs_mmi)
+    _ = c << gf.get_component(
+        straight, length=length_mmi, width=width_mmi, cross_section=cross_section
+    )
 
     ports = [
         gf.Port("o1", orientation=180, center=(0, -a), width=w_taper, cross_section=x),
@@ -100,6 +101,6 @@ def mmi2x2(
 
 if __name__ == "__main__":
     # c = mmi2x2(gap_mmi=0.252, cross_section="metal1")
-    c = mmi2x2(gap_mmi=0.252)
+    c = mmi2x2(gap_mmi=0.252, cross_section="rib")
     c.show()
     # c.pprint()

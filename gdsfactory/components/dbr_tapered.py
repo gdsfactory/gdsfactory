@@ -109,11 +109,11 @@ def dbr_tapered(
         length=taper_length,
         width1=xs.width,
         width2=w1,
-        cross_section=xs.copy(width=xs.width),
+        cross_section=cross_section,
     )
 
     straight = c << gf.components.straight(
-        length=length, cross_section=xs.copy(width=w1)
+        length=length, cross_section=cross_section, width=w1
     )
     straight.dx = 0
     straight.dy = 0
@@ -122,7 +122,7 @@ def dbr_tapered(
         length=taper_length,
         width1=w1,
         width2=xs.width,
-        cross_section=xs.copy(width=xs.width),
+        cross_section=cross_section,
     )
 
     input_taper.connect("o2", straight.ports["o1"])
@@ -147,5 +147,5 @@ def dbr_tapered(
 
 if __name__ == "__main__":
     # c = dbr_tapered(length=10, period=0.85, dc=0.5, w2=1, w1=0.4, taper_length=20, fins=True)
-    c = dbr_tapered()
+    c = dbr_tapered(cross_section="rib")
     c.show()

@@ -39,10 +39,10 @@ def taper(
         with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
         kwargs: cross_section settings.
     """
-    x1 = gf.get_cross_section(cross_section, width=width1)
+    x1 = gf.get_cross_section(cross_section, width=width1, **kwargs)
     if width2:
         width2 = gf.snap.snap_to_grid2x(width2)
-        x2 = gf.get_cross_section(cross_section, width=width2)
+        x2 = gf.get_cross_section(cross_section, width=width2, **kwargs)
     else:
         x2 = x1
 
@@ -60,29 +60,16 @@ def taper(
     y1 = width1 / 2
     y2 = width2 / 2
 
-    delta_width = width2 - width1
-
-    y1 = width1 / 2
-    y2 = width2 / 2
-
     if length:
-        xpts = [0, length, length, 0]
-        ypts = [y1, y2, -y2, -y1]
-        c.add_polygon(tuple(zip(xpts, ypts)), layer=layer)
+        p1 = gf.kdb.DPolygon([(0, y1), (length, y2), (length, -y2), (0, -y1)])
+        c.add_polygon(p1, layer=layer)
 
-        xpts = [0, length, length, 0]
+        s0_width = x.sections[0].width
+
         for section in x.sections[1:]:
-            layer = section.layer
-            y1 = section.width / 2
-            if not section.offset:
-                y2 = section.width / 2 + delta_width / 2
-                ypts = [y1, y2, -y2, -y1]
-            else:
-                y2 = section.width / 2
-                y2 = section.width / 2 + delta_width / 2
-                ypts = [y1, y2, -y2, -y1]
-                ypts = [y - section.offset for y in ypts]
-            c.add_polygon(tuple(zip(xpts, ypts)), layer=layer)
+            delta_width = section.width - s0_width
+            p2 = p1.sized(delta_width / 2)
+            c.add_polygon(p2, layer=section.layer)
 
     if with_bbox:
         x.add_bbox(c)
@@ -155,21 +142,21 @@ def taper_strip_to_ridge(
 
     """
     xs = gf.get_cross_section(cross_section, **kwargs)
-    xs_wg = xs.copy(layer=layer_wg)
-    xs_slab = xs.copy(layer=layer_slab)
 
     taper_wg = taper(
         length=length,
         width1=width1,
         width2=width2,
-        cross_section=xs_wg,
+        cross_section=cross_section,
+        layer=layer_wg,
     )
     taper_slab = taper(
         length=length,
         width1=w_slab1,
         width2=w_slab2,
-        cross_section=xs_slab,
+        cross_section=cross_section,
         with_bbox=False,
+        layer=layer_slab,
     )
 
     c = gf.Component()
@@ -254,6 +241,7 @@ taper_sc_nc = partial(
 
 
 if __name__ == "__main__":
+    c = taper(cross_section="rib", width2=5)
     # c = taper_strip_to_ridge_trenches()
     # c = taper_strip_to_ridge()
     # c = taper(width1=1.5, width2=1, cross_section="rib")
@@ -261,6 +249,7 @@ if __name__ == "__main__":
     # c = taper(cross_section="rib")
     # c = taper(length=1, width1=0.54, width2=10, cross_section="strip")
     # c = taper_strip_to_ridge()
-    c = taper_sc_nc()
-    c.pprint_ports()
+    # c = taper(width1=0.5, width2=10, length=20)
+    # c = taper_sc_nc()
+    # c.pprint_ports()
     c.show()

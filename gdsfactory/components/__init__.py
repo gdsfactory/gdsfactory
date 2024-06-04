@@ -145,13 +145,9 @@ from gdsfactory.components.grating_coupler_rectangular import (
 from gdsfactory.components.grating_coupler_rectangular_arbitrary import (
     grating_coupler_rectangular_arbitrary,
 )
-from gdsfactory.components.grating_coupler_rectangular_arbitrary_slab import (
-    grating_coupler_rectangular_arbitrary_slab,
-)
 from gdsfactory.components.grating_coupler_tree import grating_coupler_tree
 from gdsfactory.components.greek_cross import (
     greek_cross,
-    greek_cross_offset_pads,
     greek_cross_with_pads,
 )
 from gdsfactory.components.hline import hline
@@ -286,6 +282,8 @@ from gdsfactory.components.via_stack import (
     via_stack,
     via_stack_heater_m3,
     via_stack_heater_mtop,
+    via_stack_m1_mtop,
+    via_stack_npp_m1,
     via_stack_slab_m3,
 )
 from gdsfactory.components.via_stack_with_offset import via_stack_with_offset
@@ -402,14 +400,12 @@ __all__ = [
     "grating_coupler_loss_fiber_array4",
     "grating_coupler_rectangular",
     "grating_coupler_rectangular_arbitrary",
-    "grating_coupler_rectangular_arbitrary_slab",
     "grating_coupler_te",
     "grating_coupler_tm",
     "grating_coupler_tree",
     "grating_taper_points",
     "grating_tooth_points",
     "greek_cross",
-    "greek_cross_offset_pads",
     "greek_cross_with_pads",
     "hline",
     "interdigital_capacitor",
@@ -540,9 +536,11 @@ __all__ = [
     "via_corner",
     "via_stack",
     "via_stack_heater_m3",
+    "via_stack_m1_mtop",
     "via_stack_heater_mtop",
     "via_stack_slab_m3",
     "via_stack_with_offset",
+    "via_stack_npp_m1",
     "viac",
     "wafer",
     "wire_corner",

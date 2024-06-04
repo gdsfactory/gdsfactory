@@ -1,22 +1,17 @@
 from __future__ import annotations
 
-from functools import partial
-
-from gdsfactory import cell
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
-from gdsfactory.components.via_stack import via_stack_slab_npp_m3
 from gdsfactory.typings import ComponentSpec, Floats, LayerSpecs
 
-pad_via_stack_slab_npp = partial(via_stack_slab_npp_m3, size=(80, 80))
 
-
-@cell
+@gf.cell
 def resistance_sheet(
     width: float = 10.0,
-    layers: LayerSpecs = ("SLAB90", "NPP"),
+    layers: LayerSpecs = ("HEATER",),
     layer_offsets: Floats = (0, 0.2),
-    pad: ComponentSpec = pad_via_stack_slab_npp,
+    pad: ComponentSpec = "via_stack_heater_mtop",
     pad_size: tuple[float, float] = (50.0, 50.0),
     pad_pitch: float = 100.0,
     ohms_per_square: float | None = None,
@@ -38,7 +33,7 @@ def resistance_sheet(
     """
     c = Component()
 
-    pad = pad(size=pad_size)
+    pad = gf.get_component(pad, size=pad_size)
     length = pad_pitch - pad_size[0]
 
     pad1 = c << pad

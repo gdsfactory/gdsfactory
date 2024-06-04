@@ -4,14 +4,13 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.routing.route_single import route_single
 from gdsfactory.typings import ComponentSpec
 
 
 @gf.cell
 def loop_mirror(
-    component: ComponentSpec = mmi1x2, bend90: ComponentSpec = "bend_euler"
+    component: ComponentSpec = "mmi1x2", bend90: ComponentSpec = "bend_euler"
 ) -> Component:
     """Returns Sagnac loop_mirror.
 

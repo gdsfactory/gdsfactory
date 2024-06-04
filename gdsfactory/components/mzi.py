@@ -6,7 +6,6 @@ import gdsfactory as gf
 from gdsfactory import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.coupler import coupler
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.mmi2x2 import mmi2x2
 from gdsfactory.components.straight import straight as straight_function
@@ -220,8 +219,8 @@ mzi1x2_2x2 = partial(
 
 mzi_coupler = partial(
     mzi2x2_2x2,
-    splitter=coupler,
-    combiner=coupler,
+    splitter="coupler",
+    combiner="coupler",
 )
 
 mzi_pin = partial(

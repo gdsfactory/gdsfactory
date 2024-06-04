@@ -56,14 +56,14 @@ def coupler_full(
         length=coupling_length,
         width1=x_top.width,
         width2=x_bottom.width,
-        cross_section=x_top,
+        cross_section=cross_section,
     )
 
     taper_bottom = c << gf.components.taper(
         length=coupling_length,
         width1=x_bottom.width,
         width2=x_top.width,
-        cross_section=x_bottom,
+        cross_section=cross_section,
     )
 
     bend_input_top = c << bend_s(
@@ -82,12 +82,10 @@ def coupler_full(
     bend_output_top = c << bend_s(
         size=(dx, (dy - gap - x_top.width) / 2.0), cross_section=x_bottom
     )
-    # bend_output_top.dmove(taper_top.ports["o2"])
 
     bend_output_bottom = c << bend_s(
         size=(dx, (-dy + gap + x_bottom.width) / 2.0), cross_section=x_top
     )
-    # bend_output_bottom.dmove(taper_bottom.ports["o2"])
 
     bend_output_top.connect("o2", taper_top.ports["o2"], mirror=True)
     bend_output_bottom.connect("o2", taper_bottom.ports["o2"], mirror=True)
