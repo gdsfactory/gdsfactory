@@ -105,14 +105,14 @@ def ring_double_heater(
     cb = c.add_ref(coupler_component)
     sl = c.add_ref(straight_component)
     sr = c.add_ref(straight_component)
+    c.add_port("o1", port=cb.ports["o1"])
+    c.add_port("o2", port=cb.ports["o4"])
 
     if with_drop:
         ct = c.add_ref(coupler_component_top)
         sl.connect(port="o1", other=cb.ports["o2"])
         ct.connect(port="o3", other=sl.ports["o2"])
         sr.connect(port="o2", other=ct.ports["o2"])
-        c.add_port("o1", port=cb.ports["o1"])
-        c.add_port("o2", port=cb.ports["o4"])
         c.add_port("o3", port=ct.ports["o4"])
         c.add_port("o4", port=ct.ports["o1"])
         heater_top = c << straight(
@@ -169,5 +169,6 @@ ring_single_heater = partial(ring_double_heater, with_drop=False)
 
 
 if __name__ == "__main__":
-    c = ring_double_heater(with_drop=True)
+    c = ring_single_heater()
+    c.pprint_ports()
     c.show()
