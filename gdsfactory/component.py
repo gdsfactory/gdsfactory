@@ -1072,20 +1072,20 @@ def container(component, function, **kwargs) -> Component:
 
 
 if __name__ == "__main__":
-    import matplotlib.pyplot as plt
-
     import gdsfactory as gf
 
-    cpl = (10, 20, 30, 40)
-    cpg = (0.2, 0.3, 0.5, 0.5)
-    dl0 = (0, 50, 100)
+    # import matplotlib.pyplot as plt
 
-    c = gf.c.mzi_lattice(
-        coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0, length_x=1
-    )
-    n = c.get_netlist(recursive=True)
-    c.plot_netlist(recursive=True)
-    plt.show()
+    # cpl = (10, 20, 30, 40)
+    # cpg = (0.2, 0.3, 0.5, 0.5)
+    # dl0 = (0, 50, 100)
+
+    # c = gf.c.mzi_lattice(
+    #     coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0, length_x=1
+    # )
+    # n = c.get_netlist(recursive=True)
+    # c.plot_netlist(recursive=True)
+    # plt.show()
 
     # c = gf.Component()
     # wg1 = c << gf.c.straight(length=10, cross_section="rib")
@@ -1113,7 +1113,8 @@ if __name__ == "__main__":
     # c.remap_layers({(1, 0): (2, 0)})
     # c.show()
 
-    # c.add_polygon([(0, 0), (1, 1), (1, 3)], layer=(1, 0))
+    c = gf.Component()
+    p = c.add_polygon_shapely([(0, 0), (1, 1), (1, 3)], layer=(1, 0))
     # c = c.remove_layers(layers=[(1, 0), (2, 0)], recursive=True)
     # c = c.extract(layers=[(1, 0)])
 
