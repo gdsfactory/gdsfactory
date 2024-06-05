@@ -53,7 +53,7 @@ The following lines will:
 ```
 git clone git@github.com:YourUserName/gdsfactory.git
 cd gdsfactory
-git clone https://github.com/gdsfactory/gdsfactory-test-data.git -b test-data test-data
+git clone https://github.com/gdsfactory/gdsfactory-test-data.git -b test_klayout test-data-gds
 pip install -e .[dev]
 pre-commit install
 ```
