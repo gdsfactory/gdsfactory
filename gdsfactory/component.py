@@ -125,7 +125,7 @@ class ComponentReference(kf.Instance):
             return object.__getattribute__(self, "_kfinst")
         if __k in _deprecated_attributes:
             logger.warning(
-                f"`{self._kfinst.name}.{__k}` {_deprecation_um}. "
+                f"Getting `{self._kfinst.name}.{__k}` {_deprecation_um}. "
                 f"Please use `{self._kfinst.name}.d{__k}` instead. For further information, please"
                 "consult the migration guide "
                 "https://gdsfactory.github.io/gdsfactory/notebooks/"
@@ -289,7 +289,7 @@ class ComponentBase:
         """Shadow dbu based attributes with um based ones."""
         if __k in _deprecated_attributes_component_gettr:
             logger.warning(
-                f"`{self.name}.{__k}` {_deprecation_um}. "
+                f"Getting `{self.name}.{__k}` {_deprecation_um}. "
                 f"Please use {self.name}.`d{__k}` instead. For further information, please"
                 "consult the migration guide "
                 "https://gdsfactory.github.io/gdsfactory/notebooks/"

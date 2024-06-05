@@ -96,7 +96,6 @@ def route_bundle(
     bboxes: list[kf.kdb.Box] | None = None,
     allow_width_mismatch: bool = False,
     radius: float | None = None,
-    **kwargs,
 ) -> list[OpticalManhattanRoute]:
     """Places a bundle of routes to connect two groups of ports.
 
@@ -121,21 +120,7 @@ def route_bundle(
         bboxes: list of bounding boxes to avoid collisions.
         allow_width_mismatch: allow different port widths.
         radius: bend radius. If None, defaults to cross_section.radius.
-        kwargs: additional arguments for the routing function.
 
-    Keyword Args:
-        width: main layer waveguide width (um).
-        layer: main layer for waveguide.
-        bbox_layers: list of layers for rectangular bounding box.
-        bbox_offsets: list of bounding box offsets.
-        cladding_layers: list of layers to extrude.
-        cladding_offsets: list of offset from main Section edge.
-        radius: bend radius (um).
-        sections: list of Sections(width, offset, layer, ports).
-        port_names: for input and output ('o1', 'o2').
-        port_types: for input and output: electrical, optical, vertical_te ...
-        min_length: defaults to 1nm = 10e-3um for routing.
-        snap_to_grid: can snap points to grid when extruding the path.
 
     .. plot::
         :include-source:
@@ -181,7 +166,7 @@ def route_bundle(
     if len(ports1) != len(ports2):
         raise ValueError(f"ports1={len(ports1)} and ports2={len(ports2)} must be equal")
 
-    xs = gf.get_cross_section(cross_section, **kwargs)
+    xs = gf.get_cross_section(cross_section)
     width = xs.width
     radius = radius or xs.radius
     width_dbu = round(width / component.kcl.dbu)
@@ -189,19 +174,16 @@ def route_bundle(
     bend90 = (
         bend
         if isinstance(bend, Component)
-        else gf.get_component(
-            bend, cross_section=cross_section, radius=radius, **kwargs
-        )
+        else gf.get_component(bend, cross_section=cross_section, radius=radius)
     )
 
     def straight_dbu(
-        length: int, width: int = width_dbu, cross_section=cross_section, **kwargs
+        length: int, width: int = width_dbu, cross_section=cross_section
     ) -> Component:
         return gf.c.straight(
             length=length * component.kcl.dbu,
             width=width * component.kcl.dbu,
             cross_section=cross_section,
-            **kwargs,
         )
 
     dbu = component.kcl.dbu
