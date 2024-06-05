@@ -163,7 +163,7 @@ if __name__ == "__main__":
     # c = gf.components.spiral(direction="NORTH")
 
     c = gf.components.mzi_phase_shifter()
-    c = add_fiber_array(c, with_loopback=False)
+    c = add_fiber_array(c, radius=20, with_loopback=False)
 
     # c1 = partial(add_fiber_array, component=gf.c.mmi1x2)
     # c2 = partial(add_fiber_array, component=gf.c.nxn)

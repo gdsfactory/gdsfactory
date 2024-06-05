@@ -91,8 +91,8 @@ if __name__ == "__main__":
     mmi1 = c.create_vinst(mmi)  # create a virtual instance
     mmi2 = c.create_vinst(mmi)  # create a virtual instance
 
-    mmi2.move((100, 10))
-    mmi2.rotate(30)
+    mmi2.dmove((100, 10))
+    mmi2.drotate(30)
 
     routes = gf.routing.route_bundle_all_angle(
         c,
