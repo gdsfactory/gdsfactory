@@ -102,15 +102,12 @@ def taper_adiabatic(
     )
 
     # Define ports
-    xs1 = xs.copy(width=width1)
-    xs2 = xs.copy(width=width2)
-
     c.add_port(
         name="o1",
         center=(0, 0),
         width=width1,
         orientation=180,
-        cross_section=xs1,
+        cross_section=cross_section,
         layer=layer,
     )
     c.add_port(
@@ -118,12 +115,13 @@ def taper_adiabatic(
         center=(length, 0),
         width=width2,
         orientation=0,
-        cross_section=xs2,
+        cross_section=cross_section,
         layer=layer,
     )
+    xs.add_bbox(c)
     return c
 
 
 if __name__ == "__main__":
-    c = taper_adiabatic(width1=0.5, width2=5)
+    c = taper_adiabatic(width1=0.5, width2=5, cross_section="rib_bbox")
     c.show()

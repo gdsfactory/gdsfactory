@@ -20,6 +20,7 @@ from __future__ import annotations
 
 from collections import defaultdict
 from collections.abc import Callable
+from pprint import pprint
 from typing import Any
 
 import numpy as np
@@ -341,9 +342,8 @@ def _extract_connections(
     }
 
     if critical_warnings:
-        raise ValueError(
-            f"Found critical warnings while extracting netlist: {critical_warnings}"
-        )
+        pprint(critical_warnings)
+        raise ValueError("Found critical warnings while extracting netlist")
     return connections, dict(warnings)
 
 

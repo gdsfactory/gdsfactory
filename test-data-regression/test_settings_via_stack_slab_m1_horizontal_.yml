@@ -1,0 +1,17 @@
+info:
+  xsize: 11
+  ysize: 11
+name: via_stack_S11_11_LSLAB9_e8a11588
+settings:
+  correct_size: true
+  layers:
+  - SLAB90
+  - M1
+  size:
+  - 11
+  - 11
+  slot_horizontal: true
+  slot_vertical: false
+  vias:
+  - Fvia_Mgdsfactorypcomponentspvia_SLVIAC
+  - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2

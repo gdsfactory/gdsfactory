@@ -21,7 +21,7 @@ instances:
       splitter: mmi2x2_WNone_WT1_LT10_L_4ab7dfce
       straight: straight
       with_splitter: true
-name: mzi_lattice_mmi_CWNone__0cd18fb8
+name: mzi_lattice_mmi_CWNone__0d9a1713
 placements:
   mzi_DL10_LY2_LXNone_Bbe_d7c3aeb3_40510_-2500:
     mirror: false

@@ -1,7 +1,7 @@
 info: {}
-name: straight_heater_meander_a75cb930
+name: straight_heater_meander_5905ea56
 settings:
-  cross_section: Fcross_section_Mgdsfactorypcross_section_SR10_RM5
+  cross_section: strip
   extension_length: 15
   heater_taper_length: 10
   heater_width: 2.5
@@ -9,7 +9,6 @@ settings:
   length: 300
   radius: 5
   spacing: 2
-  straight: straight
   straight_widths:
   - 0.8
   - 0.9

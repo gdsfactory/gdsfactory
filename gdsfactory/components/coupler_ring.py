@@ -24,7 +24,6 @@ def coupler_ring(
     cross_section: CrossSectionSpec = "strip",
     cross_section_bend: CrossSectionSpec | None = None,
     length_extension: float = 3,
-    **kwargs,
 ) -> Component:
     r"""Coupler for ring.
 
@@ -38,7 +37,6 @@ def coupler_ring(
         cross_section: cross_section spec.
         cross_section_bend: optional bend cross_section spec.
         length_extension: for the ports.
-        kwargs: cross_section settings.
 
     .. code::
 

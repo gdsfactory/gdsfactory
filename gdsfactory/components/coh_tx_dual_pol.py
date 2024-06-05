@@ -17,7 +17,6 @@ def coh_tx_dual_pol(
     input_coupler: ComponentSpec | None = None,
     output_coupler: ComponentSpec | None = None,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs,
 ) -> Component:
     """Dual polarization coherent transmitter.
 
@@ -30,7 +29,6 @@ def coh_tx_dual_pol(
         input_coupler: Optional coupler to add before the splitter.
         output_coupler: Optional coupler to add after the combiner.
         cross_section: for routing (splitter to mzms and mzms to combiners).
-        kwargs: cross_section settings.
 
      .. code::
 
@@ -66,8 +64,6 @@ def coh_tx_dual_pol(
         sp.ports["o2"],
         single_tx_1.ports["o1"],
         cross_section=cross_section,
-        with_sbend=False,
-        **kwargs,
     )
 
     route = route_single(
@@ -75,8 +71,6 @@ def coh_tx_dual_pol(
         sp.ports["o3"],
         single_tx_2.ports["o1"],
         cross_section=cross_section,
-        with_sbend=False,
-        **kwargs,
     )
 
     if combiner:
@@ -92,8 +86,6 @@ def coh_tx_dual_pol(
             comb.ports["o2"],
             single_tx_1.ports["o2"],
             cross_section=cross_section,
-            with_sbend=False,
-            **kwargs,
         )
         c.add(route.references)
 
@@ -102,8 +94,6 @@ def coh_tx_dual_pol(
             comb.ports["o3"],
             single_tx_2.ports["o2"],
             cross_section=cross_section,
-            with_sbend=False,
-            **kwargs,
         )
         c.add(route.references)
 
@@ -119,12 +109,10 @@ def coh_tx_dual_pol(
         output_coupler = gf.get_component(output_coupler)
         out_coup = c << output_coupler
         if combiner:
-            # Add output coupler
             out_coup.connect("o1", comb.ports["o1"])
         else:
             # Directly connect the output coupler to the branches.
             # Assumes the output couplers has ports "o1" and "o2"
-
             out_coup.dy = (single_tx_1.dy + single_tx_2.dy) / 2
             out_coup.dxmin = single_tx_1.dxmax + 40.0
 
@@ -133,8 +121,6 @@ def coh_tx_dual_pol(
                 single_tx_1.ports["o2"],
                 out_coup.ports["o1"],
                 cross_section=cross_section,
-                with_sbend=False,
-                **kwargs,
             )
 
             route = route_single(
@@ -142,8 +128,6 @@ def coh_tx_dual_pol(
                 single_tx_2.ports["o2"],
                 out_coup.ports["o2"],
                 cross_section=cross_section,
-                with_sbend=False,
-                **kwargs,
             )
     else:
         c.add_port("o2", port=single_tx_1.ports["o2"])

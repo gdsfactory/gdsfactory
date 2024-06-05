@@ -6,7 +6,6 @@ import numpy as np
 from kfactory.routing.optical import OpticalManhattanRoute
 
 import gdsfactory as gf
-from gdsfactory.components.via_corner import via_corner
 from gdsfactory.port import Port
 from gdsfactory.routing.route_single import route_single
 from gdsfactory.typings import (
@@ -146,16 +145,6 @@ def route_single_from_steps(
 
 route_single_from_steps_electrical = partial(
     route_single_from_steps, bend="wire_corner", taper=None, cross_section="metal3"
-)
-
-route_single_from_steps_electrical_multilayer = partial(
-    route_single_from_steps,
-    bend=via_corner,
-    taper=None,
-    cross_section=[
-        (gf.cross_section.metal2, (90, 270)),
-        ("metal_routing", (0, 180)),
-    ],
 )
 
 

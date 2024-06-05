@@ -18,19 +18,14 @@ import kfactory as kf
 from kfactory.routing.optical import OpticalManhattanRoute
 
 import gdsfactory as gf
-from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.components.via_corner import via_corner
 from gdsfactory.components.wire import wire_corner
 from gdsfactory.port import Port
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
 from gdsfactory.typings import (
     Component,
-    ComponentFactory,
     ComponentSpec,
     CrossSectionSpec,
     LayerSpecs,
-    MultiCrossSectionAngleSpec,
 )
 
 
@@ -88,10 +83,9 @@ def route_bundle(
     ports1: list[Port],
     ports2: list[Port],
     separation: float = 3.0,
-    straight: ComponentFactory = straight_function,
-    bend: ComponentSpec = bend_euler,
+    bend: ComponentSpec = "bend_euler",
     sort_ports: bool = False,
-    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "strip",
+    cross_section: CrossSectionSpec = "strip",
     start_straight_length: float = 0,
     end_straight_length: float = 0,
     min_straight_taper: float = 100,
@@ -101,6 +95,7 @@ def route_bundle(
     on_collision: str | None = "show_error",
     bboxes: list[kf.kdb.Box] | None = None,
     allow_width_mismatch: bool = False,
+    radius: float | None = None,
     **kwargs,
 ) -> list[OpticalManhattanRoute]:
     """Places a bundle of routes to connect two groups of ports.
@@ -113,7 +108,6 @@ def route_bundle(
         ports1: list of starting ports.
         ports2: list of end ports.
         separation: bundle separation (center to center). Defaults to cross_section.width + cross_section.gap
-        straight: function for the straight. Defaults to straight.
         bend: function for the bend. Defaults to euler.
         sort_ports: sort port coordinates.
         cross_section: CrossSection or function that returns a cross_section.
@@ -126,6 +120,7 @@ def route_bundle(
         on_collision: action to take on collision. Defaults to show_error.
         bboxes: list of bounding boxes to avoid collisions.
         allow_width_mismatch: allow different port widths.
+        radius: bend radius. If None, defaults to cross_section.radius.
         kwargs: additional arguments for the routing function.
 
     Keyword Args:
@@ -166,19 +161,6 @@ def route_bundle(
         c.plot()
 
     """
-    if isinstance(cross_section, list | tuple):
-        xs_list = []
-        for element in cross_section:
-            xs, angles = element
-            xs = gf.get_cross_section(xs)
-            xs = xs.copy(**kwargs)  # Shallow copy
-            xs_list.append((xs, angles))
-        cross_section = xs_list
-
-    else:
-        cross_section = gf.get_cross_section(cross_section)
-        cross_section = cross_section.copy(**kwargs)
-
     # convert single port to list
     if isinstance(ports1, Port):
         ports1 = [ports1]
@@ -201,18 +183,21 @@ def route_bundle(
 
     xs = gf.get_cross_section(cross_section, **kwargs)
     width = xs.width
+    radius = radius or xs.radius
     width_dbu = round(width / component.kcl.dbu)
     taper_cell = gf.get_component(taper) if taper else None
     bend90 = (
         bend
         if isinstance(bend, Component)
-        else gf.get_component(bend, cross_section=xs)
+        else gf.get_component(
+            bend, cross_section=cross_section, radius=radius, **kwargs
+        )
     )
 
     def straight_dbu(
         length: int, width: int = width_dbu, cross_section=cross_section, **kwargs
     ) -> Component:
-        return straight(
+        return gf.c.straight(
             length=length * component.kcl.dbu,
             width=width * component.kcl.dbu,
             cross_section=cross_section,
@@ -255,17 +240,6 @@ route_bundle_electrical = partial(
     cross_section="metal_routing",
     port_type="electrical",
     allow_width_mismatch=True,
-)
-
-route_bundle_electrical_multilayer = partial(
-    route_bundle,
-    bend=via_corner,
-    port_type="electrical",
-    allow_width_mismatch=True,
-    cross_section=[
-        (gf.cross_section.metal2, (90, 270)),
-        ("metal_routing", (0, 180)),
-    ],
 )
 
 
