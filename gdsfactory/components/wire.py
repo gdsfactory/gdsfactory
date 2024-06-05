@@ -71,11 +71,7 @@ def wire_corner45(
     x = gf.get_cross_section(cross_section)
     layer = x.layer
     width = x.width
-    radius = x.radius if radius is None else radius
-    if radius is None:
-        raise ValueError(
-            "Radius needs to be specified in wire_corner45 or in the cross_section."
-        )
+    radius = radius or x.width
 
     c = Component()
     a = width / 2
@@ -166,7 +162,7 @@ def wire_corner_sections(
 
 
 if __name__ == "__main__":
-    c = wire_corner()
-    n = c.get_netlist()
+    c = wire_corner45()
+    # n = c.get_netlist()
     # c = wire_corner45()
     c.show()
