@@ -112,6 +112,7 @@ def crossing(
 
     c.auto_rename_ports()
     x.add_bbox(c)
+    c.flatten()
     return c
 
 

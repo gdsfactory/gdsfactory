@@ -140,11 +140,10 @@ instances:
       length: 420
       npoints: 2
       width: 0.3
-  text_rectangular_T300_3_2fd588b3_445500_2500:
+  text_rectangular_T300_3_0f1677d9_445500_2500:
     component: text_rectangular
     info: {}
     settings:
-      font: rectangular_font
       justify: left
       layer: WG
       position:
@@ -204,7 +203,7 @@ placements:
     rotation: 0
     x: 0
     y: 0.75
-  text_rectangular_T300_3_2fd588b3_445500_2500:
+  text_rectangular_T300_3_0f1677d9_445500_2500:
     mirror: false
     rotation: 0
     x: 425
