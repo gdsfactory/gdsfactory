@@ -37,15 +37,9 @@ dependencies = [
   "freetype-py",
   "mapbox_earcut",
   "networkx",
-  "pyglet<2",
   "scikit-image",
   "trimesh>=4,<4.4",
-  "ipycytoscape",
-  "ipyevents",
-  "ipykernel",
-  "ipympl",
-  "ipytree",
-  "ipywidgets"
+  "ipykernel"
 ]
 description = "python library to generate GDS layouts"
 keywords = ["eda", "photonics", "python"]
