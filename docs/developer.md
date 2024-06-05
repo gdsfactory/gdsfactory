@@ -1,6 +1,6 @@
 # Installation
 
-We support Python 3.10 or 3.11, and recommend [VSCode](https://code.visualstudio.com/) IDE. If you do not have Python installed, you can [download Anaconda](https://www.anaconda.com/download/).
+We support Python 3.10, 3.11 and 3.12, and recommend [VSCode](https://code.visualstudio.com/) IDE. If you do not have Python installed, you can [download Anaconda](https://www.anaconda.com/download/).
 
 Upon Python installation, open Anaconda Prompt as Administrator and install the latest gdsfactory
 
@@ -33,7 +33,7 @@ gf.config.print_version_plugins()
 
 ## Docker container
 
-As an alternative, you can use the pre-built Docker image from [github](https://github.com/gdsfactory/gdsfactory/pkgs/container/gdsfactory) or [hub.docker.com/r/joamatab/gdsfactory](https://hub.docker.com/r/joamatab/gdsfactory)
+As an alternative, you can use the pre-built Docker image from [github](https://github.com/gdsfactory/gdsfactory/pkgs/container/gdsfactory)
 
 For instance, VS Code supports development inside a container. See [Developing inside a Container](https://code.visualstudio.com/docs/devcontainers/containers) for details.
 
@@ -169,12 +169,6 @@ def test_settings(component_name: str, data_regression: DataRegressionFixture) -
     """Avoid regressions in component settings and ports."""
     component = cells[component_name]()
     data_regression.check(component.to_dict())
-
-
-def test_assert_ports_on_grid(component_name: str) -> None:
-    """Ensures all ports are on grid to avoid 1nm gaps."""
-    component = cells[component_name]()
-    component.assert_ports_on_grid()
 
 ```
 
