@@ -1,0 +1,220 @@
+connections: {}
+instances:
+  ec_0:
+    component: taper
+    info:
+      length: 100
+      width1: 0.5
+      width2: 0.2
+    settings:
+      cross_section: strip
+      length: 100
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
+      width1: 0.5
+      width2: 0.2
+      with_bbox: true
+      with_two_ports: true
+  ec_1:
+    component: taper
+    info:
+      length: 100
+      width1: 0.5
+      width2: 0.2
+    settings:
+      cross_section: strip
+      length: 100
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
+      width1: 0.5
+      width2: 0.2
+      with_bbox: true
+      with_two_ports: true
+  ec_2:
+    component: taper
+    info:
+      length: 100
+      width1: 0.5
+      width2: 0.2
+    settings:
+      cross_section: strip
+      length: 100
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
+      width1: 0.5
+      width2: 0.2
+      with_bbox: true
+      with_two_ports: true
+  ec_3:
+    component: taper
+    info:
+      length: 100
+      width1: 0.5
+      width2: 0.2
+    settings:
+      cross_section: strip
+      length: 100
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
+      width1: 0.5
+      width2: 0.2
+      with_bbox: true
+      with_two_ports: true
+  ec_4:
+    component: taper
+    info:
+      length: 100
+      width1: 0.5
+      width2: 0.2
+    settings:
+      cross_section: strip
+      length: 100
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
+      width1: 0.5
+      width2: 0.2
+      with_bbox: true
+      with_two_ports: true
+  text_rectangular_T1_S10_33d8cb29_35000_45000:
+    component: text_rectangular
+    info: {}
+    settings:
+      font: rectangular_font
+      justify: left
+      layer: WG
+      position:
+      - 0
+      - 0
+      size: 10
+      text: '1'
+  text_rectangular_T2_S10_c791f318_35000_172000:
+    component: text_rectangular
+    info: {}
+    settings:
+      font: rectangular_font
+      justify: left
+      layer: WG
+      position:
+      - 0
+      - 0
+      size: 10
+      text: '2'
+  text_rectangular_T3_S10_2598d72f_35000_299000:
+    component: text_rectangular
+    info: {}
+    settings:
+      font: rectangular_font
+      justify: left
+      layer: WG
+      position:
+      - 0
+      - 0
+      size: 10
+      text: '3'
+  text_rectangular_T4_S10_3d29fd91_35000_426000:
+    component: text_rectangular
+    info: {}
+    settings:
+      font: rectangular_font
+      justify: left
+      layer: WG
+      position:
+      - 0
+      - 0
+      size: 10
+      text: '4'
+  text_rectangular_T5_S10_77d2e57d_35000_553000:
+    component: text_rectangular
+    info: {}
+    settings:
+      font: rectangular_font
+      justify: left
+      layer: WG
+      position:
+      - 0
+      - 0
+      size: 10
+      text: '5'
+name: edge_coupler_array_ECFt_56edc37d
+placements:
+  ec_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  ec_1:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 127
+  ec_2:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 254
+  ec_3:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 381
+  ec_4:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 508
+  text_rectangular_T1_S10_33d8cb29_35000_45000:
+    mirror: false
+    rotation: 0
+    x: 10
+    y: 20
+  text_rectangular_T2_S10_c791f318_35000_172000:
+    mirror: false
+    rotation: 0
+    x: 10
+    y: 147
+  text_rectangular_T3_S10_2598d72f_35000_299000:
+    mirror: false
+    rotation: 0
+    x: 10
+    y: 274
+  text_rectangular_T4_S10_3d29fd91_35000_426000:
+    mirror: false
+    rotation: 0
+    x: 10
+    y: 401
+  text_rectangular_T5_S10_77d2e57d_35000_553000:
+    mirror: false
+    rotation: 0
+    x: 10
+    y: 528
+ports:
+  o1: ec_0,o1
+  o10: ec_0,o2
+  o2: ec_1,o1
+  o3: ec_2,o1
+  o4: ec_3,o1
+  o5: ec_4,o1
+  o6: ec_4,o2
+  o7: ec_3,o2
+  o8: ec_2,o2
+  o9: ec_1,o2

@@ -10,7 +10,7 @@ instances:
 
 placements:
     tl:
-        x: -100
+        x: 000
         y: 500
 
     br:
@@ -26,7 +26,6 @@ routes:
     electrical:
         settings:
             separation: 20
-            width: 10
             end_straight_length: 100
         links:
             tl,e3: tr,e1

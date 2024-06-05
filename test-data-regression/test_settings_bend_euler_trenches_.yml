@@ -9,13 +9,12 @@ info:
   route_info_type: xs_34e31a19
   route_info_weight: 16.637
   route_info_xs_34e31a19_length: 16.637
-name: add_trenches_Cbend_eule_455642d5
+name: add_trenches_Cbend_eule_0a7a1008
 settings:
   component: bend_euler
   cross_section: rib_with_trenches
   layer_component: WG
   layer_trench: DEEP_ETCH
   left: 0
-  right: 0
   top: 0
   width_trench: 2

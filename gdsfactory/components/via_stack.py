@@ -74,7 +74,7 @@ def via_stack(
             ref = c << compass(size=size_m, layer=layer, port_type="electrical")
             c.add_ports(ref.ports)
         else:
-            ref = c << compass(size=size_m, layer=layer, port_type="electrical")
+            ref = c << compass(size=size_m, layer=layer, port_type=None)
 
     vias = vias or []
     for via, offset in zip(vias, layer_offsets):
@@ -188,6 +188,9 @@ via_stack_slab_m1_horizontal = partial(via_stack_slab_m1, slot_horizontal=True)
 
 
 if __name__ == "__main__":
+    c = via_stack()
+    c.show()
     # c = via_stack_slab_m3(size=(100, 10), slot_vertical=True)
-    c = via_stack_npp_m1()
+    # c = via_stack_npp_m1()
+    # n = c.get_netlist()
     c.show()

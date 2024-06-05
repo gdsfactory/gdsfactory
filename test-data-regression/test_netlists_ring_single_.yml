@@ -9,42 +9,42 @@ instances:
   bend_euler_R10_A90_P0p5_2f1f5c6d_-9125_16425:
     component: bend_euler
     info:
-      dy: 10.0
+      dy: 10
       length: 16.637
       min_bend_radius: 7.061
-      radius: 10.0
+      radius: 10
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
-      route_info_n_bend_90: 1.0
+      route_info_n_bend_90: 1
       route_info_type: xs_34e31a19
       route_info_weight: 16.637
       route_info_xs_34e31a19_length: 16.637
     settings:
       allow_min_radius_violation: false
-      angle: 90.0
+      angle: 90
       cross_section: strip
       p: 0.5
-      radius: 10.0
+      radius: 10
       with_arc_floorplan: true
   bend_euler_R10_A90_P0p5_2f1f5c6d_5125_16425:
     component: bend_euler
     info:
-      dy: 10.0
+      dy: 10
       length: 16.637
       min_bend_radius: 7.061
-      radius: 10.0
+      radius: 10
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
-      route_info_n_bend_90: 1.0
+      route_info_n_bend_90: 1
       route_info_type: xs_34e31a19
       route_info_weight: 16.637
       route_info_xs_34e31a19_length: 16.637
     settings:
       allow_min_radius_violation: false
-      angle: 90.0
+      angle: 90
       cross_section: strip
       p: 0.5
-      radius: 10.0
+      radius: 10
       with_arc_floorplan: true
   coupler_ring_G0p2_R10_L_9aa84a70_-2000_5225:
     component: coupler_ring
@@ -56,8 +56,8 @@ instances:
       cross_section: strip
       gap: 0.2
       length_extension: 3
-      length_x: 4.0
-      radius: 10.0
+      length_x: 4
+      radius: 10
   straight_L0p6_N2_CSstrip_-14000_11000:
     component: straight
     info:
@@ -87,47 +87,47 @@ instances:
   straight_L4_N2_CSstrip_-2000_21300:
     component: straight
     info:
-      length: 4.0
-      route_info_length: 4.0
+      length: 4
+      route_info_length: 4
       route_info_type: xs_34e31a19
-      route_info_weight: 4.0
-      route_info_xs_34e31a19_length: 4.0
+      route_info_weight: 4
+      route_info_xs_34e31a19_length: 4
       width: 0.5
     settings:
       cross_section: strip
-      length: 4.0
+      length: 4
       npoints: 2
 name: ring_single_G0p2_R10_LX_3ca26ca7
 placements:
   bend_euler_R10_A90_P0p5_2f1f5c6d_-9125_16425:
     mirror: false
-    rotation: 180.0
-    x: -4.0
+    rotation: 180
+    x: -4
     y: 21.3
   bend_euler_R10_A90_P0p5_2f1f5c6d_5125_16425:
     mirror: false
-    rotation: 90.0
-    x: 10.0
+    rotation: 90
+    x: 10
     y: 11.3
   coupler_ring_G0p2_R10_L_9aa84a70_-2000_5225:
     mirror: false
-    rotation: 0.0
-    x: 0.0
-    y: 0.0
+    rotation: 0
+    x: 0
+    y: 0
   straight_L0p6_N2_CSstrip_-14000_11000:
     mirror: false
-    rotation: 90.0
-    x: -14.0
-    y: 10.700000000000001
+    rotation: 90
+    x: -14
+    y: 10.7
   straight_L0p6_N2_CSstrip_10000_11000:
     mirror: false
-    rotation: 270.0
-    x: 10.0
+    rotation: 270
+    x: 10
     y: 11.3
   straight_L4_N2_CSstrip_-2000_21300:
     mirror: false
-    rotation: 180.0
-    x: 0.0
+    rotation: 180
+    x: 0
     y: 21.3
 ports:
   o1: coupler_ring_G0p2_R10_L_9aa84a70_-2000_5225,o1

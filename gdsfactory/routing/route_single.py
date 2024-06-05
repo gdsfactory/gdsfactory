@@ -27,16 +27,12 @@ To generate a route:
 
 from __future__ import annotations
 
-import warnings
-
 import kfactory as kf
 from kfactory.routing.electrical import route_elec
 from kfactory.routing.optical import OpticalManhattanRoute, place90, route
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.port import Port
 from gdsfactory.typings import (
     ComponentSpec,
@@ -51,8 +47,8 @@ def route_single(
     component: Component,
     port1: Port,
     port2: Port,
-    bend: ComponentSpec = bend_euler,
-    straight: ComponentSpec = straight_function,
+    bend: ComponentSpec = "bend_euler",
+    straight: ComponentSpec = "straight",
     taper: ComponentSpec | None = None,
     start_straight_length: float = 0.0,
     end_straight_length: float = 0.0,
@@ -60,7 +56,7 @@ def route_single(
     waypoints: Coordinates | None = None,
     port_type: str = "optical",
     allow_width_mismatch: bool = False,
-    **kwargs,
+    radius: float | None = None,
 ) -> OpticalManhattanRoute:
     """Returns a Manhattan Route between 2 ports.
 
@@ -80,7 +76,7 @@ def route_single(
         waypoints: list of points to pass through.
         port_type: port type to route.
         allow_width_mismatch: allow different port widths.
-        kwargs: cross_section settings.
+        radius: bend radius. If None, defaults to cross_section.radius.
 
 
     .. plot::
@@ -98,34 +94,28 @@ def route_single(
     p1 = port1
     p2 = port2
 
-    with_sbend = kwargs.pop("with_sbend", None)
-    if with_sbend:
-        warnings.warn("with_sbend is not implemented yet")
-
-    min_straight_length = kwargs.pop("min_straight_length", None)
-    if min_straight_length:
-        warnings.warn("minimum straight length not implemented yet")
-
-    xs = gf.get_cross_section(cross_section, **kwargs)
+    xs = gf.get_cross_section(cross_section)
     width = xs.width
+    radius = radius or xs.radius
     width_dbu = width / component.kcl.dbu
-    # straight = partial(straight, width=width, cross_section=cross_section)
+
     taper_cell = gf.get_component(taper, cross_section=cross_section) if taper else None
     bend90 = (
         bend
         if isinstance(bend, Component)
-        else gf.get_component(bend, cross_section=xs)
+        else gf.get_component(bend, cross_section=cross_section, radius=radius)
     )
 
     def straight_dbu(
-        length: int, width: int = width_dbu, cross_section=cross_section, **kwargs
+        length: int,
+        width: int = width_dbu,
+        cross_section=cross_section,
     ) -> Component:
         return gf.get_component(
             straight,
             length=length * component.kcl.dbu,
             width=width * component.kcl.dbu,
             cross_section=cross_section,
-            **kwargs,
         )
 
     dbu = component.kcl.dbu

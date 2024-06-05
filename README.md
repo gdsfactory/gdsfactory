@@ -11,11 +11,6 @@
 
 ![logo](https://i.imgur.com/cN1ZWq8.png)
 
-> **⚠️ Warning:**
-> You are viewing a preview of the gdsfactory v8 release. The gdsfactory v7 has been moved to the gdsfactory7 repository: [https://github.com/gdsfactory/gdsfactory7](https://github.com/gdsfactory/gdsfactory7).
->
-> gdsfactory v8 is based on kfactory, offers enhanced routing functions and additional features from klayout, including DRC, dummy fill, and connectivity checks.
-
 
 Gdsfactory is a Python library for designing chips (Photonics, Analog, Quantum, MEMs, and more), 3D printed objects, and PCBs.
 Here, you can code your designs in Python or YAML, perform verification (DRC, simulation, and extraction), and enable automated testing in the lab to ensure your fabricated devices meet your specifications. As input you write python code, as an output GDSFactory creates CAD files (GDS, OASIS, STL, GERBER).

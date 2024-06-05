@@ -224,7 +224,11 @@ mzi_coupler = partial(
 )
 
 mzi_pin = partial(
-    mzi, straight_x_top="straight_pin", cross_section_x_top="pin", delta_length=0.0
+    mzi,
+    straight_x_top="straight_pin",
+    cross_section_x_top="pin",
+    delta_length=0.0,
+    length_x=100,
 )
 
 mzi_phase_shifter = partial(mzi, straight_x_top="straight_heater_metal", length_x=200)
@@ -243,7 +247,7 @@ mzm = partial(
 
 if __name__ == "__main__":
     # c = mzi_coupler()
-    c = mzi1x2_2x2()
+    c = mzi_pin()
     # c = mzm()
     # from gdsfactory import get_generic_pdk
 

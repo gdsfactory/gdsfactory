@@ -3,7 +3,6 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory import cell
 from gdsfactory.component import Component
-from gdsfactory.components.mzi import mzi_pin
 from gdsfactory.routing.route_single import route_single
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
@@ -17,14 +16,13 @@ def coh_tx_single_pol(
     mzm_ps_spacing: float = 40.0,
     splitter: ComponentSpec = "mmi1x2",
     combiner: ComponentSpec | None = None,
-    mzm: ComponentSpec = mzi_pin,
+    mzm: ComponentSpec = "mzi_pin",
     mzm_length: float = 200.0,
     xspacing: float = 40.0,
     input_coupler: ComponentSpec | None = None,
     output_coupler: ComponentSpec | None = None,
     pad_array: ComponentSpec = "pad_array",
     cross_section: CrossSectionSpec = "strip",
-    **kwargs,
 ) -> Component:
     """MZM-based single polarization coherent transmitter.
 
@@ -44,7 +42,6 @@ def coh_tx_single_pol(
         output_coupler: Optional coupler to add after the combiner.
         pad_array: array of pads spec.
         cross_section: for routing (splitter to mzms and mzms to combiners).
-        kwargs: cross_section settings.
 
     .. code::
 
@@ -76,7 +73,8 @@ def coh_tx_single_pol(
     else:
         # only the q arm has a phase shifter
         straight = straight_function(
-            length=phase_shifter_length, cross_section=cross_section, **kwargs
+            length=phase_shifter_length,
+            cross_section=cross_section,
         )
         ps_i = c << straight
     ps_q = c << phase_shifter
@@ -87,7 +85,8 @@ def coh_tx_single_pol(
         ps_q.connect("o1", mzm_q.ports["o2"])
     else:
         straight_conn = straight_function(
-            length=mzm_ps_spacing, cross_section=cross_section, **kwargs
+            length=mzm_ps_spacing,
+            cross_section=cross_section,
         )
         straight_i = c << straight_conn
         straight_q = c << straight_conn
@@ -108,8 +107,6 @@ def coh_tx_single_pol(
         sp.ports["o2"],
         mzm_i.ports["o1"],
         cross_section=cross_section,
-        with_sbend=False,
-        **kwargs,
     )
 
     route_single(
@@ -117,8 +114,6 @@ def coh_tx_single_pol(
         sp.ports["o3"],
         mzm_q.ports["o1"],
         cross_section=cross_section,
-        with_sbend=False,
-        **kwargs,
     )
 
     combiner = gf.get_component(combiner)
@@ -133,8 +128,6 @@ def coh_tx_single_pol(
         comb.ports["o2"],
         ps_i.ports["o2"],
         cross_section=cross_section,
-        with_sbend=False,
-        **kwargs,
     )
 
     route_single(
@@ -142,8 +135,6 @@ def coh_tx_single_pol(
         comb.ports["o3"],
         ps_q.ports["o2"],
         cross_section=cross_section,
-        with_sbend=False,
-        **kwargs,
     )
 
     if input_coupler is not None:

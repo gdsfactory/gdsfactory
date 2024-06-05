@@ -1,0 +1,363 @@
+connections:
+  bot_left_bend_ring_0,o1: top_left_bend_ring_0,o2
+  bot_left_bend_ring_0,o2: coupler_G0p236_L20_CSco_6803887a_10000_368,o2
+  bot_left_bend_ring_1,o1: top_left_bend_ring_1,o2
+  bot_left_bend_ring_1,o2: coupler_G0p236_L20_CSco_6803887a_10000_24368,o2
+  bot_left_bend_ring_2,o1: top_left_bend_ring_2,o2
+  bot_left_bend_ring_2,o2: coupler_G0p236_L20_CSco_6803887a_10000_48368,o2
+  bot_right_bend_ring_0,o1: coupler_G0p236_L20_CSco_6803887a_10000_368,o3
+  bot_right_bend_ring_0,o2: top_right_bend_ring_0,o1
+  bot_right_bend_ring_1,o1: coupler_G0p236_L20_CSco_6803887a_10000_24368,o3
+  bot_right_bend_ring_1,o2: top_right_bend_ring_1,o1
+  bot_right_bend_ring_2,o1: coupler_G0p236_L20_CSco_6803887a_10000_48368,o3
+  bot_right_bend_ring_2,o2: top_right_bend_ring_2,o1
+  coupler_G0p236_L20_CSco_6803887a_10000_24368,o1: top_left_bend_ring_0,o1
+  coupler_G0p236_L20_CSco_6803887a_10000_24368,o4: top_right_bend_ring_0,o2
+  coupler_G0p236_L20_CSco_6803887a_10000_48368,o1: top_left_bend_ring_1,o1
+  coupler_G0p236_L20_CSco_6803887a_10000_48368,o4: top_right_bend_ring_1,o2
+  coupler_G0p236_L20_CSco_6803887a_10000_72368,o1: top_left_bend_ring_2,o1
+  coupler_G0p236_L20_CSco_6803887a_10000_72368,o4: top_right_bend_ring_2,o2
+instances:
+  bot_left_bend_ring_0:
+    component: bend_circular
+    info:
+      dy: 10
+      length: 15.708
+      radius: 10
+      route_info_length: 15.708
+      route_info_min_bend_radius: 10
+      route_info_n_bend_90: 1
+      route_info_type: xs_34e31a19
+      route_info_weight: 15.708
+      route_info_xs_34e31a19_length: 15.708
+    settings:
+      allow_min_radius_violation: false
+      angle: 90
+      cross_section: strip
+      radius: 10
+  bot_left_bend_ring_1:
+    component: bend_circular
+    info:
+      dy: 10
+      length: 15.708
+      radius: 10
+      route_info_length: 15.708
+      route_info_min_bend_radius: 10
+      route_info_n_bend_90: 1
+      route_info_type: xs_34e31a19
+      route_info_weight: 15.708
+      route_info_xs_34e31a19_length: 15.708
+    settings:
+      allow_min_radius_violation: false
+      angle: 90
+      cross_section: strip
+      radius: 10
+  bot_left_bend_ring_2:
+    component: bend_circular
+    info:
+      dy: 10
+      length: 15.708
+      radius: 10
+      route_info_length: 15.708
+      route_info_min_bend_radius: 10
+      route_info_n_bend_90: 1
+      route_info_type: xs_34e31a19
+      route_info_weight: 15.708
+      route_info_xs_34e31a19_length: 15.708
+    settings:
+      allow_min_radius_violation: false
+      angle: 90
+      cross_section: strip
+      radius: 10
+  bot_right_bend_ring_0:
+    component: bend_circular
+    info:
+      dy: 10
+      length: 15.708
+      radius: 10
+      route_info_length: 15.708
+      route_info_min_bend_radius: 10
+      route_info_n_bend_90: 1
+      route_info_type: xs_34e31a19
+      route_info_weight: 15.708
+      route_info_xs_34e31a19_length: 15.708
+    settings:
+      allow_min_radius_violation: false
+      angle: 90
+      cross_section: strip
+      radius: 10
+  bot_right_bend_ring_1:
+    component: bend_circular
+    info:
+      dy: 10
+      length: 15.708
+      radius: 10
+      route_info_length: 15.708
+      route_info_min_bend_radius: 10
+      route_info_n_bend_90: 1
+      route_info_type: xs_34e31a19
+      route_info_weight: 15.708
+      route_info_xs_34e31a19_length: 15.708
+    settings:
+      allow_min_radius_violation: false
+      angle: 90
+      cross_section: strip
+      radius: 10
+  bot_right_bend_ring_2:
+    component: bend_circular
+    info:
+      dy: 10
+      length: 15.708
+      radius: 10
+      route_info_length: 15.708
+      route_info_min_bend_radius: 10
+      route_info_n_bend_90: 1
+      route_info_type: xs_34e31a19
+      route_info_weight: 15.708
+      route_info_xs_34e31a19_length: 15.708
+    settings:
+      allow_min_radius_violation: false
+      angle: 90
+      cross_section: strip
+      radius: 10
+  coupler_G0p236_L20_CSco_6803887a_10000_24368:
+    component: coupler
+    info:
+      length: 10.186
+      min_bend_radius: 11.857
+    settings:
+      coupler_straight: coupler_straight
+      coupler_symmetric: coupler_symmetric
+      cross_section: strip
+      dx: 10
+      dy: 4
+      gap: 0.236
+      length: 20
+  coupler_G0p236_L20_CSco_6803887a_10000_368:
+    component: coupler
+    info:
+      length: 10.186
+      min_bend_radius: 11.857
+    settings:
+      coupler_straight: coupler_straight
+      coupler_symmetric: coupler_symmetric
+      cross_section: strip
+      dx: 10
+      dy: 4
+      gap: 0.236
+      length: 20
+  coupler_G0p236_L20_CSco_6803887a_10000_48368:
+    component: coupler
+    info:
+      length: 10.186
+      min_bend_radius: 11.857
+    settings:
+      coupler_straight: coupler_straight
+      coupler_symmetric: coupler_symmetric
+      cross_section: strip
+      dx: 10
+      dy: 4
+      gap: 0.236
+      length: 20
+  coupler_G0p236_L20_CSco_6803887a_10000_72368:
+    component: coupler
+    info:
+      length: 10.186
+      min_bend_radius: 11.857
+    settings:
+      coupler_straight: coupler_straight
+      coupler_symmetric: coupler_symmetric
+      cross_section: strip
+      dx: 10
+      dy: 4
+      gap: 0.236
+      length: 20
+  top_left_bend_ring_0:
+    component: bend_circular
+    info:
+      dy: 10
+      length: 15.708
+      radius: 10
+      route_info_length: 15.708
+      route_info_min_bend_radius: 10
+      route_info_n_bend_90: 1
+      route_info_type: xs_34e31a19
+      route_info_weight: 15.708
+      route_info_xs_34e31a19_length: 15.708
+    settings:
+      allow_min_radius_violation: false
+      angle: 90
+      cross_section: strip
+      radius: 10
+  top_left_bend_ring_1:
+    component: bend_circular
+    info:
+      dy: 10
+      length: 15.708
+      radius: 10
+      route_info_length: 15.708
+      route_info_min_bend_radius: 10
+      route_info_n_bend_90: 1
+      route_info_type: xs_34e31a19
+      route_info_weight: 15.708
+      route_info_xs_34e31a19_length: 15.708
+    settings:
+      allow_min_radius_violation: false
+      angle: 90
+      cross_section: strip
+      radius: 10
+  top_left_bend_ring_2:
+    component: bend_circular
+    info:
+      dy: 10
+      length: 15.708
+      radius: 10
+      route_info_length: 15.708
+      route_info_min_bend_radius: 10
+      route_info_n_bend_90: 1
+      route_info_type: xs_34e31a19
+      route_info_weight: 15.708
+      route_info_xs_34e31a19_length: 15.708
+    settings:
+      allow_min_radius_violation: false
+      angle: 90
+      cross_section: strip
+      radius: 10
+  top_right_bend_ring_0:
+    component: bend_circular
+    info:
+      dy: 10
+      length: 15.708
+      radius: 10
+      route_info_length: 15.708
+      route_info_min_bend_radius: 10
+      route_info_n_bend_90: 1
+      route_info_type: xs_34e31a19
+      route_info_weight: 15.708
+      route_info_xs_34e31a19_length: 15.708
+    settings:
+      allow_min_radius_violation: false
+      angle: 90
+      cross_section: strip
+      radius: 10
+  top_right_bend_ring_1:
+    component: bend_circular
+    info:
+      dy: 10
+      length: 15.708
+      radius: 10
+      route_info_length: 15.708
+      route_info_min_bend_radius: 10
+      route_info_n_bend_90: 1
+      route_info_type: xs_34e31a19
+      route_info_weight: 15.708
+      route_info_xs_34e31a19_length: 15.708
+    settings:
+      allow_min_radius_violation: false
+      angle: 90
+      cross_section: strip
+      radius: 10
+  top_right_bend_ring_2:
+    component: bend_circular
+    info:
+      dy: 10
+      length: 15.708
+      radius: 10
+      route_info_length: 15.708
+      route_info_min_bend_radius: 10
+      route_info_n_bend_90: 1
+      route_info_type: xs_34e31a19
+      route_info_weight: 15.708
+      route_info_xs_34e31a19_length: 15.708
+    settings:
+      allow_min_radius_violation: false
+      angle: 90
+      cross_section: strip
+      radius: 10
+name: ring_crow_couplers_R10__afe24872
+placements:
+  bot_left_bend_ring_0:
+    mirror: false
+    rotation: 270
+    x: -20
+    y: 12.368
+  bot_left_bend_ring_1:
+    mirror: false
+    rotation: 270
+    x: -20
+    y: 36.368
+  bot_left_bend_ring_2:
+    mirror: false
+    rotation: 270
+    x: -20
+    y: 60.368
+  bot_right_bend_ring_0:
+    mirror: false
+    rotation: 0
+    x: 30
+    y: 2.368
+  bot_right_bend_ring_1:
+    mirror: false
+    rotation: 0
+    x: 30
+    y: 26.368
+  bot_right_bend_ring_2:
+    mirror: false
+    rotation: 0
+    x: 30
+    y: 50.368
+  coupler_G0p236_L20_CSco_6803887a_10000_24368:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 24
+  coupler_G0p236_L20_CSco_6803887a_10000_368:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  coupler_G0p236_L20_CSco_6803887a_10000_48368:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 48
+  coupler_G0p236_L20_CSco_6803887a_10000_72368:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 72
+  top_left_bend_ring_0:
+    mirror: false
+    rotation: 180
+    x: -10
+    y: 22.368
+  top_left_bend_ring_1:
+    mirror: false
+    rotation: 180
+    x: -10
+    y: 46.368
+  top_left_bend_ring_2:
+    mirror: false
+    rotation: 180
+    x: -10
+    y: 70.368
+  top_right_bend_ring_0:
+    mirror: false
+    rotation: 90
+    x: 40
+    y: 12.368
+  top_right_bend_ring_1:
+    mirror: false
+    rotation: 90
+    x: 40
+    y: 36.368
+  top_right_bend_ring_2:
+    mirror: false
+    rotation: 90
+    x: 40
+    y: 60.368
+ports:
+  o1: coupler_G0p236_L20_CSco_6803887a_10000_368,o1
+  o2: coupler_G0p236_L20_CSco_6803887a_10000_368,o4
+  o3: coupler_G0p236_L20_CSco_6803887a_10000_72368,o2
+  o4: coupler_G0p236_L20_CSco_6803887a_10000_72368,o3

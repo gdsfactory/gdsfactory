@@ -382,8 +382,7 @@ class Pdk(BaseModel):
         elif isinstance(cross_section, dict | DictConfig):
             xs_name = cross_section.get("cross_section", None)
             settings = cross_section.get("settings", {})
-            xs = self.get_cross_section(xs_name)
-            return xs.copy(**settings)
+            return self.get_cross_section(xs_name, **settings)
         elif isinstance(cross_section, CrossSection | Transition):
             if kwargs:
                 warnings.warn(

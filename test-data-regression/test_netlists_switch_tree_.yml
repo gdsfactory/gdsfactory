@@ -1,0 +1,441 @@
+connections:
+  bend_euler_RNone_A90_P0_fb2476c0_406145_-5500,o1: straight_L29p375_N2_CSstrip_W0p5_411020_-25313,o2
+  bend_euler_RNone_A90_P0_fb2476c0_406145_-5500,o2: coupler_0_0,o3
+  bend_euler_RNone_A90_P0_fb2476c0_406145_5500,o1: straight_L29p375_N2_CSstrip_W0p5_411020_25312,o2
+  bend_euler_RNone_A90_P0_fb2476c0_406145_5500,o2: coupler_0_0,o2
+  bend_euler_RNone_A90_P0_fb2476c0_415895_-45125,o1: straight_L68p98_N2_CSstrip_W0p5_455510_-50000,o1
+  bend_euler_RNone_A90_P0_fb2476c0_415895_-45125,o2: straight_L29p375_N2_CSstrip_W0p5_411020_-25313,o1
+  bend_euler_RNone_A90_P0_fb2476c0_415895_45125,o1: straight_L68p98_N2_CSstrip_W0p5_455510_50000,o1
+  bend_euler_RNone_A90_P0_fb2476c0_415895_45125,o2: straight_L29p375_N2_CSstrip_W0p5_411020_25312,o1
+  bend_s_S500_24p375_N99__7434ea4c_1151020_-37188,o1: coupler_1_0,o2
+  bend_s_S500_24p375_N99__7434ea4c_1151020_-62813,o1: coupler_1_0,o3
+  bend_s_S500_24p375_N99__7434ea4c_1151020_37187,o1: coupler_1_1,o3
+  bend_s_S500_24p375_N99__7434ea4c_1151020_62812,o1: coupler_1_1,o2
+  coupler_1_0,o1: straight_L68p98_N2_CSstrip_W0p5_455510_-50000,o2
+  coupler_1_1,o1: straight_L68p98_N2_CSstrip_W0p5_455510_50000,o2
+instances:
+  bend_euler_RNone_A90_P0_fb2476c0_406145_-5500:
+    component: bend_euler
+    info:
+      dy: 10
+      length: 16.637
+      min_bend_radius: 7.061
+      radius: 10
+      route_info_length: 16.637
+      route_info_min_bend_radius: 7.061
+      route_info_n_bend_90: 1
+      route_info_type: xs_34e31a19
+      route_info_weight: 16.637
+      route_info_xs_34e31a19_length: 16.637
+    settings:
+      allow_min_radius_violation: false
+      angle: 90
+      cross_section: xs_34e31a19
+      p: 0.5
+      with_arc_floorplan: true
+  bend_euler_RNone_A90_P0_fb2476c0_406145_5500:
+    component: bend_euler
+    info:
+      dy: 10
+      length: 16.637
+      min_bend_radius: 7.061
+      radius: 10
+      route_info_length: 16.637
+      route_info_min_bend_radius: 7.061
+      route_info_n_bend_90: 1
+      route_info_type: xs_34e31a19
+      route_info_weight: 16.637
+      route_info_xs_34e31a19_length: 16.637
+    settings:
+      allow_min_radius_violation: false
+      angle: 90
+      cross_section: xs_34e31a19
+      p: 0.5
+      with_arc_floorplan: true
+  bend_euler_RNone_A90_P0_fb2476c0_415895_-45125:
+    component: bend_euler
+    info:
+      dy: 10
+      length: 16.637
+      min_bend_radius: 7.061
+      radius: 10
+      route_info_length: 16.637
+      route_info_min_bend_radius: 7.061
+      route_info_n_bend_90: 1
+      route_info_type: xs_34e31a19
+      route_info_weight: 16.637
+      route_info_xs_34e31a19_length: 16.637
+    settings:
+      allow_min_radius_violation: false
+      angle: 90
+      cross_section: xs_34e31a19
+      p: 0.5
+      with_arc_floorplan: true
+  bend_euler_RNone_A90_P0_fb2476c0_415895_45125:
+    component: bend_euler
+    info:
+      dy: 10
+      length: 16.637
+      min_bend_radius: 7.061
+      radius: 10
+      route_info_length: 16.637
+      route_info_min_bend_radius: 7.061
+      route_info_n_bend_90: 1
+      route_info_type: xs_34e31a19
+      route_info_weight: 16.637
+      route_info_xs_34e31a19_length: 16.637
+    settings:
+      allow_min_radius_violation: false
+      angle: 90
+      cross_section: xs_34e31a19
+      p: 0.5
+      with_arc_floorplan: true
+  bend_s_S500_24p375_N99__7434ea4c_1151020_-37188:
+    component: bend_s
+    info:
+      end_angle: 0
+      length: 500.845
+      min_bend_radius: 1870.03
+      route_info_length: 500.845
+      route_info_min_bend_radius: 1870.03
+      route_info_n_bend_s: 1
+      route_info_type: xs_34e31a19
+      route_info_weight: 500.845
+      route_info_xs_34e31a19_length: 500.845
+      start_angle: 0
+    settings:
+      allow_min_radius_violation: false
+      control_points:
+      - - 0
+        - 0
+      - - 250
+        - 0
+      - - 250
+        - 24.375
+      - - 500
+        - 24.375
+      cross_section: strip
+      npoints: 99
+      size:
+      - 500
+      - 24.375
+      with_manhattan_facing_angles: true
+  bend_s_S500_24p375_N99__7434ea4c_1151020_-62813:
+    component: bend_s
+    info:
+      end_angle: 0
+      length: 500.845
+      min_bend_radius: 1870.03
+      route_info_length: 500.845
+      route_info_min_bend_radius: 1870.03
+      route_info_n_bend_s: 1
+      route_info_type: xs_34e31a19
+      route_info_weight: 500.845
+      route_info_xs_34e31a19_length: 500.845
+      start_angle: 0
+    settings:
+      allow_min_radius_violation: false
+      control_points:
+      - - 0
+        - 0
+      - - 250
+        - 0
+      - - 250
+        - 24.375
+      - - 500
+        - 24.375
+      cross_section: strip
+      npoints: 99
+      size:
+      - 500
+      - 24.375
+      with_manhattan_facing_angles: true
+  bend_s_S500_24p375_N99__7434ea4c_1151020_37187:
+    component: bend_s
+    info:
+      end_angle: 0
+      length: 500.845
+      min_bend_radius: 1870.03
+      route_info_length: 500.845
+      route_info_min_bend_radius: 1870.03
+      route_info_n_bend_s: 1
+      route_info_type: xs_34e31a19
+      route_info_weight: 500.845
+      route_info_xs_34e31a19_length: 500.845
+      start_angle: 0
+    settings:
+      allow_min_radius_violation: false
+      control_points:
+      - - 0
+        - 0
+      - - 250
+        - 0
+      - - 250
+        - 24.375
+      - - 500
+        - 24.375
+      cross_section: strip
+      npoints: 99
+      size:
+      - 500
+      - 24.375
+      with_manhattan_facing_angles: true
+  bend_s_S500_24p375_N99__7434ea4c_1151020_62812:
+    component: bend_s
+    info:
+      end_angle: 0
+      length: 500.845
+      min_bend_radius: 1870.03
+      route_info_length: 500.845
+      route_info_min_bend_radius: 1870.03
+      route_info_n_bend_s: 1
+      route_info_type: xs_34e31a19
+      route_info_weight: 500.845
+      route_info_xs_34e31a19_length: 500.845
+      start_angle: 0
+    settings:
+      allow_min_radius_violation: false
+      control_points:
+      - - 0
+        - 0
+      - - 250
+        - 0
+      - - 250
+        - 24.375
+      - - 500
+        - 24.375
+      cross_section: strip
+      npoints: 99
+      size:
+      - 500
+      - 24.375
+      with_manhattan_facing_angles: true
+  coupler_0_0:
+    component: mzi
+    info: {}
+    settings:
+      add_optical_ports_arms: false
+      auto_rename_ports: true
+      bend: bend_euler
+      combiner: mmi2x2
+      cross_section: strip
+      delta_length: 0
+      length_y: 2
+      min_length: 0.01
+      mirror_bot: false
+      nbends: 2
+      port_e0_combiner: o4
+      port_e0_splitter: o3
+      port_e1_combiner: o3
+      port_e1_splitter: o2
+      splitter: mmi1x2
+      straight: straight
+      straight_x_top: Fstraight_heater_metal_undercut_Mgdsfactorypcomponentspstraight_heater_metal_SWUFalse_LSI0p1_LU5_LUS0
+      with_splitter: true
+  coupler_1_0:
+    component: mzi
+    info: {}
+    settings:
+      add_optical_ports_arms: false
+      auto_rename_ports: true
+      bend: bend_euler
+      combiner: mmi2x2
+      cross_section: strip
+      delta_length: 0
+      length_y: 2
+      min_length: 0.01
+      mirror_bot: false
+      nbends: 2
+      port_e0_combiner: o4
+      port_e0_splitter: o3
+      port_e1_combiner: o3
+      port_e1_splitter: o2
+      splitter: mmi1x2
+      straight: straight
+      straight_x_top: Fstraight_heater_metal_undercut_Mgdsfactorypcomponentspstraight_heater_metal_SWUFalse_LSI0p1_LU5_LUS0
+      with_splitter: true
+  coupler_1_1:
+    component: mzi
+    info: {}
+    settings:
+      add_optical_ports_arms: false
+      auto_rename_ports: true
+      bend: bend_euler
+      combiner: mmi2x2
+      cross_section: strip
+      delta_length: 0
+      length_y: 2
+      min_length: 0.01
+      mirror_bot: false
+      nbends: 2
+      port_e0_combiner: o4
+      port_e0_splitter: o3
+      port_e1_combiner: o3
+      port_e1_splitter: o2
+      splitter: mmi1x2
+      straight: straight
+      straight_x_top: Fstraight_heater_metal_undercut_Mgdsfactorypcomponentspstraight_heater_metal_SWUFalse_LSI0p1_LU5_LUS0
+      with_splitter: true
+  straight_L29p375_N2_CSstrip_W0p5_411020_-25313:
+    component: straight
+    info:
+      length: 29.375
+      route_info_length: 29.375
+      route_info_type: xs_34e31a19
+      route_info_weight: 29.375
+      route_info_xs_34e31a19_length: 29.375
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 29.375
+      npoints: 2
+      width: 0.5
+  straight_L29p375_N2_CSstrip_W0p5_411020_25312:
+    component: straight
+    info:
+      length: 29.375
+      route_info_length: 29.375
+      route_info_type: xs_34e31a19
+      route_info_weight: 29.375
+      route_info_xs_34e31a19_length: 29.375
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 29.375
+      npoints: 2
+      width: 0.5
+  straight_L68p98_N2_CSstrip_W0p5_455510_-50000:
+    component: straight
+    info:
+      length: 68.98
+      route_info_length: 68.98
+      route_info_type: xs_34e31a19
+      route_info_weight: 68.98
+      route_info_xs_34e31a19_length: 68.98
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 68.98
+      npoints: 2
+      width: 0.5
+  straight_L68p98_N2_CSstrip_W0p5_455510_50000:
+    component: straight
+    info:
+      length: 68.98
+      route_info_length: 68.98
+      route_info_type: xs_34e31a19
+      route_info_weight: 68.98
+      route_info_xs_34e31a19_length: 68.98
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 68.98
+      npoints: 2
+      width: 0.5
+name: splitter_tree_CFmzi_Mgd_25171b11
+placements:
+  bend_euler_RNone_A90_P0_fb2476c0_406145_-5500:
+    mirror: false
+    rotation: 90
+    x: 411.02
+    y: -10.625
+  bend_euler_RNone_A90_P0_fb2476c0_406145_5500:
+    mirror: true
+    rotation: 270
+    x: 411.02
+    y: 10.625
+  bend_euler_RNone_A90_P0_fb2476c0_415895_-45125:
+    mirror: true
+    rotation: 180
+    x: 421.02
+    y: -50
+  bend_euler_RNone_A90_P0_fb2476c0_415895_45125:
+    mirror: false
+    rotation: 180
+    x: 421.02
+    y: 50
+  bend_s_S500_24p375_N99__7434ea4c_1151020_-37188:
+    mirror: false
+    rotation: 0
+    x: 901.02
+    y: -49.375
+  bend_s_S500_24p375_N99__7434ea4c_1151020_-62813:
+    mirror: true
+    rotation: 0
+    x: 901.02
+    y: -50.625
+  bend_s_S500_24p375_N99__7434ea4c_1151020_37187:
+    mirror: true
+    rotation: 0
+    x: 901.02
+    y: 49.375
+  bend_s_S500_24p375_N99__7434ea4c_1151020_62812:
+    mirror: false
+    rotation: 0
+    x: 901.02
+    y: 50.625
+  coupler_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  coupler_1_0:
+    mirror: false
+    rotation: 0
+    x: 500
+    y: -50
+  coupler_1_1:
+    mirror: false
+    rotation: 0
+    x: 500
+    y: 50
+  straight_L29p375_N2_CSstrip_W0p5_411020_-25313:
+    mirror: true
+    rotation: 90
+    x: 411.02
+    y: -40
+  straight_L29p375_N2_CSstrip_W0p5_411020_25312:
+    mirror: false
+    rotation: 270
+    x: 411.02
+    y: 40
+  straight_L68p98_N2_CSstrip_W0p5_455510_-50000:
+    mirror: true
+    rotation: 0
+    x: 421.02
+    y: -50
+  straight_L68p98_N2_CSstrip_W0p5_455510_50000:
+    mirror: false
+    rotation: 0
+    x: 421.02
+    y: 50
+ports:
+  e1_0_1: coupler_0_0,e1
+  e1_1_19: coupler_1_1,e1
+  e1_1_9: coupler_1_0,e1
+  e2_0_5: coupler_0_0,e2
+  e2_1_13: coupler_1_0,e2
+  e2_1_23: coupler_1_1,e2
+  e3_0_2: coupler_0_0,e3
+  e3_1_10: coupler_1_0,e3
+  e3_1_20: coupler_1_1,e3
+  e4_0_6: coupler_0_0,e4
+  e4_1_14: coupler_1_0,e4
+  e4_1_24: coupler_1_1,e4
+  e5_0_7: coupler_0_0,e5
+  e5_1_15: coupler_1_0,e5
+  e5_1_25: coupler_1_1,e5
+  e6_0_3: coupler_0_0,e6
+  e6_1_11: coupler_1_0,e6
+  e6_1_21: coupler_1_1,e6
+  e7_0_8: coupler_0_0,e7
+  e7_1_16: coupler_1_0,e7
+  e7_1_26: coupler_1_1,e7
+  e8_0_4: coupler_0_0,e8
+  e8_1_12: coupler_1_0,e8
+  e8_1_22: coupler_1_1,e8
+  o1_0_0: coupler_0_0,o1
+  o2_1_17: bend_s_S500_24p375_N99__7434ea4c_1151020_-37188,o2
+  o2_1_18: bend_s_S500_24p375_N99__7434ea4c_1151020_-62813,o2
+  o2_1_27: bend_s_S500_24p375_N99__7434ea4c_1151020_62812,o2
+  o2_1_28: bend_s_S500_24p375_N99__7434ea4c_1151020_37187,o2

@@ -1,0 +1,35 @@
+connections: {}
+instances:
+  taper_cross_section_CSF_10cc8ed5_25000_0:
+    component: taper_cross_section
+    info:
+      route_info_length: 50
+      route_info_type: xs_34e31a19
+      route_info_weight: 50
+      route_info_xs_34e31a19_length: 50
+      route_info_xs_34e31a19_taper_length: 50
+    settings:
+      cross_section1: Fcross_section_Mgdsfactorypcross_section_SR10_RM5
+      cross_section2: xs_960aa7b6
+      length: 50
+      linear: false
+      npoints: 100
+      width_type: sine
+name: terminator_L50_CSIFcros_2d525ef0
+placements:
+  taper_cross_section_CSF_10cc8ed5_25000_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+ports:
+  o1: taper_cross_section_CSF_10cc8ed5_25000_0,o1
+warnings:
+  optical:
+    unconnected_ports:
+    - message: 1 unconnected optical ports!
+      ports:
+      - taper_cross_section_CSF_10cc8ed5_25000_0,o2
+      values:
+      - - 50000
+        - 0

@@ -51,8 +51,8 @@ def spiral_double(
 
     component.add_port("o1", port=spiral1.ports["o2"])
     component.add_port("o2", port=spiral2.ports["o2"])
-
     component.info["length"] = float(path.length() + bend.info["length"]) * 2
+    component.flatten()
     return component
 
 

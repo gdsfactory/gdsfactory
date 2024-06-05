@@ -1,0 +1,79 @@
+connections: {}
+instances:
+  rectangle_S5_5_L1_0_CFa_fd778b63_-2640_-2640:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 5
+      - 5
+  rectangle_S5_5_L1_0_CFa_fd778b63_2500_2500:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 5
+      - 5
+name: fiducial_squares_L1_0_S5_5_O0p14
+placements:
+  rectangle_S5_5_L1_0_CFa_fd778b63_-2640_-2640:
+    mirror: false
+    rotation: 0
+    x: -5.14
+    y: -5.14
+  rectangle_S5_5_L1_0_CFa_fd778b63_2500_2500:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+ports: {}
+warnings:
+  electrical:
+    unconnected_ports:
+    - message: 8 unconnected electrical ports!
+      ports:
+      - rectangle_S5_5_L1_0_CFa_fd778b63_2500_2500,e1
+      - rectangle_S5_5_L1_0_CFa_fd778b63_2500_2500,e2
+      - rectangle_S5_5_L1_0_CFa_fd778b63_2500_2500,e3
+      - rectangle_S5_5_L1_0_CFa_fd778b63_2500_2500,e4
+      - rectangle_S5_5_L1_0_CFa_fd778b63_-2640_-2640,e1
+      - rectangle_S5_5_L1_0_CFa_fd778b63_-2640_-2640,e2
+      - rectangle_S5_5_L1_0_CFa_fd778b63_-2640_-2640,e3
+      - rectangle_S5_5_L1_0_CFa_fd778b63_-2640_-2640,e4
+      values:
+      - - 0
+        - 2500
+      - - 2500
+        - 5000
+      - - 5000
+        - 2500
+      - - 2500
+        - 0
+      - - -5140
+        - -2640
+      - - -2640
+        - -140
+      - - -140
+        - -2640
+      - - -2640
+        - -5140

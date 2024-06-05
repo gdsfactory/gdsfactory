@@ -1,0 +1,59 @@
+connections:
+  coupler_G0p2_L0p1_CScou_7f125903_50_350,o2: dbr_W0p45_W0p55_L0p159__efcfb70c_-11600_2350,o1
+  coupler_G0p2_L0p1_CScou_7f125903_50_350,o3: dbr_W0p45_W0p55_L0p159__efcfb70c_11700_2350,o1
+instances:
+  coupler_G0p2_L0p1_CScou_7f125903_50_350:
+    component: coupler
+    info:
+      length: 10.19
+      min_bend_radius: 11.744
+    settings:
+      coupler_straight: coupler_straight
+      coupler_symmetric: coupler_symmetric
+      cross_section: strip
+      dx: 10
+      dy: 4
+      gap: 0.2
+      length: 0.1
+  dbr_W0p45_W0p55_L0p159__efcfb70c_-11600_2350:
+    component: dbr
+    info: {}
+    settings:
+      cross_section: strip
+      l1: 0.159
+      l2: 0.159
+      n: 10
+      straight_length: 0.01
+      w1: 0.45
+      w2: 0.55
+  dbr_W0p45_W0p55_L0p159__efcfb70c_11700_2350:
+    component: dbr
+    info: {}
+    settings:
+      cross_section: strip
+      l1: 0.159
+      l2: 0.159
+      n: 10
+      straight_length: 0.01
+      w1: 0.45
+      w2: 0.55
+name: cavity_Cdbr_Ccoupler_L0p1_G0p2
+placements:
+  coupler_G0p2_L0p1_CScou_7f125903_50_350:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  dbr_W0p45_W0p55_L0p159__efcfb70c_-11600_2350:
+    mirror: false
+    rotation: 180
+    x: -10.01
+    y: 2.35
+  dbr_W0p45_W0p55_L0p159__efcfb70c_11700_2350:
+    mirror: false
+    rotation: 0
+    x: 10.11
+    y: 2.35
+ports:
+  o1: coupler_G0p2_L0p1_CScou_7f125903_50_350,o1
+  o2: coupler_G0p2_L0p1_CScou_7f125903_50_350,o4

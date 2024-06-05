@@ -20,6 +20,7 @@ from __future__ import annotations
 
 from collections import defaultdict
 from collections.abc import Callable
+from pprint import pprint
 from typing import Any
 
 import numpy as np
@@ -138,11 +139,7 @@ def get_netlist(
         x = origin.x
         y = origin.y
         reference_name = get_instance_name(reference)
-        if (
-            isinstance(reference, ComponentReference)
-            and hasattr(reference, "columns")
-            and (reference.columns > 1 or reference.rows > 1)
-        ):
+        if reference.nb > 1 or reference.na > 1:
             is_array = True
             base_reference_name = reference_name
             reference_name += "__1_1"
@@ -171,12 +168,11 @@ def get_netlist(
             "mirror": reference.dtrans.mirror,
         }
         if is_array:
-            parent_ports = c.ports
-            for i in range(reference.rows):
-                for j in range(reference.columns):
+            for i in range(reference.nb):
+                for j in range(reference.na):
                     reference_name = f"{base_reference_name}__{i + 1}_{j + 1}"
-                    xj = x + j * reference.spacing[0]
-                    yi = y + i * reference.spacing[1]
+                    xj = x + j * reference.da.x
+                    yi = y + i * reference.da.y
                     instances[reference_name] = instance
                     placements[reference_name] = {
                         "x": xj,
@@ -184,16 +180,7 @@ def get_netlist(
                         "rotation": reference.dcplx_trans.angle,
                         "mirror": reference.dcplx_trans.mirror,
                     }
-                    for parent_port_name in parent_ports:
-                        top_name = f"{parent_port_name}_{i + 1}_{j + 1}"
-                        lower_name = f"{reference_name},{parent_port_name}"
-                        # a bit of a hack... get the top-level port for the
-                        # ComponentArray, by our known naming convention. I hope no one
-                        # renames these ports!
-                        parent_port = component.ports[top_name]
-                        name2port[lower_name] = parent_port
-                        top_ports_list.add(top_name)
-                        ports_by_type[parent_port.port_type].append(lower_name)
+
         else:
             # lower level ports
             for port in reference.ports:
@@ -355,9 +342,8 @@ def _extract_connections(
     }
 
     if critical_warnings:
-        raise ValueError(
-            f"Found critical warnings while extracting netlist: {critical_warnings}"
-        )
+        pprint(critical_warnings)
+        raise ValueError("Found critical warnings while extracting netlist")
     return connections, dict(warnings)
 
 

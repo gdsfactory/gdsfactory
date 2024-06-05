@@ -1,0 +1,403 @@
+connections:
+  bend_euler_RNone_A90_P0_d7c3a5a9_35125_-6507,o1: cp1,o4
+  bend_euler_RNone_A90_P0_d7c3a5a9_35125_-6507,o2: syl,o1
+  bend_euler_RNone_A90_P0_d7c3a5a9_35125_7243,o1: cp1,o3
+  bend_euler_RNone_A90_P0_d7c3a5a9_35125_7243,o2: sytl,o1
+  bend_euler_RNone_A90_P0_d7c3a5a9_44875_-23757,o1: syl,o2
+  bend_euler_RNone_A90_P0_d7c3a5a9_44875_-23757,o2: sxb,o1
+  bend_euler_RNone_A90_P0_d7c3a5a9_44875_19493,o1: sxt,o1
+  bend_euler_RNone_A90_P0_d7c3a5a9_44875_19493,o2: sytl,o2
+  bend_euler_RNone_A90_P0_d7c3a5a9_65145_-23757,o1: straight_L0p02_N2_CSstrip_W0p5_60010_-28632,o1
+  bend_euler_RNone_A90_P0_d7c3a5a9_65145_-23757,o2: straight_L7_N2_CSstrip_W0p5_70020_-15132,o1
+  bend_euler_RNone_A90_P0_d7c3a5a9_65145_19493,o1: straight_L0p02_N2_CSstrip_W0p5_60010_24368,o1
+  bend_euler_RNone_A90_P0_d7c3a5a9_65145_19493,o2: straight_L2_N2_CSstrip_W0p5_70020_13368,o1
+  bend_euler_RNone_A90_P0_d7c3a5a9_74895_-6507,o1: straight_L7_N2_CSstrip_W0p5_70020_-15132,o2
+  bend_euler_RNone_A90_P0_d7c3a5a9_74895_-6507,o2: cp2,o4
+  bend_euler_RNone_A90_P0_d7c3a5a9_74895_7243,o1: straight_L2_N2_CSstrip_W0p5_70020_13368,o2
+  bend_euler_RNone_A90_P0_d7c3a5a9_74895_7243,o2: cp2,o3
+  straight_L0p02_N2_CSstrip_W0p5_60010_-28632,o2: sxb,o2
+  straight_L0p02_N2_CSstrip_W0p5_60010_24368,o2: sxt,o2
+instances:
+  bend_euler_RNone_A90_P0_d7c3a5a9_35125_-6507:
+    component: bend_euler
+    info:
+      dy: 10
+      length: 16.637
+      min_bend_radius: 7.061
+      radius: 10
+      route_info_length: 16.637
+      route_info_min_bend_radius: 7.061
+      route_info_n_bend_90: 1
+      route_info_type: xs_34e31a19
+      route_info_weight: 16.637
+      route_info_xs_34e31a19_length: 16.637
+    settings:
+      allow_min_radius_violation: false
+      angle: 90
+      cross_section: strip
+      p: 0.5
+      with_arc_floorplan: true
+  bend_euler_RNone_A90_P0_d7c3a5a9_35125_7243:
+    component: bend_euler
+    info:
+      dy: 10
+      length: 16.637
+      min_bend_radius: 7.061
+      radius: 10
+      route_info_length: 16.637
+      route_info_min_bend_radius: 7.061
+      route_info_n_bend_90: 1
+      route_info_type: xs_34e31a19
+      route_info_weight: 16.637
+      route_info_xs_34e31a19_length: 16.637
+    settings:
+      allow_min_radius_violation: false
+      angle: 90
+      cross_section: strip
+      p: 0.5
+      with_arc_floorplan: true
+  bend_euler_RNone_A90_P0_d7c3a5a9_44875_-23757:
+    component: bend_euler
+    info:
+      dy: 10
+      length: 16.637
+      min_bend_radius: 7.061
+      radius: 10
+      route_info_length: 16.637
+      route_info_min_bend_radius: 7.061
+      route_info_n_bend_90: 1
+      route_info_type: xs_34e31a19
+      route_info_weight: 16.637
+      route_info_xs_34e31a19_length: 16.637
+    settings:
+      allow_min_radius_violation: false
+      angle: 90
+      cross_section: strip
+      p: 0.5
+      with_arc_floorplan: true
+  bend_euler_RNone_A90_P0_d7c3a5a9_44875_19493:
+    component: bend_euler
+    info:
+      dy: 10
+      length: 16.637
+      min_bend_radius: 7.061
+      radius: 10
+      route_info_length: 16.637
+      route_info_min_bend_radius: 7.061
+      route_info_n_bend_90: 1
+      route_info_type: xs_34e31a19
+      route_info_weight: 16.637
+      route_info_xs_34e31a19_length: 16.637
+    settings:
+      allow_min_radius_violation: false
+      angle: 90
+      cross_section: strip
+      p: 0.5
+      with_arc_floorplan: true
+  bend_euler_RNone_A90_P0_d7c3a5a9_65145_-23757:
+    component: bend_euler
+    info:
+      dy: 10
+      length: 16.637
+      min_bend_radius: 7.061
+      radius: 10
+      route_info_length: 16.637
+      route_info_min_bend_radius: 7.061
+      route_info_n_bend_90: 1
+      route_info_type: xs_34e31a19
+      route_info_weight: 16.637
+      route_info_xs_34e31a19_length: 16.637
+    settings:
+      allow_min_radius_violation: false
+      angle: 90
+      cross_section: strip
+      p: 0.5
+      with_arc_floorplan: true
+  bend_euler_RNone_A90_P0_d7c3a5a9_65145_19493:
+    component: bend_euler
+    info:
+      dy: 10
+      length: 16.637
+      min_bend_radius: 7.061
+      radius: 10
+      route_info_length: 16.637
+      route_info_min_bend_radius: 7.061
+      route_info_n_bend_90: 1
+      route_info_type: xs_34e31a19
+      route_info_weight: 16.637
+      route_info_xs_34e31a19_length: 16.637
+    settings:
+      allow_min_radius_violation: false
+      angle: 90
+      cross_section: strip
+      p: 0.5
+      with_arc_floorplan: true
+  bend_euler_RNone_A90_P0_d7c3a5a9_74895_-6507:
+    component: bend_euler
+    info:
+      dy: 10
+      length: 16.637
+      min_bend_radius: 7.061
+      radius: 10
+      route_info_length: 16.637
+      route_info_min_bend_radius: 7.061
+      route_info_n_bend_90: 1
+      route_info_type: xs_34e31a19
+      route_info_weight: 16.637
+      route_info_xs_34e31a19_length: 16.637
+    settings:
+      allow_min_radius_violation: false
+      angle: 90
+      cross_section: strip
+      p: 0.5
+      with_arc_floorplan: true
+  bend_euler_RNone_A90_P0_d7c3a5a9_74895_7243:
+    component: bend_euler
+    info:
+      dy: 10
+      length: 16.637
+      min_bend_radius: 7.061
+      radius: 10
+      route_info_length: 16.637
+      route_info_min_bend_radius: 7.061
+      route_info_n_bend_90: 1
+      route_info_type: xs_34e31a19
+      route_info_weight: 16.637
+      route_info_xs_34e31a19_length: 16.637
+    settings:
+      allow_min_radius_violation: false
+      angle: 90
+      cross_section: strip
+      p: 0.5
+      with_arc_floorplan: true
+  cp1:
+    component: coupler
+    info:
+      length: 10.186
+      min_bend_radius: 11.857
+    settings:
+      coupler_straight: coupler_straight
+      coupler_symmetric: coupler_symmetric
+      cross_section: strip
+      dx: 10
+      dy: 4
+      gap: 0.236
+      length: 20
+  cp2:
+    component: coupler
+    info:
+      length: 10.186
+      min_bend_radius: 11.857
+    settings:
+      coupler_straight: coupler_straight
+      coupler_symmetric: coupler_symmetric
+      cross_section: strip
+      dx: 10
+      dy: 4
+      gap: 0.236
+      length: 20
+  straight_L0p02_N2_CSstrip_W0p5_60010_-28632:
+    component: straight
+    info:
+      length: 0.02
+      route_info_length: 0.02
+      route_info_type: xs_34e31a19
+      route_info_weight: 0.02
+      route_info_xs_34e31a19_length: 0.02
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 0.02
+      npoints: 2
+      width: 0.5
+  straight_L0p02_N2_CSstrip_W0p5_60010_24368:
+    component: straight
+    info:
+      length: 0.02
+      route_info_length: 0.02
+      route_info_type: xs_34e31a19
+      route_info_weight: 0.02
+      route_info_xs_34e31a19_length: 0.02
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 0.02
+      npoints: 2
+      width: 0.5
+  straight_L2_N2_CSstrip_W0p5_70020_13368:
+    component: straight
+    info:
+      length: 2
+      route_info_length: 2
+      route_info_type: xs_34e31a19
+      route_info_weight: 2
+      route_info_xs_34e31a19_length: 2
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 2
+      npoints: 2
+      width: 0.5
+  straight_L7_N2_CSstrip_W0p5_70020_-15132:
+    component: straight
+    info:
+      length: 7
+      route_info_length: 7
+      route_info_type: xs_34e31a19
+      route_info_weight: 7
+      route_info_xs_34e31a19_length: 7
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 7
+      npoints: 2
+      width: 0.5
+  sxb:
+    component: straight
+    info:
+      length: 10
+      route_info_length: 10
+      route_info_type: xs_34e31a19
+      route_info_weight: 10
+      route_info_xs_34e31a19_length: 10
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 10
+      npoints: 2
+  sxt:
+    component: straight
+    info:
+      length: 10
+      route_info_length: 10
+      route_info_type: xs_34e31a19
+      route_info_weight: 10
+      route_info_xs_34e31a19_length: 10
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 10
+      npoints: 2
+  syl:
+    component: straight
+    info:
+      length: 7
+      route_info_length: 7
+      route_info_type: xs_34e31a19
+      route_info_weight: 7
+      route_info_xs_34e31a19_length: 7
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 7
+      npoints: 2
+  sytl:
+    component: straight
+    info:
+      length: 2
+      route_info_length: 2
+      route_info_type: xs_34e31a19
+      route_info_weight: 2
+      route_info_xs_34e31a19_length: 2
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 2
+      npoints: 2
+name: mzi_DL10_LY2_LXNone_Bbe_4b00924b
+placements:
+  bend_euler_RNone_A90_P0_d7c3a5a9_35125_-6507:
+    mirror: true
+    rotation: 0
+    x: 30
+    y: -1.632
+  bend_euler_RNone_A90_P0_d7c3a5a9_35125_7243:
+    mirror: false
+    rotation: 0
+    x: 30
+    y: 2.368
+  bend_euler_RNone_A90_P0_d7c3a5a9_44875_-23757:
+    mirror: false
+    rotation: 270
+    x: 40
+    y: -18.632
+  bend_euler_RNone_A90_P0_d7c3a5a9_44875_19493:
+    mirror: false
+    rotation: 180
+    x: 50
+    y: 24.368
+  bend_euler_RNone_A90_P0_d7c3a5a9_65145_-23757:
+    mirror: false
+    rotation: 0
+    x: 60.02
+    y: -28.632
+  bend_euler_RNone_A90_P0_d7c3a5a9_65145_19493:
+    mirror: true
+    rotation: 0
+    x: 60.02
+    y: 24.368
+  bend_euler_RNone_A90_P0_d7c3a5a9_74895_-6507:
+    mirror: true
+    rotation: 90
+    x: 70.02
+    y: -11.632
+  bend_euler_RNone_A90_P0_d7c3a5a9_74895_7243:
+    mirror: false
+    rotation: 270
+    x: 70.02
+    y: 12.368
+  cp1:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  cp2:
+    mirror: true
+    rotation: 180
+    x: 110.02
+    y: 0
+  straight_L0p02_N2_CSstrip_W0p5_60010_-28632:
+    mirror: false
+    rotation: 180
+    x: 60.02
+    y: -28.632
+  straight_L0p02_N2_CSstrip_W0p5_60010_24368:
+    mirror: true
+    rotation: 180
+    x: 60.02
+    y: 24.368
+  straight_L2_N2_CSstrip_W0p5_70020_13368:
+    mirror: true
+    rotation: 270
+    x: 70.02
+    y: 14.368
+  straight_L7_N2_CSstrip_W0p5_70020_-15132:
+    mirror: false
+    rotation: 90
+    x: 70.02
+    y: -18.632
+  sxb:
+    mirror: false
+    rotation: 0
+    x: 50
+    y: -28.632
+  sxt:
+    mirror: false
+    rotation: 0
+    x: 50
+    y: 24.368
+  syl:
+    mirror: true
+    rotation: 270
+    x: 40
+    y: -11.632
+  sytl:
+    mirror: false
+    rotation: 90
+    x: 40
+    y: 12.368
+ports:
+  o1: cp1,o1
+  o2: cp1,o2
+  o3: cp2,o2
+  o4: cp2,o1

@@ -1,0 +1,85 @@
+connections: {}
+instances:
+  straight_L10_N2_CSstrip_5000_0:
+    component: straight
+    info:
+      length: 10
+      route_info_length: 10
+      route_info_type: xs_34e31a19
+      route_info_weight: 10
+      route_info_xs_34e31a19_length: 10
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 10
+      npoints: 2
+  straight_L10_N2_CSstrip_5000_13500:
+    component: straight
+    info:
+      length: 10
+      route_info_length: 10
+      route_info_type: xs_34e31a19
+      route_info_weight: 10
+      route_info_xs_34e31a19_length: 10
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 10
+      npoints: 2
+  straight_L10_N2_CSstrip_5000_4500:
+    component: straight
+    info:
+      length: 10
+      route_info_length: 10
+      route_info_type: xs_34e31a19
+      route_info_weight: 10
+      route_info_xs_34e31a19_length: 10
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 10
+      npoints: 2
+  straight_L10_N2_CSstrip_5000_9000:
+    component: straight
+    info:
+      length: 10
+      route_info_length: 10
+      route_info_type: xs_34e31a19
+      route_info_weight: 10
+      route_info_xs_34e31a19_length: 10
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 10
+      npoints: 2
+name: straight_array_N4_S4_L10_CSstrip
+placements:
+  straight_L10_N2_CSstrip_5000_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  straight_L10_N2_CSstrip_5000_13500:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 13.5
+  straight_L10_N2_CSstrip_5000_4500:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 4.5
+  straight_L10_N2_CSstrip_5000_9000:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 9
+ports:
+  o1: straight_L10_N2_CSstrip_5000_0,o1
+  o2: straight_L10_N2_CSstrip_5000_4500,o1
+  o3: straight_L10_N2_CSstrip_5000_9000,o1
+  o4: straight_L10_N2_CSstrip_5000_13500,o1
+  o5: straight_L10_N2_CSstrip_5000_13500,o2
+  o6: straight_L10_N2_CSstrip_5000_9000,o2
+  o7: straight_L10_N2_CSstrip_5000_4500,o2
+  o8: straight_L10_N2_CSstrip_5000_0,o2

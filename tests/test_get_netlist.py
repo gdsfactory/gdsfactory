@@ -35,14 +35,15 @@ def test_netlist_complex() -> None:
 
 
 def test_get_netlist_cell_array() -> None:
+    rows = 3
     c = gf.components.array(
-        gf.components.straight(length=10), spacing=(0, 100), columns=1, rows=5
+        gf.components.straight(length=10), spacing=(0, 100), columns=1, rows=rows
     )
     n = c.get_netlist(allow_multiple=True)
-    assert len(c.ports) == 10, len(c.ports)
+    assert len(c.ports) == 2 * rows, len(c.ports)
     # assert not n["connections"], n["connections"]
-    assert len(n["ports"]) == 2, len(n["ports"])
-    assert len(n["instances"]) == 1, len(n["instances"])
+    assert len(n["ports"]) == 0, len(n["ports"])
+    assert len(n["instances"]) == rows, len(n["instances"])
 
 
 def test_get_netlist_cell_array_connecting() -> None:
@@ -251,4 +252,4 @@ def test_get_netlist_transformed() -> None:
 
 
 if __name__ == "__main__":
-    test_get_netlist_transformed()
+    test_get_netlist_cell_array()

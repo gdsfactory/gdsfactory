@@ -1,0 +1,929 @@
+connections: {}
+instances:
+  die_S10000_10000_SW100__01fc4f65_10000000_30000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '20'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__03eef000_-30000000_50000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '31'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__043c635e_-30000000_20000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '9'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__0472b2f3_30000000_40000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '30'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__05f1160f_20000000_10000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '8'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__076ea13c_20000000_50000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '36'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__0c2ea734_20000000_60000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '42'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__11ff90c1_10000000_40000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '28'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__1670ee81_0_60000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '40'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__1a0ca07b_-30000000_30000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '16'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__1ff70ad0_-40000000_40000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '23'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__2e0997df_0_70000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '44'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__3541f110_10000000_50000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '35'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__50dd393c_0_0:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '2'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__52679ef4_-10000000_60000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '39'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__5cbd3bfb_0_10000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '6'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__5e5dee17_-10000000_40000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '26'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__5f3173a7_20000000_20000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '14'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__61218871_10000000_20000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '13'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__63134e2e_10000000_60000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '41'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__6919964c_-20000000_10000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '4'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__69209640_0_30000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '19'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__6cf628e5_-20000000_50000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '32'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__703d83d4_10000000_10000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '7'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__76fb6550_0_40000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '27'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__78b748de_-20000000_60000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '38'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__7d7b0512_-20000000_20000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '10'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__8546e79d_-10000000_20000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '11'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__878ffc7d_-30000000_40000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '24'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__8ef36291_20000000_30000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '21'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__98beffe1_-30000000_60000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '37'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__9cdab807_-20000000_30000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '17'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__9d8a2ea9_-10000000_50000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '33'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__a433b517_0_20000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '12'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__a78e1fdc_-10000000_70000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '43'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__b4c945ee_-10000000_0:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '1'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__b8720279_-20000000_40000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '25'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__c09b2810_30000000_30000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '22'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__c53ffe33_-30000000_10000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '3'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__c5938623_20000000_40000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '29'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__ced8053b_-10000000_10000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '5'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__efc61ecb_0_50000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '34'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__f957c20b_-10000000_30000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '18'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+  die_S10000_10000_SW100__fdbc9357_-40000000_30000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '15'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_location: SW
+      text_size: 100
+name: wafer_Rdie_C2_6_6_8_8_6_ad04a226
+placements:
+  die_S10000_10000_SW100__01fc4f65_10000000_30000000:
+    mirror: false
+    rotation: 0
+    x: 10000
+    y: 30000
+  die_S10000_10000_SW100__03eef000_-30000000_50000000:
+    mirror: false
+    rotation: 0
+    x: -30000
+    y: 50000
+  die_S10000_10000_SW100__043c635e_-30000000_20000000:
+    mirror: false
+    rotation: 0
+    x: -30000
+    y: 20000
+  die_S10000_10000_SW100__0472b2f3_30000000_40000000:
+    mirror: false
+    rotation: 0
+    x: 30000
+    y: 40000
+  die_S10000_10000_SW100__05f1160f_20000000_10000000:
+    mirror: false
+    rotation: 0
+    x: 20000
+    y: 10000
+  die_S10000_10000_SW100__076ea13c_20000000_50000000:
+    mirror: false
+    rotation: 0
+    x: 20000
+    y: 50000
+  die_S10000_10000_SW100__0c2ea734_20000000_60000000:
+    mirror: false
+    rotation: 0
+    x: 20000
+    y: 60000
+  die_S10000_10000_SW100__11ff90c1_10000000_40000000:
+    mirror: false
+    rotation: 0
+    x: 10000
+    y: 40000
+  die_S10000_10000_SW100__1670ee81_0_60000000:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 60000
+  die_S10000_10000_SW100__1a0ca07b_-30000000_30000000:
+    mirror: false
+    rotation: 0
+    x: -30000
+    y: 30000
+  die_S10000_10000_SW100__1ff70ad0_-40000000_40000000:
+    mirror: false
+    rotation: 0
+    x: -40000
+    y: 40000
+  die_S10000_10000_SW100__2e0997df_0_70000000:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 70000
+  die_S10000_10000_SW100__3541f110_10000000_50000000:
+    mirror: false
+    rotation: 0
+    x: 10000
+    y: 50000
+  die_S10000_10000_SW100__50dd393c_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  die_S10000_10000_SW100__52679ef4_-10000000_60000000:
+    mirror: false
+    rotation: 0
+    x: -10000
+    y: 60000
+  die_S10000_10000_SW100__5cbd3bfb_0_10000000:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 10000
+  die_S10000_10000_SW100__5e5dee17_-10000000_40000000:
+    mirror: false
+    rotation: 0
+    x: -10000
+    y: 40000
+  die_S10000_10000_SW100__5f3173a7_20000000_20000000:
+    mirror: false
+    rotation: 0
+    x: 20000
+    y: 20000
+  die_S10000_10000_SW100__61218871_10000000_20000000:
+    mirror: false
+    rotation: 0
+    x: 10000
+    y: 20000
+  die_S10000_10000_SW100__63134e2e_10000000_60000000:
+    mirror: false
+    rotation: 0
+    x: 10000
+    y: 60000
+  die_S10000_10000_SW100__6919964c_-20000000_10000000:
+    mirror: false
+    rotation: 0
+    x: -20000
+    y: 10000
+  die_S10000_10000_SW100__69209640_0_30000000:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 30000
+  die_S10000_10000_SW100__6cf628e5_-20000000_50000000:
+    mirror: false
+    rotation: 0
+    x: -20000
+    y: 50000
+  die_S10000_10000_SW100__703d83d4_10000000_10000000:
+    mirror: false
+    rotation: 0
+    x: 10000
+    y: 10000
+  die_S10000_10000_SW100__76fb6550_0_40000000:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 40000
+  die_S10000_10000_SW100__78b748de_-20000000_60000000:
+    mirror: false
+    rotation: 0
+    x: -20000
+    y: 60000
+  die_S10000_10000_SW100__7d7b0512_-20000000_20000000:
+    mirror: false
+    rotation: 0
+    x: -20000
+    y: 20000
+  die_S10000_10000_SW100__8546e79d_-10000000_20000000:
+    mirror: false
+    rotation: 0
+    x: -10000
+    y: 20000
+  die_S10000_10000_SW100__878ffc7d_-30000000_40000000:
+    mirror: false
+    rotation: 0
+    x: -30000
+    y: 40000
+  die_S10000_10000_SW100__8ef36291_20000000_30000000:
+    mirror: false
+    rotation: 0
+    x: 20000
+    y: 30000
+  die_S10000_10000_SW100__98beffe1_-30000000_60000000:
+    mirror: false
+    rotation: 0
+    x: -30000
+    y: 60000
+  die_S10000_10000_SW100__9cdab807_-20000000_30000000:
+    mirror: false
+    rotation: 0
+    x: -20000
+    y: 30000
+  die_S10000_10000_SW100__9d8a2ea9_-10000000_50000000:
+    mirror: false
+    rotation: 0
+    x: -10000
+    y: 50000
+  die_S10000_10000_SW100__a433b517_0_20000000:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 20000
+  die_S10000_10000_SW100__a78e1fdc_-10000000_70000000:
+    mirror: false
+    rotation: 0
+    x: -10000
+    y: 70000
+  die_S10000_10000_SW100__b4c945ee_-10000000_0:
+    mirror: false
+    rotation: 0
+    x: -10000
+    y: 0
+  die_S10000_10000_SW100__b8720279_-20000000_40000000:
+    mirror: false
+    rotation: 0
+    x: -20000
+    y: 40000
+  die_S10000_10000_SW100__c09b2810_30000000_30000000:
+    mirror: false
+    rotation: 0
+    x: 30000
+    y: 30000
+  die_S10000_10000_SW100__c53ffe33_-30000000_10000000:
+    mirror: false
+    rotation: 0
+    x: -30000
+    y: 10000
+  die_S10000_10000_SW100__c5938623_20000000_40000000:
+    mirror: false
+    rotation: 0
+    x: 20000
+    y: 40000
+  die_S10000_10000_SW100__ced8053b_-10000000_10000000:
+    mirror: false
+    rotation: 0
+    x: -10000
+    y: 10000
+  die_S10000_10000_SW100__efc61ecb_0_50000000:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 50000
+  die_S10000_10000_SW100__f957c20b_-10000000_30000000:
+    mirror: false
+    rotation: 0
+    x: -10000
+    y: 30000
+  die_S10000_10000_SW100__fdbc9357_-40000000_30000000:
+    mirror: false
+    rotation: 0
+    x: -40000
+    y: 30000
+ports: {}

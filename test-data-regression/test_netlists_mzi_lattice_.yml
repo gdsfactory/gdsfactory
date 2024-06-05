@@ -1,0 +1,35 @@
+connections: {}
+instances:
+  mzi_DL10_LY2_LXNone_Bbe_2f0cfab0_50010_-2150:
+    component: mzi
+    info: {}
+    settings:
+      add_optical_ports_arms: false
+      auto_rename_ports: true
+      bend: bend_euler
+      combiner: coupler_G0p3_L20_CScoup_c1411c6f
+      cross_section: strip
+      delta_length: 10
+      length_y: 2
+      min_length: 0.01
+      mirror_bot: false
+      nbends: 2
+      port_e0_combiner: o4
+      port_e0_splitter: o4
+      port_e1_combiner: o3
+      port_e1_splitter: o3
+      splitter: coupler_G0p2_L10_CScoup_b8afc3b4
+      straight: straight
+      with_splitter: true
+name: mzi_lattice_CL10_20_CG0_7520cb93
+placements:
+  mzi_DL10_LY2_LXNone_Bbe_2f0cfab0_50010_-2150:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+ports:
+  o1: mzi_DL10_LY2_LXNone_Bbe_2f0cfab0_50010_-2150,o1
+  o2: mzi_DL10_LY2_LXNone_Bbe_2f0cfab0_50010_-2150,o2
+  o3: mzi_DL10_LY2_LXNone_Bbe_2f0cfab0_50010_-2150,o3
+  o4: mzi_DL10_LY2_LXNone_Bbe_2f0cfab0_50010_-2150,o4

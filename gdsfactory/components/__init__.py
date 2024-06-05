@@ -172,6 +172,7 @@ from gdsfactory.components.mzi import (
     mzi_coupler,
     mzi_phase_shifter,
     mzi_phase_shifter_top_heater_metal,
+    mzi_pin,
     mzm,
 )
 from gdsfactory.components.mzi_arm import mzi_arm
@@ -270,6 +271,7 @@ from gdsfactory.components.text import text, text_klayout, text_lines
 from gdsfactory.components.text_freetype import text_freetype
 from gdsfactory.components.text_rectangular import (
     text_rectangular,
+    text_rectangular_mini,
     text_rectangular_multi_layer,
 )
 from gdsfactory.components.triangles import triangle, triangle2, triangle4
@@ -284,6 +286,7 @@ from gdsfactory.components.via_stack import (
     via_stack_heater_mtop,
     via_stack_m1_mtop,
     via_stack_npp_m1,
+    via_stack_slab_m1_horizontal,
     via_stack_slab_m3,
 )
 from gdsfactory.components.via_stack_with_offset import via_stack_with_offset
@@ -435,6 +438,7 @@ __all__ = [
     "mzi_pads_center",
     "mzi_phase_shifter",
     "mzi_phase_shifter_top_heater_metal",
+    "mzi_pin",
     "mzit",
     "mzit_lattice",
     "mzm",
@@ -524,6 +528,7 @@ __all__ = [
     "text_lines",
     "text_rectangular",
     "text_rectangular_multi_layer",
+    "text_rectangular_mini",
     "triangle",
     "triangle2",
     "triangle4",
@@ -537,6 +542,7 @@ __all__ = [
     "via_stack",
     "via_stack_heater_m3",
     "via_stack_m1_mtop",
+    "via_stack_slab_m1_horizontal",
     "via_stack_heater_mtop",
     "via_stack_slab_m3",
     "via_stack_with_offset",

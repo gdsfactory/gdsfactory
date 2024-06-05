@@ -201,13 +201,13 @@ def test_connect_corner(data_regression: DataRegressionFixture, N=6, config="A")
     lengths = {}
     if config in ["A", "C"]:
         for ports1, ports2 in zip(ports_A, ports_B):
-            routes = gf.routing.route_bundle(c, ports1, ports2, layer=(2, 0), radius=5)
+            routes = gf.routing.route_bundle(c, ports1, ports2, radius=5)
             for i, route in enumerate(routes):
                 lengths[i] = route.length
 
     elif config in ["B", "D"]:
         for ports1, ports2 in zip(ports_A, ports_B):
-            routes = gf.routing.route_bundle(c, ports2, ports1, layer=(2, 0), radius=5)
+            routes = gf.routing.route_bundle(c, ports2, ports1, radius=5)
             for i, route in enumerate(routes):
                 lengths[i] = route.length
 
