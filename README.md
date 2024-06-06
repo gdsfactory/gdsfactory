@@ -12,11 +12,16 @@
 ![logo](https://i.imgur.com/cN1ZWq8.png)
 
 
+> 🚀 **Notice: Major Release**
+>
+> We are excited to announce that gdsfactory has upgraded its backend from gdstk to KLayout. This change brings enhanced routing functions and additional features from KLayout, including DRC, dummy fill, and connectivity checks.
+>
+> Notice that the routing and some advanced functions have changed. For a complete list of changes, please refer to our [migration guide](https://gdsfactory.github.io/gdsfactory/notebooks/21_migration_guide_7_8.html) or review the updated layout tutorial.
+
+
 Gdsfactory is a Python library for designing chips (Photonics, Analog, Quantum, MEMs, and more), 3D printed objects, and PCBs.
 Here, you can code your designs in Python or YAML, perform verification (DRC, simulation, and extraction), and enable automated testing in the lab to ensure your fabricated devices meet your specifications. As input you write python code, as an output GDSFactory creates CAD files (GDS, OASIS, STL, GERBER).
 
-> We are excited to announce that gdsfactory has upgraded its backend from gdstk to KLayout. This change brings enhanced routing functions and additional features from KLayout, including DRC, dummy fill, and connectivity checks.
-> Notice that the routing and some advanced functions have changed. For a complete list of changes, please refer to our [migration guide](https://gdsfactory.github.io/gdsfactory/notebooks/21_migration_guide_7_8.html) or review the updated layout tutorial.
 
 
 ![cad](https://i.imgur.com/TWP80ez.png)
