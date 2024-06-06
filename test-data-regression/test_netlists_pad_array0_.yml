@@ -1,0 +1,65 @@
+connections: {}
+instances:
+  pad_S100_100_LMTOP_BLNo_fdaf576b_0_150000__1_1:
+    component: pad
+    info:
+      size:
+      - 100
+      - 100
+      xsize: 100
+      ysize: 100
+    settings:
+      layer: MTOP
+      port_inclusion: 0
+      port_orientation: 0
+      size:
+      - 100
+      - 100
+  pad_S100_100_LMTOP_BLNo_fdaf576b_0_150000__2_1:
+    component: pad
+    info:
+      size:
+      - 100
+      - 100
+      xsize: 100
+      ysize: 100
+    settings:
+      layer: MTOP
+      port_inclusion: 0
+      port_orientation: 0
+      size:
+      - 100
+      - 100
+  pad_S100_100_LMTOP_BLNo_fdaf576b_0_150000__3_1:
+    component: pad
+    info:
+      size:
+      - 100
+      - 100
+      xsize: 100
+      ysize: 100
+    settings:
+      layer: MTOP
+      port_inclusion: 0
+      port_orientation: 0
+      size:
+      - 100
+      - 100
+name: pad_array_Ppad_S150_150_0fb13e0e
+placements:
+  pad_S100_100_LMTOP_BLNo_fdaf576b_0_150000__1_1:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  pad_S100_100_LMTOP_BLNo_fdaf576b_0_150000__2_1:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  pad_S100_100_LMTOP_BLNo_fdaf576b_0_150000__3_1:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+ports: {}

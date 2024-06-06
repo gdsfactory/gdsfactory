@@ -1,0 +1,197 @@
+connections: {}
+instances:
+  dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0__1_1:
+    component: dbr_cell
+    info: {}
+    settings:
+      cross_section: strip
+      l1: 0.159
+      l2: 0.159
+      w1: 0.45
+      w2: 0.55
+  dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0__1_10:
+    component: dbr_cell
+    info: {}
+    settings:
+      cross_section: strip
+      l1: 0.159
+      l2: 0.159
+      w1: 0.45
+      w2: 0.55
+  dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0__1_2:
+    component: dbr_cell
+    info: {}
+    settings:
+      cross_section: strip
+      l1: 0.159
+      l2: 0.159
+      w1: 0.45
+      w2: 0.55
+  dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0__1_3:
+    component: dbr_cell
+    info: {}
+    settings:
+      cross_section: strip
+      l1: 0.159
+      l2: 0.159
+      w1: 0.45
+      w2: 0.55
+  dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0__1_4:
+    component: dbr_cell
+    info: {}
+    settings:
+      cross_section: strip
+      l1: 0.159
+      l2: 0.159
+      w1: 0.45
+      w2: 0.55
+  dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0__1_5:
+    component: dbr_cell
+    info: {}
+    settings:
+      cross_section: strip
+      l1: 0.159
+      l2: 0.159
+      w1: 0.45
+      w2: 0.55
+  dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0__1_6:
+    component: dbr_cell
+    info: {}
+    settings:
+      cross_section: strip
+      l1: 0.159
+      l2: 0.159
+      w1: 0.45
+      w2: 0.55
+  dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0__1_7:
+    component: dbr_cell
+    info: {}
+    settings:
+      cross_section: strip
+      l1: 0.159
+      l2: 0.159
+      w1: 0.45
+      w2: 0.55
+  dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0__1_8:
+    component: dbr_cell
+    info: {}
+    settings:
+      cross_section: strip
+      l1: 0.159
+      l2: 0.159
+      w1: 0.45
+      w2: 0.55
+  dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0__1_9:
+    component: dbr_cell
+    info: {}
+    settings:
+      cross_section: strip
+      l1: 0.159
+      l2: 0.159
+      w1: 0.45
+      w2: 0.55
+  straight_L0p01_N2_CSxs_34e31a19_-5_0:
+    component: straight
+    info:
+      length: 0.01
+      route_info_length: 0.01
+      route_info_type: xs_34e31a19
+      route_info_weight: 0.01
+      route_info_xs_34e31a19_length: 0.01
+      width: 0.5
+    settings:
+      cross_section: xs_34e31a19
+      length: 0.01
+      npoints: 2
+  straight_L0p01_N2_CSxs_34e31a19_3185_0:
+    component: straight
+    info:
+      length: 0.01
+      route_info_length: 0.01
+      route_info_type: xs_34e31a19
+      route_info_weight: 0.01
+      route_info_xs_34e31a19_length: 0.01
+      width: 0.5
+    settings:
+      cross_section: xs_34e31a19
+      length: 0.01
+      npoints: 2
+name: dbr_W0p45_W0p55_L0p159__efcfb70c
+placements:
+  dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0__1_1:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0__1_10:
+    mirror: false
+    rotation: 0
+    x: 2.862
+    y: 0
+  dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0__1_2:
+    mirror: false
+    rotation: 0
+    x: 0.318
+    y: 0
+  dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0__1_3:
+    mirror: false
+    rotation: 0
+    x: 0.636
+    y: 0
+  dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0__1_4:
+    mirror: false
+    rotation: 0
+    x: 0.954
+    y: 0
+  dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0__1_5:
+    mirror: false
+    rotation: 0
+    x: 1.272
+    y: 0
+  dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0__1_6:
+    mirror: false
+    rotation: 0
+    x: 1.59
+    y: 0
+  dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0__1_7:
+    mirror: false
+    rotation: 0
+    x: 1.908
+    y: 0
+  dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0__1_8:
+    mirror: false
+    rotation: 0
+    x: 2.226
+    y: 0
+  dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0__1_9:
+    mirror: false
+    rotation: 0
+    x: 2.544
+    y: 0
+  straight_L0p01_N2_CSxs_34e31a19_-5_0:
+    mirror: false
+    rotation: 180
+    x: 0
+    y: 0
+  straight_L0p01_N2_CSxs_34e31a19_3185_0:
+    mirror: false
+    rotation: 0
+    x: 3.18
+    y: 0
+ports:
+  o1: straight_L0p01_N2_CSxs_34e31a19_-5_0,o2
+warnings:
+  optical:
+    unconnected_ports:
+    - message: 3 unconnected optical ports!
+      ports:
+      - straight_L0p01_N2_CSxs_34e31a19_-5_0,o1
+      - straight_L0p01_N2_CSxs_34e31a19_3185_0,o1
+      - straight_L0p01_N2_CSxs_34e31a19_3185_0,o2
+      values:
+      - - 0
+        - 0
+      - - 3180
+        - 0
+      - - 3190
+        - 0

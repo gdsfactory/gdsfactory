@@ -1,0 +1,75 @@
+connections: {}
+instances:
+  rectangle_S4_2_LWG_CTru_db552270_0_0:
+    component: rectangle
+    info: {}
+    settings:
+      centered: true
+      layer: WG
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 4
+      - 2
+  rectangle_S6_4_LSLAB150_4d6981ba_0_0:
+    component: rectangle
+    info: {}
+    settings:
+      centered: true
+      layer: SLAB150
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 6
+      - 4
+name: rectangles_S4_2_O0_1_LW_0133d2f7
+placements:
+  rectangle_S4_2_LWG_CTru_db552270_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  rectangle_S6_4_LSLAB150_4d6981ba_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+ports: {}
+warnings:
+  electrical:
+    unconnected_ports:
+    - message: 8 unconnected electrical ports!
+      ports:
+      - rectangle_S4_2_LWG_CTru_db552270_0_0,e1
+      - rectangle_S4_2_LWG_CTru_db552270_0_0,e2
+      - rectangle_S4_2_LWG_CTru_db552270_0_0,e3
+      - rectangle_S4_2_LWG_CTru_db552270_0_0,e4
+      - rectangle_S6_4_LSLAB150_4d6981ba_0_0,e1
+      - rectangle_S6_4_LSLAB150_4d6981ba_0_0,e2
+      - rectangle_S6_4_LSLAB150_4d6981ba_0_0,e3
+      - rectangle_S6_4_LSLAB150_4d6981ba_0_0,e4
+      values:
+      - - -2000
+        - 0
+      - - 0
+        - 1000
+      - - 2000
+        - 0
+      - - 0
+        - -1000
+      - - -3000
+        - 0
+      - - 0
+        - 2000
+      - - 3000
+        - 0
+      - - 0
+        - -2000

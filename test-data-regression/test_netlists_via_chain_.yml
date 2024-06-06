@@ -1,0 +1,4257 @@
+connections: {}
+instances:
+  rectangle_S2p7_6p4_LM2__c8f1a350_350_17000__1_1:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer: M2
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 2.7
+      - 6.4
+  rectangle_S2p7_6p4_LM2__c8f1a350_350_17000__2_1:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer: M2
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 2.7
+      - 6.4
+  rectangle_S2p7_6p4_LM2__c8f1a350_350_17000__3_1:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer: M2
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 2.7
+      - 6.4
+  rectangle_S2p7_6p4_LM2__c8f1a350_350_17000__4_1:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer: M2
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 2.7
+      - 6.4
+  rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000__1_1:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer: M2
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 2.7
+      - 6.4
+  rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000__2_1:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer: M2
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 2.7
+      - 6.4
+  rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000__3_1:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer: M2
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 2.7
+      - 6.4
+  rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000__4_1:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer: M2
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 2.7
+      - 6.4
+  rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000__5_1:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer: M2
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 2.7
+      - 6.4
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__10_1:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__10_2:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__10_3:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__10_4:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__10_5:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__1_1:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__1_2:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__1_3:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__1_4:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__1_5:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__2_1:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__2_2:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__2_3:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__2_4:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__2_5:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__3_1:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__3_2:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__3_3:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__3_4:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__3_5:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__4_1:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__4_2:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__4_3:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__4_4:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__4_5:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__5_1:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__5_2:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__5_3:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__5_4:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__5_5:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__6_1:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__6_2:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__6_3:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__6_4:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__6_5:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__7_1:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__7_2:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__7_3:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__7_4:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__7_5:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__8_1:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__8_2:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__8_3:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__8_4:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__8_5:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__9_1:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__9_2:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__9_3:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__9_4:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__9_5:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M1
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__10_1:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__10_2:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__10_3:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__10_4:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__10_5:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__1_1:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__1_2:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__1_3:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__1_4:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__1_5:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__2_1:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__2_2:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__2_3:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__2_4:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__2_5:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__3_1:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__3_2:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__3_3:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__3_4:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__3_5:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__4_1:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__4_2:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__4_3:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__4_4:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__4_5:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__5_1:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__5_2:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__5_3:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__5_4:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__5_5:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__6_1:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__6_2:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__6_3:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__6_4:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__6_5:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__7_1:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__7_2:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__7_3:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__7_4:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__7_5:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__8_1:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__8_2:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__8_3:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__8_4:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__8_5:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__9_1:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__9_2:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__9_3:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__9_4:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__9_5:
+    component: rectangles
+    info: {}
+    settings:
+      centered: true
+      layers:
+      - M2
+      offsets:
+      - 0
+      size:
+      - 6.4
+      - 2.7
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__10_1:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__10_10:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__10_2:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__10_3:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__10_4:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__10_5:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__10_6:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__10_7:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__10_8:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__10_9:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__1_1:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__1_10:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__1_2:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__1_3:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__1_4:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__1_5:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__1_6:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__1_7:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__1_8:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__1_9:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__2_1:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__2_10:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__2_2:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__2_3:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__2_4:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__2_5:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__2_6:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__2_7:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__2_8:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__2_9:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__3_1:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__3_10:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__3_2:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__3_3:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__3_4:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__3_5:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__3_6:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__3_7:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__3_8:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__3_9:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__4_1:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__4_10:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__4_2:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__4_3:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__4_4:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__4_5:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__4_6:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__4_7:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__4_8:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__4_9:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__5_1:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__5_10:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__5_2:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__5_3:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__5_4:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__5_5:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__5_6:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__5_7:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__5_8:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__5_9:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__6_1:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__6_10:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__6_2:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__6_3:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__6_4:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__6_5:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__6_6:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__6_7:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__6_8:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__6_9:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__7_1:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__7_10:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__7_2:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__7_3:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__7_4:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__7_5:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__7_6:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__7_7:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__7_8:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__7_9:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__8_1:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__8_10:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__8_2:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__8_3:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__8_4:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__8_5:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__8_6:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__8_7:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__8_8:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__8_9:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__9_1:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__9_10:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__9_2:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__9_3:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__9_4:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__9_5:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__9_6:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__9_7:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__9_8:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__9_9:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_stack_S11_11_LM2_MT_449f3900_-6500_-3800:
+    component: via_stack
+    info:
+      xsize: 11
+      ysize: 11
+    settings:
+      correct_size: true
+      layers:
+      - M2
+      - MTOP
+      size:
+      - 11
+      - 11
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - Fvia_Mgdsfactorypcomponentspvia_SLVIA2
+      - null
+  via_stack_S11_11_LM2_MT_449f3900_-6500_37800:
+    component: via_stack
+    info:
+      xsize: 11
+      ysize: 11
+    settings:
+      correct_size: true
+      layers:
+      - M2
+      - MTOP
+      size:
+      - 11
+      - 11
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - Fvia_Mgdsfactorypcomponentspvia_SLVIA2
+      - null
+name: via_chain_NV100_C10_VFv_8127c00b
+placements:
+  rectangle_S2p7_6p4_LM2__c8f1a350_350_17000__1_1:
+    mirror: false
+    rotation: 0
+    x: -1
+    y: 2.7
+  rectangle_S2p7_6p4_LM2__c8f1a350_350_17000__2_1:
+    mirror: false
+    rotation: 0
+    x: -1
+    y: 2.7
+  rectangle_S2p7_6p4_LM2__c8f1a350_350_17000__3_1:
+    mirror: false
+    rotation: 0
+    x: -1
+    y: 2.7
+  rectangle_S2p7_6p4_LM2__c8f1a350_350_17000__4_1:
+    mirror: false
+    rotation: 0
+    x: -1
+    y: 2.7
+  rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000__1_1:
+    mirror: false
+    rotation: 0
+    x: 36
+    y: -1
+  rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000__2_1:
+    mirror: false
+    rotation: 0
+    x: 36
+    y: -1
+  rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000__3_1:
+    mirror: false
+    rotation: 0
+    x: 36
+    y: -1
+  rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000__4_1:
+    mirror: false
+    rotation: 0
+    x: 36
+    y: -1
+  rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000__5_1:
+    mirror: false
+    rotation: 0
+    x: 36
+    y: -1
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__10_1:
+    mirror: false
+    rotation: 0
+    x: 5.9
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__10_2:
+    mirror: false
+    rotation: 0
+    x: 13.3
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__10_3:
+    mirror: false
+    rotation: 0
+    x: 20.7
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__10_4:
+    mirror: false
+    rotation: 0
+    x: 28.1
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__10_5:
+    mirror: false
+    rotation: 0
+    x: 35.5
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__1_1:
+    mirror: false
+    rotation: 0
+    x: 5.9
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__1_2:
+    mirror: false
+    rotation: 0
+    x: 13.3
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__1_3:
+    mirror: false
+    rotation: 0
+    x: 20.7
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__1_4:
+    mirror: false
+    rotation: 0
+    x: 28.1
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__1_5:
+    mirror: false
+    rotation: 0
+    x: 35.5
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__2_1:
+    mirror: false
+    rotation: 0
+    x: 5.9
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__2_2:
+    mirror: false
+    rotation: 0
+    x: 13.3
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__2_3:
+    mirror: false
+    rotation: 0
+    x: 20.7
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__2_4:
+    mirror: false
+    rotation: 0
+    x: 28.1
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__2_5:
+    mirror: false
+    rotation: 0
+    x: 35.5
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__3_1:
+    mirror: false
+    rotation: 0
+    x: 5.9
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__3_2:
+    mirror: false
+    rotation: 0
+    x: 13.3
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__3_3:
+    mirror: false
+    rotation: 0
+    x: 20.7
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__3_4:
+    mirror: false
+    rotation: 0
+    x: 28.1
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__3_5:
+    mirror: false
+    rotation: 0
+    x: 35.5
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__4_1:
+    mirror: false
+    rotation: 0
+    x: 5.9
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__4_2:
+    mirror: false
+    rotation: 0
+    x: 13.3
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__4_3:
+    mirror: false
+    rotation: 0
+    x: 20.7
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__4_4:
+    mirror: false
+    rotation: 0
+    x: 28.1
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__4_5:
+    mirror: false
+    rotation: 0
+    x: 35.5
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__5_1:
+    mirror: false
+    rotation: 0
+    x: 5.9
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__5_2:
+    mirror: false
+    rotation: 0
+    x: 13.3
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__5_3:
+    mirror: false
+    rotation: 0
+    x: 20.7
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__5_4:
+    mirror: false
+    rotation: 0
+    x: 28.1
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__5_5:
+    mirror: false
+    rotation: 0
+    x: 35.5
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__6_1:
+    mirror: false
+    rotation: 0
+    x: 5.9
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__6_2:
+    mirror: false
+    rotation: 0
+    x: 13.3
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__6_3:
+    mirror: false
+    rotation: 0
+    x: 20.7
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__6_4:
+    mirror: false
+    rotation: 0
+    x: 28.1
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__6_5:
+    mirror: false
+    rotation: 0
+    x: 35.5
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__7_1:
+    mirror: false
+    rotation: 0
+    x: 5.9
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__7_2:
+    mirror: false
+    rotation: 0
+    x: 13.3
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__7_3:
+    mirror: false
+    rotation: 0
+    x: 20.7
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__7_4:
+    mirror: false
+    rotation: 0
+    x: 28.1
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__7_5:
+    mirror: false
+    rotation: 0
+    x: 35.5
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__8_1:
+    mirror: false
+    rotation: 0
+    x: 5.9
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__8_2:
+    mirror: false
+    rotation: 0
+    x: 13.3
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__8_3:
+    mirror: false
+    rotation: 0
+    x: 20.7
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__8_4:
+    mirror: false
+    rotation: 0
+    x: 28.1
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__8_5:
+    mirror: false
+    rotation: 0
+    x: 35.5
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__9_1:
+    mirror: false
+    rotation: 0
+    x: 5.9
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__9_2:
+    mirror: false
+    rotation: 0
+    x: 13.3
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__9_3:
+    mirror: false
+    rotation: 0
+    x: 20.7
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__9_4:
+    mirror: false
+    rotation: 0
+    x: 28.1
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM1_CTrue_20700_17000__9_5:
+    mirror: false
+    rotation: 0
+    x: 35.5
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__10_1:
+    mirror: false
+    rotation: 0
+    x: 2.2
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__10_2:
+    mirror: false
+    rotation: 0
+    x: 9.6
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__10_3:
+    mirror: false
+    rotation: 0
+    x: 17
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__10_4:
+    mirror: false
+    rotation: 0
+    x: 24.4
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__10_5:
+    mirror: false
+    rotation: 0
+    x: 31.8
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__1_1:
+    mirror: false
+    rotation: 0
+    x: 2.2
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__1_2:
+    mirror: false
+    rotation: 0
+    x: 9.6
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__1_3:
+    mirror: false
+    rotation: 0
+    x: 17
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__1_4:
+    mirror: false
+    rotation: 0
+    x: 24.4
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__1_5:
+    mirror: false
+    rotation: 0
+    x: 31.8
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__2_1:
+    mirror: false
+    rotation: 0
+    x: 2.2
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__2_2:
+    mirror: false
+    rotation: 0
+    x: 9.6
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__2_3:
+    mirror: false
+    rotation: 0
+    x: 17
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__2_4:
+    mirror: false
+    rotation: 0
+    x: 24.4
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__2_5:
+    mirror: false
+    rotation: 0
+    x: 31.8
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__3_1:
+    mirror: false
+    rotation: 0
+    x: 2.2
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__3_2:
+    mirror: false
+    rotation: 0
+    x: 9.6
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__3_3:
+    mirror: false
+    rotation: 0
+    x: 17
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__3_4:
+    mirror: false
+    rotation: 0
+    x: 24.4
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__3_5:
+    mirror: false
+    rotation: 0
+    x: 31.8
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__4_1:
+    mirror: false
+    rotation: 0
+    x: 2.2
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__4_2:
+    mirror: false
+    rotation: 0
+    x: 9.6
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__4_3:
+    mirror: false
+    rotation: 0
+    x: 17
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__4_4:
+    mirror: false
+    rotation: 0
+    x: 24.4
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__4_5:
+    mirror: false
+    rotation: 0
+    x: 31.8
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__5_1:
+    mirror: false
+    rotation: 0
+    x: 2.2
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__5_2:
+    mirror: false
+    rotation: 0
+    x: 9.6
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__5_3:
+    mirror: false
+    rotation: 0
+    x: 17
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__5_4:
+    mirror: false
+    rotation: 0
+    x: 24.4
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__5_5:
+    mirror: false
+    rotation: 0
+    x: 31.8
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__6_1:
+    mirror: false
+    rotation: 0
+    x: 2.2
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__6_2:
+    mirror: false
+    rotation: 0
+    x: 9.6
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__6_3:
+    mirror: false
+    rotation: 0
+    x: 17
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__6_4:
+    mirror: false
+    rotation: 0
+    x: 24.4
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__6_5:
+    mirror: false
+    rotation: 0
+    x: 31.8
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__7_1:
+    mirror: false
+    rotation: 0
+    x: 2.2
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__7_2:
+    mirror: false
+    rotation: 0
+    x: 9.6
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__7_3:
+    mirror: false
+    rotation: 0
+    x: 17
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__7_4:
+    mirror: false
+    rotation: 0
+    x: 24.4
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__7_5:
+    mirror: false
+    rotation: 0
+    x: 31.8
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__8_1:
+    mirror: false
+    rotation: 0
+    x: 2.2
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__8_2:
+    mirror: false
+    rotation: 0
+    x: 9.6
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__8_3:
+    mirror: false
+    rotation: 0
+    x: 17
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__8_4:
+    mirror: false
+    rotation: 0
+    x: 24.4
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__8_5:
+    mirror: false
+    rotation: 0
+    x: 31.8
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__9_1:
+    mirror: false
+    rotation: 0
+    x: 2.2
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__9_2:
+    mirror: false
+    rotation: 0
+    x: 9.6
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__9_3:
+    mirror: false
+    rotation: 0
+    x: 17
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__9_4:
+    mirror: false
+    rotation: 0
+    x: 24.4
+    y: 0.35
+  rectangles_S6p4_2p7_O0_LM2_CTrue_17000_17000__9_5:
+    mirror: false
+    rotation: 0
+    x: 31.8
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__10_1:
+    mirror: false
+    rotation: 0
+    x: 4.05
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__10_10:
+    mirror: false
+    rotation: 0
+    x: 37.35
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__10_2:
+    mirror: false
+    rotation: 0
+    x: 7.75
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__10_3:
+    mirror: false
+    rotation: 0
+    x: 11.45
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__10_4:
+    mirror: false
+    rotation: 0
+    x: 15.15
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__10_5:
+    mirror: false
+    rotation: 0
+    x: 18.85
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__10_6:
+    mirror: false
+    rotation: 0
+    x: 22.55
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__10_7:
+    mirror: false
+    rotation: 0
+    x: 26.25
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__10_8:
+    mirror: false
+    rotation: 0
+    x: 29.95
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__10_9:
+    mirror: false
+    rotation: 0
+    x: 33.65
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__1_1:
+    mirror: false
+    rotation: 0
+    x: 4.05
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__1_10:
+    mirror: false
+    rotation: 0
+    x: 37.35
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__1_2:
+    mirror: false
+    rotation: 0
+    x: 7.75
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__1_3:
+    mirror: false
+    rotation: 0
+    x: 11.45
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__1_4:
+    mirror: false
+    rotation: 0
+    x: 15.15
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__1_5:
+    mirror: false
+    rotation: 0
+    x: 18.85
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__1_6:
+    mirror: false
+    rotation: 0
+    x: 22.55
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__1_7:
+    mirror: false
+    rotation: 0
+    x: 26.25
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__1_8:
+    mirror: false
+    rotation: 0
+    x: 29.95
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__1_9:
+    mirror: false
+    rotation: 0
+    x: 33.65
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__2_1:
+    mirror: false
+    rotation: 0
+    x: 4.05
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__2_10:
+    mirror: false
+    rotation: 0
+    x: 37.35
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__2_2:
+    mirror: false
+    rotation: 0
+    x: 7.75
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__2_3:
+    mirror: false
+    rotation: 0
+    x: 11.45
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__2_4:
+    mirror: false
+    rotation: 0
+    x: 15.15
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__2_5:
+    mirror: false
+    rotation: 0
+    x: 18.85
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__2_6:
+    mirror: false
+    rotation: 0
+    x: 22.55
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__2_7:
+    mirror: false
+    rotation: 0
+    x: 26.25
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__2_8:
+    mirror: false
+    rotation: 0
+    x: 29.95
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__2_9:
+    mirror: false
+    rotation: 0
+    x: 33.65
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__3_1:
+    mirror: false
+    rotation: 0
+    x: 4.05
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__3_10:
+    mirror: false
+    rotation: 0
+    x: 37.35
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__3_2:
+    mirror: false
+    rotation: 0
+    x: 7.75
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__3_3:
+    mirror: false
+    rotation: 0
+    x: 11.45
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__3_4:
+    mirror: false
+    rotation: 0
+    x: 15.15
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__3_5:
+    mirror: false
+    rotation: 0
+    x: 18.85
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__3_6:
+    mirror: false
+    rotation: 0
+    x: 22.55
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__3_7:
+    mirror: false
+    rotation: 0
+    x: 26.25
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__3_8:
+    mirror: false
+    rotation: 0
+    x: 29.95
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__3_9:
+    mirror: false
+    rotation: 0
+    x: 33.65
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__4_1:
+    mirror: false
+    rotation: 0
+    x: 4.05
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__4_10:
+    mirror: false
+    rotation: 0
+    x: 37.35
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__4_2:
+    mirror: false
+    rotation: 0
+    x: 7.75
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__4_3:
+    mirror: false
+    rotation: 0
+    x: 11.45
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__4_4:
+    mirror: false
+    rotation: 0
+    x: 15.15
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__4_5:
+    mirror: false
+    rotation: 0
+    x: 18.85
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__4_6:
+    mirror: false
+    rotation: 0
+    x: 22.55
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__4_7:
+    mirror: false
+    rotation: 0
+    x: 26.25
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__4_8:
+    mirror: false
+    rotation: 0
+    x: 29.95
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__4_9:
+    mirror: false
+    rotation: 0
+    x: 33.65
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__5_1:
+    mirror: false
+    rotation: 0
+    x: 4.05
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__5_10:
+    mirror: false
+    rotation: 0
+    x: 37.35
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__5_2:
+    mirror: false
+    rotation: 0
+    x: 7.75
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__5_3:
+    mirror: false
+    rotation: 0
+    x: 11.45
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__5_4:
+    mirror: false
+    rotation: 0
+    x: 15.15
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__5_5:
+    mirror: false
+    rotation: 0
+    x: 18.85
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__5_6:
+    mirror: false
+    rotation: 0
+    x: 22.55
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__5_7:
+    mirror: false
+    rotation: 0
+    x: 26.25
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__5_8:
+    mirror: false
+    rotation: 0
+    x: 29.95
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__5_9:
+    mirror: false
+    rotation: 0
+    x: 33.65
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__6_1:
+    mirror: false
+    rotation: 0
+    x: 4.05
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__6_10:
+    mirror: false
+    rotation: 0
+    x: 37.35
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__6_2:
+    mirror: false
+    rotation: 0
+    x: 7.75
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__6_3:
+    mirror: false
+    rotation: 0
+    x: 11.45
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__6_4:
+    mirror: false
+    rotation: 0
+    x: 15.15
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__6_5:
+    mirror: false
+    rotation: 0
+    x: 18.85
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__6_6:
+    mirror: false
+    rotation: 0
+    x: 22.55
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__6_7:
+    mirror: false
+    rotation: 0
+    x: 26.25
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__6_8:
+    mirror: false
+    rotation: 0
+    x: 29.95
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__6_9:
+    mirror: false
+    rotation: 0
+    x: 33.65
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__7_1:
+    mirror: false
+    rotation: 0
+    x: 4.05
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__7_10:
+    mirror: false
+    rotation: 0
+    x: 37.35
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__7_2:
+    mirror: false
+    rotation: 0
+    x: 7.75
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__7_3:
+    mirror: false
+    rotation: 0
+    x: 11.45
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__7_4:
+    mirror: false
+    rotation: 0
+    x: 15.15
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__7_5:
+    mirror: false
+    rotation: 0
+    x: 18.85
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__7_6:
+    mirror: false
+    rotation: 0
+    x: 22.55
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__7_7:
+    mirror: false
+    rotation: 0
+    x: 26.25
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__7_8:
+    mirror: false
+    rotation: 0
+    x: 29.95
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__7_9:
+    mirror: false
+    rotation: 0
+    x: 33.65
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__8_1:
+    mirror: false
+    rotation: 0
+    x: 4.05
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__8_10:
+    mirror: false
+    rotation: 0
+    x: 37.35
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__8_2:
+    mirror: false
+    rotation: 0
+    x: 7.75
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__8_3:
+    mirror: false
+    rotation: 0
+    x: 11.45
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__8_4:
+    mirror: false
+    rotation: 0
+    x: 15.15
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__8_5:
+    mirror: false
+    rotation: 0
+    x: 18.85
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__8_6:
+    mirror: false
+    rotation: 0
+    x: 22.55
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__8_7:
+    mirror: false
+    rotation: 0
+    x: 26.25
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__8_8:
+    mirror: false
+    rotation: 0
+    x: 29.95
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__8_9:
+    mirror: false
+    rotation: 0
+    x: 33.65
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__9_1:
+    mirror: false
+    rotation: 0
+    x: 4.05
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__9_10:
+    mirror: false
+    rotation: 0
+    x: 37.35
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__9_2:
+    mirror: false
+    rotation: 0
+    x: 7.75
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__9_3:
+    mirror: false
+    rotation: 0
+    x: 11.45
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__9_4:
+    mirror: false
+    rotation: 0
+    x: 15.15
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__9_5:
+    mirror: false
+    rotation: 0
+    x: 18.85
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__9_6:
+    mirror: false
+    rotation: 0
+    x: 22.55
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__9_7:
+    mirror: false
+    rotation: 0
+    x: 26.25
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__9_8:
+    mirror: false
+    rotation: 0
+    x: 29.95
+    y: 0.35
+  via_S0p7_0p7_S2_2_GNone_3d643c37_20700_17000__9_9:
+    mirror: false
+    rotation: 0
+    x: 33.65
+    y: 0.35
+  via_stack_S11_11_LM2_MT_449f3900_-6500_-3800:
+    mirror: false
+    rotation: 0
+    x: -6.5
+    y: -3.8
+  via_stack_S11_11_LM2_MT_449f3900_-6500_37800:
+    mirror: false
+    rotation: 0
+    x: -6.5
+    y: 37.8
+ports:
+  e1: via_stack_S11_11_LM2_MT_449f3900_-6500_-3800,e1
+  e2: via_stack_S11_11_LM2_MT_449f3900_-6500_37800,e1
+warnings:
+  electrical:
+    unconnected_ports:
+    - message: 6 unconnected electrical ports!
+      ports:
+      - via_stack_S11_11_LM2_MT_449f3900_-6500_-3800,e2
+      - via_stack_S11_11_LM2_MT_449f3900_-6500_-3800,e3
+      - via_stack_S11_11_LM2_MT_449f3900_-6500_-3800,e4
+      - via_stack_S11_11_LM2_MT_449f3900_-6500_37800,e2
+      - via_stack_S11_11_LM2_MT_449f3900_-6500_37800,e3
+      - via_stack_S11_11_LM2_MT_449f3900_-6500_37800,e4
+      values:
+      - - -6500
+        - 1700
+      - - -1000
+        - -3800
+      - - -6500
+        - -9300
+      - - -6500
+        - 43300
+      - - -1000
+        - 37800
+      - - -6500
+        - 32300

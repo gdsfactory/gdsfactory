@@ -43,7 +43,7 @@ instances:
       cross_section: strip
       npoints: 99
       p: 0
-      radius: '12'
+      radius: 12
       with_arc_floorplan: true
   bend_euler_R12_A180_P0__237ef748_26125_-2000:
     component: bend_euler
@@ -64,7 +64,7 @@ instances:
       cross_section: strip
       npoints: 99
       p: 0
-      radius: '12'
+      radius: 12
       with_arc_floorplan: true
   bend_euler_R15_A180_P0__0581bb60_-7625_-5000:
     component: bend_euler
@@ -85,7 +85,7 @@ instances:
       cross_section: strip
       npoints: 99
       p: 0
-      radius: '15'
+      radius: 15
       with_arc_floorplan: true
   bend_euler_R15_A180_P0__0581bb60_27625_-3000:
     component: bend_euler
@@ -106,7 +106,7 @@ instances:
       cross_section: strip
       npoints: 99
       p: 0
-      radius: '15'
+      radius: 15
       with_arc_floorplan: true
   bend_euler_R17_A180_P0__2b5876b6_-8625_-5000:
     component: bend_euler

@@ -17,7 +17,7 @@ def via_stack(
     size=(11.0, 11.0),
     layers: LayerSpecs = ("M1", "M2", "MTOP"),
     layer_offsets: Floats | None = None,
-    vias: tuple[ComponentSpec | None, ...] | None = (via1, via2, None),
+    vias: tuple[ComponentSpec | None, ...] | None = ("via1", "via2", None),
     layer_port: LayerSpec | None = None,
     correct_size: bool = True,
     slot_horizontal: bool = False,

@@ -1,0 +1,2837 @@
+connections:
+  -1,e1: taper_L5_W11_W2p5_PNone_4a19c1ba_-2400_0,e2
+  -1,e2: U1,e1
+  -1,o1: _1,o2
+  -1,o2: U1,o1
+  -2,e1: H63,e2
+  -2,e2: taper_L5_W11_W2p5_PNone_4a19c1ba_322400_0,e2
+  -2,o1: H63,o2
+  -2,o2: _2,o1
+  H1,e1: H1,e2
+  H1,e2: U2,e1
+  H1,o1: H1,o2
+  H1,o2: U2,o1
+  H10,e1: H10,e2
+  H10,e2: U11,e1
+  H10,o1: H10,o2
+  H10,o2: U11,o1
+  H11,e1: H11,e2
+  H11,e2: U12,e1
+  H11,o1: H11,o2
+  H11,o2: U12,o1
+  H12,e1: H12,e2
+  H12,e2: U13,e1
+  H12,o1: H12,o2
+  H12,o2: U13,o1
+  H13,e1: H13,e2
+  H13,e2: U14,e1
+  H13,o1: H13,o2
+  H13,o2: U14,o1
+  H14,e1: H14,e2
+  H14,e2: U15,e1
+  H14,o1: H14,o2
+  H14,o2: U15,o1
+  H15,e1: H15,e2
+  H15,e2: U16,e1
+  H15,o1: H15,o2
+  H15,o2: U16,o1
+  H16,e1: H16,e2
+  H16,e2: U17,e1
+  H16,o1: H16,o2
+  H16,o2: U17,o1
+  H17,e1: H17,e2
+  H17,e2: U18,e1
+  H17,o1: H17,o2
+  H17,o2: U18,o1
+  H18,e1: H18,e2
+  H18,e2: U19,e1
+  H18,o1: H18,o2
+  H18,o2: U19,o1
+  H19,e1: H19,e2
+  H19,e2: U20,e1
+  H19,o1: H19,o2
+  H19,o2: U20,o1
+  H2,e1: H2,e2
+  H2,e2: U3,e1
+  H2,o1: H2,o2
+  H2,o2: U3,o1
+  H20,e1: H20,e2
+  H20,e2: U21,e1
+  H20,o1: H20,o2
+  H20,o2: U21,o1
+  H21,e1: H21,e2
+  H21,e2: U22,e1
+  H21,o1: H21,o2
+  H21,o2: U22,o1
+  H22,e1: H22,e2
+  H22,e2: U23,e1
+  H22,o1: H22,o2
+  H22,o2: U23,o1
+  H23,e1: H23,e2
+  H23,e2: U24,e1
+  H23,o1: H23,o2
+  H23,o2: U24,o1
+  H24,e1: H24,e2
+  H24,e2: U25,e1
+  H24,o1: H24,o2
+  H24,o2: U25,o1
+  H25,e1: H25,e2
+  H25,e2: U26,e1
+  H25,o1: H25,o2
+  H25,o2: U26,o1
+  H26,e1: H26,e2
+  H26,e2: U27,e1
+  H26,o1: H26,o2
+  H26,o2: U27,o1
+  H27,e1: H27,e2
+  H27,e2: U28,e1
+  H27,o1: H27,o2
+  H27,o2: U28,o1
+  H28,e1: H28,e2
+  H28,e2: U29,e1
+  H28,o1: H28,o2
+  H28,o2: U29,o1
+  H29,e1: H29,e2
+  H29,e2: U30,e1
+  H29,o1: H29,o2
+  H29,o2: U30,o1
+  H3,e1: H3,e2
+  H3,e2: U4,e1
+  H3,o1: H3,o2
+  H3,o2: U4,o1
+  H30,e1: H30,e2
+  H30,e2: U31,e1
+  H30,o1: H30,o2
+  H30,o2: U31,o1
+  H31,e1: H31,e2
+  H31,e2: U32,e1
+  H31,o1: H31,o2
+  H31,o2: U32,o1
+  H32,e1: H32,e2
+  H32,e2: U33,e1
+  H32,o1: H32,o2
+  H32,o2: U33,o1
+  H33,e1: H33,e2
+  H33,e2: U34,e1
+  H33,o1: H33,o2
+  H33,o2: U34,o1
+  H34,e1: H34,e2
+  H34,e2: U35,e1
+  H34,o1: H34,o2
+  H34,o2: U35,o1
+  H35,e1: H35,e2
+  H35,e2: U36,e1
+  H35,o1: H35,o2
+  H35,o2: U36,o1
+  H36,e1: H36,e2
+  H36,e2: U37,e1
+  H36,o1: H36,o2
+  H36,o2: U37,o1
+  H37,e1: H37,e2
+  H37,e2: U38,e1
+  H37,o1: H37,o2
+  H37,o2: U38,o1
+  H38,e1: H38,e2
+  H38,e2: U39,e1
+  H38,o1: H38,o2
+  H38,o2: U39,o1
+  H39,e1: H39,e2
+  H39,e2: U40,e1
+  H39,o1: H39,o2
+  H39,o2: U40,o1
+  H4,e1: H4,e2
+  H4,e2: U5,e1
+  H4,o1: H4,o2
+  H4,o2: U5,o1
+  H40,e1: H40,e2
+  H40,e2: U41,e1
+  H40,o1: H40,o2
+  H40,o2: U41,o1
+  H41,e1: H41,e2
+  H41,e2: U42,e1
+  H41,o1: H41,o2
+  H41,o2: U42,o1
+  H42,e1: H42,e2
+  H42,e2: U43,e1
+  H42,o1: H42,o2
+  H42,o2: U43,o1
+  H43,e1: H43,e2
+  H43,e2: U44,e1
+  H43,o1: H43,o2
+  H43,o2: U44,o1
+  H44,e1: H44,e2
+  H44,e2: U45,e1
+  H44,o1: H44,o2
+  H44,o2: U45,o1
+  H45,e1: H45,e2
+  H45,e2: U46,e1
+  H45,o1: H45,o2
+  H45,o2: U46,o1
+  H46,e1: H46,e2
+  H46,e2: U47,e1
+  H46,o1: H46,o2
+  H46,o2: U47,o1
+  H47,e1: H47,e2
+  H47,e2: U48,e1
+  H47,o1: H47,o2
+  H47,o2: U48,o1
+  H48,e1: H48,e2
+  H48,e2: U49,e1
+  H48,o1: H48,o2
+  H48,o2: U49,o1
+  H49,e1: H49,e2
+  H49,e2: U50,e1
+  H49,o1: H49,o2
+  H49,o2: U50,o1
+  H5,e1: H5,e2
+  H5,e2: U6,e1
+  H5,o1: H5,o2
+  H5,o2: U6,o1
+  H50,e1: H50,e2
+  H50,e2: U51,e1
+  H50,o1: H50,o2
+  H50,o2: U51,o1
+  H51,e1: H51,e2
+  H51,e2: U52,e1
+  H51,o1: H51,o2
+  H51,o2: U52,o1
+  H52,e1: H52,e2
+  H52,e2: U53,e1
+  H52,o1: H52,o2
+  H52,o2: U53,o1
+  H53,e1: H53,e2
+  H53,e2: U54,e1
+  H53,o1: H53,o2
+  H53,o2: U54,o1
+  H54,e1: H54,e2
+  H54,e2: U55,e1
+  H54,o1: H54,o2
+  H54,o2: U55,o1
+  H55,e1: H55,e2
+  H55,e2: U56,e1
+  H55,o1: H55,o2
+  H55,o2: U56,o1
+  H56,e1: H56,e2
+  H56,e2: U57,e1
+  H56,o1: H56,o2
+  H56,o2: U57,o1
+  H57,e1: H57,e2
+  H57,e2: U58,e1
+  H57,o1: H57,o2
+  H57,o2: U58,o1
+  H58,e1: H58,e2
+  H58,e2: U59,e1
+  H58,o1: H58,o2
+  H58,o2: U59,o1
+  H59,e1: H59,e2
+  H59,e2: U60,e1
+  H59,o1: H59,o2
+  H59,o2: U60,o1
+  H6,e1: H6,e2
+  H6,e2: U7,e1
+  H6,o1: H6,o2
+  H6,o2: U7,o1
+  H60,e1: H60,e2
+  H60,e2: U61,e1
+  H60,o1: H60,o2
+  H60,o2: U61,o1
+  H61,e1: H61,e2
+  H61,e2: U62,e1
+  H61,o1: H61,o2
+  H61,o2: U62,o1
+  H62,e1: H62,e2
+  H62,e2: U63,e1
+  H62,o1: H62,o2
+  H62,o2: U63,o1
+  H63,e1: H63,e2
+  H63,o1: H63,o2
+  H7,e1: H7,e2
+  H7,e2: U8,e1
+  H7,o1: H7,o2
+  H7,o2: U8,o1
+  H8,e1: H8,e2
+  H8,e2: U9,e1
+  H8,o1: H8,o2
+  H8,o2: U9,o1
+  H9,e1: H9,e2
+  H9,e2: U10,e1
+  H9,o1: H9,o2
+  H9,o2: U10,o1
+  U1,e2: U2,e1
+  U1,o2: U2,o1
+  U10,e1: U9,e2
+  U10,e2: U11,e1
+  U10,o1: U9,o2
+  U10,o2: U11,o1
+  U11,e2: U12,e1
+  U11,o2: U12,o1
+  U12,e2: U13,e1
+  U12,o2: U13,o1
+  U13,e2: U14,e1
+  U13,o2: U14,o1
+  U14,e2: U15,e1
+  U14,o2: U15,o1
+  U15,e2: U16,e1
+  U15,o2: U16,o1
+  U16,e2: U17,e1
+  U16,o2: U17,o1
+  U17,e2: U18,e1
+  U17,o2: U18,o1
+  U18,e2: U19,e1
+  U18,o2: U19,o1
+  U19,e2: U20,e1
+  U19,o2: U20,o1
+  U2,e2: U3,e1
+  U2,o2: U3,o1
+  U20,e2: U21,e1
+  U20,o2: U21,o1
+  U21,e2: U22,e1
+  U21,o2: U22,o1
+  U22,e2: U23,e1
+  U22,o2: U23,o1
+  U23,e2: U24,e1
+  U23,o2: U24,o1
+  U24,e2: U25,e1
+  U24,o2: U25,o1
+  U25,e2: U26,e1
+  U25,o2: U26,o1
+  U26,e2: U27,e1
+  U26,o2: U27,o1
+  U27,e2: U28,e1
+  U27,o2: U28,o1
+  U28,e2: U29,e1
+  U28,o2: U29,o1
+  U29,e2: U30,e1
+  U29,o2: U30,o1
+  U3,e2: U4,e1
+  U3,o2: U4,o1
+  U30,e2: U31,e1
+  U30,o2: U31,o1
+  U31,e2: U32,e1
+  U31,o2: U32,o1
+  U32,e2: U33,e1
+  U32,o2: U33,o1
+  U33,e2: U34,e1
+  U33,o2: U34,o1
+  U34,e2: U35,e1
+  U34,o2: U35,o1
+  U35,e2: U36,e1
+  U35,o2: U36,o1
+  U36,e2: U37,e1
+  U36,o2: U37,o1
+  U37,e2: U38,e1
+  U37,o2: U38,o1
+  U38,e2: U39,e1
+  U38,o2: U39,o1
+  U39,e2: U40,e1
+  U39,o2: U40,o1
+  U4,e2: U5,e1
+  U4,o2: U5,o1
+  U40,e2: U41,e1
+  U40,o2: U41,o1
+  U41,e2: U42,e1
+  U41,o2: U42,o1
+  U42,e2: U43,e1
+  U42,o2: U43,o1
+  U43,e2: U44,e1
+  U43,o2: U44,o1
+  U44,e2: U45,e1
+  U44,o2: U45,o1
+  U45,e2: U46,e1
+  U45,o2: U46,o1
+  U46,e2: U47,e1
+  U46,o2: U47,o1
+  U47,e2: U48,e1
+  U47,o2: U48,o1
+  U48,e2: U49,e1
+  U48,o2: U49,o1
+  U49,e2: U50,e1
+  U49,o2: U50,o1
+  U5,e2: U6,e1
+  U5,o2: U6,o1
+  U50,e2: U51,e1
+  U50,o2: U51,o1
+  U51,e2: U52,e1
+  U51,o2: U52,o1
+  U52,e2: U53,e1
+  U52,o2: U53,o1
+  U53,e2: U54,e1
+  U53,o2: U54,o1
+  U54,e2: U55,e1
+  U54,o2: U55,o1
+  U55,e2: U56,e1
+  U55,o2: U56,o1
+  U56,e2: U57,e1
+  U56,o2: U57,o1
+  U57,e2: U58,e1
+  U57,o2: U58,o1
+  U58,e2: U59,e1
+  U58,o2: U59,o1
+  U59,e2: U60,e1
+  U59,o2: U60,o1
+  U6,e2: U7,e1
+  U6,o2: U7,o1
+  U60,e2: U61,e1
+  U60,o2: U61,o1
+  U61,e2: U62,e1
+  U61,o2: U62,o1
+  U62,e2: U63,e1
+  U62,o2: U63,o1
+  U7,e2: U8,e1
+  U7,o2: U8,o1
+  U8,e2: U9,e1
+  U8,o2: U9,o1
+  taper_L5_W11_W2p5_PNone_4a19c1ba_-2400_0,e1: via_stack_S11_11_LHEATE_67ffcdf5_-10400_0,e3
+  taper_L5_W11_W2p5_PNone_4a19c1ba_322400_0,e1: via_stack_S11_11_LHEATE_67ffcdf5_330400_0,e1
+instances:
+  '-1':
+    component: straight
+    info:
+      length: 2.4
+      route_info_length: 2.4
+      route_info_type: xs_18860153
+      route_info_weight: 2.4
+      route_info_xs_18860153_length: 2.4
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 2.4
+      npoints: 2
+  '-2':
+    component: straight
+    info:
+      length: 2.4
+      route_info_length: 2.4
+      route_info_type: xs_18860153
+      route_info_weight: 2.4
+      route_info_xs_18860153_length: 2.4
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 2.4
+      npoints: 2
+  H1:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H10:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H11:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H12:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H13:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H14:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H15:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H16:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H17:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H18:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H19:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H2:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H20:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H21:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H22:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H23:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H24:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H25:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H26:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H27:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H28:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H29:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H3:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H30:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H31:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H32:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H33:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H34:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H35:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H36:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H37:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H38:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H39:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H4:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H40:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H41:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H42:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H43:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H44:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H45:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H46:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H47:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H48:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H49:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H5:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H50:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H51:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H52:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H53:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H54:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H55:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H56:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H57:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H58:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H59:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H6:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H60:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H61:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H62:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H63:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H7:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H8:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  H9:
+    component: straight
+    info:
+      length: 0
+      route_info_length: 0
+      route_info_type: xs_18860153
+      route_info_weight: 0
+      route_info_xs_18860153_length: 0
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0
+      npoints: 2
+  U1:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U10:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U11:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U12:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U13:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U14:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U15:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U16:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U17:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U18:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U19:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U2:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U20:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U21:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U22:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U23:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U24:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U25:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U26:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U27:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U28:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U29:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U3:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U30:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U31:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U32:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U33:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U34:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U35:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U36:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U37:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U38:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U39:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U4:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U40:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U41:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U42:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U43:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U44:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U45:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U46:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U47:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U48:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U49:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U5:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U50:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U51:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U52:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U53:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U54:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U55:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U56:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U57:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U58:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U59:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U6:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U60:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U61:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U62:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U63:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U7:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U8:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  U9:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_18860153
+      route_info_weight: 5
+      route_info_xs_18860153_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 5
+      npoints: 2
+  _1:
+    component: straight
+    info:
+      length: 0.1
+      route_info_length: 0.1
+      route_info_type: xs_34e31a19
+      route_info_weight: 0.1
+      route_info_xs_34e31a19_length: 0.1
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 0.1
+      npoints: 2
+  _2:
+    component: straight
+    info:
+      length: 0.1
+      route_info_length: 0.1
+      route_info_type: xs_34e31a19
+      route_info_weight: 0.1
+      route_info_xs_34e31a19_length: 0.1
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 0.1
+      npoints: 2
+  taper_L5_W11_W2p5_PNone_4a19c1ba_-2400_0:
+    component: taper
+    info:
+      length: 5
+      width1: 11
+      width2: 2.5
+    settings:
+      cross_section: heater_metal
+      length: 5
+      port_names:
+      - e1
+      - e2
+      port_types:
+      - electrical
+      - electrical
+      width1: 11
+      width2: 2.5
+      with_bbox: true
+      with_two_ports: true
+  taper_L5_W11_W2p5_PNone_4a19c1ba_322400_0:
+    component: taper
+    info:
+      length: 5
+      width1: 11
+      width2: 2.5
+    settings:
+      cross_section: heater_metal
+      length: 5
+      port_names:
+      - e1
+      - e2
+      port_types:
+      - electrical
+      - electrical
+      width1: 11
+      width2: 2.5
+      with_bbox: true
+      with_two_ports: true
+  via_stack_S11_11_LHEATE_67ffcdf5_-10400_0:
+    component: via_stack
+    info:
+      xsize: 11
+      ysize: 11
+    settings:
+      correct_size: true
+      layers:
+      - HEATER
+      - M2
+      - MTOP
+      size:
+      - 11
+      - 11
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - null
+      - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2
+      - Fvia_Mgdsfactorypcomponentspvia_SLVIA2
+  via_stack_S11_11_LHEATE_67ffcdf5_330400_0:
+    component: via_stack
+    info:
+      xsize: 11
+      ysize: 11
+    settings:
+      correct_size: true
+      layers:
+      - HEATER
+      - M2
+      - MTOP
+      size:
+      - 11
+      - 11
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - null
+      - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2
+      - Fvia_Mgdsfactorypcomponentspvia_SLVIA2
+name: straight_heater_metal_u_ba1ec95a
+placements:
+  '-1':
+    mirror: false
+    rotation: 0
+    x: 0.1
+    y: 0
+  '-2':
+    mirror: false
+    rotation: 0
+    x: 317.5
+    y: 0
+  H1:
+    mirror: false
+    rotation: 0
+    x: 7.5
+    y: 0
+  H10:
+    mirror: false
+    rotation: 0
+    x: 52.5
+    y: 0
+  H11:
+    mirror: false
+    rotation: 0
+    x: 57.5
+    y: 0
+  H12:
+    mirror: false
+    rotation: 0
+    x: 62.5
+    y: 0
+  H13:
+    mirror: false
+    rotation: 0
+    x: 67.5
+    y: 0
+  H14:
+    mirror: false
+    rotation: 0
+    x: 72.5
+    y: 0
+  H15:
+    mirror: false
+    rotation: 0
+    x: 77.5
+    y: 0
+  H16:
+    mirror: false
+    rotation: 0
+    x: 82.5
+    y: 0
+  H17:
+    mirror: false
+    rotation: 0
+    x: 87.5
+    y: 0
+  H18:
+    mirror: false
+    rotation: 0
+    x: 92.5
+    y: 0
+  H19:
+    mirror: false
+    rotation: 0
+    x: 97.5
+    y: 0
+  H2:
+    mirror: false
+    rotation: 0
+    x: 12.5
+    y: 0
+  H20:
+    mirror: false
+    rotation: 0
+    x: 102.5
+    y: 0
+  H21:
+    mirror: false
+    rotation: 0
+    x: 107.5
+    y: 0
+  H22:
+    mirror: false
+    rotation: 0
+    x: 112.5
+    y: 0
+  H23:
+    mirror: false
+    rotation: 0
+    x: 117.5
+    y: 0
+  H24:
+    mirror: false
+    rotation: 0
+    x: 122.5
+    y: 0
+  H25:
+    mirror: false
+    rotation: 0
+    x: 127.5
+    y: 0
+  H26:
+    mirror: false
+    rotation: 0
+    x: 132.5
+    y: 0
+  H27:
+    mirror: false
+    rotation: 0
+    x: 137.5
+    y: 0
+  H28:
+    mirror: false
+    rotation: 0
+    x: 142.5
+    y: 0
+  H29:
+    mirror: false
+    rotation: 0
+    x: 147.5
+    y: 0
+  H3:
+    mirror: false
+    rotation: 0
+    x: 17.5
+    y: 0
+  H30:
+    mirror: false
+    rotation: 0
+    x: 152.5
+    y: 0
+  H31:
+    mirror: false
+    rotation: 0
+    x: 157.5
+    y: 0
+  H32:
+    mirror: false
+    rotation: 0
+    x: 162.5
+    y: 0
+  H33:
+    mirror: false
+    rotation: 0
+    x: 167.5
+    y: 0
+  H34:
+    mirror: false
+    rotation: 0
+    x: 172.5
+    y: 0
+  H35:
+    mirror: false
+    rotation: 0
+    x: 177.5
+    y: 0
+  H36:
+    mirror: false
+    rotation: 0
+    x: 182.5
+    y: 0
+  H37:
+    mirror: false
+    rotation: 0
+    x: 187.5
+    y: 0
+  H38:
+    mirror: false
+    rotation: 0
+    x: 192.5
+    y: 0
+  H39:
+    mirror: false
+    rotation: 0
+    x: 197.5
+    y: 0
+  H4:
+    mirror: false
+    rotation: 0
+    x: 22.5
+    y: 0
+  H40:
+    mirror: false
+    rotation: 0
+    x: 202.5
+    y: 0
+  H41:
+    mirror: false
+    rotation: 0
+    x: 207.5
+    y: 0
+  H42:
+    mirror: false
+    rotation: 0
+    x: 212.5
+    y: 0
+  H43:
+    mirror: false
+    rotation: 0
+    x: 217.5
+    y: 0
+  H44:
+    mirror: false
+    rotation: 0
+    x: 222.5
+    y: 0
+  H45:
+    mirror: false
+    rotation: 0
+    x: 227.5
+    y: 0
+  H46:
+    mirror: false
+    rotation: 0
+    x: 232.5
+    y: 0
+  H47:
+    mirror: false
+    rotation: 0
+    x: 237.5
+    y: 0
+  H48:
+    mirror: false
+    rotation: 0
+    x: 242.5
+    y: 0
+  H49:
+    mirror: false
+    rotation: 0
+    x: 247.5
+    y: 0
+  H5:
+    mirror: false
+    rotation: 0
+    x: 27.5
+    y: 0
+  H50:
+    mirror: false
+    rotation: 0
+    x: 252.5
+    y: 0
+  H51:
+    mirror: false
+    rotation: 0
+    x: 257.5
+    y: 0
+  H52:
+    mirror: false
+    rotation: 0
+    x: 262.5
+    y: 0
+  H53:
+    mirror: false
+    rotation: 0
+    x: 267.5
+    y: 0
+  H54:
+    mirror: false
+    rotation: 0
+    x: 272.5
+    y: 0
+  H55:
+    mirror: false
+    rotation: 0
+    x: 277.5
+    y: 0
+  H56:
+    mirror: false
+    rotation: 0
+    x: 282.5
+    y: 0
+  H57:
+    mirror: false
+    rotation: 0
+    x: 287.5
+    y: 0
+  H58:
+    mirror: false
+    rotation: 0
+    x: 292.5
+    y: 0
+  H59:
+    mirror: false
+    rotation: 0
+    x: 297.5
+    y: 0
+  H6:
+    mirror: false
+    rotation: 0
+    x: 32.5
+    y: 0
+  H60:
+    mirror: false
+    rotation: 0
+    x: 302.5
+    y: 0
+  H61:
+    mirror: false
+    rotation: 0
+    x: 307.5
+    y: 0
+  H62:
+    mirror: false
+    rotation: 0
+    x: 312.5
+    y: 0
+  H63:
+    mirror: false
+    rotation: 0
+    x: 317.5
+    y: 0
+  H7:
+    mirror: false
+    rotation: 0
+    x: 37.5
+    y: 0
+  H8:
+    mirror: false
+    rotation: 0
+    x: 42.5
+    y: 0
+  H9:
+    mirror: false
+    rotation: 0
+    x: 47.5
+    y: 0
+  U1:
+    mirror: false
+    rotation: 0
+    x: 2.5
+    y: 0
+  U10:
+    mirror: false
+    rotation: 0
+    x: 47.5
+    y: 0
+  U11:
+    mirror: false
+    rotation: 0
+    x: 52.5
+    y: 0
+  U12:
+    mirror: false
+    rotation: 0
+    x: 57.5
+    y: 0
+  U13:
+    mirror: false
+    rotation: 0
+    x: 62.5
+    y: 0
+  U14:
+    mirror: false
+    rotation: 0
+    x: 67.5
+    y: 0
+  U15:
+    mirror: false
+    rotation: 0
+    x: 72.5
+    y: 0
+  U16:
+    mirror: false
+    rotation: 0
+    x: 77.5
+    y: 0
+  U17:
+    mirror: false
+    rotation: 0
+    x: 82.5
+    y: 0
+  U18:
+    mirror: false
+    rotation: 0
+    x: 87.5
+    y: 0
+  U19:
+    mirror: false
+    rotation: 0
+    x: 92.5
+    y: 0
+  U2:
+    mirror: false
+    rotation: 0
+    x: 7.5
+    y: 0
+  U20:
+    mirror: false
+    rotation: 0
+    x: 97.5
+    y: 0
+  U21:
+    mirror: false
+    rotation: 0
+    x: 102.5
+    y: 0
+  U22:
+    mirror: false
+    rotation: 0
+    x: 107.5
+    y: 0
+  U23:
+    mirror: false
+    rotation: 0
+    x: 112.5
+    y: 0
+  U24:
+    mirror: false
+    rotation: 0
+    x: 117.5
+    y: 0
+  U25:
+    mirror: false
+    rotation: 0
+    x: 122.5
+    y: 0
+  U26:
+    mirror: false
+    rotation: 0
+    x: 127.5
+    y: 0
+  U27:
+    mirror: false
+    rotation: 0
+    x: 132.5
+    y: 0
+  U28:
+    mirror: false
+    rotation: 0
+    x: 137.5
+    y: 0
+  U29:
+    mirror: false
+    rotation: 0
+    x: 142.5
+    y: 0
+  U3:
+    mirror: false
+    rotation: 0
+    x: 12.5
+    y: 0
+  U30:
+    mirror: false
+    rotation: 0
+    x: 147.5
+    y: 0
+  U31:
+    mirror: false
+    rotation: 0
+    x: 152.5
+    y: 0
+  U32:
+    mirror: false
+    rotation: 0
+    x: 157.5
+    y: 0
+  U33:
+    mirror: false
+    rotation: 0
+    x: 162.5
+    y: 0
+  U34:
+    mirror: false
+    rotation: 0
+    x: 167.5
+    y: 0
+  U35:
+    mirror: false
+    rotation: 0
+    x: 172.5
+    y: 0
+  U36:
+    mirror: false
+    rotation: 0
+    x: 177.5
+    y: 0
+  U37:
+    mirror: false
+    rotation: 0
+    x: 182.5
+    y: 0
+  U38:
+    mirror: false
+    rotation: 0
+    x: 187.5
+    y: 0
+  U39:
+    mirror: false
+    rotation: 0
+    x: 192.5
+    y: 0
+  U4:
+    mirror: false
+    rotation: 0
+    x: 17.5
+    y: 0
+  U40:
+    mirror: false
+    rotation: 0
+    x: 197.5
+    y: 0
+  U41:
+    mirror: false
+    rotation: 0
+    x: 202.5
+    y: 0
+  U42:
+    mirror: false
+    rotation: 0
+    x: 207.5
+    y: 0
+  U43:
+    mirror: false
+    rotation: 0
+    x: 212.5
+    y: 0
+  U44:
+    mirror: false
+    rotation: 0
+    x: 217.5
+    y: 0
+  U45:
+    mirror: false
+    rotation: 0
+    x: 222.5
+    y: 0
+  U46:
+    mirror: false
+    rotation: 0
+    x: 227.5
+    y: 0
+  U47:
+    mirror: false
+    rotation: 0
+    x: 232.5
+    y: 0
+  U48:
+    mirror: false
+    rotation: 0
+    x: 237.5
+    y: 0
+  U49:
+    mirror: false
+    rotation: 0
+    x: 242.5
+    y: 0
+  U5:
+    mirror: false
+    rotation: 0
+    x: 22.5
+    y: 0
+  U50:
+    mirror: false
+    rotation: 0
+    x: 247.5
+    y: 0
+  U51:
+    mirror: false
+    rotation: 0
+    x: 252.5
+    y: 0
+  U52:
+    mirror: false
+    rotation: 0
+    x: 257.5
+    y: 0
+  U53:
+    mirror: false
+    rotation: 0
+    x: 262.5
+    y: 0
+  U54:
+    mirror: false
+    rotation: 0
+    x: 267.5
+    y: 0
+  U55:
+    mirror: false
+    rotation: 0
+    x: 272.5
+    y: 0
+  U56:
+    mirror: false
+    rotation: 0
+    x: 277.5
+    y: 0
+  U57:
+    mirror: false
+    rotation: 0
+    x: 282.5
+    y: 0
+  U58:
+    mirror: false
+    rotation: 0
+    x: 287.5
+    y: 0
+  U59:
+    mirror: false
+    rotation: 0
+    x: 292.5
+    y: 0
+  U6:
+    mirror: false
+    rotation: 0
+    x: 27.5
+    y: 0
+  U60:
+    mirror: false
+    rotation: 0
+    x: 297.5
+    y: 0
+  U61:
+    mirror: false
+    rotation: 0
+    x: 302.5
+    y: 0
+  U62:
+    mirror: false
+    rotation: 0
+    x: 307.5
+    y: 0
+  U63:
+    mirror: false
+    rotation: 0
+    x: 312.5
+    y: 0
+  U7:
+    mirror: false
+    rotation: 0
+    x: 32.5
+    y: 0
+  U8:
+    mirror: false
+    rotation: 0
+    x: 37.5
+    y: 0
+  U9:
+    mirror: false
+    rotation: 0
+    x: 42.5
+    y: 0
+  _1:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  _2:
+    mirror: false
+    rotation: 0
+    x: 319.9
+    y: 0
+  taper_L5_W11_W2p5_PNone_4a19c1ba_-2400_0:
+    mirror: false
+    rotation: 0
+    x: -4.9
+    y: 0
+  taper_L5_W11_W2p5_PNone_4a19c1ba_322400_0:
+    mirror: false
+    rotation: 180
+    x: 324.9
+    y: 0
+  via_stack_S11_11_LHEATE_67ffcdf5_-10400_0:
+    mirror: false
+    rotation: 0
+    x: -10.4
+    y: 0
+  via_stack_S11_11_LHEATE_67ffcdf5_330400_0:
+    mirror: false
+    rotation: 0
+    x: 330.4
+    y: 0
+ports:
+  l_e1: via_stack_S11_11_LHEATE_67ffcdf5_-10400_0,e1
+  l_e2: via_stack_S11_11_LHEATE_67ffcdf5_-10400_0,e2
+  l_e3: taper_L5_W11_W2p5_PNone_4a19c1ba_-2400_0,e1
+  l_e4: via_stack_S11_11_LHEATE_67ffcdf5_-10400_0,e4
+  o1: _1,o1
+  o2: _2,o2
+  r_e1: taper_L5_W11_W2p5_PNone_4a19c1ba_322400_0,e1
+  r_e2: via_stack_S11_11_LHEATE_67ffcdf5_330400_0,e2
+  r_e3: via_stack_S11_11_LHEATE_67ffcdf5_330400_0,e3
+  r_e4: via_stack_S11_11_LHEATE_67ffcdf5_330400_0,e4

@@ -1,0 +1,125 @@
+connections: {}
+instances:
+  pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0__1_1:
+    component: pad
+    info:
+      size:
+      - 100
+      - 100
+      xsize: 100
+      ysize: 100
+    settings:
+      layer: MTOP
+      port_inclusion: 0
+      port_orientation: 0
+      size:
+      - 100
+      - 100
+  pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0__1_2:
+    component: pad
+    info:
+      size:
+      - 100
+      - 100
+      xsize: 100
+      ysize: 100
+    settings:
+      layer: MTOP
+      port_inclusion: 0
+      port_orientation: 0
+      size:
+      - 100
+      - 100
+  pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0__1_3:
+    component: pad
+    info:
+      size:
+      - 100
+      - 100
+      xsize: 100
+      ysize: 100
+    settings:
+      layer: MTOP
+      port_inclusion: 0
+      port_orientation: 0
+      size:
+      - 100
+      - 100
+  pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0__1_4:
+    component: pad
+    info:
+      size:
+      - 100
+      - 100
+      xsize: 100
+      ysize: 100
+    settings:
+      layer: MTOP
+      port_inclusion: 0
+      port_orientation: 0
+      size:
+      - 100
+      - 100
+  pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0__1_5:
+    component: pad
+    info:
+      size:
+      - 100
+      - 100
+      xsize: 100
+      ysize: 100
+    settings:
+      layer: MTOP
+      port_inclusion: 0
+      port_orientation: 0
+      size:
+      - 100
+      - 100
+  pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0__1_6:
+    component: pad
+    info:
+      size:
+      - 100
+      - 100
+      xsize: 100
+      ysize: 100
+    settings:
+      layer: MTOP
+      port_inclusion: 0
+      port_orientation: 0
+      size:
+      - 100
+      - 100
+name: array_Cpad_S150_150_C6__0e3de41c
+placements:
+  pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0__1_1:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0__1_2:
+    mirror: false
+    rotation: 0
+    x: 150
+    y: 0
+  pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0__1_3:
+    mirror: false
+    rotation: 0
+    x: 300
+    y: 0
+  pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0__1_4:
+    mirror: false
+    rotation: 0
+    x: 450
+    y: 0
+  pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0__1_5:
+    mirror: false
+    rotation: 0
+    x: 600
+    y: 0
+  pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0__1_6:
+    mirror: false
+    rotation: 0
+    x: 750
+    y: 0
+ports: {}
