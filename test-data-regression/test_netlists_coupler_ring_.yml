@@ -1,39 +1,39 @@
 connections:
-  coupler90_G0p2_R5_Bbend_c3ed3fbf_-6625_2725,o1: coupler_straight_L4_G0p_63233a1f_-2000_350,o1
-  coupler90_G0p2_R5_Bbend_c3ed3fbf_-6625_2725,o2: coupler_straight_L4_G0p_63233a1f_-2000_350,o2
-  coupler90_G0p2_R5_Bbend_c3ed3fbf_-6625_2725,o4: straight_L3_N2_CSxs_34e31a19_-10500_0,o2
-  coupler90_G0p2_R5_Bbend_c3ed3fbf_2625_2725,o1: coupler_straight_L4_G0p_63233a1f_-2000_350,o4
-  coupler90_G0p2_R5_Bbend_c3ed3fbf_2625_2725,o2: coupler_straight_L4_G0p_63233a1f_-2000_350,o3
-  coupler90_G0p2_R5_Bbend_c3ed3fbf_2625_2725,o4: straight_L3_N2_CSxs_34e31a19_6500_0,o1
+  coupler90_G0p2_R5_Bbend_7f6b3237_-6625_2725,o1: coupler_straight_L4_G0p2_CSstrip_-2000_350,o1
+  coupler90_G0p2_R5_Bbend_7f6b3237_-6625_2725,o2: coupler_straight_L4_G0p2_CSstrip_-2000_350,o2
+  coupler90_G0p2_R5_Bbend_7f6b3237_-6625_2725,o4: straight_L3_N2_CSstrip_-10500_0,o2
+  coupler90_G0p2_R5_Bbend_7f6b3237_2625_2725,o1: coupler_straight_L4_G0p2_CSstrip_-2000_350,o4
+  coupler90_G0p2_R5_Bbend_7f6b3237_2625_2725,o2: coupler_straight_L4_G0p2_CSstrip_-2000_350,o3
+  coupler90_G0p2_R5_Bbend_7f6b3237_2625_2725,o4: straight_L3_N2_CSstrip_6500_0,o1
 instances:
-  coupler90_G0p2_R5_Bbend_c3ed3fbf_-6625_2725:
+  coupler90_G0p2_R5_Bbend_7f6b3237_-6625_2725:
     component: coupler90
     info: {}
     settings:
       bend: bend_euler
-      cross_section: xs_34e31a19
-      cross_section_bend: xs_261c680e
+      cross_section: strip
+      cross_section_bend: strip
       gap: 0.2
       radius: 5
       straight: straight
-  coupler90_G0p2_R5_Bbend_c3ed3fbf_2625_2725:
+  coupler90_G0p2_R5_Bbend_7f6b3237_2625_2725:
     component: coupler90
     info: {}
     settings:
       bend: bend_euler
-      cross_section: xs_34e31a19
-      cross_section_bend: xs_261c680e
+      cross_section: strip
+      cross_section_bend: strip
       gap: 0.2
       radius: 5
       straight: straight
-  coupler_straight_L4_G0p_63233a1f_-2000_350:
+  coupler_straight_L4_G0p2_CSstrip_-2000_350:
     component: coupler_straight
     info: {}
     settings:
-      cross_section: xs_34e31a19
+      cross_section: strip
       gap: 0.2
       length: 4
-  straight_L3_N2_CSxs_34e31a19_-10500_0:
+  straight_L3_N2_CSstrip_-10500_0:
     component: straight
     info:
       length: 3
@@ -43,10 +43,10 @@ instances:
       route_info_xs_34e31a19_length: 3
       width: 0.5
     settings:
-      cross_section: xs_34e31a19
+      cross_section: strip
       length: 3
       npoints: 2
-  straight_L3_N2_CSxs_34e31a19_6500_0:
+  straight_L3_N2_CSstrip_6500_0:
     component: straight
     info:
       length: 3
@@ -56,38 +56,38 @@ instances:
       route_info_xs_34e31a19_length: 3
       width: 0.5
     settings:
-      cross_section: xs_34e31a19
+      cross_section: strip
       length: 3
       npoints: 2
 name: coupler_ring_G0p2_R5_LX_ea9dedfe
 placements:
-  coupler90_G0p2_R5_Bbend_c3ed3fbf_-6625_2725:
+  coupler90_G0p2_R5_Bbend_7f6b3237_-6625_2725:
     mirror: true
     rotation: 180
     x: -4
     y: 0
-  coupler90_G0p2_R5_Bbend_c3ed3fbf_2625_2725:
+  coupler90_G0p2_R5_Bbend_7f6b3237_2625_2725:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  coupler_straight_L4_G0p_63233a1f_-2000_350:
+  coupler_straight_L4_G0p2_CSstrip_-2000_350:
     mirror: false
     rotation: 0
     x: -4
     y: 0
-  straight_L3_N2_CSxs_34e31a19_-10500_0:
+  straight_L3_N2_CSstrip_-10500_0:
     mirror: true
     rotation: 0
     x: -12
     y: 0
-  straight_L3_N2_CSxs_34e31a19_6500_0:
+  straight_L3_N2_CSstrip_6500_0:
     mirror: false
     rotation: 0
     x: 5
     y: 0
 ports:
-  o1: straight_L3_N2_CSxs_34e31a19_-10500_0,o1
-  o2: coupler90_G0p2_R5_Bbend_c3ed3fbf_-6625_2725,o3
-  o3: coupler90_G0p2_R5_Bbend_c3ed3fbf_2625_2725,o3
-  o4: straight_L3_N2_CSxs_34e31a19_6500_0,o2
+  o1: straight_L3_N2_CSstrip_-10500_0,o1
+  o2: coupler90_G0p2_R5_Bbend_7f6b3237_-6625_2725,o3
+  o3: coupler90_G0p2_R5_Bbend_7f6b3237_2625_2725,o3
+  o4: straight_L3_N2_CSstrip_6500_0,o2

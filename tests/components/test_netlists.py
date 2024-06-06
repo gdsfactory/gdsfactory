@@ -22,8 +22,8 @@ skip_test = {
 cells_to_test = set(cells.keys()) - skip_test
 
 
-# @pytest.mark.parametrize("component_type", cells_to_test)
-@pytest.mark.skip
+# @pytest.mark.skip
+@pytest.mark.parametrize("component_type", cells_to_test)
 def test_netlists(
     component_type: str,
     data_regression: DataRegressionFixture,
@@ -68,6 +68,7 @@ if __name__ == "__main__":
     component_type = "fiber_array"
     component_type = "straight_heater_meander"  # FIXME: fails
     component_type = "dbr"
+    component_type = "straight_pn"
 
     connection_error_types = {
         "optical": ["width_mismatch", "shear_angle_mismatch", "orientation_mismatch"]

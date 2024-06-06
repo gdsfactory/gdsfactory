@@ -1,10 +1,10 @@
 connections: {}
 instances:
-  compass_S11_11_LM1_PTNo_c3960049_0_0:
+  compass_S11_11_LHEATER__b6e1515a_0_0:
     component: compass
     info: {}
     settings:
-      layer: M1
+      layer: HEATER
       port_inclusion: 0
       port_orientations:
       - 180
@@ -781,9 +781,9 @@ instances:
       spacing:
       - 2
       - 2
-name: via_stack_S11_11_LM1_M2_e6789b8f
+name: via_stack_S11_11_LHEATE_67ffcdf5
 placements:
-  compass_S11_11_LM1_PTNo_c3960049_0_0:
+  compass_S11_11_LHEATER__b6e1515a_0_0:
     mirror: false
     rotation: 0
     x: 0
