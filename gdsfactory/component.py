@@ -1072,93 +1072,18 @@ def container(component, function, **kwargs) -> Component:
 
 
 if __name__ == "__main__":
+    import matplotlib.pyplot as plt
+
     import gdsfactory as gf
 
-    # import matplotlib.pyplot as plt
+    cpl = (10, 20, 30, 40)
+    cpg = (0.2, 0.3, 0.5, 0.5)
+    dl0 = (0, 50, 100)
 
-    # cpl = (10, 20, 30, 40)
-    # cpg = (0.2, 0.3, 0.5, 0.5)
-    # dl0 = (0, 50, 100)
-
-    # c = gf.c.mzi_lattice(
-    #     coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0, length_x=1
-    # )
-    # n = c.get_netlist(recursive=True)
-    # c.plot_netlist(recursive=True)
-    # plt.show()
-
-    # c = gf.Component()
-    # wg1 = c << gf.c.straight(length=10, cross_section="rib")
-    # wg2 = c << gf.c.straight(length=5, cross_section="rib")
-    # wg2.connect("o1", wg1["o2"])
-    # wg2.dmovex(5)
-    # p = c.get_polygons()
-    # print(c.area(layer=(1, 0)))
-    # print(c.get_ports_list(prefix="o"))
-
-    # c = gf.Component()
-    # b1 = gf.components.circle(radius=10)
-    # b2 = gf.components.circle(radius=11)
-
-    # ref = c << gf.c.bend_euler(cross_section="rib")
-    # c.add_ports(ref.ports)
-    # p = c.get_ports_list(sort_ports=True)
-    # print(c.get_ports_list(sort_ports=True))
-
-    # c = gf.Component()
-    # text = c << gf.components.text("hello")
-    # text.dmirror(
-    #     p1=kf.kdb.Point(1, 1), p2=gf.kdb.Point(1, 3)
-    # )  # Reflects across the line formed by p1 and p2
-    # c.remap_layers({(1, 0): (2, 0)})
-    # c.show()
-
-    c = gf.Component()
-    p = c.add_polygon_shapely([(0, 0), (1, 1), (1, 3)], layer=(1, 0))
-    # c = c.remove_layers(layers=[(1, 0), (2, 0)], recursive=True)
-    # c = c.extract(layers=[(1, 0)])
-
-    # c1 = Component()
-    # s = c1.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=(1, 0))
-    # c = Component()
-    # ref = c << c1
-    # ref.xmin = 10
-    # ref.rotate(90)
-    # # r = kdb.Region(s.polygon)
-    # # r.size(2000)  # size in DBU, and 1DBU = 1nm
-    # # c.add_polygon(r, layer=(2, 0))
-
-    # p = c.get_polygons()
-    # print(p)
-
-    # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer="SLAB150")
-    # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=LAYER.WG)
-    # c.create_port(name="o1", position=(10, 10), angle=1, layer=LAYER.WG, width=2000)
-    # c.add_port(name="o1", center=(0, 0), orientation=270, layer=LAYER.WG, width=2.0)
-    # c.add_label(text="hello", position=(2, 2), layer=LAYER.TEXT)
-    # p = c.add_polygon(np.array(list(zip((-8, 6, 7, 9), (-6, 8, 17, 5)))), layer=(1, 0))
-
-    # p = c.add_polygon(list(zip((-8, 6, 7, 9), (-6, 8, 17, 5))), layer=(1, 0))
-    # p2 = p + 2
-    # p2 = c.add_polygon(p2, layer=(1, 0))
-
-    # p3 = p2 - p
-    # p3 = c.add_polygon(p3, layer=(2, 0))
-
-    # P = gf.path.straight(length=10)
-    # s0 = gf.Section(
-    #     width=1, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2")
-    # )
-    # s1 = gf.Section(width=3, offset=0, layer=(3, 0), name="slab")
-    # x1 = gf.CrossSection(sections=(s0, s1))
-    # c1 = gf.path.extrude(P, x1)
-    # ref = c.add_ref(c1)
-    # c.add_ports(ref.ports)
-    # scene = c.to_3d()
-    # scene.show()
-
-    # c = gf.c.straight()
-    # print(c.to_dict())
-    # print(c.area(layer=(1, 0)))
-    # stl = gf.export.to_stl(c)
+    c = gf.c.mzi_lattice(
+        coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0, length_x=1
+    )
+    n = c.get_netlist(recursive=True)
+    c.plot_netlist(recursive=True)
+    plt.show()
     c.show()
