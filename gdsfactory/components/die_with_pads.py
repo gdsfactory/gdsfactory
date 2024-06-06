@@ -48,7 +48,7 @@ def die_with_pads(
     )
     left = c << gca
     left.drotate(-90)
-    left.dxmax = -xs / 2 + edge_to_grating_distance
+    left.dxmin = -xs / 2 + edge_to_grating_distance
     left.dy = fp.dy
     c.add_ports(left.ports, prefix="W")
 
@@ -62,10 +62,11 @@ def die_with_pads(
     pad = gf.get_component(pad)
     x0 = -npads * pad_pitch / 2 + edge_to_pad_distance
 
+    # north pads
     for i in range(npads):
         pad_ref = c << pad
         pad_ref.dxmin = x0 + i * pad_pitch
-        pad_ref.dymin = ys / 2 - edge_to_pad_distance
+        pad_ref.dymax = ys / 2 - edge_to_pad_distance
         c.add_port(
             name=f"N{i}",
             port=pad_ref.ports["e4"],
@@ -73,10 +74,11 @@ def die_with_pads(
 
     x0 = -npads * pad_pitch / 2 + edge_to_pad_distance
 
+    # south pads
     for i in range(npads):
         pad_ref = c << pad
         pad_ref.dxmin = x0 + i * pad_pitch
-        pad_ref.dymax = -ys / 2 + edge_to_pad_distance
+        pad_ref.dymin = -ys / 2 + edge_to_pad_distance
         c.add_port(
             name=f"S{i}",
             port=pad_ref.ports["e2"],
