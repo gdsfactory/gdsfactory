@@ -212,7 +212,8 @@ def ring_single_bend_coupler(
 
 
 if __name__ == "__main__":
-    # c = coupler_bend(radius=5)
+    c = coupler_bend()
+    n = c.get_netlist()
     # c = coupler_ring_bend()
-    c = ring_single_bend_coupler()
+    # c = ring_single_bend_coupler()
     c.show()

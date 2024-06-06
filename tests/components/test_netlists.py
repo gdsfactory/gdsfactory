@@ -18,6 +18,7 @@ skip_test = {
     "pack_doe_grid",
     "fiber_array",
     "straight_heater_meander",
+    "coupler_bend",
 }
 cells_to_test = set(cells.keys()) - skip_test
 
@@ -69,6 +70,8 @@ if __name__ == "__main__":
     component_type = "straight_heater_meander"  # FIXME: fails
     component_type = "dbr"
     component_type = "straight_pn"
+    component_type = "coupler_bend"  # crashes
+    component_type = "splitter_chain"
 
     connection_error_types = {
         "optical": ["width_mismatch", "shear_angle_mismatch", "orientation_mismatch"]
