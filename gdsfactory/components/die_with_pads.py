@@ -14,6 +14,8 @@ def die_with_pads(
     cross_section: CrossSectionSpec = "strip",
     pad: ComponentSpec = "pad",
     layer_floorplan: LayerSpec = LAYER.FLOORPLAN,
+    edge_to_pad_distance: float = 150.0,
+    edge_to_grating_distance: float = 150.0,
 ) -> gf.Component:
     """A die with grating couplers and pads.
 
@@ -27,14 +29,15 @@ def die_with_pads(
         cross_section: the cross section.
         pad: the pad component.
         layer_floorplan: the layer of the floorplan.
+        edge_to_pad_distance: the distance from the edge to the pads, in um.
+        edge_to_grating_distance: the distance from the edge to the grating couplers, in um.
     """
     c = gf.Component()
-
     fp = c << gf.c.rectangle(size=size, layer=layer_floorplan, centered=True)
+    xs, ys = size
 
     # Add optical ports
-    x0 = -4925 + 2.827
-    y0 = 1650
+    x0 = xs / 2 + edge_to_grating_distance
 
     gca = gf.c.grating_coupler_array(
         n=ngratings,
@@ -45,34 +48,35 @@ def die_with_pads(
     )
     left = c << gca
     left.drotate(-90)
-    left.dxmax = x0
+    left.dxmax = -xs / 2 + edge_to_grating_distance
     left.dy = fp.dy
     c.add_ports(left.ports, prefix="W")
 
     right = c << gca
     right.drotate(+90)
-    right.dxmax = -x0
+    right.dxmax = xs / 2 - edge_to_grating_distance
     right.dy = fp.dy
     c.add_ports(right.ports, prefix="E")
 
     # Add electrical ports
-    x0 = -4615
-    y0 = 2200
     pad = gf.get_component(pad)
+    x0 = -npads * pad_pitch / 2 + edge_to_pad_distance
 
     for i in range(npads):
         pad_ref = c << pad
         pad_ref.dxmin = x0 + i * pad_pitch
-        pad_ref.dymin = y0
+        pad_ref.dymin = ys / 2 - edge_to_pad_distance
         c.add_port(
             name=f"N{i}",
             port=pad_ref.ports["e4"],
         )
 
+    x0 = -npads * pad_pitch / 2 + edge_to_pad_distance
+
     for i in range(npads):
         pad_ref = c << pad
         pad_ref.dxmin = x0 + i * pad_pitch
-        pad_ref.dymax = -y0
+        pad_ref.dymax = -ys / 2 + edge_to_pad_distance
         c.add_port(
             name=f"S{i}",
             port=pad_ref.ports["e2"],
