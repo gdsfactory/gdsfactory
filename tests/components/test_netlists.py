@@ -72,6 +72,7 @@ if __name__ == "__main__":
     component_type = "straight_pn"
     component_type = "coupler_bend"  # crashes
     component_type = "splitter_chain"
+    component_type = "pad_array0"
 
     connection_error_types = {
         "optical": ["width_mismatch", "shear_angle_mismatch", "orientation_mismatch"]
@@ -87,6 +88,7 @@ if __name__ == "__main__":
     c1.delete()
     # print(yaml_str)
     c2 = gf.read.from_yaml(yaml_str)
+    c2.show()
     n2 = c2.get_netlist()
     d = jsondiff.diff(n, n2)
     d.pop("warnings", None)
