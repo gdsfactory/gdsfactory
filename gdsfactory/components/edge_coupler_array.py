@@ -6,7 +6,6 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.extension import extend_ports
 from gdsfactory.components.taper import taper
-from gdsfactory.components.text import text_rectangular
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Float2
 
 edge_coupler_silicon = partial(taper, width2=0.2, length=100, with_two_ports=True)
@@ -14,11 +13,11 @@ edge_coupler_silicon = partial(taper, width2=0.2, length=100, with_two_ports=Tru
 
 @gf.cell
 def edge_coupler_array(
-    edge_coupler: ComponentSpec = edge_coupler_silicon,
+    edge_coupler: ComponentSpec = "edge_coupler_silicon",
     n: int = 5,
     pitch: float = 127.0,
     x_reflection: bool = False,
-    text: ComponentSpec | None = text_rectangular,
+    text: ComponentSpec | None = "text_rectangular",
     text_offset: Float2 = (10, 20),
     text_rotation: float = 0,
 ) -> Component:
@@ -63,14 +62,14 @@ def edge_coupler_array(
 
 @gf.cell
 def edge_coupler_array_with_loopback(
-    edge_coupler: ComponentSpec = edge_coupler_silicon,
+    edge_coupler: ComponentSpec = "edge_coupler_silicon",
     cross_section: CrossSectionSpec = "strip",
     radius: float = 30,
     n: int = 8,
     pitch: float = 127.0,
     extension_length: float = 1.0,
     x_reflection: bool = False,
-    text: ComponentSpec | None = text_rectangular,
+    text: ComponentSpec | None = "text_rectangular",
     text_offset: Float2 = (0, 10),
     text_rotation: float = 0,
 ) -> Component:

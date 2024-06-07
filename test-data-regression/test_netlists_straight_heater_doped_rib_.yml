@@ -1,10 +1,10 @@
 connections:
   straight_L300_N2_CSFrib_d4f63e77_150000_0,o1: taper_cross_section_CSF_e7403c59_-5000_0,o2
   straight_L300_N2_CSFrib_d4f63e77_150000_0,o2: taper_cross_section_CSF_e7403c59_305000_0,o2
-  via_stack_S10_10_LM1_M2_496004a2_101467_-10000,e2: via_stack_S10_10_LM1_M2_496004a2_101467_0,e4
-  via_stack_S10_10_LM1_M2_496004a2_198134_0,e2: via_stack_S10_10_LM1_M2_496004a2_198134_10000,e4
-  via_stack_S10_10_LM1_M2_496004a2_294801_-10000,e2: via_stack_S10_10_LM1_M2_496004a2_294801_0,e4
-  via_stack_S10_10_LM1_M2_496004a2_4800_0,e2: via_stack_S10_10_LM1_M2_496004a2_4800_10000,e4
+  via_stack_S10_10_LM1_M2_5f5e6067_101467_-10000,e2: via_stack_S10_10_LM1_M2_5f5e6067_101467_0,e4
+  via_stack_S10_10_LM1_M2_5f5e6067_198134_0,e2: via_stack_S10_10_LM1_M2_5f5e6067_198134_10000,e4
+  via_stack_S10_10_LM1_M2_5f5e6067_294801_-10000,e2: via_stack_S10_10_LM1_M2_5f5e6067_294801_0,e4
+  via_stack_S10_10_LM1_M2_5f5e6067_4800_0,e2: via_stack_S10_10_LM1_M2_5f5e6067_4800_10000,e4
 instances:
   straight_L300_N2_CSFrib_d4f63e77_150000_0:
     component: straight
@@ -49,7 +49,7 @@ instances:
       linear: false
       npoints: 100
       width_type: sine
-  via_stack_S10_10_LM1_M2_496004a2_101467_-10000:
+  via_stack_S10_10_LM1_M2_5f5e6067_101467_-10000:
     component: via_stack
     info:
       xsize: 10
@@ -66,10 +66,10 @@ instances:
       slot_horizontal: false
       slot_vertical: false
       vias:
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA2
+      - via1
+      - via2
       - null
-  via_stack_S10_10_LM1_M2_496004a2_101467_0:
+  via_stack_S10_10_LM1_M2_5f5e6067_101467_0:
     component: via_stack
     info:
       xsize: 10
@@ -86,10 +86,10 @@ instances:
       slot_horizontal: false
       slot_vertical: false
       vias:
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA2
+      - via1
+      - via2
       - null
-  via_stack_S10_10_LM1_M2_496004a2_198134_0:
+  via_stack_S10_10_LM1_M2_5f5e6067_198134_0:
     component: via_stack
     info:
       xsize: 10
@@ -106,10 +106,10 @@ instances:
       slot_horizontal: false
       slot_vertical: false
       vias:
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA2
+      - via1
+      - via2
       - null
-  via_stack_S10_10_LM1_M2_496004a2_198134_10000:
+  via_stack_S10_10_LM1_M2_5f5e6067_198134_10000:
     component: via_stack
     info:
       xsize: 10
@@ -126,10 +126,10 @@ instances:
       slot_horizontal: false
       slot_vertical: false
       vias:
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA2
+      - via1
+      - via2
       - null
-  via_stack_S10_10_LM1_M2_496004a2_294801_-10000:
+  via_stack_S10_10_LM1_M2_5f5e6067_294801_-10000:
     component: via_stack
     info:
       xsize: 10
@@ -146,10 +146,10 @@ instances:
       slot_horizontal: false
       slot_vertical: false
       vias:
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA2
+      - via1
+      - via2
       - null
-  via_stack_S10_10_LM1_M2_496004a2_294801_0:
+  via_stack_S10_10_LM1_M2_5f5e6067_294801_0:
     component: via_stack
     info:
       xsize: 10
@@ -166,10 +166,10 @@ instances:
       slot_horizontal: false
       slot_vertical: false
       vias:
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA2
+      - via1
+      - via2
       - null
-  via_stack_S10_10_LM1_M2_496004a2_4800_0:
+  via_stack_S10_10_LM1_M2_5f5e6067_4800_0:
     component: via_stack
     info:
       xsize: 10
@@ -186,10 +186,10 @@ instances:
       slot_horizontal: false
       slot_vertical: false
       vias:
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA2
+      - via1
+      - via2
       - null
-  via_stack_S10_10_LM1_M2_496004a2_4800_10000:
+  via_stack_S10_10_LM1_M2_5f5e6067_4800_10000:
     component: via_stack
     info:
       xsize: 10
@@ -206,10 +206,10 @@ instances:
       slot_horizontal: false
       slot_vertical: false
       vias:
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA2
+      - via1
+      - via2
       - null
-  via_stack_S10_10_LSLAB9_67640221_101467_-6050:
+  via_stack_S10_10_LSLAB9_4e17c938_101467_-6050:
     component: via_stack
     info:
       xsize: 10
@@ -228,8 +228,8 @@ instances:
       vias:
       - null
       - null
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIAC
-  via_stack_S10_10_LSLAB9_67640221_101467_6050:
+      - viac
+  via_stack_S10_10_LSLAB9_4e17c938_101467_6050:
     component: via_stack
     info:
       xsize: 10
@@ -248,8 +248,8 @@ instances:
       vias:
       - null
       - null
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIAC
-  via_stack_S10_10_LSLAB9_67640221_198134_-6050:
+      - viac
+  via_stack_S10_10_LSLAB9_4e17c938_198134_-6050:
     component: via_stack
     info:
       xsize: 10
@@ -268,8 +268,8 @@ instances:
       vias:
       - null
       - null
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIAC
-  via_stack_S10_10_LSLAB9_67640221_198134_6050:
+      - viac
+  via_stack_S10_10_LSLAB9_4e17c938_198134_6050:
     component: via_stack
     info:
       xsize: 10
@@ -288,8 +288,8 @@ instances:
       vias:
       - null
       - null
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIAC
-  via_stack_S10_10_LSLAB9_67640221_295201_-6050:
+      - viac
+  via_stack_S10_10_LSLAB9_4e17c938_295201_-6050:
     component: via_stack
     info:
       xsize: 10
@@ -308,8 +308,8 @@ instances:
       vias:
       - null
       - null
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIAC
-  via_stack_S10_10_LSLAB9_67640221_295201_6050:
+      - viac
+  via_stack_S10_10_LSLAB9_4e17c938_295201_6050:
     component: via_stack
     info:
       xsize: 10
@@ -328,8 +328,8 @@ instances:
       vias:
       - null
       - null
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIAC
-  via_stack_S10_10_LSLAB9_67640221_4800_-6050:
+      - viac
+  via_stack_S10_10_LSLAB9_4e17c938_4800_-6050:
     component: via_stack
     info:
       xsize: 10
@@ -348,8 +348,8 @@ instances:
       vias:
       - null
       - null
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIAC
-  via_stack_S10_10_LSLAB9_67640221_4800_6050:
+      - viac
+  via_stack_S10_10_LSLAB9_4e17c938_4800_6050:
     component: via_stack
     info:
       xsize: 10
@@ -368,8 +368,8 @@ instances:
       vias:
       - null
       - null
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIAC
-  via_stack_S310_10_LM1_M_e420a219_154800_-20000:
+      - viac
+  via_stack_S310_10_LM1_M_5a0c62ce_154800_-20000:
     component: via_stack
     info:
       xsize: 310
@@ -386,10 +386,10 @@ instances:
       slot_horizontal: false
       slot_vertical: false
       vias:
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA2
+      - via1
+      - via2
       - null
-  via_stack_S310_10_LM1_M_e420a219_154800_20000:
+  via_stack_S310_10_LM1_M_5a0c62ce_154800_20000:
     component: via_stack
     info:
       xsize: 310
@@ -406,10 +406,10 @@ instances:
       slot_horizontal: false
       slot_vertical: false
       vias:
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA2
+      - via1
+      - via2
       - null
-name: straight_heater_doped_r_7951dce3
+name: straight_heater_doped_r_5e772f2a
 placements:
   straight_L300_N2_CSFrib_d4f63e77_150000_0:
     mirror: false
@@ -426,168 +426,168 @@ placements:
     rotation: 180
     x: 310
     y: 0
-  via_stack_S10_10_LM1_M2_496004a2_101467_-10000:
+  via_stack_S10_10_LM1_M2_5f5e6067_101467_-10000:
     mirror: false
     rotation: 0
     x: 101.467
     y: -10
-  via_stack_S10_10_LM1_M2_496004a2_101467_0:
+  via_stack_S10_10_LM1_M2_5f5e6067_101467_0:
     mirror: false
     rotation: 0
     x: 101.467
     y: 0
-  via_stack_S10_10_LM1_M2_496004a2_198134_0:
+  via_stack_S10_10_LM1_M2_5f5e6067_198134_0:
     mirror: false
     rotation: 0
     x: 198.134
     y: 0
-  via_stack_S10_10_LM1_M2_496004a2_198134_10000:
+  via_stack_S10_10_LM1_M2_5f5e6067_198134_10000:
     mirror: false
     rotation: 0
     x: 198.134
     y: 10
-  via_stack_S10_10_LM1_M2_496004a2_294801_-10000:
+  via_stack_S10_10_LM1_M2_5f5e6067_294801_-10000:
     mirror: false
     rotation: 0
     x: 294.801
     y: -10
-  via_stack_S10_10_LM1_M2_496004a2_294801_0:
+  via_stack_S10_10_LM1_M2_5f5e6067_294801_0:
     mirror: false
     rotation: 0
     x: 294.801
     y: 0
-  via_stack_S10_10_LM1_M2_496004a2_4800_0:
+  via_stack_S10_10_LM1_M2_5f5e6067_4800_0:
     mirror: false
     rotation: 0
     x: 4.8
     y: 0
-  via_stack_S10_10_LM1_M2_496004a2_4800_10000:
+  via_stack_S10_10_LM1_M2_5f5e6067_4800_10000:
     mirror: false
     rotation: 0
     x: 4.8
     y: 10
-  via_stack_S10_10_LSLAB9_67640221_101467_-6050:
+  via_stack_S10_10_LSLAB9_4e17c938_101467_-6050:
     mirror: false
     rotation: 0
     x: 101.467
     y: -6.05
-  via_stack_S10_10_LSLAB9_67640221_101467_6050:
+  via_stack_S10_10_LSLAB9_4e17c938_101467_6050:
     mirror: false
     rotation: 0
     x: 101.467
     y: 6.05
-  via_stack_S10_10_LSLAB9_67640221_198134_-6050:
+  via_stack_S10_10_LSLAB9_4e17c938_198134_-6050:
     mirror: false
     rotation: 0
     x: 198.134
     y: -6.05
-  via_stack_S10_10_LSLAB9_67640221_198134_6050:
+  via_stack_S10_10_LSLAB9_4e17c938_198134_6050:
     mirror: false
     rotation: 0
     x: 198.134
     y: 6.05
-  via_stack_S10_10_LSLAB9_67640221_295201_-6050:
+  via_stack_S10_10_LSLAB9_4e17c938_295201_-6050:
     mirror: false
     rotation: 0
     x: 295.201
     y: -6.05
-  via_stack_S10_10_LSLAB9_67640221_295201_6050:
+  via_stack_S10_10_LSLAB9_4e17c938_295201_6050:
     mirror: false
     rotation: 0
     x: 295.201
     y: 6.05
-  via_stack_S10_10_LSLAB9_67640221_4800_-6050:
+  via_stack_S10_10_LSLAB9_4e17c938_4800_-6050:
     mirror: false
     rotation: 0
     x: 4.8
     y: -6.05
-  via_stack_S10_10_LSLAB9_67640221_4800_6050:
+  via_stack_S10_10_LSLAB9_4e17c938_4800_6050:
     mirror: false
     rotation: 0
     x: 4.8
     y: 6.05
-  via_stack_S310_10_LM1_M_e420a219_154800_-20000:
+  via_stack_S310_10_LM1_M_5a0c62ce_154800_-20000:
     mirror: false
     rotation: 0
     x: 154.8
     y: -20
-  via_stack_S310_10_LM1_M_e420a219_154800_20000:
+  via_stack_S310_10_LM1_M_5a0c62ce_154800_20000:
     mirror: false
     rotation: 0
     x: 154.8
     y: 20
 ports:
-  bot_e1: via_stack_S310_10_LM1_M_e420a219_154800_-20000,e1
-  bot_e2: via_stack_S310_10_LM1_M_e420a219_154800_-20000,e2
-  bot_e3: via_stack_S310_10_LM1_M_e420a219_154800_-20000,e3
-  bot_e4: via_stack_S310_10_LM1_M_e420a219_154800_-20000,e4
+  bot_e1: via_stack_S310_10_LM1_M_5a0c62ce_154800_-20000,e1
+  bot_e2: via_stack_S310_10_LM1_M_5a0c62ce_154800_-20000,e2
+  bot_e3: via_stack_S310_10_LM1_M_5a0c62ce_154800_-20000,e3
+  bot_e4: via_stack_S310_10_LM1_M_5a0c62ce_154800_-20000,e4
   o1: taper_cross_section_CSF_e7403c59_-5000_0,o1
   o2: taper_cross_section_CSF_e7403c59_305000_0,o1
-  top_e1: via_stack_S310_10_LM1_M_e420a219_154800_20000,e1
-  top_e2: via_stack_S310_10_LM1_M_e420a219_154800_20000,e2
-  top_e3: via_stack_S310_10_LM1_M_e420a219_154800_20000,e3
-  top_e4: via_stack_S310_10_LM1_M_e420a219_154800_20000,e4
+  top_e1: via_stack_S310_10_LM1_M_5a0c62ce_154800_20000,e1
+  top_e2: via_stack_S310_10_LM1_M_5a0c62ce_154800_20000,e2
+  top_e3: via_stack_S310_10_LM1_M_5a0c62ce_154800_20000,e3
+  top_e4: via_stack_S310_10_LM1_M_5a0c62ce_154800_20000,e4
 warnings:
   electrical:
     unconnected_ports:
     - message: 56 unconnected electrical ports!
       ports:
-      - via_stack_S10_10_LM1_M2_496004a2_4800_0,e1
-      - via_stack_S10_10_LM1_M2_496004a2_4800_0,e3
-      - via_stack_S10_10_LM1_M2_496004a2_4800_0,e4
-      - via_stack_S10_10_LM1_M2_496004a2_4800_10000,e1
-      - via_stack_S10_10_LM1_M2_496004a2_4800_10000,e2
-      - via_stack_S10_10_LM1_M2_496004a2_4800_10000,e3
-      - via_stack_S10_10_LSLAB9_67640221_4800_6050,e1
-      - via_stack_S10_10_LSLAB9_67640221_4800_6050,e2
-      - via_stack_S10_10_LSLAB9_67640221_4800_6050,e3
-      - via_stack_S10_10_LSLAB9_67640221_4800_6050,e4
-      - via_stack_S10_10_LSLAB9_67640221_4800_-6050,e1
-      - via_stack_S10_10_LSLAB9_67640221_4800_-6050,e2
-      - via_stack_S10_10_LSLAB9_67640221_4800_-6050,e3
-      - via_stack_S10_10_LSLAB9_67640221_4800_-6050,e4
-      - via_stack_S10_10_LM1_M2_496004a2_101467_0,e1
-      - via_stack_S10_10_LM1_M2_496004a2_101467_0,e2
-      - via_stack_S10_10_LM1_M2_496004a2_101467_0,e3
-      - via_stack_S10_10_LM1_M2_496004a2_101467_-10000,e1
-      - via_stack_S10_10_LM1_M2_496004a2_101467_-10000,e3
-      - via_stack_S10_10_LM1_M2_496004a2_101467_-10000,e4
-      - via_stack_S10_10_LSLAB9_67640221_101467_6050,e1
-      - via_stack_S10_10_LSLAB9_67640221_101467_6050,e2
-      - via_stack_S10_10_LSLAB9_67640221_101467_6050,e3
-      - via_stack_S10_10_LSLAB9_67640221_101467_6050,e4
-      - via_stack_S10_10_LSLAB9_67640221_101467_-6050,e1
-      - via_stack_S10_10_LSLAB9_67640221_101467_-6050,e2
-      - via_stack_S10_10_LSLAB9_67640221_101467_-6050,e3
-      - via_stack_S10_10_LSLAB9_67640221_101467_-6050,e4
-      - via_stack_S10_10_LM1_M2_496004a2_198134_0,e1
-      - via_stack_S10_10_LM1_M2_496004a2_198134_0,e3
-      - via_stack_S10_10_LM1_M2_496004a2_198134_0,e4
-      - via_stack_S10_10_LM1_M2_496004a2_198134_10000,e1
-      - via_stack_S10_10_LM1_M2_496004a2_198134_10000,e2
-      - via_stack_S10_10_LM1_M2_496004a2_198134_10000,e3
-      - via_stack_S10_10_LSLAB9_67640221_198134_6050,e1
-      - via_stack_S10_10_LSLAB9_67640221_198134_6050,e2
-      - via_stack_S10_10_LSLAB9_67640221_198134_6050,e3
-      - via_stack_S10_10_LSLAB9_67640221_198134_6050,e4
-      - via_stack_S10_10_LSLAB9_67640221_198134_-6050,e1
-      - via_stack_S10_10_LSLAB9_67640221_198134_-6050,e2
-      - via_stack_S10_10_LSLAB9_67640221_198134_-6050,e3
-      - via_stack_S10_10_LSLAB9_67640221_198134_-6050,e4
-      - via_stack_S10_10_LM1_M2_496004a2_294801_0,e1
-      - via_stack_S10_10_LM1_M2_496004a2_294801_0,e2
-      - via_stack_S10_10_LM1_M2_496004a2_294801_0,e3
-      - via_stack_S10_10_LM1_M2_496004a2_294801_-10000,e1
-      - via_stack_S10_10_LM1_M2_496004a2_294801_-10000,e3
-      - via_stack_S10_10_LM1_M2_496004a2_294801_-10000,e4
-      - via_stack_S10_10_LSLAB9_67640221_295201_6050,e1
-      - via_stack_S10_10_LSLAB9_67640221_295201_6050,e2
-      - via_stack_S10_10_LSLAB9_67640221_295201_6050,e3
-      - via_stack_S10_10_LSLAB9_67640221_295201_6050,e4
-      - via_stack_S10_10_LSLAB9_67640221_295201_-6050,e1
-      - via_stack_S10_10_LSLAB9_67640221_295201_-6050,e2
-      - via_stack_S10_10_LSLAB9_67640221_295201_-6050,e3
-      - via_stack_S10_10_LSLAB9_67640221_295201_-6050,e4
+      - via_stack_S10_10_LM1_M2_5f5e6067_4800_0,e1
+      - via_stack_S10_10_LM1_M2_5f5e6067_4800_0,e3
+      - via_stack_S10_10_LM1_M2_5f5e6067_4800_0,e4
+      - via_stack_S10_10_LM1_M2_5f5e6067_4800_10000,e1
+      - via_stack_S10_10_LM1_M2_5f5e6067_4800_10000,e2
+      - via_stack_S10_10_LM1_M2_5f5e6067_4800_10000,e3
+      - via_stack_S10_10_LSLAB9_4e17c938_4800_6050,e1
+      - via_stack_S10_10_LSLAB9_4e17c938_4800_6050,e2
+      - via_stack_S10_10_LSLAB9_4e17c938_4800_6050,e3
+      - via_stack_S10_10_LSLAB9_4e17c938_4800_6050,e4
+      - via_stack_S10_10_LSLAB9_4e17c938_4800_-6050,e1
+      - via_stack_S10_10_LSLAB9_4e17c938_4800_-6050,e2
+      - via_stack_S10_10_LSLAB9_4e17c938_4800_-6050,e3
+      - via_stack_S10_10_LSLAB9_4e17c938_4800_-6050,e4
+      - via_stack_S10_10_LM1_M2_5f5e6067_101467_0,e1
+      - via_stack_S10_10_LM1_M2_5f5e6067_101467_0,e2
+      - via_stack_S10_10_LM1_M2_5f5e6067_101467_0,e3
+      - via_stack_S10_10_LM1_M2_5f5e6067_101467_-10000,e1
+      - via_stack_S10_10_LM1_M2_5f5e6067_101467_-10000,e3
+      - via_stack_S10_10_LM1_M2_5f5e6067_101467_-10000,e4
+      - via_stack_S10_10_LSLAB9_4e17c938_101467_6050,e1
+      - via_stack_S10_10_LSLAB9_4e17c938_101467_6050,e2
+      - via_stack_S10_10_LSLAB9_4e17c938_101467_6050,e3
+      - via_stack_S10_10_LSLAB9_4e17c938_101467_6050,e4
+      - via_stack_S10_10_LSLAB9_4e17c938_101467_-6050,e1
+      - via_stack_S10_10_LSLAB9_4e17c938_101467_-6050,e2
+      - via_stack_S10_10_LSLAB9_4e17c938_101467_-6050,e3
+      - via_stack_S10_10_LSLAB9_4e17c938_101467_-6050,e4
+      - via_stack_S10_10_LM1_M2_5f5e6067_198134_0,e1
+      - via_stack_S10_10_LM1_M2_5f5e6067_198134_0,e3
+      - via_stack_S10_10_LM1_M2_5f5e6067_198134_0,e4
+      - via_stack_S10_10_LM1_M2_5f5e6067_198134_10000,e1
+      - via_stack_S10_10_LM1_M2_5f5e6067_198134_10000,e2
+      - via_stack_S10_10_LM1_M2_5f5e6067_198134_10000,e3
+      - via_stack_S10_10_LSLAB9_4e17c938_198134_6050,e1
+      - via_stack_S10_10_LSLAB9_4e17c938_198134_6050,e2
+      - via_stack_S10_10_LSLAB9_4e17c938_198134_6050,e3
+      - via_stack_S10_10_LSLAB9_4e17c938_198134_6050,e4
+      - via_stack_S10_10_LSLAB9_4e17c938_198134_-6050,e1
+      - via_stack_S10_10_LSLAB9_4e17c938_198134_-6050,e2
+      - via_stack_S10_10_LSLAB9_4e17c938_198134_-6050,e3
+      - via_stack_S10_10_LSLAB9_4e17c938_198134_-6050,e4
+      - via_stack_S10_10_LM1_M2_5f5e6067_294801_0,e1
+      - via_stack_S10_10_LM1_M2_5f5e6067_294801_0,e2
+      - via_stack_S10_10_LM1_M2_5f5e6067_294801_0,e3
+      - via_stack_S10_10_LM1_M2_5f5e6067_294801_-10000,e1
+      - via_stack_S10_10_LM1_M2_5f5e6067_294801_-10000,e3
+      - via_stack_S10_10_LM1_M2_5f5e6067_294801_-10000,e4
+      - via_stack_S10_10_LSLAB9_4e17c938_295201_6050,e1
+      - via_stack_S10_10_LSLAB9_4e17c938_295201_6050,e2
+      - via_stack_S10_10_LSLAB9_4e17c938_295201_6050,e3
+      - via_stack_S10_10_LSLAB9_4e17c938_295201_6050,e4
+      - via_stack_S10_10_LSLAB9_4e17c938_295201_-6050,e1
+      - via_stack_S10_10_LSLAB9_4e17c938_295201_-6050,e2
+      - via_stack_S10_10_LSLAB9_4e17c938_295201_-6050,e3
+      - via_stack_S10_10_LSLAB9_4e17c938_295201_-6050,e4
       values:
       - - -200
         - 0

@@ -195,6 +195,7 @@ from gdsfactory.components.pad import (
     pad_array180,
     pad_array270,
     pad_rectangular,
+    pad_small,
 )
 from gdsfactory.components.pad_gsg import pad_gsg_open, pad_gsg_short
 from gdsfactory.components.pads_shorted import pads_shorted
@@ -285,6 +286,7 @@ from gdsfactory.components.via_stack import (
     via_stack,
     via_stack_heater_m3,
     via_stack_heater_mtop,
+    via_stack_heater_mtop_mini,
     via_stack_m1_mtop,
     via_stack_npp_m1,
     via_stack_slab_m1_horizontal,
@@ -459,6 +461,7 @@ __all__ = [
     "pad_gsg_open",
     "pad_gsg_short",
     "pad_rectangular",
+    "pad_small",
     "pads_shorted",
     "pixel",
     "polarization_splitter_rotator",
@@ -546,6 +549,7 @@ __all__ = [
     "via_stack_m1_mtop",
     "via_stack_slab_m1_horizontal",
     "via_stack_heater_mtop",
+    "via_stack_heater_mtop_mini",
     "via_stack_slab_m3",
     "via_stack_with_offset",
     "via_stack_npp_m1",

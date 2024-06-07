@@ -106,7 +106,7 @@ def pad_array(
         pad, size=size, port_orientation=port_orientation, layer=layer
     )
 
-    c.add_array(pad, columns=columns, rows=rows, spacing=spacing)
+    c.add_ref(pad, columns=columns, rows=rows, spacing=spacing)
     width = size[0] if port_orientation in {90, 270} else size[1]
 
     for col in range(columns):

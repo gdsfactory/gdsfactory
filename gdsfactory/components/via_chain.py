@@ -90,21 +90,21 @@ def via_chain(
         2 * via_min_enclosure + min_metal_spacing + via_width,
         wire_width + min_metal_spacing,
     )
-    vias = c.add_array(
+    vias = c.add_ref(
         component=via,
         columns=cols,
         rows=rows,
         spacing=via_spacing,
     )
     top_wire = gf.c.rectangles(size=wire_size, layers=layers_top, offsets=offsets_top)
-    top_wires = c.add_array(
+    top_wires = c.add_ref(
         component=top_wire,
         columns=cols // 2,
         rows=rows,
         spacing=(wire_length + min_metal_spacing, wire_width + min_metal_spacing),
     )
     bot_wire = gf.c.rectangles(size=wire_size, layers=layers_bot, offsets=offsets_bot)
-    bot_wires = c.add_array(
+    bot_wires = c.add_ref(
         component=bot_wire,
         columns=cols // 2,
         rows=rows,
@@ -122,7 +122,7 @@ def via_chain(
         layer=layers_top[0],
     )
 
-    right_wires = c.add_array(
+    right_wires = c.add_ref(
         component=vertical_wire_left,
         columns=1,
         rows=rows // 2,
@@ -132,7 +132,7 @@ def via_chain(
     right_wires.dxmax = bot_wires.dxmax
     right_wires.dymin = bot_wires.dymin
 
-    left_wires = c.add_array(
+    left_wires = c.add_ref(
         component=vertical_wire_left,
         columns=1,
         rows=rows // 2 - 1,

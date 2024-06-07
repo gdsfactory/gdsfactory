@@ -1,7 +1,7 @@
 info:
   xsize: 11
   ysize: 11
-name: via_stack_S11_11_LSLAB9_a1328c78
+name: via_stack_S11_11_LSLAB9_fb7584a2
 settings:
   correct_size: true
   layers:
@@ -15,7 +15,7 @@ settings:
   slot_horizontal: false
   slot_vertical: false
   vias:
-  - Fvia_Mgdsfactorypcomponentspvia_SLVIAC
-  - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2
-  - Fvia_Mgdsfactorypcomponentspvia_SLVIA2
+  - viac
+  - via1
+  - via2
   - null

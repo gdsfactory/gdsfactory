@@ -4,23 +4,23 @@ instances:
     component: bend_circular
     info:
       length: 15.708
-      dy: 10.0
-      radius: 10.0
+      dy: 10
+      radius: 10
       route_info_type: xs_34e31a19
       route_info_length: 15.708
       route_info_weight: 15.708
       route_info_xs_34e31a19_length: 15.708
-      route_info_n_bend_90: 1.0
-      route_info_min_bend_radius: 10.0
+      route_info_n_bend_90: 1
+      route_info_min_bend_radius: 10
     settings:
-      angle: 90.0
+      angle: 90
       cross_section: strip
       allow_min_radius_violation: false
 placements:
   bend_circular_RNone_A90_35590aa7_2001_6784:
-    x: 0.0
-    'y': 0.0
-    rotation: 29.999999999999993
+    x: 0
+    'y': 0
+    rotation: 30.0
     mirror: false
 ports: {}
 name: Unnamed_0

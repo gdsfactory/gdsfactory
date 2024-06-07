@@ -126,7 +126,7 @@ class ComponentReference(kf.Instance):
         if __k in _deprecated_attributes:
             logger.warning(
                 f"Getting `{self._kfinst.name}.{__k}` {_deprecation_um}. "
-                f"Please use `{self._kfinst.name}.d{__k}` instead. For further information, please"
+                f"Please use `{self._kfinst.name}.d{__k}` instead. For further information, please "
                 "consult the migration guide "
                 "https://gdsfactory.github.io/gdsfactory/notebooks/"
                 "21_migration_guide_7_8.html",
@@ -290,7 +290,7 @@ class ComponentBase:
         if __k in _deprecated_attributes_component_gettr:
             logger.warning(
                 f"Getting `{self.name}.{__k}` {_deprecation_um}. "
-                f"Please use {self.name}.`d{__k}` instead. For further information, please"
+                f"Please use {self.name}.`d{__k}` instead. For further information, please "
                 "consult the migration guide "
                 "https://gdsfactory.github.io/gdsfactory/notebooks/"
                 "21_migration_guide_7_8.html",
@@ -398,6 +398,7 @@ class ComponentBase:
         columns: int = 2,
         rows: int = 2,
         spacing: tuple[float, float] = (100, 100),
+        name: str | None = None,
     ) -> Componenteference:
         """Creates a Componenteference reference to a Component.
 
@@ -406,18 +407,27 @@ class ComponentBase:
             columns: Number of columns in the array.
             rows: Number of rows in the array.
             spacing: x, y distance between adjacent columns and adjacent rows.
+            name: Name of the reference.
 
         """
+        warnings.warn(
+            "add_array() is deprecated and will be removed in gdsfactory9. "
+            "Please use add_ref() instead.",
+            stacklevel=2,
+        )
         if not isinstance(component, Component):
             raise TypeError("add_array() needs a Component object.")
 
-        return self.create_inst(
+        inst = self.create_inst(
             component,
             na=columns,
             nb=rows,
             a=kf.kdb.Vector(spacing[0] / self.kcl.dbu, 0),
             b=kf.kdb.Vector(0, spacing[1] / self.kcl.dbu),
         )
+        if name:
+            inst.name = name
+        return ComponentReference(inst)
 
     def get_ports_list(self, **kwargs) -> list[kf.Port]:
         """Returns list of ports.
@@ -494,9 +504,38 @@ class ComponentBase:
         return self
 
     def add_ref(
-        self, component: Component, name: str | None = None, alias: str | None = None
+        self,
+        component: Component,
+        name: str | None = None,
+        columns: int = 1,
+        rows: int = 1,
+        spacing: tuple[float, float] = (100.0, 100.0),
+        alias: str | None = None,
     ) -> ComponentReference:
-        inst = self.create_inst(component)
+        """Adds a component instance reference to a Component.
+
+        Args:
+            component: The referenced component.
+            name: Name of the reference.
+            columns: Number of columns in the array.
+            rows: Number of rows in the array.
+            spacing: x, y distance between adjacent columns and adjacent rows.
+            alias: Deprecated. Use name instead.
+
+        """
+        if rows > 1 or columns > 1:
+            a = kf.kdb.Vector(round(spacing[0] / self.kcl.dbu), 0)
+            b = kf.kdb.Vector(0, round(spacing[1] / self.kcl.dbu))
+            inst = self.create_inst(
+                component,
+                na=columns,
+                nb=rows,
+                a=a,
+                b=b,
+            )
+        else:
+            inst = self.create_inst(component)
+
         if alias:
             warnings.warn("alias is deprecated, use name instead")
             inst.name = alias
@@ -1072,18 +1111,34 @@ def container(component, function, **kwargs) -> Component:
 
 
 if __name__ == "__main__":
-    import matplotlib.pyplot as plt
-
     import gdsfactory as gf
 
-    cpl = (10, 20, 30, 40)
-    cpg = (0.2, 0.3, 0.5, 0.5)
-    dl0 = (0, 50, 100)
+    c = gf.Component()
+    b = c << gf.c.bend_circular()
+    s = c << gf.c.straight()
+    s.connect("o1", b.ports["o2"])
+    # c = gf.c.mzi()
+    # c = gf.c.array(spacing=(300, 300), columns=2)
+    # c.show()
+    # n0 = c.get_netlist()
+    # # pprint(n0)
 
-    c = gf.c.mzi_lattice(
-        coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0, length_x=1
-    )
-    n = c.get_netlist(recursive=True)
-    c.plot_netlist(recursive=True)
-    plt.show()
+    # gdspath = c.write_gds("test.gds")
+    # c = gf.import_gds(gdspath)
+    # n = c.get_netlist()
     c.show()
+    # import matplotlib.pyplot as plt
+
+    # import gdsfactory as gf
+
+    # cpl = (10, 20, 30, 40)
+    # cpg = (0.2, 0.3, 0.5, 0.5)
+    # dl0 = (0, 50, 100)
+
+    # c = gf.c.mzi_lattice(
+    #     coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0, length_x=1
+    # )
+    # n = c.get_netlist(recursive=True)
+    # c.plot_netlist(recursive=True)
+    # plt.show()
+    # c.show()

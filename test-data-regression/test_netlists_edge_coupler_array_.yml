@@ -95,11 +95,10 @@ instances:
       width2: 0.2
       with_bbox: true
       with_two_ports: true
-  text_rectangular_T1_S10_33d8cb29_35000_45000:
+  text_rectangular_T1_S10_f46d0f0f_35000_45000:
     component: text_rectangular
     info: {}
     settings:
-      font: rectangular_font
       justify: left
       layer: WG
       position:
@@ -107,11 +106,10 @@ instances:
       - 0
       size: 10
       text: '1'
-  text_rectangular_T2_S10_c791f318_35000_172000:
+  text_rectangular_T2_S10_2472e4e0_35000_172000:
     component: text_rectangular
     info: {}
     settings:
-      font: rectangular_font
       justify: left
       layer: WG
       position:
@@ -119,11 +117,10 @@ instances:
       - 0
       size: 10
       text: '2'
-  text_rectangular_T3_S10_2598d72f_35000_299000:
+  text_rectangular_T3_S10_c2fd20ce_35000_299000:
     component: text_rectangular
     info: {}
     settings:
-      font: rectangular_font
       justify: left
       layer: WG
       position:
@@ -131,11 +128,10 @@ instances:
       - 0
       size: 10
       text: '3'
-  text_rectangular_T4_S10_3d29fd91_35000_426000:
+  text_rectangular_T4_S10_0c368c07_35000_426000:
     component: text_rectangular
     info: {}
     settings:
-      font: rectangular_font
       justify: left
       layer: WG
       position:
@@ -143,11 +139,10 @@ instances:
       - 0
       size: 10
       text: '4'
-  text_rectangular_T5_S10_77d2e57d_35000_553000:
+  text_rectangular_T5_S10_480a7f5d_35000_553000:
     component: text_rectangular
     info: {}
     settings:
-      font: rectangular_font
       justify: left
       layer: WG
       position:
@@ -155,7 +150,7 @@ instances:
       - 0
       size: 10
       text: '5'
-name: edge_coupler_array_ECFt_56edc37d
+name: edge_coupler_array_ECed_0e2b58eb
 placements:
   ec_0:
     mirror: false
@@ -182,27 +177,27 @@ placements:
     rotation: 0
     x: 0
     y: 508
-  text_rectangular_T1_S10_33d8cb29_35000_45000:
+  text_rectangular_T1_S10_f46d0f0f_35000_45000:
     mirror: false
     rotation: 0
     x: 10
     y: 20
-  text_rectangular_T2_S10_c791f318_35000_172000:
+  text_rectangular_T2_S10_2472e4e0_35000_172000:
     mirror: false
     rotation: 0
     x: 10
     y: 147
-  text_rectangular_T3_S10_2598d72f_35000_299000:
+  text_rectangular_T3_S10_c2fd20ce_35000_299000:
     mirror: false
     rotation: 0
     x: 10
     y: 274
-  text_rectangular_T4_S10_3d29fd91_35000_426000:
+  text_rectangular_T4_S10_0c368c07_35000_426000:
     mirror: false
     rotation: 0
     x: 10
     y: 401
-  text_rectangular_T5_S10_77d2e57d_35000_553000:
+  text_rectangular_T5_S10_480a7f5d_35000_553000:
     mirror: false
     rotation: 0
     x: 10

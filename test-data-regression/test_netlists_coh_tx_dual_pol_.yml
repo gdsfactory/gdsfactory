@@ -1,16 +1,16 @@
 connections:
-  bend_euler_RNone_A90_P0_fb2476c0_-75125_-221375,o1: straight_L7p25_N2_CSstrip_W0p5_-66375_-226250,o1
-  bend_euler_RNone_A90_P0_fb2476c0_-75125_-221375,o2: straight_L65p875_N2_CSstrip_W0p5_-80000_-183313,o1
-  bend_euler_RNone_A90_P0_fb2476c0_-75125_-58125,o1: straight_L7p25_N2_CSstrip_W0p5_-66375_-53250,o1
-  bend_euler_RNone_A90_P0_fb2476c0_-75125_-58125,o2: straight_L65p875_N2_CSstrip_W0p5_-80000_-96188,o1
-  bend_euler_RNone_A90_P0_fb2476c0_-84875_-134250,o1: straight_L65p875_N2_CSstrip_W0p5_-80000_-96188,o2
-  bend_euler_RNone_A90_P0_fb2476c0_-84875_-134250,o2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_-102750_-139750,o2
-  bend_euler_RNone_A90_P0_fb2476c0_-84875_-145250,o1: straight_L65p875_N2_CSstrip_W0p5_-80000_-183313,o2
-  bend_euler_RNone_A90_P0_fb2476c0_-84875_-145250,o2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_-102750_-139750,o3
+  bend_euler_R10_A90_P0p5_2f1f5c6d_-75125_-221375,o1: straight_L7p25_N2_CSstrip_W0p5_-66375_-226250,o1
+  bend_euler_R10_A90_P0p5_2f1f5c6d_-75125_-221375,o2: straight_L65p875_N2_CSstrip_W0p5_-80000_-183313,o1
+  bend_euler_R10_A90_P0p5_2f1f5c6d_-75125_-58125,o1: straight_L7p25_N2_CSstrip_W0p5_-66375_-53250,o1
+  bend_euler_R10_A90_P0p5_2f1f5c6d_-75125_-58125,o2: straight_L65p875_N2_CSstrip_W0p5_-80000_-96188,o1
+  bend_euler_R10_A90_P0p5_2f1f5c6d_-84875_-134250,o1: straight_L65p875_N2_CSstrip_W0p5_-80000_-96188,o2
+  bend_euler_R10_A90_P0p5_2f1f5c6d_-84875_-134250,o2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_-102750_-139750,o2
+  bend_euler_R10_A90_P0p5_2f1f5c6d_-84875_-145250,o1: straight_L65p875_N2_CSstrip_W0p5_-80000_-183313,o2
+  bend_euler_R10_A90_P0p5_2f1f5c6d_-84875_-145250,o2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_-102750_-139750,o3
   coh_tx_single_pol_BPSFa_4ee171aa_205510_-220875,o1: straight_L7p25_N2_CSstrip_W0p5_-66375_-226250,o2
   coh_tx_single_pol_BPSFa_4ee171aa_205510_-47875,o1: straight_L7p25_N2_CSstrip_W0p5_-66375_-53250,o2
 instances:
-  bend_euler_RNone_A90_P0_fb2476c0_-75125_-221375:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_-75125_-221375:
     component: bend_euler
     info:
       dy: 10
@@ -26,10 +26,11 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
-      cross_section: xs_34e31a19
+      cross_section: strip
       p: 0.5
+      radius: 10
       with_arc_floorplan: true
-  bend_euler_RNone_A90_P0_fb2476c0_-75125_-58125:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_-75125_-58125:
     component: bend_euler
     info:
       dy: 10
@@ -45,10 +46,11 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
-      cross_section: xs_34e31a19
+      cross_section: strip
       p: 0.5
+      radius: 10
       with_arc_floorplan: true
-  bend_euler_RNone_A90_P0_fb2476c0_-84875_-134250:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_-84875_-134250:
     component: bend_euler
     info:
       dy: 10
@@ -64,10 +66,11 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
-      cross_section: xs_34e31a19
+      cross_section: strip
       p: 0.5
+      radius: 10
       with_arc_floorplan: true
-  bend_euler_RNone_A90_P0_fb2476c0_-84875_-145250:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_-84875_-145250:
     component: bend_euler
     info:
       dy: 10
@@ -83,8 +86,9 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
-      cross_section: xs_34e31a19
+      cross_section: strip
       p: 0.5
+      radius: 10
       with_arc_floorplan: true
   coh_tx_single_pol_BPSFa_4ee171aa_205510_-220875:
     component: coh_tx_single_pol
@@ -186,22 +190,22 @@ instances:
       width: 0.5
 name: coh_tx_dual_pol_Smmi1x2_a3c36516
 placements:
-  bend_euler_RNone_A90_P0_fb2476c0_-75125_-221375:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_-75125_-221375:
     mirror: true
     rotation: 180
     x: -70
     y: -226.25
-  bend_euler_RNone_A90_P0_fb2476c0_-75125_-58125:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_-75125_-58125:
     mirror: false
     rotation: 180
     x: -70
     y: -53.25
-  bend_euler_RNone_A90_P0_fb2476c0_-84875_-134250:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_-84875_-134250:
     mirror: true
     rotation: 270
     x: -80
     y: -129.125
-  bend_euler_RNone_A90_P0_fb2476c0_-84875_-145250:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_-84875_-145250:
     mirror: false
     rotation: 90
     x: -80

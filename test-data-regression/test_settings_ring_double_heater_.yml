@@ -1,5 +1,5 @@
 info: {}
-name: ring_double_heater_G0p2_c21cabc8
+name: ring_double_heater_G0p2_26d47ff1
 settings:
   bend: bend_euler
   coupler_ring: coupler_ring
@@ -11,7 +11,7 @@ settings:
   length_y: 0.01
   radius: 10
   straight: straight
-  via_stack: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLHEATER_M2_MTOP_VNone_Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2_Fvia_Mgdsfactorypcomponentspvia_SLVIA2_S4_4
+  via_stack: via_stack_heater_mtop_mini
   via_stack_offset:
   - 1
   - 0

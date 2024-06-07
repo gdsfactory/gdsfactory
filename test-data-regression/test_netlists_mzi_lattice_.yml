@@ -21,7 +21,7 @@ instances:
       splitter: coupler_G0p2_L10_CScoup_b8afc3b4
       straight: straight
       with_splitter: true
-name: mzi_lattice_CL10_20_CG0_7520cb93
+name: mzi_lattice_CL10_20_CG0_bf9216d8
 placements:
   mzi_DL10_LY2_LXNone_Bbe_2f0cfab0_50010_-2150:
     mirror: false

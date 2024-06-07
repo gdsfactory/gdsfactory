@@ -1,0 +1,113 @@
+connections: {}
+instances:
+  compass_S4_4_LHEATER_PT_dbdc2ced_0_0:
+    component: compass
+    info: {}
+    settings:
+      layer: HEATER
+      port_inclusion: 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      size:
+      - 4
+      - 4
+  compass_S4_4_LM2_PTNone_9fea5f94_0_0:
+    component: compass
+    info: {}
+    settings:
+      layer: M2
+      port_inclusion: 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      size:
+      - 4
+      - 4
+  compass_S4_4_LMTOP_PTel_7f6532b8_0_0:
+    component: compass
+    info: {}
+    settings:
+      layer: MTOP
+      port_inclusion: 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 4
+      - 4
+  via_S0p7_0p7_S2_2_GNone_3d643c37_0_0:
+    component: via
+    info:
+      enclosure: 2
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 2
+      layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_c4f19208_0_0:
+    component: via
+    info:
+      enclosure: 1
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    settings:
+      bbox_offset: 0
+      enclosure: 1
+      layer: VIA2
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+name: via_stack_S4_4_LHEATER__f8cf7960
+placements:
+  compass_S4_4_LHEATER_PT_dbdc2ced_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  compass_S4_4_LM2_PTNone_9fea5f94_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  compass_S4_4_LMTOP_PTel_7f6532b8_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  via_S0p7_0p7_S2_2_GNone_3d643c37_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  via_S0p7_0p7_S2_2_GNone_c4f19208_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+ports:
+  e1: compass_S4_4_LMTOP_PTel_7f6532b8_0_0,e1
+  e2: compass_S4_4_LMTOP_PTel_7f6532b8_0_0,e2
+  e3: compass_S4_4_LMTOP_PTel_7f6532b8_0_0,e3
+  e4: compass_S4_4_LMTOP_PTel_7f6532b8_0_0,e4

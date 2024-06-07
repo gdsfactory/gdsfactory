@@ -1,0 +1,96 @@
+connections: {}
+instances:
+  compass_S11_11_LM1_PTel_4e66e5c3_0_0:
+    component: compass
+    info: {}
+    settings:
+      layer: M1
+      port_inclusion: 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 11
+      - 11
+  compass_S11_11_LNPP_PTN_406f935e_0_0:
+    component: compass
+    info: {}
+    settings:
+      layer: NPP
+      port_inclusion: 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      size:
+      - 11
+      - 11
+  compass_S11_11_LWG_PTNo_968be65e_0_0:
+    component: compass
+    info: {}
+    settings:
+      layer: WG
+      port_inclusion: 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      size:
+      - 11
+      - 11
+  via_S0p7_0p7_S2_2_GNone_6d4c344f_0_0:
+    component: via
+    dax: 2
+    day: 0
+    dbx: 0
+    dby: 2
+    info:
+      enclosure: 1
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    na: 5
+    nb: 5
+    settings:
+      bbox_offset: 0
+      enclosure: 1
+      layer: VIAC
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+name: via_stack_S11_11_LWG_NP_1fc0b4f9
+placements:
+  compass_S11_11_LM1_PTel_4e66e5c3_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  compass_S11_11_LNPP_PTN_406f935e_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  compass_S11_11_LWG_PTNo_968be65e_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  via_S0p7_0p7_S2_2_GNone_6d4c344f_0_0:
+    mirror: false
+    rotation: 0
+    x: -4
+    y: -4
+ports:
+  e1: compass_S11_11_LM1_PTel_4e66e5c3_0_0,e1
+  e2: compass_S11_11_LM1_PTel_4e66e5c3_0_0,e2
+  e3: compass_S11_11_LM1_PTel_4e66e5c3_0_0,e3
+  e4: compass_S11_11_LM1_PTel_4e66e5c3_0_0,e4

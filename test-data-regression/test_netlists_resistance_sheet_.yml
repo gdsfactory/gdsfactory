@@ -1,6 +1,6 @@
 connections:
-  compass_S50_10_LHEATER__8f301b44_0_0,e1: via_stack_S50_50_LHEATE_4ba44df1_-50000_0,e3
-  compass_S50_10_LHEATER__8f301b44_0_0,e3: via_stack_S50_50_LHEATE_4ba44df1_50000_0,e1
+  compass_S50_10_LHEATER__8f301b44_0_0,e1: via_stack_S50_50_LHEATE_0ececd1b_-50000_0,e3
+  compass_S50_10_LHEATER__8f301b44_0_0,e3: via_stack_S50_50_LHEATE_0ececd1b_50000_0,e1
 instances:
   compass_S50_10_LHEATER__8f301b44_0_0:
     component: compass
@@ -17,7 +17,7 @@ instances:
       size:
       - 50
       - 10
-  via_stack_S50_50_LHEATE_4ba44df1_-50000_0:
+  via_stack_S50_50_LHEATE_0ececd1b_-50000_0:
     component: via_stack
     info:
       xsize: 50
@@ -35,9 +35,9 @@ instances:
       slot_vertical: false
       vias:
       - null
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA2
-  via_stack_S50_50_LHEATE_4ba44df1_50000_0:
+      - via1
+      - via2
+  via_stack_S50_50_LHEATE_0ececd1b_50000_0:
     component: via_stack
     info:
       xsize: 50
@@ -55,8 +55,8 @@ instances:
       slot_vertical: false
       vias:
       - null
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA2
+      - via1
+      - via2
 name: resistance_sheet_W10_LH_1b3e3b4b
 placements:
   compass_S50_10_LHEATER__8f301b44_0_0:
@@ -64,28 +64,28 @@ placements:
     rotation: 0
     x: 0
     y: 0
-  via_stack_S50_50_LHEATE_4ba44df1_-50000_0:
+  via_stack_S50_50_LHEATE_0ececd1b_-50000_0:
     mirror: false
     rotation: 0
     x: -50
     y: 0
-  via_stack_S50_50_LHEATE_4ba44df1_50000_0:
+  via_stack_S50_50_LHEATE_0ececd1b_50000_0:
     mirror: false
     rotation: 0
     x: 50
     y: 0
 ports:
-  pad1: via_stack_S50_50_LHEATE_4ba44df1_-50000_0,e4
-  pad2: via_stack_S50_50_LHEATE_4ba44df1_50000_0,e4
+  pad1: via_stack_S50_50_LHEATE_0ececd1b_-50000_0,e4
+  pad2: via_stack_S50_50_LHEATE_0ececd1b_50000_0,e4
 warnings:
   electrical:
     unconnected_ports:
     - message: 6 unconnected electrical ports!
       ports:
-      - via_stack_S50_50_LHEATE_4ba44df1_-50000_0,e1
-      - via_stack_S50_50_LHEATE_4ba44df1_-50000_0,e2
-      - via_stack_S50_50_LHEATE_4ba44df1_50000_0,e2
-      - via_stack_S50_50_LHEATE_4ba44df1_50000_0,e3
+      - via_stack_S50_50_LHEATE_0ececd1b_-50000_0,e1
+      - via_stack_S50_50_LHEATE_0ececd1b_-50000_0,e2
+      - via_stack_S50_50_LHEATE_0ececd1b_50000_0,e2
+      - via_stack_S50_50_LHEATE_0ececd1b_50000_0,e3
       - compass_S50_10_LHEATER__8f301b44_0_0,e2
       - compass_S50_10_LHEATER__8f301b44_0_0,e4
       values:

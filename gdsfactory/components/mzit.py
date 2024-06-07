@@ -78,9 +78,6 @@ def mzit(
     """
     c = gf.Component()
 
-    xs1 = gf.get_cross_section(cross_section=cross_section, width=w1)
-    xs2 = gf.get_cross_section(cross_section=cross_section, width=w2)
-
     cp2 = c << gf.get_component(
         coupler2,
         length=coupler_length2,
@@ -99,8 +96,7 @@ def mzit(
     )
     t1.connect("o1", cp2.ports["o3"])
 
-    b1 = gf.get_component(bend90, cross_section=xs1)
-
+    b1 = gf.get_component(bend90, cross_section=cross_section, width=w1)
     b1t = c << b1
     b1b = c << b1
 
@@ -114,7 +110,7 @@ def mzit(
         cross_section=cross_section,
     )
     t3b.connect("o1", b1t.ports["o2"])
-    wgs2 = c << straight(length=length, cross_section=xs2)
+    wgs2 = c << straight(length=length, cross_section=cross_section, width=w2)
     wgs2.connect("o1", t3b.ports["o2"])
     t20i = c << taper(
         width1=w2,
@@ -138,14 +134,14 @@ def mzit(
         delta_length >= 4 * dy
     ), f"`delta_length`={delta_length} needs to be at least {4*dy}"
 
-    wg2b = c << straight(length=dx, cross_section=xs2)
+    wg2b = c << straight(length=dx, cross_section=cross_section, width=w2)
     wg2b.connect("o1", t2.ports["o2"])
 
-    b2 = bend90(cross_section=xs2)
+    b2 = bend90(cross_section=cross_section, width=w2)
     b2t = c << b2
     b2b = c << b2
-    wy = straight(length=2 * dy, cross_section=xs2)
-    wx = straight(length=dx, cross_section=xs2)
+    wy = straight(length=2 * dy, cross_section=cross_section, width=w2)
+    wx = straight(length=dx, cross_section=cross_section, width=w2)
 
     b2b.connect("o1", wg2b.ports["o2"])
 
@@ -164,7 +160,7 @@ def mzit(
         cross_section=cross_section,
     )
     t3t.connect("o1", wg2t.ports["o2"])
-    wgs1 = c << straight(length=length, cross_section=xs1)
+    wgs1 = c << straight(length=length, cross_section=cross_section, width=w1)
     wgs1.connect("o1", t3t.ports["o2"])
     t20o = c << taper(
         width1=w1,

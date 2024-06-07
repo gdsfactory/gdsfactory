@@ -1,18 +1,18 @@
 connections:
-  bend_euler_RNone_A90_P0_fb2476c0_122125_44654,o1: straight_L40_N2_CSstrip_W0p5_127000_19529,o1
-  bend_euler_RNone_A90_P0_fb2476c0_122125_44654,o2: straight_L107_N2_CSstrip_W0p5_63500_49529,o1
-  bend_euler_RNone_A90_P0_fb2476c0_258875_44654,o1: straight_L107_N2_CSstrip_W0p5_317500_49529,o2
-  bend_euler_RNone_A90_P0_fb2476c0_258875_44654,o2: straight_L40_N2_CSstrip_W0p5_254000_19529,o1
-  bend_euler_RNone_A90_P0_fb2476c0_376125_44654,o1: straight_L40_N2_CSstrip_W0p5_381000_19529,o1
-  bend_euler_RNone_A90_P0_fb2476c0_376125_44654,o2: straight_L107_N2_CSstrip_W0p5_317500_49529,o1
-  bend_euler_RNone_A90_P0_fb2476c0_4875_44654,o1: straight_L107_N2_CSstrip_W0p5_63500_49529,o2
-  bend_euler_RNone_A90_P0_fb2476c0_4875_44654,o2: straight_L40_N2_CSstrip_W0p5_0_19529,o1
+  bend_euler_R10_A90_P0p5_2f1f5c6d_122125_44654,o1: straight_L40_N2_CSstrip_W0p5_127000_19529,o1
+  bend_euler_R10_A90_P0p5_2f1f5c6d_122125_44654,o2: straight_L107_N2_CSstrip_W0p5_63500_49529,o1
+  bend_euler_R10_A90_P0p5_2f1f5c6d_258875_44654,o1: straight_L107_N2_CSstrip_W0p5_317500_49529,o2
+  bend_euler_R10_A90_P0p5_2f1f5c6d_258875_44654,o2: straight_L40_N2_CSstrip_W0p5_254000_19529,o1
+  bend_euler_R10_A90_P0p5_2f1f5c6d_376125_44654,o1: straight_L40_N2_CSstrip_W0p5_381000_19529,o1
+  bend_euler_R10_A90_P0p5_2f1f5c6d_376125_44654,o2: straight_L107_N2_CSstrip_W0p5_317500_49529,o1
+  bend_euler_R10_A90_P0p5_2f1f5c6d_4875_44654,o1: straight_L107_N2_CSstrip_W0p5_63500_49529,o2
+  bend_euler_R10_A90_P0p5_2f1f5c6d_4875_44654,o2: straight_L40_N2_CSstrip_W0p5_0_19529,o1
   grating_coupler_ellipti_b694ac47_0_-20512,o1: straight_L40_N2_CSstrip_W0p5_0_19529,o2
   grating_coupler_ellipti_b694ac47_127000_-20512,o1: straight_L40_N2_CSstrip_W0p5_127000_19529,o2
   grating_coupler_ellipti_b694ac47_254000_-20512,o1: straight_L40_N2_CSstrip_W0p5_254000_19529,o2
   grating_coupler_ellipti_b694ac47_381000_-20512,o1: straight_L40_N2_CSstrip_W0p5_381000_19529,o2
 instances:
-  bend_euler_RNone_A90_P0_fb2476c0_122125_44654:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_122125_44654:
     component: bend_euler
     info:
       dy: 10
@@ -28,10 +28,11 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
-      cross_section: xs_34e31a19
+      cross_section: strip
       p: 0.5
+      radius: 10
       with_arc_floorplan: true
-  bend_euler_RNone_A90_P0_fb2476c0_258875_44654:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_258875_44654:
     component: bend_euler
     info:
       dy: 10
@@ -47,10 +48,11 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
-      cross_section: xs_34e31a19
+      cross_section: strip
       p: 0.5
+      radius: 10
       with_arc_floorplan: true
-  bend_euler_RNone_A90_P0_fb2476c0_376125_44654:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_376125_44654:
     component: bend_euler
     info:
       dy: 10
@@ -66,10 +68,11 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
-      cross_section: xs_34e31a19
+      cross_section: strip
       p: 0.5
+      radius: 10
       with_arc_floorplan: true
-  bend_euler_RNone_A90_P0_fb2476c0_4875_44654:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_4875_44654:
     component: bend_euler
     info:
       dy: 10
@@ -85,8 +88,9 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
-      cross_section: xs_34e31a19
+      cross_section: strip
       p: 0.5
+      radius: 10
       with_arc_floorplan: true
   grating_coupler_ellipti_b694ac47_0_-20512:
     component: grating_coupler_elliptical_trenches
@@ -256,24 +260,24 @@ instances:
       length: 40
       npoints: 2
       width: 0.5
-name: loss_deembedding_ch12_3_3a13e377
+name: loss_deembedding_ch12_3_0220c4ef
 placements:
-  bend_euler_RNone_A90_P0_fb2476c0_122125_44654:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_122125_44654:
     mirror: false
     rotation: 90
     x: 127
     y: 39.529
-  bend_euler_RNone_A90_P0_fb2476c0_258875_44654:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_258875_44654:
     mirror: false
     rotation: 180
     x: 264
     y: 49.529
-  bend_euler_RNone_A90_P0_fb2476c0_376125_44654:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_376125_44654:
     mirror: false
     rotation: 90
     x: 381
     y: 39.529
-  bend_euler_RNone_A90_P0_fb2476c0_4875_44654:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_4875_44654:
     mirror: false
     rotation: 180
     x: 10

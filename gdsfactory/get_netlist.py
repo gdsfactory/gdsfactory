@@ -139,13 +139,6 @@ def get_netlist(
         x = origin.x
         y = origin.y
         reference_name = get_instance_name(reference)
-        if reference.nb > 1 or reference.na > 1:
-            is_array = True
-            base_reference_name = reference_name
-            reference_name += "__1_1"
-        else:
-            is_array = False
-
         instance = {}
 
         if c.info:
@@ -167,27 +160,23 @@ def get_netlist(
             "rotation": reference.dcplx_trans.angle,
             "mirror": reference.dtrans.mirror,
         }
-        if is_array:
-            for i in range(reference.nb):
-                for j in range(reference.na):
-                    reference_name = f"{base_reference_name}__{i + 1}_{j + 1}"
-                    xj = x + j * reference.da.x
-                    yi = y + i * reference.da.y
-                    instances[reference_name] = instance
-                    placements[reference_name] = {
-                        "x": xj,
-                        "y": yi,
-                        "rotation": reference.dcplx_trans.angle,
-                        "mirror": reference.dcplx_trans.mirror,
-                    }
 
-        else:
-            # lower level ports
-            for port in reference.ports:
-                reference_name = get_instance_name(reference)
-                src = f"{reference_name},{port.name}"
-                name2port[src] = port
-                ports_by_type[port.port_type].append(src)
+        if reference.na > 1 or reference.nb > 1:
+            instances[reference_name].update(
+                na=reference.na,
+                nb=reference.nb,
+                dax=reference.da.x,
+                dbx=reference.db.x,
+                day=reference.da.y,
+                dby=reference.db.y,
+            )
+
+        # lower level ports
+        for port in reference.ports:
+            reference_name = get_instance_name(reference)
+            src = f"{reference_name},{port.name}"
+            name2port[src] = port
+            ports_by_type[port.port_type].append(src)
 
     for port in ports:
         src = port.name
@@ -541,7 +530,8 @@ if __name__ == "__main__":
     # c.add_port("o1", port=mzi.ports["o1"])
     # c.add_port("o2", port=bend.ports["o2"])
 
-    c = gf.c.array()
+    c = gf.c.array(spacing=(300, 300), columns=2)
+    c.show()
     n0 = c.get_netlist()
     # pprint(n0)
 
