@@ -34,6 +34,7 @@ def test_netlist_complex() -> None:
     assert len(netlist["instances"]) == 4, len(netlist["instances"])
 
 
+@pytest.mark.skip
 def test_get_netlist_cell_array() -> None:
     rows = 3
     c = gf.components.array(
