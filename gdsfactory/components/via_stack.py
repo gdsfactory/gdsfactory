@@ -8,7 +8,6 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
-from gdsfactory.components.via import via1, via2, viac
 from gdsfactory.typings import ComponentSpec, Floats, LayerSpec, LayerSpecs
 
 
@@ -145,44 +144,45 @@ def via_stack(
 via_stack_m1_mtop = via_stack_m1_m3 = partial(
     via_stack,
     layers=("M1", "M2", "MTOP"),
-    vias=(via1, via2, None),
+    vias=("via1", "via2", None),
 )
 via_stack_m2_m3 = partial(
     via_stack,
     layers=("M2", "MTOP"),
-    vias=(via2, None),
+    vias=("via2", None),
 )
 via_stack_slab_m1 = partial(
     via_stack,
     layers=("SLAB90", "M1"),
-    vias=(viac, via1),
+    vias=("viac", "via1"),
 )
 via_stack_slab_m2 = partial(
     via_stack,
     layers=("SLAB90", "M1", "M2"),
-    vias=(viac, via1, None),
+    vias=("viac", "via1", None),
 )
 
 via_stack_slab_m3 = partial(
     via_stack,
     layers=("SLAB90", "M1", "M2", "MTOP"),
-    vias=(viac, via1, via2, None),
+    vias=("viac", "via1", "via2", None),
 )
 via_stack_npp_m1 = partial(
     via_stack,
     layers=("WG", "NPP", "M1"),
-    vias=(None, None, viac),
+    vias=(None, None, "viac"),
 )
 via_stack_slab_npp_m3 = partial(
     via_stack,
     layers=("SLAB90", "NPP", "M1"),
-    vias=(None, None, viac),
+    vias=(None, None, "viac"),
 )
 via_stack_heater_mtop = via_stack_heater_m3 = partial(
-    via_stack, layers=("HEATER", "M2", "MTOP"), vias=(None, via1, via2)
+    via_stack, layers=("HEATER", "M2", "MTOP"), vias=(None, "via1", "via2")
 )
+via_stack_heater_mtop_mini = partial(via_stack_heater_mtop, size=(4, 4))
 
-via_stack_heater_m2 = partial(via_stack, layers=("HEATER", "M2"), vias=(None, via1))
+via_stack_heater_m2 = partial(via_stack, layers=("HEATER", "M2"), vias=(None, "via1"))
 
 via_stack_slab_m1_horizontal = partial(via_stack_slab_m1, slot_horizontal=True)
 

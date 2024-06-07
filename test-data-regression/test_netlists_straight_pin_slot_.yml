@@ -43,7 +43,7 @@ instances:
       w_slab2: 6
       width1: 0.5
       width2: 0.5
-  via_stack_S480_10_LM1_M_c753f9f1_240000_-6500:
+  via_stack_S480_10_LM1_M_28c36512_240000_-6500:
     component: via_stack
     info:
       xsize: 480
@@ -60,10 +60,10 @@ instances:
       slot_horizontal: false
       slot_vertical: false
       vias:
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA2
+      - via1
+      - via2
       - null
-  via_stack_S480_10_LM1_M_c753f9f1_240000_6500:
+  via_stack_S480_10_LM1_M_28c36512_240000_6500:
     component: via_stack
     info:
       xsize: 480
@@ -80,10 +80,10 @@ instances:
       slot_horizontal: false
       slot_vertical: false
       vias:
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA2
+      - via1
+      - via2
       - null
-  via_stack_S480_10_LSLAB_f941b513_240000_-6000:
+  via_stack_S480_10_LSLAB_44febf0b_240000_-6000:
     component: via_stack
     info:
       xsize: 480
@@ -99,9 +99,9 @@ instances:
       slot_horizontal: true
       slot_vertical: false
       vias:
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIAC
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2
-  via_stack_S480_10_LSLAB_f941b513_240000_6000:
+      - viac
+      - via1
+  via_stack_S480_10_LSLAB_44febf0b_240000_6000:
     component: via_stack
     info:
       xsize: 480
@@ -117,8 +117,8 @@ instances:
       slot_horizontal: true
       slot_vertical: false
       vias:
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIAC
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2
+      - viac
+      - via1
 name: straight_pin_slot_L500__1e9e7886
 placements:
   straight_L480_N2_CSpin_240000_0:
@@ -136,50 +136,50 @@ placements:
     rotation: 180
     x: 490
     y: 0
-  via_stack_S480_10_LM1_M_c753f9f1_240000_-6500:
+  via_stack_S480_10_LM1_M_28c36512_240000_-6500:
     mirror: false
     rotation: 0
     x: 240
     y: -6.5
-  via_stack_S480_10_LM1_M_c753f9f1_240000_6500:
+  via_stack_S480_10_LM1_M_28c36512_240000_6500:
     mirror: false
     rotation: 0
     x: 240
     y: 6.5
-  via_stack_S480_10_LSLAB_f941b513_240000_-6000:
+  via_stack_S480_10_LSLAB_44febf0b_240000_-6000:
     mirror: false
     rotation: 0
     x: 240
     y: -6
-  via_stack_S480_10_LSLAB_f941b513_240000_6000:
+  via_stack_S480_10_LSLAB_44febf0b_240000_6000:
     mirror: false
     rotation: 0
     x: 240
     y: 6
 ports:
-  bot_e1: via_stack_S480_10_LM1_M_c753f9f1_240000_-6500,e1
-  bot_e2: via_stack_S480_10_LM1_M_c753f9f1_240000_-6500,e2
-  bot_e3: via_stack_S480_10_LM1_M_c753f9f1_240000_-6500,e3
-  bot_e4: via_stack_S480_10_LM1_M_c753f9f1_240000_-6500,e4
+  bot_e1: via_stack_S480_10_LM1_M_28c36512_240000_-6500,e1
+  bot_e2: via_stack_S480_10_LM1_M_28c36512_240000_-6500,e2
+  bot_e3: via_stack_S480_10_LM1_M_28c36512_240000_-6500,e3
+  bot_e4: via_stack_S480_10_LM1_M_28c36512_240000_-6500,e4
   o1: taper_strip_to_ridge_L1_3a86af41_-5000_0,o1
   o2: taper_strip_to_ridge_L1_3a86af41_485000_0,o1
-  top_e1: via_stack_S480_10_LM1_M_c753f9f1_240000_6500,e1
-  top_e2: via_stack_S480_10_LM1_M_c753f9f1_240000_6500,e2
-  top_e3: via_stack_S480_10_LM1_M_c753f9f1_240000_6500,e3
-  top_e4: via_stack_S480_10_LM1_M_c753f9f1_240000_6500,e4
+  top_e1: via_stack_S480_10_LM1_M_28c36512_240000_6500,e1
+  top_e2: via_stack_S480_10_LM1_M_28c36512_240000_6500,e2
+  top_e3: via_stack_S480_10_LM1_M_28c36512_240000_6500,e3
+  top_e4: via_stack_S480_10_LM1_M_28c36512_240000_6500,e4
 warnings:
   electrical:
     unconnected_ports:
     - message: 8 unconnected electrical ports!
       ports:
-      - via_stack_S480_10_LSLAB_f941b513_240000_6000,e1
-      - via_stack_S480_10_LSLAB_f941b513_240000_6000,e2
-      - via_stack_S480_10_LSLAB_f941b513_240000_6000,e3
-      - via_stack_S480_10_LSLAB_f941b513_240000_6000,e4
-      - via_stack_S480_10_LSLAB_f941b513_240000_-6000,e1
-      - via_stack_S480_10_LSLAB_f941b513_240000_-6000,e2
-      - via_stack_S480_10_LSLAB_f941b513_240000_-6000,e3
-      - via_stack_S480_10_LSLAB_f941b513_240000_-6000,e4
+      - via_stack_S480_10_LSLAB_44febf0b_240000_6000,e1
+      - via_stack_S480_10_LSLAB_44febf0b_240000_6000,e2
+      - via_stack_S480_10_LSLAB_44febf0b_240000_6000,e3
+      - via_stack_S480_10_LSLAB_44febf0b_240000_6000,e4
+      - via_stack_S480_10_LSLAB_44febf0b_240000_-6000,e1
+      - via_stack_S480_10_LSLAB_44febf0b_240000_-6000,e2
+      - via_stack_S480_10_LSLAB_44febf0b_240000_-6000,e3
+      - via_stack_S480_10_LSLAB_44febf0b_240000_-6000,e4
       values:
       - - 0
         - 6000

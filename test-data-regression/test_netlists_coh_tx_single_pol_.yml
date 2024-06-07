@@ -21,8 +21,8 @@ connections:
   mzi_DL0_LY2_LX200_Bbend_07f19eb6_135510_5375,o2: straight_L40_N2_CSstrip_301020_0,o1
   straight_L100_N2_CSstrip_371020_0,o1: straight_L40_N2_CSstrip_301020_0,o2
   straight_L100_N2_CSstrip_371020_0,o2: straight_L7p25_N2_CSstrip_W0p5_424645_0,o2
-  straight_L40_N2_CSstrip_301020_-106500,o2: straight_pin_L100_CSpin_c404cc88_371020_-106500,o1
-  straight_L7p25_N2_CSstrip_W0p5_424645_-106500,o2: straight_pin_L100_CSpin_c404cc88_371020_-106500,o2
+  straight_L40_N2_CSstrip_301020_-106500,o2: straight_pin_L100_CSpin_f2ba7e88_371020_-106500,o1
+  straight_L7p25_N2_CSstrip_W0p5_424645_-106500,o2: straight_pin_L100_CSpin_f2ba7e88_371020_-106500,o2
 instances:
   bend_euler_R10_A90_P0p5_2f1f5c6d_-22375_-101625:
     component: bend_euler
@@ -405,14 +405,14 @@ instances:
       length: 7.25
       npoints: 2
       width: 0.5
-  straight_pin_L100_CSpin_c404cc88_371020_-106500:
+  straight_pin_L100_CSpin_f2ba7e88_371020_-106500:
     component: straight_pin
     info: {}
     settings:
       cross_section: pin
       length: 100
       taper: taper_strip_to_ridge
-      via_stack: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLSLAB90_M1_M2_MTOP_VFvia_Mgdsfactorypcomponentspvia_SLVIAC_Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2_Fvia_Mgdsfactorypcomponentspvia_SLVIA2_None
+      via_stack: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLSLAB90_M1_M2_MTOP_Vviac_via1_via2_None
       via_stack_spacing: 2
       via_stack_width: 10
 name: coh_tx_single_pol_BPSFa_4ee171aa
@@ -532,7 +532,7 @@ placements:
     rotation: 180
     x: 428.27
     y: 0
-  straight_pin_L100_CSpin_c404cc88_371020_-106500:
+  straight_pin_L100_CSpin_f2ba7e88_371020_-106500:
     mirror: false
     rotation: 0
     x: 331.02
@@ -556,11 +556,11 @@ ports:
   mzm_q_e8: mzi_DL0_LY2_LX200_Bbend_07f19eb6_135510_-101125,e8
   o1: mmi1x2_WNone_WT1_LT10_L_4e0f7121_-50000_-53250,o1
   o2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_461020_-53250,o1
-  ps_q_bot_e1: straight_pin_L100_CSpin_c404cc88_371020_-106500,bot_e1
-  ps_q_bot_e2: straight_pin_L100_CSpin_c404cc88_371020_-106500,bot_e2
-  ps_q_bot_e3: straight_pin_L100_CSpin_c404cc88_371020_-106500,bot_e3
-  ps_q_bot_e4: straight_pin_L100_CSpin_c404cc88_371020_-106500,bot_e4
-  ps_q_top_e1: straight_pin_L100_CSpin_c404cc88_371020_-106500,top_e1
-  ps_q_top_e2: straight_pin_L100_CSpin_c404cc88_371020_-106500,top_e2
-  ps_q_top_e3: straight_pin_L100_CSpin_c404cc88_371020_-106500,top_e3
-  ps_q_top_e4: straight_pin_L100_CSpin_c404cc88_371020_-106500,top_e4
+  ps_q_bot_e1: straight_pin_L100_CSpin_f2ba7e88_371020_-106500,bot_e1
+  ps_q_bot_e2: straight_pin_L100_CSpin_f2ba7e88_371020_-106500,bot_e2
+  ps_q_bot_e3: straight_pin_L100_CSpin_f2ba7e88_371020_-106500,bot_e3
+  ps_q_bot_e4: straight_pin_L100_CSpin_f2ba7e88_371020_-106500,bot_e4
+  ps_q_top_e1: straight_pin_L100_CSpin_f2ba7e88_371020_-106500,top_e1
+  ps_q_top_e2: straight_pin_L100_CSpin_f2ba7e88_371020_-106500,top_e2
+  ps_q_top_e3: straight_pin_L100_CSpin_f2ba7e88_371020_-106500,top_e3
+  ps_q_top_e4: straight_pin_L100_CSpin_f2ba7e88_371020_-106500,top_e4

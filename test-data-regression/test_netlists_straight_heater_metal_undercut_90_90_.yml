@@ -37,8 +37,8 @@ connections:
   H7,o2: U8,o1
   H8,e1: U8,e2
   H8,o1: U8,o2
-  taper_L5_W11_W2p5_PNone_4a19c1ba_-2400_0,e1: via_stack_S11_11_LHEATE_67ffcdf5_-10400_0,e3
-  taper_L5_W11_W2p5_PNone_4a19c1ba_322400_0,e1: via_stack_S11_11_LHEATE_67ffcdf5_330400_0,e1
+  taper_L5_W11_W2p5_PNone_4a19c1ba_-2400_0,e1: via_stack_S11_11_LHEATE_f29565aa_-10400_0,e3
+  taper_L5_W11_W2p5_PNone_4a19c1ba_322400_0,e1: via_stack_S11_11_LHEATE_f29565aa_330400_0,e1
 instances:
   '-1':
     component: straight
@@ -338,7 +338,7 @@ instances:
       width2: 2.5
       with_bbox: true
       with_two_ports: true
-  via_stack_S11_11_LHEATE_67ffcdf5_-10400_0:
+  via_stack_S11_11_LHEATE_f29565aa_-10400_0:
     component: via_stack
     info:
       xsize: 11
@@ -356,9 +356,9 @@ instances:
       slot_vertical: false
       vias:
       - null
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA2
-  via_stack_S11_11_LHEATE_67ffcdf5_330400_0:
+      - via1
+      - via2
+  via_stack_S11_11_LHEATE_f29565aa_330400_0:
     component: via_stack
     info:
       xsize: 11
@@ -376,8 +376,8 @@ instances:
       slot_vertical: false
       vias:
       - null
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA2
+      - via1
+      - via2
 name: straight_heater_metal_u_a5599ea2
 placements:
   '-1':
@@ -490,30 +490,30 @@ placements:
     rotation: 180
     x: 324.9
     y: 0
-  via_stack_S11_11_LHEATE_67ffcdf5_-10400_0:
+  via_stack_S11_11_LHEATE_f29565aa_-10400_0:
     mirror: false
     rotation: 0
     x: -10.4
     y: 0
-  via_stack_S11_11_LHEATE_67ffcdf5_330400_0:
+  via_stack_S11_11_LHEATE_f29565aa_330400_0:
     mirror: false
     rotation: 0
     x: 330.4
     y: 0
 ports:
-  l_e2: via_stack_S11_11_LHEATE_67ffcdf5_-10400_0,e2
+  l_e2: via_stack_S11_11_LHEATE_f29565aa_-10400_0,e2
   o1: _1,o1
   o2: _2,o2
-  r_e2: via_stack_S11_11_LHEATE_67ffcdf5_330400_0,e2
+  r_e2: via_stack_S11_11_LHEATE_f29565aa_330400_0,e2
 warnings:
   electrical:
     unconnected_ports:
     - message: 4 unconnected electrical ports!
       ports:
-      - via_stack_S11_11_LHEATE_67ffcdf5_-10400_0,e1
-      - via_stack_S11_11_LHEATE_67ffcdf5_-10400_0,e4
-      - via_stack_S11_11_LHEATE_67ffcdf5_330400_0,e3
-      - via_stack_S11_11_LHEATE_67ffcdf5_330400_0,e4
+      - via_stack_S11_11_LHEATE_f29565aa_-10400_0,e1
+      - via_stack_S11_11_LHEATE_f29565aa_-10400_0,e4
+      - via_stack_S11_11_LHEATE_f29565aa_330400_0,e3
+      - via_stack_S11_11_LHEATE_f29565aa_330400_0,e4
       values:
       - - -15900
         - 0

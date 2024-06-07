@@ -1,8 +1,8 @@
 connections:
   straight_L320_N2_CSstri_82742ad9_160000_0,e1: taper_L5_W11_W2p5_PNone_4a19c1ba_-2500_0,e2
   straight_L320_N2_CSstri_82742ad9_160000_0,e2: taper_L5_W11_W2p5_PNone_4a19c1ba_322500_0,e2
-  taper_L5_W11_W2p5_PNone_4a19c1ba_-2500_0,e1: via_stack_S11_11_LHEATE_67ffcdf5_-10500_0,e3
-  taper_L5_W11_W2p5_PNone_4a19c1ba_322500_0,e1: via_stack_S11_11_LHEATE_67ffcdf5_330500_0,e1
+  taper_L5_W11_W2p5_PNone_4a19c1ba_-2500_0,e1: via_stack_S11_11_LHEATE_f29565aa_-10500_0,e3
+  taper_L5_W11_W2p5_PNone_4a19c1ba_322500_0,e1: via_stack_S11_11_LHEATE_f29565aa_330500_0,e1
 instances:
   straight_L320_N2_CSstri_82742ad9_160000_0:
     component: straight
@@ -55,7 +55,7 @@ instances:
       width2: 2.5
       with_bbox: true
       with_two_ports: true
-  via_stack_S11_11_LHEATE_67ffcdf5_-10500_0:
+  via_stack_S11_11_LHEATE_f29565aa_-10500_0:
     component: via_stack
     info:
       xsize: 11
@@ -73,9 +73,9 @@ instances:
       slot_vertical: false
       vias:
       - null
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA2
-  via_stack_S11_11_LHEATE_67ffcdf5_330500_0:
+      - via1
+      - via2
+  via_stack_S11_11_LHEATE_f29565aa_330500_0:
     component: via_stack
     info:
       xsize: 11
@@ -93,8 +93,8 @@ instances:
       slot_vertical: false
       vias:
       - null
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA2
+      - via1
+      - via2
 name: straight_heater_metal_s_61c5bdef
 placements:
   straight_L320_N2_CSstri_82742ad9_160000_0:
@@ -112,12 +112,12 @@ placements:
     rotation: 180
     x: 325
     y: 0
-  via_stack_S11_11_LHEATE_67ffcdf5_-10500_0:
+  via_stack_S11_11_LHEATE_f29565aa_-10500_0:
     mirror: false
     rotation: 0
     x: -10.5
     y: 0
-  via_stack_S11_11_LHEATE_67ffcdf5_330500_0:
+  via_stack_S11_11_LHEATE_f29565aa_330500_0:
     mirror: false
     rotation: 0
     x: 330.5
@@ -132,12 +132,12 @@ warnings:
     unconnected_ports:
     - message: 6 unconnected electrical ports!
       ports:
-      - via_stack_S11_11_LHEATE_67ffcdf5_-10500_0,e1
-      - via_stack_S11_11_LHEATE_67ffcdf5_-10500_0,e2
-      - via_stack_S11_11_LHEATE_67ffcdf5_-10500_0,e4
-      - via_stack_S11_11_LHEATE_67ffcdf5_330500_0,e2
-      - via_stack_S11_11_LHEATE_67ffcdf5_330500_0,e3
-      - via_stack_S11_11_LHEATE_67ffcdf5_330500_0,e4
+      - via_stack_S11_11_LHEATE_f29565aa_-10500_0,e1
+      - via_stack_S11_11_LHEATE_f29565aa_-10500_0,e2
+      - via_stack_S11_11_LHEATE_f29565aa_-10500_0,e4
+      - via_stack_S11_11_LHEATE_f29565aa_330500_0,e2
+      - via_stack_S11_11_LHEATE_f29565aa_330500_0,e3
+      - via_stack_S11_11_LHEATE_f29565aa_330500_0,e4
       values:
       - - -16000
         - 0

@@ -15,10 +15,10 @@ connections:
   bend_euler_R10_A90_P0p5_2f1f5c6d_233375_-20125,o2: straight_L3p75_N2_CSstrip_W0p5_228500_-13125,o1
   bend_euler_R10_A90_P0p5_2f1f5c6d_233375_20125,o1: straight_L36p5_N2_CSstrip_W0p5_256750_25000,o1
   bend_euler_R10_A90_P0p5_2f1f5c6d_233375_20125,o2: straight_L3p75_N2_CSstrip_W0p5_228500_13125,o1
-  ge_detector_straight_si_46671dd7_305000_-25000,o1: straight_L36p5_N2_CSstrip_W0p5_256750_-25000,o2
-  ge_detector_straight_si_46671dd7_305000_-75000,o1: straight_L40_N2_CSstrip_W0p5_255000_-75000,o2
-  ge_detector_straight_si_46671dd7_305000_25000,o1: straight_L36p5_N2_CSstrip_W0p5_256750_25000,o2
-  ge_detector_straight_si_46671dd7_305000_75000,o1: straight_L40_N2_CSstrip_W0p5_255000_75000,o2
+  ge_detector_straight_si_30d8f655_305000_-25000,o1: straight_L36p5_N2_CSstrip_W0p5_256750_-25000,o2
+  ge_detector_straight_si_30d8f655_305000_-75000,o1: straight_L40_N2_CSstrip_W0p5_255000_-75000,o2
+  ge_detector_straight_si_30d8f655_305000_25000,o1: straight_L36p5_N2_CSstrip_W0p5_256750_25000,o2
+  ge_detector_straight_si_30d8f655_305000_75000,o1: straight_L40_N2_CSstrip_W0p5_255000_75000,o2
   mmi_90degree_hybrid_W0p_8cdbdfdc_87500_0,LO_in: straight_L20_N2_CSstrip_-50000_-1250,o2
   mmi_90degree_hybrid_W0p_8cdbdfdc_87500_0,Q_out1: straight_L3p5_N2_CSstrip_W0p5_216750_1250,o2
   mmi_90degree_hybrid_W0p_8cdbdfdc_87500_0,Q_out2: straight_L3p5_N2_CSstrip_W0p5_216750_-1250,o2
@@ -184,47 +184,47 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  ge_detector_straight_si_46671dd7_305000_-25000:
+  ge_detector_straight_si_30d8f655_305000_-25000:
     component: ge_detector_straight_si_contacts
     info: {}
     settings:
       cross_section: pn_ge_detector_si_contacts
       length: 80
       taper: Ftaper_Mgdsfactorypcomponentsptaper_SL20_W0p5_W0p8_CSstrip
-      via_stack: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLSLAB90_M1_M2_MTOP_VFvia_Mgdsfactorypcomponentspvia_SLVIAC_Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2_Fvia_Mgdsfactorypcomponentspvia_SLVIA2_None
+      via_stack: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLSLAB90_M1_M2_MTOP_Vviac_via1_via2_None
       via_stack_offset: 0
       via_stack_spacing: 5
       via_stack_width: 10
-  ge_detector_straight_si_46671dd7_305000_-75000:
+  ge_detector_straight_si_30d8f655_305000_-75000:
     component: ge_detector_straight_si_contacts
     info: {}
     settings:
       cross_section: pn_ge_detector_si_contacts
       length: 80
       taper: Ftaper_Mgdsfactorypcomponentsptaper_SL20_W0p5_W0p8_CSstrip
-      via_stack: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLSLAB90_M1_M2_MTOP_VFvia_Mgdsfactorypcomponentspvia_SLVIAC_Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2_Fvia_Mgdsfactorypcomponentspvia_SLVIA2_None
+      via_stack: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLSLAB90_M1_M2_MTOP_Vviac_via1_via2_None
       via_stack_offset: 0
       via_stack_spacing: 5
       via_stack_width: 10
-  ge_detector_straight_si_46671dd7_305000_25000:
+  ge_detector_straight_si_30d8f655_305000_25000:
     component: ge_detector_straight_si_contacts
     info: {}
     settings:
       cross_section: pn_ge_detector_si_contacts
       length: 80
       taper: Ftaper_Mgdsfactorypcomponentsptaper_SL20_W0p5_W0p8_CSstrip
-      via_stack: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLSLAB90_M1_M2_MTOP_VFvia_Mgdsfactorypcomponentspvia_SLVIAC_Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2_Fvia_Mgdsfactorypcomponentspvia_SLVIA2_None
+      via_stack: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLSLAB90_M1_M2_MTOP_Vviac_via1_via2_None
       via_stack_offset: 0
       via_stack_spacing: 5
       via_stack_width: 10
-  ge_detector_straight_si_46671dd7_305000_75000:
+  ge_detector_straight_si_30d8f655_305000_75000:
     component: ge_detector_straight_si_contacts
     info: {}
     settings:
       cross_section: pn_ge_detector_si_contacts
       length: 80
       taper: Ftaper_Mgdsfactorypcomponentsptaper_SL20_W0p5_W0p8_CSstrip
-      via_stack: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLSLAB90_M1_M2_MTOP_VFvia_Mgdsfactorypcomponentspvia_SLVIAC_Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2_Fvia_Mgdsfactorypcomponentspvia_SLVIA2_None
+      via_stack: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLSLAB90_M1_M2_MTOP_Vviac_via1_via2_None
       via_stack_offset: 0
       via_stack_spacing: 5
       via_stack_width: 10
@@ -449,22 +449,22 @@ placements:
     rotation: 180
     x: 238.5
     y: 25
-  ge_detector_straight_si_46671dd7_305000_-25000:
+  ge_detector_straight_si_30d8f655_305000_-25000:
     mirror: false
     rotation: 0
     x: 295
     y: -25
-  ge_detector_straight_si_46671dd7_305000_-75000:
+  ge_detector_straight_si_30d8f655_305000_-75000:
     mirror: false
     rotation: 0
     x: 295
     y: -75
-  ge_detector_straight_si_46671dd7_305000_25000:
+  ge_detector_straight_si_30d8f655_305000_25000:
     mirror: false
     rotation: 0
     x: 295
     y: 25
-  ge_detector_straight_si_46671dd7_305000_75000:
+  ge_detector_straight_si_30d8f655_305000_75000:
     mirror: false
     rotation: 0
     x: 295
@@ -536,44 +536,44 @@ placements:
     y: 65
 ports:
   LO_in: straight_L20_N2_CSstrip_-50000_-1250,o1
-  i1vminustop_e1: ge_detector_straight_si_46671dd7_305000_75000,top_e1
-  i1vminustop_e2: ge_detector_straight_si_46671dd7_305000_75000,top_e2
-  i1vminustop_e3: ge_detector_straight_si_46671dd7_305000_75000,top_e3
-  i1vminustop_e4: ge_detector_straight_si_46671dd7_305000_75000,top_e4
-  i2vplusbot_e1: ge_detector_straight_si_46671dd7_305000_-75000,bot_e1
-  i2vplusbot_e2: ge_detector_straight_si_46671dd7_305000_-75000,bot_e2
-  i2vplusbot_e3: ge_detector_straight_si_46671dd7_305000_-75000,bot_e3
-  i2vplusbot_e4: ge_detector_straight_si_46671dd7_305000_-75000,bot_e4
-  q1vminustop_e1: ge_detector_straight_si_46671dd7_305000_25000,top_e1
-  q1vminustop_e2: ge_detector_straight_si_46671dd7_305000_25000,top_e2
-  q1vminustop_e3: ge_detector_straight_si_46671dd7_305000_25000,top_e3
-  q1vminustop_e4: ge_detector_straight_si_46671dd7_305000_25000,top_e4
-  q2vplusbot_e1: ge_detector_straight_si_46671dd7_305000_-25000,bot_e1
-  q2vplusbot_e2: ge_detector_straight_si_46671dd7_305000_-25000,bot_e2
-  q2vplusbot_e3: ge_detector_straight_si_46671dd7_305000_-25000,bot_e3
-  q2vplusbot_e4: ge_detector_straight_si_46671dd7_305000_-25000,bot_e4
+  i1vminustop_e1: ge_detector_straight_si_30d8f655_305000_75000,top_e1
+  i1vminustop_e2: ge_detector_straight_si_30d8f655_305000_75000,top_e2
+  i1vminustop_e3: ge_detector_straight_si_30d8f655_305000_75000,top_e3
+  i1vminustop_e4: ge_detector_straight_si_30d8f655_305000_75000,top_e4
+  i2vplusbot_e1: ge_detector_straight_si_30d8f655_305000_-75000,bot_e1
+  i2vplusbot_e2: ge_detector_straight_si_30d8f655_305000_-75000,bot_e2
+  i2vplusbot_e3: ge_detector_straight_si_30d8f655_305000_-75000,bot_e3
+  i2vplusbot_e4: ge_detector_straight_si_30d8f655_305000_-75000,bot_e4
+  q1vminustop_e1: ge_detector_straight_si_30d8f655_305000_25000,top_e1
+  q1vminustop_e2: ge_detector_straight_si_30d8f655_305000_25000,top_e2
+  q1vminustop_e3: ge_detector_straight_si_30d8f655_305000_25000,top_e3
+  q1vminustop_e4: ge_detector_straight_si_30d8f655_305000_25000,top_e4
+  q2vplusbot_e1: ge_detector_straight_si_30d8f655_305000_-25000,bot_e1
+  q2vplusbot_e2: ge_detector_straight_si_30d8f655_305000_-25000,bot_e2
+  q2vplusbot_e3: ge_detector_straight_si_30d8f655_305000_-25000,bot_e3
+  q2vplusbot_e4: ge_detector_straight_si_30d8f655_305000_-25000,bot_e4
   signal_in: straight_L20_N2_CSstrip_-50000_3750,o1
 warnings:
   electrical:
     unconnected_ports:
     - message: 16 unconnected electrical ports!
       ports:
-      - ge_detector_straight_si_46671dd7_305000_75000,bot_e1
-      - ge_detector_straight_si_46671dd7_305000_75000,bot_e2
-      - ge_detector_straight_si_46671dd7_305000_75000,bot_e3
-      - ge_detector_straight_si_46671dd7_305000_75000,bot_e4
-      - ge_detector_straight_si_46671dd7_305000_-75000,top_e1
-      - ge_detector_straight_si_46671dd7_305000_-75000,top_e2
-      - ge_detector_straight_si_46671dd7_305000_-75000,top_e3
-      - ge_detector_straight_si_46671dd7_305000_-75000,top_e4
-      - ge_detector_straight_si_46671dd7_305000_25000,bot_e1
-      - ge_detector_straight_si_46671dd7_305000_25000,bot_e2
-      - ge_detector_straight_si_46671dd7_305000_25000,bot_e3
-      - ge_detector_straight_si_46671dd7_305000_25000,bot_e4
-      - ge_detector_straight_si_46671dd7_305000_-25000,top_e1
-      - ge_detector_straight_si_46671dd7_305000_-25000,top_e2
-      - ge_detector_straight_si_46671dd7_305000_-25000,top_e3
-      - ge_detector_straight_si_46671dd7_305000_-25000,top_e4
+      - ge_detector_straight_si_30d8f655_305000_75000,bot_e1
+      - ge_detector_straight_si_30d8f655_305000_75000,bot_e2
+      - ge_detector_straight_si_30d8f655_305000_75000,bot_e3
+      - ge_detector_straight_si_30d8f655_305000_75000,bot_e4
+      - ge_detector_straight_si_30d8f655_305000_-75000,top_e1
+      - ge_detector_straight_si_30d8f655_305000_-75000,top_e2
+      - ge_detector_straight_si_30d8f655_305000_-75000,top_e3
+      - ge_detector_straight_si_30d8f655_305000_-75000,top_e4
+      - ge_detector_straight_si_30d8f655_305000_25000,bot_e1
+      - ge_detector_straight_si_30d8f655_305000_25000,bot_e2
+      - ge_detector_straight_si_30d8f655_305000_25000,bot_e3
+      - ge_detector_straight_si_30d8f655_305000_25000,bot_e4
+      - ge_detector_straight_si_30d8f655_305000_-25000,top_e1
+      - ge_detector_straight_si_30d8f655_305000_-25000,top_e2
+      - ge_detector_straight_si_30d8f655_305000_-25000,top_e3
+      - ge_detector_straight_si_30d8f655_305000_-25000,top_e4
       values:
       - - 295000
         - 67500
