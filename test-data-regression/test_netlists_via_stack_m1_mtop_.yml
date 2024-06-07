@@ -45,12 +45,18 @@ instances:
       - 11
   via_S0p7_0p7_S2_2_GNone_3d643c37_0_0:
     component: via
+    dax: 2
+    day: 0
+    dbx: 0
+    dby: 2
     info:
       enclosure: 2
       xsize: 0.7
       xspacing: 2
       ysize: 0.7
       yspacing: 2
+    na: 4
+    nb: 4
     settings:
       bbox_offset: 0
       enclosure: 2
@@ -63,12 +69,18 @@ instances:
       - 2
   via_S0p7_0p7_S2_2_GNone_c4f19208_0_0:
     component: via
+    dax: 2
+    day: 0
+    dbx: 0
+    dby: 2
     info:
       enclosure: 1
       xsize: 0.7
       xspacing: 2
       ysize: 0.7
       yspacing: 2
+    na: 5
+    nb: 5
     settings:
       bbox_offset: 0
       enclosure: 1
@@ -97,24 +109,12 @@ placements:
     x: 0
     y: 0
   via_S0p7_0p7_S2_2_GNone_3d643c37_0_0:
-    dax: 2
-    day: 0
-    dbx: 0
-    dby: 2
     mirror: false
-    na: 4
-    nb: 4
     rotation: 0
     x: -3
     y: -3
   via_S0p7_0p7_S2_2_GNone_c4f19208_0_0:
-    dax: 2
-    day: 0
-    dbx: 0
-    dby: 2
     mirror: false
-    na: 5
-    nb: 5
     rotation: 0
     x: -4
     y: -4

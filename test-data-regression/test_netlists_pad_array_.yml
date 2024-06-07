@@ -7,12 +7,18 @@ connections:
 instances:
   pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0:
     component: pad
+    dax: 150
+    day: 0
+    dbx: 0
+    dby: 150
     info:
       size:
       - 100
       - 100
       xsize: 100
       ysize: 100
+    na: 6
+    nb: 1
     settings:
       layer: MTOP
       port_inclusion: 0
@@ -23,13 +29,7 @@ instances:
 name: pad_array_Ppad_S150_150_6cc54b81
 placements:
   pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0:
-    dax: 150
-    day: 0
-    dbx: 0
-    dby: 150
     mirror: false
-    na: 6
-    nb: 1
     rotation: 0
     x: 0
     y: 0
