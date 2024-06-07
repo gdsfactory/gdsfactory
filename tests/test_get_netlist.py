@@ -39,10 +39,10 @@ def test_get_netlist_cell_array() -> None:
     c = gf.components.array(
         gf.components.straight(length=10), spacing=(0, 100), columns=1, rows=rows
     )
-    n = c.get_netlist(allow_multiple=True)
+    n = c.get_netlist()
     assert len(c.ports) == 2 * rows, len(c.ports)
     # assert not n["connections"], n["connections"]
-    assert len(n["ports"]) == 0, len(n["ports"])
+    assert len(n["ports"]) == 2, len(n["ports"])
     assert len(n["instances"]) == rows, len(n["instances"])
 
 

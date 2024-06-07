@@ -171,25 +171,40 @@ def get_netlist(
                 dby=reference.db.y,
             )
 
-        # lower level ports
-        for port in reference.ports:
-            reference_name = get_instance_name(reference)
-            src = f"{reference_name},{port.name}"
-            name2port[src] = port
-            ports_by_type[port.port_type].append(src)
+            port_names = {port.name for port in c.ports}
 
-    for port in ports:
-        src = port.name
-        name2port[src] = port
-        top_ports_list.add(src)
-        ports_by_type[port.port_type].append(src)
+            port_xy_to_name = {}
+            for port_name in port_names:
+                for i in range(reference.na):
+                    for j in range(reference.nb):
+                        port = reference.ports[port_name, i, j]
+                        src = f"{reference_name},{port_name}_{i+1}_{j+1}"
+                        name2port[src] = port
+                        ports_by_type[port.port_type].append(src)
+                        port_xy_to_name[(port.x, port.y)] = src
+
+            for port in ports:
+                src = port_xy_to_name[(port.x, port.y)]
+                top_ports_list.add(src)
+        else:
+            for port in reference.ports:
+                reference_name = get_instance_name(reference)
+                src = f"{reference_name},{port.name}"
+                name2port[src] = port
+                ports_by_type[port.port_type].append(src)
+                top_ports_list.add(src)
+
+            for port in ports:
+                src = port.name
+                top_ports_list.add(src)
 
     warnings = {}
-    for port_type, port_names in ports_by_type.items():
+    for port_type in ports_by_type:
         if exclude_port_types and port_type in exclude_port_types:
             continue
+
         connections_t, warnings_t = extract_connections(
-            port_names,
+            ports_by_type[port_type],
             name2port,
             port_type,
             allow_multiple=allow_multiple,
@@ -232,54 +247,32 @@ def extract_connections(
     allow_multiple: bool = False,
     connection_error_types: dict[str, list[str]] | None = None,
 ):
-    if validators is None:
-        validators = DEFAULT_CONNECTION_VALIDATORS
-
-    validator = validators.get(port_type, _null_validator)
-    return _extract_connections(
-        port_names,
-        ports,
-        port_type,
-        connection_validator=validator,
-        allow_multiple=allow_multiple,
-        connection_error_types=connection_error_types,
-    )
-
-
-def _extract_connections(
-    port_names: list[str],
-    ports: dict[str, Port],
-    port_type: str,
-    connection_validator: Callable,
-    raise_error_for_warnings: list[str] | None = None,
-    allow_multiple: bool = False,
-    connection_error_types: dict[str, list[str]] | None = None,
-):
-    """Extracts connections between ports.
+    """Extract connections from a list of port names.
 
     Args:
         port_names: list of port names.
-        ports: dict of port names to Port objects.
+        ports: dict of port names and ports.
         port_type: type of port.
-        connection_validator: function to validate connections.
-        raise_error_for_warnings: list of warning types to raise an error for.
-        allow_multiple: False to raise an error if more than two ports share the same connection.
-        connection_error_types: optional dictionary of port types and error types to raise an error for.
+        validators: dict of port type and connection validators.
+        allow_multiple: True to allow multiple connections.
+        connection_error_types: dict of port type and error types to raise an error for.
 
     """
-    if connection_error_types is None:
-        connection_error_types = DEFAULT_CRITICAL_CONNECTION_ERROR_TYPES
-
+    validators = validators or DEFAULT_CONNECTION_VALIDATORS
+    connection_validator = validators.get(port_type, _null_validator)
+    connection_error_types = (
+        connection_error_types or DEFAULT_CRITICAL_CONNECTION_ERROR_TYPES
+    )
     warnings = defaultdict(list)
-    if raise_error_for_warnings is None:
-        raise_error_for_warnings = connection_error_types.get(port_type, [])
+    raise_error_for_warnings = connection_error_types.get(port_type, [])
 
     unconnected_port_names = list(port_names)
     connections = []
-
     by_xy = defaultdict(list)
 
     for port_name in unconnected_port_names:
+        if port_name not in ports:
+            raise ValueError(f"Port {port_name} not found in {list(ports.keys())}")
         port = ports[port_name]
         by_xy[port.center].append(port_name)
 
@@ -288,51 +281,43 @@ def _extract_connections(
     for xy, ports_at_xy in by_xy.items():
         if len(ports_at_xy) == 1:
             unconnected_port_names.append(ports_at_xy[0])
-
         elif len(ports_at_xy) == 2:
-            port1 = ports[ports_at_xy[0]]
-            port2 = ports[ports_at_xy[1]]
-            connection_validator(port1, port2, ports_at_xy, warnings)
+            connection_validator(
+                ports[ports_at_xy[0]], ports[ports_at_xy[1]], ports_at_xy, warnings
+            )
             connections.append(ports_at_xy)
-
         elif not allow_multiple:
             warnings["multiple_connections"].append(ports_at_xy)
             raise ValueError(f"Found multiple connections at {xy}:{ports_at_xy}")
-
         else:
-            # Iterates over the list of multiple ports to create related two-port connectivity
-            num_ports = len(ports_at_xy)
-            for portindex1, portindex2 in zip(
-                range(-1, num_ports - 1), range(num_ports)
-            ):
-                port1 = ports[ports_at_xy[portindex1]]
-                port2 = ports[ports_at_xy[portindex2]]
-                connection_validator(port1, port2, ports_at_xy, warnings)
-                connections.append([ports_at_xy[portindex1], ports_at_xy[portindex2]])
-
-    if unconnected_port_names:
-        unconnected_non_top_level = [
-            pname for pname in unconnected_port_names if ("," in pname)
-        ]
-        if unconnected_non_top_level:
-            unconnected_xys = [
-                ports[pname].center for pname in unconnected_non_top_level
-            ]
-            warnings["unconnected_ports"].append(
-                _make_warning(
-                    ports=unconnected_non_top_level,
-                    values=unconnected_xys,
-                    message=f"{len(unconnected_non_top_level)} unconnected {port_type} ports!",
+            for i in range(len(ports_at_xy) - 1):
+                connection_validator(
+                    ports[ports_at_xy[i]],
+                    ports[ports_at_xy[i + 1]],
+                    ports_at_xy,
+                    warnings,
                 )
+                connections.append([ports_at_xy[i], ports_at_xy[i + 1]])
+
+    unconnected_non_top_level = [
+        pname for pname in unconnected_port_names if "," in pname
+    ]
+    if unconnected_non_top_level:
+        warnings["unconnected_ports"].append(
+            _make_warning(
+                ports=unconnected_non_top_level,
+                values=[ports[pname].center for pname in unconnected_non_top_level],
+                message=f"{len(unconnected_non_top_level)} unconnected {port_type} ports!",
             )
+        )
 
     critical_warnings = {
         w: warnings[w] for w in raise_error_for_warnings if w in warnings
     }
-
     if critical_warnings:
         pprint(critical_warnings)
         raise ValueError("Found critical warnings while extracting netlist")
+
     return connections, dict(warnings)
 
 
@@ -521,22 +506,23 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     # c = gf.Component()
-    # mzi = c << gf.c.mzi()
-    # mzi.dxmin = 10
-    # mzi.name = "mzi"
+    # straight = c << gf.c.straight()
+    # straight.dxmin = 10
+    # straight.name = "straight"
     # bend = c << gf.c.bend_euler()
-    # bend.connect("o1", mzi.ports["o2"])
+    # bend.connect("o1", straight.ports["o2"])
     # bend.name = "bend"
-    # c.add_port("o1", port=mzi.ports["o1"])
+    # c.add_port("o1", port=straight.ports["o1"])
     # c.add_port("o2", port=bend.ports["o2"])
 
     c = gf.c.array(spacing=(300, 300), columns=2)
+    # c = gf.c.straight()
     c.show()
     n0 = c.get_netlist()
-    # pprint(n0)
+    pprint(n0)
 
-    gdspath = c.write_gds("test.gds")
-    c = gf.import_gds(gdspath)
-    n = c.get_netlist()
-    pprint(n)
-    c.show()
+    # gdspath = c.write_gds("test.gds")
+    # c = gf.import_gds(gdspath)
+    # n = c.get_netlist()
+    # pprint(n)
+    # c.show()
