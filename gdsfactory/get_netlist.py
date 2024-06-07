@@ -159,13 +159,17 @@ def get_netlist(
             "y": y,
             "rotation": reference.dcplx_trans.angle,
             "mirror": reference.dtrans.mirror,
-            "na": reference.na,
-            "nb": reference.nb,
-            "dax": reference.da.x,
-            "dbx": reference.db.x,
-            "day": reference.da.y,
-            "dby": reference.db.y,
         }
+
+        if reference.na > 1 or reference.nb > 1:
+            placements[reference_name].update(
+                na=reference.na,
+                nb=reference.nb,
+                dax=reference.da.x,
+                dbx=reference.db.x,
+                day=reference.da.y,
+                dby=reference.db.y,
+            )
 
         # lower level ports
         for port in reference.ports:
