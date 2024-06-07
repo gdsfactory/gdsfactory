@@ -119,7 +119,7 @@ instances:
       vias:
       - Fvia_Mgdsfactorypcomponentspvia_SLVIAC
       - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2
-name: straight_pin_slot_L500__fbb1b820
+name: straight_pin_slot_L500__1e9e7886
 placements:
   straight_L480_N2_CSpin_240000_0:
     mirror: false

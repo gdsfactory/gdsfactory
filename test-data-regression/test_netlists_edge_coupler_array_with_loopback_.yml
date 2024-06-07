@@ -1,12 +1,12 @@
 connections:
   bend_euler_R30_A90_P0p5_6f642382_-15125_776875,o1: straight_L67_N2_CSstrip_W0p5_-30000_825500,o2
-  bend_euler_R30_A90_P0p5_6f642382_-15125_776875,o2: extend_ports_Cedge_coup_0385623d_24500_474375,o7
-  bend_euler_R30_A90_P0p5_6f642382_-15125_874125,o1: extend_ports_Cedge_coup_0385623d_24500_474375,o8
+  bend_euler_R30_A90_P0p5_6f642382_-15125_776875,o2: extend_ports_Cedge_coup_0385623d_49500_474375,o7
+  bend_euler_R30_A90_P0p5_6f642382_-15125_874125,o1: extend_ports_Cedge_coup_0385623d_49500_474375,o8
   bend_euler_R30_A90_P0p5_6f642382_-15125_874125,o2: straight_L67_N2_CSstrip_W0p5_-30000_825500,o1
-  bend_euler_R30_A90_P0p5_6f642382_-16125_112125,o1: extend_ports_Cedge_coup_0385623d_24500_474375,o2
+  bend_euler_R30_A90_P0p5_6f642382_-16125_112125,o1: extend_ports_Cedge_coup_0385623d_49500_474375,o2
   bend_euler_R30_A90_P0p5_6f642382_-16125_112125,o2: straight_L67_N2_CSstrip_W0p5_-31000_63500,o1
   bend_euler_R30_A90_P0p5_6f642382_-16125_14875,o1: straight_L67_N2_CSstrip_W0p5_-31000_63500,o2
-  bend_euler_R30_A90_P0p5_6f642382_-16125_14875,o2: extend_ports_Cedge_coup_0385623d_24500_474375,o1
+  bend_euler_R30_A90_P0p5_6f642382_-16125_14875,o2: extend_ports_Cedge_coup_0385623d_49500_474375,o1
 instances:
   bend_euler_R30_A90_P0p5_6f642382_-15125_776875:
     component: bend_euler
@@ -88,7 +88,7 @@ instances:
       p: 0.5
       radius: 30
       with_arc_floorplan: true
-  extend_ports_Cedge_coup_0385623d_24500_474375:
+  extend_ports_Cedge_coup_0385623d_49500_474375:
     component: extend_ports
     info: {}
     settings:
@@ -150,7 +150,7 @@ placements:
     rotation: 270
     x: -31
     y: 30
-  extend_ports_Cedge_coup_0385623d_24500_474375:
+  extend_ports_Cedge_coup_0385623d_49500_474375:
     mirror: false
     rotation: 0
     x: 0
@@ -166,15 +166,15 @@ placements:
     x: -31
     y: 97
 ports:
-  o1: extend_ports_Cedge_coup_0385623d_24500_474375,o3
-  o10: extend_ports_Cedge_coup_0385623d_24500_474375,o14
-  o11: extend_ports_Cedge_coup_0385623d_24500_474375,o15
-  o12: extend_ports_Cedge_coup_0385623d_24500_474375,o16
-  o2: extend_ports_Cedge_coup_0385623d_24500_474375,o4
-  o3: extend_ports_Cedge_coup_0385623d_24500_474375,o5
-  o4: extend_ports_Cedge_coup_0385623d_24500_474375,o6
-  o5: extend_ports_Cedge_coup_0385623d_24500_474375,o9
-  o6: extend_ports_Cedge_coup_0385623d_24500_474375,o10
-  o7: extend_ports_Cedge_coup_0385623d_24500_474375,o11
-  o8: extend_ports_Cedge_coup_0385623d_24500_474375,o12
-  o9: extend_ports_Cedge_coup_0385623d_24500_474375,o13
+  o1: extend_ports_Cedge_coup_0385623d_49500_474375,o3
+  o10: extend_ports_Cedge_coup_0385623d_49500_474375,o14
+  o11: extend_ports_Cedge_coup_0385623d_49500_474375,o15
+  o12: extend_ports_Cedge_coup_0385623d_49500_474375,o16
+  o2: extend_ports_Cedge_coup_0385623d_49500_474375,o4
+  o3: extend_ports_Cedge_coup_0385623d_49500_474375,o5
+  o4: extend_ports_Cedge_coup_0385623d_49500_474375,o6
+  o5: extend_ports_Cedge_coup_0385623d_49500_474375,o9
+  o6: extend_ports_Cedge_coup_0385623d_49500_474375,o10
+  o7: extend_ports_Cedge_coup_0385623d_49500_474375,o11
+  o8: extend_ports_Cedge_coup_0385623d_49500_474375,o12
+  o9: extend_ports_Cedge_coup_0385623d_49500_474375,o13

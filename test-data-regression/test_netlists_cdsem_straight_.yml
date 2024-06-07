@@ -1,48 +1,34 @@
 connections: {}
 instances:
-  straight_L420_N2_CSxs_3_19b533f4_210000_250:
+  straight_L420_N2_CSstrip_W0p45_210000_7225:
     component: straight
     info:
       length: 420
       route_info_length: 420
-      route_info_type: xs_34e31a19
+      route_info_type: xs_a202615a
       route_info_weight: 420
-      route_info_xs_34e31a19_length: 420
-      width: 0.5
+      route_info_xs_a202615a_length: 420
+      width: 0.45
     settings:
-      cross_section: xs_34e31a19
-      length: 420
-      npoints: 2
-      width: 0.4
-  straight_L420_N2_CSxs_3_1d360468_210000_7250:
-    component: straight
-    info:
-      length: 420
-      route_info_length: 420
-      route_info_type: xs_34e31a19
-      route_info_weight: 420
-      route_info_xs_34e31a19_length: 420
-      width: 0.5
-    settings:
-      cross_section: xs_34e31a19
+      cross_section: strip
       length: 420
       npoints: 2
       width: 0.45
-  straight_L420_N2_CSxs_3_1fbb4934_210000_35250:
+  straight_L420_N2_CSstrip_W0p4_210000_200:
     component: straight
     info:
       length: 420
       route_info_length: 420
-      route_info_type: xs_34e31a19
+      route_info_type: xs_d9e914be
       route_info_weight: 420
-      route_info_xs_34e31a19_length: 420
-      width: 0.5
+      route_info_xs_d9e914be_length: 420
+      width: 0.4
     settings:
-      cross_section: xs_34e31a19
+      cross_section: strip
       length: 420
       npoints: 2
-      width: 1
-  straight_L420_N2_CSxs_3_5ca726ee_210000_21250:
+      width: 0.4
+  straight_L420_N2_CSstrip_W0p5_210000_14250:
     component: straight
     info:
       length: 420
@@ -52,43 +38,56 @@ instances:
       route_info_xs_34e31a19_length: 420
       width: 0.5
     settings:
-      cross_section: xs_34e31a19
+      cross_section: strip
+      length: 420
+      npoints: 2
+      width: 0.5
+  straight_L420_N2_CSstrip_W0p6_210000_21300:
+    component: straight
+    info:
+      length: 420
+      route_info_length: 420
+      route_info_type: xs_4ec6b2c0
+      route_info_weight: 420
+      route_info_xs_4ec6b2c0_length: 420
+      width: 0.6
+    settings:
+      cross_section: strip
       length: 420
       npoints: 2
       width: 0.6
-  straight_L420_N2_CSxs_3_71171965_210000_14250:
+  straight_L420_N2_CSstrip_W0p8_210000_28400:
     component: straight
     info:
       length: 420
       route_info_length: 420
-      route_info_type: xs_34e31a19
+      route_info_type: xs_580e4910
       route_info_weight: 420
-      route_info_xs_34e31a19_length: 420
-      width: 0.5
+      route_info_xs_580e4910_length: 420
+      width: 0.8
     settings:
-      cross_section: xs_34e31a19
-      length: 420
-      npoints: 2
-      width: 0.5
-  straight_L420_N2_CSxs_3_8b5423fc_210000_28250:
-    component: straight
-    info:
-      length: 420
-      route_info_length: 420
-      route_info_type: xs_34e31a19
-      route_info_weight: 420
-      route_info_xs_34e31a19_length: 420
-      width: 0.5
-    settings:
-      cross_section: xs_34e31a19
+      cross_section: strip
       length: 420
       npoints: 2
       width: 0.8
-  text_rectangular_T1000__f7cd80b8_436000_37500:
+  straight_L420_N2_CSstrip_W1_210000_35500:
+    component: straight
+    info:
+      length: 420
+      route_info_length: 420
+      route_info_type: xs_4e2dbb0b
+      route_info_weight: 420
+      route_info_xs_4e2dbb0b_length: 420
+      width: 1
+    settings:
+      cross_section: strip
+      length: 420
+      npoints: 2
+      width: 1
+  text_rectangular_T1000__9f2eb71f_436000_37500:
     component: text_rectangular
     info: {}
     settings:
-      font: rectangular_font
       justify: left
       layer: WG
       position:
@@ -96,11 +95,10 @@ instances:
       - 0
       size: 1
       text: '1000'
-  text_rectangular_T400_S_937903da_433500_2500:
+  text_rectangular_T400_S_d60df88f_433500_2500:
     component: text_rectangular
     info: {}
     settings:
-      font: rectangular_font
       justify: left
       layer: WG
       position:
@@ -108,11 +106,10 @@ instances:
       - 0
       size: 1
       text: '400'
-  text_rectangular_T450_S_860d5655_433500_9500:
+  text_rectangular_T450_S_627e610d_433500_9500:
     component: text_rectangular
     info: {}
     settings:
-      font: rectangular_font
       justify: left
       layer: WG
       position:
@@ -120,11 +117,10 @@ instances:
       - 0
       size: 1
       text: '450'
-  text_rectangular_T500_S_81715519_433500_16500:
+  text_rectangular_T500_S_c8cdcf0b_433500_16500:
     component: text_rectangular
     info: {}
     settings:
-      font: rectangular_font
       justify: left
       layer: WG
       position:
@@ -132,11 +128,10 @@ instances:
       - 0
       size: 1
       text: '500'
-  text_rectangular_T600_S_42fd7fd8_433500_23500:
+  text_rectangular_T600_S_064e87a0_433500_23500:
     component: text_rectangular
     info: {}
     settings:
-      font: rectangular_font
       justify: left
       layer: WG
       position:
@@ -144,11 +139,10 @@ instances:
       - 0
       size: 1
       text: '600'
-  text_rectangular_T800_S_6bf5c0cd_433500_30500:
+  text_rectangular_T800_S_3849f5fe_433500_30500:
     component: text_rectangular
     info: {}
     settings:
-      font: rectangular_font
       justify: left
       layer: WG
       position:
@@ -156,64 +150,64 @@ instances:
       - 0
       size: 1
       text: '800'
-name: cdsem_straight_W0p4_0p4_0176f56b
+name: cdsem_straight_W0p4_0p4_e37085c4
 placements:
-  straight_L420_N2_CSxs_3_19b533f4_210000_250:
+  straight_L420_N2_CSstrip_W0p45_210000_7225:
     mirror: false
     rotation: 0
     x: 0
-    y: 0.25
-  straight_L420_N2_CSxs_3_1d360468_210000_7250:
+    y: 7.225
+  straight_L420_N2_CSstrip_W0p4_210000_200:
     mirror: false
     rotation: 0
     x: 0
-    y: 7.25
-  straight_L420_N2_CSxs_3_1fbb4934_210000_35250:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 35.25
-  straight_L420_N2_CSxs_3_5ca726ee_210000_21250:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 21.25
-  straight_L420_N2_CSxs_3_71171965_210000_14250:
+    y: 0.2
+  straight_L420_N2_CSstrip_W0p5_210000_14250:
     mirror: false
     rotation: 0
     x: 0
     y: 14.25
-  straight_L420_N2_CSxs_3_8b5423fc_210000_28250:
+  straight_L420_N2_CSstrip_W0p6_210000_21300:
     mirror: false
     rotation: 0
     x: 0
-    y: 28.25
-  text_rectangular_T1000__f7cd80b8_436000_37500:
+    y: 21.3
+  straight_L420_N2_CSstrip_W0p8_210000_28400:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 28.4
+  straight_L420_N2_CSstrip_W1_210000_35500:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 35.5
+  text_rectangular_T1000__9f2eb71f_436000_37500:
     mirror: false
     rotation: 0
     x: 424
     y: 35
-  text_rectangular_T400_S_937903da_433500_2500:
+  text_rectangular_T400_S_d60df88f_433500_2500:
     mirror: false
     rotation: 0
     x: 425
     y: 0
-  text_rectangular_T450_S_860d5655_433500_9500:
+  text_rectangular_T450_S_627e610d_433500_9500:
     mirror: false
     rotation: 0
     x: 425
     y: 7
-  text_rectangular_T500_S_81715519_433500_16500:
+  text_rectangular_T500_S_c8cdcf0b_433500_16500:
     mirror: false
     rotation: 0
     x: 425
     y: 14
-  text_rectangular_T600_S_42fd7fd8_433500_23500:
+  text_rectangular_T600_S_064e87a0_433500_23500:
     mirror: false
     rotation: 0
     x: 425
     y: 21
-  text_rectangular_T800_S_6bf5c0cd_433500_30500:
+  text_rectangular_T800_S_3849f5fe_433500_30500:
     mirror: false
     rotation: 0
     x: 425
@@ -224,40 +218,40 @@ warnings:
     unconnected_ports:
     - message: 12 unconnected optical ports!
       ports:
-      - straight_L420_N2_CSxs_3_19b533f4_210000_250,o1
-      - straight_L420_N2_CSxs_3_19b533f4_210000_250,o2
-      - straight_L420_N2_CSxs_3_1d360468_210000_7250,o1
-      - straight_L420_N2_CSxs_3_1d360468_210000_7250,o2
-      - straight_L420_N2_CSxs_3_71171965_210000_14250,o1
-      - straight_L420_N2_CSxs_3_71171965_210000_14250,o2
-      - straight_L420_N2_CSxs_3_5ca726ee_210000_21250,o1
-      - straight_L420_N2_CSxs_3_5ca726ee_210000_21250,o2
-      - straight_L420_N2_CSxs_3_8b5423fc_210000_28250,o1
-      - straight_L420_N2_CSxs_3_8b5423fc_210000_28250,o2
-      - straight_L420_N2_CSxs_3_1fbb4934_210000_35250,o1
-      - straight_L420_N2_CSxs_3_1fbb4934_210000_35250,o2
+      - straight_L420_N2_CSstrip_W0p4_210000_200,o1
+      - straight_L420_N2_CSstrip_W0p4_210000_200,o2
+      - straight_L420_N2_CSstrip_W0p45_210000_7225,o1
+      - straight_L420_N2_CSstrip_W0p45_210000_7225,o2
+      - straight_L420_N2_CSstrip_W0p5_210000_14250,o1
+      - straight_L420_N2_CSstrip_W0p5_210000_14250,o2
+      - straight_L420_N2_CSstrip_W0p6_210000_21300,o1
+      - straight_L420_N2_CSstrip_W0p6_210000_21300,o2
+      - straight_L420_N2_CSstrip_W0p8_210000_28400,o1
+      - straight_L420_N2_CSstrip_W0p8_210000_28400,o2
+      - straight_L420_N2_CSstrip_W1_210000_35500,o1
+      - straight_L420_N2_CSstrip_W1_210000_35500,o2
       values:
       - - 0
-        - 250
+        - 200
       - - 420000
-        - 250
+        - 200
       - - 0
-        - 7250
+        - 7225
       - - 420000
-        - 7250
+        - 7225
       - - 0
         - 14250
       - - 420000
         - 14250
       - - 0
-        - 21250
+        - 21300
       - - 420000
-        - 21250
+        - 21300
       - - 0
-        - 28250
+        - 28400
       - - 420000
-        - 28250
+        - 28400
       - - 0
-        - 35250
+        - 35500
       - - 420000
-        - 35250
+        - 35500

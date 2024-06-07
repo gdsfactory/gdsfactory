@@ -1114,9 +1114,10 @@ instances:
     mmi1x2_sweep_pack:
        component: pack_doe
        settings:
-         component: mmi1x2
-         length_mmi: [2, 100]
-         width_mmi: [4, 10]
+         doe: mmi1x2
+         settings:
+             length_mmi: [2, 100]
+             width_mmi: [4, 10]
        pack:
          do_permutations: True
          spacing: 100
@@ -1124,8 +1125,9 @@ instances:
     mzi_sweep:
        component: pack_doe
        settings:
-         component: mzi
-         delta_length: [10, 100]
+         doe: mzi
+         settings:
+            delta_length: [10, 100]
        pack:
          do_permutations: True
          spacing: 100
