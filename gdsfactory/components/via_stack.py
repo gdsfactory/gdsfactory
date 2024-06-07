@@ -128,7 +128,7 @@ def via_stack(
             nb_vias_x = int(np.floor(nb_vias_x)) or 1
             nb_vias_y = int(np.floor(nb_vias_y)) or 1
 
-            ref = c.add_array(
+            ref = c.add_ref(
                 via, columns=nb_vias_x, rows=nb_vias_y, spacing=(pitch_x, pitch_y)
             )
 

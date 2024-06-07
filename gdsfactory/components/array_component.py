@@ -54,7 +54,7 @@ def array(
 
     c = Component()
     component = gf.get_component(component)
-    ref = c.add_array(component, columns=columns, rows=rows, spacing=spacing)
+    ref = c.add_ref(component, columns=columns, rows=rows, spacing=spacing)
     old_center = ref.dcenter
     ref.dcenter = (0, 0) if centered else old_center
 

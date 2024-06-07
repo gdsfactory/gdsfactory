@@ -29,7 +29,7 @@ instances:
       size:
       - 11
       - 11
-  via_S7_0p7_S2_2_GNone_E_43625195_0_0__1_1:
+  via_S7_0p7_S2_2_GNone_E_43625195_0_0:
     component: via
     info:
       enclosure: 2
@@ -47,133 +47,7 @@ instances:
       spacing:
       - 2
       - 2
-  via_S7_0p7_S2_2_GNone_E_43625195_0_0__2_1:
-    component: via
-    info:
-      enclosure: 2
-      xsize: 7
-      xspacing: 2
-      ysize: 0.7
-      yspacing: 2
-    settings:
-      bbox_offset: 0
-      enclosure: 2
-      layer: VIA1
-      size:
-      - 7
-      - 0.7
-      spacing:
-      - 2
-      - 2
-  via_S7_0p7_S2_2_GNone_E_43625195_0_0__3_1:
-    component: via
-    info:
-      enclosure: 2
-      xsize: 7
-      xspacing: 2
-      ysize: 0.7
-      yspacing: 2
-    settings:
-      bbox_offset: 0
-      enclosure: 2
-      layer: VIA1
-      size:
-      - 7
-      - 0.7
-      spacing:
-      - 2
-      - 2
-  via_S7_0p7_S2_2_GNone_E_43625195_0_0__4_1:
-    component: via
-    info:
-      enclosure: 2
-      xsize: 7
-      xspacing: 2
-      ysize: 0.7
-      yspacing: 2
-    settings:
-      bbox_offset: 0
-      enclosure: 2
-      layer: VIA1
-      size:
-      - 7
-      - 0.7
-      spacing:
-      - 2
-      - 2
-  via_S9_0p7_S2_2_GNone_E_20b54705_0_0__1_1:
-    component: via
-    info:
-      enclosure: 1
-      xsize: 9
-      xspacing: 2
-      ysize: 0.7
-      yspacing: 2
-    settings:
-      bbox_offset: 0
-      enclosure: 1
-      layer: VIAC
-      size:
-      - 9
-      - 0.7
-      spacing:
-      - 2
-      - 2
-  via_S9_0p7_S2_2_GNone_E_20b54705_0_0__2_1:
-    component: via
-    info:
-      enclosure: 1
-      xsize: 9
-      xspacing: 2
-      ysize: 0.7
-      yspacing: 2
-    settings:
-      bbox_offset: 0
-      enclosure: 1
-      layer: VIAC
-      size:
-      - 9
-      - 0.7
-      spacing:
-      - 2
-      - 2
-  via_S9_0p7_S2_2_GNone_E_20b54705_0_0__3_1:
-    component: via
-    info:
-      enclosure: 1
-      xsize: 9
-      xspacing: 2
-      ysize: 0.7
-      yspacing: 2
-    settings:
-      bbox_offset: 0
-      enclosure: 1
-      layer: VIAC
-      size:
-      - 9
-      - 0.7
-      spacing:
-      - 2
-      - 2
-  via_S9_0p7_S2_2_GNone_E_20b54705_0_0__4_1:
-    component: via
-    info:
-      enclosure: 1
-      xsize: 9
-      xspacing: 2
-      ysize: 0.7
-      yspacing: 2
-    settings:
-      bbox_offset: 0
-      enclosure: 1
-      layer: VIAC
-      size:
-      - 9
-      - 0.7
-      spacing:
-      - 2
-      - 2
-  via_S9_0p7_S2_2_GNone_E_20b54705_0_0__5_1:
+  via_S9_0p7_S2_2_GNone_E_20b54705_0_0:
     component: via
     info:
       enclosure: 1
@@ -203,48 +77,25 @@ placements:
     rotation: 0
     x: 0
     y: 0
-  via_S7_0p7_S2_2_GNone_E_43625195_0_0__1_1:
+  via_S7_0p7_S2_2_GNone_E_43625195_0_0:
+    dax: 2
+    day: 0
+    dbx: 0
+    dby: 2
     mirror: false
+    na: 1
+    nb: 4
     rotation: 0
     x: 0
     y: -3
-  via_S7_0p7_S2_2_GNone_E_43625195_0_0__2_1:
+  via_S9_0p7_S2_2_GNone_E_20b54705_0_0:
+    dax: 2
+    day: 0
+    dbx: 0
+    dby: 2
     mirror: false
-    rotation: 0
-    x: 0
-    y: -3
-  via_S7_0p7_S2_2_GNone_E_43625195_0_0__3_1:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: -3
-  via_S7_0p7_S2_2_GNone_E_43625195_0_0__4_1:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: -3
-  via_S9_0p7_S2_2_GNone_E_20b54705_0_0__1_1:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: -4
-  via_S9_0p7_S2_2_GNone_E_20b54705_0_0__2_1:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: -4
-  via_S9_0p7_S2_2_GNone_E_20b54705_0_0__3_1:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: -4
-  via_S9_0p7_S2_2_GNone_E_20b54705_0_0__4_1:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: -4
-  via_S9_0p7_S2_2_GNone_E_20b54705_0_0__5_1:
-    mirror: false
+    na: 1
+    nb: 5
     rotation: 0
     x: 0
     y: -4
