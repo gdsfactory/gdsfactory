@@ -80,7 +80,7 @@ if __name__ == "__main__":
     connection_error_types = {"optical": []}
 
     c1 = cells[component_type]()
-    c1.show()
+    # c1.show()
     n = c1.get_netlist(
         allow_multiple=True, connection_error_types=connection_error_types
     )
@@ -88,8 +88,8 @@ if __name__ == "__main__":
     c1.delete()
     # print(yaml_str)
     c2 = gf.read.from_yaml(yaml_str)
-    n2 = c2.get_netlist()
+    n2 = c2.get_netlist(allow_multiple=True)
     d = jsondiff.diff(n, n2)
     d.pop("warnings", None)
-    # c2.show()
+    c2.show()
     assert len(d) == 0, d

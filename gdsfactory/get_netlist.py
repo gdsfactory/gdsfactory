@@ -162,7 +162,7 @@ def get_netlist(
         }
 
         if reference.na > 1 or reference.nb > 1:
-            placements[reference_name].update(
+            instances[reference_name].update(
                 na=reference.na,
                 nb=reference.nb,
                 dax=reference.da.x,
