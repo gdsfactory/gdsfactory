@@ -76,6 +76,12 @@ valid_placement_keys = [
     "rotation",
     "mirror",
     "port",
+    "na",
+    "nb",
+    "dax",
+    "dbx",
+    "day",
+    "dby",
 ]
 
 

@@ -526,16 +526,15 @@ class ComponentBase:
         if rows > 1 or columns > 1:
             a = kf.kdb.Vector(round(spacing[0] / self.kcl.dbu), 0)
             b = kf.kdb.Vector(0, round(spacing[1] / self.kcl.dbu))
+            inst = self.create_inst(
+                component,
+                na=columns,
+                nb=rows,
+                a=a,
+                b=b,
+            )
         else:
-            a = b = None
-
-        inst = self.create_inst(
-            component,
-            na=columns,
-            nb=rows,
-            a=a,
-            b=b,
-        )
+            inst = self.create_inst(component)
 
         if alias:
             warnings.warn("alias is deprecated, use name instead")
@@ -1114,14 +1113,19 @@ def container(component, function, **kwargs) -> Component:
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.c.array(spacing=(300, 300), columns=2)
-    c.show()
-    n0 = c.get_netlist()
-    # pprint(n0)
+    c = gf.Component()
+    b = c << gf.c.bend_circular()
+    s = c << gf.c.straight()
+    s.connect("o1", b.ports["o2"])
+    # c = gf.c.mzi()
+    # c = gf.c.array(spacing=(300, 300), columns=2)
+    # c.show()
+    # n0 = c.get_netlist()
+    # # pprint(n0)
 
-    gdspath = c.write_gds("test.gds")
-    c = gf.import_gds(gdspath)
-    n = c.get_netlist()
+    # gdspath = c.write_gds("test.gds")
+    # c = gf.import_gds(gdspath)
+    # n = c.get_netlist()
     c.show()
     # import matplotlib.pyplot as plt
 
