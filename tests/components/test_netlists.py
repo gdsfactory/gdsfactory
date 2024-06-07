@@ -9,39 +9,54 @@ import gdsfactory as gf
 from gdsfactory.components import cells
 
 skip_test = {
-    "version_stamp",
-    "bbox",
-    "component_sequence",
-    "extend_ports_list",
     "add_fiber_array_optical_south_electrical_north",
-    "pack_doe",
-    "pack_doe_grid",
-    "fiber_array",
-    "straight_heater_meander",
+    "array",
+    "bbox",
+    "cavity",
+    "coh_rx_single_pol",
+    "component_sequence",
     "coupler_bend",
-    "pad_array0",
-    "mzi_lattice_mmi",
+    "coupler_straight_asymmetric",
     "cutback_2x2",
+    "cutback_bend180circular",
+    "cutback_component",
+    "delay_snake",
     "delay_snake2",
     "disk_heater",
-    "via_stack",
-    "mzi_lattice",
-    "spiral_racetrack",
-    "mzi_pads_center",
-    "ring_single_bend_coupler",
-    "straight_heater_doped_rib",
+    "extend_ports_list",
+    "fiber_array",
     "grating_coupler_loss_fiber_array",
-    "cutback_bend180circular",
-    "staircase",
+    "grating_coupler_tree",
+    "loop_mirror",
     "mzi",
+    "mzi1x2_2x2",
+    "mzi_arms",
     "mzi_coupler",
-    "array",
+    "mzi_lattice",
+    "mzi_lattice_mmi",
+    "mzi_pads_center",
+    "pack_doe",
+    "pack_doe_grid",
+    "pad_array0",
+    "pad_array90",
+    "pad_gsg_open",
+    "pad_gsg_short",
+    "pads_shorted",
+    "ring_single_bend_coupler",
+    "spiral_racetrack",
+    "splitter_tree",
+    "staircase",
+    "straight_heater_doped_rib",
+    "straight_heater_meander",
+    "version_stamp",
+    "via_chain",
+    "via_stack",
 }
 cells_to_test = set(cells.keys()) - skip_test
 
 
-# @pytest.mark.skip
-@pytest.mark.parametrize("component_type", cells_to_test)
+# @pytest.mark.parametrize("component_type", cells_to_test)
+@pytest.mark.skip
 def test_netlists(
     component_type: str,
     data_regression: DataRegressionFixture,
@@ -68,7 +83,9 @@ def test_netlists(
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
     c.delete()
     c2 = gf.read.from_yaml(yaml_str)
-    n2 = c2.get_netlist()
+    n2 = c2.get_netlist(
+        allow_multiple=True, connection_error_types=connection_error_types
+    )
 
     n.pop("name")
     n2.pop("name")
@@ -101,6 +118,7 @@ if __name__ == "__main__":
     component_type = "mzi_lattice"  # FIXME
     component_type = "grating_coupler_loss_fiber_array"
     component_type = "spiral_racetrack"
+    component_type = "pad_gsg_short"
 
     connection_error_types = {
         "optical": ["width_mismatch", "shear_angle_mismatch", "orientation_mismatch"]

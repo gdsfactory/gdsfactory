@@ -126,7 +126,7 @@ class ComponentReference(kf.Instance):
         if __k in _deprecated_attributes:
             logger.warning(
                 f"Getting `{self._kfinst.name}.{__k}` {_deprecation_um}. "
-                f"Please use `{self._kfinst.name}.d{__k}` instead. For further information, please"
+                f"Please use `{self._kfinst.name}.d{__k}` instead. For further information, please "
                 "consult the migration guide "
                 "https://gdsfactory.github.io/gdsfactory/notebooks/"
                 "21_migration_guide_7_8.html",
@@ -290,7 +290,7 @@ class ComponentBase:
         if __k in _deprecated_attributes_component_gettr:
             logger.warning(
                 f"Getting `{self.name}.{__k}` {_deprecation_um}. "
-                f"Please use {self.name}.`d{__k}` instead. For further information, please"
+                f"Please use {self.name}.`d{__k}` instead. For further information, please "
                 "consult the migration guide "
                 "https://gdsfactory.github.io/gdsfactory/notebooks/"
                 "21_migration_guide_7_8.html",

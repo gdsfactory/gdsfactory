@@ -1,10 +1,10 @@
 connections:
-  rectangle_S3_10_LWG_CFa_4b74c796_0_0,e1: rectangle_S3_10_LWG_CFa_4b74c796_0_0,e1
-  rectangle_S3_10_LWG_CFa_4b74c796_0_0,e2: rectangle_S3_10_LWG_CFa_4b74c796_0_0,e2
-  rectangle_S3_10_LWG_CFa_4b74c796_0_0,e3: rectangle_S3_10_LWG_CFa_4b74c796_0_0,e3
-  rectangle_S3_10_LWG_CFa_4b74c796_0_0,e4: rectangle_S3_10_LWG_CFa_4b74c796_0_0,e4
+  rectangle_S3_10_L1_CFal_8173590e_0_0,e1: rectangle_S3_10_L1_CFal_8173590e_0_0,e1
+  rectangle_S3_10_L1_CFal_8173590e_0_0,e2: rectangle_S3_10_L1_CFal_8173590e_0_0,e2
+  rectangle_S3_10_L1_CFal_8173590e_0_0,e3: rectangle_S3_10_L1_CFal_8173590e_0_0,e3
+  rectangle_S3_10_L1_CFal_8173590e_0_0,e4: rectangle_S3_10_L1_CFal_8173590e_0_0,e4
 instances:
-  rectangle_S3_10_LWG_CFa_4b74c796_0_0:
+  rectangle_S3_10_L1_CFal_8173590e_0_0:
     component: rectangle
     info: {}
     settings:
@@ -21,7 +21,7 @@ instances:
       - 10
 name: cross_L10_W3_LWG_PTNone
 placements:
-  rectangle_S3_10_LWG_CFa_4b74c796_0_0:
+  rectangle_S3_10_L1_CFal_8173590e_0_0:
     mirror: false
     rotation: 0
     x: -1.5

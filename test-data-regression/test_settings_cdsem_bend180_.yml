@@ -1,10 +1,10 @@
 info: {}
-name: cdsem_bend180_W0p5_R10__81075259
+name: cdsem_bend180_W0p5_R10__39c637df
 settings:
   bend90: bend_circular
   cross_section: strip
   radius: 10
   straight: straight
-  text: Ftext_rectangular_Mgdsfactorypcomponentsptext_rectangular_SS1
+  text: text_rectangular_mini
   wg_length: 420
   width: 0.5

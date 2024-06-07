@@ -338,7 +338,7 @@ instances:
       length: 40
       npoints: 2
       width: 0.5
-name: loss_deembedding_ch13_2_4ecbde23
+name: loss_deembedding_ch13_2_f0d5a16c
 placements:
   bend_euler_R10_A90_P0p5_2f1f5c6d_249125_44654:
     mirror: false

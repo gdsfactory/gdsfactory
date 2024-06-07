@@ -1,10 +1,10 @@
 info: {}
-name: ge_detector_straight_si_46671dd7
+name: ge_detector_straight_si_30d8f655
 settings:
   cross_section: pn_ge_detector_si_contacts
   length: 80
   taper: Ftaper_Mgdsfactorypcomponentsptaper_SL20_W0p5_W0p8_CSstrip
-  via_stack: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLSLAB90_M1_M2_MTOP_VFvia_Mgdsfactorypcomponentspvia_SLVIAC_Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2_Fvia_Mgdsfactorypcomponentspvia_SLVIA2_None
+  via_stack: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLSLAB90_M1_M2_MTOP_Vviac_via1_via2_None
   via_stack_offset: 0
   via_stack_spacing: 5
   via_stack_width: 10
