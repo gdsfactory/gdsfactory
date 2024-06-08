@@ -62,27 +62,31 @@ def crossing_arm(
     return c
 
 
-@gf.cell  # This decorator will generate a good name for the component
-def crossing() -> Component:
-    c = gf.Component()
-    arm = crossing_arm()
+@gf.cell
+def crossing(
+    arm=crossing_arm,
+    cross_section="strip",
+) -> Component:
+    """Waveguide crossing.
 
-    # Create two arm references. One has a 90Deg rotation
-    arm_h = arm.ref(position=(0, 0))
-    arm_v = arm.ref(position=(0, 0), rotation=90)
-
-    # Add each arm to the component
-    # Also add the ports
+    Args:
+        arm: arm spec.
+        cross_section: spec.
+    """
+    x = gf.get_cross_section(cross_section)
+    c = Component()
+    arm = gf.get_component(arm)
     port_id = 0
-    for a in [arm_h, arm_v]:
-        c.add(a)
-        for p in a.ports.values():
-            # Here we don't care too much about the name we give to the ports
-            # since they will be renamed. We just want the names to be unique
-            c.add_port(name=f"{port_id}", port=p)
+    for rotation in [0, 90]:
+        ref = c << arm
+        ref.drotate(rotation)
+        for p in ref.ports:
+            c.add_port(name=port_id, port=p)
             port_id += 1
 
     c.auto_rename_ports()
+    x.add_bbox(c)
+    c.flatten()
     return c
 
 

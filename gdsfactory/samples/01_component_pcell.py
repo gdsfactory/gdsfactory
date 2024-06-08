@@ -53,8 +53,8 @@ if __name__ == "__main__":
     # only this one has some geometry inside it.
     #
     # Let's create two of these Components by calling the straight_wide() function
-    WG1 = straight_wide(length=10, width=1, layer=(1, 0))
-    WG2 = straight_wide(length=12, width=2, layer=(2, 0))
+    _wg1 = straight_wide(length=10, width=1, layer=(1, 0))
+    _wg2 = straight_wide(length=12, width=2, layer=(2, 0))
 
     # Now we've made two straights Component WG1 and WG2, and we have a blank
     # Component c. We can add references from the devices WG1 and WG2 to our blank
@@ -62,8 +62,8 @@ if __name__ == "__main__":
     # After adding WG1, we see that the add_ref() function returns a handle to our
     # reference, which we will label with lowercase letters wg1 and wg2.  This
     # handle will be useful later when we want to move wg1 and wg2 around in c.
-    wg1 = c.add_ref(WG1)  # Using the function add_ref()
-    wg2 = c << WG2  # Using the << operator which is identical to add_ref()
+    wg1 = c.add_ref(_wg1)  # Using the function add_ref()
+    wg2 = c << _wg2  # Using the << operator which is identical to add_ref()
 
     # Alternatively, we can do this all on one line
     wg3 = c.add_ref(straight_wide(length=14, width=3, layer=(3, 0)))
