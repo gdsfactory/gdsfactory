@@ -31,13 +31,16 @@ import gdsfactory as gf
 gf.config.print_version_plugins()
 ```
 
-## Docker container
+## Tutorials
 
-As an alternative, you can use the pre-built Docker image from [github](https://github.com/gdsfactory/gdsfactory/pkgs/container/gdsfactory)
+You can [download](https://github.com/gdsfactory/gdsfactory/archive/refs/heads/main.zip) the jupyter notebooks tutorial and open them with VSCode.
 
-For instance, VS Code supports development inside a container. See [Developing inside a Container](https://code.visualstudio.com/docs/devcontainers/containers) for details.
+We recommend running the tutorials with VSCode but you can also install and run them with jupyterlab.
+```
+pip install jupyterlab
+```
 
-## Installation for developers
+## Installation for contributors
 
 As a contributor, if you are on windows you need to download [Git](https://git-scm.com/download/win) and optionally [GitHub Desktop](https://desktop.github.com/).
 
@@ -46,8 +49,8 @@ Then you need to fork the [GitHub repository](https://github.com/gdsfactory/gdsf
 The following lines will:
 
 - clone your gdsfactory fork (make sure you change `YourUserName` with your GitHub user name)
-- download the GDS golden data for running GDS regressions from a separate [repo](https://github.com/gdsfactory/gdsfactory-test-data/tree/test-data)
-- install gdsfactory locally on your computer in `-e` edit mode.
+- download the GDS reference files for running GDS regressions from a separate [repo](https://github.com/gdsfactory/gdsfactory-test-data/tree/test-data)
+- install gdsfactory on your computer in `-e` edit mode.
 - install pre-commit hooks for making sure your code syntax and style matches some basic rules.
 
 ```
@@ -56,12 +59,6 @@ cd gdsfactory
 git clone https://github.com/gdsfactory/gdsfactory-test-data.git -b test_klayout test-data-gds
 pip install -e .[dev]
 pre-commit install
-```
-
-**Note**:
-- If you need to run the notebooks and you are not using VSCode or Anaconda, then you need to install [jupyter lab](https://jupyterlab.readthedocs.io/en/stable/getting_started/installation.html)
-```
-pip install jupyterlab
 ```
 
 
@@ -137,7 +134,6 @@ What do we test?
 
 - Geometry polygons, layers and cell names.
 - Component Settings.
-- Port positions and ensure they are on grid.
 
 ```python
 import pytest
@@ -174,8 +170,9 @@ def test_settings(component_name: str, data_regression: DataRegressionFixture) -
 
 For questions join the [![Join the chat at https://gitter.im/gdsfactory-dev/community](https://badges.gitter.im/gdsfactory-dev/community.svg)](https://gitter.im/gdsfactory-dev/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) with [element.io](https://element.io/download) or use GitHub issues or discussions.
 
-## Running notebooks
 
-You can find the tutorial jupyter notebooks in `notebooks` and open them with VSCode.
+## Docker container
 
-You can use [VSCode gdsfactory extension](https://marketplace.visualstudio.com/items?itemName=gdsfactory.gdsfactory) to open and run the notebooks.
+As an alternative, you can use the pre-built Docker image from [github](https://github.com/gdsfactory/gdsfactory/pkgs/container/gdsfactory)
+
+For instance, VS Code supports development inside a container. See [Developing inside a Container](https://code.visualstudio.com/docs/devcontainers/containers) for details.

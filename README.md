@@ -20,16 +20,17 @@
 
 
 Gdsfactory is a Python library for designing chips (Photonics, Analog, Quantum, MEMs, and more), 3D printed objects, and PCBs.
-Here, you can code your designs in Python or YAML, perform verification (DRC, simulation, and extraction), and enable automated testing in the lab to ensure your fabricated devices meet your specifications. As input you write python code, as an output GDSFactory creates CAD files (GDS, OASIS, STL, GERBER).
+Here, you can code your designs in Python or YAML, perform verification (DRC, simulation, and extraction), and enable automated testing in the lab to ensure your fabricated devices meet your specifications.
 
 
+As input you write python code, as an output GDSFactory creates CAD files (GDS, OASIS, STL, GERBER).
 
 ![cad](https://i.imgur.com/TWP80ez.png)
 
 Highlights:
 
 - More than 1M downloads
-- More than 50 Contributors
+- More than 60 Contributors
 - More than 10 PDKs available
 
 ![workflow](https://i.imgur.com/abvxJJw.png)
@@ -132,7 +133,7 @@ Hundreds of organisations are using gdsfactory. Some companies and organizations
 - It's free, as in freedom and in cost.
 - It's the most popular EDA tool with a growing community of users, developers, and extensions to other tools.
 
-Gdsfactory is really fast thanks a C++ library for manipulating GDSII objects. You will notice this when reading/writing big GDS files or doing large boolean operations.
+Gdsfactory is really fast thanks to KLayout C++ library for manipulating GDSII objects. You will notice this when reading/writing big GDS files or doing large boolean operations.
 
 | Benchmark      |  gdspy  | gdsfactory | Gain |
 | :------------- | :-----: | :--------: | :--: |
