@@ -367,60 +367,50 @@ class LayerStack(BaseModel):
             layer_views: optional layer_views.
             dbu: Optional database unit. Defaults to 1nm.
         """
-        raise NotImplementedError(
-            "Not implemented yet for the new LayerStack. You can use gdsfactory7 for now."
-        )
-
+        return "Not implemented yet in gdsfactory8"
         layers = self.layers or {}
 
-        unetched_layers = [
-            layer_name
-            for layer_name, level in layers.items()
-            if level.layer and level.layer_type == "grow"
-        ]
+        # Collect etch layers
         etch_layers = [
             layer_name
             for layer_name, level in layers.items()
-            if level.layer and level.layer_type == "etch"
+            if isinstance(level.layer, LogicalLayer)
         ]
 
-        # remove all etched layers from the grown layers
+        # Define input layers
+        out = "\n".join(
+            [
+                f"{layer_name} = input({level.derived_layer.layer[0]}, {level.derived_layer.layer[1]})"
+                for layer_name, level in layers.items()
+                if level.derived_layer
+            ]
+        )
+        out += "\n\n"
+
+        # Define unetched layers
         unetched_layers_dict = defaultdict(list)
         for layer_name in etch_layers:
             level = layers[layer_name]
-            into = level.into or []
-            for layer_name_etched in into:
-                unetched_layers_dict[layer_name_etched].append(layer_name)
-                if layer_name_etched in unetched_layers:
-                    unetched_layers.remove(layer_name_etched)
+            derived_layer = level.derived_layer
+            if derived_layer:
+                unetched_layers_dict[derived_layer.name].append(layer_name)
 
-        # define layers
-        out = "\n".join(
-            [
-                f"{layer_name} = input({level.layer[0]}, {level.layer[1]})"
-                for layer_name, level in layers.items()
-                if level.layer
-            ]
-        )
-        out += "\n"
-        out += "\n"
-
-        # define unetched layers
         for layer_name_etched, etching_layers in unetched_layers_dict.items():
-            etching_layers = " - ".join(etching_layers)
-            out += f"unetched_{layer_name_etched} = {layer_name_etched} - {etching_layers}\n"
+            etching_layers_str = " - ".join(etching_layers)
+            out += f"unetched_{layer_name_etched} = {layer_name_etched} - {etching_layers_str}\n"
 
         out += "\n"
 
-        # define slabs
+        # Define slabs
         for layer_name, level in layers.items():
-            if level.layer_type == "etch":
-                into = level.into or []
-                for i, layer1 in enumerate(into):
-                    out += f"slab_{layer1}_{layer_name}_{i} = {layer1} &amp; {layer_name}\n"
+            if level.derived_layer:
+                derived_layer = level.derived_layer
+                for i, layer1 in enumerate(derived_layer.layer):
+                    out += f"slab_{layer1}_{layer_name}_{i} = {layer1} & {layer_name}\n"
 
         out += "\n"
 
+        i = 0
         for layer_name, level in layers.items():
             layer = level.layer
             zmin = level.zmin
@@ -430,47 +420,32 @@ class LayerStack(BaseModel):
                 zmin = round(zmin, rnd_pl)
                 zmax = round(zmax, rnd_pl)
 
-            if layer is None:
+            if not layer:
                 continue
 
-            elif level.layer_type == "etch":
-                name = f"{layer_name}: {level.material}"
+            if level.derived_layer:
+                derived_layer = level.derived_layer
+                layer1 = derived_layer.layer
+                unetched_level = layers[layer1]
+                unetched_zmin = unetched_level.zmin
+                unetched_zmax = unetched_zmin + unetched_level.thickness
 
-                into = level.into or []
-                for i, layer1 in enumerate(into):
-                    unetched_level = layers[layer1]
-                    unetched_zmin = unetched_level.zmin
-                    unetched_zmax = unetched_zmin + unetched_level.thickness
-
-                    # slab
-                    slab_layer_name = f"slab_{layer1}_{layer_name}_{i}"
-                    slab_zmin = unetched_level.zmin
-                    slab_zmax = unetched_zmax - level.thickness
-                    name = f"{slab_layer_name}: {level.material} {layer[0]}/{layer[1]}"
-                    txt = (
-                        f"z("
-                        f"{slab_layer_name}, "
-                        f"zstart: {slab_zmin}, "
-                        f"zstop: {slab_zmax}, "
-                        f"name: '{name}'"
-                    )
-                    if layer_views:
-                        txt += ", "
-                        props = layer_views.get_from_tuple(layer)
-                        if hasattr(props, "color"):
-                            if props.color.fill == props.color.frame:
-                                txt += f"color: {props.color.fill}"
-                            else:
-                                txt += (
-                                    f"fill: {props.color.fill}, "
-                                    f"frame: {props.color.frame}"
-                                )
-                    txt += ")"
-                    out += f"{txt}\n"
-
-            elif layer_name in unetched_layers:
-                name = f"{layer_name}: {level.material} {layer[0]}/{layer[1]}"
-
+                # slab
+                slab_layer_name = f"slab_{layer1}_{layer_name}_{i}"
+                slab_zmin = unetched_level.zmin
+                slab_zmax = unetched_zmax - level.thickness
+                name = f"{slab_layer_name}: {level.material} {layer.layer[0]}/{layer.layer[1]}"
+                txt = (
+                    f"z("
+                    f"{slab_layer_name}, "
+                    f"zstart: {slab_zmin}, "
+                    f"zstop: {slab_zmax}, "
+                    f"name: '{name}'"
+                )
+            else:
+                name = (
+                    f"{layer_name}: {level.material} {layer.layer[0]}/{layer.layer[1]}"
+                )
                 txt = (
                     f"z("
                     f"{layer_name}, "
@@ -478,20 +453,18 @@ class LayerStack(BaseModel):
                     f"zstop: {zmax}, "
                     f"name: '{name}'"
                 )
-                if layer_views:
-                    txt += ", "
-                    props = layer_views.get_from_tuple(layer)
-                    if hasattr(props, "color"):
-                        if props.color.fill == props.color.frame:
-                            txt += f"color: {props.color.fill}"
-                        else:
-                            txt += (
-                                f"fill: {props.color.fill}, "
-                                f"frame: {props.color.frame}"
-                            )
-
-                txt += ")"
-                out += f"{txt}\n"
+            if layer_views:
+                txt += ", "
+                props = layer_views.get_from_tuple(layer.layer)
+                if hasattr(props, "color"):
+                    if props.color.fill == props.color.frame:
+                        txt += f"color: {props.color.fill}"
+                    else:
+                        txt += (
+                            f"fill: {props.color.fill}, " f"frame: {props.color.frame}"
+                        )
+            txt += ")"
+            out += f"{txt}\n"
 
         out += "\n"
 
@@ -501,10 +474,8 @@ class LayerStack(BaseModel):
 
             unetched_zmin = unetched_level.zmin
             unetched_zmax = unetched_zmin + unetched_level.thickness
-            name = f"{slab_layer_name}: {unetched_level.material}"
-
             unetched_layer_name = f"unetched_{layer_name}"
-            name = f"{unetched_layer_name}: {unetched_level.material} {layer[0]}/{layer[1]}"
+            name = f"{unetched_layer_name}: {unetched_level.material} {layer.layer[0]}/{layer.layer[1]}"
             txt = (
                 f"z("
                 f"{unetched_layer_name}, "
@@ -514,7 +485,7 @@ class LayerStack(BaseModel):
             )
             if layer_views:
                 txt += ", "
-                props = layer_views.get_from_tuple(layer)
+                props = layer_views.get_from_tuple(layer.layer)
                 if hasattr(props, "color"):
                     if props.color.fill == props.color.frame:
                         txt += f"color: {props.color.fill}"
@@ -627,17 +598,16 @@ if __name__ == "__main__":
         }
     )
 
-    # Test with simple component
-    import gdsfactory as gf
+    # import gdsfactory as gf
 
-    c = gf.Component()
+    # c = gf.Component()
 
-    rect1 = c << gf.components.rectangle(size=(10, 10), layer=(1, 0))
-    rect2 = c << gf.components.rectangle(size=(10, 10), layer=(2, 0))
-    rect2.dmove((5, 5))
-    c.show()
+    # rect1 = c << gf.components.rectangle(size=(10, 10), layer=(1, 0))
+    # rect2 = c << gf.components.rectangle(size=(10, 10), layer=(2, 0))
+    # rect2.dmove((5, 5))
+    # c.show()
 
-    c = get_component_with_derived_layers(c, ls)
-    c.show()
+    # c = get_component_with_derived_layers(c, ls)
+    # c.show()
 
-    # ls.get_klayout_3d_script()
+    ls.get_klayout_3d_script()
