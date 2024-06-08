@@ -13,8 +13,7 @@ def big_device(
     size: tuple[float, float] = (400.0, 400.0),
     nports: int = 16,
     spacing: float = 15.0,
-    layer: tuple[int, int] = (1, 0),
-    wg_width: float = 0.5,
+    port_type: str = "optical",
     cross_section: CrossSectionSpec = "strip",
 ) -> Component:
     """Big component with N ports on each side.
@@ -23,8 +22,7 @@ def big_device(
         size: x, y.
         nports: number of ports.
         spacing: in um.
-        layer: spec.
-        wg_width: waveguide width in um.
+        port_type: optical, electrical, rf, etc.
         cross_section: spec.
     """
     component = gf.Component()
@@ -35,49 +33,54 @@ def big_device(
     dy = h / 2
     N = nports
 
+    xs = gf.get_cross_section(cross_section)
+    layer = xs.layer
+    width = xs.width
+    port_settings = dict(
+        port_type=port_type, cross_section=xs, layer=layer, width=width
+    )
+
     points = [[dx, dy], [dx, -dy], [-dx, -dy], [-dx, dy]]
     component.add_polygon(points, layer=layer)
+    ports = []
 
     for i in range(N):
         port = Port(
             name=f"W{i}",
             center=p0 + (-dx, (i - N / 2) * spacing),
             orientation=180,
-            layer=layer,
-            width=wg_width,
+            **port_settings,
         )
-        component.add_port(port=port)
+        ports.append(port)
 
     for i in range(N):
         port = Port(
             name=f"E{i}",
             center=p0 + (dx, (i - N / 2) * spacing),
             orientation=0,
-            layer=layer,
-            width=wg_width,
+            **port_settings,
         )
-        component.add_port(port=port)
+        ports.append(port)
 
     for i in range(N):
         port = Port(
             name=f"N{i}",
             center=p0 + ((i - N / 2) * spacing, dy),
             orientation=90,
-            layer=layer,
-            width=wg_width,
+            **port_settings,
         )
-        component.add_port(port=port)
+        ports.append(port)
 
     for i in range(N):
         port = Port(
             name=f"S{i}",
             center=p0 + ((i - N / 2) * spacing, -dy),
             orientation=-90,
-            layer=layer,
-            width=wg_width,
+            **port_settings,
         )
-        component.add_port(port=port)
+        ports.append(port)
 
+    component.add_ports(ports)
     component.auto_rename_ports()
     return component
 
