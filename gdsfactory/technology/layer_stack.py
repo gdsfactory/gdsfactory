@@ -110,6 +110,22 @@ class LogicalLayer(AbstractLayer):
         """
         return hash(self.layer)
 
+    def get_shapes(self, component: Component) -> kf.kdb.Region:
+        """Return the shapes of the component argument corresponding to this layer.
+
+        Arguments:
+            component: Component from which to extract shapes on this layer.
+
+        Returns:
+            kf.kdb.Region: A region of polygons on this layer.
+        """
+        from gdsfactory.pdk import get_layer
+
+        polygons_per_layer = component.get_polygons()
+        layer_index = get_layer(self.layer)
+        polygons = polygons_per_layer[layer_index]
+        return kf.kdb.Region(polygons)
+
 
 class DerivedLayer(AbstractLayer):
     """Physical "derived layer", resulting from a combination of GDS design layers. Can be used by renderers and simulators.
@@ -149,6 +165,19 @@ class DerivedLayer(AbstractLayer):
             return self.keyword_to_symbol[self.operation]
         else:
             return self.operation
+
+    def get_shapes(self, component: Component) -> kf.kdb.Region:
+        """Return the shapes of the component argument corresponding to this layer.
+
+        Arguments:
+            component: Component from which to extract shapes on this layer.
+
+        Returns:
+            kf.kdb.Region: A region of polygons on this layer.
+        """
+        r1 = self.layer1.get_shapes(component)
+        r2 = self.layer2.get_shapes(component)
+        return gf.component.boolean_operations[self.operation](r1, r2)
 
 
 class LayerLevel(BaseModel):
@@ -627,7 +656,7 @@ def get_component_with_derived_layers(component, layer_stack: LayerStack) -> Com
         else:
             raise ValueError("layer must be one of LogicalLayer or DerivedLayer")
 
-        shapes = get_shapes_from_arbitrary_layer(layer=level.layer, component=component)
+        shapes = level.layer.get_shapes(component=component)
         component_derived.shapes(derived_layer_index).insert(shapes)
 
     component_derived.add_ports(component.ports)
