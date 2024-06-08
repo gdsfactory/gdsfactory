@@ -43,7 +43,6 @@ from gdsfactory.difftest import difftest, diff
 from gdsfactory.boolean import boolean
 
 from gdsfactory import cross_section
-from gdsfactory import asserts
 from gdsfactory import port
 from gdsfactory import components
 from gdsfactory import labels
@@ -103,7 +102,6 @@ __all__ = (
     "add_padding_container",
     "add_pins",
     "add_ports",
-    "asserts",
     "boolean",
     "c",
     "clear_cache",

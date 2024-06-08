@@ -141,7 +141,6 @@ def grating_coupler_dual_pol(
     taper2.dymax = -y_span / 2
     c.add_port(port=taper2.ports["o1"], name="o2")
 
-    gf.asserts.grating_coupler(c)
     xs.add_bbox(c)
     return c
 
