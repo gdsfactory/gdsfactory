@@ -14,45 +14,15 @@ if TYPE_CHECKING:
     from gdsfactory.technology import LayerViews
 
 
-class LogicalLayer(BaseModel):
-    """GDS design layer."""
-
-    layer: tuple[int, int] | kf.LayerEnum | int
-
-    def __eq__(self, other):
-        """Check if two LogicalLayer instances are equal.
-
-        This method compares the 'layer' attribute of the two LogicalLayer instances.
-
-        Args:
-            other (LogicalLayer): The other LogicalLayer instance to compare with.
-
-        Returns:
-            bool: True if the 'layer' attributes are equal, False otherwise.
-
-        Raises:
-            NotImplementedError: If 'other' is not an instance of LogicalLayer.
-        """
-        if not isinstance(other, type(self)):
-            raise NotImplementedError(f"{other} is not a {type(self)}")
-        return self.layer == other.layer
-
-    def __hash__(self):
-        """Generates a hash value for a LogicalLayer instance.
-
-        This method allows LogicalLayer instances to be used in hash-based data structures such as sets and dictionaries.
-
-        Returns:
-            int: The hash value of the layer attribute.
-        """
-        return hash(self.layer)
+class AbstractLayer(BaseModel):
+    """Generic design layer."""
 
     # Boolean AND (&)
-    def __and__(self, other: LogicalLayer | DerivedLayer) -> DerivedLayer:
+    def __and__(self, other: AbstractLayer) -> DerivedLayer:
         """Represents boolean AND (&) operation between two layers.
 
         Args:
-            other (LogicalLayer | DerivedLayer): Another Layer object to perform AND operation.
+            other (AbstractLayer): Another Layer object to perform AND operation.
 
         Returns:
             A new DerivedLayer with the AND operation logged.
@@ -60,22 +30,22 @@ class LogicalLayer(BaseModel):
         return DerivedLayer(layer1=self, layer2=other, operation="and")
 
     # Boolean OR (|, +)
-    def __or__(self, other: LogicalLayer | DerivedLayer) -> DerivedLayer:
+    def __or__(self, other: AbstractLayer) -> DerivedLayer:
         """Represents boolean OR (|) operation between two layers.
 
         Args:
-            other (LogicalLayer | DerivedLayer): Another Layer object to perform OR operation.
+            other (AbstractLayer): Another Layer object to perform OR operation.
 
         Returns:
             A new DerivedLayer with the OR operation logged.
         """
         return DerivedLayer(layer1=self, layer2=other, operation="or")
 
-    def __add__(self, other: LogicalLayer | DerivedLayer) -> DerivedLayer:
+    def __add__(self, other: AbstractLayer) -> DerivedLayer:
         """Represents boolean OR (+) operation between two derived layers.
 
         Args:
-            other (LogicalLayer | DerivedLayer): Another Layer object to perform OR operation.
+            other (AbstractLayer): Another Layer object to perform OR operation.
 
         Returns:
             A new DerivedLayer with the AND operation logged.
@@ -83,11 +53,11 @@ class LogicalLayer(BaseModel):
         return DerivedLayer(layer1=self, layer2=other, operation="or")
 
     # Boolean XOR (^)
-    def __xor__(self, other: LogicalLayer | DerivedLayer) -> DerivedLayer:
+    def __xor__(self, other:AbstractLayer) -> DerivedLayer:
         """Represents boolean XOR (^) operation between two derived layers.
 
         Args:
-            other (LogicalLayer | DerivedLayer): Another Layer object to perform XOR operation.
+            other (AbstractLayer): Another Layer object to perform XOR operation.
 
         Returns:
             A new DerivedLayer with the XOR operation logged.
@@ -95,11 +65,11 @@ class LogicalLayer(BaseModel):
         return DerivedLayer(layer1=self, layer2=other, operation="xor")
 
     # Boolean NOT (-)
-    def __sub__(self, other: LogicalLayer | DerivedLayer) -> DerivedLayer:
+    def __sub__(self, other: AbstractLayer) -> DerivedLayer:
         """Represents boolean NOT (-) operation on a derived layer.
 
         Args:
-            other (LogicalLayer | DerivedLayer): Another Layer object to perform NOT operation.
+            other (AbstractLayer): Another Layer object to perform NOT operation.
 
         Returns:
             A new DerivedLayer with the NOT operation logged.
@@ -107,16 +77,11 @@ class LogicalLayer(BaseModel):
         return DerivedLayer(layer1=self, layer2=other, operation="not")
 
 
-class DerivedLayer(BaseModel):
-    """Physical "derived layer", resulting from a combination of GDS design layers. Can be used by renderers and simulators.
 
-    Overloads operators for simpler expressions.
+class LogicalLayer(AbstractLayer):
+    """GDS design layer."""
 
-    Attributes:
-        input_layer1: primary layer comprising the derived layer. Can be a GDS design layer (kf.LayerEnum, tuple[int, int]), or another derived layer.
-        input_layer2: secondary layer comprising the derived layer. Can be a GDS design layer (kf.LayerEnum, tuple[int, int]), or another derived layer.
-        operation: operation to perform between layer1 and layer2. One of "and", "or", "xor", or "not" or associated symbols.
-    """
+    layer: tuple[int, int] | kf.LayerEnum | int
 
     layer1: LogicalLayer | DerivedLayer | int
     layer2: LogicalLayer | DerivedLayer | int
@@ -157,29 +122,24 @@ class DerivedLayer(BaseModel):
         """
         return DerivedLayer(layer1=self, layer2=other, operation="or")
 
-    # Boolean XOR (^)
-    def __xor__(self, other: LogicalLayer | DerivedLayer) -> DerivedLayer:
-        """Represents boolean XOR (^) operation between two derived layers.
 
-        Args:
-            other (LogicalLayer | DerivedLayer): Another Layer object to perform XOR operation.
+class DerivedLayer(AbstractLayer):
+    """Physical "derived layer", resulting from a combination of GDS design layers. Can be used by renderers and simulators.
 
         Returns:
             A new DerivedLayer with the XOR operation logged.
         """
         return DerivedLayer(layer1=self, layer2=other, operation="xor")
 
-    # Boolean NOT (-)
-    def __sub__(self, other: LogicalLayer | DerivedLayer) -> DerivedLayer:
-        """Represents boolean NOT (-) operation on a derived layer.
+    Attributes:
+        input_layer1: primary layer comprising the derived layer. Can be a GDS design layer (kf.LayerEnum, tuple[int, int]), or another derived layer.
+        input_layer2: secondary layer comprising the derived layer. Can be a GDS design layer (kf.LayerEnum, tuple[int, int]), or another derived layer.
+        operation: operation to perform between layer1 and layer2. One of "and", "or", "xor", or "not" or associated symbols.
+    """
 
         Args:
             other (LogicalLayer | DerivedLayer): Another Layer object to perform NOT operation.
 
-        Returns:
-            A new DerivedLayer with the NOT operation logged.
-        """
-        return DerivedLayer(layer1=self, layer2=other, operation="not")
 
 
 class LayerLevel(BaseModel):
