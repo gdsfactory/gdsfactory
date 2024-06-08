@@ -86,11 +86,11 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     # c = gf.components.mzi()
-    c = gf.components.straight_heater_metal(length=40)
+    # c = gf.components.straight_heater_metal(length=40)
     # p = c.get_polygons_points()
     # c = gf.Component()
     # c << gf.c.rectangle(layer=(113, 0))
-    # c = gf.components.grating_coupler_elliptical_trenches()
+    c = gf.components.grating_coupler_elliptical_trenches()
     # c = gf.components.taper_strip_to_ridge_trenches()
 
     c.show()

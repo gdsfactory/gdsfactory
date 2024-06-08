@@ -141,7 +141,7 @@ def get_layer_stack(
             derived_layer=LogicalLayer(layer=LAYER.WG),
         ),
         shallow_etch=LayerLevel(
-            layer=layer_shallow_etch,
+            layer=layer_shallow_etch & layer_core,
             thickness=thickness_shallow_etch,
             zmin=0.0,
             material="si",
