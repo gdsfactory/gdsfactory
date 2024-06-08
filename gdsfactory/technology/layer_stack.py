@@ -367,7 +367,6 @@ class LayerStack(BaseModel):
             layer_views: optional layer_views.
             dbu: Optional database unit. Defaults to 1nm.
         """
-        return "Not implemented yet in gdsfactory8"
         layers = self.layers or {}
 
         # Collect etch layers
@@ -426,7 +425,7 @@ class LayerStack(BaseModel):
             if level.derived_layer:
                 derived_layer = level.derived_layer
                 layer1 = derived_layer.layer
-                unetched_level = layers[layer1]
+                unetched_level = level
                 unetched_zmin = unetched_level.zmin
                 unetched_zmax = unetched_zmin + unetched_level.thickness
 
@@ -434,7 +433,7 @@ class LayerStack(BaseModel):
                 slab_layer_name = f"slab_{layer1}_{layer_name}_{i}"
                 slab_zmin = unetched_level.zmin
                 slab_zmax = unetched_zmax - level.thickness
-                name = f"{slab_layer_name}: {level.material} {layer.layer[0]}/{layer.layer[1]}"
+                name = f"{slab_layer_name}: {level.material} {layer1[0]}/{layer1[1]}"
                 txt = (
                     f"z("
                     f"{slab_layer_name}, "
@@ -443,9 +442,8 @@ class LayerStack(BaseModel):
                     f"name: '{name}'"
                 )
             else:
-                name = (
-                    f"{layer_name}: {level.material} {layer.layer[0]}/{layer.layer[1]}"
-                )
+                layer1 = layer.layer
+                name = f"{layer_name}: {level.material} {layer1[0]}/{layer1[1]}"
                 txt = (
                     f"z("
                     f"{layer_name}, "
@@ -455,7 +453,7 @@ class LayerStack(BaseModel):
                 )
             if layer_views:
                 txt += ", "
-                props = layer_views.get_from_tuple(layer.layer)
+                props = layer_views.get_from_tuple(layer1)
                 if hasattr(props, "color"):
                     if props.color.fill == props.color.frame:
                         txt += f"color: {props.color.fill}"
@@ -610,4 +608,5 @@ if __name__ == "__main__":
     # c = get_component_with_derived_layers(c, ls)
     # c.show()
 
-    ls.get_klayout_3d_script()
+    s = ls.get_klayout_3d_script()
+    print(s)
