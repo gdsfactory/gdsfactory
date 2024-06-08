@@ -143,6 +143,16 @@ class DerivedLayer(AbstractLayer):
     layer2: LogicalLayer | DerivedLayer | int
     operation: Literal["and", "&", "or", "|", "xor", "^", "not", "-"]
 
+    def __hash__(self):
+        """Generates a hash value for a LogicalLayer instance.
+
+        This method allows LogicalLayer instances to be used in hash-based data structures such as sets and dictionaries.
+
+        Returns:
+            int: The hash value of the layer attribute.
+        """
+        return hash((self.layer1.__hash__(), self.layer2.__hash__(), self.operation))
+
     @property
     def keyword_to_symbol(self) -> dict:
         return {
