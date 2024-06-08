@@ -1,9 +1,10 @@
 import os
+from functools import partial
 
 import gdsfactory as gf
 
 straight_heater_metal_mk = (47, 1)
-metal3 = gf.cross_section.metal3(layer=(49, 0), width=10)
+metal3 = gf.cross_section.metal3
 
 
 @gf.cell
@@ -87,42 +88,17 @@ def straight_heater_metal_lvs() -> gf.Component:
     c9_mk.dcenter = c9.dcenter
     c10_mk.dcenter = c10.dcenter
 
-    heater_12_route = gf.routing.get_route(
-        c1.ports["o1"], c2.ports["o1"], cross_section=metal3
-    )
-    heater_23_route = gf.routing.get_route(
-        c2.ports["o2"], c3.ports["o2"], cross_section=metal3
-    )
-    heater_34_route = gf.routing.get_route(
-        c3.ports["o1"], c4.ports["o1"], cross_section=metal3
-    )
-    heater_45_route = gf.routing.get_route(
-        c4.ports["o2"], c5.ports["o2"], cross_section=metal3
-    )
-    heater_56_route = gf.routing.get_route(
-        c5.ports["o1"], c6.ports["o1"], cross_section=metal3
-    )
-    heater_67_route = gf.routing.get_route(
-        c6.ports["o2"], c7.ports["o2"], cross_section=metal3
-    )
-    heater_78_route = gf.routing.get_route(
-        c7.ports["o1"], c8.ports["o1"], cross_section=metal3
-    )
-    heater_89_route = gf.routing.get_route(
-        c8.ports["o2"], c9.ports["o2"], cross_section=metal3
-    )
-    heater_910_route = gf.routing.get_route(
-        c9.ports["o1"], c10.ports["o1"], cross_section=metal3
-    )
-    c.add(heater_12_route.references)
-    c.add(heater_23_route.references)
-    c.add(heater_34_route.references)
-    c.add(heater_45_route.references)
-    c.add(heater_56_route.references)
-    c.add(heater_67_route.references)
-    c.add(heater_78_route.references)
-    c.add(heater_89_route.references)
-    c.add(heater_910_route.references)
+    route_single = partial(gf.routing.route_single, port_type="electrical")
+
+    route_single(c, c1.ports["o1"], c2.ports["o1"], cross_section=metal3)
+    route_single(c, c2.ports["o2"], c3.ports["o2"], cross_section=metal3)
+    route_single(c, c3.ports["o1"], c4.ports["o1"], cross_section=metal3)
+    route_single(c, c4.ports["o2"], c5.ports["o2"], cross_section=metal3)
+    route_single(c, c5.ports["o1"], c6.ports["o1"], cross_section=metal3)
+    route_single(c, c6.ports["o2"], c7.ports["o2"], cross_section=metal3)
+    route_single(c, c7.ports["o1"], c8.ports["o1"], cross_section=metal3)
+    route_single(c, c8.ports["o2"], c9.ports["o2"], cross_section=metal3)
+    route_single(c, c9.ports["o1"], c10.ports["o1"], cross_section=metal3)
     return c
 
 

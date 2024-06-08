@@ -15,7 +15,6 @@ def ring_single_sample(
     straight: ComponentSpec = "straight",
     bend: ComponentSpec = "bend_euler",
     cross_section: CrossSectionSpec = "strip",
-    **kwargs,
 ) -> Component:
     """Single bus ring made of a ring coupler.
 
@@ -31,7 +30,6 @@ def ring_single_sample(
         straight: straight function.
         bend: 90 degrees bend function.
         cross_section: spec.
-        kwargs: cross_section settings.
 
 
     .. code::
@@ -47,20 +45,22 @@ def ring_single_sample(
     """
     gap = gf.snap.snap_to_grid(gap, grid_factor=2)
 
-    xs = gf.get_cross_section(cross_section, **kwargs)
-
     coupler_ring_component = gf.get_component(
         coupler_ring,
         bend=bend,
         gap=gap,
         radius=radius,
         length_x=length_x,
-        cross_section=xs,
+        cross_section=cross_section,
     )
-    straight_side = gf.get_component(straight, length=length_y, cross_section=xs)
-    straight_top = gf.get_component(straight, length=length_x, cross_section=xs)
+    straight_side = gf.get_component(
+        straight, length=length_y, cross_section=cross_section
+    )
+    straight_top = gf.get_component(
+        straight, length=length_x, cross_section=cross_section
+    )
 
-    bend = gf.get_component(bend, radius=radius, cross_section=xs)
+    bend = gf.get_component(bend, radius=radius, cross_section=cross_section)
 
     c = Component()
     cb = c << coupler_ring_component
@@ -78,7 +78,7 @@ def ring_single_sample(
     br.connect(port="o2", other=wt.ports["o1"])
     wr.connect(port="o1", other=br.ports["o1"])
 
-    c.add_port("o2", port=cb.ports["o2"])
+    c.add_port("o2", port=cb.ports["o4"])
     c.add_port("o1", port=cb.ports["o1"])
     return c
 
@@ -88,6 +88,6 @@ def test_ring_single_sample() -> None:
 
 
 if __name__ == "__main__":
-    c = ring_single_sample(width=2, gap=1, layer=(2, 0))
-    print(c.ports)
+    c = ring_single_sample()
+    c.pprint_ports()
     c.show()

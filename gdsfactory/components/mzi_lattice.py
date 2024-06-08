@@ -3,12 +3,6 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory import cell
 from gdsfactory.component import Component
-from gdsfactory.components.coupler import coupler as coupler_function
-from gdsfactory.components.mmi2x2 import mmi2x2 as mmi_splitter_function
-from gdsfactory.components.mzi import mzi2x2_2x2 as mmi_coupler_function
-from gdsfactory.components.mzi import mzi_coupler
-from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.typings import ComponentFactory
 
 
@@ -17,8 +11,8 @@ def mzi_lattice(
     coupler_lengths: tuple[float, ...] = (10.0, 20.0),
     coupler_gaps: tuple[float, ...] = (0.2, 0.3),
     delta_lengths: tuple[float, ...] = (10.0,),
-    mzi: ComponentFactory = mzi_coupler,
-    splitter: ComponentFactory = coupler_function,
+    mzi: ComponentFactory = "mzi_coupler",
+    splitter: ComponentFactory = "coupler",
     **kwargs,
 ) -> Component:
     r"""Mzi lattice filter.
@@ -83,7 +77,7 @@ def mzi_lattice(
         delta_length=delta_lengths[0],
         **kwargs,
     )
-    c.add_ports(sprevious.ports)
+    c.add_ports(sprevious.ports.filter(port_type="electrical"))
 
     stages = []
 
@@ -106,7 +100,7 @@ def mzi_lattice(
         splitter_settings = combiner_settings
 
         stages.append(stage)
-        c.add_ports(stage.ports)
+        c.add_ports(stage.ports.filter(port_type="electrical"))
 
     for stage in stages:
         stage.connect("o1", sprevious.ports["o4"])
@@ -147,14 +141,14 @@ def mzi_lattice_mmi(
         0.25,
     ),
     taper_functions_mmis=(
-        taper_function,
-        taper_function,
+        "taper",
+        "taper",
     ),
-    straight_functions_mmis=(straight_function, straight_function),
+    straight_functions_mmis=("straight", "straight"),
     cross_sections_mmis=("strip", "strip"),
     delta_lengths: tuple[float, ...] = (10.0,),
-    mzi=mmi_coupler_function,
-    splitter=mmi_splitter_function,
+    mzi="mzi2x2_2x2",
+    splitter="mmi2x2",
     **kwargs,
 ) -> Component:
     r"""Mzi lattice filter, with MMI couplers.
@@ -248,7 +242,8 @@ def mzi_lattice_mmi(
     cp1 = splitter1 = gf.get_component(splitter, **splitter_settings)
     combiner1 = gf.get_component(splitter, **combiner_settings)
 
-    sprevious = c << mzi(
+    sprevious = c << gf.get_component(
+        mzi,
         splitter=splitter1,
         combiner=combiner1,
         with_splitter=True,
@@ -336,30 +331,32 @@ def mzi_lattice_mmi(
 
 
 if __name__ == "__main__":
-    cpl = [10, 20, 30]
-    cpg = [0.1, 0.2, 0.3]
-    dl0 = [100, 200]
+    cpl = (10, 20, 30)
+    cpg = (0.1, 0.2, 0.3)
+    dl0 = (100, 200)
 
-    # cpl = [10, 20, 30, 40]
-    # cpg = [0.2, 0.3, 0.5, 0.5]
-    # dl0 = [0, 50, 100]
+    cpl = (10, 20, 30, 40)
+    cpg = (0.2, 0.3, 0.5, 0.5)
+    dl0 = (0, 50, 100)
 
-    # c = mzi_lattice(
-    #     coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0, length_x=1
-    # )
-    # c = mzi_lattice(delta_lengths=(20,))
-    # c.show( )
-
-    c = mzi_lattice_mmi(
-        coupler_widths=(None,) * 5,
-        coupler_widths_tapers=(1.0,) * 5,
-        coupler_lengths_tapers=(10.0,) * 5,
-        coupler_lengths_mmis=(5.5,) * 5,
-        coupler_widths_mmis=(2.5,) * 5,
-        coupler_gaps_mmis=(0.25,) * 5,
-        taper_functions_mmis=(taper_function,) * 5,
-        straight_functions_mmis=(straight_function,) * 5,
-        cross_sections_mmis=("strip",) * 5,
-        delta_lengths=(10.0,) * 4,
+    c = mzi_lattice(
+        coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0, length_x=1
     )
+    # c = mzi_lattice(delta_lengths=(20,))
+    c.show()
+
+    # c = mzi_lattice_mmi(
+    #     coupler_widths=(None,) * 5,
+    #     coupler_widths_tapers=(1.0,) * 5,
+    #     coupler_lengths_tapers=(10.0,) * 5,
+    #     coupler_lengths_mmis=(5.5,) * 5,
+    #     coupler_widths_mmis=(2.5,) * 5,
+    #     coupler_gaps_mmis=(0.25,) * 5,
+    #     taper_functions_mmis=("taper",) * 5,
+    #     straight_functions_mmis=("straight",) * 5,
+    #     cross_sections_mmis=("strip",) * 5,
+    #     delta_lengths=(10.0,) * 4,
+    # )
+    c = mzi_lattice_mmi()
+    # c.get_netlist()
     c.show()

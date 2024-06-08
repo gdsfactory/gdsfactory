@@ -12,7 +12,6 @@ from gdsfactory.routing.fanout2x2 import fanout2x2
 from gdsfactory.routing.route_bundle import (
     route_bundle,
     route_bundle_electrical,
-    route_bundle_electrical_multilayer,
 )
 from gdsfactory.routing.route_bundle_all_angle import route_bundle_all_angle
 from gdsfactory.routing.route_bundle_sbend import route_bundle_sbend
@@ -26,7 +25,6 @@ from gdsfactory.routing.route_single import (
 from gdsfactory.routing.route_single_from_steps import (
     route_single_from_steps,
     route_single_from_steps_electrical,
-    route_single_from_steps_electrical_multilayer,
 )
 from gdsfactory.routing.route_single_sbend import route_single_sbend
 from gdsfactory.routing.route_south import route_south
@@ -41,13 +39,11 @@ __all__ = [
     "route_bundle",
     "route_bundle_all_angle",
     "route_bundle_electrical",
-    "route_bundle_electrical_multilayer",
     "route_single",
     "route_single_electrical",
     "route_bundle_sbend",
     "route_single_from_steps",
     "route_single_from_steps_electrical",
-    "route_single_from_steps_electrical_multilayer",
     "fanout2x2",
     "route_ports_to_side",
     "route_south",

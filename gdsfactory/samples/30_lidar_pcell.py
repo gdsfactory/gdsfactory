@@ -53,6 +53,7 @@ def lidar(
         ports1=antennas.ports.filter(orientation=180),
         ports2=phase_shifter_optical_ports,
         radius=5,
+        sort_ports=True,
     )
 
     return c

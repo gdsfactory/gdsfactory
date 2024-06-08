@@ -31,11 +31,7 @@ def pads_correct(pad=gf.components.pad, cross_section="metal3") -> gf.Component:
 
     ports1 = [bl.ports["e3"], tl.ports["e3"]]
     ports2 = [br.ports["e1"], tr.ports["e1"]]
-    routes = gf.routing.route_bundle(ports1, ports2, cross_section=cross_section)
-
-    for route in routes:
-        c.add(route.references)
-
+    gf.routing.route_bundle_electrical(c, ports1, ports2, cross_section=cross_section)
     return c
 
 
@@ -64,31 +60,27 @@ def pads_shorted(pad=gf.components.pad, cross_section="metal3") -> gf.Component:
 
     ports1 = [bl.ports["e3"], tl.ports["e3"]]
     ports2 = [br.ports["e1"], tr.ports["e1"]]
-    routes = gf.routing.route_bundle(ports1, ports2, cross_section=cross_section)
+    gf.routing.route_bundle_electrical(c, ports1, ports2, cross_section=cross_section)
 
-    for route in routes:
-        c.add(route.references)
-
-    route = gf.routing.route_single(
-        bl.ports["e2"], tl.ports["e4"], cross_section=cross_section
+    gf.routing.route_single_electrical(
+        c, bl.ports["e2"], tl.ports["e4"], cross_section=cross_section
     )
-    c.add(route.references)
     return c
 
 
 if __name__ == "__main__":
-    c = pads_correct()
+    c = pads_shorted()
     c.show()
     gdspath = c.write_gds()
 
-    import kfactory as kf
+    # import kfactory as kf
 
-    lib = kf.kcell.KCLayout()
-    lib.read(filename=str(gdspath))
-    c = lib[0]
+    # lib = kf.kcell.KCLayout()
+    # lib.read(filename=str(gdspath))
+    # c = lib[0]
 
-    l2n = kf.kdb.LayoutToNetlist(c.begin_shapes_rec(0))
-    for l_idx in c.kcl.layer_indices():
-        l2n.connect(l2n.make_layer(l_idx, f"layer{l_idx}"))
-    l2n.extract_netlist()
-    print(l2n.netlist().to_s())
+    # l2n = kf.kdb.LayoutToNetlist(c.begin_shapes_rec(0))
+    # for l_idx in c.kcl.layer_indices():
+    #     l2n.connect(l2n.make_layer(l_idx, f"layer{l_idx}"))
+    # l2n.extract_netlist()
+    # print(l2n.netlist().to_s())

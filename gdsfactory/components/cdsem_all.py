@@ -2,17 +2,12 @@
 
 from __future__ import annotations
 
-from functools import partial
-
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.cdsem_bend180 import cdsem_bend180
 from gdsfactory.components.cdsem_straight import cdsem_straight
 from gdsfactory.components.cdsem_straight_density import cdsem_straight_density
-from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.typings import ComponentFactory, ComponentSpec, CrossSectionSpec
-
-text_rectangular_mini = partial(text_rectangular, size=1)
 
 
 @gf.cell
@@ -25,7 +20,7 @@ def cdsem_all(
     straight: ComponentSpec = "straight",
     bend90: ComponentSpec | None = "bend_circular",
     cross_section: CrossSectionSpec = "strip",
-    text: ComponentFactory = text_rectangular_mini,
+    text: ComponentFactory = "text_rectangular_mini",
     spacing: float = 5,
 ) -> Component:
     """Column with all optical PCMs.

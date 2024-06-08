@@ -32,9 +32,9 @@ if __name__ == "__main__":
         ref = c.add_ref(phase_shifter, name=f"ps{i}")
         ref.connect("o1", port)
         c.add_ports(ref.ports.filter(port_type="electrical"), prefix=f"ps{i}")
-        phase_shifter_optical_ports.append(ref.ports["o2"])
-        phase_shifter_electrical_ports_west.append(ref.ports["e1"])
-        phase_shifter_electrical_ports_east.append(ref.ports["e2"])
+        phase_shifter_optical_ports.append(ref["o2"])
+        phase_shifter_electrical_ports_west.append(ref["l_e1"])
+        phase_shifter_electrical_ports_east.append(ref["r_e1"])
 
     antennas = c << gf.components.array(
         gf.components.dbr(n=200), rows=elements, columns=1, spacing=(0, antenna_pitch)
@@ -47,18 +47,16 @@ if __name__ == "__main__":
         ports1=antennas.ports.filter(orientation=180),
         ports2=phase_shifter_optical_ports,
         radius=5,
+        sort_ports=True,
     )
 
-    for route in routes:
-        c.add(route.references)
-
-    pads1 = c << gf.components.array(gf.components.pad, rows=elements, columns=1)
+    pads1 = c << gf.components.array(
+        gf.components.pad, rows=len(phase_shifter_electrical_ports_west), columns=1
+    )
     pads1.dxmax = splitter_tree.dxmin - 10
     pads1.dy = 0
-    ports1 = pads1.ports.filter(orientation=0)
+    ports1 = pads1.ports.filter(orientation=0, port_type="electrical")
     routes = gf.routing.route_bundle_electrical(
-        c, ports1=ports1, ports2=phase_shifter_electrical_ports_west, separation=20
+        c, ports1=ports1, ports2=phase_shifter_electrical_ports_west, sort_ports=True
     )
-    for route in routes:
-        c.add(route.references)
     c.show()

@@ -1,5 +1,5 @@
 info: {}
-name: spiral_racetrack_heater_3991714d
+name: spiral_racetrack_heater_19482d4b
 settings:
   bend_factory: bend_euler
   bend_s_factory: bend_s
@@ -8,4 +8,5 @@ settings:
   spacing: 2
   straight_factory: straight
   straight_length: 30
+  via_stack: via_stack_heater_mtop
   waveguide_cross_section: strip

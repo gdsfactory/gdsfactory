@@ -1,14 +1,13 @@
 info:
   resistance: 0
-name: resistance_sheet_W10_LS_84c30ba4
+name: resistance_sheet_W10_LH_1b3e3b4b
 settings:
   layer_offsets:
   - 0
   - 0.2
   layers:
-  - SLAB90
-  - NPP
-  pad: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLSLAB90_NPP_M1_VNone_None_Fvia_Mgdsfactorypcomponentspvia_SLVIAC_S80_80
+  - HEATER
+  pad: via_stack_heater_mtop
   pad_pitch: 100
   pad_port_name: e4
   pad_size:

@@ -1,14 +1,12 @@
 from __future__ import annotations
 
-import copy
-
 import numpy as np
 
 import gdsfactory as gf
 from gdsfactory import cell
 from gdsfactory.component import Component
-from gdsfactory.components.bezier import bezier
-from gdsfactory.config import ErrorType
+from gdsfactory.components.bezier import bezier, bezier_curve
+from gdsfactory.functions import curvature
 from gdsfactory.typings import CrossSectionSpec, Float2
 
 
@@ -29,7 +27,6 @@ def bend_s(
         size: in x and y direction.
         npoints: number of points.
         cross_section: spec.
-        bend_radius_error_type: error type.
         allow_min_radius_violation: bool.
         kwargs: cross_section settings.
 
@@ -61,8 +58,8 @@ def get_min_sbend_size(
         cross_section: spec.
         num_points: number of points to iterate over between max_size and 0.1 * max_size.
         kwargs: cross_section settings.
-
     """
+    size = list(size)
     cross_section_f = gf.get_cross_section(cross_section, **kwargs)
 
     if size[0] is None:
@@ -84,34 +81,33 @@ def get_min_sbend_size(
     # Guess sizes, iterate over them until we cannot achieve the min radius
     # the max size corresponds to an ellipsoid
     max_size = 2.5 * np.sqrt(np.abs(min_radius * known_s))
-
     sizes = np.linspace(max_size, 0.1 * max_size, num_points)
 
-    for i, s in enumerate(sizes):
-        sz = copy.deepcopy(size)
+    for s in sizes:
+        sz = size
         sz[ind] = s
-        # print(sz)
-        try:
-            bend_s(
-                size=tuple(sz),
-                cross_section=cross_section,
-                bend_radius_error_type=ErrorType.ERROR,
-                **kwargs,
-            )
-            # print(c.info['min_bend_radius'])
-            min_size = sizes[i]
-        except ValueError:
+        dx, dy = size
+        control_points = ((0, 0), (dx / 2, 0), (dx / 2, dy), (dx, dy))
+        npoints = 201
+        t = np.linspace(0, 1, npoints)
+        path_points = bezier_curve(t, control_points)
+        curv = curvature(path_points, t)
+        min_bend_radius = 1 / max(np.abs(curv))
+        if min_bend_radius < min_radius:
+            min_size = s
             break
 
     return min_size
 
 
 if __name__ == "__main__":
-    c = bend_s(size=(10, 0))
+    min_size = get_min_sbend_size()
+    print(min_size)
+    # c = bend_s(size=(10, 0))
     # c = bend_s(bbox_offsets=[0.5], bbox_layers=[(111, 0)], width=2)
     # c = bend_s(size=[10, 2.5])  # 10um bend radius
     # c = bend_s(size=[20, 3], cross_section="rib")  # 10um bend radius
     # c.pprint()
     # c = bend_s_biased()
     # print(c.info["min_bend_radius"])
-    c.show()
+    # c.show()

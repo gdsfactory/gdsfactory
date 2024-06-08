@@ -351,9 +351,6 @@ def select_ports(
         Dict containing the selected ports {port name: port}.
 
     """
-    if isinstance(ports, dict):
-        ports = ports.values()
-
     if isinstance(ports, kf.Instance):
         ports = ports.ports
 

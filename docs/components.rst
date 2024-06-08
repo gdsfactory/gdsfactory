@@ -111,7 +111,7 @@ add_trenches90
 
   import gdsfactory as gf
 
-  c = gf.components.add_trenches90(layer_component='WG', layer_trench='DEEP_ETCH', width_trench=2, cross_section='rib_with_trenches', top=0, right=0, left=0)
+  c = gf.components.add_trenches90(layer_component='WG', layer_trench='DEEP_ETCH', width_trench=2, cross_section='rib_with_trenches', top=0, left=0)
   c.plot()
 
 
@@ -231,7 +231,7 @@ bend_euler_trenches
 
   import gdsfactory as gf
 
-  c = gf.components.bend_euler_trenches(layer_component='WG', layer_trench='DEEP_ETCH', width_trench=2, cross_section='rib_with_trenches', top=0, right=0, left=0)
+  c = gf.components.bend_euler_trenches(layer_component='WG', layer_trench='DEEP_ETCH', width_trench=2, cross_section='rib_with_trenches', top=0, left=0)
   c.plot()
 
 
@@ -336,7 +336,7 @@ cdsem_straight
 
   import gdsfactory as gf
 
-  c = gf.components.cdsem_straight(widths=(0.4, 0.45, 0.5, 0.6, 0.8, 1), length=420, cross_section='strip', spacing=7)
+  c = gf.components.cdsem_straight(widths=(0.4, 0.45, 0.5, 0.6, 0.8, 1), length=420, cross_section='strip', text='text_rectangular_mini', spacing=7)
   c.plot()
 
 
@@ -411,7 +411,7 @@ coh_tx_single_pol
 
   import gdsfactory as gf
 
-  c = gf.components.coh_tx_single_pol(balanced_phase_shifters=False, mzm_y_spacing=50, phase_shifter='straight_pin', phase_shifter_length=100, mzm_ps_spacing=40, splitter='mmi1x2', mzm_length=200, xspacing=40, pad_array='pad_array', cross_section='strip')
+  c = gf.components.coh_tx_single_pol(balanced_phase_shifters=False, mzm_y_spacing=50, phase_shifter='straight_pin', phase_shifter_length=100, mzm_ps_spacing=40, splitter='mmi1x2', mzm='mzi_pin', mzm_length=200, xspacing=40, pad_array='pad_array', cross_section='strip')
   c.plot()
 
 
@@ -1023,6 +1023,21 @@ die_bbox
 
 
 
+die_with_pads
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.die_with_pads
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.die_with_pads(size=(11470, 4900), ngratings=14, npads=31, grating_pitch=250, pad_pitch=300, grating_coupler='grating_coupler_te', cross_section='strip', pad='pad', layer_floorplan=32, edge_to_pad_distance=150, edge_to_grating_distance=150)
+  c.plot()
+
+
+
 disk
 ----------------------------------------------------
 
@@ -1360,21 +1375,6 @@ grating_coupler_rectangular_arbitrary
 
 
 
-grating_coupler_rectangular_arbitrary_slab
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.grating_coupler_rectangular_arbitrary_slab
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.grating_coupler_rectangular_arbitrary_slab(gaps=(0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2), widths=(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5), width_grating=11, length_taper=150, polarization='te', wavelength=1.55, layer_slab='SLAB150', slab_offset=2, fiber_angle=15, cross_section='strip')
-  c.plot()
-
-
-
 grating_coupler_tree
 ----------------------------------------------------
 
@@ -1400,22 +1400,7 @@ greek_cross
 
   import gdsfactory as gf
 
-  c = gf.components.greek_cross(length=30, layers=('WG', 'N'), widths=(2, 3))
-  c.plot()
-
-
-
-greek_cross_offset_pads
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.greek_cross_offset_pads
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.greek_cross_offset_pads(cross_struct_length=30, cross_struct_width=1, cross_struct_layers=('WG',), cross_implant_length=30, cross_implant_width=2, cross_implant_layers=('N',), contact_layers=('WG', 'NPP'), contact_offset=10, contact_buffer=10, pad_width=50)
+  c = gf.components.greek_cross(length=30, layers=('WG', 'N'), widths=(2, 3), via_stack='via_stack_npp_m1')
   c.plot()
 
 
@@ -1430,7 +1415,7 @@ greek_cross_with_pads
 
   import gdsfactory as gf
 
-  c = gf.components.greek_cross_with_pads(pad_spacing=150)
+  c = gf.components.greek_cross_with_pads(pad='pad', pad_spacing=150, greek_cross_component='greek_cross', pad_via='via_stack_m1_mtop')
   c.plot()
 
 
@@ -1535,7 +1520,7 @@ loop_mirror
 
   import gdsfactory as gf
 
-  c = gf.components.loop_mirror(bend90='bend_euler')
+  c = gf.components.loop_mirror(component='mmi1x2', bend90='bend_euler')
   c.plot()
 
 
@@ -1760,7 +1745,7 @@ mzi_lattice
 
   import gdsfactory as gf
 
-  c = gf.components.mzi_lattice(coupler_lengths=(10, 20), coupler_gaps=(0.2, 0.3), delta_lengths=(10,))
+  c = gf.components.mzi_lattice(coupler_lengths=(10, 20), coupler_gaps=(0.2, 0.3), delta_lengths=(10,), mzi='mzi_coupler', splitter='coupler')
   c.plot()
 
 
@@ -1775,7 +1760,7 @@ mzi_lattice_mmi
 
   import gdsfactory as gf
 
-  c = gf.components.mzi_lattice_mmi(coupler_widths=(None, None), coupler_widths_tapers=(1, 1), coupler_lengths_tapers=(10, 10), coupler_lengths_mmis=(5.5, 5.5), coupler_widths_mmis=(2.5, 2.5), coupler_gaps_mmis=(0.25, 0.25), taper_functions_mmis=({'function': 'taper', 'module': 'gdsfactory.components.taper'}, {'function': 'taper', 'module': 'gdsfactory.components.taper'}), straight_functions_mmis=({'function': 'straight', 'module': 'gdsfactory.components.straight'}, {'function': 'straight', 'module': 'gdsfactory.components.straight'}), cross_sections_mmis=('strip', 'strip'), delta_lengths=(10,))
+  c = gf.components.mzi_lattice_mmi(coupler_widths=(None, None), coupler_widths_tapers=(1, 1), coupler_lengths_tapers=(10, 10), coupler_lengths_mmis=(5.5, 5.5), coupler_widths_mmis=(2.5, 2.5), coupler_gaps_mmis=(0.25, 0.25), taper_functions_mmis=('taper', 'taper'), straight_functions_mmis=('straight', 'straight'), cross_sections_mmis=('strip', 'strip'), delta_lengths=(10,), mzi='mzi2x2_2x2', splitter='mmi2x2')
   c.plot()
 
 
@@ -1821,6 +1806,21 @@ mzi_phase_shifter_top_heater_metal
   import gdsfactory as gf
 
   c = gf.components.mzi_phase_shifter_top_heater_metal(delta_length=10, length_y=2, length_x=200, splitter='mmi1x2', with_splitter=True, port_e1_splitter='o2', port_e0_splitter='o3', port_e1_combiner='o2', port_e0_combiner='o3', nbends=2, cross_section='strip', mirror_bot=False, add_optical_ports_arms=False, min_length=0.01, auto_rename_ports=True)
+  c.plot()
+
+
+
+mzi_pin
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.mzi_pin
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.mzi_pin(delta_length=0, length_y=2, length_x=100, straight_x_top='straight_pin', splitter='mmi1x2', with_splitter=True, port_e1_splitter='o2', port_e0_splitter='o3', port_e1_combiner='o2', port_e0_combiner='o3', nbends=2, cross_section='strip', cross_section_x_top='pin', mirror_bot=False, add_optical_ports_arms=False, min_length=0.01, auto_rename_ports=True)
   c.plot()
 
 
@@ -2000,7 +2000,7 @@ pad_array
 
   import gdsfactory as gf
 
-  c = gf.components.pad_array(spacing=(150, 150), columns=6, rows=1, port_orientation=0, size=(100, 100), layer='MTOP')
+  c = gf.components.pad_array(pad='pad', spacing=(150, 150), columns=6, rows=1, port_orientation=0, size=(100, 100), layer='MTOP')
   c.plot()
 
 
@@ -2015,7 +2015,7 @@ pad_array0
 
   import gdsfactory as gf
 
-  c = gf.components.pad_array0(spacing=(150, 150), columns=1, rows=3, port_orientation=0, size=(100, 100), layer='MTOP')
+  c = gf.components.pad_array0(pad='pad', spacing=(150, 150), columns=1, rows=3, port_orientation=0, size=(100, 100), layer='MTOP')
   c.plot()
 
 
@@ -2030,7 +2030,7 @@ pad_array180
 
   import gdsfactory as gf
 
-  c = gf.components.pad_array180(spacing=(150, 150), columns=1, rows=3, port_orientation=180, size=(100, 100), layer='MTOP')
+  c = gf.components.pad_array180(pad='pad', spacing=(150, 150), columns=1, rows=3, port_orientation=180, size=(100, 100), layer='MTOP')
   c.plot()
 
 
@@ -2045,7 +2045,7 @@ pad_array270
 
   import gdsfactory as gf
 
-  c = gf.components.pad_array270(spacing=(150, 150), columns=6, rows=1, port_orientation=270, size=(100, 100), layer='MTOP')
+  c = gf.components.pad_array270(pad='pad', spacing=(150, 150), columns=6, rows=1, port_orientation=270, size=(100, 100), layer='MTOP')
   c.plot()
 
 
@@ -2060,7 +2060,7 @@ pad_array90
 
   import gdsfactory as gf
 
-  c = gf.components.pad_array90(spacing=(150, 150), columns=6, rows=1, port_orientation=90, size=(100, 100), layer='MTOP')
+  c = gf.components.pad_array90(pad='pad', spacing=(150, 150), columns=6, rows=1, port_orientation=90, size=(100, 100), layer='MTOP')
   c.plot()
 
 
@@ -2075,7 +2075,7 @@ pad_gsg_open
 
   import gdsfactory as gf
 
-  c = gf.components.pad_gsg_open(size=(22, 7), layer_metal='MTOP', metal_spacing=5, short=False, pad_spacing=150, route_xsize=50)
+  c = gf.components.pad_gsg_open(size=(22, 7), layer_metal='MTOP', metal_spacing=5, short=False, pad='pad', pad_spacing=150, route_xsize=50)
   c.plot()
 
 
@@ -2090,7 +2090,7 @@ pad_gsg_short
 
   import gdsfactory as gf
 
-  c = gf.components.pad_gsg_short(size=(22, 7), layer_metal='MTOP', metal_spacing=5, short=True, pad_spacing=150, route_xsize=50)
+  c = gf.components.pad_gsg_short(size=(22, 7), layer_metal='MTOP', metal_spacing=5, short=True, pad='pad', pad_spacing=150, route_xsize=50)
   c.plot()
 
 
@@ -2270,7 +2270,7 @@ resistance_sheet
 
   import gdsfactory as gf
 
-  c = gf.components.resistance_sheet(width=10, layers=('SLAB90', 'NPP'), layer_offsets=(0, 0.2), pad_size=(50, 50), pad_pitch=100, pad_port_name='e4')
+  c = gf.components.resistance_sheet(width=10, layers=('HEATER',), layer_offsets=(0, 0.2), pad='via_stack_heater_mtop', pad_size=(50, 50), pad_pitch=100, pad_port_name='e4')
   c.plot()
 
 
@@ -2300,7 +2300,7 @@ ring_crow
 
   import gdsfactory as gf
 
-  c = gf.components.ring_crow(gaps=(0.2, 0.2, 0.2, 0.2), radius=(10, 10, 10), input_straight_cross_section='strip', output_straight_cross_section='strip', bends=({'function': 'bend_circular', 'module': 'gdsfactory.components.bend_circular'}, {'function': 'bend_circular', 'module': 'gdsfactory.components.bend_circular'}, {'function': 'bend_circular', 'module': 'gdsfactory.components.bend_circular'}), ring_cross_sections=('strip', 'strip', 'strip'))
+  c = gf.components.ring_crow(gaps=(0.2, 0.2, 0.2, 0.2), radius=(10, 10, 10), ring_cross_sections=('strip', 'strip', 'strip'), length_x=0, lengths_y=(0, 0, 0), cross_section='strip')
   c.plot()
 
 
@@ -2525,7 +2525,7 @@ spiral
 
   import gdsfactory as gf
 
-  c = gf.components.spiral(length=100, cross_section='strip', spacing=3, n_loops=6)
+  c = gf.components.spiral(length=100, bend='bend_euler', straight='straight', cross_section='strip', spacing=3, n_loops=6)
   c.plot()
 
 
@@ -2600,7 +2600,7 @@ spiral_racetrack_heater_metal
 
   import gdsfactory as gf
 
-  c = gf.components.spiral_racetrack_heater_metal(straight_length=30, spacing=2, num=8, waveguide_cross_section='strip', heater_cross_section='heater_metal')
+  c = gf.components.spiral_racetrack_heater_metal(straight_length=30, spacing=2, num=8, waveguide_cross_section='strip', heater_cross_section='heater_metal', via_stack='via_stack_heater_mtop')
   c.plot()
 
 
@@ -2720,7 +2720,7 @@ straight_heater_meander
 
   import gdsfactory as gf
 
-  c = gf.components.straight_heater_meander(length=300, spacing=2, heater_width=2.5, extension_length=15, layer_heater='HEATER', radius=5, via_stack='via_stack_heater_mtop', heater_taper_length=10, straight_widths=(0.8, 0.9, 0.8), taper_length=10)
+  c = gf.components.straight_heater_meander(length=300, spacing=2, cross_section='strip', heater_width=2.5, extension_length=15, layer_heater='HEATER', radius=5, via_stack='via_stack_heater_mtop', heater_taper_length=10, straight_widths=(0.8, 0.9, 0.8), taper_length=10)
   c.plot()
 
 
@@ -2840,7 +2840,7 @@ straight_pin_slot
 
   import gdsfactory as gf
 
-  c = gf.components.straight_pin_slot(length=500, via_stack_width=10, via_stack_spacing=3, via_stack_slab_spacing=2)
+  c = gf.components.straight_pin_slot(length=500, cross_section='pin', via_stack='via_stack_m1_mtop', via_stack_width=10, via_stack_slab='via_stack_slab_m1_horizontal', via_stack_spacing=3, via_stack_slab_spacing=2, taper='taper_strip_to_ridge')
   c.plot()
 
 
@@ -2930,7 +2930,7 @@ taper_cross_section
 
   import gdsfactory as gf
 
-  c = gf.components.taper_cross_section(cross_section2='rib', length=10, npoints=100, linear=False, width_type='sine')
+  c = gf.components.taper_cross_section(cross_section1='strip_rib_tip', cross_section2='rib2', length=10, npoints=100, linear=False, width_type='sine')
   c.plot()
 
 
@@ -2945,7 +2945,7 @@ taper_cross_section_linear
 
   import gdsfactory as gf
 
-  c = gf.components.taper_cross_section_linear(cross_section2='rib', length=10, npoints=2, linear=True, width_type='sine')
+  c = gf.components.taper_cross_section_linear(cross_section1='strip_rib_tip', cross_section2='rib2', length=10, npoints=2, linear=True, width_type='sine')
   c.plot()
 
 
@@ -2960,7 +2960,7 @@ taper_cross_section_parabolic
 
   import gdsfactory as gf
 
-  c = gf.components.taper_cross_section_parabolic(cross_section2='rib', length=10, npoints=101, linear=False, width_type='parabolic')
+  c = gf.components.taper_cross_section_parabolic(cross_section1='strip_rib_tip', cross_section2='rib2', length=10, npoints=101, linear=False, width_type='parabolic')
   c.plot()
 
 
@@ -2975,7 +2975,7 @@ taper_cross_section_sine
 
   import gdsfactory as gf
 
-  c = gf.components.taper_cross_section_sine(cross_section2='rib', length=10, npoints=101, linear=False, width_type='sine')
+  c = gf.components.taper_cross_section_sine(cross_section1='strip_rib_tip', cross_section2='rib2', length=10, npoints=101, linear=False, width_type='sine')
   c.plot()
 
 
@@ -3145,6 +3145,21 @@ text_rectangular
 
 
 
+text_rectangular_mini
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.text_rectangular_mini
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.text_rectangular_mini(text='abcd', size=1, position=(0, 0), justify='left', layer='WG')
+  c.plot()
+
+
+
 text_rectangular_multi_layer
 ----------------------------------------------------
 
@@ -3205,6 +3220,21 @@ version_stamp
 
 
 
+via_chain
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.via_chain
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.via_chain(num_vias=100, cols=10, layers_bot=('M1',), layers_top=('M2',), offsets_top=(0,), offsets_bot=(0,), via_min_enclosure=1, min_metal_spacing=1)
+  c.plot()
+
+
+
 via_corner
 ----------------------------------------------------
 
@@ -3231,6 +3261,51 @@ via_stack
   import gdsfactory as gf
 
   c = gf.components.via_stack(size=(11, 11), layers=('M1', 'M2', 'MTOP'), correct_size=True, slot_horizontal=False, slot_vertical=False)
+  c.plot()
+
+
+
+via_stack_m1_mtop
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.via_stack_m1_mtop
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.via_stack_m1_mtop(size=(11, 11), layers=('M1', 'M2', 'MTOP'), correct_size=True, slot_horizontal=False, slot_vertical=False)
+  c.plot()
+
+
+
+via_stack_npp_m1
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.via_stack_npp_m1
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.via_stack_npp_m1(size=(11, 11), layers=('WG', 'NPP', 'M1'), correct_size=True, slot_horizontal=False, slot_vertical=False)
+  c.plot()
+
+
+
+via_stack_slab_m1_horizontal
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.via_stack_slab_m1_horizontal
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.via_stack_slab_m1_horizontal(size=(11, 11), layers=('SLAB90', 'M1'), correct_size=True, slot_horizontal=True, slot_vertical=False)
   c.plot()
 
 

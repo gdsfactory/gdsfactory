@@ -26,7 +26,6 @@ routes:
     electrical:
         settings:
             separation: 20
-            width: 10
         links:
             tl,e3: tr,e1
             bl,e3: br,e1

@@ -1,175 +1,96 @@
 connections:
-  coupler_ring_1,o2: straight_1,o1
-  coupler_ring_1,o3: straight_2,o1
-  coupler_ring_2,o2: straight_2,o2
-  coupler_ring_2,o3: straight_1,o2
+  coupler_ring_G0p2_R10_L_890d5b2f_-5_16185,o3: straight_L0p01_N2_CSstrip_-10010_10705,o1
+  coupler_ring_G0p2_R10_L_890d5b2f_-5_5225,o2: straight_L0p01_N2_CSstrip_-10010_10705,o2
+  straight_L0p01_N2_CSstrip_-10010_10705,o1: straight_L0p01_N2_CSstrip_-10010_10705,o1
+  straight_L0p01_N2_CSstrip_-10010_10705,o2: straight_L0p01_N2_CSstrip_-10010_10705,o2
 instances:
-  coupler_ring_1:
+  coupler_ring_G0p2_R10_L_890d5b2f_-5_16185:
     component: coupler_ring
     info: {}
     settings:
-      bend:
-        function: bend_euler
-      coupler90:
-        function: coupler90
-      coupler_straight:
-        function: coupler_straight
-      cross_section:
-        bbox_layers: null
-        bbox_offsets: null
-        components_along_path: []
-        radius: 10.0
-        radius_min: 5.0
-        sections:
-        - hidden: false
-          insets: null
-          layer: WG
-          name: _default
-          offset: 0.0
-          offset_function: null
-          port_names:
-          - o1
-          - o2
-          port_types:
-          - optical
-          - optical
-          simplify: null
-          width: 0.5
-          width_function: null
-      cross_section_bend: null
+      bend: bend_euler
+      coupler90: coupler90
+      coupler_straight: coupler_straight
+      cross_section: strip
       gap: 0.2
       length_extension: 3
       length_x: 0.01
-      radius: 10.0
-  coupler_ring_2:
+      radius: 10
+  coupler_ring_G0p2_R10_L_890d5b2f_-5_5225:
     component: coupler_ring
     info: {}
     settings:
-      bend:
-        function: bend_euler
-      coupler90:
-        function: coupler90
-      coupler_straight:
-        function: coupler_straight
-      cross_section:
-        bbox_layers: null
-        bbox_offsets: null
-        components_along_path: []
-        radius: 10.0
-        radius_min: 5.0
-        sections:
-        - hidden: false
-          insets: null
-          layer: WG
-          name: _default
-          offset: 0.0
-          offset_function: null
-          port_names:
-          - o1
-          - o2
-          port_types:
-          - optical
-          - optical
-          simplify: null
-          width: 0.5
-          width_function: null
-      cross_section_bend: null
+      bend: bend_euler
+      coupler90: coupler90
+      coupler_straight: coupler_straight
+      cross_section: strip
       gap: 0.2
       length_extension: 3
       length_x: 0.01
-      radius: 10.0
-  straight_1:
+      radius: 10
+  straight_L0p01_N2_CSstrip_-10010_10705:
     component: straight
     info:
       length: 0.01
       route_info_length: 0.01
-      route_info_type: strip
+      route_info_type: xs_34e31a19
       route_info_weight: 0.01
-      route_info_strip_length: 0.01
+      route_info_xs_34e31a19_length: 0.01
       width: 0.5
     settings:
-      cross_section:
-        bbox_layers: null
-        bbox_offsets: null
-        components_along_path: []
-        radius: 10.0
-        radius_min: 5.0
-        sections:
-        - hidden: false
-          insets: null
-          layer: WG
-          name: _default
-          offset: 0.0
-          offset_function: null
-          port_names:
-          - o1
-          - o2
-          port_types:
-          - optical
-          - optical
-          simplify: null
-          width: 0.5
-          width_function: null
+      cross_section: strip
       length: 0.01
       npoints: 2
-  straight_2:
-    component: straight
-    info:
-      length: 0.01
-      route_info_length: 0.01
-      route_info_type: strip
-      route_info_weight: 0.01
-      route_info_strip_length: 0.01
-      width: 0.5
-    settings:
-      cross_section:
-        bbox_layers: null
-        bbox_offsets: null
-        components_along_path: []
-        radius: 10.0
-        radius_min: 5.0
-        sections:
-        - hidden: false
-          insets: null
-          layer: WG
-          name: _default
-          offset: 0.0
-          offset_function: null
-          port_names:
-          - o1
-          - o2
-          port_types:
-          - optical
-          - optical
-          simplify: null
-          width: 0.5
-          width_function: null
-      length: 0.01
-      npoints: 2
-name: ring_double
+name: ring_double_G0p2_R10_LX_c42c0d20
 placements:
-  coupler_ring_1:
-    mirror: 0
-    rotation: 0
-    x: 0.0
-    y: 0.0
-  coupler_ring_2:
-    mirror: 0
+  coupler_ring_G0p2_R10_L_890d5b2f_-5_16185:
+    mirror: false
     rotation: 180
     x: -0.01
     y: 21.41
-  straight_1:
-    mirror: 0
-    rotation: 90
+  coupler_ring_G0p2_R10_L_890d5b2f_-5_5225:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  straight_L0p01_N2_CSstrip_-10010_10705:
+    mirror: false
+    rotation: 270
     x: -10.01
-    y: 10.7
-  straight_2:
-    mirror: 0
-    rotation: 90
-    x: 10.0
-    y: 10.7
+    y: 10.71
 ports:
-  o1: coupler_ring_1,o1
-  o2: coupler_ring_1,o4
-  o3: coupler_ring_2,o4
-  o4: coupler_ring_2,o1
+  o1: coupler_ring_G0p2_R10_L_890d5b2f_-5_5225,o1
+  o2: coupler_ring_G0p2_R10_L_890d5b2f_-5_5225,o4
+  o3: coupler_ring_G0p2_R10_L_890d5b2f_-5_16185,o4
+  o4: coupler_ring_G0p2_R10_L_890d5b2f_-5_16185,o1
+warnings:
+  optical:
+    orientation_mismatch:
+    - message: coupler_ring_G0p2_R10_L_890d5b2f_-5_5225,o2 and straight_L0p01_N2_CSstrip_-10010_10705,o2
+        are misaligned by 180.0 deg
+      ports:
+      - coupler_ring_G0p2_R10_L_890d5b2f_-5_5225,o2
+      - straight_L0p01_N2_CSstrip_-10010_10705,o2
+      - straight_L0p01_N2_CSstrip_-10010_10705,o2
+      values:
+      - 270
+      - 270
+    - message: coupler_ring_G0p2_R10_L_890d5b2f_-5_16185,o3 and straight_L0p01_N2_CSstrip_-10010_10705,o1
+        are misaligned by 180.0 deg
+      ports:
+      - coupler_ring_G0p2_R10_L_890d5b2f_-5_16185,o3
+      - straight_L0p01_N2_CSstrip_-10010_10705,o1
+      - straight_L0p01_N2_CSstrip_-10010_10705,o1
+      values:
+      - 90
+      - 90
+    unconnected_ports:
+    - message: 2 unconnected optical ports!
+      ports:
+      - coupler_ring_G0p2_R10_L_890d5b2f_-5_5225,o3
+      - coupler_ring_G0p2_R10_L_890d5b2f_-5_16185,o2
+      values:
+      - - 10000
+        - 10700
+      - - 10000
+        - 10710

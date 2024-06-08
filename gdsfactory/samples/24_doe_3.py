@@ -6,21 +6,12 @@ You can use gf.add_labels.add_labels_to_ports.
 
 """
 
-from __future__ import annotations
-
-from functools import partial
-
 import gdsfactory as gf
 
 if __name__ == "__main__":
     c = gf.components.pack_doe_grid(
         gf.components.straight,
         settings={"length": [5, 5]},
-        function=partial(gf.routing.add_fiber_array, get_input_labels_function=None),
+        function=gf.routing.add_fiber_array,
     )
-    c = gf.add_labels.add_labels_to_ports(
-        component=c, prefix="opt_te1550_", port_type="vertical_te"
-    )
-    print(len(c.labels))
     c.show()
-    # c.write_gds_with_metadata(f"{__file__[:-3]}/test.gds")

@@ -1,0 +1,155 @@
+connections:
+  bend_circular_R20_A180__5813679f_35000_-9000,e1: straight_L30_N2_CSheater_metal_9375_-29000,e1
+  bend_circular_R20_A180__5813679f_35000_-9000,e2: straight_L30_N2_CSheater_metal_9375_11000,e1
+  straight_L30_N2_CSheater_metal_9375_-29000,e2: via_stack_S11_11_LHEATE_f29565aa_-11125_-29000,e3
+  straight_L30_N2_CSheater_metal_9375_11000,e2: via_stack_S11_11_LHEATE_f29565aa_-11125_11000,e3
+instances:
+  bend_circular_R20_A180__5813679f_35000_-9000:
+    component: bend_circular
+    info:
+      dy: 0
+      length: 62.831
+      radius: 20
+      route_info_length: 62.831
+      route_info_min_bend_radius: 20
+      route_info_n_bend_90: 2
+      route_info_type: xs_c500a645
+      route_info_weight: 62.831
+      route_info_xs_c500a645_length: 62.831
+    settings:
+      allow_min_radius_violation: false
+      angle: 180
+      cross_section: heater_metal
+      radius: 20
+  spiral_racetrack_MR10_S_8dd875fc_15000_-9000:
+    component: spiral_racetrack
+    info:
+      length: 1370.898
+    settings:
+      bend_factory: bend_euler
+      bend_s_factory: bend_s
+      cross_section: strip
+      extra_90_deg_bend: false
+      min_radius: 10
+      n_bend_points: 99
+      spacings:
+      - 2
+      - 2
+      - 2
+      - 2
+      - 2
+      - 2
+      - 2
+      - 2
+      straight_factory: straight
+      straight_length: 30
+      with_inner_ports: false
+  straight_L30_N2_CSheater_metal_9375_-29000:
+    component: straight
+    info:
+      length: 30
+      route_info_length: 30
+      route_info_type: xs_c500a645
+      route_info_weight: 30
+      route_info_xs_c500a645_length: 30
+      width: 2.5
+    settings:
+      cross_section: heater_metal
+      length: 30
+      npoints: 2
+  straight_L30_N2_CSheater_metal_9375_11000:
+    component: straight
+    info:
+      length: 30
+      route_info_length: 30
+      route_info_type: xs_c500a645
+      route_info_weight: 30
+      route_info_xs_c500a645_length: 30
+      width: 2.5
+    settings:
+      cross_section: heater_metal
+      length: 30
+      npoints: 2
+  via_stack_S11_11_LHEATE_f29565aa_-11125_-29000:
+    component: via_stack
+    info:
+      xsize: 11
+      ysize: 11
+    settings:
+      correct_size: true
+      layers:
+      - HEATER
+      - M2
+      - MTOP
+      size:
+      - 11
+      - 11
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - null
+      - via1
+      - via2
+  via_stack_S11_11_LHEATE_f29565aa_-11125_11000:
+    component: via_stack
+    info:
+      xsize: 11
+      ysize: 11
+    settings:
+      correct_size: true
+      layers:
+      - HEATER
+      - M2
+      - MTOP
+      size:
+      - 11
+      - 11
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - null
+      - via1
+      - via2
+name: spiral_racetrack_heater_19482d4b
+placements:
+  bend_circular_R20_A180__5813679f_35000_-9000:
+    mirror: false
+    rotation: 0
+    x: 24.375
+    y: -29
+  spiral_racetrack_MR10_S_8dd875fc_15000_-9000:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  straight_L30_N2_CSheater_metal_9375_-29000:
+    mirror: false
+    rotation: 180
+    x: 24.375
+    y: -29
+  straight_L30_N2_CSheater_metal_9375_11000:
+    mirror: false
+    rotation: 180
+    x: 24.375
+    y: 11
+  via_stack_S11_11_LHEATE_f29565aa_-11125_-29000:
+    mirror: false
+    rotation: 0
+    x: -11.125
+    y: -29
+  via_stack_S11_11_LHEATE_f29565aa_-11125_11000:
+    mirror: false
+    rotation: 0
+    x: -11.125
+    y: 11
+ports:
+  bot_e1: via_stack_S11_11_LHEATE_f29565aa_-11125_-29000,e1
+  bot_e2: via_stack_S11_11_LHEATE_f29565aa_-11125_-29000,e2
+  bot_e3: via_stack_S11_11_LHEATE_f29565aa_-11125_-29000,e3
+  bot_e4: via_stack_S11_11_LHEATE_f29565aa_-11125_-29000,e4
+  o1: spiral_racetrack_MR10_S_8dd875fc_15000_-9000,o1
+  o2: spiral_racetrack_MR10_S_8dd875fc_15000_-9000,o2
+  top_e1: via_stack_S11_11_LHEATE_f29565aa_-11125_11000,e1
+  top_e2: via_stack_S11_11_LHEATE_f29565aa_-11125_11000,e2
+  top_e3: via_stack_S11_11_LHEATE_f29565aa_-11125_11000,e3
+  top_e4: via_stack_S11_11_LHEATE_f29565aa_-11125_11000,e4

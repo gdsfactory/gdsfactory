@@ -11,22 +11,26 @@
 
 ![logo](https://i.imgur.com/cN1ZWq8.png)
 
-> **⚠️ Warning:**
-> You are viewing a preview of the gdsfactory v8 release. The gdsfactory v7 has been moved to the gdsfactory7 repository: [https://github.com/gdsfactory/gdsfactory7](https://github.com/gdsfactory/gdsfactory7).
+
+> 🚀 **Notice: Major Release**
 >
-> gdsfactory v8 is based on kfactory, offers enhanced routing functions and additional features from klayout, including DRC, dummy fill, and connectivity checks.
+> We are excited to announce that gdsfactory has upgraded its backend from gdstk to KLayout. This change brings enhanced routing functions and additional features from KLayout, including DRC, dummy fill, and connectivity checks.
+>
+> Notice that the routing and some advanced functions have changed. For a complete list of changes, please refer to our [migration guide](https://gdsfactory.github.io/gdsfactory/notebooks/21_migration_guide_7_8.html) or review the updated layout tutorial.
 
 
 Gdsfactory is a Python library for designing chips (Photonics, Analog, Quantum, MEMs, and more), 3D printed objects, and PCBs.
-Here, you can code your designs in Python or YAML, perform verification (DRC, simulation, and extraction), and enable automated testing in the lab to ensure your fabricated devices meet your specifications. As input you write python code, as an output GDSFactory creates CAD files (GDS, OASIS, STL, GERBER).
+Here, you can code your designs in Python or YAML, perform verification (DRC, simulation, and extraction), and enable automated testing in the lab to ensure your fabricated devices meet your specifications.
 
+
+As input you write python code, as an output GDSFactory creates CAD files (GDS, OASIS, STL, GERBER).
 
 ![cad](https://i.imgur.com/TWP80ez.png)
 
 Highlights:
 
 - More than 1M downloads
-- More than 50 Contributors
+- More than 60 Contributors
 - More than 10 PDKs available
 
 ![workflow](https://i.imgur.com/abvxJJw.png)
@@ -129,7 +133,7 @@ Hundreds of organisations are using gdsfactory. Some companies and organizations
 - It's free, as in freedom and in cost.
 - It's the most popular EDA tool with a growing community of users, developers, and extensions to other tools.
 
-Gdsfactory is really fast thanks a C++ library for manipulating GDSII objects. You will notice this when reading/writing big GDS files or doing large boolean operations.
+Gdsfactory is really fast thanks to KLayout C++ library for manipulating GDSII objects. You will notice this when reading/writing big GDS files or doing large boolean operations.
 
 | Benchmark      |  gdspy  | gdsfactory | Gain |
 | :------------- | :-----: | :--------: | :--: |

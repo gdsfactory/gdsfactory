@@ -5,14 +5,13 @@ from functools import partial
 import gdsfactory as gf
 from gdsfactory import cell
 from gdsfactory.component import Component
-from gdsfactory.cross_section import strip_rib_tip
 from gdsfactory.typings import CrossSectionSpec
 
 
 @cell
 def taper_cross_section(
-    cross_section1: CrossSectionSpec = strip_rib_tip,
-    cross_section2: CrossSectionSpec = "rib",
+    cross_section1: CrossSectionSpec = "strip_rib_tip",
+    cross_section2: CrossSectionSpec = "rib2",
     length: float = 10,
     npoints: int = 100,
     linear: bool = False,
@@ -81,7 +80,8 @@ if __name__ == "__main__":
     # c = taper_cross_section_sine()
     # c = taper_cross_section_linear()
     # print([i.name for i in c.get_dependencies()])
-    cross_section1 = gf.cross_section.rib_heater_doped
-    cross_section2 = gf.cross_section.strip_rib_tip
-    c = taper_cross_section(cross_section1, cross_section2)
+    # cross_section1 = gf.cross_section.rib_heater_doped
+    # cross_section2 = gf.cross_section.strip_rib_tip
+    # c = taper_cross_section(cross_section1, cross_section2)
+    c = taper_cross_section_parabolic()
     c.show()

@@ -6,9 +6,6 @@ import gdsfactory as gf
 from gdsfactory import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.coupler import coupler
-from gdsfactory.components.mmi1x2 import mmi1x2
-from gdsfactory.components.mmi2x2 import mmi2x2
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.straight_heater_metal import straight_heater_metal
 from gdsfactory.routing.route_single import route_single
@@ -199,11 +196,11 @@ def mzi(
     return c
 
 
-mzi1x2 = partial(mzi, splitter=mmi1x2, combiner=mmi1x2)
+mzi1x2 = partial(mzi, splitter="mmi1x2", combiner="mmi1x2")
 mzi2x2_2x2 = partial(
     mzi,
-    splitter=mmi2x2,
-    combiner=mmi2x2,
+    splitter="mmi2x2",
+    combiner="mmi2x2",
     port_e1_splitter="o3",
     port_e0_splitter="o4",
     port_e1_combiner="o3",
@@ -213,19 +210,23 @@ mzi2x2_2x2 = partial(
 
 mzi1x2_2x2 = partial(
     mzi,
-    combiner=mmi2x2,
+    combiner="mmi2x2",
     port_e1_combiner="o3",
     port_e0_combiner="o4",
 )
 
 mzi_coupler = partial(
     mzi2x2_2x2,
-    splitter=coupler,
-    combiner=coupler,
+    splitter="coupler",
+    combiner="coupler",
 )
 
 mzi_pin = partial(
-    mzi, straight_x_top="straight_pin", cross_section_x_top="pin", delta_length=0.0
+    mzi,
+    straight_x_top="straight_pin",
+    cross_section_x_top="pin",
+    delta_length=0.0,
+    length_x=100,
 )
 
 mzi_phase_shifter = partial(mzi, straight_x_top="straight_heater_metal", length_x=200)
@@ -243,8 +244,9 @@ mzm = partial(
 )
 
 if __name__ == "__main__":
+    c = mzi2x2_2x2()
     # c = mzi_coupler()
-    c = mzi1x2_2x2()
+    # c = mzi_pin()
     # c = mzm()
     # from gdsfactory import get_generic_pdk
 

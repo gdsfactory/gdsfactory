@@ -4,9 +4,8 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.snap import snap_to_grid
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats, LayerSpec
+from gdsfactory.components.taper import taper
+from gdsfactory.typings import CrossSectionSpec, Floats, LayerSpec
 
 _gaps = (0.2,) * 10
 _widths = (0.5,) * 10
@@ -20,14 +19,12 @@ def grating_coupler_rectangular_arbitrary(
     length_taper: float = 150.0,
     polarization: str = "te",
     wavelength: float = 1.55,
-    taper: ComponentSpec | None = taper_function,
     layer_grating: LayerSpec | None = None,
     layer_slab: LayerSpec | None = None,
     slab_xmin: float = -1.0,
     slab_offset: float = 1.0,
     fiber_angle: float = 15,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs,
 ) -> Component:
     r"""Grating coupler uniform with rectangular shape (not elliptical).
 
@@ -41,7 +38,6 @@ def grating_coupler_rectangular_arbitrary(
         length_taper: taper length (um).
         polarization: 'te' or 'tm'.
         wavelength: in um.
-        taper: function.
         layer_grating: Optional layer for grating. \
                 by default None uses cross_section.layer. \
                 if different from cross_section.layer expands taper.
@@ -50,7 +46,6 @@ def grating_coupler_rectangular_arbitrary(
         slab_offset: from edge of grating to edge of the slab.
         fiber_angle: in degrees.
         cross_section: for input waveguide port.
-        kwargs: cross_section settings.
 
     .. code::
 
@@ -79,43 +74,34 @@ def grating_coupler_rectangular_arbitrary(
                 taper_length
 
     """
-    xs = gf.get_cross_section(cross_section, **kwargs)
-    wg_width = xs.width
+    xs = gf.get_cross_section(cross_section)
     layer_wg = gf.get_layer(xs.layer)
-    layer_grating = gf.get_layer(layer_grating) or layer_wg
+    layer_grating = layer_grating or layer_wg
+
+    layer_grating = gf.get_layer(layer_grating)
     c = Component()
 
-    if taper:
-        taper_ref = c << gf.get_component(
-            taper,
-            length=length_taper,
-            width2=width_grating,
-            width1=wg_width,
-            cross_section=xs,
-        )
+    taper_ref = c << taper(
+        length=length_taper,
+        width1=xs.width,
+        width2=width_grating,
+        cross_section=cross_section,
+    )
 
-        c.add_port(port=taper_ref.ports["o1"], name="o1")
-        xi = taper_ref.dxmax
-    else:
-        length_taper = 0
-        xi = 0
-
-    widths = gf.snap.snap_to_grid(widths)
-    gaps = gf.snap.snap_to_grid(gaps)
+    c.add_port(port=taper_ref.ports["o1"], name="o1")
+    xi = length_taper
 
     y0 = width_grating / 2
 
     for width, gap in zip(widths, gaps):
         xi += gap
-        points = snap_to_grid(
-            np.array(
-                [
-                    [xi, -y0],
-                    [xi, +y0],
-                    [xi + width, +y0],
-                    [xi + width, -y0],
-                ]
-            )
+        points = np.array(
+            [
+                [xi, -y0],
+                [xi, +y0],
+                [xi + width, +y0],
+                [xi + width, -y0],
+            ]
         )
         c.add_polygon(
             points,
@@ -156,8 +142,5 @@ def grating_coupler_rectangular_arbitrary(
 
 
 if __name__ == "__main__":
-    c = grating_coupler_rectangular_arbitrary(width=3, layer_slab=(2, 0))
-    # c = grating_coupler_rectangular_arbitrary(
-    #     layer_grating=(3, 0), layer_slab=(2, 0), slab_offset=1
-    # )
+    c = grating_coupler_rectangular_arbitrary(cross_section="rib_bbox")
     c.show()

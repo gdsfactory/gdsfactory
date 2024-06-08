@@ -41,11 +41,11 @@ def coupler90(
     """
     c = Component()
     x = gf.get_cross_section(cross_section, radius=radius)
-    x.copy(radius=radius)
     xs_bend = cross_section_bend or cross_section
 
     bend90 = gf.get_component(
         bend,
+        radius=radius,
         cross_section=xs_bend,
     )
     bend_ref = c << bend90

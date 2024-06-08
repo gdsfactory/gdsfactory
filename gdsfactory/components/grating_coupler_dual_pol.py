@@ -122,30 +122,21 @@ def grating_coupler_dual_pol(
     )
     c.info["polarization"] = polarization
     c.info["wavelength"] = wavelength
-
-    # First taper
-    taper1 = c << gf.get_component(
+    taper = gf.get_component(
         taper,
         length=length_taper,
         width2=width_taper,
         width1=wg_width,
-        cross_section=xs,
+        cross_section=cross_section,
     )
 
+    taper1 = c << taper
     taper1.dxmax = -x_span / 2
     taper1.dy = 0
     c.add_port(port=taper1.ports["o1"], name="o1")
 
-    # Second taper
-    taper2 = c << gf.get_component(
-        taper,
-        length=length_taper,
-        width2=width_taper,
-        width1=wg_width,
-        cross_section=xs,
-    )
+    taper2 = c << taper
     taper2.drotate(90)
-
     taper2.dx = 0
     taper2.dymax = -y_span / 2
     c.add_port(port=taper2.ports["o1"], name="o2")

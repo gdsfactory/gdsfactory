@@ -76,7 +76,7 @@ pad_small = partial(pad, size=(80, 80))
 
 @cell
 def pad_array(
-    pad: ComponentFactory = pad,
+    pad: ComponentFactory = "pad",
     spacing: tuple[float, float] = (150.0, 150.0),
     columns: int = 6,
     rows: int = 1,
@@ -102,9 +102,11 @@ def pad_array(
         port_orientation = orientation
 
     c = Component()
-    pad = pad(size=size, port_orientation=port_orientation, layer=layer)
+    pad = gf.get_component(
+        pad, size=size, port_orientation=port_orientation, layer=layer
+    )
 
-    c.add_array(pad, columns=columns, rows=rows, spacing=spacing)
+    c.add_ref(pad, columns=columns, rows=rows, spacing=spacing)
     width = size[0] if port_orientation in {90, 270} else size[1]
 
     for col in range(columns):
@@ -129,7 +131,9 @@ pad_array180 = partial(pad_array, port_orientation=180, columns=1, rows=3)
 
 if __name__ == "__main__":
     # c = pad_rectangular()
-    c = pad()
+    c = pad_array(columns=3)
+    c.show()
+    n = c.get_netlist()
     # c = pad(layer_to_inclusion={(3, 0): 10})
     # print(c.ports)
     # c = pad(width=10, height=10)

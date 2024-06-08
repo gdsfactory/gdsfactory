@@ -10,7 +10,6 @@ if TYPE_CHECKING:
     from gdsfactory.typings import ComponentOrReference, LayerSpec
 
 
-@kf.cell
 def boolean(
     A: ComponentOrReference,
     B: ComponentOrReference,

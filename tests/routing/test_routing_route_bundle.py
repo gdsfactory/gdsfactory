@@ -53,8 +53,7 @@ def test_route_bundle(
         difftest(c)
 
 
-# @pytest.mark.parametrize("config", ["A", "C"])
-@pytest.mark.skip("TODO: fix")
+@pytest.mark.parametrize("config", ["A", "C"])
 def test_connect_corner(
     config: str, data_regression: DataRegressionFixture, check: bool = True, N=6
 ) -> None:

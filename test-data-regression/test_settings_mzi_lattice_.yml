@@ -1,5 +1,5 @@
 info: {}
-name: mzi_lattice_CL10_20_CG0_7520cb93
+name: mzi_lattice_CL10_20_CG0_bf9216d8
 settings:
   coupler_gaps:
   - 0.2
@@ -9,5 +9,5 @@ settings:
   - 20
   delta_lengths:
   - 10
-  mzi: Fmzi_Mgdsfactorypcomponentspmzi_SScoupler_Ccoupler_PESo3_PESo4_PECo3_PECo4_LXNone
+  mzi: mzi_coupler
   splitter: coupler

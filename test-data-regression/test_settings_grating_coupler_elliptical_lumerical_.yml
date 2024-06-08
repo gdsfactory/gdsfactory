@@ -5,37 +5,9 @@ info:
 name: grating_coupler_ellipti_b2b21f8a
 settings:
   bias_gap: 0
-  cross_section: strip
   fiber_angle: 5
-  gaps:
-  - 0.1
-  - 0.1
-  - 0.1
-  - 0.1
-  - 0.1
-  - 0.1
-  - 0.1
-  - 0.1
-  - 0.108
-  - 0.15
-  - 0.184
-  - 0.236
-  - 0.243
-  - 0.261
-  - 0.247
-  - 0.229
-  - 0.225
-  - 0.22
-  - 0.219
-  - 0.217
-  - 0.218
-  - 0.237
-  - 0.249
-  - 0.273
-  - 0.274
   layer: WG
   layer_slab: SLAB150
-  nclad: 1.443
   parameters:
   - -2.43
   - 0.1
@@ -87,34 +59,5 @@ settings:
   - 0.273
   - 0.331
   - 0.274
-  polarization: te
-  spiked: true
   taper_angle: 55
   taper_length: 12.6
-  taper_to_slab_offset: -3
-  wavelength: 1.554
-  widths:
-  - 0.48
-  - 0.607
-  - 0.45
-  - 0.427
-  - 0.476
-  - 0.503
-  - 0.51
-  - 0.494
-  - 0.474
-  - 0.433
-  - 0.387
-  - 0.36
-  - 0.358
-  - 0.353
-  - 0.372
-  - 0.378
-  - 0.377
-  - 0.38
-  - 0.38
-  - 0.383
-  - 0.364
-  - 0.368
-  - 0.344
-  - 0.331

@@ -106,7 +106,7 @@ def print_plugins() -> None:
     print_version_plugins()
 
 
-@app.command(name="from_updk")
+@app.command(name="from-updk")
 def from_updk_command(filepath: str, filepath_out: str = "") -> None:
     """Writes a PDK in python from uPDK YAML spec."""
     filepath = pathlib.Path(filepath)
@@ -114,8 +114,8 @@ def from_updk_command(filepath: str, filepath_out: str = "") -> None:
     from_updk(filepath, filepath_out=filepath_out)
 
 
-@app.command(name="text_from_pdf")
-def text_from_pdf_command(filepath: str) -> None:
+@app.command()
+def text_from_pdf(filepath: str) -> None:
     """Converts a PDF to text."""
     import pdftotext
 

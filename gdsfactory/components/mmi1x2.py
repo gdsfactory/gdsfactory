@@ -63,7 +63,7 @@ def mmi1x2(
         length=length_taper,
         width1=width,
         width2=width_taper,
-        cross_section=x,
+        cross_section=cross_section,
     )
 
     a = gap_mmi / 2 + width_taper / 2
@@ -102,10 +102,9 @@ def mmi1x2(
         c.add_port(name=port.name, port=taper_ref.ports["o1"])
 
     c.flatten()
-    x.add_bbox(c)
     return c
 
 
 if __name__ == "__main__":
-    c = mmi1x2(cross_section="rib_bbox")
+    c = mmi1x2(cross_section="rib")
     c.show()

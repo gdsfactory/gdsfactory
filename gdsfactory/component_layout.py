@@ -5,25 +5,21 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 
 from __future__ import annotations
 
-import typing
-
+import kfactory as kf
 import numpy as np
 from numpy import cos, pi, sin
 from numpy.linalg import norm
 from rich.console import Console
 from rich.table import Table
 
-if typing.TYPE_CHECKING:
-    from gdsfactory.port import Port
-
 Coordinate = tuple[float, float]
 
 
-def pprint_ports(ports: dict[str, Port] or list[Port]) -> None:
+def pprint_ports(ports: kf.Ports) -> None:
     """Prints ports in a rich table."""
     console = Console()
     table = Table(show_header=True, header_style="bold")
-    ports_list = ports if isinstance(ports, list) else list(ports.values())
+    ports_list = ports
     if not ports_list:
         return
     p0 = ports_list[0]

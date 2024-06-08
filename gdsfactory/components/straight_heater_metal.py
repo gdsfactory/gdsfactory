@@ -130,14 +130,22 @@ def straight_heater_metal_undercut(
                 width1=p1[0].dwidth,
                 width2=heater_width,
                 length=heater_taper_length,
-                cross_section=x,
+                cross_section=cross_section_heater,
                 port_names=("e1", "e2"),
                 port_types=("electrical", "electrical"),
             )
             taper1 = c << taper
             taper2 = c << taper
-            taper1.connect("e1", via_stack_west.ports["e3"], allow_layer_mismatch=True)
-            taper2.connect("e1", via_stack_east.ports["e1"], allow_layer_mismatch=True)
+            taper1.connect(
+                "e1",
+                via_stack_west.ports["e3"],
+                allow_layer_mismatch=True,
+            )
+            taper2.connect(
+                "e1",
+                via_stack_east.ports["e1"],
+                allow_layer_mismatch=True,
+            )
 
     c.info["resistance"] = (
         ohms_per_square * heater_width * length if ohms_per_square else 0
@@ -219,7 +227,7 @@ def straight_heater_metal_simple(
                 width1=via_stackw.ports["e1"].dwidth,
                 width2=heater_width,
                 length=heater_taper_length,
-                cross_section=x,
+                cross_section=cross_section_heater,
                 port_names=("e1", "e2"),
                 port_types=("electrical", "electrical"),
             )
@@ -259,8 +267,10 @@ def test_ports() -> None:
 
 
 if __name__ == "__main__":
-    # test_ports()
-    c = straight_heater_metal_undercut()
+    c = straight_heater_metal(length=50.0)
+    c.show()
+    test_ports()
+    # c = straight_heater_metal_undercut()
     # print(c.ports['o2'].dcenter[0])
     # c.pprint_ports()
     # c = straight_heater_metal(heater_width=5, length=50.0)

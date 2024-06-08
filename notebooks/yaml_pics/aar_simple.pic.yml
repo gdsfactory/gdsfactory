@@ -23,7 +23,7 @@ placements:
 
 routes:
     optical:
-        routing_strategy: get_bundle_all_angle # the non-manhattan router
+        routing_strategy: route_bundle_all_angle # the non-manhattan router
         links:
             mmi_short,o1: mmi_long,o1
 

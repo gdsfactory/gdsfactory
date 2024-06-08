@@ -105,9 +105,7 @@ def route_fiber_array(
     c = component
     component = component_to_route
     fiber_spacing = gf.get_constant(fiber_spacing)
-    cross_section = x = gf.get_cross_section(cross_section)
-    if radius:
-        cross_section = x = cross_section.copy(radius=radius)
+    x = gf.get_cross_section(cross_section)
 
     component_name = component_name or component.name
     excluded_ports = excluded_ports or []
@@ -141,7 +139,7 @@ def route_fiber_array(
     # - grating_couplers is a list of grating couplers
     # Define the route filter to apply to connection methods
 
-    bend90 = gf.get_component(bend, cross_section=x)
+    bend90 = gf.get_component(bend, cross_section=cross_section, radius=radius)
 
     # `delta_gr_min` Used to avoid crossing between straights in special cases
     # This could happen when abs(x_port - x_grating) <= 2 * radius
@@ -315,7 +313,6 @@ def route_fiber_array(
             ports2=to_route,
             ports1=gc_ports,
             separation=separation,
-            straight=straight,
             bend=bend90,
             cross_section=cross_section,
             port_type=port_type,
@@ -339,7 +336,6 @@ def route_fiber_array(
                 ports1=gc_ports,
                 separation=separation,
                 bend=bend90,
-                straight=straight,
                 cross_section=cross_section,
                 port_type=port_type,
                 sort_ports=True,
@@ -426,10 +422,10 @@ if __name__ == "__main__":
 
     # component = gf.components.nxn(north=10, south=10, east=10, west=10)
     # component = gf.components.straight()
-    # component = gf.components.mmi2x2()
+    component = gf.components.mmi2x2()
     # component = gf.components.straight_heater_metal()
     # component = gf.components.ring_single()
-    component = gf.components.ring_double()
+    # component = gf.components.ring_double()
     # component = gf.components.mzi_phase_shifter()
 
     ref = c << component

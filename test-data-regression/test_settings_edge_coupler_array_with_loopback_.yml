@@ -1,8 +1,8 @@
 info: {}
-name: edge_coupler_array_with_1f8813cc
+name: edge_coupler_array_with_0e29eb5f
 settings:
   cross_section: strip
-  edge_coupler: Ftaper_Mgdsfactorypcomponentsptaper_SW0p2_L100_WTPTrue
+  edge_coupler: edge_coupler_silicon
   extension_length: 1
   n: 8
   pitch: 127

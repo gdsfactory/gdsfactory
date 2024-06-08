@@ -95,6 +95,7 @@ from gdsfactory.components.delay_snake_sbend import delay_snake_sbend
 from gdsfactory.components.dicing_lane import dicing_lane
 from gdsfactory.components.die import die
 from gdsfactory.components.die_bbox import die_bbox
+from gdsfactory.components.die_with_pads import die_with_pads
 from gdsfactory.components.disk import disk, disk_heater
 from gdsfactory.components.edge_coupler_array import (
     edge_coupler_array,
@@ -145,13 +146,9 @@ from gdsfactory.components.grating_coupler_rectangular import (
 from gdsfactory.components.grating_coupler_rectangular_arbitrary import (
     grating_coupler_rectangular_arbitrary,
 )
-from gdsfactory.components.grating_coupler_rectangular_arbitrary_slab import (
-    grating_coupler_rectangular_arbitrary_slab,
-)
 from gdsfactory.components.grating_coupler_tree import grating_coupler_tree
 from gdsfactory.components.greek_cross import (
     greek_cross,
-    greek_cross_offset_pads,
     greek_cross_with_pads,
 )
 from gdsfactory.components.hline import hline
@@ -176,6 +173,7 @@ from gdsfactory.components.mzi import (
     mzi_coupler,
     mzi_phase_shifter,
     mzi_phase_shifter_top_heater_metal,
+    mzi_pin,
     mzm,
 )
 from gdsfactory.components.mzi_arm import mzi_arm
@@ -197,6 +195,7 @@ from gdsfactory.components.pad import (
     pad_array180,
     pad_array270,
     pad_rectangular,
+    pad_small,
 )
 from gdsfactory.components.pad_gsg import pad_gsg_open, pad_gsg_short
 from gdsfactory.components.pads_shorted import pads_shorted
@@ -274,17 +273,23 @@ from gdsfactory.components.text import text, text_klayout, text_lines
 from gdsfactory.components.text_freetype import text_freetype
 from gdsfactory.components.text_rectangular import (
     text_rectangular,
+    text_rectangular_mini,
     text_rectangular_multi_layer,
 )
 from gdsfactory.components.triangles import triangle, triangle2, triangle4
 from gdsfactory.components.verniers import verniers
 from gdsfactory.components.version_stamp import pixel, qrcode, version_stamp
 from gdsfactory.components.via import via, via1, via2, viac
+from gdsfactory.components.via_chain import via_chain
 from gdsfactory.components.via_corner import via_corner
 from gdsfactory.components.via_stack import (
     via_stack,
     via_stack_heater_m3,
     via_stack_heater_mtop,
+    via_stack_heater_mtop_mini,
+    via_stack_m1_mtop,
+    via_stack_npp_m1,
+    via_stack_slab_m1_horizontal,
     via_stack_slab_m3,
 )
 from gdsfactory.components.via_stack_with_offset import via_stack_with_offset
@@ -374,6 +379,7 @@ __all__ = [
     "dicing_lane",
     "die",
     "die_bbox",
+    "die_with_pads",
     "disk",
     "disk_heater",
     "edge_coupler_array",
@@ -401,14 +407,12 @@ __all__ = [
     "grating_coupler_loss_fiber_array4",
     "grating_coupler_rectangular",
     "grating_coupler_rectangular_arbitrary",
-    "grating_coupler_rectangular_arbitrary_slab",
     "grating_coupler_te",
     "grating_coupler_tm",
     "grating_coupler_tree",
     "grating_taper_points",
     "grating_tooth_points",
     "greek_cross",
-    "greek_cross_offset_pads",
     "greek_cross_with_pads",
     "hline",
     "interdigital_capacitor",
@@ -438,6 +442,7 @@ __all__ = [
     "mzi_pads_center",
     "mzi_phase_shifter",
     "mzi_phase_shifter_top_heater_metal",
+    "mzi_pin",
     "mzit",
     "mzit_lattice",
     "mzm",
@@ -456,6 +461,7 @@ __all__ = [
     "pad_gsg_open",
     "pad_gsg_short",
     "pad_rectangular",
+    "pad_small",
     "pads_shorted",
     "pixel",
     "polarization_splitter_rotator",
@@ -527,6 +533,7 @@ __all__ = [
     "text_lines",
     "text_rectangular",
     "text_rectangular_multi_layer",
+    "text_rectangular_mini",
     "triangle",
     "triangle2",
     "triangle4",
@@ -535,12 +542,17 @@ __all__ = [
     "via",
     "via1",
     "via2",
+    "via_chain",
     "via_corner",
     "via_stack",
     "via_stack_heater_m3",
+    "via_stack_m1_mtop",
+    "via_stack_slab_m1_horizontal",
     "via_stack_heater_mtop",
+    "via_stack_heater_mtop_mini",
     "via_stack_slab_m3",
     "via_stack_with_offset",
+    "via_stack_npp_m1",
     "viac",
     "wafer",
     "wire_corner",

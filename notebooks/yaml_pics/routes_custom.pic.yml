@@ -1,5 +1,3 @@
-name: routes_custom
-
 instances:
     t:
       component: pad_array
@@ -19,7 +17,7 @@ placements:
 routes:
     electrical:
         settings:
-            width: 10.
+            start_straight_length: 150
             end_straight_length: 150
         links:
             t,e11: b,e11

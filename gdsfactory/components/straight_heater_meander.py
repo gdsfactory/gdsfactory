@@ -1,17 +1,17 @@
 from __future__ import annotations
 
+from functools import partial
+
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.cross_section import strip
-from gdsfactory.typings import ComponentSpec, Floats, LayerSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats, LayerSpec
 
 
 @gf.cell
 def straight_heater_meander(
     length: float = 300.0,
     spacing: float = 2.0,
-    cross_section: gf.typings.CrossSectionSpec = strip,
+    cross_section: CrossSectionSpec = "strip",
     heater_width: float = 2.5,
     extension_length: float = 15.0,
     layer_heater: LayerSpec = "HEATER",
@@ -20,10 +20,9 @@ def straight_heater_meander(
     port_orientation1: float | None = None,
     port_orientation2: float | None = None,
     heater_taper_length: float | None = 10.0,
-    straight_widths: Floats = (0.8, 0.9, 0.8),
+    straight_widths: Floats | None = (0.8, 0.9, 0.8),
     taper_length: float = 10,
     n: int | None = None,
-    straight: ComponentSpec = straight_function,
 ) -> Component:
     """Returns a meander based heater.
 
@@ -47,7 +46,6 @@ def straight_heater_meander(
         straight_widths: widths of the straight sections.
         taper_length: from the cross_section.
         n: number of straight sections.
-        straight: straight component to use.
     """
     if n and straight_widths:
         raise ValueError("n and straight_widths are mutually exclusive")
@@ -62,14 +60,25 @@ def straight_heater_meander(
     )
     ports = {}
 
+    x = gf.get_cross_section(cross_section)
+
+    radius = radius or x.radius
+
+    if n and not straight_widths:
+        if n % 2 == 0:
+            raise ValueError(f"n={n} should be odd")
+        straight_widths = [x.width] * n
+
     ##############
     # Straights
     ##############
 
     for row, straight_width in enumerate(straight_widths):
         cross_section1 = gf.get_cross_section(cross_section, width=straight_width)
-        _straight = straight(
-            length=straight_length - 2 * taper_length, cross_section=cross_section1
+        _straight = gf.c.straight(
+            length=straight_length - 2 * taper_length,
+            cross_section=cross_section,
+            width=straight_width,
         )
 
         taper = gf.c.taper_cross_section_linear(
@@ -77,7 +86,7 @@ def straight_heater_meander(
             cross_section2=cross_section2,
             length=taper_length,
         )
-        straight_with_tapers = gf.c.extend_ports(_straight, extension=taper)
+        straight_with_tapers = gf.c.extend_ports(component=_straight, extension=taper)
 
         straight_ref = c << straight_with_tapers
         straight_ref.dy = row * spacing
@@ -89,11 +98,11 @@ def straight_heater_meander(
     ##############
     for row in range(1, rows, 2):
         extra_length = 3 * (rows - row - 1) / 2 * radius
-        extra_straight1 = c << straight(
+        extra_straight1 = c << gf.c.straight(
             length=extra_length, cross_section=cross_section
         )
         extra_straight1.connect("o1", ports[f"o1_{row+1}"])
-        extra_straight2 = c << straight(
+        extra_straight2 = c << gf.c.straight(
             length=extra_length, cross_section=cross_section
         )
         extra_straight2.connect("o1", ports[f"o1_{row+2}"])
@@ -124,8 +133,8 @@ def straight_heater_meander(
             cross_section=cross_section,
         )
 
-    straight1 = c << straight(length=extension_length, cross_section=cross_section)
-    straight2 = c << straight(length=extension_length, cross_section=cross_section)
+    straight1 = c << gf.c.straight(length=extension_length, cross_section=cross_section)
+    straight2 = c << gf.c.straight(length=extension_length, cross_section=cross_section)
     straight1.connect("o2", ports["o1_1"])
     straight2.connect("o1", ports[f"o2_{rows}"])
 
@@ -133,8 +142,8 @@ def straight_heater_meander(
     c.add_port("o2", port=straight2.ports["o2"])
 
     if layer_heater:
-        heater_cross_section = gf.cross_section.cross_section(
-            width=heater_width, layer=layer_heater
+        heater_cross_section = partial(
+            gf.cross_section.cross_section, width=heater_width, layer=layer_heater
         )
 
         heater = c << gf.c.straight(

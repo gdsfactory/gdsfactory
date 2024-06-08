@@ -3,8 +3,6 @@ from __future__ import annotations
 from functools import partial
 
 import gdsfactory as gf
-from gdsfactory.components.rectangle import rectangle
-from gdsfactory.components.via_stack import via_stack
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import ComponentFactory
 
@@ -14,8 +12,8 @@ Coordinate = tuple[Float2, Float2]
 
 @gf.cell
 def seal_ring(
-    component: gf.Component | gf.Instance | ComponentFactory = rectangle,
-    seal: gf.typings.ComponentSpec = via_stack,
+    component: gf.Component | gf.Instance | ComponentFactory = "rectangle",
+    seal: gf.typings.ComponentSpec = "via_stack",
     width: float = 10,
     padding: float = 10.0,
     with_north: bool = True,
@@ -39,8 +37,7 @@ def seal_ring(
     """
     c = gf.Component()
 
-    component = component() if callable(component) else component
-
+    component = gf.get_component(component)
     bbox = component.dbbox()
     xmin, ymin, xmax, ymax = bbox.left, bbox.bottom, bbox.right, bbox.top
 
@@ -61,22 +58,22 @@ def seal_ring(
     size_east_west = (width, sy + 2 * padding)
 
     if with_north:
-        north = c << seal(size=size_north_south)
+        north = c << gf.get_component(seal, size=size_north_south)
         north.dymin = ymin_north
         north.dx = x
 
     if with_east:
-        east = c << seal(size=size_east_west)
+        east = c << gf.get_component(seal, size=size_east_west)
         east.dxmin = xmax + padding
         east.dymax = ymin_north
 
     if with_west:
-        west = c << seal(size=size_east_west)
+        west = c << gf.get_component(seal, size=size_east_west)
         west.dxmax = xmin - padding
         west.dymax = ymin_north
 
     if with_south:
-        south = c << seal(size=size_north_south)
+        south = c << gf.get_component(seal, size=size_north_south)
         south.dymax = ymax_south
         south.dx = x
 
