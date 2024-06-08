@@ -1,9 +1,9 @@
 info: {}
-name: straight_pin_L2000_CSpn_a8140009
+name: straight_pin_L2000_CSpn_958ac331
 settings:
   cross_section: pn
   length: 2000
   taper: taper_strip_to_ridge
-  via_stack: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLSLAB90_M1_M2_MTOP_VFvia_Mgdsfactorypcomponentspvia_SLVIAC_Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2_Fvia_Mgdsfactorypcomponentspvia_SLVIA2_None
+  via_stack: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLSLAB90_M1_M2_MTOP_Vviac_via1_via2_None
   via_stack_spacing: 2
   via_stack_width: 10

@@ -1,0 +1,45 @@
+connections: {}
+instances:
+  straight_L10_N2_CSxs_34e31a19_5000_1020:
+    component: straight
+    info:
+      length: 10
+      route_info_length: 10
+      route_info_type: xs_34e31a19
+      route_info_weight: 10
+      route_info_xs_34e31a19_length: 10
+      width: 0.5
+    settings:
+      cross_section: xs_34e31a19
+      length: 10
+      npoints: 2
+  straight_L10_N2_CSxs_bf621786_5000_0:
+    component: straight
+    info:
+      length: 10
+      route_info_length: 10
+      route_info_type: xs_bf621786
+      route_info_weight: 10
+      route_info_xs_bf621786_length: 10
+      width: 1
+    settings:
+      cross_section: xs_bf621786
+      length: 10
+      npoints: 2
+name: coupler_straight_asymme_ef3c4e78
+placements:
+  straight_L10_N2_CSxs_34e31a19_5000_1020:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 1.02
+  straight_L10_N2_CSxs_bf621786_5000_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+ports:
+  o1: straight_L10_N2_CSxs_bf621786_5000_0,o1
+  o2: straight_L10_N2_CSxs_34e31a19_5000_1020,o1
+  o3: straight_L10_N2_CSxs_34e31a19_5000_1020,o2
+  o4: straight_L10_N2_CSxs_bf621786_5000_0,o2

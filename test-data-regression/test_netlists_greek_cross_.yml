@@ -1,0 +1,173 @@
+connections:
+  cross_L30_W2_LWG_PTelectrical_0_0,e1: cross_L30_W3_LN_PTelectrical_0_0,e1
+  cross_L30_W2_LWG_PTelectrical_0_0,e2: cross_L30_W3_LN_PTelectrical_0_0,e2
+  cross_L30_W2_LWG_PTelectrical_0_0,e3: cross_L30_W3_LN_PTelectrical_0_0,e3
+  cross_L30_W2_LWG_PTelectrical_0_0,e4: cross_L30_W3_LN_PTelectrical_0_0,e4
+  cross_L30_W3_LN_PTelectrical_0_0,e1: via_stack_S11_11_LWG_NP_1fc0b4f9_-20500_0,e1
+  cross_L30_W3_LN_PTelectrical_0_0,e2: via_stack_S11_11_LWG_NP_1fc0b4f9_0_20500,e1
+  cross_L30_W3_LN_PTelectrical_0_0,e3: via_stack_S11_11_LWG_NP_1fc0b4f9_20500_0,e1
+  cross_L30_W3_LN_PTelectrical_0_0,e4: via_stack_S11_11_LWG_NP_1fc0b4f9_0_-20500,e1
+instances:
+  cross_L30_W2_LWG_PTelectrical_0_0:
+    component: cross
+    info: {}
+    settings:
+      layer: WG
+      length: 30
+      port_type: electrical
+      width: 2
+  cross_L30_W3_LN_PTelectrical_0_0:
+    component: cross
+    info: {}
+    settings:
+      layer: N
+      length: 30
+      port_type: electrical
+      width: 3
+  via_stack_S11_11_LWG_NP_1fc0b4f9_-20500_0:
+    component: via_stack
+    info:
+      xsize: 11
+      ysize: 11
+    settings:
+      correct_size: true
+      layers:
+      - WG
+      - NPP
+      - M1
+      size:
+      - 11
+      - 11
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - null
+      - null
+      - viac
+  via_stack_S11_11_LWG_NP_1fc0b4f9_0_-20500:
+    component: via_stack
+    info:
+      xsize: 11
+      ysize: 11
+    settings:
+      correct_size: true
+      layers:
+      - WG
+      - NPP
+      - M1
+      size:
+      - 11
+      - 11
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - null
+      - null
+      - viac
+  via_stack_S11_11_LWG_NP_1fc0b4f9_0_20500:
+    component: via_stack
+    info:
+      xsize: 11
+      ysize: 11
+    settings:
+      correct_size: true
+      layers:
+      - WG
+      - NPP
+      - M1
+      size:
+      - 11
+      - 11
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - null
+      - null
+      - viac
+  via_stack_S11_11_LWG_NP_1fc0b4f9_20500_0:
+    component: via_stack
+    info:
+      xsize: 11
+      ysize: 11
+    settings:
+      correct_size: true
+      layers:
+      - WG
+      - NPP
+      - M1
+      size:
+      - 11
+      - 11
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - null
+      - null
+      - viac
+name: greek_cross_L30_LWG_N_W_d7395c88
+placements:
+  cross_L30_W2_LWG_PTelectrical_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  cross_L30_W3_LN_PTelectrical_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  via_stack_S11_11_LWG_NP_1fc0b4f9_-20500_0:
+    mirror: false
+    rotation: 180
+    x: -20.5
+    y: 0
+  via_stack_S11_11_LWG_NP_1fc0b4f9_0_-20500:
+    mirror: false
+    rotation: 270
+    x: 0
+    y: -20.5
+  via_stack_S11_11_LWG_NP_1fc0b4f9_0_20500:
+    mirror: false
+    rotation: 90
+    x: 0
+    y: 20.5
+  via_stack_S11_11_LWG_NP_1fc0b4f9_20500_0:
+    mirror: false
+    rotation: 0
+    x: 20.5
+    y: 0
+ports:
+  e1: via_stack_S11_11_LWG_NP_1fc0b4f9_-20500_0,e3
+  e2: via_stack_S11_11_LWG_NP_1fc0b4f9_0_20500,e3
+  e3: via_stack_S11_11_LWG_NP_1fc0b4f9_20500_0,e3
+  e4: via_stack_S11_11_LWG_NP_1fc0b4f9_0_-20500,e3
+warnings:
+  electrical:
+    unconnected_ports:
+    - message: 8 unconnected electrical ports!
+      ports:
+      - via_stack_S11_11_LWG_NP_1fc0b4f9_20500_0,e2
+      - via_stack_S11_11_LWG_NP_1fc0b4f9_20500_0,e4
+      - via_stack_S11_11_LWG_NP_1fc0b4f9_-20500_0,e2
+      - via_stack_S11_11_LWG_NP_1fc0b4f9_-20500_0,e4
+      - via_stack_S11_11_LWG_NP_1fc0b4f9_0_20500,e2
+      - via_stack_S11_11_LWG_NP_1fc0b4f9_0_20500,e4
+      - via_stack_S11_11_LWG_NP_1fc0b4f9_0_-20500,e2
+      - via_stack_S11_11_LWG_NP_1fc0b4f9_0_-20500,e4
+      values:
+      - - 20500
+        - 5500
+      - - 20500
+        - -5500
+      - - -20500
+        - -5500
+      - - -20500
+        - 5500
+      - - -5500
+        - 20500
+      - - 5500
+        - 20500
+      - - 5500
+        - -20500
+      - - -5500
+        - -20500

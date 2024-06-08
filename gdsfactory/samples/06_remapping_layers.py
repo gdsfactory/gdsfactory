@@ -23,7 +23,8 @@ def remap_layers() -> Component:
 
 
 def test_remap_layers():
-    assert remap_layers()
+    c = remap_layers()
+    assert c.layers == [(2, 0)]
 
 
 if __name__ == "__main__":

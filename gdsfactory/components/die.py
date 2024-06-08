@@ -5,7 +5,6 @@ from __future__ import annotations
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.components.text import text
 from gdsfactory.typings import ComponentFactory, Float2, LayerSpec
 
 
@@ -19,7 +18,7 @@ def die(
     text_location: str | Float2 = "SW",
     layer: LayerSpec | None = "FLOORPLAN",
     bbox_layer: LayerSpec | None = "FLOORPLAN",
-    text: ComponentFactory = text,
+    text: ComponentFactory = "text",
     draw_corners: bool = False,
 ) -> gf.Component:
     """Returns die with optional markers marking the boundary of the die.
@@ -73,7 +72,10 @@ def die(
         c.add_polygon([[sx, sy], [sx, -sy], [-sx, -sy], [-sx, sy]], layer=bbox_layer)
 
     if die_name:
-        t = c.add_ref(text(text=die_name, size=text_size, layer=layer))
+        text_component = gf.get_component(
+            text, text=die_name, size=text_size, layer=layer
+        )
+        t = c.add_ref(text_component)
 
         d = street_width + 20
         if isinstance(text_location, str):

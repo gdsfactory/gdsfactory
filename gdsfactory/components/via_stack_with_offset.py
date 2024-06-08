@@ -107,7 +107,7 @@ def via_stack_with_offset(
             x00 = x0 + cw + w / 2
             y00 = y0 + ch + h / 2 + offset
 
-            ref = c.add_array(
+            ref = c.add_ref(
                 via, columns=nb_vias_x, rows=nb_vias_y, spacing=(pitch_x, pitch_y)
             )
             ref.dmove((x00, y00))

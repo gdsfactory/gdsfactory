@@ -2,13 +2,8 @@ info: {}
 name: grating_coupler_tree_N4_2a7d2c50
 settings:
   bend: bend_euler
-  component: straight_array_N4_S4_L10_CSstrip
-  component_name: straight_array_N4_S4_L10_CSstrip
-  cross_section: strip
   fanout_length: 0
-  gc_port_name: o1
   grating_coupler: grating_coupler_elliptical
   n: 4
-  select_ports: Fselect_ports_Mgdsfactorypport_SPToptical
   straight_spacing: 4
   with_loopback: false

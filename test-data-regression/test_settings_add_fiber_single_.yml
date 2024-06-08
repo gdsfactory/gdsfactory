@@ -58,7 +58,7 @@ settings:
   min_input_to_output_spacing: 200.0
   optical_routing_type: 2
   route_filter:
-    function: get_route_from_waypoints
+    function: route_single_from_waypoints
   select_ports:
     function: select_ports
     module: gdsfactory.port

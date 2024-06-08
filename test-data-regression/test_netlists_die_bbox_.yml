@@ -1,0 +1,43 @@
+connections: {}
+instances:
+  rectangle_S1300_2600_LW_815f8284_0_0:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer: WG
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 1300
+      - 2600
+name: die_bbox_CFrectangle_Mg_b676ef51
+placements:
+  rectangle_S1300_2600_LW_815f8284_0_0:
+    mirror: false
+    rotation: 0
+    x: -650
+    y: -1300
+ports: {}
+warnings:
+  electrical:
+    unconnected_ports:
+    - message: 4 unconnected electrical ports!
+      ports:
+      - rectangle_S1300_2600_LW_815f8284_0_0,e1
+      - rectangle_S1300_2600_LW_815f8284_0_0,e2
+      - rectangle_S1300_2600_LW_815f8284_0_0,e3
+      - rectangle_S1300_2600_LW_815f8284_0_0,e4
+      values:
+      - - -650000
+        - 0
+      - - 0
+        - 1300000
+      - - 650000
+        - 0
+      - - 0
+        - -1300000

@@ -11,4 +11,4 @@ if __name__ == "__main__":
         function="add_fiber_array",
     )
     doe.show()
-    doe.write_gds(f"{__file__[:-3]}/test.gds", with_metadata=True)
+    doe.write_gds(f"{__file__[:-3]}/test.gds")

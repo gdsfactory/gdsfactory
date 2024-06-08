@@ -1,0 +1,52 @@
+connections: {}
+instances:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_5125_5575:
+    component: bend_euler
+    info:
+      dy: 10
+      length: 16.637
+      min_bend_radius: 7.061
+      radius: 10
+      route_info_length: 16.637
+      route_info_min_bend_radius: 7.061
+      route_info_n_bend_90: 1
+      route_info_type: xs_34e31a19
+      route_info_weight: 16.637
+      route_info_xs_34e31a19_length: 16.637
+    settings:
+      allow_min_radius_violation: false
+      angle: 90
+      cross_section: strip
+      p: 0.5
+      radius: 10
+      with_arc_floorplan: true
+  straight_L10_N2_CSstrip_5000_0:
+    component: straight
+    info:
+      length: 10
+      route_info_length: 10
+      route_info_type: xs_34e31a19
+      route_info_weight: 10
+      route_info_xs_34e31a19_length: 10
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 10
+      npoints: 2
+name: coupler90_G0p2_R10_Bben_11d57add
+placements:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_5125_5575:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0.7
+  straight_L10_N2_CSstrip_5000_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+ports:
+  o1: straight_L10_N2_CSstrip_5000_0,o1
+  o2: bend_euler_R10_A90_P0p5_2f1f5c6d_5125_5575,o1
+  o3: bend_euler_R10_A90_P0p5_2f1f5c6d_5125_5575,o2
+  o4: straight_L10_N2_CSstrip_5000_0,o2

@@ -1,0 +1,703 @@
+connections:
+  straight_L300_N2_CSFrib_d4f63e77_150000_0,o1: taper_cross_section_CSs_5d7c7f39_-5000_0,o2
+  straight_L300_N2_CSFrib_d4f63e77_150000_0,o2: taper_cross_section_CSs_5d7c7f39_305000_0,o2
+  via_stack_S10_10_LM1_M2_5f5e6067_101467_-10000,e2: via_stack_S10_10_LM1_M2_5f5e6067_101467_0,e4
+  via_stack_S10_10_LM1_M2_5f5e6067_198134_0,e2: via_stack_S10_10_LM1_M2_5f5e6067_198134_10000,e4
+  via_stack_S10_10_LM1_M2_5f5e6067_294801_-10000,e2: via_stack_S10_10_LM1_M2_5f5e6067_294801_0,e4
+  via_stack_S10_10_LM1_M2_5f5e6067_4800_0,e2: via_stack_S10_10_LM1_M2_5f5e6067_4800_10000,e4
+instances:
+  straight_L300_N2_CSFrib_d4f63e77_150000_0:
+    component: straight
+    info:
+      length: 300
+      route_info_length: 300
+      route_info_type: xs_ec826bd8
+      route_info_weight: 300
+      route_info_xs_ec826bd8_length: 300
+      width: 0.5
+    settings:
+      cross_section: Frib_heater_doped_Mgdsfactorypcross_section_SHW2_HG0p8_W0p5
+      length: 300
+      npoints: 2
+  taper_cross_section_CSs_5d7c7f39_-5000_0:
+    component: taper_cross_section
+    info:
+      route_info_length: 10
+      route_info_type: xs_38e7a979
+      route_info_weight: 10
+      route_info_xs_38e7a979_length: 10
+      route_info_xs_38e7a979_taper_length: 10
+    settings:
+      cross_section1: strip_heater_doped
+      cross_section2: Frib_heater_doped_Mgdsfactorypcross_section_SHW2_HG0p8_W0p5
+      length: 10
+      linear: false
+      npoints: 100
+      width_type: sine
+  taper_cross_section_CSs_5d7c7f39_305000_0:
+    component: taper_cross_section
+    info:
+      route_info_length: 10
+      route_info_type: xs_38e7a979
+      route_info_weight: 10
+      route_info_xs_38e7a979_length: 10
+      route_info_xs_38e7a979_taper_length: 10
+    settings:
+      cross_section1: strip_heater_doped
+      cross_section2: Frib_heater_doped_Mgdsfactorypcross_section_SHW2_HG0p8_W0p5
+      length: 10
+      linear: false
+      npoints: 100
+      width_type: sine
+  via_stack_S10_10_LM1_M2_5f5e6067_101467_-10000:
+    component: via_stack
+    info:
+      xsize: 10
+      ysize: 10
+    settings:
+      correct_size: true
+      layers:
+      - M1
+      - M2
+      - MTOP
+      size:
+      - 10
+      - 10
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - via1
+      - via2
+      - null
+  via_stack_S10_10_LM1_M2_5f5e6067_101467_0:
+    component: via_stack
+    info:
+      xsize: 10
+      ysize: 10
+    settings:
+      correct_size: true
+      layers:
+      - M1
+      - M2
+      - MTOP
+      size:
+      - 10
+      - 10
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - via1
+      - via2
+      - null
+  via_stack_S10_10_LM1_M2_5f5e6067_198134_0:
+    component: via_stack
+    info:
+      xsize: 10
+      ysize: 10
+    settings:
+      correct_size: true
+      layers:
+      - M1
+      - M2
+      - MTOP
+      size:
+      - 10
+      - 10
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - via1
+      - via2
+      - null
+  via_stack_S10_10_LM1_M2_5f5e6067_198134_10000:
+    component: via_stack
+    info:
+      xsize: 10
+      ysize: 10
+    settings:
+      correct_size: true
+      layers:
+      - M1
+      - M2
+      - MTOP
+      size:
+      - 10
+      - 10
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - via1
+      - via2
+      - null
+  via_stack_S10_10_LM1_M2_5f5e6067_294801_-10000:
+    component: via_stack
+    info:
+      xsize: 10
+      ysize: 10
+    settings:
+      correct_size: true
+      layers:
+      - M1
+      - M2
+      - MTOP
+      size:
+      - 10
+      - 10
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - via1
+      - via2
+      - null
+  via_stack_S10_10_LM1_M2_5f5e6067_294801_0:
+    component: via_stack
+    info:
+      xsize: 10
+      ysize: 10
+    settings:
+      correct_size: true
+      layers:
+      - M1
+      - M2
+      - MTOP
+      size:
+      - 10
+      - 10
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - via1
+      - via2
+      - null
+  via_stack_S10_10_LM1_M2_5f5e6067_4800_0:
+    component: via_stack
+    info:
+      xsize: 10
+      ysize: 10
+    settings:
+      correct_size: true
+      layers:
+      - M1
+      - M2
+      - MTOP
+      size:
+      - 10
+      - 10
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - via1
+      - via2
+      - null
+  via_stack_S10_10_LM1_M2_5f5e6067_4800_10000:
+    component: via_stack
+    info:
+      xsize: 10
+      ysize: 10
+    settings:
+      correct_size: true
+      layers:
+      - M1
+      - M2
+      - MTOP
+      size:
+      - 10
+      - 10
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - via1
+      - via2
+      - null
+  via_stack_S10_10_LWG_NP_75a2a6b2_101467_-6050:
+    component: via_stack
+    info:
+      xsize: 10
+      ysize: 10
+    settings:
+      correct_size: true
+      layers:
+      - WG
+      - NPP
+      - M1
+      size:
+      - 10
+      - 10
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - null
+      - null
+      - viac
+  via_stack_S10_10_LWG_NP_75a2a6b2_101467_6050:
+    component: via_stack
+    info:
+      xsize: 10
+      ysize: 10
+    settings:
+      correct_size: true
+      layers:
+      - WG
+      - NPP
+      - M1
+      size:
+      - 10
+      - 10
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - null
+      - null
+      - viac
+  via_stack_S10_10_LWG_NP_75a2a6b2_198134_-6050:
+    component: via_stack
+    info:
+      xsize: 10
+      ysize: 10
+    settings:
+      correct_size: true
+      layers:
+      - WG
+      - NPP
+      - M1
+      size:
+      - 10
+      - 10
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - null
+      - null
+      - viac
+  via_stack_S10_10_LWG_NP_75a2a6b2_198134_6050:
+    component: via_stack
+    info:
+      xsize: 10
+      ysize: 10
+    settings:
+      correct_size: true
+      layers:
+      - WG
+      - NPP
+      - M1
+      size:
+      - 10
+      - 10
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - null
+      - null
+      - viac
+  via_stack_S10_10_LWG_NP_75a2a6b2_295201_-6050:
+    component: via_stack
+    info:
+      xsize: 10
+      ysize: 10
+    settings:
+      correct_size: true
+      layers:
+      - WG
+      - NPP
+      - M1
+      size:
+      - 10
+      - 10
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - null
+      - null
+      - viac
+  via_stack_S10_10_LWG_NP_75a2a6b2_295201_6050:
+    component: via_stack
+    info:
+      xsize: 10
+      ysize: 10
+    settings:
+      correct_size: true
+      layers:
+      - WG
+      - NPP
+      - M1
+      size:
+      - 10
+      - 10
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - null
+      - null
+      - viac
+  via_stack_S10_10_LWG_NP_75a2a6b2_4800_-6050:
+    component: via_stack
+    info:
+      xsize: 10
+      ysize: 10
+    settings:
+      correct_size: true
+      layers:
+      - WG
+      - NPP
+      - M1
+      size:
+      - 10
+      - 10
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - null
+      - null
+      - viac
+  via_stack_S10_10_LWG_NP_75a2a6b2_4800_6050:
+    component: via_stack
+    info:
+      xsize: 10
+      ysize: 10
+    settings:
+      correct_size: true
+      layers:
+      - WG
+      - NPP
+      - M1
+      size:
+      - 10
+      - 10
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - null
+      - null
+      - viac
+  via_stack_S310_10_LM1_M_5a0c62ce_154800_-20000:
+    component: via_stack
+    info:
+      xsize: 310
+      ysize: 10
+    settings:
+      correct_size: true
+      layers:
+      - M1
+      - M2
+      - MTOP
+      size:
+      - 310
+      - 10
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - via1
+      - via2
+      - null
+  via_stack_S310_10_LM1_M_5a0c62ce_154800_20000:
+    component: via_stack
+    info:
+      xsize: 310
+      ysize: 10
+    settings:
+      correct_size: true
+      layers:
+      - M1
+      - M2
+      - MTOP
+      size:
+      - 310
+      - 10
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - via1
+      - via2
+      - null
+name: straight_heater_doped_r_014bea0c
+placements:
+  straight_L300_N2_CSFrib_d4f63e77_150000_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  taper_cross_section_CSs_5d7c7f39_-5000_0:
+    mirror: false
+    rotation: 0
+    x: -10
+    y: 0
+  taper_cross_section_CSs_5d7c7f39_305000_0:
+    mirror: true
+    rotation: 180
+    x: 310
+    y: 0
+  via_stack_S10_10_LM1_M2_5f5e6067_101467_-10000:
+    mirror: false
+    rotation: 0
+    x: 101.467
+    y: -10
+  via_stack_S10_10_LM1_M2_5f5e6067_101467_0:
+    mirror: false
+    rotation: 0
+    x: 101.467
+    y: 0
+  via_stack_S10_10_LM1_M2_5f5e6067_198134_0:
+    mirror: false
+    rotation: 0
+    x: 198.134
+    y: 0
+  via_stack_S10_10_LM1_M2_5f5e6067_198134_10000:
+    mirror: false
+    rotation: 0
+    x: 198.134
+    y: 10
+  via_stack_S10_10_LM1_M2_5f5e6067_294801_-10000:
+    mirror: false
+    rotation: 0
+    x: 294.801
+    y: -10
+  via_stack_S10_10_LM1_M2_5f5e6067_294801_0:
+    mirror: false
+    rotation: 0
+    x: 294.801
+    y: 0
+  via_stack_S10_10_LM1_M2_5f5e6067_4800_0:
+    mirror: false
+    rotation: 0
+    x: 4.8
+    y: 0
+  via_stack_S10_10_LM1_M2_5f5e6067_4800_10000:
+    mirror: false
+    rotation: 0
+    x: 4.8
+    y: 10
+  via_stack_S10_10_LWG_NP_75a2a6b2_101467_-6050:
+    mirror: false
+    rotation: 0
+    x: 101.467
+    y: -6.05
+  via_stack_S10_10_LWG_NP_75a2a6b2_101467_6050:
+    mirror: false
+    rotation: 0
+    x: 101.467
+    y: 6.05
+  via_stack_S10_10_LWG_NP_75a2a6b2_198134_-6050:
+    mirror: false
+    rotation: 0
+    x: 198.134
+    y: -6.05
+  via_stack_S10_10_LWG_NP_75a2a6b2_198134_6050:
+    mirror: false
+    rotation: 0
+    x: 198.134
+    y: 6.05
+  via_stack_S10_10_LWG_NP_75a2a6b2_295201_-6050:
+    mirror: false
+    rotation: 0
+    x: 295.201
+    y: -6.05
+  via_stack_S10_10_LWG_NP_75a2a6b2_295201_6050:
+    mirror: false
+    rotation: 0
+    x: 295.201
+    y: 6.05
+  via_stack_S10_10_LWG_NP_75a2a6b2_4800_-6050:
+    mirror: false
+    rotation: 0
+    x: 4.8
+    y: -6.05
+  via_stack_S10_10_LWG_NP_75a2a6b2_4800_6050:
+    mirror: false
+    rotation: 0
+    x: 4.8
+    y: 6.05
+  via_stack_S310_10_LM1_M_5a0c62ce_154800_-20000:
+    mirror: false
+    rotation: 0
+    x: 154.8
+    y: -20
+  via_stack_S310_10_LM1_M_5a0c62ce_154800_20000:
+    mirror: false
+    rotation: 0
+    x: 154.8
+    y: 20
+ports:
+  bot_e1: via_stack_S310_10_LM1_M_5a0c62ce_154800_-20000,e1
+  bot_e2: via_stack_S310_10_LM1_M_5a0c62ce_154800_-20000,e2
+  bot_e3: via_stack_S310_10_LM1_M_5a0c62ce_154800_-20000,e3
+  bot_e4: via_stack_S310_10_LM1_M_5a0c62ce_154800_-20000,e4
+  o1: taper_cross_section_CSs_5d7c7f39_-5000_0,o1
+  o2: taper_cross_section_CSs_5d7c7f39_305000_0,o1
+  top_e1: via_stack_S310_10_LM1_M_5a0c62ce_154800_20000,e1
+  top_e2: via_stack_S310_10_LM1_M_5a0c62ce_154800_20000,e2
+  top_e3: via_stack_S310_10_LM1_M_5a0c62ce_154800_20000,e3
+  top_e4: via_stack_S310_10_LM1_M_5a0c62ce_154800_20000,e4
+warnings:
+  electrical:
+    unconnected_ports:
+    - message: 56 unconnected electrical ports!
+      ports:
+      - via_stack_S10_10_LM1_M2_5f5e6067_4800_0,e1
+      - via_stack_S10_10_LM1_M2_5f5e6067_4800_0,e3
+      - via_stack_S10_10_LM1_M2_5f5e6067_4800_0,e4
+      - via_stack_S10_10_LM1_M2_5f5e6067_4800_10000,e1
+      - via_stack_S10_10_LM1_M2_5f5e6067_4800_10000,e2
+      - via_stack_S10_10_LM1_M2_5f5e6067_4800_10000,e3
+      - via_stack_S10_10_LWG_NP_75a2a6b2_4800_6050,e1
+      - via_stack_S10_10_LWG_NP_75a2a6b2_4800_6050,e2
+      - via_stack_S10_10_LWG_NP_75a2a6b2_4800_6050,e3
+      - via_stack_S10_10_LWG_NP_75a2a6b2_4800_6050,e4
+      - via_stack_S10_10_LWG_NP_75a2a6b2_4800_-6050,e1
+      - via_stack_S10_10_LWG_NP_75a2a6b2_4800_-6050,e2
+      - via_stack_S10_10_LWG_NP_75a2a6b2_4800_-6050,e3
+      - via_stack_S10_10_LWG_NP_75a2a6b2_4800_-6050,e4
+      - via_stack_S10_10_LM1_M2_5f5e6067_101467_0,e1
+      - via_stack_S10_10_LM1_M2_5f5e6067_101467_0,e2
+      - via_stack_S10_10_LM1_M2_5f5e6067_101467_0,e3
+      - via_stack_S10_10_LM1_M2_5f5e6067_101467_-10000,e1
+      - via_stack_S10_10_LM1_M2_5f5e6067_101467_-10000,e3
+      - via_stack_S10_10_LM1_M2_5f5e6067_101467_-10000,e4
+      - via_stack_S10_10_LWG_NP_75a2a6b2_101467_6050,e1
+      - via_stack_S10_10_LWG_NP_75a2a6b2_101467_6050,e2
+      - via_stack_S10_10_LWG_NP_75a2a6b2_101467_6050,e3
+      - via_stack_S10_10_LWG_NP_75a2a6b2_101467_6050,e4
+      - via_stack_S10_10_LWG_NP_75a2a6b2_101467_-6050,e1
+      - via_stack_S10_10_LWG_NP_75a2a6b2_101467_-6050,e2
+      - via_stack_S10_10_LWG_NP_75a2a6b2_101467_-6050,e3
+      - via_stack_S10_10_LWG_NP_75a2a6b2_101467_-6050,e4
+      - via_stack_S10_10_LM1_M2_5f5e6067_198134_0,e1
+      - via_stack_S10_10_LM1_M2_5f5e6067_198134_0,e3
+      - via_stack_S10_10_LM1_M2_5f5e6067_198134_0,e4
+      - via_stack_S10_10_LM1_M2_5f5e6067_198134_10000,e1
+      - via_stack_S10_10_LM1_M2_5f5e6067_198134_10000,e2
+      - via_stack_S10_10_LM1_M2_5f5e6067_198134_10000,e3
+      - via_stack_S10_10_LWG_NP_75a2a6b2_198134_6050,e1
+      - via_stack_S10_10_LWG_NP_75a2a6b2_198134_6050,e2
+      - via_stack_S10_10_LWG_NP_75a2a6b2_198134_6050,e3
+      - via_stack_S10_10_LWG_NP_75a2a6b2_198134_6050,e4
+      - via_stack_S10_10_LWG_NP_75a2a6b2_198134_-6050,e1
+      - via_stack_S10_10_LWG_NP_75a2a6b2_198134_-6050,e2
+      - via_stack_S10_10_LWG_NP_75a2a6b2_198134_-6050,e3
+      - via_stack_S10_10_LWG_NP_75a2a6b2_198134_-6050,e4
+      - via_stack_S10_10_LM1_M2_5f5e6067_294801_0,e1
+      - via_stack_S10_10_LM1_M2_5f5e6067_294801_0,e2
+      - via_stack_S10_10_LM1_M2_5f5e6067_294801_0,e3
+      - via_stack_S10_10_LM1_M2_5f5e6067_294801_-10000,e1
+      - via_stack_S10_10_LM1_M2_5f5e6067_294801_-10000,e3
+      - via_stack_S10_10_LM1_M2_5f5e6067_294801_-10000,e4
+      - via_stack_S10_10_LWG_NP_75a2a6b2_295201_6050,e1
+      - via_stack_S10_10_LWG_NP_75a2a6b2_295201_6050,e2
+      - via_stack_S10_10_LWG_NP_75a2a6b2_295201_6050,e3
+      - via_stack_S10_10_LWG_NP_75a2a6b2_295201_6050,e4
+      - via_stack_S10_10_LWG_NP_75a2a6b2_295201_-6050,e1
+      - via_stack_S10_10_LWG_NP_75a2a6b2_295201_-6050,e2
+      - via_stack_S10_10_LWG_NP_75a2a6b2_295201_-6050,e3
+      - via_stack_S10_10_LWG_NP_75a2a6b2_295201_-6050,e4
+      values:
+      - - -200
+        - 0
+      - - 9800
+        - 0
+      - - 4800
+        - -5000
+      - - -200
+        - 10000
+      - - 4800
+        - 15000
+      - - 9800
+        - 10000
+      - - -200
+        - 6050
+      - - 4800
+        - 11050
+      - - 9800
+        - 6050
+      - - 4800
+        - 1050
+      - - -200
+        - -6050
+      - - 4800
+        - -1050
+      - - 9800
+        - -6050
+      - - 4800
+        - -11050
+      - - 96467
+        - 0
+      - - 101467
+        - 5000
+      - - 106467
+        - 0
+      - - 96467
+        - -10000
+      - - 106467
+        - -10000
+      - - 101467
+        - -15000
+      - - 96467
+        - 6050
+      - - 101467
+        - 11050
+      - - 106467
+        - 6050
+      - - 101467
+        - 1050
+      - - 96467
+        - -6050
+      - - 101467
+        - -1050
+      - - 106467
+        - -6050
+      - - 101467
+        - -11050
+      - - 193134
+        - 0
+      - - 203134
+        - 0
+      - - 198134
+        - -5000
+      - - 193134
+        - 10000
+      - - 198134
+        - 15000
+      - - 203134
+        - 10000
+      - - 193134
+        - 6050
+      - - 198134
+        - 11050
+      - - 203134
+        - 6050
+      - - 198134
+        - 1050
+      - - 193134
+        - -6050
+      - - 198134
+        - -1050
+      - - 203134
+        - -6050
+      - - 198134
+        - -11050
+      - - 289801
+        - 0
+      - - 294801
+        - 5000
+      - - 299801
+        - 0
+      - - 289801
+        - -10000
+      - - 299801
+        - -10000
+      - - 294801
+        - -15000
+      - - 290201
+        - 6050
+      - - 295201
+        - 11050
+      - - 300201
+        - 6050
+      - - 295201
+        - 1050
+      - - 290201
+        - -6050
+      - - 295201
+        - -1050
+      - - 300201
+        - -6050
+      - - 295201
+        - -11050

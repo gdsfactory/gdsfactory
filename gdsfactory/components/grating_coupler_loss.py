@@ -11,7 +11,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 @cell
 def loss_deembedding_ch13_24(
     pitch: float = 127.0,
-    grating_coupler: ComponentSpec = grating_coupler_te,
+    grating_coupler: ComponentSpec = "grating_coupler_te",
     cross_section: CrossSectionSpec = "strip",
     port_name: str = "o1",
     rotation: float = -90,
@@ -82,7 +82,7 @@ def loss_deembedding_ch13_24(
 @cell
 def loss_deembedding_ch12_34(
     pitch: float = 127.0,
-    grating_coupler: ComponentSpec = grating_coupler_te,
+    grating_coupler: ComponentSpec = "grating_coupler_te",
     port_name: str = "o1",
     cross_section: CrossSectionSpec = "strip",
     rotation: float = -90,
@@ -140,7 +140,7 @@ def loss_deembedding_ch12_34(
 @cell
 def loss_deembedding_ch14_23(
     pitch: float = 127.0,
-    grating_coupler: ComponentSpec = grating_coupler_te,
+    grating_coupler: ComponentSpec = "grating_coupler_te",
     cross_section: CrossSectionSpec = "strip",
     port_name: str = "o1",
     rotation: float = -90,
@@ -197,7 +197,7 @@ def loss_deembedding_ch14_23(
 @cell
 def grating_coupler_loss_fiber_array(
     pitch: float = 127.0,
-    grating_coupler: ComponentSpec = grating_coupler_te,
+    grating_coupler: ComponentSpec = "grating_coupler_te",
     port_name: str = "o1",
     cross_section: CrossSectionSpec = "strip",
     rotation: float = -90,
@@ -273,8 +273,9 @@ if __name__ == "__main__":
     # c = loss_deembedding_ch14_23()
     # c = loss_deembedding_ch12_34()
     # c = loss_deembedding_ch13_24()
-    c = grating_coupler_loss_fiber_array4()
+    # c = grating_coupler_loss_fiber_array4()
     # c = grating_coupler_loss_fiber_array4(layer=(2, 0), radius=30)
     # c = grating_coupler_loss_fiber_array4(cross_section="rib")
     # c = grating_coupler_loss_fiber_array(layer=(2, 0), radius=30)
+    c = grating_coupler_loss_fiber_array()
     c.show()

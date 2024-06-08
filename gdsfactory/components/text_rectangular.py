@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from collections.abc import Callable
 from functools import partial
 
 import gdsfactory as gf
@@ -17,7 +16,6 @@ def text_rectangular(
     position: tuple[float, float] = (0.0, 0.0),
     justify: str = "left",
     layer: LayerSpec = "WG",
-    font: Callable = rectangular_font,
 ) -> Component:
     """Pixel based font, guaranteed to be manhattan, without acute angles.
 
@@ -27,13 +25,12 @@ def text_rectangular(
         position: coordinate.
         justify: left, right or center.
         layer: for text.
-        font: function that returns dictionary of characters.
     """
     pixel_size = size
     xoffset = position[0]
     yoffset = position[1]
     component = gf.Component()
-    characters = font()
+    characters = rectangular_font()
 
     for line in text.split("\n"):
         for character in line:
@@ -92,6 +89,8 @@ def text_rectangular_multi_layer(
         layers=layers,
     )
 
+
+text_rectangular_mini = partial(text_rectangular, size=1)
 
 if __name__ == "__main__":
     c = text_rectangular_multi_layer()

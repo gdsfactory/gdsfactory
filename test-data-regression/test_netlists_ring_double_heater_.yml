@@ -1,0 +1,179 @@
+connections:
+  coupler_ring_G0p2_R10_L_f54abb4f_-500_16335,e1: straight_L1_N2_CSheater_metal_-500_20710,e1
+  coupler_ring_G0p2_R10_L_f54abb4f_-500_16335,e2: straight_L0p01_N2_CSstr_b7a6e359_10000_10705,e2
+  coupler_ring_G0p2_R10_L_f54abb4f_-500_16335,e3: straight_L0p01_N2_CSstr_b7a6e359_-11000_10705,e2
+  coupler_ring_G0p2_R10_L_f54abb4f_-500_16335,e4: straight_L1_N2_CSheater_metal_-500_20710,e2
+  coupler_ring_G0p2_R10_L_f54abb4f_-500_16335,o2: straight_L0p01_N2_CSstr_b7a6e359_10000_10705,o2
+  coupler_ring_G0p2_R10_L_f54abb4f_-500_16335,o3: straight_L0p01_N2_CSstr_b7a6e359_-11000_10705,o2
+  coupler_ring_G0p2_R10_L_f54abb4f_-500_5075,e2: straight_L0p01_N2_CSstr_b7a6e359_-11000_10705,e1
+  coupler_ring_G0p2_R10_L_f54abb4f_-500_5075,e3: straight_L0p01_N2_CSstr_b7a6e359_10000_10705,e1
+  coupler_ring_G0p2_R10_L_f54abb4f_-500_5075,o2: straight_L0p01_N2_CSstr_b7a6e359_-11000_10705,o1
+  coupler_ring_G0p2_R10_L_f54abb4f_-500_5075,o3: straight_L0p01_N2_CSstr_b7a6e359_10000_10705,o1
+instances:
+  coupler_ring_G0p2_R10_L_f54abb4f_-500_16335:
+    component: coupler_ring
+    info: {}
+    settings:
+      bend: bend_euler
+      coupler90: coupler90
+      coupler_straight: coupler_straight
+      cross_section: strip
+      cross_section_bend: strip_heater_metal
+      gap: 0.2
+      length_extension: 3
+      length_x: 1
+      radius: 10
+  coupler_ring_G0p2_R10_L_f54abb4f_-500_5075:
+    component: coupler_ring
+    info: {}
+    settings:
+      bend: bend_euler
+      coupler90: coupler90
+      coupler_straight: coupler_straight
+      cross_section: strip
+      cross_section_bend: strip_heater_metal
+      gap: 0.2
+      length_extension: 3
+      length_x: 1
+      radius: 10
+  straight_L0p01_N2_CSstr_b7a6e359_-11000_10705:
+    component: straight
+    info:
+      length: 0.01
+      route_info_length: 0.01
+      route_info_type: xs_18860153
+      route_info_weight: 0.01
+      route_info_xs_18860153_length: 0.01
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0.01
+      npoints: 2
+  straight_L0p01_N2_CSstr_b7a6e359_10000_10705:
+    component: straight
+    info:
+      length: 0.01
+      route_info_length: 0.01
+      route_info_type: xs_18860153
+      route_info_weight: 0.01
+      route_info_xs_18860153_length: 0.01
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 0.01
+      npoints: 2
+  straight_L1_N2_CSheater_metal_-500_20710:
+    component: straight
+    info:
+      length: 1
+      route_info_length: 1
+      route_info_type: xs_c500a645
+      route_info_weight: 1
+      route_info_xs_c500a645_length: 1
+      width: 2.5
+    settings:
+      cross_section: heater_metal
+      length: 1
+      npoints: 2
+  via_stack_S4_4_LHEATER__f8cf7960_-4000_0:
+    component: via_stack
+    info:
+      xsize: 4
+      ysize: 4
+    settings:
+      correct_size: true
+      layers:
+      - HEATER
+      - M2
+      - MTOP
+      size:
+      - 4
+      - 4
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - null
+      - via1
+      - via2
+  via_stack_S4_4_LHEATER__f8cf7960_3000_0:
+    component: via_stack
+    info:
+      xsize: 4
+      ysize: 4
+    settings:
+      correct_size: true
+      layers:
+      - HEATER
+      - M2
+      - MTOP
+      size:
+      - 4
+      - 4
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - null
+      - via1
+      - via2
+name: ring_double_heater_G0p2_26d47ff1
+placements:
+  coupler_ring_G0p2_R10_L_f54abb4f_-500_16335:
+    mirror: false
+    rotation: 180
+    x: -1
+    y: 21.41
+  coupler_ring_G0p2_R10_L_f54abb4f_-500_5075:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  straight_L0p01_N2_CSstr_b7a6e359_-11000_10705:
+    mirror: false
+    rotation: 90
+    x: -11
+    y: 10.7
+  straight_L0p01_N2_CSstr_b7a6e359_10000_10705:
+    mirror: false
+    rotation: 90
+    x: 10
+    y: 10.7
+  straight_L1_N2_CSheater_metal_-500_20710:
+    mirror: false
+    rotation: 0
+    x: -1
+    y: 20.71
+  via_stack_S4_4_LHEATER__f8cf7960_-4000_0:
+    mirror: false
+    rotation: 0
+    x: -4
+    y: 0
+  via_stack_S4_4_LHEATER__f8cf7960_3000_0:
+    mirror: false
+    rotation: 0
+    x: 3
+    y: 0
+ports:
+  l_e1: via_stack_S4_4_LHEATER__f8cf7960_-4000_0,e1
+  l_e2: via_stack_S4_4_LHEATER__f8cf7960_-4000_0,e2
+  l_e3: via_stack_S4_4_LHEATER__f8cf7960_-4000_0,e3
+  l_e4: via_stack_S4_4_LHEATER__f8cf7960_-4000_0,e4
+  o1: coupler_ring_G0p2_R10_L_f54abb4f_-500_5075,o1
+  o2: coupler_ring_G0p2_R10_L_f54abb4f_-500_5075,o4
+  o3: coupler_ring_G0p2_R10_L_f54abb4f_-500_16335,o4
+  o4: coupler_ring_G0p2_R10_L_f54abb4f_-500_16335,o1
+  r_e1: via_stack_S4_4_LHEATER__f8cf7960_3000_0,e1
+  r_e2: via_stack_S4_4_LHEATER__f8cf7960_3000_0,e2
+  r_e3: via_stack_S4_4_LHEATER__f8cf7960_3000_0,e3
+  r_e4: via_stack_S4_4_LHEATER__f8cf7960_3000_0,e4
+warnings:
+  electrical:
+    unconnected_ports:
+    - message: 2 unconnected electrical ports!
+      ports:
+      - coupler_ring_G0p2_R10_L_f54abb4f_-500_5075,e4
+      - coupler_ring_G0p2_R10_L_f54abb4f_-500_5075,e1
+      values:
+      - - -1000
+        - 700
+      - - 0
+        - 700

@@ -1,0 +1,226 @@
+connections: {}
+instances:
+  cdsem_bend180_W0p45_R10_d7247ec5_220112_80625:
+    component: cdsem_bend180
+    info: {}
+    settings:
+      bend90: bend_circular
+      cross_section: strip
+      radius: 10
+      straight: straight
+      text: text_rectangular_mini
+      wg_length: 420
+      width: 0.45
+  cdsem_bend180_W0p4_R10__a09b5474_220100_55200:
+    component: cdsem_bend180
+    info: {}
+    settings:
+      bend90: bend_circular
+      cross_section: strip
+      radius: 10
+      straight: straight
+      text: text_rectangular_mini
+      wg_length: 420
+      width: 0.4
+  cdsem_bend180_W0p5_R10__39c637df_220125_106100:
+    component: cdsem_bend180
+    info: {}
+    settings:
+      bend90: bend_circular
+      cross_section: strip
+      radius: 10
+      straight: straight
+      text: text_rectangular_mini
+      wg_length: 420
+      width: 0.5
+  cdsem_bend180_W0p6_R10__bcec4b1e_220150_131650:
+    component: cdsem_bend180
+    info: {}
+    settings:
+      bend90: bend_circular
+      cross_section: strip
+      radius: 10
+      straight: straight
+      text: text_rectangular_mini
+      wg_length: 420
+      width: 0.6
+  cdsem_bend180_W0p8_R10__6df87fd7_220200_157350:
+    component: cdsem_bend180
+    info: {}
+    settings:
+      bend90: bend_circular
+      cross_section: strip
+      radius: 10
+      straight: straight
+      text: text_rectangular_mini
+      wg_length: 420
+      width: 0.8
+  cdsem_bend180_W1_R10_WL_869f609e_220250_183750:
+    component: cdsem_bend180
+    info: {}
+    settings:
+      bend90: bend_circular
+      cross_section: strip
+      radius: 10
+      straight: straight
+      text: text_rectangular_mini
+      wg_length: 420
+      width: 1
+  cdsem_straight_W0p4_0p4_e37085c4_223500_20000:
+    component: cdsem_straight
+    info: {}
+    settings:
+      cross_section: strip
+      length: 420
+      spacing: 7
+      text: text_rectangular_mini
+      widths:
+      - 0.4
+      - 0.45
+      - 0.5
+      - 0.6
+      - 0.8
+      - 1
+  cdsem_straight_density__9510600a_218000_202410:
+    component: cdsem_straight_density
+    info: {}
+    settings:
+      cross_section: strip
+      gaps:
+      - 0.28
+      - 0.28
+      - 0.28
+      - 0.28
+      - 0.28
+      - 0.28
+      - 0.28
+      - 0.28
+      - 0.28
+      - 0.28
+      label: DL
+      length: 420
+      text: text_rectangular_mini
+      widths:
+      - 0.28
+      - 0.28
+      - 0.28
+      - 0.28
+      - 0.28
+      - 0.28
+      - 0.28
+      - 0.28
+      - 0.28
+      - 0.28
+  cdsem_straight_density__ce49f716_218000_212920:
+    component: cdsem_straight_density
+    info: {}
+    settings:
+      cross_section: strip
+      gaps:
+      - 0.3
+      - 0.3
+      - 0.3
+      - 0.3
+      - 0.3
+      - 0.3
+      - 0.3
+      - 0.3
+      - 0.3
+      - 0.3
+      label: DM
+      length: 420
+      text: text_rectangular_mini
+      widths:
+      - 0.3
+      - 0.3
+      - 0.3
+      - 0.3
+      - 0.3
+      - 0.3
+      - 0.3
+      - 0.3
+      - 0.3
+      - 0.3
+  cdsem_straight_density__d7699534_218000_223810:
+    component: cdsem_straight_density
+    info: {}
+    settings:
+      cross_section: strip
+      gaps:
+      - 0.32
+      - 0.32
+      - 0.32
+      - 0.32
+      - 0.32
+      - 0.32
+      - 0.32
+      - 0.32
+      - 0.32
+      - 0.32
+      label: DH
+      length: 420
+      text: text_rectangular_mini
+      widths:
+      - 0.32
+      - 0.32
+      - 0.32
+      - 0.32
+      - 0.32
+      - 0.32
+      - 0.32
+      - 0.32
+      - 0.32
+      - 0.32
+name: cdsem_all_W0p4_0p45_0p5_ba26fb18
+placements:
+  cdsem_bend180_W0p45_R10_d7247ec5_220112_80625:
+    mirror: false
+    rotation: 0
+    x: 430
+    y: 80.625
+  cdsem_bend180_W0p4_R10__a09b5474_220100_55200:
+    mirror: false
+    rotation: 0
+    x: 430
+    y: 55.2
+  cdsem_bend180_W0p5_R10__39c637df_220125_106100:
+    mirror: false
+    rotation: 0
+    x: 430
+    y: 106.1
+  cdsem_bend180_W0p6_R10__bcec4b1e_220150_131650:
+    mirror: false
+    rotation: 0
+    x: 430
+    y: 131.65
+  cdsem_bend180_W0p8_R10__6df87fd7_220200_157350:
+    mirror: false
+    rotation: 0
+    x: 430
+    y: 157.35
+  cdsem_bend180_W1_R10_WL_869f609e_220250_183750:
+    mirror: false
+    rotation: 0
+    x: 430
+    y: 183.75
+  cdsem_straight_W0p4_0p4_e37085c4_223500_20000:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  cdsem_straight_density__9510600a_218000_202410:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 199.75
+  cdsem_straight_density__ce49f716_218000_212920:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 210.07
+  cdsem_straight_density__d7699534_218000_223810:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 220.77
+ports: {}

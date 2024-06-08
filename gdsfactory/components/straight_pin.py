@@ -8,7 +8,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.taper import taper_strip_to_ridge
 from gdsfactory.components.via_stack import via_stack_slab_m3
-from gdsfactory.cross_section import pin, pn
+from gdsfactory.cross_section import pin
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
@@ -84,7 +84,7 @@ def straight_pin(
     return c
 
 
-straight_pn = partial(straight_pin, cross_section=pn, length=2000)
+straight_pn = partial(straight_pin, cross_section="pn", length=2000)
 
 if __name__ == "__main__":
     c = straight_pn(length=40)

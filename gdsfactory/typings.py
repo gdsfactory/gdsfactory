@@ -39,7 +39,7 @@ from typing import (
 import kfactory as kf
 import numpy as np
 from kfactory.kcell import LayerEnum
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import ConfigDict
 
 from gdsfactory.component import Component, ComponentBase, ComponentReference
 from gdsfactory.cross_section import CrossSection, Section, Transition, WidthTypes
@@ -192,58 +192,6 @@ MultiCrossSectionAngleSpec = list[tuple[CrossSectionSpec, tuple[int, ...]]]
 ConductorConductorName = tuple[str, str]
 ConductorViaConductorName = tuple[str, str, str] | tuple[str, str]
 ConnectivitySpec = ConductorConductorName | ConductorViaConductorName
-
-
-class Instance(BaseModel):
-    component: str
-    settings: dict[str, Any] = Field(default_factory=dict)
-    info: dict[str, Any] = Field(default_factory=dict, exclude=True)
-
-    model_config = ConfigDict(extra="forbid")
-
-    @model_validator(mode="before")
-    def update_settings_and_info(cls, values: dict[str, Any]) -> dict[str, Any]:
-        """Validator to update component, settings and info based on the component."""
-        component = values.get("component")
-        settings = values.get("settings", {})
-        info = values.get("info", {})
-
-        import gdsfactory as gf
-
-        c = gf.get_component(component)
-        component_info = c.info.model_dump(exclude_none=True)
-        component_settings = c.settings.model_dump(exclude_none=True)
-        values["info"] = {**component_info, **info}
-        values["settings"] = {**component_settings, **settings}
-        values["component"] = c.function_name
-        return values
-
-
-class Placement(BaseModel):
-    x: str | float = 0
-    y: str | float = 0
-    xmin: str | float | None = None
-    ymin: str | float | None = None
-    xmax: str | float | None = None
-    ymax: str | float | None = None
-    dx: float = 0
-    dy: float = 0
-    port: str | Anchor | None = None
-    rotation: int = 0
-    mirror: bool = False
-
-    def __getitem__(self, key: str) -> Any:
-        return getattr(self, key, 0)
-
-    model_config = ConfigDict(extra="forbid")
-
-
-class Bundle(BaseModel):
-    links: dict[str, str]
-    settings: dict[str, Any] = Field(default_factory=dict)
-    routing_strategy: str = "get_bundle"
-
-    model_config = ConfigDict(extra="forbid")
 
 
 class TypedArray(np.ndarray):

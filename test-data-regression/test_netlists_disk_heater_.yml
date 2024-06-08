@@ -1,0 +1,119 @@
+connections:
+  rectangle_S45p800000000_a6949a61_-10450_351,e1: via_stack_S10_10_LHEATE_1f9ed57b_-38350_351,e3
+  rectangle_S45p800000000_a6949a61_-10450_351,e3: via_stack_S10_10_LHEATE_1f9ed57b_17450_351,e1
+instances:
+  disk_R10_G0p2_WAD180_P1_CSstrip_-10450_0:
+    component: disk
+    info: {}
+    settings:
+      cross_section: strip
+      gap: 0.2
+      parity: 1
+      radius: 10
+      wrap_angle_deg: 180
+  rectangle_S45p800000000_a6949a61_-10450_351:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer: HEATER
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 45.8
+      - 5
+  via_stack_S10_10_LHEATE_1f9ed57b_-38350_351:
+    component: via_stack
+    info:
+      xsize: 10
+      ysize: 10
+    settings:
+      correct_size: true
+      layers:
+      - HEATER
+      - M2
+      - MTOP
+      size:
+      - 10
+      - 10
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - null
+      - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2
+      - Fvia_Mgdsfactorypcomponentspvia_SLVIA2
+  via_stack_S10_10_LHEATE_1f9ed57b_17450_351:
+    component: via_stack
+    info:
+      xsize: 10
+      ysize: 10
+    settings:
+      correct_size: true
+      layers:
+      - HEATER
+      - M2
+      - MTOP
+      size:
+      - 10
+      - 10
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - null
+      - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2
+      - Fvia_Mgdsfactorypcomponentspvia_SLVIA2
+name: disk_heater_R10_G0p2_WA_14c266ed
+placements:
+  disk_R10_G0p2_WAD180_P1_CSstrip_-10450_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  rectangle_S45p800000000_a6949a61_-10450_351:
+    mirror: false
+    rotation: 0
+    x: -33.35
+    y: -2.149
+  via_stack_S10_10_LHEATE_1f9ed57b_-38350_351:
+    mirror: false
+    rotation: 0
+    x: -38.35
+    y: 0.351
+  via_stack_S10_10_LHEATE_1f9ed57b_17450_351:
+    mirror: false
+    rotation: 0
+    x: 17.45
+    y: 0.351
+ports:
+  e1: via_stack_S10_10_LHEATE_1f9ed57b_-38350_351,e2
+  e2: via_stack_S10_10_LHEATE_1f9ed57b_17450_351,e2
+  o1: disk_R10_G0p2_WAD180_P1_CSstrip_-10450_0,o1
+  o2: disk_R10_G0p2_WAD180_P1_CSstrip_-10450_0,o2
+warnings:
+  electrical:
+    unconnected_ports:
+    - message: 6 unconnected electrical ports!
+      ports:
+      - rectangle_S45p800000000_a6949a61_-10450_351,e2
+      - rectangle_S45p800000000_a6949a61_-10450_351,e4
+      - via_stack_S10_10_LHEATE_1f9ed57b_-38350_351,e1
+      - via_stack_S10_10_LHEATE_1f9ed57b_-38350_351,e4
+      - via_stack_S10_10_LHEATE_1f9ed57b_17450_351,e3
+      - via_stack_S10_10_LHEATE_1f9ed57b_17450_351,e4
+      values:
+      - - -10450
+        - 2851
+      - - -10450
+        - -2149
+      - - -43350
+        - 351
+      - - -38350
+        - -4649
+      - - 22450
+        - 351
+      - - 17450
+        - -4649

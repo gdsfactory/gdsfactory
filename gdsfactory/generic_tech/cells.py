@@ -27,7 +27,7 @@ mmi1x2 = partial(
     width_taper=1,
     length_taper=10,
     length_mmi=10,
-    width_mm=2.5,
+    width_mmi=2.5,
     cross_section=xs.strip,
 )
 

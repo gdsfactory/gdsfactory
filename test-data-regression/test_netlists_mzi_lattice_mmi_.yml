@@ -1,0 +1,35 @@
+connections: {}
+instances:
+  mzi_DL10_LY2_LXNone_Bbe_d7c3aeb3_40510_-2500:
+    component: mzi
+    info: {}
+    settings:
+      add_optical_ports_arms: false
+      auto_rename_ports: true
+      bend: bend_euler
+      combiner: mmi2x2_WNone_WT1_LT10_L_4ab7dfce
+      cross_section: strip
+      delta_length: 10
+      length_y: 2
+      min_length: 0.01
+      mirror_bot: false
+      nbends: 2
+      port_e0_combiner: o4
+      port_e0_splitter: o4
+      port_e1_combiner: o3
+      port_e1_splitter: o3
+      splitter: mmi2x2_WNone_WT1_LT10_L_4ab7dfce
+      straight: straight
+      with_splitter: true
+name: mzi_lattice_mmi_CWNone__0d9a1713
+placements:
+  mzi_DL10_LY2_LXNone_Bbe_d7c3aeb3_40510_-2500:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+ports:
+  o1: mzi_DL10_LY2_LXNone_Bbe_d7c3aeb3_40510_-2500,o1
+  o2: mzi_DL10_LY2_LXNone_Bbe_d7c3aeb3_40510_-2500,o2
+  o3: mzi_DL10_LY2_LXNone_Bbe_d7c3aeb3_40510_-2500,o3
+  o4: mzi_DL10_LY2_LXNone_Bbe_d7c3aeb3_40510_-2500,o4

@@ -76,6 +76,12 @@ valid_placement_keys = [
     "rotation",
     "mirror",
     "port",
+    "na",
+    "nb",
+    "dax",
+    "dbx",
+    "day",
+    "dby",
 ]
 
 
@@ -280,19 +286,21 @@ def place(
             elif isinstance(mirror, int | float):
                 ref.dmirror_x(x=ref.dx)
             else:
+                port_names = [port.name for port in ref.ports]
                 raise ValueError(
-                    f"{mirror!r} can only be a port name {ref.ports.keys()}, "
+                    f"{mirror!r} can only be a port name {port_names}, "
                     "x value or True/False"
                 )
 
         if port:
             a = _get_anchor_point_from_name(ref, port)
             if a is None:
+                port_names = [port.name for port in ref.ports]
                 raise ValueError(
                     f"Port {port!r} is neither a valid port on {ref.parent.name!r}"
                     " nor a recognized anchor keyword.\n"
                     "Valid ports: \n"
-                    f"{list(ref.ports.keys())}. \n"
+                    f"{port_names}. \n"
                     "Valid keywords: \n"
                     f"{valid_anchor_point_keywords}",
                 )
@@ -749,7 +757,14 @@ def from_yaml(
         settings = clean_value_json(settings)
         component_spec = {"component": component, "settings": settings}
         component = component_getter(component_spec)
-        ref = c.add_ref(component, name=instance_name)
+        ref = c.add_ref(
+            component,
+            name=instance_name,
+            rows=instance_conf.get("nb", 1),
+            columns=instance_conf.get("na", 1),
+            spacing=(instance_conf.get("dax", 0), instance_conf.get("dby", 0)),
+        )
+
         instances[instance_name] = ref
 
     placements_conf = {} if placements_conf is None else placements_conf
@@ -912,8 +927,8 @@ def from_yaml(
                     #         f" {instance_dst_name!r}"
                     #     )
 
-                    ports1.append(instance_src.ports[port_src_name])
-                    ports2.append(instance_dst.ports[port_dst_name])
+                    ports1.append(instance_src[port_src_name])
+                    ports2.append(instance_dst[port_dst_name])
                     route_name = f"{port_src_string}:{port_dst_string}"
                     route_names.append(route_name)
 
@@ -948,8 +963,6 @@ def from_yaml(
                         f" {instance_name!r} "
                     )
                 c.add_port(port_name, port=instance.ports[instance_port_name])
-            else:
-                c.add_port(**instance_comma_port)
 
     c.routes = routes
     return c
@@ -1101,9 +1114,10 @@ instances:
     mmi1x2_sweep_pack:
        component: pack_doe
        settings:
-         component: mmi1x2
-         length_mmi: [2, 100]
-         width_mmi: [4, 10]
+         doe: mmi1x2
+         settings:
+             length_mmi: [2, 100]
+             width_mmi: [4, 10]
        pack:
          do_permutations: True
          spacing: 100
@@ -1111,8 +1125,9 @@ instances:
     mzi_sweep:
        component: pack_doe
        settings:
-         component: mzi
-         delta_length: [10, 100]
+         doe: mzi
+         settings:
+            delta_length: [10, 100]
        pack:
          do_permutations: True
          spacing: 100
@@ -1437,6 +1452,18 @@ placements:
         y: 0
         mirror: o1
         rotation: 0
+"""
+
+
+pad_array = """
+name: pad_array
+instances:
+    pad_array:
+      component: pad
+      na: 3
+      nb: 1
+      dax: 200
+      dby: 200
 
 """
 
@@ -1444,7 +1471,7 @@ placements:
 if __name__ == "__main__":
     # c = from_yaml(sample_doe_function)
     # c = from_yaml(sample_mmis)
-    c = from_yaml(mirror_demo)
+    c = from_yaml(sample_yaml_xmin)
     c.show()
     # n = c.get_netlist()
     # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)

@@ -54,20 +54,18 @@ def array(
 
     c = Component()
     component = gf.get_component(component)
-    ref = c.add_array(component, columns=columns, rows=rows, spacing=spacing)
+    ref = c.add_ref(component, columns=columns, rows=rows, spacing=spacing)
     old_center = ref.dcenter
     ref.dcenter = (0, 0) if centered else old_center
-    center_shift = ref.dcenter - old_center
 
     if add_ports and component.ports:
-        for col in range(int(columns)):
-            for row in range(int(rows)):
+        for ix in range(ref.na):
+            for iy in range(ref.nb):
                 for port in component.ports:
-                    port = port.copy()
-                    port.dx += col * spacing[0] + center_shift.x
-                    port.dy += row * spacing[1] + center_shift.y
-                    name = f"{port.name}_{row+1}_{col+1}"
+                    port = port.copy(ref.trans * gf.kdb.Trans(ix * ref.a + iy * ref.b))
+                    name = f"{port.name}_{iy+1}_{ix+1}"
                     c.add_port(name, port=port)
+
     return c
 
 

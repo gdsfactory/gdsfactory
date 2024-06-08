@@ -20,6 +20,7 @@ from __future__ import annotations
 
 from collections import defaultdict
 from collections.abc import Callable
+from pprint import pprint
 from typing import Any
 
 import numpy as np
@@ -28,7 +29,6 @@ from gdsfactory import Port
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.name import clean_name
 from gdsfactory.serialization import clean_dict, clean_value_json
-from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import LayerSpec
 
 
@@ -65,8 +65,8 @@ def get_instance_name_from_label(
 
     layer_label = get_layer(layer_label)
 
-    x = snap_to_grid(reference.dx)
-    y = snap_to_grid(reference.dy)
+    x = reference.dx
+    y = reference.dy
     labels = component.labels
 
     # default instance name follows component.aliases
@@ -74,8 +74,8 @@ def get_instance_name_from_label(
 
     # try to get the instance name from a label
     for label in labels:
-        xl = snap_to_grid(label.dposition[0])
-        yl = snap_to_grid(label.dposition[1])
+        xl = label.dposition[0]
+        yl = label.dposition[1]
         if x == xl and y == yl and label.layer == layer_label[0]:
             # print(label.text, xl, yl, x, y)
             return label.text
@@ -90,28 +90,16 @@ def get_netlist(
     allow_multiple: bool = False,
     connection_error_types: dict[str, list[str]] | None = None,
 ) -> dict[str, Any]:
-    """From Component returns instances, connections and placements dict.
-
-    Does two sweeps over the connections:
-
-    1. first tries to connect everything assuming perfect connections at each port.
-    2. Then gathers ports which did not perfectly connect to anything and tries \
-            to find imperfect connections, by grouping ports on a coarse grid.
+    """From Component returns a dict with instances, connections and placements.
 
     warnings collected during netlisting are reported back into the netlist.
     These include warnings about mismatched port widths, orientations, shear angles, excessive offsets, etc.
     You can also configure warning types which should throw an error when encountered
     by modifying connection_error_types.
-    Validators, which will produce warnings for each port type,
-    can be overridden with DEFAULT_CONNECTION_VALIDATORS
     A key difference in this algorithm is that we group each port type independently.
     This allows us to use different logic to determine i.e.
     if an electrical port is properly connected vs an optical port.
     In this function, the core logic is the same, but we employ extra validation for optical ports.
-    snap_to_grid() allows a value of 0, which will return the original value,
-    is more efficient when the value is 1, and will throw a more descriptive error when the value is <0
-    the default value of tolerance is 5nm because it should allow better performance with the two-grid-sweep approach.
-
 
     Args:
         component: to extract netlist.
@@ -151,17 +139,6 @@ def get_netlist(
         x = origin.x
         y = origin.y
         reference_name = get_instance_name(reference)
-        if (
-            isinstance(reference, ComponentReference)
-            and hasattr(reference, "columns")
-            and (reference.columns > 1 or reference.rows > 1)
-        ):
-            is_array = True
-            base_reference_name = reference_name
-            reference_name += "__1_1"
-        else:
-            is_array = False
-
         instance = {}
 
         if c.info:
@@ -183,37 +160,23 @@ def get_netlist(
             "rotation": reference.dcplx_trans.angle,
             "mirror": reference.dtrans.mirror,
         }
-        if is_array:
-            parent_ports = c.ports
-            for i in range(reference.rows):
-                for j in range(reference.columns):
-                    reference_name = f"{base_reference_name}__{i + 1}_{j + 1}"
-                    xj = x + j * reference.spacing[0]
-                    yi = y + i * reference.spacing[1]
-                    instances[reference_name] = instance
-                    placements[reference_name] = {
-                        "x": xj,
-                        "y": yi,
-                        "rotation": reference.dcplx_trans.angle,
-                        "mirror": reference.dcplx_trans.mirror,
-                    }
-                    for parent_port_name in parent_ports:
-                        top_name = f"{parent_port_name}_{i + 1}_{j + 1}"
-                        lower_name = f"{reference_name},{parent_port_name}"
-                        # a bit of a hack... get the top-level port for the
-                        # ComponentArray, by our known naming convention. I hope no one
-                        # renames these ports!
-                        parent_port = component.ports[top_name]
-                        name2port[lower_name] = parent_port
-                        top_ports_list.add(top_name)
-                        ports_by_type[parent_port.port_type].append(lower_name)
-        else:
-            # lower level ports
-            for port in reference.ports:
-                reference_name = get_instance_name(reference)
-                src = f"{reference_name},{port.name}"
-                name2port[src] = port
-                ports_by_type[port.port_type].append(src)
+
+        if reference.na > 1 or reference.nb > 1:
+            instances[reference_name].update(
+                na=reference.na,
+                nb=reference.nb,
+                dax=reference.da.x,
+                dbx=reference.db.x,
+                day=reference.da.y,
+                dby=reference.db.y,
+            )
+
+        # lower level ports
+        for port in reference.ports:
+            reference_name = get_instance_name(reference)
+            src = f"{reference_name},{port.name}"
+            name2port[src] = port
+            ports_by_type[port.port_type].append(src)
 
     for port in ports:
         src = port.name
@@ -368,9 +331,8 @@ def _extract_connections(
     }
 
     if critical_warnings:
-        raise ValueError(
-            f"Found critical warnings while extracting netlist: {critical_warnings}"
-        )
+        pprint(critical_warnings)
+        raise ValueError("Found critical warnings while extracting netlist")
     return connections, dict(warnings)
 
 
@@ -558,14 +520,18 @@ if __name__ == "__main__":
 
     import gdsfactory as gf
 
-    c = gf.Component()
-    mzi = c << gf.c.mzi()
-    mzi.dxmin = 10
+    # c = gf.Component()
+    # mzi = c << gf.c.mzi()
+    # mzi.dxmin = 10
+    # mzi.name = "mzi"
+    # bend = c << gf.c.bend_euler()
+    # bend.connect("o1", mzi.ports["o2"])
+    # bend.name = "bend"
+    # c.add_port("o1", port=mzi.ports["o1"])
+    # c.add_port("o2", port=bend.ports["o2"])
 
-    mzi.name = "mzi"
-    bend = c << gf.c.bend_euler()
-    bend.connect("o1", mzi.ports["o2"])
-    bend.name = "bend"
+    c = gf.c.array(spacing=(300, 300), columns=2)
+    c.show()
     n0 = c.get_netlist()
     # pprint(n0)
 

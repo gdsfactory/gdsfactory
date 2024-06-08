@@ -1,0 +1,153 @@
+connections:
+  straight_L320_N2_CSstri_82742ad9_160000_0,e1: taper_L5_W11_W2p5_PNone_4a19c1ba_-2500_0,e2
+  straight_L320_N2_CSstri_82742ad9_160000_0,e2: taper_L5_W11_W2p5_PNone_4a19c1ba_322500_0,e2
+  taper_L5_W11_W2p5_PNone_4a19c1ba_-2500_0,e1: via_stack_S11_11_LHEATE_f29565aa_-10500_0,e3
+  taper_L5_W11_W2p5_PNone_4a19c1ba_322500_0,e1: via_stack_S11_11_LHEATE_f29565aa_330500_0,e1
+instances:
+  straight_L320_N2_CSstri_82742ad9_160000_0:
+    component: straight
+    info:
+      length: 320
+      route_info_length: 320
+      route_info_type: xs_18860153
+      route_info_weight: 320
+      route_info_xs_18860153_length: 320
+      width: 0.5
+    settings:
+      cross_section: strip_heater_metal
+      length: 320
+      npoints: 2
+  taper_L5_W11_W2p5_PNone_4a19c1ba_-2500_0:
+    component: taper
+    info:
+      length: 5
+      width1: 11
+      width2: 2.5
+    settings:
+      cross_section: heater_metal
+      length: 5
+      port_names:
+      - e1
+      - e2
+      port_types:
+      - electrical
+      - electrical
+      width1: 11
+      width2: 2.5
+      with_bbox: true
+      with_two_ports: true
+  taper_L5_W11_W2p5_PNone_4a19c1ba_322500_0:
+    component: taper
+    info:
+      length: 5
+      width1: 11
+      width2: 2.5
+    settings:
+      cross_section: heater_metal
+      length: 5
+      port_names:
+      - e1
+      - e2
+      port_types:
+      - electrical
+      - electrical
+      width1: 11
+      width2: 2.5
+      with_bbox: true
+      with_two_ports: true
+  via_stack_S11_11_LHEATE_f29565aa_-10500_0:
+    component: via_stack
+    info:
+      xsize: 11
+      ysize: 11
+    settings:
+      correct_size: true
+      layers:
+      - HEATER
+      - M2
+      - MTOP
+      size:
+      - 11
+      - 11
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - null
+      - via1
+      - via2
+  via_stack_S11_11_LHEATE_f29565aa_330500_0:
+    component: via_stack
+    info:
+      xsize: 11
+      ysize: 11
+    settings:
+      correct_size: true
+      layers:
+      - HEATER
+      - M2
+      - MTOP
+      size:
+      - 11
+      - 11
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - null
+      - via1
+      - via2
+name: straight_heater_metal_s_61c5bdef
+placements:
+  straight_L320_N2_CSstri_82742ad9_160000_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  taper_L5_W11_W2p5_PNone_4a19c1ba_-2500_0:
+    mirror: false
+    rotation: 0
+    x: -5
+    y: 0
+  taper_L5_W11_W2p5_PNone_4a19c1ba_322500_0:
+    mirror: false
+    rotation: 180
+    x: 325
+    y: 0
+  via_stack_S11_11_LHEATE_f29565aa_-10500_0:
+    mirror: false
+    rotation: 0
+    x: -10.5
+    y: 0
+  via_stack_S11_11_LHEATE_f29565aa_330500_0:
+    mirror: false
+    rotation: 0
+    x: 330.5
+    y: 0
+ports:
+  e1: taper_L5_W11_W2p5_PNone_4a19c1ba_-2500_0,e2
+  e2: taper_L5_W11_W2p5_PNone_4a19c1ba_322500_0,e2
+  o1: straight_L320_N2_CSstri_82742ad9_160000_0,o1
+  o2: straight_L320_N2_CSstri_82742ad9_160000_0,o2
+warnings:
+  electrical:
+    unconnected_ports:
+    - message: 6 unconnected electrical ports!
+      ports:
+      - via_stack_S11_11_LHEATE_f29565aa_-10500_0,e1
+      - via_stack_S11_11_LHEATE_f29565aa_-10500_0,e2
+      - via_stack_S11_11_LHEATE_f29565aa_-10500_0,e4
+      - via_stack_S11_11_LHEATE_f29565aa_330500_0,e2
+      - via_stack_S11_11_LHEATE_f29565aa_330500_0,e3
+      - via_stack_S11_11_LHEATE_f29565aa_330500_0,e4
+      values:
+      - - -16000
+        - 0
+      - - -10500
+        - 5500
+      - - -10500
+        - -5500
+      - - 330500
+        - 5500
+      - - 336000
+        - 0
+      - - 330500
+        - -5500

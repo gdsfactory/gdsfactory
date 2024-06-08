@@ -365,12 +365,13 @@ class Pdk(BaseModel):
     def get_cross_section(
         self, cross_section: CrossSectionSpec, **kwargs
     ) -> CrossSection | Transition:
-        """Returns cross_section from a cross_section spec."""
-        if isinstance(cross_section, CrossSection):
-            return cross_section.copy(**kwargs)
-        elif isinstance(cross_section, Transition):
-            return cross_section
-        elif callable(cross_section):
+        """Returns cross_section from a cross_section spec.
+
+        Args:
+            cross_section: CrossSection, CrossSectionFactory, Transition, string or dict.
+            kwargs: settings to override.
+        """
+        if callable(cross_section):
             return cross_section(**kwargs)
         elif isinstance(cross_section, str):
             if cross_section not in self.cross_sections:
@@ -381,8 +382,13 @@ class Pdk(BaseModel):
         elif isinstance(cross_section, dict | DictConfig):
             xs_name = cross_section.get("cross_section", None)
             settings = cross_section.get("settings", {})
-            xs = self.get_cross_section(xs_name)
-            return xs.copy(**settings)
+            return self.get_cross_section(xs_name, **settings)
+        elif isinstance(cross_section, CrossSection | Transition):
+            if kwargs:
+                warnings.warn(
+                    f"{kwargs} are ignored for cross_section {cross_section.name!r}"
+                )
+            return cross_section
         else:
             raise ValueError(
                 "get_cross_section expects a CrossSectionSpec (CrossSection, "

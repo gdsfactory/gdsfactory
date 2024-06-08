@@ -32,6 +32,9 @@ profile.html
 *.svg
 *.db
 *.tar
+.conda
+.devcontainer
+
 gfconfig.yml
 sim_ref.yaml
 yarn.lock

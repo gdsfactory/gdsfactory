@@ -3,12 +3,7 @@
 Sometimes you want to remove cell structure from a Component while keeping all
 of the shapes/polygons intact and in place.
 
-The Component.flatten() method returns a new flatten Component with all the
-polygons inside the Component, and removes all the underlying references.
-Also, if you specify the `single_layer` argument it will move all of the
-polygons to that single layer.
-
-FIXME! flatten gives a seg fault
+The Component.flatten() method flattens current Component by copying all polygons from the underlying references.
 
 """
 

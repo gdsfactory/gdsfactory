@@ -53,8 +53,9 @@ def add_electrical_pads_top_dc(
     ports = ports or select_ports(cref.ports)
 
     if not ports:
+        port_names = [port.name for port in component.ports]
         raise ValueError(
-            f"select_ports or port_names did not match any ports in {list(component.ports.keys())}"
+            f"select_ports or port_names did not match any ports in {port_names}"
         )
 
     ports_component = list(ports.values()) if isinstance(ports, dict) else ports

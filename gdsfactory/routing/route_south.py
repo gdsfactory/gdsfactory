@@ -281,9 +281,8 @@ def route_south(
 
 
 if __name__ == "__main__":
-    layer = (2, 0)
     c = gf.Component()
-    component = gf.components.ring_double(layer=layer)
+    component = gf.components.ring_double()
     component = gf.components.nxn(north=2, south=2, west=2, east=2)
     component = gf.c.mzi_phase_shifter()
     ref = c << component

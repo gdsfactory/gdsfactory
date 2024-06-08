@@ -2,16 +2,11 @@
 
 from __future__ import annotations
 
-from functools import partial
-
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.typings import ComponentFactory, ComponentSpec, CrossSectionSpec
 
 LINE_LENGTH = 420.0
-
-text_rectangular_mini = partial(text_rectangular, size=1)
 
 
 @gf.cell
@@ -22,7 +17,7 @@ def cdsem_bend180(
     straight: ComponentSpec = "straight",
     bend90: ComponentSpec = "bend_circular",
     cross_section: CrossSectionSpec = "strip",
-    text: ComponentFactory = text_rectangular_mini,
+    text: ComponentFactory = "text_rectangular_mini",
 ) -> Component:
     """Returns CDSEM structures.
 
@@ -59,7 +54,7 @@ def cdsem_bend180(
     wg2 = c.add_ref(wg)
     wg2.connect("o1", b2.ports["o1"])
 
-    label = c << text(text=str(int(width * 1e3)))
+    label = c << gf.get_component(text, text=str(int(width * 1e3)))
     label.dymax = b2.dymin - 5
     label.dx = 0
 

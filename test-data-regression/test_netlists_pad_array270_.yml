@@ -1,0 +1,36 @@
+connections:
+  pad_S100_100_LMTOP_BLNo_0d37cb32_375000_0,e1: pad_S100_100_LMTOP_BLNo_0d37cb32_375000_0,e1
+  pad_S100_100_LMTOP_BLNo_0d37cb32_375000_0,e2: pad_S100_100_LMTOP_BLNo_0d37cb32_375000_0,e2
+  pad_S100_100_LMTOP_BLNo_0d37cb32_375000_0,e3: pad_S100_100_LMTOP_BLNo_0d37cb32_375000_0,e3
+  pad_S100_100_LMTOP_BLNo_0d37cb32_375000_0,e4: pad_S100_100_LMTOP_BLNo_0d37cb32_375000_0,e4
+  pad_S100_100_LMTOP_BLNo_0d37cb32_375000_0,pad: pad_S100_100_LMTOP_BLNo_0d37cb32_375000_0,pad
+instances:
+  pad_S100_100_LMTOP_BLNo_0d37cb32_375000_0:
+    component: pad
+    dax: 150
+    day: 0
+    dbx: 0
+    dby: 150
+    info:
+      size:
+      - 100
+      - 100
+      xsize: 100
+      ysize: 100
+    na: 6
+    nb: 1
+    settings:
+      layer: MTOP
+      port_inclusion: 0
+      port_orientation: 270
+      size:
+      - 100
+      - 100
+name: pad_array_Ppad_S150_150_32a4b62b
+placements:
+  pad_S100_100_LMTOP_BLNo_0d37cb32_375000_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+ports: {}

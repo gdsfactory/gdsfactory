@@ -1,0 +1,128 @@
+connections:
+  bend_circular_R5_A90_NN_fe63dc3e_-2925_-8925,o1: straight_L0p6_N2_CSstrip_0_-11300,o2
+  bend_circular_R5_A90_NN_fe63dc3e_-2925_-8925,o2: straight_L0p6_N2_CSstrip_-5300_-6000,o2
+  bend_circular_R5_A90_NN_fe63dc3e_2925_-8925,o1: straight_L0p6_N2_CSstrip_5300_-6000,o1
+  bend_circular_R5_A90_NN_fe63dc3e_2925_-8925,o2: straight_L0p6_N2_CSstrip_0_-11300,o1
+  coupler_ring_bend_R5_CG_6c1c7ac7_0_-7850,o2: straight_L0p6_N2_CSstrip_-5300_-6000,o1
+  coupler_ring_bend_R5_CG_6c1c7ac7_0_-7850,o3: straight_L0p6_N2_CSstrip_5300_-6000,o2
+instances:
+  bend_circular_R5_A90_NN_fe63dc3e_-2925_-8925:
+    component: bend_circular
+    info:
+      dy: 5
+      length: 7.853
+      radius: 5
+      route_info_length: 7.853
+      route_info_min_bend_radius: 5
+      route_info_n_bend_90: 1
+      route_info_type: xs_34e31a19
+      route_info_weight: 7.853
+      route_info_xs_34e31a19_length: 7.853
+    settings:
+      allow_min_radius_violation: false
+      angle: 90
+      cross_section: strip
+      radius: 5
+  bend_circular_R5_A90_NN_fe63dc3e_2925_-8925:
+    component: bend_circular
+    info:
+      dy: 5
+      length: 7.853
+      radius: 5
+      route_info_length: 7.853
+      route_info_min_bend_radius: 5
+      route_info_n_bend_90: 1
+      route_info_type: xs_34e31a19
+      route_info_weight: 7.853
+      route_info_xs_34e31a19_length: 7.853
+    settings:
+      allow_min_radius_violation: false
+      angle: 90
+      cross_section: strip
+      radius: 5
+  coupler_ring_bend_R5_CG_6c1c7ac7_0_-7850:
+    component: coupler_ring_bend
+    info: {}
+    settings:
+      bend: bend_circular_all_angle
+      bend_output: bend_euler_all_angle
+      coupler_gap: 0.2
+      coupling_angle_coverage: 180
+      cross_section_inner: strip
+      cross_section_outer: strip
+      length_x: 0.6
+      radius: 5
+  straight_L0p6_N2_CSstrip_-5300_-6000:
+    component: straight
+    info:
+      length: 0.6
+      route_info_length: 0.6
+      route_info_type: xs_34e31a19
+      route_info_weight: 0.6
+      route_info_xs_34e31a19_length: 0.6
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 0.6
+      npoints: 2
+  straight_L0p6_N2_CSstrip_0_-11300:
+    component: straight
+    info:
+      length: 0.6
+      route_info_length: 0.6
+      route_info_type: xs_34e31a19
+      route_info_weight: 0.6
+      route_info_xs_34e31a19_length: 0.6
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 0.6
+      npoints: 2
+  straight_L0p6_N2_CSstrip_5300_-6000:
+    component: straight
+    info:
+      length: 0.6
+      route_info_length: 0.6
+      route_info_type: xs_34e31a19
+      route_info_weight: 0.6
+      route_info_xs_34e31a19_length: 0.6
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 0.6
+      npoints: 2
+name: ring_single_bend_couple_31ff66c8
+placements:
+  bend_circular_R5_A90_NN_fe63dc3e_-2925_-8925:
+    mirror: true
+    rotation: 180
+    x: -0.3
+    y: -11.3
+  bend_circular_R5_A90_NN_fe63dc3e_2925_-8925:
+    mirror: true
+    rotation: 270
+    x: 5.3
+    y: -6.3
+  coupler_ring_bend_R5_CG_6c1c7ac7_0_-7850:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  straight_L0p6_N2_CSstrip_-5300_-6000:
+    mirror: false
+    rotation: 270
+    x: -5.3
+    y: -5.7
+  straight_L0p6_N2_CSstrip_0_-11300:
+    mirror: true
+    rotation: 180
+    x: 0.3
+    y: -11.3
+  straight_L0p6_N2_CSstrip_5300_-6000:
+    mirror: false
+    rotation: 90
+    x: 5.3
+    y: -6.3
+ports:
+  o1: coupler_ring_bend_R5_CG_6c1c7ac7_0_-7850,o1
+  o2: coupler_ring_bend_R5_CG_6c1c7ac7_0_-7850,o4

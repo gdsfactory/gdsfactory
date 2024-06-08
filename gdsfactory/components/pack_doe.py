@@ -88,7 +88,7 @@ def pack_doe(
         doe, settings, do_permutations, function
     )
 
-    c = pack(component_list=component_list, **kwargs)
+    c = pack(component_list, **kwargs)
 
     if len(c) > 1:
         raise ValueError(

@@ -75,8 +75,11 @@ if __name__ == "__main__":
     c = gf.Component()
     w = straight(
         length=10,
-        cross_section="strip",
+        cross_section="rib_bbox",
     )
     ref = c << w
     ref.dxmin = 10
+    p = c.get_polygons_points()
+    p = list(p.values())
+    print(p[0][0])
     c.show()

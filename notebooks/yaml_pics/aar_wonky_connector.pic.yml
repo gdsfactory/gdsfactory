@@ -23,7 +23,7 @@ placements:
 
 routes:
     optical:
-        routing_strategy: get_bundle_all_angle
+        routing_strategy: route_bundle_all_angle
         settings:
           end_connector: wonky  # using our new, wonky connector for the final segment
           end_cross_section:  # and for that final segment, also tip the connector to use this cross-section

@@ -23,4 +23,3 @@ if __name__ == "__main__":
     )
     print(len(c.labels))
     c.show()
-    # c.write_gds_with_metadata(f"{__file__[:-3]}/test.gds")

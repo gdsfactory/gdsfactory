@@ -7,10 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coupler_ring import coupler_ring
 from gdsfactory.components.straight import straight
-from gdsfactory.components.via_stack import via_stack_heater_m3
 from gdsfactory.typings import ComponentFactory, ComponentSpec, CrossSectionSpec, Float2
-
-via_stack_heater_m3_mini = partial(via_stack_heater_m3, size=(4, 4))
 
 
 @gf.cell
@@ -26,7 +23,7 @@ def ring_double_heater(
     cross_section_heater: CrossSectionSpec = "heater_metal",
     cross_section_waveguide_heater: CrossSectionSpec = "strip_heater_metal",
     cross_section: CrossSectionSpec = "strip",
-    via_stack: ComponentSpec = via_stack_heater_m3_mini,
+    via_stack: ComponentSpec = "via_stack_heater_mtop_mini",
     port_orientation: float | None = None,
     via_stack_offset: Float2 = (1, 0),
     with_drop: bool = True,
@@ -105,14 +102,14 @@ def ring_double_heater(
     cb = c.add_ref(coupler_component)
     sl = c.add_ref(straight_component)
     sr = c.add_ref(straight_component)
+    c.add_port("o1", port=cb.ports["o1"])
+    c.add_port("o2", port=cb.ports["o4"])
 
     if with_drop:
         ct = c.add_ref(coupler_component_top)
         sl.connect(port="o1", other=cb.ports["o2"])
         ct.connect(port="o3", other=sl.ports["o2"])
         sr.connect(port="o2", other=ct.ports["o2"])
-        c.add_port("o1", port=cb.ports["o1"])
-        c.add_port("o2", port=cb.ports["o4"])
         c.add_port("o3", port=ct.ports["o4"])
         c.add_port("o4", port=ct.ports["o1"])
         heater_top = c << straight(
@@ -169,5 +166,6 @@ ring_single_heater = partial(ring_double_heater, with_drop=False)
 
 
 if __name__ == "__main__":
-    c = ring_double_heater(with_drop=True)
+    c = ring_single_heater()
+    c.pprint_ports()
     c.show()
