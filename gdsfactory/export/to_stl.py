@@ -3,7 +3,7 @@ from __future__ import annotations
 import pathlib
 
 from gdsfactory.component import Component
-from gdsfactory.technology import LayerStack
+from gdsfactory.technology import DerivedLayer, LayerStack, LogicalLayer
 from gdsfactory.typings import Layer
 
 
@@ -12,7 +12,6 @@ def to_stl(
     filepath: str,
     layer_stack: LayerStack | None = None,
     exclude_layers: tuple[Layer, ...] | None = None,
-    use_layer_name: bool = False,
     hull_invalid_polygons: bool = False,
     scale: float | None = None,
 ) -> None:
@@ -24,7 +23,6 @@ def to_stl(
             Each file will have each exported layer as suffix.
         layer_stack: contains thickness and zmin for each layer.
         exclude_layers: layers to exclude.
-        use_layer_name: If True, uses LayerLevel names in output filenames rather than gds_layer and gds_datatype.
         hull_invalid_polygons: If True, replaces invalid polygons (determined by shapely.Polygon.is_valid) with its convex hull.
         scale: Optional factor by which to scale meshes before writing.
 
@@ -32,55 +30,57 @@ def to_stl(
     import shapely
     import trimesh.creation
 
-    from gdsfactory.pdk import get_layer_stack
+    from gdsfactory.pdk import get_active_pdk, get_layer_stack
 
     layer_stack = layer_stack or get_layer_stack()
 
-    layer_to_thickness = layer_stack.get_layer_to_thickness()
-    layer_to_zmin = layer_stack.get_layer_to_zmin()
     filepath = pathlib.Path(filepath)
     exclude_layers = exclude_layers or []
 
     component_with_booleans = layer_stack.get_component_with_derived_layers(component)
     polygons_per_layer = component_with_booleans.get_polygons_points()
-    component_layers = polygons_per_layer.keys()
-    layer_names = list(layer_stack.layers.keys())
-    layer_tuples = list(layer_stack.layers.values())
 
-    for layer, polygons in polygons_per_layer.items():
-        if (
-            layer in exclude_layers
-            or layer not in layer_to_thickness
-            or layer not in layer_to_zmin
-            or layer not in component_layers
-        ):
+    for level in layer_stack.layers.values():
+        layer = level.layer
+
+        if isinstance(layer, LogicalLayer):
+            layer_index = layer.layer
+
+        elif isinstance(layer, DerivedLayer):
+            layer_index = level.derived_layer.layer
+        else:
+            raise ValueError(f"Layer {layer!r} is not a DerivedLayer or LogicalLayer")
+
+        layer_tuple = tuple(layer_index)
+
+        if level.name in exclude_layers:
             continue
 
-        height = layer_to_thickness[layer]
-        zmin = layer_to_zmin[layer]
+        if layer_index not in polygons_per_layer:
+            continue
 
-        layer_name = (
-            layer_names[layer_tuples.index(layer)]
-            if use_layer_name
-            else f"{layer[0]}_{layer[1]}"
-        )
+        zmin = level.zmin
+        if zmin is not None:
+            has_polygons = True
+            polygons = polygons_per_layer[layer_index]
+            height = level.thickness
+            layer_name = level.name or f"{layer_tuple[0]}_{layer_tuple[1]}"
+            filepath_layer = (
+                filepath.parent / f"{filepath.stem}_{layer_name}{filepath.suffix}"
+            )
+            print(
+                f"Write {filepath_layer.absolute()!r} zmin = {zmin:.3f}, height = {height:.3f}"
+            )
+            meshes = []
+            for polygon in polygons:
+                p = shapely.geometry.Polygon(polygon)
 
-        filepath_layer = (
-            filepath.parent / f"{filepath.stem}_{layer_name}{filepath.suffix}"
-        )
-        print(
-            f"Write {filepath_layer.absolute()!r} zmin = {zmin:.3f}, height = {height:.3f}"
-        )
-        meshes = []
-        for polygon in polygons:
-            p = shapely.geometry.Polygon(polygon)
+                if hull_invalid_polygons and not p.is_valid:
+                    p = p.convex_hull
 
-            if hull_invalid_polygons and not p.is_valid:
-                p = p.convex_hull
-
-            mesh = trimesh.creation.extrude_polygon(p, height=height)
-            mesh.apply_translation((0, 0, zmin))
-            meshes.append(mesh)
+                mesh = trimesh.creation.extrude_polygon(p, height=height)
+                mesh.apply_translation((0, 0, zmin))
+                meshes.append(mesh)
 
         layer_mesh = trimesh.util.concatenate(meshes)
 
@@ -89,10 +89,16 @@ def to_stl(
 
         layer_mesh.export(filepath_layer)
 
+    if not has_polygons:
+        raise ValueError(
+            f"{component.name!r} does not have polygons defined in the "
+            f"layer_stack or layer_views for the active Pdk {get_active_pdk().name!r}"
+        )
+
 
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.components.mzi()
+    c = gf.components.grating_coupler_elliptical_trenches()
     c.show()
     to_stl(c, filepath="a.stl")
