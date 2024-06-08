@@ -58,6 +58,9 @@ def to_3d(
         if level.name in exclude_layers:
             continue
 
+        if layer_index not in polygons_per_layer:
+            continue
+
         zmin = level.zmin
         layer_view = layer_views.get_from_tuple(layer_tuple)
         color_rgb = [c / 255 for c in layer_view.fill_color.as_rgb_tuple(alpha=False)]
