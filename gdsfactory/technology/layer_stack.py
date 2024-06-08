@@ -8,6 +8,7 @@ from pydantic import BaseModel, Field
 from rich.console import Console
 from rich.table import Table
 
+import gdsfactory as gf
 from gdsfactory.component import Component
 
 if TYPE_CHECKING:
@@ -184,38 +185,25 @@ class LayerLevel(BaseModel):
     """Level for 3D LayerStack.
 
     Parameters:
-
-        # Identification
-            name: str
-            layer: LogicalLayer or DerivedLayer. DerivedLayers can be composed of operations consisting of multiple other GDSLayers or other DerivedLayers.
-            derived_layer: if the layer is derived, LogicalLayer to assign to the derived layer.
-
-        # Extrusion
-            thickness: layer thickness in um.
-            thickness_tolerance: layer thickness tolerance in um.
-            zmin: height position where material starts in um.
-            zmin_tolerance: layer height tolerance in um.
-
-            One of:
-                sidewall_angle: in degrees with respect to normal.
-                sidewall_angle_tolerance: in degrees.
-                width_to_z: if sidewall_angle, reference z-position (0 --> zmin, 1 --> zmin + thickness, 0.5 in the middle).
-
-                bias: shrink/grow of the level compared to the mask
-
-                z_to_bias: most generic way to specify an extrusion.\
-                    Two tuples of the same length specifying the shrink/grow (float) to apply between zmin (0) and zmin + thickness (1)\
-                    I.e. [[z1, z2, ..., zN], [bias1, bias2, ..., biasN]]\
+        name: str
+        layer: LogicalLayer or DerivedLayer. DerivedLayers can be composed of operations consisting of multiple other GDSLayers or other DerivedLayers.
+        derived_layer: if the layer is derived, LogicalLayer to assign to the derived layer.
+        thickness: layer thickness in um.
+        thickness_tolerance: layer thickness tolerance in um.
+        zmin: height position where material starts in um.
+        zmin_tolerance: layer height tolerance in um.
+        sidewall_angle: in degrees with respect to normal.
+        sidewall_angle_tolerance: in degrees.
+        width_to_z: if sidewall_angle, reference z-position (0 --> zmin, 1 --> zmin + thickness, 0.5 in the middle).
+        bias: shrink/grow of the level compared to the mask
+        z_to_bias: most generic way to specify an extrusion.\
+            Two tuples of the same length specifying the shrink/grow (float) to apply between zmin (0) and zmin + thickness (1)\
+            I.e. [[z1, z2, ..., zN], [bias1, bias2, ..., biasN]]\
                     Defaults no buffering [[0, 1], [0, 0]].
                     NOTE: A dict might be more expressive.
-
-        # Rendering
-            mesh_order: lower mesh order (e.g. 1) will have priority over higher \
-                    mesh order (e.g. 2) in the regions where materials overlap.
-            material: used in the klayout script
-
-        # Other
-            info: all other rendering and simulation metadata should go here.
+        mesh_order: lower mesh order (e.g. 1) will have priority over higher mesh order (e.g. 2) in the regions where materials overlap.
+        material: used in the klayout script
+        info: all other rendering and simulation metadata should go here.
     """
 
     # ID

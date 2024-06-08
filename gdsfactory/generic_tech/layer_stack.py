@@ -131,13 +131,14 @@ def get_layer_stack(
             mesh_order=9,
         ),
         core=LayerLevel(
-            layer=layer_core,
+            layer=layer_core - layer_deep_etch - layer_shallow_etch,
             thickness=thickness_wg,
             zmin=0.0,
             material="si",
             mesh_order=2,
             sidewall_angle=sidewall_angle_wg,
             width_to_z=0.5,
+            derived_layer=LogicalLayer(layer=LAYER.WG),
         ),
         shallow_etch=LayerLevel(
             layer=layer_shallow_etch,
