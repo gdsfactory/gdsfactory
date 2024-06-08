@@ -367,10 +367,19 @@ class LayerStack(BaseModel):
             layer_views: optional layer_views.
             dbu: Optional database unit. Defaults to 1nm.
         """
-        layers = self.layers or {}
+        from gdsfactory.pdk import get_layer_views
 
-        # Collect etch layers
+        layers = self.layers or {}
+        layer_views = layer_views or get_layer_views()
+
+        # Collect etch layers and unetched layers
         etch_layers = [
+            layer_name
+            for layer_name, level in layers.items()
+            if isinstance(level.layer, DerivedLayer)
+        ]
+
+        unetched_layers = [
             layer_name
             for layer_name, level in layers.items()
             if isinstance(level.layer, LogicalLayer)
@@ -386,14 +395,26 @@ class LayerStack(BaseModel):
         )
         out += "\n\n"
 
-        # Define unetched layers
+        # Remove all etched layers from the grown layers
         unetched_layers_dict = defaultdict(list)
         for layer_name in etch_layers:
             level = layers[layer_name]
-            derived_layer = level.derived_layer
-            if derived_layer:
-                unetched_layers_dict[derived_layer.name].append(layer_name)
+            if level.derived_layer:
+                unetched_layers_dict[level.derived_layer.layer].append(layer_name)
+                if level.derived_layer.layer in unetched_layers:
+                    unetched_layers.remove(level.derived_layer.layer)
 
+        # Define layers
+        out += "\n".join(
+            [
+                f"{layer_name} = input({level.layer.layer[0]}, {level.layer.layer[1]})"
+                for layer_name, level in layers.items()
+                if hasattr(level.layer, "layer")
+            ]
+        )
+        out += "\n\n"
+
+        # Define unetched layers
         for layer_name_etched, etching_layers in unetched_layers_dict.items():
             etching_layers_str = " - ".join(etching_layers)
             out += f"unetched_{layer_name_etched} = {layer_name_etched} - {etching_layers_str}\n"
@@ -403,13 +424,12 @@ class LayerStack(BaseModel):
         # Define slabs
         for layer_name, level in layers.items():
             if level.derived_layer:
-                derived_layer = level.derived_layer
-                for i, layer1 in enumerate(derived_layer.layer):
+                derived_layer = level.derived_layer.layer
+                for i, layer1 in enumerate(derived_layer):
                     out += f"slab_{layer1}_{layer_name}_{i} = {layer1} & {layer_name}\n"
 
         out += "\n"
 
-        i = 0
         for layer_name, level in layers.items():
             layer = level.layer
             zmin = level.zmin
@@ -419,31 +439,47 @@ class LayerStack(BaseModel):
                 zmin = round(zmin, rnd_pl)
                 zmax = round(zmax, rnd_pl)
 
-            if not layer:
+            if layer is None:
                 continue
 
-            if level.derived_layer:
-                derived_layer = level.derived_layer
-                layer1 = derived_layer.layer
-                unetched_level = level
-                unetched_zmin = unetched_level.zmin
-                unetched_zmax = unetched_zmin + unetched_level.thickness
+            elif level.derived_layer:
+                derived_layer = level.derived_layer.layer
+                for i, layer1 in enumerate(derived_layer):
+                    slab_layer_name = f"slab_{layer1}_{layer_name}_{i}"
+                    slab_zmin = zmin
+                    slab_zmax = zmax - level.thickness
+                    if isinstance(layer1, list | tuple) and len(layer1) == 2:
+                        name = f"{slab_layer_name}: {level.material} {layer1[0]}/{layer1[1]}"
+                    else:
+                        name = f"{slab_layer_name}: {level.material}"
+                    txt = (
+                        f"z("
+                        f"{slab_layer_name}, "
+                        f"zstart: {slab_zmin}, "
+                        f"zstop: {slab_zmax}, "
+                        f"name: '{name}'"
+                    )
+                    if layer_views:
+                        txt += ", "
+                        if layer1 in layer_views:
+                            props = layer_views.get_from_tuple(layer1)
+                            if hasattr(props, "color"):
+                                if props.color.fill == props.color.frame:
+                                    txt += f"color: {props.color.fill}"
+                                else:
+                                    txt += (
+                                        f"fill: {props.color.fill}, "
+                                        f"frame: {props.color.frame}"
+                                    )
+                    txt += ")"
+                    out += f"{txt}\n"
 
-                # slab
-                slab_layer_name = f"slab_{layer1}_{layer_name}_{i}"
-                slab_zmin = unetched_level.zmin
-                slab_zmax = unetched_zmax - level.thickness
-                name = f"{slab_layer_name}: {level.material} {layer1[0]}/{layer1[1]}"
-                txt = (
-                    f"z("
-                    f"{slab_layer_name}, "
-                    f"zstart: {slab_zmin}, "
-                    f"zstop: {slab_zmax}, "
-                    f"name: '{name}'"
-                )
-            else:
-                layer1 = layer.layer
-                name = f"{layer_name}: {level.material} {layer1[0]}/{layer1[1]}"
+            elif layer_name in unetched_layers:
+                layer_tuple = layer.layer
+                if isinstance(layer_tuple, list | tuple) and len(layer_tuple) == 2:
+                    name = f"{layer_name}: {level.material} {layer_tuple[0]}/{layer_tuple[1]}"
+                else:
+                    name = f"{layer_name}: {level.material}"
                 txt = (
                     f"z("
                     f"{layer_name}, "
@@ -451,48 +487,20 @@ class LayerStack(BaseModel):
                     f"zstop: {zmax}, "
                     f"name: '{name}'"
                 )
-            if layer_views:
-                txt += ", "
-                props = layer_views.get_from_tuple(layer1)
-                if hasattr(props, "color"):
-                    if props.color.fill == props.color.frame:
-                        txt += f"color: {props.color.fill}"
-                    else:
-                        txt += (
-                            f"fill: {props.color.fill}, " f"frame: {props.color.frame}"
-                        )
-            txt += ")"
-            out += f"{txt}\n"
+                if layer_views:
+                    txt += ", "
+                    props = layer_views.get_from_tuple(layer_tuple)
+                    if hasattr(props, "color"):
+                        if props.color.fill == props.color.frame:
+                            txt += f"color: {props.color.fill}"
+                        else:
+                            txt += (
+                                f"fill: {props.color.fill}, "
+                                f"frame: {props.color.frame}"
+                            )
 
-        out += "\n"
-
-        for layer_name in unetched_layers_dict:
-            unetched_level = self.layers[layer_name]
-            layer = unetched_level.layer
-
-            unetched_zmin = unetched_level.zmin
-            unetched_zmax = unetched_zmin + unetched_level.thickness
-            unetched_layer_name = f"unetched_{layer_name}"
-            name = f"{unetched_layer_name}: {unetched_level.material} {layer.layer[0]}/{layer.layer[1]}"
-            txt = (
-                f"z("
-                f"{unetched_layer_name}, "
-                f"zstart: {unetched_zmin}, "
-                f"zstop: {unetched_zmax}, "
-                f"name: '{name}'"
-            )
-            if layer_views:
-                txt += ", "
-                props = layer_views.get_from_tuple(layer.layer)
-                if hasattr(props, "color"):
-                    if props.color.fill == props.color.frame:
-                        txt += f"color: {props.color.fill}"
-                    else:
-                        txt += (
-                            f"fill: {props.color.fill}, " f"frame: {props.color.frame}"
-                        )
-            txt += ")"
-            out += f"{txt}\n"
+                txt += ")"
+                out += f"{txt}\n"
 
         return out
 
