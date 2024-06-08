@@ -111,6 +111,7 @@ class Paths:
     klayout = generic_tech / "klayout"
     klayout_tech = klayout
     klayout_lyp = klayout_tech / "layers.lyp"
+    klayout_lyt = klayout_tech / "tech.lyt"
     klayout_yaml = generic_tech / "layer_views.yaml"
     schema_netlist = repo_path / "tests" / "schemas" / "netlist.json"
     netlists = module_path / "samples" / "netlists"
