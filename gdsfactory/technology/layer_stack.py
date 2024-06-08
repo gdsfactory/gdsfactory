@@ -369,6 +369,10 @@ class LayerStack(BaseModel):
             layer_views: optional layer_views.
             dbu: Optional database unit. Defaults to 1nm.
         """
+        raise NotImplementedError(
+            "Not implemented yet for the new LayerStack. You can use gdsfactory7 for now."
+        )
+
         layers = self.layers or {}
 
         unetched_layers = [
@@ -524,43 +528,6 @@ class LayerStack(BaseModel):
             out += f"{txt}\n"
 
         return out
-
-    # def get_klayout_3d_scripth(
-    #     self,
-    #     layer_views: LayerViews | None = None,
-    #     dbu: float | None = 0.001,
-    # ) -> str:
-    #     """Returns script for 2.5D view in KLayout.
-
-    #     You can include this information in your tech.lyt
-
-    #     Args:
-    #         layer_views: optional layer_views.
-    #         dbu: Optional database unit. Defaults to 1nm.
-    #     """
-    #     from gdsfactory.pdk import get_layer
-
-    #     layers = self.layers or {}
-
-    #     # Assume that all logical layers are defined as layerstack layers
-    #     out = "\n".join(
-    #         [
-    #             f"{layer_name} = input({level.layer[0]}, {level.layer[1]})"
-    #             for layer_name, level in layers.items()
-    #             if level.layer
-    #         ]
-    #     )
-    #     out += "\n"
-    #     out += "\n"
-
-    #     for layername, level in layers.items():
-    #         layer = level.layer
-    #         if isinstance(layer, LogicalLayer):
-    #             layer_number, layer_datatype = get_layer(layer.layer).datatype
-    #         if isinstance(layer, DerivedLayer):
-    #             print(layer.layer1, layer.get_symbol(), layer.layer2)
-
-    #     return True
 
     def filtered(self, layers) -> LayerStack:
         """Returns filtered layerstack, given layer specs."""
