@@ -552,53 +552,6 @@ class LayerStack(BaseModel):
         return self
 
 
-def get_shapes_from_arbitrary_layer(
-    layer: DerivedLayer | LogicalLayer,
-    component: Component,
-) -> kf.kdb.Region:
-    """Recursively evaluate the derived layer operations on the component.
-
-    Arguments:
-        layer: derived layer whose shapes to add.
-        component: to read polygons from,
-
-    Returns:
-        r: KLayout region corresponding to the component's derived layer.
-    """
-    from gdsfactory.pdk import get_layer
-
-    # Component polygons
-    polygons_per_layer = component.get_polygons()
-
-    # If we hit a LogicalLayer, retrieve the polygons
-    if isinstance(layer, LogicalLayer):
-        layer_index = get_layer(layer.layer)
-        polygons = polygons_per_layer[layer_index]
-        return kf.kdb.Region(polygons)
-    elif isinstance(layer, DerivedLayer):
-        # Recurse through derived layer1 if needed
-        if isinstance(layer.layer1, LogicalLayer):
-            layer_index = get_layer(layer.layer1.layer)
-            polygons = polygons_per_layer[layer_index]
-            r1 = kf.kdb.Region(polygons)
-        elif isinstance(layer.layer1, DerivedLayer):
-            r1 = get_shapes_from_arbitrary_layer(layer.layer1, component)
-
-        # Recurse through derived layer2 if needed
-        if isinstance(layer.layer2, LogicalLayer):
-            layer_index = get_layer(layer.layer2.layer)
-            polygons = polygons_per_layer[layer_index]
-            r2 = kf.kdb.Region(polygons)
-        elif isinstance(layer.layer2, DerivedLayer):
-            r2 = get_shapes_from_arbitrary_layer(layer.layer2, component)
-
-        # Get new region from boolean operation
-        return gf.component.boolean_operations[layer.operation](r1, r2)
-
-    else:
-        raise ValueError("layer must be one of LogicalLayer or DerivedLayer")
-
-
 def get_component_with_derived_layers(component, layer_stack: LayerStack) -> Component:
     """Returns a component with derived layers.
 
@@ -689,4 +642,4 @@ if __name__ == "__main__":
     c = get_component_with_derived_layers(c, ls)
     c.show()
 
-    # LAYER_STACK.get_klayout_3d_script()
+    # ls.get_klayout_3d_script()
