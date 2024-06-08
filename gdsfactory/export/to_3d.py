@@ -10,7 +10,7 @@ def to_3d(
     component: Component,
     layer_views: LayerViews | None = None,
     layer_stack: LayerStack | None = None,
-    exclude_layers: tuple[str, ...] | None = None,
+    exclude_layers: tuple[int, ...] | None = None,
 ):
     """Return Component 3D trimesh Scene.
 
@@ -20,7 +20,7 @@ def to_3d(
             Defaults to active PDK.layer_views.
         layer_stack: contains thickness and zmin for each layer.
             Defaults to active PDK.layer_stack.
-        exclude_layers: layer names to exclude.
+        exclude_layers: list of layer index to exclude.
 
     """
     from gdsfactory.pdk import get_active_pdk, get_layer_stack, get_layer_views
@@ -55,7 +55,7 @@ def to_3d(
         else:
             raise ValueError(f"Layer {layer!r} is not a DerivedLayer or LogicalLayer")
 
-        if level.name in exclude_layers:
+        if layer_index in exclude_layers:
             continue
 
         if layer_index not in polygons_per_layer:

@@ -4,14 +4,13 @@ import pathlib
 
 from gdsfactory.component import Component
 from gdsfactory.technology import DerivedLayer, LayerStack, LogicalLayer
-from gdsfactory.typings import Layer
 
 
 def to_stl(
     component: Component,
     filepath: str,
     layer_stack: LayerStack | None = None,
-    exclude_layers: tuple[Layer, ...] | None = None,
+    exclude_layers: tuple[int, ...] | None = None,
     hull_invalid_polygons: bool = False,
     scale: float | None = None,
 ) -> None:
@@ -22,7 +21,7 @@ def to_stl(
         filepath: filepath prefix to write STL to.
             Each file will have each exported layer as suffix.
         layer_stack: contains thickness and zmin for each layer.
-        exclude_layers: layers to exclude.
+        exclude_layers: list of layer index to exclude.
         hull_invalid_polygons: If True, replaces invalid polygons (determined by shapely.Polygon.is_valid) with its convex hull.
         scale: Optional factor by which to scale meshes before writing.
 
@@ -33,6 +32,7 @@ def to_stl(
     from gdsfactory.pdk import get_active_pdk, get_layer_stack
 
     layer_stack = layer_stack or get_layer_stack()
+    has_polygons = False
 
     filepath = pathlib.Path(filepath)
     exclude_layers = exclude_layers or []
@@ -53,7 +53,7 @@ def to_stl(
 
         layer_tuple = tuple(layer_index)
 
-        if level.name in exclude_layers:
+        if layer_index in exclude_layers:
             continue
 
         if layer_index not in polygons_per_layer:
