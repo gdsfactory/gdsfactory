@@ -986,6 +986,8 @@ class ComponentBase:
 
         from gdsfactory.pdk import get_layer_views
 
+        self.insert_vinsts()
+
         lyp_path = GDSDIR_TEMP / "layer_properties.lyp"
         layer_views = get_layer_views()
         layer_views.to_lyp(filepath=lyp_path)
@@ -996,6 +998,7 @@ class ComponentBase:
         cell_view = layout_view.cellview(cell_view_index)
         layout = cell_view.layout()
         layout.assign(kf.kcl.layout)
+
         cell_view.cell = layout.cell(self.name)
 
         layout_view.max_hier()
