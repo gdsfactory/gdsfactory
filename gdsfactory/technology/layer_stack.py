@@ -53,7 +53,7 @@ class AbstractLayer(BaseModel):
         return DerivedLayer(layer1=self, layer2=other, operation="or")
 
     # Boolean XOR (^)
-    def __xor__(self, other:AbstractLayer) -> DerivedLayer:
+    def __xor__(self, other: AbstractLayer) -> DerivedLayer:
         """Represents boolean XOR (^) operation between two derived layers.
 
         Args:
@@ -77,59 +77,44 @@ class AbstractLayer(BaseModel):
         return DerivedLayer(layer1=self, layer2=other, operation="not")
 
 
-
 class LogicalLayer(AbstractLayer):
     """GDS design layer."""
 
     layer: tuple[int, int] | kf.LayerEnum | int
 
-    layer1: LogicalLayer | DerivedLayer | int
-    layer2: LogicalLayer | DerivedLayer | int
-    operation: Literal["and", "&", "or", "|", "xor", "^", "not", "-"]
+    def __eq__(self, other):
+        """Check if two LogicalLayer instances are equal.
 
-    # Boolean AND (&)
-    def __and__(self, other: LogicalLayer | DerivedLayer) -> DerivedLayer:
-        """Represents boolean AND (&) operation between two layers.
+        This method compares the 'layer' attribute of the two LogicalLayer instances.
 
         Args:
-            other (LogicalLayer | DerivedLayer): Another Layer object to perform AND operation.
+            other (LogicalLayer): The other LogicalLayer instance to compare with.
 
         Returns:
-            A new DerivedLayer with the AND operation logged.
+            bool: True if the 'layer' attributes are equal, False otherwise.
+
+        Raises:
+            NotImplementedError: If 'other' is not an instance of LogicalLayer.
         """
-        return DerivedLayer(layer1=self, layer2=other, operation="and")
+        if not isinstance(other, type(self)):
+            raise NotImplementedError(f"{other} is not a {type(self)}")
+        return self.layer == other.layer
 
-    # Boolean OR (|, +)
-    def __or__(self, other: LogicalLayer | DerivedLayer) -> DerivedLayer:
-        """Represents boolean OR (|) operation between two layers.
+    def __hash__(self):
+        """Generates a hash value for a LogicalLayer instance.
 
-        Args:
-            other (LogicalLayer | DerivedLayer): Another Layer object to perform OR operation.
+        This method allows LogicalLayer instances to be used in hash-based data structures such as sets and dictionaries.
 
         Returns:
-            A new DerivedLayer with the OR operation logged.
+            int: The hash value of the layer attribute.
         """
-        return DerivedLayer(layer1=self, layer2=other, operation="or")
-
-    def __add__(self, other: LogicalLayer | DerivedLayer) -> DerivedLayer:
-        """Represents boolean OR (+) operation between two derived layers.
-
-        Args:
-            other (LogicalLayer | DerivedLayer): Another Layer object to perform OR operation.
-
-        Returns:
-            A new DerivedLayer with the AND operation logged.
-        """
-        return DerivedLayer(layer1=self, layer2=other, operation="or")
+        return hash(self.layer)
 
 
 class DerivedLayer(AbstractLayer):
     """Physical "derived layer", resulting from a combination of GDS design layers. Can be used by renderers and simulators.
 
-        Returns:
-            A new DerivedLayer with the XOR operation logged.
-        """
-        return DerivedLayer(layer1=self, layer2=other, operation="xor")
+    Overloads operators for simpler expressions.
 
     Attributes:
         input_layer1: primary layer comprising the derived layer. Can be a GDS design layer (kf.LayerEnum, tuple[int, int]), or another derived layer.
@@ -137,9 +122,33 @@ class DerivedLayer(AbstractLayer):
         operation: operation to perform between layer1 and layer2. One of "and", "or", "xor", or "not" or associated symbols.
     """
 
-        Args:
-            other (LogicalLayer | DerivedLayer): Another Layer object to perform NOT operation.
+    layer1: LogicalLayer | DerivedLayer | int
+    layer2: LogicalLayer | DerivedLayer | int
+    operation: Literal["and", "&", "or", "|", "xor", "^", "not", "-"]
 
+    @property
+    def keyword_to_symbol(self) -> dict:
+        return {
+            "and": "&",
+            "or": "|",
+            "xor": "^",
+            "not": "-",
+        }
+
+    @property
+    def symbol_to_keyword(self) -> dict:
+        return {
+            "&": "and",
+            "|": "or",
+            "^": "xor",
+            "-": "not",
+        }
+
+    def get_symbol(self) -> str:
+        if self.operation in self.keyword_to_symbol:
+            return self.keyword_to_symbol[self.operation]
+        else:
+            return self.operation
 
 
 class LayerLevel(BaseModel):
@@ -486,6 +495,43 @@ class LayerStack(BaseModel):
             out += f"{txt}\n"
 
         return out
+
+    # def get_klayout_3d_scripth(
+    #     self,
+    #     layer_views: LayerViews | None = None,
+    #     dbu: float | None = 0.001,
+    # ) -> str:
+    #     """Returns script for 2.5D view in KLayout.
+
+    #     You can include this information in your tech.lyt
+
+    #     Args:
+    #         layer_views: optional layer_views.
+    #         dbu: Optional database unit. Defaults to 1nm.
+    #     """
+    #     from gdsfactory.pdk import get_layer
+
+    #     layers = self.layers or {}
+
+    #     # Assume that all logical layers are defined as layerstack layers
+    #     out = "\n".join(
+    #         [
+    #             f"{layer_name} = input({level.layer[0]}, {level.layer[1]})"
+    #             for layer_name, level in layers.items()
+    #             if level.layer
+    #         ]
+    #     )
+    #     out += "\n"
+    #     out += "\n"
+
+    #     for layername, level in layers.items():
+    #         layer = level.layer
+    #         if isinstance(layer, LogicalLayer):
+    #             layer_number, layer_datatype = get_layer(layer.layer).datatype
+    #         if isinstance(layer, DerivedLayer):
+    #             print(layer.layer1, layer.get_symbol(), layer.layer2)
+
+    #     return True
 
     def filtered(self, layers) -> LayerStack:
         """Returns filtered layerstack, given layer specs."""
