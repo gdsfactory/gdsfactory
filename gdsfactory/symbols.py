@@ -5,7 +5,7 @@ from collections.abc import Callable
 
 from gdsfactory import cell
 from gdsfactory.component import Component
-from gdsfactory.typings import LayerSpecs
+from gdsfactory.typings import LayerSpec, LayerSpecs
 
 _F = Callable[..., Component]
 
@@ -35,7 +35,10 @@ def symbol_from_cell(func: _F, to_symbol: Callable[[Component, ...], Component])
 
 @symbol
 def floorplan_with_block_letters(
-    component: Component, copy_layers: LayerSpecs = ("WG",)
+    component: Component,
+    copy_layers: LayerSpecs = ("WG",),
+    text_layer: LayerSpec = (2, 0),
+    bbox_layer: LayerSpec = (90, 0),
 ) -> Component:
     """Returns symbol.
 
@@ -45,6 +48,8 @@ def floorplan_with_block_letters(
     Args:
         component: the layout component.
         copy_layers: if specified, copies layers from the layout into the symbol.
+        text_layer: the layer for the text.
+        bbox_layer: the layer for the bounding box.
 
     Returns:
         A component representing the symbol.
@@ -58,17 +63,18 @@ def floorplan_with_block_letters(
     sym = Component()
 
     # add floorplan box
-    bbox = sym << rectangle(size=(w, h), layer=(0, 0))
-    bbox.dmove((0, 0), other=component.bbox[0])
+    bbox = sym << rectangle(size=(w, h), layer=bbox_layer)
+    bbox.dx = component.dx
+    bbox.dy = component.dy
 
     # add text, fit to box with specified margin
     margin = 0.2
     max_w, max_h = w * (1 - margin), h * (1 - margin)
     text_init_size = 3.0
     text_init = text(
-        component.settings.function_name,
+        component.function_name,
         size=text_init_size,
-        layer=(2, 0),
+        layer=text_layer,
         justify="center",
     )
     w_text = text_init.dsize_info.width
@@ -79,13 +85,13 @@ def floorplan_with_block_letters(
     scaling = min(w_scaling, h_scaling)
     text_size = text_init_size * scaling
     text_component = text(
-        component.settings.function_name, size=text_size, layer=(2, 0), justify="center"
+        component.function_name, size=text_size, layer=text_layer, justify="center"
     )
 
     text = sym << text_component
-    text.dmove(text.dcenter, other=bbox.dcenter)
+    text.dx = component.dx
+    text.dy = component.dy
 
-    # add ports
     sym.add_ports(component.ports)
 
     # add specified layers from original layout
@@ -93,6 +99,15 @@ def floorplan_with_block_letters(
         for layer in copy_layers:
             layer = gf.get_layer(layer)
             polys = component.get_polygons(merge=True)[layer]
-            sym.add_polygon(polys, layer=layer)
+            for poly in polys:
+                sym.add_polygon(poly, layer=layer)
 
     return sym
+
+
+if __name__ == "__main__":
+    import gdsfactory as gf
+
+    c = gf.c.mmi1x2()
+    s = floorplan_with_block_letters(c)
+    s.show()
