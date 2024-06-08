@@ -3,7 +3,9 @@ import pytest
 from gdsfactory.generic_tech import LAYER_STACK
 
 
-@pytest.mark.skip(reason="Spipping as it is implemented yet for the new LayerStack.")
+@pytest.mark.skip(
+    reason="Skipping as it is not implemented yet for the new LayerStack."
+)
 def test_layerstack_to_klayout_3d_script() -> None:
     assert LAYER_STACK.get_klayout_3d_script()
 
