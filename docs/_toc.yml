@@ -37,7 +37,6 @@ parts:
         sections:
           - file: notebooks/08_pdk
           - file: notebooks/03_layer_stack
-          - file: notebooks/08_pdk_examples
           - file: notebooks/09_pdk_import
           - file: notebooks/12_config
       - file: migration
