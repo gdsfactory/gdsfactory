@@ -142,10 +142,3 @@ def rich_output() -> None:
     from rich import pretty
 
     pretty.install()
-
-
-if __name__ == "__main__":
-    pass
-    # print(CONF.pdk)
-    # print_version_plugins()
-    # print_version_pdks()
