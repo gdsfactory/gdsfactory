@@ -4,7 +4,7 @@ import trimesh
 import gdsfactory as gf
 from gdsfactory.export.to_3d import to_3d
 from gdsfactory.generic_tech import LAYER
-from gdsfactory.technology import LayerLevel, LayerStack
+from gdsfactory.technology import LayerLevel, LayerStack, LogicalLayer
 
 
 def get_layer_stack() -> LayerStack:
@@ -12,7 +12,7 @@ def get_layer_stack() -> LayerStack:
     return LayerStack(
         layers=dict(
             substrate=LayerLevel(
-                layer=(1, 0),
+                layer=LogicalLayer(layer=(1, 0)),
                 thickness=1,
                 zmin=0,
                 material="si",

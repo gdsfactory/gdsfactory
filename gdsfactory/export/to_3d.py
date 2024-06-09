@@ -3,15 +3,14 @@ from __future__ import annotations
 import shapely
 
 from gdsfactory.component import Component
-from gdsfactory.technology import LayerStack, LayerViews
-from gdsfactory.typings import Layer
+from gdsfactory.technology import DerivedLayer, LayerStack, LayerViews, LogicalLayer
 
 
 def to_3d(
     component: Component,
     layer_views: LayerViews | None = None,
     layer_stack: LayerStack | None = None,
-    exclude_layers: tuple[Layer, ...] | None = None,
+    exclude_layers: tuple[int, ...] | None = None,
 ):
     """Return Component 3D trimesh Scene.
 
@@ -21,7 +20,7 @@ def to_3d(
             Defaults to active PDK.layer_views.
         layer_stack: contains thickness and zmin for each layer.
             Defaults to active PDK.layer_stack.
-        exclude_layers: layers to exclude.
+        exclude_layers: list of layer index to exclude.
 
     """
     from gdsfactory.pdk import get_active_pdk, get_layer_stack, get_layer_views
@@ -44,25 +43,37 @@ def to_3d(
     has_polygons = False
 
     for level in layer_stack.layers.values():
-        layer_index = level.layer
-        layer_tuple = tuple(level.layer)
+        layer = level.layer
 
-        if layer_index not in exclude_layers and layer_index in polygons_per_layer:
-            zmin = level.zmin
-            layer_view = layer_views.get_from_tuple(layer_tuple)
-            color_rgb = [
-                c / 255 for c in layer_view.fill_color.as_rgb_tuple(alpha=False)
-            ]
-            if zmin is not None and layer_view.visible:
-                has_polygons = True
-                polygons = polygons_per_layer[layer_index]
-                height = level.thickness
-                for polygon in polygons:
-                    p = shapely.geometry.Polygon(polygon)
-                    mesh = extrude_polygon(p, height=height)
-                    mesh.apply_translation((0, 0, zmin))
-                    mesh.visual.face_colors = (*color_rgb, 0.5)
-                    scene.add_geometry(mesh)
+        if isinstance(layer, LogicalLayer):
+            layer_index = layer.layer
+            layer_tuple = tuple(layer_index)
+
+        elif isinstance(layer, DerivedLayer):
+            layer_index = level.derived_layer.layer
+            layer_tuple = tuple(layer_index)
+        else:
+            raise ValueError(f"Layer {layer!r} is not a DerivedLayer or LogicalLayer")
+
+        if layer_index in exclude_layers:
+            continue
+
+        if layer_index not in polygons_per_layer:
+            continue
+
+        zmin = level.zmin
+        layer_view = layer_views.get_from_tuple(layer_tuple)
+        color_rgb = [c / 255 for c in layer_view.fill_color.as_rgb_tuple(alpha=False)]
+        if zmin is not None and layer_view.visible:
+            has_polygons = True
+            polygons = polygons_per_layer[layer_index]
+            height = level.thickness
+            for polygon in polygons:
+                p = shapely.geometry.Polygon(polygon)
+                mesh = extrude_polygon(p, height=height)
+                mesh.apply_translation((0, 0, zmin))
+                mesh.visual.face_colors = (*color_rgb, 0.5)
+                scene.add_geometry(mesh)
     if not has_polygons:
         raise ValueError(
             f"{component.name!r} does not have polygons defined in the "
@@ -75,11 +86,11 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     # c = gf.components.mzi()
-    c = gf.components.straight_heater_metal(length=40)
+    # c = gf.components.straight_heater_metal(length=40)
     # p = c.get_polygons_points()
     # c = gf.Component()
     # c << gf.c.rectangle(layer=(113, 0))
-    # c = gf.components.grating_coupler_elliptical_trenches()
+    c = gf.components.grating_coupler_elliptical_trenches()
     # c = gf.components.taper_strip_to_ridge_trenches()
 
     c.show()

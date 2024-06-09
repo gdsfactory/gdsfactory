@@ -9,7 +9,7 @@ import gdsfactory as gf
 from gdsfactory.cross_section import get_cross_sections, strip
 from gdsfactory.get_factories import get_cells
 from gdsfactory.port import select_ports
-from gdsfactory.technology import LayerLevel, LayerStack
+from gdsfactory.technology import LayerLevel, LayerStack, LogicalLayer
 from gdsfactory.typings import Layer
 
 
@@ -37,12 +37,12 @@ def get_layer_stack_fab_c(thickness: float = 350.0) -> LayerStack:
     return LayerStack(
         layers=dict(
             wg=LayerLevel(
-                layer=LAYER.WG,
+                layer=LogicalLayer(layer=LAYER.WG),
                 zmin=0.0,
                 thickness=0.22,
             ),
             wgn=LayerLevel(
-                layer=LAYER.WGN,
+                layer=LogicalLayer(layer=LAYER.WGN),
                 zmin=0.22 + 0.1,
                 thickness=0.4,
             ),

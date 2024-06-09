@@ -8,65 +8,236 @@ from pydantic import BaseModel, Field
 from rich.console import Console
 from rich.table import Table
 
+import gdsfactory as gf
 from gdsfactory.component import Component
 
 if TYPE_CHECKING:
     from gdsfactory.technology import LayerViews
 
 
+class AbstractLayer(BaseModel):
+    """Generic design layer."""
+
+    # Boolean AND (&)
+    def __and__(self, other: AbstractLayer) -> DerivedLayer:
+        """Represents boolean AND (&) operation between two layers.
+
+        Args:
+            other (AbstractLayer): Another Layer object to perform AND operation.
+
+        Returns:
+            A new DerivedLayer with the AND operation logged.
+        """
+        return DerivedLayer(layer1=self, layer2=other, operation="and")
+
+    # Boolean OR (|, +)
+    def __or__(self, other: AbstractLayer) -> DerivedLayer:
+        """Represents boolean OR (|) operation between two layers.
+
+        Args:
+            other (AbstractLayer): Another Layer object to perform OR operation.
+
+        Returns:
+            A new DerivedLayer with the OR operation logged.
+        """
+        return DerivedLayer(layer1=self, layer2=other, operation="or")
+
+    def __add__(self, other: AbstractLayer) -> DerivedLayer:
+        """Represents boolean OR (+) operation between two derived layers.
+
+        Args:
+            other (AbstractLayer): Another Layer object to perform OR operation.
+
+        Returns:
+            A new DerivedLayer with the AND operation logged.
+        """
+        return DerivedLayer(layer1=self, layer2=other, operation="or")
+
+    # Boolean XOR (^)
+    def __xor__(self, other: AbstractLayer) -> DerivedLayer:
+        """Represents boolean XOR (^) operation between two derived layers.
+
+        Args:
+            other (AbstractLayer): Another Layer object to perform XOR operation.
+
+        Returns:
+            A new DerivedLayer with the XOR operation logged.
+        """
+        return DerivedLayer(layer1=self, layer2=other, operation="xor")
+
+    # Boolean NOT (-)
+    def __sub__(self, other: AbstractLayer) -> DerivedLayer:
+        """Represents boolean NOT (-) operation on a derived layer.
+
+        Args:
+            other (AbstractLayer): Another Layer object to perform NOT operation.
+
+        Returns:
+            A new DerivedLayer with the NOT operation logged.
+        """
+        return DerivedLayer(layer1=self, layer2=other, operation="not")
+
+
+class LogicalLayer(AbstractLayer):
+    """GDS design layer."""
+
+    layer: tuple[int, int] | kf.LayerEnum | int
+
+    def __eq__(self, other):
+        """Check if two LogicalLayer instances are equal.
+
+        This method compares the 'layer' attribute of the two LogicalLayer instances.
+
+        Args:
+            other (LogicalLayer): The other LogicalLayer instance to compare with.
+
+        Returns:
+            bool: True if the 'layer' attributes are equal, False otherwise.
+
+        Raises:
+            NotImplementedError: If 'other' is not an instance of LogicalLayer.
+        """
+        if not isinstance(other, type(self)):
+            raise NotImplementedError(f"{other} is not a {type(self)}")
+        return self.layer == other.layer
+
+    def __hash__(self):
+        """Generates a hash value for a LogicalLayer instance.
+
+        This method allows LogicalLayer instances to be used in hash-based data structures such as sets and dictionaries.
+
+        Returns:
+            int: The hash value of the layer attribute.
+        """
+        return hash(self.layer)
+
+    def get_shapes(self, component: Component) -> kf.kdb.Region:
+        """Return the shapes of the component argument corresponding to this layer.
+
+        Arguments:
+            component: Component from which to extract shapes on this layer.
+
+        Returns:
+            kf.kdb.Region: A region of polygons on this layer.
+        """
+        from gdsfactory.pdk import get_layer
+
+        polygons_per_layer = component.get_polygons()
+        layer_index = get_layer(self.layer)
+        polygons = polygons_per_layer[layer_index]
+        return kf.kdb.Region(polygons)
+
+
+class DerivedLayer(AbstractLayer):
+    """Physical "derived layer", resulting from a combination of GDS design layers. Can be used by renderers and simulators.
+
+    Overloads operators for simpler expressions.
+
+    Attributes:
+        input_layer1: primary layer comprising the derived layer. Can be a GDS design layer (kf.LayerEnum, tuple[int, int]), or another derived layer.
+        input_layer2: secondary layer comprising the derived layer. Can be a GDS design layer (kf.LayerEnum, tuple[int, int]), or another derived layer.
+        operation: operation to perform between layer1 and layer2. One of "and", "or", "xor", or "not" or associated symbols.
+    """
+
+    layer1: LogicalLayer | DerivedLayer | int
+    layer2: LogicalLayer | DerivedLayer | int
+    operation: Literal["and", "&", "or", "|", "xor", "^", "not", "-"]
+
+    def __hash__(self):
+        """Generates a hash value for a LogicalLayer instance.
+
+        This method allows LogicalLayer instances to be used in hash-based data structures such as sets and dictionaries.
+
+        Returns:
+            int: The hash value of the layer attribute.
+        """
+        return hash((self.layer1.__hash__(), self.layer2.__hash__(), self.operation))
+
+    @property
+    def keyword_to_symbol(self) -> dict:
+        return {
+            "and": "&",
+            "or": "|",
+            "xor": "^",
+            "not": "-",
+        }
+
+    @property
+    def symbol_to_keyword(self) -> dict:
+        return {
+            "&": "and",
+            "|": "or",
+            "^": "xor",
+            "-": "not",
+        }
+
+    def get_symbol(self) -> str:
+        if self.operation in self.keyword_to_symbol:
+            return self.keyword_to_symbol[self.operation]
+        else:
+            return self.operation
+
+    def get_shapes(self, component: Component) -> kf.kdb.Region:
+        """Return the shapes of the component argument corresponding to this layer.
+
+        Arguments:
+            component: Component from which to extract shapes on this layer.
+
+        Returns:
+            kf.kdb.Region: A region of polygons on this layer.
+        """
+        r1 = self.layer1.get_shapes(component)
+        r2 = self.layer2.get_shapes(component)
+        return gf.component.boolean_operations[self.operation](r1, r2)
+
+
 class LayerLevel(BaseModel):
     """Level for 3D LayerStack.
 
     Parameters:
-        layer: (GDSII Layer number, GDSII datatype).
+        name: str
+        layer: LogicalLayer or DerivedLayer. DerivedLayers can be composed of operations consisting of multiple other GDSLayers or other DerivedLayers.
+        derived_layer: if the layer is derived, LogicalLayer to assign to the derived layer.
         thickness: layer thickness in um.
         thickness_tolerance: layer thickness tolerance in um.
         zmin: height position where material starts in um.
         zmin_tolerance: layer height tolerance in um.
-        material: material name.
         sidewall_angle: in degrees with respect to normal.
         sidewall_angle_tolerance: in degrees.
-        width_to_z: if sidewall_angle, relative z-position (0 --> zmin, 1 --> zmin + thickness).
-        z_to_bias: parametrizes shrinking/expansion of the design GDS layer \
-                when extruding from zmin (0) to zmin + thickness (1).\
-                Defaults no buffering [[0, 1], [0, 0]].
-        mesh_order: lower mesh order (1) will have priority over higher \
-                mesh order (2) in the regions where materials overlap.
-        refractive_index: int, complex or function that depends on wavelength (um).
-        type: grow, etch, implant, or background.
-        mode: octagon, taper, round. https://gdsfactory.github.io/klayout_pyxs/DocGrow.html
-        into: etch into another layer. https://gdsfactory.github.io/klayout_pyxs/DocGrow.html
-        resistivity: for metals.
-        bias: in um for the etch. Can be a single number or 2 numbers (bias_x, bias_y)
-        derived_layer: Optional derived layer, used for layer_type='etch' to define the slab.
-        info: simulation_info and other types of metadata.
-        background_doping_concentration: uniform base doping level in the material (cm-3)
-        background_doping_ion: uniform base doping ion in the material
-        orientation: of the wafer (Miller indices of the plane)
+        width_to_z: if sidewall_angle, reference z-position (0 --> zmin, 1 --> zmin + thickness, 0.5 in the middle).
+        bias: shrink/grow of the level compared to the mask
+        z_to_bias: most generic way to specify an extrusion.\
+            Two tuples of the same length specifying the shrink/grow (float) to apply between zmin (0) and zmin + thickness (1)\
+            I.e. [[z1, z2, ..., zN], [bias1, bias2, ..., biasN]]\
+                    Defaults no buffering [[0, 1], [0, 0]].
+                    NOTE: A dict might be more expressive.
+        mesh_order: lower mesh order (e.g. 1) will have priority over higher mesh order (e.g. 2) in the regions where materials overlap.
+        material: used in the klayout script
+        info: all other rendering and simulation metadata should go here.
     """
 
+    # ID
     name: str | None = None
-    layer: kf.LayerEnum | tuple[int, int] | int | None = None
+    layer: LogicalLayer | DerivedLayer | None = None
+    derived_layer: LogicalLayer | None = None
+
+    # Extrusion rules
     thickness: float
     thickness_tolerance: float | None = None
     zmin: float
     zmin_tolerance: float | None = None
-    material: str | None = None
     sidewall_angle: float = 0.0
     sidewall_angle_tolerance: float | None = None
     width_to_z: float = 0.0
     z_to_bias: tuple[list[float], list[float]] | None = None
-    mesh_order: int = 3
-    layer_type: Literal["grow", "etch", "implant", "background"] = "grow"
-    mode: Literal["octagon", "taper", "round"] | None = None
-    into: list[str] | None = None
-    resistivity: float | None = None
     bias: tuple[float, float] | float | None = None
-    derived_layer: tuple[int, int] | None = None
+
+    # Rendering
+    mesh_order: int = 3
+    material: str | None = None
+
+    # Other
     info: dict[str, Any] = Field(default_factory=dict)
-    background_doping_concentration: float | None = None
-    background_doping_ion: str | None = None
-    orientation: str | None = "100"
 
     @property
     def bounds(self) -> tuple[float, float]:
@@ -196,53 +367,66 @@ class LayerStack(BaseModel):
             layer_views: optional layer_views.
             dbu: Optional database unit. Defaults to 1nm.
         """
+        from gdsfactory.pdk import get_layer_views
+
         layers = self.layers or {}
+        layer_views = layer_views or get_layer_views()
+
+        # Collect etch layers and unetched layers
+        etch_layers = [
+            layer_name
+            for layer_name, level in layers.items()
+            if isinstance(level.layer, DerivedLayer)
+        ]
 
         unetched_layers = [
             layer_name
             for layer_name, level in layers.items()
-            if level.layer and level.layer_type == "grow"
-        ]
-        etch_layers = [
-            layer_name
-            for layer_name, level in layers.items()
-            if level.layer and level.layer_type == "etch"
+            if isinstance(level.layer, LogicalLayer)
         ]
 
-        # remove all etched layers from the grown layers
+        # Define input layers
+        out = "\n".join(
+            [
+                f"{layer_name} = input({level.derived_layer.layer[0]}, {level.derived_layer.layer[1]})"
+                for layer_name, level in layers.items()
+                if level.derived_layer
+            ]
+        )
+        out += "\n\n"
+
+        # Remove all etched layers from the grown layers
         unetched_layers_dict = defaultdict(list)
         for layer_name in etch_layers:
             level = layers[layer_name]
-            into = level.into or []
-            for layer_name_etched in into:
-                unetched_layers_dict[layer_name_etched].append(layer_name)
-                if layer_name_etched in unetched_layers:
-                    unetched_layers.remove(layer_name_etched)
+            if level.derived_layer:
+                unetched_layers_dict[level.derived_layer.layer].append(layer_name)
+                if level.derived_layer.layer in unetched_layers:
+                    unetched_layers.remove(level.derived_layer.layer)
 
-        # define layers
-        out = "\n".join(
+        # Define layers
+        out += "\n".join(
             [
-                f"{layer_name} = input({level.layer[0]}, {level.layer[1]})"
+                f"{layer_name} = input({level.layer.layer[0]}, {level.layer.layer[1]})"
                 for layer_name, level in layers.items()
-                if level.layer
+                if hasattr(level.layer, "layer")
             ]
         )
-        out += "\n"
-        out += "\n"
+        out += "\n\n"
 
-        # define unetched layers
+        # Define unetched layers
         for layer_name_etched, etching_layers in unetched_layers_dict.items():
-            etching_layers = " - ".join(etching_layers)
-            out += f"unetched_{layer_name_etched} = {layer_name_etched} - {etching_layers}\n"
+            etching_layers_str = " - ".join(etching_layers)
+            out += f"unetched_{layer_name_etched} = {layer_name_etched} - {etching_layers_str}\n"
 
         out += "\n"
 
-        # define slabs
+        # Define slabs
         for layer_name, level in layers.items():
-            if level.layer_type == "etch":
-                into = level.into or []
-                for i, layer1 in enumerate(into):
-                    out += f"slab_{layer1}_{layer_name}_{i} = {layer1} &amp; {layer_name}\n"
+            if level.derived_layer:
+                derived_layer = level.derived_layer.layer
+                for i, layer1 in enumerate(derived_layer):
+                    out += f"slab_{layer1}_{layer_name}_{i} = {layer1} & {layer_name}\n"
 
         out += "\n"
 
@@ -258,20 +442,16 @@ class LayerStack(BaseModel):
             if layer is None:
                 continue
 
-            elif level.layer_type == "etch":
-                name = f"{layer_name}: {level.material}"
-
-                into = level.into or []
-                for i, layer1 in enumerate(into):
-                    unetched_level = layers[layer1]
-                    unetched_zmin = unetched_level.zmin
-                    unetched_zmax = unetched_zmin + unetched_level.thickness
-
-                    # slab
+            elif level.derived_layer:
+                derived_layer = level.derived_layer.layer
+                for i, layer1 in enumerate(derived_layer):
                     slab_layer_name = f"slab_{layer1}_{layer_name}_{i}"
-                    slab_zmin = unetched_level.zmin
-                    slab_zmax = unetched_zmax - level.thickness
-                    name = f"{slab_layer_name}: {level.material} {layer[0]}/{layer[1]}"
+                    slab_zmin = zmin
+                    slab_zmax = zmax - level.thickness
+                    if isinstance(layer1, list | tuple) and len(layer1) == 2:
+                        name = f"{slab_layer_name}: {level.material} {layer1[0]}/{layer1[1]}"
+                    else:
+                        name = f"{slab_layer_name}: {level.material}"
                     txt = (
                         f"z("
                         f"{slab_layer_name}, "
@@ -281,21 +461,25 @@ class LayerStack(BaseModel):
                     )
                     if layer_views:
                         txt += ", "
-                        props = layer_views.get_from_tuple(layer)
-                        if hasattr(props, "color"):
-                            if props.color.fill == props.color.frame:
-                                txt += f"color: {props.color.fill}"
-                            else:
-                                txt += (
-                                    f"fill: {props.color.fill}, "
-                                    f"frame: {props.color.frame}"
-                                )
+                        if layer1 in layer_views:
+                            props = layer_views.get_from_tuple(layer1)
+                            if hasattr(props, "color"):
+                                if props.color.fill == props.color.frame:
+                                    txt += f"color: {props.color.fill}"
+                                else:
+                                    txt += (
+                                        f"fill: {props.color.fill}, "
+                                        f"frame: {props.color.frame}"
+                                    )
                     txt += ")"
                     out += f"{txt}\n"
 
             elif layer_name in unetched_layers:
-                name = f"{layer_name}: {level.material} {layer[0]}/{layer[1]}"
-
+                layer_tuple = layer.layer
+                if isinstance(layer_tuple, list | tuple) and len(layer_tuple) == 2:
+                    name = f"{layer_name}: {level.material} {layer_tuple[0]}/{layer_tuple[1]}"
+                else:
+                    name = f"{layer_name}: {level.material}"
                 txt = (
                     f"z("
                     f"{layer_name}, "
@@ -305,7 +489,7 @@ class LayerStack(BaseModel):
                 )
                 if layer_views:
                     txt += ", "
-                    props = layer_views.get_from_tuple(layer)
+                    props = layer_views.get_from_tuple(layer_tuple)
                     if hasattr(props, "color"):
                         if props.color.fill == props.color.frame:
                             txt += f"color: {props.color.fill}"
@@ -317,38 +501,6 @@ class LayerStack(BaseModel):
 
                 txt += ")"
                 out += f"{txt}\n"
-
-        out += "\n"
-
-        for layer_name in unetched_layers_dict:
-            unetched_level = self.layers[layer_name]
-            layer = unetched_level.layer
-
-            unetched_zmin = unetched_level.zmin
-            unetched_zmax = unetched_zmin + unetched_level.thickness
-            name = f"{slab_layer_name}: {unetched_level.material}"
-
-            unetched_layer_name = f"unetched_{layer_name}"
-            name = f"{unetched_layer_name}: {unetched_level.material} {layer[0]}/{layer[1]}"
-            txt = (
-                f"z("
-                f"{unetched_layer_name}, "
-                f"zstart: {unetched_zmin}, "
-                f"zstop: {unetched_zmax}, "
-                f"name: '{name}'"
-            )
-            if layer_views:
-                txt += ", "
-                props = layer_views.get_from_tuple(layer)
-                if hasattr(props, "color"):
-                    if props.color.fill == props.color.frame:
-                        txt += f"color: {props.color.fill}"
-                    else:
-                        txt += (
-                            f"fill: {props.color.fill}, " f"frame: {props.color.frame}"
-                        )
-            txt += ")"
-            out += f"{txt}\n"
 
         return out
 
@@ -375,9 +527,7 @@ class LayerStack(BaseModel):
         return self
 
 
-def get_component_with_derived_layers(
-    component: Component, layer_stack: LayerStack
-) -> Component:
+def get_component_with_derived_layers(component, layer_stack: LayerStack) -> Component:
     """Returns a component with derived layers.
 
     Args:
@@ -386,111 +536,85 @@ def get_component_with_derived_layers(
     """
     from gdsfactory.pdk import get_layer
 
-    unetched_layers = [
-        layer_name
-        for layer_name, level in layer_stack.layers.items()
-        if level.layer and level.layer_type == "grow"
-    ]
-    etch_layers = [
-        layer_name
-        for layer_name, level in layer_stack.layers.items()
-        if level.layer and level.layer_type == "etch"
-    ]
+    component_derived = Component()
 
-    # Remove all etched layers from the grown layers
-    unetched_layers_dict = defaultdict(list)
-    for layer_name in etch_layers:
-        level = layer_stack.layers[layer_name]
-        into = level.into or []
-        for layer_name_etched in into:
-            unetched_layers_dict[layer_name_etched].append(layer_name)
-            if layer_name_etched in unetched_layers:
-                unetched_layers.remove(layer_name_etched)
+    for layer_name, level in layer_stack.layers.items():
+        if isinstance(level.layer, LogicalLayer):
+            derived_layer_index = get_layer(level.layer.layer)
+        elif isinstance(level.layer, DerivedLayer):
+            if level.derived_layer is not None:
+                derived_layer_index = get_layer(level.derived_layer.layer)
+            else:
+                raise ValueError(
+                    f"Error at LayerLevel {layer_name}: derived_layer must be provided if the level's layer is a DerivedLayer"
+                )
+        else:
+            raise ValueError("layer must be one of LogicalLayer or DerivedLayer")
 
-    polygons_per_layer = component.get_polygons()
-    component_layers = polygons_per_layer.keys()
-
-    # Define pure grown layers
-    unetched_layer_numbers = [
-        get_layer(layer_stack.layers[layer_name].layer)
-        for layer_name in unetched_layers
-        if get_layer(layer_stack.layers[layer_name].layer) in component_layers
-    ]
-    component_derived = component.extract(unetched_layer_numbers)
-
-    # Define unetched layers
-    for unetched_layer_name, etching_layers in unetched_layers_dict.items():
-        layer_index = get_layer(layer_stack.layers[unetched_layer_name].layer)
-        if layer_index in polygons_per_layer:
-            polygons = polygons_per_layer[layer_index]
-            polygon_region = kf.kdb.Region(polygons)
-            polygons_to_remove = kf.kdb.Region()
-
-            for etching_layer in etching_layers:
-                etch_layer_index = get_layer(layer_stack.layers[etching_layer].layer)
-                if etch_layer_index in polygons_per_layer:
-                    B_polys = polygons_per_layer[etch_layer_index]
-                    r2 = kf.kdb.Region(B_polys)
-                    polygons_to_remove.insert(r2)
-
-                    derived_layer = layer_stack.layers[etching_layer].derived_layer
-                    if derived_layer:
-                        derived_layer_index = get_layer(derived_layer)
-                        r1 = kf.kdb.Region(polygons)
-                        r = r1 & r2
-                        component_derived.shapes(derived_layer_index).insert(r)
-
-            # Remove all etching layers
-            r = polygon_region - polygons_to_remove
-            component_derived.shapes(layer_index).insert(r)
+        shapes = level.layer.get_shapes(component=component)
+        component_derived.shapes(derived_layer_index).insert(shapes)
 
     component_derived.add_ports(component.ports)
     return component_derived
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-    from gdsfactory.generic_tech import LAYER_STACK
+    # For now, make regular layers trivial DerivedLayers
+    # This might be automatable during LayerStack instantiation, or we could modify the Layer object in LayerMap too
 
-    layer_stack = LAYER_STACK
+    from gdsfactory.generic_tech import LAYER
 
-    c = gf.components.grating_coupler_elliptical_trenches()
-    c.show()
-    c = c.to_3d()
-    c.show()
+    layer1 = LogicalLayer(layer=(2, 0))
+    layer2 = LogicalLayer(layer=LAYER.WG)
+
+    ls = LayerStack(
+        layers={
+            "layerlevel_layer1": LayerLevel(layer=layer1, thickness=10, zmin=0),
+            "layerlevel_layer2": LayerLevel(layer=layer2, thickness=10, zmin=10),
+            "layerlevel_and_layer": LayerLevel(
+                layer=layer1 & layer2,
+                thickness=10,
+                zmin=0,
+                derived_layer=LogicalLayer(layer=(3, 0)),
+            ),
+            "layerlevel_xor_layer": LayerLevel(
+                layer=layer1 ^ layer2,
+                thickness=10,
+                zmin=0,
+                derived_layer=LogicalLayer(layer=(4, 0)),
+            ),
+            "layerlevel_not_layer": LayerLevel(
+                layer=layer1 - layer2,
+                thickness=10,
+                zmin=0,
+                derived_layer=LogicalLayer(layer=(5, 0)),
+            ),
+            "layerlevel_or_layer": LayerLevel(
+                layer=layer1 | layer2,
+                thickness=10,
+                zmin=0,
+                derived_layer=LogicalLayer(layer=(6, 0)),
+            ),
+            "layerlevel_composed_layer": LayerLevel(
+                layer=layer1 - (layer1 & layer2),
+                thickness=10,
+                zmin=0,
+                derived_layer=LogicalLayer(layer=(7, 0)),
+            ),
+        }
+    )
 
     # import gdsfactory as gf
-    # from gdsfactory.generic_tech import LAYER_STACK
-    # component = c = gf.components.grating_coupler_elliptical_trenches()
-    # component = c = gf.components.taper_strip_to_ridge_trenches()
-    # script = LAYER_STACK.get_klayout_3d_script()
-    # print(script)
-    # ls = layer_stack = LAYER_STACK
-    # layer_to_thickness = layer_stack.get_layer_to_thickness()
-    # c = layer_stack.get_component_with_derived_layers(component)
+
+    # c = gf.Component()
+
+    # rect1 = c << gf.components.rectangle(size=(10, 10), layer=(1, 0))
+    # rect2 = c << gf.components.rectangle(size=(10, 10), layer=(2, 0))
+    # rect2.dmove((5, 5))
     # c.show()
-    # import pathlib
-    # filepath = pathlib.Path(
-    #     "/home/jmatres/gdslib/sp/temp/write_sparameters_meep_mpi.json"
-    # )
-    # ls_json = filepath.read_bytes()
-    # ls2 = LayerStack.parse_raw(ls_json)
-    # from gdsfactory.generic_tech import LAYER_STACK
-    # from gdsfactory.technology.klayout_tech import KLayoutTechnology
 
-    # lyp = LayerViews.from_lyp(str(PATH.klayout_lyp))
+    # c = get_component_with_derived_layers(c, ls)
+    # c.show()
 
-    # # str_xml = open(PATH.klayout_tech / "tech.lyt").read()
-    # # new_tech = db.Technology.technology_from_xml(str_xml)
-    # # generic_tech = KLayoutTechnology(layer_views=lyp)
-    # connectivity = [("M1", "VIA1", "M2"), ("M2", "VIA2", "M3")]
-
-    # c = generic_tech = KLayoutTechnology(
-    #     name="generic_tech", layer_views=lyp, connectivity=connectivity
-    # )
-    # tech_dir = PATH.klayout_tech
-    # # tech_dir = pathlib.Path("/home/jmatres/.klayout/salt/gdsfactory/tech/")
-    # tech_dir.mkdir(exist_ok=True, parents=True)
-    # generic_tech.write_tech(tech_dir=tech_dir, layer_stack=LAYER_STACK)
-
-    # yaml_test()
+    s = ls.get_klayout_3d_script()
+    print(s)

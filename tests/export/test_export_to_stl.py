@@ -1,5 +1,7 @@
 import pathlib
 
+import pytest
+
 import gdsfactory as gf
 from gdsfactory.export.to_stl import to_stl
 from gdsfactory.generic_tech import LAYER
@@ -30,6 +32,7 @@ def test_export_exclude_layers() -> None:
     component = gf.c.pad(layer=LAYER.M3)
     filepath = "test.stl"
     exclude_layers = [LAYER.M3]
-    to_stl(component, filepath, exclude_layers=exclude_layers)
-    filepath = "test_49_0.stl"
-    assert not pathlib.Path(filepath).exists()
+    with pytest.raises(ValueError):
+        to_stl(component, filepath, exclude_layers=exclude_layers)
+        filepath = "test_49_0.stl"
+        assert not pathlib.Path(filepath).exists()

@@ -220,6 +220,10 @@ class ComponentBase:
             if not self.bbox(self.kcl.layer(info)).empty()
         ]
 
+    def bbox_np(self) -> np.array:
+        """Returns the bounding box of the Component as a numpy array."""
+        return np.array([[self.dxmin, self.dymin], [self.dxmax, self.dymax]])
+
     def add_port(  # type: ignore[override]
         self,
         name: str | None = None,
@@ -560,7 +564,7 @@ class ComponentBase:
 
         polygons = defaultdict(list)
 
-        for layer in self.kcl.layers:
+        for layer in self.layers:
             layer_index = get_layer(layer)
             r = kdb.Region(self.begin_shapes_rec(layer_index))
             if merge:

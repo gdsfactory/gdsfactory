@@ -1,7 +1,7 @@
 from pydantic.dataclasses import dataclass
 
 from gdsfactory.generic_tech.layer_map import LAYER
-from gdsfactory.technology import LayerLevel, LayerStack
+from gdsfactory.technology import LayerLevel, LayerStack, LogicalLayer
 from gdsfactory.technology.processes import (
     Anneal,
     Etch,
@@ -55,22 +55,22 @@ def get_layer_stack(
     substrate_thickness=LayerStackParameters.substrate_thickness,
     box_thickness=LayerStackParameters.box_thickness,
     undercut_thickness=LayerStackParameters.undercut_thickness,
-    layer_wafer=LAYER.WAFER,
-    layer_core=LAYER.WG,
-    layer_shallow_etch=LAYER.SHALLOW_ETCH,
-    layer_deep_etch=LAYER.DEEP_ETCH,
-    layer_nitride=LAYER.WGN,
-    layer_slab_deep_etch=LAYER.SLAB90,
-    layer_slab_shallow_etch=LAYER.SLAB150,
-    layer_ge=LAYER.GE,
-    layer_undercut=LAYER.UNDERCUT,
-    layer_heater=LAYER.HEATER,
-    layer_metal1=LAYER.M1,
-    layer_metal2=LAYER.M2,
-    layer_metal3=LAYER.M3,
-    layer_viac=LAYER.VIAC,
-    layer_via1=LAYER.VIA1,
-    layer_via2=LAYER.VIA2,
+    layer_wafer=LogicalLayer(layer=LAYER.WAFER),
+    layer_core=LogicalLayer(layer=LAYER.WG),
+    layer_shallow_etch=LogicalLayer(layer=LAYER.SHALLOW_ETCH),
+    layer_deep_etch=LogicalLayer(layer=LAYER.DEEP_ETCH),
+    layer_nitride=LogicalLayer(layer=LAYER.WGN),
+    layer_slab_deep_etch=LogicalLayer(layer=LAYER.SLAB90),
+    layer_slab_shallow_etch=LogicalLayer(layer=LAYER.SLAB150),
+    layer_ge=LogicalLayer(layer=LAYER.GE),
+    layer_undercut=LogicalLayer(layer=LAYER.UNDERCUT),
+    layer_heater=LogicalLayer(layer=LAYER.HEATER),
+    layer_metal1=LogicalLayer(layer=LAYER.M1),
+    layer_metal2=LogicalLayer(layer=LAYER.M2),
+    layer_metal3=LogicalLayer(layer=LAYER.M3),
+    layer_viac=LogicalLayer(layer=LAYER.VIAC),
+    layer_via1=LogicalLayer(layer=LAYER.VIA1),
+    layer_via2=LogicalLayer(layer=LAYER.VIA2),
 ) -> LayerStack:
     """Returns generic LayerStack.
 
@@ -122,9 +122,6 @@ def get_layer_stack(
             zmin=-substrate_thickness - box_thickness,
             material="si",
             mesh_order=101,
-            background_doping_concentration=1e14,
-            background_doping_ion="Boron",
-            orientation="100",
         ),
         box=LayerLevel(
             layer=layer_wafer,
@@ -134,27 +131,22 @@ def get_layer_stack(
             mesh_order=9,
         ),
         core=LayerLevel(
-            layer=layer_core,
+            layer=layer_core - layer_deep_etch - layer_shallow_etch,
             thickness=thickness_wg,
             zmin=0.0,
             material="si",
             mesh_order=2,
             sidewall_angle=sidewall_angle_wg,
             width_to_z=0.5,
-            background_doping_concentration=1e14,
-            background_doping_ion="Boron",
-            orientation="100",
-            info={"active": True},
+            derived_layer=LogicalLayer(layer=LAYER.WG),
         ),
         shallow_etch=LayerLevel(
-            layer=layer_shallow_etch,
+            layer=layer_shallow_etch & layer_core,
             thickness=thickness_shallow_etch,
             zmin=0.0,
             material="si",
             mesh_order=1,
-            layer_type="etch",
-            into=["core"],
-            derived_layer=LAYER.SLAB150,
+            derived_layer=LogicalLayer(layer=LAYER.SLAB150),
         ),
         deep_etch=LayerLevel(
             layer=layer_deep_etch,
@@ -162,8 +154,6 @@ def get_layer_stack(
             zmin=0.0,
             material="si",
             mesh_order=1,
-            layer_type="etch",
-            into=["core"],
             derived_layer=layer_slab_deep_etch,
         ),
         clad=LayerLevel(
