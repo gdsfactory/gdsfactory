@@ -560,7 +560,7 @@ class ComponentBase:
 
         polygons = defaultdict(list)
 
-        for layer in self.kcl.layers:
+        for layer in self.layers:
             layer_index = get_layer(layer)
             r = kdb.Region(self.begin_shapes_rec(layer_index))
             if merge:
