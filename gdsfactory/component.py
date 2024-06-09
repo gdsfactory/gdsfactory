@@ -220,8 +220,9 @@ class ComponentBase:
             if not self.bbox(self.kcl.layer(info)).empty()
         ]
 
-    def get_bbox(self) -> np.array:
-        return np.array([self.dxmin, self.dymin, self.dxmax, self.dymax])
+    def bbox_np(self) -> np.array:
+        """Returns the bounding box of the Component as a numpy array."""
+        return np.array([[self.dxmin, self.dymin], [self.dxmax, self.dymax]])
 
     def add_port(  # type: ignore[override]
         self,
