@@ -36,8 +36,9 @@ def test_netlist_complex() -> None:
 
 def test_get_netlist_cell_array() -> None:
     rows = 3
+    component_to_array = gf.components.straight(length=10)
     c = gf.components.array(
-        gf.components.straight(length=10),
+        component_to_array,
         spacing=(0, 100),
         columns=1,
         rows=rows,
@@ -49,11 +50,19 @@ def test_get_netlist_cell_array() -> None:
         len(c.ports) == n_ports_expected
     ), f"Expected {n_ports_expected} ports on component. Got {len(c.ports)}"
     assert (
-        len(n["ports"]) == n_ports_expected
-    ), f"Expected {n_ports_expected} ports in netlist. Got {len(n['ports'])}"
-    assert (
         len(n["instances"]) == 1
     ), f"Expected only one instance for array. Got {len(n['instances'])}"
+    inst_name = c.insts[0].name
+    assert (
+        len(n["ports"]) == n_ports_expected
+    ), f"Expected {n_ports_expected} ports in netlist. Got {len(n['ports'])}"
+    for ib in range(rows):
+        for port in component_to_array.ports:
+            expected_port_name = f"{port.name}_0_{ib}"
+            expected_lower_port_name = f"{inst_name}<0.{ib}>,{port.name}"
+            assert expected_port_name in n["ports"]
+            assert n["ports"][expected_port_name] == expected_lower_port_name
+
     inst = list(n["instances"].values())[0]
     assert inst["na"] == 1 and inst["nb"] == rows
 
