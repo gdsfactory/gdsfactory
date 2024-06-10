@@ -348,7 +348,8 @@ def route_fiber_array(
 
     electrical_ports = c.ports.filter(port_type="electrical")
     c.ports = kf.Ports(kcl=c.kcl)
-    c.add_ports(fiber_ports)
+    for i, port in enumerate(fiber_ports):
+        c.add_port(name=f"o{i+1}", port=port)
     c.add_ports(electrical_ports)
 
     if with_loopback:

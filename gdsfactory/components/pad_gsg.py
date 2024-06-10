@@ -31,7 +31,6 @@ def pad_gsg_short(
         route_xsize: in um.
     """
     c = gf.Component()
-
     via = rectangle(size=size, layer=layer_metal)
     gnd_top = c << via
 
