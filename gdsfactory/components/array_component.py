@@ -63,7 +63,7 @@ def array(
             for iy in range(ref.nb):
                 for port in component.ports:
                     port = port.copy(ref.trans * gf.kdb.Trans(ix * ref.a + iy * ref.b))
-                    name = f"{port.name}_{ix}_{iy}"
+                    name = f"{port.name}_{iy+1}_{ix+1}"
                     c.add_port(name, port=port)
 
     return c
