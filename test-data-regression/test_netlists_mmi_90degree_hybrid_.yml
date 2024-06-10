@@ -1,5 +1,5 @@
-connections: {}
 instances: {}
+links: []
 name: mmi_90degree_hybrid_W0p_8cdbdfdc
 placements: {}
 ports: {}

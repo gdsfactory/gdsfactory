@@ -1,8 +1,3 @@
-connections:
-  bend_s_S25_3_N99_CSstri_7865203f_-12500_2550,o1: coupler_straight_asymme_d7b83f37_5000_400,o2
-  bend_s_S25_3_N99_CSstri_7865203f_22500_2550,o1: coupler_straight_asymme_d7b83f37_5000_400,o3
-  coupler_straight_asymme_d7b83f37_5000_400,o1: taper_L25_W1_W1p2_PNone_c47a90e6_-12500_0,o1
-  coupler_straight_asymme_d7b83f37_5000_400,o4: taper_L25_W1_W1p2_PNone_c47a90e6_22500_0,o1
 instances:
   bend_s_S25_3_N99_CSstri_7865203f_-12500_2550:
     component: bend_s
@@ -91,6 +86,15 @@ instances:
       width2: 1.2
       with_bbox: true
       with_two_ports: true
+links:
+- - bend_s_S25_3_N99_CSstri_7865203f_-12500_2550,o1
+  - coupler_straight_asymme_d7b83f37_5000_400,o2
+- - bend_s_S25_3_N99_CSstri_7865203f_22500_2550,o1
+  - coupler_straight_asymme_d7b83f37_5000_400,o3
+- - coupler_straight_asymme_d7b83f37_5000_400,o1
+  - taper_L25_W1_W1p2_PNone_c47a90e6_-12500_0,o1
+- - coupler_straight_asymme_d7b83f37_5000_400,o4
+  - taper_L25_W1_W1p2_PNone_c47a90e6_22500_0,o1
 name: mode_converter_G0p3_L10_17f2b57c
 placements:
   bend_s_S25_3_N99_CSstri_7865203f_-12500_2550:

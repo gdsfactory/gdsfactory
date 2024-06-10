@@ -111,7 +111,7 @@ def get_netlist(
 
     Returns:
         instances: Dict of instance name and settings.
-        connections: Dict of Instance1Name,portName: Instance2Name,portName.
+        links: List of connected port pairs/groups
         placements: Dict of instance names and placements (x, y, rotation).
         port: Dict portName: ComponentName,port.
         name: name of component.
@@ -120,7 +120,7 @@ def get_netlist(
     """
     placements = {}
     instances = {}
-    connections = {}
+    links = []
     top_ports = {}
 
     # store where ports are located
@@ -207,13 +207,13 @@ def get_netlist(
                     top_ports[dst] = src
                 else:
                     src_dest = sorted([src, dst])
-                    connections[src_dest[0]] = src_dest[1]
+                    links.append(src_dest)
 
-    connections_sorted = {k: connections[k] for k in sorted(connections.keys())}
+    links_sorted = sorted(links, key=lambda link: ",".join(link))
     placements_sorted = {k: placements[k] for k in sorted(placements.keys())}
     instances_sorted = {k: instances[k] for k in sorted(instances.keys())}
     netlist = {
-        "connections": connections_sorted,
+        "links": links_sorted,
         "instances": instances_sorted,
         "placements": placements_sorted,
         "ports": top_ports,

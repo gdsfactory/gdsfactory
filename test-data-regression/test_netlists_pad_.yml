@@ -1,5 +1,5 @@
-connections: {}
 instances: {}
+links: []
 name: pad_S100_100_LMTOP_BLNo_fdaf576b
 placements: {}
 ports: {}

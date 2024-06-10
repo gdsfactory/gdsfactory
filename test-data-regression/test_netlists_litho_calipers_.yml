@@ -1,7 +1,3 @@
-connections:
-  rectangle_S2_5_LSLAB150_a35b7a12_45000_-2500,e2: rectangle_S2_5_LWG_CFal_6af0c142_45000_2500,e4
-  rectangle_S2_5_LSLAB150_a35b7a12_45000_-2500,e4: rectangle_S2_5_LSLAB150_a35b7a12_45000_-7500,e2
-  rectangle_S2_5_LWG_CFal_6af0c142_45000_2500,e2: rectangle_S2_5_LWG_CFal_6af0c142_45000_7500,e4
 instances:
   rectangle_S2_5_LSLAB150_a35b7a12_13800_-2500:
     component: rectangle
@@ -723,6 +719,13 @@ instances:
       size:
       - 2
       - 5
+links:
+- - rectangle_S2_5_LSLAB150_a35b7a12_45000_-2500,e2
+  - rectangle_S2_5_LWG_CFal_6af0c142_45000_2500,e4
+- - rectangle_S2_5_LSLAB150_a35b7a12_45000_-2500,e4
+  - rectangle_S2_5_LSLAB150_a35b7a12_45000_-7500,e2
+- - rectangle_S2_5_LWG_CFal_6af0c142_45000_2500,e2
+  - rectangle_S2_5_LWG_CFal_6af0c142_45000_7500,e4
 name: litho_calipers_NS2_5_NS_cf6f4c31
 placements:
   rectangle_S2_5_LSLAB150_a35b7a12_13800_-2500:

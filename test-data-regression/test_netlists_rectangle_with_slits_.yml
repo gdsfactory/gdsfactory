@@ -1,4 +1,3 @@
-connections: {}
 instances:
   array_Crectangle_S1_1_L_54e31c4e_50000_100000:
     component: array
@@ -26,6 +25,7 @@ instances:
       size:
       - 100
       - 200
+links: []
 name: rectangle_with_slits_S1_6987a1f5
 placements:
   array_Crectangle_S1_1_L_54e31c4e_50000_100000:

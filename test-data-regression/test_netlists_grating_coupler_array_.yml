@@ -1,4 +1,3 @@
-connections: {}
 instances:
   grating_coupler_ellipti_07e69d9a_-190500_-20098:
     component: grating_coupler_elliptical
@@ -126,6 +125,7 @@ instances:
       taper_angle: 40
       taper_length: 16.6
       wavelength: 1.554
+links: []
 name: grating_coupler_array_G_1d8146e3
 placements:
   grating_coupler_ellipti_07e69d9a_-190500_-20098:

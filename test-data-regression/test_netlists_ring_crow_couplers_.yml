@@ -1,22 +1,3 @@
-connections:
-  bot_left_bend_ring_0,o1: top_left_bend_ring_0,o2
-  bot_left_bend_ring_0,o2: coupler_G0p236_L20_CSco_6803887a_10000_368,o2
-  bot_left_bend_ring_1,o1: top_left_bend_ring_1,o2
-  bot_left_bend_ring_1,o2: coupler_G0p236_L20_CSco_6803887a_10000_24368,o2
-  bot_left_bend_ring_2,o1: top_left_bend_ring_2,o2
-  bot_left_bend_ring_2,o2: coupler_G0p236_L20_CSco_6803887a_10000_48368,o2
-  bot_right_bend_ring_0,o1: coupler_G0p236_L20_CSco_6803887a_10000_368,o3
-  bot_right_bend_ring_0,o2: top_right_bend_ring_0,o1
-  bot_right_bend_ring_1,o1: coupler_G0p236_L20_CSco_6803887a_10000_24368,o3
-  bot_right_bend_ring_1,o2: top_right_bend_ring_1,o1
-  bot_right_bend_ring_2,o1: coupler_G0p236_L20_CSco_6803887a_10000_48368,o3
-  bot_right_bend_ring_2,o2: top_right_bend_ring_2,o1
-  coupler_G0p236_L20_CSco_6803887a_10000_24368,o1: top_left_bend_ring_0,o1
-  coupler_G0p236_L20_CSco_6803887a_10000_24368,o4: top_right_bend_ring_0,o2
-  coupler_G0p236_L20_CSco_6803887a_10000_48368,o1: top_left_bend_ring_1,o1
-  coupler_G0p236_L20_CSco_6803887a_10000_48368,o4: top_right_bend_ring_1,o2
-  coupler_G0p236_L20_CSco_6803887a_10000_72368,o1: top_left_bend_ring_2,o1
-  coupler_G0p236_L20_CSco_6803887a_10000_72368,o4: top_right_bend_ring_2,o2
 instances:
   bot_left_bend_ring_0:
     component: bend_circular
@@ -274,6 +255,43 @@ instances:
       angle: 90
       cross_section: strip
       radius: 10
+links:
+- - bot_left_bend_ring_0,o1
+  - top_left_bend_ring_0,o2
+- - bot_left_bend_ring_0,o2
+  - coupler_G0p236_L20_CSco_6803887a_10000_368,o2
+- - bot_left_bend_ring_1,o1
+  - top_left_bend_ring_1,o2
+- - bot_left_bend_ring_1,o2
+  - coupler_G0p236_L20_CSco_6803887a_10000_24368,o2
+- - bot_left_bend_ring_2,o1
+  - top_left_bend_ring_2,o2
+- - bot_left_bend_ring_2,o2
+  - coupler_G0p236_L20_CSco_6803887a_10000_48368,o2
+- - bot_right_bend_ring_0,o1
+  - coupler_G0p236_L20_CSco_6803887a_10000_368,o3
+- - bot_right_bend_ring_0,o2
+  - top_right_bend_ring_0,o1
+- - bot_right_bend_ring_1,o1
+  - coupler_G0p236_L20_CSco_6803887a_10000_24368,o3
+- - bot_right_bend_ring_1,o2
+  - top_right_bend_ring_1,o1
+- - bot_right_bend_ring_2,o1
+  - coupler_G0p236_L20_CSco_6803887a_10000_48368,o3
+- - bot_right_bend_ring_2,o2
+  - top_right_bend_ring_2,o1
+- - coupler_G0p236_L20_CSco_6803887a_10000_24368,o1
+  - top_left_bend_ring_0,o1
+- - coupler_G0p236_L20_CSco_6803887a_10000_24368,o4
+  - top_right_bend_ring_0,o2
+- - coupler_G0p236_L20_CSco_6803887a_10000_48368,o1
+  - top_left_bend_ring_1,o1
+- - coupler_G0p236_L20_CSco_6803887a_10000_48368,o4
+  - top_right_bend_ring_1,o2
+- - coupler_G0p236_L20_CSco_6803887a_10000_72368,o1
+  - top_left_bend_ring_2,o1
+- - coupler_G0p236_L20_CSco_6803887a_10000_72368,o4
+  - top_right_bend_ring_2,o2
 name: ring_crow_couplers_R10__afe24872
 placements:
   bot_left_bend_ring_0:

@@ -1,4 +1,3 @@
-connections: {}
 instances:
   rectangle_S4_2_LWG_CTru_db552270_0_0:
     component: rectangle
@@ -30,6 +29,7 @@ instances:
       size:
       - 6
       - 4
+links: []
 name: rectangles_S4_2_O0_1_LW_0133d2f7
 placements:
   rectangle_S4_2_LWG_CTru_db552270_0_0:

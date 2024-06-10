@@ -1,4 +1,3 @@
-connections: {}
 instances:
   rectangle_S5_5_L1_0_CFa_fd778b63_-2640_-2640:
     component: rectangle
@@ -34,6 +33,7 @@ instances:
       size:
       - 5
       - 5
+links: []
 name: fiducial_squares_L1_0_S5_5_O0p14
 placements:
   rectangle_S5_5_L1_0_CFa_fd778b63_-2640_-2640:

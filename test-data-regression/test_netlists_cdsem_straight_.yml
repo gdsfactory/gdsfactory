@@ -1,4 +1,3 @@
-connections: {}
 instances:
   straight_L420_N2_CSstrip_W0p45_210000_7225:
     component: straight
@@ -150,6 +149,7 @@ instances:
       - 0
       size: 1
       text: '800'
+links: []
 name: cdsem_straight_W0p4_0p4_e37085c4
 placements:
   straight_L420_N2_CSstrip_W0p45_210000_7225:

@@ -1,5 +1,5 @@
-connections: {}
 instances: {}
+links: []
 name: triangle_X10_X0_Y20_Y0_LWG
 placements: {}
 ports: {}

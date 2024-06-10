@@ -1,12 +1,3 @@
-connections:
-  cross_L30_W2_LWG_PTelectrical_0_0,e1: cross_L30_W3_LN_PTelectrical_0_0,e1
-  cross_L30_W2_LWG_PTelectrical_0_0,e2: cross_L30_W3_LN_PTelectrical_0_0,e2
-  cross_L30_W2_LWG_PTelectrical_0_0,e3: cross_L30_W3_LN_PTelectrical_0_0,e3
-  cross_L30_W2_LWG_PTelectrical_0_0,e4: cross_L30_W3_LN_PTelectrical_0_0,e4
-  cross_L30_W3_LN_PTelectrical_0_0,e1: via_stack_S11_11_LWG_NP_1fc0b4f9_-20500_0,e1
-  cross_L30_W3_LN_PTelectrical_0_0,e2: via_stack_S11_11_LWG_NP_1fc0b4f9_0_20500,e1
-  cross_L30_W3_LN_PTelectrical_0_0,e3: via_stack_S11_11_LWG_NP_1fc0b4f9_20500_0,e1
-  cross_L30_W3_LN_PTelectrical_0_0,e4: via_stack_S11_11_LWG_NP_1fc0b4f9_0_-20500,e1
 instances:
   cross_L30_W2_LWG_PTelectrical_0_0:
     component: cross
@@ -104,6 +95,31 @@ instances:
       - null
       - null
       - viac
+links:
+- - cross_L30_W2_LWG_PTelectrical_0_0,e1
+  - cross_L30_W3_LN_PTelectrical_0_0,e1
+- - cross_L30_W2_LWG_PTelectrical_0_0,e1
+  - via_stack_S11_11_LWG_NP_1fc0b4f9_-20500_0,e1
+- - cross_L30_W2_LWG_PTelectrical_0_0,e2
+  - cross_L30_W3_LN_PTelectrical_0_0,e2
+- - cross_L30_W2_LWG_PTelectrical_0_0,e2
+  - via_stack_S11_11_LWG_NP_1fc0b4f9_0_20500,e1
+- - cross_L30_W2_LWG_PTelectrical_0_0,e3
+  - cross_L30_W3_LN_PTelectrical_0_0,e3
+- - cross_L30_W2_LWG_PTelectrical_0_0,e3
+  - via_stack_S11_11_LWG_NP_1fc0b4f9_20500_0,e1
+- - cross_L30_W2_LWG_PTelectrical_0_0,e4
+  - cross_L30_W3_LN_PTelectrical_0_0,e4
+- - cross_L30_W2_LWG_PTelectrical_0_0,e4
+  - via_stack_S11_11_LWG_NP_1fc0b4f9_0_-20500,e1
+- - cross_L30_W3_LN_PTelectrical_0_0,e1
+  - via_stack_S11_11_LWG_NP_1fc0b4f9_-20500_0,e1
+- - cross_L30_W3_LN_PTelectrical_0_0,e2
+  - via_stack_S11_11_LWG_NP_1fc0b4f9_0_20500,e1
+- - cross_L30_W3_LN_PTelectrical_0_0,e3
+  - via_stack_S11_11_LWG_NP_1fc0b4f9_20500_0,e1
+- - cross_L30_W3_LN_PTelectrical_0_0,e4
+  - via_stack_S11_11_LWG_NP_1fc0b4f9_0_-20500,e1
 name: greek_cross_L30_LWG_N_W_d7395c88
 placements:
   cross_L30_W2_LWG_PTelectrical_0_0:

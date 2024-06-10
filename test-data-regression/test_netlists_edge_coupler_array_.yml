@@ -1,4 +1,3 @@
-connections: {}
 instances:
   ec_0:
     component: taper
@@ -150,6 +149,7 @@ instances:
       - 0
       size: 10
       text: '5'
+links: []
 name: edge_coupler_array_ECed_0e2b58eb
 placements:
   ec_0:

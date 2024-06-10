@@ -1,6 +1,3 @@
-connections:
-  compass_S50_10_LHEATER__8f301b44_0_0,e1: via_stack_S50_50_LHEATE_0ececd1b_-50000_0,e3
-  compass_S50_10_LHEATER__8f301b44_0_0,e3: via_stack_S50_50_LHEATE_0ececd1b_50000_0,e1
 instances:
   compass_S50_10_LHEATER__8f301b44_0_0:
     component: compass
@@ -57,6 +54,11 @@ instances:
       - null
       - via1
       - via2
+links:
+- - compass_S50_10_LHEATER__8f301b44_0_0,e1
+  - via_stack_S50_50_LHEATE_0ececd1b_-50000_0,e3
+- - compass_S50_10_LHEATER__8f301b44_0_0,e3
+  - via_stack_S50_50_LHEATE_0ececd1b_50000_0,e1
 name: resistance_sheet_W10_LH_1b3e3b4b
 placements:
   compass_S50_10_LHEATER__8f301b44_0_0:

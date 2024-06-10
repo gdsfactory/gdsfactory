@@ -1,4 +1,3 @@
-connections: {}
 instances:
   rectangle_S0p5_2_LWG_CF_06c4f7a9_-11000_1000:
     component: rectangle
@@ -315,6 +314,7 @@ instances:
       size:
       - 0.5
       - 6
+links: []
 name: litho_ruler_H2_W0p5_S2__a485f750
 placements:
   rectangle_S0p5_2_LWG_CF_06c4f7a9_-11000_1000:

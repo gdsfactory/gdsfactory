@@ -1,26 +1,3 @@
-connections:
-  bend_euler_R5_A90_P0p5__c7bd5c45_-20125_8375,o1: bend_euler_R5_A90_P0p5__c7bd5c45_-24875_13625,o2
-  bend_euler_R5_A90_P0p5__c7bd5c45_-20125_8375,o2: straight_L7p5_N2_CSstrip_-13750_6000,o2
-  bend_euler_R5_A90_P0p5__c7bd5c45_-24875_13625,o1: bend_euler_R5_A90_P0p5__c7bd5c45_-30125_13625,o2
-  bend_euler_R5_A90_P0p5__c7bd5c45_-30125_13625,o1: straight_L2_N2_CSstrip_W0p5_-32500_10000,o2
-  bend_euler_R5_A90_P0p5__c7bd5c45_-30125_6375,o1: straight_L10_N2_CSstrip_W0p5_-22500_4000,o1
-  bend_euler_R5_A90_P0p5__c7bd5c45_-30125_6375,o2: straight_L2_N2_CSstrip_W0p5_-32500_10000,o1
-  bend_euler_R5_A90_P0p5__c7bd5c45_84625_-2375,o1: bend_euler_R5_A90_P0p5__c7bd5c45_89375_-7625,o2
-  bend_euler_R5_A90_P0p5__c7bd5c45_84625_-2375,o2: straight_L0_N2_CSstrip_-2147483648_-2147483648,o2
-  bend_euler_R5_A90_P0p5__c7bd5c45_89375_-7625,o1: bend_euler_R5_A90_P0p5__c7bd5c45_94625_-7625,o2
-  bend_euler_R5_A90_P0p5__c7bd5c45_94625_-7625,o1: straight_L4_N2_CSstrip_W0p5_97000_-3000,o2
-  bend_euler_R5_A90_P0p5__c7bd5c45_94625_1625,o1: straight_L10_N2_CSstrip_W0p5_87000_4000,o1
-  bend_euler_R5_A90_P0p5__c7bd5c45_94625_1625,o2: straight_L4_N2_CSstrip_W0p5_97000_-3000,o1
-  extend_ports_Cstraight__609d0274_1_36000_0,o1: straight_L15_N2_CSstrip_-17500_0,o2
-  extend_ports_Cstraight__609d0274_1_36000_0,o2: straight_L0_N2_CSstrip_-2147483648_-2147483648,o1
-  extend_ports_Cstraight__609d0274_3_36000_6000,o1: straight_L7p5_N2_CSstrip_-13750_6000,o1
-  extend_ports_Cstraight__609d0274_3_36000_6000,o2: straight_L15_N2_CSstrip_89500_6000,o1
-  extend_ports_Cstraight__f0fcd7a2_2_36000_4000,o1: straight_L7p5_N2_CSstrip_-13750_4000,o1
-  extend_ports_Cstraight__f0fcd7a2_2_36000_4000,o2: straight_L10_N2_CSstrip_W0p5_87000_4000,o2
-  straight_L0_N2_CSstrip_-2147483648_-2147483648,o1: straight_L0_N2_CSstrip_-2147483648_-2147483648,o2
-  straight_L10_N2_CSstrip_W0p5_-22500_4000,o2: straight_L7p5_N2_CSstrip_-13750_4000,o2
-  straight_L92_N2_CSFcros_f84eb86c_46000_2000,e1: via_stack_S1p5_1p5_LM1__330fd0e2_-750_2000,e3
-  straight_L92_N2_CSFcros_f84eb86c_46000_2000,e2: via_stack_S1p5_1p5_LM1__330fd0e2_92750_2000,e1
 instances:
   bend_euler_R5_A90_P0p5__c7bd5c45_-20125_8375:
     component: bend_euler
@@ -397,6 +374,57 @@ instances:
       vias:
       - Fvia_Mgdsfactorypcomponentspvia_SLVIAC_S0p1_0p1_S0p2_0p2_E0p1
       - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_S0p1_0p1_S0p2_0p2_E0p1
+links:
+- - bend_euler_R5_A90_P0p5__c7bd5c45_-20125_8375,o1
+  - bend_euler_R5_A90_P0p5__c7bd5c45_-24875_13625,o2
+- - bend_euler_R5_A90_P0p5__c7bd5c45_-20125_8375,o2
+  - straight_L7p5_N2_CSstrip_-13750_6000,o2
+- - bend_euler_R5_A90_P0p5__c7bd5c45_-24875_13625,o1
+  - bend_euler_R5_A90_P0p5__c7bd5c45_-30125_13625,o2
+- - bend_euler_R5_A90_P0p5__c7bd5c45_-30125_13625,o1
+  - straight_L2_N2_CSstrip_W0p5_-32500_10000,o2
+- - bend_euler_R5_A90_P0p5__c7bd5c45_-30125_6375,o1
+  - straight_L10_N2_CSstrip_W0p5_-22500_4000,o1
+- - bend_euler_R5_A90_P0p5__c7bd5c45_-30125_6375,o2
+  - straight_L2_N2_CSstrip_W0p5_-32500_10000,o1
+- - bend_euler_R5_A90_P0p5__c7bd5c45_84625_-2375,o1
+  - bend_euler_R5_A90_P0p5__c7bd5c45_89375_-7625,o2
+- - bend_euler_R5_A90_P0p5__c7bd5c45_84625_-2375,o2
+  - extend_ports_Cstraight__609d0274_1_36000_0,o2
+- - bend_euler_R5_A90_P0p5__c7bd5c45_84625_-2375,o2
+  - straight_L0_N2_CSstrip_-2147483648_-2147483648,o2
+- - bend_euler_R5_A90_P0p5__c7bd5c45_89375_-7625,o1
+  - bend_euler_R5_A90_P0p5__c7bd5c45_94625_-7625,o2
+- - bend_euler_R5_A90_P0p5__c7bd5c45_94625_-7625,o1
+  - straight_L4_N2_CSstrip_W0p5_97000_-3000,o2
+- - bend_euler_R5_A90_P0p5__c7bd5c45_94625_1625,o1
+  - straight_L10_N2_CSstrip_W0p5_87000_4000,o1
+- - bend_euler_R5_A90_P0p5__c7bd5c45_94625_1625,o2
+  - straight_L4_N2_CSstrip_W0p5_97000_-3000,o1
+- - extend_ports_Cstraight__609d0274_1_36000_0,o1
+  - straight_L15_N2_CSstrip_-17500_0,o2
+- - extend_ports_Cstraight__609d0274_1_36000_0,o2
+  - straight_L0_N2_CSstrip_-2147483648_-2147483648,o1
+- - extend_ports_Cstraight__609d0274_3_36000_6000,o1
+  - straight_L7p5_N2_CSstrip_-13750_6000,o1
+- - extend_ports_Cstraight__609d0274_3_36000_6000,o2
+  - straight_L15_N2_CSstrip_89500_6000,o1
+- - extend_ports_Cstraight__f0fcd7a2_2_36000_4000,o1
+  - straight_L7p5_N2_CSstrip_-13750_4000,o1
+- - extend_ports_Cstraight__f0fcd7a2_2_36000_4000,o2
+  - straight_L10_N2_CSstrip_W0p5_87000_4000,o2
+- - straight_L0_N2_CSstrip_-2147483648_-2147483648,o1
+  - straight_L0_N2_CSstrip_-2147483648_-2147483648,o2
+- - straight_L0_N2_CSstrip_-2147483648_-2147483648,o1
+  - straight_L0_N2_CSstrip_-2147483648_-2147483648,o2
+- - straight_L0_N2_CSstrip_-2147483648_-2147483648,o1
+  - straight_L0_N2_CSstrip_-2147483648_-2147483648,o2
+- - straight_L10_N2_CSstrip_W0p5_-22500_4000,o2
+  - straight_L7p5_N2_CSstrip_-13750_4000,o2
+- - straight_L92_N2_CSFcros_f84eb86c_46000_2000,e1
+  - via_stack_S1p5_1p5_LM1__330fd0e2_-750_2000,e3
+- - straight_L92_N2_CSFcros_f84eb86c_46000_2000,e2
+  - via_stack_S1p5_1p5_LM1__330fd0e2_92750_2000,e1
 name: straight_heater_meander_2e902fd2
 placements:
   bend_euler_R5_A90_P0p5__c7bd5c45_-20125_8375:

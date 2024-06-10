@@ -1,5 +1,5 @@
-connections: {}
 instances: {}
+links: []
 name: text_freetype_Tabcd_S10_54bf66a4
 placements: {}
 ports: {}

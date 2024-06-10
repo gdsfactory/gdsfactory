@@ -1,4 +1,3 @@
-connections: {}
 instances:
   spiral_racetrack_MR10_S_80da8713_15000_-9000:
     component: spiral_racetrack
@@ -49,6 +48,7 @@ instances:
       cross_section: npp
       length: 30
       npoints: 2
+links: []
 name: spiral_racetrack_heater_b997422e
 placements:
   spiral_racetrack_MR10_S_80da8713_15000_-9000:

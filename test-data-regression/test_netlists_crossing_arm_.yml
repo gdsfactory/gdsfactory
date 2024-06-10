@@ -1,4 +1,3 @@
-connections: {}
 instances:
   ellipse_R3_1p1_AR2p5_LSLAB150_0_0:
     component: ellipse
@@ -9,6 +8,7 @@ instances:
       radii:
       - 3
       - 1.1
+links: []
 name: crossing_arm_R3_R1p1_W1_3f3657a5
 placements:
   ellipse_R3_1p1_AR2p5_LSLAB150_0_0:

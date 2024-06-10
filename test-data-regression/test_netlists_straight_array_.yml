@@ -1,4 +1,3 @@
-connections: {}
 instances:
   straight_L10_N2_CSstrip_5000_0:
     component: straight
@@ -52,6 +51,7 @@ instances:
       cross_section: strip
       length: 10
       npoints: 2
+links: []
 name: straight_array_N4_S4_L10_CSstrip
 placements:
   straight_L10_N2_CSstrip_5000_0:

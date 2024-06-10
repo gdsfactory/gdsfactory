@@ -1,4 +1,3 @@
-connections: {}
 instances:
   compass_S11_11_LHEATER__b6e1515a_0_0:
     component: compass
@@ -91,6 +90,7 @@ instances:
       spacing:
       - 2
       - 2
+links: []
 name: via_stack_S11_11_LHEATE_f29565aa
 placements:
   compass_S11_11_LHEATER__b6e1515a_0_0:

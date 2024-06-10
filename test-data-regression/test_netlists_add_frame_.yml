@@ -1,5 +1,5 @@
-connections: {}
 instances: {}
+links: []
 name: add_frame_Crectangle_W10_S10_LWG
 placements: {}
 ports: {}

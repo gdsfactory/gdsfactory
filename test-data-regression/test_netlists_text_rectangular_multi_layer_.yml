@@ -1,4 +1,3 @@
-connections: {}
 instances:
   text_rectangular_Tabcd__1692b192_115000_25000:
     component: text_rectangular
@@ -44,6 +43,7 @@ instances:
       - 0
       size: 10
       text: abcd
+links: []
 name: copy_layers_FFtext_rect_635fd46f
 placements:
   text_rectangular_Tabcd__1692b192_115000_25000:
