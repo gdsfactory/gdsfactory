@@ -83,6 +83,10 @@ def get_instance_name_from_label(
     return text
 
 
+def _is_array_reference(ref: ComponentReference) -> bool:
+    return ref.na > 1 or ref.nb > 1
+
+
 def get_netlist(
     component: Component,
     exclude_port_types: list[str] | tuple[str] | None = ("placement",),
@@ -139,6 +143,9 @@ def get_netlist(
         x = origin.x
         y = origin.y
         reference_name = get_instance_name(reference)
+        is_array_ref = False
+        if _is_array_reference(reference):
+            is_array_ref = True
         instance = {}
 
         if c.info:
@@ -161,7 +168,7 @@ def get_netlist(
             "mirror": reference.dtrans.mirror,
         }
 
-        if reference.na > 1 or reference.nb > 1:
+        if is_array_ref:
             instances[reference_name].update(
                 na=reference.na,
                 nb=reference.nb,
@@ -170,13 +177,21 @@ def get_netlist(
                 day=reference.da.y,
                 dby=reference.db.y,
             )
-
-        # lower level ports
-        for port in reference.ports:
             reference_name = get_instance_name(reference)
-            src = f"{reference_name},{port.name}"
-            name2port[src] = port
-            ports_by_type[port.port_type].append(src)
+            for ia in range(reference.na):
+                for ib in range(reference.nb):
+                    for port in reference.cell.ports:
+                        ref_port = reference.ports[(port.name, ia, ib)]
+                        src = f"{reference_name}<{ia}.{ib}>,{port.name}"
+                        name2port[src] = ref_port
+                        ports_by_type[port.port_type].append(src)
+        else:
+            # lower level ports
+            for port in reference.ports:
+                reference_name = get_instance_name(reference)
+                src = f"{reference_name},{port.name}"
+                name2port[src] = port
+                ports_by_type[port.port_type].append(src)
 
     for port in ports:
         src = port.name
