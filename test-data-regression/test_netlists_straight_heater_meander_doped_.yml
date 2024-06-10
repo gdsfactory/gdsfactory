@@ -204,19 +204,6 @@ instances:
       extension: Ftaper_cross_section_Mgdsfactorypcomponentsptaper_cross_section_SLTrue_N2_CSxs_ddaa044f_CSstrip_L10
       length: 5
       port_type: optical
-  straight_L0_N2_CSstrip_-2147483648_-2147483648:
-    component: straight
-    info:
-      length: 0
-      route_info_length: 0
-      route_info_type: xs_34e31a19
-      route_info_weight: 0
-      route_info_xs_34e31a19_length: 0
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 0
-      npoints: 2
   straight_L10_N2_CSstrip_W0p5_-22500_4000:
     component: straight
     info:
@@ -391,8 +378,6 @@ links:
   - bend_euler_R5_A90_P0p5__c7bd5c45_89375_-7625,o2
 - - bend_euler_R5_A90_P0p5__c7bd5c45_84625_-2375,o2
   - extend_ports_Cstraight__609d0274_1_36000_0,o2
-- - bend_euler_R5_A90_P0p5__c7bd5c45_84625_-2375,o2
-  - straight_L0_N2_CSstrip_-2147483648_-2147483648,o2
 - - bend_euler_R5_A90_P0p5__c7bd5c45_89375_-7625,o1
   - bend_euler_R5_A90_P0p5__c7bd5c45_94625_-7625,o2
 - - bend_euler_R5_A90_P0p5__c7bd5c45_94625_-7625,o1
@@ -403,8 +388,6 @@ links:
   - straight_L4_N2_CSstrip_W0p5_97000_-3000,o1
 - - extend_ports_Cstraight__609d0274_1_36000_0,o1
   - straight_L15_N2_CSstrip_-17500_0,o2
-- - extend_ports_Cstraight__609d0274_1_36000_0,o2
-  - straight_L0_N2_CSstrip_-2147483648_-2147483648,o1
 - - extend_ports_Cstraight__609d0274_3_36000_6000,o1
   - straight_L7p5_N2_CSstrip_-13750_6000,o1
 - - extend_ports_Cstraight__609d0274_3_36000_6000,o2
@@ -413,12 +396,6 @@ links:
   - straight_L7p5_N2_CSstrip_-13750_4000,o1
 - - extend_ports_Cstraight__f0fcd7a2_2_36000_4000,o2
   - straight_L10_N2_CSstrip_W0p5_87000_4000,o2
-- - straight_L0_N2_CSstrip_-2147483648_-2147483648,o1
-  - straight_L0_N2_CSstrip_-2147483648_-2147483648,o2
-- - straight_L0_N2_CSstrip_-2147483648_-2147483648,o1
-  - straight_L0_N2_CSstrip_-2147483648_-2147483648,o2
-- - straight_L0_N2_CSstrip_-2147483648_-2147483648,o1
-  - straight_L0_N2_CSstrip_-2147483648_-2147483648,o2
 - - straight_L10_N2_CSstrip_W0p5_-22500_4000,o2
   - straight_L7p5_N2_CSstrip_-13750_4000,o2
 - - straight_L92_N2_CSFcros_f84eb86c_46000_2000,e1
@@ -482,11 +459,6 @@ placements:
     rotation: 0
     x: 0
     y: 4
-  straight_L0_N2_CSstrip_-2147483648_-2147483648:
-    mirror: false
-    rotation: 0
-    x: 82
-    y: 0
   straight_L10_N2_CSstrip_W0p5_-22500_4000:
     mirror: true
     rotation: 0

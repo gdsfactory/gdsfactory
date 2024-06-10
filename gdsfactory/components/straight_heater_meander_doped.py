@@ -225,6 +225,10 @@ def straight_heater_meander_doped(
 
         c.add_ports(p1, prefix="l_")
         c.add_ports(p2, prefix="r_")
+    # delete any straights with zero length
+    for inst in list(c.insts):
+        if inst.cell.settings.get("length") == 0.0:
+            del c.insts[inst]
     return c
 
 
