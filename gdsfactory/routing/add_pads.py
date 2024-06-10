@@ -15,7 +15,6 @@ from gdsfactory.typings import (
 )
 
 
-@gf.cell
 def add_pads_bot(
     component: ComponentSpec = straight_heater_metal,
     select_ports: Callable = select_ports_electrical,
@@ -143,7 +142,6 @@ def add_pads_bot(
     return component_new
 
 
-@gf.cell
 def add_pads_top(
     component: ComponentSpec = straight_heater_metal, **kwargs
 ) -> Component:
