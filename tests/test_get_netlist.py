@@ -37,13 +37,48 @@ def test_netlist_complex() -> None:
 def test_get_netlist_cell_array() -> None:
     rows = 3
     c = gf.components.array(
-        gf.components.straight(length=10), spacing=(0, 100), columns=1, rows=rows
+        gf.components.straight(length=10),
+        spacing=(0, 100),
+        columns=1,
+        rows=rows,
+        add_ports=True,
     )
     n = c.get_netlist(allow_multiple=True)
-    assert len(c.ports) == 2 * rows, len(c.ports)
-    # assert not n["connections"], n["connections"]
-    assert len(n["ports"]) == 0, len(n["ports"])
-    assert len(n["instances"]) == rows, len(n["instances"])
+    n_ports_expected = 2 * rows
+    assert (
+        len(c.ports) == n_ports_expected
+    ), f"Expected {n_ports_expected} ports on component. Got {len(c.ports)}"
+    assert (
+        len(n["ports"]) == n_ports_expected
+    ), f"Expected {n_ports_expected} ports in netlist. Got {len(n['ports'])}"
+    assert (
+        len(n["instances"]) == 1
+    ), f"Expected only one instance for array. Got {len(n['instances'])}"
+    inst = list(n["instances"].values())[0]
+    assert inst["na"] == 1 and inst["nb"] == rows
+
+
+def test_get_netlist_cell_array_no_ports() -> None:
+    rows = 3
+    c = gf.components.array(
+        gf.components.straight(length=10),
+        spacing=(0, 100),
+        columns=1,
+        rows=rows,
+        add_ports=False,
+    )
+    n = c.get_netlist(allow_multiple=True)
+    assert (
+        len(c.ports) == 0
+    ), f"Expected no ports on component with add_ports=False. Got {len(c.ports)}"
+    assert (
+        len(n["ports"]) == 0
+    ), f"Expected no ports in netlist with add_ports=False. Got {len(n['ports'])}"
+    assert (
+        len(n["instances"]) == 1
+    ), f"Expected only one instance for array. Got {len(n['instances'])}"
+    inst = list(n["instances"].values())[0]
+    assert inst["na"] == 1 and inst["nb"] == rows
 
 
 def test_get_netlist_cell_array_connecting() -> None:
