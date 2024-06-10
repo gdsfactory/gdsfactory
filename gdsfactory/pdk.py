@@ -503,7 +503,7 @@ class Pdk(BaseModel):
 
     def get_cross_section(
         self, cross_section: CrossSectionSpec, **kwargs
-    ) -> CrossSection | Transition:
+    ) -> CrossSection | Transition | None:
         """Returns cross_section from a cross_section spec."""
         if isinstance(cross_section, Transition):
             return cross_section
@@ -525,6 +525,8 @@ class Pdk(BaseModel):
             else:
                 xs = CrossSection(**cross_section)
             return xs
+        elif cross_section is None:
+            return None
         else:
             raise ValueError(
                 "get_cross_section expects a CrossSectionSpec (CrossSection, "
