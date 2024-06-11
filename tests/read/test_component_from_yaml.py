@@ -20,8 +20,8 @@ instances:
       settings:
         length: 0.5
 
-connections:
-    wgw,o1: wgn,o2
+links:
+    - wgw,o1: wgn,o2
 
 """
 
@@ -55,8 +55,8 @@ placements:
         mirror: True
         port: o1
 
-connections:
-    b,o1: s,o2
+links:
+    - b,o1: s,o2
 
 """
 
@@ -504,8 +504,8 @@ instances:
   s2:
     component: straight
 
-connections:
-    s2,o2: sa1<2.3>,o1
+links:
+    - s2,o2: sa1<2.3>,o1
 
 routes:
     b1:
@@ -589,4 +589,8 @@ def test_gds_and_settings(
 
 
 if __name__ == "__main__":
-    test_connections_different_factory()
+    # test_connections_different_factory()
+    import gdsfactory as gf
+
+    c = gf.read.from_yaml(sample_array)
+    c.show()
