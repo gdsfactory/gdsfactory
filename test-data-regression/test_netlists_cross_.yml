@@ -1,33 +1,5 @@
-instances:
-  rectangle_S3_10_L1_CFal_8173590e_0_0:
-    component: rectangle
-    info: {}
-    settings:
-      centered: false
-      layer: 1
-      port_orientations:
-      - 180
-      - 90
-      - 0
-      - -90
-      port_type: electrical
-      size:
-      - 3
-      - 10
-links:
-- - rectangle_S3_10_L1_CFal_8173590e_0_0,e1
-  - rectangle_S3_10_L1_CFal_8173590e_0_0,e1
-- - rectangle_S3_10_L1_CFal_8173590e_0_0,e2
-  - rectangle_S3_10_L1_CFal_8173590e_0_0,e2
-- - rectangle_S3_10_L1_CFal_8173590e_0_0,e3
-  - rectangle_S3_10_L1_CFal_8173590e_0_0,e3
-- - rectangle_S3_10_L1_CFal_8173590e_0_0,e4
-  - rectangle_S3_10_L1_CFal_8173590e_0_0,e4
+instances: {}
+links: []
 name: cross_L10_W3_LWG_PTNone
-placements:
-  rectangle_S3_10_L1_CFal_8173590e_0_0:
-    mirror: false
-    rotation: 0
-    x: -1.5
-    y: -5
+placements: {}
 ports: {}
