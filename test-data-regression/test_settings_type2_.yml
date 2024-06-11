@@ -1,11 +1,5 @@
 info:
   length: 10.185
   min_bend_radius: 11.883
-name: add_fiber_array_Ccouple_16cc8d93
-settings:
-  component: coupler_G0p244_L5p67_CS_d8593479
-  cross_section: strip
-  gc_port_name: o1
-  grating_coupler: Fgrating_coupler_elliptical_trenches_Mgdsfactorypcomponentspgrating_coupler_elliptical_trenches_SPte_TA35
-  optical_routing_type: 2
-  select_ports: Fselect_ports_Mgdsfactorypport_SPToptical
+name: type2
+settings: {}

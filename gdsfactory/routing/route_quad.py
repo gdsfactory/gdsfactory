@@ -81,20 +81,6 @@ def route_quad(
         )
     else:
         component.add_polygon(points=vertices, layer=layer)
-    component.add_port(
-        name="e1",
-        center=port1.dcenter,
-        orientation=port1.orientation + 180,
-        width=width1,
-        layer=layer,
-    )
-    component.add_port(
-        name="e2",
-        center=port2.dcenter,
-        orientation=port2.orientation + 180,
-        width=width2,
-        layer=layer,
-    )
 
 
 if __name__ == "__main__":
