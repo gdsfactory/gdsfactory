@@ -48,8 +48,9 @@ def test_route_bundle(
             c, top_ports, bot_ports, start_straight_length=5, end_straight_length=10
         )
         lengths = {i: route.length for i, route in enumerate(routes)}
-        data_regression.check(lengths)
-        difftest(c)
+        if data_regression:
+            data_regression.check(lengths)
+            difftest(c)
 
 
 @pytest.mark.parametrize("config", ["A", "C"])
