@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from collections.abc import Callable
-from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -16,7 +15,6 @@ from gdsfactory.typings import (
 )
 
 
-@gf.cell
 def add_fiber_array(
     component: ComponentSpec = straight_function,
     grating_coupler: ComponentSpecOrList = grating_coupler_te,
@@ -136,18 +134,23 @@ def add_fiber_array(
 
 
 if __name__ == "__main__":
+    from gdsfactory.samples.big_device import big_device
+
+    component = big_device(nports=10)
+    radius = 5.0
+    c = add_fiber_array(component=component, radius=radius, fanout_length=50.0)
     # test_type0()
-    gcte = gf.components.grating_coupler_te
-    gctm = gf.components.grating_coupler_tm
-    strip = partial(
-        gf.cross_section.cross_section,
-        width=1,
-        layer=(2, 0),
-        # bbox_layers=((61, 0), (62, 0)),
-        # bbox_offsets=(3, 3)
-        # cladding_layers=((61, 0), (62, 0)),
-        # cladding_offsets=(3, 3)
-    )
+    # gcte = gf.components.grating_coupler_te
+    # gctm = gf.components.grating_coupler_tm
+    # strip = partial(
+    #     gf.cross_section.cross_section,
+    #     width=1,
+    #     layer=(2, 0),
+    #     # bbox_layers=((61, 0), (62, 0)),
+    #     # bbox_offsets=(3, 3)
+    #     # cladding_layers=((61, 0), (62, 0)),
+    #     # cladding_offsets=(3, 3)
+    # )
 
     # from pprint import pprint
 
@@ -162,8 +165,8 @@ if __name__ == "__main__":
     # c = gf.components.straight_heater_metal()
     # c = gf.components.spiral(direction="NORTH")
 
-    c = gf.components.mzi_phase_shifter()
-    c = add_fiber_array(c, radius=20, with_loopback=False)
+    # c = gf.components.mzi_phase_shifter()
+    # c = add_fiber_array(c, radius=20, with_loopback=False)
 
     # c1 = partial(add_fiber_array, component=gf.c.mmi1x2)
     # c2 = partial(add_fiber_array, component=gf.c.nxn)

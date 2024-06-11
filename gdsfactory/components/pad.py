@@ -133,7 +133,7 @@ if __name__ == "__main__":
     # c = pad_rectangular()
     c = pad_array(columns=3)
     c.show()
-    n = c.get_netlist()
+    # n = c.get_netlist()
     # c = pad(layer_to_inclusion={(3, 0): 10})
     # print(c.ports)
     # c = pad(width=10, height=10)
