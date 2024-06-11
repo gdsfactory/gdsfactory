@@ -14,14 +14,13 @@ from gdsfactory.routing.route_bundle import route_bundle
 def test_route_bundle(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> None:
-    layer = (1, 0)
-    layer = (1, 0)
-
     if check:
         pitch = 127.0
         xs_top = [-100, -90, -80, 0, 10, 20, 40, 50, 80, 90, 100, 105, 110, 115]
         N = len(xs_top)
         xs_bottom = [(i - N / 2) * pitch for i in range(N)]
+        layer = (1, 0)
+
         top_ports = [
             Port(
                 f"top_{i}",
@@ -271,10 +270,13 @@ def test_connect_corner(
 
 
 def test_route_bundle_udirect(
-    data_regression: DataRegressionFixture, check: bool = True, dy=200, angle=270
+    data_regression: DataRegressionFixture,
+    check: bool = True,
+    dy: float = 200,
+    angle: float = 270,
 ) -> None:
     xs1 = [-100, -90, -80, -55, -35, 24, 0] + [200, 210, 240]
-    axis = "X" if angle in [0, 180] else "Y"
+    axis = "X" if angle in {0, 180} else "Y"
 
     pitch = 10.0
     N = len(xs1)
@@ -459,4 +461,5 @@ def test_route_bundle_small() -> None:
 
 if __name__ == "__main__":
     # test_route_bundle_small()
-    test_route_bundle_udirect()
+    # test_route_bundle_udirect(None, check=False)
+    test_route_bundle(None)

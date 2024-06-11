@@ -8,6 +8,7 @@ from gdsfactory.component import Component
 from gdsfactory.difftest import difftest
 
 
+@gf.cell
 def add_pads0() -> Component:
     c = gf.components.straight_heater_metal(length=100.0)
     c = gf.routing.add_pads_top(component=c, port_names=("l_e1",))

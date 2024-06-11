@@ -14,8 +14,8 @@ obstacle.dxmin = pbot.dxmax - 10
 
 routes = gf.routing.route_bundle_electrical(
     c,
-    ptop.ports,
     pbot.ports,
+    ptop.ports,
     start_straight_length=100,
     separation=20,
     bboxes=[
