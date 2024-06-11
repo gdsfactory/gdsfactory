@@ -1,4 +1,3 @@
-connections: {}
 instances:
   rectangle_S0p3_0p3_LSLA_62b062b0_-1535_-1535:
     component: rectangle
@@ -4588,6 +4587,7 @@ instances:
       width2: 10
       with_bbox: true
       with_two_ports: true
+links: []
 name: grating_coupler_dual_po_b95dc69d
 placements:
   rectangle_S0p3_0p3_LSLA_62b062b0_-1535_-1535:

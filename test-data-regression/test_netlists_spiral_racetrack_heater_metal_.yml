@@ -1,8 +1,3 @@
-connections:
-  bend_circular_R20_A180__5813679f_35000_-9000,e1: straight_L30_N2_CSheater_metal_9375_-29000,e1
-  bend_circular_R20_A180__5813679f_35000_-9000,e2: straight_L30_N2_CSheater_metal_9375_11000,e1
-  straight_L30_N2_CSheater_metal_9375_-29000,e2: via_stack_S11_11_LHEATE_f29565aa_-11125_-29000,e3
-  straight_L30_N2_CSheater_metal_9375_11000,e2: via_stack_S11_11_LHEATE_f29565aa_-11125_11000,e3
 instances:
   bend_circular_R20_A180__5813679f_35000_-9000:
     component: bend_circular
@@ -110,6 +105,15 @@ instances:
       - null
       - via1
       - via2
+links:
+- - bend_circular_R20_A180__5813679f_35000_-9000,e1
+  - straight_L30_N2_CSheater_metal_9375_-29000,e1
+- - bend_circular_R20_A180__5813679f_35000_-9000,e2
+  - straight_L30_N2_CSheater_metal_9375_11000,e1
+- - straight_L30_N2_CSheater_metal_9375_-29000,e2
+  - via_stack_S11_11_LHEATE_f29565aa_-11125_-29000,e3
+- - straight_L30_N2_CSheater_metal_9375_11000,e2
+  - via_stack_S11_11_LHEATE_f29565aa_-11125_11000,e3
 name: spiral_racetrack_heater_19482d4b
 placements:
   bend_circular_R20_A180__5813679f_35000_-9000:

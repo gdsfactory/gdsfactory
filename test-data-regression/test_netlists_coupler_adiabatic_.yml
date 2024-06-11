@@ -1,10 +1,3 @@
-connections:
-  bezier_CP0_0_10_0_10_m1_4767eb94_-20000_1270,o2: taper_L10_W0p5_W0p6_PNo_23934efe_-5000_770,o2
-  bezier_CP0_m3_10_m3_10__07235f68_-20000_-500,o2: taper_L10_W0p5_W0p4_PNo_a87d0813_-5000_0,o2
-  bezier_CP70_m1_85_m1_85_5940811d_65000_-500,o1: coupler_straight_L50_G0_a8f21bfb_25000_385,o4
-  bezier_CP70_m1_85_m1_85_5940811d_65000_1270,o1: coupler_straight_L50_G0_a8f21bfb_25000_385,o3
-  coupler_straight_L50_G0_a8f21bfb_25000_385,o1: taper_L10_W0p5_W0p4_PNo_a87d0813_-5000_0,o1
-  coupler_straight_L50_G0_a8f21bfb_25000_385,o2: taper_L10_W0p5_W0p6_PNo_23934efe_-5000_770,o1
 instances:
   bezier_CP0_0_10_0_10_m1_4767eb94_-20000_1270:
     component: bezier
@@ -159,6 +152,19 @@ instances:
       width2: 0.6
       with_bbox: true
       with_two_ports: true
+links:
+- - bezier_CP0_0_10_0_10_m1_4767eb94_-20000_1270,o2
+  - taper_L10_W0p5_W0p6_PNo_23934efe_-5000_770,o2
+- - bezier_CP0_m3_10_m3_10__07235f68_-20000_-500,o2
+  - taper_L10_W0p5_W0p4_PNo_a87d0813_-5000_0,o2
+- - bezier_CP70_m1_85_m1_85_5940811d_65000_-500,o1
+  - coupler_straight_L50_G0_a8f21bfb_25000_385,o4
+- - bezier_CP70_m1_85_m1_85_5940811d_65000_1270,o1
+  - coupler_straight_L50_G0_a8f21bfb_25000_385,o3
+- - coupler_straight_L50_G0_a8f21bfb_25000_385,o1
+  - taper_L10_W0p5_W0p4_PNo_a87d0813_-5000_0,o1
+- - coupler_straight_L50_G0_a8f21bfb_25000_385,o2
+  - taper_L10_W0p5_W0p6_PNo_23934efe_-5000_770,o1
 name: coupler_adiabatic_L20_L_6807e123
 placements:
   bezier_CP0_0_10_0_10_m1_4767eb94_-20000_1270:

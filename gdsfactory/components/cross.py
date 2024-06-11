@@ -27,10 +27,12 @@ def cross(
     r2 = c.add_ref(R)
     r1.dcenter = (0, 0)
     r2.dcenter = (0, 0)
+    c.flatten()
 
     if port_type:
+        prefix = "o" if port_type == "optical" else "e"
         c.add_port(
-            1,
+            f"{prefix}1",
             width=width,
             layer=layer,
             orientation=0,
@@ -38,7 +40,7 @@ def cross(
             port_type=port_type,
         )
         c.add_port(
-            2,
+            f"{prefix}2",
             width=width,
             layer=layer,
             orientation=180,
@@ -46,7 +48,7 @@ def cross(
             port_type=port_type,
         )
         c.add_port(
-            3,
+            f"{prefix}3",
             width=width,
             layer=layer,
             orientation=90,
@@ -54,7 +56,7 @@ def cross(
             port_type=port_type,
         )
         c.add_port(
-            4,
+            f"{prefix}4",
             width=width,
             layer=layer,
             orientation=270,
@@ -66,7 +68,7 @@ def cross(
 
 
 if __name__ == "__main__":
-    c = cross()
+    c = cross(port_type="optical")
     c.show()
     # c.pprint_ports()
     # cc = gf.routing.add_fiber_array(component=c)

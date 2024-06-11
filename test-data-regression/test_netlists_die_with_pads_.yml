@@ -1,4 +1,3 @@
-connections: {}
 instances:
   grating_coupler_array_G_0aa35b48_-5549710_0:
     component: grating_coupler_array
@@ -971,6 +970,7 @@ instances:
       size:
       - 11470
       - 4900
+links: []
 name: die_with_pads_S11470_49_1695e6ce
 placements:
   grating_coupler_array_G_0aa35b48_-5549710_0:

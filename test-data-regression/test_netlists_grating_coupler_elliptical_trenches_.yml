@@ -1,5 +1,5 @@
-connections: {}
 instances: {}
+links: []
 name: grating_coupler_ellipti_b64d4cf1
 placements: {}
 ports: {}

@@ -1,4 +1,3 @@
-connections: {}
 instances:
   cdsem_bend180_W0p45_R10_d7247ec5_220112_80625:
     component: cdsem_bend180
@@ -171,6 +170,7 @@ instances:
       - 0.32
       - 0.32
       - 0.32
+links: []
 name: cdsem_all_W0p4_0p45_0p5_ba26fb18
 placements:
   cdsem_bend180_W0p45_R10_d7247ec5_220112_80625:

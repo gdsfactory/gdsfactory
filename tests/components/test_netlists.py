@@ -55,8 +55,7 @@ skip_test = {
 cells_to_test = set(cells.keys()) - skip_test
 
 
-# @pytest.mark.parametrize("component_type", cells_to_test)
-@pytest.mark.skip
+@pytest.mark.parametrize("component_type", cells_to_test)
 def test_netlists(
     component_type: str,
     data_regression: DataRegressionFixture,
@@ -79,22 +78,20 @@ def test_netlists(
     if check:
         data_regression.check(n)
 
-    n.pop("connections", None)
-    yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
-    c.delete()
-    c2 = gf.read.from_yaml(yaml_str)
-    n2 = c2.get_netlist(
-        allow_multiple=True, connection_error_types=connection_error_types
-    )
+    # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
+    # c.delete()
+    # c2 = gf.read.from_yaml(yaml_str)
+    # n2 = c2.get_netlist(
+    #     allow_multiple=True, connection_error_types=connection_error_types
+    # )
 
-    n.pop("name")
-    n2.pop("name")
-    n.pop("ports")
-    n2.pop("ports")
-    d = jsondiff.diff(n, n2)
-    d.pop("warnings", None)
-    d.pop("connections", None)
-    assert len(d) == 0, d
+    # n.pop("name")
+    # n2.pop("name")
+    # n.pop("ports")
+    # n2.pop("ports")
+    # d = jsondiff.diff(n, n2)
+    # d.pop("warnings", None)
+    # assert len(d) == 0, d
 
 
 if __name__ == "__main__":

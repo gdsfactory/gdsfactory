@@ -1,20 +1,3 @@
-connections:
-  bend_euler_R10_A90_P0p5_2f1f5c6d_249125_44654,o1: straight_L40_N2_CSstrip_W0p5_254000_19529,o1
-  bend_euler_R10_A90_P0p5_2f1f5c6d_249125_44654,o2: straight_L234_N2_CSstrip_W0p5_127000_49529,o1
-  bend_euler_R10_A90_P0p5_2f1f5c6d_4875_44654,o1: straight_L234_N2_CSstrip_W0p5_127000_49529,o2
-  bend_euler_R10_A90_P0p5_2f1f5c6d_4875_44654,o2: straight_L40_N2_CSstrip_W0p5_0_19529,o1
-  bend_euler_RNone_A90_P0_d7c3a5a9_111875_-41542,o1: straight_L274_N2_CSstrip_W0p5_254000_-46417,o2
-  bend_euler_RNone_A90_P0_d7c3a5a9_111875_-41542,o2: straight_L35p946_N2_CSstrip_W0p5_107000_-18444,o1
-  bend_euler_RNone_A90_P0_d7c3a5a9_111875_4654,o1: straight_L35p946_N2_CSstrip_W0p5_107000_-18444,o2
-  bend_euler_RNone_A90_P0_d7c3a5a9_111875_4654,o2: bend_euler_RNone_A90_P0_d7c3a5a9_122125_4654,o1
-  bend_euler_RNone_A90_P0_d7c3a5a9_122125_4654,o2: grating_coupler_ellipti_b694ac47_127000_-20512,o1
-  bend_euler_RNone_A90_P0_d7c3a5a9_385875_4654,o1: grating_coupler_ellipti_b694ac47_381000_-20512,o1
-  bend_euler_RNone_A90_P0_d7c3a5a9_385875_4654,o2: bend_euler_RNone_A90_P0_d7c3a5a9_396125_4654,o1
-  bend_euler_RNone_A90_P0_d7c3a5a9_396125_-41542,o1: straight_L35p946_N2_CSstrip_W0p5_401000_-18444,o2
-  bend_euler_RNone_A90_P0_d7c3a5a9_396125_-41542,o2: straight_L274_N2_CSstrip_W0p5_254000_-46417,o1
-  bend_euler_RNone_A90_P0_d7c3a5a9_396125_4654,o2: straight_L35p946_N2_CSstrip_W0p5_401000_-18444,o1
-  grating_coupler_ellipti_b694ac47_0_-20512,o1: straight_L40_N2_CSstrip_W0p5_0_19529,o2
-  grating_coupler_ellipti_b694ac47_254000_-20512,o1: straight_L40_N2_CSstrip_W0p5_254000_19529,o2
 instances:
   bend_euler_R10_A90_P0p5_2f1f5c6d_249125_44654:
     component: bend_euler
@@ -338,6 +321,39 @@ instances:
       length: 40
       npoints: 2
       width: 0.5
+links:
+- - bend_euler_R10_A90_P0p5_2f1f5c6d_249125_44654,o1
+  - straight_L40_N2_CSstrip_W0p5_254000_19529,o1
+- - bend_euler_R10_A90_P0p5_2f1f5c6d_249125_44654,o2
+  - straight_L234_N2_CSstrip_W0p5_127000_49529,o1
+- - bend_euler_R10_A90_P0p5_2f1f5c6d_4875_44654,o1
+  - straight_L234_N2_CSstrip_W0p5_127000_49529,o2
+- - bend_euler_R10_A90_P0p5_2f1f5c6d_4875_44654,o2
+  - straight_L40_N2_CSstrip_W0p5_0_19529,o1
+- - bend_euler_RNone_A90_P0_d7c3a5a9_111875_-41542,o1
+  - straight_L274_N2_CSstrip_W0p5_254000_-46417,o2
+- - bend_euler_RNone_A90_P0_d7c3a5a9_111875_-41542,o2
+  - straight_L35p946_N2_CSstrip_W0p5_107000_-18444,o1
+- - bend_euler_RNone_A90_P0_d7c3a5a9_111875_4654,o1
+  - straight_L35p946_N2_CSstrip_W0p5_107000_-18444,o2
+- - bend_euler_RNone_A90_P0_d7c3a5a9_111875_4654,o2
+  - bend_euler_RNone_A90_P0_d7c3a5a9_122125_4654,o1
+- - bend_euler_RNone_A90_P0_d7c3a5a9_122125_4654,o2
+  - grating_coupler_ellipti_b694ac47_127000_-20512,o1
+- - bend_euler_RNone_A90_P0_d7c3a5a9_385875_4654,o1
+  - grating_coupler_ellipti_b694ac47_381000_-20512,o1
+- - bend_euler_RNone_A90_P0_d7c3a5a9_385875_4654,o2
+  - bend_euler_RNone_A90_P0_d7c3a5a9_396125_4654,o1
+- - bend_euler_RNone_A90_P0_d7c3a5a9_396125_-41542,o1
+  - straight_L35p946_N2_CSstrip_W0p5_401000_-18444,o2
+- - bend_euler_RNone_A90_P0_d7c3a5a9_396125_-41542,o2
+  - straight_L274_N2_CSstrip_W0p5_254000_-46417,o1
+- - bend_euler_RNone_A90_P0_d7c3a5a9_396125_4654,o2
+  - straight_L35p946_N2_CSstrip_W0p5_401000_-18444,o1
+- - grating_coupler_ellipti_b694ac47_0_-20512,o1
+  - straight_L40_N2_CSstrip_W0p5_0_19529,o2
+- - grating_coupler_ellipti_b694ac47_254000_-20512,o1
+  - straight_L40_N2_CSstrip_W0p5_254000_19529,o2
 name: loss_deembedding_ch13_2_f0d5a16c
 placements:
   bend_euler_R10_A90_P0p5_2f1f5c6d_249125_44654:

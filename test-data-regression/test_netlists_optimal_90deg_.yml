@@ -1,5 +1,5 @@
-connections: {}
 instances: {}
+links: []
 name: optimal_90deg_W100_NP15_LA1_L1_0
 placements: {}
 ports: {}

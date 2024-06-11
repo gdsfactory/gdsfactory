@@ -1,5 +1,3 @@
-connections:
-  straight_L40_N2_CSpn_ge_ef2cc18e_20000_0,o1: taper_L20_W0p5_W0p8_PNo_1374d3b8_-10000_0,o2
 instances:
   straight_L40_N2_CSpn_ge_ef2cc18e_20000_0:
     component: straight
@@ -77,6 +75,9 @@ instances:
       - via1
       - via2
       - null
+links:
+- - straight_L40_N2_CSpn_ge_ef2cc18e_20000_0,o1
+  - taper_L20_W0p5_W0p8_PNo_1374d3b8_-10000_0,o2
 name: ge_detector_straight_si_30d8f655
 placements:
   straight_L40_N2_CSpn_ge_ef2cc18e_20000_0:

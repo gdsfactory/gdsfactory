@@ -100,7 +100,7 @@ class Port(kf.Port):
         name: we name ports clock-wise starting from bottom left.
         orientation: in degrees (0: east, 90: north, 180: west, 270: south).
         center: (x, y) port center coordinate.
-        width: of the port in um.
+        width: of the port in um (uses the cross section width if not provided).
         layer: layer tuple.
         port_type: str (optical, electrical, vertical_te, vertical_tm).
         cross_section: cross_section spec.
@@ -112,7 +112,7 @@ class Port(kf.Port):
         name: str,
         orientation: float | None,
         center: tuple[float, float] | kf.kdb.Point | kf.kdb.DPoint,
-        width: float,
+        width: float | None = None,
         layer: LayerSpec | None = None,
         port_type: str = "optical",
         cross_section: CrossSectionSpec | None = None,

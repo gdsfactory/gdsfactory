@@ -20,8 +20,8 @@ instances:
       settings:
         length: 0.5
 
-connections:
-    wgw,o1: wgn,o2
+links:
+    - wgw,o1: wgn,o2
 
 """
 
@@ -55,8 +55,8 @@ placements:
         mirror: True
         port: o1
 
-connections:
-    b,o1: s,o2
+links:
+    - b,o1: s,o2
 
 """
 
@@ -491,6 +491,33 @@ placements:
 
 """
 
+sample_array = """
+name: sample_array
+
+instances:
+  sa1:
+    component: straight
+    na: 5
+    dax: 50
+    nb: 4
+    dby: 10
+  s2:
+    component: straight
+
+links:
+    - s2,o2: sa1<2.3>,o1
+
+routes:
+    b1:
+        links:
+            sa1<3.0>,o2: sa1<4.0>,o1
+            sa1<3.1>,o2: sa1<4.1>,o1
+
+ports:
+    o1: s2,o1
+    o2: sa1<0.0>,o1
+"""
+
 # FIXME: Fix both uncommented cases
 # yaml_fail should actually fail
 # sample_different_factory: returns a zero length straight that gives an error
@@ -512,6 +539,7 @@ yaml_strings = dict(
     # sample_doe_grid=sample_doe_grid,
     sample_doe_function=sample_doe_function,
     sample_rotation=sample_rotation,
+    sample_array=sample_array,
 )
 
 
@@ -561,4 +589,8 @@ def test_gds_and_settings(
 
 
 if __name__ == "__main__":
-    test_connections_different_factory()
+    # test_connections_different_factory()
+    import gdsfactory as gf
+
+    c = gf.read.from_yaml(sample_array)
+    c.show()

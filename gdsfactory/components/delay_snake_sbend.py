@@ -102,10 +102,16 @@ def delay_snake_sbend(
     straight3 = straight(length=length3, cross_section=cross_section, **kwargs)
     straight4 = straight(length=length4, cross_section=cross_section, **kwargs)
 
-    s1 = c << straight1
-    s2 = c << straight2
-    s3 = c << straight3
-    s4 = c << straight4
+    # sequence = ["s1", "b1", "bs", "s2", "b2", "s3", "s4"]
+    # for i_straight, component in enumerate(straight1, straight2, straight3, straight4):
+    #     inst_name = f"s{i_straight+1}"
+    #     if component.settings["length"] != 0:
+    #         sequence.remove()
+    s1 = c.add_ref(straight1, "s1")
+    s2 = c.add_ref(straight2, "s2")
+    s3 = c.add_ref(straight3, "s3")
+    s4 = c.add_ref(straight4, "s4")
+    # for inst_name in sequence:
 
     b1.connect("o2", s1.ports["o2"])
     bs.connect("o2", b1.ports["o1"])
@@ -121,6 +127,12 @@ def delay_snake_sbend(
 
     c.info["min_bend_radius"] = float(sbend.info["min_bend_radius"])
     c.info["bend180_radius"] = bend180_radius
+
+    # delete any straights with zero length
+    for inst in s1, s2, s3, s4:
+        if inst.cell.settings["length"] == 0:
+            del c.insts[inst._kfinst]
+
     return c
 
 

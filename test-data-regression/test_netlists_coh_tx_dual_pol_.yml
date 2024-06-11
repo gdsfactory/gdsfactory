@@ -1,14 +1,3 @@
-connections:
-  bend_euler_R10_A90_P0p5_2f1f5c6d_-75125_-221375,o1: straight_L7p25_N2_CSstrip_W0p5_-66375_-226250,o1
-  bend_euler_R10_A90_P0p5_2f1f5c6d_-75125_-221375,o2: straight_L65p875_N2_CSstrip_W0p5_-80000_-183313,o1
-  bend_euler_R10_A90_P0p5_2f1f5c6d_-75125_-58125,o1: straight_L7p25_N2_CSstrip_W0p5_-66375_-53250,o1
-  bend_euler_R10_A90_P0p5_2f1f5c6d_-75125_-58125,o2: straight_L65p875_N2_CSstrip_W0p5_-80000_-96188,o1
-  bend_euler_R10_A90_P0p5_2f1f5c6d_-84875_-134250,o1: straight_L65p875_N2_CSstrip_W0p5_-80000_-96188,o2
-  bend_euler_R10_A90_P0p5_2f1f5c6d_-84875_-134250,o2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_-102750_-139750,o2
-  bend_euler_R10_A90_P0p5_2f1f5c6d_-84875_-145250,o1: straight_L65p875_N2_CSstrip_W0p5_-80000_-183313,o2
-  bend_euler_R10_A90_P0p5_2f1f5c6d_-84875_-145250,o2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_-102750_-139750,o3
-  coh_tx_single_pol_BPSFa_4ee171aa_205510_-220875,o1: straight_L7p25_N2_CSstrip_W0p5_-66375_-226250,o2
-  coh_tx_single_pol_BPSFa_4ee171aa_205510_-47875,o1: straight_L7p25_N2_CSstrip_W0p5_-66375_-53250,o2
 instances:
   bend_euler_R10_A90_P0p5_2f1f5c6d_-75125_-221375:
     component: bend_euler
@@ -188,6 +177,27 @@ instances:
       length: 7.25
       npoints: 2
       width: 0.5
+links:
+- - bend_euler_R10_A90_P0p5_2f1f5c6d_-75125_-221375,o1
+  - straight_L7p25_N2_CSstrip_W0p5_-66375_-226250,o1
+- - bend_euler_R10_A90_P0p5_2f1f5c6d_-75125_-221375,o2
+  - straight_L65p875_N2_CSstrip_W0p5_-80000_-183313,o1
+- - bend_euler_R10_A90_P0p5_2f1f5c6d_-75125_-58125,o1
+  - straight_L7p25_N2_CSstrip_W0p5_-66375_-53250,o1
+- - bend_euler_R10_A90_P0p5_2f1f5c6d_-75125_-58125,o2
+  - straight_L65p875_N2_CSstrip_W0p5_-80000_-96188,o1
+- - bend_euler_R10_A90_P0p5_2f1f5c6d_-84875_-134250,o1
+  - straight_L65p875_N2_CSstrip_W0p5_-80000_-96188,o2
+- - bend_euler_R10_A90_P0p5_2f1f5c6d_-84875_-134250,o2
+  - mmi1x2_WNone_WT1_LT10_L_4e0f7121_-102750_-139750,o2
+- - bend_euler_R10_A90_P0p5_2f1f5c6d_-84875_-145250,o1
+  - straight_L65p875_N2_CSstrip_W0p5_-80000_-183313,o2
+- - bend_euler_R10_A90_P0p5_2f1f5c6d_-84875_-145250,o2
+  - mmi1x2_WNone_WT1_LT10_L_4e0f7121_-102750_-139750,o3
+- - coh_tx_single_pol_BPSFa_4ee171aa_205510_-220875,o1
+  - straight_L7p25_N2_CSstrip_W0p5_-66375_-226250,o2
+- - coh_tx_single_pol_BPSFa_4ee171aa_205510_-47875,o1
+  - straight_L7p25_N2_CSstrip_W0p5_-66375_-53250,o2
 name: coh_tx_dual_pol_Smmi1x2_a3c36516
 placements:
   bend_euler_R10_A90_P0p5_2f1f5c6d_-75125_-221375:

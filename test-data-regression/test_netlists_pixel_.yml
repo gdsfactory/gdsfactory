@@ -1,5 +1,5 @@
-connections: {}
 instances: {}
+links: []
 name: pixel_S1_LWG
 placements: {}
 ports: {}

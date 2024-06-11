@@ -1,8 +1,3 @@
-connections:
-  pad_S100_100_LMTOP_BLNo_fdaf576b_200000_0,e4: via_stack_S11_11_LM1_M2_e6789b8f_200000_-55500,e2
-  pad_S100_100_LMTOP_BLNo_fdaf576b_350000_0,e2: via_stack_S11_11_LM1_M2_e6789b8f_350000_55500,e4
-  pad_S100_100_LMTOP_BLNo_fdaf576b_500000_0,e2: via_stack_S11_11_LM1_M2_e6789b8f_500000_55500,e4
-  pad_S100_100_LMTOP_BLNo_fdaf576b_50000_0,e4: via_stack_S11_11_LM1_M2_e6789b8f_50000_-55500,e2
 instances:
   greek_cross_L30_LWG_N_W_d7395c88_275000_0:
     component: greek_cross
@@ -156,6 +151,15 @@ instances:
       - via1
       - via2
       - null
+links:
+- - pad_S100_100_LMTOP_BLNo_fdaf576b_200000_0,e4
+  - via_stack_S11_11_LM1_M2_e6789b8f_200000_-55500,e2
+- - pad_S100_100_LMTOP_BLNo_fdaf576b_350000_0,e2
+  - via_stack_S11_11_LM1_M2_e6789b8f_350000_55500,e4
+- - pad_S100_100_LMTOP_BLNo_fdaf576b_500000_0,e2
+  - via_stack_S11_11_LM1_M2_e6789b8f_500000_55500,e4
+- - pad_S100_100_LMTOP_BLNo_fdaf576b_50000_0,e4
+  - via_stack_S11_11_LM1_M2_e6789b8f_50000_-55500,e2
 name: greek_cross_with_pads_P_fa616bf3
 placements:
   greek_cross_L30_LWG_N_W_d7395c88_275000_0:

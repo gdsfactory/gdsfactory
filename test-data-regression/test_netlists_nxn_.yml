@@ -1,4 +1,3 @@
-connections: {}
 instances:
   rectangle_S8_8_LWG_CFal_95ca53b5_4000_4000:
     component: rectangle
@@ -15,6 +14,7 @@ instances:
       size:
       - 8
       - 8
+links: []
 name: nxn_W1_E4_N0_S0_X8_Y8_W_96626965
 placements:
   rectangle_S8_8_LWG_CFal_95ca53b5_4000_4000:

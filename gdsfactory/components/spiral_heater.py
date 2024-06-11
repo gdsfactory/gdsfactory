@@ -196,7 +196,7 @@ def spiral_racetrack_fixed_length(
     in_wg.connect("o1", spiral.ports["o1"])
 
     c.info["length"] += spiral.ports["o1"].dx - spiral.dxmin
-    c.add_port(
+    o2_temp = gf.Port(
         "o2_temp",
         center=(spiral.ports["o1"].dx + in_out_port_spacing, spiral.ports["o1"].dy),
         orientation=180,
@@ -206,7 +206,7 @@ def spiral_racetrack_fixed_length(
     route = route_single(
         c,
         spiral.ports["o2"],
-        c.ports["o2_temp"],
+        o2_temp,
         straight=straight,
         bend=bend_factory,
         cross_section=xs_s_bend,
@@ -218,7 +218,6 @@ def spiral_racetrack_fixed_length(
         orientation=0,
         cross_section=gf.get_cross_section(xs_s_bend),
     )
-
     c.add_port("o1", port=in_wg.ports["o2"])
     c.info["length"] += route.length * c.kcl.dbu
     return c

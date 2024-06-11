@@ -1,4 +1,3 @@
-connections: {}
 instances:
   text_Tchip99_S100_P0_0__3d77b8b1_-4670000_-4810000:
     component: text
@@ -11,6 +10,7 @@ instances:
       - 0
       size: 100
       text: chip99
+links: []
 name: die_S10000_10000_SW100__48b1c773
 placements:
   text_Tchip99_S100_P0_0__3d77b8b1_-4670000_-4810000:

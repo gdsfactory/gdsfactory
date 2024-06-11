@@ -1,6 +1,3 @@
-connections:
-  straight_L10_N2_CSstrip_W0p4_0_0,o1: taper_L20_W1_W0p4_PNone_92d96627_-15000_0,o2
-  straight_L10_N2_CSstrip_W0p4_0_0,o2: taper_L20_W0p4_W1_PNone_0f93cfde_15000_0,o1
 instances:
   array_Crectangle_S0p424_dbc46204_0_0:
     component: array
@@ -66,6 +63,11 @@ instances:
       width2: 0.4
       with_bbox: true
       with_two_ports: true
+links:
+- - straight_L10_N2_CSstrip_W0p4_0_0,o1
+  - taper_L20_W1_W0p4_PNone_92d96627_-15000_0,o2
+- - straight_L10_N2_CSstrip_W0p4_0_0,o2
+  - taper_L20_W0p4_W1_PNone_0f93cfde_15000_0,o1
 name: dbr_tapered_L10_P0p85_D_9872475d
 placements:
   array_Crectangle_S0p424_dbc46204_0_0:

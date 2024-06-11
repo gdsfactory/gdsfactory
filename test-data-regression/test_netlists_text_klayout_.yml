@@ -1,5 +1,5 @@
-connections: {}
 instances: {}
+links: []
 name: text_klayout_Ta_LWG_BLNone
 placements: {}
 ports: {}

@@ -1,5 +1,5 @@
-connections: {}
 instances: {}
+links: []
 name: bend_euler_RNone_A90_P0_d7c3a5a9
 placements: {}
 ports: {}

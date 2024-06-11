@@ -1,4 +1,3 @@
-connections: {}
 instances:
   die_S10000_10000_SW100__01fc4f65_10000000_30000000:
     component: die
@@ -704,6 +703,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
+links: []
 name: wafer_Rdie_C2_6_6_8_8_6_ad04a226
 placements:
   die_S10000_10000_SW100__01fc4f65_10000000_30000000:

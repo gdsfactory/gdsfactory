@@ -1,4 +1,4 @@
-connections: {}
+links: []
 instances:
   bend_circular_RNone_A90_35590aa7_2001_6784:
     component: bend_circular

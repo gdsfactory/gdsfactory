@@ -1,4 +1,3 @@
-connections: {}
 instances:
   compass_S4_4_LHEATER_PT_dbdc2ced_0_0:
     component: compass
@@ -79,6 +78,7 @@ instances:
       spacing:
       - 2
       - 2
+links: []
 name: via_stack_S4_4_LHEATER__f8cf7960
 placements:
   compass_S4_4_LHEATER_PT_dbdc2ced_0_0:

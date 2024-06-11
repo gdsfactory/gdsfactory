@@ -90,6 +90,7 @@ valid_top_level_keys = [
     "instances",
     "placements",
     "connections",
+    "links",
     "ports",
     "routes",
     "settings",
@@ -202,6 +203,40 @@ def _move_ref(
         )
 
     return _get_anchor_value_from_name(instances[instance_name_ref], port_name, x_or_y)
+
+
+def _parse_maybe_arrayed_instance(inst_spec: str) -> tuple:
+    if inst_spec.count("<") > 1:
+        raise ValueError(
+            f"Too many angle brackets (<) in instance specification '{inst_spec}'. Array ref indices should end with <ia.ib>, and otherwise this character should be avoided."
+        )
+    if "<" in inst_spec and inst_spec.endswith(">"):
+        inst_name, array_spec = inst_spec.split("<")
+        array_spec = array_spec[:-1]
+        if "." not in array_spec:
+            raise ValueError(
+                f"Array specifier should contain a '.' and be of the format my_ref<ia.ib>. Got {inst_spec}"
+            )
+        if array_spec.count(".") > 1:
+            raise ValueError(
+                f"Too many periods (.) in array specifier. Array specifier should be of the format my_ref<ia.ib>. Got {inst_spec}"
+            )
+        ia, ib = array_spec.split(".")
+        try:
+            ia = int(ia)
+        except ValueError:
+            raise ValueError(
+                f"When parsing array reference specifier '{inst_spec}', got a non-integer index '{ia}'"
+            )
+        try:
+            ib = int(ib)
+        except ValueError:
+            raise ValueError(
+                f"When parsing array reference specifier '{inst_spec}', got a non-integer index '{ib}'"
+            )
+        return inst_name, ia, ib
+    # in the non-arrayed case, return none for the indices
+    return inst_spec, None, None
 
 
 def place(
@@ -405,12 +440,25 @@ def transform_connections_dict(connections_conf: dict[str, str]) -> dict[str, di
     for port_src_string, port_dst_string in connections_conf.items():
         instance_src_name, port_src_name = port_src_string.split(",")
         instance_dst_name, port_dst_name = port_dst_string.split(",")
+        instance_src_name, src_ia, src_ib = _parse_maybe_arrayed_instance(
+            instance_src_name
+        )
+        instance_dst_name, dst_ia, dst_ib = _parse_maybe_arrayed_instance(
+            instance_dst_name
+        )
         attrs_by_src_inst[instance_src_name] = {
             "instance_src_name": instance_src_name,
             "port_src_name": port_src_name,
             "instance_dst_name": instance_dst_name,
             "port_dst_name": port_dst_name,
         }
+        src_dict = attrs_by_src_inst[instance_src_name]
+        if src_ia is not None:
+            src_dict["src_ia"] = src_ia
+            src_dict["src_ib"] = src_ib
+        if dst_ia is not None:
+            src_dict["dst_ia"] = dst_ia
+            src_dict["dst_ib"] = dst_ib
     return attrs_by_src_inst
 
 
@@ -420,6 +468,10 @@ def make_connection(
     instance_dst_name: str,
     port_dst_name: str,
     instances: dict[str, Instance],
+    src_ia: int | None = None,
+    src_ib: int | None = None,
+    dst_ia: int | None = None,
+    dst_ib: int | None = None,
 ) -> None:
     """Connect instance_src_name,port to instance_dst_name,port.
 
@@ -429,6 +481,10 @@ def make_connection(
         instance_dst_name: destination instance name.
         port_dst_name: from instance_dst_name.
         instances: dict of instances.
+        src_ia: the a-index of the source instance, if it is an arrayed instance
+        src_ib: the b-index of the source instance, if it is an arrayed instance
+        dst_ia: the a-index of the destination instance, if it is an arrayed instance
+        dst_ib: the b-index of the destination instance, if it is an arrayed instance
 
     """
     instance_src_name = instance_src_name.strip()
@@ -455,8 +511,18 @@ def make_connection(
             f"{port_dst_name!r} not in {instance_dst_port_names} for"
             f" {instance_dst_name!r}"
         )
-    port_dst = instance_dst.ports[port_dst_name]
-    instance_src.connect(port=port_src_name, other=port_dst)
+
+    if src_ia is None:
+        src_port = instance_src.ports[port_src_name]
+    else:
+        src_port = instance_src.ports[(port_src_name, src_ia, src_ib)]
+
+    if dst_ia is None:
+        dst_port = instance_dst.ports[port_dst_name]
+    else:
+        dst_port = instance_dst.ports[(port_dst_name, dst_ia, dst_ib)]
+
+    instance_src.connect(port=src_port, other=dst_port, use_mirror=True, mirror=False)
 
 
 sample_mmis = """
@@ -828,20 +894,65 @@ def from_yaml(
             links_dict = routes_dict["links"]
 
             for port_src_string, port_dst_string in links_dict.items():
+                # handle bus connection syntax
                 if ":" in port_src_string:
-                    src, src0, src1 = (s.strip() for s in port_src_string.split(":"))
-                    dst, dst0, dst1 = (s.strip() for s in port_dst_string.split(":"))
-                    instance_src_name, port_src_name = (
-                        s.strip() for s in src.split(",")
-                    )
-                    instance_dst_name, port_dst_name = (
-                        s.strip() for s in dst.split(",")
-                    )
+                    try:
+                        src, src0, src1 = (
+                            s.strip() for s in port_src_string.split(":")
+                        )
+                    except ValueError:
+                        raise ValueError(
+                            f"When including a colon (:) in a port name, bus syntax is expected (ref_name,port_prefix:istart:iend). Got '{port_src_string}'"
+                        )
+                    try:
+                        dst, dst0, dst1 = (
+                            s.strip() for s in port_dst_string.split(":")
+                        )
+                    except ValueError:
+                        raise ValueError(
+                            f"When including a colon (:) in a port name, bus syntax is expected (ref_name,port_prefix:istart:iend). Got '{port_dst_string}'"
+                        )
+                    try:
+                        instance_src_name, port_src_name = (
+                            s.strip() for s in src.split(",")
+                        )
+                    except ValueError:
+                        raise ValueError(
+                            f"Expected a single comma in port specification (ref_name,port_name). Got {src}"
+                        )
+                    try:
+                        instance_dst_name, port_dst_name = (
+                            s.strip() for s in dst.split(",")
+                        )
+                    except ValueError:
+                        raise ValueError(
+                            f"Expected a single comma in port specification (ref_name,port_name). Got {dst}"
+                        )
 
-                    src0 = int(src0)
-                    src1 = int(src1)
-                    dst0 = int(dst0)
-                    dst1 = int(dst1)
+                    try:
+                        src0 = int(src0)
+                    except ValueError:
+                        raise ValueError(
+                            f"Expected an integer index after first colon. Got {src0} ({port_src_string})"
+                        )
+                    try:
+                        src1 = int(src1)
+                    except ValueError:
+                        raise ValueError(
+                            f"Expected an integer index after second colon. Got {src1} ({port_src_string})"
+                        )
+                    try:
+                        dst0 = int(dst0)
+                    except ValueError:
+                        raise ValueError(
+                            f"Expected an integer index after first colon. Got {dst0} ({port_dst_string})"
+                        )
+                    try:
+                        dst1 = int(dst1)
+                    except ValueError:
+                        raise ValueError(
+                            f"Expected an integer index after second colon. Got {dst1} ({port_dst_string})"
+                        )
 
                     if src1 > src0:
                         ports1names = [
@@ -869,6 +980,12 @@ def from_yaml(
                         for i, j in zip(ports1names, ports2names)
                     ]
 
+                    instance_src_name, src_ia, src_ib = _parse_maybe_arrayed_instance(
+                        instance_src_name
+                    )
+                    instance_dst_name, dst_ia, dst_ib = _parse_maybe_arrayed_instance(
+                        instance_dst_name
+                    )
                     instance_src = instances[instance_src_name]
                     instance_dst = instances[instance_dst_name]
 
@@ -881,7 +998,14 @@ def from_yaml(
                                 f"{port_src_name!r} not in {instance_src_port_names}"
                                 f"for {instance_src_name!r} "
                             )
-                        ports1.append(instance_src.ports[port_src_name])
+                        if src_ia is None:
+                            src_port = instance_src.ports[port_src_name]
+                        else:
+                            src_port = instance_src.ports[
+                                (port_src_name, src_ia, src_ib)
+                            ]
+
+                        ports1.append(src_port)
 
                     for port_dst_name in ports2names:
                         if port_dst_name not in instance_dst.ports:
@@ -892,7 +1016,14 @@ def from_yaml(
                                 f"{port_dst_name!r} not in {instance_dst_port_names}"
                                 f"for {instance_dst_name!r}"
                             )
-                        ports2.append(instance_dst.ports[port_dst_name])
+
+                        if dst_ia is None:
+                            dst_port = instance_dst.ports[port_dst_name]
+                        else:
+                            dst_port = instance_dst.ports[
+                                (port_dst_name, dst_ia, dst_ib)
+                            ]
+                        ports2.append(dst_port)
 
                 else:
                     instance_src_name, port_src_name = port_src_string.split(",")
@@ -902,6 +1033,13 @@ def from_yaml(
                     instance_dst_name = instance_dst_name.strip()
                     port_src_name = port_src_name.strip()
                     port_dst_name = port_dst_name.strip()
+
+                    instance_src_name, src_ia, src_ib = _parse_maybe_arrayed_instance(
+                        instance_src_name
+                    )
+                    instance_dst_name, dst_ia, dst_ib = _parse_maybe_arrayed_instance(
+                        instance_dst_name
+                    )
 
                     if instance_src_name not in instances:
                         raise ValueError(
@@ -927,8 +1065,17 @@ def from_yaml(
                     #         f" {instance_dst_name!r}"
                     #     )
 
-                    ports1.append(instance_src[port_src_name])
-                    ports2.append(instance_dst[port_dst_name])
+                    if src_ia is None:
+                        src_port = instance_src.ports[port_src_name]
+                    else:
+                        src_port = instance_src.ports[(port_src_name, src_ia, src_ib)]
+
+                    if dst_ia is None:
+                        dst_port = instance_dst.ports[port_dst_name]
+                    else:
+                        dst_port = instance_dst.ports[(port_dst_name, dst_ia, dst_ib)]
+                    ports1.append(src_port)
+                    ports2.append(dst_port)
                     route_name = f"{port_src_string}:{port_dst_string}"
                     route_names.append(route_name)
 
@@ -949,6 +1096,7 @@ def from_yaml(
             if "," in instance_comma_port:
                 instance_name, instance_port_name = instance_comma_port.split(",")
                 instance_name = instance_name.strip()
+                instance_name, ia, ib = _parse_maybe_arrayed_instance(instance_name)
                 instance_port_name = instance_port_name.strip()
                 if instance_name not in instances:
                     raise ValueError(
@@ -962,7 +1110,11 @@ def from_yaml(
                         f"{instance_port_name!r} not in {port_names} for"
                         f" {instance_name!r} "
                     )
-                c.add_port(port_name, port=instance.ports[instance_port_name])
+                if ia is None:
+                    inst_port = instance.ports[instance_port_name]
+                else:
+                    inst_port = instance.ports[(instance_port_name, ia, ib)]
+                c.add_port(port_name, port=inst_port)
 
     c.routes = routes
     return c

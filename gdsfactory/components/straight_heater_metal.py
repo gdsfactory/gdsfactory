@@ -92,6 +92,11 @@ def straight_heater_metal_undercut(
     # Each character in the sequence represents a component
     sequence = "_-" + n * "UH" + "-_"
 
+    # strip out zero-length straights
+    for symbol, (component, _p1, _p2) in symbol_to_component.items():
+        if component.settings.get("length") == 0:
+            sequence = sequence.replace(symbol, "")
+
     c = gf.components.component_sequence(
         sequence=sequence, symbol_to_component=symbol_to_component
     )

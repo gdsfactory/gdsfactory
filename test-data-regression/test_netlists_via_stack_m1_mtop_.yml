@@ -1,4 +1,3 @@
-connections: {}
 instances:
   compass_S11_11_LM1_PTNo_c3960049_0_0:
     component: compass
@@ -91,6 +90,7 @@ instances:
       spacing:
       - 2
       - 2
+links: []
 name: via_stack_S11_11_LM1_M2_e6789b8f
 placements:
   compass_S11_11_LM1_PTNo_c3960049_0_0:

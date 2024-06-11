@@ -1,5 +1,5 @@
-connections: {}
 instances: {}
+links: []
 name: optimal_hairpin_W0p2_P0_f7dccaf8
 placements: {}
 ports: {}

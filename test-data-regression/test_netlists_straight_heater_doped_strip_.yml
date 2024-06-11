@@ -1,10 +1,3 @@
-connections:
-  straight_L300_N2_CSFrib_d4f63e77_150000_0,o1: taper_cross_section_CSs_5d7c7f39_-5000_0,o2
-  straight_L300_N2_CSFrib_d4f63e77_150000_0,o2: taper_cross_section_CSs_5d7c7f39_305000_0,o2
-  via_stack_S10_10_LM1_M2_5f5e6067_101467_-10000,e2: via_stack_S10_10_LM1_M2_5f5e6067_101467_0,e4
-  via_stack_S10_10_LM1_M2_5f5e6067_198134_0,e2: via_stack_S10_10_LM1_M2_5f5e6067_198134_10000,e4
-  via_stack_S10_10_LM1_M2_5f5e6067_294801_-10000,e2: via_stack_S10_10_LM1_M2_5f5e6067_294801_0,e4
-  via_stack_S10_10_LM1_M2_5f5e6067_4800_0,e2: via_stack_S10_10_LM1_M2_5f5e6067_4800_10000,e4
 instances:
   straight_L300_N2_CSFrib_d4f63e77_150000_0:
     component: straight
@@ -409,6 +402,19 @@ instances:
       - via1
       - via2
       - null
+links:
+- - straight_L300_N2_CSFrib_d4f63e77_150000_0,o1
+  - taper_cross_section_CSs_5d7c7f39_-5000_0,o2
+- - straight_L300_N2_CSFrib_d4f63e77_150000_0,o2
+  - taper_cross_section_CSs_5d7c7f39_305000_0,o2
+- - via_stack_S10_10_LM1_M2_5f5e6067_101467_-10000,e2
+  - via_stack_S10_10_LM1_M2_5f5e6067_101467_0,e4
+- - via_stack_S10_10_LM1_M2_5f5e6067_198134_0,e2
+  - via_stack_S10_10_LM1_M2_5f5e6067_198134_10000,e4
+- - via_stack_S10_10_LM1_M2_5f5e6067_294801_-10000,e2
+  - via_stack_S10_10_LM1_M2_5f5e6067_294801_0,e4
+- - via_stack_S10_10_LM1_M2_5f5e6067_4800_0,e2
+  - via_stack_S10_10_LM1_M2_5f5e6067_4800_10000,e4
 name: straight_heater_doped_r_014bea0c
 placements:
   straight_L300_N2_CSFrib_d4f63e77_150000_0:

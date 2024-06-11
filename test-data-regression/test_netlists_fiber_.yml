@@ -1,4 +1,3 @@
-connections: {}
 instances:
   circle_R5_AR2p5_LWG_0_0:
     component: circle
@@ -14,6 +13,7 @@ instances:
       angle_resolution: 2.5
       layer: WGCLAD
       radius: 62.5
+links: []
 name: fiber_CD10_CD125_LCWG_LCWGCLAD
 placements:
   circle_R5_AR2p5_LWG_0_0:

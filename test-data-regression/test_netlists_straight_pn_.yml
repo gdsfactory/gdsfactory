@@ -1,6 +1,3 @@
-connections:
-  straight_L1980_N2_CSpn_990000_0,o1: taper_strip_to_ridge_L1_3a86af41_-5000_0,o2
-  straight_L1980_N2_CSpn_990000_0,o2: taper_strip_to_ridge_L1_3a86af41_1985000_0,o2
 instances:
   straight_L1980_N2_CSpn_990000_0:
     component: straight
@@ -87,6 +84,11 @@ instances:
       - via1
       - via2
       - null
+links:
+- - straight_L1980_N2_CSpn_990000_0,o1
+  - taper_strip_to_ridge_L1_3a86af41_-5000_0,o2
+- - straight_L1980_N2_CSpn_990000_0,o2
+  - taper_strip_to_ridge_L1_3a86af41_1985000_0,o2
 name: straight_pin_L2000_CSpn_958ac331
 placements:
   straight_L1980_N2_CSpn_990000_0:
