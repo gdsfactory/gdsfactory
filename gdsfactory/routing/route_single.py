@@ -57,6 +57,7 @@ def route_single(
     port_type: str = "optical",
     allow_width_mismatch: bool = False,
     radius: float | None = None,
+    route_width: float | None = None,
 ) -> OpticalManhattanRoute:
     """Returns a Manhattan Route between 2 ports.
 
@@ -77,6 +78,7 @@ def route_single(
         port_type: port type to route.
         allow_width_mismatch: allow different port widths.
         radius: bend radius. If None, defaults to cross_section.radius.
+        route_width: width of the route. If None, defaults to cross_section.width.
 
 
     .. plot::
@@ -122,6 +124,8 @@ def route_single(
     end_straight = round(end_straight_length / dbu)
     start_straight = round(start_straight_length / dbu)
 
+    route_width = route_width or round(xs.width / dbu)
+
     if waypoints is not None:
         if not isinstance(waypoints[0], kf.kdb.Point):
             w = [kf.kdb.Point(*p1.center)]
@@ -139,7 +143,7 @@ def route_single(
             pts=waypoints,
             port_type=port_type,
             allow_width_mismatch=allow_width_mismatch,
-            route_width=round(xs.width / dbu),
+            route_width=route_width,
         )
 
     else:
@@ -154,7 +158,7 @@ def route_single(
             end_straight=end_straight,
             port_type=port_type,
             allow_width_mismatch=allow_width_mismatch,
-            route_width=round(xs.width / dbu),
+            route_width=route_width,
         )
 
 
