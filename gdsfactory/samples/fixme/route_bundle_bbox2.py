@@ -22,7 +22,7 @@ routes = gf.routing.route_bundle_electrical(
         obstacle.bbox(),
         pbot.bbox(),
         ptop.bbox(),
-    ],  # will be able avoid obstacles soon
+    ],  # obstacles to avoid
     sort_ports=True,
 )
 
