@@ -55,6 +55,7 @@ def route_fiber_array(
     optical_routing_type: int = 1,
     allow_width_mismatch: bool = False,
     port_type: str = "optical",
+    route_width: float | list[float] | None = 0,
 ) -> Component:
     """Returns new component with fiber array.
 
@@ -98,6 +99,7 @@ def route_fiber_array(
         optical_routing_type: 1 or 2.
         allow_width_mismatch: allow width mismatch.
         port_type: port type.
+        route_width: width of the route. If None, defaults to cross_section.width.
     """
     if optical_routing_type not in [1, 2]:
         raise ValueError(f"optical_routing_type={optical_routing_type} must be 1 or 2")
@@ -319,7 +321,7 @@ def route_fiber_array(
             sort_ports=True,
             allow_width_mismatch=allow_width_mismatch,
             taper=taper,
-            # bboxes=[component_with_south_routes_bbox]
+            route_width=route_width,
         )
         fiber_ports = [gc.ports[gc_port_name_fiber] for gc in io_gratings]
 
@@ -341,7 +343,7 @@ def route_fiber_array(
                 sort_ports=True,
                 allow_width_mismatch=allow_width_mismatch,
                 taper=taper,
-                # bboxes=[component_with_south_routes_bbox]
+                route_width=route_width,
             )
             del to_route[n0 - dn : n0 + dn]
             fiber_ports = [gc.ports[gc_port_name_fiber] for gc in io_gratings]

@@ -96,6 +96,7 @@ def route_bundle(
     bboxes: list[kf.kdb.Box] | None = None,
     allow_width_mismatch: bool = False,
     radius: float | None = None,
+    route_width: float | list[float] | None = None,
 ) -> list[OpticalManhattanRoute]:
     """Places a bundle of routes to connect two groups of ports.
 
@@ -120,6 +121,7 @@ def route_bundle(
         bboxes: list of bounding boxes to avoid collisions.
         allow_width_mismatch: allow different port widths.
         radius: bend radius. If None, defaults to cross_section.radius.
+        route_width: width of the route. If None, defaults to cross_section.width.
 
 
     .. plot::
@@ -162,6 +164,11 @@ def route_bundle(
 
     ports1 = list(ports1)
     ports2 = list(ports2)
+
+    dbu = component.kcl.dbu
+
+    if route_width and not isinstance(route_width, int | float):
+        route_width = [width * dbu for width in route_width]
 
     if len(ports1) != len(ports2):
         raise ValueError(f"ports1={len(ports1)} and ports2={len(ports2)} must be equal")

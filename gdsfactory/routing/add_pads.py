@@ -30,6 +30,8 @@ def add_pads_bot(
     taper: ComponentSpec | None = None,
     port_type="electrical",
     allow_width_mismatch: bool = True,
+    fanout_length: float | None = 80,
+    route_width: float | list[float] | None = 0,
     **kwargs,
 ) -> Component:
     """Returns new component with ports connected bottom pads.
@@ -52,13 +54,14 @@ def add_pads_bot(
         taper: taper spec.
         port_type: port type.
         allow_width_mismatch: True
+        fanout_length: if None, automatic calculation of fanout length.
+        route_width: width of the route. If None, defaults to cross_section.width.
         kwargs: additional arguments.
 
     Keyword Args:
         straight: straight spec.
         get_input_label_text_loopback_function: function to get input label test.
         get_input_label_text_function: for labels.
-        fanout_length: if None, automatic calculation of fanout length.
         max_y0_optical: in um.
         with_loopback: True, adds loopback structures.
         list_port_labels: None, adds TM labels to port indices in this list.
@@ -135,6 +138,8 @@ def add_pads_bot(
         port_type=port_type,
         gc_port_name_fiber=pad_port_name,
         allow_width_mismatch=allow_width_mismatch,
+        fanout_length=fanout_length,
+        route_width=route_width,
         **kwargs,
     )
     component_new.add_ref(component)
