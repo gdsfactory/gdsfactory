@@ -6,7 +6,7 @@ import importlib
 import pathlib
 import warnings
 from collections.abc import Callable
-from functools import partial
+from functools import cached_property, partial
 from typing import Any
 
 import kfactory as kf
@@ -20,7 +20,7 @@ from gdsfactory import logger
 from gdsfactory.config import CONF
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
 from gdsfactory.symbols import floorplan_with_block_letters
-from gdsfactory.technology import LayerStack, LayerViews
+from gdsfactory.technology import LayerStack, LayerViews, klayout_tech
 from gdsfactory.typings import (
     CellSpec,
     Component,
@@ -509,6 +509,27 @@ class Pdk(BaseModel):
             None,
         )
         return xs_name or cross_section.name
+
+    @cached_property
+    def klayout_technology(self) -> klayout_tech.KLayoutTechnology:
+        """Returns a KLayoutTechnology from the PDK.
+
+        Raises:
+            UserWarning if required properties for generating a KLayoutTechnology are not defined.
+        """
+        try:
+            return klayout_tech.KLayoutTechnology(
+                name=self.name,
+                layer_views=self.layer_views,
+                connectivity=self.connectivity,
+                layer_map=self.layers,
+                layer_stack=self.layer_stack,
+            )
+        except AttributeError as e:
+            raise UserWarning(
+                "Required properties for generating a KLayoutTechnology are not defined. "
+                "Check the error for missing property"
+            ) from e
 
 
 _ACTIVE_PDK = None
