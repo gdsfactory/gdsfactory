@@ -111,7 +111,7 @@ def get_pin_triangle_polygon_tip(
     ca = np.cos(orientation * np.pi / 180)
     sa = np.sin(orientation * np.pi / 180)
     rot_mat = np.array([[ca, -sa], [sa, ca]])
-    d = p.width / 2
+    d = p.dwidth / 2
 
     dtip = np.array([d, 0])
 
@@ -479,7 +479,6 @@ add_pins_siepic_electrical = partial(
 def add_pins(
     component: Component,
     port_type: str | None = None,
-    layer: tuple[int, int] | None = None,
     function: Callable = add_pin_rectangle_inside,
     **kwargs,
 ) -> None:
@@ -503,7 +502,7 @@ def add_pins(
     )
 
     for port in ports:
-        function(component=component, port=port, layer=layer, **kwargs)
+        function(component=component, port=port, **kwargs)
 
 
 add_pins_triangle = partial(add_pins, function=add_pin_triangle)
@@ -618,7 +617,8 @@ if __name__ == "__main__":
     # assert p2 == p1 + 2
     # c1 = gf.components.straight_heater_metal(length=2)
     c = gf.components.bend_euler()
-    c = add_pins_container(c)
+    # c = add_pins_container(c)
+    add_pins_triangle(c)
     # c = add_pins_container(c)
     # cc.show()
     # c.show(show_subports=True)
