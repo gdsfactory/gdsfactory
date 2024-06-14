@@ -37,10 +37,10 @@ instances:
       cross_section: strip
       p: 0.5
       with_arc_floorplan: true
-links:
-- - bend_euler_RNone_A90_P0_d7c3a5a9_14875_15125,o1
-  - bend_euler_RNone_A90_P0_d7c3a5a9_5125_4875,o2
 name: bend_euler_s
+nets:
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_14875_15125,o1
+  p2: bend_euler_RNone_A90_P0_d7c3a5a9_5125_4875,o2
 placements:
   bend_euler_RNone_A90_P0_d7c3a5a9_14875_15125:
     mirror: true

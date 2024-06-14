@@ -114,20 +114,20 @@ instances:
       cross_section: strip
       p: 0.5
       with_arc_floorplan: true
-links:
-- - -1,o1
-  - B1,o1
-- - -1,o2
-  - B2,o2
-- - B1,o2
-  - L1,o2
-- - B2,o1
-  - R1,o1
-- - L1,o1
-  - b1,o2
-- - R1,o2
-  - b2,o1
 name: mzi_arm_LYL0p8_LYR0p8_L_1bd36bcd
+nets:
+- p1: -1,o1
+  p2: B1,o1
+- p1: -1,o2
+  p2: B2,o2
+- p1: B1,o2
+  p2: L1,o2
+- p1: B2,o1
+  p2: R1,o1
+- p1: L1,o1
+  p2: b1,o2
+- p1: R1,o2
+  p2: b2,o1
 placements:
   '-1':
     mirror: false

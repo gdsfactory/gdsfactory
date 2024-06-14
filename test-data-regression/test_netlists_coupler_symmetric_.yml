@@ -39,8 +39,8 @@ instances:
       size:
       - 10
       - 1.633
-links: []
 name: coupler_symmetric_Bbend_7b4ba87e
+nets: []
 placements:
   bend_s_S10_1p633_N99_CS_f2808815_5000_-1184:
     mirror: true

@@ -21,8 +21,8 @@ instances:
       - 0
       size: 0.4
       text: Chip
-links: []
 name: text_lines_TChip_01_S0p4_LWG
+nets: []
 placements:
   text_rectangular_T01_S0_f00597ef_2200_-3800:
     mirror: false

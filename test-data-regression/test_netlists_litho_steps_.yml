@@ -175,8 +175,8 @@ instances:
       - 0
       size: 50
       text: '16.0'
-links: []
 name: litho_steps_LW1_2_4_8_1_f9d120ba
+nets: []
 placements:
   rectangle_S10_50_LWG_CF_d8a44102_31000_-25000:
     mirror: false

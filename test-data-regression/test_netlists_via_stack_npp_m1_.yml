@@ -66,8 +66,8 @@ instances:
       spacing:
       - 2
       - 2
-links: []
 name: via_stack_S11_11_LWG_NP_1fc0b4f9
+nets: []
 placements:
   compass_S11_11_LM1_PTel_4e66e5c3_0_0:
     mirror: false

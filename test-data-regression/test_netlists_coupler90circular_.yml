@@ -29,8 +29,8 @@ instances:
       cross_section: strip
       length: 10
       npoints: 2
-links: []
 name: coupler90_G0p2_R10_Bben_0c9734ee
+nets: []
 placements:
   bend_circular_R10_A90_N_aaec1a70_5125_5575:
     mirror: false

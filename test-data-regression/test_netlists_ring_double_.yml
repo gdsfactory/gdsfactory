@@ -49,16 +49,16 @@ instances:
       cross_section: strip
       length: 0.01
       npoints: 2
-links:
-- - coupler_ring_G0p2_R10_L_890d5b2f_-5_16185,o2
-  - straight_L0p01_N2_CSstrip_10000_10705,o1
-- - coupler_ring_G0p2_R10_L_890d5b2f_-5_16185,o3
-  - straight_L0p01_N2_CSstrip_-10010_10705,o2
-- - coupler_ring_G0p2_R10_L_890d5b2f_-5_5225,o2
-  - straight_L0p01_N2_CSstrip_-10010_10705,o1
-- - coupler_ring_G0p2_R10_L_890d5b2f_-5_5225,o3
-  - straight_L0p01_N2_CSstrip_10000_10705,o2
 name: ring_double_G0p2_R10_LX_c42c0d20
+nets:
+- p1: coupler_ring_G0p2_R10_L_890d5b2f_-5_16185,o2
+  p2: straight_L0p01_N2_CSstrip_10000_10705,o1
+- p1: coupler_ring_G0p2_R10_L_890d5b2f_-5_16185,o3
+  p2: straight_L0p01_N2_CSstrip_-10010_10705,o2
+- p1: coupler_ring_G0p2_R10_L_890d5b2f_-5_5225,o2
+  p2: straight_L0p01_N2_CSstrip_-10010_10705,o1
+- p1: coupler_ring_G0p2_R10_L_890d5b2f_-5_5225,o3
+  p2: straight_L0p01_N2_CSstrip_10000_10705,o2
 placements:
   coupler_ring_G0p2_R10_L_890d5b2f_-5_16185:
     mirror: false

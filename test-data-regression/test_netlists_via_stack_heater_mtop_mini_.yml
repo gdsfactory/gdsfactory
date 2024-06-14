@@ -78,8 +78,8 @@ instances:
       spacing:
       - 2
       - 2
-links: []
 name: via_stack_S4_4_LHEATER__f8cf7960
+nets: []
 placements:
   compass_S4_4_LHEATER_PT_dbdc2ced_0_0:
     mirror: false

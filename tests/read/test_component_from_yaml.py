@@ -20,8 +20,8 @@ instances:
       settings:
         length: 0.5
 
-links:
-    - wgw,o1: wgn,o2
+connections:
+    wgw,o1: wgn,o2
 
 """
 
@@ -55,8 +55,8 @@ placements:
         mirror: True
         port: o1
 
-links:
-    - b,o1: s,o2
+connections:
+    b,o1: s,o2
 
 """
 
@@ -504,8 +504,8 @@ instances:
   s2:
     component: straight
 
-links:
-    - s2,o2: sa1<2.3>,o1
+connections:
+    s2,o2: sa1<2.3>,o1
 
 routes:
     b1:

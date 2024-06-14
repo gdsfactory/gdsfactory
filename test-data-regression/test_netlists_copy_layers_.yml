@@ -17,8 +17,8 @@ instances:
       - 0
       length: 10
       width: 3
-links: []
 name: copy_layers_Fcross_L1_0_2_0
+nets: []
 placements:
   cross_L10_W3_L1_0_PTNone_0_0:
     mirror: false

@@ -18,8 +18,8 @@ instances:
       width2: 11
       with_bbox: true
       with_two_ports: true
-links: []
 name: grating_coupler_rectang_484ead2a
+nets: []
 placements:
   taper_L150_W0p5_W11_PNo_497f27e7_75000_0:
     mirror: false

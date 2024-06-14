@@ -108,9 +108,9 @@ def test_get_netlist_simple() -> None:
     i2.connect("o2", i1.ports["o1"])
     i3.movey(-100)
     netlist = c.get_netlist()
-    links = netlist["links"]
+    links = netlist["nets"]
     assert len(links) == 1
-    extracted_port_pair = set(links[0])
+    extracted_port_pair = set(links[0].values())
     expected_port_pair = {"i2,o2", "i1,o1"}
     assert extracted_port_pair == expected_port_pair
     unconnected_optical_port_warnings = netlist["warnings"]["optical"][
@@ -132,13 +132,13 @@ def test_get_netlist_promoted() -> None:
     c.add_port("t3", port=i3.ports["o1"])
     c.add_port("t4", port=i3.ports["o2"])
     netlist = c.get_netlist()
-    links = netlist["links"]
+    links = netlist["nets"]
     ports = netlist["ports"]
     expected_ports = {"t1": "i1,o2", "t2": "i2,o1", "t3": "i3,o1", "t4": "i3,o2"}
 
     assert len(links) == 1
     assert ports == expected_ports
-    extracted_port_pair = set(links[0])
+    extracted_port_pair = set(links[0].values())
     expected_port_pair = {"i2,o2", "i1,o1"}
     assert extracted_port_pair == expected_port_pair
     assert "warnings" not in netlist
@@ -152,7 +152,7 @@ def test_get_netlist_close_enough_fails() -> None:
     i2.connect("o2", i1.ports["o1"])
     i2.movex(1)
     netlist = c.get_netlist()
-    links = netlist["links"]
+    links = netlist["nets"]
     assert len(links) == 0
 
 
@@ -163,7 +163,7 @@ def test_get_netlist_close_enough_orthogonal_fails() -> None:
     i2.connect("o2", i1.ports["o1"])
     i2.dmovey(0.001)
     netlist = c.get_netlist()
-    links = netlist["links"]
+    links = netlist["nets"]
     assert len(links) == 0
 
 
@@ -174,9 +174,9 @@ def test_get_netlist_close_enough_rotated() -> None:
     i2.connect("o2", i1.ports["o1"])
     i2.drotate(angle=0.01)
     netlist = c.get_netlist()
-    links = netlist["links"]
+    links = netlist["nets"]
     assert len(links) == 1
-    extracted_port_pair = set(links[0])
+    extracted_port_pair = set(links[0].values())
     expected_port_pair = {"i2,o2", "i1,o1"}
     assert extracted_port_pair == expected_port_pair
 
@@ -204,7 +204,7 @@ def test_get_netlist_tiny() -> None:
     i4.connect("o2", i3.ports["o1"])
 
     netlist = c.get_netlist()
-    links = netlist["links"]
+    links = netlist["nets"]
     assert len(links) == 3
     # cpairs = list(connections.items())
     # extracted_port_pair = set(cpairs[0])
@@ -220,9 +220,9 @@ def test_get_netlist_rotated() -> None:
     i2.connect("o2", i1.ports["o1"])
 
     netlist = c.get_netlist()
-    links = netlist["links"]
+    links = netlist["nets"]
     assert len(links) == 1
-    extracted_port_pair = set(links[0])
+    extracted_port_pair = set(links[0].values())
     expected_port_pair = {"i2,o2", "i1,o1"}
     assert extracted_port_pair == expected_port_pair
 
@@ -235,9 +235,9 @@ def test_get_netlist_electrical_simple() -> None:
     i2.connect("e2", i1.ports["e1"])
     i3.dmovey(-100)
     netlist = c.get_netlist()
-    links = netlist["links"]
+    links = netlist["nets"]
     assert len(links) == 1
-    extracted_port_pair = set(links[0])
+    extracted_port_pair = set(links[0].values())
     expected_port_pair = {"i2,e2", "i1,e1"}
     assert extracted_port_pair == expected_port_pair
 
@@ -249,9 +249,9 @@ def test_get_netlist_electrical_rotated_joint() -> None:
     i2.connect("e2", i1.ports["e1"])
     i2.drotate(45)
     netlist = c.get_netlist()
-    links = netlist["links"]
+    links = netlist["nets"]
     assert len(links) == 1
-    extracted_port_pair = set(links[0])
+    extracted_port_pair = set(links[0].values())
     expected_port_pair = {"i2,e2", "i1,e1"}
     assert extracted_port_pair == expected_port_pair
 
@@ -263,9 +263,9 @@ def test_get_netlist_electrical_different_widths() -> None:
     i2 = c.add_ref(gf.components.straight(width=10, cross_section="metal1"), "i2")
     i2.connect("e2", i1.ports["e1"], allow_width_mismatch=True)
     netlist = c.get_netlist()
-    links = netlist["links"]
+    links = netlist["nets"]
     assert len(links) == 1, len(links)
-    extracted_port_pair = set(links[0])
+    extracted_port_pair = set(links[0].values())
     expected_port_pair = {"i2,e2", "i1,e1"}
     assert extracted_port_pair == expected_port_pair
 
@@ -280,9 +280,9 @@ def test_get_netlist_transformed() -> None:
 
     # perform the initial sanity checks on the netlist
     netlist = c.get_netlist()
-    links = netlist["links"]
+    links = netlist["nets"]
     assert len(links) == 1, len(links)
-    extracted_port_pair = set(links[0])
+    extracted_port_pair = set(links[0].values())
     expected_port_pair = {"i2,o2", "i1,o1"}
     assert extracted_port_pair == expected_port_pair
 

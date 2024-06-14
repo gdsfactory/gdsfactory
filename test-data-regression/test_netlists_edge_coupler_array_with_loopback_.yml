@@ -119,24 +119,24 @@ instances:
       length: 67
       npoints: 2
       width: 0.5
-links:
-- - bend_euler_R30_A90_P0p5_6f642382_-15125_776875,o1
-  - straight_L67_N2_CSstrip_W0p5_-30000_825500,o2
-- - bend_euler_R30_A90_P0p5_6f642382_-15125_776875,o2
-  - extend_ports_Cedge_coup_27117799_49500_474375,o7
-- - bend_euler_R30_A90_P0p5_6f642382_-15125_874125,o1
-  - extend_ports_Cedge_coup_27117799_49500_474375,o8
-- - bend_euler_R30_A90_P0p5_6f642382_-15125_874125,o2
-  - straight_L67_N2_CSstrip_W0p5_-30000_825500,o1
-- - bend_euler_R30_A90_P0p5_6f642382_-16125_112125,o1
-  - extend_ports_Cedge_coup_27117799_49500_474375,o2
-- - bend_euler_R30_A90_P0p5_6f642382_-16125_112125,o2
-  - straight_L67_N2_CSstrip_W0p5_-31000_63500,o1
-- - bend_euler_R30_A90_P0p5_6f642382_-16125_14875,o1
-  - straight_L67_N2_CSstrip_W0p5_-31000_63500,o2
-- - bend_euler_R30_A90_P0p5_6f642382_-16125_14875,o2
-  - extend_ports_Cedge_coup_27117799_49500_474375,o1
 name: edge_coupler_array_with_0e29eb5f
+nets:
+- p1: bend_euler_R30_A90_P0p5_6f642382_-15125_776875,o1
+  p2: straight_L67_N2_CSstrip_W0p5_-30000_825500,o2
+- p1: bend_euler_R30_A90_P0p5_6f642382_-15125_776875,o2
+  p2: extend_ports_Cedge_coup_27117799_49500_474375,o7
+- p1: bend_euler_R30_A90_P0p5_6f642382_-15125_874125,o1
+  p2: extend_ports_Cedge_coup_27117799_49500_474375,o8
+- p1: bend_euler_R30_A90_P0p5_6f642382_-15125_874125,o2
+  p2: straight_L67_N2_CSstrip_W0p5_-30000_825500,o1
+- p1: bend_euler_R30_A90_P0p5_6f642382_-16125_112125,o1
+  p2: extend_ports_Cedge_coup_27117799_49500_474375,o2
+- p1: bend_euler_R30_A90_P0p5_6f642382_-16125_112125,o2
+  p2: straight_L67_N2_CSstrip_W0p5_-31000_63500,o1
+- p1: bend_euler_R30_A90_P0p5_6f642382_-16125_14875,o1
+  p2: straight_L67_N2_CSstrip_W0p5_-31000_63500,o2
+- p1: bend_euler_R30_A90_P0p5_6f642382_-16125_14875,o2
+  p2: extend_ports_Cedge_coup_27117799_49500_474375,o1
 placements:
   bend_euler_R30_A90_P0p5_6f642382_-15125_776875:
     mirror: false

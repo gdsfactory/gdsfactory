@@ -25,8 +25,8 @@ instances:
       cross_section: strip
       length: 10
       npoints: 2
-links: []
 name: coupler_straight_L10_G0_ec65877d
+nets: []
 placements:
   straight_L10_N2_CSstrip_5000_0:
     mirror: false

@@ -14,8 +14,8 @@ instances:
       linear: false
       npoints: 100
       width_type: sine
-links: []
 name: terminator_L50_CSIFcros_2d525ef0
+nets: []
 placements:
   taper_cross_section_CSF_10cc8ed5_25000_0:
     mirror: false
