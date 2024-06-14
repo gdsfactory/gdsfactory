@@ -78,7 +78,9 @@ def grating_coupler_elliptical_arbitrary(
     xs = gf.get_cross_section(cross_section, **kwargs)
     wg_width = xs.width
     layer_wg = gf.get_layer(xs.layer)
-    layer_grating = gf.get_layer(layer_grating) or layer_wg
+
+    layer_grating = layer_grating or layer_wg
+    layer_grating = gf.get_layer(layer_grating)
     sthc = np.sin(fiber_angle * DEG2RAD)
 
     # generate component

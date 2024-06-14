@@ -395,7 +395,7 @@ class Pdk(BaseModel):
                 f"CrossSectionFactory, Transition, string or dict), got {type(cross_section)}"
             )
 
-    def get_layer(self, layer: LayerSpec) -> int:
+    def get_layer(self, layer: LayerSpec) -> LayerEnum:
         """Returns layer from a layer spec."""
         if isinstance(layer, LayerEnum):
             return layer
@@ -408,7 +408,7 @@ class Pdk(BaseModel):
                 raise ValueError(f"{layer!r} not in {self.layers}")
             return getattr(self.layers, layer)
         elif isinstance(layer, int):
-            return layer
+            return kf.kcl.layers(layer)
         elif layer is np.nan:
             return np.nan
         else:

@@ -81,8 +81,8 @@ def test_transition_cross_section_different_layers() -> None:
     w2 = 5
     length = 10
 
-    intent_layer_1 = (852, 21)
-    intent_layer_2 = (853, 21)
+    intent_layer_1 = (1, 0)
+    intent_layer_2 = (2, 0)
 
     # in platforms with multiple waveguide types, it is useful to use separate intent layers for the different cross sections
     # this will simulate a transition between waveguides with different intent layers (which i just made up arbitrarily for this test)
@@ -152,3 +152,7 @@ def test_extrude_component_along_path():
     # Combine the path with the cross-section
     c = gf.path.extrude(p, cross_section=x)
     assert c
+
+
+if __name__ == "__main__":
+    test_transition_cross_section_different_layers()

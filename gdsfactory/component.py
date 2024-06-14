@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import pathlib
 import warnings
-from collections import defaultdict
 from collections.abc import Iterable, Iterator
 from typing import TYPE_CHECKING, Any
 
@@ -555,22 +554,26 @@ class ComponentBase:
             self._kdb_cell.insert(instance._instance)
 
     def get_polygons(
-        self, merge: bool = False, by_name: bool = True
-    ) -> dict[tuple[int] | int, list[kf.kdb.Polygon]]:
+        self,
+        merge: bool = False,
+        by_layer_name: bool = False,
+    ) -> dict[tuple[int, int] | str | int, list[kf.kdb.Polygon]]:
         """Returns a dict of Polygons per layer.
 
         Args:
             merge: if True, merges the polygons.
-            by_name: if True, returns the layer name, otherwise returns the layer by index.
+            by_layer_name: if True, returns the layer name, otherwise returns the layer by index.
         """
         from gdsfactory import get_layer, get_layer_name
 
-        polygons = defaultdict(list)
+        polygons = {}
 
         for layer in self.layers:
             layer_index = get_layer(layer)
-            layer = get_layer_name(layer) if by_name else layer
+            layer = get_layer_name(layer) if by_layer_name else layer_index
             r = kdb.Region(self.begin_shapes_rec(layer_index))
+            if layer not in polygons:
+                polygons[layer] = []
             if merge:
                 r.merge()
             for p in r.each():
@@ -578,16 +581,19 @@ class ComponentBase:
         return polygons
 
     def get_polygons_points(
-        self, merge: bool = False, scale: float | None = None, by_name: bool = True
-    ) -> dict[int, list[tuple[float, float]]]:
+        self,
+        merge: bool = False,
+        scale: float | None = None,
+        by_layer_name: bool = True,
+    ) -> dict[int | str | tuple[int, int], list[tuple[float, float]]]:
         """Returns a dict with list of points per layer.
 
         Args:
             merge: if True, merges the polygons.
             scale: if True, scales the points.
-            by_name: if True, returns the layer name, otherwise returns the layer by index.
+            by_layer_name: if True, returns the layer name, otherwise returns the layer by index.
         """
-        polygons_dict = self.get_polygons(merge=merge, by_name=by_name)
+        polygons_dict = self.get_polygons(merge=merge, by_layer_name=by_layer_name)
         polygons_points = {}
         for layer, polygons in polygons_dict.items():
             all_points = []
@@ -1130,6 +1136,7 @@ if __name__ == "__main__":
     s = c << gf.c.straight()
     s.connect("o1", b.ports["o2"])
     p = c.get_polygons()
+    p1 = c.get_polygons(by_layer_name=True)
     # c = gf.c.mzi()
     # c = gf.c.array(spacing=(300, 300), columns=2)
     # c.show()

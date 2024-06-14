@@ -122,9 +122,11 @@ class LogicalLayer(AbstractLayer):
         """
         from gdsfactory.pdk import get_layer
 
-        polygons_per_layer = component.get_polygons()
+        polygons_per_layer = component.get_polygons(by_layer_name=False)
         layer_index = get_layer(self.layer)
-        polygons = polygons_per_layer[layer_index]
+        polygons = (
+            polygons_per_layer[layer_index] if layer_index in polygons_per_layer else []
+        )
         return kf.kdb.Region(polygons)
 
 
