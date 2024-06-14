@@ -111,7 +111,7 @@ def get_pin_triangle_polygon_tip(
     ca = np.cos(orientation * np.pi / 180)
     sa = np.sin(orientation * np.pi / 180)
     rot_mat = np.array([[ca, -sa], [sa, ca]])
-    d = p.width / 2
+    d = p.dwidth / 2
 
     dtip = np.array([d, 0])
 
@@ -479,9 +479,6 @@ add_pins_siepic_electrical = partial(
 def add_pins(
     component: Component,
     port_type: str | None = None,
-    layer: tuple[int, int] | None = None,
-    orientation: int | None = None,
-    width: float | None = None,
     function: Callable = add_pin_rectangle_inside,
     **kwargs,
 ) -> None:
@@ -489,30 +486,20 @@ def add_pins(
 
     Args:
         component: to add ports to.
-        port_type: optical, electrical, ...
+        port_type: Which port type do you want to add pins to. optical, electrical, ...  If None, it will add to all.
         layer: layer for the pin marker.
-        orientation: orientation for the pin marker.
-        width: width for the pin marker.
         function: to add each pin.
-
-    Keyword Args:
         kwargs: add pins function settings.
-        pin_length: length of the pin marker for the port.
-        layer: layer for the pin marker.
-        layer_label: add label for the pin marker.
     """
     from gdsfactory.pdk import get_component
 
     component = get_component(component)
 
+    # This should only select ports according to the port type
     ports = select_ports(
         ports=component.ports,
         port_type=port_type,
-        layer=layer,
-        orientation=orientation,
-        width=width,
     )
-    ports = component.ports
 
     for port in ports:
         function(component=component, port=port, **kwargs)
@@ -630,7 +617,8 @@ if __name__ == "__main__":
     # assert p2 == p1 + 2
     # c1 = gf.components.straight_heater_metal(length=2)
     c = gf.components.bend_euler()
-    c = add_pins_container(c)
+    # c = add_pins_container(c)
+    add_pins_triangle(c)
     # c = add_pins_container(c)
     # cc.show()
     # c.show(show_subports=True)

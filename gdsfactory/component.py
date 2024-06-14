@@ -5,7 +5,7 @@ from __future__ import annotations
 import pathlib
 import warnings
 from collections import defaultdict
-from collections.abc import Iterator
+from collections.abc import Iterable, Iterator
 from typing import TYPE_CHECKING, Any
 
 import kfactory as kf
@@ -388,7 +388,7 @@ class ComponentBase:
         if isinstance(position, kf.kdb.DPoint):
             x, y = position.x, position.y
 
-        elif isinstance(position, tuple | list):
+        elif isinstance(position, Iterable):
             x, y = position
 
         else:
