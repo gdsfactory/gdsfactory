@@ -584,7 +584,7 @@ class ComponentBase:
         self,
         merge: bool = False,
         scale: float | None = None,
-        by_layer_name: bool = True,
+        by_layer_name: bool = False,
     ) -> dict[int | str | tuple[int, int], list[tuple[float, float]]]:
         """Returns a dict with list of points per layer.
 
