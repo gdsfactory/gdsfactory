@@ -16,7 +16,7 @@ instances:
     info: {}
     settings:
       centered: false
-      layer: 1
+      layer: WG
       port_orientations:
       - 180
       - 90

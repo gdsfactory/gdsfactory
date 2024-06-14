@@ -6,7 +6,7 @@ settings:
   edge_to_pad_distance: 150
   grating_coupler: grating_coupler_te
   grating_pitch: 250
-  layer_floorplan: 32
+  layer_floorplan: FLOORPLAN
   ngratings: 14
   npads: 31
   pad: pad
