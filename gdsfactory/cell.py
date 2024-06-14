@@ -201,13 +201,14 @@ def cell(
     @functools.wraps(func)
     def wrapper(*args, **kwargs) -> Component:
         assert func is not None
-        nonlocal ports_not_manhattan, ports_offgrid, max_name_length
+        nonlocal ports_not_manhattan, ports_offgrid, max_name_length, post_process
         from gdsfactory.pdk import get_active_pdk
 
         active_pdk = get_active_pdk()
 
         name = kwargs.pop("name", None)
         prefix = kwargs.pop("prefix", None)
+        post_process = kwargs.pop("post_process", None) or post_process
         metadata = info or {}  # noqa
 
         if name:
