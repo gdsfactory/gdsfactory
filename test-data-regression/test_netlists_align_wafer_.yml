@@ -3,7 +3,7 @@ instances:
     component: cross
     info: {}
     settings:
-      layer: 1
+      layer: WG
       length: 80
       width: 10
   rectangle_S10_110_LWG_C_804deee6_-55000_0:
@@ -11,7 +11,7 @@ instances:
     info: {}
     settings:
       centered: true
-      layer: 1
+      layer: WG
       port_orientations:
       - 180
       - 90
@@ -26,7 +26,7 @@ instances:
     info: {}
     settings:
       centered: true
-      layer: 1
+      layer: WG
       port_orientations:
       - 180
       - 90
@@ -41,7 +41,7 @@ instances:
     info: {}
     settings:
       centered: true
-      layer: 1
+      layer: WG
       port_orientations:
       - 180
       - 90
@@ -56,7 +56,7 @@ instances:
     info: {}
     settings:
       centered: true
-      layer: 1
+      layer: WG
       port_orientations:
       - 180
       - 90
@@ -71,7 +71,7 @@ instances:
     info: {}
     settings:
       centered: true
-      layer: 1
+      layer: WG
       port_orientations:
       - 180
       - 90

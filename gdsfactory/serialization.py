@@ -56,6 +56,9 @@ def clean_value_json(
     elif isinstance(value, bool):
         return value
 
+    elif isinstance(value, kf.LayerEnum):
+        return str(value)
+
     elif isinstance(value, np.integer | int):
         return int(value)
 
@@ -87,9 +90,6 @@ def clean_value_json(
             if include_module
             else {"function": value.__name__}
         )
-
-    elif isinstance(value, kf.LayerEnum):
-        return str(value)
 
     elif isinstance(value, Path):
         return value.hash_geometry()
@@ -146,7 +146,10 @@ def get_hash(value: Any) -> str:
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
+    from gdsfactory.generic_tech import LAYER
+
+    s = clean_value_json(LAYER.WG)
+    print(s)
 
     # f = partial(gf.c.straight, length=3)
     # d = clean_value_json(f)
@@ -163,6 +166,6 @@ if __name__ == "__main__":
     # )
     # f = partial(gf.routing.add_fiber_array, cross_section=xs)
     # c = f()
-    c = gf.cross_section.strip(width=3)
-    d = clean_value_json(c)
-    print(get_hash(d))
+    # c = gf.cross_section.strip(width=3)
+    # d = clean_value_json(c)
+    # print(get_hash(d))

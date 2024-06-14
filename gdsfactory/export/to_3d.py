@@ -4,13 +4,14 @@ import shapely
 
 from gdsfactory.component import Component
 from gdsfactory.technology import DerivedLayer, LayerStack, LayerViews, LogicalLayer
+from gdsfactory.typings import LayerSpec
 
 
 def to_3d(
     component: Component,
     layer_views: LayerViews | None = None,
     layer_stack: LayerStack | None = None,
-    exclude_layers: tuple[int, ...] | None = None,
+    exclude_layers: tuple[LayerSpec, ...] | None = None,
 ):
     """Return Component 3D trimesh Scene.
 
@@ -23,7 +24,12 @@ def to_3d(
         exclude_layers: list of layer index to exclude.
 
     """
-    from gdsfactory.pdk import get_active_pdk, get_layer_stack, get_layer_views
+    from gdsfactory.pdk import (
+        get_active_pdk,
+        get_layer,
+        get_layer_stack,
+        get_layer_views,
+    )
 
     try:
         from trimesh.creation import extrude_polygon
@@ -37,9 +43,12 @@ def to_3d(
 
     scene = Scene()
     exclude_layers = exclude_layers or ()
+    exclude_layers = [get_layer(layer) for layer in exclude_layers]
 
     component_with_booleans = layer_stack.get_component_with_derived_layers(component)
-    polygons_per_layer = component_with_booleans.get_polygons_points(merge=True)
+    polygons_per_layer = component_with_booleans.get_polygons_points(
+        merge=True, by_layer_name=False
+    )
     has_polygons = False
 
     for level in layer_stack.layers.values():
@@ -54,6 +63,8 @@ def to_3d(
             layer_tuple = tuple(layer_index)
         else:
             raise ValueError(f"Layer {layer!r} is not a DerivedLayer or LogicalLayer")
+
+        layer_index = int(get_layer(layer_index))
 
         if layer_index in exclude_layers:
             continue

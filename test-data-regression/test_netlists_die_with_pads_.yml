@@ -960,7 +960,7 @@ instances:
     info: {}
     settings:
       centered: true
-      layer: 32
+      layer: FLOORPLAN
       port_orientations:
       - 180
       - 90

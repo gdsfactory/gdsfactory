@@ -64,5 +64,5 @@ if __name__ == "__main__":
     # test_valid_component()
     # test_no_polygons_defined()
     # test_exclude_layers()
-    # test_invisible_layers()
-    test_missing_zmin_or_thickness()
+    test_invisible_layers()
+    # test_missing_zmin_or_thickness()
