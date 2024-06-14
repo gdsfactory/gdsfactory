@@ -395,7 +395,7 @@ class Pdk(BaseModel):
                 f"CrossSectionFactory, Transition, string or dict), got {type(cross_section)}"
             )
 
-    def get_layer(self, layer: LayerSpec) -> Layer:
+    def get_layer(self, layer: LayerSpec) -> LayerEnum:
         """Returns layer from a layer spec."""
         if isinstance(layer, LayerEnum):
             return layer
@@ -408,15 +408,17 @@ class Pdk(BaseModel):
                 raise ValueError(f"{layer!r} not in {self.layers}")
             return getattr(self.layers, layer)
         elif isinstance(layer, int):
-            return layer
+            return kf.kcl.layers(layer)
         elif layer is np.nan:
             return np.nan
-        elif layer is None:
-            return
         else:
             raise ValueError(
                 f"{layer!r} needs to be a LayerSpec (string, int or (int, int) or LayerEnum), got {type(layer)}"
             )
+
+    def get_layer_name(self, layer: LayerSpec) -> str:
+        layer_index = self.get_layer(layer)
+        return self.layers[layer_index]
 
     def get_layer_views(self) -> LayerViews:
         if self.layer_views is None:
@@ -576,8 +578,13 @@ def get_cross_section(
     return get_active_pdk().get_cross_section(cross_section, **kwargs)
 
 
-def get_layer(layer: LayerSpec) -> Layer:
+def get_layer(layer: LayerSpec) -> int:
     return get_active_pdk().get_layer(layer)
+
+
+def get_layer_name(layer: LayerSpec) -> str:
+    layer_index = get_layer(layer)
+    return str(get_active_pdk().layers(layer_index))
 
 
 def get_layer_views() -> LayerViews:

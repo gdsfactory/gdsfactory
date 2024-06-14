@@ -4,13 +4,14 @@ import pathlib
 
 from gdsfactory.component import Component
 from gdsfactory.technology import DerivedLayer, LayerStack, LogicalLayer
+from gdsfactory.typings import LayerSpec
 
 
 def to_stl(
     component: Component,
     filepath: str,
     layer_stack: LayerStack | None = None,
-    exclude_layers: tuple[int, ...] | None = None,
+    exclude_layers: tuple[LayerSpec, ...] | None = None,
     hull_invalid_polygons: bool = False,
     scale: float | None = None,
 ) -> None:
@@ -29,13 +30,14 @@ def to_stl(
     import shapely
     import trimesh.creation
 
-    from gdsfactory.pdk import get_active_pdk, get_layer_stack
+    from gdsfactory.pdk import get_active_pdk, get_layer, get_layer_stack
 
     layer_stack = layer_stack or get_layer_stack()
     has_polygons = False
 
     filepath = pathlib.Path(filepath)
-    exclude_layers = exclude_layers or []
+    exclude_layers = exclude_layers or ()
+    exclude_layers = [get_layer(layer) for layer in exclude_layers]
 
     component_with_booleans = layer_stack.get_component_with_derived_layers(component)
     polygons_per_layer = component_with_booleans.get_polygons_points()
