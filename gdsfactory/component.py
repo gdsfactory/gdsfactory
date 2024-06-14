@@ -554,11 +554,14 @@ class ComponentBase:
         for instance in instances:
             self._kdb_cell.insert(instance._instance)
 
-    def get_polygons(self, merge: bool = False) -> dict[int, list[kf.kdb.Polygon]]:
+    def get_polygons(
+        self, merge: bool = False, by_index: bool = False
+    ) -> dict[tuple[int] | int, list[kf.kdb.Polygon]]:
         """Returns a dict of Polygons per layer.
 
         Args:
             merge: if True, merges the polygons.
+            by_index: if True, returns the layer index, otherwise returns the layer by tuple.
         """
         from gdsfactory import get_layer
 
@@ -566,23 +569,25 @@ class ComponentBase:
 
         for layer in self.layers:
             layer_index = get_layer(layer)
+            layer = layer_index if by_index else layer
             r = kdb.Region(self.begin_shapes_rec(layer_index))
             if merge:
                 r.merge()
             for p in r.each():
-                polygons[layer_index].append(p)
+                polygons[layer].append(p)
         return polygons
 
     def get_polygons_points(
-        self, merge: bool = False, scale: float | None = None
+        self, merge: bool = False, scale: float | None = None, by_index: bool = False
     ) -> dict[int, list[tuple[float, float]]]:
         """Returns a dict with list of points per layer.
 
         Args:
             merge: if True, merges the polygons.
             scale: if True, scales the points.
+            by_index: if True, returns the layer index, otherwise returns the layer by tuple.
         """
-        polygons_dict = self.get_polygons(merge=merge)
+        polygons_dict = self.get_polygons(merge=merge, by_index=by_index)
         polygons_points = {}
         for layer, polygons in polygons_dict.items():
             all_points = []
