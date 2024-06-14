@@ -90,7 +90,7 @@ valid_top_level_keys = [
     "instances",
     "placements",
     "connections",
-    "links",
+    "nets",
     "ports",
     "routes",
     "settings",

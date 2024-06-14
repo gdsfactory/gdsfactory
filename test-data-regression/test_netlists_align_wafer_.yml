@@ -81,8 +81,8 @@ instances:
       size:
       - 25
       - 25
-links: []
 name: align_wafer_W10_S10_CL8_ecd2fcec
+nets: []
 placements:
   cross_L80_W10_LWG_PTNone_0_0:
     mirror: false

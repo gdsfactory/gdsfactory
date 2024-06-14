@@ -52,20 +52,20 @@ instances:
       cross_section: strip
       length: 3
       npoints: 2
-links:
-- - coupler90_G0p2_R5_Bbend_7f6b3237_-6625_2725,o1
-  - coupler_straight_L4_G0p2_CSstrip_-2000_350,o1
-- - coupler90_G0p2_R5_Bbend_7f6b3237_-6625_2725,o2
-  - coupler_straight_L4_G0p2_CSstrip_-2000_350,o2
-- - coupler90_G0p2_R5_Bbend_7f6b3237_-6625_2725,o4
-  - straight_L3_N2_CSstrip_-10500_0,o2
-- - coupler90_G0p2_R5_Bbend_7f6b3237_2625_2725,o1
-  - coupler_straight_L4_G0p2_CSstrip_-2000_350,o4
-- - coupler90_G0p2_R5_Bbend_7f6b3237_2625_2725,o2
-  - coupler_straight_L4_G0p2_CSstrip_-2000_350,o3
-- - coupler90_G0p2_R5_Bbend_7f6b3237_2625_2725,o4
-  - straight_L3_N2_CSstrip_6500_0,o1
 name: coupler_ring_G0p2_R5_LX_ea9dedfe
+nets:
+- p1: coupler90_G0p2_R5_Bbend_7f6b3237_-6625_2725,o1
+  p2: coupler_straight_L4_G0p2_CSstrip_-2000_350,o1
+- p1: coupler90_G0p2_R5_Bbend_7f6b3237_-6625_2725,o2
+  p2: coupler_straight_L4_G0p2_CSstrip_-2000_350,o2
+- p1: coupler90_G0p2_R5_Bbend_7f6b3237_-6625_2725,o4
+  p2: straight_L3_N2_CSstrip_-10500_0,o2
+- p1: coupler90_G0p2_R5_Bbend_7f6b3237_2625_2725,o1
+  p2: coupler_straight_L4_G0p2_CSstrip_-2000_350,o4
+- p1: coupler90_G0p2_R5_Bbend_7f6b3237_2625_2725,o2
+  p2: coupler_straight_L4_G0p2_CSstrip_-2000_350,o3
+- p1: coupler90_G0p2_R5_Bbend_7f6b3237_2625_2725,o4
+  p2: straight_L3_N2_CSstrip_6500_0,o1
 placements:
   coupler90_G0p2_R5_Bbend_7f6b3237_-6625_2725:
     mirror: true

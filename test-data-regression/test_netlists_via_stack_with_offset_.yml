@@ -53,32 +53,32 @@ instances:
       spacing:
       - 2
       - 2
-links:
-- - compass_S10_10_LM1_PTel_3be27b53_0_5000,e1
-  - compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e1
-- - compass_S10_10_LM1_PTel_3be27b53_0_5000,e1
-  - compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e1
-- - compass_S10_10_LM1_PTel_3be27b53_0_5000,e2
-  - compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e2
-- - compass_S10_10_LM1_PTel_3be27b53_0_5000,e2
-  - compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e2
-- - compass_S10_10_LM1_PTel_3be27b53_0_5000,e3
-  - compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e3
-- - compass_S10_10_LM1_PTel_3be27b53_0_5000,e3
-  - compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e3
-- - compass_S10_10_LM1_PTel_3be27b53_0_5000,e4
-  - compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e4
-- - compass_S10_10_LM1_PTel_3be27b53_0_5000,e4
-  - compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e4
-- - compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e1
-  - compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e1
-- - compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e2
-  - compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e2
-- - compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e3
-  - compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e3
-- - compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e4
-  - compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e4
 name: via_stack_with_offset_L_3866aa71
+nets:
+- p1: compass_S10_10_LM1_PTel_3be27b53_0_5000,e1
+  p2: compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e1
+- p1: compass_S10_10_LM1_PTel_3be27b53_0_5000,e1
+  p2: compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e1
+- p1: compass_S10_10_LM1_PTel_3be27b53_0_5000,e2
+  p2: compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e2
+- p1: compass_S10_10_LM1_PTel_3be27b53_0_5000,e2
+  p2: compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e2
+- p1: compass_S10_10_LM1_PTel_3be27b53_0_5000,e3
+  p2: compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e3
+- p1: compass_S10_10_LM1_PTel_3be27b53_0_5000,e3
+  p2: compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e3
+- p1: compass_S10_10_LM1_PTel_3be27b53_0_5000,e4
+  p2: compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e4
+- p1: compass_S10_10_LM1_PTel_3be27b53_0_5000,e4
+  p2: compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e4
+- p1: compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e1
+  p2: compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e1
+- p1: compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e2
+  p2: compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e2
+- p1: compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e3
+  p2: compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e3
+- p1: compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e4
+  p2: compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e4
 placements:
   compass_S10_10_LM1_PTel_3be27b53_0_5000:
     mirror: false

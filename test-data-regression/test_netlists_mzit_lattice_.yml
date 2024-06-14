@@ -20,8 +20,8 @@ instances:
       w0: 0.5
       w1: 0.45
       w2: 0.55
-links: []
 name: mzit_lattice_CL10_20_CG_309623e7
+nets: []
 placements:
   mzit_W0p5_W0p45_W0p55_D_65d5ac70_19137_11400:
     mirror: false

@@ -1,6 +1,6 @@
 instances: {}
-links: []
 name: wire_corner_CSmetal_routing
+nets: []
 placements: {}
 ports:
   e1: e2

@@ -53,8 +53,8 @@ instances:
       - 0
       size: 1
       text: '250'
-links: []
 name: cdsem_coupler_L420_G0p1_0fa6dd27
+nets: []
 placements:
   coupler_straight_L420_G_16dd3191_210000_7600:
     mirror: false

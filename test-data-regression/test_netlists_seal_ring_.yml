@@ -79,8 +79,8 @@ instances:
       - via1
       - via2
       - null
-links: []
 name: seal_ring_Crectangle_Sv_f34f177a
+nets: []
 placements:
   via_stack_S10_22_LM1_M2_93167f57_-15000_1000:
     mirror: false

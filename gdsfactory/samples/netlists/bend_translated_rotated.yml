@@ -1,4 +1,4 @@
-links: []
+nets: []
 instances:
   b1:
     component: bend_circular

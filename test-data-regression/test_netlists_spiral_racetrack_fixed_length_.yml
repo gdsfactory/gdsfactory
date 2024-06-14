@@ -79,16 +79,16 @@ instances:
       length: 47.457
       npoints: 2
       width: 0.5
-links:
-- - bend_euler_R10_A90_P0p5_2f1f5c6d_97418_15125,o1
-  - straight_L47p457_N2_CSstrip_W0p5_126271_20000,o1
-- - bend_euler_R10_A90_P0p5_2f1f5c6d_97418_15125,o2
-  - straight_L10_N2_CSstrip_W0p5_92543_5000,o1
-- - spiral_racetrack_MR5_SL_905ed8c1_36271_-2500,o1
-  - straight_L20p25_N2_CSstrip_-10125_20000,o1
-- - spiral_racetrack_MR5_SL_905ed8c1_36271_-2500,o2
-  - straight_L10_N2_CSstrip_W0p5_92543_5000,o2
 name: spiral_racetrack_fixed__e95fe6cc
+nets:
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_97418_15125,o1
+  p2: straight_L47p457_N2_CSstrip_W0p5_126271_20000,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_97418_15125,o2
+  p2: straight_L10_N2_CSstrip_W0p5_92543_5000,o1
+- p1: spiral_racetrack_MR5_SL_905ed8c1_36271_-2500,o1
+  p2: straight_L20p25_N2_CSstrip_-10125_20000,o1
+- p1: spiral_racetrack_MR5_SL_905ed8c1_36271_-2500,o2
+  p2: straight_L10_N2_CSstrip_W0p5_92543_5000,o2
 placements:
   bend_euler_R10_A90_P0p5_2f1f5c6d_97418_15125:
     mirror: false

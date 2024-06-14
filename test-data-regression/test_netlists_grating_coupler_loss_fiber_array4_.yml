@@ -26,8 +26,8 @@ instances:
       pitch: 127
       port_name: o1
       rotation: -90
-links: []
 name: grating_coupler_loss_fi_07f21f40
+nets: []
 placements:
   loss_deembedding_ch12_3_3a13e377_1206500_4613:
     mirror: false

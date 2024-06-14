@@ -20,8 +20,8 @@ instances:
       size:
       - 100
       - 100
-links: []
 name: pad_array_Ppad_S150_150_32a4b62b
+nets: []
 placements:
   pad_S100_100_LMTOP_BLNo_0d37cb32_375000_0:
     mirror: false

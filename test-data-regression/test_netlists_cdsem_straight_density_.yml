@@ -150,8 +150,8 @@ instances:
       - 0
       size: 1
       text: 300 300
-links: []
 name: cdsem_straight_density__211dadfd
+nets: []
 placements:
   straight_L420_N2_CSstrip_W0p3_210000_1350:
     mirror: false

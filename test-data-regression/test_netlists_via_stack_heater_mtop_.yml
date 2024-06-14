@@ -90,8 +90,8 @@ instances:
       spacing:
       - 2
       - 2
-links: []
 name: via_stack_S11_11_LHEATE_f29565aa
+nets: []
 placements:
   compass_S11_11_LHEATER__b6e1515a_0_0:
     mirror: false

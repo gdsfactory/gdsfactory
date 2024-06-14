@@ -14,8 +14,8 @@ instances:
       size:
       - 1300
       - 2600
-links: []
 name: die_bbox_CFrectangle_Mg_b676ef51
+nets: []
 placements:
   rectangle_S1300_2600_LW_815f8284_0_0:
     mirror: false

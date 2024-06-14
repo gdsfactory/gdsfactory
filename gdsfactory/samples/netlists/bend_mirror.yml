@@ -1,6 +1,6 @@
-links:
-- - b1,o2
-  - b2,o2
+nets:
+- p1: b1,o2
+  p2: b2,o2
 instances:
   b1:
     component: bend_circular

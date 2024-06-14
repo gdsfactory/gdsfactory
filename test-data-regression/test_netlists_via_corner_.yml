@@ -53,16 +53,16 @@ instances:
       spacing:
       - 2
       - 2
-links:
-- - compass_S10_10_LM2_PTel_76f0ee1a_0_0,e1
-  - compass_S10_10_LM3_PTel_907be21f_0_0,e1
-- - compass_S10_10_LM2_PTel_76f0ee1a_0_0,e2
-  - compass_S10_10_LM3_PTel_907be21f_0_0,e2
-- - compass_S10_10_LM2_PTel_76f0ee1a_0_0,e3
-  - compass_S10_10_LM3_PTel_907be21f_0_0,e3
-- - compass_S10_10_LM2_PTel_76f0ee1a_0_0,e4
-  - compass_S10_10_LM3_PTel_907be21f_0_0,e4
 name: via_corner_CSFcross_sec_da01ea22
+nets:
+- p1: compass_S10_10_LM2_PTel_76f0ee1a_0_0,e1
+  p2: compass_S10_10_LM3_PTel_907be21f_0_0,e1
+- p1: compass_S10_10_LM2_PTel_76f0ee1a_0_0,e2
+  p2: compass_S10_10_LM3_PTel_907be21f_0_0,e2
+- p1: compass_S10_10_LM2_PTel_76f0ee1a_0_0,e3
+  p2: compass_S10_10_LM3_PTel_907be21f_0_0,e3
+- p1: compass_S10_10_LM2_PTel_76f0ee1a_0_0,e4
+  p2: compass_S10_10_LM3_PTel_907be21f_0_0,e4
 placements:
   compass_S10_10_LM2_PTel_76f0ee1a_0_0:
     mirror: false

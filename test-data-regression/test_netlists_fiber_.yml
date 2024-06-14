@@ -13,8 +13,8 @@ instances:
       angle_resolution: 2.5
       layer: WGCLAD
       radius: 62.5
-links: []
 name: fiber_CD10_CD125_LCWG_LCWGCLAD
+nets: []
 placements:
   circle_R5_AR2p5_LWG_0_0:
     mirror: false
