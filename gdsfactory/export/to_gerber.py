@@ -130,7 +130,11 @@ def to_gerber(
 if __name__ == "__main__":
     import gdsfactory as gf
     from gdsfactory.config import PATH
-    from gdsfactory.technology import LayerLevel, LayerMap, LayerStack, LayerView, LayerViews
+    from gdsfactory.technology import (
+        LayerMap,
+        LayerView,
+        LayerViews,
+    )
     from gdsfactory.typings import Layer
 
     class LayerMapPCB(LayerMap):
