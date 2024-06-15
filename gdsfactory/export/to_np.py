@@ -33,7 +33,7 @@ def to_np(
         int(np.ceil(ymax - ymin) * pixels_per_um),
     )
     img = np.zeros(shape, dtype=float)
-    layer_to_polygons = component.get_polygons(by_spec=True, depth=None)
+    layer_to_polygons = component.get_polygons_points(by="tuple")
 
     values = values or [1] * len(layers)
 

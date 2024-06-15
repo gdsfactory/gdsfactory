@@ -5,7 +5,7 @@ from __future__ import annotations
 import pathlib
 import warnings
 from collections.abc import Iterable, Iterator
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Literal
 
 import kfactory as kf
 import klayout.db as db  # noqa: F401
@@ -556,62 +556,77 @@ class ComponentBase:
     def get_polygons(
         self,
         merge: bool = False,
-        by_layer_name: bool = False,
+        by: Literal["index"] | Literal["name"] | Literal["tuple"] = "index",
     ) -> dict[tuple[int, int] | str | int, list[kf.kdb.Polygon]]:
         """Returns a dict of Polygons per layer.
 
         Args:
             merge: if True, merges the polygons.
-            by_layer_name: if True, returns the layer name, otherwise returns the layer by index.
+            by: the format of the resulting keys in the dictionary ('index', 'name', 'tuple')
         """
         from gdsfactory import get_layer, get_layer_name
+
+        if by == "index":
+            get_key = get_layer
+        elif by == "name":
+            get_key = get_layer_name
+        elif by == "tuple":
+
+            def get_key(layer):
+                return layer
+        else:
+            raise ValueError("argument 'by' should be 'index' | 'name' | 'tuple'")
 
         polygons = {}
 
         for layer in self.layers:
             layer_index = get_layer(layer)
-            layer = get_layer_name(layer) if by_layer_name else layer_index
+            layer_key = get_key(layer)
             r = kdb.Region(self.begin_shapes_rec(layer_index))
-            if layer not in polygons:
-                polygons[layer] = []
+            if layer_key not in polygons:
+                polygons[layer_key] = []
             if merge:
                 r.merge()
             for p in r.each():
-                polygons[layer].append(p)
+                polygons[layer_key].append(p)
         return polygons
 
     def get_polygons_points(
         self,
         merge: bool = False,
         scale: float | None = None,
-        by_layer_name: bool = False,
+        by: Literal["index"] | Literal["name"] | Literal["tuple"] = "index",
     ) -> dict[int | str | tuple[int, int], list[tuple[float, float]]]:
         """Returns a dict with list of points per layer.
 
         Args:
             merge: if True, merges the polygons.
             scale: if True, scales the points.
-            by_layer_name: if True, returns the layer name, otherwise returns the layer by index.
+            by: the format of the resulting keys in the dictionary ('index', 'name', 'tuple')
         """
-        polygons_dict = self.get_polygons(merge=merge, by_layer_name=by_layer_name)
+        polygons_dict = self.get_polygons(merge=merge, by=by)
         polygons_points = {}
         for layer, polygons in polygons_dict.items():
             all_points = []
             for polygon in polygons:
                 if scale:
-                    points = [
-                        (point.x * scale, point.y * scale)
-                        for point in polygon.to_simple_polygon()
-                        .to_dtype(self.kcl.dbu)
-                        .each_point()
-                    ]
+                    points = np.array(
+                        [
+                            (point.x * scale, point.y * scale)
+                            for point in polygon.to_simple_polygon()
+                            .to_dtype(self.kcl.dbu)
+                            .each_point()
+                        ]
+                    )
                 else:
-                    points = [
-                        (point.x, point.y)
-                        for point in polygon.to_simple_polygon()
-                        .to_dtype(self.kcl.dbu)
-                        .each_point()
-                    ]
+                    points = np.array(
+                        [
+                            (point.x, point.y)
+                            for point in polygon.to_simple_polygon()
+                            .to_dtype(self.kcl.dbu)
+                            .each_point()
+                        ]
+                    )
                 all_points.append(points)
             polygons_points[layer] = all_points
         return polygons_points
@@ -1136,7 +1151,7 @@ if __name__ == "__main__":
     s = c << gf.c.straight()
     s.connect("o1", b.ports["o2"])
     p = c.get_polygons()
-    p1 = c.get_polygons(by_layer_name=True)
+    p1 = c.get_polygons(by="name")
     # c = gf.c.mzi()
     # c = gf.c.array(spacing=(300, 300), columns=2)
     # c.show()
