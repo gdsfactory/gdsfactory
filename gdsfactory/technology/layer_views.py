@@ -808,7 +808,7 @@ class LayerViews(BaseModel):
             lv = getattr(self, name)
             if isinstance(lv, LayerView):
                 #
-                if name in layers:
+                if layers is not None and name in layers:
                     lv_dict = lv.dict(exclude={"layer", "name"})
                     lv = LayerView(layer=layers[name], name=name, **lv_dict)
                 self.add_layer_view(name=name, layer_view=lv)

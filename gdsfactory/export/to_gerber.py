@@ -81,6 +81,12 @@ def to_gerber(
             resolution: float = 1e-6
             int_size: int = 4
     """
+    # Split references into polygons and circles (components will need to be recursively iterated through)
+    # for ref in component.references:
+    #     if ref.parent_cell.name.startswith("circle"):
+    #         radius = ref.parent_cell.settings["radius"]
+    #         center = ref.center
+    # Each layer and a list of the polygons (as lists of points) on that layer
     layer_to_polygons = component.get_polygons_points()
 
     for layer_tup, layer in layermap_to_gerber_layer.items():
@@ -113,8 +119,9 @@ def to_gerber(
             f.write("%ADD10C,0.050000*%\n")
 
             # Only supports polygons for now
-            for poly in layer_to_polygons[layer_tup]:
-                f.write(polygon(poly))
+            if layer_tup in layer_to_polygons.keys():
+                for poly in layer_to_polygons[layer_tup.layer]:
+                    f.write(polygon(poly))
 
             # File end
             f.write("M02*\n")
@@ -123,10 +130,14 @@ def to_gerber(
 if __name__ == "__main__":
     import gdsfactory as gf
     from gdsfactory.config import PATH
-    from gdsfactory.technology import LayerLevel, LayerStack, LayerView, LayerViews
+    from gdsfactory.technology import (
+        LayerMap,
+        LayerView,
+        LayerViews,
+    )
     from gdsfactory.typings import Layer
 
-    class LayerMap(BaseModel):
+    class LayerMapPCB(LayerMap):
         F_Cu: Layer = (1, 0)
         In1_Cu: Layer = (2, 0)
         In2_Cu: Layer = (3, 0)
@@ -140,84 +151,92 @@ if __name__ == "__main__":
         PORT: Layer = (1, 10)
         PORTE: Layer = (1, 11)
 
-    LAYER = LayerMap
+    LAYER = LayerMapPCB
 
     class PCBViews(LayerViews):
         F_Cu: LayerView = LayerView(
-            layer=LAYER.F_Cu,
+            name="F_Cu",
+            layer=tuple(LAYER.F_Cu),
             color="red",
         )
         In1_Cu: LayerView = LayerView(
-            layer=LAYER.In1_Cu,
+            name="In1_Cu",
+            layer=tuple(LAYER.In1_Cu),
             color="limegreen",
         )
         In2_Cu: LayerView = LayerView(
-            layer=LAYER.In2_Cu,
+            name="In2_Cu",
+            layer=tuple(LAYER.In2_Cu),
             color="goldenrod",
         )
         B_Cu: LayerView = LayerView(
-            layer=LAYER.B_Cu,
+            name="B_Cu",
+            layer=tuple(LAYER.B_Cu),
             color="blue",
         )
         F_Silkscreen: LayerView = LayerView(
-            layer=LAYER.F_Silkscreen,
+            name="F_Silkscreen",
+            layer=tuple(LAYER.F_Silkscreen),
             color="khaki",
         )
         F_Mask: LayerView = LayerView(
-            layer=LAYER.F_Mask,
+            name="F_Mask",
+            layer=tuple(LAYER.F_Mask),
             color="violet",
         )
         B_Mask: LayerView = LayerView(
+            name="B_Mask",
             layer=LAYER.B_Mask,
             color="aqua",
         )
         Edge_Cuts: LayerView = LayerView(
+            name="Edge_Cuts",
             layer=LAYER.Edge_Cuts,
             color="gold",
         )
 
     LAYER_VIEWS = PCBViews()
 
-    def get_pcb_layer_stack(
-        copper_thickness: float = 0.035,
-        core_thickness: float = 1,
-    ):
-        return LayerStack(
-            layers=dict(
-                top_cu=LayerLevel(
-                    layer=LAYER.F_Cu,
-                    thickness=copper_thickness,
-                    zmin=0.0,
-                    material="cu",
-                ),
-                inner1_cu=LayerLevel(
-                    layer=LAYER.In1_Cu,
-                    thickness=copper_thickness,
-                    zmin=0.0,
-                    material="cu",
-                ),
-                inner_core=LayerLevel(
-                    layer=LAYER.Edge_Cuts,
-                    thickness=core_thickness,
-                    zmin=-core_thickness / 2,
-                    material="fr4",
-                ),
-                inner2_cu=LayerLevel(
-                    layer=LAYER.In2_Cu,
-                    thickness=copper_thickness,
-                    zmin=0.0,
-                    material="cu",
-                ),
-                bottom_cu=LayerLevel(
-                    layer=LAYER.B_Cu,
-                    thickness=copper_thickness,
-                    zmin=0.0,
-                    material="cu",
-                ),
-            )
-        )
-
-    LAYER_STACK = get_pcb_layer_stack()
+    # def get_pcb_layer_stack(
+    #     copper_thickness: float = 0.035,
+    #     core_thickness: float = 1,
+    # ):
+    #     return LayerStack(
+    #         layers=dict(
+    #             top_cu=LayerLevel(
+    #                 layer=LAYER.F_Cu,
+    #                 thickness=copper_thickness,
+    #                 zmin=0.0,
+    #                 material="cu",
+    #             ),
+    #             inner1_cu=LayerLevel(
+    #                 layer=LAYER.In1_Cu,
+    #                 thickness=copper_thickness,
+    #                 zmin=0.0,
+    #                 material="cu",
+    #             ),
+    #             inner_core=LayerLevel(
+    #                 layer=LAYER.Edge_Cuts,
+    #                 thickness=core_thickness,
+    #                 zmin=-core_thickness / 2,
+    #                 material="fr4",
+    #             ),
+    #             inner2_cu=LayerLevel(
+    #                 layer=LAYER.In2_Cu,
+    #                 thickness=copper_thickness,
+    #                 zmin=0.0,
+    #                 material="cu",
+    #             ),
+    #             bottom_cu=LayerLevel(
+    #                 layer=LAYER.B_Cu,
+    #                 thickness=copper_thickness,
+    #                 zmin=0.0,
+    #                 material="cu",
+    #             ),
+    #         )
+    #     )
+    #
+    # LAYER_STACK = get_pcb_layer_stack()
 
     layermap_to_gerber = {
         LAYER.F_Cu: GerberLayer(
@@ -250,13 +269,13 @@ if __name__ == "__main__":
     # install_klayout_technology(tech_dir=tech_dir, tech_name="PCB")
 
     c = gf.components.text(layer=LAYER.F_Cu)
-    c = LAYER_VIEWS.preview_layerset()
+    # c = LAYER_VIEWS.preview_layerset()
 
     gerber_path = PATH.repo / "extra" / "gerber"
     gerber_path.mkdir(exist_ok=True, parents=True)
 
     # This requires that the PCB technology (commented-out code above) is installed
-    c.show(technology="PCB")
+    c.show()
 
     to_gerber(
         c,
