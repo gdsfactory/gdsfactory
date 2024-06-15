@@ -220,7 +220,9 @@ class LayerLevel(BaseModel):
 
     # ID
     name: str | None = None
-    layer: LogicalLayer | DerivedLayer | int | str | tuple[int, int] | None = None
+    layer: (
+        LogicalLayer | DerivedLayer | int | str | tuple[int, int] | kf.LayerEnum | None
+    ) = None
     derived_layer: LogicalLayer | None = None
 
     # Extrusion rules
@@ -244,9 +246,10 @@ class LayerLevel(BaseModel):
     @field_validator("layer")
     @classmethod
     def check_layer(
-        cls, layer: LogicalLayer | DerivedLayer | int | str | tuple[int, int] | None
+        cls,
+        layer: LogicalLayer | DerivedLayer | int | str | tuple[int, int] | kf.LayerEnum,
     ) -> LogicalLayer | DerivedLayer:
-        if isinstance(layer, int | str | tuple):
+        if isinstance(layer, int | str | tuple | kf.LayerEnum):
             layer = gf.get_layer(layer)
             return LogicalLayer(layer=layer)
 
