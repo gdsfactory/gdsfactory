@@ -47,7 +47,7 @@ def to_3d(
 
     component_with_booleans = layer_stack.get_component_with_derived_layers(component)
     polygons_per_layer = component_with_booleans.get_polygons_points(
-        merge=True, by_layer_name=False
+        merge=True,
     )
     has_polygons = False
 
