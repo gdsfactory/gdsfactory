@@ -9,7 +9,7 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
-from gdsfactory.typings import CrossSectionSpec
+from gdsfactory.typings import CrossSectionSpec, LayerSpec
 
 wire_straight = partial(straight, cross_section="metal_routing")
 
@@ -61,17 +61,23 @@ def wire_corner(
 def wire_corner45(
     cross_section: CrossSectionSpec = "metal_routing",
     radius: float = 10,
+    width: float | None = None,
+    layer: LayerSpec | None = None,
+    with_corner90_ports: bool = True,
 ) -> Component:
     """Returns 90 degrees electrical corner wire.
 
     Args:
         cross_section: spec.
         radius: in um.
+        width: optional width.
+        layer: optional layer.
+        with_corner90_ports: if True adds ports at 90 degrees.
     """
     x = gf.get_cross_section(cross_section)
-    layer = x.layer
-    width = x.width
-    radius = radius or x.width
+    layer = layer or x.layer
+    width = width or x.width
+    radius = radius or width
 
     c = Component()
     a = width / 2
@@ -79,24 +85,43 @@ def wire_corner45(
     ypts = [-a, radius, radius + np.sqrt(2) * width, -a]
     c.add_polygon(list(zip(xpts, ypts)), layer=layer)
 
-    c.add_port(
-        name="e1",
-        center=(0, 0),
-        width=width,
-        orientation=180,
-        layer=layer,
-        port_type="electrical",
-        cross_section=x,
-    )
-    c.add_port(
-        name="e2",
-        center=(radius, radius),
-        width=width,
-        orientation=90,
-        layer=layer,
-        port_type="electrical",
-        cross_section=x,
-    )
+    w = np.round(width * np.sqrt(2), 3)
+
+    if with_corner90_ports:
+        c.add_port(
+            name="e1",
+            center=(0, 0),
+            width=width,
+            orientation=180,
+            layer=layer,
+            port_type="electrical",
+        )
+        c.add_port(
+            name="e2",
+            center=(radius, radius),
+            width=width,
+            orientation=90,
+            layer=layer,
+            port_type="electrical",
+        )
+
+    else:
+        c.add_port(
+            name="e1",
+            center=(-w / 2, -a),
+            width=w,
+            orientation=270,
+            layer=layer,
+            port_type="electrical",
+        )
+        c.add_port(
+            name="e2",
+            center=(radius + a, radius + w / 2),
+            width=w,
+            orientation=0,
+            layer=layer,
+            port_type="electrical",
+        )
     c.info["length"] = float(np.sqrt(2) * radius)
     return c
 
