@@ -22,6 +22,7 @@ app = typer.Typer()
 class Migration(str, Enum):
     """Available Migrations."""
 
+    upgrade7to8unsafe = "7to8-unsafe"
     upgrade7to8 = "7to8"
 
 
@@ -160,120 +161,134 @@ def migrate(
 
     It will only update `.py` files unless input is an exact file and not a directory.
     """
-    to_be_replaced = {
-        "center",
-        "mirror",
-        "move",
-        "movex",
-        "movey",
-        "rotate",
-        "size_info",
-        "x",
-        "xmin",
-        "xmax",
-        "xsize",
-        "y",
-        "ymin",
-        "ymax",
-        "ysize",
-    }
-    input = input.resolve()
-    if output is None:
-        if not inplace:
-            raise ValueError("If inplace is not set, an output directory must be set.")
-        output = input
-    output.resolve()
-    pattern1 = re.compile(
-        r"\b(" + "|".join(r"d\." + _r for _r in to_be_replaced) + r")\b"
-    )
-    pattern2 = re.compile(r"\b(" + "|".join(to_be_replaced) + r")\b")
-    replacement = r"d\1"
-
-    if not input.is_dir():
-        if output.is_dir():
-            output = output / input.name
-        elif output.suffix == ".py":
-            output.parent.mkdir(parents=True, exist_ok=True)
-        else:
-            output = output / input.name
-            output.parent.mkdir(parents=True, exist_ok=True)
-
-        with open(input, encoding="utf-8") as file:
-            content = file.read()
-        new_content = pattern2.sub(replacement, pattern1.sub(replacement, content))
-        if output == input:
-            if content != new_content:
-                with open(output, "w", encoding="utf-8") as file:
-                    file.write(new_content)
-                pprint(f"Updated [bold violet]{output}[/]")
-                pprint(
-                    "\n".join(
-                        unified_diff(
-                            a=content.splitlines(),
-                            b=new_content.splitlines(),
-                            fromfile=str(input.resolve()),
-                            tofile=str(output.resolve()),
-                        )
-                    )
+    if migration in [Migration.upgrade7to8, Migration.upgrade7to8unsafe]:
+        to_be_replaced = {
+            "dcenter",
+            "dmirror",
+            "dmove",
+            "dmovex",
+            "dmovey",
+            "drotate",
+            "dsize_info",
+            "dx",
+            "dxmin",
+            "dxmax",
+            "dxsize",
+            "dy",
+            "dymin",
+            "dymax",
+            "dysize",
+        }
+        input = input.resolve()
+        if output is None:
+            if not inplace:
+                raise ValueError(
+                    "If inplace is not set, an output directory must be set."
                 )
+            output = input
+        output.resolve()
+        if migration == Migration.upgrade7to8unsafe:
+            pattern1 = re.compile(
+                r"\b(" + "|".join(r"d\." + _r for _r in to_be_replaced) + r")\b"
+            )
+            pattern2 = re.compile(r"\b(" + "|".join(to_be_replaced) + r")\b")
+            replacement = r"d\1"
         else:
-            with open(output, "w", encoding="utf-8") as file:
-                file.write(new_content)
-            if content != new_content:
-                pprint(f"Updated [bold violet]{output}[/]")
-                pprint(
-                    "\n".join(
-                        unified_diff(
-                            a=content,
-                            b=new_content,
-                            fromfile=str(input),
-                            tofile=str(output),
-                        )
-                    )
-                )
-    elif output == input:
-        for inp in input.rglob("*.py"):
-            with open(inp, encoding="utf-8") as file:
+            pattern1 = re.compile(
+                r"(?<=\.)(" + "|".join(r"d\." + _r for _r in to_be_replaced) + r")\b"
+            )
+            pattern2 = re.compile(r"(?<=\.)(" + "|".join(to_be_replaced) + r")\b")
+            replacement = r"d\1"
+
+        if not input.is_dir():
+            if output.is_dir():
+                output = output / input.name
+            elif output.suffix == ".py":
+                output.parent.mkdir(parents=True, exist_ok=True)
+            else:
+                output = output / input.name
+                output.parent.mkdir(parents=True, exist_ok=True)
+
+            with open(input, encoding="utf-8") as file:
                 content = file.read()
             new_content = pattern2.sub(replacement, pattern1.sub(replacement, content))
-            if content != new_content:
+            if output == input:
+                if content != new_content:
+                    with open(output, "w", encoding="utf-8") as file:
+                        file.write(new_content)
+                    pprint(f"Updated [bold violet]{output}[/]")
+                    pprint(
+                        "\n".join(
+                            unified_diff(
+                                a=content.splitlines(),
+                                b=new_content.splitlines(),
+                                fromfile=str(input.resolve()),
+                                tofile=str(output.resolve()),
+                            )
+                        )
+                    )
+            else:
+                with open(output, "w", encoding="utf-8") as file:
+                    file.write(new_content)
+                if content != new_content:
+                    pprint(f"Updated [bold violet]{output}[/]")
+                    pprint(
+                        "\n".join(
+                            unified_diff(
+                                a=content,
+                                b=new_content,
+                                fromfile=str(input),
+                                tofile=str(output),
+                            )
+                        )
+                    )
+        elif output == input:
+            for inp in input.rglob("*.py"):
+                with open(inp, encoding="utf-8") as file:
+                    content = file.read()
+                new_content = pattern2.sub(
+                    replacement, pattern1.sub(replacement, content)
+                )
+                if content != new_content:
+                    out = output / inp.relative_to(input)
+                    out.parent.mkdir(parents=True, exist_ok=True)
+                    with open(out, "w", encoding="utf-8") as file:
+                        file.write(new_content)
+                    pprint(f"Updated [bold violet]{out}[/]")
+                    pprint(
+                        "\n".join(
+                            unified_diff(
+                                a=content.splitlines(),
+                                b=new_content.splitlines(),
+                                fromfile=str(inp.resolve()),
+                                tofile=str(out.resolve()),
+                            )
+                        )
+                    )
+
+        else:
+            for inp in input.rglob("*.py"):
+                with open(inp, encoding="utf-8") as file:
+                    content = file.read()
+                new_content = pattern2.sub(
+                    replacement, pattern1.sub(replacement, content)
+                )
                 out = output / inp.relative_to(input)
                 out.parent.mkdir(parents=True, exist_ok=True)
                 with open(out, "w", encoding="utf-8") as file:
                     file.write(new_content)
-                pprint(f"Updated [bold violet]{out}[/]")
-                pprint(
-                    "\n".join(
-                        unified_diff(
-                            a=content.splitlines(),
-                            b=new_content.splitlines(),
-                            fromfile=str(inp.resolve()),
-                            tofile=str(out.resolve()),
+                if content != new_content:
+                    pprint(f"Updated [bold violet]{out}[/]")
+                    pprint(
+                        "\n".join(
+                            unified_diff(
+                                a=content.splitlines(),
+                                b=new_content.splitlines(),
+                                fromfile=str(inp.resolve()),
+                                tofile=str(out.resolve()),
+                            )
                         )
                     )
-                )
-
-    else:
-        for inp in input.rglob("*.py"):
-            with open(inp, encoding="utf-8") as file:
-                content = file.read()
-            new_content = pattern2.sub(replacement, pattern1.sub(replacement, content))
-            out = output / inp.relative_to(input)
-            out.parent.mkdir(parents=True, exist_ok=True)
-            with open(out, "w", encoding="utf-8") as file:
-                file.write(new_content)
-            if content != new_content:
-                pprint(f"Updated [bold violet]{out}[/]")
-                pprint(
-                    "\n".join(
-                        unified_diff(
-                            a=content.splitlines(),
-                            b=new_content.splitlines(),
-                            fromfile=str(inp.resolve()),
-                            tofile=str(out.resolve()),
-                        )
-                    )
-                )
 
 
 if __name__ == "__main__":
