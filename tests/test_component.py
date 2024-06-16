@@ -31,3 +31,15 @@ def test_hierarchy():
     c = gf.c.mzi()
     assert len(c.called_cells()) == 8
     assert c.child_cells() == 8
+
+
+def test_get_polygons():
+    c = gf.components.straight()
+    polygons = c.get_polygons(by="index")
+    assert 1 in polygons
+
+    polygons = c.get_polygons(by="name")
+    assert "WG" in polygons
+
+    polygons = c.get_polygons(by="tuple")
+    assert (1, 0) in polygons
