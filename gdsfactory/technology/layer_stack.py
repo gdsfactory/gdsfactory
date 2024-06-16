@@ -122,7 +122,7 @@ class LogicalLayer(AbstractLayer):
         """
         from gdsfactory.pdk import get_layer
 
-        polygons_per_layer = component.get_polygons(by_layer_name=False)
+        polygons_per_layer = component.get_polygons()
         layer_index = get_layer(self.layer)
         polygons = (
             polygons_per_layer[layer_index] if layer_index in polygons_per_layer else []
