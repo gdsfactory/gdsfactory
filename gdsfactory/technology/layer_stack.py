@@ -4,7 +4,7 @@ from collections import defaultdict
 from typing import TYPE_CHECKING, Any, Literal
 
 import kfactory as kf
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 from rich.console import Console
 from rich.table import Table
 
@@ -220,7 +220,9 @@ class LayerLevel(BaseModel):
 
     # ID
     name: str | None = None
-    layer: LogicalLayer | DerivedLayer | None = None
+    layer: (
+        LogicalLayer | DerivedLayer | int | str | tuple[int, int] | kf.LayerEnum | None
+    ) = None
     derived_layer: LogicalLayer | None = None
 
     # Extrusion rules
@@ -240,6 +242,18 @@ class LayerLevel(BaseModel):
 
     # Other
     info: dict[str, Any] = Field(default_factory=dict)
+
+    @field_validator("layer")
+    @classmethod
+    def check_layer(
+        cls,
+        layer: LogicalLayer | DerivedLayer | int | str | tuple[int, int] | kf.LayerEnum,
+    ) -> LogicalLayer | DerivedLayer:
+        if isinstance(layer, int | str | tuple | kf.LayerEnum):
+            layer = gf.get_layer(layer)
+            return LogicalLayer(layer=layer)
+
+        return layer
 
     @property
     def bounds(self) -> tuple[float, float]:
