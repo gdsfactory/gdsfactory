@@ -5,10 +5,12 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 
 from __future__ import annotations
 
-import gdstk
+import freetype
 import numpy as np
 from matplotlib import font_manager
+from matplotlib.path import Path
 
+from gdsfactory.boolean import boolean
 from gdsfactory.component import Component
 
 _cached_fonts = {}
@@ -90,115 +92,70 @@ def _get_glyph(font, letter):  # noqa: C901
 
     # Add polylines
     start, end = 0, -1
-    polylines = []
-    for contour in outline.contours:
-        start = end + 1
-        end = contour
+    VERTS, CODES = [], []
+    # Iterate over each contour
+    for i in range(len(outline.contours)):
+        end = outline.contours[i]
+        points = outline.points[start : end + 1]
+        points.append(points[0])
+        tags = outline.tags[start : end + 1]
+        tags.append(tags[0])
 
-        # Build up the letter as a curve
-        cpoint = start
-        curve = gdstk.Curve(points[cpoint], tolerance=0.001)
-        while cpoint <= end:
-            # Figure out what sort of point we are looking at
-            if tags[cpoint] & 1:
-                # We are at an on-curve control point. The next point may be
-                # another on-curve point, in which case we create a straight
-                # line interpolation, or it may be a quadratic or cubic
-                # bezier curve. But first we check if we are at the end of the array
-                if cpoint == end:
-                    ntag = tags[start]
-                    npoint = points[start]
-                else:
-                    ntag = tags[cpoint + 1]
-                    npoint = points[cpoint + 1]
-
-                # Then add the control points
-                if ntag & 1:
-                    curve.commands("L", *npoint)
-                    cpoint += 1
-                elif ntag & 2:
-                    # We are at a cubic bezier curve point
-                    if cpoint + 3 <= end:
-                        curve.commands("C", *points[cpoint + 1 : cpoint + 4].flatten())
-                    elif cpoint + 2 <= end:
-                        plist = list(points[cpoint + 1 : cpoint + 3].flatten())
-                        plist.extend(points[start])
-                        curve.commands("C", *plist)
-                    else:
-                        raise ValueError(
-                            "Missing bezier control points. We require at least"
-                            " two control points to get a cubic curve."
-                        )
-                    cpoint += 3
-                else:
-                    # Otherwise we're at a quadratic bezier curve point
-                    if cpoint + 2 > end:
-                        cpoint_2 = start
-                        end_tag = tags[start]
-                    else:
-                        cpoint_2 = cpoint + 2
-                        end_tag = tags[cpoint_2]
-                    p1 = points[cpoint + 1]
-                    p2 = points[cpoint_2]
-
-                    # Check if we are at a sequential control point. In that case,
-                    # p2 is actually the midpoint of p1 and p2.
-                    if end_tag & 1 == 0:
-                        p2 = (p1 + p2) / 2
-
-                    # Add the curve
-                    curve.commands("Q", p1[0], p1[1], p2[0], p2[1])
-                    cpoint += 2
+        segments = [
+            [
+                points[0],
+            ],
+        ]
+        for j in range(1, len(points)):
+            segments[-1].append(points[j])
+            if tags[j] & (1 << 0) and j < (len(points) - 1):
+                segments.append(
+                    [
+                        points[j],
+                    ]
+                )
+        verts = [
+            points[0],
+        ]
+        codes = [
+            Path.MOVETO,
+        ]
+        for segment in segments:
+            if len(segment) == 2:
+                verts.extend(segment[1:])
+                codes.extend([Path.LINETO])
+            elif len(segment) == 3:
+                verts.extend(segment[1:])
+                codes.extend([Path.CURVE3, Path.CURVE3])
             else:
-                if tags[cpoint] & 2:
-                    raise ValueError(
-                        "Sequential control points not valid for cubic splines."
-                    )
-                # We are at a quadratic sequential control point.
-                # Check if we're at the end of the segment
-                if cpoint == end:
-                    cpoint_1 = start
-                    end_tag = tags[start]
-                else:
-                    cpoint_1 = cpoint + 1
-                    end_tag = tags[cpoint_1]
+                verts.append(segment[1])
+                codes.append(Path.CURVE3)
+                for i in range(1, len(segment) - 2):
+                    A, B = segment[i], segment[i + 1]
+                    C = ((A[0] + B[0]) / 2.0, (A[1] + B[1]) / 2.0)
+                    verts.extend([C, B])
+                    codes.extend([Path.CURVE3, Path.CURVE3])
+                verts.append(segment[-1])
+                codes.append(Path.CURVE3)
+        VERTS.extend(verts)
+        CODES.extend(codes)
+        start = end + 1
 
-                p1 = points[cpoint]
-                p2 = points[cpoint_1]
-                # If we are at the beginning, this is a special case,
-                # we need to reset the starting position
-                if cpoint == start:
-                    p0 = points[end]
-                    if tags[end] & 1 == 0:
-                        # If the last point is also a control point, then the end is actually
-                        # halfway between here and the last point
-                        p0 = (p0 + p1) / 2
-                    # And reset the starting position of the spline
-                    curve = gdstk.Curve(*p0, tolerance=0.001)
-                else:
-                    # The first control point is at the midpoint of this control point and the
-                    # previous control point
-                    p0 = points[cpoint - 1]
-                    p0 = (p0 + p1) / 2
-
-                # Check if we are at a sequential control point again
-                if end_tag & 1 == 0:
-                    p2 = (p1 + p2) / 2
-
-                # And add the segment
-                curve.commands("Q", p1[0], p1[1], p2[0], p2[1])
-                cpoint += 1
-        polylines.append(gdstk.Polygon(curve.points()))
+    path = Path(VERTS, CODES)
+    polygons = path.to_polygons(closed_only=True)
+    # patch = PathPatch(path)
 
     # Construct the component
-    component = Component(block_name)
-    if polylines:
-        letter_polyline = polylines[:1]
-        for polyline in polylines[1:]:
-            letter_polyline = gdstk.boolean(letter_polyline, polyline, "xor")
-
-        for polyline in letter_polyline:
-            component.add_polygon(polyline.points, layer=(1, 0))
+    c1 = Component()
+    c2 = Component()
+    c1.add_polygon(polygons[0], layer=(1, 0))
+    if len(polygons) > 1:
+        for polygon in polygons[1:]:
+            c2.add_polygon(polygon, layer=(1, 0))
+        component = boolean(c1, c2, operation="not")
+    else:
+        component = c1
+    component.name = block_name
 
     # Cache the return value and return it
     font.gds_glyphs[letter] = (component, glyph.advance.x / font.size.ascender)
@@ -208,5 +165,5 @@ def _get_glyph(font, letter):  # noqa: C901
 if __name__ == "__main__":
     from gdsfactory.components.text_freetype import text_freetype
 
-    c = text_freetype("hello")
+    c = text_freetype("e")
     c.show()
