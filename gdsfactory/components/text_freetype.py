@@ -85,16 +85,17 @@ def text_freetype(
             xoffset = 0
             for letter in line:
                 letter_dev = Component()
-                letter_template, advance_x = _get_glyph(font, letter)
+                letter_template, advance_x, ascender = _get_glyph(font, letter)
+                scale_factor = size / ascender
                 for _, polygon_points in letter_template.get_polygons_points(
-                    scale=size
+                    scale=scale_factor
                 ).items():
                     for layer in layers:
                         for points in polygon_points:
                             letter_dev.add_polygon(points, layer=layer)
                 ref = char.add_ref(letter_dev)
                 ref.dmove((xoffset, 0))
-                xoffset += size * advance_x
+                xoffset += scale_factor * advance_x
 
             ref = t.add_ref(char)
             ref.dmove((0, yoffset))
@@ -112,7 +113,7 @@ def text_freetype(
 
 
 if __name__ == "__main__":
-    c2 = text_freetype("hello")
+    c2 = text_freetype("hello", size=1)
     # print(c2.name)
     # c2 = text_freetype()
     c2.show()
