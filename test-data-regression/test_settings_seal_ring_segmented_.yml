@@ -1,37 +1,12 @@
-function: seal_ring_segmented
 info: {}
-module: gdsfactory.components.seal_ring
-name: seal_ring_segmented
+name: seal_ring_segmented_CFr_696cbea0
 settings:
-  bbox:
-  - - -1.0
-    - -1.0
-  - - 3.0
-    - 4.0
-  corner:
-    function: via_stack_corner45_extended
+  component: Frectangle_Mgdsfactorypcomponentsprectangle_SS500_500
+  corner: via_stack_corner45_extended
   length_segment: 10
-  padding: 10.0
+  padding: 10
   spacing_segment: 2
-  via_stack:
-    function: via_stack
-    module: gdsfactory.components.via_stack
-    settings:
-      layers:
-      - M1
-      - M2
-      - MTOP
-      vias:
-      - function: via
-        module: gdsfactory.components.via
-        settings:
-          enclosure: 2
-          layer: VIA1
-      - function: via
-        module: gdsfactory.components.via
-        settings:
-          layer: VIA2
-      - null
+  via_stack: via_stack_m1_mtop
   width_segment: 3
   with_east: true
   with_north: true
