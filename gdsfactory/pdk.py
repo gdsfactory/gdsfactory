@@ -157,7 +157,7 @@ class Pdk(BaseModel):
     layers: type[LayerEnum] | None = None
     layer_stack: LayerStack | None = None
     layer_views: LayerViews | None = None
-    layer_transitions: dict[Layer | tuple[Layer, Layer], ComponentSpec] = Field(
+    layer_transitions: dict[LayerSpec | tuple[Layer, Layer], ComponentSpec] = Field(
         default_factory=dict
     )
     constants: dict[str, Any] = constants

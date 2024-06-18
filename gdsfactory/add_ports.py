@@ -517,18 +517,15 @@ def add_ports_from_labels(
     yc = component.dy
 
     port_name_to_index = {}
+    layer_label = layer_label or port_layer
 
     xc = xcenter or component.dx
-    for i, label in enumerate(component.labels):
-        dx, dy = label.origin
-
-        if layer_label and (
-            layer_label[0] != label.layer or layer_label[1] != label.texttype
-        ):
-            continue
+    for i, label in enumerate(component.get_labels(layer=layer_label)):
+        dx = label.x
+        dy = label.y
 
         if get_name_from_label:
-            port_name = label.text
+            port_name = label.string
         else:
             port_name = f"{port_name_prefix}{i+1}" if port_name_prefix else i
 
@@ -560,7 +557,7 @@ def add_ports_from_labels(
 
         component.add_port(
             name=port_name,
-            dcenter=(dx, dy),
+            center=(dx, dy),
             width=port_width,
             orientation=orientation,
             port_type=port_type,
