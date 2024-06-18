@@ -408,7 +408,7 @@ class Pdk(BaseModel):
                 raise ValueError(f"{layer!r} not in {self.layers}")
             return getattr(self.layers, layer)
         elif isinstance(layer, int):
-            return kf.kcl.layers(layer)
+            return layer
         elif layer is np.nan:
             return np.nan
         else:
