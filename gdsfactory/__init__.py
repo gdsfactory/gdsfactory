@@ -34,6 +34,8 @@ from gdsfactory.component import (
     ComponentAllAngle,
     ComponentReference,
     Instance,
+    container,
+    component_with_function,
 )
 from gdsfactory.config import CONF, PATH
 from gdsfactory.port import Port
@@ -110,6 +112,8 @@ __all__ = (
     "components",
     "compose",
     "constant",
+    "container",
+    "component_with_function",
     "cross_section",
     "diff",
     "difftest",

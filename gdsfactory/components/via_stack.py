@@ -8,6 +8,7 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
+from gdsfactory.components.wire import wire_corner45
 from gdsfactory.typings import ComponentSpec, Floats, LayerSpec, LayerSpecs
 
 
@@ -141,6 +142,159 @@ def via_stack(
     return c
 
 
+@gf.cell
+def via_stack_corner45(
+    width: float = 10,
+    layers: tuple[LayerSpec | None, ...] = ("M1", "M2", "MTOP"),
+    layer_offsets: Floats | None = None,
+    vias: tuple[ComponentSpec | None, ...] | None = ("via1", "via2", None),
+    layer_port: LayerSpec | None = None,
+    correct_size: bool = True,
+) -> Component:
+    """Rectangular via array stack at a 45 degree angle.
+
+    spacing = via.info['spacing']
+    enclosure = via.info['enclosure']
+
+    Args:
+        width: of the corner45.
+        layers: layers on which to draw rectangles.
+        layer_offsets: Optional offsets for each layer with respect to size.
+            positive grows, negative shrinks the size.
+        vias: vias to use to fill the rectangles.
+        layer_port: if None assumes port is on the last layer.
+        correct_size: if True, if the specified dimensions are too small it increases
+            them to the minimum possible to fit a via.
+    """
+    height = width
+    layers = layers or []
+    layer_offsets = layer_offsets or [0] * len(layers)
+
+    elements = {len(layers), len(layer_offsets), len(vias)}
+    if len(elements) > 1:
+        warnings.warn(
+            f"Got {len(layers)} layers, {len(layer_offsets)} layer_offsets, {len(vias)} vias",
+            stacklevel=3,
+        )
+
+    if layers:
+        layer_port = layer_port or layers[-1]
+
+    c = Component()
+    if layer_port:
+        c.info["layer"] = layer_port
+
+    for layer, offset in zip(layers, layer_offsets):
+        if layer and layer == layer_port:
+            ref = c << wire_corner45(
+                width=width + 2 * offset, layer=layer, with_corner90_ports=False
+            )
+            c.add_ports(ref.ports)
+        elif layer is not None:
+            ref = c << wire_corner45(
+                width=width + 2 * offset, layer=layer, with_corner90_ports=False
+            )
+
+    width_corner = width
+    width = ref.dxsize
+    height = ref.dysize
+    xmin = ref.dxmin
+    ymin = ref.dymin
+
+    vias = vias or []
+    for via, offset in zip(vias, layer_offsets):
+        if via is not None:
+            width45 = (
+                2 * (width_corner + 2 * offset) * np.cos(np.deg2rad(45))
+            )  # Width in the x direction
+            _via = gf.get_component(via)
+            w, h = _via.info["xsize"], _via.info["ysize"]
+            enclosure = _via.info["enclosure"]
+            pitch_x, pitch_y = _via.info["xspacing"], _via.info["yspacing"]
+
+            via = _via
+
+            min_width = w + enclosure
+            min_height = h + enclosure
+
+            if (
+                min_width > width45
+                and correct_size
+                or min_width <= width45
+                and min_height > height
+                and correct_size
+            ):
+                warnings.warn(
+                    f"Changing size from ({width}, {height}) to ({min_width}, {min_height}) to fit a via!",
+                    stacklevel=3,
+                )
+                width45 = max(min_width, width45)
+                height = max(min_height, height)
+            elif min_width > width45 or min_height > height:
+                raise ValueError(
+                    f"{min_width=} > {width=} or {min_height=} > {height=}"
+                )
+
+            # Keep placing rows until we cover the whole height
+            y_covered = enclosure
+
+            while y_covered + enclosure < height:
+                y = ymin + y_covered + h / 2  # Position of the via
+
+                # x offset from the edge of the metal to make sure enclosure is fulfilled
+                xoff_enc = 2 * enclosure * np.cos(np.deg2rad(45))
+                xoff = (y_covered + h) * np.tan(np.deg2rad(45)) + xoff_enc
+
+                xpos0 = xmin + xoff
+
+                # Calculate the number of vias that fit in a given width
+                if (y_covered + h) < (height - width45):
+                    # The x width is width45
+                    xwidth = width45
+                else:
+                    # The x width is decreasing
+                    xwidth = (height - (y_covered + h)) * np.tan(np.deg2rad(45))
+
+                if min_width <= xwidth:
+                    vias_per_row = (
+                        xwidth - 2 * xoff_enc - 2 * h * np.tan(np.deg2rad(45))
+                    ) / (pitch_x) + 1
+                    # Place the vias at the given x, y
+                    for i in range(int(vias_per_row)):
+                        ref = c << via
+                        ref.dcenter = (xpos0 + pitch_x * i + w / 2, y)
+
+                y_covered = y_covered + h + pitch_y
+
+    c.flatten()
+    return c
+
+
+@gf.cell
+def via_stack_corner45_extended(
+    corner: ComponentSpec = "via_stack_corner45",
+    via_stack: ComponentSpec = "via_stack",
+    width: float = 3,
+    length: float = 10,
+) -> Component:
+    """Rectangular via array stack at a 45 degree angle.
+
+    Args:
+        corner: corner component.
+        via_stack: for the via stack.
+        width: of the corner45.
+        length: of the straight.
+    """
+    c = gf.Component()
+    corner = c << gf.get_component(corner, width=width / np.sqrt(2))
+    s = gf.get_component(via_stack, size=(length, width))
+    sr = c << s
+    sl = c << s
+    sr.connect("e1", corner.ports["e1"])
+    sl.connect("e1", corner.ports["e2"])
+    return c
+
+
 via_stack_m1_mtop = via_stack_m1_m3 = partial(
     via_stack,
     layers=("M1", "M2", "MTOP"),
@@ -188,8 +342,7 @@ via_stack_slab_m1_horizontal = partial(via_stack_slab_m1, slot_horizontal=True)
 
 
 if __name__ == "__main__":
-    c = via_stack()
-    c.show()
+    c = via_stack_corner45()
     # c = via_stack_slab_m3(size=(100, 10), slot_vertical=True)
     # c = via_stack_npp_m1()
     # n = c.get_netlist()

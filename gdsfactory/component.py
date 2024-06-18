@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pathlib
 import warnings
-from collections.abc import Iterable, Iterator
+from collections.abc import Callable, Iterable, Iterator
 from typing import TYPE_CHECKING, Any, Literal
 
 import kfactory as kf
@@ -1139,6 +1139,32 @@ def container(component, function, **kwargs) -> Component:
     cref = c << component
     c.add_ports(cref.ports)
     function(component=c, **kwargs)
+    c.copy_child_info(component)
+    return c
+
+
+@kf.cell
+def component_with_function(
+    component,
+    function: Callable[..., None] | None = None,
+    **kwargs,
+) -> gf.Component:
+    """Returns new component with a component reference.
+
+    Args:
+        component: to add to container.
+        function: function to apply to component.
+        kwargs: keyword arguments to pass to component.
+    """
+    import gdsfactory as gf
+
+    component = gf.get_component(component, **kwargs)
+    c = Component()
+    cref = c << component
+    c.add_ports(cref.ports)
+
+    if function:
+        function(c)
     c.copy_child_info(component)
     return c
 
