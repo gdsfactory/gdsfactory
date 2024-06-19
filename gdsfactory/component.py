@@ -1123,7 +1123,6 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):
         c.plot(**kwargs)
 
 
-@kf.cell
 def container(component, function, **kwargs) -> Component:
     """Returns new component with a component reference.
 
@@ -1143,7 +1142,6 @@ def container(component, function, **kwargs) -> Component:
     return c
 
 
-@kf.cell
 def component_with_function(
     component,
     function: Callable[..., None] | None = None,
