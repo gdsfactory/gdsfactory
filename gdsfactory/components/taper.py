@@ -17,8 +17,8 @@ def taper(
     port: Port | None = None,
     with_two_ports: bool = True,
     cross_section: CrossSectionSpec = "strip",
-    port_names: tuple | None = ("o1", "o2"),
-    port_types: tuple | None = ("optical", "optical"),
+    port_names: tuple[str, str] = ("o1", "o2"),
+    port_types: tuple[str, str] = ("optical", "optical"),
     with_bbox: bool = True,
     **kwargs,
 ) -> Component:
