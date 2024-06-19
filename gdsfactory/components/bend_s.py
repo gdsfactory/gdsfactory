@@ -7,12 +7,12 @@ from gdsfactory import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bezier import bezier, bezier_curve
 from gdsfactory.functions import curvature
-from gdsfactory.typings import CrossSectionSpec, Float2
+from gdsfactory.typings import CrossSectionSpec
 
 
 @cell
 def bend_s(
-    size: Float2 = (11.0, 1.8),
+    size: tuple[float, float] = (11.0, 1.8),
     npoints: int = 99,
     cross_section: CrossSectionSpec = "strip",
     allow_min_radius_violation: bool = False,
