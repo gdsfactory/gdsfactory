@@ -18,6 +18,7 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from gdsfactory import logger
 from gdsfactory.config import CONF
+from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
 from gdsfactory.symbols import floorplan_with_block_letters
 from gdsfactory.technology import LayerStack, LayerViews, klayout_tech
@@ -536,7 +537,10 @@ def get_active_pdk(name: str | None = None) -> Pdk:
     global _ACTIVE_PDK
 
     if _ACTIVE_PDK is None:
-        if name is not None or CONF.pdk:
+        name = name or CONF.pdk
+        if name == "generic":
+            return get_generic_pdk()
+        elif name:
             pdk_module = importlib.import_module(name or CONF.pdk)
             pdk_module.PDK.activate()
 
@@ -607,11 +611,6 @@ def get_routing_strategies() -> dict[str, Callable]:
 
 
 if __name__ == "__main__":
-    from gdsfactory.generic_tech import get_generic_pdk
-
-    pdk = get_generic_pdk()
-    pdk.activate()
-
     l1 = get_layer((1, 0))
     l2 = get_layer((3, 0))
     print(l1)
