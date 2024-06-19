@@ -106,7 +106,7 @@ def test_get_netlist_simple() -> None:
     i2 = c.add_ref(gf.components.straight(), "i2")
     i3 = c.add_ref(gf.components.straight(), "i3")
     i2.connect("o2", i1.ports["o1"])
-    i3.movey(-100)
+    i3.dmovey(-100)
     netlist = c.get_netlist()
     links = netlist["nets"]
     assert len(links) == 1
@@ -126,7 +126,7 @@ def test_get_netlist_promoted() -> None:
     i2 = c.add_ref(gf.components.straight(), "i2")
     i3 = c.add_ref(gf.components.straight(), "i3")
     i2.connect("o2", i1.ports["o1"])
-    i3.movey(-100)
+    i3.dmovey(-100)
     c.add_port("t1", port=i1.ports["o2"])
     c.add_port("t2", port=i2.ports["o1"])
     c.add_port("t3", port=i3.ports["o1"])
@@ -150,7 +150,7 @@ def test_get_netlist_close_enough_fails() -> None:
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
     i2.connect("o2", i1.ports["o1"])
-    i2.movex(1)
+    i2.dmovex(1)
     netlist = c.get_netlist()
     links = netlist["nets"]
     assert len(links) == 0
