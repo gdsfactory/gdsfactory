@@ -38,6 +38,7 @@ from gdsfactory.typings import (
     Transition,
 )
 
+_ACTIVE_PDK = None
 component_settings = ["function", "component", "settings"]
 cross_section_settings = ["function", "cross_section", "settings"]
 
@@ -174,10 +175,6 @@ class Pdk(BaseModel):
 
     def activate(self) -> None:
         """Set current pdk to the active pdk (if not already active)."""
-        global _ACTIVE_PDK
-        if self is _ACTIVE_PDK:
-            return None
-
         logger.debug(f"{self.name!r} PDK is now active")
 
         for pdk in self.base_pdks:
@@ -187,10 +184,6 @@ class Pdk(BaseModel):
             self.cross_sections = cross_sections
             cells.update(self.cells)
             self.cells.update(cells)
-
-            # layers = pdk.layers
-            # layers.update(self.layers)
-            # self.layers.update(layers)
 
         _set_active_pdk(self)
 
@@ -534,9 +527,6 @@ class Pdk(BaseModel):
             ) from e
 
 
-_ACTIVE_PDK = None
-
-
 def get_active_pdk(name: str | None = None) -> Pdk:
     """Returns active PDK.
 
@@ -551,12 +541,7 @@ def get_active_pdk(name: str | None = None) -> Pdk:
             pdk_module.PDK.activate()
 
         else:
-            logger.debug("No active PDK. Activating generic PDK.\n")
-            from gdsfactory.generic_tech import get_generic_pdk
-
-            PDK = get_generic_pdk()
-            PDK.activate()
-            _ACTIVE_PDK = PDK
+            raise ValueError("no active pdk")
     return _ACTIVE_PDK
 
 
@@ -622,6 +607,11 @@ def get_routing_strategies() -> dict[str, Callable]:
 
 
 if __name__ == "__main__":
+    from gdsfactory.generic_tech import get_generic_pdk
+
+    pdk = get_generic_pdk()
+    pdk.activate()
+
     l1 = get_layer((1, 0))
     l2 = get_layer((3, 0))
     print(l1)
