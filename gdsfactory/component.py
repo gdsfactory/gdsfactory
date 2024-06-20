@@ -942,13 +942,11 @@ class ComponentBase:
                         for k, v in connections.items()
                     ]
                 )
-                pos.update({k: (v["x"], v["y"]) for k, v in placements.items()})
-                labels.update(
-                    {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
-                )
+                pos |= {k: (v["x"], v["y"]) for k, v in placements.items()}
+                labels |= {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
 
         else:
-            connections = netlist["connections"]
+            connections = netlist.get("connections", {})
             placements = netlist["placements"]
             G.add_edges_from(
                 [

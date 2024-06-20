@@ -17,8 +17,8 @@ def taper(
     port: Port | None = None,
     with_two_ports: bool = True,
     cross_section: CrossSectionSpec = "strip",
-    port_names: tuple | None = ("o1", "o2"),
-    port_types: tuple | None = ("optical", "optical"),
+    port_names: tuple[str, str] = ("o1", "o2"),
+    port_types: tuple[str, str] = ("optical", "optical"),
     with_bbox: bool = True,
     **kwargs,
 ) -> Component:
@@ -115,8 +115,6 @@ def taper_strip_to_ridge(
 ) -> Component:
     r"""Linear taper from strip to rib.
 
-    Deprecated, use gf.components.taper_cross_section instead.
-
     Args:
         length: taper length (um).
         width1: in um.
@@ -163,7 +161,7 @@ def taper_strip_to_ridge(
     taper_ref_wg = c << taper_wg
     taper_ref_slab = c << taper_slab
 
-    c.info["length"] = float(length)
+    c.info["length"] = length
     c.add_port(name="o1", port=taper_ref_wg.ports["o1"])
     if use_slab_port:
         c.add_port(name="o2", port=taper_ref_slab.ports["o2"])
