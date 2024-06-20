@@ -5,24 +5,15 @@ This module enables conversion between gdsfactory settings and KLayout technolog
 
 import pathlib
 import xml.etree.ElementTree as ET
+from typing import Any
 
-from pydantic import BaseModel, ConfigDict
+import kfactory as kf
+from pydantic import BaseModel, ConfigDict, field_validator
 
 from gdsfactory.config import PATH
 from gdsfactory.technology import LayerStack, LayerViews
 from gdsfactory.technology.xml_utils import make_pretty_xml
-from gdsfactory.typings import PathType
-
-try:
-    import klayout.db as db
-
-    technology = db.Technology()
-except ImportError as e:
-    print("You can install `pip install klayout.")
-    raise e
-
-Layer = tuple[int, int]
-ConductorViaConductorName = tuple[str, str, str]
+from gdsfactory.typings import ConnectivitySpec, PathType
 
 prefix_d25 = """<?xml version="1.0" encoding="utf-8"?>
 <klayout-macro>
@@ -57,15 +48,29 @@ class KLayoutTechnology(BaseModel):
 
     Properties:
         name: technology name.
+        layer_map: Maps names to GDS layer numbers.
         layer_views: Defines all the layer display properties needed for a .lyp file from LayerView objects.
         technology: KLayout Technology object from the KLayout API. Set name, dbu, etc.
         connectivity: List of layer names connectivity for netlist tracing.
     """
 
     name: str
+    layer_map: Any
     layer_views: LayerViews | None = None
     layer_stack: LayerStack | None = None
-    connectivity: list[ConductorViaConductorName] | None = None
+    connectivity: list[ConnectivitySpec] | None = None
+
+    @field_validator("layer_map", mode="before")
+    @classmethod
+    def check_layer_map(
+        cls, layer_map: dict[str, tuple[int, int]] | kf.LayerEnum
+    ) -> dict[str, tuple[int, int]]:
+        if isinstance(layer_map, kf.LayerEnum):
+            return {
+                name: (layer_enum.layer, layer_enum.datatype)
+                for name, layer_enum in layer_map.__members__.items()
+            }
+        return layer_map
 
     def write_tech(
         self,
@@ -85,6 +90,14 @@ class KLayoutTechnology(BaseModel):
             mebes_config: A dictionary specifying the KLayout mebes reader config.
 
         """
+        try:
+            import klayout.db as db
+
+            technology = db.Technology()
+        except ImportError as e:
+            print("You can install `pip install klayout.")
+            raise e
+
         d25_filename = d25_filename or f"{self.name}.lyd25"
 
         tech_path = pathlib.Path(tech_dir)
@@ -119,6 +132,7 @@ class KLayoutTechnology(BaseModel):
                 "boundary-layer": 0,
                 "boundary-datatype": 0,
                 "boundary-name": "BORDER",
+                "layer-map": "layer_map()",
                 "create-other-layers": True,
             }
         mebes = ET.Element("mebes")
@@ -156,14 +170,24 @@ class KLayoutTechnology(BaseModel):
             raise KeyError("Could not get a single index for the src element.")
         src_element = src_element[0]
         layers = set()
-        for layer_name_c1, layer_name_via, layer_name_c2 in self.connectivity:
-            connection = ",".join([layer_name_c1, layer_name_via, layer_name_c2])
+        for first_layer_name, *layer_names in self.connectivity:
+            connection = ",".join(
+                [first_layer_name]
+                + (layer_names if len(layer_names) == 2 else [""] + layer_names)
+            )
 
-            layers.add(layer_name_c1)
-            layers.add(layer_name_via)
-            layers.add(layer_name_c2)
+            for layer_name in layer_names:
+                layers.add(layer_name)
 
             ET.SubElement(src_element, "connection").text = connection
+
+        if self.layer_map:
+            for layer in layers:
+                ET.SubElement(
+                    src_element, "symbols"
+                ).text = (
+                    f"{layer}='{self.layer_map[layer][0]}/{self.layer_map[layer][1]}'"
+                )
 
     model_config = ConfigDict(
         arbitrary_types_allowed=True,
@@ -172,7 +196,7 @@ class KLayoutTechnology(BaseModel):
 
 
 if __name__ == "__main__":
-    from gdsfactory.generic_tech import LAYER_STACK
+    from gdsfactory.generic_tech import LAYER, LAYER_STACK
 
     lyp = LayerViews(PATH.klayout_yaml)
     # lyp = LayerViews.from_lyp(str(PATH.klayout_yaml))
@@ -191,6 +215,7 @@ if __name__ == "__main__":
         name="generic_tech",
         layer_views=lyp,
         connectivity=connectivity,
+        layer_map=LAYER,
         layer_stack=LAYER_STACK,
     )
     tech_dir = PATH.klayout_tech
