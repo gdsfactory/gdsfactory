@@ -7,8 +7,9 @@ import pathlib
 import xml.etree.ElementTree as ET
 from typing import Any
 
-import kfactory as kf
-from pydantic import BaseModel, ConfigDict, field_validator
+import aenum
+import klayout.db as db
+from pydantic import BaseModel, ConfigDict, model_validator
 
 from gdsfactory.config import PATH
 from gdsfactory.technology import LayerStack, LayerViews
@@ -55,22 +56,22 @@ class KLayoutTechnology(BaseModel):
     """
 
     name: str
-    layer_map: Any
+    layer_map: dict[str, tuple[int, int]]
     layer_views: LayerViews | None = None
     layer_stack: LayerStack | None = None
     connectivity: list[ConnectivitySpec] | None = None
 
-    @field_validator("layer_map", mode="before")
+    @model_validator(mode="before")
     @classmethod
-    def check_layer_map(
-        cls, layer_map: dict[str, tuple[int, int]] | kf.LayerEnum
-    ) -> dict[str, tuple[int, int]]:
-        if isinstance(layer_map, kf.LayerEnum):
-            return {
+    def check_layer_map(cls, data: Any) -> Any:
+        layer_map = data.get("layer_map")
+        if isinstance(layer_map, aenum._enum.EnumType):
+            layer_map = {
                 name: (layer_enum.layer, layer_enum.datatype)
                 for name, layer_enum in layer_map.__members__.items()
             }
-        return layer_map
+            data["layer_map"] = layer_map
+        return data
 
     def write_tech(
         self,
@@ -90,16 +91,8 @@ class KLayoutTechnology(BaseModel):
             mebes_config: A dictionary specifying the KLayout mebes reader config.
 
         """
-        try:
-            import klayout.db as db
-
-            technology = db.Technology()
-        except ImportError as e:
-            print("You can install `pip install klayout.")
-            raise e
-
+        technology = db.Technology()
         d25_filename = d25_filename or f"{self.name}.lyd25"
-
         tech_path = pathlib.Path(tech_dir)
         lyp_path = tech_path / lyp_filename
         lyt_path = tech_path / lyt_filename
@@ -144,18 +137,20 @@ class KLayoutTechnology(BaseModel):
         lefdef_idx = list(reader_opts).index(reader_opts.find("lefdef"))
         reader_opts.insert(lefdef_idx + 1, mebes)
 
+        # FIXME
         if self.layer_stack:
-            dbu = len(str(technology.dbu).split(".")[-1])
-            d25_script = (
-                prefix_d25
-                + self.layer_stack.get_klayout_3d_script(
-                    layer_views=self.layer_views,
-                    dbu=dbu,
-                )
-                + suffix_d25
-            )
-            d25_path.write_bytes(d25_script.encode("utf-8"))
-            print(f"Wrote {str(d25_path)!r}")
+            print(d25_path)
+        #     dbu = len(str(technology.dbu).split(".")[-1])
+        #     d25_script = (
+        #         prefix_d25
+        #         + self.layer_stack.get_klayout_3d_script(
+        #             layer_views=self.layer_views,
+        #             dbu=dbu,
+        #         )
+        #         + suffix_d25
+        #     )
+        #     d25_path.write_bytes(d25_script.encode("utf-8"))
+        #     print(f"Wrote {str(d25_path)!r}")
 
         self._define_connections(root)
 
@@ -191,7 +186,6 @@ class KLayoutTechnology(BaseModel):
 
     model_config = ConfigDict(
         arbitrary_types_allowed=True,
-        extra="ignore",
     )
 
 
