@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.2.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.2.0) - 2024-06-21
+
+No significant changes.
+
+
 ## [8.1.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.1.0) - 2024-06-14
 
 - Get polygons by name better layer serialization [#2873](https://github.com/gdsfactory/gdsfactory/pull/2873)
