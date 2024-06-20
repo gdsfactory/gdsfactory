@@ -1,12 +1,24 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.1.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.2.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.2.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.2.0) - 2024-06-21
 
-No significant changes.
-
+- add seal_ring_segmented [#2880](https://github.com/gdsfactory/gdsfactory/pull/2880)
+- make 7to8 migration script more safe by default [#2877](https://github.com/gdsfactory/gdsfactory/pull/2877)
+- Fix klayout tech [#2896](https://github.com/gdsfactory/gdsfactory/pull/2896)
+- Remove gdstk dependency [#2895](https://github.com/gdsfactory/gdsfactory/pull/2895)
+- pin version of kfactory with == [#2890](https://github.com/gdsfactory/gdsfactory/pull/2890)
+- fix get_layer [#2889](https://github.com/gdsfactory/gdsfactory/pull/2889)
+- Fix tests [#2878](https://github.com/gdsfactory/gdsfactory/pull/2878)
+- fix #2869 by adding a 'by' argument to get_polygons and get_polygons_points [#2876](https://github.com/gdsfactory/gdsfactory/pull/2876)
+- Improve docs and from_updk [#2893](https://github.com/gdsfactory/gdsfactory/pull/2893)
+- [pre-commit.ci] pre-commit autoupdate [#2884](https://github.com/gdsfactory/gdsfactory/pull/2884)
+- don't activate generic pdk [#2892](https://github.com/gdsfactory/gdsfactory/pull/2892)
+- remove usage of gdstk in font.py [#2882](https://github.com/gdsfactory/gdsfactory/pull/2882)
+- layer_level_accepts_spec [#2874](https://github.com/gdsfactory/gdsfactory/pull/2874)
+- export/to_gerber: Update for v8 [#2875](https://github.com/gdsfactory/gdsfactory/pull/2875)
 
 ## [8.1.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.1.0) - 2024-06-14
 
