@@ -190,6 +190,9 @@ class KLayoutTechnology(BaseModel):
 
 
 if __name__ == "__main__":
+    import klayout.db as kdb
+
+    from gdsfactory.config import PATH
     from gdsfactory.generic_tech import LAYER, LAYER_STACK
 
     lyp = LayerViews(PATH.klayout_yaml)
@@ -215,3 +218,6 @@ if __name__ == "__main__":
     tech_dir = PATH.klayout_tech
     tech_dir.mkdir(exist_ok=True, parents=True)
     generic_tech.write_tech(tech_dir=tech_dir)
+
+    Tech = kdb.Technology()
+    technology = kdb.Technology.technology_from_xml(str(PATH.klayout_lyt))

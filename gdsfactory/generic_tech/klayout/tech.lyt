@@ -159,11 +159,11 @@
   <connection>PPP,VIAC,M1</connection>
   <connection>M1,VIA1,M2</connection>
   <connection>M2,VIA2,M3</connection>
+  <symbols>VIA2='43/0'</symbols>
+  <symbols>M3='49/0'</symbols>
   <symbols>VIA1='44/0'</symbols>
   <symbols>M2='45/0'</symbols>
-  <symbols>VIA2='43/0'</symbols>
   <symbols>VIAC='40/0'</symbols>
-  <symbols>M3='49/0'</symbols>
   <symbols>M1='41/0'</symbols>
  </connectivity>
 </technology>
