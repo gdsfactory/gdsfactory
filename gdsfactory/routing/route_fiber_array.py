@@ -245,6 +245,11 @@ def route_fiber_array(
     else:
         assert len(grating_indices) == nb_ports_per_line
 
+    ports_not_terminated = []
+    for port in component_to_route.ports:
+        if port.port_type != port_type:
+            ports_not_terminated.append(port)
+
     route_south(
         c,
         component,
@@ -348,11 +353,11 @@ def route_fiber_array(
             del to_route[n0 - dn : n0 + dn]
             fiber_ports = [gc.ports[gc_port_name_fiber] for gc in io_gratings]
 
-    electrical_ports = c.ports.filter(port_type="electrical")
     c.ports = kf.Ports(kcl=c.kcl)
     for i, port in enumerate(fiber_ports):
         c.add_port(name=f"o{i+1}", port=port)
-    c.add_ports(electrical_ports)
+
+    c.add_ports(ports_not_terminated)
 
     if with_loopback:
         ii = [grating_indices[0] - 1, grating_indices[-1] + 1]
