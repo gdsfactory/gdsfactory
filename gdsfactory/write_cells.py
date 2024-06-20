@@ -5,12 +5,10 @@ from __future__ import annotations
 import pathlib
 from pathlib import Path
 
-import gdstk
-
+import gdsfactory as gf
 from gdsfactory import logger
 from gdsfactory.config import PATH
 from gdsfactory.name import clean_name
-from gdsfactory.read.import_gds import import_gds
 from gdsfactory.typings import PathType
 
 script_prefix = """
@@ -101,47 +99,35 @@ def get_import_gds_script(dirpath: PathType, module: str | None = None) -> str:
 
 def write_cells_recursively(
     gdspath: PathType | None = None,
-    unit: float = 1e-6,
-    precision: float = 1e-9,
     dirpath: pathlib.Path | None = None,
 ) -> dict[str, Path]:
     """Write gdstk cells recursively.
 
     Args:
         gdspath: gds file to write cells from.
-        cell: gdstk cell.
-        unit: unit size for objects in library. 1um by default.
-        precision: for library dimensions (m). 1nm by default.
         dirpath: directory for the GDS file to write to.
 
     Returns:
         gdspaths: dict of cell name to gdspath.
     """
-    lib = gdstk.read_gds(gdspath)
+    gf.kcl.read(gdspath)
     dirpath = dirpath or pathlib.Path.cwd()
-    dirpath = pathlib.Path(dirpath)
+    dirpath = pathlib.Path(dirpath).absolute()
     dirpath.mkdir(exist_ok=True, parents=True)
+
     gdspaths = {}
 
-    for cell in lib.cells:
-        gdspath = dirpath / f"{cell.name}.gds"
-
-        lib = gdstk.Library(unit=unit, precision=precision)
-        lib.add(cell)
-        lib.add(*cell.dependencies(True))
-        lib.write_gds(gdspath)
-        logger.info(f"Write {cell.name!r} to {gdspath}")
-
-        gdspaths[cell.name] = gdspath
-
+    for cell_index in gf.kcl.each_cell_bottom_up():
+        component = gf.kcl[cell_index]
+        gdspath = dirpath / f"{component.name}.gds"
+        component.write(gdspath)
+        gdspaths[component.name] = gdspath
     return gdspaths
 
 
 def write_cells(
     gdspath: PathType | None = None,
     dirpath: PathType | None = None,
-    unit: float = 1e-6,
-    precision: float = 1e-9,
 ) -> dict[str, Path]:
     """Writes cells into separate GDS files.
 
@@ -149,43 +135,31 @@ def write_cells(
         gdspath: GDS file to write cells.
         dirpath: directory path to write GDS files to.
             Defaults to current working directory.
-        unit: unit size for objects in library. 1um by default.
-        precision: for object dimensions in the library (m). 1nm by default.
 
     Returns:
         gdspaths: dict of cell name to gdspath.
 
     """
-    cell = gdstk.read_gds(gdspath)
-    top_level_cells = cell.top_level()
-    top_cellnames = [c.name for c in top_level_cells]
+    gf.kcl.read(gdspath)
+    components = [gf.kcl[top_cell.cell_index()] for top_cell in gf.kcl.top_cells()]
 
     dirpath = dirpath or pathlib.Path.cwd()
     dirpath = pathlib.Path(dirpath).absolute()
     dirpath.mkdir(exist_ok=True, parents=True)
 
     gdspaths = {}
-    components = {}
 
-    for cellname in top_cellnames:
-        c = import_gds(gdspath=gdspath, cellname=cellname, unique_names=False)
-        components[cellname] = c
-
-    for component_name, component in components.items():
-        gdspath = dirpath / f"{component_name}.gds"
-        component.write_gds(
-            gdspath,
-            unit=unit,
-            precision=precision,
-        )
-        gdspaths[component_name] = gdspath
+    for component in components:
+        gdspath = dirpath / f"{component.name}.gds"
+        component.write(gdspath)
+        gdspaths[component.name] = gdspath
     return gdspaths
 
 
 def test_write_cells_recursively() -> None:
     gdspath = PATH.gdsdir / "mzi2x2.gds"
     gdspaths = write_cells_recursively(gdspath=gdspath, dirpath="extra/gds")
-    assert len(gdspaths) == 10, len(gdspaths)
+    assert len(gdspaths) == 13, len(gdspaths)
 
 
 def test_write_cells() -> None:
@@ -195,7 +169,7 @@ def test_write_cells() -> None:
 
 
 if __name__ == "__main__":
-    # test_write_cells()
+    test_write_cells()
     test_write_cells_recursively()
     # gdspath = PATH.gdsdir / "alphabet_3top_cells.gds"
     # gdspaths = write_cells(gdspath=gdspath, dirpath="extra/gds", recursively=False)
