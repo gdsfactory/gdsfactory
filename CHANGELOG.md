@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.2.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.2.1) - 2024-06-21
+
+No significant changes.
+
+
 ## [8.2.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.2.0) - 2024-06-21
 
 - add seal_ring_segmented [#2880](https://github.com/gdsfactory/gdsfactory/pull/2880)
