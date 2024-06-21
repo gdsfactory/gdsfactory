@@ -18,6 +18,7 @@ import kfactory as kf
 from kfactory.routing.optical import OpticalManhattanRoute
 
 import gdsfactory as gf
+from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.wire import wire_corner
 from gdsfactory.port import Port
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
@@ -97,6 +98,7 @@ def route_bundle(
     allow_width_mismatch: bool = False,
     radius: float | None = None,
     route_width: float | list[float] | None = None,
+    straight: ComponentSpec = straight_function,
 ) -> list[OpticalManhattanRoute]:
     """Places a bundle of routes to connect two groups of ports.
 
@@ -122,6 +124,7 @@ def route_bundle(
         allow_width_mismatch: allow different port widths.
         radius: bend radius. If None, defaults to cross_section.radius.
         route_width: width of the route. If None, defaults to cross_section.width.
+        straight: function for the straight. Defaults to straight.
 
 
     .. plot::
@@ -187,7 +190,8 @@ def route_bundle(
     def straight_dbu(
         length: int, width: int = width_dbu, cross_section=cross_section
     ) -> Component:
-        return gf.c.straight(
+        return gf.get_component(
+            straight,
             length=length * component.kcl.dbu,
             width=width * component.kcl.dbu,
             cross_section=cross_section,
