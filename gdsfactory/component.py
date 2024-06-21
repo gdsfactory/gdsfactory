@@ -926,6 +926,8 @@ class ComponentBase:
         import matplotlib.pyplot as plt
         import networkx as nx
 
+        from gdsfactory.get_netlist import _nets_to_connections
+
         plt.figure()
         netlist = self.get_netlist(recursive=recursive, **kwargs)
         G = nx.Graph()
@@ -934,7 +936,9 @@ class ComponentBase:
             pos = {}
             labels = {}
             for net in netlist.values():
-                connections = net["connections"]
+                nets = net.get("nets", [])
+                connections = net.get("connections", {})
+                connections = _nets_to_connections(nets, connections)
                 placements = net["placements"]
                 G.add_edges_from(
                     [
@@ -946,7 +950,9 @@ class ComponentBase:
                 labels |= {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
 
         else:
+            nets = netlist.get("nets", [])
             connections = netlist.get("connections", {})
+            connections = _nets_to_connections(nets, connections)
             placements = netlist["placements"]
             G.add_edges_from(
                 [
@@ -1166,15 +1172,17 @@ def component_with_function(
 
 
 if __name__ == "__main__":
+    import matplotlib.pyplot as plt
+
     import gdsfactory as gf
 
-    c = gf.Component()
-    b = c << gf.c.bend_circular()
-    s = c << gf.c.straight()
-    s.connect("o1", b.ports["o2"])
-    p = c.get_polygons()
-    p1 = c.get_polygons(by="name")
-    # c = gf.c.mzi()
+    # c = gf.Component()
+    # b = c << gf.c.bend_circular()
+    # s = c << gf.c.straight()
+    # s.connect("o1", b.ports["o2"])
+    # p = c.get_polygons()
+    # p1 = c.get_polygons(by="name")
+    c = gf.c.mzi_lattice()
     # c = gf.c.array(spacing=(300, 300), columns=2)
     # c.show()
     # n0 = c.get_netlist()
@@ -1183,6 +1191,8 @@ if __name__ == "__main__":
     # gdspath = c.write_gds("test.gds")
     # c = gf.import_gds(gdspath)
     # n = c.get_netlist()
+    c.plot_netlist(recursive=True)
+    plt.show()
     c.show()
     # import matplotlib.pyplot as plt
 
