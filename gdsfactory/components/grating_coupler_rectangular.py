@@ -90,7 +90,7 @@ def grating_coupler_rectangular(
     )
 
     c.add_port(port=taper_ref.ports["o1"], name="o1")
-    x0 = taper_ref.dxmax
+    x0 = length_taper
 
     for i in range(n_periods):
         xsize = gf.snap.snap_to_grid(period * fill_factor)

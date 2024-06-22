@@ -62,6 +62,7 @@ def extend_ports(
     centered: bool = False,
     cross_section: CrossSectionSpec | None = None,
     extension_port_names: list[str] | None = None,
+    allow_width_mismatch: bool = False,
     **kwargs,
 ) -> Component:
     """Returns a new component with some ports extended.
@@ -81,6 +82,7 @@ def extend_ports(
         cross_section: extension cross_section, defaults to port cross_section
             if port has no cross_section it creates one using width and layer.
         extension_port_names: extension port names add to the new component.
+        allow_width_mismatch: allow width mismatches.
         kwargs: cross_section settings.
 
     Keyword Args:
@@ -140,7 +142,9 @@ def extend_ports(
             port2 = port2 or port_labels[-1]
 
             extension_ref = c << extension_component
-            extension_ref.connect(port1, port)
+            extension_ref.connect(
+                port1, port, allow_width_mismatch=allow_width_mismatch
+            )
             c.add_port(port_name, port=extension_ref.ports[port2])
             extension_port_names = extension_port_names or []
             [
