@@ -79,27 +79,23 @@ instances:
       p: 0.5
       width: 0.55
       with_arc_floorplan: true
-  coupler_G0p2_L5_CScoupl_c7641791_1500_22400:
+  coupler_G0p2_L5_D2_D10_CSstrip_1500_22400:
     component: coupler
     info:
       length: 10.03
       min_bend_radius: 28.187
     settings:
-      coupler_straight: coupler_straight
-      coupler_symmetric: coupler_symmetric
       cross_section: strip
       dx: 10
       dy: 2
       gap: 0.2
       length: 5
-  coupler_G0p3_L10_CScoup_576fe01d_5000_400:
+  coupler_G0p3_L10_D2_D10_CSstrip_5000_400:
     component: coupler
     info:
       length: 10.026
       min_bend_radius: 30.486
     settings:
-      coupler_straight: coupler_straight
-      coupler_symmetric: coupler_symmetric
       cross_section: strip
       dx: 10
       dy: 2
@@ -305,13 +301,13 @@ nets:
   p2: straight_L3_N2_CSstrip_W0p55_26500_-600,o2
 - p1: bend_euler_RNone_A90_P0_903f8d22_33137_4262,o2
   p2: straight_L4_N2_CSstrip_W0p55_38000_11400,o1
-- p1: coupler_G0p2_L5_CScoupl_c7641791_1500_22400,o3
+- p1: coupler_G0p2_L5_D2_D10_CSstrip_1500_22400,o3
   p2: taper_L5_W0p45_W0p5_PNo_4080dc7e_16500_23400,o2
-- p1: coupler_G0p2_L5_CScoupl_c7641791_1500_22400,o4
+- p1: coupler_G0p2_L5_D2_D10_CSstrip_1500_22400,o4
   p2: taper_L5_W0p55_W0p5_PNo_438ce168_16500_21400,o2
-- p1: coupler_G0p3_L10_CScoup_576fe01d_5000_400,o3
+- p1: coupler_G0p3_L10_D2_D10_CSstrip_5000_400,o3
   p2: taper_L5_W0p5_W0p45_PNo_b650d75a_22500_1400,o1
-- p1: coupler_G0p3_L10_CScoup_576fe01d_5000_400,o4
+- p1: coupler_G0p3_L10_D2_D10_CSstrip_5000_400,o4
   p2: taper_L5_W0p5_W0p55_PNo_839c49ab_22500_-600,o1
 - p1: straight_L1_N2_CSstrip_W0p45_19500_23400,o1
   p2: taper_L5_W0p55_W0p45_PN_df1360bc_22500_23400,o2
@@ -346,12 +342,12 @@ placements:
     rotation: 0
     x: 28
     y: -0.6
-  coupler_G0p2_L5_CScoupl_c7641791_1500_22400:
+  coupler_G0p2_L5_D2_D10_CSstrip_1500_22400:
     mirror: false
     rotation: 0
     x: -1
     y: 22.05
-  coupler_G0p3_L10_CScoup_576fe01d_5000_400:
+  coupler_G0p3_L10_D2_D10_CSstrip_5000_400:
     mirror: false
     rotation: 0
     x: 0
@@ -412,7 +408,7 @@ placements:
     x: 20
     y: -0.6
 ports:
-  o1: coupler_G0p3_L10_CScoup_576fe01d_5000_400,o1
-  o2: coupler_G0p3_L10_CScoup_576fe01d_5000_400,o2
-  o3: coupler_G0p2_L5_CScoupl_c7641791_1500_22400,o1
-  o4: coupler_G0p2_L5_CScoupl_c7641791_1500_22400,o2
+  o1: coupler_G0p3_L10_D2_D10_CSstrip_5000_400,o1
+  o2: coupler_G0p3_L10_D2_D10_CSstrip_5000_400,o2
+  o3: coupler_G0p2_L5_D2_D10_CSstrip_1500_22400,o1
+  o4: coupler_G0p2_L5_D2_D10_CSstrip_1500_22400,o2

@@ -159,37 +159,7 @@ instances:
       p: 0.5
       radius: 5
       with_arc_floorplan: true
-  extend_ports_Cstraight__609d0274_1_36000_0:
-    component: null
-    info:
-      length: 72
-      route_info_length: 72
-      route_info_type: xs_580e4910
-      route_info_weight: 72
-      route_info_xs_580e4910_length: 72
-      width: 0.8
-    settings:
-      centered: false
-      component: straight_L72_N2_CSxs_580e4910
-      extension: Ftaper_cross_section_Mgdsfactorypcomponentsptaper_cross_section_SLTrue_N2_CSxs_580e4910_CSstrip_L10
-      length: 5
-      port_type: optical
-  extend_ports_Cstraight__609d0274_3_36000_6000:
-    component: null
-    info:
-      length: 72
-      route_info_length: 72
-      route_info_type: xs_580e4910
-      route_info_weight: 72
-      route_info_xs_580e4910_length: 72
-      width: 0.8
-    settings:
-      centered: false
-      component: straight_L72_N2_CSxs_580e4910
-      extension: Ftaper_cross_section_Mgdsfactorypcomponentsptaper_cross_section_SLTrue_N2_CSxs_580e4910_CSstrip_L10
-      length: 5
-      port_type: optical
-  extend_ports_Cstraight__f0fcd7a2_2_36000_4000:
+  extend_ports_Cstraight__584ce7f6_2_36000_4000:
     component: null
     info:
       length: 72
@@ -199,9 +169,42 @@ instances:
       route_info_xs_ddaa044f_length: 72
       width: 0.9
     settings:
+      allow_width_mismatch: false
       centered: false
       component: straight_L72_N2_CSxs_ddaa044f
       extension: Ftaper_cross_section_Mgdsfactorypcomponentsptaper_cross_section_SLTrue_N2_CSxs_ddaa044f_CSstrip_L10
+      length: 5
+      port_type: optical
+  extend_ports_Cstraight__ecbbb66b_1_36000_0:
+    component: null
+    info:
+      length: 72
+      route_info_length: 72
+      route_info_type: xs_580e4910
+      route_info_weight: 72
+      route_info_xs_580e4910_length: 72
+      width: 0.8
+    settings:
+      allow_width_mismatch: false
+      centered: false
+      component: straight_L72_N2_CSxs_580e4910
+      extension: Ftaper_cross_section_Mgdsfactorypcomponentsptaper_cross_section_SLTrue_N2_CSxs_580e4910_CSstrip_L10
+      length: 5
+      port_type: optical
+  extend_ports_Cstraight__ecbbb66b_3_36000_6000:
+    component: null
+    info:
+      length: 72
+      route_info_length: 72
+      route_info_type: xs_580e4910
+      route_info_weight: 72
+      route_info_xs_580e4910_length: 72
+      width: 0.8
+    settings:
+      allow_width_mismatch: false
+      centered: false
+      component: straight_L72_N2_CSxs_580e4910
+      extension: Ftaper_cross_section_Mgdsfactorypcomponentsptaper_cross_section_SLTrue_N2_CSxs_580e4910_CSstrip_L10
       length: 5
       port_type: optical
   straight_L10_N2_CSstrip_W0p5_-22500_4000:
@@ -378,7 +381,7 @@ nets:
 - p1: bend_euler_R5_A90_P0p5__c7bd5c45_84625_-2375,o1
   p2: bend_euler_R5_A90_P0p5__c7bd5c45_89375_-7625,o2
 - p1: bend_euler_R5_A90_P0p5__c7bd5c45_84625_-2375,o2
-  p2: extend_ports_Cstraight__609d0274_1_36000_0,o2
+  p2: extend_ports_Cstraight__ecbbb66b_1_36000_0,o2
 - p1: bend_euler_R5_A90_P0p5__c7bd5c45_89375_-7625,o1
   p2: bend_euler_R5_A90_P0p5__c7bd5c45_94625_-7625,o2
 - p1: bend_euler_R5_A90_P0p5__c7bd5c45_94625_-7625,o1
@@ -387,16 +390,16 @@ nets:
   p2: straight_L10_N2_CSstrip_W0p5_87000_4000,o1
 - p1: bend_euler_R5_A90_P0p5__c7bd5c45_94625_1625,o2
   p2: straight_L4_N2_CSstrip_W0p5_97000_-3000,o1
-- p1: extend_ports_Cstraight__609d0274_1_36000_0,o1
-  p2: straight_L15_N2_CSstrip_-17500_0,o2
-- p1: extend_ports_Cstraight__609d0274_3_36000_6000,o1
-  p2: straight_L7p5_N2_CSstrip_-13750_6000,o1
-- p1: extend_ports_Cstraight__609d0274_3_36000_6000,o2
-  p2: straight_L15_N2_CSstrip_89500_6000,o1
-- p1: extend_ports_Cstraight__f0fcd7a2_2_36000_4000,o1
+- p1: extend_ports_Cstraight__584ce7f6_2_36000_4000,o1
   p2: straight_L7p5_N2_CSstrip_-13750_4000,o1
-- p1: extend_ports_Cstraight__f0fcd7a2_2_36000_4000,o2
+- p1: extend_ports_Cstraight__584ce7f6_2_36000_4000,o2
   p2: straight_L10_N2_CSstrip_W0p5_87000_4000,o2
+- p1: extend_ports_Cstraight__ecbbb66b_1_36000_0,o1
+  p2: straight_L15_N2_CSstrip_-17500_0,o2
+- p1: extend_ports_Cstraight__ecbbb66b_3_36000_6000,o1
+  p2: straight_L7p5_N2_CSstrip_-13750_6000,o1
+- p1: extend_ports_Cstraight__ecbbb66b_3_36000_6000,o2
+  p2: straight_L15_N2_CSstrip_89500_6000,o1
 - p1: straight_L10_N2_CSstrip_W0p5_-22500_4000,o2
   p2: straight_L7p5_N2_CSstrip_-13750_4000,o2
 - p1: straight_L92_N2_CSFcros_f84eb86c_46000_2000,e1
@@ -444,21 +447,21 @@ placements:
     rotation: 0
     x: 92
     y: 4
-  extend_ports_Cstraight__609d0274_1_36000_0:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 0
-  extend_ports_Cstraight__609d0274_3_36000_6000:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 6
-  extend_ports_Cstraight__f0fcd7a2_2_36000_4000:
+  extend_ports_Cstraight__584ce7f6_2_36000_4000:
     mirror: false
     rotation: 0
     x: 0
     y: 4
+  extend_ports_Cstraight__ecbbb66b_1_36000_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  extend_ports_Cstraight__ecbbb66b_3_36000_6000:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 6
   straight_L10_N2_CSstrip_W0p5_-22500_4000:
     mirror: true
     rotation: 0

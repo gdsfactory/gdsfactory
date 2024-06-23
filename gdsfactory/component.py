@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pathlib
 import warnings
-from collections.abc import Iterable, Iterator
+from collections.abc import Callable, Iterable, Iterator
 from typing import TYPE_CHECKING, Any, Literal
 
 import kfactory as kf
@@ -21,6 +21,7 @@ from gdsfactory.serialization import clean_value_json
 if TYPE_CHECKING:
     from gdsfactory.typings import (
         CrossSection,
+        CrossSectionSpec,
         Layer,
         LayerSpec,
         LayerStack,
@@ -233,7 +234,7 @@ class ComponentBase:
         layer: LayerSpec | None = None,
         port_type: str = "optical",
         keep_mirror: bool = False,
-        cross_section: CrossSection | None = None,
+        cross_section: CrossSectionSpec | None = None,
     ) -> kf.Port:
         """Adds a Port to the Component.
 
@@ -926,6 +927,8 @@ class ComponentBase:
         import matplotlib.pyplot as plt
         import networkx as nx
 
+        from gdsfactory.get_netlist import _nets_to_connections
+
         plt.figure()
         netlist = self.get_netlist(recursive=recursive, **kwargs)
         G = nx.Graph()
@@ -934,7 +937,9 @@ class ComponentBase:
             pos = {}
             labels = {}
             for net in netlist.values():
-                connections = net["connections"]
+                nets = net.get("nets", [])
+                connections = net.get("connections", {})
+                connections = _nets_to_connections(nets, connections)
                 placements = net["placements"]
                 G.add_edges_from(
                     [
@@ -942,13 +947,13 @@ class ComponentBase:
                         for k, v in connections.items()
                     ]
                 )
-                pos.update({k: (v["x"], v["y"]) for k, v in placements.items()})
-                labels.update(
-                    {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
-                )
+                pos |= {k: (v["x"], v["y"]) for k, v in placements.items()}
+                labels |= {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
 
         else:
-            connections = netlist["connections"]
+            nets = netlist.get("nets", [])
+            connections = netlist.get("connections", {})
+            connections = _nets_to_connections(nets, connections)
             placements = netlist["placements"]
             G.add_edges_from(
                 [
@@ -1123,7 +1128,6 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):
         c.plot(**kwargs)
 
 
-@kf.cell
 def container(component, function, **kwargs) -> Component:
     """Returns new component with a component reference.
 
@@ -1143,16 +1147,43 @@ def container(component, function, **kwargs) -> Component:
     return c
 
 
-if __name__ == "__main__":
+def component_with_function(
+    component,
+    function: Callable[..., None] | None = None,
+    **kwargs,
+) -> gf.Component:
+    """Returns new component with a component reference.
+
+    Args:
+        component: to add to container.
+        function: function to apply to component.
+        kwargs: keyword arguments to pass to component.
+    """
     import gdsfactory as gf
 
-    c = gf.Component()
-    b = c << gf.c.bend_circular()
-    s = c << gf.c.straight()
-    s.connect("o1", b.ports["o2"])
-    p = c.get_polygons()
-    p1 = c.get_polygons(by="name")
-    # c = gf.c.mzi()
+    component = gf.get_component(component, **kwargs)
+    c = Component()
+    cref = c << component
+    c.add_ports(cref.ports)
+
+    if function:
+        function(c)
+    c.copy_child_info(component)
+    return c
+
+
+if __name__ == "__main__":
+    import matplotlib.pyplot as plt
+
+    import gdsfactory as gf
+
+    # c = gf.Component()
+    # b = c << gf.c.bend_circular()
+    # s = c << gf.c.straight()
+    # s.connect("o1", b.ports["o2"])
+    # p = c.get_polygons()
+    # p1 = c.get_polygons(by="name")
+    c = gf.c.mzi_lattice()
     # c = gf.c.array(spacing=(300, 300), columns=2)
     # c.show()
     # n0 = c.get_netlist()
@@ -1161,6 +1192,8 @@ if __name__ == "__main__":
     # gdspath = c.write_gds("test.gds")
     # c = gf.import_gds(gdspath)
     # n = c.get_netlist()
+    c.plot_netlist(recursive=True)
+    plt.show()
     c.show()
     # import matplotlib.pyplot as plt
 

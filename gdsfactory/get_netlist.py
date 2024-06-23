@@ -1,3 +1,4 @@
+# type: ignore
 """Extract netlist from component port connectivity.
 
 Assumes two ports are connected when they have same width, x, y
@@ -30,6 +31,39 @@ from gdsfactory.component import Component, ComponentReference
 from gdsfactory.name import clean_name
 from gdsfactory.serialization import clean_dict, clean_value_json
 from gdsfactory.typings import LayerSpec
+
+
+def _nets_to_connections(nets: list[dict], connections: dict) -> dict[str, str]:
+    connections = dict(connections)
+    inverse_connections = {v: k for k, v in connections.items()}
+
+    def _is_connected(p):
+        return (p in connections) or (p in inverse_connections)
+
+    def _add_connection(p, q):
+        connections[p] = q
+        inverse_connections[q] = p
+
+    def _get_connected_port(p):
+        return connections[p] if p in connections else inverse_connections[p]
+
+    for net in nets:
+        p = net["p1"]
+        q = net["p2"]
+        if _is_connected(p):
+            _q = _get_connected_port(p)
+            raise ValueError(
+                "SAX currently does not support multiply connected ports. "
+                f"Got {p}<->{q} and {p}<->{_q}"
+            )
+        if _is_connected(q):
+            _p = _get_connected_port(q)
+            raise ValueError(
+                "SAX currently does not support multiply connected ports. "
+                f"Got {p}<->{q} and {_p}<->{q}"
+            )
+        _add_connection(p, q)
+    return connections
 
 
 def get_default_connection_validators():

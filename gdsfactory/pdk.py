@@ -18,6 +18,7 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from gdsfactory import logger
 from gdsfactory.config import CONF
+from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
 from gdsfactory.symbols import floorplan_with_block_letters
 from gdsfactory.technology import LayerStack, LayerViews, klayout_tech
@@ -38,6 +39,7 @@ from gdsfactory.typings import (
     Transition,
 )
 
+_ACTIVE_PDK = None
 component_settings = ["function", "component", "settings"]
 cross_section_settings = ["function", "cross_section", "settings"]
 
@@ -157,7 +159,7 @@ class Pdk(BaseModel):
     layers: type[LayerEnum] | None = None
     layer_stack: LayerStack | None = None
     layer_views: LayerViews | None = None
-    layer_transitions: dict[Layer | tuple[Layer, Layer], ComponentSpec] = Field(
+    layer_transitions: dict[LayerSpec | tuple[Layer, Layer], ComponentSpec] = Field(
         default_factory=dict
     )
     constants: dict[str, Any] = constants
@@ -174,10 +176,6 @@ class Pdk(BaseModel):
 
     def activate(self) -> None:
         """Set current pdk to the active pdk (if not already active)."""
-        global _ACTIVE_PDK
-        if self is _ACTIVE_PDK:
-            return None
-
         logger.debug(f"{self.name!r} PDK is now active")
 
         for pdk in self.base_pdks:
@@ -187,10 +185,6 @@ class Pdk(BaseModel):
             self.cross_sections = cross_sections
             cells.update(self.cells)
             self.cells.update(cells)
-
-            # layers = pdk.layers
-            # layers.update(self.layers)
-            # self.layers.update(layers)
 
         _set_active_pdk(self)
 
@@ -408,7 +402,7 @@ class Pdk(BaseModel):
                 raise ValueError(f"{layer!r} not in {self.layers}")
             return getattr(self.layers, layer)
         elif isinstance(layer, int):
-            return kf.kcl.layers(layer)
+            return layer
         elif layer is np.nan:
             return np.nan
         else:
@@ -534,9 +528,6 @@ class Pdk(BaseModel):
             ) from e
 
 
-_ACTIVE_PDK = None
-
-
 def get_active_pdk(name: str | None = None) -> Pdk:
     """Returns active PDK.
 
@@ -546,17 +537,15 @@ def get_active_pdk(name: str | None = None) -> Pdk:
     global _ACTIVE_PDK
 
     if _ACTIVE_PDK is None:
-        if name is not None or CONF.pdk:
+        name = name or CONF.pdk
+        if name == "generic":
+            return get_generic_pdk()
+        elif name:
             pdk_module = importlib.import_module(name or CONF.pdk)
             pdk_module.PDK.activate()
 
         else:
-            logger.debug("No active PDK. Activating generic PDK.\n")
-            from gdsfactory.generic_tech import get_generic_pdk
-
-            PDK = get_generic_pdk()
-            PDK.activate()
-            _ACTIVE_PDK = PDK
+            raise ValueError("no active pdk")
     return _ACTIVE_PDK
 
 

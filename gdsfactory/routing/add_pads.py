@@ -28,7 +28,7 @@ def add_pads_bot(
     pad_spacing: float | str = "pad_spacing",
     optical_routing_type: int | None = 1,
     taper: ComponentSpec | None = None,
-    port_type="electrical",
+    port_type: str = "electrical",
     allow_width_mismatch: bool = True,
     fanout_length: float | None = 80,
     route_width: float | list[float] | None = 0,
@@ -218,8 +218,9 @@ if __name__ == "__main__":
     c = gf.components.straight_heater_metal(length=100.0)
     # c = gf.components.straight(length=100.0)
     c = gf.routing.add_pads_top(component=c, port_names=("l_e1",))
-    c.pprint_ports()
+    c = gf.routing.add_fiber_array(c)
     c.show()
+    # c.show()
 
     # cc = add_pads_top(component=c, port_names=("e1",))
     # cc = add_pads_top(component=c, port_names=("e1", "e2"), fanout_length=50)

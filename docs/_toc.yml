@@ -14,6 +14,7 @@ parts:
           - file: notebooks/_0_python
           - file: notebooks/_1_git
           - file: workflow
+          - file: notebooks/12_config
       - file: layout
         sections:
           - file: notebooks/00_geometry
@@ -38,7 +39,6 @@ parts:
           - file: notebooks/08_pdk
           - file: notebooks/03_layer_stack
           - file: notebooks/09_pdk_import
-          - file: notebooks/12_config
       - file: migration
         sections:
           - file: notebooks/21_migration_guide_7_8

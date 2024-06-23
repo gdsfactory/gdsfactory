@@ -2,21 +2,15 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.coupler_straight import (
-    coupler_straight as coupler_straight_function,
-)
-from gdsfactory.components.coupler_symmetric import (
-    coupler_symmetric as coupler_symmetric_function,
-)
-from gdsfactory.typings import ComponentFactory, CrossSectionSpec
+from gdsfactory.components.coupler_straight import coupler_straight
+from gdsfactory.components.coupler_symmetric import coupler_symmetric
+from gdsfactory.typings import CrossSectionSpec
 
 
 @gf.cell
 def coupler(
     gap: float = 0.236,
     length: float = 20.0,
-    coupler_symmetric: ComponentFactory = coupler_symmetric_function,
-    coupler_straight: ComponentFactory = coupler_straight_function,
     dy: float = 4.0,
     dx: float = 10.0,
     cross_section: CrossSectionSpec = "strip",
@@ -26,8 +20,6 @@ def coupler(
     Args:
         gap: between straights in um.
         length: of coupling region in um.
-        coupler_symmetric: spec for bend coupler.
-        coupler_straight: spec for straight coupler.
         dy: port to port vertical spacing in um.
         dx: length of bend in x direction in um.
         cross_section: spec (CrossSection, string or dict).
@@ -52,15 +44,11 @@ def coupler(
     # gap = gf.snap.snap_to_grid2x(gap)
     c = Component()
 
-    sbend = gf.get_component(
-        coupler_symmetric, gap=gap, dy=dy, dx=dx, cross_section=cross_section
-    )
+    sbend = coupler_symmetric(gap=gap, dy=dy, dx=dx, cross_section=cross_section)
 
     sr = c << sbend
     sl = c << sbend
-    cs = c << gf.get_component(
-        coupler_straight, length=length, gap=gap, cross_section=cross_section
-    )
+    cs = c << coupler_straight(length=length, gap=gap, cross_section=cross_section)
     sl.connect("o2", other=cs.ports["o1"])
     sr.connect("o1", other=cs.ports["o4"])
 

@@ -1,25 +1,14 @@
-function: via_stack_corner45
 info:
   layer: MTOP
-module: gdsfactory.components.via_stack
-name: via_stack_corner45
+name: via_stack_corner45_W10__239d9688
 settings:
   correct_size: true
-  layer_offsets: null
-  layer_port: null
   layers:
   - M1
   - M2
   - MTOP
   vias:
-  - function: via
-    module: gdsfactory.components.via
-    settings:
-      enclosure: 2
-      layer: VIA1
-  - function: via
-    module: gdsfactory.components.via
-    settings:
-      layer: VIA2
+  - via1
+  - via2
   - null
   width: 10

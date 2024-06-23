@@ -13,7 +13,6 @@ classifiers = [
   "Operating System :: OS Independent"
 ]
 dependencies = [
-  "gdstk>=0.9.49,<0.10",
   "jinja2<4",
   "loguru<1",
   "matplotlib<4",
@@ -34,7 +33,7 @@ dependencies = [
   "types-PyYAML",
   "typer<1",
   "watchdog<5",
-  "kfactory[git,ipy]~=0.17.4",
+  "kfactory[git,ipy]==0.17.4",
   "freetype-py",
   "mapbox_earcut",
   "networkx",
@@ -48,7 +47,7 @@ license = {file = "LICENSE"}
 name = "gdsfactory"
 readme = "README.md"
 requires-python = ">=3.10"
-version = "8.1.0"
+version = "8.2.3"
 
 [project.optional-dependencies]
 cad = [
@@ -73,7 +72,7 @@ docs = [
   "Sphinx==7.3.7"
 ]
 full = [
-  "gplugins[devsim,femwell,gmsh,meow,sax,schematic,tidy3d,vlsir]"
+  "gplugins[devsim,femwell,gmsh,meow,sax,schematic,tidy3d,vlsir]>=1,<2"
 ]
 maintainer = [
   "ruff",
@@ -214,7 +213,7 @@ message_template = "Bump to {new_version}"
 tag_template = "v{new_version}"
 
 [tool.tbump.version]
-current = "8.1.0"
+current = "8.2.3"
 regex = '''
   (?P<major>\d+)
   \.
