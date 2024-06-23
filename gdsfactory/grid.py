@@ -134,9 +134,9 @@ def grid_with_text(
         c.plot()
 
     """
-    c = [gf.get_component(component) for component in components]
-    text_offsets = text_offsets or [(0, 0)] * len(c)
-    text_anchors = text_anchors or ["center"] * len(c)
+    components = [gf.get_component(component) for component in components]
+    text_offsets = text_offsets or [(0, 0)] * len(components)
+    text_anchors = text_anchors or ["center"] * len(components)
     c = gf.Component()
     instances = kf.grid(
         c,

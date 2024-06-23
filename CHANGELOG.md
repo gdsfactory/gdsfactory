@@ -1,21 +1,11 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.2.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.2.3...main)
 
 <!-- towncrier release notes start -->
 
-## [8.2.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.2.3) - 2024-06-21
-
-No significant changes.
-
-
-## [8.2.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.2.2) - 2024-06-21
-
-No significant changes.
-
-
 ## [8.2.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.2.1) - 2024-06-21
 
-No significant changes.
+- fix plot_netlist [#2900](https://github.com/gdsfactory/gdsfactory/pull/2900)
 
 
 ## [8.2.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.2.0) - 2024-06-21

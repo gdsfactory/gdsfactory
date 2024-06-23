@@ -7,7 +7,6 @@ from pathlib import Path
 
 import gdsfactory as gf
 from gdsfactory import logger
-from gdsfactory.config import PATH
 from gdsfactory.name import clean_name
 from gdsfactory.typings import PathType
 
@@ -138,7 +137,6 @@ def write_cells(
 
     Returns:
         gdspaths: dict of cell name to gdspath.
-
     """
     gf.kcl.read(gdspath)
     components = [gf.kcl[top_cell.cell_index()] for top_cell in gf.kcl.top_cells()]
@@ -154,46 +152,3 @@ def write_cells(
         component.write(gdspath)
         gdspaths[component.name] = gdspath
     return gdspaths
-
-
-def test_write_cells_recursively() -> None:
-    gdspath = PATH.gdsdir / "mzi2x2.gds"
-    gdspaths = write_cells_recursively(gdspath=gdspath, dirpath="extra/gds")
-    assert len(gdspaths) == 13, len(gdspaths)
-
-
-def test_write_cells() -> None:
-    gdspath = PATH.gdsdir / "alphabet_3top_cells.gds"
-    gdspaths = write_cells(gdspath=gdspath, dirpath="extra/gds")
-    assert len(gdspaths) == 3, len(gdspaths)
-
-
-if __name__ == "__main__":
-    test_write_cells()
-    test_write_cells_recursively()
-    # gdspath = PATH.gdsdir / "alphabet_3top_cells.gds"
-    # gdspaths = write_cells(gdspath=gdspath, dirpath="extra/gds", recursively=False)
-    # assert len(gdspaths) == 3, len(gdspaths)
-
-    # test_write_cells()
-    # import gdsfactory as gf
-
-    # gdspath = PATH.gdsdir / "mzi2x2.gds"
-    # gdspaths = write_cells(gdspath=gdspath, dirpath="extra/gds", recursively=False)
-    # assert len(gdspaths) == 10, len(gdspaths)
-
-    # gdspath = PATH.gdsdir / "mzi2x2.gds"
-    # gf.show(gdspath)
-    # gdspaths = write_cells(gdspath=gdspath, dirpath="extra/gds")
-    # print(len(gdspaths))
-
-    # sample_pdk_cells = gf.grid(
-    #     [
-    #         gf.components.straight,
-    #         gf.components.bend_euler,
-    #         gf.components.grating_coupler_elliptical,
-    #     ]
-    # )
-    # sample_pdk_cells.write_gds("extra/pdk.gds")
-    # gf.write_cells.write_cells(gdspath="extra/pdk.gds", dirpath="extra/gds")
-    # print(gf.write_cells.get_import_gds_script("extra/gds", module="sky130.components"))

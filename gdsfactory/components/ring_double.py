@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.components.coupler_ring import coupler_ring
 from gdsfactory.components.straight import straight
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
@@ -12,7 +13,7 @@ def ring_double(
     radius: float = 10.0,
     length_x: float = 0.01,
     length_y: float = 0.01,
-    coupler_ring: ComponentSpec = "coupler_ring",
+    coupler_ring: ComponentSpec = coupler_ring,
     bend: ComponentSpec = "bend_euler",
     cross_section: CrossSectionSpec = "strip",
 ) -> Component:

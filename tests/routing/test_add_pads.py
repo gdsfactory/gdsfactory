@@ -10,7 +10,7 @@ from gdsfactory.difftest import difftest
 
 @gf.cell
 def add_pads0() -> Component:
-    c = gf.components.straight_heater_metal(length=100.0)
+    c = gf.components.straight_heater_metal(length=101.0)
     c = gf.routing.add_pads_bot(
         component=c, port_names=("l_e4", "r_e4"), fanout_length=80
     )

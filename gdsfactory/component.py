@@ -21,6 +21,7 @@ from gdsfactory.serialization import clean_value_json
 if TYPE_CHECKING:
     from gdsfactory.typings import (
         CrossSection,
+        CrossSectionSpec,
         Layer,
         LayerSpec,
         LayerStack,
@@ -233,7 +234,7 @@ class ComponentBase:
         layer: LayerSpec | None = None,
         port_type: str = "optical",
         keep_mirror: bool = False,
-        cross_section: CrossSection | None = None,
+        cross_section: CrossSectionSpec | None = None,
     ) -> kf.Port:
         """Adds a Port to the Component.
 

@@ -28,7 +28,7 @@ def add_pads_bot(
     pad_spacing: float | str = "pad_spacing",
     optical_routing_type: int | None = 1,
     taper: ComponentSpec | None = None,
-    port_type="electrical",
+    port_type: str = "electrical",
     allow_width_mismatch: bool = True,
     fanout_length: float | None = 80,
     route_width: float | list[float] | None = 0,
