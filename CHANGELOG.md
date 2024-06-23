@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.3.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.3.0) - 2024-06-23
+
+No significant changes.
+
+
 ## [8.3.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.2.1) - 2024-06-21
 
 - Fix dicing_lane [#2904](https://github.com/gdsfactory/gdsfactory/pull/2904)
