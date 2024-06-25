@@ -30,7 +30,7 @@ def route_single_sbend(
         c = gf.Component()
         mmi1 = c << gf.components.mmi1x2()
         mmi2 = c << gf.components.mmi1x2()
-        mmi2.movex(50)
+        mmi2.dmovex(50)
         mmi2.dmovey(5)
         route = gf.routing.route_single_sbend(c, mmi1.ports['o2'], mmi2.ports['o1'])
         c.plot()

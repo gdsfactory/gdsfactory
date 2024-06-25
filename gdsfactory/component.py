@@ -76,6 +76,7 @@ boolean_operations = {
     "xor": boolean_xor,
     "&": boolean_and,
     "and": boolean_and,
+    "A-B": boolean_not,
 }
 
 
