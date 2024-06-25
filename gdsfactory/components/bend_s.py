@@ -9,6 +9,13 @@ from gdsfactory.components.bezier import bezier, bezier_curve
 from gdsfactory.functions import curvature
 from gdsfactory.typings import CrossSectionSpec
 
+branch_coverage = {
+    "if_branch_200" : False,
+    "elif_branch_201": False,
+    "else_branch_202": False,
+    "if_branch_203": False
+}
+
 
 @cell
 def bend_s(
@@ -44,6 +51,10 @@ def bend_s(
         **kwargs,
     )
 
+def print_coverage():
+    print("Coverage Information:")
+    for branch, hit in branch_coverage.items():
+        print(f"Branch {branch}: {'Hit' if hit else 'Not Hit'}")
 
 def get_min_sbend_size(
     size: tuple[float | None, float | None] = (None, 10.0),
@@ -63,17 +74,21 @@ def get_min_sbend_size(
     cross_section_f = gf.get_cross_section(cross_section, **kwargs)
 
     if size[0] is None:
+        branch_coverage["if_branch_200"] = True
         ind = 0
         known_s = size[1]
     elif size[1] is None:
+        branch_coverage["elif_branch_201"] = True
         ind = 1
         known_s = size[0]
     else:
+        branch_coverage["else_branch_202"] = True
         raise ValueError("One of the two elements in size has to be None")
 
     min_radius = cross_section_f.radius
 
     if min_radius is None:
+        branch_coverage["if_branch_203"] = True
         raise ValueError("The min radius for the specified layer is not known!")
 
     min_size = np.inf
@@ -111,3 +126,11 @@ if __name__ == "__main__":
     # c = bend_s_biased()
     # print(c.info["min_bend_radius"])
     # c.show()
+
+if __name__ == "__main__":
+    # size[0] is None
+    size_case1 = (None, 15.0)
+    result1 = get_min_sbend_size(size=size_case1)
+    print(f"Minimum sbend size for {size_case1}: {result1}")
+    print_coverage()
+
