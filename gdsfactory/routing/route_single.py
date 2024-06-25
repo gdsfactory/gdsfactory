@@ -33,6 +33,8 @@ from kfactory.routing.optical import OpticalManhattanRoute, place90, route
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.components.bend_euler import bend_euler
+from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.port import Port
 from gdsfactory.typings import (
     ComponentSpec,
@@ -47,14 +49,14 @@ def route_single(
     component: Component,
     port1: Port,
     port2: Port,
-    bend: ComponentSpec = "bend_euler",
-    straight: ComponentSpec = "straight",
+    bend: ComponentSpec = bend_euler,
+    straight: ComponentSpec = straight_function,
     taper: ComponentSpec | None = None,
     start_straight_length: float = 0.0,
     end_straight_length: float = 0.0,
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "strip",
     waypoints: Coordinates | None = None,
-    port_type: str = "optical",
+    port_type: str | None = None,
     allow_width_mismatch: bool = False,
     radius: float | None = None,
     route_width: float | None = None,
@@ -96,6 +98,7 @@ def route_single(
     p1 = port1
     p2 = port2
 
+    port_type = port_type or p1.port_type
     xs = gf.get_cross_section(cross_section)
     width = xs.width
     radius = radius or xs.radius

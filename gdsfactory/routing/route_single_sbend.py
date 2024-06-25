@@ -1,12 +1,17 @@
 from __future__ import annotations
 
-from gdsfactory.components.bend_s import bend_s
+import gdsfactory as gf
+from gdsfactory.components.bend_s import bend_s as bend_s_function
 from gdsfactory.port import Port
-from gdsfactory.typings import Component
+from gdsfactory.typings import Component, ComponentSpec, CrossSectionSpec
 
 
 def route_single_sbend(
-    component: Component, port1: Port, port2: Port, **kwargs
+    component: Component,
+    port1: Port,
+    port2: Port,
+    bend_s: ComponentSpec = bend_s_function,
+    cross_section: CrossSectionSpec = "strip",
 ) -> None:
     """Returns an Sbend to connect two ports.
 
@@ -14,12 +19,8 @@ def route_single_sbend(
         component: to add the route to.
         port1: start port.
         port2: end port.
-
-    Keyword Args:
-        npoints: number of points.
-        with_cladding_box: square bounding box to avoid DRC errors.
-        cross_section: function.
-        kwargs: cross_section settings.
+        bend_s: Sbend component.
+        cross_section: cross_section.
 
     .. plot::
         :include-source:
@@ -40,7 +41,7 @@ def route_single_sbend(
     # We need to act differently if the route is orthogonal in x
     # or orthogonal in y
     size = (xsize, ysize) if port1.orientation in [0, 180] else (ysize, -xsize)
-    bend = bend_s(size=size, **kwargs)
+    bend = gf.get_component(bend_s, size=size, cross_section=cross_section)
 
     bend_ref = component << bend
     bend_ref.connect(bend_ref.ports[0], port1)
@@ -54,8 +55,6 @@ def route_single_sbend(
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
     c = gf.Component("demo_route_sbend")
     mmi1 = c << gf.components.mmi1x2()
     mmi2 = c << gf.components.mmi1x2()
