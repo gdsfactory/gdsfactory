@@ -525,7 +525,7 @@ def add_ports_from_labels(
         dy = label.y
 
         if get_name_from_label:
-            port_name = label.string
+            port_name = label
         else:
             port_name = f"{port_name_prefix}{i+1}" if port_name_prefix else i
 
