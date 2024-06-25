@@ -10,10 +10,10 @@ from gdsfactory.functions import curvature
 from gdsfactory.typings import CrossSectionSpec
 
 branch_coverage = {
-    "if_branch_200" : False,
+    "if_branch_200": False,
     "elif_branch_201": False,
     "else_branch_202": False,
-    "if_branch_203": False
+    "if_branch_203": False,
 }
 
 
@@ -51,10 +51,12 @@ def bend_s(
         **kwargs,
     )
 
+
 def print_coverage():
     print("Coverage Information:")
     for branch, hit in branch_coverage.items():
         print(f"Branch {branch}: {'Hit' if hit else 'Not Hit'}")
+
 
 def get_min_sbend_size(
     size: tuple[float | None, float | None] = (None, 10.0),
@@ -133,4 +135,3 @@ if __name__ == "__main__":
     result1 = get_min_sbend_size(size=size_case1)
     print(f"Minimum sbend size for {size_case1}: {result1}")
     print_coverage()
-
