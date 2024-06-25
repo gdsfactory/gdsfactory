@@ -39,14 +39,13 @@ def test_route_bundle_udirect_pads(
         data_regression.check(lengths)
 
 
-@gf.cell
-def test_route_bundle_udirect(
+def test_route_connect_bundle_udirect(
     data_regression: DataRegressionFixture,
     check: bool = True,
     dy=200,
     orientation=270,
     layer=(1, 0),
-):
+) -> None:
     xs1 = [-100, -90, -80, -55, -35, 24, 0] + [200, 210, 240]
     axis = "X" if orientation in [0, 180] else "Y"
     pitch = 10.0
