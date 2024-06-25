@@ -112,15 +112,12 @@ def via_stack_with_offset(
             )
             ref.dmove((x00, y00))
             y0 += height
-            if ref.xsize + enclosure > width or ref.ysize + enclosure > height:
+            if ref.dxsize + enclosure > width or ref.dysize + enclosure > height:
                 warnings.warn(
                     f"size = {size} for layer {layer} violates min enclosure"
                     f" {enclosure} for via {via.name!r}",
                     stacklevel=3,
                 )
-
-        # print(layer, via.name, ref.xsize, width, w+2*enclosure, ref.ysize, height, h+2*enclosure)
-        # print(ref.xsize, width, ref.ysize, height)
 
         y0 += offset
         previous_layer = layer

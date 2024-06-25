@@ -6,14 +6,22 @@ import gdsfactory as gf
 from gdsfactory import Component, Port
 
 
-@gf.cell
 def test_connect_bundle_u_indirect(
     data_regression: DataRegressionFixture,
     dy=-200,
     orientation=180,
     layer=(1, 0),
-    check=True,
-):
+    check: bool = True,
+) -> None:
+    """Test routing a bundle of ports with indirect connection.
+
+    Args:
+        data_regression: regression test fixture.
+        dy: vertical offset.
+        orientation: orientation of the ports.
+        layer: layer of the ports.
+        check: check the output.
+    """
     xs1 = [-100, -90, -80, -55, -35] + [200, 210, 240]
     axis = "X" if orientation in [0, 180] else "Y"
     pitch = 10.0
@@ -69,9 +77,7 @@ def test_connect_bundle_u_indirect(
     lengths = {i: route.length for i, route in enumerate(routes)}
     if check:
         data_regression.check(lengths)
-    return c
 
 
 if __name__ == "__main__":
-    c = test_connect_bundle_u_indirect(None, orientation=0, check=False)
-    c.show()
+    test_connect_bundle_u_indirect(None, orientation=0, check=False)

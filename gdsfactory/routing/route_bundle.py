@@ -91,7 +91,7 @@ def route_bundle(
     end_straight_length: float = 0,
     min_straight_taper: float = 100,
     taper: ComponentSpec | None = None,
-    port_type: str = "optical",
+    port_type: str | None = None,
     collision_check_layers: LayerSpecs | None = None,
     on_collision: str | None = "show_error",
     bboxes: list[kf.kdb.Box] | None = None,
@@ -168,6 +168,8 @@ def route_bundle(
     ports1 = list(ports1)
     ports2 = list(ports2)
 
+    port_type = port_type or ports1[0].port_type
+
     dbu = component.kcl.dbu
 
     if route_width and not isinstance(route_width, int | float):
@@ -231,7 +233,6 @@ route_bundle_electrical = partial(
     route_bundle,
     bend=wire_corner,
     cross_section="metal_routing",
-    port_type="electrical",
     allow_width_mismatch=True,
 )
 
