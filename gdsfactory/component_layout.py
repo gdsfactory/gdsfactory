@@ -15,9 +15,9 @@ from rich.table import Table
 Coordinate = tuple[float, float]
 
 branch_coverage = {
-    "if_branch_100": False, 
-    "elif_branch_101": False,  
-    "else_branch_102": False
+    "if_branch_100": False,
+    "elif_branch_101": False,
+    "else_branch_102": False,
 }
 
 
@@ -261,10 +261,12 @@ def _reflect_points(points, p1=(0, 0), p2=(1, 0)):
 
     return reflected_points if original_shape[0] > 1 else reflected_points[0]
 
+
 def print_coverage():
     print("Coverage Information:")
     for branch, hit in branch_coverage.items():
         print(f"Branch {branch}: {'Hit' if hit else 'Not Hit'}")
+
 
 def _parse_coordinate(c):
     """Translates various inputs (lists, tuples, Ports) to an (x,y) coordinate.
