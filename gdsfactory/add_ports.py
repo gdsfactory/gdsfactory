@@ -525,7 +525,7 @@ def add_ports_from_labels(
         dy = label.y
 
         if get_name_from_label:
-            port_name = label
+            port_name = label.string
         else:
             port_name = f"{port_name_prefix}{i+1}" if port_name_prefix else i
 
@@ -548,12 +548,12 @@ def add_ports_from_labels(
                 "You can pass a port_name_prefix to add it with a different name."
             )
         if get_name_from_label and port_name in component.ports:
-            port_name_to_index[label.text] = (
-                port_name_to_index[label.text] + 1
-                if label.text in port_name_to_index
+            port_name_to_index[port_name] = (
+                port_name_to_index[port_name] + 1
+                if port_name in port_name_to_index
                 else 1
             )
-            port_name = f"{label.text}{port_name_to_index[label.text]}"
+            port_name = f"{port_name}{port_name_to_index[port_name]}"
 
         component.add_port(
             name=port_name,
