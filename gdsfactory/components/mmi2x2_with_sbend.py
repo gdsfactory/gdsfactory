@@ -60,8 +60,8 @@ def mmi2x2_with_sbend(
 
         topl_sbend.connect("o1", other=topl_taper.ports["o1"], mirror=True)
         botl_sbend.connect("o1", other=botl_taper.ports["o1"])
-        topr_sbend.connect("o1", other=topr_taper.ports["o1"], mirror=True)
-        botr_sbend.connect("o1", other=botr_taper.ports["o1"])
+        topr_sbend.connect("o1", other=topr_taper.ports["o1"])
+        botr_sbend.connect("o1", other=botr_taper.ports["o1"], mirror=True)
 
         c.add_port("o1", port=botl_sbend.ports["o2"])
         c.add_port("o2", port=topl_sbend.ports["o2"])

@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.mmi1x2 import mmi1x2
@@ -10,7 +9,7 @@ from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.typings import ComponentSpec
 
 
-@cell
+# @cell
 def mzi_arms(
     delta_length: float = 10.0,
     length_y: float = 0.8,
@@ -23,28 +22,26 @@ def mzi_arms(
     splitter: ComponentSpec = mmi1x2,
     combiner: ComponentSpec | None = None,
     with_splitter: bool = True,
-    delta_yright: float = 0,
     **kwargs,
 ) -> Component:
-    """Mzi made with arms.
+    """MZI made with arms.
 
     This MZI code is slightly deprecated.
-    You can find a more robust mzi in gf.components.mzi
+    You can find a more robust MZI in gf.components.mzi.
 
     Args:
-        delta_length: bottom arm vertical extra length.
-        length_y: vertical length for both and top arms.
-        length_x: horizontal length.
+        delta_length: Bottom arm vertical extra length.
+        length_y: Vertical length for both and top arms.
+        length_x: Horizontal length.
         bend: 90 degrees bend library.
-        straight: straight spec.
-        straight_y: straight for length_y and delta_length.
-        straight_x_top: top straight for length_x.
-        straight_x_bot: bottom straight for length_x.
-        splitter: splitter spec.
-        combiner: combiner spec.
-        with_splitter: if False removes splitter.
-        delta_yright: extra length for right y-oriented waveguide.
-        kwargs: cross_section settings.
+        straight: Straight spec.
+        straight_y: Straight for length_y and delta_length.
+        straight_x_top: Top straight for length_x.
+        straight_x_bot: Bottom straight for length_x.
+        splitter: Splitter spec.
+        combiner: Combiner spec.
+        with_splitter: If False removes splitter.
+        kwargs: Cross-section settings.
 
     .. code::
 
@@ -70,17 +67,14 @@ def mzi_arms(
             |          |          |
             |__________|          |__________
     """
-    from gdsfactory.pdk import get_component
-
     combiner = combiner or splitter
-
     straight_x_top = straight_x_top or straight
     straight_x_bot = straight_x_bot or straight
     straight_y = straight_y or straight
 
     c = Component()
-    cp1 = get_component(splitter)
-    cp2 = get_component(combiner)
+    cp1 = gf.get_component(splitter)
+    cp2 = gf.get_component(combiner)
 
     if with_splitter:
         cin = c << cp1
@@ -97,43 +91,28 @@ def mzi_arms(
 
     port_e1_cp2 = ports_cp2[n_ports_cp2 - 2]
     port_e0_cp2 = ports_cp2[n_ports_cp2 - 1]
-
-    y1t = port_e1_cp1.dy
-    y1b = port_e0_cp1.dy
-
-    y2t = port_e1_cp2.dy
-    y2b = port_e0_cp2.dy
-
-    d1 = abs(y1t - y1b)  # splitter ports distance
-    d2 = abs(y2t - y2b)  # combiner ports distance
-
-    delta_symm_half = -delta_yright / 2
-
-    if d2 > d1:
-        length_y_left = length_y + (d2 - d1) / 2
-        length_y_right = length_y
-    else:
-        length_y_right = length_y + (d1 - d2) / 2
-        length_y_left = length_y
+    gap_ports_splitter = port_e0_cp1.dy - port_e1_cp1.dy
+    gap_ports_combiner = port_e0_cp2.dy - port_e1_cp2.dy
+    delta_gap_ports = gap_ports_combiner - gap_ports_splitter
+    length_y_right = length_y + delta_gap_ports / 2
+    length_y_left = length_y
 
     _top_arm = mzi_arm(
         straight_x=straight_x_top,
         straight_y=straight_y,
         length_x=length_x,
-        length_y_left=length_y_left + delta_symm_half,
-        length_y_right=length_y_right + delta_symm_half + delta_yright,
+        length_y_left=length_y_left,
+        length_y_right=length_y_right,
         bend=bend,
         **kwargs,
     )
-
     top_arm = c << _top_arm
-
     bot_arm = c << mzi_arm(
         straight_x=straight_x_bot,
         straight_y=straight_y,
         length_x=length_x,
         length_y_left=length_y_left + delta_length / 2,
-        length_y_right=length_y_right + delta_length / 2,
+        length_y_right=length_y_right + delta_length / 2 + delta_gap_ports / 2,
         bend=bend,
         **kwargs,
     )
@@ -156,35 +135,7 @@ def mzi_arms(
 
 
 if __name__ == "__main__":
-    # delta_length = 116.8 / 2
-    # print(delta_length)
-    # c = mzi_arms(delta_length=delta_length, with_splitter=False)
-    # c.pprint_netlist()
-    # mmi2x2 = partial(gf.components.mmi2x2, width_mmi=5, gap_mmi=2)
-    # c = mzi_arms(delta_length=10, combiner=mmi2x2)
-    c = mzi_arms()
+    from functools import partial
+
+    c = mzi_arms(combiner=partial(gf.c.mmi1x2, gap_mmi=1))
     c.show()
-
-    # def bend_s(length: float = 10, **kwargs):
-    #     return gf.components.bend_s(size=(length, 10), **kwargs)
-
-    # c = mzi_arms(
-    #     delta_length=50,
-    #     # straight_x_top=bend_s,
-    #     # straight_x_bot=gf.compose(gf.functions.dmirror, bend_s),
-    #     # straight_x_top=gf.components.straight_heater_meander,
-    #     # straight_x_bot=gf.components.straight_heater_meander,
-    #     # straight_x_top=gf.components.straight_heater_metal,
-    #     # straight_x_bot=gf.components.straight_heater_metal,
-    #     # length_x=300,
-    #     # delta_yright=-20,
-    #     # length_x_bot=300,
-    #     # length_y=1.8,
-    #     # with_splitter=False,
-    # )
-    # c.show( )
-    # c.show(show_subports=True)
-    # c.pprint()
-    # n = c.get_netlist()
-    # c.plot()
-    # print(c.settings)
