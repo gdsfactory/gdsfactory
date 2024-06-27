@@ -14,12 +14,12 @@ We used coverage.py to measure coverage after installing it and its requirements
 We then cloned the original repository.
 git clone https://github.com/gdsfactory/gdsfactory.git
 Then we changed the directory to /gdsfactory.
-cd gdsfactory  
+cd gdsfactory
 Then we installed all the required dependencies and modules.
 pip install .
-pip install pytest_regressions  
-pip install jsondiff    
-pip install jsonschema  
+pip install pytest_regressions
+pip install jsondiff
+pip install jsonschema
 Finally, we ran coverage.py.
 coverage run -m pytest -s
 coverage report
@@ -71,7 +71,7 @@ With the new test coverage is 100%, so the improvement is 33%.
 
 test_parse_coordinate.py
 
-The tests do not directly cover the def _parse_coordinate, which is why we created an entirely new test that exclusively covers the function and its branches.  
+The tests do not directly cover the def _parse_coordinate, which is why we created an entirely new test that exclusively covers the function and its branches.
 
 
 The original branch coverage of the function was as follows:
@@ -83,7 +83,7 @@ The coverage is improved because before the introduction of this new test only t
 
 
 test_bend_s.py
-The tests do not directly cover the def get_min_sbend_size, which is why we created an entirely new test that exclusively covers the function and its branches.  
+The tests do not directly cover the def get_min_sbend_size, which is why we created an entirely new test that exclusively covers the function and its branches.
 
 
 
@@ -118,6 +118,3 @@ This time managed to get 100% coverage by creating test cases for all branches.
 <Provide a screenshot of the new coverage results by running the existing tool using all test modifications made by the group>
 
 ## Statement of individual contributions
-
-
-
