@@ -23,6 +23,7 @@ def area(pts: ndarray) -> float64:
     y = pts2[:, 1] + pts[:, 1]
     return (dx * y).sum() / 2
 
+
 def remove_flat_angles(points: ndarray) -> ndarray:
     a = angles_deg(np.vstack(points))
     da = a - np.roll(a, 1)
@@ -110,12 +111,13 @@ def path_length(points: ndarray) -> float64:
 
 
 branch_coverage = {
-    "if_branch": False,  
+    "if_branch": False,
     "elif_1": False,
     "elif_2": False,
     "elif_3": False,
-    "else": False
+    "else": False,
 }
+
 
 def printCoverage():
     print("Coverage Information:")
@@ -265,5 +267,5 @@ if __name__ == "__main__":
         snap_angle(34.2)
     except ValueError:
         pass
-    
+
     printCoverage()

@@ -23,20 +23,21 @@ def area(pts: ndarray) -> float64:
     y = pts2[:, 1] + pts[:, 1]
     return (dx * y).sum() / 2
 
+
 branch_coverage = {
-    "if_branch_1": False,  
+    "if_branch_1": False,
     "elif_1": False,
     "else_1": False,
     "if_branch_2": False,
     "elif_1": False,
-    "else_2": False
+    "else_2": False,
 }
+
 
 def printCoverage():
     print("Coverage Information:")
     for branch, hit in branch_coverage.items():
         print(f"Branch {branch}: {'Hit' if hit else 'Not Hit'}")
-
 
 
 def manhattan_direction(p1, p2, tol=1e-5):
@@ -289,5 +290,5 @@ if __name__ == "__main__":
         manhattan_direction((1, 2), (3, 4))
     except ValueError:
         pass
-    
+
     printCoverage()

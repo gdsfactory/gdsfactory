@@ -23,6 +23,7 @@ def area(pts: ndarray) -> float64:
     y = pts2[:, 1] + pts[:, 1]
     return (dx * y).sum() / 2
 
+
 def manhattan_direction(p0, p1, tol=1e-5):
     """Returns manhattan direction between 2 points."""
     dp = p1 - p0
@@ -42,10 +43,9 @@ def manhattan_direction(p0, p1, tol=1e-5):
         sy = -1
     return np.array((sx, sy))
 
-branch_coverage = {
-    "if_branch": False,  
-    "else_branch": False
-}
+
+branch_coverage = {"if_branch": False, "else_branch": False}
+
 
 def printCoverage():
     print("Coverage Information:")
@@ -270,8 +270,6 @@ def polygon_grow(polygon: ndarray, offset: float) -> ndarray:
     return s + offsets
 
 
-
 if __name__ == "__main__":
     point = np.array([[1.0, 2.0]])
     remove_flat_angles(point)
-    

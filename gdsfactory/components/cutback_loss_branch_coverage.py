@@ -1,10 +1,10 @@
+import sys
 from functools import partial
 
-import sys
-
-sys.path.append('/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages')
+sys.path.append(
+    "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages"
+)
 import numpy as np
-
 
 import gdsfactory as gf
 from gdsfactory.components.bend_euler import bend_euler, bend_euler180
@@ -18,8 +18,9 @@ branch_coverage = {
     "if_branch_100": False,
     "elif1_branch_101": False,
     "elif2_branch_102": False,
-    "else_branch_103": False
+    "else_branch_103": False,
 }
+
 
 def printCoverage():
     print("Coverage information : ")

@@ -23,6 +23,7 @@ def area(pts: ndarray) -> float64:
     y = pts2[:, 1] + pts[:, 1]
     return (dx * y).sum() / 2
 
+
 def manhattan_direction(p0, p1, tol=1e-5):
     """Returns manhattan direction between 2 points."""
     dp = p1 - p0
@@ -227,10 +228,8 @@ def extrude_path(
     return np.round(pts / grid) * grid
 
 
-branch_coverage = {
-    "if_branch": False,  
-    "else_branch": False
-}
+branch_coverage = {"if_branch": False, "else_branch": False}
+
 
 def printCoverage():
     print("Coverage Information:")
@@ -256,8 +255,6 @@ def polygon_grow(polygon: ndarray, offset: float) -> ndarray:
     else:
         branch_coverage["else_branch"] = True
         printCoverage()
-    
-
 
     # Make sure the shape is oriented in the correct direction for scaling
     ss = sign_shape(s)
@@ -274,9 +271,8 @@ def polygon_grow(polygon: ndarray, offset: float) -> ndarray:
     offsets = np.column_stack((-sin(a) / c_minus, cos(a) / c_minus)) * offset
     return s + offsets
 
-if __name__ == "__main__":
 
+if __name__ == "__main__":
     single_point_polygon = np.array([[1.0, 1.0]])
     offset = 0.5
     polygon_grow(single_point_polygon, offset)
-    

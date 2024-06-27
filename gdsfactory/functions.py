@@ -23,6 +23,7 @@ def area(pts: ndarray) -> float64:
     y = pts2[:, 1] + pts[:, 1]
     return (dx * y).sum() / 2
 
+
 def manhattan_direction(p0, p1, tol=1e-5):
     """Returns manhattan direction between 2 points."""
     dp = p1 - p0
