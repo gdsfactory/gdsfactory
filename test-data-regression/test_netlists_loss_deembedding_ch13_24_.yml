@@ -422,17 +422,17 @@ placements:
     x: 244
     y: 49.529
   straight_L274_N2_CSstrip_W0p5_254000_-46417:
-    mirror: true
+    mirror: false
     rotation: 180
     x: 391
     y: -46.417
   straight_L35p946_N2_CSstrip_W0p5_107000_-18444:
-    mirror: true
+    mirror: false
     rotation: 90
     x: 107
     y: -36.417
   straight_L35p946_N2_CSstrip_W0p5_401000_-18444:
-    mirror: true
+    mirror: false
     rotation: 270
     x: 401
     y: -0.471

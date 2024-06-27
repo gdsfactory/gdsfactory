@@ -1,11 +1,3 @@
 info: {}
-name: mzi_arms_DL10_LY0p8_LX0_3f9f33a8
-settings:
-  bend: bend_euler
-  delta_length: 10
-  delta_yright: 0
-  length_x: 0.1
-  length_y: 0.8
-  splitter: mmi1x2
-  straight: straight
-  with_splitter: true
+name: Unnamed_0
+settings: {}

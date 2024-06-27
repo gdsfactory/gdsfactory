@@ -463,12 +463,12 @@ placements:
     x: 0
     y: 6
   straight_L10_N2_CSstrip_W0p5_-22500_4000:
-    mirror: true
+    mirror: false
     rotation: 0
     x: -27.5
     y: 4
   straight_L10_N2_CSstrip_W0p5_87000_4000:
-    mirror: true
+    mirror: false
     rotation: 180
     x: 92
     y: 4
@@ -483,12 +483,12 @@ placements:
     x: 82
     y: 6
   straight_L2_N2_CSstrip_W0p5_-32500_10000:
-    mirror: true
+    mirror: false
     rotation: 90
     x: -32.5
     y: 9
   straight_L4_N2_CSstrip_W0p5_97000_-3000:
-    mirror: true
+    mirror: false
     rotation: 270
     x: 97
     y: -1
