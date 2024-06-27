@@ -2,28 +2,28 @@
 
 ## Project chosen
 
-/ Name: gdsfactory
-/ URL: https://github.com/gdsfactory/gdsfactory
-/ Number of lines of code and the tool used to count it:  45356
-/ Programming language: Python
+Name: gdsfactory\
+URL: https://github.com/gdsfactory/gdsfactory\
+Number of lines of code and the tool used to count it:  45356\
+Programming language: Python\
 
 ## Coverage measurement
 ### Coverage.py
 
-/ We used coverage.py to measure coverage after installing it and its requirements.
-/ We then cloned the original repository.
-/ git clone https://github.com/gdsfactory/gdsfactory.git
-/ Then we changed the directory to /gdsfactory.
-/ cd gdsfactory
-/ Then we installed all the required dependencies and modules.
-/ pip install .
-/ pip install pytest_regressions
-/ pip install jsondiff
-/ pip install jsonschema
-/ Finally, we ran coverage.py.
-/ coverage run -m pytest -s
-/ coverage report
-/ coverage html
+We used coverage.py to measure coverage after installing it and its requirements.\
+We then cloned the original repository.\
+git clone https://github.com/gdsfactory/gdsfactory.git\
+Then we changed the directory to /gdsfactory.\
+cd gdsfactory\
+Then we installed all the required dependencies and modules.\
+pip install .\
+pip install pytest_regressions\
+pip install jsondiff\
+pip install jsonschema\
+Finally, we ran coverage.py.\
+coverage run -m pytest -s\
+coverage report\
+coverage html\
 
 [coverage pictures](https://github.com/keylad/gdsfactory/tree/main/pictures/coverage)
 
