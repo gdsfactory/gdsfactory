@@ -45,9 +45,7 @@ def mzi_arm(
     straight_x = straight_x or straight
     straight_x = gf.get_component(straight_x, length=length_x, **kwargs)
     straight_y_l = gf.get_component(straight_y, length=length_y_left, **kwargs)
-    straight_y_r = gf.get_component(
-        straight_y, length=length_y_right + length_x, **kwargs
-    )
+    straight_y_r = gf.get_component(straight_y, length=length_y_right, **kwargs)
 
     symbol_to_component = {
         "b": (bend, "o1", "o2"),
