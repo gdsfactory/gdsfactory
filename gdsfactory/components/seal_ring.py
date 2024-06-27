@@ -127,29 +127,28 @@ def seal_ring_segmented(
     tl = c << corner
     tr = c << corner
 
-    tl.xmin = xmin
-    tl.ymax = ymax
+    tl.dxmin = xmin
+    tl.dymax = ymax
 
-    tr.mirror()
-    tr.xmax = xmax
-    tr.ymax = ymax
+    tr.dmirror()
+    tr.dxmax = xmax
+    tr.dymax = ymax
 
     bl = c << corner
     br = c << corner
-    br.mirror()
-    br.mirror_y()
-    bl.mirror_y()
+    br.dmirror()
+    br.dmirror_y()
+    bl.dmirror_y()
 
-    bl.xmin = xmin
-    bl.ymin = ymin
-
-    br.xmax = xmax
-    br.ymin = ymin
+    bl.dxmin = xmin
+    bl.dymin = ymin
+    br.dxmax = xmax
+    br.dymin = ymin
 
     pitch = length_segment + spacing_segment
 
     # horizontal
-    dx = abs(tl.xmax - tr.xmin)
+    dx = abs(tl.dxmax - tr.dxmin)
     segment_horizontal = gf.get_component(
         via_stack, size=(length_segment, width_segment)
     )
@@ -162,26 +161,26 @@ def seal_ring_segmented(
 
     if with_north:
         top = c << horizontal
-        top.ymax = tl.ymax
-        top.xmin = tl.xmax + spacing_segment
+        top.dymax = tl.dymax
+        top.dxmin = tl.dxmax + spacing_segment
 
         # horizontal inner
         topi = c << horizontal
-        topi.ymax = top.ymin - spacing_segment
-        topi.xmin = top.xmin + pitch / 2
+        topi.dymax = top.dymin - spacing_segment
+        topi.dxmin = top.dxmin + pitch / 2
 
     if with_south:
         bot = c << horizontal
-        bot.ymin = ymin
-        bot.xmin = tl.xmax + spacing_segment
+        bot.dymin = ymin
+        bot.dxmin = tl.dxmax + spacing_segment
 
         boti = c << horizontal
-        boti.ymin = bot.ymax + spacing_segment
-        boti.xmin = bot.xmin + spacing_segment
+        boti.dymin = bot.dymax + spacing_segment
+        boti.dxmin = bot.dxmin + spacing_segment
 
     # vertical
     segment_vertical = gf.get_component(via_stack, size=(width_segment, length_segment))
-    dy = abs(tl.ymin - bl.ymax)
+    dy = abs(tl.dymin - bl.dymax)
 
     vertical = gf.c.array(
         component=segment_vertical,
@@ -192,21 +191,21 @@ def seal_ring_segmented(
 
     if with_east:
         right = c << vertical
-        right.xmax = xmax
-        right.ymin = bl.ymax
+        right.dxmax = xmax
+        right.dymin = bl.dymax
         righti = c << vertical
-        righti.xmax = right.xmin - spacing_segment
-        righti.ymin = right.ymin + pitch / 2
+        righti.dxmax = right.dxmin - spacing_segment
+        righti.dymin = right.dymin + pitch / 2
 
     if with_west:
         left = c << vertical
-        left.xmin = xmin
-        left.ymin = bl.ymax
+        left.dxmin = xmin
+        left.dymin = bl.dymax
 
         # vertical inner
         lefti = c << vertical
-        lefti.xmin = left.xmax + spacing_segment
-        lefti.ymin = left.ymin + pitch / 2
+        lefti.dxmin = left.dxmax + spacing_segment
+        lefti.dymin = left.dymin + pitch / 2
 
     return c
 

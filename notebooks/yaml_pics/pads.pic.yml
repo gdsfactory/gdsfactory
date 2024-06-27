@@ -26,11 +26,13 @@ routes:
     electrical:
         settings:
             separation: 20
+            cross_section: metal_routing
         links:
             tl,e3: tr,e1
             bl,e3: br,e1
     optical:
         settings:
             radius: 100
+            port_type: optical
         links:
             bl,e4: br,e3

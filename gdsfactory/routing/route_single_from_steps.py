@@ -26,7 +26,7 @@ def route_single_from_steps(
     taper: ComponentSpec | None = "taper",
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "strip",
     auto_widen: bool = False,
-    port_type: str = "optical",
+    port_type: str | None = None,
     allow_width_mismatch: bool = False,
     **kwargs,
 ) -> OpticalManhattanRoute:
@@ -129,6 +129,7 @@ def route_single_from_steps(
         else:
             taper = None
 
+    port_type = port_type or port1.port_type
     return route_single(
         component=component,
         port1=port1,

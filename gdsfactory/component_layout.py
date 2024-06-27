@@ -14,6 +14,12 @@ from rich.table import Table
 
 Coordinate = tuple[float, float]
 
+branch_coverage = {
+    "if_branch_100": False,
+    "elif_branch_101": False,
+    "else_branch_102": False,
+}
+
 
 def pprint_ports(ports: kf.Ports) -> None:
     """Prints ports in a rich table."""
@@ -256,6 +262,12 @@ def _reflect_points(points, p1=(0, 0), p2=(1, 0)):
     return reflected_points if original_shape[0] > 1 else reflected_points[0]
 
 
+def print_coverage():
+    print("Coverage Information:")
+    for branch, hit in branch_coverage.items():
+        print(f"Branch {branch}: {'Hit' if hit else 'Not Hit'}")
+
+
 def _parse_coordinate(c):
     """Translates various inputs (lists, tuples, Ports) to an (x,y) coordinate.
 
@@ -268,10 +280,13 @@ def _parse_coordinate(c):
             Parsed coordinate.
     """
     if hasattr(c, "center"):
+        branch_coverage["if_branch_100"] = True
         return c.dcenter
     elif np.array(c).size == 2:
+        branch_coverage["elif_branch_101"] = True
         return c
     else:
+        branch_coverage["else_branch_102"] = True
         raise ValueError(
             "Could not parse coordinate, input should be array-like (e.g. [1.5,2.3] or a Port"
         )
