@@ -1,12 +1,19 @@
 from __future__ import annotations
 
-from gdsfactory.components.bend_s import bend_s
+import gdsfactory as gf
+from gdsfactory.components.bend_s import bend_s as bend_s_function
 from gdsfactory.port import Port
-from gdsfactory.typings import Component
+from gdsfactory.typings import Component, ComponentSpec, CrossSectionSpec
 
 
 def route_single_sbend(
-    component: Component, port1: Port, port2: Port, **kwargs
+    component: Component,
+    port1: Port,
+    port2: Port,
+    bend_s: ComponentSpec = bend_s_function,
+    cross_section: CrossSectionSpec = "strip",
+    allow_layer_mismatch: bool = False,
+    allow_width_mismatch: bool = False,
 ) -> None:
     """Returns an Sbend to connect two ports.
 
@@ -14,12 +21,10 @@ def route_single_sbend(
         component: to add the route to.
         port1: start port.
         port2: end port.
-
-    Keyword Args:
-        npoints: number of points.
-        with_cladding_box: square bounding box to avoid DRC errors.
-        cross_section: function.
-        kwargs: cross_section settings.
+        bend_s: Sbend component.
+        cross_section: cross_section.
+        allow_layer_mismatch: allow layer mismatch.
+        allow_width_mismatch: allow width mismatch.
 
     .. plot::
         :include-source:
@@ -29,8 +34,8 @@ def route_single_sbend(
         c = gf.Component()
         mmi1 = c << gf.components.mmi1x2()
         mmi2 = c << gf.components.mmi1x2()
-        mmi2.movex(50)
-        mmi2.movey(5)
+        mmi2.dmovex(50)
+        mmi2.dmovey(5)
         route = gf.routing.route_single_sbend(c, mmi1.ports['o2'], mmi2.ports['o1'])
         c.plot()
     """
@@ -40,10 +45,15 @@ def route_single_sbend(
     # We need to act differently if the route is orthogonal in x
     # or orthogonal in y
     size = (xsize, ysize) if port1.orientation in [0, 180] else (ysize, -xsize)
-    bend = bend_s(size=size, **kwargs)
+    bend = gf.get_component(bend_s, size=size, cross_section=cross_section)
 
     bend_ref = component << bend
-    bend_ref.connect(bend_ref.ports[0], port1)
+    bend_ref.connect(
+        bend_ref.ports[0],
+        port1,
+        allow_layer_mismatch=allow_layer_mismatch,
+        allow_width_mismatch=allow_width_mismatch,
+    )
 
     orthogonality_error = abs(abs(port1.orientation - port2.orientation) - 180)
     if orthogonality_error > 0.1:
@@ -54,8 +64,6 @@ def route_single_sbend(
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
     c = gf.Component("demo_route_sbend")
     mmi1 = c << gf.components.mmi1x2()
     mmi2 = c << gf.components.mmi1x2()

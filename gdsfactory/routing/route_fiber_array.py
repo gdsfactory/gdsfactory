@@ -355,7 +355,8 @@ def route_fiber_array(
 
     c.ports = kf.Ports(kcl=c.kcl)
     for i, port in enumerate(fiber_ports):
-        c.add_port(name=f"o{i+1}", port=port)
+        prefix = "o" if port.port_type == "optical" else "e"
+        c.add_port(name=f"{prefix}{i+1}", port=port)
 
     c.add_ports(ports_not_terminated)
 

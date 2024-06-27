@@ -41,10 +41,15 @@ import numpy as np
 from kfactory.kcell import LayerEnum
 from pydantic import ConfigDict
 
-from gdsfactory.component import Component, ComponentBase, ComponentReference
+from gdsfactory.component import (
+    Component,
+    ComponentAllAngle,
+    ComponentBase,
+    ComponentReference,
+)
 from gdsfactory.cross_section import CrossSection, Section, Transition, WidthTypes
 from gdsfactory.port import Port
-from gdsfactory.technology import LayerLevel, LayerMap, LayerStack
+from gdsfactory.technology import LayerLevel, LayerMap, LayerStack, LayerViews
 
 STEP_DIRECTIVES = {
     "x",
@@ -219,6 +224,7 @@ __all__ = (
     "Any",
     "Callable",
     "Component",
+    "ComponentAllAngle",
     "ComponentBase",
     "ComponentFactory",
     "ComponentFactoryDict",
@@ -243,6 +249,7 @@ __all__ = (
     "LayerSpec",
     "LayerSpecs",
     "LayerStack",
+    "LayerViews",
     "Layers",
     "MultiCrossSectionAngleSpec",
     "NameToFunctionDict",

@@ -21,6 +21,7 @@ from gdsfactory.serialization import clean_value_json
 if TYPE_CHECKING:
     from gdsfactory.typings import (
         CrossSection,
+        CrossSectionSpec,
         Layer,
         LayerSpec,
         LayerStack,
@@ -75,6 +76,7 @@ boolean_operations = {
     "xor": boolean_xor,
     "&": boolean_and,
     "and": boolean_and,
+    "A-B": boolean_not,
 }
 
 
@@ -233,7 +235,7 @@ class ComponentBase:
         layer: LayerSpec | None = None,
         port_type: str = "optical",
         keep_mirror: bool = False,
-        cross_section: CrossSection | None = None,
+        cross_section: CrossSectionSpec | None = None,
     ) -> kf.Port:
         """Adds a Port to the Component.
 
@@ -738,7 +740,7 @@ class ComponentBase:
         self,
         gdspath: PathType | None = None,
         gdsdir: PathType | None = None,
-        save_options: kdb.SaveLayoutOptions = save_layout_options(),
+        save_options: kdb.SaveLayoutOptions | None = None,
         **kwargs,
     ) -> pathlib.Path:
         """Write component to GDS and returns gdspath.
@@ -763,6 +765,9 @@ class ComponentBase:
 
         if not gdspath.parent.is_dir():
             gdspath.parent.mkdir(parents=True, exist_ok=True)
+
+        if save_options is None:
+            save_options = save_layout_options()
 
         if kwargs:
             for k in kwargs:

@@ -194,10 +194,12 @@ def {block_name}({parameters_string})->gf.Component:
                 "electrical" if port.xsection in electrical_xsections else "optical"
             )
 
+            port_xsection = port.xsection if port.xsection != "None" else "NONE"
+
             if port.xsection != "None" and not use_port_layer:
-                script += f"    c.add_port(name={port_name!r}, {port_layer}={port.xsection!r}, center=({port.xya[0]}, {port.xya[1]}), orientation={port.xya[2]}, port_type={port_type!r})\n"
+                script += f"    c.add_port(name={port_name!r}, {port_layer}={port_xsection!r}, center=({port.xya[0]}, {port.xya[1]}), orientation={port.xya[2]}, port_type={port_type!r})\n"
             else:
-                script += f"    c.add_port(name={port_name!r}, width={port.width}, layer={port.xsection!r}, center=({port.xya[0]}, {port.xya[1]}), orientation={port.xya[2]}, port_type={port_type!r})\n"
+                script += f"    c.add_port(name={port_name!r}, width={port.width}, layer={port_xsection!r}, center=({port.xya[0]}, {port.xya[1]}), orientation={port.xya[2]}, port_type={port_type!r})\n"
 
             if layer_pin_label:
                 d = OmegaConf.to_container(port)

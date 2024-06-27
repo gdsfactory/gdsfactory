@@ -19,6 +19,7 @@ routes:
         settings:
             start_straight_length: 150
             end_straight_length: 150
+            cross_section: metal_routing
         links:
             t,e11: b,e11
             t,e13: b,e13
