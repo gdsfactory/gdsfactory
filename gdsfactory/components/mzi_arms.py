@@ -160,5 +160,5 @@ if __name__ == "__main__":
 
     import gdsfactory as gf
 
-    c = mzi_arms(combiner=partial(gf.c.mmi1x2, gap_mmi=1))
+    c = mzi_arms(splitter=partial(gf.c.mmi1x2, gap_mmi=1), combiner=gf.c.mmi1x2)
     c.show()
