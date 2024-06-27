@@ -140,7 +140,7 @@ def mzi_arms(
 
     top_arm.connect("o1", port_e1_cp1)
     bot_arm.connect("o1", port_e0_cp1, mirror=True)
-    cout.connect(port_e0_cp2.name, bot_arm.ports["o2"])
+    cout.connect(port_e1_cp2.name, bot_arm.ports["o2"])
 
     if with_splitter:
         c.add_ports(cin.ports.filter(orientation=180), prefix="in")
