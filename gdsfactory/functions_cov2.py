@@ -23,26 +23,6 @@ def area(pts: ndarray) -> float64:
     y = pts2[:, 1] + pts[:, 1]
     return (dx * y).sum() / 2
 
-def manhattan_direction(p0, p1, tol=1e-5):
-    """Returns manhattan direction between 2 points."""
-    dp = p1 - p0
-    dx, dy = dp[0], dp[1]
-    if abs(dx) < tol:
-        sx = 0
-    elif dx > 0:
-        sx = 1
-    else:
-        sx = -1
-
-    if abs(dy) < tol:
-        sy = 0
-    elif dy > 0:
-        sy = 1
-    else:
-        sy = -1
-    return np.array((sx, sy))
-
-
 def remove_flat_angles(points: ndarray) -> ndarray:
     a = angles_deg(np.vstack(points))
     da = a - np.roll(a, 1)
@@ -129,7 +109,21 @@ def path_length(points: ndarray) -> float64:
     return np.sum(np.sqrt(_d[:, 0] + _d[:, 1]))
 
 
-def snap_angle(a: float64) -> int:
+branch_coverage = {
+    "if_branch": False,  
+    "elif_1": False,
+    "elif_2": False,
+    "elif_3": False,
+    "else": False
+}
+
+def printCoverage():
+    print("Coverage Information:")
+    for branch, hit in branch_coverage.items():
+        print(f"Branch {branch}: {'Hit' if hit else 'Not Hit'}")
+
+
+def snap_angle(a: float) -> int:
     """Returns angle snapped along manhattan angle (0, 90, 180, 270).
 
     a: angle in deg
@@ -137,14 +131,24 @@ def snap_angle(a: float64) -> int:
     """
     a = a % 360
     if -45 < a < 45:
+        branch_coverage["if_branch"] = True
+        printCoverage()
         return 0
     elif 45 < a < 135:
+        branch_coverage["elif_1"] = True
+        printCoverage()
         return 90
     elif 135 < a < 225:
+        branch_coverage["elif_2"] = True
+        printCoverage()
         return 180
     elif 225 < a < 315:
+        branch_coverage["elif_3"] = True
+        printCoverage()
         return 270
     else:
+        branch_coverage["else"] = True
+        printCoverage()
         return 0
 
 
@@ -254,3 +258,12 @@ def polygon_grow(polygon: ndarray, offset: float) -> ndarray:
     c_minus = cos(a2 - a1)
     offsets = np.column_stack((-sin(a) / c_minus, cos(a) / c_minus)) * offset
     return s + offsets
+
+
+if __name__ == "__main__":
+    try:
+        snap_angle(34.2)
+    except ValueError:
+        pass
+    
+    printCoverage()

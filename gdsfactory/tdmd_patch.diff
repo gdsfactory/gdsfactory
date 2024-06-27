@@ -1,0 +1,44 @@
+@@ -42,6 +42,16 @@
+         sy = -1
+     return np.array((sx, sy))
+ 
++branch_coverage = {
++    "if_branch": False,  
++    "else_branch": False
++}
++
++def printCoverage():
++    print("Coverage Information:")
++    for branch, hit in branch_coverage.items():
++        print(f"Branch {branch}: {'Hit' if hit else 'Not Hit'}")
++
+ 
+ def remove_flat_angles(points: ndarray) -> ndarray:
+     a = angles_deg(np.vstack(points))
+@@ -54,11 +64,15 @@
+ 
+     to_rm = list(np.where(np.abs(da[:-1]) < 1e-9)[0])
+     if isinstance(points, list):
++        branch_coverage["if_branch"] = True
++        printCoverage()
+         while to_rm:
+             i = to_rm.pop()
+             points.pop(i)
+ 
+     else:
++        branch_coverage["else_branch"] = True
++        printCoverage()
+         points = points[da != 0]
+ 
+     return points
+@@ -254,3 +268,10 @@
+     c_minus = cos(a2 - a1)
+     offsets = np.column_stack((-sin(a) / c_minus, cos(a) / c_minus)) * offset
+     return s + offsets
++
++
++
++if __name__ == "__main__":
++    point = np.array([[1.0, 2.0]])
++    remove_flat_angles(point)
++    

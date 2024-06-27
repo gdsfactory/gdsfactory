@@ -227,6 +227,17 @@ def extrude_path(
     return np.round(pts / grid) * grid
 
 
+branch_coverage = {
+    "if_branch": False,  
+    "else_branch": False
+}
+
+def printCoverage():
+    print("Coverage Information:")
+    for branch, hit in branch_coverage.items():
+        print(f"Branch {branch}: {'Hit' if hit else 'Not Hit'}")
+
+
 def polygon_grow(polygon: ndarray, offset: float) -> ndarray:
     """Returns a grown closed shaped polygon by an offset.
 
@@ -237,8 +248,16 @@ def polygon_grow(polygon: ndarray, offset: float) -> ndarray:
     s = remove_identicals(polygon)
     s = remove_flat_angles(s)
     s = np.vstack([s, s[0]])
+
     if len(s) <= 1:
+        branch_coverage["if_branch"] = True
+        printCoverage()
         return s
+    else:
+        branch_coverage["else_branch"] = True
+        printCoverage()
+    
+
 
     # Make sure the shape is oriented in the correct direction for scaling
     ss = sign_shape(s)
@@ -254,3 +273,10 @@ def polygon_grow(polygon: ndarray, offset: float) -> ndarray:
     c_minus = cos(a2 - a1)
     offsets = np.column_stack((-sin(a) / c_minus, cos(a) / c_minus)) * offset
     return s + offsets
+
+if __name__ == "__main__":
+
+    single_point_polygon = np.array([[1.0, 1.0]])
+    offset = 0.5
+    polygon_grow(single_point_polygon, offset)
+    

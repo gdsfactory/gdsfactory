@@ -23,24 +23,52 @@ def area(pts: ndarray) -> float64:
     y = pts2[:, 1] + pts[:, 1]
     return (dx * y).sum() / 2
 
-def manhattan_direction(p0, p1, tol=1e-5):
+branch_coverage = {
+    "if_branch_1": False,  
+    "elif_1": False,
+    "else_1": False,
+    "if_branch_2": False,
+    "elif_1": False,
+    "else_2": False
+}
+
+def printCoverage():
+    print("Coverage Information:")
+    for branch, hit in branch_coverage.items():
+        print(f"Branch {branch}: {'Hit' if hit else 'Not Hit'}")
+
+
+
+def manhattan_direction(p1, p2, tol=1e-5):
     """Returns manhattan direction between 2 points."""
-    dp = p1 - p0
+    dp = (p2[0] - p1[0], p2[1] - p1[1])  # Calculate the difference between points
     dx, dy = dp[0], dp[1]
     if abs(dx) < tol:
+        branch_coverage["if_branch_1"] = True
+        printCoverage()
         sx = 0
     elif dx > 0:
+        branch_coverage["elif_1"] = True
+        printCoverage()
         sx = 1
     else:
+        branch_coverage["else_1"] = True
+        printCoverage()
         sx = -1
 
     if abs(dy) < tol:
+        branch_coverage["if_branch_2"] = True
+        printCoverage()
         sy = 0
     elif dy > 0:
+        branch_coverage["elif_2"] = True
+        printCoverage()
         sy = 1
     else:
+        branch_coverage["else_2"] = True
+        printCoverage()
         sy = -1
-    return np.array((sx, sy))
+    return (sx, sy)
 
 
 def remove_flat_angles(points: ndarray) -> ndarray:
@@ -254,3 +282,12 @@ def polygon_grow(polygon: ndarray, offset: float) -> ndarray:
     c_minus = cos(a2 - a1)
     offsets = np.column_stack((-sin(a) / c_minus, cos(a) / c_minus)) * offset
     return s + offsets
+
+
+if __name__ == "__main__":
+    try:
+        manhattan_direction((1, 2), (3, 4))
+    except ValueError:
+        pass
+    
+    printCoverage()

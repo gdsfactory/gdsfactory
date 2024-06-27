@@ -1,0 +1,1 @@
+(self.webpackChunkipytree=self.webpackChunkipytree||[]).push([[261],{261:(e,t,r)=>{var i=r(568),p=r(331);e.exports={id:"ipytree",requires:[p.IJupyterWidgetRegistry],activate:function(e,t){t.registerWidget({name:"ipytree",version:i.version,exports:i})},autoStart:!0}}}]);
