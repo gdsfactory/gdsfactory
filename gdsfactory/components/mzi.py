@@ -3,16 +3,14 @@ from __future__ import annotations
 from functools import partial
 
 import gdsfactory as gf
-from gdsfactory import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.straight_heater_metal import straight_heater_metal
-from gdsfactory.routing.route_single import route_single
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@cell
+@gf.cell
 def mzi(
     delta_length: float = 10.0,
     length_y: float = 2.0,
@@ -110,7 +108,7 @@ def mzi(
     )
     syl.connect("o1", b5.ports["o2"])
     b6 = c << bend
-    b6.connect("o1", syl.ports["o2"], mirror=True)
+    b6.connect("o1", syl.ports["o2"])
 
     straight_x_top = (
         gf.get_component(
@@ -143,30 +141,39 @@ def mzi(
 
     b2 = c << bend
     b2.connect("o2", sytl.ports["o2"])
-
     sxt.connect("o1", b2.ports["o1"])
-
     cp2.mirror_x()
     cp2.dxmin = sxt.ports["o2"].dx + bend.info["radius"] * nbends + 2 * min_length
 
-    route_single(
-        c,
-        cp2.ports[port_e1_combiner],
-        sxt.ports["o2"],
-        straight=straight,
-        bend=bend,
-        cross_section=cross_section,
-        taper=None,
+    gap_ports_combiner = cp1.ports[port_e0_splitter].dy - cp1.ports[port_e1_splitter].dy
+    gap_ports_splitter = cp2.ports[port_e0_combiner].dy - cp2.ports[port_e1_combiner].dy
+    delta_gap_ports = gap_ports_combiner - gap_ports_splitter
+
+    # Top arm
+    b3 = c << bend
+    b3.connect("o2", sxt.ports["o2"])
+
+    sytr = c << gf.get_component(
+        straight_y, length=length_y - delta_gap_ports / 2, cross_section=cross_section
     )
-    route_single(
-        c,
-        cp2.ports[port_e0_combiner],
-        sxb.ports["o2"],
-        straight=straight,
-        bend=bend,
+    sytr.connect("o2", b3.ports["o1"])
+    b4 = c << bend
+    b4.connect("o1", sytr.ports["o1"])
+
+    # Bot arm
+    b7 = c << bend
+    b7.connect("o1", sxb.ports["o2"])
+
+    sybr = c << gf.get_component(
+        straight_y,
+        length=delta_length / 2 + length_y - delta_gap_ports / 2,
         cross_section=cross_section,
-        taper=None,
     )
+    sybr.connect("o1", b7.ports["o2"])
+    b8 = c << bend
+    b8.connect("o2", sybr.ports["o2"])
+
+    cp2.connect(port_e1_combiner, b4.ports["o2"])
 
     sytl.name = "sytl"
     syl.name = "syl"
@@ -244,7 +251,7 @@ mzm = partial(
 )
 
 if __name__ == "__main__":
-    c = mzi2x2_2x2()
+    c = mzi1x2(combiner=partial(gf.c.mmi1x2, gap_mmi=0))
     # c = mzi_coupler()
     # c = mzi_pin()
     # c = mzm()

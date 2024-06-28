@@ -83,7 +83,7 @@ placements:
     x: -4
     y: 0
   straight_L3_N2_CSstrip_-10500_0:
-    mirror: true
+    mirror: false
     rotation: 0
     x: -12
     y: 0

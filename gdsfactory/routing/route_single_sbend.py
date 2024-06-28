@@ -12,6 +12,8 @@ def route_single_sbend(
     port2: Port,
     bend_s: ComponentSpec = bend_s_function,
     cross_section: CrossSectionSpec = "strip",
+    allow_layer_mismatch: bool = False,
+    allow_width_mismatch: bool = False,
 ) -> None:
     """Returns an Sbend to connect two ports.
 
@@ -21,6 +23,8 @@ def route_single_sbend(
         port2: end port.
         bend_s: Sbend component.
         cross_section: cross_section.
+        allow_layer_mismatch: allow layer mismatch.
+        allow_width_mismatch: allow width mismatch.
 
     .. plot::
         :include-source:
@@ -44,7 +48,12 @@ def route_single_sbend(
     bend = gf.get_component(bend_s, size=size, cross_section=cross_section)
 
     bend_ref = component << bend
-    bend_ref.connect(bend_ref.ports[0], port1)
+    bend_ref.connect(
+        bend_ref.ports[0],
+        port1,
+        allow_layer_mismatch=allow_layer_mismatch,
+        allow_width_mismatch=allow_width_mismatch,
+    )
 
     orthogonality_error = abs(abs(port1.orientation - port2.orientation) - 180)
     if orthogonality_error > 0.1:

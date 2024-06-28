@@ -140,7 +140,7 @@ def mzi_arms(
 
     top_arm.connect("o1", port_e1_cp1)
     bot_arm.connect("o1", port_e0_cp1, mirror=True)
-    cout.connect(port_e0_cp2.name, bot_arm.ports["o2"])
+    cout.connect(port_e1_cp2.name, bot_arm.ports["o2"])
 
     if with_splitter:
         c.add_ports(cin.ports.filter(orientation=180), prefix="in")
@@ -156,35 +156,9 @@ def mzi_arms(
 
 
 if __name__ == "__main__":
-    # delta_length = 116.8 / 2
-    # print(delta_length)
-    # c = mzi_arms(delta_length=delta_length, with_splitter=False)
-    # c.pprint_netlist()
-    # mmi2x2 = partial(gf.components.mmi2x2, width_mmi=5, gap_mmi=2)
-    # c = mzi_arms(delta_length=10, combiner=mmi2x2)
-    c = mzi_arms()
+    from functools import partial
+
+    import gdsfactory as gf
+
+    c = mzi_arms(splitter=partial(gf.c.mmi1x2, gap_mmi=1), combiner=gf.c.mmi1x2)
     c.show()
-
-    # def bend_s(length: float = 10, **kwargs):
-    #     return gf.components.bend_s(size=(length, 10), **kwargs)
-
-    # c = mzi_arms(
-    #     delta_length=50,
-    #     # straight_x_top=bend_s,
-    #     # straight_x_bot=gf.compose(gf.functions.dmirror, bend_s),
-    #     # straight_x_top=gf.components.straight_heater_meander,
-    #     # straight_x_bot=gf.components.straight_heater_meander,
-    #     # straight_x_top=gf.components.straight_heater_metal,
-    #     # straight_x_bot=gf.components.straight_heater_metal,
-    #     # length_x=300,
-    #     # delta_yright=-20,
-    #     # length_x_bot=300,
-    #     # length_y=1.8,
-    #     # with_splitter=False,
-    # )
-    # c.show( )
-    # c.show(show_subports=True)
-    # c.pprint()
-    # n = c.get_netlist()
-    # c.plot()
-    # print(c.settings)

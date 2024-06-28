@@ -204,7 +204,7 @@ def ring_single_bend_coupler(
     st.connect(port="o2", other=bl["o1"])
     sr.connect(port="o1", other=br["o1"])
     sr.connect(port="o2", other=cb["o3"])
-    br.connect(port="o2", other=st["o1"])
+    br.connect(port="o2", other=st["o1"], mirror=True)
 
     c.add_port("o2", port=cb["o4"])
     c.add_port("o1", port=cb["o1"])
@@ -212,8 +212,8 @@ def ring_single_bend_coupler(
 
 
 if __name__ == "__main__":
-    c = coupler_bend()
-    n = c.get_netlist()
+    # c = coupler_bend()
+    # n = c.get_netlist()
     # c = coupler_ring_bend()
-    # c = ring_single_bend_coupler()
+    c = ring_single_bend_coupler()
     c.show()

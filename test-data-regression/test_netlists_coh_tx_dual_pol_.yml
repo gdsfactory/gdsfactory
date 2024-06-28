@@ -79,7 +79,7 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  coh_tx_single_pol_BPSFa_4ee171aa_205510_-220875:
+  coh_tx_single_pol_BPSFa_4ee171aa_205500_-220875:
     component: coh_tx_single_pol
     info: {}
     settings:
@@ -94,7 +94,7 @@ instances:
       phase_shifter_length: 100
       splitter: mmi1x2
       xspacing: 40
-  coh_tx_single_pol_BPSFa_4ee171aa_205510_-47875:
+  coh_tx_single_pol_BPSFa_4ee171aa_205500_-47875:
     component: coh_tx_single_pol
     info: {}
     settings:
@@ -195,9 +195,9 @@ nets:
   p2: straight_L65p875_N2_CSstrip_W0p5_-80000_-183313,o2
 - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_-84875_-145250,o2
   p2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_-102750_-139750,o3
-- p1: coh_tx_single_pol_BPSFa_4ee171aa_205510_-220875,o1
+- p1: coh_tx_single_pol_BPSFa_4ee171aa_205500_-220875,o1
   p2: straight_L7p25_N2_CSstrip_W0p5_-66375_-226250,o2
-- p1: coh_tx_single_pol_BPSFa_4ee171aa_205510_-47875,o1
+- p1: coh_tx_single_pol_BPSFa_4ee171aa_205500_-47875,o1
   p2: straight_L7p25_N2_CSstrip_W0p5_-66375_-53250,o2
 placements:
   bend_euler_R10_A90_P0p5_2f1f5c6d_-75125_-221375:
@@ -220,12 +220,12 @@ placements:
     rotation: 90
     x: -80
     y: -150.375
-  coh_tx_single_pol_BPSFa_4ee171aa_205510_-220875:
+  coh_tx_single_pol_BPSFa_4ee171aa_205500_-220875:
     mirror: false
     rotation: 0
     x: 0
     y: -173
-  coh_tx_single_pol_BPSFa_4ee171aa_205510_-47875:
+  coh_tx_single_pol_BPSFa_4ee171aa_205500_-47875:
     mirror: false
     rotation: 0
     x: 0
@@ -236,7 +236,7 @@ placements:
     x: -105.5
     y: -139.75
   straight_L65p875_N2_CSstrip_W0p5_-80000_-183313:
-    mirror: true
+    mirror: false
     rotation: 90
     x: -80
     y: -216.25
@@ -246,7 +246,7 @@ placements:
     x: -80
     y: -63.25
   straight_L7p25_N2_CSstrip_W0p5_-66375_-226250:
-    mirror: true
+    mirror: false
     rotation: 0
     x: -70
     y: -226.25
@@ -257,53 +257,53 @@ placements:
     y: -53.25
 ports:
   o1: mmi1x2_WNone_WT1_LT10_L_4e0f7121_-102750_-139750,o1
-  o2: coh_tx_single_pol_BPSFa_4ee171aa_205510_-47875,o2
-  o3: coh_tx_single_pol_BPSFa_4ee171aa_205510_-220875,o2
-  pol1_mzm_i_e1: coh_tx_single_pol_BPSFa_4ee171aa_205510_-47875,mzm_i_e1
-  pol1_mzm_i_e2: coh_tx_single_pol_BPSFa_4ee171aa_205510_-47875,mzm_i_e2
-  pol1_mzm_i_e3: coh_tx_single_pol_BPSFa_4ee171aa_205510_-47875,mzm_i_e3
-  pol1_mzm_i_e4: coh_tx_single_pol_BPSFa_4ee171aa_205510_-47875,mzm_i_e4
-  pol1_mzm_i_e5: coh_tx_single_pol_BPSFa_4ee171aa_205510_-47875,mzm_i_e5
-  pol1_mzm_i_e6: coh_tx_single_pol_BPSFa_4ee171aa_205510_-47875,mzm_i_e6
-  pol1_mzm_i_e7: coh_tx_single_pol_BPSFa_4ee171aa_205510_-47875,mzm_i_e7
-  pol1_mzm_i_e8: coh_tx_single_pol_BPSFa_4ee171aa_205510_-47875,mzm_i_e8
-  pol1_mzm_q_e1: coh_tx_single_pol_BPSFa_4ee171aa_205510_-47875,mzm_q_e1
-  pol1_mzm_q_e2: coh_tx_single_pol_BPSFa_4ee171aa_205510_-47875,mzm_q_e2
-  pol1_mzm_q_e3: coh_tx_single_pol_BPSFa_4ee171aa_205510_-47875,mzm_q_e3
-  pol1_mzm_q_e4: coh_tx_single_pol_BPSFa_4ee171aa_205510_-47875,mzm_q_e4
-  pol1_mzm_q_e5: coh_tx_single_pol_BPSFa_4ee171aa_205510_-47875,mzm_q_e5
-  pol1_mzm_q_e6: coh_tx_single_pol_BPSFa_4ee171aa_205510_-47875,mzm_q_e6
-  pol1_mzm_q_e7: coh_tx_single_pol_BPSFa_4ee171aa_205510_-47875,mzm_q_e7
-  pol1_mzm_q_e8: coh_tx_single_pol_BPSFa_4ee171aa_205510_-47875,mzm_q_e8
-  pol1_ps_q_bot_e1: coh_tx_single_pol_BPSFa_4ee171aa_205510_-47875,ps_q_bot_e1
-  pol1_ps_q_bot_e2: coh_tx_single_pol_BPSFa_4ee171aa_205510_-47875,ps_q_bot_e2
-  pol1_ps_q_bot_e3: coh_tx_single_pol_BPSFa_4ee171aa_205510_-47875,ps_q_bot_e3
-  pol1_ps_q_bot_e4: coh_tx_single_pol_BPSFa_4ee171aa_205510_-47875,ps_q_bot_e4
-  pol1_ps_q_top_e1: coh_tx_single_pol_BPSFa_4ee171aa_205510_-47875,ps_q_top_e1
-  pol1_ps_q_top_e2: coh_tx_single_pol_BPSFa_4ee171aa_205510_-47875,ps_q_top_e2
-  pol1_ps_q_top_e3: coh_tx_single_pol_BPSFa_4ee171aa_205510_-47875,ps_q_top_e3
-  pol1_ps_q_top_e4: coh_tx_single_pol_BPSFa_4ee171aa_205510_-47875,ps_q_top_e4
-  pol2_mzm_i_e1: coh_tx_single_pol_BPSFa_4ee171aa_205510_-220875,mzm_i_e1
-  pol2_mzm_i_e2: coh_tx_single_pol_BPSFa_4ee171aa_205510_-220875,mzm_i_e2
-  pol2_mzm_i_e3: coh_tx_single_pol_BPSFa_4ee171aa_205510_-220875,mzm_i_e3
-  pol2_mzm_i_e4: coh_tx_single_pol_BPSFa_4ee171aa_205510_-220875,mzm_i_e4
-  pol2_mzm_i_e5: coh_tx_single_pol_BPSFa_4ee171aa_205510_-220875,mzm_i_e5
-  pol2_mzm_i_e6: coh_tx_single_pol_BPSFa_4ee171aa_205510_-220875,mzm_i_e6
-  pol2_mzm_i_e7: coh_tx_single_pol_BPSFa_4ee171aa_205510_-220875,mzm_i_e7
-  pol2_mzm_i_e8: coh_tx_single_pol_BPSFa_4ee171aa_205510_-220875,mzm_i_e8
-  pol2_mzm_q_e1: coh_tx_single_pol_BPSFa_4ee171aa_205510_-220875,mzm_q_e1
-  pol2_mzm_q_e2: coh_tx_single_pol_BPSFa_4ee171aa_205510_-220875,mzm_q_e2
-  pol2_mzm_q_e3: coh_tx_single_pol_BPSFa_4ee171aa_205510_-220875,mzm_q_e3
-  pol2_mzm_q_e4: coh_tx_single_pol_BPSFa_4ee171aa_205510_-220875,mzm_q_e4
-  pol2_mzm_q_e5: coh_tx_single_pol_BPSFa_4ee171aa_205510_-220875,mzm_q_e5
-  pol2_mzm_q_e6: coh_tx_single_pol_BPSFa_4ee171aa_205510_-220875,mzm_q_e6
-  pol2_mzm_q_e7: coh_tx_single_pol_BPSFa_4ee171aa_205510_-220875,mzm_q_e7
-  pol2_mzm_q_e8: coh_tx_single_pol_BPSFa_4ee171aa_205510_-220875,mzm_q_e8
-  pol2_ps_q_bot_e1: coh_tx_single_pol_BPSFa_4ee171aa_205510_-220875,ps_q_bot_e1
-  pol2_ps_q_bot_e2: coh_tx_single_pol_BPSFa_4ee171aa_205510_-220875,ps_q_bot_e2
-  pol2_ps_q_bot_e3: coh_tx_single_pol_BPSFa_4ee171aa_205510_-220875,ps_q_bot_e3
-  pol2_ps_q_bot_e4: coh_tx_single_pol_BPSFa_4ee171aa_205510_-220875,ps_q_bot_e4
-  pol2_ps_q_top_e1: coh_tx_single_pol_BPSFa_4ee171aa_205510_-220875,ps_q_top_e1
-  pol2_ps_q_top_e2: coh_tx_single_pol_BPSFa_4ee171aa_205510_-220875,ps_q_top_e2
-  pol2_ps_q_top_e3: coh_tx_single_pol_BPSFa_4ee171aa_205510_-220875,ps_q_top_e3
-  pol2_ps_q_top_e4: coh_tx_single_pol_BPSFa_4ee171aa_205510_-220875,ps_q_top_e4
+  o2: coh_tx_single_pol_BPSFa_4ee171aa_205500_-47875,o2
+  o3: coh_tx_single_pol_BPSFa_4ee171aa_205500_-220875,o2
+  pol1_mzm_i_e1: coh_tx_single_pol_BPSFa_4ee171aa_205500_-47875,mzm_i_e1
+  pol1_mzm_i_e2: coh_tx_single_pol_BPSFa_4ee171aa_205500_-47875,mzm_i_e2
+  pol1_mzm_i_e3: coh_tx_single_pol_BPSFa_4ee171aa_205500_-47875,mzm_i_e3
+  pol1_mzm_i_e4: coh_tx_single_pol_BPSFa_4ee171aa_205500_-47875,mzm_i_e4
+  pol1_mzm_i_e5: coh_tx_single_pol_BPSFa_4ee171aa_205500_-47875,mzm_i_e5
+  pol1_mzm_i_e6: coh_tx_single_pol_BPSFa_4ee171aa_205500_-47875,mzm_i_e6
+  pol1_mzm_i_e7: coh_tx_single_pol_BPSFa_4ee171aa_205500_-47875,mzm_i_e7
+  pol1_mzm_i_e8: coh_tx_single_pol_BPSFa_4ee171aa_205500_-47875,mzm_i_e8
+  pol1_mzm_q_e1: coh_tx_single_pol_BPSFa_4ee171aa_205500_-47875,mzm_q_e1
+  pol1_mzm_q_e2: coh_tx_single_pol_BPSFa_4ee171aa_205500_-47875,mzm_q_e2
+  pol1_mzm_q_e3: coh_tx_single_pol_BPSFa_4ee171aa_205500_-47875,mzm_q_e3
+  pol1_mzm_q_e4: coh_tx_single_pol_BPSFa_4ee171aa_205500_-47875,mzm_q_e4
+  pol1_mzm_q_e5: coh_tx_single_pol_BPSFa_4ee171aa_205500_-47875,mzm_q_e5
+  pol1_mzm_q_e6: coh_tx_single_pol_BPSFa_4ee171aa_205500_-47875,mzm_q_e6
+  pol1_mzm_q_e7: coh_tx_single_pol_BPSFa_4ee171aa_205500_-47875,mzm_q_e7
+  pol1_mzm_q_e8: coh_tx_single_pol_BPSFa_4ee171aa_205500_-47875,mzm_q_e8
+  pol1_ps_q_bot_e1: coh_tx_single_pol_BPSFa_4ee171aa_205500_-47875,ps_q_bot_e1
+  pol1_ps_q_bot_e2: coh_tx_single_pol_BPSFa_4ee171aa_205500_-47875,ps_q_bot_e2
+  pol1_ps_q_bot_e3: coh_tx_single_pol_BPSFa_4ee171aa_205500_-47875,ps_q_bot_e3
+  pol1_ps_q_bot_e4: coh_tx_single_pol_BPSFa_4ee171aa_205500_-47875,ps_q_bot_e4
+  pol1_ps_q_top_e1: coh_tx_single_pol_BPSFa_4ee171aa_205500_-47875,ps_q_top_e1
+  pol1_ps_q_top_e2: coh_tx_single_pol_BPSFa_4ee171aa_205500_-47875,ps_q_top_e2
+  pol1_ps_q_top_e3: coh_tx_single_pol_BPSFa_4ee171aa_205500_-47875,ps_q_top_e3
+  pol1_ps_q_top_e4: coh_tx_single_pol_BPSFa_4ee171aa_205500_-47875,ps_q_top_e4
+  pol2_mzm_i_e1: coh_tx_single_pol_BPSFa_4ee171aa_205500_-220875,mzm_i_e1
+  pol2_mzm_i_e2: coh_tx_single_pol_BPSFa_4ee171aa_205500_-220875,mzm_i_e2
+  pol2_mzm_i_e3: coh_tx_single_pol_BPSFa_4ee171aa_205500_-220875,mzm_i_e3
+  pol2_mzm_i_e4: coh_tx_single_pol_BPSFa_4ee171aa_205500_-220875,mzm_i_e4
+  pol2_mzm_i_e5: coh_tx_single_pol_BPSFa_4ee171aa_205500_-220875,mzm_i_e5
+  pol2_mzm_i_e6: coh_tx_single_pol_BPSFa_4ee171aa_205500_-220875,mzm_i_e6
+  pol2_mzm_i_e7: coh_tx_single_pol_BPSFa_4ee171aa_205500_-220875,mzm_i_e7
+  pol2_mzm_i_e8: coh_tx_single_pol_BPSFa_4ee171aa_205500_-220875,mzm_i_e8
+  pol2_mzm_q_e1: coh_tx_single_pol_BPSFa_4ee171aa_205500_-220875,mzm_q_e1
+  pol2_mzm_q_e2: coh_tx_single_pol_BPSFa_4ee171aa_205500_-220875,mzm_q_e2
+  pol2_mzm_q_e3: coh_tx_single_pol_BPSFa_4ee171aa_205500_-220875,mzm_q_e3
+  pol2_mzm_q_e4: coh_tx_single_pol_BPSFa_4ee171aa_205500_-220875,mzm_q_e4
+  pol2_mzm_q_e5: coh_tx_single_pol_BPSFa_4ee171aa_205500_-220875,mzm_q_e5
+  pol2_mzm_q_e6: coh_tx_single_pol_BPSFa_4ee171aa_205500_-220875,mzm_q_e6
+  pol2_mzm_q_e7: coh_tx_single_pol_BPSFa_4ee171aa_205500_-220875,mzm_q_e7
+  pol2_mzm_q_e8: coh_tx_single_pol_BPSFa_4ee171aa_205500_-220875,mzm_q_e8
+  pol2_ps_q_bot_e1: coh_tx_single_pol_BPSFa_4ee171aa_205500_-220875,ps_q_bot_e1
+  pol2_ps_q_bot_e2: coh_tx_single_pol_BPSFa_4ee171aa_205500_-220875,ps_q_bot_e2
+  pol2_ps_q_bot_e3: coh_tx_single_pol_BPSFa_4ee171aa_205500_-220875,ps_q_bot_e3
+  pol2_ps_q_bot_e4: coh_tx_single_pol_BPSFa_4ee171aa_205500_-220875,ps_q_bot_e4
+  pol2_ps_q_top_e1: coh_tx_single_pol_BPSFa_4ee171aa_205500_-220875,ps_q_top_e1
+  pol2_ps_q_top_e2: coh_tx_single_pol_BPSFa_4ee171aa_205500_-220875,ps_q_top_e2
+  pol2_ps_q_top_e3: coh_tx_single_pol_BPSFa_4ee171aa_205500_-220875,ps_q_top_e3
+  pol2_ps_q_top_e4: coh_tx_single_pol_BPSFa_4ee171aa_205500_-220875,ps_q_top_e4
