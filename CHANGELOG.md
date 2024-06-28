@@ -1,12 +1,16 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.3.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.4.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.4.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.4.0) - 2024-06-28
 
-No significant changes.
-
+- better difftest to show old and new in separate dy [#2923](https://github.com/gdsfactory/gdsfactory/pull/2923)
+- Added spiral inductor in gdsfactory.components [#2918](https://github.com/gdsfactory/gdsfactory/pull/2918)
+- add allow_layer_mismatch and allow_width_mismatch [#2920](https://github.com/gdsfactory/gdsfactory/pull/2920)
+- add labels with old, new, xor [#2924](https://github.com/gdsfactory/gdsfactory/pull/2924)
+- Update kfactory [#2921](https://github.com/gdsfactory/gdsfactory/pull/2921)
+- Bump kfactory[git,ipy] from 0.17.6 to 0.17.8 [#2922](https://github.com/gdsfactory/gdsfactory/pull/2922)
 
 ## [8.3.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.3.1) - 2024-06-25
 
