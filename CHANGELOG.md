@@ -5,13 +5,9 @@
 
 ## [8.3.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.3.1) - 2024-06-25
 
-No significant changes.
-
-
-## [8.3.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.3.0) - 2024-06-23
-
-No significant changes.
-
+- fix add_ports_from_labels [#2917](https://github.com/gdsfactory/gdsfactory/pull/2917)
+- fixes add_ports_from_labels [#2916](https://github.com/gdsfactory/gdsfactory/pull/2916)
+- save_options should be None by default [#2909](https://github.com/gdsfactory/gdsfactory/pull/2909)
 
 ## [8.3.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.2.1) - 2024-06-21
 

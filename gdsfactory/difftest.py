@@ -130,6 +130,7 @@ def diff(
         equivalent = False
 
     if not equal:
+        c_old_new = KCell(f"{test_name}_old_new")
         c = KCell(f"{test_name}_difftest")
         refdiff = KCell(f"{test_name}_old")
         rundiff = KCell(f"{test_name}_new")
@@ -137,8 +138,8 @@ def diff(
         # TODO: add suffix new and old
         refdiff.copy_tree(ref._kdb_cell)
         rundiff.copy_tree(run._kdb_cell)
-        _ = c << refdiff
-        _ = c << rundiff
+        _ = c_old_new << refdiff
+        _ = c_old_new << rundiff
 
         if xor:
             print("Running XOR on differences...")
@@ -193,6 +194,7 @@ def diff(
             equivalent = False
 
         if show and not equivalent:
+            c_old_new.show()
             c.show()
         return not equivalent
     return False

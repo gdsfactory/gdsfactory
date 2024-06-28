@@ -45,6 +45,7 @@ def spiral_double(
     spiral = path.extrude(cross_section=cross_section)
     spiral1 = component.add_ref(spiral)
     spiral2 = component.add_ref(spiral)
+    spiral2.mirror()
 
     spiral2.connect("o1", bend2.ports["o1"])
     spiral1.connect("o1", bend1.ports["o2"], mirror=True)
