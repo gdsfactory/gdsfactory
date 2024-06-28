@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.4.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.4.0) - 2024-06-28
+
+No significant changes.
+
+
 ## [8.3.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.3.1) - 2024-06-25
 
 - fix add_ports_from_labels [#2917](https://github.com/gdsfactory/gdsfactory/pull/2917)
