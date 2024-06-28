@@ -24,13 +24,8 @@ def spiral_inductor(
         outer_diameter: size of the inductor.
         tail: length of the inner and outer tail.
     """
-    c = Component()
-    P = gf.Path()
-
     # create the outer tail
-    P += gf.path.straight(length=tail)
-
-    # create the spiral path
+    P = gf.path.straight(length=tail)
     P.end_angle -= 90
     for i in range(turns * 2):
         P += gf.path.arc(radius=outer_diameter / 2 - (pitch + width) * i / 2, angle=180)
@@ -38,21 +33,7 @@ def spiral_inductor(
     # create the inner tail
     P.end_angle += 90  # "Turn" 90 deg (left)
     P += gf.path.straight(length=tail)
-
-    # extrude
-    track = gf.path.extrude(P, layer=(1, 0), width=width)
-    c.add_ref(track)
-
-    # add port
-    c.add_port(name="outer", center=(0, 0), width=width, orientation=180, layer=(1, 0))
-    c.add_port(
-        name="inner",
-        center=(P.points[-1, 0], P.points[-1, 1]),
-        width=width,
-        orientation=0,
-        layer=(1, 0),
-    )
-    return c
+    return gf.path.extrude(P, layer=(1, 0), width=width)
 
 
 if __name__ == "__main__":
