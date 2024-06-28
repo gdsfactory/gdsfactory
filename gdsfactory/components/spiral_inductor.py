@@ -12,17 +12,17 @@ def spiral_inductor(
     outer_diameter: float = 800,
     tail: float = 50.0,
 ) -> Component:
-    """Generates a spiral inductor to make superconducting resonator for qubit readout
+    """Generates a spiral inductor to make superconducting resonator for qubit readout.
 
     See J. M. Hornibrook, J. I. Colless, A. C. Mahoney, X. G. Croot, S. Blanvillain, H. Lu, A. C. Gossard, D. J. Reilly;
     Frequency multiplexing for readout of spin qubits. Appl. Phys. Lett. 10 March 2014; 104 (10): 103108. https://doi.org/10.1063/1.4868107
 
     Args:
-        width: width of the inductor track
-        pitch:
-        turns: number of full spriral turns
-        outer_diameter: size of the inductor
-        tail: length of the inner and outer tail
+        width: width of the inductor track.
+        pitch: distance between the inductor tracks.
+        turns: number of full spriral turns.
+        outer_diameter: size of the inductor.
+        tail: length of the inner and outer tail.
     """
     c = Component()
     P = gf.Path()
