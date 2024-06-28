@@ -1,0 +1,8 @@
+info: {}
+name: spiral_inductor_W3_P3_T_1d1aa23c
+settings:
+  outer_diameter: 800
+  pitch: 3
+  tail: 50
+  turns: 16
+  width: 3
