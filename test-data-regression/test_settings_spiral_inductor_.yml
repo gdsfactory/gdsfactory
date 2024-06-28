@@ -1,4 +1,5 @@
-info: {}
+info:
+  length: 35637.695
 name: spiral_inductor_W3_P3_T_1d1aa23c
 settings:
   outer_diameter: 800

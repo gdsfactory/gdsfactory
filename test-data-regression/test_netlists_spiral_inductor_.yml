@@ -1,17 +1,5 @@
-instances:
-  Unnamed_2751_425750_-1500:
-    component: null
-    info:
-      length: 35637.695
-    settings: {}
+instances: {}
 name: spiral_inductor_W3_P3_T_1d1aa23c
 nets: []
-placements:
-  Unnamed_2751_425750_-1500:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 0
-ports:
-  inner: Unnamed_2751_425750_-1500,o2
-  outer: Unnamed_2751_425750_-1500,o1
+placements: {}
+ports: {}
