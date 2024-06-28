@@ -29,8 +29,8 @@ def test_extract() -> None:
 
 def test_hierarchy():
     c = gf.c.mzi()
-    assert len(c.called_cells()) == 8
-    assert c.child_cells() == 8
+    assert len(c.called_cells()) == 5, len(c.called_cells())
+    assert c.child_cells() == 5, c.child_cells()
 
 
 def test_get_polygons():

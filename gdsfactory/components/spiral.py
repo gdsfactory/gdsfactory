@@ -31,8 +31,9 @@ def spiral(
     _length = length
 
     b_inners = [c << b for _ in range(4)]
-    b_inners[1].connect("o2", b_inners[0], "o2")
-    b_inners[2].connect("o1", b_inners[1], "o1", mirror=True)
+    b_inners[0].dmirror()
+    b_inners[1].connect("o1", b_inners[0], "o2")
+    b_inners[2].connect("o1", b_inners[1], "o2")
     s_space = c << gf.get_component(
         straight, cross_section=cross_section, length=spacing
     )

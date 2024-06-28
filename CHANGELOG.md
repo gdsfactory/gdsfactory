@@ -1,12 +1,23 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.2.3...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.3.0...main)
 
 <!-- towncrier release notes start -->
+
+## [8.3.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.3.1) - 2024-06-25
+
+- fix add_ports_from_labels [#2917](https://github.com/gdsfactory/gdsfactory/pull/2917)
+- fixes add_ports_from_labels [#2916](https://github.com/gdsfactory/gdsfactory/pull/2916)
+- save_options should be None by default [#2909](https://github.com/gdsfactory/gdsfactory/pull/2909)
+
+## [8.3.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.2.1) - 2024-06-21
+
+- Fix dicing_lane [#2904](https://github.com/gdsfactory/gdsfactory/pull/2904)
+- fix route_bundle [#2901](https://github.com/gdsfactory/gdsfactory/pull/2901)
+- Fix dicing_lane [#2904](https://github.com/gdsfactory/gdsfactory/pull/2904)
 
 ## [8.2.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.2.1) - 2024-06-21
 
 - fix plot_netlist [#2900](https://github.com/gdsfactory/gdsfactory/pull/2900)
-
 
 ## [8.2.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.2.0) - 2024-06-21
 

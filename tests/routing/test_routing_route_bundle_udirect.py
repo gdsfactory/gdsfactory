@@ -15,7 +15,9 @@ def test_route_bundle_udirect_pads(
     c = gf.Component()
 
     pad = partial(gf.components.pad, size=(10, 10))
-    pad_south = gf.components.pad_array(orientation=270, spacing=(15.0, 0), pad=pad)
+    pad_south = gf.components.pad_array(
+        port_orientation=270, spacing=(15.0, 0), pad=pad
+    )
     pt = c << pad_south
     pb = c << pad_south
     pb.drotate(90)
@@ -27,7 +29,7 @@ def test_route_bundle_udirect_pads(
 
     pbports.reverse()
 
-    routes = gf.routing.route_bundle(c, pbports, ptports, radius=5)
+    routes = gf.routing.route_bundle_electrical(c, pbports, ptports, radius=5)
 
     lengths = {}
     for i, route in enumerate(routes):
@@ -37,14 +39,13 @@ def test_route_bundle_udirect_pads(
         data_regression.check(lengths)
 
 
-@gf.cell
-def test_connect_bundle_udirect(
+def test_route_connect_bundle_udirect(
     data_regression: DataRegressionFixture,
     check: bool = True,
     dy=200,
     orientation=270,
     layer=(1, 0),
-):
+) -> None:
     xs1 = [-100, -90, -80, -55, -35, 24, 0] + [200, 210, 240]
     axis = "X" if orientation in [0, 180] else "Y"
     pitch = 10.0
@@ -109,9 +110,7 @@ def test_connect_bundle_udirect(
     lengths = {i: route.length for i, route in enumerate(routes)}
     if check:
         data_regression.check(lengths)
-    return c
 
 
 if __name__ == "__main__":
-    c = test_connect_bundle_udirect(None, False)
-    c.show()
+    test_route_bundle_udirect_pads(None, check=False)

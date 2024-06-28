@@ -32,7 +32,7 @@ def route_south(
     port_names: Strs | None = None,
     cross_section: CrossSectionSpec = strip,
     start_straight_length: float = 0.5,
-    port_type: str = "optical",
+    port_type: str | None = None,
     allow_width_mismatch: bool = False,
 ) -> list[OpticalManhattanRoute]:
     """Places routes to route a component ports to the south.
@@ -99,6 +99,7 @@ def route_south(
         optical_ports = select_ports(component.ports)
         optical_ports = [p for p in optical_ports if p.name not in excluded_ports]
 
+    port_type = port_type or optical_ports[0].port_type
     bend90 = bend(cross_section=cross_section) if callable(bend) else bend
     bend90 = gf.get_component(bend90)
     dy = abs(bend90.info["dy"])
