@@ -175,6 +175,9 @@ class ComponentReference(kf.Instance):
             return super().__setattr__(f"d{__k}", __v)
         super().__setattr__(__k, __v)
 
+    def flatten(self, levels: int | None = None) -> None:
+        self._kfinst.flatten(levels)
+
 
 class ComponentReferences(kf.kcell.Instances):
     def __getitem__(self, key: str | int) -> ComponentReference:
@@ -501,7 +504,7 @@ class ComponentBase:
             reference: Instance to be absorbed into the Component.
 
         """
-        if reference not in self.insts:
+        if reference._kfinst not in self.insts:
             raise ValueError(
                 "The reference you asked to absorb does not exist in this Component."
             )
