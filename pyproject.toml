@@ -38,7 +38,7 @@ dependencies = [
   "mapbox_earcut",
   "networkx",
   "scikit-image",
-  "trimesh>=4,<4.4",
+  "trimesh>=4.4.1,<4.5",
   "ipykernel"
 ]
 description = "python library to generate GDS layouts"
