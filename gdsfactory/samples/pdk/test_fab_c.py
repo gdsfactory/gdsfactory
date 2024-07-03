@@ -41,6 +41,14 @@ def activate_pdk():
     PDK.activate()
 
 
+def test_to_updk():
+    from gdsfactory.samples.pdk.fab_c import PDK
+
+    PDK.activate()
+    yaml_pdk_decription = PDK.to_updk()
+    assert yaml_pdk_decription
+
+
 @pytest.fixture(params=cell_names, scope="function")
 def component_name(request) -> str:
     return request.param
@@ -64,6 +72,7 @@ def test_settings(component_name: str, data_regression: DataRegressionFixture) -
 
 
 if __name__ == "__main__":
-    print(cell_names)
-    c = cells[cell_names[0]]()
-    difftest(c, test_name=f"fabc_{cell_names[0]}")
+    # print(cell_names)
+    # c = cells[cell_names[0]]()
+    # difftest(c, test_name=f"fabc_{cell_names[0]}")
+    test_to_updk()
