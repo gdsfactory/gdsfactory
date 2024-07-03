@@ -170,10 +170,14 @@ routes:
 def test_connections_different_factory() -> None:
     c = from_yaml(sample_different_factory)
     lengths = [700000, 700000, 700000]
-    assert c.routes["tl,e3:tr,e1"].length == lengths[0], c.routes["tl,e3:tr,e1"].length
-    assert c.routes["bl,e3:br,e1"].length == lengths[1], c.routes["bl,e3:br,e1"].length
-    assert np.isclose(c.routes["bl,e4:br,e3"].length, lengths[2]), c.routes[
-        "bl,e4:br,e3"
+    assert c.routes["electrical-tl,e3-tr,e1"].length == lengths[0], c.routes[
+        "electrical-tl,e3-tr,e1"
+    ].length
+    assert c.routes["electrical-bl,e3-br,e1"].length == lengths[1], c.routes[
+        "electrical-bl,e3-br,e1"
+    ].length
+    assert np.isclose(c.routes["optical-bl,e4-br,e3"].length, lengths[2]), c.routes[
+        "optical-bl,e4-br,e3"
     ].length
 
 
@@ -337,7 +341,11 @@ routes:
 
 def test_connections_regex() -> None:
     c = from_yaml(sample_regex_connections)
-    route_names = ["left,o1:right,o3", "left,o2:right,o2", "left,o3:right,o1"]
+    route_names = [
+        "optical-left,o1-right,o3",
+        "optical-left,o2-right,o2",
+        "optical-left,o3-right,o1",
+    ]
 
     length = 12000
     for route_name in route_names:
@@ -346,7 +354,11 @@ def test_connections_regex() -> None:
 
 def test_connections_regex_backwards() -> None:
     c = from_yaml(sample_regex_connections_backwards)
-    route_names = ["left,o3:right,o1", "left,o2:right,o2", "left,o1:right,o3"]
+    route_names = [
+        "optical-left,o3-right,o1",
+        "optical-left,o2-right,o2",
+        "optical-left,o1-right,o3",
+    ]
 
     length = 12000
     for route_name in route_names:
@@ -360,13 +372,13 @@ def test_connections_waypoints() -> None:
     c = from_yaml(sample_waypoints)
 
     length = 2036548
-    route_name = "b,e11:t,e11"
+    route_name = "optical-b,e11-t,e11"
     assert np.isclose(c.routes[route_name].length, length), c.routes[route_name].length
 
 
 def test_docstring_sample() -> None:
     c = from_yaml(sample_docstring)
-    route_name = "mmi_top,o3:mmi_bot,o1"
+    route_name = "optical-mmi_top,o3-mmi_bot,o1"
     length = 38750
     assert np.isclose(c.routes[route_name].length, length), c.routes[route_name].length
     c.delete()
@@ -589,9 +601,9 @@ def test_gds_and_settings(
 
 
 if __name__ == "__main__":
-    test_connections_2x2()
-    # test_connections_different_factory()
-    # import gdsfactory as gf
-    #
-    # c = gf.read.from_yaml(sample_2x2_connections)
-    # c.show()
+    # test_connections_2x2()
+    # test_connections_regex_backwards()
+    import gdsfactory as gf
+
+    c = gf.read.from_yaml(yaml_anchor)
+    c.show()
