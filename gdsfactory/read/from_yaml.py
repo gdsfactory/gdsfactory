@@ -522,7 +522,8 @@ def make_connection(
     else:
         dst_port = instance_dst.ports[(port_dst_name, dst_ia, dst_ib)]
 
-    instance_src.connect(port=src_port, other=dst_port, use_mirror=True, mirror=False)
+    mirror = instance_src.dmirror
+    instance_src.connect(port=src_port, other=dst_port, use_mirror=True, mirror=mirror)
 
 
 sample_mmis = """
