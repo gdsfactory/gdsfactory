@@ -111,7 +111,7 @@ def test_connections_2x2() -> None:
     assert len(c.insts) == 11, len(c.insts)
     assert len(c.ports) == 0, len(c.ports)
 
-    length = c.routes["mmi_bottom,o3:mmi_top,o2"].length
+    length = c.routes["optical-mmi_bottom,o3-mmi_top,o2"].length
     assert np.isclose(length, 135000), length
     c.delete()
 
@@ -589,8 +589,9 @@ def test_gds_and_settings(
 
 
 if __name__ == "__main__":
+    test_connections_2x2()
     # test_connections_different_factory()
-    import gdsfactory as gf
-
-    c = gf.read.from_yaml(sample_2x2_connections)
-    c.show()
+    # import gdsfactory as gf
+    #
+    # c = gf.read.from_yaml(sample_2x2_connections)
+    # c.show()

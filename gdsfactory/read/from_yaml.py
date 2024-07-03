@@ -893,7 +893,7 @@ def _add_routes(
             ports1 += _get_ports_from_portnames(refs, i1, p1s)
             ports2 += _get_ports_from_portnames(refs, i2, p2s)
             route_names += [
-                f"{bundle_name}-{i1}{p1}-{i2}{p2}" for p1, p2 in zip(ports1, ports2)
+                f"{bundle_name}-{i1},{p1}-{i2},{p2}" for p1, p2 in zip(p1s, p2s)
             ]
 
         routes_list = routing_strategy(  # type: ignore
