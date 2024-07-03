@@ -764,14 +764,15 @@ def from_yaml(
         raise ValueError("Invalid format for 'yaml_str'.")
 
     pdk_name = dct.get("pdk", "")
-    if pdk_name and pdk_name == "generic":
-        get_generic_pdk().activate()
-    elif pdk_name:
-        module = importlib.import_module(pdk_name)
-        pdk = module.PDK
-        if pdk is None:
-            raise ValueError(f"'from {pdk} import PDK' failed")
-        pdk.activate()
+    if pdk_name:
+        if pdk_name == "generic":
+            get_generic_pdk().activate()
+        else:
+            module = importlib.import_module(pdk_name)
+            pdk = module.PDK
+            if pdk is None:
+                raise ValueError(f"'from {pdk} import PDK' failed")
+            pdk.activate()
 
     pdk = get_active_pdk()
     net = Netlist.model_validate(dct)
@@ -792,9 +793,10 @@ def from_yaml(
             _graph_connect(g, i1, i2)
 
     c = Component()
-    refs = {}
-    for k, inst in net.instances.items():
-        refs[k] = c.add_ref(pdk.get_component(inst.component, **inst.settings), name=k)
+    refs = {
+        k: c.add_ref(pdk.get_component(inst.component, **inst.settings), name=k)
+        for k, inst in net.instances.items()
+    }
     directed_connections = _get_directed_connections(net.connections)
     for root in _graph_roots(g):
         for i2, i1 in nx.dfs_edges(g, root):
@@ -811,11 +813,11 @@ def from_yaml(
     for bundle_name, bundle in net.routes.items():
         try:
             routing_strategy = routing_strategies[bundle.routing_strategy]  # type: ignore
-        except KeyError:
+        except KeyError as e:
             raise ValueError(
                 f"Unknown routing strategy.\nvalid strategies: {list(routing_strategies)}\n"
                 f"Got:{bundle.routing_strategy}"
-            )
+            ) from e
 
         for ip1, ip2 in bundle.links.items():
             i1, p1s = _split_route_link(ip1)
@@ -848,10 +850,7 @@ def from_yaml(
         ps = [p.name for p in ref.ports]
         if p not in ps:
             raise ValueError(f"{p!r} not in {ps} for" f" {i!r}.")
-        if ia is None:
-            inst_port = ref.ports[p]
-        else:
-            inst_port = ref.ports[p, ia, ib]
+        inst_port = ref.ports[p] if ia is None else ref.ports[p, ia, ib]
         c.add_port(name, port=inst_port)
 
     for instance_name in net.instances:
@@ -871,13 +870,12 @@ def _graph_connect(g: nx.DiGraph, i1: str, i2: str):
 
 
 def _two_out_of_three_none(one, two, three):
-    if one is None and two is None:
-        return True
-    if one is None and three is None:
-        return True
-    if two is None and three is None:
-        return True
-    return False
+    if one is None:
+        if two is None:
+            return True
+        if three is None:
+            return True
+    return two is None and three is None
 
 
 def _update_reference_by_placement(
@@ -916,10 +914,10 @@ def _update_reference_by_placement(
             try:
                 mirror = float(mirror)
                 ref.dmirror_x(x=ref.dx)
-            except Exception:
+            except Exception as e:
                 raise ValueError(
                     f"{mirror!r} should be bool | float | str in {port_names}. Got: {mirror}."
-                )
+                ) from e
 
     if isinstance(port, str):
         if xmin is not None or xmax is not None or ymin is not None or ymax is not None:
@@ -1011,23 +1009,23 @@ def _split_route_link(s):
     i, p = ip.split(",")
     if jk is None:
         return i, [f"{p}"]
-    else:
-        j, k = jk
+    j, k = jk
 
-        def _try_int(i):
-            try:
-                return int(i)
-            except ValueError:
-                raise ValueError(
-                    f"The format for bundle routing is 'inst,port_base:i0:i1' with i0 and i1 integers. Got: {s}"
-                )
+    def _try_int(i):
+        try:
+            return int(i)
+        except ValueError:
+            raise ValueError(
+                f"The format for bundle routing is 'inst,port_base:i0:i1' with i0 and i1 integers. Got: {s}"
+            )
 
-        j = _try_int(j)
-        k = _try_int(k)
-        if k > j:
-            return i, [f"{p}{idx}" for idx in range(j, k + 1)]
-        else:
-            return i, [f"{p}{idx}" for idx in range(j, k - 1, -1)]
+    j = _try_int(j)
+    k = _try_int(k)
+    return (
+        (i, [f"{p}{idx}" for idx in range(j, k + 1)])
+        if k > j
+        else (i, [f"{p}{idx}" for idx in range(j, k - 1, -1)])
+    )
 
 
 def _get_ports_from_portnames(refs, i, ps):
