@@ -756,12 +756,7 @@ def from_yaml(
     _place_and_connect(g, refs, net.connections, net.placements)
     c = _add_routes(c, refs, net.routes, routing_strategy)
     c = _add_ports(c, refs, net.ports)
-    for instance_name in net.instances:
-        label_instance_function(
-            component=c,
-            instance_name=instance_name,
-            reference=refs[instance_name],
-        )
+    c = _add_labels(c, refs, label_instance_function)
     c.name = name or net.name or c.name
     return c
 
@@ -914,6 +909,14 @@ def _add_ports(
             raise ValueError(f"{p!r} not in {ps} for" f" {i!r}.")
         inst_port = ref.ports[p] if ia is None else ref.ports[p, ia, ib]
         c.add_port(name, port=inst_port)
+    return c
+
+
+def _add_labels(
+    c: Component, refs: dict[str, ComponentReference], label_instance_function: Callable
+):
+    for name, ref in refs.items():
+        label_instance_function(component=c, instance_name=name, reference=ref)
     return c
 
 
