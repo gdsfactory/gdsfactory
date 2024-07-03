@@ -19,7 +19,7 @@ placements:
         y: 20
 connections:
     b,o1 : mmi_short,o2
-    mmi_long,o1: b, o2
+    mmi_long,o1: b,o2
 
 ports:
     o1: mmi_short,o1
