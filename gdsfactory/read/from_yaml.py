@@ -879,6 +879,10 @@ def _add_routes(
                 f"Got:{bundle.routing_strategy}"
             ) from e
 
+        ports1 = []
+        ports2 = []
+        route_names = []
+
         for ip1, ip2 in bundle.links.items():
             i1, p1s = _split_route_link(ip1)
             i2, p2s = _split_route_link(ip2)
@@ -886,19 +890,20 @@ def _add_routes(
                 raise ValueError(
                     f"length of array bundles don't match. Got {ip1} <-> {ip2}"
                 )
-            ports1 = _get_ports_from_portnames(refs, i1, p1s)
-            ports2 = _get_ports_from_portnames(refs, i2, p2s)
-            route_names = [
+            ports1 += _get_ports_from_portnames(refs, i1, p1s)
+            ports2 += _get_ports_from_portnames(refs, i2, p2s)
+            route_names += [
                 f"{bundle_name}-{i1}{p1}-{i2}{p2}" for p1, p2 in zip(ports1, ports2)
             ]
-            routes_list = routing_strategy(  # type: ignore
-                c,
-                ports1=ports1,
-                ports2=ports2,
-                **bundle.settings,
-            )
-            for route_name, route in zip(route_names, routes_list):
-                routes_dict[route_name] = route
+
+        routes_list = routing_strategy(  # type: ignore
+            c,
+            ports1=ports1,
+            ports2=ports2,
+            **bundle.settings,
+        )
+        for route_name, route in zip(route_names, routes_list):
+            routes_dict[route_name] = route
         c.routes = routes_dict  # type: ignore
     return c
 
@@ -1666,9 +1671,39 @@ instances:
            width_mmi: [4, 10]
 """
 
+sample_2x2_connections = """
+name: connections_2x2_solution
+
+instances:
+    mmi_bottom:
+      component: mmi2x2
+      settings:
+            length_mmi: 5
+    mmi_top:
+      component: mmi2x2
+      settings:
+            length_mmi: 10
+
+placements:
+    mmi_top:
+        x: 100
+        y: 100
+
+routes:
+    optical:
+        links:
+            mmi_bottom,o4: mmi_top,o1
+            mmi_bottom,o3: mmi_top,o2
+
+        settings:
+            cross_section:
+                cross_section: strip
+
+"""
+
 
 if __name__ == "__main__":
-    c = from_yaml(sample_doe)
+    c = from_yaml(sample_2x2_connections)
     # c = from_yaml(sample_array)
     # c = from_yaml(sample_yaml_xmin)
     # c = from_yaml(sample_array)
