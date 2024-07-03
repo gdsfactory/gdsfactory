@@ -68,6 +68,30 @@ class Bundle(BaseModel):
     model_config = {"extra": "forbid"}
 
 
+class Net(BaseModel):
+    """Net between two ports.
+
+    Parameters:
+        p1: instance_name,port 1.
+        p2: instance_name,port 2.
+        name: route name.
+    """
+
+    p1: str
+    p2: str
+    settings: dict[str, Any] = Field(default_factory=dict)
+    name: str | None = None
+
+    def __init__(self, **data):
+        """Initialize the net."""
+        global _route_counter
+        super().__init__(**data)
+        # If route name is not provided, generate one automatically
+        if self.name is None:
+            self.name = f"route_{_route_counter}"
+            _route_counter += 1
+
+
 class Netlist(BaseModel):
     """Netlist defined component.
 
@@ -80,6 +104,8 @@ class Netlist(BaseModel):
         info: information (polarization, wavelength ...).
         ports: exposed component ports.
         settings: input variables.
+        nets: list of nets.
+        warnings: warnings.
     """
 
     pdk: str = ""
@@ -91,35 +117,13 @@ class Netlist(BaseModel):
     info: dict[str, Any] = Field(default_factory=dict)
     ports: dict[str, str] = Field(default_factory=dict)
     settings: dict[str, Any] = Field(default_factory=dict, exclude=True)
+    nets: list[Net] = Field(default_factory=list)
+    warnings: dict[str, Any] = Field(default_factory=dict)
 
     model_config = {"extra": "forbid"}
 
 
 _route_counter = 0
-
-
-class Net(BaseModel):
-    """Net between two ports.
-
-    Parameters:
-        ip1: instance_name,port 1.
-        ip2: instance_name,port 2.
-        name: route name.
-    """
-
-    ip1: str
-    ip2: str
-    settings: dict[str, Any] = Field(default_factory=dict)
-    name: str | None = None
-
-    def __init__(self, **data):
-        """Initialize the net."""
-        global _route_counter
-        super().__init__(**data)
-        # If route name is not provided, generate one automatically
-        if self.name is None:
-            self.name = f"route_{_route_counter}"
-            _route_counter += 1
 
 
 class Link(BaseModel):
