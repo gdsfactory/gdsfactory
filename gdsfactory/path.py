@@ -311,7 +311,7 @@ class Path(_GeometryHelper):
         theta = np.concatenate([theta[:1], theta, theta[-1:]])
         theta_mid = (np.pi + theta[1:] + theta[:-1]) / 2  # Mean angle between segments
         dtheta_int = np.pi + theta[:-1] - theta[1:]  # Internal angle between segments
-        offset_distance /= np.sin(dtheta_int / 2)
+        offset_distance = offset_distance / np.sin(dtheta_int / 2)
         new_points[:, 0] -= offset_distance * np.cos(theta_mid)
         new_points[:, 1] -= offset_distance * np.sin(theta_mid)
         if start_angle is not None:
@@ -643,7 +643,7 @@ def transition_adiabatic(
 def transition(
     cross_section1: CrossSectionSpec,
     cross_section2: CrossSectionSpec,
-    width_type: WidthTypes = "sine",
+    width_type: WidthTypes | Callable = "sine",
 ) -> Transition:
     """Returns a smoothly-transitioning between two CrossSections.
 
@@ -1101,10 +1101,12 @@ def extrude_transition(
             width = _sinusoidal_transition(width1, width2)
         elif width_type == "parabolic":
             width = _parabolic_transition(width1, width2)
-        else:
-            raise ValueError(
-                f"width_type={width_type!r} must be {'sine','linear','parabolic'}"
-            )
+        elif callable(width_type):
+
+            def width_func(t):
+                return width_type(t, width1, width2)  # noqa: B023
+
+            width = width_func
 
         if section1.layer != section2.layer:
             hidden = True
