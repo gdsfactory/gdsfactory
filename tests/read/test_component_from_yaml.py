@@ -592,5 +592,5 @@ if __name__ == "__main__":
     # test_connections_different_factory()
     import gdsfactory as gf
 
-    c = gf.read.from_yaml(sample_array)
+    c = gf.read.from_yaml(sample_mirror_simple)
     c.show()

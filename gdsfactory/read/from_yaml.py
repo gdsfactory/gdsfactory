@@ -854,7 +854,10 @@ def _place_and_connect(
             if ports is not None:  # no elif!
                 p1, p2 = ports
                 i2name, i2a, i2b = _parse_maybe_arrayed_instance(i2)
-                refs[i1].connect(p1, refs[i2name].ports[(p2, i2a, i2b)])
+                if i2a or i2b:
+                    refs[i1].connect(p1, refs[i2name].ports[(p2, i2a, i2b)])
+                else:
+                    refs[i1].connect(p1, refs[i2].ports[p2])
 
 
 def _add_routes(
@@ -1628,13 +1631,32 @@ ports:
     o1: s2,o1
     o2: sa1<0.0>,o1
 """
+sample_mirror_simple = """
+name: sample_mirror_simple
+
+instances:
+    s:
+        component: straight
+
+    b:
+        component: bend_circular
+
+placements:
+    b:
+        mirror: True
+        port: o1
+
+connections:
+    b,o1: s,o2
+
+"""
 
 
 if __name__ == "__main__":
     # c = from_yaml(sample_doe_function)
-    # c = from_yaml(sample_mmis)
+    c = from_yaml(sample_mirror_simple)
     # c = from_yaml(sample_yaml_xmin)
-    c = from_yaml(sample_array)
+    # c = from_yaml(sample_array)
     c.show()
     # n = c.get_netlist()
     # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)

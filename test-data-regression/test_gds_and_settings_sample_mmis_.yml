@@ -1,6 +1,3 @@
-info:
-  description: just a demo on adding metadata
-  polarization: te
-  wavelength: 1.55
+info: {}
 name: sample_mmis
 settings: {}
