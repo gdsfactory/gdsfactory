@@ -1,10 +1,10 @@
 info: {}
-name: mzi_DL10_LY2_LX0p1_Bben_168f0709
+name: mzi_DL10_LY2_LX0p1_Bben_473fd5b4
 settings:
   add_optical_ports_arms: false
   auto_rename_ports: true
   bend: bend_euler_nc
-  cross_section: xs_7d758a01
+  cross_section: strip_nc
   delta_length: 10
   length_x: 0.1
   length_y: 2
