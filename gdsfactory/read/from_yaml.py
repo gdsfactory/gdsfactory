@@ -760,6 +760,18 @@ def from_yaml(
     return c
 
 
+# Define a custom constructor that converts YAML sequences to tuples
+def tuple_constructor(loader, node):
+    return tuple(loader.construct_sequence(node))
+
+
+yaml.add_constructor(
+    yaml.resolver.BaseResolver.DEFAULT_SEQUENCE_TAG,
+    tuple_constructor,
+    Loader=yaml.SafeLoader,
+)
+
+
 def _load_yaml_str(yaml_str: Any) -> dict:
     dct = {}
     if isinstance(yaml_str, dict):
@@ -1748,7 +1760,7 @@ placements:
 """
 
 if __name__ == "__main__":
-    c = from_yaml(sample_doe_function)
+    c = from_yaml(sample_rotation)
     # c = from_yaml(sample_array)
     # c = from_yaml(sample_yaml_xmin)
     # c = from_yaml(sample_array)
