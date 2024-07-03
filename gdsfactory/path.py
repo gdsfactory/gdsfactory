@@ -469,7 +469,7 @@ class Path(_GeometryHelper):
         self,
         cross_section: CrossSectionSpec | None = None,
         layer: LayerSpec | None = None,
-        width: float | None = None,
+        width: float | None | Callable = None,
         simplify: float | None = None,
         all_angle: bool = False,
     ) -> Component:
@@ -761,7 +761,7 @@ def extrude(
     p: Path,
     cross_section: CrossSectionSpec | None = None,
     layer: LayerSpec | None = None,
-    width: float | None = None,
+    width: float | None | Callable = None,
     simplify: float | None = None,
     all_angle: bool = False,
 ) -> Component:

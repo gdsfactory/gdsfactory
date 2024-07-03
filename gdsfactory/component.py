@@ -178,6 +178,63 @@ class ComponentReference(kf.Instance):
     def flatten(self, levels: int | None = None) -> None:
         self._kfinst.flatten(levels)
 
+    @property
+    def info(self) -> dict[str, Any]:
+        warnings.warn(
+            "info is deprecated, use ref.parent_cell.info instead",
+            stacklevel=2,
+        )
+        return self.parent_cell.info
+
+    def connect(
+        self,
+        port: str | kf.Port,
+        other: Any | None = None,
+        other_port_name: str | None = None,
+        allow_width_mismatch: bool = False,
+        allow_layer_mismatch: bool = False,
+        allow_type_mismatch: bool = False,
+        overlap: float | None = None,
+        destination: kf.Port | None = None,
+        preserve_orientation: bool | None = None,
+        **kwargs,
+    ) -> ComponentReference:
+        """Return ComponentReference where port connects to a destination.
+
+        Args:
+            port: origin (port, or port name) to connect.
+            other: other component to connect to.
+            other_port_name: port name to connect to.
+            destination: deprecated, use other instead.
+            preserve_orientation: deprecated.
+            allow_width_mismatch: if True, does not check if port width matches destination.
+            allow_layer_mismatch: if True, does not check if port layer matches destination.
+            allow_type_mismatch: if True, does not check if port type matches destination.
+            overlap: Deprecated
+            kwargs: additional arguments to pass to connect.
+
+        Returns:
+            ComponentReference: with correct rotation to connect to destination.
+        """
+        if destination:
+            warnings.warn("destination is deprecated, use other instead")
+            other = destination
+        if overlap:
+            warnings.warn("overlap is deprecated")
+
+        if preserve_orientation:
+            warnings.warn("preserve_orientation is deprecated")
+
+        return super().connect(
+            port,
+            other=other,
+            other_port_name=other_port_name,
+            allow_width_mismatch=allow_width_mismatch,
+            allow_layer_mismatch=allow_layer_mismatch,
+            allow_type_mismatch=allow_type_mismatch,
+            **kwargs,
+        )
+
 
 class ComponentReferences(kf.kcell.Instances):
     def __getitem__(self, key: str | int) -> ComponentReference:
@@ -579,6 +636,7 @@ class ComponentBase:
 
             def get_key(layer):
                 return layer
+
         else:
             raise ValueError("argument 'by' should be 'index' | 'name' | 'tuple'")
 
@@ -1180,8 +1238,6 @@ def component_with_function(
 
 
 if __name__ == "__main__":
-    import matplotlib.pyplot as plt
-
     import gdsfactory as gf
 
     # c = gf.Component()
@@ -1199,8 +1255,8 @@ if __name__ == "__main__":
     # gdspath = c.write_gds("test.gds")
     # c = gf.import_gds(gdspath)
     # n = c.get_netlist()
-    c.plot_netlist(recursive=True)
-    plt.show()
+    # c.plot_netlist(recursive=True)
+    # plt.show()
     c.show()
     # import matplotlib.pyplot as plt
 
