@@ -180,10 +180,10 @@ class Schematic(BaseModel):
         self.nets.append(net)
         if net.name not in self.netlist.routes:
             self.netlist.routes[net.name] = Bundle(
-                links={net.ip1: net.ip2}, settings=net.settings
+                links={net.p1: net.p2}, settings=net.settings
             )
         else:
-            self.netlist.routes[net.name].links[net.ip1] = net.ip2
+            self.netlist.routes[net.name].links[net.p1] = net.p2
 
     def plot_netlist(
         self,
@@ -221,7 +221,7 @@ class Schematic(BaseModel):
                 pos[node] = (placement.x, placement.y)
 
         for net in self.nets:
-            G.add_edge(net.ip1.split(",")[0], net.ip2.split(",")[0])
+            G.add_edge(net.p1.split(",")[0], net.p2.split(",")[0])
 
         nx.draw(
             G,
@@ -253,9 +253,9 @@ if __name__ == "__main__":
     s.add_instance("mzi1", gt.Instance(component=gf.c.mzi(delta_length=10)))
     s.add_instance("mzi2", gt.Instance(component=gf.c.mzi(delta_length=100)))
     s.add_instance("mzi3", gt.Instance(component=gf.c.mzi(delta_length=200)))
-    s.add_placement("mzi1", gt.Placement(x=000))
+    s.add_placement("mzi1", gt.Placement(x=000, y=0))
     s.add_placement("mzi2", gt.Placement(x=100, y=100))
-    s.add_placement("mzi3", gt.Placement(x=200))
-    s.add_net(gt.Net(ip1="mzi1,o2", ip2="mzi2,o2"))
-    s.add_net(gt.Net(ip1="mzi2,o2", ip2="mzi3,o1"))
+    s.add_placement("mzi3", gt.Placement(x=200, y=0))
+    s.add_net(gt.Net(p1="mzi1,o2", p2="mzi2,o2"))
+    s.add_net(gt.Net(p1="mzi2,o2", p2="mzi3,o1"))
     g = s.plot_netlist()

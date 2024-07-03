@@ -503,6 +503,74 @@ placements:
 
 """
 
+sample_array2 = """
+instances:
+  s:
+    component: splitter_tree
+    settings:
+      coupler: mmi1x2
+      noutputs: 8
+      spacing:
+      - 50
+      - 50
+      bend_s: bend_s
+      cross_section: strip
+    na: 1
+    nb: 1
+    dax: 0
+    day: 0
+    dbx: 0
+    dby: 0
+  dbr:
+    component: array
+    settings:
+      component: dbr
+      spacing:
+      - 0
+      - 3
+      columns: 1
+      rows: 8
+      add_ports: true
+      centered: true
+    na: 1
+    nb: 1
+    dax: 0
+    day: 0
+    dbx: 0
+    dby: 0
+placements:
+  s:
+    x: 0.0
+    'y': 0.0
+    dx: 0
+    dy: 0
+    rotation: 0
+    mirror: false
+  dbr:
+    x: 300.0
+    'y': 0.0
+    dx: 0
+    dy: 0
+    rotation: 0
+    mirror: false
+connections: {}
+routes:
+  splitter_to_dbr:
+    links:
+      s,o2_2_1: dbr,o1_1_1
+      s,o2_2_2: dbr,o1_2_1
+      s,o2_2_3: dbr,o1_3_1
+      s,o2_2_4: dbr,o1_4_1
+      s,o2_2_5: dbr,o1_5_1
+      s,o2_2_6: dbr,o1_6_1
+      s,o2_2_7: dbr,o1_7_1
+      s,o2_2_8: dbr,o1_8_1
+    settings:
+      radius: 5
+      sort_ports: true
+    routing_strategy: route_bundle
+"""
+
 sample_array = """
 name: sample_array
 
@@ -552,6 +620,7 @@ yaml_strings = dict(
     sample_doe_function=sample_doe_function,
     sample_rotation=sample_rotation,
     sample_array=sample_array,
+    sample_array2=sample_array2,
 )
 
 
@@ -605,5 +674,5 @@ if __name__ == "__main__":
     # test_connections_regex_backwards()
     import gdsfactory as gf
 
-    c = gf.read.from_yaml(sample_doe_function)
+    c = gf.read.from_yaml(sample_array2)
     c.show()
