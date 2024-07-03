@@ -843,17 +843,18 @@ def _place_and_connect(
     directed_connections = _get_directed_connections(connections)
 
     for root in _graph_roots(g):
-        pl = placements.get(root, None)
+        pl = placements.get(root)
         if pl is not None:
             _update_reference_by_placement(refs, root, pl)
         for i2, i1 in nx.dfs_edges(g, root):
             ports = directed_connections.get(i1, {}).get(i2, None)
-            pl = placements.get(i1, None)
+            pl = placements.get(i1)
             if pl is not None:
                 _update_reference_by_placement(refs, i1, pl)
             if ports is not None:  # no elif!
                 p1, p2 = ports
-                refs[i1].connect(p1, refs[i2].ports[p2])
+                i2name, i2a, i2b = _parse_maybe_arrayed_instance(i2)
+                refs[i1].connect(p1, refs[i2name].ports[(p2, i2a, i2b)])
 
 
 def _add_routes(
@@ -1601,13 +1602,39 @@ instances:
       dby: 200
 
 """
+sample_array = """
+name: sample_array
+
+instances:
+  sa1:
+    component: straight
+    na: 5
+    dax: 50
+    nb: 4
+    dby: 10
+  s2:
+    component: straight
+
+connections:
+    s2,o2: sa1<2.3>,o1
+
+routes:
+    b1:
+        links:
+            sa1<3.0>,o2: sa1<4.0>,o1
+            sa1<3.1>,o2: sa1<4.1>,o1
+
+ports:
+    o1: s2,o1
+    o2: sa1<0.0>,o1
+"""
 
 
 if __name__ == "__main__":
     # c = from_yaml(sample_doe_function)
     # c = from_yaml(sample_mmis)
     # c = from_yaml(sample_yaml_xmin)
-    c = from_yaml(pad_array)
+    c = from_yaml(sample_array)
     c.show()
     # n = c.get_netlist()
     # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
