@@ -164,6 +164,8 @@ class ComponentAlongPath(BaseModel):
     padding: float = 0.0
     offset: float = 0.0
 
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
 
 Sections = tuple[Section, ...]
 
