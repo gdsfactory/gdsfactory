@@ -605,5 +605,5 @@ if __name__ == "__main__":
     # test_connections_regex_backwards()
     import gdsfactory as gf
 
-    c = gf.read.from_yaml(yaml_anchor)
+    c = gf.read.from_yaml(sample_doe_function)
     c.show()

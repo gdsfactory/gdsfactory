@@ -41,8 +41,8 @@ class Instance(BaseModel):
 
 
 class Placement(BaseModel):
-    x: str | float = 0
-    y: str | float = 0
+    x: str | float | None = None
+    y: str | float | None = None
     xmin: str | float | None = None
     ymin: str | float | None = None
     xmax: str | float | None = None

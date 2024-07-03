@@ -1748,7 +1748,7 @@ placements:
 """
 
 if __name__ == "__main__":
-    c = from_yaml(yaml_anchor)
+    c = from_yaml(sample_doe_function)
     # c = from_yaml(sample_array)
     # c = from_yaml(sample_yaml_xmin)
     # c = from_yaml(sample_array)
