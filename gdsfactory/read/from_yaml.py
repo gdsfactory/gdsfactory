@@ -1025,7 +1025,7 @@ def _split_route_link(s):
         j = _try_int(j)
         k = _try_int(k)
         if k > j:
-            return i, [f"{p}{idx}" for idx in range(j, k + 1, 1)]
+            return i, [f"{p}{idx}" for idx in range(j, k + 1)]
         else:
             return i, [f"{p}{idx}" for idx in range(j, k - 1, -1)]
 
