@@ -749,8 +749,6 @@ def from_yaml(
     from gdsfactory.generic_tech import get_generic_pdk
     from gdsfactory.pdk import get_active_pdk, get_routing_strategies
 
-    routing_strategies = routing_strategy or get_routing_strategies()
-
     dct = {}
     if isinstance(yaml_str, dict):
         dct = yaml_str
@@ -809,7 +807,7 @@ def from_yaml(
                 refs[i1].connect(p1, refs[i2].ports[p2])
 
     routes = {}
-    routing_strategies = get_routing_strategies()
+    routing_strategies = routing_strategy or get_routing_strategies()
     for bundle_name, bundle in net.routes.items():
         try:
             routing_strategy = routing_strategies[bundle.routing_strategy]  # type: ignore
