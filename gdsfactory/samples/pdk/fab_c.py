@@ -218,7 +218,7 @@ cells = get_cells(sys.modules[__name__])
 cross_sections = get_cross_sections(sys.modules[__name__])
 layer_stack = get_layer_stack_fab_c()
 
-pdk = gf.Pdk(
+PDK = gf.Pdk(
     name="fab_c_demopdk",
     cells=cells,
     cross_sections=cross_sections,

@@ -25,9 +25,20 @@ import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
 from gdsfactory.difftest import difftest
+from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.samples.pdk.fab_c import cells
 
 cell_names = list(cells.keys())
+
+
+@pytest.fixture(autouse=True)
+def activate_pdk():
+    from gdsfactory.samples.pdk.fab_c import PDK
+
+    PDK.activate()
+    yield
+    PDK = get_generic_pdk()
+    PDK.activate()
 
 
 @pytest.fixture(params=cell_names, scope="function")
