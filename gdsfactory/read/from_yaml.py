@@ -62,7 +62,8 @@ from omegaconf import DictConfig
 
 from gdsfactory.add_pins import add_instance_label
 from gdsfactory.component import Component, ComponentReference, Instance
-from gdsfactory.schematic import Netlist, Placement
+from gdsfactory.schematic import Bundle, Netlist, Placement
+from gdsfactory.schematic import Instance as NetlistInstance
 
 valid_placement_keys = [
     "x",
@@ -746,9 +747,26 @@ def from_yaml(
                     mmi_top,o3: mmi_bot,o1
 
     """
-    from gdsfactory.generic_tech import get_generic_pdk
-    from gdsfactory.pdk import get_active_pdk, get_routing_strategies
+    c = Component()
+    dct = _load_yaml_str(yaml_str)
+    pdk = _activate_pdk_by_name(dct.get("pdk", ""))
+    net = Netlist.model_validate(dct)
+    g = _get_dependency_graph(net)
+    refs = _get_references(c, pdk, net.instances)
+    _place_and_connect(g, refs, net.connections, net.placements)
+    c = _add_routes(c, refs, net.routes, routing_strategy)
+    c = _add_ports(c, refs, net.ports)
+    for instance_name in net.instances:
+        label_instance_function(
+            component=c,
+            instance_name=instance_name,
+            reference=refs[instance_name],
+        )
+    c.name = name or net.name or c.name
+    return c
 
+
+def _load_yaml_str(yaml_str: Any) -> dict:
     dct = {}
     if isinstance(yaml_str, dict):
         dct = yaml_str
@@ -762,8 +780,13 @@ def from_yaml(
         dct = yaml.safe_load(open(yaml_str))
     else:
         raise ValueError("Invalid format for 'yaml_str'.")
+    return dct
 
-    pdk_name = dct.get("pdk", "")
+
+def _activate_pdk_by_name(pdk_name: str):
+    from gdsfactory.generic_tech import get_generic_pdk
+    from gdsfactory.pdk import get_active_pdk
+
     if pdk_name:
         if pdk_name == "generic":
             get_generic_pdk().activate()
@@ -773,28 +796,27 @@ def from_yaml(
             if pdk is None:
                 raise ValueError(f"'from {pdk} import PDK' failed")
             pdk.activate()
+    return get_active_pdk()
 
-    pdk = get_active_pdk()
-    net = Netlist.model_validate(dct)
 
+def _get_dependency_graph(net: Netlist) -> nx.DiGraph:
     g = nx.DiGraph()
 
     for i in net.instances:
         g.add_node(i)
 
     for ip1, ip2 in net.connections.items():
-        i1, p1 = ip1.split(",")
-        i2, p2 = ip2.split(",")
+        i1, _ = ip1.split(",")
+        i2, _ = ip2.split(",")
         _graph_connect(g, i1, i2)
 
     for i1, pl in net.placements.items():
-        p1 = pl.port
         for k, v in pl:
             if k not in ["x", "y", "xmin", "ymin", "xmax", "ymax"]:
                 continue
             if not isinstance(v, str):
                 continue
-            i2, p2 = v.split(",")
+            i2, _ = v.split(",")
             _graph_connect(g, i1, i2)
 
     cycles = list(nx.simple_cycles(g))
@@ -803,29 +825,49 @@ def from_yaml(
             "Cyclical references when placing / connecting instances:\n"
             f"{'\n'.join(['->'.join(cyc + cyc[:1]) for cyc in cycles])}"
         )
+    return g
 
-    c = Component()
-    refs = {
+
+def _get_references(c: Component, pdk, instances: dict[str, NetlistInstance]):
+    return {
         k: c.add_ref(pdk.get_component(inst.component, **inst.settings), name=k)
-        for k, inst in net.instances.items()
+        for k, inst in instances.items()
     }
-    directed_connections = _get_directed_connections(net.connections)
+
+
+def _place_and_connect(
+    g: nx.DiGraph,
+    refs: dict[str, ComponentReference],
+    connections: dict[str, str],
+    placements: dict[str, Placement],
+):
+    directed_connections = _get_directed_connections(connections)
+
     for root in _graph_roots(g):
-        pl = net.placements.get(root, None)
+        pl = placements.get(root, None)
         if pl is not None:
             _update_reference_by_placement(refs, root, pl)
         for i2, i1 in nx.dfs_edges(g, root):
             ports = directed_connections.get(i1, {}).get(i2, None)
-            pl = net.placements.get(i1, None)
+            pl = placements.get(i1, None)
             if pl is not None:
                 _update_reference_by_placement(refs, i1, pl)
             if ports is not None:  # no elif!
                 p1, p2 = ports
                 refs[i1].connect(p1, refs[i2].ports[p2])
 
-    routes = {}
-    routing_strategies = routing_strategy or get_routing_strategies()
-    for bundle_name, bundle in net.routes.items():
+
+def _add_routes(
+    c: Component,
+    refs: dict[str, ComponentReference],
+    routes: dict[str, Bundle],
+    routing_strategies: dict[str, Callable] | None = None,
+):
+    from gdsfactory.pdk import get_routing_strategies
+
+    routes_dict = {}
+    routing_strategies = routing_strategies or get_routing_strategies()
+    for bundle_name, bundle in routes.items():
         try:
             routing_strategy = routing_strategies[bundle.routing_strategy]  # type: ignore
         except KeyError as e:
@@ -853,10 +895,15 @@ def from_yaml(
                 **bundle.settings,
             )
             for route_name, route in zip(route_names, routes_list):
-                routes[route_name] = route
-        c.routes = routes  # type: ignore
+                routes_dict[route_name] = route
+        c.routes = routes_dict  # type: ignore
+    return c
 
-    for name, ip in net.ports.items():
+
+def _add_ports(
+    c: Component, refs: dict[str, ComponentReference], ports: dict[str, str]
+):
+    for name, ip in ports.items():
         i, p = (x.strip() for x in ip.split(","))
         i, ia, ib = _parse_maybe_arrayed_instance(i)
         if i not in refs:
@@ -867,12 +914,6 @@ def from_yaml(
             raise ValueError(f"{p!r} not in {ps} for" f" {i!r}.")
         inst_port = ref.ports[p] if ia is None else ref.ports[p, ia, ib]
         c.add_port(name, port=inst_port)
-
-    for instance_name in net.instances:
-        label_instance_function(
-            component=c, instance_name=instance_name, reference=refs[instance_name]
-        )
-    c.name = name or net.name or c.name
     return c
 
 
@@ -957,18 +998,18 @@ def _update_reference_by_placement(
             f"Can only set one of x, xmin, xmax. Got: {x=}, {xmin=}, {xmax=}"
         )
     elif isinstance(x, str):
-        i, p = x.split(",")
-        ref.dx += float(refs[i].ports[p].dx)
+        i, q = x.split(",")
+        ref.dx += float(refs[i].ports[q].dx)
     elif x is not None:
         ref.dx += float(x)
     elif isinstance(xmin, str):
-        i, p = xmin.split(",")
-        ref.dxmin = float(refs[i].ports[p].dx)
+        i, q = xmin.split(",")
+        ref.dxmin = float(refs[i].ports[q].dx)
     elif xmin is not None:
         ref.dxmin = float(xmin)
     elif isinstance(xmax, str):
-        i, p = xmax.split(",")
-        ref.dxmax = float(refs[i].ports[p].dx)
+        i, q = xmax.split(",")
+        ref.dxmax = float(refs[i].ports[q].dx)
     elif xmax is not None:
         ref.dxmax = float(xmax)
 
@@ -977,18 +1018,18 @@ def _update_reference_by_placement(
             f"Can only set one of y, ymin, ymax. Got: {y=}, {ymin=}, {ymax=}"
         )
     elif isinstance(y, str):
-        i, p = y.split(",")
-        ref.dy += float(refs[i].ports[p].dy)
+        i, q = y.split(",")
+        ref.dy += float(refs[i].ports[q].dy)
     elif y is not None:
         ref.dy += float(y)
     elif isinstance(ymin, str):
-        i, p = ymin.split(",")
-        ref.dymin = float(refs[i].ports[p].dy)
+        i, q = ymin.split(",")
+        ref.dymin = float(refs[i].ports[q].dy)
     elif ymin is not None:
         ref.dymin = float(ymin)
     elif isinstance(ymax, str):
-        i, p = ymax.split(",")
-        ref.dymax = float(refs[i].ports[p].dy)
+        i, q = ymax.split(",")
+        ref.dymax = float(refs[i].ports[q].dy)
     elif ymax is not None:
         ref.dymax = float(ymax)
 
