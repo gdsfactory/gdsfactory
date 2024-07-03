@@ -149,6 +149,7 @@ def _get_anchor_point_from_name(
 def _get_anchor_value_from_name(
     ref: Instance, anchor_name: str, return_value: str
 ) -> float | None:
+    """Return the x or y value of an anchor point or port on a reference."""
     if anchor_name in valid_anchor_value_keywords:
         return getattr(ref.dsize_info, anchor_name)
     anchor_point = _get_anchor_point_from_name(ref, anchor_name)
@@ -1015,17 +1016,26 @@ def _update_reference_by_placement(
         )
     elif isinstance(x, str):
         i, q = x.split(",")
-        ref.dx += float(refs[i].ports[q].dx)
+        if q in valid_anchor_value_keywords:
+            ref.dx += _get_anchor_value_from_name(refs[i], q, "x")
+        else:
+            ref.dx += float(refs[i].ports[q].dx)
     elif x is not None:
         ref.dx += float(x)
     elif isinstance(xmin, str):
         i, q = xmin.split(",")
-        ref.dxmin = float(refs[i].ports[q].dx)
+        if q in valid_anchor_value_keywords:
+            ref.dxmin = _get_anchor_value_from_name(refs[i], q, "x")
+        else:
+            ref.dxmin = float(refs[i].ports[q].dx)
     elif xmin is not None:
         ref.dxmin = float(xmin)
     elif isinstance(xmax, str):
         i, q = xmax.split(",")
-        ref.dxmax = float(refs[i].ports[q].dx)
+        if q in valid_anchor_value_keywords:
+            ref.dxmax = _get_anchor_value_from_name(refs[i], q, "x")
+        else:
+            ref.dxmax = float(refs[i].ports[q].dx)
     elif xmax is not None:
         ref.dxmax = float(xmax)
 
@@ -1035,17 +1045,26 @@ def _update_reference_by_placement(
         )
     elif isinstance(y, str):
         i, q = y.split(",")
-        ref.dy += float(refs[i].ports[q].dy)
+        if q in valid_anchor_value_keywords:
+            ref.dy += _get_anchor_value_from_name(refs[i], q, "y")
+        else:
+            ref.dy += float(refs[i].ports[q].dy)
     elif y is not None:
         ref.dy += float(y)
     elif isinstance(ymin, str):
         i, q = ymin.split(",")
-        ref.dymin = float(refs[i].ports[q].dy)
+        if q in valid_anchor_value_keywords:
+            ref.dymin = _get_anchor_value_from_name(refs[i], q, "y")
+        else:
+            ref.dymin = float(refs[i].ports[q].dy)
     elif ymin is not None:
         ref.dymin = float(ymin)
     elif isinstance(ymax, str):
         i, q = ymax.split(",")
-        ref.dymax = float(refs[i].ports[q].dy)
+        if q in valid_anchor_value_keywords:
+            ref.dymax = _get_anchor_value_from_name(refs[i], q, "y")
+        else:
+            ref.dymax = float(refs[i].ports[q].dy)
     elif ymax is not None:
         ref.dymax = float(ymax)
 
@@ -1701,9 +1720,35 @@ routes:
 
 """
 
+yaml_anchor = """
+name: yaml_anchor
+instances:
+    mmi_long:
+      component: mmi1x2
+      settings:
+        width_mmi: 4.5
+        length_mmi: 10
+    mmi_short:
+      component: mmi1x2
+      settings:
+        width_mmi: 4.5
+        length_mmi: 5
+
+placements:
+    mmi_short:
+        port: o3
+        x: 0
+        y: 0
+    mmi_long:
+        port: o1
+        x: mmi_short,east
+        y: mmi_short,north
+        dx : 10
+        dy: 10
+"""
 
 if __name__ == "__main__":
-    c = from_yaml(sample_2x2_connections)
+    c = from_yaml(yaml_anchor)
     # c = from_yaml(sample_array)
     # c = from_yaml(sample_yaml_xmin)
     # c = from_yaml(sample_array)
