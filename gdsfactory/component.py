@@ -190,12 +190,13 @@ class ComponentReference(kf.Instance):
         self,
         port: str | kf.Port,
         other: Any | None = None,
-        destination: kf.Port | None = None,
-        preserve_orientation: bool | None = None,
+        other_port_name: str | None = None,
         allow_width_mismatch: bool = False,
         allow_layer_mismatch: bool = False,
         allow_type_mismatch: bool = False,
         overlap: float | None = None,
+        destination: kf.Port | None = None,
+        preserve_orientation: bool | None = None,
         **kwargs,
     ) -> ComponentReference:
         """Return ComponentReference where port connects to a destination.
@@ -203,6 +204,7 @@ class ComponentReference(kf.Instance):
         Args:
             port: origin (port, or port name) to connect.
             other: other component to connect to.
+            other_port_name: port name to connect to.
             destination: deprecated, use other instead.
             preserve_orientation: deprecated.
             allow_width_mismatch: if True, does not check if port width matches destination.
@@ -226,6 +228,7 @@ class ComponentReference(kf.Instance):
         return super().connect(
             port,
             other=other,
+            other_port_name=other_port_name,
             allow_width_mismatch=allow_width_mismatch,
             allow_layer_mismatch=allow_layer_mismatch,
             allow_type_mismatch=allow_type_mismatch,
