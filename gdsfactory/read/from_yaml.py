@@ -1037,10 +1037,7 @@ def _get_ports_from_portnames(refs, i, ps):
     for p in ps:
         if p not in ref.ports:
             raise ValueError(f"{p} not in ports of {i} ({[p.name for p in ref.ports]})")
-        if ia is None:
-            port = ref.ports[p]
-        else:
-            port = ref.ports[p, ia, ib]
+        port = ref.ports[p] if ia is None else ref.ports[p, ia, ib]
         ports.append(port)
     return ports
 
