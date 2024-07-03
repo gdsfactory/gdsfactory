@@ -504,6 +504,7 @@ placements:
 """
 
 sample_array2 = """
+name: sample_array2
 instances:
   s:
     component: splitter_tree
