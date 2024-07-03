@@ -1651,10 +1651,25 @@ connections:
 
 """
 
+sample_doe = """
+name: mask
+
+instances:
+    mmi1x2_sweep:
+       component: pack_doe
+       settings:
+         doe: mmi1x2
+         do_permutations: True
+         spacing: 100
+         settings:
+           length_mmi: [2, 100]
+           width_mmi: [4, 10]
+"""
+
 
 if __name__ == "__main__":
-    # c = from_yaml(sample_doe_function)
-    c = from_yaml(sample_mirror_simple)
+    c = from_yaml(sample_doe)
+    # c = from_yaml(sample_array)
     # c = from_yaml(sample_yaml_xmin)
     # c = from_yaml(sample_array)
     c.show()

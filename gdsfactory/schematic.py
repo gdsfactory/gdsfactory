@@ -36,7 +36,7 @@ class Instance(BaseModel):
         component_settings = c.settings.model_dump(exclude_none=True)
         values["info"] = {**component_info, **info}
         values["settings"] = {**component_settings, **settings}
-        values["component"] = c.function_name
+        values["component"] = c.function_name or component
         return values
 
 
