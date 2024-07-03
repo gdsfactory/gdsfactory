@@ -818,7 +818,7 @@ def _get_dependency_graph(net: Netlist) -> nx.DiGraph:
     if cycles:
         raise RuntimeError(
             "Cyclical references when placing / connecting instances:\n"
-            f"{'\n'.join(['->'.join(cyc + cyc[:1]) for cyc in cycles])}"
+            + "\n".join("->".join(cyc + cyc[:1]) for cyc in cycles)
         )
     return g
 
@@ -1601,8 +1601,8 @@ instances:
 
 if __name__ == "__main__":
     # c = from_yaml(sample_doe_function)
-    # c = from_yaml(sample_mmis)
-    c = from_yaml(sample_yaml_xmin)
+    c = from_yaml(sample_mmis)
+    # c = from_yaml(sample_yaml_xmin)
     c.show()
     # n = c.get_netlist()
     # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
