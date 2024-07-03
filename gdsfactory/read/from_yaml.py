@@ -776,21 +776,33 @@ def from_yaml(
 
     pdk = get_active_pdk()
     net = Netlist.model_validate(dct)
+
     g = nx.DiGraph()
+
+    for i in net.instances:
+        g.add_node(i)
+
     for ip1, ip2 in net.connections.items():
         i1, p1 = ip1.split(",")
         i2, p2 = ip2.split(",")
         _graph_connect(g, i1, i2)
 
-    for i1, plac in net.placements.items():
-        p1 = plac.port
-        for k, v in plac:
+    for i1, pl in net.placements.items():
+        p1 = pl.port
+        for k, v in pl:
             if k not in ["x", "y", "xmin", "ymin", "xmax", "ymax"]:
                 continue
             if not isinstance(v, str):
                 continue
             i2, p2 = v.split(",")
             _graph_connect(g, i1, i2)
+
+    cycles = list(nx.simple_cycles(g))
+    if cycles:
+        raise RuntimeError(
+            "Cyclical references when placing / connecting instances:\n"
+            f"{'\n'.join(['->'.join(cyc + cyc[:1]) for cyc in cycles])}"
+        )
 
     c = Component()
     refs = {
@@ -799,11 +811,14 @@ def from_yaml(
     }
     directed_connections = _get_directed_connections(net.connections)
     for root in _graph_roots(g):
+        pl = net.placements.get(root, None)
+        if pl is not None:
+            _update_reference_by_placement(refs, root, pl)
         for i2, i1 in nx.dfs_edges(g, root):
             ports = directed_connections.get(i1, {}).get(i2, None)
-            plac = net.placements.get(i1, None)
-            if plac is not None:
-                _update_reference_by_placement(refs, i1, plac)
+            pl = net.placements.get(i1, None)
+            if pl is not None:
+                _update_reference_by_placement(refs, i1, pl)
             if ports is not None:  # no elif!
                 p1, p2 = ports
                 refs[i1].connect(p1, refs[i2].ports[p2])
