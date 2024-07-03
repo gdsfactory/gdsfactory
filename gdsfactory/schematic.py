@@ -12,6 +12,12 @@ class Instance(BaseModel):
     component: str
     settings: dict[str, Any] = Field(default_factory=dict)
     info: dict[str, Any] = Field(default_factory=dict, exclude=True)
+    na: int | None = None
+    nb: int | None = None
+    dax: float | None = None
+    day: float | None = None
+    dbx: float | None = None
+    dby: float | None = None
 
     model_config = {"extra": "forbid"}
 

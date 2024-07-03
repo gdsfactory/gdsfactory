@@ -667,7 +667,6 @@ def from_yaml(
     routing_strategy: dict[str, Callable] | None = None,
     label_instance_function: Callable = add_instance_label,
     name: str | None = None,
-    **kwargs,
 ) -> Component:
     """Returns Component from YAML string or file.
 
@@ -678,7 +677,6 @@ def from_yaml(
         routing_strategy: for each route.
         label_instance_function: to label each instance.
         name: Optional name.
-        kwargs: function settings for creating YAML PCells.
 
     .. code::
 
@@ -1601,8 +1599,9 @@ instances:
 
 if __name__ == "__main__":
     # c = from_yaml(sample_doe_function)
-    c = from_yaml(sample_mmis)
+    # c = from_yaml(sample_mmis)
     # c = from_yaml(sample_yaml_xmin)
+    c = from_yaml(pad_array)
     c.show()
     # n = c.get_netlist()
     # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
