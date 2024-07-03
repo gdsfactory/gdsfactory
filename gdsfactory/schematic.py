@@ -44,8 +44,8 @@ class Placement(BaseModel):
     dx: float = 0
     dy: float = 0
     port: str | Anchor | None = None
-    rotation: int = 0
-    mirror: bool = False
+    rotation: float = 0
+    mirror: bool | str | float = False
 
     def __getitem__(self, key: str) -> Any:
         """Allows to access the placement attributes as a dictionary."""
@@ -76,6 +76,7 @@ class Netlist(BaseModel):
         settings: input variables.
     """
 
+    pdk: str = ""
     instances: dict[str, Instance] = Field(default_factory=dict)
     placements: dict[str, Placement] = Field(default_factory=dict)
     connections: dict[str, str] = Field(default_factory=dict)
