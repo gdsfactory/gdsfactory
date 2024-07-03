@@ -311,7 +311,7 @@ class Path(_GeometryHelper):
         theta = np.concatenate([theta[:1], theta, theta[-1:]])
         theta_mid = (np.pi + theta[1:] + theta[:-1]) / 2  # Mean angle between segments
         dtheta_int = np.pi + theta[:-1] - theta[1:]  # Internal angle between segments
-        offset_distance = offset_distance / np.sin(dtheta_int / 2)
+        offset_distance /= np.sin(dtheta_int / 2)
         new_points[:, 0] -= offset_distance * np.cos(theta_mid)
         new_points[:, 1] -= offset_distance * np.sin(theta_mid)
         if start_angle is not None:
