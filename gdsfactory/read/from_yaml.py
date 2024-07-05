@@ -835,16 +835,34 @@ def _get_dependency_graph(net: Netlist) -> nx.DiGraph:
 
 
 def _get_references(c: Component, pdk, instances: dict[str, NetlistInstance]):
-    return {
-        k: c.add_ref(
-            pdk.get_component(component=inst.component, settings=inst.settings),
-            rows=inst.nb,
-            columns=inst.na,
-            spacing=(inst.dax, inst.dby),
-            name=k,
-        )
-        for k, inst in instances.items()
-    }
+    refs = {}
+    for name, inst in instances.items():
+        na, nb = inst.na, inst.nb
+        dax, day, dbx, dby = inst.dax, inst.day, inst.dbx, inst.dby
+        comp = pdk.get_component(component=inst.component, settings=inst.settings)
+        if na < 2 and nb < 2:
+            ref = c.add_ref(comp, name=name)
+        else:
+            if dax > 1:
+                if day > 1 or dbx > 1:
+                    raise ValueError(
+                        "If 'dax' given. Only 'dby' should be given as well. "
+                        f"Got: {name=} {dax=}, {day=}, {dbx=}, {dby=}"
+                    )
+                ref = c.add_ref(
+                    comp, rows=nb, columns=na, spacing=(dax, dby), name=name
+                )
+            else:
+                if dax > 1 or dby > 1:
+                    raise ValueError(
+                        "If 'day' given. Only 'dbx' should be given as well. "
+                        f"Got: {name=} {dax=}, {day=}, {dbx=}, {dby=}"
+                    )
+                ref = c.add_ref(
+                    comp, rows=na, columns=nb, spacing=(dbx, day), name=name
+                )
+        refs[name] = ref
+    return refs
 
 
 def _place_and_connect(
