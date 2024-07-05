@@ -808,7 +808,6 @@ def _activate_pdk_by_name(pdk_name: str):
 def _get_dependency_graph(net: Netlist) -> nx.DiGraph:
     g = nx.DiGraph()
 
-    array_insts = set()
     for i, inst in net.instances.items():
         if inst.na < 2 and inst.nb < 2:
             g.add_node(i)
@@ -816,13 +815,7 @@ def _get_dependency_graph(net: Netlist) -> nx.DiGraph:
             g.add_node(i)
             for a in range(inst.na):
                 for b in range(inst.nb):
-                    g.add_node(f"{i}<{a}.{b}>")
-            array_insts.add((i, inst.na, inst.nb))
-
-    for i, na, nb in array_insts:
-        for a in range(na):
-            for b in range(nb):
-                _graph_connect(g, f"{i}<{a}.{b}>", i)
+                    _graph_connect(g, f"{i}<{a}.{b}>", i)
 
     for ip1, ip2 in net.connections.items():
         i1, _ = ip1.split(",")
