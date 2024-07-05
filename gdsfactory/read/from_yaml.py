@@ -808,8 +808,22 @@ def _activate_pdk_by_name(pdk_name: str):
 def _get_dependency_graph(net: Netlist) -> nx.DiGraph:
     g = nx.DiGraph()
 
-    for i in net.instances:
-        g.add_node(i)
+    array_insts = set()
+    for i, inst in net.instances.items():
+        if inst.na < 2 and inst.nb < 2:
+            g.add_node(i)
+        else:
+            for a in range(inst.na):
+                for b in range(inst.nb):
+                    g.add_node(f"{i}<{a}.{b}>")
+            array_insts.add((i, inst.na, inst.nb))
+
+    for i, na, nb in array_insts:
+        for a in range(na):
+            for b in range(nb):
+                if a == b == 0:
+                    continue
+                _graph_connect(g, f"{i}<{a}.{b}>", f"{i}<0.0>")
 
     for ip1, ip2 in net.connections.items():
         i1, _ = ip1.split(",")
@@ -821,6 +835,8 @@ def _get_dependency_graph(net: Netlist) -> nx.DiGraph:
             if k not in ["x", "y", "xmin", "ymin", "xmax", "ymax"]:
                 continue
             if not isinstance(v, str):
+                continue
+            if "," not in v:
                 continue
             i2, _ = v.split(",")
             _graph_connect(g, i1, i2)
@@ -843,8 +859,8 @@ def _get_references(c: Component, pdk, instances: dict[str, NetlistInstance]):
         if na < 2 and nb < 2:
             ref = c.add_ref(comp, name=name)
         else:
-            if dax > 1:
-                if day > 1 or dbx > 1:
+            if abs(dax) > 0.0:
+                if abs(day) > 0.0 or abs(dbx) > 0.0:
                     raise ValueError(
                         "If 'dax' given. Only 'dby' should be given as well. "
                         f"Got: {name=} {dax=}, {day=}, {dbx=}, {dby=}"
@@ -853,7 +869,7 @@ def _get_references(c: Component, pdk, instances: dict[str, NetlistInstance]):
                     comp, rows=nb, columns=na, spacing=(dax, dby), name=name
                 )
             else:
-                if dax > 1 or dby > 1:
+                if abs(dax) > 0.0 or abs(dby) > 0.0:
                     raise ValueError(
                         "If 'day' given. Only 'dbx' should be given as well. "
                         f"Got: {name=} {dax=}, {day=}, {dbx=}, {dby=}"
@@ -885,7 +901,7 @@ def _place_and_connect(
             if ports is not None:  # no elif!
                 p1, p2 = ports
                 i2name, i2a, i2b = _parse_maybe_arrayed_instance(i2)
-                if i2a or i2b:
+                if (i2a is not None) or (i2b is not None):
                     refs[i1].connect(p1, refs[i2name].ports[(p2, i2a, i2b)])
                 else:
                     refs[i1].connect(p1, refs[i2].ports[p2])
