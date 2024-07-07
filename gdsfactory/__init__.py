@@ -14,6 +14,7 @@ modules:
     - c: components
     - routing
 """
+
 # NOTE: import order matters. Only change the order if you know what you are doing
 # isort: skip_file
 
@@ -23,10 +24,11 @@ from toolz import compose
 from aenum import constant  # type: ignore[import-untyped]
 
 import kfactory as kf
-from kfactory.kcell import LayerEnum, kcl, show, cell, vcell
+from kfactory.kcell import LayerEnum, kcl, show, vcell
 from kfactory import logger
 import klayout.db as kdb
 
+from gdsfactory.cell import cell
 from gdsfactory.path import Path
 from gdsfactory.component import (
     Component,
