@@ -15,6 +15,7 @@ from kfactory import Instance, kdb, logger
 from kfactory.kcell import cell, save_layout_options
 
 from gdsfactory.config import GDSDIR_TEMP
+from gdsfactory.functions import get_polygons, get_polygons_points
 from gdsfactory.port import pprint_ports, select_ports, to_dict
 from gdsfactory.serialization import clean_value_json
 
@@ -626,33 +627,7 @@ class ComponentBase:
             merge: if True, merges the polygons.
             by: the format of the resulting keys in the dictionary ('index', 'name', 'tuple')
         """
-        from gdsfactory import get_layer, get_layer_name
-
-        if by == "index":
-            get_key = get_layer
-        elif by == "name":
-            get_key = get_layer_name
-        elif by == "tuple":
-
-            def get_key(layer):
-                return layer
-
-        else:
-            raise ValueError("argument 'by' should be 'index' | 'name' | 'tuple'")
-
-        polygons = {}
-
-        for layer in self.layers:
-            layer_index = get_layer(layer)
-            layer_key = get_key(layer)
-            r = kdb.Region(self.begin_shapes_rec(layer_index))
-            if layer_key not in polygons:
-                polygons[layer_key] = []
-            if merge:
-                r.merge()
-            for p in r.each():
-                polygons[layer_key].append(p)
-        return polygons
+        return get_polygons(self, merge=merge, by=by)
 
     def get_polygons_points(
         self,
@@ -667,32 +642,7 @@ class ComponentBase:
             scale: if True, scales the points.
             by: the format of the resulting keys in the dictionary ('index', 'name', 'tuple')
         """
-        polygons_dict = self.get_polygons(merge=merge, by=by)
-        polygons_points = {}
-        for layer, polygons in polygons_dict.items():
-            all_points = []
-            for polygon in polygons:
-                if scale:
-                    points = np.array(
-                        [
-                            (point.x * scale, point.y * scale)
-                            for point in polygon.to_simple_polygon()
-                            .to_dtype(self.kcl.dbu)
-                            .each_point()
-                        ]
-                    )
-                else:
-                    points = np.array(
-                        [
-                            (point.x, point.y)
-                            for point in polygon.to_simple_polygon()
-                            .to_dtype(self.kcl.dbu)
-                            .each_point()
-                        ]
-                    )
-                all_points.append(points)
-            polygons_points[layer] = all_points
-        return polygons_points
+        return get_polygons_points(self, merge=merge, scale=scale, by=by)
 
     def get_labels(
         self, layer: LayerSpec, recursive: bool = True
@@ -776,19 +726,6 @@ class ComponentBase:
                 shape.dbox for shape in self.shapes(layer).each(kdb.Shapes.Boxes)
             )
         return boxes
-
-    def get_point(self, layer: LayerSpec) -> kf.kdb.DPoint:
-        """Returns a point from the Component.
-
-        Args:
-            layer: layer to get point from.
-        """
-        import shapely
-
-        from gdsfactory import get_layer
-
-        polygons = self.get_polygons_points()[get_layer(layer)]
-        return shapely.Polygon(polygons[0]).representative_point().coords[0]
 
     def area(self, layer: LayerSpec) -> float:
         """Returns the area of the Component in um2."""
@@ -1270,8 +1207,6 @@ if __name__ == "__main__":
     # n = c.get_netlist()
     # c.plot_netlist(recursive=True)
     # plt.show()
-    p = c.get_point("WG")
-    c.add_label("hello", position=p)
     c.show()
     # import matplotlib.pyplot as plt
 
