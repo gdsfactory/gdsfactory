@@ -11,7 +11,7 @@ from kfactory.routing.aa.optical import (
 
 from gdsfactory.components.bend_euler import bend_euler_all_angle
 from gdsfactory.components.straight import straight_all_angle
-from gdsfactory.typings import ComponentSpec, Port
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Port
 
 
 def route_bundle_all_angle(
@@ -20,10 +20,11 @@ def route_bundle_all_angle(
     ports2: list[Port],
     backbone: Sequence[tuple[float, float]] | None = None,
     separation: list[float] | float = 3.0,
-    straight_factory: StraightFactory = straight_all_angle,
-    bend_factory: BendFactory = partial(bend_euler_all_angle, radius=5),
+    straight: StraightFactory = straight_all_angle,
+    bend: BendFactory = partial(bend_euler_all_angle, radius=5),
     bend_ports: tuple[str, str] = ("o1", "o2"),
     straight_ports: tuple[str, str] = ("o1", "o2"),
+    cross_section: CrossSectionSpec | None = None,
 ) -> list[OpticalAllAngleRoute]:
     """Route a bundle of ports to another bundle of ports with all angles.
 
@@ -33,11 +34,16 @@ def route_bundle_all_angle(
         ports2: list of end ports to connect.
         backbone: list of points to connect the ports.
         separation: list of spacings.
-        straight_factory: factory to create straights.
-        bend_factory: factory to create bends.
+        straight: function to create straights.
+        bend: function to create bends.
         bend_ports: tuple of ports to connect the bends.
         straight_ports: tuple of ports to connect the straights.
+        cross_section: cross_section to use. Overrides the  cross_section.
     """
+    if cross_section:
+        straight = partial(straight, cross_section=cross_section)
+        bend = partial(bend, cross_section=cross_section)
+
     backbone = backbone or []
     if backbone:
         backbone = [kf.kdb.DPoint(*p) for p in backbone]
@@ -48,8 +54,8 @@ def route_bundle_all_angle(
         end_ports=ports2,
         backbone=backbone,
         separation=separation,
-        straight_factory=straight_factory,
-        bend_factory=bend_factory,
+        straight_factory=straight,
+        bend_factory=bend,
         bend_ports=bend_ports,
         straight_ports=straight_ports,
     )
