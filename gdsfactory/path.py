@@ -294,7 +294,7 @@ class Path(_GeometryHelper):
 
     def _centerpoint_offset_curve(
         self, points, offset_distance: float, start_angle: float, end_angle: float
-    ):
+    ) -> np.ndarray:
         """Creates a offset curve computing the centerpoint offset of x and y points.
 
         Args:
@@ -311,24 +311,34 @@ class Path(_GeometryHelper):
         theta = np.concatenate([theta[:1], theta, theta[-1:]])
         theta_mid = (np.pi + theta[1:] + theta[:-1]) / 2  # Mean angle between segments
         dtheta_int = np.pi + theta[:-1] - theta[1:]  # Internal angle between segments
-        offset_distance /= np.sin(dtheta_int / 2)
+        offset_distance = np.array(offset_distance) / np.sin(dtheta_int / 2)
+
+        # Ensure offset_distance has the correct shape
+        if offset_distance.ndim == 0:
+            offset_distance = np.full(points.shape[0], offset_distance)
+        elif offset_distance.ndim == 1 and offset_distance.size == 1:
+            offset_distance = np.full(points.shape[0], offset_distance[0])
+
         new_points[:, 0] -= offset_distance * np.cos(theta_mid)
         new_points[:, 1] -= offset_distance * np.sin(theta_mid)
+
         if start_angle is not None:
+            start_angle_rad = start_angle * np.pi / 180
             new_points[0, :] = points[0, :] + (
-                np.sin(start_angle * np.pi / 180) * offset_distance[0],
-                -np.cos(start_angle * np.pi / 180) * offset_distance[0],
+                np.sin(start_angle_rad) * offset_distance[0],
+                -np.cos(start_angle_rad) * offset_distance[0],
             )
         if end_angle is not None:
+            end_angle_rad = end_angle * np.pi / 180
             new_points[-1, :] = points[-1, :] + (
-                np.sin(end_angle * np.pi / 180) * offset_distance[-1],
-                -np.cos(end_angle * np.pi / 180) * offset_distance[-1],
+                np.sin(end_angle_rad) * offset_distance[-1],
+                -np.cos(end_angle_rad) * offset_distance[-1],
             )
         return new_points
 
     def _parametric_offset_curve(
         self, points, offset_distance: float, start_angle: float, end_angle: float
-    ):
+    ) -> np.ndarray:
         """Creates a parametric offset by using gradient of the supplied x and y points.
 
         Args:
