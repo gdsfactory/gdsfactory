@@ -24,58 +24,6 @@ def area(pts: ndarray) -> float64:
     return (dx * y).sum() / 2
 
 
-def manhattan_direction(p0, p1, tol=1e-5):
-    """Returns manhattan direction between 2 points."""
-    dp = p1 - p0
-    dx, dy = dp[0], dp[1]
-    if abs(dx) < tol:
-        sx = 0
-    elif dx > 0:
-        sx = 1
-    else:
-        sx = -1
-
-    if abs(dy) < tol:
-        sy = 0
-    elif dy > 0:
-        sy = 1
-    else:
-        sy = -1
-    return np.array((sx, sy))
-
-
-def remove_flat_angles(points: ndarray) -> ndarray:
-    a = angles_deg(np.vstack(points))
-    da = a - np.roll(a, 1)
-    da = np.mod(np.round(da, 3), 180)
-
-    # To make sure we do not remove points at the edges
-    da[0] = 1
-    da[-1] = 1
-
-    to_rm = list(np.where(np.abs(da[:-1]) < 1e-9)[0])
-    if isinstance(points, list):
-        while to_rm:
-            i = to_rm.pop()
-            points.pop(i)
-
-    else:
-        points = points[da != 0]
-
-    return points
-
-
-def remove_identicals(
-    pts: ndarray, grids_per_unit: int = 1000, closed: bool = True
-) -> ndarray:
-    if len(pts) > 1:
-        identicals = np.prod(abs(pts - np.roll(pts, -1, 0)) < 0.5 / grids_per_unit, 1)
-        if not closed:
-            identicals[-1] = False
-        pts = np.delete(pts, identicals.nonzero()[0], 0)
-    return pts
-
-
 def centered_diff(a: ndarray) -> ndarray:
     d = (np.roll(a, -1, axis=0) - np.roll(a, 1, axis=0)) / 2
     return d[1:-1]
@@ -226,32 +174,3 @@ def extrude_path(
         pts = np.vstack((points + offsets, points_back))
 
     return np.round(pts / grid) * grid
-
-
-def polygon_grow(polygon: ndarray, offset: float) -> ndarray:
-    """Returns a grown closed shaped polygon by an offset.
-
-    Args:
-        polygon: numpy array of shape (N, 2) representing N points with coordinates x, y.
-        offset: in um.
-    """
-    s = remove_identicals(polygon)
-    s = remove_flat_angles(s)
-    s = np.vstack([s, s[0]])
-    if len(s) <= 1:
-        return s
-
-    # Make sure the shape is oriented in the correct direction for scaling
-    ss = sign_shape(s)
-    offset *= -ss
-
-    a2 = angles_rad(s) * 0.5
-    a1 = np.roll(a2, 1)
-
-    a2[-1] = a2[0]
-    a1[0] = a1[-1]
-
-    a = a2 + a1
-    c_minus = cos(a2 - a1)
-    offsets = np.column_stack((-sin(a) / c_minus, cos(a) / c_minus)) * offset
-    return s + offsets

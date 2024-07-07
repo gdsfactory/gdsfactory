@@ -1,19 +1,4 @@
-"""You can import gdsfactory.as gf.
-
-functions:
-    - import_gds(): returns a Component from a GDS
-
-classes:
-
-    - Component
-    - Port
-    - TECH
-
-modules:
-
-    - c: components
-    - routing
-"""
+"""Main module for gdsfactory."""
 
 # NOTE: import order matters. Only change the order if you know what you are doing
 # isort: skip_file
@@ -60,6 +45,7 @@ from gdsfactory import add_pins
 from gdsfactory import technology
 from gdsfactory import routing
 from gdsfactory import export
+from gdsfactory import functions
 
 from gdsfactory.add_padding import (
     add_padding,
@@ -120,6 +106,7 @@ __all__ = (
     "diff",
     "difftest",
     "export",
+    "functions",
     "get_active_pdk",
     "get_cell",
     "get_cells",

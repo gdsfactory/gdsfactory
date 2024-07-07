@@ -777,6 +777,19 @@ class ComponentBase:
             )
         return boxes
 
+    def get_point(self, layer: LayerSpec) -> kf.kdb.DPoint:
+        """Returns a point from the Component.
+
+        Args:
+            layer: layer to get point from.
+        """
+        import shapely
+
+        from gdsfactory import get_layer
+
+        polygons = self.get_polygons_points()[get_layer(layer)]
+        return shapely.Polygon(polygons[0]).representative_point().coords[0]
+
     def area(self, layer: LayerSpec) -> float:
         """Returns the area of the Component in um2."""
         from gdsfactory import get_layer
@@ -1257,6 +1270,8 @@ if __name__ == "__main__":
     # n = c.get_netlist()
     # c.plot_netlist(recursive=True)
     # plt.show()
+    p = c.get_point("WG")
+    c.add_label("hello", position=p)
     c.show()
     # import matplotlib.pyplot as plt
 
