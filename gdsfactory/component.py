@@ -378,6 +378,11 @@ class ComponentBase:
         return c
 
     def copy(self) -> Component:
+        """Copy the full cell."""
+        warnings.warn(
+            "copy() is deprecated and will be removed in gdsfactory9. Please use dup() instead.",
+            stacklevel=2,
+        )
         return self.dup()
 
     def dup(self) -> Component:
@@ -848,6 +853,27 @@ class ComponentBase:
                     self.kcl[ci].move(src_layer_index, dst_layer_index)
         return self
 
+    def copy_layers(
+        self, layer_map: dict[LayerSpec, LayerSpec], recursive: bool = False
+    ) -> Component:
+        """Remaps a list of layers and returns the same Component.
+
+        Args:
+            layer_map: dictionary of layers to remap.
+            recursive: if True, remaps layers recursively.
+        """
+        from gdsfactory import get_layer
+
+        for layer, new_layer in layer_map.items():
+            src_layer_index = get_layer(layer)
+            dst_layer_index = get_layer(new_layer)
+            self._kdb_cell.copy(src_layer_index, dst_layer_index)
+
+            if recursive:
+                for ci in self.called_cells():
+                    self.kcl[ci]._kdb_cell.copy(src_layer_index, dst_layer_index)
+        return self
+
     def pprint_ports(self, **kwargs) -> None:
         """Pretty prints ports.
 
@@ -1197,6 +1223,7 @@ if __name__ == "__main__":
     # p = c.get_polygons()
     # p1 = c.get_polygons(by="name")
     c = gf.c.mzi_lattice()
+    c.copy_layers({(1, 0): (2, 0)}, recursive=True)
     # c = gf.c.array(spacing=(300, 300), columns=2)
     # c.show()
     # n0 = c.get_netlist()
