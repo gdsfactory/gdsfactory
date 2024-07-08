@@ -1,5 +1,5 @@
 info: {}
-name: die_with_pads_S11470_49_1695e6ce
+name: die_with_pads_S11470_49_ab38d7a1
 settings:
   cross_section: strip
   edge_to_grating_distance: 150
@@ -14,3 +14,4 @@ settings:
   size:
   - 11470
   - 4900
+  with_loopback: true

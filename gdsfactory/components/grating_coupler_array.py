@@ -78,5 +78,7 @@ def grating_coupler_array(
 
 
 if __name__ == "__main__":
-    c = grating_coupler_array(with_loopback=True, centered=True)
+    c = grating_coupler_array(
+        with_loopback=True, centered=True, cross_section="rib_bbox"
+    )
     c.show()

@@ -60,11 +60,14 @@ Many foundries have gdsfactory PDKs available. Please to contact your foundry to
 - GlobalFoundries 45SPCLO Photonics PDK
 - HHI Photonics PDK
 - IMEC photonics PDK
-- Ligentec PDK
-- Lionix PDK
 - Smart Photonics Photonics PDK
 - TowerSemi PH18 photonics PDK
 - III-V Labs PDK
+- Lionix PDK
+
+Coming soon:
+
+- Ligentec PDK
 
 There are some open source PDKs available without an NDA:
 
