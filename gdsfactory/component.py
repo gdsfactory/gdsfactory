@@ -126,13 +126,18 @@ class ComponentReference(kf.Instance):
         if __k == "_kfinst":
             return object.__getattribute__(self, "_kfinst")
         if __k in _deprecated_attributes:
-            logger.warning(
+            deprecation_message = (
                 f"Getting `{self._kfinst.name}.{__k}` {_deprecation_um}. "
-                f"Please use `{self._kfinst.name}.d{__k}` instead. For further information, please "
-                "consult the migration guide "
-                "https://gdsfactory.github.io/gdsfactory/notebooks/"
-                "21_migration_guide_7_8.html",
+                f"Please use `{self._kfinst.name}.d{__k}` instead."
             )
+
+            warnings.warn(deprecation_message, stacklevel=2)
+
+            logger.warning(
+                f"{deprecation_message} For further information, please consult the migration guide: "
+                "https://gdsfactory.github.io/gdsfactory/notebooks/21_migration_guide_7_8.html"
+            )
+
             match __k:
                 case "center":
                     return super().dcenter
@@ -169,10 +174,16 @@ class ComponentReference(kf.Instance):
     def __setattr__(self, __k: str, __v: Any) -> None:
         """Set attribute with deprecation warning for dbu based attributes."""
         if __k in _deprecated_attributes_instance_settr:
-            logger.warning(
+            deprecation_message_set = (
                 f"Setting `{self._kfinst.name}.{__k}` {_deprecation_um}. "
-                f"Please use `{self._kfinst.name}.d{__k}` instead.",
+                f"Please use `{self._kfinst.name}.d{__k}` instead."
             )
+
+            warnings.warn(deprecation_message_set, stacklevel=2)
+            logger.warning(
+                f"{deprecation_message_set} For further information, please consult the migration guide: "
+            )
+
             return super().__setattr__(f"d{__k}", __v)
         super().__setattr__(__k, __v)
 
@@ -183,7 +194,7 @@ class ComponentReference(kf.Instance):
     def info(self) -> dict[str, Any]:
         warnings.warn(
             "info is deprecated, use ref.parent_cell.info instead",
-            stacklevel=2,
+            stacklevel=3,
         )
         return self.parent_cell.info
 
