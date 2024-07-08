@@ -64,6 +64,7 @@ Many foundries have gdsfactory PDKs available. Please to contact your foundry to
 - TowerSemi PH18 photonics PDK
 - III-V Labs PDK
 - Lionix PDK
+- Luxtelligence PDK
 
 Coming soon:
 
@@ -82,7 +83,7 @@ You can also access:
 - instructions on [how to build your own PDK](https://gdsfactory.github.io/gdsfactory/notebooks/08_pdk.html)
 - instructions on [how to import a PDK from a library of fixed GDS cells](https://gdsfactory.github.io/gdsfactory/notebooks/09_pdk_import.html)
 
-![pdks](https://i.imgur.com/7O011v0.png)
+![pdks](https://i.imgur.com/d2eSqPh.png)
 
 ## Getting started
 
