@@ -16,6 +16,7 @@ def die_with_pads(
     layer_floorplan: LayerSpec = LAYER.FLOORPLAN,
     edge_to_pad_distance: float = 150.0,
     edge_to_grating_distance: float = 150.0,
+    with_loopback: bool = True,
 ) -> gf.Component:
     """A die with grating couplers and pads.
 
@@ -31,9 +32,12 @@ def die_with_pads(
         layer_floorplan: the layer of the floorplan.
         edge_to_pad_distance: the distance from the edge to the pads, in um.
         edge_to_grating_distance: the distance from the edge to the grating couplers, in um.
+        with_loopback: if True, adds a loopback between edge GCs. Only works for rotation = 90 for now.
     """
     c = gf.Component()
-    fp = c << gf.c.rectangle(size=size, layer=layer_floorplan, centered=True)
+    fp = c << gf.c.rectangle(
+        size=size, layer=layer_floorplan, centered=True, port_type=None
+    )
     xs, ys = size
 
     # Add optical ports
@@ -42,7 +46,7 @@ def die_with_pads(
     gca = gf.c.grating_coupler_array(
         n=ngratings,
         pitch=grating_pitch,
-        with_loopback=True,
+        with_loopback=with_loopback,
         grating_coupler=grating_coupler,
         cross_section=cross_section,
     )
