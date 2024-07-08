@@ -101,45 +101,53 @@ instances:
       angle: 90
       cross_section: strip
       radius: 10
-  coupler_G0p236_L20_D4_D_e8f9c7a8_10000_24368:
+  coupler_G0p236_L20_D4_D_97fe768b_10000_24368:
     component: coupler
     info:
       length: 10.186
       min_bend_radius: 11.857
     settings:
+      coupler_straight: coupler_straight
+      coupler_symmetric: coupler_symmetric
       cross_section: strip
       dx: 10
       dy: 4
       gap: 0.236
       length: 20
-  coupler_G0p236_L20_D4_D_e8f9c7a8_10000_368:
+  coupler_G0p236_L20_D4_D_97fe768b_10000_368:
     component: coupler
     info:
       length: 10.186
       min_bend_radius: 11.857
     settings:
+      coupler_straight: coupler_straight
+      coupler_symmetric: coupler_symmetric
       cross_section: strip
       dx: 10
       dy: 4
       gap: 0.236
       length: 20
-  coupler_G0p236_L20_D4_D_e8f9c7a8_10000_48368:
+  coupler_G0p236_L20_D4_D_97fe768b_10000_48368:
     component: coupler
     info:
       length: 10.186
       min_bend_radius: 11.857
     settings:
+      coupler_straight: coupler_straight
+      coupler_symmetric: coupler_symmetric
       cross_section: strip
       dx: 10
       dy: 4
       gap: 0.236
       length: 20
-  coupler_G0p236_L20_D4_D_e8f9c7a8_10000_72368:
+  coupler_G0p236_L20_D4_D_97fe768b_10000_72368:
     component: coupler
     info:
       length: 10.186
       min_bend_radius: 11.857
     settings:
+      coupler_straight: coupler_straight
+      coupler_symmetric: coupler_symmetric
       cross_section: strip
       dx: 10
       dy: 4
@@ -252,38 +260,38 @@ nets:
 - p1: bot_left_bend_ring_0,o1
   p2: top_left_bend_ring_0,o2
 - p1: bot_left_bend_ring_0,o2
-  p2: coupler_G0p236_L20_D4_D_e8f9c7a8_10000_368,o2
+  p2: coupler_G0p236_L20_D4_D_97fe768b_10000_368,o2
 - p1: bot_left_bend_ring_1,o1
   p2: top_left_bend_ring_1,o2
 - p1: bot_left_bend_ring_1,o2
-  p2: coupler_G0p236_L20_D4_D_e8f9c7a8_10000_24368,o2
+  p2: coupler_G0p236_L20_D4_D_97fe768b_10000_24368,o2
 - p1: bot_left_bend_ring_2,o1
   p2: top_left_bend_ring_2,o2
 - p1: bot_left_bend_ring_2,o2
-  p2: coupler_G0p236_L20_D4_D_e8f9c7a8_10000_48368,o2
+  p2: coupler_G0p236_L20_D4_D_97fe768b_10000_48368,o2
 - p1: bot_right_bend_ring_0,o1
-  p2: coupler_G0p236_L20_D4_D_e8f9c7a8_10000_368,o3
+  p2: coupler_G0p236_L20_D4_D_97fe768b_10000_368,o3
 - p1: bot_right_bend_ring_0,o2
   p2: top_right_bend_ring_0,o1
 - p1: bot_right_bend_ring_1,o1
-  p2: coupler_G0p236_L20_D4_D_e8f9c7a8_10000_24368,o3
+  p2: coupler_G0p236_L20_D4_D_97fe768b_10000_24368,o3
 - p1: bot_right_bend_ring_1,o2
   p2: top_right_bend_ring_1,o1
 - p1: bot_right_bend_ring_2,o1
-  p2: coupler_G0p236_L20_D4_D_e8f9c7a8_10000_48368,o3
+  p2: coupler_G0p236_L20_D4_D_97fe768b_10000_48368,o3
 - p1: bot_right_bend_ring_2,o2
   p2: top_right_bend_ring_2,o1
-- p1: coupler_G0p236_L20_D4_D_e8f9c7a8_10000_24368,o1
+- p1: coupler_G0p236_L20_D4_D_97fe768b_10000_24368,o1
   p2: top_left_bend_ring_0,o1
-- p1: coupler_G0p236_L20_D4_D_e8f9c7a8_10000_24368,o4
+- p1: coupler_G0p236_L20_D4_D_97fe768b_10000_24368,o4
   p2: top_right_bend_ring_0,o2
-- p1: coupler_G0p236_L20_D4_D_e8f9c7a8_10000_48368,o1
+- p1: coupler_G0p236_L20_D4_D_97fe768b_10000_48368,o1
   p2: top_left_bend_ring_1,o1
-- p1: coupler_G0p236_L20_D4_D_e8f9c7a8_10000_48368,o4
+- p1: coupler_G0p236_L20_D4_D_97fe768b_10000_48368,o4
   p2: top_right_bend_ring_1,o2
-- p1: coupler_G0p236_L20_D4_D_e8f9c7a8_10000_72368,o1
+- p1: coupler_G0p236_L20_D4_D_97fe768b_10000_72368,o1
   p2: top_left_bend_ring_2,o1
-- p1: coupler_G0p236_L20_D4_D_e8f9c7a8_10000_72368,o4
+- p1: coupler_G0p236_L20_D4_D_97fe768b_10000_72368,o4
   p2: top_right_bend_ring_2,o2
 placements:
   bot_left_bend_ring_0:
@@ -316,22 +324,22 @@ placements:
     rotation: 0
     x: 30
     y: 50.368
-  coupler_G0p236_L20_D4_D_e8f9c7a8_10000_24368:
+  coupler_G0p236_L20_D4_D_97fe768b_10000_24368:
     mirror: false
     rotation: 0
     x: 0
     y: 24
-  coupler_G0p236_L20_D4_D_e8f9c7a8_10000_368:
+  coupler_G0p236_L20_D4_D_97fe768b_10000_368:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  coupler_G0p236_L20_D4_D_e8f9c7a8_10000_48368:
+  coupler_G0p236_L20_D4_D_97fe768b_10000_48368:
     mirror: false
     rotation: 0
     x: 0
     y: 48
-  coupler_G0p236_L20_D4_D_e8f9c7a8_10000_72368:
+  coupler_G0p236_L20_D4_D_97fe768b_10000_72368:
     mirror: false
     rotation: 0
     x: 0
@@ -367,7 +375,7 @@ placements:
     x: 40
     y: 60.368
 ports:
-  o1: coupler_G0p236_L20_D4_D_e8f9c7a8_10000_368,o1
-  o2: coupler_G0p236_L20_D4_D_e8f9c7a8_10000_368,o4
-  o3: coupler_G0p236_L20_D4_D_e8f9c7a8_10000_72368,o2
-  o4: coupler_G0p236_L20_D4_D_e8f9c7a8_10000_72368,o3
+  o1: coupler_G0p236_L20_D4_D_97fe768b_10000_368,o1
+  o2: coupler_G0p236_L20_D4_D_97fe768b_10000_368,o4
+  o3: coupler_G0p236_L20_D4_D_97fe768b_10000_72368,o2
+  o4: coupler_G0p236_L20_D4_D_97fe768b_10000_72368,o3

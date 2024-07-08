@@ -294,7 +294,7 @@ class Path(_GeometryHelper):
 
     def _centerpoint_offset_curve(
         self, points, offset_distance: float, start_angle: float, end_angle: float
-    ):
+    ) -> np.ndarray:
         """Creates a offset curve computing the centerpoint offset of x and y points.
 
         Args:
@@ -311,24 +311,34 @@ class Path(_GeometryHelper):
         theta = np.concatenate([theta[:1], theta, theta[-1:]])
         theta_mid = (np.pi + theta[1:] + theta[:-1]) / 2  # Mean angle between segments
         dtheta_int = np.pi + theta[:-1] - theta[1:]  # Internal angle between segments
-        offset_distance /= np.sin(dtheta_int / 2)
+        offset_distance = np.array(offset_distance) / np.sin(dtheta_int / 2)
+
+        # Ensure offset_distance has the correct shape
+        if offset_distance.ndim == 0:
+            offset_distance = np.full(points.shape[0], offset_distance)
+        elif offset_distance.ndim == 1 and offset_distance.size == 1:
+            offset_distance = np.full(points.shape[0], offset_distance[0])
+
         new_points[:, 0] -= offset_distance * np.cos(theta_mid)
         new_points[:, 1] -= offset_distance * np.sin(theta_mid)
+
         if start_angle is not None:
+            start_angle_rad = start_angle * np.pi / 180
             new_points[0, :] = points[0, :] + (
-                np.sin(start_angle * np.pi / 180) * offset_distance[0],
-                -np.cos(start_angle * np.pi / 180) * offset_distance[0],
+                np.sin(start_angle_rad) * offset_distance[0],
+                -np.cos(start_angle_rad) * offset_distance[0],
             )
         if end_angle is not None:
+            end_angle_rad = end_angle * np.pi / 180
             new_points[-1, :] = points[-1, :] + (
-                np.sin(end_angle * np.pi / 180) * offset_distance[-1],
-                -np.cos(end_angle * np.pi / 180) * offset_distance[-1],
+                np.sin(end_angle_rad) * offset_distance[-1],
+                -np.cos(end_angle_rad) * offset_distance[-1],
             )
         return new_points
 
     def _parametric_offset_curve(
         self, points, offset_distance: float, start_angle: float, end_angle: float
-    ):
+    ) -> np.ndarray:
         """Creates a parametric offset by using gradient of the supplied x and y points.
 
         Args:
@@ -469,7 +479,7 @@ class Path(_GeometryHelper):
         self,
         cross_section: CrossSectionSpec | None = None,
         layer: LayerSpec | None = None,
-        width: float | None = None,
+        width: float | None | Callable = None,
         simplify: float | None = None,
         all_angle: bool = False,
     ) -> Component:
@@ -643,7 +653,7 @@ def transition_adiabatic(
 def transition(
     cross_section1: CrossSectionSpec,
     cross_section2: CrossSectionSpec,
-    width_type: WidthTypes = "sine",
+    width_type: WidthTypes | Callable = "sine",
 ) -> Transition:
     """Returns a smoothly-transitioning between two CrossSections.
 
@@ -761,7 +771,7 @@ def extrude(
     p: Path,
     cross_section: CrossSectionSpec | None = None,
     layer: LayerSpec | None = None,
-    width: float | None = None,
+    width: float | None | Callable = None,
     simplify: float | None = None,
     all_angle: bool = False,
 ) -> Component:
@@ -1101,10 +1111,12 @@ def extrude_transition(
             width = _sinusoidal_transition(width1, width2)
         elif width_type == "parabolic":
             width = _parabolic_transition(width1, width2)
-        else:
-            raise ValueError(
-                f"width_type={width_type!r} must be {'sine','linear','parabolic'}"
-            )
+        elif callable(width_type):
+
+            def width_func(t):
+                return width_type(t, width1, width2)  # noqa: B023
+
+            width = width_func
 
         if section1.layer != section2.layer:
             hidden = True

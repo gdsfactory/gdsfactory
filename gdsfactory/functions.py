@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+from typing import TYPE_CHECKING, Literal
+
+import kfactory as kf
 import numpy as np
 from numpy import cos, float64, ndarray, sin
 
@@ -7,6 +10,116 @@ import gdsfactory as gf
 
 RAD2DEG = 180.0 / np.pi
 DEG2RAD = 1 / RAD2DEG
+
+if TYPE_CHECKING:
+    from gdsfactory.component import Component, Instance
+
+
+def get_polygons(
+    component_or_instance: Component | Instance,
+    merge: bool = False,
+    by: Literal["index"] | Literal["name"] | Literal["tuple"] = "index",
+) -> dict[tuple[int, int] | str | int, list[kf.kdb.Polygon]]:
+    """Returns a dict of Polygons per layer.
+
+    Args:
+        component_or_instance: to extract the polygons.
+        merge: if True, merges the polygons.
+        by: the format of the resulting keys in the dictionary ('index', 'name', 'tuple')
+    """
+    from gdsfactory import get_layer, get_layer_name
+
+    if by == "index":
+        get_key = get_layer
+    elif by == "name":
+        get_key = get_layer_name
+    elif by == "tuple":
+
+        def get_key(layer):
+            return layer
+
+    else:
+        raise ValueError("argument 'by' should be 'index' | 'name' | 'tuple'")
+
+    polygons = {}
+
+    layers = [
+        (info.layer, info.datatype)
+        for info in component_or_instance.kcl.layer_infos()
+        if not component_or_instance.bbox(component_or_instance.kcl.layer(info)).empty()
+    ]
+    c = (
+        component_or_instance.parent_cell
+        if hasattr(component_or_instance, "parent_cell")
+        else component_or_instance
+    )
+
+    for layer in layers:
+        layer_index = get_layer(layer)
+        layer_key = get_key(layer)
+        r = gf.kdb.Region(c.begin_shapes_rec(layer_index))
+        if layer_key not in polygons:
+            polygons[layer_key] = []
+        if merge:
+            r.merge()
+        for p in r.each():
+            polygons[layer_key].append(p)
+    return polygons
+
+
+def get_polygons_points(
+    component_or_instance: Component | Instance,
+    merge: bool = False,
+    scale: float | None = None,
+    by: Literal["index"] | Literal["name"] | Literal["tuple"] = "index",
+) -> dict[int | str | tuple[int, int], list[tuple[float, float]]]:
+    """Returns a dict with list of points per layer.
+
+    Args:
+        component_or_instance: to extract the polygons.
+        merge: if True, merges the polygons.
+        scale: if True, scales the points.
+        by: the format of the resulting keys in the dictionary ('index', 'name', 'tuple')
+    """
+    polygons_dict = get_polygons(
+        component_or_instance=component_or_instance, merge=merge, by=by
+    )
+    polygons_points = {}
+    for layer, polygons in polygons_dict.items():
+        all_points = []
+        for polygon in polygons:
+            if scale:
+                points = np.array(
+                    [
+                        (point.x * scale, point.y * scale)
+                        for point in polygon.to_simple_polygon()
+                        .to_dtype(component_or_instance.kcl.dbu)
+                        .each_point()
+                    ]
+                )
+            else:
+                points = np.array(
+                    [
+                        (point.x, point.y)
+                        for point in polygon.to_simple_polygon()
+                        .to_dtype(component_or_instance.kcl.dbu)
+                        .each_point()
+                    ]
+                )
+            all_points.append(points)
+        polygons_points[layer] = all_points
+    return polygons_points
+
+
+def get_point_inside(component_or_instance: Component | Instance, layer) -> np.ndarray:
+    """Returns a point inside the component or instance.
+
+    Args:
+        component_or_instance: to find a point inside.
+        layer: to find a point inside.
+    """
+    layer = gf.get_layer(layer)
+    return get_polygons_points(component_or_instance)[layer][0][0]
 
 
 def sign_shape(pts: ndarray) -> float64:
@@ -22,58 +135,6 @@ def area(pts: ndarray) -> float64:
     dx = pts2[:, 0] - pts[:, 0]
     y = pts2[:, 1] + pts[:, 1]
     return (dx * y).sum() / 2
-
-
-def manhattan_direction(p0, p1, tol=1e-5):
-    """Returns manhattan direction between 2 points."""
-    dp = p1 - p0
-    dx, dy = dp[0], dp[1]
-    if abs(dx) < tol:
-        sx = 0
-    elif dx > 0:
-        sx = 1
-    else:
-        sx = -1
-
-    if abs(dy) < tol:
-        sy = 0
-    elif dy > 0:
-        sy = 1
-    else:
-        sy = -1
-    return np.array((sx, sy))
-
-
-def remove_flat_angles(points: ndarray) -> ndarray:
-    a = angles_deg(np.vstack(points))
-    da = a - np.roll(a, 1)
-    da = np.mod(np.round(da, 3), 180)
-
-    # To make sure we do not remove points at the edges
-    da[0] = 1
-    da[-1] = 1
-
-    to_rm = list(np.where(np.abs(da[:-1]) < 1e-9)[0])
-    if isinstance(points, list):
-        while to_rm:
-            i = to_rm.pop()
-            points.pop(i)
-
-    else:
-        points = points[da != 0]
-
-    return points
-
-
-def remove_identicals(
-    pts: ndarray, grids_per_unit: int = 1000, closed: bool = True
-) -> ndarray:
-    if len(pts) > 1:
-        identicals = np.prod(abs(pts - np.roll(pts, -1, 0)) < 0.5 / grids_per_unit, 1)
-        if not closed:
-            identicals[-1] = False
-        pts = np.delete(pts, identicals.nonzero()[0], 0)
-    return pts
 
 
 def centered_diff(a: ndarray) -> ndarray:
@@ -228,30 +289,12 @@ def extrude_path(
     return np.round(pts / grid) * grid
 
 
-def polygon_grow(polygon: ndarray, offset: float) -> ndarray:
-    """Returns a grown closed shaped polygon by an offset.
-
-    Args:
-        polygon: numpy array of shape (N, 2) representing N points with coordinates x, y.
-        offset: in um.
-    """
-    s = remove_identicals(polygon)
-    s = remove_flat_angles(s)
-    s = np.vstack([s, s[0]])
-    if len(s) <= 1:
-        return s
-
-    # Make sure the shape is oriented in the correct direction for scaling
-    ss = sign_shape(s)
-    offset *= -ss
-
-    a2 = angles_rad(s) * 0.5
-    a1 = np.roll(a2, 1)
-
-    a2[-1] = a2[0]
-    a1[0] = a1[-1]
-
-    a = a2 + a1
-    c_minus = cos(a2 - a1)
-    offsets = np.column_stack((-sin(a) / c_minus, cos(a) / c_minus)) * offset
-    return s + offsets
+if __name__ == "__main__":
+    c = gf.Component()
+    ref = c << gf.components.mzi_lattice()
+    ref.dmovey(15)
+    p = get_polygons_points(ref)
+    p = get_point_inside(ref, layer=(1, 0))
+    c.add_label(text="hello", position=p)
+    c.show()
+    print(p)

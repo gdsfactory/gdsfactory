@@ -12,6 +12,12 @@ class Instance(BaseModel):
     component: str
     settings: dict[str, Any] = Field(default_factory=dict)
     info: dict[str, Any] = Field(default_factory=dict, exclude=True)
+    na: int = 1
+    nb: int = 1
+    dax: float = 0
+    day: float = 0
+    dbx: float = 0
+    dby: float = 0
 
     model_config = {"extra": "forbid"}
 
@@ -30,13 +36,13 @@ class Instance(BaseModel):
         component_settings = c.settings.model_dump(exclude_none=True)
         values["info"] = {**component_info, **info}
         values["settings"] = {**component_settings, **settings}
-        values["component"] = c.function_name
+        values["component"] = c.function_name or component
         return values
 
 
 class Placement(BaseModel):
-    x: str | float = 0
-    y: str | float = 0
+    x: str | float | None = None
+    y: str | float | None = None
     xmin: str | float | None = None
     ymin: str | float | None = None
     xmax: str | float | None = None
@@ -44,8 +50,8 @@ class Placement(BaseModel):
     dx: float = 0
     dy: float = 0
     port: str | Anchor | None = None
-    rotation: int = 0
-    mirror: bool = False
+    rotation: float = 0
+    mirror: bool | str | float = False
 
     def __getitem__(self, key: str) -> Any:
         """Allows to access the placement attributes as a dictionary."""
@@ -62,6 +68,30 @@ class Bundle(BaseModel):
     model_config = {"extra": "forbid"}
 
 
+class Net(BaseModel):
+    """Net between two ports.
+
+    Parameters:
+        p1: instance_name,port 1.
+        p2: instance_name,port 2.
+        name: route name.
+    """
+
+    p1: str
+    p2: str
+    settings: dict[str, Any] = Field(default_factory=dict)
+    name: str | None = None
+
+    def __init__(self, **data):
+        """Initialize the net."""
+        global _route_counter
+        super().__init__(**data)
+        # If route name is not provided, generate one automatically
+        if self.name is None:
+            self.name = f"route_{_route_counter}"
+            _route_counter += 1
+
+
 class Netlist(BaseModel):
     """Netlist defined component.
 
@@ -74,8 +104,11 @@ class Netlist(BaseModel):
         info: information (polarization, wavelength ...).
         ports: exposed component ports.
         settings: input variables.
+        nets: list of nets.
+        warnings: warnings.
     """
 
+    pdk: str = ""
     instances: dict[str, Instance] = Field(default_factory=dict)
     placements: dict[str, Placement] = Field(default_factory=dict)
     connections: dict[str, str] = Field(default_factory=dict)
@@ -84,35 +117,13 @@ class Netlist(BaseModel):
     info: dict[str, Any] = Field(default_factory=dict)
     ports: dict[str, str] = Field(default_factory=dict)
     settings: dict[str, Any] = Field(default_factory=dict, exclude=True)
+    nets: list[Net] = Field(default_factory=list)
+    warnings: dict[str, Any] = Field(default_factory=dict)
 
     model_config = {"extra": "forbid"}
 
 
 _route_counter = 0
-
-
-class Net(BaseModel):
-    """Net between two ports.
-
-    Parameters:
-        ip1: instance_name,port 1.
-        ip2: instance_name,port 2.
-        name: route name.
-    """
-
-    ip1: str
-    ip2: str
-    settings: dict[str, Any] = Field(default_factory=dict)
-    name: str | None = None
-
-    def __init__(self, **data):
-        """Initialize the net."""
-        global _route_counter
-        super().__init__(**data)
-        # If route name is not provided, generate one automatically
-        if self.name is None:
-            self.name = f"route_{_route_counter}"
-            _route_counter += 1
 
 
 class Link(BaseModel):
@@ -169,10 +180,10 @@ class Schematic(BaseModel):
         self.nets.append(net)
         if net.name not in self.netlist.routes:
             self.netlist.routes[net.name] = Bundle(
-                links={net.ip1: net.ip2}, settings=net.settings
+                links={net.p1: net.p2}, settings=net.settings
             )
         else:
-            self.netlist.routes[net.name].links[net.ip1] = net.ip2
+            self.netlist.routes[net.name].links[net.p1] = net.p2
 
     def plot_netlist(
         self,
@@ -210,7 +221,7 @@ class Schematic(BaseModel):
                 pos[node] = (placement.x, placement.y)
 
         for net in self.nets:
-            G.add_edge(net.ip1.split(",")[0], net.ip2.split(",")[0])
+            G.add_edge(net.p1.split(",")[0], net.p2.split(",")[0])
 
         nx.draw(
             G,
@@ -242,9 +253,9 @@ if __name__ == "__main__":
     s.add_instance("mzi1", gt.Instance(component=gf.c.mzi(delta_length=10)))
     s.add_instance("mzi2", gt.Instance(component=gf.c.mzi(delta_length=100)))
     s.add_instance("mzi3", gt.Instance(component=gf.c.mzi(delta_length=200)))
-    s.add_placement("mzi1", gt.Placement(x=000))
+    s.add_placement("mzi1", gt.Placement(x=000, y=0))
     s.add_placement("mzi2", gt.Placement(x=100, y=100))
-    s.add_placement("mzi3", gt.Placement(x=200))
-    s.add_net(gt.Net(ip1="mzi1,o2", ip2="mzi2,o2"))
-    s.add_net(gt.Net(ip1="mzi2,o2", ip2="mzi3,o1"))
+    s.add_placement("mzi3", gt.Placement(x=200, y=0))
+    s.add_net(gt.Net(p1="mzi1,o2", p2="mzi2,o2"))
+    s.add_net(gt.Net(p1="mzi2,o2", p2="mzi3,o1"))
     g = s.plot_netlist()

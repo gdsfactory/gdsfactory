@@ -66,7 +66,7 @@ def grid(
         kcells=[gf.get_component(component) for component in components],
         shape=shape,
         spacing=(float(spacing[0]), float(spacing[1]))
-        if isinstance(spacing, tuple)
+        if isinstance(spacing, tuple | list)
         else float(spacing),
         align_x=align_x,
         align_y=align_y,
@@ -143,7 +143,7 @@ def grid_with_text(
         kcells=components,
         shape=shape,
         spacing=(float(spacing[0]), float(spacing[1]))
-        if isinstance(spacing, tuple)
+        if isinstance(spacing, tuple | list)
         else float(spacing),
         align_x=align_x,
         align_y=align_y,

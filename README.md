@@ -147,4 +147,4 @@ Gdsfactory is really fast thanks to KLayout C++ library for manipulating GDSII o
 
 Thanks to all the contributors that make this awesome project possible!
 
-[![Meet our contributors!](https://contrib.rocks/image?repo=gdsfactory/gdsfactory)](https://github.com/gdsfactory/gdsfactory/graphs/contributors)
+![contributors](https://i.imgur.com/0AuMHZE.png)

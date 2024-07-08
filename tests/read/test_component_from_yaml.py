@@ -111,7 +111,7 @@ def test_connections_2x2() -> None:
     assert len(c.insts) == 11, len(c.insts)
     assert len(c.ports) == 0, len(c.ports)
 
-    length = c.routes["mmi_bottom,o3:mmi_top,o2"].length
+    length = c.routes["optical-mmi_bottom,o3-mmi_top,o2"].length
     assert np.isclose(length, 135000), length
     c.delete()
 
@@ -170,10 +170,14 @@ routes:
 def test_connections_different_factory() -> None:
     c = from_yaml(sample_different_factory)
     lengths = [700000, 700000, 700000]
-    assert c.routes["tl,e3:tr,e1"].length == lengths[0], c.routes["tl,e3:tr,e1"].length
-    assert c.routes["bl,e3:br,e1"].length == lengths[1], c.routes["bl,e3:br,e1"].length
-    assert np.isclose(c.routes["bl,e4:br,e3"].length, lengths[2]), c.routes[
-        "bl,e4:br,e3"
+    assert c.routes["electrical-tl,e3-tr,e1"].length == lengths[0], c.routes[
+        "electrical-tl,e3-tr,e1"
+    ].length
+    assert c.routes["electrical-bl,e3-br,e1"].length == lengths[1], c.routes[
+        "electrical-bl,e3-br,e1"
+    ].length
+    assert np.isclose(c.routes["optical-bl,e4-br,e3"].length, lengths[2]), c.routes[
+        "optical-bl,e4-br,e3"
     ].length
 
 
@@ -337,7 +341,11 @@ routes:
 
 def test_connections_regex() -> None:
     c = from_yaml(sample_regex_connections)
-    route_names = ["left,o1:right,o3", "left,o2:right,o2", "left,o3:right,o1"]
+    route_names = [
+        "optical-left,o1-right,o3",
+        "optical-left,o2-right,o2",
+        "optical-left,o3-right,o1",
+    ]
 
     length = 12000
     for route_name in route_names:
@@ -346,7 +354,11 @@ def test_connections_regex() -> None:
 
 def test_connections_regex_backwards() -> None:
     c = from_yaml(sample_regex_connections_backwards)
-    route_names = ["left,o3:right,o1", "left,o2:right,o2", "left,o1:right,o3"]
+    route_names = [
+        "optical-left,o3-right,o1",
+        "optical-left,o2-right,o2",
+        "optical-left,o1-right,o3",
+    ]
 
     length = 12000
     for route_name in route_names:
@@ -360,13 +372,13 @@ def test_connections_waypoints() -> None:
     c = from_yaml(sample_waypoints)
 
     length = 2036548
-    route_name = "b,e11:t,e11"
+    route_name = "optical-b,e11-t,e11"
     assert np.isclose(c.routes[route_name].length, length), c.routes[route_name].length
 
 
 def test_docstring_sample() -> None:
     c = from_yaml(sample_docstring)
-    route_name = "mmi_top,o3:mmi_bot,o1"
+    route_name = "optical-mmi_top,o3-mmi_bot,o1"
     length = 38750
     assert np.isclose(c.routes[route_name].length, length), c.routes[route_name].length
     c.delete()
@@ -491,6 +503,75 @@ placements:
 
 """
 
+sample_array2 = """
+name: sample_array2
+instances:
+  s:
+    component: splitter_tree
+    settings:
+      coupler: mmi1x2
+      noutputs: 8
+      spacing:
+      - 50
+      - 50
+      bend_s: bend_s
+      cross_section: strip
+    na: 1
+    nb: 1
+    dax: 0
+    day: 0
+    dbx: 0
+    dby: 0
+  dbr:
+    component: array
+    settings:
+      component: dbr
+      spacing:
+      - 0
+      - 3
+      columns: 1
+      rows: 8
+      add_ports: true
+      centered: true
+    na: 1
+    nb: 1
+    dax: 0
+    day: 0
+    dbx: 0
+    dby: 0
+placements:
+  s:
+    x: 0.0
+    'y': 0.0
+    dx: 0
+    dy: 0
+    rotation: 0
+    mirror: false
+  dbr:
+    x: 300.0
+    'y': 0.0
+    dx: 0
+    dy: 0
+    rotation: 0
+    mirror: false
+connections: {}
+routes:
+  splitter_to_dbr:
+    links:
+      s,o2_2_1: dbr,o1_1_1
+      s,o2_2_2: dbr,o1_2_1
+      s,o2_2_3: dbr,o1_3_1
+      s,o2_2_4: dbr,o1_4_1
+      s,o2_2_5: dbr,o1_5_1
+      s,o2_2_6: dbr,o1_6_1
+      s,o2_2_7: dbr,o1_7_1
+      s,o2_2_8: dbr,o1_8_1
+    settings:
+      radius: 5
+      sort_ports: true
+    routing_strategy: route_bundle
+"""
+
 sample_array = """
 name: sample_array
 
@@ -540,6 +621,7 @@ yaml_strings = dict(
     sample_doe_function=sample_doe_function,
     sample_rotation=sample_rotation,
     sample_array=sample_array,
+    sample_array2=sample_array2,
 )
 
 
@@ -589,8 +671,9 @@ def test_gds_and_settings(
 
 
 if __name__ == "__main__":
-    # test_connections_different_factory()
+    # test_connections_2x2()
+    # test_connections_regex_backwards()
     import gdsfactory as gf
 
-    c = gf.read.from_yaml(sample_array)
+    c = gf.read.from_yaml(sample_array2)
     c.show()
