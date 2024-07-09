@@ -73,7 +73,7 @@ docs = [
 ]
 full = [
   "gplugins[devsim,femwell,gmsh,meow,sax,schematic,tidy3d,vlsir]>=1,<2",
-  "skrf"
+  "scikit-rf"
 ]
 maintainer = [
   "ruff",
