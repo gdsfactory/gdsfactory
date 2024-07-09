@@ -72,7 +72,8 @@ docs = [
   "Sphinx==7.3.7"
 ]
 full = [
-  "gplugins[devsim,femwell,gmsh,meow,sax,schematic,tidy3d,vlsir]>=1,<2"
+  "gplugins[devsim,femwell,gmsh,meow,sax,schematic,tidy3d,vlsir]>=1,<2",
+  "scikit-rf"
 ]
 maintainer = [
   "ruff",
