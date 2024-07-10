@@ -621,10 +621,12 @@ def add_ports_from_siepic_pins(
 
         c.create_port(
             name=f"{port_prefix}{i+1}",
-            width=round(path.width / c.kcl.dbu),
-            trans=gf.kdb.Trans(orientation, False, path.bbox().center().to_v()),
+            dwidth=round(path.width / c.kcl.dbu) * c.kcl.dbu,
+            dcplx_trans=gf.kdb.DCplxTrans(
+                1, orientation, False, path.bbox().center().to_v()
+            ),
             layer=port_layer,
-            port_type="optical",
+            port_type=port_type,
         )
 
     return c
