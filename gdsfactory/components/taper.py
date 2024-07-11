@@ -68,8 +68,10 @@ def taper(
 
         for section in x.sections[1:]:
             delta_width = section.width - s0_width
-            p2 = p1.sized(delta_width / 2)
-            c.add_polygon(p2, layer=section.layer)
+            y1 = (width1 + delta_width) / 2
+            y2 = (width2 + delta_width) / 2
+            p1 = gf.kdb.DPolygon([(0, y1), (length, y2), (length, -y2), (0, -y1)])
+            c.add_polygon(p1, layer=section.layer)
 
     if with_bbox:
         x.add_bbox(c)
@@ -93,7 +95,6 @@ def taper(
             port_type=port_types[1],
         )
 
-    x.add_bbox(c)
     c.info["length"] = length
     c.info["width1"] = float(width1)
     c.info["width2"] = float(width2)

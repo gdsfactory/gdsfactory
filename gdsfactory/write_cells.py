@@ -89,7 +89,7 @@ def get_import_gds_script(dirpath: PathType, module: str | None = None) -> str:
 
     script = [script_prefix]
     script += [f"gdsdir = Path({str(dirpath.absolute())!r})\n"]
-    script += ["import_gds = partial(gf.import_gds, decorator=add_ports)\n"]
+    script += ["import_gds = partial(gf.import_gds, post_process=add_ports)\n"]
 
     cells = [get_script(gdspath, module=module) for gdspath in gdspaths]
     script += sorted(cells)
