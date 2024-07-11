@@ -158,7 +158,7 @@ def bend_euler(
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
         allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
     """
-    if angle not in {90, 180}:
+    if abs(angle) not in {90, 180}:
         gf.logger.warning(
             f"bend_euler angle should be 90 or 180. Got {angle}. Use bend_euler_all_angle instead."
         )
@@ -256,5 +256,5 @@ def _compare_bend_euler90():
 if __name__ == "__main__":
     # c = bend_euler(cross_section="rib", angle=90, radius=5)
     # c = bend_euler(cross_section="rib", angle=90, radius=20, clockwise=True)
-    c = bend_euler(angle=35)
+    c = bend_euler(angle=-90)
     c.show()

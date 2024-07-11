@@ -124,11 +124,6 @@ def add_fiber_array(
         **kwargs,
     )
 
-    optical_ports_names = [port.name for port in optical_ports]
-    for port in component.ports:
-        if port.name not in optical_ports_names:
-            component_new.add_port(port.name, port=port)
-
     component_new.copy_child_info(component)
     return component_new
 

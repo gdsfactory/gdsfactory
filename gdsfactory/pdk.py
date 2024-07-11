@@ -296,9 +296,13 @@ class Pdk(BaseModel):
                 f"got {type(cell)}"
             )
 
-    def get_component(self, component: ComponentSpec, **kwargs) -> Component:
+    def get_component(
+        self, component: ComponentSpec, settings=None, **kwargs
+    ) -> Component:
         """Returns component from a component spec."""
-        return self._get_component(component=component, cells=self.cells, **kwargs)
+        return self._get_component(
+            component=component, cells=self.cells, settings=settings, **kwargs
+        )
 
     def get_symbol(self, component: ComponentSpec, **kwargs) -> Component:
         """Returns a component's symbol from a component spec."""
@@ -313,10 +317,23 @@ class Pdk(BaseModel):
         self,
         component: ComponentSpec,
         cells: dict[str, Callable],
+        settings: dict[str, Any] | None = None,
         **kwargs,
     ) -> ComponentBase:
-        """Returns component from a component spec."""
+        """Returns component from a component spec.
+
+        Args:
+            component: Component, ComponentFactory, string or dict.
+            cells: dict of cells.
+            settings: settings to override.
+            kwargs: settings to override.
+
+        """
         cells = set(cells.keys())
+
+        settings = settings or {}
+        kwargs = kwargs or {}
+        kwargs.update(settings)
 
         if isinstance(component, ComponentBase):
             if kwargs:

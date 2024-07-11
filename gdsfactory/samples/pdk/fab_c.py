@@ -98,22 +98,22 @@ cell = partial(gf.cell, post_process=(_add_pins,), info=dict(pdk="fab_c"))
 
 
 @cell
-def straight_sc(cross_section=strip_nc, **kwargs):
+def straight_sc(cross_section="strip_nc", **kwargs):
     return gf.components.straight(cross_section=cross_section, **kwargs)
 
 
 @cell
-def straight_so(cross_section=strip_so, **kwargs):
+def straight_so(cross_section="strip_so", **kwargs):
     return gf.components.straight(cross_section=cross_section, **kwargs)
 
 
 @cell
-def straight_nc(cross_section=strip_nc, **kwargs):
+def straight_nc(cross_section="strip_nc", **kwargs):
     return gf.components.straight(cross_section=cross_section, **kwargs)
 
 
 @cell
-def straight_no(cross_section=strip_no, **kwargs):
+def straight_no(cross_section="strip_no", **kwargs):
     return gf.components.straight(cross_section=cross_section, **kwargs)
 
 
@@ -123,22 +123,22 @@ def straight_no(cross_section=strip_no, **kwargs):
 
 
 @cell
-def bend_euler_sc(cross_section=strip_sc, **kwargs):
+def bend_euler_sc(cross_section="strip_sc", **kwargs):
     return gf.components.bend_euler(cross_section=cross_section, **kwargs)
 
 
 @cell
-def bend_euler_so(cross_section=strip_so, **kwargs):
+def bend_euler_so(cross_section="strip_so", **kwargs):
     return gf.components.bend_euler(cross_section=cross_section, **kwargs)
 
 
 @cell
-def bend_euler_nc(cross_section=strip_nc, **kwargs):
+def bend_euler_nc(cross_section="strip_nc", **kwargs):
     return gf.components.bend_euler(cross_section=cross_section, **kwargs)
 
 
 @cell
-def bend_euler_no(cross_section=strip_no, **kwargs):
+def bend_euler_no(cross_section="strip_no", **kwargs):
     return gf.components.bend_euler(cross_section=cross_section, **kwargs)
 
 
@@ -148,28 +148,28 @@ def bend_euler_no(cross_section=strip_no, **kwargs):
 
 
 @cell
-def mmi1x2_sc(width_mmi=3, cross_section=strip_sc, **kwargs):
+def mmi1x2_sc(width_mmi=3, cross_section="strip_sc", **kwargs):
     return gf.components.mmi1x2(
         cross_section=cross_section, width_mmi=width_mmi, **kwargs
     )
 
 
 @cell
-def mmi1x2_so(width_mmi=3, cross_section=strip_so, **kwargs):
+def mmi1x2_so(width_mmi=3, cross_section="strip_so", **kwargs):
     return gf.components.mmi1x2(
         cross_section=cross_section, width_mmi=width_mmi, **kwargs
     )
 
 
 @cell
-def mmi1x2_nc(width_mmi=3, cross_section=strip_nc, **kwargs):
+def mmi1x2_nc(width_mmi=3, cross_section="strip_nc", **kwargs):
     return gf.components.mmi1x2(
         cross_section=cross_section, width_mmi=width_mmi, **kwargs
     )
 
 
 @cell
-def mmi1x2_no(width_mmi=3, cross_section=strip_no, **kwargs):
+def mmi1x2_no(width_mmi=3, cross_section="strip_no", **kwargs):
     return gf.components.mmi1x2(
         cross_section=cross_section, width_mmi=width_mmi, **kwargs
     )
@@ -182,7 +182,7 @@ _gc_nc = partial(
     gf.components.grating_coupler_elliptical,
     grating_line_width=0.6,
     layer_slab=None,
-    cross_section=xs_nc,
+    cross_section="strip_nc",
 )
 
 
@@ -200,14 +200,14 @@ mzi_nc = partial(
     splitter=mmi1x2_nc,
     straight=straight_nc,
     bend=bend_euler_nc,
-    cross_section=xs_nc,
+    cross_section="strip_nc",
 )
 mzi_no = partial(
     gf.components.mzi,
     splitter=mmi1x2_no,
     straight=straight_no,
     bend=bend_euler_no,
-    cross_section=xs_no,
+    cross_section="strip_no",
 )
 
 ######################
@@ -218,7 +218,7 @@ cells = get_cells(sys.modules[__name__])
 cross_sections = get_cross_sections(sys.modules[__name__])
 layer_stack = get_layer_stack_fab_c()
 
-pdk = gf.Pdk(
+PDK = gf.Pdk(
     name="fab_c_demopdk",
     cells=cells,
     cross_sections=cross_sections,

@@ -955,7 +955,7 @@ instances:
       size:
       - 100
       - 100
-  rectangle_S11470_4900_L_e2400442_0_0:
+  rectangle_S11470_4900_L_392670d4_0_0:
     component: rectangle
     info: {}
     settings:
@@ -966,11 +966,10 @@ instances:
       - 90
       - 0
       - -90
-      port_type: electrical
       size:
       - 11470
       - 4900
-name: die_with_pads_S11470_49_1695e6ce
+name: die_with_pads_S11470_49_ab38d7a1
 nets: []
 placements:
   grating_coupler_array_G_0aa35b48_-5549710_0:
@@ -1293,7 +1292,7 @@ placements:
     rotation: 0
     x: 950
     y: 2250
-  rectangle_S11470_4900_L_e2400442_0_0:
+  rectangle_S11470_4900_L_392670d4_0_0:
     mirror: false
     rotation: 0
     x: 0
@@ -1392,12 +1391,8 @@ ports:
 warnings:
   electrical:
     unconnected_ports:
-    - message: 190 unconnected electrical ports!
+    - message: 186 unconnected electrical ports!
       ports:
-      - rectangle_S11470_4900_L_e2400442_0_0,e1
-      - rectangle_S11470_4900_L_e2400442_0_0,e2
-      - rectangle_S11470_4900_L_e2400442_0_0,e3
-      - rectangle_S11470_4900_L_e2400442_0_0,e4
       - pad_S100_100_LMTOP_BLNo_fdaf576b_-4450000_2250000,e1
       - pad_S100_100_LMTOP_BLNo_fdaf576b_-4450000_2250000,e2
       - pad_S100_100_LMTOP_BLNo_fdaf576b_-4450000_2250000,e3
@@ -1585,14 +1580,6 @@ warnings:
       - pad_S100_100_LMTOP_BLNo_fdaf576b_4550000_-2250000,e3
       - pad_S100_100_LMTOP_BLNo_fdaf576b_4550000_-2250000,e4
       values:
-      - - -5735000
-        - 0
-      - - 0
-        - 2450000
-      - - 5735000
-        - 0
-      - - 0
-        - -2450000
       - - -4500000
         - 2250000
       - - -4450000
