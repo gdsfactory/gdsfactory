@@ -29,7 +29,6 @@ def test_add_ports_from_pins() -> None:
     )
 
     c2 = gf.import_gds(gdspath, post_process=add_ports)
-    c2.pprint_ports()
     assert c2.ports["o1"].dcenter[0] == 0, c2.ports["o1"].dcenter[0]
     assert c2.ports["o2"].dcenter[0] == x, c2.ports["o2"].dcenter[0]
 
