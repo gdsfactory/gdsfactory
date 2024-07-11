@@ -7,6 +7,7 @@ import shutil
 from kfactory import KCell, KCLayout, kdb, logger
 
 import gdsfactory as gf
+from gdsfactory.component import Component
 from gdsfactory.config import CONF, PATH
 from gdsfactory.name import clean_name, get_name_short
 
@@ -130,16 +131,21 @@ def diff(
         equivalent = False
 
     if not equal:
-        c_old_new = KCell(f"{test_name}_old_new")
-        c = KCell(f"{test_name}_difftest")
+        c = Component(f"{test_name}_difftest")
         refdiff = KCell(f"{test_name}_old")
         rundiff = KCell(f"{test_name}_new")
 
         # TODO: add suffix new and old
         refdiff.copy_tree(ref._kdb_cell)
         rundiff.copy_tree(run._kdb_cell)
-        _ = c_old_new << refdiff
-        _ = c_old_new << rundiff
+        old = c << refdiff
+        new = c << rundiff
+        dy = 10
+        old.dmovey(+old.dysize + dy)
+        new.dmovey(-old.dysize - dy)
+        c.add_label("old", (old.dxmin, old.dymax), layer=(1, 0))
+        c.add_label("new", (new.dxmin, new.dymax), layer=(1, 0))
+        c.add_label("xor", (new.dxmin, old.dymax - old.dysize - dy), layer=(1, 0))
 
         if xor:
             print("Running XOR on differences...")
@@ -194,7 +200,6 @@ def diff(
             equivalent = False
 
         if show and not equivalent:
-            c_old_new.show()
             c.show()
         return not equivalent
     return False

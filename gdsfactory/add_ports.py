@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import warnings
 from functools import partial
 
 import numpy as np
@@ -74,7 +75,7 @@ def add_ports_from_markers_center(
     tol: float = 0.1,
     pin_extra_width: float = 0.0,
     min_pin_area_um2: float | None = None,
-    max_pin_area_um2: float | None = 150.0 * 150.0,
+    max_pin_area_um2: float | None = None,
     skip_square_ports: bool = False,
     xcenter: float | None = None,
     ycenter: float | None = None,
@@ -149,6 +150,7 @@ def add_ports_from_markers_center(
     dxmin = component.dxmin
     dymax = component.dymax
     dymin = component.dymin
+    dbu = component.kcl.dbu
 
     layer = port_layer or pin_layer
     port_locations = []
@@ -158,9 +160,12 @@ def add_ports_from_markers_center(
     port_name_prefix = port_name_prefix or port_name_prefix_default
 
     pin_layer = gf.get_layer(pin_layer)
-    layer = gf.get_layer(layer)
 
-    polygons = component.get_polygons()
+    polygons = component.get_polygons(by="index")
+    if pin_layer not in polygons:
+        warnings.warn(f"no pin layer {pin_layer} found in {component.layers}")
+        return component
+
     port_markers = polygons[pin_layer]
     ports = []
 
@@ -188,6 +193,15 @@ def add_ports_from_markers_center(
             continue
 
         orientation = -1
+
+        dx *= dbu
+        dy *= dbu
+        x = x * dbu
+        y = y * dbu
+        pxmax *= dbu
+        pymax *= dbu
+        pxmin *= dbu
+        pymin *= dbu
 
         # rectangular ports orientation is easier to detect
         if dy < dx if ports_on_short_side else dx < dy:
@@ -607,10 +621,12 @@ def add_ports_from_siepic_pins(
 
         c.create_port(
             name=f"{port_prefix}{i+1}",
-            width=round(path.width / c.kcl.dbu),
-            trans=gf.kdb.Trans(orientation, False, path.bbox().center().to_v()),
+            dwidth=round(path.width / c.kcl.dbu) * c.kcl.dbu,
+            dcplx_trans=gf.kdb.DCplxTrans(
+                1, orientation, False, path.bbox().center().to_v()
+            ),
             layer=port_layer,
-            port_type="optical",
+            port_type=port_type,
         )
 
     return c

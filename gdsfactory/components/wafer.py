@@ -19,8 +19,8 @@ def wafer(
     Args:
         reticle: spec for each wafer reticle.
         cols: how many columns per row.
-        xspacing: optional spacing, defaults to reticle.xsize.
-        yspacing: optional spacing, defaults to reticle.ysize.
+        xspacing: optional spacing, defaults to reticle.dxsize.
+        yspacing: optional spacing, defaults to reticle.dysize.
         die_name_col_row: if True, die name is row_col, otherwise is a number
     """
     c = gf.Component()

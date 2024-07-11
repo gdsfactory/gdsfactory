@@ -47,7 +47,7 @@ license = {file = "LICENSE"}
 name = "gdsfactory"
 readme = "README.md"
 requires-python = ">=3.10"
-version = "8.3.1"
+version = "8.5.1"
 
 [project.optional-dependencies]
 cad = [
@@ -72,7 +72,9 @@ docs = [
   "Sphinx==7.3.7"
 ]
 full = [
-  "gplugins[devsim,femwell,gmsh,meow,sax,schematic,tidy3d,vlsir]>=1,<2"
+  "gplugins[devsim,femwell,gmsh,meow,sax,schematic,tidy3d,vlsir]>=1,<2",
+  "scikit-rf",
+  "autograd"
 ]
 maintainer = [
   "ruff",
@@ -213,7 +215,7 @@ message_template = "Bump to {new_version}"
 tag_template = "v{new_version}"
 
 [tool.tbump.version]
-current = "8.3.1"
+current = "8.5.1"
 regex = '''
   (?P<major>\d+)
   \.

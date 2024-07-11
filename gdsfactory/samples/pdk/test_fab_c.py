@@ -25,9 +25,28 @@ import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
 from gdsfactory.difftest import difftest
+from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.samples.pdk.fab_c import cells
 
 cell_names = list(cells.keys())
+
+
+@pytest.fixture(autouse=True)
+def activate_pdk():
+    from gdsfactory.samples.pdk.fab_c import PDK
+
+    PDK.activate()
+    yield
+    PDK = get_generic_pdk()
+    PDK.activate()
+
+
+def test_to_updk():
+    from gdsfactory.samples.pdk.fab_c import PDK
+
+    PDK.activate()
+    yaml_pdk_decription = PDK.to_updk()
+    assert yaml_pdk_decription
 
 
 @pytest.fixture(params=cell_names, scope="function")
@@ -53,6 +72,7 @@ def test_settings(component_name: str, data_regression: DataRegressionFixture) -
 
 
 if __name__ == "__main__":
-    print(cell_names)
-    c = cells[cell_names[0]]()
-    difftest(c, test_name=f"fabc_{cell_names[0]}")
+    # print(cell_names)
+    # c = cells[cell_names[0]]()
+    # difftest(c, test_name=f"fabc_{cell_names[0]}")
+    test_to_updk()

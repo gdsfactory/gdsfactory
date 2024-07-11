@@ -232,6 +232,7 @@ from gdsfactory.components.spiral_heater import (
     spiral_racetrack_heater_doped,
     spiral_racetrack_heater_metal,
 )
+from gdsfactory.components.spiral_inductor import spiral_inductor
 from gdsfactory.components.splitter_chain import splitter_chain
 from gdsfactory.components.splitter_tree import splitter_tree, switch_tree
 from gdsfactory.components.straight import straight, straight_all_angle
@@ -493,6 +494,7 @@ __all__ = [
     "seal_ring_segmented",
     "snspd",
     "spiral",
+    "spiral_inductor",
     "spiral_double",
     "spiral_racetrack",
     "spiral_racetrack_fixed_length",

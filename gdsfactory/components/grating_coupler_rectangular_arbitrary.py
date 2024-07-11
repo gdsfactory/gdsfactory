@@ -112,7 +112,7 @@ def grating_coupler_rectangular_arbitrary(
     if layer_slab:
         slab_xmin = length_taper - slab_offset
         slab_xmax = length_taper + np.sum(widths) + np.sum(gaps) + slab_offset
-        slab_ysize = c.dysize + 2 * slab_offset
+        slab_ysize = width_grating + 2 * slab_offset
         yslab = slab_ysize / 2
         c.add_polygon(
             [
@@ -141,5 +141,7 @@ def grating_coupler_rectangular_arbitrary(
 
 
 if __name__ == "__main__":
-    c = grating_coupler_rectangular_arbitrary(cross_section="rib_bbox")
+    c = grating_coupler_rectangular_arbitrary(
+        cross_section="rib_bbox", slab_offset=2.0, layer_slab=(2, 0)
+    )
     c.show()

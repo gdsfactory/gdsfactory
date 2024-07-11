@@ -145,7 +145,7 @@ Layer = LayerEnum
 Layers = tuple[Layer, ...]
 LayerSpec = LayerEnum | str | tuple[int, int]
 
-LayerSpecs = list[LayerSpec] | tuple[LayerSpec, ...] | None
+LayerSpecs = list[LayerSpec] | tuple[LayerSpec, ...]
 
 ComponentParams = ParamSpec("ComponentParams")
 ComponentFactory = Callable[..., Component]

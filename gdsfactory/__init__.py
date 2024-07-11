@@ -1,19 +1,5 @@
-"""You can import gdsfactory.as gf.
+"""Main module for gdsfactory."""
 
-functions:
-    - import_gds(): returns a Component from a GDS
-
-classes:
-
-    - Component
-    - Port
-    - TECH
-
-modules:
-
-    - c: components
-    - routing
-"""
 # NOTE: import order matters. Only change the order if you know what you are doing
 # isort: skip_file
 
@@ -23,10 +9,11 @@ from toolz import compose
 from aenum import constant  # type: ignore[import-untyped]
 
 import kfactory as kf
-from kfactory.kcell import LayerEnum, kcl, show, cell, vcell
+from kfactory.kcell import LayerEnum, kcl, show, vcell
 from kfactory import logger
 import klayout.db as kdb
 
+from gdsfactory.cell import cell
 from gdsfactory.path import Path
 from gdsfactory.component import (
     Component,
@@ -58,6 +45,7 @@ from gdsfactory import add_pins
 from gdsfactory import technology
 from gdsfactory import routing
 from gdsfactory import export
+from gdsfactory import functions
 
 from gdsfactory.add_padding import (
     add_padding,
@@ -118,6 +106,7 @@ __all__ = (
     "diff",
     "difftest",
     "export",
+    "functions",
     "get_active_pdk",
     "get_cell",
     "get_cells",

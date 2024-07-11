@@ -9,6 +9,7 @@ from gdsfactory import cell
 from gdsfactory.component import Component
 from gdsfactory.difftest import difftest
 from gdsfactory.generic_tech import LAYER
+from gdsfactory.path import Path
 
 
 def test_path_zero_length() -> None:
@@ -58,7 +59,7 @@ def double_loop() -> Component:
     s1 = gf.Section(width=0.5, offset=2, layer=(0, 0))
     s2 = gf.Section(width=0.5, offset=4, layer=(1, 0))
     s3 = gf.Section(width=1, offset=0, layer=(3, 0))
-    X = gf.CrossSection(sections=[s0, s1, s2, s3])
+    X = gf.CrossSection(sections=(s0, s1, s2, s3))
     return gf.path.extrude(P, X, simplify=0.3)
 
 
@@ -70,7 +71,7 @@ def transition() -> Component:
     )
     s1 = gf.Section(width=2.2, offset=0, layer=(3, 0), name="etch")
     s2 = gf.Section(width=1.1, offset=3, layer=(1, 0), name="wg2")
-    X1 = gf.CrossSection(sections=[s0, s1, s2])
+    X1 = gf.CrossSection(sections=(s0, s1, s2))
 
     # Create the second CrossSection that we want to transition to
     s0 = gf.Section(
@@ -78,7 +79,7 @@ def transition() -> Component:
     )
     s1 = gf.Section(width=3.5, offset=0, layer=(3, 0), name="etch")
     s2 = gf.Section(width=3, offset=5, layer=(1, 0), name="wg2")
-    X2 = gf.CrossSection(sections=[s0, s1, s2])
+    X2 = gf.CrossSection(sections=(s0, s1, s2))
 
     Xtrans = gf.path.transition(cross_section1=X1, cross_section2=X2, width_type="sine")
     # Xtrans = gf.cross_section.strip(port_names=('in1', 'out1'))
@@ -148,3 +149,73 @@ def test_path_add() -> None:
     p = p2 + p1
     assert p.start_angle == 0
     assert p.end_angle == 45
+
+
+def test_init_with_no_path() -> None:
+    path = Path()
+    assert np.array_equal(path.points, np.array([[0, 0]], dtype=np.float64))
+    assert path.start_angle == 0
+    assert path.end_angle == 0
+
+
+def test_init_with_array() -> None:
+    points = [[0, 0], [1, 1], [2, 0]]
+    path = Path(points)
+    assert np.array_equal(path.points, np.array(points))
+    assert path.start_angle == pytest.approx(45.0)
+    assert path.end_angle == pytest.approx(-45.0)
+
+
+def test_init_with_path() -> None:
+    original_path = Path([[0, 0], [1, 1], [2, 0]])
+    path = Path(original_path)
+    assert np.array_equal(path.points, original_path.points)
+    assert path.start_angle == original_path.start_angle
+    assert path.end_angle == original_path.end_angle
+
+
+def test_invalid_path() -> None:
+    with pytest.raises(ValueError):
+        Path("invalid path")
+
+
+def test_append_path() -> None:
+    path1 = Path([[0, 0], [1, 1]])
+    path2 = Path([[0, 0], [1, 1]])
+    path1.append(path2)
+    expected_points = np.array([[0, 0], [1, 1], [2, 2]])
+    assert np.array_equal(path1.points, expected_points)
+
+
+def test_append_points() -> None:
+    path = Path([[0, 0], [1, 1]])
+    points = [[1, 1], [2, 2]]
+    path.append(points)
+    expected_points = np.array([[0, 0], [1, 1], [2, 2]])
+    assert np.array_equal(path.points, expected_points)
+
+
+def test_length() -> None:
+    path = Path([[0, 0], [1, 1], [2, 0]])
+    assert path.length() == pytest.approx(2.8284, rel=1e-3)
+
+
+def test_dmove() -> None:
+    path = Path([[0, 0], [1, 1], [2, 0]])
+    path.dmove((0, 0), (1, 1))
+    expected_points = np.array([[1, 1], [2, 2], [3, 1]])
+    assert np.array_equal(path.points, expected_points)
+
+
+def test_drotate() -> None:
+    path = Path([[0, 0], [1, 1], [2, 0]])
+    path.drotate(90)
+    expected_points = np.array([[0, 0], [-1, 1], [0, 2]])
+    np.testing.assert_allclose(path.points, expected_points, atol=1e-4)
+
+
+def test_dmirror() -> None:
+    path = Path([[0, 0], [1, 1], [2, 0]])
+    path.dmirror((0, 0), (0, 1))
+    expected_points = np.array([[0, 0], [-1, 1], [-2, 0]])
+    np.testing.assert_allclose(path.points, expected_points, atol=1e-4)

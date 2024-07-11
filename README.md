@@ -1,4 +1,4 @@
-# gdsfactory 8.3.1
+# gdsfactory 8.5.1
 
 [![docs](https://github.com/gdsfactory/gdsfactory/actions/workflows/pages.yml/badge.svg)](https://gdsfactory.github.io/gdsfactory/)
 [![PyPI](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
@@ -60,11 +60,15 @@ Many foundries have gdsfactory PDKs available. Please to contact your foundry to
 - GlobalFoundries 45SPCLO Photonics PDK
 - HHI Photonics PDK
 - IMEC photonics PDK
-- Ligentec PDK
-- Lionix PDK
 - Smart Photonics Photonics PDK
 - TowerSemi PH18 photonics PDK
 - III-V Labs PDK
+- Lionix PDK
+- Luxtelligence PDK
+
+Coming soon:
+
+- Ligentec PDK
 
 There are some open source PDKs available without an NDA:
 
@@ -79,7 +83,7 @@ You can also access:
 - instructions on [how to build your own PDK](https://gdsfactory.github.io/gdsfactory/notebooks/08_pdk.html)
 - instructions on [how to import a PDK from a library of fixed GDS cells](https://gdsfactory.github.io/gdsfactory/notebooks/09_pdk_import.html)
 
-![pdks](https://i.imgur.com/7O011v0.png)
+![pdks](https://i.imgur.com/d2eSqPh.png)
 
 ## Getting started
 
@@ -147,4 +151,4 @@ Gdsfactory is really fast thanks to KLayout C++ library for manipulating GDSII o
 
 Thanks to all the contributors that make this awesome project possible!
 
-[![Meet our contributors!](https://contrib.rocks/image?repo=gdsfactory/gdsfactory)](https://github.com/gdsfactory/gdsfactory/graphs/contributors)
+![contributors](https://i.imgur.com/0AuMHZE.png)
