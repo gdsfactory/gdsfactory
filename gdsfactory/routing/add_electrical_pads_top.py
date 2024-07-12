@@ -65,6 +65,9 @@ def add_electrical_pads_top(
     ports = [ref[port_name] for port_name in port_names] if port_names else None
     ports_electrical = ports or select_ports(ref.ports, **kwargs)
 
+    if not ports_electrical:
+        raise ValueError("No electrical ports found")
+
     if direction == "top":
         pads = c << gf.get_component(
             pad_array, columns=len(ports_electrical), rows=1, port_orientation=270
@@ -83,7 +86,7 @@ def add_electrical_pads_top(
         route_quad(c, p1, p2, layer=layer)
 
     for port in ref.ports:
-        if port not in ports_electrical:
+        if port.port_type != "electrical":
             c.add_port(name=port.name, port=port)
 
     c.add_ports(pads.ports)
@@ -95,10 +98,10 @@ def add_electrical_pads_top(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    # c = gf.components.straight_heater_metal()
+    c = gf.components.straight_heater_metal()
     # c = gf.components.mzi_phase_shifter_top_heater_metal()
     # cc = gf.routing.add_electrical_pads_top(component=c, spacing=(-150, 30))
-    c = add_electrical_pads_top()
+    c = add_electrical_pads_top(c)
     # c = _wire_long()
     c.pprint_ports()
     c.show()
