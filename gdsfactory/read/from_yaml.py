@@ -52,6 +52,7 @@ from __future__ import annotations
 import importlib
 import pathlib
 from collections.abc import Callable
+from copy import deepcopy
 from functools import partial
 from typing import IO, Any, Literal
 
@@ -775,9 +776,9 @@ yaml.add_constructor(
 def _load_yaml_str(yaml_str: Any) -> dict:
     dct = {}
     if isinstance(yaml_str, dict):
-        dct = yaml_str
+        dct = deepcopy(yaml_str)
     elif isinstance(yaml_str, Netlist):
-        dct = yaml_str.model_dump()
+        dct = deepcopy(yaml_str.model_dump())
     elif (isinstance(yaml_str, str) and "\n" in yaml_str) or isinstance(yaml_str, IO):
         dct = yaml.safe_load(yaml_str)
     elif isinstance(yaml_str, str):
@@ -885,6 +886,8 @@ def _place_and_connect(
         pl = placements.get(root)
         if pl is not None:
             _update_reference_by_placement(refs, root, pl)
+        else:
+            _update_reference_by_placement(refs, root, Placement())
         for i2, i1 in nx.dfs_edges(g, root):
             ports = directed_connections.get(i1, {}).get(i2, None)
             pl = placements.get(i1)
