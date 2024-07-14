@@ -1,22 +1,36 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.4.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.5.2...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.5.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.5.2) - 2024-07-14
 
-No significant changes.
-
+- fix mzi netlist and add cache to import_gds [#2975](https://github.com/gdsfactory/gdsfactory/pull/2975)
+- read from yaml: minor fixes [#2974](https://github.com/gdsfactory/gdsfactory/pull/2974)
+- improve add_electrical_pads_top [#2972](https://github.com/gdsfactory/gdsfactory/pull/2972)
+- modify route_bundle_sbend to accept customized s bend, adapt from route_single_sbend [#2971](https://github.com/gdsfactory/gdsfactory/pull/2971)
 
 ## [8.5.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.5.1) - 2024-07-10
 
-No significant changes.
-
+- Improve write cells and fix taper [#2970](https://github.com/gdsfactory/gdsfactory/pull/2970)
+- Add skrf [#2964](https://github.com/gdsfactory/gdsfactory/pull/2964)
 
 ## [8.5.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.5.0) - 2024-07-08
 
-No significant changes.
-
+- add component copy_layers [#2957](https://github.com/gdsfactory/gdsfactory/pull/2957)
+- add cross_section to route_bundle_all_angle [#2956](https://github.com/gdsfactory/gdsfactory/pull/2956)
+- add gf.functions.get_point_inside [#2954](https://github.com/gdsfactory/gdsfactory/pull/2954)
+- fix slabfix slab grating_coupler [#2959](https://github.com/gdsfactory/gdsfactory/pull/2959)
+- fix extrude to work with transitions [#2951](https://github.com/gdsfactory/gdsfactory/pull/2951)
+- improve gf.read.from_yaml [#2936](https://github.com/gdsfactory/gdsfactory/pull/2936)
+- fixes ComponentAlongPath by making it frozen [#2941](https://github.com/gdsfactory/gdsfactory/pull/2941)
+- allow_callable_width [#2937](https://github.com/gdsfactory/gdsfactory/pull/2937)
+- fix #2928 [#2931](https://github.com/gdsfactory/gdsfactory/pull/2931)
+- improve die [#2960](https://github.com/gdsfactory/gdsfactory/pull/2960)
+- [pre-commit.ci] pre-commit autoupdate [#2932](https://github.com/gdsfactory/gdsfactory/pull/2932)
+- Improve warnings traceback [#2958](https://github.com/gdsfactory/gdsfactory/pull/2958)
+- More from yaml updates [#2948](https://github.com/gdsfactory/gdsfactory/pull/2948)
+- Increase backwards compat [#2942](https://github.com/gdsfactory/gdsfactory/pull/2942)
 
 ## [8.4.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.4.0) - 2024-06-28
 
