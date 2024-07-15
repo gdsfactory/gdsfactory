@@ -1076,7 +1076,7 @@ def extrude_transition(
     names2 = list(named_sections2.keys())
 
     common_sections = set(names1).intersection(names2)
-    if len(common_sections) == 0:
+    if not common_sections:
         raise ValueError(
             f"transition() found no common section names X1 {names1} and X2 {names2}"
         )
