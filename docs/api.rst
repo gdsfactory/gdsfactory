@@ -44,10 +44,8 @@ Classes and functions for construction and manipulation of geometric objects.
 
    CrossSection
    Transition
-   xsection
    cross_section
    strip
-   strip_auto_widen
    heater_metal
    pin
    pn
@@ -109,11 +107,9 @@ Classes and functions for construction and manipulation of geometric objects.
    LayerLevel
    MaterialSpec
    MultiCrossSectionAngleSpec
-   NetlistModel
    PathType
    Section
    Step
-   StepAllAngle
 
 
 *********************

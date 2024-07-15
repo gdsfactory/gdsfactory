@@ -291,7 +291,7 @@ cdsem_all
 
   import gdsfactory as gf
 
-  c = gf.components.cdsem_all(widths=(0.4, 0.45, 0.5, 0.6, 0.8, 1), dense_lines_width=0.3, dense_lines_width_difference=0.02, dense_lines_gap=0.3, dense_lines_labels=('DL', 'DM', 'DH'), straight='straight', bend90='bend_circular', cross_section='strip', spacing=5)
+  c = gf.components.cdsem_all(widths=(0.4, 0.45, 0.5, 0.6, 0.8, 1), dense_lines_width=0.3, dense_lines_width_difference=0.02, dense_lines_gap=0.3, dense_lines_labels=('DL', 'DM', 'DH'), straight='straight', bend90='bend_circular', cross_section='strip', text='text_rectangular_mini', spacing=5)
   c.plot()
 
 
@@ -306,7 +306,7 @@ cdsem_bend180
 
   import gdsfactory as gf
 
-  c = gf.components.cdsem_bend180(width=0.5, radius=10, wg_length=420, straight='straight', bend90='bend_circular', cross_section='strip')
+  c = gf.components.cdsem_bend180(width=0.5, radius=10, wg_length=420, straight='straight', bend90='bend_circular', cross_section='strip', text='text_rectangular_mini')
   c.plot()
 
 
@@ -1003,7 +1003,7 @@ die
 
   import gdsfactory as gf
 
-  c = gf.components.die(size=(10000, 10000), street_width=100, street_length=1000, die_name='chip99', text_size=100, text_location='SW', layer='FLOORPLAN', bbox_layer='FLOORPLAN', draw_corners=False)
+  c = gf.components.die(size=(10000, 10000), street_width=100, street_length=1000, die_name='chip99', text_size=100, text_location='SW', layer='FLOORPLAN', bbox_layer='FLOORPLAN', text='text', draw_corners=False)
   c.plot()
 
 
@@ -1033,7 +1033,7 @@ die_with_pads
 
   import gdsfactory as gf
 
-  c = gf.components.die_with_pads(size=(11470, 4900), ngratings=14, npads=31, grating_pitch=250, pad_pitch=300, grating_coupler='grating_coupler_te', cross_section='strip', pad='pad', layer_floorplan=32, edge_to_pad_distance=150, edge_to_grating_distance=150)
+  c = gf.components.die_with_pads(size=(11470, 4900), ngratings=14, npads=31, grating_pitch=250, pad_pitch=300, grating_coupler='grating_coupler_te', cross_section='strip', pad='pad', layer_floorplan='FLOORPLAN', edge_to_pad_distance=150, edge_to_grating_distance=150, with_loopback=True)
   c.plot()
 
 
@@ -1078,7 +1078,7 @@ edge_coupler_array
 
   import gdsfactory as gf
 
-  c = gf.components.edge_coupler_array(n=5, pitch=127, x_reflection=False, text_offset=(10, 20), text_rotation=0)
+  c = gf.components.edge_coupler_array(edge_coupler='edge_coupler_silicon', n=5, pitch=127, x_reflection=False, text='text_rectangular', text_offset=(10, 20), text_rotation=0)
   c.plot()
 
 
@@ -1093,7 +1093,7 @@ edge_coupler_array_with_loopback
 
   import gdsfactory as gf
 
-  c = gf.components.edge_coupler_array_with_loopback(cross_section='strip', radius=30, n=8, pitch=127, extension_length=1, x_reflection=False, text_offset=(0, 10), text_rotation=0)
+  c = gf.components.edge_coupler_array_with_loopback(edge_coupler='edge_coupler_silicon', cross_section='strip', radius=30, n=8, pitch=127, extension_length=1, x_reflection=False, text='text_rectangular', text_offset=(0, 10), text_rotation=0)
   c.plot()
 
 
@@ -1138,7 +1138,7 @@ extend_ports
 
   import gdsfactory as gf
 
-  c = gf.components.extend_ports(length=5, port_type='optical', centered=False)
+  c = gf.components.extend_ports(length=5, port_type='optical', centered=False, allow_width_mismatch=False)
   c.plot()
 
 
@@ -1325,7 +1325,7 @@ grating_coupler_loss_fiber_array
 
   import gdsfactory as gf
 
-  c = gf.components.grating_coupler_loss_fiber_array(pitch=127, port_name='o1', cross_section='strip', rotation=-90)
+  c = gf.components.grating_coupler_loss_fiber_array(pitch=127, grating_coupler='grating_coupler_te', port_name='o1', cross_section='strip', rotation=-90)
   c.plot()
 
 
@@ -1535,7 +1535,7 @@ loss_deembedding_ch12_34
 
   import gdsfactory as gf
 
-  c = gf.components.loss_deembedding_ch12_34(pitch=127, port_name='o1', cross_section='strip', rotation=-90)
+  c = gf.components.loss_deembedding_ch12_34(pitch=127, grating_coupler='grating_coupler_te', port_name='o1', cross_section='strip', rotation=-90)
   c.plot()
 
 
@@ -1550,7 +1550,7 @@ loss_deembedding_ch13_24
 
   import gdsfactory as gf
 
-  c = gf.components.loss_deembedding_ch13_24(pitch=127, cross_section='strip', port_name='o1', rotation=-90)
+  c = gf.components.loss_deembedding_ch13_24(pitch=127, grating_coupler='grating_coupler_te', cross_section='strip', port_name='o1', rotation=-90)
   c.plot()
 
 
@@ -1565,7 +1565,7 @@ loss_deembedding_ch14_23
 
   import gdsfactory as gf
 
-  c = gf.components.loss_deembedding_ch14_23(pitch=127, cross_section='strip', port_name='o1', rotation=-90)
+  c = gf.components.loss_deembedding_ch14_23(pitch=127, grating_coupler='grating_coupler_te', cross_section='strip', port_name='o1', rotation=-90)
   c.plot()
 
 
@@ -1700,7 +1700,7 @@ mzi1x2_2x2
 
   import gdsfactory as gf
 
-  c = gf.components.mzi1x2_2x2(delta_length=10, length_y=2, length_x=0.1, splitter='mmi1x2', with_splitter=True, port_e1_splitter='o2', port_e0_splitter='o3', port_e1_combiner='o3', port_e0_combiner='o4', nbends=2, cross_section='strip', mirror_bot=False, add_optical_ports_arms=False, min_length=0.01, auto_rename_ports=True)
+  c = gf.components.mzi1x2_2x2(delta_length=10, length_y=2, length_x=0.1, splitter='mmi1x2', combiner='mmi2x2', with_splitter=True, port_e1_splitter='o2', port_e0_splitter='o3', port_e1_combiner='o3', port_e0_combiner='o4', nbends=2, cross_section='strip', mirror_bot=False, add_optical_ports_arms=False, min_length=0.01, auto_rename_ports=True)
   c.plot()
 
 
@@ -1715,7 +1715,7 @@ mzi2x2_2x2_phase_shifter
 
   import gdsfactory as gf
 
-  c = gf.components.mzi2x2_2x2_phase_shifter(delta_length=10, length_y=2, length_x=200, straight_x_top='straight_heater_metal', with_splitter=True, port_e1_splitter='o3', port_e0_splitter='o4', port_e1_combiner='o3', port_e0_combiner='o4', nbends=2, cross_section='strip', mirror_bot=False, add_optical_ports_arms=False, min_length=0.01, auto_rename_ports=True)
+  c = gf.components.mzi2x2_2x2_phase_shifter(delta_length=10, length_y=2, length_x=200, straight_x_top='straight_heater_metal', splitter='mmi2x2', combiner='mmi2x2', with_splitter=True, port_e1_splitter='o3', port_e0_splitter='o4', port_e1_combiner='o3', port_e0_combiner='o4', nbends=2, cross_section='strip', mirror_bot=False, add_optical_ports_arms=False, min_length=0.01, auto_rename_ports=True)
   c.plot()
 
 
@@ -2110,6 +2110,21 @@ pad_rectangular
 
 
 
+pad_small
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.pad_small
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.pad_small(size=(80, 80), layer='MTOP', port_inclusion=0, port_orientation=0)
+  c.plot()
+
+
+
 pads_shorted
 ----------------------------------------------------
 
@@ -2330,7 +2345,7 @@ ring_double
 
   import gdsfactory as gf
 
-  c = gf.components.ring_double(gap=0.2, radius=10, length_x=0.01, length_y=0.01, cross_section='strip')
+  c = gf.components.ring_double(gap=0.2, radius=10, length_x=0.01, length_y=0.01, bend='bend_euler', cross_section='strip')
   c.plot()
 
 
@@ -2345,7 +2360,7 @@ ring_double_heater
 
   import gdsfactory as gf
 
-  c = gf.components.ring_double_heater(gap=0.2, radius=10, length_x=1, length_y=0.01, cross_section_heater='heater_metal', cross_section_waveguide_heater='strip_heater_metal', cross_section='strip', via_stack_offset=(1, 0), with_drop=True)
+  c = gf.components.ring_double_heater(gap=0.2, radius=10, length_x=1, length_y=0.01, cross_section_heater='heater_metal', cross_section_waveguide_heater='strip_heater_metal', cross_section='strip', via_stack='via_stack_heater_mtop_mini', via_stack_offset=(1, 0), with_drop=True)
   c.plot()
 
 
@@ -2450,7 +2465,7 @@ ring_single_heater
 
   import gdsfactory as gf
 
-  c = gf.components.ring_single_heater(gap=0.2, radius=10, length_x=1, length_y=0.01, cross_section_heater='heater_metal', cross_section_waveguide_heater='strip_heater_metal', cross_section='strip', via_stack_offset=(1, 0), with_drop=False)
+  c = gf.components.ring_single_heater(gap=0.2, radius=10, length_x=1, length_y=0.01, cross_section_heater='heater_metal', cross_section_waveguide_heater='strip_heater_metal', cross_section='strip', via_stack='via_stack_heater_mtop_mini', via_stack_offset=(1, 0), with_drop=False)
   c.plot()
 
 
@@ -2495,7 +2510,22 @@ seal_ring
 
   import gdsfactory as gf
 
-  c = gf.components.seal_ring(width=10, padding=10, with_north=True, with_south=True, with_east=True, with_west=True)
+  c = gf.components.seal_ring(component='rectangle', seal='via_stack', width=10, padding=10, with_north=True, with_south=True, with_east=True, with_west=True)
+  c.plot()
+
+
+
+seal_ring_segmented
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.seal_ring_segmented
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.seal_ring_segmented(length_segment=10, width_segment=3, spacing_segment=2, corner='via_stack_corner45_extended', via_stack='via_stack_m1_mtop', with_north=True, with_south=True, with_east=True, with_west=True, padding=10)
   c.plot()
 
 
@@ -2541,6 +2571,21 @@ spiral_double
   import gdsfactory as gf
 
   c = gf.components.spiral_double(min_bend_radius=10, separation=2, number_of_loops=3, npoints=1000, cross_section='strip')
+  c.plot()
+
+
+
+spiral_inductor
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.spiral_inductor
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.spiral_inductor(width=3, pitch=3, turns=16, outer_diameter=800, tail=50)
   c.plot()
 
 
@@ -2615,7 +2660,7 @@ splitter_chain
 
   import gdsfactory as gf
 
-  c = gf.components.splitter_chain(columns=3)
+  c = gf.components.splitter_chain(splitter='mmi1x2', columns=3, bend='bend_s')
   c.plot()
 
 
@@ -2855,7 +2900,7 @@ straight_pn
 
   import gdsfactory as gf
 
-  c = gf.components.straight_pn(length=2000, via_stack_width=10, via_stack_spacing=2)
+  c = gf.components.straight_pn(length=2000, cross_section='pn', via_stack_width=10, via_stack_spacing=2)
   c.plot()
 
 
@@ -3265,6 +3310,51 @@ via_stack
 
 
 
+via_stack_corner45
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.via_stack_corner45
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.via_stack_corner45(width=10, layers=('M1', 'M2', 'MTOP'), correct_size=True)
+  c.plot()
+
+
+
+via_stack_corner45_extended
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.via_stack_corner45_extended
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.via_stack_corner45_extended(corner='via_stack_corner45', via_stack='via_stack', width=3, length=10)
+  c.plot()
+
+
+
+via_stack_heater_mtop_mini
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.via_stack_heater_mtop_mini
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.via_stack_heater_mtop_mini(size=(4, 4), layers=('HEATER', 'M2', 'MTOP'), correct_size=True, slot_horizontal=False, slot_vertical=False)
+  c.plot()
+
+
+
 via_stack_m1_mtop
 ----------------------------------------------------
 
@@ -3335,7 +3425,7 @@ wafer
 
   import gdsfactory as gf
 
-  c = gf.components.wafer(cols=(2, 6, 6, 8, 8, 6, 6, 2), die_name_col_row=False)
+  c = gf.components.wafer(reticle='die', cols=(2, 6, 6, 8, 8, 6, 6, 2), die_name_col_row=False)
   c.plot()
 
 
@@ -3365,7 +3455,7 @@ wire_corner45
 
   import gdsfactory as gf
 
-  c = gf.components.wire_corner45(cross_section='metal_routing', radius=10)
+  c = gf.components.wire_corner45(cross_section='metal_routing', radius=10, with_corner90_ports=True)
   c.plot()
 
 
