@@ -39,7 +39,6 @@ from typing import (
 import kfactory as kf
 import numpy as np
 from kfactory.kcell import LayerEnum
-from pydantic import ConfigDict
 
 from gdsfactory.component import (
     Component,
@@ -87,34 +86,6 @@ class Step:
     y: float | None = None
     dx: float | None = None
     dy: float | None = None
-
-
-@dataclasses.dataclass
-class StepAllAngle:
-    x: float | None = None
-    y: float | None = None
-    dx: float | None = None
-    dy: float | None = None
-    ds: float | None = None
-    exit_angle: float | None = None
-    cross_section: CrossSectionSpec | None = None
-    connector: ComponentSpec | None = None
-    separation: float | None = None
-
-    """All angle Ste.
-
-    Parameters:
-        x: absolute.
-        y: absolute.
-        dx: x-displacement.
-        dy: y-displacement.
-        exit_angle: in degrees.
-        cross_section: spec.
-        connector: define transition.
-        separation: in um.
-
-    """
-    model_config = ConfigDict(extra="forbid", frozen=True)
 
 
 Anchor = Literal[
