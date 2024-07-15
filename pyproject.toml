@@ -69,7 +69,7 @@ docs = [
   "jupytext",
   "jupyter-book>=0.15.1,<1.1",
   "plotly",
-  "Sphinx==7.3.7"
+  "Sphinx==7.4.3"
 ]
 full = [
   "gplugins[devsim,femwell,gmsh,meow,sax,schematic,tidy3d,vlsir]>=1,<2",
