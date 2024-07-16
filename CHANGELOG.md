@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.5.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.5.3) - 2024-07-16
+
+No significant changes.
+
+
 ## [8.5.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.5.2) - 2024-07-14
 
 - fix mzi netlist and add cache to import_gds [#2975](https://github.com/gdsfactory/gdsfactory/pull/2975)
