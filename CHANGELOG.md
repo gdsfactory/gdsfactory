@@ -1,12 +1,14 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.5.2...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.5.3...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.5.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.5.3) - 2024-07-16
 
-No significant changes.
-
+- fix cicd for test plugins [#2981](https://github.com/gdsfactory/gdsfactory/pull/2981)
+- fix notebooks link [#2976](https://github.com/gdsfactory/gdsfactory/pull/2976)
+- update kfactory to 0.18 [#2983](https://github.com/gdsfactory/gdsfactory/pull/2983)
+- remove import_gds cache [#2982](https://github.com/gdsfactory/gdsfactory/pull/2982)
 
 ## [8.5.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.5.2) - 2024-07-14
 
