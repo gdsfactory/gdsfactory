@@ -191,7 +191,7 @@ def route_south(
 
         tmp_port = gen_port_from_port(x, y0, p, cross_section=xs)
         ports_to_route.append(tmp_port)
-        route = route_single(c, p, tmp_port, **conn_params)
+        route = route_single(c, tmp_port, p, **conn_params)
         x -= sep
 
     # route first halft of north ports above the top west one
@@ -204,8 +204,8 @@ def route_south(
             tmp_port = gen_port_from_port(x, y0, p, cross_section=xs)
             route = route_single(
                 component=c,
-                port1=p,
-                port2=tmp_port,
+                port2=p,
+                port1=tmp_port,
                 start_straight_length=start_straight_length + y_max - p.dy,
                 **conn_params,
             )
@@ -245,8 +245,8 @@ def route_south(
         tmp_port = gen_port_from_port(x, y0, p, cross_section=xs)
         route = route_single(
             c,
-            p,
             tmp_port,
+            p,
             start_straight_length=start_straight_length,
             **conn_params,
         )
@@ -263,8 +263,8 @@ def route_south(
             ports_to_route.append(tmp_port)
             route = route_single(
                 c,
-                p,
                 tmp_port,
+                p,
                 start_straight_length=start_straight_length + y_max - p.dy,
                 **conn_params,
             )
@@ -283,9 +283,21 @@ def route_south(
 
 if __name__ == "__main__":
     c = gf.Component()
+
+    @gf.cell
+    def mzi_with_bend(radius=10):
+        c = gf.Component()
+        bend = c.add_ref(gf.components.bend_euler(radius=radius))
+        mzi = c.add_ref(gf.components.mzi())
+        bend.connect("o1", mzi.ports["o2"])
+        c.add_port(name="o1", port=mzi.ports["o1"])
+        c.add_port(name="o2", port=bend.ports["o2"])
+        return c
+
     component = gf.components.ring_double()
     component = gf.components.nxn(north=2, south=2, west=2, east=2)
     component = gf.c.mzi_phase_shifter()
+    component = mzi_with_bend()
     ref = c << component
     r = route_south(c, ref, optical_routing_type=1, start_straight_length=0)
     # print(r.lengths)
