@@ -1,4 +1,4 @@
-# gdsfactory 8.4.0
+# gdsfactory 8.5.2
 
 [![docs](https://github.com/gdsfactory/gdsfactory/actions/workflows/pages.yml/badge.svg)](https://gdsfactory.github.io/gdsfactory/)
 [![PyPI](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
@@ -8,9 +8,6 @@
 [![codecov](https://img.shields.io/codecov/c/github/gdsfactory/gdsfactory)](https://codecov.io/gh/gdsfactory/gdsfactory/tree/main/gdsfactory)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/gdsfactory/binder-sandbox/HEAD)
 [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/gdsfactory/gdsfactory-photonics-training)
-
-![logo](https://i.imgur.com/cN1ZWq8.png)
-
 
 > 🚀 **Notice: Major Release**
 >
@@ -25,28 +22,24 @@ Here, you can code your designs in Python or YAML, perform verification (DRC, si
 
 As input you write python code, as an output GDSFactory creates CAD files (GDS, OASIS, STL, GERBER).
 
-![cad](https://i.imgur.com/TWP80ez.png)
+![cad](https://i.imgur.com/7Vc9cnn.png)
 
 Highlights:
 
-- More than 1M downloads
-- More than 60 Contributors
-- More than 10 PDKs available
+- +2M downloads
+- +65 Contributors
+- +15 PDKs available
 
-![workflow](https://i.imgur.com/abvxJJw.png)
+![workflow](https://i.imgur.com/KyavbHh.png)
 
 We facilitate an end-to-end design flow for you to:
 
-- **Design (Layout, Simulation, Optimization)**: Define parametric cell functions in Python or YAML to generate components. Test component settings, ports, and geometry to avoid unwanted regressions, and capture design intent in a schematic.
-- **Verify (DRC, DFM, LVS)**: Run simulations directly from the layout using our simulation interfaces, removing the need to duplicate geometry drawings. Conduct component and circuit simulations, study design for manufacturing, and ensure complex layouts match their design intent through Layout Versus Schematic verification.
+- **Design (Layout, Simulation, Optimization)**: Define parametric cell functions in Python to generate components. Test component settings, ports, and geometry to avoid unwanted regressions, and capture design intent in a schematic.
+- **Verify (DRC, DFM, LVS)**: Run simulations directly from the layout using our simulation interfaces, removing the need to redraw your components in simulation tools. Conduct component and circuit simulations, study design for manufacturing. Ensure complex layouts match their design intent through Layout Versus Schematic verification (LVS) and are DRC clean.
 - **Validate**: Define layout and test protocols simultaneously for automated chip analysis post-fabrication. This allows you to extract essential component parameters, and build data pipelines from raw data to structured data to monitor chip performance.
 
 Your input: Python or YAML text.
 Your output: A GDSII or OASIS file for fabrication, alongside component settings (for measurement and data analysis) and netlists (for circuit simulations) in YAML.
-
-![layout_to_components](https://i.imgur.com/S96RSil.png)
-
-![flow](https://i.imgur.com/XbhWJDz.png)
 
 We provide a common syntax for design (KLayout, Ansys Lumerical, tidy3d, MEEP, MPB, DEVSIM, SAX, MEOW ...), verification, and validation.
 
@@ -60,11 +53,15 @@ Many foundries have gdsfactory PDKs available. Please to contact your foundry to
 - GlobalFoundries 45SPCLO Photonics PDK
 - HHI Photonics PDK
 - IMEC photonics PDK
-- Ligentec PDK
-- Lionix PDK
 - Smart Photonics Photonics PDK
 - TowerSemi PH18 photonics PDK
 - III-V Labs PDK
+- Lionix PDK
+- Luxtelligence PDK
+
+Coming soon:
+
+- Ligentec PDK
 
 There are some open source PDKs available without an NDA:
 
@@ -79,7 +76,7 @@ You can also access:
 - instructions on [how to build your own PDK](https://gdsfactory.github.io/gdsfactory/notebooks/08_pdk.html)
 - instructions on [how to import a PDK from a library of fixed GDS cells](https://gdsfactory.github.io/gdsfactory/notebooks/09_pdk_import.html)
 
-![pdks](https://i.imgur.com/7O011v0.png)
+![pdks](https://i.imgur.com/Nyie5ZX.png)
 
 ## Getting started
 

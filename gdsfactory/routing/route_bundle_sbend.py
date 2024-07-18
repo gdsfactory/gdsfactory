@@ -1,15 +1,17 @@
 from __future__ import annotations
 
-from gdsfactory.component import Component
-from gdsfactory.components.bend_s import bend_s
+import gdsfactory as gf
+from gdsfactory.components.bend_s import bend_s as bend_s_function
 from gdsfactory.port import Port
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
+from gdsfactory.typings import Component, ComponentSpec
 
 
 def route_bundle_sbend(
     component: Component,
     ports1: list[Port],
     ports2: list[Port],
+    bend_s: ComponentSpec = bend_s_function,
     sort_ports: bool = True,
     enforce_port_ordering: bool = True,
     **kwargs,
@@ -20,6 +22,7 @@ def route_bundle_sbend(
         component: to place the sbend routes.
         ports1: start ports.
         ports2: end ports.
+        bend_s: Sbend component.
         sort_ports: sort ports.
         enforce_port_ordering: enforces port ordering.
         kwargs: cross_section settings.
@@ -33,7 +36,7 @@ def route_bundle_sbend(
     for p1, p2 in zip(list(ports1), list(ports2)):
         ysize = p2.dcenter[1] - p1.dcenter[1]
         xsize = p2.dcenter[0] - p1.dcenter[0]
-        bend = bend_s(size=(xsize, ysize), **kwargs)
+        bend = gf.get_component(bend_s, size=(xsize, ysize), **kwargs)
         sbend = component << bend
         sbend.connect("o1", p1)
 

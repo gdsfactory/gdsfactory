@@ -21,6 +21,7 @@ from pydantic import (
     BaseModel,
     ConfigDict,
     Field,
+    PrivateAttr,
     field_serializer,
     model_validator,
 )
@@ -219,6 +220,7 @@ class CrossSection(BaseModel):
     bbox_offsets: Floats | None = None
 
     model_config = ConfigDict(extra="forbid", frozen=True)
+    _name = PrivateAttr("")
 
     def validate_radius(
         self, radius: float, error_type: ErrorType | None = None
@@ -240,8 +242,11 @@ class CrossSection(BaseModel):
 
     @property
     def name(self) -> str:
-        h = hashlib.md5(str(self).encode()).hexdigest()[:8]
-        return f"xs_{h}"
+        if not self._name:
+            h = hashlib.md5(str(self).encode()).hexdigest()[:8]
+            return f"xs_{h}"
+        else:
+            return self._name
 
     @property
     def width(self) -> float:

@@ -28,7 +28,6 @@ skip_test = {
     "grating_coupler_loss_fiber_array",
     "grating_coupler_tree",
     "loop_mirror",
-    "mzi",
     "mzi1x2_2x2",
     "mzi_arms",
     "mzi_coupler",
@@ -116,6 +115,7 @@ if __name__ == "__main__":
     component_type = "grating_coupler_loss_fiber_array"
     component_type = "spiral_racetrack"
     component_type = "pad_gsg_short"
+    component_type = "mzi"
 
     connection_error_types = {
         "optical": ["width_mismatch", "shear_angle_mismatch", "orientation_mismatch"]

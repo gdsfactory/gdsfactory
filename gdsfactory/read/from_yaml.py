@@ -52,6 +52,7 @@ from __future__ import annotations
 import importlib
 import pathlib
 from collections.abc import Callable
+from copy import deepcopy
 from functools import partial
 from typing import IO, Any, Literal
 
@@ -775,9 +776,9 @@ yaml.add_constructor(
 def _load_yaml_str(yaml_str: Any) -> dict:
     dct = {}
     if isinstance(yaml_str, dict):
-        dct = yaml_str
+        dct = deepcopy(yaml_str)
     elif isinstance(yaml_str, Netlist):
-        dct = yaml_str.model_dump()
+        dct = deepcopy(yaml_str.model_dump())
     elif (isinstance(yaml_str, str) and "\n" in yaml_str) or isinstance(yaml_str, IO):
         dct = yaml.safe_load(yaml_str)
     elif isinstance(yaml_str, str):
@@ -808,8 +809,14 @@ def _activate_pdk_by_name(pdk_name: str):
 def _get_dependency_graph(net: Netlist) -> nx.DiGraph:
     g = nx.DiGraph()
 
-    for i in net.instances:
-        g.add_node(i)
+    for i, inst in net.instances.items():
+        if inst.na < 2 and inst.nb < 2:
+            g.add_node(i)
+        else:
+            g.add_node(i)
+            for a in range(inst.na):
+                for b in range(inst.nb):
+                    _graph_connect(g, f"{i}<{a}.{b}>", i)
 
     for ip1, ip2 in net.connections.items():
         i1, _ = ip1.split(",")
@@ -821,6 +828,8 @@ def _get_dependency_graph(net: Netlist) -> nx.DiGraph:
             if k not in ["x", "y", "xmin", "ymin", "xmax", "ymax"]:
                 continue
             if not isinstance(v, str):
+                continue
+            if "," not in v:
                 continue
             i2, _ = v.split(",")
             _graph_connect(g, i1, i2)
@@ -835,16 +844,34 @@ def _get_dependency_graph(net: Netlist) -> nx.DiGraph:
 
 
 def _get_references(c: Component, pdk, instances: dict[str, NetlistInstance]):
-    return {
-        k: c.add_ref(
-            pdk.get_component(component=inst.component, settings=inst.settings),
-            rows=inst.nb,
-            columns=inst.na,
-            spacing=(inst.dax, inst.dby),
-            name=k,
-        )
-        for k, inst in instances.items()
-    }
+    refs = {}
+    for name, inst in instances.items():
+        na, nb = inst.na, inst.nb
+        dax, day, dbx, dby = inst.dax, inst.day, inst.dbx, inst.dby
+        comp = pdk.get_component(component=inst.component, settings=inst.settings)
+        if na < 2 and nb < 2:
+            ref = c.add_ref(comp, name=name)
+        else:
+            if abs(dax) > 0.0:
+                if abs(day) > 0.0 or abs(dbx) > 0.0:
+                    raise ValueError(
+                        "If 'dax' given. Only 'dby' should be given as well. "
+                        f"Got: {name=} {dax=}, {day=}, {dbx=}, {dby=}"
+                    )
+                ref = c.add_ref(
+                    comp, rows=nb, columns=na, spacing=(dax, dby), name=name
+                )
+            else:
+                if abs(dax) > 0.0 or abs(dby) > 0.0:
+                    raise ValueError(
+                        "If 'day' given. Only 'dbx' should be given as well. "
+                        f"Got: {name=} {dax=}, {day=}, {dbx=}, {dby=}"
+                    )
+                ref = c.add_ref(
+                    comp, rows=na, columns=nb, spacing=(dbx, day), name=name
+                )
+        refs[name] = ref
+    return refs
 
 
 def _place_and_connect(
@@ -859,6 +886,8 @@ def _place_and_connect(
         pl = placements.get(root)
         if pl is not None:
             _update_reference_by_placement(refs, root, pl)
+        else:
+            _update_reference_by_placement(refs, root, Placement())
         for i2, i1 in nx.dfs_edges(g, root):
             ports = directed_connections.get(i1, {}).get(i2, None)
             pl = placements.get(i1)
@@ -867,7 +896,7 @@ def _place_and_connect(
             if ports is not None:  # no elif!
                 p1, p2 = ports
                 i2name, i2a, i2b = _parse_maybe_arrayed_instance(i2)
-                if i2a or i2b:
+                if (i2a is not None) or (i2b is not None):
                     refs[i1].connect(p1, refs[i2name].ports[(p2, i2a, i2b)])
                 else:
                     refs[i1].connect(p1, refs[i2].ports[p2])

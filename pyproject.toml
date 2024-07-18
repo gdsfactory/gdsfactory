@@ -20,7 +20,7 @@ dependencies = [
   "omegaconf<3",
   "orjson<4",
   "pandas<3",
-  "pydantic>=2,<2.8",
+  "pydantic>=2.8.2,<2.9",
   "pydantic-settings<3",
   "pydantic-extra-types<3",
   "pyyaml",
@@ -38,7 +38,7 @@ dependencies = [
   "mapbox_earcut",
   "networkx",
   "scikit-image",
-  "trimesh>=4,<4.4",
+  "trimesh>=4.4.1,<4.5",
   "ipykernel"
 ]
 description = "python library to generate GDS layouts"
@@ -47,7 +47,7 @@ license = {file = "LICENSE"}
 name = "gdsfactory"
 readme = "README.md"
 requires-python = ">=3.10"
-version = "8.4.0"
+version = "8.5.2"
 
 [project.optional-dependencies]
 cad = [
@@ -69,10 +69,12 @@ docs = [
   "jupytext",
   "jupyter-book>=0.15.1,<1.1",
   "plotly",
-  "Sphinx==7.3.7"
+  "Sphinx==7.4.3"
 ]
 full = [
-  "gplugins[devsim,femwell,gmsh,meow,sax,schematic,tidy3d,vlsir]>=1,<2"
+  "gplugins[devsim,femwell,gmsh,meow,sax,schematic,tidy3d,vlsir]>=1,<2",
+  "scikit-rf",
+  "autograd"
 ]
 maintainer = [
   "ruff",
@@ -213,7 +215,7 @@ message_template = "Bump to {new_version}"
 tag_template = "v{new_version}"
 
 [tool.tbump.version]
-current = "8.4.0"
+current = "8.5.2"
 regex = '''
   (?P<major>\d+)
   \.

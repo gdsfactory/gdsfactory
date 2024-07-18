@@ -15,6 +15,7 @@ from kfactory import Instance, kdb, logger
 from kfactory.kcell import cell, save_layout_options
 
 from gdsfactory.config import GDSDIR_TEMP
+from gdsfactory.functions import get_polygons, get_polygons_points
 from gdsfactory.port import pprint_ports, select_ports, to_dict
 from gdsfactory.serialization import clean_value_json
 
@@ -125,13 +126,18 @@ class ComponentReference(kf.Instance):
         if __k == "_kfinst":
             return object.__getattribute__(self, "_kfinst")
         if __k in _deprecated_attributes:
-            logger.warning(
+            deprecation_message = (
                 f"Getting `{self._kfinst.name}.{__k}` {_deprecation_um}. "
-                f"Please use `{self._kfinst.name}.d{__k}` instead. For further information, please "
-                "consult the migration guide "
-                "https://gdsfactory.github.io/gdsfactory/notebooks/"
-                "21_migration_guide_7_8.html",
+                f"Please use `{self._kfinst.name}.d{__k}` instead."
             )
+
+            warnings.warn(deprecation_message, stacklevel=2)
+
+            logger.warning(
+                f"{deprecation_message} For further information, please consult the migration guide: "
+                "https://gdsfactory.github.io/gdsfactory/notebooks/21_migration_guide_7_8.html"
+            )
+
             match __k:
                 case "center":
                     return super().dcenter
@@ -168,10 +174,16 @@ class ComponentReference(kf.Instance):
     def __setattr__(self, __k: str, __v: Any) -> None:
         """Set attribute with deprecation warning for dbu based attributes."""
         if __k in _deprecated_attributes_instance_settr:
-            logger.warning(
+            deprecation_message_set = (
                 f"Setting `{self._kfinst.name}.{__k}` {_deprecation_um}. "
-                f"Please use `{self._kfinst.name}.d{__k}` instead.",
+                f"Please use `{self._kfinst.name}.d{__k}` instead."
             )
+
+            warnings.warn(deprecation_message_set, stacklevel=2)
+            logger.warning(
+                f"{deprecation_message_set} For further information, please consult the migration guide: "
+            )
+
             return super().__setattr__(f"d{__k}", __v)
         super().__setattr__(__k, __v)
 
@@ -182,7 +194,7 @@ class ComponentReference(kf.Instance):
     def info(self) -> dict[str, Any]:
         warnings.warn(
             "info is deprecated, use ref.parent_cell.info instead",
-            stacklevel=2,
+            stacklevel=3,
         )
         return self.parent_cell.info
 
@@ -377,6 +389,11 @@ class ComponentBase:
         return c
 
     def copy(self) -> Component:
+        """Copy the full cell."""
+        warnings.warn(
+            "copy() is deprecated and will be removed in gdsfactory9. Please use dup() instead.",
+            stacklevel=2,
+        )
         return self.dup()
 
     def dup(self) -> Component:
@@ -626,33 +643,7 @@ class ComponentBase:
             merge: if True, merges the polygons.
             by: the format of the resulting keys in the dictionary ('index', 'name', 'tuple')
         """
-        from gdsfactory import get_layer, get_layer_name
-
-        if by == "index":
-            get_key = get_layer
-        elif by == "name":
-            get_key = get_layer_name
-        elif by == "tuple":
-
-            def get_key(layer):
-                return layer
-
-        else:
-            raise ValueError("argument 'by' should be 'index' | 'name' | 'tuple'")
-
-        polygons = {}
-
-        for layer in self.layers:
-            layer_index = get_layer(layer)
-            layer_key = get_key(layer)
-            r = kdb.Region(self.begin_shapes_rec(layer_index))
-            if layer_key not in polygons:
-                polygons[layer_key] = []
-            if merge:
-                r.merge()
-            for p in r.each():
-                polygons[layer_key].append(p)
-        return polygons
+        return get_polygons(self, merge=merge, by=by)
 
     def get_polygons_points(
         self,
@@ -667,32 +658,7 @@ class ComponentBase:
             scale: if True, scales the points.
             by: the format of the resulting keys in the dictionary ('index', 'name', 'tuple')
         """
-        polygons_dict = self.get_polygons(merge=merge, by=by)
-        polygons_points = {}
-        for layer, polygons in polygons_dict.items():
-            all_points = []
-            for polygon in polygons:
-                if scale:
-                    points = np.array(
-                        [
-                            (point.x * scale, point.y * scale)
-                            for point in polygon.to_simple_polygon()
-                            .to_dtype(self.kcl.dbu)
-                            .each_point()
-                        ]
-                    )
-                else:
-                    points = np.array(
-                        [
-                            (point.x, point.y)
-                            for point in polygon.to_simple_polygon()
-                            .to_dtype(self.kcl.dbu)
-                            .each_point()
-                        ]
-                    )
-                all_points.append(points)
-            polygons_points[layer] = all_points
-        return polygons_points
+        return get_polygons_points(self, merge=merge, scale=scale, by=by)
 
     def get_labels(
         self, layer: LayerSpec, recursive: bool = True
@@ -896,6 +862,27 @@ class ComponentBase:
             if recursive:
                 for ci in self.called_cells():
                     self.kcl[ci].move(src_layer_index, dst_layer_index)
+        return self
+
+    def copy_layers(
+        self, layer_map: dict[LayerSpec, LayerSpec], recursive: bool = False
+    ) -> Component:
+        """Remaps a list of layers and returns the same Component.
+
+        Args:
+            layer_map: dictionary of layers to remap.
+            recursive: if True, remaps layers recursively.
+        """
+        from gdsfactory import get_layer
+
+        for layer, new_layer in layer_map.items():
+            src_layer_index = get_layer(layer)
+            dst_layer_index = get_layer(new_layer)
+            self._kdb_cell.copy(src_layer_index, dst_layer_index)
+
+            if recursive:
+                for ci in self.called_cells():
+                    self.kcl[ci]._kdb_cell.copy(src_layer_index, dst_layer_index)
         return self
 
     def pprint_ports(self, **kwargs) -> None:
@@ -1247,6 +1234,7 @@ if __name__ == "__main__":
     # p = c.get_polygons()
     # p1 = c.get_polygons(by="name")
     c = gf.c.mzi_lattice()
+    c.copy_layers({(1, 0): (2, 0)}, recursive=True)
     # c = gf.c.array(spacing=(300, 300), columns=2)
     # c.show()
     # n0 = c.get_netlist()

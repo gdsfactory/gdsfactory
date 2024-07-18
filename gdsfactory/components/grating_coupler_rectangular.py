@@ -105,15 +105,15 @@ def grating_coupler_rectangular(
     c.info["fiber_angle"] = fiber_angle
 
     if layer_slab:
-        slab_xmin += length_taper
-        slab_xsize = cgrating.dxmax + slab_offset
-        slab_ysize = c.dysize + 2 * slab_offset
+        slab_xmin = length_taper - slab_offset
+        slab_xmax = length_taper + n_periods * period + slab_offset
+        slab_ysize = width_grating + 2 * slab_offset
         yslab = slab_ysize / 2
         c.add_polygon(
             [
                 (slab_xmin, yslab),
-                (slab_xsize, yslab),
-                (slab_xsize, -yslab),
+                (slab_xmax, yslab),
+                (slab_xmax, -yslab),
                 (slab_xmin, -yslab),
             ],
             layer_slab,
@@ -134,7 +134,7 @@ def grating_coupler_rectangular(
 
 if __name__ == "__main__":
     # c = grating_coupler_rectangular(name='gcu', partial_etch=True)
-    c = grating_coupler_rectangular(cross_section="rib_bbox")
+    c = grating_coupler_rectangular(cross_section="rib_bbox", slab_offset=4.0)
     # c = gf.routing.add_fiber_array(grating_coupler=grating_coupler_rectangular)
     print(c.ports)
     c.show()
