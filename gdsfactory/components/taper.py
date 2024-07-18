@@ -39,6 +39,9 @@ def taper(
         with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
         kwargs: cross_section settings.
     """
+    if len(port_types) != 2:
+        raise ValueError("port_types should have two elements")
+
     x1 = gf.get_cross_section(cross_section, width=width1, **kwargs)
     if width2:
         width2 = gf.snap.snap_to_grid2x(width2)
@@ -240,7 +243,7 @@ taper_sc_nc = partial(
 
 
 if __name__ == "__main__":
-    c = taper(cross_section="rib", width2=5)
+    c = taper(cross_section="rib", width2=5, port_types="optical")
     # c = taper_strip_to_ridge_trenches()
     # c = taper_strip_to_ridge()
     # c = taper(width1=1.5, width2=1, cross_section="rib")
