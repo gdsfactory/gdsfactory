@@ -34,8 +34,6 @@ jobs:
 
       - name: Run tests
         run: |
-          ls other-repo
-          pip install -e other-repo
-          pip install -e .
           cd other-repo
+          make install
           pytest
