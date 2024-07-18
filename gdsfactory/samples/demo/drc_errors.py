@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import numpy as np
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import Float2, Layer
@@ -72,6 +74,7 @@ def snapping_error(gap: float = 1e-3) -> Component:
 @gf.cell
 def errors() -> Component:
     components = [width_min(), gap_min(), separation(), enclosing()]
+    components += [gap_min(spacing) for spacing in np.linspace(0.1, 0.2, 5)]
     c = gf.pack(components, spacing=1.5)
     c = gf.add_padding_container(c[0], layers=((64, 0),), default=5)
     return c
@@ -86,5 +89,5 @@ if __name__ == "__main__":
     # c.write_gds("snap.gds")
 
     c = errors()
-    c.write_gds("errors.gds")
+    # c.write_gds("errors.gds")
     c.show()

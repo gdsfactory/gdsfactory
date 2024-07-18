@@ -425,30 +425,41 @@ def demo() -> None:
 
 
 if __name__ == "__main__":
-    c = gf.Component()
+
+    @gf.cell
+    def mzi_with_bend(radius=10):
+        c = gf.Component()
+        bend = c.add_ref(gf.components.bend_euler(radius=radius))
+        mzi = c.add_ref(gf.components.mzi())
+        bend.connect("o1", mzi.ports["o2"])
+        c.add_port(name="o1", port=mzi.ports["o1"])
+        c.add_port(name="o2", port=bend.ports["o2"])
+        return c
 
     gc = gf.components.grating_coupler_elliptical_te(taper_length=30)
 
     # component = gf.components.nxn(north=10, south=10, east=10, west=10)
     # component = gf.components.straight()
-    component = gf.components.mmi2x2()
+    # component = gf.components.mmi2x2()
     # component = gf.components.straight_heater_metal()
     # component = gf.components.ring_single()
     # component = gf.components.ring_double()
     # component = gf.components.mzi_phase_shifter()
 
-    ref = c << component
+    c = gf.Component()
+    ref = c << mzi_with_bend()
     routes = route_fiber_array(
         c,
         ref,
         grating_coupler=gc,
         with_loopback=True,
         radius=10,
+        fiber_spacing=50,
         # with_loopback=False,
-        optical_routing_type=1,
+        # optical_routing_type=1,
         # optical_routing_type=2,
         # fanout_length=200,
-        force_manhattan=True,
+        force_manhattan=False,
     )
     c.show()
     c.pprint_ports()
