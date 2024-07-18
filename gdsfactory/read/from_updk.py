@@ -198,6 +198,7 @@ def {block_name}({parameters_string})->gf.Component:
 
             if port.xsection != "None" and not use_port_layer:
                 script += f"    c.add_port(name={port_name!r}, {port_layer}={port_xsection!r}, center=({port.xya[0]}, {port.xya[1]}), orientation={port.xya[2]}, port_type={port_type!r})\n"
+                script += f"    c.ports[{port_name!r}].info['cross_section'] = {port_xsection!r}\n"
             else:
                 script += f"    c.add_port(name={port_name!r}, width={port.width}, layer={port_xsection!r}, center=({port.xya[0]}, {port.xya[1]}), orientation={port.xya[2]}, port_type={port_type!r})\n"
 
