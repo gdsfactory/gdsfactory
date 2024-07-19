@@ -41,9 +41,9 @@ We facilitate an end-to-end design flow for you to:
 Your input: Python or YAML text.
 Your output: A GDSII or OASIS file for fabrication, alongside component settings (for measurement and data analysis) and netlists (for circuit simulations) in YAML.
 
-We provide a common syntax for design (KLayout, Ansys Lumerical, tidy3d, MEEP, MPB, DEVSIM, SAX, MEOW ...), verification, and validation.
+We provide a common syntax for design (Ansys, Lumerical, Tidy3d, MEEP, DEVSIM, SAX, MEOW, Xyce ...), verification, and validation.
 
-![tool interfaces](https://i.imgur.com/ru4yW0t.png)
+![tool interfaces](https://i.imgur.com/j5qlFWj.png)
 
 Many foundries have gdsfactory PDKs available. Please to contact your foundry to access their gdsfactory PDK, as you will require an NDA:
 
