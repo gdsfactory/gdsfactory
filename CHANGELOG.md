@@ -1,12 +1,11 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.5.4...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.5.5...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.5.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.5.5) - 2024-07-19
 
-No significant changes.
-
+- fix route_south [#2999](https://github.com/gdsfactory/gdsfactory/pull/2999)
 
 ## [8.5.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.5.4) - 2024-07-19
 
