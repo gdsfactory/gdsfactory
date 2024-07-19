@@ -43,7 +43,7 @@ Your output: A GDSII or OASIS file for fabrication, alongside component settings
 
 We provide a common syntax for design (KLayout, Ansys Lumerical, tidy3d, MEEP, MPB, DEVSIM, SAX, MEOW ...), verification, and validation.
 
-![tool interfaces](https://i.imgur.com/ef26jbe.png)
+![tool interfaces](https://i.imgur.com/ru4yW0t.png)
 
 Many foundries have gdsfactory PDKs available. Please to contact your foundry to access their gdsfactory PDK, as you will require an NDA:
 
