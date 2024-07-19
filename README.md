@@ -94,7 +94,7 @@ You can also access:
 
 Hundreds of organisations are using gdsfactory. Some companies and organizations around the world using gdsfactory include:
 
-![logos](https://i.imgur.com/IqTUq9S.png)
+![logos](https://i.imgur.com/VzLNMH1.png)
 
 "I've used **gdsfactory** since 2017 for all my chip tapeouts. I love that it is fast, easy to use, and easy to extend. It's the only tool that allows us to have an end-to-end chip design flow (design, verification and validation)."
 
