@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.5.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.5.5) - 2024-07-19
+
+No significant changes.
+
+
 ## [8.5.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.5.4) - 2024-07-19
 
 - support attrs serialization [#2994](https://github.com/gdsfactory/gdsfactory/pull/2994)
