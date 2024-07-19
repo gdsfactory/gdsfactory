@@ -206,7 +206,7 @@ def route_south(
                 component=c,
                 port2=p,
                 port1=tmp_port,
-                start_straight_length=start_straight_length + y_max - p.dy,
+                end_straight_length=start_straight_length + y_max - p.dy,
                 **conn_params,
             )
 
@@ -247,7 +247,7 @@ def route_south(
             c,
             tmp_port,
             p,
-            start_straight_length=start_straight_length,
+            end_straight_length=start_straight_length,
             **conn_params,
         )
         routes.append(route)
@@ -265,7 +265,7 @@ def route_south(
                 c,
                 tmp_port,
                 p,
-                start_straight_length=start_straight_length + y_max - p.dy,
+                end_straight_length=start_straight_length + y_max - p.dy,
                 **conn_params,
             )
             x += sep
@@ -294,10 +294,10 @@ if __name__ == "__main__":
         c.add_port(name="o2", port=bend.ports["o2"])
         return c
 
-    component = gf.components.ring_double()
-    component = gf.components.nxn(north=2, south=2, west=2, east=2)
     component = gf.c.mzi_phase_shifter()
     component = mzi_with_bend()
+    component = gf.components.mmi2x2()
+    component = gf.components.nxn(north=4, south=2, west=2, east=2)
     ref = c << component
     r = route_south(c, ref, optical_routing_type=1, start_straight_length=0)
     # print(r.lengths)
