@@ -9,6 +9,7 @@ import pathlib
 from collections.abc import KeysView as dict_keys
 from typing import Any
 
+import attrs
 import kfactory as kf
 import numpy as np
 import orjson
@@ -105,6 +106,9 @@ def clean_value_json(
 
     elif isinstance(value, list | tuple | set | dict_keys):
         return tuple([clean_value_json(i) for i in value])
+
+    elif attrs.has(value):
+        return attrs.asdict(value)
 
     else:
         try:
