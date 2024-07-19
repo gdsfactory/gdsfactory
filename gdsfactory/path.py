@@ -1308,6 +1308,9 @@ def arc(
 
     PDK = get_active_pdk()
 
+    if not radius:
+        raise ValueError("arc() requires a radius argument")
+
     npoints = npoints or abs(int(angle / 360 * radius / PDK.bend_points_distance / 2))
     npoints = max(int(npoints), int(360 / angle) + 1)
 
@@ -1380,6 +1383,9 @@ def euler(
 
     """
     from gdsfactory.pdk import get_active_pdk
+
+    if not radius:
+        raise ValueError("euler() requires a radius argument")
 
     if (p < 0) or (p > 1):
         raise ValueError("euler requires argument `p` be between 0 and 1")
