@@ -12,7 +12,7 @@ from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.cross_section import strip
 from gdsfactory.port import Port, select_ports_optical
-from gdsfactory.routing.route_bundle import route_bundle
+from gdsfactory.routing.route_single import route_single
 from gdsfactory.routing.utils import direction_ports_from_list_ports
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Strs
 
@@ -179,8 +179,6 @@ def route_south(
     # In case we have to connect these ports to a line of gratings,
     # Ensure that the port is aligned with the grating port or
     # has enough space for manhattan routing (at least two bend radius)
-    west_ports1 = []
-    west_ports2 = []
     for p in west_ports:
         if io_gratings_lines:
             i_grating = get_index_port_closest_to_x(x, io_gratings_lines[-1])
@@ -193,37 +191,30 @@ def route_south(
 
         tmp_port = gen_port_from_port(x, y0, p, cross_section=xs)
         ports_to_route.append(tmp_port)
-        west_ports1.append(tmp_port)
-        west_ports2.append(p)
+        route = route_single(c, tmp_port, p, **conn_params)
         x -= sep
-
-    _routes = route_bundle(c, west_ports1, west_ports2, **conn_params)
-    routes.extend(_routes)
 
     # route first halft of north ports above the top west one
     north_start.reverse()  # We need them from left to right
 
-    north_ports1 = []
-    north_ports2 = []
     start_straight_length = start_straight_length0
     if len(north_start) > 0:
         y_max = max(p.dy for p in west_ports + north_start)
         for p in north_start:
             tmp_port = gen_port_from_port(x, y0, p, cross_section=xs)
+            route = route_single(
+                component=c,
+                port2=p,
+                port1=tmp_port,
+                end_straight_length=start_straight_length + y_max - p.dy,
+                **conn_params,
+            )
+
             ports_to_route.append(tmp_port)
-            north_ports1.append(tmp_port)
-            north_ports2.append(p)
             x -= sep
             start_straight_length += sep
+            routes.append(route)
 
-        _routes = route_bundle(
-            component=c,
-            ports1=north_ports1,
-            ports2=north_ports2,
-            start_straight_length=start_straight_length + y_max - p.dy,
-            **conn_params,
-        )
-        routes.extend(_routes)
     # Set starting ``x`` on the east side
     if optical_routing_type == 1:
         #  use component size to know how far to route
@@ -240,9 +231,6 @@ def route_south(
     # In case we have to connect these ports to a line of gratings,
     # Ensure that the port is aligned with the grating port or
     # has enough space for manhattan routing (at least two bend radius)
-
-    east_ports1 = []
-    east_ports2 = []
     start_straight_length = start_straight_length0
     for p in east_ports:
         if io_gratings_lines:
@@ -255,36 +243,34 @@ def route_south(
                     x = x_gr + delta_gr_min
 
         tmp_port = gen_port_from_port(x, y0, p, cross_section=xs)
-        east_ports1.append(tmp_port)
-        east_ports2.append(p)
+        route = route_single(
+            c,
+            tmp_port,
+            p,
+            end_straight_length=start_straight_length,
+            **conn_params,
+        )
+        routes.append(route)
         ports_to_route.append(tmp_port)
         x += sep
 
-    _routes = route_bundle(c, east_ports1, east_ports2, **conn_params)
-    routes.extend(_routes)
-
     # Route the remaining north ports
-    north_ports1 = []
-    north_ports2 = []
     start_straight_length = start_straight_length0
     if len(north_finish) > 0:
         y_max = max(p.dy for p in east_ports + north_finish)
         for p in north_finish:
             tmp_port = gen_port_from_port(x, y0, p, cross_section=xs)
             ports_to_route.append(tmp_port)
-            north_ports1.append(tmp_port)
-            north_ports2.append(p)
+            route = route_single(
+                c,
+                tmp_port,
+                p,
+                end_straight_length=start_straight_length + y_max - p.dy,
+                **conn_params,
+            )
             x += sep
             start_straight_length += sep
-
-        _routes = route_bundle(
-            component=c,
-            ports1=north_ports1,
-            ports2=north_ports2,
-            start_straight_length=start_straight_length + y_max - p.dy,
-            **conn_params,
-        )
-        routes.extend(_routes)
+            routes.append(route)
 
     flipped_ports = [p.copy() for p in ports_to_route]
     for p in flipped_ports:
@@ -308,9 +294,9 @@ if __name__ == "__main__":
         c.add_port(name="o2", port=bend.ports["o2"])
         return c
 
-    component = gf.components.ring_double()
     component = gf.c.mzi_phase_shifter()
     component = mzi_with_bend()
+    component = gf.components.mmi2x2()
     component = gf.components.nxn(north=4, south=2, west=2, east=2)
     ref = c << component
     r = route_south(c, ref, optical_routing_type=1, start_straight_length=0)
