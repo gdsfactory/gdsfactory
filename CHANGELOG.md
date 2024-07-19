@@ -1,12 +1,15 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.5.3...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.5.4...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.5.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.5.4) - 2024-07-19
 
-No significant changes.
-
+- support attrs serialization [#2994](https://github.com/gdsfactory/gdsfactory/pull/2994)
+- check if radius is None [#2993](https://github.com/gdsfactory/gdsfactory/pull/2993)
+- raise error if taper port_types=string [#2991](https://github.com/gdsfactory/gdsfactory/pull/2991)
+- small change to allow `from_updk` to save `cross_section` name to `port.info` [#2986](https://github.com/gdsfactory/gdsfactory/pull/2986)
+- Improve route south [#2989](https://github.com/gdsfactory/gdsfactory/pull/2989)
 
 ## [8.5.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.5.3) - 2024-07-16
 
