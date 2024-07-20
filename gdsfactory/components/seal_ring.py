@@ -5,7 +5,7 @@ from functools import partial
 import gdsfactory as gf
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.typings import ComponentFactory
+from gdsfactory.typings import ComponentSpec
 
 Float2 = tuple[float, float]
 Coordinate = tuple[Float2, Float2]
@@ -13,8 +13,8 @@ Coordinate = tuple[Float2, Float2]
 
 @gf.cell
 def seal_ring(
-    component: gf.Component | gf.Instance | ComponentFactory = "rectangle",
-    seal: gf.typings.ComponentSpec = "via_stack",
+    component: gf.Component | gf.Instance | ComponentSpec = "rectangle",
+    seal: ComponentSpec = "via_stack",
     width: float = 10,
     padding: float = 10.0,
     with_north: bool = True,
@@ -83,7 +83,7 @@ def seal_ring(
 
 @gf.cell
 def seal_ring_segmented(
-    component: gf.Component | gf.Instance | ComponentFactory = partial(
+    component: gf.Component | gf.Instance | ComponentSpec = partial(
         rectangle, size=(500, 500)
     ),
     length_segment: float = 10,

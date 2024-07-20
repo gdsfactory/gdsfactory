@@ -4,10 +4,7 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.coupler_ring import coupler_ring
-from gdsfactory.components.straight import straight
-from gdsfactory.typings import ComponentFactory, ComponentSpec, CrossSectionSpec, Float2
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Float2
 
 
 @gf.cell
@@ -16,10 +13,10 @@ def ring_double_heater(
     radius: float = 10.0,
     length_x: float = 1.0,
     length_y: float = 0.01,
-    coupler_ring: ComponentFactory = coupler_ring,
-    coupler_ring_top: ComponentFactory | None = None,
-    straight: ComponentFactory = straight,
-    bend: ComponentFactory = bend_euler,
+    coupler_ring: ComponentSpec = "coupler_ring",
+    coupler_ring_top: ComponentSpec | None = None,
+    straight: ComponentSpec = "straight",
+    bend: ComponentSpec = "bend_euler",
     cross_section_heater: CrossSectionSpec = "heater_metal",
     cross_section_waveguide_heater: CrossSectionSpec = "strip_heater_metal",
     cross_section: CrossSectionSpec = "strip",
@@ -75,7 +72,8 @@ def ring_double_heater(
 
     coupler_ring_top = coupler_ring_top or coupler_ring
 
-    coupler_component = coupler_ring(
+    coupler_component = gf.get_component(
+        coupler_ring,
         gap=gap,
         radius=radius,
         length_x=length_x,
@@ -92,7 +90,8 @@ def ring_double_heater(
         cross_section=cross_section,
         cross_section_bend=cross_section_waveguide_heater,
     )
-    straight_component = straight(
+    straight_component = gf.get_component(
+        straight,
         length=length_y,
         cross_section=cross_section_waveguide_heater,
     )
@@ -112,14 +111,16 @@ def ring_double_heater(
         sr.connect(port="o2", other=ct.ports["o2"])
         c.add_port("o3", port=ct.ports["o4"])
         c.add_port("o4", port=ct.ports["o1"])
-        heater_top = c << straight(
+        heater_top = c << gf.get_component(
+            straight,
             length=length_x,
             cross_section=cross_section_heater,
         )
         heater_top.connect("e1", ct["e1"])
 
     else:
-        straight_top = straight(
+        straight_top = gf.get_component(
+            straight,
             length=length_x,
             cross_section=cross_section_waveguide_heater,
         )

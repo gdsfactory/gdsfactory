@@ -1,9 +1,5 @@
 from __future__ import annotations
 
-from collections.abc import Callable
-
-from kfactory.kcell import KCell
-
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.coupler_straight import coupler_straight
@@ -18,8 +14,6 @@ def coupler(
     dy: float = 4.0,
     dx: float = 10.0,
     cross_section: CrossSectionSpec = "strip",
-    coupler_symmetric: Callable[..., Component | KCell] = coupler_symmetric,
-    coupler_straight: Callable[..., Component | KCell] = coupler_straight,
 ) -> Component:
     r"""Symmetric coupler.
 
@@ -29,8 +23,6 @@ def coupler(
         dy: port to port vertical spacing in um.
         dx: length of bend in x direction in um.
         cross_section: spec (CrossSection, string or dict).
-        coupler_symmetric: factory for symmetric coupler part
-        coupler_straight: factory for straight coupler part
 
     .. code::
 
@@ -45,13 +37,8 @@ def coupler(
          o1                                          o4
 
                         coupler_straight  coupler_symmetric
-
-
     """
-    # length = gf.snap.snap_to_grid(length)
-    # gap = gf.snap.snap_to_grid2x(gap)
     c = Component()
-
     sbend = coupler_symmetric(gap=gap, dy=dy, dx=dx, cross_section=cross_section)
 
     sr = c << sbend
@@ -77,4 +64,5 @@ def coupler(
 
 if __name__ == "__main__":
     c = coupler(gap=0.2)
+    n = c.get_netlist()
     c.show()

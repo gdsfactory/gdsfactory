@@ -4,9 +4,6 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bend_circular import bend_circular
-from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.straight import straight
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
@@ -14,8 +11,8 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 def coupler90(
     gap: float = 0.2,
     radius: float = 10.0,
-    bend: ComponentSpec = bend_euler,
-    straight: ComponentSpec = straight,
+    bend: ComponentSpec = "bend_euler",
+    straight: ComponentSpec = "straight",
     cross_section: CrossSectionSpec = "strip",
     cross_section_bend: CrossSectionSpec | None = None,
 ) -> Component:
@@ -65,7 +62,7 @@ def coupler90(
     return c
 
 
-coupler90circular = partial(coupler90, bend=bend_circular)
+coupler90circular = partial(coupler90, bend="bend_circular")
 
 
 if __name__ == "__main__":

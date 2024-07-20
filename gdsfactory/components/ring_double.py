@@ -2,8 +2,6 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.coupler_ring import coupler_ring
-from gdsfactory.components.straight import straight
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
@@ -13,8 +11,9 @@ def ring_double(
     radius: float = 10.0,
     length_x: float = 0.01,
     length_y: float = 0.01,
-    coupler_ring: ComponentSpec = coupler_ring,
     bend: ComponentSpec = "bend_euler",
+    straight: ComponentSpec = "straight",
+    coupler_ring: ComponentSpec = "coupler_ring",
     cross_section: CrossSectionSpec = "strip",
 ) -> Component:
     """Returns a double bus ring.
@@ -27,8 +26,9 @@ def ring_double(
         radius: for the bend and coupler.
         length_x: ring coupler length.
         length_y: vertical straight length.
+        bend: 90 degrees bend spec.
+        straight: straight spec.
         coupler_ring: ring coupler spec.
-        bend: bend spec.
         cross_section: cross_section spec.
 
     .. code::
@@ -52,17 +52,17 @@ def ring_double(
                      │gap
              o1──────▼─────────o4
     """
-    gap = gf.snap.snap_to_grid(gap, grid_factor=2)
-
     coupler_component = gf.get_component(
         coupler_ring,
         gap=gap,
         radius=radius,
         length_x=length_x,
-        bend=bend,
         cross_section=cross_section,
+        straight=straight,
+        bend=bend,
     )
-    straight_component = straight(
+    straight_component = gf.get_component(
+        straight,
         length=length_y,
         cross_section=cross_section,
     )
@@ -88,5 +88,5 @@ def ring_double(
 
 
 if __name__ == "__main__":
-    c = ring_double(length_y=2)
+    c = ring_double(length_y=2, bend="bend_circular")
     c.show()
