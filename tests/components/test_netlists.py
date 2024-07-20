@@ -36,8 +36,6 @@ skip_test = {
     "mzi_pads_center",
     "pack_doe",
     "pack_doe_grid",
-    "pad_array0",
-    "pad_array90",
     "pad_gsg_open",
     "pad_gsg_short",
     "pads_shorted",
@@ -49,7 +47,6 @@ skip_test = {
     "straight_heater_meander",
     "version_stamp",
     "via_chain",
-    "via_stack",
 }
 cells_to_test = set(cells.keys()) - skip_test
 
@@ -100,22 +97,19 @@ if __name__ == "__main__":
     component_type = "ring_single"
     component_type = "cdsem_straight"
     component_type = "fiber_array"
-    component_type = "straight_heater_meander"  # FIXME: fails
     component_type = "dbr"
     component_type = "straight_pn"
     component_type = "coupler_bend"  # crashes
     component_type = "splitter_chain"
-    component_type = "pad_array0"  # FIXME
-    component_type = "mzi_lattice_mmi"  # FIXME
     component_type = "cutback_2x2"
     component_type = "delay_snake2"
-    component_type = "via_stack"  # FIXME
-    component_type = "ring_double_heater"  # FIXME
-    component_type = "mzi_lattice"  # FIXME
     component_type = "grating_coupler_loss_fiber_array"
     component_type = "spiral_racetrack"
     component_type = "pad_gsg_short"
     component_type = "mzi"
+    component_type = "mzi_lattice_mmi"  # FIXME
+    component_type = "straight_heater_meander"  # FIXME: fails
+    component_type = "mzi_lattice"  # FIXME
 
     connection_error_types = {
         "optical": ["width_mismatch", "shear_angle_mismatch", "orientation_mismatch"]
@@ -123,7 +117,7 @@ if __name__ == "__main__":
     connection_error_types = {"optical": []}
 
     c1 = cells[component_type]()
-    # c1.show()
+    c1.show()
     n = c1.get_netlist(
         allow_multiple=True, connection_error_types=connection_error_types
     )
