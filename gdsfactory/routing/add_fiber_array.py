@@ -45,6 +45,7 @@ def add_fiber_array(
         fanout_length: if None, automatic calculation of fanout length.
         max_y0_optical: in um.
         with_loopback: True, adds loopback structures.
+        with_loopback_inside: True, adds loopback structures inside the component.
         straight_separation: from edge to edge.
         list_port_labels: None, adds TM labels to port indices in this list.
         connected_port_list_ids: names of ports only for type 0 optical routing.
@@ -58,6 +59,9 @@ def add_fiber_array(
         gc_rotation: fiber coupler rotation in degrees. Defaults to -90.
         input_port_indexes: to connect.
         fiber_spacing: in um.
+        radius: optional radius of the bend. Defaults to the cross_section.
+        radius_loopback: optional radius of the loopback bend. Defaults to the cross_section.
+        route_backwards: route from component to grating coupler or vice-versa.
 
     .. plot::
         :include-source:
@@ -132,8 +136,9 @@ if __name__ == "__main__":
     from gdsfactory.samples.big_device import big_device
 
     component = big_device(nports=10)
+    component = gf.c.mmi2x2()
     radius = 5.0
-    c = add_fiber_array(component=component, radius=radius, fanout_length=50.0)
+    c = add_fiber_array(component=component)
     # test_type0()
     # gcte = gf.components.grating_coupler_te
     # gctm = gf.components.grating_coupler_tm

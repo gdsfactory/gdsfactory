@@ -34,7 +34,7 @@ def move_port_to_zero(
     c = gf.Component()
     ref = c << component
     if mirror:
-        ref.mirror()
+        ref.dmirror()
 
     movement = np.array(ref.ports[port_name].dcenter)
     ref.dmove(-movement)
