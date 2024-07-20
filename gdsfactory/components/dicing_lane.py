@@ -27,13 +27,11 @@ def dicing_lane(
         layers: optional list of layers to duplicate the geometry.
     """
     c = Component()
-
     m = gf.get_component(marker)
-
     layers = layers or [layer_dicing]
 
     for layer in layers:
-        r = c << rectangle(size=size, layer=layer)
+        r = c << rectangle(size=size, layer=layer, port_type=None)
 
         mbr = c << m
         mbr.dxmin = r.dxmax
@@ -52,6 +50,7 @@ def dicing_lane(
         mtl.drotate(180)
         mtl.dxmax = r.dxmin
         mtl.dymax = r.dymax
+    c.flatten()
     return c
 
 
