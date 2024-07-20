@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import warnings
 from collections.abc import Callable
 
 import kfactory as kf
@@ -92,7 +93,7 @@ def route_fiber_array(
         layer_label: for measurement labels.
         component_name: name of component.
         x_grating_offset: x offset.
-        port_names: port labels to route_to_fiber_array.
+        port_names: port names to route_to_fiber_array.
         select_ports: function to select ports for which to add grating couplers.
         radius: optional radius of the bend. Defaults to the cross_section.
         cross_section: cross_section.
@@ -113,10 +114,17 @@ def route_fiber_array(
     excluded_ports = excluded_ports or []
     if port_names is None:
         ports = list(select_ports(component.ports))
+        port_names = [p.name for p in ports]
     else:
         ports = [component.ports[lbl] for lbl in port_names]
 
     ports = [p for p in ports if p.name not in excluded_ports]
+
+    ports_not_terminated = []
+    for port in component_to_route.ports:
+        if port.name not in port_names:
+            ports_not_terminated.append(port)
+
     N = len(ports)
 
     # optical_ports_labels = [p.name for p in ports]
@@ -245,11 +253,6 @@ def route_fiber_array(
     else:
         assert len(grating_indices) == nb_ports_per_line
 
-    ports_not_terminated = []
-    for port in component_to_route.ports:
-        if port.port_type != port_type:
-            ports_not_terminated.append(port)
-
     route_south(
         c,
         component,
@@ -355,7 +358,15 @@ def route_fiber_array(
 
     c.ports = kf.Ports(kcl=c.kcl)
     for i, port in enumerate(fiber_ports):
-        prefix = "o" if port.port_type == "optical" else "e"
+        if port.port_type == "optical":
+            prefix = "o"
+        elif port.port_type.startswith("vertical"):
+            prefix = "v"
+        elif port.port_type == "electrical":
+            prefix = "e"
+        else:
+            warnings.warn(f"port.port_type={port.port_type} not recognized")
+            prefix = "p"
         c.add_port(name=f"{prefix}{i+1}", port=port)
 
     c.add_ports(ports_not_terminated)
