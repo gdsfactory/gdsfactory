@@ -15,6 +15,34 @@ if TYPE_CHECKING:
     from gdsfactory.component import Component, Instance
 
 
+def move_port_to_zero(
+    component: Component, port_name: str = "o1", mirror: bool = False
+) -> gf.Component:
+    """Return a container that contains a reference to the original component.
+
+    The new component has port_name in (0, 0).
+
+    Args:
+        component: to move the port to (0, 0).
+        port_name: to move to (0, 0).
+        mirror: if True, mirrors the component.
+    """
+    port_names = [p.name for p in component.ports]
+    if port_name not in port_names:
+        raise ValueError(f"port_name = {port_name!r} not in {port_names}")
+
+    c = gf.Component()
+    ref = c << component
+    if mirror:
+        ref.mirror()
+
+    movement = np.array(ref.ports[port_name].dcenter)
+    ref.dmove(-movement)
+    c.add_ports(ref.ports)
+    c.copy_child_info(component)
+    return c
+
+
 def get_polygons(
     component_or_instance: Component | Instance,
     merge: bool = False,
@@ -290,11 +318,13 @@ def extrude_path(
 
 
 if __name__ == "__main__":
-    c = gf.Component()
-    ref = c << gf.components.mzi_lattice()
-    ref.dmovey(15)
-    p = get_polygons_points(ref)
-    p = get_point_inside(ref, layer=(1, 0))
-    c.add_label(text="hello", position=p)
+    c = gf.c.rectangle(size=(10, 10), centered=True)
+    # c = gf.Component()
+    # ref = c << gf.components.mzi_lattice()
+    # ref.dmovey(15)
+    # p = get_polygons_points(ref)
+    # p = get_point_inside(ref, layer=(1, 0))
+    # c.add_label(text="hello", position=p)
+    # c.show()
+    c = move_port_to_zero(c, port_name="e4")
     c.show()
-    print(p)
