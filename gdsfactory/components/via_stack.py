@@ -75,6 +75,7 @@ def via_stack(
             c.add_ports(ref.ports)
         else:
             ref = c << compass(size=size_m, layer=layer, port_type=None)
+        c.absorb(ref)
 
     vias = vias or []
     for via, offset in zip(vias, layer_offsets):
@@ -346,5 +347,6 @@ if __name__ == "__main__":
     # c = via_stack_slab_m3(size=(100, 10), slot_vertical=True)
     # c = via_stack_npp_m1()
     c = via_stack_m1_mtop()
+    c.pprint_ports()
     # n = c.get_netlist()
     c.show()

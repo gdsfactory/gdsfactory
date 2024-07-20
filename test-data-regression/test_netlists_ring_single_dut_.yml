@@ -39,18 +39,17 @@ instances:
       p: 0.5
       radius: 5
       with_arc_floorplan: true
-  coupler_ring_G0p2_R5_LX_ea9dedfe_-2000_2725:
+  coupler_ring_G0p2_R5_LX_ba10ec54_-2000_2725:
     component: coupler_ring
     info: {}
     settings:
       bend: bend_euler
-      coupler90: coupler90
-      coupler_straight: coupler_straight
       cross_section: strip
       gap: 0.2
       length_extension: 3
       length_x: 4
       radius: 5
+      straight: straight
   straight_L10_N2_CSstrip_-9000_10700:
     component: straight
     info:
@@ -106,9 +105,9 @@ nets:
   p2: taper_L10_W0p5_W3_PNone_8fb8efc8_5000_10700,o1
 - p1: bend_euler_R5_A90_P0p5__c7bd5c45_2625_18325,o2
   p2: straight_L4_N2_CSstrip_-2000_20700,o2
-- p1: coupler_ring_G0p2_R5_LX_ea9dedfe_-2000_2725,o2
+- p1: coupler_ring_G0p2_R5_LX_ba10ec54_-2000_2725,o2
   p2: straight_L10_N2_CSstrip_-9000_10700,o2
-- p1: coupler_ring_G0p2_R5_LX_ea9dedfe_-2000_2725,o3
+- p1: coupler_ring_G0p2_R5_LX_ba10ec54_-2000_2725,o3
   p2: taper_L10_W0p5_W3_PNone_8fb8efc8_5000_10700,o2
 placements:
   bend_euler_R5_A90_P0p5__c7bd5c45_-6625_18325:
@@ -121,7 +120,7 @@ placements:
     rotation: 90
     x: 5
     y: 15.7
-  coupler_ring_G0p2_R5_LX_ea9dedfe_-2000_2725:
+  coupler_ring_G0p2_R5_LX_ba10ec54_-2000_2725:
     mirror: false
     rotation: 0
     x: 0
@@ -142,16 +141,16 @@ placements:
     x: 5
     y: 15.7
 ports:
-  o1: coupler_ring_G0p2_R5_LX_ea9dedfe_-2000_2725,o1
-  o2: coupler_ring_G0p2_R5_LX_ea9dedfe_-2000_2725,o4
+  o1: coupler_ring_G0p2_R5_LX_ba10ec54_-2000_2725,o1
+  o2: coupler_ring_G0p2_R5_LX_ba10ec54_-2000_2725,o4
 warnings:
   optical:
     width_mismatch:
-    - message: Widths of ports coupler_ring_G0p2_R5_LX_ea9dedfe_-2000_2725,o3 and
+    - message: Widths of ports coupler_ring_G0p2_R5_LX_ba10ec54_-2000_2725,o3 and
         taper_L10_W0p5_W3_PNone_8fb8efc8_5000_10700,o2 not equal. Difference of 2500
         um
       ports:
-      - coupler_ring_G0p2_R5_LX_ea9dedfe_-2000_2725,o3
+      - coupler_ring_G0p2_R5_LX_ba10ec54_-2000_2725,o3
       - taper_L10_W0p5_W3_PNone_8fb8efc8_5000_10700,o2
       values:
       - 500

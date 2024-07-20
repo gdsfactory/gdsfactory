@@ -1,7 +1,6 @@
 info: {}
-name: coupler_asymmetric_Bben_a18ddc62
+name: coupler_asymmetric_G0p2_8985aeb3
 settings:
-  bend: bend_s
   cross_section: strip
   dx: 10
   dy: 2.5

@@ -1,10 +1,8 @@
 info:
   length: 10.186
   min_bend_radius: 11.857
-name: coupler_G0p236_L20_D4_D_97fe768b
+name: coupler_G0p236_L20_D4_D_e8f9c7a8
 settings:
-  coupler_straight: coupler_straight
-  coupler_symmetric: coupler_symmetric
   cross_section: strip
   dx: 10
   dy: 4
