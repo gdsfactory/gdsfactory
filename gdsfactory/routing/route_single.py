@@ -301,14 +301,15 @@ if __name__ == "__main__":
     #     ],
     # )
     # c.show()
+
     c = gf.Component()
-    w = gf.components.straight()
+    w = gf.components.straight(length=0.1)
     top = c << w
     bot = c << w
-    bot.dmove((0, -2))
+    d = 2
+    bot.dmove((d, d))
 
     p0 = top.ports["o2"]
-    p1 = bot.ports["o2"]
-
-    r = gf.routing.route_single(c, p0, p1, cross_section="rib", taper=None)
+    p1 = bot.ports["o1"]
+    r = gf.routing.route_single(c, p0, p1, cross_section="strip", taper=None)
     c.show()
