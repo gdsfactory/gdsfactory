@@ -52,11 +52,13 @@ def route_fiber_array(
     port_names: Strs | None = None,
     select_ports: Callable = select_ports_optical,
     radius: float | None = None,
+    radius_loopback: float | None = None,
     cross_section: CrossSectionSpec = strip,
     optical_routing_type: int = 1,
     allow_width_mismatch: bool = False,
     port_type: str = "optical",
     route_width: float | list[float] | None = 0,
+    route_backwards: bool = True,
 ) -> Component:
     """Returns new component with fiber array.
 
@@ -96,11 +98,13 @@ def route_fiber_array(
         port_names: port names to route_to_fiber_array.
         select_ports: function to select ports for which to add grating couplers.
         radius: optional radius of the bend. Defaults to the cross_section.
+        radius_loopback: optional radius of the loopback bend. Defaults to the cross_section.
         cross_section: cross_section.
         optical_routing_type: 1 or 2.
         allow_width_mismatch: allow width mismatch.
         port_type: port type.
         route_width: width of the route. If None, defaults to cross_section.width.
+        route_backwards: route from component to grating coupler or vice-versa.
     """
     if optical_routing_type not in [1, 2]:
         raise ValueError(f"optical_routing_type={optical_routing_type} must be 1 or 2")
@@ -318,10 +322,14 @@ def route_fiber_array(
         io_gratings = io_gratings_lines[0]
         gc_ports = [gc.ports[gc_port_name] for gc in io_gratings]
         # c.shapes(c.kcl.layer(1,10)).insert(component_with_south_routes_bbox)
+
+        ports1 = gc_ports if route_backwards else to_route
+        ports2 = to_route if route_backwards else gc_ports
+
         route_bundle(
             c,
-            ports2=to_route,
-            ports1=gc_ports,
+            ports1=ports1,
+            ports2=ports2,
             separation=separation,
             bend=bend90,
             cross_section=cross_section,
@@ -340,10 +348,14 @@ def route_fiber_array(
             nb_ports_to_route = len(to_route)
             n0 = nb_ports_to_route / 2
             dn = nb_gc_ports / 2
+
+            ports1 = gc_ports if route_backwards else to_route[n0 - dn : n0 + dn]
+            ports2 = to_route[n0 - dn : n0 + dn] if route_backwards else gc_ports
+
             route_bundle(
                 c,
-                ports2=to_route[n0 - dn : n0 + dn],
-                ports1=gc_ports,
+                ports1=ports1,
+                ports2=ports2,
                 separation=separation,
                 bend=bend90,
                 cross_section=cross_section,
@@ -386,7 +398,7 @@ def route_fiber_array(
 
         port0 = gca1[gc_port_name]
         port1 = gca2[gc_port_name]
-        radius = radius or x.radius
+        radius = radius_loopback or radius or x.radius
         radius_dbu = round(radius / c.kcl.dbu)
         d_loop = straight_to_grating_spacing + radius + gca1.dysize
         d_loop_dbu = round(d_loop / c.kcl.dbu)
