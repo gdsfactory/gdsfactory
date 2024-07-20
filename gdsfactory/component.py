@@ -763,17 +763,6 @@ class ComponentBase:
             if k not in self.info:
                 self.info[k] = v
 
-    def dmirror(
-        self, p1: kdb.DPoint = kdb.DPoint(0, 1), p2: kdb.DPoint = kdb.DPoint(0, 0)
-    ) -> Component:
-        """Mirrors the Component."""
-        c = Component()
-        ref = c.add_ref(self)
-        ref.dmirror(p1, p2)
-        c.add_ports(ref.ports)
-        c.copy_child_info(self)
-        return c
-
     def write_gds(
         self,
         gdspath: PathType | None = None,
