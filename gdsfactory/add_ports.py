@@ -506,6 +506,7 @@ def add_ports_from_labels(
     fail_on_duplicates: bool = False,
     port_orientation: float | None = None,
     guess_port_orientation: bool = True,
+    port_filter_prefix: str | None = None,
 ) -> Component:
     """Add ports from labels.
 
@@ -525,6 +526,7 @@ def add_ports_from_labels(
             if False adds incremental suffix (1, 2 ...) to port name.
         port_orientation: None for electrical ports.
         guess_port_orientation: assumes right: 0, left: 180, top: 90, bot: 270.
+        port_filter_prefix: prefix for the port name.
     """
     port_name_prefix_default = "o" if port_type == "optical" else "e"
     port_name_prefix = port_name_prefix or port_name_prefix_default
@@ -537,6 +539,9 @@ def add_ports_from_labels(
     for i, label in enumerate(component.get_labels(layer=layer_label)):
         dx = label.x
         dy = label.y
+
+        if port_filter_prefix and not label.string.startswith(port_filter_prefix):
+            continue
 
         if get_name_from_label:
             port_name = label.string
