@@ -1,0 +1,190 @@
+from __future__ import annotations
+
+from collections.abc import Callable
+
+import gdsfactory as gf
+from gdsfactory.component import Component
+from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
+from gdsfactory.components.straight import straight as straight_function
+from gdsfactory.port import select_ports_optical
+from gdsfactory.routing.route_fiber_array import route_fiber_array
+from gdsfactory.typings import (
+    ComponentSpec,
+    ComponentSpecOrList,
+    CrossSectionSpec,
+)
+
+
+def add_fiber_single(
+    component: ComponentSpec = straight_function,
+    grating_coupler: ComponentSpecOrList = grating_coupler_te,
+    gc_port_name: str = "o1",
+    component_name: str | None = None,
+    select_ports: Callable = select_ports_optical,
+    cross_section: CrossSectionSpec = "strip",
+    taper: ComponentSpec | None = None,
+    input_port_names: list[str] | tuple[str, ...] | None = None,
+    fiber_spacing: float = 70,
+    with_loopback: bool = True,
+    loopback_spacing: float = 100.0,
+    straight: ComponentSpec = straight_function,
+    **kwargs,
+) -> Component:
+    """Returns component with south routes and grating_couplers.
+
+    You can also use pads or other terminations instead of grating couplers.
+
+    Args:
+        component: component spec to connect to grating couplers.
+        grating_coupler: spec for route terminations.
+        gc_port_name: grating coupler input port name.
+        component_name: optional for the label.
+        select_ports: function to select ports.
+        cross_section: cross_section function.
+        taper: taper spec.
+        input_port_names: list of input port names to connect to grating couplers.
+        fiber_spacing: spacing between fibers.
+        with_loopback: adds loopback structures.
+        loopback_spacing: spacing between loopback and test structure.
+        kwargs: additional arguments.
+
+    Keyword Args:
+        bend: bend spec.
+        straight: straight spec.
+        fanout_length: if None, automatic calculation of fanout length.
+        max_y0_optical: in um.
+        with_loopback: True, adds loopback structures.
+        straight_separation: from edge to edge.
+        list_port_labels: None, adds TM labels to port indices in this list.
+        connected_port_list_ids: names of ports only for type 0 optical routing.
+        nb_optical_ports_lines: number of grating coupler lines.
+        force_manhattan: False
+        excluded_ports: list of port names to exclude when adding gratings.
+        grating_indices: list of grating coupler indices.
+        routing_straight: function to route.
+        routing_method: route_single.
+        optical_routing_type: None: auto, 0: no extension, 1: standard, 2: check.
+        gc_rotation: fiber coupler rotation in degrees. Defaults to -90.
+        input_port_indexes: to connect.
+
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+
+        c = gf.components.crossing()
+        cc = gf.routing.add_fiber_array(
+            component=c,
+            optical_routing_type=2,
+            grating_coupler=gf.components.grating_coupler_elliptical_te,
+            with_loopback=False
+        )
+        cc.plot()
+
+    """
+    component = gf.get_component(component)
+    optical_ports = select_ports(component.ports)
+    if not optical_ports:
+        raise ValueError(f"No optical ports found in {component.name!r}")
+
+    if isinstance(grating_coupler, list):
+        gc = grating_coupler[0]
+    else:
+        gc = grating_coupler
+    gc = gf.get_component(gc)
+    if gc_port_name not in gc.ports:
+        raise ValueError(f"gc_port_name={gc_port_name!r} not in {gc.ports.keys()}")
+
+    gc_port_names = [port.name for port in gc.ports]
+    if gc_port_name not in gc_port_names:
+        raise ValueError(f"gc_port_name = {gc_port_name!r} not in {gc_port_names}")
+
+    orientation = gc.ports[gc_port_name].orientation
+    if int(orientation) != 180:
+        raise ValueError(
+            "add_fiber_array requires a grating coupler port facing west "
+            f"(orientation = 180). "
+            f"Got orientation = {orientation} degrees for port {gc_port_name!r}"
+        )
+
+    grating_coupler = (
+        [gf.get_component(i) for i in grating_coupler]
+        if isinstance(grating_coupler, list)
+        else gf.get_component(grating_coupler)
+    )
+
+    component_name = component_name or component.name
+    c1 = Component(f"{component_name}_fiber_single")
+    ref = c1.add_ref(component)
+
+    input_port_names = input_port_names or [
+        p.name for p in ref.ports.filter(orientation=180)
+    ]
+    output_port_names = [
+        port.name for port in ref.ports if port.name not in input_port_names
+    ]
+    ref.drotate(+90)
+
+    route_fiber_array(
+        c1,
+        ref,
+        grating_coupler=grating_coupler,
+        gc_port_name=gc_port_name,
+        component_name=component_name,
+        cross_section=cross_section,
+        select_ports=select_ports,
+        taper=taper,
+        with_loopback=False,
+        port_names=input_port_names,
+        fiber_spacing=fiber_spacing,
+        **kwargs,
+    )
+
+    c2 = Component()
+    ref = c2 << c1
+    ref.drotate(-180)
+    route_fiber_array(
+        c2,
+        ref,
+        grating_coupler=grating_coupler,
+        gc_port_name=gc_port_name,
+        component_name=component_name,
+        cross_section=cross_section,
+        select_ports=select_ports,
+        taper=taper,
+        with_loopback=False,
+        port_names=output_port_names,
+        fiber_spacing=fiber_spacing,
+        **kwargs,
+    )
+    c2.copy_child_info(component)
+
+    if with_loopback:
+        straight = c2 << gf.get_component(
+            straight, cross_section=cross_section, length=c2.dysize - 2 * gc.dxsize
+        )
+        gc1 = c2 << gc
+        gc2 = c2 << gc
+
+        straight.drotate(90)
+        straight.dxmin = c2.dxmax + loopback_spacing
+        straight.dymin = c2.dymin + gc1.dxsize
+
+        gc1.connect(gc_port_name, straight.ports[0])
+        gc2.connect(gc_port_name, straight.ports[1])
+
+        c2.add_port(name="vl1", port=gc1.ports[gc_port_name])
+        c2.add_port(name="vl2", port=gc2.ports[gc_port_name])
+
+    return c2
+
+
+if __name__ == "__main__":
+    from gdsfactory.samples.big_device import big_device
+
+    c = big_device(nports=10)
+    c.info["polarization"] = "te"
+    # c = gf.c.mmi2x2()
+    c = add_fiber_single(c)
+    c.pprint_ports()
+    c.show()
