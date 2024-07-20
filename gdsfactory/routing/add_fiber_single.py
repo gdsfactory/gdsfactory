@@ -25,6 +25,9 @@ def add_fiber_single(
     taper: ComponentSpec | None = None,
     input_port_names: list[str] | tuple[str, ...] | None = None,
     fiber_spacing: float = 70,
+    with_loopback: bool = True,
+    loopback_spacing: float = 100.0,
+    straight: ComponentSpec = straight_function,
     **kwargs,
 ) -> Component:
     """Returns component with south routes and grating_couplers.
@@ -41,6 +44,8 @@ def add_fiber_single(
         taper: taper spec.
         input_port_names: list of input port names to connect to grating couplers.
         fiber_spacing: spacing between fibers.
+        with_loopback: adds loopback structures.
+        loopback_spacing: spacing between loopback and test structure.
         kwargs: additional arguments.
 
     Keyword Args:
@@ -153,6 +158,24 @@ def add_fiber_single(
         **kwargs,
     )
     c2.copy_child_info(component)
+
+    if with_loopback:
+        straight = c2 << gf.get_component(
+            straight, cross_section=cross_section, length=c2.dysize - 2 * gc.dxsize
+        )
+        gc1 = c2 << gc
+        gc2 = c2 << gc
+
+        straight.drotate(90)
+        straight.dxmin = c2.dxmax + loopback_spacing
+        straight.dymin = c2.dymin + gc1.dxsize
+
+        gc1.connect(gc_port_name, straight.ports[0])
+        gc2.connect(gc_port_name, straight.ports[1])
+
+        c2.add_port(name="vl1", port=gc1.ports[gc_port_name])
+        c2.add_port(name="vl2", port=gc2.ports[gc_port_name])
+
     return c2
 
 
@@ -162,6 +185,6 @@ if __name__ == "__main__":
     c = big_device(nports=10)
     c.info["polarization"] = "te"
     # c = gf.c.mmi2x2()
-    c = add_fiber_single(c, fanout_length=50.0)
+    c = add_fiber_single(c)
     c.pprint_ports()
     c.show()
