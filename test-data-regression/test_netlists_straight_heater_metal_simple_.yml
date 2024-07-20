@@ -129,29 +129,13 @@ placements:
 ports:
   e1: taper_L5_W11_W2p5_PNone_4a19c1ba_-2500_0,e2
   e2: taper_L5_W11_W2p5_PNone_4a19c1ba_322500_0,e2
+  l_e1: via_stack_S11_11_LHEATE_f29565aa_-10500_0,e1
+  l_e2: via_stack_S11_11_LHEATE_f29565aa_-10500_0,e2
+  l_e3: taper_L5_W11_W2p5_PNone_4a19c1ba_-2500_0,e1
+  l_e4: via_stack_S11_11_LHEATE_f29565aa_-10500_0,e4
   o1: straight_L320_N2_CSstri_82742ad9_160000_0,o1
   o2: straight_L320_N2_CSstri_82742ad9_160000_0,o2
-warnings:
-  electrical:
-    unconnected_ports:
-    - message: 6 unconnected electrical ports!
-      ports:
-      - via_stack_S11_11_LHEATE_f29565aa_-10500_0,e1
-      - via_stack_S11_11_LHEATE_f29565aa_-10500_0,e2
-      - via_stack_S11_11_LHEATE_f29565aa_-10500_0,e4
-      - via_stack_S11_11_LHEATE_f29565aa_330500_0,e2
-      - via_stack_S11_11_LHEATE_f29565aa_330500_0,e3
-      - via_stack_S11_11_LHEATE_f29565aa_330500_0,e4
-      values:
-      - - -16000
-        - 0
-      - - -10500
-        - 5500
-      - - -10500
-        - -5500
-      - - 330500
-        - 5500
-      - - 336000
-        - 0
-      - - 330500
-        - -5500
+  r_e1: taper_L5_W11_W2p5_PNone_4a19c1ba_322500_0,e1
+  r_e2: via_stack_S11_11_LHEATE_f29565aa_330500_0,e2
+  r_e3: via_stack_S11_11_LHEATE_f29565aa_330500_0,e3
+  r_e4: via_stack_S11_11_LHEATE_f29565aa_330500_0,e4
