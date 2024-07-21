@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.5.6](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.5.6) - 2024-07-21
+
+No significant changes.
+
+
 ## [8.5.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.5.5) - 2024-07-19
 
 - fix route_south [#2999](https://github.com/gdsfactory/gdsfactory/pull/2999)
