@@ -86,6 +86,7 @@ def boolean(
         f = boolean_operations[operation]
         r = f(r1, r2)
         r = c.shapes(layer_index).insert(r)
+        break
 
     return c
 
