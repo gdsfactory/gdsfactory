@@ -32,9 +32,7 @@ def wire_corner(
     a = width / 2
     xpts = [-a, a, a, -a]
     ypts = [-a, -a, a, a]
-
     c.add_polygon(list(zip(xpts, ypts)), layer=layer)
-
     c.add_port(
         name="e1",
         center=(0, 0),

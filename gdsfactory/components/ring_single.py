@@ -1,10 +1,7 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.coupler_ring import coupler_ring as coupler_ring_function
-from gdsfactory.components.straight import straight
-from gdsfactory.typings import ComponentFactory, ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -13,8 +10,9 @@ def ring_single(
     radius: float = 10.0,
     length_x: float = 4.0,
     length_y: float = 0.6,
-    coupler_ring: ComponentSpec = coupler_ring_function,
-    bend: ComponentFactory = bend_euler,
+    bend: ComponentSpec = "bend_euler",
+    straight: ComponentSpec = "straight",
+    coupler_ring: ComponentSpec = "coupler_ring",
     cross_section: CrossSectionSpec = "strip",
 ) -> gf.Component:
     """Returns a single ring.
@@ -29,6 +27,8 @@ def ring_single(
         length_y: vertical straight length.
         coupler_ring: ring coupler spec.
         bend: 90 degrees bend spec.
+        straight: straight spec.
+        coupler_ring: ring coupler spec.
         cross_section: cross_section spec.
 
     .. code::
@@ -60,20 +60,20 @@ def ring_single(
     c = gf.Component()
     cb = c << gf.get_component(
         coupler_ring,
-        bend=bend,
         gap=gap,
         radius=radius,
         length_x=length_x,
         cross_section=cross_section,
+        bend=bend,
+        straight=straight,
     )
-    sy = straight(length=length_y, cross_section=cross_section)
+    sy = gf.get_component(straight, length=length_y, cross_section=cross_section)
     b = gf.get_component(bend, cross_section=cross_section, radius=radius)
-    sx = straight(length=length_x, cross_section=cross_section)
+    sx = gf.get_component(straight, length=length_x, cross_section=cross_section)
 
     sl = c << sy
     sr = c << sy
     st = c << sx
-
     bl = c << b
     br = c << b
 
@@ -92,7 +92,7 @@ def ring_single(
 if __name__ == "__main__":
     # c = ring_single(layer=(2, 0), cross_section_factory=gf.cross_section.pin, width=1)
     # c = ring_single(width=2, gap=1, layer=(2, 0), radius=7, length_y=1)
-    c = ring_single(radius=5)
+    c = ring_single(radius=5, gap=0.111, bend="bend_circular")
     # print(c.ports)
 
     # c = gf.routing.add_fiber_array(ring_single)

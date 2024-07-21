@@ -1,5 +1,5 @@
 info: {}
-name: ring_double_G0p2_R10_LX_c42c0d20
+name: ring_double_G0p2_R10_LX_07be0fa3
 settings:
   bend: bend_euler
   coupler_ring: coupler_ring
@@ -8,3 +8,4 @@ settings:
   length_x: 0.01
   length_y: 0.01
   radius: 10
+  straight: straight

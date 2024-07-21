@@ -1,47 +1,4 @@
 instances:
-  compass_S11_11_LM1_PTNo_c3960049_0_0:
-    component: compass
-    info: {}
-    settings:
-      layer: M1
-      port_inclusion: 0
-      port_orientations:
-      - 180
-      - 90
-      - 0
-      - -90
-      size:
-      - 11
-      - 11
-  compass_S11_11_LM2_PTNo_77959dec_0_0:
-    component: compass
-    info: {}
-    settings:
-      layer: M2
-      port_inclusion: 0
-      port_orientations:
-      - 180
-      - 90
-      - 0
-      - -90
-      size:
-      - 11
-      - 11
-  compass_S11_11_LMTOP_PT_f51d34f1_0_0:
-    component: compass
-    info: {}
-    settings:
-      layer: MTOP
-      port_inclusion: 0
-      port_orientations:
-      - 180
-      - 90
-      - 0
-      - -90
-      port_type: electrical
-      size:
-      - 11
-      - 11
   via_S0p7_0p7_S2_2_GNone_3d643c37_0_0:
     component: via
     dax: 2
@@ -93,21 +50,6 @@ instances:
 name: via_stack_S11_11_LM1_M2_e6789b8f
 nets: []
 placements:
-  compass_S11_11_LM1_PTNo_c3960049_0_0:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 0
-  compass_S11_11_LM2_PTNo_77959dec_0_0:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 0
-  compass_S11_11_LMTOP_PT_f51d34f1_0_0:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 0
   via_S0p7_0p7_S2_2_GNone_3d643c37_0_0:
     mirror: false
     rotation: 0
@@ -118,8 +60,4 @@ placements:
     rotation: 0
     x: -4
     y: -4
-ports:
-  e1: compass_S11_11_LMTOP_PT_f51d34f1_0_0,e1
-  e2: compass_S11_11_LMTOP_PT_f51d34f1_0_0,e2
-  e3: compass_S11_11_LMTOP_PT_f51d34f1_0_0,e3
-  e4: compass_S11_11_LMTOP_PT_f51d34f1_0_0,e4
+ports: {}

@@ -1,30 +1,28 @@
 instances:
-  coupler_ring_G0p2_R10_L_f54abb4f_-500_16335:
+  coupler_ring_G0p2_R10_L_ca129826_-500_16335:
     component: coupler_ring
     info: {}
     settings:
       bend: bend_euler
-      coupler90: coupler90
-      coupler_straight: coupler_straight
       cross_section: strip
       cross_section_bend: strip_heater_metal
       gap: 0.2
       length_extension: 3
       length_x: 1
       radius: 10
-  coupler_ring_G0p2_R10_L_f54abb4f_-500_5075:
+      straight: straight
+  coupler_ring_G0p2_R10_L_ca129826_-500_5075:
     component: coupler_ring
     info: {}
     settings:
       bend: bend_euler
-      coupler90: coupler90
-      coupler_straight: coupler_straight
       cross_section: strip
       cross_section_bend: strip_heater_metal
       gap: 0.2
       length_extension: 3
       length_x: 1
       radius: 10
+      straight: straight
   straight_L0p01_N2_CSstr_b7a6e359_-11000_10705:
     component: straight
     info:
@@ -106,33 +104,33 @@ instances:
       - via2
 name: ring_double_heater_G0p2_26d47ff1
 nets:
-- p1: coupler_ring_G0p2_R10_L_f54abb4f_-500_16335,e1
+- p1: coupler_ring_G0p2_R10_L_ca129826_-500_16335,e1
   p2: straight_L1_N2_CSheater_metal_-500_20710,e1
-- p1: coupler_ring_G0p2_R10_L_f54abb4f_-500_16335,e2
+- p1: coupler_ring_G0p2_R10_L_ca129826_-500_16335,e2
   p2: straight_L0p01_N2_CSstr_b7a6e359_10000_10705,e2
-- p1: coupler_ring_G0p2_R10_L_f54abb4f_-500_16335,e3
+- p1: coupler_ring_G0p2_R10_L_ca129826_-500_16335,e3
   p2: straight_L0p01_N2_CSstr_b7a6e359_-11000_10705,e2
-- p1: coupler_ring_G0p2_R10_L_f54abb4f_-500_16335,e4
+- p1: coupler_ring_G0p2_R10_L_ca129826_-500_16335,e4
   p2: straight_L1_N2_CSheater_metal_-500_20710,e2
-- p1: coupler_ring_G0p2_R10_L_f54abb4f_-500_16335,o2
+- p1: coupler_ring_G0p2_R10_L_ca129826_-500_16335,o2
   p2: straight_L0p01_N2_CSstr_b7a6e359_10000_10705,o2
-- p1: coupler_ring_G0p2_R10_L_f54abb4f_-500_16335,o3
+- p1: coupler_ring_G0p2_R10_L_ca129826_-500_16335,o3
   p2: straight_L0p01_N2_CSstr_b7a6e359_-11000_10705,o2
-- p1: coupler_ring_G0p2_R10_L_f54abb4f_-500_5075,e2
+- p1: coupler_ring_G0p2_R10_L_ca129826_-500_5075,e2
   p2: straight_L0p01_N2_CSstr_b7a6e359_-11000_10705,e1
-- p1: coupler_ring_G0p2_R10_L_f54abb4f_-500_5075,e3
+- p1: coupler_ring_G0p2_R10_L_ca129826_-500_5075,e3
   p2: straight_L0p01_N2_CSstr_b7a6e359_10000_10705,e1
-- p1: coupler_ring_G0p2_R10_L_f54abb4f_-500_5075,o2
+- p1: coupler_ring_G0p2_R10_L_ca129826_-500_5075,o2
   p2: straight_L0p01_N2_CSstr_b7a6e359_-11000_10705,o1
-- p1: coupler_ring_G0p2_R10_L_f54abb4f_-500_5075,o3
+- p1: coupler_ring_G0p2_R10_L_ca129826_-500_5075,o3
   p2: straight_L0p01_N2_CSstr_b7a6e359_10000_10705,o1
 placements:
-  coupler_ring_G0p2_R10_L_f54abb4f_-500_16335:
+  coupler_ring_G0p2_R10_L_ca129826_-500_16335:
     mirror: false
     rotation: 180
     x: -1
     y: 21.41
-  coupler_ring_G0p2_R10_L_f54abb4f_-500_5075:
+  coupler_ring_G0p2_R10_L_ca129826_-500_5075:
     mirror: false
     rotation: 0
     x: 0
@@ -167,10 +165,10 @@ ports:
   l_e2: via_stack_S4_4_LHEATER__f8cf7960_-4000_0,e2
   l_e3: via_stack_S4_4_LHEATER__f8cf7960_-4000_0,e3
   l_e4: via_stack_S4_4_LHEATER__f8cf7960_-4000_0,e4
-  o1: coupler_ring_G0p2_R10_L_f54abb4f_-500_5075,o1
-  o2: coupler_ring_G0p2_R10_L_f54abb4f_-500_5075,o4
-  o3: coupler_ring_G0p2_R10_L_f54abb4f_-500_16335,o4
-  o4: coupler_ring_G0p2_R10_L_f54abb4f_-500_16335,o1
+  o1: coupler_ring_G0p2_R10_L_ca129826_-500_5075,o1
+  o2: coupler_ring_G0p2_R10_L_ca129826_-500_5075,o4
+  o3: coupler_ring_G0p2_R10_L_ca129826_-500_16335,o4
+  o4: coupler_ring_G0p2_R10_L_ca129826_-500_16335,o1
   r_e1: via_stack_S4_4_LHEATER__f8cf7960_3000_0,e1
   r_e2: via_stack_S4_4_LHEATER__f8cf7960_3000_0,e2
   r_e3: via_stack_S4_4_LHEATER__f8cf7960_3000_0,e3
@@ -180,8 +178,8 @@ warnings:
     unconnected_ports:
     - message: 2 unconnected electrical ports!
       ports:
-      - coupler_ring_G0p2_R10_L_f54abb4f_-500_5075,e4
-      - coupler_ring_G0p2_R10_L_f54abb4f_-500_5075,e1
+      - coupler_ring_G0p2_R10_L_ca129826_-500_5075,e4
+      - coupler_ring_G0p2_R10_L_ca129826_-500_5075,e1
       values:
       - - -1000
         - 700

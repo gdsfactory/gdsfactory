@@ -2,12 +2,9 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coupler90 import coupler90
 from gdsfactory.components.coupler_straight import coupler_straight
-from gdsfactory.components.straight import straight
 from gdsfactory.typings import (
-    ComponentFactory,
     ComponentSpec,
     CrossSectionSpec,
 )
@@ -18,9 +15,8 @@ def coupler_ring(
     gap: float = 0.2,
     radius: float = 5.0,
     length_x: float = 4.0,
-    coupler90: ComponentFactory = coupler90,
-    bend: ComponentSpec = bend_euler,
-    coupler_straight: ComponentFactory = coupler_straight,
+    bend: ComponentSpec = "bend_euler",
+    straight: ComponentSpec = "straight",
     cross_section: CrossSectionSpec = "strip",
     cross_section_bend: CrossSectionSpec | None = None,
     length_extension: float = 3,
@@ -31,9 +27,8 @@ def coupler_ring(
         gap: spacing between parallel coupled straight waveguides.
         radius: of the bends.
         length_x: length of the parallel coupled straight waveguides.
-        coupler90: straight coupled to a 90deg bend.
-        bend: bend spec.
-        coupler_straight: two parallel coupled straight waveguides.
+        bend: 90 degrees bend spec.
+        straight: straight spec.
         cross_section: cross_section spec.
         cross_section_bend: optional bend cross_section spec.
         length_extension: for the ports.
@@ -58,6 +53,7 @@ def coupler_ring(
         gap=gap,
         radius=radius,
         bend=bend,
+        straight=straight,
         cross_section=cross_section,
         cross_section_bend=cross_section_bend,
     )
@@ -96,6 +92,7 @@ def coupler_ring(
         gf.port.select_ports_list(ports=cbr.ports, port_type="electrical"), prefix="cbr"
     )
     c.auto_rename_ports()
+    c.flatten()
     return c
 
 
