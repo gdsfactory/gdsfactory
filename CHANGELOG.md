@@ -1,12 +1,16 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.5.5...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.5.6...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.5.6](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.5.6) - 2024-07-21
 
-No significant changes.
-
+- fix straight_heater_metal_simple [#3004](https://github.com/gdsfactory/gdsfactory/pull/3004)
+- simpler netlist [#3006](https://github.com/gdsfactory/gdsfactory/pull/3006)
+- Simpler netlist [#3005](https://github.com/gdsfactory/gdsfactory/pull/3005)
+- Add move port to zero [#3003](https://github.com/gdsfactory/gdsfactory/pull/3003)
+- Add fiber single [#3001](https://github.com/gdsfactory/gdsfactory/pull/3001)
+- improve add_ports_from_labels [#3000](https://github.com/gdsfactory/gdsfactory/pull/3000)
 
 ## [8.5.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.5.5) - 2024-07-19
 
