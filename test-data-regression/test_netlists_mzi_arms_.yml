@@ -1,7 +1,3 @@
-connections:
-  mmi1x2_WNone_WT1_LT10_L_4e0f7121_2750_0,o2: mzi_arm_LYL0p8_LYR0p8_L_eb91ab79_35550_10975,o1
-  mmi1x2_WNone_WT1_LT10_L_4e0f7121_2750_0,o3: mzi_arm_LYL5p8_LYR5p8_L_1307f0f7_35550_-13475,o1
-  mmi1x2_WNone_WT1_LT10_L_4e0f7121_68350_100,o3: mzi_arm_LYL5p8_LYR5p8_L_1307f0f7_35550_-13475,o2
 instances:
   mmi1x2_WNone_WT1_LT10_L_4e0f7121_2750_0:
     component: mmi1x2
@@ -15,7 +11,7 @@ instances:
       taper: taper
       width_mmi: 2.5
       width_taper: 1
-  mmi1x2_WNone_WT1_LT10_L_4e0f7121_68350_100:
+  mmi1x2_WNone_WT1_LT10_L_4e0f7121_68350_0:
     component: mmi1x2
     info: {}
     settings:
@@ -27,7 +23,7 @@ instances:
       taper: taper
       width_mmi: 2.5
       width_taper: 1
-  mzi_arm_LYL0p8_LYR0p8_L_eb91ab79_35550_10975:
+  mzi_arm_LYL0p8_LYR0p8_L_eb91ab79_35550_11025:
     component: mzi_arm
     info:
       length_x: 0.1
@@ -40,7 +36,7 @@ instances:
       straight: straight
       straight_x: straight
       straight_y: straight
-  mzi_arm_LYL5p8_LYR5p8_L_1307f0f7_35550_-13475:
+  mzi_arm_LYL5p8_LYR5p8_L_1307f0f7_35550_-13525:
     component: mzi_arm
     info:
       length_x: 0.1
@@ -54,39 +50,36 @@ instances:
       straight_x: straight
       straight_y: straight
 name: mzi_arms_DL10_LY0p8_LX0_3f9f33a8
+nets:
+- p1: mmi1x2_WNone_WT1_LT10_L_4e0f7121_2750_0,o2
+  p2: mzi_arm_LYL0p8_LYR0p8_L_eb91ab79_35550_11025,o1
+- p1: mmi1x2_WNone_WT1_LT10_L_4e0f7121_2750_0,o3
+  p2: mzi_arm_LYL5p8_LYR5p8_L_1307f0f7_35550_-13525,o1
+- p1: mmi1x2_WNone_WT1_LT10_L_4e0f7121_68350_0,o2
+  p2: mzi_arm_LYL5p8_LYR5p8_L_1307f0f7_35550_-13525,o2
+- p1: mmi1x2_WNone_WT1_LT10_L_4e0f7121_68350_0,o3
+  p2: mzi_arm_LYL0p8_LYR0p8_L_eb91ab79_35550_11025,o2
 placements:
   mmi1x2_WNone_WT1_LT10_L_4e0f7121_2750_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  mmi1x2_WNone_WT1_LT10_L_4e0f7121_68350_100:
-    mirror: true
+  mmi1x2_WNone_WT1_LT10_L_4e0f7121_68350_0:
+    mirror: false
     rotation: 180
     x: 71.1
-    y: 0.1
-  mzi_arm_LYL0p8_LYR0p8_L_eb91ab79_35550_10975:
+    y: 0
+  mzi_arm_LYL0p8_LYR0p8_L_eb91ab79_35550_11025:
     mirror: false
     rotation: 0
     x: 15.5
     y: 0.625
-  mzi_arm_LYL5p8_LYR5p8_L_1307f0f7_35550_-13475:
+  mzi_arm_LYL5p8_LYR5p8_L_1307f0f7_35550_-13525:
     mirror: true
     rotation: 0
     x: 15.5
     y: -0.625
 ports:
   o1: mmi1x2_WNone_WT1_LT10_L_4e0f7121_2750_0,o1
-  o2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_68350_100,o1
-warnings:
-  optical:
-    unconnected_ports:
-    - message: 2 unconnected optical ports!
-      ports:
-      - mmi1x2_WNone_WT1_LT10_L_4e0f7121_68350_100,o2
-      - mzi_arm_LYL0p8_LYR0p8_L_eb91ab79_35550_10975,o2
-      values:
-      - - 55600
-        - 725
-      - - 55600
-        - 525
+  o2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_68350_0,o1

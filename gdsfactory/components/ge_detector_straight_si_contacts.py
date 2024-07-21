@@ -2,27 +2,24 @@
 
 from __future__ import annotations
 
-from functools import partial
-
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.taper import taper as taper_func
-from gdsfactory.components.via_stack import via_stack_slab_m2, via_stack_slab_m3
-from gdsfactory.cross_section import pn_ge_detector_si_contacts
+from gdsfactory.components.via_stack import via_stack_slab_m3
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
-
-_taper = partial(taper_func, length=20.0, width1=0.5, width2=0.8, cross_section="strip")
 
 
 @gf.cell
 def ge_detector_straight_si_contacts(
-    length: float = 80.0,
-    cross_section: CrossSectionSpec = pn_ge_detector_si_contacts,
-    via_stack: ComponentSpec | tuple[ComponentSpec, ComponentSpec] = via_stack_slab_m3,
+    length: float = 40.0,
+    cross_section: CrossSectionSpec = "pn_ge_detector_si_contacts",
+    via_stack: ComponentSpec = "via_stack_slab_m3",
     via_stack_width: float = 10.0,
     via_stack_spacing: float = 5.0,
     via_stack_offset: float = 0.0,
-    taper: ComponentSpec | None = _taper,
+    taper_length: float = 20.0,
+    taper_width: float = 0.8,
+    taper_cros_section: CrossSectionSpec = "strip",
 ) -> Component:
     """Returns a straight Ge on Si detector with silicon contacts.
 
@@ -34,47 +31,42 @@ def ge_detector_straight_si_contacts(
     https://doi.org/10.1109/JLT.2014.2367134
 
     Args:
-        length: total length of the waveguide including the tapers.
+        length: pd length.
         cross_section: for the waveguide.
         via_stack: for the via_stacks. First element
         via_stack_width: width of the via_stack.
         via_stack_spacing: spacing between via_stacks.
         via_stack_offset: with respect to the detector
-        taper: optional taper to transition from the input waveguide \
-                into the absorption region.
+        taper_length: length of the taper.
+        taper_width: width of the taper.
+        taper_cros_section: cross_section of the taper.
     """
     c = Component()
-    if taper:
-        taper = gf.get_component(taper)
-        length -= 2 * taper.dxsize
+    xs = gf.get_cross_section(taper_cros_section)
 
-    if type(via_stack) is tuple:
-        via_stack_top = via_stack[0]
-        via_stack_bot = via_stack[1]
-    else:
-        via_stack_top = via_stack
-        via_stack_bot = via_stack
+    taper = taper_func(
+        width1=xs.width,
+        width2=taper_width,
+        length=taper_length,
+        cross_section=taper_cros_section,
+    )
+
+    via_stack = gf.get_component(
+        via_stack,
+        size=(length, via_stack_width),
+    )
 
     wg = c << gf.components.straight(
         cross_section=cross_section,
         length=length,
     )
 
-    if taper:
-        t1 = c << taper
-        t1.connect("o2", wg["o1"], allow_width_mismatch=True)
-        c.add_port("o1", port=t1["o1"])
+    t1 = c << taper
+    t1.connect("o2", wg["o1"], allow_width_mismatch=True)
+    c.add_port("o1", port=t1["o1"])
 
-    else:
-        c.add_ports(wg.get_ports_list())
-
-    via_stack_length = length
-    via_stack_top = c << via_stack_top(
-        size=(via_stack_length, via_stack_width),
-    )
-    via_stack_bot = c << via_stack_bot(
-        size=(via_stack_length, via_stack_width),
-    )
+    via_stack_top = c << via_stack
+    via_stack_bot = c << via_stack
 
     via_stack_bot.dxmin = wg.dxmin
     via_stack_top.dxmin = wg.dxmin
@@ -89,6 +81,6 @@ def ge_detector_straight_si_contacts(
 
 if __name__ == "__main__":
     c = ge_detector_straight_si_contacts(
-        via_stack=(via_stack_slab_m3, via_stack_slab_m2), via_stack_offset=0
+        via_stack=via_stack_slab_m3, via_stack_offset=0
     )
     c.show()

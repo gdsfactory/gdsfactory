@@ -1,0 +1,34 @@
+instances:
+  via_S0p7_0p7_S2_2_GNone_6d4c344f_0_0:
+    component: via
+    dax: 2
+    day: 0
+    dbx: 0
+    dby: 2
+    info:
+      enclosure: 1
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    na: 5
+    nb: 5
+    settings:
+      bbox_offset: 0
+      enclosure: 1
+      layer: VIAC
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+name: via_stack_S11_11_LSLAB9_69d97872
+nets: []
+placements:
+  via_S0p7_0p7_S2_2_GNone_6d4c344f_0_0:
+    mirror: false
+    rotation: 0
+    x: -4
+    y: -4
+ports: {}

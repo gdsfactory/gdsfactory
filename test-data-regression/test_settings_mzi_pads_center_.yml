@@ -1,5 +1,5 @@
 info: {}
-name: mzi_pads_center_PTFstra_edc7dd86
+name: mzi_pads_center_PTstrai_c97b64ce
 settings:
   cross_section: strip
   cross_section_metal: metal_routing
@@ -11,11 +11,11 @@ settings:
   mzi_gnd_top: top_l_e2
   mzi_sig_bot: bot_l_e2
   mzi_sig_top: top_r_e2
-  pad: Fpad_Mgdsfactorypcomponentsppad_SS80_80
+  pad: pad_small
   pad_gnd_bot: e4_1_2
   pad_gnd_top: e2_1_2
   pad_sig_bot: e1_1_1
   pad_sig_top: e3_1_3
   pad_spacing: pad_spacing
-  ps_bot: Fstraight_heater_metal_undercut_Mgdsfactorypcomponentspstraight_heater_metal_SWUFalse_LSI0p1_LU5_LUS0
-  ps_top: Fstraight_heater_metal_undercut_Mgdsfactorypcomponentspstraight_heater_metal_SWUFalse_LSI0p1_LU5_LUS0
+  ps_bot: straight_heater_metal
+  ps_top: straight_heater_metal

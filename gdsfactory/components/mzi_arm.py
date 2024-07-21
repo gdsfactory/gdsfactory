@@ -58,8 +58,7 @@ def mzi_arm(
     # Each character in the sequence represents a component
     sequence = "bLB-BRb"
     c = component_sequence(sequence=sequence, symbol_to_component=symbol_to_component)
-
-    c = c.copy()
+    c = c.dup()
     c.auto_rename_ports()
     c.info["length_x"] = length_x
     c.info["length_xsize"] = straight_x.dxsize

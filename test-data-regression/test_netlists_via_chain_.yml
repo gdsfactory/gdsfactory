@@ -1,12 +1,3 @@
-connections:
-  rectangle_S2p7_6p4_LM2__c8f1a350_350_17000,e1: rectangle_S2p7_6p4_LM2__c8f1a350_350_17000,e1
-  rectangle_S2p7_6p4_LM2__c8f1a350_350_17000,e2: rectangle_S2p7_6p4_LM2__c8f1a350_350_17000,e2
-  rectangle_S2p7_6p4_LM2__c8f1a350_350_17000,e3: rectangle_S2p7_6p4_LM2__c8f1a350_350_17000,e3
-  rectangle_S2p7_6p4_LM2__c8f1a350_350_17000,e4: rectangle_S2p7_6p4_LM2__c8f1a350_350_17000,e4
-  rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000,e1: rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000,e1
-  rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000,e2: rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000,e2
-  rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000,e3: rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000,e3
-  rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000,e4: rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000,e4
 instances:
   rectangle_S2p7_6p4_LM2__c8f1a350_350_17000:
     component: rectangle
@@ -147,6 +138,7 @@ instances:
       - via2
       - null
 name: via_chain_NV100_C10_VFv_7bb40f3e
+nets: []
 placements:
   rectangle_S2p7_6p4_LM2__c8f1a350_350_17000:
     mirror: false
@@ -189,8 +181,44 @@ ports:
 warnings:
   electrical:
     unconnected_ports:
-    - message: 6 unconnected electrical ports!
+    - message: 42 unconnected electrical ports!
       ports:
+      - rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000<0.0>,e1
+      - rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000<0.0>,e2
+      - rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000<0.0>,e3
+      - rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000<0.0>,e4
+      - rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000<0.1>,e1
+      - rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000<0.1>,e2
+      - rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000<0.1>,e3
+      - rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000<0.1>,e4
+      - rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000<0.2>,e1
+      - rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000<0.2>,e2
+      - rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000<0.2>,e3
+      - rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000<0.2>,e4
+      - rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000<0.3>,e1
+      - rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000<0.3>,e2
+      - rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000<0.3>,e3
+      - rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000<0.3>,e4
+      - rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000<0.4>,e1
+      - rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000<0.4>,e2
+      - rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000<0.4>,e3
+      - rectangle_S2p7_6p4_LM2__c8f1a350_37350_17000<0.4>,e4
+      - rectangle_S2p7_6p4_LM2__c8f1a350_350_17000<0.0>,e1
+      - rectangle_S2p7_6p4_LM2__c8f1a350_350_17000<0.0>,e2
+      - rectangle_S2p7_6p4_LM2__c8f1a350_350_17000<0.0>,e3
+      - rectangle_S2p7_6p4_LM2__c8f1a350_350_17000<0.0>,e4
+      - rectangle_S2p7_6p4_LM2__c8f1a350_350_17000<0.1>,e1
+      - rectangle_S2p7_6p4_LM2__c8f1a350_350_17000<0.1>,e2
+      - rectangle_S2p7_6p4_LM2__c8f1a350_350_17000<0.1>,e3
+      - rectangle_S2p7_6p4_LM2__c8f1a350_350_17000<0.1>,e4
+      - rectangle_S2p7_6p4_LM2__c8f1a350_350_17000<0.2>,e1
+      - rectangle_S2p7_6p4_LM2__c8f1a350_350_17000<0.2>,e2
+      - rectangle_S2p7_6p4_LM2__c8f1a350_350_17000<0.2>,e3
+      - rectangle_S2p7_6p4_LM2__c8f1a350_350_17000<0.2>,e4
+      - rectangle_S2p7_6p4_LM2__c8f1a350_350_17000<0.3>,e1
+      - rectangle_S2p7_6p4_LM2__c8f1a350_350_17000<0.3>,e2
+      - rectangle_S2p7_6p4_LM2__c8f1a350_350_17000<0.3>,e3
+      - rectangle_S2p7_6p4_LM2__c8f1a350_350_17000<0.3>,e4
       - via_stack_S11_11_LM2_MT_0f7da5b4_-6500_-3800,e2
       - via_stack_S11_11_LM2_MT_0f7da5b4_-6500_-3800,e3
       - via_stack_S11_11_LM2_MT_0f7da5b4_-6500_-3800,e4
@@ -198,6 +226,78 @@ warnings:
       - via_stack_S11_11_LM2_MT_0f7da5b4_-6500_37800,e3
       - via_stack_S11_11_LM2_MT_0f7da5b4_-6500_37800,e4
       values:
+      - - 36000
+        - 2200
+      - - 37350
+        - 5400
+      - - 38700
+        - 2200
+      - - 37350
+        - -1000
+      - - 36000
+        - 9600
+      - - 37350
+        - 12800
+      - - 38700
+        - 9600
+      - - 37350
+        - 6400
+      - - 36000
+        - 17000
+      - - 37350
+        - 20200
+      - - 38700
+        - 17000
+      - - 37350
+        - 13800
+      - - 36000
+        - 24400
+      - - 37350
+        - 27600
+      - - 38700
+        - 24400
+      - - 37350
+        - 21200
+      - - 36000
+        - 31800
+      - - 37350
+        - 35000
+      - - 38700
+        - 31800
+      - - 37350
+        - 28600
+      - - -1000
+        - 5900
+      - - 350
+        - 9100
+      - - 1700
+        - 5900
+      - - 350
+        - 2700
+      - - -1000
+        - 13300
+      - - 350
+        - 16500
+      - - 1700
+        - 13300
+      - - 350
+        - 10100
+      - - -1000
+        - 20700
+      - - 350
+        - 23900
+      - - 1700
+        - 20700
+      - - 350
+        - 17500
+      - - -1000
+        - 28100
+      - - 350
+        - 31300
+      - - 1700
+        - 28100
+      - - 350
+        - 24900
       - - -6500
         - 1700
       - - -1000

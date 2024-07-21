@@ -1,4 +1,3 @@
-connections: {}
 instances:
   pad_S100_100_LMTOP_BLNo_fdaf576b_-225000_0:
     component: pad
@@ -136,6 +135,7 @@ instances:
       - 1050
       - 10
 name: pads_shorted_Ppad_C8_PS_1c817ac8
+nets: []
 placements:
   pad_S100_100_LMTOP_BLNo_fdaf576b_-225000_0:
     mirror: false

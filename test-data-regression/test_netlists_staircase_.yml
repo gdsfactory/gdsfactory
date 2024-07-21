@@ -1,20 +1,3 @@
-connections:
-  -1,o2: A1,o1
-  -2,o1: B1,o1
-  -2,o2: A2,o1
-  -3,o1: B2,o1
-  -3,o2: A3,o1
-  -4,o1: B3,o1
-  -4,o2: A4,o1
-  -5,o1: B4,o1
-  A1,o2: '|1,o1'
-  A2,o2: '|2,o1'
-  A3,o2: '|3,o1'
-  A4,o2: '|4,o1'
-  B1,o2: '|1,o2'
-  B2,o2: '|2,o2'
-  B3,o2: '|3,o2'
-  B4,o2: '|4,o2'
 instances:
   '-1':
     component: straight
@@ -286,6 +269,39 @@ instances:
       length: 5
       npoints: 2
 name: staircase_Cbend_euler_S_c2f7854d
+nets:
+- p1: -1,o2
+  p2: A1,o1
+- p1: -2,o1
+  p2: B1,o1
+- p1: -2,o2
+  p2: A2,o1
+- p1: -3,o1
+  p2: B2,o1
+- p1: -3,o2
+  p2: A3,o1
+- p1: -4,o1
+  p2: B3,o1
+- p1: -4,o2
+  p2: A4,o1
+- p1: -5,o1
+  p2: B4,o1
+- p1: A1,o2
+  p2: '|1,o1'
+- p1: A2,o2
+  p2: '|2,o1'
+- p1: A3,o2
+  p2: '|3,o1'
+- p1: A4,o2
+  p2: '|4,o1'
+- p1: B1,o2
+  p2: '|1,o2'
+- p1: B2,o2
+  p2: '|2,o2'
+- p1: B3,o2
+  p2: '|3,o2'
+- p1: B4,o2
+  p2: '|4,o2'
 placements:
   '-1':
     mirror: false

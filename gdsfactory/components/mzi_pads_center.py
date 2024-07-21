@@ -1,19 +1,16 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.components.mzi import mzi as mzi_function
-from gdsfactory.components.pad import pad_small
-from gdsfactory.components.straight_heater_metal import straight_heater_metal
 from gdsfactory.routing.route_single import route_single_electrical
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
 def mzi_pads_center(
-    ps_top: ComponentSpec = straight_heater_metal,
-    ps_bot: ComponentSpec = straight_heater_metal,
-    mzi: ComponentSpec = mzi_function,
-    pad: ComponentSpec = pad_small,
+    ps_top: ComponentSpec = "straight_heater_metal",
+    ps_bot: ComponentSpec = "straight_heater_metal",
+    mzi: ComponentSpec = "mzi",
+    pad: ComponentSpec = "pad_small",
     length_x: float = 500,
     length_y: float = 40,
     mzi_sig_top: str = "top_r_e2",
@@ -60,7 +57,8 @@ def mzi_pads_center(
 
     pad_spacing = gf.get_constant(pad_spacing)
 
-    mzi_ps = mzi(
+    mzi_ps = gf.get_component(
+        mzi,
         length_x=length_x,
         straight_x_top=ps_top,
         straight_x_bot=ps_bot,

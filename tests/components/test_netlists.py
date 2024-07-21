@@ -10,43 +10,24 @@ from gdsfactory.components import cells
 
 skip_test = {
     "add_fiber_array_optical_south_electrical_north",
-    "array",
     "bbox",
-    "cavity",
-    "coh_rx_single_pol",
     "component_sequence",
     "coupler_bend",
-    "coupler_straight_asymmetric",
     "cutback_2x2",
     "cutback_bend180circular",
     "cutback_component",
     "delay_snake",
     "delay_snake2",
-    "disk_heater",
     "extend_ports_list",
     "fiber_array",
     "grating_coupler_loss_fiber_array",
     "grating_coupler_tree",
-    "loop_mirror",
-    "mzi1x2_2x2",
-    "mzi_arms",
-    "mzi_coupler",
     "mzi_lattice",
     "mzi_lattice_mmi",
-    "mzi_pads_center",
+    "spiral_racetrack",
+    "straight_heater_meander",
     "pack_doe",
     "pack_doe_grid",
-    "pad_gsg_open",
-    "pad_gsg_short",
-    "pads_shorted",
-    "ring_single_bend_coupler",
-    "spiral_racetrack",
-    "splitter_tree",
-    "staircase",
-    "straight_heater_doped_rib",
-    "straight_heater_meander",
-    "version_stamp",
-    "via_chain",
 }
 cells_to_test = set(cells.keys()) - skip_test
 
@@ -101,15 +82,16 @@ if __name__ == "__main__":
     component_type = "straight_pn"
     component_type = "coupler_bend"  # crashes
     component_type = "splitter_chain"
-    component_type = "cutback_2x2"
-    component_type = "delay_snake2"
     component_type = "grating_coupler_loss_fiber_array"
     component_type = "spiral_racetrack"
-    component_type = "pad_gsg_short"
-    component_type = "mzi"
     component_type = "mzi_lattice_mmi"  # FIXME
     component_type = "straight_heater_meander"  # FIXME: fails
     component_type = "mzi_lattice"  # FIXME
+    component_type = "component_sequence"  # FIXME
+    component_type = "coupler_bend"  # FIXME
+    component_type = "cutback_2x2"  # FIXME
+    component_type = "delay_snake"  # FIXME
+    component_type = "spiral_racetrack"
 
     connection_error_types = {
         "optical": ["width_mismatch", "shear_angle_mismatch", "orientation_mismatch"]

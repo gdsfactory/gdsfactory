@@ -1,16 +1,16 @@
 info: {}
-name: straight_heater_doped_r_5e772f2a
+name: straight_heater_doped_r_94233ba3
 settings:
-  cross_section: Fcross_section_Mgdsfactorypcross_section_SR10_RM5_Sslab
+  cross_section: strip_rib_tip
   cross_section_heater: rib_heater_doped
   heater_gap: 0.8
   heater_width: 2
   length: 320
   nsections: 3
   taper: taper_cross_section
-  via_stack: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLSLAB90_NPP_M1_VNone_None_viac
+  via_stack: via_stack_slab_npp_m3
   via_stack_gap: 0
-  via_stack_metal: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLM1_M2_MTOP_Vvia1_via2_None
+  via_stack_metal: via_stack_m1_mtop
   via_stack_metal_size:
   - 10
   - 10
