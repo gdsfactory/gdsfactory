@@ -1,9 +1,3 @@
-connections:
-  pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0,e1: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0,e1
-  pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0,e2: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0,e2
-  pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0,e3: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0,e3
-  pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0,e4: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0,e4
-  pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0,pad: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0,pad
 instances:
   pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0:
     component: pad
@@ -27,6 +21,7 @@ instances:
       - 100
       - 100
 name: array_Cpad_S150_150_C6__0e3de41c
+nets: []
 placements:
   pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0:
     mirror: false
@@ -34,8 +29,33 @@ placements:
     x: 0
     y: 0
 ports:
-  e1_1_6: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0,e1
-  e2_1_6: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0,e2
-  e3_1_6: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0,e3
-  e4_1_6: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0,e4
-  pad_1_6: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0,pad
+  e1_1_1: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0<0.0>,e1
+  e1_1_2: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0<1.0>,e1
+  e1_1_3: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0<2.0>,e1
+  e1_1_4: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0<3.0>,e1
+  e1_1_5: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0<4.0>,e1
+  e1_1_6: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0<5.0>,e1
+  e2_1_1: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0<0.0>,e2
+  e2_1_2: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0<1.0>,e2
+  e2_1_3: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0<2.0>,e2
+  e2_1_4: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0<3.0>,e2
+  e2_1_5: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0<4.0>,e2
+  e2_1_6: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0<5.0>,e2
+  e3_1_1: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0<0.0>,e3
+  e3_1_2: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0<1.0>,e3
+  e3_1_3: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0<2.0>,e3
+  e3_1_4: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0<3.0>,e3
+  e3_1_5: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0<4.0>,e3
+  e3_1_6: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0<5.0>,e3
+  e4_1_1: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0<0.0>,e4
+  e4_1_2: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0<1.0>,e4
+  e4_1_3: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0<2.0>,e4
+  e4_1_4: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0<3.0>,e4
+  e4_1_5: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0<4.0>,e4
+  e4_1_6: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0<5.0>,e4
+  pad_1_1: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0<0.0>,pad
+  pad_1_2: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0<1.0>,pad
+  pad_1_3: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0<2.0>,pad
+  pad_1_4: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0<3.0>,pad
+  pad_1_5: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0<4.0>,pad
+  pad_1_6: pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0<5.0>,pad

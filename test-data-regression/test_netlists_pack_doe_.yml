@@ -1,0 +1,45 @@
+instances:
+  mmi1x2_WNone_WT1_LT10_L_93995847_65050_10050:
+    component: mmi1x2
+    info: {}
+    settings:
+      cross_section: strip
+      gap_mmi: 0.25
+      length_mmi: 100
+      length_taper: 10
+      straight: straight
+      taper: taper
+      width_mmi: 10
+      width_taper: 1
+  mmi1x2_WNone_WT1_LT10_L_9c1b414e_16300_27050:
+    component: mmi1x2
+    info: {}
+    settings:
+      cross_section: strip
+      gap_mmi: 0.25
+      length_mmi: 2.5
+      length_taper: 10
+      straight: straight
+      taper: taper
+      width_mmi: 4
+      width_taper: 1
+name: Unnamed_105
+nets: []
+placements:
+  mmi1x2_WNone_WT1_LT10_L_93995847_65050_10050:
+    mirror: false
+    rotation: 0
+    x: 15.05
+    y: 10.05
+  mmi1x2_WNone_WT1_LT10_L_9c1b414e_16300_27050:
+    mirror: false
+    rotation: 0
+    x: 15.05
+    y: 27.05
+ports:
+  0_o1: mmi1x2_WNone_WT1_LT10_L_93995847_65050_10050,o1
+  0_o2: mmi1x2_WNone_WT1_LT10_L_93995847_65050_10050,o2
+  0_o3: mmi1x2_WNone_WT1_LT10_L_93995847_65050_10050,o3
+  1_o1: mmi1x2_WNone_WT1_LT10_L_9c1b414e_16300_27050,o1
+  1_o2: mmi1x2_WNone_WT1_LT10_L_9c1b414e_16300_27050,o2
+  1_o3: mmi1x2_WNone_WT1_LT10_L_9c1b414e_16300_27050,o3

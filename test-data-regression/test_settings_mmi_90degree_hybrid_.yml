@@ -1,12 +1,11 @@
 info: {}
-name: mmi_90degree_hybrid_W0p_8cdbdfdc
+name: mmi_90degree_hybrid_W0p_80ee73a1
 settings:
   cross_section: strip
   gap_mmi: 0.8
   length_mmi: 175
   length_taper: 40
   straight: straight
-  taper: taper
   width: 0.5
   width_mmi: 10
   width_taper: 1.7

@@ -2,8 +2,7 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bend_circular import bend_circular, bend_circular_all_angle
-from gdsfactory.components.bend_euler import bend_euler_all_angle as bend_euler
+from gdsfactory.components.bend_circular import bend_circular_all_angle
 from gdsfactory.components.straight import straight
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
@@ -16,7 +15,7 @@ def coupler_bend(
     cross_section_inner: CrossSectionSpec = "strip",
     cross_section_outer: CrossSectionSpec = "strip",
     bend: ComponentSpec = bend_circular_all_angle,
-    bend_output: ComponentSpec = bend_euler,
+    bend_output: ComponentSpec = "bend_euler",
 ) -> Component:
     r"""Compact curved coupler with bezier escape.
 
@@ -87,7 +86,7 @@ def coupler_ring_bend(
     cross_section_inner: CrossSectionSpec = "strip",
     cross_section_outer: CrossSectionSpec = "strip",
     bend: ComponentSpec = bend_circular_all_angle,
-    bend_output: ComponentSpec = bend_euler,
+    bend_output: ComponentSpec = "bend_euler",
 ) -> Component:
     r"""Two back-to-back coupler_bend.
 
@@ -144,8 +143,8 @@ def ring_single_bend_coupler(
     gap: float = 0.2,
     coupling_angle_coverage: float = 180.0,
     bend_all_angle: ComponentSpec = bend_circular_all_angle,
-    bend: ComponentSpec = bend_circular,
-    bend_output: ComponentSpec = bend_euler,
+    bend: ComponentSpec = "bend_circular",
+    bend_output: ComponentSpec = "bend_euler",
     length_x: float = 0.6,
     length_y: float = 0.6,
     cross_section_inner: CrossSectionSpec = "strip",
@@ -208,6 +207,7 @@ def ring_single_bend_coupler(
 
     c.add_port("o2", port=cb["o4"])
     c.add_port("o1", port=cb["o1"])
+    c.flatten()
     return c
 
 

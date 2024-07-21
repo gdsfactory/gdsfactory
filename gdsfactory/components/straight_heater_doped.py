@@ -1,13 +1,8 @@
 from __future__ import annotations
 
-from functools import partial
-
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.taper_cross_section import taper_cross_section
-from gdsfactory.components.via_stack import via_stack_m1_m3 as via_stack_metal_function
-from gdsfactory.components.via_stack import via_stack_npp_m1, via_stack_slab_npp_m3
-from gdsfactory.cross_section import rib_heater_doped, strip_heater_doped, strip_rib_tip
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
@@ -16,10 +11,10 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 def straight_heater_doped_rib(
     length: float = 320.0,
     nsections: int = 3,
-    cross_section: CrossSectionSpec = strip_rib_tip,
-    cross_section_heater: CrossSectionSpec = rib_heater_doped,
-    via_stack: ComponentSpec | None = via_stack_slab_npp_m3,
-    via_stack_metal: ComponentSpec | None = via_stack_metal_function,
+    cross_section: CrossSectionSpec = "strip_rib_tip",
+    cross_section_heater: CrossSectionSpec = "rib_heater_doped",
+    via_stack: ComponentSpec | None = "via_stack_slab_npp_m3",
+    via_stack_metal: ComponentSpec | None = "via_stack_m1_mtop",
     via_stack_metal_size: tuple[float, float] = (10.0, 10.0),
     via_stack_size: tuple[float, float] = (10.0, 10.0),
     taper: ComponentSpec | None = taper_cross_section,
@@ -92,7 +87,7 @@ def straight_heater_doped_rib(
 
     """
     c = Component()
-    cross_section_heater = partial(
+    cross_section_heater = gf.get_cross_section(
         cross_section_heater,
         heater_width=heater_width,
         heater_gap=heater_gap,
@@ -100,10 +95,8 @@ def straight_heater_doped_rib(
     )
 
     if taper:
-        taper = (
-            taper(cross_section1=cross_section, cross_section2=cross_section_heater)
-            if callable(taper)
-            else taper
+        taper = gf.get_component(
+            taper, cross_section1=cross_section, cross_section2=cross_section_heater
         )
         length -= taper.dxsize * 2
 
@@ -126,7 +119,7 @@ def straight_heater_doped_rib(
         c.add_port("o1", port=wg.ports["o1"])
 
     if via_stack_metal:
-        via_stack_section = via_stack_metal(size=via_stack_metal_size)
+        via_stack_section = gf.get_component(via_stack_metal, size=via_stack_metal_size)
 
     via_stacks = []
     length_via_stack = snap_to_grid(via_stack_size[1])
@@ -147,27 +140,27 @@ def straight_heater_doped_rib(
             via_stacks.append(via_stack_ref)
 
         if via_stack:
-            via_stack_top = c << via_stack(size=via_stack_size)
+            _via_stack = gf.get_component(via_stack, size=via_stack_size)
+            via_stack_top = c << _via_stack
             via_stack_top.dx = xi
             via_stack_top.dymin = +(heater_gap + width / 2 + via_stack_gap)
 
-            via_stack_bot = c << via_stack(size=via_stack_size)
+            via_stack_bot = c << _via_stack
             via_stack_bot.dx = xi
             via_stack_bot.dymax = -(heater_gap + width / 2 + via_stack_gap)
 
     if via_stack:
-        via_stack.dxmax = x0 + length_section * nsections
         via_stack_top.dmovex(xoffset_tip2)
-    if via_stack:
-        via_stack.dxmax = x0 + length_section * nsections
         via_stack_bot.dmovex(xoffset_tip2)
 
     if via_stack_metal and via_stack:
         via_stack_length = length + via_stack_metal_size[0]
-        via_stack_top = c << via_stack_metal(
+        via_stack_top = c << gf.get_component(
+            via_stack_metal,
             size=(via_stack_length, via_stack_metal_size[0]),
         )
-        via_stack_bot = c << via_stack_metal(
+        via_stack_bot = c << gf.get_component(
+            via_stack_metal,
             size=(via_stack_length, via_stack_metal_size[0]),
         )
 
@@ -179,16 +172,18 @@ def straight_heater_doped_rib(
 
         c.add_ports(via_stack_top.ports, prefix="top_")
         c.add_ports(via_stack_bot.ports, prefix="bot_")
+    c.flatten()
     return c
 
 
+@gf.cell
 def straight_heater_doped_strip(
     length: float = 320.0,
     nsections: int = 3,
-    cross_section: CrossSectionSpec = strip_heater_doped,
-    cross_section_heater: CrossSectionSpec = rib_heater_doped,
-    via_stack: ComponentSpec | None = via_stack_npp_m1,
-    via_stack_metal: ComponentSpec | None = via_stack_metal_function,
+    cross_section: CrossSectionSpec = "strip_heater_doped",
+    cross_section_heater: CrossSectionSpec = "rib_heater_doped",
+    via_stack: ComponentSpec | None = "via_stack_npp_m1",
+    via_stack_metal: ComponentSpec | None = "via_stack_m1_mtop",
     via_stack_metal_size: tuple[float, float] = (10.0, 10.0),
     via_stack_size: tuple[float, float] = (10.0, 10.0),
     taper: ComponentSpec | None = taper_cross_section,
@@ -264,5 +259,5 @@ def straight_heater_doped_strip(
 
 
 if __name__ == "__main__":
-    c = straight_heater_doped_rib(length=100)
+    c = straight_heater_doped_rib(length=200)
     c.show()

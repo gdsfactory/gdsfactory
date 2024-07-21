@@ -2,9 +2,8 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.typings import ComponentFactory, ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentFactory, CrossSectionSpec
 
 
 @gf.cell
@@ -15,8 +14,7 @@ def mmi_90degree_hybrid(
     length_mmi: float = 175.0,
     width_mmi: float = 10.0,
     gap_mmi: float = 0.8,
-    taper: ComponentSpec = taper_function,
-    straight: ComponentFactory = straight_function,
+    straight: ComponentFactory = "straight",
     cross_section: CrossSectionSpec = "strip",
 ) -> Component:
     r"""90 degree hybrid based on a 4x4 MMI.
@@ -36,7 +34,6 @@ def mmi_90degree_hybrid(
         length_mmi: in x direction.
         width_mmi: in y direction.
         gap_mmi: (width_taper + gap between tapered wg)/2.
-        taper: taper function.
         straight: straight function.
         with_bbox: box in bbox_layers and bbox_offsets avoid DRC sharp edges.
         cross_section: spec.
@@ -76,8 +73,7 @@ def mmi_90degree_hybrid(
     w_mmi = width_mmi
     w_taper = width_taper
 
-    taper = gf.get_component(
-        taper,
+    taper = taper_function(
         length=length_taper,
         width1=width,
         width2=w_taper,
@@ -86,7 +82,8 @@ def mmi_90degree_hybrid(
 
     x = gf.get_cross_section(cross_section)
 
-    _ = c << straight(
+    _ = c << gf.get_component(
+        straight,
         length=length_mmi,
         width=w_mmi,
         cross_section=cross_section,

@@ -1,18 +1,17 @@
-connections: {}
 instances:
-  array_CFpad_Mgdsfactory_06e183dc_285510_-10000:
+  array_Cpad_small_S100_1_1d3ac3f6_285500_-10000:
     component: array
     info: {}
     settings:
       add_ports: true
       centered: false
       columns: 3
-      component: Fpad_Mgdsfactorypcomponentsppad_SS80_80
+      component: pad_small
       rows: 1
       spacing:
       - 100
       - 100
-  mzi_DL40_LY40_LX500_Bbe_b9bafba9_285510_-10000:
+  mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_-10000:
     component: mzi
     info: {}
     settings:
@@ -32,93 +31,94 @@ instances:
       port_e1_splitter: o2
       splitter: mmi1x2
       straight: straight
-      straight_x_bot: Fstraight_heater_metal_undercut_Mgdsfactorypcomponentspstraight_heater_metal_SWUFalse_LSI0p1_LU5_LUS0
-      straight_x_top: Fstraight_heater_metal_undercut_Mgdsfactorypcomponentspstraight_heater_metal_SWUFalse_LSI0p1_LU5_LUS0
+      straight_x_bot: straight_heater_metal
+      straight_x_top: straight_heater_metal
       with_splitter: true
-name: mzi_pads_center_PTFstra_edc7dd86
+name: mzi_pads_center_PTstrai_c97b64ce
+nets: []
 placements:
-  array_CFpad_Mgdsfactory_06e183dc_285510_-10000:
+  array_Cpad_small_S100_1_1d3ac3f6_285500_-10000:
     mirror: false
     rotation: 0
-    x: 185.51
+    x: 185.5
     y: -10
-  mzi_DL40_LY40_LX500_Bbe_b9bafba9_285510_-10000:
+  mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_-10000:
     mirror: false
     rotation: 0
     x: 0
     y: 0
 ports:
-  bot_l_e1: mzi_DL40_LY40_LX500_Bbe_b9bafba9_285510_-10000,bot_l_e1
-  bot_l_e2: mzi_DL40_LY40_LX500_Bbe_b9bafba9_285510_-10000,bot_l_e2
-  bot_l_e3: mzi_DL40_LY40_LX500_Bbe_b9bafba9_285510_-10000,bot_l_e3
-  bot_l_e4: mzi_DL40_LY40_LX500_Bbe_b9bafba9_285510_-10000,bot_l_e4
-  bot_r_e1: mzi_DL40_LY40_LX500_Bbe_b9bafba9_285510_-10000,bot_r_e1
-  bot_r_e2: mzi_DL40_LY40_LX500_Bbe_b9bafba9_285510_-10000,bot_r_e2
-  bot_r_e3: mzi_DL40_LY40_LX500_Bbe_b9bafba9_285510_-10000,bot_r_e3
-  bot_r_e4: mzi_DL40_LY40_LX500_Bbe_b9bafba9_285510_-10000,bot_r_e4
-  in_o1: mzi_DL40_LY40_LX500_Bbe_b9bafba9_285510_-10000,in_o1
-  ou_o1: mzi_DL40_LY40_LX500_Bbe_b9bafba9_285510_-10000,ou_o1
-  top_l_e1: mzi_DL40_LY40_LX500_Bbe_b9bafba9_285510_-10000,top_l_e1
-  top_l_e2: mzi_DL40_LY40_LX500_Bbe_b9bafba9_285510_-10000,top_l_e2
-  top_l_e3: mzi_DL40_LY40_LX500_Bbe_b9bafba9_285510_-10000,top_l_e3
-  top_l_e4: mzi_DL40_LY40_LX500_Bbe_b9bafba9_285510_-10000,top_l_e4
-  top_r_e1: mzi_DL40_LY40_LX500_Bbe_b9bafba9_285510_-10000,top_r_e1
-  top_r_e2: mzi_DL40_LY40_LX500_Bbe_b9bafba9_285510_-10000,top_r_e2
-  top_r_e3: mzi_DL40_LY40_LX500_Bbe_b9bafba9_285510_-10000,top_r_e3
-  top_r_e4: mzi_DL40_LY40_LX500_Bbe_b9bafba9_285510_-10000,top_r_e4
+  bot_l_e1: mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_-10000,bot_l_e1
+  bot_l_e2: mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_-10000,bot_l_e2
+  bot_l_e3: mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_-10000,bot_l_e3
+  bot_l_e4: mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_-10000,bot_l_e4
+  bot_r_e1: mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_-10000,bot_r_e1
+  bot_r_e2: mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_-10000,bot_r_e2
+  bot_r_e3: mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_-10000,bot_r_e3
+  bot_r_e4: mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_-10000,bot_r_e4
+  in_o1: mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_-10000,in_o1
+  ou_o1: mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_-10000,ou_o1
+  top_l_e1: mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_-10000,top_l_e1
+  top_l_e2: mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_-10000,top_l_e2
+  top_l_e3: mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_-10000,top_l_e3
+  top_l_e4: mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_-10000,top_l_e4
+  top_r_e1: mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_-10000,top_r_e1
+  top_r_e2: mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_-10000,top_r_e2
+  top_r_e3: mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_-10000,top_r_e3
+  top_r_e4: mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_-10000,top_r_e4
 warnings:
   electrical:
     unconnected_ports:
     - message: 12 unconnected electrical ports!
       ports:
-      - array_CFpad_Mgdsfactory_06e183dc_285510_-10000,e1_1_1
-      - array_CFpad_Mgdsfactory_06e183dc_285510_-10000,e2_1_1
-      - array_CFpad_Mgdsfactory_06e183dc_285510_-10000,e3_1_1
-      - array_CFpad_Mgdsfactory_06e183dc_285510_-10000,e4_1_1
-      - array_CFpad_Mgdsfactory_06e183dc_285510_-10000,e1_1_2
-      - array_CFpad_Mgdsfactory_06e183dc_285510_-10000,e2_1_2
-      - array_CFpad_Mgdsfactory_06e183dc_285510_-10000,e3_1_2
-      - array_CFpad_Mgdsfactory_06e183dc_285510_-10000,e4_1_2
-      - array_CFpad_Mgdsfactory_06e183dc_285510_-10000,e1_1_3
-      - array_CFpad_Mgdsfactory_06e183dc_285510_-10000,e2_1_3
-      - array_CFpad_Mgdsfactory_06e183dc_285510_-10000,e3_1_3
-      - array_CFpad_Mgdsfactory_06e183dc_285510_-10000,e4_1_3
+      - array_Cpad_small_S100_1_1d3ac3f6_285500_-10000,e1_1_1
+      - array_Cpad_small_S100_1_1d3ac3f6_285500_-10000,e2_1_1
+      - array_Cpad_small_S100_1_1d3ac3f6_285500_-10000,e3_1_1
+      - array_Cpad_small_S100_1_1d3ac3f6_285500_-10000,e4_1_1
+      - array_Cpad_small_S100_1_1d3ac3f6_285500_-10000,e1_1_2
+      - array_Cpad_small_S100_1_1d3ac3f6_285500_-10000,e2_1_2
+      - array_Cpad_small_S100_1_1d3ac3f6_285500_-10000,e3_1_2
+      - array_Cpad_small_S100_1_1d3ac3f6_285500_-10000,e4_1_2
+      - array_Cpad_small_S100_1_1d3ac3f6_285500_-10000,e1_1_3
+      - array_Cpad_small_S100_1_1d3ac3f6_285500_-10000,e2_1_3
+      - array_Cpad_small_S100_1_1d3ac3f6_285500_-10000,e3_1_3
+      - array_Cpad_small_S100_1_1d3ac3f6_285500_-10000,e4_1_3
       values:
-      - - 145510
+      - - 145500
         - -10000
-      - - 185510
+      - - 185500
         - 30000
-      - - 225510
+      - - 225500
         - -10000
-      - - 185510
+      - - 185500
         - -50000
-      - - 245510
+      - - 245500
         - -10000
-      - - 285510
+      - - 285500
         - 30000
-      - - 325510
+      - - 325500
         - -10000
-      - - 285510
+      - - 285500
         - -50000
-      - - 345510
+      - - 345500
         - -10000
-      - - 385510
+      - - 385500
         - 30000
-      - - 425510
+      - - 425500
         - -10000
-      - - 385510
+      - - 385500
         - -50000
   vertical_dc:
     unconnected_ports:
     - message: 3 unconnected vertical_dc ports!
       ports:
-      - array_CFpad_Mgdsfactory_06e183dc_285510_-10000,pad_1_1
-      - array_CFpad_Mgdsfactory_06e183dc_285510_-10000,pad_1_2
-      - array_CFpad_Mgdsfactory_06e183dc_285510_-10000,pad_1_3
+      - array_Cpad_small_S100_1_1d3ac3f6_285500_-10000,pad_1_1
+      - array_Cpad_small_S100_1_1d3ac3f6_285500_-10000,pad_1_2
+      - array_Cpad_small_S100_1_1d3ac3f6_285500_-10000,pad_1_3
       values:
-      - - 185510
+      - - 185500
         - -10000
-      - - 285510
+      - - 285500
         - -10000
-      - - 385510
+      - - 385500
         - -10000

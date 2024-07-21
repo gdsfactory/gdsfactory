@@ -1,0 +1,174 @@
+instances:
+  array_Cpad_S0_150_C1_R3_7feb10c1_122000_0:
+    component: array
+    info: {}
+    settings:
+      add_ports: true
+      centered: true
+      columns: 1
+      component: pad
+      rows: 3
+      spacing:
+      - 0
+      - 150
+  rectangle_S22_7_LMTOP_C_53d534b7_11000_3500:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer: MTOP
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 22
+      - 7
+  rectangle_S22_7_LMTOP_C_53d534b7_6000_-3500:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer: MTOP
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 22
+      - 7
+  rectangle_S22_7_LMTOP_C_53d534b7_6000_10500:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer: MTOP
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 22
+      - 7
+name: pad_gsg_short_S22_7_LMM_912328cd
+nets: []
+placements:
+  array_Cpad_S0_150_C1_R3_7feb10c1_122000_0:
+    mirror: false
+    rotation: 0
+    x: 122
+    y: 0
+  rectangle_S22_7_LMTOP_C_53d534b7_11000_3500:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  rectangle_S22_7_LMTOP_C_53d534b7_6000_-3500:
+    mirror: false
+    rotation: 0
+    x: -5
+    y: -7
+  rectangle_S22_7_LMTOP_C_53d534b7_6000_10500:
+    mirror: false
+    rotation: 0
+    x: -5
+    y: 7
+ports: {}
+warnings:
+  electrical:
+    unconnected_ports:
+    - message: 24 unconnected electrical ports!
+      ports:
+      - rectangle_S22_7_LMTOP_C_53d534b7_6000_10500,e1
+      - rectangle_S22_7_LMTOP_C_53d534b7_6000_10500,e2
+      - rectangle_S22_7_LMTOP_C_53d534b7_6000_10500,e3
+      - rectangle_S22_7_LMTOP_C_53d534b7_6000_10500,e4
+      - rectangle_S22_7_LMTOP_C_53d534b7_11000_3500,e1
+      - rectangle_S22_7_LMTOP_C_53d534b7_11000_3500,e2
+      - rectangle_S22_7_LMTOP_C_53d534b7_11000_3500,e3
+      - rectangle_S22_7_LMTOP_C_53d534b7_11000_3500,e4
+      - rectangle_S22_7_LMTOP_C_53d534b7_6000_-3500,e1
+      - rectangle_S22_7_LMTOP_C_53d534b7_6000_-3500,e2
+      - rectangle_S22_7_LMTOP_C_53d534b7_6000_-3500,e3
+      - rectangle_S22_7_LMTOP_C_53d534b7_6000_-3500,e4
+      - array_Cpad_S0_150_C1_R3_7feb10c1_122000_0,e1_1_1
+      - array_Cpad_S0_150_C1_R3_7feb10c1_122000_0,e2_1_1
+      - array_Cpad_S0_150_C1_R3_7feb10c1_122000_0,e3_1_1
+      - array_Cpad_S0_150_C1_R3_7feb10c1_122000_0,e4_1_1
+      - array_Cpad_S0_150_C1_R3_7feb10c1_122000_0,e1_2_1
+      - array_Cpad_S0_150_C1_R3_7feb10c1_122000_0,e2_2_1
+      - array_Cpad_S0_150_C1_R3_7feb10c1_122000_0,e3_2_1
+      - array_Cpad_S0_150_C1_R3_7feb10c1_122000_0,e4_2_1
+      - array_Cpad_S0_150_C1_R3_7feb10c1_122000_0,e1_3_1
+      - array_Cpad_S0_150_C1_R3_7feb10c1_122000_0,e2_3_1
+      - array_Cpad_S0_150_C1_R3_7feb10c1_122000_0,e3_3_1
+      - array_Cpad_S0_150_C1_R3_7feb10c1_122000_0,e4_3_1
+      values:
+      - - -5000
+        - 10500
+      - - 6000
+        - 14000
+      - - 17000
+        - 10500
+      - - 6000
+        - 7000
+      - - 0
+        - 3500
+      - - 11000
+        - 7000
+      - - 22000
+        - 3500
+      - - 11000
+        - 0
+      - - -5000
+        - -3500
+      - - 6000
+        - 0
+      - - 17000
+        - -3500
+      - - 6000
+        - -7000
+      - - 72000
+        - -150000
+      - - 122000
+        - -100000
+      - - 172000
+        - -150000
+      - - 122000
+        - -200000
+      - - 72000
+        - 0
+      - - 122000
+        - 50000
+      - - 172000
+        - 0
+      - - 122000
+        - -50000
+      - - 72000
+        - 150000
+      - - 122000
+        - 200000
+      - - 172000
+        - 150000
+      - - 122000
+        - 100000
+  vertical_dc:
+    unconnected_ports:
+    - message: 3 unconnected vertical_dc ports!
+      ports:
+      - array_Cpad_S0_150_C1_R3_7feb10c1_122000_0,pad_1_1
+      - array_Cpad_S0_150_C1_R3_7feb10c1_122000_0,pad_2_1
+      - array_Cpad_S0_150_C1_R3_7feb10c1_122000_0,pad_3_1
+      values:
+      - - 122000
+        - -150000
+      - - 122000
+        - 0
+      - - 122000
+        - 150000
