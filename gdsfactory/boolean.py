@@ -70,22 +70,20 @@ def boolean(
     layer_index2 = get_layer(layer2)
     layer_index = get_layer(layer)
 
-    a = A._kdb_cell if isinstance(A, Component) else A.cell
-    b = B._kdb_cell if isinstance(B, Component) else B.cell
+    if isinstance(A, Component):
+        ar = kf.kdb.Region(A.begin_shapes_rec(layer_index1))
+    else:
+        ar = kf.kdb.Region(A.cell.begin_shapes_rec(layer_index1)).transformed(
+            A.cplx_trans
+        )
+    if isinstance(B, Component):
+        br = kf.kdb.Region(B.begin_shapes_rec(layer_index2))
+    else:
+        br = kf.kdb.Region(B.cell.begin_shapes_rec(layer_index2)).transformed(
+            B.cplx_trans
+        )
 
-    for r1, r2 in zip(
-        a.begin_shapes_rec(layer_index1),
-        b.begin_shapes_rec(layer_index2),
-    ):
-        r1 = kf.kdb.Region(r1)
-        r2 = kf.kdb.Region(r2)
-        if isinstance(A, kf.Instance):
-            r1.transform(A.cplx_trans)
-        if isinstance(B, kf.Instance):
-            r2.transform(B.cplx_trans)
-        f = boolean_operations[operation]
-        r = f(r1, r2)
-        r = c.shapes(layer_index).insert(r)
+    c.shapes(layer_index).insert(boolean_operations[operation](ar, br))
 
     return c
 
@@ -98,8 +96,9 @@ if __name__ == "__main__":
     # e3 = c << gf.components.ellipse(radii=(10, 4))
     # e3.dmovex(5)
     # c = boolean(A=e2, B=e3, operation="and")
-
-    core = gf.c.coupler()
-    clad = gf.c.bbox(core, layer=(2, 0))
+    c0 = gf.Component()
+    core = c0 << gf.c.coupler()
+    clad = c0 << gf.c.bbox(core, layer=(2, 0))
+    clad.dmovex(5)
     c = boolean(clad, core, operation="not", layer=(3, 0), layer1=(2, 0), layer2=(1, 0))
     c.show()
