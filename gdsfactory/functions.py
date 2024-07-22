@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from functools import partial
 from typing import TYPE_CHECKING, Literal
 
 import kfactory as kf
@@ -317,14 +318,33 @@ def extrude_path(
     return np.round(pts / grid) * grid
 
 
+class gfpartial:
+    """GDSFactory partial accumulating names across partials."""
+
+    def __init__(self, f, **kwargs):
+        """Initialize partial."""
+        self.f, self.kwargs = f, kwargs
+
+    def __call__(self, **kwargs):
+        return partial(gf.cell, func=self.f(**self.kwargs, **kwargs))
+
+
 if __name__ == "__main__":
-    c = gf.c.rectangle(size=(10, 10), centered=True)
-    # c = gf.Component()
-    # ref = c << gf.components.mzi_lattice()
-    # ref.dmovey(15)
-    # p = get_polygons_points(ref)
-    # p = get_point_inside(ref, layer=(1, 0))
-    # c.add_label(text="hello", position=p)
-    # c.show()
-    c = move_port_to_zero(c, port_name="e4")
-    c.show()
+
+    @gf.cell
+    def rectangle(
+        length: float = 3,
+        width: float = 5,
+        other_arg: str = "test",
+    ):
+        return gf.components.rectangle(size=(length, width))
+
+    rectangle().show()
+    input("Press Enter to continue...")
+
+    new_wg = partial(rectangle, length=5)
+    new_wg(width=10).show()
+    input("Press Enter to continue...")
+
+    new_wg2 = partial(new_wg, width=20)
+    new_wg2(other_arg="new").show()
