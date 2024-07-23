@@ -2,9 +2,9 @@ import gdsfactory as gf
 from gdsfactory.generic_tech import LAYER
 
 
-def test_component_copy() -> None:
+def test_component_dup() -> None:
     c1 = gf.components.straight(length=10)
-    c2 = c1.copy()
+    c2 = c1.dup()
     assert c1.settings.length == 10
     assert c1.info == c2.info
 

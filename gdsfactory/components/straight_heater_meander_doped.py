@@ -115,7 +115,7 @@ def straight_heater_meander_doped(
         )
 
         straight_i = gf.c.extend_ports(straight, extension=taper)
-        straight_with_tapers = straight_i.copy()
+        straight_with_tapers = straight_i.dup()
         straight_with_tapers.name = f"{straight_i.name}_{row+1}"
 
         straight_ref = c << straight_with_tapers
