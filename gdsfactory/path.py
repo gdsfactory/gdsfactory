@@ -397,7 +397,8 @@ class Path(_GeometryHelper):
         dtheta[np.where(dtheta < -np.pi)] += 2 * np.pi
         theta = np.concatenate([[0], np.cumsum(dtheta)]) + theta[0]
 
-        K = np.gradient(theta, s, edge_order=2)
+        K = np.gradient(theta, s, edge_order=2) if len(ds) > 1 else np.inf
+
         return s, K
 
     def __hash__(self) -> int:
