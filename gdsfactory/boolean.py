@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import kfactory as kf
+from kfactory import kdb
 
 from gdsfactory.component import Component, boolean_operations
 
@@ -11,8 +12,8 @@ if TYPE_CHECKING:
 
 
 def boolean(
-    A: ComponentOrReference,
-    B: ComponentOrReference,
+    A: ComponentOrReference | kdb.Shape,
+    B: ComponentOrReference | kdb.Shape,
     operation: str,
     layer1: LayerSpec | None = None,
     layer2: LayerSpec | None = None,
@@ -25,8 +26,8 @@ def boolean(
     '&' is equivalent to 'and', and '^' is equivalent to 'xor'.
 
     Args:
-        A: Component(/Reference) or list of Component(/References).
-        B: Component(/Reference) or list of Component(/References).
+        A: Component(/Reference) or kdb.Shape
+        B: Component(/Reference) or kdb.Shape
         operation: {'not', 'and', 'or', 'xor', '-', '&', '|', '^'}.
         layer1: Specific layer to get polygons.
         layer2: Specific layer to get polygons.
@@ -72,16 +73,20 @@ def boolean(
 
     if isinstance(A, Component):
         ar = kf.kdb.Region(A.begin_shapes_rec(layer_index1))
-    else:
+    elif isinstance(A, kf.Instance):
         ar = kf.kdb.Region(A.cell.begin_shapes_rec(layer_index1)).transformed(
             A.cplx_trans
         )
+    elif isinstance(A, kdb.Shape):
+        ar = kf.kdb.Region(A.cell.begin_shapes_rec(layer_index1))
     if isinstance(B, Component):
         br = kf.kdb.Region(B.begin_shapes_rec(layer_index2))
-    else:
+    elif isinstance(B, kf.Instance):
         br = kf.kdb.Region(B.cell.begin_shapes_rec(layer_index2)).transformed(
             B.cplx_trans
         )
+    elif isinstance(B, kdb.Shape):
+        br = kf.kdb.Region(B.cell.begin_shapes_rec(layer_index2))
 
     c.shapes(layer_index).insert(boolean_operations[operation](ar, br))
 
