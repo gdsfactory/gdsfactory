@@ -7,13 +7,13 @@ $defs:
           type: string
         title: Links
         type: object
-      settings:
-        title: Settings
-        type: object
       routing_strategy:
         default: route_bundle
         title: Routing Strategy
         type: string
+      settings:
+        title: Settings
+        type: object
     required:
     - links
     title: Bundle
@@ -24,59 +24,67 @@ $defs:
       component:
         title: Component
         type: string
-      settings:
-        title: Settings
-        type: object
+      dax:
+        default: 0
+        title: Dax
+        type: number
+      day:
+        default: 0
+        title: Day
+        type: number
+      dbx:
+        default: 0
+        title: Dbx
+        type: number
+      dby:
+        default: 0
+        title: Dby
+        type: number
       info:
         title: Info
+        type: object
+      na:
+        default: 1
+        title: Na
+        type: integer
+      nb:
+        default: 1
+        title: Nb
+        type: integer
+      settings:
+        title: Settings
         type: object
     required:
     - component
     title: Instance
     type: object
+  Net:
+    description: "Net between two ports.\n\nParameters:\n    p1: instance_name,port\
+      \ 1.\n    p2: instance_name,port 2.\n    name: route name."
+    properties:
+      name:
+        anyOf:
+        - type: string
+        - type: 'null'
+        default: null
+        title: Name
+      p1:
+        title: P1
+        type: string
+      p2:
+        title: P2
+        type: string
+      settings:
+        title: Settings
+        type: object
+    required:
+    - p1
+    - p2
+    title: Net
+    type: object
   Placement:
     additionalProperties: false
     properties:
-      x:
-        anyOf:
-        - type: string
-        - type: number
-        default: 0
-        title: X
-      'y':
-        anyOf:
-        - type: string
-        - type: number
-        default: 0
-        title: 'Y'
-      xmin:
-        anyOf:
-        - type: string
-        - type: number
-        - type: 'null'
-        default: null
-        title: Xmin
-      ymin:
-        anyOf:
-        - type: string
-        - type: number
-        - type: 'null'
-        default: null
-        title: Ymin
-      xmax:
-        anyOf:
-        - type: string
-        - type: number
-        - type: 'null'
-        default: null
-        title: Xmax
-      ymax:
-        anyOf:
-        - type: string
-        - type: number
-        - type: 'null'
-        default: null
-        title: Ymax
       dx:
         default: 0
         title: Dx
@@ -85,6 +93,13 @@ $defs:
         default: 0
         title: Dy
         type: number
+      mirror:
+        anyOf:
+        - type: boolean
+        - type: string
+        - type: number
+        default: false
+        title: Mirror
       port:
         anyOf:
         - type: string
@@ -106,11 +121,49 @@ $defs:
       rotation:
         default: 0
         title: Rotation
-        type: integer
-      mirror:
-        default: false
-        title: Mirror
-        type: boolean
+        type: number
+      x:
+        anyOf:
+        - type: string
+        - type: number
+        - type: 'null'
+        default: null
+        title: X
+      xmax:
+        anyOf:
+        - type: string
+        - type: number
+        - type: 'null'
+        default: null
+        title: Xmax
+      xmin:
+        anyOf:
+        - type: string
+        - type: number
+        - type: 'null'
+        default: null
+        title: Xmin
+      y:
+        anyOf:
+        - type: string
+        - type: number
+        - type: 'null'
+        default: null
+        title: Y
+      ymax:
+        anyOf:
+        - type: string
+        - type: number
+        - type: 'null'
+        default: null
+        title: Ymax
+      ymin:
+        anyOf:
+        - type: string
+        - type: number
+        - type: 'null'
+        default: null
+        title: Ymin
     title: Placement
     type: object
 additionalProperties: false
@@ -118,27 +171,21 @@ description: "Netlist defined component.\n\nParameters:\n    instances: dict of 
   \ (name, settings, component).\n    placements: dict of placements.\n    connections:\
   \ dict of connections.\n    routes: dict of routes.\n    name: component name.\n\
   \    info: information (polarization, wavelength ...).\n    ports: exposed component\
-  \ ports.\n    settings: input variables."
+  \ ports.\n    settings: input variables.\n    nets: list of nets.\n    warnings:\
+  \ warnings."
 properties:
-  instances:
-    additionalProperties:
-      $ref: '#/$defs/Instance'
-    title: Instances
-    type: object
-  placements:
-    additionalProperties:
-      $ref: '#/$defs/Placement'
-    title: Placements
-    type: object
   connections:
     additionalProperties:
       type: string
     title: Connections
     type: object
-  routes:
+  info:
+    title: Info
+    type: object
+  instances:
     additionalProperties:
-      $ref: '#/$defs/Bundle'
-    title: Routes
+      $ref: '#/$defs/Instance'
+    title: Instances
     type: object
   name:
     anyOf:
@@ -146,16 +193,35 @@ properties:
     - type: 'null'
     default: null
     title: Name
-  info:
-    title: Info
+  nets:
+    items:
+      $ref: '#/$defs/Net'
+    title: Nets
+    type: array
+  pdk:
+    default: ''
+    title: Pdk
+    type: string
+  placements:
+    additionalProperties:
+      $ref: '#/$defs/Placement'
+    title: Placements
     type: object
   ports:
     additionalProperties:
       type: string
     title: Ports
     type: object
+  routes:
+    additionalProperties:
+      $ref: '#/$defs/Bundle'
+    title: Routes
+    type: object
   settings:
     title: Settings
+    type: object
+  warnings:
+    title: Warnings
     type: object
 title: Netlist
 type: object
