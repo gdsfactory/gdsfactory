@@ -71,21 +71,22 @@ def get_polygons(
 
     polygons = {}
 
+    c = component_or_instance
     layers = [
         (info.layer, info.datatype)
-        for info in component_or_instance.kcl.layer_infos()
-        if not component_or_instance.bbox(component_or_instance.kcl.layer(info)).empty()
+        for info in c.kcl.layer_infos()
+        if not c.bbox(c.kcl.layer(info)).empty()
     ]
-    c = (
-        component_or_instance.parent_cell
-        if hasattr(component_or_instance, "parent_cell")
-        else component_or_instance
-    )
 
     for layer in layers:
         layer_index = get_layer(layer)
         layer_key = get_key(layer)
-        r = gf.kdb.Region(c.begin_shapes_rec(layer_index))
+        if isinstance(component_or_instance, gf.Component):
+            r = gf.kdb.Region(c.begin_shapes_rec(layer_index))
+        else:
+            r = kf.kdb.Region(c.cell.begin_shapes_rec(layer_index)).transformed(
+                c.cplx_trans
+            )
         if layer_key not in polygons:
             polygons[layer_key] = []
         if merge:
