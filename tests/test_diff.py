@@ -5,14 +5,14 @@ from gdsfactory.difftest import diff
 _gds_dir = Path(__file__).parent / "gds"
 
 
-def assert_xor_fails(ref_gds, run_gds, test_name, capsys, layers_with_xor):
+def assert_xor_fails(ref_gds, run_gds, test_name, capsys, layers_with_xor) -> None:
     assert diff(ref_gds, run_gds, xor=True, test_name=test_name) is True
     captured = capsys.readouterr()
     for layer in layers_with_xor:
-        assert f"XOR difference on layer {layer}" in captured.out
+        assert f"XOR difference on layer {layer}" in captured.out, captured.out
 
 
-def test_xor1(capsys):
+def test_xor1(capsys) -> None:
     # assert that the XOR flags the layer with A not B differences
     ref_gds = _gds_dir / "big_rect.gds"
     run_gds = _gds_dir / "small_rect.gds"
@@ -25,7 +25,7 @@ def test_xor1(capsys):
     )
 
 
-def test_xor2(capsys):
+def test_xor2(capsys) -> None:
     # assert that the XOR flags the layer with B not A differences
     ref_gds = _gds_dir / "small_rect.gds"
     run_gds = _gds_dir / "big_rect.gds"

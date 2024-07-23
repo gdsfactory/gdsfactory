@@ -63,4 +63,4 @@ def test_add_ports_from_labels() -> None:
 
 
 if __name__ == "__main__":
-    test_add_ports_from_pins_path()
+    test_add_ports_from_pins()
