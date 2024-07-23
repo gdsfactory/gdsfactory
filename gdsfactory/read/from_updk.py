@@ -9,8 +9,10 @@ import io
 import pathlib
 from typing import IO
 
+import yaml
 from omegaconf import OmegaConf
 
+from gdsfactory.serialization import convert_tuples_to_lists
 from gdsfactory.typings import LayerSpec, PathType
 
 
@@ -203,9 +205,10 @@ def {block_name}({parameters_string})->gf.Component:
                 script += f"    c.add_port(name={port_name!r}, width={port.width}, layer={port_xsection!r}, center=({port.xya[0]}, {port.xya[1]}), orientation={port.xya[2]}, port_type={port_type!r})\n"
 
             if layer_pin_label:
-                d = OmegaConf.to_container(port)
+                d = port
                 d["name"] = port_name
-                text = OmegaConf.to_yaml(d)
+                d = convert_tuples_to_lists(d)
+                text = yaml.dump(d)
                 script += f"    c.add_label(text={text!r}, position=({port.xya[0]}, {port.xya[1]}), layer=layer_pin_label)\n"
         if layer_text:
             script += "    text = c << text_function(text=name)\n"
@@ -243,7 +246,9 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    from gdsfactory.samples.pdk.fab_c import pdk
+    from gdsfactory.samples.pdk.fab_c import PDK
 
-    yaml_pdk_decription = pdk.to_updk()
+    PDK.activate()
+
+    yaml_pdk_decription = PDK.to_updk()
     gdsfactory_script = from_updk(yaml_pdk_decription)

@@ -11,13 +11,14 @@ import kfactory as kf
 import klayout.db as db  # noqa: F401
 import klayout.lay as lay
 import numpy as np
+import yaml
 from kfactory import Instance, kdb, logger
 from kfactory.kcell import cell, save_layout_options
 
 from gdsfactory.config import GDSDIR_TEMP
 from gdsfactory.functions import get_polygons, get_polygons_points
 from gdsfactory.port import pprint_ports, select_ports, to_dict
-from gdsfactory.serialization import clean_value_json
+from gdsfactory.serialization import clean_value_json, convert_tuples_to_lists
 
 if TYPE_CHECKING:
     from gdsfactory.typings import (
@@ -947,10 +948,9 @@ class ComponentBase:
 
     def write_netlist(self, filepath: str, **kwargs) -> None:
         """Write netlist in YAML."""
-        from omegaconf import OmegaConf
-
         netlist = self.get_netlist(**kwargs)
-        yaml_component = OmegaConf.to_yaml(netlist)
+        netlist = convert_tuples_to_lists(netlist)
+        yaml_component = yaml.dump(netlist)
         filepath = pathlib.Path(filepath)
         filepath.write_text(yaml_component)
 

@@ -1,52 +1,52 @@
-nets:
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_15125_-4875,o1
-  p2: straight_L10_N2_CSstrip_5000_0,o2
 instances:
   bend_euler_R10_A90_P0p5_2f1f5c6d_15125_-4875:
     component: bend_euler
     info:
-      length: 16.637
       dy: 10
+      length: 16.637
       min_bend_radius: 7.061
       radius: 10
-      route_info_type: xs_34e31a19
       route_info_length: 16.637
+      route_info_min_bend_radius: 7.061
+      route_info_n_bend_90: 1
+      route_info_type: xs_34e31a19
       route_info_weight: 16.637
       route_info_xs_34e31a19_length: 16.637
-      route_info_n_bend_90: 1
-      route_info_min_bend_radius: 7.061
     settings:
-      radius: 10
-      angle: 90
-      p: 0.5
-      with_arc_floorplan: true
-      cross_section: strip
       allow_min_radius_violation: false
+      angle: 90
+      cross_section: strip
+      p: 0.5
+      radius: 10
+      with_arc_floorplan: true
   straight_L10_N2_CSstrip_5000_0:
     component: straight
     info:
       length: 10
-      width: 0.5
-      route_info_type: xs_34e31a19
       route_info_length: 10
+      route_info_type: xs_34e31a19
       route_info_weight: 10
       route_info_xs_34e31a19_length: 10
+      width: 0.5
     settings:
+      cross_section: strip
       length: 10
       npoints: 2
-      cross_section: strip
+name: straight_with_bend_R10
+nets:
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_15125_-4875,o1
+  p2: straight_L10_N2_CSstrip_5000_0,o2
 placements:
   bend_euler_R10_A90_P0p5_2f1f5c6d_15125_-4875:
-    x: 10
-    'y': 0
-    rotation: 0
     mirror: true
-  straight_L10_N2_CSstrip_5000_0:
-    x: 0
-    'y': 0
     rotation: 0
+    x: 10
+    y: 0
+  straight_L10_N2_CSstrip_5000_0:
     mirror: false
+    rotation: 0
+    x: 0
+    y: 0
 ports:
   o1: straight_L10_N2_CSstrip_5000_0,o1
   o2: bend_euler_R10_A90_P0p5_2f1f5c6d_15125_-4875,o2
-name: straight_with_bend_R10

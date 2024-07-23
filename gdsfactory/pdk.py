@@ -11,15 +11,15 @@ from typing import Any
 
 import kfactory as kf
 import numpy as np
-import omegaconf
+import yaml
 from kfactory import LayerEnum
-from omegaconf import DictConfig
 from pydantic import BaseModel, ConfigDict, Field
 
 from gdsfactory import logger
 from gdsfactory.config import CONF
 from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
+from gdsfactory.serialization import convert_tuples_to_lists
 from gdsfactory.symbols import floorplan_with_block_letters
 from gdsfactory.technology import LayerStack, LayerViews, klayout_tech
 from gdsfactory.typings import (
@@ -273,7 +273,7 @@ class Pdk(BaseModel):
                     f"{cell!r} from PDK {self.name!r} not in cells: {cells} "
                 )
             return self.cells[cell]
-        elif isinstance(cell, dict | DictConfig):
+        elif isinstance(cell, dict):
             for key in cell.keys():
                 if key not in component_settings:
                     raise ValueError(
@@ -349,7 +349,7 @@ class Pdk(BaseModel):
                     f"{component!r} not in PDK {self.name!r} cells: {cells} "
                 )
             return self.cells[component](**kwargs)
-        elif isinstance(component, dict | DictConfig):
+        elif isinstance(component, dict):
             for key in component.keys():
                 if key not in component_settings:
                     raise ValueError(
@@ -390,7 +390,7 @@ class Pdk(BaseModel):
                 raise ValueError(f"{cross_section!r} not in {cross_sections}")
             xs = self.cross_sections[cross_section]
             return xs(**kwargs) if callable(xs) else xs.copy(**kwargs)
-        elif isinstance(cross_section, dict | DictConfig):
+        elif isinstance(cross_section, dict):
             xs_name = cross_section.get("cross_section", None)
             settings = cross_section.get("settings", {})
             return self.get_cross_section(xs_name, **settings)
@@ -510,7 +510,8 @@ class Pdk(BaseModel):
         header = dict(description=self.name)
 
         d = {"blocks": blocks, "xsections": xsections, "header": header}
-        return omegaconf.OmegaConf.to_yaml(d)
+        d = convert_tuples_to_lists(d)
+        return yaml.dump(d)
 
     def get_cross_section_name(self, cross_section: CrossSection) -> str:
         xs_name = next(
