@@ -50,6 +50,7 @@ routes:
 from __future__ import annotations
 
 import importlib
+import itertools
 import pathlib
 from collections.abc import Callable
 from copy import deepcopy
@@ -809,13 +810,10 @@ def _get_dependency_graph(net: Netlist) -> nx.DiGraph:
     g = nx.DiGraph()
 
     for i, inst in net.instances.items():
-        if inst.na < 2 and inst.nb < 2:
-            g.add_node(i)
-        else:
-            g.add_node(i)
-            for a in range(inst.na):
-                for b in range(inst.nb):
-                    _graph_connect(g, f"{i}<{a}.{b}>", i)
+        g.add_node(i)
+        if inst.na >= 2 or inst.nb >= 2:
+            for a, b in itertools.product(range(inst.na), range(inst.nb)):
+                _graph_connect(g, f"{i}<{a}.{b}>", i)
 
     for ip1, ip2 in net.connections.items():
         i1, _ = ip1.split(",")
