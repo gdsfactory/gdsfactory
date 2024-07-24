@@ -537,7 +537,7 @@ def add_settings_label(
     layer_label = get_layer(layer_label)
 
     reference = reference or component
-    info = component.kcl[reference._instance.cell_index].info
+    info = reference.cell.info
     settings_dict = dict(info)
     settings_string = (
         yaml.dump(convert_tuples_to_lists(settings_dict))
