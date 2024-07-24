@@ -16,7 +16,7 @@ from gdsfactory.typings import LayerSpec, PathType
 
 
 def from_updk(
-    filepath: PathType,
+    filepath: PathType | IO[str],
     filepath_out: PathType | None = None,
     layer_bbox: tuple[int, int] = (68, 0),
     layer_bbmetal: tuple[int, int] | None = None,
@@ -67,12 +67,7 @@ def from_updk(
             else filepath
         )
 
-        conf = yaml.safe_load(
-            filepath
-        )  # nicer loader than conf = yaml.safe_load(filepath)
-    else:
-        conf = yaml.safe_load(filepath)
-
+    conf = yaml.safe_load(filepath)
     script = prefix
     script += f"""
 
