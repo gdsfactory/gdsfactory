@@ -59,7 +59,6 @@ from typing import IO, Any, Literal
 import kfactory as kf
 import networkx as nx
 import yaml
-from omegaconf import DictConfig
 
 from gdsfactory.add_pins import add_instance_label
 from gdsfactory.component import Component, ComponentReference, Instance
@@ -567,7 +566,7 @@ ports:
 
 
 def cell_from_yaml(
-    yaml_str: str | pathlib.Path | IO[Any] | dict[str, Any] | DictConfig,
+    yaml_str: str | pathlib.Path | IO[Any] | dict[str, Any],
     routing_strategy: dict[str, Callable] | None = None,
     label_instance_function: Callable = add_instance_label,
     name: str | None = None,
@@ -665,7 +664,7 @@ def cell_from_yaml(
 
 
 def from_yaml(
-    yaml_str: str | pathlib.Path | IO[Any] | dict[str, Any] | DictConfig,
+    yaml_str: str | pathlib.Path | IO[Any] | dict[str, Any],
     routing_strategy: dict[str, Callable] | None = None,
     label_instance_function: Callable = add_instance_label,
     name: str | None = None,

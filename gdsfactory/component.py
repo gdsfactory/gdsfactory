@@ -946,13 +946,14 @@ class ComponentBase:
 
         return get_netlist(self, **kwargs)
 
-    def write_netlist(self, filepath: str, **kwargs) -> None:
+    def write_netlist(self, filepath: str, **kwargs) -> pathlib.Path:
         """Write netlist in YAML."""
         netlist = self.get_netlist(**kwargs)
         netlist = convert_tuples_to_lists(netlist)
         yaml_component = yaml.dump(netlist)
         filepath = pathlib.Path(filepath)
         filepath.write_text(yaml_component)
+        return filepath
 
     def plot_netlist(
         self,
