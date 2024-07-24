@@ -197,7 +197,7 @@ class ComponentReference(kf.Instance):
             "info is deprecated, use ref.parent_cell.info instead",
             stacklevel=3,
         )
-        return self.parent_cell.info
+        return self.kcl[self._instance.cell_index].info
 
     def connect(
         self,

@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import jsondiff
 import pytest
-from omegaconf import OmegaConf
 from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
@@ -72,6 +71,10 @@ def test_netlists(
 
 
 if __name__ == "__main__":
+    import yaml
+
+    from gdsfactory.serialization import convert_tuples_to_lists
+
     # component_type = "mzit"
     component_type = "ring_double"
     component_type = "ring_single_array"
@@ -92,6 +95,7 @@ if __name__ == "__main__":
     component_type = "cutback_2x2"  # FIXME
     component_type = "delay_snake"  # FIXME
     component_type = "spiral_racetrack"
+    component_type = "ring_single"
 
     connection_error_types = {
         "optical": ["width_mismatch", "shear_angle_mismatch", "orientation_mismatch"]
@@ -103,7 +107,8 @@ if __name__ == "__main__":
     n = c1.get_netlist(
         allow_multiple=True, connection_error_types=connection_error_types
     )
-    yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
+    n = convert_tuples_to_lists(n)
+    yaml_str = yaml.dump(n, sort_keys=True)
     c1.delete()
     # print(yaml_str)
     c2 = gf.read.from_yaml(yaml_str)

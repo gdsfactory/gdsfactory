@@ -15,7 +15,6 @@ import numpy as np
 import orjson
 import pydantic
 import toolz
-from omegaconf import DictConfig, OmegaConf
 
 DEFAULT_SERIALIZATION_MAX_DIGITS = 3
 """By default, the maximum number of digits retained when serializing float-like arrays"""
@@ -111,9 +110,6 @@ def clean_value_json(
 
     elif isinstance(value, dict):
         return clean_dict(value.copy())
-
-    elif isinstance(value, DictConfig):
-        return clean_dict(OmegaConf.to_container(value))
 
     elif isinstance(value, list | tuple | set | dict_keys):
         return tuple([clean_value_json(i) for i in value])

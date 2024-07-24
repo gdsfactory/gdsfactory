@@ -18,12 +18,13 @@ from typing import TYPE_CHECKING
 
 import kfactory as kf
 import numpy as np
+import yaml
 from numpy import ndarray
-from omegaconf import OmegaConf
 
 import gdsfactory as gf
 from gdsfactory.component import container
 from gdsfactory.port import select_ports
+from gdsfactory.serialization import convert_tuples_to_lists
 
 if TYPE_CHECKING:
     from gdsfactory.component import Component, Instance
@@ -536,9 +537,10 @@ def add_settings_label(
     layer_label = get_layer(layer_label)
 
     reference = reference or component
-    settings_dict = OmegaConf.to_container(reference.info)
+    info = component.kcl[reference._instance.cell_index].info
+    settings_dict = dict(info)
     settings_string = (
-        OmegaConf.to_yaml(settings_dict)
+        yaml.dump(convert_tuples_to_lists(settings_dict))
         if with_yaml_format
         else f"settings={json.dumps(settings_dict)}"
     )
@@ -623,11 +625,16 @@ if __name__ == "__main__":
     # p2 = len(c2.get_polygons())
     # assert p2 == p1 + 2
     # c1 = gf.components.straight_heater_metal(length=2)
-    c = gf.components.bend_euler()
+    # c = gf.components.bend_euler()
     # c = add_pins_container(c)
-    add_pins_triangle(c)
+    # add_pins_triangle(c)
     # c = add_pins_container(c)
     # cc.show()
     # c.show(show_subports=True)
     # c.show( )
+
+    c = gf.Component()
+    ref = c << gf.components.straight()
+
+    gf.add_pins.add_settings_label(c, ref)
     c.show()

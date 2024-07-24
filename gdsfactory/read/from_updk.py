@@ -10,7 +10,6 @@ import pathlib
 from typing import IO
 
 import yaml
-from omegaconf import OmegaConf
 
 from gdsfactory.serialization import convert_tuples_to_lists
 from gdsfactory.typings import LayerSpec, PathType
@@ -68,11 +67,11 @@ def from_updk(
             else filepath
         )
 
-        conf = OmegaConf.load(
+        conf = yaml.safe_load(
             filepath
         )  # nicer loader than conf = yaml.safe_load(filepath)
     else:
-        conf = OmegaConf.create(filepath)
+        conf = yaml.safe_load(filepath)
 
     script = prefix
     script += f"""
@@ -102,15 +101,17 @@ add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_
         script += f"layer_label = {layer_label}\n"
 
     if read_xsections and "xsections" in conf:
-        for xsection_name, xsection in conf.xsections.items():
-            script += f"{xsection_name} = gf.CrossSection(width={xsection.width})\n"
+        xsections = conf["xsections"]
+        for xsection_name, xsection in xsections.items():
+            width = xsection["width"]
+            script += f"{xsection_name} = gf.CrossSection(width={width})\n"
 
-        xs = ",".join([f"{name}={name}" for name in conf.xsections.keys()])
+        xs = ",".join([f"{name}={name}" for name in xsections.keys()])
         script += "\n"
         script += f"cross_sections = dict({xs})"
         script += "\n"
 
-    for block_name, block in conf.blocks.items():
+    for block_name, block in conf["blocks"].items():
         if hasattr(block, "parameters"):
             parameters = block.parameters
         else:
@@ -193,23 +194,25 @@ def {block_name}({parameters_string})->gf.Component:
 
         for port_name, port in block.pins.items():
             port_type = (
-                "electrical" if port.xsection in electrical_xsections else "optical"
+                "electrical" if port["xsection"] in electrical_xsections else "optical"
             )
 
-            port_xsection = port.xsection if port.xsection != "None" else "NONE"
+            port_xsection = port["xsection"] if port["xsection"] != "None" else "NONE"
+            xya = port["xya"]
+            width = port["width"]
 
-            if port.xsection != "None" and not use_port_layer:
-                script += f"    c.add_port(name={port_name!r}, {port_layer}={port_xsection!r}, center=({port.xya[0]}, {port.xya[1]}), orientation={port.xya[2]}, port_type={port_type!r})\n"
+            if port_xsection != "None" and not use_port_layer:
+                script += f"    c.add_port(name={port_name!r}, {port_layer}={port_xsection!r}, center=({xya[0]}, {xya[1]}), orientation={xya[2]}, port_type={port_type!r})\n"
                 script += f"    c.ports[{port_name!r}].info['cross_section'] = {port_xsection!r}\n"
             else:
-                script += f"    c.add_port(name={port_name!r}, width={port.width}, layer={port_xsection!r}, center=({port.xya[0]}, {port.xya[1]}), orientation={port.xya[2]}, port_type={port_type!r})\n"
+                script += f"    c.add_port(name={port_name!r}, width={width}, layer={port_xsection!r}, center=({xya[0]}, {xya[1]}), orientation={xya[2]}, port_type={port_type!r})\n"
 
             if layer_pin_label:
                 d = port
                 d["name"] = port_name
                 d = convert_tuples_to_lists(d)
                 text = yaml.dump(d)
-                script += f"    c.add_label(text={text!r}, position=({port.xya[0]}, {port.xya[1]}), layer=layer_pin_label)\n"
+                script += f"    c.add_label(text={text!r}, position=({xya[0]}, {xya[1]}), layer=layer_pin_label)\n"
         if layer_text:
             script += "    text = c << text_function(text=name)\n"
 
@@ -252,3 +255,4 @@ if __name__ == "__main__":
 
     yaml_pdk_decription = PDK.to_updk()
     gdsfactory_script = from_updk(yaml_pdk_decription)
+    print(yaml_pdk_decription)
