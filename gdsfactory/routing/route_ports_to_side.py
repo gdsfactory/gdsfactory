@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Literal
 
 import kfactory as kf
 import numpy as np
@@ -30,7 +30,7 @@ def sort_key_north_to_south(port: Port) -> float:
 def route_ports_to_side(
     component: Component,
     ports: list[kf.Port] | Component | list[gf.Port] | None = None,
-    side: str = "north",
+    side: Literal["north", "east", "south", "west"] = "north",
     x: float | None = None,
     y: float | None = None,
     **kwargs,
@@ -113,7 +113,7 @@ def route_ports_to_east(list_ports, **kwargs):
 def route_ports_to_x(
     component: Component,
     list_ports: list[Port],
-    x: float | str = "east",
+    x: float | Literal["east", "west"] = "east",
     separation: float = 10.0,
     radius: float = 10.0,
     extend_bottom: float = 0.0,
@@ -324,7 +324,7 @@ def route_ports_to_x(
 def route_ports_to_y(
     component: Component,
     list_ports: list[Port],
-    y: float | str = "north",
+    y: float | Literal["north", "south"] = "north",
     separation: float = 10.0,
     radius: float = 10.0,
     x0_left: float | None = None,
