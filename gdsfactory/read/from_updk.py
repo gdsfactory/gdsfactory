@@ -5,12 +5,12 @@ https://openepda.org/index.html
 
 from __future__ import annotations
 
-import io
 import pathlib
-from typing import IO
+import warnings
 
-from omegaconf import OmegaConf
+import yaml
 
+from gdsfactory.serialization import convert_tuples_to_lists
 from gdsfactory.typings import LayerSpec, PathType
 
 
@@ -34,10 +34,10 @@ def from_updk(
     prefix: str = "",
     suffix: str = "",
 ) -> str:
-    """Read uPDK definition and returns a gdsfactory script.
+    """Read uPDK YAML file and returns a gdsfactory script.
 
     Args:
-        filepath: uPDK filepath definition.
+        filepath: uPDK filepath.
         filepath_out: optional filepath to save script. if None only returns script and does not save it.
         layer_bbox: layer to draw bounding boxes.
         layer_bbmetal: layer to draw bounding boxes for metal.
@@ -59,19 +59,9 @@ def from_updk(
     optical_xsections = optical_xsections or []
     electrical_xsections = electrical_xsections or []
 
-    if isinstance(filepath, str | pathlib.Path | IO):
-        filepath = (
-            io.StringIO(filepath)
-            if isinstance(filepath, str) and "\n" in filepath
-            else filepath
-        )
-
-        conf = OmegaConf.load(
-            filepath
-        )  # nicer loader than conf = yaml.safe_load(filepath)
-    else:
-        conf = OmegaConf.create(filepath)
-
+    filepath = pathlib.Path(filepath)
+    filepath = filepath.read_text()
+    conf = yaml.safe_load(filepath)
     script = prefix
     script += f"""
 
@@ -100,24 +90,29 @@ add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_
         script += f"layer_label = {layer_label}\n"
 
     if read_xsections and "xsections" in conf:
-        for xsection_name, xsection in conf.xsections.items():
-            script += f"{xsection_name} = gf.CrossSection(width={xsection.width})\n"
+        xsections = conf["xsections"]
+        for xsection_name, xsection in xsections.items():
+            width = xsection["width"]
+            script += f"{xsection_name} = gf.CrossSection(width={width})\n"
 
-        xs = ",".join([f"{name}={name}" for name in conf.xsections.keys()])
+        xs = ",".join([f"{name}={name}" for name in xsections.keys()])
         script += "\n"
         script += f"cross_sections = dict({xs})"
         script += "\n"
 
-    for block_name, block in conf.blocks.items():
-        if hasattr(block, "parameters"):
-            parameters = block.parameters
+    for block_name, block in conf["blocks"].items():
+        if "parameters" in block:
+            parameters = block["parameters"]
         else:
-            print(f"{block_name=}, {block=} does not have parameters")
+            warnings.warn(f"{block_name=} does not have parameters")
             continue
 
         parameters_string = (
             ", ".join(
-                [f"{p_name}:{p.type}={p.value}" for p_name, p in parameters.items()]
+                [
+                    f"{p_name}:{p['type']}={p['value']}"
+                    for p_name, p in parameters.items()
+                ]
             )
             if parameters
             else ""
@@ -125,7 +120,7 @@ add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_
         parameters_doc = (
             "\n    ".join(
                 [
-                    f"  {p_name}: {p.doc} (min: {p.min}, max: {p.max}, {p.unit})."
+                    f"  {p_name}: {p['doc']} (min: {p['min']}, max: {p['max']}, {p['unit']})."
                     for p_name, p in parameters.items()
                     if hasattr(p, "min")
                 ]
@@ -154,10 +149,12 @@ add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_
         list_parameters = "\\n".join(f"{p_name}" for p_name in parameters_equal)
         parameters_labels = f"    c.add_label(text=f'Parameters:\\n{list_parameters}', position=(0,0), layer=layer_label)\n"
 
+        docstring = block.get("doc", "")
+
         if parameters:
-            doc = f'"""{block.doc}\n\n    Args:\n    {parameters_doc}\n    """'
+            doc = f'"""{docstring}\n\n    Args:\n    {parameters_doc}\n    """'
         else:
-            doc = f'"""{block.doc}"""'
+            doc = f'"""{docstring}"""'
 
         cell_name = (
             f"{block_name}:{','.join(parameters_equal)}"
@@ -165,7 +162,7 @@ add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_
             else block_name
         )
 
-        points = str(block.bbox).replace("'", "")
+        points = str(block["bbox"]).replace("'", "")
         script += f"""
 @cell
 def {block_name}({parameters_string})->gf.Component:
@@ -189,24 +186,28 @@ def {block_name}({parameters_string})->gf.Component:
 
         port_layer = "layer" if use_port_layer else "cross_section"
 
-        for port_name, port in block.pins.items():
+        pins = block.get("pins", {})
+        for port_name, port in pins.items():
             port_type = (
-                "electrical" if port.xsection in electrical_xsections else "optical"
+                "electrical" if port["xsection"] in electrical_xsections else "optical"
             )
 
-            port_xsection = port.xsection if port.xsection != "None" else "NONE"
+            port_xsection = port["xsection"] if port["xsection"] != "None" else "NONE"
+            xya = port["xya"]
+            width = port["width"]
 
-            if port.xsection != "None" and not use_port_layer:
-                script += f"    c.add_port(name={port_name!r}, {port_layer}={port_xsection!r}, center=({port.xya[0]}, {port.xya[1]}), orientation={port.xya[2]}, port_type={port_type!r})\n"
+            if port_xsection != "None" and not use_port_layer:
+                script += f"    c.add_port(name={port_name!r}, {port_layer}={port_xsection!r}, center=({xya[0]}, {xya[1]}), orientation={xya[2]}, port_type={port_type!r})\n"
                 script += f"    c.ports[{port_name!r}].info['cross_section'] = {port_xsection!r}\n"
             else:
-                script += f"    c.add_port(name={port_name!r}, width={port.width}, layer={port_xsection!r}, center=({port.xya[0]}, {port.xya[1]}), orientation={port.xya[2]}, port_type={port_type!r})\n"
+                script += f"    c.add_port(name={port_name!r}, width={width}, layer={port_xsection!r}, center=({xya[0]}, {xya[1]}), orientation={xya[2]}, port_type={port_type!r})\n"
 
             if layer_pin_label:
-                d = OmegaConf.to_container(port)
+                d = port
                 d["name"] = port_name
-                text = OmegaConf.to_yaml(d)
-                script += f"    c.add_label(text={text!r}, position=({port.xya[0]}, {port.xya[1]}), layer=layer_pin_label)\n"
+                d = convert_tuples_to_lists(d)
+                text = yaml.dump(d)
+                script += f"    c.add_label(text={text!r}, position=({xya[0]}, {xya[1]}), layer=layer_pin_label)\n"
         if layer_text:
             script += "    text = c << text_function(text=name)\n"
 
@@ -243,7 +244,10 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    from gdsfactory.samples.pdk.fab_c import pdk
+    from gdsfactory.samples.pdk.fab_c import PDK
 
-    yaml_pdk_decription = pdk.to_updk()
+    PDK.activate()
+
+    yaml_pdk_decription = PDK.to_updk()
     gdsfactory_script = from_updk(yaml_pdk_decription)
+    print(yaml_pdk_decription)

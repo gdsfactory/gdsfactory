@@ -18,13 +18,8 @@ from gdsfactory.read.from_yaml_template import (
 from gdsfactory.read.import_gds import (
     import_gds,
 )
-from gdsfactory.read.labels import (
-    add_port_markers,
-    read_labels_yaml,
-)
 
 __all__ = [
-    "add_port_markers",
     "cell_from_yaml_template",
     "from_gdsdir",
     "from_gdspaths",
@@ -33,5 +28,4 @@ __all__ = [
     "from_updk",
     "from_yaml",
     "import_gds",
-    "read_labels_yaml",
 ]

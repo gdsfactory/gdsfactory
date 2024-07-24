@@ -17,7 +17,6 @@ dependencies = [
   "loguru<1",
   "matplotlib<4",
   "numpy<2",
-  "omegaconf<3",
   "orjson<4",
   "pandas<3",
   "pydantic>=2.8.2,<2.9",

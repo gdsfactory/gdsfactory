@@ -50,6 +50,7 @@ routes:
 from __future__ import annotations
 
 import importlib
+import itertools
 import pathlib
 from collections.abc import Callable
 from copy import deepcopy
@@ -59,7 +60,6 @@ from typing import IO, Any, Literal
 import kfactory as kf
 import networkx as nx
 import yaml
-from omegaconf import DictConfig
 
 from gdsfactory.add_pins import add_instance_label
 from gdsfactory.component import Component, ComponentReference, Instance
@@ -567,7 +567,7 @@ ports:
 
 
 def cell_from_yaml(
-    yaml_str: str | pathlib.Path | IO[Any] | dict[str, Any] | DictConfig,
+    yaml_str: str | pathlib.Path | IO[Any] | dict[str, Any],
     routing_strategy: dict[str, Callable] | None = None,
     label_instance_function: Callable = add_instance_label,
     name: str | None = None,
@@ -665,7 +665,7 @@ def cell_from_yaml(
 
 
 def from_yaml(
-    yaml_str: str | pathlib.Path | IO[Any] | dict[str, Any] | DictConfig,
+    yaml_str: str | pathlib.Path | IO[Any] | dict[str, Any],
     routing_strategy: dict[str, Callable] | None = None,
     label_instance_function: Callable = add_instance_label,
     name: str | None = None,
@@ -810,13 +810,10 @@ def _get_dependency_graph(net: Netlist) -> nx.DiGraph:
     g = nx.DiGraph()
 
     for i, inst in net.instances.items():
-        if inst.na < 2 and inst.nb < 2:
-            g.add_node(i)
-        else:
-            g.add_node(i)
-            for a in range(inst.na):
-                for b in range(inst.nb):
-                    _graph_connect(g, f"{i}<{a}.{b}>", i)
+        g.add_node(i)
+        if inst.na >= 2 or inst.nb >= 2:
+            for a, b in itertools.product(range(inst.na), range(inst.nb)):
+                _graph_connect(g, f"{i}<{a}.{b}>", i)
 
     for ip1, ip2 in net.connections.items():
         i1, _ = ip1.split(",")

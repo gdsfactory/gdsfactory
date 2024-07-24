@@ -11,13 +11,14 @@ import kfactory as kf
 import klayout.db as db  # noqa: F401
 import klayout.lay as lay
 import numpy as np
+import yaml
 from kfactory import Instance, kdb, logger
 from kfactory.kcell import cell, save_layout_options
 
 from gdsfactory.config import GDSDIR_TEMP
 from gdsfactory.functions import get_polygons, get_polygons_points
 from gdsfactory.port import pprint_ports, select_ports, to_dict
-from gdsfactory.serialization import clean_value_json
+from gdsfactory.serialization import clean_value_json, convert_tuples_to_lists
 
 if TYPE_CHECKING:
     from gdsfactory.typings import (
@@ -196,7 +197,7 @@ class ComponentReference(kf.Instance):
             "info is deprecated, use ref.parent_cell.info instead",
             stacklevel=3,
         )
-        return self.parent_cell.info
+        return self.cell.info
 
     def connect(
         self,
@@ -945,14 +946,14 @@ class ComponentBase:
 
         return get_netlist(self, **kwargs)
 
-    def write_netlist(self, filepath: str, **kwargs) -> None:
+    def write_netlist(self, filepath: str, **kwargs) -> pathlib.Path:
         """Write netlist in YAML."""
-        from omegaconf import OmegaConf
-
         netlist = self.get_netlist(**kwargs)
-        yaml_component = OmegaConf.to_yaml(netlist)
+        netlist = convert_tuples_to_lists(netlist)
+        yaml_component = yaml.dump(netlist)
         filepath = pathlib.Path(filepath)
         filepath.write_text(yaml_component)
+        return filepath
 
     def plot_netlist(
         self,

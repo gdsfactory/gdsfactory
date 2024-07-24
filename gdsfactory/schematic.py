@@ -1,7 +1,7 @@
 import json
 from typing import Any
 
-from omegaconf import OmegaConf
+import yaml
 from pydantic import BaseModel, Field, model_validator
 
 from gdsfactory.config import PATH
@@ -237,15 +237,16 @@ def write_schema(
     model: BaseModel = Netlist, schema_path_json=PATH.schema_netlist
 ) -> None:
     s = model.model_json_schema()
-    d = OmegaConf.create(s)
-
     schema_path_yaml = schema_path_json.with_suffix(".yaml")
 
-    schema_path_yaml.write_text(OmegaConf.to_yaml(d))
-    schema_path_json.write_text(json.dumps(OmegaConf.to_container(d)))
+    with open(schema_path_json, "w") as f:
+        json.dump(s, f, indent=2)
+    with open(schema_path_yaml, "w") as f:
+        yaml.dump(s, f)
 
 
 if __name__ == "__main__":
+    # write_schema()
     import gdsfactory as gf
     import gdsfactory.schematic as gt
 

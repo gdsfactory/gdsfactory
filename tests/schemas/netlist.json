@@ -1,1 +1,348 @@
-{"$defs": {"Bundle": {"additionalProperties": false, "properties": {"links": {"additionalProperties": {"type": "string"}, "title": "Links", "type": "object"}, "settings": {"title": "Settings", "type": "object"}, "routing_strategy": {"default": "route_bundle", "title": "Routing Strategy", "type": "string"}}, "required": ["links"], "title": "Bundle", "type": "object"}, "Instance": {"additionalProperties": false, "properties": {"component": {"title": "Component", "type": "string"}, "settings": {"title": "Settings", "type": "object"}, "info": {"title": "Info", "type": "object"}}, "required": ["component"], "title": "Instance", "type": "object"}, "Placement": {"additionalProperties": false, "properties": {"x": {"anyOf": [{"type": "string"}, {"type": "number"}], "default": 0, "title": "X"}, "y": {"anyOf": [{"type": "string"}, {"type": "number"}], "default": 0, "title": "Y"}, "xmin": {"anyOf": [{"type": "string"}, {"type": "number"}, {"type": "null"}], "default": null, "title": "Xmin"}, "ymin": {"anyOf": [{"type": "string"}, {"type": "number"}, {"type": "null"}], "default": null, "title": "Ymin"}, "xmax": {"anyOf": [{"type": "string"}, {"type": "number"}, {"type": "null"}], "default": null, "title": "Xmax"}, "ymax": {"anyOf": [{"type": "string"}, {"type": "number"}, {"type": "null"}], "default": null, "title": "Ymax"}, "dx": {"default": 0, "title": "Dx", "type": "number"}, "dy": {"default": 0, "title": "Dy", "type": "number"}, "port": {"anyOf": [{"type": "string"}, {"enum": ["ce", "cw", "nc", "ne", "nw", "sc", "se", "sw", "center", "cc"], "type": "string"}, {"type": "null"}], "default": null, "title": "Port"}, "rotation": {"default": 0, "title": "Rotation", "type": "integer"}, "mirror": {"default": false, "title": "Mirror", "type": "boolean"}}, "title": "Placement", "type": "object"}}, "additionalProperties": false, "description": "Netlist defined component.\n\nParameters:\n    instances: dict of instances (name, settings, component).\n    placements: dict of placements.\n    connections: dict of connections.\n    routes: dict of routes.\n    name: component name.\n    info: information (polarization, wavelength ...).\n    ports: exposed component ports.\n    settings: input variables.", "properties": {"instances": {"additionalProperties": {"$ref": "#/$defs/Instance"}, "title": "Instances", "type": "object"}, "placements": {"additionalProperties": {"$ref": "#/$defs/Placement"}, "title": "Placements", "type": "object"}, "connections": {"additionalProperties": {"type": "string"}, "title": "Connections", "type": "object"}, "routes": {"additionalProperties": {"$ref": "#/$defs/Bundle"}, "title": "Routes", "type": "object"}, "name": {"anyOf": [{"type": "string"}, {"type": "null"}], "default": null, "title": "Name"}, "info": {"title": "Info", "type": "object"}, "ports": {"additionalProperties": {"type": "string"}, "title": "Ports", "type": "object"}, "settings": {"title": "Settings", "type": "object"}}, "title": "Netlist", "type": "object"}
+{
+  "$defs": {
+    "Bundle": {
+      "additionalProperties": false,
+      "properties": {
+        "links": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Links",
+          "type": "object"
+        },
+        "settings": {
+          "title": "Settings",
+          "type": "object"
+        },
+        "routing_strategy": {
+          "default": "route_bundle",
+          "title": "Routing Strategy",
+          "type": "string"
+        }
+      },
+      "required": [
+        "links"
+      ],
+      "title": "Bundle",
+      "type": "object"
+    },
+    "Instance": {
+      "additionalProperties": false,
+      "properties": {
+        "component": {
+          "title": "Component",
+          "type": "string"
+        },
+        "settings": {
+          "title": "Settings",
+          "type": "object"
+        },
+        "info": {
+          "title": "Info",
+          "type": "object"
+        },
+        "na": {
+          "default": 1,
+          "title": "Na",
+          "type": "integer"
+        },
+        "nb": {
+          "default": 1,
+          "title": "Nb",
+          "type": "integer"
+        },
+        "dax": {
+          "default": 0,
+          "title": "Dax",
+          "type": "number"
+        },
+        "day": {
+          "default": 0,
+          "title": "Day",
+          "type": "number"
+        },
+        "dbx": {
+          "default": 0,
+          "title": "Dbx",
+          "type": "number"
+        },
+        "dby": {
+          "default": 0,
+          "title": "Dby",
+          "type": "number"
+        }
+      },
+      "required": [
+        "component"
+      ],
+      "title": "Instance",
+      "type": "object"
+    },
+    "Net": {
+      "description": "Net between two ports.\n\nParameters:\n    p1: instance_name,port 1.\n    p2: instance_name,port 2.\n    name: route name.",
+      "properties": {
+        "p1": {
+          "title": "P1",
+          "type": "string"
+        },
+        "p2": {
+          "title": "P2",
+          "type": "string"
+        },
+        "settings": {
+          "title": "Settings",
+          "type": "object"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name"
+        }
+      },
+      "required": [
+        "p1",
+        "p2"
+      ],
+      "title": "Net",
+      "type": "object"
+    },
+    "Placement": {
+      "additionalProperties": false,
+      "properties": {
+        "x": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "X"
+        },
+        "y": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Y"
+        },
+        "xmin": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Xmin"
+        },
+        "ymin": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ymin"
+        },
+        "xmax": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Xmax"
+        },
+        "ymax": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ymax"
+        },
+        "dx": {
+          "default": 0,
+          "title": "Dx",
+          "type": "number"
+        },
+        "dy": {
+          "default": 0,
+          "title": "Dy",
+          "type": "number"
+        },
+        "port": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "enum": [
+                "ce",
+                "cw",
+                "nc",
+                "ne",
+                "nw",
+                "sc",
+                "se",
+                "sw",
+                "center",
+                "cc"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Port"
+        },
+        "rotation": {
+          "default": 0,
+          "title": "Rotation",
+          "type": "number"
+        },
+        "mirror": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "default": false,
+          "title": "Mirror"
+        }
+      },
+      "title": "Placement",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Netlist defined component.\n\nParameters:\n    instances: dict of instances (name, settings, component).\n    placements: dict of placements.\n    connections: dict of connections.\n    routes: dict of routes.\n    name: component name.\n    info: information (polarization, wavelength ...).\n    ports: exposed component ports.\n    settings: input variables.\n    nets: list of nets.\n    warnings: warnings.",
+  "properties": {
+    "pdk": {
+      "default": "",
+      "title": "Pdk",
+      "type": "string"
+    },
+    "instances": {
+      "additionalProperties": {
+        "$ref": "#/$defs/Instance"
+      },
+      "title": "Instances",
+      "type": "object"
+    },
+    "placements": {
+      "additionalProperties": {
+        "$ref": "#/$defs/Placement"
+      },
+      "title": "Placements",
+      "type": "object"
+    },
+    "connections": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Connections",
+      "type": "object"
+    },
+    "routes": {
+      "additionalProperties": {
+        "$ref": "#/$defs/Bundle"
+      },
+      "title": "Routes",
+      "type": "object"
+    },
+    "name": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Name"
+    },
+    "info": {
+      "title": "Info",
+      "type": "object"
+    },
+    "ports": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Ports",
+      "type": "object"
+    },
+    "settings": {
+      "title": "Settings",
+      "type": "object"
+    },
+    "nets": {
+      "items": {
+        "$ref": "#/$defs/Net"
+      },
+      "title": "Nets",
+      "type": "array"
+    },
+    "warnings": {
+      "title": "Warnings",
+      "type": "object"
+    }
+  },
+  "title": "Netlist",
+  "type": "object"
+}

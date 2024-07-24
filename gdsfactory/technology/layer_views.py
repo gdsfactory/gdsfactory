@@ -16,7 +16,6 @@ import xml.etree.ElementTree as ET
 import numpy as np
 import yaml
 from kfactory import LayerEnum, logger
-from omegaconf import OmegaConf
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 from pydantic.color import ColorType
 from pydantic_extra_types.color import Color
@@ -1156,7 +1155,7 @@ class LayerViews(BaseModel):
         """
         layer_file = pathlib.Path(layer_file)
 
-        properties = OmegaConf.to_container(OmegaConf.load(layer_file.open()))
+        properties = yaml.safe_load(layer_file.open())
         lvs = {}
         for name, lv in properties["LayerViews"].items():
             if "group_members" in lv:
