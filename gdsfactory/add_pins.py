@@ -11,6 +11,7 @@ They without modifying the cell name
 from __future__ import annotations
 
 import json
+import warnings
 from collections.abc import Callable
 from functools import partial
 from typing import TYPE_CHECKING
@@ -20,6 +21,7 @@ import numpy as np
 from numpy import ndarray
 from omegaconf import OmegaConf
 
+import gdsfactory as gf
 from gdsfactory.component import container
 from gdsfactory.port import select_ports
 
@@ -551,7 +553,7 @@ def add_instance_label(
     component: Component,
     reference: Instance,
     instance_name: str | None = None,
-    layer: LayerSpec = "LABEL_INSTANCE",
+    layer: LayerSpec | None = None,
 ) -> None:
     """Adds label to a reference in a component.
 
@@ -562,6 +564,11 @@ def add_instance_label(
         layer: layer for the label.
 
     """
+    try:
+        layer = layer or gf.get_layer("LABEL_INSTANCE")
+    except ValueError:
+        warnings.warn("Layer LABEL_INSTANCE not found in PDK.layers, using (1, 0)")
+        layer = (1, 0)
     instance_name = (
         instance_name
         or f"{reference.parent.name},{int(reference.dx)},{int(reference.dy)}"
