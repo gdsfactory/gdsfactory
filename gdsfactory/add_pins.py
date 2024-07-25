@@ -212,7 +212,7 @@ def add_pin_rectangle_inside(
 
     if layer_label:
         component.add_label(
-            text=str(p.name),
+            text=p.name,
             position=p.dcenter,
             layer=layer_label,
         )
