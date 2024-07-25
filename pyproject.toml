@@ -19,7 +19,7 @@ dependencies = [
   "numpy<2",
   "orjson<4",
   "pandas<3",
-  "pydantic>=2.8.2,<2.9",
+  "pydantic>=2.6,<2.9",
   "pydantic-settings<3",
   "pydantic-extra-types<3",
   "pyyaml",
@@ -38,7 +38,8 @@ dependencies = [
   "networkx",
   "scikit-image",
   "trimesh>=4.4.1,<4.5",
-  "ipykernel"
+  "ipykernel",
+  "attrs"
 ]
 description = "python library to generate GDS layouts"
 keywords = ["eda", "photonics", "python"]
