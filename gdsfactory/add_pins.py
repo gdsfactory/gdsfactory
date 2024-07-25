@@ -19,7 +19,7 @@ from typing import TYPE_CHECKING
 import kfactory as kf
 import numpy as np
 import yaml
-from numpy import ndarray
+from typing_extensions import TypeVar
 
 import gdsfactory as gf
 from gdsfactory.component import container
@@ -36,9 +36,14 @@ LayerSpec = Layer | str | int | None
 LayerSpecs = tuple[LayerSpec, ...]
 nm = 1e-3
 
+T = TypeVar("T")
 
-def _rotate(v: ndarray, m: ndarray) -> ndarray:
-    return np.dot(m, v)
+
+def _rotate(
+    vector: np.typing.NDArray[T], rotation_matrix: np.typing.NDArray[T]
+) -> np.typing.NDArray[T]:
+    """Rotate a vector by a rotation matrix."""
+    return rotation_matrix @ vector
 
 
 def add_bbox(
@@ -175,8 +180,8 @@ def add_pin_rectangle_inside(
         component: to add pins.
         port: Port.
         pin_length: length of the pin marker for the port.
-        layer: for the pin marker.
-        layer_label: for the label.
+        layer: layer to place the pin rectangle on.
+        layer_label: layer to place the text label on.
 
     .. code::
 
@@ -212,7 +217,7 @@ def add_pin_rectangle_inside(
 
     if layer_label:
         component.add_label(
-            text=str(p.name),
+            text=p.name,
             position=p.dcenter,
             layer=layer_label,
         )
