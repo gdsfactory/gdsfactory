@@ -196,100 +196,15 @@ def add_pin_rectangle_inside(
           |_______________|
     """
     p = port
-    a = p.orientation
-    ca = np.cos(a * np.pi / 180)
-    sa = np.sin(a * np.pi / 180)
-    rot_mat = np.array([[ca, -sa], [sa, ca]])
-
-    d = p.dwidth / 2
-
-    dbot = np.array([0, -d])
-    dtop = np.array([0, +d])
-    dbotin = np.array([-pin_length, -d])
-    dtopin = np.array([-pin_length, +d])
-
-    p0 = p.dcenter + _rotate(dbot, rot_mat)
-    p1 = p.dcenter + _rotate(dtop, rot_mat)
-    ptopin = p.dcenter + _rotate(dtopin, rot_mat)
-    pbotin = p.dcenter + _rotate(dbotin, rot_mat)
-    polygon = [p0, p1, ptopin, pbotin]
-    component.add_polygon(polygon, layer=layer)
+    poly = gf.kdb.DPolygon(
+        gf.kdb.DBox(-pin_length, -p.dwidth / 2, 0, p.dwidth / 2)
+    ).transform(p.dcplx_trans)
+    component.shapes(gf.get_layer(layer)).insert(poly)
 
     if layer_label:
         component.add_label(
-            text=p.name,
-            position=p.dcenter,
-            layer=layer_label,
-        )
-
-
-def add_pin_rectangle_double(
-    component: Component,
-    port: Port,
-    pin_length: float = 0.1,
-    layer: LayerSpec = "PORT",
-    layer_label: LayerSpec = "TEXT",
-) -> None:
-    """Add two square pins: one inside with label, one outside.
-
-    Args:
-        component: to add pins.
-        port: Port.
-        pin_length: length of the pin marker for the port.
-        layer: for the pin marker.
-        layer_label: for the label.
-
-    .. code::
-
-           _______________
-          |               |
-          |               |
-          |               |
-         |||              |
-         |||              |
-          |               |
-          |      __       |
-          |_______________|
-                 __
-    """
-    p = port
-    a = p.orientation
-    ca = np.cos(a * np.pi / 180)
-    sa = np.sin(a * np.pi / 180)
-    rot_mat = np.array([[ca, -sa], [sa, ca]])
-
-    # outer square
-    d = p.dwidth / 2
-    dbot = np.array([0, -d])
-    dtop = np.array([0, d])
-    dbotin = np.array([pin_length / 2, -d])
-    dtopin = np.array([pin_length / 2, +d])
-    p0 = p.dcenter + _rotate(dbot, rot_mat)
-    p1 = p.dcenter + _rotate(dtop, rot_mat)
-    ptopin = p.dcenter + _rotate(dtopin, rot_mat)
-    pbotin = p.dcenter + _rotate(dbotin, rot_mat)
-    polygon = [p0, p1, ptopin, pbotin]
-    component.add_polygon(polygon, layer=layer)
-
-    # inner square
-    d = p.dwidth / 2
-    dbot = np.array([0, -d])
-    dtop = np.array([0, d])
-    dbotin = np.array([-pin_length / 2, -d])
-    dtopin = np.array([-pin_length / 2, +d])
-    p0 = p.dcenter + _rotate(dbot, rot_mat)
-    p1 = p.dcenter + _rotate(dtop, rot_mat)
-    ptopin = p.dcenter + _rotate(dtopin, rot_mat)
-    pbotin = p.dcenter + _rotate(dbotin, rot_mat)
-    polygon = [p0, p1, ptopin, pbotin]
-    component.add_polygon(polygon, layer=layer)
-
-    dx = (p0[0] + ptopin[0]) / 2
-    dy = (ptopin[1] + pbotin[1]) / 2
-    if layer_label:
-        component.add_label(
-            text=str(p.name),
-            position=(dx, dy),
+            text=port.name,
+            position=port.dcenter,
             layer=layer_label,
         )
 
@@ -326,24 +241,11 @@ def add_pin_rectangle(
                  __
     """
     p = port
-    a = p.orientation
-    ca = np.cos(a * np.pi / 180)
-    sa = np.sin(a * np.pi / 180)
-    rot_mat = np.array([[ca, -sa], [sa, ca]])
-
-    d = p.dwidth / 2 + port_margin
-
-    dbot = np.array([pin_length / 2, -d])
-    dtop = np.array([pin_length / 2, d])
-    dbotin = np.array([-pin_length / 2, -d])
-    dtopin = np.array([-pin_length / 2, +d])
-
-    p0 = p.dcenter + _rotate(dbot, rot_mat)
-    p1 = p.dcenter + _rotate(dtop, rot_mat)
-    ptopin = p.dcenter + _rotate(dtopin, rot_mat)
-    pbotin = p.dcenter + _rotate(dbotin, rot_mat)
-    polygon = [p0, p1, ptopin, pbotin]
-    component.add_polygon(polygon, layer=layer)
+    width = p.dwidth + port_margin
+    poly = gf.kdb.DPolygon(
+        gf.kdb.DBox(-pin_length / 2, -width / 2, +pin_length / 2, width / 2)
+    ).transform(p.dcplx_trans)
+    component.shapes(gf.get_layer(layer)).insert(poly)
 
     if layer_label:
         component.add_label(
@@ -640,6 +542,7 @@ if __name__ == "__main__":
 
     c = gf.Component()
     ref = c << gf.components.straight()
+    c.add_ports(ref.ports)
 
-    gf.add_pins.add_settings_label(c, ref)
+    add_pin_rectangle(c, port=c.ports[0], port_margin=1)
     c.show()
