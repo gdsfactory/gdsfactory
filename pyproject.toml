@@ -38,7 +38,8 @@ dependencies = [
   "networkx",
   "scikit-image",
   "trimesh>=4.4.1,<4.5",
-  "ipykernel"
+  "ipykernel",
+  "attrs"
 ]
 description = "python library to generate GDS layouts"
 keywords = ["eda", "photonics", "python"]
