@@ -175,8 +175,8 @@ def add_pin_rectangle_inside(
         component: to add pins.
         port: Port.
         pin_length: length of the pin marker for the port.
-        layer: for the pin marker.
-        layer_label: for the label.
+        layer: layer to place the pin rectangle on.
+        layer_label: layer to place the text label on.
 
     .. code::
 
