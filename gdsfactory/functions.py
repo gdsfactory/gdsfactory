@@ -58,16 +58,14 @@ def get_polygons(
         by: the format of the resulting keys in the dictionary ('index', 'name', 'tuple').
         layers: list of layer specs to extract the polygons from. If None, extracts all layers.
     """
-    from gdsfactory import get_layer, get_layer_name
+    from gdsfactory.pdk import get_layer, get_layer_name, get_layer_tuple
 
     if by == "index":
         get_key = get_layer
     elif by == "name":
         get_key = get_layer_name
     elif by == "tuple":
-
-        def get_key(layer):
-            return tuple(layer)
+        get_key = get_layer_tuple
 
     else:
         raise ValueError("argument 'by' should be 'index' | 'name' | 'tuple'")
@@ -76,13 +74,11 @@ def get_polygons(
 
     c = component_or_instance
     if layers is None:
-        layers = c.kcl.layer_infos()
-
-    layers = layers or [
-        (info.layer, info.datatype)
-        for info in c.kcl.layer_infos()
-        if not c.bbox(c.kcl.layer(info)).empty()
-    ]
+        layers = [
+            (info.layer, info.datatype)
+            for info in c.kcl.layer_infos()
+            if not c.bbox(c.kcl.layer(info)).empty()
+        ]
 
     layer_indexes = [gf.get_layer(layer) for layer in layers]
 
@@ -328,9 +324,14 @@ def extrude_path(
 
 
 if __name__ == "__main__":
-    c = gf.c.rectangle(size=(10, 10), centered=True)
-    p = c.get_polygons(layers=("WG",), by="tuple")
-    print(list(p.keys())[0])
+    c = gf.components.seal_ring_segmented()
+    p = c.get_polygons_points()
+    print(p)
+
+    # c = gf.c.rectangle(size=(10, 10), centered=True)
+    # p = c.get_polygons(layers=("WG",), by="tuple")
+    # print(list(p.keys())[0])
+
     # c = gf.Component()
     # ref = c << gf.components.mzi_lattice()
     # ref.dmovey(15)
