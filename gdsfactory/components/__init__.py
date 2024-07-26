@@ -158,12 +158,13 @@ from gdsfactory.components.litho_calipers import litho_calipers
 from gdsfactory.components.litho_ruler import litho_ruler
 from gdsfactory.components.litho_steps import litho_steps
 from gdsfactory.components.loop_mirror import loop_mirror
-from gdsfactory.components.mmi import mmi, mmi_tapered
+from gdsfactory.components.mmi import mmi
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.mmi1x2_with_sbend import mmi1x2_with_sbend
 from gdsfactory.components.mmi2x2 import mmi2x2
 from gdsfactory.components.mmi2x2_with_sbend import mmi2x2_with_sbend
 from gdsfactory.components.mmi_90degree_hybrid import mmi_90degree_hybrid
+from gdsfactory.components.mmi_tapered import mmi_tapered
 from gdsfactory.components.mode_converter import mode_converter
 from gdsfactory.components.mzi import (
     mzi,
