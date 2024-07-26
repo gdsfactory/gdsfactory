@@ -1,0 +1,15 @@
+info: {}
+name: mmi_tapered_I1_O2_WNone_01382774
+settings:
+  cross_section: strip
+  gap_input_tapers: 0.25
+  gap_output_tapers: 0.25
+  inputs: 1
+  length_mmi: 5.5
+  length_taper: 10
+  length_taper_in: 1
+  outputs: 2
+  taper: taper
+  width_mmi: 5
+  width_taper: 1
+  width_taper_in: 2
