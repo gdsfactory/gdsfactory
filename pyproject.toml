@@ -74,6 +74,7 @@ docs = [
 full = [
   "gplugins[devsim,femwell,gmsh,meow,sax,schematic,tidy3d,vlsir]>=1,<2",
   "scikit-rf",
+  "omegaconf",
   "autograd"
 ]
 maintainer = [
