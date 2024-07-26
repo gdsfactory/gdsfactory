@@ -637,20 +637,23 @@ class ComponentBase:
         self,
         merge: bool = False,
         by: Literal["index"] | Literal["name"] | Literal["tuple"] = "index",
+        layers: list[LayerSpec] | None = None,
     ) -> dict[tuple[int, int] | str | int, list[kf.kdb.Polygon]]:
         """Returns a dict of Polygons per layer.
 
         Args:
             merge: if True, merges the polygons.
             by: the format of the resulting keys in the dictionary ('index', 'name', 'tuple')
+            layers: list of layers to get polygons from. Defaults to all layers.
         """
-        return get_polygons(self, merge=merge, by=by)
+        return get_polygons(self, merge=merge, by=by, layers=layers)
 
     def get_polygons_points(
         self,
         merge: bool = False,
         scale: float | None = None,
         by: Literal["index"] | Literal["name"] | Literal["tuple"] = "index",
+        layers: list[LayerSpec] | None = None,
     ) -> dict[int | str | tuple[int, int], list[tuple[float, float]]]:
         """Returns a dict with list of points per layer.
 
@@ -658,8 +661,9 @@ class ComponentBase:
             merge: if True, merges the polygons.
             scale: if True, scales the points.
             by: the format of the resulting keys in the dictionary ('index', 'name', 'tuple')
+            layers: list of layers to get polygons from. Defaults to all layers.
         """
-        return get_polygons_points(self, merge=merge, scale=scale, by=by)
+        return get_polygons_points(self, merge=merge, scale=scale, by=by, layers=layers)
 
     def get_labels(
         self, layer: LayerSpec, recursive: bool = True

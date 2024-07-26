@@ -8,11 +8,12 @@ from numpy import cos, float64, ndarray, sin
 
 import gdsfactory as gf
 
-RAD2DEG = 180.0 / np.pi
-DEG2RAD = 1 / RAD2DEG
-
 if TYPE_CHECKING:
     from gdsfactory.component import Component, Instance
+    from gdsfactory.typings import LayerSpecs
+
+RAD2DEG = 180.0 / np.pi
+DEG2RAD = 1 / RAD2DEG
 
 
 def move_port_to_zero(
@@ -47,13 +48,15 @@ def get_polygons(
     component_or_instance: Component | Instance,
     merge: bool = False,
     by: Literal["index"] | Literal["name"] | Literal["tuple"] = "index",
+    layers: LayerSpecs | None = None,
 ) -> dict[tuple[int, int] | str | int, list[kf.kdb.Polygon]]:
     """Returns a dict of Polygons per layer.
 
     Args:
         component_or_instance: to extract the polygons.
         merge: if True, merges the polygons.
-        by: the format of the resulting keys in the dictionary ('index', 'name', 'tuple')
+        by: the format of the resulting keys in the dictionary ('index', 'name', 'tuple').
+        layers: list of layer specs to extract the polygons from. If None, extracts all layers.
     """
     from gdsfactory import get_layer, get_layer_name
 
@@ -64,7 +67,7 @@ def get_polygons(
     elif by == "tuple":
 
         def get_key(layer):
-            return layer
+            return tuple(layer)
 
     else:
         raise ValueError("argument 'by' should be 'index' | 'name' | 'tuple'")
@@ -72,15 +75,19 @@ def get_polygons(
     polygons = {}
 
     c = component_or_instance
-    layers = [
+    if layers is None:
+        layers = c.kcl.layer_infos()
+
+    layers = layers or [
         (info.layer, info.datatype)
         for info in c.kcl.layer_infos()
         if not c.bbox(c.kcl.layer(info)).empty()
     ]
 
-    for layer in layers:
-        layer_index = get_layer(layer)
-        layer_key = get_key(layer)
+    layer_indexes = [gf.get_layer(layer) for layer in layers]
+
+    for layer_index in layer_indexes:
+        layer_key = get_key(layer_index)
         if isinstance(component_or_instance, gf.Component):
             r = gf.kdb.Region(c.begin_shapes_rec(layer_index))
         else:
@@ -101,6 +108,7 @@ def get_polygons_points(
     merge: bool = False,
     scale: float | None = None,
     by: Literal["index"] | Literal["name"] | Literal["tuple"] = "index",
+    layers: LayerSpecs | None = None,
 ) -> dict[int | str | tuple[int, int], list[tuple[float, float]]]:
     """Returns a dict with list of points per layer.
 
@@ -108,10 +116,11 @@ def get_polygons_points(
         component_or_instance: to extract the polygons.
         merge: if True, merges the polygons.
         scale: if True, scales the points.
-        by: the format of the resulting keys in the dictionary ('index', 'name', 'tuple')
+        by: the format of the resulting keys in the dictionary ('index', 'name', 'tuple').
+        layers: list of layer specs to extract the polygons from. If None, extracts all layers.
     """
     polygons_dict = get_polygons(
-        component_or_instance=component_or_instance, merge=merge, by=by
+        component_or_instance=component_or_instance, merge=merge, by=by, layers=layers
     )
     polygons_points = {}
     for layer, polygons in polygons_dict.items():
@@ -148,7 +157,7 @@ def get_point_inside(component_or_instance: Component | Instance, layer) -> np.n
         layer: to find a point inside.
     """
     layer = gf.get_layer(layer)
-    return get_polygons_points(component_or_instance)[layer][0][0]
+    return get_polygons_points(component_or_instance, layers=[layer])[layer][0][0]
 
 
 def sign_shape(pts: ndarray) -> float64:
@@ -320,6 +329,8 @@ def extrude_path(
 
 if __name__ == "__main__":
     c = gf.c.rectangle(size=(10, 10), centered=True)
+    p = c.get_polygons(layers=("WG",), by="tuple")
+    print(list(p.keys())[0])
     # c = gf.Component()
     # ref = c << gf.components.mzi_lattice()
     # ref.dmovey(15)
@@ -327,5 +338,5 @@ if __name__ == "__main__":
     # p = get_point_inside(ref, layer=(1, 0))
     # c.add_label(text="hello", position=p)
     # c.show()
-    c = move_port_to_zero(c, port_name="e4")
-    c.show()
+    # c = move_port_to_zero(c, port_name="e4")
+    # c.show()
