@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.6.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.6.0) - 2024-07-27
+
+No significant changes.
+
+
 ## [8.5.6](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.5.6) - 2024-07-21
 
 - fix straight_heater_metal_simple [#3004](https://github.com/gdsfactory/gdsfactory/pull/3004)
