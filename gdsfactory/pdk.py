@@ -594,6 +594,13 @@ def get_layer_name(layer: LayerSpec) -> str:
     return str(get_active_pdk().layers(layer_index))
 
 
+def get_layer_tuple(layer: LayerSpec) -> tuple[int, int]:
+    """Returns layer tuple (layer, datatype) from a layer spec."""
+    layer_index = get_layer(layer)
+    info = kf.kcl.get_info(layer_index)
+    return info.layer, info.datatype
+
+
 def get_layer_views() -> LayerViews:
     return get_active_pdk().get_layer_views()
 
