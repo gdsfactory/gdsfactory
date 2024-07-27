@@ -415,7 +415,14 @@ class ComponentBase:
         c.info = self.info.model_copy()
         return c
 
-    def trim(self, left: float, bottom: float, right: float, top: float) -> None:
+    def trim(
+        self,
+        left: float,
+        bottom: float,
+        right: float,
+        top: float,
+        flatten: bool = False,
+    ) -> None:
         """Trims the Component to a bounding box.
 
         Args:
@@ -423,6 +430,7 @@ class ComponentBase:
             bottom: bottom coordinate of the bounding box.
             right: right coordinate of the bounding box.
             top: top coordinate of the bounding box.
+            flatten: if True, flattens the Component.
 
         """
         c = self
@@ -431,6 +439,8 @@ class ComponentBase:
         c.copy_tree(_kdb_cell)
         c.rebuild()
         _kdb_cell.delete()
+        if flatten:
+            c.flatten()
 
     def add_polygon(
         self,
