@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import warnings
 from typing import TYPE_CHECKING, Literal
 
 import kfactory as kf
@@ -327,7 +326,7 @@ def extrude_path(
 def trim(
     component: Component,
     domain: list[tuple[float, float]],
-    add_ports: bool = False,
+    flatten: bool = False,
 ) -> gf.Component:
     """Trim a component by another geometry, preserving the component's layers and ports.
 
@@ -336,7 +335,7 @@ def trim(
     Args:
         component: Component(/Reference).
         domain: list of array-like[N][2] representing the boundary of the component to keep.
-        add_ports: whether to add the ports or not.
+        flatten: if True, flattens the component.
 
     Returns: New component with layers (and possibly ports) of the component restricted to the domain.
 
@@ -348,23 +347,13 @@ def trim(
       trimmed_c = gf.functions.trim(component=c, domain=[[0, -5], [0, 5], [5, 5], [5, -5]])
       trimmed_c.plot()
     """
-    warnings.warn(
-        "Deprecated. Use Component.trim instead", DeprecationWarning, stacklevel=2
-    )
-    c = gf.Component()
+    dummy = gf.Component()
+    dummy.add_polygon(domain, layer=(1, 0))
+    dbbox = dummy.bbox()
+    left, bottom, right, top = dbbox.left, dbbox.bottom, dbbox.right, dbbox.top
 
-    for layer in component.layers:
-        region = gf.Component()
-        region.add_polygon(domain, layer=layer)
-        _ = c << gf.boolean(
-            region,
-            component,
-            operation="and",
-            layer=layer,
-        )
-    if add_ports:
-        c.add_ports(component.ports)
-    return c
+    component.trim(left=left, right=right, bottom=bottom, top=top, flatten=flatten)
+    return component
 
 
 if __name__ == "__main__":
