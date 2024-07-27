@@ -36,8 +36,8 @@ def import_gds(
     if post_process:
         post_process(c)
 
-    # temp_kcl.library.delete()
-    # del kf.kcell.kcls[temp_kcl.name]
+    temp_kcl.library.delete()
+    del kf.kcell.kcls[temp_kcl.name]
     return c
 
 
