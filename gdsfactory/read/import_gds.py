@@ -33,9 +33,11 @@ def import_gds(
     cellname = cellname or temp_kcl.top_cell().name
     kcell = temp_kcl[cellname]
     c = kcell_to_component(kcell)
-
     if post_process:
         post_process(c)
+
+    temp_kcl.library.delete()
+    del kf.kcell.kcls[temp_kcl.name]
     return c
 
 
@@ -43,7 +45,7 @@ def kcell_to_component(kcell: kf.KCell) -> Component:
     c = Component()
     c._kdb_cell.copy_tree(kcell._kdb_cell)
     c.rebuild()
-    c.ports = kcell.ports
+    c.add_ports(kcell.ports)
     c._settings = kcell.settings.model_copy()
     c.info = kcell.info.model_copy()
     c.name = kcell.name
