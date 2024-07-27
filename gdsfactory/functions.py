@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import warnings
 from typing import TYPE_CHECKING, Literal
 
 import kfactory as kf
@@ -347,6 +348,9 @@ def trim(
       trimmed_c = gf.functions.trim(component=c, domain=[[0, -5], [0, 5], [5, 5], [5, -5]])
       trimmed_c.plot()
     """
+    warnings.warn(
+        "Deprecated. Use Component.trim instead", DeprecationWarning, stacklevel=2
+    )
     c = gf.Component()
 
     for layer in component.layers:
@@ -365,7 +369,8 @@ def trim(
 
 if __name__ == "__main__":
     c = gf.components.ring_single()
-    # c = trim(c, domain=[[0, 0], [0, 10], [10, 10], [10, 0]])
+    # c.trim(left=0, right=10, bottom=0, top=10)
+    c = trim(c, domain=[[0, 0], [0, 10], [10, 10], [10, 0]])
     c.show()
 
     # c = gf.c.rectangle(size=(10, 10), centered=True)
