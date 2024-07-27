@@ -27,13 +27,13 @@ def test_extract() -> None:
     assert tuple(LAYER.WGCLAD) in c2.layers, c2.layers
 
 
-def test_hierarchy():
+def test_hierarchy() -> None:
     c = gf.c.mzi()
     assert len(c.called_cells()) == 5, len(c.called_cells())
     assert c.child_cells() == 5, c.child_cells()
 
 
-def test_get_polygons():
+def test_get_polygons() -> None:
     c = gf.components.straight()
     polygons = c.get_polygons(by="index")
     assert 1 in polygons
@@ -43,3 +43,12 @@ def test_get_polygons():
 
     polygons = c.get_polygons(by="tuple")
     assert (1, 0) in polygons
+
+
+def test_trim() -> None:
+    layer = (1, 0)
+    c1 = gf.c.rectangle(size=(9, 9), centered=True, layer=layer)
+    c1_area = c1.area(layer=layer)
+
+    c1.trim(left=-5, right=5, top=5, bottom=-5)
+    assert c1_area == c1.area(layer=layer), f"{c1_area} != {c1.area(layer=layer)}"
