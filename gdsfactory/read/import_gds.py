@@ -33,12 +33,11 @@ def import_gds(
     cellname = cellname or temp_kcl.top_cell().name
     kcell = temp_kcl[cellname]
     c = kcell_to_component(kcell)
-
-    temp_kcl.library.delete()
-    del kf.kcell.kcls[temp_kcl.name]
-
     if post_process:
         post_process(c)
+
+    # temp_kcl.library.delete()
+    # del kf.kcell.kcls[temp_kcl.name]
     return c
 
 

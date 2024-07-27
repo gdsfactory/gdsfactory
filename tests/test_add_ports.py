@@ -22,6 +22,7 @@ def test_add_ports_from_pins() -> None:
     x = 1.235
     c = gf.components.straight(length=x)
     c = gf.add_pins.add_pins_container(c)
+
     gdspath = c.write_gds(with_metadata=False)
     add_ports = partial(
         add_ports_from_markers_inside, pin_layer=LAYER.PORT, inside=True

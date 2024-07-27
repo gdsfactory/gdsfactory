@@ -831,8 +831,7 @@ class ComponentBase:
             save_options = save_layout_options()
 
         if not with_metadata:
-            saveopts = kf.save_layout_options()
-            saveopts.write_context_info = False
+            save_options.write_context_info = False
 
         if kwargs:
             for k in kwargs:
