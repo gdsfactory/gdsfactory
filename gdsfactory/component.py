@@ -800,6 +800,7 @@ class ComponentBase:
         gdspath: PathType | None = None,
         gdsdir: PathType | None = None,
         save_options: kdb.SaveLayoutOptions | None = None,
+        with_metadata: bool = True,
         **kwargs,
     ) -> pathlib.Path:
         """Write component to GDS and returns gdspath.
@@ -808,6 +809,7 @@ class ComponentBase:
             gdspath: GDS file path to write to.
             gdsdir: directory for the GDS file. Defaults to /tmp/randomFile/gdsfactory.
             save_options: klayout save options.
+            with_metadata: if True, writes metadata (ports, settings) to the GDS file.
             kwargs: deprecated.
         """
         if gdspath and gdsdir:
@@ -827,6 +829,10 @@ class ComponentBase:
 
         if save_options is None:
             save_options = save_layout_options()
+
+        if not with_metadata:
+            saveopts = kf.save_layout_options()
+            saveopts.write_context_info = False
 
         if kwargs:
             for k in kwargs:
