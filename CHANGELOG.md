@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.6.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.6.1) - 2024-07-28
+
+No significant changes.
+
+
 ## [8.6.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.6.0) - 2024-07-27
 
 - add trim in place [#3048](https://github.com/gdsfactory/gdsfactory/pull/3048)
