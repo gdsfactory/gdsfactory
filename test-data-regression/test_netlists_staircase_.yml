@@ -1,5 +1,5 @@
 instances:
-  '-1':
+  '1':
     component: straight
     info:
       length: 5
@@ -12,7 +12,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
-  '-2':
+  '2':
     component: straight
     info:
       length: 5
@@ -25,7 +25,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
-  '-3':
+  '3':
     component: straight
     info:
       length: 5
@@ -38,20 +38,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
-  '-4':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-5':
+  '4':
     component: straight
     info:
       length: 5
@@ -216,7 +203,7 @@ instances:
       cross_section: strip
       p: 0.5
       with_arc_floorplan: true
-  '|1':
+  m1:
     component: straight
     info:
       length: 5
@@ -229,7 +216,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
-  '|2':
+  m2:
     component: straight
     info:
       length: 5
@@ -242,7 +229,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
-  '|3':
+  m3:
     component: straight
     info:
       length: 5
@@ -255,7 +242,20 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
-  '|4':
+  m4:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m5:
     component: straight
     info:
       length: 5
@@ -270,64 +270,59 @@ instances:
       npoints: 2
 name: staircase_Cbend_euler_S_c2f7854d
 nets:
-- p1: -1,o2
-  p2: A1,o1
-- p1: -2,o1
-  p2: B1,o1
-- p1: -2,o2
-  p2: A2,o1
-- p1: -3,o1
-  p2: B2,o1
-- p1: -3,o2
-  p2: A3,o1
-- p1: -4,o1
-  p2: B3,o1
-- p1: -4,o2
-  p2: A4,o1
-- p1: -5,o1
-  p2: B4,o1
-- p1: A1,o2
-  p2: '|1,o1'
-- p1: A2,o2
-  p2: '|2,o1'
-- p1: A3,o2
-  p2: '|3,o1'
-- p1: A4,o2
-  p2: '|4,o1'
-- p1: B1,o2
-  p2: '|1,o2'
-- p1: B2,o2
-  p2: '|2,o2'
-- p1: B3,o2
-  p2: '|3,o2'
-- p1: B4,o2
-  p2: '|4,o2'
+- p1: 1,o1
+  p2: A1,o2
+- p1: 1,o2
+  p2: B1,o2
+- p1: 2,o1
+  p2: A2,o2
+- p1: 2,o2
+  p2: B2,o2
+- p1: 3,o1
+  p2: A3,o2
+- p1: 3,o2
+  p2: B3,o2
+- p1: 4,o1
+  p2: A4,o2
+- p1: 4,o2
+  p2: B4,o2
+- p1: A1,o1
+  p2: m1,o2
+- p1: A2,o1
+  p2: m2,o2
+- p1: A3,o1
+  p2: m3,o2
+- p1: A4,o1
+  p2: m4,o2
+- p1: B1,o1
+  p2: m2,o1
+- p1: B2,o1
+  p2: m3,o1
+- p1: B3,o1
+  p2: m4,o1
+- p1: B4,o1
+  p2: m5,o1
 placements:
-  '-1':
+  '1':
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
-  '-2':
+    rotation: 90
+    x: 15
+    y: 10
+  '2':
     mirror: false
-    rotation: 0
-    x: 25
-    y: 25
-  '-3':
+    rotation: 90
+    x: 40
+    y: 35
+  '3':
     mirror: false
-    rotation: 0
-    x: 50
-    y: 50
-  '-4':
+    rotation: 90
+    x: 65
+    y: 60
+  '4':
     mirror: false
-    rotation: 0
-    x: 75
-    y: 75
-  '-5':
-    mirror: false
-    rotation: 0
-    x: 100
-    y: 100
+    rotation: 90
+    x: 90
+    y: 85
   A1:
     mirror: false
     rotation: 0
@@ -368,26 +363,31 @@ placements:
     rotation: 180
     x: 100
     y: 100
-  '|1':
+  m1:
     mirror: false
-    rotation: 90
-    x: 15
-    y: 10
-  '|2':
+    rotation: 0
+    x: 0
+    y: 0
+  m2:
     mirror: false
-    rotation: 90
-    x: 40
-    y: 35
-  '|3':
+    rotation: 0
+    x: 25
+    y: 25
+  m3:
     mirror: false
-    rotation: 90
-    x: 65
-    y: 60
-  '|4':
+    rotation: 0
+    x: 50
+    y: 50
+  m4:
     mirror: false
-    rotation: 90
-    x: 90
-    y: 85
+    rotation: 0
+    x: 75
+    y: 75
+  m5:
+    mirror: false
+    rotation: 0
+    x: 100
+    y: 100
 ports:
-  o1: -1,o1
-  o2: -5,o2
+  o1: m1,o1
+  o2: m5,o2

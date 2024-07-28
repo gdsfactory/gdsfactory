@@ -1785,13 +1785,22 @@ placements:
         dy: 10
 """
 
+same_placement = """
+name: yaml_anchor
+instances:
+    mzi1:
+      component: mzi
+    mzi2:
+      component: mzi
+"""
+
 if __name__ == "__main__":
-    c = from_yaml(sample_rotation)
+    c = from_yaml(same_placement)
     # c = from_yaml(sample_array)
     # c = from_yaml(sample_yaml_xmin)
     # c = from_yaml(sample_array)
+    n = c.get_netlist()
     c.show()
-    # n = c.get_netlist()
     # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
     # c2 = from_yaml(yaml_str)
     # n2 = c2.get_netlist()

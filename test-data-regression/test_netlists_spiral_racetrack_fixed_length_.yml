@@ -19,7 +19,7 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  spiral_racetrack_MR5_SL_905ed8c1_36271_-2500:
+  spiral_racetrack_MR5_SL_905ed8c1_36271_m2500:
     component: spiral_racetrack
     info:
       length: 922.293
@@ -52,7 +52,7 @@ instances:
       length: 10
       npoints: 2
       width: 0.5
-  straight_L20p25_N2_CSstrip_-10125_20000:
+  straight_L20p25_N2_CSstrip_m10125_20000:
     component: straight
     info:
       length: 20.25
@@ -85,9 +85,9 @@ nets:
   p2: straight_L47p457_N2_CSstrip_W0p5_126271_20000,o1
 - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_97418_15125,o2
   p2: straight_L10_N2_CSstrip_W0p5_92543_5000,o1
-- p1: spiral_racetrack_MR5_SL_905ed8c1_36271_-2500,o1
-  p2: straight_L20p25_N2_CSstrip_-10125_20000,o1
-- p1: spiral_racetrack_MR5_SL_905ed8c1_36271_-2500,o2
+- p1: spiral_racetrack_MR5_SL_905ed8c1_36271_m2500,o1
+  p2: straight_L20p25_N2_CSstrip_m10125_20000,o1
+- p1: spiral_racetrack_MR5_SL_905ed8c1_36271_m2500,o2
   p2: straight_L10_N2_CSstrip_W0p5_92543_5000,o2
 placements:
   bend_euler_R10_A90_P0p5_2f1f5c6d_97418_15125:
@@ -95,7 +95,7 @@ placements:
     rotation: 180
     x: 102.543
     y: 20
-  spiral_racetrack_MR5_SL_905ed8c1_36271_-2500:
+  spiral_racetrack_MR5_SL_905ed8c1_36271_m2500:
     mirror: false
     rotation: 0
     x: 0
@@ -105,7 +105,7 @@ placements:
     rotation: 270
     x: 92.543
     y: 10
-  straight_L20p25_N2_CSstrip_-10125_20000:
+  straight_L20p25_N2_CSstrip_m10125_20000:
     mirror: false
     rotation: 180
     x: 0
@@ -116,5 +116,5 @@ placements:
     x: 102.543
     y: 20
 ports:
-  o1: straight_L20p25_N2_CSstrip_-10125_20000,o2
+  o1: straight_L20p25_N2_CSstrip_m10125_20000,o2
   o2: straight_L47p457_N2_CSstrip_W0p5_126271_20000,o2

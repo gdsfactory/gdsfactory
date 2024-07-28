@@ -71,7 +71,7 @@ instances:
       size:
       - 100
       - 100
-  via_stack_S11_11_LM1_M2_e6789b8f_200000_-55500:
+  via_stack_S11_11_LM1_M2_e6789b8f_200000_m55500:
     component: via_stack
     info:
       xsize: 11
@@ -131,7 +131,7 @@ instances:
       - via1
       - via2
       - null
-  via_stack_S11_11_LM1_M2_e6789b8f_50000_-55500:
+  via_stack_S11_11_LM1_M2_e6789b8f_50000_m55500:
     component: via_stack
     info:
       xsize: 11
@@ -154,13 +154,13 @@ instances:
 name: greek_cross_with_pads_P_fa616bf3
 nets:
 - p1: pad_S100_100_LMTOP_BLNo_fdaf576b_200000_0,e4
-  p2: via_stack_S11_11_LM1_M2_e6789b8f_200000_-55500,e2
+  p2: via_stack_S11_11_LM1_M2_e6789b8f_200000_m55500,e2
 - p1: pad_S100_100_LMTOP_BLNo_fdaf576b_350000_0,e2
   p2: via_stack_S11_11_LM1_M2_e6789b8f_350000_55500,e4
 - p1: pad_S100_100_LMTOP_BLNo_fdaf576b_500000_0,e2
   p2: via_stack_S11_11_LM1_M2_e6789b8f_500000_55500,e4
 - p1: pad_S100_100_LMTOP_BLNo_fdaf576b_50000_0,e4
-  p2: via_stack_S11_11_LM1_M2_e6789b8f_50000_-55500,e2
+  p2: via_stack_S11_11_LM1_M2_e6789b8f_50000_m55500,e2
 placements:
   greek_cross_L30_LWG_N_W_d7395c88_275000_0:
     mirror: false
@@ -187,7 +187,7 @@ placements:
     rotation: 0
     x: 50
     y: 0
-  via_stack_S11_11_LM1_M2_e6789b8f_200000_-55500:
+  via_stack_S11_11_LM1_M2_e6789b8f_200000_m55500:
     mirror: false
     rotation: 0
     x: 200
@@ -202,7 +202,7 @@ placements:
     rotation: 0
     x: 500
     y: 55.5
-  via_stack_S11_11_LM1_M2_e6789b8f_50000_-55500:
+  via_stack_S11_11_LM1_M2_e6789b8f_50000_m55500:
     mirror: false
     rotation: 0
     x: 50
@@ -220,15 +220,15 @@ warnings:
       - pad_S100_100_LMTOP_BLNo_fdaf576b_50000_0,e1
       - pad_S100_100_LMTOP_BLNo_fdaf576b_50000_0,e2
       - pad_S100_100_LMTOP_BLNo_fdaf576b_50000_0,e3
-      - via_stack_S11_11_LM1_M2_e6789b8f_50000_-55500,e1
-      - via_stack_S11_11_LM1_M2_e6789b8f_50000_-55500,e3
-      - via_stack_S11_11_LM1_M2_e6789b8f_50000_-55500,e4
+      - via_stack_S11_11_LM1_M2_e6789b8f_50000_m55500,e1
+      - via_stack_S11_11_LM1_M2_e6789b8f_50000_m55500,e3
+      - via_stack_S11_11_LM1_M2_e6789b8f_50000_m55500,e4
       - pad_S100_100_LMTOP_BLNo_fdaf576b_200000_0,e1
       - pad_S100_100_LMTOP_BLNo_fdaf576b_200000_0,e2
       - pad_S100_100_LMTOP_BLNo_fdaf576b_200000_0,e3
-      - via_stack_S11_11_LM1_M2_e6789b8f_200000_-55500,e1
-      - via_stack_S11_11_LM1_M2_e6789b8f_200000_-55500,e3
-      - via_stack_S11_11_LM1_M2_e6789b8f_200000_-55500,e4
+      - via_stack_S11_11_LM1_M2_e6789b8f_200000_m55500,e1
+      - via_stack_S11_11_LM1_M2_e6789b8f_200000_m55500,e3
+      - via_stack_S11_11_LM1_M2_e6789b8f_200000_m55500,e4
       - pad_S100_100_LMTOP_BLNo_fdaf576b_350000_0,e1
       - pad_S100_100_LMTOP_BLNo_fdaf576b_350000_0,e3
       - pad_S100_100_LMTOP_BLNo_fdaf576b_350000_0,e4

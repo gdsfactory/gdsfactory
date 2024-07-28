@@ -1,5 +1,5 @@
 instances:
-  bend_s_S10_1p633_N99_CS_f2808815_5000_-1184:
+  bend_s_S10_1p633_N99_CS_f2808815_5000_1183:
     component: bend_s
     info:
       end_angle: 0
@@ -19,7 +19,7 @@ instances:
       size:
       - 10
       - 1.633
-  bend_s_S10_1p633_N99_CS_f2808815_5000_1183:
+  bend_s_S10_1p633_N99_CS_f2808815_5000_m1184:
     component: bend_s
     info:
       end_angle: 0
@@ -42,18 +42,18 @@ instances:
 name: coupler_symmetric_Bbend_7b4ba87e
 nets: []
 placements:
-  bend_s_S10_1p633_N99_CS_f2808815_5000_-1184:
-    mirror: true
-    rotation: 0
-    x: 0
-    y: -0.367
   bend_s_S10_1p633_N99_CS_f2808815_5000_1183:
     mirror: false
     rotation: 0
     x: 0
     y: 0.367
+  bend_s_S10_1p633_N99_CS_f2808815_5000_m1184:
+    mirror: true
+    rotation: 0
+    x: 0
+    y: -0.367
 ports:
-  o1: bend_s_S10_1p633_N99_CS_f2808815_5000_-1184,o1
+  o1: bend_s_S10_1p633_N99_CS_f2808815_5000_m1184,o1
   o2: bend_s_S10_1p633_N99_CS_f2808815_5000_1183,o1
   o3: bend_s_S10_1p633_N99_CS_f2808815_5000_1183,o2
-  o4: bend_s_S10_1p633_N99_CS_f2808815_5000_-1184,o2
+  o4: bend_s_S10_1p633_N99_CS_f2808815_5000_m1184,o2
