@@ -1,12 +1,12 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.6.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.6.1...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.6.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.6.1) - 2024-07-28
 
-No significant changes.
-
+- Fix netlist names [#3053](https://github.com/gdsfactory/gdsfactory/pull/3053)
+- fix trim [#3052](https://github.com/gdsfactory/gdsfactory/pull/3052)
 
 ## [8.6.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.6.0) - 2024-07-27
 
