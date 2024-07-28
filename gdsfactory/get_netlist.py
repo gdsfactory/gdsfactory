@@ -23,6 +23,7 @@ from collections import defaultdict
 from collections.abc import Callable
 from pprint import pprint
 from typing import Any
+from warnings import warn
 
 import numpy as np
 
@@ -381,9 +382,9 @@ def _extract_connections(
         w: warnings[w] for w in raise_error_for_warnings if w in warnings
     }
 
-    if critical_warnings:
+    if critical_warnings and raise_error_for_warnings:
         pprint(critical_warnings)
-        raise ValueError("Found critical warnings while extracting netlist")
+        warn("Found critical warnings while extracting netlist")
     return connections, dict(warnings)
 
 
