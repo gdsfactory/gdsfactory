@@ -1,5 +1,5 @@
 instances:
-  bend_euler_R30_A90_P0p5_6f642382_-15125_776875:
+  bend_euler_R30_A90_P0p5_6f642382_m15125_776875:
     component: bend_euler
     info:
       dy: 30
@@ -19,7 +19,7 @@ instances:
       p: 0.5
       radius: 30
       with_arc_floorplan: true
-  bend_euler_R30_A90_P0p5_6f642382_-15125_874125:
+  bend_euler_R30_A90_P0p5_6f642382_m15125_874125:
     component: bend_euler
     info:
       dy: 30
@@ -39,7 +39,7 @@ instances:
       p: 0.5
       radius: 30
       with_arc_floorplan: true
-  bend_euler_R30_A90_P0p5_6f642382_-16125_112125:
+  bend_euler_R30_A90_P0p5_6f642382_m16125_112125:
     component: bend_euler
     info:
       dy: 30
@@ -59,7 +59,7 @@ instances:
       p: 0.5
       radius: 30
       with_arc_floorplan: true
-  bend_euler_R30_A90_P0p5_6f642382_-16125_14875:
+  bend_euler_R30_A90_P0p5_6f642382_m16125_14875:
     component: bend_euler
     info:
       dy: 30
@@ -92,7 +92,7 @@ instances:
       - o1
       - o2
       port_type: optical
-  straight_L67_N2_CSstrip_W0p5_-30000_825500:
+  straight_L67_N2_CSstrip_W0p5_m30000_825500:
     component: straight
     info:
       length: 67
@@ -106,7 +106,7 @@ instances:
       length: 67
       npoints: 2
       width: 0.5
-  straight_L67_N2_CSstrip_W0p5_-31000_63500:
+  straight_L67_N2_CSstrip_W0p5_m31000_63500:
     component: straight
     info:
       length: 67
@@ -122,39 +122,39 @@ instances:
       width: 0.5
 name: edge_coupler_array_with_0e29eb5f
 nets:
-- p1: bend_euler_R30_A90_P0p5_6f642382_-15125_776875,o1
-  p2: straight_L67_N2_CSstrip_W0p5_-30000_825500,o2
-- p1: bend_euler_R30_A90_P0p5_6f642382_-15125_776875,o2
+- p1: bend_euler_R30_A90_P0p5_6f642382_m15125_776875,o1
+  p2: straight_L67_N2_CSstrip_W0p5_m30000_825500,o2
+- p1: bend_euler_R30_A90_P0p5_6f642382_m15125_776875,o2
   p2: extend_ports_Cedge_coup_c53a732f_49500_474375,o7
-- p1: bend_euler_R30_A90_P0p5_6f642382_-15125_874125,o1
+- p1: bend_euler_R30_A90_P0p5_6f642382_m15125_874125,o1
   p2: extend_ports_Cedge_coup_c53a732f_49500_474375,o8
-- p1: bend_euler_R30_A90_P0p5_6f642382_-15125_874125,o2
-  p2: straight_L67_N2_CSstrip_W0p5_-30000_825500,o1
-- p1: bend_euler_R30_A90_P0p5_6f642382_-16125_112125,o1
+- p1: bend_euler_R30_A90_P0p5_6f642382_m15125_874125,o2
+  p2: straight_L67_N2_CSstrip_W0p5_m30000_825500,o1
+- p1: bend_euler_R30_A90_P0p5_6f642382_m16125_112125,o1
   p2: extend_ports_Cedge_coup_c53a732f_49500_474375,o2
-- p1: bend_euler_R30_A90_P0p5_6f642382_-16125_112125,o2
-  p2: straight_L67_N2_CSstrip_W0p5_-31000_63500,o1
-- p1: bend_euler_R30_A90_P0p5_6f642382_-16125_14875,o1
-  p2: straight_L67_N2_CSstrip_W0p5_-31000_63500,o2
-- p1: bend_euler_R30_A90_P0p5_6f642382_-16125_14875,o2
+- p1: bend_euler_R30_A90_P0p5_6f642382_m16125_112125,o2
+  p2: straight_L67_N2_CSstrip_W0p5_m31000_63500,o1
+- p1: bend_euler_R30_A90_P0p5_6f642382_m16125_14875,o1
+  p2: straight_L67_N2_CSstrip_W0p5_m31000_63500,o2
+- p1: bend_euler_R30_A90_P0p5_6f642382_m16125_14875,o2
   p2: extend_ports_Cedge_coup_c53a732f_49500_474375,o1
 placements:
-  bend_euler_R30_A90_P0p5_6f642382_-15125_776875:
+  bend_euler_R30_A90_P0p5_6f642382_m15125_776875:
     mirror: false
     rotation: 270
     x: -30
     y: 792
-  bend_euler_R30_A90_P0p5_6f642382_-15125_874125:
+  bend_euler_R30_A90_P0p5_6f642382_m15125_874125:
     mirror: false
     rotation: 180
     x: 0
     y: 889
-  bend_euler_R30_A90_P0p5_6f642382_-16125_112125:
+  bend_euler_R30_A90_P0p5_6f642382_m16125_112125:
     mirror: false
     rotation: 180
     x: -1
     y: 127
-  bend_euler_R30_A90_P0p5_6f642382_-16125_14875:
+  bend_euler_R30_A90_P0p5_6f642382_m16125_14875:
     mirror: false
     rotation: 270
     x: -31
@@ -164,12 +164,12 @@ placements:
     rotation: 0
     x: 0
     y: 0
-  straight_L67_N2_CSstrip_W0p5_-30000_825500:
+  straight_L67_N2_CSstrip_W0p5_m30000_825500:
     mirror: false
     rotation: 270
     x: -30
     y: 859
-  straight_L67_N2_CSstrip_W0p5_-31000_63500:
+  straight_L67_N2_CSstrip_W0p5_m31000_63500:
     mirror: false
     rotation: 270
     x: -31

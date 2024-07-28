@@ -23,7 +23,7 @@ def test_netlist_simple_width_mismatch_throws_error() -> None:
     c2.connect("o1", c1.ports["o2"], allow_width_mismatch=True)
     c.add_port("o1", port=c1.ports["o1"])
     c.add_port("o2", port=c2.ports["o2"])
-    with pytest.raises(ValueError):
+    with pytest.warns(UserWarning):
         c.get_netlist()
 
 
@@ -94,7 +94,7 @@ def test_get_netlist_cell_array_connecting() -> None:
     c = gf.components.array(
         gf.components.straight(length=100), spacing=(100, 0), columns=5, rows=1
     )
-    with pytest.raises(ValueError):
+    with pytest.warns(UserWarning):
         # because the component-array has automatic external ports, we assume no internal self-connections
         # we expect a ValueError to be thrown where the serendipitous connections are
         c.get_netlist()
@@ -187,7 +187,7 @@ def test_get_netlist_throws_error_bad_rotation() -> None:
     i2 = c.add_ref(gf.components.straight(), "i2")
     i2.connect("o2", i1.ports["o1"])
     i2.drotate(90)
-    with pytest.raises(ValueError):
+    with pytest.warns(UserWarning):
         c.get_netlist()
 
 

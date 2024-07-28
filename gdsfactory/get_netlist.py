@@ -349,7 +349,7 @@ def _extract_connections(
 
         elif not allow_multiple:
             warnings["multiple_connections"].append(ports_at_xy)
-            raise ValueError(f"Found multiple connections at {xy}:{ports_at_xy}")
+            warn(f"Found multiple connections at {xy}:{ports_at_xy}")
 
         else:
             # Iterates over the list of multiple ports to create related two-port connectivity
@@ -586,6 +586,9 @@ if __name__ == "__main__":
     # c.add_port("o2", port=bend.ports["o2"])
 
     c = gf.c.mzi()
+    c = gf.components.array(
+        gf.components.straight(length=100), spacing=(100, 0), columns=5, rows=1
+    )
     c.show()
     n0 = c.get_netlist()
     # pprint(n0)
