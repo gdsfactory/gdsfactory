@@ -78,7 +78,7 @@ def get_instance_name_from_alias(reference: ComponentReference) -> str:
     Args:
         reference: reference that needs naming.
     """
-    return reference.name
+    return clean_name(reference.name)
 
 
 def get_instance_name_from_label(
@@ -584,7 +584,7 @@ if __name__ == "__main__":
     # c.add_port("o1", port=mzi.ports["o1"])
     # c.add_port("o2", port=bend.ports["o2"])
 
-    c = gf.c.array(spacing=(300, 300), columns=2)
+    c = gf.c.mzi()
     c.show()
     n0 = c.get_netlist()
     # pprint(n0)
@@ -592,5 +592,5 @@ if __name__ == "__main__":
     gdspath = c.write_gds("test.gds")
     c = gf.import_gds(gdspath)
     n = c.get_netlist()
-    pprint(n)
+    pprint(n["placements"])
     c.show()
