@@ -349,15 +349,15 @@ def trim(
     """
     dummy = gf.Component()
     dummy.add_polygon(domain, layer=(1, 0))
-    dbbox = dummy.bbox()
+    dbbox = dummy.dbbox()
     left, bottom, right, top = dbbox.left, dbbox.bottom, dbbox.right, dbbox.top
-
     component.trim(left=left, right=right, bottom=bottom, top=top, flatten=flatten)
     return component
 
 
 if __name__ == "__main__":
     c = gf.components.ring_single()
+    c = gf.components.straight_pin(length=11, taper=None)
     # c.trim(left=0, right=10, bottom=0, top=10)
     c = trim(c, domain=[[0, 0], [0, 10], [10, 10], [10, 0]])
     c.show()
