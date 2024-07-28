@@ -431,16 +431,18 @@ class ComponentBase:
             right: right coordinate of the bounding box.
             top: top coordinate of the bounding box.
             flatten: if True, flattens the Component.
-
         """
         c = self
-        _kdb_cell = c.kcl.clip(c._kdb_cell, kdb.DBox(left, bottom, right, top))
-        c._kdb_cell.clear()
-        c.copy_tree(_kdb_cell)
-        c.rebuild()
-        _kdb_cell.delete()
-        if flatten:
-            c.flatten()
+
+        domain_box = kdb.DBox(left, bottom, right, top)
+        if not c.dbbox().inside(domain_box):
+            _kdb_cell = c.kcl.clip(c._kdb_cell, kdb.DBox(left, bottom, right, top))
+            c._kdb_cell.clear()
+            c.copy_tree(_kdb_cell)
+            c.rebuild()
+            _kdb_cell.delete()
+            if flatten:
+                c.flatten()
 
     def add_polygon(
         self,

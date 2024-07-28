@@ -21,6 +21,18 @@ def test_get_polygons():
 
 def test_trim() -> None:
     layer = (1, 0)
+    c1 = gf.c.rectangle(size=(11, 11), centered=True, layer=layer)
+    c2 = gf.functions.trim(
+        c1,
+        domain=((-5, -5), (-5, +5), (+5, +5), (+5, -5)),
+    )
+    area = c2.area(layer=layer)
+    assert area == 100, f"{area} != 100"
+    assert len(c2.ports) == len(c1.ports), f"{len(c2.ports)} != {len(c1.ports)}"
+
+
+def test_trim_no_clipping() -> None:
+    layer = (1, 0)
     c1 = gf.c.rectangle(size=(10, 10), centered=True, layer=layer)
     c2 = gf.functions.trim(
         c1,
@@ -31,3 +43,7 @@ def test_trim() -> None:
     ), f"{c1.area(layer=layer)} != {c2.area(layer=layer)}"
 
     assert len(c2.ports) == len(c1.ports), f"{len(c2.ports)} != {len(c1.ports)}"
+
+
+if __name__ == "__main__":
+    test_trim_no_clipping()
