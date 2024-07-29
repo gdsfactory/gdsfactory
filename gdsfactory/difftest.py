@@ -4,6 +4,7 @@ import filecmp
 import pathlib
 import shutil
 
+import kfactory as kf
 from kfactory import KCell, KCLayout, kdb, logger
 
 import gdsfactory as gf
@@ -140,6 +141,8 @@ def diff(
         rundiff.copy_tree(run._kdb_cell)
         old = c << refdiff
         new = c << rundiff
+        refdiff.library.delete()
+        del kf.kcell.kcls[refdiff.name]
         dy = 10
         old.dmovey(+old.dysize + dy)
         new.dmovey(-old.dysize - dy)
