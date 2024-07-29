@@ -257,9 +257,6 @@
 - Rename fiber ports [#2700](https://github.com/gdsfactory/gdsfactory/pull/2700)
 - fix stl export [#2702](https://github.com/gdsfactory/gdsfactory/pull/2702)
 - add via_stack to spiral_heater [#2698](https://github.com/gdsfactory/gdsfactory/pull/2698)
-
-## Dependency Updates
-
 - Bump sphinx from 7.2.6 to 7.3.7 [#2693](https://github.com/gdsfactory/gdsfactory/pull/2693)
 - Update kweb requirement from <1.3,>=1.1.9 to >=1.1.9,<2.1 [#2675](https://github.com/gdsfactory/gdsfactory/pull/2675)
 - Update trimesh requirement from <4.3,>=4 to >=4,<4.4 [#2674](https://github.com/gdsfactory/gdsfactory/pull/2674)
@@ -490,9 +487,6 @@ Documentation
 - [pre-commit.ci] pre-commit autoupdate [#2510](https://github.com/gdsfactory/gdsfactory/pull/2510)
 - improve Component.simplify to keep layers and name [#2507](https://github.com/gdsfactory/gdsfactory/pull/2507)
 - add Component.simplify [#2505](https://github.com/gdsfactory/gdsfactory/pull/2505)
-
-Dependency Updates:
-
 - Update pydantic requirement from <2.6,>=2 to >=2,<2.7 [#2508](https://github.com/gdsfactory/gdsfactory/pull/2508)
 
 
