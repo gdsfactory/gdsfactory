@@ -323,10 +323,44 @@ def extrude_path(
     return np.round(pts / grid) * grid
 
 
+def trim(
+    component: Component,
+    domain: list[tuple[float, float]],
+    flatten: bool = False,
+) -> gf.Component:
+    """Trim a component by another geometry, preserving the component's layers and ports.
+
+    Useful to get a smaller component from a larger one for simulation.
+
+    Args:
+        component: Component(/Reference).
+        domain: list of array-like[N][2] representing the boundary of the component to keep.
+        flatten: if True, flattens the component.
+
+    Returns: New component with layers (and possibly ports) of the component restricted to the domain.
+
+    .. plot::
+      :include-source:
+
+      import gdsfactory as gf
+      c = gf.components.straight_pin(length=10)
+      trimmed_c = gf.functions.trim(component=c, domain=[[0, -5], [0, 5], [5, 5], [5, -5]])
+      trimmed_c.plot()
+    """
+    dummy = gf.Component()
+    dummy.add_polygon(domain, layer=(1, 0))
+    dbbox = dummy.dbbox()
+    left, bottom, right, top = dbbox.left, dbbox.bottom, dbbox.right, dbbox.top
+    component.trim(left=left, right=right, bottom=bottom, top=top, flatten=flatten)
+    return component
+
+
 if __name__ == "__main__":
-    c = gf.components.seal_ring_segmented()
-    p = c.get_polygons_points()
-    print(p)
+    c = gf.components.ring_single()
+    c = gf.components.straight_pin(length=11, taper=None)
+    # c.trim(left=0, right=10, bottom=0, top=10)
+    c = trim(c, domain=[[0, 0], [0, 10], [10, 10], [10, 0]])
+    c.show()
 
     # c = gf.c.rectangle(size=(10, 10), centered=True)
     # p = c.get_polygons(layers=("WG",), by="tuple")

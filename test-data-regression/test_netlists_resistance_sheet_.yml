@@ -14,7 +14,7 @@ instances:
       size:
       - 50
       - 10
-  via_stack_S50_50_LHEATE_0ececd1b_-50000_0:
+  via_stack_S50_50_LHEATE_0ececd1b_50000_0:
     component: via_stack
     info:
       xsize: 50
@@ -34,7 +34,7 @@ instances:
       - null
       - via1
       - via2
-  via_stack_S50_50_LHEATE_0ececd1b_50000_0:
+  via_stack_S50_50_LHEATE_0ececd1b_m50000_0:
     component: via_stack
     info:
       xsize: 50
@@ -57,7 +57,7 @@ instances:
 name: resistance_sheet_W10_LH_1b3e3b4b
 nets:
 - p1: compass_S50_10_LHEATER__8f301b44_0_0,e1
-  p2: via_stack_S50_50_LHEATE_0ececd1b_-50000_0,e3
+  p2: via_stack_S50_50_LHEATE_0ececd1b_m50000_0,e3
 - p1: compass_S50_10_LHEATER__8f301b44_0_0,e3
   p2: via_stack_S50_50_LHEATE_0ececd1b_50000_0,e1
 placements:
@@ -66,26 +66,26 @@ placements:
     rotation: 0
     x: 0
     y: 0
-  via_stack_S50_50_LHEATE_0ececd1b_-50000_0:
-    mirror: false
-    rotation: 0
-    x: -50
-    y: 0
   via_stack_S50_50_LHEATE_0ececd1b_50000_0:
     mirror: false
     rotation: 0
     x: 50
     y: 0
+  via_stack_S50_50_LHEATE_0ececd1b_m50000_0:
+    mirror: false
+    rotation: 0
+    x: -50
+    y: 0
 ports:
-  pad1: via_stack_S50_50_LHEATE_0ececd1b_-50000_0,e4
+  pad1: via_stack_S50_50_LHEATE_0ececd1b_m50000_0,e4
   pad2: via_stack_S50_50_LHEATE_0ececd1b_50000_0,e4
 warnings:
   electrical:
     unconnected_ports:
     - message: 6 unconnected electrical ports!
       ports:
-      - via_stack_S50_50_LHEATE_0ececd1b_-50000_0,e1
-      - via_stack_S50_50_LHEATE_0ececd1b_-50000_0,e2
+      - via_stack_S50_50_LHEATE_0ececd1b_m50000_0,e1
+      - via_stack_S50_50_LHEATE_0ececd1b_m50000_0,e2
       - via_stack_S50_50_LHEATE_0ececd1b_50000_0,e2
       - via_stack_S50_50_LHEATE_0ececd1b_50000_0,e3
       - compass_S50_10_LHEATER__8f301b44_0_0,e2

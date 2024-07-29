@@ -11,7 +11,7 @@ instances:
       spacing:
       - 0
       - 150
-  rectangle_S22_7_LMTOP_C_53d534b7_6000_-3500:
+  rectangle_S22_7_LMTOP_C_53d534b7_6000_10500:
     component: rectangle
     info: {}
     settings:
@@ -26,7 +26,7 @@ instances:
       size:
       - 22
       - 7
-  rectangle_S22_7_LMTOP_C_53d534b7_6000_10500:
+  rectangle_S22_7_LMTOP_C_53d534b7_6000_m3500:
     component: rectangle
     info: {}
     settings:
@@ -49,16 +49,16 @@ placements:
     rotation: 0
     x: 122
     y: 0
-  rectangle_S22_7_LMTOP_C_53d534b7_6000_-3500:
-    mirror: false
-    rotation: 0
-    x: -5
-    y: -7
   rectangle_S22_7_LMTOP_C_53d534b7_6000_10500:
     mirror: false
     rotation: 0
     x: -5
     y: 7
+  rectangle_S22_7_LMTOP_C_53d534b7_6000_m3500:
+    mirror: false
+    rotation: 0
+    x: -5
+    y: -7
 ports: {}
 warnings:
   electrical:
@@ -69,10 +69,10 @@ warnings:
       - rectangle_S22_7_LMTOP_C_53d534b7_6000_10500,e2
       - rectangle_S22_7_LMTOP_C_53d534b7_6000_10500,e3
       - rectangle_S22_7_LMTOP_C_53d534b7_6000_10500,e4
-      - rectangle_S22_7_LMTOP_C_53d534b7_6000_-3500,e1
-      - rectangle_S22_7_LMTOP_C_53d534b7_6000_-3500,e2
-      - rectangle_S22_7_LMTOP_C_53d534b7_6000_-3500,e3
-      - rectangle_S22_7_LMTOP_C_53d534b7_6000_-3500,e4
+      - rectangle_S22_7_LMTOP_C_53d534b7_6000_m3500,e1
+      - rectangle_S22_7_LMTOP_C_53d534b7_6000_m3500,e2
+      - rectangle_S22_7_LMTOP_C_53d534b7_6000_m3500,e3
+      - rectangle_S22_7_LMTOP_C_53d534b7_6000_m3500,e4
       - array_Cpad_S0_150_C1_R3_7feb10c1_122000_0,e1_1_1
       - array_Cpad_S0_150_C1_R3_7feb10c1_122000_0,e2_1_1
       - array_Cpad_S0_150_C1_R3_7feb10c1_122000_0,e3_1_1

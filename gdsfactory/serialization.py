@@ -20,7 +20,9 @@ DEFAULT_SERIALIZATION_MAX_DIGITS = 3
 """By default, the maximum number of digits retained when serializing float-like arrays"""
 
 
-def convert_tuples_to_lists(data):
+def convert_tuples_to_lists(
+    data: dict[str, Any] | list[Any],
+) -> dict[str, Any] | list[Any]:
     if isinstance(data, dict):
         return {key: convert_tuples_to_lists(value) for key, value in data.items()}
     elif isinstance(data, list):

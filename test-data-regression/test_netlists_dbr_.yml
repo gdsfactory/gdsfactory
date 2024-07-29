@@ -14,7 +14,7 @@ instances:
       l2: 0.159
       w1: 0.45
       w2: 0.55
-  straight_L0p01_N2_CSxs_34e31a19_-5_0:
+  straight_L0p01_N2_CSxs_34e31a19_3185_0:
     component: straight
     info:
       length: 0.01
@@ -27,7 +27,7 @@ instances:
       cross_section: xs_34e31a19
       length: 0.01
       npoints: 2
-  straight_L0p01_N2_CSxs_34e31a19_3185_0:
+  straight_L0p01_N2_CSxs_34e31a19_m5_0:
     component: straight
     info:
       length: 0.01
@@ -43,7 +43,7 @@ instances:
 name: dbr_W0p45_W0p55_L0p159__efcfb70c
 nets:
 - p1: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<0.0>,o1
-  p2: straight_L0p01_N2_CSxs_34e31a19_-5_0,o1
+  p2: straight_L0p01_N2_CSxs_34e31a19_m5_0,o1
 - p1: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<0.0>,o2
   p2: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<1.0>,o1
 - p1: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<1.0>,o2
@@ -70,18 +70,18 @@ placements:
     rotation: 0
     x: 0
     y: 0
-  straight_L0p01_N2_CSxs_34e31a19_-5_0:
-    mirror: false
-    rotation: 180
-    x: 0
-    y: 0
   straight_L0p01_N2_CSxs_34e31a19_3185_0:
     mirror: false
     rotation: 0
     x: 3.18
     y: 0
+  straight_L0p01_N2_CSxs_34e31a19_m5_0:
+    mirror: false
+    rotation: 180
+    x: 0
+    y: 0
 ports:
-  o1: straight_L0p01_N2_CSxs_34e31a19_-5_0,o2
+  o1: straight_L0p01_N2_CSxs_34e31a19_m5_0,o2
 warnings:
   optical:
     unconnected_ports:
@@ -92,10 +92,10 @@ warnings:
       - - 3190
         - 0
     width_mismatch:
-    - message: Widths of ports straight_L0p01_N2_CSxs_34e31a19_-5_0,o1 and dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<0.0>,o1
+    - message: Widths of ports straight_L0p01_N2_CSxs_34e31a19_m5_0,o1 and dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<0.0>,o1
         not equal. Difference of 50 um
       ports:
-      - straight_L0p01_N2_CSxs_34e31a19_-5_0,o1
+      - straight_L0p01_N2_CSxs_34e31a19_m5_0,o1
       - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<0.0>,o1
       values:
       - 500

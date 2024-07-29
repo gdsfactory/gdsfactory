@@ -18,7 +18,8 @@ def regenerate_regression_test() -> None:
     b2.name = "b2"
     b2.dmirror_x(10)
     filepath = PATH.netlists / "bend_mirror.yml"
-    c.write_netlist(filepath, connection_error_types={})
+    n = c.get_netlist(connection_error_types={})
+    c.write_netlist(n, filepath)
 
 
 if __name__ == "__main__":

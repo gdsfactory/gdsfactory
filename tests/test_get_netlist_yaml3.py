@@ -15,7 +15,8 @@ def regenerate_regression_test() -> None:
     ref = c.add_ref(gf.components.bend_circular())
     ref.drotate(30)
     filepath = PATH.netlists / "bend_rotated.yml"
-    c.write_netlist(filepath)
+    n = c.get_netlist()
+    c.write_netlist(n, filepath)
 
 
 if __name__ == "__main__":

@@ -415,6 +415,35 @@ class ComponentBase:
         c.info = self.info.model_copy()
         return c
 
+    def trim(
+        self,
+        left: float,
+        bottom: float,
+        right: float,
+        top: float,
+        flatten: bool = False,
+    ) -> None:
+        """Trims the Component to a bounding box.
+
+        Args:
+            left: left coordinate of the bounding box.
+            bottom: bottom coordinate of the bounding box.
+            right: right coordinate of the bounding box.
+            top: top coordinate of the bounding box.
+            flatten: if True, flattens the Component.
+        """
+        c = self
+
+        domain_box = kdb.DBox(left, bottom, right, top)
+        if not c.dbbox().inside(domain_box):
+            _kdb_cell = c.kcl.clip(c._kdb_cell, kdb.DBox(left, bottom, right, top))
+            c._kdb_cell.clear()
+            c.copy_tree(_kdb_cell)
+            c.rebuild()
+            _kdb_cell.delete()
+            if flatten:
+                c.flatten()
+
     def add_polygon(
         self,
         points: np.ndarray
@@ -773,6 +802,7 @@ class ComponentBase:
         gdspath: PathType | None = None,
         gdsdir: PathType | None = None,
         save_options: kdb.SaveLayoutOptions | None = None,
+        with_metadata: bool = True,
         **kwargs,
     ) -> pathlib.Path:
         """Write component to GDS and returns gdspath.
@@ -781,6 +811,7 @@ class ComponentBase:
             gdspath: GDS file path to write to.
             gdsdir: directory for the GDS file. Defaults to /tmp/randomFile/gdsfactory.
             save_options: klayout save options.
+            with_metadata: if True, writes metadata (ports, settings) to the GDS file.
             kwargs: deprecated.
         """
         if gdspath and gdsdir:
@@ -800,6 +831,9 @@ class ComponentBase:
 
         if save_options is None:
             save_options = save_layout_options()
+
+        if not with_metadata:
+            save_options.write_context_info = False
 
         if kwargs:
             for k in kwargs:
@@ -950,14 +984,21 @@ class ComponentBase:
 
         return get_netlist(self, **kwargs)
 
-    def write_netlist(self, filepath: str, **kwargs) -> pathlib.Path:
-        """Write netlist in YAML."""
-        netlist = self.get_netlist(**kwargs)
+    def write_netlist(
+        self, netlist: dict[str, Any], filepath: str | pathlib.Path | None = None
+    ) -> str:
+        """Returns netlist as YAML string.
+
+        Args:
+            netlist: netlist to write.
+            filepath: Optional file path to write to.
+        """
         netlist = convert_tuples_to_lists(netlist)
-        yaml_component = yaml.dump(netlist)
-        filepath = pathlib.Path(filepath)
-        filepath.write_text(yaml_component)
-        return filepath
+        yaml_string = yaml.dump(netlist)
+        if filepath:
+            filepath = pathlib.Path(filepath)
+            filepath.write_text(yaml_string)
+        return yaml_string
 
     def plot_netlist(
         self,

@@ -129,7 +129,7 @@ instances:
       length: 1
       npoints: 2
       width: 0.55
-  straight_L3_N2_CSstrip_W0p55_26500_-600:
+  straight_L3_N2_CSstrip_W0p55_26500_23400:
     component: straight
     info:
       length: 3
@@ -143,7 +143,7 @@ instances:
       length: 3
       npoints: 2
       width: 0.55
-  straight_L3_N2_CSstrip_W0p55_26500_23400:
+  straight_L3_N2_CSstrip_W0p55_26500_m600:
     component: straight
     info:
       length: 3
@@ -266,7 +266,7 @@ instances:
       width2: 0.45
       with_bbox: true
       with_two_ports: true
-  taper_L5_W0p5_W0p55_PNo_839c49ab_22500_-600:
+  taper_L5_W0p5_W0p55_PNo_839c49ab_22500_m600:
     component: taper
     info:
       length: 5
@@ -298,7 +298,7 @@ nets:
 - p1: bend_euler_RNone_A90_P0_903f8d22_33137_18537,o2
   p2: straight_L3_N2_CSstrip_W0p55_26500_23400,o1
 - p1: bend_euler_RNone_A90_P0_903f8d22_33137_4262,o1
-  p2: straight_L3_N2_CSstrip_W0p55_26500_-600,o2
+  p2: straight_L3_N2_CSstrip_W0p55_26500_m600,o2
 - p1: bend_euler_RNone_A90_P0_903f8d22_33137_4262,o2
   p2: straight_L4_N2_CSstrip_W0p55_38000_11400,o1
 - p1: coupler_G0p2_L5_D2_D10_CSstrip_1500_22400,o3
@@ -308,7 +308,7 @@ nets:
 - p1: coupler_G0p3_L10_D2_D10_CSstrip_5000_400,o3
   p2: taper_L5_W0p5_W0p45_PNo_b650d75a_22500_1400,o1
 - p1: coupler_G0p3_L10_D2_D10_CSstrip_5000_400,o4
-  p2: taper_L5_W0p5_W0p55_PNo_839c49ab_22500_-600,o1
+  p2: taper_L5_W0p5_W0p55_PNo_839c49ab_22500_m600,o1
 - p1: straight_L1_N2_CSstrip_W0p45_19500_23400,o1
   p2: taper_L5_W0p55_W0p45_PN_df1360bc_22500_23400,o2
 - p1: straight_L1_N2_CSstrip_W0p45_19500_23400,o2
@@ -317,10 +317,10 @@ nets:
   p2: taper_L5_W0p45_W0p55_PN_f55f7d5c_22500_21400,o2
 - p1: straight_L1_N2_CSstrip_W0p55_19500_21400,o2
   p2: taper_L5_W0p55_W0p5_PNo_438ce168_16500_21400,o1
-- p1: straight_L3_N2_CSstrip_W0p55_26500_-600,o1
-  p2: taper_L5_W0p5_W0p55_PNo_839c49ab_22500_-600,o2
 - p1: straight_L3_N2_CSstrip_W0p55_26500_23400,o2
   p2: taper_L5_W0p55_W0p45_PN_df1360bc_22500_23400,o1
+- p1: straight_L3_N2_CSstrip_W0p55_26500_m600,o1
+  p2: taper_L5_W0p5_W0p55_PNo_839c49ab_22500_m600,o2
 placements:
   bend_euler_RNone_A90_P0_2aa8c47e_30112_16512:
     mirror: false
@@ -362,16 +362,16 @@ placements:
     rotation: 180
     x: 20
     y: 21.4
-  straight_L3_N2_CSstrip_W0p55_26500_-600:
-    mirror: false
-    rotation: 0
-    x: 25
-    y: -0.6
   straight_L3_N2_CSstrip_W0p55_26500_23400:
     mirror: false
     rotation: 180
     x: 28
     y: 23.4
+  straight_L3_N2_CSstrip_W0p55_26500_m600:
+    mirror: false
+    rotation: 0
+    x: 25
+    y: -0.6
   straight_L4_N2_CSstrip_W0p55_38000_11400:
     mirror: false
     rotation: 90
@@ -402,7 +402,7 @@ placements:
     rotation: 0
     x: 20
     y: 1.4
-  taper_L5_W0p5_W0p55_PNo_839c49ab_22500_-600:
+  taper_L5_W0p5_W0p55_PNo_839c49ab_22500_m600:
     mirror: false
     rotation: 0
     x: 20

@@ -1,7 +1,39 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.5.6...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.6.1...main)
 
 <!-- towncrier release notes start -->
+
+## [8.6.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.6.1) - 2024-07-28
+
+- Fix netlist names [#3053](https://github.com/gdsfactory/gdsfactory/pull/3053)
+- fix trim [#3052](https://github.com/gdsfactory/gdsfactory/pull/3052)
+
+## [8.6.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.6.0) - 2024-07-27
+
+- add trim in place [#3048](https://github.com/gdsfactory/gdsfactory/pull/3048)
+- add trim [#3047](https://github.com/gdsfactory/gdsfactory/pull/3047)
+- add omegaconf to docker build [#3044](https://github.com/gdsfactory/gdsfactory/pull/3044)
+- Add mmi tapered [#3043](https://github.com/gdsfactory/gdsfactory/pull/3043)
+- Small tweaks in `add_pins` [#3032](https://github.com/gdsfactory/gdsfactory/pull/3032)
+- Use Literals for typing port side in routing [#3026](https://github.com/gdsfactory/gdsfactory/pull/3026)
+- Removing omegaconf [#3025](https://github.com/gdsfactory/gdsfactory/pull/3025)
+- remove temp oasis files [#3049](https://github.com/gdsfactory/gdsfactory/pull/3049)
+- Fix get polygons by tuple [#3046](https://github.com/gdsfactory/gdsfactory/pull/3046)
+- Loosen pydantic version and add attrs to dependencies [#3030](https://github.com/gdsfactory/gdsfactory/pull/3030)
+- fix dup [#3031](https://github.com/gdsfactory/gdsfactory/pull/3031)
+- fix get_polygons for instances [#3020](https://github.com/gdsfactory/gdsfactory/pull/3020)
+- Fix Path curvature failing for simple straights [#3017](https://github.com/gdsfactory/gdsfactory/pull/3017)
+- fix boolean.py [#3013](https://github.com/gdsfactory/gdsfactory/pull/3013)
+- gf.functions.trim leverages hierarchical trim from Component.trim [#3050](https://github.com/gdsfactory/gdsfactory/pull/3050)
+- simpler add_pins [#3034](https://github.com/gdsfactory/gdsfactory/pull/3034)
+- default label instance [#3024](https://github.com/gdsfactory/gdsfactory/pull/3024)
+- [pre-commit.ci] pre-commit autoupdate [#3011](https://github.com/gdsfactory/gdsfactory/pull/3011)
+- add omegaconf to docker build [#3044](https://github.com/gdsfactory/gdsfactory/pull/3044)
+- Loosen pydantic version and add attrs to dependencies [#3030](https://github.com/gdsfactory/gdsfactory/pull/3030)
+- Removing omegaconf [#3025](https://github.com/gdsfactory/gdsfactory/pull/3025)
+- Pin kfactory [#3018](https://github.com/gdsfactory/gdsfactory/pull/3018)
+- Bump sphinx from 7.4.3 to 7.4.7 [#3009](https://github.com/gdsfactory/gdsfactory/pull/3009)
+
 
 ## [8.5.6](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.5.6) - 2024-07-21
 

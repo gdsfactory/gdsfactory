@@ -44,7 +44,7 @@ instances:
       width2: 1
       with_bbox: true
       with_two_ports: true
-  taper_L20_W1_W0p4_PNone_92d96627_-15000_0:
+  taper_L20_W1_W0p4_PNone_92d96627_m15000_0:
     component: taper
     info:
       length: 20
@@ -66,7 +66,7 @@ instances:
 name: dbr_tapered_L10_P0p85_D_9872475d
 nets:
 - p1: straight_L10_N2_CSstrip_W0p4_0_0,o1
-  p2: taper_L20_W1_W0p4_PNone_92d96627_-15000_0,o2
+  p2: taper_L20_W1_W0p4_PNone_92d96627_m15000_0,o2
 - p1: straight_L10_N2_CSstrip_W0p4_0_0,o2
   p2: taper_L20_W0p4_W1_PNone_0f93cfde_15000_0,o1
 placements:
@@ -85,13 +85,13 @@ placements:
     rotation: 0
     x: 5
     y: 0
-  taper_L20_W1_W0p4_PNone_92d96627_-15000_0:
+  taper_L20_W1_W0p4_PNone_92d96627_m15000_0:
     mirror: false
     rotation: 0
     x: -25
     y: 0
 ports:
-  o1: taper_L20_W1_W0p4_PNone_92d96627_-15000_0,o1
+  o1: taper_L20_W1_W0p4_PNone_92d96627_m15000_0,o1
   o2: taper_L20_W0p4_W1_PNone_0f93cfde_15000_0,o2
 warnings:
   electrical:

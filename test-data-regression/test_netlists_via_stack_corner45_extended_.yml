@@ -1,5 +1,5 @@
 instances:
-  via_stack_S10_3_LM1_M2__61f0c217_-1500_-6061:
+  via_stack_S10_3_LM1_M2__61f0c217_16061_11500:
     component: via_stack
     info:
       xsize: 10
@@ -19,7 +19,7 @@ instances:
       - via1
       - via2
       - null
-  via_stack_S10_3_LM1_M2__61f0c217_16061_11500:
+  via_stack_S10_3_LM1_M2__61f0c217_m1500_m6061:
     component: via_stack
     info:
       xsize: 10
@@ -56,21 +56,21 @@ instances:
       width: 2.121
 name: via_stack_corner45_exte_dddb75cc
 nets:
-- p1: via_stack_S10_3_LM1_M2__61f0c217_-1500_-6061,e1
-  p2: via_stack_corner45_W2p1_2f36860f_4030_5969,e1
 - p1: via_stack_S10_3_LM1_M2__61f0c217_16061_11500,e1
   p2: via_stack_corner45_W2p1_2f36860f_4030_5969,e2
+- p1: via_stack_S10_3_LM1_M2__61f0c217_m1500_m6061,e1
+  p2: via_stack_corner45_W2p1_2f36860f_4030_5969,e1
 placements:
-  via_stack_S10_3_LM1_M2__61f0c217_-1500_-6061:
-    mirror: false
-    rotation: 270
-    x: -1.5
-    y: -6.061
   via_stack_S10_3_LM1_M2__61f0c217_16061_11500:
     mirror: false
     rotation: 0
     x: 16.061
     y: 11.5
+  via_stack_S10_3_LM1_M2__61f0c217_m1500_m6061:
+    mirror: false
+    rotation: 270
+    x: -1.5
+    y: -6.061
   via_stack_corner45_W2p1_2f36860f_4030_5969:
     mirror: false
     rotation: 0
@@ -82,9 +82,9 @@ warnings:
     unconnected_ports:
     - message: 6 unconnected electrical ports!
       ports:
-      - via_stack_S10_3_LM1_M2__61f0c217_-1500_-6061,e2
-      - via_stack_S10_3_LM1_M2__61f0c217_-1500_-6061,e3
-      - via_stack_S10_3_LM1_M2__61f0c217_-1500_-6061,e4
+      - via_stack_S10_3_LM1_M2__61f0c217_m1500_m6061,e2
+      - via_stack_S10_3_LM1_M2__61f0c217_m1500_m6061,e3
+      - via_stack_S10_3_LM1_M2__61f0c217_m1500_m6061,e4
       - via_stack_S10_3_LM1_M2__61f0c217_16061_11500,e2
       - via_stack_S10_3_LM1_M2__61f0c217_16061_11500,e3
       - via_stack_S10_3_LM1_M2__61f0c217_16061_11500,e4

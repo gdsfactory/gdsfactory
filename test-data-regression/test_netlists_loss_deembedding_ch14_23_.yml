@@ -79,7 +79,7 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  grating_coupler_ellipti_b694ac47_0_-20512:
+  grating_coupler_ellipti_b694ac47_0_m20512:
     component: grating_coupler_elliptical_trenches
     info:
       period: 0.676
@@ -100,7 +100,7 @@ instances:
       taper_length: 16.6
       trenches_extra_angle: 9
       wavelength: 1.53
-  grating_coupler_ellipti_b694ac47_127000_-20512:
+  grating_coupler_ellipti_b694ac47_127000_m20512:
     component: grating_coupler_elliptical_trenches
     info:
       period: 0.676
@@ -121,7 +121,7 @@ instances:
       taper_length: 16.6
       trenches_extra_angle: 9
       wavelength: 1.53
-  grating_coupler_ellipti_b694ac47_254000_-20512:
+  grating_coupler_ellipti_b694ac47_254000_m20512:
     component: grating_coupler_elliptical_trenches
     info:
       period: 0.676
@@ -142,7 +142,7 @@ instances:
       taper_length: 16.6
       trenches_extra_angle: 9
       wavelength: 1.53
-  grating_coupler_ellipti_b694ac47_381000_-20512:
+  grating_coupler_ellipti_b694ac47_381000_m20512:
     component: grating_coupler_elliptical_trenches
     info:
       period: 0.676
@@ -265,13 +265,13 @@ nets:
   p2: straight_L361_N2_CSstrip_W0p5_190500_49529,o2
 - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_4875_44654,o2
   p2: straight_L40_N2_CSstrip_W0p5_0_19529,o1
-- p1: grating_coupler_ellipti_b694ac47_0_-20512,o1
+- p1: grating_coupler_ellipti_b694ac47_0_m20512,o1
   p2: straight_L40_N2_CSstrip_W0p5_0_19529,o2
-- p1: grating_coupler_ellipti_b694ac47_127000_-20512,o1
+- p1: grating_coupler_ellipti_b694ac47_127000_m20512,o1
   p2: straight_L30_N2_CSstrip_W0p5_127000_14529,o2
-- p1: grating_coupler_ellipti_b694ac47_254000_-20512,o1
+- p1: grating_coupler_ellipti_b694ac47_254000_m20512,o1
   p2: straight_L30_N2_CSstrip_W0p5_254000_14529,o2
-- p1: grating_coupler_ellipti_b694ac47_381000_-20512,o1
+- p1: grating_coupler_ellipti_b694ac47_381000_m20512,o1
   p2: straight_L40_N2_CSstrip_W0p5_381000_19529,o2
 placements:
   bend_euler_R10_A90_P0p5_2f1f5c6d_131875_34654:
@@ -294,22 +294,22 @@ placements:
     rotation: 180
     x: 10
     y: 49.529
-  grating_coupler_ellipti_b694ac47_0_-20512:
+  grating_coupler_ellipti_b694ac47_0_m20512:
     mirror: false
     rotation: 270
     x: 0
     y: 0
-  grating_coupler_ellipti_b694ac47_127000_-20512:
+  grating_coupler_ellipti_b694ac47_127000_m20512:
     mirror: false
     rotation: 270
     x: 127
     y: 0
-  grating_coupler_ellipti_b694ac47_254000_-20512:
+  grating_coupler_ellipti_b694ac47_254000_m20512:
     mirror: false
     rotation: 270
     x: 254
     y: 0
-  grating_coupler_ellipti_b694ac47_381000_-20512:
+  grating_coupler_ellipti_b694ac47_381000_m20512:
     mirror: false
     rotation: 270
     x: 381
@@ -350,10 +350,10 @@ warnings:
     unconnected_ports:
     - message: 4 unconnected vertical_te ports!
       ports:
-      - grating_coupler_ellipti_b694ac47_0_-20512,o2
-      - grating_coupler_ellipti_b694ac47_127000_-20512,o2
-      - grating_coupler_ellipti_b694ac47_254000_-20512,o2
-      - grating_coupler_ellipti_b694ac47_381000_-20512,o2
+      - grating_coupler_ellipti_b694ac47_0_m20512,o2
+      - grating_coupler_ellipti_b694ac47_127000_m20512,o2
+      - grating_coupler_ellipti_b694ac47_254000_m20512,o2
+      - grating_coupler_ellipti_b694ac47_381000_m20512,o2
       values:
       - - 0
         - -26740

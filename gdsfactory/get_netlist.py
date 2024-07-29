@@ -23,6 +23,7 @@ from collections import defaultdict
 from collections.abc import Callable
 from pprint import pprint
 from typing import Any
+from warnings import warn
 
 import numpy as np
 
@@ -78,7 +79,7 @@ def get_instance_name_from_alias(reference: ComponentReference) -> str:
     Args:
         reference: reference that needs naming.
     """
-    return reference.name
+    return clean_name(reference.name)
 
 
 def get_instance_name_from_label(
@@ -348,7 +349,7 @@ def _extract_connections(
 
         elif not allow_multiple:
             warnings["multiple_connections"].append(ports_at_xy)
-            raise ValueError(f"Found multiple connections at {xy}:{ports_at_xy}")
+            warn(f"Found multiple connections at {xy}:{ports_at_xy}")
 
         else:
             # Iterates over the list of multiple ports to create related two-port connectivity
@@ -381,9 +382,9 @@ def _extract_connections(
         w: warnings[w] for w in raise_error_for_warnings if w in warnings
     }
 
-    if critical_warnings:
+    if critical_warnings and raise_error_for_warnings:
         pprint(critical_warnings)
-        raise ValueError("Found critical warnings while extracting netlist")
+        warn("Found critical warnings while extracting netlist")
     return connections, dict(warnings)
 
 
@@ -584,7 +585,10 @@ if __name__ == "__main__":
     # c.add_port("o1", port=mzi.ports["o1"])
     # c.add_port("o2", port=bend.ports["o2"])
 
-    c = gf.c.array(spacing=(300, 300), columns=2)
+    c = gf.c.mzi()
+    c = gf.components.array(
+        gf.components.straight(length=100), spacing=(100, 0), columns=5, rows=1
+    )
     c.show()
     n0 = c.get_netlist()
     # pprint(n0)
@@ -592,5 +596,5 @@ if __name__ == "__main__":
     gdspath = c.write_gds("test.gds")
     c = gf.import_gds(gdspath)
     n = c.get_netlist()
-    pprint(n)
+    pprint(n["placements"])
     c.show()

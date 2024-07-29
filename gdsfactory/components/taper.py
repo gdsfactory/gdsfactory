@@ -70,7 +70,7 @@ def taper(
         s0_width = x.sections[0].width
 
         for section in x.sections[1:]:
-            delta_width = section.width - s0_width
+            delta_width = abs(section.width - s0_width)
             y1 = (width1 + delta_width) / 2
             y2 = (width2 + delta_width) / 2
             p1 = gf.kdb.DPolygon([(0, y1), (length, y2), (length, -y2), (0, -y1)])

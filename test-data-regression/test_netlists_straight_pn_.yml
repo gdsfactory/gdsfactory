@@ -12,20 +12,6 @@ instances:
       cross_section: pn
       length: 1980
       npoints: 2
-  taper_strip_to_ridge_L1_3a86af41_-5000_0:
-    component: taper_strip_to_ridge
-    info:
-      length: 10
-    settings:
-      cross_section: strip
-      layer_slab: SLAB90
-      layer_wg: WG
-      length: 10
-      use_slab_port: false
-      w_slab1: 0.15
-      w_slab2: 6
-      width1: 0.5
-      width2: 0.5
   taper_strip_to_ridge_L1_3a86af41_1985000_0:
     component: taper_strip_to_ridge
     info:
@@ -40,7 +26,21 @@ instances:
       w_slab2: 6
       width1: 0.5
       width2: 0.5
-  via_stack_S1980_10_LSLA_4d9f855a_990000_-6000:
+  taper_strip_to_ridge_L1_3a86af41_m5000_0:
+    component: taper_strip_to_ridge
+    info:
+      length: 10
+    settings:
+      cross_section: strip
+      layer_slab: SLAB90
+      layer_wg: WG
+      length: 10
+      use_slab_port: false
+      w_slab1: 0.15
+      w_slab2: 6
+      width1: 0.5
+      width2: 0.5
+  via_stack_S1980_10_LSLA_4d9f855a_990000_6000:
     component: via_stack
     info:
       xsize: 1980
@@ -62,7 +62,7 @@ instances:
       - via1
       - via2
       - null
-  via_stack_S1980_10_LSLA_4d9f855a_990000_6000:
+  via_stack_S1980_10_LSLA_4d9f855a_990000_m6000:
     component: via_stack
     info:
       xsize: 1980
@@ -87,7 +87,7 @@ instances:
 name: straight_pin_L2000_CSpn_958ac331
 nets:
 - p1: straight_L1980_N2_CSpn_990000_0,o1
-  p2: taper_strip_to_ridge_L1_3a86af41_-5000_0,o2
+  p2: taper_strip_to_ridge_L1_3a86af41_m5000_0,o2
 - p1: straight_L1980_N2_CSpn_990000_0,o2
   p2: taper_strip_to_ridge_L1_3a86af41_1985000_0,o2
 placements:
@@ -96,32 +96,32 @@ placements:
     rotation: 0
     x: 0
     y: 0
-  taper_strip_to_ridge_L1_3a86af41_-5000_0:
-    mirror: false
-    rotation: 0
-    x: -10
-    y: 0
   taper_strip_to_ridge_L1_3a86af41_1985000_0:
     mirror: false
     rotation: 180
     x: 1990
     y: 0
-  via_stack_S1980_10_LSLA_4d9f855a_990000_-6000:
+  taper_strip_to_ridge_L1_3a86af41_m5000_0:
     mirror: false
     rotation: 0
-    x: 990
-    y: -6
+    x: -10
+    y: 0
   via_stack_S1980_10_LSLA_4d9f855a_990000_6000:
     mirror: false
     rotation: 0
     x: 990
     y: 6
+  via_stack_S1980_10_LSLA_4d9f855a_990000_m6000:
+    mirror: false
+    rotation: 0
+    x: 990
+    y: -6
 ports:
-  bot_e1: via_stack_S1980_10_LSLA_4d9f855a_990000_-6000,e1
-  bot_e2: via_stack_S1980_10_LSLA_4d9f855a_990000_-6000,e2
-  bot_e3: via_stack_S1980_10_LSLA_4d9f855a_990000_-6000,e3
-  bot_e4: via_stack_S1980_10_LSLA_4d9f855a_990000_-6000,e4
-  o1: taper_strip_to_ridge_L1_3a86af41_-5000_0,o1
+  bot_e1: via_stack_S1980_10_LSLA_4d9f855a_990000_m6000,e1
+  bot_e2: via_stack_S1980_10_LSLA_4d9f855a_990000_m6000,e2
+  bot_e3: via_stack_S1980_10_LSLA_4d9f855a_990000_m6000,e3
+  bot_e4: via_stack_S1980_10_LSLA_4d9f855a_990000_m6000,e4
+  o1: taper_strip_to_ridge_L1_3a86af41_m5000_0,o1
   o2: taper_strip_to_ridge_L1_3a86af41_1985000_0,o1
   top_e1: via_stack_S1980_10_LSLA_4d9f855a_990000_6000,e1
   top_e2: via_stack_S1980_10_LSLA_4d9f855a_990000_6000,e2

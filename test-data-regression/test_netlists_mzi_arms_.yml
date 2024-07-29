@@ -36,7 +36,7 @@ instances:
       straight: straight
       straight_x: straight
       straight_y: straight
-  mzi_arm_LYL5p8_LYR5p8_L_1307f0f7_35550_-13525:
+  mzi_arm_LYL5p8_LYR5p8_L_1307f0f7_35550_m13525:
     component: mzi_arm
     info:
       length_x: 0.1
@@ -54,9 +54,9 @@ nets:
 - p1: mmi1x2_WNone_WT1_LT10_L_4e0f7121_2750_0,o2
   p2: mzi_arm_LYL0p8_LYR0p8_L_eb91ab79_35550_11025,o1
 - p1: mmi1x2_WNone_WT1_LT10_L_4e0f7121_2750_0,o3
-  p2: mzi_arm_LYL5p8_LYR5p8_L_1307f0f7_35550_-13525,o1
+  p2: mzi_arm_LYL5p8_LYR5p8_L_1307f0f7_35550_m13525,o1
 - p1: mmi1x2_WNone_WT1_LT10_L_4e0f7121_68350_0,o2
-  p2: mzi_arm_LYL5p8_LYR5p8_L_1307f0f7_35550_-13525,o2
+  p2: mzi_arm_LYL5p8_LYR5p8_L_1307f0f7_35550_m13525,o2
 - p1: mmi1x2_WNone_WT1_LT10_L_4e0f7121_68350_0,o3
   p2: mzi_arm_LYL0p8_LYR0p8_L_eb91ab79_35550_11025,o2
 placements:
@@ -75,7 +75,7 @@ placements:
     rotation: 0
     x: 15.5
     y: 0.625
-  mzi_arm_LYL5p8_LYR5p8_L_1307f0f7_35550_-13525:
+  mzi_arm_LYL5p8_LYR5p8_L_1307f0f7_35550_m13525:
     mirror: true
     rotation: 0
     x: 15.5

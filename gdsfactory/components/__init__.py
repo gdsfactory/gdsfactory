@@ -164,6 +164,7 @@ from gdsfactory.components.mmi1x2_with_sbend import mmi1x2_with_sbend
 from gdsfactory.components.mmi2x2 import mmi2x2
 from gdsfactory.components.mmi2x2_with_sbend import mmi2x2_with_sbend
 from gdsfactory.components.mmi_90degree_hybrid import mmi_90degree_hybrid
+from gdsfactory.components.mmi_tapered import mmi_tapered
 from gdsfactory.components.mode_converter import mode_converter
 from gdsfactory.components.mzi import (
     mzi,
@@ -428,6 +429,7 @@ __all__ = [
     "loss_deembedding_ch13_24",
     "loss_deembedding_ch14_23",
     "mmi",
+    "mmi_tapered",
     "mmi1x2",
     "mmi1x2_with_sbend",
     "mmi2x2",

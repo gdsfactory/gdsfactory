@@ -1,939 +1,68 @@
 instances:
-  '-1':
+  '1':
     component: straight
     info:
-      length: 5
-      route_info_length: 5
+      length: 40.656
+      route_info_length: 40.656
       route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
+      route_info_weight: 40.656
+      route_info_xs_34e31a19_length: 40.656
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 40.656
       npoints: 2
-  '-10':
+  '2':
     component: straight
     info:
-      length: 5
-      route_info_length: 5
+      length: 40.656
+      route_info_length: 40.656
       route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
+      route_info_weight: 40.656
+      route_info_xs_34e31a19_length: 40.656
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 40.656
       npoints: 2
-  '-11':
+  '3':
     component: straight
     info:
-      length: 5
-      route_info_length: 5
+      length: 40.656
+      route_info_length: 40.656
       route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
+      route_info_weight: 40.656
+      route_info_xs_34e31a19_length: 40.656
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 40.656
       npoints: 2
-  '-12':
+  '4':
     component: straight
     info:
-      length: 5
-      route_info_length: 5
+      length: 40.656
+      route_info_length: 40.656
       route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
+      route_info_weight: 40.656
+      route_info_xs_34e31a19_length: 40.656
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 40.656
       npoints: 2
-  '-13':
+  '5':
     component: straight
     info:
-      length: 5
-      route_info_length: 5
+      length: 40.656
+      route_info_length: 40.656
       route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
+      route_info_weight: 40.656
+      route_info_xs_34e31a19_length: 40.656
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
-      npoints: 2
-  '-14':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-15':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-16':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-17':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-18':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-19':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-2':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-20':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-21':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-22':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-23':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-24':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-25':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-26':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-27':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-28':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-29':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-3':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-30':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-31':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-32':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-33':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-34':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-35':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-36':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-37':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-38':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-39':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-4':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-40':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-41':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-42':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-43':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-44':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-45':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-46':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-47':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-48':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-49':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-5':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-50':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-51':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-52':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-53':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-54':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-55':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-56':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-57':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-58':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-59':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-6':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-60':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-61':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-62':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-63':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-64':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-65':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-66':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-67':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-68':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-69':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-7':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-70':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-71':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-72':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-8':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
-      npoints: 2
-  '-9':
-    component: straight
-    info:
-      length: 5
-      route_info_length: 5
-      route_info_type: xs_34e31a19
-      route_info_weight: 5
-      route_info_xs_34e31a19_length: 5
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 5
+      length: 40.656
       npoints: 2
   C1:
     component: bend_euler
@@ -2303,730 +1432,1266 @@ instances:
       cross_section: strip
       p: 0.5
       with_arc_floorplan: true
-  '|1':
+  m1:
     component: straight
     info:
-      length: 40.656
-      route_info_length: 40.656
+      length: 5
+      route_info_length: 5
       route_info_type: xs_34e31a19
-      route_info_weight: 40.656
-      route_info_xs_34e31a19_length: 40.656
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
       width: 0.5
     settings:
       cross_section: strip
-      length: 40.656
+      length: 5
       npoints: 2
-  '|2':
+  m10:
     component: straight
     info:
-      length: 40.656
-      route_info_length: 40.656
+      length: 5
+      route_info_length: 5
       route_info_type: xs_34e31a19
-      route_info_weight: 40.656
-      route_info_xs_34e31a19_length: 40.656
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
       width: 0.5
     settings:
       cross_section: strip
-      length: 40.656
+      length: 5
       npoints: 2
-  '|3':
+  m11:
     component: straight
     info:
-      length: 40.656
-      route_info_length: 40.656
+      length: 5
+      route_info_length: 5
       route_info_type: xs_34e31a19
-      route_info_weight: 40.656
-      route_info_xs_34e31a19_length: 40.656
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
       width: 0.5
     settings:
       cross_section: strip
-      length: 40.656
+      length: 5
       npoints: 2
-  '|4':
+  m12:
     component: straight
     info:
-      length: 40.656
-      route_info_length: 40.656
+      length: 5
+      route_info_length: 5
       route_info_type: xs_34e31a19
-      route_info_weight: 40.656
-      route_info_xs_34e31a19_length: 40.656
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
       width: 0.5
     settings:
       cross_section: strip
-      length: 40.656
+      length: 5
       npoints: 2
-  '|5':
+  m13:
     component: straight
     info:
-      length: 40.656
-      route_info_length: 40.656
+      length: 5
+      route_info_length: 5
       route_info_type: xs_34e31a19
-      route_info_weight: 40.656
-      route_info_xs_34e31a19_length: 40.656
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
       width: 0.5
     settings:
       cross_section: strip
-      length: 40.656
+      length: 5
+      npoints: 2
+  m14:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m15:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m16:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m17:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m18:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m19:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m2:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m20:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m21:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m22:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m23:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m24:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m25:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m26:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m27:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m28:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m29:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m3:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m30:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m31:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m32:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m33:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m34:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m35:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m36:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m37:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m38:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m39:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m4:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m40:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m41:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m42:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m43:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m44:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m45:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m46:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m47:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m48:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m49:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m5:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m50:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m51:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m52:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m53:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m54:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m55:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m56:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m57:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m58:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m59:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m6:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m60:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m61:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m62:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m63:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m64:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m65:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m66:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m67:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m68:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m69:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m7:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m70:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m71:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m72:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m8:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
+      npoints: 2
+  m9:
+    component: straight
+    info:
+      length: 5
+      route_info_length: 5
+      route_info_type: xs_34e31a19
+      route_info_weight: 5
+      route_info_xs_34e31a19_length: 5
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 5
       npoints: 2
 name: cutback_bend180_CFbend__5a8124e5
 nets:
-- p1: -1,o1
-  p2: D1,o2
-- p1: -1,o2
-  p2: C1,o2
-- p1: -10,o1
-  p2: C5,o1
-- p1: -10,o2
-  p2: D6,o1
-- p1: -11,o1
-  p2: D6,o2
-- p1: -11,o2
-  p2: C6,o2
-- p1: -12,o1
-  p2: C6,o1
-- p1: -12,o2
-  p2: '|1,o1'
-- p1: -13,o1
-  p2: C7,o1
-- p1: -13,o2
-  p2: D7,o1
-- p1: -14,o1
-  p2: D7,o2
-- p1: -14,o2
-  p2: C8,o2
-- p1: -15,o1
-  p2: C8,o1
-- p1: -15,o2
-  p2: D8,o1
-- p1: -16,o1
-  p2: D8,o2
-- p1: -16,o2
-  p2: C9,o2
-- p1: -17,o1
-  p2: C9,o1
-- p1: -17,o2
-  p2: D9,o1
-- p1: -18,o1
-  p2: D9,o2
-- p1: -18,o2
-  p2: C10,o2
-- p1: -19,o1
-  p2: C10,o1
-- p1: -19,o2
-  p2: D10,o1
-- p1: -2,o1
-  p2: C1,o1
-- p1: -2,o2
-  p2: D2,o1
-- p1: -20,o1
-  p2: D10,o2
-- p1: -20,o2
-  p2: C11,o2
-- p1: -21,o1
-  p2: C11,o1
-- p1: -21,o2
-  p2: D11,o1
-- p1: -22,o1
-  p2: D11,o2
-- p1: -22,o2
-  p2: C12,o2
-- p1: -23,o1
-  p2: C12,o1
-- p1: -23,o2
-  p2: D12,o1
-- p1: -24,o1
-  p2: D12,o2
-- p1: -24,o2
-  p2: '|2,o1'
-- p1: -25,o1
-  p2: D13,o2
-- p1: -25,o2
-  p2: C13,o2
-- p1: -26,o1
-  p2: C13,o1
-- p1: -26,o2
-  p2: D14,o1
-- p1: -27,o1
-  p2: D14,o2
-- p1: -27,o2
-  p2: C14,o2
-- p1: -28,o1
-  p2: C14,o1
-- p1: -28,o2
-  p2: D15,o1
-- p1: -29,o1
-  p2: D15,o2
-- p1: -29,o2
-  p2: C15,o2
-- p1: -3,o1
-  p2: D2,o2
-- p1: -3,o2
-  p2: C2,o2
-- p1: -30,o1
-  p2: C15,o1
-- p1: -30,o2
-  p2: D16,o1
-- p1: -31,o1
-  p2: D16,o2
-- p1: -31,o2
-  p2: C16,o2
-- p1: -32,o1
-  p2: C16,o1
-- p1: -32,o2
-  p2: D17,o1
-- p1: -33,o1
-  p2: D17,o2
-- p1: -33,o2
-  p2: C17,o2
-- p1: -34,o1
-  p2: C17,o1
-- p1: -34,o2
-  p2: D18,o1
-- p1: -35,o1
-  p2: D18,o2
-- p1: -35,o2
-  p2: C18,o2
-- p1: -36,o1
-  p2: C18,o1
-- p1: -36,o2
-  p2: '|3,o1'
-- p1: -37,o1
-  p2: C19,o1
-- p1: -37,o2
-  p2: D19,o1
-- p1: -38,o1
-  p2: D19,o2
-- p1: -38,o2
-  p2: C20,o2
-- p1: -39,o1
-  p2: C20,o1
-- p1: -39,o2
-  p2: D20,o1
-- p1: -4,o1
-  p2: C2,o1
-- p1: -4,o2
-  p2: D3,o1
-- p1: -40,o1
-  p2: D20,o2
-- p1: -40,o2
-  p2: C21,o2
-- p1: -41,o1
-  p2: C21,o1
-- p1: -41,o2
-  p2: D21,o1
-- p1: -42,o1
-  p2: D21,o2
-- p1: -42,o2
-  p2: C22,o2
-- p1: -43,o1
-  p2: C22,o1
-- p1: -43,o2
-  p2: D22,o1
-- p1: -44,o1
-  p2: D22,o2
-- p1: -44,o2
-  p2: C23,o2
-- p1: -45,o1
-  p2: C23,o1
-- p1: -45,o2
-  p2: D23,o1
-- p1: -46,o1
-  p2: D23,o2
-- p1: -46,o2
-  p2: C24,o2
-- p1: -47,o1
-  p2: C24,o1
-- p1: -47,o2
-  p2: D24,o1
-- p1: -48,o1
-  p2: D24,o2
-- p1: -48,o2
-  p2: '|4,o1'
-- p1: -49,o1
-  p2: D25,o2
-- p1: -49,o2
-  p2: C25,o2
-- p1: -5,o1
-  p2: D3,o2
-- p1: -5,o2
-  p2: C3,o2
-- p1: -50,o1
-  p2: C25,o1
-- p1: -50,o2
-  p2: D26,o1
-- p1: -51,o1
-  p2: D26,o2
-- p1: -51,o2
-  p2: C26,o2
-- p1: -52,o1
-  p2: C26,o1
-- p1: -52,o2
-  p2: D27,o1
-- p1: -53,o1
-  p2: D27,o2
-- p1: -53,o2
-  p2: C27,o2
-- p1: -54,o1
-  p2: C27,o1
-- p1: -54,o2
-  p2: D28,o1
-- p1: -55,o1
-  p2: D28,o2
-- p1: -55,o2
-  p2: C28,o2
-- p1: -56,o1
-  p2: C28,o1
-- p1: -56,o2
-  p2: D29,o1
-- p1: -57,o1
-  p2: D29,o2
-- p1: -57,o2
-  p2: C29,o2
-- p1: -58,o1
-  p2: C29,o1
-- p1: -58,o2
-  p2: D30,o1
-- p1: -59,o1
-  p2: D30,o2
-- p1: -59,o2
-  p2: C30,o2
-- p1: -6,o1
-  p2: C3,o1
-- p1: -6,o2
-  p2: D4,o1
-- p1: -60,o1
-  p2: C30,o1
-- p1: -60,o2
-  p2: '|5,o1'
-- p1: -61,o1
-  p2: C31,o1
-- p1: -61,o2
-  p2: D31,o1
-- p1: -62,o1
-  p2: D31,o2
-- p1: -62,o2
-  p2: C32,o2
-- p1: -63,o1
-  p2: C32,o1
-- p1: -63,o2
-  p2: D32,o1
-- p1: -64,o1
-  p2: D32,o2
-- p1: -64,o2
-  p2: C33,o2
-- p1: -65,o1
-  p2: C33,o1
-- p1: -65,o2
-  p2: D33,o1
-- p1: -66,o1
-  p2: D33,o2
-- p1: -66,o2
-  p2: C34,o2
-- p1: -67,o1
-  p2: C34,o1
-- p1: -67,o2
-  p2: D34,o1
-- p1: -68,o1
-  p2: D34,o2
-- p1: -68,o2
-  p2: C35,o2
-- p1: -69,o1
-  p2: C35,o1
-- p1: -69,o2
-  p2: D35,o1
-- p1: -7,o1
-  p2: D4,o2
-- p1: -7,o2
-  p2: C4,o2
-- p1: -70,o1
-  p2: D35,o2
-- p1: -70,o2
-  p2: C36,o2
-- p1: -71,o1
-  p2: C36,o1
-- p1: -71,o2
-  p2: D36,o1
-- p1: -72,o1
-  p2: D36,o2
-- p1: -8,o1
-  p2: C4,o1
-- p1: -8,o2
-  p2: D5,o1
-- p1: -9,o1
-  p2: D5,o2
-- p1: -9,o2
-  p2: C5,o2
-- p1: C19,o2
-  p2: '|3,o2'
-- p1: C31,o2
-  p2: '|5,o2'
-- p1: C7,o2
-  p2: '|1,o2'
-- p1: D13,o1
-  p2: '|2,o2'
-- p1: D25,o1
-  p2: '|4,o2'
+- p1: 1,o1
+  p2: m12,o2
+- p1: 1,o2
+  p2: C7,o2
+- p1: 2,o1
+  p2: m24,o2
+- p1: 2,o2
+  p2: D13,o1
+- p1: 3,o1
+  p2: m36,o2
+- p1: 3,o2
+  p2: C19,o2
+- p1: 4,o1
+  p2: m48,o2
+- p1: 4,o2
+  p2: D25,o1
+- p1: 5,o1
+  p2: m60,o2
+- p1: 5,o2
+  p2: C31,o2
+- p1: C1,o1
+  p2: m2,o1
+- p1: C1,o2
+  p2: m1,o2
+- p1: C10,o1
+  p2: m19,o1
+- p1: C10,o2
+  p2: m18,o2
+- p1: C11,o1
+  p2: m21,o1
+- p1: C11,o2
+  p2: m20,o2
+- p1: C12,o1
+  p2: m23,o1
+- p1: C12,o2
+  p2: m22,o2
+- p1: C13,o1
+  p2: m26,o1
+- p1: C13,o2
+  p2: m25,o2
+- p1: C14,o1
+  p2: m28,o1
+- p1: C14,o2
+  p2: m27,o2
+- p1: C15,o1
+  p2: m30,o1
+- p1: C15,o2
+  p2: m29,o2
+- p1: C16,o1
+  p2: m32,o1
+- p1: C16,o2
+  p2: m31,o2
+- p1: C17,o1
+  p2: m34,o1
+- p1: C17,o2
+  p2: m33,o2
+- p1: C18,o1
+  p2: m36,o1
+- p1: C18,o2
+  p2: m35,o2
+- p1: C19,o1
+  p2: m37,o1
+- p1: C2,o1
+  p2: m4,o1
+- p1: C2,o2
+  p2: m3,o2
+- p1: C20,o1
+  p2: m39,o1
+- p1: C20,o2
+  p2: m38,o2
+- p1: C21,o1
+  p2: m41,o1
+- p1: C21,o2
+  p2: m40,o2
+- p1: C22,o1
+  p2: m43,o1
+- p1: C22,o2
+  p2: m42,o2
+- p1: C23,o1
+  p2: m45,o1
+- p1: C23,o2
+  p2: m44,o2
+- p1: C24,o1
+  p2: m47,o1
+- p1: C24,o2
+  p2: m46,o2
+- p1: C25,o1
+  p2: m50,o1
+- p1: C25,o2
+  p2: m49,o2
+- p1: C26,o1
+  p2: m52,o1
+- p1: C26,o2
+  p2: m51,o2
+- p1: C27,o1
+  p2: m54,o1
+- p1: C27,o2
+  p2: m53,o2
+- p1: C28,o1
+  p2: m56,o1
+- p1: C28,o2
+  p2: m55,o2
+- p1: C29,o1
+  p2: m58,o1
+- p1: C29,o2
+  p2: m57,o2
+- p1: C3,o1
+  p2: m6,o1
+- p1: C3,o2
+  p2: m5,o2
+- p1: C30,o1
+  p2: m60,o1
+- p1: C30,o2
+  p2: m59,o2
+- p1: C31,o1
+  p2: m61,o1
+- p1: C32,o1
+  p2: m63,o1
+- p1: C32,o2
+  p2: m62,o2
+- p1: C33,o1
+  p2: m65,o1
+- p1: C33,o2
+  p2: m64,o2
+- p1: C34,o1
+  p2: m67,o1
+- p1: C34,o2
+  p2: m66,o2
+- p1: C35,o1
+  p2: m69,o1
+- p1: C35,o2
+  p2: m68,o2
+- p1: C36,o1
+  p2: m71,o1
+- p1: C36,o2
+  p2: m70,o2
+- p1: C4,o1
+  p2: m8,o1
+- p1: C4,o2
+  p2: m7,o2
+- p1: C5,o1
+  p2: m10,o1
+- p1: C5,o2
+  p2: m9,o2
+- p1: C6,o1
+  p2: m12,o1
+- p1: C6,o2
+  p2: m11,o2
+- p1: C7,o1
+  p2: m13,o1
+- p1: C8,o1
+  p2: m15,o1
+- p1: C8,o2
+  p2: m14,o2
+- p1: C9,o1
+  p2: m17,o1
+- p1: C9,o2
+  p2: m16,o2
+- p1: D1,o2
+  p2: m1,o1
+- p1: D10,o1
+  p2: m19,o2
+- p1: D10,o2
+  p2: m20,o1
+- p1: D11,o1
+  p2: m21,o2
+- p1: D11,o2
+  p2: m22,o1
+- p1: D12,o1
+  p2: m23,o2
+- p1: D12,o2
+  p2: m24,o1
+- p1: D13,o2
+  p2: m25,o1
+- p1: D14,o1
+  p2: m26,o2
+- p1: D14,o2
+  p2: m27,o1
+- p1: D15,o1
+  p2: m28,o2
+- p1: D15,o2
+  p2: m29,o1
+- p1: D16,o1
+  p2: m30,o2
+- p1: D16,o2
+  p2: m31,o1
+- p1: D17,o1
+  p2: m32,o2
+- p1: D17,o2
+  p2: m33,o1
+- p1: D18,o1
+  p2: m34,o2
+- p1: D18,o2
+  p2: m35,o1
+- p1: D19,o1
+  p2: m37,o2
+- p1: D19,o2
+  p2: m38,o1
+- p1: D2,o1
+  p2: m2,o2
+- p1: D2,o2
+  p2: m3,o1
+- p1: D20,o1
+  p2: m39,o2
+- p1: D20,o2
+  p2: m40,o1
+- p1: D21,o1
+  p2: m41,o2
+- p1: D21,o2
+  p2: m42,o1
+- p1: D22,o1
+  p2: m43,o2
+- p1: D22,o2
+  p2: m44,o1
+- p1: D23,o1
+  p2: m45,o2
+- p1: D23,o2
+  p2: m46,o1
+- p1: D24,o1
+  p2: m47,o2
+- p1: D24,o2
+  p2: m48,o1
+- p1: D25,o2
+  p2: m49,o1
+- p1: D26,o1
+  p2: m50,o2
+- p1: D26,o2
+  p2: m51,o1
+- p1: D27,o1
+  p2: m52,o2
+- p1: D27,o2
+  p2: m53,o1
+- p1: D28,o1
+  p2: m54,o2
+- p1: D28,o2
+  p2: m55,o1
+- p1: D29,o1
+  p2: m56,o2
+- p1: D29,o2
+  p2: m57,o1
+- p1: D3,o1
+  p2: m4,o2
+- p1: D3,o2
+  p2: m5,o1
+- p1: D30,o1
+  p2: m58,o2
+- p1: D30,o2
+  p2: m59,o1
+- p1: D31,o1
+  p2: m61,o2
+- p1: D31,o2
+  p2: m62,o1
+- p1: D32,o1
+  p2: m63,o2
+- p1: D32,o2
+  p2: m64,o1
+- p1: D33,o1
+  p2: m65,o2
+- p1: D33,o2
+  p2: m66,o1
+- p1: D34,o1
+  p2: m67,o2
+- p1: D34,o2
+  p2: m68,o1
+- p1: D35,o1
+  p2: m69,o2
+- p1: D35,o2
+  p2: m70,o1
+- p1: D36,o1
+  p2: m71,o2
+- p1: D36,o2
+  p2: m72,o1
+- p1: D4,o1
+  p2: m6,o2
+- p1: D4,o2
+  p2: m7,o1
+- p1: D5,o1
+  p2: m8,o2
+- p1: D5,o2
+  p2: m9,o1
+- p1: D6,o1
+  p2: m10,o2
+- p1: D6,o2
+  p2: m11,o1
+- p1: D7,o1
+  p2: m13,o2
+- p1: D7,o2
+  p2: m14,o1
+- p1: D8,o1
+  p2: m15,o2
+- p1: D8,o2
+  p2: m16,o1
+- p1: D9,o1
+  p2: m17,o2
+- p1: D9,o2
+  p2: m18,o1
 placements:
-  '-1':
-    mirror: false
-    rotation: 180
-    x: 0
-    y: 20
-  '-10':
+  '1':
     mirror: false
     rotation: 0
-    x: -5
-    y: 200
-  '-11':
-    mirror: false
-    rotation: 180
     x: 0
-    y: 220
-  '-12':
-    mirror: false
-    rotation: 0
-    x: -5
     y: 240
-  '-13':
+  '2':
     mirror: false
-    rotation: 180
+    rotation: 0
     x: 40.656
-    y: 220
-  '-14':
-    mirror: false
-    rotation: 0
-    x: 35.656
-    y: 200
-  '-15':
-    mirror: false
-    rotation: 180
-    x: 40.656
-    y: 180
-  '-16':
-    mirror: false
-    rotation: 0
-    x: 35.656
-    y: 160
-  '-17':
-    mirror: false
-    rotation: 180
-    x: 40.656
-    y: 140
-  '-18':
-    mirror: false
-    rotation: 0
-    x: 35.656
-    y: 120
-  '-19':
-    mirror: false
-    rotation: 180
-    x: 40.656
-    y: 100
-  '-2':
-    mirror: false
-    rotation: 0
-    x: -5
-    y: 40
-  '-20':
-    mirror: false
-    rotation: 0
-    x: 35.656
-    y: 80
-  '-21':
-    mirror: false
-    rotation: 180
-    x: 40.656
-    y: 60
-  '-22':
-    mirror: false
-    rotation: 0
-    x: 35.656
-    y: 40
-  '-23':
-    mirror: false
-    rotation: 180
-    x: 40.656
-    y: 20
-  '-24':
-    mirror: false
-    rotation: 0
-    x: 35.656
     y: 0
-  '-25':
-    mirror: false
-    rotation: 180
-    x: 81.312
-    y: 20
-  '-26':
+  '3':
     mirror: false
     rotation: 0
-    x: 76.312
-    y: 40
-  '-27':
-    mirror: false
-    rotation: 180
     x: 81.312
-    y: 60
-  '-28':
-    mirror: false
-    rotation: 0
-    x: 76.312
-    y: 80
-  '-29':
-    mirror: false
-    rotation: 180
-    x: 81.312
-    y: 100
-  '-3':
-    mirror: false
-    rotation: 180
-    x: 0
-    y: 60
-  '-30':
-    mirror: false
-    rotation: 0
-    x: 76.312
-    y: 120
-  '-31':
-    mirror: false
-    rotation: 180
-    x: 81.312
-    y: 140
-  '-32':
-    mirror: false
-    rotation: 0
-    x: 76.312
-    y: 160
-  '-33':
-    mirror: false
-    rotation: 180
-    x: 81.312
-    y: 180
-  '-34':
-    mirror: false
-    rotation: 0
-    x: 76.312
-    y: 200
-  '-35':
-    mirror: false
-    rotation: 180
-    x: 81.312
-    y: 220
-  '-36':
-    mirror: false
-    rotation: 0
-    x: 76.312
     y: 240
-  '-37':
+  '4':
     mirror: false
-    rotation: 180
+    rotation: 0
     x: 121.968
-    y: 220
-  '-38':
-    mirror: false
-    rotation: 0
-    x: 116.968
-    y: 200
-  '-39':
-    mirror: false
-    rotation: 180
-    x: 121.968
-    y: 180
-  '-4':
-    mirror: false
-    rotation: 0
-    x: -5
-    y: 80
-  '-40':
-    mirror: false
-    rotation: 0
-    x: 116.968
-    y: 160
-  '-41':
-    mirror: false
-    rotation: 180
-    x: 121.968
-    y: 140
-  '-42':
-    mirror: false
-    rotation: 0
-    x: 116.968
-    y: 120
-  '-43':
-    mirror: false
-    rotation: 180
-    x: 121.968
-    y: 100
-  '-44':
-    mirror: false
-    rotation: 0
-    x: 116.968
-    y: 80
-  '-45':
-    mirror: false
-    rotation: 180
-    x: 121.968
-    y: 60
-  '-46':
-    mirror: false
-    rotation: 0
-    x: 116.968
-    y: 40
-  '-47':
-    mirror: false
-    rotation: 180
-    x: 121.968
-    y: 20
-  '-48':
-    mirror: false
-    rotation: 0
-    x: 116.968
     y: 0
-  '-49':
+  '5':
     mirror: false
-    rotation: 180
+    rotation: 0
     x: 162.624
-    y: 20
-  '-5':
-    mirror: false
-    rotation: 180
-    x: 0
-    y: 100
-  '-50':
-    mirror: false
-    rotation: 0
-    x: 157.624
-    y: 40
-  '-51':
-    mirror: false
-    rotation: 180
-    x: 162.624
-    y: 60
-  '-52':
-    mirror: false
-    rotation: 0
-    x: 157.624
-    y: 80
-  '-53':
-    mirror: false
-    rotation: 180
-    x: 162.624
-    y: 100
-  '-54':
-    mirror: false
-    rotation: 0
-    x: 157.624
-    y: 120
-  '-55':
-    mirror: false
-    rotation: 180
-    x: 162.624
-    y: 140
-  '-56':
-    mirror: false
-    rotation: 0
-    x: 157.624
-    y: 160
-  '-57':
-    mirror: false
-    rotation: 180
-    x: 162.624
-    y: 180
-  '-58':
-    mirror: false
-    rotation: 0
-    x: 157.624
-    y: 200
-  '-59':
-    mirror: false
-    rotation: 180
-    x: 162.624
-    y: 220
-  '-6':
-    mirror: false
-    rotation: 0
-    x: -5
-    y: 120
-  '-60':
-    mirror: false
-    rotation: 0
-    x: 157.624
     y: 240
-  '-61':
-    mirror: false
-    rotation: 180
-    x: 203.28
-    y: 220
-  '-62':
-    mirror: false
-    rotation: 0
-    x: 198.28
-    y: 200
-  '-63':
-    mirror: false
-    rotation: 180
-    x: 203.28
-    y: 180
-  '-64':
-    mirror: false
-    rotation: 0
-    x: 198.28
-    y: 160
-  '-65':
-    mirror: false
-    rotation: 180
-    x: 203.28
-    y: 140
-  '-66':
-    mirror: false
-    rotation: 0
-    x: 198.28
-    y: 120
-  '-67':
-    mirror: false
-    rotation: 180
-    x: 203.28
-    y: 100
-  '-68':
-    mirror: false
-    rotation: 0
-    x: 198.28
-    y: 80
-  '-69':
-    mirror: false
-    rotation: 180
-    x: 203.28
-    y: 60
-  '-7':
-    mirror: false
-    rotation: 180
-    x: 0
-    y: 140
-  '-70':
-    mirror: false
-    rotation: 0
-    x: 198.28
-    y: 40
-  '-71':
-    mirror: false
-    rotation: 180
-    x: 203.28
-    y: 20
-  '-72':
-    mirror: false
-    rotation: 0
-    x: 198.28
-    y: 0
-  '-8':
-    mirror: false
-    rotation: 0
-    x: -5
-    y: 160
-  '-9':
-    mirror: false
-    rotation: 180
-    x: 0
-    y: 180
   C1:
     mirror: false
     rotation: 180
@@ -3387,31 +3052,366 @@ placements:
     rotation: 180
     x: 35.656
     y: 140
-  '|1':
+  m1:
     mirror: false
-    rotation: 0
+    rotation: 180
     x: 0
-    y: 240
-  '|2':
+    y: 20
+  m10:
     mirror: false
     rotation: 0
+    x: -5
+    y: 200
+  m11:
+    mirror: false
+    rotation: 180
+    x: 0
+    y: 220
+  m12:
+    mirror: false
+    rotation: 0
+    x: -5
+    y: 240
+  m13:
+    mirror: false
+    rotation: 180
     x: 40.656
-    y: 0
-  '|3':
+    y: 220
+  m14:
     mirror: false
     rotation: 0
+    x: 35.656
+    y: 200
+  m15:
+    mirror: false
+    rotation: 180
+    x: 40.656
+    y: 180
+  m16:
+    mirror: false
+    rotation: 0
+    x: 35.656
+    y: 160
+  m17:
+    mirror: false
+    rotation: 180
+    x: 40.656
+    y: 140
+  m18:
+    mirror: false
+    rotation: 0
+    x: 35.656
+    y: 120
+  m19:
+    mirror: false
+    rotation: 180
+    x: 40.656
+    y: 100
+  m2:
+    mirror: false
+    rotation: 0
+    x: -5
+    y: 40
+  m20:
+    mirror: false
+    rotation: 0
+    x: 35.656
+    y: 80
+  m21:
+    mirror: false
+    rotation: 180
+    x: 40.656
+    y: 60
+  m22:
+    mirror: false
+    rotation: 0
+    x: 35.656
+    y: 40
+  m23:
+    mirror: false
+    rotation: 180
+    x: 40.656
+    y: 20
+  m24:
+    mirror: false
+    rotation: 0
+    x: 35.656
+    y: 0
+  m25:
+    mirror: false
+    rotation: 180
     x: 81.312
-    y: 240
-  '|4':
+    y: 20
+  m26:
     mirror: false
     rotation: 0
+    x: 76.312
+    y: 40
+  m27:
+    mirror: false
+    rotation: 180
+    x: 81.312
+    y: 60
+  m28:
+    mirror: false
+    rotation: 0
+    x: 76.312
+    y: 80
+  m29:
+    mirror: false
+    rotation: 180
+    x: 81.312
+    y: 100
+  m3:
+    mirror: false
+    rotation: 180
+    x: 0
+    y: 60
+  m30:
+    mirror: false
+    rotation: 0
+    x: 76.312
+    y: 120
+  m31:
+    mirror: false
+    rotation: 180
+    x: 81.312
+    y: 140
+  m32:
+    mirror: false
+    rotation: 0
+    x: 76.312
+    y: 160
+  m33:
+    mirror: false
+    rotation: 180
+    x: 81.312
+    y: 180
+  m34:
+    mirror: false
+    rotation: 0
+    x: 76.312
+    y: 200
+  m35:
+    mirror: false
+    rotation: 180
+    x: 81.312
+    y: 220
+  m36:
+    mirror: false
+    rotation: 0
+    x: 76.312
+    y: 240
+  m37:
+    mirror: false
+    rotation: 180
     x: 121.968
-    y: 0
-  '|5':
+    y: 220
+  m38:
     mirror: false
     rotation: 0
+    x: 116.968
+    y: 200
+  m39:
+    mirror: false
+    rotation: 180
+    x: 121.968
+    y: 180
+  m4:
+    mirror: false
+    rotation: 0
+    x: -5
+    y: 80
+  m40:
+    mirror: false
+    rotation: 0
+    x: 116.968
+    y: 160
+  m41:
+    mirror: false
+    rotation: 180
+    x: 121.968
+    y: 140
+  m42:
+    mirror: false
+    rotation: 0
+    x: 116.968
+    y: 120
+  m43:
+    mirror: false
+    rotation: 180
+    x: 121.968
+    y: 100
+  m44:
+    mirror: false
+    rotation: 0
+    x: 116.968
+    y: 80
+  m45:
+    mirror: false
+    rotation: 180
+    x: 121.968
+    y: 60
+  m46:
+    mirror: false
+    rotation: 0
+    x: 116.968
+    y: 40
+  m47:
+    mirror: false
+    rotation: 180
+    x: 121.968
+    y: 20
+  m48:
+    mirror: false
+    rotation: 0
+    x: 116.968
+    y: 0
+  m49:
+    mirror: false
+    rotation: 180
     x: 162.624
+    y: 20
+  m5:
+    mirror: false
+    rotation: 180
+    x: 0
+    y: 100
+  m50:
+    mirror: false
+    rotation: 0
+    x: 157.624
+    y: 40
+  m51:
+    mirror: false
+    rotation: 180
+    x: 162.624
+    y: 60
+  m52:
+    mirror: false
+    rotation: 0
+    x: 157.624
+    y: 80
+  m53:
+    mirror: false
+    rotation: 180
+    x: 162.624
+    y: 100
+  m54:
+    mirror: false
+    rotation: 0
+    x: 157.624
+    y: 120
+  m55:
+    mirror: false
+    rotation: 180
+    x: 162.624
+    y: 140
+  m56:
+    mirror: false
+    rotation: 0
+    x: 157.624
+    y: 160
+  m57:
+    mirror: false
+    rotation: 180
+    x: 162.624
+    y: 180
+  m58:
+    mirror: false
+    rotation: 0
+    x: 157.624
+    y: 200
+  m59:
+    mirror: false
+    rotation: 180
+    x: 162.624
+    y: 220
+  m6:
+    mirror: false
+    rotation: 0
+    x: -5
+    y: 120
+  m60:
+    mirror: false
+    rotation: 0
+    x: 157.624
     y: 240
+  m61:
+    mirror: false
+    rotation: 180
+    x: 203.28
+    y: 220
+  m62:
+    mirror: false
+    rotation: 0
+    x: 198.28
+    y: 200
+  m63:
+    mirror: false
+    rotation: 180
+    x: 203.28
+    y: 180
+  m64:
+    mirror: false
+    rotation: 0
+    x: 198.28
+    y: 160
+  m65:
+    mirror: false
+    rotation: 180
+    x: 203.28
+    y: 140
+  m66:
+    mirror: false
+    rotation: 0
+    x: 198.28
+    y: 120
+  m67:
+    mirror: false
+    rotation: 180
+    x: 203.28
+    y: 100
+  m68:
+    mirror: false
+    rotation: 0
+    x: 198.28
+    y: 80
+  m69:
+    mirror: false
+    rotation: 180
+    x: 203.28
+    y: 60
+  m7:
+    mirror: false
+    rotation: 180
+    x: 0
+    y: 140
+  m70:
+    mirror: false
+    rotation: 0
+    x: 198.28
+    y: 40
+  m71:
+    mirror: false
+    rotation: 180
+    x: 203.28
+    y: 20
+  m72:
+    mirror: false
+    rotation: 0
+    x: 198.28
+    y: 0
+  m8:
+    mirror: false
+    rotation: 0
+    x: -5
+    y: 160
+  m9:
+    mirror: false
+    rotation: 180
+    x: 0
+    y: 180
 ports:
   o1: D1,o1
-  o2: -72,o2
+  o2: m72,o2
