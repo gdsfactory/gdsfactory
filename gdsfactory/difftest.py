@@ -42,8 +42,13 @@ def diff(
         ignore_label_differences: if True, ignores any label differences when run in XOR mode. If None (default) defers to the value set in CONF.difftest_ignore_label_differences
         show: shows diff in klayout.
     """
-    ref = read_top_cell(ref_file)
-    run = read_top_cell(run_file)
+    kcl_ref = KCLayout(name=str(ref_file))
+    kcl_ref.read(ref_file)
+    ref = kcl_ref[kcl_ref.top_cell().name]
+
+    kcl_run = KCLayout(name=str(run_file))
+    kcl_run.read(run_file)
+    run = kcl_run[kcl_run.top_cell().name]
 
     if ignore_sliver_differences is None:
         ignore_sliver_differences = CONF.difftest_ignore_sliver_differences
@@ -141,8 +146,10 @@ def diff(
         rundiff.copy_tree(run._kdb_cell)
         old = c << refdiff
         new = c << rundiff
-        refdiff.library.delete()
+
+        kcl_ref.library.delete()
         del kf.kcell.kcls[refdiff.name]
+
         dy = 10
         old.dmovey(+old.dysize + dy)
         new.dmovey(-old.dysize - dy)
@@ -293,12 +300,6 @@ def overwrite(ref_file, run_file):
     ref_file.unlink()
     shutil.copy(run_file, ref_file)
     raise GeometryDifference
-
-
-def read_top_cell(arg0):
-    kcl = KCLayout(name=str(arg0))
-    kcl.read(arg0)
-    return kcl[kcl.top_cell().name]
 
 
 if __name__ == "__main__":

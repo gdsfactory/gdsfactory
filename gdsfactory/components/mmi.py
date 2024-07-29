@@ -120,7 +120,7 @@ def mmi(
 
     x.add_bbox(c)
     c.auto_rename_ports()
-    c.flatten()
+    c.flatten(merge=False)
     return c
 
 
