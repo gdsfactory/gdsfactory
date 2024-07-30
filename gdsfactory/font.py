@@ -146,20 +146,49 @@ def _get_glyph(font, letter):  # noqa: C901
     # patch = PathPatch(path)
 
     # Construct the component
+    component = Component()
+
+    orientation = freetype.FT_Outline_Get_Orientation(outline._FT_Outline)
+    polygons_cw = [p for p in polygons if _polygon_orientation(p) == 0]
+    polygons_ccw = [p for p in polygons if _polygon_orientation(p) == 1]
     c1 = Component()
     c2 = Component()
-    c1.add_polygon(polygons[0], layer=(1, 0))
-    if len(polygons) > 1:
-        for polygon in polygons[1:]:
-            c2.add_polygon(polygon, layer=(1, 0))
+    for p in polygons_cw:
+        c1.add_polygon(p, layer=(1, 0))
+    for p in polygons_ccw:
+        c2.add_polygon(p, layer=(1, 0))
+    if orientation == 0:
+        # TrueType specification, fill the clockwise contour
+        component = boolean(c1, c2, operation="not")
+    elif orientation == 1:
+        # PostScript specification, fill the counterclockwise contour
+        c1, c2 = c2, c1
         component = boolean(c1, c2, operation="not")
     else:
-        component = c1
+        raise ValueError("Unknown orientation")
+
     component.name = block_name
 
     # Cache the return value and return it
     font.gds_glyphs[letter] = (component, glyph.advance.x, font.size.ascender)
     return font.gds_glyphs[letter]
+
+
+def _polygon_orientation(vertices) -> int:
+    """Determine the orientation of a polygon."""
+    n = len(vertices)
+    if n < 3:
+        raise ValueError("A polygon must have at least 3 vertices")
+    sum = 0
+    for i in range(n):
+        x1, y1 = vertices[i]
+        x2, y2 = vertices[(i + 1) % n]
+        sum += (x2 - x1) * (y2 + y1)
+
+    if sum > 0:
+        return 0  # clockwise
+    else:
+        return 1  # counterclockwise
 
 
 if __name__ == "__main__":
