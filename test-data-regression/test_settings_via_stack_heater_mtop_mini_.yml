@@ -5,15 +5,15 @@ name: via_stack_S4_4_LHEATER__f8cf7960
 settings:
   correct_size: true
   layers:
-  - HEATER
-  - M2
-  - MTOP
+    - HEATER
+    - M2
+    - MTOP
   size:
-  - 4
-  - 4
+    - 4
+    - 4
   slot_horizontal: false
   slot_vertical: false
   vias:
-  - null
-  - via1
-  - via2
+    - null
+    - via1
+    - via2

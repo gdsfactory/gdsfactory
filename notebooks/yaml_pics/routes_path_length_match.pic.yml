@@ -9,7 +9,6 @@ instances:
     settings:
       orientation: 90
       columns: 3
-
 placements:
   t:
     x: 100

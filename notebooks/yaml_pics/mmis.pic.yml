@@ -9,7 +9,6 @@ instances:
     settings:
       width_mmi: 4.5
       length_mmi: 5
-
 placements:
   mmi_long:
     port: o1

@@ -14,7 +14,6 @@ instances:
     settings:
       layer: M1
       size: [30, 30]
-
 placements:
   mmi_short:
     rotation: 180
@@ -31,13 +30,11 @@ placements:
     y: mmi_long,o1
     dx: -20
     dy: -10
-
 #routes:
 #    optical:
 #        routing_strategy: route_bundle_all_angle
 #        links:
 #            mmi_short,o1: mmi_long,o1
-
 ports:
   o1: mmi_short,o2
   o2: mmi_short,o3

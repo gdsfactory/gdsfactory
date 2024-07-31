@@ -7,20 +7,16 @@ instances:
     component: pad
   tr:
     component: pad
-
 placements:
   tl:
     x: 000
     y: 500
-
   br:
     x: 400
     y: 400
-
   tr:
     x: 400
     y: 600
-
 routes:
   electrical:
     settings:

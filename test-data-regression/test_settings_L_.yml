@@ -4,6 +4,6 @@ settings:
   layer: MTOP
   port_type: electrical
   size:
-  - 10
-  - 20
+    - 10
+    - 20
   width: 1

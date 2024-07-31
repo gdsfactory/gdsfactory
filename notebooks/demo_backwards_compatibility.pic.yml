@@ -14,7 +14,6 @@ routes:
   route1:
     links:
       mmib,o2: mmit,o2
-
 ports:
   o1: mmib,o1
   o2: mmit,o2

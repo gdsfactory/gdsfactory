@@ -6,8 +6,8 @@ instances:
       justify: left
       layer: WG
       position:
-      - 0
-      - 0
+        - 0
+        - 0
       size: 0.4
       text: '01'
   text_rectangular_TChip__436091ce_4600_m1400:
@@ -17,8 +17,8 @@ instances:
       justify: left
       layer: WG
       position:
-      - 0
-      - 0
+        - 0
+        - 0
       size: 0.4
       text: Chip
 name: text_lines_TChip_01_S0p4_LWG

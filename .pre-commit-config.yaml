@@ -44,7 +44,7 @@ repos:
     rev: v0.13.0
     hooks:
       - id: yamlfmt
-        exclude: ".*.tests*"
+        exclude: ".*.tests*|.*.pic.yml"
   - repo: https://github.com/rhysd/actionlint
     # - repo: https://github.com/RobertCraigie/pyright-python
     #   rev: v1.1.333

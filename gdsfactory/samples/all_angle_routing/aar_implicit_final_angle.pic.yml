@@ -3,17 +3,14 @@ instances:
     component: straight
   wg_c2:
     component: straight
-
   wg_f1:
     component: straight
   wg_f2:
     component: straight
-
   wg_a1:
     component: straight
   wg_a2:
     component: straight
-
 placements:
   wg_c1:
     port: o2
@@ -25,7 +22,6 @@ placements:
     y: wg_c1,o2
     dx: 1000
     dy: -1000
-
   wg_f1:
     port: o2
     x: 2000
@@ -35,7 +31,6 @@ placements:
     x: wg_f1,o2
     y: wg_f1,o2
     dx: 500
-
   wg_a1:
     port: o2
     x: 5000
@@ -45,19 +40,16 @@ placements:
     x: wg_a1,o2
     y: wg_a1,o2
     dx: 500
-
 routes:
-
   implicit_ending_ds:
     routing_strategy: route_bundle_all_angle
     settings:
       steps:
         - dx: 100
           exit_angle: 0
-        - ds: 100  # if you end with only ds, it's exit angle will be implicitly interpreted as the previous exit angle
+        - ds: 100 # if you end with only ds, it's exit angle will be implicitly interpreted as the previous exit angle
     links:
       wg_c1,o2: wg_c2,o1
-
   implicit_ending_dx:
     routing_strategy: route_bundle_all_angle
     settings:
@@ -65,16 +57,15 @@ routes:
       steps:
         - dy: 1000
           exit_angle: 0
-        - dx: 300  # same goes for dx
+        - dx: 300 # same goes for dx
     links:
       wg_f1,o1: wg_f2,o2
-
   implicit_ending_dy:
     routing_strategy: route_bundle_all_angle
     settings:
       steps:
         - dx: -500
           exit_angle: 90
-        - dy: 500  # or for that matter, dy
+        - dy: 500 # or for that matter, dy
     links:
       wg_a1,o1: wg_a2,o2
