@@ -16,7 +16,7 @@ dependencies = [
   "jinja2<4",
   "loguru<1",
   "matplotlib<4",
-  "numpy<2",
+  "numpy<3",
   "orjson<4",
   "pandas<3",
   "pydantic>=2.6,<2.9",
