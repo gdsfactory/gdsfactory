@@ -173,6 +173,8 @@ instances:
       min_length: 0.01
       mirror_bot: false
       nbends: 2
+      port1: o1
+      port2: o2
       port_e0_combiner: o4
       port_e0_splitter: o3
       port_e1_combiner: o3
@@ -195,6 +197,8 @@ instances:
       min_length: 0.01
       mirror_bot: false
       nbends: 2
+      port1: o1
+      port2: o2
       port_e0_combiner: o4
       port_e0_splitter: o3
       port_e1_combiner: o3
@@ -217,6 +221,8 @@ instances:
       min_length: 0.01
       mirror_bot: false
       nbends: 2
+      port1: o1
+      port2: o2
       port_e0_combiner: o4
       port_e0_splitter: o3
       port_e1_combiner: o3

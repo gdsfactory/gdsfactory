@@ -1,5 +1,5 @@
 info: {}
-name: mzi_DL0_LY2_LX100_Bbend_8e8e8f04
+name: mzi_DL0_LY2_LX100_Bbend_f9c88a9b
 settings:
   add_optical_ports_arms: false
   auto_rename_ports: true
@@ -12,6 +12,8 @@ settings:
   min_length: 0.01
   mirror_bot: false
   nbends: 2
+  port1: o1
+  port2: o2
   port_e0_combiner: o3
   port_e0_splitter: o3
   port_e1_combiner: o2
