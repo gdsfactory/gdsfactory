@@ -44,3 +44,9 @@ repos:
   #   rev: v1.1.333
   #   hooks:
   #   - id: pyright
+
+  - repo: https://github.com/google/yamlfmt
+    rev: v0.13.0
+    hooks:
+      - id: yamlfmt
+        exclude: ".*.pic.yml"
