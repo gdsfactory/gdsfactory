@@ -1,4 +1,6 @@
 info:
   length: 33.274
-name: bend_euler_s
-settings: {}
+name: bend_euler_s_Po1_Po2
+settings:
+  port1: o1
+  port2: o2
