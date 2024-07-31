@@ -15,6 +15,7 @@ from collections.abc import Callable
 from typing import Any
 
 import numpy as np
+from kfactory.kcell import vcell
 from numpy import mod, pi
 
 from gdsfactory import logger
@@ -34,7 +35,6 @@ from gdsfactory.typings import (
     LayerSpec,
     WidthTypes,
 )
-from kfactory.kcell import vcell
 
 
 def _simplify(points, tolerance):
