@@ -1,0 +1,1 @@
+Fixed an issue in path.py where path.extrude yielded a Component with no name.
