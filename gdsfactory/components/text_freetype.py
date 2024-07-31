@@ -84,6 +84,9 @@ def text_freetype(
             char = Component()
             xoffset = 0
             for letter in line:
+                if letter == " ":
+                    xoffset += scale_factor * advance_x
+                    continue
                 letter_dev = Component()
                 letter_template, advance_x, ascender = _get_glyph(font, letter)
                 scale_factor = size / ascender
