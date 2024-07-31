@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.6.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.6.2) - 2024-07-30
+
+No significant changes.
+
+
 ## [8.6.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.6.1) - 2024-07-28
 
 - Fix netlist names [#3053](https://github.com/gdsfactory/gdsfactory/pull/3053)
