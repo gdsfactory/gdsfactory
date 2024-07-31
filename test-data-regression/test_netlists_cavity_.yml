@@ -34,10 +34,10 @@ instances:
       w2: 0.55
 name: cavity_Cdbr_Ccoupler_L0p1_G0p2
 nets:
-  - p1: coupler_G0p2_L0p1_D4_D10_CSstrip_50_350,o2
-    p2: dbr_W0p45_W0p55_L0p159__efcfb70c_m11600_2350,o1
-  - p1: coupler_G0p2_L0p1_D4_D10_CSstrip_50_350,o3
-    p2: dbr_W0p45_W0p55_L0p159__efcfb70c_11700_2350,o1
+- p1: coupler_G0p2_L0p1_D4_D10_CSstrip_50_350,o2
+  p2: dbr_W0p45_W0p55_L0p159__efcfb70c_m11600_2350,o1
+- p1: coupler_G0p2_L0p1_D4_D10_CSstrip_50_350,o3
+  p2: dbr_W0p45_W0p55_L0p159__efcfb70c_11700_2350,o1
 placements:
   coupler_G0p2_L0p1_D4_D10_CSstrip_50_350:
     mirror: false

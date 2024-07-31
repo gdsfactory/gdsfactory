@@ -10,8 +10,8 @@ settings:
   radius: 5
   spacing: 2
   straight_widths:
-    - 0.8
-    - 0.9
-    - 0.8
+  - 0.8
+  - 0.9
+  - 0.8
   taper_length: 10
   via_stack: via_stack_heater_mtop

@@ -880,11 +880,11 @@ instances:
       cross_section: heater_metal
       length: 5
       port_names:
-        - e1
-        - e2
+      - e1
+      - e2
       port_types:
-        - electrical
-        - electrical
+      - electrical
+      - electrical
       width1: 11
       width2: 2.5
       with_bbox: true
@@ -899,11 +899,11 @@ instances:
       cross_section: heater_metal
       length: 5
       port_names:
-        - e1
-        - e2
+      - e1
+      - e2
       port_types:
-        - electrical
-        - electrical
+      - electrical
+      - electrical
       width1: 11
       width2: 2.5
       with_bbox: true
@@ -916,18 +916,18 @@ instances:
     settings:
       correct_size: true
       layers:
-        - HEATER
-        - M2
-        - MTOP
+      - HEATER
+      - M2
+      - MTOP
       size:
-        - 11
-        - 11
+      - 11
+      - 11
       slot_horizontal: false
       slot_vertical: false
       vias:
-        - null
-        - via1
-        - via2
+      - null
+      - via1
+      - via2
   via_stack_S11_11_LHEATE_f29565aa_m10400_0:
     component: via_stack
     info:
@@ -936,288 +936,288 @@ instances:
     settings:
       correct_size: true
       layers:
-        - HEATER
-        - M2
-        - MTOP
+      - HEATER
+      - M2
+      - MTOP
       size:
-        - 11
-        - 11
+      - 11
+      - 11
       slot_horizontal: false
       slot_vertical: false
       vias:
-        - null
-        - via1
-        - via2
+      - null
+      - via1
+      - via2
 name: straight_heater_metal_u_31c36232
 nets:
-  - p1: U1,e1
-    p2: m1,e2
-  - p1: U1,e2
-    p2: U2,e1
-  - p1: U1,o1
-    p2: m1,o2
-  - p1: U1,o2
-    p2: U2,o1
-  - p1: U10,e1
-    p2: U9,e2
-  - p1: U10,e2
-    p2: U11,e1
-  - p1: U10,o1
-    p2: U9,o2
-  - p1: U10,o2
-    p2: U11,o1
-  - p1: U11,e2
-    p2: U12,e1
-  - p1: U11,o2
-    p2: U12,o1
-  - p1: U12,e2
-    p2: U13,e1
-  - p1: U12,o2
-    p2: U13,o1
-  - p1: U13,e2
-    p2: U14,e1
-  - p1: U13,o2
-    p2: U14,o1
-  - p1: U14,e2
-    p2: U15,e1
-  - p1: U14,o2
-    p2: U15,o1
-  - p1: U15,e2
-    p2: U16,e1
-  - p1: U15,o2
-    p2: U16,o1
-  - p1: U16,e2
-    p2: U17,e1
-  - p1: U16,o2
-    p2: U17,o1
-  - p1: U17,e2
-    p2: U18,e1
-  - p1: U17,o2
-    p2: U18,o1
-  - p1: U18,e2
-    p2: U19,e1
-  - p1: U18,o2
-    p2: U19,o1
-  - p1: U19,e2
-    p2: U20,e1
-  - p1: U19,o2
-    p2: U20,o1
-  - p1: U2,e2
-    p2: U3,e1
-  - p1: U2,o2
-    p2: U3,o1
-  - p1: U20,e2
-    p2: U21,e1
-  - p1: U20,o2
-    p2: U21,o1
-  - p1: U21,e2
-    p2: U22,e1
-  - p1: U21,o2
-    p2: U22,o1
-  - p1: U22,e2
-    p2: U23,e1
-  - p1: U22,o2
-    p2: U23,o1
-  - p1: U23,e2
-    p2: U24,e1
-  - p1: U23,o2
-    p2: U24,o1
-  - p1: U24,e2
-    p2: U25,e1
-  - p1: U24,o2
-    p2: U25,o1
-  - p1: U25,e2
-    p2: U26,e1
-  - p1: U25,o2
-    p2: U26,o1
-  - p1: U26,e2
-    p2: U27,e1
-  - p1: U26,o2
-    p2: U27,o1
-  - p1: U27,e2
-    p2: U28,e1
-  - p1: U27,o2
-    p2: U28,o1
-  - p1: U28,e2
-    p2: U29,e1
-  - p1: U28,o2
-    p2: U29,o1
-  - p1: U29,e2
-    p2: U30,e1
-  - p1: U29,o2
-    p2: U30,o1
-  - p1: U3,e2
-    p2: U4,e1
-  - p1: U3,o2
-    p2: U4,o1
-  - p1: U30,e2
-    p2: U31,e1
-  - p1: U30,o2
-    p2: U31,o1
-  - p1: U31,e2
-    p2: U32,e1
-  - p1: U31,o2
-    p2: U32,o1
-  - p1: U32,e2
-    p2: U33,e1
-  - p1: U32,o2
-    p2: U33,o1
-  - p1: U33,e2
-    p2: U34,e1
-  - p1: U33,o2
-    p2: U34,o1
-  - p1: U34,e2
-    p2: U35,e1
-  - p1: U34,o2
-    p2: U35,o1
-  - p1: U35,e2
-    p2: U36,e1
-  - p1: U35,o2
-    p2: U36,o1
-  - p1: U36,e2
-    p2: U37,e1
-  - p1: U36,o2
-    p2: U37,o1
-  - p1: U37,e2
-    p2: U38,e1
-  - p1: U37,o2
-    p2: U38,o1
-  - p1: U38,e2
-    p2: U39,e1
-  - p1: U38,o2
-    p2: U39,o1
-  - p1: U39,e2
-    p2: U40,e1
-  - p1: U39,o2
-    p2: U40,o1
-  - p1: U4,e2
-    p2: U5,e1
-  - p1: U4,o2
-    p2: U5,o1
-  - p1: U40,e2
-    p2: U41,e1
-  - p1: U40,o2
-    p2: U41,o1
-  - p1: U41,e2
-    p2: U42,e1
-  - p1: U41,o2
-    p2: U42,o1
-  - p1: U42,e2
-    p2: U43,e1
-  - p1: U42,o2
-    p2: U43,o1
-  - p1: U43,e2
-    p2: U44,e1
-  - p1: U43,o2
-    p2: U44,o1
-  - p1: U44,e2
-    p2: U45,e1
-  - p1: U44,o2
-    p2: U45,o1
-  - p1: U45,e2
-    p2: U46,e1
-  - p1: U45,o2
-    p2: U46,o1
-  - p1: U46,e2
-    p2: U47,e1
-  - p1: U46,o2
-    p2: U47,o1
-  - p1: U47,e2
-    p2: U48,e1
-  - p1: U47,o2
-    p2: U48,o1
-  - p1: U48,e2
-    p2: U49,e1
-  - p1: U48,o2
-    p2: U49,o1
-  - p1: U49,e2
-    p2: U50,e1
-  - p1: U49,o2
-    p2: U50,o1
-  - p1: U5,e2
-    p2: U6,e1
-  - p1: U5,o2
-    p2: U6,o1
-  - p1: U50,e2
-    p2: U51,e1
-  - p1: U50,o2
-    p2: U51,o1
-  - p1: U51,e2
-    p2: U52,e1
-  - p1: U51,o2
-    p2: U52,o1
-  - p1: U52,e2
-    p2: U53,e1
-  - p1: U52,o2
-    p2: U53,o1
-  - p1: U53,e2
-    p2: U54,e1
-  - p1: U53,o2
-    p2: U54,o1
-  - p1: U54,e2
-    p2: U55,e1
-  - p1: U54,o2
-    p2: U55,o1
-  - p1: U55,e2
-    p2: U56,e1
-  - p1: U55,o2
-    p2: U56,o1
-  - p1: U56,e2
-    p2: U57,e1
-  - p1: U56,o2
-    p2: U57,o1
-  - p1: U57,e2
-    p2: U58,e1
-  - p1: U57,o2
-    p2: U58,o1
-  - p1: U58,e2
-    p2: U59,e1
-  - p1: U58,o2
-    p2: U59,o1
-  - p1: U59,e2
-    p2: U60,e1
-  - p1: U59,o2
-    p2: U60,o1
-  - p1: U6,e2
-    p2: U7,e1
-  - p1: U6,o2
-    p2: U7,o1
-  - p1: U60,e2
-    p2: U61,e1
-  - p1: U60,o2
-    p2: U61,o1
-  - p1: U61,e2
-    p2: U62,e1
-  - p1: U61,o2
-    p2: U62,o1
-  - p1: U62,e2
-    p2: U63,e1
-  - p1: U62,o2
-    p2: U63,o1
-  - p1: U63,e2
-    p2: m2,e1
-  - p1: U63,o2
-    p2: m2,o1
-  - p1: U7,e2
-    p2: U8,e1
-  - p1: U7,o2
-    p2: U8,o1
-  - p1: U8,e2
-    p2: U9,e1
-  - p1: U8,o2
-    p2: U9,o1
-  - p1: _1,o2
-    p2: m1,o1
-  - p1: _2,o1
-    p2: m2,o2
-  - p1: m1,e1
-    p2: taper_L5_W11_W2p5_PNone_4a19c1ba_m2400_0,e2
-  - p1: m2,e2
-    p2: taper_L5_W11_W2p5_PNone_4a19c1ba_322400_0,e2
-  - p1: taper_L5_W11_W2p5_PNone_4a19c1ba_322400_0,e1
-    p2: via_stack_S11_11_LHEATE_f29565aa_330400_0,e1
-  - p1: taper_L5_W11_W2p5_PNone_4a19c1ba_m2400_0,e1
-    p2: via_stack_S11_11_LHEATE_f29565aa_m10400_0,e3
+- p1: U1,e1
+  p2: m1,e2
+- p1: U1,e2
+  p2: U2,e1
+- p1: U1,o1
+  p2: m1,o2
+- p1: U1,o2
+  p2: U2,o1
+- p1: U10,e1
+  p2: U9,e2
+- p1: U10,e2
+  p2: U11,e1
+- p1: U10,o1
+  p2: U9,o2
+- p1: U10,o2
+  p2: U11,o1
+- p1: U11,e2
+  p2: U12,e1
+- p1: U11,o2
+  p2: U12,o1
+- p1: U12,e2
+  p2: U13,e1
+- p1: U12,o2
+  p2: U13,o1
+- p1: U13,e2
+  p2: U14,e1
+- p1: U13,o2
+  p2: U14,o1
+- p1: U14,e2
+  p2: U15,e1
+- p1: U14,o2
+  p2: U15,o1
+- p1: U15,e2
+  p2: U16,e1
+- p1: U15,o2
+  p2: U16,o1
+- p1: U16,e2
+  p2: U17,e1
+- p1: U16,o2
+  p2: U17,o1
+- p1: U17,e2
+  p2: U18,e1
+- p1: U17,o2
+  p2: U18,o1
+- p1: U18,e2
+  p2: U19,e1
+- p1: U18,o2
+  p2: U19,o1
+- p1: U19,e2
+  p2: U20,e1
+- p1: U19,o2
+  p2: U20,o1
+- p1: U2,e2
+  p2: U3,e1
+- p1: U2,o2
+  p2: U3,o1
+- p1: U20,e2
+  p2: U21,e1
+- p1: U20,o2
+  p2: U21,o1
+- p1: U21,e2
+  p2: U22,e1
+- p1: U21,o2
+  p2: U22,o1
+- p1: U22,e2
+  p2: U23,e1
+- p1: U22,o2
+  p2: U23,o1
+- p1: U23,e2
+  p2: U24,e1
+- p1: U23,o2
+  p2: U24,o1
+- p1: U24,e2
+  p2: U25,e1
+- p1: U24,o2
+  p2: U25,o1
+- p1: U25,e2
+  p2: U26,e1
+- p1: U25,o2
+  p2: U26,o1
+- p1: U26,e2
+  p2: U27,e1
+- p1: U26,o2
+  p2: U27,o1
+- p1: U27,e2
+  p2: U28,e1
+- p1: U27,o2
+  p2: U28,o1
+- p1: U28,e2
+  p2: U29,e1
+- p1: U28,o2
+  p2: U29,o1
+- p1: U29,e2
+  p2: U30,e1
+- p1: U29,o2
+  p2: U30,o1
+- p1: U3,e2
+  p2: U4,e1
+- p1: U3,o2
+  p2: U4,o1
+- p1: U30,e2
+  p2: U31,e1
+- p1: U30,o2
+  p2: U31,o1
+- p1: U31,e2
+  p2: U32,e1
+- p1: U31,o2
+  p2: U32,o1
+- p1: U32,e2
+  p2: U33,e1
+- p1: U32,o2
+  p2: U33,o1
+- p1: U33,e2
+  p2: U34,e1
+- p1: U33,o2
+  p2: U34,o1
+- p1: U34,e2
+  p2: U35,e1
+- p1: U34,o2
+  p2: U35,o1
+- p1: U35,e2
+  p2: U36,e1
+- p1: U35,o2
+  p2: U36,o1
+- p1: U36,e2
+  p2: U37,e1
+- p1: U36,o2
+  p2: U37,o1
+- p1: U37,e2
+  p2: U38,e1
+- p1: U37,o2
+  p2: U38,o1
+- p1: U38,e2
+  p2: U39,e1
+- p1: U38,o2
+  p2: U39,o1
+- p1: U39,e2
+  p2: U40,e1
+- p1: U39,o2
+  p2: U40,o1
+- p1: U4,e2
+  p2: U5,e1
+- p1: U4,o2
+  p2: U5,o1
+- p1: U40,e2
+  p2: U41,e1
+- p1: U40,o2
+  p2: U41,o1
+- p1: U41,e2
+  p2: U42,e1
+- p1: U41,o2
+  p2: U42,o1
+- p1: U42,e2
+  p2: U43,e1
+- p1: U42,o2
+  p2: U43,o1
+- p1: U43,e2
+  p2: U44,e1
+- p1: U43,o2
+  p2: U44,o1
+- p1: U44,e2
+  p2: U45,e1
+- p1: U44,o2
+  p2: U45,o1
+- p1: U45,e2
+  p2: U46,e1
+- p1: U45,o2
+  p2: U46,o1
+- p1: U46,e2
+  p2: U47,e1
+- p1: U46,o2
+  p2: U47,o1
+- p1: U47,e2
+  p2: U48,e1
+- p1: U47,o2
+  p2: U48,o1
+- p1: U48,e2
+  p2: U49,e1
+- p1: U48,o2
+  p2: U49,o1
+- p1: U49,e2
+  p2: U50,e1
+- p1: U49,o2
+  p2: U50,o1
+- p1: U5,e2
+  p2: U6,e1
+- p1: U5,o2
+  p2: U6,o1
+- p1: U50,e2
+  p2: U51,e1
+- p1: U50,o2
+  p2: U51,o1
+- p1: U51,e2
+  p2: U52,e1
+- p1: U51,o2
+  p2: U52,o1
+- p1: U52,e2
+  p2: U53,e1
+- p1: U52,o2
+  p2: U53,o1
+- p1: U53,e2
+  p2: U54,e1
+- p1: U53,o2
+  p2: U54,o1
+- p1: U54,e2
+  p2: U55,e1
+- p1: U54,o2
+  p2: U55,o1
+- p1: U55,e2
+  p2: U56,e1
+- p1: U55,o2
+  p2: U56,o1
+- p1: U56,e2
+  p2: U57,e1
+- p1: U56,o2
+  p2: U57,o1
+- p1: U57,e2
+  p2: U58,e1
+- p1: U57,o2
+  p2: U58,o1
+- p1: U58,e2
+  p2: U59,e1
+- p1: U58,o2
+  p2: U59,o1
+- p1: U59,e2
+  p2: U60,e1
+- p1: U59,o2
+  p2: U60,o1
+- p1: U6,e2
+  p2: U7,e1
+- p1: U6,o2
+  p2: U7,o1
+- p1: U60,e2
+  p2: U61,e1
+- p1: U60,o2
+  p2: U61,o1
+- p1: U61,e2
+  p2: U62,e1
+- p1: U61,o2
+  p2: U62,o1
+- p1: U62,e2
+  p2: U63,e1
+- p1: U62,o2
+  p2: U63,o1
+- p1: U63,e2
+  p2: m2,e1
+- p1: U63,o2
+  p2: m2,o1
+- p1: U7,e2
+  p2: U8,e1
+- p1: U7,o2
+  p2: U8,o1
+- p1: U8,e2
+  p2: U9,e1
+- p1: U8,o2
+  p2: U9,o1
+- p1: _1,o2
+  p2: m1,o1
+- p1: _2,o1
+  p2: m2,o2
+- p1: m1,e1
+  p2: taper_L5_W11_W2p5_PNone_4a19c1ba_m2400_0,e2
+- p1: m2,e2
+  p2: taper_L5_W11_W2p5_PNone_4a19c1ba_322400_0,e2
+- p1: taper_L5_W11_W2p5_PNone_4a19c1ba_322400_0,e1
+  p2: via_stack_S11_11_LHEATE_f29565aa_330400_0,e1
+- p1: taper_L5_W11_W2p5_PNone_4a19c1ba_m2400_0,e1
+  p2: via_stack_S11_11_LHEATE_f29565aa_m10400_0,e3
 placements:
   U1:
     mirror: false
@@ -1582,18 +1582,18 @@ ports:
 warnings:
   electrical:
     unconnected_ports:
-      - message: 4 unconnected electrical ports!
-        ports:
-          - via_stack_S11_11_LHEATE_f29565aa_m10400_0,e1
-          - via_stack_S11_11_LHEATE_f29565aa_m10400_0,e4
-          - via_stack_S11_11_LHEATE_f29565aa_330400_0,e3
-          - via_stack_S11_11_LHEATE_f29565aa_330400_0,e4
-        values:
-          - - -15900
-            - 0
-          - - -10400
-            - -5500
-          - - 335900
-            - 0
-          - - 330400
-            - -5500
+    - message: 4 unconnected electrical ports!
+      ports:
+      - via_stack_S11_11_LHEATE_f29565aa_m10400_0,e1
+      - via_stack_S11_11_LHEATE_f29565aa_m10400_0,e4
+      - via_stack_S11_11_LHEATE_f29565aa_330400_0,e3
+      - via_stack_S11_11_LHEATE_f29565aa_330400_0,e4
+      values:
+      - - -15900
+        - 0
+      - - -10400
+        - -5500
+      - - 335900
+        - 0
+      - - 330400
+        - -5500

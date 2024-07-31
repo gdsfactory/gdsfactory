@@ -15,14 +15,14 @@ instances:
       centered: false
       layer: HEATER
       port_orientations:
-        - 180
-        - 90
-        - 0
-        - -90
+      - 180
+      - 90
+      - 0
+      - -90
       port_type: electrical
       size:
-        - 45.8
-        - 5
+      - 45.8
+      - 5
   via_stack_S10_10_LHEATE_4ddd7fd5_17450_351:
     component: via_stack
     info:
@@ -31,18 +31,18 @@ instances:
     settings:
       correct_size: true
       layers:
-        - HEATER
-        - M2
-        - MTOP
+      - HEATER
+      - M2
+      - MTOP
       size:
-        - 10
-        - 10
+      - 10
+      - 10
       slot_horizontal: false
       slot_vertical: false
       vias:
-        - null
-        - via1
-        - via2
+      - null
+      - via1
+      - via2
   via_stack_S10_10_LHEATE_4ddd7fd5_m38350_351:
     component: via_stack
     info:
@@ -51,24 +51,24 @@ instances:
     settings:
       correct_size: true
       layers:
-        - HEATER
-        - M2
-        - MTOP
+      - HEATER
+      - M2
+      - MTOP
       size:
-        - 10
-        - 10
+      - 10
+      - 10
       slot_horizontal: false
       slot_vertical: false
       vias:
-        - null
-        - via1
-        - via2
+      - null
+      - via1
+      - via2
 name: disk_heater_R10_G0p2_WA_14c266ed
 nets:
-  - p1: rectangle_S45p800000000_a6949a61_m10450_351,e1
-    p2: via_stack_S10_10_LHEATE_4ddd7fd5_m38350_351,e3
-  - p1: rectangle_S45p800000000_a6949a61_m10450_351,e3
-    p2: via_stack_S10_10_LHEATE_4ddd7fd5_17450_351,e1
+- p1: rectangle_S45p800000000_a6949a61_m10450_351,e1
+  p2: via_stack_S10_10_LHEATE_4ddd7fd5_m38350_351,e3
+- p1: rectangle_S45p800000000_a6949a61_m10450_351,e3
+  p2: via_stack_S10_10_LHEATE_4ddd7fd5_17450_351,e1
 placements:
   disk_R10_G0p2_WAD180_P1_CSstrip_m10450_0:
     mirror: false
@@ -98,24 +98,24 @@ ports:
 warnings:
   electrical:
     unconnected_ports:
-      - message: 6 unconnected electrical ports!
-        ports:
-          - rectangle_S45p800000000_a6949a61_m10450_351,e2
-          - rectangle_S45p800000000_a6949a61_m10450_351,e4
-          - via_stack_S10_10_LHEATE_4ddd7fd5_m38350_351,e1
-          - via_stack_S10_10_LHEATE_4ddd7fd5_m38350_351,e4
-          - via_stack_S10_10_LHEATE_4ddd7fd5_17450_351,e3
-          - via_stack_S10_10_LHEATE_4ddd7fd5_17450_351,e4
-        values:
-          - - -10450
-            - 2851
-          - - -10450
-            - -2149
-          - - -43350
-            - 351
-          - - -38350
-            - -4649
-          - - 22450
-            - 351
-          - - 17450
-            - -4649
+    - message: 6 unconnected electrical ports!
+      ports:
+      - rectangle_S45p800000000_a6949a61_m10450_351,e2
+      - rectangle_S45p800000000_a6949a61_m10450_351,e4
+      - via_stack_S10_10_LHEATE_4ddd7fd5_m38350_351,e1
+      - via_stack_S10_10_LHEATE_4ddd7fd5_m38350_351,e4
+      - via_stack_S10_10_LHEATE_4ddd7fd5_17450_351,e3
+      - via_stack_S10_10_LHEATE_4ddd7fd5_17450_351,e4
+      values:
+      - - -10450
+        - 2851
+      - - -10450
+        - -2149
+      - - -43350
+        - 351
+      - - -38350
+        - -4649
+      - - 22450
+        - 351
+      - - 17450
+        - -4649

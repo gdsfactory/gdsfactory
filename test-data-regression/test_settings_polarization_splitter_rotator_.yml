@@ -7,13 +7,13 @@ settings:
   length_coupler: 7
   length_out: 14.33
   length_taper_in:
-    - 4
-    - 44
+  - 4
+  - 44
   width_coupler:
-    - 0.9
-    - 0.404
+  - 0.9
+  - 0.404
   width_out: 0.54
   width_taper_in:
-    - 0.54
-    - 0.69
-    - 0.83
+  - 0.54
+  - 0.69
+  - 0.83

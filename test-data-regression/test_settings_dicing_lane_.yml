@@ -4,5 +4,5 @@ settings:
   layer_dicing: DICING
   marker: Ftriangle_Mgdsfactorypcomponentsptriangles_SLMTOP_X2
   size:
-    - 50
-    - 300
+  - 50
+  - 300

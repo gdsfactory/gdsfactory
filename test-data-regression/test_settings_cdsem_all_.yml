@@ -5,18 +5,18 @@ settings:
   cross_section: strip
   dense_lines_gap: 0.3
   dense_lines_labels:
-    - DL
-    - DM
-    - DH
+  - DL
+  - DM
+  - DH
   dense_lines_width: 0.3
   dense_lines_width_difference: 0.02
   spacing: 5
   straight: straight
   text: text_rectangular_mini
   widths:
-    - 0.4
-    - 0.45
-    - 0.5
-    - 0.6
-    - 0.8
-    - 1
+  - 0.4
+  - 0.45
+  - 0.5
+  - 0.6
+  - 0.8
+  - 1

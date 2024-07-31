@@ -249,30 +249,30 @@ instances:
       width: 0.5
 name: loss_deembedding_ch14_2_d0b63223
 nets:
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_131875_34654,o1
-    p2: straight_L107_N2_CSstrip_W0p5_190500_39529,o2
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_131875_34654,o2
-    p2: straight_L30_N2_CSstrip_W0p5_127000_14529,o1
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_249125_34654,o1
-    p2: straight_L30_N2_CSstrip_W0p5_254000_14529,o1
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_249125_34654,o2
-    p2: straight_L107_N2_CSstrip_W0p5_190500_39529,o1
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_376125_44654,o1
-    p2: straight_L40_N2_CSstrip_W0p5_381000_19529,o1
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_376125_44654,o2
-    p2: straight_L361_N2_CSstrip_W0p5_190500_49529,o1
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_4875_44654,o1
-    p2: straight_L361_N2_CSstrip_W0p5_190500_49529,o2
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_4875_44654,o2
-    p2: straight_L40_N2_CSstrip_W0p5_0_19529,o1
-  - p1: grating_coupler_ellipti_b694ac47_0_m20512,o1
-    p2: straight_L40_N2_CSstrip_W0p5_0_19529,o2
-  - p1: grating_coupler_ellipti_b694ac47_127000_m20512,o1
-    p2: straight_L30_N2_CSstrip_W0p5_127000_14529,o2
-  - p1: grating_coupler_ellipti_b694ac47_254000_m20512,o1
-    p2: straight_L30_N2_CSstrip_W0p5_254000_14529,o2
-  - p1: grating_coupler_ellipti_b694ac47_381000_m20512,o1
-    p2: straight_L40_N2_CSstrip_W0p5_381000_19529,o2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_131875_34654,o1
+  p2: straight_L107_N2_CSstrip_W0p5_190500_39529,o2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_131875_34654,o2
+  p2: straight_L30_N2_CSstrip_W0p5_127000_14529,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_249125_34654,o1
+  p2: straight_L30_N2_CSstrip_W0p5_254000_14529,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_249125_34654,o2
+  p2: straight_L107_N2_CSstrip_W0p5_190500_39529,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_376125_44654,o1
+  p2: straight_L40_N2_CSstrip_W0p5_381000_19529,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_376125_44654,o2
+  p2: straight_L361_N2_CSstrip_W0p5_190500_49529,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_4875_44654,o1
+  p2: straight_L361_N2_CSstrip_W0p5_190500_49529,o2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_4875_44654,o2
+  p2: straight_L40_N2_CSstrip_W0p5_0_19529,o1
+- p1: grating_coupler_ellipti_b694ac47_0_m20512,o1
+  p2: straight_L40_N2_CSstrip_W0p5_0_19529,o2
+- p1: grating_coupler_ellipti_b694ac47_127000_m20512,o1
+  p2: straight_L30_N2_CSstrip_W0p5_127000_14529,o2
+- p1: grating_coupler_ellipti_b694ac47_254000_m20512,o1
+  p2: straight_L30_N2_CSstrip_W0p5_254000_14529,o2
+- p1: grating_coupler_ellipti_b694ac47_381000_m20512,o1
+  p2: straight_L40_N2_CSstrip_W0p5_381000_19529,o2
 placements:
   bend_euler_R10_A90_P0p5_2f1f5c6d_131875_34654:
     mirror: false
@@ -348,18 +348,18 @@ ports: {}
 warnings:
   vertical_te:
     unconnected_ports:
-      - message: 4 unconnected vertical_te ports!
-        ports:
-          - grating_coupler_ellipti_b694ac47_0_m20512,o2
-          - grating_coupler_ellipti_b694ac47_127000_m20512,o2
-          - grating_coupler_ellipti_b694ac47_254000_m20512,o2
-          - grating_coupler_ellipti_b694ac47_381000_m20512,o2
-        values:
-          - - 0
-            - -26740
-          - - 127000
-            - -26740
-          - - 254000
-            - -26740
-          - - 381000
-            - -26740
+    - message: 4 unconnected vertical_te ports!
+      ports:
+      - grating_coupler_ellipti_b694ac47_0_m20512,o2
+      - grating_coupler_ellipti_b694ac47_127000_m20512,o2
+      - grating_coupler_ellipti_b694ac47_254000_m20512,o2
+      - grating_coupler_ellipti_b694ac47_381000_m20512,o2
+      values:
+      - - 0
+        - -26740
+      - - 127000
+        - -26740
+      - - 254000
+        - -26740
+      - - 381000
+        - -26740
