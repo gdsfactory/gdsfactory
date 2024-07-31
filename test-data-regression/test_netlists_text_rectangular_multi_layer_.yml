@@ -6,8 +6,8 @@ instances:
       justify: left
       layer: WG
       position:
-      - 0
-      - 0
+        - 0
+        - 0
       size: 10
       text: abcd
   text_rectangular_Tabcd__493eb477_115000_25000:
@@ -17,8 +17,8 @@ instances:
       justify: left
       layer: M1
       position:
-      - 0
-      - 0
+        - 0
+        - 0
       size: 10
       text: abcd
   text_rectangular_Tabcd__571a83c5_115000_25000:
@@ -28,8 +28,8 @@ instances:
       justify: left
       layer: M2
       position:
-      - 0
-      - 0
+        - 0
+        - 0
       size: 10
       text: abcd
   text_rectangular_Tabcd__ad83b37c_115000_25000:
@@ -39,8 +39,8 @@ instances:
       justify: left
       layer: MTOP
       position:
-      - 0
-      - 0
+        - 0
+        - 0
       size: 10
       text: abcd
 name: copy_layers_FFtext_rect_635fd46f

@@ -1,19 +1,19 @@
 info:
   length: 10
   size:
-  - 10
-  - 10
+    - 10
+    - 10
 name: via_corner_CSFcross_sec_da01ea22
 settings:
   cross_section:
-  - - Fcross_section_Mgdsfactorypcross_section_SLM2_W10_PNe1_e2_PTelectrical_electrical_RNone
-    - - 0
-      - 180
-  - - Fcross_section_Mgdsfactorypcross_section_SLM3_W10_PNe1_e2_PTelectrical_electrical_RNone
-    - - 90
-      - 270
+    - - Fcross_section_Mgdsfactorypcross_section_SLM2_W10_PNe1_e2_PTelectrical_electrical_RNone
+      - - 0
+        - 180
+    - - Fcross_section_Mgdsfactorypcross_section_SLM3_W10_PNe1_e2_PTelectrical_electrical_RNone
+      - - 90
+        - 270
   layers_labels:
-  - m2
-  - m3
+    - m2
+    - m3
   vias:
-  - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2
+    - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2

@@ -7,12 +7,12 @@ instances:
   mzi1:
     component: mzi
     settings:
-      delta_length: {{ delta_length }}
+      delta_length: {? {delta_length: ''} : ''}
 
   mzi2:
     component: mzi
     settings:
-      delta_length: {{ delta_length }}
+      delta_length: {? {delta_length: ''} : ''}
 
   gc1:
     component: grating_coupler_te

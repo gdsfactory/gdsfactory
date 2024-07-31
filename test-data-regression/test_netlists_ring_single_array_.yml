@@ -38,10 +38,10 @@ instances:
       npoints: 2
 name: ring_single_array_Rring_c44178b9
 nets:
-- p1: ring_single_G0p2_R10_LX_756584a5_36000_10650,o1
-  p2: straight_L5_N2_CSstrip_10500_0,o2
-- p1: ring_single_G0p2_R5_LX1_7dcbd653_m5000_5650,o2
-  p2: straight_L5_N2_CSstrip_10500_0,o1
+  - p1: ring_single_G0p2_R10_LX_756584a5_36000_10650,o1
+    p2: straight_L5_N2_CSstrip_10500_0,o2
+  - p1: ring_single_G0p2_R5_LX1_7dcbd653_m5000_5650,o2
+    p2: straight_L5_N2_CSstrip_10500_0,o1
 placements:
   ring_single_G0p2_R10_LX_756584a5_36000_10650:
     mirror: false

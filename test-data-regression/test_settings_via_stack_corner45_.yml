@@ -4,11 +4,11 @@ name: via_stack_corner45_W10__239d9688
 settings:
   correct_size: true
   layers:
-  - M1
-  - M2
-  - MTOP
+    - M1
+    - M2
+    - MTOP
   vias:
-  - via1
-  - via2
-  - null
+    - via1
+    - via2
+    - null
   width: 10

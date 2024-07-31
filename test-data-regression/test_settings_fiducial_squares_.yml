@@ -2,9 +2,9 @@ info: {}
 name: fiducial_squares_L1_0_S5_5_O0p14
 settings:
   layers:
-  - - 1
-    - 0
+    - - 1
+      - 0
   offset: 0.14
   size:
-  - 5
-  - 5
+    - 5
+    - 5

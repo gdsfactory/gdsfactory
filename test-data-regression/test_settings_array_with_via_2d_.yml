@@ -6,5 +6,5 @@ settings:
   columns: 3
   rows: 2
   spacing:
-  - 150.0
-  - 150.0
+    - 150.0
+    - 150.0

@@ -6,14 +6,14 @@ instances:
       layer: HEATER
       port_inclusion: 0
       port_orientations:
-      - 180
-      - 90
-      - 0
-      - -90
+        - 180
+        - 90
+        - 0
+        - -90
       port_type: electrical
       size:
-      - 50
-      - 10
+        - 50
+        - 10
   via_stack_S50_50_LHEATE_0ececd1b_50000_0:
     component: via_stack
     info:
@@ -22,18 +22,18 @@ instances:
     settings:
       correct_size: true
       layers:
-      - HEATER
-      - M2
-      - MTOP
+        - HEATER
+        - M2
+        - MTOP
       size:
-      - 50
-      - 50
+        - 50
+        - 50
       slot_horizontal: false
       slot_vertical: false
       vias:
-      - null
-      - via1
-      - via2
+        - null
+        - via1
+        - via2
   via_stack_S50_50_LHEATE_0ececd1b_m50000_0:
     component: via_stack
     info:
@@ -42,24 +42,24 @@ instances:
     settings:
       correct_size: true
       layers:
-      - HEATER
-      - M2
-      - MTOP
+        - HEATER
+        - M2
+        - MTOP
       size:
-      - 50
-      - 50
+        - 50
+        - 50
       slot_horizontal: false
       slot_vertical: false
       vias:
-      - null
-      - via1
-      - via2
+        - null
+        - via1
+        - via2
 name: resistance_sheet_W10_LH_1b3e3b4b
 nets:
-- p1: compass_S50_10_LHEATER__8f301b44_0_0,e1
-  p2: via_stack_S50_50_LHEATE_0ececd1b_m50000_0,e3
-- p1: compass_S50_10_LHEATER__8f301b44_0_0,e3
-  p2: via_stack_S50_50_LHEATE_0ececd1b_50000_0,e1
+  - p1: compass_S50_10_LHEATER__8f301b44_0_0,e1
+    p2: via_stack_S50_50_LHEATE_0ececd1b_m50000_0,e3
+  - p1: compass_S50_10_LHEATER__8f301b44_0_0,e3
+    p2: via_stack_S50_50_LHEATE_0ececd1b_50000_0,e1
 placements:
   compass_S50_10_LHEATER__8f301b44_0_0:
     mirror: false
@@ -82,24 +82,24 @@ ports:
 warnings:
   electrical:
     unconnected_ports:
-    - message: 6 unconnected electrical ports!
-      ports:
-      - via_stack_S50_50_LHEATE_0ececd1b_m50000_0,e1
-      - via_stack_S50_50_LHEATE_0ececd1b_m50000_0,e2
-      - via_stack_S50_50_LHEATE_0ececd1b_50000_0,e2
-      - via_stack_S50_50_LHEATE_0ececd1b_50000_0,e3
-      - compass_S50_10_LHEATER__8f301b44_0_0,e2
-      - compass_S50_10_LHEATER__8f301b44_0_0,e4
-      values:
-      - - -75000
-        - 0
-      - - -50000
-        - 25000
-      - - 50000
-        - 25000
-      - - 75000
-        - 0
-      - - 0
-        - 5000
-      - - 0
-        - -5000
+      - message: 6 unconnected electrical ports!
+        ports:
+          - via_stack_S50_50_LHEATE_0ececd1b_m50000_0,e1
+          - via_stack_S50_50_LHEATE_0ececd1b_m50000_0,e2
+          - via_stack_S50_50_LHEATE_0ececd1b_50000_0,e2
+          - via_stack_S50_50_LHEATE_0ececd1b_50000_0,e3
+          - compass_S50_10_LHEATER__8f301b44_0_0,e2
+          - compass_S50_10_LHEATER__8f301b44_0_0,e4
+        values:
+          - - -75000
+            - 0
+          - - -50000
+            - 25000
+          - - 50000
+            - 25000
+          - - 75000
+            - 0
+          - - 0
+            - 5000
+          - - 0
+            - -5000

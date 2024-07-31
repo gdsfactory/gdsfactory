@@ -3,20 +3,20 @@ name: ring_crow_G0p2_0p2_0p2__5abcdbba
 settings:
   cross_section: strip
   gaps:
-  - 0.2
-  - 0.2
-  - 0.2
-  - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
   length_x: 0
   lengths_y:
-  - 0
-  - 0
-  - 0
+    - 0
+    - 0
+    - 0
   radius:
-  - 10
-  - 10
-  - 10
+    - 10
+    - 10
+    - 10
   ring_cross_sections:
-  - strip
-  - strip
-  - strip
+    - strip
+    - strip
+    - strip

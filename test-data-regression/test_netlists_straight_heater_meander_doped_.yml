@@ -336,16 +336,16 @@ instances:
     settings:
       correct_size: true
       layers:
-      - M1
-      - M2
+        - M1
+        - M2
       size:
-      - 1.5
-      - 1.5
+        - 1.5
+        - 1.5
       slot_horizontal: false
       slot_vertical: false
       vias:
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIAC_S0p1_0p1_S0p2_0p2_E0p1
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_S0p1_0p1_S0p2_0p2_E0p1
+        - Fvia_Mgdsfactorypcomponentspvia_SLVIAC_S0p1_0p1_S0p2_0p2_E0p1
+        - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_S0p1_0p1_S0p2_0p2_E0p1
   via_stack_S1p5_1p5_LM1__330fd0e2_m750_2000:
     component: via_stack
     info:
@@ -354,58 +354,58 @@ instances:
     settings:
       correct_size: true
       layers:
-      - M1
-      - M2
+        - M1
+        - M2
       size:
-      - 1.5
-      - 1.5
+        - 1.5
+        - 1.5
       slot_horizontal: false
       slot_vertical: false
       vias:
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIAC_S0p1_0p1_S0p2_0p2_E0p1
-      - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_S0p1_0p1_S0p2_0p2_E0p1
+        - Fvia_Mgdsfactorypcomponentspvia_SLVIAC_S0p1_0p1_S0p2_0p2_E0p1
+        - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_S0p1_0p1_S0p2_0p2_E0p1
 name: straight_heater_meander_2e902fd2
 nets:
-- p1: bend_euler_R5_A90_P0p5__c7bd5c45_84625_m2375,o1
-  p2: bend_euler_R5_A90_P0p5__c7bd5c45_89375_m7625,o2
-- p1: bend_euler_R5_A90_P0p5__c7bd5c45_84625_m2375,o2
-  p2: extend_ports_Cstraight__ecbbb66b_1_36000_0,o2
-- p1: bend_euler_R5_A90_P0p5__c7bd5c45_89375_m7625,o1
-  p2: bend_euler_R5_A90_P0p5__c7bd5c45_94625_m7625,o2
-- p1: bend_euler_R5_A90_P0p5__c7bd5c45_94625_1625,o1
-  p2: straight_L10_N2_CSstrip_W0p5_87000_4000,o1
-- p1: bend_euler_R5_A90_P0p5__c7bd5c45_94625_1625,o2
-  p2: straight_L4_N2_CSstrip_W0p5_97000_m3000,o1
-- p1: bend_euler_R5_A90_P0p5__c7bd5c45_94625_m7625,o1
-  p2: straight_L4_N2_CSstrip_W0p5_97000_m3000,o2
-- p1: bend_euler_R5_A90_P0p5__c7bd5c45_m20125_8375,o1
-  p2: bend_euler_R5_A90_P0p5__c7bd5c45_m24875_13625,o2
-- p1: bend_euler_R5_A90_P0p5__c7bd5c45_m20125_8375,o2
-  p2: straight_L7p5_N2_CSstrip_m13750_6000,o2
-- p1: bend_euler_R5_A90_P0p5__c7bd5c45_m24875_13625,o1
-  p2: bend_euler_R5_A90_P0p5__c7bd5c45_m30125_13625,o2
-- p1: bend_euler_R5_A90_P0p5__c7bd5c45_m30125_13625,o1
-  p2: straight_L2_N2_CSstrip_W0p5_m32500_10000,o2
-- p1: bend_euler_R5_A90_P0p5__c7bd5c45_m30125_6375,o1
-  p2: straight_L10_N2_CSstrip_W0p5_m22500_4000,o1
-- p1: bend_euler_R5_A90_P0p5__c7bd5c45_m30125_6375,o2
-  p2: straight_L2_N2_CSstrip_W0p5_m32500_10000,o1
-- p1: extend_ports_Cstraight__584ce7f6_2_36000_4000,o1
-  p2: straight_L7p5_N2_CSstrip_m13750_4000,o1
-- p1: extend_ports_Cstraight__584ce7f6_2_36000_4000,o2
-  p2: straight_L10_N2_CSstrip_W0p5_87000_4000,o2
-- p1: extend_ports_Cstraight__ecbbb66b_1_36000_0,o1
-  p2: straight_L15_N2_CSstrip_m17500_0,o2
-- p1: extend_ports_Cstraight__ecbbb66b_3_36000_6000,o1
-  p2: straight_L7p5_N2_CSstrip_m13750_6000,o1
-- p1: extend_ports_Cstraight__ecbbb66b_3_36000_6000,o2
-  p2: straight_L15_N2_CSstrip_89500_6000,o1
-- p1: straight_L10_N2_CSstrip_W0p5_m22500_4000,o2
-  p2: straight_L7p5_N2_CSstrip_m13750_4000,o2
-- p1: straight_L92_N2_CSFcros_f84eb86c_46000_2000,e1
-  p2: via_stack_S1p5_1p5_LM1__330fd0e2_m750_2000,e3
-- p1: straight_L92_N2_CSFcros_f84eb86c_46000_2000,e2
-  p2: via_stack_S1p5_1p5_LM1__330fd0e2_92750_2000,e1
+  - p1: bend_euler_R5_A90_P0p5__c7bd5c45_84625_m2375,o1
+    p2: bend_euler_R5_A90_P0p5__c7bd5c45_89375_m7625,o2
+  - p1: bend_euler_R5_A90_P0p5__c7bd5c45_84625_m2375,o2
+    p2: extend_ports_Cstraight__ecbbb66b_1_36000_0,o2
+  - p1: bend_euler_R5_A90_P0p5__c7bd5c45_89375_m7625,o1
+    p2: bend_euler_R5_A90_P0p5__c7bd5c45_94625_m7625,o2
+  - p1: bend_euler_R5_A90_P0p5__c7bd5c45_94625_1625,o1
+    p2: straight_L10_N2_CSstrip_W0p5_87000_4000,o1
+  - p1: bend_euler_R5_A90_P0p5__c7bd5c45_94625_1625,o2
+    p2: straight_L4_N2_CSstrip_W0p5_97000_m3000,o1
+  - p1: bend_euler_R5_A90_P0p5__c7bd5c45_94625_m7625,o1
+    p2: straight_L4_N2_CSstrip_W0p5_97000_m3000,o2
+  - p1: bend_euler_R5_A90_P0p5__c7bd5c45_m20125_8375,o1
+    p2: bend_euler_R5_A90_P0p5__c7bd5c45_m24875_13625,o2
+  - p1: bend_euler_R5_A90_P0p5__c7bd5c45_m20125_8375,o2
+    p2: straight_L7p5_N2_CSstrip_m13750_6000,o2
+  - p1: bend_euler_R5_A90_P0p5__c7bd5c45_m24875_13625,o1
+    p2: bend_euler_R5_A90_P0p5__c7bd5c45_m30125_13625,o2
+  - p1: bend_euler_R5_A90_P0p5__c7bd5c45_m30125_13625,o1
+    p2: straight_L2_N2_CSstrip_W0p5_m32500_10000,o2
+  - p1: bend_euler_R5_A90_P0p5__c7bd5c45_m30125_6375,o1
+    p2: straight_L10_N2_CSstrip_W0p5_m22500_4000,o1
+  - p1: bend_euler_R5_A90_P0p5__c7bd5c45_m30125_6375,o2
+    p2: straight_L2_N2_CSstrip_W0p5_m32500_10000,o1
+  - p1: extend_ports_Cstraight__584ce7f6_2_36000_4000,o1
+    p2: straight_L7p5_N2_CSstrip_m13750_4000,o1
+  - p1: extend_ports_Cstraight__584ce7f6_2_36000_4000,o2
+    p2: straight_L10_N2_CSstrip_W0p5_87000_4000,o2
+  - p1: extend_ports_Cstraight__ecbbb66b_1_36000_0,o1
+    p2: straight_L15_N2_CSstrip_m17500_0,o2
+  - p1: extend_ports_Cstraight__ecbbb66b_3_36000_6000,o1
+    p2: straight_L7p5_N2_CSstrip_m13750_6000,o1
+  - p1: extend_ports_Cstraight__ecbbb66b_3_36000_6000,o2
+    p2: straight_L15_N2_CSstrip_89500_6000,o1
+  - p1: straight_L10_N2_CSstrip_W0p5_m22500_4000,o2
+    p2: straight_L7p5_N2_CSstrip_m13750_4000,o2
+  - p1: straight_L92_N2_CSFcros_f84eb86c_46000_2000,e1
+    p2: via_stack_S1p5_1p5_LM1__330fd0e2_m750_2000,e3
+  - p1: straight_L92_N2_CSFcros_f84eb86c_46000_2000,e2
+    p2: via_stack_S1p5_1p5_LM1__330fd0e2_92750_2000,e1
 placements:
   bend_euler_R5_A90_P0p5__c7bd5c45_84625_m2375:
     mirror: false

@@ -7,18 +7,18 @@ instances:
     settings:
       correct_size: true
       layers:
-      - M1
-      - M2
-      - MTOP
+        - M1
+        - M2
+        - MTOP
       size:
-      - 10
-      - 3
+        - 10
+        - 3
       slot_horizontal: false
       slot_vertical: false
       vias:
-      - via1
-      - via2
-      - null
+        - via1
+        - via2
+        - null
   via_stack_S10_3_LM1_M2__61f0c217_m1500_m6061:
     component: via_stack
     info:
@@ -27,18 +27,18 @@ instances:
     settings:
       correct_size: true
       layers:
-      - M1
-      - M2
-      - MTOP
+        - M1
+        - M2
+        - MTOP
       size:
-      - 10
-      - 3
+        - 10
+        - 3
       slot_horizontal: false
       slot_vertical: false
       vias:
-      - via1
-      - via2
-      - null
+        - via1
+        - via2
+        - null
   via_stack_corner45_W2p1_2f36860f_4030_5969:
     component: via_stack_corner45
     info:
@@ -46,20 +46,20 @@ instances:
     settings:
       correct_size: true
       layers:
-      - M1
-      - M2
-      - MTOP
+        - M1
+        - M2
+        - MTOP
       vias:
-      - via1
-      - via2
-      - null
+        - via1
+        - via2
+        - null
       width: 2.121
 name: via_stack_corner45_exte_dddb75cc
 nets:
-- p1: via_stack_S10_3_LM1_M2__61f0c217_16061_11500,e1
-  p2: via_stack_corner45_W2p1_2f36860f_4030_5969,e2
-- p1: via_stack_S10_3_LM1_M2__61f0c217_m1500_m6061,e1
-  p2: via_stack_corner45_W2p1_2f36860f_4030_5969,e1
+  - p1: via_stack_S10_3_LM1_M2__61f0c217_16061_11500,e1
+    p2: via_stack_corner45_W2p1_2f36860f_4030_5969,e2
+  - p1: via_stack_S10_3_LM1_M2__61f0c217_m1500_m6061,e1
+    p2: via_stack_corner45_W2p1_2f36860f_4030_5969,e1
 placements:
   via_stack_S10_3_LM1_M2__61f0c217_16061_11500:
     mirror: false
@@ -80,24 +80,24 @@ ports: {}
 warnings:
   electrical:
     unconnected_ports:
-    - message: 6 unconnected electrical ports!
-      ports:
-      - via_stack_S10_3_LM1_M2__61f0c217_m1500_m6061,e2
-      - via_stack_S10_3_LM1_M2__61f0c217_m1500_m6061,e3
-      - via_stack_S10_3_LM1_M2__61f0c217_m1500_m6061,e4
-      - via_stack_S10_3_LM1_M2__61f0c217_16061_11500,e2
-      - via_stack_S10_3_LM1_M2__61f0c217_16061_11500,e3
-      - via_stack_S10_3_LM1_M2__61f0c217_16061_11500,e4
-      values:
-      - - 0
-        - -6061
-      - - -1500
-        - -11061
-      - - -3000
-        - -6061
-      - - 16061
-        - 13000
-      - - 21061
-        - 11500
-      - - 16061
-        - 10000
+      - message: 6 unconnected electrical ports!
+        ports:
+          - via_stack_S10_3_LM1_M2__61f0c217_m1500_m6061,e2
+          - via_stack_S10_3_LM1_M2__61f0c217_m1500_m6061,e3
+          - via_stack_S10_3_LM1_M2__61f0c217_m1500_m6061,e4
+          - via_stack_S10_3_LM1_M2__61f0c217_16061_11500,e2
+          - via_stack_S10_3_LM1_M2__61f0c217_16061_11500,e3
+          - via_stack_S10_3_LM1_M2__61f0c217_16061_11500,e4
+        values:
+          - - 0
+            - -6061
+          - - -1500
+            - -11061
+          - - -3000
+            - -6061
+          - - 16061
+            - 13000
+          - - 21061
+            - 11500
+          - - 16061
+            - 10000

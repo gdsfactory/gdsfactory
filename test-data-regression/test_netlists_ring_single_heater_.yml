@@ -98,18 +98,18 @@ instances:
     settings:
       correct_size: true
       layers:
-      - HEATER
-      - M2
-      - MTOP
+        - HEATER
+        - M2
+        - MTOP
       size:
-      - 4
-      - 4
+        - 4
+        - 4
       slot_horizontal: false
       slot_vertical: false
       vias:
-      - null
-      - via1
-      - via2
+        - null
+        - via1
+        - via2
   via_stack_S4_4_LHEATER__f8cf7960_m4000_0:
     component: via_stack
     info:
@@ -118,44 +118,44 @@ instances:
     settings:
       correct_size: true
       layers:
-      - HEATER
-      - M2
-      - MTOP
+        - HEATER
+        - M2
+        - MTOP
       size:
-      - 4
-      - 4
+        - 4
+        - 4
       slot_horizontal: false
       slot_vertical: false
       vias:
-      - null
-      - via1
-      - via2
+        - null
+        - via1
+        - via2
 name: ring_double_heater_G0p2_113fb173
 nets:
-- p1: bend_euler_R10_A90_P0p5_8747be7e_5625_16335,e1
-  p2: straight_L0p01_N2_CSstr_b7a6e359_10000_10705,e1
-- p1: bend_euler_R10_A90_P0p5_8747be7e_5625_16335,e2
-  p2: straight_L1_N2_CSstrip__f1c4f592_m500_20710,e1
-- p1: bend_euler_R10_A90_P0p5_8747be7e_5625_16335,o1
-  p2: straight_L0p01_N2_CSstr_b7a6e359_10000_10705,o1
-- p1: bend_euler_R10_A90_P0p5_8747be7e_5625_16335,o2
-  p2: straight_L1_N2_CSstrip__f1c4f592_m500_20710,o1
-- p1: bend_euler_R10_A90_P0p5_8747be7e_m6625_16335,e1
-  p2: straight_L1_N2_CSstrip__f1c4f592_m500_20710,e2
-- p1: bend_euler_R10_A90_P0p5_8747be7e_m6625_16335,e2
-  p2: straight_L0p01_N2_CSstr_b7a6e359_m11000_10705,e2
-- p1: bend_euler_R10_A90_P0p5_8747be7e_m6625_16335,o1
-  p2: straight_L1_N2_CSstrip__f1c4f592_m500_20710,o2
-- p1: bend_euler_R10_A90_P0p5_8747be7e_m6625_16335,o2
-  p2: straight_L0p01_N2_CSstr_b7a6e359_m11000_10705,o2
-- p1: coupler_ring_G0p2_R10_L_ca129826_m500_5075,e2
-  p2: straight_L0p01_N2_CSstr_b7a6e359_m11000_10705,e1
-- p1: coupler_ring_G0p2_R10_L_ca129826_m500_5075,e3
-  p2: straight_L0p01_N2_CSstr_b7a6e359_10000_10705,e2
-- p1: coupler_ring_G0p2_R10_L_ca129826_m500_5075,o2
-  p2: straight_L0p01_N2_CSstr_b7a6e359_m11000_10705,o1
-- p1: coupler_ring_G0p2_R10_L_ca129826_m500_5075,o3
-  p2: straight_L0p01_N2_CSstr_b7a6e359_10000_10705,o2
+  - p1: bend_euler_R10_A90_P0p5_8747be7e_5625_16335,e1
+    p2: straight_L0p01_N2_CSstr_b7a6e359_10000_10705,e1
+  - p1: bend_euler_R10_A90_P0p5_8747be7e_5625_16335,e2
+    p2: straight_L1_N2_CSstrip__f1c4f592_m500_20710,e1
+  - p1: bend_euler_R10_A90_P0p5_8747be7e_5625_16335,o1
+    p2: straight_L0p01_N2_CSstr_b7a6e359_10000_10705,o1
+  - p1: bend_euler_R10_A90_P0p5_8747be7e_5625_16335,o2
+    p2: straight_L1_N2_CSstrip__f1c4f592_m500_20710,o1
+  - p1: bend_euler_R10_A90_P0p5_8747be7e_m6625_16335,e1
+    p2: straight_L1_N2_CSstrip__f1c4f592_m500_20710,e2
+  - p1: bend_euler_R10_A90_P0p5_8747be7e_m6625_16335,e2
+    p2: straight_L0p01_N2_CSstr_b7a6e359_m11000_10705,e2
+  - p1: bend_euler_R10_A90_P0p5_8747be7e_m6625_16335,o1
+    p2: straight_L1_N2_CSstrip__f1c4f592_m500_20710,o2
+  - p1: bend_euler_R10_A90_P0p5_8747be7e_m6625_16335,o2
+    p2: straight_L0p01_N2_CSstr_b7a6e359_m11000_10705,o2
+  - p1: coupler_ring_G0p2_R10_L_ca129826_m500_5075,e2
+    p2: straight_L0p01_N2_CSstr_b7a6e359_m11000_10705,e1
+  - p1: coupler_ring_G0p2_R10_L_ca129826_m500_5075,e3
+    p2: straight_L0p01_N2_CSstr_b7a6e359_10000_10705,e2
+  - p1: coupler_ring_G0p2_R10_L_ca129826_m500_5075,o2
+    p2: straight_L0p01_N2_CSstr_b7a6e359_m11000_10705,o1
+  - p1: coupler_ring_G0p2_R10_L_ca129826_m500_5075,o3
+    p2: straight_L0p01_N2_CSstr_b7a6e359_10000_10705,o2
 placements:
   bend_euler_R10_A90_P0p5_8747be7e_5625_16335:
     mirror: false
@@ -211,12 +211,12 @@ ports:
 warnings:
   electrical:
     unconnected_ports:
-    - message: 2 unconnected electrical ports!
-      ports:
-      - coupler_ring_G0p2_R10_L_ca129826_m500_5075,e4
-      - coupler_ring_G0p2_R10_L_ca129826_m500_5075,e1
-      values:
-      - - -1000
-        - 700
-      - - 0
-        - 700
+      - message: 2 unconnected electrical ports!
+        ports:
+          - coupler_ring_G0p2_R10_L_ca129826_m500_5075,e4
+          - coupler_ring_G0p2_R10_L_ca129826_m500_5075,e1
+        values:
+          - - -1000
+            - 700
+          - - 0
+            - 700

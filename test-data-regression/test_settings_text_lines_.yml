@@ -4,5 +4,5 @@ settings:
   layer: WG
   size: 0.4
   text:
-  - Chip
-  - '01'
+    - Chip
+    - '01'

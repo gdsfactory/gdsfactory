@@ -91,18 +91,18 @@ instances:
       npoints: 2
 name: ring_single_G0p2_R10_LX_1ab45a89
 nets:
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_5125_16425,o1
-  p2: straight_L0p6_N2_CSstrip_10000_11000,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_5125_16425,o2
-  p2: straight_L4_N2_CSstrip_m2000_21300,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m9125_16425,o1
-  p2: straight_L4_N2_CSstrip_m2000_21300,o2
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m9125_16425,o2
-  p2: straight_L0p6_N2_CSstrip_m14000_11000,o2
-- p1: coupler_ring_G0p2_R10_L_9871ac59_m2000_5225,o2
-  p2: straight_L0p6_N2_CSstrip_m14000_11000,o1
-- p1: coupler_ring_G0p2_R10_L_9871ac59_m2000_5225,o3
-  p2: straight_L0p6_N2_CSstrip_10000_11000,o2
+  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_5125_16425,o1
+    p2: straight_L0p6_N2_CSstrip_10000_11000,o1
+  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_5125_16425,o2
+    p2: straight_L4_N2_CSstrip_m2000_21300,o1
+  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m9125_16425,o1
+    p2: straight_L4_N2_CSstrip_m2000_21300,o2
+  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m9125_16425,o2
+    p2: straight_L0p6_N2_CSstrip_m14000_11000,o2
+  - p1: coupler_ring_G0p2_R10_L_9871ac59_m2000_5225,o2
+    p2: straight_L0p6_N2_CSstrip_m14000_11000,o1
+  - p1: coupler_ring_G0p2_R10_L_9871ac59_m2000_5225,o3
+    p2: straight_L0p6_N2_CSstrip_10000_11000,o2
 placements:
   bend_euler_R10_A90_P0p5_2f1f5c6d_5125_16425:
     mirror: false

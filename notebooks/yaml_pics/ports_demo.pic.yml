@@ -1,18 +1,18 @@
 name: ports_demo
 instances:
-    mmi_long:
-      component: mmi1x2
-      settings:
-        width_mmi: 4.5
-        length_mmi: 5
+  mmi_long:
+    component: mmi1x2
+    settings:
+      width_mmi: 4.5
+      length_mmi: 5
 placements:
-    mmi_long:
-        port: o1
-        x: 20
-        y: 10
-        mirror: True
+  mmi_long:
+    port: o1
+    x: 20
+    y: 10
+    mirror: True
 
 ports:
-    o3: mmi_long,o3
-    o2: mmi_long,o2
-    o1: mmi_long,o1
+  o3: mmi_long,o3
+  o2: mmi_long,o2
+  o1: mmi_long,o1

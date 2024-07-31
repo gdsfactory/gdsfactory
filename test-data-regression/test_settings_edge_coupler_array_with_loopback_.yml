@@ -9,7 +9,7 @@ settings:
   radius: 30
   text: text_rectangular
   text_offset:
-  - 0
-  - 10
+    - 0
+    - 10
   text_rotation: 0
   x_reflection: false

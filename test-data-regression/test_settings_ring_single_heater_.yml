@@ -13,6 +13,6 @@ settings:
   straight: straight
   via_stack: via_stack_heater_mtop_mini
   via_stack_offset:
-  - 1
-  - 0
+    - 1
+    - 0
   with_drop: false

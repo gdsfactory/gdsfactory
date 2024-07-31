@@ -101,36 +101,36 @@ ports: {}
 warnings:
   optical:
     unconnected_ports:
-    - message: 10 unconnected optical ports!
-      ports:
-      - straight_L100_N2_CSstrip_W0p1_50000_50,o1
-      - straight_L100_N2_CSstrip_W0p1_50000_50,o2
-      - straight_L100_N2_CSstrip_W0p2_50000_300,o1
-      - straight_L100_N2_CSstrip_W0p2_50000_300,o2
-      - straight_L100_N2_CSstrip_W0p3_50000_650,o1
-      - straight_L100_N2_CSstrip_W0p3_50000_650,o2
-      - straight_L100_N2_CSstrip_W0p4_50000_1100,o1
-      - straight_L100_N2_CSstrip_W0p4_50000_1100,o2
-      - straight_L100_N2_CSstrip_W0p5_50000_1650,o1
-      - straight_L100_N2_CSstrip_W0p5_50000_1650,o2
-      values:
-      - - 0
-        - 50
-      - - 100000
-        - 50
-      - - 0
-        - 300
-      - - 100000
-        - 300
-      - - 0
-        - 650
-      - - 100000
-        - 650
-      - - 0
-        - 1100
-      - - 100000
-        - 1100
-      - - 0
-        - 1650
-      - - 100000
-        - 1650
+      - message: 10 unconnected optical ports!
+        ports:
+          - straight_L100_N2_CSstrip_W0p1_50000_50,o1
+          - straight_L100_N2_CSstrip_W0p1_50000_50,o2
+          - straight_L100_N2_CSstrip_W0p2_50000_300,o1
+          - straight_L100_N2_CSstrip_W0p2_50000_300,o2
+          - straight_L100_N2_CSstrip_W0p3_50000_650,o1
+          - straight_L100_N2_CSstrip_W0p3_50000_650,o2
+          - straight_L100_N2_CSstrip_W0p4_50000_1100,o1
+          - straight_L100_N2_CSstrip_W0p4_50000_1100,o2
+          - straight_L100_N2_CSstrip_W0p5_50000_1650,o1
+          - straight_L100_N2_CSstrip_W0p5_50000_1650,o2
+        values:
+          - - 0
+            - 50
+          - - 100000
+            - 50
+          - - 0
+            - 300
+          - - 100000
+            - 300
+          - - 0
+            - 650
+          - - 100000
+            - 650
+          - - 0
+            - 1100
+          - - 100000
+            - 1100
+          - - 0
+            - 1650
+          - - 100000
+            - 1650

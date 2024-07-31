@@ -117,20 +117,20 @@ instances:
       width: 0.5
 name: loop_mirror_Cmmi1x2_Bbend_euler
 nets:
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_20625_m5500,o1
-  p2: bend_euler_RNone_A90_P0_d7c3a5a9_30375_m15750,o2
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_20625_m5500,o2
-  p2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_2750_0,o3
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_30375_m15750,o1
-  p2: bend_euler_RNone_A90_P0_d7c3a5a9_40625_m15750,o2
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_40625_m15750,o1
-  p2: straight_L1p25_N2_CSstrip_W0p5_45500_m10000,o2
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_40625_m4250,o1
-  p2: straight_L20_N2_CSstrip_W0p5_25500_625,o1
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_40625_m4250,o2
-  p2: straight_L1p25_N2_CSstrip_W0p5_45500_m10000,o1
-- p1: mmi1x2_WNone_WT1_LT10_L_4e0f7121_2750_0,o2
-  p2: straight_L20_N2_CSstrip_W0p5_25500_625,o2
+  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_20625_m5500,o1
+    p2: bend_euler_RNone_A90_P0_d7c3a5a9_30375_m15750,o2
+  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_20625_m5500,o2
+    p2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_2750_0,o3
+  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_30375_m15750,o1
+    p2: bend_euler_RNone_A90_P0_d7c3a5a9_40625_m15750,o2
+  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_40625_m15750,o1
+    p2: straight_L1p25_N2_CSstrip_W0p5_45500_m10000,o2
+  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_40625_m4250,o1
+    p2: straight_L20_N2_CSstrip_W0p5_25500_625,o1
+  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_40625_m4250,o2
+    p2: straight_L1p25_N2_CSstrip_W0p5_45500_m10000,o1
+  - p1: mmi1x2_WNone_WT1_LT10_L_4e0f7121_2750_0,o2
+    p2: straight_L20_N2_CSstrip_W0p5_25500_625,o2
 placements:
   bend_euler_RNone_A90_P0_d7c3a5a9_20625_m5500:
     mirror: false

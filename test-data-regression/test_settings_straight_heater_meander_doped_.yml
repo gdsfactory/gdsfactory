@@ -5,15 +5,15 @@ settings:
   extension_length: 15
   heater_width: 1.5
   layers_doping:
-  - P
-  - PP
-  - PPP
+    - P
+    - PP
+    - PPP
   length: 300
   radius: 5
   spacing: 2
   straight_widths:
-  - 0.8
-  - 0.9
-  - 0.8
+    - 0.8
+    - 0.9
+    - 0.8
   taper_length: 10
   via_stack: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SS1p5_1p5_LM1_M2_VFvia_Mgdsfactorypcomponentspvia_SLVIAC_S0p1_0p1_S0p2_0p2_E0p1_Fvia_Mgdsfactorypcomponentspvia_SLVIA1_S0p1_0p1_S0p2_0p2_E0p1

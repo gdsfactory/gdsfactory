@@ -171,12 +171,12 @@ ports: {}
 warnings:
   vertical_te:
     unconnected_ports:
-    - message: 2 unconnected vertical_te ports!
-      ports:
-      - grating_coupler_ellipti_b694ac47_0_-20512,o2
-      - grating_coupler_ellipti_b694ac47_127000_-20512,o2
-      values:
-      - - 0
-        - -26740
-      - - 127000
-        - -26740
+      - message: 2 unconnected vertical_te ports!
+        ports:
+          - grating_coupler_ellipti_b694ac47_0_-20512,o2
+          - grating_coupler_ellipti_b694ac47_127000_-20512,o2
+        values:
+          - - 0
+            - -26740
+          - - 127000
+            - -26740

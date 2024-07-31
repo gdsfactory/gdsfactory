@@ -1,22 +1,22 @@
 name: sample_custom_cells
 instances:
-    mmit:
-      component: mmi2x2
-    mmib:
-      component: mmi1x2
-      settings:
-        width_mmi: 4.5
+  mmit:
+    component: mmi2x2
+  mmib:
+    component: mmi1x2
+    settings:
+      width_mmi: 4.5
 placements:
-    mmit:
-        x: 100
-        y: 100
+  mmit:
+    x: 100
+    y: 100
 routes:
-    route1:
-        links:
-            mmib,o2: mmit,o2
+  route1:
+    links:
+      mmib,o2: mmit,o2
 
 ports:
-    o1: mmib,o1
-    o2: mmit,o2
-    o3: mmit,o3
-    o4: mmit,o4
+  o1: mmib,o1
+  o2: mmit,o2
+  o3: mmit,o3
+  o4: mmit,o4
