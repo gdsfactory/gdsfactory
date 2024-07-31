@@ -31,26 +31,3 @@ The workflow is:
 ## Code of Conduct
 
 This project is a community effort, and everyone is welcome to contribute. Everyone within the community is expected to abide by our [code of conduct](https://github.com/gdsfactory/gdsfactory/blob/main/docs/code_of_conduct.md)
-
-
-## Changelog
-
-We use `towncrier` for tracking changes and generating a changelog.
-When making a pull request, we require that you add a towncrier entry along with the code changes.
-
-```bash
-towncrier create <PR number>.<change type>
-```
-
-Where change type can be `removed`, `deprecated`, `added`, `changed`, `fixed`
-
-Running this will create a file in the `.changelog.d` directory with a filename.
-
-Then before doing a new release we run
-
-
-```bash
-towncrier build --version=<version-number>
-```
-
-Where `<version-number>` is the expected version number of the release
