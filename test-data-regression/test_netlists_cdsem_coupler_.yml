@@ -27,8 +27,8 @@ instances:
       justify: left
       layer: WG
       position:
-        - 0
-        - 0
+      - 0
+      - 0
       size: 1
       text: '150'
   text_rectangular_T200_S_b8a3e8c5_433500_9500:
@@ -38,8 +38,8 @@ instances:
       justify: left
       layer: WG
       position:
-        - 0
-        - 0
+      - 0
+      - 0
       size: 1
       text: '200'
   text_rectangular_T250_S_6330334e_433500_16500:
@@ -49,8 +49,8 @@ instances:
       justify: left
       layer: WG
       position:
-        - 0
-        - 0
+      - 0
+      - 0
       size: 1
       text: '250'
 name: cdsem_coupler_L420_G0p1_0fa6dd27
@@ -90,42 +90,42 @@ ports: {}
 warnings:
   optical:
     unconnected_ports:
-      - message: 12 unconnected optical ports!
-        ports:
-          - coupler_straight_L420_G_1a01aeec_210000_575,o1
-          - coupler_straight_L420_G_1a01aeec_210000_575,o2
-          - coupler_straight_L420_G_1a01aeec_210000_575,o4
-          - coupler_straight_L420_G_1a01aeec_210000_575,o3
-          - coupler_straight_L420_G_16dd3191_210000_7600,o1
-          - coupler_straight_L420_G_16dd3191_210000_7600,o2
-          - coupler_straight_L420_G_16dd3191_210000_7600,o4
-          - coupler_straight_L420_G_16dd3191_210000_7600,o3
-          - coupler_straight_L420_G_dd437795_210000_14625,o1
-          - coupler_straight_L420_G_dd437795_210000_14625,o2
-          - coupler_straight_L420_G_dd437795_210000_14625,o4
-          - coupler_straight_L420_G_dd437795_210000_14625,o3
-        values:
-          - - 0
-            - 250
-          - - 0
-            - 900
-          - - 420000
-            - 250
-          - - 420000
-            - 900
-          - - 0
-            - 7250
-          - - 0
-            - 7950
-          - - 420000
-            - 7250
-          - - 420000
-            - 7950
-          - - 0
-            - 14250
-          - - 0
-            - 15000
-          - - 420000
-            - 14250
-          - - 420000
-            - 15000
+    - message: 12 unconnected optical ports!
+      ports:
+      - coupler_straight_L420_G_1a01aeec_210000_575,o1
+      - coupler_straight_L420_G_1a01aeec_210000_575,o2
+      - coupler_straight_L420_G_1a01aeec_210000_575,o4
+      - coupler_straight_L420_G_1a01aeec_210000_575,o3
+      - coupler_straight_L420_G_16dd3191_210000_7600,o1
+      - coupler_straight_L420_G_16dd3191_210000_7600,o2
+      - coupler_straight_L420_G_16dd3191_210000_7600,o4
+      - coupler_straight_L420_G_16dd3191_210000_7600,o3
+      - coupler_straight_L420_G_dd437795_210000_14625,o1
+      - coupler_straight_L420_G_dd437795_210000_14625,o2
+      - coupler_straight_L420_G_dd437795_210000_14625,o4
+      - coupler_straight_L420_G_dd437795_210000_14625,o3
+      values:
+      - - 0
+        - 250
+      - - 0
+        - 900
+      - - 420000
+        - 250
+      - - 420000
+        - 900
+      - - 0
+        - 7250
+      - - 0
+        - 7950
+      - - 420000
+        - 7250
+      - - 420000
+        - 7950
+      - - 0
+        - 14250
+      - - 0
+        - 15000
+      - - 420000
+        - 14250
+      - - 420000
+        - 15000

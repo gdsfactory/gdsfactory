@@ -18,11 +18,11 @@ instances:
       enclosure: 2
       layer: VIA1
       size:
-        - 0.7
-        - 0.7
+      - 0.7
+      - 0.7
       spacing:
-        - 2
-        - 2
+      - 2
+      - 2
   via_S0p7_0p7_S2_2_GNone_c4f19208_0_0:
     component: via
     dax: 2
@@ -42,11 +42,11 @@ instances:
       enclosure: 1
       layer: VIA2
       size:
-        - 0.7
-        - 0.7
+      - 0.7
+      - 0.7
       spacing:
-        - 2
-        - 2
+      - 2
+      - 2
 name: via_stack_S11_11_LHEATE_f29565aa
 nets: []
 placements:

@@ -9,8 +9,8 @@ instances:
       component: pad_small
       rows: 1
       spacing:
-        - 100
-        - 100
+      - 100
+      - 100
   mzi_DL40_LY40_LX500_Bbe_2a7d538d_285500_m10000:
     component: mzi
     info: {}
@@ -71,56 +71,56 @@ ports:
 warnings:
   electrical:
     unconnected_ports:
-      - message: 12 unconnected electrical ports!
-        ports:
-          - array_Cpad_small_S100_1_1d3ac3f6_285500_m10000,e1_1_1
-          - array_Cpad_small_S100_1_1d3ac3f6_285500_m10000,e2_1_1
-          - array_Cpad_small_S100_1_1d3ac3f6_285500_m10000,e3_1_1
-          - array_Cpad_small_S100_1_1d3ac3f6_285500_m10000,e4_1_1
-          - array_Cpad_small_S100_1_1d3ac3f6_285500_m10000,e1_1_2
-          - array_Cpad_small_S100_1_1d3ac3f6_285500_m10000,e2_1_2
-          - array_Cpad_small_S100_1_1d3ac3f6_285500_m10000,e3_1_2
-          - array_Cpad_small_S100_1_1d3ac3f6_285500_m10000,e4_1_2
-          - array_Cpad_small_S100_1_1d3ac3f6_285500_m10000,e1_1_3
-          - array_Cpad_small_S100_1_1d3ac3f6_285500_m10000,e2_1_3
-          - array_Cpad_small_S100_1_1d3ac3f6_285500_m10000,e3_1_3
-          - array_Cpad_small_S100_1_1d3ac3f6_285500_m10000,e4_1_3
-        values:
-          - - 145500
-            - -10000
-          - - 185500
-            - 30000
-          - - 225500
-            - -10000
-          - - 185500
-            - -50000
-          - - 245500
-            - -10000
-          - - 285500
-            - 30000
-          - - 325500
-            - -10000
-          - - 285500
-            - -50000
-          - - 345500
-            - -10000
-          - - 385500
-            - 30000
-          - - 425500
-            - -10000
-          - - 385500
-            - -50000
+    - message: 12 unconnected electrical ports!
+      ports:
+      - array_Cpad_small_S100_1_1d3ac3f6_285500_m10000,e1_1_1
+      - array_Cpad_small_S100_1_1d3ac3f6_285500_m10000,e2_1_1
+      - array_Cpad_small_S100_1_1d3ac3f6_285500_m10000,e3_1_1
+      - array_Cpad_small_S100_1_1d3ac3f6_285500_m10000,e4_1_1
+      - array_Cpad_small_S100_1_1d3ac3f6_285500_m10000,e1_1_2
+      - array_Cpad_small_S100_1_1d3ac3f6_285500_m10000,e2_1_2
+      - array_Cpad_small_S100_1_1d3ac3f6_285500_m10000,e3_1_2
+      - array_Cpad_small_S100_1_1d3ac3f6_285500_m10000,e4_1_2
+      - array_Cpad_small_S100_1_1d3ac3f6_285500_m10000,e1_1_3
+      - array_Cpad_small_S100_1_1d3ac3f6_285500_m10000,e2_1_3
+      - array_Cpad_small_S100_1_1d3ac3f6_285500_m10000,e3_1_3
+      - array_Cpad_small_S100_1_1d3ac3f6_285500_m10000,e4_1_3
+      values:
+      - - 145500
+        - -10000
+      - - 185500
+        - 30000
+      - - 225500
+        - -10000
+      - - 185500
+        - -50000
+      - - 245500
+        - -10000
+      - - 285500
+        - 30000
+      - - 325500
+        - -10000
+      - - 285500
+        - -50000
+      - - 345500
+        - -10000
+      - - 385500
+        - 30000
+      - - 425500
+        - -10000
+      - - 385500
+        - -50000
   vertical_dc:
     unconnected_ports:
-      - message: 3 unconnected vertical_dc ports!
-        ports:
-          - array_Cpad_small_S100_1_1d3ac3f6_285500_m10000,pad_1_1
-          - array_Cpad_small_S100_1_1d3ac3f6_285500_m10000,pad_1_2
-          - array_Cpad_small_S100_1_1d3ac3f6_285500_m10000,pad_1_3
-        values:
-          - - 185500
-            - -10000
-          - - 285500
-            - -10000
-          - - 385500
-            - -10000
+    - message: 3 unconnected vertical_dc ports!
+      ports:
+      - array_Cpad_small_S100_1_1d3ac3f6_285500_m10000,pad_1_1
+      - array_Cpad_small_S100_1_1d3ac3f6_285500_m10000,pad_1_2
+      - array_Cpad_small_S100_1_1d3ac3f6_285500_m10000,pad_1_3
+      values:
+      - - 185500
+        - -10000
+      - - 285500
+        - -10000
+      - - 385500
+        - -10000

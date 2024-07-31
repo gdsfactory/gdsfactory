@@ -7,8 +7,8 @@ instances:
     dby: 150
     info:
       size:
-        - 100
-        - 100
+      - 100
+      - 100
       xsize: 100
       ysize: 100
     na: 6
@@ -18,8 +18,8 @@ instances:
       port_inclusion: 0
       port_orientation: 0
       size:
-        - 100
-        - 100
+      - 100
+      - 100
 name: array_Cpad_S150_150_C6__0e3de41c
 nets: []
 placements:

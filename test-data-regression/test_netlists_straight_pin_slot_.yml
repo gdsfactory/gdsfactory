@@ -48,18 +48,18 @@ instances:
     settings:
       correct_size: true
       layers:
-        - M1
-        - M2
-        - MTOP
+      - M1
+      - M2
+      - MTOP
       size:
-        - 480
-        - 10
+      - 480
+      - 10
       slot_horizontal: false
       slot_vertical: false
       vias:
-        - via1
-        - via2
-        - null
+      - via1
+      - via2
+      - null
   via_stack_S480_10_LM1_M_28c36512_240000_m6500:
     component: via_stack
     info:
@@ -68,18 +68,18 @@ instances:
     settings:
       correct_size: true
       layers:
-        - M1
-        - M2
-        - MTOP
+      - M1
+      - M2
+      - MTOP
       size:
-        - 480
-        - 10
+      - 480
+      - 10
       slot_horizontal: false
       slot_vertical: false
       vias:
-        - via1
-        - via2
-        - null
+      - via1
+      - via2
+      - null
   via_stack_S480_10_LSLAB_44febf0b_240000_6000:
     component: via_stack
     info:
@@ -88,16 +88,16 @@ instances:
     settings:
       correct_size: true
       layers:
-        - SLAB90
-        - M1
+      - SLAB90
+      - M1
       size:
-        - 480
-        - 10
+      - 480
+      - 10
       slot_horizontal: true
       slot_vertical: false
       vias:
-        - viac
-        - via1
+      - viac
+      - via1
   via_stack_S480_10_LSLAB_44febf0b_240000_m6000:
     component: via_stack
     info:
@@ -106,22 +106,22 @@ instances:
     settings:
       correct_size: true
       layers:
-        - SLAB90
-        - M1
+      - SLAB90
+      - M1
       size:
-        - 480
-        - 10
+      - 480
+      - 10
       slot_horizontal: true
       slot_vertical: false
       vias:
-        - viac
-        - via1
+      - viac
+      - via1
 name: straight_pin_slot_L500__1e9e7886
 nets:
-  - p1: straight_L480_N2_CSpin_240000_0,o1
-    p2: taper_strip_to_ridge_L1_3a86af41_m5000_0,o2
-  - p1: straight_L480_N2_CSpin_240000_0,o2
-    p2: taper_strip_to_ridge_L1_3a86af41_485000_0,o2
+- p1: straight_L480_N2_CSpin_240000_0,o1
+  p2: taper_strip_to_ridge_L1_3a86af41_m5000_0,o2
+- p1: straight_L480_N2_CSpin_240000_0,o2
+  p2: taper_strip_to_ridge_L1_3a86af41_485000_0,o2
 placements:
   straight_L480_N2_CSpin_240000_0:
     mirror: false
@@ -172,30 +172,30 @@ ports:
 warnings:
   electrical:
     unconnected_ports:
-      - message: 8 unconnected electrical ports!
-        ports:
-          - via_stack_S480_10_LSLAB_44febf0b_240000_6000,e1
-          - via_stack_S480_10_LSLAB_44febf0b_240000_6000,e2
-          - via_stack_S480_10_LSLAB_44febf0b_240000_6000,e3
-          - via_stack_S480_10_LSLAB_44febf0b_240000_6000,e4
-          - via_stack_S480_10_LSLAB_44febf0b_240000_m6000,e1
-          - via_stack_S480_10_LSLAB_44febf0b_240000_m6000,e2
-          - via_stack_S480_10_LSLAB_44febf0b_240000_m6000,e3
-          - via_stack_S480_10_LSLAB_44febf0b_240000_m6000,e4
-        values:
-          - - 0
-            - 6000
-          - - 240000
-            - 11000
-          - - 480000
-            - 6000
-          - - 240000
-            - 1000
-          - - 0
-            - -6000
-          - - 240000
-            - -1000
-          - - 480000
-            - -6000
-          - - 240000
-            - -11000
+    - message: 8 unconnected electrical ports!
+      ports:
+      - via_stack_S480_10_LSLAB_44febf0b_240000_6000,e1
+      - via_stack_S480_10_LSLAB_44febf0b_240000_6000,e2
+      - via_stack_S480_10_LSLAB_44febf0b_240000_6000,e3
+      - via_stack_S480_10_LSLAB_44febf0b_240000_6000,e4
+      - via_stack_S480_10_LSLAB_44febf0b_240000_m6000,e1
+      - via_stack_S480_10_LSLAB_44febf0b_240000_m6000,e2
+      - via_stack_S480_10_LSLAB_44febf0b_240000_m6000,e3
+      - via_stack_S480_10_LSLAB_44febf0b_240000_m6000,e4
+      values:
+      - - 0
+        - 6000
+      - - 240000
+        - 11000
+      - - 480000
+        - 6000
+      - - 240000
+        - 1000
+      - - 0
+        - -6000
+      - - 240000
+        - -1000
+      - - 480000
+        - -6000
+      - - 240000
+        - -11000

@@ -17,8 +17,8 @@ instances:
       cross_section: strip
       npoints: 99
       size:
-        - 11
-        - 1.8
+      - 11
+      - 1.8
   bend_s_S11_1p8_N99_CSst_71d8cbbd_57500_3950:
     component: bend_s
     info:
@@ -37,8 +37,8 @@ instances:
       cross_section: strip
       npoints: 99
       size:
-        - 11
-        - 1.8
+      - 11
+      - 1.8
   mmi1x2_WNone_WT1_LT10_L_4e0f7121_2750_0:
     component: mmi1x2
     info: {}
@@ -77,14 +77,14 @@ instances:
       width_taper: 1
 name: splitter_chain_Smmi1x2__10cafd81
 nets:
-  - p1: bend_s_S11_1p8_N99_CSst_71d8cbbd_21000_1525,o1
-    p2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_2750_0,o2
-  - p1: bend_s_S11_1p8_N99_CSst_71d8cbbd_21000_1525,o2
-    p2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_39250_2425,o1
-  - p1: bend_s_S11_1p8_N99_CSst_71d8cbbd_57500_3950,o1
-    p2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_39250_2425,o2
-  - p1: bend_s_S11_1p8_N99_CSst_71d8cbbd_57500_3950,o2
-    p2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_75750_4850,o1
+- p1: bend_s_S11_1p8_N99_CSst_71d8cbbd_21000_1525,o1
+  p2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_2750_0,o2
+- p1: bend_s_S11_1p8_N99_CSst_71d8cbbd_21000_1525,o2
+  p2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_39250_2425,o1
+- p1: bend_s_S11_1p8_N99_CSst_71d8cbbd_57500_3950,o1
+  p2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_39250_2425,o2
+- p1: bend_s_S11_1p8_N99_CSst_71d8cbbd_57500_3950,o2
+  p2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_75750_4850,o1
 placements:
   bend_s_S11_1p8_N99_CSst_71d8cbbd_21000_1525:
     mirror: false

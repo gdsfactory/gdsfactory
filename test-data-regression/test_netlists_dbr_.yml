@@ -42,28 +42,28 @@ instances:
       npoints: 2
 name: dbr_W0p45_W0p55_L0p159__efcfb70c
 nets:
-  - p1: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<0.0>,o1
-    p2: straight_L0p01_N2_CSxs_34e31a19_m5_0,o1
-  - p1: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<0.0>,o2
-    p2: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<1.0>,o1
-  - p1: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<1.0>,o2
-    p2: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<2.0>,o1
-  - p1: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<2.0>,o2
-    p2: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<3.0>,o1
-  - p1: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<3.0>,o2
-    p2: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<4.0>,o1
-  - p1: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<4.0>,o2
-    p2: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<5.0>,o1
-  - p1: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<5.0>,o2
-    p2: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<6.0>,o1
-  - p1: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<6.0>,o2
-    p2: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<7.0>,o1
-  - p1: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<7.0>,o2
-    p2: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<8.0>,o1
-  - p1: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<8.0>,o2
-    p2: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<9.0>,o1
-  - p1: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<9.0>,o2
-    p2: straight_L0p01_N2_CSxs_34e31a19_3185_0,o1
+- p1: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<0.0>,o1
+  p2: straight_L0p01_N2_CSxs_34e31a19_m5_0,o1
+- p1: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<0.0>,o2
+  p2: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<1.0>,o1
+- p1: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<1.0>,o2
+  p2: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<2.0>,o1
+- p1: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<2.0>,o2
+  p2: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<3.0>,o1
+- p1: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<3.0>,o2
+  p2: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<4.0>,o1
+- p1: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<4.0>,o2
+  p2: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<5.0>,o1
+- p1: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<5.0>,o2
+  p2: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<6.0>,o1
+- p1: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<6.0>,o2
+  p2: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<7.0>,o1
+- p1: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<7.0>,o2
+  p2: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<8.0>,o1
+- p1: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<8.0>,o2
+  p2: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<9.0>,o1
+- p1: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<9.0>,o2
+  p2: straight_L0p01_N2_CSxs_34e31a19_3185_0,o1
 placements:
   dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0:
     mirror: false
@@ -85,87 +85,107 @@ ports:
 warnings:
   optical:
     unconnected_ports:
-      - message: 1 unconnected optical ports!
-        ports:
-          - straight_L0p01_N2_CSxs_34e31a19_3185_0,o2
-        values:
-          - - 3190
-            - 0
+    - message: 1 unconnected optical ports!
+      ports:
+      - straight_L0p01_N2_CSxs_34e31a19_3185_0,o2
+      values:
+      - - 3190
+        - 0
     width_mismatch:
-      - message: Widths of ports straight_L0p01_N2_CSxs_34e31a19_m5_0,o1 and dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<0.0>,o1 not equal. Difference of 50 um
-        ports:
-          - straight_L0p01_N2_CSxs_34e31a19_m5_0,o1
-          - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<0.0>,o1
-        values:
-          - 500
-          - 450
-      - message: Widths of ports straight_L0p01_N2_CSxs_34e31a19_3185_0,o1 and dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<9.0>,o2 not equal. Difference of 50 um
-        ports:
-          - straight_L0p01_N2_CSxs_34e31a19_3185_0,o1
-          - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<9.0>,o2
-        values:
-          - 500
-          - 550
-      - message: Widths of ports dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<0.0>,o2 and dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<1.0>,o1 not equal. Difference of 100 um
-        ports:
-          - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<0.0>,o2
-          - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<1.0>,o1
-        values:
-          - 550
-          - 450
-      - message: Widths of ports dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<1.0>,o2 and dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<2.0>,o1 not equal. Difference of 100 um
-        ports:
-          - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<1.0>,o2
-          - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<2.0>,o1
-        values:
-          - 550
-          - 450
-      - message: Widths of ports dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<2.0>,o2 and dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<3.0>,o1 not equal. Difference of 100 um
-        ports:
-          - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<2.0>,o2
-          - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<3.0>,o1
-        values:
-          - 550
-          - 450
-      - message: Widths of ports dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<3.0>,o2 and dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<4.0>,o1 not equal. Difference of 100 um
-        ports:
-          - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<3.0>,o2
-          - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<4.0>,o1
-        values:
-          - 550
-          - 450
-      - message: Widths of ports dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<4.0>,o2 and dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<5.0>,o1 not equal. Difference of 100 um
-        ports:
-          - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<4.0>,o2
-          - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<5.0>,o1
-        values:
-          - 550
-          - 450
-      - message: Widths of ports dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<5.0>,o2 and dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<6.0>,o1 not equal. Difference of 100 um
-        ports:
-          - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<5.0>,o2
-          - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<6.0>,o1
-        values:
-          - 550
-          - 450
-      - message: Widths of ports dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<6.0>,o2 and dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<7.0>,o1 not equal. Difference of 100 um
-        ports:
-          - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<6.0>,o2
-          - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<7.0>,o1
-        values:
-          - 550
-          - 450
-      - message: Widths of ports dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<7.0>,o2 and dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<8.0>,o1 not equal. Difference of 100 um
-        ports:
-          - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<7.0>,o2
-          - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<8.0>,o1
-        values:
-          - 550
-          - 450
-      - message: Widths of ports dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<8.0>,o2 and dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<9.0>,o1 not equal. Difference of 100 um
-        ports:
-          - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<8.0>,o2
-          - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<9.0>,o1
-        values:
-          - 550
-          - 450
+    - message: Widths of ports straight_L0p01_N2_CSxs_34e31a19_m5_0,o1 and dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<0.0>,o1
+        not equal. Difference of 50 um
+      ports:
+      - straight_L0p01_N2_CSxs_34e31a19_m5_0,o1
+      - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<0.0>,o1
+      values:
+      - 500
+      - 450
+    - message: Widths of ports straight_L0p01_N2_CSxs_34e31a19_3185_0,o1 and dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<9.0>,o2
+        not equal. Difference of 50 um
+      ports:
+      - straight_L0p01_N2_CSxs_34e31a19_3185_0,o1
+      - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<9.0>,o2
+      values:
+      - 500
+      - 550
+    - message: Widths of ports dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<0.0>,o2 and
+        dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<1.0>,o1 not equal. Difference of 100
+        um
+      ports:
+      - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<0.0>,o2
+      - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<1.0>,o1
+      values:
+      - 550
+      - 450
+    - message: Widths of ports dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<1.0>,o2 and
+        dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<2.0>,o1 not equal. Difference of 100
+        um
+      ports:
+      - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<1.0>,o2
+      - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<2.0>,o1
+      values:
+      - 550
+      - 450
+    - message: Widths of ports dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<2.0>,o2 and
+        dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<3.0>,o1 not equal. Difference of 100
+        um
+      ports:
+      - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<2.0>,o2
+      - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<3.0>,o1
+      values:
+      - 550
+      - 450
+    - message: Widths of ports dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<3.0>,o2 and
+        dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<4.0>,o1 not equal. Difference of 100
+        um
+      ports:
+      - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<3.0>,o2
+      - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<4.0>,o1
+      values:
+      - 550
+      - 450
+    - message: Widths of ports dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<4.0>,o2 and
+        dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<5.0>,o1 not equal. Difference of 100
+        um
+      ports:
+      - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<4.0>,o2
+      - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<5.0>,o1
+      values:
+      - 550
+      - 450
+    - message: Widths of ports dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<5.0>,o2 and
+        dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<6.0>,o1 not equal. Difference of 100
+        um
+      ports:
+      - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<5.0>,o2
+      - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<6.0>,o1
+      values:
+      - 550
+      - 450
+    - message: Widths of ports dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<6.0>,o2 and
+        dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<7.0>,o1 not equal. Difference of 100
+        um
+      ports:
+      - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<6.0>,o2
+      - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<7.0>,o1
+      values:
+      - 550
+      - 450
+    - message: Widths of ports dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<7.0>,o2 and
+        dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<8.0>,o1 not equal. Difference of 100
+        um
+      ports:
+      - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<7.0>,o2
+      - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<8.0>,o1
+      values:
+      - 550
+      - 450
+    - message: Widths of ports dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<8.0>,o2 and
+        dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<9.0>,o1 not equal. Difference of 100
+        um
+      ports:
+      - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<8.0>,o2
+      - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<9.0>,o1
+      values:
+      - 550
+      - 450

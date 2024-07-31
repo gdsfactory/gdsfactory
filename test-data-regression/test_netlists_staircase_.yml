@@ -270,38 +270,38 @@ instances:
       npoints: 2
 name: staircase_Cbend_euler_S_c2f7854d
 nets:
-  - p1: 1,o1
-    p2: A1,o2
-  - p1: 1,o2
-    p2: B1,o2
-  - p1: 2,o1
-    p2: A2,o2
-  - p1: 2,o2
-    p2: B2,o2
-  - p1: 3,o1
-    p2: A3,o2
-  - p1: 3,o2
-    p2: B3,o2
-  - p1: 4,o1
-    p2: A4,o2
-  - p1: 4,o2
-    p2: B4,o2
-  - p1: A1,o1
-    p2: m1,o2
-  - p1: A2,o1
-    p2: m2,o2
-  - p1: A3,o1
-    p2: m3,o2
-  - p1: A4,o1
-    p2: m4,o2
-  - p1: B1,o1
-    p2: m2,o1
-  - p1: B2,o1
-    p2: m3,o1
-  - p1: B3,o1
-    p2: m4,o1
-  - p1: B4,o1
-    p2: m5,o1
+- p1: 1,o1
+  p2: A1,o2
+- p1: 1,o2
+  p2: B1,o2
+- p1: 2,o1
+  p2: A2,o2
+- p1: 2,o2
+  p2: B2,o2
+- p1: 3,o1
+  p2: A3,o2
+- p1: 3,o2
+  p2: B3,o2
+- p1: 4,o1
+  p2: A4,o2
+- p1: 4,o2
+  p2: B4,o2
+- p1: A1,o1
+  p2: m1,o2
+- p1: A2,o1
+  p2: m2,o2
+- p1: A3,o1
+  p2: m3,o2
+- p1: A4,o1
+  p2: m4,o2
+- p1: B1,o1
+  p2: m2,o1
+- p1: B2,o1
+  p2: m3,o1
+- p1: B3,o1
+  p2: m4,o1
+- p1: B4,o1
+  p2: m5,o1
 placements:
   '1':
     mirror: false

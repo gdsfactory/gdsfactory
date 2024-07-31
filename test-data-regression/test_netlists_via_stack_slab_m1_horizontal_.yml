@@ -18,11 +18,11 @@ instances:
       enclosure: 2
       layer: VIA1
       size:
-        - 7
-        - 0.7
+      - 7
+      - 0.7
       spacing:
-        - 2
-        - 2
+      - 2
+      - 2
   via_S9_0p7_S2_2_GNone_E_20b54705_0_0:
     component: via
     dax: 2
@@ -42,11 +42,11 @@ instances:
       enclosure: 1
       layer: VIAC
       size:
-        - 9
-        - 0.7
+      - 9
+      - 0.7
       spacing:
-        - 2
-        - 2
+      - 2
+      - 2
 name: via_stack_S11_11_LSLAB9_468e9e56
 nets: []
 placements:

@@ -116,18 +116,18 @@ instances:
       npoints: 2
 name: mzi_arm_LYL0p8_LYR0p8_L_1bd36bcd
 nets:
-  - p1: B1,o1
-    p2: m1,o1
-  - p1: B1,o2
-    p2: L1,o2
-  - p1: B2,o1
-    p2: R1,o1
-  - p1: B2,o2
-    p2: m1,o2
-  - p1: L1,o1
-    p2: b1,o2
-  - p1: R1,o2
-    p2: b2,o1
+- p1: B1,o1
+  p2: m1,o1
+- p1: B1,o2
+  p2: L1,o2
+- p1: B2,o1
+  p2: R1,o1
+- p1: B2,o2
+  p2: m1,o2
+- p1: L1,o1
+  p2: b1,o2
+- p1: R1,o2
+  p2: b2,o1
 placements:
   B1:
     mirror: false

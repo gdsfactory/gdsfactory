@@ -49,14 +49,14 @@ instances:
       npoints: 2
 name: ring_double_G0p2_R10_LX_07be0fa3
 nets:
-  - p1: coupler_ring_G0p2_R10_L_f700a51f_m5_16185,o2
-    p2: straight_L0p01_N2_CSstrip_10000_10705,o1
-  - p1: coupler_ring_G0p2_R10_L_f700a51f_m5_16185,o3
-    p2: straight_L0p01_N2_CSstrip_m10010_10705,o2
-  - p1: coupler_ring_G0p2_R10_L_f700a51f_m5_5225,o2
-    p2: straight_L0p01_N2_CSstrip_m10010_10705,o1
-  - p1: coupler_ring_G0p2_R10_L_f700a51f_m5_5225,o3
-    p2: straight_L0p01_N2_CSstrip_10000_10705,o2
+- p1: coupler_ring_G0p2_R10_L_f700a51f_m5_16185,o2
+  p2: straight_L0p01_N2_CSstrip_10000_10705,o1
+- p1: coupler_ring_G0p2_R10_L_f700a51f_m5_16185,o3
+  p2: straight_L0p01_N2_CSstrip_m10010_10705,o2
+- p1: coupler_ring_G0p2_R10_L_f700a51f_m5_5225,o2
+  p2: straight_L0p01_N2_CSstrip_m10010_10705,o1
+- p1: coupler_ring_G0p2_R10_L_f700a51f_m5_5225,o3
+  p2: straight_L0p01_N2_CSstrip_10000_10705,o2
 placements:
   coupler_ring_G0p2_R10_L_f700a51f_m5_16185:
     mirror: false

@@ -5,17 +5,17 @@ name: via_stack_S11_11_LSLAB9_fb7584a2
 settings:
   correct_size: true
   layers:
-    - SLAB90
-    - M1
-    - M2
-    - MTOP
+  - SLAB90
+  - M1
+  - M2
+  - MTOP
   size:
-    - 11
-    - 11
+  - 11
+  - 11
   slot_horizontal: false
   slot_vertical: false
   vias:
-    - viac
-    - via1
-    - via2
-    - null
+  - viac
+  - via1
+  - via2
+  - null

@@ -28,14 +28,14 @@ instances:
       min_radius: 10
       n_bend_points: 99
       spacings:
-        - 2
-        - 2
-        - 2
-        - 2
-        - 2
-        - 2
-        - 2
-        - 2
+      - 2
+      - 2
+      - 2
+      - 2
+      - 2
+      - 2
+      - 2
+      - 2
       straight_factory: straight
       straight_length: 30
       with_inner_ports: false
@@ -73,18 +73,18 @@ instances:
     settings:
       correct_size: true
       layers:
-        - HEATER
-        - M2
-        - MTOP
+      - HEATER
+      - M2
+      - MTOP
       size:
-        - 11
-        - 11
+      - 11
+      - 11
       slot_horizontal: false
       slot_vertical: false
       vias:
-        - null
-        - via1
-        - via2
+      - null
+      - via1
+      - via2
   via_stack_S11_11_LHEATE_f29565aa_m11125_m29000:
     component: via_stack
     info:
@@ -93,28 +93,28 @@ instances:
     settings:
       correct_size: true
       layers:
-        - HEATER
-        - M2
-        - MTOP
+      - HEATER
+      - M2
+      - MTOP
       size:
-        - 11
-        - 11
+      - 11
+      - 11
       slot_horizontal: false
       slot_vertical: false
       vias:
-        - null
-        - via1
-        - via2
+      - null
+      - via1
+      - via2
 name: spiral_racetrack_heater_19482d4b
 nets:
-  - p1: bend_circular_R20_A180__5813679f_35000_m9000,e1
-    p2: straight_L30_N2_CSheater_metal_9375_m29000,e1
-  - p1: bend_circular_R20_A180__5813679f_35000_m9000,e2
-    p2: straight_L30_N2_CSheater_metal_9375_11000,e1
-  - p1: straight_L30_N2_CSheater_metal_9375_11000,e2
-    p2: via_stack_S11_11_LHEATE_f29565aa_m11125_11000,e3
-  - p1: straight_L30_N2_CSheater_metal_9375_m29000,e2
-    p2: via_stack_S11_11_LHEATE_f29565aa_m11125_m29000,e3
+- p1: bend_circular_R20_A180__5813679f_35000_m9000,e1
+  p2: straight_L30_N2_CSheater_metal_9375_m29000,e1
+- p1: bend_circular_R20_A180__5813679f_35000_m9000,e2
+  p2: straight_L30_N2_CSheater_metal_9375_11000,e1
+- p1: straight_L30_N2_CSheater_metal_9375_11000,e2
+  p2: via_stack_S11_11_LHEATE_f29565aa_m11125_11000,e3
+- p1: straight_L30_N2_CSheater_metal_9375_m29000,e2
+  p2: via_stack_S11_11_LHEATE_f29565aa_m11125_m29000,e3
 placements:
   bend_circular_R20_A180__5813679f_35000_m9000:
     mirror: false

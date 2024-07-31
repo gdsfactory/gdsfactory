@@ -821,122 +821,122 @@ instances:
       width: 0.5
 name: awg_A10_O3_FPRIFFfree_p_d02e50a8
 nets:
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_10292_28125,o1
-    p2: straight_L3_N2_CSstrip_W0p5_5417_21500,o1
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_10292_28125,o2
-    p2: straight_L19p166_N2_CSstrip_W0p5_25000_33000,o1
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_12458_26625,o1
-    p2: straight_L1p5_N2_CSstrip_W0p5_7583_20750,o1
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_12458_26625,o2
-    p2: straight_L14p834_N2_CSstrip_W0p5_25000_31500,o1
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_14625_25125,o1
-    p2: free_propagation_region_17623e49_0_10000,E0
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_14625_25125,o2
-    p2: straight_L10p5_N2_CSstrip_W0p5_25000_30000,o1
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_1625_34125,o1
-    p2: straight_L9_N2_CSstrip_W0p5_m3250_24500,o1
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_1625_34125,o2
-    p2: straight_L36p5_N2_CSstrip_W0p5_25000_39000,o1
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_35375_25125,o1
-    p2: straight_L10p5_N2_CSstrip_W0p5_25000_30000,o2
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_35375_25125,o2
-    p2: free_propagation_region_b76b91f7_50000_10000,E9
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_37542_26625,o1
-    p2: straight_L14p834_N2_CSstrip_W0p5_25000_31500,o2
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_37542_26625,o2
-    p2: straight_L1p5_N2_CSstrip_W0p5_42417_20750,o1
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_3792_32625,o1
-    p2: straight_L7p5_N2_CSstrip_W0p5_m1083_23750,o1
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_3792_32625,o2
-    p2: straight_L32p1660000000_cc48b899_25000_37500,o1
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_39708_28125,o1
-    p2: straight_L19p166_N2_CSstrip_W0p5_25000_33000,o2
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_39708_28125,o2
-    p2: straight_L3_N2_CSstrip_W0p5_44583_21500,o1
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_41875_29625,o1
-    p2: straight_L23p5_N2_CSstrip_W0p5_25000_34500,o2
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_41875_29625,o2
-    p2: straight_L4p5_N2_CSstrip_W0p5_46750_22250,o1
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_44042_31125,o1
-    p2: straight_L27p834_N2_CSstrip_W0p5_25000_36000,o2
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_44042_31125,o2
-    p2: straight_L6_N2_CSstrip_W0p5_48917_23000,o1
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_46208_32625,o1
-    p2: straight_L32p1660000000_cc48b899_25000_37500,o2
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_46208_32625,o2
-    p2: straight_L7p5_N2_CSstrip_W0p5_51083_23750,o1
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_48375_34125,o1
-    p2: straight_L36p5_N2_CSstrip_W0p5_25000_39000,o2
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_48375_34125,o2
-    p2: straight_L9_N2_CSstrip_W0p5_53250_24500,o1
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_50542_35625,o1
-    p2: straight_L40p834_N2_CSstrip_W0p5_25000_40500,o2
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_50542_35625,o2
-    p2: straight_L10p5_N2_CSstrip_W0p5_55417_25250,o1
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_52708_37125,o1
-    p2: straight_L45p1660000000_56131022_25000_42000,o2
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_52708_37125,o2
-    p2: straight_L12_N2_CSstrip_W0p5_57583_26000,o1
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_54875_38625,o1
-    p2: straight_L49p5_N2_CSstrip_W0p5_25000_43500,o2
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_54875_38625,o2
-    p2: straight_L13p5_N2_CSstrip_W0p5_59750_26750,o1
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_5958_31125,o1
-    p2: straight_L6_N2_CSstrip_W0p5_1083_23000,o1
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_5958_31125,o2
-    p2: straight_L27p834_N2_CSstrip_W0p5_25000_36000,o1
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_8125_29625,o1
-    p2: straight_L4p5_N2_CSstrip_W0p5_3250_22250,o1
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_8125_29625,o2
-    p2: straight_L23p5_N2_CSstrip_W0p5_25000_34500,o1
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m2708_37125,o1
-    p2: straight_L12_N2_CSstrip_W0p5_m7583_26000,o1
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m2708_37125,o2
-    p2: straight_L45p1660000000_56131022_25000_42000,o1
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m4875_38625,o1
-    p2: straight_L13p5_N2_CSstrip_W0p5_m9750_26750,o1
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m4875_38625,o2
-    p2: straight_L49p5_N2_CSstrip_W0p5_25000_43500,o1
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m542_35625,o1
-    p2: straight_L10p5_N2_CSstrip_W0p5_m5417_25250,o1
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m542_35625,o2
-    p2: straight_L40p834_N2_CSstrip_W0p5_25000_40500,o1
-  - p1: free_propagation_region_17623e49_0_10000,E1
-    p2: straight_L1p5_N2_CSstrip_W0p5_7583_20750,o2
-  - p1: free_propagation_region_17623e49_0_10000,E2
-    p2: straight_L3_N2_CSstrip_W0p5_5417_21500,o2
-  - p1: free_propagation_region_17623e49_0_10000,E3
-    p2: straight_L4p5_N2_CSstrip_W0p5_3250_22250,o2
-  - p1: free_propagation_region_17623e49_0_10000,E4
-    p2: straight_L6_N2_CSstrip_W0p5_1083_23000,o2
-  - p1: free_propagation_region_17623e49_0_10000,E5
-    p2: straight_L7p5_N2_CSstrip_W0p5_m1083_23750,o2
-  - p1: free_propagation_region_17623e49_0_10000,E6
-    p2: straight_L9_N2_CSstrip_W0p5_m3250_24500,o2
-  - p1: free_propagation_region_17623e49_0_10000,E7
-    p2: straight_L10p5_N2_CSstrip_W0p5_m5417_25250,o2
-  - p1: free_propagation_region_17623e49_0_10000,E8
-    p2: straight_L12_N2_CSstrip_W0p5_m7583_26000,o2
-  - p1: free_propagation_region_17623e49_0_10000,E9
-    p2: straight_L13p5_N2_CSstrip_W0p5_m9750_26750,o2
-  - p1: free_propagation_region_b76b91f7_50000_10000,E0
-    p2: straight_L13p5_N2_CSstrip_W0p5_59750_26750,o2
-  - p1: free_propagation_region_b76b91f7_50000_10000,E1
-    p2: straight_L12_N2_CSstrip_W0p5_57583_26000,o2
-  - p1: free_propagation_region_b76b91f7_50000_10000,E2
-    p2: straight_L10p5_N2_CSstrip_W0p5_55417_25250,o2
-  - p1: free_propagation_region_b76b91f7_50000_10000,E3
-    p2: straight_L9_N2_CSstrip_W0p5_53250_24500,o2
-  - p1: free_propagation_region_b76b91f7_50000_10000,E4
-    p2: straight_L7p5_N2_CSstrip_W0p5_51083_23750,o2
-  - p1: free_propagation_region_b76b91f7_50000_10000,E5
-    p2: straight_L6_N2_CSstrip_W0p5_48917_23000,o2
-  - p1: free_propagation_region_b76b91f7_50000_10000,E6
-    p2: straight_L4p5_N2_CSstrip_W0p5_46750_22250,o2
-  - p1: free_propagation_region_b76b91f7_50000_10000,E7
-    p2: straight_L3_N2_CSstrip_W0p5_44583_21500,o2
-  - p1: free_propagation_region_b76b91f7_50000_10000,E8
-    p2: straight_L1p5_N2_CSstrip_W0p5_42417_20750,o2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_10292_28125,o1
+  p2: straight_L3_N2_CSstrip_W0p5_5417_21500,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_10292_28125,o2
+  p2: straight_L19p166_N2_CSstrip_W0p5_25000_33000,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_12458_26625,o1
+  p2: straight_L1p5_N2_CSstrip_W0p5_7583_20750,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_12458_26625,o2
+  p2: straight_L14p834_N2_CSstrip_W0p5_25000_31500,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_14625_25125,o1
+  p2: free_propagation_region_17623e49_0_10000,E0
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_14625_25125,o2
+  p2: straight_L10p5_N2_CSstrip_W0p5_25000_30000,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_1625_34125,o1
+  p2: straight_L9_N2_CSstrip_W0p5_m3250_24500,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_1625_34125,o2
+  p2: straight_L36p5_N2_CSstrip_W0p5_25000_39000,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_35375_25125,o1
+  p2: straight_L10p5_N2_CSstrip_W0p5_25000_30000,o2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_35375_25125,o2
+  p2: free_propagation_region_b76b91f7_50000_10000,E9
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_37542_26625,o1
+  p2: straight_L14p834_N2_CSstrip_W0p5_25000_31500,o2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_37542_26625,o2
+  p2: straight_L1p5_N2_CSstrip_W0p5_42417_20750,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_3792_32625,o1
+  p2: straight_L7p5_N2_CSstrip_W0p5_m1083_23750,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_3792_32625,o2
+  p2: straight_L32p1660000000_cc48b899_25000_37500,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_39708_28125,o1
+  p2: straight_L19p166_N2_CSstrip_W0p5_25000_33000,o2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_39708_28125,o2
+  p2: straight_L3_N2_CSstrip_W0p5_44583_21500,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_41875_29625,o1
+  p2: straight_L23p5_N2_CSstrip_W0p5_25000_34500,o2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_41875_29625,o2
+  p2: straight_L4p5_N2_CSstrip_W0p5_46750_22250,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_44042_31125,o1
+  p2: straight_L27p834_N2_CSstrip_W0p5_25000_36000,o2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_44042_31125,o2
+  p2: straight_L6_N2_CSstrip_W0p5_48917_23000,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_46208_32625,o1
+  p2: straight_L32p1660000000_cc48b899_25000_37500,o2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_46208_32625,o2
+  p2: straight_L7p5_N2_CSstrip_W0p5_51083_23750,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_48375_34125,o1
+  p2: straight_L36p5_N2_CSstrip_W0p5_25000_39000,o2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_48375_34125,o2
+  p2: straight_L9_N2_CSstrip_W0p5_53250_24500,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_50542_35625,o1
+  p2: straight_L40p834_N2_CSstrip_W0p5_25000_40500,o2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_50542_35625,o2
+  p2: straight_L10p5_N2_CSstrip_W0p5_55417_25250,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_52708_37125,o1
+  p2: straight_L45p1660000000_56131022_25000_42000,o2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_52708_37125,o2
+  p2: straight_L12_N2_CSstrip_W0p5_57583_26000,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_54875_38625,o1
+  p2: straight_L49p5_N2_CSstrip_W0p5_25000_43500,o2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_54875_38625,o2
+  p2: straight_L13p5_N2_CSstrip_W0p5_59750_26750,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_5958_31125,o1
+  p2: straight_L6_N2_CSstrip_W0p5_1083_23000,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_5958_31125,o2
+  p2: straight_L27p834_N2_CSstrip_W0p5_25000_36000,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_8125_29625,o1
+  p2: straight_L4p5_N2_CSstrip_W0p5_3250_22250,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_8125_29625,o2
+  p2: straight_L23p5_N2_CSstrip_W0p5_25000_34500,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m2708_37125,o1
+  p2: straight_L12_N2_CSstrip_W0p5_m7583_26000,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m2708_37125,o2
+  p2: straight_L45p1660000000_56131022_25000_42000,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m4875_38625,o1
+  p2: straight_L13p5_N2_CSstrip_W0p5_m9750_26750,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m4875_38625,o2
+  p2: straight_L49p5_N2_CSstrip_W0p5_25000_43500,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m542_35625,o1
+  p2: straight_L10p5_N2_CSstrip_W0p5_m5417_25250,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m542_35625,o2
+  p2: straight_L40p834_N2_CSstrip_W0p5_25000_40500,o1
+- p1: free_propagation_region_17623e49_0_10000,E1
+  p2: straight_L1p5_N2_CSstrip_W0p5_7583_20750,o2
+- p1: free_propagation_region_17623e49_0_10000,E2
+  p2: straight_L3_N2_CSstrip_W0p5_5417_21500,o2
+- p1: free_propagation_region_17623e49_0_10000,E3
+  p2: straight_L4p5_N2_CSstrip_W0p5_3250_22250,o2
+- p1: free_propagation_region_17623e49_0_10000,E4
+  p2: straight_L6_N2_CSstrip_W0p5_1083_23000,o2
+- p1: free_propagation_region_17623e49_0_10000,E5
+  p2: straight_L7p5_N2_CSstrip_W0p5_m1083_23750,o2
+- p1: free_propagation_region_17623e49_0_10000,E6
+  p2: straight_L9_N2_CSstrip_W0p5_m3250_24500,o2
+- p1: free_propagation_region_17623e49_0_10000,E7
+  p2: straight_L10p5_N2_CSstrip_W0p5_m5417_25250,o2
+- p1: free_propagation_region_17623e49_0_10000,E8
+  p2: straight_L12_N2_CSstrip_W0p5_m7583_26000,o2
+- p1: free_propagation_region_17623e49_0_10000,E9
+  p2: straight_L13p5_N2_CSstrip_W0p5_m9750_26750,o2
+- p1: free_propagation_region_b76b91f7_50000_10000,E0
+  p2: straight_L13p5_N2_CSstrip_W0p5_59750_26750,o2
+- p1: free_propagation_region_b76b91f7_50000_10000,E1
+  p2: straight_L12_N2_CSstrip_W0p5_57583_26000,o2
+- p1: free_propagation_region_b76b91f7_50000_10000,E2
+  p2: straight_L10p5_N2_CSstrip_W0p5_55417_25250,o2
+- p1: free_propagation_region_b76b91f7_50000_10000,E3
+  p2: straight_L9_N2_CSstrip_W0p5_53250_24500,o2
+- p1: free_propagation_region_b76b91f7_50000_10000,E4
+  p2: straight_L7p5_N2_CSstrip_W0p5_51083_23750,o2
+- p1: free_propagation_region_b76b91f7_50000_10000,E5
+  p2: straight_L6_N2_CSstrip_W0p5_48917_23000,o2
+- p1: free_propagation_region_b76b91f7_50000_10000,E6
+  p2: straight_L4p5_N2_CSstrip_W0p5_46750_22250,o2
+- p1: free_propagation_region_b76b91f7_50000_10000,E7
+  p2: straight_L3_N2_CSstrip_W0p5_44583_21500,o2
+- p1: free_propagation_region_b76b91f7_50000_10000,E8
+  p2: straight_L1p5_N2_CSstrip_W0p5_42417_20750,o2
 placements:
   bend_euler_R10_A90_P0p5_2f1f5c6d_10292_28125:
     mirror: true

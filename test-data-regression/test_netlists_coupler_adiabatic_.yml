@@ -15,14 +15,14 @@ instances:
     settings:
       allow_min_radius_violation: false
       control_points:
-        - - 0
-          - 0
-        - - 10
-          - 0
-        - - 10
-          - -1
-        - - 20
-          - -1
+      - - 0
+        - 0
+      - - 10
+        - 0
+      - - 10
+        - -1
+      - - 20
+        - -1
       cross_section: xs_4ec6b2c0
       npoints: 201
       with_manhattan_facing_angles: true
@@ -42,14 +42,14 @@ instances:
     settings:
       allow_min_radius_violation: false
       control_points:
-        - - 0
-          - -3
-        - - 10
-          - -3
-        - - 10
-          - -2
-        - - 20
-          - -2
+      - - 0
+        - -3
+      - - 10
+        - -3
+      - - 10
+        - -2
+      - - 20
+        - -2
       cross_section: xs_d9e914be
       npoints: 201
       with_manhattan_facing_angles: true
@@ -69,14 +69,14 @@ instances:
     settings:
       allow_min_radius_violation: false
       control_points:
-        - - 70
-          - -1
-        - - 85
-          - -1
-        - - 85
-          - 0
-        - - 100
-          - 0
+      - - 70
+        - -1
+      - - 85
+        - -1
+      - - 85
+        - 0
+      - - 100
+        - 0
       cross_section: xs_34e31a19
       npoints: 201
       with_manhattan_facing_angles: true
@@ -96,14 +96,14 @@ instances:
     settings:
       allow_min_radius_violation: false
       control_points:
-        - - 70
-          - -1
-        - - 85
-          - -1
-        - - 85
-          - 0
-        - - 100
-          - 0
+      - - 70
+        - -1
+      - - 85
+        - -1
+      - - 85
+        - 0
+      - - 100
+        - 0
       cross_section: xs_34e31a19
       npoints: 201
       with_manhattan_facing_angles: true
@@ -124,11 +124,11 @@ instances:
       cross_section: strip
       length: 10
       port_names:
-        - o1
-        - o2
+      - o1
+      - o2
       port_types:
-        - optical
-        - optical
+      - optical
+      - optical
       width1: 0.5
       width2: 0.4
       with_bbox: true
@@ -143,29 +143,29 @@ instances:
       cross_section: strip
       length: 10
       port_names:
-        - o1
-        - o2
+      - o1
+      - o2
       port_types:
-        - optical
-        - optical
+      - optical
+      - optical
       width1: 0.5
       width2: 0.6
       with_bbox: true
       with_two_ports: true
 name: coupler_adiabatic_L20_L_6807e123
 nets:
-  - p1: bezier_CP0_0_10_0_10_m1_4767eb94_m20000_1270,o2
-    p2: taper_L10_W0p5_W0p6_PNo_23934efe_m5000_770,o2
-  - p1: bezier_CP0_m3_10_m3_10__07235f68_m20000_m500,o2
-    p2: taper_L10_W0p5_W0p4_PNo_a87d0813_m5000_0,o2
-  - p1: bezier_CP70_m1_85_m1_85_5940811d_65000_1270,o1
-    p2: coupler_straight_L50_G0_a8f21bfb_25000_385,o3
-  - p1: bezier_CP70_m1_85_m1_85_5940811d_65000_m500,o1
-    p2: coupler_straight_L50_G0_a8f21bfb_25000_385,o4
-  - p1: coupler_straight_L50_G0_a8f21bfb_25000_385,o1
-    p2: taper_L10_W0p5_W0p4_PNo_a87d0813_m5000_0,o1
-  - p1: coupler_straight_L50_G0_a8f21bfb_25000_385,o2
-    p2: taper_L10_W0p5_W0p6_PNo_23934efe_m5000_770,o1
+- p1: bezier_CP0_0_10_0_10_m1_4767eb94_m20000_1270,o2
+  p2: taper_L10_W0p5_W0p6_PNo_23934efe_m5000_770,o2
+- p1: bezier_CP0_m3_10_m3_10__07235f68_m20000_m500,o2
+  p2: taper_L10_W0p5_W0p4_PNo_a87d0813_m5000_0,o2
+- p1: bezier_CP70_m1_85_m1_85_5940811d_65000_1270,o1
+  p2: coupler_straight_L50_G0_a8f21bfb_25000_385,o3
+- p1: bezier_CP70_m1_85_m1_85_5940811d_65000_m500,o1
+  p2: coupler_straight_L50_G0_a8f21bfb_25000_385,o4
+- p1: coupler_straight_L50_G0_a8f21bfb_25000_385,o1
+  p2: taper_L10_W0p5_W0p4_PNo_a87d0813_m5000_0,o1
+- p1: coupler_straight_L50_G0_a8f21bfb_25000_385,o2
+  p2: taper_L10_W0p5_W0p6_PNo_23934efe_m5000_770,o1
 placements:
   bezier_CP0_0_10_0_10_m1_4767eb94_m20000_1270:
     mirror: false

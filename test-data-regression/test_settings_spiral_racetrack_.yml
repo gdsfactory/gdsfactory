@@ -9,12 +9,12 @@ settings:
   min_radius: 5
   n_bend_points: 99
   spacings:
-    - 2
-    - 2
-    - 3
-    - 3
-    - 2
-    - 2
+  - 2
+  - 2
+  - 3
+  - 3
+  - 2
+  - 2
   straight_factory: straight
   straight_length: 20
   with_inner_ports: false

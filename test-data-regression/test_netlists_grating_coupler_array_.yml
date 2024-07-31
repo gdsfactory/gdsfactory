@@ -168,24 +168,24 @@ ports:
 warnings:
   vertical_te:
     unconnected_ports:
-      - message: 6 unconnected vertical_te ports!
-        ports:
-          - grating_coupler_ellipti_07e69d9a_m317500_m20098,o2
-          - grating_coupler_ellipti_07e69d9a_m190500_m20098,o2
-          - grating_coupler_ellipti_07e69d9a_m63500_m20098,o2
-          - grating_coupler_ellipti_07e69d9a_63500_m20098,o2
-          - grating_coupler_ellipti_07e69d9a_190500_m20098,o2
-          - grating_coupler_ellipti_07e69d9a_317500_m20098,o2
-        values:
-          - - -317500
-            - -16600
-          - - -190500
-            - -16600
-          - - -63500
-            - -16600
-          - - 63500
-            - -16600
-          - - 190500
-            - -16600
-          - - 317500
-            - -16600
+    - message: 6 unconnected vertical_te ports!
+      ports:
+      - grating_coupler_ellipti_07e69d9a_m317500_m20098,o2
+      - grating_coupler_ellipti_07e69d9a_m190500_m20098,o2
+      - grating_coupler_ellipti_07e69d9a_m63500_m20098,o2
+      - grating_coupler_ellipti_07e69d9a_63500_m20098,o2
+      - grating_coupler_ellipti_07e69d9a_190500_m20098,o2
+      - grating_coupler_ellipti_07e69d9a_317500_m20098,o2
+      values:
+      - - -317500
+        - -16600
+      - - -190500
+        - -16600
+      - - -63500
+        - -16600
+      - - 63500
+        - -16600
+      - - 190500
+        - -16600
+      - - 317500
+        - -16600

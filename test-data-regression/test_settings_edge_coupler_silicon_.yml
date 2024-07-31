@@ -7,11 +7,11 @@ settings:
   cross_section: strip
   length: 100
   port_names:
-    - o1
-    - o2
+  - o1
+  - o2
   port_types:
-    - optical
-    - optical
+  - optical
+  - optical
   width1: 0.5
   width2: 0.2
   with_bbox: true

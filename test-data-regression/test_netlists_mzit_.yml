@@ -181,11 +181,11 @@ instances:
       cross_section: strip
       length: 5
       port_names:
-        - o1
-        - o2
+      - o1
+      - o2
       port_types:
-        - optical
-        - optical
+      - optical
+      - optical
       width1: 0.45
       width2: 0.55
       with_bbox: true
@@ -200,11 +200,11 @@ instances:
       cross_section: strip
       length: 5
       port_names:
-        - o1
-        - o2
+      - o1
+      - o2
       port_types:
-        - optical
-        - optical
+      - optical
+      - optical
       width1: 0.45
       width2: 0.5
       with_bbox: true
@@ -219,11 +219,11 @@ instances:
       cross_section: strip
       length: 5
       port_names:
-        - o1
-        - o2
+      - o1
+      - o2
       port_types:
-        - optical
-        - optical
+      - optical
+      - optical
       width1: 0.55
       width2: 0.45
       with_bbox: true
@@ -238,11 +238,11 @@ instances:
       cross_section: strip
       length: 5
       port_names:
-        - o1
-        - o2
+      - o1
+      - o2
       port_types:
-        - optical
-        - optical
+      - optical
+      - optical
       width1: 0.55
       width2: 0.5
       with_bbox: true
@@ -257,11 +257,11 @@ instances:
       cross_section: strip
       length: 5
       port_names:
-        - o1
-        - o2
+      - o1
+      - o2
       port_types:
-        - optical
-        - optical
+      - optical
+      - optical
       width1: 0.5
       width2: 0.45
       with_bbox: true
@@ -276,51 +276,51 @@ instances:
       cross_section: strip
       length: 5
       port_names:
-        - o1
-        - o2
+      - o1
+      - o2
       port_types:
-        - optical
-        - optical
+      - optical
+      - optical
       width1: 0.5
       width2: 0.55
       with_bbox: true
       with_two_ports: true
 name: mzit_W0p5_W0p45_W0p55_D_a253119c
 nets:
-  - p1: bend_euler_RNone_A90_P0_2aa8c47e_30112_16512,o1
-    p2: bend_euler_RNone_A90_P0_2aa8c47e_30112_6287,o2
-  - p1: bend_euler_RNone_A90_P0_2aa8c47e_30112_16512,o2
-    p2: taper_L5_W0p45_W0p55_PN_f55f7d5c_22500_21400,o1
-  - p1: bend_euler_RNone_A90_P0_2aa8c47e_30112_6287,o1
-    p2: taper_L5_W0p5_W0p45_PNo_b650d75a_22500_1400,o2
-  - p1: bend_euler_RNone_A90_P0_903f8d22_33137_18537,o1
-    p2: straight_L4_N2_CSstrip_W0p55_38000_11400,o2
-  - p1: bend_euler_RNone_A90_P0_903f8d22_33137_18537,o2
-    p2: straight_L3_N2_CSstrip_W0p55_26500_23400,o1
-  - p1: bend_euler_RNone_A90_P0_903f8d22_33137_4262,o1
-    p2: straight_L3_N2_CSstrip_W0p55_26500_m600,o2
-  - p1: bend_euler_RNone_A90_P0_903f8d22_33137_4262,o2
-    p2: straight_L4_N2_CSstrip_W0p55_38000_11400,o1
-  - p1: coupler_G0p2_L5_D2_D10_CSstrip_1500_22400,o3
-    p2: taper_L5_W0p45_W0p5_PNo_4080dc7e_16500_23400,o2
-  - p1: coupler_G0p2_L5_D2_D10_CSstrip_1500_22400,o4
-    p2: taper_L5_W0p55_W0p5_PNo_438ce168_16500_21400,o2
-  - p1: coupler_G0p3_L10_D2_D10_CSstrip_5000_400,o3
-    p2: taper_L5_W0p5_W0p45_PNo_b650d75a_22500_1400,o1
-  - p1: coupler_G0p3_L10_D2_D10_CSstrip_5000_400,o4
-    p2: taper_L5_W0p5_W0p55_PNo_839c49ab_22500_m600,o1
-  - p1: straight_L1_N2_CSstrip_W0p45_19500_23400,o1
-    p2: taper_L5_W0p55_W0p45_PN_df1360bc_22500_23400,o2
-  - p1: straight_L1_N2_CSstrip_W0p45_19500_23400,o2
-    p2: taper_L5_W0p45_W0p5_PNo_4080dc7e_16500_23400,o1
-  - p1: straight_L1_N2_CSstrip_W0p55_19500_21400,o1
-    p2: taper_L5_W0p45_W0p55_PN_f55f7d5c_22500_21400,o2
-  - p1: straight_L1_N2_CSstrip_W0p55_19500_21400,o2
-    p2: taper_L5_W0p55_W0p5_PNo_438ce168_16500_21400,o1
-  - p1: straight_L3_N2_CSstrip_W0p55_26500_23400,o2
-    p2: taper_L5_W0p55_W0p45_PN_df1360bc_22500_23400,o1
-  - p1: straight_L3_N2_CSstrip_W0p55_26500_m600,o1
-    p2: taper_L5_W0p5_W0p55_PNo_839c49ab_22500_m600,o2
+- p1: bend_euler_RNone_A90_P0_2aa8c47e_30112_16512,o1
+  p2: bend_euler_RNone_A90_P0_2aa8c47e_30112_6287,o2
+- p1: bend_euler_RNone_A90_P0_2aa8c47e_30112_16512,o2
+  p2: taper_L5_W0p45_W0p55_PN_f55f7d5c_22500_21400,o1
+- p1: bend_euler_RNone_A90_P0_2aa8c47e_30112_6287,o1
+  p2: taper_L5_W0p5_W0p45_PNo_b650d75a_22500_1400,o2
+- p1: bend_euler_RNone_A90_P0_903f8d22_33137_18537,o1
+  p2: straight_L4_N2_CSstrip_W0p55_38000_11400,o2
+- p1: bend_euler_RNone_A90_P0_903f8d22_33137_18537,o2
+  p2: straight_L3_N2_CSstrip_W0p55_26500_23400,o1
+- p1: bend_euler_RNone_A90_P0_903f8d22_33137_4262,o1
+  p2: straight_L3_N2_CSstrip_W0p55_26500_m600,o2
+- p1: bend_euler_RNone_A90_P0_903f8d22_33137_4262,o2
+  p2: straight_L4_N2_CSstrip_W0p55_38000_11400,o1
+- p1: coupler_G0p2_L5_D2_D10_CSstrip_1500_22400,o3
+  p2: taper_L5_W0p45_W0p5_PNo_4080dc7e_16500_23400,o2
+- p1: coupler_G0p2_L5_D2_D10_CSstrip_1500_22400,o4
+  p2: taper_L5_W0p55_W0p5_PNo_438ce168_16500_21400,o2
+- p1: coupler_G0p3_L10_D2_D10_CSstrip_5000_400,o3
+  p2: taper_L5_W0p5_W0p45_PNo_b650d75a_22500_1400,o1
+- p1: coupler_G0p3_L10_D2_D10_CSstrip_5000_400,o4
+  p2: taper_L5_W0p5_W0p55_PNo_839c49ab_22500_m600,o1
+- p1: straight_L1_N2_CSstrip_W0p45_19500_23400,o1
+  p2: taper_L5_W0p55_W0p45_PN_df1360bc_22500_23400,o2
+- p1: straight_L1_N2_CSstrip_W0p45_19500_23400,o2
+  p2: taper_L5_W0p45_W0p5_PNo_4080dc7e_16500_23400,o1
+- p1: straight_L1_N2_CSstrip_W0p55_19500_21400,o1
+  p2: taper_L5_W0p45_W0p55_PN_f55f7d5c_22500_21400,o2
+- p1: straight_L1_N2_CSstrip_W0p55_19500_21400,o2
+  p2: taper_L5_W0p55_W0p5_PNo_438ce168_16500_21400,o1
+- p1: straight_L3_N2_CSstrip_W0p55_26500_23400,o2
+  p2: taper_L5_W0p55_W0p45_PN_df1360bc_22500_23400,o1
+- p1: straight_L3_N2_CSstrip_W0p55_26500_m600,o1
+  p2: taper_L5_W0p5_W0p55_PNo_839c49ab_22500_m600,o2
 placements:
   bend_euler_RNone_A90_P0_2aa8c47e_30112_16512:
     mirror: false

@@ -2,8 +2,8 @@ info: {}
 name: optimal_90deg_W100_NP15_LA1_L1_0
 settings:
   layer:
-    - 1
-    - 0
+  - 1
+  - 0
   length_adjust: 1
   num_pts: 15
   width: 100

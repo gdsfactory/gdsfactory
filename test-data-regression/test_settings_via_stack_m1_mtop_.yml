@@ -5,15 +5,15 @@ name: via_stack_S11_11_LM1_M2_e6789b8f
 settings:
   correct_size: true
   layers:
-    - M1
-    - M2
-    - MTOP
+  - M1
+  - M2
+  - MTOP
   size:
-    - 11
-    - 11
+  - 11
+  - 11
   slot_horizontal: false
   slot_vertical: false
   vias:
-    - via1
-    - via2
-    - null
+  - via1
+  - via2
+  - null

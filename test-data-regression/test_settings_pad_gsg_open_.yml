@@ -8,5 +8,5 @@ settings:
   route_xsize: 50
   short: false
   size:
-    - 22
-    - 7
+  - 22
+  - 7

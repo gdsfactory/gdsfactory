@@ -2,33 +2,33 @@ info: {}
 name: mzi_lattice_mmi_CWNone__0d9a1713
 settings:
   coupler_gaps_mmis:
-    - 0.25
-    - 0.25
+  - 0.25
+  - 0.25
   coupler_lengths_mmis:
-    - 5.5
-    - 5.5
+  - 5.5
+  - 5.5
   coupler_lengths_tapers:
-    - 10
-    - 10
+  - 10
+  - 10
   coupler_widths:
-    - null
-    - null
+  - null
+  - null
   coupler_widths_mmis:
-    - 2.5
-    - 2.5
+  - 2.5
+  - 2.5
   coupler_widths_tapers:
-    - 1
-    - 1
+  - 1
+  - 1
   cross_sections_mmis:
-    - strip
-    - strip
+  - strip
+  - strip
   delta_lengths:
-    - 10
+  - 10
   mzi: mzi2x2_2x2
   splitter: mmi2x2
   straight_functions_mmis:
-    - straight
-    - straight
+  - straight
+  - straight
   taper_functions_mmis:
-    - taper
-    - taper
+  - taper
+  - taper

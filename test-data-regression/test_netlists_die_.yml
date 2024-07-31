@@ -6,8 +6,8 @@ instances:
       justify: left
       layer: FLOORPLAN
       position:
-        - 0
-        - 0
+      - 0
+      - 0
       size: 100
       text: chip99
 name: die_S10000_10000_SW100__48b1c773
