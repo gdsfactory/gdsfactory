@@ -120,8 +120,7 @@ warnings:
           - - 40000
             - 0
     width_mismatch:
-      - message: Widths of ports straight_L40_N2_CSpn_ge_ef2cc18e_20000_0,o1 and taper_L20_W0p5_W0p8_PNo_1374d3b8_m10000_0,o2
-          not equal. Difference of 5200 um
+      - message: Widths of ports straight_L40_N2_CSpn_ge_ef2cc18e_20000_0,o1 and taper_L20_W0p5_W0p8_PNo_1374d3b8_m10000_0,o2 not equal. Difference of 5200 um
         ports:
           - straight_L40_N2_CSpn_ge_ef2cc18e_20000_0,o1
           - taper_L20_W0p5_W0p8_PNo_1374d3b8_m10000_0,o2

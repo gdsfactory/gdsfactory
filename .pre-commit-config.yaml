@@ -11,27 +11,23 @@ repos:
     hooks:
       - id: nbstripout
         files: ".ipynb"
-
   - repo: https://github.com/codespell-project/codespell
     rev: v2.3.0
     hooks:
       - id: codespell
         additional_dependencies:
           - tomli
-
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: "v0.5.5"
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix]
       - id: ruff-format
-
   - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
     rev: v2.14.0
     hooks:
       - id: pretty-format-toml
         args: [--autofix]
-
   - repo: https://github.com/aristanetworks/j2lint.git
     rev: v1.1.0
     hooks:
@@ -40,12 +36,12 @@ repos:
         files: \.(j2|yml|yaml)$
         exclude: .github/.*
         # args: [--extensions, "j2,yml,yaml", --ignore, jinja-statements-delimiter, jinja-statements-indentation]
-  # - repo: https://github.com/RobertCraigie/pyright-python
-  #   rev: v1.1.333
-  #   hooks:
-  #   - id: pyright
-
   - repo: https://github.com/google/yamlfmt
+    # - repo: https://github.com/RobertCraigie/pyright-python
+    #   rev: v1.1.333
+    #   hooks:
+    #   - id: pyright
+
     rev: v0.13.0
     hooks:
       - id: yamlfmt

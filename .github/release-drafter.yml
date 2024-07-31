@@ -7,7 +7,6 @@ template: |
   $CHANGES
 
   **Full Changelog**: https://github.com/$OWNER/$REPOSITORY/compare/$PREVIOUS_TAG...v$RESOLVED_VERSION
-
 categories:
   - title: 'Breaking'
     label: 'breaking'
@@ -27,7 +26,6 @@ categories:
   - title: 'Dependency Updates'
     label: 'dependencies'
     collapse-after: 5
-
 version-resolver:
   major:
     labels:
@@ -47,10 +45,8 @@ version-resolver:
       - 'dependencies'
       - 'security'
   default: patch
-
 exclude-labels:
   - 'skip-changelog'
-
 autolabeler:
   - label: 'documentation'
     files:

@@ -3,5 +3,4 @@ name: sample_connections
 settings:
   label_instance_function: add_instance_label
   name: Unnamed
-  yaml_str: "\nname: sample_connections\n\ninstances:\n    wgw:\n      component: straight\n      settings:\n        length:
-    1\n    wgn:\n      component: straight\n      settings:\n        length: 0.5\n\nconnections:\n    wgw,o1: wgn,o2\n\n"
+  yaml_str: "\nname: sample_connections\n\ninstances:\n    wgw:\n      component: straight\n      settings:\n        length: 1\n    wgn:\n      component: straight\n      settings:\n        length: 0.5\n\nconnections:\n    wgw,o1: wgn,o2\n\n"

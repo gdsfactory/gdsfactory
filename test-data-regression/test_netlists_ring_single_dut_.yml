@@ -146,8 +146,7 @@ ports:
 warnings:
   optical:
     width_mismatch:
-      - message: Widths of ports coupler_ring_G0p2_R5_LX_ba10ec54_m2000_2725,o3 and taper_L10_W0p5_W3_PNone_8fb8efc8_5000_10700,o2
-          not equal. Difference of 2500 um
+      - message: Widths of ports coupler_ring_G0p2_R5_LX_ba10ec54_m2000_2725,o3 and taper_L10_W0p5_W3_PNone_8fb8efc8_5000_10700,o2 not equal. Difference of 2500 um
         ports:
           - coupler_ring_G0p2_R5_LX_ba10ec54_m2000_2725,o3
           - taper_L10_W0p5_W3_PNone_8fb8efc8_5000_10700,o2

@@ -3,7 +3,4 @@ name: yaml_anchor
 settings:
   label_instance_function: add_instance_label
   name: Unnamed
-  yaml_str: "\nname: yaml_anchor\ninstances:\n    mmi_long:\n      component: mmi1x2\n      settings:\n        width_mmi:
-    4.5\n        length_mmi: 10\n    mmi_short:\n      component: mmi1x2\n      settings:\n        width_mmi: 4.5\n        length_mmi:
-    5\n\nplacements:\n    mmi_short:\n        port: o3\n        x: 0\n        y: 0\n    mmi_long:\n        port: o1\n        x:
-    mmi_short,east\n        y: mmi_short,north\n        dx : 10\n        dy: 10\n"
+  yaml_str: "\nname: yaml_anchor\ninstances:\n    mmi_long:\n      component: mmi1x2\n      settings:\n        width_mmi: 4.5\n        length_mmi: 10\n    mmi_short:\n      component: mmi1x2\n      settings:\n        width_mmi: 4.5\n        length_mmi: 5\n\nplacements:\n    mmi_short:\n        port: o3\n        x: 0\n        y: 0\n    mmi_long:\n        port: o1\n        x: mmi_short,east\n        y: mmi_short,north\n        dx : 10\n        dy: 10\n"
