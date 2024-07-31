@@ -250,7 +250,7 @@ instances:
       cross_section: strip
       length: 2
       npoints: 2
-name: mzi_DL0_LY2_LX100_Bbend_8e8e8f04
+name: mzi_DL0_LY2_LX100_Bbend_f9c88a9b
 nets:
 - p1: bend_euler_RNone_A90_P0_d7c3a5a9_140625_17750,o1
   p2: straight_L2_N2_CSstrip_145500_11625,o2
