@@ -46,3 +46,12 @@ repos:
     hooks:
       - id: yamlfmt
         exclude: ".*.pic.yml"
+  # - repo: https://github.com/RobertCraigie/pyright-python
+  #   rev: v1.1.333
+  #   hooks:
+  #   - id: pyright
+
+  - repo: https://github.com/rhysd/actionlint
+    rev: v1.7.1
+    hooks:
+      - id: actionlint
