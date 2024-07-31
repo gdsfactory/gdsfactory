@@ -194,7 +194,7 @@ class ComponentReference(kf.Instance):
     @property
     def info(self) -> dict[str, Any]:
         warnings.warn(
-            "info is deprecated, use ref.parent_cell.info instead",
+            "info is deprecated, use ref.cell.info instead",
             stacklevel=3,
         )
         return self.cell.info
