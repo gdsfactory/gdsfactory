@@ -1,7 +1,7 @@
 info:
   size:
-  - 80
-  - 80
+    - 80
+    - 80
   xsize: 80
   ysize: 80
 name: pad_S80_80_LMTOP_BLNone_ba7aade4
@@ -10,5 +10,5 @@ settings:
   port_inclusion: 0
   port_orientation: 0
   size:
-  - 80
-  - 80
+    - 80
+    - 80

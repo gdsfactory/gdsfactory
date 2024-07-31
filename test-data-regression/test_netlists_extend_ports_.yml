@@ -52,12 +52,12 @@ instances:
       npoints: 2
 name: extend_ports_Cmmi1x2_PN_84312896
 nets:
-- p1: mmi1x2_WNone_WT1_LT10_L_4e0f7121_2750_0,o1
-  p2: straight_L5_N2_CSxs_9400d77f_m12500_0,o1
-- p1: mmi1x2_WNone_WT1_LT10_L_4e0f7121_2750_0,o2
-  p2: straight_L5_N2_CSxs_9400d77f_18000_625,o1
-- p1: mmi1x2_WNone_WT1_LT10_L_4e0f7121_2750_0,o3
-  p2: straight_L5_N2_CSxs_9400d77f_18000_m625,o1
+  - p1: mmi1x2_WNone_WT1_LT10_L_4e0f7121_2750_0,o1
+    p2: straight_L5_N2_CSxs_9400d77f_m12500_0,o1
+  - p1: mmi1x2_WNone_WT1_LT10_L_4e0f7121_2750_0,o2
+    p2: straight_L5_N2_CSxs_9400d77f_18000_625,o1
+  - p1: mmi1x2_WNone_WT1_LT10_L_4e0f7121_2750_0,o3
+    p2: straight_L5_N2_CSxs_9400d77f_18000_m625,o1
 placements:
   mmi1x2_WNone_WT1_LT10_L_4e0f7121_2750_0:
     mirror: false

@@ -10,8 +10,8 @@ settings:
   enclosure: 1
   layer: VIAC
   size:
-  - 0.7
-  - 0.7
+    - 0.7
+    - 0.7
   spacing:
-  - 2
-  - 2
+    - 2
+    - 2

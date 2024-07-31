@@ -22,11 +22,11 @@ instances:
       cross_section: strip
       length: 10
       port_names:
-      - o1
-      - o2
+        - o1
+        - o2
       port_types:
-      - optical
-      - optical
+        - optical
+        - optical
       width1: 0.5
       width2: 0.1
       with_bbox: true
@@ -41,21 +41,21 @@ instances:
       cross_section: strip
       length: 10
       port_names:
-      - o1
-      - o2
+        - o1
+        - o2
       port_types:
-      - optical
-      - optical
+        - optical
+        - optical
       width1: 0.5
       width2: 0.1
       with_bbox: true
       with_two_ports: true
 name: add_termination_Cstraig_a456518a
 nets:
-- p1: straight_L10_N2_CSstrip_5000_0,o1
-  p2: taper_L10_W0p5_W0p1_PNo_5b99c220_m5000_0,o1
-- p1: straight_L10_N2_CSstrip_5000_0,o2
-  p2: taper_L10_W0p5_W0p1_PNo_5b99c220_15000_0,o1
+  - p1: straight_L10_N2_CSstrip_5000_0,o1
+    p2: taper_L10_W0p5_W0p1_PNo_5b99c220_m5000_0,o1
+  - p1: straight_L10_N2_CSstrip_5000_0,o2
+    p2: taper_L10_W0p5_W0p1_PNo_5b99c220_15000_0,o1
 placements:
   straight_L10_N2_CSstrip_5000_0:
     mirror: false
@@ -76,12 +76,12 @@ ports: {}
 warnings:
   optical:
     unconnected_ports:
-    - message: 2 unconnected optical ports!
-      ports:
-      - taper_L10_W0p5_W0p1_PNo_5b99c220_m5000_0,o2
-      - taper_L10_W0p5_W0p1_PNo_5b99c220_15000_0,o2
-      values:
-      - - -10000
-        - 0
-      - - 20000
-        - 0
+      - message: 2 unconnected optical ports!
+        ports:
+          - taper_L10_W0p5_W0p1_PNo_5b99c220_m5000_0,o2
+          - taper_L10_W0p5_W0p1_PNo_5b99c220_15000_0,o2
+        values:
+          - - -10000
+            - 0
+          - - 20000
+            - 0

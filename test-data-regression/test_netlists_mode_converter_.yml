@@ -17,8 +17,8 @@ instances:
       cross_section: strip
       npoints: 99
       size:
-      - 25
-      - 3
+        - 25
+        - 3
   bend_s_S25_3_N99_CSstri_7865203f_m12500_2550:
     component: bend_s
     info:
@@ -37,8 +37,8 @@ instances:
       cross_section: strip
       npoints: 99
       size:
-      - 25
-      - 3
+        - 25
+        - 3
   coupler_straight_asymme_d7b83f37_5000_400:
     component: coupler_straight_asymmetric
     info: {}
@@ -58,11 +58,11 @@ instances:
       cross_section: strip
       length: 25
       port_names:
-      - o1
-      - o2
+        - o1
+        - o2
       port_types:
-      - optical
-      - optical
+        - optical
+        - optical
       width1: 1
       width2: 1.2
       with_bbox: true
@@ -77,25 +77,25 @@ instances:
       cross_section: strip
       length: 25
       port_names:
-      - o1
-      - o2
+        - o1
+        - o2
       port_types:
-      - optical
-      - optical
+        - optical
+        - optical
       width1: 1
       width2: 1.2
       with_bbox: true
       with_two_ports: true
 name: mode_converter_G0p3_L10_17f2b57c
 nets:
-- p1: bend_s_S25_3_N99_CSstri_7865203f_22500_2550,o1
-  p2: coupler_straight_asymme_d7b83f37_5000_400,o3
-- p1: bend_s_S25_3_N99_CSstri_7865203f_m12500_2550,o1
-  p2: coupler_straight_asymme_d7b83f37_5000_400,o2
-- p1: coupler_straight_asymme_d7b83f37_5000_400,o1
-  p2: taper_L25_W1_W1p2_PNone_c47a90e6_m12500_0,o1
-- p1: coupler_straight_asymme_d7b83f37_5000_400,o4
-  p2: taper_L25_W1_W1p2_PNone_c47a90e6_22500_0,o1
+  - p1: bend_s_S25_3_N99_CSstri_7865203f_22500_2550,o1
+    p2: coupler_straight_asymme_d7b83f37_5000_400,o3
+  - p1: bend_s_S25_3_N99_CSstri_7865203f_m12500_2550,o1
+    p2: coupler_straight_asymme_d7b83f37_5000_400,o2
+  - p1: coupler_straight_asymme_d7b83f37_5000_400,o1
+    p2: taper_L25_W1_W1p2_PNone_c47a90e6_m12500_0,o1
+  - p1: coupler_straight_asymme_d7b83f37_5000_400,o4
+    p2: taper_L25_W1_W1p2_PNone_c47a90e6_22500_0,o1
 placements:
   bend_s_S25_3_N99_CSstri_7865203f_22500_2550:
     mirror: false

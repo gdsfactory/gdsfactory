@@ -1,13 +1,13 @@
 name: mirror_demo
 instances:
-    mmi_long:
-      component: mmi1x2
-      settings:
-        width_mmi: 4.5
-        length_mmi: 5
+  mmi_long:
+    component: mmi1x2
+    settings:
+      width_mmi: 4.5
+      length_mmi: 5
 placements:
-    mmi_long:
-        x: 0
-        y: 0
-        mirror: o1
-        rotation: 0
+  mmi_long:
+    x: 0
+    y: 0
+    mirror: o1
+    rotation: 0

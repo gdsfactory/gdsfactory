@@ -2,19 +2,19 @@ info: {}
 name: ring_crow_couplers_R10__afe24872
 settings:
   bends:
-  - bend_circular
-  - bend_circular
-  - bend_circular
+    - bend_circular
+    - bend_circular
+    - bend_circular
   couplers:
-  - coupler
-  - coupler
-  - coupler
-  - coupler
+    - coupler
+    - coupler
+    - coupler
+    - coupler
   radius:
-  - 10
-  - 10
-  - 10
+    - 10
+    - 10
+    - 10
   ring_cross_sections:
-  - strip
-  - strip
-  - strip
+    - strip
+    - strip
+    - strip

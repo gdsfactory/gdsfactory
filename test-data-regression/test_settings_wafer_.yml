@@ -2,13 +2,13 @@ info: {}
 name: wafer_Rdie_C2_6_6_8_8_6_ad04a226
 settings:
   cols:
-  - 2
-  - 6
-  - 6
-  - 8
-  - 8
-  - 6
-  - 6
-  - 2
+    - 2
+    - 6
+    - 6
+    - 8
+    - 8
+    - 6
+    - 6
+    - 2
   die_name_col_row: false
   reticle: die

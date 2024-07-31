@@ -4,8 +4,8 @@ instances:
     info: {}
     settings:
       layer:
-      - 1
-      - 0
+        - 1
+        - 0
       length: 10
       width: 3
   cross_L10_W3_L2_0_PTNone_0_0:
@@ -13,8 +13,8 @@ instances:
     info: {}
     settings:
       layer:
-      - 2
-      - 0
+        - 2
+        - 0
       length: 10
       width: 3
 name: copy_layers_Fcross_L1_0_2_0

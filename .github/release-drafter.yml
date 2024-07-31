@@ -13,14 +13,14 @@ categories:
     label: 'breaking'
   - title: 'New'
     labels:
-    - 'feature'
-    - 'enhancement'
+      - 'feature'
+      - 'enhancement'
   - title: 'Bug Fixes'
     label: 'bug'
   - title: 'Maintenance'
     labels:
-    - 'maintenance'
-    - 'github_actions'
+      - 'maintenance'
+      - 'github_actions'
   - title: 'Documentation'
     label: 'documentation'
   - title: 'Other changes'

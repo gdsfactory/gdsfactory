@@ -2,11 +2,11 @@ info: {}
 name: mzit_lattice_CL10_20_CG_309623e7
 settings:
   coupler_gaps:
-  - 0.2
-  - 0.3
+    - 0.2
+    - 0.3
   coupler_lengths:
-  - 10
-  - 20
+    - 10
+    - 20
   delta_lengths:
-  - 10
+    - 10
   mzi: mzit

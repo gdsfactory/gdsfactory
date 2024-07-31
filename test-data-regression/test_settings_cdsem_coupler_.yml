@@ -3,9 +3,9 @@ name: cdsem_coupler_L420_G0p1_0fa6dd27
 settings:
   cross_section: strip
   gaps:
-  - 0.15
-  - 0.2
-  - 0.25
+    - 0.15
+    - 0.2
+    - 0.25
   length: 420
   spacing: 7
   text: Ftext_rectangular_Mgdsfactorypcomponentsptext_rectangular_SS1

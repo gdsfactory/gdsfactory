@@ -269,11 +269,11 @@ instances:
       cross_section: heater_metal
       length: 5
       port_names:
-      - e1
-      - e2
+        - e1
+        - e2
       port_types:
-      - electrical
-      - electrical
+        - electrical
+        - electrical
       width1: 11
       width2: 2.5
       with_bbox: true
@@ -288,11 +288,11 @@ instances:
       cross_section: heater_metal
       length: 5
       port_names:
-      - e1
-      - e2
+        - e1
+        - e2
       port_types:
-      - electrical
-      - electrical
+        - electrical
+        - electrical
       width1: 11
       width2: 2.5
       with_bbox: true
@@ -305,18 +305,18 @@ instances:
     settings:
       correct_size: true
       layers:
-      - HEATER
-      - M2
-      - MTOP
+        - HEATER
+        - M2
+        - MTOP
       size:
-      - 11
-      - 11
+        - 11
+        - 11
       slot_horizontal: false
       slot_vertical: false
       vias:
-      - null
-      - via1
-      - via2
+        - null
+        - via1
+        - via2
   via_stack_S11_11_LHEATE_f29565aa_m10400_0:
     component: via_stack
     info:
@@ -325,100 +325,100 @@ instances:
     settings:
       correct_size: true
       layers:
-      - HEATER
-      - M2
-      - MTOP
+        - HEATER
+        - M2
+        - MTOP
       size:
-      - 11
-      - 11
+        - 11
+        - 11
       slot_horizontal: false
       slot_vertical: false
       vias:
-      - null
-      - via1
-      - via2
+        - null
+        - via1
+        - via2
 name: straight_heater_metal_u_22706e47
 nets:
-- p1: H1,e1
-  p2: U1,e2
-- p1: H1,e2
-  p2: U2,e1
-- p1: H1,o1
-  p2: U1,o2
-- p1: H1,o2
-  p2: U2,o1
-- p1: H2,e1
-  p2: U2,e2
-- p1: H2,e2
-  p2: U3,e1
-- p1: H2,o1
-  p2: U2,o2
-- p1: H2,o2
-  p2: U3,o1
-- p1: H3,e1
-  p2: U3,e2
-- p1: H3,e2
-  p2: U4,e1
-- p1: H3,o1
-  p2: U3,o2
-- p1: H3,o2
-  p2: U4,o1
-- p1: H4,e1
-  p2: U4,e2
-- p1: H4,e2
-  p2: U5,e1
-- p1: H4,o1
-  p2: U4,o2
-- p1: H4,o2
-  p2: U5,o1
-- p1: H5,e1
-  p2: U5,e2
-- p1: H5,e2
-  p2: U6,e1
-- p1: H5,o1
-  p2: U5,o2
-- p1: H5,o2
-  p2: U6,o1
-- p1: H6,e1
-  p2: U6,e2
-- p1: H6,e2
-  p2: U7,e1
-- p1: H6,o1
-  p2: U6,o2
-- p1: H6,o2
-  p2: U7,o1
-- p1: H7,e1
-  p2: U7,e2
-- p1: H7,e2
-  p2: U8,e1
-- p1: H7,o1
-  p2: U7,o2
-- p1: H7,o2
-  p2: U8,o1
-- p1: H8,e1
-  p2: U8,e2
-- p1: H8,e2
-  p2: m2,e1
-- p1: H8,o1
-  p2: U8,o2
-- p1: H8,o2
-  p2: m2,o1
-- p1: U1,e1
-  p2: m1,e2
-- p1: U1,o1
-  p2: m1,o2
-- p1: _1,o2
-  p2: m1,o1
-- p1: _2,o1
-  p2: m2,o2
-- p1: m1,e1
-  p2: taper_L5_W11_W2p5_PNone_4a19c1ba_m2400_0,e2
-- p1: m2,e2
-  p2: taper_L5_W11_W2p5_PNone_4a19c1ba_322400_0,e2
-- p1: taper_L5_W11_W2p5_PNone_4a19c1ba_322400_0,e1
-  p2: via_stack_S11_11_LHEATE_f29565aa_330400_0,e1
-- p1: taper_L5_W11_W2p5_PNone_4a19c1ba_m2400_0,e1
-  p2: via_stack_S11_11_LHEATE_f29565aa_m10400_0,e3
+  - p1: H1,e1
+    p2: U1,e2
+  - p1: H1,e2
+    p2: U2,e1
+  - p1: H1,o1
+    p2: U1,o2
+  - p1: H1,o2
+    p2: U2,o1
+  - p1: H2,e1
+    p2: U2,e2
+  - p1: H2,e2
+    p2: U3,e1
+  - p1: H2,o1
+    p2: U2,o2
+  - p1: H2,o2
+    p2: U3,o1
+  - p1: H3,e1
+    p2: U3,e2
+  - p1: H3,e2
+    p2: U4,e1
+  - p1: H3,o1
+    p2: U3,o2
+  - p1: H3,o2
+    p2: U4,o1
+  - p1: H4,e1
+    p2: U4,e2
+  - p1: H4,e2
+    p2: U5,e1
+  - p1: H4,o1
+    p2: U4,o2
+  - p1: H4,o2
+    p2: U5,o1
+  - p1: H5,e1
+    p2: U5,e2
+  - p1: H5,e2
+    p2: U6,e1
+  - p1: H5,o1
+    p2: U5,o2
+  - p1: H5,o2
+    p2: U6,o1
+  - p1: H6,e1
+    p2: U6,e2
+  - p1: H6,e2
+    p2: U7,e1
+  - p1: H6,o1
+    p2: U6,o2
+  - p1: H6,o2
+    p2: U7,o1
+  - p1: H7,e1
+    p2: U7,e2
+  - p1: H7,e2
+    p2: U8,e1
+  - p1: H7,o1
+    p2: U7,o2
+  - p1: H7,o2
+    p2: U8,o1
+  - p1: H8,e1
+    p2: U8,e2
+  - p1: H8,e2
+    p2: m2,e1
+  - p1: H8,o1
+    p2: U8,o2
+  - p1: H8,o2
+    p2: m2,o1
+  - p1: U1,e1
+    p2: m1,e2
+  - p1: U1,o1
+    p2: m1,o2
+  - p1: _1,o2
+    p2: m1,o1
+  - p1: _2,o1
+    p2: m2,o2
+  - p1: m1,e1
+    p2: taper_L5_W11_W2p5_PNone_4a19c1ba_m2400_0,e2
+  - p1: m2,e2
+    p2: taper_L5_W11_W2p5_PNone_4a19c1ba_322400_0,e2
+  - p1: taper_L5_W11_W2p5_PNone_4a19c1ba_322400_0,e1
+    p2: via_stack_S11_11_LHEATE_f29565aa_330400_0,e1
+  - p1: taper_L5_W11_W2p5_PNone_4a19c1ba_m2400_0,e1
+    p2: via_stack_S11_11_LHEATE_f29565aa_m10400_0,e3
 placements:
   H1:
     mirror: false

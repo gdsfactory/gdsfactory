@@ -4,11 +4,11 @@ settings:
   centered: false
   layer: WG
   port_orientations:
-  - 180
-  - 90
-  - 0
-  - -90
+    - 180
+    - 90
+    - 0
+    - -90
   port_type: electrical
   size:
-  - 4
-  - 2
+    - 4
+    - 2

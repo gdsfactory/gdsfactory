@@ -5,8 +5,8 @@ settings:
   anticrowding_factor: 1.2
   end_width: 22
   layer:
-  - 1
-  - 0
+    - 1
+    - 0
   num_pts: 50
   start_width: 10
   symmetric: false

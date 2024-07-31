@@ -9,32 +9,32 @@ settings:
   layer_offsets: null
   layer_port: null
   layers:
-  - M1
-  - M2
-  - MTOP
+    - M1
+    - M2
+    - MTOP
   size:
-  - 1.2
-  - 1.2
+    - 1.2
+    - 1.2
   via_min_enclosure:
-  - 0.15
-  - 0.25
+    - 0.15
+    - 0.25
   via_min_gap:
-  - - 0.1
-    - 0.1
-  - - 0.1
-    - 0.1
+    - - 0.1
+      - 0.1
+    - - 0.1
+      - 0.1
   via_min_size:
-  - - 0.2
-    - 0.2
-  - - 0.2
-    - 0.2
+    - - 0.2
+      - 0.2
+    - - 0.2
+      - 0.2
   vias:
-  - function: via
-    module: gdsfactory.components.via
-    settings:
-      enclosure: 2
-      layer: VIA1
-  - function: via
-    module: gdsfactory.components.via
-    settings:
-      layer: VIA2
+    - function: via
+      module: gdsfactory.components.via
+      settings:
+        enclosure: 2
+        layer: VIA1
+    - function: via
+      module: gdsfactory.components.via
+      settings:
+        layer: VIA2

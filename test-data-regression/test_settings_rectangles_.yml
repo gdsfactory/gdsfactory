@@ -3,11 +3,11 @@ name: rectangles_S4_2_O0_1_LW_0133d2f7
 settings:
   centered: true
   layers:
-  - WG
-  - SLAB150
+    - WG
+    - SLAB150
   offsets:
-  - 0
-  - 1
+    - 0
+    - 1
   size:
-  - 4
-  - 2
+    - 4
+    - 2

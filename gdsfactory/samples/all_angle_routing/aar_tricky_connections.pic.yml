@@ -52,7 +52,7 @@ placements:
     port: o1
     x: wg_a1,o2
     y: wg_a2,o2
-    dx: 183 # this is exactly the size of the transition needed
+    dx: 183  # this is exactly the size of the transition needed
   wg_b1:
     port: o2
     x: -500
@@ -147,10 +147,10 @@ routes:
     routing_strategy: route_bundle_all_angle
     links:
       wg_b1,o1: wg_b2,o2
-#  aligned_but_opposite2:
-#    routing_strategy: route_bundle_all_angle
-#    links:
-#      wg_c1,o2: wg_c2,o2
+      #  aligned_but_opposite2:
+      #    routing_strategy: route_bundle_all_angle
+      #    links:
+      #      wg_c1,o2: wg_c2,o2
 
   touching:  # this one is ok... will just have the components touching, nothing between
     routing_strategy: route_bundle_all_angle

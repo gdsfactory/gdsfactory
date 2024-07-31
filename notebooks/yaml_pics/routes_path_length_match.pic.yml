@@ -1,26 +1,26 @@
 instances:
-    t:
-      component: pad_array
-      settings:
-          orientation: 270
-          columns: 3
-    b:
-      component: pad_array
-      settings:
-          orientation: 90
-          columns: 3
+  t:
+    component: pad_array
+    settings:
+      orientation: 270
+      columns: 3
+  b:
+    component: pad_array
+    settings:
+      orientation: 90
+      columns: 3
 
 placements:
-    t:
-        x: 100
-        y: 1000
+  t:
+    x: 100
+    y: 1000
 routes:
-    route1:
-        routing_strategy: route_bundle_path_length_match
-        settings:
-            extra_length: 500
-            width: 2
-            end_straight_length: 500
-        links:
-            t,e11: b,e11
-            t,e12: b,e12
+  route1:
+    routing_strategy: route_bundle_path_length_match
+    settings:
+      extra_length: 500
+      width: 2
+      end_straight_length: 500
+    links:
+      t,e11: b,e11
+      t,e12: b,e12

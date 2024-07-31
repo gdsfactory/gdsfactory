@@ -2,11 +2,11 @@ name: spiral_inner_io_length20000p0_add_grating_couplers_with_loopback_fiber_arr
 ports:
   loopback_1:
     center:
-    - -127.0
-    - 46.0
+      - -127.0
+      - 46.0
     layer:
-    - 1
-    - 0
+      - 1
+      - 0
     name: loopback_1
     orientation: 90.0
     port_type: optical
@@ -14,11 +14,11 @@ ports:
     width: 0.5
   loopback_4:
     center:
-    - -127.0
-    - 46.0
+      - -127.0
+      - 46.0
     layer:
-    - 1
-    - 0
+      - 1
+      - 0
     name: loopback_4
     orientation: 90.0
     port_type: optical
@@ -26,11 +26,11 @@ ports:
     width: 0.5
   o1:
     center:
-    - 0.0
-    - 50.0
+      - 0.0
+      - 50.0
     layer:
-    - 1
-    - 0
+      - 1
+      - 0
     name: o1
     orientation: 270.0
     port_type: optical
@@ -38,11 +38,11 @@ ports:
     width: 0.5
   o2:
     center:
-    - 127.0
-    - 50.0
+      - 127.0
+      - 50.0
     layer:
-    - 1
-    - 0
+      - 1
+      - 0
     name: o2
     orientation: 270.0
     port_type: optical

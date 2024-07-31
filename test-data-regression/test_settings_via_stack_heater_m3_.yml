@@ -5,15 +5,15 @@ name: via_stack_S11_11_LHEATE_f29565aa
 settings:
   correct_size: true
   layers:
-  - HEATER
-  - M2
-  - MTOP
+    - HEATER
+    - M2
+    - MTOP
   size:
-  - 11
-  - 11
+    - 11
+    - 11
   slot_horizontal: false
   slot_vertical: false
   vias:
-  - null
-  - via1
-  - via2
+    - null
+    - via1
+    - via2

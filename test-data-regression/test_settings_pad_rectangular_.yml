@@ -1,7 +1,7 @@
 info:
   size:
-  - 80
-  - 80
+    - 80
+    - 80
   xsize: 80
   ysize: 80
 name: pad_Spad_size_LMTOP_BLN_2f7231a2

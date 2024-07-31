@@ -146,8 +146,8 @@ instances:
       justify: left
       layer: WG
       position:
-      - 0
-      - 0
+        - 0
+        - 0
       size: 1
       text: 300 300
 name: cdsem_straight_density__211dadfd
@@ -212,66 +212,66 @@ ports: {}
 warnings:
   optical:
     unconnected_ports:
-    - message: 20 unconnected optical ports!
-      ports:
-      - straight_L420_N2_CSstrip_W0p3_210000_150,o1
-      - straight_L420_N2_CSstrip_W0p3_210000_150,o2
-      - straight_L420_N2_CSstrip_W0p3_210000_750,o1
-      - straight_L420_N2_CSstrip_W0p3_210000_750,o2
-      - straight_L420_N2_CSstrip_W0p3_210000_1350,o1
-      - straight_L420_N2_CSstrip_W0p3_210000_1350,o2
-      - straight_L420_N2_CSstrip_W0p3_210000_1950,o1
-      - straight_L420_N2_CSstrip_W0p3_210000_1950,o2
-      - straight_L420_N2_CSstrip_W0p3_210000_2550,o1
-      - straight_L420_N2_CSstrip_W0p3_210000_2550,o2
-      - straight_L420_N2_CSstrip_W0p3_210000_3150,o1
-      - straight_L420_N2_CSstrip_W0p3_210000_3150,o2
-      - straight_L420_N2_CSstrip_W0p3_210000_3750,o1
-      - straight_L420_N2_CSstrip_W0p3_210000_3750,o2
-      - straight_L420_N2_CSstrip_W0p3_210000_4350,o1
-      - straight_L420_N2_CSstrip_W0p3_210000_4350,o2
-      - straight_L420_N2_CSstrip_W0p3_210000_4950,o1
-      - straight_L420_N2_CSstrip_W0p3_210000_4950,o2
-      - straight_L420_N2_CSstrip_W0p3_210000_5550,o1
-      - straight_L420_N2_CSstrip_W0p3_210000_5550,o2
-      values:
-      - - 0
-        - 150
-      - - 420000
-        - 150
-      - - 0
-        - 750
-      - - 420000
-        - 750
-      - - 0
-        - 1350
-      - - 420000
-        - 1350
-      - - 0
-        - 1950
-      - - 420000
-        - 1950
-      - - 0
-        - 2550
-      - - 420000
-        - 2550
-      - - 0
-        - 3150
-      - - 420000
-        - 3150
-      - - 0
-        - 3750
-      - - 420000
-        - 3750
-      - - 0
-        - 4350
-      - - 420000
-        - 4350
-      - - 0
-        - 4950
-      - - 420000
-        - 4950
-      - - 0
-        - 5550
-      - - 420000
-        - 5550
+      - message: 20 unconnected optical ports!
+        ports:
+          - straight_L420_N2_CSstrip_W0p3_210000_150,o1
+          - straight_L420_N2_CSstrip_W0p3_210000_150,o2
+          - straight_L420_N2_CSstrip_W0p3_210000_750,o1
+          - straight_L420_N2_CSstrip_W0p3_210000_750,o2
+          - straight_L420_N2_CSstrip_W0p3_210000_1350,o1
+          - straight_L420_N2_CSstrip_W0p3_210000_1350,o2
+          - straight_L420_N2_CSstrip_W0p3_210000_1950,o1
+          - straight_L420_N2_CSstrip_W0p3_210000_1950,o2
+          - straight_L420_N2_CSstrip_W0p3_210000_2550,o1
+          - straight_L420_N2_CSstrip_W0p3_210000_2550,o2
+          - straight_L420_N2_CSstrip_W0p3_210000_3150,o1
+          - straight_L420_N2_CSstrip_W0p3_210000_3150,o2
+          - straight_L420_N2_CSstrip_W0p3_210000_3750,o1
+          - straight_L420_N2_CSstrip_W0p3_210000_3750,o2
+          - straight_L420_N2_CSstrip_W0p3_210000_4350,o1
+          - straight_L420_N2_CSstrip_W0p3_210000_4350,o2
+          - straight_L420_N2_CSstrip_W0p3_210000_4950,o1
+          - straight_L420_N2_CSstrip_W0p3_210000_4950,o2
+          - straight_L420_N2_CSstrip_W0p3_210000_5550,o1
+          - straight_L420_N2_CSstrip_W0p3_210000_5550,o2
+        values:
+          - - 0
+            - 150
+          - - 420000
+            - 150
+          - - 0
+            - 750
+          - - 420000
+            - 750
+          - - 0
+            - 1350
+          - - 420000
+            - 1350
+          - - 0
+            - 1950
+          - - 420000
+            - 1950
+          - - 0
+            - 2550
+          - - 420000
+            - 2550
+          - - 0
+            - 3150
+          - - 420000
+            - 3150
+          - - 0
+            - 3750
+          - - 420000
+            - 3750
+          - - 0
+            - 4350
+          - - 420000
+            - 4350
+          - - 0
+            - 4950
+          - - 420000
+            - 4950
+          - - 0
+            - 5550
+          - - 420000
+            - 5550

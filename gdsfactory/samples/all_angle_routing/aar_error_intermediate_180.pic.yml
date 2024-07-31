@@ -16,14 +16,13 @@ placements:
     dx: 1000
     dy: -1000
 
-
 routes:
   bad_news:
     routing_strategy: route_bundle_all_angle
     settings:
       steps:
         - ds: 200
-          exit_angle: 180 # can't go backwards directly like this
+          exit_angle: 180  # can't go backwards directly like this
         - ds: 500
     links:
       wg_d1,o2: wg_d2,o1

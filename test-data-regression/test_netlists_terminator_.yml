@@ -27,9 +27,9 @@ ports:
 warnings:
   optical:
     unconnected_ports:
-    - message: 1 unconnected optical ports!
-      ports:
-      - taper_cross_section_CSF_10cc8ed5_25000_0,o2
-      values:
-      - - 50000
-        - 0
+      - message: 1 unconnected optical ports!
+        ports:
+          - taper_cross_section_CSF_10cc8ed5_25000_0,o2
+        values:
+          - - 50000
+            - 0

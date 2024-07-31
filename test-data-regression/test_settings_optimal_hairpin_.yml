@@ -2,8 +2,8 @@ info: {}
 name: optimal_hairpin_W0p2_P0_f7dccaf8
 settings:
   layer:
-  - 1
-  - 0
+    - 1
+    - 0
   length: 10
   num_pts: 50
   pitch: 0.6

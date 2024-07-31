@@ -1596,27 +1596,27 @@ ports:
 warnings:
   vertical_te:
     unconnected_ports:
-    - message: 7 unconnected vertical_te ports!
-      ports:
-      - grating_coupler_ellipti_07e69d9a_-439500_-76098,o2
-      - grating_coupler_ellipti_07e69d9a_-312500_-76098,o2
-      - grating_coupler_ellipti_07e69d9a_-185500_-76098,o2
-      - grating_coupler_ellipti_07e69d9a_-58500_-76098,o2
-      - grating_coupler_ellipti_07e69d9a_68500_-76098,o2
-      - grating_coupler_ellipti_07e69d9a_195500_-76098,o2
-      - grating_coupler_ellipti_07e69d9a_322500_-76098,o2
-      values:
-      - - -439500
-        - -72600
-      - - -312500
-        - -72600
-      - - -185500
-        - -72600
-      - - -58500
-        - -72600
-      - - 68500
-        - -72600
-      - - 195500
-        - -72600
-      - - 322500
-        - -72600
+      - message: 7 unconnected vertical_te ports!
+        ports:
+          - grating_coupler_ellipti_07e69d9a_-439500_-76098,o2
+          - grating_coupler_ellipti_07e69d9a_-312500_-76098,o2
+          - grating_coupler_ellipti_07e69d9a_-185500_-76098,o2
+          - grating_coupler_ellipti_07e69d9a_-58500_-76098,o2
+          - grating_coupler_ellipti_07e69d9a_68500_-76098,o2
+          - grating_coupler_ellipti_07e69d9a_195500_-76098,o2
+          - grating_coupler_ellipti_07e69d9a_322500_-76098,o2
+        values:
+          - - -439500
+            - -72600
+          - - -312500
+            - -72600
+          - - -185500
+            - -72600
+          - - -58500
+            - -72600
+          - - 68500
+            - -72600
+          - - 195500
+            - -72600
+          - - 322500
+            - -72600

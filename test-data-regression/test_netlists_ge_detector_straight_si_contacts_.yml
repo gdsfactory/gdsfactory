@@ -22,11 +22,11 @@ instances:
       cross_section: strip
       length: 20
       port_names:
-      - o1
-      - o2
+        - o1
+        - o2
       port_types:
-      - optical
-      - optical
+        - optical
+        - optical
       width1: 0.5
       width2: 0.8
       with_bbox: true
@@ -39,20 +39,20 @@ instances:
     settings:
       correct_size: true
       layers:
-      - SLAB90
-      - M1
-      - M2
-      - MTOP
+        - SLAB90
+        - M1
+        - M2
+        - MTOP
       size:
-      - 40
-      - 10
+        - 40
+        - 10
       slot_horizontal: false
       slot_vertical: false
       vias:
-      - viac
-      - via1
-      - via2
-      - null
+        - viac
+        - via1
+        - via2
+        - null
   via_stack_S40_10_LSLAB9_ed8b3d6d_20000_m7500:
     component: via_stack
     info:
@@ -61,24 +61,24 @@ instances:
     settings:
       correct_size: true
       layers:
-      - SLAB90
-      - M1
-      - M2
-      - MTOP
+        - SLAB90
+        - M1
+        - M2
+        - MTOP
       size:
-      - 40
-      - 10
+        - 40
+        - 10
       slot_horizontal: false
       slot_vertical: false
       vias:
-      - viac
-      - via1
-      - via2
-      - null
+        - viac
+        - via1
+        - via2
+        - null
 name: ge_detector_straight_si_857c1c1e
 nets:
-- p1: straight_L40_N2_CSpn_ge_ef2cc18e_20000_0,o1
-  p2: taper_L20_W0p5_W0p8_PNo_1374d3b8_m10000_0,o2
+  - p1: straight_L40_N2_CSpn_ge_ef2cc18e_20000_0,o1
+    p2: taper_L20_W0p5_W0p8_PNo_1374d3b8_m10000_0,o2
 placements:
   straight_L40_N2_CSpn_ge_ef2cc18e_20000_0:
     mirror: false
@@ -113,18 +113,18 @@ ports:
 warnings:
   optical:
     unconnected_ports:
-    - message: 1 unconnected optical ports!
-      ports:
-      - straight_L40_N2_CSpn_ge_ef2cc18e_20000_0,o2
-      values:
-      - - 40000
-        - 0
+      - message: 1 unconnected optical ports!
+        ports:
+          - straight_L40_N2_CSpn_ge_ef2cc18e_20000_0,o2
+        values:
+          - - 40000
+            - 0
     width_mismatch:
-    - message: Widths of ports straight_L40_N2_CSpn_ge_ef2cc18e_20000_0,o1 and taper_L20_W0p5_W0p8_PNo_1374d3b8_m10000_0,o2
-        not equal. Difference of 5200 um
-      ports:
-      - straight_L40_N2_CSpn_ge_ef2cc18e_20000_0,o1
-      - taper_L20_W0p5_W0p8_PNo_1374d3b8_m10000_0,o2
-      values:
-      - 6000
-      - 800
+      - message: Widths of ports straight_L40_N2_CSpn_ge_ef2cc18e_20000_0,o1 and taper_L20_W0p5_W0p8_PNo_1374d3b8_m10000_0,o2
+          not equal. Difference of 5200 um
+        ports:
+          - straight_L40_N2_CSpn_ge_ef2cc18e_20000_0,o1
+          - taper_L20_W0p5_W0p8_PNo_1374d3b8_m10000_0,o2
+        values:
+          - 6000
+          - 800

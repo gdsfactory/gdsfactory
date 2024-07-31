@@ -46,12 +46,12 @@ ports: {}
 warnings:
   optical:
     unconnected_ports:
-    - message: 2 unconnected optical ports!
-      ports:
-      - s,o1
-      - b,o2
-      values:
-      - - 0.0
-        - 0.0
-      - - 20.0
-        - -10.0
+      - message: 2 unconnected optical ports!
+        ports:
+          - s,o1
+          - b,o2
+        values:
+          - - 0.0
+            - 0.0
+          - - 20.0
+            - -10.0

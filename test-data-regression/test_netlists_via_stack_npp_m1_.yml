@@ -18,11 +18,11 @@ instances:
       enclosure: 1
       layer: VIAC
       size:
-      - 0.7
-      - 0.7
+        - 0.7
+        - 0.7
       spacing:
-      - 2
-      - 2
+        - 2
+        - 2
 name: via_stack_S11_11_LWG_NP_1fc0b4f9
 nets: []
 placements:

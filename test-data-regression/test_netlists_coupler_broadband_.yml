@@ -95,14 +95,14 @@ instances:
       length: 12.4
 name: coupler_broadband_WS0p5_73b48b52
 nets:
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_20875_5125,o1
-  p2: coupler_straight_L12p4__5c0d0de9_9550_m100,o3
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_20875_m5325,o1
-  p2: coupler_straight_L12p4__5c0d0de9_9550_m100,o4
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m20875_5125,o1
-  p2: coupler_straight_L12p4__5c0d0de9_m9550_m100,o2
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m20875_m5325,o1
-  p2: coupler_straight_L12p4__5c0d0de9_m9550_m100,o1
+  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_20875_5125,o1
+    p2: coupler_straight_L12p4__5c0d0de9_9550_m100,o3
+  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_20875_m5325,o1
+    p2: coupler_straight_L12p4__5c0d0de9_9550_m100,o4
+  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m20875_5125,o1
+    p2: coupler_straight_L12p4__5c0d0de9_m9550_m100,o2
+  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m20875_m5325,o1
+    p2: coupler_straight_L12p4__5c0d0de9_m9550_m100,o1
 placements:
   bend_euler_R10_A90_P0p5_2f1f5c6d_20875_5125:
     mirror: false
@@ -142,18 +142,18 @@ ports:
 warnings:
   optical:
     unconnected_ports:
-    - message: 4 unconnected optical ports!
-      ports:
-      - coupler_straight_L12p4__5c0d0de9_m9550_m100,o4
-      - coupler_straight_L12p4__5c0d0de9_m9550_m100,o3
-      - coupler_straight_L12p4__5c0d0de9_9550_m100,o1
-      - coupler_straight_L12p4__5c0d0de9_9550_m100,o2
-      values:
-      - - -3350
-        - -450
-      - - -3350
-        - 250
-      - - 3350
-        - -450
-      - - 3350
-        - 250
+      - message: 4 unconnected optical ports!
+        ports:
+          - coupler_straight_L12p4__5c0d0de9_m9550_m100,o4
+          - coupler_straight_L12p4__5c0d0de9_m9550_m100,o3
+          - coupler_straight_L12p4__5c0d0de9_9550_m100,o1
+          - coupler_straight_L12p4__5c0d0de9_9550_m100,o2
+        values:
+          - - -3350
+            - -450
+          - - -3350
+            - 250
+          - - 3350
+            - -450
+          - - 3350
+            - 250

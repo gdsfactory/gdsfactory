@@ -6,14 +6,14 @@ instances:
       centered: false
       layer: WG
       port_orientations:
-      - 180
-      - 90
-      - 0
-      - -90
+        - 180
+        - 90
+        - 0
+        - -90
       port_type: electrical
       size:
-      - 8
-      - 8
+        - 8
+        - 8
 name: nxn_W1_E4_N0_S0_X8_Y8_W_96626965
 nets: []
 placements:
@@ -26,18 +26,18 @@ ports: {}
 warnings:
   electrical:
     unconnected_ports:
-    - message: 4 unconnected electrical ports!
-      ports:
-      - rectangle_S8_8_LWG_CFal_95ca53b5_4000_4000,e1
-      - rectangle_S8_8_LWG_CFal_95ca53b5_4000_4000,e2
-      - rectangle_S8_8_LWG_CFal_95ca53b5_4000_4000,e3
-      - rectangle_S8_8_LWG_CFal_95ca53b5_4000_4000,e4
-      values:
-      - - 0
-        - 4000
-      - - 4000
-        - 8000
-      - - 8000
-        - 4000
-      - - 4000
-        - 0
+      - message: 4 unconnected electrical ports!
+        ports:
+          - rectangle_S8_8_LWG_CFal_95ca53b5_4000_4000,e1
+          - rectangle_S8_8_LWG_CFal_95ca53b5_4000_4000,e2
+          - rectangle_S8_8_LWG_CFal_95ca53b5_4000_4000,e3
+          - rectangle_S8_8_LWG_CFal_95ca53b5_4000_4000,e4
+        values:
+          - - 0
+            - 4000
+          - - 4000
+            - 8000
+          - - 8000
+            - 4000
+          - - 4000
+            - 0

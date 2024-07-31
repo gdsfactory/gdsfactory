@@ -15,5 +15,5 @@ settings:
   cross_section: strip
   npoints: 99
   size:
-  - 11
-  - 1.8
+    - 11
+    - 1.8

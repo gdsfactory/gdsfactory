@@ -3,8 +3,8 @@ instances:
     component: pad
     info:
       size:
-      - 100
-      - 100
+        - 100
+        - 100
       xsize: 100
       ysize: 100
     settings:
@@ -12,14 +12,14 @@ instances:
       port_inclusion: 0
       port_orientation: 0
       size:
-      - 100
-      - 100
+        - 100
+        - 100
   pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0:
     component: pad
     info:
       size:
-      - 100
-      - 100
+        - 100
+        - 100
       xsize: 100
       ysize: 100
     settings:
@@ -27,14 +27,14 @@ instances:
       port_inclusion: 0
       port_orientation: 0
       size:
-      - 100
-      - 100
+        - 100
+        - 100
   pad_S100_100_LMTOP_BLNo_fdaf576b_525000_0:
     component: pad
     info:
       size:
-      - 100
-      - 100
+        - 100
+        - 100
       xsize: 100
       ysize: 100
     settings:
@@ -42,14 +42,14 @@ instances:
       port_inclusion: 0
       port_orientation: 0
       size:
-      - 100
-      - 100
+        - 100
+        - 100
   pad_S100_100_LMTOP_BLNo_fdaf576b_75000_0:
     component: pad
     info:
       size:
-      - 100
-      - 100
+        - 100
+        - 100
       xsize: 100
       ysize: 100
     settings:
@@ -57,14 +57,14 @@ instances:
       port_inclusion: 0
       port_orientation: 0
       size:
-      - 100
-      - 100
+        - 100
+        - 100
   pad_S100_100_LMTOP_BLNo_fdaf576b_m225000_0:
     component: pad
     info:
       size:
-      - 100
-      - 100
+        - 100
+        - 100
       xsize: 100
       ysize: 100
     settings:
@@ -72,14 +72,14 @@ instances:
       port_inclusion: 0
       port_orientation: 0
       size:
-      - 100
-      - 100
+        - 100
+        - 100
   pad_S100_100_LMTOP_BLNo_fdaf576b_m375000_0:
     component: pad
     info:
       size:
-      - 100
-      - 100
+        - 100
+        - 100
       xsize: 100
       ysize: 100
     settings:
@@ -87,14 +87,14 @@ instances:
       port_inclusion: 0
       port_orientation: 0
       size:
-      - 100
-      - 100
+        - 100
+        - 100
   pad_S100_100_LMTOP_BLNo_fdaf576b_m525000_0:
     component: pad
     info:
       size:
-      - 100
-      - 100
+        - 100
+        - 100
       xsize: 100
       ysize: 100
     settings:
@@ -102,14 +102,14 @@ instances:
       port_inclusion: 0
       port_orientation: 0
       size:
-      - 100
-      - 100
+        - 100
+        - 100
   pad_S100_100_LMTOP_BLNo_fdaf576b_m75000_0:
     component: pad
     info:
       size:
-      - 100
-      - 100
+        - 100
+        - 100
       xsize: 100
       ysize: 100
     settings:
@@ -117,8 +117,8 @@ instances:
       port_inclusion: 0
       port_orientation: 0
       size:
-      - 100
-      - 100
+        - 100
+        - 100
   rectangle_S1050_10_LMTO_73abeb10_0_0:
     component: rectangle
     info: {}
@@ -126,14 +126,14 @@ instances:
       centered: true
       layer: MTOP
       port_orientations:
-      - 180
-      - 90
-      - 0
-      - -90
+        - 180
+        - 90
+        - 0
+        - -90
       port_type: electrical
       size:
-      - 1050
-      - 10
+        - 1050
+        - 10
 name: pads_shorted_Ppad_C8_PS_1c817ac8
 nets: []
 placements:
@@ -186,143 +186,143 @@ ports: {}
 warnings:
   electrical:
     unconnected_ports:
-    - message: 36 unconnected electrical ports!
-      ports:
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_m525000_0,e1
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_m525000_0,e2
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_m525000_0,e3
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_m525000_0,e4
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_m375000_0,e1
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_m375000_0,e2
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_m375000_0,e3
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_m375000_0,e4
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_m225000_0,e1
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_m225000_0,e2
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_m225000_0,e3
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_m225000_0,e4
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_m75000_0,e1
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_m75000_0,e2
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_m75000_0,e3
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_m75000_0,e4
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_75000_0,e1
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_75000_0,e2
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_75000_0,e3
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_75000_0,e4
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_225000_0,e1
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_225000_0,e2
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_225000_0,e3
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_225000_0,e4
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0,e1
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0,e2
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0,e3
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0,e4
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_525000_0,e1
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_525000_0,e2
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_525000_0,e3
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_525000_0,e4
-      - rectangle_S1050_10_LMTO_73abeb10_0_0,e1
-      - rectangle_S1050_10_LMTO_73abeb10_0_0,e2
-      - rectangle_S1050_10_LMTO_73abeb10_0_0,e3
-      - rectangle_S1050_10_LMTO_73abeb10_0_0,e4
-      values:
-      - - -575000
-        - 0
-      - - -525000
-        - 50000
-      - - -475000
-        - 0
-      - - -525000
-        - -50000
-      - - -425000
-        - 0
-      - - -375000
-        - 50000
-      - - -325000
-        - 0
-      - - -375000
-        - -50000
-      - - -275000
-        - 0
-      - - -225000
-        - 50000
-      - - -175000
-        - 0
-      - - -225000
-        - -50000
-      - - -125000
-        - 0
-      - - -75000
-        - 50000
-      - - -25000
-        - 0
-      - - -75000
-        - -50000
-      - - 25000
-        - 0
-      - - 75000
-        - 50000
-      - - 125000
-        - 0
-      - - 75000
-        - -50000
-      - - 175000
-        - 0
-      - - 225000
-        - 50000
-      - - 275000
-        - 0
-      - - 225000
-        - -50000
-      - - 325000
-        - 0
-      - - 375000
-        - 50000
-      - - 425000
-        - 0
-      - - 375000
-        - -50000
-      - - 475000
-        - 0
-      - - 525000
-        - 50000
-      - - 575000
-        - 0
-      - - 525000
-        - -50000
-      - - -525000
-        - 0
-      - - 0
-        - 5000
-      - - 525000
-        - 0
-      - - 0
-        - -5000
+      - message: 36 unconnected electrical ports!
+        ports:
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_m525000_0,e1
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_m525000_0,e2
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_m525000_0,e3
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_m525000_0,e4
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_m375000_0,e1
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_m375000_0,e2
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_m375000_0,e3
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_m375000_0,e4
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_m225000_0,e1
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_m225000_0,e2
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_m225000_0,e3
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_m225000_0,e4
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_m75000_0,e1
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_m75000_0,e2
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_m75000_0,e3
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_m75000_0,e4
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_75000_0,e1
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_75000_0,e2
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_75000_0,e3
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_75000_0,e4
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_225000_0,e1
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_225000_0,e2
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_225000_0,e3
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_225000_0,e4
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0,e1
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0,e2
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0,e3
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0,e4
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_525000_0,e1
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_525000_0,e2
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_525000_0,e3
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_525000_0,e4
+          - rectangle_S1050_10_LMTO_73abeb10_0_0,e1
+          - rectangle_S1050_10_LMTO_73abeb10_0_0,e2
+          - rectangle_S1050_10_LMTO_73abeb10_0_0,e3
+          - rectangle_S1050_10_LMTO_73abeb10_0_0,e4
+        values:
+          - - -575000
+            - 0
+          - - -525000
+            - 50000
+          - - -475000
+            - 0
+          - - -525000
+            - -50000
+          - - -425000
+            - 0
+          - - -375000
+            - 50000
+          - - -325000
+            - 0
+          - - -375000
+            - -50000
+          - - -275000
+            - 0
+          - - -225000
+            - 50000
+          - - -175000
+            - 0
+          - - -225000
+            - -50000
+          - - -125000
+            - 0
+          - - -75000
+            - 50000
+          - - -25000
+            - 0
+          - - -75000
+            - -50000
+          - - 25000
+            - 0
+          - - 75000
+            - 50000
+          - - 125000
+            - 0
+          - - 75000
+            - -50000
+          - - 175000
+            - 0
+          - - 225000
+            - 50000
+          - - 275000
+            - 0
+          - - 225000
+            - -50000
+          - - 325000
+            - 0
+          - - 375000
+            - 50000
+          - - 425000
+            - 0
+          - - 375000
+            - -50000
+          - - 475000
+            - 0
+          - - 525000
+            - 50000
+          - - 575000
+            - 0
+          - - 525000
+            - -50000
+          - - -525000
+            - 0
+          - - 0
+            - 5000
+          - - 525000
+            - 0
+          - - 0
+            - -5000
   vertical_dc:
     unconnected_ports:
-    - message: 8 unconnected vertical_dc ports!
-      ports:
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_m525000_0,pad
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_m375000_0,pad
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_m225000_0,pad
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_m75000_0,pad
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_75000_0,pad
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_225000_0,pad
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0,pad
-      - pad_S100_100_LMTOP_BLNo_fdaf576b_525000_0,pad
-      values:
-      - - -525000
-        - 0
-      - - -375000
-        - 0
-      - - -225000
-        - 0
-      - - -75000
-        - 0
-      - - 75000
-        - 0
-      - - 225000
-        - 0
-      - - 375000
-        - 0
-      - - 525000
-        - 0
+      - message: 8 unconnected vertical_dc ports!
+        ports:
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_m525000_0,pad
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_m375000_0,pad
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_m225000_0,pad
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_m75000_0,pad
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_75000_0,pad
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_225000_0,pad
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_375000_0,pad
+          - pad_S100_100_LMTOP_BLNo_fdaf576b_525000_0,pad
+        values:
+          - - -525000
+            - 0
+          - - -375000
+            - 0
+          - - -225000
+            - 0
+          - - -75000
+            - 0
+          - - 75000
+            - 0
+          - - 225000
+            - 0
+          - - 375000
+            - 0
+          - - 525000
+            - 0

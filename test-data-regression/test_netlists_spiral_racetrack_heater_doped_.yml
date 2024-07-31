@@ -11,14 +11,14 @@ instances:
       min_radius: 10
       n_bend_points: 99
       spacings:
-      - 2
-      - 2
-      - 2
-      - 2
-      - 3
-      - 3
-      - 2
-      - 2
+        - 2
+        - 2
+        - 2
+        - 2
+        - 3
+        - 3
+        - 2
+        - 2
       straight_factory: straight
       straight_length: 30
       with_inner_ports: false

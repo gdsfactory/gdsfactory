@@ -1,12 +1,12 @@
 name: new_factories
 
 instances:
-    bot:
-      component: pad_new
-    top:
-      component: pad_new
+  bot:
+    component: pad_new
+  top:
+    component: pad_new
 
 placements:
-    top:
-        x: 0
-        y: 200
+  top:
+    x: 0
+    y: 200

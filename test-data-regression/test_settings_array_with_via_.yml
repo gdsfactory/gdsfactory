@@ -12,11 +12,11 @@ settings:
     settings:
       layer: M2
       port_names:
-      - e1
-      - e2
+        - e1
+        - e2
       port_types:
-      - electrical
-      - electrical
+        - electrical
+        - electrical
       radius: null
       width: 10.0
   port_offset: null

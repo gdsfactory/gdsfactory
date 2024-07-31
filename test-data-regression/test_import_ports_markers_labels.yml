@@ -5,11 +5,11 @@ doe: None
 ports:
   opt_te_1530_15-straight_aa0e8b9c-0-0:
     center:
-    - 117.669
-    - -0.0
+      - 117.669
+      - -0.0
     layer:
-    - 1
-    - 0
+      - 1
+      - 0
     name: opt_te_1530_15-straight_aa0e8b9c-0-0
     orientation: 0.0
     port_type: opt_te_1530_15
@@ -17,11 +17,11 @@ ports:
     width: 10
   opt_te_1530_15-straight_aa0e8b9c-1-0:
     center:
-    - -127.669
-    - 0.0
+      - -127.669
+      - 0.0
     layer:
-    - 1
-    - 0
+      - 1
+      - 0
     name: opt_te_1530_15-straight_aa0e8b9c-1-0
     orientation: 180.0
     port_type: opt_te_1530_15
@@ -29,11 +29,11 @@ ports:
     width: 10
   opt_te_1530_15-straight_aa0e8b9c-loopback1:
     center:
-    - 117.669
-    - -63.223
+      - 117.669
+      - -63.223
     layer:
-    - 1
-    - 0
+      - 1
+      - 0
     name: opt_te_1530_15-straight_aa0e8b9c-loopback1
     orientation: 0.0
     port_type: opt_te_1530_15
@@ -41,11 +41,11 @@ ports:
     width: 10
   opt_te_1530_15-straight_aa0e8b9c-loopback2:
     center:
-    - -127.669
-    - -63.223
+      - -127.669
+      - -63.223
     layer:
-    - 1
-    - 0
+      - 1
+      - 0
     name: opt_te_1530_15-straight_aa0e8b9c-loopback2
     orientation: 180.0
     port_type: opt_te_1530_15

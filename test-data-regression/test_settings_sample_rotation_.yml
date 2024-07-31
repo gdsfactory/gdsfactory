@@ -3,7 +3,6 @@ name: sample_rotation
 settings:
   label_instance_function: add_instance_label
   name: Unnamed
-  yaml_str: "\nname: sample_rotation\n\ninstances:\n  r1:\n    component: rectangle\n\
-    \    settings:\n        size: [4, 2]\n  r2:\n    component: rectangle\n    settings:\n\
-    \        size: [2, 4]\n\nplacements:\n    r1:\n        xmin: 0\n        ymin:\
-    \ 0\n    r2:\n        rotation: -90\n        xmin: r1,east\n        ymin: 0\n\n"
+  yaml_str: "\nname: sample_rotation\n\ninstances:\n  r1:\n    component: rectangle\n    settings:\n        size: [4, 2]\n
+    \ r2:\n    component: rectangle\n    settings:\n        size: [2, 4]\n\nplacements:\n    r1:\n        xmin: 0\n        ymin:
+    0\n    r2:\n        rotation: -90\n        xmin: r1,east\n        ymin: 0\n\n"

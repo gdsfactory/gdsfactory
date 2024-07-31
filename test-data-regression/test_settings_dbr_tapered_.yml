@@ -4,8 +4,8 @@ settings:
   cross_section: strip
   dc: 0.5
   fin_size:
-  - 0.2
-  - 0.05
+    - 0.2
+    - 0.05
   fins: false
   length: 10
   period: 0.85

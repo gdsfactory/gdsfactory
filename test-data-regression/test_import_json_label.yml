@@ -9,7 +9,7 @@ measurement_settings: {}
 name: straight_L10_N2_CSstrip
 xelec: []
 xopt:
-- 0
+  - 0
 yelec: []
 yopt:
-- 0
+  - 0

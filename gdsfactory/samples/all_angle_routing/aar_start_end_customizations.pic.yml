@@ -114,7 +114,7 @@ routes:
         - dy: -1000
         - dx: -3000
           exit_angle: 90
-        - cross_section:   # sets second-to-last cross-section
+        - cross_section:  # sets second-to-last cross-section
             cross_section: strip
             settings:
               width: 5

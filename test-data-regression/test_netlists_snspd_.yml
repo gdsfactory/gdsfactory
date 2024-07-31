@@ -4,42 +4,42 @@ instances:
     info: {}
     settings:
       layer:
-      - 1
-      - 0
+        - 1
+        - 0
       port_inclusion: 0
       port_orientations:
-      - 180
-      - 90
-      - 0
-      - -90
+        - 180
+        - 90
+        - 0
+        - -90
       port_type: optical
       size:
-      - 5
-      - 0.2
+        - 5
+        - 0.2
   compass_S5_0p2_L1_0_PTo_8c7f94cf_5000_m8400:
     component: compass
     info: {}
     settings:
       layer:
-      - 1
-      - 0
+        - 1
+        - 0
       port_inclusion: 0
       port_orientations:
-      - 180
-      - 90
-      - 0
-      - -90
+        - 180
+        - 90
+        - 0
+        - -90
       port_type: optical
       size:
-      - 5
-      - 0.2
+        - 5
+        - 0.2
   optimal_hairpin_W0p2_P0_52d59101_0_m2100:
     component: optimal_hairpin
     info: {}
     settings:
       layer:
-      - 1
-      - 0
+        - 1
+        - 0
       length: 5
       num_pts: 20
       pitch: 0.6
@@ -50,8 +50,8 @@ instances:
     info: {}
     settings:
       layer:
-      - 1
-      - 0
+        - 1
+        - 0
       length: 5
       num_pts: 20
       pitch: 0.6
@@ -62,8 +62,8 @@ instances:
     info: {}
     settings:
       layer:
-      - 1
-      - 0
+        - 1
+        - 0
       length: 5
       num_pts: 20
       pitch: 0.6
@@ -74,8 +74,8 @@ instances:
     info: {}
     settings:
       layer:
-      - 1
-      - 0
+        - 1
+        - 0
       length: 5
       num_pts: 20
       pitch: 0.6
@@ -86,8 +86,8 @@ instances:
     info: {}
     settings:
       layer:
-      - 1
-      - 0
+        - 1
+        - 0
       length: 5
       num_pts: 20
       pitch: 0.6
@@ -98,8 +98,8 @@ instances:
     info: {}
     settings:
       layer:
-      - 1
-      - 0
+        - 1
+        - 0
       length: 5
       num_pts: 20
       pitch: 0.6
@@ -110,8 +110,8 @@ instances:
     info: {}
     settings:
       layer:
-      - 1
-      - 0
+        - 1
+        - 0
       length: 5
       num_pts: 20
       pitch: 0.6
@@ -122,8 +122,8 @@ instances:
     info: {}
     settings:
       layer:
-      - 1
-      - 0
+        - 1
+        - 0
       length: 5
       num_pts: 20
       pitch: 0.6
@@ -134,8 +134,8 @@ instances:
     info: {}
     settings:
       layer:
-      - 1
-      - 0
+        - 1
+        - 0
       length: 5
       num_pts: 20
       pitch: 0.6
@@ -146,8 +146,8 @@ instances:
     info: {}
     settings:
       layer:
-      - 1
-      - 0
+        - 1
+        - 0
       length: 5
       num_pts: 20
       pitch: 0.6
@@ -158,8 +158,8 @@ instances:
     info: {}
     settings:
       layer:
-      - 1
-      - 0
+        - 1
+        - 0
       length: 5
       num_pts: 20
       pitch: 0.6
@@ -170,8 +170,8 @@ instances:
     info: {}
     settings:
       layer:
-      - 1
-      - 0
+        - 1
+        - 0
       length: 5
       num_pts: 20
       pitch: 0.6
@@ -182,8 +182,8 @@ instances:
     info: {}
     settings:
       layer:
-      - 1
-      - 0
+        - 1
+        - 0
       length: 5
       num_pts: 20
       pitch: 0.6
@@ -194,8 +194,8 @@ instances:
     info: {}
     settings:
       layer:
-      - 1
-      - 0
+        - 1
+        - 0
       length: 5
       num_pts: 20
       pitch: 0.6
@@ -203,36 +203,36 @@ instances:
       width: 0.2
 name: snspd_WW0p2_WP0p6_S10_8_a43c8593
 nets:
-- p1: compass_S5_0p2_L1_0_PTo_8c7f94cf_0_0,o3
-  p2: optimal_hairpin_W0p2_P0_52d59101_5000_m300,o1
-- p1: compass_S5_0p2_L1_0_PTo_8c7f94cf_5000_m8400,o3
-  p2: optimal_hairpin_W0p2_P0_52d59101_0_m8100,o1
-- p1: optimal_hairpin_W0p2_P0_52d59101_0_m2100,o1
-  p2: optimal_hairpin_W0p2_P0_52d59101_5000_m2700,o1
-- p1: optimal_hairpin_W0p2_P0_52d59101_0_m2100,o2
-  p2: optimal_hairpin_W0p2_P0_52d59101_5000_m1500,o2
-- p1: optimal_hairpin_W0p2_P0_52d59101_0_m3300,o1
-  p2: optimal_hairpin_W0p2_P0_52d59101_5000_m3900,o1
-- p1: optimal_hairpin_W0p2_P0_52d59101_0_m3300,o2
-  p2: optimal_hairpin_W0p2_P0_52d59101_5000_m2700,o2
-- p1: optimal_hairpin_W0p2_P0_52d59101_0_m4500,o1
-  p2: optimal_hairpin_W0p2_P0_52d59101_5000_m5100,o1
-- p1: optimal_hairpin_W0p2_P0_52d59101_0_m4500,o2
-  p2: optimal_hairpin_W0p2_P0_52d59101_5000_m3900,o2
-- p1: optimal_hairpin_W0p2_P0_52d59101_0_m5700,o1
-  p2: optimal_hairpin_W0p2_P0_52d59101_5000_m6300,o1
-- p1: optimal_hairpin_W0p2_P0_52d59101_0_m5700,o2
-  p2: optimal_hairpin_W0p2_P0_52d59101_5000_m5100,o2
-- p1: optimal_hairpin_W0p2_P0_52d59101_0_m6900,o1
-  p2: optimal_hairpin_W0p2_P0_52d59101_5000_m7500,o1
-- p1: optimal_hairpin_W0p2_P0_52d59101_0_m6900,o2
-  p2: optimal_hairpin_W0p2_P0_52d59101_5000_m6300,o2
-- p1: optimal_hairpin_W0p2_P0_52d59101_0_m8100,o2
-  p2: optimal_hairpin_W0p2_P0_52d59101_5000_m7500,o2
-- p1: optimal_hairpin_W0p2_P0_52d59101_0_m900,o1
-  p2: optimal_hairpin_W0p2_P0_52d59101_5000_m1500,o1
-- p1: optimal_hairpin_W0p2_P0_52d59101_0_m900,o2
-  p2: optimal_hairpin_W0p2_P0_52d59101_5000_m300,o2
+  - p1: compass_S5_0p2_L1_0_PTo_8c7f94cf_0_0,o3
+    p2: optimal_hairpin_W0p2_P0_52d59101_5000_m300,o1
+  - p1: compass_S5_0p2_L1_0_PTo_8c7f94cf_5000_m8400,o3
+    p2: optimal_hairpin_W0p2_P0_52d59101_0_m8100,o1
+  - p1: optimal_hairpin_W0p2_P0_52d59101_0_m2100,o1
+    p2: optimal_hairpin_W0p2_P0_52d59101_5000_m2700,o1
+  - p1: optimal_hairpin_W0p2_P0_52d59101_0_m2100,o2
+    p2: optimal_hairpin_W0p2_P0_52d59101_5000_m1500,o2
+  - p1: optimal_hairpin_W0p2_P0_52d59101_0_m3300,o1
+    p2: optimal_hairpin_W0p2_P0_52d59101_5000_m3900,o1
+  - p1: optimal_hairpin_W0p2_P0_52d59101_0_m3300,o2
+    p2: optimal_hairpin_W0p2_P0_52d59101_5000_m2700,o2
+  - p1: optimal_hairpin_W0p2_P0_52d59101_0_m4500,o1
+    p2: optimal_hairpin_W0p2_P0_52d59101_5000_m5100,o1
+  - p1: optimal_hairpin_W0p2_P0_52d59101_0_m4500,o2
+    p2: optimal_hairpin_W0p2_P0_52d59101_5000_m3900,o2
+  - p1: optimal_hairpin_W0p2_P0_52d59101_0_m5700,o1
+    p2: optimal_hairpin_W0p2_P0_52d59101_5000_m6300,o1
+  - p1: optimal_hairpin_W0p2_P0_52d59101_0_m5700,o2
+    p2: optimal_hairpin_W0p2_P0_52d59101_5000_m5100,o2
+  - p1: optimal_hairpin_W0p2_P0_52d59101_0_m6900,o1
+    p2: optimal_hairpin_W0p2_P0_52d59101_5000_m7500,o1
+  - p1: optimal_hairpin_W0p2_P0_52d59101_0_m6900,o2
+    p2: optimal_hairpin_W0p2_P0_52d59101_5000_m6300,o2
+  - p1: optimal_hairpin_W0p2_P0_52d59101_0_m8100,o2
+    p2: optimal_hairpin_W0p2_P0_52d59101_5000_m7500,o2
+  - p1: optimal_hairpin_W0p2_P0_52d59101_0_m900,o1
+    p2: optimal_hairpin_W0p2_P0_52d59101_5000_m1500,o1
+  - p1: optimal_hairpin_W0p2_P0_52d59101_0_m900,o2
+    p2: optimal_hairpin_W0p2_P0_52d59101_5000_m300,o2
 placements:
   compass_S5_0p2_L1_0_PTo_8c7f94cf_0_0:
     mirror: false
@@ -320,18 +320,18 @@ ports:
 warnings:
   optical:
     unconnected_ports:
-    - message: 4 unconnected optical ports!
-      ports:
-      - compass_S5_0p2_L1_0_PTo_8c7f94cf_0_0,o2
-      - compass_S5_0p2_L1_0_PTo_8c7f94cf_0_0,o4
-      - compass_S5_0p2_L1_0_PTo_8c7f94cf_5000_m8400,o2
-      - compass_S5_0p2_L1_0_PTo_8c7f94cf_5000_m8400,o4
-      values:
-      - - 0
-        - 100
-      - - 0
-        - -100
-      - - 5000
-        - -8500
-      - - 5000
-        - -8300
+      - message: 4 unconnected optical ports!
+        ports:
+          - compass_S5_0p2_L1_0_PTo_8c7f94cf_0_0,o2
+          - compass_S5_0p2_L1_0_PTo_8c7f94cf_0_0,o4
+          - compass_S5_0p2_L1_0_PTo_8c7f94cf_5000_m8400,o2
+          - compass_S5_0p2_L1_0_PTo_8c7f94cf_5000_m8400,o4
+        values:
+          - - 0
+            - 100
+          - - 0
+            - -100
+          - - 5000
+            - -8500
+          - - 5000
+            - -8300

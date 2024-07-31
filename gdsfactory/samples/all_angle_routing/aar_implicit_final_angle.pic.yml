@@ -54,10 +54,9 @@ routes:
       steps:
         - dx: 100
           exit_angle: 0
-        - ds: 100 # if you end with only ds, it's exit angle will be implicitly interpreted as the previous exit angle
+        - ds: 100  # if you end with only ds, it's exit angle will be implicitly interpreted as the previous exit angle
     links:
       wg_c1,o2: wg_c2,o1
-
 
   implicit_ending_dx:
     routing_strategy: route_bundle_all_angle
@@ -66,7 +65,7 @@ routes:
       steps:
         - dy: 1000
           exit_angle: 0
-        - dx: 300 # same goes for dx
+        - dx: 300  # same goes for dx
     links:
       wg_f1,o1: wg_f2,o2
 
@@ -76,6 +75,6 @@ routes:
       steps:
         - dx: -500
           exit_angle: 90
-        - dy: 500 # or for that matter, dy
+        - dy: 500  # or for that matter, dy
     links:
       wg_a1,o1: wg_a2,o2
