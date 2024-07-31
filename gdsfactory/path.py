@@ -34,6 +34,7 @@ from gdsfactory.typings import (
     LayerSpec,
     WidthTypes,
 )
+from kfactory.kcell import vcell
 
 
 def _simplify(points, tolerance):
@@ -768,6 +769,7 @@ def _get_named_sections(sections: tuple[Section, ...]) -> dict[str, Section]:
     return named_sections
 
 
+@vcell
 def extrude(
     p: Path,
     cross_section: CrossSectionSpec | None = None,
