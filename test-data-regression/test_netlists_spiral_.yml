@@ -884,114 +884,114 @@ instances:
       npoints: 2
 name: spiral_L100_Bbend_euler_16ec11d3
 nets:
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_105125_18125,o1
-    p2: straight_L3_N2_CSstrip_110000_11500,o2
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_105125_18125,o2
-    p2: straight_L123_N2_CSstrip_38500_23000,o1
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_105125_4875,o1
-    p2: straight_L100_N2_CSstrip_50000_0,o2
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_105125_4875,o2
-    p2: straight_L3_N2_CSstrip_110000_11500,o1
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_108125_1875,o1
-    p2: straight_L123_N2_CSstrip_41500_m3000,o2
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_108125_1875,o2
-    p2: straight_L9_N2_CSstrip_113000_11500,o1
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_108125_21125,o1
-    p2: straight_L9_N2_CSstrip_113000_11500,o2
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_108125_21125,o2
-    p2: straight_L129_N2_CSstrip_38500_26000,o1
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_111125_24125,o1
-    p2: straight_L15_N2_CSstrip_116000_11500,o2
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_111125_24125,o2
-    p2: straight_L135_N2_CSstrip_38500_29000,o1
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_111125_m1125,o1
-    p2: straight_L129_N2_CSstrip_41500_m6000,o2
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_111125_m1125,o2
-    p2: straight_L15_N2_CSstrip_116000_11500,o1
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_114125_27125,o1
-    p2: straight_L21_N2_CSstrip_119000_11500,o2
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_114125_27125,o2
-    p2: straight_L141_N2_CSstrip_38500_32000,o1
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_114125_m4125,o1
-    p2: straight_L135_N2_CSstrip_41500_m9000,o2
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_114125_m4125,o2
-    p2: straight_L21_N2_CSstrip_119000_11500,o1
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_117125_30125,o1
-    p2: straight_L27_N2_CSstrip_122000_11500,o2
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_117125_30125,o2
-    p2: straight_L147_N2_CSstrip_38500_35000,o1
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_117125_m7125,o1
-    p2: straight_L141_N2_CSstrip_41500_m12000,o2
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_117125_m7125,o2
-    p2: straight_L27_N2_CSstrip_122000_11500,o1
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_120125_33125,o1
-    p2: straight_L33_N2_CSstrip_125000_11500,o2
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_120125_33125,o2
-    p2: straight_L153_N2_CSstrip_38500_38000,o1
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_120125_m10125,o1
-    p2: straight_L147_N2_CSstrip_41500_m15000,o2
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_120125_m10125,o2
-    p2: straight_L33_N2_CSstrip_125000_11500,o1
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m14875_15125,o1
-    p2: bend_euler_RNone_A90_P0_d7c3a5a9_m5125_4875,o2
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m14875_15125,o2
-    p2: bend_euler_RNone_A90_P0_d7c3a5a9_m25125_15125,o1
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m25125_15125,o2
-    p2: straight_L3_N2_CSstrip_m30000_8500,o1
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m25125_1875,o1
-    p2: straight_L3_N2_CSstrip_m30000_8500,o2
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m25125_1875,o2
-    p2: straight_L123_N2_CSstrip_41500_m3000,o1
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m28125_18125,o1
-    p2: straight_L123_N2_CSstrip_38500_23000,o2
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m28125_18125,o2
-    p2: straight_L9_N2_CSstrip_m33000_8500,o1
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m28125_m1125,o1
-    p2: straight_L9_N2_CSstrip_m33000_8500,o2
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m28125_m1125,o2
-    p2: straight_L129_N2_CSstrip_41500_m6000,o1
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m31125_21125,o1
-    p2: straight_L129_N2_CSstrip_38500_26000,o2
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m31125_21125,o2
-    p2: straight_L15_N2_CSstrip_m36000_8500,o1
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m31125_m4125,o1
-    p2: straight_L15_N2_CSstrip_m36000_8500,o2
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m31125_m4125,o2
-    p2: straight_L135_N2_CSstrip_41500_m9000,o1
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m34125_24125,o1
-    p2: straight_L135_N2_CSstrip_38500_29000,o2
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m34125_24125,o2
-    p2: straight_L21_N2_CSstrip_m39000_8500,o1
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m34125_m7125,o1
-    p2: straight_L21_N2_CSstrip_m39000_8500,o2
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m34125_m7125,o2
-    p2: straight_L141_N2_CSstrip_41500_m12000,o1
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m37125_27125,o1
-    p2: straight_L141_N2_CSstrip_38500_32000,o2
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m37125_27125,o2
-    p2: straight_L27_N2_CSstrip_m42000_8500,o1
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m37125_m10125,o1
-    p2: straight_L27_N2_CSstrip_m42000_8500,o2
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m37125_m10125,o2
-    p2: straight_L147_N2_CSstrip_41500_m15000,o1
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m40125_30125,o1
-    p2: straight_L147_N2_CSstrip_38500_35000,o2
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m40125_30125,o2
-    p2: straight_L33_N2_CSstrip_m45000_8500,o1
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m40125_m13125,o1
-    p2: straight_L33_N2_CSstrip_m45000_8500,o2
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m40125_m13125,o2
-    p2: straight_L153_N2_CSstrip_41500_m18000,o1
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m43125_33125,o1
-    p2: straight_L153_N2_CSstrip_38500_38000,o2
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m43125_33125,o2
-    p2: straight_L39_N2_CSstrip_m48000_8500,o1
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m43125_m16125,o1
-    p2: straight_L39_N2_CSstrip_m48000_8500,o2
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m43125_m16125,o2
-    p2: straight_L159_N2_CSstrip_41500_m21000,o1
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m5125_4875,o1
-    p2: straight_L100_N2_CSstrip_50000_0,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_105125_18125,o1
+  p2: straight_L3_N2_CSstrip_110000_11500,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_105125_18125,o2
+  p2: straight_L123_N2_CSstrip_38500_23000,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_105125_4875,o1
+  p2: straight_L100_N2_CSstrip_50000_0,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_105125_4875,o2
+  p2: straight_L3_N2_CSstrip_110000_11500,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_108125_1875,o1
+  p2: straight_L123_N2_CSstrip_41500_m3000,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_108125_1875,o2
+  p2: straight_L9_N2_CSstrip_113000_11500,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_108125_21125,o1
+  p2: straight_L9_N2_CSstrip_113000_11500,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_108125_21125,o2
+  p2: straight_L129_N2_CSstrip_38500_26000,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_111125_24125,o1
+  p2: straight_L15_N2_CSstrip_116000_11500,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_111125_24125,o2
+  p2: straight_L135_N2_CSstrip_38500_29000,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_111125_m1125,o1
+  p2: straight_L129_N2_CSstrip_41500_m6000,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_111125_m1125,o2
+  p2: straight_L15_N2_CSstrip_116000_11500,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_114125_27125,o1
+  p2: straight_L21_N2_CSstrip_119000_11500,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_114125_27125,o2
+  p2: straight_L141_N2_CSstrip_38500_32000,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_114125_m4125,o1
+  p2: straight_L135_N2_CSstrip_41500_m9000,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_114125_m4125,o2
+  p2: straight_L21_N2_CSstrip_119000_11500,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_117125_30125,o1
+  p2: straight_L27_N2_CSstrip_122000_11500,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_117125_30125,o2
+  p2: straight_L147_N2_CSstrip_38500_35000,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_117125_m7125,o1
+  p2: straight_L141_N2_CSstrip_41500_m12000,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_117125_m7125,o2
+  p2: straight_L27_N2_CSstrip_122000_11500,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_120125_33125,o1
+  p2: straight_L33_N2_CSstrip_125000_11500,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_120125_33125,o2
+  p2: straight_L153_N2_CSstrip_38500_38000,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_120125_m10125,o1
+  p2: straight_L147_N2_CSstrip_41500_m15000,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_120125_m10125,o2
+  p2: straight_L33_N2_CSstrip_125000_11500,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_m14875_15125,o1
+  p2: bend_euler_RNone_A90_P0_d7c3a5a9_m5125_4875,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_m14875_15125,o2
+  p2: bend_euler_RNone_A90_P0_d7c3a5a9_m25125_15125,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_m25125_15125,o2
+  p2: straight_L3_N2_CSstrip_m30000_8500,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_m25125_1875,o1
+  p2: straight_L3_N2_CSstrip_m30000_8500,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_m25125_1875,o2
+  p2: straight_L123_N2_CSstrip_41500_m3000,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_m28125_18125,o1
+  p2: straight_L123_N2_CSstrip_38500_23000,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_m28125_18125,o2
+  p2: straight_L9_N2_CSstrip_m33000_8500,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_m28125_m1125,o1
+  p2: straight_L9_N2_CSstrip_m33000_8500,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_m28125_m1125,o2
+  p2: straight_L129_N2_CSstrip_41500_m6000,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_m31125_21125,o1
+  p2: straight_L129_N2_CSstrip_38500_26000,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_m31125_21125,o2
+  p2: straight_L15_N2_CSstrip_m36000_8500,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_m31125_m4125,o1
+  p2: straight_L15_N2_CSstrip_m36000_8500,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_m31125_m4125,o2
+  p2: straight_L135_N2_CSstrip_41500_m9000,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_m34125_24125,o1
+  p2: straight_L135_N2_CSstrip_38500_29000,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_m34125_24125,o2
+  p2: straight_L21_N2_CSstrip_m39000_8500,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_m34125_m7125,o1
+  p2: straight_L21_N2_CSstrip_m39000_8500,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_m34125_m7125,o2
+  p2: straight_L141_N2_CSstrip_41500_m12000,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_m37125_27125,o1
+  p2: straight_L141_N2_CSstrip_38500_32000,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_m37125_27125,o2
+  p2: straight_L27_N2_CSstrip_m42000_8500,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_m37125_m10125,o1
+  p2: straight_L27_N2_CSstrip_m42000_8500,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_m37125_m10125,o2
+  p2: straight_L147_N2_CSstrip_41500_m15000,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_m40125_30125,o1
+  p2: straight_L147_N2_CSstrip_38500_35000,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_m40125_30125,o2
+  p2: straight_L33_N2_CSstrip_m45000_8500,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_m40125_m13125,o1
+  p2: straight_L33_N2_CSstrip_m45000_8500,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_m40125_m13125,o2
+  p2: straight_L153_N2_CSstrip_41500_m18000,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_m43125_33125,o1
+  p2: straight_L153_N2_CSstrip_38500_38000,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_m43125_33125,o2
+  p2: straight_L39_N2_CSstrip_m48000_8500,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_m43125_m16125,o1
+  p2: straight_L39_N2_CSstrip_m48000_8500,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_m43125_m16125,o2
+  p2: straight_L159_N2_CSstrip_41500_m21000,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_m5125_4875,o1
+  p2: straight_L100_N2_CSstrip_50000_0,o1
 placements:
   bend_euler_RNone_A90_P0_d7c3a5a9_105125_18125:
     mirror: false

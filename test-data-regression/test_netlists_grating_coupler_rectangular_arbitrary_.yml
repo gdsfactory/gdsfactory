@@ -9,11 +9,11 @@ instances:
       cross_section: strip
       length: 150
       port_names:
-        - o1
-        - o2
+      - o1
+      - o2
       port_types:
-        - optical
-        - optical
+      - optical
+      - optical
       width1: 0.5
       width2: 11
       with_bbox: true
@@ -31,9 +31,9 @@ ports:
 warnings:
   optical:
     unconnected_ports:
-      - message: 1 unconnected optical ports!
-        ports:
-          - taper_L150_W0p5_W11_PNo_497f27e7_75000_0,o2
-        values:
-          - - 150000
-            - 0
+    - message: 1 unconnected optical ports!
+      ports:
+      - taper_L150_W0p5_W11_PNo_497f27e7_75000_0,o2
+      values:
+      - - 150000
+        - 0

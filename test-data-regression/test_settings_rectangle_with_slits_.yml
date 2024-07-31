@@ -5,12 +5,12 @@ settings:
   layer: WG
   layer_slit: SLAB150
   size:
-    - 100
-    - 200
+  - 100
+  - 200
   slit_enclosure: 10
   slit_size:
-    - 1
-    - 1
+  - 1
+  - 1
   slit_spacing:
-    - 20
-    - 20
+  - 20
+  - 20

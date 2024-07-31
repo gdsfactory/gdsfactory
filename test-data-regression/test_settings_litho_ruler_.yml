@@ -5,15 +5,15 @@ settings:
   layer: WG
   num_marks: 21
   scale:
-    - 3
-    - 1
-    - 1
-    - 1
-    - 1
-    - 2
-    - 1
-    - 1
-    - 1
-    - 1
+  - 3
+  - 1
+  - 1
+  - 1
+  - 1
+  - 2
+  - 1
+  - 1
+  - 1
+  - 1
   spacing: 2
   width: 0.5

@@ -6,11 +6,11 @@ info:
 name: snspd_WW0p2_WP0p6_S10_8_a43c8593
 settings:
   layer:
-    - 1
-    - 0
+  - 1
+  - 0
   size:
-    - 10
-    - 8
+  - 10
+  - 8
   terminals_same_side: false
   turn_ratio: 4
   wire_pitch: 0.6

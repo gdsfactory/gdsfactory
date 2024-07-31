@@ -37,21 +37,11 @@ repos:
         exclude: .github/.*
         # args: [--extensions, "j2,yml,yaml", --ignore, jinja-statements-delimiter, jinja-statements-indentation]
   - repo: https://github.com/google/yamlfmt
-    # - repo: https://github.com/RobertCraigie/pyright-python
-    #   rev: v1.1.333
-    #   hooks:
-    #   - id: pyright
-
     rev: v0.13.0
     hooks:
       - id: yamlfmt
-        exclude: ".*.pic.yml"
+        exclude: ".*.tests*|.*.pic.yml"
   - repo: https://github.com/rhysd/actionlint
-    # - repo: https://github.com/RobertCraigie/pyright-python
-    #   rev: v1.1.333
-    #   hooks:
-    #   - id: pyright
-
     rev: v1.7.1
     hooks:
       - id: actionlint

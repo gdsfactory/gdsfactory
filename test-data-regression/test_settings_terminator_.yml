@@ -3,7 +3,7 @@ name: terminator_L50_CSIFcros_2d525ef0
 settings:
   cross_section_input: Fcross_section_Mgdsfactorypcross_section_SR10_RM5
   doping_layers:
-    - NPP
+  - NPP
   doping_offset: 1
   length: 50
   tapered_width: 0.2

@@ -5,15 +5,15 @@ name: via_stack_S11_11_LSLAB9_69d97872
 settings:
   correct_size: true
   layers:
-    - SLAB90
-    - NPP
-    - M1
+  - SLAB90
+  - NPP
+  - M1
   size:
-    - 11
-    - 11
+  - 11
+  - 11
   slot_horizontal: false
   slot_vertical: false
   vias:
-    - null
-    - null
-    - viac
+  - null
+  - null
+  - viac

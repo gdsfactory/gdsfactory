@@ -4,5 +4,5 @@ settings:
   angle_resolution: 2.5
   layer: WG
   radii:
-    - 10
-    - 5
+  - 10
+  - 5

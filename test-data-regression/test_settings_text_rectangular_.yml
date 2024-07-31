@@ -4,7 +4,7 @@ settings:
   justify: left
   layer: WG
   position:
-    - 0
-    - 0
+  - 0
+  - 0
   size: 10
   text: abcd

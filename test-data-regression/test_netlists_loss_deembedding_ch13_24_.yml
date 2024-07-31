@@ -323,38 +323,38 @@ instances:
       width: 0.5
 name: loss_deembedding_ch13_2_f0d5a16c
 nets:
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_249125_44654,o1
-    p2: straight_L40_N2_CSstrip_W0p5_254000_19529,o1
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_249125_44654,o2
-    p2: straight_L234_N2_CSstrip_W0p5_127000_49529,o1
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_4875_44654,o1
-    p2: straight_L234_N2_CSstrip_W0p5_127000_49529,o2
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_4875_44654,o2
-    p2: straight_L40_N2_CSstrip_W0p5_0_19529,o1
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_111875_4654,o1
-    p2: straight_L35p946_N2_CSstrip_W0p5_107000_m18444,o2
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_111875_4654,o2
-    p2: bend_euler_RNone_A90_P0_d7c3a5a9_122125_4654,o1
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_111875_m41542,o1
-    p2: straight_L274_N2_CSstrip_W0p5_254000_m46417,o2
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_111875_m41542,o2
-    p2: straight_L35p946_N2_CSstrip_W0p5_107000_m18444,o1
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_122125_4654,o2
-    p2: grating_coupler_ellipti_b694ac47_127000_m20512,o1
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_385875_4654,o1
-    p2: grating_coupler_ellipti_b694ac47_381000_m20512,o1
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_385875_4654,o2
-    p2: bend_euler_RNone_A90_P0_d7c3a5a9_396125_4654,o1
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_396125_4654,o2
-    p2: straight_L35p946_N2_CSstrip_W0p5_401000_m18444,o1
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_396125_m41542,o1
-    p2: straight_L35p946_N2_CSstrip_W0p5_401000_m18444,o2
-  - p1: bend_euler_RNone_A90_P0_d7c3a5a9_396125_m41542,o2
-    p2: straight_L274_N2_CSstrip_W0p5_254000_m46417,o1
-  - p1: grating_coupler_ellipti_b694ac47_0_m20512,o1
-    p2: straight_L40_N2_CSstrip_W0p5_0_19529,o2
-  - p1: grating_coupler_ellipti_b694ac47_254000_m20512,o1
-    p2: straight_L40_N2_CSstrip_W0p5_254000_19529,o2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_249125_44654,o1
+  p2: straight_L40_N2_CSstrip_W0p5_254000_19529,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_249125_44654,o2
+  p2: straight_L234_N2_CSstrip_W0p5_127000_49529,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_4875_44654,o1
+  p2: straight_L234_N2_CSstrip_W0p5_127000_49529,o2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_4875_44654,o2
+  p2: straight_L40_N2_CSstrip_W0p5_0_19529,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_111875_4654,o1
+  p2: straight_L35p946_N2_CSstrip_W0p5_107000_m18444,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_111875_4654,o2
+  p2: bend_euler_RNone_A90_P0_d7c3a5a9_122125_4654,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_111875_m41542,o1
+  p2: straight_L274_N2_CSstrip_W0p5_254000_m46417,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_111875_m41542,o2
+  p2: straight_L35p946_N2_CSstrip_W0p5_107000_m18444,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_122125_4654,o2
+  p2: grating_coupler_ellipti_b694ac47_127000_m20512,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_385875_4654,o1
+  p2: grating_coupler_ellipti_b694ac47_381000_m20512,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_385875_4654,o2
+  p2: bend_euler_RNone_A90_P0_d7c3a5a9_396125_4654,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_396125_4654,o2
+  p2: straight_L35p946_N2_CSstrip_W0p5_401000_m18444,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_396125_m41542,o1
+  p2: straight_L35p946_N2_CSstrip_W0p5_401000_m18444,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_396125_m41542,o2
+  p2: straight_L274_N2_CSstrip_W0p5_254000_m46417,o1
+- p1: grating_coupler_ellipti_b694ac47_0_m20512,o1
+  p2: straight_L40_N2_CSstrip_W0p5_0_19529,o2
+- p1: grating_coupler_ellipti_b694ac47_254000_m20512,o1
+  p2: straight_L40_N2_CSstrip_W0p5_254000_19529,o2
 placements:
   bend_euler_R10_A90_P0p5_2f1f5c6d_249125_44654:
     mirror: false
@@ -450,18 +450,18 @@ ports: {}
 warnings:
   vertical_te:
     unconnected_ports:
-      - message: 4 unconnected vertical_te ports!
-        ports:
-          - grating_coupler_ellipti_b694ac47_0_m20512,o2
-          - grating_coupler_ellipti_b694ac47_127000_m20512,o2
-          - grating_coupler_ellipti_b694ac47_254000_m20512,o2
-          - grating_coupler_ellipti_b694ac47_381000_m20512,o2
-        values:
-          - - 0
-            - -26740
-          - - 127000
-            - -26740
-          - - 254000
-            - -26740
-          - - 381000
-            - -26740
+    - message: 4 unconnected vertical_te ports!
+      ports:
+      - grating_coupler_ellipti_b694ac47_0_m20512,o2
+      - grating_coupler_ellipti_b694ac47_127000_m20512,o2
+      - grating_coupler_ellipti_b694ac47_254000_m20512,o2
+      - grating_coupler_ellipti_b694ac47_381000_m20512,o2
+      values:
+      - - 0
+        - -26740
+      - - 127000
+        - -26740
+      - - 254000
+        - -26740
+      - - 381000
+        - -26740

@@ -4,14 +4,14 @@ settings:
   cols: 10
   contact: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLM2_MTOP_Vvia2_None
   layers_bot:
-    - M1
+  - M1
   layers_top:
-    - M2
+  - M2
   min_metal_spacing: 1
   num_vias: 100
   offsets_bot:
-    - 0
+  - 0
   offsets_top:
-    - 0
+  - 0
   via: Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2
   via_min_enclosure: 1

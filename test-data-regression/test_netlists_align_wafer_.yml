@@ -13,14 +13,14 @@ instances:
       centered: true
       layer: WG
       port_orientations:
-        - 180
-        - 90
-        - 0
-        - -90
+      - 180
+      - 90
+      - 0
+      - -90
       port_type: electrical
       size:
-        - 10
-        - 110
+      - 10
+      - 110
   rectangle_S10_110_LWG_C_804deee6_m55000_0:
     component: rectangle
     info: {}
@@ -28,14 +28,14 @@ instances:
       centered: true
       layer: WG
       port_orientations:
-        - 180
-        - 90
-        - 0
-        - -90
+      - 180
+      - 90
+      - 0
+      - -90
       port_type: electrical
       size:
-        - 10
-        - 110
+      - 10
+      - 110
   rectangle_S120_10_LWG_C_6331a70d_0_55000:
     component: rectangle
     info: {}
@@ -43,14 +43,14 @@ instances:
       centered: true
       layer: WG
       port_orientations:
-        - 180
-        - 90
-        - 0
-        - -90
+      - 180
+      - 90
+      - 0
+      - -90
       port_type: electrical
       size:
-        - 120
-        - 10
+      - 120
+      - 10
   rectangle_S120_10_LWG_C_6331a70d_0_m55000:
     component: rectangle
     info: {}
@@ -58,14 +58,14 @@ instances:
       centered: true
       layer: WG
       port_orientations:
-        - 180
-        - 90
-        - 0
-        - -90
+      - 180
+      - 90
+      - 0
+      - -90
       port_type: electrical
       size:
-        - 120
-        - 10
+      - 120
+      - 10
   rectangle_S25_25_LWG_CT_b4cc56e5_m27500_m27500:
     component: rectangle
     info: {}
@@ -73,14 +73,14 @@ instances:
       centered: true
       layer: WG
       port_orientations:
-        - 180
-        - 90
-        - 0
-        - -90
+      - 180
+      - 90
+      - 0
+      - -90
       port_type: electrical
       size:
-        - 25
-        - 25
+      - 25
+      - 25
 name: align_wafer_W10_S10_CL8_ecd2fcec
 nets: []
 placements:
@@ -118,66 +118,66 @@ ports: {}
 warnings:
   electrical:
     unconnected_ports:
-      - message: 20 unconnected electrical ports!
-        ports:
-          - rectangle_S120_10_LWG_C_6331a70d_0_55000,e1
-          - rectangle_S120_10_LWG_C_6331a70d_0_55000,e2
-          - rectangle_S120_10_LWG_C_6331a70d_0_55000,e3
-          - rectangle_S120_10_LWG_C_6331a70d_0_55000,e4
-          - rectangle_S120_10_LWG_C_6331a70d_0_m55000,e1
-          - rectangle_S120_10_LWG_C_6331a70d_0_m55000,e2
-          - rectangle_S120_10_LWG_C_6331a70d_0_m55000,e3
-          - rectangle_S120_10_LWG_C_6331a70d_0_m55000,e4
-          - rectangle_S10_110_LWG_C_804deee6_m55000_0,e1
-          - rectangle_S10_110_LWG_C_804deee6_m55000_0,e2
-          - rectangle_S10_110_LWG_C_804deee6_m55000_0,e3
-          - rectangle_S10_110_LWG_C_804deee6_m55000_0,e4
-          - rectangle_S10_110_LWG_C_804deee6_55000_0,e1
-          - rectangle_S10_110_LWG_C_804deee6_55000_0,e2
-          - rectangle_S10_110_LWG_C_804deee6_55000_0,e3
-          - rectangle_S10_110_LWG_C_804deee6_55000_0,e4
-          - rectangle_S25_25_LWG_CT_b4cc56e5_m27500_m27500,e1
-          - rectangle_S25_25_LWG_CT_b4cc56e5_m27500_m27500,e2
-          - rectangle_S25_25_LWG_CT_b4cc56e5_m27500_m27500,e3
-          - rectangle_S25_25_LWG_CT_b4cc56e5_m27500_m27500,e4
-        values:
-          - - -60000
-            - 55000
-          - - 0
-            - 60000
-          - - 60000
-            - 55000
-          - - 0
-            - 50000
-          - - -60000
-            - -55000
-          - - 0
-            - -50000
-          - - 60000
-            - -55000
-          - - 0
-            - -60000
-          - - -60000
-            - 0
-          - - -55000
-            - 55000
-          - - -50000
-            - 0
-          - - -55000
-            - -55000
-          - - 50000
-            - 0
-          - - 55000
-            - 55000
-          - - 60000
-            - 0
-          - - 55000
-            - -55000
-          - - -40000
-            - -27500
-          - - -27500
-            - -15000
-          - - -15000
-            - -27500
-          - - -27500
-            - -40000
+    - message: 20 unconnected electrical ports!
+      ports:
+      - rectangle_S120_10_LWG_C_6331a70d_0_55000,e1
+      - rectangle_S120_10_LWG_C_6331a70d_0_55000,e2
+      - rectangle_S120_10_LWG_C_6331a70d_0_55000,e3
+      - rectangle_S120_10_LWG_C_6331a70d_0_55000,e4
+      - rectangle_S120_10_LWG_C_6331a70d_0_m55000,e1
+      - rectangle_S120_10_LWG_C_6331a70d_0_m55000,e2
+      - rectangle_S120_10_LWG_C_6331a70d_0_m55000,e3
+      - rectangle_S120_10_LWG_C_6331a70d_0_m55000,e4
+      - rectangle_S10_110_LWG_C_804deee6_m55000_0,e1
+      - rectangle_S10_110_LWG_C_804deee6_m55000_0,e2
+      - rectangle_S10_110_LWG_C_804deee6_m55000_0,e3
+      - rectangle_S10_110_LWG_C_804deee6_m55000_0,e4
+      - rectangle_S10_110_LWG_C_804deee6_55000_0,e1
+      - rectangle_S10_110_LWG_C_804deee6_55000_0,e2
+      - rectangle_S10_110_LWG_C_804deee6_55000_0,e3
+      - rectangle_S10_110_LWG_C_804deee6_55000_0,e4
+      - rectangle_S25_25_LWG_CT_b4cc56e5_m27500_m27500,e1
+      - rectangle_S25_25_LWG_CT_b4cc56e5_m27500_m27500,e2
+      - rectangle_S25_25_LWG_CT_b4cc56e5_m27500_m27500,e3
+      - rectangle_S25_25_LWG_CT_b4cc56e5_m27500_m27500,e4
+      values:
+      - - -60000
+        - 55000
+      - - 0
+        - 60000
+      - - 60000
+        - 55000
+      - - 0
+        - 50000
+      - - -60000
+        - -55000
+      - - 0
+        - -50000
+      - - 60000
+        - -55000
+      - - 0
+        - -60000
+      - - -60000
+        - 0
+      - - -55000
+        - 55000
+      - - -50000
+        - 0
+      - - -55000
+        - -55000
+      - - 50000
+        - 0
+      - - 55000
+        - 55000
+      - - 60000
+        - 0
+      - - 55000
+        - -55000
+      - - -40000
+        - -27500
+      - - -27500
+        - -15000
+      - - -15000
+        - -27500
+      - - -27500
+        - -40000

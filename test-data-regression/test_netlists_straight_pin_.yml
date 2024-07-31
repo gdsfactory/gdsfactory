@@ -48,20 +48,20 @@ instances:
     settings:
       correct_size: true
       layers:
-        - SLAB90
-        - M1
-        - M2
-        - MTOP
+      - SLAB90
+      - M1
+      - M2
+      - MTOP
       size:
-        - 480
-        - 10
+      - 480
+      - 10
       slot_horizontal: false
       slot_vertical: false
       vias:
-        - viac
-        - via1
-        - via2
-        - null
+      - viac
+      - via1
+      - via2
+      - null
   via_stack_S480_10_LSLAB_373fa08a_240000_m6000:
     component: via_stack
     info:
@@ -70,26 +70,26 @@ instances:
     settings:
       correct_size: true
       layers:
-        - SLAB90
-        - M1
-        - M2
-        - MTOP
+      - SLAB90
+      - M1
+      - M2
+      - MTOP
       size:
-        - 480
-        - 10
+      - 480
+      - 10
       slot_horizontal: false
       slot_vertical: false
       vias:
-        - viac
-        - via1
-        - via2
-        - null
+      - viac
+      - via1
+      - via2
+      - null
 name: straight_pin_L500_CSpin_15abe242
 nets:
-  - p1: straight_L480_N2_CSpin_240000_0,o1
-    p2: taper_strip_to_ridge_L1_3a86af41_m5000_0,o2
-  - p1: straight_L480_N2_CSpin_240000_0,o2
-    p2: taper_strip_to_ridge_L1_3a86af41_485000_0,o2
+- p1: straight_L480_N2_CSpin_240000_0,o1
+  p2: taper_strip_to_ridge_L1_3a86af41_m5000_0,o2
+- p1: straight_L480_N2_CSpin_240000_0,o2
+  p2: taper_strip_to_ridge_L1_3a86af41_485000_0,o2
 placements:
   straight_L480_N2_CSpin_240000_0:
     mirror: false

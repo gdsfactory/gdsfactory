@@ -1,11 +1,9 @@
 name: new_factories
-
 instances:
   bot:
     component: pad_new
   top:
     component: pad_new
-
 placements:
   top:
     x: 0

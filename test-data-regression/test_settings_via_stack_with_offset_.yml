@@ -2,11 +2,11 @@ info: {}
 name: via_stack_with_offset_L_3866aa71
 settings:
   layers:
-    - PPP
-    - M1
+  - PPP
+  - M1
   size:
-    - 10
-    - 10
+  - 10
+  - 10
   vias:
-    - null
-    - Fvia_Mgdsfactorypcomponentspvia_SLVIAC
+  - null
+  - Fvia_Mgdsfactorypcomponentspvia_SLVIAC

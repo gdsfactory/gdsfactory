@@ -3,7 +3,7 @@ name: copy_layers_Fcross_L1_0_2_0
 settings:
   factory: cross
   layers:
-    - - 1
-      - 0
-    - - 2
-      - 0
+  - - 1
+    - 0
+  - - 2
+    - 0

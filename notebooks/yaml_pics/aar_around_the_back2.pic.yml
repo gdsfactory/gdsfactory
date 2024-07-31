@@ -9,7 +9,6 @@ instances:
     settings:
       width_mmi: 4.5
       length_mmi: 5
-
 placements:
   mmi_short:
     rotation: 180
@@ -20,16 +19,14 @@ placements:
     y: mmi_short,o1
     dx: 50
     dy: 20
-
 routes:
   optical:
     routing_strategy: route_bundle_all_angle
     settings:
-      start_angle: 90  # exit out of the starting port at this angle
-      end_angle: 180  # exit out of the ending port at this angle
+      start_angle: 90 # exit out of the starting port at this angle
+      end_angle: 180 # exit out of the ending port at this angle
     links:
       mmi_short,o1: mmi_long,o1
-
 ports:
   o1: mmi_short,o2
   o2: mmi_short,o3

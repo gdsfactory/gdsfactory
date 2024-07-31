@@ -7,18 +7,18 @@ instances:
     settings:
       correct_size: true
       layers:
-        - M1
-        - M2
-        - MTOP
+      - M1
+      - M2
+      - MTOP
       size:
-        - 10
-        - 22
+      - 10
+      - 22
       slot_horizontal: false
       slot_vertical: false
       vias:
-        - via1
-        - via2
-        - null
+      - via1
+      - via2
+      - null
   via_stack_S10_22_LM1_M2_93167f57_m15000_1000:
     component: via_stack
     info:
@@ -27,18 +27,18 @@ instances:
     settings:
       correct_size: true
       layers:
-        - M1
-        - M2
-        - MTOP
+      - M1
+      - M2
+      - MTOP
       size:
-        - 10
-        - 22
+      - 10
+      - 22
       slot_horizontal: false
       slot_vertical: false
       vias:
-        - via1
-        - via2
-        - null
+      - via1
+      - via2
+      - null
   via_stack_S44_10_LM1_M2_9163df5c_2000_17000:
     component: via_stack
     info:
@@ -47,18 +47,18 @@ instances:
     settings:
       correct_size: true
       layers:
-        - M1
-        - M2
-        - MTOP
+      - M1
+      - M2
+      - MTOP
       size:
-        - 44
-        - 10
+      - 44
+      - 10
       slot_horizontal: false
       slot_vertical: false
       vias:
-        - via1
-        - via2
-        - null
+      - via1
+      - via2
+      - null
   via_stack_S44_10_LM1_M2_9163df5c_2000_m15000:
     component: via_stack
     info:
@@ -67,18 +67,18 @@ instances:
     settings:
       correct_size: true
       layers:
-        - M1
-        - M2
-        - MTOP
+      - M1
+      - M2
+      - MTOP
       size:
-        - 44
-        - 10
+      - 44
+      - 10
       slot_horizontal: false
       slot_vertical: false
       vias:
-        - via1
-        - via2
-        - null
+      - via1
+      - via2
+      - null
 name: seal_ring_Crectangle_Sv_f34f177a
 nets: []
 placements:
@@ -106,54 +106,54 @@ ports: {}
 warnings:
   electrical:
     unconnected_ports:
-      - message: 16 unconnected electrical ports!
-        ports:
-          - via_stack_S44_10_LM1_M2_9163df5c_2000_17000,e1
-          - via_stack_S44_10_LM1_M2_9163df5c_2000_17000,e2
-          - via_stack_S44_10_LM1_M2_9163df5c_2000_17000,e3
-          - via_stack_S44_10_LM1_M2_9163df5c_2000_17000,e4
-          - via_stack_S10_22_LM1_M2_93167f57_19000_1000,e1
-          - via_stack_S10_22_LM1_M2_93167f57_19000_1000,e2
-          - via_stack_S10_22_LM1_M2_93167f57_19000_1000,e3
-          - via_stack_S10_22_LM1_M2_93167f57_19000_1000,e4
-          - via_stack_S10_22_LM1_M2_93167f57_m15000_1000,e1
-          - via_stack_S10_22_LM1_M2_93167f57_m15000_1000,e2
-          - via_stack_S10_22_LM1_M2_93167f57_m15000_1000,e3
-          - via_stack_S10_22_LM1_M2_93167f57_m15000_1000,e4
-          - via_stack_S44_10_LM1_M2_9163df5c_2000_m15000,e1
-          - via_stack_S44_10_LM1_M2_9163df5c_2000_m15000,e2
-          - via_stack_S44_10_LM1_M2_9163df5c_2000_m15000,e3
-          - via_stack_S44_10_LM1_M2_9163df5c_2000_m15000,e4
-        values:
-          - - -20000
-            - 17000
-          - - 2000
-            - 22000
-          - - 24000
-            - 17000
-          - - 2000
-            - 12000
-          - - 14000
-            - 1000
-          - - 19000
-            - 12000
-          - - 24000
-            - 1000
-          - - 19000
-            - -10000
-          - - -20000
-            - 1000
-          - - -15000
-            - 12000
-          - - -10000
-            - 1000
-          - - -15000
-            - -10000
-          - - -20000
-            - -15000
-          - - 2000
-            - -10000
-          - - 24000
-            - -15000
-          - - 2000
-            - -20000
+    - message: 16 unconnected electrical ports!
+      ports:
+      - via_stack_S44_10_LM1_M2_9163df5c_2000_17000,e1
+      - via_stack_S44_10_LM1_M2_9163df5c_2000_17000,e2
+      - via_stack_S44_10_LM1_M2_9163df5c_2000_17000,e3
+      - via_stack_S44_10_LM1_M2_9163df5c_2000_17000,e4
+      - via_stack_S10_22_LM1_M2_93167f57_19000_1000,e1
+      - via_stack_S10_22_LM1_M2_93167f57_19000_1000,e2
+      - via_stack_S10_22_LM1_M2_93167f57_19000_1000,e3
+      - via_stack_S10_22_LM1_M2_93167f57_19000_1000,e4
+      - via_stack_S10_22_LM1_M2_93167f57_m15000_1000,e1
+      - via_stack_S10_22_LM1_M2_93167f57_m15000_1000,e2
+      - via_stack_S10_22_LM1_M2_93167f57_m15000_1000,e3
+      - via_stack_S10_22_LM1_M2_93167f57_m15000_1000,e4
+      - via_stack_S44_10_LM1_M2_9163df5c_2000_m15000,e1
+      - via_stack_S44_10_LM1_M2_9163df5c_2000_m15000,e2
+      - via_stack_S44_10_LM1_M2_9163df5c_2000_m15000,e3
+      - via_stack_S44_10_LM1_M2_9163df5c_2000_m15000,e4
+      values:
+      - - -20000
+        - 17000
+      - - 2000
+        - 22000
+      - - 24000
+        - 17000
+      - - 2000
+        - 12000
+      - - 14000
+        - 1000
+      - - 19000
+        - 12000
+      - - 24000
+        - 1000
+      - - 19000
+        - -10000
+      - - -20000
+        - 1000
+      - - -15000
+        - 12000
+      - - -10000
+        - 1000
+      - - -15000
+        - -10000
+      - - -20000
+        - -15000
+      - - 2000
+        - -10000
+      - - 24000
+        - -15000
+      - - 2000
+        - -20000

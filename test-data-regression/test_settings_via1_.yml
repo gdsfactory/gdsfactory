@@ -10,8 +10,8 @@ settings:
   enclosure: 2
   layer: VIA1
   size:
-    - 0.7
-    - 0.7
+  - 0.7
+  - 0.7
   spacing:
-    - 2
-    - 2
+  - 2
+  - 2

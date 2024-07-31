@@ -89,8 +89,8 @@ instances:
       extension: Fstraight_Mgdsfactorypcomponentspstraight_SCSstrip_L1
       length: 1
       port_names:
-        - o1
-        - o2
+      - o1
+      - o2
       port_type: optical
   straight_L67_N2_CSstrip_W0p5_m30000_825500:
     component: straight
@@ -122,22 +122,22 @@ instances:
       width: 0.5
 name: edge_coupler_array_with_0e29eb5f
 nets:
-  - p1: bend_euler_R30_A90_P0p5_6f642382_m15125_776875,o1
-    p2: straight_L67_N2_CSstrip_W0p5_m30000_825500,o2
-  - p1: bend_euler_R30_A90_P0p5_6f642382_m15125_776875,o2
-    p2: extend_ports_Cedge_coup_c53a732f_49500_474375,o7
-  - p1: bend_euler_R30_A90_P0p5_6f642382_m15125_874125,o1
-    p2: extend_ports_Cedge_coup_c53a732f_49500_474375,o8
-  - p1: bend_euler_R30_A90_P0p5_6f642382_m15125_874125,o2
-    p2: straight_L67_N2_CSstrip_W0p5_m30000_825500,o1
-  - p1: bend_euler_R30_A90_P0p5_6f642382_m16125_112125,o1
-    p2: extend_ports_Cedge_coup_c53a732f_49500_474375,o2
-  - p1: bend_euler_R30_A90_P0p5_6f642382_m16125_112125,o2
-    p2: straight_L67_N2_CSstrip_W0p5_m31000_63500,o1
-  - p1: bend_euler_R30_A90_P0p5_6f642382_m16125_14875,o1
-    p2: straight_L67_N2_CSstrip_W0p5_m31000_63500,o2
-  - p1: bend_euler_R30_A90_P0p5_6f642382_m16125_14875,o2
-    p2: extend_ports_Cedge_coup_c53a732f_49500_474375,o1
+- p1: bend_euler_R30_A90_P0p5_6f642382_m15125_776875,o1
+  p2: straight_L67_N2_CSstrip_W0p5_m30000_825500,o2
+- p1: bend_euler_R30_A90_P0p5_6f642382_m15125_776875,o2
+  p2: extend_ports_Cedge_coup_c53a732f_49500_474375,o7
+- p1: bend_euler_R30_A90_P0p5_6f642382_m15125_874125,o1
+  p2: extend_ports_Cedge_coup_c53a732f_49500_474375,o8
+- p1: bend_euler_R30_A90_P0p5_6f642382_m15125_874125,o2
+  p2: straight_L67_N2_CSstrip_W0p5_m30000_825500,o1
+- p1: bend_euler_R30_A90_P0p5_6f642382_m16125_112125,o1
+  p2: extend_ports_Cedge_coup_c53a732f_49500_474375,o2
+- p1: bend_euler_R30_A90_P0p5_6f642382_m16125_112125,o2
+  p2: straight_L67_N2_CSstrip_W0p5_m31000_63500,o1
+- p1: bend_euler_R30_A90_P0p5_6f642382_m16125_14875,o1
+  p2: straight_L67_N2_CSstrip_W0p5_m31000_63500,o2
+- p1: bend_euler_R30_A90_P0p5_6f642382_m16125_14875,o2
+  p2: extend_ports_Cedge_coup_c53a732f_49500_474375,o1
 placements:
   bend_euler_R30_A90_P0p5_6f642382_m15125_776875:
     mirror: false

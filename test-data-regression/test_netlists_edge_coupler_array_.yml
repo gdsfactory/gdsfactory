@@ -9,11 +9,11 @@ instances:
       cross_section: strip
       length: 100
       port_names:
-        - o1
-        - o2
+      - o1
+      - o2
       port_types:
-        - optical
-        - optical
+      - optical
+      - optical
       width1: 0.5
       width2: 0.2
       with_bbox: true
@@ -28,11 +28,11 @@ instances:
       cross_section: strip
       length: 100
       port_names:
-        - o1
-        - o2
+      - o1
+      - o2
       port_types:
-        - optical
-        - optical
+      - optical
+      - optical
       width1: 0.5
       width2: 0.2
       with_bbox: true
@@ -47,11 +47,11 @@ instances:
       cross_section: strip
       length: 100
       port_names:
-        - o1
-        - o2
+      - o1
+      - o2
       port_types:
-        - optical
-        - optical
+      - optical
+      - optical
       width1: 0.5
       width2: 0.2
       with_bbox: true
@@ -66,11 +66,11 @@ instances:
       cross_section: strip
       length: 100
       port_names:
-        - o1
-        - o2
+      - o1
+      - o2
       port_types:
-        - optical
-        - optical
+      - optical
+      - optical
       width1: 0.5
       width2: 0.2
       with_bbox: true
@@ -85,11 +85,11 @@ instances:
       cross_section: strip
       length: 100
       port_names:
-        - o1
-        - o2
+      - o1
+      - o2
       port_types:
-        - optical
-        - optical
+      - optical
+      - optical
       width1: 0.5
       width2: 0.2
       with_bbox: true
@@ -101,8 +101,8 @@ instances:
       justify: left
       layer: WG
       position:
-        - 0
-        - 0
+      - 0
+      - 0
       size: 10
       text: '1'
   text_rectangular_T2_S10_2472e4e0_35000_172000:
@@ -112,8 +112,8 @@ instances:
       justify: left
       layer: WG
       position:
-        - 0
-        - 0
+      - 0
+      - 0
       size: 10
       text: '2'
   text_rectangular_T3_S10_c2fd20ce_35000_299000:
@@ -123,8 +123,8 @@ instances:
       justify: left
       layer: WG
       position:
-        - 0
-        - 0
+      - 0
+      - 0
       size: 10
       text: '3'
   text_rectangular_T4_S10_0c368c07_35000_426000:
@@ -134,8 +134,8 @@ instances:
       justify: left
       layer: WG
       position:
-        - 0
-        - 0
+      - 0
+      - 0
       size: 10
       text: '4'
   text_rectangular_T5_S10_480a7f5d_35000_553000:
@@ -145,8 +145,8 @@ instances:
       justify: left
       layer: WG
       position:
-        - 0
-        - 0
+      - 0
+      - 0
       size: 10
       text: '5'
 name: edge_coupler_array_ECed_0e2b58eb
