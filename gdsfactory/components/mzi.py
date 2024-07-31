@@ -27,6 +27,8 @@ def mzi(
     port_e0_splitter: str = "o3",
     port_e1_combiner: str = "o2",
     port_e0_combiner: str = "o3",
+    port1: str = "o1",
+    port2: str = "o2",
     nbends: int = 2,
     cross_section: CrossSectionSpec = "strip",
     cross_section_x_top: CrossSectionSpec | None = None,
@@ -54,6 +56,8 @@ def mzi(
         port_e0_splitter: east bot splitter port.
         port_e1_combiner: east top combiner port.
         port_e0_combiner: east bot combiner port.
+        port1: input port name.
+        port2: output port name.
         nbends: from straight top/bot to combiner (at least 2).
         cross_section: for routing (sxtop/sxbot to combiner).
         cross_section_x_top: optional top cross_section (defaults to cross_section).
@@ -101,14 +105,14 @@ def mzi(
 
     cp2 = c << cp2
     b5 = c << bend
-    b5.connect("o1", cp1.ports[port_e0_splitter], mirror=True)
+    b5.connect(port1, cp1.ports[port_e0_splitter], mirror=True)
 
     syl = c << gf.get_component(
         straight_y, length=delta_length / 2 + length_y, cross_section=cross_section
     )
-    syl.connect("o1", b5.ports["o2"])
+    syl.connect(port1, b5.ports[port2])
     b6 = c << bend
-    b6.connect("o1", syl.ports["o2"])
+    b6.connect(port1, syl.ports[port2])
 
     straight_x_top = (
         gf.get_component(
@@ -119,7 +123,7 @@ def mzi(
     )
     sxt = c << straight_x_top
 
-    length_x = length_x or abs(sxt.ports["o1"].dx - sxt.ports["o2"].dx)
+    length_x = length_x or abs(sxt.ports[port1].dx - sxt.ports[port2].dx)
 
     straight_x_bot = (
         gf.get_component(
@@ -129,21 +133,21 @@ def mzi(
         else gf.get_component(straight_x_bot)
     )
     sxb = c << straight_x_bot
-    sxb.connect("o1", b6.ports["o2"], mirror=mirror_bot)
+    sxb.connect(port1, b6.ports[port2], mirror=mirror_bot)
 
     b1 = c << bend
-    b1.connect("o1", cp1.ports[port_e1_splitter])
+    b1.connect(port1, cp1.ports[port_e1_splitter])
 
     sytl = c << gf.get_component(
         straight_y, length=length_y, cross_section=cross_section
     )
-    sytl.connect("o1", b1.ports["o2"])
+    sytl.connect(port1, b1.ports[port2])
 
     b2 = c << bend
-    b2.connect("o2", sytl.ports["o2"])
-    sxt.connect("o1", b2.ports["o1"])
+    b2.connect(port2, sytl.ports[port2])
+    sxt.connect(port1, b2.ports[port1])
     cp2.mirror_x()
-    cp2.dxmin = sxt.ports["o2"].dx + bend.info["radius"] * nbends + 2 * min_length
+    cp2.dxmin = sxt.ports[port2].dx + bend.info["radius"] * nbends + 2 * min_length
 
     gap_ports_combiner = cp1.ports[port_e0_splitter].dy - cp1.ports[port_e1_splitter].dy
     gap_ports_splitter = cp2.ports[port_e0_combiner].dy - cp2.ports[port_e1_combiner].dy
@@ -151,29 +155,29 @@ def mzi(
 
     # Top arm
     b3 = c << bend
-    b3.connect("o2", sxt.ports["o2"])
+    b3.connect(port2, sxt.ports[port2])
 
     sytr = c << gf.get_component(
         straight_y, length=length_y - delta_gap_ports / 2, cross_section=cross_section
     )
-    sytr.connect("o2", b3.ports["o1"])
+    sytr.connect(port2, b3.ports[port1])
     b4 = c << bend
-    b4.connect("o1", sytr.ports["o1"])
+    b4.connect(port1, sytr.ports[port1])
 
     # Bot arm
     b7 = c << bend
-    b7.connect("o1", sxb.ports["o2"])
+    b7.connect(port1, sxb.ports[port2])
 
     sybr = c << gf.get_component(
         straight_y,
         length=delta_length / 2 + length_y - delta_gap_ports / 2,
         cross_section=cross_section,
     )
-    sybr.connect("o1", b7.ports["o2"])
+    sybr.connect(port1, b7.ports[port2])
     b8 = c << bend
-    b8.connect("o2", sybr.ports["o2"])
+    b8.connect(port2, sybr.ports[port2])
 
-    cp2.connect(port_e1_combiner, b4.ports["o2"])
+    cp2.connect(port_e1_combiner, b4.ports[port2])
 
     sytl.name = "sytl"
     syl.name = "syl"
@@ -184,8 +188,8 @@ def mzi(
     if with_splitter:
         c.add_ports(cp1.ports.filter(orientation=180), prefix="in_")
     else:
-        c.add_port("o1", port=b1.ports["o1"])
-        c.add_port("o2", port=b5.ports["o1"])
+        c.add_port(port1, port=b1.ports[port1])
+        c.add_port(port2, port=b5.ports[port1])
     c.add_ports(cp2.ports.filter(orientation=0), prefix="ou_")
     c.add_ports(sxt.ports.filter(port_type="electrical"), prefix="top_")
     c.add_ports(sxb.ports.filter(port_type="electrical"), prefix="bot_")

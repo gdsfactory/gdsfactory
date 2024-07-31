@@ -92,8 +92,12 @@ def _bend_euler(
 
 
 @gf.cell
-def bend_euler_s(**kwargs) -> Component:
+def bend_euler_s(port1: str = "o1", port2: str = "o2", **kwargs) -> Component:
     r"""Sbend made of 2 euler bends.
+
+    Args:
+        port1: input port name.
+        port2: output port name.
 
     Keyword Args:
         angle: total angle of the curve.
@@ -125,10 +129,10 @@ def bend_euler_s(**kwargs) -> Component:
     b = bend_euler(**kwargs)
     b1 = c.add_ref(b)
     b2 = c.add_ref(b)
-    b2.connect("o1", b1["o2"], mirror=True)
-    b2.connect("o1", b1["o2"])
-    c.add_port("o1", port=b1["o1"])
-    c.add_port("o2", port=b2["o2"])
+    b2.connect(port1, b1[port2], mirror=True)
+    b2.connect(port1, b1[port2])
+    c.add_port(port1, port=b1[port1])
+    c.add_port(port2, port=b2[port2])
     c.info["length"] = 2 * b.info["length"]
     return c
 
