@@ -25,8 +25,8 @@ execute:
     # - "*03_cascaded_mzi*"
     # - "*jupyter_notebooks*"
 latex:
-  latex_engine: pdflatex # one of 'pdflatex', 'xelatex' (recommended for unicode), 'luatex', 'platex', 'uplatex'
-  use_jupyterbook_latex: true # use sphinx-jupyterbook-latex for pdf builds as default
+  latex_engine: pdflatex  # one of 'pdflatex', 'xelatex' (recommended for unicode), 'luatex', 'platex', 'uplatex'
+  use_jupyterbook_latex: true  # use sphinx-jupyterbook-latex for pdf builds as default
 # Add a bibtex file so that we can create citations
 html:
   home_page_in_navbar: true
@@ -42,9 +42,9 @@ html:
       dark: "_static/logo_white.png"
 # Information about where the book exists on the web
 repository:
-  url: https://github.com/gdsfactory/gdsfactory # Online location of your book
-  path_to_book: docs # Optional path to your book, relative to the repository root
-  branch: main # Which branch of the repository should be used when creating links (optional)
+  url: https://github.com/gdsfactory/gdsfactory  # Online location of your book
+  path_to_book: docs  # Optional path to your book, relative to the repository root
+  branch: main  # Which branch of the repository should be used when creating links (optional)
 # launch_buttons:
 # binderhub_url: "https://mybinder.org/v2/gh/gdsfactory/binder-sandbox/HEAD"
 # thebe: true
@@ -61,7 +61,7 @@ sphinx:
     - "matplotlib.sphinxext.plot_directive"
     # - "sphinxcontrib.autodoc_pydantic"
   config:
-    #autodoc_typehints: description
+    # autodoc_typehints: description
     autodoc_type_aliases:
       "ComponentFactory": "ComponentFactory"
       "ComponentSpec": "ComponentSpec"
@@ -72,7 +72,7 @@ sphinx:
       "Layer": "Layer"
       "Layers": "Layers"
       "PathType": "PathType"
-    nb_execution_show_tb: True
+    nb_execution_show_tb: true
     html_js_files:
       - https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js
     nb_execution_raise_on_error: true
