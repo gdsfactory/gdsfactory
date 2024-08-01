@@ -17,7 +17,6 @@ skip_test = {
     "ring_double_pn",
     "pack_doe",
     "pack_doe_grid",
-    "text_freetype",
 }
 cells_to_test = set(cells.keys()) - skip_test
 
