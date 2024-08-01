@@ -36,10 +36,6 @@ repos:
         files: \.(j2|yml|yaml)$
         exclude: .github/.*
         # args: [--extensions, "j2,yml,yaml", --ignore, jinja-statements-delimiter, jinja-statements-indentation]
-  # - repo: https://github.com/RobertCraigie/pyright-python
-  #   rev: v1.1.333
-  #   hooks:
-  #   - id: pyright
   - repo: https://github.com/google/yamlfmt
     rev: v0.13.0
     hooks:
