@@ -116,7 +116,7 @@ def text_freetype(
 
 
 if __name__ == "__main__":
-    c2 = text_freetype("hello", size=1)
+    c2 = text_freetype()
     # print(c2.name)
     # c2 = text_freetype()
     c2.show()

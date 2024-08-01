@@ -49,7 +49,7 @@ def _get_font_by_name(name: str):
     """Try to load a system font by name.
 
     Args:
-        name: Load a system font
+        name: Load a system font.
     """
     try:
         font_file = font_manager.findfont(name, fallback_to_default=False)
@@ -179,16 +179,13 @@ def _polygon_orientation(vertices) -> int:
     n = len(vertices)
     if n < 3:
         raise ValueError("A polygon must have at least 3 vertices")
-    sum = 0
+    s = 0
     for i in range(n):
         x1, y1 = vertices[i]
         x2, y2 = vertices[(i + 1) % n]
-        sum += (x2 - x1) * (y2 + y1)
+        s += (x2 - x1) * (y2 + y1)
 
-    if sum > 0:
-        return 0  # clockwise
-    else:
-        return 1  # counterclockwise
+    return 0 if s > 0 else 1
 
 
 if __name__ == "__main__":
