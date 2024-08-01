@@ -1,27 +1,26 @@
 name: connections_demo
 instances:
-    b:
-      component: bend_circular
-    mmi_long:
-      component: mmi1x2
-      settings:
-        width_mmi: 4.5
-        length_mmi: 10
-    mmi_short:
-      component: mmi1x2
-      settings:
-        width_mmi: 4.5
-        length_mmi: 5
+  b:
+    component: bend_circular
+  mmi_long:
+    component: mmi1x2
+    settings:
+      width_mmi: 4.5
+      length_mmi: 10
+  mmi_short:
+    component: mmi1x2
+    settings:
+      width_mmi: 4.5
+      length_mmi: 5
 placements:
-    mmi_short:
-        port: o1
-        x: 10
-        y: 20
+  mmi_short:
+    port: o1
+    x: 10
+    y: 20
 connections:
-    b,o1 : mmi_short,o2
-    mmi_long,o1: b,o2
-
+  b,o1: mmi_short,o2
+  mmi_long,o1: b,o2
 ports:
-    o1: mmi_short,o1
-    o2: mmi_long,o2
-    o3: mmi_long,o3
+  o1: mmi_short,o1
+  o2: mmi_long,o2
+  o3: mmi_long,o3

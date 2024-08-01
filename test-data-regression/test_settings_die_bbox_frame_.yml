@@ -4,10 +4,10 @@ module: gdsfactory.components.die_bbox_frame
 name: die_bbox_frame
 settings:
   bbox:
-  - - -1.0
-    - -1.0
-  - - 3.0
-    - 4.0
+    - - -1.0
+      - -1.0
+    - - 3.0
+      - 4.0
   die_name: null
   layer: MTOP
   padding: 10.0

@@ -3,7 +3,6 @@ instances:
     component: straight
   wg_d2:
     component: straight
-
 placements:
   wg_d1:
     port: o2
@@ -15,8 +14,6 @@ placements:
     y: wg_d1,o2
     dx: 1000
     dy: -1000
-
-
 routes:
   bad_news:
     routing_strategy: route_bundle_all_angle

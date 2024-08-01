@@ -1,8 +1,8 @@
 function: via_stack_slot
 info:
   size:
-  - 11.0
-  - 11.0
+    - 11.0
+    - 11.0
   xsize: 11.0
   ysize: 11.0
 module: gdsfactory.components.via_stack_slot
@@ -10,17 +10,17 @@ name: via_stack_slot
 settings:
   enclosure: 1.0
   layer_offsets:
-  - 0
-  - 1.0
+    - 0
+    - 1.0
   layer_offsetsx: null
   layer_offsetsy: null
   layer_port: null
   layers:
-  - M1
-  - M2
+    - M1
+    - M2
   size:
-  - 11.0
-  - 11.0
+    - 11.0
+    - 11.0
   via:
     function: via
     module: gdsfactory.components.via

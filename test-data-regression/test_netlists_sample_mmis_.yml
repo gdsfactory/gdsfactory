@@ -28,21 +28,21 @@ instances:
         radius: 10.0
         radius_min: 5.0
         sections:
-        - hidden: false
-          insets: null
-          layer: WG
-          name: _default
-          offset: 0.0
-          offset_function: null
-          port_names:
-          - o1
-          - o2
-          port_types:
-          - optical
-          - optical
-          simplify: null
-          width: 0.5
-          width_function: null
+          - hidden: false
+            insets: null
+            layer: WG
+            name: _default
+            offset: 0.0
+            offset_function: null
+            port_names:
+              - o1
+              - o2
+            port_types:
+              - optical
+              - optical
+            simplify: null
+            width: 0.5
+            width_function: null
       direction: ccw
       npoints: null
       p: 0.5
@@ -70,21 +70,21 @@ instances:
         radius: 10.0
         radius_min: 5.0
         sections:
-        - hidden: false
-          insets: null
-          layer: WG
-          name: _default
-          offset: 0.0
-          offset_function: null
-          port_names:
-          - o1
-          - o2
-          port_types:
-          - optical
-          - optical
-          simplify: null
-          width: 0.5
-          width_function: null
+          - hidden: false
+            insets: null
+            layer: WG
+            name: _default
+            offset: 0.0
+            offset_function: null
+            port_names:
+              - o1
+              - o2
+            port_types:
+              - optical
+              - optical
+            simplify: null
+            width: 0.5
+            width_function: null
       direction: ccw
       npoints: null
       p: 0.5
@@ -133,21 +133,21 @@ instances:
         radius: 10.0
         radius_min: 5.0
         sections:
-        - hidden: false
-          insets: null
-          layer: WG
-          name: _default
-          offset: 0.0
-          offset_function: null
-          port_names:
-          - o1
-          - o2
-          port_types:
-          - optical
-          - optical
-          simplify: null
-          width: 0.5
-          width_function: null
+          - hidden: false
+            insets: null
+            layer: WG
+            name: _default
+            offset: 0.0
+            offset_function: null
+            port_names:
+              - o1
+              - o2
+            port_types:
+              - optical
+              - optical
+            simplify: null
+            width: 0.5
+            width_function: null
       length: 95.02
       npoints: 2
   straight_2:
@@ -167,21 +167,21 @@ instances:
         radius: 10.0
         radius_min: 5.0
         sections:
-        - hidden: false
-          insets: null
-          layer: WG
-          name: _default
-          offset: 0.0
-          offset_function: null
-          port_names:
-          - o1
-          - o2
-          port_types:
-          - optical
-          - optical
-          simplify: null
-          width: 0.5
-          width_function: null
+          - hidden: false
+            insets: null
+            layer: WG
+            name: _default
+            offset: 0.0
+            offset_function: null
+            port_names:
+              - o1
+              - o2
+            port_types:
+              - optical
+              - optical
+            simplify: null
+            width: 0.5
+            width_function: null
       length: 79.375
       npoints: 2
   straight_3:
@@ -201,21 +201,21 @@ instances:
         radius: 10.0
         radius_min: 5.0
         sections:
-        - hidden: false
-          insets: null
-          layer: WG
-          name: _default
-          offset: 0.0
-          offset_function: null
-          port_names:
-          - o1
-          - o2
-          port_types:
-          - optical
-          - optical
-          simplify: null
-          width: 0.5
-          width_function: null
+          - hidden: false
+            insets: null
+            layer: WG
+            name: _default
+            offset: 0.0
+            offset_function: null
+            port_names:
+              - o1
+              - o2
+            port_types:
+              - optical
+              - optical
+            simplify: null
+            width: 0.5
+            width_function: null
       length: 0.02
       npoints: 2
 name: sample_mmis_3a07ee11
@@ -262,9 +262,9 @@ ports:
 warnings:
   optical:
     unconnected_ports:
-    - message: 1 unconnected optical ports!
-      ports:
-      - mmi_short,o3
-      values:
-      - - 15.0
-        - -0.625
+      - message: 1 unconnected optical ports!
+        ports:
+          - mmi_short,o3
+        values:
+          - - 15.0
+            - -0.625

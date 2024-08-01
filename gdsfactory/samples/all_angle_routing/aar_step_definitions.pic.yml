@@ -63,11 +63,11 @@ routes:
         - x: 8000
         - dx: 500
           y: -1000
-          cross_section: strip # explicit cross section
+          cross_section: strip  # explicit cross section
           exit_angle: 0
         - ds: 400
         - dy: -1000
-          connector: simple # explicit connector
+          connector: simple  # explicit connector
         - x: 6000
           exit_angle: 90
     links:

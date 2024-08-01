@@ -27,12 +27,12 @@ name: test_get_netlist_yaml3
 warnings:
   optical:
     unconnected_ports:
-    - ports:
-      - bend_circular_RNone_A90_35590aa7_2001_6784,o1
-      - bend_circular_RNone_A90_35590aa7_2001_6784,o2
-      values:
-      - - 0
-        - 0
-      - - 3660
-        - 13660
-      message: 2 unconnected optical ports!
+      - ports:
+          - bend_circular_RNone_A90_35590aa7_2001_6784,o1
+          - bend_circular_RNone_A90_35590aa7_2001_6784,o2
+        values:
+          - - 0
+            - 0
+          - - 3660
+            - 13660
+        message: 2 unconnected optical ports!

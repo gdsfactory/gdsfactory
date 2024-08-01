@@ -7,7 +7,6 @@ instances:
     component: straight
   wg_b2:
     component: straight
-
   wg_c1:
     component: straight
   wg_c2:
@@ -16,17 +15,14 @@ instances:
     component: straight
   wg_d2:
     component: straight
-
   wg_e1:
     component: straight
   wg_e2:
     component: straight
-
   wg_f1:
     component: straight
   wg_f2:
     component: straight
-
 placements:
   wg_a1:
     port: o2
@@ -36,7 +32,6 @@ placements:
     port: o1
     x: 2000
     y: -1000
-
   wg_b1:
     port: o2
     x: 5000
@@ -45,7 +40,6 @@ placements:
     port: o1
     x: 7000
     y: -1000
-
   wg_c1:
     port: o2
     x: 0
@@ -62,7 +56,6 @@ placements:
     port: o1
     x: 7000
     y: -6000
-
   wg_e1:
     port: o2
     x: 0
@@ -71,7 +64,6 @@ placements:
     port: o1
     x: 2000
     y: -11000
-
   wg_f1:
     port: o2
     x: 5000
@@ -80,7 +72,6 @@ placements:
     port: o1
     x: 7000
     y: -11000
-
 routes:
   r1:
     routing_strategy: route_bundle_all_angle
@@ -114,7 +105,7 @@ routes:
         - dy: -1000
         - dx: -3000
           exit_angle: 90
-        - cross_section:   # sets second-to-last cross-section
+        - cross_section: # sets second-to-last cross-section
             cross_section: strip
             settings:
               width: 5
@@ -155,7 +146,6 @@ routes:
           exit_angle: 120
     links:
       wg_d1,o2: wg_d2,o1
-
   r5:
     routing_strategy: route_bundle_all_angle
     settings:
@@ -164,13 +154,12 @@ routes:
         settings:
           width: 3.5
       steps:
-        - cross_section:  # ignored for a single-link ending
+        - cross_section: # ignored for a single-link ending
             cross_section: strip
             settings:
               width: 4.2
     links:
       wg_e1,o2: wg_e2,o1
-
   r6:
     routing_strategy: route_bundle_all_angle
     settings:
@@ -180,7 +169,7 @@ routes:
         settings:
           width: 3.5
       steps:
-        - cross_section:  # should see the effect in the first link now
+        - cross_section: # should see the effect in the first link now
             cross_section: strip
             settings:
               width: 4.2
