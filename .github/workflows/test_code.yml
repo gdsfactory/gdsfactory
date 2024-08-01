@@ -49,12 +49,9 @@ jobs:
           pytest
   test_code_coverage:
     runs-on: ubuntu-latest
+    container: ghcr.io/gdsfactory/gdsfactory:main
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
       - name: Install dependencies
         run: |
           make install test-data

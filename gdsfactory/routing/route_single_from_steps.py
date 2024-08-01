@@ -26,6 +26,7 @@ def route_single_from_steps(
     taper: ComponentSpec | None = "taper",
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "strip",
     auto_widen: bool = False,
+    taper_length: float | None = None,
     port_type: str | None = None,
     allow_width_mismatch: bool = False,
     **kwargs,
@@ -47,6 +48,7 @@ def route_single_from_steps(
         taper: taper spec.
         cross_section: cross_section spec.
         auto_widen: if True, tapers to wider straights.
+        taper_length: length of the taper if auto_widen=True.
         port_type: optical or electrical.
         allow_width_mismatch: if True, allows width mismatch.
         kwargs: cross_section settings.
@@ -108,21 +110,21 @@ def route_single_from_steps(
         xs_list = []
         for element in cross_section:
             xs, angles = element
-            xs = gf.get_cross_section(xs)
-            xs = xs.copy(**kwargs)  # Shallow copy
+            xs = gf.get_cross_section(xs, **kwargs)
             xs_list.append((xs, angles))
         cross_section = xs_list
 
     else:
-        cross_section = gf.get_cross_section(cross_section)
-        x = cross_section = cross_section.copy(**kwargs)
+        xs = gf.get_cross_section(cross_section, **kwargs)
 
         if auto_widen:
+            if taper_length is None:
+                raise ValueError("taper_length is required when auto_widen=True")
             taper = gf.get_component(
                 taper,
-                length=x.taper_length,
-                width1=x.width,
-                width2=x.width_wide,
+                length=taper_length,
+                width1=xs.width,
+                width2=xs.width_wide,
                 cross_section=cross_section,
                 **kwargs,
             )

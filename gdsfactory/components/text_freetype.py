@@ -14,7 +14,7 @@ from gdsfactory.typings import LayerSpec, LayerSpecs, PathType
 
 @gf.cell
 def text_freetype(
-    text: str = "abcd",
+    text: str = "bcd",
     size: int = 10,
     justify: str = "left",
     font: PathType = PATH.font_ocr,
@@ -116,7 +116,7 @@ def text_freetype(
 
 
 if __name__ == "__main__":
-    c2 = text_freetype("hello", size=1)
+    c2 = text_freetype()
     # print(c2.name)
     # c2 = text_freetype()
     c2.show()
