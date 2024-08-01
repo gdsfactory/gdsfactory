@@ -2,7 +2,7 @@ coverage:
   status:
     project:
       default:
-        target: 0%  # Ensure it always passes
-        threshold: 0%  # No threshold drop is allowed
-        require: false  # Do not require this status to pass the build
-        informational: true  # Do not fail the build based on coverage
+        target: 0% # Ensure it always passes
+        threshold: 0% # No threshold drop is allowed
+        require: false # Do not require this status to pass the build
+        informational: true # Do not fail the build based on coverage

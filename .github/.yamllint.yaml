@@ -1,7 +1,6 @@
 extends: default
-
 rules:
   document-start: disable
   line-length: disable
-  truthy:  # https://github.com/adrienverge/yamllint/issues/666#issuecomment-2034469482
+  truthy: # https://github.com/adrienverge/yamllint/issues/666#issuecomment-2034469482
     check-keys: false
