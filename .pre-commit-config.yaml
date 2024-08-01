@@ -49,6 +49,7 @@ repos:
     rev: v1.35.1
     hooks:
       - id: yamllint
+        args: [--strict, "-c=.github/.yamllint.yaml"]
   - repo: https://github.com/rhysd/actionlint
     rev: v1.7.1
     hooks:
