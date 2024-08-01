@@ -142,9 +142,11 @@ def diff(
         old_ref.dmovey(+old.dysize + dy)
         new_ref.dmovey(-old.dysize - dy)
 
-        c.shapes(1).insert(kf.kdb.DText("old", old_ref.dtrans))
-        c.shapes(1).insert(kf.kdb.DText("new", new_ref.dtrans))
-        c.shapes(1).insert(
+        layer = (1, 0)
+        layer = kf.kcl.layer(layer)
+        c.shapes(layer).insert(kf.kdb.DText("old", old_ref.dtrans))
+        c.shapes(layer).insert(kf.kdb.DText("new", new_ref.dtrans))
+        c.shapes(layer).insert(
             kf.kdb.DText(
                 "xor", kf.kdb.DTrans(new_ref.dxmin, old_ref.dymax - old_ref.dysize - dy)
             )
@@ -306,6 +308,7 @@ if __name__ == "__main__":
     # c.show()
     # c.name = "mzi"
     c = gf.components.straight(length=10, layer=(1, 0))
+    c.write_gds()
     # c.show()
     difftest(c, test_name="straight", dirpath=PATH.cwd)
 
