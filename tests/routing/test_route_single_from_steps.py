@@ -1,7 +1,7 @@
 import gdsfactory as gf
 
 
-def test_route_from_steps():
+def test_route_from_steps() -> None:
     c = gf.Component()
     w = gf.components.straight()
     left = c << w
@@ -27,3 +27,7 @@ def test_route_from_steps():
             {"y": 80},
         ],
     )
+
+
+if __name__ == "__main__":
+    test_route_from_steps()

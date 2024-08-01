@@ -413,7 +413,6 @@ def test_facing_ports(
     data_regression: DataRegressionFixture,
     check: bool = True,
 ) -> None:
-    dy = 200.0
     xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
 
     pitch = 10.0
@@ -430,7 +429,7 @@ def test_facing_ports(
         for i in range(N)
     ]
     ports2 = [
-        Port(f"bot_{i}", center=(xs2[i], dy), width=0.5, orientation=a2, layer=layer)
+        Port(f"bot_{i}", center=(xs2[i], 200), width=0.5, orientation=a2, layer=layer)
         for i in range(N)
     ]
 
@@ -453,14 +452,14 @@ def test_route_bundle_small() -> None:
         [c1.ports["o3"], c1.ports["o4"]],
         [c2.ports["o2"], c2.ports["o1"]],
         separation=5.0,
-        cross_section=gf.cross_section.strip(radius=5),
+        cross_section="strip",
         sort_ports=True,
     )
     for route in routes:
-        assert np.isclose(route.length, 94500), route.length
+        assert np.isclose(route.length, 74500), route.length
 
 
 if __name__ == "__main__":
-    # test_route_bundle_small()
+    test_route_bundle_small()
     # test_route_bundle_udirect(None, check=False)
-    test_route_bundle(None)
+    # test_route_bundle(None)
