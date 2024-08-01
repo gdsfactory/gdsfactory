@@ -162,10 +162,9 @@ def _get_glyph(font, letter):  # noqa: C901
         component = boolean(c1, c2, operation="not")
     elif orientation == 1:
         # PostScript specification, fill the counterclockwise contour
-        c1, c2 = c2, c1
-        component = boolean(c1, c2, operation="not")
+        component = boolean(c2, c1, operation="not")
     else:
-        raise ValueError("Unknown orientation")
+        raise ValueError(f"Unknown orientation {orientation} for letter {letter}")
 
     component.name = block_name
 
