@@ -99,7 +99,10 @@ def route_single(
     p2 = port2
 
     port_type = port_type or p1.port_type
-    xs = gf.get_cross_section(cross_section, width=route_width)
+    if route_width:
+        xs = gf.get_cross_section(cross_section, width=route_width)
+    else:
+        xs = gf.get_cross_section(cross_section)
     width = route_width or xs.width
     radius = radius or xs.radius
     width_dbu = width / component.kcl.dbu
