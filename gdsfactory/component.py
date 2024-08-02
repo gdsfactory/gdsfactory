@@ -844,20 +844,27 @@ class ComponentBase:
     def extract(
         self,
         layers: list[LayerSpec],
+        recursive: bool = True,
     ) -> Component:
         """Extracts a list of layers and adds them to a new Component.
 
         Args:
             layers: list of layers to extract.
+            recursive: if True, extracts layers recursively.
         """
-        from gdsfactory import get_layer
+        from gdsfactory.pdk import get_layer_tuple
 
-        c = Component()
+        c = self.dup()
 
-        for layer in layers:
-            layer_index = get_layer(layer)
-            for r in self._kdb_cell.begin_shapes_rec(layer_index):
-                c.shapes(layer_index).insert(r)
+        layer_tuples = [get_layer_tuple(layer) for layer in layers]
+
+        for layer_tuple in self.layers:
+            if layer_tuple not in layer_tuples:
+                layer_index = self.kcl.layer(*layer_tuple)
+                if recursive:
+                    self.kcl.clear_layer(layer_index)
+                else:
+                    self.shapes(layer_index).clear()
 
         return c
 
@@ -1279,8 +1286,9 @@ if __name__ == "__main__":
     # s.connect("o1", b.ports["o2"])
     # p = c.get_polygons()
     # p1 = c.get_polygons(by="name")
-    c = gf.c.mzi_lattice()
-    c.copy_layers({(1, 0): (2, 0)}, recursive=True)
+    c = gf.c.mzi_lattice(cross_section="rib")
+    c = c.extract(["WG"])
+    # c.copy_layers({(1, 0): (2, 0)}, recursive=True)
     # c = gf.c.array(spacing=(300, 300), columns=2)
     # c.show()
     # n0 = c.get_netlist()
