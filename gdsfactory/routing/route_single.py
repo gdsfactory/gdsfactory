@@ -80,7 +80,7 @@ def route_single(
         port_type: port type to route.
         allow_width_mismatch: allow different port widths.
         radius: bend radius. If None, defaults to cross_section.radius.
-        route_width: width of the route. If None, defaults to cross_section.width.
+        route_width: width of the route in um. If None, defaults to cross_section.width.
 
 
     .. plot::
@@ -99,16 +99,14 @@ def route_single(
     p2 = port2
 
     port_type = port_type or p1.port_type
-    xs = gf.get_cross_section(cross_section)
-    width = xs.width
+    xs = gf.get_cross_section(cross_section, width=route_width)
+    width = route_width or xs.width
     radius = radius or xs.radius
     width_dbu = width / component.kcl.dbu
 
     taper_cell = gf.get_component(taper, cross_section=cross_section) if taper else None
-    bend90 = (
-        bend
-        if isinstance(bend, Component)
-        else gf.get_component(bend, cross_section=cross_section, radius=radius)
+    bend90 = gf.get_component(
+        bend, cross_section=cross_section, radius=radius, width=width
     )
 
     def straight_dbu(
@@ -126,8 +124,7 @@ def route_single(
     dbu = component.kcl.dbu
     end_straight = round(end_straight_length / dbu)
     start_straight = round(start_straight_length / dbu)
-
-    route_width = route_width or round(xs.width / dbu)
+    route_width = round(width / dbu)
 
     if waypoints is not None:
         if not isinstance(waypoints[0], kf.kdb.Point):
