@@ -142,11 +142,11 @@ def diff(
         old_ref.dmovey(+old.dysize + dy)
         new_ref.dmovey(-old.dysize - dy)
 
-        layer = (1, 0)
-        layer = kf.kcl.layer(layer)
-        c.shapes(layer).insert(kf.kdb.DText("old", old_ref.dtrans))
-        c.shapes(layer).insert(kf.kdb.DText("new", new_ref.dtrans))
-        c.shapes(layer).insert(
+        layer_label = (1, 0)
+        layer_label = kf.kcl.layer(*layer_label)
+        c.shapes(layer_label).insert(kf.kdb.DText("old", old_ref.dtrans))
+        c.shapes(layer_label).insert(kf.kdb.DText("new", new_ref.dtrans))
+        c.shapes(layer_label).insert(
             kf.kdb.DText(
                 "xor", kf.kdb.DTrans(new_ref.dxmin, old_ref.dymax - old_ref.dysize - dy)
             )
@@ -159,7 +159,10 @@ def diff(
 
             for layer in c.kcl.layer_infos():
                 # exists in both
-                if layer in new.kcl.layer_infos() and layer in old.kcl.layer_infos():
+                if (
+                    new.kcl.find_layer(layer) is not None
+                    and old.kcl.find_layer(layer) is not None
+                ):
                     layer_ref = old.layer(layer)
                     layer_run = new.layer(layer)
 
@@ -182,7 +185,7 @@ def diff(
                             equivalent = False
                         print(message)
                 # only in new
-                elif layer in new.kcl.layer_infos():
+                elif new.kcl.find_layer(layer) is not None:
                     layer_id = new.layer(layer)
                     region = kdb.Region(new.begin_shapes_rec(layer_id))
                     diff.shapes(c.kcl.layer(layer)).insert(region)
@@ -190,7 +193,7 @@ def diff(
                     equivalent = False
 
                 # only in old
-                elif layer in old.kcl.layer_infos():
+                elif old.kcl.find_layer(layer) is not None:
                     layer_id = old.layer(layer)
                     region = kdb.Region(old.begin_shapes_rec(layer_id))
                     diff.shapes(c.kcl.layer(layer)).insert(region)
@@ -307,10 +310,10 @@ if __name__ == "__main__":
     # print([i.name for i in c.get_dependencies()])
     # c.show()
     # c.name = "mzi"
-    c = gf.components.straight(length=10, layer=(1, 0))
-    c.write_gds()
-    # c.show()
+    c = gf.components.straight(length=20, layer=(1, 0))
     difftest(c, test_name="straight", dirpath=PATH.cwd)
+    c.show()
+    # c.write_gds()
 
     # component = gf.components.mzi()
     # test_name = "mzi"
