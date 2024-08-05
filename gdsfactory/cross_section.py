@@ -2392,5 +2392,6 @@ if __name__ == "__main__":
     # c = gf.c.straight(cross_section=xs)
     # xs = pn(slab_inset=0.2)
     # xs = metal1()
-    s0 = Section(width=2, layer=(1, 0))
-    print(s0.name)
+    # s0 = Section(width=2, layer=(1, 0))
+    xs = strip(radius=5)
+    # print(s0.name)

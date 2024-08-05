@@ -1,4 +1,4 @@
-# gdsfactory 8.6.1
+# GDSFactory 8.6.4
 
 [![docs](https://github.com/gdsfactory/gdsfactory/actions/workflows/pages.yml/badge.svg)](https://gdsfactory.github.io/gdsfactory/)
 [![PyPI](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
@@ -11,12 +11,12 @@
 
 > 🚀 **Notice: Major Release**
 >
-> We are excited to announce that gdsfactory has upgraded its backend from gdstk to KLayout. This change brings enhanced routing functions and additional features from KLayout, including DRC, dummy fill, and connectivity checks.
+> We are excited to announce that GDSFactory has upgraded its backend from gdstk to KLayout. This change brings enhanced routing functions and additional features from KLayout, including DRC, dummy fill, and connectivity checks.
 >
 > Notice that the routing and some advanced functions have changed. For a complete list of changes, please refer to our [migration guide](https://gdsfactory.github.io/gdsfactory/notebooks/21_migration_guide_7_8.html) or review the updated layout tutorial.
 
 
-Gdsfactory is a Python library for designing chips (Photonics, Analog, Quantum, MEMs, and more), 3D printed objects, and PCBs.
+GDSFactory is a Python library for designing chips (Photonics, Analog, Quantum, MEMs, and more), 3D printed objects, and PCBs.
 Here, you can code your designs in Python or YAML, perform verification (DRC, simulation, and extraction), and enable automated testing in the lab to ensure your fabricated devices meet your specifications.
 
 
@@ -45,7 +45,7 @@ We provide a common syntax for design (Ansys, Lumerical, Tidy3d, MEEP, DEVSIM, S
 
 ![tool interfaces](https://i.imgur.com/j5qlFWj.png)
 
-Many foundries have gdsfactory PDKs available. Please to contact your foundry to access their gdsfactory PDK, as you will require an NDA:
+Many foundries have GDSFactory PDKs available. Please to contact your foundry to access their GDSFactory PDK, as you will require an NDA:
 
 - AIM photonics PDK
 - AMF photonics PDK
@@ -88,51 +88,51 @@ You can also access:
 - [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/gdsfactory/gdsfactory-photonics-training)
 - [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=250169028)
 - [PIC training](https://gdsfactory.github.io/gdsfactory-photonics-training/)
-- Online course [UBCx: Silicon Photonics Design, Fabrication and Data Analysis](https://www.edx.org/learn/engineering/university-of-british-columbia-silicon-photonics-design-fabrication-and-data-ana), where students can use gdsfactory to create a design, have it fabricated, and tested.
+- Online course [UBCx: Silicon Photonics Design, Fabrication and Data Analysis](https://www.edx.org/learn/engineering/university-of-british-columbia-silicon-photonics-design-fabrication-and-data-ana), where students can use GDSFactory to create a design, have it fabricated, and tested.
 
-## Who is using gdsfactory?
+## Who is using GDSFactory?
 
-Hundreds of organisations are using gdsfactory. Some companies and organizations around the world using gdsfactory include:
+Hundreds of organisations are using GDSFactory. Some companies and organizations around the world using GDSFactory include:
 
 ![logos](https://i.imgur.com/VzLNMH1.png)
 
-"I've used **gdsfactory** since 2017 for all my chip tapeouts. I love that it is fast, easy to use, and easy to extend. It's the only tool that allows us to have an end-to-end chip design flow (design, verification and validation)."
+"I've used **GDSFactory** since 2017 for all my chip tapeouts. I love that it is fast, easy to use, and easy to extend. It's the only tool that allows us to have an end-to-end chip design flow (design, verification and validation)."
 
 <div style="text-align: right; margin-right: 10%;">Joaquin Matres - <strong>Google</strong></div>
 
 ---
 
-"I've relied on **gdsfactory** for several tapeouts over the years. It's the only tool I've found that gives me the flexibility and scalability I need for a variety of projects."
+"I've relied on **GDSFactory** for several tapeouts over the years. It's the only tool I've found that gives me the flexibility and scalability I need for a variety of projects."
 
 <div style="text-align: right; margin-right: 10%;">Alec Hammond - <strong>Meta Reality Labs Research</strong></div>
 
 ---
 
-"The best photonics layout tool I've used so far and it is leaps and bounds ahead of any commercial alternatives out there. Feels like gdsfactory is freeing photonics."
+"The best photonics layout tool I've used so far and it is leaps and bounds ahead of any commercial alternatives out there. Feels like GDSFactory is freeing photonics."
 
 <div style="text-align: right; margin-right: 10%;">Hasitha Jayatilleka - <strong>LightIC Technologies</strong></div>
 
 ---
 
-"As an academic working on large scale silicon photonics at CMOS foundries I've used gdsfactory to go from nothing to full-reticle layouts rapidly (in a few days). I particularly appreciate the full-system approach to photonics, with my layout being connected to circuit simulators which are then connected to device simulators. Moving from legacy tools such as gdspy and phidl to gdsfactory has sped up my workflow at least an order of magnitude."
+"As an academic working on large scale silicon photonics at CMOS foundries I've used GDSFactory to go from nothing to full-reticle layouts rapidly (in a few days). I particularly appreciate the full-system approach to photonics, with my layout being connected to circuit simulators which are then connected to device simulators. Moving from legacy tools such as gdspy and phidl to GDSFactory has sped up my workflow at least an order of magnitude."
 
 <div style="text-align: right; margin-right: 10%;">Alex Sludds - <strong>MIT</strong></div>
 
 ---
 
-"I use gdsfactory for all of my photonic tape-outs. The Python interface makes it easy to version control individual photonic components as well as entire layouts, while integrating seamlessly with KLayout and most standard photonic simulation tools, both open-source and commercial.
+"I use GDSFactory for all of my photonic tape-outs. The Python interface makes it easy to version control individual photonic components as well as entire layouts, while integrating seamlessly with KLayout and most standard photonic simulation tools, both open-source and commercial.
 
 <div style="text-align: right; margin-right: 10%;">Thomas Dorch - <strong>Freedom Photonics</strong></div>
 
-## Why use gdsfactory?
+## Why use GDSFactory?
 
 - It's fast, extensible and easy to use.
 - It's free, as in freedom and in cost.
 - It's the most popular EDA tool with a growing community of users, developers, and extensions to other tools.
 
-Gdsfactory is really fast thanks to KLayout C++ library for manipulating GDSII objects. You will notice this when reading/writing big GDS files or doing large boolean operations.
+GDSFactory is really fast thanks to KLayout C++ library for manipulating GDSII objects. You will notice this when reading/writing big GDS files or doing large boolean operations.
 
-| Benchmark      |  gdspy  | gdsfactory | Gain |
+| Benchmark      |  gdspy  | GDSFactory | Gain |
 | :------------- | :-----: | :--------: | :--: |
 | 10k_rectangles | 80.2 ms |  4.87 ms   | 16.5 |
 | boolean-offset | 187 μs  |  44.7 μs   | 4.19 |

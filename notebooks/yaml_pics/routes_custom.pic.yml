@@ -1,25 +1,25 @@
 instances:
-    t:
-      component: pad_array
-      settings:
-          orientation: 270
-          columns: 3
-    b:
-      component: pad_array
-      settings:
-          orientation: 90
-          columns: 3
+  t:
+    component: pad_array
+    settings:
+      orientation: 270
+      columns: 3
+  b:
+    component: pad_array
+    settings:
+      orientation: 90
+      columns: 3
 
 placements:
-    t:
-        x: 200
-        y: 400
+  t:
+    x: 200
+    y: 400
 routes:
-    electrical:
-        settings:
-            start_straight_length: 150
-            end_straight_length: 150
-            cross_section: metal_routing
-        links:
-            t,e11: b,e11
-            t,e13: b,e13
+  electrical:
+    settings:
+      start_straight_length: 150
+      end_straight_length: 150
+      cross_section: metal_routing
+    links:
+      t,e11: b,e11
+      t,e13: b,e13

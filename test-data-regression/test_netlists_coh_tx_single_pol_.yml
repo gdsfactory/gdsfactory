@@ -1,5 +1,5 @@
 instances:
-  bend_euler_R10_A90_P0p5_2f1f5c6d_433375_m101625:
+  bend_euler_R10_A90_P0p5_f9fcb00b_433375_m101625:
     component: bend_euler
     info:
       dy: 10
@@ -18,8 +18,9 @@ instances:
       cross_section: strip
       p: 0.5
       radius: 10
+      width: 0.5
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_2f1f5c6d_433375_m4875:
+  bend_euler_R10_A90_P0p5_f9fcb00b_433375_m4875:
     component: bend_euler
     info:
       dy: 10
@@ -38,8 +39,9 @@ instances:
       cross_section: strip
       p: 0.5
       radius: 10
+      width: 0.5
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_2f1f5c6d_443125_m47750:
+  bend_euler_R10_A90_P0p5_f9fcb00b_443125_m47750:
     component: bend_euler
     info:
       dy: 10
@@ -58,8 +60,9 @@ instances:
       cross_section: strip
       p: 0.5
       radius: 10
+      width: 0.5
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_2f1f5c6d_443125_m58750:
+  bend_euler_R10_A90_P0p5_f9fcb00b_443125_m58750:
     component: bend_euler
     info:
       dy: 10
@@ -78,8 +81,9 @@ instances:
       cross_section: strip
       p: 0.5
       radius: 10
+      width: 0.5
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_2f1f5c6d_m22375_m101625:
+  bend_euler_R10_A90_P0p5_f9fcb00b_m22375_m101625:
     component: bend_euler
     info:
       dy: 10
@@ -98,8 +102,9 @@ instances:
       cross_section: strip
       p: 0.5
       radius: 10
+      width: 0.5
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_2f1f5c6d_m22375_m4875:
+  bend_euler_R10_A90_P0p5_f9fcb00b_m22375_m4875:
     component: bend_euler
     info:
       dy: 10
@@ -118,8 +123,9 @@ instances:
       cross_section: strip
       p: 0.5
       radius: 10
+      width: 0.5
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_2f1f5c6d_m32125_m47750:
+  bend_euler_R10_A90_P0p5_f9fcb00b_m32125_m47750:
     component: bend_euler
     info:
       dy: 10
@@ -138,8 +144,9 @@ instances:
       cross_section: strip
       p: 0.5
       radius: 10
+      width: 0.5
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_2f1f5c6d_m32125_m58750:
+  bend_euler_R10_A90_P0p5_f9fcb00b_m32125_m58750:
     component: bend_euler
     info:
       dy: 10
@@ -158,6 +165,7 @@ instances:
       cross_section: strip
       p: 0.5
       radius: 10
+      width: 0.5
       with_arc_floorplan: true
   mmi1x2_WNone_WT1_LT10_L_4e0f7121_461000_m53250:
     component: mmi1x2
@@ -183,7 +191,7 @@ instances:
       taper: taper
       width_mmi: 2.5
       width_taper: 1
-  mzi_DL0_LY2_LX200_Bbend_07f19eb6_135500_5375:
+  mzi_DL0_LY2_LX200_Bbend_31a2f4c6_135500_5375:
     component: mzi
     info: {}
     settings:
@@ -198,6 +206,8 @@ instances:
       min_length: 0.01
       mirror_bot: false
       nbends: 2
+      port1: o1
+      port2: o2
       port_e0_combiner: o3
       port_e0_splitter: o3
       port_e1_combiner: o2
@@ -206,7 +216,7 @@ instances:
       straight: straight
       straight_x_top: straight_pin
       with_splitter: true
-  mzi_DL0_LY2_LX200_Bbend_07f19eb6_135500_m101125:
+  mzi_DL0_LY2_LX200_Bbend_31a2f4c6_135500_m101125:
     component: mzi
     info: {}
     settings:
@@ -221,6 +231,8 @@ instances:
       min_length: 0.01
       mirror_bot: false
       nbends: 2
+      port1: o1
+      port2: o2
       port_e0_combiner: o3
       port_e0_splitter: o3
       port_e1_combiner: o2
@@ -392,45 +404,45 @@ instances:
       via_stack_width: 10
 name: coh_tx_single_pol_BPSFa_4ee171aa
 nets:
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_433375_m101625,o1
+- p1: bend_euler_R10_A90_P0p5_f9fcb00b_433375_m101625,o1
   p2: straight_L7p25_N2_CSstrip_W0p5_424625_m106500,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_433375_m101625,o2
+- p1: bend_euler_R10_A90_P0p5_f9fcb00b_433375_m101625,o2
   p2: straight_L32p625_N2_CSstrip_W0p5_438250_m80188,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_433375_m4875,o1
+- p1: bend_euler_R10_A90_P0p5_f9fcb00b_433375_m4875,o1
   p2: straight_L7p25_N2_CSstrip_W0p5_424625_0,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_433375_m4875,o2
+- p1: bend_euler_R10_A90_P0p5_f9fcb00b_433375_m4875,o2
   p2: straight_L32p625_N2_CSstrip_W0p5_438250_m26313,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_443125_m47750,o1
+- p1: bend_euler_R10_A90_P0p5_f9fcb00b_443125_m47750,o1
   p2: straight_L32p625_N2_CSstrip_W0p5_438250_m26313,o2
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_443125_m47750,o2
+- p1: bend_euler_R10_A90_P0p5_f9fcb00b_443125_m47750,o2
   p2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_461000_m53250,o2
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_443125_m58750,o1
+- p1: bend_euler_R10_A90_P0p5_f9fcb00b_443125_m58750,o1
   p2: straight_L32p625_N2_CSstrip_W0p5_438250_m80188,o2
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_443125_m58750,o2
+- p1: bend_euler_R10_A90_P0p5_f9fcb00b_443125_m58750,o2
   p2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_461000_m53250,o3
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m22375_m101625,o1
+- p1: bend_euler_R10_A90_P0p5_f9fcb00b_m22375_m101625,o1
   p2: straight_L7p25_N2_CSstrip_W0p5_m13625_m106500,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m22375_m101625,o2
+- p1: bend_euler_R10_A90_P0p5_f9fcb00b_m22375_m101625,o2
   p2: straight_L32p625_N2_CSstrip_W0p5_m27250_m80188,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m22375_m4875,o1
+- p1: bend_euler_R10_A90_P0p5_f9fcb00b_m22375_m4875,o1
   p2: straight_L7p25_N2_CSstrip_W0p5_m13625_0,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m22375_m4875,o2
+- p1: bend_euler_R10_A90_P0p5_f9fcb00b_m22375_m4875,o2
   p2: straight_L32p625_N2_CSstrip_W0p5_m27250_m26313,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m32125_m47750,o1
+- p1: bend_euler_R10_A90_P0p5_f9fcb00b_m32125_m47750,o1
   p2: straight_L32p625_N2_CSstrip_W0p5_m27250_m26313,o2
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m32125_m47750,o2
+- p1: bend_euler_R10_A90_P0p5_f9fcb00b_m32125_m47750,o2
   p2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_m50000_m53250,o2
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m32125_m58750,o1
+- p1: bend_euler_R10_A90_P0p5_f9fcb00b_m32125_m58750,o1
   p2: straight_L32p625_N2_CSstrip_W0p5_m27250_m80188,o2
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m32125_m58750,o2
+- p1: bend_euler_R10_A90_P0p5_f9fcb00b_m32125_m58750,o2
   p2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_m50000_m53250,o3
-- p1: mzi_DL0_LY2_LX200_Bbend_07f19eb6_135500_5375,o1
+- p1: mzi_DL0_LY2_LX200_Bbend_31a2f4c6_135500_5375,o1
   p2: straight_L7p25_N2_CSstrip_W0p5_m13625_0,o2
-- p1: mzi_DL0_LY2_LX200_Bbend_07f19eb6_135500_5375,o2
+- p1: mzi_DL0_LY2_LX200_Bbend_31a2f4c6_135500_5375,o2
   p2: straight_L40_N2_CSstrip_301000_0,o1
-- p1: mzi_DL0_LY2_LX200_Bbend_07f19eb6_135500_m101125,o1
+- p1: mzi_DL0_LY2_LX200_Bbend_31a2f4c6_135500_m101125,o1
   p2: straight_L7p25_N2_CSstrip_W0p5_m13625_m106500,o2
-- p1: mzi_DL0_LY2_LX200_Bbend_07f19eb6_135500_m101125,o2
+- p1: mzi_DL0_LY2_LX200_Bbend_31a2f4c6_135500_m101125,o2
   p2: straight_L40_N2_CSstrip_301000_m106500,o1
 - p1: straight_L100_N2_CSstrip_371000_0,o1
   p2: straight_L40_N2_CSstrip_301000_0,o2
@@ -441,42 +453,42 @@ nets:
 - p1: straight_L7p25_N2_CSstrip_W0p5_424625_m106500,o2
   p2: straight_pin_L100_CSpin_f2ba7e88_371000_m106500,o2
 placements:
-  bend_euler_R10_A90_P0p5_2f1f5c6d_433375_m101625:
+  bend_euler_R10_A90_P0p5_f9fcb00b_433375_m101625:
     mirror: false
     rotation: 0
     x: 428.25
     y: -106.5
-  bend_euler_R10_A90_P0p5_2f1f5c6d_433375_m4875:
+  bend_euler_R10_A90_P0p5_f9fcb00b_433375_m4875:
     mirror: true
     rotation: 0
     x: 428.25
     y: 0
-  bend_euler_R10_A90_P0p5_2f1f5c6d_443125_m47750:
+  bend_euler_R10_A90_P0p5_f9fcb00b_443125_m47750:
     mirror: false
     rotation: 270
     x: 438.25
     y: -42.625
-  bend_euler_R10_A90_P0p5_2f1f5c6d_443125_m58750:
+  bend_euler_R10_A90_P0p5_f9fcb00b_443125_m58750:
     mirror: true
     rotation: 90
     x: 438.25
     y: -63.875
-  bend_euler_R10_A90_P0p5_2f1f5c6d_m22375_m101625:
+  bend_euler_R10_A90_P0p5_f9fcb00b_m22375_m101625:
     mirror: true
     rotation: 180
     x: -17.25
     y: -106.5
-  bend_euler_R10_A90_P0p5_2f1f5c6d_m22375_m4875:
+  bend_euler_R10_A90_P0p5_f9fcb00b_m22375_m4875:
     mirror: false
     rotation: 180
     x: -17.25
     y: 0
-  bend_euler_R10_A90_P0p5_2f1f5c6d_m32125_m47750:
+  bend_euler_R10_A90_P0p5_f9fcb00b_m32125_m47750:
     mirror: true
     rotation: 270
     x: -27.25
     y: -42.625
-  bend_euler_R10_A90_P0p5_2f1f5c6d_m32125_m58750:
+  bend_euler_R10_A90_P0p5_f9fcb00b_m32125_m58750:
     mirror: false
     rotation: 90
     x: -27.25
@@ -491,12 +503,12 @@ placements:
     rotation: 0
     x: -52.75
     y: -53.25
-  mzi_DL0_LY2_LX200_Bbend_07f19eb6_135500_5375:
+  mzi_DL0_LY2_LX200_Bbend_31a2f4c6_135500_5375:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  mzi_DL0_LY2_LX200_Bbend_07f19eb6_135500_m101125:
+  mzi_DL0_LY2_LX200_Bbend_31a2f4c6_135500_m101125:
     mirror: false
     rotation: 0
     x: 0
@@ -562,22 +574,22 @@ placements:
     x: 331
     y: -106.5
 ports:
-  mzm_i_e1: mzi_DL0_LY2_LX200_Bbend_07f19eb6_135500_5375,e1
-  mzm_i_e2: mzi_DL0_LY2_LX200_Bbend_07f19eb6_135500_5375,e2
-  mzm_i_e3: mzi_DL0_LY2_LX200_Bbend_07f19eb6_135500_5375,e3
-  mzm_i_e4: mzi_DL0_LY2_LX200_Bbend_07f19eb6_135500_5375,e4
-  mzm_i_e5: mzi_DL0_LY2_LX200_Bbend_07f19eb6_135500_5375,e5
-  mzm_i_e6: mzi_DL0_LY2_LX200_Bbend_07f19eb6_135500_5375,e6
-  mzm_i_e7: mzi_DL0_LY2_LX200_Bbend_07f19eb6_135500_5375,e7
-  mzm_i_e8: mzi_DL0_LY2_LX200_Bbend_07f19eb6_135500_5375,e8
-  mzm_q_e1: mzi_DL0_LY2_LX200_Bbend_07f19eb6_135500_m101125,e1
-  mzm_q_e2: mzi_DL0_LY2_LX200_Bbend_07f19eb6_135500_m101125,e2
-  mzm_q_e3: mzi_DL0_LY2_LX200_Bbend_07f19eb6_135500_m101125,e3
-  mzm_q_e4: mzi_DL0_LY2_LX200_Bbend_07f19eb6_135500_m101125,e4
-  mzm_q_e5: mzi_DL0_LY2_LX200_Bbend_07f19eb6_135500_m101125,e5
-  mzm_q_e6: mzi_DL0_LY2_LX200_Bbend_07f19eb6_135500_m101125,e6
-  mzm_q_e7: mzi_DL0_LY2_LX200_Bbend_07f19eb6_135500_m101125,e7
-  mzm_q_e8: mzi_DL0_LY2_LX200_Bbend_07f19eb6_135500_m101125,e8
+  mzm_i_e1: mzi_DL0_LY2_LX200_Bbend_31a2f4c6_135500_5375,e1
+  mzm_i_e2: mzi_DL0_LY2_LX200_Bbend_31a2f4c6_135500_5375,e2
+  mzm_i_e3: mzi_DL0_LY2_LX200_Bbend_31a2f4c6_135500_5375,e3
+  mzm_i_e4: mzi_DL0_LY2_LX200_Bbend_31a2f4c6_135500_5375,e4
+  mzm_i_e5: mzi_DL0_LY2_LX200_Bbend_31a2f4c6_135500_5375,e5
+  mzm_i_e6: mzi_DL0_LY2_LX200_Bbend_31a2f4c6_135500_5375,e6
+  mzm_i_e7: mzi_DL0_LY2_LX200_Bbend_31a2f4c6_135500_5375,e7
+  mzm_i_e8: mzi_DL0_LY2_LX200_Bbend_31a2f4c6_135500_5375,e8
+  mzm_q_e1: mzi_DL0_LY2_LX200_Bbend_31a2f4c6_135500_m101125,e1
+  mzm_q_e2: mzi_DL0_LY2_LX200_Bbend_31a2f4c6_135500_m101125,e2
+  mzm_q_e3: mzi_DL0_LY2_LX200_Bbend_31a2f4c6_135500_m101125,e3
+  mzm_q_e4: mzi_DL0_LY2_LX200_Bbend_31a2f4c6_135500_m101125,e4
+  mzm_q_e5: mzi_DL0_LY2_LX200_Bbend_31a2f4c6_135500_m101125,e5
+  mzm_q_e6: mzi_DL0_LY2_LX200_Bbend_31a2f4c6_135500_m101125,e6
+  mzm_q_e7: mzi_DL0_LY2_LX200_Bbend_31a2f4c6_135500_m101125,e7
+  mzm_q_e8: mzi_DL0_LY2_LX200_Bbend_31a2f4c6_135500_m101125,e8
   o1: mmi1x2_WNone_WT1_LT10_L_4e0f7121_m50000_m53250,o1
   o2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_461000_m53250,o1
   ps_q_bot_e1: straight_pin_L100_CSpin_f2ba7e88_371000_m106500,bot_e1

@@ -497,7 +497,7 @@ LayerViews:
         hatch_pattern: lightly left-hatched
         color: "#ff80a8"
       WAFER:
-        layer: [99999, 0]
+        layer: [999, 0]
         hatch_pattern: lightly left-hatched
         color: "#ff80a8"
         visible: false

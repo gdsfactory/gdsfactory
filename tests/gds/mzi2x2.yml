@@ -15,19 +15,19 @@ cells:
         min_length: 0.01
         radius: 10.0
         sections:
-        - hidden: false
-          insets: null
-          layer: WG
-          name: null
-          offset: 0.0
-          port_names:
-          - o1
-          - o2
-          port_types:
-          - optical
-          - optical
-          simplify: null
-          width: 0.5
+          - hidden: false
+            insets: null
+            layer: WG
+            name: null
+            offset: 0.0
+            port_names:
+              - o1
+              - o2
+            port_types:
+              - optical
+              - optical
+            simplify: null
+            width: 0.5
         start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
@@ -60,19 +60,19 @@ cells:
         min_length: 0.01
         radius: 10.0
         sections:
-        - hidden: false
-          insets: null
-          layer: WG
-          name: null
-          offset: 0.0
-          port_names:
-          - o1
-          - o2
-          port_types:
-          - optical
-          - optical
-          simplify: null
-          width: 0.5
+          - hidden: false
+            insets: null
+            layer: WG
+            name: null
+            offset: 0.0
+            port_names:
+              - o1
+              - o2
+            port_types:
+              - optical
+              - optical
+            simplify: null
+            width: 0.5
         start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
@@ -252,19 +252,19 @@ cells:
         min_length: 0.01
         radius: 10.0
         sections:
-        - hidden: false
-          insets: null
-          layer: WG
-          name: null
-          offset: 0.0
-          port_names:
-          - o1
-          - o2
-          port_types:
-          - optical
-          - optical
-          simplify: null
-          width: 0.5
+          - hidden: false
+            insets: null
+            layer: WG
+            name: null
+            offset: 0.0
+            port_names:
+              - o1
+              - o2
+            port_types:
+              - optical
+              - optical
+            simplify: null
+            width: 0.5
         start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
@@ -293,19 +293,19 @@ cells:
         min_length: 0.01
         radius: 10.0
         sections:
-        - hidden: false
-          insets: null
-          layer: WG
-          name: null
-          offset: 0.0
-          port_names:
-          - o1
-          - o2
-          port_types:
-          - optical
-          - optical
-          simplify: null
-          width: 0.5
+          - hidden: false
+            insets: null
+            layer: WG
+            name: null
+            offset: 0.0
+            port_names:
+              - o1
+              - o2
+            port_types:
+              - optical
+              - optical
+            simplify: null
+            width: 0.5
         start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
@@ -329,19 +329,19 @@ cells:
         min_length: 0.01
         radius: 10.0
         sections:
-        - hidden: false
-          insets: null
-          layer: WG
-          name: null
-          offset: 0.0
-          port_names:
-          - o1
-          - o2
-          port_types:
-          - optical
-          - optical
-          simplify: null
-          width: 0.5
+          - hidden: false
+            insets: null
+            layer: WG
+            name: null
+            offset: 0.0
+            port_names:
+              - o1
+              - o2
+            port_types:
+              - optical
+              - optical
+            simplify: null
+            width: 0.5
         start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
@@ -396,19 +396,19 @@ cells:
         min_length: 0.01
         radius: 10.0
         sections:
-        - hidden: false
-          insets: null
-          layer: WG
-          name: null
-          offset: 0.0
-          port_names:
-          - o1
-          - o2
-          port_types:
-          - optical
-          - optical
-          simplify: null
-          width: 0.5
+          - hidden: false
+            insets: null
+            layer: WG
+            name: null
+            offset: 0.0
+            port_names:
+              - o1
+              - o2
+            port_types:
+              - optical
+              - optical
+            simplify: null
+            width: 0.5
         start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
@@ -437,19 +437,19 @@ cells:
         min_length: 0.01
         radius: 10.0
         sections:
-        - hidden: false
-          insets: null
-          layer: WG
-          name: null
-          offset: 0.0
-          port_names:
-          - o1
-          - o2
-          port_types:
-          - optical
-          - optical
-          simplify: null
-          width: 0.5
+          - hidden: false
+            insets: null
+            layer: WG
+            name: null
+            offset: 0.0
+            port_names:
+              - o1
+              - o2
+            port_types:
+              - optical
+              - optical
+            simplify: null
+            width: 0.5
         start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
@@ -473,19 +473,19 @@ cells:
         min_length: 0.01
         radius: 10.0
         sections:
-        - hidden: false
-          insets: null
-          layer: WG
-          name: null
-          offset: 0.0
-          port_names:
-          - o1
-          - o2
-          port_types:
-          - optical
-          - optical
-          simplify: null
-          width: 0.5
+          - hidden: false
+            insets: null
+            layer: WG
+            name: null
+            offset: 0.0
+            port_names:
+              - o1
+              - o2
+            port_types:
+              - optical
+              - optical
+            simplify: null
+            width: 0.5
         start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
@@ -510,19 +510,19 @@ cells:
         min_length: 0.01
         radius: 10.0
         sections:
-        - hidden: false
-          insets: null
-          layer: WG
-          name: null
-          offset: 0.0
-          port_names:
-          - o1
-          - o2
-          port_types:
-          - optical
-          - optical
-          simplify: null
-          width: 0.5
+          - hidden: false
+            insets: null
+            layer: WG
+            name: null
+            offset: 0.0
+            port_names:
+              - o1
+              - o2
+            port_types:
+              - optical
+              - optical
+            simplify: null
+            width: 0.5
         start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
@@ -551,19 +551,19 @@ cells:
         min_length: 0.01
         radius: 10.0
         sections:
-        - hidden: false
-          insets: null
-          layer: WG
-          name: null
-          offset: 0.0
-          port_names:
-          - o1
-          - o2
-          port_types:
-          - optical
-          - optical
-          simplify: null
-          width: 0.5
+          - hidden: false
+            insets: null
+            layer: WG
+            name: null
+            offset: 0.0
+            port_names:
+              - o1
+              - o2
+            port_types:
+              - optical
+              - optical
+            simplify: null
+            width: 0.5
         start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
@@ -587,19 +587,19 @@ cells:
         min_length: 0.01
         radius: 10.0
         sections:
-        - hidden: false
-          insets: null
-          layer: WG
-          name: null
-          offset: 0.0
-          port_names:
-          - o1
-          - o2
-          port_types:
-          - optical
-          - optical
-          simplify: null
-          width: 0.5
+          - hidden: false
+            insets: null
+            layer: WG
+            name: null
+            offset: 0.0
+            port_names:
+              - o1
+              - o2
+            port_types:
+              - optical
+              - optical
+            simplify: null
+            width: 0.5
         start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
@@ -672,11 +672,11 @@ name: mzi_6f76ede3
 ports:
   o1:
     center:
-    - -10.0
-    - 0.0
+      - -10.0
+      - 0.0
     layer:
-    - 1
-    - 0
+      - 1
+      - 0
     name: o1
     orientation: 180.0
     port_type: optical
@@ -684,11 +684,11 @@ ports:
     width: 0.5
   o2:
     center:
-    - 81.12
-    - 0.0
+      - 81.12
+      - 0.0
     layer:
-    - 1
-    - 0
+      - 1
+      - 0
     name: o2
     orientation: 0.0
     port_type: optical

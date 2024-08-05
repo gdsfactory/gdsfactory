@@ -294,8 +294,8 @@ instances:
       cross_section: strip
       npoints: 99
       size:
-      - 20
-      - -8
+        - 20
+        - -8
   straight_L20_N2_CSstrip_10000_-10000:
     component: straight
     info:

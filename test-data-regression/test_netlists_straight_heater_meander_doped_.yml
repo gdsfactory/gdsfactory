@@ -1,5 +1,5 @@
 instances:
-  bend_euler_R5_A90_P0p5__c7bd5c45_84625_m2375:
+  bend_euler_R5_A90_P0p5__45680321_84625_m2375:
     component: bend_euler
     info:
       dy: 5
@@ -18,8 +18,9 @@ instances:
       cross_section: strip
       p: 0.5
       radius: 5
+      width: 0.5
       with_arc_floorplan: true
-  bend_euler_R5_A90_P0p5__c7bd5c45_89375_m7625:
+  bend_euler_R5_A90_P0p5__45680321_89375_m7625:
     component: bend_euler
     info:
       dy: 5
@@ -38,8 +39,9 @@ instances:
       cross_section: strip
       p: 0.5
       radius: 5
+      width: 0.5
       with_arc_floorplan: true
-  bend_euler_R5_A90_P0p5__c7bd5c45_94625_1625:
+  bend_euler_R5_A90_P0p5__45680321_94625_1625:
     component: bend_euler
     info:
       dy: 5
@@ -58,8 +60,9 @@ instances:
       cross_section: strip
       p: 0.5
       radius: 5
+      width: 0.5
       with_arc_floorplan: true
-  bend_euler_R5_A90_P0p5__c7bd5c45_94625_m7625:
+  bend_euler_R5_A90_P0p5__45680321_94625_m7625:
     component: bend_euler
     info:
       dy: 5
@@ -78,8 +81,9 @@ instances:
       cross_section: strip
       p: 0.5
       radius: 5
+      width: 0.5
       with_arc_floorplan: true
-  bend_euler_R5_A90_P0p5__c7bd5c45_m20125_8375:
+  bend_euler_R5_A90_P0p5__45680321_m20125_8375:
     component: bend_euler
     info:
       dy: 5
@@ -98,8 +102,9 @@ instances:
       cross_section: strip
       p: 0.5
       radius: 5
+      width: 0.5
       with_arc_floorplan: true
-  bend_euler_R5_A90_P0p5__c7bd5c45_m24875_13625:
+  bend_euler_R5_A90_P0p5__45680321_m24875_13625:
     component: bend_euler
     info:
       dy: 5
@@ -118,8 +123,9 @@ instances:
       cross_section: strip
       p: 0.5
       radius: 5
+      width: 0.5
       with_arc_floorplan: true
-  bend_euler_R5_A90_P0p5__c7bd5c45_m30125_13625:
+  bend_euler_R5_A90_P0p5__45680321_m30125_13625:
     component: bend_euler
     info:
       dy: 5
@@ -138,8 +144,9 @@ instances:
       cross_section: strip
       p: 0.5
       radius: 5
+      width: 0.5
       with_arc_floorplan: true
-  bend_euler_R5_A90_P0p5__c7bd5c45_m30125_6375:
+  bend_euler_R5_A90_P0p5__45680321_m30125_6375:
     component: bend_euler
     info:
       dy: 5
@@ -158,6 +165,7 @@ instances:
       cross_section: strip
       p: 0.5
       radius: 5
+      width: 0.5
       with_arc_floorplan: true
   extend_ports_Cstraight__584ce7f6_2_36000_4000:
     component: null
@@ -366,29 +374,29 @@ instances:
       - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_S0p1_0p1_S0p2_0p2_E0p1
 name: straight_heater_meander_2e902fd2
 nets:
-- p1: bend_euler_R5_A90_P0p5__c7bd5c45_84625_m2375,o1
-  p2: bend_euler_R5_A90_P0p5__c7bd5c45_89375_m7625,o2
-- p1: bend_euler_R5_A90_P0p5__c7bd5c45_84625_m2375,o2
+- p1: bend_euler_R5_A90_P0p5__45680321_84625_m2375,o1
+  p2: bend_euler_R5_A90_P0p5__45680321_89375_m7625,o2
+- p1: bend_euler_R5_A90_P0p5__45680321_84625_m2375,o2
   p2: extend_ports_Cstraight__ecbbb66b_1_36000_0,o2
-- p1: bend_euler_R5_A90_P0p5__c7bd5c45_89375_m7625,o1
-  p2: bend_euler_R5_A90_P0p5__c7bd5c45_94625_m7625,o2
-- p1: bend_euler_R5_A90_P0p5__c7bd5c45_94625_1625,o1
+- p1: bend_euler_R5_A90_P0p5__45680321_89375_m7625,o1
+  p2: bend_euler_R5_A90_P0p5__45680321_94625_m7625,o2
+- p1: bend_euler_R5_A90_P0p5__45680321_94625_1625,o1
   p2: straight_L10_N2_CSstrip_W0p5_87000_4000,o1
-- p1: bend_euler_R5_A90_P0p5__c7bd5c45_94625_1625,o2
+- p1: bend_euler_R5_A90_P0p5__45680321_94625_1625,o2
   p2: straight_L4_N2_CSstrip_W0p5_97000_m3000,o1
-- p1: bend_euler_R5_A90_P0p5__c7bd5c45_94625_m7625,o1
+- p1: bend_euler_R5_A90_P0p5__45680321_94625_m7625,o1
   p2: straight_L4_N2_CSstrip_W0p5_97000_m3000,o2
-- p1: bend_euler_R5_A90_P0p5__c7bd5c45_m20125_8375,o1
-  p2: bend_euler_R5_A90_P0p5__c7bd5c45_m24875_13625,o2
-- p1: bend_euler_R5_A90_P0p5__c7bd5c45_m20125_8375,o2
+- p1: bend_euler_R5_A90_P0p5__45680321_m20125_8375,o1
+  p2: bend_euler_R5_A90_P0p5__45680321_m24875_13625,o2
+- p1: bend_euler_R5_A90_P0p5__45680321_m20125_8375,o2
   p2: straight_L7p5_N2_CSstrip_m13750_6000,o2
-- p1: bend_euler_R5_A90_P0p5__c7bd5c45_m24875_13625,o1
-  p2: bend_euler_R5_A90_P0p5__c7bd5c45_m30125_13625,o2
-- p1: bend_euler_R5_A90_P0p5__c7bd5c45_m30125_13625,o1
+- p1: bend_euler_R5_A90_P0p5__45680321_m24875_13625,o1
+  p2: bend_euler_R5_A90_P0p5__45680321_m30125_13625,o2
+- p1: bend_euler_R5_A90_P0p5__45680321_m30125_13625,o1
   p2: straight_L2_N2_CSstrip_W0p5_m32500_10000,o2
-- p1: bend_euler_R5_A90_P0p5__c7bd5c45_m30125_6375,o1
+- p1: bend_euler_R5_A90_P0p5__45680321_m30125_6375,o1
   p2: straight_L10_N2_CSstrip_W0p5_m22500_4000,o1
-- p1: bend_euler_R5_A90_P0p5__c7bd5c45_m30125_6375,o2
+- p1: bend_euler_R5_A90_P0p5__45680321_m30125_6375,o2
   p2: straight_L2_N2_CSstrip_W0p5_m32500_10000,o1
 - p1: extend_ports_Cstraight__584ce7f6_2_36000_4000,o1
   p2: straight_L7p5_N2_CSstrip_m13750_4000,o1
@@ -407,42 +415,42 @@ nets:
 - p1: straight_L92_N2_CSFcros_f84eb86c_46000_2000,e2
   p2: via_stack_S1p5_1p5_LM1__330fd0e2_92750_2000,e1
 placements:
-  bend_euler_R5_A90_P0p5__c7bd5c45_84625_m2375:
+  bend_euler_R5_A90_P0p5__45680321_84625_m2375:
     mirror: false
     rotation: 90
     x: 87
     y: -5
-  bend_euler_R5_A90_P0p5__c7bd5c45_89375_m7625:
+  bend_euler_R5_A90_P0p5__45680321_89375_m7625:
     mirror: true
     rotation: 180
     x: 92
     y: -10
-  bend_euler_R5_A90_P0p5__c7bd5c45_94625_1625:
+  bend_euler_R5_A90_P0p5__45680321_94625_1625:
     mirror: true
     rotation: 0
     x: 92
     y: 4
-  bend_euler_R5_A90_P0p5__c7bd5c45_94625_m7625:
+  bend_euler_R5_A90_P0p5__45680321_94625_m7625:
     mirror: true
     rotation: 270
     x: 97
     y: -5
-  bend_euler_R5_A90_P0p5__c7bd5c45_m20125_8375:
+  bend_euler_R5_A90_P0p5__45680321_m20125_8375:
     mirror: false
     rotation: 270
     x: -22.5
     y: 11
-  bend_euler_R5_A90_P0p5__c7bd5c45_m24875_13625:
+  bend_euler_R5_A90_P0p5__45680321_m24875_13625:
     mirror: true
     rotation: 0
     x: -27.5
     y: 16
-  bend_euler_R5_A90_P0p5__c7bd5c45_m30125_13625:
+  bend_euler_R5_A90_P0p5__45680321_m30125_13625:
     mirror: true
     rotation: 90
     x: -32.5
     y: 11
-  bend_euler_R5_A90_P0p5__c7bd5c45_m30125_6375:
+  bend_euler_R5_A90_P0p5__45680321_m30125_6375:
     mirror: true
     rotation: 180
     x: -27.5

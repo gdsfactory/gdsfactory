@@ -12,23 +12,23 @@ settings:
     module: gdsfactory.components.via_stack
     settings:
       layers:
-      - HEATER
-      - M2
-      - MTOP
+        - HEATER
+        - M2
+        - MTOP
       vias:
-      - null
-      - function: via
-        module: gdsfactory.components.via
-        settings:
-          enclosure: 2
-          layer: VIA1
-      - function: via
-        module: gdsfactory.components.via
-        settings:
-          layer: VIA2
+        - null
+        - function: via
+          module: gdsfactory.components.via
+          settings:
+            enclosure: 2
+            layer: VIA1
+        - function: via
+          module: gdsfactory.components.via
+          settings:
+            layer: VIA2
   pad_size:
-  - 100
-  - 100
+    - 100
+    - 100
   via_layer: VIAC
   via_spacing: 30.0
   via_width: 5.0

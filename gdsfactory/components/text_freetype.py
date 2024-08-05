@@ -14,7 +14,7 @@ from gdsfactory.typings import LayerSpec, LayerSpecs, PathType
 
 @gf.cell
 def text_freetype(
-    text: str = "abcd",
+    text: str = "bcd",
     size: int = 10,
     justify: str = "left",
     font: PathType = PATH.font_ocr,
@@ -84,9 +84,12 @@ def text_freetype(
             char = Component()
             xoffset = 0
             for letter in line:
-                letter_dev = Component()
                 letter_template, advance_x, ascender = _get_glyph(font, letter)
                 scale_factor = size / ascender
+                if letter == " ":
+                    xoffset += scale_factor * advance_x
+                    continue
+                letter_dev = Component()
                 for _, polygon_points in letter_template.get_polygons_points(
                     scale=scale_factor
                 ).items():
@@ -113,7 +116,7 @@ def text_freetype(
 
 
 if __name__ == "__main__":
-    c2 = text_freetype("hello", size=1)
+    c2 = text_freetype()
     # print(c2.name)
     # c2 = text_freetype()
     c2.show()

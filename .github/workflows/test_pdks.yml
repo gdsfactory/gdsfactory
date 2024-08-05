@@ -1,15 +1,12 @@
 name: Test PDKs
-
 on:
   pull_request:
   push:
     branches:
       - main
-
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
-
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -18,20 +15,17 @@ jobs:
       fail-fast: false
       matrix:
         repo:
-          - { owner: "gdsfactory", repo: "cspdk" }
-          - { owner: "gdsfactory", repo: "skywater130" }
-          - { owner: "gdsfactory", repo: "ubc" }
-
+          - {owner: "gdsfactory", repo: "cspdk"}
+          - {owner: "gdsfactory", repo: "skywater130"}
+          - {owner: "gdsfactory", repo: "ubc"}
     steps:
       - name: Checkout this repository
         uses: actions/checkout@v4
-
       - name: Checkout other repository
         uses: actions/checkout@v4
         with:
           repository: ${{ matrix.repo.owner }}/${{ matrix.repo.repo }}
           path: other-repo
-
       - name: Run tests
         run: |
           cd other-repo

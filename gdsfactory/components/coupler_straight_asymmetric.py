@@ -33,10 +33,10 @@ def coupler_straight_asymmetric(
 
     dy = 0.5 * (width_top + width_bot) + gap
     top.dmovey(dy)
-    c.add_port("o1", port=bot.ports["o1"])
-    c.add_port("o2", port=top.ports["o1"])
-    c.add_port("o3", port=top.ports["o2"])
-    c.add_port("o4", port=bot.ports["o2"])
+    c.add_port("o1", port=bot.ports[0])
+    c.add_port("o2", port=top.ports[0])
+    c.add_port("o3", port=top.ports[1])
+    c.add_port("o4", port=bot.ports[1])
     c.flatten()
     return c
 

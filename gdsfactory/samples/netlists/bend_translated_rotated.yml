@@ -48,18 +48,18 @@ name: test_netlist_yaml4
 warnings:
   optical:
     unconnected_ports:
-    - ports:
-      - b1,o1
-      - b1,o2
-      - b2,o1
-      - b2,o2
-      values:
-      - - 0
-        - 0
-      - - 10000
-        - 10000
-      - - 30000
-        - 0
-      - - 40000
-        - -10000
-      message: 4 unconnected optical ports!
+      - ports:
+          - b1,o1
+          - b1,o2
+          - b2,o1
+          - b2,o2
+        values:
+          - - 0
+            - 0
+          - - 10000
+            - 10000
+          - - 30000
+            - 0
+          - - 40000
+            - -10000
+        message: 4 unconnected optical ports!

@@ -9,7 +9,7 @@ settings:
     function: pad_array
   fiducial: cross
   offsets:
-  - - 0
-    - 100
-  - - 0
-    - -100
+    - - 0
+      - 100
+    - - 0
+      - -100

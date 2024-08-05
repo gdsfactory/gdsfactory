@@ -1,5 +1,5 @@
 instances:
-  bend_euler_R10_A90_P0p5_2f1f5c6d_97418_15125:
+  bend_euler_R10_A90_P0p5_f9fcb00b_97418_15125:
     component: bend_euler
     info:
       dy: 10
@@ -18,6 +18,7 @@ instances:
       cross_section: strip
       p: 0.5
       radius: 10
+      width: 0.5
       with_arc_floorplan: true
   spiral_racetrack_MR5_SL_905ed8c1_36271_m2500:
     component: spiral_racetrack
@@ -81,16 +82,16 @@ instances:
       width: 0.5
 name: spiral_racetrack_fixed__e95fe6cc
 nets:
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_97418_15125,o1
+- p1: bend_euler_R10_A90_P0p5_f9fcb00b_97418_15125,o1
   p2: straight_L47p457_N2_CSstrip_W0p5_126271_20000,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_97418_15125,o2
+- p1: bend_euler_R10_A90_P0p5_f9fcb00b_97418_15125,o2
   p2: straight_L10_N2_CSstrip_W0p5_92543_5000,o1
 - p1: spiral_racetrack_MR5_SL_905ed8c1_36271_m2500,o1
   p2: straight_L20p25_N2_CSstrip_m10125_20000,o1
 - p1: spiral_racetrack_MR5_SL_905ed8c1_36271_m2500,o2
   p2: straight_L10_N2_CSstrip_W0p5_92543_5000,o2
 placements:
-  bend_euler_R10_A90_P0p5_2f1f5c6d_97418_15125:
+  bend_euler_R10_A90_P0p5_f9fcb00b_97418_15125:
     mirror: false
     rotation: 180
     x: 102.543

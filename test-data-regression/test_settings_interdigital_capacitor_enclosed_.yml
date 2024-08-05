@@ -4,13 +4,13 @@ module: gdsfactory.components.interdigital_capacitor_enclosed
 name: interdigital_capacitor_enclosed
 settings:
   cpw_dimensions:
-  - 10
-  - 6
+    - 10
+    - 6
   enclosure_box:
-  - - -200
-    - -200
-  - - 200
-    - 200
+    - - -200
+      - -200
+    - - 200
+      - 200
   gap_layer: DEEPTRENCH
   gap_to_ground: 5
   metal_layer: WG
