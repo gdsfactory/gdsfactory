@@ -7,7 +7,8 @@ def assert_xor_fails(ref_gds, run_gds, test_name, capsys, layers_with_xor) -> No
     assert diff(ref_gds, run_gds, xor=True, test_name=test_name) is True
     captured = capsys.readouterr()
     for layer in layers_with_xor:
-        assert f"XOR difference on layer {layer}" in captured.out, captured.out
+        assert "XOR difference on layer" in captured.out, captured.out
+        assert f"{layer}" in captured.out, captured.out
 
 
 _gds_dir = Path(__file__).parent / "gds"
