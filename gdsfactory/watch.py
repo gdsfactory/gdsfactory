@@ -185,7 +185,20 @@ class FileWatcher(FileSystemEventHandler):
             print(e)
 
 
-def watch(path: PathType | None = cwd, pdk: str | None = None) -> None:
+def watch(
+    path: PathType | None = cwd,
+    pdk: str | None = None,
+    run_main: bool = False,
+    run_cells=True,
+) -> None:
+    """Starts the file watcher.
+
+    Args:
+        path: the path to the directory to watch.
+        pdk: the name of the PDK to use.
+        run_main: if True, will execute the main function of the file.
+        run_cells: if True, will execute the cells of the file.
+    """
     path = str(path)
     logging.basicConfig(
         level=logging.INFO,
@@ -194,7 +207,7 @@ def watch(path: PathType | None = cwd, pdk: str | None = None) -> None:
     )
     if pdk:
         get_active_pdk(name=pdk)
-    watcher = FileWatcher(path=path)
+    watcher = FileWatcher(path=path, run_main=run_main, run_cells=run_cells)
     watcher.start()
     logging.info(
         f"File watcher looking for changes in *.py and *.pic.yml files in {path!r}. Stop with Ctrl+C"

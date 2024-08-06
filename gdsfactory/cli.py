@@ -75,7 +75,7 @@ def watch(
     path: str = str(pathlib.Path.cwd()),
     pdk: str = typer.Option(None, "--pdk", "-pdk", help="PDK name"),
     run_main: bool = typer.Option(False, "--run-main", "-rm", help="Run main"),
-    run_cells: bool = typer.Option(False, "--run-cells", "-rc", help="Run cells"),
+    run_cells: bool = typer.Option(True, "--run-cells", "-rc", help="Run cells"),
 ) -> None:
     """Filewatch a folder for changes in *.py or *.pic.yml files.
 
