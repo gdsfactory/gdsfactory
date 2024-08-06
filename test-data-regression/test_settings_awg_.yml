@@ -1,20 +1,9 @@
-function: awg
 info: {}
-module: gdsfactory.components.awg
-name: awg
+name: awg_A10_O3_FPRIFFfree_p_d02e50a8
 settings:
+  arm_spacing: 1
   arms: 10
-  fpr_spacing: 50.0
-  free_propagation_region_input_function:
-    function: free_propagation_region
-    module: gdsfactory.components.awg
-    settings:
-      inputs: 1
-  free_propagation_region_output_function:
-    function: free_propagation_region
-    module: gdsfactory.components.awg
-    settings:
-      inputs: 10
-      width1: 10
-      width2: 20.0
+  fpr_spacing: 50
+  free_propagation_region_input_function: Ffree_propagation_region_Mgdsfactorypcomponentspawg_SI1
+  free_propagation_region_output_function: Ffree_propagation_region_Mgdsfactorypcomponentspawg_SI10_W10_W20
   outputs: 3

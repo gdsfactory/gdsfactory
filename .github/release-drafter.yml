@@ -7,27 +7,25 @@ template: |
   $CHANGES
 
   **Full Changelog**: https://github.com/$OWNER/$REPOSITORY/compare/$PREVIOUS_TAG...v$RESOLVED_VERSION
-
 categories:
   - title: 'Breaking'
     label: 'breaking'
   - title: 'New'
     labels:
-    - 'feature'
-    - 'enhancement'
+      - 'feature'
+      - 'enhancement'
   - title: 'Bug Fixes'
     label: 'bug'
   - title: 'Maintenance'
     labels:
-    - 'maintenance'
-    - 'github_actions'
+      - 'maintenance'
+      - 'github_actions'
   - title: 'Documentation'
     label: 'documentation'
   - title: 'Other changes'
   - title: 'Dependency Updates'
     label: 'dependencies'
     collapse-after: 5
-
 version-resolver:
   major:
     labels:
@@ -47,10 +45,8 @@ version-resolver:
       - 'dependencies'
       - 'security'
   default: patch
-
 exclude-labels:
   - 'skip-changelog'
-
 autolabeler:
   - label: 'documentation'
     files:

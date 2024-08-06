@@ -16,7 +16,6 @@ placements:
     dx: 1000
     dy: -1000
 
-
 routes:
   bad_news:
     routing_strategy: route_bundle_all_angle

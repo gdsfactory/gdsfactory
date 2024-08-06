@@ -5,22 +5,18 @@ instances:
       cross_section: strip
   wg_a2:
     component: straight
-
   wg_b1:
     component: straight
   wg_b2:
     component: straight
-
   wg_d1:
     component: straight
   wg_d2:
     component: straight
-
   wg_e1:
     component: straight
   wg_e2:
     component: straight
-
   wg_g1:
     component: straight
   wg_g2:
@@ -29,7 +25,6 @@ instances:
     component: straight
   wg_h2:
     component: straight
-
 placements:
   wg_a1:
     port: o2
@@ -51,7 +46,6 @@ placements:
     dx: 10
     dy: 100
     rotation: 180
-
   wg_d1:
     port: o2
     x: 0
@@ -62,7 +56,6 @@ placements:
     y: wg_d1,o2
     dx: 1000
     dy: -1000
-
   wg_e1:
     port: o2
     x: 500
@@ -73,7 +66,6 @@ placements:
     y: wg_e1,o2
     dx: 1000
     dy: -1000
-
 routes:
   too_close:
     routing_strategy: route_bundle_all_angle
@@ -83,7 +75,6 @@ routes:
     routing_strategy: route_bundle_all_angle
     links:
       wg_b1,o2: wg_b2,o1
-
   route_wont_fit:
     routing_strategy: route_bundle_all_angle
     settings:
@@ -92,7 +83,6 @@ routes:
           exit_angle: -90
     links:
       wg_d1,o2: wg_d2,o1
-
   intermediate_route_wont_fit:
     routing_strategy: route_bundle_all_angle
     settings:

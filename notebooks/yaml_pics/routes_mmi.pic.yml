@@ -1,18 +1,18 @@
 name: routes_mmi
 
 instances:
-    mmi_bottom:
-      component: mmi2x2
-    mmi_top:
-      component: mmi2x2
+  mmi_bottom:
+    component: mmi2x2
+  mmi_top:
+    component: mmi2x2
 
 placements:
-    mmi_top:
-        x: 100
-        y: 100
+  mmi_top:
+    x: 100
+    y: 100
 
 routes:
-    optical:
-        links:
-            mmi_bottom,o4: mmi_top,o1
-            mmi_bottom,o3: mmi_top,o2
+  optical:
+    links:
+      mmi_bottom,o4: mmi_top,o1
+      mmi_bottom,o3: mmi_top,o2

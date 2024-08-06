@@ -46,15 +46,16 @@ def coupler90(
         cross_section=xs_bend,
     )
     bend_ref = c << bend90
+    bend90_ports = bend_ref.ports.filter(port_type="optical")
     straight_component = gf.get_component(
         straight,
         cross_section=cross_section,
-        length=bend90.ports["o2"].dcenter[0] - bend90.ports["o1"].dcenter[0],
+        length=bend90_ports[1].dcenter[0] - bend90_ports[0].dcenter[0],
     )
     wg_ref = c << straight_component
     width = x.width
 
-    pbw = bend_ref.ports["o1"]
+    pbw = bend90_ports[0]
     bend_ref.dmovey(pbw.dy + gap + width)
     c.add_ports(wg_ref.ports, prefix="wg")
     c.add_ports(bend_ref.ports, prefix="bend")

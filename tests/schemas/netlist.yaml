@@ -15,7 +15,7 @@ $defs:
         title: Settings
         type: object
     required:
-    - links
+      - links
     title: Bundle
     type: object
   Instance:
@@ -55,17 +55,16 @@ $defs:
         title: Settings
         type: object
     required:
-    - component
+      - component
     title: Instance
     type: object
   Net:
-    description: "Net between two ports.\n\nParameters:\n    p1: instance_name,port\
-      \ 1.\n    p2: instance_name,port 2.\n    name: route name."
+    description: "Net between two ports.\n\nParameters:\n    p1: instance_name,port 1.\n    p2: instance_name,port 2.\n    name: route name."
     properties:
       name:
         anyOf:
-        - type: string
-        - type: 'null'
+          - type: string
+          - type: 'null'
         default: null
         title: Name
       p1:
@@ -78,8 +77,8 @@ $defs:
         title: Settings
         type: object
     required:
-    - p1
-    - p2
+      - p1
+      - p2
     title: Net
     type: object
   Placement:
@@ -95,27 +94,27 @@ $defs:
         type: number
       mirror:
         anyOf:
-        - type: boolean
-        - type: string
-        - type: number
+          - type: boolean
+          - type: string
+          - type: number
         default: false
         title: Mirror
       port:
         anyOf:
-        - type: string
-        - enum:
-          - ce
-          - cw
-          - nc
-          - ne
-          - nw
-          - sc
-          - se
-          - sw
-          - center
-          - cc
-          type: string
-        - type: 'null'
+          - type: string
+          - enum:
+              - ce
+              - cw
+              - nc
+              - ne
+              - nw
+              - sc
+              - se
+              - sw
+              - center
+              - cc
+            type: string
+          - type: 'null'
         default: null
         title: Port
       rotation:
@@ -124,55 +123,50 @@ $defs:
         type: number
       x:
         anyOf:
-        - type: string
-        - type: number
-        - type: 'null'
+          - type: string
+          - type: number
+          - type: 'null'
         default: null
         title: X
       xmax:
         anyOf:
-        - type: string
-        - type: number
-        - type: 'null'
+          - type: string
+          - type: number
+          - type: 'null'
         default: null
         title: Xmax
       xmin:
         anyOf:
-        - type: string
-        - type: number
-        - type: 'null'
+          - type: string
+          - type: number
+          - type: 'null'
         default: null
         title: Xmin
       y:
         anyOf:
-        - type: string
-        - type: number
-        - type: 'null'
+          - type: string
+          - type: number
+          - type: 'null'
         default: null
         title: Y
       ymax:
         anyOf:
-        - type: string
-        - type: number
-        - type: 'null'
+          - type: string
+          - type: number
+          - type: 'null'
         default: null
         title: Ymax
       ymin:
         anyOf:
-        - type: string
-        - type: number
-        - type: 'null'
+          - type: string
+          - type: number
+          - type: 'null'
         default: null
         title: Ymin
     title: Placement
     type: object
 additionalProperties: false
-description: "Netlist defined component.\n\nParameters:\n    instances: dict of instances\
-  \ (name, settings, component).\n    placements: dict of placements.\n    connections:\
-  \ dict of connections.\n    routes: dict of routes.\n    name: component name.\n\
-  \    info: information (polarization, wavelength ...).\n    ports: exposed component\
-  \ ports.\n    settings: input variables.\n    nets: list of nets.\n    warnings:\
-  \ warnings."
+description: "Netlist defined component.\n\nParameters:\n    instances: dict of instances (name, settings, component).\n    placements: dict of placements.\n    connections: dict of connections.\n    routes: dict of routes.\n    name: component name.\n    info: information (polarization, wavelength ...).\n    ports: exposed component ports.\n    settings: input variables.\n    nets: list of nets.\n    warnings: warnings."
 properties:
   connections:
     additionalProperties:
@@ -189,8 +183,8 @@ properties:
     type: object
   name:
     anyOf:
-    - type: string
-    - type: 'null'
+      - type: string
+      - type: 'null'
     default: null
     title: Name
   nets:

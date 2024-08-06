@@ -11,7 +11,7 @@ instances:
       spacing:
       - 100
       - 100
-  mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_m10000:
+  mzi_DL40_LY40_LX500_Bbe_2a7d538d_285500_m10000:
     component: mzi
     info: {}
     settings:
@@ -25,6 +25,8 @@ instances:
       min_length: 0.01
       mirror_bot: false
       nbends: 2
+      port1: o1
+      port2: o2
       port_e0_combiner: o3
       port_e0_splitter: o3
       port_e1_combiner: o2
@@ -42,30 +44,30 @@ placements:
     rotation: 0
     x: 185.5
     y: -10
-  mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_m10000:
+  mzi_DL40_LY40_LX500_Bbe_2a7d538d_285500_m10000:
     mirror: false
     rotation: 0
     x: 0
     y: 0
 ports:
-  bot_l_e1: mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_m10000,bot_l_e1
-  bot_l_e2: mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_m10000,bot_l_e2
-  bot_l_e3: mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_m10000,bot_l_e3
-  bot_l_e4: mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_m10000,bot_l_e4
-  bot_r_e1: mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_m10000,bot_r_e1
-  bot_r_e2: mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_m10000,bot_r_e2
-  bot_r_e3: mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_m10000,bot_r_e3
-  bot_r_e4: mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_m10000,bot_r_e4
-  in_o1: mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_m10000,in_o1
-  ou_o1: mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_m10000,ou_o1
-  top_l_e1: mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_m10000,top_l_e1
-  top_l_e2: mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_m10000,top_l_e2
-  top_l_e3: mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_m10000,top_l_e3
-  top_l_e4: mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_m10000,top_l_e4
-  top_r_e1: mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_m10000,top_r_e1
-  top_r_e2: mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_m10000,top_r_e2
-  top_r_e3: mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_m10000,top_r_e3
-  top_r_e4: mzi_DL40_LY40_LX500_Bbe_aa0d55d2_285500_m10000,top_r_e4
+  bot_l_e1: mzi_DL40_LY40_LX500_Bbe_2a7d538d_285500_m10000,bot_l_e1
+  bot_l_e2: mzi_DL40_LY40_LX500_Bbe_2a7d538d_285500_m10000,bot_l_e2
+  bot_l_e3: mzi_DL40_LY40_LX500_Bbe_2a7d538d_285500_m10000,bot_l_e3
+  bot_l_e4: mzi_DL40_LY40_LX500_Bbe_2a7d538d_285500_m10000,bot_l_e4
+  bot_r_e1: mzi_DL40_LY40_LX500_Bbe_2a7d538d_285500_m10000,bot_r_e1
+  bot_r_e2: mzi_DL40_LY40_LX500_Bbe_2a7d538d_285500_m10000,bot_r_e2
+  bot_r_e3: mzi_DL40_LY40_LX500_Bbe_2a7d538d_285500_m10000,bot_r_e3
+  bot_r_e4: mzi_DL40_LY40_LX500_Bbe_2a7d538d_285500_m10000,bot_r_e4
+  in_o1: mzi_DL40_LY40_LX500_Bbe_2a7d538d_285500_m10000,in_o1
+  ou_o1: mzi_DL40_LY40_LX500_Bbe_2a7d538d_285500_m10000,ou_o1
+  top_l_e1: mzi_DL40_LY40_LX500_Bbe_2a7d538d_285500_m10000,top_l_e1
+  top_l_e2: mzi_DL40_LY40_LX500_Bbe_2a7d538d_285500_m10000,top_l_e2
+  top_l_e3: mzi_DL40_LY40_LX500_Bbe_2a7d538d_285500_m10000,top_l_e3
+  top_l_e4: mzi_DL40_LY40_LX500_Bbe_2a7d538d_285500_m10000,top_l_e4
+  top_r_e1: mzi_DL40_LY40_LX500_Bbe_2a7d538d_285500_m10000,top_r_e1
+  top_r_e2: mzi_DL40_LY40_LX500_Bbe_2a7d538d_285500_m10000,top_r_e2
+  top_r_e3: mzi_DL40_LY40_LX500_Bbe_2a7d538d_285500_m10000,top_r_e3
+  top_r_e4: mzi_DL40_LY40_LX500_Bbe_2a7d538d_285500_m10000,top_r_e4
 warnings:
   electrical:
     unconnected_ports:

@@ -1,24 +1,23 @@
 name: relative_port_placing
 instances:
-    mmi_long:
-      component: mmi1x2
-      settings:
-        width_mmi: 4.5
-        length_mmi: 10
-    mmi_short:
-      component: mmi1x2
-      settings:
-        width_mmi: 4.5
-        length_mmi: 5
-
+  mmi_long:
+    component: mmi1x2
+    settings:
+      width_mmi: 4.5
+      length_mmi: 10
+  mmi_short:
+    component: mmi1x2
+    settings:
+      width_mmi: 4.5
+      length_mmi: 5
 placements:
-    mmi_short:
-        port: o1
-        x: 0
-        y: 0
-    mmi_long:
-        port: o1
-        x: mmi_short,o2
-        y: mmi_short,o2
-        dx : 10
-        dy: -10
+  mmi_short:
+    port: o1
+    x: 0
+    y: 0
+  mmi_long:
+    port: o1
+    x: mmi_short,o2
+    y: mmi_short,o2
+    dx: 10
+    dy: -10

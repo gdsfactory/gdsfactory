@@ -80,7 +80,7 @@ def route_single(
         port_type: port type to route.
         allow_width_mismatch: allow different port widths.
         radius: bend radius. If None, defaults to cross_section.radius.
-        route_width: width of the route. If None, defaults to cross_section.width.
+        route_width: width of the route in um. If None, defaults to cross_section.width.
 
 
     .. plot::
@@ -99,16 +99,17 @@ def route_single(
     p2 = port2
 
     port_type = port_type or p1.port_type
-    xs = gf.get_cross_section(cross_section)
-    width = xs.width
+    if route_width:
+        xs = gf.get_cross_section(cross_section, width=route_width)
+    else:
+        xs = gf.get_cross_section(cross_section)
+    width = route_width or xs.width
     radius = radius or xs.radius
     width_dbu = width / component.kcl.dbu
 
     taper_cell = gf.get_component(taper, cross_section=cross_section) if taper else None
-    bend90 = (
-        bend
-        if isinstance(bend, Component)
-        else gf.get_component(bend, cross_section=cross_section, radius=radius)
+    bend90 = gf.get_component(
+        bend, cross_section=cross_section, radius=radius, width=width
     )
 
     def straight_dbu(
@@ -126,8 +127,7 @@ def route_single(
     dbu = component.kcl.dbu
     end_straight = round(end_straight_length / dbu)
     start_straight = round(start_straight_length / dbu)
-
-    route_width = route_width or round(xs.width / dbu)
+    route_width = round(width / dbu)
 
     if waypoints is not None:
         if not isinstance(waypoints[0], kf.kdb.Point):
@@ -269,47 +269,46 @@ if __name__ == "__main__":
     # )
     # c.show()
 
-    # c = gf.Component("electrical")
-    # w = gf.components.wire_straight()
-    # left = c << w
-    # right = c << w
-    # right.dmove((100, 80))
+    c = gf.Component("electrical")
+    w = gf.components.wire_straight()
+    left = c << w
+    right = c << w
+    right.dmove((100, 80))
+    obstacle = gf.components.rectangle(size=(100, 10))
+    obstacle1 = c << obstacle
+    obstacle2 = c << obstacle
+    obstacle1.dymin = 40
+    obstacle2.dxmin = 25
 
-    # obstacle = gf.components.rectangle(size=(100, 10))
-    # obstacle1 = c << obstacle
-    # obstacle2 = c << obstacle
-    # obstacle1.dymin = 40
-    # obstacle2.dxmin = 25
+    p0 = left.ports["e2"]
+    p1 = right.ports["e2"]
+    p0x, p0y = left.ports["e2"].dcenter
+    p1x, p1y = right.ports["e2"].dcenter
+    o = 10  # vertical offset to overcome bottom obstacle
+    ytop = 20
 
-    # p0 = left.ports["e2"]
-    # p1 = right.ports["e2"]
-    # p0x, p0y = left.ports["e2"].dcenter
-    # p1x, p1y = right.ports["e2"].dcenter
-    # o = 10  # vertical offset to overcome bottom obstacle
-    # ytop = 20
-
-    # r = route_single_electrical(
-    #     c,
-    #     p0,
-    #     p1,
-    #     cross_section="metal_routing",
-    #     waypoints=[
-    #         (p0x + o, p0y),
-    #         (p0x + o, ytop),
-    #         (p1x + o, ytop),
-    #         (p1x + o, p1y),
-    #     ],
-    # )
-    # c.show()
-
-    c = gf.Component()
-    w = gf.components.straight(length=0.1)
-    top = c << w
-    bot = c << w
-    d = 2
-    bot.dmove((d, d))
-
-    p0 = top.ports["o2"]
-    p1 = bot.ports["o1"]
-    r = gf.routing.route_single(c, p0, p1, cross_section="strip", taper=None)
+    r = route_single(
+        c,
+        p0,
+        p1,
+        cross_section="metal_routing",
+        waypoints=[
+            (p0x + o, p0y),
+            (p0x + o, ytop),
+            (p1x + o, ytop),
+            (p1x + o, p1y),
+        ],
+    )
     c.show()
+
+    # c = gf.Component()
+    # w = gf.components.straight(length=0.1)
+    # top = c << w
+    # bot = c << w
+    # d = 2
+    # bot.dmove((d, d))
+
+    # p0 = top.ports["o2"]
+    # p1 = bot.ports["o1"]
+    # r = gf.routing.route_single(c, p0, p1, cross_section="strip", taper=None)
+    # c.show()

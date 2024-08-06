@@ -1,6 +1,6 @@
 nets:
-- p1: b1,o2
-  p2: b2,o2
+  - p1: b1,o2
+    p2: b2,o2
 instances:
   b1:
     component: bend_circular
@@ -50,20 +50,20 @@ name: test_netlist_yaml5
 warnings:
   optical:
     orientation_mismatch:
-    - ports:
-      - b1,o2
-      - b2,o2
-      values:
-      - 90
-      - 90
-      message: b1,o2 and b2,o2 are misaligned by 180.0 deg
+      - ports:
+          - b1,o2
+          - b2,o2
+        values:
+          - 90
+          - 90
+        message: b1,o2 and b2,o2 are misaligned by 180.0 deg
     unconnected_ports:
-    - ports:
-      - b1,o1
-      - b2,o1
-      values:
-      - - 0
-        - 0
-      - - 20000
-        - 0
-      message: 2 unconnected optical ports!
+      - ports:
+          - b1,o1
+          - b2,o1
+        values:
+          - - 0
+            - 0
+          - - 20000
+            - 0
+        message: 2 unconnected optical ports!

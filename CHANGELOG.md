@@ -1,7 +1,37 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.6.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.6.5...main)
 
 <!-- towncrier release notes start -->
+
+## [8.6.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.6.5) - 2024-08-05
+
+- fix difftest [#3080](https://github.com/gdsfactory/gdsfactory/pull/3080)
+- fix bend coupler output cross section [#3090](https://github.com/gdsfactory/gdsfactory/pull/3090)
+
+## [8.6.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.6.4) - 2024-08-02
+
+- fix route_single width [#3085](https://github.com/gdsfactory/gdsfactory/pull/3085)
+- faster Component.extract() [#3087](https://github.com/gdsfactory/gdsfactory/pull/3087)
+- remove klayout pin [#3078](https://github.com/gdsfactory/gdsfactory/pull/3078)
+
+## [8.6.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.6.3) - 2024-07-31
+
+No significant changes.
+- fix warning message [#3075](https://github.com/gdsfactory/gdsfactory/pull/3075)
+- fix advance_x [#3071](https://github.com/gdsfactory/gdsfactory/pull/3071)
+- Add yamlfmt to pre-commit hooks [#3068](https://github.com/gdsfactory/gdsfactory/pull/3068)
+- Add actionlint to pre-commit hooks [#3067](https://github.com/gdsfactory/gdsfactory/pull/3067)
+- improve contribution guidelines [#3065](https://github.com/gdsfactory/gdsfactory/pull/3065)
+- Fix error raised when blank space is present in text within text_freetype.py [#3070](https://github.com/gdsfactory/gdsfactory/pull/3070)
+- pin max version of klayout [#3076](https://github.com/gdsfactory/gdsfactory/pull/3076)
+
+## [8.6.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.6.2) - 2024-07-30
+
+- Fix rendering failure for 'i' and 'j' in font.py [#3062](https://github.com/gdsfactory/gdsfactory/pull/3062)
+- Add awg [#3054](https://github.com/gdsfactory/gdsfactory/pull/3054)
+- [pre-commit.ci] pre-commit autoupdate [#3057](https://github.com/gdsfactory/gdsfactory/pull/3057)
+- use generic port names [#3064](https://github.com/gdsfactory/gdsfactory/pull/3064)
+- Remove cell decorator [#3056](https://github.com/gdsfactory/gdsfactory/pull/3056)
 
 ## [8.6.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.6.1) - 2024-07-28
 
@@ -257,9 +287,6 @@
 - Rename fiber ports [#2700](https://github.com/gdsfactory/gdsfactory/pull/2700)
 - fix stl export [#2702](https://github.com/gdsfactory/gdsfactory/pull/2702)
 - add via_stack to spiral_heater [#2698](https://github.com/gdsfactory/gdsfactory/pull/2698)
-
-## Dependency Updates
-
 - Bump sphinx from 7.2.6 to 7.3.7 [#2693](https://github.com/gdsfactory/gdsfactory/pull/2693)
 - Update kweb requirement from <1.3,>=1.1.9 to >=1.1.9,<2.1 [#2675](https://github.com/gdsfactory/gdsfactory/pull/2675)
 - Update trimesh requirement from <4.3,>=4 to >=4,<4.4 [#2674](https://github.com/gdsfactory/gdsfactory/pull/2674)
@@ -490,9 +517,6 @@ Documentation
 - [pre-commit.ci] pre-commit autoupdate [#2510](https://github.com/gdsfactory/gdsfactory/pull/2510)
 - improve Component.simplify to keep layers and name [#2507](https://github.com/gdsfactory/gdsfactory/pull/2507)
 - add Component.simplify [#2505](https://github.com/gdsfactory/gdsfactory/pull/2505)
-
-Dependency Updates:
-
 - Update pydantic requirement from <2.6,>=2 to >=2,<2.7 [#2508](https://github.com/gdsfactory/gdsfactory/pull/2508)
 
 

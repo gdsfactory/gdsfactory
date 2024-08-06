@@ -194,7 +194,7 @@ class ComponentReference(kf.Instance):
     @property
     def info(self) -> dict[str, Any]:
         warnings.warn(
-            "info is deprecated, use ref.parent_cell.info instead",
+            "info is deprecated, use ref.cell.info instead",
             stacklevel=3,
         )
         return self.cell.info
@@ -844,20 +844,33 @@ class ComponentBase:
     def extract(
         self,
         layers: list[LayerSpec],
+        recursive: bool = True,
     ) -> Component:
         """Extracts a list of layers and adds them to a new Component.
 
         Args:
             layers: list of layers to extract.
+            recursive: if True, extracts layers recursively and returns a flattened Component.
         """
-        from gdsfactory import get_layer
+        from gdsfactory.pdk import get_layer_tuple
 
-        c = Component()
+        c = self.dup()
+        if recursive:
+            c.flatten()
 
-        for layer in layers:
-            layer_index = get_layer(layer)
-            for r in self._kdb_cell.begin_shapes_rec(layer_index):
-                c.shapes(layer_index).insert(r)
+        layer_tuples = [get_layer_tuple(layer) for layer in layers]
+        component_layers = c.layers
+
+        for layer_tuple in layer_tuples:
+            if layer_tuple not in component_layers:
+                warnings.warn(
+                    f"Layer {layer_tuple} not found in component {self.name!r} layers."
+                )
+
+        for layer_tuple in component_layers:
+            if layer_tuple not in layer_tuples:
+                layer_index = self.kcl.layer(*layer_tuple)
+                c.shapes(layer_index).clear()
 
         return c
 
@@ -1279,8 +1292,9 @@ if __name__ == "__main__":
     # s.connect("o1", b.ports["o2"])
     # p = c.get_polygons()
     # p1 = c.get_polygons(by="name")
-    c = gf.c.mzi_lattice()
-    c.copy_layers({(1, 0): (2, 0)}, recursive=True)
+    c = gf.c.mzi_lattice(cross_section="rib")
+    c = c.extract(["WG"])
+    # c.copy_layers({(1, 0): (2, 0)}, recursive=True)
     # c = gf.c.array(spacing=(300, 300), columns=2)
     # c.show()
     # n0 = c.get_netlist()

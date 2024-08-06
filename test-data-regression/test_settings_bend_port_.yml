@@ -2,11 +2,11 @@ name: straight_heater_metal_undercut_with_undercutFalse_bend_port
 ports:
   l_e1:
     center:
-    - 324.9
-    - -20.0
+      - 324.9
+      - -20.0
     layer:
-    - 49
-    - 0
+      - 49
+      - 0
     name: l_e1
     orientation: 0.0
     port_type: electrical
@@ -14,11 +14,11 @@ ports:
     width: 10.0
   l_e2:
     center:
-    - -10.4
-    - 5.5
+      - -10.4
+      - 5.5
     layer:
-    - 49
-    - 0
+      - 49
+      - 0
     name: l_e2
     orientation: 90.0
     port_type: electrical
@@ -26,11 +26,11 @@ ports:
     width: 11.0
   l_e3:
     center:
-    - -4.9
-    - 0.0
+      - -4.9
+      - 0.0
     layer:
-    - 49
-    - 0
+      - 49
+      - 0
     name: l_e3
     orientation: 0.0
     port_type: electrical
@@ -38,11 +38,11 @@ ports:
     width: 11.0
   l_e4:
     center:
-    - -10.4
-    - -5.5
+      - -10.4
+      - -5.5
     layer:
-    - 49
-    - 0
+      - 49
+      - 0
     name: l_e4
     orientation: 270.0
     port_type: electrical
@@ -50,11 +50,11 @@ ports:
     width: 11.0
   o1:
     center:
-    - 0.0
-    - 0.0
+      - 0.0
+      - 0.0
     layer:
-    - 1
-    - 0
+      - 1
+      - 0
     name: o1
     orientation: 180.0
     port_type: optical
@@ -62,11 +62,11 @@ ports:
     width: 0.5
   o2:
     center:
-    - 320.0
-    - 0.0
+      - 320.0
+      - 0.0
     layer:
-    - 1
-    - 0
+      - 1
+      - 0
     name: o2
     orientation: 0.0
     port_type: optical
@@ -74,11 +74,11 @@ ports:
     width: 0.5
   r_e1:
     center:
-    - 324.9
-    - 0.0
+      - 324.9
+      - 0.0
     layer:
-    - 49
-    - 0
+      - 49
+      - 0
     name: r_e1
     orientation: 180.0
     port_type: electrical
@@ -86,11 +86,11 @@ ports:
     width: 11.0
   r_e2:
     center:
-    - 330.4
-    - 5.5
+      - 330.4
+      - 5.5
     layer:
-    - 49
-    - 0
+      - 49
+      - 0
     name: r_e2
     orientation: 90.0
     port_type: electrical
@@ -98,11 +98,11 @@ ports:
     width: 11.0
   r_e3:
     center:
-    - 335.9
-    - 0.0
+      - 335.9
+      - 0.0
     layer:
-    - 49
-    - 0
+      - 49
+      - 0
     name: r_e3
     orientation: 0.0
     port_type: electrical
@@ -110,11 +110,11 @@ ports:
     width: 11.0
   r_e4:
     center:
-    - 330.4
-    - -5.5
+      - 330.4
+      - -5.5
     layer:
-    - 49
-    - 0
+      - 49
+      - 0
     name: r_e4
     orientation: 270.0
     port_type: electrical

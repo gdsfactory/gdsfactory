@@ -3,11 +3,4 @@ name: mask_compact
 settings:
   label_instance_function: add_instance_label
   name: Unnamed
-  yaml_str: "\nname: mask_compact\n\ninstances:\n  rings:\n    component: pack_doe\n\
-    \    settings:\n      doe: ring_single\n      settings:\n        radius: [30,\
-    \ 50, 20, 40]\n        length_x: [1, 2, 3]\n      do_permutations: True\n    \
-    \  function:\n        function: add_fiber_array\n        settings:\n         \
-    \   fanout_length: 200\n\n\n  mzis:\n    component: pack_doe_grid\n    settings:\n\
-    \      doe: mzi\n      settings:\n        delta_length: [10, 100]\n      do_permutations:\
-    \ True\n      spacing: [10, 10]\n      function: add_fiber_array\n\nplacements:\n\
-    \  rings:\n    xmin: 50\n\n  mzis:\n    xmin: rings,east\n"
+  yaml_str: "\nname: mask_compact\n\ninstances:\n  rings:\n    component: pack_doe\n    settings:\n      doe: ring_single\n      settings:\n        radius: [30, 50, 20, 40]\n        length_x: [1, 2, 3]\n      do_permutations: True\n      function:\n        function: add_fiber_array\n        settings:\n            fanout_length: 200\n\n\n  mzis:\n    component: pack_doe_grid\n    settings:\n      doe: mzi\n      settings:\n        delta_length: [10, 100]\n      do_permutations: True\n      spacing: [10, 10]\n      function: add_fiber_array\n\nplacements:\n  rings:\n    xmin: 50\n\n  mzis:\n    xmin: rings,east\n"

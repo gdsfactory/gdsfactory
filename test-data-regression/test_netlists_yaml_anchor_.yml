@@ -42,24 +42,24 @@ ports: {}
 warnings:
   optical:
     unconnected_ports:
-    - message: 6 unconnected optical ports!
-      ports:
-      - mmi_long,o1
-      - mmi_long,o2
-      - mmi_long,o3
-      - mmi_short,o1
-      - mmi_short,o2
-      - mmi_short,o3
-      values:
-      - - 10.0
-        - 12.875
-      - - 40.0
-        - 13.5
-      - - 40.0
-        - 12.25
-      - - -25.0
-        - 0.625
-      - - 0.0
-        - 1.25
-      - - 0.0
-        - 0.0
+      - message: 6 unconnected optical ports!
+        ports:
+          - mmi_long,o1
+          - mmi_long,o2
+          - mmi_long,o3
+          - mmi_short,o1
+          - mmi_short,o2
+          - mmi_short,o3
+        values:
+          - - 10.0
+            - 12.875
+          - - 40.0
+            - 13.5
+          - - 40.0
+            - 12.25
+          - - -25.0
+            - 0.625
+          - - 0.0
+            - 1.25
+          - - 0.0
+            - 0.0

@@ -2,8 +2,8 @@ function: via_stack
 info:
   layer: M2
   size:
-  - 11.0
-  - 11.0
+    - 11.0
+    - 11.0
   xsize: 11.0
   ysize: 11.0
 module: gdsfactory.components.via_stack
@@ -13,17 +13,17 @@ settings:
   layer_offsets: null
   layer_port: null
   layers:
-  - HEATER
-  - M2
+    - HEATER
+    - M2
   size:
-  - 11.0
-  - 11.0
+    - 11.0
+    - 11.0
   slot_horizontal: false
   slot_vertical: false
   vias:
-  - null
-  - function: via
-    module: gdsfactory.components.via
-    settings:
-      enclosure: 2
-      layer: VIA1
+    - null
+    - function: via
+      module: gdsfactory.components.via
+      settings:
+        enclosure: 2
+        layer: VIA1

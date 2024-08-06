@@ -47,23 +47,24 @@ def coupler_symmetric(
         size=(dx, dy),
         cross_section=cross_section,
     )
-
-    w = bend_component.ports["o1"].dwidth
-    y = w + gap
-    y /= 2
-
     top_bend = c << bend_component
     bot_bend = c << bend_component
+    bend_ports = top_bend.ports.filter(port_type="optical")
+    bend_port1_name = bend_ports[0].name
+    bend_port2_name = bend_ports[1].name
+
+    w = bend_component[bend_port1_name].dwidth
+    y = w + gap
+    y /= 2
 
     bot_bend.dmirror_y()
     top_bend.dmovey(+y)
     bot_bend.dmovey(-y)
 
-    c.add_port("o1", port=bot_bend.ports["o1"])
-    c.add_port("o2", port=top_bend.ports["o1"])
-
-    c.add_port("o3", port=top_bend.ports["o2"])
-    c.add_port("o4", port=bot_bend.ports["o2"])
+    c.add_port("o1", port=bot_bend[bend_port1_name])
+    c.add_port("o2", port=top_bend[bend_port1_name])
+    c.add_port("o3", port=top_bend[bend_port2_name])
+    c.add_port("o4", port=bot_bend[bend_port2_name])
 
     c.info["length"] = bend_component.info["length"]
     c.info["min_bend_radius"] = bend_component.info["min_bend_radius"]

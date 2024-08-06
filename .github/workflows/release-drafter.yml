@@ -1,15 +1,12 @@
 name: Release Drafter and Labels
-
 on:
   push:
     branches:
       - main
   pull_request:
     types: [edited, opened, reopened, synchronize, unlabeled, labeled]
-
 permissions:
   contents: read
-
 jobs:
   update_release_draft:
     permissions:

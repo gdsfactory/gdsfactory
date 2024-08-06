@@ -3,7 +3,4 @@ name: mask
 settings:
   label_instance_function: add_instance_label
   name: Unnamed
-  yaml_str: "\nname: mask\n\ninstances:\n    mmi1x2_sweep:\n       component: pack_doe\n\
-    \       settings:\n         doe: mmi1x2\n         do_permutations: True\n    \
-    \     spacing: 100\n         settings:\n           length_mmi: [2, 100]\n    \
-    \       width_mmi: [4, 10]\n"
+  yaml_str: "\nname: mask\n\ninstances:\n    mmi1x2_sweep:\n       component: pack_doe\n       settings:\n         doe: mmi1x2\n         do_permutations: True\n         spacing: 100\n         settings:\n           length_mmi: [2, 100]\n           width_mmi: [4, 10]\n"

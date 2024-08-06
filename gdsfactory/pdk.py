@@ -336,8 +336,6 @@ class Pdk(BaseModel):
         kwargs.update(settings)
 
         if isinstance(component, ComponentBase):
-            if kwargs:
-                raise ValueError(f"Cannot apply kwargs {kwargs} to {component.name!r}")
             return component
         elif isinstance(component, kf.KCell):
             return Component.from_kcell(component)

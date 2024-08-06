@@ -39,6 +39,6 @@ LAYER = LayerMapFab
 
 
 if __name__ == "__main__":
-    pass
+    from gdsfactory.config import PATH
 
-    # print(lyp_to_dataclass(PATH.klayout_lyp))
+    print(lyp_to_dataclass(PATH.klayout_lyp))

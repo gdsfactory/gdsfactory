@@ -13,7 +13,7 @@ class LAYER(gf.LayerEnum):
 
     kcl = gf.constant(gf.kcl)
 
-    WAFER: Layer = (99999, 0)
+    WAFER: Layer = (999, 0)
 
     WG: Layer = (1, 0)
     WGCLAD: Layer = (111, 0)

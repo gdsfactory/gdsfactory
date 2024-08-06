@@ -10,9 +10,7 @@ instances:
       function:
         function: add_fiber_array
         settings:
-            fanout_length: 200
-
-
+          fanout_length: 200
   mzis:
     component: pack_doe_grid
     settings:
@@ -22,13 +20,10 @@ instances:
       do_permutations: True
       spacing: [10, 10]
       function: add_fiber_array
-
-
 placements:
   rings:
     x: 50
     y: 50
-
   mzis:
     xmin: rings,east
     ymin: rings,south

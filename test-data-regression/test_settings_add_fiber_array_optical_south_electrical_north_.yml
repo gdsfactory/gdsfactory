@@ -20,8 +20,8 @@ settings:
     module: gdsfactory.components.pad
     settings:
       size:
-      - 80
-      - 80
+        - 80
+        - 80
   pad_assigments: null
   pad_gc_spacing: 250.0
   pad_spacing: 100.0

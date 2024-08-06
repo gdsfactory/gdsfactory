@@ -31,15 +31,15 @@ def coupler_straight(
     top = c << _straight
     bot = c << _straight
 
-    w = _straight.ports["o1"].dwidth
+    w = _straight.ports[0].dwidth
     y = w + gap
 
     top.dmovey(+y)
 
-    c.add_port("o1", port=bot.ports["o1"])
-    c.add_port("o2", port=top.ports["o1"])
-    c.add_port("o3", port=bot.ports["o2"])
-    c.add_port("o4", port=top.ports["o2"])
+    c.add_port("o1", port=bot.ports[0])
+    c.add_port("o2", port=top.ports[0])
+    c.add_port("o3", port=bot.ports[1])
+    c.add_port("o4", port=top.ports[1])
     c.auto_rename_ports()
     return c
 
