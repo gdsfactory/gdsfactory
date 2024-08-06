@@ -171,7 +171,7 @@ def add_ports_from_markers_center(
 
     for i, p in enumerate(port_markers):
         port_name = f"{port_name_prefix}{i+1}" if port_name_prefix else str(i)
-        bbox = p.bbox()
+        bbox = p.dbbox()
         pxmin, pymin, pxmax, pymax = bbox.left, bbox.bottom, bbox.right, bbox.top
 
         x = (pxmax + pxmin) / 2
@@ -383,7 +383,7 @@ def add_ports_from_boxes(
     port_markers = component.get_boxes(layer=pin_layer)
     for i, p in enumerate(port_markers):
         port_name = f"{port_name_prefix}{i+1}" if port_name_prefix else str(i)
-        bbox = p.bbox()
+        bbox = p.dbbox()
         pxmin, pymin, pxmax, pymax = bbox.left, bbox.bottom, bbox.right, bbox.top
 
         x = (pxmax + pxmin) / 2

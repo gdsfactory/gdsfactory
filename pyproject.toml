@@ -72,7 +72,7 @@ docs = [
   "Sphinx==7.4.7"
 ]
 full = [
-  "gplugins[devsim,femwell,gmsh,meow,sax,schematic,tidy3d,vlsir]>=1,<2",
+  "gplugins[dev,devsim,femwell,gmsh,meow,sax,schematic,tidy3d,vlsir]>=1,<2",
   "scikit-rf",
   "omegaconf",
   "autograd"
