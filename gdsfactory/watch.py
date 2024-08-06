@@ -63,7 +63,7 @@ class FileWatcher(FileSystemEventHandler):
 
         """
         pdk = get_active_pdk()
-        print(f"Active PDK: {pdk.name!r}")
+        print(f"Active PDK: {pdk.name!r}", file=sys.stderr)
         filepath = pathlib.Path(src_path)
         cell_name = filepath.stem.split(".")[0]
         # FIXME: This is a temporary fix to avoid caching issues
@@ -73,7 +73,7 @@ class FileWatcher(FileSystemEventHandler):
         try:
             pdk.register_cells_yaml(**{cell_name: function}, update=update)
         except ValueError as e:
-            print(e)
+            print(e, file=sys.stderr)
         return function
 
     def on_moved(self, event) -> None:
@@ -140,11 +140,14 @@ class FileWatcher(FileSystemEventHandler):
                     d.update(__name__="__main__")
                     exec(filepath.read_text(), d, d)
                 else:
-                    print("Changed file {filepath} ignored (not .pic.yml or .py)")
+                    print(
+                        f"Changed file {filepath} ignored (not .pic.yml or .py)",
+                        file=sys.stderr,
+                    )
 
         except Exception as e:
-            traceback.print_exc(file=sys.stdout)
-            print(e)
+            traceback.print_exc(file=sys.stderr)
+            print(e, file=sys.stderr)
 
 
 def watch(path: PathType | None = cwd, pdk: str | None = None) -> None:
