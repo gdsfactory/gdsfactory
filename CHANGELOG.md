@@ -1,12 +1,12 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.6.5...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.6.6...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.6.6](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.6.6) - 2024-08-06
 
-No significant changes.
-
+- fix watcher examples [#3095](https://github.com/gdsfactory/gdsfactory/pull/3095)
+- fix add_ports [#3094](https://github.com/gdsfactory/gdsfactory/pull/3094)
 
 ## [8.6.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.6.5) - 2024-08-05
 
