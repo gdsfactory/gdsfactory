@@ -1,17 +1,18 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.6.3...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.6.5...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.6.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.6.5) - 2024-08-05
 
-No significant changes.
-
+- fix difftest [#3080](https://github.com/gdsfactory/gdsfactory/pull/3080)
+- fix bend coupler output cross section [#3090](https://github.com/gdsfactory/gdsfactory/pull/3090)
 
 ## [8.6.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.6.4) - 2024-08-02
 
-No significant changes.
-
+- fix route_single width [#3085](https://github.com/gdsfactory/gdsfactory/pull/3085)
+- faster Component.extract() [#3087](https://github.com/gdsfactory/gdsfactory/pull/3087)
+- remove klayout pin [#3078](https://github.com/gdsfactory/gdsfactory/pull/3078)
 
 ## [8.6.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.6.3) - 2024-07-31
 
