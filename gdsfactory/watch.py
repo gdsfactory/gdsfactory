@@ -24,16 +24,22 @@ from gdsfactory.typings import ComponentSpec, PathType
 class FileWatcher(FileSystemEventHandler):
     """Captures *.py or *.pic.yml file change events."""
 
-    def __init__(self, logger=None, path: str | None = None) -> None:
+    def __init__(
+        self, path: str | None = None, run_main: bool = False, run_cells: bool = True
+    ) -> None:
         """Initialize the YAML event handler.
 
         Args:
-            logger: the logger to use.
             path: the path to the directory to watch.
+            run_main: if True, will execute the main function of the file.
+            run_cells: if True, will execute the cells of the file.
         """
         super().__init__()
 
-        self.logger = logger or logging.root
+        self.logger = logging.root
+        self.run_cells = run_cells
+        self.run_main = run_main
+
         pdk = get_active_pdk()
         pdk.register_cells_yaml(dirpath=path, update=True)
 
@@ -132,8 +138,9 @@ class FileWatcher(FileSystemEventHandler):
 
     def get_component(self, filepath):
         self.update()
-
         import git
+
+        from gdsfactory.get_factories import get_cells_from_dict
 
         try:
             repo = git.repo.Repo(".", search_parent_directories=True)
@@ -142,23 +149,34 @@ class FileWatcher(FileSystemEventHandler):
             dirpath = cwd
         try:
             filepath = pathlib.Path(filepath)
+            dirpath = pathlib.Path(dirpath) / "build/gds"
+            dirpath.mkdir(parents=True, exist_ok=True)
+
             if filepath.exists():
                 if str(filepath).endswith(".pic.yml"):
                     cell_func = self.update_cell(filepath, update=True)
                     c = cell_func()
-                    dirpath = pathlib.Path(dirpath) / "build/gds"
-                    dirpath.mkdir(parents=True, exist_ok=True)
                     gdspath = dirpath / str(filepath.relative_to(self.path)).replace(
                         ".pic.yml", ".gds"
                     )
                     c.write_gds(gdspath)
                     kf.show(gdspath)
-                    # on_yaml_cell_modified.fire(c)
                     return c
                 elif str(filepath).endswith(".py"):
-                    d = dict(locals(), **globals())
-                    d.update(__name__="__main__")
-                    exec(filepath.read_text(), d, d)
+                    context = dict(locals(), **globals())
+                    if self.run_main:
+                        context.update(__name__="__main__")
+
+                    # Read the content of the file and execute it within the updated context
+                    exec(filepath.read_text(), context, context)
+
+                    if self.run_cells:
+                        cells = get_cells_from_dict(context)
+                        # Process each cell and write it to a GDS file
+                        for name, cell in cells.items():
+                            c = cell()
+                            c.write_gds(dirpath / f"{name}.gds")
+
                 else:
                     print("Changed file {filepath} ignored (not .pic.yml or .py)")
 
