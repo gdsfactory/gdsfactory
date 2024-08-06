@@ -1,12 +1,11 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.6.6...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.6.7...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.6.7](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.6.7) - 2024-08-06
 
-No significant changes.
-
+- Watcher improve [#3097](https://github.com/gdsfactory/gdsfactory/pull/3097)
 
 ## [8.6.6](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.6.6) - 2024-08-06
 
