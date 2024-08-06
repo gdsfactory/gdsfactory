@@ -173,18 +173,17 @@ def add_ports_from_markers_center(
         port_name = f"{port_name_prefix}{i+1}" if port_name_prefix else str(i)
         bbox = p.bbox()
         pxmin, pymin, pxmax, pymax = bbox.left, bbox.bottom, bbox.right, bbox.top
-
         x = (pxmax + pxmin) / 2
         y = (pymin + pymax) / 2
         dy = abs(pymax - pymin)
         dx = abs(pxmax - pxmin)
 
-        if min_pin_area_um2 and dx * dy < min_pin_area_um2:
+        if min_pin_area_um2 and dx * dbu * dy * dbu < min_pin_area_um2:
             if debug:
                 print(f"skipping port at ({dx}, {dy}) with min_pin_area_um2 {dx * dy}")
             continue
 
-        if max_pin_area_um2 and dx * dy > max_pin_area_um2:
+        if max_pin_area_um2 and dx * dbu * dy * dbu > max_pin_area_um2:
             continue
 
         if skip_square_ports and snap_to_grid(dx) == snap_to_grid(dy):
@@ -193,7 +192,6 @@ def add_ports_from_markers_center(
             continue
 
         orientation = -1
-
         dx *= dbu
         dy *= dbu
         x = x * dbu
