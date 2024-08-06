@@ -10,6 +10,7 @@ import time
 import traceback
 from collections.abc import Callable
 
+import kfactory as kf
 from IPython.terminal.embed import embed
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
@@ -24,7 +25,12 @@ class FileWatcher(FileSystemEventHandler):
     """Captures *.py or *.pic.yml file change events."""
 
     def __init__(self, logger=None, path: str | None = None) -> None:
-        """Initialize the YAML event handler."""
+        """Initialize the YAML event handler.
+
+        Args:
+            logger: the logger to use.
+            path: the path to the directory to watch.
+        """
         super().__init__()
 
         self.logger = logger or logging.root
@@ -126,13 +132,27 @@ class FileWatcher(FileSystemEventHandler):
 
     def get_component(self, filepath):
         self.update()
+
+        import git
+
+        try:
+            repo = git.repo.Repo(".", search_parent_directories=True)
+            dirpath = repo.working_tree_dir
+        except git.InvalidGitRepositoryError:
+            dirpath = cwd
         try:
             filepath = pathlib.Path(filepath)
             if filepath.exists():
                 if str(filepath).endswith(".pic.yml"):
                     cell_func = self.update_cell(filepath, update=True)
                     c = cell_func()
-                    c.show()
+                    dirpath = pathlib.Path(dirpath) / "build/gds"
+                    dirpath.mkdir(parents=True, exist_ok=True)
+                    gdspath = dirpath / str(filepath.relative_to(self.path)).replace(
+                        ".pic.yml", ".gds"
+                    )
+                    c.write_gds(gdspath)
+                    kf.show(gdspath)
                     # on_yaml_cell_modified.fire(c)
                     return c
                 elif str(filepath).endswith(".py"):
