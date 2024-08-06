@@ -132,6 +132,15 @@ def diff(
 
     if not equal:
         c = KCell(f"{test_name}_difftest")
+        ref = old
+        run = new
+
+        old = KCell(f"{test_name}_old")
+        new = KCell(f"{test_name}_new")
+
+        old.copy_tree(ref._kdb_cell)
+        new.copy_tree(run._kdb_cell)
+
         old.name = f"{test_name}_old"
         new.name = f"{test_name}_new"
 
@@ -310,7 +319,7 @@ if __name__ == "__main__":
     # print([i.name for i in c.get_dependencies()])
     # c.show()
     # c.name = "mzi"
-    c = gf.components.straight(length=20, layer=(1, 0))
+    c = gf.components.straight(length=10, layer=(2, 0))
     difftest(c, test_name="straight", dirpath=PATH.cwd)
     c.show()
     # c.write_gds()
