@@ -175,7 +175,9 @@ class FileWatcher(FileSystemEventHandler):
                         # Process each cell and write it to a GDS file
                         for name, cell in cells.items():
                             c = cell()
-                            c.write_gds(dirpath / f"{name}.gds")
+                            gdspath = dirpath / f"{name}.gds"
+                            c.write_gds(gdspath)
+                            kf.show(gdspath)
 
                 else:
                     print("Changed file {filepath} ignored (not .pic.yml or .py)")
