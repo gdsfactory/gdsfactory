@@ -10,11 +10,11 @@ from collections.abc import KeysView as dict_keys
 from typing import Any
 
 import attrs
-import kfactory as kf
 import numpy as np
 import orjson
 import pydantic
 import toolz
+from aenum import Enum
 
 DEFAULT_SERIALIZATION_MAX_DIGITS = 3
 """By default, the maximum number of digits retained when serializing float-like arrays"""
@@ -69,7 +69,7 @@ def clean_value_json(
     elif isinstance(value, bool):
         return value
 
-    elif isinstance(value, kf.LayerEnum):
+    elif isinstance(value, Enum):
         return str(value)
 
     elif isinstance(value, np.integer | int):
