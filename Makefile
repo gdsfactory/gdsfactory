@@ -56,10 +56,8 @@ upload-twine: build
 autopep8:
 	autopep8 --in-place --aggressive --aggressive **/*.py
 
-docs-generic-pdk:
-	python .github/write_components_doc.py
-
 docs:
+	python .github/write_components_doc.py
 	jb build docs
 
 git-rm-merged:
