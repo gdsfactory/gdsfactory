@@ -74,11 +74,22 @@ def merge_gds(dirpath: str = "", gdspath: str = "") -> None:
 def watch(
     path: str = str(pathlib.Path.cwd()),
     pdk: str = typer.Option(None, "--pdk", "-pdk", help="PDK name"),
+    run_main: bool = typer.Option(False, "--run-main", "-rm", help="Run main"),
+    run_cells: bool = typer.Option(True, "--run-cells", "-rc", help="Run cells"),
 ) -> None:
-    """Filewatch a folder for changes in *.py or *.pic.yml files."""
+    """Filewatch a folder for changes in *.py or *.pic.yml files.
+
+    If a file changes, it will run the main function and show the cells.
+
+    Args:
+        path: folder to watch.
+        pdk: process design kit.
+        run_main: run the main function.
+        run_cells: run the cells.
+    """
     path = pathlib.Path(path)
-    path = path.parent if path.is_dir() else path
-    _watch(str(path), pdk=pdk)
+    path = path if path.is_dir() else path.parent
+    _watch(str(path), pdk=pdk, run_main=run_main, run_cells=run_cells)
 
 
 @app.command()

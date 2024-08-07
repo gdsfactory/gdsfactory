@@ -6,7 +6,7 @@ import gdsfactory as gf
 
 
 @gf.cell
-def mzi_with_bend(radius: float = 10):
+def mzi_with_bend(radius: float = 10) -> gf.Component:
     """Returns MZI interferometer with bend."""
     c = gf.Component()
     mzi = c.add_ref(gf.components.mzi())

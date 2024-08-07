@@ -178,6 +178,14 @@ def add_ports_from_markers_center(
         y = (pymin + pymax) / 2
         dy = abs(pymax - pymin)
         dx = abs(pxmax - pxmin)
+        dx *= dbu
+        dy *= dbu
+        x = x * dbu
+        y = y * dbu
+        pxmax *= dbu
+        pymax *= dbu
+        pxmin *= dbu
+        pymin *= dbu
 
         if min_pin_area_um2 and dx * dy < min_pin_area_um2:
             if debug:
@@ -194,24 +202,14 @@ def add_ports_from_markers_center(
 
         orientation = -1
 
-        dx *= dbu
-        dy *= dbu
-        x = x * dbu
-        y = y * dbu
-        pxmax *= dbu
-        pymax *= dbu
-        pxmin *= dbu
-        pymin *= dbu
-
         # rectangular ports orientation is easier to detect
         if dy < dx if ports_on_short_side else dx < dy:
+            width = dy
             if x > xc:  # east
                 orientation = 0
-                width = dy
                 x = pxmax if inside else x
-            elif x <= xc:  # west
+            else:
                 orientation = 180
-                width = dy
                 x = pxmin if inside else x
         elif dy > dx if ports_on_short_side else dx > dy:
             if y > yc:  # north
@@ -223,7 +221,6 @@ def add_ports_from_markers_center(
                 width = dx
                 y = pymin if inside else y
 
-        # square ports ports are harder to detect orientation
         elif pxmax > dxmax - tol:  # east
             orientation = 0
             width = dy
@@ -246,7 +243,7 @@ def add_ports_from_markers_center(
             width = dy
             x = pxmax if inside else x
 
-        elif pxmax <= xc:
+        else:
             orientation = 180
             width = dy
             x = pxmin if inside else x
@@ -408,25 +405,22 @@ def add_ports_from_boxes(
 
         # rectangular ports orientation is easier to detect
         if dy < dx if ports_on_short_side else dx < dy:
+            width = dy
             if x > xc:  # east
                 orientation = 0
-                width = dy
                 x = pxmax if inside else x
-            elif x <= xc:  # west
+            else:
                 orientation = 180
-                width = dy
                 x = pxmin if inside else x
         elif dy > dx if ports_on_short_side else dx > dy:
+            width = dx
             if y > yc:  # north
                 orientation = 90
-                width = dx
                 y = pymax if inside else y
-            elif y <= yc:  # south
+            else:
                 orientation = 270
-                width = dx
                 y = pymin if inside else y
 
-        # square ports ports are harder to detect orientation
         elif pxmax > dxmax - tol:  # east
             orientation = 0
             width = dy
@@ -449,7 +443,7 @@ def add_ports_from_boxes(
             width = dy
             x = pxmax if inside else x
 
-        elif pxmax <= xc:
+        else:
             orientation = 180
             width = dy
             x = pxmin if inside else x

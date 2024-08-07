@@ -1,8 +1,8 @@
 info: {}
-name: text_freetype_Tabcd_S10_54bf66a4
+name: text_freetype_Tbcd_S10__fcd25160
 settings:
   font: OCRmApttf
   justify: left
   layer: WG
   size: 10
-  text: abcd
+  text: bcd

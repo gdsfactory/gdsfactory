@@ -33,7 +33,6 @@ dependencies = [
   "typer<1",
   "watchdog<5",
   "kfactory[ipy]==0.18.4",
-  "klayout==0.29.4",
   "freetype-py",
   "mapbox_earcut",
   "networkx",
@@ -48,7 +47,7 @@ license = {file = "LICENSE"}
 name = "gdsfactory"
 readme = "README.md"
 requires-python = ">=3.10"
-version = "8.6.3"
+version = "8.6.7"
 
 [project.optional-dependencies]
 cad = [
@@ -217,7 +216,7 @@ message_template = "Bump to {new_version}"
 tag_template = "v{new_version}"
 
 [tool.tbump.version]
-current = "8.6.3"
+current = "8.6.7"
 regex = '''
   (?P<major>\d+)
   \.
