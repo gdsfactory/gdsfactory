@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.6.8](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.6.8) - 2024-08-07
+
+No significant changes.
+
+
 ## [8.6.7](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.6.7) - 2024-08-06
 
 - Watcher improve [#3097](https://github.com/gdsfactory/gdsfactory/pull/3097)
