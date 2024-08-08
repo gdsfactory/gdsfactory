@@ -34,6 +34,7 @@ from gdsfactory.boolean import boolean
 from gdsfactory import cross_section
 from gdsfactory import port
 from gdsfactory import components
+from gdsfactory import containers
 from gdsfactory import labels
 from gdsfactory import typings
 from gdsfactory import path
@@ -101,6 +102,7 @@ __all__ = (
     "compose",
     "constant",
     "container",
+    "containers",
     "component_with_function",
     "cross_section",
     "diff",
