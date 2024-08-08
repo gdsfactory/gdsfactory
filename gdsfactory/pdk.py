@@ -268,7 +268,7 @@ class Pdk(BaseModel):
             return cell
         elif isinstance(cell, str):
             if cell not in cells:
-                cells = list(self.cells.keys())
+                cells = sorted(self.cells)
                 raise ValueError(
                     f"{cell!r} from PDK {self.name!r} not in cells: {cells} "
                 )
@@ -329,7 +329,7 @@ class Pdk(BaseModel):
             kwargs: settings to override.
 
         """
-        cells = set(cells.keys())
+        cells = sorted(cells)
 
         settings = settings or {}
         kwargs = kwargs or {}

@@ -4,6 +4,7 @@ from gdsfactory.components.add_fiber_array_optical_south_electrical_north import
 )
 from gdsfactory.components.add_termination import add_termination
 from gdsfactory.components.add_trenches import add_trenches, add_trenches90
+from gdsfactory.components.array_component import array
 from gdsfactory.components.cutback_2x2 import cutback_2x2
 from gdsfactory.components.cutback_bend import (
     cutback_bend,
@@ -44,6 +45,7 @@ __all__ = [
     "add_fiber_single",
     "add_pads_bot",
     "add_pads_top",
+    "array",
     "fanout2x2",
     "route_south",
     "route_ports_to_side",
