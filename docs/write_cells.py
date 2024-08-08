@@ -16,7 +16,6 @@ skip = {
     "mzi1x2",
     "mzi2x2_2x2",
     "mzi_coupler",
-    "via",
     "via1",
     "via2",
     "viac",
@@ -44,7 +43,7 @@ with open(filepath, "w+") as f:
     f.write(
         """
 
-Generic PDK
+PCells
 =============================
 
 Parametric Cells for the Generic PDK.

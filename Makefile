@@ -57,7 +57,7 @@ autopep8:
 	autopep8 --in-place --aggressive --aggressive **/*.py
 
 docs:
-	python .github/write_components_doc.py
+	python docs/write_cells.py
 	jb build docs
 
 git-rm-merged:
