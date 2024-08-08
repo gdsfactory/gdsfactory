@@ -9,9 +9,6 @@ from gdsfactory.grid import grid, grid_with_text
 from gdsfactory.pack import pack
 from gdsfactory.typings import CellSpec, ComponentSpec
 
-_doe = "mmi1x2"
-_settings = dict(length_mmi=(2.5, 100), width_mmi=(4, 10))
-
 
 def generate_doe(
     doe: ComponentSpec,
@@ -52,8 +49,8 @@ def generate_doe(
 
 
 def pack_doe(
-    doe: ComponentSpec = _doe,
-    settings: dict[str, tuple[Any, ...]] = _settings,
+    doe: ComponentSpec,
+    settings: dict[str, tuple[Any, ...]],
     do_permutations: bool = False,
     function: CellSpec | None = None,
     **kwargs,
@@ -85,7 +82,7 @@ def pack_doe(
         v_mirror: vertical mirror using x axis (1, y) (0, y).
     """
     component_list, settings_list = generate_doe(
-        doe, settings, do_permutations, function
+        doe=doe, settings=settings, do_permutations=do_permutations, function=function
     )
 
     c = pack(component_list, **kwargs)
@@ -101,8 +98,8 @@ def pack_doe(
 
 
 def pack_doe_grid(
-    doe: ComponentSpec = _doe,
-    settings: dict[str, tuple[Any, ...]] = _settings,
+    doe: ComponentSpec,
+    settings: dict[str, tuple[Any, ...]],
     do_permutations: bool = False,
     function: CellSpec | None = None,
     with_text: bool = False,
