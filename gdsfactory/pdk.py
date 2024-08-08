@@ -569,18 +569,18 @@ def get_material_index(material: MaterialSpec, *args, **kwargs) -> Component:
     return get_active_pdk().get_material_index(material, *args, **kwargs)
 
 
-def get_component(component: ComponentSpec, **kwargs) -> Component:
-    return get_active_pdk().get_component(component, **kwargs)
+def get_component(component: ComponentSpec, settings=None, **kwargs) -> Component:
+    return get_active_pdk().get_component(component, settings=settings, **kwargs)
 
 
-def get_cell(cell: CellSpec, **kwargs) -> ComponentFactory:
-    return get_active_pdk().get_cell(cell, **kwargs)
+def get_cell(cell: CellSpec, *args, **kwargs) -> ComponentFactory:
+    return get_active_pdk().get_cell(cell, *args, **kwargs)
 
 
 def get_cross_section(
-    cross_section: CrossSectionSpec, **kwargs
+    cross_section: CrossSectionSpec, *args, **kwargs
 ) -> CrossSection | Transition:
-    return get_active_pdk().get_cross_section(cross_section, **kwargs)
+    return get_active_pdk().get_cross_section(cross_section, *args, **kwargs)
 
 
 def get_layer(layer: LayerSpec) -> int:
