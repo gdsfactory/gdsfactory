@@ -1,12 +1,13 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.6.8...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.6.9...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.6.9](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.6.9) - 2024-08-07
 
-No significant changes.
-
+- add_fiber_array works with fiber port [#3103](https://github.com/gdsfactory/gdsfactory/pull/3103)
+- improve docs generation [#3101](https://github.com/gdsfactory/gdsfactory/pull/3101)
+- fix layer serialization [#3100](https://github.com/gdsfactory/gdsfactory/pull/3100)
 
 ## [8.6.8](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.6.8) - 2024-08-07
 
