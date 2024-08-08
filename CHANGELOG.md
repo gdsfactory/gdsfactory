@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.6.10](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.6.10) - 2024-08-07
+
+No significant changes.
+
+
 ## [8.6.9](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.6.9) - 2024-08-07
 
 - add_fiber_array works with fiber port [#3103](https://github.com/gdsfactory/gdsfactory/pull/3103)
