@@ -573,14 +573,14 @@ def get_component(component: ComponentSpec, settings=None, **kwargs) -> Componen
     return get_active_pdk().get_component(component, settings=settings, **kwargs)
 
 
-def get_cell(cell: CellSpec, *args, **kwargs) -> ComponentFactory:
-    return get_active_pdk().get_cell(cell, *args, **kwargs)
+def get_cell(cell: CellSpec, **kwargs) -> ComponentFactory:
+    return get_active_pdk().get_cell(cell, **kwargs)
 
 
 def get_cross_section(
-    cross_section: CrossSectionSpec, *args, **kwargs
+    cross_section: CrossSectionSpec, **kwargs
 ) -> CrossSection | Transition:
-    return get_active_pdk().get_cross_section(cross_section, *args, **kwargs)
+    return get_active_pdk().get_cross_section(cross_section, **kwargs)
 
 
 def get_layer(layer: LayerSpec) -> int:
