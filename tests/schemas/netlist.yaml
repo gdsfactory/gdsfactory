@@ -59,7 +59,8 @@ $defs:
     title: Instance
     type: object
   Net:
-    description: "Net between two ports.\n\nParameters:\n    p1: instance_name,port 1.\n    p2: instance_name,port 2.\n    name: route name."
+    description: "Net between two ports.\n\nParameters:\n    p1: instance_name,port 1.\n    p2: instance_name,port 2.\n    name:
+      route name."
     properties:
       name:
         anyOf:
@@ -166,7 +167,10 @@ $defs:
     title: Placement
     type: object
 additionalProperties: false
-description: "Netlist defined component.\n\nParameters:\n    instances: dict of instances (name, settings, component).\n    placements: dict of placements.\n    connections: dict of connections.\n    routes: dict of routes.\n    name: component name.\n    info: information (polarization, wavelength ...).\n    ports: exposed component ports.\n    settings: input variables.\n    nets: list of nets.\n    warnings: warnings."
+description: "Netlist defined component.\n\nParameters:\n    instances: dict of instances (name, settings, component).\n    placements:
+  dict of placements.\n    connections: dict of connections.\n    routes: dict of routes.\n    name: component name.\n    info:
+  information (polarization, wavelength ...).\n    ports: exposed component ports.\n    settings: input variables.\n    nets:
+  list of nets.\n    warnings: warnings."
 properties:
   connections:
     additionalProperties:
