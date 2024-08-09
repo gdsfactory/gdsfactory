@@ -7,10 +7,9 @@ To create a component you need to extrude the path with a cross-section.
 from __future__ import annotations
 
 import hashlib
-import sys
 import warnings
 from collections.abc import Callable, Iterable
-from functools import partial
+from functools import partial, wraps
 from inspect import getmembers, signature
 from types import ModuleType
 from typing import TYPE_CHECKING, Any, Literal
@@ -434,6 +433,35 @@ class Transition(CrossSection):
         return self.cross_section1.sections[0].layer
 
 
+cross_sections = {}
+_cross_section_default_names = {}
+
+
+def xsection(func):
+    """Decorator to register a cross section function.
+
+    Ensures that the cross-section name matches the name of the function that generated it when created using default parameters
+
+    .. code-block:: python
+
+        @xsection
+        def xs_sc(width=TECH.width_sc, radius=TECH.radius_sc):
+            return gf.cross_section.cross_section(width=width, radius=radius)
+    """
+    default_xs = func()
+    _cross_section_default_names[default_xs.name] = func.__name__
+
+    @wraps(func)
+    def newfunc(**kwargs):
+        xs = func(**kwargs)
+        if xs.name in _cross_section_default_names:
+            xs._name = _cross_section_default_names[xs.name]
+        return xs
+
+    cross_sections[func.__name__] = newfunc
+    return newfunc
+
+
 def cross_section(
     width: float = 0.5,
     offset: float = 0,
@@ -554,35 +582,113 @@ def cross_section(
 radius_nitride = 20
 radius_rib = 20
 
-strip = strip = partial(cross_section, radius=10, radius_min=5)
-rib2 = partial(
-    strip,
-    sections=(Section(width=6, layer="SLAB90", name="slab", simplify=50 * nm),),
-    radius=radius_rib,
-    radius_min=radius_rib,
-)
-rib = partial(
-    strip,
-    cladding_layers=("SLAB90",),
-    cladding_offsets=(3,),
-    cladding_simplify=(50 * nm,),
-    radius=radius_rib,
-    radius_min=radius_rib,
-)
-rib_bbox = partial(
-    strip,
-    bbox_layers=("SLAB90",),
-    bbox_offsets=(3,),
-    radius=radius_rib,
-    radius_min=radius_rib,
-)
-nitride = partial(
-    strip,
-    layer="WGN",
-    width=1.0,
-    radius=radius_nitride,
-    radius_min=radius_nitride,
-)
+
+@xsection
+def strip(
+    width: float = 0.5,
+    layer: LayerSpec = "WG",
+    radius: float = 10.0,
+    radius_min: float = 5,
+    **kwargs,
+) -> CrossSection:
+    """Return Strip cross_section."""
+    return cross_section(
+        width=width,
+        layer=layer,
+        radius=radius,
+        radius_min=radius_min,
+        **kwargs,
+    )
+
+
+@xsection
+def rib(
+    width: float = 0.5,
+    layer: LayerSpec = "WG",
+    radius: float = radius_rib,
+    radius_min: float = radius_rib,
+    cladding_layers: LayerSpecs = ("SLAB90",),
+    cladding_offsets: Floats = (3,),
+    cladding_simplify: Floats = (50 * nm,),
+    **kwargs,
+) -> CrossSection:
+    """Return Rib cross_section."""
+    return cross_section(
+        width=width,
+        layer=layer,
+        radius=radius,
+        radius_min=radius_min,
+        cladding_layers=cladding_layers,
+        cladding_offsets=cladding_offsets,
+        cladding_simplify=cladding_simplify,
+        **kwargs,
+    )
+
+
+@xsection
+def rib_bbox(
+    width: float = 0.5,
+    layer: LayerSpec = "WG",
+    radius: float = radius_rib,
+    radius_min: float = radius_rib,
+    bbox_layers: LayerSpecs = ("SLAB90",),
+    bbox_offsets: Floats = (3,),
+    **kwargs,
+) -> CrossSection:
+    """Return Rib cross_section."""
+    return cross_section(
+        width=width,
+        layer=layer,
+        radius=radius,
+        radius_min=radius_min,
+        bbox_layers=bbox_layers,
+        bbox_offsets=bbox_offsets,
+        **kwargs,
+    )
+
+
+@xsection
+def rib2(
+    width: float = 0.5,
+    layer: LayerSpec = "WG",
+    layer_slab: LayerSpec = "SLAB90",
+    radius: float = radius_rib,
+    radius_min: float = radius_rib,
+    width_slab: float = 6,
+    **kwargs,
+) -> CrossSection:
+    """Return Rib cross_section."""
+    sections = (
+        Section(width=width_slab, layer=layer_slab, name="slab", simplify=50 * nm),
+    )
+    return cross_section(
+        width=width,
+        layer=layer,
+        radius=radius,
+        radius_min=radius_min,
+        sections=sections,
+        **kwargs,
+    )
+
+
+@xsection
+def nitride(
+    width: float = 1.0,
+    layer: LayerSpec = "WGN",
+    radius: float = radius_nitride,
+    radius_min: float = radius_nitride,
+    **kwargs,
+) -> CrossSection:
+    """Return Strip cross_section."""
+    return cross_section(
+        width=width,
+        layer=layer,
+        radius=radius,
+        radius_min=radius_min,
+        **kwargs,
+    )
+
+
 strip_rib_tip = partial(
     strip,
     sections=(Section(width=0.2, layer="SLAB90", name="slab"),),
@@ -605,6 +711,7 @@ strip_sc_tip = partial(
     nitride,
     sections=(Section(width=0.2, layer="WG", name="tip"),),
 )
+
 # L shaped waveguide (slab only on one side of the core)
 l_wg = partial(
     strip,
@@ -612,6 +719,7 @@ l_wg = partial(
 )
 
 
+@xsection
 def slot(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -654,6 +762,7 @@ def slot(
     )
 
 
+@xsection
 def rib_with_trenches(
     width: float = 0.5,
     width_trench: float = 2.0,
@@ -752,6 +861,7 @@ def rib_with_trenches(
     )
 
 
+@xsection
 def l_with_trenches(
     width: float = 0.5,
     width_trench: float = 2.0,
@@ -828,43 +938,127 @@ def l_with_trenches(
     )
 
 
-metal1 = partial(
-    cross_section,
-    layer="M1",
-    width=10.0,
+@xsection
+def metal1(
+    width: float = 10,
+    layer: LayerSpec = "M1",
+    radius: float | None = None,
     port_names=port_names_electrical,
     port_types=port_types_electrical,
-    radius=None,
-)
-metal2 = partial(
-    metal1,
-    layer="M2",
-)
-metal3 = partial(
-    metal1,
-    layer="M3",
-)
-heater_metal = partial(
-    metal1,
-    width=2.5,
-    layer="HEATER",
-)
-
-metal_routing = metal3
-npp = partial(metal1, layer="NPP", width=0.5)
-
-metal_slotted = partial(
-    cross_section,
-    width=10,
-    offset=0,
-    layer="M3",
-    sections=(
-        Section(width=10, layer="M3", offset=11),
-        Section(width=10, layer="M3", offset=-11),
-    ),
-)
+    **kwargs,
+) -> CrossSection:
+    """Return Metal Strip cross_section."""
+    return cross_section(
+        width=width,
+        layer=layer,
+        radius=radius,
+        port_names=port_names,
+        port_types=port_types,
+        **kwargs,
+    )
 
 
+@xsection
+def metal2(
+    width: float = 10,
+    layer: LayerSpec = "M2",
+    radius: float | None = None,
+    port_names=port_names_electrical,
+    port_types=port_types_electrical,
+    **kwargs,
+) -> CrossSection:
+    """Return Metal Strip cross_section."""
+    return cross_section(
+        width=width,
+        layer=layer,
+        radius=radius,
+        port_names=port_names,
+        port_types=port_types,
+        **kwargs,
+    )
+
+
+@xsection
+def metal3(
+    width: float = 10,
+    layer: LayerSpec = "M3",
+    radius: float | None = None,
+    port_names=port_names_electrical,
+    port_types=port_types_electrical,
+    **kwargs,
+) -> CrossSection:
+    """Return Metal Strip cross_section."""
+    return cross_section(
+        width=width,
+        layer=layer,
+        radius=radius,
+        port_names=port_names,
+        port_types=port_types,
+        **kwargs,
+    )
+
+
+@xsection
+def metal_routing(
+    width: float = 10,
+    layer: LayerSpec = "M3",
+    radius: float | None = None,
+    port_names=port_names_electrical,
+    port_types=port_types_electrical,
+    **kwargs,
+) -> CrossSection:
+    """Return Metal Strip cross_section."""
+    return cross_section(
+        width=width,
+        layer=layer,
+        radius=radius,
+        port_names=port_names,
+        port_types=port_types,
+        **kwargs,
+    )
+
+
+@xsection
+def heater_metal(
+    width: float = 2.5,
+    layer: LayerSpec = "HEATER",
+    radius: float | None = None,
+    port_names=port_names_electrical,
+    port_types=port_types_electrical,
+    **kwargs,
+) -> CrossSection:
+    """Return Metal Strip cross_section."""
+    return cross_section(
+        width=width,
+        layer=layer,
+        radius=radius,
+        port_names=port_names,
+        port_types=port_types,
+        **kwargs,
+    )
+
+
+@xsection
+def npp(
+    width: float = 0.5,
+    layer: LayerSpec = "NPP",
+    radius: float | None = None,
+    port_names=port_names_electrical,
+    port_types=port_types_electrical,
+    **kwargs,
+) -> CrossSection:
+    """Return Doped NPP cross_section."""
+    return cross_section(
+        width=width,
+        layer=layer,
+        radius=radius,
+        port_names=port_names,
+        port_types=port_types,
+        **kwargs,
+    )
+
+
+@xsection
 def pin(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -968,6 +1162,7 @@ def pin(
     )
 
 
+@xsection
 def pn(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -1155,6 +1350,7 @@ def pn(
     )
 
 
+@xsection
 def pn_with_trenches(
     width: float = 0.5,
     layer: LayerSpec | None = None,
@@ -1363,6 +1559,7 @@ def pn_with_trenches(
     )
 
 
+@xsection
 def pn_with_trenches_asymmetric(
     width: float = 0.5,
     layer: LayerSpec | None = None,
@@ -1585,6 +1782,7 @@ def pn_with_trenches_asymmetric(
     )
 
 
+@xsection
 def l_wg_doped_with_trenches(
     width: float = 0.5,
     layer: LayerSpec | None = None,
@@ -1752,6 +1950,7 @@ def l_wg_doped_with_trenches(
     )
 
 
+@xsection
 def strip_heater_metal_undercut(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -1829,6 +2028,7 @@ def strip_heater_metal_undercut(
     )
 
 
+@xsection
 def strip_heater_metal(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -1877,6 +2077,7 @@ def strip_heater_metal(
     )
 
 
+@xsection
 def strip_heater_doped(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -1950,13 +2151,7 @@ def strip_heater_doped(
     )
 
 
-strip_heater_doped_via_stack = partial(
-    strip_heater_doped,
-    layers_heater=("WG", "NPP", "VIAC"),
-    bbox_offsets_heater=(0, 0.1, -0.2),
-)
-
-
+@xsection
 def rib_heater_doped(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -2041,6 +2236,7 @@ def rib_heater_doped(
     )
 
 
+@xsection
 def rib_heater_doped_via_stack(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -2168,6 +2364,7 @@ def rib_heater_doped_via_stack(
     )
 
 
+@xsection
 def pn_ge_detector_si_contacts(
     width_si: float = 6.0,
     layer_si: LayerSpec = "WG",
@@ -2373,7 +2570,7 @@ def get_cross_sections(
     return xs
 
 
-cross_sections = get_cross_sections(sys.modules[__name__])
+# cross_sections = get_cross_sections(sys.modules[__name__])
 
 
 if __name__ == "__main__":
@@ -2393,5 +2590,9 @@ if __name__ == "__main__":
     # xs = pn(slab_inset=0.2)
     # xs = metal1()
     # s0 = Section(width=2, layer=(1, 0))
-    xs = strip(radius=5)
-    # print(s0.name)
+    # xs = strip()
+    # print(xs.name)
+    import gdsfactory as gf
+
+    xs = gf.get_cross_section("metal_routing")
+    print(xs.name)
