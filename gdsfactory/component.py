@@ -13,7 +13,7 @@ import klayout.lay as lay
 import numpy as np
 import yaml
 from kfactory import Instance, kdb, logger
-from kfactory.kcell import cell, save_layout_options
+from kfactory.kcell import PROPID, cell, save_layout_options
 
 from gdsfactory.config import GDSDIR_TEMP
 from gdsfactory.functions import get_polygons, get_polygons_points
@@ -247,6 +247,20 @@ class ComponentReference(kf.Instance):
             allow_type_mismatch=allow_type_mismatch,
             **kwargs,
         )
+
+    @property
+    def name(self) -> str:
+        """Name of instance in GDS."""
+        prop = self.property(PROPID.NAME)
+        return (
+            str(prop)
+            if prop is not None
+            else f"{self.cell.name}_{self.trans.disp.x}_{self.trans.disp.y}"
+        )
+
+    @name.setter
+    def name(self, value: str) -> None:
+        self.set_property(PROPID.NAME, value)
 
 
 class ComponentReferences(kf.kcell.Instances):
