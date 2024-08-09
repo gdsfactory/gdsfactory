@@ -258,6 +258,10 @@ class ComponentReference(kf.Instance):
             else f"{self.cell.name}_{self.trans.disp.x}_{self.trans.disp.y}"
         )
 
+    @name.setter
+    def name(self, value: str) -> None:
+        self.set_property(PROPID.NAME, value)
+
 
 class ComponentReferences(kf.kcell.Instances):
     def __getitem__(self, key: str | int) -> ComponentReference:
