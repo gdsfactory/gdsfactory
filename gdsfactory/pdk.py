@@ -12,8 +12,8 @@ from typing import Any
 import kfactory as kf
 import numpy as np
 import yaml
-from kfactory import KCLayout, LayerEnum
-from pydantic import ConfigDict, Field
+from kfactory import LayerEnum
+from pydantic import BaseModel, ConfigDict, Field
 
 from gdsfactory import logger
 from gdsfactory.config import CONF
@@ -109,7 +109,7 @@ def extract_args_from_docstring(docstring: str) -> dict[str, Any] | None:
     return args_dict
 
 
-class Pdk(KCLayout):
+class Pdk(BaseModel):
     """Store layers, cross_sections, cell functions, simulation_settings ...
 
     only one Pdk can be active at a given time.
@@ -142,6 +142,7 @@ class Pdk(KCLayout):
 
     """
 
+    name: str
     cross_sections: dict[str, CrossSectionOrFactory] = Field(
         default_factory=dict, exclude=True
     )
