@@ -241,11 +241,10 @@ class CrossSection(BaseModel):
 
     @property
     def name(self) -> str:
-        if not self._name:
-            h = hashlib.md5(str(self).encode()).hexdigest()[:8]
-            return f"xs_{h}"
-        else:
+        if self._name:
             return self._name
+        h = hashlib.md5(str(self).encode()).hexdigest()[:8]
+        return f"xs_{h}"
 
     @property
     def width(self) -> float:
