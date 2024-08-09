@@ -216,5 +216,7 @@ if __name__ == "__main__":
     c = gf.Component("demo")
     big_square = rectangle(size=(1300, 2600))
     sq = c << big_square
+    sq.dmovex(100)
     _ = c << seal_ring(sq, with_south=False)
+    print(sq.name)
     # c.show()
