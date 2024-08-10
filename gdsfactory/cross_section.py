@@ -751,25 +751,6 @@ def strip_nitride_tip(
     )
 
 
-strip_nitride_silicon_tip = partial(
-    strip,
-    sections=(
-        Section(width=0.1, layer="WGN", name="tip_nitride"),
-        Section(width=0.2, layer="WG", name="tip_silicon"),
-    ),
-)
-strip_sc_tip = partial(
-    nitride,
-    sections=(Section(width=0.2, layer="WG", name="tip"),),
-)
-
-# L shaped waveguide (slab only on one side of the core)
-l_wg = partial(
-    strip,
-    sections=(Section(width=4, layer="SLAB90", name="slab", offset=-2 - 0.25),),
-)
-
-
 @xsection
 def slot(
     width: float = 0.5,
