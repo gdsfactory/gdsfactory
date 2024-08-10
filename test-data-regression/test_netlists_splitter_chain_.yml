@@ -8,9 +8,9 @@ instances:
       route_info_length: 11.206
       route_info_min_bend_radius: 13.012
       route_info_n_bend_s: 1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 11.206
+      route_info_type: strip
       route_info_weight: 11.206
-      route_info_xs_34e31a19_length: 11.206
       start_angle: 0
     settings:
       allow_min_radius_violation: false
@@ -28,9 +28,9 @@ instances:
       route_info_length: 11.206
       route_info_min_bend_radius: 13.012
       route_info_n_bend_s: 1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 11.206
+      route_info_type: strip
       route_info_weight: 11.206
-      route_info_xs_34e31a19_length: 11.206
       start_angle: 0
     settings:
       allow_min_radius_violation: false

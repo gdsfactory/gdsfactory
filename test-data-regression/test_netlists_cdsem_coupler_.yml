@@ -1,24 +1,24 @@
 instances:
-  coupler_straight_L420_G_16dd3191_210000_7600:
+  coupler_straight_L420_G_5a603e4c_210000_14625:
     component: coupler_straight
     info: {}
     settings:
-      cross_section: xs_34e31a19
+      cross_section: strip
+      gap: 0.25
+      length: 420
+  coupler_straight_L420_G_ae24e604_210000_7600:
+    component: coupler_straight
+    info: {}
+    settings:
+      cross_section: strip
       gap: 0.2
       length: 420
-  coupler_straight_L420_G_1a01aeec_210000_575:
+  coupler_straight_L420_G_c3c00a0e_210000_575:
     component: coupler_straight
     info: {}
     settings:
-      cross_section: xs_34e31a19
+      cross_section: strip
       gap: 0.15
-      length: 420
-  coupler_straight_L420_G_dd437795_210000_14625:
-    component: coupler_straight
-    info: {}
-    settings:
-      cross_section: xs_34e31a19
-      gap: 0.25
       length: 420
   text_rectangular_T150_S_009a275c_433000_2500:
     component: text_rectangular
@@ -56,21 +56,21 @@ instances:
 name: cdsem_coupler_L420_G0p1_0fa6dd27
 nets: []
 placements:
-  coupler_straight_L420_G_16dd3191_210000_7600:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 7.25
-  coupler_straight_L420_G_1a01aeec_210000_575:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 0.25
-  coupler_straight_L420_G_dd437795_210000_14625:
+  coupler_straight_L420_G_5a603e4c_210000_14625:
     mirror: false
     rotation: 0
     x: 0
     y: 14.25
+  coupler_straight_L420_G_ae24e604_210000_7600:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 7.25
+  coupler_straight_L420_G_c3c00a0e_210000_575:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0.25
   text_rectangular_T150_S_009a275c_433000_2500:
     mirror: false
     rotation: 0
@@ -92,18 +92,18 @@ warnings:
     unconnected_ports:
     - message: 12 unconnected optical ports!
       ports:
-      - coupler_straight_L420_G_1a01aeec_210000_575,o1
-      - coupler_straight_L420_G_1a01aeec_210000_575,o2
-      - coupler_straight_L420_G_1a01aeec_210000_575,o4
-      - coupler_straight_L420_G_1a01aeec_210000_575,o3
-      - coupler_straight_L420_G_16dd3191_210000_7600,o1
-      - coupler_straight_L420_G_16dd3191_210000_7600,o2
-      - coupler_straight_L420_G_16dd3191_210000_7600,o4
-      - coupler_straight_L420_G_16dd3191_210000_7600,o3
-      - coupler_straight_L420_G_dd437795_210000_14625,o1
-      - coupler_straight_L420_G_dd437795_210000_14625,o2
-      - coupler_straight_L420_G_dd437795_210000_14625,o4
-      - coupler_straight_L420_G_dd437795_210000_14625,o3
+      - coupler_straight_L420_G_c3c00a0e_210000_575,o1
+      - coupler_straight_L420_G_c3c00a0e_210000_575,o2
+      - coupler_straight_L420_G_c3c00a0e_210000_575,o4
+      - coupler_straight_L420_G_c3c00a0e_210000_575,o3
+      - coupler_straight_L420_G_ae24e604_210000_7600,o1
+      - coupler_straight_L420_G_ae24e604_210000_7600,o2
+      - coupler_straight_L420_G_ae24e604_210000_7600,o4
+      - coupler_straight_L420_G_ae24e604_210000_7600,o3
+      - coupler_straight_L420_G_5a603e4c_210000_14625,o1
+      - coupler_straight_L420_G_5a603e4c_210000_14625,o2
+      - coupler_straight_L420_G_5a603e4c_210000_14625,o4
+      - coupler_straight_L420_G_5a603e4c_210000_14625,o3
       values:
       - - 0
         - 250

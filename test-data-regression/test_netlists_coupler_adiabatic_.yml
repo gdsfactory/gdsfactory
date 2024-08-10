@@ -1,5 +1,5 @@
 instances:
-  bezier_CP0_0_10_0_10_m1_4767eb94_m20000_1270:
+  bezier_CP0_0_10_0_10_m1_a7b61973_m20000_1270:
     component: bezier
     info:
       end_angle: 0
@@ -8,9 +8,9 @@ instances:
       route_info_length: 20.036
       route_info_min_bend_radius: 72.935
       route_info_n_bend_s: 1
-      route_info_type: xs_4ec6b2c0
+      route_info_strip_length: 20.036
+      route_info_type: strip
       route_info_weight: 20.036
-      route_info_xs_4ec6b2c0_length: 20.036
       start_angle: 0
     settings:
       allow_min_radius_violation: false
@@ -23,10 +23,10 @@ instances:
         - -1
       - - 20
         - -1
-      cross_section: xs_4ec6b2c0
+      cross_section: strip
       npoints: 201
       with_manhattan_facing_angles: true
-  bezier_CP0_m3_10_m3_10__07235f68_m20000_m500:
+  bezier_CP0_m3_10_m3_10__494670bd_m20000_m500:
     component: bezier
     info:
       end_angle: 0
@@ -35,9 +35,9 @@ instances:
       route_info_length: 20.036
       route_info_min_bend_radius: 72.935
       route_info_n_bend_s: 1
-      route_info_type: xs_d9e914be
+      route_info_strip_length: 20.036
+      route_info_type: strip
       route_info_weight: 20.036
-      route_info_xs_d9e914be_length: 20.036
       start_angle: 0
     settings:
       allow_min_radius_violation: false
@@ -50,10 +50,10 @@ instances:
         - -2
       - - 20
         - -2
-      cross_section: xs_d9e914be
+      cross_section: strip
       npoints: 201
       with_manhattan_facing_angles: true
-  bezier_CP70_m1_85_m1_85_5940811d_65000_1270:
+  bezier_CP70_m1_85_m1_85_c9a8926c_65000_1270:
     component: bezier
     info:
       end_angle: 0
@@ -62,9 +62,9 @@ instances:
       route_info_length: 30.024
       route_info_min_bend_radius: 163.506
       route_info_n_bend_s: 1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 30.024
+      route_info_type: strip
       route_info_weight: 30.024
-      route_info_xs_34e31a19_length: 30.024
       start_angle: 0
     settings:
       allow_min_radius_violation: false
@@ -77,10 +77,10 @@ instances:
         - 0
       - - 100
         - 0
-      cross_section: xs_34e31a19
+      cross_section: strip
       npoints: 201
       with_manhattan_facing_angles: true
-  bezier_CP70_m1_85_m1_85_5940811d_65000_m500:
+  bezier_CP70_m1_85_m1_85_c9a8926c_65000_m500:
     component: bezier
     info:
       end_angle: 0
@@ -89,9 +89,9 @@ instances:
       route_info_length: 30.024
       route_info_min_bend_radius: 163.506
       route_info_n_bend_s: 1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 30.024
+      route_info_type: strip
       route_info_weight: 30.024
-      route_info_xs_34e31a19_length: 30.024
       start_angle: 0
     settings:
       allow_min_radius_violation: false
@@ -104,14 +104,14 @@ instances:
         - 0
       - - 100
         - 0
-      cross_section: xs_34e31a19
+      cross_section: strip
       npoints: 201
       with_manhattan_facing_angles: true
-  coupler_straight_L50_G0_a8f21bfb_25000_385:
+  coupler_straight_L50_G0_e5e3337b_25000_385:
     component: coupler_straight
     info: {}
     settings:
-      cross_section: xs_34e31a19
+      cross_section: strip
       gap: 0.27
       length: 50
   taper_L10_W0p5_W0p4_PNo_a87d0813_m5000_0:
@@ -154,40 +154,40 @@ instances:
       with_two_ports: true
 name: coupler_adiabatic_L20_L_6807e123
 nets:
-- p1: bezier_CP0_0_10_0_10_m1_4767eb94_m20000_1270,o2
+- p1: bezier_CP0_0_10_0_10_m1_a7b61973_m20000_1270,o2
   p2: taper_L10_W0p5_W0p6_PNo_23934efe_m5000_770,o2
-- p1: bezier_CP0_m3_10_m3_10__07235f68_m20000_m500,o2
+- p1: bezier_CP0_m3_10_m3_10__494670bd_m20000_m500,o2
   p2: taper_L10_W0p5_W0p4_PNo_a87d0813_m5000_0,o2
-- p1: bezier_CP70_m1_85_m1_85_5940811d_65000_1270,o1
-  p2: coupler_straight_L50_G0_a8f21bfb_25000_385,o3
-- p1: bezier_CP70_m1_85_m1_85_5940811d_65000_m500,o1
-  p2: coupler_straight_L50_G0_a8f21bfb_25000_385,o4
-- p1: coupler_straight_L50_G0_a8f21bfb_25000_385,o1
+- p1: bezier_CP70_m1_85_m1_85_c9a8926c_65000_1270,o1
+  p2: coupler_straight_L50_G0_e5e3337b_25000_385,o3
+- p1: bezier_CP70_m1_85_m1_85_c9a8926c_65000_m500,o1
+  p2: coupler_straight_L50_G0_e5e3337b_25000_385,o4
+- p1: coupler_straight_L50_G0_e5e3337b_25000_385,o1
   p2: taper_L10_W0p5_W0p4_PNo_a87d0813_m5000_0,o1
-- p1: coupler_straight_L50_G0_a8f21bfb_25000_385,o2
+- p1: coupler_straight_L50_G0_e5e3337b_25000_385,o2
   p2: taper_L10_W0p5_W0p6_PNo_23934efe_m5000_770,o1
 placements:
-  bezier_CP0_0_10_0_10_m1_4767eb94_m20000_1270:
+  bezier_CP0_0_10_0_10_m1_a7b61973_m20000_1270:
     mirror: false
     rotation: 0
     x: -30
     y: 1.77
-  bezier_CP0_m3_10_m3_10__07235f68_m20000_m500:
+  bezier_CP0_m3_10_m3_10__494670bd_m20000_m500:
     mirror: false
     rotation: 0
     x: -30
     y: 2
-  bezier_CP70_m1_85_m1_85_5940811d_65000_1270:
+  bezier_CP70_m1_85_m1_85_c9a8926c_65000_1270:
     mirror: false
     rotation: 0
     x: -20
     y: 1.77
-  bezier_CP70_m1_85_m1_85_5940811d_65000_m500:
+  bezier_CP70_m1_85_m1_85_c9a8926c_65000_m500:
     mirror: true
     rotation: 0
     x: -20
     y: -1
-  coupler_straight_L50_G0_a8f21bfb_25000_385:
+  coupler_straight_L50_G0_e5e3337b_25000_385:
     mirror: false
     rotation: 0
     x: 0
@@ -203,7 +203,7 @@ placements:
     x: 0
     y: 0.77
 ports:
-  o1: bezier_CP0_m3_10_m3_10__07235f68_m20000_m500,o1
-  o2: bezier_CP0_0_10_0_10_m1_4767eb94_m20000_1270,o1
-  o3: bezier_CP70_m1_85_m1_85_5940811d_65000_1270,o2
-  o4: bezier_CP70_m1_85_m1_85_5940811d_65000_m500,o2
+  o1: bezier_CP0_m3_10_m3_10__494670bd_m20000_m500,o1
+  o2: bezier_CP0_0_10_0_10_m1_a7b61973_m20000_1270,o1
+  o3: bezier_CP70_m1_85_m1_85_c9a8926c_65000_1270,o2
+  o4: bezier_CP70_m1_85_m1_85_c9a8926c_65000_m500,o2

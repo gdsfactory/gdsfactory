@@ -4,9 +4,9 @@ instances:
     info:
       length: 1980
       route_info_length: 1980
-      route_info_type: xs_ef495afa
+      route_info_pn_length: 1980
+      route_info_type: pn
       route_info_weight: 1980
-      route_info_xs_ef495afa_length: 1980
       width: 0.5
     settings:
       cross_section: pn

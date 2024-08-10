@@ -4,9 +4,9 @@ instances:
     info:
       length: 40
       route_info_length: 40
-      route_info_type: xs_e02d6bc5
+      route_info_pn_ge_detector_si_contacts_length: 40
+      route_info_type: pn_ge_detector_si_contacts
       route_info_weight: 40
-      route_info_xs_e02d6bc5_length: 40
       width: 6
     settings:
       cross_section: pn_ge_detector_si_contacts

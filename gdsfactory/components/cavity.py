@@ -9,7 +9,7 @@ from gdsfactory.typings import ComponentSpec
 
 @cell
 def cavity(
-    component: ComponentSpec = dbr,
+    component: ComponentSpec = "dbr",
     coupler: ComponentSpec = "coupler",
     length: float = 0.1,
     gap: float = 0.2,
@@ -42,7 +42,6 @@ def cavity(
     coupler = gf.get_component(coupler, length=length, gap=gap, **kwargs)
 
     c = gf.Component()
-    c.component = mirror
     cr = c << coupler
     ml = c << mirror
     mr = c << mirror

@@ -688,17 +688,54 @@ def nitride(
     )
 
 
-strip_rib_tip = partial(
-    strip,
-    sections=(Section(width=0.2, layer="SLAB90", name="slab"),),
-)
-strip_nitride_tip = partial(
-    nitride,
-    sections=(
-        Section(width=0.2, layer="WGN", name="tip_nitride"),
-        Section(width=0.1, layer="WG", name="tip_silicon"),
-    ),
-)
+@xsection
+def strip_rib_tip(
+    width: float = 0.5,
+    width_tip: float = 0.2,
+    layer: LayerSpec = "WG",
+    layer_slab: LayerSpec = "SLAB90",
+    radius: float = 10.0,
+    radius_min: float = 5,
+    **kwargs,
+) -> CrossSection:
+    """Return Strip cross_section."""
+    sections = (Section(width=width_tip, layer=layer_slab, name="slab"),)
+    return cross_section(
+        width=width,
+        layer=layer,
+        radius=radius,
+        radius_min=radius_min,
+        sections=sections,
+        **kwargs,
+    )
+
+
+@xsection
+def strip_nitride_tip(
+    width: float = 1.0,
+    layer: LayerSpec = "WGN",
+    layer_silicon: LayerSpec = "WG",
+    width_tip_nitride: float = 0.2,
+    width_tip_silicon: float = 0.1,
+    radius: float = radius_nitride,
+    radius_min: float = radius_nitride,
+    **kwargs,
+) -> CrossSection:
+    """Return Strip cross_section."""
+    sections = (
+        Section(width=width_tip_nitride, layer=layer, name="tip_nitride"),
+        Section(width=width_tip_silicon, layer=layer_silicon, name="tip_silicon"),
+    )
+    return cross_section(
+        width=width,
+        layer=layer,
+        radius=radius,
+        radius_min=radius_min,
+        sections=sections,
+        **kwargs,
+    )
+
+
 strip_nitride_silicon_tip = partial(
     strip,
     sections=(

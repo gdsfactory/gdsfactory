@@ -9,9 +9,9 @@ instances:
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
       route_info_n_bend_90: 1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 16.637
+      route_info_type: strip
       route_info_weight: 16.637
-      route_info_xs_34e31a19_length: 16.637
     settings:
       allow_min_radius_violation: false
       angle: 90
@@ -29,9 +29,9 @@ instances:
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
       route_info_n_bend_90: 1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 16.637
+      route_info_type: strip
       route_info_weight: 16.637
-      route_info_xs_34e31a19_length: 16.637
     settings:
       allow_min_radius_violation: false
       angle: 90
@@ -49,9 +49,9 @@ instances:
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
       route_info_n_bend_90: 1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 16.637
+      route_info_type: strip
       route_info_weight: 16.637
-      route_info_xs_34e31a19_length: 16.637
     settings:
       allow_min_radius_violation: false
       angle: 90
@@ -69,9 +69,9 @@ instances:
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
       route_info_n_bend_90: 1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 16.637
+      route_info_type: strip
       route_info_weight: 16.637
-      route_info_xs_34e31a19_length: 16.637
     settings:
       allow_min_radius_violation: false
       angle: 90
@@ -89,9 +89,9 @@ instances:
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
       route_info_n_bend_90: 1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 16.637
+      route_info_type: strip
       route_info_weight: 16.637
-      route_info_xs_34e31a19_length: 16.637
     settings:
       allow_min_radius_violation: false
       angle: 90
@@ -109,9 +109,9 @@ instances:
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
       route_info_n_bend_90: 1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 16.637
+      route_info_type: strip
       route_info_weight: 16.637
-      route_info_xs_34e31a19_length: 16.637
     settings:
       allow_min_radius_violation: false
       angle: 90
@@ -129,9 +129,9 @@ instances:
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
       route_info_n_bend_90: 1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 16.637
+      route_info_type: strip
       route_info_weight: 16.637
-      route_info_xs_34e31a19_length: 16.637
     settings:
       allow_min_radius_violation: false
       angle: 90
@@ -149,9 +149,9 @@ instances:
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
       route_info_n_bend_90: 1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 16.637
+      route_info_type: strip
       route_info_weight: 16.637
-      route_info_xs_34e31a19_length: 16.637
     settings:
       allow_min_radius_violation: false
       angle: 90
@@ -169,9 +169,9 @@ instances:
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
       route_info_n_bend_90: 1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 16.637
+      route_info_type: strip
       route_info_weight: 16.637
-      route_info_xs_34e31a19_length: 16.637
     settings:
       allow_min_radius_violation: false
       angle: 90
@@ -189,9 +189,9 @@ instances:
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
       route_info_n_bend_90: 1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 16.637
+      route_info_type: strip
       route_info_weight: 16.637
-      route_info_xs_34e31a19_length: 16.637
     settings:
       allow_min_radius_violation: false
       angle: 90
@@ -209,9 +209,9 @@ instances:
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
       route_info_n_bend_90: 1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 16.637
+      route_info_type: strip
       route_info_weight: 16.637
-      route_info_xs_34e31a19_length: 16.637
     settings:
       allow_min_radius_violation: false
       angle: 90
@@ -229,9 +229,9 @@ instances:
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
       route_info_n_bend_90: 1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 16.637
+      route_info_type: strip
       route_info_weight: 16.637
-      route_info_xs_34e31a19_length: 16.637
     settings:
       allow_min_radius_violation: false
       angle: 90
@@ -249,9 +249,9 @@ instances:
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
       route_info_n_bend_90: 1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 16.637
+      route_info_type: strip
       route_info_weight: 16.637
-      route_info_xs_34e31a19_length: 16.637
     settings:
       allow_min_radius_violation: false
       angle: 90
@@ -269,9 +269,9 @@ instances:
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
       route_info_n_bend_90: 1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 16.637
+      route_info_type: strip
       route_info_weight: 16.637
-      route_info_xs_34e31a19_length: 16.637
     settings:
       allow_min_radius_violation: false
       angle: 90
@@ -289,9 +289,9 @@ instances:
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
       route_info_n_bend_90: 1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 16.637
+      route_info_type: strip
       route_info_weight: 16.637
-      route_info_xs_34e31a19_length: 16.637
     settings:
       allow_min_radius_violation: false
       angle: 90
@@ -309,9 +309,9 @@ instances:
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
       route_info_n_bend_90: 1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 16.637
+      route_info_type: strip
       route_info_weight: 16.637
-      route_info_xs_34e31a19_length: 16.637
     settings:
       allow_min_radius_violation: false
       angle: 90
@@ -329,9 +329,9 @@ instances:
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
       route_info_n_bend_90: 1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 16.637
+      route_info_type: strip
       route_info_weight: 16.637
-      route_info_xs_34e31a19_length: 16.637
     settings:
       allow_min_radius_violation: false
       angle: 90
@@ -349,9 +349,9 @@ instances:
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
       route_info_n_bend_90: 1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 16.637
+      route_info_type: strip
       route_info_weight: 16.637
-      route_info_xs_34e31a19_length: 16.637
     settings:
       allow_min_radius_violation: false
       angle: 90
@@ -369,9 +369,9 @@ instances:
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
       route_info_n_bend_90: 1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 16.637
+      route_info_type: strip
       route_info_weight: 16.637
-      route_info_xs_34e31a19_length: 16.637
     settings:
       allow_min_radius_violation: false
       angle: 90
@@ -389,9 +389,9 @@ instances:
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
       route_info_n_bend_90: 1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 16.637
+      route_info_type: strip
       route_info_weight: 16.637
-      route_info_xs_34e31a19_length: 16.637
     settings:
       allow_min_radius_violation: false
       angle: 90
@@ -432,9 +432,9 @@ instances:
     info:
       length: 10.5
       route_info_length: 10.5
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 10.5
+      route_info_type: strip
       route_info_weight: 10.5
-      route_info_xs_34e31a19_length: 10.5
       width: 0.5
     settings:
       cross_section: strip
@@ -446,9 +446,9 @@ instances:
     info:
       length: 10.5
       route_info_length: 10.5
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 10.5
+      route_info_type: strip
       route_info_weight: 10.5
-      route_info_xs_34e31a19_length: 10.5
       width: 0.5
     settings:
       cross_section: strip
@@ -460,9 +460,9 @@ instances:
     info:
       length: 10.5
       route_info_length: 10.5
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 10.5
+      route_info_type: strip
       route_info_weight: 10.5
-      route_info_xs_34e31a19_length: 10.5
       width: 0.5
     settings:
       cross_section: strip
@@ -474,9 +474,9 @@ instances:
     info:
       length: 12
       route_info_length: 12
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 12
+      route_info_type: strip
       route_info_weight: 12
-      route_info_xs_34e31a19_length: 12
       width: 0.5
     settings:
       cross_section: strip
@@ -488,9 +488,9 @@ instances:
     info:
       length: 12
       route_info_length: 12
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 12
+      route_info_type: strip
       route_info_weight: 12
-      route_info_xs_34e31a19_length: 12
       width: 0.5
     settings:
       cross_section: strip
@@ -502,9 +502,9 @@ instances:
     info:
       length: 13.5
       route_info_length: 13.5
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 13.5
+      route_info_type: strip
       route_info_weight: 13.5
-      route_info_xs_34e31a19_length: 13.5
       width: 0.5
     settings:
       cross_section: strip
@@ -516,9 +516,9 @@ instances:
     info:
       length: 13.5
       route_info_length: 13.5
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 13.5
+      route_info_type: strip
       route_info_weight: 13.5
-      route_info_xs_34e31a19_length: 13.5
       width: 0.5
     settings:
       cross_section: strip
@@ -530,9 +530,9 @@ instances:
     info:
       length: 14.834
       route_info_length: 14.834
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 14.834
+      route_info_type: strip
       route_info_weight: 14.834
-      route_info_xs_34e31a19_length: 14.834
       width: 0.5
     settings:
       cross_section: strip
@@ -544,9 +544,9 @@ instances:
     info:
       length: 19.166
       route_info_length: 19.166
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 19.166
+      route_info_type: strip
       route_info_weight: 19.166
-      route_info_xs_34e31a19_length: 19.166
       width: 0.5
     settings:
       cross_section: strip
@@ -558,9 +558,9 @@ instances:
     info:
       length: 1.5
       route_info_length: 1.5
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 1.5
+      route_info_type: strip
       route_info_weight: 1.5
-      route_info_xs_34e31a19_length: 1.5
       width: 0.5
     settings:
       cross_section: strip
@@ -572,9 +572,9 @@ instances:
     info:
       length: 1.5
       route_info_length: 1.5
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 1.5
+      route_info_type: strip
       route_info_weight: 1.5
-      route_info_xs_34e31a19_length: 1.5
       width: 0.5
     settings:
       cross_section: strip
@@ -586,9 +586,9 @@ instances:
     info:
       length: 23.5
       route_info_length: 23.5
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 23.5
+      route_info_type: strip
       route_info_weight: 23.5
-      route_info_xs_34e31a19_length: 23.5
       width: 0.5
     settings:
       cross_section: strip
@@ -600,9 +600,9 @@ instances:
     info:
       length: 27.834
       route_info_length: 27.834
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 27.834
+      route_info_type: strip
       route_info_weight: 27.834
-      route_info_xs_34e31a19_length: 27.834
       width: 0.5
     settings:
       cross_section: strip
@@ -614,9 +614,9 @@ instances:
     info:
       length: 32.166
       route_info_length: 32.166
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 32.166
+      route_info_type: strip
       route_info_weight: 32.166
-      route_info_xs_34e31a19_length: 32.166
       width: 0.5
     settings:
       cross_section: strip
@@ -628,9 +628,9 @@ instances:
     info:
       length: 36.5
       route_info_length: 36.5
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 36.5
+      route_info_type: strip
       route_info_weight: 36.5
-      route_info_xs_34e31a19_length: 36.5
       width: 0.5
     settings:
       cross_section: strip
@@ -642,9 +642,9 @@ instances:
     info:
       length: 3
       route_info_length: 3
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 3
+      route_info_type: strip
       route_info_weight: 3
-      route_info_xs_34e31a19_length: 3
       width: 0.5
     settings:
       cross_section: strip
@@ -656,9 +656,9 @@ instances:
     info:
       length: 3
       route_info_length: 3
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 3
+      route_info_type: strip
       route_info_weight: 3
-      route_info_xs_34e31a19_length: 3
       width: 0.5
     settings:
       cross_section: strip
@@ -670,9 +670,9 @@ instances:
     info:
       length: 40.834
       route_info_length: 40.834
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 40.834
+      route_info_type: strip
       route_info_weight: 40.834
-      route_info_xs_34e31a19_length: 40.834
       width: 0.5
     settings:
       cross_section: strip
@@ -684,9 +684,9 @@ instances:
     info:
       length: 45.166
       route_info_length: 45.166
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 45.166
+      route_info_type: strip
       route_info_weight: 45.166
-      route_info_xs_34e31a19_length: 45.166
       width: 0.5
     settings:
       cross_section: strip
@@ -698,9 +698,9 @@ instances:
     info:
       length: 49.5
       route_info_length: 49.5
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 49.5
+      route_info_type: strip
       route_info_weight: 49.5
-      route_info_xs_34e31a19_length: 49.5
       width: 0.5
     settings:
       cross_section: strip
@@ -712,9 +712,9 @@ instances:
     info:
       length: 4.5
       route_info_length: 4.5
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 4.5
+      route_info_type: strip
       route_info_weight: 4.5
-      route_info_xs_34e31a19_length: 4.5
       width: 0.5
     settings:
       cross_section: strip
@@ -726,9 +726,9 @@ instances:
     info:
       length: 4.5
       route_info_length: 4.5
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 4.5
+      route_info_type: strip
       route_info_weight: 4.5
-      route_info_xs_34e31a19_length: 4.5
       width: 0.5
     settings:
       cross_section: strip
@@ -740,9 +740,9 @@ instances:
     info:
       length: 6
       route_info_length: 6
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 6
+      route_info_type: strip
       route_info_weight: 6
-      route_info_xs_34e31a19_length: 6
       width: 0.5
     settings:
       cross_section: strip
@@ -754,9 +754,9 @@ instances:
     info:
       length: 6
       route_info_length: 6
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 6
+      route_info_type: strip
       route_info_weight: 6
-      route_info_xs_34e31a19_length: 6
       width: 0.5
     settings:
       cross_section: strip
@@ -768,9 +768,9 @@ instances:
     info:
       length: 7.5
       route_info_length: 7.5
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 7.5
+      route_info_type: strip
       route_info_weight: 7.5
-      route_info_xs_34e31a19_length: 7.5
       width: 0.5
     settings:
       cross_section: strip
@@ -782,9 +782,9 @@ instances:
     info:
       length: 7.5
       route_info_length: 7.5
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 7.5
+      route_info_type: strip
       route_info_weight: 7.5
-      route_info_xs_34e31a19_length: 7.5
       width: 0.5
     settings:
       cross_section: strip
@@ -796,9 +796,9 @@ instances:
     info:
       length: 9
       route_info_length: 9
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 9
+      route_info_type: strip
       route_info_weight: 9
-      route_info_xs_34e31a19_length: 9
       width: 0.5
     settings:
       cross_section: strip
@@ -810,9 +810,9 @@ instances:
     info:
       length: 9
       route_info_length: 9
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 9
+      route_info_type: strip
       route_info_weight: 9
-      route_info_xs_34e31a19_length: 9
       width: 0.5
     settings:
       cross_section: strip

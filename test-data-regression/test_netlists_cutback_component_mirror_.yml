@@ -489,13 +489,13 @@ instances:
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
       route_info_n_bend_90: 2
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 42.817
+      route_info_type: strip
       route_info_weight: 42.817
-      route_info_xs_34e31a19_length: 42.817
     settings:
       allow_min_radius_violation: false
       angle: 180
-      cross_section: xs_34e31a19
+      cross_section: strip
       p: 0.5
       with_arc_floorplan: true
   C2:
@@ -508,13 +508,13 @@ instances:
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
       route_info_n_bend_90: 2
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 42.817
+      route_info_type: strip
       route_info_weight: 42.817
-      route_info_xs_34e31a19_length: 42.817
     settings:
       allow_min_radius_violation: false
       angle: 180
-      cross_section: xs_34e31a19
+      cross_section: strip
       p: 0.5
       with_arc_floorplan: true
   C3:
@@ -527,13 +527,13 @@ instances:
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
       route_info_n_bend_90: 2
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 42.817
+      route_info_type: strip
       route_info_weight: 42.817
-      route_info_xs_34e31a19_length: 42.817
     settings:
       allow_min_radius_violation: false
       angle: 180
-      cross_section: xs_34e31a19
+      cross_section: strip
       p: 0.5
       with_arc_floorplan: true
   C4:
@@ -546,13 +546,13 @@ instances:
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
       route_info_n_bend_90: 2
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 42.817
+      route_info_type: strip
       route_info_weight: 42.817
-      route_info_xs_34e31a19_length: 42.817
     settings:
       allow_min_radius_violation: false
       angle: 180
-      cross_section: xs_34e31a19
+      cross_section: strip
       p: 0.5
       with_arc_floorplan: true
   D1:
@@ -565,13 +565,13 @@ instances:
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
       route_info_n_bend_90: 2
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 42.817
+      route_info_type: strip
       route_info_weight: 42.817
-      route_info_xs_34e31a19_length: 42.817
     settings:
       allow_min_radius_violation: false
       angle: 180
-      cross_section: xs_34e31a19
+      cross_section: strip
       p: 0.5
       with_arc_floorplan: true
   D2:
@@ -584,13 +584,13 @@ instances:
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
       route_info_n_bend_90: 2
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 42.817
+      route_info_type: strip
       route_info_weight: 42.817
-      route_info_xs_34e31a19_length: 42.817
     settings:
       allow_min_radius_violation: false
       angle: 180
-      cross_section: xs_34e31a19
+      cross_section: strip
       p: 0.5
       with_arc_floorplan: true
   D3:
@@ -603,13 +603,13 @@ instances:
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
       route_info_n_bend_90: 2
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 42.817
+      route_info_type: strip
       route_info_weight: 42.817
-      route_info_xs_34e31a19_length: 42.817
     settings:
       allow_min_radius_violation: false
       angle: 180
-      cross_section: xs_34e31a19
+      cross_section: strip
       p: 0.5
       with_arc_floorplan: true
   D4:
@@ -622,13 +622,13 @@ instances:
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
       route_info_n_bend_90: 2
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 42.817
+      route_info_type: strip
       route_info_weight: 42.817
-      route_info_xs_34e31a19_length: 42.817
     settings:
       allow_min_radius_violation: false
       angle: 180
-      cross_section: xs_34e31a19
+      cross_section: strip
       p: 0.5
       with_arc_floorplan: true
   _1:
@@ -636,12 +636,12 @@ instances:
     info:
       length: 20
       route_info_length: 20
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 20
+      route_info_type: strip
       route_info_weight: 20
-      route_info_xs_34e31a19_length: 20
       width: 0.5
     settings:
-      cross_section: xs_34e31a19
+      cross_section: strip
       length: 20
       npoints: 2
   m1:
@@ -649,12 +649,12 @@ instances:
     info:
       length: 20
       route_info_length: 20
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 20
+      route_info_type: strip
       route_info_weight: 20
-      route_info_xs_34e31a19_length: 20
       width: 0.5
     settings:
-      cross_section: xs_34e31a19
+      cross_section: strip
       length: 20
       npoints: 2
 name: cutback_component_CFtap_64ce8722
