@@ -27,9 +27,9 @@ instances:
     info:
       length: 30
       route_info_length: 30
-      route_info_type: xs_93476d9a
+      route_info_npp_length: 30
+      route_info_type: npp
       route_info_weight: 30
-      route_info_xs_93476d9a_length: 30
       width: 0.5
     settings:
       cross_section: npp
@@ -40,9 +40,9 @@ instances:
     info:
       length: 30
       route_info_length: 30
-      route_info_type: xs_93476d9a
+      route_info_npp_length: 30
+      route_info_type: npp
       route_info_weight: 30
-      route_info_xs_93476d9a_length: 30
       width: 0.5
     settings:
       cross_section: npp

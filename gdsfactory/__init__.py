@@ -27,7 +27,7 @@ from gdsfactory.component import (
 from gdsfactory.config import CONF, PATH
 from gdsfactory.port import Port
 from gdsfactory.read.import_gds import import_gds
-from gdsfactory.cross_section import CrossSection, Section
+from gdsfactory.cross_section import CrossSection, Section, xsection
 from gdsfactory.difftest import difftest, diff
 from gdsfactory.boolean import boolean
 
@@ -139,4 +139,5 @@ __all__ = (
     "typings",
     "vcell",
     "write_cells",
+    "xsection",
 )

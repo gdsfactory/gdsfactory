@@ -1,9 +1,9 @@
 info:
   length: 10
   route_info_length: 10
-  route_info_type: xs_0efa6a61
+  route_info_metal_routing_length: 10
+  route_info_type: metal_routing
   route_info_weight: 10
-  route_info_xs_0efa6a61_length: 10
   width: 10
 name: straight_L10_N2_CSmetal_routing
 settings:

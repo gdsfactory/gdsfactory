@@ -14,36 +14,36 @@ instances:
       l2: 0.159
       w1: 0.45
       w2: 0.55
-  straight_L0p01_N2_CSxs_34e31a19_3185_0:
+  straight_L0p01_N2_CSstrip_3185_0:
     component: straight
     info:
       length: 0.01
       route_info_length: 0.01
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 0.01
+      route_info_type: strip
       route_info_weight: 0.01
-      route_info_xs_34e31a19_length: 0.01
       width: 0.5
     settings:
-      cross_section: xs_34e31a19
+      cross_section: strip
       length: 0.01
       npoints: 2
-  straight_L0p01_N2_CSxs_34e31a19_m5_0:
+  straight_L0p01_N2_CSstrip_m5_0:
     component: straight
     info:
       length: 0.01
       route_info_length: 0.01
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 0.01
+      route_info_type: strip
       route_info_weight: 0.01
-      route_info_xs_34e31a19_length: 0.01
       width: 0.5
     settings:
-      cross_section: xs_34e31a19
+      cross_section: strip
       length: 0.01
       npoints: 2
 name: dbr_W0p45_W0p55_L0p159__efcfb70c
 nets:
 - p1: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<0.0>,o1
-  p2: straight_L0p01_N2_CSxs_34e31a19_m5_0,o1
+  p2: straight_L0p01_N2_CSstrip_m5_0,o1
 - p1: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<0.0>,o2
   p2: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<1.0>,o1
 - p1: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<1.0>,o2
@@ -63,47 +63,47 @@ nets:
 - p1: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<8.0>,o2
   p2: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<9.0>,o1
 - p1: dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<9.0>,o2
-  p2: straight_L0p01_N2_CSxs_34e31a19_3185_0,o1
+  p2: straight_L0p01_N2_CSstrip_3185_0,o1
 placements:
   dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  straight_L0p01_N2_CSxs_34e31a19_3185_0:
+  straight_L0p01_N2_CSstrip_3185_0:
     mirror: false
     rotation: 0
     x: 3.18
     y: 0
-  straight_L0p01_N2_CSxs_34e31a19_m5_0:
+  straight_L0p01_N2_CSstrip_m5_0:
     mirror: false
     rotation: 180
     x: 0
     y: 0
 ports:
-  o1: straight_L0p01_N2_CSxs_34e31a19_m5_0,o2
+  o1: straight_L0p01_N2_CSstrip_m5_0,o2
 warnings:
   optical:
     unconnected_ports:
     - message: 1 unconnected optical ports!
       ports:
-      - straight_L0p01_N2_CSxs_34e31a19_3185_0,o2
+      - straight_L0p01_N2_CSstrip_3185_0,o2
       values:
       - - 3190
         - 0
     width_mismatch:
-    - message: Widths of ports straight_L0p01_N2_CSxs_34e31a19_m5_0,o1 and dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<0.0>,o1
+    - message: Widths of ports straight_L0p01_N2_CSstrip_m5_0,o1 and dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<0.0>,o1
         not equal. Difference of 50 um
       ports:
-      - straight_L0p01_N2_CSxs_34e31a19_m5_0,o1
+      - straight_L0p01_N2_CSstrip_m5_0,o1
       - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<0.0>,o1
       values:
       - 500
       - 450
-    - message: Widths of ports straight_L0p01_N2_CSxs_34e31a19_3185_0,o1 and dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<9.0>,o2
+    - message: Widths of ports straight_L0p01_N2_CSstrip_3185_0,o1 and dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<9.0>,o2
         not equal. Difference of 50 um
       ports:
-      - straight_L0p01_N2_CSxs_34e31a19_3185_0,o1
+      - straight_L0p01_N2_CSstrip_3185_0,o1
       - dbr_cell_W0p45_W0p55_L0_81fd17cb_1590_0<9.0>,o2
       values:
       - 500

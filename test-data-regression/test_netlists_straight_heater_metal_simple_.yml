@@ -4,9 +4,9 @@ instances:
     info:
       length: 320
       route_info_length: 320
-      route_info_type: xs_18860153
+      route_info_strip_heater_metal_length: 320
+      route_info_type: strip_heater_metal
       route_info_weight: 320
-      route_info_xs_18860153_length: 320
       width: 0.5
     settings:
       cross_section: strip_heater_metal

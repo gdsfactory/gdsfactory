@@ -4,9 +4,9 @@ instances:
     info:
       length: 480
       route_info_length: 480
-      route_info_type: xs_ee002e1f
+      route_info_pin_length: 480
+      route_info_type: pin
       route_info_weight: 480
-      route_info_xs_ee002e1f_length: 480
       width: 0.5
     settings:
       cross_section: pin

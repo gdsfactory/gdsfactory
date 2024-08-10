@@ -26,6 +26,7 @@ from gdsfactory.components.cutback_loss import (
     cutback_loss_spirals,
 )
 from gdsfactory.components.cutback_splitter import cutback_splitter
+from gdsfactory.components.extension import extend_ports
 from gdsfactory.components.pack_doe import pack_doe, pack_doe_grid
 from gdsfactory.routing.add_electrical_pads_shortest import add_electrical_pads_shortest
 from gdsfactory.routing.add_electrical_pads_top import add_electrical_pads_top
@@ -72,4 +73,5 @@ __all__ = [
     "cutback_loss_mmi1x2",
     "cutback_loss_spirals",
     "cutback_splitter",
+    "extend_ports",
 ]

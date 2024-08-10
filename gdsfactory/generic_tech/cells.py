@@ -19,7 +19,9 @@ straight_heater_metal = partial(
     cross_section=xs.strip,
 )
 terminator = partial(gf.c.taper, width2=1)
-grating_coupler_te = partial(gf.c.grating_coupler_te, cross_section=xs.strip)
+
+grating_coupler_te = partial(gf.c.grating_coupler_te, cross_section="strip")
+# grating_coupler_te = partial(gf.c.grating_coupler_te, cross_section=xs.strip)
 pad = partial(gf.c.pad, size=pad_size, layer=LAYER.MTOP)
 
 mmi1x2 = partial(
@@ -40,7 +42,7 @@ add_fiber_array_optical_south_electrical_north = partial(
     component=straight_heater_metal,
     pad=pad,
     grating_coupler=grating_coupler_te,
-    cross_section_metal=xs.metal_routing,
+    cross_section_metal="metal_routing",
     pad_spacing=pad_spacing,
 )
 add_termination = partial(gf.c.add_termination, terminator=terminator)

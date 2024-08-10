@@ -153,7 +153,10 @@ def route_fiber_array(
     # - grating_couplers is a list of grating couplers
     # Define the route filter to apply to connection methods
 
-    bend90 = gf.get_component(bend, cross_section=cross_section, radius=radius)
+    if radius:
+        bend90 = gf.get_component(bend, cross_section=cross_section, radius=radius)
+    else:
+        bend90 = gf.get_component(bend, cross_section=cross_section)
 
     # `delta_gr_min` Used to avoid crossing between straights in special cases
     # This could happen when abs(x_port - x_grating) <= 2 * radius

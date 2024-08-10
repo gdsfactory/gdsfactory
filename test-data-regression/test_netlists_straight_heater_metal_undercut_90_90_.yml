@@ -4,9 +4,9 @@ instances:
     info:
       length: 6
       route_info_length: 6
-      route_info_type: xs_18860153
+      route_info_strip_heater_metal_length: 6
+      route_info_type: strip_heater_metal
       route_info_weight: 6
-      route_info_xs_18860153_length: 6
       width: 0.5
     settings:
       cross_section: strip_heater_metal
@@ -17,9 +17,9 @@ instances:
     info:
       length: 6
       route_info_length: 6
-      route_info_type: xs_18860153
+      route_info_strip_heater_metal_length: 6
+      route_info_type: strip_heater_metal
       route_info_weight: 6
-      route_info_xs_18860153_length: 6
       width: 0.5
     settings:
       cross_section: strip_heater_metal
@@ -30,9 +30,9 @@ instances:
     info:
       length: 6
       route_info_length: 6
-      route_info_type: xs_18860153
+      route_info_strip_heater_metal_length: 6
+      route_info_type: strip_heater_metal
       route_info_weight: 6
-      route_info_xs_18860153_length: 6
       width: 0.5
     settings:
       cross_section: strip_heater_metal
@@ -43,9 +43,9 @@ instances:
     info:
       length: 6
       route_info_length: 6
-      route_info_type: xs_18860153
+      route_info_strip_heater_metal_length: 6
+      route_info_type: strip_heater_metal
       route_info_weight: 6
-      route_info_xs_18860153_length: 6
       width: 0.5
     settings:
       cross_section: strip_heater_metal
@@ -56,9 +56,9 @@ instances:
     info:
       length: 6
       route_info_length: 6
-      route_info_type: xs_18860153
+      route_info_strip_heater_metal_length: 6
+      route_info_type: strip_heater_metal
       route_info_weight: 6
-      route_info_xs_18860153_length: 6
       width: 0.5
     settings:
       cross_section: strip_heater_metal
@@ -69,9 +69,9 @@ instances:
     info:
       length: 6
       route_info_length: 6
-      route_info_type: xs_18860153
+      route_info_strip_heater_metal_length: 6
+      route_info_type: strip_heater_metal
       route_info_weight: 6
-      route_info_xs_18860153_length: 6
       width: 0.5
     settings:
       cross_section: strip_heater_metal
@@ -82,9 +82,9 @@ instances:
     info:
       length: 6
       route_info_length: 6
-      route_info_type: xs_18860153
+      route_info_strip_heater_metal_length: 6
+      route_info_type: strip_heater_metal
       route_info_weight: 6
-      route_info_xs_18860153_length: 6
       width: 0.5
     settings:
       cross_section: strip_heater_metal
@@ -95,9 +95,9 @@ instances:
     info:
       length: 6
       route_info_length: 6
-      route_info_type: xs_18860153
+      route_info_strip_heater_metal_length: 6
+      route_info_type: strip_heater_metal
       route_info_weight: 6
-      route_info_xs_18860153_length: 6
       width: 0.5
     settings:
       cross_section: strip_heater_metal
@@ -108,9 +108,9 @@ instances:
     info:
       length: 30
       route_info_length: 30
-      route_info_type: xs_e5b34941
+      route_info_strip_heater_metal_undercut_length: 30
+      route_info_type: strip_heater_metal_undercut
       route_info_weight: 30
-      route_info_xs_e5b34941_length: 30
       width: 0.5
     settings:
       cross_section: strip_heater_metal_undercut
@@ -121,9 +121,9 @@ instances:
     info:
       length: 30
       route_info_length: 30
-      route_info_type: xs_e5b34941
+      route_info_strip_heater_metal_undercut_length: 30
+      route_info_type: strip_heater_metal_undercut
       route_info_weight: 30
-      route_info_xs_e5b34941_length: 30
       width: 0.5
     settings:
       cross_section: strip_heater_metal_undercut
@@ -134,9 +134,9 @@ instances:
     info:
       length: 30
       route_info_length: 30
-      route_info_type: xs_e5b34941
+      route_info_strip_heater_metal_undercut_length: 30
+      route_info_type: strip_heater_metal_undercut
       route_info_weight: 30
-      route_info_xs_e5b34941_length: 30
       width: 0.5
     settings:
       cross_section: strip_heater_metal_undercut
@@ -147,9 +147,9 @@ instances:
     info:
       length: 30
       route_info_length: 30
-      route_info_type: xs_e5b34941
+      route_info_strip_heater_metal_undercut_length: 30
+      route_info_type: strip_heater_metal_undercut
       route_info_weight: 30
-      route_info_xs_e5b34941_length: 30
       width: 0.5
     settings:
       cross_section: strip_heater_metal_undercut
@@ -160,9 +160,9 @@ instances:
     info:
       length: 30
       route_info_length: 30
-      route_info_type: xs_e5b34941
+      route_info_strip_heater_metal_undercut_length: 30
+      route_info_type: strip_heater_metal_undercut
       route_info_weight: 30
-      route_info_xs_e5b34941_length: 30
       width: 0.5
     settings:
       cross_section: strip_heater_metal_undercut
@@ -173,9 +173,9 @@ instances:
     info:
       length: 30
       route_info_length: 30
-      route_info_type: xs_e5b34941
+      route_info_strip_heater_metal_undercut_length: 30
+      route_info_type: strip_heater_metal_undercut
       route_info_weight: 30
-      route_info_xs_e5b34941_length: 30
       width: 0.5
     settings:
       cross_section: strip_heater_metal_undercut
@@ -186,9 +186,9 @@ instances:
     info:
       length: 30
       route_info_length: 30
-      route_info_type: xs_e5b34941
+      route_info_strip_heater_metal_undercut_length: 30
+      route_info_type: strip_heater_metal_undercut
       route_info_weight: 30
-      route_info_xs_e5b34941_length: 30
       width: 0.5
     settings:
       cross_section: strip_heater_metal_undercut
@@ -199,9 +199,9 @@ instances:
     info:
       length: 30
       route_info_length: 30
-      route_info_type: xs_e5b34941
+      route_info_strip_heater_metal_undercut_length: 30
+      route_info_type: strip_heater_metal_undercut
       route_info_weight: 30
-      route_info_xs_e5b34941_length: 30
       width: 0.5
     settings:
       cross_section: strip_heater_metal_undercut
@@ -212,9 +212,9 @@ instances:
     info:
       length: 0.1
       route_info_length: 0.1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 0.1
+      route_info_type: strip
       route_info_weight: 0.1
-      route_info_xs_34e31a19_length: 0.1
       width: 0.5
     settings:
       cross_section: strip
@@ -225,9 +225,9 @@ instances:
     info:
       length: 0.1
       route_info_length: 0.1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 0.1
+      route_info_type: strip
       route_info_weight: 0.1
-      route_info_xs_34e31a19_length: 0.1
       width: 0.5
     settings:
       cross_section: strip
@@ -238,9 +238,9 @@ instances:
     info:
       length: 15.9
       route_info_length: 15.9
-      route_info_type: xs_18860153
+      route_info_strip_heater_metal_length: 15.9
+      route_info_type: strip_heater_metal
       route_info_weight: 15.9
-      route_info_xs_18860153_length: 15.9
       width: 0.5
     settings:
       cross_section: strip_heater_metal
@@ -251,9 +251,9 @@ instances:
     info:
       length: 15.9
       route_info_length: 15.9
-      route_info_type: xs_18860153
+      route_info_strip_heater_metal_length: 15.9
+      route_info_type: strip_heater_metal
       route_info_weight: 15.9
-      route_info_xs_18860153_length: 15.9
       width: 0.5
     settings:
       cross_section: strip_heater_metal

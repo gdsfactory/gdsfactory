@@ -1,7 +1,7 @@
 info: {}
-name: greek_cross_with_pads_P_fa616bf3
+name: greek_cross_with_pads_P_d48c0f08
 settings:
-  cross_section: Fcross_section_Mgdsfactorypcross_section_SLM1_W10_PNe1_e2_PTelectrical_electrical_RNone
+  cross_section: metal1
   greek_cross_component: greek_cross
   pad: pad
   pad_spacing: 150

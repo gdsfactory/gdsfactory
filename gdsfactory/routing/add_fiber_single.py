@@ -19,7 +19,6 @@ def add_fiber_single(
     component: ComponentSpec = straight_function,
     grating_coupler: ComponentSpecOrList = grating_coupler_te,
     gc_port_name: str = "o1",
-    component_name: str | None = None,
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionSpec = "strip",
     taper: ComponentSpec | None = None,
@@ -38,7 +37,6 @@ def add_fiber_single(
         component: component spec to connect to grating couplers.
         grating_coupler: spec for route terminations.
         gc_port_name: grating coupler input port name.
-        component_name: optional for the label.
         select_ports: function to select ports.
         cross_section: cross_section function.
         taper: taper spec.
@@ -113,8 +111,7 @@ def add_fiber_single(
         else gf.get_component(grating_coupler)
     )
 
-    component_name = component_name or component.name
-    c1 = Component(f"{component_name}_fiber_single")
+    c1 = Component()
     ref = c1.add_ref(component)
 
     input_port_names = input_port_names or [
@@ -130,7 +127,6 @@ def add_fiber_single(
         ref,
         grating_coupler=grating_coupler,
         gc_port_name=gc_port_name,
-        component_name=component_name,
         cross_section=cross_section,
         select_ports=select_ports,
         taper=taper,
@@ -148,7 +144,6 @@ def add_fiber_single(
         ref,
         grating_coupler=grating_coupler,
         gc_port_name=gc_port_name,
-        component_name=component_name,
         cross_section=cross_section,
         select_ports=select_ports,
         taper=taper,
