@@ -267,6 +267,11 @@ class CrossSection(BaseModel):
         else:
             raise KeyError(f"{key} not in {list(key_to_section.keys())}")
 
+    @property
+    def hash(self) -> str:
+        """Returns a hash of the cross_section."""
+        return hashlib.md5(str(self).encode()).hexdigest()
+
     def copy(
         self,
         width: float | None = None,
@@ -292,11 +297,14 @@ class CrossSection(BaseModel):
             radius: route bend radius (um).
             bbox_layers: layer to add as bounding box.
             bbox_offsets: offset to add to the bounding box.
+            _name: name of the cross_section.
 
         """
         for kwarg in kwargs:
             if kwarg not in dict(self):
                 raise ValueError(f"{kwarg!r} not in CrossSection")
+
+        xs_original = self
 
         if width_function or offset_function or width or layer or sections:
             if sections is None:
@@ -310,8 +318,15 @@ class CrossSection(BaseModel):
                     "layer": layer or self.layer,
                 }
             )
-            return self.model_copy(update={"sections": tuple(sections), **kwargs})
-        return self.model_copy(update=kwargs)
+            xs = self.model_copy(update={"sections": tuple(sections), **kwargs})
+            if xs != xs_original:
+                xs._name = f"xs_{xs.hash}"
+            return xs
+
+        xs = self.model_copy(update=kwargs)
+        if xs != xs_original:
+            xs._name = f"xs_{xs.hash}"
+        return xs
 
     def mirror(self) -> CrossSection:
         """Returns a mirrored copy of the cross_section."""
@@ -2630,5 +2645,8 @@ if __name__ == "__main__":
     # print(xs.name)
     import gdsfactory as gf
 
-    xs = gf.get_cross_section("metal_routing")
-    print(xs.name)
+    xs1 = gf.get_cross_section("metal_routing")
+
+    xs2 = xs1.copy(width=10)
+    assert xs2.name == xs1.name, f"{xs2.name} != {xs1.name}"
+    print(xs2.name)
