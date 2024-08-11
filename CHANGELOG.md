@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.7.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.7.1) - 2024-08-11
+
+No significant changes.
+
+
 ## [8.7.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.7.0) - 2024-08-10
 
 - Add xsection decorator to pdk [#3112](https://github.com/gdsfactory/gdsfactory/pull/3112)
