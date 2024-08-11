@@ -18,7 +18,7 @@ dependencies = [
   "matplotlib<4",
   "numpy~=2.0",
   "orjson<4",
-  "pandas<3",
+  "pandas~=2.2",
   "pydantic>=2.6,<2.9",
   "pydantic-settings<3",
   "pydantic-extra-types<3",
