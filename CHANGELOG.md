@@ -1,12 +1,14 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.6.10...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.7.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.7.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.7.0) - 2024-08-10
 
-No significant changes.
-
+- Add xsection decorator to pdk [#3112](https://github.com/gdsfactory/gdsfactory/pull/3112)
+- Add containers [#3105](https://github.com/gdsfactory/gdsfactory/pull/3105)
+- fix wire corner ports [#3113](https://github.com/gdsfactory/gdsfactory/pull/3113)
+- avoid warnings for unnamed references [#3107](https://github.com/gdsfactory/gdsfactory/pull/3107)
 
 ## [8.6.10](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.6.10) - 2024-08-07
 
