@@ -5,8 +5,7 @@
 
 ## [8.7.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.7.1) - 2024-08-11
 
-No significant changes.
-
+- watcher: possibly prerun all cells [#3114](https://github.com/gdsfactory/gdsfactory/pull/3114)
 
 ## [8.7.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.7.0) - 2024-08-10
 
