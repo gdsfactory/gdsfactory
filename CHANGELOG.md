@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.7.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.7.0) - 2024-08-10
+
+No significant changes.
+
+
 ## [8.6.10](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.6.10) - 2024-08-07
 
 - improve yaml [#3104](https://github.com/gdsfactory/gdsfactory/pull/3104)
