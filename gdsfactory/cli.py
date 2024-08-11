@@ -76,6 +76,9 @@ def watch(
     pdk: str = typer.Option(None, "--pdk", "-pdk", help="PDK name"),
     run_main: bool = typer.Option(False, "--run-main", "-rm", help="Run main"),
     run_cells: bool = typer.Option(True, "--run-cells", "-rc", help="Run cells"),
+    pre_run: bool = typer.Option(
+        False, "--pre-run", "-p", help="Build all cells on startup"
+    ),
 ) -> None:
     """Filewatch a folder for changes in *.py or *.pic.yml files.
 
@@ -86,10 +89,11 @@ def watch(
         pdk: process design kit.
         run_main: run the main function.
         run_cells: run the cells.
+        pre_run: build all cells on startup
     """
     path = pathlib.Path(path)
     path = path if path.is_dir() else path.parent
-    _watch(str(path), pdk=pdk, run_main=run_main, run_cells=run_cells)
+    _watch(str(path), pdk=pdk, run_main=run_main, run_cells=run_cells, pre_run=pre_run)
 
 
 @app.command()
