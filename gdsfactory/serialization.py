@@ -57,7 +57,13 @@ def complex_encoder(obj, digits=DEFAULT_SERIALIZATION_MAX_DIGITS):
 def clean_value_json(
     value: Any, include_module: bool = True, serialize_function_as_dict: bool = True
 ) -> str | int | float | dict | list | bool | None:
-    """Return JSON serializable object."""
+    """Return JSON serializable object.
+
+    Args:
+        value: object to serialize.
+        include_module: include module in serialization.
+        serialize_function_as_dict: serialize function as dict. False serializes as string.
+    """
     from gdsfactory.path import Path
 
     if isinstance(value, pydantic.BaseModel):
