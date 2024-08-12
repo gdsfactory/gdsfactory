@@ -9,7 +9,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
 from gdsfactory.components.wire import wire_corner45
-from gdsfactory.typings import ComponentSpec, Floats, LayerSpec, LayerSpecs
+from gdsfactory.typings import ComponentSpec, Floats, Ints, LayerSpec, LayerSpecs
 
 
 @gf.cell
@@ -22,6 +22,7 @@ def via_stack(
     correct_size: bool = True,
     slot_horizontal: bool = False,
     slot_vertical: bool = False,
+    port_orientations: Ints | None = (180, 90, 0, -90),
 ) -> Component:
     """Rectangular via array stack.
 
@@ -46,6 +47,7 @@ def via_stack(
             them to the minimum possible to fit a via.
         slot_horizontal: if True, then vias are horizontal.
         slot_vertical: if True, then vias are vertical.
+        port_orientations: list of port_orientations to add. None does not add ports.
     """
     width_m, height_m = size
     a = width_m / 2
@@ -71,10 +73,20 @@ def via_stack(
     for layer, offset in zip(layers, layer_offsets):
         size_m = (width_m + 2 * offset, height_m + 2 * offset)
         if layer == layer_port:
-            ref = c << compass(size=size_m, layer=layer, port_type="electrical")
+            ref = c << compass(
+                size=size_m,
+                layer=layer,
+                port_type="electrical",
+                port_orientations=port_orientations,
+            )
             c.add_ports(ref.ports)
         else:
-            ref = c << compass(size=size_m, layer=layer, port_type=None)
+            ref = c << compass(
+                size=size_m,
+                layer=layer,
+                port_type=None,
+                port_orientations=port_orientations,
+            )
         c.absorb(ref)
 
     vias = vias or []
@@ -346,7 +358,7 @@ if __name__ == "__main__":
     # c = via_stack_corner45()
     # c = via_stack_slab_m3(size=(100, 10), slot_vertical=True)
     # c = via_stack_npp_m1()
-    c = via_stack_m1_mtop()
+    c = via_stack_m1_mtop(port_orientations=(0, 90))
     c.pprint_ports()
     # n = c.get_netlist()
     c.show()
