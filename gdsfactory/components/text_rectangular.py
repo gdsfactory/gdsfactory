@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections.abc import Callable
 from functools import partial
 
 import gdsfactory as gf
@@ -26,6 +27,8 @@ def text_rectangular(
         position: coordinate.
         justify: left, right or center.
         layer: for text.
+        font: function which defines the font to use.
+            Default: 5x5 pixel font.
     """
     pixel_size = size
     xoffset = position[0]
