@@ -16,6 +16,7 @@ def text_rectangular(
     position: tuple[float, float] = (0.0, 0.0),
     justify: str = "left",
     layer: LayerSpec = "WG",
+    font: Callable[..., dict[str, str]] = rectangular_font,
 ) -> Component:
     """Pixel based font, guaranteed to be manhattan, without acute angles.
 
@@ -30,7 +31,7 @@ def text_rectangular(
     xoffset = position[0]
     yoffset = position[1]
     component = gf.Component()
-    characters = rectangular_font()
+    characters = font()
 
     for line in text.split("\n"):
         for character in line:
