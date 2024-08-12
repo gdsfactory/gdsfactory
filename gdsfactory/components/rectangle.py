@@ -25,7 +25,7 @@ def rectangle(
         layer: Specific layer to put polygon geometry on.
         centered: True sets center to (0, 0), False sets south-west to (0, 0).
         port_type: optical, electrical.
-        port_orientations: list of port_orientations to add.
+        port_orientations: list of port_orientations to add. None adds no ports.
     """
     c = Component()
     ref = c << compass(
@@ -101,7 +101,7 @@ if __name__ == "__main__":
     # c = rectangles(offsets=(0, 1), centered=False)
     # c = rectangle(size=(3, 2), centered=False, layer=(2, 3))
     # c = rectangle(size=(3, 2), centered=True, layer=(2, 3))
-    c = rectangle()
+    c = rectangle(port_orientations=())
     # print(c.ports)
     # print(c.name)
     c.show()
