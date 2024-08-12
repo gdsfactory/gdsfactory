@@ -1,27 +1,21 @@
 """Converts CSV of test site labels into a CSV test manifest."""
 
-import pandas as pd
-
 import gdsfactory as gf
 from gdsfactory.samples.sample_reticle import sample_reticle
 
 
-def get_test_manifest(
-    component: gf.Component, one_setting_per_column: bool = True
-) -> pd.DataFrame:
+def get_test_manifest(component: gf.Component, one_setting_per_column: bool = True):
     """Returns a pandas DataFrame with test manifest.
 
     Args:
         component: Component to extract test manifest from.
         one_setting_per_column: If True, puts each cell setting in a separate column.
     """
+    import pandas as pd
+
     rows = []
     ports = component.get_ports_list()
-    name_to_settings = {}
-
-    for port in ports:
-        instance_name = port.name
-        name_to_settings[instance_name] = port.info
+    name_to_settings = {port.name: port.info for port in ports}
 
     if one_setting_per_column:
         # Gather all unique settings keys
