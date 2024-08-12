@@ -53,7 +53,7 @@ instances:
       spacing:
       - 2
       - 2
-name: via_corner_CSFcross_sec_da01ea22
+name: via_corner_CSmetal2_0_1_37803ae7
 nets:
 - p1: compass_S10_10_LM2_PTel_76f0ee1a_0_0,e1
   p2: compass_S10_10_LM3_PTel_907be21f_0_0,e1

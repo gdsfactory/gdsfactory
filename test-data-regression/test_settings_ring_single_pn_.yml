@@ -1,7 +1,7 @@
 info: {}
-name: ring_single_pn_G0p3_R5__b0270650
+name: ring_single_pn_G0p3_R5__9a9277c3
 settings:
-  cross_section: Fcross_section_Mgdsfactorypcross_section_SR10_RM5_Sslab
+  cross_section: Fstrip_Mgdsfactorypcross_section_SSslab
   doped_heater: true
   doped_heater_angle_buffer: 10
   doped_heater_layer: NPP

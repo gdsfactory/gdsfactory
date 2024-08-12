@@ -1,7 +1,32 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.6.7...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.7.0...main)
 
 <!-- towncrier release notes start -->
+
+## [8.7.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.7.1) - 2024-08-11
+
+- watcher: possibly prerun all cells [#3114](https://github.com/gdsfactory/gdsfactory/pull/3114)
+
+## [8.7.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.7.0) - 2024-08-10
+
+- Add xsection decorator to pdk [#3112](https://github.com/gdsfactory/gdsfactory/pull/3112)
+- Add containers [#3105](https://github.com/gdsfactory/gdsfactory/pull/3105)
+- fix wire corner ports [#3113](https://github.com/gdsfactory/gdsfactory/pull/3113)
+- avoid warnings for unnamed references [#3107](https://github.com/gdsfactory/gdsfactory/pull/3107)
+
+## [8.6.10](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.6.10) - 2024-08-07
+
+- improve yaml [#3104](https://github.com/gdsfactory/gdsfactory/pull/3104)
+
+## [8.6.9](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.6.9) - 2024-08-07
+
+- add_fiber_array works with fiber port [#3103](https://github.com/gdsfactory/gdsfactory/pull/3103)
+- improve docs generation [#3101](https://github.com/gdsfactory/gdsfactory/pull/3101)
+- fix layer serialization [#3100](https://github.com/gdsfactory/gdsfactory/pull/3100)
+
+## [8.6.8](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.6.8) - 2024-08-07
+
+- better diffest names [#3099](https://github.com/gdsfactory/gdsfactory/pull/3099)
 
 ## [8.6.7](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.6.7) - 2024-08-06
 

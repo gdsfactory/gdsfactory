@@ -90,7 +90,5 @@ def via_corner(
 
 
 if __name__ == "__main__":
-    # v = via_corner(cross_section=[(metal2, (0, 180)), (metal3, (90, 270))])
-    v = via_corner()
-    # v.plot()
-    v.show()
+    c = via_corner()
+    c.show()

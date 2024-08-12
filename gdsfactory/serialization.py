@@ -10,11 +10,11 @@ from collections.abc import KeysView as dict_keys
 from typing import Any
 
 import attrs
-import kfactory as kf
 import numpy as np
 import orjson
 import pydantic
 import toolz
+from aenum import Enum
 
 DEFAULT_SERIALIZATION_MAX_DIGITS = 3
 """By default, the maximum number of digits retained when serializing float-like arrays"""
@@ -55,9 +55,15 @@ def complex_encoder(obj, digits=DEFAULT_SERIALIZATION_MAX_DIGITS):
 
 
 def clean_value_json(
-    value: Any, include_module: bool = True
+    value: Any, include_module: bool = True, serialize_function_as_dict: bool = True
 ) -> str | int | float | dict | list | bool | None:
-    """Return JSON serializable object."""
+    """Return JSON serializable object.
+
+    Args:
+        value: object to serialize.
+        include_module: include module in serialization.
+        serialize_function_as_dict: serialize function as dict. False serializes as string.
+    """
     from gdsfactory.path import Path
 
     if isinstance(value, pydantic.BaseModel):
@@ -69,7 +75,7 @@ def clean_value_json(
     elif isinstance(value, bool):
         return value
 
-    elif isinstance(value, kf.LayerEnum):
+    elif isinstance(value, Enum):
         return str(value)
 
     elif isinstance(value, np.integer | int):
@@ -88,7 +94,11 @@ def clean_value_json(
         return orjson.loads(orjson.dumps(value, option=orjson.OPT_SERIALIZE_NUMPY))
 
     elif callable(value) and isinstance(value, functools.partial):
-        return clean_value_partial(value, include_module)
+        return clean_value_partial(
+            value=value,
+            include_module=include_module,
+            serialize_function_as_dict=serialize_function_as_dict,
+        )
     elif hasattr(value, "to_dict"):
         return clean_dict(value.to_dict())
 
@@ -98,11 +108,14 @@ def clean_value_json(
         ]
 
     elif callable(value) and hasattr(value, "__name__"):
-        return (
-            {"function": value.__name__, "module": value.__module__}
-            if include_module
-            else {"function": value.__name__}
-        )
+        if serialize_function_as_dict:
+            return (
+                {"function": value.__name__, "module": value.__module__}
+                if include_module
+                else {"function": value.__name__}
+            )
+        else:
+            return value.__name__
 
     elif isinstance(value, Path):
         return value.hash_geometry()
@@ -130,7 +143,9 @@ def clean_value_json(
             raise e
 
 
-def clean_value_partial(value, include_module):
+def clean_value_partial(
+    value, include_module: bool = True, serialize_function_as_dict: bool = True
+):
     sig = inspect.signature(value.func)
     args_as_kwargs = dict(zip(sig.parameters.keys(), value.args))
     args_as_kwargs |= value.keywords
@@ -145,6 +160,8 @@ def clean_value_partial(value, include_module):
     }
     if include_module:
         v.update(module=func.__module__)
+    if not serialize_function_as_dict:
+        v = func.__name__
     return v
 
 
@@ -159,9 +176,9 @@ def get_hash(value: Any) -> str:
 
 
 if __name__ == "__main__":
-    from gdsfactory.generic_tech import LAYER
+    import gdsfactory as gf
 
-    s = clean_value_json(LAYER.WG)
+    s = clean_value_json(gf.c.straight)
     print(s)
 
     # f = partial(gf.c.straight, length=3)

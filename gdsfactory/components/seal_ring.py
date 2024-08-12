@@ -38,12 +38,12 @@ def seal_ring(
     """
     c = gf.Component()
 
-    component = gf.get_component(component)
+    if not isinstance(component, gf.Instance):
+        component = gf.get_component(component)
+
     bbox = component.dbbox()
     xmin, ymin, xmax, ymax = bbox.left, bbox.bottom, bbox.right, bbox.top
-
     x = (xmax + xmin) / 2
-
     sx = xmax - xmin
     sy = ymax - ymin
 
@@ -115,7 +115,9 @@ def seal_ring_segmented(
     c = gf.Component()
     corner = gf.get_component(corner, width=width_segment)
 
-    component = gf.get_component(component)
+    if not isinstance(component, gf.Instance):
+        component = gf.get_component(component)
+
     bbox = component.dbbox()
     xmin, ymin, xmax, ymax = bbox.left, bbox.bottom, bbox.right, bbox.top
 
@@ -211,10 +213,10 @@ def seal_ring_segmented(
 
 
 if __name__ == "__main__":
-    # big_square = partial(rectangle, size=(1300, 2600))
-    # c = gf.Component("demo")
-    # c << big_square()
-    # c << seal_ring(c, with_south=False)
-    c = seal_ring_segmented()
-
-    c.show()
+    c = gf.Component("demo")
+    big_square = rectangle(size=(1300, 2600))
+    sq = c << big_square
+    sq.dmovex(100)
+    _ = c << seal_ring(sq, with_south=False)
+    print(sq.name)
+    # c.show()

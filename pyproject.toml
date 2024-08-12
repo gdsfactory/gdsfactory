@@ -16,9 +16,9 @@ dependencies = [
   "jinja2<4",
   "loguru<1",
   "matplotlib<4",
-  "numpy<2",
+  "numpy",
   "orjson<4",
-  "pandas<3",
+  "pandas",
   "pydantic>=2.6,<2.9",
   "pydantic-settings<3",
   "pydantic-extra-types<3",
@@ -47,7 +47,7 @@ license = {file = "LICENSE"}
 name = "gdsfactory"
 readme = "README.md"
 requires-python = ">=3.10"
-version = "8.6.7"
+version = "8.7.1"
 
 [project.optional-dependencies]
 cad = [
@@ -216,7 +216,7 @@ message_template = "Bump to {new_version}"
 tag_template = "v{new_version}"
 
 [tool.tbump.version]
-current = "8.6.7"
+current = "8.7.1"
 regex = '''
   (?P<major>\d+)
   \.

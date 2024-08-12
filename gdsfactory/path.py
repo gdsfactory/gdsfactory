@@ -163,7 +163,7 @@ class Path(_GeometryHelper):
             and np.issubdtype(np.array(path).dtype, np.number)
             and (np.shape(path)[1] == 2)
         ):
-            points = np.asfarray(path)
+            points = np.asarray(path, dtype=float)
             nx1, ny1 = points[1] - points[0]
             start_angle = np.arctan2(ny1, nx1) / np.pi * 180
             nx2, ny2 = points[-1] - points[-2]
@@ -1426,7 +1426,7 @@ def euler(
         dx = xp - Rp * np.sin(p * alpha / 2)
         dy = yp - Rp * (1 - np.cos(p * alpha / 2))
     else:
-        xbend1 = ybend1 = np.asfarray([])
+        xbend1 = ybend1 = np.asarray([], dtype=float)
         dx = 0
         dy = 0
 
@@ -1523,7 +1523,7 @@ def spiral_archimedean(
 
 
 def _compute_segments(points):
-    points = np.asfarray(points)
+    points = np.asarray(points, dtype=float)
     normals = np.diff(points, axis=0)
     normals = (normals.T / np.linalg.norm(normals, axis=1)).T
     dx = np.diff(points[:, 0])

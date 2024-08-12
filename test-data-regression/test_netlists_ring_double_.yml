@@ -26,9 +26,9 @@ instances:
     info:
       length: 0.01
       route_info_length: 0.01
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 0.01
+      route_info_type: strip
       route_info_weight: 0.01
-      route_info_xs_34e31a19_length: 0.01
       width: 0.5
     settings:
       cross_section: strip
@@ -39,9 +39,9 @@ instances:
     info:
       length: 0.01
       route_info_length: 0.01
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 0.01
+      route_info_type: strip
       route_info_weight: 0.01
-      route_info_xs_34e31a19_length: 0.01
       width: 0.5
     settings:
       cross_section: strip

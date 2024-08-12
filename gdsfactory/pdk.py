@@ -6,7 +6,7 @@ import importlib
 import pathlib
 import warnings
 from collections.abc import Callable
-from functools import cached_property, partial
+from functools import cached_property, partial, wraps
 from typing import Any
 
 import kfactory as kf
@@ -146,6 +146,9 @@ class Pdk(BaseModel):
     cross_sections: dict[str, CrossSectionOrFactory] = Field(
         default_factory=dict, exclude=True
     )
+    cross_section_default_names: dict[str, str] = Field(
+        default_factory=dict, exclude=True
+    )
     cells: dict[str, ComponentFactory] = Field(default_factory=dict, exclude=True)
     models: dict[str, Callable] = Field(default_factory=dict, exclude=True)
     symbols: dict[str, ComponentFactory] = Field(default_factory=dict)
@@ -173,6 +176,31 @@ class Pdk(BaseModel):
         arbitrary_types_allowed=True,
         extra="forbid",
     )
+
+    def xsection(self, func):
+        """Decorator to register a cross section function.
+
+        Ensures that the cross-section name matches the name of the function
+        that generated it when created using default parameters.
+
+        .. code-block:: python
+
+            @pdk.xsection
+            def xs_sc(width=TECH.width_sc, radius=TECH.radius_sc):
+                return gf.cross_section.cross_section(width=width, radius=radius)
+        """
+        default_xs = func()
+        self._cross_section_default_names[default_xs.name] = func.__name__
+
+        @wraps(func)
+        def newfunc(**kwargs):
+            xs = func(**kwargs)
+            if xs.name in self._cross_section_default_names:
+                xs._name = self._cross_section_default_names[xs.name]
+            return xs
+
+        self.cross_sections[func.__name__] = newfunc
+        return newfunc
 
     def activate(self) -> None:
         """Set current pdk to the active pdk (if not already active)."""
@@ -268,7 +296,7 @@ class Pdk(BaseModel):
             return cell
         elif isinstance(cell, str):
             if cell not in cells:
-                cells = list(self.cells.keys())
+                cells = sorted(self.cells)
                 raise ValueError(
                     f"{cell!r} from PDK {self.name!r} not in cells: {cells} "
                 )
@@ -329,7 +357,7 @@ class Pdk(BaseModel):
             kwargs: settings to override.
 
         """
-        cells = set(cells.keys())
+        cells = sorted(cells)
 
         settings = settings or {}
         kwargs = kwargs or {}
@@ -569,8 +597,8 @@ def get_material_index(material: MaterialSpec, *args, **kwargs) -> Component:
     return get_active_pdk().get_material_index(material, *args, **kwargs)
 
 
-def get_component(component: ComponentSpec, **kwargs) -> Component:
-    return get_active_pdk().get_component(component, **kwargs)
+def get_component(component: ComponentSpec, settings=None, **kwargs) -> Component:
+    return get_active_pdk().get_component(component, settings=settings, **kwargs)
 
 
 def get_cell(cell: CellSpec, **kwargs) -> ComponentFactory:

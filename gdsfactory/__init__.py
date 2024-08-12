@@ -27,13 +27,14 @@ from gdsfactory.component import (
 from gdsfactory.config import CONF, PATH
 from gdsfactory.port import Port
 from gdsfactory.read.import_gds import import_gds
-from gdsfactory.cross_section import CrossSection, Section
+from gdsfactory.cross_section import CrossSection, Section, xsection
 from gdsfactory.difftest import difftest, diff
 from gdsfactory.boolean import boolean
 
 from gdsfactory import cross_section
 from gdsfactory import port
 from gdsfactory import components
+from gdsfactory import containers
 from gdsfactory import labels
 from gdsfactory import typings
 from gdsfactory import path
@@ -101,6 +102,7 @@ __all__ = (
     "compose",
     "constant",
     "container",
+    "containers",
     "component_with_function",
     "cross_section",
     "diff",
@@ -137,4 +139,5 @@ __all__ = (
     "typings",
     "vcell",
     "write_cells",
+    "xsection",
 )

@@ -43,7 +43,6 @@ def grating_coupler_tree(
         with_loopback=with_loopback,
         grating_coupler=grating_coupler,
         fanout_length=fanout_length,
-        component_name=c.name,
         bend=bend,
         taper=None,
         **kwargs,

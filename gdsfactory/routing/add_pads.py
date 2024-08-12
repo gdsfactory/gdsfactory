@@ -19,7 +19,6 @@ def add_pads_bot(
     component: ComponentSpec = straight_heater_metal,
     select_ports: Callable = select_ports_electrical,
     port_names: Strs | None = None,
-    component_name: str | None = None,
     cross_section: CrossSectionSpec = "metal_routing",
     pad_port_name: str = "e1",
     pad: ComponentSpec = pad_rectangular,
@@ -40,7 +39,6 @@ def add_pads_bot(
         component: component spec to connect to.
         select_ports: function to select_ports.
         port_names: optional port names. Overrides select_ports.
-        component_name: optional for the label.
         cross_section: cross_section spec.
         get_input_labels_function: function to get input labels. None skips labels.
         layer_label: optional layer for grating coupler label.
@@ -95,7 +93,6 @@ def add_pads_bot(
     """
     component_new = Component()
     component = gf.get_component(component)
-    component_name = component_name or component.name
 
     pad_spacing = gf.get_constant(pad_spacing)
     cref = component_new << component
@@ -125,7 +122,6 @@ def add_pads_bot(
         component,
         grating_coupler=pad,
         gc_port_name=pad_port_name,
-        component_name=component_name,
         cross_section=cross_section,
         select_ports=select_ports,
         with_loopback=False,
@@ -159,7 +155,6 @@ def add_pads_top(
     Keyword Args:
         select_ports: function to select_ports.
         port_names: optional port names. Overrides select_ports.
-        component_name: optional for the label.
         cross_section: cross_section function.
         get_input_labels_function: function to get input labels. None skips labels.
         layer_label: optional layer for grating coupler label.

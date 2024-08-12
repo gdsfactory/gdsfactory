@@ -3,12 +3,14 @@
 from __future__ import annotations
 
 import logging
+import os
 import pathlib
 import sys
 import threading
 import time
 import traceback
 from collections.abc import Callable
+from types import SimpleNamespace
 
 import kfactory as kf
 from IPython.terminal.embed import embed
@@ -192,6 +194,7 @@ def watch(
     pdk: str | None = None,
     run_main: bool = False,
     run_cells=True,
+    pre_run=False,
 ) -> None:
     """Starts the file watcher.
 
@@ -200,6 +203,8 @@ def watch(
         pdk: the name of the PDK to use.
         run_main: if True, will execute the main function of the file.
         run_cells: if True, will execute the cells of the file.
+        run_cells: if True, will execute the cells of the file.
+        pre_run: build all cells on startup
     """
     path = str(path)
     logging.basicConfig(
@@ -211,6 +216,14 @@ def watch(
         get_active_pdk(name=pdk)
     watcher = FileWatcher(path=path, run_main=run_main, run_cells=run_cells)
     watcher.start()
+    if pre_run:
+        for root, _, fns in os.walk(path):
+            for fn in fns:
+                path = os.path.join(root, fn)
+                if path.endswith(".py") or path.endswith(".pic.yml"):
+                    event = SimpleNamespace(is_directory=False, src_path=path)
+                    watcher.on_created(event)  # type: ignore
+
     logging.info(
         f"File watcher looking for changes in *.py and *.pic.yml files in {path!r}. Stop with Ctrl+C"
     )

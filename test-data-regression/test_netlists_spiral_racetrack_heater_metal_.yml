@@ -5,12 +5,12 @@ instances:
       dy: 0
       length: 62.831
       radius: 20
+      route_info_heater_metal_length: 62.831
       route_info_length: 62.831
       route_info_min_bend_radius: 20
       route_info_n_bend_90: 2
-      route_info_type: xs_c500a645
+      route_info_type: heater_metal
       route_info_weight: 62.831
-      route_info_xs_c500a645_length: 62.831
     settings:
       allow_min_radius_violation: false
       angle: 180
@@ -43,10 +43,10 @@ instances:
     component: straight
     info:
       length: 30
+      route_info_heater_metal_length: 30
       route_info_length: 30
-      route_info_type: xs_c500a645
+      route_info_type: heater_metal
       route_info_weight: 30
-      route_info_xs_c500a645_length: 30
       width: 2.5
     settings:
       cross_section: heater_metal
@@ -56,10 +56,10 @@ instances:
     component: straight
     info:
       length: 30
+      route_info_heater_metal_length: 30
       route_info_length: 30
-      route_info_type: xs_c500a645
+      route_info_type: heater_metal
       route_info_weight: 30
-      route_info_xs_c500a645_length: 30
       width: 2.5
     settings:
       cross_section: heater_metal

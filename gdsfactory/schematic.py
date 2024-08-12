@@ -31,7 +31,7 @@ class Instance(BaseModel):
 
         import gdsfactory as gf
 
-        c = gf.get_component(component)
+        c = gf.get_component(component, settings=settings)
         component_info = c.info.model_dump(exclude_none=True)
         component_settings = c.settings.model_dump(exclude_none=True)
         values["info"] = {**component_info, **info}

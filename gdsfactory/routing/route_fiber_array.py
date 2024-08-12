@@ -153,7 +153,10 @@ def route_fiber_array(
     # - grating_couplers is a list of grating couplers
     # Define the route filter to apply to connection methods
 
-    bend90 = gf.get_component(bend, cross_section=cross_section, radius=radius)
+    if radius:
+        bend90 = gf.get_component(bend, cross_section=cross_section, radius=radius)
+    else:
+        bend90 = gf.get_component(bend, cross_section=cross_section)
 
     # `delta_gr_min` Used to avoid crossing between straights in special cases
     # This could happen when abs(x_port - x_grating) <= 2 * radius
@@ -246,11 +249,8 @@ def route_fiber_array(
     offset = (nb_ports_per_line - 1) * fiber_spacing / 2 - x_grating_offset
     io_gratings_lines = []  # [[gr11, gr12, gr13...], [gr21, gr22, gr23...] ...]
 
-    fiber_port_name = (
-        gc_port_name_fiber
-        if gc_port_name_fiber in grating_coupler.ports
-        else gc_port_name
-    )
+    grating_coupler_port_names = [p.name for p in grating_coupler.ports]
+    with_fiber_port = gc_port_name_fiber in grating_coupler_port_names
 
     if grating_indices is None:
         grating_indices = list(range(nb_ports_per_line))
@@ -288,7 +288,8 @@ def route_fiber_array(
             io_gratings += [gc_ref]
 
         io_gratings_lines += [io_gratings[:]]
-        ports += [grating.ports[fiber_port_name] for grating in io_gratings]
+        if with_fiber_port:
+            ports += [grating.ports[gc_port_name_fiber] for grating in io_gratings]
 
     if force_manhattan:
         # 1) find the min x_distance between each grating and component port.
@@ -339,7 +340,8 @@ def route_fiber_array(
             taper=taper,
             route_width=route_width,
         )
-        fiber_ports = [gc.ports[gc_port_name_fiber] for gc in io_gratings]
+        if with_fiber_port:
+            fiber_ports = [gc.ports[gc_port_name_fiber] for gc in io_gratings]
 
     else:
         for io_gratings in io_gratings_lines:
@@ -366,20 +368,23 @@ def route_fiber_array(
                 route_width=route_width,
             )
             del to_route[n0 - dn : n0 + dn]
-            fiber_ports = [gc.ports[gc_port_name_fiber] for gc in io_gratings]
+            if with_fiber_port:
+                fiber_ports = [gc.ports[gc_port_name_fiber] for gc in io_gratings]
 
     c.ports = kf.Ports(kcl=c.kcl)
-    for i, port in enumerate(fiber_ports):
-        if port.port_type == "optical":
-            prefix = "o"
-        elif port.port_type.startswith("vertical"):
-            prefix = "v"
-        elif port.port_type == "electrical":
-            prefix = "e"
-        else:
-            warnings.warn(f"port.port_type={port.port_type} not recognized")
-            prefix = "p"
-        c.add_port(name=f"{prefix}{i+1}", port=port)
+
+    if with_fiber_port:
+        for i, port in enumerate(fiber_ports):
+            if port.port_type == "optical":
+                prefix = "o"
+            elif port.port_type.startswith("vertical"):
+                prefix = "v"
+            elif port.port_type == "electrical":
+                prefix = "e"
+            else:
+                warnings.warn(f"port.port_type={port.port_type} not recognized")
+                prefix = "p"
+            c.add_port(name=f"{prefix}{i+1}", port=port)
 
     c.add_ports(ports_not_terminated)
 
@@ -421,10 +426,11 @@ def route_fiber_array(
             cross_section=cross_section,
             taper=taper,
         )
-        port0 = gca1[gc_port_name_fiber]
-        port1 = gca2[gc_port_name_fiber]
-        c.add_port(name="loopback1", port=port0)
-        c.add_port(name="loopback2", port=port1)
+        if with_fiber_port:
+            port0 = gca1[gc_port_name_fiber]
+            port1 = gca2[gc_port_name_fiber]
+            c.add_port(name="loopback1", port=port0)
+            c.add_port(name="loopback2", port=port1)
     return c
 
 
