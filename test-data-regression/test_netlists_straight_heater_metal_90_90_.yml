@@ -908,7 +908,7 @@ instances:
       width2: 2.5
       with_bbox: true
       with_two_ports: true
-  via_stack_S11_11_LHEATE_f29565aa_330400_0:
+  via_stack_S11_11_LHEATE_6668a8d5_330400_0:
     component: via_stack
     info:
       xsize: 11
@@ -919,6 +919,11 @@ instances:
       - HEATER
       - M2
       - MTOP
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
       size:
       - 11
       - 11
@@ -928,7 +933,7 @@ instances:
       - null
       - via1
       - via2
-  via_stack_S11_11_LHEATE_f29565aa_m10400_0:
+  via_stack_S11_11_LHEATE_6668a8d5_m10400_0:
     component: via_stack
     info:
       xsize: 11
@@ -939,6 +944,11 @@ instances:
       - HEATER
       - M2
       - MTOP
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
       size:
       - 11
       - 11
@@ -1215,9 +1225,9 @@ nets:
 - p1: m2,e2
   p2: taper_L5_W11_W2p5_PNone_4a19c1ba_322400_0,e2
 - p1: taper_L5_W11_W2p5_PNone_4a19c1ba_322400_0,e1
-  p2: via_stack_S11_11_LHEATE_f29565aa_330400_0,e1
+  p2: via_stack_S11_11_LHEATE_6668a8d5_330400_0,e1
 - p1: taper_L5_W11_W2p5_PNone_4a19c1ba_m2400_0,e1
-  p2: via_stack_S11_11_LHEATE_f29565aa_m10400_0,e3
+  p2: via_stack_S11_11_LHEATE_6668a8d5_m10400_0,e3
 placements:
   U1:
     mirror: false
@@ -1564,30 +1574,30 @@ placements:
     rotation: 0
     x: -4.9
     y: 0
-  via_stack_S11_11_LHEATE_f29565aa_330400_0:
+  via_stack_S11_11_LHEATE_6668a8d5_330400_0:
     mirror: false
     rotation: 0
     x: 330.4
     y: 0
-  via_stack_S11_11_LHEATE_f29565aa_m10400_0:
+  via_stack_S11_11_LHEATE_6668a8d5_m10400_0:
     mirror: false
     rotation: 0
     x: -10.4
     y: 0
 ports:
-  l_e2: via_stack_S11_11_LHEATE_f29565aa_m10400_0,e2
+  l_e2: via_stack_S11_11_LHEATE_6668a8d5_m10400_0,e2
   o1: _1,o1
   o2: _2,o2
-  r_e2: via_stack_S11_11_LHEATE_f29565aa_330400_0,e2
+  r_e2: via_stack_S11_11_LHEATE_6668a8d5_330400_0,e2
 warnings:
   electrical:
     unconnected_ports:
     - message: 4 unconnected electrical ports!
       ports:
-      - via_stack_S11_11_LHEATE_f29565aa_m10400_0,e1
-      - via_stack_S11_11_LHEATE_f29565aa_m10400_0,e4
-      - via_stack_S11_11_LHEATE_f29565aa_330400_0,e3
-      - via_stack_S11_11_LHEATE_f29565aa_330400_0,e4
+      - via_stack_S11_11_LHEATE_6668a8d5_m10400_0,e1
+      - via_stack_S11_11_LHEATE_6668a8d5_m10400_0,e4
+      - via_stack_S11_11_LHEATE_6668a8d5_330400_0,e3
+      - via_stack_S11_11_LHEATE_6668a8d5_330400_0,e4
       values:
       - - -15900
         - 0

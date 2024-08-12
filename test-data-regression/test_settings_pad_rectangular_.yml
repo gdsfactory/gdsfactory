@@ -4,9 +4,14 @@ info:
   - 80
   xsize: 80
   ysize: 80
-name: pad_Spad_size_LMTOP_BLN_2f7231a2
+name: pad_Spad_size_LMTOP_BLN_ad9e69eb
 settings:
   layer: MTOP
   port_inclusion: 0
   port_orientation: 0
+  port_orientations:
+  - 180
+  - 90
+  - 0
+  - -90
   size: pad_size

@@ -15,7 +15,7 @@ instances:
       length: 30
       port_type: electrical
       width: 3
-  via_stack_S11_11_LWG_NP_1fc0b4f9_0_20500:
+  via_stack_S11_11_LWG_NP_848fefcc_0_20500:
     component: via_stack
     info:
       xsize: 11
@@ -26,6 +26,11 @@ instances:
       - WG
       - NPP
       - M1
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
       size:
       - 11
       - 11
@@ -35,7 +40,7 @@ instances:
       - null
       - null
       - viac
-  via_stack_S11_11_LWG_NP_1fc0b4f9_0_m20500:
+  via_stack_S11_11_LWG_NP_848fefcc_0_m20500:
     component: via_stack
     info:
       xsize: 11
@@ -46,6 +51,11 @@ instances:
       - WG
       - NPP
       - M1
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
       size:
       - 11
       - 11
@@ -55,7 +65,7 @@ instances:
       - null
       - null
       - viac
-  via_stack_S11_11_LWG_NP_1fc0b4f9_20500_0:
+  via_stack_S11_11_LWG_NP_848fefcc_20500_0:
     component: via_stack
     info:
       xsize: 11
@@ -66,6 +76,11 @@ instances:
       - WG
       - NPP
       - M1
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
       size:
       - 11
       - 11
@@ -75,7 +90,7 @@ instances:
       - null
       - null
       - viac
-  via_stack_S11_11_LWG_NP_1fc0b4f9_m20500_0:
+  via_stack_S11_11_LWG_NP_848fefcc_m20500_0:
     component: via_stack
     info:
       xsize: 11
@@ -86,6 +101,11 @@ instances:
       - WG
       - NPP
       - M1
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
       size:
       - 11
       - 11
@@ -100,27 +120,27 @@ nets:
 - p1: cross_L30_W2_LWG_PTelectrical_0_0,e1
   p2: cross_L30_W3_LN_PTelectrical_0_0,e1
 - p1: cross_L30_W2_LWG_PTelectrical_0_0,e1
-  p2: via_stack_S11_11_LWG_NP_1fc0b4f9_m20500_0,e1
+  p2: via_stack_S11_11_LWG_NP_848fefcc_m20500_0,e1
 - p1: cross_L30_W2_LWG_PTelectrical_0_0,e2
   p2: cross_L30_W3_LN_PTelectrical_0_0,e2
 - p1: cross_L30_W2_LWG_PTelectrical_0_0,e2
-  p2: via_stack_S11_11_LWG_NP_1fc0b4f9_0_20500,e1
+  p2: via_stack_S11_11_LWG_NP_848fefcc_0_20500,e1
 - p1: cross_L30_W2_LWG_PTelectrical_0_0,e3
   p2: cross_L30_W3_LN_PTelectrical_0_0,e3
 - p1: cross_L30_W2_LWG_PTelectrical_0_0,e3
-  p2: via_stack_S11_11_LWG_NP_1fc0b4f9_20500_0,e1
+  p2: via_stack_S11_11_LWG_NP_848fefcc_20500_0,e1
 - p1: cross_L30_W2_LWG_PTelectrical_0_0,e4
   p2: cross_L30_W3_LN_PTelectrical_0_0,e4
 - p1: cross_L30_W2_LWG_PTelectrical_0_0,e4
-  p2: via_stack_S11_11_LWG_NP_1fc0b4f9_0_m20500,e1
+  p2: via_stack_S11_11_LWG_NP_848fefcc_0_m20500,e1
 - p1: cross_L30_W3_LN_PTelectrical_0_0,e1
-  p2: via_stack_S11_11_LWG_NP_1fc0b4f9_m20500_0,e1
+  p2: via_stack_S11_11_LWG_NP_848fefcc_m20500_0,e1
 - p1: cross_L30_W3_LN_PTelectrical_0_0,e2
-  p2: via_stack_S11_11_LWG_NP_1fc0b4f9_0_20500,e1
+  p2: via_stack_S11_11_LWG_NP_848fefcc_0_20500,e1
 - p1: cross_L30_W3_LN_PTelectrical_0_0,e3
-  p2: via_stack_S11_11_LWG_NP_1fc0b4f9_20500_0,e1
+  p2: via_stack_S11_11_LWG_NP_848fefcc_20500_0,e1
 - p1: cross_L30_W3_LN_PTelectrical_0_0,e4
-  p2: via_stack_S11_11_LWG_NP_1fc0b4f9_0_m20500,e1
+  p2: via_stack_S11_11_LWG_NP_848fefcc_0_m20500,e1
 placements:
   cross_L30_W2_LWG_PTelectrical_0_0:
     mirror: false
@@ -132,44 +152,44 @@ placements:
     rotation: 0
     x: 0
     y: 0
-  via_stack_S11_11_LWG_NP_1fc0b4f9_0_20500:
+  via_stack_S11_11_LWG_NP_848fefcc_0_20500:
     mirror: false
     rotation: 90
     x: 0
     y: 20.5
-  via_stack_S11_11_LWG_NP_1fc0b4f9_0_m20500:
+  via_stack_S11_11_LWG_NP_848fefcc_0_m20500:
     mirror: false
     rotation: 270
     x: 0
     y: -20.5
-  via_stack_S11_11_LWG_NP_1fc0b4f9_20500_0:
+  via_stack_S11_11_LWG_NP_848fefcc_20500_0:
     mirror: false
     rotation: 0
     x: 20.5
     y: 0
-  via_stack_S11_11_LWG_NP_1fc0b4f9_m20500_0:
+  via_stack_S11_11_LWG_NP_848fefcc_m20500_0:
     mirror: false
     rotation: 180
     x: -20.5
     y: 0
 ports:
-  e1: via_stack_S11_11_LWG_NP_1fc0b4f9_m20500_0,e3
-  e2: via_stack_S11_11_LWG_NP_1fc0b4f9_0_20500,e3
-  e3: via_stack_S11_11_LWG_NP_1fc0b4f9_20500_0,e3
-  e4: via_stack_S11_11_LWG_NP_1fc0b4f9_0_m20500,e3
+  e1: via_stack_S11_11_LWG_NP_848fefcc_m20500_0,e3
+  e2: via_stack_S11_11_LWG_NP_848fefcc_0_20500,e3
+  e3: via_stack_S11_11_LWG_NP_848fefcc_20500_0,e3
+  e4: via_stack_S11_11_LWG_NP_848fefcc_0_m20500,e3
 warnings:
   electrical:
     unconnected_ports:
     - message: 8 unconnected electrical ports!
       ports:
-      - via_stack_S11_11_LWG_NP_1fc0b4f9_20500_0,e2
-      - via_stack_S11_11_LWG_NP_1fc0b4f9_20500_0,e4
-      - via_stack_S11_11_LWG_NP_1fc0b4f9_m20500_0,e2
-      - via_stack_S11_11_LWG_NP_1fc0b4f9_m20500_0,e4
-      - via_stack_S11_11_LWG_NP_1fc0b4f9_0_20500,e2
-      - via_stack_S11_11_LWG_NP_1fc0b4f9_0_20500,e4
-      - via_stack_S11_11_LWG_NP_1fc0b4f9_0_m20500,e2
-      - via_stack_S11_11_LWG_NP_1fc0b4f9_0_m20500,e4
+      - via_stack_S11_11_LWG_NP_848fefcc_20500_0,e2
+      - via_stack_S11_11_LWG_NP_848fefcc_20500_0,e4
+      - via_stack_S11_11_LWG_NP_848fefcc_m20500_0,e2
+      - via_stack_S11_11_LWG_NP_848fefcc_m20500_0,e4
+      - via_stack_S11_11_LWG_NP_848fefcc_0_20500,e2
+      - via_stack_S11_11_LWG_NP_848fefcc_0_20500,e4
+      - via_stack_S11_11_LWG_NP_848fefcc_0_m20500,e2
+      - via_stack_S11_11_LWG_NP_848fefcc_0_m20500,e4
       values:
       - - 20500
         - 5500
