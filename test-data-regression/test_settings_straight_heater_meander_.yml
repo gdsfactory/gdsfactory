@@ -1,5 +1,5 @@
 info: {}
-name: straight_heater_meander_5905ea56
+name: straight_heater_meander_2df29628
 settings:
   cross_section: strip
   extension_length: 15
@@ -7,7 +7,6 @@ settings:
   heater_width: 2.5
   layer_heater: HEATER
   length: 300
-  radius: 5
   spacing: 2
   straight_widths:
   - 0.8
