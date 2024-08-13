@@ -1,12 +1,15 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.7.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.7.2...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.7.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.7.2) - 2024-08-12
 
-No significant changes.
-
+- Expose port orientations [#3121](https://github.com/gdsfactory/gdsfactory/pull/3121)
+- fix default heater meander radius [#3118](https://github.com/gdsfactory/gdsfactory/pull/3118)
+- update numpy [#3117](https://github.com/gdsfactory/gdsfactory/pull/3117)
+- allow serialization as strings [#3115](https://github.com/gdsfactory/gdsfactory/pull/3115)
+- update numpy [#3117](https://github.com/gdsfactory/gdsfactory/pull/3117)
 
 ## [8.7.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.7.1) - 2024-08-11
 
