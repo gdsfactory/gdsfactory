@@ -46,6 +46,7 @@ def straight_heater_meander_doped(
     port_orientation2: float | None = None,
     straight_widths: Floats = (0.8, 0.9, 0.8),
     taper_length: float = 10,
+    straight: ComponentSpec = "straight",
 ) -> Component:
     """Returns a meander based heater.
 
@@ -67,6 +68,7 @@ def straight_heater_meander_doped(
         port_orientation2: in degrees. None adds all orientations.
         straight_widths: width of the straight sections.
         taper_length: from the cross_section.
+        straight: straight component to use.
     """
     rows = len(straight_widths)
     c = gf.Component()
@@ -103,8 +105,10 @@ def straight_heater_meander_doped(
     # Straights
     for row, straight_width in enumerate(straight_widths):
         cross_section1 = gf.get_cross_section(cross_section, width=straight_width)
-        straight = gf.c.straight(
-            length=straight_length - 2 * taper_length, cross_section=cross_section1
+        straight = gf.get_component(
+            straight,
+            length=straight_length - 2 * taper_length,
+            cross_section=cross_section1,
         )
 
         taper = partial(
@@ -129,12 +133,12 @@ def straight_heater_meander_doped(
     # Loopbacks
     for row in range(1, rows, 2):
         extra_length = 3 * (rows - row - 1) / 2 * radius
-        extra_straight1 = c << gf.c.straight(
-            length=extra_length, cross_section=cross_section
+        extra_straight1 = c << gf.get_component(
+            straight, length=extra_length, cross_section=cross_section
         )
         extra_straight1.connect("o1", ports[f"o1_{row+1}"])
-        extra_straight2 = c << gf.c.straight(
-            length=extra_length, cross_section=cross_section
+        extra_straight2 = c << gf.get_component(
+            straight, length=extra_length, cross_section=cross_section
         )
         extra_straight2.connect("o1", ports[f"o1_{row+2}"])
 
@@ -147,12 +151,12 @@ def straight_heater_meander_doped(
         )
 
         extra_length = 3 * (row - 1) / 2 * radius
-        extra_straight1 = c << gf.c.straight(
-            length=extra_length, cross_section=cross_section
+        extra_straight1 = c << gf.get_component(
+            straight, length=extra_length, cross_section=cross_section
         )
         extra_straight1.connect("o1", ports[f"o2_{row+1}"])
-        extra_straight2 = c << gf.c.straight(
-            length=extra_length, cross_section=cross_section
+        extra_straight2 = c << gf.get_component(
+            straight, length=extra_length, cross_section=cross_section
         )
         extra_straight2.connect("o1", ports[f"o2_{row}"])
 
@@ -164,8 +168,12 @@ def straight_heater_meander_doped(
             cross_section=cross_section,
         )
 
-    straight1 = c << gf.c.straight(length=extension_length, cross_section=cross_section)
-    straight2 = c << gf.c.straight(length=extension_length, cross_section=cross_section)
+    straight1 = c << gf.get_component(
+        straight, length=extension_length, cross_section=cross_section
+    )
+    straight2 = c << gf.get_component(
+        straight, length=extension_length, cross_section=cross_section
+    )
     straight1.connect("o2", ports["o1_1"])
     straight2.connect("o1", ports[f"o2_{rows}"])
 
@@ -185,7 +193,8 @@ def straight_heater_meander_doped(
             port_types=("electrical", "electrical"),
         )
 
-        heater = c << gf.c.straight(
+        heater = c << gf.get_component(
+            straight,
             length=straight_length,
             cross_section=heater_cross_section,
         )

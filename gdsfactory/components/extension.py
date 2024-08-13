@@ -63,6 +63,7 @@ def extend_ports(
     cross_section: CrossSectionSpec | None = None,
     extension_port_names: list[str] | None = None,
     allow_width_mismatch: bool = False,
+    straight: ComponentSpec = "straight",
     **kwargs,
 ) -> Component:
     """Returns a new component with some ports extended.
@@ -83,6 +84,7 @@ def extend_ports(
             if port has no cross_section it creates one using width and layer.
         extension_port_names: extension port names add to the new component.
         allow_width_mismatch: allow width mismatches.
+        straight: straight component to use for extension.
         kwargs: cross_section settings.
 
     Keyword Args:
@@ -133,7 +135,8 @@ def extend_ports(
                 if cross_section_extension is None:
                     raise ValueError("cross_section=None for extend_ports")
 
-                extension_component = gf.components.straight(
+                extension_component = gf.get_component(
+                    straight,
                     length=length,
                     cross_section=cross_section_extension,
                 )
