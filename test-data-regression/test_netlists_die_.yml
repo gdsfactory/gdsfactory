@@ -1,10 +1,10 @@
 instances:
-  text_Tchip99_S100_P0_0__3d77b8b1_m4670000_m4810000:
+  text_Tchip99_S100_P0_0_Jleft_LWG_m4670000_m4810000:
     component: text
     info: {}
     settings:
       justify: left
-      layer: FLOORPLAN
+      layer: WG
       position:
       - 0
       - 0
@@ -13,7 +13,7 @@ instances:
 name: die_S10000_10000_SW100__48b1c773
 nets: []
 placements:
-  text_Tchip99_S100_P0_0__3d77b8b1_m4670000_m4810000:
+  text_Tchip99_S100_P0_0_Jleft_LWG_m4670000_m4810000:
     mirror: false
     rotation: 0
     x: -4890
