@@ -32,7 +32,6 @@ from typing import (
     Optional,
     ParamSpec,
     Tuple,
-    TypeAlias,
     Union,
 )
 
@@ -157,7 +156,7 @@ CellSpec = (
 )  # PCell function, function name or dict
 
 ComponentSpecDict = dict[str, ComponentSpec]
-CrossSectionSpec: TypeAlias = (
+CrossSectionSpec = (
     CrossSectionFactory | CrossSection | dict[str, Any] | str | Transition
 )
 CrossSectionSpecs = tuple[CrossSectionSpec, ...]

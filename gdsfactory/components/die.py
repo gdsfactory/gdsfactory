@@ -72,9 +72,7 @@ def die(
         c.add_polygon([[sx, sy], [sx, -sy], [-sx, -sy], [-sx, sy]], layer=bbox_layer)
 
     if die_name:
-        text_component = gf.get_component(
-            text, text=die_name, size=text_size, layer=layer
-        )
+        text_component = gf.get_component(text, text=die_name, size=text_size)
         t = c.add_ref(text_component)
 
         d = street_width + 20

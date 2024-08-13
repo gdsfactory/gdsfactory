@@ -1,6 +1,6 @@
 import gdsfactory as gf
 from gdsfactory.generic_tech import LAYER
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
+from gdsfactory.typings import Component, ComponentSpec, CrossSectionSpec, LayerSpec
 
 
 @gf.cell
@@ -17,7 +17,7 @@ def die_with_pads(
     edge_to_pad_distance: float = 150.0,
     edge_to_grating_distance: float = 150.0,
     with_loopback: bool = True,
-) -> gf.Component:
+) -> Component:
     """A die with grating couplers and pads.
 
     Args:
@@ -34,7 +34,7 @@ def die_with_pads(
         edge_to_grating_distance: the distance from the edge to the grating couplers, in um.
         with_loopback: if True, adds a loopback between edge GCs. Only works for rotation = 90 for now.
     """
-    c = gf.Component()
+    c = Component()
     fp = c << gf.c.rectangle(
         size=size, layer=layer_floorplan, centered=True, port_type=None
     )
