@@ -85,11 +85,7 @@ def text_rectangular_multi_layer(
         justify: left, right or center.
         font: function that returns dictionary of characters.
     """
-    return copy_layers(
-        factory=text_factory, text=text,
-        layers=layers,
-        **kwargs
-    )
+    return copy_layers(factory=text_factory, text=text, layers=layers, **kwargs)
 
 
 text_rectangular_mini = partial(text_rectangular, size=1)
