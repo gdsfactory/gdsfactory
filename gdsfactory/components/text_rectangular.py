@@ -85,7 +85,7 @@ def text_rectangular_multi_layer(
         font: function that returns dictionary of characters.
     """
     return copy_layers(
-        factory=partial(text_factory, text=text, **kwargs),
+        factory=gf.get_component(text_factory, text=text, **kwargs),
         layers=layers,
     )
 
