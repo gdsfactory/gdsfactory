@@ -111,7 +111,7 @@ Int2 = tuple[int, int]
 Int3 = tuple[int, int, int]
 Ints = tuple[int, ...]
 
-Layer = LayerEnum
+Layer = tuple[int, int]
 Layers = tuple[Layer, ...]
 LayerSpec = LayerEnum | str | tuple[int, int]
 
