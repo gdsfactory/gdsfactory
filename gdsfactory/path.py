@@ -397,7 +397,13 @@ class Path(_GeometryHelper):
         dtheta[np.where(dtheta < -np.pi)] += 2 * np.pi
         theta = np.concatenate([[0], np.cumsum(dtheta)]) + theta[0]
 
-        K = np.gradient(theta, s, edge_order=2) if len(ds) > 1 else np.inf
+        match len(ds):
+            case 0 | 1:
+                K = np.array([np.inf])
+            case 2:
+                K = np.nan_to_num(np.gradient(theta, s, edge_order=1), nan=np.inf)
+            case _:
+                K = np.gradient(theta, s, edge_order=2)
 
         return s, K
 
