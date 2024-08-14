@@ -64,6 +64,7 @@ def text_rectangular(
     return c
 
 
+@gf.cell
 def text_rectangular_multi_layer(
     text: str = "abcd",
     layers: LayerSpecs = ("WG", "M1", "M2", "MTOP"),
@@ -85,13 +86,14 @@ def text_rectangular_multi_layer(
         font: function that returns dictionary of characters.
     """
     return copy_layers(
-        factory=gf.get_component(text_factory, text=text, **kwargs),
+        factory=text_factory, text=text,
         layers=layers,
+        **kwargs
     )
 
 
 text_rectangular_mini = partial(text_rectangular, size=1)
 
 if __name__ == "__main__":
-    c = text_rectangular_multi_layer()
+    c = text_rectangular_multi_layer(size=1)
     c.show()
