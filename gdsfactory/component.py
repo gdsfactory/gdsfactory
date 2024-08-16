@@ -392,15 +392,16 @@ class ComponentBase:
             return getattr(self, f"d{__k}")
         return super().__getattribute__(__k)
 
-    def from_kcell(self) -> Component:
+    @staticmethod
+    def from_kcell(kcell: kf.KCell) -> Component:
         """Returns a Component from a KCell."""
-        kdb_copy = self._kdb_copy()
+        kdb_copy = kcell._kdb_copy()
 
-        c = Component(kcl=self.kcl, kdb_cell=kdb_copy)
-        c.ports = self.ports.copy()
+        c = Component(kcl=kcell.kcl, kdb_cell=kdb_copy)
+        c.ports = kcell.ports.copy()
 
-        c._settings = self.settings.model_copy()
-        c.info = self.info.model_copy()
+        c._settings = kcell.settings.model_copy()
+        c.info = kcell.info.model_copy()
         return c
 
     def copy(self) -> Component:
@@ -1238,7 +1239,7 @@ class Component(ComponentBase, kf.KCell):
         super().__init__(name=name, kcl=kcl, kdb_cell=kdb_cell, ports=ports)
 
     def __lshift__(self, component: gf.Component) -> ComponentReference:  # type: ignore[override]
-        """Creates a Componenteference reference to a Component."""
+        """Creates a ComponentReference to a Component."""
         return ComponentReference(kf.KCell.create_inst(self, component))
 
 
