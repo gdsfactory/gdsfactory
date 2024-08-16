@@ -70,13 +70,13 @@ def boolean(
     layer_index2 = get_layer(layer2)
     layer_index = get_layer(layer)
 
-    if isinstance(A, Component | kf.KCell):
+    if isinstance(A, kf.KCell):
         ar = kf.kdb.Region(A.begin_shapes_rec(layer_index1))
     else:
         ar = kf.kdb.Region(A.cell.begin_shapes_rec(layer_index1)).transformed(
             A.cplx_trans
         )
-    if isinstance(B, Component | kf.KCell):
+    if isinstance(B, kf.KCell):
         br = kf.kdb.Region(B.begin_shapes_rec(layer_index2))
     else:
         br = kf.kdb.Region(B.cell.begin_shapes_rec(layer_index2)).transformed(
