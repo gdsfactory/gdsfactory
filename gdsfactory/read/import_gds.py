@@ -29,7 +29,9 @@ def import_gds(
             warnings.warn(f"kwargs {k!r} is deprecated and ignored")
 
     temp_kcl = KCLayout(name=str(gdspath))
-    temp_kcl.read(gdspath)
+    options = kf.kcell.load_layout_options()
+    options.warn_level = 0
+    temp_kcl.read(gdspath, options=options)
     cellname = cellname or temp_kcl.top_cell().name
     kcell = temp_kcl[cellname]
     c = kcell_to_component(kcell)
