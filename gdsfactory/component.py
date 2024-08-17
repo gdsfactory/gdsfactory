@@ -867,27 +867,9 @@ class ComponentBase:
             layers: list of layers to extract.
             recursive: if True, extracts layers recursively and returns a flattened Component.
         """
-        from gdsfactory.pdk import get_layer_tuple
+        from gdsfactory.functions import extract
 
-        c = self.dup()
-        if recursive:
-            c.flatten()
-
-        layer_tuples = [get_layer_tuple(layer) for layer in layers]
-        component_layers = c.layers
-
-        for layer_tuple in layer_tuples:
-            if layer_tuple not in component_layers:
-                warnings.warn(
-                    f"Layer {layer_tuple} not found in component {self.name!r} layers."
-                )
-
-        for layer_tuple in component_layers:
-            if layer_tuple not in layer_tuples:
-                layer_index = self.kcl.layer(*layer_tuple)
-                c.shapes(layer_index).clear()
-
-        return c
+        return extract(self, layers=layers, recursive=recursive)
 
     def remove_layers(
         self,
