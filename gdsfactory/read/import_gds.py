@@ -93,7 +93,7 @@ def import_gds_with_conflicts(
     kcell = kf.kcl[cellname]
     c = Component()
     c._kdb_cell.copy_tree(kcell._kdb_cell)
-    c.ports = kcell.ports
+    c.add_ports(kcell.ports)
     c._settings = kcell.settings.model_copy()
     c.info = kcell.info.model_copy()
     name = name or kcell.name
