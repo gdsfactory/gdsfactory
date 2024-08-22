@@ -20,10 +20,11 @@ instances:
       cross_section: strip
       gap: 0.15
       length: 420
-  text_rectangular_T150_S_009a275c_433000_2500:
+  text_rectangular_T150_S_fbce854d_433000_2500:
     component: text_rectangular
     info: {}
     settings:
+      font: rectangular_font
       justify: left
       layer: WG
       position:
@@ -31,10 +32,11 @@ instances:
       - 0
       size: 1
       text: '150'
-  text_rectangular_T200_S_b8a3e8c5_433500_9500:
+  text_rectangular_T200_S_1814b8be_433500_9500:
     component: text_rectangular
     info: {}
     settings:
+      font: rectangular_font
       justify: left
       layer: WG
       position:
@@ -42,10 +44,11 @@ instances:
       - 0
       size: 1
       text: '200'
-  text_rectangular_T250_S_6330334e_433500_16500:
+  text_rectangular_T250_S_bf9662ce_433500_16500:
     component: text_rectangular
     info: {}
     settings:
+      font: rectangular_font
       justify: left
       layer: WG
       position:
@@ -71,17 +74,17 @@ placements:
     rotation: 0
     x: 0
     y: 0.25
-  text_rectangular_T150_S_009a275c_433000_2500:
+  text_rectangular_T150_S_fbce854d_433000_2500:
     mirror: false
     rotation: 0
     x: 424
     y: 0
-  text_rectangular_T200_S_b8a3e8c5_433500_9500:
+  text_rectangular_T200_S_1814b8be_433500_9500:
     mirror: false
     rotation: 0
     x: 425
     y: 7
-  text_rectangular_T250_S_6330334e_433500_16500:
+  text_rectangular_T250_S_bf9662ce_433500_16500:
     mirror: false
     rotation: 0
     x: 425
