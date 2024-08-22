@@ -6,7 +6,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.copy_layers import copy_layers
 from gdsfactory.components.text_rectangular_font import pixel_array, rectangular_font
-from gdsfactory.typings import ComponentSpec, LayerSpec, LayerSpecs
+from gdsfactory.typings import Callable, ComponentSpec, LayerSpec, LayerSpecs
 
 
 @gf.cell
@@ -16,6 +16,7 @@ def text_rectangular(
     position: tuple[float, float] = (0.0, 0.0),
     justify: str = "left",
     layer: LayerSpec = "WG",
+    font: Callable[..., dict[str, str]] = rectangular_font,
 ) -> Component:
     """Pixel based font, guaranteed to be manhattan, without acute angles.
 
@@ -25,12 +26,13 @@ def text_rectangular(
         position: coordinate.
         justify: left, right or center.
         layer: for text.
+        font: function that returns dictionary of characters.
     """
     pixel_size = size
     xoffset = position[0]
     yoffset = position[1]
     component = gf.Component()
-    characters = rectangular_font()
+    characters = font()
 
     for line in text.split("\n"):
         for character in line:
@@ -91,5 +93,5 @@ def text_rectangular_multi_layer(
 text_rectangular_mini = partial(text_rectangular, size=1)
 
 if __name__ == "__main__":
-    c = text_rectangular_multi_layer(size=1)
+    c = text_rectangular(size=1)
     c.show()
