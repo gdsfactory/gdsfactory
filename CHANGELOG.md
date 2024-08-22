@@ -1,7 +1,29 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.7.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.7.3...main)
 
 <!-- towncrier release notes start -->
+
+## [8.7.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.7.3) - 2024-08-18
+
+- lower warn level for layout read [#3137](https://github.com/gdsfactory/gdsfactory/pull/3137)
+- make functions work with Kcells [#3136](https://github.com/gdsfactory/gdsfactory/pull/3136)
+- fix type annotation for layer [#3133](https://github.com/gdsfactory/gdsfactory/pull/3133)
+- fix tests [#3132](https://github.com/gdsfactory/gdsfactory/pull/3132)
+- text rectangular multilayer [#3131](https://github.com/gdsfactory/gdsfactory/pull/3131)
+- Fix minimum length of path for gradient [#3128](https://github.com/gdsfactory/gdsfactory/pull/3128)
+- fix die layer [#3126](https://github.com/gdsfactory/gdsfactory/pull/3126)
+- fix bend_circular bbox [#3124](https://github.com/gdsfactory/gdsfactory/pull/3124)
+- update to docker to python3.12 [#3125](https://github.com/gdsfactory/gdsfactory/pull/3125)
+- Mark `from_kcell` as static method [#3134](https://github.com/gdsfactory/gdsfactory/pull/3134)
+- fix #2887: allow specification of offset_type other than 'sine' in Transition & fix extrude_transition() [#3130](https://github.com/gdsfactory/gdsfactory/pull/3130)
+
+## [8.7.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.7.2) - 2024-08-12
+
+- Expose port orientations [#3121](https://github.com/gdsfactory/gdsfactory/pull/3121)
+- fix default heater meander radius [#3118](https://github.com/gdsfactory/gdsfactory/pull/3118)
+- update numpy [#3117](https://github.com/gdsfactory/gdsfactory/pull/3117)
+- allow serialization as strings [#3115](https://github.com/gdsfactory/gdsfactory/pull/3115)
+- update numpy [#3117](https://github.com/gdsfactory/gdsfactory/pull/3117)
 
 ## [8.7.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.7.1) - 2024-08-11
 

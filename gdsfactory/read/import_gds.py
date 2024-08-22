@@ -29,7 +29,9 @@ def import_gds(
             warnings.warn(f"kwargs {k!r} is deprecated and ignored")
 
     temp_kcl = KCLayout(name=str(gdspath))
-    temp_kcl.read(gdspath)
+    options = kf.kcell.load_layout_options()
+    options.warn_level = 0
+    temp_kcl.read(gdspath, options=options)
     cellname = cellname or temp_kcl.top_cell().name
     kcell = temp_kcl[cellname]
     c = kcell_to_component(kcell)
@@ -91,7 +93,7 @@ def import_gds_with_conflicts(
     kcell = kf.kcl[cellname]
     c = Component()
     c._kdb_cell.copy_tree(kcell._kdb_cell)
-    c.ports = kcell.ports
+    c.add_ports(kcell.ports)
     c._settings = kcell.settings.model_copy()
     c.info = kcell.info.model_copy()
     name = name or kcell.name

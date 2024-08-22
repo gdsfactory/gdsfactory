@@ -392,15 +392,16 @@ class ComponentBase:
             return getattr(self, f"d{__k}")
         return super().__getattribute__(__k)
 
-    def from_kcell(self) -> Component:
+    @staticmethod
+    def from_kcell(kcell: kf.KCell) -> Component:
         """Returns a Component from a KCell."""
-        kdb_copy = self._kdb_copy()
+        kdb_copy = kcell._kdb_copy()
 
-        c = Component(kcl=self.kcl, kdb_cell=kdb_copy)
-        c.ports = self.ports.copy()
+        c = Component(kcl=kcell.kcl, kdb_cell=kdb_copy)
+        c.ports = kcell.ports.copy()
 
-        c._settings = self.settings.model_copy()
-        c.info = self.info.model_copy()
+        c._settings = kcell.settings.model_copy()
+        c.info = kcell.info.model_copy()
         return c
 
     def copy(self) -> Component:
@@ -866,27 +867,9 @@ class ComponentBase:
             layers: list of layers to extract.
             recursive: if True, extracts layers recursively and returns a flattened Component.
         """
-        from gdsfactory.pdk import get_layer_tuple
+        from gdsfactory.functions import extract
 
-        c = self.dup()
-        if recursive:
-            c.flatten()
-
-        layer_tuples = [get_layer_tuple(layer) for layer in layers]
-        component_layers = c.layers
-
-        for layer_tuple in layer_tuples:
-            if layer_tuple not in component_layers:
-                warnings.warn(
-                    f"Layer {layer_tuple} not found in component {self.name!r} layers."
-                )
-
-        for layer_tuple in component_layers:
-            if layer_tuple not in layer_tuples:
-                layer_index = self.kcl.layer(*layer_tuple)
-                c.shapes(layer_index).clear()
-
-        return c
+        return extract(self, layers=layers, recursive=recursive)
 
     def remove_layers(
         self,
@@ -1238,7 +1221,7 @@ class Component(ComponentBase, kf.KCell):
         super().__init__(name=name, kcl=kcl, kdb_cell=kdb_cell, ports=ports)
 
     def __lshift__(self, component: gf.Component) -> ComponentReference:  # type: ignore[override]
-        """Creates a Componenteference reference to a Component."""
+        """Creates a ComponentReference to a Component."""
         return ComponentReference(kf.KCell.create_inst(self, component))
 
 

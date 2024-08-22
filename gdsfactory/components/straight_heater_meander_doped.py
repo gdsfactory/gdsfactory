@@ -114,17 +114,14 @@ def straight_heater_meander_doped(
             length=taper_length,
         )
 
-        straight_i = gf.c.extend_ports(straight, extension=taper)
-        straight_with_tapers = straight_i.dup()
-        straight_with_tapers.name = f"{straight_i.name}_{row+1}"
-
+        straight_with_tapers = gf.c.extend_ports(straight, extension=taper)
         straight_ref = c << straight_with_tapers
         if row < len(straight_widths) // 2:
             straight_ref.dy = row * spacing
         else:
             straight_ref.dy = (row + 1) * spacing
-        ports[f"o1_{row+1}"] = straight_ref.ports["o1"]
-        ports[f"o2_{row+1}"] = straight_ref.ports["o2"]
+        ports[f"o1_{row+1}"] = straight_ref["o1"]
+        ports[f"o2_{row+1}"] = straight_ref["o2"]
 
     # Loopbacks
     for row in range(1, rows, 2):
@@ -140,8 +137,8 @@ def straight_heater_meander_doped(
 
         route = gf.routing.route_single(
             c,
-            extra_straight2.ports["o2"],
-            extra_straight1.ports["o2"],
+            extra_straight2["o2"],
+            extra_straight1["o2"],
             radius=radius,
             cross_section=cross_section,
         )
@@ -225,10 +222,12 @@ def straight_heater_meander_doped(
 
         c.add_ports(p1, prefix="l_")
         c.add_ports(p2, prefix="r_")
+
     # delete any straights with zero length
     for inst in list(c.insts):
         if inst.cell.settings.get("length") == 0.0:
             del c.insts[inst]
+    c.flatten()
     return c
 
 

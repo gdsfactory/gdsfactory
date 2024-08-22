@@ -32,7 +32,6 @@ from typing import (
     Optional,
     ParamSpec,
     Tuple,
-    TypeAlias,
     Union,
 )
 
@@ -112,7 +111,7 @@ Int2 = tuple[int, int]
 Int3 = tuple[int, int, int]
 Ints = tuple[int, ...]
 
-Layer = LayerEnum
+Layer = tuple[int, int]
 Layers = tuple[Layer, ...]
 LayerSpec = LayerEnum | str | tuple[int, int]
 
@@ -157,7 +156,7 @@ CellSpec = (
 )  # PCell function, function name or dict
 
 ComponentSpecDict = dict[str, ComponentSpec]
-CrossSectionSpec: TypeAlias = (
+CrossSectionSpec = (
     CrossSectionFactory | CrossSection | dict[str, Any] | str | Transition
 )
 CrossSectionSpecs = tuple[CrossSectionSpec, ...]

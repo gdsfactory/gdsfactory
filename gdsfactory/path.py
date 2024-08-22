@@ -397,7 +397,13 @@ class Path(_GeometryHelper):
         dtheta[np.where(dtheta < -np.pi)] += 2 * np.pi
         theta = np.concatenate([[0], np.cumsum(dtheta)]) + theta[0]
 
-        K = np.gradient(theta, s, edge_order=2) if len(ds) > 1 else np.inf
+        match len(ds):
+            case 0 | 1:
+                K = np.array([np.inf])
+            case 2:
+                K = np.nan_to_num(np.gradient(theta, s, edge_order=1), nan=np.inf)
+            case _:
+                K = np.gradient(theta, s, edge_order=2)
 
         return s, K
 
@@ -655,6 +661,7 @@ def transition(
     cross_section1: CrossSectionSpec,
     cross_section2: CrossSectionSpec,
     width_type: WidthTypes | Callable = "sine",
+    offset_type: WidthTypes | Callable = "sine",
 ) -> Transition:
     """Returns a smoothly-transitioning between two CrossSections.
 
@@ -665,8 +672,10 @@ def transition(
     Args:
         cross_section1: First CrossSection.
         cross_section2: Second CrossSection.
-        width_type: sine or linear. type of width transition used if any widths \
-                are different between the two input CrossSections.
+        width_type: 'sine', 'parabolic', 'linear' or Callable. type of width transition used \
+                if any widths are different between the two input CrossSections.
+        offset_type: 'sine', 'parabolic', 'linear' or Callable. type of width transition used \
+                if any widths are different between the two input CrossSections. \
 
     """
     from gdsfactory.pdk import get_cross_section, get_layer
@@ -689,6 +698,7 @@ def transition(
         cross_section1=X1,
         cross_section2=X2,
         width_type=width_type,
+        offset_type=offset_type,
     )
 
 
@@ -1068,6 +1078,7 @@ def extrude_transition(
     x1 = get_cross_section(transition.cross_section1)
     x2 = get_cross_section(transition.cross_section2)
     width_type = transition.width_type
+    offset_type = transition.offset_type
 
     # if named, prefer name over layer
     named_sections1 = _get_named_sections(x1.sections)
@@ -1082,13 +1093,18 @@ def extrude_transition(
             f"transition() found no common section names X1 {names1} and X2 {names2}"
         )
 
+    # Compute relative distance of points along path p
+    dx = np.diff(p.points[:, 0])
+    dy = np.diff(p.points[:, 1])
+    lengths = np.cumsum(np.sqrt(dx**2 + dy**2))
+    lengths = np.concatenate([[0], lengths]) / lengths[-1]
+
     for section_name in common_sections:
         section1 = named_sections1[section_name]
         section2 = named_sections2[section_name]
         port_names = section1.port_names
         port_types = section1.port_types
 
-        p_sec = p.copy()
         offset1 = section1.offset
         offset2 = section2.offset
         width1 = section1.width
@@ -1103,7 +1119,20 @@ def extrude_transition(
         if callable(width2):
             width2 = width2(0)
 
-        offset = _sinusoidal_transition(offset1, offset2)
+        if offset_type == "linear":
+            offset = _linear_transition(offset1, offset2)
+        elif offset_type == "sine":
+            offset = _sinusoidal_transition(offset1, offset2)
+        elif offset_type == "parabolic":
+            offset = _parabolic_transition(offset1, offset2)
+        elif callable(offset_type):
+
+            def offset_func(t):
+                return offset_type(t, offset1, offset2)  # noqa: B023
+
+            offset = offset_func
+        else:
+            raise NotImplementedError()
 
         if width_type == "linear":
             width = _linear_transition(width1, width2)
@@ -1117,6 +1146,8 @@ def extrude_transition(
                 return width_type(t, width1, width2)  # noqa: B023
 
             width = width_func
+        else:
+            raise NotImplementedError()
 
         if section1.layer != section2.layer:
             hidden = True
@@ -1127,31 +1158,22 @@ def extrude_transition(
             hidden = False
             layer = get_layer(section1.layer)
 
-        p_sec.offset(offset)
-        offset = 0
-        end_angle = p_sec.end_angle
-        start_angle = p_sec.start_angle
-        points = p_sec.points
-        if callable(width):
-            # Compute lengths
-            dx = np.diff(p_sec.points[:, 0])
-            dy = np.diff(p_sec.points[:, 1])
-            lengths = np.cumsum(np.sqrt(dx**2 + dy**2))
-            lengths = np.concatenate([[0], lengths])
-            width = width(lengths / lengths[-1])
-        dy = offset + width / 2
+        end_angle = p.end_angle
+        start_angle = p.start_angle
+        points = p.points
+        width = width(lengths)
+        offset = offset(lengths)
 
-        points1 = p_sec._centerpoint_offset_curve(
+        points1 = p._centerpoint_offset_curve(
             points,
-            offset_distance=dy,
+            offset_distance=offset + width / 2,
             start_angle=start_angle,
             end_angle=end_angle,
         )
-        dy = offset - width / 2
 
-        points2 = p_sec._centerpoint_offset_curve(
+        points2 = p._centerpoint_offset_curve(
             points,
-            offset_distance=dy,
+            offset_distance=offset - width / 2,
             start_angle=start_angle,
             end_angle=end_angle,
         )
@@ -1167,14 +1189,19 @@ def extrude_transition(
         points_poly = np.concatenate([points1, points2[::-1, :]])
 
         layers = layer if hidden else [layer, layer]
-        if not hidden and p_sec.length() > 1e-3:
+        if not hidden and p.length() > 1e-3:
             c.add_polygon(points_poly, layer=layer)
 
         # Add port_names if they were specified
         if port_names[0] is not None:
             port_width = width1
-            port_orientation = (p_sec.start_angle + 180) % 360
-            center = points[0]
+            port_orientation = (p.start_angle + 180) % 360
+            center = p._centerpoint_offset_curve(
+                points[:2],
+                offset_distance=offset[:2],
+                start_angle=start_angle,
+                end_angle=None,
+            )[0]
 
             c.add_port(
                 name=port_names[0],
@@ -1187,8 +1214,13 @@ def extrude_transition(
             )
         if port_names[1] is not None:
             port_width = width2
-            port_orientation = (p_sec.end_angle) % 360
-            center = points[-1]
+            port_orientation = (p.end_angle) % 360
+            center = p._centerpoint_offset_curve(
+                points[-2:],
+                offset_distance=offset[-2:],
+                start_angle=None,
+                end_angle=end_angle,
+            )[-1]
 
             c.add_port(
                 name=port_names[1],

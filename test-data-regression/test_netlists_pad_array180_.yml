@@ -1,5 +1,5 @@
 instances:
-  pad_S100_100_LMTOP_BLNo_c84449db_0_150000:
+  pad_S100_100_LMTOP_BLNo_2fadfa5f_0_150000:
     component: pad
     dax: 150
     day: 0
@@ -16,72 +16,15 @@ instances:
     settings:
       layer: MTOP
       port_inclusion: 0
-      port_orientation: 180
       size:
       - 100
       - 100
 name: pad_array_Ppad_S150_150_4f3700b5
 nets: []
 placements:
-  pad_S100_100_LMTOP_BLNo_c84449db_0_150000:
+  pad_S100_100_LMTOP_BLNo_2fadfa5f_0_150000:
     mirror: false
     rotation: 0
     x: 0
     y: 0
 ports: {}
-warnings:
-  electrical:
-    unconnected_ports:
-    - message: 12 unconnected electrical ports!
-      ports:
-      - pad_S100_100_LMTOP_BLNo_c84449db_0_150000<0.0>,e1
-      - pad_S100_100_LMTOP_BLNo_c84449db_0_150000<0.0>,e2
-      - pad_S100_100_LMTOP_BLNo_c84449db_0_150000<0.0>,e3
-      - pad_S100_100_LMTOP_BLNo_c84449db_0_150000<0.0>,e4
-      - pad_S100_100_LMTOP_BLNo_c84449db_0_150000<0.1>,e1
-      - pad_S100_100_LMTOP_BLNo_c84449db_0_150000<0.1>,e2
-      - pad_S100_100_LMTOP_BLNo_c84449db_0_150000<0.1>,e3
-      - pad_S100_100_LMTOP_BLNo_c84449db_0_150000<0.1>,e4
-      - pad_S100_100_LMTOP_BLNo_c84449db_0_150000<0.2>,e1
-      - pad_S100_100_LMTOP_BLNo_c84449db_0_150000<0.2>,e2
-      - pad_S100_100_LMTOP_BLNo_c84449db_0_150000<0.2>,e3
-      - pad_S100_100_LMTOP_BLNo_c84449db_0_150000<0.2>,e4
-      values:
-      - - -50000
-        - 0
-      - - 0
-        - 50000
-      - - 50000
-        - 0
-      - - 0
-        - -50000
-      - - -50000
-        - 150000
-      - - 0
-        - 200000
-      - - 50000
-        - 150000
-      - - 0
-        - 100000
-      - - -50000
-        - 300000
-      - - 0
-        - 350000
-      - - 50000
-        - 300000
-      - - 0
-        - 250000
-  vertical_dc:
-    unconnected_ports:
-    - message: 3 unconnected vertical_dc ports!
-      ports:
-      - pad_S100_100_LMTOP_BLNo_c84449db_0_150000<0.0>,pad
-      - pad_S100_100_LMTOP_BLNo_c84449db_0_150000<0.1>,pad
-      - pad_S100_100_LMTOP_BLNo_c84449db_0_150000<0.2>,pad
-      values:
-      - - 0
-        - 0
-      - - 0
-        - 150000
-      - - 0
-        - 300000

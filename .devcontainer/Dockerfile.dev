@@ -1,5 +1,5 @@
-# Use Python 3.11 slim image as the base
-FROM python:3.11-slim
+# Use Python 3.12 slim image as the base
+FROM python:3.12-slim
 
 # Expose the necessary ports
 EXPOSE 8082 8083 8888
