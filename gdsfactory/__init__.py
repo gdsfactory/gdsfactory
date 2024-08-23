@@ -87,15 +87,15 @@ _cached_partials: dict[
 ] = {}
 
 
-def partial(func: F, *args: Any, **kwargs: Any) -> _partial[F]:
+def partial(func: F, *args: Any, **kwargs: Any) -> F:
     """Returns a memoized partial function with caching."""
     key = (func, args, frozenset(kwargs.items()))
     if key not in _cached_partials:
         new_partial = _partial(func, *args, **kwargs)
-        update_wrapper(new_partial, func)
+        update_wrapper(new_partial, func)  # Propagate original function's metadata
         _cached_partials[key] = new_partial
 
-    return _cached_partials[key]
+    return _cached_partials[key]  # Return the cached partial directly
 
 
 cache = LRUCache(maxsize=None)
