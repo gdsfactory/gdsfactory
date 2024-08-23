@@ -32,7 +32,7 @@ dependencies = [
   "types-PyYAML",
   "typer<1",
   "watchdog<5",
-  "kfactory[ipy]==0.19.0",
+  "kfactory[ipy]==0.18.4",
   "freetype-py",
   "mapbox_earcut",
   "networkx",
