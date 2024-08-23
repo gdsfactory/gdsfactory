@@ -6,7 +6,7 @@
 from __future__ import annotations
 from cachetools import LRUCache
 from functools import partial as _partial
-from functools import update_wrapper, wraps
+from functools import update_wrapper
 from typing import Any, TypeVar
 from collections.abc import Callable
 
@@ -87,7 +87,7 @@ _cached_partials: dict[
 ] = {}
 
 
-def partial(func: F, *args: Any, **kwargs: Any) -> F:
+def partial(func: F, *args: Any, **kwargs: Any) -> _partial[F]:
     """Returns a memoized partial function with caching."""
     key = (func, args, frozenset(kwargs.items()))
     if key not in _cached_partials:
@@ -95,11 +95,7 @@ def partial(func: F, *args: Any, **kwargs: Any) -> F:
         update_wrapper(new_partial, func)
         _cached_partials[key] = new_partial
 
-    @wraps(func)
-    def wrapped(*wrapped_args, **wrapped_kwargs) -> Any:
-        return _cached_partials[key](*wrapped_args, **wrapped_kwargs)
-
-    return wrapped  # type: ignore
+    return _cached_partials[key]
 
 
 cache = LRUCache(maxsize=None)
