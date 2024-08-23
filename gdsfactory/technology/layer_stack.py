@@ -81,7 +81,7 @@ class AbstractLayer(BaseModel):
 class LogicalLayer(AbstractLayer):
     """GDS design layer."""
 
-    layer: tuple[int, int] | kf.LayerEnum | int
+    layer: tuple[int, int] | kf.kdb.LayerInfo | int
 
     def __eq__(self, other):
         """Check if two LogicalLayer instances are equal.
@@ -136,8 +136,8 @@ class DerivedLayer(AbstractLayer):
     Overloads operators for simpler expressions.
 
     Attributes:
-        input_layer1: primary layer comprising the derived layer. Can be a GDS design layer (kf.LayerEnum, tuple[int, int]), or another derived layer.
-        input_layer2: secondary layer comprising the derived layer. Can be a GDS design layer (kf.LayerEnum, tuple[int, int]), or another derived layer.
+        input_layer1: primary layer comprising the derived layer. Can be a GDS design layer (kf.kdb.LayerInfo, tuple[int, int]), or another derived layer.
+        input_layer2: secondary layer comprising the derived layer. Can be a GDS design layer (kf.kdb.LayerInfo, tuple[int, int]), or another derived layer.
         operation: operation to perform between layer1 and layer2. One of "and", "or", "xor", or "not" or associated symbols.
     """
 
@@ -221,7 +221,13 @@ class LayerLevel(BaseModel):
     # ID
     name: str | None = None
     layer: (
-        LogicalLayer | DerivedLayer | int | str | tuple[int, int] | kf.LayerEnum | None
+        LogicalLayer
+        | DerivedLayer
+        | int
+        | str
+        | tuple[int, int]
+        | kf.kdb.LayerInfo
+        | None
     ) = None
     derived_layer: LogicalLayer | None = None
 
@@ -247,9 +253,14 @@ class LayerLevel(BaseModel):
     @classmethod
     def check_layer(
         cls,
-        layer: LogicalLayer | DerivedLayer | int | str | tuple[int, int] | kf.LayerEnum,
+        layer: LogicalLayer
+        | DerivedLayer
+        | int
+        | str
+        | tuple[int, int]
+        | kf.kdb.LayerInfo,
     ) -> LogicalLayer | DerivedLayer:
-        if isinstance(layer, int | str | tuple | kf.LayerEnum):
+        if isinstance(layer, int | str | tuple | kf.kdb.LayerInfo):
             layer = gf.get_layer(layer)
             return LogicalLayer(layer=layer)
 

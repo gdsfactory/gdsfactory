@@ -13,9 +13,10 @@ import typing
 import warnings
 import xml.etree.ElementTree as ET
 
+import kfactory as kf
 import numpy as np
 import yaml
-from kfactory import LayerEnum, logger
+from kfactory import logger
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 from pydantic.color import ColorType
 from pydantic_extra_types.color import Color
@@ -764,14 +765,14 @@ class LayerViews(BaseModel):
     layer_views: dict[str, LayerView] = Field(default_factory=dict)
     custom_dither_patterns: dict[str, HatchPattern] = Field(default_factory=dict)
     custom_line_styles: dict[str, LineStyle] = Field(default_factory=dict)
-    layers: type[LayerEnum] | None = None
+    layers: type[kf.kdb.LayerInfo] | None = None
 
     model_config = ConfigDict(extra="forbid", frozen=True)
 
     def __init__(
         self,
         filepath: PathLike | None = None,
-        layers: LayerEnum | None = None,
+        layers: kf.kdb.LayerInfo | None = None,
         **data,
     ) -> None:
         """Initialize LayerViews object.

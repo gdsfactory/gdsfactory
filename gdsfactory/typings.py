@@ -37,7 +37,6 @@ from typing import (
 
 import kfactory as kf
 import numpy as np
-from kfactory.kcell import LayerEnum
 
 from gdsfactory.component import (
     Component,
@@ -113,7 +112,7 @@ Ints = tuple[int, ...]
 
 Layer = tuple[int, int]
 Layers = tuple[Layer, ...]
-LayerSpec = LayerEnum | str | tuple[int, int]
+LayerSpec = kf.kdb.LayerInfo | str | tuple[int, int]
 
 LayerSpecs = list[LayerSpec] | tuple[LayerSpec, ...]
 

@@ -13,7 +13,7 @@ from gdsfactory.technology import LayerLevel, LayerStack, LogicalLayer
 from gdsfactory.typings import Layer
 
 
-class LAYER(gf.LayerEnum):
+class LAYER(gf.kf.kdb.LayerInfo):
     kcl = gf.constant(gf.kcl)
 
     WG: Layer = (10, 1)

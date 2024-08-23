@@ -3,7 +3,7 @@ import gdsfactory as gf
 Layer = tuple[int, int]
 
 
-class LAYER(gf.LayerEnum):
+class LAYER(gf.kf.kdb.LayerInfo):
     """Generic layermap based on book.
 
     Lukas Chrostowski, Michael Hochberg, "Silicon Photonics Design",

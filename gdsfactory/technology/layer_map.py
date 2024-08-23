@@ -4,7 +4,7 @@ import gdsfactory as gf
 from gdsfactory.technology.layer_views import LayerViews
 
 
-class LayerMap(gf.LayerEnum):
+class LayerMap(gf.kdb.LayerInfo):
     """You will need to create a new LayerMap with your specific foundry layers."""
 
     kcl = gf.constant(gf.kcl)

@@ -9,7 +9,7 @@ from toolz import compose
 from aenum import constant  # type: ignore[import-untyped]
 
 import kfactory as kf
-from kfactory.kcell import LayerEnum, kcl, show, vcell
+from kfactory.kcell import kcl, show, vcell
 from kfactory import logger
 import klayout.db as kdb
 
@@ -76,6 +76,8 @@ def clear_cache(kcl: kf.KCLayout = kf.kcl) -> None:
     kcl.clear_kcells()
 
 
+LayerInfo = kf.kdb.LayerInfo
+
 __all__ = (
     "CONF",
     "Component",
@@ -84,7 +86,7 @@ __all__ = (
     "ComponentReference",
     "CrossSection",
     "Instance",
-    "LayerEnum",
+    "LayerInfo",
     "PATH",
     "Path",
     "Pdk",

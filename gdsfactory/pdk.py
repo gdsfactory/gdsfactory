@@ -12,7 +12,6 @@ from typing import Any
 import kfactory as kf
 import numpy as np
 import yaml
-from kfactory import LayerEnum
 from pydantic import BaseModel, ConfigDict, Field
 
 from gdsfactory import logger
@@ -159,7 +158,7 @@ class Pdk(BaseModel):
     default_decorator: Callable[[Component], None] | None = Field(
         default=None, exclude=True
     )
-    layers: type[LayerEnum] | None = None
+    layers: type[kf.kdb.LayerInfo] | None = None
     layer_stack: LayerStack | None = None
     layer_views: LayerViews | None = None
     layer_transitions: dict[LayerSpec | tuple[Layer, Layer], ComponentSpec] = Field(
@@ -432,9 +431,9 @@ class Pdk(BaseModel):
                 f"CrossSectionFactory, Transition, string or dict), got {type(cross_section)}"
             )
 
-    def get_layer(self, layer: LayerSpec) -> LayerEnum:
+    def get_layer(self, layer: LayerSpec) -> kf.kdb.LayerInfo:
         """Returns layer from a layer spec."""
-        if isinstance(layer, LayerEnum):
+        if isinstance(layer, kf.kdb.LayerInfo):
             return layer
         elif isinstance(layer, tuple | list):
             if len(layer) != 2:
@@ -450,7 +449,7 @@ class Pdk(BaseModel):
             return np.nan
         else:
             raise ValueError(
-                f"{layer!r} needs to be a LayerSpec (string, int or (int, int) or LayerEnum), got {type(layer)}"
+                f"{layer!r} needs to be a LayerSpec (string, int or (int, int) or kf.kdb.LayerInfo), got {type(layer)}"
             )
 
     def get_layer_name(self, layer: LayerSpec) -> str:
