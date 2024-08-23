@@ -1,17 +1,17 @@
+import kfactory as kf
+
 import gdsfactory as gf
 
-Layer = tuple[int, int]
+Layer = kf.kdb.LayerInfo
 
 
-class LAYER(gf.kf.kdb.LayerInfo):
+class LAYER(gf.kdb.LayerInfo):
     """Generic layermap based on book.
 
     Lukas Chrostowski, Michael Hochberg, "Silicon Photonics Design",
     Cambridge University Press 2015, page 353
     You will need to create a new LayerMap with your specific foundry layers.
     """
-
-    kcl = gf.constant(gf.kcl)
 
     WAFER: Layer = (999, 0)
 
@@ -65,9 +65,6 @@ class LAYER(gf.kf.kdb.LayerInfo):
 
     SOURCE: Layer = (110, 0)
     MONITOR: Layer = (101, 0)
-
-
-gf.kcl.layers = LAYER
 
 
 if __name__ == "__main__":

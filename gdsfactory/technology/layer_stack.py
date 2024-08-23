@@ -18,6 +18,11 @@ if TYPE_CHECKING:
 class AbstractLayer(BaseModel):
     """Generic design layer."""
 
+    class Config:
+        """pydantic basemodel config."""
+
+        arbitrary_types_allowed = True
+
     # Boolean AND (&)
     def __and__(self, other: AbstractLayer) -> DerivedLayer:
         """Represents boolean AND (&) operation between two layers.
@@ -82,6 +87,11 @@ class LogicalLayer(AbstractLayer):
     """GDS design layer."""
 
     layer: tuple[int, int] | kf.kdb.LayerInfo | int
+
+    class Config:
+        """pydantic basemodel config."""
+
+        arbitrary_types_allowed = True
 
     def __eq__(self, other):
         """Check if two LogicalLayer instances are equal.
@@ -248,6 +258,11 @@ class LayerLevel(BaseModel):
 
     # Other
     info: dict[str, Any] = Field(default_factory=dict)
+
+    class Config:
+        """pydantic basemodel config."""
+
+        arbitrary_types_allowed = True
 
     @field_validator("layer")
     @classmethod
