@@ -454,12 +454,13 @@ def demo() -> None:
 
 
 if __name__ == "__main__":
+    _bend = gf.components.bend_euler(radius=10)
 
     @gf.cell
     def mzi_with_bend(radius=10):
         c = gf.Component()
-        bend = c.add_ref(gf.components.bend_euler(radius=radius))
-        mzi = c.add_ref(gf.components.mzi())
+        bend = c.add_ref(_bend)
+        mzi = c.add_ref(gf.components.mzi(bend=_bend))
         bend.connect("o1", mzi.ports["o2"])
         c.add_port(name="o1", port=mzi.ports["o1"])
         c.add_port(name="o2", port=bend.ports["o2"])
@@ -484,6 +485,7 @@ if __name__ == "__main__":
         with_loopback=True,
         radius=10,
         fiber_spacing=50,
+        bend=_bend,
         # with_loopback=False,
         # optical_routing_type=1,
         # optical_routing_type=2,

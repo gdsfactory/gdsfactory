@@ -1,6 +1,5 @@
-from functools import partial
-
 import gdsfactory as gf
+from gdsfactory import partial
 from gdsfactory.technology import LayerStack, LayerView, LayerViews
 from gdsfactory.typings import Layer, LayerLevel, LayerMap
 

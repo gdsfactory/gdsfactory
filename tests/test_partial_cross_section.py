@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-from functools import partial
-
 import gdsfactory as gf
+from gdsfactory import partial
 
 
 def test_partial_cross_section() -> None:

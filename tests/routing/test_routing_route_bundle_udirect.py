@@ -1,12 +1,10 @@
 # type: ignore
 from __future__ import annotations
 
-from functools import partial
-
 from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
-from gdsfactory import Component, Port
+from gdsfactory import Component, Port, partial
 
 
 def test_route_bundle_udirect_pads(

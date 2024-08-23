@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-from functools import partial
-
 import gdsfactory as gf
+from gdsfactory import partial
 from gdsfactory.add_ports import (
     add_ports_from_labels,
     add_ports_from_markers_inside,

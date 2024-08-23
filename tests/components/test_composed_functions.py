@@ -1,10 +1,9 @@
 from __future__ import annotations
 
-from functools import partial
-
 import toolz
 
 import gdsfactory as gf
+from gdsfactory import partial
 
 extend_ports1 = partial(gf.components.extend_ports, length=1)
 extend_ports2 = partial(gf.components.extend_ports, length=10)

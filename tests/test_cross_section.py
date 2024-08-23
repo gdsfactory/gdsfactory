@@ -1,10 +1,9 @@
 from __future__ import annotations
 
-from functools import partial
-
 import jsondiff
 
 import gdsfactory as gf
+from gdsfactory import partial
 from gdsfactory.generic_tech import LAYER
 
 
