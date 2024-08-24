@@ -12,7 +12,7 @@ from typing import Any
 import kfactory as kf
 import numpy as np
 import yaml
-from kfactory import LayerEnum
+from kfactory.kcell import LayerEnum
 from pydantic import BaseModel, ConfigDict, Field
 
 from gdsfactory import logger

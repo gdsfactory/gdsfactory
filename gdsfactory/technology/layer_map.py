@@ -7,7 +7,7 @@ from gdsfactory.technology.layer_views import LayerViews
 class LayerMap(gf.LayerEnum):
     """You will need to create a new LayerMap with your specific foundry layers."""
 
-    kcl = gf.constant(gf.kcl)
+    layout = gf.constant(gf.kcl.layout)
 
 
 def lyp_to_dataclass(lyp_filepath: str | pathlib.Path, overwrite: bool = True) -> str:

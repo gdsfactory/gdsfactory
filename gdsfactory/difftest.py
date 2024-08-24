@@ -172,8 +172,8 @@ def diff(
             for layer in c.kcl.layer_infos():
                 # exists in both
                 if (
-                    new.kcl.find_layer(layer) is not None
-                    and old.kcl.find_layer(layer) is not None
+                    new.kcl.layout.find_layer(layer) is not None
+                    and old.kcl.layout.find_layer(layer) is not None
                 ):
                     layer_ref = old.layer(layer)
                     layer_run = new.layer(layer)
@@ -197,7 +197,7 @@ def diff(
                             equivalent = False
                         print(message)
                 # only in new
-                elif new.kcl.find_layer(layer) is not None:
+                elif new.kcl.layout.find_layer(layer) is not None:
                     layer_id = new.layer(layer)
                     region = kdb.Region(new.begin_shapes_rec(layer_id))
                     diff.shapes(c.kcl.layer(layer)).insert(region)
@@ -205,7 +205,7 @@ def diff(
                     equivalent = False
 
                 # only in old
-                elif old.kcl.find_layer(layer) is not None:
+                elif old.kcl.layout.find_layer(layer) is not None:
                     layer_id = old.layer(layer)
                     region = kdb.Region(old.begin_shapes_rec(layer_id))
                     diff.shapes(c.kcl.layer(layer)).insert(region)

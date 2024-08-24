@@ -14,7 +14,7 @@ from gdsfactory.typings import Layer
 
 
 class LAYER(gf.LayerEnum):
-    kcl = gf.constant(gf.kcl)
+    layout = gf.constant(gf.kcl.layout)
 
     WG: Layer = (10, 1)
     WG_CLAD: Layer = (10, 2)
