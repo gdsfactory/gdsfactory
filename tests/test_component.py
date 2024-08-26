@@ -57,4 +57,5 @@ def test_trim() -> None:
 
 
 def test_from_kcell() -> None:
-    gf.Component.from_kcell(kf.cells.straight.straight(1, 1, LAYER.WG))
+    kf.kcl.infos = kf.LayerInfos(WG=kf.kdb.LayerInfo(1, 0))
+    gf.Component.from_kcell(kf.cells.straight.straight(1, 1, gf.kcl.get_info(LAYER.WG)))
