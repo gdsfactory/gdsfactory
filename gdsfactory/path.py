@@ -489,7 +489,7 @@ class Path(_GeometryHelper):
         width: float | None | Callable = None,
         simplify: float | None = None,
         all_angle: bool = False,
-    ) -> Component:
+    ) -> Component | ComponentAllAngle:
         """Returns Component by extruding a Path with a CrossSection.
 
         A path can be extruded using any CrossSection returning a Component
@@ -785,7 +785,7 @@ def extrude(
     width: float | None | Callable = None,
     simplify: float | None = None,
     all_angle: bool = False,
-) -> Component:
+) -> Component | ComponentAllAngle:
     """Returns Component extruding a Path with a cross_section.
 
     A path can be extruded using any CrossSection returning a Component
