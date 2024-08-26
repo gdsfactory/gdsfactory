@@ -49,7 +49,7 @@ instances:
       - via1
       - via2
       - null
-  via_stack_corner45_W2p1_2f36860f_4030_5969:
+  via_stack_corner45_W2p1_2f36860f_0_0:
     component: via_stack_corner45
     info:
       layer: MTOP
@@ -67,9 +67,9 @@ instances:
 name: via_stack_corner45_exte_dddb75cc
 nets:
 - p1: via_stack_S10_3_LM1_M2__6dbbf459_16061_11500,e1
-  p2: via_stack_corner45_W2p1_2f36860f_4030_5969,e2
+  p2: via_stack_corner45_W2p1_2f36860f_0_0,e2
 - p1: via_stack_S10_3_LM1_M2__6dbbf459_m1500_m6061,e1
-  p2: via_stack_corner45_W2p1_2f36860f_4030_5969,e1
+  p2: via_stack_corner45_W2p1_2f36860f_0_0,e1
 placements:
   via_stack_S10_3_LM1_M2__6dbbf459_16061_11500:
     mirror: false
@@ -81,7 +81,7 @@ placements:
     rotation: 270
     x: -1.5
     y: -6.061
-  via_stack_corner45_W2p1_2f36860f_4030_5969:
+  via_stack_corner45_W2p1_2f36860f_0_0:
     mirror: false
     rotation: 0
     x: 0

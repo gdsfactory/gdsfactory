@@ -1,5 +1,5 @@
 instances:
-  text_Tchip99_S100_P0_0_Jleft_LWG_m4670000_m4810000:
+  text_Tchip99_S100_P0_0_Jleft_LWG_m4890000_m4850000:
     component: text
     info: {}
     settings:
@@ -13,7 +13,7 @@ instances:
 name: die_S10000_10000_SW100__48b1c773
 nets: []
 placements:
-  text_Tchip99_S100_P0_0_Jleft_LWG_m4670000_m4810000:
+  text_Tchip99_S100_P0_0_Jleft_LWG_m4890000_m4850000:
     mirror: false
     rotation: 0
     x: -4890

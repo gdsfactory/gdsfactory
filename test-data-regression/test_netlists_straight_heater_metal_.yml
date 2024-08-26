@@ -870,7 +870,7 @@ instances:
       cross_section: strip_heater_metal
       length: 2.4
       npoints: 2
-  taper_L5_W11_W2p5_PNone_4a19c1ba_322400_0:
+  taper_L5_W11_W2p5_PNone_4a19c1ba_324900_0:
     component: taper
     info:
       length: 5
@@ -889,7 +889,7 @@ instances:
       width2: 2.5
       with_bbox: true
       with_two_ports: true
-  taper_L5_W11_W2p5_PNone_4a19c1ba_m2400_0:
+  taper_L5_W11_W2p5_PNone_4a19c1ba_m4900_0:
     component: taper
     info:
       length: 5
@@ -1221,12 +1221,12 @@ nets:
 - p1: _2,o1
   p2: m2,o2
 - p1: m1,e1
-  p2: taper_L5_W11_W2p5_PNone_4a19c1ba_m2400_0,e2
+  p2: taper_L5_W11_W2p5_PNone_4a19c1ba_m4900_0,e2
 - p1: m2,e2
-  p2: taper_L5_W11_W2p5_PNone_4a19c1ba_322400_0,e2
-- p1: taper_L5_W11_W2p5_PNone_4a19c1ba_322400_0,e1
+  p2: taper_L5_W11_W2p5_PNone_4a19c1ba_324900_0,e2
+- p1: taper_L5_W11_W2p5_PNone_4a19c1ba_324900_0,e1
   p2: via_stack_S11_11_LHEATE_6668a8d5_330400_0,e1
-- p1: taper_L5_W11_W2p5_PNone_4a19c1ba_m2400_0,e1
+- p1: taper_L5_W11_W2p5_PNone_4a19c1ba_m4900_0,e1
   p2: via_stack_S11_11_LHEATE_6668a8d5_m10400_0,e3
 placements:
   U1:
@@ -1564,12 +1564,12 @@ placements:
     rotation: 0
     x: 317.5
     y: 0
-  taper_L5_W11_W2p5_PNone_4a19c1ba_322400_0:
+  taper_L5_W11_W2p5_PNone_4a19c1ba_324900_0:
     mirror: false
     rotation: 180
     x: 324.9
     y: 0
-  taper_L5_W11_W2p5_PNone_4a19c1ba_m2400_0:
+  taper_L5_W11_W2p5_PNone_4a19c1ba_m4900_0:
     mirror: false
     rotation: 0
     x: -4.9
@@ -1587,11 +1587,11 @@ placements:
 ports:
   l_e1: via_stack_S11_11_LHEATE_6668a8d5_m10400_0,e1
   l_e2: via_stack_S11_11_LHEATE_6668a8d5_m10400_0,e2
-  l_e3: taper_L5_W11_W2p5_PNone_4a19c1ba_m2400_0,e1
+  l_e3: taper_L5_W11_W2p5_PNone_4a19c1ba_m4900_0,e1
   l_e4: via_stack_S11_11_LHEATE_6668a8d5_m10400_0,e4
   o1: _1,o1
   o2: _2,o2
-  r_e1: taper_L5_W11_W2p5_PNone_4a19c1ba_322400_0,e1
+  r_e1: taper_L5_W11_W2p5_PNone_4a19c1ba_324900_0,e1
   r_e2: via_stack_S11_11_LHEATE_6668a8d5_330400_0,e2
   r_e3: via_stack_S11_11_LHEATE_6668a8d5_330400_0,e3
   r_e4: via_stack_S11_11_LHEATE_6668a8d5_330400_0,e4

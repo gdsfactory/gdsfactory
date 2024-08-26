@@ -1,5 +1,5 @@
 instances:
-  straight_L480_N2_CSpin_240000_0:
+  straight_L480_N2_CSpin_0_0:
     component: straight
     info:
       length: 480
@@ -12,7 +12,7 @@ instances:
       cross_section: pin
       length: 480
       npoints: 2
-  taper_strip_to_ridge_L1_3a86af41_485000_0:
+  taper_strip_to_ridge_L1_3a86af41_490000_0:
     component: taper_strip_to_ridge
     info:
       length: 10
@@ -26,7 +26,7 @@ instances:
       w_slab2: 6
       width1: 0.5
       width2: 0.5
-  taper_strip_to_ridge_L1_3a86af41_m5000_0:
+  taper_strip_to_ridge_L1_3a86af41_m10000_0:
     component: taper_strip_to_ridge
     info:
       length: 10
@@ -138,22 +138,22 @@ instances:
       - via1
 name: straight_pin_slot_L500__1e9e7886
 nets:
-- p1: straight_L480_N2_CSpin_240000_0,o1
-  p2: taper_strip_to_ridge_L1_3a86af41_m5000_0,o2
-- p1: straight_L480_N2_CSpin_240000_0,o2
-  p2: taper_strip_to_ridge_L1_3a86af41_485000_0,o2
+- p1: straight_L480_N2_CSpin_0_0,o1
+  p2: taper_strip_to_ridge_L1_3a86af41_m10000_0,o2
+- p1: straight_L480_N2_CSpin_0_0,o2
+  p2: taper_strip_to_ridge_L1_3a86af41_490000_0,o2
 placements:
-  straight_L480_N2_CSpin_240000_0:
+  straight_L480_N2_CSpin_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  taper_strip_to_ridge_L1_3a86af41_485000_0:
+  taper_strip_to_ridge_L1_3a86af41_490000_0:
     mirror: false
     rotation: 180
     x: 490
     y: 0
-  taper_strip_to_ridge_L1_3a86af41_m5000_0:
+  taper_strip_to_ridge_L1_3a86af41_m10000_0:
     mirror: false
     rotation: 0
     x: -10
@@ -183,8 +183,8 @@ ports:
   bot_e2: via_stack_S480_10_LM1_M_aeb4d951_240000_m6500,e2
   bot_e3: via_stack_S480_10_LM1_M_aeb4d951_240000_m6500,e3
   bot_e4: via_stack_S480_10_LM1_M_aeb4d951_240000_m6500,e4
-  o1: taper_strip_to_ridge_L1_3a86af41_m5000_0,o1
-  o2: taper_strip_to_ridge_L1_3a86af41_485000_0,o1
+  o1: taper_strip_to_ridge_L1_3a86af41_m10000_0,o1
+  o2: taper_strip_to_ridge_L1_3a86af41_490000_0,o1
   top_e1: via_stack_S480_10_LM1_M_aeb4d951_240000_6500,e1
   top_e2: via_stack_S480_10_LM1_M_aeb4d951_240000_6500,e2
   top_e3: via_stack_S480_10_LM1_M_aeb4d951_240000_6500,e3

@@ -1,5 +1,5 @@
 instances:
-  bend_euler_R10_A90_P0p5_f9fcb00b_m75125_m221375:
+  bend_euler_R10_A90_P0p5_f9fcb00b_m70000_m226250:
     component: bend_euler
     info:
       dy: 10
@@ -20,7 +20,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_f9fcb00b_m75125_m58125:
+  bend_euler_R10_A90_P0p5_f9fcb00b_m70000_m53250:
     component: bend_euler
     info:
       dy: 10
@@ -41,7 +41,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_f9fcb00b_m84875_m134250:
+  bend_euler_R10_A90_P0p5_f9fcb00b_m80000_m129125:
     component: bend_euler
     info:
       dy: 10
@@ -62,7 +62,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_f9fcb00b_m84875_m145250:
+  bend_euler_R10_A90_P0p5_f9fcb00b_m80000_m150375:
     component: bend_euler
     info:
       dy: 10
@@ -83,7 +83,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  coh_tx_single_pol_BPSFa_4ee171aa_205500_m220875:
+  coh_tx_single_pol_BPSFa_4ee171aa_0_0:
     component: coh_tx_single_pol
     info: {}
     settings:
@@ -98,7 +98,7 @@ instances:
       phase_shifter_length: 100
       splitter: mmi1x2
       xspacing: 40
-  coh_tx_single_pol_BPSFa_4ee171aa_205500_m47875:
+  coh_tx_single_pol_BPSFa_4ee171aa_0_m173000:
     component: coh_tx_single_pol
     info: {}
     settings:
@@ -113,7 +113,7 @@ instances:
       phase_shifter_length: 100
       splitter: mmi1x2
       xspacing: 40
-  mmi1x2_WNone_WT1_LT10_L_4e0f7121_m102750_m139750:
+  mmi1x2_WNone_WT1_LT10_L_4e0f7121_m105500_m139750:
     component: mmi1x2
     info: {}
     settings:
@@ -125,7 +125,7 @@ instances:
       taper: taper
       width_mmi: 2.5
       width_taper: 1
-  straight_L65p875_N2_CSstrip_W0p5_m80000_m183313:
+  straight_L65p875_N2_CSstrip_W0p5_m80000_m216250:
     component: straight
     info:
       length: 65.875
@@ -139,7 +139,7 @@ instances:
       length: 65.875
       npoints: 2
       width: 0.5
-  straight_L65p875_N2_CSstrip_W0p5_m80000_m96188:
+  straight_L65p875_N2_CSstrip_W0p5_m80000_m63250:
     component: straight
     info:
       length: 65.875
@@ -153,7 +153,7 @@ instances:
       length: 65.875
       npoints: 2
       width: 0.5
-  straight_L7p25_N2_CSstrip_W0p5_m66375_m226250:
+  straight_L7p25_N2_CSstrip_W0p5_m70000_m226250:
     component: straight
     info:
       length: 7.25
@@ -167,7 +167,7 @@ instances:
       length: 7.25
       npoints: 2
       width: 0.5
-  straight_L7p25_N2_CSstrip_W0p5_m66375_m53250:
+  straight_L7p25_N2_CSstrip_W0p5_m70000_m53250:
     component: straight
     info:
       length: 7.25
@@ -183,131 +183,131 @@ instances:
       width: 0.5
 name: coh_tx_dual_pol_Smmi1x2_a3c36516
 nets:
-- p1: bend_euler_R10_A90_P0p5_f9fcb00b_m75125_m221375,o1
-  p2: straight_L7p25_N2_CSstrip_W0p5_m66375_m226250,o1
-- p1: bend_euler_R10_A90_P0p5_f9fcb00b_m75125_m221375,o2
-  p2: straight_L65p875_N2_CSstrip_W0p5_m80000_m183313,o1
-- p1: bend_euler_R10_A90_P0p5_f9fcb00b_m75125_m58125,o1
-  p2: straight_L7p25_N2_CSstrip_W0p5_m66375_m53250,o1
-- p1: bend_euler_R10_A90_P0p5_f9fcb00b_m75125_m58125,o2
-  p2: straight_L65p875_N2_CSstrip_W0p5_m80000_m96188,o1
-- p1: bend_euler_R10_A90_P0p5_f9fcb00b_m84875_m134250,o1
-  p2: straight_L65p875_N2_CSstrip_W0p5_m80000_m96188,o2
-- p1: bend_euler_R10_A90_P0p5_f9fcb00b_m84875_m134250,o2
-  p2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_m102750_m139750,o2
-- p1: bend_euler_R10_A90_P0p5_f9fcb00b_m84875_m145250,o1
-  p2: straight_L65p875_N2_CSstrip_W0p5_m80000_m183313,o2
-- p1: bend_euler_R10_A90_P0p5_f9fcb00b_m84875_m145250,o2
-  p2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_m102750_m139750,o3
-- p1: coh_tx_single_pol_BPSFa_4ee171aa_205500_m220875,o1
-  p2: straight_L7p25_N2_CSstrip_W0p5_m66375_m226250,o2
-- p1: coh_tx_single_pol_BPSFa_4ee171aa_205500_m47875,o1
-  p2: straight_L7p25_N2_CSstrip_W0p5_m66375_m53250,o2
+- p1: bend_euler_R10_A90_P0p5_f9fcb00b_m70000_m226250,o1
+  p2: straight_L7p25_N2_CSstrip_W0p5_m70000_m226250,o1
+- p1: bend_euler_R10_A90_P0p5_f9fcb00b_m70000_m226250,o2
+  p2: straight_L65p875_N2_CSstrip_W0p5_m80000_m216250,o1
+- p1: bend_euler_R10_A90_P0p5_f9fcb00b_m70000_m53250,o1
+  p2: straight_L7p25_N2_CSstrip_W0p5_m70000_m53250,o1
+- p1: bend_euler_R10_A90_P0p5_f9fcb00b_m70000_m53250,o2
+  p2: straight_L65p875_N2_CSstrip_W0p5_m80000_m63250,o1
+- p1: bend_euler_R10_A90_P0p5_f9fcb00b_m80000_m129125,o1
+  p2: straight_L65p875_N2_CSstrip_W0p5_m80000_m63250,o2
+- p1: bend_euler_R10_A90_P0p5_f9fcb00b_m80000_m129125,o2
+  p2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_m105500_m139750,o2
+- p1: bend_euler_R10_A90_P0p5_f9fcb00b_m80000_m150375,o1
+  p2: straight_L65p875_N2_CSstrip_W0p5_m80000_m216250,o2
+- p1: bend_euler_R10_A90_P0p5_f9fcb00b_m80000_m150375,o2
+  p2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_m105500_m139750,o3
+- p1: coh_tx_single_pol_BPSFa_4ee171aa_0_0,o1
+  p2: straight_L7p25_N2_CSstrip_W0p5_m70000_m53250,o2
+- p1: coh_tx_single_pol_BPSFa_4ee171aa_0_m173000,o1
+  p2: straight_L7p25_N2_CSstrip_W0p5_m70000_m226250,o2
 placements:
-  bend_euler_R10_A90_P0p5_f9fcb00b_m75125_m221375:
+  bend_euler_R10_A90_P0p5_f9fcb00b_m70000_m226250:
     mirror: true
     rotation: 180
     x: -70
     y: -226.25
-  bend_euler_R10_A90_P0p5_f9fcb00b_m75125_m58125:
+  bend_euler_R10_A90_P0p5_f9fcb00b_m70000_m53250:
     mirror: false
     rotation: 180
     x: -70
     y: -53.25
-  bend_euler_R10_A90_P0p5_f9fcb00b_m84875_m134250:
+  bend_euler_R10_A90_P0p5_f9fcb00b_m80000_m129125:
     mirror: true
     rotation: 270
     x: -80
     y: -129.125
-  bend_euler_R10_A90_P0p5_f9fcb00b_m84875_m145250:
+  bend_euler_R10_A90_P0p5_f9fcb00b_m80000_m150375:
     mirror: false
     rotation: 90
     x: -80
     y: -150.375
-  coh_tx_single_pol_BPSFa_4ee171aa_205500_m220875:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: -173
-  coh_tx_single_pol_BPSFa_4ee171aa_205500_m47875:
+  coh_tx_single_pol_BPSFa_4ee171aa_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  mmi1x2_WNone_WT1_LT10_L_4e0f7121_m102750_m139750:
+  coh_tx_single_pol_BPSFa_4ee171aa_0_m173000:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: -173
+  mmi1x2_WNone_WT1_LT10_L_4e0f7121_m105500_m139750:
     mirror: false
     rotation: 0
     x: -105.5
     y: -139.75
-  straight_L65p875_N2_CSstrip_W0p5_m80000_m183313:
+  straight_L65p875_N2_CSstrip_W0p5_m80000_m216250:
     mirror: false
     rotation: 90
     x: -80
     y: -216.25
-  straight_L65p875_N2_CSstrip_W0p5_m80000_m96188:
+  straight_L65p875_N2_CSstrip_W0p5_m80000_m63250:
     mirror: false
     rotation: 270
     x: -80
     y: -63.25
-  straight_L7p25_N2_CSstrip_W0p5_m66375_m226250:
+  straight_L7p25_N2_CSstrip_W0p5_m70000_m226250:
     mirror: false
     rotation: 0
     x: -70
     y: -226.25
-  straight_L7p25_N2_CSstrip_W0p5_m66375_m53250:
+  straight_L7p25_N2_CSstrip_W0p5_m70000_m53250:
     mirror: false
     rotation: 0
     x: -70
     y: -53.25
 ports:
-  o1: mmi1x2_WNone_WT1_LT10_L_4e0f7121_m102750_m139750,o1
-  o2: coh_tx_single_pol_BPSFa_4ee171aa_205500_m47875,o2
-  o3: coh_tx_single_pol_BPSFa_4ee171aa_205500_m220875,o2
-  pol1_mzm_i_e1: coh_tx_single_pol_BPSFa_4ee171aa_205500_m47875,mzm_i_e1
-  pol1_mzm_i_e2: coh_tx_single_pol_BPSFa_4ee171aa_205500_m47875,mzm_i_e2
-  pol1_mzm_i_e3: coh_tx_single_pol_BPSFa_4ee171aa_205500_m47875,mzm_i_e3
-  pol1_mzm_i_e4: coh_tx_single_pol_BPSFa_4ee171aa_205500_m47875,mzm_i_e4
-  pol1_mzm_i_e5: coh_tx_single_pol_BPSFa_4ee171aa_205500_m47875,mzm_i_e5
-  pol1_mzm_i_e6: coh_tx_single_pol_BPSFa_4ee171aa_205500_m47875,mzm_i_e6
-  pol1_mzm_i_e7: coh_tx_single_pol_BPSFa_4ee171aa_205500_m47875,mzm_i_e7
-  pol1_mzm_i_e8: coh_tx_single_pol_BPSFa_4ee171aa_205500_m47875,mzm_i_e8
-  pol1_mzm_q_e1: coh_tx_single_pol_BPSFa_4ee171aa_205500_m47875,mzm_q_e1
-  pol1_mzm_q_e2: coh_tx_single_pol_BPSFa_4ee171aa_205500_m47875,mzm_q_e2
-  pol1_mzm_q_e3: coh_tx_single_pol_BPSFa_4ee171aa_205500_m47875,mzm_q_e3
-  pol1_mzm_q_e4: coh_tx_single_pol_BPSFa_4ee171aa_205500_m47875,mzm_q_e4
-  pol1_mzm_q_e5: coh_tx_single_pol_BPSFa_4ee171aa_205500_m47875,mzm_q_e5
-  pol1_mzm_q_e6: coh_tx_single_pol_BPSFa_4ee171aa_205500_m47875,mzm_q_e6
-  pol1_mzm_q_e7: coh_tx_single_pol_BPSFa_4ee171aa_205500_m47875,mzm_q_e7
-  pol1_mzm_q_e8: coh_tx_single_pol_BPSFa_4ee171aa_205500_m47875,mzm_q_e8
-  pol1_ps_q_bot_e1: coh_tx_single_pol_BPSFa_4ee171aa_205500_m47875,ps_q_bot_e1
-  pol1_ps_q_bot_e2: coh_tx_single_pol_BPSFa_4ee171aa_205500_m47875,ps_q_bot_e2
-  pol1_ps_q_bot_e3: coh_tx_single_pol_BPSFa_4ee171aa_205500_m47875,ps_q_bot_e3
-  pol1_ps_q_bot_e4: coh_tx_single_pol_BPSFa_4ee171aa_205500_m47875,ps_q_bot_e4
-  pol1_ps_q_top_e1: coh_tx_single_pol_BPSFa_4ee171aa_205500_m47875,ps_q_top_e1
-  pol1_ps_q_top_e2: coh_tx_single_pol_BPSFa_4ee171aa_205500_m47875,ps_q_top_e2
-  pol1_ps_q_top_e3: coh_tx_single_pol_BPSFa_4ee171aa_205500_m47875,ps_q_top_e3
-  pol1_ps_q_top_e4: coh_tx_single_pol_BPSFa_4ee171aa_205500_m47875,ps_q_top_e4
-  pol2_mzm_i_e1: coh_tx_single_pol_BPSFa_4ee171aa_205500_m220875,mzm_i_e1
-  pol2_mzm_i_e2: coh_tx_single_pol_BPSFa_4ee171aa_205500_m220875,mzm_i_e2
-  pol2_mzm_i_e3: coh_tx_single_pol_BPSFa_4ee171aa_205500_m220875,mzm_i_e3
-  pol2_mzm_i_e4: coh_tx_single_pol_BPSFa_4ee171aa_205500_m220875,mzm_i_e4
-  pol2_mzm_i_e5: coh_tx_single_pol_BPSFa_4ee171aa_205500_m220875,mzm_i_e5
-  pol2_mzm_i_e6: coh_tx_single_pol_BPSFa_4ee171aa_205500_m220875,mzm_i_e6
-  pol2_mzm_i_e7: coh_tx_single_pol_BPSFa_4ee171aa_205500_m220875,mzm_i_e7
-  pol2_mzm_i_e8: coh_tx_single_pol_BPSFa_4ee171aa_205500_m220875,mzm_i_e8
-  pol2_mzm_q_e1: coh_tx_single_pol_BPSFa_4ee171aa_205500_m220875,mzm_q_e1
-  pol2_mzm_q_e2: coh_tx_single_pol_BPSFa_4ee171aa_205500_m220875,mzm_q_e2
-  pol2_mzm_q_e3: coh_tx_single_pol_BPSFa_4ee171aa_205500_m220875,mzm_q_e3
-  pol2_mzm_q_e4: coh_tx_single_pol_BPSFa_4ee171aa_205500_m220875,mzm_q_e4
-  pol2_mzm_q_e5: coh_tx_single_pol_BPSFa_4ee171aa_205500_m220875,mzm_q_e5
-  pol2_mzm_q_e6: coh_tx_single_pol_BPSFa_4ee171aa_205500_m220875,mzm_q_e6
-  pol2_mzm_q_e7: coh_tx_single_pol_BPSFa_4ee171aa_205500_m220875,mzm_q_e7
-  pol2_mzm_q_e8: coh_tx_single_pol_BPSFa_4ee171aa_205500_m220875,mzm_q_e8
-  pol2_ps_q_bot_e1: coh_tx_single_pol_BPSFa_4ee171aa_205500_m220875,ps_q_bot_e1
-  pol2_ps_q_bot_e2: coh_tx_single_pol_BPSFa_4ee171aa_205500_m220875,ps_q_bot_e2
-  pol2_ps_q_bot_e3: coh_tx_single_pol_BPSFa_4ee171aa_205500_m220875,ps_q_bot_e3
-  pol2_ps_q_bot_e4: coh_tx_single_pol_BPSFa_4ee171aa_205500_m220875,ps_q_bot_e4
-  pol2_ps_q_top_e1: coh_tx_single_pol_BPSFa_4ee171aa_205500_m220875,ps_q_top_e1
-  pol2_ps_q_top_e2: coh_tx_single_pol_BPSFa_4ee171aa_205500_m220875,ps_q_top_e2
-  pol2_ps_q_top_e3: coh_tx_single_pol_BPSFa_4ee171aa_205500_m220875,ps_q_top_e3
-  pol2_ps_q_top_e4: coh_tx_single_pol_BPSFa_4ee171aa_205500_m220875,ps_q_top_e4
+  o1: mmi1x2_WNone_WT1_LT10_L_4e0f7121_m105500_m139750,o1
+  o2: coh_tx_single_pol_BPSFa_4ee171aa_0_0,o2
+  o3: coh_tx_single_pol_BPSFa_4ee171aa_0_m173000,o2
+  pol1_mzm_i_e1: coh_tx_single_pol_BPSFa_4ee171aa_0_0,mzm_i_e1
+  pol1_mzm_i_e2: coh_tx_single_pol_BPSFa_4ee171aa_0_0,mzm_i_e2
+  pol1_mzm_i_e3: coh_tx_single_pol_BPSFa_4ee171aa_0_0,mzm_i_e3
+  pol1_mzm_i_e4: coh_tx_single_pol_BPSFa_4ee171aa_0_0,mzm_i_e4
+  pol1_mzm_i_e5: coh_tx_single_pol_BPSFa_4ee171aa_0_0,mzm_i_e5
+  pol1_mzm_i_e6: coh_tx_single_pol_BPSFa_4ee171aa_0_0,mzm_i_e6
+  pol1_mzm_i_e7: coh_tx_single_pol_BPSFa_4ee171aa_0_0,mzm_i_e7
+  pol1_mzm_i_e8: coh_tx_single_pol_BPSFa_4ee171aa_0_0,mzm_i_e8
+  pol1_mzm_q_e1: coh_tx_single_pol_BPSFa_4ee171aa_0_0,mzm_q_e1
+  pol1_mzm_q_e2: coh_tx_single_pol_BPSFa_4ee171aa_0_0,mzm_q_e2
+  pol1_mzm_q_e3: coh_tx_single_pol_BPSFa_4ee171aa_0_0,mzm_q_e3
+  pol1_mzm_q_e4: coh_tx_single_pol_BPSFa_4ee171aa_0_0,mzm_q_e4
+  pol1_mzm_q_e5: coh_tx_single_pol_BPSFa_4ee171aa_0_0,mzm_q_e5
+  pol1_mzm_q_e6: coh_tx_single_pol_BPSFa_4ee171aa_0_0,mzm_q_e6
+  pol1_mzm_q_e7: coh_tx_single_pol_BPSFa_4ee171aa_0_0,mzm_q_e7
+  pol1_mzm_q_e8: coh_tx_single_pol_BPSFa_4ee171aa_0_0,mzm_q_e8
+  pol1_ps_q_bot_e1: coh_tx_single_pol_BPSFa_4ee171aa_0_0,ps_q_bot_e1
+  pol1_ps_q_bot_e2: coh_tx_single_pol_BPSFa_4ee171aa_0_0,ps_q_bot_e2
+  pol1_ps_q_bot_e3: coh_tx_single_pol_BPSFa_4ee171aa_0_0,ps_q_bot_e3
+  pol1_ps_q_bot_e4: coh_tx_single_pol_BPSFa_4ee171aa_0_0,ps_q_bot_e4
+  pol1_ps_q_top_e1: coh_tx_single_pol_BPSFa_4ee171aa_0_0,ps_q_top_e1
+  pol1_ps_q_top_e2: coh_tx_single_pol_BPSFa_4ee171aa_0_0,ps_q_top_e2
+  pol1_ps_q_top_e3: coh_tx_single_pol_BPSFa_4ee171aa_0_0,ps_q_top_e3
+  pol1_ps_q_top_e4: coh_tx_single_pol_BPSFa_4ee171aa_0_0,ps_q_top_e4
+  pol2_mzm_i_e1: coh_tx_single_pol_BPSFa_4ee171aa_0_m173000,mzm_i_e1
+  pol2_mzm_i_e2: coh_tx_single_pol_BPSFa_4ee171aa_0_m173000,mzm_i_e2
+  pol2_mzm_i_e3: coh_tx_single_pol_BPSFa_4ee171aa_0_m173000,mzm_i_e3
+  pol2_mzm_i_e4: coh_tx_single_pol_BPSFa_4ee171aa_0_m173000,mzm_i_e4
+  pol2_mzm_i_e5: coh_tx_single_pol_BPSFa_4ee171aa_0_m173000,mzm_i_e5
+  pol2_mzm_i_e6: coh_tx_single_pol_BPSFa_4ee171aa_0_m173000,mzm_i_e6
+  pol2_mzm_i_e7: coh_tx_single_pol_BPSFa_4ee171aa_0_m173000,mzm_i_e7
+  pol2_mzm_i_e8: coh_tx_single_pol_BPSFa_4ee171aa_0_m173000,mzm_i_e8
+  pol2_mzm_q_e1: coh_tx_single_pol_BPSFa_4ee171aa_0_m173000,mzm_q_e1
+  pol2_mzm_q_e2: coh_tx_single_pol_BPSFa_4ee171aa_0_m173000,mzm_q_e2
+  pol2_mzm_q_e3: coh_tx_single_pol_BPSFa_4ee171aa_0_m173000,mzm_q_e3
+  pol2_mzm_q_e4: coh_tx_single_pol_BPSFa_4ee171aa_0_m173000,mzm_q_e4
+  pol2_mzm_q_e5: coh_tx_single_pol_BPSFa_4ee171aa_0_m173000,mzm_q_e5
+  pol2_mzm_q_e6: coh_tx_single_pol_BPSFa_4ee171aa_0_m173000,mzm_q_e6
+  pol2_mzm_q_e7: coh_tx_single_pol_BPSFa_4ee171aa_0_m173000,mzm_q_e7
+  pol2_mzm_q_e8: coh_tx_single_pol_BPSFa_4ee171aa_0_m173000,mzm_q_e8
+  pol2_ps_q_bot_e1: coh_tx_single_pol_BPSFa_4ee171aa_0_m173000,ps_q_bot_e1
+  pol2_ps_q_bot_e2: coh_tx_single_pol_BPSFa_4ee171aa_0_m173000,ps_q_bot_e2
+  pol2_ps_q_bot_e3: coh_tx_single_pol_BPSFa_4ee171aa_0_m173000,ps_q_bot_e3
+  pol2_ps_q_bot_e4: coh_tx_single_pol_BPSFa_4ee171aa_0_m173000,ps_q_bot_e4
+  pol2_ps_q_top_e1: coh_tx_single_pol_BPSFa_4ee171aa_0_m173000,ps_q_top_e1
+  pol2_ps_q_top_e2: coh_tx_single_pol_BPSFa_4ee171aa_0_m173000,ps_q_top_e2
+  pol2_ps_q_top_e3: coh_tx_single_pol_BPSFa_4ee171aa_0_m173000,ps_q_top_e3
+  pol2_ps_q_top_e4: coh_tx_single_pol_BPSFa_4ee171aa_0_m173000,ps_q_top_e4

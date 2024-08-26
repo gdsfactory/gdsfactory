@@ -1,5 +1,5 @@
 instances:
-  rectangle_S5_5_L1_0_CFa_fd778b63_2500_2500:
+  rectangle_S5_5_L1_0_CFa_fd778b63_0_0:
     component: rectangle
     info: {}
     settings:
@@ -16,7 +16,7 @@ instances:
       size:
       - 5
       - 5
-  rectangle_S5_5_L1_0_CFa_fd778b63_m2640_m2640:
+  rectangle_S5_5_L1_0_CFa_fd778b63_m5140_m5140:
     component: rectangle
     info: {}
     settings:
@@ -36,12 +36,12 @@ instances:
 name: fiducial_squares_L1_0_S5_5_O0p14
 nets: []
 placements:
-  rectangle_S5_5_L1_0_CFa_fd778b63_2500_2500:
+  rectangle_S5_5_L1_0_CFa_fd778b63_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  rectangle_S5_5_L1_0_CFa_fd778b63_m2640_m2640:
+  rectangle_S5_5_L1_0_CFa_fd778b63_m5140_m5140:
     mirror: false
     rotation: 0
     x: -5.14
@@ -52,14 +52,14 @@ warnings:
     unconnected_ports:
     - message: 8 unconnected electrical ports!
       ports:
-      - rectangle_S5_5_L1_0_CFa_fd778b63_2500_2500,e1
-      - rectangle_S5_5_L1_0_CFa_fd778b63_2500_2500,e2
-      - rectangle_S5_5_L1_0_CFa_fd778b63_2500_2500,e3
-      - rectangle_S5_5_L1_0_CFa_fd778b63_2500_2500,e4
-      - rectangle_S5_5_L1_0_CFa_fd778b63_m2640_m2640,e1
-      - rectangle_S5_5_L1_0_CFa_fd778b63_m2640_m2640,e2
-      - rectangle_S5_5_L1_0_CFa_fd778b63_m2640_m2640,e3
-      - rectangle_S5_5_L1_0_CFa_fd778b63_m2640_m2640,e4
+      - rectangle_S5_5_L1_0_CFa_fd778b63_0_0,e1
+      - rectangle_S5_5_L1_0_CFa_fd778b63_0_0,e2
+      - rectangle_S5_5_L1_0_CFa_fd778b63_0_0,e3
+      - rectangle_S5_5_L1_0_CFa_fd778b63_0_0,e4
+      - rectangle_S5_5_L1_0_CFa_fd778b63_m5140_m5140,e1
+      - rectangle_S5_5_L1_0_CFa_fd778b63_m5140_m5140,e2
+      - rectangle_S5_5_L1_0_CFa_fd778b63_m5140_m5140,e3
+      - rectangle_S5_5_L1_0_CFa_fd778b63_m5140_m5140,e4
       values:
       - - 0
         - 2500

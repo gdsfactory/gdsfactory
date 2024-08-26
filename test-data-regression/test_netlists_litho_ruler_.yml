@@ -1,5 +1,5 @@
 instances:
-  rectangle_S0p5_2_LWG_CF_06c4f7a9_14000_1000:
+  rectangle_S0p5_2_LWG_CF_06c4f7a9_1250_0:
     component: rectangle
     info: {}
     settings:
@@ -14,7 +14,7 @@ instances:
       size:
       - 0.5
       - 2
-  rectangle_S0p5_2_LWG_CF_06c4f7a9_1500_1000:
+  rectangle_S0p5_2_LWG_CF_06c4f7a9_13750_0:
     component: rectangle
     info: {}
     settings:
@@ -29,7 +29,7 @@ instances:
       size:
       - 0.5
       - 2
-  rectangle_S0p5_2_LWG_CF_06c4f7a9_16500_1000:
+  rectangle_S0p5_2_LWG_CF_06c4f7a9_16250_0:
     component: rectangle
     info: {}
     settings:
@@ -44,7 +44,7 @@ instances:
       size:
       - 0.5
       - 2
-  rectangle_S0p5_2_LWG_CF_06c4f7a9_19000_1000:
+  rectangle_S0p5_2_LWG_CF_06c4f7a9_18750_0:
     component: rectangle
     info: {}
     settings:
@@ -59,7 +59,7 @@ instances:
       size:
       - 0.5
       - 2
-  rectangle_S0p5_2_LWG_CF_06c4f7a9_21500_1000:
+  rectangle_S0p5_2_LWG_CF_06c4f7a9_21250_0:
     component: rectangle
     info: {}
     settings:
@@ -74,7 +74,7 @@ instances:
       size:
       - 0.5
       - 2
-  rectangle_S0p5_2_LWG_CF_06c4f7a9_4000_1000:
+  rectangle_S0p5_2_LWG_CF_06c4f7a9_3750_0:
     component: rectangle
     info: {}
     settings:
@@ -89,7 +89,7 @@ instances:
       size:
       - 0.5
       - 2
-  rectangle_S0p5_2_LWG_CF_06c4f7a9_6500_1000:
+  rectangle_S0p5_2_LWG_CF_06c4f7a9_6250_0:
     component: rectangle
     info: {}
     settings:
@@ -104,7 +104,7 @@ instances:
       size:
       - 0.5
       - 2
-  rectangle_S0p5_2_LWG_CF_06c4f7a9_9000_1000:
+  rectangle_S0p5_2_LWG_CF_06c4f7a9_8750_0:
     component: rectangle
     info: {}
     settings:
@@ -119,7 +119,7 @@ instances:
       size:
       - 0.5
       - 2
-  rectangle_S0p5_2_LWG_CF_06c4f7a9_m11000_1000:
+  rectangle_S0p5_2_LWG_CF_06c4f7a9_m11250_0:
     component: rectangle
     info: {}
     settings:
@@ -134,7 +134,7 @@ instances:
       size:
       - 0.5
       - 2
-  rectangle_S0p5_2_LWG_CF_06c4f7a9_m16000_1000:
+  rectangle_S0p5_2_LWG_CF_06c4f7a9_m16250_0:
     component: rectangle
     info: {}
     settings:
@@ -149,7 +149,7 @@ instances:
       size:
       - 0.5
       - 2
-  rectangle_S0p5_2_LWG_CF_06c4f7a9_m18500_1000:
+  rectangle_S0p5_2_LWG_CF_06c4f7a9_m18750_0:
     component: rectangle
     info: {}
     settings:
@@ -164,7 +164,7 @@ instances:
       size:
       - 0.5
       - 2
-  rectangle_S0p5_2_LWG_CF_06c4f7a9_m21000_1000:
+  rectangle_S0p5_2_LWG_CF_06c4f7a9_m21250_0:
     component: rectangle
     info: {}
     settings:
@@ -179,7 +179,7 @@ instances:
       size:
       - 0.5
       - 2
-  rectangle_S0p5_2_LWG_CF_06c4f7a9_m23500_1000:
+  rectangle_S0p5_2_LWG_CF_06c4f7a9_m23750_0:
     component: rectangle
     info: {}
     settings:
@@ -194,7 +194,7 @@ instances:
       size:
       - 0.5
       - 2
-  rectangle_S0p5_2_LWG_CF_06c4f7a9_m3500_1000:
+  rectangle_S0p5_2_LWG_CF_06c4f7a9_m3750_0:
     component: rectangle
     info: {}
     settings:
@@ -209,7 +209,7 @@ instances:
       size:
       - 0.5
       - 2
-  rectangle_S0p5_2_LWG_CF_06c4f7a9_m6000_1000:
+  rectangle_S0p5_2_LWG_CF_06c4f7a9_m6250_0:
     component: rectangle
     info: {}
     settings:
@@ -224,7 +224,7 @@ instances:
       size:
       - 0.5
       - 2
-  rectangle_S0p5_2_LWG_CF_06c4f7a9_m8500_1000:
+  rectangle_S0p5_2_LWG_CF_06c4f7a9_m8750_0:
     component: rectangle
     info: {}
     settings:
@@ -239,7 +239,7 @@ instances:
       size:
       - 0.5
       - 2
-  rectangle_S0p5_4_LWG_CF_a870e2f3_11500_2000:
+  rectangle_S0p5_4_LWG_CF_a870e2f3_11250_0:
     component: rectangle
     info: {}
     settings:
@@ -254,7 +254,7 @@ instances:
       size:
       - 0.5
       - 4
-  rectangle_S0p5_4_LWG_CF_a870e2f3_m13500_2000:
+  rectangle_S0p5_4_LWG_CF_a870e2f3_m13750_0:
     component: rectangle
     info: {}
     settings:
@@ -269,7 +269,7 @@ instances:
       size:
       - 0.5
       - 4
-  rectangle_S0p5_6_LWG_CF_4a339026_24000_3000:
+  rectangle_S0p5_6_LWG_CF_4a339026_23750_0:
     component: rectangle
     info: {}
     settings:
@@ -284,7 +284,7 @@ instances:
       size:
       - 0.5
       - 6
-  rectangle_S0p5_6_LWG_CF_4a339026_m1000_3000:
+  rectangle_S0p5_6_LWG_CF_4a339026_m1250_0:
     component: rectangle
     info: {}
     settings:
@@ -299,7 +299,7 @@ instances:
       size:
       - 0.5
       - 6
-  rectangle_S0p5_6_LWG_CF_4a339026_m26000_3000:
+  rectangle_S0p5_6_LWG_CF_4a339026_m26250_0:
     component: rectangle
     info: {}
     settings:
@@ -317,107 +317,107 @@ instances:
 name: litho_ruler_H2_W0p5_S2__a485f750
 nets: []
 placements:
-  rectangle_S0p5_2_LWG_CF_06c4f7a9_14000_1000:
-    mirror: false
-    rotation: 0
-    x: 13.75
-    y: 0
-  rectangle_S0p5_2_LWG_CF_06c4f7a9_1500_1000:
+  rectangle_S0p5_2_LWG_CF_06c4f7a9_1250_0:
     mirror: false
     rotation: 0
     x: 1.25
     y: 0
-  rectangle_S0p5_2_LWG_CF_06c4f7a9_16500_1000:
+  rectangle_S0p5_2_LWG_CF_06c4f7a9_13750_0:
+    mirror: false
+    rotation: 0
+    x: 13.75
+    y: 0
+  rectangle_S0p5_2_LWG_CF_06c4f7a9_16250_0:
     mirror: false
     rotation: 0
     x: 16.25
     y: 0
-  rectangle_S0p5_2_LWG_CF_06c4f7a9_19000_1000:
+  rectangle_S0p5_2_LWG_CF_06c4f7a9_18750_0:
     mirror: false
     rotation: 0
     x: 18.75
     y: 0
-  rectangle_S0p5_2_LWG_CF_06c4f7a9_21500_1000:
+  rectangle_S0p5_2_LWG_CF_06c4f7a9_21250_0:
     mirror: false
     rotation: 0
     x: 21.25
     y: 0
-  rectangle_S0p5_2_LWG_CF_06c4f7a9_4000_1000:
+  rectangle_S0p5_2_LWG_CF_06c4f7a9_3750_0:
     mirror: false
     rotation: 0
     x: 3.75
     y: 0
-  rectangle_S0p5_2_LWG_CF_06c4f7a9_6500_1000:
+  rectangle_S0p5_2_LWG_CF_06c4f7a9_6250_0:
     mirror: false
     rotation: 0
     x: 6.25
     y: 0
-  rectangle_S0p5_2_LWG_CF_06c4f7a9_9000_1000:
+  rectangle_S0p5_2_LWG_CF_06c4f7a9_8750_0:
     mirror: false
     rotation: 0
     x: 8.75
     y: 0
-  rectangle_S0p5_2_LWG_CF_06c4f7a9_m11000_1000:
+  rectangle_S0p5_2_LWG_CF_06c4f7a9_m11250_0:
     mirror: false
     rotation: 0
     x: -11.25
     y: 0
-  rectangle_S0p5_2_LWG_CF_06c4f7a9_m16000_1000:
+  rectangle_S0p5_2_LWG_CF_06c4f7a9_m16250_0:
     mirror: false
     rotation: 0
     x: -16.25
     y: 0
-  rectangle_S0p5_2_LWG_CF_06c4f7a9_m18500_1000:
+  rectangle_S0p5_2_LWG_CF_06c4f7a9_m18750_0:
     mirror: false
     rotation: 0
     x: -18.75
     y: 0
-  rectangle_S0p5_2_LWG_CF_06c4f7a9_m21000_1000:
+  rectangle_S0p5_2_LWG_CF_06c4f7a9_m21250_0:
     mirror: false
     rotation: 0
     x: -21.25
     y: 0
-  rectangle_S0p5_2_LWG_CF_06c4f7a9_m23500_1000:
+  rectangle_S0p5_2_LWG_CF_06c4f7a9_m23750_0:
     mirror: false
     rotation: 0
     x: -23.75
     y: 0
-  rectangle_S0p5_2_LWG_CF_06c4f7a9_m3500_1000:
+  rectangle_S0p5_2_LWG_CF_06c4f7a9_m3750_0:
     mirror: false
     rotation: 0
     x: -3.75
     y: 0
-  rectangle_S0p5_2_LWG_CF_06c4f7a9_m6000_1000:
+  rectangle_S0p5_2_LWG_CF_06c4f7a9_m6250_0:
     mirror: false
     rotation: 0
     x: -6.25
     y: 0
-  rectangle_S0p5_2_LWG_CF_06c4f7a9_m8500_1000:
+  rectangle_S0p5_2_LWG_CF_06c4f7a9_m8750_0:
     mirror: false
     rotation: 0
     x: -8.75
     y: 0
-  rectangle_S0p5_4_LWG_CF_a870e2f3_11500_2000:
+  rectangle_S0p5_4_LWG_CF_a870e2f3_11250_0:
     mirror: false
     rotation: 0
     x: 11.25
     y: 0
-  rectangle_S0p5_4_LWG_CF_a870e2f3_m13500_2000:
+  rectangle_S0p5_4_LWG_CF_a870e2f3_m13750_0:
     mirror: false
     rotation: 0
     x: -13.75
     y: 0
-  rectangle_S0p5_6_LWG_CF_4a339026_24000_3000:
+  rectangle_S0p5_6_LWG_CF_4a339026_23750_0:
     mirror: false
     rotation: 0
     x: 23.75
     y: 0
-  rectangle_S0p5_6_LWG_CF_4a339026_m1000_3000:
+  rectangle_S0p5_6_LWG_CF_4a339026_m1250_0:
     mirror: false
     rotation: 0
     x: -1.25
     y: 0
-  rectangle_S0p5_6_LWG_CF_4a339026_m26000_3000:
+  rectangle_S0p5_6_LWG_CF_4a339026_m26250_0:
     mirror: false
     rotation: 0
     x: -26.25
@@ -428,90 +428,90 @@ warnings:
     unconnected_ports:
     - message: 84 unconnected electrical ports!
       ports:
-      - rectangle_S0p5_6_LWG_CF_4a339026_m26000_3000,e1
-      - rectangle_S0p5_6_LWG_CF_4a339026_m26000_3000,e2
-      - rectangle_S0p5_6_LWG_CF_4a339026_m26000_3000,e3
-      - rectangle_S0p5_6_LWG_CF_4a339026_m26000_3000,e4
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m23500_1000,e1
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m23500_1000,e2
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m23500_1000,e3
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m23500_1000,e4
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m21000_1000,e1
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m21000_1000,e2
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m21000_1000,e3
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m21000_1000,e4
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m18500_1000,e1
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m18500_1000,e2
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m18500_1000,e3
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m18500_1000,e4
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m16000_1000,e1
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m16000_1000,e2
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m16000_1000,e3
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m16000_1000,e4
-      - rectangle_S0p5_4_LWG_CF_a870e2f3_m13500_2000,e1
-      - rectangle_S0p5_4_LWG_CF_a870e2f3_m13500_2000,e2
-      - rectangle_S0p5_4_LWG_CF_a870e2f3_m13500_2000,e3
-      - rectangle_S0p5_4_LWG_CF_a870e2f3_m13500_2000,e4
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m11000_1000,e1
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m11000_1000,e2
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m11000_1000,e3
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m11000_1000,e4
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m8500_1000,e1
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m8500_1000,e2
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m8500_1000,e3
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m8500_1000,e4
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m6000_1000,e1
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m6000_1000,e2
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m6000_1000,e3
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m6000_1000,e4
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m3500_1000,e1
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m3500_1000,e2
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m3500_1000,e3
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m3500_1000,e4
-      - rectangle_S0p5_6_LWG_CF_4a339026_m1000_3000,e1
-      - rectangle_S0p5_6_LWG_CF_4a339026_m1000_3000,e2
-      - rectangle_S0p5_6_LWG_CF_4a339026_m1000_3000,e3
-      - rectangle_S0p5_6_LWG_CF_4a339026_m1000_3000,e4
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_1500_1000,e1
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_1500_1000,e2
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_1500_1000,e3
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_1500_1000,e4
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_4000_1000,e1
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_4000_1000,e2
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_4000_1000,e3
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_4000_1000,e4
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_6500_1000,e1
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_6500_1000,e2
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_6500_1000,e3
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_6500_1000,e4
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_9000_1000,e1
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_9000_1000,e2
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_9000_1000,e3
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_9000_1000,e4
-      - rectangle_S0p5_4_LWG_CF_a870e2f3_11500_2000,e1
-      - rectangle_S0p5_4_LWG_CF_a870e2f3_11500_2000,e2
-      - rectangle_S0p5_4_LWG_CF_a870e2f3_11500_2000,e3
-      - rectangle_S0p5_4_LWG_CF_a870e2f3_11500_2000,e4
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_14000_1000,e1
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_14000_1000,e2
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_14000_1000,e3
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_14000_1000,e4
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_16500_1000,e1
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_16500_1000,e2
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_16500_1000,e3
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_16500_1000,e4
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_19000_1000,e1
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_19000_1000,e2
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_19000_1000,e3
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_19000_1000,e4
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_21500_1000,e1
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_21500_1000,e2
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_21500_1000,e3
-      - rectangle_S0p5_2_LWG_CF_06c4f7a9_21500_1000,e4
-      - rectangle_S0p5_6_LWG_CF_4a339026_24000_3000,e1
-      - rectangle_S0p5_6_LWG_CF_4a339026_24000_3000,e2
-      - rectangle_S0p5_6_LWG_CF_4a339026_24000_3000,e3
-      - rectangle_S0p5_6_LWG_CF_4a339026_24000_3000,e4
+      - rectangle_S0p5_6_LWG_CF_4a339026_m26250_0,e1
+      - rectangle_S0p5_6_LWG_CF_4a339026_m26250_0,e2
+      - rectangle_S0p5_6_LWG_CF_4a339026_m26250_0,e3
+      - rectangle_S0p5_6_LWG_CF_4a339026_m26250_0,e4
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m23750_0,e1
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m23750_0,e2
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m23750_0,e3
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m23750_0,e4
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m21250_0,e1
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m21250_0,e2
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m21250_0,e3
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m21250_0,e4
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m18750_0,e1
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m18750_0,e2
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m18750_0,e3
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m18750_0,e4
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m16250_0,e1
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m16250_0,e2
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m16250_0,e3
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m16250_0,e4
+      - rectangle_S0p5_4_LWG_CF_a870e2f3_m13750_0,e1
+      - rectangle_S0p5_4_LWG_CF_a870e2f3_m13750_0,e2
+      - rectangle_S0p5_4_LWG_CF_a870e2f3_m13750_0,e3
+      - rectangle_S0p5_4_LWG_CF_a870e2f3_m13750_0,e4
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m11250_0,e1
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m11250_0,e2
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m11250_0,e3
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m11250_0,e4
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m8750_0,e1
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m8750_0,e2
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m8750_0,e3
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m8750_0,e4
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m6250_0,e1
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m6250_0,e2
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m6250_0,e3
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m6250_0,e4
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m3750_0,e1
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m3750_0,e2
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m3750_0,e3
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_m3750_0,e4
+      - rectangle_S0p5_6_LWG_CF_4a339026_m1250_0,e1
+      - rectangle_S0p5_6_LWG_CF_4a339026_m1250_0,e2
+      - rectangle_S0p5_6_LWG_CF_4a339026_m1250_0,e3
+      - rectangle_S0p5_6_LWG_CF_4a339026_m1250_0,e4
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_1250_0,e1
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_1250_0,e2
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_1250_0,e3
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_1250_0,e4
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_3750_0,e1
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_3750_0,e2
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_3750_0,e3
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_3750_0,e4
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_6250_0,e1
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_6250_0,e2
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_6250_0,e3
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_6250_0,e4
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_8750_0,e1
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_8750_0,e2
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_8750_0,e3
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_8750_0,e4
+      - rectangle_S0p5_4_LWG_CF_a870e2f3_11250_0,e1
+      - rectangle_S0p5_4_LWG_CF_a870e2f3_11250_0,e2
+      - rectangle_S0p5_4_LWG_CF_a870e2f3_11250_0,e3
+      - rectangle_S0p5_4_LWG_CF_a870e2f3_11250_0,e4
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_13750_0,e1
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_13750_0,e2
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_13750_0,e3
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_13750_0,e4
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_16250_0,e1
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_16250_0,e2
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_16250_0,e3
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_16250_0,e4
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_18750_0,e1
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_18750_0,e2
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_18750_0,e3
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_18750_0,e4
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_21250_0,e1
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_21250_0,e2
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_21250_0,e3
+      - rectangle_S0p5_2_LWG_CF_06c4f7a9_21250_0,e4
+      - rectangle_S0p5_6_LWG_CF_4a339026_23750_0,e1
+      - rectangle_S0p5_6_LWG_CF_4a339026_23750_0,e2
+      - rectangle_S0p5_6_LWG_CF_4a339026_23750_0,e3
+      - rectangle_S0p5_6_LWG_CF_4a339026_23750_0,e4
       values:
       - - -26250
         - 3000

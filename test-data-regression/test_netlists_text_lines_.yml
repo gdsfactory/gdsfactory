@@ -1,5 +1,5 @@
 instances:
-  text_rectangular_T01_S0_3f612caa_2200_m3800:
+  text_rectangular_T01_S0_3f612caa_0_m4800:
     component: text_rectangular
     info: {}
     settings:
@@ -11,7 +11,7 @@ instances:
       - 0
       size: 0.4
       text: '01'
-  text_rectangular_TChip__33534d5a_4600_m1400:
+  text_rectangular_TChip__33534d5a_0_m2400:
     component: text_rectangular
     info: {}
     settings:
@@ -26,12 +26,12 @@ instances:
 name: text_lines_TChip_01_S0p4_LWG
 nets: []
 placements:
-  text_rectangular_T01_S0_3f612caa_2200_m3800:
+  text_rectangular_T01_S0_3f612caa_0_m4800:
     mirror: false
     rotation: 0
     x: 0
     y: -4.8
-  text_rectangular_TChip__33534d5a_4600_m1400:
+  text_rectangular_TChip__33534d5a_0_m2400:
     mirror: false
     rotation: 0
     x: 0

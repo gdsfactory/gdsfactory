@@ -1,5 +1,5 @@
 instances:
-  rectangle_S8_8_LWG_CFal_95ca53b5_4000_4000:
+  rectangle_S8_8_LWG_CFal_95ca53b5_0_0:
     component: rectangle
     info: {}
     settings:
@@ -17,7 +17,7 @@ instances:
 name: nxn_W1_E4_N0_S0_X8_Y8_W_96626965
 nets: []
 placements:
-  rectangle_S8_8_LWG_CFal_95ca53b5_4000_4000:
+  rectangle_S8_8_LWG_CFal_95ca53b5_0_0:
     mirror: false
     rotation: 0
     x: 0
@@ -28,10 +28,10 @@ warnings:
     unconnected_ports:
     - message: 4 unconnected electrical ports!
       ports:
-      - rectangle_S8_8_LWG_CFal_95ca53b5_4000_4000,e1
-      - rectangle_S8_8_LWG_CFal_95ca53b5_4000_4000,e2
-      - rectangle_S8_8_LWG_CFal_95ca53b5_4000_4000,e3
-      - rectangle_S8_8_LWG_CFal_95ca53b5_4000_4000,e4
+      - rectangle_S8_8_LWG_CFal_95ca53b5_0_0,e1
+      - rectangle_S8_8_LWG_CFal_95ca53b5_0_0,e2
+      - rectangle_S8_8_LWG_CFal_95ca53b5_0_0,e3
+      - rectangle_S8_8_LWG_CFal_95ca53b5_0_0,e4
       values:
       - - 0
         - 4000

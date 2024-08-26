@@ -1,5 +1,5 @@
 instances:
-  straight_L320_N2_CSstri_82742ad9_160000_0:
+  straight_L320_N2_CSstri_82742ad9_0_0:
     component: straight
     info:
       length: 320
@@ -12,7 +12,7 @@ instances:
       cross_section: strip_heater_metal
       length: 320
       npoints: 2
-  taper_L5_W11_W2p5_PNone_4a19c1ba_322500_0:
+  taper_L5_W11_W2p5_PNone_4a19c1ba_325000_0:
     component: taper
     info:
       length: 5
@@ -31,7 +31,7 @@ instances:
       width2: 2.5
       with_bbox: true
       with_two_ports: true
-  taper_L5_W11_W2p5_PNone_4a19c1ba_m2500_0:
+  taper_L5_W11_W2p5_PNone_4a19c1ba_m5000_0:
     component: taper
     info:
       length: 5
@@ -102,26 +102,26 @@ instances:
       - via2
 name: straight_heater_metal_s_61c5bdef
 nets:
-- p1: straight_L320_N2_CSstri_82742ad9_160000_0,e1
-  p2: taper_L5_W11_W2p5_PNone_4a19c1ba_m2500_0,e2
-- p1: straight_L320_N2_CSstri_82742ad9_160000_0,e2
-  p2: taper_L5_W11_W2p5_PNone_4a19c1ba_322500_0,e2
-- p1: taper_L5_W11_W2p5_PNone_4a19c1ba_322500_0,e1
+- p1: straight_L320_N2_CSstri_82742ad9_0_0,e1
+  p2: taper_L5_W11_W2p5_PNone_4a19c1ba_m5000_0,e2
+- p1: straight_L320_N2_CSstri_82742ad9_0_0,e2
+  p2: taper_L5_W11_W2p5_PNone_4a19c1ba_325000_0,e2
+- p1: taper_L5_W11_W2p5_PNone_4a19c1ba_325000_0,e1
   p2: via_stack_S11_11_LHEATE_6668a8d5_330500_0,e1
-- p1: taper_L5_W11_W2p5_PNone_4a19c1ba_m2500_0,e1
+- p1: taper_L5_W11_W2p5_PNone_4a19c1ba_m5000_0,e1
   p2: via_stack_S11_11_LHEATE_6668a8d5_m10500_0,e3
 placements:
-  straight_L320_N2_CSstri_82742ad9_160000_0:
+  straight_L320_N2_CSstri_82742ad9_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  taper_L5_W11_W2p5_PNone_4a19c1ba_322500_0:
+  taper_L5_W11_W2p5_PNone_4a19c1ba_325000_0:
     mirror: false
     rotation: 180
     x: 325
     y: 0
-  taper_L5_W11_W2p5_PNone_4a19c1ba_m2500_0:
+  taper_L5_W11_W2p5_PNone_4a19c1ba_m5000_0:
     mirror: false
     rotation: 0
     x: -5
@@ -137,15 +137,15 @@ placements:
     x: -10.5
     y: 0
 ports:
-  e1: taper_L5_W11_W2p5_PNone_4a19c1ba_m2500_0,e2
-  e2: taper_L5_W11_W2p5_PNone_4a19c1ba_322500_0,e2
+  e1: taper_L5_W11_W2p5_PNone_4a19c1ba_m5000_0,e2
+  e2: taper_L5_W11_W2p5_PNone_4a19c1ba_325000_0,e2
   l_e1: via_stack_S11_11_LHEATE_6668a8d5_m10500_0,e1
   l_e2: via_stack_S11_11_LHEATE_6668a8d5_m10500_0,e2
-  l_e3: taper_L5_W11_W2p5_PNone_4a19c1ba_m2500_0,e1
+  l_e3: taper_L5_W11_W2p5_PNone_4a19c1ba_m5000_0,e1
   l_e4: via_stack_S11_11_LHEATE_6668a8d5_m10500_0,e4
-  o1: straight_L320_N2_CSstri_82742ad9_160000_0,o1
-  o2: straight_L320_N2_CSstri_82742ad9_160000_0,o2
-  r_e1: taper_L5_W11_W2p5_PNone_4a19c1ba_322500_0,e1
+  o1: straight_L320_N2_CSstri_82742ad9_0_0,o1
+  o2: straight_L320_N2_CSstri_82742ad9_0_0,o2
+  r_e1: taper_L5_W11_W2p5_PNone_4a19c1ba_325000_0,e1
   r_e2: via_stack_S11_11_LHEATE_6668a8d5_330500_0,e2
   r_e3: via_stack_S11_11_LHEATE_6668a8d5_330500_0,e3
   r_e4: via_stack_S11_11_LHEATE_6668a8d5_330500_0,e4

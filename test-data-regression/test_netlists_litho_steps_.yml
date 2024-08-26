@@ -1,5 +1,5 @@
 instances:
-  rectangle_S10_50_LWG_CF_d8a44102_31000_m25000:
+  rectangle_S10_50_LWG_CF_d8a44102_0_m50000:
     component: rectangle
     info: {}
     settings:
@@ -14,7 +14,7 @@ instances:
       size:
       - 10
       - 50
-  rectangle_S10_50_LWG_CF_d8a44102_49000_m25000:
+  rectangle_S10_50_LWG_CF_d8a44102_26000_m50000:
     component: rectangle
     info: {}
     settings:
@@ -29,7 +29,7 @@ instances:
       size:
       - 10
       - 50
-  rectangle_S10_50_LWG_CF_d8a44102_5000_m25000:
+  rectangle_S10_50_LWG_CF_d8a44102_44000_m50000:
     component: rectangle
     info: {}
     settings:
@@ -44,7 +44,7 @@ instances:
       size:
       - 10
       - 50
-  rectangle_S10_50_LWG_CF_d8a44102_63000_m25000:
+  rectangle_S10_50_LWG_CF_d8a44102_58000_m50000:
     component: rectangle
     info: {}
     settings:
@@ -59,7 +59,7 @@ instances:
       size:
       - 10
       - 50
-  rectangle_S10_50_LWG_CF_d8a44102_75000_m25000:
+  rectangle_S10_50_LWG_CF_d8a44102_70000_m50000:
     component: rectangle
     info: {}
     settings:
@@ -74,7 +74,7 @@ instances:
       size:
       - 10
       - 50
-  rectangle_S10_50_LWG_CF_d8a44102_86000_m25000:
+  rectangle_S10_50_LWG_CF_d8a44102_81000_m50000:
     component: rectangle
     info: {}
     settings:
@@ -89,7 +89,7 @@ instances:
       size:
       - 10
       - 50
-  rectangle_S16_50_LWG_CF_c85eb854_18000_25000:
+  rectangle_S16_50_LWG_CF_c85eb854_10000_0:
     component: rectangle
     info: {}
     settings:
@@ -104,7 +104,7 @@ instances:
       size:
       - 16
       - 50
-  rectangle_S1_50_LWG_CFa_fe56c987_80500_25000:
+  rectangle_S1_50_LWG_CFa_fe56c987_80000_0:
     component: rectangle
     info: {}
     settings:
@@ -119,7 +119,7 @@ instances:
       size:
       - 1
       - 50
-  rectangle_S2_50_LWG_CFa_119e0165_69000_25000:
+  rectangle_S2_50_LWG_CFa_119e0165_68000_0:
     component: rectangle
     info: {}
     settings:
@@ -134,7 +134,7 @@ instances:
       size:
       - 2
       - 50
-  rectangle_S4_50_LWG_CFa_98c04d41_56000_25000:
+  rectangle_S4_50_LWG_CFa_98c04d41_54000_0:
     component: rectangle
     info: {}
     settings:
@@ -149,7 +149,7 @@ instances:
       size:
       - 4
       - 50
-  rectangle_S8_50_LWG_CFa_c2e5df26_40000_25000:
+  rectangle_S8_50_LWG_CFa_c2e5df26_36000_0:
     component: rectangle
     info: {}
     settings:
@@ -164,7 +164,7 @@ instances:
       size:
       - 8
       - 50
-  text_T16p0_S50_P0_0_Jcenter_LWG_m30000_0:
+  text_T16p0_S50_P0_0_Jcenter_LWG_m5000_0:
     component: text
     info: {}
     settings:
@@ -178,62 +178,62 @@ instances:
 name: litho_steps_LW1_2_4_8_1_f9d120ba
 nets: []
 placements:
-  rectangle_S10_50_LWG_CF_d8a44102_31000_m25000:
-    mirror: false
-    rotation: 0
-    x: 26
-    y: -50
-  rectangle_S10_50_LWG_CF_d8a44102_49000_m25000:
-    mirror: false
-    rotation: 0
-    x: 44
-    y: -50
-  rectangle_S10_50_LWG_CF_d8a44102_5000_m25000:
+  rectangle_S10_50_LWG_CF_d8a44102_0_m50000:
     mirror: false
     rotation: 0
     x: 0
     y: -50
-  rectangle_S10_50_LWG_CF_d8a44102_63000_m25000:
+  rectangle_S10_50_LWG_CF_d8a44102_26000_m50000:
+    mirror: false
+    rotation: 0
+    x: 26
+    y: -50
+  rectangle_S10_50_LWG_CF_d8a44102_44000_m50000:
+    mirror: false
+    rotation: 0
+    x: 44
+    y: -50
+  rectangle_S10_50_LWG_CF_d8a44102_58000_m50000:
     mirror: false
     rotation: 0
     x: 58
     y: -50
-  rectangle_S10_50_LWG_CF_d8a44102_75000_m25000:
+  rectangle_S10_50_LWG_CF_d8a44102_70000_m50000:
     mirror: false
     rotation: 0
     x: 70
     y: -50
-  rectangle_S10_50_LWG_CF_d8a44102_86000_m25000:
+  rectangle_S10_50_LWG_CF_d8a44102_81000_m50000:
     mirror: false
     rotation: 0
     x: 81
     y: -50
-  rectangle_S16_50_LWG_CF_c85eb854_18000_25000:
+  rectangle_S16_50_LWG_CF_c85eb854_10000_0:
     mirror: false
     rotation: 0
     x: 10
     y: 0
-  rectangle_S1_50_LWG_CFa_fe56c987_80500_25000:
+  rectangle_S1_50_LWG_CFa_fe56c987_80000_0:
     mirror: false
     rotation: 0
     x: 80
     y: 0
-  rectangle_S2_50_LWG_CFa_119e0165_69000_25000:
+  rectangle_S2_50_LWG_CFa_119e0165_68000_0:
     mirror: false
     rotation: 0
     x: 68
     y: 0
-  rectangle_S4_50_LWG_CFa_98c04d41_56000_25000:
+  rectangle_S4_50_LWG_CFa_98c04d41_54000_0:
     mirror: false
     rotation: 0
     x: 54
     y: 0
-  rectangle_S8_50_LWG_CFa_c2e5df26_40000_25000:
+  rectangle_S8_50_LWG_CFa_c2e5df26_36000_0:
     mirror: false
     rotation: 0
     x: 36
     y: 0
-  text_T16p0_S50_P0_0_Jcenter_LWG_m30000_0:
+  text_T16p0_S50_P0_0_Jcenter_LWG_m5000_0:
     mirror: false
     rotation: 90
     x: -5
@@ -244,50 +244,50 @@ warnings:
     unconnected_ports:
     - message: 44 unconnected electrical ports!
       ports:
-      - rectangle_S10_50_LWG_CF_d8a44102_5000_m25000,e1
-      - rectangle_S10_50_LWG_CF_d8a44102_5000_m25000,e2
-      - rectangle_S10_50_LWG_CF_d8a44102_5000_m25000,e3
-      - rectangle_S10_50_LWG_CF_d8a44102_5000_m25000,e4
-      - rectangle_S10_50_LWG_CF_d8a44102_31000_m25000,e1
-      - rectangle_S10_50_LWG_CF_d8a44102_31000_m25000,e2
-      - rectangle_S10_50_LWG_CF_d8a44102_31000_m25000,e3
-      - rectangle_S10_50_LWG_CF_d8a44102_31000_m25000,e4
-      - rectangle_S16_50_LWG_CF_c85eb854_18000_25000,e1
-      - rectangle_S16_50_LWG_CF_c85eb854_18000_25000,e2
-      - rectangle_S16_50_LWG_CF_c85eb854_18000_25000,e3
-      - rectangle_S16_50_LWG_CF_c85eb854_18000_25000,e4
-      - rectangle_S10_50_LWG_CF_d8a44102_49000_m25000,e1
-      - rectangle_S10_50_LWG_CF_d8a44102_49000_m25000,e2
-      - rectangle_S10_50_LWG_CF_d8a44102_49000_m25000,e3
-      - rectangle_S10_50_LWG_CF_d8a44102_49000_m25000,e4
-      - rectangle_S8_50_LWG_CFa_c2e5df26_40000_25000,e1
-      - rectangle_S8_50_LWG_CFa_c2e5df26_40000_25000,e2
-      - rectangle_S8_50_LWG_CFa_c2e5df26_40000_25000,e3
-      - rectangle_S8_50_LWG_CFa_c2e5df26_40000_25000,e4
-      - rectangle_S10_50_LWG_CF_d8a44102_63000_m25000,e1
-      - rectangle_S10_50_LWG_CF_d8a44102_63000_m25000,e2
-      - rectangle_S10_50_LWG_CF_d8a44102_63000_m25000,e3
-      - rectangle_S10_50_LWG_CF_d8a44102_63000_m25000,e4
-      - rectangle_S4_50_LWG_CFa_98c04d41_56000_25000,e1
-      - rectangle_S4_50_LWG_CFa_98c04d41_56000_25000,e2
-      - rectangle_S4_50_LWG_CFa_98c04d41_56000_25000,e3
-      - rectangle_S4_50_LWG_CFa_98c04d41_56000_25000,e4
-      - rectangle_S10_50_LWG_CF_d8a44102_75000_m25000,e1
-      - rectangle_S10_50_LWG_CF_d8a44102_75000_m25000,e2
-      - rectangle_S10_50_LWG_CF_d8a44102_75000_m25000,e3
-      - rectangle_S10_50_LWG_CF_d8a44102_75000_m25000,e4
-      - rectangle_S2_50_LWG_CFa_119e0165_69000_25000,e1
-      - rectangle_S2_50_LWG_CFa_119e0165_69000_25000,e2
-      - rectangle_S2_50_LWG_CFa_119e0165_69000_25000,e3
-      - rectangle_S2_50_LWG_CFa_119e0165_69000_25000,e4
-      - rectangle_S10_50_LWG_CF_d8a44102_86000_m25000,e1
-      - rectangle_S10_50_LWG_CF_d8a44102_86000_m25000,e2
-      - rectangle_S10_50_LWG_CF_d8a44102_86000_m25000,e3
-      - rectangle_S10_50_LWG_CF_d8a44102_86000_m25000,e4
-      - rectangle_S1_50_LWG_CFa_fe56c987_80500_25000,e1
-      - rectangle_S1_50_LWG_CFa_fe56c987_80500_25000,e2
-      - rectangle_S1_50_LWG_CFa_fe56c987_80500_25000,e3
-      - rectangle_S1_50_LWG_CFa_fe56c987_80500_25000,e4
+      - rectangle_S10_50_LWG_CF_d8a44102_0_m50000,e1
+      - rectangle_S10_50_LWG_CF_d8a44102_0_m50000,e2
+      - rectangle_S10_50_LWG_CF_d8a44102_0_m50000,e3
+      - rectangle_S10_50_LWG_CF_d8a44102_0_m50000,e4
+      - rectangle_S10_50_LWG_CF_d8a44102_26000_m50000,e1
+      - rectangle_S10_50_LWG_CF_d8a44102_26000_m50000,e2
+      - rectangle_S10_50_LWG_CF_d8a44102_26000_m50000,e3
+      - rectangle_S10_50_LWG_CF_d8a44102_26000_m50000,e4
+      - rectangle_S16_50_LWG_CF_c85eb854_10000_0,e1
+      - rectangle_S16_50_LWG_CF_c85eb854_10000_0,e2
+      - rectangle_S16_50_LWG_CF_c85eb854_10000_0,e3
+      - rectangle_S16_50_LWG_CF_c85eb854_10000_0,e4
+      - rectangle_S10_50_LWG_CF_d8a44102_44000_m50000,e1
+      - rectangle_S10_50_LWG_CF_d8a44102_44000_m50000,e2
+      - rectangle_S10_50_LWG_CF_d8a44102_44000_m50000,e3
+      - rectangle_S10_50_LWG_CF_d8a44102_44000_m50000,e4
+      - rectangle_S8_50_LWG_CFa_c2e5df26_36000_0,e1
+      - rectangle_S8_50_LWG_CFa_c2e5df26_36000_0,e2
+      - rectangle_S8_50_LWG_CFa_c2e5df26_36000_0,e3
+      - rectangle_S8_50_LWG_CFa_c2e5df26_36000_0,e4
+      - rectangle_S10_50_LWG_CF_d8a44102_58000_m50000,e1
+      - rectangle_S10_50_LWG_CF_d8a44102_58000_m50000,e2
+      - rectangle_S10_50_LWG_CF_d8a44102_58000_m50000,e3
+      - rectangle_S10_50_LWG_CF_d8a44102_58000_m50000,e4
+      - rectangle_S4_50_LWG_CFa_98c04d41_54000_0,e1
+      - rectangle_S4_50_LWG_CFa_98c04d41_54000_0,e2
+      - rectangle_S4_50_LWG_CFa_98c04d41_54000_0,e3
+      - rectangle_S4_50_LWG_CFa_98c04d41_54000_0,e4
+      - rectangle_S10_50_LWG_CF_d8a44102_70000_m50000,e1
+      - rectangle_S10_50_LWG_CF_d8a44102_70000_m50000,e2
+      - rectangle_S10_50_LWG_CF_d8a44102_70000_m50000,e3
+      - rectangle_S10_50_LWG_CF_d8a44102_70000_m50000,e4
+      - rectangle_S2_50_LWG_CFa_119e0165_68000_0,e1
+      - rectangle_S2_50_LWG_CFa_119e0165_68000_0,e2
+      - rectangle_S2_50_LWG_CFa_119e0165_68000_0,e3
+      - rectangle_S2_50_LWG_CFa_119e0165_68000_0,e4
+      - rectangle_S10_50_LWG_CF_d8a44102_81000_m50000,e1
+      - rectangle_S10_50_LWG_CF_d8a44102_81000_m50000,e2
+      - rectangle_S10_50_LWG_CF_d8a44102_81000_m50000,e3
+      - rectangle_S10_50_LWG_CF_d8a44102_81000_m50000,e4
+      - rectangle_S1_50_LWG_CFa_fe56c987_80000_0,e1
+      - rectangle_S1_50_LWG_CFa_fe56c987_80000_0,e2
+      - rectangle_S1_50_LWG_CFa_fe56c987_80000_0,e3
+      - rectangle_S1_50_LWG_CFa_fe56c987_80000_0,e4
       values:
       - - 0
         - -25000

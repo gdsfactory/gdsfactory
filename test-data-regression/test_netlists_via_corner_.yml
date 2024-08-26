@@ -29,7 +29,7 @@ instances:
       size:
       - 10
       - 10
-  via_S0p7_0p7_S2_2_GNone_3d643c37_0_0:
+  via_S0p7_0p7_S2_2_GNone_3d643c37_m2000_m2000:
     component: via
     dax: 2
     day: 0
@@ -74,7 +74,7 @@ placements:
     rotation: 0
     x: 0
     y: 0
-  via_S0p7_0p7_S2_2_GNone_3d643c37_0_0:
+  via_S0p7_0p7_S2_2_GNone_3d643c37_m2000_m2000:
     mirror: false
     rotation: 0
     x: -2

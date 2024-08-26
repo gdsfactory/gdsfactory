@@ -15,7 +15,8 @@ import xml.etree.ElementTree as ET
 
 import numpy as np
 import yaml
-from kfactory import LayerEnum, logger
+from kfactory import logger
+from kfactory.kcell import LayerEnum
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 from pydantic.color import ColorType
 from pydantic_extra_types.color import Color

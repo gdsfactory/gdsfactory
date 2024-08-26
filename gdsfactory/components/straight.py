@@ -75,7 +75,7 @@ if __name__ == "__main__":
     c = gf.Component()
     w = straight(
         length=10,
-        cross_section="rib_bbox",
+        # cross_section="rib_bbox",
     )
     ref = c << w
     ref.dxmin = 10
