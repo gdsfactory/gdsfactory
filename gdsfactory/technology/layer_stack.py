@@ -13,6 +13,7 @@ from gdsfactory.component import Component
 
 if TYPE_CHECKING:
     from gdsfactory.technology import LayerViews
+    from gdsfactory.technology.layer_map import LayerInfo
 
 
 class AbstractLayer(BaseModel):
@@ -81,7 +82,7 @@ class AbstractLayer(BaseModel):
 class LogicalLayer(AbstractLayer):
     """GDS design layer."""
 
-    layer: tuple[int, int] | kf.kcell.LayerEnum | int
+    layer: tuple[int, int] | kf.kcell.LayerEnum | int | LayerInfo
 
     def __eq__(self, other):
         """Check if two LogicalLayer instances are equal.
@@ -253,12 +254,14 @@ class LayerLevel(BaseModel):
     @classmethod
     def check_layer(
         cls,
-        layer: LogicalLayer
-        | DerivedLayer
-        | int
-        | str
-        | tuple[int, int]
-        | kf.kcell.LayerEnum,
+        layer: (
+            LogicalLayer
+            | DerivedLayer
+            | int
+            | str
+            | tuple[int, int]
+            | kf.kcell.LayerEnum
+        ),
     ) -> LogicalLayer | DerivedLayer:
         if isinstance(layer, int | str | tuple | kf.kcell.LayerEnum):
             layer = gf.get_layer(layer)

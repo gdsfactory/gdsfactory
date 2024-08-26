@@ -1,13 +1,16 @@
 import pathlib
 
-import gdsfactory as gf
+import kfactory as kf
+
 from gdsfactory.technology.layer_views import LayerViews
 
+LayerInfo = kf.kdb.LayerInfo
 
-class LayerMap(gf.LayerEnum):
+
+class LayerMap(kf.LayerInfos):
     """You will need to create a new LayerMap with your specific foundry layers."""
 
-    layout = gf.constant(gf.kcl.layout)
+    pass
 
 
 def lyp_to_dataclass(lyp_filepath: str | pathlib.Path, overwrite: bool = True) -> str:
@@ -20,14 +23,14 @@ def lyp_to_dataclass(lyp_filepath: str | pathlib.Path, overwrite: bool = True) -
 
     script = """
 from gdsfactory.typings import Layer
-from gdsfactory.technology.layer_map import LayerMap
+from gdsfactory.technology.layer_map import LayerMap, LayerInfo
 
 
 class LayerMapFab(LayerMap):
 """
     lys = LayerViews.from_lyp(filepathin)
     for layer_name, layer in sorted(lys.get_layer_views().items()):
-        script += f"    {layer_name}: Layer = ({layer.layer[0]}, {layer.layer[1]})\n"
+        script += f"    {layer_name}: LayerInfo = LayerInfo({layer.layer[0]}, {layer.layer[1]})\n"
 
     script += """
 
