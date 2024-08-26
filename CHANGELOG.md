@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.8.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.0) - 2024-08-26
+
+No significant changes.
+
+
 ## [8.7.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.7.3) - 2024-08-18
 
 - lower warn level for layout read [#3137](https://github.com/gdsfactory/gdsfactory/pull/3137)
