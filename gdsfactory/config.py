@@ -100,6 +100,7 @@ CONF.bend_radius_error_type = ErrorType.ERROR
 CONF.layer_error_path = (1000, 0)
 CONF.connect_use_mirror = False
 CONF.max_cellname_length = 32
+CONF.cell_layout_cache = True
 CONF.pdk = "generic"
 
 
