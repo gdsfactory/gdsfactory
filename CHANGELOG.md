@@ -1,12 +1,15 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.7.3...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.8.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.8.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.0) - 2024-08-26
 
-No significant changes.
-
+- Update to kfactory 0.19 [#3149](https://github.com/gdsfactory/gdsfactory/pull/3149)
+- enable_layout_cache [#3151](https://github.com/gdsfactory/gdsfactory/pull/3151)
+- add font option to text_rectangular [#3143](https://github.com/gdsfactory/gdsfactory/pull/3143)
+- More robust netlist extraction [#3139](https://github.com/gdsfactory/gdsfactory/pull/3139)
+- adding a 'stagger' option to diff [#3144](https://github.com/gdsfactory/gdsfactory/pull/3144)
 
 ## [8.7.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.7.3) - 2024-08-18
 
