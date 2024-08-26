@@ -1,5 +1,5 @@
 instances:
-  pad_S100_100_LMTOP_BLNo_2fadfa5f_0_150000:
+  pad_S100_100_LMTOP_BLNo_2fadfa5f_0_0:
     component: pad
     dax: 150
     day: 0
@@ -22,7 +22,7 @@ instances:
 name: pad_array_Ppad_S150_150_0fb13e0e
 nets: []
 placements:
-  pad_S100_100_LMTOP_BLNo_2fadfa5f_0_150000:
+  pad_S100_100_LMTOP_BLNo_2fadfa5f_0_0:
     mirror: false
     rotation: 0
     x: 0

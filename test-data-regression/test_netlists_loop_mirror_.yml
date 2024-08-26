@@ -1,5 +1,5 @@
 instances:
-  bend_euler_RNone_A90_P0_d7c3a5a9_20625_m5500:
+  bend_euler_RNone_A90_P0_d7c3a5a9_25500_m10625:
     component: bend_euler
     info:
       dy: 10
@@ -18,7 +18,7 @@ instances:
       cross_section: strip
       p: 0.5
       with_arc_floorplan: true
-  bend_euler_RNone_A90_P0_d7c3a5a9_30375_m15750:
+  bend_euler_RNone_A90_P0_d7c3a5a9_35500_625:
     component: bend_euler
     info:
       dy: 10
@@ -37,7 +37,7 @@ instances:
       cross_section: strip
       p: 0.5
       with_arc_floorplan: true
-  bend_euler_RNone_A90_P0_d7c3a5a9_40625_m15750:
+  bend_euler_RNone_A90_P0_d7c3a5a9_35500_m20625:
     component: bend_euler
     info:
       dy: 10
@@ -56,7 +56,7 @@ instances:
       cross_section: strip
       p: 0.5
       with_arc_floorplan: true
-  bend_euler_RNone_A90_P0_d7c3a5a9_40625_m4250:
+  bend_euler_RNone_A90_P0_d7c3a5a9_45500_m10625:
     component: bend_euler
     info:
       dy: 10
@@ -75,7 +75,7 @@ instances:
       cross_section: strip
       p: 0.5
       with_arc_floorplan: true
-  mmi1x2_WNone_WT1_LT10_L_4e0f7121_2750_0:
+  mmi1x2_WNone_WT1_LT10_L_4e0f7121_0_0:
     component: mmi1x2
     info: {}
     settings:
@@ -87,7 +87,7 @@ instances:
       taper: taper
       width_mmi: 2.5
       width_taper: 1
-  straight_L1p25_N2_CSstrip_W0p5_45500_m10000:
+  straight_L1p25_N2_CSstrip_W0p5_45500_m9375:
     component: straight
     info:
       length: 1.25
@@ -101,7 +101,7 @@ instances:
       length: 1.25
       npoints: 2
       width: 0.5
-  straight_L20_N2_CSstrip_W0p5_25500_625:
+  straight_L20_N2_CSstrip_W0p5_35500_625:
     component: straight
     info:
       length: 20
@@ -117,55 +117,55 @@ instances:
       width: 0.5
 name: loop_mirror_Cmmi1x2_Bbend_euler
 nets:
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_20625_m5500,o1
-  p2: bend_euler_RNone_A90_P0_d7c3a5a9_30375_m15750,o2
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_20625_m5500,o2
-  p2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_2750_0,o3
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_30375_m15750,o1
-  p2: bend_euler_RNone_A90_P0_d7c3a5a9_40625_m15750,o2
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_40625_m15750,o1
-  p2: straight_L1p25_N2_CSstrip_W0p5_45500_m10000,o2
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_40625_m4250,o1
-  p2: straight_L20_N2_CSstrip_W0p5_25500_625,o1
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_40625_m4250,o2
-  p2: straight_L1p25_N2_CSstrip_W0p5_45500_m10000,o1
-- p1: mmi1x2_WNone_WT1_LT10_L_4e0f7121_2750_0,o2
-  p2: straight_L20_N2_CSstrip_W0p5_25500_625,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_25500_m10625,o1
+  p2: bend_euler_RNone_A90_P0_d7c3a5a9_35500_m20625,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_25500_m10625,o2
+  p2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_0_0,o3
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_35500_625,o1
+  p2: straight_L20_N2_CSstrip_W0p5_35500_625,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_35500_625,o2
+  p2: straight_L1p25_N2_CSstrip_W0p5_45500_m9375,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_35500_m20625,o1
+  p2: bend_euler_RNone_A90_P0_d7c3a5a9_45500_m10625,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_45500_m10625,o1
+  p2: straight_L1p25_N2_CSstrip_W0p5_45500_m9375,o2
+- p1: mmi1x2_WNone_WT1_LT10_L_4e0f7121_0_0,o2
+  p2: straight_L20_N2_CSstrip_W0p5_35500_625,o2
 placements:
-  bend_euler_RNone_A90_P0_d7c3a5a9_20625_m5500:
+  bend_euler_RNone_A90_P0_d7c3a5a9_25500_m10625:
     mirror: false
     rotation: 90
     x: 25.5
     y: -10.625
-  bend_euler_RNone_A90_P0_d7c3a5a9_30375_m15750:
-    mirror: true
-    rotation: 180
-    x: 35.5
-    y: -20.625
-  bend_euler_RNone_A90_P0_d7c3a5a9_40625_m15750:
-    mirror: true
-    rotation: 270
-    x: 45.5
-    y: -10.625
-  bend_euler_RNone_A90_P0_d7c3a5a9_40625_m4250:
+  bend_euler_RNone_A90_P0_d7c3a5a9_35500_625:
     mirror: true
     rotation: 0
     x: 35.5
     y: 0.625
-  mmi1x2_WNone_WT1_LT10_L_4e0f7121_2750_0:
+  bend_euler_RNone_A90_P0_d7c3a5a9_35500_m20625:
+    mirror: true
+    rotation: 180
+    x: 35.5
+    y: -20.625
+  bend_euler_RNone_A90_P0_d7c3a5a9_45500_m10625:
+    mirror: true
+    rotation: 270
+    x: 45.5
+    y: -10.625
+  mmi1x2_WNone_WT1_LT10_L_4e0f7121_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  straight_L1p25_N2_CSstrip_W0p5_45500_m10000:
+  straight_L1p25_N2_CSstrip_W0p5_45500_m9375:
     mirror: false
     rotation: 270
     x: 45.5
     y: -9.375
-  straight_L20_N2_CSstrip_W0p5_25500_625:
+  straight_L20_N2_CSstrip_W0p5_35500_625:
     mirror: false
     rotation: 180
     x: 35.5
     y: 0.625
 ports:
-  o1: mmi1x2_WNone_WT1_LT10_L_4e0f7121_2750_0,o1
+  o1: mmi1x2_WNone_WT1_LT10_L_4e0f7121_0_0,o1

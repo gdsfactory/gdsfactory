@@ -1,5 +1,5 @@
 instances:
-  straight_L1980_N2_CSpn_990000_0:
+  straight_L1980_N2_CSpn_0_0:
     component: straight
     info:
       length: 1980
@@ -12,7 +12,7 @@ instances:
       cross_section: pn
       length: 1980
       npoints: 2
-  taper_strip_to_ridge_L1_3a86af41_1985000_0:
+  taper_strip_to_ridge_L1_3a86af41_1990000_0:
     component: taper_strip_to_ridge
     info:
       length: 10
@@ -26,7 +26,7 @@ instances:
       w_slab2: 6
       width1: 0.5
       width2: 0.5
-  taper_strip_to_ridge_L1_3a86af41_m5000_0:
+  taper_strip_to_ridge_L1_3a86af41_m10000_0:
     component: taper_strip_to_ridge
     info:
       length: 10
@@ -96,22 +96,22 @@ instances:
       - null
 name: straight_pin_L2000_CSpn_958ac331
 nets:
-- p1: straight_L1980_N2_CSpn_990000_0,o1
-  p2: taper_strip_to_ridge_L1_3a86af41_m5000_0,o2
-- p1: straight_L1980_N2_CSpn_990000_0,o2
-  p2: taper_strip_to_ridge_L1_3a86af41_1985000_0,o2
+- p1: straight_L1980_N2_CSpn_0_0,o1
+  p2: taper_strip_to_ridge_L1_3a86af41_m10000_0,o2
+- p1: straight_L1980_N2_CSpn_0_0,o2
+  p2: taper_strip_to_ridge_L1_3a86af41_1990000_0,o2
 placements:
-  straight_L1980_N2_CSpn_990000_0:
+  straight_L1980_N2_CSpn_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  taper_strip_to_ridge_L1_3a86af41_1985000_0:
+  taper_strip_to_ridge_L1_3a86af41_1990000_0:
     mirror: false
     rotation: 180
     x: 1990
     y: 0
-  taper_strip_to_ridge_L1_3a86af41_m5000_0:
+  taper_strip_to_ridge_L1_3a86af41_m10000_0:
     mirror: false
     rotation: 0
     x: -10
@@ -131,8 +131,8 @@ ports:
   bot_e2: via_stack_S1980_10_LSLA_bfa784cd_990000_m6000,e2
   bot_e3: via_stack_S1980_10_LSLA_bfa784cd_990000_m6000,e3
   bot_e4: via_stack_S1980_10_LSLA_bfa784cd_990000_m6000,e4
-  o1: taper_strip_to_ridge_L1_3a86af41_m5000_0,o1
-  o2: taper_strip_to_ridge_L1_3a86af41_1985000_0,o1
+  o1: taper_strip_to_ridge_L1_3a86af41_m10000_0,o1
+  o2: taper_strip_to_ridge_L1_3a86af41_1990000_0,o1
   top_e1: via_stack_S1980_10_LSLA_bfa784cd_990000_6000,e1
   top_e2: via_stack_S1980_10_LSLA_bfa784cd_990000_6000,e2
   top_e3: via_stack_S1980_10_LSLA_bfa784cd_990000_6000,e3

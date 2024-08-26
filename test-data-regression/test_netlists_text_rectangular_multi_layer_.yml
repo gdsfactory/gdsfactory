@@ -1,5 +1,5 @@
 instances:
-  text_rectangular_Tabcd__535da603_115000_25000:
+  text_rectangular_Tabcd__535da603_0_0:
     component: text_rectangular
     info: {}
     settings:
@@ -11,7 +11,7 @@ instances:
       - 0
       size: 10
       text: abcd
-  text_rectangular_Tabcd__8c43291b_115000_25000:
+  text_rectangular_Tabcd__8c43291b_0_0:
     component: text_rectangular
     info: {}
     settings:
@@ -23,7 +23,7 @@ instances:
       - 0
       size: 10
       text: abcd
-  text_rectangular_Tabcd__96d4152c_115000_25000:
+  text_rectangular_Tabcd__96d4152c_0_0:
     component: text_rectangular
     info: {}
     settings:
@@ -35,7 +35,7 @@ instances:
       - 0
       size: 10
       text: abcd
-  text_rectangular_Tabcd__a40b317f_115000_25000:
+  text_rectangular_Tabcd__a40b317f_0_0:
     component: text_rectangular
     info: {}
     settings:
@@ -50,22 +50,22 @@ instances:
 name: text_rectangular_multi__068a5741
 nets: []
 placements:
-  text_rectangular_Tabcd__535da603_115000_25000:
+  text_rectangular_Tabcd__535da603_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  text_rectangular_Tabcd__8c43291b_115000_25000:
+  text_rectangular_Tabcd__8c43291b_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  text_rectangular_Tabcd__96d4152c_115000_25000:
+  text_rectangular_Tabcd__96d4152c_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  text_rectangular_Tabcd__a40b317f_115000_25000:
+  text_rectangular_Tabcd__a40b317f_0_0:
     mirror: false
     rotation: 0
     x: 0

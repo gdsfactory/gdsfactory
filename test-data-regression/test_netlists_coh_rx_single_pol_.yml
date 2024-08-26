@@ -1,5 +1,5 @@
 instances:
-  bend_euler_R10_A90_P0p5_2f1f5c6d_220125_8625:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_225000_13750:
     component: bend_euler
     info:
       dy: 10
@@ -19,7 +19,7 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_2f1f5c6d_220125_m8625:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_225000_m13750:
     component: bend_euler
     info:
       dy: 10
@@ -39,7 +39,7 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_2f1f5c6d_223625_6125:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_228500_11250:
     component: bend_euler
     info:
       dy: 10
@@ -59,7 +59,7 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_2f1f5c6d_223625_m6125:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_228500_m11250:
     component: bend_euler
     info:
       dy: 10
@@ -79,7 +79,7 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_2f1f5c6d_229875_70125:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_235000_75000:
     component: bend_euler
     info:
       dy: 10
@@ -99,7 +99,7 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_2f1f5c6d_229875_m70125:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_235000_m75000:
     component: bend_euler
     info:
       dy: 10
@@ -119,7 +119,7 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_2f1f5c6d_233375_20125:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_238500_25000:
     component: bend_euler
     info:
       dy: 10
@@ -139,7 +139,7 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_2f1f5c6d_233375_m20125:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_238500_m25000:
     component: bend_euler
     info:
       dy: 10
@@ -159,7 +159,7 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  ge_detector_straight_si_857c1c1e_305000_25000:
+  ge_detector_straight_si_857c1c1e_295000_25000:
     component: ge_detector_straight_si_contacts
     info: {}
     settings:
@@ -172,7 +172,7 @@ instances:
       via_stack_offset: 0
       via_stack_spacing: 5
       via_stack_width: 10
-  ge_detector_straight_si_857c1c1e_305000_75000:
+  ge_detector_straight_si_857c1c1e_295000_75000:
     component: ge_detector_straight_si_contacts
     info: {}
     settings:
@@ -185,7 +185,7 @@ instances:
       via_stack_offset: 0
       via_stack_spacing: 5
       via_stack_width: 10
-  ge_detector_straight_si_857c1c1e_305000_m25000:
+  ge_detector_straight_si_857c1c1e_295000_m25000:
     component: ge_detector_straight_si_contacts
     info: {}
     settings:
@@ -198,7 +198,7 @@ instances:
       via_stack_offset: 0
       via_stack_spacing: 5
       via_stack_width: 10
-  ge_detector_straight_si_857c1c1e_305000_m75000:
+  ge_detector_straight_si_857c1c1e_295000_m75000:
     component: ge_detector_straight_si_contacts
     info: {}
     settings:
@@ -211,7 +211,7 @@ instances:
       via_stack_offset: 0
       via_stack_spacing: 5
       via_stack_width: 10
-  mmi_90degree_hybrid_W0p_80ee73a1_87500_0:
+  mmi_90degree_hybrid_W0p_80ee73a1_0_0:
     component: mmi_90degree_hybrid
     info: {}
     settings:
@@ -223,7 +223,7 @@ instances:
       width: 0.5
       width_mmi: 10
       width_taper: 1.7
-  straight_L20_N2_CSstrip_m50000_3750:
+  straight_L20_N2_CSstrip_m60000_3750:
     component: straight
     info:
       length: 20
@@ -236,7 +236,7 @@ instances:
       cross_section: strip
       length: 20
       npoints: 2
-  straight_L20_N2_CSstrip_m50000_m1250:
+  straight_L20_N2_CSstrip_m60000_m1250:
     component: straight
     info:
       length: 20
@@ -249,7 +249,7 @@ instances:
       cross_section: strip
       length: 20
       npoints: 2
-  straight_L36p5_N2_CSstrip_W0p5_256750_25000:
+  straight_L36p5_N2_CSstrip_W0p5_238500_25000:
     component: straight
     info:
       length: 36.5
@@ -263,7 +263,7 @@ instances:
       length: 36.5
       npoints: 2
       width: 0.5
-  straight_L36p5_N2_CSstrip_W0p5_256750_m25000:
+  straight_L36p5_N2_CSstrip_W0p5_238500_m25000:
     component: straight
     info:
       length: 36.5
@@ -277,7 +277,7 @@ instances:
       length: 36.5
       npoints: 2
       width: 0.5
-  straight_L3p5_N2_CSstrip_W0p5_216750_1250:
+  straight_L3p5_N2_CSstrip_W0p5_218500_1250:
     component: straight
     info:
       length: 3.5
@@ -291,7 +291,7 @@ instances:
       length: 3.5
       npoints: 2
       width: 0.5
-  straight_L3p5_N2_CSstrip_W0p5_216750_m1250:
+  straight_L3p5_N2_CSstrip_W0p5_218500_m1250:
     component: straight
     info:
       length: 3.5
@@ -305,7 +305,7 @@ instances:
       length: 3.5
       npoints: 2
       width: 0.5
-  straight_L3p75_N2_CSstrip_W0p5_228500_13125:
+  straight_L3p75_N2_CSstrip_W0p5_228500_15000:
     component: straight
     info:
       length: 3.75
@@ -319,7 +319,7 @@ instances:
       length: 3.75
       npoints: 2
       width: 0.5
-  straight_L3p75_N2_CSstrip_W0p5_228500_m13125:
+  straight_L3p75_N2_CSstrip_W0p5_228500_m15000:
     component: straight
     info:
       length: 3.75
@@ -333,7 +333,7 @@ instances:
       length: 3.75
       npoints: 2
       width: 0.5
-  straight_L40_N2_CSstrip_W0p5_255000_75000:
+  straight_L40_N2_CSstrip_W0p5_235000_75000:
     component: straight
     info:
       length: 40
@@ -347,7 +347,7 @@ instances:
       length: 40
       npoints: 2
       width: 0.5
-  straight_L40_N2_CSstrip_W0p5_255000_m75000:
+  straight_L40_N2_CSstrip_W0p5_235000_m75000:
     component: straight
     info:
       length: 40
@@ -361,7 +361,7 @@ instances:
       length: 40
       npoints: 2
       width: 0.5
-  straight_L51p25_N2_CSstrip_W0p5_225000_39375:
+  straight_L51p25_N2_CSstrip_W0p5_225000_65000:
     component: straight
     info:
       length: 51.25
@@ -375,7 +375,7 @@ instances:
       length: 51.25
       npoints: 2
       width: 0.5
-  straight_L51p25_N2_CSstrip_W0p5_225000_m39375:
+  straight_L51p25_N2_CSstrip_W0p5_225000_m65000:
     component: straight
     info:
       length: 51.25
@@ -391,220 +391,220 @@ instances:
       width: 0.5
 name: coh_rx_single_pol_Bbend_352b2c0b
 nets:
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_220125_8625,o1
-  p2: straight_L51p25_N2_CSstrip_W0p5_225000_39375,o2
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_220125_8625,o2
-  p2: mmi_90degree_hybrid_W0p_80ee73a1_87500_0,I_out1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_220125_m8625,o1
-  p2: straight_L51p25_N2_CSstrip_W0p5_225000_m39375,o2
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_220125_m8625,o2
-  p2: mmi_90degree_hybrid_W0p_80ee73a1_87500_0,I_out2
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_223625_6125,o1
-  p2: straight_L3p75_N2_CSstrip_W0p5_228500_13125,o2
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_223625_6125,o2
-  p2: straight_L3p5_N2_CSstrip_W0p5_216750_1250,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_223625_m6125,o1
-  p2: straight_L3p75_N2_CSstrip_W0p5_228500_m13125,o2
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_223625_m6125,o2
-  p2: straight_L3p5_N2_CSstrip_W0p5_216750_m1250,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_229875_70125,o1
-  p2: straight_L40_N2_CSstrip_W0p5_255000_75000,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_229875_70125,o2
-  p2: straight_L51p25_N2_CSstrip_W0p5_225000_39375,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_229875_m70125,o1
-  p2: straight_L40_N2_CSstrip_W0p5_255000_m75000,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_229875_m70125,o2
-  p2: straight_L51p25_N2_CSstrip_W0p5_225000_m39375,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_233375_20125,o1
-  p2: straight_L36p5_N2_CSstrip_W0p5_256750_25000,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_233375_20125,o2
-  p2: straight_L3p75_N2_CSstrip_W0p5_228500_13125,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_233375_m20125,o1
-  p2: straight_L36p5_N2_CSstrip_W0p5_256750_m25000,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_233375_m20125,o2
-  p2: straight_L3p75_N2_CSstrip_W0p5_228500_m13125,o1
-- p1: ge_detector_straight_si_857c1c1e_305000_25000,o1
-  p2: straight_L36p5_N2_CSstrip_W0p5_256750_25000,o2
-- p1: ge_detector_straight_si_857c1c1e_305000_75000,o1
-  p2: straight_L40_N2_CSstrip_W0p5_255000_75000,o2
-- p1: ge_detector_straight_si_857c1c1e_305000_m25000,o1
-  p2: straight_L36p5_N2_CSstrip_W0p5_256750_m25000,o2
-- p1: ge_detector_straight_si_857c1c1e_305000_m75000,o1
-  p2: straight_L40_N2_CSstrip_W0p5_255000_m75000,o2
-- p1: mmi_90degree_hybrid_W0p_80ee73a1_87500_0,LO_in
-  p2: straight_L20_N2_CSstrip_m50000_m1250,o2
-- p1: mmi_90degree_hybrid_W0p_80ee73a1_87500_0,Q_out1
-  p2: straight_L3p5_N2_CSstrip_W0p5_216750_1250,o2
-- p1: mmi_90degree_hybrid_W0p_80ee73a1_87500_0,Q_out2
-  p2: straight_L3p5_N2_CSstrip_W0p5_216750_m1250,o2
-- p1: mmi_90degree_hybrid_W0p_80ee73a1_87500_0,signal_in
-  p2: straight_L20_N2_CSstrip_m50000_3750,o2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_225000_13750,o1
+  p2: straight_L51p25_N2_CSstrip_W0p5_225000_65000,o2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_225000_13750,o2
+  p2: mmi_90degree_hybrid_W0p_80ee73a1_0_0,I_out1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_225000_m13750,o1
+  p2: straight_L51p25_N2_CSstrip_W0p5_225000_m65000,o2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_225000_m13750,o2
+  p2: mmi_90degree_hybrid_W0p_80ee73a1_0_0,I_out2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_228500_11250,o1
+  p2: straight_L3p75_N2_CSstrip_W0p5_228500_15000,o2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_228500_11250,o2
+  p2: straight_L3p5_N2_CSstrip_W0p5_218500_1250,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_228500_m11250,o1
+  p2: straight_L3p75_N2_CSstrip_W0p5_228500_m15000,o2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_228500_m11250,o2
+  p2: straight_L3p5_N2_CSstrip_W0p5_218500_m1250,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_235000_75000,o1
+  p2: straight_L40_N2_CSstrip_W0p5_235000_75000,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_235000_75000,o2
+  p2: straight_L51p25_N2_CSstrip_W0p5_225000_65000,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_235000_m75000,o1
+  p2: straight_L40_N2_CSstrip_W0p5_235000_m75000,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_235000_m75000,o2
+  p2: straight_L51p25_N2_CSstrip_W0p5_225000_m65000,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_238500_25000,o1
+  p2: straight_L36p5_N2_CSstrip_W0p5_238500_25000,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_238500_25000,o2
+  p2: straight_L3p75_N2_CSstrip_W0p5_228500_15000,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_238500_m25000,o1
+  p2: straight_L36p5_N2_CSstrip_W0p5_238500_m25000,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_238500_m25000,o2
+  p2: straight_L3p75_N2_CSstrip_W0p5_228500_m15000,o1
+- p1: ge_detector_straight_si_857c1c1e_295000_25000,o1
+  p2: straight_L36p5_N2_CSstrip_W0p5_238500_25000,o2
+- p1: ge_detector_straight_si_857c1c1e_295000_75000,o1
+  p2: straight_L40_N2_CSstrip_W0p5_235000_75000,o2
+- p1: ge_detector_straight_si_857c1c1e_295000_m25000,o1
+  p2: straight_L36p5_N2_CSstrip_W0p5_238500_m25000,o2
+- p1: ge_detector_straight_si_857c1c1e_295000_m75000,o1
+  p2: straight_L40_N2_CSstrip_W0p5_235000_m75000,o2
+- p1: mmi_90degree_hybrid_W0p_80ee73a1_0_0,LO_in
+  p2: straight_L20_N2_CSstrip_m60000_m1250,o2
+- p1: mmi_90degree_hybrid_W0p_80ee73a1_0_0,Q_out1
+  p2: straight_L3p5_N2_CSstrip_W0p5_218500_1250,o2
+- p1: mmi_90degree_hybrid_W0p_80ee73a1_0_0,Q_out2
+  p2: straight_L3p5_N2_CSstrip_W0p5_218500_m1250,o2
+- p1: mmi_90degree_hybrid_W0p_80ee73a1_0_0,signal_in
+  p2: straight_L20_N2_CSstrip_m60000_3750,o2
 placements:
-  bend_euler_R10_A90_P0p5_2f1f5c6d_220125_8625:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_225000_13750:
     mirror: true
     rotation: 270
     x: 225
     y: 13.75
-  bend_euler_R10_A90_P0p5_2f1f5c6d_220125_m8625:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_225000_m13750:
     mirror: false
     rotation: 90
     x: 225
     y: -13.75
-  bend_euler_R10_A90_P0p5_2f1f5c6d_223625_6125:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_228500_11250:
     mirror: true
     rotation: 270
     x: 228.5
     y: 11.25
-  bend_euler_R10_A90_P0p5_2f1f5c6d_223625_m6125:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_228500_m11250:
     mirror: false
     rotation: 90
     x: 228.5
     y: -11.25
-  bend_euler_R10_A90_P0p5_2f1f5c6d_229875_70125:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_235000_75000:
     mirror: false
     rotation: 180
     x: 235
     y: 75
-  bend_euler_R10_A90_P0p5_2f1f5c6d_229875_m70125:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_235000_m75000:
     mirror: true
     rotation: 180
     x: 235
     y: -75
-  bend_euler_R10_A90_P0p5_2f1f5c6d_233375_20125:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_238500_25000:
     mirror: false
     rotation: 180
     x: 238.5
     y: 25
-  bend_euler_R10_A90_P0p5_2f1f5c6d_233375_m20125:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_238500_m25000:
     mirror: true
     rotation: 180
     x: 238.5
     y: -25
-  ge_detector_straight_si_857c1c1e_305000_25000:
+  ge_detector_straight_si_857c1c1e_295000_25000:
     mirror: false
     rotation: 0
     x: 295
     y: 25
-  ge_detector_straight_si_857c1c1e_305000_75000:
+  ge_detector_straight_si_857c1c1e_295000_75000:
     mirror: false
     rotation: 0
     x: 295
     y: 75
-  ge_detector_straight_si_857c1c1e_305000_m25000:
+  ge_detector_straight_si_857c1c1e_295000_m25000:
     mirror: false
     rotation: 0
     x: 295
     y: -25
-  ge_detector_straight_si_857c1c1e_305000_m75000:
+  ge_detector_straight_si_857c1c1e_295000_m75000:
     mirror: false
     rotation: 0
     x: 295
     y: -75
-  mmi_90degree_hybrid_W0p_80ee73a1_87500_0:
+  mmi_90degree_hybrid_W0p_80ee73a1_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  straight_L20_N2_CSstrip_m50000_3750:
+  straight_L20_N2_CSstrip_m60000_3750:
     mirror: false
     rotation: 0
     x: -60
     y: 3.75
-  straight_L20_N2_CSstrip_m50000_m1250:
+  straight_L20_N2_CSstrip_m60000_m1250:
     mirror: false
     rotation: 0
     x: -60
     y: -1.25
-  straight_L36p5_N2_CSstrip_W0p5_256750_25000:
+  straight_L36p5_N2_CSstrip_W0p5_238500_25000:
     mirror: false
     rotation: 0
     x: 238.5
     y: 25
-  straight_L36p5_N2_CSstrip_W0p5_256750_m25000:
+  straight_L36p5_N2_CSstrip_W0p5_238500_m25000:
     mirror: false
     rotation: 0
     x: 238.5
     y: -25
-  straight_L3p5_N2_CSstrip_W0p5_216750_1250:
+  straight_L3p5_N2_CSstrip_W0p5_218500_1250:
     mirror: false
     rotation: 180
     x: 218.5
     y: 1.25
-  straight_L3p5_N2_CSstrip_W0p5_216750_m1250:
+  straight_L3p5_N2_CSstrip_W0p5_218500_m1250:
     mirror: false
     rotation: 180
     x: 218.5
     y: -1.25
-  straight_L3p75_N2_CSstrip_W0p5_228500_13125:
+  straight_L3p75_N2_CSstrip_W0p5_228500_15000:
     mirror: false
     rotation: 270
     x: 228.5
     y: 15
-  straight_L3p75_N2_CSstrip_W0p5_228500_m13125:
+  straight_L3p75_N2_CSstrip_W0p5_228500_m15000:
     mirror: false
     rotation: 90
     x: 228.5
     y: -15
-  straight_L40_N2_CSstrip_W0p5_255000_75000:
+  straight_L40_N2_CSstrip_W0p5_235000_75000:
     mirror: false
     rotation: 0
     x: 235
     y: 75
-  straight_L40_N2_CSstrip_W0p5_255000_m75000:
+  straight_L40_N2_CSstrip_W0p5_235000_m75000:
     mirror: false
     rotation: 0
     x: 235
     y: -75
-  straight_L51p25_N2_CSstrip_W0p5_225000_39375:
+  straight_L51p25_N2_CSstrip_W0p5_225000_65000:
     mirror: false
     rotation: 270
     x: 225
     y: 65
-  straight_L51p25_N2_CSstrip_W0p5_225000_m39375:
+  straight_L51p25_N2_CSstrip_W0p5_225000_m65000:
     mirror: false
     rotation: 90
     x: 225
     y: -65
 ports:
-  LO_in: straight_L20_N2_CSstrip_m50000_m1250,o1
-  i1vminustop_e1: ge_detector_straight_si_857c1c1e_305000_75000,top_e1
-  i1vminustop_e2: ge_detector_straight_si_857c1c1e_305000_75000,top_e2
-  i1vminustop_e3: ge_detector_straight_si_857c1c1e_305000_75000,top_e3
-  i1vminustop_e4: ge_detector_straight_si_857c1c1e_305000_75000,top_e4
-  i2vplusbot_e1: ge_detector_straight_si_857c1c1e_305000_m75000,bot_e1
-  i2vplusbot_e2: ge_detector_straight_si_857c1c1e_305000_m75000,bot_e2
-  i2vplusbot_e3: ge_detector_straight_si_857c1c1e_305000_m75000,bot_e3
-  i2vplusbot_e4: ge_detector_straight_si_857c1c1e_305000_m75000,bot_e4
-  q1vminustop_e1: ge_detector_straight_si_857c1c1e_305000_25000,top_e1
-  q1vminustop_e2: ge_detector_straight_si_857c1c1e_305000_25000,top_e2
-  q1vminustop_e3: ge_detector_straight_si_857c1c1e_305000_25000,top_e3
-  q1vminustop_e4: ge_detector_straight_si_857c1c1e_305000_25000,top_e4
-  q2vplusbot_e1: ge_detector_straight_si_857c1c1e_305000_m25000,bot_e1
-  q2vplusbot_e2: ge_detector_straight_si_857c1c1e_305000_m25000,bot_e2
-  q2vplusbot_e3: ge_detector_straight_si_857c1c1e_305000_m25000,bot_e3
-  q2vplusbot_e4: ge_detector_straight_si_857c1c1e_305000_m25000,bot_e4
-  signal_in: straight_L20_N2_CSstrip_m50000_3750,o1
+  LO_in: straight_L20_N2_CSstrip_m60000_m1250,o1
+  i1vminustop_e1: ge_detector_straight_si_857c1c1e_295000_75000,top_e1
+  i1vminustop_e2: ge_detector_straight_si_857c1c1e_295000_75000,top_e2
+  i1vminustop_e3: ge_detector_straight_si_857c1c1e_295000_75000,top_e3
+  i1vminustop_e4: ge_detector_straight_si_857c1c1e_295000_75000,top_e4
+  i2vplusbot_e1: ge_detector_straight_si_857c1c1e_295000_m75000,bot_e1
+  i2vplusbot_e2: ge_detector_straight_si_857c1c1e_295000_m75000,bot_e2
+  i2vplusbot_e3: ge_detector_straight_si_857c1c1e_295000_m75000,bot_e3
+  i2vplusbot_e4: ge_detector_straight_si_857c1c1e_295000_m75000,bot_e4
+  q1vminustop_e1: ge_detector_straight_si_857c1c1e_295000_25000,top_e1
+  q1vminustop_e2: ge_detector_straight_si_857c1c1e_295000_25000,top_e2
+  q1vminustop_e3: ge_detector_straight_si_857c1c1e_295000_25000,top_e3
+  q1vminustop_e4: ge_detector_straight_si_857c1c1e_295000_25000,top_e4
+  q2vplusbot_e1: ge_detector_straight_si_857c1c1e_295000_m25000,bot_e1
+  q2vplusbot_e2: ge_detector_straight_si_857c1c1e_295000_m25000,bot_e2
+  q2vplusbot_e3: ge_detector_straight_si_857c1c1e_295000_m25000,bot_e3
+  q2vplusbot_e4: ge_detector_straight_si_857c1c1e_295000_m25000,bot_e4
+  signal_in: straight_L20_N2_CSstrip_m60000_3750,o1
 warnings:
   electrical:
     unconnected_ports:
     - message: 16 unconnected electrical ports!
       ports:
-      - ge_detector_straight_si_857c1c1e_305000_75000,bot_e1
-      - ge_detector_straight_si_857c1c1e_305000_75000,bot_e2
-      - ge_detector_straight_si_857c1c1e_305000_75000,bot_e3
-      - ge_detector_straight_si_857c1c1e_305000_75000,bot_e4
-      - ge_detector_straight_si_857c1c1e_305000_m75000,top_e1
-      - ge_detector_straight_si_857c1c1e_305000_m75000,top_e2
-      - ge_detector_straight_si_857c1c1e_305000_m75000,top_e3
-      - ge_detector_straight_si_857c1c1e_305000_m75000,top_e4
-      - ge_detector_straight_si_857c1c1e_305000_25000,bot_e1
-      - ge_detector_straight_si_857c1c1e_305000_25000,bot_e2
-      - ge_detector_straight_si_857c1c1e_305000_25000,bot_e3
-      - ge_detector_straight_si_857c1c1e_305000_25000,bot_e4
-      - ge_detector_straight_si_857c1c1e_305000_m25000,top_e1
-      - ge_detector_straight_si_857c1c1e_305000_m25000,top_e2
-      - ge_detector_straight_si_857c1c1e_305000_m25000,top_e3
-      - ge_detector_straight_si_857c1c1e_305000_m25000,top_e4
+      - ge_detector_straight_si_857c1c1e_295000_75000,bot_e1
+      - ge_detector_straight_si_857c1c1e_295000_75000,bot_e2
+      - ge_detector_straight_si_857c1c1e_295000_75000,bot_e3
+      - ge_detector_straight_si_857c1c1e_295000_75000,bot_e4
+      - ge_detector_straight_si_857c1c1e_295000_m75000,top_e1
+      - ge_detector_straight_si_857c1c1e_295000_m75000,top_e2
+      - ge_detector_straight_si_857c1c1e_295000_m75000,top_e3
+      - ge_detector_straight_si_857c1c1e_295000_m75000,top_e4
+      - ge_detector_straight_si_857c1c1e_295000_25000,bot_e1
+      - ge_detector_straight_si_857c1c1e_295000_25000,bot_e2
+      - ge_detector_straight_si_857c1c1e_295000_25000,bot_e3
+      - ge_detector_straight_si_857c1c1e_295000_25000,bot_e4
+      - ge_detector_straight_si_857c1c1e_295000_m25000,top_e1
+      - ge_detector_straight_si_857c1c1e_295000_m25000,top_e2
+      - ge_detector_straight_si_857c1c1e_295000_m25000,top_e3
+      - ge_detector_straight_si_857c1c1e_295000_m25000,top_e4
       values:
       - - 295000
         - 67500
