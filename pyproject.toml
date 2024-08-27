@@ -62,7 +62,8 @@ dev = [
   "pytest-cov",
   "pytest_regressions",
   "types-PyYAML",
-  "types-cachetools"
+  "types-cachetools",
+  "pytest-github-actions-annotate-failures"
 ]
 docs = [
   "autodoc_pydantic>=2.0.1,<3",
