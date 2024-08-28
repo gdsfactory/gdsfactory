@@ -10,6 +10,7 @@ from kfactory import KCLayout
 from gdsfactory.component import Component
 
 
+@kf.cell(set_name=False, set_settings=False)
 def import_gds(
     gdspath: str | Path,
     cellname: str | None = None,
