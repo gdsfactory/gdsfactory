@@ -11,7 +11,7 @@ import gdsfactory as gf
 
 if TYPE_CHECKING:
     from gdsfactory.component import Component, Instance
-    from gdsfactory.typings import LayerSpec, LayerSpecs
+    from gdsfactory.typings import LayerSpecs
 
 RAD2DEG = 180.0 / np.pi
 DEG2RAD = 1 / RAD2DEG
@@ -60,7 +60,7 @@ def get_layers(component: Component) -> list[tuple[int, int]]:
 
 def extract(
     component,
-    layers: list[LayerSpec],
+    layers: LayerSpecs,
     recursive: bool = True,
 ) -> Component:
     """Extracts a list of layers and adds them to a new Component.

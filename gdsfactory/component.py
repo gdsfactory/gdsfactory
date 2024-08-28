@@ -26,6 +26,7 @@ if TYPE_CHECKING:
         CrossSectionSpec,
         Layer,
         LayerSpec,
+        LayerSpecs,
         LayerStack,
         LayerViews,
         PathType,
@@ -681,7 +682,7 @@ class ComponentBase:
         self,
         merge: bool = False,
         by: Literal["index"] | Literal["name"] | Literal["tuple"] = "index",
-        layers: list[LayerSpec] | None = None,
+        layers: LayerSpecs | None = None,
     ) -> dict[tuple[int, int] | str | int, list[kf.kdb.Polygon]]:
         """Returns a dict of Polygons per layer.
 
@@ -697,7 +698,7 @@ class ComponentBase:
         merge: bool = False,
         scale: float | None = None,
         by: Literal["index"] | Literal["name"] | Literal["tuple"] = "index",
-        layers: list[LayerSpec] | None = None,
+        layers: LayerSpecs | None = None,
     ) -> dict[int | str | tuple[int, int], list[tuple[float, float]]]:
         """Returns a dict with list of points per layer.
 
@@ -858,7 +859,7 @@ class ComponentBase:
 
     def extract(
         self,
-        layers: list[LayerSpec],
+        layers: LayerSpecs,
         recursive: bool = True,
     ) -> Component:
         """Extracts a list of layers and adds them to a new Component.
@@ -873,7 +874,7 @@ class ComponentBase:
 
     def remove_layers(
         self,
-        layers: list[LayerSpec],
+        layers: LayerSpecs,
         recursive: bool = True,
     ) -> Component:
         """Removes a list of layers and returns the same Component.
