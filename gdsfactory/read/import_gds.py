@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import warnings
 from collections.abc import Callable
+from functools import cache
 from pathlib import Path
 
 import kfactory as kf
@@ -10,7 +11,7 @@ from kfactory import KCLayout
 from gdsfactory.component import Component
 
 
-@kf.cell(set_name=False, set_settings=False)
+@cache
 def import_gds(
     gdspath: str | Path,
     cellname: str | None = None,
