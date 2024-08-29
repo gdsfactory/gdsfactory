@@ -130,6 +130,7 @@ class LogicalLayer(AbstractLayer):
         return kf.kdb.Region(polygons)
 
     def __repr__(self) -> str:
+        """Print text representation."""
         return f"{self.layer}"
 
     __str__ = __repr__
@@ -198,6 +199,7 @@ class DerivedLayer(AbstractLayer):
         return gf.component.boolean_operations[self.operation](r1, r2)
 
     def __repr__(self) -> str:
+        """Print text representation."""
         return f"({self.layer1} {self.get_symbol()} {self.layer2})"
 
     __str__ = __repr__
