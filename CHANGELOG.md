@@ -1,12 +1,14 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.8.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.8.1...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.8.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.1) - 2024-08-29
 
-No significant changes.
-
+- Update `list[LayerSpec]` types to `LayerSpecs` [#3156](https://github.com/gdsfactory/gdsfactory/pull/3156)
+- decorate import_gds with cache [#3159](https://github.com/gdsfactory/gdsfactory/pull/3159)
+- annotate failures in github [#3153](https://github.com/gdsfactory/gdsfactory/pull/3153)
+- Update kfactory0192 [#3158](https://github.com/gdsfactory/gdsfactory/pull/3158)
 
 ## [8.8.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.0) - 2024-08-26
 
