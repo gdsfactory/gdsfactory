@@ -129,6 +129,11 @@ class LogicalLayer(AbstractLayer):
         )
         return kf.kdb.Region(polygons)
 
+    def __repr__(self) -> str:
+        return f"{self.layer}"
+
+    __str__ = __repr__
+
 
 class DerivedLayer(AbstractLayer):
     """Physical "derived layer", resulting from a combination of GDS design layers. Can be used by renderers and simulators.
@@ -191,6 +196,11 @@ class DerivedLayer(AbstractLayer):
         r1 = self.layer1.get_shapes(component)
         r2 = self.layer2.get_shapes(component)
         return gf.component.boolean_operations[self.operation](r1, r2)
+
+    def __repr__(self) -> str:
+        return f"({self.layer1} {self.get_symbol()} {self.layer2})"
+
+    __str__ = __repr__
 
 
 class LayerLevel(BaseModel):
