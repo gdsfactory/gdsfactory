@@ -1,11 +1,14 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.8.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.8.2...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.8.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.2) - 2024-08-30
 
-No significant changes.
+- improve text rectangular [#3165](https://github.com/gdsfactory/gdsfactory/pull/3165)
+- Match `post_process` in `import_gds` to `@gf.cell` [#3162](https://github.com/gdsfactory/gdsfactory/pull/3162)
+- document_get_ports_list [#3164](https://github.com/gdsfactory/gdsfactory/pull/3164)
+- print Logical/Derived layers prettier [#3161](https://github.com/gdsfactory/gdsfactory/pull/3161)
 
 
 ## [8.8.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.1) - 2024-08-29
