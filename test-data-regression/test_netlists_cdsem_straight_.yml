@@ -83,7 +83,7 @@ instances:
       length: 420
       npoints: 2
       width: 1
-  text_rectangular_T1000__f7cd80b8_424000_35000:
+  text_rectangular_T1000__a50ed910_424000_35000:
     component: text_rectangular
     info: {}
     settings:
@@ -95,7 +95,7 @@ instances:
       - 0
       size: 1
       text: '1000'
-  text_rectangular_T400_S_937903da_425000_0:
+  text_rectangular_T400_S_68c27dd7_425000_0:
     component: text_rectangular
     info: {}
     settings:
@@ -107,7 +107,7 @@ instances:
       - 0
       size: 1
       text: '400'
-  text_rectangular_T450_S_860d5655_425000_7000:
+  text_rectangular_T450_S_25397104_425000_7000:
     component: text_rectangular
     info: {}
     settings:
@@ -119,7 +119,7 @@ instances:
       - 0
       size: 1
       text: '450'
-  text_rectangular_T500_S_81715519_425000_14000:
+  text_rectangular_T500_S_de3bd885_425000_14000:
     component: text_rectangular
     info: {}
     settings:
@@ -131,7 +131,7 @@ instances:
       - 0
       size: 1
       text: '500'
-  text_rectangular_T600_S_42fd7fd8_425000_21000:
+  text_rectangular_T600_S_037e40d7_425000_21000:
     component: text_rectangular
     info: {}
     settings:
@@ -143,7 +143,7 @@ instances:
       - 0
       size: 1
       text: '600'
-  text_rectangular_T800_S_6bf5c0cd_425000_28000:
+  text_rectangular_T800_S_7cf1ab19_425000_28000:
     component: text_rectangular
     info: {}
     settings:
@@ -188,32 +188,32 @@ placements:
     rotation: 0
     x: 0
     y: 35.5
-  text_rectangular_T1000__f7cd80b8_424000_35000:
+  text_rectangular_T1000__a50ed910_424000_35000:
     mirror: false
     rotation: 0
     x: 424
     y: 35
-  text_rectangular_T400_S_937903da_425000_0:
+  text_rectangular_T400_S_68c27dd7_425000_0:
     mirror: false
     rotation: 0
     x: 425
     y: 0
-  text_rectangular_T450_S_860d5655_425000_7000:
+  text_rectangular_T450_S_25397104_425000_7000:
     mirror: false
     rotation: 0
     x: 425
     y: 7
-  text_rectangular_T500_S_81715519_425000_14000:
+  text_rectangular_T500_S_de3bd885_425000_14000:
     mirror: false
     rotation: 0
     x: 425
     y: 14
-  text_rectangular_T600_S_42fd7fd8_425000_21000:
+  text_rectangular_T600_S_037e40d7_425000_21000:
     mirror: false
     rotation: 0
     x: 425
     y: 21
-  text_rectangular_T800_S_6bf5c0cd_425000_28000:
+  text_rectangular_T800_S_7cf1ab19_425000_28000:
     mirror: false
     rotation: 0
     x: 425
