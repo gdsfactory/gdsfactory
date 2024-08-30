@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import warnings
-from collections.abc import Callable, Iterable
+from collections.abc import Callable, Hashable, Iterable
 from functools import cache
 from pathlib import Path
 
@@ -15,7 +15,7 @@ from gdsfactory.component import Component
 def import_gds(
     gdspath: str | Path,
     cellname: str | None = None,
-    post_process: Iterable[Callable[[Component], None]] | None = None,
+    post_process: Hashable[Iterable[Callable[[Component], None]]] | None = None,
     **kwargs,
 ) -> Component:
     """Reads a GDS file and returns a Component.
