@@ -139,7 +139,7 @@ instances:
       length: 420
       npoints: 2
       width: 0.3
-  text_rectangular_T300_3_2fd588b3_425000_0:
+  text_rectangular_T300_3_f521bc80_425000_0:
     component: text_rectangular
     info: {}
     settings:
@@ -204,7 +204,7 @@ placements:
     rotation: 0
     x: 0
     y: 0.75
-  text_rectangular_T300_3_2fd588b3_425000_0:
+  text_rectangular_T300_3_f521bc80_425000_0:
     mirror: false
     rotation: 0
     x: 425
