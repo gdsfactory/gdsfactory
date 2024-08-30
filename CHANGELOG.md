@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.8.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.2) - 2024-08-30
+
+No significant changes.
+
+
 ## [8.8.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.1) - 2024-08-29
 
 - Update `list[LayerSpec]` types to `LayerSpecs` [#3156](https://github.com/gdsfactory/gdsfactory/pull/3156)
