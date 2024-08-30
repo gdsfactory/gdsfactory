@@ -3,7 +3,7 @@ from __future__ import annotations
 from functools import partial
 
 import numpy as np
-from kfactory.routing.optical import OpticalManhattanRoute
+from kfactory.routing.manhattan import ManhattanRouter
 
 import gdsfactory as gf
 from gdsfactory.port import Port
@@ -30,7 +30,7 @@ def route_single_from_steps(
     port_type: str | None = None,
     allow_width_mismatch: bool = False,
     **kwargs,
-) -> OpticalManhattanRoute:
+) -> ManhattanRouter:
     """Places a route formed by the given waypoints steps.
 
     Uses smooth euler bends instead of corners and tapers in straight sections.
