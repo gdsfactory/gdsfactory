@@ -37,7 +37,6 @@ def text_rectangular(
     characters = font()
     layers = layers or [layer]
 
-
     # Extract pixel width count from font definition.
     # Example below is 5, and 7 for FONT_LITHO.
     # A: 1 1 1 1 1
@@ -106,5 +105,5 @@ def text_rectangular_multi_layer(
 text_rectangular_mini = partial(text_rectangular, size=1)
 
 if __name__ == "__main__":
-    c = text_rectangular(size=8, layers=('M1', "M2"))
+    c = text_rectangular(size=8, layers=("M1", "M2"))
     c.show()
