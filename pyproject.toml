@@ -56,6 +56,7 @@ cad = [
 dev = [
   "ipykernel",
   "jsondiff",
+  "jsonschema",
   "pre-commit",
   "pylsp-mypy",
   "pytest",
