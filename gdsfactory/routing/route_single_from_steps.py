@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+from collections.abc import Mapping, Sequence
 from functools import partial
+from typing import Literal
 
 import numpy as np
 from kfactory.routing.optical import OpticalManhattanRoute
@@ -21,7 +23,7 @@ def route_single_from_steps(
     component: Component,
     port1: Port,
     port2: Port,
-    steps: list[dict[str, float]] | None = None,
+    steps: Sequence[Mapping[Literal["x", "y", "dx", "dy"], int | float]] | None = None,
     bend: ComponentSpec = "bend_euler",
     straight: ComponentSpec = "straight",
     taper: ComponentSpec | None = "taper",
@@ -99,10 +101,8 @@ def route_single_from_steps(
                 f"Invalid step directives: {invalid_step_directives}."
                 f"Valid directives are {list(STEP_DIRECTIVES)}"
             )
-        x = d["x"] if "x" in d else x
-        x += d.get("dx", 0)
-        y = d["y"] if "y" in d else y
-        y += d.get("dy", 0)
+        x = d.get("x", x) + d.get("dx", 0)
+        y = d.get("y", y) + d.get("dy", 0)
         waypoints += [(x, y)]
 
     waypoints = np.array(waypoints)
