@@ -18,6 +18,7 @@ def snspd(
     turn_ratio: float = 4,
     terminals_same_side: bool = False,
     layer: LayerSpec = (1, 0),
+    port_type: str = "electrical",
 ) -> Component:
     """Creates an optimally-rounded SNSPD.
 
@@ -36,6 +37,7 @@ def snspd(
             comprised of the turn.
         terminals_same_side: If True, both ports will be located on the same side of the SNSPD.
         layer: layer spec to put polygon geometry on.
+        port_type: type of port to add to the component.
 
     """
     # Convenience tests to auto-shape the size based
@@ -80,33 +82,31 @@ def snspd(
     elif terminals_same_side and (num_meanders % 2) == 1:
         num_meanders += 1
 
-    port_type = "optical"
+    port_type = "electrical"
+
     start_nw = D.add_ref(
         compass(size=(xsize / 2, wire_width), layer=layer, port_type=port_type)
     )
     hp_prev = D.add_ref(hairpin)
-    hp_prev.connect("o1", start_nw.ports["o3"])
+    hp_prev.connect("e1", start_nw.ports["e3"])
     alternate = True
     for _n in range(2, num_meanders):
         hp = D.add_ref(hairpin)
         if alternate:
-            hp.connect("o2", hp_prev.ports["o2"])
+            hp.connect("e2", hp_prev.ports["e2"])
         else:
-            hp.connect("o1", hp_prev.ports["o1"])
-        if terminals_same_side:
-            last_port = hp.ports["o2"]
-        else:
-            last_port = hp.ports["o1"]
+            hp.connect("e1", hp_prev.ports["e1"])
+        last_port = hp.ports["e2"] if terminals_same_side else hp.ports["e1"]
         hp_prev = hp
         alternate = not alternate
 
     finish_se = D.add_ref(
         compass(size=(xsize / 2, wire_width), layer=layer, port_type=port_type)
     )
-    finish_se.connect("o3", last_port)
+    finish_se.connect("e3", last_port)
 
-    D.add_port(port=start_nw.ports["o1"], name="o1")
-    D.add_port(port=finish_se.ports["o1"], name="o2")
+    D.add_port(port=start_nw.ports["e1"], name="e1")
+    D.add_port(port=finish_se.ports["e1"], name="e2")
 
     D.info["num_squares"] = num_meanders * (xsize / wire_width)
     D.info["area"] = xsize * ysize
