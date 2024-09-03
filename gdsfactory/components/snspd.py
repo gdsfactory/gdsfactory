@@ -93,7 +93,10 @@ def snspd(
             hp.connect("o2", hp_prev.ports["o2"])
         else:
             hp.connect("o1", hp_prev.ports["o1"])
-        last_port = hp.ports["o1"]
+        if terminals_same_side:
+            last_port = hp.ports["o2"]
+        else:
+            last_port = hp.ports["o1"]
         hp_prev = hp
         alternate = not alternate
 
