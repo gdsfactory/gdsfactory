@@ -1,12 +1,11 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.8.4...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.8.5...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.8.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.5) - 2024-09-03
 
-No significant changes.
-
+- deprecate python3.10 [#3176](https://github.com/gdsfactory/gdsfactory/pull/3176)
 
 ## [8.8.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.4) - 2024-09-03
 
