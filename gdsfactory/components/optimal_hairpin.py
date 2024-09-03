@@ -93,14 +93,25 @@ def optimal_hairpin(
     c = Component()
     c.add_polygon(list(zip(xpts, +ypts)), layer=layer)
     c.add_polygon(list(zip(xpts, -ypts)), layer=layer)
+    port_type = "electrical"
 
     xports = min(xpts)
     yports = -a + width / 2
     c.add_port(
-        name="o1", center=(xports, -yports), width=width, orientation=180, layer=layer
+        name="e1",
+        center=(xports, -yports),
+        width=width,
+        orientation=180,
+        layer=layer,
+        port_type=port_type,
     )
     c.add_port(
-        name="o2", center=(xports, yports), width=width, orientation=180, layer=layer
+        name="e2",
+        center=(xports, yports),
+        width=width,
+        orientation=180,
+        layer=layer,
+        port_type=port_type,
     )
     return c
 
