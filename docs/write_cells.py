@@ -26,6 +26,9 @@ skip = {
     "via_stack_slot_m1_m2",
     "bend_euler180",
     "bend_circular180",
+    "pack",
+    "pack_doe",
+    "pack_doe_grid",
 }
 
 skip_plot = [

@@ -2,12 +2,12 @@ instances:
   t:
     component: pad_array
     settings:
-      orientation: 270
+      port_orientation: 270
       columns: 3
   b:
     component: pad_array
     settings:
-      orientation: 90
+      port_orientation: 90
       columns: 3
 
 placements:
@@ -20,6 +20,8 @@ routes:
       start_straight_length: 150
       end_straight_length: 150
       cross_section: metal_routing
+      allow_width_mismatch: True
+
     links:
       t,e11: b,e11
       t,e13: b,e13
