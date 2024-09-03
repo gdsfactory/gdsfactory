@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.8.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.3) - 2024-09-03
+
+No significant changes.
+
+
 ## [8.8.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.2) - 2024-08-30
 
 - improve text rectangular [#3165](https://github.com/gdsfactory/gdsfactory/pull/3165)
