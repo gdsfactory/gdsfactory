@@ -21,7 +21,7 @@ Options:
 
 import logging
 import os
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from subprocess import check_call
 
 import klayout.db
@@ -255,7 +255,7 @@ if __name__ == "__main__":
     arguments = docopt(__doc__, version="RUN LVS: 1.0")
 
     # logs format
-    now_str = datetime.now(timezone.utc).strftime("lvs_run_%Y_%m_%d_%H_%M_%S")
+    now_str = datetime.now(UTC).strftime("lvs_run_%Y_%m_%d_%H_%M_%S")
 
     if (
         arguments["--run_dir"] == "pwd"
