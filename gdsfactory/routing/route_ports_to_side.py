@@ -4,7 +4,7 @@ from typing import Any, Literal
 
 import kfactory as kf
 import numpy as np
-from kfactory.routing.manhattan import ManhattanRouter
+from kfactory.routing.generic import ManhattanRoute
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -35,7 +35,7 @@ def route_ports_to_side(
     x: float | None = None,
     y: float | None = None,
     **kwargs,
-) -> tuple[list[ManhattanRouter], list[kf.Port]]:
+) -> tuple[list[ManhattanRoute], list[kf.Port]]:
     """Routes ports to a given side.
 
     Args:
@@ -127,7 +127,7 @@ def route_ports_to_x(
     dx_start: float | None = None,
     dy_start: float | None = None,
     **routing_func_args,
-) -> tuple[list[ManhattanRouter], list[kf.Port]]:
+) -> tuple[list[ManhattanRoute], list[kf.Port]]:
     """Returns route to x.
 
     Args:
@@ -338,7 +338,7 @@ def route_ports_to_y(
     dx_start: float | None = None,
     dy_start: float | None = None,
     **routing_func_args: dict[Any, Any],
-) -> tuple[list[ManhattanRouter], list[kf.Port]]:
+) -> tuple[list[ManhattanRoute], list[kf.Port]]:
     """Route ports to y.
 
     Args:
