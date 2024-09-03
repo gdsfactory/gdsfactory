@@ -6,7 +6,6 @@ import importlib
 import pathlib
 import sys
 import tempfile
-import warnings
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
@@ -45,8 +44,6 @@ plugins = [
     "lumapi",
     "sax",
 ]
-
-warnings.warn("GDSFactory requires python 3.11 or higher", DeprecationWarning)
 
 
 class ErrorType(Enum):
