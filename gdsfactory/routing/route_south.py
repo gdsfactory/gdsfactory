@@ -3,7 +3,7 @@ from __future__ import annotations
 from collections.abc import Callable
 
 import numpy as np
-from kfactory.routing.manhattan import ManhattanRouter
+from kfactory.routing.generic import ManhattanRoute
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
@@ -34,7 +34,7 @@ def route_south(
     start_straight_length: float = 0.5,
     port_type: str | None = None,
     allow_width_mismatch: bool = False,
-) -> list[ManhattanRouter]:
+) -> list[ManhattanRoute]:
     """Places routes to route a component ports to the south.
 
     Args:

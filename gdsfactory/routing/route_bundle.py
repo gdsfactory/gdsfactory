@@ -15,7 +15,7 @@ from __future__ import annotations
 from functools import partial
 
 import kfactory as kf
-from kfactory.routing.manhattan import ManhattanRouter
+from kfactory.routing.generic import ManhattanRoute
 
 import gdsfactory as gf
 from gdsfactory.components.straight import straight as straight_function
@@ -99,7 +99,7 @@ def route_bundle(
     radius: float | None = None,
     route_width: float | list[float] | None = None,
     straight: ComponentSpec = straight_function,
-) -> list[ManhattanRouter]:
+) -> list[ManhattanRoute]:
     """Places a bundle of routes to connect two groups of ports.
 
     Routes connect a bundle of ports with a river router.
