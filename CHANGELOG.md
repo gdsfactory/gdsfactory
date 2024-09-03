@@ -1,12 +1,15 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.8.2...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.8.3...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.8.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.3) - 2024-09-03
 
-No significant changes.
-
+- Re-add missing a straight `ComponentSpec` to `route_from_single_steps`  [#3169](https://github.com/gdsfactory/gdsfactory/pull/3169)
+- [pre-commit.ci] pre-commit autoupdate [#3172](https://github.com/gdsfactory/gdsfactory/pull/3172)
+- Update snspd.py [#3173](https://github.com/gdsfactory/gdsfactory/pull/3173)
+- update to kfactory 0.20.1 [#3166](https://github.com/gdsfactory/gdsfactory/pull/3166)
+- Update watchdog requirement from <5 to <6 [#3170](https://github.com/gdsfactory/gdsfactory/pull/3170)
 
 ## [8.8.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.2) - 2024-08-30
 
