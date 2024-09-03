@@ -1,6 +1,6 @@
 # Installation
 
-We support Python 3.10, 3.11 and 3.12, and recommend [VSCode](https://code.visualstudio.com/) IDE. If you do not have Python installed, you can [download Anaconda](https://www.anaconda.com/download/).
+We support Python 3.11 and 3.12, and recommend [VSCode](https://code.visualstudio.com/) IDE. If you do not have Python installed, you can [download Anaconda](https://www.anaconda.com/download/).
 
 Upon Python installation, open Anaconda Prompt as Administrator and install the latest gdsfactory
 
