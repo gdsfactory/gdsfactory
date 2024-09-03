@@ -1,12 +1,12 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.8.3...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.8.4...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.8.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.4) - 2024-09-03
 
-No significant changes.
-
+- fixes routing types [#3175](https://github.com/gdsfactory/gdsfactory/pull/3175)
+- fix snspd port_type [#3174](https://github.com/gdsfactory/gdsfactory/pull/3174)
 
 ## [8.8.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.3) - 2024-09-03
 
