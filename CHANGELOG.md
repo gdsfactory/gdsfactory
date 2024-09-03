@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.8.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.5) - 2024-09-03
+
+No significant changes.
+
+
 ## [8.8.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.4) - 2024-09-03
 
 - fixes routing types [#3175](https://github.com/gdsfactory/gdsfactory/pull/3175)
