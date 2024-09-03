@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.8.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.4) - 2024-09-03
+
+No significant changes.
+
+
 ## [8.8.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.3) - 2024-09-03
 
 - Re-add missing a straight `ComponentSpec` to `route_from_single_steps`  [#3169](https://github.com/gdsfactory/gdsfactory/pull/3169)
