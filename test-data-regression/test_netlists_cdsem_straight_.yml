@@ -1,5 +1,5 @@
 instances:
-  straight_L420_N2_CSstrip_W0p45_210000_7225:
+  straight_L420_N2_CSstrip_W0p45_0_7225:
     component: straight
     info:
       length: 420
@@ -13,7 +13,7 @@ instances:
       length: 420
       npoints: 2
       width: 0.45
-  straight_L420_N2_CSstrip_W0p4_210000_200:
+  straight_L420_N2_CSstrip_W0p4_0_200:
     component: straight
     info:
       length: 420
@@ -27,7 +27,7 @@ instances:
       length: 420
       npoints: 2
       width: 0.4
-  straight_L420_N2_CSstrip_W0p5_210000_14250:
+  straight_L420_N2_CSstrip_W0p5_0_14250:
     component: straight
     info:
       length: 420
@@ -41,7 +41,7 @@ instances:
       length: 420
       npoints: 2
       width: 0.5
-  straight_L420_N2_CSstrip_W0p6_210000_21300:
+  straight_L420_N2_CSstrip_W0p6_0_21300:
     component: straight
     info:
       length: 420
@@ -55,7 +55,7 @@ instances:
       length: 420
       npoints: 2
       width: 0.6
-  straight_L420_N2_CSstrip_W0p8_210000_28400:
+  straight_L420_N2_CSstrip_W0p8_0_28400:
     component: straight
     info:
       length: 420
@@ -69,7 +69,7 @@ instances:
       length: 420
       npoints: 2
       width: 0.8
-  straight_L420_N2_CSstrip_W1_210000_35500:
+  straight_L420_N2_CSstrip_W1_0_35500:
     component: straight
     info:
       length: 420
@@ -83,10 +83,11 @@ instances:
       length: 420
       npoints: 2
       width: 1
-  text_rectangular_T1000__9f2eb71f_436000_37500:
+  text_rectangular_T1000__a50ed910_424000_35000:
     component: text_rectangular
     info: {}
     settings:
+      font: rectangular_font
       justify: left
       layer: WG
       position:
@@ -94,10 +95,11 @@ instances:
       - 0
       size: 1
       text: '1000'
-  text_rectangular_T400_S_d60df88f_433500_2500:
+  text_rectangular_T400_S_68c27dd7_425000_0:
     component: text_rectangular
     info: {}
     settings:
+      font: rectangular_font
       justify: left
       layer: WG
       position:
@@ -105,10 +107,11 @@ instances:
       - 0
       size: 1
       text: '400'
-  text_rectangular_T450_S_627e610d_433500_9500:
+  text_rectangular_T450_S_25397104_425000_7000:
     component: text_rectangular
     info: {}
     settings:
+      font: rectangular_font
       justify: left
       layer: WG
       position:
@@ -116,10 +119,11 @@ instances:
       - 0
       size: 1
       text: '450'
-  text_rectangular_T500_S_c8cdcf0b_433500_16500:
+  text_rectangular_T500_S_de3bd885_425000_14000:
     component: text_rectangular
     info: {}
     settings:
+      font: rectangular_font
       justify: left
       layer: WG
       position:
@@ -127,10 +131,11 @@ instances:
       - 0
       size: 1
       text: '500'
-  text_rectangular_T600_S_064e87a0_433500_23500:
+  text_rectangular_T600_S_037e40d7_425000_21000:
     component: text_rectangular
     info: {}
     settings:
+      font: rectangular_font
       justify: left
       layer: WG
       position:
@@ -138,10 +143,11 @@ instances:
       - 0
       size: 1
       text: '600'
-  text_rectangular_T800_S_3849f5fe_433500_30500:
+  text_rectangular_T800_S_7cf1ab19_425000_28000:
     component: text_rectangular
     info: {}
     settings:
+      font: rectangular_font
       justify: left
       layer: WG
       position:
@@ -152,62 +158,62 @@ instances:
 name: cdsem_straight_W0p4_0p4_e37085c4
 nets: []
 placements:
-  straight_L420_N2_CSstrip_W0p45_210000_7225:
+  straight_L420_N2_CSstrip_W0p45_0_7225:
     mirror: false
     rotation: 0
     x: 0
     y: 7.225
-  straight_L420_N2_CSstrip_W0p4_210000_200:
+  straight_L420_N2_CSstrip_W0p4_0_200:
     mirror: false
     rotation: 0
     x: 0
     y: 0.2
-  straight_L420_N2_CSstrip_W0p5_210000_14250:
+  straight_L420_N2_CSstrip_W0p5_0_14250:
     mirror: false
     rotation: 0
     x: 0
     y: 14.25
-  straight_L420_N2_CSstrip_W0p6_210000_21300:
+  straight_L420_N2_CSstrip_W0p6_0_21300:
     mirror: false
     rotation: 0
     x: 0
     y: 21.3
-  straight_L420_N2_CSstrip_W0p8_210000_28400:
+  straight_L420_N2_CSstrip_W0p8_0_28400:
     mirror: false
     rotation: 0
     x: 0
     y: 28.4
-  straight_L420_N2_CSstrip_W1_210000_35500:
+  straight_L420_N2_CSstrip_W1_0_35500:
     mirror: false
     rotation: 0
     x: 0
     y: 35.5
-  text_rectangular_T1000__9f2eb71f_436000_37500:
+  text_rectangular_T1000__a50ed910_424000_35000:
     mirror: false
     rotation: 0
     x: 424
     y: 35
-  text_rectangular_T400_S_d60df88f_433500_2500:
+  text_rectangular_T400_S_68c27dd7_425000_0:
     mirror: false
     rotation: 0
     x: 425
     y: 0
-  text_rectangular_T450_S_627e610d_433500_9500:
+  text_rectangular_T450_S_25397104_425000_7000:
     mirror: false
     rotation: 0
     x: 425
     y: 7
-  text_rectangular_T500_S_c8cdcf0b_433500_16500:
+  text_rectangular_T500_S_de3bd885_425000_14000:
     mirror: false
     rotation: 0
     x: 425
     y: 14
-  text_rectangular_T600_S_064e87a0_433500_23500:
+  text_rectangular_T600_S_037e40d7_425000_21000:
     mirror: false
     rotation: 0
     x: 425
     y: 21
-  text_rectangular_T800_S_3849f5fe_433500_30500:
+  text_rectangular_T800_S_7cf1ab19_425000_28000:
     mirror: false
     rotation: 0
     x: 425
@@ -218,18 +224,18 @@ warnings:
     unconnected_ports:
     - message: 12 unconnected optical ports!
       ports:
-      - straight_L420_N2_CSstrip_W0p4_210000_200,o1
-      - straight_L420_N2_CSstrip_W0p4_210000_200,o2
-      - straight_L420_N2_CSstrip_W0p45_210000_7225,o1
-      - straight_L420_N2_CSstrip_W0p45_210000_7225,o2
-      - straight_L420_N2_CSstrip_W0p5_210000_14250,o1
-      - straight_L420_N2_CSstrip_W0p5_210000_14250,o2
-      - straight_L420_N2_CSstrip_W0p6_210000_21300,o1
-      - straight_L420_N2_CSstrip_W0p6_210000_21300,o2
-      - straight_L420_N2_CSstrip_W0p8_210000_28400,o1
-      - straight_L420_N2_CSstrip_W0p8_210000_28400,o2
-      - straight_L420_N2_CSstrip_W1_210000_35500,o1
-      - straight_L420_N2_CSstrip_W1_210000_35500,o2
+      - straight_L420_N2_CSstrip_W0p4_0_200,o1
+      - straight_L420_N2_CSstrip_W0p4_0_200,o2
+      - straight_L420_N2_CSstrip_W0p45_0_7225,o1
+      - straight_L420_N2_CSstrip_W0p45_0_7225,o2
+      - straight_L420_N2_CSstrip_W0p5_0_14250,o1
+      - straight_L420_N2_CSstrip_W0p5_0_14250,o2
+      - straight_L420_N2_CSstrip_W0p6_0_21300,o1
+      - straight_L420_N2_CSstrip_W0p6_0_21300,o2
+      - straight_L420_N2_CSstrip_W0p8_0_28400,o1
+      - straight_L420_N2_CSstrip_W0p8_0_28400,o2
+      - straight_L420_N2_CSstrip_W1_0_35500,o1
+      - straight_L420_N2_CSstrip_W1_0_35500,o2
       values:
       - - 0
         - 200

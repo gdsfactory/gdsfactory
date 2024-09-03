@@ -12,7 +12,7 @@ from typing import Any
 import kfactory as kf
 import numpy as np
 import yaml
-from kfactory import LayerEnum
+from kfactory.kcell import LayerEnum
 from pydantic import BaseModel, ConfigDict, Field
 
 from gdsfactory import logger
@@ -30,7 +30,7 @@ from gdsfactory.typings import (
     ComponentSpec,
     ConnectivitySpec,
     CrossSection,
-    CrossSectionOrFactory,
+    CrossSectionFactory,
     CrossSectionSpec,
     Layer,
     LayerSpec,
@@ -143,7 +143,7 @@ class Pdk(BaseModel):
     """
 
     name: str
-    cross_sections: dict[str, CrossSectionOrFactory] = Field(
+    cross_sections: dict[str, CrossSectionFactory] = Field(
         default_factory=dict, exclude=True
     )
     cross_section_default_names: dict[str, str] = Field(
@@ -415,7 +415,7 @@ class Pdk(BaseModel):
                 cross_sections = list(self.cross_sections.keys())
                 raise ValueError(f"{cross_section!r} not in {cross_sections}")
             xs = self.cross_sections[cross_section]
-            return xs(**kwargs) if callable(xs) else xs.copy(**kwargs)
+            return xs(**kwargs)
         elif isinstance(cross_section, dict):
             xs_name = cross_section.get("cross_section", None)
             settings = cross_section.get("settings", {})

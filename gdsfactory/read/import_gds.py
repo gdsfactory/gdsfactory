@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 import warnings
-from collections.abc import Callable
+from collections.abc import Callable, Hashable, Iterable
+from functools import cache
 from pathlib import Path
 
 import kfactory as kf
@@ -10,10 +11,11 @@ from kfactory import KCLayout
 from gdsfactory.component import Component
 
 
+@cache
 def import_gds(
     gdspath: str | Path,
     cellname: str | None = None,
-    post_process: Callable[[Component], Component] | None = None,
+    post_process: Hashable[Iterable[Callable[[Component], None]]] | None = None,
     **kwargs,
 ) -> Component:
     """Reads a GDS file and returns a Component.
@@ -29,12 +31,14 @@ def import_gds(
             warnings.warn(f"kwargs {k!r} is deprecated and ignored")
 
     temp_kcl = KCLayout(name=str(gdspath))
-    temp_kcl.read(gdspath)
+    options = kf.kcell.load_layout_options()
+    options.warn_level = 0
+    temp_kcl.read(gdspath, options=options)
     cellname = cellname or temp_kcl.top_cell().name
     kcell = temp_kcl[cellname]
     c = kcell_to_component(kcell)
-    if post_process:
-        post_process(c)
+    for pp in post_process or []:
+        pp(c)
 
     temp_kcl.library.delete()
     del kf.kcell.kcls[temp_kcl.name]
@@ -91,7 +95,7 @@ def import_gds_with_conflicts(
     kcell = kf.kcl[cellname]
     c = Component()
     c._kdb_cell.copy_tree(kcell._kdb_cell)
-    c.ports = kcell.ports
+    c.add_ports(kcell.ports)
     c._settings = kcell.settings.model_copy()
     c.info = kcell.info.model_copy()
     name = name or kcell.name

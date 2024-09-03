@@ -1,5 +1,5 @@
 instances:
-  bend_euler_R10_A90_P0p5_2f1f5c6d_5125_5575:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_0_700:
     component: bend_euler
     info:
       dy: 10
@@ -19,7 +19,7 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  straight_L10_N2_CSstrip_5000_0:
+  straight_L10_N2_CSstrip_0_0:
     component: straight
     info:
       length: 10
@@ -35,18 +35,18 @@ instances:
 name: coupler90_G0p2_R10_Bben_11d57add
 nets: []
 placements:
-  bend_euler_R10_A90_P0p5_2f1f5c6d_5125_5575:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_0_700:
     mirror: false
     rotation: 0
     x: 0
     y: 0.7
-  straight_L10_N2_CSstrip_5000_0:
+  straight_L10_N2_CSstrip_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
 ports:
-  o1: straight_L10_N2_CSstrip_5000_0,o1
-  o2: bend_euler_R10_A90_P0p5_2f1f5c6d_5125_5575,o1
-  o3: bend_euler_R10_A90_P0p5_2f1f5c6d_5125_5575,o2
-  o4: straight_L10_N2_CSstrip_5000_0,o2
+  o1: straight_L10_N2_CSstrip_0_0,o1
+  o2: bend_euler_R10_A90_P0p5_2f1f5c6d_0_700,o1
+  o3: bend_euler_R10_A90_P0p5_2f1f5c6d_0_700,o2
+  o4: straight_L10_N2_CSstrip_0_0,o2

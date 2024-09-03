@@ -1,5 +1,5 @@
 instances:
-  bend_euler_R10_A90_P0p5_2f1f5c6d_20875_5125:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_15750_250:
     component: bend_euler
     info:
       dy: 10
@@ -19,7 +19,7 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_2f1f5c6d_20875_m5325:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_15750_m450:
     component: bend_euler
     info:
       dy: 10
@@ -39,7 +39,7 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_2f1f5c6d_m20875_5125:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_m15750_250:
     component: bend_euler
     info:
       dy: 10
@@ -59,7 +59,7 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_2f1f5c6d_m20875_m5325:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_m15750_m450:
     component: bend_euler
     info:
       dy: 10
@@ -79,14 +79,14 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  coupler_straight_L12p4__5c0d0de9_9550_m100:
+  coupler_straight_L12p4__5c0d0de9_3350_m450:
     component: coupler_straight
     info: {}
     settings:
       cross_section: strip
       gap: 0.2
       length: 12.4
-  coupler_straight_L12p4__5c0d0de9_m9550_m100:
+  coupler_straight_L12p4__5c0d0de9_m15750_m450:
     component: coupler_straight
     info: {}
     settings:
@@ -95,59 +95,59 @@ instances:
       length: 12.4
 name: coupler_broadband_WS0p5_73b48b52
 nets:
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_20875_5125,o1
-  p2: coupler_straight_L12p4__5c0d0de9_9550_m100,o3
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_20875_m5325,o1
-  p2: coupler_straight_L12p4__5c0d0de9_9550_m100,o4
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m20875_5125,o1
-  p2: coupler_straight_L12p4__5c0d0de9_m9550_m100,o2
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m20875_m5325,o1
-  p2: coupler_straight_L12p4__5c0d0de9_m9550_m100,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_15750_250,o1
+  p2: coupler_straight_L12p4__5c0d0de9_3350_m450,o3
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_15750_m450,o1
+  p2: coupler_straight_L12p4__5c0d0de9_3350_m450,o4
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m15750_250,o1
+  p2: coupler_straight_L12p4__5c0d0de9_m15750_m450,o2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m15750_m450,o1
+  p2: coupler_straight_L12p4__5c0d0de9_m15750_m450,o1
 placements:
-  bend_euler_R10_A90_P0p5_2f1f5c6d_20875_5125:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_15750_250:
     mirror: false
     rotation: 0
     x: 15.75
     y: 0.25
-  bend_euler_R10_A90_P0p5_2f1f5c6d_20875_m5325:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_15750_m450:
     mirror: true
     rotation: 0
     x: 15.75
     y: -0.45
-  bend_euler_R10_A90_P0p5_2f1f5c6d_m20875_5125:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_m15750_250:
     mirror: true
     rotation: 180
     x: -15.75
     y: 0.25
-  bend_euler_R10_A90_P0p5_2f1f5c6d_m20875_m5325:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_m15750_m450:
     mirror: false
     rotation: 180
     x: -15.75
     y: -0.45
-  coupler_straight_L12p4__5c0d0de9_9550_m100:
+  coupler_straight_L12p4__5c0d0de9_3350_m450:
     mirror: false
     rotation: 0
     x: 3.35
     y: -0.45
-  coupler_straight_L12p4__5c0d0de9_m9550_m100:
+  coupler_straight_L12p4__5c0d0de9_m15750_m450:
     mirror: false
     rotation: 0
     x: -15.75
     y: -0.45
 ports:
-  o1: bend_euler_R10_A90_P0p5_2f1f5c6d_m20875_m5325,o2
-  o2: bend_euler_R10_A90_P0p5_2f1f5c6d_m20875_5125,o2
-  o3: bend_euler_R10_A90_P0p5_2f1f5c6d_20875_m5325,o2
-  o4: bend_euler_R10_A90_P0p5_2f1f5c6d_20875_5125,o2
+  o1: bend_euler_R10_A90_P0p5_2f1f5c6d_m15750_m450,o2
+  o2: bend_euler_R10_A90_P0p5_2f1f5c6d_m15750_250,o2
+  o3: bend_euler_R10_A90_P0p5_2f1f5c6d_15750_m450,o2
+  o4: bend_euler_R10_A90_P0p5_2f1f5c6d_15750_250,o2
 warnings:
   optical:
     unconnected_ports:
     - message: 4 unconnected optical ports!
       ports:
-      - coupler_straight_L12p4__5c0d0de9_m9550_m100,o4
-      - coupler_straight_L12p4__5c0d0de9_m9550_m100,o3
-      - coupler_straight_L12p4__5c0d0de9_9550_m100,o1
-      - coupler_straight_L12p4__5c0d0de9_9550_m100,o2
+      - coupler_straight_L12p4__5c0d0de9_m15750_m450,o4
+      - coupler_straight_L12p4__5c0d0de9_m15750_m450,o3
+      - coupler_straight_L12p4__5c0d0de9_3350_m450,o1
+      - coupler_straight_L12p4__5c0d0de9_3350_m450,o2
       values:
       - - -3350
         - -450

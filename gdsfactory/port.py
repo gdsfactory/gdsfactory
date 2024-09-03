@@ -48,7 +48,7 @@ if typing.TYPE_CHECKING:
 
 Layer = tuple[int, int]
 Layers = tuple[Layer, ...]
-LayerSpec = Layer | str | None | kf.LayerEnum
+LayerSpec = Layer | str | None | kf.kcell.LayerEnum
 LayerSpecs = tuple[LayerSpec, ...]
 Float2 = tuple[float, float]
 valid_error_types = ["error", "warn", "ignore"]

@@ -1,5 +1,5 @@
 instances:
-  bend_euler_RNone_A90_P0_d7c3a5a9_35125_7243:
+  bend_euler_RNone_A90_P0_d7c3a5a9_30000_2368:
     component: bend_euler
     info:
       dy: 10
@@ -18,7 +18,7 @@ instances:
       cross_section: strip
       p: 0.5
       with_arc_floorplan: true
-  bend_euler_RNone_A90_P0_d7c3a5a9_35125_m6507:
+  bend_euler_RNone_A90_P0_d7c3a5a9_30000_m1632:
     component: bend_euler
     info:
       dy: 10
@@ -37,7 +37,7 @@ instances:
       cross_section: strip
       p: 0.5
       with_arc_floorplan: true
-  bend_euler_RNone_A90_P0_d7c3a5a9_44875_19493:
+  bend_euler_RNone_A90_P0_d7c3a5a9_40000_m18632:
     component: bend_euler
     info:
       dy: 10
@@ -56,7 +56,7 @@ instances:
       cross_section: strip
       p: 0.5
       with_arc_floorplan: true
-  bend_euler_RNone_A90_P0_d7c3a5a9_44875_m23757:
+  bend_euler_RNone_A90_P0_d7c3a5a9_50000_24368:
     component: bend_euler
     info:
       dy: 10
@@ -75,7 +75,7 @@ instances:
       cross_section: strip
       p: 0.5
       with_arc_floorplan: true
-  bend_euler_RNone_A90_P0_d7c3a5a9_65125_19493:
+  bend_euler_RNone_A90_P0_d7c3a5a9_60000_m28632:
     component: bend_euler
     info:
       dy: 10
@@ -94,7 +94,7 @@ instances:
       cross_section: strip
       p: 0.5
       with_arc_floorplan: true
-  bend_euler_RNone_A90_P0_d7c3a5a9_65125_m23757:
+  bend_euler_RNone_A90_P0_d7c3a5a9_70000_12368:
     component: bend_euler
     info:
       dy: 10
@@ -113,7 +113,7 @@ instances:
       cross_section: strip
       p: 0.5
       with_arc_floorplan: true
-  bend_euler_RNone_A90_P0_d7c3a5a9_74875_7243:
+  bend_euler_RNone_A90_P0_d7c3a5a9_70000_14368:
     component: bend_euler
     info:
       dy: 10
@@ -132,7 +132,7 @@ instances:
       cross_section: strip
       p: 0.5
       with_arc_floorplan: true
-  bend_euler_RNone_A90_P0_d7c3a5a9_74875_m6507:
+  bend_euler_RNone_A90_P0_d7c3a5a9_80000_m1632:
     component: bend_euler
     info:
       dy: 10
@@ -173,7 +173,7 @@ instances:
       dy: 4
       gap: 0.236
       length: 20
-  straight_L2_N2_CSstrip_70000_13368:
+  straight_L2_N2_CSstrip_70000_12368:
     component: straight
     info:
       length: 2
@@ -186,7 +186,7 @@ instances:
       cross_section: strip
       length: 2
       npoints: 2
-  straight_L7_N2_CSstrip_70000_m15132:
+  straight_L7_N2_CSstrip_70000_m18632:
     component: straight
     info:
       length: 7
@@ -253,75 +253,75 @@ instances:
       npoints: 2
 name: mzi_DL10_LY2_LXNone_Bbe_2f449048
 nets:
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_35125_7243,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_30000_2368,o1
   p2: cp1,o3
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_35125_7243,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_30000_2368,o2
   p2: sytl,o1
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_35125_m6507,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_30000_m1632,o1
   p2: cp1,o4
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_35125_m6507,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_30000_m1632,o2
   p2: syl,o1
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_44875_19493,o1
-  p2: sxt,o1
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_44875_19493,o2
-  p2: sytl,o2
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_44875_m23757,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_40000_m18632,o1
   p2: syl,o2
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_44875_m23757,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_40000_m18632,o2
   p2: sxb,o1
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_65125_19493,o1
-  p2: straight_L2_N2_CSstrip_70000_13368,o2
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_65125_19493,o2
-  p2: sxt,o2
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_65125_m23757,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_50000_24368,o1
+  p2: sxt,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_50000_24368,o2
+  p2: sytl,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_60000_m28632,o1
   p2: sxb,o2
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_65125_m23757,o2
-  p2: straight_L7_N2_CSstrip_70000_m15132,o1
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_74875_7243,o1
-  p2: straight_L2_N2_CSstrip_70000_13368,o1
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_74875_7243,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_60000_m28632,o2
+  p2: straight_L7_N2_CSstrip_70000_m18632,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_70000_12368,o1
+  p2: straight_L2_N2_CSstrip_70000_12368,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_70000_12368,o2
   p2: cp2,o3
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_74875_m6507,o1
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_70000_14368,o1
+  p2: straight_L2_N2_CSstrip_70000_12368,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_70000_14368,o2
+  p2: sxt,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_80000_m1632,o1
   p2: cp2,o4
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_74875_m6507,o2
-  p2: straight_L7_N2_CSstrip_70000_m15132,o2
+- p1: bend_euler_RNone_A90_P0_d7c3a5a9_80000_m1632,o2
+  p2: straight_L7_N2_CSstrip_70000_m18632,o2
 placements:
-  bend_euler_RNone_A90_P0_d7c3a5a9_35125_7243:
+  bend_euler_RNone_A90_P0_d7c3a5a9_30000_2368:
     mirror: false
     rotation: 0
     x: 30
     y: 2.368
-  bend_euler_RNone_A90_P0_d7c3a5a9_35125_m6507:
+  bend_euler_RNone_A90_P0_d7c3a5a9_30000_m1632:
     mirror: true
     rotation: 0
     x: 30
     y: -1.632
-  bend_euler_RNone_A90_P0_d7c3a5a9_44875_19493:
-    mirror: false
-    rotation: 180
-    x: 50
-    y: 24.368
-  bend_euler_RNone_A90_P0_d7c3a5a9_44875_m23757:
+  bend_euler_RNone_A90_P0_d7c3a5a9_40000_m18632:
     mirror: false
     rotation: 270
     x: 40
     y: -18.632
-  bend_euler_RNone_A90_P0_d7c3a5a9_65125_19493:
+  bend_euler_RNone_A90_P0_d7c3a5a9_50000_24368:
     mirror: false
-    rotation: 90
-    x: 70
-    y: 14.368
-  bend_euler_RNone_A90_P0_d7c3a5a9_65125_m23757:
+    rotation: 180
+    x: 50
+    y: 24.368
+  bend_euler_RNone_A90_P0_d7c3a5a9_60000_m28632:
     mirror: false
     rotation: 0
     x: 60
     y: -28.632
-  bend_euler_RNone_A90_P0_d7c3a5a9_74875_7243:
+  bend_euler_RNone_A90_P0_d7c3a5a9_70000_12368:
     mirror: false
     rotation: 270
     x: 70
     y: 12.368
-  bend_euler_RNone_A90_P0_d7c3a5a9_74875_m6507:
+  bend_euler_RNone_A90_P0_d7c3a5a9_70000_14368:
+    mirror: false
+    rotation: 90
+    x: 70
+    y: 14.368
+  bend_euler_RNone_A90_P0_d7c3a5a9_80000_m1632:
     mirror: false
     rotation: 180
     x: 80
@@ -336,12 +336,12 @@ placements:
     rotation: 180
     x: 110
     y: 0
-  straight_L2_N2_CSstrip_70000_13368:
+  straight_L2_N2_CSstrip_70000_12368:
     mirror: false
     rotation: 90
     x: 70
     y: 12.368
-  straight_L7_N2_CSstrip_70000_m15132:
+  straight_L7_N2_CSstrip_70000_m18632:
     mirror: false
     rotation: 90
     x: 70

@@ -1,5 +1,5 @@
 instances:
-  straight_L10_N2_CSstrip_5000_0:
+  straight_L10_N2_CSstrip_0_0:
     component: straight
     info:
       length: 10
@@ -12,7 +12,7 @@ instances:
       cross_section: strip
       length: 10
       npoints: 2
-  straight_L10_N2_CSstrip_5000_770:
+  straight_L10_N2_CSstrip_0_770:
     component: straight
     info:
       length: 10
@@ -28,18 +28,18 @@ instances:
 name: coupler_straight_L10_G0_ec65877d
 nets: []
 placements:
-  straight_L10_N2_CSstrip_5000_0:
+  straight_L10_N2_CSstrip_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  straight_L10_N2_CSstrip_5000_770:
+  straight_L10_N2_CSstrip_0_770:
     mirror: false
     rotation: 0
     x: 0
     y: 0.77
 ports:
-  o1: straight_L10_N2_CSstrip_5000_0,o1
-  o2: straight_L10_N2_CSstrip_5000_770,o1
-  o3: straight_L10_N2_CSstrip_5000_770,o2
-  o4: straight_L10_N2_CSstrip_5000_0,o2
+  o1: straight_L10_N2_CSstrip_0_0,o1
+  o2: straight_L10_N2_CSstrip_0_770,o1
+  o3: straight_L10_N2_CSstrip_0_770,o2
+  o4: straight_L10_N2_CSstrip_0_0,o2

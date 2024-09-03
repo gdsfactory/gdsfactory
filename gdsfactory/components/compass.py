@@ -22,10 +22,11 @@ def compass(
         layer: tuple (int, int).
         port_type: optical, electrical.
         port_inclusion: from edge.
-        port_orientations: list of port_orientations to add. None add one port only.
+        port_orientations: list of port_orientations to add. None does not add ports.
     """
     c = gf.Component()
     dx, dy = snap_to_grid2x(size)
+    port_orientations = port_orientations or []
 
     if dx <= 0 or dy <= 0:
         raise ValueError(f"dx={dx} and dy={dy} must be > 0")

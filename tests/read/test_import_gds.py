@@ -23,6 +23,7 @@ def test_import_gds_info() -> None:
 
 
 def test_import_gds_hierarchy() -> None:
+    """Import a GDS with hierarchy."""
     c0 = gf.components.mzi_arms(delta_length=11)
     gdspath = c0.write_gds()
 
@@ -31,7 +32,7 @@ def test_import_gds_hierarchy() -> None:
 
 
 def test_import_json_label(data_regression) -> None:
-    """Make sure you can import the ports."""
+    """Import ports from GDS."""
     c = gf.components.straight()
     c1 = gf.labels.add_label_json(c)
     gdspath = c1.write_gds()
@@ -43,7 +44,7 @@ def test_import_json_label(data_regression) -> None:
 
 
 def test_import_gds_array() -> None:
-    """Make sure you can import a GDS with arrays."""
+    """Import a GDS with InstanceArray."""
     c0 = gf.components.array(
         gf.components.rectangle(layer=LAYER.WG), rows=2, columns=2, spacing=(10, 10)
     )
@@ -54,7 +55,7 @@ def test_import_gds_array() -> None:
 
 
 def test_import_gds_ports(data_regression) -> None:
-    """Make sure you can import the ports."""
+    """Import the ports."""
     c0 = gf.components.straight()
     gdspath = c0.write_gds()
 
@@ -64,6 +65,20 @@ def test_import_gds_ports(data_regression) -> None:
     assert len(c1.ports) == 2, f"{len(c1.ports)}"
     if data_regression:
         data_regression.check(c1.to_dict())
+
+
+def import_same_file_twice() -> None:
+    c1 = gf.c.straight()
+    gdspath = c1.write_gds()
+
+    c2 = gf.import_gds(gdspath)
+    c3 = gf.import_gds(gdspath)
+
+    c = gf.Component()
+    c.add_ref(c2)
+    c.add_ref(c3)
+    c.write_gds()
+    assert c
 
 
 if __name__ == "__main__":

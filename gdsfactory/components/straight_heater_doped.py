@@ -84,7 +84,6 @@ def straight_heater_doped_rib(
                                                                       heater_width
         <------------------------------------------------------------------------------>
                                        slab_width
-
     """
     c = Component()
     cross_section_heater = gf.get_cross_section(
@@ -212,6 +211,7 @@ def straight_heater_doped_strip(
         width: waveguide width on the ridge.
         xoffset_tip1: distance in um from input taper to via_stack.
         xoffset_tip2: distance in um from output taper to via_stack.
+
     .. code::
                               length
           <-|--------|--------------------------------->

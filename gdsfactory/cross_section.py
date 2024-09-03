@@ -418,13 +418,16 @@ class Transition(CrossSection):
     Parameters:
         cross_section1: input cross_section.
         cross_section2: output cross_section.
-        width_type: sine or linear. Sets the type of width transition used if widths \
-                are different between the two input CrossSections.
+        width_type: 'sine', 'linear', 'parabolic' or Callable. Sets the type of width \
+                transition used if widths are different between the two input CrossSections.
+        offset_type: 'sine', 'linear', 'parabolic' or Callable. Sets the type of offset \
+                transition used if offsets are different between the two input CrossSections.
     """
 
     cross_section1: CrossSectionSpec
     cross_section2: CrossSectionSpec
     width_type: WidthTypes | Callable = "sine"
+    offset_type: WidthTypes | Callable = "sine"
 
     @field_serializer("width_type")
     def serialize_width(self, width_type: WidthTypes | Callable) -> str | None:

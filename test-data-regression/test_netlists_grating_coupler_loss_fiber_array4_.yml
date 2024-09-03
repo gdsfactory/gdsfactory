@@ -1,5 +1,5 @@
 instances:
-  loss_deembedding_ch12_3_3a13e377_1206500_4613:
+  loss_deembedding_ch12_3_3a13e377_1016000_0:
     component: loss_deembedding_ch12_34
     info: {}
     settings:
@@ -8,7 +8,7 @@ instances:
       pitch: 127
       port_name: o1
       rotation: -90
-  loss_deembedding_ch13_2_4ecbde23_194138_1556:
+  loss_deembedding_ch13_2_4ecbde23_0_0:
     component: loss_deembedding_ch13_24
     info: {}
     settings:
@@ -17,7 +17,7 @@ instances:
       pitch: 127
       port_name: o1
       rotation: -90
-  loss_deembedding_ch14_2_6c0f15ec_698500_4613:
+  loss_deembedding_ch14_2_6c0f15ec_508000_0:
     component: loss_deembedding_ch14_23
     info: {}
     settings:
@@ -29,17 +29,17 @@ instances:
 name: grating_coupler_loss_fi_07f21f40
 nets: []
 placements:
-  loss_deembedding_ch12_3_3a13e377_1206500_4613:
+  loss_deembedding_ch12_3_3a13e377_1016000_0:
     mirror: false
     rotation: 0
     x: 1016
     y: 0
-  loss_deembedding_ch13_2_4ecbde23_194138_1556:
+  loss_deembedding_ch13_2_4ecbde23_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  loss_deembedding_ch14_2_6c0f15ec_698500_4613:
+  loss_deembedding_ch14_2_6c0f15ec_508000_0:
     mirror: false
     rotation: 0
     x: 508

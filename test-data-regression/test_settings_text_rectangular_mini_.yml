@@ -1,6 +1,7 @@
 info: {}
-name: text_rectangular_Tabcd__e75a4622
+name: text_rectangular_Tabcd__bd4c7f86
 settings:
+  font: rectangular_font
   justify: left
   layer: WG
   position:

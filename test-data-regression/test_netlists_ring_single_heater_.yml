@@ -1,5 +1,5 @@
 instances:
-  bend_euler_R10_A90_P0p5_8747be7e_5625_16335:
+  bend_euler_R10_A90_P0p5_8747be7e_10000_10710:
     component: bend_euler
     info:
       dy: 10
@@ -19,7 +19,7 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_8747be7e_m6625_16335:
+  bend_euler_R10_A90_P0p5_8747be7e_m1000_20710:
     component: bend_euler
     info:
       dy: 10
@@ -39,7 +39,7 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  coupler_ring_G0p2_R10_L_ca129826_m500_5075:
+  coupler_ring_G0p2_R10_L_ca129826_0_0:
     component: coupler_ring
     info: {}
     settings:
@@ -51,7 +51,7 @@ instances:
       length_x: 1
       radius: 10
       straight: straight
-  straight_L0p01_N2_CSstr_b7a6e359_10000_10705:
+  straight_L0p01_N2_CSstr_b7a6e359_10000_10710:
     component: straight
     info:
       length: 0.01
@@ -64,7 +64,7 @@ instances:
       cross_section: strip_heater_metal
       length: 0.01
       npoints: 2
-  straight_L0p01_N2_CSstr_b7a6e359_m11000_10705:
+  straight_L0p01_N2_CSstr_b7a6e359_m11000_10700:
     component: straight
     info:
       length: 0.01
@@ -77,7 +77,7 @@ instances:
       cross_section: strip_heater_metal
       length: 0.01
       npoints: 2
-  straight_L1_N2_CSstrip__f1c4f592_m500_20710:
+  straight_L1_N2_CSstrip__f1c4f592_0_20710:
     component: straight
     info:
       length: 1
@@ -90,7 +90,7 @@ instances:
       cross_section: strip_heater_metal
       length: 1
       npoints: 2
-  via_stack_S4_4_LHEATER__f8cf7960_3000_0:
+  via_stack_S4_4_LHEATER__3471ec57_3000_0:
     component: via_stack
     info:
       xsize: 4
@@ -101,6 +101,11 @@ instances:
       - HEATER
       - M2
       - MTOP
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
       size:
       - 4
       - 4
@@ -110,7 +115,7 @@ instances:
       - null
       - via1
       - via2
-  via_stack_S4_4_LHEATER__f8cf7960_m4000_0:
+  via_stack_S4_4_LHEATER__3471ec57_m4000_0:
     component: via_stack
     info:
       xsize: 4
@@ -121,6 +126,11 @@ instances:
       - HEATER
       - M2
       - MTOP
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
       size:
       - 4
       - 4
@@ -132,89 +142,89 @@ instances:
       - via2
 name: ring_double_heater_G0p2_113fb173
 nets:
-- p1: bend_euler_R10_A90_P0p5_8747be7e_5625_16335,e1
-  p2: straight_L0p01_N2_CSstr_b7a6e359_10000_10705,e1
-- p1: bend_euler_R10_A90_P0p5_8747be7e_5625_16335,e2
-  p2: straight_L1_N2_CSstrip__f1c4f592_m500_20710,e1
-- p1: bend_euler_R10_A90_P0p5_8747be7e_5625_16335,o1
-  p2: straight_L0p01_N2_CSstr_b7a6e359_10000_10705,o1
-- p1: bend_euler_R10_A90_P0p5_8747be7e_5625_16335,o2
-  p2: straight_L1_N2_CSstrip__f1c4f592_m500_20710,o1
-- p1: bend_euler_R10_A90_P0p5_8747be7e_m6625_16335,e1
-  p2: straight_L1_N2_CSstrip__f1c4f592_m500_20710,e2
-- p1: bend_euler_R10_A90_P0p5_8747be7e_m6625_16335,e2
-  p2: straight_L0p01_N2_CSstr_b7a6e359_m11000_10705,e2
-- p1: bend_euler_R10_A90_P0p5_8747be7e_m6625_16335,o1
-  p2: straight_L1_N2_CSstrip__f1c4f592_m500_20710,o2
-- p1: bend_euler_R10_A90_P0p5_8747be7e_m6625_16335,o2
-  p2: straight_L0p01_N2_CSstr_b7a6e359_m11000_10705,o2
-- p1: coupler_ring_G0p2_R10_L_ca129826_m500_5075,e2
-  p2: straight_L0p01_N2_CSstr_b7a6e359_m11000_10705,e1
-- p1: coupler_ring_G0p2_R10_L_ca129826_m500_5075,e3
-  p2: straight_L0p01_N2_CSstr_b7a6e359_10000_10705,e2
-- p1: coupler_ring_G0p2_R10_L_ca129826_m500_5075,o2
-  p2: straight_L0p01_N2_CSstr_b7a6e359_m11000_10705,o1
-- p1: coupler_ring_G0p2_R10_L_ca129826_m500_5075,o3
-  p2: straight_L0p01_N2_CSstr_b7a6e359_10000_10705,o2
+- p1: bend_euler_R10_A90_P0p5_8747be7e_10000_10710,e1
+  p2: straight_L0p01_N2_CSstr_b7a6e359_10000_10710,e1
+- p1: bend_euler_R10_A90_P0p5_8747be7e_10000_10710,e2
+  p2: straight_L1_N2_CSstrip__f1c4f592_0_20710,e1
+- p1: bend_euler_R10_A90_P0p5_8747be7e_10000_10710,o1
+  p2: straight_L0p01_N2_CSstr_b7a6e359_10000_10710,o1
+- p1: bend_euler_R10_A90_P0p5_8747be7e_10000_10710,o2
+  p2: straight_L1_N2_CSstrip__f1c4f592_0_20710,o1
+- p1: bend_euler_R10_A90_P0p5_8747be7e_m1000_20710,e1
+  p2: straight_L1_N2_CSstrip__f1c4f592_0_20710,e2
+- p1: bend_euler_R10_A90_P0p5_8747be7e_m1000_20710,e2
+  p2: straight_L0p01_N2_CSstr_b7a6e359_m11000_10700,e2
+- p1: bend_euler_R10_A90_P0p5_8747be7e_m1000_20710,o1
+  p2: straight_L1_N2_CSstrip__f1c4f592_0_20710,o2
+- p1: bend_euler_R10_A90_P0p5_8747be7e_m1000_20710,o2
+  p2: straight_L0p01_N2_CSstr_b7a6e359_m11000_10700,o2
+- p1: coupler_ring_G0p2_R10_L_ca129826_0_0,e2
+  p2: straight_L0p01_N2_CSstr_b7a6e359_m11000_10700,e1
+- p1: coupler_ring_G0p2_R10_L_ca129826_0_0,e3
+  p2: straight_L0p01_N2_CSstr_b7a6e359_10000_10710,e2
+- p1: coupler_ring_G0p2_R10_L_ca129826_0_0,o2
+  p2: straight_L0p01_N2_CSstr_b7a6e359_m11000_10700,o1
+- p1: coupler_ring_G0p2_R10_L_ca129826_0_0,o3
+  p2: straight_L0p01_N2_CSstr_b7a6e359_10000_10710,o2
 placements:
-  bend_euler_R10_A90_P0p5_8747be7e_5625_16335:
+  bend_euler_R10_A90_P0p5_8747be7e_10000_10710:
     mirror: false
     rotation: 90
     x: 10
     y: 10.71
-  bend_euler_R10_A90_P0p5_8747be7e_m6625_16335:
+  bend_euler_R10_A90_P0p5_8747be7e_m1000_20710:
     mirror: false
     rotation: 180
     x: -1
     y: 20.71
-  coupler_ring_G0p2_R10_L_ca129826_m500_5075:
+  coupler_ring_G0p2_R10_L_ca129826_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  straight_L0p01_N2_CSstr_b7a6e359_10000_10705:
+  straight_L0p01_N2_CSstr_b7a6e359_10000_10710:
     mirror: false
     rotation: 270
     x: 10
     y: 10.71
-  straight_L0p01_N2_CSstr_b7a6e359_m11000_10705:
+  straight_L0p01_N2_CSstr_b7a6e359_m11000_10700:
     mirror: false
     rotation: 90
     x: -11
     y: 10.7
-  straight_L1_N2_CSstrip__f1c4f592_m500_20710:
+  straight_L1_N2_CSstrip__f1c4f592_0_20710:
     mirror: false
     rotation: 180
     x: 0
     y: 20.71
-  via_stack_S4_4_LHEATER__f8cf7960_3000_0:
+  via_stack_S4_4_LHEATER__3471ec57_3000_0:
     mirror: false
     rotation: 0
     x: 3
     y: 0
-  via_stack_S4_4_LHEATER__f8cf7960_m4000_0:
+  via_stack_S4_4_LHEATER__3471ec57_m4000_0:
     mirror: false
     rotation: 0
     x: -4
     y: 0
 ports:
-  l_e1: via_stack_S4_4_LHEATER__f8cf7960_m4000_0,e1
-  l_e2: via_stack_S4_4_LHEATER__f8cf7960_m4000_0,e2
-  l_e3: via_stack_S4_4_LHEATER__f8cf7960_m4000_0,e3
-  l_e4: via_stack_S4_4_LHEATER__f8cf7960_m4000_0,e4
-  o1: coupler_ring_G0p2_R10_L_ca129826_m500_5075,o1
-  o2: coupler_ring_G0p2_R10_L_ca129826_m500_5075,o4
-  r_e1: via_stack_S4_4_LHEATER__f8cf7960_3000_0,e1
-  r_e2: via_stack_S4_4_LHEATER__f8cf7960_3000_0,e2
-  r_e3: via_stack_S4_4_LHEATER__f8cf7960_3000_0,e3
-  r_e4: via_stack_S4_4_LHEATER__f8cf7960_3000_0,e4
+  l_e1: via_stack_S4_4_LHEATER__3471ec57_m4000_0,e1
+  l_e2: via_stack_S4_4_LHEATER__3471ec57_m4000_0,e2
+  l_e3: via_stack_S4_4_LHEATER__3471ec57_m4000_0,e3
+  l_e4: via_stack_S4_4_LHEATER__3471ec57_m4000_0,e4
+  o1: coupler_ring_G0p2_R10_L_ca129826_0_0,o1
+  o2: coupler_ring_G0p2_R10_L_ca129826_0_0,o4
+  r_e1: via_stack_S4_4_LHEATER__3471ec57_3000_0,e1
+  r_e2: via_stack_S4_4_LHEATER__3471ec57_3000_0,e2
+  r_e3: via_stack_S4_4_LHEATER__3471ec57_3000_0,e3
+  r_e4: via_stack_S4_4_LHEATER__3471ec57_3000_0,e4
 warnings:
   electrical:
     unconnected_ports:
     - message: 2 unconnected electrical ports!
       ports:
-      - coupler_ring_G0p2_R10_L_ca129826_m500_5075,e4
-      - coupler_ring_G0p2_R10_L_ca129826_m500_5075,e1
+      - coupler_ring_G0p2_R10_L_ca129826_0_0,e4
+      - coupler_ring_G0p2_R10_L_ca129826_0_0,e1
       values:
       - - -1000
         - 700

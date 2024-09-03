@@ -6,7 +6,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.copy_layers import copy_layers
 from gdsfactory.components.text_rectangular_font import pixel_array, rectangular_font
-from gdsfactory.typings import ComponentSpec, LayerSpec, LayerSpecs
+from gdsfactory.typings import Callable, ComponentSpec, LayerSpec, LayerSpecs
 
 
 @gf.cell
@@ -16,6 +16,8 @@ def text_rectangular(
     position: tuple[float, float] = (0.0, 0.0),
     justify: str = "left",
     layer: LayerSpec = "WG",
+    layers: LayerSpecs | None = None,
+    font: Callable[..., dict[str, str]] = rectangular_font,
 ) -> Component:
     """Pixel based font, guaranteed to be manhattan, without acute angles.
 
@@ -25,28 +27,40 @@ def text_rectangular(
         position: coordinate.
         justify: left, right or center.
         layer: for text.
+        layers: optional for duplicating the text.
+        font: function that returns dictionary of characters.
     """
     pixel_size = size
     xoffset = position[0]
     yoffset = position[1]
     component = gf.Component()
-    characters = rectangular_font()
+    characters = font()
+    layers = layers or [layer]
+
+    # Extract pixel width count from font definition.
+    # Example below is 5, and 7 for FONT_LITHO.
+    # A: 1 1 1 1 1
+    pixel_width_count = len(characters["A"].split("\n")[0])
+
+    xoffset_factor = pixel_width_count + 1
 
     for line in text.split("\n"):
         for character in line:
             if character == " ":
-                xoffset += pixel_size * 6
+                xoffset += pixel_size * xoffset_factor
             elif character.upper() not in characters:
                 print(f"skipping character {character!r} not in font")
             else:
                 pixels = characters[character.upper()]
-                ref = component.add_ref(
-                    pixel_array(pixels=pixels, pixel_size=pixel_size, layer=layer)
-                )
-                ref.dmove((xoffset, yoffset))
-                xoffset += pixel_size * 6
+                for layer in layers:
+                    ref = component.add_ref(
+                        pixel_array(pixels=pixels, pixel_size=pixel_size, layer=layer)
+                    )
+                    ref.dmove((xoffset, yoffset))
+                    component.absorb(ref)
+                xoffset += pixel_size * xoffset_factor
 
-        yoffset -= pixel_size * 6
+        yoffset -= pixel_size * xoffset_factor
         xoffset = position[0]
 
     c = gf.Component()
@@ -64,6 +78,7 @@ def text_rectangular(
     return c
 
 
+@gf.cell
 def text_rectangular_multi_layer(
     text: str = "abcd",
     layers: LayerSpecs = ("WG", "M1", "M2", "MTOP"),
@@ -84,14 +99,11 @@ def text_rectangular_multi_layer(
         justify: left, right or center.
         font: function that returns dictionary of characters.
     """
-    return copy_layers(
-        factory=partial(text_factory, text=text, **kwargs),
-        layers=layers,
-    )
+    return copy_layers(factory=text_factory, text=text, layers=layers, **kwargs)
 
 
 text_rectangular_mini = partial(text_rectangular, size=1)
 
 if __name__ == "__main__":
-    c = text_rectangular_multi_layer()
+    c = text_rectangular(size=8, layers=("M1", "M2"))
     c.show()

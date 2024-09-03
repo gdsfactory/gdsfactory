@@ -1,5 +1,5 @@
 instances:
-  grating_coupler_ellipti_07e69d9a_190500_m20098:
+  grating_coupler_ellipti_07e69d9a_190500_0:
     component: grating_coupler_elliptical
     info:
       polarization: te
@@ -20,7 +20,7 @@ instances:
       taper_angle: 40
       taper_length: 16.6
       wavelength: 1.554
-  grating_coupler_ellipti_07e69d9a_317500_m20098:
+  grating_coupler_ellipti_07e69d9a_317500_0:
     component: grating_coupler_elliptical
     info:
       polarization: te
@@ -41,7 +41,7 @@ instances:
       taper_angle: 40
       taper_length: 16.6
       wavelength: 1.554
-  grating_coupler_ellipti_07e69d9a_63500_m20098:
+  grating_coupler_ellipti_07e69d9a_63500_0:
     component: grating_coupler_elliptical
     info:
       polarization: te
@@ -62,7 +62,7 @@ instances:
       taper_angle: 40
       taper_length: 16.6
       wavelength: 1.554
-  grating_coupler_ellipti_07e69d9a_m190500_m20098:
+  grating_coupler_ellipti_07e69d9a_m190500_0:
     component: grating_coupler_elliptical
     info:
       polarization: te
@@ -83,7 +83,7 @@ instances:
       taper_angle: 40
       taper_length: 16.6
       wavelength: 1.554
-  grating_coupler_ellipti_07e69d9a_m317500_m20098:
+  grating_coupler_ellipti_07e69d9a_m317500_0:
     component: grating_coupler_elliptical
     info:
       polarization: te
@@ -104,7 +104,7 @@ instances:
       taper_angle: 40
       taper_length: 16.6
       wavelength: 1.554
-  grating_coupler_ellipti_07e69d9a_m63500_m20098:
+  grating_coupler_ellipti_07e69d9a_m63500_0:
     component: grating_coupler_elliptical
     info:
       polarization: te
@@ -128,54 +128,54 @@ instances:
 name: grating_coupler_array_G_1d8146e3
 nets: []
 placements:
-  grating_coupler_ellipti_07e69d9a_190500_m20098:
+  grating_coupler_ellipti_07e69d9a_190500_0:
     mirror: false
     rotation: 270
     x: 190.5
     y: 0
-  grating_coupler_ellipti_07e69d9a_317500_m20098:
+  grating_coupler_ellipti_07e69d9a_317500_0:
     mirror: false
     rotation: 270
     x: 317.5
     y: 0
-  grating_coupler_ellipti_07e69d9a_63500_m20098:
+  grating_coupler_ellipti_07e69d9a_63500_0:
     mirror: false
     rotation: 270
     x: 63.5
     y: 0
-  grating_coupler_ellipti_07e69d9a_m190500_m20098:
+  grating_coupler_ellipti_07e69d9a_m190500_0:
     mirror: false
     rotation: 270
     x: -190.5
     y: 0
-  grating_coupler_ellipti_07e69d9a_m317500_m20098:
+  grating_coupler_ellipti_07e69d9a_m317500_0:
     mirror: false
     rotation: 270
     x: -317.5
     y: 0
-  grating_coupler_ellipti_07e69d9a_m63500_m20098:
+  grating_coupler_ellipti_07e69d9a_m63500_0:
     mirror: false
     rotation: 270
     x: -63.5
     y: 0
 ports:
-  o0: grating_coupler_ellipti_07e69d9a_m317500_m20098,o1
-  o1: grating_coupler_ellipti_07e69d9a_m190500_m20098,o1
-  o2: grating_coupler_ellipti_07e69d9a_m63500_m20098,o1
-  o3: grating_coupler_ellipti_07e69d9a_63500_m20098,o1
-  o4: grating_coupler_ellipti_07e69d9a_190500_m20098,o1
-  o5: grating_coupler_ellipti_07e69d9a_317500_m20098,o1
+  o0: grating_coupler_ellipti_07e69d9a_m317500_0,o1
+  o1: grating_coupler_ellipti_07e69d9a_m190500_0,o1
+  o2: grating_coupler_ellipti_07e69d9a_m63500_0,o1
+  o3: grating_coupler_ellipti_07e69d9a_63500_0,o1
+  o4: grating_coupler_ellipti_07e69d9a_190500_0,o1
+  o5: grating_coupler_ellipti_07e69d9a_317500_0,o1
 warnings:
   vertical_te:
     unconnected_ports:
     - message: 6 unconnected vertical_te ports!
       ports:
-      - grating_coupler_ellipti_07e69d9a_m317500_m20098,o2
-      - grating_coupler_ellipti_07e69d9a_m190500_m20098,o2
-      - grating_coupler_ellipti_07e69d9a_m63500_m20098,o2
-      - grating_coupler_ellipti_07e69d9a_63500_m20098,o2
-      - grating_coupler_ellipti_07e69d9a_190500_m20098,o2
-      - grating_coupler_ellipti_07e69d9a_317500_m20098,o2
+      - grating_coupler_ellipti_07e69d9a_m317500_0,o2
+      - grating_coupler_ellipti_07e69d9a_m190500_0,o2
+      - grating_coupler_ellipti_07e69d9a_m63500_0,o2
+      - grating_coupler_ellipti_07e69d9a_63500_0,o2
+      - grating_coupler_ellipti_07e69d9a_190500_0,o2
+      - grating_coupler_ellipti_07e69d9a_317500_0,o2
       values:
       - - -317500
         - -16600

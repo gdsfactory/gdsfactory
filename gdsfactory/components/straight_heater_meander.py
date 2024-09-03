@@ -15,7 +15,7 @@ def straight_heater_meander(
     heater_width: float = 2.5,
     extension_length: float = 15.0,
     layer_heater: LayerSpec = "HEATER",
-    radius: float = 5.0,
+    radius: float | None = None,
     via_stack: ComponentSpec | None = "via_stack_heater_mtop",
     port_orientation1: float | None = None,
     port_orientation2: float | None = None,
@@ -38,7 +38,7 @@ def straight_heater_meander(
         heater_width: for heater.
         extension_length: of input and output optical ports.
         layer_heater: for top heater, if None, it does not add a heater.
-        radius: for the meander bends.
+        radius: for the meander bends. Defaults to cross_section radius.
         via_stack: for the heater to via_stack metal.
         port_orientation1: in degrees. None adds all orientations.
         port_orientation2: in degrees. None adds all orientations.
@@ -61,7 +61,6 @@ def straight_heater_meander(
     ports = {}
 
     x = gf.get_cross_section(cross_section)
-
     radius = radius or x.radius
 
     if n and not straight_widths:
@@ -205,6 +204,7 @@ def straight_heater_meander(
                 allow_layer_mismatch=True,
                 allow_type_mismatch=True,
             )
+    c.flatten()
     return c
 
 

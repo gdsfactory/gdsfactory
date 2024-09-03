@@ -1,30 +1,9 @@
 instances:
-  text_rectangular_Tabcd__1692b192_115000_25000:
+  text_rectangular_Tabcd__1d0edb8e_0_0:
     component: text_rectangular
     info: {}
     settings:
-      justify: left
-      layer: WG
-      position:
-      - 0
-      - 0
-      size: 10
-      text: abcd
-  text_rectangular_Tabcd__493eb477_115000_25000:
-    component: text_rectangular
-    info: {}
-    settings:
-      justify: left
-      layer: M1
-      position:
-      - 0
-      - 0
-      size: 10
-      text: abcd
-  text_rectangular_Tabcd__571a83c5_115000_25000:
-    component: text_rectangular
-    info: {}
-    settings:
+      font: rectangular_font
       justify: left
       layer: M2
       position:
@@ -32,10 +11,11 @@ instances:
       - 0
       size: 10
       text: abcd
-  text_rectangular_Tabcd__ad83b37c_115000_25000:
+  text_rectangular_Tabcd__37f0fce6_0_0:
     component: text_rectangular
     info: {}
     settings:
+      font: rectangular_font
       justify: left
       layer: MTOP
       position:
@@ -43,25 +23,49 @@ instances:
       - 0
       size: 10
       text: abcd
-name: copy_layers_FFtext_rect_635fd46f
+  text_rectangular_Tabcd__63bc9b1f_0_0:
+    component: text_rectangular
+    info: {}
+    settings:
+      font: rectangular_font
+      justify: left
+      layer: M1
+      position:
+      - 0
+      - 0
+      size: 10
+      text: abcd
+  text_rectangular_Tabcd__bf562ff8_0_0:
+    component: text_rectangular
+    info: {}
+    settings:
+      font: rectangular_font
+      justify: left
+      layer: WG
+      position:
+      - 0
+      - 0
+      size: 10
+      text: abcd
+name: text_rectangular_multi__068a5741
 nets: []
 placements:
-  text_rectangular_Tabcd__1692b192_115000_25000:
+  text_rectangular_Tabcd__1d0edb8e_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  text_rectangular_Tabcd__493eb477_115000_25000:
+  text_rectangular_Tabcd__37f0fce6_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  text_rectangular_Tabcd__571a83c5_115000_25000:
+  text_rectangular_Tabcd__63bc9b1f_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  text_rectangular_Tabcd__ad83b37c_115000_25000:
+  text_rectangular_Tabcd__bf562ff8_0_0:
     mirror: false
     rotation: 0
     x: 0

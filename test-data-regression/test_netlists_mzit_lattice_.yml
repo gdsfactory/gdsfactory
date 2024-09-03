@@ -1,5 +1,5 @@
 instances:
-  mzit_W0p5_W0p45_W0p55_D_65d5ac70_19137_11400:
+  mzit_W0p5_W0p45_W0p55_D_65d5ac70_0_0:
     component: mzit
     info: {}
     settings:
@@ -23,13 +23,13 @@ instances:
 name: mzit_lattice_CL10_20_CG_309623e7
 nets: []
 placements:
-  mzit_W0p5_W0p45_W0p55_D_65d5ac70_19137_11400:
+  mzit_W0p5_W0p45_W0p55_D_65d5ac70_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
 ports:
-  o1: mzit_W0p5_W0p45_W0p55_D_65d5ac70_19137_11400,o1
-  o2: mzit_W0p5_W0p45_W0p55_D_65d5ac70_19137_11400,o2
-  o3: mzit_W0p5_W0p45_W0p55_D_65d5ac70_19137_11400,o3
-  o4: mzit_W0p5_W0p45_W0p55_D_65d5ac70_19137_11400,o4
+  o1: mzit_W0p5_W0p45_W0p55_D_65d5ac70_0_0,o1
+  o2: mzit_W0p5_W0p45_W0p55_D_65d5ac70_0_0,o2
+  o3: mzit_W0p5_W0p45_W0p55_D_65d5ac70_0_0,o3
+  o4: mzit_W0p5_W0p45_W0p55_D_65d5ac70_0_0,o4

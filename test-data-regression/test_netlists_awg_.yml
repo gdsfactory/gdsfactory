@@ -1,5 +1,5 @@
 instances:
-  bend_euler_R10_A90_P0p5_2f1f5c6d_10292_28125:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_1083_26000:
     component: bend_euler
     info:
       dy: 10
@@ -19,7 +19,7 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_2f1f5c6d_12458_26625:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_30250_30000:
     component: bend_euler
     info:
       dy: 10
@@ -39,7 +39,7 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_2f1f5c6d_14625_25125:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_32417_31500:
     component: bend_euler
     info:
       dy: 10
@@ -59,7 +59,7 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_2f1f5c6d_1625_34125:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_3250_24500:
     component: bend_euler
     info:
       dy: 10
@@ -79,7 +79,7 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_2f1f5c6d_35375_25125:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_34583_33000:
     component: bend_euler
     info:
       dy: 10
@@ -99,7 +99,7 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_2f1f5c6d_37542_26625:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_36750_34500:
     component: bend_euler
     info:
       dy: 10
@@ -119,7 +119,7 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_2f1f5c6d_3792_32625:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_38917_36000:
     component: bend_euler
     info:
       dy: 10
@@ -139,7 +139,7 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_2f1f5c6d_39708_28125:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_41083_37500:
     component: bend_euler
     info:
       dy: 10
@@ -159,7 +159,7 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_2f1f5c6d_41875_29625:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_43250_39000:
     component: bend_euler
     info:
       dy: 10
@@ -179,7 +179,7 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_2f1f5c6d_44042_31125:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_45417_40500:
     component: bend_euler
     info:
       dy: 10
@@ -199,7 +199,7 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_2f1f5c6d_46208_32625:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_47583_42000:
     component: bend_euler
     info:
       dy: 10
@@ -219,7 +219,7 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_2f1f5c6d_48375_34125:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_49750_43500:
     component: bend_euler
     info:
       dy: 10
@@ -239,7 +239,7 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_2f1f5c6d_50542_35625:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_5417_23000:
     component: bend_euler
     info:
       dy: 10
@@ -259,7 +259,7 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_2f1f5c6d_52708_37125:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_7583_21500:
     component: bend_euler
     info:
       dy: 10
@@ -279,7 +279,7 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_2f1f5c6d_54875_38625:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_9750_20000:
     component: bend_euler
     info:
       dy: 10
@@ -299,7 +299,7 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_2f1f5c6d_5958_31125:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_m1083_27500:
     component: bend_euler
     info:
       dy: 10
@@ -319,7 +319,7 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_2f1f5c6d_8125_29625:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_m3250_29000:
     component: bend_euler
     info:
       dy: 10
@@ -339,7 +339,7 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_2f1f5c6d_m2708_37125:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_m5417_30500:
     component: bend_euler
     info:
       dy: 10
@@ -359,7 +359,7 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_2f1f5c6d_m4875_38625:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_m7583_32000:
     component: bend_euler
     info:
       dy: 10
@@ -379,7 +379,7 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_2f1f5c6d_m542_35625:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_m9750_33500:
     component: bend_euler
     info:
       dy: 10
@@ -399,7 +399,7 @@ instances:
       p: 0.5
       radius: 10
       with_arc_floorplan: true
-  free_propagation_region_17623e49_0_10000:
+  free_propagation_region_17623e49_0_0:
     component: free_propagation_region
     info:
       length: 20
@@ -413,7 +413,7 @@ instances:
       wg_width: 0.5
       width1: 2
       width2: 20
-  free_propagation_region_b76b91f7_50000_10000:
+  free_propagation_region_b76b91f7_50000_0:
     component: free_propagation_region
     info:
       length: 20
@@ -427,7 +427,7 @@ instances:
       wg_width: 0.5
       width1: 10
       width2: 20
-  straight_L10p5_N2_CSstrip_W0p5_25000_30000:
+  straight_L10p5_N2_CSstrip_W0p5_19750_30000:
     component: straight
     info:
       length: 10.5
@@ -441,7 +441,7 @@ instances:
       length: 10.5
       npoints: 2
       width: 0.5
-  straight_L10p5_N2_CSstrip_W0p5_55417_25250:
+  straight_L10p5_N2_CSstrip_W0p5_55417_30500:
     component: straight
     info:
       length: 10.5
@@ -455,7 +455,7 @@ instances:
       length: 10.5
       npoints: 2
       width: 0.5
-  straight_L10p5_N2_CSstrip_W0p5_m5417_25250:
+  straight_L10p5_N2_CSstrip_W0p5_m5417_30500:
     component: straight
     info:
       length: 10.5
@@ -469,7 +469,7 @@ instances:
       length: 10.5
       npoints: 2
       width: 0.5
-  straight_L12_N2_CSstrip_W0p5_57583_26000:
+  straight_L12_N2_CSstrip_W0p5_57583_32000:
     component: straight
     info:
       length: 12
@@ -483,7 +483,7 @@ instances:
       length: 12
       npoints: 2
       width: 0.5
-  straight_L12_N2_CSstrip_W0p5_m7583_26000:
+  straight_L12_N2_CSstrip_W0p5_m7583_32000:
     component: straight
     info:
       length: 12
@@ -497,7 +497,7 @@ instances:
       length: 12
       npoints: 2
       width: 0.5
-  straight_L13p5_N2_CSstrip_W0p5_59750_26750:
+  straight_L13p5_N2_CSstrip_W0p5_59750_33500:
     component: straight
     info:
       length: 13.5
@@ -511,7 +511,7 @@ instances:
       length: 13.5
       npoints: 2
       width: 0.5
-  straight_L13p5_N2_CSstrip_W0p5_m9750_26750:
+  straight_L13p5_N2_CSstrip_W0p5_m9750_33500:
     component: straight
     info:
       length: 13.5
@@ -525,7 +525,7 @@ instances:
       length: 13.5
       npoints: 2
       width: 0.5
-  straight_L14p834_N2_CSstrip_W0p5_25000_31500:
+  straight_L14p834_N2_CSstrip_W0p5_17583_31500:
     component: straight
     info:
       length: 14.834
@@ -539,7 +539,7 @@ instances:
       length: 14.834
       npoints: 2
       width: 0.5
-  straight_L19p166_N2_CSstrip_W0p5_25000_33000:
+  straight_L19p166_N2_CSstrip_W0p5_15417_33000:
     component: straight
     info:
       length: 19.166
@@ -553,7 +553,7 @@ instances:
       length: 19.166
       npoints: 2
       width: 0.5
-  straight_L1p5_N2_CSstrip_W0p5_42417_20750:
+  straight_L1p5_N2_CSstrip_W0p5_42417_21500:
     component: straight
     info:
       length: 1.5
@@ -567,7 +567,7 @@ instances:
       length: 1.5
       npoints: 2
       width: 0.5
-  straight_L1p5_N2_CSstrip_W0p5_7583_20750:
+  straight_L1p5_N2_CSstrip_W0p5_7583_21500:
     component: straight
     info:
       length: 1.5
@@ -581,7 +581,7 @@ instances:
       length: 1.5
       npoints: 2
       width: 0.5
-  straight_L23p5_N2_CSstrip_W0p5_25000_34500:
+  straight_L23p5_N2_CSstrip_W0p5_13250_34500:
     component: straight
     info:
       length: 23.5
@@ -595,7 +595,7 @@ instances:
       length: 23.5
       npoints: 2
       width: 0.5
-  straight_L27p834_N2_CSstrip_W0p5_25000_36000:
+  straight_L27p834_N2_CSstrip_W0p5_11083_36000:
     component: straight
     info:
       length: 27.834
@@ -609,7 +609,7 @@ instances:
       length: 27.834
       npoints: 2
       width: 0.5
-  straight_L32p1660000000_cc48b899_25000_37500:
+  straight_L32p1660000000_cc48b899_8917_37500:
     component: straight
     info:
       length: 32.166
@@ -623,7 +623,7 @@ instances:
       length: 32.166
       npoints: 2
       width: 0.5
-  straight_L36p5_N2_CSstrip_W0p5_25000_39000:
+  straight_L36p5_N2_CSstrip_W0p5_6750_39000:
     component: straight
     info:
       length: 36.5
@@ -637,7 +637,7 @@ instances:
       length: 36.5
       npoints: 2
       width: 0.5
-  straight_L3_N2_CSstrip_W0p5_44583_21500:
+  straight_L3_N2_CSstrip_W0p5_44583_23000:
     component: straight
     info:
       length: 3
@@ -651,7 +651,7 @@ instances:
       length: 3
       npoints: 2
       width: 0.5
-  straight_L3_N2_CSstrip_W0p5_5417_21500:
+  straight_L3_N2_CSstrip_W0p5_5417_23000:
     component: straight
     info:
       length: 3
@@ -665,7 +665,7 @@ instances:
       length: 3
       npoints: 2
       width: 0.5
-  straight_L40p834_N2_CSstrip_W0p5_25000_40500:
+  straight_L40p834_N2_CSstrip_W0p5_4583_40500:
     component: straight
     info:
       length: 40.834
@@ -679,7 +679,7 @@ instances:
       length: 40.834
       npoints: 2
       width: 0.5
-  straight_L45p1660000000_56131022_25000_42000:
+  straight_L45p1660000000_56131022_2417_42000:
     component: straight
     info:
       length: 45.166
@@ -693,7 +693,7 @@ instances:
       length: 45.166
       npoints: 2
       width: 0.5
-  straight_L49p5_N2_CSstrip_W0p5_25000_43500:
+  straight_L49p5_N2_CSstrip_W0p5_250_43500:
     component: straight
     info:
       length: 49.5
@@ -707,7 +707,7 @@ instances:
       length: 49.5
       npoints: 2
       width: 0.5
-  straight_L4p5_N2_CSstrip_W0p5_3250_22250:
+  straight_L4p5_N2_CSstrip_W0p5_3250_24500:
     component: straight
     info:
       length: 4.5
@@ -721,7 +721,7 @@ instances:
       length: 4.5
       npoints: 2
       width: 0.5
-  straight_L4p5_N2_CSstrip_W0p5_46750_22250:
+  straight_L4p5_N2_CSstrip_W0p5_46750_24500:
     component: straight
     info:
       length: 4.5
@@ -735,7 +735,7 @@ instances:
       length: 4.5
       npoints: 2
       width: 0.5
-  straight_L6_N2_CSstrip_W0p5_1083_23000:
+  straight_L6_N2_CSstrip_W0p5_1083_26000:
     component: straight
     info:
       length: 6
@@ -749,7 +749,7 @@ instances:
       length: 6
       npoints: 2
       width: 0.5
-  straight_L6_N2_CSstrip_W0p5_48917_23000:
+  straight_L6_N2_CSstrip_W0p5_48917_26000:
     component: straight
     info:
       length: 6
@@ -763,7 +763,7 @@ instances:
       length: 6
       npoints: 2
       width: 0.5
-  straight_L7p5_N2_CSstrip_W0p5_51083_23750:
+  straight_L7p5_N2_CSstrip_W0p5_51083_27500:
     component: straight
     info:
       length: 7.5
@@ -777,7 +777,7 @@ instances:
       length: 7.5
       npoints: 2
       width: 0.5
-  straight_L7p5_N2_CSstrip_W0p5_m1083_23750:
+  straight_L7p5_N2_CSstrip_W0p5_m1083_27500:
     component: straight
     info:
       length: 7.5
@@ -791,7 +791,7 @@ instances:
       length: 7.5
       npoints: 2
       width: 0.5
-  straight_L9_N2_CSstrip_W0p5_53250_24500:
+  straight_L9_N2_CSstrip_W0p5_53250_29000:
     component: straight
     info:
       length: 9
@@ -805,7 +805,7 @@ instances:
       length: 9
       npoints: 2
       width: 0.5
-  straight_L9_N2_CSstrip_W0p5_m3250_24500:
+  straight_L9_N2_CSstrip_W0p5_m3250_29000:
     component: straight
     info:
       length: 9
@@ -821,375 +821,375 @@ instances:
       width: 0.5
 name: awg_A10_O3_FPRIFFfree_p_d02e50a8
 nets:
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_10292_28125,o1
-  p2: straight_L3_N2_CSstrip_W0p5_5417_21500,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_10292_28125,o2
-  p2: straight_L19p166_N2_CSstrip_W0p5_25000_33000,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_12458_26625,o1
-  p2: straight_L1p5_N2_CSstrip_W0p5_7583_20750,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_12458_26625,o2
-  p2: straight_L14p834_N2_CSstrip_W0p5_25000_31500,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_14625_25125,o1
-  p2: free_propagation_region_17623e49_0_10000,E0
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_14625_25125,o2
-  p2: straight_L10p5_N2_CSstrip_W0p5_25000_30000,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_1625_34125,o1
-  p2: straight_L9_N2_CSstrip_W0p5_m3250_24500,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_1625_34125,o2
-  p2: straight_L36p5_N2_CSstrip_W0p5_25000_39000,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_35375_25125,o1
-  p2: straight_L10p5_N2_CSstrip_W0p5_25000_30000,o2
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_35375_25125,o2
-  p2: free_propagation_region_b76b91f7_50000_10000,E9
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_37542_26625,o1
-  p2: straight_L14p834_N2_CSstrip_W0p5_25000_31500,o2
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_37542_26625,o2
-  p2: straight_L1p5_N2_CSstrip_W0p5_42417_20750,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_3792_32625,o1
-  p2: straight_L7p5_N2_CSstrip_W0p5_m1083_23750,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_3792_32625,o2
-  p2: straight_L32p1660000000_cc48b899_25000_37500,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_39708_28125,o1
-  p2: straight_L19p166_N2_CSstrip_W0p5_25000_33000,o2
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_39708_28125,o2
-  p2: straight_L3_N2_CSstrip_W0p5_44583_21500,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_41875_29625,o1
-  p2: straight_L23p5_N2_CSstrip_W0p5_25000_34500,o2
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_41875_29625,o2
-  p2: straight_L4p5_N2_CSstrip_W0p5_46750_22250,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_44042_31125,o1
-  p2: straight_L27p834_N2_CSstrip_W0p5_25000_36000,o2
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_44042_31125,o2
-  p2: straight_L6_N2_CSstrip_W0p5_48917_23000,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_46208_32625,o1
-  p2: straight_L32p1660000000_cc48b899_25000_37500,o2
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_46208_32625,o2
-  p2: straight_L7p5_N2_CSstrip_W0p5_51083_23750,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_48375_34125,o1
-  p2: straight_L36p5_N2_CSstrip_W0p5_25000_39000,o2
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_48375_34125,o2
-  p2: straight_L9_N2_CSstrip_W0p5_53250_24500,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_50542_35625,o1
-  p2: straight_L40p834_N2_CSstrip_W0p5_25000_40500,o2
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_50542_35625,o2
-  p2: straight_L10p5_N2_CSstrip_W0p5_55417_25250,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_52708_37125,o1
-  p2: straight_L45p1660000000_56131022_25000_42000,o2
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_52708_37125,o2
-  p2: straight_L12_N2_CSstrip_W0p5_57583_26000,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_54875_38625,o1
-  p2: straight_L49p5_N2_CSstrip_W0p5_25000_43500,o2
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_54875_38625,o2
-  p2: straight_L13p5_N2_CSstrip_W0p5_59750_26750,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_5958_31125,o1
-  p2: straight_L6_N2_CSstrip_W0p5_1083_23000,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_5958_31125,o2
-  p2: straight_L27p834_N2_CSstrip_W0p5_25000_36000,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_8125_29625,o1
-  p2: straight_L4p5_N2_CSstrip_W0p5_3250_22250,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_8125_29625,o2
-  p2: straight_L23p5_N2_CSstrip_W0p5_25000_34500,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m2708_37125,o1
-  p2: straight_L12_N2_CSstrip_W0p5_m7583_26000,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m2708_37125,o2
-  p2: straight_L45p1660000000_56131022_25000_42000,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m4875_38625,o1
-  p2: straight_L13p5_N2_CSstrip_W0p5_m9750_26750,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m4875_38625,o2
-  p2: straight_L49p5_N2_CSstrip_W0p5_25000_43500,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m542_35625,o1
-  p2: straight_L10p5_N2_CSstrip_W0p5_m5417_25250,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m542_35625,o2
-  p2: straight_L40p834_N2_CSstrip_W0p5_25000_40500,o1
-- p1: free_propagation_region_17623e49_0_10000,E1
-  p2: straight_L1p5_N2_CSstrip_W0p5_7583_20750,o2
-- p1: free_propagation_region_17623e49_0_10000,E2
-  p2: straight_L3_N2_CSstrip_W0p5_5417_21500,o2
-- p1: free_propagation_region_17623e49_0_10000,E3
-  p2: straight_L4p5_N2_CSstrip_W0p5_3250_22250,o2
-- p1: free_propagation_region_17623e49_0_10000,E4
-  p2: straight_L6_N2_CSstrip_W0p5_1083_23000,o2
-- p1: free_propagation_region_17623e49_0_10000,E5
-  p2: straight_L7p5_N2_CSstrip_W0p5_m1083_23750,o2
-- p1: free_propagation_region_17623e49_0_10000,E6
-  p2: straight_L9_N2_CSstrip_W0p5_m3250_24500,o2
-- p1: free_propagation_region_17623e49_0_10000,E7
-  p2: straight_L10p5_N2_CSstrip_W0p5_m5417_25250,o2
-- p1: free_propagation_region_17623e49_0_10000,E8
-  p2: straight_L12_N2_CSstrip_W0p5_m7583_26000,o2
-- p1: free_propagation_region_17623e49_0_10000,E9
-  p2: straight_L13p5_N2_CSstrip_W0p5_m9750_26750,o2
-- p1: free_propagation_region_b76b91f7_50000_10000,E0
-  p2: straight_L13p5_N2_CSstrip_W0p5_59750_26750,o2
-- p1: free_propagation_region_b76b91f7_50000_10000,E1
-  p2: straight_L12_N2_CSstrip_W0p5_57583_26000,o2
-- p1: free_propagation_region_b76b91f7_50000_10000,E2
-  p2: straight_L10p5_N2_CSstrip_W0p5_55417_25250,o2
-- p1: free_propagation_region_b76b91f7_50000_10000,E3
-  p2: straight_L9_N2_CSstrip_W0p5_53250_24500,o2
-- p1: free_propagation_region_b76b91f7_50000_10000,E4
-  p2: straight_L7p5_N2_CSstrip_W0p5_51083_23750,o2
-- p1: free_propagation_region_b76b91f7_50000_10000,E5
-  p2: straight_L6_N2_CSstrip_W0p5_48917_23000,o2
-- p1: free_propagation_region_b76b91f7_50000_10000,E6
-  p2: straight_L4p5_N2_CSstrip_W0p5_46750_22250,o2
-- p1: free_propagation_region_b76b91f7_50000_10000,E7
-  p2: straight_L3_N2_CSstrip_W0p5_44583_21500,o2
-- p1: free_propagation_region_b76b91f7_50000_10000,E8
-  p2: straight_L1p5_N2_CSstrip_W0p5_42417_20750,o2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_1083_26000,o1
+  p2: straight_L6_N2_CSstrip_W0p5_1083_26000,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_1083_26000,o2
+  p2: straight_L27p834_N2_CSstrip_W0p5_11083_36000,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_30250_30000,o1
+  p2: straight_L10p5_N2_CSstrip_W0p5_19750_30000,o2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_30250_30000,o2
+  p2: free_propagation_region_b76b91f7_50000_0,E9
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_32417_31500,o1
+  p2: straight_L14p834_N2_CSstrip_W0p5_17583_31500,o2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_32417_31500,o2
+  p2: straight_L1p5_N2_CSstrip_W0p5_42417_21500,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_3250_24500,o1
+  p2: straight_L4p5_N2_CSstrip_W0p5_3250_24500,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_3250_24500,o2
+  p2: straight_L23p5_N2_CSstrip_W0p5_13250_34500,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_34583_33000,o1
+  p2: straight_L19p166_N2_CSstrip_W0p5_15417_33000,o2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_34583_33000,o2
+  p2: straight_L3_N2_CSstrip_W0p5_44583_23000,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_36750_34500,o1
+  p2: straight_L23p5_N2_CSstrip_W0p5_13250_34500,o2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_36750_34500,o2
+  p2: straight_L4p5_N2_CSstrip_W0p5_46750_24500,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_38917_36000,o1
+  p2: straight_L27p834_N2_CSstrip_W0p5_11083_36000,o2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_38917_36000,o2
+  p2: straight_L6_N2_CSstrip_W0p5_48917_26000,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_41083_37500,o1
+  p2: straight_L32p1660000000_cc48b899_8917_37500,o2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_41083_37500,o2
+  p2: straight_L7p5_N2_CSstrip_W0p5_51083_27500,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_43250_39000,o1
+  p2: straight_L36p5_N2_CSstrip_W0p5_6750_39000,o2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_43250_39000,o2
+  p2: straight_L9_N2_CSstrip_W0p5_53250_29000,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_45417_40500,o1
+  p2: straight_L40p834_N2_CSstrip_W0p5_4583_40500,o2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_45417_40500,o2
+  p2: straight_L10p5_N2_CSstrip_W0p5_55417_30500,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_47583_42000,o1
+  p2: straight_L45p1660000000_56131022_2417_42000,o2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_47583_42000,o2
+  p2: straight_L12_N2_CSstrip_W0p5_57583_32000,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_49750_43500,o1
+  p2: straight_L49p5_N2_CSstrip_W0p5_250_43500,o2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_49750_43500,o2
+  p2: straight_L13p5_N2_CSstrip_W0p5_59750_33500,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_5417_23000,o1
+  p2: straight_L3_N2_CSstrip_W0p5_5417_23000,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_5417_23000,o2
+  p2: straight_L19p166_N2_CSstrip_W0p5_15417_33000,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_7583_21500,o1
+  p2: straight_L1p5_N2_CSstrip_W0p5_7583_21500,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_7583_21500,o2
+  p2: straight_L14p834_N2_CSstrip_W0p5_17583_31500,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_9750_20000,o1
+  p2: free_propagation_region_17623e49_0_0,E0
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_9750_20000,o2
+  p2: straight_L10p5_N2_CSstrip_W0p5_19750_30000,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m1083_27500,o1
+  p2: straight_L7p5_N2_CSstrip_W0p5_m1083_27500,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m1083_27500,o2
+  p2: straight_L32p1660000000_cc48b899_8917_37500,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m3250_29000,o1
+  p2: straight_L9_N2_CSstrip_W0p5_m3250_29000,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m3250_29000,o2
+  p2: straight_L36p5_N2_CSstrip_W0p5_6750_39000,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m5417_30500,o1
+  p2: straight_L10p5_N2_CSstrip_W0p5_m5417_30500,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m5417_30500,o2
+  p2: straight_L40p834_N2_CSstrip_W0p5_4583_40500,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m7583_32000,o1
+  p2: straight_L12_N2_CSstrip_W0p5_m7583_32000,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m7583_32000,o2
+  p2: straight_L45p1660000000_56131022_2417_42000,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m9750_33500,o1
+  p2: straight_L13p5_N2_CSstrip_W0p5_m9750_33500,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m9750_33500,o2
+  p2: straight_L49p5_N2_CSstrip_W0p5_250_43500,o1
+- p1: free_propagation_region_17623e49_0_0,E1
+  p2: straight_L1p5_N2_CSstrip_W0p5_7583_21500,o2
+- p1: free_propagation_region_17623e49_0_0,E2
+  p2: straight_L3_N2_CSstrip_W0p5_5417_23000,o2
+- p1: free_propagation_region_17623e49_0_0,E3
+  p2: straight_L4p5_N2_CSstrip_W0p5_3250_24500,o2
+- p1: free_propagation_region_17623e49_0_0,E4
+  p2: straight_L6_N2_CSstrip_W0p5_1083_26000,o2
+- p1: free_propagation_region_17623e49_0_0,E5
+  p2: straight_L7p5_N2_CSstrip_W0p5_m1083_27500,o2
+- p1: free_propagation_region_17623e49_0_0,E6
+  p2: straight_L9_N2_CSstrip_W0p5_m3250_29000,o2
+- p1: free_propagation_region_17623e49_0_0,E7
+  p2: straight_L10p5_N2_CSstrip_W0p5_m5417_30500,o2
+- p1: free_propagation_region_17623e49_0_0,E8
+  p2: straight_L12_N2_CSstrip_W0p5_m7583_32000,o2
+- p1: free_propagation_region_17623e49_0_0,E9
+  p2: straight_L13p5_N2_CSstrip_W0p5_m9750_33500,o2
+- p1: free_propagation_region_b76b91f7_50000_0,E0
+  p2: straight_L13p5_N2_CSstrip_W0p5_59750_33500,o2
+- p1: free_propagation_region_b76b91f7_50000_0,E1
+  p2: straight_L12_N2_CSstrip_W0p5_57583_32000,o2
+- p1: free_propagation_region_b76b91f7_50000_0,E2
+  p2: straight_L10p5_N2_CSstrip_W0p5_55417_30500,o2
+- p1: free_propagation_region_b76b91f7_50000_0,E3
+  p2: straight_L9_N2_CSstrip_W0p5_53250_29000,o2
+- p1: free_propagation_region_b76b91f7_50000_0,E4
+  p2: straight_L7p5_N2_CSstrip_W0p5_51083_27500,o2
+- p1: free_propagation_region_b76b91f7_50000_0,E5
+  p2: straight_L6_N2_CSstrip_W0p5_48917_26000,o2
+- p1: free_propagation_region_b76b91f7_50000_0,E6
+  p2: straight_L4p5_N2_CSstrip_W0p5_46750_24500,o2
+- p1: free_propagation_region_b76b91f7_50000_0,E7
+  p2: straight_L3_N2_CSstrip_W0p5_44583_23000,o2
+- p1: free_propagation_region_b76b91f7_50000_0,E8
+  p2: straight_L1p5_N2_CSstrip_W0p5_42417_21500,o2
 placements:
-  bend_euler_R10_A90_P0p5_2f1f5c6d_10292_28125:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_1083_26000:
     mirror: true
     rotation: 90
-    x: 5.417
-    y: 23
-  bend_euler_R10_A90_P0p5_2f1f5c6d_12458_26625:
-    mirror: true
-    rotation: 90
-    x: 7.583
-    y: 21.5
-  bend_euler_R10_A90_P0p5_2f1f5c6d_14625_25125:
-    mirror: true
-    rotation: 90
-    x: 9.75
-    y: 20
-  bend_euler_R10_A90_P0p5_2f1f5c6d_1625_34125:
-    mirror: true
-    rotation: 90
-    x: -3.25
-    y: 29
-  bend_euler_R10_A90_P0p5_2f1f5c6d_35375_25125:
+    x: 1.083
+    y: 26
+  bend_euler_R10_A90_P0p5_2f1f5c6d_30250_30000:
     mirror: true
     rotation: 0
     x: 30.25
     y: 30
-  bend_euler_R10_A90_P0p5_2f1f5c6d_37542_26625:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_32417_31500:
     mirror: true
     rotation: 0
     x: 32.417
     y: 31.5
-  bend_euler_R10_A90_P0p5_2f1f5c6d_3792_32625:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_3250_24500:
     mirror: true
     rotation: 90
-    x: -1.083
-    y: 27.5
-  bend_euler_R10_A90_P0p5_2f1f5c6d_39708_28125:
+    x: 3.25
+    y: 24.5
+  bend_euler_R10_A90_P0p5_2f1f5c6d_34583_33000:
     mirror: true
     rotation: 0
     x: 34.583
     y: 33
-  bend_euler_R10_A90_P0p5_2f1f5c6d_41875_29625:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_36750_34500:
     mirror: true
     rotation: 0
     x: 36.75
     y: 34.5
-  bend_euler_R10_A90_P0p5_2f1f5c6d_44042_31125:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_38917_36000:
     mirror: true
     rotation: 0
     x: 38.917
     y: 36
-  bend_euler_R10_A90_P0p5_2f1f5c6d_46208_32625:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_41083_37500:
     mirror: true
     rotation: 0
     x: 41.083
     y: 37.5
-  bend_euler_R10_A90_P0p5_2f1f5c6d_48375_34125:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_43250_39000:
     mirror: true
     rotation: 0
     x: 43.25
     y: 39
-  bend_euler_R10_A90_P0p5_2f1f5c6d_50542_35625:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_45417_40500:
     mirror: true
     rotation: 0
     x: 45.417
     y: 40.5
-  bend_euler_R10_A90_P0p5_2f1f5c6d_52708_37125:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_47583_42000:
     mirror: true
     rotation: 0
     x: 47.583
     y: 42
-  bend_euler_R10_A90_P0p5_2f1f5c6d_54875_38625:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_49750_43500:
     mirror: true
     rotation: 0
     x: 49.75
     y: 43.5
-  bend_euler_R10_A90_P0p5_2f1f5c6d_5958_31125:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_5417_23000:
     mirror: true
     rotation: 90
-    x: 1.083
-    y: 26
-  bend_euler_R10_A90_P0p5_2f1f5c6d_8125_29625:
+    x: 5.417
+    y: 23
+  bend_euler_R10_A90_P0p5_2f1f5c6d_7583_21500:
     mirror: true
     rotation: 90
-    x: 3.25
-    y: 24.5
-  bend_euler_R10_A90_P0p5_2f1f5c6d_m2708_37125:
+    x: 7.583
+    y: 21.5
+  bend_euler_R10_A90_P0p5_2f1f5c6d_9750_20000:
     mirror: true
     rotation: 90
-    x: -7.583
-    y: 32
-  bend_euler_R10_A90_P0p5_2f1f5c6d_m4875_38625:
+    x: 9.75
+    y: 20
+  bend_euler_R10_A90_P0p5_2f1f5c6d_m1083_27500:
     mirror: true
     rotation: 90
-    x: -9.75
-    y: 33.5
-  bend_euler_R10_A90_P0p5_2f1f5c6d_m542_35625:
+    x: -1.083
+    y: 27.5
+  bend_euler_R10_A90_P0p5_2f1f5c6d_m3250_29000:
+    mirror: true
+    rotation: 90
+    x: -3.25
+    y: 29
+  bend_euler_R10_A90_P0p5_2f1f5c6d_m5417_30500:
     mirror: true
     rotation: 90
     x: -5.417
     y: 30.5
-  free_propagation_region_17623e49_0_10000:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_m7583_32000:
+    mirror: true
+    rotation: 90
+    x: -7.583
+    y: 32
+  bend_euler_R10_A90_P0p5_2f1f5c6d_m9750_33500:
+    mirror: true
+    rotation: 90
+    x: -9.75
+    y: 33.5
+  free_propagation_region_17623e49_0_0:
     mirror: false
     rotation: 90
     x: 0
     y: 0
-  free_propagation_region_b76b91f7_50000_10000:
+  free_propagation_region_b76b91f7_50000_0:
     mirror: false
     rotation: 90
     x: 50
     y: 0
-  straight_L10p5_N2_CSstrip_W0p5_25000_30000:
+  straight_L10p5_N2_CSstrip_W0p5_19750_30000:
     mirror: false
     rotation: 0
     x: 19.75
     y: 30
-  straight_L10p5_N2_CSstrip_W0p5_55417_25250:
+  straight_L10p5_N2_CSstrip_W0p5_55417_30500:
     mirror: false
     rotation: 270
     x: 55.417
     y: 30.5
-  straight_L10p5_N2_CSstrip_W0p5_m5417_25250:
+  straight_L10p5_N2_CSstrip_W0p5_m5417_30500:
     mirror: false
     rotation: 270
     x: -5.417
     y: 30.5
-  straight_L12_N2_CSstrip_W0p5_57583_26000:
+  straight_L12_N2_CSstrip_W0p5_57583_32000:
     mirror: false
     rotation: 270
     x: 57.583
     y: 32
-  straight_L12_N2_CSstrip_W0p5_m7583_26000:
+  straight_L12_N2_CSstrip_W0p5_m7583_32000:
     mirror: false
     rotation: 270
     x: -7.583
     y: 32
-  straight_L13p5_N2_CSstrip_W0p5_59750_26750:
+  straight_L13p5_N2_CSstrip_W0p5_59750_33500:
     mirror: false
     rotation: 270
     x: 59.75
     y: 33.5
-  straight_L13p5_N2_CSstrip_W0p5_m9750_26750:
+  straight_L13p5_N2_CSstrip_W0p5_m9750_33500:
     mirror: false
     rotation: 270
     x: -9.75
     y: 33.5
-  straight_L14p834_N2_CSstrip_W0p5_25000_31500:
+  straight_L14p834_N2_CSstrip_W0p5_17583_31500:
     mirror: false
     rotation: 0
     x: 17.583
     y: 31.5
-  straight_L19p166_N2_CSstrip_W0p5_25000_33000:
+  straight_L19p166_N2_CSstrip_W0p5_15417_33000:
     mirror: false
     rotation: 0
     x: 15.417
     y: 33
-  straight_L1p5_N2_CSstrip_W0p5_42417_20750:
+  straight_L1p5_N2_CSstrip_W0p5_42417_21500:
     mirror: false
     rotation: 270
     x: 42.417
     y: 21.5
-  straight_L1p5_N2_CSstrip_W0p5_7583_20750:
+  straight_L1p5_N2_CSstrip_W0p5_7583_21500:
     mirror: false
     rotation: 270
     x: 7.583
     y: 21.5
-  straight_L23p5_N2_CSstrip_W0p5_25000_34500:
+  straight_L23p5_N2_CSstrip_W0p5_13250_34500:
     mirror: false
     rotation: 0
     x: 13.25
     y: 34.5
-  straight_L27p834_N2_CSstrip_W0p5_25000_36000:
+  straight_L27p834_N2_CSstrip_W0p5_11083_36000:
     mirror: false
     rotation: 0
     x: 11.083
     y: 36
-  straight_L32p1660000000_cc48b899_25000_37500:
+  straight_L32p1660000000_cc48b899_8917_37500:
     mirror: false
     rotation: 0
     x: 8.917
     y: 37.5
-  straight_L36p5_N2_CSstrip_W0p5_25000_39000:
+  straight_L36p5_N2_CSstrip_W0p5_6750_39000:
     mirror: false
     rotation: 0
     x: 6.75
     y: 39
-  straight_L3_N2_CSstrip_W0p5_44583_21500:
+  straight_L3_N2_CSstrip_W0p5_44583_23000:
     mirror: false
     rotation: 270
     x: 44.583
     y: 23
-  straight_L3_N2_CSstrip_W0p5_5417_21500:
+  straight_L3_N2_CSstrip_W0p5_5417_23000:
     mirror: false
     rotation: 270
     x: 5.417
     y: 23
-  straight_L40p834_N2_CSstrip_W0p5_25000_40500:
+  straight_L40p834_N2_CSstrip_W0p5_4583_40500:
     mirror: false
     rotation: 0
     x: 4.583
     y: 40.5
-  straight_L45p1660000000_56131022_25000_42000:
+  straight_L45p1660000000_56131022_2417_42000:
     mirror: false
     rotation: 0
     x: 2.417
     y: 42
-  straight_L49p5_N2_CSstrip_W0p5_25000_43500:
+  straight_L49p5_N2_CSstrip_W0p5_250_43500:
     mirror: false
     rotation: 0
     x: 0.25
     y: 43.5
-  straight_L4p5_N2_CSstrip_W0p5_3250_22250:
+  straight_L4p5_N2_CSstrip_W0p5_3250_24500:
     mirror: false
     rotation: 270
     x: 3.25
     y: 24.5
-  straight_L4p5_N2_CSstrip_W0p5_46750_22250:
+  straight_L4p5_N2_CSstrip_W0p5_46750_24500:
     mirror: false
     rotation: 270
     x: 46.75
     y: 24.5
-  straight_L6_N2_CSstrip_W0p5_1083_23000:
+  straight_L6_N2_CSstrip_W0p5_1083_26000:
     mirror: false
     rotation: 270
     x: 1.083
     y: 26
-  straight_L6_N2_CSstrip_W0p5_48917_23000:
+  straight_L6_N2_CSstrip_W0p5_48917_26000:
     mirror: false
     rotation: 270
     x: 48.917
     y: 26
-  straight_L7p5_N2_CSstrip_W0p5_51083_23750:
+  straight_L7p5_N2_CSstrip_W0p5_51083_27500:
     mirror: false
     rotation: 270
     x: 51.083
     y: 27.5
-  straight_L7p5_N2_CSstrip_W0p5_m1083_23750:
+  straight_L7p5_N2_CSstrip_W0p5_m1083_27500:
     mirror: false
     rotation: 270
     x: -1.083
     y: 27.5
-  straight_L9_N2_CSstrip_W0p5_53250_24500:
+  straight_L9_N2_CSstrip_W0p5_53250_29000:
     mirror: false
     rotation: 270
     x: 53.25
     y: 29
-  straight_L9_N2_CSstrip_W0p5_m3250_24500:
+  straight_L9_N2_CSstrip_W0p5_m3250_29000:
     mirror: false
     rotation: 270
     x: -3.25
     y: 29
 ports:
-  E0: free_propagation_region_b76b91f7_50000_10000,W0
-  E1: free_propagation_region_b76b91f7_50000_10000,W1
-  E2: free_propagation_region_b76b91f7_50000_10000,W2
-  o1: free_propagation_region_17623e49_0_10000,o1
+  E0: free_propagation_region_b76b91f7_50000_0,W0
+  E1: free_propagation_region_b76b91f7_50000_0,W1
+  E2: free_propagation_region_b76b91f7_50000_0,W2
+  o1: free_propagation_region_17623e49_0_0,o1

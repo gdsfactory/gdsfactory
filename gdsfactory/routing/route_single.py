@@ -29,7 +29,8 @@ from __future__ import annotations
 
 import kfactory as kf
 from kfactory.routing.electrical import route_elec
-from kfactory.routing.optical import OpticalManhattanRoute, place90, route
+from kfactory.routing.generic import ManhattanRoute
+from kfactory.routing.optical import place90, route
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -60,7 +61,7 @@ def route_single(
     allow_width_mismatch: bool = False,
     radius: float | None = None,
     route_width: float | None = None,
-) -> OpticalManhattanRoute:
+) -> ManhattanRoute:
     """Returns a Manhattan Route between 2 ports.
 
     The references are straights, bends and tapers.
