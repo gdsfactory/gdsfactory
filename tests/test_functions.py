@@ -45,5 +45,13 @@ def test_trim_no_clipping() -> None:
     assert len(c2.ports) == len(c1.ports), f"{len(c2.ports)} != {len(c1.ports)}"
 
 
+def test_area() -> None:
+    c = gf.Component()
+    _ = c << gf.c.rectangle(size=(10, 10), layer=(1, 0), centered=True)
+    _ = c << gf.c.rectangle(size=(10, 10), layer=(1, 0), centered=True)
+    area = c.area(layer=(1, 0))
+    assert area == 100.0, f"{area} != 100"
+
+
 if __name__ == "__main__":
-    test_trim_no_clipping()
+    test_area()
