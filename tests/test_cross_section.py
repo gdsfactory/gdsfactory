@@ -65,7 +65,7 @@ xc_sin = partial(
     gf.cross_section.cross_section,
     width=1.0,
     layer=(1, 0),
-    cladding_layers=[(1, 2), (1, 3)],
+    cladding_layers=((1, 2), (1, 3)),
     cladding_offsets=(5, 10),
 )
 

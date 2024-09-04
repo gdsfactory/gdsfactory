@@ -18,7 +18,7 @@ Options:
 import logging
 import os
 import xml.etree.ElementTree as ET
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from subprocess import check_call
 
 import klayout.db
@@ -297,7 +297,7 @@ if __name__ == "__main__":
     arguments = docopt(__doc__, version="RUN DRC-malformed: 1.0")
 
     # logs format
-    now_str = datetime.now(timezone.utc).strftime("drc_run_%Y_%m_%d_%H_%M_%S")
+    now_str = datetime.now(UTC).strftime("drc_run_%Y_%m_%d_%H_%M_%S")
 
     if (
         arguments["--run_dir"] == "pwd"

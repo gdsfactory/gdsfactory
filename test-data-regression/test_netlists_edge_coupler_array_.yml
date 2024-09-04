@@ -94,7 +94,7 @@ instances:
       width2: 0.2
       with_bbox: true
       with_two_ports: true
-  text_rectangular_T1_S10_33d8cb29_10000_20000:
+  text_rectangular_T1_S10_49b23f95_10000_20000:
     component: text_rectangular
     info: {}
     settings:
@@ -106,7 +106,7 @@ instances:
       - 0
       size: 10
       text: '1'
-  text_rectangular_T2_S10_c791f318_10000_147000:
+  text_rectangular_T2_S10_7442cfc8_10000_147000:
     component: text_rectangular
     info: {}
     settings:
@@ -118,7 +118,7 @@ instances:
       - 0
       size: 10
       text: '2'
-  text_rectangular_T3_S10_2598d72f_10000_274000:
+  text_rectangular_T3_S10_2c754110_10000_274000:
     component: text_rectangular
     info: {}
     settings:
@@ -130,7 +130,7 @@ instances:
       - 0
       size: 10
       text: '3'
-  text_rectangular_T4_S10_3d29fd91_10000_401000:
+  text_rectangular_T4_S10_228a90b5_10000_401000:
     component: text_rectangular
     info: {}
     settings:
@@ -142,7 +142,7 @@ instances:
       - 0
       size: 10
       text: '4'
-  text_rectangular_T5_S10_77d2e57d_10000_528000:
+  text_rectangular_T5_S10_6ce0d6c0_10000_528000:
     component: text_rectangular
     info: {}
     settings:
@@ -182,27 +182,27 @@ placements:
     rotation: 0
     x: 0
     y: 508
-  text_rectangular_T1_S10_33d8cb29_10000_20000:
+  text_rectangular_T1_S10_49b23f95_10000_20000:
     mirror: false
     rotation: 0
     x: 10
     y: 20
-  text_rectangular_T2_S10_c791f318_10000_147000:
+  text_rectangular_T2_S10_7442cfc8_10000_147000:
     mirror: false
     rotation: 0
     x: 10
     y: 147
-  text_rectangular_T3_S10_2598d72f_10000_274000:
+  text_rectangular_T3_S10_2c754110_10000_274000:
     mirror: false
     rotation: 0
     x: 10
     y: 274
-  text_rectangular_T4_S10_3d29fd91_10000_401000:
+  text_rectangular_T4_S10_228a90b5_10000_401000:
     mirror: false
     rotation: 0
     x: 10
     y: 401
-  text_rectangular_T5_S10_77d2e57d_10000_528000:
+  text_rectangular_T5_S10_6ce0d6c0_10000_528000:
     mirror: false
     rotation: 0
     x: 10

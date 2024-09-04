@@ -3,7 +3,7 @@ from __future__ import annotations
 from collections.abc import Callable
 
 import numpy as np
-from kfactory.routing.optical import OpticalManhattanRoute
+from kfactory.routing.generic import ManhattanRoute
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
@@ -34,7 +34,7 @@ def route_south(
     start_straight_length: float = 0.5,
     port_type: str | None = None,
     allow_width_mismatch: bool = False,
-) -> list[OpticalManhattanRoute]:
+) -> list[ManhattanRoute]:
     """Places routes to route a component ports to the south.
 
     Args:
@@ -69,12 +69,9 @@ def route_south(
 
         import gdsfactory as gf
 
-        c = gf.components.ring_double()
         c = gf.Component()
         ref = c << gf.components.ring_double()
-        r = gf.routing.route_south(ref)
-        for e in r.references:
-            c.add(e)
+        r = gf.routing.route_south(c, ref)
         c.plot()
 
     """

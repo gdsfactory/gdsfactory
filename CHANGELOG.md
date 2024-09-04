@@ -1,7 +1,36 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.8.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.8.6...main)
 
 <!-- towncrier release notes start -->
+
+## [8.8.6](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.6) - 2024-09-03
+
+- enforce_python311_or_larger [#3177](https://github.com/gdsfactory/gdsfactory/pull/3177)
+
+## [8.8.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.5) - 2024-09-03
+
+- deprecate python3.10 [#3176](https://github.com/gdsfactory/gdsfactory/pull/3176)
+
+## [8.8.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.4) - 2024-09-03
+
+- fixes routing types [#3175](https://github.com/gdsfactory/gdsfactory/pull/3175)
+- fix snspd port_type [#3174](https://github.com/gdsfactory/gdsfactory/pull/3174)
+
+## [8.8.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.3) - 2024-09-03
+
+- Re-add missing a straight `ComponentSpec` to `route_from_single_steps`  [#3169](https://github.com/gdsfactory/gdsfactory/pull/3169)
+- [pre-commit.ci] pre-commit autoupdate [#3172](https://github.com/gdsfactory/gdsfactory/pull/3172)
+- Update snspd.py [#3173](https://github.com/gdsfactory/gdsfactory/pull/3173)
+- update to kfactory 0.20.1 [#3166](https://github.com/gdsfactory/gdsfactory/pull/3166)
+- Update watchdog requirement from <5 to <6 [#3170](https://github.com/gdsfactory/gdsfactory/pull/3170)
+
+## [8.8.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.2) - 2024-08-30
+
+- improve text rectangular [#3165](https://github.com/gdsfactory/gdsfactory/pull/3165)
+- Match `post_process` in `import_gds` to `@gf.cell` [#3162](https://github.com/gdsfactory/gdsfactory/pull/3162)
+- document_get_ports_list [#3164](https://github.com/gdsfactory/gdsfactory/pull/3164)
+- print Logical/Derived layers prettier [#3161](https://github.com/gdsfactory/gdsfactory/pull/3161)
+
 
 ## [8.8.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.1) - 2024-08-29
 

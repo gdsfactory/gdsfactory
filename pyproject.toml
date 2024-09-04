@@ -31,8 +31,8 @@ dependencies = [
   "toolz<1",
   "types-PyYAML",
   "typer<1",
-  "watchdog<5",
-  "kfactory[ipy]==0.19.2",
+  "kfactory[ipy]==0.20.1",
+  "watchdog<6",
   "freetype-py",
   "mapbox_earcut",
   "networkx",
@@ -46,8 +46,8 @@ keywords = ["eda", "photonics", "python"]
 license = {file = "LICENSE"}
 name = "gdsfactory"
 readme = "README.md"
-requires-python = ">=3.10"
-version = "8.8.1"
+requires-python = ">=3.11"
+version = "8.8.6"
 
 [project.optional-dependencies]
 cad = [
@@ -56,6 +56,7 @@ cad = [
 dev = [
   "ipykernel",
   "jsondiff",
+  "jsonschema",
   "pre-commit",
   "pylsp-mypy",
   "pytest",
@@ -217,7 +218,7 @@ message_template = "Bump to {new_version}"
 tag_template = "v{new_version}"
 
 [tool.tbump.version]
-current = "8.8.1"
+current = "8.8.6"
 regex = '''
   (?P<major>\d+)
   \.
