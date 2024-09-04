@@ -28,6 +28,7 @@ def diff(
     ignore_cell_name_differences: bool | None = None,
     ignore_label_differences: bool | None = None,
     show: bool = False,
+    stagger: bool = True,
 ) -> bool:
     """Returns True if files are different, prints differences and shows them in klayout.
 
@@ -40,6 +41,7 @@ def diff(
         ignore_cell_name_differences: if True, ignores any cell name differences. If None (default), defers to the value set in CONF.difftest_ignore_cell_name_differences
         ignore_label_differences: if True, ignores any label differences when run in XOR mode. If None (default) defers to the value set in CONF.difftest_ignore_label_differences
         show: shows diff in klayout.
+        stagger: if True, staggers the old/new/xor views. If False, all three are overlaid.
     """
     old = read_top_cell(ref_file)
     new = read_top_cell(run_file)
@@ -132,6 +134,15 @@ def diff(
 
     if not equal:
         c = KCell(f"{test_name}_difftest")
+        ref = old
+        run = new
+
+        old = KCell(f"{test_name}_old")
+        new = KCell(f"{test_name}_new")
+
+        old.copy_tree(ref._kdb_cell)
+        new.copy_tree(run._kdb_cell)
+
         old.name = f"{test_name}_old"
         new.name = f"{test_name}_new"
 
@@ -139,8 +150,9 @@ def diff(
         new_ref = c << new
 
         dy = 10
-        old_ref.dmovey(+old.dysize + dy)
-        new_ref.dmovey(-old.dysize - dy)
+        if stagger:
+            old_ref.dmovey(+old.dysize + dy)
+            new_ref.dmovey(-old.dysize - dy)
 
         layer_label = (1, 0)
         layer_label = kf.kcl.layer(*layer_label)
@@ -160,8 +172,8 @@ def diff(
             for layer in c.kcl.layer_infos():
                 # exists in both
                 if (
-                    new.kcl.find_layer(layer) is not None
-                    and old.kcl.find_layer(layer) is not None
+                    new.kcl.layout.find_layer(layer) is not None
+                    and old.kcl.layout.find_layer(layer) is not None
                 ):
                     layer_ref = old.layer(layer)
                     layer_run = new.layer(layer)
@@ -185,7 +197,7 @@ def diff(
                             equivalent = False
                         print(message)
                 # only in new
-                elif new.kcl.find_layer(layer) is not None:
+                elif new.kcl.layout.find_layer(layer) is not None:
                     layer_id = new.layer(layer)
                     region = kdb.Region(new.begin_shapes_rec(layer_id))
                     diff.shapes(c.kcl.layer(layer)).insert(region)
@@ -193,7 +205,7 @@ def diff(
                     equivalent = False
 
                 # only in old
-                elif old.kcl.find_layer(layer) is not None:
+                elif old.kcl.layout.find_layer(layer) is not None:
                     layer_id = old.layer(layer)
                     region = kdb.Region(old.begin_shapes_rec(layer_id))
                     diff.shapes(c.kcl.layer(layer)).insert(region)
@@ -310,7 +322,7 @@ if __name__ == "__main__":
     # print([i.name for i in c.get_dependencies()])
     # c.show()
     # c.name = "mzi"
-    c = gf.components.straight(length=20, layer=(1, 0))
+    c = gf.components.straight(length=10, layer=(2, 0))
     difftest(c, test_name="straight", dirpath=PATH.cwd)
     c.show()
     # c.write_gds()

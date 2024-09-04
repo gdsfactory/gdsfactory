@@ -49,15 +49,16 @@ def test_route_bundle_west_to_north(
 def test_route_bundle_west_to_north2(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> None:
-    layer = (1, 0)
+    layer = "M3"
+    width = 10
 
     lengths = {}
     c = gf.Component()
     pbottom_facing_north = port_array(
-        center=(0, 0), orientation=90, pitch=(30, 0), layer=layer
+        center=(0, 0), orientation=90, pitch=(30, 0), layer=layer, width=width
     )
     ptop_facing_west = port_array(
-        center=(100, 100), orientation=180, pitch=(0, -30), layer=layer
+        center=(100, 100), orientation=180, pitch=(0, -30), layer=layer, width=width
     )
 
     routes = gf.routing.route_bundle(
@@ -66,7 +67,8 @@ def test_route_bundle_west_to_north2(
         ptop_facing_west,
         bend=gf.components.wire_corner,
         port_type="electrical",
-        cross_section="metal3",
+        cross_section="metal_routing",
+        allow_width_mismatch=True,
     )
 
     for i, route in enumerate(routes):

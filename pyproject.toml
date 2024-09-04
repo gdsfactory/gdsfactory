@@ -16,9 +16,9 @@ dependencies = [
   "jinja2<4",
   "loguru<1",
   "matplotlib<4",
-  "numpy<2",
+  "numpy",
   "orjson<4",
-  "pandas<3",
+  "pandas",
   "pydantic>=2.6,<2.9",
   "pydantic-settings<3",
   "pydantic-extra-types<3",
@@ -31,8 +31,8 @@ dependencies = [
   "toolz<1",
   "types-PyYAML",
   "typer<1",
-  "watchdog<5",
-  "kfactory[ipy]==0.18.4",
+  "kfactory[ipy]==0.20.1",
+  "watchdog<6",
   "freetype-py",
   "mapbox_earcut",
   "networkx",
@@ -46,8 +46,8 @@ keywords = ["eda", "photonics", "python"]
 license = {file = "LICENSE"}
 name = "gdsfactory"
 readme = "README.md"
-requires-python = ">=3.10"
-version = "8.6.4"
+requires-python = ">=3.11"
+version = "8.8.6"
 
 [project.optional-dependencies]
 cad = [
@@ -56,13 +56,15 @@ cad = [
 dev = [
   "ipykernel",
   "jsondiff",
+  "jsonschema",
   "pre-commit",
   "pylsp-mypy",
   "pytest",
   "pytest-cov",
   "pytest_regressions",
   "types-PyYAML",
-  "types-cachetools"
+  "types-cachetools",
+  "pytest-github-actions-annotate-failures"
 ]
 docs = [
   "autodoc_pydantic>=2.0.1,<3",
@@ -72,7 +74,7 @@ docs = [
   "Sphinx==7.4.7"
 ]
 full = [
-  "gplugins[devsim,femwell,gmsh,meow,sax,schematic,tidy3d,vlsir]>=1,<2",
+  "gplugins[devsim,femwell,gmsh,meow,sax,schematic,tidy3d]~=1.1",
   "scikit-rf",
   "omegaconf",
   "autograd"
@@ -216,7 +218,7 @@ message_template = "Bump to {new_version}"
 tag_template = "v{new_version}"
 
 [tool.tbump.version]
-current = "8.6.4"
+current = "8.8.6"
 regex = '''
   (?P<major>\d+)
   \.

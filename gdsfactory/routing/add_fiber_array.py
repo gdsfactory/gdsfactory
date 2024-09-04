@@ -19,7 +19,6 @@ def add_fiber_array(
     component: ComponentSpec = straight_function,
     grating_coupler: ComponentSpecOrList = grating_coupler_te,
     gc_port_name: str = "o1",
-    component_name: str | None = None,
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionSpec = "strip",
     taper: ComponentSpec | None = None,
@@ -33,7 +32,6 @@ def add_fiber_array(
         component: component spec to connect to grating couplers.
         grating_coupler: spec for route terminations.
         gc_port_name: grating coupler input port name.
-        component_name: optional for the label.
         select_ports: function to select ports.
         cross_section: cross_section function.
         taper: taper spec.
@@ -108,7 +106,6 @@ def add_fiber_array(
     if gc_port_name not in gc.ports:
         raise ValueError(f"gc_port_name={gc_port_name!r} not in {gc.ports.keys()}")
 
-    component_name = component_name or component.name
     component_new = Component()
 
     optical_ports = select_ports(component.ports)
@@ -121,7 +118,6 @@ def add_fiber_array(
         ref,
         grating_coupler=grating_coupler,
         gc_port_name=gc_port_name,
-        component_name=component_name,
         cross_section=cross_section,
         select_ports=select_ports,
         taper=taper,
@@ -135,8 +131,8 @@ def add_fiber_array(
 if __name__ == "__main__":
     from gdsfactory.samples.big_device import big_device
 
-    component = big_device(nports=10)
     component = gf.c.mmi2x2()
+    component = big_device(nports=10)
     radius = 5.0
     c = add_fiber_array(component=component)
     # test_type0()

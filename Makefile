@@ -15,10 +15,10 @@ update-pre:
 test-data:
 	git clone https://github.com/gdsfactory/gdsfactory-test-data.git -b test_klayout test-data-gds
 
-test-data-ssh:
+test-data-gds:
 	git clone git@github.com:gdsfactory/gdsfactory-test-data.git -b test_klayout test-data-gds
 
-test: test-data
+test: test-data-gds
 	pytest -s
 
 test-force:
@@ -56,10 +56,8 @@ upload-twine: build
 autopep8:
 	autopep8 --in-place --aggressive --aggressive **/*.py
 
-docs-generic-pdk:
-	python .github/write_components_doc.py
-
 docs:
+	python docs/write_cells.py
 	jb build docs
 
 git-rm-merged:

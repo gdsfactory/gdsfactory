@@ -1,5 +1,5 @@
 instances:
-  via_stack_S10_22_LM1_M2_93167f57_19000_1000:
+  via_stack_S10_22_LM1_M2_9668d7ae_19000_1000:
     component: via_stack
     info:
       xsize: 10
@@ -10,6 +10,11 @@ instances:
       - M1
       - M2
       - MTOP
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
       size:
       - 10
       - 22
@@ -19,7 +24,7 @@ instances:
       - via1
       - via2
       - null
-  via_stack_S10_22_LM1_M2_93167f57_m15000_1000:
+  via_stack_S10_22_LM1_M2_9668d7ae_m15000_1000:
     component: via_stack
     info:
       xsize: 10
@@ -30,6 +35,11 @@ instances:
       - M1
       - M2
       - MTOP
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
       size:
       - 10
       - 22
@@ -39,7 +49,7 @@ instances:
       - via1
       - via2
       - null
-  via_stack_S44_10_LM1_M2_9163df5c_2000_17000:
+  via_stack_S44_10_LM1_M2_88219667_2000_17000:
     component: via_stack
     info:
       xsize: 44
@@ -50,6 +60,11 @@ instances:
       - M1
       - M2
       - MTOP
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
       size:
       - 44
       - 10
@@ -59,7 +74,7 @@ instances:
       - via1
       - via2
       - null
-  via_stack_S44_10_LM1_M2_9163df5c_2000_m15000:
+  via_stack_S44_10_LM1_M2_88219667_2000_m15000:
     component: via_stack
     info:
       xsize: 44
@@ -70,6 +85,11 @@ instances:
       - M1
       - M2
       - MTOP
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
       size:
       - 44
       - 10
@@ -82,22 +102,22 @@ instances:
 name: seal_ring_Crectangle_Sv_f34f177a
 nets: []
 placements:
-  via_stack_S10_22_LM1_M2_93167f57_19000_1000:
+  via_stack_S10_22_LM1_M2_9668d7ae_19000_1000:
     mirror: false
     rotation: 0
     x: 19
     y: 1
-  via_stack_S10_22_LM1_M2_93167f57_m15000_1000:
+  via_stack_S10_22_LM1_M2_9668d7ae_m15000_1000:
     mirror: false
     rotation: 0
     x: -15
     y: 1
-  via_stack_S44_10_LM1_M2_9163df5c_2000_17000:
+  via_stack_S44_10_LM1_M2_88219667_2000_17000:
     mirror: false
     rotation: 0
     x: 2
     y: 17
-  via_stack_S44_10_LM1_M2_9163df5c_2000_m15000:
+  via_stack_S44_10_LM1_M2_88219667_2000_m15000:
     mirror: false
     rotation: 0
     x: 2
@@ -108,22 +128,22 @@ warnings:
     unconnected_ports:
     - message: 16 unconnected electrical ports!
       ports:
-      - via_stack_S44_10_LM1_M2_9163df5c_2000_17000,e1
-      - via_stack_S44_10_LM1_M2_9163df5c_2000_17000,e2
-      - via_stack_S44_10_LM1_M2_9163df5c_2000_17000,e3
-      - via_stack_S44_10_LM1_M2_9163df5c_2000_17000,e4
-      - via_stack_S10_22_LM1_M2_93167f57_19000_1000,e1
-      - via_stack_S10_22_LM1_M2_93167f57_19000_1000,e2
-      - via_stack_S10_22_LM1_M2_93167f57_19000_1000,e3
-      - via_stack_S10_22_LM1_M2_93167f57_19000_1000,e4
-      - via_stack_S10_22_LM1_M2_93167f57_m15000_1000,e1
-      - via_stack_S10_22_LM1_M2_93167f57_m15000_1000,e2
-      - via_stack_S10_22_LM1_M2_93167f57_m15000_1000,e3
-      - via_stack_S10_22_LM1_M2_93167f57_m15000_1000,e4
-      - via_stack_S44_10_LM1_M2_9163df5c_2000_m15000,e1
-      - via_stack_S44_10_LM1_M2_9163df5c_2000_m15000,e2
-      - via_stack_S44_10_LM1_M2_9163df5c_2000_m15000,e3
-      - via_stack_S44_10_LM1_M2_9163df5c_2000_m15000,e4
+      - via_stack_S44_10_LM1_M2_88219667_2000_17000,e1
+      - via_stack_S44_10_LM1_M2_88219667_2000_17000,e2
+      - via_stack_S44_10_LM1_M2_88219667_2000_17000,e3
+      - via_stack_S44_10_LM1_M2_88219667_2000_17000,e4
+      - via_stack_S10_22_LM1_M2_9668d7ae_19000_1000,e1
+      - via_stack_S10_22_LM1_M2_9668d7ae_19000_1000,e2
+      - via_stack_S10_22_LM1_M2_9668d7ae_19000_1000,e3
+      - via_stack_S10_22_LM1_M2_9668d7ae_19000_1000,e4
+      - via_stack_S10_22_LM1_M2_9668d7ae_m15000_1000,e1
+      - via_stack_S10_22_LM1_M2_9668d7ae_m15000_1000,e2
+      - via_stack_S10_22_LM1_M2_9668d7ae_m15000_1000,e3
+      - via_stack_S10_22_LM1_M2_9668d7ae_m15000_1000,e4
+      - via_stack_S44_10_LM1_M2_88219667_2000_m15000,e1
+      - via_stack_S44_10_LM1_M2_88219667_2000_m15000,e2
+      - via_stack_S44_10_LM1_M2_88219667_2000_m15000,e3
+      - via_stack_S44_10_LM1_M2_88219667_2000_m15000,e4
       values:
       - - -20000
         - 17000

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import warnings
 from typing import TYPE_CHECKING, Literal
 
 import kfactory as kf
@@ -41,6 +42,54 @@ def move_port_to_zero(
     ref.dmove(-movement)
     c.add_ports(ref.ports)
     c.copy_child_info(component)
+    return c
+
+
+def get_layers(component: Component) -> list[tuple[int, int]]:
+    """Returns the layers of a component.
+
+    Args:
+        component: to get the layers from.
+    """
+    return [
+        (info.layer, info.datatype)
+        for info in component.kcl.layer_infos()
+        if not component.bbox(component.kcl.layer(info)).empty()
+    ]
+
+
+def extract(
+    component,
+    layers: LayerSpecs,
+    recursive: bool = True,
+) -> Component:
+    """Extracts a list of layers and adds them to a new Component.
+
+    Args:
+        component: to extract the layers from.
+        layers: list of layers to extract.
+        recursive: if True, extracts layers recursively and returns a flattened Component.
+    """
+    from gdsfactory.pdk import get_layer_tuple
+
+    c = component.dup()
+    if recursive:
+        c.flatten()
+
+    layer_tuples = [get_layer_tuple(layer) for layer in layers]
+    component_layers = get_layers(c)
+
+    for layer_tuple in layer_tuples:
+        if layer_tuple not in component_layers:
+            warnings.warn(
+                f"Layer {layer_tuple} not found in component {component.name!r} layers."
+            )
+
+    for layer_tuple in component_layers:
+        if layer_tuple not in layer_tuples:
+            layer_index = c.kcl.layer(*layer_tuple)
+            c.shapes(layer_index).clear()
+
     return c
 
 

@@ -47,8 +47,9 @@ def boolean(
 
       import gdsfactory as gf
 
-      c1 = gf.components.circle(radius=10).ref()
-      c2 = gf.components.circle(radius=9).ref()
+      c = gf.Component()
+      c1 = c << gf.components.circle(radius=10)
+      c2 = c << gf.components.circle(radius=9)
       c2.dmovex(5)
 
       c = gf.boolean(c1, c2, operation="xor")
@@ -70,13 +71,13 @@ def boolean(
     layer_index2 = get_layer(layer2)
     layer_index = get_layer(layer)
 
-    if isinstance(A, Component):
+    if isinstance(A, kf.KCell):
         ar = kf.kdb.Region(A.begin_shapes_rec(layer_index1))
     else:
         ar = kf.kdb.Region(A.cell.begin_shapes_rec(layer_index1)).transformed(
             A.cplx_trans
         )
-    if isinstance(B, Component):
+    if isinstance(B, kf.KCell):
         br = kf.kdb.Region(B.begin_shapes_rec(layer_index2))
     else:
         br = kf.kdb.Region(B.cell.begin_shapes_rec(layer_index2)).transformed(

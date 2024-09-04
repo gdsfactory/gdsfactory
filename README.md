@@ -1,4 +1,4 @@
-# GDSFactory 8.6.4
+# GDSFactory 8.8.6
 
 [![docs](https://github.com/gdsfactory/gdsfactory/actions/workflows/pages.yml/badge.svg)](https://gdsfactory.github.io/gdsfactory/)
 [![PyPI](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
@@ -15,9 +15,7 @@
 >
 > Notice that the routing and some advanced functions have changed. For a complete list of changes, please refer to our [migration guide](https://gdsfactory.github.io/gdsfactory/notebooks/21_migration_guide_7_8.html) or review the updated layout tutorial.
 
-
-GDSFactory is a Python library for designing chips (Photonics, Analog, Quantum, MEMs, and more), 3D printed objects, and PCBs.
-Here, you can code your designs in Python or YAML, perform verification (DRC, simulation, and extraction), and enable automated testing in the lab to ensure your fabricated devices meet your specifications.
+GDSFactory is a powerful Python library for designing a wide range of complex systems, including photonic circuits, analog devices, quantum components, MEMs, 3D printed objects, and PCBs. With GDSFactory, you can create and refine your designs using Python or YAML, perform rigorous verification through Design Rule Checking (DRC), Layout Versus Schematic (LVS) checks, and simulations. Additionally, it facilitates automated lab testing to ensure that your fabricated devices meet precise specifications, streamlining the entire design-to-fabrication workflow.
 
 
 As input you write python code, as an output GDSFactory creates CAD files (GDS, OASIS, STL, GERBER).
@@ -32,7 +30,7 @@ Highlights:
 
 ![workflow](https://i.imgur.com/KyavbHh.png)
 
-We facilitate an end-to-end design flow for you to:
+We provide a comprehensive end-to-end design flow that enables you to:
 
 - **Design (Layout, Simulation, Optimization)**: Define parametric cell functions in Python to generate components. Test component settings, ports, and geometry to avoid unwanted regressions, and capture design intent in a schematic.
 - **Verify (DRC, DFM, LVS)**: Run simulations directly from the layout using our simulation interfaces, removing the need to redraw your components in simulation tools. Conduct component and circuit simulations, study design for manufacturing. Ensure complex layouts match their design intent through Layout Versus Schematic verification (LVS) and are DRC clean.
@@ -45,7 +43,7 @@ We provide a common syntax for design (Ansys, Lumerical, Tidy3d, MEEP, DEVSIM, S
 
 ![tool interfaces](https://i.imgur.com/j5qlFWj.png)
 
-Many foundries have GDSFactory PDKs available. Please to contact your foundry to access their GDSFactory PDK, as you will require an NDA:
+Numerous foundries offer GDSFactory PDKs that are accessible under an NDA. To gain access to these PDKs, please send proof of your NDA to contact@gdsfactory.com
 
 - AIM photonics PDK
 - AMF photonics PDK
@@ -70,13 +68,6 @@ There are also open source PDKs available without an NDA:
 - [VTT](https://github.com/gdsfactory/vtt)
 - [Cornerstone](https://github.com/gdsfactory/cspdk)
 - [Luxtelligence](https://github.com/Luxtelligence/lxt_pdk_gf)
-
-You can also access:
-
-- instructions on [how to build your own PDK](https://gdsfactory.github.io/gdsfactory/notebooks/08_pdk.html)
-- instructions on [how to import a PDK from a library of fixed GDS cells](https://gdsfactory.github.io/gdsfactory/notebooks/09_pdk_import.html)
-
-![pdks](https://i.imgur.com/Nyie5ZX.png)
 
 ## Getting started
 

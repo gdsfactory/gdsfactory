@@ -8,9 +8,9 @@ instances:
       route_info_length: 15.708
       route_info_min_bend_radius: 10
       route_info_n_bend_90: 1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 15.708
+      route_info_type: strip
       route_info_weight: 15.708
-      route_info_xs_34e31a19_length: 15.708
     settings:
       allow_min_radius_violation: false
       angle: 90
@@ -25,9 +25,9 @@ instances:
       route_info_length: 15.708
       route_info_min_bend_radius: 10
       route_info_n_bend_90: 1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 15.708
+      route_info_type: strip
       route_info_weight: 15.708
-      route_info_xs_34e31a19_length: 15.708
     settings:
       allow_min_radius_violation: false
       angle: 90
@@ -42,9 +42,9 @@ instances:
       route_info_length: 15.708
       route_info_min_bend_radius: 10
       route_info_n_bend_90: 1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 15.708
+      route_info_type: strip
       route_info_weight: 15.708
-      route_info_xs_34e31a19_length: 15.708
     settings:
       allow_min_radius_violation: false
       angle: 90
@@ -59,9 +59,9 @@ instances:
       route_info_length: 15.708
       route_info_min_bend_radius: 10
       route_info_n_bend_90: 1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 15.708
+      route_info_type: strip
       route_info_weight: 15.708
-      route_info_xs_34e31a19_length: 15.708
     settings:
       allow_min_radius_violation: false
       angle: 90
@@ -76,9 +76,9 @@ instances:
       route_info_length: 15.708
       route_info_min_bend_radius: 10
       route_info_n_bend_90: 1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 15.708
+      route_info_type: strip
       route_info_weight: 15.708
-      route_info_xs_34e31a19_length: 15.708
     settings:
       allow_min_radius_violation: false
       angle: 90
@@ -93,15 +93,15 @@ instances:
       route_info_length: 15.708
       route_info_min_bend_radius: 10
       route_info_n_bend_90: 1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 15.708
+      route_info_type: strip
       route_info_weight: 15.708
-      route_info_xs_34e31a19_length: 15.708
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
       radius: 10
-  coupler_G0p236_L20_D4_D_e8f9c7a8_10000_24368:
+  coupler_G0p236_L20_D4_D_e8f9c7a8_0_0:
     component: coupler
     info:
       length: 10.186
@@ -112,7 +112,7 @@ instances:
       dy: 4
       gap: 0.236
       length: 20
-  coupler_G0p236_L20_D4_D_e8f9c7a8_10000_368:
+  coupler_G0p236_L20_D4_D_e8f9c7a8_0_24000:
     component: coupler
     info:
       length: 10.186
@@ -123,7 +123,7 @@ instances:
       dy: 4
       gap: 0.236
       length: 20
-  coupler_G0p236_L20_D4_D_e8f9c7a8_10000_48368:
+  coupler_G0p236_L20_D4_D_e8f9c7a8_0_48000:
     component: coupler
     info:
       length: 10.186
@@ -134,7 +134,7 @@ instances:
       dy: 4
       gap: 0.236
       length: 20
-  coupler_G0p236_L20_D4_D_e8f9c7a8_10000_72368:
+  coupler_G0p236_L20_D4_D_e8f9c7a8_0_72000:
     component: coupler
     info:
       length: 10.186
@@ -154,9 +154,9 @@ instances:
       route_info_length: 15.708
       route_info_min_bend_radius: 10
       route_info_n_bend_90: 1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 15.708
+      route_info_type: strip
       route_info_weight: 15.708
-      route_info_xs_34e31a19_length: 15.708
     settings:
       allow_min_radius_violation: false
       angle: 90
@@ -171,9 +171,9 @@ instances:
       route_info_length: 15.708
       route_info_min_bend_radius: 10
       route_info_n_bend_90: 1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 15.708
+      route_info_type: strip
       route_info_weight: 15.708
-      route_info_xs_34e31a19_length: 15.708
     settings:
       allow_min_radius_violation: false
       angle: 90
@@ -188,9 +188,9 @@ instances:
       route_info_length: 15.708
       route_info_min_bend_radius: 10
       route_info_n_bend_90: 1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 15.708
+      route_info_type: strip
       route_info_weight: 15.708
-      route_info_xs_34e31a19_length: 15.708
     settings:
       allow_min_radius_violation: false
       angle: 90
@@ -205,9 +205,9 @@ instances:
       route_info_length: 15.708
       route_info_min_bend_radius: 10
       route_info_n_bend_90: 1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 15.708
+      route_info_type: strip
       route_info_weight: 15.708
-      route_info_xs_34e31a19_length: 15.708
     settings:
       allow_min_radius_violation: false
       angle: 90
@@ -222,9 +222,9 @@ instances:
       route_info_length: 15.708
       route_info_min_bend_radius: 10
       route_info_n_bend_90: 1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 15.708
+      route_info_type: strip
       route_info_weight: 15.708
-      route_info_xs_34e31a19_length: 15.708
     settings:
       allow_min_radius_violation: false
       angle: 90
@@ -239,9 +239,9 @@ instances:
       route_info_length: 15.708
       route_info_min_bend_radius: 10
       route_info_n_bend_90: 1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 15.708
+      route_info_type: strip
       route_info_weight: 15.708
-      route_info_xs_34e31a19_length: 15.708
     settings:
       allow_min_radius_violation: false
       angle: 90
@@ -252,38 +252,38 @@ nets:
 - p1: bot_left_bend_ring_0,o1
   p2: top_left_bend_ring_0,o2
 - p1: bot_left_bend_ring_0,o2
-  p2: coupler_G0p236_L20_D4_D_e8f9c7a8_10000_368,o2
+  p2: coupler_G0p236_L20_D4_D_e8f9c7a8_0_0,o2
 - p1: bot_left_bend_ring_1,o1
   p2: top_left_bend_ring_1,o2
 - p1: bot_left_bend_ring_1,o2
-  p2: coupler_G0p236_L20_D4_D_e8f9c7a8_10000_24368,o2
+  p2: coupler_G0p236_L20_D4_D_e8f9c7a8_0_24000,o2
 - p1: bot_left_bend_ring_2,o1
   p2: top_left_bend_ring_2,o2
 - p1: bot_left_bend_ring_2,o2
-  p2: coupler_G0p236_L20_D4_D_e8f9c7a8_10000_48368,o2
+  p2: coupler_G0p236_L20_D4_D_e8f9c7a8_0_48000,o2
 - p1: bot_right_bend_ring_0,o1
-  p2: coupler_G0p236_L20_D4_D_e8f9c7a8_10000_368,o3
+  p2: coupler_G0p236_L20_D4_D_e8f9c7a8_0_0,o3
 - p1: bot_right_bend_ring_0,o2
   p2: top_right_bend_ring_0,o1
 - p1: bot_right_bend_ring_1,o1
-  p2: coupler_G0p236_L20_D4_D_e8f9c7a8_10000_24368,o3
+  p2: coupler_G0p236_L20_D4_D_e8f9c7a8_0_24000,o3
 - p1: bot_right_bend_ring_1,o2
   p2: top_right_bend_ring_1,o1
 - p1: bot_right_bend_ring_2,o1
-  p2: coupler_G0p236_L20_D4_D_e8f9c7a8_10000_48368,o3
+  p2: coupler_G0p236_L20_D4_D_e8f9c7a8_0_48000,o3
 - p1: bot_right_bend_ring_2,o2
   p2: top_right_bend_ring_2,o1
-- p1: coupler_G0p236_L20_D4_D_e8f9c7a8_10000_24368,o1
+- p1: coupler_G0p236_L20_D4_D_e8f9c7a8_0_24000,o1
   p2: top_left_bend_ring_0,o1
-- p1: coupler_G0p236_L20_D4_D_e8f9c7a8_10000_24368,o4
+- p1: coupler_G0p236_L20_D4_D_e8f9c7a8_0_24000,o4
   p2: top_right_bend_ring_0,o2
-- p1: coupler_G0p236_L20_D4_D_e8f9c7a8_10000_48368,o1
+- p1: coupler_G0p236_L20_D4_D_e8f9c7a8_0_48000,o1
   p2: top_left_bend_ring_1,o1
-- p1: coupler_G0p236_L20_D4_D_e8f9c7a8_10000_48368,o4
+- p1: coupler_G0p236_L20_D4_D_e8f9c7a8_0_48000,o4
   p2: top_right_bend_ring_1,o2
-- p1: coupler_G0p236_L20_D4_D_e8f9c7a8_10000_72368,o1
+- p1: coupler_G0p236_L20_D4_D_e8f9c7a8_0_72000,o1
   p2: top_left_bend_ring_2,o1
-- p1: coupler_G0p236_L20_D4_D_e8f9c7a8_10000_72368,o4
+- p1: coupler_G0p236_L20_D4_D_e8f9c7a8_0_72000,o4
   p2: top_right_bend_ring_2,o2
 placements:
   bot_left_bend_ring_0:
@@ -316,22 +316,22 @@ placements:
     rotation: 0
     x: 30
     y: 50.368
-  coupler_G0p236_L20_D4_D_e8f9c7a8_10000_24368:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 24
-  coupler_G0p236_L20_D4_D_e8f9c7a8_10000_368:
+  coupler_G0p236_L20_D4_D_e8f9c7a8_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  coupler_G0p236_L20_D4_D_e8f9c7a8_10000_48368:
+  coupler_G0p236_L20_D4_D_e8f9c7a8_0_24000:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 24
+  coupler_G0p236_L20_D4_D_e8f9c7a8_0_48000:
     mirror: false
     rotation: 0
     x: 0
     y: 48
-  coupler_G0p236_L20_D4_D_e8f9c7a8_10000_72368:
+  coupler_G0p236_L20_D4_D_e8f9c7a8_0_72000:
     mirror: false
     rotation: 0
     x: 0
@@ -367,7 +367,7 @@ placements:
     x: 40
     y: 60.368
 ports:
-  o1: coupler_G0p236_L20_D4_D_e8f9c7a8_10000_368,o1
-  o2: coupler_G0p236_L20_D4_D_e8f9c7a8_10000_368,o4
-  o3: coupler_G0p236_L20_D4_D_e8f9c7a8_10000_72368,o2
-  o4: coupler_G0p236_L20_D4_D_e8f9c7a8_10000_72368,o3
+  o1: coupler_G0p236_L20_D4_D_e8f9c7a8_0_0,o1
+  o2: coupler_G0p236_L20_D4_D_e8f9c7a8_0_0,o4
+  o3: coupler_G0p236_L20_D4_D_e8f9c7a8_0_72000,o2
+  o4: coupler_G0p236_L20_D4_D_e8f9c7a8_0_72000,o3

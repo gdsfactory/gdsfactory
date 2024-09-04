@@ -1,3 +1,5 @@
+import kfactory as kf
+
 import gdsfactory as gf
 from gdsfactory.generic_tech import LAYER
 
@@ -52,3 +54,8 @@ def test_trim() -> None:
 
     c1.trim(left=-5, right=5, top=5, bottom=-5)
     assert c1_area == c1.area(layer=layer), f"{c1_area} != {c1.area(layer=layer)}"
+
+
+def test_from_kcell() -> None:
+    kf.kcl.infos = kf.LayerInfos(WG=kf.kdb.LayerInfo(1, 0))
+    gf.Component.from_kcell(kf.cells.straight.straight(1, 1, gf.kcl.get_info(LAYER.WG)))

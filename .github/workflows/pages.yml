@@ -33,7 +33,6 @@ jobs:
         shell: bash -l {0}
         run: |
           make install
-          make docs-generic-pdk
           make docs
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

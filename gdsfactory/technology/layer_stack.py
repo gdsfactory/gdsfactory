@@ -81,7 +81,7 @@ class AbstractLayer(BaseModel):
 class LogicalLayer(AbstractLayer):
     """GDS design layer."""
 
-    layer: tuple[int, int] | kf.LayerEnum | int
+    layer: tuple[int, int] | kf.kcell.LayerEnum | int
 
     def __eq__(self, other):
         """Check if two LogicalLayer instances are equal.
@@ -129,6 +129,12 @@ class LogicalLayer(AbstractLayer):
         )
         return kf.kdb.Region(polygons)
 
+    def __repr__(self) -> str:
+        """Print text representation."""
+        return f"{self.layer}"
+
+    __str__ = __repr__
+
 
 class DerivedLayer(AbstractLayer):
     """Physical "derived layer", resulting from a combination of GDS design layers. Can be used by renderers and simulators.
@@ -136,8 +142,8 @@ class DerivedLayer(AbstractLayer):
     Overloads operators for simpler expressions.
 
     Attributes:
-        input_layer1: primary layer comprising the derived layer. Can be a GDS design layer (kf.LayerEnum, tuple[int, int]), or another derived layer.
-        input_layer2: secondary layer comprising the derived layer. Can be a GDS design layer (kf.LayerEnum, tuple[int, int]), or another derived layer.
+        input_layer1: primary layer comprising the derived layer. Can be a GDS design layer (kf.kcell.LayerEnum , tuple[int, int]), or another derived layer.
+        input_layer2: secondary layer comprising the derived layer. Can be a GDS design layer (kf.kcell.LayerEnum , tuple[int, int]), or another derived layer.
         operation: operation to perform between layer1 and layer2. One of "and", "or", "xor", or "not" or associated symbols.
     """
 
@@ -192,6 +198,12 @@ class DerivedLayer(AbstractLayer):
         r2 = self.layer2.get_shapes(component)
         return gf.component.boolean_operations[self.operation](r1, r2)
 
+    def __repr__(self) -> str:
+        """Print text representation."""
+        return f"({self.layer1} {self.get_symbol()} {self.layer2})"
+
+    __str__ = __repr__
+
 
 class LayerLevel(BaseModel):
     """Level for 3D LayerStack.
@@ -221,7 +233,13 @@ class LayerLevel(BaseModel):
     # ID
     name: str | None = None
     layer: (
-        LogicalLayer | DerivedLayer | int | str | tuple[int, int] | kf.LayerEnum | None
+        LogicalLayer
+        | DerivedLayer
+        | int
+        | str
+        | tuple[int, int]
+        | kf.kcell.LayerEnum
+        | None
     ) = None
     derived_layer: LogicalLayer | None = None
 
@@ -247,9 +265,14 @@ class LayerLevel(BaseModel):
     @classmethod
     def check_layer(
         cls,
-        layer: LogicalLayer | DerivedLayer | int | str | tuple[int, int] | kf.LayerEnum,
+        layer: LogicalLayer
+        | DerivedLayer
+        | int
+        | str
+        | tuple[int, int]
+        | kf.kcell.LayerEnum,
     ) -> LogicalLayer | DerivedLayer:
-        if isinstance(layer, int | str | tuple | kf.LayerEnum):
+        if isinstance(layer, int | str | tuple | kf.kcell.LayerEnum):
             layer = gf.get_layer(layer)
             return LogicalLayer(layer=layer)
 

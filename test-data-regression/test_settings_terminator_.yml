@@ -1,7 +1,7 @@
 info: {}
-name: terminator_L50_CSIFcros_2d525ef0
+name: terminator_L50_CSIstrip_a7ffecd8
 settings:
-  cross_section_input: Fcross_section_Mgdsfactorypcross_section_SR10_RM5
+  cross_section_input: strip
   doping_layers:
   - NPP
   doping_offset: 1

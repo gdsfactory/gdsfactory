@@ -29,7 +29,7 @@ instances:
       size:
       - 10
       - 10
-  via_S0p7_0p7_S2_2_GNone_3d643c37_0_0:
+  via_S0p7_0p7_S2_2_GNone_3d643c37_m2000_m2000:
     component: via
     dax: 2
     day: 0
@@ -53,7 +53,7 @@ instances:
       spacing:
       - 2
       - 2
-name: via_corner_CSFcross_sec_da01ea22
+name: via_corner_CSmetal2_0_1_37803ae7
 nets:
 - p1: compass_S10_10_LM2_PTel_76f0ee1a_0_0,e1
   p2: compass_S10_10_LM3_PTel_907be21f_0_0,e1
@@ -74,7 +74,7 @@ placements:
     rotation: 0
     x: 0
     y: 0
-  via_S0p7_0p7_S2_2_GNone_3d643c37_0_0:
+  via_S0p7_0p7_S2_2_GNone_3d643c37_m2000_m2000:
     mirror: false
     rotation: 0
     x: -2

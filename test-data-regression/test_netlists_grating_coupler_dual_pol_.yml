@@ -4549,7 +4549,7 @@ instances:
       size:
       - 11
       - 11
-  taper_L150_W0p5_W10_PNo_6147a3d5_0_m80500:
+  taper_L150_W0p5_W10_PNo_6147a3d5_0_m155500:
     component: taper
     info:
       length: 150
@@ -4568,7 +4568,7 @@ instances:
       width2: 10
       with_bbox: true
       with_two_ports: true
-  taper_L150_W0p5_W10_PNo_6147a3d5_m80500_0:
+  taper_L150_W0p5_W10_PNo_6147a3d5_m155500_0:
     component: taper
     info:
       length: 150
@@ -6215,26 +6215,26 @@ placements:
     rotation: 0
     x: 0
     y: 0
-  taper_L150_W0p5_W10_PNo_6147a3d5_0_m80500:
+  taper_L150_W0p5_W10_PNo_6147a3d5_0_m155500:
     mirror: false
     rotation: 90
     x: 0
     y: -155.5
-  taper_L150_W0p5_W10_PNo_6147a3d5_m80500_0:
+  taper_L150_W0p5_W10_PNo_6147a3d5_m155500_0:
     mirror: false
     rotation: 0
     x: -155.5
     y: 0
 ports:
-  o1: taper_L150_W0p5_W10_PNo_6147a3d5_m80500_0,o1
-  o2: taper_L150_W0p5_W10_PNo_6147a3d5_0_m80500,o1
+  o1: taper_L150_W0p5_W10_PNo_6147a3d5_m155500_0,o1
+  o2: taper_L150_W0p5_W10_PNo_6147a3d5_0_m155500,o1
 warnings:
   optical:
     unconnected_ports:
     - message: 2 unconnected optical ports!
       ports:
-      - taper_L150_W0p5_W10_PNo_6147a3d5_m80500_0,o2
-      - taper_L150_W0p5_W10_PNo_6147a3d5_0_m80500,o2
+      - taper_L150_W0p5_W10_PNo_6147a3d5_m155500_0,o2
+      - taper_L150_W0p5_W10_PNo_6147a3d5_0_m155500,o2
       values:
       - - -5500
         - 0

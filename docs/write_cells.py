@@ -16,7 +16,6 @@ skip = {
     "mzi1x2",
     "mzi2x2_2x2",
     "mzi_coupler",
-    "via",
     "via1",
     "via2",
     "viac",
@@ -27,6 +26,9 @@ skip = {
     "via_stack_slot_m1_m2",
     "bend_euler180",
     "bend_circular180",
+    "pack",
+    "pack_doe",
+    "pack_doe_grid",
 }
 
 skip_plot = [
@@ -44,7 +46,7 @@ with open(filepath, "w+") as f:
     f.write(
         """
 
-Generic PDK
+PCells
 =============================
 
 Parametric Cells for the Generic PDK.

@@ -11,7 +11,7 @@ class LAYER(gf.LayerEnum):
     You will need to create a new LayerMap with your specific foundry layers.
     """
 
-    kcl = gf.constant(gf.kcl)
+    layout = gf.constant(gf.kcl.layout)
 
     WAFER: Layer = (999, 0)
 

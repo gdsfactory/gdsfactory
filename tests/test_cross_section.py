@@ -47,12 +47,25 @@ def test_copy() -> None:
     d = jsondiff.diff(x1.model_dump(), x2.model_dump())
     assert len(d) == 0, d
 
+    xs1 = gf.get_cross_section("metal_routing")
+    xs2 = xs1.copy(width=2)
+    assert xs2.name != xs1.name, f"{xs2.name} == {xs1.name}"
+
+    xs1 = gf.get_cross_section("metal_routing")
+    xs2 = xs1.copy(width=10)
+    assert xs2.name == xs1.name, f"{xs2.name} != {xs1.name}"
+
+
+def test_name() -> None:
+    s = gf.cross_section.strip()
+    assert s.name == "strip"
+
 
 xc_sin = partial(
     gf.cross_section.cross_section,
     width=1.0,
     layer=(1, 0),
-    cladding_layers=[(1, 2), (1, 3)],
+    cladding_layers=((1, 2), (1, 3)),
     cladding_offsets=(5, 10),
 )
 

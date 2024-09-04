@@ -1,6 +1,6 @@
 # Installation
 
-We support Python 3.10, 3.11 and 3.12, and recommend [VSCode](https://code.visualstudio.com/) IDE. If you do not have Python installed, you can [download Anaconda](https://www.anaconda.com/download/).
+We support Python 3.11 and 3.12, and recommend [VSCode](https://code.visualstudio.com/) IDE. If you do not have Python installed, you can [download Anaconda](https://www.anaconda.com/download/).
 
 Upon Python installation, open Anaconda Prompt as Administrator and install the latest gdsfactory
 
@@ -92,13 +92,10 @@ In addition to unit tests run against the library, gdsfactory has a suite of reg
 |------|------|---------|--|
 | GDS | `tests/components/test_components.py:test_gds` | GDS | Tests that GDS files have not changed either structurally (cell names and hierarchy) or geometrically (XOR). |
 | Settings | `tests/components/test_components.py:test_settings` | YAML | Tests that component settings have not changed. |
-| Netlist | `tests/test_netlists.py` | YAML | Tests that extracted netlist yaml contents have not changed. |
-| Ports | `tests/components/test_ports.py` | CSV | Tests that port locations have not changed |
-| Containers | `tests/test_containers.py` | YAML | Tests that container settings have not changed |
+| Netlist | `tests/test_netlists.py` | YAML | Tests that you can convert components from YAML back and forth. |
 
 - regressions tests: avoids unwanted regressions by storing Components port locations in CSV and metadata in YAML files. You can force to regenerate the reference files running `pytest --force-regen -s` from the repo root directory.
   - `tests/components/test_components.py` stores all the component settings in YAML
-  - `tests/components/test_ports.py` stores all port locations in a CSV file
   - `tests/test_netlists.py` stores all the component netlist in YAML and rebuilds the component from the netlist. Converts the routed PIC into YAML and build back into the same PIC from its YAML definition
   - difftest: writes all components GDS in `run_layouts` and compares them with `ref_layouts`. When running the test it will do a boolean of the `run_layout` and the `ref_layout` and raise an error for any significant differences. It will prompt you to review the differences in klayout and approve or reject the new GDS.
 

@@ -1,5 +1,5 @@
 instances:
-  spiral_racetrack_MR10_S_80da8713_15000_m9000:
+  spiral_racetrack_MR10_S_80da8713_0_0:
     component: spiral_racetrack
     info:
       length: 1402.314
@@ -22,27 +22,27 @@ instances:
       straight_factory: straight
       straight_length: 30
       with_inner_ports: false
-  straight_L30_N2_CSnpp_15000_12000:
+  straight_L30_N2_CSnpp_0_12000:
     component: straight
     info:
       length: 30
       route_info_length: 30
-      route_info_type: xs_93476d9a
+      route_info_npp_length: 30
+      route_info_type: npp
       route_info_weight: 30
-      route_info_xs_93476d9a_length: 30
       width: 0.5
     settings:
       cross_section: npp
       length: 30
       npoints: 2
-  straight_L30_N2_CSnpp_15000_m30000:
+  straight_L30_N2_CSnpp_30000_m30000:
     component: straight
     info:
       length: 30
       route_info_length: 30
-      route_info_type: xs_93476d9a
+      route_info_npp_length: 30
+      route_info_type: npp
       route_info_weight: 30
-      route_info_xs_93476d9a_length: 30
       width: 0.5
     settings:
       cross_section: npp
@@ -51,25 +51,25 @@ instances:
 name: spiral_racetrack_heater_b997422e
 nets: []
 placements:
-  spiral_racetrack_MR10_S_80da8713_15000_m9000:
+  spiral_racetrack_MR10_S_80da8713_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  straight_L30_N2_CSnpp_15000_12000:
+  straight_L30_N2_CSnpp_0_12000:
     mirror: false
     rotation: 0
     x: 0
     y: 12
-  straight_L30_N2_CSnpp_15000_m30000:
+  straight_L30_N2_CSnpp_30000_m30000:
     mirror: false
     rotation: 180
     x: 30
     y: -30
 ports:
-  bot_e1: straight_L30_N2_CSnpp_15000_12000,e1
-  bot_e2: straight_L30_N2_CSnpp_15000_12000,e2
-  o1: spiral_racetrack_MR10_S_80da8713_15000_m9000,o1
-  o2: spiral_racetrack_MR10_S_80da8713_15000_m9000,o2
-  top_e1: straight_L30_N2_CSnpp_15000_m30000,e1
-  top_e2: straight_L30_N2_CSnpp_15000_m30000,e2
+  bot_e1: straight_L30_N2_CSnpp_0_12000,e1
+  bot_e2: straight_L30_N2_CSnpp_0_12000,e2
+  o1: spiral_racetrack_MR10_S_80da8713_0_0,o1
+  o2: spiral_racetrack_MR10_S_80da8713_0_0,o2
+  top_e1: straight_L30_N2_CSnpp_30000_m30000,e1
+  top_e2: straight_L30_N2_CSnpp_30000_m30000,e2

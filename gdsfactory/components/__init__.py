@@ -6,7 +6,6 @@ Make sure your components get imported here so the PDK registers them.
 from __future__ import annotations
 
 import sys
-from functools import partial
 
 from gdsfactory.components.add_fiber_array_optical_south_electrical_north import (
     add_fiber_array_optical_south_electrical_north,
@@ -303,12 +302,6 @@ from gdsfactory.components.wafer import wafer
 from gdsfactory.components.wire import wire_corner, wire_corner45, wire_straight
 from gdsfactory.get_factories import get_cells
 
-bend_euler_trenches = partial(add_trenches90, component=bend_euler)
-coupler_trenches = partial(add_trenches, component=coupler)
-ring_single_trenches = partial(add_trenches, component=ring_single)
-ring_double_trenches = partial(add_trenches, component=ring_double)
-
-
 __all__ = [
     "awg",
     "add_termination",
@@ -317,6 +310,7 @@ __all__ = [
     "add_fiber_array_optical_south_electrical_north",
     "add_frame",
     "add_trenches",
+    "add_trenches90",
     "align_wafer",
     "array",
     "bbox",
@@ -357,7 +351,6 @@ __all__ = [
     "coupler_straight",
     "coupler_straight_asymmetric",
     "coupler_symmetric",
-    "coupler_trenches",
     "cross",
     "crossing",
     "crossing45",
@@ -487,14 +480,12 @@ __all__ = [
     "ring_double",
     "ring_double_heater",
     "ring_double_pn",
-    "ring_double_trenches",
     "ring_single",
     "ring_single_array",
     "ring_single_bend_coupler",
     "ring_single_dut",
     "ring_single_heater",
     "ring_single_pn",
-    "ring_single_trenches",
     "seal_ring",
     "seal_ring_segmented",
     "snspd",

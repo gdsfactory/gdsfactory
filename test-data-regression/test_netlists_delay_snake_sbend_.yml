@@ -1,5 +1,5 @@
 instances:
-  bend_euler_R5_A180_P0p5_7f7c6f20_4144_m5000:
+  bend_euler_R5_A180_P0p5_7f7c6f20_0_m10000:
     component: bend_euler
     info:
       dy: 0
@@ -9,9 +9,9 @@ instances:
       route_info_length: 21.408
       route_info_min_bend_radius: 4.543
       route_info_n_bend_90: 2
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 21.408
+      route_info_type: strip
       route_info_weight: 21.408
-      route_info_xs_34e31a19_length: 21.408
     settings:
       allow_min_radius_violation: false
       angle: 180
@@ -19,7 +19,7 @@ instances:
       p: 0.5
       radius: 5
       with_arc_floorplan: true
-  bend_euler_R5_A180_P0p5_7f7c6f20_m182826_m10000:
+  bend_euler_R5_A180_P0p5_7f7c6f20_m178681_m5000:
     component: bend_euler
     info:
       dy: 0
@@ -29,9 +29,9 @@ instances:
       route_info_length: 21.408
       route_info_min_bend_radius: 4.543
       route_info_n_bend_90: 2
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 21.408
+      route_info_type: strip
       route_info_weight: 21.408
-      route_info_xs_34e31a19_length: 21.408
     settings:
       allow_min_radius_violation: false
       angle: 180
@@ -39,7 +39,7 @@ instances:
       p: 0.5
       radius: 5
       with_arc_floorplan: true
-  bend_s_S100_5_N99_CSstr_274a61a6_m50000_m7500:
+  bend_s_S100_5_N99_CSstr_274a61a6_m100000_m5000:
     component: bend_s
     info:
       end_angle: 0
@@ -48,9 +48,9 @@ instances:
       route_info_length: 100.178
       route_info_min_bend_radius: 364.774
       route_info_n_bend_s: 1
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 100.178
+      route_info_type: strip
       route_info_weight: 100.178
-      route_info_xs_34e31a19_length: 100.178
       start_angle: 0
     settings:
       allow_min_radius_violation: false
@@ -64,9 +64,9 @@ instances:
     info:
       length: 78.681
       route_info_length: 78.681
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 78.681
+      route_info_type: strip
       route_info_weight: 78.681
-      route_info_xs_34e31a19_length: 78.681
       width: 0.5
     settings:
       cross_section: strip
@@ -77,9 +77,9 @@ instances:
     info:
       length: 78.681
       route_info_length: 78.681
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 78.681
+      route_info_type: strip
       route_info_weight: 78.681
-      route_info_xs_34e31a19_length: 78.681
       width: 0.5
     settings:
       cross_section: strip
@@ -87,26 +87,26 @@ instances:
       npoints: 2
 name: delay_snake_sbend_L100__a249e5b3
 nets:
-- p1: bend_euler_R5_A180_P0p5_7f7c6f20_4144_m5000,o1
-  p2: bend_s_S100_5_N99_CSstr_274a61a6_m50000_m7500,o2
-- p1: bend_euler_R5_A180_P0p5_7f7c6f20_m182826_m10000,o1
+- p1: bend_euler_R5_A180_P0p5_7f7c6f20_0_m10000,o1
+  p2: bend_s_S100_5_N99_CSstr_274a61a6_m100000_m5000,o2
+- p1: bend_euler_R5_A180_P0p5_7f7c6f20_m178681_m5000,o1
   p2: s2,o1
-- p1: bend_euler_R5_A180_P0p5_7f7c6f20_m182826_m10000,o2
+- p1: bend_euler_R5_A180_P0p5_7f7c6f20_m178681_m5000,o2
   p2: s3,o1
-- p1: bend_s_S100_5_N99_CSstr_274a61a6_m50000_m7500,o1
+- p1: bend_s_S100_5_N99_CSstr_274a61a6_m100000_m5000,o1
   p2: s2,o2
 placements:
-  bend_euler_R5_A180_P0p5_7f7c6f20_4144_m5000:
+  bend_euler_R5_A180_P0p5_7f7c6f20_0_m10000:
     mirror: false
     rotation: 0
     x: 0
     y: -10
-  bend_euler_R5_A180_P0p5_7f7c6f20_m182826_m10000:
+  bend_euler_R5_A180_P0p5_7f7c6f20_m178681_m5000:
     mirror: false
     rotation: 180
     x: -178.681
     y: -5
-  bend_s_S100_5_N99_CSstr_274a61a6_m50000_m7500:
+  bend_s_S100_5_N99_CSstr_274a61a6_m100000_m5000:
     mirror: true
     rotation: 0
     x: -100
@@ -122,5 +122,5 @@ placements:
     x: -178.681
     y: -15
 ports:
-  o1: bend_euler_R5_A180_P0p5_7f7c6f20_4144_m5000,o2
+  o1: bend_euler_R5_A180_P0p5_7f7c6f20_0_m10000,o2
   o2: s3,o2

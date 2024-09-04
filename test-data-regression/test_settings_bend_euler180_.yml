@@ -6,9 +6,9 @@ info:
   route_info_length: 42.817
   route_info_min_bend_radius: 9.086
   route_info_n_bend_90: 2
-  route_info_type: xs_34e31a19
+  route_info_strip_length: 42.817
+  route_info_type: strip
   route_info_weight: 42.817
-  route_info_xs_34e31a19_length: 42.817
 name: bend_euler_RNone_A180_P_a75aec30
 settings:
   allow_min_radius_violation: false

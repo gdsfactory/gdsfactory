@@ -1319,7 +1319,6 @@ instances:
          settings:
              length_mmi: [2, 100]
              width_mmi: [4, 10]
-       pack:
          do_permutations: True
          spacing: 100
 
@@ -1329,7 +1328,6 @@ instances:
          doe: mzi
          settings:
             delta_length: [10, 100]
-       pack:
          do_permutations: True
          spacing: 100
 
@@ -1795,7 +1793,7 @@ instances:
 """
 
 if __name__ == "__main__":
-    c = from_yaml(same_placement)
+    c = from_yaml(sample_yaml_xmin)
     # c = from_yaml(sample_array)
     # c = from_yaml(sample_yaml_xmin)
     # c = from_yaml(sample_array)

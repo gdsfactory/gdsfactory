@@ -1,18 +1,18 @@
 instances:
-  straight_L10_N2_CSstrip_5000_0:
+  straight_L10_N2_CSstrip_0_0:
     component: straight
     info:
       length: 10
       route_info_length: 10
-      route_info_type: xs_34e31a19
+      route_info_strip_length: 10
+      route_info_type: strip
       route_info_weight: 10
-      route_info_xs_34e31a19_length: 10
       width: 0.5
     settings:
       cross_section: strip
       length: 10
       npoints: 2
-  taper_L10_W0p5_W0p1_PNo_5b99c220_15000_0:
+  taper_L10_W0p5_W0p1_PNo_5b99c220_0_0:
     component: taper
     info:
       length: 10
@@ -31,7 +31,7 @@ instances:
       width2: 0.1
       with_bbox: true
       with_two_ports: true
-  taper_L10_W0p5_W0p1_PNo_5b99c220_m5000_0:
+  taper_L10_W0p5_W0p1_PNo_5b99c220_10000_0:
     component: taper
     info:
       length: 10
@@ -52,25 +52,25 @@ instances:
       with_two_ports: true
 name: add_termination_Cstraig_a456518a
 nets:
-- p1: straight_L10_N2_CSstrip_5000_0,o1
-  p2: taper_L10_W0p5_W0p1_PNo_5b99c220_m5000_0,o1
-- p1: straight_L10_N2_CSstrip_5000_0,o2
-  p2: taper_L10_W0p5_W0p1_PNo_5b99c220_15000_0,o1
+- p1: straight_L10_N2_CSstrip_0_0,o1
+  p2: taper_L10_W0p5_W0p1_PNo_5b99c220_0_0,o1
+- p1: straight_L10_N2_CSstrip_0_0,o2
+  p2: taper_L10_W0p5_W0p1_PNo_5b99c220_10000_0,o1
 placements:
-  straight_L10_N2_CSstrip_5000_0:
+  straight_L10_N2_CSstrip_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  taper_L10_W0p5_W0p1_PNo_5b99c220_15000_0:
-    mirror: false
-    rotation: 0
-    x: 10
-    y: 0
-  taper_L10_W0p5_W0p1_PNo_5b99c220_m5000_0:
+  taper_L10_W0p5_W0p1_PNo_5b99c220_0_0:
     mirror: false
     rotation: 180
     x: 0
+    y: 0
+  taper_L10_W0p5_W0p1_PNo_5b99c220_10000_0:
+    mirror: false
+    rotation: 0
+    x: 10
     y: 0
 ports: {}
 warnings:
@@ -78,8 +78,8 @@ warnings:
     unconnected_ports:
     - message: 2 unconnected optical ports!
       ports:
-      - taper_L10_W0p5_W0p1_PNo_5b99c220_m5000_0,o2
-      - taper_L10_W0p5_W0p1_PNo_5b99c220_15000_0,o2
+      - taper_L10_W0p5_W0p1_PNo_5b99c220_0_0,o2
+      - taper_L10_W0p5_W0p1_PNo_5b99c220_10000_0,o2
       values:
       - - -10000
         - 0

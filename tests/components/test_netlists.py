@@ -27,6 +27,7 @@ skip_test = {
     "straight_heater_meander",
     "pack_doe",
     "pack_doe_grid",
+    "text_freetype",
 }
 cells_to_test = set(cells.keys()) - skip_test
 

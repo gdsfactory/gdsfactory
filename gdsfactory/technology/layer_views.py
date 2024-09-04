@@ -15,7 +15,8 @@ import xml.etree.ElementTree as ET
 
 import numpy as np
 import yaml
-from kfactory import LayerEnum, logger
+from kfactory import logger
+from kfactory.kcell import LayerEnum
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 from pydantic.color import ColorType
 from pydantic_extra_types.color import Color
@@ -707,11 +708,11 @@ class LayerView(BaseModel):
         if name is None:
             return None
 
+        hatch_pattern = element.find("dither-pattern").text
         # Translate KLayout index to hatch name
-        hatch_pattern = element.find("dither-pattern")
-        if hatch_pattern and re.match(r"I\d+", hatch_pattern.text):
+        if hatch_pattern and re.match(r"I\d+", hatch_pattern):
             hatch_pattern = list(_klayout_dither_patterns.keys())[
-                int(hatch_pattern.text[1:])
+                int(hatch_pattern[1:])
             ]
 
         # Translate KLayout index to line style name

@@ -7,6 +7,7 @@ instances:
     component: pad
   tr:
     component: pad
+
 placements:
   tl:
     x: 000
@@ -20,13 +21,9 @@ placements:
 routes:
   electrical:
     settings:
+      cross_section: metal_routing
       separation: 20
       end_straight_length: 100
     links:
       tl,e3: tr,e1
       bl,e3: br,e1
-  optical:
-    settings:
-      radius: 100
-    links:
-      bl,e4: br,e3

@@ -31,7 +31,6 @@ def dbr_cell(
     l1: float = period / 2,
     l2: float = period / 2,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs,
 ) -> Component:
     """Distributed Bragg Reflector unit cell.
 
@@ -42,7 +41,6 @@ def dbr_cell(
         l2: thick length in um.
         n: number of periods.
         cross_section: cross_section spec.
-        kwargs: cross_section settings.
 
     .. code::
 
@@ -59,9 +57,8 @@ def dbr_cell(
     l2 = snap_to_grid(l2)
     w1 = snap_to_grid(w1, 2)
     w2 = snap_to_grid(w2, 2)
-    xs = gf.get_cross_section(cross_section, **kwargs)
-    xs1 = xs.copy(width=w1)
-    xs2 = xs.copy(width=w2)
+    xs1 = gf.get_cross_section(cross_section, width=w1)
+    xs2 = gf.get_cross_section(cross_section, width=w2)
 
     c = Component()
     c1 = c << straight(length=l1, cross_section=xs1)
@@ -81,7 +78,6 @@ def dbr(
     n: int = 10,
     cross_section: CrossSectionSpec = "strip",
     straight_length: float = 10e-3,
-    **kwargs,
 ) -> Component:
     """Distributed Bragg Reflector.
 
@@ -93,7 +89,6 @@ def dbr(
         n: number of periods.
         cross_section: cross_section spec.
         straight_length: length of the straight section between cutbacks.
-        kwargs: cross_section settings.
 
     .. code::
 
@@ -107,7 +102,7 @@ def dbr(
                |_________
     """
     c = Component()
-    xs = gf.get_cross_section(cross_section, **kwargs)
+    xs = gf.get_cross_section(cross_section)
     s1 = c << straight(cross_section=xs, length=straight_length)
     s2 = c << straight(cross_section=xs, length=straight_length)
 
