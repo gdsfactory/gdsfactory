@@ -17,6 +17,7 @@ def _strip_xml(node) -> None:
 
 
 def make_pretty_xml(root: ET.Element) -> bytes:
+    """Make XML pretty."""
     xml_doc = xml.dom.minidom.parseString(ET.tostring(root))
 
     _strip_xml(xml_doc)

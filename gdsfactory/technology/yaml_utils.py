@@ -5,6 +5,8 @@ from gdsfactory.technology.color_utils import ensure_six_digit_hex_color
 
 
 def add_color_yaml_presenter(prefer_named_color: bool = True) -> None:
+    """Add a custom YAML presenter for Color objects."""
+
     def _color_presenter(dumper: yaml.Dumper, data: Color) -> yaml.ScalarNode:
         data = data.as_named(fallback=True) if prefer_named_color else data.as_hex()
         return dumper.represent_scalar(
@@ -16,6 +18,8 @@ def add_color_yaml_presenter(prefer_named_color: bool = True) -> None:
 
 
 def add_tuple_yaml_presenter() -> None:
+    """Add a custom YAML presenter for tuple objects."""
+
     def _tuple_presenter(dumper: yaml.Dumper, data: tuple) -> yaml.SequenceNode:
         return dumper.represent_sequence("tag:yaml.org,2002:seq", data, flow_style=True)
 
@@ -24,6 +28,8 @@ def add_tuple_yaml_presenter() -> None:
 
 
 def add_multiline_str_yaml_presenter() -> None:
+    """Add a custom YAML presenter for multiline strings."""
+
     def _str_presenter(dumper: yaml.Dumper, data: str) -> yaml.ScalarNode:
         if "\n" in data:  # check for multiline string
             return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="|")

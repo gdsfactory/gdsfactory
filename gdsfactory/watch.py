@@ -231,7 +231,8 @@ def watch(
     watcher.stop()
 
 
-def show(component: ComponentSpec):
+def show(component: ComponentSpec) -> None:
+    """Shows a component in klayout."""
     import gdsfactory as gf
 
     c = gf.get_component(component)
