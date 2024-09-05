@@ -136,6 +136,7 @@ ignore = [
   "D100",  # public module docstrings
   "D101",  # public class docstrings
   "D102",  # public method docstrings
+  "D103",  # public function docstrings
   "D104",  # public package docstrings
   "E501"  # line too long, handled by black
 ]
