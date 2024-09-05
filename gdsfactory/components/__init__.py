@@ -14,7 +14,6 @@ from gdsfactory.components.add_termination import add_termination
 from gdsfactory.components.add_trenches import add_trenches, add_trenches90
 from gdsfactory.components.align import add_frame, align_wafer
 from gdsfactory.components.array_component import array
-from gdsfactory.components.awg import awg
 from gdsfactory.components.bbox import bbox
 from gdsfactory.components.bend_circular import (
     bend_circular,
