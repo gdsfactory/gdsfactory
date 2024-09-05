@@ -64,6 +64,7 @@ def cell(
     ComponentFunc[ComponentParams]
     | Callable[[ComponentFunc[ComponentParams]], ComponentFunc[ComponentParams]]
 ):
+    """Decorator to convert a function into a Component."""
     if post_process is None:
         post_process = []
     return _cell(  # type: ignore

@@ -993,7 +993,6 @@ class LayerViews(BaseModel):
         Args:
             filepath: to write the .lyp file to (appends .lyp extension if not present).
             overwrite: Whether to overwrite an existing file located at the filepath.
-
         """
         filepath = pathlib.Path(filepath)
         dirpath = filepath.parent
@@ -1192,6 +1191,7 @@ class LayerViews(BaseModel):
 
 
 def test_load_lyp() -> None:
+    """Test loading a KLayout layer properties."""
     from gdsfactory.config import PATH
 
     lys = LayerViews(PATH.klayout_lyp)

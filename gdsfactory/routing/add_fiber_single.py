@@ -44,6 +44,7 @@ def add_fiber_single(
         fiber_spacing: spacing between fibers.
         with_loopback: adds loopback structures.
         loopback_spacing: spacing between loopback and test structure.
+        straight: straight spec.
         kwargs: additional arguments.
 
     Keyword Args:
