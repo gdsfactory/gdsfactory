@@ -21,7 +21,7 @@ def test_get_polygons():
 
 def test_trim() -> None:
     layer = (1, 0)
-    c1 = gf.c.rectangle(size=(11, 11), centered=True, layer=layer)
+    c1 = gf.c.rectangle(size=(11, 11), centered=True, layer=layer).dup()
     c2 = gf.functions.trim(
         c1,
         domain=((-5, -5), (-5, +5), (+5, +5), (+5, -5)),
@@ -33,7 +33,7 @@ def test_trim() -> None:
 
 def test_trim_no_clipping() -> None:
     layer = (1, 0)
-    c1 = gf.c.rectangle(size=(10, 10), centered=True, layer=layer)
+    c1 = gf.c.rectangle(size=(10, 10), centered=True, layer=layer).dup()
     c2 = gf.functions.trim(
         c1,
         domain=((-5, -5), (-5, +5), (+5, +5), (+5, -5)),
