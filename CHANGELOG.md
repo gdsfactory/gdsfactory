@@ -1,12 +1,15 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.8.6...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.8.7...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.8.7](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.7) - 2024-09-05
 
-No significant changes.
-
+- fixing hatch patterns in lyp generated from LayerViews [#3181](https://github.com/gdsfactory/gdsfactory/pull/3181)
+- set watcher flags by default [#3184](https://github.com/gdsfactory/gdsfactory/pull/3184)
+- add test for area [#3183](https://github.com/gdsfactory/gdsfactory/pull/3183)
+- Improve docstrings [#3186](https://github.com/gdsfactory/gdsfactory/pull/3186)
+- remove docker_build_minimal [#3178](https://github.com/gdsfactory/gdsfactory/pull/3178)
 
 ## [8.8.6](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.6) - 2024-09-03
 
