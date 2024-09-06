@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.8.7](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.7) - 2024-09-05
+
+No significant changes.
+
+
 ## [8.8.6](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.6) - 2024-09-03
 
 - enforce_python311_or_larger [#3177](https://github.com/gdsfactory/gdsfactory/pull/3177)
