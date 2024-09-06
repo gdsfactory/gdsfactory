@@ -29,6 +29,8 @@ from gdsfactory.typings import (
     LayerSpecs,
 )
 
+OpticalManhattanRoute = ManhattanRoute
+
 
 def get_min_spacing(
     ports1: list[Port],

@@ -49,7 +49,7 @@ def test_get_polygons() -> None:
 
 def test_trim() -> None:
     layer = (1, 0)
-    c1 = gf.c.rectangle(size=(9, 9), centered=True, layer=layer)
+    c1 = gf.c.rectangle(size=(9, 9), centered=True, layer=layer).dup()
     c1_area = c1.area(layer=layer)
 
     c1.trim(left=-5, right=5, top=5, bottom=-5)
