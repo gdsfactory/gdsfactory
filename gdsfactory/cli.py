@@ -79,6 +79,7 @@ def watch(
     pre_run: bool = typer.Option(
         False, "--pre-run", "-p", help="Build all cells on startup"
     ),
+    overwrite: bool = typer.Option(True, help="Overwrite existing cells"),
 ) -> None:
     """Filewatch a folder for changes in *.py or *.pic.yml files.
 
@@ -89,10 +90,15 @@ def watch(
         pdk: process design kit.
         run_main: run the main function.
         run_cells: run the cells.
-        pre_run: build all cells on startup
+        pre_run: build all cells on startup.
+        overwrite: overwrite existing cells.
     """
     path = pathlib.Path(path)
     path = path if path.is_dir() else path.parent
+    if overwrite:
+        from gdsfactory import CONF
+
+        CONF.cell_overwrite_existing = True
     _watch(str(path), pdk=pdk, run_main=run_main, run_cells=run_cells, pre_run=pre_run)
 
 
