@@ -47,7 +47,7 @@ marker_tm = partial(rectangle, size=[fiber_size, fiber_size], layer="TM", center
 @cell
 def rectangles(
     size=(4.0, 2.0),
-    offsets: Iterable[float] = (0, 1),
+    offsets: Iterable[float] | None = None,
     layers: LayerSpecs = ("WG", "SLAB150"),
     centered: bool = True,
     **kwargs,
@@ -57,7 +57,7 @@ def rectangles(
     Args:
         size: (tuple) Width and height of rectangle.
         layers: Specific layer to put polygon geometry on.
-        offsets: list of offsets.
+        offsets: list of offsets. If None, all rectangles have a zero offset.
         centered: True sets center to (0, 0), False sets south-west of first rectangle to (0, 0).
         kwargs: additional arguments to pass to rectangle.
 
@@ -80,8 +80,8 @@ def rectangles(
     """
     c = Component()
     size = np.array(size)
-
     ref0 = None
+    offsets = offsets or [0] * len(layers)
 
     if len(offsets) != len(layers):
         raise ValueError(f"len(offsets) != len(layers) {len(offsets)} != {len(layers)}")
