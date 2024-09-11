@@ -30,4 +30,4 @@ jobs:
         run: |
           cd other-repo
           make install
-          pytest
+          make test
