@@ -17,6 +17,7 @@ RUN apt-get update --yes && \
         htop \
         neovim \
         klayout \
+        openssh-client \
         software-properties-common \
         gnupg && \
     # apt-add-repository ppa:elmer-csc-ubuntu/elmer-csc-ppa && \
