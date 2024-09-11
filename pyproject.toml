@@ -205,9 +205,6 @@ src = "gdsfactory/config.py"
 src = "notebooks/08_pdk.ipynb"
 
 [[tool.tbump.file]]
-src = "gdsfactory/generic_tech/klayout/grain.xml"
-
-[[tool.tbump.file]]
 src = "gdsfactory/generic_tech/klayout/pymacros/set_menus.lym"
 
 [[tool.tbump.file]]
