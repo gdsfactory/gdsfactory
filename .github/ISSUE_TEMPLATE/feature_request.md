@@ -14,3 +14,5 @@ Make sure you include the code for others to reproduce your issue.
 
 **Describe the solution you'd like**
 What would you like to happen?
+
+- [ ] I acknowledge that, as an open-source project, the maintainers may not have the capacity to address this issue. I am willing to contribute by fixing it myself or hiring someone to resolve it (contact@gdsfactory.com). Otherwise, I understand that the issue may remain unresolved.
