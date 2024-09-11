@@ -9,7 +9,6 @@ import tempfile
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
-from dotenv import find_dotenv
 from kfactory.conf import config, get_affinity
 from rich.console import Console
 from rich.table import Table
@@ -27,7 +26,6 @@ repo_path = module_path.parent
 home_path = pathlib.Path.home() / ".gdsfactory"
 diff_path = repo_path / "gds_diff"
 logpath = home_path / "log.log"
-dotenv_path = find_dotenv(usecwd=True)
 
 get_number_of_cores = get_affinity
 

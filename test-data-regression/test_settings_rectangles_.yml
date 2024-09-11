@@ -1,13 +1,10 @@
 info: {}
-name: rectangles_S4_2_O0_1_LW_0133d2f7
+name: rectangles_S4_2_ONone_L_071c19ed
 settings:
   centered: true
   layers:
   - WG
   - SLAB150
-  offsets:
-  - 0
-  - 1
   size:
   - 4
   - 2
