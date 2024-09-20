@@ -16,6 +16,7 @@ def greek_cross(
     widths: Floats = (2.0, 3.0),
     offsets: Floats | None = None,
     via_stack: ComponentSpec = "via_stack_npp_m1",
+    layer_index: int = 0,
 ) -> gf.Component:
     """Simple greek cross with via stacks at the endpoints.
 
@@ -28,6 +29,7 @@ def greek_cross(
         offsets: how much to extend each layer beyond the cross length
             negative shorter, positive longer.
         via_stack: via component to attach to the cross.
+        layer_index: index of the layer to connect the via_stack to.
 
     .. code::
 
@@ -59,16 +61,20 @@ def greek_cross(
         raise ValueError("len(layers) must equal len(widths).")
 
     offsets = offsets or (0.0,) * len(layers)
+    index = 0
 
     # Layout cross
     for layer, width, offset in zip(layers, widths, offsets):
-        cross_ref = c << gf.get_component(
+        ref = c << gf.get_component(
             cross,
             length=length + 2 * offset,
             width=width,
             layer=layer,
             port_type="electrical",
         )
+        if index == layer_index:
+            cross_ref = ref
+        index += 1
 
     # Add via
     for port in cross_ref.ports:

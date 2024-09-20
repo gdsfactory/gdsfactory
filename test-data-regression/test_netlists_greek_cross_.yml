@@ -115,7 +115,7 @@ instances:
       - null
       - null
       - viac
-name: greek_cross_L30_LWG_N_W_d7395c88
+name: greek_cross_L30_LWG_N_W_0e8f7afb
 nets:
 - p1: cross_L30_W2_LWG_PTelectrical_0_0,e1
   p2: cross_L30_W3_LN_PTelectrical_0_0,e1
