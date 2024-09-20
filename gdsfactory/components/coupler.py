@@ -14,6 +14,7 @@ def coupler(
     dy: float = 4.0,
     dx: float = 10.0,
     cross_section: CrossSectionSpec = "strip",
+    allow_min_radius_violation: bool = False,
 ) -> Component:
     r"""Symmetric coupler.
 
@@ -23,6 +24,7 @@ def coupler(
         dy: port to port vertical spacing in um.
         dx: length of bend in x direction in um.
         cross_section: spec (CrossSection, string or dict).
+        allow_min_radius_violation: if True does not check for min bend radius.
 
     .. code::
 
@@ -59,10 +61,12 @@ def coupler(
     x = gf.get_cross_section(cross_section)
     x.add_bbox(c)
     c.flatten()
+    if not allow_min_radius_violation:
+        x.validate_radius(x.radius)
     return c
 
 
 if __name__ == "__main__":
-    c = coupler(gap=0.2)
+    c = coupler(gap=0.2, dy=100)
     n = c.get_netlist()
     c.show()
