@@ -623,7 +623,7 @@ def rib(
     width: float = 0.5,
     layer: LayerSpec = "WG",
     radius: float = radius_rib,
-    radius_min: float = radius_rib,
+    radius_min: float | None = None,
     cladding_layers: LayerSpecs = ("SLAB90",),
     cladding_offsets: Floats = (3,),
     cladding_simplify: Floats = (50 * nm,),
@@ -647,7 +647,7 @@ def rib_bbox(
     width: float = 0.5,
     layer: LayerSpec = "WG",
     radius: float = radius_rib,
-    radius_min: float = radius_rib,
+    radius_min: float | None = None,
     bbox_layers: LayerSpecs = ("SLAB90",),
     bbox_offsets: Floats = (3,),
     **kwargs,
@@ -670,7 +670,7 @@ def rib2(
     layer: LayerSpec = "WG",
     layer_slab: LayerSpec = "SLAB90",
     radius: float = radius_rib,
-    radius_min: float = radius_rib,
+    radius_min: float | None = None,
     width_slab: float = 6,
     **kwargs,
 ) -> CrossSection:
@@ -693,7 +693,7 @@ def nitride(
     width: float = 1.0,
     layer: LayerSpec = "WGN",
     radius: float = radius_nitride,
-    radius_min: float = radius_nitride,
+    radius_min: float | None = None,
     **kwargs,
 ) -> CrossSection:
     """Return Strip cross_section."""
@@ -713,7 +713,7 @@ def strip_rib_tip(
     layer: LayerSpec = "WG",
     layer_slab: LayerSpec = "SLAB90",
     radius: float = 10.0,
-    radius_min: float = 5,
+    radius_min: float | None = 5,
     **kwargs,
 ) -> CrossSection:
     """Return Strip cross_section."""
@@ -736,7 +736,7 @@ def strip_nitride_tip(
     width_tip_nitride: float = 0.2,
     width_tip_silicon: float = 0.1,
     radius: float = radius_nitride,
-    radius_min: float = radius_nitride,
+    radius_min: float | None = None,
     **kwargs,
 ) -> CrossSection:
     """Return Strip cross_section."""
