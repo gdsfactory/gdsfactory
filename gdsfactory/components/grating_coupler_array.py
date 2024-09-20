@@ -19,6 +19,7 @@ def grating_coupler_array(
     cross_section: CrossSectionSpec = "strip",
     straight_to_grating_spacing: float = 10.0,
     centered: bool = True,
+    radius: float | None = None,
 ) -> Component:
     """Array of grating couplers.
 
@@ -32,6 +33,7 @@ def grating_coupler_array(
         cross_section: cross_section for the routing.
         straight_to_grating_spacing: spacing between the last grating coupler and the loopback.
         centered: if True, centers the array around the origin.
+        radius: optional radius for routing the loopback.
     """
     c = Component()
     grating_coupler = gf.get_component(grating_coupler)
@@ -49,7 +51,7 @@ def grating_coupler_array(
                 f"with_loopback works only with rotation = -90, got {rotation=}"
             )
         routing_xs = gf.get_cross_section(cross_section)
-        radius = routing_xs.radius
+        radius = radius or routing_xs.radius
 
         port0 = c.ports["o0"]
         port1 = c.ports[f"o{n-1}"]
