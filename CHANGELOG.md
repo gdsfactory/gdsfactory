@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.8.8](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.8) - 2024-09-20
+
+No significant changes.
+
+
 ## [8.8.7](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.7) - 2024-09-05
 
 - fixing hatch patterns in lyp generated from LayerViews [#3181](https://github.com/gdsfactory/gdsfactory/pull/3181)
