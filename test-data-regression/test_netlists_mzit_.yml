@@ -79,23 +79,25 @@ instances:
       p: 0.5
       width: 0.55
       with_arc_floorplan: true
-  coupler_G0p2_L5_D2_D10_CSstrip_m1000_22050:
+  coupler_G0p2_L5_D2_D10__7f1a17d4_m1000_22050:
     component: coupler
     info:
       length: 10.03
       min_bend_radius: 28.187
     settings:
+      allow_min_radius_violation: false
       cross_section: strip
       dx: 10
       dy: 2
       gap: 0.2
       length: 5
-  coupler_G0p3_L10_D2_D10_CSstrip_0_0:
+  coupler_G0p3_L10_D2_D10_d71490ab_0_0:
     component: coupler
     info:
       length: 10.026
       min_bend_radius: 30.486
     settings:
+      allow_min_radius_violation: false
       cross_section: strip
       dx: 10
       dy: 2
@@ -301,13 +303,13 @@ nets:
   p2: straight_L4_N2_CSstrip_W0p55_38000_9400,o2
 - p1: bend_euler_RNone_A90_P0_903f8d22_38000_13400,o2
   p2: straight_L3_N2_CSstrip_W0p55_28000_23400,o1
-- p1: coupler_G0p2_L5_D2_D10_CSstrip_m1000_22050,o3
+- p1: coupler_G0p2_L5_D2_D10__7f1a17d4_m1000_22050,o3
   p2: taper_L5_W0p45_W0p5_PNo_4080dc7e_19000_23400,o2
-- p1: coupler_G0p2_L5_D2_D10_CSstrip_m1000_22050,o4
+- p1: coupler_G0p2_L5_D2_D10__7f1a17d4_m1000_22050,o4
   p2: taper_L5_W0p55_W0p5_PNo_438ce168_19000_21400,o2
-- p1: coupler_G0p3_L10_D2_D10_CSstrip_0_0,o3
+- p1: coupler_G0p3_L10_D2_D10_d71490ab_0_0,o3
   p2: taper_L5_W0p5_W0p45_PNo_b650d75a_20000_1400,o1
-- p1: coupler_G0p3_L10_D2_D10_CSstrip_0_0,o4
+- p1: coupler_G0p3_L10_D2_D10_d71490ab_0_0,o4
   p2: taper_L5_W0p5_W0p55_PNo_839c49ab_20000_m600,o1
 - p1: straight_L1_N2_CSstrip_W0p45_20000_23400,o1
   p2: taper_L5_W0p55_W0p45_PN_df1360bc_25000_23400,o2
@@ -342,12 +344,12 @@ placements:
     rotation: 90
     x: 38
     y: 13.4
-  coupler_G0p2_L5_D2_D10_CSstrip_m1000_22050:
+  coupler_G0p2_L5_D2_D10__7f1a17d4_m1000_22050:
     mirror: false
     rotation: 0
     x: -1
     y: 22.05
-  coupler_G0p3_L10_D2_D10_CSstrip_0_0:
+  coupler_G0p3_L10_D2_D10_d71490ab_0_0:
     mirror: false
     rotation: 0
     x: 0
@@ -408,7 +410,7 @@ placements:
     x: 20
     y: -0.6
 ports:
-  o1: coupler_G0p3_L10_D2_D10_CSstrip_0_0,o1
-  o2: coupler_G0p3_L10_D2_D10_CSstrip_0_0,o2
-  o3: coupler_G0p2_L5_D2_D10_CSstrip_m1000_22050,o1
-  o4: coupler_G0p2_L5_D2_D10_CSstrip_m1000_22050,o2
+  o1: coupler_G0p3_L10_D2_D10_d71490ab_0_0,o1
+  o2: coupler_G0p3_L10_D2_D10_d71490ab_0_0,o2
+  o3: coupler_G0p2_L5_D2_D10__7f1a17d4_m1000_22050,o1
+  o4: coupler_G0p2_L5_D2_D10__7f1a17d4_m1000_22050,o2

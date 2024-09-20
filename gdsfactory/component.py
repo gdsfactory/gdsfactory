@@ -339,8 +339,9 @@ class ComponentBase:
             cross_section: cross_section of the port.
         """
         if port:
-            kf.KCell.add_port(self, port=port, name=name, keep_mirror=keep_mirror)
-            return port
+            return kf.KCell.add_port(
+                self, port=port, name=name, keep_mirror=keep_mirror
+            )
         else:
             from gdsfactory.pdk import get_cross_section, get_layer
 

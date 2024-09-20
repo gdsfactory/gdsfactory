@@ -146,8 +146,12 @@ Sparameters = dict[str, np.ndarray]
 ComponentSpec = (
     str | ComponentFactory | dict[str, Any] | kf.KCell
 )  # PCell function, function name, dict or Component
+ComponentSpecOrComponent = (
+    str | ComponentFactory | dict[str, Any] | kf.KCell | Component
+)  # PCell function, function name, dict or Component
 
 ComponentSpecs = tuple[ComponentSpec, ...]
+ComponentSpecsOrComponents = tuple[ComponentSpecOrComponent, ...]
 ComponentFactories = tuple[ComponentFactory, ...]
 
 ComponentSpecOrList = ComponentSpec | list[ComponentSpec]

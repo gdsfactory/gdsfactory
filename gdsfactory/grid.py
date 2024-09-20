@@ -15,11 +15,11 @@ from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.components.triangles import triangle
-from gdsfactory.typings import Anchor, ComponentSpec, ComponentSpecs, Float2
+from gdsfactory.typings import Anchor, ComponentSpec, ComponentSpecsOrComponents, Float2
 
 
 def grid(
-    components: ComponentSpecs = (rectangle, triangle),
+    components: ComponentSpecsOrComponents = (rectangle, triangle),
     spacing: tuple[float, float] | float = (5.0, 5.0),
     shape: tuple[int, int] | None = None,
     align_x: Literal["origin", "xmin", "xmax", "center"] = "center",
@@ -65,9 +65,11 @@ def grid(
         c,
         kcells=[gf.get_component(component) for component in components],
         shape=shape,
-        spacing=(float(spacing[0]), float(spacing[1]))
-        if isinstance(spacing, tuple | list)
-        else float(spacing),
+        spacing=(
+            (float(spacing[0]), float(spacing[1]))
+            if isinstance(spacing, tuple | list)
+            else float(spacing)
+        ),
         align_x=align_x,
         align_y=align_y,
         rotation=round(rotation // 90),
@@ -108,7 +110,7 @@ def grid_with_text(
         text: function to add text labels.
         spacing: between adjacent elements on the grid, can be a tuple for \
                 different distances in height and width.
-        shape: x, y shape of the grid (see np.reshape). \
+        shape: x, y shape of the grid (see np.reshape).
         align_x: x alignment along (origin, xmin, xmax, center).
         align_y: y alignment along (origin, ymin, ymax, center).
         rotation: for each component in degrees.
@@ -142,9 +144,11 @@ def grid_with_text(
         c,
         kcells=components,
         shape=shape,
-        spacing=(float(spacing[0]), float(spacing[1]))
-        if isinstance(spacing, tuple | list)
-        else float(spacing),
+        spacing=(
+            (float(spacing[0]), float(spacing[1]))
+            if isinstance(spacing, tuple | list)
+            else float(spacing)
+        ),
         align_x=align_x,
         align_y=align_y,
         rotation=round(rotation // 90),
