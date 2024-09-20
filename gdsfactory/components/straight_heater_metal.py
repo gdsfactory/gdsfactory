@@ -155,6 +155,7 @@ def straight_heater_metal_undercut(
     c.info["resistance"] = (
         ohms_per_square * heater_width * length if ohms_per_square else 0
     )
+    c.flatten()
     return c
 
 

@@ -24,7 +24,6 @@ skip_test = {
     "mzi_lattice",
     "mzi_lattice_mmi",
     "spiral_racetrack",
-    "straight_heater_meander",
     "pack_doe",
     "pack_doe_grid",
     "text_freetype",
