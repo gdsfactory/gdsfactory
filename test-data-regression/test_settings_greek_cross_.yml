@@ -1,6 +1,7 @@
 info: {}
-name: greek_cross_L30_LWG_N_W_d7395c88
+name: greek_cross_L30_LWG_N_W_0e8f7afb
 settings:
+  layer_index: 0
   layers:
   - WG
   - N
