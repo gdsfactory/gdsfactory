@@ -1,8 +1,9 @@
 instances:
-  greek_cross_L30_LWG_N_W_d7395c88_275000_0:
+  greek_cross_L30_LWG_N_W_0e8f7afb_275000_0:
     component: greek_cross
     info: {}
     settings:
+      layer_index: 0
       layers:
       - WG
       - N
@@ -202,7 +203,7 @@ nets:
 - p1: pad_S100_100_LMTOP_BLNo_8d51f10c_50000_0,e4
   p2: via_stack_S11_11_LM1_M2_70ad5a55_50000_m55500,e2
 placements:
-  greek_cross_L30_LWG_N_W_d7395c88_275000_0:
+  greek_cross_L30_LWG_N_W_0e8f7afb_275000_0:
     mirror: false
     rotation: 0
     x: 275
@@ -253,10 +254,10 @@ warnings:
     unconnected_ports:
     - message: 28 unconnected electrical ports!
       ports:
-      - greek_cross_L30_LWG_N_W_d7395c88_275000_0,e3
-      - greek_cross_L30_LWG_N_W_d7395c88_275000_0,e1
-      - greek_cross_L30_LWG_N_W_d7395c88_275000_0,e2
-      - greek_cross_L30_LWG_N_W_d7395c88_275000_0,e4
+      - greek_cross_L30_LWG_N_W_0e8f7afb_275000_0,e3
+      - greek_cross_L30_LWG_N_W_0e8f7afb_275000_0,e1
+      - greek_cross_L30_LWG_N_W_0e8f7afb_275000_0,e2
+      - greek_cross_L30_LWG_N_W_0e8f7afb_275000_0,e4
       - pad_S100_100_LMTOP_BLNo_8d51f10c_50000_0,e1
       - pad_S100_100_LMTOP_BLNo_8d51f10c_50000_0,e2
       - pad_S100_100_LMTOP_BLNo_8d51f10c_50000_0,e3
