@@ -1,11 +1,24 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.8.7...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.8.8...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.8.8](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.8) - 2024-09-20
 
-No significant changes.
+- Fix netlists [#3215](https://github.com/gdsfactory/gdsfactory/pull/3215)
+- fix add_port returning the port itself instead of the actual added port [#3205](https://github.com/gdsfactory/gdsfactory/pull/3205)
+- fix klayout package icon [#3202](https://github.com/gdsfactory/gdsfactory/pull/3202)
+- watcher allows to overwrite existing cells [#3193](https://github.com/gdsfactory/gdsfactory/pull/3193)
+- better defaults for greek cross [#3214](https://github.com/gdsfactory/gdsfactory/pull/3214)
+- better defaults for gf.components.rectangles [#3198](https://github.com/gdsfactory/gdsfactory/pull/3198)
+- Check coupler radius [#3212](https://github.com/gdsfactory/gdsfactory/pull/3212)
+- improve types [#3211](https://github.com/gdsfactory/gdsfactory/pull/3211)
+- improve klayout extension doc [#3203](https://github.com/gdsfactory/gdsfactory/pull/3203)
+- fix klayout package image [#3202](https://github.com/gdsfactory/gdsfactory/pull/3202)
+- Bump kfactory[ipy] from 0.20.3 to 0.20.5 [#3208](https://github.com/gdsfactory/gdsfactory/pull/3208)
+- change docker to python311 [#3204](https://github.com/gdsfactory/gdsfactory/pull/3204)
+- Update pydantic requirement from <2.9,>=2.6 to >=2.6,<2.10 [#3194](https://github.com/gdsfactory/gdsfactory/pull/3194)
+- Improve klayout extension [#3201](https://github.com/gdsfactory/gdsfactory/pull/3201)
 
 
 ## [8.8.7](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.7) - 2024-09-05
