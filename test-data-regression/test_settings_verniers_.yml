@@ -1,8 +1,9 @@
 info: {}
-name: verniers_W0p1_0p2_0p3_0_3625aef3
+name: verniers_W0p1_0p2_0p3_0_af977b0b
 settings:
   gap: 0.1
   layer_label: TEXT
+  straight: straight
   widths:
   - 0.1
   - 0.2
