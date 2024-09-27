@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.8.9](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.9) - 2024-09-27
+
+No significant changes.
+
+
 ## [8.8.8](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.8) - 2024-09-20
 
 - Fix netlists [#3215](https://github.com/gdsfactory/gdsfactory/pull/3215)
