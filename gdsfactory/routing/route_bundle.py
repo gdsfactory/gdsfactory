@@ -250,7 +250,7 @@ def add_auto_tapers(
     component: Component,
     ports: list[Port],
     cross_section: CrossSectionSpec,
-):
+) -> list[Port]:
     """Adds tapers to the ports of a component (to be used for routing) and returns the new lists of ports.
 
     Args:
@@ -261,10 +261,7 @@ def add_auto_tapers(
     Returns:
         The new list of ports, on the opposite end of the tapers
     """
-    ports_new = [
-        auto_taper_to_cross_section(component, p, cross_section) for p in ports
-    ]
-    return ports_new
+    return [auto_taper_to_cross_section(component, p, cross_section) for p in ports]
 
 
 def auto_taper_to_cross_section(
@@ -289,10 +286,10 @@ def auto_taper_to_cross_section(
     if port_layer != cs_layer:
         try:
             taper = pdk.layer_transitions[(port_layer, cs_layer)]
-        except KeyError:
+        except KeyError as e:
             raise KeyError(
                 f"No registered tapers between routing layers {port_layer} and {cs_layer}!"
-            )
+            ) from e
     elif port_width != cs_width:
         try:
             taper = pdk.layer_transitions[port_layer]
@@ -313,8 +310,7 @@ def auto_taper_to_cross_section(
         p1, p0 = taper_ports
     taper_ref = component.add_ref(taper_component)
     taper_ref.connect(p0.name, port)
-    taper_ref_p1 = taper_ref.ports[p1.name]
-    return taper_ref_p1
+    return taper_ref.ports[p1.name]
 
 
 if __name__ == "__main__":
@@ -326,7 +322,7 @@ if __name__ == "__main__":
         gf.c.taper, cross_section="rib", length=20
     )
     pdk.layer_transitions[LAYER.WG, LAYER.WGN] = gf.c.taper_sc_nc
-    pdk.layer_transitions[LAYER.WGN, LAYER.WG] = gf.c.taper_sc_nc
+    pdk.layer_transitions[LAYER.WGN, LAYER.WG] = gf.c.taper_nc_sc
 
     # c = gf.Component()
     # columns = 2
@@ -402,37 +398,37 @@ if __name__ == "__main__":
     # c.show()
 
     # nitride case
-    c = gf.Component()
-    c1 = c << gf.components.straight(width=0.5, cross_section="strip")
-    c2 = c << gf.components.straight(cross_section="strip", width=0.5)
-    c2.dmove((150, 50))
-    routes = route_bundle(
-        c,
-        [c1.ports["o2"]],
-        [c2.ports["o1"]],
-        separation=5,
-        cross_section="nitride",
-        auto_taper=True,
-    )
-    c.show()
-
-    # rib
-
     # c = gf.Component()
-    # # c1 = c << gf.components.straight(width=2, cross_section="rib")
-    # # c2 = c << gf.components.straight(cross_section="rib", width=1)
-    # c1 = c << gf.components.straight(cross_section="rib")
-    # c2 = c << gf.components.straight(cross_section="rib")
-    # c2.dmove((100, 70))
+    # c1 = c << gf.components.straight(width=0.5, cross_section="strip")
+    # c2 = c << gf.components.straight(cross_section="strip", width=0.5)
+    # c2.dmove((150, 50))
     # routes = route_bundle(
     #     c,
     #     [c1.ports["o2"]],
     #     [c2.ports["o1"]],
     #     separation=5,
-    #     cross_section="rib",
+    #     cross_section="nitride",
     #     auto_taper=True,
-    #     # taper=partial(gf.c.taper, cross_section="rib", length=20),
-    #     # taper=gf.c.taper_sc_nc,
-    #     # taper=gf.c.taper,
     # )
     # c.show()
+
+    # rib
+
+    c = gf.Component()
+    # c1 = c << gf.components.straight(width=2, cross_section="rib")
+    # c2 = c << gf.components.straight(cross_section="rib", width=1)
+    c1 = c << gf.components.straight(cross_section="rib", width=2)
+    c2 = c << gf.components.straight(cross_section="rib", width=4)
+    c2.dmove((100, 70))
+    routes = route_bundle(
+        c,
+        [c1.ports["o2"]],
+        [c2.ports["o1"]],
+        separation=5,
+        cross_section="rib",
+        auto_taper=True,
+        # taper=partial(gf.c.taper, cross_section="rib", length=20),
+        # taper=gf.c.taper_sc_nc,
+        # taper=gf.c.taper,
+    )
+    c.show()
