@@ -183,6 +183,7 @@ def route_bundle(
 
     xs = gf.get_cross_section(cross_section)
     width = xs.width
+    layer = xs.layer
     radius = radius or xs.radius
     width_dbu = round(width / component.kcl.dbu)
 
@@ -194,7 +195,7 @@ def route_bundle(
 
     # if route with does not match port width, add a taper
     for port in ports1_untapered:
-        if port.dwidth != width and taper:
+        if (port.dwidth != width or port.layer != layer) and taper:
             taper1 = c << gf.get_component(taper, width1=port.dwidth, width2=width)
             taper1.connect(taper1.ports[0].name, port)
             ports1.append(taper1.ports[1])
@@ -202,10 +203,10 @@ def route_bundle(
             ports1.append(port)
 
     for port in ports2_untapered:
-        if port.dwidth != width and taper:
-            taper2 = c << gf.get_component(taper, width1=port.dwidth, width2=width)
-            taper2.connect(taper2.ports[0].name, port)
-            ports2.append(taper2.ports[1])
+        if (port.dwidth != width or port.layer != layer) and taper:
+            taper2 = c << gf.get_component(taper, width2=port.dwidth, width1=width)
+            taper2.connect(taper2.ports[1].name, port)
+            ports2.append(taper2.ports[0])
         else:
             ports2.append(port)
 
@@ -339,17 +340,36 @@ if __name__ == "__main__":
     # c.add_ports(ports2)
     # c.show()
 
+    # nitride case
     c = gf.Component()
-    c1 = c << gf.components.straight(width=2, cross_section="rib")
-    c2 = c << gf.components.straight(cross_section="rib", width=1)
+    c1 = c << gf.components.straight(width=2, cross_section="strip")
+    c2 = c << gf.components.straight(cross_section="strip", width=1)
     c2.dmove((100, 70))
     routes = route_bundle(
         c,
         [c1.ports["o2"]],
         [c2.ports["o1"]],
         separation=5,
-        cross_section="rib",
+        cross_section="nitride",
         # taper=partial(gf.c.taper, cross_section="rib"),
-        taper=gf.c.taper,
+        taper=gf.c.taper_sc_nc,
+        # taper=gf.c.taper,
     )
     c.show()
+
+    # rib
+    # c = gf.Component()
+    # c1 = c << gf.components.straight(width=2, cross_section="rib")
+    # c2 = c << gf.components.straight(cross_section="rib", width=1)
+    # c2.dmove((100, 70))
+    # routes = route_bundle(
+    #     c,
+    #     [c1.ports["o2"]],
+    #     [c2.ports["o1"]],
+    #     separation=5,
+    #     cross_section="rib",
+    #     taper=partial(gf.c.taper, cross_section="rib"),
+    #     # taper=gf.c.taper_sc_nc,
+    #     # taper=gf.c.taper,
+    # )
+    # c.show()

@@ -36,6 +36,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
+from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.port import Port
 from gdsfactory.typings import (
     ComponentSpec,
@@ -52,7 +53,7 @@ def route_single(
     port2: Port,
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
-    taper: ComponentSpec | None = None,
+    taper: ComponentSpec | None = taper_function,
     start_straight_length: float = 0.0,
     end_straight_length: float = 0.0,
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "strip",
@@ -107,11 +108,29 @@ def route_single(
     width = route_width or xs.width
     radius = radius or xs.radius
     width_dbu = width / component.kcl.dbu
-
-    taper_cell = gf.get_component(taper, cross_section=cross_section) if taper else None
     bend90 = gf.get_component(
         bend, cross_section=cross_section, radius=radius, width=width
     )
+
+    if port1.dwidth != width and taper:
+        taper1 = component << gf.get_component(
+            taper,
+            width1=port1.dwidth,
+            width2=width,
+            cross_section=cross_section,
+        )
+        taper1.connect(taper1.ports[0].name, port1)
+        p1 = taper1.ports[1]
+
+    if port2.dwidth != width and taper is not None:
+        taper2 = component << gf.get_component(
+            taper,
+            width1=width,
+            width2=port2.dwidth,
+            cross_section=cross_section,
+        )
+        taper2.connect(taper2.ports[1].name, port2)
+        p2 = taper2.ports[0]
 
     def straight_dbu(
         length: int,
@@ -143,7 +162,7 @@ def route_single(
             p2=p2,
             straight_factory=straight_dbu,
             bend90_cell=bend90,
-            taper_cell=taper_cell,
+            taper_cell=None,
             pts=waypoints,
             port_type=port_type,
             allow_width_mismatch=allow_width_mismatch,
@@ -157,7 +176,7 @@ def route_single(
             p2=p2,
             straight_factory=straight_dbu,
             bend90_cell=bend90,
-            taper_cell=taper_cell,
+            taper_cell=None,
             start_straight=start_straight,
             end_straight=end_straight,
             port_type=port_type,
@@ -270,46 +289,42 @@ if __name__ == "__main__":
     # )
     # c.show()
 
-    c = gf.Component("electrical")
-    w = gf.components.wire_straight()
-    left = c << w
-    right = c << w
-    right.dmove((100, 80))
-    obstacle = gf.components.rectangle(size=(100, 10))
-    obstacle1 = c << obstacle
-    obstacle2 = c << obstacle
-    obstacle1.dymin = 40
-    obstacle2.dxmin = 25
+    # c = gf.Component("electrical")
+    # w = gf.components.wire_straight()
+    # left = c << w
+    # right = c << w
+    # right.dmove((100, 80))
+    # obstacle = gf.components.rectangle(size=(100, 10))
+    # obstacle1 = c << obstacle
+    # obstacle2 = c << obstacle
+    # obstacle1.dymin = 40
+    # obstacle2.dxmin = 25
 
-    p0 = left.ports["e2"]
-    p1 = right.ports["e2"]
-    p0x, p0y = left.ports["e2"].dcenter
-    p1x, p1y = right.ports["e2"].dcenter
-    o = 10  # vertical offset to overcome bottom obstacle
-    ytop = 20
+    # p0 = left.ports["e2"]
+    # p1 = right.ports["e2"]
+    # p0x, p0y = left.ports["e2"].dcenter
+    # p1x, p1y = right.ports["e2"].dcenter
+    # o = 10  # vertical offset to overcome bottom obstacle
+    # ytop = 20
 
-    r = route_single(
-        c,
-        p0,
-        p1,
-        cross_section="metal_routing",
-        waypoints=[
-            (p0x + o, p0y),
-            (p0x + o, ytop),
-            (p1x + o, ytop),
-            (p1x + o, p1y),
-        ],
-    )
-    c.show()
-
-    # c = gf.Component()
-    # w = gf.components.straight(length=0.1)
-    # top = c << w
-    # bot = c << w
-    # d = 2
-    # bot.dmove((d, d))
-
-    # p0 = top.ports["o2"]
-    # p1 = bot.ports["o1"]
-    # r = gf.routing.route_single(c, p0, p1, cross_section="strip", taper=None)
+    # r = route_single(
+    #     c,
+    #     p0,
+    #     p1,
+    #     cross_section="metal_routing",
+    #     waypoints=[
+    #         (p0x + o, p0y),
+    #         (p0x + o, ytop),
+    #         (p1x + o, ytop),
+    #         (p1x + o, p1y),
+    #     ],
+    # )
     # c.show()
+
+    c = gf.Component()
+    c1 = c << gf.components.straight(width=5, cross_section="strip")
+    c2 = c << gf.components.straight(cross_section="strip", width=2)
+    c2.dmove((100, 70))
+
+    gf.routing.route_single(c, c1["o2"], c2["o1"], cross_section="strip")
+    c.show()
