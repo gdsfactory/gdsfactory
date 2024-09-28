@@ -228,27 +228,18 @@ def taper_strip_to_ridge_trenches(
 
 taper_strip_to_slab150 = partial(taper_strip_to_ridge, layer_slab="SLAB150")
 
-
-@gf.cell
-def taper_sc_nc(
-    width1=0.5,
-    width2=1.0,
-    length=20.0,
-    width2_tip=0.15,
-    width_slab1=0.15,
+# taper StripCband to NitrideCband
+taper_sc_nc = partial(
+    taper_strip_to_ridge,
     layer_wg="WG",
     layer_slab="WGN",
-):
-    return taper_strip_to_ridge(
-        layer_wg=layer_wg,
-        layer_slab=layer_slab,
-        length=length,
-        width1=width1,
-        width2=width2_tip,
-        w_slab1=width_slab1,
-        w_slab2=width2,
-        use_slab_port=True,
-    )
+    length=20.0,
+    width1=0.5,
+    width2=0.15,
+    w_slab1=0.15,
+    w_slab2=1.0,
+    use_slab_port=True,
+)
 
 
 if __name__ == "__main__":
