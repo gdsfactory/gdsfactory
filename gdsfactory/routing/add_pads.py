@@ -6,7 +6,6 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.pad import pad_rectangular
 from gdsfactory.components.straight_heater_metal import straight_heater_metal
-from gdsfactory.components.taper import taper_electrical as taper_function
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_fiber_array import route_fiber_array
 from gdsfactory.typings import (
@@ -27,7 +26,7 @@ def add_pads_bot(
     straight_separation: float = 15.0,
     pad_spacing: float | str = "pad_spacing",
     optical_routing_type: int | None = 1,
-    taper: ComponentSpec | None = taper_function,
+    taper: ComponentSpec | None = None,
     port_type: str = "electrical",
     allow_width_mismatch: bool = True,
     fanout_length: float | None = 80,
