@@ -38,6 +38,7 @@ def test_route_bundle_west_to_north(
         bend=gf.components.wire_corner,
         port_type="electrical",
         cross_section="metal3",
+        taper=gf.components.taper_electrical,
     )
     for i, route in enumerate(routes):
         lengths[i] = route.length
@@ -79,5 +80,5 @@ def test_route_bundle_west_to_north2(
 
 
 if __name__ == "__main__":
-    # test_route_bundle_west_to_north(None, check=False)
-    test_route_bundle_west_to_north2(None, check=False)
+    test_route_bundle_west_to_north(None, check=False)
+    # test_route_bundle_west_to_north2(None, check=False)

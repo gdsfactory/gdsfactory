@@ -63,7 +63,7 @@ connections:
 
 def test_sample() -> None:
     c = from_yaml(sample_mmis)
-    assert len(c.insts) == 6, len(c.insts)
+    assert len(c.insts) == 10, len(c.insts)
     assert len(c.ports) == 3, len(c.ports)
     c.delete()
 
@@ -108,7 +108,7 @@ routes:
 
 def test_connections_2x2() -> None:
     c = from_yaml(sample_2x2_connections)
-    assert len(c.insts) == 11, len(c.insts)
+    assert len(c.insts) == 20, len(c.insts)
     assert len(c.ports) == 0, len(c.ports)
 
     length = c.routes["optical-mmi_bottom,o3-mmi_top,o2"].length
@@ -671,9 +671,9 @@ def test_gds_and_settings(
 
 
 if __name__ == "__main__":
-    # test_connections_2x2()
+    test_connections_2x2()
     # test_connections_regex_backwards()
-    test_connections_different_factory()
+    # test_connections_different_factory()
     # import gdsfactory as gf
 
     # c = gf.read.from_yaml(sample_array2)

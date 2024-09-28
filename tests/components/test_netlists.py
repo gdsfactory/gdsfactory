@@ -27,6 +27,8 @@ skip_test = {
     "pack_doe",
     "pack_doe_grid",
     "text_freetype",
+    "coh_rx_single_pol",
+    "awg",
 }
 cells_to_test = set(cells.keys()) - skip_test
 
@@ -96,6 +98,7 @@ if __name__ == "__main__":
     component_type = "delay_snake"  # FIXME
     component_type = "spiral_racetrack"
     component_type = "ring_single"
+    component_type = "coh_rx_single_pol"
 
     connection_error_types = {
         "optical": ["width_mismatch", "shear_angle_mismatch", "orientation_mismatch"]

@@ -6,6 +6,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.pad import pad_rectangular
 from gdsfactory.components.straight_heater_metal import straight_heater_metal
+from gdsfactory.components.taper import taper_electrical as taper_function
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_fiber_array import route_fiber_array
 from gdsfactory.typings import (
@@ -26,11 +27,13 @@ def add_pads_bot(
     straight_separation: float = 15.0,
     pad_spacing: float | str = "pad_spacing",
     optical_routing_type: int | None = 1,
-    taper: ComponentSpec | None = None,
+    taper: ComponentSpec | None = taper_function,
     port_type: str = "electrical",
     allow_width_mismatch: bool = True,
     fanout_length: float | None = 80,
     route_width: float | list[float] | None = 0,
+    taper_port_name1: str = "e1",
+    taper_port_name2: str = "e2",
     **kwargs,
 ) -> Component:
     """Returns new component with ports connected bottom pads.
@@ -54,6 +57,8 @@ def add_pads_bot(
         allow_width_mismatch: True
         fanout_length: if None, automatic calculation of fanout length.
         route_width: width of the route. If None, defaults to cross_section.width.
+        taper_port_name1: taper port name 1.
+        taper_port_name2: taper port name 2.
         kwargs: additional arguments.
 
     Keyword Args:
@@ -136,6 +141,8 @@ def add_pads_bot(
         allow_width_mismatch=allow_width_mismatch,
         fanout_length=fanout_length,
         route_width=route_width,
+        taper_port_name1=taper_port_name1,
+        taper_port_name2=taper_port_name2,
         **kwargs,
     )
     component_new.add_ref(component)
@@ -181,6 +188,8 @@ def add_pads_top(
         optical_routing_type: None: auto, 0: no extension, 1: standard, 2: check.
         gc_rotation: fiber coupler rotation in degrees. Defaults to -90.
         input_port_indexes: to connect.
+        taper_port_name1: taper port name 1.
+        taper_port_name2: taper port name 2.
 
     .. plot::
         :include-source:
@@ -212,8 +221,10 @@ if __name__ == "__main__":
     # c = gf.components.pad()
     c = gf.components.straight_heater_metal(length=100.0)
     # c = gf.components.straight(length=100.0)
-    c = gf.routing.add_pads_top(component=c, port_names=("l_e1",))
-    c = gf.routing.add_fiber_array(c)
+    c = gf.routing.add_pads_top(
+        component=c, port_names=("l_e1", "r_e3"), fanout_length=200
+    )
+    # c = gf.routing.add_fiber_array(c)
     c.show()
     # c.show()
 

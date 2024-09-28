@@ -241,6 +241,13 @@ taper_sc_nc = partial(
     use_slab_port=True,
 )
 
+taper_electrical = partial(
+    taper,
+    port_types=("electrical", "electrical"),
+    port_names=("e1", "e2"),
+    cross_section="metal_routing",
+)
+
 
 if __name__ == "__main__":
     c = taper(cross_section="rib", width2=5)

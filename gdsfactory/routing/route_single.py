@@ -36,7 +36,6 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.port import Port
 from gdsfactory.typings import (
     ComponentSpec,
@@ -53,8 +52,10 @@ def route_single(
     port2: Port,
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
-    taper: ComponentSpec | None = taper_function,
+    taper: ComponentSpec | None = None,
     taper_is_fixed: bool = False,
+    taper_port_name1: str | None = None,
+    taper_port_name2: str | None = None,
     start_straight_length: float = 0.0,
     end_straight_length: float = 0.0,
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "strip",
@@ -77,6 +78,8 @@ def route_single(
         straight: straight spec.
         taper: taper spec.
         taper_is_fixed: taper has fixed values. When True, taper is not calculated using the port and cross_section widths.
+        taper_port_name1: name of the port to connect to taper1.
+        taper_port_name2: name of the port to connect to taper2.
         start_straight_length: length of starting straight.
         end_straight_length: length of end straight.
         cross_section: spec.
@@ -103,10 +106,17 @@ def route_single(
     p2 = port2
 
     port_type = port_type or p1.port_type
+    if taper_port_name1 is None:
+        taper_port_name1 = "o1" if port_type == "optical" else "e1"
+    if taper_port_name2 is None:
+        taper_port_name2 = "o2" if port_type == "optical" else "e2"
+
     if route_width:
         xs = gf.get_cross_section(cross_section, width=route_width)
     else:
         xs = gf.get_cross_section(cross_section)
+
+    layer = xs.layer
     width = route_width or xs.width
     radius = radius or xs.radius
     width_dbu = width / component.kcl.dbu
@@ -114,7 +124,7 @@ def route_single(
         bend, cross_section=cross_section, radius=radius, width=width
     )
 
-    if port1.dwidth != width and taper:
+    if (port1.dwidth != width or port1.layer != layer) and taper:
         if taper_is_fixed:
             taper1 = component << gf.get_component(taper)
         else:
@@ -124,15 +134,15 @@ def route_single(
                 width2=width,
                 cross_section=cross_section,
             )
-        taper1.connect(taper1.ports[0].name, port1)
+        taper1.connect(taper_port_name1, port1)
         p1 = taper1.ports[1]
 
-    if port2.dwidth != width and taper is not None:
+    if (port2.dwidth != width or port2.layer != layer) and taper:
         if taper_is_fixed:
             taper2 = component << gf.get_component(
                 taper,
             )
-            taper2.connect(taper2.ports[0].name, port2)
+            taper2.connect(taper_port_name1, port2)
             p2 = taper2.ports[1]
 
         else:
@@ -142,7 +152,7 @@ def route_single(
                 width2=port2.dwidth,
                 cross_section=cross_section,
             )
-            taper2.connect(taper2.ports[1].name, port2)
+            taper2.connect(taper_port_name2, port2)
             p2 = taper2.ports[0]
 
     def straight_dbu(

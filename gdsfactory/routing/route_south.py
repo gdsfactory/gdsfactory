@@ -34,6 +34,8 @@ def route_south(
     start_straight_length: float = 0.5,
     port_type: str | None = None,
     allow_width_mismatch: bool = False,
+    taper_port_name1: str | None = None,
+    taper_port_name2: str | None = None,
 ) -> list[ManhattanRoute]:
     """Places routes to route a component ports to the south.
 
@@ -57,6 +59,8 @@ def route_south(
         start_straight_length: in um.
         port_type: optical or electrical.
         allow_width_mismatch: allow width mismatch.
+        taper_port_name1: taper port name 1.
+        taper_port_name2: taper port name 2.
 
     Works well if the component looks roughly like a rectangular box with:
         north ports on the north of the box.
@@ -97,6 +101,11 @@ def route_south(
         optical_ports = [p for p in optical_ports if p.name not in excluded_ports]
 
     port_type = port_type or optical_ports[0].port_type
+    if taper_port_name1 is None:
+        taper_port_name1 = "o1" if port_type == "optical" else "e1"
+    if taper_port_name2 is None:
+        taper_port_name2 = "o2" if port_type == "optical" else "e2"
+
     bend90 = bend(cross_section=cross_section) if callable(bend) else bend
     bend90 = gf.get_component(bend90)
     dy = abs(bend90.info["dy"])
@@ -112,6 +121,8 @@ def route_south(
         cross_section=cross_section,
         port_type=port_type,
         allow_width_mismatch=allow_width_mismatch,
+        taper_port_name1=taper_port_name1,
+        taper_port_name2=taper_port_name2,
     )
 
     # Used to avoid crossing between straights in special cases
@@ -146,6 +157,7 @@ def route_south(
             orientation=90.0,
             width=p.dwidth,
             layer=cross_section.layer,
+            port_type=p.port_type,
         )
 
     west_ports.reverse()

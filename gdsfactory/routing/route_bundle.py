@@ -19,7 +19,6 @@ from kfactory.routing.generic import ManhattanRoute
 
 import gdsfactory as gf
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.components.wire import wire_corner
 from gdsfactory.port import Port
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
@@ -93,8 +92,10 @@ def route_bundle(
     start_straight_length: float = 0,
     end_straight_length: float = 0,
     min_straight_taper: float = 100,
-    taper: ComponentSpec | None = taper_function,
+    taper: ComponentSpec | None = None,
     taper_is_fixed: bool = False,
+    taper_port_name1: str | None = None,
+    taper_port_name2: str | None = None,
     port_type: str | None = None,
     collision_check_layers: LayerSpecs | None = None,
     on_collision: str | None = "show_error",
@@ -122,6 +123,8 @@ def route_bundle(
         min_straight_taper: minimum length for tapering the straight sections.
         taper: function for the taper. Defaults to None.
         taper_is_fixed: taper has fixed values. When True, taper is not calculated using the port and cross_section widths.
+        taper_port_name1: name of the port to connect to the taper. Defaults to o1 for optical and e1 for electrical.
+        taper_port_name2: name of the port to connect to the taper. Defaults to o2 for optical and e2 for electrical.
         port_type: type of port to place. Defaults to optical.
         collision_check_layers: list of layers to check for collisions.
         on_collision: action to take on collision. Defaults to show_error.
@@ -174,6 +177,10 @@ def route_bundle(
     ports2 = list(ports2)
 
     port_type = port_type or ports1[0].port_type
+    if taper_port_name1 is None:
+        taper_port_name1 = "o1" if port_type == "optical" else "e1"
+    if taper_port_name2 is None:
+        taper_port_name2 = "o2" if port_type == "optical" else "e2"
 
     dbu = component.kcl.dbu
 
@@ -204,7 +211,7 @@ def route_bundle(
                 taper1 = component << gf.get_component(
                     taper, width1=port.dwidth, width2=width, cross_section=cross_section
                 )
-            taper1.connect(taper1.ports[0].name, port)
+            taper1.connect(taper_port_name1, port)
             ports1.append(taper1.ports[1])
         else:
             ports1.append(port)
@@ -213,13 +220,13 @@ def route_bundle(
         if (port.dwidth != width or port.layer != layer) and taper:
             if taper_is_fixed:
                 taper2 = component << gf.get_component(taper)
-                taper2.connect(taper2.ports[0].name, port)
+                taper2.connect(taper_port_name1, port)
                 ports2.append(taper2.ports[1])
             else:
                 taper2 = component << gf.get_component(
                     taper, width2=port.dwidth, width1=width, cross_section=cross_section
                 )
-                taper2.connect(taper2.ports[1].name, port)
+                taper2.connect(taper_port_name2, port)
                 ports2.append(taper2.ports[0])
         else:
             ports2.append(port)

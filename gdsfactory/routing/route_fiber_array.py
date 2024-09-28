@@ -59,6 +59,8 @@ def route_fiber_array(
     port_type: str = "optical",
     route_width: float | list[float] | None = 0,
     route_backwards: bool = True,
+    taper_port_name1: str | None = None,
+    taper_port_name2: str | None = None,
 ) -> Component:
     """Returns new component with fiber array.
 
@@ -105,6 +107,8 @@ def route_fiber_array(
         port_type: port type.
         route_width: width of the route. If None, defaults to cross_section.width.
         route_backwards: route from component to grating coupler or vice-versa.
+        taper_port_name1: taper port name 1.
+        taper_port_name2: taper port name 2.
     """
     if optical_routing_type not in [1, 2]:
         raise ValueError(f"optical_routing_type={optical_routing_type} must be 1 or 2")
@@ -273,6 +277,8 @@ def route_fiber_array(
         cross_section=cross_section,
         port_type=port_type,
         allow_width_mismatch=allow_width_mismatch,
+        taper_port_name1=taper_port_name1,
+        taper_port_name2=taper_port_name2,
     )
     to_route = c.ports
 
@@ -339,6 +345,8 @@ def route_fiber_array(
             allow_width_mismatch=allow_width_mismatch,
             taper=taper,
             route_width=route_width,
+            taper_port_name1=taper_port_name1,
+            taper_port_name2=taper_port_name2,
         )
         if with_fiber_port:
             fiber_ports = [gc.ports[gc_port_name_fiber] for gc in io_gratings]
@@ -366,6 +374,8 @@ def route_fiber_array(
                 allow_width_mismatch=allow_width_mismatch,
                 taper=taper,
                 route_width=route_width,
+                taper_port_name1=taper_port_name1,
+                taper_port_name2=taper_port_name2,
             )
             del to_route[n0 - dn : n0 + dn]
             if with_fiber_port:
@@ -425,6 +435,8 @@ def route_fiber_array(
             bend=bend90,
             cross_section=cross_section,
             taper=taper,
+            taper_port_name1=taper_port_name1,
+            taper_port_name2=taper_port_name2,
         )
         if with_fiber_port:
             port0 = gca1[gc_port_name_fiber]
