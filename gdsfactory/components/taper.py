@@ -243,7 +243,7 @@ taper_sc_nc = partial(
 
 
 if __name__ == "__main__":
-    c = taper(cross_section="rib", width2=5, port_types="optical")
+    c = taper(cross_section="rib", width2=5)
     # c = taper_strip_to_ridge_trenches()
     # c = taper_strip_to_ridge()
     # c = taper(width1=1.5, width2=1, cross_section="rib")
