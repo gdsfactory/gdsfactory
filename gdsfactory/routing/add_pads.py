@@ -142,6 +142,7 @@ def add_pads_bot(
         route_width=route_width,
         taper_port_name1=taper_port_name1,
         taper_port_name2=taper_port_name2,
+        route_backwards=False,
         **kwargs,
     )
     component_new.add_ref(component)
@@ -220,7 +221,7 @@ if __name__ == "__main__":
     # c = gf.components.pad()
     c = gf.components.straight_heater_metal(length=100.0)
     # c = gf.components.straight(length=100.0)
-    c = gf.routing.add_pads_top(
+    c = gf.routing.add_pads_bot(
         component=c, port_names=("l_e1", "r_e3"), fanout_length=200
     )
     # c = gf.routing.add_fiber_array(c)
