@@ -21,6 +21,7 @@ from kfactory.routing.generic import ManhattanRoute
 
 import gdsfactory as gf
 from gdsfactory.components.straight import straight as straight_function
+from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.components.wire import wire_corner
 from gdsfactory.port import Port
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
@@ -249,7 +250,7 @@ def route_bundle(
     start_straight_length: float = 0,
     end_straight_length: float = 0,
     min_straight_taper: float = 100,
-    taper: ComponentSpec | None = None,
+    taper: ComponentSpec | None = taper_function,
     port_type: str | None = None,
     collision_check_layers: LayerSpecs | None = None,
     on_collision: str | None = "show_error",
@@ -341,7 +342,30 @@ def route_bundle(
     width = xs.width
     radius = radius or xs.radius
     width_dbu = round(width / component.kcl.dbu)
-    taper_cell = gf.get_component(taper) if taper else None
+
+    ports1_untapered = ports1
+    ports2_untapered = ports2
+
+    ports1 = []
+    ports2 = []
+
+    # if route with does not match port width, add a taper
+    for port in ports1_untapered:
+        if port.dwidth != width and taper:
+            taper1 = c << gf.get_component(taper, width1=port.dwidth, width2=width)
+            taper1.connect(taper1.ports[0].name, port)
+            ports1.append(taper1.ports[1])
+        else:
+            ports1.append(port)
+
+    for port in ports2_untapered:
+        if port.dwidth != width and taper:
+            taper2 = c << gf.get_component(taper, width1=port.dwidth, width2=width)
+            taper2.connect(taper2.ports[0].name, port)
+            ports2.append(taper2.ports[1])
+        else:
+            ports2.append(port)
+
     bend90 = (
         bend
         if isinstance(bend, Component)
@@ -374,7 +398,7 @@ def route_bundle(
         round(separation / component.kcl.dbu),
         straight_factory=straight_dbu,
         bend90_cell=bend90,
-        taper_cell=taper_cell,
+        taper_cell=None,
         start_straights=start_straight,
         end_straights=end_straight,
         min_straight_taper=round(min_straight_taper / dbu),
@@ -399,44 +423,44 @@ route_bundle_electrical = partial(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.Component()
-    columns = 2
-    ptop = c << gf.components.pad_array(columns=columns, port_orientation=270)
-    pbot = c << gf.components.pad_array(port_orientation=270, columns=columns)
-    # pbot = c << gf.components.pad_array(port_orientation=90, columns=columns)
+    # c = gf.Component()
+    # columns = 2
+    # ptop = c << gf.components.pad_array(columns=columns, port_orientation=270)
+    # pbot = c << gf.components.pad_array(port_orientation=270, columns=columns)
+    # # pbot = c << gf.components.pad_array(port_orientation=90, columns=columns)
 
-    ptop.dmovex(300)
-    ptop.dmovey(300)
-    routes = gf.routing.route_bundle_electrical(
-        c,
-        reversed(pbot.ports),
-        ptop.ports,
-        # end_straight_length=50,
-        start_straight_length=100,
-        separation=20,
-        bboxes=[ptop.bbox(), pbot.bbox()],
-    )
+    # ptop.dmovex(300)
+    # ptop.dmovey(300)
+    # routes = gf.routing.route_bundle_electrical(
+    #     c,
+    #     reversed(pbot.ports),
+    #     ptop.ports,
+    #     # end_straight_length=50,
+    #     start_straight_length=100,
+    #     separation=20,
+    #     bboxes=[ptop.bbox(), pbot.bbox()],
+    # )
 
-    c.show()
+    # c.show()
     # pbot.ports.print()
 
-    # c = gf.Component("demo")
-    # c1 = c << gf.components.mmi2x2()
-    # c2 = c << gf.components.mmi2x2()
-    # c2.dmove((100, 70))
-    # routes = route_bundle(
-    #     c,
-    #     [c1.ports["o2"], c1.ports["o1"]],
-    #     [c2.ports["o2"], c2.ports["o1"]],
-    #     separation=5,
-    #     cross_section="strip",
-    #     # end_straight_length=0,
-    #     # collision_check_layers=[(1, 0)],
-    #     # bboxes=[c1.bbox(), c2.bbox()],
-    #     # layer=(2, 0),
-    #     # straight=partial(gf.components.straight, layer=(2, 0), width=1),
-    # )
-    # c.show()
+    c = gf.Component("demo")
+    c1 = c << gf.components.straight(width=2)
+    c2 = c << gf.components.straight()
+    c2.dmove((100, 70))
+    routes = route_bundle(
+        c,
+        [c1.ports["o2"]],
+        [c2.ports["o1"]],
+        separation=5,
+        cross_section="strip",
+        # end_straight_length=0,
+        # collision_check_layers=[(1, 0)],
+        # bboxes=[c1.bbox(), c2.bbox()],
+        # layer=(2, 0),
+        # straight=partial(gf.components.straight, layer=(2, 0), width=1),
+    )
+    c.show()
 
     # dy = 200.0
     # xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
