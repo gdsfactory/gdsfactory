@@ -270,7 +270,10 @@ def taper_nc_sc(width1=1, width2=0.5, length=20, **kwargs) -> Component:
 
 
 taper_electrical = partial(
-    taper, port_types=("electrical", "electrical"), port_names=("e1", "e2")
+    taper,
+    port_types=("electrical", "electrical"),
+    port_names=("e1", "e2"),
+    cross_section="metal_routing",
 )
 
 

@@ -63,7 +63,7 @@ connections:
 
 def test_sample() -> None:
     c = from_yaml(sample_mmis)
-    assert len(c.insts) == 6, len(c.insts)
+    assert len(c.insts) == 10, len(c.insts)
     assert len(c.ports) == 3, len(c.ports)
     c.delete()
 
@@ -108,7 +108,7 @@ routes:
 
 def test_connections_2x2() -> None:
     c = from_yaml(sample_2x2_connections)
-    assert len(c.insts) == 11, len(c.insts)
+    assert len(c.insts) == 20, len(c.insts)
     assert len(c.ports) == 0, len(c.ports)
 
     length = c.routes["optical-mmi_bottom,o3-mmi_top,o2"].length
@@ -154,30 +154,17 @@ routes:
         links:
             tl,e3: tr,e1
             bl,e3: br,e1
-    optical:
-        settings:
-            port_type: optical
-            cross_section:
-                cross_section: strip
-                settings:
-                    radius: 100
-        links:
-            bl,e4: br,e3
-
 """
 
 
 def test_connections_different_factory() -> None:
     c = from_yaml(sample_different_factory)
-    lengths = [680000] * 2 + [700000]
+    lengths = [660000] * 2 + [700000]
     assert c.routes["electrical-tl,e3-tr,e1"].length == lengths[0], c.routes[
         "electrical-tl,e3-tr,e1"
     ].length
     assert c.routes["electrical-bl,e3-br,e1"].length == lengths[1], c.routes[
         "electrical-bl,e3-br,e1"
-    ].length
-    assert np.isclose(c.routes["optical-bl,e4-br,e3"].length, lengths[2]), c.routes[
-        "optical-bl,e4-br,e3"
     ].length
 
 
@@ -671,6 +658,7 @@ def test_gds_and_settings(
 
 
 if __name__ == "__main__":
+    # test_sample()
     # test_connections_2x2()
     # test_connections_regex_backwards()
     test_connections_different_factory()

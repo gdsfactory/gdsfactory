@@ -73,8 +73,14 @@ def auto_taper_to_cross_section(
         raise ValueError(f"Taper component should have two ports! Got {port_names}.")
     if taper_ports[0].layer == port.layer and taper_ports[0].width == port.width:
         p0, p1 = taper_ports
-    else:
+    elif taper_ports[1].layer == port.layer and taper_ports[1].width == port.width:
         p1, p0 = taper_ports
+    else:
+        width = port.dwidth
+        layer = port.layer
+        raise ValueError(
+            f"Taper component ports do not match the port's layer and width! Got {taper_ports}. and {layer}, {width}"
+        )
     taper_ref = component.add_ref(taper_component)
     taper_ref.connect(p0.name, port)
     return taper_ref.ports[p1.name]

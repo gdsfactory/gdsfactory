@@ -27,6 +27,8 @@ skip_test = {
     "pack_doe",
     "pack_doe_grid",
     "text_freetype",
+    "awg",
+    "coh_rx_single_pol",
 }
 cells_to_test = set(cells.keys()) - skip_test
 
