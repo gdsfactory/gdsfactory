@@ -106,8 +106,10 @@ def import_gds_with_conflicts(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.components.straight()
+    c = gf.components.mzi()
+    c.pprint_ports()
     gdspath = c.write_gds()
 
     c = import_gds(gdspath)
+    c.pprint_ports()
     c.show()
