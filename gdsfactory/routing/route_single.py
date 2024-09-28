@@ -37,6 +37,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.port import Port
+from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.typings import (
     ComponentSpec,
     Coordinates,
@@ -61,6 +62,7 @@ def route_single(
     allow_width_mismatch: bool = False,
     radius: float | None = None,
     route_width: float | None = None,
+    auto_taper: bool = True,
 ) -> ManhattanRoute:
     """Returns a Manhattan Route between 2 ports.
 
@@ -82,7 +84,7 @@ def route_single(
         allow_width_mismatch: allow different port widths.
         radius: bend radius. If None, defaults to cross_section.radius.
         route_width: width of the route in um. If None, defaults to cross_section.width.
-
+        auto_taper: add auto tapers.
 
     .. plot::
         :include-source:
@@ -112,6 +114,9 @@ def route_single(
     bend90 = gf.get_component(
         bend, cross_section=cross_section, radius=radius, width=width
     )
+    if auto_taper:
+        p1 = add_auto_tapers(component, [p1], cross_section)[0]
+        p2 = add_auto_tapers(component, [p2], cross_section)[0]
 
     def straight_dbu(
         length: int,
@@ -270,46 +275,49 @@ if __name__ == "__main__":
     # )
     # c.show()
 
-    c = gf.Component("electrical")
-    w = gf.components.wire_straight()
-    left = c << w
-    right = c << w
-    right.dmove((100, 80))
-    obstacle = gf.components.rectangle(size=(100, 10))
-    obstacle1 = c << obstacle
-    obstacle2 = c << obstacle
-    obstacle1.dymin = 40
-    obstacle2.dxmin = 25
+    # c = gf.Component("electrical")
+    # w = gf.components.wire_straight()
+    # left = c << w
+    # right = c << w
+    # right.dmove((100, 80))
+    # obstacle = gf.components.rectangle(size=(100, 10))
+    # obstacle1 = c << obstacle
+    # obstacle2 = c << obstacle
+    # obstacle1.dymin = 40
+    # obstacle2.dxmin = 25
 
-    p0 = left.ports["e2"]
-    p1 = right.ports["e2"]
-    p0x, p0y = left.ports["e2"].dcenter
-    p1x, p1y = right.ports["e2"].dcenter
-    o = 10  # vertical offset to overcome bottom obstacle
-    ytop = 20
+    # p0 = left.ports["e2"]
+    # p1 = right.ports["e2"]
+    # p0x, p0y = left.ports["e2"].dcenter
+    # p1x, p1y = right.ports["e2"].dcenter
+    # o = 10  # vertical offset to overcome bottom obstacle
+    # ytop = 20
 
-    r = route_single(
-        c,
-        p0,
-        p1,
-        cross_section="metal_routing",
-        waypoints=[
-            (p0x + o, p0y),
-            (p0x + o, ytop),
-            (p1x + o, ytop),
-            (p1x + o, p1y),
-        ],
-    )
-    c.show()
-
-    # c = gf.Component()
-    # w = gf.components.straight(length=0.1)
-    # top = c << w
-    # bot = c << w
-    # d = 2
-    # bot.dmove((d, d))
-
-    # p0 = top.ports["o2"]
-    # p1 = bot.ports["o1"]
-    # r = gf.routing.route_single(c, p0, p1, cross_section="strip", taper=None)
+    # r = route_single(
+    #     c,
+    #     p0,
+    #     p1,
+    #     cross_section="metal_routing",
+    #     waypoints=[
+    #         (p0x + o, p0y),
+    #         (p0x + o, ytop),
+    #         (p1x + o, ytop),
+    #         (p1x + o, p1y),
+    #     ],
+    # )
     # c.show()
+
+    c = gf.Component()
+    top = c << gf.components.straight(
+        length=0.1, cross_section="metal_routing", width=40
+    )
+    bot = c << gf.components.straight(
+        length=0.1, cross_section="metal_routing", width=20
+    )
+    d = 200
+    bot.dmove((d, d))
+
+    p0 = top.ports["e2"]
+    p1 = bot.ports["e1"]
+    r = gf.routing.route_single(c, p0, p1, cross_section="metal_routing")
+    c.show()

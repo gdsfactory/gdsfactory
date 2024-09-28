@@ -228,22 +228,58 @@ def taper_strip_to_ridge_trenches(
 
 taper_strip_to_slab150 = partial(taper_strip_to_ridge, layer_slab="SLAB150")
 
-# taper StripCband to NitrideCband
-taper_sc_nc = partial(
-    taper_strip_to_ridge,
-    layer_wg="WG",
-    layer_slab="WGN",
-    length=20.0,
+
+@gf.cell
+def taper_sc_nc(
     width1=0.5,
-    width2=0.15,
-    w_slab1=0.15,
-    w_slab2=1.0,
-    use_slab_port=True,
+    width2=1,
+    length=20,
+    layer_wg="WG",
+    layer_nitride="WGN",
+    width_tip_nitride=0.15,
+    width_tip_silicon=0.15,
+    **kwargs,
+) -> Component:
+    """Taper from strip to nitride.
+
+    Args:
+        width1: strip width.
+        width2: nitride width.
+        length: taper length.
+        layer_wg: strip layer.
+        layer_nitride: nitride layer.
+        width_tip_nitride: tip width for nitride.
+        width_tip_silicon: tip width for strip.
+        kwargs: cross_section settings.
+    """
+    return taper_strip_to_ridge(
+        layer_wg=layer_wg,
+        layer_slab=layer_nitride,
+        length=length,
+        width1=width1,
+        width2=width_tip_nitride,
+        w_slab1=width_tip_silicon,
+        w_slab2=width2,
+        use_slab_port=True,
+        **kwargs,
+    )
+
+
+def taper_nc_sc(width1=1, width2=0.5, length=20, **kwargs) -> Component:
+    return taper_sc_nc(width2=width1, width1=width2, length=length, **kwargs)
+
+
+taper_electrical = partial(
+    taper,
+    port_types=("electrical", "electrical"),
+    port_names=("e1", "e2"),
+    cross_section="metal_routing",
 )
 
 
 if __name__ == "__main__":
-    c = taper(cross_section="rib", width2=5, port_types="optical")
+    c = gf.grid([taper_nc_sc(), taper_sc_nc()])
+    # c = taper(cross_section="rib", width2=5, port_types="optical")
     # c = taper_strip_to_ridge_trenches()
     # c = taper_strip_to_ridge()
     # c = taper(width1=1.5, width2=1, cross_section="rib")

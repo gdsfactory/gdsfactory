@@ -212,8 +212,10 @@ if __name__ == "__main__":
     # c = gf.components.pad()
     c = gf.components.straight_heater_metal(length=100.0)
     # c = gf.components.straight(length=100.0)
+    # c.pprint_ports()
     c = gf.routing.add_pads_top(component=c, port_names=("l_e1",))
-    c = gf.routing.add_fiber_array(c)
+    # c = gf.routing.add_pads_bot(component=c, port_names=("l_e4", "r_e4"), fanout_length=80)
+    # c = gf.routing.add_fiber_array(c)
     c.show()
     # c.show()
 

@@ -21,6 +21,7 @@ import gdsfactory as gf
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.wire import wire_corner
 from gdsfactory.port import Port
+from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
 from gdsfactory.typings import (
     Component,
@@ -101,6 +102,7 @@ def route_bundle(
     radius: float | None = None,
     route_width: float | list[float] | None = None,
     straight: ComponentSpec = straight_function,
+    auto_taper: bool = True,
 ) -> list[ManhattanRoute]:
     """Places a bundle of routes to connect two groups of ports.
 
@@ -127,6 +129,7 @@ def route_bundle(
         radius: bend radius. If None, defaults to cross_section.radius.
         route_width: width of the route. If None, defaults to cross_section.width.
         straight: function for the straight. Defaults to straight.
+        auto_taper: if True, auto-tapers ports to the cross-section of the route.
 
 
     .. plot::
@@ -210,6 +213,10 @@ def route_bundle(
             gf.get_layer(layer) for layer in collision_check_layers
         ]
 
+    if auto_taper:
+        ports1 = add_auto_tapers(component, ports1, cross_section)
+        ports2 = add_auto_tapers(component, ports2, cross_section)
+
     return kf.routing.optical.route_bundle(
         component,
         ports1,
@@ -241,26 +248,34 @@ route_bundle_electrical = partial(
 
 if __name__ == "__main__":
     import gdsfactory as gf
+    from gdsfactory.generic_tech import LAYER
 
-    c = gf.Component()
-    columns = 2
-    ptop = c << gf.components.pad_array(columns=columns, port_orientation=270)
-    pbot = c << gf.components.pad_array(port_orientation=270, columns=columns)
-    # pbot = c << gf.components.pad_array(port_orientation=90, columns=columns)
-
-    ptop.dmovex(300)
-    ptop.dmovey(300)
-    routes = gf.routing.route_bundle_electrical(
-        c,
-        reversed(pbot.ports),
-        ptop.ports,
-        # end_straight_length=50,
-        start_straight_length=100,
-        separation=20,
-        bboxes=[ptop.bbox(), pbot.bbox()],
+    pdk = gf.get_active_pdk()
+    pdk.layer_transitions[LAYER.WG] = partial(
+        gf.c.taper, cross_section="rib", length=20
     )
+    pdk.layer_transitions[LAYER.WG, LAYER.WGN] = gf.c.taper_sc_nc
+    pdk.layer_transitions[LAYER.WGN, LAYER.WG] = gf.c.taper_nc_sc
 
-    c.show()
+    # c = gf.Component()
+    # columns = 2
+    # ptop = c << gf.components.pad_array(columns=columns, port_orientation=270)
+    # pbot = c << gf.components.pad_array(port_orientation=270, columns=columns)
+    # # pbot = c << gf.components.pad_array(port_orientation=90, columns=columns)
+
+    # ptop.dmovex(300)
+    # ptop.dmovey(300)
+    # routes = gf.routing.route_bundle_electrical(
+    #     c,
+    #     reversed(pbot.ports),
+    #     ptop.ports,
+    #     # end_straight_length=50,
+    #     start_straight_length=100,
+    #     separation=20,
+    #     bboxes=[ptop.bbox(), pbot.bbox()],
+    # )
+
+    # c.show()
     # pbot.ports.print()
 
     # c = gf.Component("demo")
@@ -314,3 +329,39 @@ if __name__ == "__main__":
     # c.add_ports(ports1)
     # c.add_ports(ports2)
     # c.show()
+
+    # nitride case
+    # c = gf.Component()
+    # c1 = c << gf.components.straight(width=0.5, cross_section="strip")
+    # c2 = c << gf.components.straight(cross_section="strip", width=0.5)
+    # c2.dmove((150, 50))
+    # routes = route_bundle(
+    #     c,
+    #     [c1.ports["o2"]],
+    #     [c2.ports["o1"]],
+    #     separation=5,
+    #     cross_section="nitride",
+    #     auto_taper=True,
+    # )
+    # c.show()
+
+    # rib
+
+    c = gf.Component()
+    # c1 = c << gf.components.straight(width=2, cross_section="rib")
+    # c2 = c << gf.components.straight(cross_section="rib", width=1)
+    c1 = c << gf.components.straight(cross_section="rib", width=2)
+    c2 = c << gf.components.straight(cross_section="rib", width=4)
+    c2.dmove((100, 70))
+    routes = route_bundle(
+        c,
+        [c1.ports["o2"]],
+        [c2.ports["o1"]],
+        separation=5,
+        cross_section="rib",
+        auto_taper=True,
+        # taper=partial(gf.c.taper, cross_section="rib", length=20),
+        # taper=gf.c.taper_sc_nc,
+        # taper=gf.c.taper,
+    )
+    c.show()

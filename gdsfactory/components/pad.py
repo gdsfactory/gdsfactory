@@ -91,6 +91,7 @@ def pad_array(
     orientation: float | None = None,
     size: Float2 = (100.0, 100.0),
     layer: LayerSpec = "MTOP",
+    centered_ports: bool = False,
 ) -> Component:
     """Returns 2D array of pads.
 
@@ -103,6 +104,7 @@ def pad_array(
         orientation: Deprecated, use port_orientation.
         size: pad size.
         layer: pad layer.
+        centered_ports: True add ports to center. False add ports to the edge.
     """
     if orientation is not None:
         warnings.warn("orientation is deprecated, use port_orientation")
@@ -118,9 +120,24 @@ def pad_array(
 
     for col in range(columns):
         for row in range(rows):
+            center = (col * spacing[0], row * spacing[1])
+
+            port_orientation = int(port_orientation)
+            center = [center[0], center[1]]
+
+            if not centered_ports:
+                if port_orientation == 0:
+                    center[0] += size[0] / 2
+                elif port_orientation == 90:
+                    center[1] += size[1] / 2
+                elif port_orientation == 180:
+                    center[0] -= size[0] / 2
+                elif port_orientation == 270:
+                    center[1] -= size[1] / 2
+
             c.add_port(
                 name=f"e{row+1}{col+1}",
-                center=(col * spacing[0], row * spacing[1]),
+                center=center,
                 width=width,
                 orientation=port_orientation,
                 port_type="electrical",
@@ -138,6 +155,6 @@ pad_array180 = partial(pad_array, port_orientation=180, columns=1, rows=3)
 
 if __name__ == "__main__":
     # c = pad_rectangular()
-    c = pad_array(columns=3)
+    c = pad_array(columns=3, centered_ports=True, port_orientation=90)
     c.pprint_ports()
     c.show()
