@@ -26,6 +26,7 @@ from gdsfactory.routing.sort_ports import get_port_x, get_port_y
 from gdsfactory.typings import (
     Component,
     ComponentSpec,
+    Coordinates,
     CrossSectionSpec,
     LayerSpecs,
 )
@@ -103,6 +104,7 @@ def route_bundle(
     route_width: float | list[float] | None = None,
     straight: ComponentSpec = straight_function,
     auto_taper: bool = True,
+    waypoints: Coordinates | None = None,
 ) -> list[ManhattanRoute]:
     """Places a bundle of routes to connect two groups of ports.
 
@@ -130,6 +132,7 @@ def route_bundle(
         route_width: width of the route. If None, defaults to cross_section.width.
         straight: function for the straight. Defaults to straight.
         auto_taper: if True, auto-tapers ports to the cross-section of the route.
+        waypoints: list of waypoints to add to the route.
 
 
     .. plot::
@@ -217,6 +220,13 @@ def route_bundle(
         ports1 = add_auto_tapers(component, ports1, cross_section)
         ports2 = add_auto_tapers(component, ports2, cross_section)
 
+    if waypoints is not None:
+        if not isinstance(waypoints[0], kf.kdb.Point):
+            # w = [kf.kdb.Point(*p1.center)]
+            w = [kf.kdb.Point(p[0] / dbu, p[1] / dbu) for p in waypoints]
+            # w += [kf.kdb.Point(*p2.center)]
+            waypoints = w
+
     return kf.routing.optical.route_bundle(
         component,
         ports1,
@@ -235,6 +245,7 @@ def route_bundle(
         bboxes=bboxes or [],
         route_width=width_dbu,
         sort_ports=sort_ports,
+        waypoints=waypoints,
     )
 
 
@@ -352,11 +363,12 @@ if __name__ == "__main__":
     # c2 = c << gf.components.straight(cross_section="rib", width=1)
     c1 = c << gf.components.straight(cross_section="rib", width=2)
     c2 = c << gf.components.straight(cross_section="rib", width=4)
-    c2.dmove((100, 70))
+    c2.dmove((300, 70))
     routes = route_bundle(
         c,
         [c1.ports["o2"]],
         [c2.ports["o1"]],
+        waypoints=[(80, 35)],
         separation=5,
         cross_section="rib",
         auto_taper=True,
