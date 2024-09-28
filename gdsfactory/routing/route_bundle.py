@@ -12,9 +12,7 @@ route_bundle calls different function depending on the port orientation.
 
 from __future__ import annotations
 
-from collections.abc import Sequence
 from functools import partial
-from typing import Any, Literal, Protocol
 
 import kfactory as kf
 from kfactory.routing.generic import ManhattanRoute
@@ -33,161 +31,6 @@ from gdsfactory.typings import (
 )
 
 OpticalManhattanRoute = ManhattanRoute
-
-
-class Connector(Protocol):
-    def __call__(self, c: kf.KCell, p1: kf.Port, p2: kf.Port) -> kf.InstanceGroup: ...
-
-
-def place_bend90(
-    c: kf.KCell,
-    pt: kf.kdb.Point,
-    bend90_cell: kf.KCell,
-    angle: Literal[0, 1, 2, 3],
-    center: kf.kdb.Point,
-) -> kf.Instance:
-    """Place a 90 degree bend.
-
-    Args:
-        c: cell to place the bend into.
-        pt: point to place the bend.
-        bend90_cell: cell to place.
-        angle: angle of the bend.
-        center: center of the bend.
-    """
-    inst = c << bend90_cell
-    inst.transform(
-        kf.kdb.Trans(angle, False, pt.to_v()) * kf.kdb.Trans(center.to_v()).inverted()
-    )
-    return inst
-
-
-def place90_autotaper(
-    c: kf.KCell,
-    p1: kf.Port,
-    p2: kf.Port,
-    pts: Sequence[kf.kdb.Point],
-    route_width: kf.kf_types.dbu | None = None,
-    *,
-    connector: Connector | None = None,
-    bend90_cell: kf.KCell | None = None,
-    **kwargs: Any,
-) -> kf.routing.generic.ManhattanRoute:
-    """Place a 90 degree autotaper.
-
-    Args:
-        c: cell to place the route into.
-        p1: start port.
-        p2: end port.
-        pts: list of points to pass through.
-        route_width: width of the route in um.
-        connector: connector to use.
-        bend90_cell: cell to use for the 90 degree bend.
-        **kwargs: additional arguments.
-    """
-    if connector is None:
-        raise ValueError(
-            "A connector must be defined, otherwise 'place90_autotaper will not work.'"
-        )
-    if bend90_cell is None:
-        raise ValueError(
-            "A bend cell must be passes, 'place90_autotaper' cannot work without one."
-        )
-    if kwargs:
-        kf.logger.warning(f"{kwargs=} are not supported and will be ignored")
-    if route_width:
-        kf.logger.warning(
-            "Custom route widths are not supported in place90_autotaper, it will be "
-            "ignored."
-        )
-
-    bend_center = kf.kdb.Point(bend90_cell.ports["o2"].x, bend90_cell.ports["o1"].y)
-
-    old_port = p1
-    old_pt = pts[0]
-    pt = pts[1]
-
-    vec = pt - old_pt
-    angle = kf.routing.optical.vec_angle(vec)
-    length_straight = 0
-    n_tapers = 0
-    n_bends = len(pts) - 2
-    insts: list[kf.Instance] = []
-
-    for pt_new in pts[2:]:
-        vec_new = pt_new - pt
-        angle_new = kf.routing.optical.vec_angle(vec_new)
-
-        if (angle_new - angle) % 4 == 1:
-            b = place_bend90(c, pt, bend90_cell, angle, bend_center)  # type: ignore[arg-type]
-            group = connector(c, old_port, b.ports["o1"])
-            old_port = b.ports["o2"]
-        else:
-            b = place_bend90(
-                c,
-                pt,
-                bend90_cell,
-                angle + 1,  # type: ignore[arg-type]
-                bend_center,
-            )
-            group = connector(c, old_port, b.ports["o2"])
-            old_port = b.ports["o1"]
-
-            if len(group.insts) == 1:
-                length_straight += group.insts[0].bbox().width()
-            elif len(group.insts) > 1:
-                n_tapers += 2
-                length_straight += (
-                    group.insts[1].bbox().width() - 40_000
-                )  # for taper length
-        insts.extend(group.insts)
-        old_pt = pt
-        pt = pt_new
-        angle = angle_new
-
-    group = connector(c, old_port, p2)
-    if len(group.insts) == 1:
-        length_straight += group.insts[0].bbox().width()
-    elif len(group.insts) > 1:
-        n_tapers += 2
-        length_straight += group.insts[1].bbox().width() - 40_000  # for taper length
-    insts.extend(group.insts)
-
-    return kf.routing.generic.ManhattanRoute(
-        backbone=list(pts),
-        start_port=p1,
-        end_port=p2,
-        n_bend90=n_bends,
-        instances=insts,
-        taper_length=n_tapers * 25_000,
-    )
-
-
-def connector_taper(c: kf.KCell, p1: kf.Port, p2: kf.Port) -> kf.InstanceGroup:
-    v = p2.trans.disp - p1.trans.disp
-    if v.length() == 0:
-        return kf.InstanceGroup(insts=[])
-    if v.length() > 40000:
-        w1 = 1000
-        w2 = int(v.length() / 100) // 2 * 2
-        _l = 20_000
-        t = kf.cells.taper.taper_dbu(
-            width1=w1, width2=w2, length=_l, layer=kf.kdb.LayerInfo(1, 0)
-        )
-        t1 = c << t
-        t1.connect("o1", p1)
-        s = c << kf.cells.straight.straight_dbu(
-            width=w2, length=int(v.length() - 40_000), layer=kf.kdb.LayerInfo(1, 0)
-        )
-        s.connect("o1", t1, "o2")
-        t2 = c << t
-        t2.connect("o2", s, "o2")
-        return kf.InstanceGroup(insts=[t1, s, t2])
-    s = c << kf.cells.straight.straight_dbu(
-        width=1000, length=int(v.length()), layer=kf.kdb.LayerInfo(1, 0)
-    )
-    s.connect("o1", p1)
-    return kf.InstanceGroup(insts=[s])
 
 
 def get_min_spacing(
@@ -444,23 +287,23 @@ if __name__ == "__main__":
     # c.show()
     # pbot.ports.print()
 
-    c = gf.Component("demo")
-    c1 = c << gf.components.straight(width=2)
-    c2 = c << gf.components.straight()
-    c2.dmove((100, 70))
-    routes = route_bundle(
-        c,
-        [c1.ports["o2"]],
-        [c2.ports["o1"]],
-        separation=5,
-        cross_section="strip",
-        # end_straight_length=0,
-        # collision_check_layers=[(1, 0)],
-        # bboxes=[c1.bbox(), c2.bbox()],
-        # layer=(2, 0),
-        # straight=partial(gf.components.straight, layer=(2, 0), width=1),
-    )
-    c.show()
+    # c = gf.Component("demo")
+    # c1 = c << gf.components.mmi2x2()
+    # c2 = c << gf.components.mmi2x2()
+    # c2.dmove((100, 70))
+    # routes = route_bundle(
+    #     c,
+    #     [c1.ports["o2"], c1.ports["o1"]],
+    #     [c2.ports["o2"], c2.ports["o1"]],
+    #     separation=5,
+    #     cross_section="strip",
+    #     # end_straight_length=0,
+    #     # collision_check_layers=[(1, 0)],
+    #     # bboxes=[c1.bbox(), c2.bbox()],
+    #     # layer=(2, 0),
+    #     # straight=partial(gf.components.straight, layer=(2, 0), width=1),
+    # )
+    # c.show()
 
     # dy = 200.0
     # xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
@@ -495,3 +338,18 @@ if __name__ == "__main__":
     # c.add_ports(ports1)
     # c.add_ports(ports2)
     # c.show()
+
+    c = gf.Component()
+    c1 = c << gf.components.straight(width=2, cross_section="rib")
+    c2 = c << gf.components.straight(cross_section="rib", width=1)
+    c2.dmove((100, 70))
+    routes = route_bundle(
+        c,
+        [c1.ports["o2"]],
+        [c2.ports["o1"]],
+        separation=5,
+        cross_section="rib",
+        # taper=partial(gf.c.taper, cross_section="rib"),
+        taper=gf.c.taper,
+    )
+    c.show()
