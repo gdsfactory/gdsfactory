@@ -199,9 +199,9 @@ def route_bundle(
     for port in ports1_untapered:
         if (port.dwidth != width or port.layer != layer) and taper:
             if taper_is_fixed:
-                taper1 = c << gf.get_component(taper)
+                taper1 = component << gf.get_component(taper)
             else:
-                taper1 = c << gf.get_component(
+                taper1 = component << gf.get_component(
                     taper, width1=port.dwidth, width2=width, cross_section=cross_section
                 )
             taper1.connect(taper1.ports[0].name, port)
@@ -212,11 +212,11 @@ def route_bundle(
     for port in ports2_untapered:
         if (port.dwidth != width or port.layer != layer) and taper:
             if taper_is_fixed:
-                taper2 = c << gf.get_component(taper)
+                taper2 = component << gf.get_component(taper)
                 taper2.connect(taper2.ports[0].name, port)
                 ports2.append(taper2.ports[1])
             else:
-                taper2 = c << gf.get_component(
+                taper2 = component << gf.get_component(
                     taper, width2=port.dwidth, width1=width, cross_section=cross_section
                 )
                 taper2.connect(taper2.ports[1].name, port)
