@@ -32,6 +32,7 @@ def route_single_from_steps(
     taper_length: float | None = None,
     port_type: str | None = None,
     allow_width_mismatch: bool = False,
+    auto_taper: bool = True,
     **kwargs,
 ) -> ManhattanRoute:
     """Places a route formed by the given waypoints steps.
@@ -54,6 +55,7 @@ def route_single_from_steps(
         taper_length: length of the taper if auto_widen=True.
         port_type: optical or electrical.
         allow_width_mismatch: if True, allows width mismatch.
+        auto_taper: if True, adds taper to the route.
         kwargs: cross_section settings.
 
     .. plot::
@@ -144,6 +146,7 @@ def route_single_from_steps(
         cross_section=cross_section,
         port_type=port_type,
         allow_width_mismatch=allow_width_mismatch,
+        auto_taper=auto_taper,
         **kwargs,
     )
 

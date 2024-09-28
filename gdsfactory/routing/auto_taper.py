@@ -49,6 +49,7 @@ def auto_taper_to_cross_section(
     cs_layer = gf.get_layer(cross_section.layer)
     cs_width = cross_section.width
     pdk = gf.get_active_pdk()
+
     if port_layer != cs_layer:
         try:
             taper = pdk.layer_transitions[(port_layer, cs_layer)]
@@ -68,9 +69,11 @@ def auto_taper_to_cross_section(
         return port
     taper_component = gf.get_component(taper, width1=port_width, width2=cs_width)
     taper_ports = [p for p in taper_component.ports if p.port_type == port.port_type]
+
     if len(taper_ports) != 2:
-        port_names = [p.name for p in taper_ports]
-        raise ValueError(f"Taper component should have two ports! Got {port_names}.")
+        raise ValueError(
+            f"Taper component should have two ports of port_type={port.port_type!r}! Got {taper_component.ports}."
+        )
     if taper_ports[0].layer == port.layer and taper_ports[0].width == port.width:
         p0, p1 = taper_ports
     elif taper_ports[1].layer == port.layer and taper_ports[1].width == port.width:

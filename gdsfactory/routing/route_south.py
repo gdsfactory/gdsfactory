@@ -34,6 +34,7 @@ def route_south(
     start_straight_length: float = 0.5,
     port_type: str | None = None,
     allow_width_mismatch: bool = False,
+    auto_taper: bool = True,
 ) -> list[ManhattanRoute]:
     """Places routes to route a component ports to the south.
 
@@ -57,6 +58,7 @@ def route_south(
         start_straight_length: in um.
         port_type: optical or electrical.
         allow_width_mismatch: allow width mismatch.
+        auto_taper: auto taper.
 
     Works well if the component looks roughly like a rectangular box with:
         north ports on the north of the box.
@@ -112,6 +114,7 @@ def route_south(
         cross_section=cross_section,
         port_type=port_type,
         allow_width_mismatch=allow_width_mismatch,
+        auto_taper=auto_taper,
     )
 
     # Used to avoid crossing between straights in special cases
@@ -146,6 +149,7 @@ def route_south(
             orientation=90.0,
             width=p.dwidth,
             layer=cross_section.layer,
+            port_type=p.port_type,
         )
 
     west_ports.reverse()
