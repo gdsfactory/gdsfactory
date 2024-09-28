@@ -94,6 +94,7 @@ def route_bundle(
     end_straight_length: float = 0,
     min_straight_taper: float = 100,
     taper: ComponentSpec | None = taper_function,
+    taper_is_fixed: bool = False,
     port_type: str | None = None,
     collision_check_layers: LayerSpecs | None = None,
     on_collision: str | None = "show_error",
@@ -120,6 +121,7 @@ def route_bundle(
         end_straight_length: end length at the beginning of the route. If None, uses default value for the routing CrossSection.
         min_straight_taper: minimum length for tapering the straight sections.
         taper: function for the taper. Defaults to None.
+        taper_is_fixed: taper has fixed values. When True, taper is not calculated using the port and cross_section widths.
         port_type: type of port to place. Defaults to optical.
         collision_check_layers: list of layers to check for collisions.
         on_collision: action to take on collision. Defaults to show_error.
@@ -196,7 +198,12 @@ def route_bundle(
     # if route with does not match port width, add a taper
     for port in ports1_untapered:
         if (port.dwidth != width or port.layer != layer) and taper:
-            taper1 = c << gf.get_component(taper, width1=port.dwidth, width2=width)
+            if taper_is_fixed:
+                taper1 = c << gf.get_component(taper)
+            else:
+                taper1 = c << gf.get_component(
+                    taper, width1=port.dwidth, width2=width, cross_section=cross_section
+                )
             taper1.connect(taper1.ports[0].name, port)
             ports1.append(taper1.ports[1])
         else:
@@ -204,9 +211,16 @@ def route_bundle(
 
     for port in ports2_untapered:
         if (port.dwidth != width or port.layer != layer) and taper:
-            taper2 = c << gf.get_component(taper, width2=port.dwidth, width1=width)
-            taper2.connect(taper2.ports[1].name, port)
-            ports2.append(taper2.ports[0])
+            if taper_is_fixed:
+                taper2 = c << gf.get_component(taper)
+                taper2.connect(taper2.ports[0].name, port)
+                ports2.append(taper2.ports[1])
+            else:
+                taper2 = c << gf.get_component(
+                    taper, width2=port.dwidth, width1=width, cross_section=cross_section
+                )
+                taper2.connect(taper2.ports[1].name, port)
+                ports2.append(taper2.ports[0])
         else:
             ports2.append(port)
 
@@ -341,35 +355,34 @@ if __name__ == "__main__":
     # c.show()
 
     # nitride case
-    c = gf.Component()
-    c1 = c << gf.components.straight(width=2, cross_section="strip")
-    c2 = c << gf.components.straight(cross_section="strip", width=1)
-    c2.dmove((100, 70))
-    routes = route_bundle(
-        c,
-        [c1.ports["o2"]],
-        [c2.ports["o1"]],
-        separation=5,
-        cross_section="nitride",
-        # taper=partial(gf.c.taper, cross_section="rib"),
-        taper=gf.c.taper_sc_nc,
-        # taper=gf.c.taper,
-    )
-    c.show()
-
-    # rib
     # c = gf.Component()
-    # c1 = c << gf.components.straight(width=2, cross_section="rib")
-    # c2 = c << gf.components.straight(cross_section="rib", width=1)
+    # c1 = c << gf.components.straight(width=0.5, cross_section="strip")
+    # c2 = c << gf.components.straight(cross_section="strip", width=0.5)
     # c2.dmove((100, 70))
     # routes = route_bundle(
     #     c,
     #     [c1.ports["o2"]],
     #     [c2.ports["o1"]],
     #     separation=5,
-    #     cross_section="rib",
-    #     taper=partial(gf.c.taper, cross_section="rib"),
-    #     # taper=gf.c.taper_sc_nc,
-    #     # taper=gf.c.taper,
+    #     cross_section="nitride",
+    #     taper=gf.c.taper_sc_nc,
+    #     taper_is_fixed=True,
     # )
     # c.show()
+
+    # rib
+    c = gf.Component()
+    c1 = c << gf.components.straight(width=2, cross_section="rib")
+    c2 = c << gf.components.straight(cross_section="rib", width=1)
+    c2.dmove((100, 70))
+    routes = route_bundle(
+        c,
+        [c1.ports["o2"]],
+        [c2.ports["o1"]],
+        separation=5,
+        cross_section="rib",
+        taper=partial(gf.c.taper, cross_section="rib", length=20),
+        # taper=gf.c.taper_sc_nc,
+        # taper=gf.c.taper,
+    )
+    c.show()

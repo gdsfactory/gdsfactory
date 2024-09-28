@@ -54,6 +54,7 @@ def route_single(
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
     taper: ComponentSpec | None = taper_function,
+    taper_is_fixed: bool = False,
     start_straight_length: float = 0.0,
     end_straight_length: float = 0.0,
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "strip",
@@ -75,6 +76,7 @@ def route_single(
         bend: bend spec.
         straight: straight spec.
         taper: taper spec.
+        taper_is_fixed: taper has fixed values. When True, taper is not calculated using the port and cross_section widths.
         start_straight_length: length of starting straight.
         end_straight_length: length of end straight.
         cross_section: spec.
@@ -113,24 +115,35 @@ def route_single(
     )
 
     if port1.dwidth != width and taper:
-        taper1 = component << gf.get_component(
-            taper,
-            width1=port1.dwidth,
-            width2=width,
-            cross_section=cross_section,
-        )
+        if taper_is_fixed:
+            taper1 = component << gf.get_component(taper)
+        else:
+            taper1 = component << gf.get_component(
+                taper,
+                width1=port1.dwidth,
+                width2=width,
+                cross_section=cross_section,
+            )
         taper1.connect(taper1.ports[0].name, port1)
         p1 = taper1.ports[1]
 
     if port2.dwidth != width and taper is not None:
-        taper2 = component << gf.get_component(
-            taper,
-            width1=width,
-            width2=port2.dwidth,
-            cross_section=cross_section,
-        )
-        taper2.connect(taper2.ports[1].name, port2)
-        p2 = taper2.ports[0]
+        if taper_is_fixed:
+            taper2 = component << gf.get_component(
+                taper,
+            )
+            taper2.connect(taper2.ports[0].name, port2)
+            p2 = taper2.ports[1]
+
+        else:
+            taper2 = component << gf.get_component(
+                taper,
+                width1=width,
+                width2=port2.dwidth,
+                cross_section=cross_section,
+            )
+            taper2.connect(taper2.ports[1].name, port2)
+            p2 = taper2.ports[0]
 
     def straight_dbu(
         length: int,
@@ -313,7 +326,7 @@ if __name__ == "__main__":
     #     p1,
     #     cross_section="metal_routing",
     #     waypoints=[
-    #         (p0x + o, p0y),
+    #         (p0x + o, p0y),                                             ,
     #         (p0x + o, ytop),
     #         (p1x + o, ytop),
     #         (p1x + o, p1y),
@@ -321,10 +334,23 @@ if __name__ == "__main__":
     # )
     # c.show()
 
-    c = gf.Component()
-    c1 = c << gf.components.straight(width=5, cross_section="strip")
-    c2 = c << gf.components.straight(cross_section="strip", width=2)
-    c2.dmove((100, 70))
+    # c = gf.Component()
+    # c1 = c << gf.components.straight(width=5, cross_section="strip")
+    # c2 = c << gf.components.straight(cross_section="strip", width=2)
+    # c2.dmove((100, 70))
+    # gf.routing.route_single(c, c1["o2"], c2["o1"], cross_section="strip")
+    # c.show()
 
-    gf.routing.route_single(c, c1["o2"], c2["o1"], cross_section="strip")
+    c = gf.Component()
+    c1 = c << gf.components.straight(width=0.5, cross_section="strip")
+    c2 = c << gf.components.straight(cross_section="strip", width=0.5)
+    c2.dmove((100, 70))
+    gf.routing.route_single(
+        c,
+        c1["o2"],
+        c2["o1"],
+        cross_section="nitride",
+        taper=gf.c.taper_sc_nc,
+        taper_is_fixed=True,
+    )
     c.show()
