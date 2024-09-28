@@ -257,6 +257,7 @@ from gdsfactory.components.straight_pin import straight_pin, straight_pn
 from gdsfactory.components.straight_pin_slot import straight_pin_slot
 from gdsfactory.components.taper import (
     taper,
+    taper_electrical,
     taper_nc_sc,
     taper_sc_nc,
     taper_strip_to_ridge,
@@ -529,6 +530,7 @@ __all__ = [
     "taper_nc_sc",
     "taper_strip_to_ridge",
     "taper_strip_to_ridge_trenches",
+    "taper_electrical",
     "terminator",
     "text",
     "text_klayout",

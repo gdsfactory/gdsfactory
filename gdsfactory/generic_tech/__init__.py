@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import typing
-from functools import cache
+from functools import cache, partial
 
 from gdsfactory.config import PATH
 from gdsfactory.generic_tech.layer_map import LAYER
@@ -32,11 +32,6 @@ PORT_LAYER_TO_TYPE = {
 
 PORT_TYPE_TO_MARKER_LAYER = {v: k for k, v in PORT_MARKER_LAYER_TO_TYPE.items()}
 
-LAYER_TRANSITIONS = {
-    LAYER.WG: "taper",
-    LAYER.M3: "taper",
-    # (LAYER.)
-}
 
 LAYER_CONNECTIVITY = [
     ("NPP", "VIAC", "M1"),
@@ -48,6 +43,7 @@ LAYER_CONNECTIVITY = [
 
 @cache
 def get_generic_pdk() -> Pdk:
+    import gdsfactory as gf
     from gdsfactory.components import cells
     from gdsfactory.config import PATH
     from gdsfactory.cross_section import cross_sections
@@ -60,6 +56,12 @@ def get_generic_pdk() -> Pdk:
     cells = cells.copy()
     cells.update(containers)
 
+    layer_transitions = {
+        LAYER.WG: partial(gf.c.taper, cross_section="rib", length=20),
+        (LAYER.WG, LAYER.WGN): "taper_sc_nc",
+        LAYER.M3: "taper_electrical",
+    }
+
     return Pdk(
         name="generic",
         cells=cells,
@@ -67,7 +69,7 @@ def get_generic_pdk() -> Pdk:
         layers=LAYER,
         layer_stack=LAYER_STACK,
         layer_views=LAYER_VIEWS,
-        layer_transitions=LAYER_TRANSITIONS,
+        layer_transitions=layer_transitions,
         materials_index=materials_index,
         constants=constants,
         connectivity=LAYER_CONNECTIVITY,

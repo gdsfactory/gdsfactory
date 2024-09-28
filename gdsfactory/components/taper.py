@@ -269,6 +269,11 @@ def taper_nc_sc(width1=1, width2=0.5, length=20, **kwargs) -> Component:
     return taper_sc_nc(width2=width1, width1=width2, length=length, **kwargs)
 
 
+taper_electrical = partial(
+    taper, port_types=("electrical", "electrical"), port_names=("e1", "e2")
+)
+
+
 if __name__ == "__main__":
     c = gf.grid([taper_nc_sc(), taper_sc_nc()])
     # c = taper(cross_section="rib", width2=5, port_types="optical")
