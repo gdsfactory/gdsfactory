@@ -1,5 +1,5 @@
 instances:
-  array_Cpad_small_S100_1_1d3ac3f6_185500_m10000:
+  array_Cpad_small_S100_1_f794bc0e_185500_m10000:
     component: array
     info: {}
     settings:
@@ -39,7 +39,7 @@ instances:
 name: mzi_pads_center_PTstrai_c97b64ce
 nets: []
 placements:
-  array_Cpad_small_S100_1_1d3ac3f6_185500_m10000:
+  array_Cpad_small_S100_1_f794bc0e_185500_m10000:
     mirror: false
     rotation: 0
     x: 185.5
@@ -73,18 +73,18 @@ warnings:
     unconnected_ports:
     - message: 12 unconnected electrical ports!
       ports:
-      - array_Cpad_small_S100_1_1d3ac3f6_185500_m10000,e1_1_1
-      - array_Cpad_small_S100_1_1d3ac3f6_185500_m10000,e2_1_1
-      - array_Cpad_small_S100_1_1d3ac3f6_185500_m10000,e3_1_1
-      - array_Cpad_small_S100_1_1d3ac3f6_185500_m10000,e4_1_1
-      - array_Cpad_small_S100_1_1d3ac3f6_185500_m10000,e1_1_2
-      - array_Cpad_small_S100_1_1d3ac3f6_185500_m10000,e2_1_2
-      - array_Cpad_small_S100_1_1d3ac3f6_185500_m10000,e3_1_2
-      - array_Cpad_small_S100_1_1d3ac3f6_185500_m10000,e4_1_2
-      - array_Cpad_small_S100_1_1d3ac3f6_185500_m10000,e1_1_3
-      - array_Cpad_small_S100_1_1d3ac3f6_185500_m10000,e2_1_3
-      - array_Cpad_small_S100_1_1d3ac3f6_185500_m10000,e3_1_3
-      - array_Cpad_small_S100_1_1d3ac3f6_185500_m10000,e4_1_3
+      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,e1_1_1
+      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,e2_1_1
+      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,e3_1_1
+      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,e4_1_1
+      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,e1_1_2
+      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,e2_1_2
+      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,e3_1_2
+      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,e4_1_2
+      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,e1_1_3
+      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,e2_1_3
+      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,e3_1_3
+      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,e4_1_3
       values:
       - - 145500
         - -10000
@@ -114,9 +114,9 @@ warnings:
     unconnected_ports:
     - message: 3 unconnected vertical_dc ports!
       ports:
-      - array_Cpad_small_S100_1_1d3ac3f6_185500_m10000,pad_1_1
-      - array_Cpad_small_S100_1_1d3ac3f6_185500_m10000,pad_1_2
-      - array_Cpad_small_S100_1_1d3ac3f6_185500_m10000,pad_1_3
+      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,pad_1_1
+      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,pad_1_2
+      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,pad_1_3
       values:
       - - 185500
         - -10000
