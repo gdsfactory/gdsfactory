@@ -53,7 +53,6 @@ def route_single(
     port2: Port,
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
-    taper: ComponentSpec | None = None,
     start_straight_length: float = 0.0,
     end_straight_length: float = 0.0,
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "strip",
@@ -75,7 +74,6 @@ def route_single(
         port2: end port.
         bend: bend spec.
         straight: straight spec.
-        taper: taper spec.
         start_straight_length: length of starting straight.
         end_straight_length: length of end straight.
         cross_section: spec.
@@ -110,7 +108,6 @@ def route_single(
     radius = radius or xs.radius
     width_dbu = width / component.kcl.dbu
 
-    taper_cell = gf.get_component(taper, cross_section=cross_section) if taper else None
     bend90 = gf.get_component(
         bend, cross_section=cross_section, radius=radius, width=width
     )
@@ -148,7 +145,6 @@ def route_single(
             p2=p2,
             straight_factory=straight_dbu,
             bend90_cell=bend90,
-            taper_cell=taper_cell,
             pts=waypoints,
             port_type=port_type,
             allow_width_mismatch=allow_width_mismatch,
@@ -162,7 +158,6 @@ def route_single(
             p2=p2,
             straight_factory=straight_dbu,
             bend90_cell=bend90,
-            taper_cell=taper_cell,
             start_straight=start_straight,
             end_straight=end_straight,
             port_type=port_type,
