@@ -1,5 +1,5 @@
 instances:
-  array_Crectangle_S1_1_L_54e31c4e_19500_19500:
+  array_Crectangle_S1_1_L_271f500e_19500_19500:
     component: array
     info: {}
     settings:
@@ -28,7 +28,7 @@ instances:
 name: rectangle_with_slits_S1_6987a1f5
 nets: []
 placements:
-  array_Crectangle_S1_1_L_54e31c4e_19500_19500:
+  array_Crectangle_S1_1_L_271f500e_19500_19500:
     mirror: false
     rotation: 0
     x: 19.5
