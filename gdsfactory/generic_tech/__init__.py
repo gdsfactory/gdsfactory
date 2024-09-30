@@ -57,7 +57,7 @@ def get_generic_pdk() -> Pdk:
     cells.update(containers)
 
     layer_transitions = {
-        LAYER.WG: partial(gf.c.taper, cross_section="rib", length=20),
+        LAYER.WG: partial(gf.c.taper, cross_section="strip", length=10),
         (LAYER.WG, LAYER.WGN): "taper_sc_nc",
         LAYER.M3: "taper_electrical",
     }

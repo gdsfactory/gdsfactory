@@ -44,7 +44,6 @@ def grating_coupler_tree(
         grating_coupler=grating_coupler,
         fanout_length=fanout_length,
         bend=bend,
-        taper=None,
         **kwargs,
     )
 

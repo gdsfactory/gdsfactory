@@ -47,7 +47,6 @@ def loss_deembedding_ch13_24(
         gc_ports[0],
         gc_ports[2],
         start_straight_length=40.0,
-        taper=None,
         cross_section=cross_section,
         **kwargs,
     )
@@ -121,7 +120,6 @@ def loss_deembedding_ch12_34(
         gc_ports[0],
         gc_ports[1],
         start_straight_length=40.0,
-        taper=None,
         cross_section=cross_section,
         **kwargs,
     )
@@ -130,7 +128,6 @@ def loss_deembedding_ch12_34(
         gc_ports[2],
         gc_ports[3],
         start_straight_length=40.0,
-        taper=None,
         cross_section=cross_section,
         **kwargs,
     )
@@ -178,7 +175,6 @@ def loss_deembedding_ch14_23(
         gc_ports[0],
         gc_ports[3],
         start_straight_length=40.0,
-        taper=None,
         cross_section=cross_section,
         **kwargs,
     )
@@ -187,7 +183,6 @@ def loss_deembedding_ch14_23(
         gc_ports[1],
         gc_ports[2],
         start_straight_length=30.0,
-        taper=None,
         cross_section=cross_section,
         **kwargs,
     )
@@ -233,7 +228,6 @@ def grating_coupler_loss_fiber_array(
         gc_ports[0],
         gc_ports[1],
         start_straight_length=40.0,
-        taper=None,
         cross_section=cross_section,
         **kwargs,
     )

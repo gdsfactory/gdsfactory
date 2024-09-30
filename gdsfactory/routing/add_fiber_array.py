@@ -21,7 +21,6 @@ def add_fiber_array(
     gc_port_name: str = "o1",
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionSpec = "strip",
-    taper: ComponentSpec | None = None,
     **kwargs,
 ) -> Component:
     """Returns component with south routes and grating_couplers.
@@ -34,7 +33,6 @@ def add_fiber_array(
         gc_port_name: grating coupler input port name.
         select_ports: function to select ports.
         cross_section: cross_section function.
-        taper: taper spec.
         kwargs: additional arguments.
 
     Keyword Args:
@@ -120,7 +118,6 @@ def add_fiber_array(
         gc_port_name=gc_port_name,
         cross_section=cross_section,
         select_ports=select_ports,
-        taper=taper,
         **kwargs,
     )
 
