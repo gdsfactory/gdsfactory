@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from functools import partial
+
 import gdsfactory as gf
 import gdsfactory.components as pc
 from gdsfactory.generic_tech import LAYER
@@ -51,7 +53,17 @@ def sample_reticle(size=(1000, 1000), ec="edge_coupler_silicon") -> gf.Component
 
     c = gf.Component()
     fp = c << pc.rectangle(size=size, layer=LAYER.FLOORPLAN)
-    grid = c << gf.grid(components_ec, shape=(len(components), 1))
+
+    text_offset_y = 10
+    grid = c << gf.grid_with_text(
+        components_ec,
+        shape=(len(components), 1),
+        text=partial(gf.c.text_rectangular, layer=LAYER.M3),
+        text_offsets=(
+            (-size[0] / 2, text_offset_y),
+            (+size[0] / 2 - 180, text_offset_y),
+        ),
+    )
     fp.dx = grid.dx
     return c
 
