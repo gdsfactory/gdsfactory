@@ -1,12 +1,12 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.10.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.10.2...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.10.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.10.2) - 2024-10-02
 
-No significant changes.
-
+- fix route_ports_to_side [#3236](https://github.com/gdsfactory/gdsfactory/pull/3236)
+- update kfactory to 0.20.8
 
 ## [8.10.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.10.1) - 2024-10-01
 
