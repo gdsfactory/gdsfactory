@@ -92,7 +92,7 @@ def route_ports_to_side(
         raise ValueError(f"side = {side} not valid (north, south, west, east)")
 
     ports = ports or component.ports
-    return func_route(component, ports, xy, **kwargs)
+    return func_route(component, ports, xy, side=side, **kwargs)
 
 
 def route_ports_to_north(list_ports, **kwargs):
@@ -126,6 +126,7 @@ def route_ports_to_x(
     start_straight_length: float = 0.01,
     dx_start: float | None = None,
     dy_start: float | None = None,
+    side: Literal["east", "west"] = "east",
     **routing_func_args,
 ) -> tuple[list[ManhattanRoute], list[kf.Port]]:
     """Returns route to x.
@@ -154,6 +155,7 @@ def route_ports_to_x(
         start_straight_length: in um.
         dx_start: override minimum starting x distance.
         dy_start: override minimum starting y distance.
+        side: "east" or "west".
         routing_func_args: additional arguments to pass to the routing function.
 
     Returns:
@@ -170,16 +172,6 @@ def route_ports_to_x(
     south_ports = [p for p in list_ports if p.orientation == 270]
     east_ports = [p for p in list_ports if p.orientation == 0]
     west_ports = [p for p in list_ports if p.orientation == 180]
-
-    y0_bottom = round(y0_bottom / component.kcl.dbu) if y0_bottom else None
-    y0_top = round(y0_top / component.kcl.dbu) if y0_top else None
-    dx_start = round(dx_start / component.kcl.dbu) if dx_start else None
-    dy_start = round(dy_start / component.kcl.dbu) if dy_start else None
-    extension_length = round(extension_length / component.kcl.dbu)
-    extend_top = round(extend_top / component.kcl.dbu)
-    extend_bottom = round(extend_bottom / component.kcl.dbu)
-    radius = round(radius / component.kcl.dbu)
-    separation = round(separation / component.kcl.dbu)
 
     epsilon = 1.0
     a = epsilon + max(radius, separation)
@@ -243,6 +235,12 @@ def route_ports_to_x(
     def add_port(
         p, y, l_elements, l_ports, start_straight_length=start_straight_length
     ) -> None:
+        if side == "west":
+            angle = 0
+
+        elif side == "east":
+            angle = 180
+
         new_port = p.copy()
         new_port.orientation = angle
         new_port.dx = x + extension_length
@@ -257,7 +255,7 @@ def route_ports_to_x(
                 p,
                 new_port,
                 start_straight_length=start_straight_length,
-                radius=radius * component.kcl.dbu,
+                radius=radius,
                 **routing_func_args,
             )
         ]
@@ -337,6 +335,7 @@ def route_ports_to_y(
     start_straight_length: float = 0.01,
     dx_start: float | None = None,
     dy_start: float | None = None,
+    side: Literal["north", "south"] = "north",
     **routing_func_args: dict[Any, Any],
 ) -> tuple[list[ManhattanRoute], list[kf.Port]]:
     """Route ports to y.
@@ -367,6 +366,7 @@ def route_ports_to_y(
         start_straight_length: in um.
         dx_start: override minimum starting x distance.
         dy_start: override minimum starting y distance.
+        side: "north" or "south".
         routing_func_args: additional arguments to pass to the routing function.
 
 
@@ -435,14 +435,12 @@ def route_ports_to_y(
         sort_key_west = sort_key_south_to_north
         forward_ports = south_ports
         backward_ports = north_ports
-        angle = 90.0
 
     elif y >= max(ys):
         sort_key_west = sort_key_north_to_south
         sort_key_east = sort_key_north_to_south
         forward_ports = north_ports
         backward_ports = south_ports
-        angle = -90.0
     else:
         raise ValueError("y should be either to the north or to the south of all ports")
 
@@ -464,11 +462,17 @@ def route_ports_to_y(
     def add_port(
         p, x, l_elements, l_ports, start_straight_length=start_straight_length
     ):
+        if side == "south":
+            angle = 90
+
+        elif side == "north":
+            angle = 270
+
         new_port = p.copy()
         new_port.orientation = angle
         new_port.dcenter = (x, y + extension_length)
 
-        if np.sum(np.abs((np.array(new_port.center) - p.center) ** 2)) < 1e-12:
+        if np.sum(np.abs((np.array(new_port.center) - p.center) ** 2)) < 1:
             l_ports += [flipped(new_port)]
             return
 
@@ -540,10 +544,10 @@ if __name__ == "__main__":
     routes = route_ports_to_side(
         c,
         dummy_ref.ports,
-        "north",
+        "south",
         cross_section=cross_section,
-        y=91,
-        x=100,
+        y=-91,
+        x=-100,
         # radius=5
     )
     # sides = ["north", "south", "east", "west"]
