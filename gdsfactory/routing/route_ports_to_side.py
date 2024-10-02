@@ -396,16 +396,6 @@ def route_ports_to_y(
         p for p in list_ports if p.orientation < 180 + da and p.orientation > 180 - da
     ]
 
-    x0_right = round(x0_right / component.kcl.dbu) if x0_right else None
-    x0_left = round(x0_left / component.kcl.dbu) if x0_left else None
-    extension_length = round(extension_length / component.kcl.dbu)
-    extend_right = round(extend_right / component.kcl.dbu)
-    extend_left = round(extend_left / component.kcl.dbu)
-    radius = round(radius / component.kcl.dbu)
-    separation = round(separation / component.kcl.dbu)
-    dx_start = round(dx_start / component.kcl.dbu) if dx_start else None
-    dy_start = round(dy_start / component.kcl.dbu) if dy_start else None
-
     epsilon = 1.0
     a = radius + max(radius, separation)
     bx = epsilon + max(radius, dx_start) if dx_start else a
@@ -476,7 +466,7 @@ def route_ports_to_y(
     ):
         new_port = p.copy()
         new_port.orientation = angle
-        new_port.center = (x, y + extension_length)
+        new_port.dcenter = (x, y + extension_length)
 
         if np.sum(np.abs((np.array(new_port.center) - p.center) ** 2)) < 1e-12:
             l_ports += [flipped(new_port)]
@@ -488,8 +478,8 @@ def route_ports_to_y(
                     component,
                     p,
                     new_port,
-                    start_straight_length=start_straight_length * component.kcl.dbu,
-                    radius=radius * component.kcl.dbu,
+                    start_straight_length=start_straight_length,
+                    radius=radius,
                     **routing_func_args,
                 )
             ]
@@ -542,9 +532,20 @@ def route_ports_to_y(
 
 if __name__ == "__main__":
     c = Component("sample_route_sides")
-    dummy = gf.components.nxn(north=2, south=2, west=2, east=2, cross_section="strip")
+    cross_section = "strip"
+    dummy = gf.components.nxn(
+        north=2, south=2, west=2, east=2, cross_section=cross_section
+    )
     dummy_ref = c << dummy
-    routes = route_ports_to_side(c, dummy_ref.ports, "north", layer=(1, 0))
+    routes = route_ports_to_side(
+        c,
+        dummy_ref.ports,
+        "north",
+        cross_section=cross_section,
+        y=91,
+        x=100,
+        # radius=5
+    )
     # sides = ["north", "south", "east", "west"]
     # d = 100
     # positions = [(0, 0), (d, 0), (d, d), (0, d)]
