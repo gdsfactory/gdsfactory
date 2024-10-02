@@ -245,8 +245,8 @@ def route_ports_to_x(
     ) -> None:
         new_port = p.copy()
         new_port.orientation = angle
-        new_port.x = x + extension_length
-        new_port.y = y
+        new_port.dx = x + extension_length
+        new_port.dy = y
 
         new_port2 = new_port.copy()
         new_port2.trans *= gf.kdb.Trans.R180
