@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.10.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.10.2) - 2024-10-02
+
+No significant changes.
+
+
 ## [8.10.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.10.1) - 2024-10-01
 
 - Improve edge coupler docs and fix grid_with_text [#3234](https://github.com/gdsfactory/gdsfactory/pull/3234)
