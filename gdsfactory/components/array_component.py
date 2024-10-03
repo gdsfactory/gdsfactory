@@ -3,7 +3,7 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory import cell
 from gdsfactory.component import Component
-from gdsfactory.typings import ComponentSpec, Float2
+from gdsfactory.typings import Callable, ComponentSpec, Float2, Iterable
 
 
 @cell
@@ -15,6 +15,7 @@ def array(
     add_ports: bool = True,
     size: Float2 | None = None,
     centered: bool = False,
+    post_process: Iterable[Callable] | None = None,
 ) -> Component:
     """Returns an array of components.
 
@@ -26,6 +27,7 @@ def array(
         add_ports: add ports from component into the array.
         size: Optional x, y size. Overrides columns and rows.
         centered: center the array around the origin.
+        post_process: function to apply to the array after creation.
 
     Raises:
         ValueError: If columns > 1 and spacing[0] = 0.
@@ -66,6 +68,9 @@ def array(
                     name = f"{port.name}_{iy+1}_{ix+1}"
                     c.add_port(name, port=port)
 
+    if post_process:
+        for f in post_process:
+            f(c)
     return c
 
 

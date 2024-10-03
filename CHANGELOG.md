@@ -1,12 +1,35 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.8.9...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.10.2...main)
 
 <!-- towncrier release notes start -->
+
+## [8.10.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.10.2) - 2024-10-02
+
+- fix route_ports_to_side [#3236](https://github.com/gdsfactory/gdsfactory/pull/3236)
+- update kfactory to 0.20.8
+
+## [8.10.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.10.1) - 2024-10-01
+
+- Improve edge coupler docs and fix grid_with_text [#3234](https://github.com/gdsfactory/gdsfactory/pull/3234)
+
+## [8.10.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.10.0) - 2024-09-30
+
+- Add post process to array [#3231](https://github.com/gdsfactory/gdsfactory/pull/3231)
+- remove taper cell [#3230](https://github.com/gdsfactory/gdsfactory/pull/3230)
+- make port array post_process and iterable [#3232](https://github.com/gdsfactory/gdsfactory/pull/3232)
+
+## [8.9.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.9.1) - 2024-09-29
+
+- fix docs [#3226](https://github.com/gdsfactory/gdsfactory/pull/3226)
+- update kfactory to 0.20.7 [#3229](https://github.com/gdsfactory/gdsfactory/pull/3229)
+
+## [8.9.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.9.0) - 2024-09-28
+
+- auto tapering v2 [#3223](https://github.com/gdsfactory/gdsfactory/pull/3223)
 
 ## [8.8.9](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.9) - 2024-09-27
 
 - More generic components [#3219](https://github.com/gdsfactory/gdsfactory/pull/3219)
-
 
 ## [8.8.8](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.8.8) - 2024-09-20
 

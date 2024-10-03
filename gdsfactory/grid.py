@@ -5,6 +5,7 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 
 from __future__ import annotations
 
+from itertools import zip_longest
 from typing import Literal
 
 import kfactory as kf
@@ -137,8 +138,8 @@ def grid_with_text(
 
     """
     components = [gf.get_component(component) for component in components]
-    text_offsets = text_offsets or [(0, 0)] * len(components)
-    text_anchors = text_anchors or ["center"] * len(components)
+    text_offsets = text_offsets or [(0, 0)]
+    text_anchors = text_anchors or ["center"]
     c = gf.Component()
     instances = kf.grid(
         c,
@@ -158,16 +159,18 @@ def grid_with_text(
         for j, instance in enumerate(instances_list):
             c.add_ports(instance.ports, prefix=f"{j}_{i}_")
             if text:
-                t = c << text(f"{text_prefix}{j}_{i}")
-                size_info = instance.dsize_info
-                o = np.array(text_offsets[j])
-                d = np.array(getattr(size_info, text_anchors[j]))
-                t.dmove(o + d)
-                if text_mirror:
-                    t.dmirror()
-                if text_rotation:
-                    t.drotate(text_rotation)
-
+                for text_offset, text_anchor in zip_longest(text_offsets, text_anchors):
+                    t = c << text(f"{text_prefix}{j}_{i}")
+                    size_info = instance.dsize_info
+                    text_offset = text_offset or (0, 0)
+                    text_anchor = text_anchor or "center"
+                    o = np.array(text_offset)
+                    d = np.array(getattr(size_info, text_anchor))
+                    t.dmove(o + d)
+                    if text_mirror:
+                        t.dmirror()
+                    if text_rotation:
+                        t.drotate(text_rotation)
     return c
 
 
@@ -188,6 +191,6 @@ if __name__ == "__main__":
         mirror=False,
         spacing=(200.0, 200.0),
         # spacing=1,
-        # text_offsets=((0, 100), (0, -100)),
+        text_offsets=((0, 100), (0, -100)),
     )
     c.show()

@@ -10,7 +10,6 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.cross_section import strip
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.route_bundle import get_min_spacing, route_bundle
@@ -33,7 +32,6 @@ def route_fiber_array(
     grating_coupler: ComponentSpecOrList = grating_coupler_te,
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
-    taper: ComponentSpec | None = taper_function,
     fanout_length: float | None = None,
     max_y0_optical: None = None,
     with_loopback: bool = True,
@@ -69,7 +67,6 @@ def route_fiber_array(
         grating_coupler: grating coupler instance, function or list of functions.
         bend: for bends.
         straight: straight.
-        taper: taper.
         fanout_length: target distance between gratings and the southmost component port.
             If None, automatically calculated.
         max_y0_optical: Maximum y coordinate at which the intermediate optical ports can be set.
@@ -267,7 +264,6 @@ def route_fiber_array(
         gc_port_name=gc_port_name,
         bend=bend90,
         straight=straight,
-        taper=taper,
         select_ports=select_ports,
         port_names=port_names,
         cross_section=cross_section,
@@ -337,7 +333,6 @@ def route_fiber_array(
             port_type=port_type,
             sort_ports=True,
             allow_width_mismatch=allow_width_mismatch,
-            taper=taper,
             route_width=route_width,
         )
         if with_fiber_port:
@@ -364,7 +359,6 @@ def route_fiber_array(
                 port_type=port_type,
                 sort_ports=True,
                 allow_width_mismatch=allow_width_mismatch,
-                taper=taper,
                 route_width=route_width,
             )
             del to_route[n0 - dn : n0 + dn]
@@ -424,7 +418,6 @@ def route_fiber_array(
             straight=straight,
             bend=bend90,
             cross_section=cross_section,
-            taper=taper,
         )
         if with_fiber_port:
             port0 = gca1[gc_port_name_fiber]
@@ -456,16 +449,16 @@ def demo() -> None:
 if __name__ == "__main__":
 
     @gf.cell
-    def mzi_with_bend(radius=10):
+    def mzi_with_bend(radius=10, **kwargs):
         c = gf.Component()
-        bend = c.add_ref(gf.components.bend_euler(radius=radius))
-        mzi = c.add_ref(gf.components.mzi())
+        bend = c.add_ref(gf.components.bend_euler(radius=radius, **kwargs))
+        mzi = c.add_ref(gf.components.mzi(**kwargs))
         bend.connect("o1", mzi.ports["o2"])
         c.add_port(name="o1", port=mzi.ports["o1"])
         c.add_port(name="o2", port=bend.ports["o2"])
         return c
 
-    gc = gf.components.grating_coupler_elliptical_te(taper_length=30)
+    gc = gf.components.grating_coupler_elliptical_te(taper_length=10)
 
     # component = gf.components.nxn(north=10, south=10, east=10, west=10)
     # component = gf.components.straight()
@@ -476,7 +469,7 @@ if __name__ == "__main__":
     # component = gf.components.mzi_phase_shifter()
 
     c = gf.Component()
-    ref = c << mzi_with_bend()
+    ref = c << gf.c.straight(width=2, length=10)
     routes = route_fiber_array(
         c,
         ref,
