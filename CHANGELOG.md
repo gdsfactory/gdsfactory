@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.11.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.11.0) - 2024-10-03
+
+No significant changes.
+
+
 ## [8.10.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.10.2) - 2024-10-02
 
 - fix route_ports_to_side [#3236](https://github.com/gdsfactory/gdsfactory/pull/3236)
