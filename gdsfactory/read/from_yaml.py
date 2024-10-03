@@ -227,16 +227,16 @@ def _parse_maybe_arrayed_instance(inst_spec: str) -> tuple:
         ia, ib = array_spec.split(".")
         try:
             ia = int(ia)
-        except ValueError:
+        except ValueError as e:
             raise ValueError(
                 f"When parsing array reference specifier '{inst_spec}', got a non-integer index '{ia}'"
-            )
+            ) from e
         try:
             ib = int(ib)
-        except ValueError:
+        except ValueError as exc:
             raise ValueError(
                 f"When parsing array reference specifier '{inst_spec}', got a non-integer index '{ib}'"
-            )
+            ) from exc
         return inst_name, ia, ib
     # in the non-arrayed case, return none for the indices
     return inst_spec, None, None
@@ -1793,7 +1793,7 @@ instances:
 """
 
 if __name__ == "__main__":
-    c = from_yaml(sample_yaml_xmin)
+    c = from_yaml(sample_mirror)
     # c = from_yaml(sample_array)
     # c = from_yaml(sample_yaml_xmin)
     # c = from_yaml(sample_array)

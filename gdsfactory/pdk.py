@@ -296,9 +296,9 @@ class Pdk(BaseModel):
             return cell
         elif isinstance(cell, str):
             if cell not in cells:
-                cells = sorted(self.cells)
+                matching_cells = [c for c in cells if cell in c]
                 raise ValueError(
-                    f"{cell!r} from PDK {self.name!r} not in cells: {cells} "
+                    f"{cell!r} from PDK {self.name!r} not in cells: Did you mean {matching_cells}?"
                 )
             return self.cells[cell]
         elif isinstance(cell, dict):
@@ -312,9 +312,10 @@ class Pdk(BaseModel):
 
             cell_name = cell.get("function")
             if not isinstance(cell_name, str) or cell_name not in cells:
-                cells = list(self.cells.keys())
+                cell_name = cell
+                matching_cells = [cell for cell in cells if cell_name in cell]
                 raise ValueError(
-                    f"{cell_name!r} from PDK {self.name!r} not in cells: {cells} "
+                    f"{cell!r} from PDK {self.name!r} not in cells: Did you mean {matching_cells}?"
                 )
             cell = self.cells[cell_name]
             return partial(cell, **settings)
@@ -371,8 +372,17 @@ class Pdk(BaseModel):
             return component(**kwargs)
         elif isinstance(component, str):
             if component not in cells:
+                substring = component
+                matching_cells = []
+
+                # Reduce the length of the cell string until we find matches
+                while substring and not matching_cells:
+                    matching_cells = [c for c in cells if substring in c]
+                    if not matching_cells:
+                        substring = substring[:-1]  # Remove the last character
+
                 raise ValueError(
-                    f"{component!r} not in PDK {self.name!r} cells: {cells} "
+                    f"{component!r} not in PDK {self.name!r}. Did you mean {matching_cells}?"
                 )
             return self.cells[component](**kwargs)
         elif isinstance(component, dict):
@@ -389,8 +399,9 @@ class Pdk(BaseModel):
             cell_name = cell_name.split(".")[-1]
 
             if not isinstance(cell_name, str) or cell_name not in cells:
+                matching_cells = [c for c in cells if cell_name in c]
                 raise ValueError(
-                    f"{cell_name!r} from PDK {self.name!r} not in cells: {cells} "
+                    f"{cell_name!r} from PDK {self.name!r} not in cells: Did you mean {matching_cells}?"
                 )
             return self.cells[cell_name](**settings)
         else:
@@ -662,7 +673,30 @@ def get_routing_strategies() -> dict[str, Callable]:
 
 
 if __name__ == "__main__":
-    l1 = get_layer((1, 0))
-    l2 = get_layer((3, 0))
-    print(l1)
-    print(l2)
+    import gdsfactory as gf
+
+    sample_mirror = """
+name: sample_mirror
+instances:
+    mmi1:
+      component: mmi1x2
+
+    mmi2:
+      component: mmi1x2
+
+placements:
+    mmi1:
+        xmax: 0
+
+    mmi2:
+        xmin: mmi1,east
+        mirror: True
+
+"""
+
+    c = gf.read.from_yaml(sample_mirror)
+
+    # l1 = get_layer((1, 0))
+    # l2 = get_layer((3, 0))
+    # print(l1)
+    # print(l2)
