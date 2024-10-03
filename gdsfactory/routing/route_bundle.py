@@ -15,6 +15,7 @@ from __future__ import annotations
 from functools import partial
 
 import kfactory as kf
+import numpy as np
 from kfactory.routing.generic import ManhattanRoute
 
 import gdsfactory as gf
@@ -24,14 +25,26 @@ from gdsfactory.port import Port
 from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
 from gdsfactory.typings import (
+    STEP_DIRECTIVES,
     Component,
     ComponentSpec,
     Coordinates,
     CrossSectionSpec,
+    Iterable,
     LayerSpecs,
 )
 
 OpticalManhattanRoute = ManhattanRoute
+
+TOLERANCE = 1
+
+
+def _is_vertical(p0: np.ndarray, p1: np.ndarray) -> bool:
+    return np.abs(p0[0] - p1[0]) < TOLERANCE
+
+
+def _is_horizontal(p0: np.ndarray, p1: np.ndarray) -> bool:
+    return np.abs(p0[1] - p1[1]) < TOLERANCE
 
 
 def get_min_spacing(
@@ -105,6 +118,7 @@ def route_bundle(
     straight: ComponentSpec = straight_function,
     auto_taper: bool = True,
     waypoints: Coordinates | None = None,
+    steps: Iterable[dict[str, float]] | None = None,
 ) -> list[ManhattanRoute]:
     """Places a bundle of routes to connect two groups of ports.
 
@@ -133,6 +147,7 @@ def route_bundle(
         straight: function for the straight. Defaults to straight.
         auto_taper: if True, auto-tapers ports to the cross-section of the route.
         waypoints: list of waypoints to add to the route.
+        steps: list of steps to add to the route.
 
 
     .. plot::
@@ -220,7 +235,44 @@ def route_bundle(
         ports1 = add_auto_tapers(component, ports1, cross_section)
         ports2 = add_auto_tapers(component, ports2, cross_section)
 
-    if waypoints and not isinstance(waypoints[0], kf.kdb.Point):
+    if steps and waypoints:
+        raise ValueError("Cannot have both steps and waypoints")
+
+    if steps:
+        waypoints = []
+        x, y = ports1[0].dcenter
+        for d in steps:
+            if not STEP_DIRECTIVES.issuperset(d):
+                invalid_step_directives = list(set(d.keys()) - STEP_DIRECTIVES)
+                raise ValueError(
+                    f"Invalid step directives: {invalid_step_directives}."
+                    f"Valid directives are {list(STEP_DIRECTIVES)}"
+                )
+            x = d["x"] if "x" in d else x
+            x += d.get("dx", 0)
+            y = d["y"] if "y" in d else y
+            y += d.get("dy", 0)
+            waypoints += [(x, y)]
+
+        port2 = ports2[0]
+        if port2.port_type == "optical":
+            x2, y2 = port2.dcenter
+            orientation = port2.orientation
+            if orientation is None:
+                p1 = waypoints[-2]
+                p0 = waypoints[-1]
+                if _is_vertical(p0, p1):
+                    waypoints += [(y2, y)]
+                elif _is_horizontal(p0, p1):
+                    waypoints += [(x, x2)]
+            elif int(orientation) in {0, 180}:
+                waypoints += [(x, y2)]
+            elif int(orientation) in {90, 270}:
+                waypoints += [(x2, y)]
+
+        waypoints = np.array(waypoints)
+
+    if waypoints is not None and not isinstance(waypoints[0], kf.kdb.Point):
         w = [kf.kdb.Point(p[0] / dbu, p[1] / dbu) for p in waypoints]
         # w += [kf.kdb.Point(*p2.center)]
         waypoints = w
@@ -366,7 +418,8 @@ if __name__ == "__main__":
         c,
         [c1.ports["o2"]],
         [c2.ports["o1"]],
-        waypoints=[(200, 40), (200, 50)],
+        # waypoints=[(200, 40), (200, 50)],
+        steps=[dict(dx=50, dy=100)],
         separation=5,
         cross_section="rib",
         auto_taper=True,
