@@ -12,6 +12,7 @@ route_bundle calls different function depending on the port orientation.
 
 from __future__ import annotations
 
+from collections.abc import Mapping, Sequence
 from functools import partial
 
 import kfactory as kf
@@ -24,13 +25,17 @@ from gdsfactory.port import Port
 from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
 from gdsfactory.typings import (
+    STEP_DIRECTIVES,
     Component,
     ComponentSpec,
+    Coordinates,
     CrossSectionSpec,
     LayerSpecs,
 )
 
 OpticalManhattanRoute = ManhattanRoute
+
+TOLERANCE = 1
 
 
 def get_min_spacing(
@@ -103,6 +108,8 @@ def route_bundle(
     route_width: float | list[float] | None = None,
     straight: ComponentSpec = straight_function,
     auto_taper: bool = True,
+    waypoints: Coordinates | None = None,
+    steps: Sequence[Mapping[str, int | float]] | None = None,
 ) -> list[ManhattanRoute]:
     """Places a bundle of routes to connect two groups of ports.
 
@@ -130,6 +137,8 @@ def route_bundle(
         route_width: width of the route. If None, defaults to cross_section.width.
         straight: function for the straight. Defaults to straight.
         auto_taper: if True, auto-tapers ports to the cross-section of the route.
+        waypoints: list of waypoints to add to the route.
+        steps: list of steps to add to the route.
 
 
     .. plot::
@@ -217,6 +226,28 @@ def route_bundle(
         ports1 = add_auto_tapers(component, ports1, cross_section)
         ports2 = add_auto_tapers(component, ports2, cross_section)
 
+    if steps and waypoints:
+        raise ValueError("Cannot have both steps and waypoints")
+
+    if steps:
+        waypoints = []
+        x, y = ports1[0].dcenter
+        for d in steps:
+            if not STEP_DIRECTIVES.issuperset(d):
+                invalid_step_directives = list(set(d.keys()) - STEP_DIRECTIVES)
+                raise ValueError(
+                    f"Invalid step directives: {invalid_step_directives}."
+                    f"Valid directives are {list(STEP_DIRECTIVES)}"
+                )
+            x = d.get("x", x) + d.get("dx", 0)
+            y = d.get("y", y) + d.get("dy", 0)
+            waypoints += [(x, y)]
+
+    if waypoints is not None and not isinstance(waypoints[0], kf.kdb.Point):
+        w = [kf.kdb.Point(p[0] / dbu, p[1] / dbu) for p in waypoints]
+        # w += [kf.kdb.Point(*p2.center)]
+        waypoints = w
+
     return kf.routing.optical.route_bundle(
         component,
         ports1,
@@ -235,6 +266,7 @@ def route_bundle(
         bboxes=bboxes or [],
         route_width=width_dbu,
         sort_ports=sort_ports,
+        waypoints=waypoints,
     )
 
 
@@ -347,21 +379,50 @@ if __name__ == "__main__":
 
     # rib
 
+    # c = gf.Component()
+    # # c1 = c << gf.components.straight(width=2, cross_section="rib")
+    # # c2 = c << gf.components.straight(cross_section="rib", width=1)
+    # c1 = c << gf.components.straight(cross_section="rib", width=2)
+    # c2 = c << gf.components.straight(cross_section="rib", width=4)
+    # c2.dmove((300, 70))
+    # routes = route_bundle(
+    #     c,
+    #     [c1.ports["o2"]],
+    #     [c2.ports["o1"]],
+    #     # waypoints=[(200, 40), (200, 50)],
+    #     # steps=[dict(dx=50, dy=100)],
+    #     steps=[dict(dx=50, dy=100), dict(dy=100)],
+    #     separation=5,
+    #     cross_section="rib",
+    #     auto_taper=True,
+    #     # taper=partial(gf.c.taper, cross_section="rib", length=20),
+    #     # taper=gf.c.taper_sc_nc,
+    #     # taper=gf.c.taper,
+    # )
+    # c.show()
+
     c = gf.Component()
-    # c1 = c << gf.components.straight(width=2, cross_section="rib")
-    # c2 = c << gf.components.straight(cross_section="rib", width=1)
-    c1 = c << gf.components.straight(cross_section="rib", width=2)
-    c2 = c << gf.components.straight(cross_section="rib", width=4)
-    c2.dmove((100, 70))
-    routes = route_bundle(
+    w = gf.components.array(gf.c.straight, columns=1, rows=3, spacing=(3, 3))
+    left = c << w
+    right = c << w
+    right.dmove((100, 80))
+
+    obstacle = gf.components.rectangle(size=(100, 10))
+    obstacle1 = c << obstacle
+    obstacle2 = c << obstacle
+    obstacle1.dymin = 40
+    obstacle2.dxmin = 35
+
+    ports1 = left.ports.filter(orientation=0)
+    ports2 = right.ports.filter(orientation=180)
+
+    routes = gf.routing.route_bundle(
         c,
-        [c1.ports["o2"]],
-        [c2.ports["o1"]],
-        separation=5,
-        cross_section="rib",
-        auto_taper=True,
-        # taper=partial(gf.c.taper, cross_section="rib", length=20),
-        # taper=gf.c.taper_sc_nc,
-        # taper=gf.c.taper,
+        ports1,
+        ports2,
+        steps=[
+            {"dy": 30, "dx": 50},
+            {"dx": 90},
+        ],
     )
     c.show()
