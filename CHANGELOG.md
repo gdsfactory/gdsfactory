@@ -1,12 +1,12 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.10.2...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.11.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.11.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.11.0) - 2024-10-03
 
-No significant changes.
-
+- enable route_bundle with waypoints or steps [#3224](https://github.com/gdsfactory/gdsfactory/pull/3224)
+- better yaml error messages when component missing from pdk [#3238](https://github.com/gdsfactory/gdsfactory/pull/3238)
 
 ## [8.10.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.10.2) - 2024-10-02
 
