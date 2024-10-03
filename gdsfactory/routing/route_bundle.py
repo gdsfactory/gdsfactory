@@ -220,12 +220,10 @@ def route_bundle(
         ports1 = add_auto_tapers(component, ports1, cross_section)
         ports2 = add_auto_tapers(component, ports2, cross_section)
 
-    if waypoints is not None:
-        if not isinstance(waypoints[0], kf.kdb.Point):
-            # w = [kf.kdb.Point(*p1.center)]
-            w = [kf.kdb.Point(p[0] / dbu, p[1] / dbu) for p in waypoints]
-            # w += [kf.kdb.Point(*p2.center)]
-            waypoints = w
+    if waypoints and not isinstance(waypoints[0], kf.kdb.Point):
+        w = [kf.kdb.Point(p[0] / dbu, p[1] / dbu) for p in waypoints]
+        # w += [kf.kdb.Point(*p2.center)]
+        waypoints = w
 
     return kf.routing.optical.route_bundle(
         component,
@@ -368,7 +366,7 @@ if __name__ == "__main__":
         c,
         [c1.ports["o2"]],
         [c2.ports["o1"]],
-        waypoints=[(80, 35)],
+        waypoints=[(200, 40), (200, 50)],
         separation=5,
         cross_section="rib",
         auto_taper=True,
