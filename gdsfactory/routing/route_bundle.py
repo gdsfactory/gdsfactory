@@ -12,10 +12,10 @@ route_bundle calls different function depending on the port orientation.
 
 from __future__ import annotations
 
+from collections.abc import Mapping, Sequence
 from functools import partial
 
 import kfactory as kf
-import numpy as np
 from kfactory.routing.generic import ManhattanRoute
 
 import gdsfactory as gf
@@ -30,21 +30,12 @@ from gdsfactory.typings import (
     ComponentSpec,
     Coordinates,
     CrossSectionSpec,
-    Iterable,
     LayerSpecs,
 )
 
 OpticalManhattanRoute = ManhattanRoute
 
 TOLERANCE = 1
-
-
-def _is_vertical(p0: np.ndarray, p1: np.ndarray) -> bool:
-    return np.abs(p0[0] - p1[0]) < TOLERANCE
-
-
-def _is_horizontal(p0: np.ndarray, p1: np.ndarray) -> bool:
-    return np.abs(p0[1] - p1[1]) < TOLERANCE
 
 
 def get_min_spacing(
@@ -118,7 +109,7 @@ def route_bundle(
     straight: ComponentSpec = straight_function,
     auto_taper: bool = True,
     waypoints: Coordinates | None = None,
-    steps: Iterable[dict[str, float]] | None = None,
+    steps: Sequence[Mapping[str, int | float]] | None = None,
 ) -> list[ManhattanRoute]:
     """Places a bundle of routes to connect two groups of ports.
 
@@ -248,29 +239,9 @@ def route_bundle(
                     f"Invalid step directives: {invalid_step_directives}."
                     f"Valid directives are {list(STEP_DIRECTIVES)}"
                 )
-            x = d["x"] if "x" in d else x
-            x += d.get("dx", 0)
-            y = d["y"] if "y" in d else y
-            y += d.get("dy", 0)
+            x = d.get("x", x) + d.get("dx", 0)
+            y = d.get("y", y) + d.get("dy", 0)
             waypoints += [(x, y)]
-
-        port2 = ports2[0]
-        if port2.port_type == "optical":
-            x2, y2 = port2.dcenter
-            orientation = port2.orientation
-            if orientation is None:
-                p1 = waypoints[-2]
-                p0 = waypoints[-1]
-                if _is_vertical(p0, p1):
-                    waypoints += [(y2, y)]
-                elif _is_horizontal(p0, p1):
-                    waypoints += [(x, x2)]
-            elif int(orientation) in {0, 180}:
-                waypoints += [(x, y2)]
-            elif int(orientation) in {90, 270}:
-                waypoints += [(x2, y)]
-
-        waypoints = np.array(waypoints)
 
     if waypoints is not None and not isinstance(waypoints[0], kf.kdb.Point):
         w = [kf.kdb.Point(p[0] / dbu, p[1] / dbu) for p in waypoints]
@@ -408,23 +379,50 @@ if __name__ == "__main__":
 
     # rib
 
+    # c = gf.Component()
+    # # c1 = c << gf.components.straight(width=2, cross_section="rib")
+    # # c2 = c << gf.components.straight(cross_section="rib", width=1)
+    # c1 = c << gf.components.straight(cross_section="rib", width=2)
+    # c2 = c << gf.components.straight(cross_section="rib", width=4)
+    # c2.dmove((300, 70))
+    # routes = route_bundle(
+    #     c,
+    #     [c1.ports["o2"]],
+    #     [c2.ports["o1"]],
+    #     # waypoints=[(200, 40), (200, 50)],
+    #     # steps=[dict(dx=50, dy=100)],
+    #     steps=[dict(dx=50, dy=100), dict(dy=100)],
+    #     separation=5,
+    #     cross_section="rib",
+    #     auto_taper=True,
+    #     # taper=partial(gf.c.taper, cross_section="rib", length=20),
+    #     # taper=gf.c.taper_sc_nc,
+    #     # taper=gf.c.taper,
+    # )
+    # c.show()
+
     c = gf.Component()
-    # c1 = c << gf.components.straight(width=2, cross_section="rib")
-    # c2 = c << gf.components.straight(cross_section="rib", width=1)
-    c1 = c << gf.components.straight(cross_section="rib", width=2)
-    c2 = c << gf.components.straight(cross_section="rib", width=4)
-    c2.dmove((300, 70))
-    routes = route_bundle(
+    w = gf.components.straight()
+    left = c << w
+    right = c << w
+    right.dmove((100, 80))
+
+    obstacle = gf.components.rectangle(size=(100, 10))
+    obstacle1 = c << obstacle
+    obstacle2 = c << obstacle
+    obstacle1.dymin = 40
+    obstacle2.dxmin = 25
+
+    port1 = left.ports["o2"]
+    port2 = right.ports["o2"]
+
+    routes = gf.routing.route_bundle(
         c,
-        [c1.ports["o2"]],
-        [c2.ports["o1"]],
-        # waypoints=[(200, 40), (200, 50)],
-        steps=[dict(dx=50, dy=100)],
-        separation=5,
-        cross_section="rib",
-        auto_taper=True,
-        # taper=partial(gf.c.taper, cross_section="rib", length=20),
-        # taper=gf.c.taper_sc_nc,
-        # taper=gf.c.taper,
+        [port1],
+        [port2],
+        steps=[
+            {"dy": 30, "dx": 50},
+            {"dx": 100},
+        ],
     )
     c.show()
