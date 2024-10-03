@@ -402,7 +402,7 @@ if __name__ == "__main__":
     # c.show()
 
     c = gf.Component()
-    w = gf.components.straight()
+    w = gf.components.array(gf.c.straight, columns=1, rows=3, spacing=(3, 3))
     left = c << w
     right = c << w
     right.dmove((100, 80))
@@ -411,18 +411,18 @@ if __name__ == "__main__":
     obstacle1 = c << obstacle
     obstacle2 = c << obstacle
     obstacle1.dymin = 40
-    obstacle2.dxmin = 25
+    obstacle2.dxmin = 35
 
-    port1 = left.ports["o2"]
-    port2 = right.ports["o2"]
+    ports1 = left.ports.filter(orientation=0)
+    ports2 = right.ports.filter(orientation=180)
 
     routes = gf.routing.route_bundle(
         c,
-        [port1],
-        [port2],
+        ports1,
+        ports2,
         steps=[
             {"dy": 30, "dx": 50},
-            {"dx": 100},
+            {"dx": 90},
         ],
     )
     c.show()
