@@ -27,7 +27,7 @@ dependencies = [
   "rich<14",
   "scipy<2",
   "shapely<3",
-  "toolz<1",
+  "toolz<2",
   "types-PyYAML",
   "typer<1",
   "kfactory[ipy]==0.20.8",
