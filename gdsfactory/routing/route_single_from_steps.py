@@ -131,7 +131,7 @@ def route_single_from_steps(
 
 
 route_single_from_steps_electrical = partial(
-    route_single_from_steps, bend="wire_corner", taper=None, cross_section="metal3"
+    route_single_from_steps, bend="wire_corner", cross_section="metal3" # taper=None, 
 )
 
 
