@@ -560,15 +560,24 @@ def cross_section(
     if cladding_layers:
         cladding_simplify = cladding_simplify or (None,) * len(cladding_layers)
         cladding_offsets = cladding_offsets or (0,) * len(cladding_layers)
+        cladding_centers = cladding_centers or [0] * len(cladding_layers)
 
         if (
             len(
-                {len(x) for x in (cladding_layers, cladding_offsets, cladding_simplify)}
+                {
+                    len(x)
+                    for x in (
+                        cladding_layers,
+                        cladding_offsets,
+                        cladding_simplify,
+                        cladding_centers,
+                    )
+                }
             )
             > 1
         ):
             raise ValueError(
-                f"{cladding_layers=}, {cladding_offsets=}, {cladding_centers=} must have same length"
+                f"{len(cladding_layers)=}, {len(cladding_offsets)=}, {len(cladding_centers)=} must have same length"
             )
     s = [
         Section(
@@ -582,7 +591,6 @@ def cross_section(
     ] + sections
 
     if cladding_layers:
-        cladding_centers = cladding_centers or [0] * len(cladding_layers)
         s += [
             Section(
                 width=width + 2 * offset, layer=layer, simplify=simplify, offset=center
