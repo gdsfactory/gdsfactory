@@ -238,6 +238,7 @@ def taper_sc_nc(
     layer_nitride="WGN",
     width_tip_nitride=0.15,
     width_tip_silicon=0.15,
+    cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
     """Taper from strip to nitride.
@@ -250,6 +251,7 @@ def taper_sc_nc(
         layer_nitride: nitride layer.
         width_tip_nitride: tip width for nitride.
         width_tip_silicon: tip width for strip.
+        cross_section: cross_section specification.
         kwargs: cross_section settings.
     """
     return taper_strip_to_ridge(
@@ -261,6 +263,7 @@ def taper_sc_nc(
         w_slab1=width_tip_silicon,
         w_slab2=width2,
         use_slab_port=True,
+        cross_section=cross_section,
         **kwargs,
     )
 
