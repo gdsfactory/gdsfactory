@@ -577,7 +577,10 @@ def cross_section(
             > 1
         ):
             raise ValueError(
-                f"{len(cladding_layers)=}, {len(cladding_offsets)=}, {len(cladding_centers)=} must have same length"
+                f"{len(cladding_layers)=}, "
+                f"{len(cladding_offsets)=}, "
+                f"{len(cladding_simplify)=}, "
+                f"{len(cladding_centers)=} must have same length"
             )
     s = [
         Section(
