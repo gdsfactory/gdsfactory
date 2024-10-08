@@ -491,6 +491,7 @@ def cross_section(
     cladding_layers: LayerSpecs | None = None,
     cladding_offsets: Floats | None = None,
     cladding_simplify: Floats | None = None,
+    cladding_centers: Floats | None = None,
     radius: float | None = 10.0,
     radius_min: float | None = None,
     main_section_name: str = "_default",
@@ -511,6 +512,7 @@ def cross_section(
         cladding_simplify: Optional Tolerance value for the simplification algorithm. \
                 All points that can be removed without changing the resulting. \
                 polygon by more than the value listed here will be removed.
+        cladding_centers: center offset for each cladding layer. Defaults to 0.
         radius: routing bend radius (um).
         radius_min: min acceptable bend radius.
         main_section_name: name of the main section. Defaults to _default
@@ -566,9 +568,8 @@ def cross_section(
             > 1
         ):
             raise ValueError(
-                f"{cladding_layers=}, {cladding_offsets=}, {cladding_simplify=} must have same length"
+                f"{cladding_layers=}, {cladding_offsets=}, {cladding_centers=} must have same length"
             )
-
     s = [
         Section(
             width=width,
@@ -581,10 +582,13 @@ def cross_section(
     ] + sections
 
     if cladding_layers:
+        cladding_centers = cladding_centers or [0] * len(cladding_layers)
         s += [
-            Section(width=width + 2 * offset, layer=layer, simplify=simplify)
-            for layer, offset, simplify in zip(
-                cladding_layers, cladding_offsets, cladding_simplify
+            Section(
+                width=width + 2 * offset, layer=layer, simplify=simplify, offset=center
+            )
+            for layer, offset, simplify, center in zip(
+                cladding_layers, cladding_offsets, cladding_simplify, cladding_centers
             )
         ]
     return CrossSection(
