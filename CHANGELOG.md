@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.11.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.11.1) - 2024-10-08
+
+No significant changes.
+
+
 ## [8.11.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.11.0) - 2024-10-03
 
 - enable route_bundle with waypoints or steps [#3224](https://github.com/gdsfactory/gdsfactory/pull/3224)
