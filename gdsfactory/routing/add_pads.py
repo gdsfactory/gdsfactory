@@ -141,29 +141,48 @@ def add_pads_bot(
 
 
 def add_pads_top(
-    component: ComponentSpec = straight_heater_metal, **kwargs
+    component: ComponentSpec = straight_heater_metal,
+    select_ports: Callable = select_ports_electrical,
+    port_names: Strs | None = None,
+    cross_section: CrossSectionSpec = "metal_routing",
+    pad_port_name: str = "e1",
+    pad: ComponentSpec = pad_rectangular,
+    bend: ComponentSpec = "wire_corner",
+    straight_separation: float = 15.0,
+    pad_spacing: float | str = "pad_spacing",
+    optical_routing_type: int | None = 1,
+    port_type: str = "electrical",
+    allow_width_mismatch: bool = True,
+    fanout_length: float | None = 80,
+    route_width: float | list[float] | None = 0,
+    **kwargs,
 ) -> Component:
     """Returns new component with ports connected top pads.
 
     Args:
         component: component spec to connect to.
-        kwargs: additional arguments.
-
-    Keyword Args:
         select_ports: function to select_ports.
         port_names: optional port names. Overrides select_ports.
-        cross_section: cross_section function.
+        cross_section: cross_section spec.
         get_input_labels_function: function to get input labels. None skips labels.
         layer_label: optional layer for grating coupler label.
         pad_port_name: pad input port name.
         pad_port_labels: pad list of labels.
         pad: spec for route terminations.
         bend: bend spec.
-        straight_separation: from edge to edge.
+        straight_separation: from wire edge to edge. Defaults to xs.width+xs.gap
+        pad_spacing: in um. Defaults to pad_spacing constant from the PDK.
+        optical_routing_type: None: auto, 0: no extension, 1: standard, 2: check.
+        port_type: port type.
+        allow_width_mismatch: True
+        fanout_length: if None, automatic calculation of fanout length.
+        route_width: width of the route. If None, defaults to cross_section.width.
+        kwargs: additional arguments.
+
+    Keyword Args:
         straight: straight spec.
         get_input_label_text_loopback_function: function to get input label test.
         get_input_label_text_function: for labels.
-        fanout_length: if None, automatic calculation of fanout length.
         max_y0_optical: in um.
         with_loopback: True, adds loopback structures.
         list_port_labels: None, adds TM labels to port indices in this list.
@@ -174,9 +193,9 @@ def add_pads_top(
         grating_indices: list of grating coupler indices.
         routing_straight: function to route.
         routing_method: route_single.
-        optical_routing_type: None: auto, 0: no extension, 1: standard, 2: check.
         gc_rotation: fiber coupler rotation in degrees. Defaults to -90.
         input_port_indexes: to connect.
+        allow_width_mismatch: True
 
     .. plot::
         :include-source:
@@ -196,7 +215,23 @@ def add_pads_top(
 
     """
     c = Component()
-    _c = add_pads_bot(component=component, **kwargs)
+    _c = add_pads_bot(
+        component=component,
+        select_ports=select_ports,
+        port_names=port_names,
+        cross_section=cross_section,
+        pad_port_name=pad_port_name,
+        pad=pad,
+        bend=bend,
+        straight_separation=straight_separation,
+        pad_spacing=pad_spacing,
+        optical_routing_type=optical_routing_type,
+        port_type=port_type,
+        allow_width_mismatch=allow_width_mismatch,
+        fanout_length=fanout_length,
+        route_width=route_width,
+        **kwargs,
+    )
     ref = c << _c
     ref.mirror_y()
     c.add_ports(ref.ports)
