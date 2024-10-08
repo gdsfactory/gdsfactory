@@ -32,10 +32,8 @@ def taper(
         with_two_ports: includes a second port.
             False for terminator and edge coupler fiber interface.
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
-        port_names: Ordered tuple of port names. First port is default \
-                taper port, second name only if with_two_ports flags used.
-        port_types: Ordered tuple of port types. First port is default \
-                taper port, second name only if with_two_ports flags used.
+        port_names: input and output port names. Second name only used if with_two_ports.
+        port_types: input and output port types. Second type only used if with_two_ports.
         with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
         kwargs: cross_section settings.
     """
