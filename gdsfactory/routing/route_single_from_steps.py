@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import warnings
 from collections.abc import Mapping, Sequence
 from functools import partial
 from typing import Literal
@@ -85,8 +86,10 @@ def route_single_from_steps(
         c.plot()
 
     """
+    warnings.warn(
+        "route_single_from_steps is deprecated, use route_single instead", stacklevel=2
+    )
     x, y = port1.dcenter
-
     waypoints = []
     steps = steps or []
 
