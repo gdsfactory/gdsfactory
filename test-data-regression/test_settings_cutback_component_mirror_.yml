@@ -1,6 +1,6 @@
 info:
   components: 80
-name: cutback_component_CFtap_64ce8722
+name: cutback_component_CFtap_4bce6c9a
 settings:
   bend180: Fbend_euler_Mgdsfactorypcomponentspbend_euler_SA180
   cols: 4
@@ -12,3 +12,4 @@ settings:
   port1: o1
   port2: o2
   rows: 5
+  straight: straight

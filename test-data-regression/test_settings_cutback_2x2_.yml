@@ -1,6 +1,6 @@
 info:
   components: 80
-name: cutback_2x2_Cmmi2x2_C4__b4bad313
+name: cutback_2x2_Cmmi2x2_C4__120d9c11
 settings:
   bend180: Fbend_circular_Mgdsfactorypcomponentspbend_circular_SA180
   cols: 4
@@ -12,3 +12,4 @@ settings:
   port3: o3
   port4: o4
   rows: 5
+  straight: straight

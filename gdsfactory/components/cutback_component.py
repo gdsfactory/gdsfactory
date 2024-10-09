@@ -6,8 +6,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler180
 from gdsfactory.components.component_sequence import component_sequence
-from gdsfactory.components.straight import straight
-from gdsfactory.components.taper import taper
+from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper_from_csv import taper_0p5_to_3_l36
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
@@ -25,6 +24,7 @@ def cutback_component(
     mirror2: bool = False,
     straight_length: float | None = None,
     straight_length_pair: float | None = None,
+    straight: ComponentSpec = straight_function,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
@@ -45,6 +45,7 @@ def cutback_component(
         straight_length: length of the straight section between cutbacks.
         straight_length_pair: length of the straight section between each component pair.
         cross_section: specification (CrossSection, string or dict).
+        straight: straight spec.
         kwargs: component settings.
     """
     xs = gf.get_cross_section(cross_section)
@@ -95,12 +96,7 @@ def cutback_component(
     return c
 
 
-# straight_wide = partial(straight, width=3, length=20)
-# bend180_wide = partial(bend_euler180, width=3)
-component_flipped = partial(taper, width2=0.5, width1=3)
-straight_long = partial(straight, length=20)
 cutback_component_mirror = partial(cutback_component, mirror=True)
-
 
 if __name__ == "__main__":
     c = cutback_component()
