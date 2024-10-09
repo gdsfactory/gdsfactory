@@ -11,6 +11,7 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.cross_section import strip
 from gdsfactory.port import Port, select_ports_optical
+from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.routing.route_single import route_single
 from gdsfactory.routing.utils import direction_ports_from_list_ports
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Strs
@@ -95,6 +96,9 @@ def route_south(
         optical_ports = select_ports(component.ports)
         optical_ports = [p for p in optical_ports if p.name not in excluded_ports]
 
+    if auto_taper:
+        optical_ports = add_auto_tapers(c, optical_ports, cross_section)
+
     port_type = port_type or optical_ports[0].port_type
     bend90 = bend(cross_section=cross_section) if callable(bend) else bend
     bend90 = gf.get_component(bend90)
@@ -110,7 +114,7 @@ def route_south(
         cross_section=cross_section,
         port_type=port_type,
         allow_width_mismatch=allow_width_mismatch,
-        auto_taper=auto_taper,
+        auto_taper=False,
     )
 
     # Used to avoid crossing between straights in special cases
@@ -295,7 +299,9 @@ if __name__ == "__main__":
     component = mzi_with_bend()
     component = gf.components.mmi2x2()
     component = gf.components.nxn(north=4, south=2, west=2, east=2)
+    component = gf.components.straight(length=10, width=2)
     ref = c << component
-    r = route_south(c, ref, optical_routing_type=1, start_straight_length=0)
+    # r = route_south(c, ref, optical_routing_type=1, start_straight_length=0)
+    r = route_south(c, ref, auto_taper=True)
     # print(r.lengths)
     c.show()

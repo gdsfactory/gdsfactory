@@ -28,7 +28,7 @@ def add_pads_bot(
     optical_routing_type: int | None = 1,
     port_type: str = "electrical",
     allow_width_mismatch: bool = True,
-    fanout_length: float | None = 80,
+    fanout_length: float | None = 0,
     route_width: float | list[float] | None = 0,
     **kwargs,
 ) -> Component:
@@ -153,7 +153,7 @@ def add_pads_top(
     optical_routing_type: int | None = 1,
     port_type: str = "electrical",
     allow_width_mismatch: bool = True,
-    fanout_length: float | None = 80,
+    fanout_length: float | None = 0,
     route_width: float | list[float] | None = 0,
     **kwargs,
 ) -> Component:
