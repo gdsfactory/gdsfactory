@@ -266,10 +266,10 @@ def grating_coupler_loss_fiber_array4(
 if __name__ == "__main__":
     # c = loss_deembedding_ch14_23()
     # c = loss_deembedding_ch12_34()
-    # c = loss_deembedding_ch13_24()
+    c = loss_deembedding_ch13_24()
     # c = grating_coupler_loss_fiber_array4()
     # c = grating_coupler_loss_fiber_array4(layer=(2, 0), radius=30)
     # c = grating_coupler_loss_fiber_array4(cross_section="rib")
     # c = grating_coupler_loss_fiber_array(layer=(2, 0), radius=30)
-    c = grating_coupler_loss_fiber_array()
+    # c = grating_coupler_loss_fiber_array()
     c.show()

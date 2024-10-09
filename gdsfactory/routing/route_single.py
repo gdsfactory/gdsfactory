@@ -138,11 +138,11 @@ def route_single(
     start_straight = round(start_straight_length / dbu)
     route_width = round(width / dbu)
 
-    waypoints = []
-    steps = steps or []
-
     if steps and waypoints:
         raise ValueError("Provide either steps or waypoints, not both")
+
+    waypoints = waypoints or []
+    steps = steps or []
 
     if steps:
         x, y = port1.dcenter
@@ -157,7 +157,7 @@ def route_single(
             y = d.get("y", y) + d.get("dy", 0)
             waypoints += [(x, y)]
 
-    if waypoints is not None:
+    if waypoints:
         if not isinstance(waypoints[0], kf.kdb.Point):
             w = [kf.kdb.Point(*p1.center)]
             w += [kf.kdb.Point(p[0] / dbu, p[1] / dbu) for p in waypoints]
