@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.12.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.12.0) - 2024-10-09
+
+No significant changes.
+
+
 ## [8.11.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.11.2) - 2024-10-08
 
 - Fix radius loopback [#3246](https://github.com/gdsfactory/gdsfactory/pull/3246)
