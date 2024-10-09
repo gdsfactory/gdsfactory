@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import warnings
 from collections.abc import Callable
 
 import kfactory as kf
@@ -311,6 +310,7 @@ def route_fiber_array(
         ports2=gc_ports,
         separation=separation,
         bend=bend90,
+        straight=straight,
         cross_section=cross_section,
         port_type=port_type,
         sort_ports=True,
@@ -319,7 +319,6 @@ def route_fiber_array(
         bboxes=[component.bbox()],
     )
     if gc_port_name_fiber not in grating_coupler_port_names:
-        warnings.warn(f"{gc_port_name_fiber!r} not in {grating_coupler_port_names}")
         gc_port_name_fiber = gc_port_names[0]
     fiber_ports = [gc.ports[gc_port_name_fiber] for gc in io_gratings]
 

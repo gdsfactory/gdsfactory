@@ -5,7 +5,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular180
 from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.mmi2x2 import mmi2x2
-from gdsfactory.components.straight import straight
+from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
@@ -55,6 +55,7 @@ def straight_double(
     port1: str = "o1",
     port2: str = "o2",
     straight_length: float | None = None,
+    straight: ComponentSpec = straight_function,
 ) -> ComponentSpec:
     """Returns double straight.
 
@@ -64,6 +65,7 @@ def straight_double(
         port1: name of first optical port.
         port2: name of second optical port.
         straight_length: length of straight.
+        straight: straight spec.
     """
     xs = gf.get_cross_section(cross_section)
 
@@ -99,6 +101,7 @@ def cutback_2x2(
     mirror: bool = False,
     straight_length: float | None = None,
     cross_section: CrossSectionSpec = "strip",
+    straight: ComponentSpec = straight_function,
 ) -> Component:
     """Returns a daisy chain of splitters for measuring their loss.
 
@@ -114,6 +117,7 @@ def cutback_2x2(
         mirror: Flips component. Useful when 'o2' is the port that you want to route to.
         straight_length: length of the straight section between cutbacks.
         cross_section: specification (CrossSection, string or dict).
+        straight: straight spec.
     """
     component = gf.get_component(component)
 
@@ -131,6 +135,7 @@ def cutback_2x2(
         straight_length=straight_length,
         port1=port1,
         port2=port2,
+        straight=straight,
     )
 
     # Define a map between symbols and (component, input port, output port)
