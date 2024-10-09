@@ -214,7 +214,7 @@ def route_fiber_array(
 
     # use x for grating coupler since we rotate it
     y0_optical = (
-        component.dymin - fanout_length - grating_coupler.ports[gc_port_name].dx
+        component.dymin - fanout_length - grating_coupler.ports[gc_port_name].dx - dy
     )
     y0_optical += -K / 2 * separation
 
@@ -465,16 +465,16 @@ if __name__ == "__main__":
     routes = route_fiber_array(
         c,
         ref,
-        grating_coupler=gc,
-        with_loopback=True,
-        radius=10,
-        fiber_spacing=50,
-        port_names=["o1"],
+        # grating_coupler=gc,
+        # with_loopback=True,
+        # radius=10,
+        # fiber_spacing=50,
+        # port_names=["o1"],
         # with_loopback=False,
-        # optical_routing_type=1,
+        optical_routing_type=1,
         # optical_routing_type=2,
         # fanout_length=200,
-        force_manhattan=False,
+        # force_manhattan=False,
     )
     c.show()
     c.pprint_ports()
