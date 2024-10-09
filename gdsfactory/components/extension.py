@@ -64,7 +64,7 @@ def extend_ports(
     cross_section: CrossSectionSpec | None = None,
     extension_port_names: list[str] | None = None,
     allow_width_mismatch: bool = False,
-    auto_taper:bool=True,
+    auto_taper: bool = True,
     **kwargs,
 ) -> Component:
     """Returns a new component with some ports extended.
@@ -117,7 +117,9 @@ def extend_ports(
     ports_to_extend_names = port_names or ports_to_extend_names
 
     if auto_taper and cross_section:
-        ports_to_extend = add_auto_tapers(component=component, ports=ports_to_extend, cross_section=cross_section)
+        ports_to_extend = add_auto_tapers(
+            component=component, ports=ports_to_extend, cross_section=cross_section
+        )
 
     for port_name in ports_to_extend_names:
         if port_name not in port_names_all:

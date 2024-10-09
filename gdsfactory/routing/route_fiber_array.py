@@ -409,7 +409,9 @@ def route_fiber_array(
             inside=with_loopback_inside,
             d_loop=d_loop_dbu,
         )
-        bend90 = gf.get_component(bend, cross_section=cross_section, radius=radius_loopback)
+        bend90 = gf.get_component(
+            bend, cross_section=cross_section, radius=radius_loopback
+        )
 
         route_single(
             c,
