@@ -16,7 +16,7 @@ def test_route_from_steps() -> None:
 
     p1 = left.ports["o2"]
     p2 = right.ports["o2"]
-    gf.routing.route_single_from_steps(
+    gf.routing.route_single(
         c,
         port1=p1,
         port2=p2,
