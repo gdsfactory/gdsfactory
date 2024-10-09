@@ -1,12 +1,14 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.11.2...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.12.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.12.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.12.0) - 2024-10-09
 
-No significant changes.
-
+- Add fiber array without route south [#3253](https://github.com/gdsfactory/gdsfactory/pull/3253)
+- Keep port names from component for add_pads_bot, add_fiber_array and add_fiber_single [#3250](https://github.com/gdsfactory/gdsfactory/pull/3250)
+- Add steps to route single [#3248](https://github.com/gdsfactory/gdsfactory/pull/3248)
+- add missing layers in Component.plot() [#3249](https://github.com/gdsfactory/gdsfactory/pull/3249)
 
 ## [8.11.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.11.2) - 2024-10-08
 
