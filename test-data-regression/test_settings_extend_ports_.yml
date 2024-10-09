@@ -1,7 +1,8 @@
 info: {}
-name: extend_ports_Cmmi1x2_PN_84312896
+name: extend_ports_Cmmi1x2_PN_b9f68e2a
 settings:
   allow_width_mismatch: false
+  auto_taper: true
   centered: false
   component: mmi1x2
   length: 5

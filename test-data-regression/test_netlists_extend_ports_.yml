@@ -1,16 +1,4 @@
 instances:
-  mmi1x2_WNone_WT1_LT10_L_4e0f7121_0_0:
-    component: mmi1x2
-    info: {}
-    settings:
-      cross_section: strip
-      gap_mmi: 0.25
-      length_mmi: 5.5
-      length_taper: 10
-      straight: straight
-      taper: taper
-      width_mmi: 2.5
-      width_taper: 1
   straight_L5_N2_CSxs_9400d77f_15500_625:
     component: straight
     info:
@@ -50,20 +38,9 @@ instances:
       cross_section: xs_9400d77f
       length: 5
       npoints: 2
-name: extend_ports_Cmmi1x2_PN_84312896
-nets:
-- p1: mmi1x2_WNone_WT1_LT10_L_4e0f7121_0_0,o1
-  p2: straight_L5_N2_CSxs_9400d77f_m10000_0,o1
-- p1: mmi1x2_WNone_WT1_LT10_L_4e0f7121_0_0,o2
-  p2: straight_L5_N2_CSxs_9400d77f_15500_625,o1
-- p1: mmi1x2_WNone_WT1_LT10_L_4e0f7121_0_0,o3
-  p2: straight_L5_N2_CSxs_9400d77f_15500_m625,o1
+name: extend_ports_Cmmi1x2_PN_b9f68e2a
+nets: []
 placements:
-  mmi1x2_WNone_WT1_LT10_L_4e0f7121_0_0:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 0
   straight_L5_N2_CSxs_9400d77f_15500_625:
     mirror: false
     rotation: 0
@@ -83,3 +60,18 @@ ports:
   o1: straight_L5_N2_CSxs_9400d77f_m10000_0,o2
   o2: straight_L5_N2_CSxs_9400d77f_15500_625,o2
   o3: straight_L5_N2_CSxs_9400d77f_15500_m625,o2
+warnings:
+  optical:
+    unconnected_ports:
+    - message: 3 unconnected optical ports!
+      ports:
+      - straight_L5_N2_CSxs_9400d77f_m10000_0,o1
+      - straight_L5_N2_CSxs_9400d77f_15500_625,o1
+      - straight_L5_N2_CSxs_9400d77f_15500_m625,o1
+      values:
+      - - -10000
+        - 0
+      - - 15500
+        - 625
+      - - 15500
+        - -625
