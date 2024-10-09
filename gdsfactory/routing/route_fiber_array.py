@@ -316,6 +316,7 @@ def route_fiber_array(
         sort_ports=True,
         allow_width_mismatch=allow_width_mismatch,
         route_width=route_width,
+        bboxes=[component.bbox()],
     )
     if gc_port_name_fiber not in grating_coupler_port_names:
         warnings.warn(f"{gc_port_name_fiber!r} not in {grating_coupler_port_names}")
