@@ -167,18 +167,16 @@ def add_fiber_single(
         gc1.connect(gc_port_name, straight.ports[0])
         gc2.connect(gc_port_name, straight.ports[1])
 
-        c2.add_port(name="vl1", port=gc1.ports[gc_port_name_fiber])
-        c2.add_port(name="vl2", port=gc2.ports[gc_port_name_fiber])
+        c2.add_port(name="loopback1", port=gc1.ports[gc_port_name_fiber])
+        c2.add_port(name="loopback2", port=gc2.ports[gc_port_name_fiber])
 
-    gf.port.auto_rename_ports(c2, port_type="vertical_te", prefix="te")
-    gf.port.auto_rename_ports(c2, port_type="vertical_tm", prefix="tm")
     return c2
 
 
 if __name__ == "__main__":
     from gdsfactory.samples.big_device import big_device
 
-    c = big_device(nports=2)
+    c = big_device(nports=1)
     c.info["polarization"] = "te"
     # c = gf.c.mmi2x2()
     c = add_fiber_single(c)
