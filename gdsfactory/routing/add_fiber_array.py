@@ -129,7 +129,7 @@ if __name__ == "__main__":
     from gdsfactory.samples.big_device import big_device
 
     component = gf.c.mmi2x2()
-    component = big_device(nports=10)
+    component = big_device(nports=2)
     radius = 5.0
     c = add_fiber_array(component=component)
     # test_type0()

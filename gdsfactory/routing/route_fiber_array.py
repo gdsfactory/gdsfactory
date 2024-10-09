@@ -335,8 +335,10 @@ def route_fiber_array(
             allow_width_mismatch=allow_width_mismatch,
             route_width=route_width,
         )
-        if with_fiber_port:
-            fiber_ports = [gc.ports[gc_port_name_fiber] for gc in io_gratings]
+        if gc_port_name_fiber not in grating_coupler_port_names:
+            warnings.warn(f"{gc_port_name_fiber!r} not in {grating_coupler_port_names}")
+            gc_port_name_fiber = gc_port_names[0]
+        fiber_ports = [gc.ports[gc_port_name_fiber] for gc in io_gratings]
 
     else:
         for io_gratings in io_gratings_lines:
@@ -362,26 +364,14 @@ def route_fiber_array(
                 route_width=route_width,
             )
             del to_route[n0 - dn : n0 + dn]
-            if with_fiber_port:
-                fiber_ports = [gc.ports[gc_port_name_fiber] for gc in io_gratings]
+            fiber_ports = [gc.ports[gc_port_name_fiber] for gc in io_gratings]
 
     c.ports = kf.Ports(kcl=c.kcl)
 
-    if with_fiber_port:
-        for i, port in enumerate(fiber_ports):
-            if port.port_type == "optical":
-                prefix = "o"
-            elif port.port_type.startswith("vertical"):
-                prefix = "v"
-            elif port.port_type == "electrical":
-                prefix = "e"
-            else:
-                warnings.warn(f"port.port_type={port.port_type} not recognized")
-                prefix = "p"
-            c.add_port(name=f"{prefix}{i+1}", port=port)
+    for component_port, port in zip(port_names, fiber_ports):
+        c.add_port(name=component_port, port=port)
 
     c.add_ports(ports_not_terminated)
-
     if with_loopback:
         ii = [grating_indices[0] - 1, grating_indices[-1] + 1]
         gca1 = c << grating_coupler
@@ -422,11 +412,10 @@ def route_fiber_array(
             bend=bend90,
             cross_section=cross_section,
         )
-        if with_fiber_port:
-            port0 = gca1[gc_port_name_fiber]
-            port1 = gca2[gc_port_name_fiber]
-            c.add_port(name="loopback1", port=port0)
-            c.add_port(name="loopback2", port=port1)
+        port0 = gca1[gc_port_name_fiber]
+        port1 = gca2[gc_port_name_fiber]
+        c.add_port(name="loopback1", port=port0)
+        c.add_port(name="loopback2", port=port1)
     return c
 
 
@@ -472,7 +461,7 @@ if __name__ == "__main__":
     # component = gf.components.mzi_phase_shifter()
 
     c = gf.Component()
-    ref = c << gf.c.straight(width=2, length=10)
+    ref = c << gf.c.straight(width=2, length=50)
     routes = route_fiber_array(
         c,
         ref,
@@ -480,6 +469,7 @@ if __name__ == "__main__":
         with_loopback=True,
         radius=10,
         fiber_spacing=50,
+        port_names=["o1"],
         # with_loopback=False,
         # optical_routing_type=1,
         # optical_routing_type=2,
