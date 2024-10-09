@@ -18,7 +18,7 @@ def mzi_gc(length_x=10, **kwargs):
     c = gf.components.mzi2x2_2x2_phase_shifter(
         length_x=length_x, auto_rename_ports=False, **kwargs
     )
-    c = gf.routing.add_pads_top(c, port_names=["top_l_e2", "top_r_e2"])
+    c = gf.routing.add_pads_top(c, port_names=["top_l_e1", "top_r_e3"])
     c = gf.routing.add_fiber_array(c)
     c.info["doe"] = "mzi"
     c.info["measurement"] = "optical_loopback4"
