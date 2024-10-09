@@ -17,7 +17,7 @@ def test_route_error() -> None:
     p2 = right.ports["o2"]
 
     with pytest.raises(NotImplementedError):
-        route = gf.routing.route_single_from_steps(
+        route = gf.routing.route_single(
             c,
             port1=p2,
             port2=p1,
@@ -42,7 +42,7 @@ if __name__ == "__main__":
     p2 = right.ports["o2"]
 
     with pytest.raises(NotImplementedError):
-        route = gf.routing.route_single_from_steps(
+        route = gf.routing.route_single(
             c,
             port1=p2,
             port2=p1,

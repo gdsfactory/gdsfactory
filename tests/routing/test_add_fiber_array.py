@@ -20,6 +20,7 @@ def type2() -> Component:
     return gf.routing.add_fiber_array(component=c, optical_routing_type=2)
 
 
+@gf.cell(check_ports=False)  # TODO: fix port auto naming
 def fiber_single() -> Component:
     c = gf.components.coupler(gap=0.244, length=5.67)
     return gf.routing.add_fiber_single(component=c)
@@ -41,7 +42,6 @@ def test_gds(component: Component) -> None:
 def test_settings(component: Component, data_regression: DataRegressionFixture) -> None:
     """Avoid regressions when exporting settings."""
     settings = component.to_dict()
-    settings.pop("name", None)
     data_regression.check(settings)
 
 

@@ -27,6 +27,9 @@ To generate a route:
 
 from __future__ import annotations
 
+from collections.abc import Mapping, Sequence
+from typing import Literal
+
 import kfactory as kf
 from kfactory.routing.electrical import route_elec
 from kfactory.routing.generic import ManhattanRoute
@@ -39,6 +42,7 @@ from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.port import Port
 from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.typings import (
+    STEP_DIRECTIVES,
     ComponentSpec,
     Coordinates,
     CrossSectionSpec,
@@ -57,6 +61,7 @@ def route_single(
     end_straight_length: float = 0.0,
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "strip",
     waypoints: Coordinates | None = None,
+    steps: Sequence[Mapping[Literal["x", "y", "dx", "dy"], int | float]] | None = None,
     port_type: str | None = None,
     allow_width_mismatch: bool = False,
     radius: float | None = None,
@@ -77,7 +82,8 @@ def route_single(
         start_straight_length: length of starting straight.
         end_straight_length: length of end straight.
         cross_section: spec.
-        waypoints: list of points to pass through.
+        waypoints: optional list of points to pass through.
+        steps: optional list of steps to pass through.
         port_type: port type to route.
         allow_width_mismatch: allow different port widths.
         radius: bend radius. If None, defaults to cross_section.radius.
@@ -132,7 +138,26 @@ def route_single(
     start_straight = round(start_straight_length / dbu)
     route_width = round(width / dbu)
 
-    if waypoints is not None:
+    if steps and waypoints:
+        raise ValueError("Provide either steps or waypoints, not both")
+
+    waypoints = waypoints or []
+    steps = steps or []
+
+    if steps:
+        x, y = port1.dcenter
+        for d in steps:
+            if not STEP_DIRECTIVES.issuperset(d):
+                invalid_step_directives = list(set(d.keys()) - STEP_DIRECTIVES)
+                raise ValueError(
+                    f"Invalid step directives: {invalid_step_directives}."
+                    f"Valid directives are {list(STEP_DIRECTIVES)}"
+                )
+            x = d.get("x", x) + d.get("dx", 0)
+            y = d.get("y", y) + d.get("dy", 0)
+            waypoints += [(x, y)]
+
+    if waypoints:
         if not isinstance(waypoints[0], kf.kdb.Point):
             w = [kf.kdb.Point(*p1.center)]
             w += [kf.kdb.Point(p[0] / dbu, p[1] / dbu) for p in waypoints]
@@ -302,17 +327,45 @@ if __name__ == "__main__":
     # )
     # c.show()
 
-    c = gf.Component()
-    top = c << gf.components.straight(
-        length=0.1, cross_section="metal_routing", width=40
-    )
-    bot = c << gf.components.straight(
-        length=0.1, cross_section="metal_routing", width=20
-    )
-    d = 200
-    bot.dmove((d, d))
+    # c = gf.Component()
+    # top = c << gf.components.straight(
+    #     length=0.1, cross_section="metal_routing", width=40
+    # )
+    # bot = c << gf.components.straight(
+    #     length=0.1, cross_section="metal_routing", width=20
+    # )
+    # d = 200
+    # bot.dmove((d, d))
 
-    p0 = top.ports["e2"]
-    p1 = bot.ports["e1"]
-    r = gf.routing.route_single(c, p0, p1, cross_section="metal_routing")
+    # p0 = top.ports["e2"]
+    # p1 = bot.ports["e1"]
+    # r = gf.routing.route_single(c, p0, p1, cross_section="metal_routing")
+    # c.show()
+    import gdsfactory as gf
+
+    c = gf.Component("route_single_from_steps_sample")
+    w = gf.components.straight()
+    left = c << w
+    right = c << w
+    right.dmove((500, 80))
+
+    obstacle = gf.components.rectangle(size=(100, 10), port_type=None)
+    obstacle1 = c << obstacle
+    obstacle2 = c << obstacle
+    obstacle1.dymin = 40
+    obstacle2.dxmin = 25
+
+    p1 = left.ports["o2"]
+    p2 = right.ports["o2"]
+    route_single(
+        c,
+        port1=p1,
+        port2=p2,
+        steps=[
+            {"x": 20},
+            {"y": 20},
+            {"x": 120},
+            {"y": 80},
+        ],
+    )
     c.show()

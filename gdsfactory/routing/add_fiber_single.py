@@ -175,7 +175,7 @@ def add_fiber_single(
 if __name__ == "__main__":
     from gdsfactory.samples.big_device import big_device
 
-    c = big_device(nports=10)
+    c = big_device(nports=2)
     c.info["polarization"] = "te"
     # c = gf.c.mmi2x2()
     c = add_fiber_single(c)
