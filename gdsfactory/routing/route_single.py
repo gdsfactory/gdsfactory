@@ -31,7 +31,6 @@ from collections.abc import Mapping, Sequence
 from typing import Literal
 
 import kfactory as kf
-import numpy as np
 from kfactory.routing.electrical import route_elec
 from kfactory.routing.generic import ManhattanRoute
 from kfactory.routing.optical import place90, route
@@ -83,8 +82,8 @@ def route_single(
         start_straight_length: length of starting straight.
         end_straight_length: length of end straight.
         cross_section: spec.
-        waypoints: list of points to pass through.
-        steps: list of steps to pass through.
+        waypoints: optional list of points to pass through.
+        steps: optional list of steps to pass through.
         port_type: port type to route.
         allow_width_mismatch: allow different port widths.
         radius: bend radius. If None, defaults to cross_section.radius.
@@ -157,8 +156,6 @@ def route_single(
             x = d.get("x", x) + d.get("dx", 0)
             y = d.get("y", y) + d.get("dy", 0)
             waypoints += [(x, y)]
-
-        waypoints = np.array(waypoints)
 
     if waypoints is not None:
         if not isinstance(waypoints[0], kf.kdb.Point):
