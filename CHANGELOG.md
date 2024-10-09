@@ -1,17 +1,17 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.11.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.11.2...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.11.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.11.2) - 2024-10-08
 
-No significant changes.
-
+- Fix radius loopback [#3246](https://github.com/gdsfactory/gdsfactory/pull/3246)
+- Add cladding center to cross_section [#3245](https://github.com/gdsfactory/gdsfactory/pull/3245)
 
 ## [8.11.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.11.1) - 2024-10-08
 
-No significant changes.
-
+- Remove taper from electrical routing [#3240](https://github.com/gdsfactory/gdsfactory/pull/3240)
+- remove cross_section arg from kwargs in taper function [#3243](https://github.com/gdsfactory/gdsfactory/pull/3243)
 
 ## [8.11.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.11.0) - 2024-10-03
 
