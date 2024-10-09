@@ -334,8 +334,9 @@ def route_fiber_array(
         gca1.dx = x_c - offset + ii[0] * fiber_spacing
         gca2.dx = x_c - offset + ii[1] * fiber_spacing
 
-        gca1.dymax = round(y0_optical - j * gr_coupler_y_sep)
-        gca2.dymax = round(y0_optical - j * gr_coupler_y_sep)
+        gc_loopback_dymin = io_gratings_lines[0][0].dymin
+        gca1.dymin = gc_loopback_dymin
+        gca2.dymin = gc_loopback_dymin
 
         port0 = gca1[gc_port_name]
         port1 = gca2[gc_port_name]
@@ -404,17 +405,17 @@ if __name__ == "__main__":
 
     gc = gf.components.grating_coupler_elliptical_te(taper_length=10)
 
-    # component = gf.components.nxn(north=10, south=10, east=10, west=10)
+    component = gf.components.nxn(north=10, south=10, east=10, west=10)
     # component = gf.components.straight()
     # component = gf.components.mmi2x2()
     # component = gf.components.straight_heater_metal()
     # component = gf.components.ring_single()
     # component = gf.components.ring_double()
     # component = gf.components.mzi_phase_shifter()
-    component = gf.components.nxn(north=10, south=10, east=10, west=10)
+    # component = gf.components.nxn(north=10, south=10, east=10, west=10)
+    # component= gf.c.straight(width=2, length=50)
 
     c = gf.Component()
-    # ref = c << gf.c.straight(width=2, length=50)
     ref = c << component
     routes = route_fiber_array(
         c,
@@ -427,7 +428,7 @@ if __name__ == "__main__":
         # with_loopback=False,
         # optical_routing_type=1,
         # optical_routing_type=2,
-        fanout_length=100,
+        fanout_length=-200,
         # force_manhattan=False,
     )
     c.show()
