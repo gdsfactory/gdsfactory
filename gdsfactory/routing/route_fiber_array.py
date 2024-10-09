@@ -372,7 +372,12 @@ def route_fiber_array(
             if port.port_type == "optical":
                 prefix = "o"
             elif port.port_type.startswith("vertical"):
-                prefix = "v"
+                if "te" in port.port_type:
+                    prefix = "te"
+                elif "tm" in port.port_type:
+                    prefix = "tm"
+                else:
+                    prefix = "v"
             elif port.port_type == "electrical":
                 prefix = "e"
             else:
