@@ -19,6 +19,7 @@ def add_fiber_single(
     component: ComponentSpec = straight_function,
     grating_coupler: ComponentSpecOrList = grating_coupler_te,
     gc_port_name: str = "o1",
+    gc_port_name_fiber: str = "o2",
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionSpec = "strip",
     input_port_names: list[str] | tuple[str, ...] | None = None,
@@ -36,6 +37,7 @@ def add_fiber_single(
         component: component spec to connect to grating couplers.
         grating_coupler: spec for route terminations.
         gc_port_name: grating coupler input port name.
+        gc_port_name_fiber: grating coupler output port name.
         select_ports: function to select ports.
         cross_section: cross_section function.
         input_port_names: list of input port names to connect to grating couplers.
@@ -165,10 +167,11 @@ def add_fiber_single(
         gc1.connect(gc_port_name, straight.ports[0])
         gc2.connect(gc_port_name, straight.ports[1])
 
-        c2.add_port(name="vl1", port=gc1.ports[gc_port_name])
-        c2.add_port(name="vl2", port=gc2.ports[gc_port_name])
+        c2.add_port(name="vl1", port=gc1.ports[gc_port_name_fiber])
+        c2.add_port(name="vl2", port=gc2.ports[gc_port_name_fiber])
 
-    c2.auto_rename_ports()
+    gf.port.auto_rename_ports(c2, port_type="vertical_te", prefix="te")
+    gf.port.auto_rename_ports(c2, port_type="vertical_tm", prefix="tm")
     return c2
 
 
