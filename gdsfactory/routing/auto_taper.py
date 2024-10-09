@@ -86,6 +86,6 @@ def auto_taper_to_cross_section(
         )
     taper_ref = component.add_ref(taper_component)
     taper_ref.connect(p0.name, port)
-    port_new = taper_ref.ports[p1.name]
+    port_new = taper_ref.ports[p1.name].copy()
     port_new.name = port.name
     return port_new
