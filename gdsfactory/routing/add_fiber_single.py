@@ -95,8 +95,11 @@ def add_fiber_single(
         raise ValueError(f"gc_port_name={gc_port_name!r} not in {gc.ports.keys()}")
 
     gc_port_names = [port.name for port in gc.ports]
+    if gc_port_name_fiber not in gc_port_names:
+        gc_port_name_fiber = gc_port_names[0]
+
     if gc_port_name not in gc_port_names:
-        raise ValueError(f"gc_port_name = {gc_port_name!r} not in {gc_port_names}")
+        gc_port_name = gc_port_names[0]
 
     orientation = gc.ports[gc_port_name].orientation
     if int(orientation) != 180:
