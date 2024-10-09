@@ -11,8 +11,6 @@ route_single
 
    route_single
    route_single_electrical
-   route_single_from_steps
-   route_single_from_steps_electrical
    route_quad
    route_sharp
 
