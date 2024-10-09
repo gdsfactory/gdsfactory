@@ -1148,6 +1148,8 @@ class ComponentBase:
 
         layout_view.max_hier()
         layout_view.load_layer_props(str(lyp_path))
+
+        layout_view.add_missing_layers()
         layout_view.zoom_fit()
 
         layout_view.set_config("text-visible", "true" if show_labels else "false")
