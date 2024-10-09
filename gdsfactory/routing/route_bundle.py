@@ -69,7 +69,7 @@ def get_min_spacing(
 
     for port1, port2 in zip(ports1, ports2):
         if axis in {"X", "x"}:
-            x1 = get_port_y(ports1)
+            x1 = get_port_y(port1)
             x2 = get_port_y(port2)
         else:
             x1 = get_port_x(port1)
