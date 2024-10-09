@@ -21,7 +21,6 @@ def add_fiber_single(
     gc_port_name: str = "o1",
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionSpec = "strip",
-    taper: ComponentSpec | None = None,
     input_port_names: list[str] | tuple[str, ...] | None = None,
     fiber_spacing: float = 70,
     with_loopback: bool = True,
@@ -39,7 +38,6 @@ def add_fiber_single(
         gc_port_name: grating coupler input port name.
         select_ports: function to select ports.
         cross_section: cross_section function.
-        taper: taper spec.
         input_port_names: list of input port names to connect to grating couplers.
         fiber_spacing: spacing between fibers.
         with_loopback: adds loopback structures.
@@ -130,7 +128,6 @@ def add_fiber_single(
         gc_port_name=gc_port_name,
         cross_section=cross_section,
         select_ports=select_ports,
-        taper=taper,
         with_loopback=False,
         port_names=input_port_names,
         fiber_spacing=fiber_spacing,
@@ -147,7 +144,6 @@ def add_fiber_single(
         gc_port_name=gc_port_name,
         cross_section=cross_section,
         select_ports=select_ports,
-        taper=taper,
         with_loopback=False,
         port_names=output_port_names,
         fiber_spacing=fiber_spacing,
@@ -172,6 +168,7 @@ def add_fiber_single(
         c2.add_port(name="vl1", port=gc1.ports[gc_port_name])
         c2.add_port(name="vl2", port=gc2.ports[gc_port_name])
 
+    c2.auto_rename_ports()
     return c2
 
 

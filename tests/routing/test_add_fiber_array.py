@@ -20,7 +20,12 @@ def type2() -> Component:
     return gf.routing.add_fiber_array(component=c, optical_routing_type=2)
 
 
-components = [type1, type2]
+def fiber_single() -> Component:
+    c = gf.components.coupler(gap=0.244, length=5.67)
+    return gf.routing.add_fiber_single(component=c)
+
+
+components = [type1, type2, fiber_single]
 
 
 @pytest.fixture(params=components, scope="function")
@@ -35,11 +40,15 @@ def test_gds(component: Component) -> None:
 
 def test_settings(component: Component, data_regression: DataRegressionFixture) -> None:
     """Avoid regressions when exporting settings."""
-    data_regression.check(component.to_dict())
+    settings = component.to_dict()
+    settings.pop("name", None)
+    data_regression.check(settings)
 
 
 if __name__ == "__main__":
     # c = type1()
-    c = type2()
+    # c = type2()
     # c = tapers()
+    c = fiber_single()
+    c.pprint_ports()
     c.show()
