@@ -252,7 +252,11 @@ def route_fiber_array(
     else:
         assert len(grating_indices) == nb_ports_per_line
 
-    to_route = component_to_route.ports
+    to_route = (
+        [component_to_route.ports[p] for p in port_names]
+        if port_names
+        else component_to_route.ports
+    )
 
     # add grating couplers
     io_gratings = []
@@ -405,8 +409,8 @@ if __name__ == "__main__":
 
     gc = gf.components.grating_coupler_elliptical_te(taper_length=10)
 
-    component = gf.components.nxn(north=10, south=10, east=10, west=10)
-    # component = gf.components.straight()
+    # component = gf.components.nxn(north=10, south=10, east=10, west=10)
+    component = gf.components.straight()
     # component = gf.components.mmi2x2()
     # component = gf.components.straight_heater_metal()
     # component = gf.components.ring_single()
@@ -424,11 +428,11 @@ if __name__ == "__main__":
         # with_loopback=True,
         # radius=10,
         # fiber_spacing=50,
-        # port_names=["o1"],
+        port_names=["o1"],
         # with_loopback=False,
         # optical_routing_type=1,
         # optical_routing_type=2,
-        fanout_length=-200,
+        # fanout_length=-200,
         # force_manhattan=False,
     )
     c.show()
