@@ -100,6 +100,14 @@ CONF.connect_use_mirror = False
 CONF.max_cellname_length = 32
 CONF.cell_layout_cache = True
 CONF.pdk = "generic"
+CONF.port_types = [
+    "optical",  # optical ports
+    "electrical",  # electrical ports
+    "placement",  # placement ports (excluded in netlist extraction)
+    "vertical_te",  # for grating couplers with TE polarization
+    "vertical_tm",  # for grating couplers with TM polarization
+    "electrical_rf",  # electrical ports for RF (high frequency)
+]
 
 
 class Paths:
