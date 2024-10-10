@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.13.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.13.0) - 2024-10-10
+
+No significant changes.
+
+
 ## [8.12.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.12.0) - 2024-10-09
 
 - Add fiber array without route south [#3253](https://github.com/gdsfactory/gdsfactory/pull/3253)
