@@ -208,11 +208,6 @@ placements:
     x: 10
     y: 528
 ports:
-  0o2: ec_0,o2
-  1o2: ec_1,o2
-  2o2: ec_2,o2
-  3o2: ec_3,o2
-  4o2: ec_4,o2
   o1: ec_0,o1
   o2: ec_1,o1
   o3: ec_2,o1

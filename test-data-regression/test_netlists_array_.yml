@@ -58,9 +58,3 @@ ports:
   e4_1_4: pad_S100_100_LMTOP_BLNo_8d51f10c_0_0<3.0>,e4
   e4_1_5: pad_S100_100_LMTOP_BLNo_8d51f10c_0_0<4.0>,e4
   e4_1_6: pad_S100_100_LMTOP_BLNo_8d51f10c_0_0<5.0>,e4
-  pad_1_1: pad_S100_100_LMTOP_BLNo_8d51f10c_0_0<0.0>,pad
-  pad_1_2: pad_S100_100_LMTOP_BLNo_8d51f10c_0_0<1.0>,pad
-  pad_1_3: pad_S100_100_LMTOP_BLNo_8d51f10c_0_0<2.0>,pad
-  pad_1_4: pad_S100_100_LMTOP_BLNo_8d51f10c_0_0<3.0>,pad
-  pad_1_5: pad_S100_100_LMTOP_BLNo_8d51f10c_0_0<4.0>,pad
-  pad_1_6: pad_S100_100_LMTOP_BLNo_8d51f10c_0_0<5.0>,pad

@@ -56,6 +56,7 @@ def test_netlists(
     if check:
         data_regression.check(n)
 
+    n.pop("warnings", None)
     yaml_str = c.write_netlist(n)
     c2 = gf.read.from_yaml(yaml_str)
     n2 = c2.get_netlist()
@@ -68,10 +69,24 @@ def test_netlists(
 
 
 if __name__ == "__main__":
-    import yaml
-
-    from gdsfactory.serialization import convert_tuples_to_lists
-
+    """
+    sts[spiral_racetrack_heater_metal] - AssertionError: {'nets': {delete: [3, 2]}}
+FAILED tests/components/test_netlists.py::test_netlists[grating_coupler_dual_pol] - AssertionError: {'instances': {'rectangle_S0p3_0p3_LSLA_62b062b0_1535_1535': {'settings': {'port_type': 'electrical'}}, 'rectangle_S0p...rt_type': 'electrical'}}, 'rectangle_S0p3_0p3_LSLA_62b062b0_1535_307': {'settings': {'port_type': 'electrical'}}, ...}}
+FAILED tests/components/test_netlists.py::test_netlists[via_corner] - AssertionError: {'nets': {delete: [1, 0]}}
+FAILED tests/components/test_netlists.py::test_netlists[pad_array] - AssertionError: {'instances': {'pad_S100_100_LMTOP_BLNo_2fadfa5f_0_0': {'settings': {'port_orientation': 0, 'port_orientations': (180, 90, 0, -90)}}}}
+FAILED tests/components/test_netlists.py::test_netlists[pad_array180] - AssertionError: {'instances': {'pad_S100_100_LMTOP_BLNo_2fadfa5f_0_0': {'settings': {'port_orientation': 0, 'port_orientations': (180, 90, 0, -90)}}}}
+FAILED tests/components/test_netlists.py::test_netlists[die_with_pads] - AssertionError: {'instances': {'rectangle_S11470_4900_L_392670d4_0_0': {'settings': {'port_type': 'electrical'}}}}
+FAILED tests/components/test_netlists.py::test_netlists[switch_tree] - pydantic_core._pydantic_core.ValidationError: 3 validation errors for Netlist
+FAILED tests/components/test_netlists.py::test_netlists[greek_cross] - AssertionError: {'nets': ()}
+FAILED tests/components/test_netlists.py::test_netlists[spiral_racetrack_fixed_length] - TypeError: 'str' object is not callable
+FAILED tests/components/test_netlists.py::test_netlists[pad_array270] - AssertionError: {'instances': {'pad_S100_100_LMTOP_BLNo_2fadfa5f_0_0': {'settings': {'port_orientation': 0, 'port_orientations': (180, 90, 0, -90)}}}}
+FAILED tests/components/test_netlists.py::test_netlists[pad_array90] - AssertionError: {'instances': {'pad_S100_100_LMTOP_BLNo_2fadfa5f_0_0': {'settings': {'port_orientation': 0, 'port_orientations': (180, 90, 0, -90)}}}}
+FAILED tests/components/test_netlists.py::test_netlists[rectangle_with_slits] - AssertionError: {'instances': {'rectangle_S100_200_LWG__6de38f9c_0_0': {'settings': {'port_type': 'electrical'}}}}
+FAILED tests/components/test_netlists.py::test_netlists[via_stack_with_offset] - AssertionError: {'nets': ()}
+FAILED tests/components/test_netlists.py::test_netlists[straight_heater_metal_simple] - AssertionError: {'nets': ()}
+FAILED tests/components/test_netlists.py::test_netlists[dbr] - pydantic_core._pydantic_core.ValidationError: 1 validation error for Netlist
+FAILED tests/components/test_netlists.py::test_netlists[pad_array0]
+    """
     # component_type = "mzit"
     component_type = "ring_double"
     component_type = "ring_single_array"
@@ -93,6 +108,10 @@ if __name__ == "__main__":
     component_type = "delay_snake"  # FIXME
     component_type = "spiral_racetrack"
     component_type = "pad_array"
+    component_type = "terminator"
+    component_type = "coupler_adiabatic"
+    component_type = "dbr"
+    component_type = "grating_coupler_dual_pol"
 
     connection_error_types = {
         "optical": ["width_mismatch", "shear_angle_mismatch", "orientation_mismatch"]
@@ -104,9 +123,8 @@ if __name__ == "__main__":
     n = c1.get_netlist(
         allow_multiple=True, connection_error_types=connection_error_types
     )
-    n = convert_tuples_to_lists(n)
-    yaml_str = yaml.dump(n, sort_keys=True)
-    c1.delete()
+    n.pop("warnings", None)
+    yaml_str = c1.write_netlist(n)
     # print(yaml_str)
     c2 = gf.read.from_yaml(yaml_str)
     n2 = c2.get_netlist(allow_multiple=True)

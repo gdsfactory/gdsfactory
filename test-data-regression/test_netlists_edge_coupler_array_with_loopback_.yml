@@ -180,14 +180,6 @@ placements:
     x: -31
     y: 97
 ports:
-  '1': extend_ports_Cedge_coup_a17a8c07_0_0,0o2
-  '11': extend_ports_Cedge_coup_a17a8c07_0_0,5o2
-  '13': extend_ports_Cedge_coup_a17a8c07_0_0,6o2
-  '15': extend_ports_Cedge_coup_a17a8c07_0_0,7o2
-  '3': extend_ports_Cedge_coup_a17a8c07_0_0,1o2
-  '5': extend_ports_Cedge_coup_a17a8c07_0_0,2o2
-  '7': extend_ports_Cedge_coup_a17a8c07_0_0,3o2
-  '9': extend_ports_Cedge_coup_a17a8c07_0_0,4o2
   o1: extend_ports_Cedge_coup_a17a8c07_0_0,o3
   o2: extend_ports_Cedge_coup_a17a8c07_0_0,o4
   o3: extend_ports_Cedge_coup_a17a8c07_0_0,o5

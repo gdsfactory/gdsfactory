@@ -780,11 +780,11 @@ def _load_yaml_str(yaml_str: Any) -> dict:
     elif isinstance(yaml_str, Netlist):
         dct = deepcopy(yaml_str.model_dump())
     elif (isinstance(yaml_str, str) and "\n" in yaml_str) or isinstance(yaml_str, IO):
-        dct = yaml.safe_load(yaml_str)
+        dct = yaml.load(yaml_str, Loader=yaml.FullLoader)
     elif isinstance(yaml_str, str):
-        dct = yaml.safe_load(open(yaml_str))
+        dct = yaml.load(open(yaml_str), Loader=yaml.FullLoader)
     elif isinstance(yaml_str, pathlib.Path):
-        dct = yaml.safe_load(open(yaml_str))
+        dct = yaml.load(open(yaml_str), Loader=yaml.FullLoader)
     else:
         raise ValueError("Invalid format for 'yaml_str'.")
     return dct
@@ -1791,6 +1791,7 @@ instances:
     mzi2:
       component: mzi
 """
+
 
 if __name__ == "__main__":
     c = from_yaml(sample_mirror)
