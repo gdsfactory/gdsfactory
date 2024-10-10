@@ -124,7 +124,14 @@ def _is_array_reference(ref: ComponentReference) -> bool:
 
 def get_netlist(
     component: Component,
-    exclude_port_types: list[str] | tuple[str] | None = ("placement",),
+    exclude_port_types: list[str] | tuple[str] | None = (
+        "placement",
+        "pad",
+        "bump",
+        "vertical_te",
+        "vertical_tm",
+        "edge_coupler",
+    ),
     get_instance_name: Callable[..., str] = get_instance_name_from_alias,
     allow_multiple: bool = False,
     connection_error_types: dict[str, list[str]] | None = None,
