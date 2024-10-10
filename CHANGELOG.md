@@ -1,12 +1,15 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.12.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.13.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.13.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.13.0) - 2024-10-10
 
-No significant changes.
-
+- add more port_types [#3258](https://github.com/gdsfactory/gdsfactory/pull/3258)
+- fix route_single [#3255](https://github.com/gdsfactory/gdsfactory/pull/3255)
+- fix straight function [#3254](https://github.com/gdsfactory/gdsfactory/pull/3254)
+- Add xor and gf.functions.move_to_center [#3257](https://github.com/gdsfactory/gdsfactory/pull/3257)
+- define allowed port_types in gf.CONF.port_types and warn other types [#3256](https://github.com/gdsfactory/gdsfactory/pull/3256)
 
 ## [8.12.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.12.0) - 2024-10-09
 
