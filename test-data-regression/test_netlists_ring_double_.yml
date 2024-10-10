@@ -5,6 +5,7 @@ instances:
     settings:
       bend: bend_euler
       cross_section: strip
+      cross_section_bend: null
       gap: 0.2
       length_extension: 3
       length_x: 0.01
@@ -16,6 +17,7 @@ instances:
     settings:
       bend: bend_euler
       cross_section: strip
+      cross_section_bend: null
       gap: 0.2
       length_extension: 3
       length_x: 0.01

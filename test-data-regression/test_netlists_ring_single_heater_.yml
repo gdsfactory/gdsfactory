@@ -16,8 +16,11 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip_heater_metal
+      layer: null
+      npoints: null
       p: 0.5
       radius: 10
+      width: null
       with_arc_floorplan: true
   bend_euler_R10_A90_P0p5_8747be7e_m1000_20710:
     component: bend_euler
@@ -36,8 +39,11 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip_heater_metal
+      layer: null
+      npoints: null
       p: 0.5
       radius: 10
+      width: null
       with_arc_floorplan: true
   coupler_ring_G0p2_R10_L_ca129826_0_0:
     component: coupler_ring
@@ -97,6 +103,8 @@ instances:
       ysize: 4
     settings:
       correct_size: true
+      layer_offsets: null
+      layer_port: null
       layers:
       - HEATER
       - M2
@@ -122,6 +130,8 @@ instances:
       ysize: 4
     settings:
       correct_size: true
+      layer_offsets: null
+      layer_port: null
       layers:
       - HEATER
       - M2

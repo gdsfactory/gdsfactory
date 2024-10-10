@@ -71,6 +71,7 @@ instances:
     settings:
       cross_section: strip
       length: 420
+      positions: null
       spacing: 7
       text: text_rectangular_mini
       widths:

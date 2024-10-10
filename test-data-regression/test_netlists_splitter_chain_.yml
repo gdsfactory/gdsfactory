@@ -49,6 +49,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   mmi1x2_WNone_WT1_LT10_L_4e0f7121_36500_2425:
@@ -61,6 +62,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   mmi1x2_WNone_WT1_LT10_L_4e0f7121_73000_4850:
@@ -73,6 +75,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
 name: splitter_chain_Smmi1x2__10cafd81

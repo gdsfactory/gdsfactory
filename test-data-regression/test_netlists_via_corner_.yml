@@ -44,8 +44,10 @@ instances:
     na: 3
     nb: 3
     settings:
+      bbox_layers: null
       bbox_offset: 0
       enclosure: 2
+      gap: null
       layer: VIA1
       size:
       - 0.7

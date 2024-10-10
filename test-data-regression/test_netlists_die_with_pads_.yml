@@ -9,6 +9,7 @@ instances:
       n: 14
       pitch: 250
       port_name: o1
+      radius: null
       rotation: -90
       straight_to_grating_spacing: 10
       with_loopback: true
@@ -22,6 +23,7 @@ instances:
       n: 14
       pitch: 250
       port_name: o1
+      radius: null
       rotation: -90
       straight_to_grating_spacing: 10
       with_loopback: true
@@ -34,6 +36,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -54,6 +58,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -74,6 +80,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -94,6 +102,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -114,6 +124,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -134,6 +146,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -154,6 +168,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -174,6 +190,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -194,6 +212,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -214,6 +234,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -234,6 +256,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -254,6 +278,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -274,6 +300,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -294,6 +322,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -314,6 +344,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -334,6 +366,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -354,6 +388,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -374,6 +410,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -394,6 +432,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -414,6 +454,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -434,6 +476,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -454,6 +498,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -474,6 +520,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -494,6 +542,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -514,6 +564,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -534,6 +586,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -554,6 +608,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -574,6 +630,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -594,6 +652,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -614,6 +674,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -634,6 +696,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -654,6 +718,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -674,6 +740,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -694,6 +762,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -714,6 +784,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -734,6 +806,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -754,6 +828,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -774,6 +850,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -794,6 +872,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -814,6 +894,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -834,6 +916,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -854,6 +938,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -874,6 +960,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -894,6 +982,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -914,6 +1004,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -934,6 +1026,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -954,6 +1048,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -974,6 +1070,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -994,6 +1092,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -1014,6 +1114,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -1034,6 +1136,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -1054,6 +1158,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -1074,6 +1180,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -1094,6 +1202,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -1114,6 +1224,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -1134,6 +1246,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -1154,6 +1268,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -1174,6 +1290,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -1194,6 +1312,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -1214,6 +1334,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -1234,6 +1356,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -1254,6 +1378,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -1276,6 +1402,7 @@ instances:
       - 90
       - 0
       - -90
+      port_type: null
       size:
       - 11470
       - 4900

@@ -9,6 +9,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A10:
@@ -21,6 +22,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A11:
@@ -33,6 +35,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A12:
@@ -45,6 +48,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A13:
@@ -57,6 +61,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A14:
@@ -69,6 +74,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A15:
@@ -81,6 +87,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A16:
@@ -93,6 +100,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A17:
@@ -105,6 +113,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A18:
@@ -117,6 +126,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A19:
@@ -129,6 +139,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A2:
@@ -141,6 +152,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A20:
@@ -153,6 +165,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A21:
@@ -165,6 +178,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A22:
@@ -177,6 +191,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A23:
@@ -189,6 +204,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A24:
@@ -201,6 +217,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A25:
@@ -213,6 +230,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A26:
@@ -225,6 +243,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A27:
@@ -237,6 +256,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A28:
@@ -249,6 +269,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A29:
@@ -261,6 +282,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A3:
@@ -273,6 +295,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A30:
@@ -285,6 +308,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A31:
@@ -297,6 +321,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A32:
@@ -309,6 +334,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A33:
@@ -321,6 +347,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A34:
@@ -333,6 +360,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A35:
@@ -345,6 +373,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A36:
@@ -357,6 +386,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A37:
@@ -369,6 +399,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A38:
@@ -381,6 +412,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A39:
@@ -393,6 +425,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A4:
@@ -405,6 +438,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A40:
@@ -417,6 +451,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A5:
@@ -429,6 +464,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A6:
@@ -441,6 +477,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A7:
@@ -453,6 +490,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A8:
@@ -465,6 +503,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   A9:
@@ -477,6 +516,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B1:
@@ -489,6 +529,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B10:
@@ -501,6 +542,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B11:
@@ -513,6 +555,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B12:
@@ -525,6 +568,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B13:
@@ -537,6 +581,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B14:
@@ -549,6 +594,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B15:
@@ -561,6 +607,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B16:
@@ -573,6 +620,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B17:
@@ -585,6 +633,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B18:
@@ -597,6 +646,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B19:
@@ -609,6 +659,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B2:
@@ -621,6 +672,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B20:
@@ -633,6 +685,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B21:
@@ -645,6 +698,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B22:
@@ -657,6 +711,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B23:
@@ -669,6 +724,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B24:
@@ -681,6 +737,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B25:
@@ -693,6 +750,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B26:
@@ -705,6 +763,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B27:
@@ -717,6 +776,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B28:
@@ -729,6 +789,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B29:
@@ -741,6 +802,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B3:
@@ -753,6 +815,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B30:
@@ -765,6 +828,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B31:
@@ -777,6 +841,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B32:
@@ -789,6 +854,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B33:
@@ -801,6 +867,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B34:
@@ -813,6 +880,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B35:
@@ -825,6 +893,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B36:
@@ -837,6 +906,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B37:
@@ -849,6 +919,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B38:
@@ -861,6 +932,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B39:
@@ -873,6 +945,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B4:
@@ -885,6 +958,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B40:
@@ -897,6 +971,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B5:
@@ -909,6 +984,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B6:
@@ -921,6 +997,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B7:
@@ -933,6 +1010,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B8:
@@ -945,6 +1023,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   B9:
@@ -957,6 +1036,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   C1:
@@ -976,7 +1056,11 @@ instances:
       allow_min_radius_violation: false
       angle: 180
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
+      radius: null
+      width: null
       with_arc_floorplan: true
   C2:
     component: bend_euler
@@ -995,7 +1079,11 @@ instances:
       allow_min_radius_violation: false
       angle: 180
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
+      radius: null
+      width: null
       with_arc_floorplan: true
   C3:
     component: bend_euler
@@ -1014,7 +1102,11 @@ instances:
       allow_min_radius_violation: false
       angle: 180
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
+      radius: null
+      width: null
       with_arc_floorplan: true
   C4:
     component: bend_euler
@@ -1033,7 +1125,11 @@ instances:
       allow_min_radius_violation: false
       angle: 180
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
+      radius: null
+      width: null
       with_arc_floorplan: true
   D1:
     component: bend_euler
@@ -1052,7 +1148,11 @@ instances:
       allow_min_radius_violation: false
       angle: 180
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
+      radius: null
+      width: null
       with_arc_floorplan: true
   D2:
     component: bend_euler
@@ -1071,7 +1171,11 @@ instances:
       allow_min_radius_violation: false
       angle: 180
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
+      radius: null
+      width: null
       with_arc_floorplan: true
   D3:
     component: bend_euler
@@ -1090,7 +1194,11 @@ instances:
       allow_min_radius_violation: false
       angle: 180
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
+      radius: null
+      width: null
       with_arc_floorplan: true
   D4:
     component: bend_euler
@@ -1109,7 +1217,11 @@ instances:
       allow_min_radius_violation: false
       angle: 180
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
+      radius: null
+      width: null
       with_arc_floorplan: true
   _1:
     component: straight

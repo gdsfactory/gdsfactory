@@ -16,8 +16,11 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 10
+      width: null
       with_arc_floorplan: true
   straight_L10_N2_CSstrip_0_0:
     component: straight

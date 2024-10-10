@@ -16,8 +16,11 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 5
+      width: null
       with_arc_floorplan: true
   bend_euler_R5_A90_P0p5__c7bd5c45_m4000_20700:
     component: bend_euler
@@ -36,8 +39,11 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 5
+      width: null
       with_arc_floorplan: true
   coupler_ring_G0p2_R5_LX_ba10ec54_0_0:
     component: coupler_ring
@@ -45,6 +51,7 @@ instances:
     settings:
       bend: bend_euler
       cross_section: strip
+      cross_section_bend: null
       gap: 0.2
       length_extension: 3
       length_x: 4
@@ -85,6 +92,7 @@ instances:
     settings:
       cross_section: strip
       length: 10
+      port: null
       port_names:
       - o1
       - o2

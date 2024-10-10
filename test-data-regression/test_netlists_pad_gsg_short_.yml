@@ -7,7 +7,9 @@ instances:
       centered: true
       columns: 1
       component: pad
+      post_process: null
       rows: 3
+      size: null
       spacing:
       - 0
       - 150

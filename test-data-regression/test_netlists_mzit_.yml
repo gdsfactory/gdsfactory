@@ -16,7 +16,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
+      radius: null
       width: 0.45
       with_arc_floorplan: true
   bend_euler_RNone_A90_P0_2aa8c47e_35000_11400:
@@ -36,7 +39,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
+      radius: null
       width: 0.45
       with_arc_floorplan: true
   bend_euler_RNone_A90_P0_903f8d22_28000_m600:
@@ -56,7 +62,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
+      radius: null
       width: 0.55
       with_arc_floorplan: true
   bend_euler_RNone_A90_P0_903f8d22_38000_13400:
@@ -76,7 +85,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
+      radius: null
       width: 0.55
       with_arc_floorplan: true
   coupler_G0p2_L5_D2_D10__7f1a17d4_m1000_22050:
@@ -182,6 +194,7 @@ instances:
     settings:
       cross_section: strip
       length: 5
+      port: null
       port_names:
       - o1
       - o2
@@ -201,6 +214,7 @@ instances:
     settings:
       cross_section: strip
       length: 5
+      port: null
       port_names:
       - o1
       - o2
@@ -220,6 +234,7 @@ instances:
     settings:
       cross_section: strip
       length: 5
+      port: null
       port_names:
       - o1
       - o2
@@ -239,6 +254,7 @@ instances:
     settings:
       cross_section: strip
       length: 5
+      port: null
       port_names:
       - o1
       - o2
@@ -258,6 +274,7 @@ instances:
     settings:
       cross_section: strip
       length: 5
+      port: null
       port_names:
       - o1
       - o2
@@ -277,6 +294,7 @@ instances:
     settings:
       cross_section: strip
       length: 5
+      port: null
       port_names:
       - o1
       - o2

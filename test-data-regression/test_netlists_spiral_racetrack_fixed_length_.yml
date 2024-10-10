@@ -16,6 +16,8 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 10
       width: 0.5
@@ -28,6 +30,7 @@ instances:
       bend_factory: bend_euler
       bend_s_factory: bend_s
       cross_section: strip
+      cross_section_s: null
       extra_90_deg_bend: true
       min_radius: 5
       n_bend_points: 99

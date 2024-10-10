@@ -8,6 +8,7 @@ instances:
     settings:
       cross_section: strip
       length: 150
+      port: null
       port_names:
       - o1
       - o2

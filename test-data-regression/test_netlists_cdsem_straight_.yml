@@ -90,6 +90,7 @@ instances:
       font: rectangular_font
       justify: left
       layer: WG
+      layers: null
       position:
       - 0
       - 0
@@ -102,6 +103,7 @@ instances:
       font: rectangular_font
       justify: left
       layer: WG
+      layers: null
       position:
       - 0
       - 0
@@ -114,6 +116,7 @@ instances:
       font: rectangular_font
       justify: left
       layer: WG
+      layers: null
       position:
       - 0
       - 0
@@ -126,6 +129,7 @@ instances:
       font: rectangular_font
       justify: left
       layer: WG
+      layers: null
       position:
       - 0
       - 0
@@ -138,6 +142,7 @@ instances:
       font: rectangular_font
       justify: left
       layer: WG
+      layers: null
       position:
       - 0
       - 0
@@ -150,6 +155,7 @@ instances:
       font: rectangular_font
       justify: left
       layer: WG
+      layers: null
       position:
       - 0
       - 0

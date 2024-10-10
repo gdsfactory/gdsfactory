@@ -8,8 +8,10 @@ instances:
       ysize: 0.7
       yspacing: 2
     settings:
+      bbox_layers: null
       bbox_offset: 0
       enclosure: 2
+      gap: null
       layer: VIA1
       size:
       - 0.7
@@ -26,8 +28,10 @@ instances:
       ysize: 0.7
       yspacing: 2
     settings:
+      bbox_layers: null
       bbox_offset: 0
       enclosure: 1
+      gap: null
       layer: VIA2
       size:
       - 0.7

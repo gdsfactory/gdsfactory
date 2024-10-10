@@ -191,7 +191,7 @@ def get_netlist(
         instance = {}
 
         if c.info:
-            instance.update(component=c.name, info=c.info.model_dump(exclude_none=True))
+            instance.update(component=c.name, info=c.info.model_dump())
 
         # Don't extract netlist for cells with no function_name (e.g. subcells imported from GDS)
         if not c.function_name:
@@ -199,7 +199,7 @@ def get_netlist(
 
         # Prefer name from settings over c.name
         if c.settings:
-            settings = c.settings.model_dump(exclude_none=True)
+            settings = c.settings.model_dump()
 
             instance.update(
                 component=c.function_name,
@@ -542,11 +542,9 @@ def get_netlist_recursive(
                 inst_name = get_instance_name(ref)
                 netlist_dict = {"component": f"{rcell.name}{component_suffix}"}
                 if hasattr(rcell, "settings"):
-                    netlist_dict.update(
-                        settings=rcell.settings.model_dump(exclude_none=True)
-                    )
+                    netlist_dict.update(settings=rcell.settings.model_dump())
                 if hasattr(rcell, "info"):
-                    netlist_dict.update(info=rcell.info.model_dump(exclude_none=True))
+                    netlist_dict.update(info=rcell.info.model_dump())
                 netlist["instances"][inst_name] = netlist_dict
 
     return all_netlists

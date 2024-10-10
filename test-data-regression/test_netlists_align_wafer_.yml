@@ -5,6 +5,7 @@ instances:
     settings:
       layer: WG
       length: 80
+      port_type: null
       width: 10
   rectangle_S10_110_LWG_C_804deee6_55000_0:
     component: rectangle

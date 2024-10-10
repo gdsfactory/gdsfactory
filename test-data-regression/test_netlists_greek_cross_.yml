@@ -22,6 +22,8 @@ instances:
       ysize: 11
     settings:
       correct_size: true
+      layer_offsets: null
+      layer_port: null
       layers:
       - WG
       - NPP
@@ -47,6 +49,8 @@ instances:
       ysize: 11
     settings:
       correct_size: true
+      layer_offsets: null
+      layer_port: null
       layers:
       - WG
       - NPP
@@ -72,6 +76,8 @@ instances:
       ysize: 11
     settings:
       correct_size: true
+      layer_offsets: null
+      layer_port: null
       layers:
       - WG
       - NPP
@@ -97,6 +103,8 @@ instances:
       ysize: 11
     settings:
       correct_size: true
+      layer_offsets: null
+      layer_port: null
       layers:
       - WG
       - NPP

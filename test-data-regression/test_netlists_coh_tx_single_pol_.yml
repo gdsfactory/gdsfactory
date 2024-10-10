@@ -16,6 +16,8 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 10
       width: 0.5
@@ -37,6 +39,8 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 10
       width: 0.5
@@ -58,6 +62,8 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 10
       width: 0.5
@@ -79,6 +85,8 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 10
       width: 0.5
@@ -100,6 +108,8 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 10
       width: 0.5
@@ -121,6 +131,8 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 10
       width: 0.5
@@ -142,6 +154,8 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 10
       width: 0.5
@@ -163,6 +177,8 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 10
       width: 0.5
@@ -177,6 +193,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   mmi1x2_WNone_WT1_LT10_L_4e0f7121_m52750_m53250:
@@ -189,6 +206,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   mzi_DL0_LY2_LX200_Bbend_31a2f4c6_0_0:
@@ -198,7 +216,9 @@ instances:
       add_optical_ports_arms: false
       auto_rename_ports: true
       bend: bend_euler
+      combiner: null
       cross_section: strip
+      cross_section_x_bot: null
       cross_section_x_top: pin
       delta_length: 0
       length_x: 200
@@ -214,7 +234,9 @@ instances:
       port_e1_splitter: o2
       splitter: mmi1x2
       straight: straight
+      straight_x_bot: null
       straight_x_top: straight_pin
+      straight_y: null
       with_splitter: true
   mzi_DL0_LY2_LX200_Bbend_31a2f4c6_0_m106500:
     component: mzi
@@ -223,7 +245,9 @@ instances:
       add_optical_ports_arms: false
       auto_rename_ports: true
       bend: bend_euler
+      combiner: null
       cross_section: strip
+      cross_section_x_bot: null
       cross_section_x_top: pin
       delta_length: 0
       length_x: 200
@@ -239,7 +263,9 @@ instances:
       port_e1_splitter: o2
       splitter: mmi1x2
       straight: straight
+      straight_x_bot: null
       straight_x_top: straight_pin
+      straight_y: null
       with_splitter: true
   straight_L100_N2_CSstrip_321000_0:
     component: straight

@@ -92,8 +92,10 @@ instances:
     na: 10
     nb: 10
     settings:
+      bbox_layers: null
       bbox_offset: 0
       enclosure: 2
+      gap: null
       layer: VIA1
       size:
       - 0.7
@@ -108,6 +110,8 @@ instances:
       ysize: 11
     settings:
       correct_size: true
+      layer_offsets: null
+      layer_port: null
       layers:
       - M2
       - MTOP
@@ -131,6 +135,8 @@ instances:
       ysize: 11
     settings:
       correct_size: true
+      layer_offsets: null
+      layer_port: null
       layers:
       - M2
       - MTOP

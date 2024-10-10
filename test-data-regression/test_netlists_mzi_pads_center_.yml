@@ -7,7 +7,9 @@ instances:
       centered: false
       columns: 3
       component: pad_small
+      post_process: null
       rows: 1
+      size: null
       spacing:
       - 100
       - 100
@@ -18,7 +20,10 @@ instances:
       add_optical_ports_arms: false
       auto_rename_ports: false
       bend: bend_euler
+      combiner: null
       cross_section: strip
+      cross_section_x_bot: null
+      cross_section_x_top: null
       delta_length: 40
       length_x: 500
       length_y: 40
@@ -35,6 +40,7 @@ instances:
       straight: straight
       straight_x_bot: straight_heater_metal
       straight_x_top: straight_heater_metal
+      straight_y: null
       with_splitter: true
 name: mzi_pads_center_PTstrai_c97b64ce
 nets: []

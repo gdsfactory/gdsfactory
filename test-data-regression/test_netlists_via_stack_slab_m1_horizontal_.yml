@@ -14,8 +14,10 @@ instances:
     na: 1
     nb: 4
     settings:
+      bbox_layers: null
       bbox_offset: 0
       enclosure: 2
+      gap: null
       layer: VIA1
       size:
       - 7
@@ -38,8 +40,10 @@ instances:
     na: 1
     nb: 5
     settings:
+      bbox_layers: null
       bbox_offset: 0
       enclosure: 1
+      gap: null
       layer: VIAC
       size:
       - 9
