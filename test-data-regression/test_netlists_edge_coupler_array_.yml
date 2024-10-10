@@ -13,7 +13,7 @@ instances:
       - o2
       port_types:
       - optical
-      - optical
+      - edge_coupler
       width1: 0.5
       width2: 0.2
       with_bbox: true
@@ -32,7 +32,7 @@ instances:
       - o2
       port_types:
       - optical
-      - optical
+      - edge_coupler
       width1: 0.5
       width2: 0.2
       with_bbox: true
@@ -51,7 +51,7 @@ instances:
       - o2
       port_types:
       - optical
-      - optical
+      - edge_coupler
       width1: 0.5
       width2: 0.2
       with_bbox: true
@@ -70,7 +70,7 @@ instances:
       - o2
       port_types:
       - optical
-      - optical
+      - edge_coupler
       width1: 0.5
       width2: 0.2
       with_bbox: true
@@ -89,7 +89,7 @@ instances:
       - o2
       port_types:
       - optical
-      - optical
+      - edge_coupler
       width1: 0.5
       width2: 0.2
       with_bbox: true
@@ -208,13 +208,13 @@ placements:
     x: 10
     y: 528
 ports:
+  0o2: ec_0,o2
+  1o2: ec_1,o2
+  2o2: ec_2,o2
+  3o2: ec_3,o2
+  4o2: ec_4,o2
   o1: ec_0,o1
-  o10: ec_0,o2
   o2: ec_1,o1
   o3: ec_2,o1
   o4: ec_3,o1
   o5: ec_4,o1
-  o6: ec_4,o2
-  o7: ec_3,o2
-  o8: ec_2,o2
-  o9: ec_1,o2
