@@ -93,6 +93,16 @@ def extract(
     return c
 
 
+def move_to_center(component: Component, dx: float = 0, dy: float = 0) -> gf.Component:
+    """Moves the component to the center of the bounding box."""
+    c = component
+    c.transform(
+        gf.kdb.DTrans(-c.dbbox().center().x + dx, -c.dbbox().center().y + dy),
+        no_warn=True,
+    )
+    return c
+
+
 def get_polygons(
     component_or_instance: Component | Instance,
     merge: bool = False,
