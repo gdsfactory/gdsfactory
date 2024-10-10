@@ -300,7 +300,7 @@ def route_fiber_array(
     # If we add align ports, we need enough space for the bends
     io_gratings = io_gratings_lines[0]
     gc_ports = [gc.ports[gc_port_name] for gc in io_gratings]
-    # c.shapes(c.kcl.layer(1,10)).insert(component_with_south_routes_bbox)
+    # c.shapes(c.kcl.layer(1, 10)).insert(component_to_route.bbox())
 
     route_bundle(
         c,
@@ -314,7 +314,7 @@ def route_fiber_array(
         sort_ports=True,
         allow_width_mismatch=allow_width_mismatch,
         route_width=route_width,
-        bboxes=[component_to_route.bbox(), component.bbox()],
+        bboxes=[component_to_route.bbox()],
         start_straight_length=start_straight_length,
         end_straight_length=end_straight_length,
     )
@@ -410,12 +410,12 @@ if __name__ == "__main__":
     gc = gf.components.grating_coupler_elliptical_te(taper_length=10)
 
     # component = gf.components.nxn(north=10, south=10, east=10, west=10)
-    component = gf.components.straight()
+    # component = gf.components.straight()
     # component = gf.components.mmi2x2()
     # component = gf.components.straight_heater_metal()
     # component = gf.components.ring_single()
     # component = gf.components.ring_double()
-    # component = gf.components.mzi_phase_shifter()
+    component = gf.components.mzi_phase_shifter()
     # component = gf.components.nxn(north=10, south=10, east=10, west=10)
     # component= gf.c.straight(width=2, length=50)
 
@@ -428,7 +428,7 @@ if __name__ == "__main__":
         # with_loopback=True,
         # radius=10,
         # fiber_spacing=50,
-        port_names=["o1"],
+        # port_names=["o1", "o2"],
         # with_loopback=False,
         # fanout_length=-200,
         # force_manhattan=False,
