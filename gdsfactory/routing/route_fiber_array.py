@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from collections.abc import Callable
+from collections.abc import Callable, Mapping, Sequence
 
 import kfactory as kf
 
@@ -18,6 +18,7 @@ from gdsfactory.typings import (
     ComponentReference,
     ComponentSpec,
     ComponentSpecOrList,
+    Coordinates,
     CrossSectionSpec,
     Strs,
 )
@@ -55,6 +56,10 @@ def route_fiber_array(
     route_width: float | list[float] | None = 0,
     start_straight_length: float = 0,
     end_straight_length: float = 0,
+    auto_taper: bool = True,
+    waypoints: Coordinates | None = None,
+    steps: Sequence[Mapping[str, int | float]] | None = None,
+    **kwargs,
 ) -> Component:
     """Returns new component with fiber array.
 
@@ -100,6 +105,11 @@ def route_fiber_array(
         route_width: width of the route. If None, defaults to cross_section.width.
         start_straight_length: length of the start straight.
         end_straight_length: length of the end straight.
+        auto_taper: taper length for the IO.
+        waypoints: waypoints for the route.
+        steps: steps for the route.
+        kwargs: route_bundle settings.
+
     """
     c = component
     component = component_to_route
@@ -317,6 +327,10 @@ def route_fiber_array(
         bboxes=[component_to_route.bbox()],
         start_straight_length=start_straight_length,
         end_straight_length=end_straight_length,
+        auto_taper=auto_taper,
+        waypoints=waypoints,
+        steps=steps,
+        **kwargs,
     )
     if gc_port_name_fiber not in grating_coupler_port_names:
         gc_port_name_fiber = gc_port_names[0]
@@ -424,6 +438,7 @@ if __name__ == "__main__":
     routes = route_fiber_array(
         c,
         ref,
+        steps=[dict(dy=-50), dict(dx=3)],
         # grating_coupler=gc,
         # with_loopback=True,
         # radius=10,
@@ -432,6 +447,7 @@ if __name__ == "__main__":
         # with_loopback=False,
         # fanout_length=-200,
         # force_manhattan=False,
+        auto_taper=False,
     )
     c.show()
     c.pprint_ports()
