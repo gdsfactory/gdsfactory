@@ -342,42 +342,48 @@ class ComponentBase:
             return kf.KCell.add_port(
                 self, port=port, name=name, keep_mirror=keep_mirror
             )
-        else:
-            from gdsfactory.pdk import get_cross_section, get_layer
+        from gdsfactory.config import CONF
+        from gdsfactory.pdk import get_cross_section, get_layer
 
-            if layer is None:
-                if cross_section is None:
-                    raise ValueError("Must specify layer or cross_section")
-                xs = get_cross_section(cross_section)
-                layer = xs.layer
-
-            if width is None:
-                if cross_section is None:
-                    raise ValueError("Must specify width or cross_section")
-                xs = get_cross_section(cross_section)
-                width = xs.width
-
-            if orientation is None:
-                raise ValueError("Must specify orientation")
-
-            if center is None:
-                raise ValueError("Must specify center")
-            elif isinstance(center, kdb.DPoint):
-                layer = get_layer(layer)
-                trans = kdb.DCplxTrans(1, orientation, False, center.to_v())
-            else:
-                layer = get_layer(layer)
-                x = float(center[0])
-                y = float(center[1])
-                trans = kdb.DCplxTrans(1, float(orientation), False, x, y)
-
-            return self.create_port(
-                name=name,
-                dwidth=round(width / self.kcl.dbu) * self.kcl.dbu,
-                layer=layer,
-                port_type=port_type,
-                dcplx_trans=trans,
+        if port_type not in CONF.port_types:
+            warnings.warn(
+                f"Port type {port_type} not in {CONF.port_types}. "
+                "Please add it to the port_types list in the config gf.CONF.port_types."
             )
+
+        if layer is None:
+            if cross_section is None:
+                raise ValueError("Must specify layer or cross_section")
+            xs = get_cross_section(cross_section)
+            layer = xs.layer
+
+        if width is None:
+            if cross_section is None:
+                raise ValueError("Must specify width or cross_section")
+            xs = get_cross_section(cross_section)
+            width = xs.width
+
+        if orientation is None:
+            raise ValueError("Must specify orientation")
+
+        if center is None:
+            raise ValueError("Must specify center")
+        elif isinstance(center, kdb.DPoint):
+            layer = get_layer(layer)
+            trans = kdb.DCplxTrans(1, orientation, False, center.to_v())
+        else:
+            layer = get_layer(layer)
+            x = float(center[0])
+            y = float(center[1])
+            trans = kdb.DCplxTrans(1, float(orientation), False, x, y)
+
+        return self.create_port(
+            name=name,
+            dwidth=round(width / self.kcl.dbu) * self.kcl.dbu,
+            layer=layer,
+            port_type=port_type,
+            dcplx_trans=trans,
+        )
 
     def __getattribute__(self, __k: str) -> Any:
         """Shadow dbu based attributes with um based ones."""
@@ -463,11 +469,9 @@ class ComponentBase:
 
     def add_polygon(
         self,
-        points: np.ndarray
-        | kdb.DPolygon
-        | kdb.Polygon
-        | kdb.Region
-        | list[list[float]],
+        points: (
+            np.ndarray | kdb.DPolygon | kdb.Polygon | kdb.Region | list[list[float]]
+        ),
         layer: LayerSpec,
     ) -> kdb.Shape:
         """Adds a Polygon to the Component and returns a klayout Shape.
@@ -1287,14 +1291,22 @@ def component_with_function(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    # c = gf.Component()
+    c = gf.Component()
+    c.add_port(
+        name="o1",
+        center=(0, 0),
+        width=0.5,
+        orientation=0,
+        port_type="optical2",
+        layer="WG",
+    )
     # b = c << gf.c.bend_circular()
     # s = c << gf.c.straight()
     # s.connect("o1", b.ports["o2"])
     # p = c.get_polygons()
     # p1 = c.get_polygons(by="name")
-    c = gf.c.mzi_lattice(cross_section="rib")
-    c = c.extract(["WG"])
+    # c = gf.c.mzi_lattice(cross_section="rib")
+    # c = c.extract(["WG"])
     # c.copy_layers({(1, 0): (2, 0)}, recursive=True)
     # c = gf.c.array(spacing=(300, 300), columns=2)
     # c.show()
