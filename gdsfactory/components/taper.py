@@ -279,7 +279,8 @@ taper_electrical = partial(
 
 
 if __name__ == "__main__":
-    c = gf.grid([taper_nc_sc(), taper_sc_nc()])
+    c = taper()
+    # c = gf.grid([taper_nc_sc(), taper_sc_nc()])
     # c = taper(cross_section="rib", width2=5, port_types="optical")
     # c = taper_strip_to_ridge_trenches()
     # c = taper_strip_to_ridge()
