@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from collections.abc import Callable
+from collections.abc import Callable, Mapping, Sequence
 
 import kfactory as kf
 
@@ -18,6 +18,7 @@ from gdsfactory.typings import (
     ComponentReference,
     ComponentSpec,
     ComponentSpecOrList,
+    Coordinates,
     CrossSectionSpec,
     Strs,
 )
@@ -50,10 +51,15 @@ def route_fiber_array(
     radius: float | None = None,
     radius_loopback: float | None = None,
     cross_section: CrossSectionSpec = strip,
-    optical_routing_type: int = 1,
     allow_width_mismatch: bool = False,
     port_type: str = "optical",
     route_width: float | list[float] | None = 0,
+    start_straight_length: float = 0,
+    end_straight_length: float = 0,
+    auto_taper: bool = True,
+    waypoints: Coordinates | None = None,
+    steps: Sequence[Mapping[str, int | float]] | None = None,
+    **kwargs,
 ) -> Component:
     """Returns new component with fiber array.
 
@@ -94,15 +100,17 @@ def route_fiber_array(
         radius: optional radius of the bend. Defaults to the cross_section.
         radius_loopback: optional radius of the loopback bend. Defaults to the cross_section.
         cross_section: cross_section.
-        optical_routing_type: 1 or 2.
         allow_width_mismatch: allow width mismatch.
         port_type: port type.
         route_width: width of the route. If None, defaults to cross_section.width.
-        route_backwards: route from component to grating coupler or vice-versa.
-    """
-    if optical_routing_type not in [1, 2]:
-        raise ValueError(f"optical_routing_type={optical_routing_type} must be 1 or 2")
+        start_straight_length: length of the start straight.
+        end_straight_length: length of the end straight.
+        auto_taper: taper length for the IO.
+        waypoints: waypoints for the route.
+        steps: steps for the route.
+        kwargs: route_bundle settings.
 
+    """
     c = component
     component = component_to_route
     fiber_spacing = gf.get_constant(fiber_spacing)
@@ -302,7 +310,7 @@ def route_fiber_array(
     # If we add align ports, we need enough space for the bends
     io_gratings = io_gratings_lines[0]
     gc_ports = [gc.ports[gc_port_name] for gc in io_gratings]
-    # c.shapes(c.kcl.layer(1,10)).insert(component_with_south_routes_bbox)
+    # c.shapes(c.kcl.layer(1, 10)).insert(component_to_route.bbox())
 
     route_bundle(
         c,
@@ -316,7 +324,13 @@ def route_fiber_array(
         sort_ports=True,
         allow_width_mismatch=allow_width_mismatch,
         route_width=route_width,
-        bboxes=[component.bbox()],
+        bboxes=[component_to_route.bbox()],
+        start_straight_length=start_straight_length,
+        end_straight_length=end_straight_length,
+        auto_taper=auto_taper,
+        waypoints=waypoints,
+        steps=steps,
+        **kwargs,
     )
     if gc_port_name_fiber not in grating_coupler_port_names:
         gc_port_name_fiber = gc_port_names[0]
@@ -410,12 +424,12 @@ if __name__ == "__main__":
     gc = gf.components.grating_coupler_elliptical_te(taper_length=10)
 
     # component = gf.components.nxn(north=10, south=10, east=10, west=10)
-    component = gf.components.straight()
+    # component = gf.components.straight()
     # component = gf.components.mmi2x2()
     # component = gf.components.straight_heater_metal()
     # component = gf.components.ring_single()
     # component = gf.components.ring_double()
-    # component = gf.components.mzi_phase_shifter()
+    component = gf.components.mzi_phase_shifter()
     # component = gf.components.nxn(north=10, south=10, east=10, west=10)
     # component= gf.c.straight(width=2, length=50)
 
@@ -424,16 +438,16 @@ if __name__ == "__main__":
     routes = route_fiber_array(
         c,
         ref,
+        steps=[dict(dy=-50), dict(dx=3)],
         # grating_coupler=gc,
         # with_loopback=True,
         # radius=10,
         # fiber_spacing=50,
-        port_names=["o1"],
+        # port_names=["o1", "o2"],
         # with_loopback=False,
-        # optical_routing_type=1,
-        # optical_routing_type=2,
         # fanout_length=-200,
         # force_manhattan=False,
+        auto_taper=False,
     )
     c.show()
     c.pprint_ports()

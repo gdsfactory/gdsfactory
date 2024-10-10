@@ -25,7 +25,6 @@ def add_pads_bot(
     bend: ComponentSpec = "wire_corner",
     straight_separation: float = 15.0,
     pad_spacing: float | str = "pad_spacing",
-    optical_routing_type: int | None = 1,
     port_type: str = "electrical",
     allow_width_mismatch: bool = True,
     fanout_length: float | None = 0,
@@ -47,7 +46,6 @@ def add_pads_bot(
         bend: bend spec.
         straight_separation: from wire edge to edge. Defaults to xs.width+xs.gap
         pad_spacing: in um. Defaults to pad_spacing constant from the PDK.
-        optical_routing_type: None: auto, 0: no extension, 1: standard, 2: check.
         port_type: port type.
         allow_width_mismatch: True
         fanout_length: if None, automatic calculation of fanout length.
@@ -127,7 +125,6 @@ def add_pads_bot(
         straight_separation=straight_separation,
         port_names=port_names,
         fiber_spacing=pad_spacing,
-        optical_routing_type=optical_routing_type,
         port_type=port_type,
         gc_port_name_fiber=pad_port_name,
         allow_width_mismatch=allow_width_mismatch,
@@ -150,7 +147,6 @@ def add_pads_top(
     bend: ComponentSpec = "wire_corner",
     straight_separation: float = 15.0,
     pad_spacing: float | str = "pad_spacing",
-    optical_routing_type: int | None = 1,
     port_type: str = "electrical",
     allow_width_mismatch: bool = True,
     fanout_length: float | None = 0,
@@ -172,7 +168,6 @@ def add_pads_top(
         bend: bend spec.
         straight_separation: from wire edge to edge. Defaults to xs.width+xs.gap
         pad_spacing: in um. Defaults to pad_spacing constant from the PDK.
-        optical_routing_type: None: auto, 0: no extension, 1: standard, 2: check.
         port_type: port type.
         allow_width_mismatch: True
         fanout_length: if None, automatic calculation of fanout length.
@@ -225,7 +220,6 @@ def add_pads_top(
         bend=bend,
         straight_separation=straight_separation,
         pad_spacing=pad_spacing,
-        optical_routing_type=optical_routing_type,
         port_type=port_type,
         allow_width_mismatch=allow_width_mismatch,
         fanout_length=fanout_length,

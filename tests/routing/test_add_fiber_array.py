@@ -9,24 +9,18 @@ from gdsfactory.difftest import difftest
 
 
 @gf.cell
-def type1() -> Component:
+def sample_fiber_array() -> Component:
     component = gf.components.coupler(gap=0.2, length=5.0)
-    return gf.routing.add_fiber_array(component=component, optical_routing_type=1)
+    return gf.routing.add_fiber_array(component=component)
 
 
 @gf.cell
-def type2() -> Component:
-    c = gf.components.coupler(gap=0.244, length=5.67)
-    return gf.routing.add_fiber_array(component=c, optical_routing_type=2)
-
-
-@gf.cell
-def fiber_single() -> Component:
+def sample_fiber_single() -> Component:
     c = gf.components.coupler(gap=0.244, length=5.67)
     return gf.routing.add_fiber_single(component=c)
 
 
-components = [type1, type2, fiber_single]
+components = [sample_fiber_array, sample_fiber_single]
 
 
 @pytest.fixture(params=components, scope="function")
@@ -46,9 +40,6 @@ def test_settings(component: Component, data_regression: DataRegressionFixture) 
 
 
 if __name__ == "__main__":
-    # c = type1()
-    # c = type2()
-    # c = tapers()
-    c = fiber_single()
+    c = sample_fiber_array()
     c.pprint_ports()
     c.show()
