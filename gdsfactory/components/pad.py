@@ -67,7 +67,7 @@ def pad(
     if port_orientation is not None:
         c.add_port(
             name="pad",
-            port_type="vertical_dc",
+            port_type="pad",
             layer=layer,
             center=(0, 0),
             orientation=port_orientation,

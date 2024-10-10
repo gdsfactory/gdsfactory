@@ -56,20 +56,15 @@ def test_netlists(
     if check:
         data_regression.check(n)
 
-    # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
-    # c.delete()
-    # c2 = gf.read.from_yaml(yaml_str)
-    # n2 = c2.get_netlist(
-    #     allow_multiple=True, connection_error_types=connection_error_types
-    # )
+    yaml_str = c.write_netlist(n)
+    c2 = gf.read.from_yaml(yaml_str)
+    n2 = c2.get_netlist()
 
-    # n.pop("name")
-    # n2.pop("name")
-    # n.pop("ports")
-    # n2.pop("ports")
-    # d = jsondiff.diff(n, n2)
-    # d.pop("warnings", None)
-    # assert len(d) == 0, d
+    d = jsondiff.diff(n, n2)
+    d.pop("warnings", None)
+    d.pop("connections", None)
+    d.pop("ports", None)
+    assert len(d) == 0, d
 
 
 if __name__ == "__main__":
@@ -97,7 +92,7 @@ if __name__ == "__main__":
     component_type = "cutback_2x2"  # FIXME
     component_type = "delay_snake"  # FIXME
     component_type = "spiral_racetrack"
-    component_type = "ring_single"
+    component_type = "pad_array"
 
     connection_error_types = {
         "optical": ["width_mismatch", "shear_angle_mismatch", "orientation_mismatch"]
