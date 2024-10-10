@@ -449,21 +449,3 @@ placements:
     x: 254
     y: 39.529
 ports: {}
-warnings:
-  vertical_te:
-    unconnected_ports:
-    - message: 4 unconnected vertical_te ports!
-      ports:
-      - grating_coupler_ellipti_b694ac47_0_0,o2
-      - grating_coupler_ellipti_b694ac47_127000_0,o2
-      - grating_coupler_ellipti_b694ac47_254000_0,o2
-      - grating_coupler_ellipti_b694ac47_381000_0,o2
-      values:
-      - - 0
-        - -26740
-      - - 127000
-        - -26740
-      - - 254000
-        - -26740
-      - - 381000
-        - -26740
