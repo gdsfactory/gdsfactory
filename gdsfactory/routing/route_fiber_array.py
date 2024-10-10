@@ -50,10 +50,11 @@ def route_fiber_array(
     radius: float | None = None,
     radius_loopback: float | None = None,
     cross_section: CrossSectionSpec = strip,
-    optical_routing_type: int = 1,
     allow_width_mismatch: bool = False,
     port_type: str = "optical",
     route_width: float | list[float] | None = 0,
+    start_straight_length: float = 0,
+    end_straight_length: float = 0,
 ) -> Component:
     """Returns new component with fiber array.
 
@@ -94,15 +95,12 @@ def route_fiber_array(
         radius: optional radius of the bend. Defaults to the cross_section.
         radius_loopback: optional radius of the loopback bend. Defaults to the cross_section.
         cross_section: cross_section.
-        optical_routing_type: 1 or 2.
         allow_width_mismatch: allow width mismatch.
         port_type: port type.
         route_width: width of the route. If None, defaults to cross_section.width.
-        route_backwards: route from component to grating coupler or vice-versa.
+        start_straight_length: length of the start straight.
+        end_straight_length: length of the end straight.
     """
-    if optical_routing_type not in [1, 2]:
-        raise ValueError(f"optical_routing_type={optical_routing_type} must be 1 or 2")
-
     c = component
     component = component_to_route
     fiber_spacing = gf.get_constant(fiber_spacing)
@@ -316,7 +314,9 @@ def route_fiber_array(
         sort_ports=True,
         allow_width_mismatch=allow_width_mismatch,
         route_width=route_width,
-        bboxes=[component.bbox()],
+        bboxes=[component_to_route.bbox(), component.bbox()],
+        start_straight_length=start_straight_length,
+        end_straight_length=end_straight_length,
     )
     if gc_port_name_fiber not in grating_coupler_port_names:
         gc_port_name_fiber = gc_port_names[0]
@@ -430,8 +430,6 @@ if __name__ == "__main__":
         # fiber_spacing=50,
         port_names=["o1"],
         # with_loopback=False,
-        # optical_routing_type=1,
-        # optical_routing_type=2,
         # fanout_length=-200,
         # force_manhattan=False,
     )
