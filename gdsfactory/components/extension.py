@@ -136,7 +136,7 @@ def extend_ports(
                 extension_component = gf.get_component(extension)
             else:
                 cross_section_extension = cross_section or cross_section_function(
-                    layer=port.layer, width=port.dwidth
+                    layer=gf.pdk.get_layer_tuple(port.layer), width=port.dwidth
                 )
 
                 if cross_section_extension is None:
@@ -169,8 +169,9 @@ def extend_ports(
 
 if __name__ == "__main__":
     # test_extend_ports()
-    c0 = gf.c.straight(width=5)
-    t = gf.components.taper(length=10, width1=5, width2=0.5)
-    p0 = c0["o1"]
-    c = extend_ports(c0, extension=t)
+    # c0 = gf.c.straight(width=5)
+    # t = gf.components.taper(length=10, width1=5, width2=0.5)
+    # p0 = c0["o1"]
+    # c = extend_ports(c0, extension=t)
+    c = extend_ports()
     c.show()
