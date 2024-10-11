@@ -16,8 +16,11 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 10
+      width: null
       with_arc_floorplan: true
   bend_euler_R10_A90_P0p5_2f1f5c6d_225000_m13750:
     component: bend_euler
@@ -36,8 +39,11 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 10
+      width: null
       with_arc_floorplan: true
   bend_euler_R10_A90_P0p5_2f1f5c6d_228500_11250:
     component: bend_euler
@@ -56,8 +62,11 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 10
+      width: null
       with_arc_floorplan: true
   bend_euler_R10_A90_P0p5_2f1f5c6d_228500_m11250:
     component: bend_euler
@@ -76,8 +85,11 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 10
+      width: null
       with_arc_floorplan: true
   bend_euler_R10_A90_P0p5_2f1f5c6d_235000_75000:
     component: bend_euler
@@ -96,8 +108,11 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 10
+      width: null
       with_arc_floorplan: true
   bend_euler_R10_A90_P0p5_2f1f5c6d_235000_m75000:
     component: bend_euler
@@ -116,8 +131,11 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 10
+      width: null
       with_arc_floorplan: true
   bend_euler_R10_A90_P0p5_2f1f5c6d_238500_25000:
     component: bend_euler
@@ -136,8 +154,11 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 10
+      width: null
       with_arc_floorplan: true
   bend_euler_R10_A90_P0p5_2f1f5c6d_238500_m25000:
     component: bend_euler
@@ -156,8 +177,11 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 10
+      width: null
       with_arc_floorplan: true
   ge_detector_straight_si_857c1c1e_295000_25000:
     component: ge_detector_straight_si_contacts

@@ -48,8 +48,14 @@ def via_corner(
     c.height = max_height
     c.info["size"] = (float(max_width), float(max_height))
     c.info["length"] = max(max_width, max_height)
+
+    n = len(layers)
+
     for i, layer in enumerate(layers):
-        ref = c << compass(size=(widths[i], heights[i]), layer=layer)
+        port_type = "electrical" if i == n - 1 else "electrical"
+        ref = c << compass(
+            size=(widths[i], heights[i]), layer=layer, port_type=port_type
+        )
 
         if layer in layers_ports:
             orientations = port_orientations[i]
