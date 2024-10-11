@@ -9,6 +9,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   mmi1x2_WNone_WT1_LT10_L_4e0f7121_71100_0:
@@ -21,6 +22,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   mzi_arm_LYL0p8_LYR0p8_L_eb91ab79_15500_625:

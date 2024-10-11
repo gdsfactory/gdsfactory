@@ -15,7 +15,10 @@ instances:
       allow_min_radius_violation: false
       angle: 180
       cross_section: heater_metal
+      layer: null
+      npoints: null
       radius: 20
+      width: null
   spiral_racetrack_MR10_S_8dd875fc_0_0:
     component: spiral_racetrack
     info:
@@ -24,6 +27,7 @@ instances:
       bend_factory: bend_euler
       bend_s_factory: bend_s
       cross_section: strip
+      cross_section_s: null
       extra_90_deg_bend: false
       min_radius: 10
       n_bend_points: 99
@@ -72,6 +76,8 @@ instances:
       ysize: 11
     settings:
       correct_size: true
+      layer_offsets: null
+      layer_port: null
       layers:
       - HEATER
       - M2
@@ -97,6 +103,8 @@ instances:
       ysize: 11
     settings:
       correct_size: true
+      layer_offsets: null
+      layer_port: null
       layers:
       - HEATER
       - M2

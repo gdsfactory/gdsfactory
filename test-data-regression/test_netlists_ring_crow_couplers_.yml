@@ -15,7 +15,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       radius: 10
+      width: null
   bot_left_bend_ring_1:
     component: bend_circular
     info:
@@ -32,7 +35,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       radius: 10
+      width: null
   bot_left_bend_ring_2:
     component: bend_circular
     info:
@@ -49,7 +55,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       radius: 10
+      width: null
   bot_right_bend_ring_0:
     component: bend_circular
     info:
@@ -66,7 +75,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       radius: 10
+      width: null
   bot_right_bend_ring_1:
     component: bend_circular
     info:
@@ -83,7 +95,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       radius: 10
+      width: null
   bot_right_bend_ring_2:
     component: bend_circular
     info:
@@ -100,7 +115,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       radius: 10
+      width: null
   coupler_G0p236_L20_D4_D_83b94450_0_0:
     component: coupler
     info:
@@ -165,7 +183,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       radius: 10
+      width: null
   top_left_bend_ring_1:
     component: bend_circular
     info:
@@ -182,7 +203,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       radius: 10
+      width: null
   top_left_bend_ring_2:
     component: bend_circular
     info:
@@ -199,7 +223,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       radius: 10
+      width: null
   top_right_bend_ring_0:
     component: bend_circular
     info:
@@ -216,7 +243,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       radius: 10
+      width: null
   top_right_bend_ring_1:
     component: bend_circular
     info:
@@ -233,7 +263,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       radius: 10
+      width: null
   top_right_bend_ring_2:
     component: bend_circular
     info:
@@ -250,7 +283,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       radius: 10
+      width: null
 name: ring_crow_couplers_R10__afe24872
 nets:
 - p1: bot_left_bend_ring_0,o1

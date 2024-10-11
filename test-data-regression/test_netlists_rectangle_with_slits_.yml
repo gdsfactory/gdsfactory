@@ -7,7 +7,9 @@ instances:
       centered: false
       columns: 4
       component: rectangle_S1_1_LSLAB150_3f9c5a4c
+      post_process: null
       rows: 9
+      size: null
       spacing:
       - 20
       - 20
@@ -22,6 +24,7 @@ instances:
       - 90
       - 0
       - -90
+      port_type: null
       size:
       - 100
       - 200

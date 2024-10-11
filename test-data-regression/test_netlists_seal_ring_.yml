@@ -6,6 +6,8 @@ instances:
       ysize: 22
     settings:
       correct_size: true
+      layer_offsets: null
+      layer_port: null
       layers:
       - M1
       - M2
@@ -31,6 +33,8 @@ instances:
       ysize: 22
     settings:
       correct_size: true
+      layer_offsets: null
+      layer_port: null
       layers:
       - M1
       - M2
@@ -56,6 +60,8 @@ instances:
       ysize: 10
     settings:
       correct_size: true
+      layer_offsets: null
+      layer_port: null
       layers:
       - M1
       - M2
@@ -81,6 +87,8 @@ instances:
       ysize: 10
     settings:
       correct_size: true
+      layer_offsets: null
+      layer_port: null
       layers:
       - M1
       - M2

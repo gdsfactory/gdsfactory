@@ -16,6 +16,8 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 30
       width: 0.5
@@ -37,6 +39,8 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 30
       width: 0.5
@@ -58,6 +62,8 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 30
       width: 0.5
@@ -79,6 +85,8 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 30
       width: 0.5
@@ -91,8 +99,12 @@ instances:
       auto_taper: true
       centered: false
       component: edge_coupler_array_ECed_0d245d68
+      cross_section: null
       extension: Fstraight_Mgdsfactorypcomponentspstraight_SCSstrip_L1
+      extension_port_names: null
       length: 1
+      port1: null
+      port2: null
       port_names:
       - o1
       - o2
@@ -180,14 +192,6 @@ placements:
     x: -31
     y: 97
 ports:
-  '1': extend_ports_Cedge_coup_a17a8c07_0_0,0o2
-  '11': extend_ports_Cedge_coup_a17a8c07_0_0,5o2
-  '13': extend_ports_Cedge_coup_a17a8c07_0_0,6o2
-  '15': extend_ports_Cedge_coup_a17a8c07_0_0,7o2
-  '3': extend_ports_Cedge_coup_a17a8c07_0_0,1o2
-  '5': extend_ports_Cedge_coup_a17a8c07_0_0,2o2
-  '7': extend_ports_Cedge_coup_a17a8c07_0_0,3o2
-  '9': extend_ports_Cedge_coup_a17a8c07_0_0,4o2
   o1: extend_ports_Cedge_coup_a17a8c07_0_0,o3
   o2: extend_ports_Cedge_coup_a17a8c07_0_0,o4
   o3: extend_ports_Cedge_coup_a17a8c07_0_0,o5

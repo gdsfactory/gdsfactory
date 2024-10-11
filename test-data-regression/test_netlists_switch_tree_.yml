@@ -16,6 +16,8 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 10
       width: 0.5
@@ -37,6 +39,8 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 10
       width: 0.5
@@ -58,6 +62,8 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 10
       width: 0.5
@@ -79,6 +85,8 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 10
       width: 0.5
@@ -172,7 +180,10 @@ instances:
       bend: bend_euler
       combiner: mmi2x2
       cross_section: strip
+      cross_section_x_bot: null
+      cross_section_x_top: null
       delta_length: 0
+      length_x: null
       length_y: 2
       min_length: 0.01
       mirror_bot: false
@@ -185,7 +196,9 @@ instances:
       port_e1_splitter: o2
       splitter: mmi1x2
       straight: straight
+      straight_x_bot: null
       straight_x_top: Fstraight_heater_metal_undercut_Mgdsfactorypcomponentspstraight_heater_metal_SWUFalse_LSI0p1_LU5_LUS0
+      straight_y: null
       with_splitter: true
   coupler_1_0:
     component: mzi
@@ -196,7 +209,10 @@ instances:
       bend: bend_euler
       combiner: mmi2x2
       cross_section: strip
+      cross_section_x_bot: null
+      cross_section_x_top: null
       delta_length: 0
+      length_x: null
       length_y: 2
       min_length: 0.01
       mirror_bot: false
@@ -209,7 +225,9 @@ instances:
       port_e1_splitter: o2
       splitter: mmi1x2
       straight: straight
+      straight_x_bot: null
       straight_x_top: Fstraight_heater_metal_undercut_Mgdsfactorypcomponentspstraight_heater_metal_SWUFalse_LSI0p1_LU5_LUS0
+      straight_y: null
       with_splitter: true
   coupler_1_1:
     component: mzi
@@ -220,7 +238,10 @@ instances:
       bend: bend_euler
       combiner: mmi2x2
       cross_section: strip
+      cross_section_x_bot: null
+      cross_section_x_top: null
       delta_length: 0
+      length_x: null
       length_y: 2
       min_length: 0.01
       mirror_bot: false
@@ -233,7 +254,9 @@ instances:
       port_e1_splitter: o2
       splitter: mmi1x2
       straight: straight
+      straight_x_bot: null
       straight_x_top: Fstraight_heater_metal_undercut_Mgdsfactorypcomponentspstraight_heater_metal_SWUFalse_LSI0p1_LU5_LUS0
+      straight_y: null
       with_splitter: true
   straight_L29p375_N2_CSstrip_W0p5_411000_40000:
     component: straight

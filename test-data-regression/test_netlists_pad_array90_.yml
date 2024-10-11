@@ -14,8 +14,12 @@ instances:
     na: 6
     nb: 1
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
+      port_orientation: null
+      port_orientations: null
       size:
       - 100
       - 100

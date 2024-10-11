@@ -8,6 +8,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -28,6 +30,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -48,6 +52,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -68,6 +74,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -88,6 +96,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -108,6 +118,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -128,6 +140,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -148,6 +162,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -337,32 +353,3 @@ warnings:
         - 0
       - - 0
         - -5000
-  vertical_dc:
-    unconnected_ports:
-    - message: 8 unconnected vertical_dc ports!
-      ports:
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_m525000_0,pad
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_m375000_0,pad
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_m225000_0,pad
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_m75000_0,pad
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_75000_0,pad
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_225000_0,pad
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_375000_0,pad
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_525000_0,pad
-      values:
-      - - -525000
-        - 0
-      - - -375000
-        - 0
-      - - -225000
-        - 0
-      - - -75000
-        - 0
-      - - 75000
-        - 0
-      - - 225000
-        - 0
-      - - 375000
-        - 0
-      - - 525000
-        - 0

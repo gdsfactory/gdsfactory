@@ -16,6 +16,8 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 10
       width: 0.5
@@ -37,6 +39,8 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 10
       width: 0.5
@@ -58,6 +62,8 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 10
       width: 0.5
@@ -79,6 +85,8 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 10
       width: 0.5
@@ -88,11 +96,14 @@ instances:
     info: {}
     settings:
       balanced_phase_shifters: false
+      combiner: null
       cross_section: strip
+      input_coupler: null
       mzm: mzi_pin
       mzm_length: 200
       mzm_ps_spacing: 40
       mzm_y_spacing: 50
+      output_coupler: null
       pad_array: pad_array
       phase_shifter: straight_pin
       phase_shifter_length: 100
@@ -103,11 +114,14 @@ instances:
     info: {}
     settings:
       balanced_phase_shifters: false
+      combiner: null
       cross_section: strip
+      input_coupler: null
       mzm: mzi_pin
       mzm_length: 200
       mzm_ps_spacing: 40
       mzm_y_spacing: 50
+      output_coupler: null
       pad_array: pad_array
       phase_shifter: straight_pin
       phase_shifter_length: 100
@@ -123,6 +137,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   straight_L65p875_N2_CSstrip_W0p5_m80000_m216250:

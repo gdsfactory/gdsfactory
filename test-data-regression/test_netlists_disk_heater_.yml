@@ -30,6 +30,8 @@ instances:
       ysize: 10
     settings:
       correct_size: true
+      layer_offsets: null
+      layer_port: null
       layers:
       - HEATER
       - M2
@@ -55,6 +57,8 @@ instances:
       ysize: 10
     settings:
       correct_size: true
+      layer_offsets: null
+      layer_port: null
       layers:
       - HEATER
       - M2

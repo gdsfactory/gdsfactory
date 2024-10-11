@@ -72,20 +72,24 @@ def via_stack_with_offset(
             stacklevel=3,
         )
 
-    for layer, via, size, size_offset, offset in zip(
-        layers, vias, sizes, layer_offsets, offsets
+    n = len(layers)
+
+    for i, (layer, via, size, size_offset, offset) in enumerate(
+        zip(layers, vias, sizes, layer_offsets, offsets)
     ):
         width, height = size
         width += 2 * size_offset
         height += 2 * size_offset
         x0 = -width / 2
         ref_layer = c << compass(
-            size=(width, height), layer=layer, port_type="electrical"
+            size=(width, height), layer=layer, port_type="placement"
         )
         ref_layer.dymin = y0
 
         ref_layer = c << compass(
-            size=(width, height), layer=previous_layer, port_type="electrical"
+            size=(width, height),
+            layer=previous_layer,
+            port_type="placement" if i != n - 1 else "electrical",
         )
         ref_layer.dymin = y0
 

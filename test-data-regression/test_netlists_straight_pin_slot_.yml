@@ -47,6 +47,8 @@ instances:
       ysize: 10
     settings:
       correct_size: true
+      layer_offsets: null
+      layer_port: null
       layers:
       - M1
       - M2
@@ -72,6 +74,8 @@ instances:
       ysize: 10
     settings:
       correct_size: true
+      layer_offsets: null
+      layer_port: null
       layers:
       - M1
       - M2
@@ -97,6 +101,8 @@ instances:
       ysize: 10
     settings:
       correct_size: true
+      layer_offsets: null
+      layer_port: null
       layers:
       - SLAB90
       - M1
@@ -120,6 +126,8 @@ instances:
       ysize: 10
     settings:
       correct_size: true
+      layer_offsets: null
+      layer_port: null
       layers:
       - SLAB90
       - M1

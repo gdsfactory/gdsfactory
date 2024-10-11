@@ -87,6 +87,7 @@ def greek_cross(
         )
         c.add_port(name=port.name, port=via_stack_ref.ports["e3"])
 
+    c.flatten()
     c.auto_rename_ports()
     return c
 

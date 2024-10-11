@@ -16,7 +16,11 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
+      radius: null
+      width: null
       with_arc_floorplan: true
   bend_euler_RNone_A90_P0_d7c3a5a9_35500_625:
     component: bend_euler
@@ -35,7 +39,11 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
+      radius: null
+      width: null
       with_arc_floorplan: true
   bend_euler_RNone_A90_P0_d7c3a5a9_35500_m20625:
     component: bend_euler
@@ -54,7 +62,11 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
+      radius: null
+      width: null
       with_arc_floorplan: true
   bend_euler_RNone_A90_P0_d7c3a5a9_45500_m10625:
     component: bend_euler
@@ -73,7 +85,11 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
+      radius: null
+      width: null
       with_arc_floorplan: true
   mmi1x2_WNone_WT1_LT10_L_4e0f7121_0_0:
     component: mmi1x2
@@ -85,6 +101,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   straight_L1p25_N2_CSstrip_W0p5_45500_m9375:

@@ -57,6 +57,7 @@ instances:
     settings:
       cross_section: strip
       length: 25
+      port: null
       port_names:
       - o1
       - o2
@@ -76,6 +77,7 @@ instances:
     settings:
       cross_section: strip
       length: 25
+      port: null
       port_names:
       - o1
       - o2

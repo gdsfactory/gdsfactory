@@ -14,7 +14,7 @@ from gdsfactory.components.add_termination import add_termination
 from gdsfactory.components.add_trenches import add_trenches, add_trenches90
 from gdsfactory.components.align import add_frame, align_wafer
 from gdsfactory.components.array_component import array
-from gdsfactory.components.awg import awg
+from gdsfactory.components.awg import awg, free_propagation_region
 from gdsfactory.components.bbox import bbox
 from gdsfactory.components.bend_circular import (
     bend_circular,
@@ -87,7 +87,7 @@ from gdsfactory.components.cutback_loss import (
     cutback_loss_spirals,
 )
 from gdsfactory.components.cutback_splitter import cutback_splitter
-from gdsfactory.components.dbr import dbr
+from gdsfactory.components.dbr import dbr, dbr_cell
 from gdsfactory.components.dbr_tapered import dbr_tapered
 from gdsfactory.components.delay_snake import delay_snake
 from gdsfactory.components.delay_snake2 import delay_snake2
@@ -374,6 +374,7 @@ __all__ = [
     "cutback_loss_spirals",
     "cutback_splitter",
     "dbr",
+    "dbr_cell",
     "dbr_tapered",
     "delay_snake",
     "delay_snake2",
@@ -394,6 +395,7 @@ __all__ = [
     "fiber",
     "fiber_array",
     "fiducial_squares",
+    "free_propagation_region",
     "ge_detector_straight_si_contacts",
     "generate_doe",
     "grating_coupler_array",

@@ -165,27 +165,3 @@ ports:
   o3: grating_coupler_ellipti_07e69d9a_63500_0,o1
   o4: grating_coupler_ellipti_07e69d9a_190500_0,o1
   o5: grating_coupler_ellipti_07e69d9a_317500_0,o1
-warnings:
-  vertical_te:
-    unconnected_ports:
-    - message: 6 unconnected vertical_te ports!
-      ports:
-      - grating_coupler_ellipti_07e69d9a_m317500_0,o2
-      - grating_coupler_ellipti_07e69d9a_m190500_0,o2
-      - grating_coupler_ellipti_07e69d9a_m63500_0,o2
-      - grating_coupler_ellipti_07e69d9a_63500_0,o2
-      - grating_coupler_ellipti_07e69d9a_190500_0,o2
-      - grating_coupler_ellipti_07e69d9a_317500_0,o2
-      values:
-      - - -317500
-        - -16600
-      - - -190500
-        - -16600
-      - - -63500
-        - -16600
-      - - 63500
-        - -16600
-      - - 190500
-        - -16600
-      - - 317500
-        - -16600

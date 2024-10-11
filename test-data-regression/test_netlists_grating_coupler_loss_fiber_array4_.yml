@@ -17,6 +17,7 @@ instances:
       pitch: 127
       port_name: o1
       rotation: -90
+      yspacing: null
   loss_deembedding_ch14_2_6c0f15ec_508000_0:
     component: loss_deembedding_ch14_23
     info: {}

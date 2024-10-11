@@ -16,8 +16,11 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 10
+      width: null
       with_arc_floorplan: true
   bend_euler_R10_A90_P0p5_2f1f5c6d_15750_m450:
     component: bend_euler
@@ -36,8 +39,11 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 10
+      width: null
       with_arc_floorplan: true
   bend_euler_R10_A90_P0p5_2f1f5c6d_m15750_250:
     component: bend_euler
@@ -56,8 +62,11 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 10
+      width: null
       with_arc_floorplan: true
   bend_euler_R10_A90_P0p5_2f1f5c6d_m15750_m450:
     component: bend_euler
@@ -76,8 +85,11 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 10
+      width: null
       with_arc_floorplan: true
   coupler_straight_L12p4__5c0d0de9_3350_m450:
     component: coupler_straight

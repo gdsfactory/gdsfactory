@@ -1,5 +1,5 @@
 instances:
-  compass_S10_10_LM1_PTel_3be27b53_0_5000:
+  compass_S10_10_LM1_PTpl_7cd6df42_0_5000:
     component: compass
     info: {}
     settings:
@@ -10,7 +10,7 @@ instances:
       - 90
       - 0
       - -90
-      port_type: electrical
+      port_type: placement
       size:
       - 10
       - 10
@@ -29,6 +29,21 @@ instances:
       size:
       - 10
       - 10
+  compass_S10_10_LPPP_PTp_fb8579fa_0_5000:
+    component: compass
+    info: {}
+    settings:
+      layer: PPP
+      port_inclusion: 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: placement
+      size:
+      - 10
+      - 10
   via_S0p7_0p7_S2_2_GNone_6d4c344f_m3000_2000:
     component: via
     dax: 2
@@ -44,8 +59,10 @@ instances:
     na: 4
     nb: 4
     settings:
+      bbox_layers: null
       bbox_offset: 0
       enclosure: 1
+      gap: null
       layer: VIAC
       size:
       - 0.7
@@ -54,38 +71,19 @@ instances:
       - 2
       - 2
 name: via_stack_with_offset_L_3866aa71
-nets:
-- p1: compass_S10_10_LM1_PTel_3be27b53_0_5000,e1
-  p2: compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e1
-- p1: compass_S10_10_LM1_PTel_3be27b53_0_5000,e1
-  p2: compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e1
-- p1: compass_S10_10_LM1_PTel_3be27b53_0_5000,e2
-  p2: compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e2
-- p1: compass_S10_10_LM1_PTel_3be27b53_0_5000,e2
-  p2: compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e2
-- p1: compass_S10_10_LM1_PTel_3be27b53_0_5000,e3
-  p2: compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e3
-- p1: compass_S10_10_LM1_PTel_3be27b53_0_5000,e3
-  p2: compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e3
-- p1: compass_S10_10_LM1_PTel_3be27b53_0_5000,e4
-  p2: compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e4
-- p1: compass_S10_10_LM1_PTel_3be27b53_0_5000,e4
-  p2: compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e4
-- p1: compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e1
-  p2: compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e1
-- p1: compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e2
-  p2: compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e2
-- p1: compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e3
-  p2: compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e3
-- p1: compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e4
-  p2: compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e4
+nets: []
 placements:
-  compass_S10_10_LM1_PTel_3be27b53_0_5000:
+  compass_S10_10_LM1_PTpl_7cd6df42_0_5000:
     mirror: false
     rotation: 0
     x: 0
     y: 5
   compass_S10_10_LPPP_PTe_5f0f6ded_0_5000:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 5
+  compass_S10_10_LPPP_PTp_fb8579fa_0_5000:
     mirror: false
     rotation: 0
     x: 0

@@ -496,7 +496,11 @@ instances:
       allow_min_radius_violation: false
       angle: 180
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
+      radius: null
+      width: null
       with_arc_floorplan: true
   C2:
     component: bend_euler
@@ -515,7 +519,11 @@ instances:
       allow_min_radius_violation: false
       angle: 180
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
+      radius: null
+      width: null
       with_arc_floorplan: true
   C3:
     component: bend_euler
@@ -534,7 +542,11 @@ instances:
       allow_min_radius_violation: false
       angle: 180
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
+      radius: null
+      width: null
       with_arc_floorplan: true
   C4:
     component: bend_euler
@@ -553,7 +565,11 @@ instances:
       allow_min_radius_violation: false
       angle: 180
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
+      radius: null
+      width: null
       with_arc_floorplan: true
   D1:
     component: bend_euler
@@ -572,7 +588,11 @@ instances:
       allow_min_radius_violation: false
       angle: 180
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
+      radius: null
+      width: null
       with_arc_floorplan: true
   D2:
     component: bend_euler
@@ -591,7 +611,11 @@ instances:
       allow_min_radius_violation: false
       angle: 180
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
+      radius: null
+      width: null
       with_arc_floorplan: true
   D3:
     component: bend_euler
@@ -610,7 +634,11 @@ instances:
       allow_min_radius_violation: false
       angle: 180
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
+      radius: null
+      width: null
       with_arc_floorplan: true
   D4:
     component: bend_euler
@@ -629,7 +657,11 @@ instances:
       allow_min_radius_violation: false
       angle: 180
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
+      radius: null
+      width: null
       with_arc_floorplan: true
   _1:
     component: straight

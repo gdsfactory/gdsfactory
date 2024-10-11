@@ -80,6 +80,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A10:
     component: bend_circular
     info:
@@ -96,6 +100,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A11:
     component: bend_circular
     info:
@@ -112,6 +120,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A12:
     component: bend_circular
     info:
@@ -128,6 +140,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A13:
     component: bend_circular
     info:
@@ -144,6 +160,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A14:
     component: bend_circular
     info:
@@ -160,6 +180,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A15:
     component: bend_circular
     info:
@@ -176,6 +200,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A16:
     component: bend_circular
     info:
@@ -192,6 +220,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A17:
     component: bend_circular
     info:
@@ -208,6 +240,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A18:
     component: bend_circular
     info:
@@ -224,6 +260,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A19:
     component: bend_circular
     info:
@@ -240,6 +280,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A2:
     component: bend_circular
     info:
@@ -256,6 +300,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A20:
     component: bend_circular
     info:
@@ -272,6 +320,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A21:
     component: bend_circular
     info:
@@ -288,6 +340,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A22:
     component: bend_circular
     info:
@@ -304,6 +360,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A23:
     component: bend_circular
     info:
@@ -320,6 +380,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A24:
     component: bend_circular
     info:
@@ -336,6 +400,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A25:
     component: bend_circular
     info:
@@ -352,6 +420,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A26:
     component: bend_circular
     info:
@@ -368,6 +440,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A27:
     component: bend_circular
     info:
@@ -384,6 +460,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A28:
     component: bend_circular
     info:
@@ -400,6 +480,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A29:
     component: bend_circular
     info:
@@ -416,6 +500,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A3:
     component: bend_circular
     info:
@@ -432,6 +520,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A30:
     component: bend_circular
     info:
@@ -448,6 +540,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A31:
     component: bend_circular
     info:
@@ -464,6 +560,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A32:
     component: bend_circular
     info:
@@ -480,6 +580,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A33:
     component: bend_circular
     info:
@@ -496,6 +600,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A34:
     component: bend_circular
     info:
@@ -512,6 +620,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A35:
     component: bend_circular
     info:
@@ -528,6 +640,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A36:
     component: bend_circular
     info:
@@ -544,6 +660,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A37:
     component: bend_circular
     info:
@@ -560,6 +680,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A38:
     component: bend_circular
     info:
@@ -576,6 +700,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A39:
     component: bend_circular
     info:
@@ -592,6 +720,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A4:
     component: bend_circular
     info:
@@ -608,6 +740,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A40:
     component: bend_circular
     info:
@@ -624,6 +760,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A41:
     component: bend_circular
     info:
@@ -640,6 +780,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A42:
     component: bend_circular
     info:
@@ -656,6 +800,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A43:
     component: bend_circular
     info:
@@ -672,6 +820,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A44:
     component: bend_circular
     info:
@@ -688,6 +840,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A45:
     component: bend_circular
     info:
@@ -704,6 +860,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A46:
     component: bend_circular
     info:
@@ -720,6 +880,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A47:
     component: bend_circular
     info:
@@ -736,6 +900,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A48:
     component: bend_circular
     info:
@@ -752,6 +920,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A49:
     component: bend_circular
     info:
@@ -768,6 +940,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A5:
     component: bend_circular
     info:
@@ -784,6 +960,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A50:
     component: bend_circular
     info:
@@ -800,6 +980,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A51:
     component: bend_circular
     info:
@@ -816,6 +1000,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A52:
     component: bend_circular
     info:
@@ -832,6 +1020,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A53:
     component: bend_circular
     info:
@@ -848,6 +1040,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A54:
     component: bend_circular
     info:
@@ -864,6 +1060,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A55:
     component: bend_circular
     info:
@@ -880,6 +1080,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A56:
     component: bend_circular
     info:
@@ -896,6 +1100,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A57:
     component: bend_circular
     info:
@@ -912,6 +1120,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A58:
     component: bend_circular
     info:
@@ -928,6 +1140,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A59:
     component: bend_circular
     info:
@@ -944,6 +1160,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A6:
     component: bend_circular
     info:
@@ -960,6 +1180,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A60:
     component: bend_circular
     info:
@@ -976,6 +1200,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A61:
     component: bend_circular
     info:
@@ -992,6 +1220,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A62:
     component: bend_circular
     info:
@@ -1008,6 +1240,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A63:
     component: bend_circular
     info:
@@ -1024,6 +1260,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A64:
     component: bend_circular
     info:
@@ -1040,6 +1280,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A65:
     component: bend_circular
     info:
@@ -1056,6 +1300,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A66:
     component: bend_circular
     info:
@@ -1072,6 +1320,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A67:
     component: bend_circular
     info:
@@ -1088,6 +1340,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A68:
     component: bend_circular
     info:
@@ -1104,6 +1360,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A69:
     component: bend_circular
     info:
@@ -1120,6 +1380,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A7:
     component: bend_circular
     info:
@@ -1136,6 +1400,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A70:
     component: bend_circular
     info:
@@ -1152,6 +1420,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A71:
     component: bend_circular
     info:
@@ -1168,6 +1440,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A72:
     component: bend_circular
     info:
@@ -1184,6 +1460,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A8:
     component: bend_circular
     info:
@@ -1200,6 +1480,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A9:
     component: bend_circular
     info:
@@ -1216,6 +1500,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B1:
     component: bend_circular
     info:
@@ -1232,6 +1520,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B10:
     component: bend_circular
     info:
@@ -1248,6 +1540,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B11:
     component: bend_circular
     info:
@@ -1264,6 +1560,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B12:
     component: bend_circular
     info:
@@ -1280,6 +1580,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B13:
     component: bend_circular
     info:
@@ -1296,6 +1600,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B14:
     component: bend_circular
     info:
@@ -1312,6 +1620,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B15:
     component: bend_circular
     info:
@@ -1328,6 +1640,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B16:
     component: bend_circular
     info:
@@ -1344,6 +1660,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B17:
     component: bend_circular
     info:
@@ -1360,6 +1680,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B18:
     component: bend_circular
     info:
@@ -1376,6 +1700,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B19:
     component: bend_circular
     info:
@@ -1392,6 +1720,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B2:
     component: bend_circular
     info:
@@ -1408,6 +1740,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B20:
     component: bend_circular
     info:
@@ -1424,6 +1760,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B21:
     component: bend_circular
     info:
@@ -1440,6 +1780,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B22:
     component: bend_circular
     info:
@@ -1456,6 +1800,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B23:
     component: bend_circular
     info:
@@ -1472,6 +1820,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B24:
     component: bend_circular
     info:
@@ -1488,6 +1840,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B25:
     component: bend_circular
     info:
@@ -1504,6 +1860,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B26:
     component: bend_circular
     info:
@@ -1520,6 +1880,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B27:
     component: bend_circular
     info:
@@ -1536,6 +1900,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B28:
     component: bend_circular
     info:
@@ -1552,6 +1920,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B29:
     component: bend_circular
     info:
@@ -1568,6 +1940,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B3:
     component: bend_circular
     info:
@@ -1584,6 +1960,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B30:
     component: bend_circular
     info:
@@ -1600,6 +1980,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B31:
     component: bend_circular
     info:
@@ -1616,6 +2000,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B32:
     component: bend_circular
     info:
@@ -1632,6 +2020,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B33:
     component: bend_circular
     info:
@@ -1648,6 +2040,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B34:
     component: bend_circular
     info:
@@ -1664,6 +2060,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B35:
     component: bend_circular
     info:
@@ -1680,6 +2080,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B36:
     component: bend_circular
     info:
@@ -1696,6 +2100,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B37:
     component: bend_circular
     info:
@@ -1712,6 +2120,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B38:
     component: bend_circular
     info:
@@ -1728,6 +2140,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B39:
     component: bend_circular
     info:
@@ -1744,6 +2160,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B4:
     component: bend_circular
     info:
@@ -1760,6 +2180,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B40:
     component: bend_circular
     info:
@@ -1776,6 +2200,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B41:
     component: bend_circular
     info:
@@ -1792,6 +2220,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B42:
     component: bend_circular
     info:
@@ -1808,6 +2240,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B43:
     component: bend_circular
     info:
@@ -1824,6 +2260,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B44:
     component: bend_circular
     info:
@@ -1840,6 +2280,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B45:
     component: bend_circular
     info:
@@ -1856,6 +2300,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B46:
     component: bend_circular
     info:
@@ -1872,6 +2320,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B47:
     component: bend_circular
     info:
@@ -1888,6 +2340,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B48:
     component: bend_circular
     info:
@@ -1904,6 +2360,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B49:
     component: bend_circular
     info:
@@ -1920,6 +2380,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B5:
     component: bend_circular
     info:
@@ -1936,6 +2400,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B50:
     component: bend_circular
     info:
@@ -1952,6 +2420,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B51:
     component: bend_circular
     info:
@@ -1968,6 +2440,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B52:
     component: bend_circular
     info:
@@ -1984,6 +2460,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B53:
     component: bend_circular
     info:
@@ -2000,6 +2480,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B54:
     component: bend_circular
     info:
@@ -2016,6 +2500,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B55:
     component: bend_circular
     info:
@@ -2032,6 +2520,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B56:
     component: bend_circular
     info:
@@ -2048,6 +2540,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B57:
     component: bend_circular
     info:
@@ -2064,6 +2560,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B58:
     component: bend_circular
     info:
@@ -2080,6 +2580,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B59:
     component: bend_circular
     info:
@@ -2096,6 +2600,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B6:
     component: bend_circular
     info:
@@ -2112,6 +2620,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B60:
     component: bend_circular
     info:
@@ -2128,6 +2640,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B61:
     component: bend_circular
     info:
@@ -2144,6 +2660,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B62:
     component: bend_circular
     info:
@@ -2160,6 +2680,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B63:
     component: bend_circular
     info:
@@ -2176,6 +2700,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B64:
     component: bend_circular
     info:
@@ -2192,6 +2720,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B65:
     component: bend_circular
     info:
@@ -2208,6 +2740,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B66:
     component: bend_circular
     info:
@@ -2224,6 +2760,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B67:
     component: bend_circular
     info:
@@ -2240,6 +2780,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B68:
     component: bend_circular
     info:
@@ -2256,6 +2800,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B69:
     component: bend_circular
     info:
@@ -2272,6 +2820,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B7:
     component: bend_circular
     info:
@@ -2288,6 +2840,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B70:
     component: bend_circular
     info:
@@ -2304,6 +2860,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B71:
     component: bend_circular
     info:
@@ -2320,6 +2880,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B72:
     component: bend_circular
     info:
@@ -2336,6 +2900,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B8:
     component: bend_circular
     info:
@@ -2352,6 +2920,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B9:
     component: bend_circular
     info:
@@ -2368,6 +2940,10 @@ instances:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   m1:
     component: straight
     info:

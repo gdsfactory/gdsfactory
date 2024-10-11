@@ -28,7 +28,7 @@ def grating_coupler_dual_pol(
     y_span: float = 11,
     length_taper: float = 150.0,
     width_taper: float = 10.0,
-    polarization: str = "dual",
+    polarization: str = "te",
     wavelength: float = 1.55,
     taper: ComponentSpec = taper_function,
     base_layer: LayerSpec | None = "WG",
@@ -98,18 +98,13 @@ def grating_coupler_dual_pol(
     num_y = int(np.floor(y_span / period_y))
     x_start = -(num_x * period_x) / 2
     y_start = -(num_y * period_y) / 2
-    x_end = -x_start
-    y_end = -y_start
-    x = np.linspace(x_start, x_end, num_x)
-    y = np.linspace(y_start, y_end, num_y)
-    xpos, ypos = np.meshgrid(x, y)
 
     unit_cell_grating = gf.get_component(unit_cell)
-
-    for x, y in zip(xpos.flatten(), ypos.flatten()):
-        un_cell = c << unit_cell_grating
-        un_cell.dx = x
-        un_cell.dy = y
+    g = c.add_ref(
+        unit_cell_grating, columns=num_x, rows=num_y, spacing=(period_x, period_y)
+    )
+    g.dxmin = x_start
+    g.dymin = y_start
 
     port_type = f"vertical_{polarization.lower()}"
     c.add_port(
