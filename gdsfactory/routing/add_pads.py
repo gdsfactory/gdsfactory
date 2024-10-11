@@ -29,6 +29,8 @@ def add_pads_bot(
     allow_width_mismatch: bool = True,
     fanout_length: float | None = 0,
     route_width: float | list[float] | None = 0,
+    bboxes: list | None = None,
+    avoid_component_bbox: bool = False,
     **kwargs,
 ) -> Component:
     """Returns new component with ports connected bottom pads.
@@ -50,6 +52,8 @@ def add_pads_bot(
         allow_width_mismatch: True
         fanout_length: if None, automatic calculation of fanout length.
         route_width: width of the route. If None, defaults to cross_section.width.
+        bboxes: list bounding boxes to avoid for routing.
+        avoid_component_bbox: avoid component bbox for routing.
         kwargs: additional arguments.
 
     Keyword Args:
@@ -130,6 +134,8 @@ def add_pads_bot(
         allow_width_mismatch=allow_width_mismatch,
         fanout_length=fanout_length,
         route_width=route_width,
+        bboxes=bboxes,
+        avoid_component_bbox=avoid_component_bbox,
         **kwargs,
     )
     component_new.add_ref(component)
@@ -151,6 +157,8 @@ def add_pads_top(
     allow_width_mismatch: bool = True,
     fanout_length: float | None = 0,
     route_width: float | list[float] | None = 0,
+    bboxes: list | None = None,
+    avoid_component_bbox: bool = False,
     **kwargs,
 ) -> Component:
     """Returns new component with ports connected top pads.
@@ -172,6 +180,8 @@ def add_pads_top(
         allow_width_mismatch: True
         fanout_length: if None, automatic calculation of fanout length.
         route_width: width of the route. If None, defaults to cross_section.width.
+        bboxes: list of bounding boxes to avoid.
+        avoid_component_bbox: True
         kwargs: additional arguments.
 
     Keyword Args:
@@ -224,6 +234,8 @@ def add_pads_top(
         allow_width_mismatch=allow_width_mismatch,
         fanout_length=fanout_length,
         route_width=route_width,
+        bboxes=bboxes,
+        avoid_component_bbox=avoid_component_bbox,
         **kwargs,
     )
     ref = c << _c
