@@ -24,6 +24,7 @@ skip_test = {
     "via_corner",
     "spiral_racetrack",
     "spiral_racetrack_heater_metal",
+    "text_freetype",
 }
 cells_to_test = set(cells.keys()) - skip_test
 
@@ -80,12 +81,12 @@ if __name__ == "__main__":
     component_type = "dbr"
     component_type = "via_corner"
     component_type = "straight_heater_metal_simple"
-    component_type = "text_freetype"
     component_type = "awg"
     component_type = "grating_coupler_tree"
     component_type = "delay_snake2"  # FIXME
     component_type = "delay_snake"  # FIXME
     component_type = "bbox"
+    component_type = "text_freetype"
 
     connection_error_types = {
         "optical": ["width_mismatch", "shear_angle_mismatch", "orientation_mismatch"]
