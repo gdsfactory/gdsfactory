@@ -44,8 +44,9 @@ def spiral_racetrack(
     c = gf.Component()
 
     if with_inner_ports:
-        bend_s = bend_s_factory(
-            (straight_length, -min_radius * 2 + 1 * spacings[0]),
+        bend_s = gf.get_component(
+            bend_s_factory,
+            size=(straight_length, -min_radius * 2 + 1 * spacings[0]),
             cross_section=cross_section_s or cross_section,
             npoints=n_bend_points,
         )
@@ -63,8 +64,9 @@ def spiral_racetrack(
             cross_section=bend_s.ports["o2"].cross_section,
         )
     else:
-        _bend_s = bend_s_factory(
-            (straight_length, -min_radius * 2 + 1 * spacings[0]),
+        _bend_s = gf.get_component(
+            bend_s_factory,
+            size=(straight_length, -min_radius * 2 + 1 * spacings[0]),
             cross_section=cross_section_s or cross_section,
             npoints=n_bend_points,
         )
@@ -74,7 +76,8 @@ def spiral_racetrack(
     ports = []
     for port in bend_s.ports:
         for i in range(len(spacings)):
-            _bend = bend_factory(
+            _bend = gf.get_component(
+                bend_factory,
                 angle=180,
                 radius=min_radius + np.sum(spacings[:i]),
                 p=0,
@@ -84,7 +87,9 @@ def spiral_racetrack(
             bend = c << _bend
             bend.connect("o1", port)
 
-            _straight = straight_factory(straight_length, cross_section=cross_section)
+            _straight = gf.get_component(
+                straight_factory, length=straight_length, cross_section=cross_section
+            )
             straight = c << _straight
             straight.connect("o1", bend.ports["o2"])
             port = straight.ports["o2"]
@@ -95,7 +100,8 @@ def spiral_racetrack(
     c.add_port("o1", port=ports[0])
 
     if extra_90_deg_bend:
-        bend = c << bend_factory(
+        bend = c << gf.get_component(
+            bend_factory,
             angle=90,
             radius=min_radius + np.sum(spacings),
             p=0,
