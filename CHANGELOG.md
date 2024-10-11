@@ -1,11 +1,13 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.13.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.13.1...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.13.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.13.1) - 2024-10-10
 
-No significant changes.
+- Fix test netlists [#3259](https://github.com/gdsfactory/gdsfactory/pull/3259)
+- cleanup_routing [#3260](https://github.com/gdsfactory/gdsfactory/pull/3260)
+- update kfactory [#3262](https://github.com/gdsfactory/gdsfactory/pull/3262)
 
 
 ## [8.13.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.13.0) - 2024-10-10
