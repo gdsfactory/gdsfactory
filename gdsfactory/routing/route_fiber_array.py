@@ -59,6 +59,8 @@ def route_fiber_array(
     auto_taper: bool = True,
     waypoints: Coordinates | None = None,
     steps: Sequence[Mapping[str, int | float]] | None = None,
+    bboxes: list | None = None,
+    avoid_component_bbox: bool = True,
     **kwargs,
 ) -> Component:
     """Returns new component with fiber array.
@@ -108,8 +110,9 @@ def route_fiber_array(
         auto_taper: taper length for the IO.
         waypoints: waypoints for the route.
         steps: steps for the route.
+        bboxes: list bounding boxes to avoid for routing.
+        avoid_component_bbox: avoid component bbox for routing.
         kwargs: route_bundle settings.
-
     """
     c = component
     component = component_to_route
@@ -312,6 +315,11 @@ def route_fiber_array(
     gc_ports = [gc.ports[gc_port_name] for gc in io_gratings]
     # c.shapes(c.kcl.layer(1, 10)).insert(component_to_route.bbox())
 
+    bboxes = bboxes or []
+
+    if avoid_component_bbox:
+        bboxes += [component_to_route.bbox()]
+
     route_bundle(
         c,
         ports1=to_route,
@@ -324,7 +332,7 @@ def route_fiber_array(
         sort_ports=True,
         allow_width_mismatch=allow_width_mismatch,
         route_width=route_width,
-        bboxes=[component_to_route.bbox()],
+        bboxes=bboxes,
         start_straight_length=start_straight_length,
         end_straight_length=end_straight_length,
         auto_taper=auto_taper,
