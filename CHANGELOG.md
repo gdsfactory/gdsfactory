@@ -13,7 +13,6 @@
 - cleanup_routing [#3260](https://github.com/gdsfactory/gdsfactory/pull/3260)
 - update kfactory [#3262](https://github.com/gdsfactory/gdsfactory/pull/3262)
 
-
 ## [8.13.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.13.0) - 2024-10-10
 
 - add more port_types [#3258](https://github.com/gdsfactory/gdsfactory/pull/3258)
