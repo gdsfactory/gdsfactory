@@ -54,13 +54,18 @@ def add_ports_from_markers_square(
 
         dy = snap_to_grid(ymax - ymin)
         dx = snap_to_grid(xmax - xmin)
+        width = dx - pin_extra_width
+
+        # Snap to the nearest 2 nm (0.002 µm)
+        width = np.round((width - pin_extra_width) / 0.002) * 0.002
+
         if dx == dy and max_pin_area_um2 > dx * dy > min_pin_area_um2:
             x = x
             y = y
             component.add_port(
                 port_name,
                 center=(x, y),
-                width=dx - pin_extra_width,
+                width=width,
                 orientation=orientation,
                 layer=layer,
             )
@@ -212,13 +217,12 @@ def add_ports_from_markers_center(
                 orientation = 180
                 x = pxmin if inside else x
         elif dy > dx if ports_on_short_side else dx > dy:
+            width = dx
             if y > yc:  # north
                 orientation = 90
-                width = dx
                 y = pymax if inside else y
-            elif y <= yc:  # south
+            else:
                 orientation = 270
-                width = dx
                 y = pymin if inside else y
 
         elif pxmax > dxmax - tol:  # east
@@ -252,6 +256,9 @@ def add_ports_from_markers_center(
             raise ValueError(f"Unable to detect port at ({dx}, {dy})")
 
         width = width - pin_extra_width
+
+        # Snap to the nearest 2 nm (0.002 µm)
+        width = np.round((width - pin_extra_width) / 0.002) * 0.002
 
         if (x, y) not in port_locations:
             port_locations.append((x, y))
