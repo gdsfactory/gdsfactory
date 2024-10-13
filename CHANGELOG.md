@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.13.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.13.3) - 2024-10-13
+
+No significant changes.
+
+
 ## [8.13.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.13.2) - 2024-10-11
 
 - allow_routing_around_bboxes [#3264](https://github.com/gdsfactory/gdsfactory/pull/3264)
