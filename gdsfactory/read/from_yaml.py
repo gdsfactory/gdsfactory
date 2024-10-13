@@ -849,21 +849,11 @@ def _get_references(c: Component, pdk, instances: dict[str, NetlistInstance]):
         if na < 2 and nb < 2:
             ref = c.add_ref(comp, name=name)
         else:
-            if abs(dax) > 0.0:
-                if abs(day) > 0.0 or abs(dbx) > 0.0:
-                    raise ValueError(
-                        "If 'dax' given. Only 'dby' should be given as well. "
-                        f"Got: {name=} {dax=}, {day=}, {dbx=}, {dby=}"
-                    )
+            if dax or dby:
                 ref = c.add_ref(
                     comp, rows=nb, columns=na, spacing=(dax, dby), name=name
                 )
             else:
-                if abs(dax) > 0.0 or abs(dby) > 0.0:
-                    raise ValueError(
-                        "If 'day' given. Only 'dbx' should be given as well. "
-                        f"Got: {name=} {dax=}, {day=}, {dbx=}, {dby=}"
-                    )
                 ref = c.add_ref(
                     comp, rows=na, columns=nb, spacing=(dbx, day), name=name
                 )
