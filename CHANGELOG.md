@@ -1,12 +1,12 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.13.2...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.13.3...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.13.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.13.3) - 2024-10-13
 
-No significant changes.
-
+- fix dbx and dby [#3268](https://github.com/gdsfactory/gdsfactory/pull/3268)
+- Snap ports to 2nm in functions to detect ports [#3267](https://github.com/gdsfactory/gdsfactory/pull/3267)
 
 ## [8.13.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.13.2) - 2024-10-11
 
