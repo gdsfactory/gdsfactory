@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <salt-grain>
- <name>GDSFactory</name>
+ <name>gdsfactory</name>
  <token/>
  <hidden>false</hidden>
  <version>8.13.3</version>
@@ -23,8 +23,8 @@ GDSFactory is a powerful Python library for designing a wide range of complex sy
   <version>0.3.3</version>
  </depends>
  <depends>
-  <name>metainfo_ports</name>
+  <name>meta-port/klayout</name>
   <url/>
-  <version>0.0.6</version>
+  <version>0.1.0</version>
  </depends>
 </salt-grain>
