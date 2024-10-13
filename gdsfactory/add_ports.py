@@ -453,7 +453,8 @@ def add_ports_from_boxes(
                 f"Unable to detect port at ({dx=}, {dy=}, {x=}, {y=}, {xc=}, {yc=}"
             )
 
-        width = np.round(width - pin_extra_width, 3)
+        # Snap to the nearest 2 nm (0.002 µm)
+        width = np.round((width - pin_extra_width) / 0.002) * 0.002
 
         if (x, y) not in port_locations:
             port_locations.append((x, y))
