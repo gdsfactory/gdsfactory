@@ -16,7 +16,17 @@ if TYPE_CHECKING:
 
 
 class AbstractLayer(BaseModel):
-    """Generic design layer."""
+    """Generic design layer.
+
+    Attributes:
+        sizings_xoffsets: sequence of xoffset sizings to apply to this Logical or Derived layer.
+        sizings_yoffsets: sequence of yoffset sizings to apply to this Logical or Derived layer.
+        sizings_modes: sequence of sizing modes to apply to this Logical or Derived layer.
+    """
+
+    sizings_xoffsets: tuple[int, ...] = (0,)
+    sizings_yoffsets: tuple[int, ...] = (0,)
+    sizings_modes: tuple[int, ...] = (2,)
 
     # Boolean AND (&)
     def __and__(self, other: AbstractLayer) -> DerivedLayer:
@@ -77,6 +87,65 @@ class AbstractLayer(BaseModel):
         """
         return DerivedLayer(layer1=self, layer2=other, operation="not")
 
+    def sized(
+        self,
+        xoffset: int | tuple[int, ...],
+        yoffset: int | tuple[int, ...] | None = None,
+        mode: int | tuple[int, ...] | None = None,
+    ):
+        """Accumulates a list of sizing operations for the layer by the provided offset (in dbu).
+
+        Args:
+            xoffset (int | tuple): number of dbu units to buffer by. Can be a tuple for sequential sizing operations.
+            yoffset (int | tuple): number of dbu units to buffer by in the y-direction. If not specified, uses xfactor. Can be a tuple for sequential sizing operations.
+            mode (int | tuple): mode of the sizing operation(s). Can be a tuple for sequential sizing operations.
+        """
+        #  Validate inputs
+        if isinstance(xoffset, int):
+            xoffset = [xoffset]
+        else:
+            xoffset = list(xoffset)
+
+        if isinstance(yoffset, tuple):
+            if len(yoffset) != len(xoffset):
+                raise ValueError(
+                    "If yoffset is provided as a tuple, length must be equal to xoffset!"
+                )
+            else:
+                yoffset = list(yoffset)
+        elif yoffset is None:
+            yoffset = xoffset
+        else:
+            yoffset = [yoffset] * len(xoffset)
+
+        if isinstance(mode, tuple):
+            if len(mode) != len(xoffset):
+                raise ValueError(
+                    "If mode is provided as a tuple, length must be equal to xoffset!"
+                )
+            else:
+                mode = list(mode)
+        elif mode is None:
+            mode = [2] * len(xoffset)
+        else:
+            mode = [mode] * len(xoffset)
+
+        # Accumulate
+        sizings_xoffsets = [x for x in self.sizings_xoffsets] + xoffset
+        sizings_yoffsets = [x for x in self.sizings_yoffsets] + yoffset
+        sizings_modes = [x for x in self.sizings_modes] + mode
+
+        # Return a copy of the layer with updated sizings
+        current_layer_attributes = self.__dict__.copy()
+        current_layer_attributes["sizings_xoffsets"] = sizings_xoffsets
+        current_layer_attributes["sizings_yoffsets"] = sizings_yoffsets
+        current_layer_attributes["sizings_modes"] = sizings_modes
+        if isinstance(self, LogicalLayer):
+            current_layer_class = LogicalLayer
+        else:
+            current_layer_class = DerivedLayer
+        return current_layer_class(**current_layer_attributes)
+
 
 class LogicalLayer(AbstractLayer):
     """GDS design layer."""
@@ -127,7 +196,16 @@ class LogicalLayer(AbstractLayer):
         polygons = (
             polygons_per_layer[layer_index] if layer_index in polygons_per_layer else []
         )
-        return kf.kdb.Region(polygons)
+        region = kf.kdb.Region(polygons)
+        if not (
+            all(v == 0 for v in self.sizings_xoffsets)
+            and all(v == 0 for v in self.sizings_yoffsets)
+        ):
+            for xoffset, yoffset, mode in zip(
+                self.sizings_xoffsets, self.sizings_yoffsets, self.sizings_modes
+            ):
+                region = region.sized(xoffset, yoffset, mode)
+        return region
 
     def __repr__(self) -> str:
         """Print text representation."""
@@ -196,7 +274,16 @@ class DerivedLayer(AbstractLayer):
         """
         r1 = self.layer1.get_shapes(component)
         r2 = self.layer2.get_shapes(component)
-        return gf.component.boolean_operations[self.operation](r1, r2)
+        region = gf.component.boolean_operations[self.operation](r1, r2)
+        if not (
+            all(v == 0 for v in self.sizings_xoffsets)
+            and all(v == 0 for v in self.sizings_yoffsets)
+        ):
+            for xoffset, yoffset, mode in zip(
+                self.sizings_xoffsets, self.sizings_yoffsets, self.sizings_modes
+            ):
+                region = region.sized(xoffset, yoffset, mode)
+        return region
 
     def __repr__(self) -> str:
         """Print text representation."""
