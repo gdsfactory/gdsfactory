@@ -126,6 +126,7 @@ def grating_coupler_elliptical_trenches(
     c.info["wavelength"] = wavelength
 
     x = np.round(taper_length + period * n_periods / 2, 3)
+    c.flatten()
     c.add_port(
         name="o2",
         center=(x, 0),
