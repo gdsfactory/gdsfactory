@@ -2,7 +2,7 @@ info:
   period: 0.676
   polarization: te
   wavelength: 1.53
-name: grating_coupler_ellipti_b64d4cf1
+name: grating_coupler_ellipti_ea10bcf6
 settings:
   cross_section: strip
   end_straight_length: 0.2
@@ -14,6 +14,7 @@ settings:
   neff: 2.638
   p_start: 26
   polarization: te
+  taper: taper
   taper_angle: 30
   taper_length: 16.6
   trenches_extra_angle: 9
