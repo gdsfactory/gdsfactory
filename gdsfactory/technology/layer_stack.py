@@ -692,7 +692,7 @@ if __name__ == "__main__":
     layer1_sized_asymmetric = LogicalLayer(layer=(1, 0)).sized(0, 50000)
 
     layer3 = LogicalLayer(layer=(3, 0))
-    layer3_sequence = LogicalLayer(layer=(3, 0)).sized(2000,2000).sized(-1000,-1000)
+    layer3_sequence = LogicalLayer(layer=(3, 0)).sized(2000, 2000).sized(-1000, -1000)
     layer3_sequence_list = LogicalLayer(layer=(3, 0)).sized((2000, 2000))
     layer3_sequence_lists = LogicalLayer(layer=(3, 0)).sized((0, 0), (5000, 1000))
 
@@ -710,13 +710,22 @@ if __name__ == "__main__":
             ),
             "layerlevel_layer3": LayerLevel(layer=layer3, thickness=10, zmin=0),
             "layer3_sequence": LayerLevel(
-                layer=layer3_sequence, thickness=10, zmin=0, derived_layer=LogicalLayer(layer=(4,0))
+                layer=layer3_sequence,
+                thickness=10,
+                zmin=0,
+                derived_layer=LogicalLayer(layer=(4, 0)),
             ),
             "layer3_sequence_list": LayerLevel(
-                layer=layer3_sequence_list, thickness=10, zmin=0, derived_layer=LogicalLayer(layer=(5,0))
+                layer=layer3_sequence_list,
+                thickness=10,
+                zmin=0,
+                derived_layer=LogicalLayer(layer=(5, 0)),
             ),
             "layer3_sequence_lists": LayerLevel(
-                layer=layer3_sequence_lists, thickness=10, zmin=0, derived_layer=LogicalLayer(layer=(6,0))
+                layer=layer3_sequence_lists,
+                thickness=10,
+                zmin=0,
+                derived_layer=LogicalLayer(layer=(6, 0)),
             ),
         }
     )
