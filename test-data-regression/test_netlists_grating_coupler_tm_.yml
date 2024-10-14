@@ -1,5 +1,40 @@
-instances: {}
-name: grating_coupler_ellipti_ab18de01
+instances:
+  taper_L51p9600000000000_46828c10_10500_0:
+    component: taper
+    info:
+      length: 51.96
+      width1: 0.5
+      width2: 33.866
+    settings:
+      cross_section: strip
+      length: 51.96
+      port: null
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
+      width1: 0.5
+      width2: 33.865
+      with_bbox: true
+      with_two_ports: true
+name: grating_coupler_ellipti_a84a2f63
 nets: []
-placements: {}
-ports: {}
+placements:
+  taper_L51p9600000000000_46828c10_10500_0:
+    mirror: false
+    rotation: 0
+    x: 10.5
+    y: 0
+ports:
+  o1: taper_L51p9600000000000_46828c10_10500_0,o1
+warnings:
+  optical:
+    unconnected_ports:
+    - message: 1 unconnected optical ports!
+      ports:
+      - taper_L51p9600000000000_46828c10_10500_0,o2
+      values:
+      - - 62460
+        - 0

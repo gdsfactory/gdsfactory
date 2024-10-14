@@ -124,7 +124,6 @@ def grating_coupler_elliptical_trenches(
     c.info["period"] = float(np.round(period, 3))
     c.info["polarization"] = polarization
     c.info["wavelength"] = wavelength
-    xs.add_bbox(c)
 
     x = np.round(taper_length + period * n_periods / 2, 3)
     c.add_port(
@@ -151,7 +150,7 @@ grating_coupler_tm = partial(
 
 
 if __name__ == "__main__":
-    c = grating_coupler_te(cross_section="rib")
+    c = grating_coupler_te(cross_section="rib_bbox")
     # c = grating_coupler_elliptical_trenches(polarization="TE")
     # print(c.polarization)
     # c = grating_coupler_te(end_straight_length=10)
