@@ -131,9 +131,9 @@ class AbstractLayer(BaseModel):
             mode = [mode] * len(xoffset)
 
         # Accumulate
-        sizings_xoffsets = [x for x in self.sizings_xoffsets] + xoffset
-        sizings_yoffsets = [x for x in self.sizings_yoffsets] + yoffset
-        sizings_modes = [x for x in self.sizings_modes] + mode
+        sizings_xoffsets = list(self.sizings_xoffsets) + xoffset
+        sizings_yoffsets = list(self.sizings_yoffsets) + yoffset
+        sizings_modes = list(self.sizings_modes) + mode
 
         # Return a copy of the layer with updated sizings
         current_layer_attributes = self.__dict__.copy()
@@ -664,7 +664,7 @@ def get_component_with_derived_layers(component, layer_stack: LayerStack) -> Com
 
     component_derived = Component()
 
-    for layer_name, level in layer_stack.layers.items():
+    for level in layer_stack.layers.values():
         if level.derived_layer is None:
             if isinstance(level.layer, LogicalLayer):
                 derived_layer_index = get_layer(level.layer.layer)
@@ -692,7 +692,7 @@ if __name__ == "__main__":
     layer1_sized_asymmetric = LogicalLayer(layer=(1, 0)).sized(0, 50000)
 
     layer3 = LogicalLayer(layer=(3, 0))
-    layer3_sequence = LogicalLayer(layer=(3, 0)).sized(2000,2000).sized(-1000,-1000)
+    layer3_sequence = LogicalLayer(layer=(3, 0)).sized(2000, 2000).sized(-1000, -1000)
     layer3_sequence_list = LogicalLayer(layer=(3, 0)).sized((2000, 2000))
     layer3_sequence_lists = LogicalLayer(layer=(3, 0)).sized((0, 0), (5000, 1000))
 
@@ -710,13 +710,22 @@ if __name__ == "__main__":
             ),
             "layerlevel_layer3": LayerLevel(layer=layer3, thickness=10, zmin=0),
             "layer3_sequence": LayerLevel(
-                layer=layer3_sequence, thickness=10, zmin=0, derived_layer=LogicalLayer(layer=(4,0))
+                layer=layer3_sequence,
+                thickness=10,
+                zmin=0,
+                derived_layer=LogicalLayer(layer=(4, 0)),
             ),
             "layer3_sequence_list": LayerLevel(
-                layer=layer3_sequence_list, thickness=10, zmin=0, derived_layer=LogicalLayer(layer=(5,0))
+                layer=layer3_sequence_list,
+                thickness=10,
+                zmin=0,
+                derived_layer=LogicalLayer(layer=(5, 0)),
             ),
             "layer3_sequence_lists": LayerLevel(
-                layer=layer3_sequence_lists, thickness=10, zmin=0, derived_layer=LogicalLayer(layer=(6,0))
+                layer=layer3_sequence_lists,
+                thickness=10,
+                zmin=0,
+                derived_layer=LogicalLayer(layer=(6, 0)),
             ),
         }
     )
