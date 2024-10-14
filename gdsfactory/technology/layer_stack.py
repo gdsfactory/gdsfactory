@@ -686,47 +686,35 @@ if __name__ == "__main__":
     # For now, make regular layers trivial DerivedLayers
     # This might be automatable during LayerStack instantiation, or we could modify the Layer object in LayerMap too
 
-    from gdsfactory.generic_tech import LAYER
-
-    layer1 = LogicalLayer(layer=(2, 0))
-    layer2 = LogicalLayer(layer=LAYER.WG)
+    layer1 = LogicalLayer(layer=(1, 0))
+    layer2 = LogicalLayer(layer=(2, 0))
+    layer1_sized = LogicalLayer(layer=(1, 0)).sized(10000)
+    layer1_sized_asymmetric = LogicalLayer(layer=(1, 0)).sized(0, 50000)
 
     ls = LayerStack(
         layers={
             "layerlevel_layer1": LayerLevel(layer=layer1, thickness=10, zmin=0),
-            "layerlevel_layer2": LayerLevel(layer=layer2, thickness=10, zmin=10),
-            "layerlevel_and_layer": LayerLevel(
-                layer=layer1 & layer2,
-                thickness=10,
-                zmin=0,
-                derived_layer=LogicalLayer(layer=(3, 0)),
+            "layerlevel_layer1_sized": LayerLevel(
+                layer=layer1_sized, thickness=10, zmin=0
             ),
-            "layerlevel_xor_layer": LayerLevel(
-                layer=layer1 ^ layer2,
-                thickness=10,
-                zmin=0,
-                derived_layer=LogicalLayer(layer=(4, 0)),
+            "layerlevel_layer1_asymmetric": LayerLevel(
+                layer=layer1_sized_asymmetric, thickness=10, zmin=0
             ),
-            "layerlevel_not_layer": LayerLevel(
-                layer=layer1 - layer2,
-                thickness=10,
-                zmin=0,
-                derived_layer=LogicalLayer(layer=(5, 0)),
-            ),
-            "layerlevel_or_layer": LayerLevel(
-                layer=layer1 | layer2,
-                thickness=10,
-                zmin=0,
-                derived_layer=LogicalLayer(layer=(6, 0)),
-            ),
-            "layerlevel_composed_layer": LayerLevel(
-                layer=layer1 - (layer1 & layer2),
-                thickness=10,
-                zmin=0,
-                derived_layer=LogicalLayer(layer=(7, 0)),
+            "layerlevel_layer1_to_layer2_derived": LayerLevel(
+                layer=layer1_sized, thickness=10, zmin=0, derived_layer=layer2
             ),
         }
     )
+
+    # Test with simple component
+    import gdsfactory as gf
+
+    c = gf.Component()
+
+    rect1 = c << gf.components.rectangle(size=(10, 10), layer=(1, 0))
+    rect2 = c << gf.components.rectangle(size=(10, 10), layer=(2, 0))
+    rect2.dmove((5, 5))
+    # c.show()
 
     # import gdsfactory as gf
 
@@ -737,8 +725,8 @@ if __name__ == "__main__":
     # rect2.dmove((5, 5))
     # c.show()
 
-    # c = get_component_with_derived_layers(c, ls)
-    # c.show()
+    c = get_component_with_derived_layers(c, ls)
+    c.show()
 
-    s = ls.get_klayout_3d_script()
-    print(s)
+    # s = ls.get_klayout_3d_script()
+    # print(s)
