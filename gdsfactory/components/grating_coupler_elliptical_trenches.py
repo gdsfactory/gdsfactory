@@ -7,8 +7,9 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_elliptical import grating_tooth_points
+from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.functions import DEG2RAD
-from gdsfactory.typings import CrossSectionSpec, LayerSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 
 
 @gf.cell
@@ -26,6 +27,7 @@ def grating_coupler_elliptical_trenches(
     p_start: int = 26,
     n_periods: int = 30,
     end_straight_length: float = 0.2,
+    taper: ComponentSpec = taper_function,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
@@ -48,6 +50,7 @@ def grating_coupler_elliptical_trenches(
         p_start: first tooth.
         n_periods: number of grating teeth.
         end_straight_length: at the end of straight.
+        taper: taper function.
         cross_section: cross_section spec.
         kwargs: cross_section settings.
 
@@ -103,23 +106,20 @@ def grating_coupler_elliptical_trenches(
 
     xmax = x_output + taper_length + n_periods * period + 3
     y = wg_width / 2 + np.tan(taper_angle / 2 * np.pi / 180) * xmax
-    pts = [
-        (x_output, -wg_width / 2),
-        (x_output, +wg_width / 2),
-        (xmax, +y),
-        (xmax + end_straight_length, +y),
-        (xmax + end_straight_length, -y),
-        (xmax, -y),
-    ]
-    c.add_polygon(pts, layer)
+
+    taper_length2 = (xmax + end_straight_length) - x_output
+    taper = c << gf.get_component(
+        taper,
+        width1=wg_width,
+        width2=2 * y,
+        length=taper_length2,
+        cross_section=cross_section,
+    )
+    taper.dxmin = x_output
 
     c.add_port(
         name="o1",
-        center=(x_output, 0),
-        width=wg_width,
-        orientation=180,
-        layer=layer,
-        cross_section=xs,
+        port=taper.ports["o1"],
     )
     c.info["period"] = float(np.round(period, 3))
     c.info["polarization"] = polarization
@@ -151,7 +151,7 @@ grating_coupler_tm = partial(
 
 
 if __name__ == "__main__":
-    c = grating_coupler_te()
+    c = grating_coupler_te(cross_section="rib")
     # c = grating_coupler_elliptical_trenches(polarization="TE")
     # print(c.polarization)
     # c = grating_coupler_te(end_straight_length=10)
