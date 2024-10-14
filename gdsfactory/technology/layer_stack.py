@@ -665,17 +665,15 @@ def get_component_with_derived_layers(component, layer_stack: LayerStack) -> Com
     component_derived = Component()
 
     for layer_name, level in layer_stack.layers.items():
-        if isinstance(level.layer, LogicalLayer):
-            derived_layer_index = get_layer(level.layer.layer)
-        elif isinstance(level.layer, DerivedLayer):
-            if level.derived_layer is not None:
-                derived_layer_index = get_layer(level.derived_layer.layer)
+        if level.derived_layer is None:
+            if isinstance(level.layer, LogicalLayer):
+                derived_layer_index = get_layer(level.layer.layer)
             else:
                 raise ValueError(
-                    f"Error at LayerLevel {layer_name}: derived_layer must be provided if the level's layer is a DerivedLayer"
+                    "If derived_layer is not provided, the LayerLevel layer must be a LogicalLayer"
                 )
         else:
-            raise ValueError("layer must be one of LogicalLayer or DerivedLayer")
+            derived_layer_index = get_layer(level.derived_layer.layer)
 
         shapes = level.layer.get_shapes(component=component)
         component_derived.shapes(derived_layer_index).insert(shapes)
