@@ -103,6 +103,27 @@ def move_to_center(component: Component, dx: float = 0, dy: float = 0) -> gf.Com
     return c
 
 
+def move_port(
+    component: Component, port_name: str, dx: float = 0, dy: float = 0
+) -> gf.Component:
+    """Moves the component port to a specific location.
+
+    Warning: This function modifies the component in-place.
+
+    Args:
+        component: to move the port.
+        port_name: to move.
+        dx: to move the port.
+        dy: to move the port.
+    """
+    c = component
+    c.transform(
+        gf.kdb.DTrans(-c.ports[port_name].dx + dx, -c.ports[port_name].dy + dy),
+        no_warn=True,
+    )
+    return c
+
+
 def get_polygons(
     component_or_instance: Component | Instance,
     merge: bool = False,
