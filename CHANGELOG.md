@@ -1,12 +1,15 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.13.3...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.13.4...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.13.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.13.4) - 2024-10-15
 
-No significant changes.
-
+- fix gf read [#3277](https://github.com/gdsfactory/gdsfactory/pull/3277)
+- fix grating_coupler_elliptical_trenches [#3272](https://github.com/gdsfactory/gdsfactory/pull/3272)
+- add move_port function [#3275](https://github.com/gdsfactory/gdsfactory/pull/3275)
+- Sizing layers [#3273](https://github.com/gdsfactory/gdsfactory/pull/3273)
+- update_klayout_package [#3269](https://github.com/gdsfactory/gdsfactory/pull/3269)
 
 ## [8.13.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.13.3) - 2024-10-13
 
