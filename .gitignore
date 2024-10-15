@@ -36,6 +36,7 @@ docs/components.rst
 *.tar
 .conda
 .devcontainer
+uv.lock
 
 gfconfig.yml
 sim_ref.yaml

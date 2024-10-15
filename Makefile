@@ -65,8 +65,8 @@ autopep8:
 	autopep8 --in-place --aggressive --aggressive **/*.py
 
 docs:
-	python docs/write_cells.py
-	jb build docs
+	uv run python docs/write_cells.py
+	uv tool run jb build docs
 
 git-rm-merged:
 	git branch -D `git branch --merged | grep -v \* | xargs`
