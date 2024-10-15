@@ -65,7 +65,7 @@ autopep8:
 
 docs:
 	uv run python docs/write_cells.py
-	uv tool run jb build docs
+	uv tool run jupyter-book build docs
 
 git-rm-merged:
 	git branch -D `git branch --merged | grep -v \* | xargs`
