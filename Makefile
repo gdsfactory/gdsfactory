@@ -4,15 +4,13 @@ help:
 	@echo 'make test-force:       Rebuilds regression test'
 
 install:
-	pip install -e .[dev,docs] pre-commit
-	# pip install git+https://github.com/gdsfactory/kfactory --force-reinstall
-	gf install-klayout-genericpdk
-	gf install-git-diff
-
-install-uv:
 	uv pip install -e .[dev,docs] pre-commit
 	gf install-klayout-genericpdk
 	gf install-git-diff
+
+install-kfactory-dev:
+	uv pip install git+https://github.com/gdsfactory/kfactory --force-reinstall
+
 
 update-pre:
 	pre-commit autoupdate
