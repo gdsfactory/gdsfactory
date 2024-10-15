@@ -48,7 +48,6 @@ jobs:
           make test
   test_code_coverage:
     runs-on: ubuntu-latest
-    container: ghcr.io/gdsfactory/gdsfactory:main
     steps:
       - uses: actions/checkout@v4
       - name: Install dependencies
