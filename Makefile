@@ -29,10 +29,10 @@ test: test-data-gds
 	uv tool run pytest -s
 
 test-force:
-	uv tool run pytest --force-regen -s
+	uv run pytest --force-regen -s
 
 cov:
-	uv tool run pytest --cov=gdsfactory
+	uv run pytest --cov=gdsfactory
 
 docker-debug:
 	docker run -it joamatab/gdsfactory sh
@@ -65,7 +65,7 @@ autopep8:
 
 docs:
 	uv run python docs/write_cells.py
-	uv tool run jupyter-book build docs
+	uv run jb build docs
 
 git-rm-merged:
 	git branch -D `git branch --merged | grep -v \* | xargs`
