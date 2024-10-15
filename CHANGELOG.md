@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.13.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.13.5) - 2024-10-15
+
+No significant changes.
+
+
 ## [8.13.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.13.4) - 2024-10-15
 
 - fix gf read [#3277](https://github.com/gdsfactory/gdsfactory/pull/3277)
