@@ -1,12 +1,11 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.13.4...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.13.5...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.13.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.13.5) - 2024-10-15
 
-No significant changes.
-
+- make GDSFactory backwards compatible with older kfactory versions [#3278](https://github.com/gdsfactory/gdsfactory/pull/3278)
 
 ## [8.13.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.13.4) - 2024-10-15
 
