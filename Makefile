@@ -16,7 +16,6 @@ dev:
 install-kfactory-dev:
 	uv pip install git+https://github.com/gdsfactory/kfactory --force-reinstall
 
-
 update-pre:
 	pre-commit autoupdate
 
@@ -27,13 +26,13 @@ test-data-gds:
 	git clone git@github.com:gdsfactory/gdsfactory-test-data.git -b test_klayout test-data-gds
 
 test: test-data-gds
-	pytest -s
+	uv tool run pytest -s
 
 test-force:
-	pytest --force-regen -s
+	uv tool run pytest --force-regen -s
 
 cov:
-	pytest --cov=gdsfactory
+	uv tool run pytest --cov=gdsfactory
 
 docker-debug:
 	docker run -it joamatab/gdsfactory sh
