@@ -37,8 +37,9 @@ def import_gds(
     cellname = cellname or temp_kcl.top_cell().name
     kcell = temp_kcl[cellname]
 
-    for cross_section in temp_kcl.cross_sections.cross_sections.values():
-        kf.kcl.get_cross_section(cross_section)
+    if hasattr(temp_kcl, "cross_sections"):
+        for cross_section in temp_kcl.cross_sections.cross_sections.values():
+            kf.kcl.get_cross_section(cross_section)
 
     c = kcell_to_component(kcell)
     for pp in post_process or []:
