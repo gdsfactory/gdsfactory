@@ -9,6 +9,11 @@ install:
 	gf install-klayout-genericpdk
 	gf install-git-diff
 
+install-uv:
+	uv pip install -e .[dev,docs] pre-commit
+	gf install-klayout-genericpdk
+	gf install-git-diff
+
 update-pre:
 	pre-commit autoupdate
 
