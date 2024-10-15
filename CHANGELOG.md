@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.13.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.13.4) - 2024-10-15
+
+No significant changes.
+
+
 ## [8.13.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.13.3) - 2024-10-13
 
 - fix dbx and dby [#3268](https://github.com/gdsfactory/gdsfactory/pull/3268)
