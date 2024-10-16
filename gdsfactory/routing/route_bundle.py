@@ -91,10 +91,11 @@ def route_bundle(
     component: Component,
     ports1: list[Port],
     ports2: list[Port],
+    cross_section: CrossSectionSpec | None = None,
+    layer: LayerSpecs | None = None,
     separation: float = 3.0,
     bend: ComponentSpec = "bend_euler",
     sort_ports: bool = False,
-    cross_section: CrossSectionSpec = "strip",
     start_straight_length: float = 0,
     end_straight_length: float = 0,
     min_straight_taper: float = 100,
@@ -120,10 +121,11 @@ def route_bundle(
         component: component to add the routes to.
         ports1: list of starting ports.
         ports2: list of end ports.
+        cross_section: CrossSection or function that returns a cross_section.
+        layer: layer to use for the route.
         separation: bundle separation (center to center). Defaults to cross_section.width + cross_section.gap
         bend: function for the bend. Defaults to euler.
         sort_ports: sort port coordinates.
-        cross_section: CrossSection or function that returns a cross_section.
         start_straight_length: straight length at the beginning of the route. If None, uses default value for the routing CrossSection.
         end_straight_length: end length at the beginning of the route. If None, uses default value for the routing CrossSection.
         min_straight_taper: minimum length for tapering the straight sections.
@@ -165,6 +167,16 @@ def route_bundle(
         c.plot()
 
     """
+    if cross_section is None:
+        if layer is None or route_width is None:
+            raise ValueError(
+                f"Either {cross_section=} or {layer=} and route_width must be provided"
+            )
+        else:
+            cross_section = gf.cross_section.cross_section(
+                layer=layer, width=route_width
+            )
+
     # convert single port to list
     if isinstance(ports1, Port):
         ports1 = [ports1]
@@ -422,5 +434,8 @@ if __name__ == "__main__":
             {"dy": 30, "dx": 50},
             {"dx": 90},
         ],
+        cross_section="strip",
+        # layer=(1, 0),
+        # route_width=0.2
     )
     c.show()

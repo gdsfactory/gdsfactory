@@ -55,11 +55,12 @@ def route_single(
     component: Component,
     port1: Port,
     port2: Port,
+    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec | None = None,
+    layer: LayerSpec | None = None,
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
     start_straight_length: float = 0.0,
     end_straight_length: float = 0.0,
-    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "strip",
     waypoints: Coordinates | None = None,
     steps: Sequence[Mapping[Literal["x", "y", "dx", "dy"], int | float]] | None = None,
     port_type: str | None = None,
@@ -77,11 +78,12 @@ def route_single(
         component: to place the route into.
         port1: start port.
         port2: end port.
+        cross_section: spec.
+        layer: layer spec.
         bend: bend spec.
         straight: straight spec.
         start_straight_length: length of starting straight.
         end_straight_length: length of end straight.
-        cross_section: spec.
         waypoints: optional list of points to pass through.
         steps: optional list of steps to pass through.
         port_type: port type to route.
@@ -104,6 +106,16 @@ def route_single(
     """
     p1 = port1
     p2 = port2
+
+    if cross_section is None:
+        if layer is None or route_width is None:
+            raise ValueError(
+                f"Either {cross_section=} or {layer=} and route_width must be provided"
+            )
+        else:
+            cross_section = gf.cross_section.cross_section(
+                layer=layer, width=route_width
+            )
 
     port_type = port_type or p1.port_type
     if route_width:
@@ -213,7 +225,7 @@ def route_single_electrical(
     end_straight_length: float | None = None,
     layer: LayerSpec | None = None,
     width: float | None = None,
-    cross_section: CrossSectionSpec = "metal3",
+    cross_section: CrossSectionSpec = "metal_routing",
 ) -> None:
     """Places a route between two electrical ports.
 
@@ -370,5 +382,8 @@ if __name__ == "__main__":
             {"x": 120},
             {"y": 80},
         ],
+        # cross_section="strip",
+        layer=(1, 0),
+        route_width=0.5,
     )
     c.show()
