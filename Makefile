@@ -4,10 +4,17 @@ help:
 	@echo 'make test-force:       Rebuilds regression test'
 
 install:
+	curl -LsSf https://astral.sh/uv/install.sh | sh
+	uv venv
+	uv pip install -e .[dev,docs] pre-commit
+
+dev:
 	pip install -e .[dev,docs] pre-commit
-	# pip install git+https://github.com/gdsfactory/kfactory --force-reinstall
 	gf install-klayout-genericpdk
 	gf install-git-diff
+
+install-kfactory-dev:
+	uv pip install git+https://github.com/gdsfactory/kfactory --force-reinstall
 
 update-pre:
 	pre-commit autoupdate
@@ -19,13 +26,13 @@ test-data-gds:
 	git clone git@github.com:gdsfactory/gdsfactory-test-data.git -b test_klayout test-data-gds
 
 test: test-data-gds
-	pytest -s
+	uv run pytest -s
 
 test-force:
-	pytest --force-regen -s
+	uv run pytest --force-regen -s
 
 cov:
-	pytest --cov=gdsfactory
+	uv run pytest --cov=gdsfactory
 
 docker-debug:
 	docker run -it joamatab/gdsfactory sh
@@ -57,8 +64,8 @@ autopep8:
 	autopep8 --in-place --aggressive --aggressive **/*.py
 
 docs:
-	python docs/write_cells.py
-	jb build docs
+	uv run python docs/write_cells.py
+	uv run jb build docs
 
 git-rm-merged:
 	git branch -D `git branch --merged | grep -v \* | xargs`

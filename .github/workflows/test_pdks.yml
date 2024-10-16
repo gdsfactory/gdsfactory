@@ -29,5 +29,5 @@ jobs:
       - name: Run tests
         run: |
           cd other-repo
-          make install
+          make dev
           make test

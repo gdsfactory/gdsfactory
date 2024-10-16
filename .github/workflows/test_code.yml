@@ -45,19 +45,21 @@ jobs:
           make test-data
       - name: Test with pytest
         run: |
-          pip install pytest
-          pytest
+          make test
   test_code_coverage:
     runs-on: ubuntu-latest
-    container: ghcr.io/gdsfactory/gdsfactory:main
     steps:
       - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
       - name: Install dependencies
         run: |
           make install test-data
       - name: Test with pytest
         run: |
-          pytest --cov=gdsfactory
+           make cov
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:

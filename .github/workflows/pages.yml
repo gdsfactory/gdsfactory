@@ -27,12 +27,13 @@ jobs:
         with:
           python-version: '3.11'
       - name: Installing the library
+        run: |
+          make install
+      - name: Build the docs
         env:
           GDSFACTORY_DISPLAY_TYPE: klayout
           KFACTORY_DISPLAY_TYPE: image
-        shell: bash -l {0}
         run: |
-          make install
           make docs
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
