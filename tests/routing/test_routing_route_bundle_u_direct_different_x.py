@@ -32,7 +32,7 @@ def test_route_bundle_u_direct_different_x(
         d.ports["o1"],
     ]
 
-    routes = gf.routing.route_bundle(c, ports1, ports2)
+    routes = gf.routing.route_bundle(c, ports1, ports2, cross_section="strip")
     lengths = {}
     for i, route in enumerate(routes):
         lengths[i] = route.length
@@ -61,7 +61,7 @@ if __name__ == "__main__":
         d.ports["o1"],
     ]
 
-    routes = gf.routing.route_bundle(c, ports1, ports2)
+    routes = gf.routing.route_bundle(c, ports1, ports2, cross_section="strip")
     lengths = {}
     for i, route in enumerate(routes):
         lengths[i] = route.length

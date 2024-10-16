@@ -558,6 +558,8 @@ routes:
     route_name1:
         links:
             mmi_short,o2: mmi_long,o1
+        settings:
+            cross_section: strip
 
 ports:
     o1: mmi_short,o1

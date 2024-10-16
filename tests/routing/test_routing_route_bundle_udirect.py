@@ -106,6 +106,7 @@ def test_route_connect_bundle_udirect(
         radius=10.0,
         sort_ports=True,
         separation=10,
+        cross_section="strip",
     )
     lengths = {i: route.length for i, route in enumerate(routes)}
     if check:

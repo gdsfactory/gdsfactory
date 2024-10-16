@@ -64,7 +64,9 @@ def make_bundle(
         ports2_names.reverse()
     ports1 = [r1.ports[n] for n in ports1_names]
     ports2 = [r2.ports[n] for n in ports2_names]
-    gf.routing.route_bundle(c, ports1, ports2, sort_ports=sort_ports, separation=2.5)
+    gf.routing.route_bundle(
+        c, ports1, ports2, sort_ports=sort_ports, separation=2.5, cross_section="strip"
+    )
 
 
 @pytest.mark.parametrize("angle", MANHATTAN_ANGLES)

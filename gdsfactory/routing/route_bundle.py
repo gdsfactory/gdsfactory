@@ -89,8 +89,8 @@ def get_min_spacing(
 
 def route_bundle(
     component: Component,
-    ports1: list[Port],
-    ports2: list[Port],
+    ports1: list[Port] | Port,
+    ports2: list[Port] | Port,
     cross_section: CrossSectionSpec | None = None,
     layer: LayerSpecs | None = None,
     separation: float = 3.0,
@@ -168,13 +168,14 @@ def route_bundle(
 
     """
     if cross_section is None:
-        if layer is None or route_width is None:
-            raise ValueError(
-                f"Either {cross_section=} or {layer=} and route_width must be provided"
+        if layer is not None and route_width is not None:
+            cross_section = partial(
+                gf.cross_section.cross_section, layer=layer, width=route_width
             )
+
         else:
-            cross_section = gf.cross_section.cross_section(
-                layer=layer, width=route_width
+            raise ValueError(
+                f"Either {cross_section=} or {layer=} and {route_width=} must be provided"
             )
 
     # convert single port to list
@@ -184,18 +185,7 @@ def route_bundle(
     if isinstance(ports2, Port):
         ports2 = [ports2]
 
-    # convert ports dict to list
-    if isinstance(ports1, dict):
-        ports1 = list(ports1.values())
-
-    if isinstance(ports2, dict):
-        ports2 = list(ports2.values())
-
-    ports1 = list(ports1)
-    ports2 = list(ports2)
-
     port_type = port_type or ports1[0].port_type
-
     dbu = component.kcl.dbu
 
     if route_width and not isinstance(route_width, int | float):
@@ -204,24 +194,27 @@ def route_bundle(
     if len(ports1) != len(ports2):
         raise ValueError(f"ports1={len(ports1)} and ports2={len(ports2)} must be equal")
 
-    xs = gf.get_cross_section(cross_section)
-    width = xs.width
-    radius = radius or xs.radius
+    xs = (
+        gf.get_cross_section(cross_section, width=route_width)
+        if route_width
+        else gf.get_cross_section(cross_section)
+    )
+    width = route_width or xs.width
     width_dbu = round(width / component.kcl.dbu)
+    radius = radius or xs.radius
     taper_cell = gf.get_component(taper) if taper else None
     bend90 = (
         bend
         if isinstance(bend, Component)
-        else gf.get_component(bend, cross_section=cross_section, radius=radius)
+        else gf.get_component(
+            bend, cross_section=cross_section, radius=radius, width=width
+        )
     )
 
-    def straight_dbu(
-        length: int, width: int = width_dbu, cross_section=cross_section
-    ) -> Component:
+    def straight_dbu(length: int, cross_section=xs, **kwargs) -> Component:
         return gf.get_component(
             straight,
             length=length * component.kcl.dbu,
-            width=width * component.kcl.dbu,
             cross_section=cross_section,
         )
 
@@ -436,6 +429,6 @@ if __name__ == "__main__":
         ],
         cross_section="strip",
         # layer=(1, 0),
-        # route_width=0.2
+        route_width=0.2,
     )
     c.show()

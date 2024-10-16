@@ -132,7 +132,7 @@ instances:
       length: 20
       npoints: 2
       width: 0.5
-name: loop_mirror_Cmmi1x2_Bbend_euler
+name: loop_mirror_Cmmi1x2_Bbe_15330a29
 nets:
 - p1: bend_euler_RNone_A90_P0_d7c3a5a9_25500_m10625,o1
   p2: bend_euler_RNone_A90_P0_d7c3a5a9_35500_m20625,o2

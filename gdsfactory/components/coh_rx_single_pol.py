@@ -39,6 +39,7 @@ def coh_rx_single_pol(
         signal_input_coupler: Optional coupler for the signal.
         cross_section_metal_top: cross_section for the top metal layer.
         cross_section_metal: cross_section for the metal layer.
+        cross_section: cross_section for the waveguides.
 
     .. code::
 
@@ -133,7 +134,7 @@ def coh_rx_single_pol(
         det_ports.append(det.ports["o1"])
         ports_hybrid.append(hybrid.ports[port_name])
 
-    gf.routing.route_bundle(c, ports_hybrid, det_ports)
+    gf.routing.route_bundle(c, ports_hybrid, det_ports, cross_section=cross_section)
 
     # --- Draw metal connections ----
     gf.routing.route_single_electrical(

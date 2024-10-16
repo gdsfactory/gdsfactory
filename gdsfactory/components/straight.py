@@ -72,14 +72,15 @@ def straight_all_angle(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.Component()
-    w = straight(
+    # c = gf.Component()
+    c = straight(
         length=10,
+        width=2,
         # cross_section="rib_bbox",
     )
-    ref = c << w
-    ref.dxmin = 10
-    p = c.get_polygons_points()
-    p = list(p.values())
-    print(p[0][0])
+    # ref = c << w
+    # ref.dxmin = 10
+    # p = c.get_polygons_points()
+    # p = list(p.values())
+    # print(p[0][0])
     c.show()

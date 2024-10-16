@@ -658,8 +658,8 @@ def test_gds_and_settings(
 
 
 if __name__ == "__main__":
-    # test_sample()
-    test_connections_2x2()
+    test_sample()
+    # test_connections_2x2()
     # test_connections_regex_backwards()
     # test_connections_different_factory()
     # import gdsfactory as gf
