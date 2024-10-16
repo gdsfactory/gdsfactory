@@ -1,0 +1,39 @@
+instances:
+  bl:
+    component: pad
+  tl:
+    component: pad
+  br:
+    component: pad
+  tr:
+    component: pad
+
+placements:
+  tl:
+    x: -200
+    y: 500
+
+  br:
+    x: 400
+    y: 400
+
+  tr:
+    x: 400
+    y: 600
+
+  bl:
+    x: -200
+    y: 0
+
+routes:
+  electrical:
+    settings:
+      separation: 20
+      cross_section: metal_routing
+      allow_width_mismatch: True
+      steps:
+        - dx: 55
+
+    links:
+      tl,e3: tr,e1
+      bl,e3: br,e1
