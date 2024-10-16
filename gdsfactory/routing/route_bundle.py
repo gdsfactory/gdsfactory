@@ -244,9 +244,7 @@ def route_bundle(
             waypoints += [(x, y)]
 
     if waypoints is not None and not isinstance(waypoints[0], kf.kdb.Point):
-        w = [kf.kdb.Point(p[0] / dbu, p[1] / dbu) for p in waypoints]
-        # w += [kf.kdb.Point(*p2.center)]
-        waypoints = w
+        waypoints = [kf.kdb.Point(p[0] / dbu, p[1] / dbu) for p in waypoints]
 
     return kf.routing.optical.route_bundle(
         component,

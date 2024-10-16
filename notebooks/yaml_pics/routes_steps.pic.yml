@@ -9,21 +9,29 @@ instances:
     settings:
       port_orientation: 90
       columns: 3
+  obstacle:
+    component: rectangle
+    settings:
+      size: [200, 200]
+      layer: M3
 
 placements:
   t:
     x: -250
-    y: 600
+    y: 500
+  obstacle:
+    x: -179
+    y: 200
 routes:
   route1:
     routing_strategy: route_bundle
     settings:
       cross_section: metal_routing
-      waypoints:
-        - [0, 300]
-        - [400, 300]
-        - [400, 400]
-        - [-250, 400]
+      steps:
+        - dy: 100
+          dx: -100
+        - dx: 200
+        - dy: 100
     links:
       b,e11: t,e11
       b,e12: t,e12
