@@ -1,12 +1,17 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.13.5...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.14.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.14.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.14.0) - 2024-10-16
 
-No significant changes.
-
+- Remove default cross section for routing functions [#3283](https://github.com/gdsfactory/gdsfactory/pull/3283)
+- better error messages for routing issues for routing issues [#3286](https://github.com/gdsfactory/gdsfactory/pull/3286)
+- update kfactory to 0.21.1 and bring back python3.10 compat [#3285](https://github.com/gdsfactory/gdsfactory/pull/3285)
+- fix test_pdks [#3282](https://github.com/gdsfactory/gdsfactory/pull/3282)
+- use uv [#3279](https://github.com/gdsfactory/gdsfactory/pull/3279)
+- better error messages for routing issues for routing issues [#3286](https://github.com/gdsfactory/gdsfactory/pull/3286)
+- improve route_bundle docs [#3281](https://github.com/gdsfactory/gdsfactory/pull/3281)
 
 ## [8.13.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.13.5) - 2024-10-15
 
