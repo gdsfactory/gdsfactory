@@ -601,6 +601,67 @@ strip_nitride_silicon_tip = partial(
         Section(width=0.2, layer="WG", name="tip_silicon"),
     ),
 )
+
+cpw_substrate = partial(
+    strip,
+    width=10,
+    layer=(1, 0),
+    sections=(
+        Section(width=6, layer=(1, 0), offset=+8),
+        Section(width=6, layer=(1, 0), offset=-8),
+    ),
+)
+
+cpw_interposer_b = partial(
+    strip,
+    width=10,
+    layer=(1, 0),
+    sections=(
+        Section(width=6, layer=(6, 0), offset=+8),
+        Section(width=6, layer=(6, 0), offset=-8),
+    ),
+)
+
+cpw_interposer_t = partial(
+    strip,
+    width=10,
+    layer=(1, 0),
+    sections=(
+        Section(width=6, layer=(3, 0), offset=+8),
+        Section(width=6, layer=(3, 0), offset=-8),
+    ),
+)
+
+cpw_substrate_nar = partial(
+    strip,
+    width=10,
+    layer=(1, 0),
+    sections=(
+        Section(width=2.4, layer=(5, 0), offset=+3.2),
+        Section(width=2.4, layer=(5, 0), offset=-3.2),
+    ),
+)
+
+cpw_interposer_b_nar = partial(
+    strip,
+    width=10,
+    layer=(1, 0),
+    sections=(
+        Section(width=2.4, layer=(2, 0), offset=+3.2),
+        Section(width=2.4, layer=(2, 0), offset=-3.2),
+    ),
+)
+
+cpw_interposer_t_nar = partial(
+    strip,
+    width=10,
+    layer=(1, 0),
+    sections=(
+        Section(width=2.4, layer=(3, 0), offset=+3.2),
+        Section(width=2.4, layer=(3, 0), offset=-3.2),
+    ),
+)
+
 strip_sc_tip = partial(
     nitride,
     sections=(Section(width=0.2, layer="WG", name="tip"),),
@@ -2392,6 +2453,6 @@ if __name__ == "__main__":
     # c = gf.c.straight(cross_section=xs)
     # xs = pn(slab_inset=0.2)
     # xs = metal1()
-    # s0 = Section(width=2, layer=(1, 0))
-    xs = strip(radius=5)
-    # print(s0.name)
+    # xs = strip(radius=5)
+    s0 = Section(width=2, layer=(1, 0))
+    print(s0.name)
