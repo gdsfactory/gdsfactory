@@ -33,7 +33,6 @@ if TYPE_CHECKING:
     )
 
 cell_without_validator = cell
-Componenteference = Instance
 
 
 def ensure_tuple_of_tuples(points) -> tuple[tuple[float, float]]:
@@ -532,8 +531,8 @@ class ComponentBase:
         rows: int = 2,
         spacing: tuple[float, float] = (100, 100),
         name: str | None = None,
-    ) -> Componenteference:
-        """Creates a Componenteference reference to a Component.
+    ) -> ComponentReference:
+        """Creates a ComponentReference reference to a Component.
 
         Args:
             component: The referenced component.
@@ -621,7 +620,7 @@ class ComponentBase:
             info[f"route_info_{key}"] = value
 
     def absorb(self, reference: Instance) -> Component:
-        """Absorbs polygons from Componenteference into Component.
+        """Absorbs polygons from ComponentReference into Component.
 
         Destroys the reference in the process but keeping the polygon geometry.
 
@@ -1193,7 +1192,7 @@ class ComponentBase:
         return self.insts
 
     @property
-    def references(self) -> list[Componenteference]:
+    def references(self) -> list[ComponentReference]:
         """Returns a list of references."""
         warnings.warn("references is deprecated. Use insts instead")
         return list(self.insts)
