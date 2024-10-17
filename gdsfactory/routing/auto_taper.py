@@ -55,7 +55,7 @@ def auto_taper_to_cross_section(
             taper = pdk.layer_transitions[(port_layer, cs_layer)]
         except KeyError as e:
             raise KeyError(
-                f"No registered tapers between routing layers {port_layer} and {cs_layer}!"
+                f"No registered tapers between routing layers {gf.get_layer_name(port_layer)!r} and {gf.get_layer_name(cs_layer)!r}!"
             ) from e
     elif port_width != cs_width:
         try:

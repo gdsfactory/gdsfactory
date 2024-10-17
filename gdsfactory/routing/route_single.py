@@ -376,14 +376,14 @@ if __name__ == "__main__":
         c,
         port1=p1,
         port2=p2,
-        steps=[
-            {"x": 20},
-            {"y": 20},
-            {"x": 120},
-            {"y": 80},
-        ],
-        # cross_section="strip",
-        layer=(1, 0),
-        route_width=0.5,
+        # steps=[
+        #     {"x": 20},
+        #     {"y": 20},
+        #     {"x": 120},
+        #     {"y": 80},
+        # ],
+        cross_section="strip",
+        # layer=(2, 0),
+        route_width=0.9,
     )
     c.show()
