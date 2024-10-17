@@ -83,7 +83,7 @@ def pprint_ports(ports: list[Port] | kf.Ports) -> None:
                 port.name,
                 np.round(port.dwidth, 3),
                 port.dangle,
-                port.layer,
+                port.layer_info,
                 port.dcenter,
                 port.port_type,
             ]
