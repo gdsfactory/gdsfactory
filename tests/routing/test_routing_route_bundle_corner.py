@@ -4,7 +4,16 @@ import gdsfactory as gf
 from gdsfactory import Port
 
 
-def test_connect_corner(data_regression: DataRegressionFixture, N=6, config="A"):
+def test_connect_corner(
+    data_regression: DataRegressionFixture | None, N=6, config="A"
+) -> None:
+    """Test connecting two bundles of ports in a corner.
+
+    Args:
+        data_regression: regression test data
+        N: number of ports
+        config: configuration of the ports
+    """
     d = 10.0
     sep = 5.0
     c = gf.Component()
@@ -201,18 +210,23 @@ def test_connect_corner(data_regression: DataRegressionFixture, N=6, config="A")
     lengths = {}
     if config in ["A", "C"]:
         for ports1, ports2 in zip(ports_A, ports_B):
-            routes = gf.routing.route_bundle(c, ports1, ports2, radius=5)
+            routes = gf.routing.route_bundle(
+                c, ports1, ports2, radius=5, cross_section=gf.cross_section.strip
+            )
             for i, route in enumerate(routes):
                 lengths[i] = route.length
 
     elif config in ["B", "D"]:
         for ports1, ports2 in zip(ports_A, ports_B):
-            routes = gf.routing.route_bundle(c, ports2, ports1, radius=5)
+            routes = gf.routing.route_bundle(
+                c, ports2, ports1, radius=5, cross_section=gf.cross_section.strip
+            )
             for i, route in enumerate(routes):
                 lengths[i] = route.length
 
-    data_regression.check(lengths)
+    if data_regression:
+        data_regression.check(lengths)
 
 
 if __name__ == "__main__":
-    test_connect_corner(config="A")
+    test_connect_corner(None, config="A")

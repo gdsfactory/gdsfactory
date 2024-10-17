@@ -45,7 +45,12 @@ def test_route_bundle(
 
         c = gf.Component("test_route_bundle")
         routes = route_bundle(
-            c, top_ports, bot_ports, start_straight_length=5, end_straight_length=10
+            c,
+            top_ports,
+            bot_ports,
+            start_straight_length=5,
+            end_straight_length=10,
+            cross_section="strip",
         )
         lengths = {i: route.length for i, route in enumerate(routes)}
         if data_regression:
@@ -254,13 +259,13 @@ def test_connect_corner(
     i = 0
     for ports1, ports2 in zip(ports_A, ports_B):
         if config in {"A", "C"}:
-            routes = route_bundle(c, ports1, ports2)
+            routes = route_bundle(c, ports1, ports2, cross_section="strip")
             for route in routes:
                 lengths[i] = route.length
                 i += 1
 
         elif config in {"B", "D"}:
-            routes = route_bundle(c, ports2, ports1)
+            routes = route_bundle(c, ports2, ports1, cross_section="strip")
             for route in routes:
                 lengths[i] = route.length
                 i += 1
@@ -336,6 +341,7 @@ def test_route_bundle_udirect(
         bend=gf.components.bend_circular,
         end_straight_length=30,
         sort_ports=True,
+        cross_section="strip",
     )
     lengths = {i: route.length for i, route in enumerate(routes)}
 
@@ -402,6 +408,7 @@ def test_route_bundle_u_indirect(
         end_straight_length=15,
         start_straight_length=5,
         radius=5,
+        cross_section="strip",
     )
     lengths = {i: route.length for i, route in enumerate(routes)}
     if check:
@@ -434,7 +441,7 @@ def test_facing_ports(
     ]
 
     c = gf.Component("test_facing_ports")
-    routes = route_bundle(c, ports1, ports2)
+    routes = route_bundle(c, ports1, ports2, cross_section="strip")
 
     lengths = {i: route.length for i, route in enumerate(routes)}
     if check:

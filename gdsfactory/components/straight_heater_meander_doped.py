@@ -89,7 +89,9 @@ def straight_heater_meander_doped(
     )
 
     dummy = gf.Component()
-    route = gf.routing.route_single(dummy, p1, p2, radius=radius)
+    route = gf.routing.route_single(
+        dummy, p1, p2, radius=radius, cross_section=cross_section
+    )
     cross_section2 = cross_section
 
     straight_length = gf.snap.snap_to_grid2x(

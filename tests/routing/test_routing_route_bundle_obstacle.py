@@ -27,6 +27,7 @@ def test_route_bundle_obstacle(
         start_straight_length=100,
         separation=20,
         bboxes=[obstacle.bbox()],  # can avoid obstacles
+        cross_section=gf.cross_section.metal_routing,
     )
 
     for i, route in enumerate(routes):
@@ -55,5 +56,6 @@ if __name__ == "__main__":
         start_straight_length=100,
         separation=20,
         bboxes=[obstacle.bbox()],  # can avoid obstacles
+        cross_section=gf.cross_section.metal_routing,
     )
     c.show()

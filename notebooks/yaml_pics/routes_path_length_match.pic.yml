@@ -20,6 +20,7 @@ routes:
       extra_length: 500
       width: 2
       end_straight_length: 500
+      cross_section: strip
     links:
       t,e11: b,e11
       t,e12: b,e12

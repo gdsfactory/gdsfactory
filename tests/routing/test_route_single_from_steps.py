@@ -21,6 +21,7 @@ def test_route_from_steps() -> None:
     p2 = right.ports["o2"]
     gf.routing.route_single(
         c,
+        cross_section="strip",
         port1=p1,
         port2=p2,
         steps=[

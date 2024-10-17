@@ -89,12 +89,13 @@ def get_min_spacing(
 
 def route_bundle(
     component: Component,
-    ports1: list[Port],
-    ports2: list[Port],
+    ports1: list[Port] | Port,
+    ports2: list[Port] | Port,
+    cross_section: CrossSectionSpec | None = None,
+    layer: LayerSpecs | None = None,
     separation: float = 3.0,
     bend: ComponentSpec = "bend_euler",
     sort_ports: bool = False,
-    cross_section: CrossSectionSpec = "strip",
     start_straight_length: float = 0,
     end_straight_length: float = 0,
     min_straight_taper: float = 100,
@@ -120,10 +121,11 @@ def route_bundle(
         component: component to add the routes to.
         ports1: list of starting ports.
         ports2: list of end ports.
+        cross_section: CrossSection or function that returns a cross_section.
+        layer: layer to use for the route.
         separation: bundle separation (center to center). Defaults to cross_section.width + cross_section.gap
         bend: function for the bend. Defaults to euler.
         sort_ports: sort port coordinates.
-        cross_section: CrossSection or function that returns a cross_section.
         start_straight_length: straight length at the beginning of the route. If None, uses default value for the routing CrossSection.
         end_straight_length: end length at the beginning of the route. If None, uses default value for the routing CrossSection.
         min_straight_taper: minimum length for tapering the straight sections.
@@ -165,25 +167,21 @@ def route_bundle(
         c.plot()
 
     """
-    # convert single port to list
-    if isinstance(ports1, Port):
-        ports1 = [ports1]
+    if cross_section is None:
+        if layer is not None and route_width is not None:
+            cross_section = partial(
+                gf.cross_section.cross_section, layer=layer, width=route_width
+            )
 
-    if isinstance(ports2, Port):
-        ports2 = [ports2]
+        else:
+            raise ValueError(
+                f"Either {cross_section=} or {layer=} and {route_width=} must be provided"
+            )
 
-    # convert ports dict to list
-    if isinstance(ports1, dict):
-        ports1 = list(ports1.values())
-
-    if isinstance(ports2, dict):
-        ports2 = list(ports2.values())
-
-    ports1 = list(ports1)
-    ports2 = list(ports2)
+    ports1 = [ports1] if isinstance(ports1, Port) else list(ports1)
+    ports2 = [ports2] if isinstance(ports2, Port) else list(ports2)
 
     port_type = port_type or ports1[0].port_type
-
     dbu = component.kcl.dbu
 
     if route_width and not isinstance(route_width, int | float):
@@ -192,24 +190,27 @@ def route_bundle(
     if len(ports1) != len(ports2):
         raise ValueError(f"ports1={len(ports1)} and ports2={len(ports2)} must be equal")
 
-    xs = gf.get_cross_section(cross_section)
-    width = xs.width
-    radius = radius or xs.radius
+    xs = (
+        gf.get_cross_section(cross_section, width=route_width)
+        if route_width
+        else gf.get_cross_section(cross_section)
+    )
+    width = route_width or xs.width
     width_dbu = round(width / component.kcl.dbu)
+    radius = radius or xs.radius
     taper_cell = gf.get_component(taper) if taper else None
     bend90 = (
         bend
         if isinstance(bend, Component)
-        else gf.get_component(bend, cross_section=cross_section, radius=radius)
+        else gf.get_component(
+            bend, cross_section=cross_section, radius=radius, width=width
+        )
     )
 
-    def straight_dbu(
-        length: int, width: int = width_dbu, cross_section=cross_section
-    ) -> Component:
+    def straight_dbu(length: int, cross_section=xs, **kwargs) -> Component:
         return gf.get_component(
             straight,
             length=length * component.kcl.dbu,
-            width=width * component.kcl.dbu,
             cross_section=cross_section,
         )
 
@@ -271,7 +272,6 @@ def route_bundle(
 route_bundle_electrical = partial(
     route_bundle,
     bend=wire_corner,
-    cross_section="metal_routing",
     allow_width_mismatch=True,
 )
 
@@ -422,5 +422,8 @@ if __name__ == "__main__":
             {"dy": 30, "dx": 50},
             {"dx": 90},
         ],
+        cross_section="strip",
+        # layer=(1, 0),
+        route_width=0.2,
     )
     c.show()

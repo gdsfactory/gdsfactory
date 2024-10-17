@@ -108,6 +108,7 @@ def awg(
     free_propagation_region_output_function=free_propagation_region_output,
     fpr_spacing: float = 50.0,
     arm_spacing: float = 1.0,
+    cross_section: CrossSectionSpec = "strip",
 ) -> Component:
     """Returns a basic Arrayed Waveguide grating.
 
@@ -121,15 +122,18 @@ def awg(
         free_propagation_region_output_function: for output.
         fpr_spacing: x separation between input/output free propagation region.
         arm_spacing: y separation between arms.
+        cross_section: cross_section function.
     """
     c = Component()
     fpr_in = free_propagation_region_input_function(
         inputs=1,
         outputs=arms,
+        cross_section=cross_section,
     )
     fpr_out = free_propagation_region_output_function(
         inputs=outputs,
         outputs=arms,
+        cross_section=cross_section,
     )
 
     fpr_in_ref = c.add_ref(fpr_in)
@@ -145,6 +149,7 @@ def awg(
         gf.port.get_ports_list(fpr_in_ref, prefix="E"),
         sort_ports=True,
         separation=arm_spacing,
+        cross_section=cross_section,
     )
 
     c.add_port("o1", port=fpr_in_ref.ports["o1"])

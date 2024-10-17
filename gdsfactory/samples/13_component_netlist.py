@@ -40,6 +40,8 @@ def netlist_yaml() -> Component:
 
     routes:
         optical:
+            settings:
+                cross_section: strip
             links:
                 mmi_short,o2: mmi_long,o3
 
