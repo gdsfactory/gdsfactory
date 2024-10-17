@@ -111,8 +111,6 @@ def route_bundle(
     auto_taper: bool = True,
     waypoints: Coordinates | None = None,
     steps: Sequence[Mapping[str, int | float]] | None = None,
-    start_angles: int | list[int] | None = None,
-    end_angles: int | list[int] | None = None,
 ) -> list[ManhattanRoute]:
     """Places a bundle of routes to connect two groups of ports.
 
@@ -264,8 +262,8 @@ def route_bundle(
         straight_factory=straight_dbu,
         bend90_cell=bend90,
         taper_cell=taper_cell,
-        start_straights=start_straight,
-        end_straights=end_straight,
+        starts=start_straight,
+        ends=end_straight,
         min_straight_taper=round(min_straight_taper / dbu),
         place_port_type=port_type,
         collision_check_layers=collision_check_layers,
@@ -275,8 +273,6 @@ def route_bundle(
         route_width=width_dbu,
         sort_ports=sort_ports,
         waypoints=waypoints,
-        start_angles=start_angles,
-        end_angles=end_angles,
     )
 
 
@@ -298,25 +294,26 @@ if __name__ == "__main__":
     pdk.layer_transitions[LAYER.WG, LAYER.WGN] = gf.c.taper_sc_nc
     pdk.layer_transitions[LAYER.WGN, LAYER.WG] = gf.c.taper_nc_sc
 
-    # c = gf.Component()
-    # columns = 2
-    # ptop = c << gf.components.pad_array(columns=columns, port_orientation=270)
-    # pbot = c << gf.components.pad_array(port_orientation=270, columns=columns)
-    # # pbot = c << gf.components.pad_array(port_orientation=90, columns=columns)
+    c = gf.Component()
+    columns = 2
+    ptop = c << gf.components.pad_array(columns=columns, port_orientation=270)
+    pbot = c << gf.components.pad_array(port_orientation=270, columns=columns)
+    # pbot = c << gf.components.pad_array(port_orientation=90, columns=columns)
 
-    # ptop.dmovex(300)
-    # ptop.dmovey(300)
-    # routes = gf.routing.route_bundle_electrical(
-    #     c,
-    #     reversed(pbot.ports),
-    #     ptop.ports,
-    #     # end_straight_length=50,
-    #     start_straight_length=100,
-    #     separation=20,
-    #     bboxes=[ptop.bbox(), pbot.bbox()],
-    # )
+    ptop.dmovex(300)
+    ptop.dmovey(300)
+    routes = gf.routing.route_bundle_electrical(
+        c,
+        reversed(pbot.ports),
+        ptop.ports,
+        # end_straight_length=50,
+        start_straight_length=100,
+        separation=20,
+        bboxes=[ptop.bbox(), pbot.bbox()],
+        cross_section="metal_routing",
+    )
 
-    # c.show()
+    c.show()
     # pbot.ports.print()
 
     # c = gf.Component("demo")
@@ -410,32 +407,32 @@ if __name__ == "__main__":
     # )
     # c.show()
 
-    c = gf.Component()
-    w = gf.components.array(gf.c.straight, columns=1, rows=3, spacing=(3, 3))
-    left = c << w
-    right = c << w
-    right.dmove((100, 80))
+    # c = gf.Component()
+    # w = gf.components.array(gf.c.straight, columns=1, rows=3, spacing=(3, 3))
+    # left = c << w
+    # right = c << w
+    # right.dmove((100, 80))
 
-    obstacle = gf.components.rectangle(size=(100, 10))
-    obstacle1 = c << obstacle
-    obstacle2 = c << obstacle
-    obstacle1.dymin = 40
-    obstacle2.dxmin = 35
+    # obstacle = gf.components.rectangle(size=(100, 10))
+    # obstacle1 = c << obstacle
+    # obstacle2 = c << obstacle
+    # obstacle1.dymin = 40
+    # obstacle2.dxmin = 35
 
-    ports1 = left.ports.filter(orientation=0)
-    ports2 = right.ports.filter(orientation=180)
+    # ports1 = left.ports.filter(orientation=0)
+    # ports2 = right.ports.filter(orientation=180)
 
-    routes = gf.routing.route_bundle(
-        c,
-        ports1,
-        ports2,
-        steps=[
-            {"dy": 30, "dx": 50},
-            {"dy": 30, "dx": 50},
-            # {"dx": 90},
-        ],
-        cross_section="strip",
-        # layer=(2, 0),
-        route_width=0.2,
-    )
-    c.show()
+    # routes = gf.routing.route_bundle(
+    #     c,
+    #     ports1,
+    #     ports2,
+    #     steps=[
+    #         {"dy": 30, "dx": 50},
+    #         {"dy": 30, "dx": 50},
+    #         # {"dx": 90},
+    #     ],
+    #     cross_section="strip",
+    #     # layer=(2, 0),
+    #     route_width=0.2,
+    # )
+    # c.show()
