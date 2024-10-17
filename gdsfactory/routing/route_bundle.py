@@ -111,6 +111,8 @@ def route_bundle(
     auto_taper: bool = True,
     waypoints: Coordinates | None = None,
     steps: Sequence[Mapping[str, int | float]] | None = None,
+    start_angles: int | list[int] | None = None,
+    end_angles: int | list[int] | None = None,
 ) -> list[ManhattanRoute]:
     """Places a bundle of routes to connect two groups of ports.
 
@@ -141,6 +143,8 @@ def route_bundle(
         auto_taper: if True, auto-tapers ports to the cross-section of the route.
         waypoints: list of waypoints to add to the route.
         steps: list of steps to add to the route.
+        start_angles: list of start angles for the routes.
+        end_angles: list of end angles for the routes.
 
 
     .. plot::
@@ -271,6 +275,8 @@ def route_bundle(
         route_width=width_dbu,
         sort_ports=sort_ports,
         waypoints=waypoints,
+        start_angles=start_angles,
+        end_angles=end_angles,
     )
 
 
@@ -425,7 +431,8 @@ if __name__ == "__main__":
         ports2,
         steps=[
             {"dy": 30, "dx": 50},
-            {"dx": 90},
+            {"dy": 30, "dx": 50},
+            # {"dx": 90},
         ],
         cross_section="strip",
         # layer=(2, 0),
