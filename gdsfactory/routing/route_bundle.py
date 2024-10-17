@@ -178,6 +178,11 @@ def route_bundle(
                 f"Either {cross_section=} or {layer=} and {route_width=} must be provided"
             )
 
+    if layer and cross_section:
+        raise ValueError(
+            f"Cannot have both {layer=} and {cross_section=} provided. Choose one."
+        )
+
     ports1 = [ports1] if isinstance(ports1, Port) else list(ports1)
     ports2 = [ports2] if isinstance(ports2, Port) else list(ports2)
 
@@ -423,7 +428,7 @@ if __name__ == "__main__":
             {"dx": 90},
         ],
         cross_section="strip",
-        # layer=(1, 0),
+        # layer=(2, 0),
         route_width=0.2,
     )
     c.show()
