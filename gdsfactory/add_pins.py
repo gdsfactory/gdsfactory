@@ -23,6 +23,7 @@ from typing_extensions import TypeVar
 
 import gdsfactory as gf
 from gdsfactory.component import container
+from gdsfactory.config import CONF
 from gdsfactory.port import select_ports
 from gdsfactory.serialization import convert_tuples_to_lists
 
@@ -463,7 +464,7 @@ def add_settings_label(
 def add_instance_label(
     component: Component,
     reference: Instance,
-    layer: LayerSpec,
+    layer: LayerSpec | None = None,
     instance_name: str | None = None,
 ) -> None:
     """Adds label to a reference in a component.
@@ -484,6 +485,8 @@ def add_instance_label(
         instance_name
         or f"{reference.parent.name},{int(reference.dx)},{int(reference.dy)}"
     )
+
+    layer = layer or CONF.layer_label
 
     component.add_label(
         text=instance_name,

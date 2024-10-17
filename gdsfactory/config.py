@@ -100,6 +100,7 @@ CONF.connect_use_mirror = False
 CONF.max_cellname_length = 32
 CONF.cell_layout_cache = True
 CONF.pdk = "generic"
+CONF.layer_label = (100, 0)
 CONF.port_types = [
     "optical",  # optical ports
     "electrical",  # electrical ports
