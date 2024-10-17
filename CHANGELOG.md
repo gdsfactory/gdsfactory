@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.14.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.14.0) - 2024-10-16
+
+No significant changes.
+
+
 ## [8.13.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.13.5) - 2024-10-15
 
 - make GDSFactory backwards compatible with older kfactory versions [#3278](https://github.com/gdsfactory/gdsfactory/pull/3278)
