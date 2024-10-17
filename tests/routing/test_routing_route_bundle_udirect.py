@@ -29,7 +29,9 @@ def test_route_bundle_udirect_pads(
 
     pbports.reverse()
 
-    routes = gf.routing.route_bundle_electrical(c, pbports, ptports, radius=5)
+    routes = gf.routing.route_bundle_electrical(
+        c, pbports, ptports, radius=5, cross_section="metal_routing"
+    )
 
     lengths = {}
     for i, route in enumerate(routes):
@@ -98,18 +100,18 @@ def test_route_connect_bundle_udirect(
             for i in range(N)
         ]
 
-    c = Component()
-    routes = gf.routing.route_bundle(
-        c,
-        ports1,
-        ports2,
-        radius=10.0,
-        sort_ports=True,
-        separation=10,
-        cross_section="strip",
-    )
-    lengths = {i: route.length for i, route in enumerate(routes)}
     if check:
+        c = Component()
+        routes = gf.routing.route_bundle(
+            c,
+            ports1,
+            ports2,
+            radius=10.0,
+            sort_ports=True,
+            separation=10,
+            cross_section="strip",
+        )
+        lengths = {i: route.length for i, route in enumerate(routes)}
         data_regression.check(lengths)
 
 

@@ -178,12 +178,8 @@ def route_bundle(
                 f"Either {cross_section=} or {layer=} and {route_width=} must be provided"
             )
 
-    # convert single port to list
-    if isinstance(ports1, Port):
-        ports1 = [ports1]
-
-    if isinstance(ports2, Port):
-        ports2 = [ports2]
+    ports1 = [ports1] if isinstance(ports1, Port) else list(ports1)
+    ports2 = [ports2] if isinstance(ports2, Port) else list(ports2)
 
     port_type = port_type or ports1[0].port_type
     dbu = component.kcl.dbu
