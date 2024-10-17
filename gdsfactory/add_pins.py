@@ -32,7 +32,7 @@ if TYPE_CHECKING:
 
 Layer = tuple[int, int]
 Layers = tuple[Layer, ...]
-LayerSpec = Layer | str | int | None
+LayerSpec = Layer | str | int
 LayerSpecs = tuple[LayerSpec, ...]
 nm = 1e-3
 
@@ -171,7 +171,7 @@ def add_pin_rectangle_inside(
     component: Component,
     port: Port,
     pin_length: float = 0.1,
-    layer: LayerSpec = "PORT",
+    layer: LayerSpec | None = "PORT",
     layer_label: LayerSpec = "TEXT",
 ) -> None:
     """Add square pin towards the inside of the port.
@@ -195,11 +195,12 @@ def add_pin_rectangle_inside(
           |      __       |
           |_______________|
     """
-    p = port
-    poly = gf.kdb.DPolygon(
-        gf.kdb.DBox(-pin_length, -p.dwidth / 2, 0, p.dwidth / 2)
-    ).transform(p.dcplx_trans)
-    component.shapes(gf.get_layer(layer)).insert(poly)
+    if layer:
+        p = port
+        poly = gf.kdb.DPolygon(
+            gf.kdb.DBox(-pin_length, -p.dwidth / 2, 0, p.dwidth / 2)
+        ).transform(p.dcplx_trans)
+        component.shapes(gf.get_layer(layer)).insert(poly)
 
     if layer_label:
         component.add_label(
@@ -213,7 +214,7 @@ def add_pin_rectangle(
     component: Component,
     port: Port,
     pin_length: float = 0.1,
-    layer: LayerSpec = "PORT",
+    layer: LayerSpec | None = "PORT",
     layer_label: LayerSpec = "TEXT",
     port_margin: float = 0.0,
 ) -> None:
@@ -240,12 +241,13 @@ def add_pin_rectangle(
           |_______________|
                  __
     """
-    p = port
-    width = p.dwidth + port_margin
-    poly = gf.kdb.DPolygon(
-        gf.kdb.DBox(-pin_length / 2, -width / 2, +pin_length / 2, width / 2)
-    ).transform(p.dcplx_trans)
-    component.shapes(gf.get_layer(layer)).insert(poly)
+    if layer:
+        p = port
+        width = p.dwidth + port_margin
+        poly = gf.kdb.DPolygon(
+            gf.kdb.DBox(-pin_length / 2, -width / 2, +pin_length / 2, width / 2)
+        ).transform(p.dcplx_trans)
+        component.shapes(gf.get_layer(layer)).insert(poly)
 
     if layer_label:
         component.add_label(
@@ -461,16 +463,16 @@ def add_settings_label(
 def add_instance_label(
     component: Component,
     reference: Instance,
+    layer: LayerSpec,
     instance_name: str | None = None,
-    layer: LayerSpec | None = None,
 ) -> None:
     """Adds label to a reference in a component.
 
     Args:
         component: to add instance label.
         reference: to add label.
-        instance_name: label name.
         layer: layer for the label.
+        instance_name: label name.
 
     """
     try:
