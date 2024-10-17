@@ -20,5 +20,4 @@ routes:
         links:
             mmi_short,o2: mmi_long,o1
         settings:
-            cross_section:
-                cross_section: strip
+            cross_section: strip
