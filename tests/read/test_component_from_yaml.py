@@ -100,9 +100,7 @@ routes:
             mmi_bottom,o3: mmi_top,o2
 
         settings:
-            cross_section:
-                cross_section: strip
-
+            cross_section: strip
 """
 
 
@@ -168,7 +166,7 @@ def test_connections_different_factory() -> None:
     ].length
 
 
-sample_different_link_factory = """
+sample_path_length_matching = """
 name: sample_path_length_matching
 
 instances:
@@ -196,8 +194,8 @@ placements:
 
 routes:
     route1:
-        routing_strategy: route_bundle_path_length_match
         settings:
+            cross_section: metal_routing
             radius: 10
             extra_length: 500
         links:
@@ -228,6 +226,7 @@ routes:
     route1:
         routing_strategy: route_bundle_from_waypoints
         settings:
+            cross_section: strip
             waypoints:
                 - [0, 300]
                 - [400, 300]
@@ -268,6 +267,8 @@ placements:
         dy: -40
 routes:
     optical:
+        settings:
+            cross_section: strip
         links:
             mmi_top,o3: mmi_bot,o1
 """
@@ -295,6 +296,8 @@ placements:
         x: 20
 routes:
     optical:
+        settings:
+            cross_section: strip
         links:
             left,o:1:3: right,o:3:1
 """
@@ -321,6 +324,8 @@ placements:
         x: 20
 routes:
     optical:
+        settings:
+            cross_section: strip
         links:
             left,o:3:1: right,o:1:3
 """
@@ -554,6 +559,7 @@ routes:
       s,o2_2_7: dbr,o1_7_1
       s,o2_2_8: dbr,o1_8_1
     settings:
+      cross_section: strip
       radius: 5
       sort_ports: true
     routing_strategy: route_bundle
@@ -577,6 +583,8 @@ connections:
 
 routes:
     b1:
+        settings:
+            cross_section: strip
         links:
             sa1<3.0>,o2: sa1<4.0>,o1
             sa1<3.1>,o2: sa1<4.1>,o1
@@ -598,7 +606,7 @@ yaml_strings = dict(
     # sample_regex_connections=sample_regex_connections,
     sample_docstring=sample_docstring,
     # sample_waypoints=sample_waypoints,
-    # sample_different_link_factory=sample_different_link_factory,
+    # sample_path_length_matching=sample_path_length_matching,
     # sample_different_factory=sample_different_factory,
     sample_mirror_simple=sample_mirror_simple,
     sample_connections=sample_connections,
@@ -658,11 +666,13 @@ def test_gds_and_settings(
 
 
 if __name__ == "__main__":
-    test_sample()
+    # test_sample()
     # test_connections_2x2()
     # test_connections_regex_backwards()
     # test_connections_different_factory()
     # import gdsfactory as gf
 
-    # c = gf.read.from_yaml(sample_array2)
-    # c.show()
+    import gdsfactory as gf
+
+    c = gf.read.from_yaml(sample_array2)
+    c.show()

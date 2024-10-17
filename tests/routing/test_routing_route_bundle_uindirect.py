@@ -73,6 +73,7 @@ def test_connect_bundle_u_indirect(
         bend=gf.components.bend_euler,
         radius=5,
         sort_ports=True,
+        cross_section=gf.cross_section.strip,
     )
     lengths = {i: route.length for i, route in enumerate(routes)}
     if check:

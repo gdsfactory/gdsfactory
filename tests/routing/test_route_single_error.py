@@ -19,6 +19,7 @@ def test_route_error() -> None:
     with pytest.raises(NotImplementedError):
         route = gf.routing.route_single(
             c,
+            cross_section="strip",
             port1=p2,
             port2=p1,
             steps=[
@@ -46,6 +47,7 @@ if __name__ == "__main__":
             c,
             port1=p2,
             port2=p1,
+            cross_section="strip",
             steps=[
                 {"x": 20, "y": 0},
                 {"x": 20, "y": 20},

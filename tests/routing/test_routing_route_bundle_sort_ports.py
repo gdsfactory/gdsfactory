@@ -29,7 +29,9 @@ def test_route_bundle_sort_ports(
         for i in range(N)
     ]
     left_ports.reverse()
-    routes = gf.routing.route_bundle(c, right_ports, left_ports, sort_ports=True)
+    routes = gf.routing.route_bundle(
+        c, right_ports, left_ports, sort_ports=True, cross_section="strip"
+    )
 
     for i, route in enumerate(routes):
         lengths[i] = route.length
@@ -61,7 +63,9 @@ if __name__ == "__main__":
         for i in range(N)
     ]
     left_ports.reverse()
-    routes = gf.routing.route_bundle(c, right_ports, left_ports, sort_ports=True)
+    routes = gf.routing.route_bundle(
+        c, right_ports, left_ports, sort_ports=True, cross_section="strip"
+    )
 
     for i, route in enumerate(routes):
         lengths[i] = route.length
