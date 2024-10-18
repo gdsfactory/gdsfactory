@@ -111,6 +111,8 @@ def route_bundle(
     auto_taper: bool = True,
     waypoints: Coordinates | None = None,
     steps: Sequence[Mapping[str, int | float]] | None = None,
+    start_angles: int | list[int] | None = None,
+    end_angles: int | list[int] | None = None,
 ) -> list[ManhattanRoute]:
     """Places a bundle of routes to connect two groups of ports.
 
@@ -141,9 +143,8 @@ def route_bundle(
         auto_taper: if True, auto-tapers ports to the cross-section of the route.
         waypoints: list of waypoints to add to the route.
         steps: list of steps to add to the route.
-        start_angles: list of start angles for the routes.
-        end_angles: list of end angles for the routes.
-
+        start_angles: list of start angles for the routes. Only used for electrical ports.
+        end_angles: list of end angles for the routes. Only used for electrical ports.
 
     .. plot::
         :include-source:
@@ -254,6 +255,26 @@ def route_bundle(
     if waypoints is not None and not isinstance(waypoints[0], kf.kdb.Point):
         waypoints = [kf.kdb.Point(p[0] / dbu, p[1] / dbu) for p in waypoints]
 
+    if port_type == "electrical":
+        port_layer = ports1[0].layer
+        return kf.routing.electrical.route_bundle(
+            component,
+            ports1,
+            ports2,
+            round(separation / component.kcl.dbu),
+            starts=start_straight,
+            ends=end_straight,
+            place_layer=port_layer,
+            collision_check_layers=collision_check_layers,
+            on_collision=on_collision,
+            bboxes=bboxes or [],
+            route_width=width_dbu,
+            sort_ports=sort_ports,
+            waypoints=waypoints,
+            end_angles=end_angles,
+            start_angles=start_angles,
+        )
+
     return kf.routing.optical.route_bundle(
         component,
         ports1,
@@ -311,6 +332,8 @@ if __name__ == "__main__":
         separation=20,
         bboxes=[ptop.bbox(), pbot.bbox()],
         cross_section="metal_routing",
+        start_angles=None,
+        end_angles=None,
     )
 
     c.show()
