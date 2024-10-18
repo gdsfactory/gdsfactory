@@ -78,9 +78,8 @@ def grid(
     )
     for i, instances_list in enumerate(instances):
         for j, instance in enumerate(instances_list):
-            # print(i, j)
-            # instance.ports.print()
-            c.add_ports(instance.ports, prefix=f"{j}_{i}_")
+            if instances_list is not None and instance is not None:
+                c.add_ports(instance.ports, prefix=f"{j}_{i}_")
     return c
 
 
