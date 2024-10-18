@@ -1,11 +1,15 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.14.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.14.1...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.14.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.14.1) - 2024-10-17
 
-No significant changes.
+- fix grid with ports and add test [#3295](https://github.com/gdsfactory/gdsfactory/pull/3295)
+- Componenteference: fixing typo and potential bug [#3287](https://github.com/gdsfactory/gdsfactory/pull/3287)
+- improve route_bundle [#3294](https://github.com/gdsfactory/gdsfactory/pull/3294)
+- add optional add pin layer [#3291](https://github.com/gdsfactory/gdsfactory/pull/3291)
+- update_kfactory0.21.4 [#3293](https://github.com/gdsfactory/gdsfactory/pull/3293)
 
 
 ## [8.14.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.14.0) - 2024-10-16
