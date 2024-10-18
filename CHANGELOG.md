@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.14.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.14.1) - 2024-10-17
+
+No significant changes.
+
+
 ## [8.14.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.14.0) - 2024-10-16
 
 - Remove default cross section for routing functions [#3283](https://github.com/gdsfactory/gdsfactory/pull/3283)
