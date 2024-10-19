@@ -1,12 +1,11 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.14.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.14.2...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.14.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.14.2) - 2024-10-18
 
-No significant changes.
-
+- fix yaml load [#3298](https://github.com/gdsfactory/gdsfactory/pull/3298)
 
 ## [8.14.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.14.1) - 2024-10-17
 
