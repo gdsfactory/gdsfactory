@@ -3,7 +3,7 @@
  <name>gdsfactory</name>
  <token/>
  <hidden>false</hidden>
- <version>8.14.1</version>
+ <version>8.14.2</version>
  <api-version/>
  <title>Python Library</title>
  <doc>GDSFactory Klayout extension.

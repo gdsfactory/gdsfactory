@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.14.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.14.2) - 2024-10-18
+
+No significant changes.
+
+
 ## [8.14.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.14.1) - 2024-10-17
 
 - fix grid with ports and add test [#3295](https://github.com/gdsfactory/gdsfactory/pull/3295)
