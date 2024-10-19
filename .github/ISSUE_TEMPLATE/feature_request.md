@@ -13,6 +13,6 @@ You can add screenshots to help explain your problem.
 Make sure you include the code for others to reproduce your issue.
 
 **Describe the solution you'd like**
-What would you like to happen?
+How would you like this feature to function? What should happen when it's implemented?
 
-- [ ] I acknowledge that, as an open-source project, the maintainers may not have the capacity to address this issue. I am willing to contribute by fixing it myself or hiring someone to resolve it (contact@gdsfactory.com). Otherwise, I understand that the issue may remain unresolved.
+- [ ] I understand that, as an open-source project, the maintainers may have limited capacity to address every request. I am open to contributing by developing the feature myself or hiring someone to implement it (contact@gdsfactory.com). Otherwise, I understand that this feature may not be prioritized.
