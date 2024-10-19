@@ -674,7 +674,7 @@ class LayerView(BaseModel):
         layer_in_name = False
         match = re.search(layer_pattern, name)
         if match:
-            name = name[: match.start()].strip()
+            name = (name[:match.start()] + name[match.end():]).strip()
             layer_in_name = True
         return clean_name(name, remove_dots=True), layer_in_name
 
