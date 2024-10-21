@@ -109,7 +109,7 @@ _deprecated_attributes_component_gettr = _deprecated_attributes - {"move"}
 
 
 class Port(kf.Port):
-    """Port with additional attributes."""
+    """Port with um properties instead of DBU."""
 
     @property
     def width(self) -> float:
@@ -137,6 +137,10 @@ class Port(kf.Port):
         if __k in _deprecated_attributes_instance_settr:
             return super().__setattr__(f"d{__k}", __v)
         super().__setattr__(__k, __v)
+
+    def print(self) -> None:
+        """Print the port pretty."""
+        pprint_ports([self])
 
 
 class ComponentReference(kf.Instance):
