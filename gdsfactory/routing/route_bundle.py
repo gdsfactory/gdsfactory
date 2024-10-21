@@ -14,6 +14,7 @@ from __future__ import annotations
 
 from collections.abc import Mapping, Sequence
 from functools import partial
+from typing import Any
 
 import kfactory as kf
 from kfactory.routing.generic import ManhattanRoute
@@ -215,7 +216,9 @@ def route_bundle(
         )
     )
 
-    def straight_dbu(length: int, cross_section=xs, **kwargs) -> Component:
+    def straight_dbu(
+        length: int, cross_section: CrossSectionSpec = xs, **kwargs: Any
+    ) -> Component:
         return gf.get_component(
             straight,
             length=length * component.kcl.dbu,
@@ -253,7 +256,11 @@ def route_bundle(
             waypoints += [(x, y)]
 
     if waypoints is not None and not isinstance(waypoints[0], kf.kdb.Point):
-        waypoints = [kf.kdb.Point(p[0] / dbu, p[1] / dbu) for p in waypoints]
+        _waypoints: list[kf.kdb.Point] | None = [
+            kf.kdb.Point(p[0] / dbu, p[1] / dbu) for p in waypoints
+        ]
+    else:
+        _waypoints = waypoints
 
     if port_type == "electrical":
         port_layer = ports1[0].layer
@@ -270,7 +277,7 @@ def route_bundle(
             bboxes=bboxes or [],
             route_width=width_dbu,
             sort_ports=sort_ports,
-            waypoints=waypoints,
+            waypoints=_waypoints,
             end_angles=end_angles,
             start_angles=start_angles,
         )
@@ -293,7 +300,7 @@ def route_bundle(
         bboxes=bboxes or [],
         route_width=width_dbu,
         sort_ports=sort_ports,
-        waypoints=waypoints,
+        waypoints=_waypoints,
     )
 
 

@@ -31,10 +31,10 @@ from __future__ import annotations
 
 import csv
 import functools
-import typing
 import warnings
 from collections.abc import Callable
 from functools import partial
+from typing import TYPE_CHECKING, Any, Literal
 
 import kfactory as kf
 import numpy as np
@@ -43,8 +43,9 @@ from rich.table import Table
 
 from gdsfactory.cross_section import CrossSectionSpec
 
-if typing.TYPE_CHECKING:
+if TYPE_CHECKING:
     from gdsfactory.component import Component
+    from gdsfactory.typings import PathType
 
 Layer = tuple[int, int]
 Layers = tuple[Layer, ...]
@@ -159,7 +160,7 @@ class Port(kf.Port):
         )
 
 
-def to_dict(port: Port) -> dict[str, typing.Any]:
+def to_dict(port: Port) -> dict[str, Any]:
     """Returns dict."""
     return {
         "name": port.name,
@@ -180,7 +181,7 @@ def port_array(
     orientation: float = 0,
     pitch: tuple[float, float] = (10.0, 0.0),
     n: int = 2,
-    **kwargs,
+    **kwargs: Any,
 ) -> list[Port]:
     """Returns a list of ports placed in an array.
 
@@ -220,7 +221,7 @@ def read_port_markers(component: object, layers: LayerSpecs = ("PORT",)) -> Comp
     return component.extract(layers=layers)
 
 
-def csv2port(csvpath) -> dict[str, Port]:
+def csv2port(csvpath: PathType) -> dict[str, Port]:
     """Reads ports from a CSV file and returns a Dict."""
     ports = {}
     with open(csvpath) as csvfile:
@@ -389,7 +390,7 @@ select_ports_electrical = partial(select_ports, port_type="electrical")
 select_ports_placement = partial(select_ports, port_type="placement")
 
 
-def select_ports_list(ports: kf.Ports | kf.Instance, **kwargs) -> kf.Ports:
+def select_ports_list(ports: kf.Ports | kf.Instance, **kwargs: Any) -> kf.Ports:
     return select_ports(ports=ports, **kwargs)
 
 
@@ -404,7 +405,7 @@ def flipped(port: Port) -> Port:
     return p
 
 
-def move_copy(port, x: int = 0, y: int = 0) -> Port:
+def move_copy(port: Port, x: int = 0, y: int = 0) -> Port:
     warnings.warn(
         "Port.move_copy(...) should be used instead of move_copy(Port, ...).",
     )
@@ -442,9 +443,11 @@ def get_ports_facing(ports: list[Port], direction: str = "W") -> list[Port]:
     return direction_ports[direction]
 
 
-def deco_rename_ports(component_factory: Callable) -> Callable:
+def deco_rename_ports(
+    component_factory: Callable[..., Component],
+) -> Callable[..., Component]:
     @functools.wraps(component_factory)
-    def auto_named_component_factory(*args, **kwargs):
+    def auto_named_component_factory(*args: Any, **kwargs: Any) -> Component:
         component = component_factory(*args, **kwargs)
         auto_rename_ports(component)
         return component
@@ -490,7 +493,10 @@ def _rename_ports_facing_side_ccw(
             p.name = prefix + direction + str(i)
 
 
-def _rename_ports_counter_clockwise(direction_ports, prefix="") -> None:
+def _rename_ports_counter_clockwise(
+    direction_ports: dict[Literal["N", "E", "S", "W"], list[Port]],
+    prefix: str = "",
+) -> None:
     east_ports = direction_ports["E"]
     east_ports.sort(key=lambda p: +p.dy)  # sort south to north
 
@@ -556,9 +562,9 @@ def rename_ports_by_orientation(
     component: Component,
     layers_excluded: LayerSpec | None = None,
     select_ports: Callable = select_ports,
-    function=_rename_ports_facing_side,
+    function: Callable[..., None] = _rename_ports_facing_side,
     prefix: str = "o",
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Returns Component with port names based on port orientation (E, N, W, S).
 
@@ -612,16 +618,16 @@ def rename_ports_by_orientation(
 
 def auto_rename_ports(
     component: Component,
-    function=_rename_ports_clockwise,
-    select_ports_optical: Callable | None = select_ports_optical,
-    select_ports_electrical: Callable | None = select_ports_electrical,
-    select_ports_placement: Callable | None = select_ports_placement,
+    function: Callable[..., None] = _rename_ports_clockwise,
+    select_ports_optical: Callable[..., list[Port]] | None = select_ports_optical,
+    select_ports_electrical: Callable[..., list[Port]] | None = select_ports_electrical,
+    select_ports_placement: Callable[..., list[Port]] | None = select_ports_placement,
     prefix: str = "",
     prefix_optical: str = "o",
     prefix_electrical: str = "e",
     prefix_placement: str = "p",
     port_type: str | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Adds prefix for optical and electrical.
 
@@ -694,7 +700,7 @@ auto_rename_ports_electrical = partial(auto_rename_ports, select_ports_optical=N
 
 
 def map_ports_layer_to_orientation(
-    ports: dict[str, Port], function=_rename_ports_facing_side
+    ports: dict[str, Port], function: Callable[..., None] = _rename_ports_facing_side
 ) -> dict[str, str]:
     """Returns component or reference port mapping.
 
@@ -734,7 +740,9 @@ def map_ports_layer_to_orientation(
 
 
 def map_ports_to_orientation_cw(
-    ports: dict[str, Port], function=_rename_ports_facing_side, **kwargs
+    ports: dict[str, Port],
+    function: Callable[..., None] = _rename_ports_facing_side,
+    **kwargs: Any,
 ) -> dict[str, str]:
     """Returns component or reference port mapping clockwise.
 
@@ -782,7 +790,7 @@ map_ports_to_orientation_ccw = partial(
 
 def auto_rename_ports_layer_orientation(
     component: Component,
-    function=_rename_ports_facing_side,
+    function: Callable[..., None] = _rename_ports_facing_side,
 ) -> None:
     """Renames port names with layer_orientation  (1_0_W0).
 

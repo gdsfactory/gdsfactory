@@ -39,7 +39,7 @@ from gdsfactory.typings import (
     Transition,
 )
 
-_ACTIVE_PDK = None
+_ACTIVE_PDK: Pdk | None = None
 component_settings = ["function", "component", "settings"]
 cross_section_settings = ["function", "cross_section", "settings"]
 
@@ -152,7 +152,7 @@ class Pdk(BaseModel):
     cells: dict[str, ComponentFactory] = Field(default_factory=dict, exclude=True)
     models: dict[str, Callable] = Field(default_factory=dict, exclude=True)
     symbols: dict[str, ComponentFactory] = Field(default_factory=dict)
-    default_symbol_factory: Callable = Field(
+    default_symbol_factory: Callable[..., ComponentFactory] = Field(
         default=floorplan_with_block_letters, exclude=True
     )
     base_pdks: list[Pdk] = Field(default_factory=list)
@@ -167,7 +167,9 @@ class Pdk(BaseModel):
     )
     constants: dict[str, Any] = constants
     materials_index: dict[str, MaterialSpec] = Field(default_factory=dict)
-    routing_strategies: dict[str, Callable] | None = None
+    routing_strategies: (
+        dict[str, Callable[..., kf.routing.generic.ManhattanRoute]] | None
+    ) = None
     bend_points_distance: float = 20 * nm
     connectivity: list[ConnectivitySpec] | None = None
     max_cellname_length: int = CONF.max_cellname_length
@@ -177,7 +179,9 @@ class Pdk(BaseModel):
         extra="forbid",
     )
 
-    def xsection(self, func):
+    def xsection(
+        self, func: Callable[..., CrossSection]
+    ) -> Callable[..., CrossSection]:
         """Decorator to register a cross section function.
 
         Ensures that the cross-section name matches the name of the function
@@ -193,7 +197,7 @@ class Pdk(BaseModel):
         self._cross_section_default_names[default_xs.name] = func.__name__
 
         @wraps(func)
-        def newfunc(**kwargs):
+        def newfunc(**kwargs: Any) -> CrossSection:
             xs = func(**kwargs)
             if xs.name in self._cross_section_default_names:
                 xs._name = self._cross_section_default_names[xs.name]
@@ -216,7 +220,7 @@ class Pdk(BaseModel):
 
         _set_active_pdk(self)
 
-    def register_cells(self, **kwargs) -> None:
+    def register_cells(self, **kwargs: Any) -> None:
         """Register cell factories."""
         for name, cell in kwargs.items():
             if not callable(cell):
@@ -229,7 +233,7 @@ class Pdk(BaseModel):
 
             self.cells[name] = cell
 
-    def register_cross_sections(self, **kwargs) -> None:
+    def register_cross_sections(self, **kwargs: Any) -> None:
         """Register cross_sections factories."""
         for name, cross_section in kwargs.items():
             if not callable(cross_section):
@@ -245,7 +249,7 @@ class Pdk(BaseModel):
         self,
         dirpath: PathType | None = None,
         update: bool = False,
-        **kwargs,
+        **kwargs: Any,
     ) -> None:
         """Load *.pic.yml YAML files and register them as cells.
 
@@ -281,14 +285,14 @@ class Pdk(BaseModel):
             self.cells[k] = v
             logger.info(f"{message} cell {k!r}")
 
-    def remove_cell(self, name: str):
+    def remove_cell(self, name: str) -> None:
         """Removes cell from a PDK."""
         if name not in self.cells:
             raise ValueError(f"{name!r} not in {list(self.cells.keys())}")
         self.cells.pop(name)
         logger.info(f"Removed cell {name!r}")
 
-    def get_cell(self, cell: CellSpec, **kwargs) -> ComponentFactory:
+    def get_cell(self, cell: CellSpec, **kwargs: Any) -> ComponentFactory:
         """Returns ComponentFactory from a cell spec."""
         cells = set(self.cells.keys())
 
@@ -326,18 +330,23 @@ class Pdk(BaseModel):
             )
 
     def get_component(
-        self, component: ComponentSpec, settings=None, **kwargs
-    ) -> Component:
+        self,
+        component: ComponentSpec,
+        settings: dict[str, Any] | None = None,
+        **kwargs: Any,
+    ) -> ComponentBase:
         """Returns component from a component spec."""
         return self._get_component(
             component=component, cells=self.cells, settings=settings, **kwargs
         )
 
-    def get_symbol(self, component: ComponentSpec, **kwargs) -> Component:
+    def get_symbol(self, component: ComponentSpec, **kwargs: Any) -> ComponentBase:
         """Returns a component's symbol from a component spec."""
         # this is a pretty rough first implementation
         try:
-            self._get_component(component=component, cells=self.symbols, **kwargs)
+            return self._get_component(
+                component=component, cells=self.symbols, **kwargs
+            )
         except ValueError:
             component = self.get_component(component, **kwargs)
             return self.default_symbol_factory(component)
@@ -347,7 +356,7 @@ class Pdk(BaseModel):
         component: ComponentSpec,
         cells: dict[str, Callable],
         settings: dict[str, Any] | None = None,
-        **kwargs,
+        **kwargs: Any,
     ) -> ComponentBase:
         """Returns component from a component spec.
 
@@ -411,7 +420,7 @@ class Pdk(BaseModel):
             )
 
     def get_cross_section(
-        self, cross_section: CrossSectionSpec, **kwargs
+        self, cross_section: CrossSectionSpec, **kwargs: Any
     ) -> CrossSection | Transition:
         """Returns cross_section from a cross_section spec.
 
@@ -604,15 +613,17 @@ def get_active_pdk(name: str | None = None) -> Pdk:
     return _ACTIVE_PDK
 
 
-def get_material_index(material: MaterialSpec, *args, **kwargs) -> Component:
+def get_material_index(material: MaterialSpec, *args: Any, **kwargs: Any) -> Component:
     return get_active_pdk().get_material_index(material, *args, **kwargs)
 
 
-def get_component(component: ComponentSpec, settings=None, **kwargs) -> Component:
+def get_component(
+    component: ComponentSpec, settings: dict[str, Any] | None = None, **kwargs: Any
+) -> Component:
     return get_active_pdk().get_component(component, settings=settings, **kwargs)
 
 
-def get_cell(cell: CellSpec, **kwargs) -> ComponentFactory:
+def get_cell(cell: CellSpec, **kwargs: Any) -> ComponentFactory:
     return get_active_pdk().get_cell(cell, **kwargs)
 
 
@@ -660,7 +671,9 @@ def _set_active_pdk(pdk: Pdk) -> None:
     _ACTIVE_PDK = pdk
 
 
-def get_routing_strategies() -> dict[str, Callable]:
+def get_routing_strategies() -> (
+    dict[str, Callable[..., list[kf.routing.generic.ManhattanRoute]]]
+):
     """Gets a dictionary of named routing functions available to the PDK, if defined, or gdsfactory defaults otherwise."""
     from gdsfactory.routing.factories import (
         routing_strategy as default_routing_strategies,
