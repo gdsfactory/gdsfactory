@@ -12,7 +12,7 @@ import klayout.db as db  # noqa: F401
 import klayout.lay as lay
 import numpy as np
 import yaml
-from kfactory import Instance, kdb, logger
+from kfactory import Instance, kdb
 from kfactory.kcell import PROPID, cell, save_layout_options
 
 from gdsfactory.config import GDSDIR_TEMP
@@ -106,7 +106,6 @@ _deprecated_attributes = {
 
 _deprecated_attributes_instance_settr = _deprecated_attributes - {"size_info"}
 _deprecated_attributes_component_gettr = _deprecated_attributes - {"move"}
-_deprecation_um = "in um is deprecated and will change to DataBaseUnits in gdsfactory9"
 
 
 class ComponentReference(kf.Instance):
@@ -127,18 +126,6 @@ class ComponentReference(kf.Instance):
         if __k == "_kfinst":
             return object.__getattribute__(self, "_kfinst")
         if __k in _deprecated_attributes:
-            deprecation_message = (
-                f"Getting `{self._kfinst.name}.{__k}` {_deprecation_um}. "
-                f"Please use `{self._kfinst.name}.d{__k}` instead."
-            )
-
-            warnings.warn(deprecation_message, stacklevel=2)
-
-            logger.warning(
-                f"{deprecation_message} For further information, please consult the migration guide: "
-                "https://gdsfactory.github.io/gdsfactory/notebooks/21_migration_guide_7_8.html"
-            )
-
             match __k:
                 case "center":
                     return super().dcenter
@@ -175,16 +162,6 @@ class ComponentReference(kf.Instance):
     def __setattr__(self, __k: str, __v: Any) -> None:
         """Set attribute with deprecation warning for dbu based attributes."""
         if __k in _deprecated_attributes_instance_settr:
-            deprecation_message_set = (
-                f"Setting `{self._kfinst.name}.{__k}` {_deprecation_um}. "
-                f"Please use `{self._kfinst.name}.d{__k}` instead."
-            )
-
-            warnings.warn(deprecation_message_set, stacklevel=2)
-            logger.warning(
-                f"{deprecation_message_set} For further information, please consult the migration guide: "
-            )
-
             return super().__setattr__(f"d{__k}", __v)
         super().__setattr__(__k, __v)
 
@@ -387,15 +364,6 @@ class ComponentBase:
     def __getattribute__(self, __k: str) -> Any:
         """Shadow dbu based attributes with um based ones."""
         if __k in _deprecated_attributes_component_gettr:
-            logger.warning(
-                f"Getting `{self.name}.{__k}` {_deprecation_um}. "
-                f"Please use {self.name}.`d{__k}` instead. For further information, please "
-                "consult the migration guide "
-                "https://gdsfactory.github.io/gdsfactory/notebooks/"
-                "21_migration_guide_7_8.html",
-                # category=DeprecationWarning,
-                # stacklevel=3,
-            )
             return getattr(self, f"d{__k}")
         return super().__getattribute__(__k)
 
