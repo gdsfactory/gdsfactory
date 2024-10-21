@@ -1,12 +1,14 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.14.2...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.14.3...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.14.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.14.3) - 2024-10-21
 
-No significant changes.
-
+- Update layer_views.py [#3299](https://github.com/gdsfactory/gdsfactory/pull/3299)
+- add width to Component.info [#3305](https://github.com/gdsfactory/gdsfactory/pull/3305)
+- [pre-commit.ci] pre-commit autoupdate [#3303](https://github.com/gdsfactory/gdsfactory/pull/3303)
+- add some type hints [#3301](https://github.com/gdsfactory/gdsfactory/pull/3301)
 
 ## [8.14.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.14.2) - 2024-10-18
 
