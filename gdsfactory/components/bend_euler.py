@@ -75,6 +75,7 @@ def _bend_euler(
     c.info["dy"] = float(np.round(abs(float(p.points[0][0] - p.points[-1][0])), 3))
     c.info["min_bend_radius"] = min_bend_radius
     c.info["radius"] = float(radius)
+    c.info["width"] = width or x.width
 
     if not allow_min_radius_violation:
         x.validate_radius(radius)
