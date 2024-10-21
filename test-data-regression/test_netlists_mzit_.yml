@@ -12,6 +12,7 @@ instances:
       route_info_type: xs_a202615a695f07de817bf8f1b5e4da79
       route_info_weight: 16.637
       route_info_xs_a202615a695f07de817bf8f1b5e4da79_length: 16.637
+      width: 0.45
     settings:
       allow_min_radius_violation: false
       angle: 90
@@ -35,6 +36,7 @@ instances:
       route_info_type: xs_a202615a695f07de817bf8f1b5e4da79
       route_info_weight: 16.637
       route_info_xs_a202615a695f07de817bf8f1b5e4da79_length: 16.637
+      width: 0.45
     settings:
       allow_min_radius_violation: false
       angle: 90
@@ -58,6 +60,7 @@ instances:
       route_info_type: xs_1954d54ad7e8050b48d3d0ba956bb703
       route_info_weight: 16.637
       route_info_xs_1954d54ad7e8050b48d3d0ba956bb703_length: 16.637
+      width: 0.55
     settings:
       allow_min_radius_violation: false
       angle: 90
@@ -81,6 +84,7 @@ instances:
       route_info_type: xs_1954d54ad7e8050b48d3d0ba956bb703
       route_info_weight: 16.637
       route_info_xs_1954d54ad7e8050b48d3d0ba956bb703_length: 16.637
+      width: 0.55
     settings:
       allow_min_radius_violation: false
       angle: 90

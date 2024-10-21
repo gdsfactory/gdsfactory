@@ -1052,6 +1052,7 @@ instances:
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 180
@@ -1075,6 +1076,7 @@ instances:
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 180
@@ -1098,6 +1100,7 @@ instances:
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 180
@@ -1121,6 +1124,7 @@ instances:
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 180
@@ -1144,6 +1148,7 @@ instances:
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 180
@@ -1167,6 +1172,7 @@ instances:
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 180
@@ -1190,6 +1196,7 @@ instances:
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 180
@@ -1213,6 +1220,7 @@ instances:
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 180
