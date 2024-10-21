@@ -401,6 +401,102 @@ class ComponentBase:
             dcplx_trans=trans,
         )
 
+    def _create_port(
+        self,
+        *,
+        name: str,
+        width: float,
+        layer: kf.LayerEnum | int | None = None,
+        layer_info: kdb.LayerInfo | None = None,
+        port_type: str = "optical",
+        trans: kdb.Trans | None = None,
+        dcplx_trans: kdb.DCplxTrans | None = None,
+        center: tuple[int, int] | None = None,
+        angle: Literal[0, 1, 2, 3] | None = None,
+        mirror_x: bool = False,
+        cross_section: kf.SymmetricalCrossSection | None = None,
+    ) -> Port:
+        """Create a new port in the list.
+
+        Args:
+            name: Optional name of port.
+            width: Width of the port in um. If `dcplx_trans` is set, this needs to be
+                as well.
+            layer: Layer index of the port.
+            layer_info: Layer definition of the port.
+            port_type: Type of the port (electrical, optical, etc.)
+            trans: Transformation object of the port. [dbu]
+            dcplx_trans: Complex transformation for the port.
+                Use if a non-90° port is necessary.
+            center: Tuple of the center. [dbu]
+            angle: Angle in 90° increments. Used for simple/dbu transformations.
+            mirror_x: Mirror the transformation of the port.
+            cross_section: Cross section of the port. If set, overwrites width and layer
+                (info).
+        """
+        if cross_section is None:
+            dwidth = width
+            if layer_info is None:
+                if layer is None:
+                    raise ValueError(
+                        "layer or layer_info must be defined to create a port."
+                    )
+                layer_info = self.kcl.get_info(layer)
+            dwidth = width
+            if dwidth <= 0:
+                raise ValueError("dwidth needs to be set and be >0")
+            _width = self.kcl.to_dbu(dwidth)
+            if _width % 2:
+                raise ValueError(
+                    f"dwidth needs to be even to snap to grid. Got {dwidth}."
+                    "Ports must have a grid width of multiples of 2."
+                )
+            cross_section = self.kcl.get_cross_section(
+                CrossSectionSpec(
+                    main_layer=layer_info,
+                    width=_width,
+                )
+            )
+        else:
+            cross_section = self.kcl.get_cross_section(
+                CrossSectionSpec(main_layer=layer_info, width=width)
+            )
+        if trans is not None:
+            port = Port(
+                name=name,
+                trans=trans,
+                cross_section=cross_section,
+                port_type=port_type,
+                kcl=self.kcl,
+            )
+        elif dcplx_trans is not None:
+            port = Port(
+                name=name,
+                dcplx_trans=dcplx_trans,
+                port_type=port_type,
+                cross_section=cross_section,
+                kcl=self.kcl,
+            )
+        elif angle is not None and center is not None:
+            port = Port(
+                name=name,
+                port_type=port_type,
+                cross_section=cross_section,
+                angle=angle,
+                center=center,
+                mirror_x=mirror_x,
+                kcl=self.kcl,
+            )
+        else:
+            raise ValueError(
+                f"You need to define width {width} and trans {trans} or angle {angle}"
+                f" and center {center} or dcplx_trans {dcplx_trans}"
+                f" and dwidth {dwidth}"
+            )
+
+        self._ports.append(port)
+        return port
+
     def __getattribute__(self, __k: str) -> Any:
         """Shadow dbu based attributes with um based ones."""
         if __k in _deprecated_attributes_component_gettr:
@@ -1259,102 +1355,6 @@ class Component(ComponentBase, kf.KCell):
     def __lshift__(self, component: gf.Component) -> ComponentReference:  # type: ignore[override]
         """Creates a ComponentReference to a Component."""
         return ComponentReference(kf.KCell.create_inst(self, component))
-
-    def _create_port(
-        self,
-        *,
-        name: str,
-        width: float,
-        layer: kf.LayerEnum | int | None = None,
-        layer_info: kdb.LayerInfo | None = None,
-        port_type: str = "optical",
-        trans: kdb.Trans | None = None,
-        dcplx_trans: kdb.DCplxTrans | None = None,
-        center: tuple[int, int] | None = None,
-        angle: Literal[0, 1, 2, 3] | None = None,
-        mirror_x: bool = False,
-        cross_section: kf.SymmetricalCrossSection | None = None,
-    ) -> Port:
-        """Create a new port in the list.
-
-        Args:
-            name: Optional name of port.
-            width: Width of the port in um. If `dcplx_trans` is set, this needs to be
-                as well.
-            layer: Layer index of the port.
-            layer_info: Layer definition of the port.
-            port_type: Type of the port (electrical, optical, etc.)
-            trans: Transformation object of the port. [dbu]
-            dcplx_trans: Complex transformation for the port.
-                Use if a non-90° port is necessary.
-            center: Tuple of the center. [dbu]
-            angle: Angle in 90° increments. Used for simple/dbu transformations.
-            mirror_x: Mirror the transformation of the port.
-            cross_section: Cross section of the port. If set, overwrites width and layer
-                (info).
-        """
-        if cross_section is None:
-            dwidth = width
-            if layer_info is None:
-                if layer is None:
-                    raise ValueError(
-                        "layer or layer_info must be defined to create a port."
-                    )
-                layer_info = self.kcl.get_info(layer)
-            dwidth = width
-            if dwidth <= 0:
-                raise ValueError("dwidth needs to be set and be >0")
-            _width = self.kcl.to_dbu(dwidth)
-            if _width % 2:
-                raise ValueError(
-                    f"dwidth needs to be even to snap to grid. Got {dwidth}."
-                    "Ports must have a grid width of multiples of 2."
-                )
-            cross_section = self.kcl.get_cross_section(
-                CrossSectionSpec(
-                    main_layer=layer_info,
-                    width=_width,
-                )
-            )
-        else:
-            cross_section = self.kcl.get_cross_section(
-                CrossSectionSpec(main_layer=layer_info, width=width)
-            )
-        if trans is not None:
-            port = Port(
-                name=name,
-                trans=trans,
-                cross_section=cross_section,
-                port_type=port_type,
-                kcl=self.kcl,
-            )
-        elif dcplx_trans is not None:
-            port = Port(
-                name=name,
-                dcplx_trans=dcplx_trans,
-                port_type=port_type,
-                cross_section=cross_section,
-                kcl=self.kcl,
-            )
-        elif angle is not None and center is not None:
-            port = Port(
-                name=name,
-                port_type=port_type,
-                cross_section=cross_section,
-                angle=angle,
-                center=center,
-                mirror_x=mirror_x,
-                kcl=self.kcl,
-            )
-        else:
-            raise ValueError(
-                f"You need to define width {width} and trans {trans} or angle {angle}"
-                f" and center {center} or dcplx_trans {dcplx_trans}"
-                f" and dwidth {dwidth}"
-            )
-
-        self._ports.append(port)
-        return port
 
 
 class ComponentAllAngle(ComponentBase, kf.VKCell):
