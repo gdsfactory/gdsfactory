@@ -12,7 +12,7 @@ import hashlib
 import math
 import warnings
 from collections.abc import Callable
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 from numpy import mod, pi
@@ -26,14 +26,16 @@ from gdsfactory.component_layout import (
     _rotate_points,
 )
 from gdsfactory.cross_section import CrossSection, Section, Transition
-from gdsfactory.typings import (
-    ComponentSpec,
-    Coordinates,
-    CrossSectionSpec,
-    Float2,
-    LayerSpec,
-    WidthTypes,
-)
+
+if TYPE_CHECKING:
+    from gdsfactory.typings import (
+        ComponentSpec,
+        Coordinates,
+        CrossSectionSpec,
+        Float2,
+        LayerSpec,
+        WidthTypes,
+    )
 
 
 def _simplify(points, tolerance):

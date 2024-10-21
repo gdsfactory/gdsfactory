@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import shapely
+from trimesh.scene.scene import Scene
 
 from gdsfactory.component import Component
 from gdsfactory.technology import DerivedLayer, LayerStack, LayerViews, LogicalLayer
@@ -12,7 +13,7 @@ def to_3d(
     layer_views: LayerViews | None = None,
     layer_stack: LayerStack | None = None,
     exclude_layers: tuple[LayerSpec, ...] | None = None,
-):
+) -> Scene:
     """Return Component 3D trimesh Scene.
 
     Args:

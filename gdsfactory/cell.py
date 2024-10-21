@@ -1,12 +1,15 @@
+from __future__ import annotations
+
 from collections.abc import Callable, Iterable
-from typing import Any, ParamSpec, Protocol, overload
+from typing import TYPE_CHECKING, Any, ParamSpec, Protocol, overload
 
 from cachetools import Cache
 from kfactory.conf import CHECK_INSTANCES
 from kfactory.kcell import KCell, MetaData
 from kfactory.kcell import cell as _cell
 
-from gdsfactory.component import Component
+if TYPE_CHECKING:
+    from gdsfactory.component import Component
 
 ComponentParams = ParamSpec("ComponentParams")
 

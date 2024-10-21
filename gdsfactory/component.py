@@ -5,7 +5,7 @@ from __future__ import annotations
 import pathlib
 import warnings
 from collections.abc import Callable, Iterable, Iterator
-from typing import TYPE_CHECKING, Any, Literal
+from typing import TYPE_CHECKING, Any, Literal, overload
 
 import kfactory as kf
 import klayout.db as db  # noqa: F401
@@ -14,6 +14,7 @@ import numpy as np
 import yaml
 from kfactory import Instance, kdb, logger
 from kfactory.kcell import PROPID, cell, save_layout_options
+from trimesh.scene.scene import Scene
 
 from gdsfactory.config import GDSDIR_TEMP
 from gdsfactory.functions import get_polygons, get_polygons_points
@@ -21,7 +22,11 @@ from gdsfactory.port import pprint_ports, select_ports, to_dict
 from gdsfactory.serialization import clean_value_json, convert_tuples_to_lists
 
 if TYPE_CHECKING:
+    import networkx as nx
+    from matplotlib.figure import Figure
+
     from gdsfactory.typings import (
+        ComponentSpec,
         CrossSection,
         CrossSectionSpec,
         Layer,
@@ -35,7 +40,7 @@ if TYPE_CHECKING:
 cell_without_validator = cell
 
 
-def ensure_tuple_of_tuples(points) -> tuple[tuple[float, float]]:
+def ensure_tuple_of_tuples(points: Any) -> tuple[tuple[float, float]]:
     # Convert a single NumPy array to a tuple of tuples
     if isinstance(points, np.ndarray):
         points = tuple(map(tuple, points.tolist()))
@@ -49,7 +54,7 @@ def ensure_tuple_of_tuples(points) -> tuple[tuple[float, float]]:
     return points
 
 
-def size(region: kdb.Region, offset: float, dbu=1e3) -> kdb.Region:
+def size(region: kdb.Region, offset: float, dbu: float = 1e3) -> kdb.Region:
     return region.dup().size(int(offset * dbu))
 
 
@@ -197,9 +202,9 @@ class ComponentReference(kf.Instance):
             "info is deprecated, use ref.cell.info instead",
             stacklevel=3,
         )
-        return self.cell.info
+        return self.cell.info.model_dump()
 
-    def connect(
+    def connect(  # type: ignore[override]
         self,
         port: str | kf.Port,
         other: Any | None = None,
@@ -210,7 +215,7 @@ class ComponentReference(kf.Instance):
         overlap: float | None = None,
         destination: kf.Port | None = None,
         preserve_orientation: bool | None = None,
-        **kwargs,
+        **kwargs: Any,
     ) -> ComponentReference:
         """Return ComponentReference where port connects to a destination.
 
@@ -308,11 +313,11 @@ class ComponentBase:
             if not self.bbox(self.kcl.layer(info)).empty()
         ]
 
-    def bbox_np(self) -> np.array:
+    def bbox_np(self) -> np.ndarray[tuple[int, int], np.dtype[np.float64]]:
         """Returns the bounding box of the Component as a numpy array."""
         return np.array([[self.dxmin, self.dymin], [self.dxmax, self.dymax]])
 
-    def add_port(  # type: ignore[override]
+    def add_port(
         self,
         name: str | None = None,
         port: kf.Port | None = None,
@@ -469,7 +474,11 @@ class ComponentBase:
     def add_polygon(
         self,
         points: (
-            np.ndarray | kdb.DPolygon | kdb.Polygon | kdb.Region | list[list[float]]
+            np.ndarray[Any, np.dtype[np.float64]]
+            | kdb.DPolygon
+            | kdb.Polygon
+            | kdb.Region
+            | list[list[float]]
         ),
         layer: LayerSpec,
     ) -> kdb.Shape:
@@ -481,7 +490,7 @@ class ComponentBase:
         """
         from gdsfactory.pdk import get_layer
 
-        layer = get_layer(layer)
+        _layer = get_layer(layer)
 
         if isinstance(points, tuple | list | np.ndarray):
             points = ensure_tuple_of_tuples(points)
@@ -495,7 +504,7 @@ class ComponentBase:
         else:
             polygon = kf.kdb.DPolygon(points)
 
-        return self.shapes(layer).insert(polygon)
+        return self.shapes(_layer).insert(polygon)
 
     def add_label(
         self,
@@ -561,11 +570,11 @@ class ComponentBase:
             inst.name = name
         return ComponentReference(inst)
 
-    def get_ports_list(self, **kwargs) -> list[kf.Port]:
+    def get_ports_list(self, **kwargs: Any) -> list[kf.Port]:
         """Returns list of ports.
 
         Args:
-            kwargs: keyword arguments to filter ports.
+            kwargs: Additional kwargs.
 
         Keyword Args:
             layer: select ports with GDS layer.
@@ -578,7 +587,7 @@ class ComponentBase:
             port_type: select ports with port_type (optical, electrical, vertical_te).
             clockwise: if True, sort ports clockwise, False: counter-clockwise.
         """
-        return select_ports(self.ports, **kwargs)
+        return select_ports(ports=self.ports, **kwargs)
 
     def add_route_info(
         self,
@@ -586,7 +595,7 @@ class ComponentBase:
         length: float,
         length_eff: float | None = None,
         taper: bool = False,
-        **kwargs,
+        **kwargs: Any,
     ) -> None:
         """Adds route information to a component.
 
@@ -823,7 +832,7 @@ class ComponentBase:
         gdsdir: PathType | None = None,
         save_options: kdb.SaveLayoutOptions | None = None,
         with_metadata: bool = True,
-        **kwargs,
+        **kwargs: Any,
     ) -> pathlib.Path:
         """Write component to GDS and returns gdspath.
 
@@ -939,7 +948,7 @@ class ComponentBase:
                     self.kcl[ci]._kdb_cell.copy(src_layer_index, dst_layer_index)
         return self
 
-    def pprint_ports(self, **kwargs) -> None:
+    def pprint_ports(self, **kwargs: Any) -> None:
         """Pretty prints ports.
 
         Args:
@@ -964,7 +973,7 @@ class ComponentBase:
         layer_views: LayerViews | None = None,
         layer_stack: LayerStack | None = None,
         exclude_layers: tuple[Layer, ...] | None = None,
-    ):
+    ) -> Scene:
         """Return Component 3D trimesh Scene.
 
         Args:
@@ -985,7 +994,7 @@ class ComponentBase:
             exclude_layers=exclude_layers,
         )
 
-    def get_netlist(self, recursive: bool = False, **kwargs) -> dict[str, Any]:
+    def get_netlist(self, recursive: bool = False, **kwargs: Any) -> dict[str, Any]:
         """Returns a netlist for circuit simulation.
 
         Args:
@@ -1020,8 +1029,8 @@ class ComponentBase:
         recursive: bool = False,
         with_labels: bool = True,
         font_weight: str = "normal",
-        **kwargs,
-    ):
+        **kwargs: Any,
+    ) -> nx.Graph:
         """Plots a netlist graph with networkx.
 
         Args:
@@ -1115,12 +1124,28 @@ class ComponentBase:
             d["ports"] = {port.name: to_dict(port) for port in self.ports}
         return clean_value_json(d)
 
+    @overload
+    def plot(
+        self,
+        show_labels: bool = False,
+        show_ruler: bool = True,
+        return_fig: Literal[True] = True,
+    ) -> Figure: ...
+
+    @overload
+    def plot(
+        self,
+        show_labels: bool = False,
+        show_ruler: bool = True,
+        return_fig: Literal[False] = False,
+    ) -> None: ...
+
     def plot(
         self,
         show_labels: bool = False,
         show_ruler: bool = True,
         return_fig: bool = False,
-    ):
+    ) -> Figure | None:
         """Plots the Component using klayout.
 
         Args:
@@ -1183,10 +1208,11 @@ class ComponentBase:
         plt.tight_layout(pad=0)  # Ensure no space is wasted
         if return_fig:
             return fig
+        return None
 
     # Deprecated methods
     @property
-    def named_references(self):
+    def named_references(self) -> list[ComponentReference]:
         """Returns a dictionary of named references."""
         warnings.warn("named_references is deprecated. Use insts instead")
         return self.insts
@@ -1197,7 +1223,7 @@ class ComponentBase:
         warnings.warn("references is deprecated. Use insts instead")
         return list(self.insts)
 
-    def ref(self, *args, **kwargs) -> kdb.DCellInstArray:
+    def ref(self, *args: Any, **kwargs: Any) -> kdb.DCellInstArray:
         """Returns a Component Instance."""
         raise ValueError("ref() is deprecated. Use add_ref() instead")
 
@@ -1222,7 +1248,7 @@ class Component(ComponentBase, kf.KCell):
         kcl: kf.KCLayout | None = None,
         kdb_cell: kdb.Cell | None = None,
         ports: kf.Ports | None = None,
-    ):
+    ) -> None:
         """Initializes a Component."""
         self.insts = ComponentReferences()
         super().__init__(name=name, kcl=kcl, kdb_cell=kdb_cell, ports=ports)
@@ -1233,7 +1259,7 @@ class Component(ComponentBase, kf.KCell):
 
 
 class ComponentAllAngle(ComponentBase, kf.VKCell):
-    def plot(self, **kwargs) -> None:
+    def plot(self, **kwargs: Any) -> None:
         """Plots the Component using klayout."""
         c = Component()
         if self.name is not None:
@@ -1243,7 +1269,9 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):
         c.plot(**kwargs)
 
 
-def container(component, function, **kwargs) -> Component:
+def container(
+    component: ComponentSpec, function: Callable[..., None], **kwargs: Any
+) -> Component:
     """Returns new component with a component reference.
 
     Args:
@@ -1263,9 +1291,9 @@ def container(component, function, **kwargs) -> Component:
 
 
 def component_with_function(
-    component,
+    component: ComponentSpec,
     function: Callable[..., None] | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> gf.Component:
     """Returns new component with a component reference.
 

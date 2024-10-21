@@ -14,7 +14,7 @@ def get_padding_points(
     bottom: float | None = None,
     right: float | None = None,
     left: float | None = None,
-) -> list[float]:
+) -> list[list[float]]:
     """Returns padding points for a component outline.
 
     Args:
