@@ -257,8 +257,29 @@ def _compare_bend_euler90():
     return c
 
 
+@gf.cell
+def bend_straight_bend(
+    bend="bend_euler", straight="straight", straight_length: float = 10, **kwargs
+) -> gf.Component:
+    c = gf.Component()
+    _bend = gf.get_component(bend, **kwargs)
+    _straight = gf.get_component(straight, length=straight_length, **kwargs)
+
+    b1 = c << _bend
+    s = c << _straight
+    b2 = c << _bend
+
+    s.connect("o1", b1.ports["o2"])
+    b2.connect("o2", s.ports["o2"])
+
+    c.add_port("o1", port=b1.ports["o1"])
+    c.add_port("o2", port=b2.ports["o1"])
+    return c
+
+
 if __name__ == "__main__":
     # c = bend_euler(cross_section="rib", angle=90, radius=5)
     # c = bend_euler(cross_section="rib", angle=90, radius=20, clockwise=True)
-    c = bend_euler(angle=-90)
+    # c = bend_euler(angle=-90)
+    c = bend_straight_bend()
     c.show()
