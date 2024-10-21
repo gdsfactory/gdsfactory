@@ -32,6 +32,7 @@ from typing import (
     Optional,
     ParamSpec,
     Tuple,
+    TypeAlias,
     Union,
 )
 
@@ -103,74 +104,74 @@ Axis = Literal["x", "y"]
 NSEW = Literal["N", "S", "E", "W"]
 
 
-Float2 = tuple[float, float]
-Float3 = tuple[float, float, float]
-Floats = tuple[float, ...]
-Strs = tuple[str, ...]
-Int2 = tuple[int, int]
-Int3 = tuple[int, int, int]
-Ints = tuple[int, ...]
+Float2: TypeAlias = tuple[float, float]
+Float3: TypeAlias = tuple[float, float, float]
+Floats: TypeAlias = tuple[float, ...]
+Strs: TypeAlias = tuple[str, ...]
+Int2: TypeAlias = tuple[int, int]
+Int3: TypeAlias = tuple[int, int, int]
+Ints: TypeAlias = tuple[int, ...]
 
-Layer = tuple[int, int]
-Layers = tuple[Layer, ...]
-LayerSpec = LayerEnum | str | tuple[int, int]
+Layer: TypeAlias = tuple[int, int]
+Layers: TypeAlias = tuple[Layer, ...]
+LayerSpec: TypeAlias = LayerEnum | str | tuple[int, int]
 
-LayerSpecs = list[LayerSpec] | tuple[LayerSpec, ...]
+LayerSpecs: TypeAlias = list[LayerSpec] | tuple[LayerSpec, ...]
 
 ComponentParams = ParamSpec("ComponentParams")
-ComponentFactory = Callable[..., Component]
-ComponentFactoryDict = dict[str, ComponentFactory]
-PathType = str | pathlib.Path
-PathTypes = tuple[PathType, ...]
-Metadata = dict[str, int | float | str]
-PostProcess = tuple[Callable[[Component], None], ...]
+ComponentFactory: TypeAlias = Callable[..., Component]
+ComponentFactoryDict: TypeAlias = dict[str, ComponentFactory]
+PathType: TypeAlias = str | pathlib.Path
+PathTypes: TypeAlias = tuple[PathType, ...]
+Metadata: TypeAlias = dict[str, int | float | str]
+PostProcess: TypeAlias = tuple[Callable[[Component], None], ...]
 
 
-MaterialSpec = str | float | tuple[float, float] | Callable
+MaterialSpec: TypeAlias = str | float | tuple[float, float] | Callable
 
-ComponentOrPath = PathType | Component
-ComponentOrReference = Component | ComponentReference
-NameToFunctionDict = dict[str, ComponentFactory]
-Number = float | int
-Coordinate = tuple[float, float]
-Coordinates = tuple[Coordinate, ...] | list[Coordinate]
-CrossSectionFactory = Callable[..., CrossSection]
-TransitionFactory = Callable[..., Transition]
-CrossSectionOrFactory = CrossSection | Callable[..., CrossSection]
-PortSymmetries = dict[str, list[str]]
-PortsDict = dict[str, Port]
-PortsList = dict[str, Port]
+ComponentOrPath: TypeAlias = PathType | Component
+ComponentOrReference: TypeAlias = Component | ComponentReference
+NameToFunctionDict: TypeAlias = dict[str, ComponentFactory]
+Number: TypeAlias = float | int
+Coordinate: TypeAlias = tuple[float, float]
+Coordinates: TypeAlias = tuple[Coordinate, ...] | list[Coordinate]
+CrossSectionFactory: TypeAlias = Callable[..., CrossSection]
+TransitionFactory: TypeAlias = Callable[..., Transition]
+CrossSectionOrFactory: TypeAlias = CrossSection | Callable[..., CrossSection]
+PortSymmetries: TypeAlias = dict[str, list[str]]
+PortsDict: TypeAlias = dict[str, Port]
+PortsList: TypeAlias = dict[str, Port]
 
-Sparameters = dict[str, np.ndarray]
+Sparameters: TypeAlias = dict[str, np.ndarray]
 
-ComponentSpec = (
+ComponentSpec: TypeAlias = (
     str | ComponentFactory | dict[str, Any] | kf.KCell
 )  # PCell function, function name, dict or Component
-ComponentSpecOrComponent = (
+ComponentSpecOrComponent: TypeAlias = (
     str | ComponentFactory | dict[str, Any] | kf.KCell | Component
 )  # PCell function, function name, dict or Component
 
-ComponentSpecs = tuple[ComponentSpec, ...]
-ComponentSpecsOrComponents = tuple[ComponentSpecOrComponent, ...]
-ComponentFactories = tuple[ComponentFactory, ...]
+ComponentSpecs: TypeAlias = tuple[ComponentSpec, ...]
+ComponentSpecsOrComponents: TypeAlias = tuple[ComponentSpecOrComponent, ...]
+ComponentFactories: TypeAlias = tuple[ComponentFactory, ...]
 
-ComponentSpecOrList = ComponentSpec | list[ComponentSpec]
-CellSpec = (
+ComponentSpecOrList: TypeAlias = ComponentSpec | list[ComponentSpec]
+CellSpec: TypeAlias = (
     str | ComponentFactory | dict[str, Any]
 )  # PCell function, function name or dict
 
-ComponentSpecDict = dict[str, ComponentSpec]
-CrossSectionSpec = (
+ComponentSpecDict: TypeAlias = dict[str, ComponentSpec]
+CrossSectionSpec: TypeAlias = (
     CrossSectionFactory | CrossSection | dict[str, Any] | str | Transition
 )
-CrossSectionSpecs = tuple[CrossSectionSpec, ...]
+CrossSectionSpecs: TypeAlias = tuple[CrossSectionSpec, ...]
 
-MultiCrossSectionAngleSpec = list[tuple[CrossSectionSpec, tuple[int, ...]]]
+MultiCrossSectionAngleSpec: TypeAlias = list[tuple[CrossSectionSpec, tuple[int, ...]]]
 
 
-ConductorConductorName = tuple[str, str]
-ConductorViaConductorName = tuple[str, str, str] | tuple[str, str]
-ConnectivitySpec = ConductorConductorName | ConductorViaConductorName
+ConductorConductorName: TypeAlias = tuple[str, str]
+ConductorViaConductorName: TypeAlias = tuple[str, str, str] | tuple[str, str]
+ConnectivitySpec: TypeAlias = ConductorConductorName | ConductorViaConductorName
 
 
 class TypedArray(np.ndarray):
@@ -190,7 +191,7 @@ class ArrayMeta(type):
         return type("Array", (TypedArray,), {"inner_type": t})
 
 
-class Array(np.ndarray, metaclass=ArrayMeta):
+class Array(np.ndarray[Any, np.dtype[Any]], metaclass=ArrayMeta):
     pass
 
 
