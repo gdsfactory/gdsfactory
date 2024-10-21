@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.14.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.14.3) - 2024-10-21
+
+No significant changes.
+
+
 ## [8.14.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.14.2) - 2024-10-18
 
 - fix yaml load [#3298](https://github.com/gdsfactory/gdsfactory/pull/3298)
