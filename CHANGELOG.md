@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.15.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.15.0) - 2024-10-22
+
+No significant changes.
+
+
 ## [8.14.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.14.3) - 2024-10-21
 
 - Update layer_views.py [#3299](https://github.com/gdsfactory/gdsfactory/pull/3299)
