@@ -633,7 +633,7 @@ def get_cross_section(
     return get_active_pdk().get_cross_section(cross_section, **kwargs)
 
 
-def get_layer(layer: LayerSpec) -> int:
+def get_layer(layer: LayerSpec) -> LayerEnum:
     return get_active_pdk().get_layer(layer)
 
 
