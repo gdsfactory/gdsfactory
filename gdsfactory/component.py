@@ -494,7 +494,7 @@ class ComponentBase:
                 f" and dwidth {dwidth}"
             )
 
-        self._ports.append(port)
+        self._ports._ports.append(port)
         return port
 
     def __getattribute__(self, __k: str) -> Any:
