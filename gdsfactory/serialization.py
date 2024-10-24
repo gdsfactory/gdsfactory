@@ -171,6 +171,11 @@ def clean_value_name(value: Any) -> str:
     return str(clean_value_json(value))
 
 
+def clean_variable_name(value: Any) -> str:
+    """Returns a string representation of an object."""
+    return str(clean_value_json(value)).replace(" ", "_")
+
+
 def get_hash(value: Any) -> str:
     return hashlib.md5((clean_value_name(value)).encode()).hexdigest()[:8]
 
