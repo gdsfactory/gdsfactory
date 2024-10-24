@@ -12,9 +12,8 @@ import klayout.db as db  # noqa: F401
 import klayout.lay as lay
 import numpy as np
 import yaml
-from kfactory import Instance, kdb, logger
-from kfactory.kcell import PROPID, cell, save_layout_options
-from trimesh.scene.scene import Scene
+from kfactory import Instance, kdb
+from kfactory.kcell import PROPID, CrossSectionSpec, cell, save_layout_options
 
 from gdsfactory.config import GDSDIR_TEMP
 from gdsfactory.functions import get_polygons, get_polygons_points
@@ -24,6 +23,7 @@ from gdsfactory.serialization import clean_value_json, convert_tuples_to_lists
 if TYPE_CHECKING:
     import networkx as nx
     from matplotlib.figure import Figure
+    from trimesh import Scene
 
     from gdsfactory.typings import (
         ComponentSpec,
@@ -111,7 +111,41 @@ _deprecated_attributes = {
 
 _deprecated_attributes_instance_settr = _deprecated_attributes - {"size_info"}
 _deprecated_attributes_component_gettr = _deprecated_attributes - {"move"}
-_deprecation_um = "in um is deprecated and will change to DataBaseUnits in gdsfactory9"
+
+
+class Port(kf.Port):
+    """Port with um properties instead of DBU."""
+
+    @property
+    def width(self) -> float:
+        """Width of the port. This corresponds to the width of the cross section."""
+        return self.kcl.to_um(self.cross_section.width)
+
+    def __getattribute__(self, __k: str) -> Any:
+        """Shadow dbu based attributes with um based ones."""
+        if __k == "_kfinst":
+            return object.__getattribute__(self, "_kfinst")
+        if __k in _deprecated_attributes:
+            match __k:
+                case "center":
+                    return super().dcenter
+                case "mirror":
+                    return super().dmirror
+                case "x":
+                    return super().dx
+                case "y":
+                    return super().dy
+        return super().__getattribute__(__k)
+
+    def __setattr__(self, __k: str, __v: Any) -> None:
+        """Set attribute with deprecation warning for dbu based attributes."""
+        if __k in _deprecated_attributes_instance_settr:
+            return super().__setattr__(f"d{__k}", __v)
+        super().__setattr__(__k, __v)
+
+    def print(self) -> None:
+        """Print the port pretty."""
+        pprint_ports([self])
 
 
 class ComponentReference(kf.Instance):
@@ -132,18 +166,6 @@ class ComponentReference(kf.Instance):
         if __k == "_kfinst":
             return object.__getattribute__(self, "_kfinst")
         if __k in _deprecated_attributes:
-            deprecation_message = (
-                f"Getting `{self._kfinst.name}.{__k}` {_deprecation_um}. "
-                f"Please use `{self._kfinst.name}.d{__k}` instead."
-            )
-
-            warnings.warn(deprecation_message, stacklevel=2)
-
-            logger.warning(
-                f"{deprecation_message} For further information, please consult the migration guide: "
-                "https://gdsfactory.github.io/gdsfactory/notebooks/21_migration_guide_7_8.html"
-            )
-
             match __k:
                 case "center":
                     return super().dcenter
@@ -180,16 +202,6 @@ class ComponentReference(kf.Instance):
     def __setattr__(self, __k: str, __v: Any) -> None:
         """Set attribute with deprecation warning for dbu based attributes."""
         if __k in _deprecated_attributes_instance_settr:
-            deprecation_message_set = (
-                f"Setting `{self._kfinst.name}.{__k}` {_deprecation_um}. "
-                f"Please use `{self._kfinst.name}.d{__k}` instead."
-            )
-
-            warnings.warn(deprecation_message_set, stacklevel=2)
-            logger.warning(
-                f"{deprecation_message_set} For further information, please consult the migration guide: "
-            )
-
             return super().__setattr__(f"d{__k}", __v)
         super().__setattr__(__k, __v)
 
@@ -381,26 +393,113 @@ class ComponentBase:
             y = float(center[1])
             trans = kdb.DCplxTrans(1, float(orientation), False, x, y)
 
-        return self.create_port(
+        return self._create_port(
             name=name,
-            dwidth=round(width / self.kcl.dbu) * self.kcl.dbu,
+            width=round(width / self.kcl.dbu) * self.kcl.dbu,
             layer=layer,
             port_type=port_type,
             dcplx_trans=trans,
         )
 
+    def _create_port(
+        self,
+        *,
+        name: str,
+        width: float,
+        layer: kf.LayerEnum | int | None = None,
+        layer_info: kdb.LayerInfo | None = None,
+        port_type: str = "optical",
+        trans: kdb.Trans | None = None,
+        dcplx_trans: kdb.DCplxTrans | None = None,
+        center: tuple[int, int] | None = None,
+        angle: Literal[0, 1, 2, 3] | None = None,
+        mirror_x: bool = False,
+        cross_section: kf.SymmetricalCrossSection | None = None,
+    ) -> Port:
+        """Create a new port in the list.
+
+        Args:
+            name: Optional name of port.
+            width: Width of the port in um. If `dcplx_trans` is set, this needs to be
+                as well.
+            layer: Layer index of the port.
+            layer_info: Layer definition of the port.
+            port_type: Type of the port (electrical, optical, etc.)
+            trans: Transformation object of the port. [dbu]
+            dcplx_trans: Complex transformation for the port.
+                Use if a non-90° port is necessary.
+            center: Tuple of the center. [dbu]
+            angle: Angle in 90° increments. Used for simple/dbu transformations.
+            mirror_x: Mirror the transformation of the port.
+            cross_section: Cross section of the port. If set, overwrites width and layer
+                (info).
+        """
+        if cross_section is None:
+            dwidth = width
+            if layer_info is None:
+                if layer is None:
+                    raise ValueError(
+                        "layer or layer_info must be defined to create a port."
+                    )
+                layer_info = self.kcl.get_info(layer)
+            dwidth = width
+            if dwidth <= 0:
+                raise ValueError("dwidth needs to be set and be >0")
+            _width = self.kcl.to_dbu(dwidth)
+            if _width % 2:
+                raise ValueError(
+                    f"dwidth needs to be even to snap to grid. Got {dwidth}."
+                    "Ports must have a grid width of multiples of 2."
+                )
+            cross_section = self.kcl.get_cross_section(
+                CrossSectionSpec(
+                    main_layer=layer_info,
+                    width=_width,
+                )
+            )
+        else:
+            cross_section = self.kcl.get_cross_section(
+                CrossSectionSpec(main_layer=layer_info, width=width)
+            )
+        if trans is not None:
+            port = Port(
+                name=name,
+                trans=trans,
+                cross_section=cross_section,
+                port_type=port_type,
+                kcl=self.kcl,
+            )
+        elif dcplx_trans is not None:
+            port = Port(
+                name=name,
+                dcplx_trans=dcplx_trans,
+                port_type=port_type,
+                cross_section=cross_section,
+                kcl=self.kcl,
+            )
+        elif angle is not None and center is not None:
+            port = Port(
+                name=name,
+                port_type=port_type,
+                cross_section=cross_section,
+                angle=angle,
+                center=center,
+                mirror_x=mirror_x,
+                kcl=self.kcl,
+            )
+        else:
+            raise ValueError(
+                f"You need to define width {width} and trans {trans} or angle {angle}"
+                f" and center {center} or dcplx_trans {dcplx_trans}"
+                f" and dwidth {dwidth}"
+            )
+
+        self._ports._ports.append(port)
+        return port
+
     def __getattribute__(self, __k: str) -> Any:
         """Shadow dbu based attributes with um based ones."""
         if __k in _deprecated_attributes_component_gettr:
-            logger.warning(
-                f"Getting `{self.name}.{__k}` {_deprecation_um}. "
-                f"Please use {self.name}.`d{__k}` instead. For further information, please "
-                "consult the migration guide "
-                "https://gdsfactory.github.io/gdsfactory/notebooks/"
-                "21_migration_guide_7_8.html",
-                # category=DeprecationWarning,
-                # stacklevel=3,
-            )
             return getattr(self, f"d{__k}")
         return super().__getattribute__(__k)
 
