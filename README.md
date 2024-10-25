@@ -58,6 +58,7 @@ Numerous foundries offer GDSFactory PDKs that are accessible under an NDA. To ga
 Coming soon:
 
 - Ligentec PDK
+- Lightium PDK
 
 There are also open source PDKs available without an NDA:
 
