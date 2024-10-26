@@ -1,12 +1,12 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.15.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.15.1...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.15.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.15.1) - 2024-10-26
 
-No significant changes.
-
+- install klive with git [#3315](https://github.com/gdsfactory/gdsfactory/pull/3315)
+- remove routing_warnings [#3314](https://github.com/gdsfactory/gdsfactory/pull/3314)
 
 ## [8.15.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.15.0) - 2024-10-22
 
