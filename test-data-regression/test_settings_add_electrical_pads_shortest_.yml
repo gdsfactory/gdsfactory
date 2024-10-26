@@ -1,47 +1,18 @@
-function: add_electrical_pads_shortest
-info: {}
-module: gdsfactory.routing.add_electrical_pads_shortest
-name: mzi_add_electrical_pads_shortest_componentmzi_669c248e
+info:
+  length: 200
+  route_info_length: 200
+  route_info_metal_routing_length: 200
+  route_info_type: metal_routing
+  route_info_weight: 200
+  width: 10
+name: add_electrical_pads_sho_823c7cb1
 settings:
-  component:
-    function: mzi
-    module: gdsfactory.components.mzi
-    settings:
-      add_electrical_ports_bot: true
-      add_optical_ports_arms: false
-      bend:
-        function: bend_euler
-      combiner:
-        function: mmi2x2
-      cross_section: strip
-      cross_section_x_bot: null
-      cross_section_x_top: null
-      delta_length: 10.0
-      extend_ports_straight_x: null
-      length_x: 100
-      length_y: 2.0
-      min_length: 0.01
-      mirror_bot: false
-      nbends: 2
-      port_e0_combiner: o4
-      port_e0_splitter: o4
-      port_e1_combiner: o3
-      port_e1_splitter: o3
-      splitter:
-        function: mmi2x2
-      straight:
-        function: straight
-      straight_x_bot: null
-      straight_x_top: straight_heater_metal
-      straight_y: null
-      with_splitter: true
+  component: Fstraight_Mgdsfactorypcomponentspstraight_SCSmetal_routing_L200
   layer: M3
   pad: pad
-  pad_port_spacing: 50.0
-  port_names: null
+  pad_port_spacing: 50
+  pad_size:
+  - 100
+  - 100
   port_orientation: 90
-  select_ports:
-    function: select_ports
-    module: gdsfactory.port
-    settings:
-      port_type: electrical
+  select_ports: Fselect_ports_Mgdsfactorypport_SPTelectrical

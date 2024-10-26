@@ -1,0 +1,59 @@
+instances:
+  pad_array_Ppad_S150_150_b7790e28_25000_155000:
+    component: pad_array
+    info: {}
+    settings:
+      centered_ports: false
+      columns: 2
+      layer: MTOP
+      orientation: null
+      pad: pad
+      port_orientation: 270
+      rows: 1
+      size:
+      - 100
+      - 100
+      spacing:
+      - 150
+      - 150
+  straight_L200_N2_CSmetal_routing_0_0:
+    component: straight
+    info:
+      length: 200
+      route_info_length: 200
+      route_info_metal_routing_length: 200
+      route_info_type: metal_routing
+      route_info_weight: 200
+      width: 10
+    settings:
+      cross_section: metal_routing
+      length: 200
+      npoints: 2
+name: Unnamed_1943
+nets: []
+placements:
+  pad_array_Ppad_S150_150_b7790e28_25000_155000:
+    mirror: false
+    rotation: 0
+    x: 25
+    y: 155
+  straight_L200_N2_CSmetal_routing_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+ports:
+  e1: pad_array_Ppad_S150_150_b7790e28_25000_155000,e12
+  e2: pad_array_Ppad_S150_150_b7790e28_25000_155000,e11
+warnings:
+  electrical:
+    unconnected_ports:
+    - message: 2 unconnected electrical ports!
+      ports:
+      - straight_L200_N2_CSmetal_routing_0_0,e1
+      - straight_L200_N2_CSmetal_routing_0_0,e2
+      values:
+      - - 0
+        - 0
+      - - 200000
+        - 0
