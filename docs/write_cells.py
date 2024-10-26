@@ -3,9 +3,13 @@ import inspect
 
 import gdsfactory as gf
 from gdsfactory.config import PATH
+from gdsfactory.get_factories import get_cells
 from gdsfactory.serialization import clean_value_json
 
 filepath = PATH.repo / "docs" / "components.rst"
+
+
+cells = get_cells([gf.components])
 
 skip = {
     "grating_coupler_elliptical_te",
@@ -58,13 +62,13 @@ By doing so, you'll possess a versatile, retargetable PDK, empowering you to des
 """
     )
 
-    for name in sorted(gf.components.cells.keys()):
+    for name in sorted(cells.keys()):
         # Skip if the name is in the skip list or starts with "_"
         if name in skip or name.startswith("_"):
             continue
 
         # Get the cell function or object
-        cell = gf.components.cells[name]
+        cell = cells[name]
 
         # Skip if it's an instance of functools.partial
         if skip_partials and isinstance(cell, functools.partial):
