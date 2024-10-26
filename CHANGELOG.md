@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.15.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.15.1) - 2024-10-26
+
+No significant changes.
+
+
 ## [8.15.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.15.0) - 2024-10-22
 
 - Fix `Component.get_labels` returns texts in wrong locations [#3308](https://github.com/gdsfactory/gdsfactory/pull/3308)
