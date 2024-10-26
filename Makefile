@@ -26,10 +26,13 @@ test-data-gds:
 	git clone git@github.com:gdsfactory/gdsfactory-test-data.git -b test_klayout test-data-gds
 
 test: test-data-gds
-	uv run pytest -s
+	pytest -s
 
 test-force:
-	uv run pytest --force-regen -s
+	run pytest --force-regen -s
+
+uv-test: test-data-gds
+	uv run pytest -s
 
 cov:
 	uv run pytest --cov=gdsfactory

@@ -112,36 +112,25 @@ def route_single(
             raise ValueError(
                 f"Either {cross_section=} or {layer=} and route_width must be provided"
             )
-        else:
+        elif layer is not None or route_width is not None or radius is not None:
             cross_section = gf.cross_section.cross_section(
                 layer=layer, width=route_width
             )
 
     port_type = port_type or p1.port_type
-    if route_width:
-        xs = gf.get_cross_section(cross_section, width=route_width)
-    else:
-        xs = gf.get_cross_section(cross_section)
+    xs = gf.get_cross_section(cross_section)
     width = route_width or xs.width
     radius = radius or xs.radius
-    width_dbu = width / component.kcl.dbu
 
-    bend90 = gf.get_component(
-        bend, cross_section=cross_section, radius=radius, width=width
-    )
+    bend90 = gf.get_component(bend, cross_section=cross_section, radius=radius)
     if auto_taper:
         p1 = add_auto_tapers(component, [p1], cross_section)[0]
         p2 = add_auto_tapers(component, [p2], cross_section)[0]
 
-    def straight_dbu(
-        length: int,
-        width: int = width_dbu,
-        cross_section=cross_section,
-    ) -> Component:
+    def straight_dbu(length: int, cross_section=cross_section, **kwargs) -> Component:
         return gf.get_component(
             straight,
             length=length * component.kcl.dbu,
-            width=width * component.kcl.dbu,
             cross_section=cross_section,
         )
 
@@ -356,34 +345,45 @@ if __name__ == "__main__":
     # p1 = bot.ports["e1"]
     # r = gf.routing.route_single(c, p0, p1, cross_section="metal_routing")
     # c.show()
-    import gdsfactory as gf
+    # import gdsfactory as gf
 
-    c = gf.Component("route_single_from_steps_sample")
-    w = gf.components.straight()
-    left = c << w
-    right = c << w
-    right.dmove((500, 80))
+    # c = gf.Component("route_single_from_steps_sample")
+    # w = gf.components.straight()
+    # left = c << w
+    # right = c << w
+    # right.dmove((500, 80))
 
-    obstacle = gf.components.rectangle(size=(100, 10), port_type=None)
-    obstacle1 = c << obstacle
-    obstacle2 = c << obstacle
-    obstacle1.dymin = 40
-    obstacle2.dxmin = 25
+    # obstacle = gf.components.rectangle(size=(100, 10), port_type=None)
+    # obstacle1 = c << obstacle
+    # obstacle2 = c << obstacle
+    # obstacle1.dymin = 40
+    # obstacle2.dxmin = 25
 
-    p1 = left.ports["o2"]
-    p2 = right.ports["o2"]
-    route_single(
+    # p1 = left.ports["o2"]
+    # p2 = right.ports["o2"]
+    # route_single(
+    #     c,
+    #     port1=p1,
+    #     port2=p2,
+    #     # steps=[
+    #     #     {"x": 20},
+    #     #     {"y": 20},
+    #     #     {"x": 120},
+    #     #     {"y": 80},
+    #     # ],
+    #     cross_section="strip",
+    #     # layer=(2, 0),
+    #     route_width=0.9,
+    # )
+
+    c = gf.Component()
+    mmi1 = c << gf.components.mmi1x2()
+    mmi2 = c << gf.components.mmi1x2()
+    mmi2.dmove((100, 50))
+    route = gf.routing.route_single(
         c,
-        port1=p1,
-        port2=p2,
-        # steps=[
-        #     {"x": 20},
-        #     {"y": 20},
-        #     {"x": 120},
-        #     {"y": 80},
-        # ],
-        cross_section="strip",
-        # layer=(2, 0),
-        route_width=0.9,
+        port1=mmi1.ports["o2"],
+        port2=mmi2.ports["o1"],
+        cross_section="rib",  # layer=(1, 0), route_width=2
     )
     c.show()
