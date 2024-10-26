@@ -44,21 +44,21 @@ LAYER_CONNECTIVITY = [
 @cache
 def get_generic_pdk() -> Pdk:
     import gdsfactory as gf
-    from gdsfactory.components import cells
     from gdsfactory.config import PATH
     from gdsfactory.cross_section import cross_sections
-    from gdsfactory.generic_tech.containers import containers
+    from gdsfactory.generic_tech import containers
     from gdsfactory.generic_tech.simulation_settings import materials_index
+    from gdsfactory.get_factories import get_cells
     from gdsfactory.pdk import Pdk, constants
 
     LAYER_VIEWS = LayerViews(filepath=PATH.klayout_yaml)
 
-    cells = cells.copy()
-    cells.update(containers)
+    cells = get_cells([containers, gf.components])
 
     layer_transitions = {
         LAYER.WG: partial(gf.c.taper, cross_section="strip", length=10),
         (LAYER.WG, LAYER.WGN): "taper_sc_nc",
+        (LAYER.WGN, LAYER.WG): "taper_nc_sc",
         LAYER.M3: "taper_electrical",
     }
 
