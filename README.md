@@ -24,7 +24,7 @@ As input you write python code, as an output GDSFactory creates CAD files (GDS, 
 Highlights:
 
 - +2M downloads
-- +65 Contributors
+- +70 Contributors
 - +15 PDKs available
 
 ![workflow](https://i.imgur.com/KyavbHh.png)
