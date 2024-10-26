@@ -376,14 +376,27 @@ if __name__ == "__main__":
     #     route_width=0.9,
     # )
 
+    # c = gf.Component()
+    # mmi1 = c << gf.components.mmi1x2()
+    # mmi2 = c << gf.components.mmi1x2()
+    # mmi2.dmove((100, 50))
+    # route = gf.routing.route_single(
+    #     c,
+    #     port1=mmi1.ports["o2"],
+    #     port2=mmi2.ports["o1"],
+    #     cross_section="rib",  # layer=(1, 0), route_width=2
+    # )
+    # c.show()
+
     c = gf.Component()
-    mmi1 = c << gf.components.mmi1x2()
-    mmi2 = c << gf.components.mmi1x2()
-    mmi2.dmove((100, 50))
+    s1 = c << gf.components.straight()
+    s2 = c << gf.components.straight(width=2)
+    s2.dmove((100, 50))
     route = gf.routing.route_single(
         c,
-        port1=mmi1.ports["o2"],
-        port2=mmi2.ports["o1"],
-        cross_section="rib",  # layer=(1, 0), route_width=2
+        port1=s1.ports["o2"],
+        port2=s2.ports["o1"],
+        cross_section="strip",
+        auto_taper=True,
     )
     c.show()

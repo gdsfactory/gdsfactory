@@ -1072,7 +1072,7 @@ Documentation
 - Fix cs and transitions [#2158](https://github.com/gdsfactory/gdsfactory/pull/2158)
 - add via_stack_heater_m2 [#2178](https://github.com/gdsfactory/gdsfactory/pull/2178)
 - Fix lvs demo [#2175](https://github.com/gdsfactory/gdsfactory/pull/2175)
-- warn_connect_with_width_layer_or_type_missmatch [#2176](https://github.com/gdsfactory/gdsfactory/pull/2176)
+- warn_connect_with_width_layer_or_type_mismatch [#2176](https://github.com/gdsfactory/gdsfactory/pull/2176)
 - more representative implants generic_process [#2177](https://github.com/gdsfactory/gdsfactory/pull/2177)
 - remove enforce_port_ordering arg from get_bundle_from_waypoint params [#2174](https://github.com/gdsfactory/gdsfactory/pull/2174)
 - fixes difftest to use XOR instead of NOT [#2172](https://github.com/gdsfactory/gdsfactory/pull/2172)
