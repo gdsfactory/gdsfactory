@@ -1,5 +1,32 @@
 instances:
-  via_S0p7_0p7_S2_2_GNone_3d643c37_m3000_m3000:
+  via_S0p7_0p7_S2_2_GNone_8696e860_m4000_m4000:
+    component: via
+    dax: 2
+    day: 0
+    dbx: 0
+    dby: 2
+    info:
+      enclosure: 1
+      xsize: 0.7
+      xspacing: 2
+      ysize: 0.7
+      yspacing: 2
+    na: 5
+    nb: 5
+    settings:
+      bbox_layers: null
+      bbox_offset: 0
+      bbox_offsets: null
+      enclosure: 1
+      gap: null
+      layer: VIAC
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+  via_S0p7_0p7_S2_2_GNone_bcb63a01_m3000_m3000:
     component: via
     dax: 2
     day: 0
@@ -16,6 +43,7 @@ instances:
     settings:
       bbox_layers: null
       bbox_offset: 0
+      bbox_offsets: null
       enclosure: 2
       gap: null
       layer: VIA1
@@ -25,7 +53,7 @@ instances:
       spacing:
       - 2
       - 2
-  via_S0p7_0p7_S2_2_GNone_6d4c344f_m4000_m4000:
+  via_S0p7_0p7_S2_2_GNone_c1ab00a8_m4000_m4000:
     component: via
     dax: 2
     day: 0
@@ -42,32 +70,7 @@ instances:
     settings:
       bbox_layers: null
       bbox_offset: 0
-      enclosure: 1
-      gap: null
-      layer: VIAC
-      size:
-      - 0.7
-      - 0.7
-      spacing:
-      - 2
-      - 2
-  via_S0p7_0p7_S2_2_GNone_c4f19208_m4000_m4000:
-    component: via
-    dax: 2
-    day: 0
-    dbx: 0
-    dby: 2
-    info:
-      enclosure: 1
-      xsize: 0.7
-      xspacing: 2
-      ysize: 0.7
-      yspacing: 2
-    na: 5
-    nb: 5
-    settings:
-      bbox_layers: null
-      bbox_offset: 0
+      bbox_offsets: null
       enclosure: 1
       gap: null
       layer: VIA2
@@ -80,17 +83,17 @@ instances:
 name: via_stack_S11_11_LSLAB9_d3decdcf
 nets: []
 placements:
-  via_S0p7_0p7_S2_2_GNone_3d643c37_m3000_m3000:
-    mirror: false
-    rotation: 0
-    x: -3
-    y: -3
-  via_S0p7_0p7_S2_2_GNone_6d4c344f_m4000_m4000:
+  via_S0p7_0p7_S2_2_GNone_8696e860_m4000_m4000:
     mirror: false
     rotation: 0
     x: -4
     y: -4
-  via_S0p7_0p7_S2_2_GNone_c4f19208_m4000_m4000:
+  via_S0p7_0p7_S2_2_GNone_bcb63a01_m3000_m3000:
+    mirror: false
+    rotation: 0
+    x: -3
+    y: -3
+  via_S0p7_0p7_S2_2_GNone_c1ab00a8_m4000_m4000:
     mirror: false
     rotation: 0
     x: -4
