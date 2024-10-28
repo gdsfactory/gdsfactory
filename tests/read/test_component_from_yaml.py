@@ -157,7 +157,6 @@ routes:
 
 def test_connections_different_factory() -> None:
     c = from_yaml(sample_different_factory)
-    c.show()
     lengths = [914043, 947026, 947026]
     assert c.routes["electrical-tl,e3-tr,e1"].length == lengths[0], c.routes[
         "electrical-tl,e3-tr,e1"
