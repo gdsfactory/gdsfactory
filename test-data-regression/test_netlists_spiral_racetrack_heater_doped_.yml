@@ -1,9 +1,10 @@
 instances:
-  spiral_racetrack_MR10_S_80da8713_0_0:
+  spiral_racetrack_MR10_S_2cd856ae_0_0:
     component: spiral_racetrack
     info:
       length: 1402.314
     settings:
+      allow_min_radius_violation: true
       bend_factory: bend_euler
       bend_s_factory: bend_s
       cross_section: strip
@@ -52,7 +53,7 @@ instances:
 name: spiral_racetrack_heater_b997422e
 nets: []
 placements:
-  spiral_racetrack_MR10_S_80da8713_0_0:
+  spiral_racetrack_MR10_S_2cd856ae_0_0:
     mirror: false
     rotation: 0
     x: 0
@@ -70,7 +71,7 @@ placements:
 ports:
   bot_e1: straight_L30_N2_CSnpp_0_12000,e1
   bot_e2: straight_L30_N2_CSnpp_0_12000,e2
-  o1: spiral_racetrack_MR10_S_80da8713_0_0,o1
-  o2: spiral_racetrack_MR10_S_80da8713_0_0,o2
+  o1: spiral_racetrack_MR10_S_2cd856ae_0_0,o1
+  o2: spiral_racetrack_MR10_S_2cd856ae_0_0,o2
   top_e1: straight_L30_N2_CSnpp_30000_m30000,e1
   top_e2: straight_L30_N2_CSnpp_30000_m30000,e2
