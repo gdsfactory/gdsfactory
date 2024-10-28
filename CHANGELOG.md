@@ -1,12 +1,11 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.15.2...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.15.3...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.15.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.15.3) - 2024-10-28
 
-No significant changes.
-
+- fix via_bbox_offsets [#3322](https://github.com/gdsfactory/gdsfactory/pull/3322)
 
 ## [8.15.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.15.2) - 2024-10-28
 
