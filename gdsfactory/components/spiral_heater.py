@@ -24,6 +24,7 @@ def spiral_racetrack(
     n_bend_points: int = 99,
     with_inner_ports: bool = False,
     extra_90_deg_bend: bool = False,
+    allow_min_radius_violation: bool = True,
 ) -> Component:
     """Returns Racetrack-Spiral.
 
@@ -38,8 +39,8 @@ def spiral_racetrack(
         cross_section_s: cross-section of the s bend waveguide (optional).
         n_bend_points: optional bend points.
         with_inner_ports: if True, will build the spiral, but expose the inner ports where the S-bend would be.
-        extra_90_deg_bend: if True, we add an additional straight + 90 degree bent at the output, so the
-            output port is looking down.
+        extra_90_deg_bend: if True, we add an additional straight + 90 degree bent at the output, so the output port is looking down.
+        allow_min_radius_violation: if True, will allow the s-bend to have a smaller radius than the minimum radius.
     """
     c = gf.Component()
 
@@ -69,6 +70,7 @@ def spiral_racetrack(
             size=(straight_length, -min_radius * 2 + 1 * spacings[0]),
             cross_section=cross_section_s or cross_section,
             npoints=n_bend_points,
+            allow_min_radius_violation=allow_min_radius_violation,
         )
         bend_s = c << _bend_s
         c.info["length"] = _bend_s.info["length"]
@@ -216,6 +218,7 @@ def spiral_racetrack_fixed_length(
         straight=straight,
         bend=bend_factory,
         cross_section=xs_s_bend,
+        radius=min_radius,
     )
 
     c.add_port(
@@ -308,6 +311,7 @@ def _req_straight_len(
             straight=straight,
             bend=bend_factory,
             cross_section=cross_section_s_bend,
+            radius=min_radius,
         )
         c.info["length"] += route.length * c.kcl.dbu
         lens.append(c.info["length"])
@@ -509,7 +513,8 @@ if __name__ == "__main__":
 
     # c = spiral_racetrack(cross_section="rib")
     # c = spiral_racetrack()
-    c = spiral_racetrack()
+    # c = spiral_racetrack()
+    c = spiral_racetrack_fixed_length()
     # c = spiral_racetrack_heater_metal()
     # c = spiral_racetrack_heater_doped()
     c.show()
