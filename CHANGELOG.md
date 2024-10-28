@@ -1,12 +1,14 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.15.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.15.2...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.15.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.15.2) - 2024-10-28
 
-No significant changes.
-
+- enforce min_radius to output bend in spiral racetrack [#3319](https://github.com/gdsfactory/gdsfactory/pull/3319)
+- allow multiple connections in get_netlist [#3321](https://github.com/gdsfactory/gdsfactory/pull/3321)
+- [pre-commit.ci] pre-commit autoupdate [#3320](https://github.com/gdsfactory/gdsfactory/pull/3320)
+- More consistent cutback parameters [#3318](https://github.com/gdsfactory/gdsfactory/pull/3318)
 
 ## [8.15.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.15.1) - 2024-10-26
 
