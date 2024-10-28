@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.15.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.15.3) - 2024-10-28
+
+No significant changes.
+
+
 ## [8.15.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.15.2) - 2024-10-28
 
 - enforce min_radius to output bend in spiral racetrack [#3319](https://github.com/gdsfactory/gdsfactory/pull/3319)
