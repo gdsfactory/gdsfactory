@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.15.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.15.2) - 2024-10-28
+
+No significant changes.
+
+
 ## [8.15.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.15.1) - 2024-10-26
 
 - install klive with git [#3315](https://github.com/gdsfactory/gdsfactory/pull/3315)
