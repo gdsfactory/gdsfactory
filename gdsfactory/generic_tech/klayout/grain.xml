@@ -23,7 +23,7 @@ GDSFactory is a powerful Python library for designing a wide range of complex sy
   <version>0.3.3</version>
  </depends>
  <depends>
-  <name>metainfo-ports/klayout</name>
+  <name>metainfo-ports</name>
   <url/>
   <version>0.1.1</version>
  </depends>
