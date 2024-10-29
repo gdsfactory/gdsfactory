@@ -87,7 +87,7 @@ def triangle2(spacing: float = 3, **kwargs):
 
 
 @cell
-def triangle4(**kwargs):
+def triangle4(**kwargs) -> Component:
     r"""Return 4 triangles.
 
     Args:

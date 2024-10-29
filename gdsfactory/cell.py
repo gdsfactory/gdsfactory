@@ -70,7 +70,7 @@ def cell(
     """Decorator to convert a function into a Component."""
     if post_process is None:
         post_process = []
-    return _cell(  # type: ignore
+    c = _cell(  # type: ignore
         _func,
         set_settings=set_settings,
         set_name=set_name,
@@ -87,3 +87,5 @@ def cell(
         info=info,
         post_process=post_process,
     )
+    c.is_gf_cell = True
+    return c
