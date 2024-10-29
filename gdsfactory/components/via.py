@@ -14,8 +14,9 @@ def via(
     gap: tuple[float, float] | None = None,
     enclosure: float = 1.0,
     layer: LayerSpec = "VIAC",
-    bbox_layers: tuple[tuple[int, int], ...] | None = None,
+    bbox_layers: tuple[LayerSpec, ...] | None = None,
     bbox_offset: float = 0,
+    bbox_offsets: tuple[float, ...] | None = None,
 ) -> Component:
     """Rectangular via.
 
@@ -29,6 +30,7 @@ def via(
         layer: via layer.
         bbox_layers: layers for the bounding box.
         bbox_offset: in um.
+        bbox_offsets: List of offsets for each bbox_layer.
 
     .. code::
 
@@ -65,9 +67,16 @@ def via(
     c.add_polygon([(-a, -b), (a, -b), (a, b), (-a, b)], layer=layer)
 
     bbox_layers = bbox_layers or []
-    a = (width + bbox_offset) / 2
-    b = (height + bbox_offset) / 2
-    for layer in bbox_layers:
+    bbox_offsets = bbox_offsets or [bbox_offset] * len(bbox_layers)
+
+    if len(bbox_offsets) != len(bbox_layers):
+        raise ValueError(
+            f"bbox_offsets {bbox_offsets=} should have the same length as bbox_layers {bbox_layers=}"
+        )
+
+    for layer, bbox_offset in zip(bbox_layers, bbox_offsets):
+        a = (width + 2 * bbox_offset) / 2
+        b = (height + 2 * bbox_offset) / 2
         c.add_polygon([(-a, -b), (a, -b), (a, b), (-a, b)], layer=layer)
 
     return c

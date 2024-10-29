@@ -77,7 +77,7 @@ instances:
       size:
       - 6.4
       - 2.7
-  via_S0p7_0p7_S2_2_GNone_3d643c37_4050_350:
+  via_S0p7_0p7_S2_2_GNone_bcb63a01_4050_350:
     component: via
     dax: 3.7
     day: 0
@@ -94,6 +94,7 @@ instances:
     settings:
       bbox_layers: null
       bbox_offset: 0
+      bbox_offsets: null
       enclosure: 2
       gap: null
       layer: VIA1
@@ -176,7 +177,7 @@ placements:
     rotation: 0
     x: 2.2
     y: 0.35
-  via_S0p7_0p7_S2_2_GNone_3d643c37_4050_350:
+  via_S0p7_0p7_S2_2_GNone_bcb63a01_4050_350:
     mirror: false
     rotation: 0
     x: 4.05

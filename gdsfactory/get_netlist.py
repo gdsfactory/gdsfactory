@@ -133,7 +133,7 @@ def get_netlist(
         "edge_coupler",
     ),
     get_instance_name: Callable[..., str] = get_instance_name_from_alias,
-    allow_multiple: bool = False,
+    allow_multiple: bool = True,
     connection_error_types: dict[str, list[str]] | None = None,
 ) -> dict[str, Any]:
     """From Component returns a dict with instances, connections and placements.
@@ -292,7 +292,7 @@ def extract_connections(
     ports: dict[str, Port],
     port_type: str,
     validators: dict[str, Callable] | None = None,
-    allow_multiple: bool = False,
+    allow_multiple: bool = True,
     connection_error_types: dict[str, list[str]] | None = None,
 ):
     if validators is None:
@@ -315,7 +315,7 @@ def _extract_connections(
     port_type: str,
     connection_validator: Callable,
     raise_error_for_warnings: list[str] | None = None,
-    allow_multiple: bool = False,
+    allow_multiple: bool = True,
     connection_error_types: dict[str, list[str]] | None = None,
 ):
     """Extracts connections between ports.

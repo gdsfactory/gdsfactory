@@ -97,7 +97,7 @@ def test_get_netlist_cell_array_connecting() -> None:
     with pytest.warns(UserWarning):
         # because the component-array has automatic external ports, we assume no internal self-connections
         # we expect a ValueError to be thrown where the serendipitous connections are
-        c.get_netlist()
+        c.get_netlist(allow_multiple=False)
 
 
 def test_get_netlist_simple() -> None:

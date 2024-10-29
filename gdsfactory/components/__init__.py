@@ -1,11 +1,9 @@
-"""Each component factory component returns a component.
+"""Each Parametric cell returns a component.
 
 Make sure your components get imported here so the PDK registers them.
 """
 
 from __future__ import annotations
-
-import sys
 
 from gdsfactory.components.add_fiber_array_optical_south_electrical_north import (
     add_fiber_array_optical_south_electrical_north,
@@ -302,7 +300,6 @@ from gdsfactory.components.via_stack import (
 from gdsfactory.components.via_stack_with_offset import via_stack_with_offset
 from gdsfactory.components.wafer import wafer
 from gdsfactory.components.wire import wire_corner, wire_corner45, wire_straight
-from gdsfactory.get_factories import get_cells
 
 __all__ = [
     "awg",
@@ -571,5 +568,3 @@ __all__ = [
     "hexagon",
     "octagon",
 ]
-
-cells = get_cells(sys.modules[__name__])

@@ -1,4 +1,4 @@
-# GDSFactory 8.14.2
+# GDSFactory 8.15.3
 
 [![docs](https://github.com/gdsfactory/gdsfactory/actions/workflows/pages.yml/badge.svg)](https://gdsfactory.github.io/gdsfactory/)
 [![PyPI](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
@@ -24,7 +24,7 @@ As input you write python code, as an output GDSFactory creates CAD files (GDS, 
 Highlights:
 
 - +2M downloads
-- +65 Contributors
+- +70 Contributors
 - +15 PDKs available
 
 ![workflow](https://i.imgur.com/KyavbHh.png)
@@ -58,6 +58,7 @@ Numerous foundries offer GDSFactory PDKs that are accessible under an NDA. To ga
 Coming soon:
 
 - Ligentec PDK
+- Lightium PDK
 
 There are also open source PDKs available without an NDA:
 

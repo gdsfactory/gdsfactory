@@ -833,23 +833,18 @@ class ComponentBase:
         """
         from gdsfactory import get_layer
 
-        labels = []
-
-        layer = get_layer(layer)
+        layer_enum = get_layer(layer)
 
         if recursive:
-            iterator = self.begin_shapes_rec(layer)
-
-            while not (iterator.at_end()):
-                shape = iterator.shape()
-                iterator.next()
-                if shape.is_text():
-                    labels.append(shape.dtext.transformed(iterator.dtrans()))
+            return [
+                shape.dtext.transformed(iterator.dtrans())
+                for iterator in self.begin_shapes_rec(layer_enum)
+                if (shape := iterator.shape()).is_text()
+            ]
         else:
-            labels.extend(
-                shape.dtext for shape in self.shapes(layer).each(kdb.Shapes.STexts)
-            )
-        return labels
+            return [
+                shape.dtext for shape in self.shapes(layer_enum).each(kdb.Shapes.STexts)
+            ]
 
     def get_paths(self, layer: LayerSpec, recursive: bool = True) -> list[kf.kdb.DPath]:
         """Returns a list of paths.
