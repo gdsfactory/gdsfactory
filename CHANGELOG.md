@@ -1,12 +1,12 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.15.3...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.16.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.16.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.16.0) - 2024-10-28
 
-No significant changes.
-
+- remove deprecation warnings [#3304](https://github.com/gdsfactory/gdsfactory/pull/3304)
+- fix difftest [#3323](https://github.com/gdsfactory/gdsfactory/pull/3323)
 
 ## [8.15.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.15.3) - 2024-10-28
 
