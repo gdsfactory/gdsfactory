@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.16.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.16.0) - 2024-10-28
+
+No significant changes.
+
+
 ## [8.15.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.15.3) - 2024-10-28
 
 - fix via_bbox_offsets [#3322](https://github.com/gdsfactory/gdsfactory/pull/3322)
