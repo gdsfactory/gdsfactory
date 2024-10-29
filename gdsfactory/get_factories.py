@@ -5,8 +5,6 @@ from collections.abc import Iterable
 from functools import partial
 from inspect import getmembers, isfunction, signature
 
-from kfactory import logger
-
 from gdsfactory.typings import Any, Callable, Component
 
 
