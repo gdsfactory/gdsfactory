@@ -1036,7 +1036,7 @@ class LayerViews(BaseModel):
         filepath = pathlib.Path(filepath)
 
         if not os.path.exists(filepath):
-            raise OSError("File not found!")
+            raise OSError(f"File {str(filepath)!r} does not exist, cannot read.")
 
         tree = ET.parse(filepath)
         root = tree.getroot()

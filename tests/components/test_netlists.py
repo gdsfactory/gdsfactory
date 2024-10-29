@@ -5,7 +5,9 @@ import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
-from gdsfactory.components import cells
+from gdsfactory.get_factories import get_cells
+
+cells = get_cells([gf.components])
 
 skip_test = {
     "add_fiber_array_optical_south_electrical_north",

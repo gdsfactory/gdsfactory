@@ -3,10 +3,13 @@ from __future__ import annotations
 import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
-from gdsfactory.components import cells
+import gdsfactory as gf
 from gdsfactory.config import PATH
 from gdsfactory.difftest import difftest
+from gdsfactory.get_factories import get_cells
 from gdsfactory.serialization import clean_value_json
+
+cells = get_cells([gf.components])
 
 skip_test = {
     "version_stamp",

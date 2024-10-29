@@ -8,9 +8,19 @@ import pathlib
 import shutil
 import sys
 
+from git import Repo
+
 from gdsfactory.config import PATH
 
 home = pathlib.Path.home()
+
+
+def clone_repository(repo_url, clone_dir) -> None:
+    try:
+        Repo.clone_from(repo_url, clone_dir)
+        print(f"Repository cloned to {clone_dir}")
+    except Exception as e:
+        print("Error cloning repository:", e)
 
 
 def remove_path_or_dir(dest: pathlib.Path) -> None:
@@ -132,11 +142,24 @@ def install_klayout_package() -> None:
     Equivalent to using KLayout package manager.
     """
     cwd = pathlib.Path(__file__).resolve().parent
+
+    # install layermap
     _install_to_klayout(
         src=cwd / "generic_tech" / "klayout",
         klayout_subdir_name="salt",
         package_name="gdsfactory",
     )
+
+    klayout_folder = "KLayout" if sys.platform == "win32" else ".klayout"
+    subdir = home / klayout_folder / "salt"
+
+    # install metainfo-ports
+    clone_repository(
+        "git@github.com:gdsfactory/metainfo-ports.git", subdir / "metainfo-ports"
+    )
+
+    # install klive
+    clone_repository("git@github.com:gdsfactory/klive.git", subdir / "klive")
 
 
 def install_klayout_technology(
@@ -172,5 +195,5 @@ if __name__ == "__main__":
 
     # write_git_attributes()
     # install_gdsdiff()
-    # install_klayout_package()
-    convert_py_to_ipynb()
+    install_klayout_package()
+    # convert_py_to_ipynb()

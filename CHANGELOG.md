@@ -1,7 +1,40 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.14.2...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.15.3...main)
 
 <!-- towncrier release notes start -->
+
+## [8.15.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.15.3) - 2024-10-28
+
+- fix via_bbox_offsets [#3322](https://github.com/gdsfactory/gdsfactory/pull/3322)
+
+## [8.15.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.15.2) - 2024-10-28
+
+- enforce min_radius to output bend in spiral racetrack [#3319](https://github.com/gdsfactory/gdsfactory/pull/3319)
+- allow multiple connections in get_netlist [#3321](https://github.com/gdsfactory/gdsfactory/pull/3321)
+- [pre-commit.ci] pre-commit autoupdate [#3320](https://github.com/gdsfactory/gdsfactory/pull/3320)
+- More consistent cutback parameters [#3318](https://github.com/gdsfactory/gdsfactory/pull/3318)
+
+## [8.15.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.15.1) - 2024-10-26
+
+- install klive with git [#3315](https://github.com/gdsfactory/gdsfactory/pull/3315)
+- remove routing_warnings [#3314](https://github.com/gdsfactory/gdsfactory/pull/3314)
+
+## [8.15.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.15.0) - 2024-10-22
+
+- Fix `Component.get_labels` returns texts in wrong locations [#3308](https://github.com/gdsfactory/gdsfactory/pull/3308)
+- Update layer_views.py [#3299](https://github.com/gdsfactory/gdsfactory/pull/3299)
+- add width to Component.info [#3305](https://github.com/gdsfactory/gdsfactory/pull/3305)
+- [pre-commit.ci] pre-commit autoupdate [#3303](https://github.com/gdsfactory/gdsfactory/pull/3303)
+- add flatten section to docs [#3309](https://github.com/gdsfactory/gdsfactory/pull/3309)
+- add some type hints [#3301](https://github.com/gdsfactory/gdsfactory/pull/3301)
+- Update trimesh requirement from <4.5,>=4.4.1 to >=4.4.1,<4.6 [#3302](https://github.com/gdsfactory/gdsfactory/pull/3302)
+
+## [8.14.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.14.3) - 2024-10-21
+
+- Update layer_views.py [#3299](https://github.com/gdsfactory/gdsfactory/pull/3299)
+- add width to Component.info [#3305](https://github.com/gdsfactory/gdsfactory/pull/3305)
+- [pre-commit.ci] pre-commit autoupdate [#3303](https://github.com/gdsfactory/gdsfactory/pull/3303)
+- add some type hints [#3301](https://github.com/gdsfactory/gdsfactory/pull/3301)
 
 ## [8.14.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.14.2) - 2024-10-18
 
@@ -1055,7 +1088,7 @@ Documentation
 - Fix cs and transitions [#2158](https://github.com/gdsfactory/gdsfactory/pull/2158)
 - add via_stack_heater_m2 [#2178](https://github.com/gdsfactory/gdsfactory/pull/2178)
 - Fix lvs demo [#2175](https://github.com/gdsfactory/gdsfactory/pull/2175)
-- warn_connect_with_width_layer_or_type_missmatch [#2176](https://github.com/gdsfactory/gdsfactory/pull/2176)
+- warn_connect_with_width_layer_or_type_mismatch [#2176](https://github.com/gdsfactory/gdsfactory/pull/2176)
 - more representative implants generic_process [#2177](https://github.com/gdsfactory/gdsfactory/pull/2177)
 - remove enforce_port_ordering arg from get_bundle_from_waypoint params [#2174](https://github.com/gdsfactory/gdsfactory/pull/2174)
 - fixes difftest to use XOR instead of NOT [#2172](https://github.com/gdsfactory/gdsfactory/pull/2172)

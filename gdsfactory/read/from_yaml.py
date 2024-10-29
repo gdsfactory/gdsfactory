@@ -49,7 +49,6 @@ routes:
 
 from __future__ import annotations
 
-import importlib
 import itertools
 import pathlib
 from collections.abc import Callable
@@ -749,9 +748,11 @@ def from_yaml(
                     mmi_top,o3: mmi_bot,o1
 
     """
+    from gdsfactory.pdk import get_active_pdk
+
     c = Component()
     dct = _load_yaml_str(yaml_str)
-    pdk = _activate_pdk_by_name(dct.get("pdk", ""))
+    pdk = get_active_pdk()
     net = Netlist.model_validate(dct)
     g = _get_dependency_graph(net)
     refs = _get_references(c, pdk, net.instances)
@@ -778,22 +779,6 @@ def _load_yaml_str(yaml_str: Any) -> dict:
     else:
         raise ValueError("Invalid format for 'yaml_str'.")
     return dct
-
-
-def _activate_pdk_by_name(pdk_name: str):
-    from gdsfactory.generic_tech import get_generic_pdk
-    from gdsfactory.pdk import get_active_pdk
-
-    if pdk_name:
-        if pdk_name == "generic":
-            get_generic_pdk().activate()
-        else:
-            module = importlib.import_module(pdk_name)
-            pdk = module.PDK
-            if pdk is None:
-                raise ValueError(f"'from {pdk} import PDK' failed")
-            pdk.activate()
-    return get_active_pdk()
 
 
 def _get_dependency_graph(net: Netlist) -> nx.DiGraph:
