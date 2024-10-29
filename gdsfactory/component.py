@@ -11,6 +11,7 @@ import kfactory as kf
 import klayout.db as db  # noqa: F401
 import klayout.lay as lay
 import numpy as np
+import pygraphviz as pgv
 import yaml
 from kfactory import Instance, kdb
 from kfactory.kcell import PROPID, cell, save_layout_options
@@ -22,7 +23,6 @@ from gdsfactory.port import pprint_ports, select_ports, to_dict
 from gdsfactory.serialization import clean_value_json, convert_tuples_to_lists
 
 if TYPE_CHECKING:
-    import networkx as nx
     from matplotlib.figure import Figure
 
     from gdsfactory.typings import (
@@ -993,8 +993,8 @@ class ComponentBase:
         with_labels: bool = True,
         font_weight: str = "normal",
         **kwargs: Any,
-    ) -> nx.Graph:
-        """Plots a netlist graph with networkx.
+    ) -> pgv.AGraph:
+        """Plots a netlist graph with pygraphviz, showing nodes as boxes with ports at the edges.
 
         Args:
             recursive: if True, returns a recursive netlist.
@@ -1009,54 +1009,13 @@ class ComponentBase:
             allow_multiple: False to raise an error if more than two ports share the same connection. \
                     if True, will return key: [value] pairs with [value] a list of all connected instances.
         """
-        import matplotlib.pyplot as plt
-        import networkx as nx
-
-        from gdsfactory.get_netlist import _nets_to_connections
-
-        plt.figure()
-        netlist = self.get_netlist(recursive=recursive, **kwargs)
-        G = nx.Graph()
-
-        if recursive:
-            pos = {}
-            labels = {}
-            for net in netlist.values():
-                nets = net.get("nets", [])
-                connections = net.get("connections", {})
-                connections = _nets_to_connections(nets, connections)
-                placements = net["placements"]
-                G.add_edges_from(
-                    [
-                        (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
-                        for k, v in connections.items()
-                    ]
-                )
-                pos |= {k: (v["x"], v["y"]) for k, v in placements.items()}
-                labels |= {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
-
-        else:
-            nets = netlist.get("nets", [])
-            connections = netlist.get("connections", {})
-            connections = _nets_to_connections(nets, connections)
-            placements = netlist["placements"]
-            G.add_edges_from(
-                [
-                    (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
-                    for k, v in connections.items()
-                ]
-            )
-            pos = {k: (v["x"], v["y"]) for k, v in placements.items()}
-            labels = {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
-
-        nx.draw(
-            G,
+        return plot_netlist(
+            self,
+            recursive=recursive,
             with_labels=with_labels,
             font_weight=font_weight,
-            labels=labels,
-            pos=pos,
+            **kwargs,
         )
-        return G
 
     def over_under(self, layer: LayerSpec, distance: int = 1) -> None:
         """Flattens and performs over-under on a layer in the Component.
@@ -1278,18 +1237,151 @@ def component_with_function(
     return c
 
 
+def plot_netlist(
+    component,
+    recursive: bool = False,
+    with_labels: bool = True,
+    font_weight: str = "normal",
+    **kwargs: Any,
+) -> pgv.AGraph:
+    """Plots a netlist graph with pygraphviz, showing nodes as boxes with ports at the edges.
+
+    Args:
+        component: to plot.
+        recursive: if True, returns a recursive netlist.
+        with_labels: add label to each node.
+        font_weight: normal, bold.
+        kwargs: keyword arguments to get_netlist.
+    """
+    from gdsfactory.get_netlist import _nets_to_connections
+
+    netlist = component.get_netlist(recursive=recursive, **kwargs)
+    graph = pgv.AGraph(strict=False, directed=False)
+    graph.graph_attr["rankdir"] = "LR"
+    graph.node_attr["shape"] = "record"
+
+    def format_component_label(
+        node_name, component_name, input_ports=0, output_ports=0
+    ):
+        """Format a label for the node with input and output ports."""
+        # Generate input and output port labels
+        input_labels = (
+            "|".join([f"<i{i}> i{i}" for i in range(1, input_ports + 1)])
+            if input_ports > 0
+            else ""
+        )
+        output_labels = (
+            "|".join([f"<o{i}> o{i}" for i in range(1, output_ports + 1)])
+            if output_ports > 0
+            else ""
+        )
+
+        # Format the label with conditional parts for input and output labels
+        if input_labels and output_labels:
+            label = f"{{{{ {input_labels} }} | {node_name}: {component_name} | {{{output_labels}}} }}"
+        elif input_labels:
+            label = f"{{{{ {input_labels} }} | {node_name}: {component_name} }}"
+        elif output_labels:
+            label = f"{{ {node_name}: {component_name} | {{{output_labels}}} }}"
+        else:
+            label = f"{node_name}: {component_name}"
+
+        return label
+
+    if recursive:
+        for net in netlist.values():
+            connections = _nets_to_connections(
+                net.get("nets", []), net.get("connections", {})
+            )
+            placements = net["placements"]
+
+            # Draw edges between ports of connected instances
+            for k, v in connections.items():
+                source_instance, source_port = (
+                    ",".join(k.split(",")[:-1]),
+                    k.split(",")[-1],
+                )
+                target_instance, target_port = (
+                    ",".join(v.split(",")[:-1]),
+                    v.split(",")[-1],
+                )
+                graph.add_edge(
+                    f"{source_instance}:{source_port}",
+                    f"{target_instance}:{target_port}",
+                )
+
+            # Draw each instance as a box with ports at the edges
+            for instance_name, details in placements.items():
+                component_name = details.get("component", instance_name)
+                input_ports = details.get("input_ports", 0)
+                output_ports = details.get("output_ports", 0)
+                label = format_component_label(
+                    instance_name, component_name, input_ports, output_ports
+                )
+
+                graph.add_node(
+                    instance_name,
+                    label=label,
+                    shape="record",
+                    width=details.get("dx", 1.0),
+                    height=details.get("dy", 1.0),
+                    fixedsize=True,
+                    fontweight=font_weight,
+                )
+
+    else:
+        connections = _nets_to_connections(
+            netlist.get("nets", []), netlist.get("connections", {})
+        )
+        placements = netlist["placements"]
+
+        # Draw edges between ports of connected instances
+        for k, v in connections.items():
+            source_instance, source_port = ",".join(k.split(",")[:-1]), k.split(",")[-1]
+            target_instance, target_port = ",".join(v.split(",")[:-1]), v.split(",")[-1]
+            graph.add_edge(
+                f"{source_instance}:{source_port}", f"{target_instance}:{target_port}"
+            )
+
+        # Draw each instance as a box with ports at the edges
+        for instance_name, details in placements.items():
+            component_name = details.get("component", instance_name)
+            input_ports = details.get("input_ports", 0)
+            output_ports = details.get("output_ports", 0)
+            label = format_component_label(
+                instance_name, component_name, input_ports, output_ports
+            )
+
+            graph.add_node(
+                instance_name,
+                label=label,
+                shape="record",
+                width=details.get("dx", 1.0),
+                height=details.get("dy", 1.0),
+                fixedsize=True,
+                fontweight=font_weight,
+            )
+
+    graph.layout(prog="dot")
+    return graph
+
+
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.Component()
-    c.add_port(
-        name="o1",
-        center=(0, 0),
-        width=0.5,
-        orientation=0,
-        port_type="optical2",
-        layer="WG",
-    )
+    c = gf.components.mzi()
+    v = c.plot_netlist()
+    v.draw("mzi.png")
+
+    # c = gf.Component()
+    # c.add_port(
+    #     name="o1",
+    #     center=(0, 0),
+    #     width=0.5,
+    #     orientation=0,
+    #     port_type="optical2",
+    #     layer="WG",
+    # )
     # b = c << gf.c.bend_circular()
     # s = c << gf.c.straight()
     # s.connect("o1", b.ports["o2"])

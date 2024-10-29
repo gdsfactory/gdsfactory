@@ -39,6 +39,7 @@ dependencies = [
   "scikit-image",
   "trimesh>=4.4.1,<4.6",
   "ipykernel",
+  "graphviz",
   "attrs"
 ]
 description = "python library to generate GDS layouts"
