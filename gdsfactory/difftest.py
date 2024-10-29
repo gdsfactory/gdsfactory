@@ -506,7 +506,12 @@ def overwrite(ref_file, run_file):
 def read_top_cell(arg0):
     kcl = KCLayout(name=str(arg0))
     kcl.read(arg0)
-    return kcl[kcl.top_cell().name]
+    kcell = kcl[kcl.top_cell().name]
+
+    if hasattr(kcl, "cross_sections"):
+        for cross_section in kcl.cross_sections.cross_sections.values():
+            kf.kcl.get_cross_section(cross_section)
+    return kcell
 
 
 if __name__ == "__main__":
