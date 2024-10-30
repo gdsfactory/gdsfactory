@@ -1,0 +1,6 @@
+info:
+  pdk: fab_c
+  polarization: te
+  wavelength: 1.554
+name: gc_sc
+settings: {}
