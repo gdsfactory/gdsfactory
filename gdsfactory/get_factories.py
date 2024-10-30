@@ -20,7 +20,7 @@ def get_cells(
         modules: A module or an iterable of modules.
         ignore_non_decorated: only include functions that are decorated with gf.cell
         ignore_underscored: only include functions that do not start with '_'
-        ignore partials: only include functions, not partials
+        ignore_partials: only include functions, not partials
     """
     modules = modules if isinstance(modules, Iterable) else [modules]
     cells = {}
