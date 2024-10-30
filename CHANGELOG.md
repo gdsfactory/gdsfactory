@@ -1,12 +1,13 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.16.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.17.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.17.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.17.0) - 2024-10-29
 
-No significant changes.
-
+- update get cells function [#3328](https://github.com/gdsfactory/gdsfactory/pull/3328)
+- improve docs after dbu [#3325](https://github.com/gdsfactory/gdsfactory/pull/3325)
+- bump kfactory [#3324](https://github.com/gdsfactory/gdsfactory/pull/3324)
 
 ## [8.16.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.16.0) - 2024-10-28
 
