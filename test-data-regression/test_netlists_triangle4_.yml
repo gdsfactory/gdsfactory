@@ -1,0 +1,15 @@
+instances:
+  triangle2_S3_0_0:
+    component: triangle2
+    info: {}
+    settings:
+      spacing: 3
+name: triangle4
+nets: []
+placements:
+  triangle2_S3_0_0:
+    mirror: true
+    rotation: 180
+    x: 0
+    y: 0
+ports: {}

@@ -1,6 +1,4 @@
-function: triangle2
 info: {}
-module: gdsfactory.components.triangles
-name: triangle2
+name: triangle2_S3
 settings:
   spacing: 3

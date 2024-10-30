@@ -1,0 +1,6 @@
+info:
+  pdk: fab_c
+name: mmi1x2_sc_WM3_CSstrip_sc
+settings:
+  cross_section: strip_sc
+  width_mmi: 3

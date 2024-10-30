@@ -1,0 +1,6 @@
+info:
+  pdk: fab_c
+name: mmi1x2_nc_WM3_CSstrip_nc
+settings:
+  cross_section: strip_nc
+  width_mmi: 3

@@ -5,39 +5,68 @@ from collections.abc import Iterable
 from functools import partial
 from inspect import getmembers, isfunction, signature
 
-from kfactory import logger
-
 from gdsfactory.typings import Any, Callable, Component
 
 
-def get_cells(modules: Any, verbose: bool = False) -> dict[str, Callable]:
+def get_cells(
+    modules: Any,
+    ignore_non_decorated: bool = False,
+    ignore_underscored: bool = True,
+    ignore_partials: bool = False,
+) -> dict[str, Callable]:
     """Returns PCells (component functions) from a module or list of modules.
 
     Args:
         modules: A module or an iterable of modules.
-        verbose: If true, prints in case any errors occur.
+        ignore_non_decorated: only include functions that are decorated with gf.cell
+        ignore_underscored: only include functions that do not start with '_'
+        ignore_partials: only include functions, not partials
     """
-    # Ensure modules is iterable
     modules = modules if isinstance(modules, Iterable) else [modules]
-
     cells = {}
     for module in modules:
         for name, member in getmembers(module):
-            if not name.startswith("_") and (
-                callable(member) and (isfunction(member) or isinstance(member, partial))
+            if is_cell(
+                member,
+                ignore_non_decorated=ignore_non_decorated,
+                ignore_underscored=ignore_underscored,
+                ignore_partials=ignore_partials,
+                name=name,
             ):
-                try:
-                    r = signature(
-                        member.func if isinstance(member, partial) else member
-                    ).return_annotation
-                    if r == Component or (
-                        isinstance(r, str) and r.endswith("Component")
-                    ):
-                        cells[name] = member
-                except ValueError as e:
-                    if verbose:
-                        logger.warn(f"error in {name}: {e}")
+                cells[name] = member
     return cells
+
+
+def is_cell(
+    func: Any,
+    ignore_non_decorated: bool = False,
+    ignore_underscored: bool = True,
+    ignore_partials: bool = False,
+    name: str = "",
+) -> bool:
+    try:
+        if not name:
+            name = func.__name__
+        if not callable(func):
+            return False
+        if not ignore_partials and isinstance(func, partial):
+            return is_cell(
+                func.func,
+                ignore_non_decorated=ignore_non_decorated,
+                ignore_underscored=ignore_underscored,
+                ignore_partials=ignore_partials,
+                name=name,
+            )
+        if ignore_underscored and name.startswith("_"):
+            return False
+        if getattr(func, "is_gf_cell", False):
+            return True
+        if not ignore_non_decorated:
+            r = signature(func).return_annotation
+            return r == Component or (isinstance(r, str) and r.endswith("Component"))
+    except Exception:
+        pass
+    return False
 
 
 def get_cells_from_dict(cells: dict[str, Callable]) -> dict[str, Callable]:
