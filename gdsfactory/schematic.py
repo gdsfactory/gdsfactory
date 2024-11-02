@@ -3,6 +3,7 @@ from typing import Any
 
 import yaml
 from pydantic import BaseModel, Field, model_validator
+from graphviz import Digraph
 
 from gdsfactory.config import PATH
 from gdsfactory.typings import Anchor, Component
@@ -151,16 +152,16 @@ class Schematic(BaseModel):
     links: list[Link] = Field(default_factory=list)
 
     def add_instance(
-        self, name: str, instance: Instance, placement: Placement | None = None
+            self, name: str, instance: Instance, placement: Placement | None = None
     ) -> None:
         self.netlist.instances[name] = instance
         if placement:
             self.add_placement(name, placement)
 
     def add_placement(
-        self,
-        instance_name: str,
-        placement: Placement,
+            self,
+            instance_name: str,
+            placement: Placement,
     ) -> None:
         """Add placement to the netlist.
 
@@ -186,55 +187,34 @@ class Schematic(BaseModel):
             self.netlist.routes[net.name].links[net.p1] = net.p2
 
     def plot_netlist(
-        self,
-        with_labels: bool = True,
-        font_weight: str = "normal",
+            self,
+            with_labels: bool = True,
+            font_weight: str = "normal",
     ):
-        """Plots a netlist graph with networkx.
+        """Plots a netlist graph with Graphviz.
 
         Args:
             with_labels: add label to each node.
-            font_weight: normal, bold.
+            font_weight: normal, bold (for consistency with original code).
         """
-        import matplotlib.pyplot as plt
-        import networkx as nx
+        dot = Digraph(comment="Netlist Diagram")
+        dot.attr(dpi='300', layout="neato", overlap="false")
 
-        plt.figure()
-        netlist = self.netlist
-        connections = netlist.connections
-        placements = self.placements or netlist.placements
-        G = nx.Graph()
-        G.add_edges_from(
-            [
-                (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
-                for k, v in connections.items()
-            ]
-        )
-        pos = {k: (v["x"], v["y"]) for k, v in placements.items()}
-        labels = {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
-
-        for node, placement in placements.items():
-            if not G.has_node(
-                node
-            ):  # Check if the node is already in the graph (from connections), to avoid duplication.
-                G.add_node(node)
-                pos[node] = (placement.x, placement.y)
+        for node, placement in self.placements.items():
+            label = node if with_labels else ""
+            pos = f"{placement.x},{placement.y}!"
+            dot.node(node, label=label, pos=pos)
 
         for net in self.nets:
-            G.add_edge(net.p1.split(",")[0], net.p2.split(",")[0])
+            p1_instance = net.p1.split(",")[0]
+            p2_instance = net.p2.split(",")[0]
+            dot.edge(p1_instance, p2_instance)
 
-        nx.draw(
-            G,
-            with_labels=with_labels,
-            font_weight=font_weight,
-            labels=labels,
-            pos=pos,
-        )
-        return G
+        dot.render('netlist_diagram', format='png', view=True)
 
 
 def write_schema(
-    model: BaseModel = Netlist, schema_path_json=PATH.schema_netlist
+        model: BaseModel = Netlist, schema_path_json=PATH.schema_netlist
 ) -> None:
     s = model.model_json_schema()
     schema_path_yaml = schema_path_json.with_suffix(".yaml")
@@ -249,6 +229,7 @@ if __name__ == "__main__":
     # write_schema()
     import gdsfactory as gf
     import gdsfactory.schematic as gt
+    import matplotlib.pyplot as mpl
 
     s = Schematic()
     s.add_instance("mzi1", gt.Instance(component=gf.c.mzi(delta_length=10)))
@@ -259,4 +240,5 @@ if __name__ == "__main__":
     s.add_placement("mzi3", gt.Placement(x=200, y=0))
     s.add_net(gt.Net(p1="mzi1,o2", p2="mzi2,o2"))
     s.add_net(gt.Net(p1="mzi2,o2", p2="mzi3,o1"))
-    g = s.plot_netlist()
+    s.plot_netlist()
+    mpl.show()
