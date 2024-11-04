@@ -151,16 +151,16 @@ class Schematic(BaseModel):
     links: list[Link] = Field(default_factory=list)
 
     def add_instance(
-            self, name: str, instance: Instance, placement: Placement | None = None
+        self, name: str, instance: Instance, placement: Placement | None = None
     ) -> None:
         self.netlist.instances[name] = instance
         if placement:
             self.add_placement(name, placement)
 
     def add_placement(
-            self,
-            instance_name: str,
-            placement: Placement,
+        self,
+        instance_name: str,
+        placement: Placement,
     ) -> None:
         """Add placement to the netlist.
 
@@ -186,9 +186,9 @@ class Schematic(BaseModel):
             self.netlist.routes[net.name].links[net.p1] = net.p2
 
     def plot_netlist(
-            self,
-            with_labels: bool = True,
-            font_weight: str = "normal",
+        self,
+        with_labels: bool = True,
+        font_weight: str = "normal",
     ):
         """Plots a netlist graph with Graphviz (optional dependency) or Networkx
 
@@ -198,8 +198,9 @@ class Schematic(BaseModel):
         """
         try:
             from graphviz import Digraph
+
             dot = Digraph(comment="Netlist Diagram")
-            dot.attr(dpi='300', layout="neato", overlap="false")
+            dot.attr(dpi="300", layout="neato", overlap="false")
 
             for node, placement in self.placements.items():
                 label = node if with_labels else ""
@@ -211,12 +212,13 @@ class Schematic(BaseModel):
                 p2_instance = net.p2.split(",")[0]
                 dot.edge(p1_instance, p2_instance)
 
-            dot.render('netlist_diagram', format='png', view=True)
+            dot.render("netlist_diagram", format="png", view=True)
             return dot
         except ImportError:
             # Fallback to networkx if Graphviz is not available
             import matplotlib.pyplot as plt
             import networkx as nx
+
             plt.figure()
             netlist = self.netlist
             connections = netlist.connections
@@ -233,7 +235,7 @@ class Schematic(BaseModel):
 
             for node, placement in placements.items():
                 if not G.has_node(
-                        node
+                    node
                 ):  # Check if the node is already in the graph (from connections), to avoid duplication.
                     G.add_node(node)
                     pos[node] = (placement.x, placement.y)
@@ -252,7 +254,7 @@ class Schematic(BaseModel):
 
 
 def write_schema(
-        model: BaseModel = Netlist, schema_path_json=PATH.schema_netlist
+    model: BaseModel = Netlist, schema_path_json=PATH.schema_netlist
 ) -> None:
     s = model.model_json_schema()
     schema_path_yaml = schema_path_json.with_suffix(".yaml")
@@ -265,9 +267,10 @@ def write_schema(
 
 if __name__ == "__main__":
     # write_schema()
+    import matplotlib.pyplot as mpl
+
     import gdsfactory as gf
     import gdsfactory.schematic as gt
-    import matplotlib.pyplot as mpl
 
     s = Schematic()
     s.add_instance("mzi1", gt.Instance(component=gf.c.mzi(delta_length=10)))
