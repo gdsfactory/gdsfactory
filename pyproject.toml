@@ -40,7 +40,6 @@ dependencies = [
   "trimesh>=4.4.1,<4.6",
   "ipykernel",
   "attrs",
-  "graphviz"
 ]
 description = "python library to generate GDS layouts"
 keywords = ["eda", "photonics", "python"]
@@ -88,6 +87,9 @@ maintainer = [
   "tbump",
   "autotyping",
   "towncrier"
+]
+graphviz = [
+  "graphviz"
 ]
 
 [project.scripts]
