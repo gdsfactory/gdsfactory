@@ -41,7 +41,7 @@ def mzi_gc(length_x=10, **kwargs) -> gf.Component:
     c = gf.components.mzi2x2_2x2_phase_shifter(
         length_x=length_x, auto_rename_ports=False, **kwargs
     )
-    c = gf.routing.add_pads_top(c, port_names=["top_l_e1", "top_r_e3"])
+    c = gf.routing.add_pads_top(c, port_names=("top_l_e1", "top_r_e3"))
     c = gf.routing.add_fiber_array(c)
     c.info["doe"] = "mzi"
     c.info["measurement"] = "optical_spectrum"
@@ -55,7 +55,7 @@ def mzi_gc(length_x=10, **kwargs) -> gf.Component:
 
 
 @gf.cell
-def sample_reticle(grid: bool = False) -> gf.Component:
+def sample_reticle_with_labels(grid: bool = False) -> gf.Component:
     """Returns MZI with TE grating couplers."""
     from gdsfactory.generic_tech.cells import (
         add_fiber_array_optical_south_electrical_north,
@@ -90,9 +90,5 @@ def sample_reticle(grid: bool = False) -> gf.Component:
 
 
 if __name__ == "__main__":
-    c = sample_reticle()
-    # gdspath = c.write_gds("mask.gds")
-    # csvpath = write_labels(gdspath, prefixes=[""], layer_label="TEXT")
-    # df = pd.read_csv(csvpath)
-    # print(df)
+    c = sample_reticle_with_labels()
     c.show()

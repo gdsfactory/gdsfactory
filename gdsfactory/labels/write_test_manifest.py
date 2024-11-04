@@ -53,6 +53,7 @@ def write_test_manifest(
                 "y",
                 "info",
                 "ports",
+                "settings",
             ]
             + list(parameters)
         )
@@ -82,6 +83,7 @@ def write_test_manifest(
                         disp.y,
                         json.dumps(cell.info.model_dump(exclude=parameters)),
                         json.dumps(ports),
+                        cell.settings.model_dump_json(),
                     ]
                     + values
                 )
@@ -119,5 +121,5 @@ if __name__ == "__main__":
     csvpath = gdspath.with_suffix(".csv")
     write_test_manifest(c, csvpath)
     df = pd.read_csv(csvpath)
-    print(df)
+    print(df.columns)
     c.show()

@@ -97,6 +97,7 @@ def grid_with_text(
     align_y: Literal["origin", "ymin", "ymax", "center"] = "center",
     rotation: int = 0,
     mirror: bool = False,
+    labels: tuple[str, ...] | None = None,
 ) -> Component:
     """Returns Component with 1D or 2D grid of components with text labels.
 
@@ -115,6 +116,7 @@ def grid_with_text(
         align_y: y alignment along (origin, ymin, ymax, center).
         rotation: for each component in degrees.
         mirror: horizontal mirror y axis (x, 1) (1, 0). most common mirror.
+        labels: list of labels for each component.
 
 
     .. plot::
@@ -139,6 +141,8 @@ def grid_with_text(
     components = [gf.get_component(component) for component in components]
     text_offsets = text_offsets or [(0, 0)]
     text_anchors = text_anchors or ["center"]
+    labels = labels or [None] * len(components)
+
     c = gf.Component()
     instances = kf.grid(
         c,
@@ -156,10 +160,14 @@ def grid_with_text(
     )
     for i, instances_list in enumerate(instances):
         for j, instance in enumerate(instances_list):
+            if instance is None:
+                continue
             c.add_ports(instance.ports, prefix=f"{j}_{i}_")
+            text_string = labels[i] or f"{text_prefix}{j}_{i}"
+
             if text:
                 for text_offset, text_anchor in zip_longest(text_offsets, text_anchors):
-                    t = c << text(f"{text_prefix}{j}_{i}")
+                    t = c << text(text_string)
                     size_info = instance.dsize_info
                     text_offset = text_offset or (0, 0)
                     text_anchor = text_anchor or "center"
@@ -180,7 +188,7 @@ if __name__ == "__main__":
     # components = [gf.components.rectangle(size=(i, i)) for i in range(40, 66, 5)]
     # c = tuple(gf.components.rectangle(size=(i, i)) for i in range(40, 66, 10))
     # c = tuple([gf.components.triangle(x=i) for i in range(1, 10)])
-    c = tuple(gf.components.rectangle(size=(i, i)) for i in range(1, 10))
+    c = tuple(gf.components.rectangle(size=(i, i)) for i in range(1, 3))
     # print(len(c))
 
     c = grid_with_text(
@@ -191,5 +199,6 @@ if __name__ == "__main__":
         spacing=(200.0, 200.0),
         # spacing=1,
         text_offsets=((0, 100), (0, -100)),
+        labels=["r1", "r2"],
     )
     c.show()

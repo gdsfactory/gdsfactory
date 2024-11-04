@@ -106,16 +106,15 @@ NSEW = Literal["N", "S", "E", "W"]
 
 Float2: TypeAlias = tuple[float, float]
 Float3: TypeAlias = tuple[float, float, float]
-Floats: TypeAlias = tuple[float, ...]
-Strs: TypeAlias = tuple[str, ...]
+Floats: TypeAlias = tuple[float, ...] | list[float]
+Strs: TypeAlias = tuple[str, ...] | list[str]
 Int2: TypeAlias = tuple[int, int]
 Int3: TypeAlias = tuple[int, int, int]
-Ints: TypeAlias = tuple[int, ...]
+Ints: TypeAlias = tuple[int, ...] | list[int]
 
 Layer: TypeAlias = tuple[int, int]
-Layers: TypeAlias = tuple[Layer, ...]
+Layers: TypeAlias = tuple[Layer, ...] | list[Layer]
 LayerSpec: TypeAlias = LayerEnum | str | tuple[int, int]
-
 LayerSpecs: TypeAlias = list[LayerSpec] | tuple[LayerSpec, ...]
 
 ComponentParams = ParamSpec("ComponentParams")
