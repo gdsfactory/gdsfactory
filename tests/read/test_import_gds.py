@@ -36,7 +36,7 @@ def test_import_json_label(data_regression) -> None:
     c = gf.components.straight()
     c1 = gf.labels.add_label_json(c)
     gdspath = c1.write_gds()
-    csvpath = gf.labels.write_labels(gdspath, prefix="{")
+    csvpath = gf.labels.write_labels(gdspath, prefixes=["{"])
 
     df = pd.read_csv(csvpath)
     settings = json.loads(df.columns[0])
