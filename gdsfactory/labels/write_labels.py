@@ -42,7 +42,7 @@ def find_labels(
     # Get the top cell and the units, and find out the index of the layer
     topcell = layout.top_cell()
 
-    layer_label = gf.get_layer(layer_label)
+    layer_label = gf.get_layer_tuple(layer_label)
 
     # Extract locations
     iterator = topcell.begin_shapes_rec(layout.layer(*layer_label))

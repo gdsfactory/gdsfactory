@@ -39,8 +39,9 @@ def test_import_json_label(data_regression) -> None:
     csvpath = gf.labels.write_labels(gdspath, prefixes=["{"])
 
     df = pd.read_csv(csvpath)
-    settings = json.loads(df.columns[0])
-    data_regression.check(settings)
+    settings = json.loads(df.iloc[0].text)
+    if data_regression:
+        data_regression.check(settings)
 
 
 def test_import_gds_array() -> None:
@@ -79,15 +80,3 @@ def import_same_file_twice() -> None:
     c.add_ref(c3)
     c.write_gds()
     assert c
-
-
-if __name__ == "__main__":
-    # test_import_gds_info()
-    c1 = gf.components.straight(length=1.234)
-    gdspath = c1.write_gds()
-
-    c2 = gf.import_gds(gdspath)
-    d1 = c1.to_dict()
-    d2 = c2.to_dict()
-    d = jsondiff.diff(d1, d2)
-    assert len(d) == 0, d
