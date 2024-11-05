@@ -106,16 +106,15 @@ NSEW = Literal["N", "S", "E", "W"]
 
 Float2: TypeAlias = tuple[float, float]
 Float3: TypeAlias = tuple[float, float, float]
-Floats: TypeAlias = tuple[float, ...]
-Strs: TypeAlias = tuple[str, ...]
+Floats: TypeAlias = tuple[float, ...] | list[float]
+Strs: TypeAlias = tuple[str, ...] | list[str]
 Int2: TypeAlias = tuple[int, int]
 Int3: TypeAlias = tuple[int, int, int]
-Ints: TypeAlias = tuple[int, ...]
+Ints: TypeAlias = tuple[int, ...] | list[int]
 
 Layer: TypeAlias = tuple[int, int]
-Layers: TypeAlias = tuple[Layer, ...]
+Layers: TypeAlias = tuple[Layer, ...] | list[Layer]
 LayerSpec: TypeAlias = LayerEnum | str | tuple[int, int]
-
 LayerSpecs: TypeAlias = list[LayerSpec] | tuple[LayerSpec, ...]
 
 ComponentParams = ParamSpec("ComponentParams")
@@ -129,6 +128,7 @@ PostProcess: TypeAlias = tuple[Callable[[Component], None], ...]
 
 MaterialSpec: TypeAlias = str | float | tuple[float, float] | Callable
 
+Instance = ComponentReference
 ComponentOrPath: TypeAlias = PathType | Component
 ComponentOrReference: TypeAlias = Component | ComponentReference
 NameToFunctionDict: TypeAlias = dict[str, ComponentFactory]
@@ -140,7 +140,9 @@ TransitionFactory: TypeAlias = Callable[..., Transition]
 CrossSectionOrFactory: TypeAlias = CrossSection | Callable[..., CrossSection]
 PortSymmetries: TypeAlias = dict[str, list[str]]
 PortsDict: TypeAlias = dict[str, Port]
-PortsList: TypeAlias = dict[str, Port]
+PortsList: TypeAlias = list[Port]
+Ports = kf.Ports
+PortsOrList: TypeAlias = Ports | PortsList
 
 Sparameters: TypeAlias = dict[str, np.ndarray]
 
@@ -218,6 +220,7 @@ __all__ = (
     "Int2",
     "Int3",
     "Ints",
+    "Instance",
     "Layer",
     "LayerMap",
     "LayerLevel",
@@ -232,6 +235,9 @@ __all__ = (
     "Optional",
     "PathType",
     "PathTypes",
+    "Ports",
+    "PortsList",
+    "PortsOrList",
     "Section",
     "Strs",
     "WidthTypes",

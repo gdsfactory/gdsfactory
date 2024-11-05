@@ -1090,7 +1090,7 @@ class ComponentBase:
     @overload
     def plot(
         self,
-        show_labels: bool = False,
+        show_labels: bool = True,
         show_ruler: bool = True,
         return_fig: Literal[True] = True,
     ) -> Figure: ...
@@ -1098,14 +1098,14 @@ class ComponentBase:
     @overload
     def plot(
         self,
-        show_labels: bool = False,
+        show_labels: bool = True,
         show_ruler: bool = True,
         return_fig: Literal[False] = False,
     ) -> None: ...
 
     def plot(
         self,
-        show_labels: bool = False,
+        show_labels: bool = True,
         show_ruler: bool = True,
         return_fig: bool = False,
     ) -> Figure | None:

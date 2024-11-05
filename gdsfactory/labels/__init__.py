@@ -2,6 +2,7 @@ from gdsfactory.labels.add_label_yaml import (
     add_label_json,
     add_label_yaml,
 )
+from gdsfactory.labels.add_labels import add_port_labels
 from gdsfactory.labels.ehva import (
     add_label_ehva,
     ignore,
@@ -26,4 +27,5 @@ __all__ = [
     "prefix_to_type_default",
     "write_labels",
     "write_test_manifest",
+    "add_port_labels",
 ]
