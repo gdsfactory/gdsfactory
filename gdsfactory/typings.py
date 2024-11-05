@@ -128,6 +128,7 @@ PostProcess: TypeAlias = tuple[Callable[[Component], None], ...]
 
 MaterialSpec: TypeAlias = str | float | tuple[float, float] | Callable
 
+Instance = ComponentReference
 ComponentOrPath: TypeAlias = PathType | Component
 ComponentOrReference: TypeAlias = Component | ComponentReference
 NameToFunctionDict: TypeAlias = dict[str, ComponentFactory]
@@ -139,7 +140,9 @@ TransitionFactory: TypeAlias = Callable[..., Transition]
 CrossSectionOrFactory: TypeAlias = CrossSection | Callable[..., CrossSection]
 PortSymmetries: TypeAlias = dict[str, list[str]]
 PortsDict: TypeAlias = dict[str, Port]
-PortsList: TypeAlias = dict[str, Port]
+PortsList: TypeAlias = list[Port]
+Ports = kf.Ports
+PortsOrList: TypeAlias = Ports | PortsList
 
 Sparameters: TypeAlias = dict[str, np.ndarray]
 
@@ -217,6 +220,7 @@ __all__ = (
     "Int2",
     "Int3",
     "Ints",
+    "Instance",
     "Layer",
     "LayerMap",
     "LayerLevel",
@@ -231,6 +235,9 @@ __all__ = (
     "Optional",
     "PathType",
     "PathTypes",
+    "Ports",
+    "PortsList",
+    "PortsOrList",
     "Section",
     "Strs",
     "WidthTypes",
