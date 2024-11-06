@@ -116,6 +116,7 @@ class Pdk(BaseModel):
 
     Parameters:
         name: PDK name.
+        version: PDK version.
         cross_sections: dict of cross_sections factories.
         cells: dict of parametric cells that return Components.
         models: dict of models names to functions.
@@ -143,6 +144,7 @@ class Pdk(BaseModel):
     """
 
     name: str
+    version: str = ""
     cross_sections: dict[str, CrossSectionFactory] = Field(
         default_factory=dict, exclude=True
     )
@@ -208,7 +210,7 @@ class Pdk(BaseModel):
 
     def activate(self) -> None:
         """Set current pdk to the active pdk (if not already active)."""
-        logger.debug(f"{self.name!r} PDK is now active")
+        logger.debug(f"{self.name!r} PDK {self.version} is now active")
 
         for pdk in self.base_pdks:
             cross_sections = pdk.cross_sections

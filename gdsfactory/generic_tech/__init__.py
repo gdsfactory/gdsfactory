@@ -44,7 +44,7 @@ LAYER_CONNECTIVITY = [
 @cache
 def get_generic_pdk() -> Pdk:
     import gdsfactory as gf
-    from gdsfactory.config import PATH
+    from gdsfactory.config import PATH, __version__
     from gdsfactory.cross_section import cross_sections
     from gdsfactory.generic_tech import containers
     from gdsfactory.generic_tech.simulation_settings import materials_index
@@ -64,6 +64,7 @@ def get_generic_pdk() -> Pdk:
 
     return Pdk(
         name="generic",
+        version=__version__,
         cells=cells,
         cross_sections=cross_sections,
         layers=LAYER,
@@ -97,3 +98,6 @@ if __name__ == "__main__":
 
     layer_views = LayerViews(filepath=PATH.klayout_yaml)
     layer_views.to_lyp(PATH.klayout_lyp)
+
+    pdk = get_generic_pdk()
+    pdk.activate()
