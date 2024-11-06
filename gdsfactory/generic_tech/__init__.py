@@ -90,6 +90,7 @@ if __name__ == "__main__":
 
     t = KLayoutTechnology(
         name="generic_tech",
+        layer_map=LAYER,
         layer_views=LAYER_VIEWS,
         layer_stack=LAYER_STACK,
         connectivity=connectivity,

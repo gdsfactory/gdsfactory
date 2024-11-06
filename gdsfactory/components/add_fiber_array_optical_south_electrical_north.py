@@ -1,5 +1,3 @@
-from typing import Any
-
 import gdsfactory as gf
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
@@ -16,7 +14,7 @@ def add_fiber_array_optical_south_electrical_north(
     electrical_port_names: list[str] | None = None,
     electrical_port_orientation: float | None = 90,
     npads: int | None = None,
-    analysis_settings: dict[str, Any] | None = None,
+    port_types_grating_couplers=gf.CONF.port_types_grating_couplers,
     **kwargs,
 ) -> gf.Component:
     """Returns a fiber array with Optical gratings on South and Electrical pads on North.
@@ -35,7 +33,7 @@ def add_fiber_array_optical_south_electrical_north(
         electrical_port_names: list of electrical port names. Defaults to all.
         electrical_port_orientation: orientation of electrical ports. Defaults to 90.
         npads: number of pads. Defaults to one per electrical_port_names.
-        analysis_settings: analysis settings.
+        port_types_grating_couplers: port types for grating couplers. Defaults to vertical TE, TM, and dual.
         kwargs: additional arguments.
 
     Keyword Args:
@@ -43,7 +41,6 @@ def add_fiber_array_optical_south_electrical_north(
         measurement: measurement name.
         measurement_settings: measurement settings.
         analysis: analysis name.
-        analysis_settings: analysis settings.
         doe: Design of Experiment.
         anchor: anchor point for the label. Defaults to south-west "sw". \
             Valid options are: "n", "s", "e", "w", "ne", "nw", "se", "sw", "c".
@@ -84,7 +81,9 @@ def add_fiber_array_optical_south_electrical_north(
         fiber_spacing=fiber_spacing,
         **kwargs,
     )
-    optical_ports = r.ports.filter(port_type="optical")
+    optical_ports = [
+        port for port in r.ports if port.port_type in port_types_grating_couplers
+    ]
     c.add_ports(optical_ports)
 
     electrical_ports = r.ports.filter(
@@ -116,8 +115,6 @@ def add_fiber_array_optical_south_electrical_north(
     )
 
     c.add_ports(ports2)
-    analysis_settings = analysis_settings or {}
-    # c.copy_child_info(r)
     return c
 
 
@@ -132,4 +129,5 @@ if __name__ == "__main__":
         cross_section_metal=xs.metal_routing,
         pad_spacing=100,
     )
+    c.pprint_ports()
     c.show()

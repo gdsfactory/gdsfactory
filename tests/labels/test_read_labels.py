@@ -10,6 +10,8 @@ def test_write_labels() -> None:
     c = gf.add_pins.add_pins_siepic_container(c)
 
     gdspath = c.write_gds()
-    labels = list(gf.labels.find_labels(gdspath, layer_label=LAYER.PORT, prefix="o"))
-    gf.labels.write_labels(gdspath, layer_label=LAYER.PORT, prefix="o")
+    labels = list(
+        gf.labels.find_labels(gdspath, layer_label=LAYER.PORT, prefixes=["o"])
+    )
+    gf.labels.write_labels(gdspath, layer_label=LAYER.PORT, prefixes=["o"])
     assert len(labels) == 2
