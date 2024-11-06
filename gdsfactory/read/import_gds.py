@@ -32,8 +32,6 @@ def import_gds(
         for k in kwargs:
             warnings.warn(f"kwargs {k!r} is deprecated and ignored")
 
-
-
     temp_kcl = KCLayout(name=str(gdspath))
     options = kf.kcell.load_layout_options()
     options.warn_level = 0
@@ -82,6 +80,7 @@ def import_gds_with_conflicts(
         gdspath: path to GDS file.
         cellname: name of the cell to return. Defaults to top cell.
         name: optional name.
+        kwargs: deprecated and ignored.
 
     Modes:
         AddToCell: Add content to existing cell. Content of new cells is simply added to existing cells with the same name.
@@ -93,7 +92,9 @@ def import_gds_with_conflicts(
         "import_gds_with_conflicts is deprecated, use import_gds with rename_duplicated_cells=True"
     )
 
-    return import_gds(gdspath, cellname=cellname, rename_duplicated_cells=True)
+    return import_gds(
+        gdspath, cellname=cellname, rename_duplicated_cells=True, **kwargs
+    )
 
 
 if __name__ == "__main__":
