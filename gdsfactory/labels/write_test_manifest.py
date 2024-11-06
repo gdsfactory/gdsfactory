@@ -5,7 +5,6 @@ import json
 import pathlib
 
 import gdsfactory as gf
-from gdsfactory.samples.sample_reticle import sample_reticle
 from gdsfactory.typings import Iterable
 
 
@@ -63,7 +62,7 @@ def write_test_manifest(
         for _ci in ci.each():
             cell = c.kcl[_ci.inst_cell().cell_index()]
 
-            if cell.info["doe"]:
+            if cell.info.get("doe"):
                 disp = (_ci.trans() * _ci.inst_trans()).disp
                 dtrans = _ci.dtrans() * _ci.inst_dtrans()
                 ports = {
@@ -91,6 +90,8 @@ def write_test_manifest(
 
 if __name__ == "__main__":
     import pandas as pd
+
+    from gdsfactory.samples.sample_reticle import sample_reticle
 
     c = sample_reticle()
     # cit = c.begin_instances_rec()
