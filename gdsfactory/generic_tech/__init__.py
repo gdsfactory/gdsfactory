@@ -50,7 +50,7 @@ def get_generic_pdk() -> Pdk:
     from gdsfactory.generic_tech.simulation_settings import materials_index
     from gdsfactory.get_factories import get_cells
     from gdsfactory.pdk import Pdk, constants
-    from gdsfactory import __version__
+    from gdsfactory.config import __version__
 
     LAYER_VIEWS = LayerViews(filepath=PATH.klayout_yaml)
 
@@ -99,3 +99,6 @@ if __name__ == "__main__":
 
     layer_views = LayerViews(filepath=PATH.klayout_yaml)
     layer_views.to_lyp(PATH.klayout_lyp)
+
+    pdk = get_generic_pdk()
+    pdk.activate()
