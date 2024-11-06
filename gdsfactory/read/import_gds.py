@@ -32,8 +32,6 @@ def import_gds(
         for k in kwargs:
             warnings.warn(f"kwargs {k!r} is deprecated and ignored")
 
-
-
     temp_kcl = KCLayout(name=str(gdspath))
     options = kf.kcell.load_layout_options()
     options.warn_level = 0
