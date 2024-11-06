@@ -50,6 +50,7 @@ def get_generic_pdk() -> Pdk:
     from gdsfactory.generic_tech.simulation_settings import materials_index
     from gdsfactory.get_factories import get_cells
     from gdsfactory.pdk import Pdk, constants
+    from gdsfactory import __version__
 
     LAYER_VIEWS = LayerViews(filepath=PATH.klayout_yaml)
 
@@ -64,6 +65,7 @@ def get_generic_pdk() -> Pdk:
 
     return Pdk(
         name="generic",
+        version=__version__,
         cells=cells,
         cross_sections=cross_sections,
         layers=LAYER,
