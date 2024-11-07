@@ -17,6 +17,7 @@ def write_test_manifest(
         "analysis",
         "analysis_parameters",
         "measurement",
+        "measurement_parameters",
         "ports_optical",
         "ports_electrical",
     ),
