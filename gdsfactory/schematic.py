@@ -1,4 +1,5 @@
 import json
+import warnings
 from typing import Any
 
 import IPython
@@ -323,6 +324,13 @@ class Schematic(BaseModel):
         """Plots the netlist graph (Automatic fallback to networkx)."""
         dot = self.get_netlist_graph_graphviz()
         plot_graphviz(dot)
+
+    def plot_netlist(self):
+        """Plots the netlist graph (Automatic fallback to networkx)."""
+        warnings.warn(
+            "plot_netlist is deprecated. Use plot_graphviz instead", DeprecationWarning
+        )
+        self.plot_graphviz()
 
 
 def plot_graphviz(graph):
