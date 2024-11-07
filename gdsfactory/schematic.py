@@ -1,9 +1,6 @@
 import json
 from typing import Any
 
-import IPython
-import matplotlib.pyplot as plt
-import networkx as nx
 import yaml
 from IPython.display import Image, display
 from pydantic import BaseModel, Field, model_validator
@@ -191,49 +188,21 @@ class Schematic(BaseModel):
             self.netlist.routes[net.name].links[net.p1] = net.p2
 
     def get_netlist_graph(self, show_ports):
-        """Generates a netlist graph using Graphviz if available. If Graphviz is not installed, falls back to
-        NetworkX, which returns node positions and labels along with the graph structure.
+        """Generates a netlist graph using Graphviz if available.
 
         Args:
-            show_ports: whether to show ports or no
+            show_ports: whether to show ports or no.
         """
-        try:
-            from graphviz import Digraph
-        except ImportError:
-            # Fallback to networkx if Graphviz is not available
-            plt.figure()
-            netlist = self.netlist
-            connections = netlist.connections
-            placements = self.placements or netlist.placements
-            G = nx.Graph()
-            G.add_edges_from(
-                [
-                    (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
-                    for k, v in connections.items()
-                ]
-            )
-            pos = {k: (v["x"], v["y"]) for k, v in placements.items()}
-            labels = {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
+        from pygraphviz import AGraph
 
-            for node, placement in placements.items():
-                if not G.has_node(
-                    node
-                ):  # Check if the node is already in the graph (from connections), to avoid duplication.
-                    G.add_node(node)
-                    pos[node] = (placement.x, placement.y)
-
-            for net in self.nets:
-                G.add_edge(net.p1.split(",")[0], net.p2.split(",")[0])
-
-            return G, labels, pos
-
-        # Graphviz implementation
-        dot = Digraph(comment="Netlist Diagram")
-        dot.attr(dpi="300", layout="neato", overlap="false")
-
-        all_ports = []
+        # PyGraphviz implementation
+        dot = AGraph(strict=False, directed=True)
+        dot.graph_attr["dpi"] = "300"
+        dot.graph_attr["layout"] = "neato"
+        dot.graph_attr["overlap"] = "false"
 
         # Retrieve all the ports in the component
+        all_ports = []
         for name, instance in self.netlist.instances.items():
             ports = gdsfactory.get_component(instance.component).ports
             all_ports.append((name, ports))
@@ -292,7 +261,7 @@ class Schematic(BaseModel):
                 label = " | ".join(port_labels)
 
             pos = f"{placement.x},{placement.y}!"
-            dot.node(node, label=label, pos=pos, shape="record")
+            dot.add_node(node, label=label, pos=pos, shape="record")
 
         for net in self.nets:
             p1_instance = net.p1.split(",")[0]
@@ -301,7 +270,9 @@ class Schematic(BaseModel):
             p2_instance = net.p2.split(",")[0]
             p2_port = net.p2.split(",")[1]
 
-            dot.edge(f"{p1_instance}:{p1_port}", f"{p2_instance}:{p2_port}", dir="none")
+            dot.add_edge(
+                f"{p1_instance}:{p1_port}", f"{p2_instance}:{p2_port}", dir="none"
+            )
 
         return dot
 
@@ -311,34 +282,16 @@ class Schematic(BaseModel):
         font_weight: str = "normal",
         show_ports: bool = True,
     ):
-        """Plots the netlist graph (Automatic fallback to networkx)
+        """Plots the netlist graph (Automatic fallback to networkx).
 
         Args:
             with_labels (for networkx): add label to each node.
             font_weight (for networkx): normal, bold (for consistency with original code).
             show_ports (for graphviz): whether to show components or not
         """
-        graph = self.get_netlist_graph(show_ports)
-        is_jupyter = "IPython" in globals() and IPython.get_ipython() is not None
-
-        if isinstance(
-            graph, tuple
-        ):  # A NetworkX graph returns a tuple of objects (graph, labels, pos)
-            nx.draw(
-                graph[0],
-                with_labels=with_labels,
-                labels=graph[1],
-                pos=graph[2],
-                font_weight=font_weight,
-            )
-            plt.show()
-        else:
-            graph.format = "png"
-            if is_jupyter:
-                png_data = graph.pipe(format="png")
-                display(Image(data=png_data))
-            else:
-                graph.view()
+        dot = self.get_netlist_graph(show_ports)
+        dot.draw("output.png", prog="neato")  # Save the result as an image
+        display(Image(filename="output.png"))
 
 
 def write_schema(
