@@ -107,12 +107,14 @@ CONF.port_types = [
     "placement",  # placement ports (excluded in netlist extraction)
     "vertical_te",  # for grating couplers with TE polarization
     "vertical_tm",  # for grating couplers with TM polarization
+    "vertical_dual",  # for grating couplers with TE and TM polarization
     "electrical_rf",  # electrical ports for RF (high frequency)
     "pad",  # for pads
     "pad_rf",  # for RF pads
     "bump",  # for bumps
     "edge_coupler",  # for edge couplers
 ]
+CONF.port_types_grating_couplers = ["vertical_te", "vertical_tm", "vertical_dual"]
 
 
 class Paths:

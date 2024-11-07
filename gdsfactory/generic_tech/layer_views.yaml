@@ -302,12 +302,12 @@ LayerViews:
     layer: [66, 0]
     hatch_pattern: hollow
     width: 1
-    color: "blue"
+    color: "gray"
   Errors:
     layer: [69, 0]
     hatch_pattern: hollow
     width: 1
-    color: "blue"
+    color: "gray"
   PinRecM:
     layer: [1, 11]
     hatch_pattern: hollow
