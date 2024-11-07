@@ -93,24 +93,17 @@ def sample_reticle_with_labels(grid: bool = False) -> gf.Component:
 
     copies = 3  # number of copies of each component
     components = res * copies + via_chains_ * copies
-    if grid:
-        return gf.grid(components)
-    c = gf.pack(components)
-    if len(c) > 1:
-        c = gf.pack(c)
-    return c[0]
+    return gf.grid(components) if grid else gf.pack(components)[0]
 
 
 if __name__ == "__main__":
-    # c = via_chain()
+    c = sample_reticle_with_labels(grid=False)
+    gdspath = c.write_gds()
+    csvpath = gf.labels.write_labels(gdspath, layer_label=layer_label)
 
-    c = sample_reticle_with_labels()
-    # c.name = "sample_reticle_with_labels"
-    # c = resistance_sheet()
-    # c = mzi_gc()
-    # gdspath = c.write_gds()
-    # csvpath = gf.labels.write_labels(gdspath, layer_label=layer_label)
-    # df = pd.read_csv(csvpath)
-    # df = df.sort_values(by=["text"])
-    # print(df)
+    import pandas as pd
+
+    df = pd.read_csv(csvpath)
+    df = df.sort_values(by=["text"])
+    print(df)
     c.show()
