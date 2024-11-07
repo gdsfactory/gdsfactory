@@ -1,11 +1,17 @@
 import json
 from typing import Any
 
+import IPython
+import networkx as nx
 import yaml
 from pydantic import BaseModel, Field, model_validator
+import matplotlib.pyplot as plt
 
+import gdsfactory
 from gdsfactory.config import PATH
 from gdsfactory.typings import Anchor, Component
+from IPython.display import display
+from IPython.display import Image
 
 
 class Instance(BaseModel):
@@ -185,38 +191,22 @@ class Schematic(BaseModel):
         else:
             self.netlist.routes[net.name].links[net.p1] = net.p2
 
-    def plot_netlist(
+    def get_netlist_graph(
             self,
-            with_labels: bool = True,
-            font_weight: str = "normal",
+            show_ports
     ):
-        """Plots a netlist graph with Graphviz (optional dependency) or Networkx
-
-        Args:
-            with_labels: add label to each node.
-            font_weight: normal, bold (for consistency with original code).
         """
+        Generates a netlist graph using Graphviz if available. If Graphviz is not installed, falls back to
+        NetworkX, which returns node positions and labels along with the graph structure.
+        
+        Args:
+            show_ports: whether to show ports or no
+        """
+
         try:
             from graphviz import Digraph
-            dot = Digraph(comment="Netlist Diagram")
-            dot.attr(dpi='300', layout="neato", overlap="false")
-
-            for node, placement in self.placements.items():
-                label = node if with_labels else ""
-                pos = f"{placement.x},{placement.y}!"
-                dot.node(node, label=label, pos=pos)
-
-            for net in self.nets:
-                p1_instance = net.p1.split(",")[0]
-                p2_instance = net.p2.split(",")[0]
-                dot.edge(p1_instance, p2_instance)
-
-            dot.render('netlist_diagram', format='png', view=True)
-            return dot
         except ImportError:
             # Fallback to networkx if Graphviz is not available
-            import matplotlib.pyplot as plt
-            import networkx as nx
             plt.figure()
             netlist = self.netlist
             connections = netlist.connections
@@ -241,14 +231,104 @@ class Schematic(BaseModel):
             for net in self.nets:
                 G.add_edge(net.p1.split(",")[0], net.p2.split(",")[0])
 
-            nx.draw(
-                G,
-                with_labels=with_labels,
-                font_weight=font_weight,
-                labels=labels,
-                pos=pos,
-            )
-            return G
+            return G, labels, pos
+
+        # Graphviz implementation
+        dot = Digraph(comment="Netlist Diagram")
+        dot.attr(dpi='300', layout="neato", overlap="false")
+
+        all_ports = []
+
+        # Retrieve all the ports in the component
+        for name, instance in self.netlist.instances.items():
+            ports = gdsfactory.get_component(instance.component).ports
+            all_ports.append((name, ports))
+
+        for node, placement in self.placements.items():
+            ports = dict(all_ports).get(node)
+
+            if not ports or not show_ports:
+                label = node
+            else:
+                top_ports, right_ports, bottom_ports, left_ports = [], [], [], []
+
+                for port in ports:
+                    if 0 <= port.orientation < 45 or 315 <= port.orientation < 360:
+                        right_ports.append(port)
+                    elif 45 <= port.orientation < 135:
+                        bottom_ports.append(port)
+                    elif 135 <= port.orientation < 225:
+                        left_ports.append(port)
+                    elif 225 <= port.orientation < 315:
+                        top_ports.append(port)
+
+                # Format ports for Graphviz record structure in anticlockwise order
+                port_labels = []
+
+                if left_ports:
+                    left_ports_label = " | ".join(f"<{port.name}> {port.name}" for port in reversed(left_ports))
+                    port_labels.append(f"{{ {left_ports_label} }}")
+
+                middle_row = []
+
+                if top_ports:
+                    top_ports_label = " | ".join(f"<{port.name}> {port.name}" for port in top_ports)
+                    middle_row.append(f"{{ {top_ports_label} }}")
+
+                middle_row.append(node)
+
+                if bottom_ports:
+                    bottom_ports_label = " | ".join(f"<{port.name}> {port.name}" for port in reversed(bottom_ports))
+                    middle_row.append(f"{{ {bottom_ports_label} }}")
+
+                port_labels.append(f"{{ {' | '.join(middle_row)} }}")
+
+                if right_ports:
+                    right_ports_label = " | ".join(f"<{port.name}> {port.name}" for port in right_ports)
+                    port_labels.append(f"{{ {right_ports_label} }}")
+
+                label = " | ".join(port_labels)
+
+            pos = f"{placement.x},{placement.y}!"
+            dot.node(node, label=label, pos=pos, shape="record")
+
+        for net in self.nets:
+            p1_instance = net.p1.split(",")[0]
+            p1_port = net.p1.split(",")[1]
+
+            p2_instance = net.p2.split(",")[0]
+            p2_port = net.p2.split(",")[1]
+
+            dot.edge(f'{p1_instance}:{p1_port}', f'{p2_instance}:{p2_port}', dir="none")
+
+        return dot
+
+    def plot_netlist(
+            self,
+            with_labels: bool = True,
+            font_weight: str = "normal",
+            show_ports: bool = True):
+        """Plots the netlist graph
+
+        Args:
+            with_labels (for networkx): add label to each node.
+            font_weight (for networkx): normal, bold (for consistency with original code).
+            show_ports (for graphviz): whether to show components or not
+        """
+
+        graph = self.get_netlist_graph(show_ports)
+        is_jupyter = 'IPython' in globals() and IPython.get_ipython() is not None
+
+        if isinstance(graph, tuple):  # A NetworkX graph returns a tuple of objects (graph, labels, pos)
+            nx.draw(graph[0], with_labels=with_labels, labels=graph[1], pos=graph[2], font_weight=font_weight)
+            plt.show()
+        else:
+            graph.format = 'png'
+            if is_jupyter:
+                png_data = graph.pipe(format='png')
+                display(Image(data=png_data))
+            else:
+                graph.view()
 
 
 def write_schema(
@@ -267,7 +347,6 @@ if __name__ == "__main__":
     # write_schema()
     import gdsfactory as gf
     import gdsfactory.schematic as gt
-    import matplotlib.pyplot as mpl
 
     s = Schematic()
     s.add_instance("mzi1", gt.Instance(component=gf.c.mzi(delta_length=10)))
@@ -279,4 +358,3 @@ if __name__ == "__main__":
     s.add_net(gt.Net(p1="mzi1,o2", p2="mzi2,o2"))
     s.add_net(gt.Net(p1="mzi2,o2", p2="mzi3,o1"))
     s.plot_netlist()
-    mpl.show()
