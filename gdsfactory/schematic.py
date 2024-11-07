@@ -308,7 +308,7 @@ class Schematic(BaseModel):
             with_labels: bool = True,
             font_weight: str = "normal",
             show_ports: bool = True):
-        """Plots the netlist graph
+        """Plots the netlist graph (Automatic fallback to networkx)
 
         Args:
             with_labels (for networkx): add label to each node.
