@@ -85,7 +85,7 @@ def sample_reticle(grid: bool = False) -> gf.Component:
         return gf.grid(components)
     c = gf.pack(components)
     if len(c) > 1:
-        c = gf.pack(c)[0]
+        c = gf.pack(c)
     return c[0]
 
 
