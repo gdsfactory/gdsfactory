@@ -45,7 +45,7 @@ def resistance_sheet(width: float = 5, **kwargs) -> gf.Component:
     c.info["ports_optical"] = 0
     c.info["ports_electrical"] = 2
     c.info.update(kwargs)
-    label_farthest_right_port(c, c.ports, layer=layer_label, text=f"opt-4-{c.name}")
+    label_farthest_right_port(c, c.ports, layer=layer_label, text=f"elec-4-{c.name}")
     return c
 
 
@@ -81,7 +81,7 @@ def via_chain(
 
     c.name = component_name
     label_farthest_right_port(
-        c, c.ports, layer=layer_label, text=f"opt-4-{component_name}"
+        c, c.ports, layer=layer_label, text=f"elec-4-{component_name}"
     )
     return c
 
