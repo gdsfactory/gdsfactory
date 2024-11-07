@@ -39,9 +39,7 @@ def write_test_manifest(
     c = component
 
     if not search_strings:
-        for ci in c.kcl.kcells.values():
-            search_strings.append(ci.name)
-
+        search_strings.extend(ci.name for ci in c.kcl.kcells.values())
     with open(csvpath, "w") as f:
         writer = csv.writer(f)
         writer.writerow(
