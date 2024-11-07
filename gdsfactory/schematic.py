@@ -2,16 +2,15 @@ import json
 from typing import Any
 
 import IPython
+import matplotlib.pyplot as plt
 import networkx as nx
 import yaml
+from IPython.display import Image, display
 from pydantic import BaseModel, Field, model_validator
-import matplotlib.pyplot as plt
 
 import gdsfactory
 from gdsfactory.config import PATH
 from gdsfactory.typings import Anchor, Component
-from IPython.display import display
-from IPython.display import Image
 
 
 class Instance(BaseModel):
@@ -157,16 +156,16 @@ class Schematic(BaseModel):
     links: list[Link] = Field(default_factory=list)
 
     def add_instance(
-            self, name: str, instance: Instance, placement: Placement | None = None
+        self, name: str, instance: Instance, placement: Placement | None = None
     ) -> None:
         self.netlist.instances[name] = instance
         if placement:
             self.add_placement(name, placement)
 
     def add_placement(
-            self,
-            instance_name: str,
-            placement: Placement,
+        self,
+        instance_name: str,
+        placement: Placement,
     ) -> None:
         """Add placement to the netlist.
 
@@ -191,18 +190,13 @@ class Schematic(BaseModel):
         else:
             self.netlist.routes[net.name].links[net.p1] = net.p2
 
-    def get_netlist_graph(
-            self,
-            show_ports
-    ):
-        """
-        Generates a netlist graph using Graphviz if available. If Graphviz is not installed, falls back to
+    def get_netlist_graph(self, show_ports):
+        """Generates a netlist graph using Graphviz if available. If Graphviz is not installed, falls back to
         NetworkX, which returns node positions and labels along with the graph structure.
-        
+
         Args:
             show_ports: whether to show ports or no
         """
-
         try:
             from graphviz import Digraph
         except ImportError:
@@ -223,7 +217,7 @@ class Schematic(BaseModel):
 
             for node, placement in placements.items():
                 if not G.has_node(
-                        node
+                    node
                 ):  # Check if the node is already in the graph (from connections), to avoid duplication.
                     G.add_node(node)
                     pos[node] = (placement.x, placement.y)
@@ -235,7 +229,7 @@ class Schematic(BaseModel):
 
         # Graphviz implementation
         dot = Digraph(comment="Netlist Diagram")
-        dot.attr(dpi='300', layout="neato", overlap="false")
+        dot.attr(dpi="300", layout="neato", overlap="false")
 
         all_ports = []
 
@@ -266,25 +260,33 @@ class Schematic(BaseModel):
                 port_labels = []
 
                 if left_ports:
-                    left_ports_label = " | ".join(f"<{port.name}> {port.name}" for port in reversed(left_ports))
+                    left_ports_label = " | ".join(
+                        f"<{port.name}> {port.name}" for port in reversed(left_ports)
+                    )
                     port_labels.append(f"{{ {left_ports_label} }}")
 
                 middle_row = []
 
                 if top_ports:
-                    top_ports_label = " | ".join(f"<{port.name}> {port.name}" for port in top_ports)
+                    top_ports_label = " | ".join(
+                        f"<{port.name}> {port.name}" for port in top_ports
+                    )
                     middle_row.append(f"{{ {top_ports_label} }}")
 
                 middle_row.append(node)
 
                 if bottom_ports:
-                    bottom_ports_label = " | ".join(f"<{port.name}> {port.name}" for port in reversed(bottom_ports))
+                    bottom_ports_label = " | ".join(
+                        f"<{port.name}> {port.name}" for port in reversed(bottom_ports)
+                    )
                     middle_row.append(f"{{ {bottom_ports_label} }}")
 
                 port_labels.append(f"{{ {' | '.join(middle_row)} }}")
 
                 if right_ports:
-                    right_ports_label = " | ".join(f"<{port.name}> {port.name}" for port in right_ports)
+                    right_ports_label = " | ".join(
+                        f"<{port.name}> {port.name}" for port in right_ports
+                    )
                     port_labels.append(f"{{ {right_ports_label} }}")
 
                 label = " | ".join(port_labels)
@@ -299,15 +301,16 @@ class Schematic(BaseModel):
             p2_instance = net.p2.split(",")[0]
             p2_port = net.p2.split(",")[1]
 
-            dot.edge(f'{p1_instance}:{p1_port}', f'{p2_instance}:{p2_port}', dir="none")
+            dot.edge(f"{p1_instance}:{p1_port}", f"{p2_instance}:{p2_port}", dir="none")
 
         return dot
 
     def plot_netlist(
-            self,
-            with_labels: bool = True,
-            font_weight: str = "normal",
-            show_ports: bool = True):
+        self,
+        with_labels: bool = True,
+        font_weight: str = "normal",
+        show_ports: bool = True,
+    ):
         """Plots the netlist graph (Automatic fallback to networkx)
 
         Args:
@@ -315,24 +318,31 @@ class Schematic(BaseModel):
             font_weight (for networkx): normal, bold (for consistency with original code).
             show_ports (for graphviz): whether to show components or not
         """
-
         graph = self.get_netlist_graph(show_ports)
-        is_jupyter = 'IPython' in globals() and IPython.get_ipython() is not None
+        is_jupyter = "IPython" in globals() and IPython.get_ipython() is not None
 
-        if isinstance(graph, tuple):  # A NetworkX graph returns a tuple of objects (graph, labels, pos)
-            nx.draw(graph[0], with_labels=with_labels, labels=graph[1], pos=graph[2], font_weight=font_weight)
+        if isinstance(
+            graph, tuple
+        ):  # A NetworkX graph returns a tuple of objects (graph, labels, pos)
+            nx.draw(
+                graph[0],
+                with_labels=with_labels,
+                labels=graph[1],
+                pos=graph[2],
+                font_weight=font_weight,
+            )
             plt.show()
         else:
-            graph.format = 'png'
+            graph.format = "png"
             if is_jupyter:
-                png_data = graph.pipe(format='png')
+                png_data = graph.pipe(format="png")
                 display(Image(data=png_data))
             else:
                 graph.view()
 
 
 def write_schema(
-        model: BaseModel = Netlist, schema_path_json=PATH.schema_netlist
+    model: BaseModel = Netlist, schema_path_json=PATH.schema_netlist
 ) -> None:
     s = model.model_json_schema()
     schema_path_yaml = schema_path_json.with_suffix(".yaml")
