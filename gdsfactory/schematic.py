@@ -2,7 +2,6 @@ import json
 from typing import Any
 
 import IPython
-import matplotlib.pyplot as plt
 import networkx as nx
 import yaml
 from IPython.display import Image, display
@@ -131,6 +130,123 @@ class Netlist(BaseModel):
 _route_counter = 0
 
 
+def get_netlist_graph_networkx(netlist: Netlist, nets):
+    connections = netlist.connections
+    placements = netlist.placements
+    G = nx.Graph()
+    G.add_edges_from(
+        [
+            (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
+            for k, v in connections.items()
+        ]
+    )
+    pos = {k: (v["x"], v["y"]) for k, v in placements.items()}
+    labels = {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
+
+    for node, placement in placements.items():
+        if not G.has_node(
+            node
+        ):  # Check if the node is already in the graph (from connections), to avoid duplication.
+            G.add_node(node)
+            pos[node] = (placement.x, placement.y)
+
+    for net in nets:
+        G.add_edge(net.p1.split(",")[0], net.p2.split(",")[0])
+
+    return G, labels, pos
+
+
+def get_netlist_graph_graphviz(instances, placements, nets, show_ports=True):
+    from graphviz import Digraph
+
+    # Graphviz implementation
+    dot = Digraph(comment="Netlist Diagram")
+    dot.attr(dpi="300", layout="neato", overlap="false")
+
+    all_ports = []
+
+    # Retrieve all the ports in the component
+    for name, instance in instances.items():
+        if hasattr(instance, "component"):
+            instance = instance.component
+        else:
+            instance = instance["component"]
+        ports = gdsfactory.get_component(instance).ports
+        all_ports.append((name, ports))
+
+    for node, placement in placements.items():
+        ports = dict(all_ports).get(node)
+
+        if not ports or not show_ports:
+            label = node
+        else:
+            top_ports, right_ports, bottom_ports, left_ports = [], [], [], []
+
+            for port in ports:
+                if 0 <= port.orientation < 45 or 315 <= port.orientation < 360:
+                    right_ports.append(port)
+                elif 45 <= port.orientation < 135:
+                    bottom_ports.append(port)
+                elif 135 <= port.orientation < 225:
+                    left_ports.append(port)
+                elif 225 <= port.orientation < 315:
+                    top_ports.append(port)
+
+            # Format ports for Graphviz record structure in anticlockwise order
+            port_labels = []
+
+            if left_ports:
+                left_ports_label = " | ".join(
+                    f"<{port.name}> {port.name}" for port in reversed(left_ports)
+                )
+                port_labels.append(f"{{ {left_ports_label} }}")
+
+            middle_row = []
+
+            if top_ports:
+                top_ports_label = " | ".join(
+                    f"<{port.name}> {port.name}" for port in top_ports
+                )
+                middle_row.append(f"{{ {top_ports_label} }}")
+
+            middle_row.append(node)
+
+            if bottom_ports:
+                bottom_ports_label = " | ".join(
+                    f"<{port.name}> {port.name}" for port in reversed(bottom_ports)
+                )
+                middle_row.append(f"{{ {bottom_ports_label} }}")
+
+            port_labels.append(f"{{ {' | '.join(middle_row)} }}")
+
+            if right_ports:
+                right_ports_label = " | ".join(
+                    f"<{port.name}> {port.name}" for port in right_ports
+                )
+                port_labels.append(f"{{ {right_ports_label} }}")
+
+            label = " | ".join(port_labels)
+
+        x = placement.x if hasattr(placement, "x") else placement["x"]
+        y = placement.y if hasattr(placement, "y") else placement["y"]
+        pos = f"{x},{y}!"
+        dot.node(node, label=label, pos=pos, shape="record")
+
+    for net in nets:
+        p1 = net.p1 if hasattr(net, "p1") else net["p1"]
+        p2 = net.p2 if hasattr(net, "p2") else net["p2"]
+
+        p1_instance = p1.split(",")[0]
+        p1_port = p1.split(",")[1]
+
+        p2_instance = p2.split(",")[0]
+        p2_port = p2.split(",")[1]
+
+        dot.edge(f"{p1_instance}:{p1_port}", f"{p2_instance}:{p2_port}", dir="none")
+
+    return dot
+
+
 class Link(BaseModel):
     """Link between instances.
 
@@ -190,155 +306,34 @@ class Schematic(BaseModel):
         else:
             self.netlist.routes[net.name].links[net.p1] = net.p2
 
-    def get_netlist_graph(self, show_ports):
-        """Generates a netlist graph using Graphviz if available. If Graphviz is not installed, falls back to
-        NetworkX, which returns node positions and labels along with the graph structure.
+    def get_netlist_graph_graphviz(self, show_ports=True):
+        """Generates a netlist graph using Graphviz.
 
         Args:
-            show_ports: whether to show ports or no
+            show_ports: whether to show ports or not.
         """
-        try:
-            from graphviz import Digraph
-        except ImportError:
-            # Fallback to networkx if Graphviz is not available
-            plt.figure()
-            netlist = self.netlist
-            connections = netlist.connections
-            placements = self.placements or netlist.placements
-            G = nx.Graph()
-            G.add_edges_from(
-                [
-                    (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
-                    for k, v in connections.items()
-                ]
-            )
-            pos = {k: (v["x"], v["y"]) for k, v in placements.items()}
-            labels = {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
+        return get_netlist_graph_graphviz(
+            self.netlist.instances, self.placements, self.nets, show_ports
+        )
 
-            for node, placement in placements.items():
-                if not G.has_node(
-                    node
-                ):  # Check if the node is already in the graph (from connections), to avoid duplication.
-                    G.add_node(node)
-                    pos[node] = (placement.x, placement.y)
+    def get_netlist_graph_networkx(self):
+        return get_netlist_graph_networkx(self.netlist, self.nets)
 
-            for net in self.nets:
-                G.add_edge(net.p1.split(",")[0], net.p2.split(",")[0])
+    def plot_graphviz(self):
+        """Plots the netlist graph (Automatic fallback to networkx)."""
+        dot = self.get_netlist_graph_graphviz()
+        plot_graphviz(dot)
 
-            return G, labels, pos
 
-        # Graphviz implementation
-        dot = Digraph(comment="Netlist Diagram")
-        dot.attr(dpi="300", layout="neato", overlap="false")
-
-        all_ports = []
-
-        # Retrieve all the ports in the component
-        for name, instance in self.netlist.instances.items():
-            ports = gdsfactory.get_component(instance.component).ports
-            all_ports.append((name, ports))
-
-        for node, placement in self.placements.items():
-            ports = dict(all_ports).get(node)
-
-            if not ports or not show_ports:
-                label = node
-            else:
-                top_ports, right_ports, bottom_ports, left_ports = [], [], [], []
-
-                for port in ports:
-                    if 0 <= port.orientation < 45 or 315 <= port.orientation < 360:
-                        right_ports.append(port)
-                    elif 45 <= port.orientation < 135:
-                        bottom_ports.append(port)
-                    elif 135 <= port.orientation < 225:
-                        left_ports.append(port)
-                    elif 225 <= port.orientation < 315:
-                        top_ports.append(port)
-
-                # Format ports for Graphviz record structure in anticlockwise order
-                port_labels = []
-
-                if left_ports:
-                    left_ports_label = " | ".join(
-                        f"<{port.name}> {port.name}" for port in reversed(left_ports)
-                    )
-                    port_labels.append(f"{{ {left_ports_label} }}")
-
-                middle_row = []
-
-                if top_ports:
-                    top_ports_label = " | ".join(
-                        f"<{port.name}> {port.name}" for port in top_ports
-                    )
-                    middle_row.append(f"{{ {top_ports_label} }}")
-
-                middle_row.append(node)
-
-                if bottom_ports:
-                    bottom_ports_label = " | ".join(
-                        f"<{port.name}> {port.name}" for port in reversed(bottom_ports)
-                    )
-                    middle_row.append(f"{{ {bottom_ports_label} }}")
-
-                port_labels.append(f"{{ {' | '.join(middle_row)} }}")
-
-                if right_ports:
-                    right_ports_label = " | ".join(
-                        f"<{port.name}> {port.name}" for port in right_ports
-                    )
-                    port_labels.append(f"{{ {right_ports_label} }}")
-
-                label = " | ".join(port_labels)
-
-            pos = f"{placement.x},{placement.y}!"
-            dot.node(node, label=label, pos=pos, shape="record")
-
-        for net in self.nets:
-            p1_instance = net.p1.split(",")[0]
-            p1_port = net.p1.split(",")[1]
-
-            p2_instance = net.p2.split(",")[0]
-            p2_port = net.p2.split(",")[1]
-
-            dot.edge(f"{p1_instance}:{p1_port}", f"{p2_instance}:{p2_port}", dir="none")
-
-        return dot
-
-    def plot_netlist(
-        self,
-        with_labels: bool = True,
-        font_weight: str = "normal",
-        show_ports: bool = True,
-    ):
-        """Plots the netlist graph (Automatic fallback to networkx)
-
-        Args:
-            with_labels (for networkx): add label to each node.
-            font_weight (for networkx): normal, bold (for consistency with original code).
-            show_ports (for graphviz): whether to show components or not
-        """
-        graph = self.get_netlist_graph(show_ports)
-        is_jupyter = "IPython" in globals() and IPython.get_ipython() is not None
-
-        if isinstance(
-            graph, tuple
-        ):  # A NetworkX graph returns a tuple of objects (graph, labels, pos)
-            nx.draw(
-                graph[0],
-                with_labels=with_labels,
-                labels=graph[1],
-                pos=graph[2],
-                font_weight=font_weight,
-            )
-            plt.show()
-        else:
-            graph.format = "png"
-            if is_jupyter:
-                png_data = graph.pipe(format="png")
-                display(Image(data=png_data))
-            else:
-                graph.view()
+def plot_graphviz(graph):
+    """Plots the netlist graph (Automatic fallback to networkx)."""
+    is_jupyter = "IPython" in globals() and IPython.get_ipython() is not None
+    graph.format = "png"
+    if is_jupyter:
+        png_data = graph.pipe(format="png")
+        display(Image(data=png_data))
+    else:
+        graph.view()
 
 
 def write_schema(
@@ -367,4 +362,5 @@ if __name__ == "__main__":
     s.add_placement("mzi3", gt.Placement(x=200, y=0))
     s.add_net(gt.Net(p1="mzi1,o2", p2="mzi2,o2"))
     s.add_net(gt.Net(p1="mzi2,o2", p2="mzi3,o1"))
+    dot = s.get_netlist_graph_graphviz()
     s.plot_netlist()
