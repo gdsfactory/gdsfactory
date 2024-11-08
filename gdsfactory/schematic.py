@@ -374,4 +374,4 @@ if __name__ == "__main__":
     s.add_net(gt.Net(p1="mzi1,o2", p2="mzi2,o2"))
     s.add_net(gt.Net(p1="mzi2,o2", p2="mzi3,o1"))
     dot = s.get_netlist_graph_graphviz()
-    s.plot_netlist()
+    s.plot_graphviz()

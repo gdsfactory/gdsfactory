@@ -284,7 +284,9 @@ if __name__ == "__main__":
     # c = gf.routing.add_fiber_array(c)
     # gdspath = c.write_gds(flatten_invalid_refs=True)
     # gf.show(gdspath)
-    c.plot_netlist()
+    # c.plot_netlist()
+    n = c.get_graphviz()
+    gf.schematic.plot_graphviz(n)
     c.show()
 
     # c1.write_gds("a.gds")
