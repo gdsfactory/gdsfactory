@@ -106,6 +106,7 @@ def mzi(
     cp2 = c << cp2
     b5 = c << bend
     b5.connect(port1, cp1.ports[port_e0_splitter], mirror=True)
+    b5.name = "b5"
 
     syl = c << gf.get_component(
         straight_y, length=delta_length / 2 + length_y, cross_section=cross_section
@@ -113,6 +114,7 @@ def mzi(
     syl.connect(port1, b5.ports[port2])
     b6 = c << bend
     b6.connect(port1, syl.ports[port2])
+    b6.name = "b6"
 
     straight_x_top = (
         gf.get_component(
@@ -137,6 +139,7 @@ def mzi(
 
     b1 = c << bend
     b1.connect(port1, cp1.ports[port_e1_splitter])
+    b1.name = "b1"
 
     sytl = c << gf.get_component(
         straight_y, length=length_y, cross_section=cross_section
@@ -145,6 +148,8 @@ def mzi(
 
     b2 = c << bend
     b2.connect(port2, sytl.ports[port2])
+    b2.name = "b2"
+
     sxt.connect(port1, b2.ports[port1])
     cp2.mirror_x()
     cp2.dxmin = sxt.ports[port2].dx + bend.info["radius"] * nbends + 2 * min_length
@@ -156,6 +161,7 @@ def mzi(
     # Top arm
     b3 = c << bend
     b3.connect(port2, sxt.ports[port2])
+    b3.name = "b3"
 
     sytr = c << gf.get_component(
         straight_y, length=length_y - delta_gap_ports / 2, cross_section=cross_section
@@ -163,10 +169,12 @@ def mzi(
     sytr.connect(port2, b3.ports[port1])
     b4 = c << bend
     b4.connect(port1, sytr.ports[port1])
+    b4.name = "b4"
 
     # Bot arm
     b7 = c << bend
     b7.connect(port1, sxb.ports[port2])
+    b7.name = "b7"
 
     sybr = c << gf.get_component(
         straight_y,
@@ -176,6 +184,7 @@ def mzi(
     sybr.connect(port1, b7.ports[port2])
     b8 = c << bend
     b8.connect(port2, sybr.ports[port2])
+    b8.name = "b8"
 
     cp2.connect(port_e1_combiner, b4.ports[port2])
 
@@ -184,6 +193,9 @@ def mzi(
     sxt.name = "sxt"
     sxb.name = "sxb"
     cp2.name = "cp2"
+
+    sytr.name = "sytr"
+    sybr.name = "sybr"
 
     if with_splitter:
         c.add_ports(cp1.ports.filter(orientation=180), prefix="in_")
@@ -272,6 +284,7 @@ if __name__ == "__main__":
     # c = gf.routing.add_fiber_array(c)
     # gdspath = c.write_gds(flatten_invalid_refs=True)
     # gf.show(gdspath)
+    c.plot_netlist()
     c.show()
 
     # c1.write_gds("a.gds")

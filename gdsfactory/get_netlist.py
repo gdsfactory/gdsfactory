@@ -595,15 +595,15 @@ if __name__ == "__main__":
     # c.add_port("o2", port=bend.ports["o2"])
 
     c = gf.c.mzi()
-    c = gf.components.array(
-        gf.components.straight(length=100), spacing=(100, 0), columns=5, rows=1
-    )
+    # c = gf.components.array(
+    #     gf.components.straight(length=100), spacing=(100, 0), columns=5, rows=1
+    # )
     c.show()
     n0 = c.get_netlist()
-    # pprint(n0)
+    pprint(n0)
 
-    gdspath = c.write_gds("test.gds")
-    c = gf.import_gds(gdspath)
-    n = c.get_netlist()
-    pprint(n["placements"])
+    # gdspath = c.write_gds("test.gds")
+    # c = gf.import_gds(gdspath)
+    # n = c.get_netlist()
+    # pprint(n["placements"])
     c.show()
