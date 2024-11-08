@@ -22,6 +22,7 @@ from gdsfactory.port import pprint_ports, select_ports, to_dict
 from gdsfactory.serialization import clean_value_json, convert_tuples_to_lists
 
 if TYPE_CHECKING:
+    import networkx as nx
     from matplotlib.figure import Figure
 
     from gdsfactory.typings import (
@@ -992,7 +993,7 @@ class ComponentBase:
         with_labels: bool = True,
         font_weight: str = "normal",
         **kwargs: Any,
-    ):
+    ) -> nx.Graph:
         """Plots a netlist graph with networkx.
 
         Args:
@@ -1297,11 +1298,10 @@ def component_with_function(
 
 if __name__ == "__main__":
     import gdsfactory as gf
-    from gdsfactory.schematic import plot_graphviz
 
     c = gf.c.mzi()
     n = c.get_graphviz()
-    plot_graphviz(n)
+    # plot_graphviz(n)
 
     # c = gf.Component()
     # c.add_port(
