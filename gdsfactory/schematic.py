@@ -2,10 +2,8 @@ import json
 import warnings
 from typing import Any
 
-import IPython
 import networkx as nx
 import yaml
-from IPython.display import Image, display
 from pydantic import BaseModel, Field, model_validator
 
 import gdsfactory
@@ -132,6 +130,7 @@ _route_counter = 0
 
 
 def get_netlist_graph_networkx(netlist: Netlist, nets):
+    """Generates a netlist graph using NetworkX."""
     connections = netlist.connections
     placements = netlist.placements
     G = nx.Graph()
@@ -158,6 +157,7 @@ def get_netlist_graph_networkx(netlist: Netlist, nets):
 
 
 def get_netlist_graph_graphviz(instances, placements, nets, show_ports=True):
+    """Generates a netlist graph using Graphviz."""
     from graphviz import Digraph
 
     # Graphviz implementation
@@ -335,6 +335,9 @@ class Schematic(BaseModel):
 
 def plot_graphviz(graph):
     """Plots the netlist graph (Automatic fallback to networkx)."""
+    import IPython
+    from IPython.display import Image, display
+
     is_jupyter = "IPython" in globals() and IPython.get_ipython() is not None
     graph.format = "png"
     if is_jupyter:
