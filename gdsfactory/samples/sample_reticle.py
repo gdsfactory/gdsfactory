@@ -22,6 +22,9 @@ def spiral_gc(**kwargs) -> gf.Component:
     c = gf.routing.add_fiber_array(c)
     c.info["doe"] = "spirals_sc"
     c.info["measurement"] = "optical_spectrum"
+    c.info["measurement_parameters"] = (
+        "{'wl_start': 1.5, 'wl_stop': 1.6, 'wl_step': 0.001}"
+    )
     c.info["analysis"] = "[power_envelope]"
     c.info["analysis_parameters"] = "[]"
     c.info["ports_optical"] = 4
@@ -45,6 +48,9 @@ def mzi_gc(length_x=10, **kwargs) -> gf.Component:
     c = gf.routing.add_fiber_array(c)
     c.info["doe"] = "mzi"
     c.info["measurement"] = "optical_spectrum"
+    c.info["measurement_parameters"] = (
+        "{'wl_start': 1.5, 'wl_stop': 1.6, 'wl_step': 0.001}"
+    )
     c.info["analysis"] = "[fsr]"
     c.info["analysis_parameters"] = "[]"
     c.info["ports_electrical"] = 2
@@ -73,6 +79,9 @@ def sample_reticle(grid: bool = False) -> gf.Component:
         c.name = f"ring_{length_x}"
         c.info["doe"] = "ring_length_x"
         c.info["measurement"] = "optical_spectrum"
+        c.info["measurement_parameters"] = (
+            "{'wl_start': 1.5, 'wl_stop': 1.6, 'wl_step': 0.001}"
+        )
         c.info["ports_electrical"] = 2
         c.info["ports_optical"] = 4
         c.info["analysis"] = "[fsr]"
