@@ -1058,6 +1058,24 @@ class ComponentBase:
         )
         return G
 
+    def get_graphviz(
+        self,
+        recursive: bool = False,
+    ):
+        """Returns a netlist graph with graphviz.
+
+        Args:
+            recursive: if True, returns a recursive netlist.
+        """
+        from gdsfactory.schematic import get_netlist_graph_graphviz
+
+        netlist = self.get_netlist(recursive=recursive)
+        return get_netlist_graph_graphviz(
+            netlist["instances"],
+            placements=netlist["placements"],
+            nets=netlist["nets"],
+        )
+
     def over_under(self, layer: LayerSpec, distance: int = 1) -> None:
         """Flattens and performs over-under on a layer in the Component.
 
@@ -1281,15 +1299,19 @@ def component_with_function(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.Component()
-    c.add_port(
-        name="o1",
-        center=(0, 0),
-        width=0.5,
-        orientation=0,
-        port_type="optical2",
-        layer="WG",
-    )
+    c = gf.c.mzi()
+    n = c.get_graphviz()
+    # plot_graphviz(n)
+
+    # c = gf.Component()
+    # c.add_port(
+    #     name="o1",
+    #     center=(0, 0),
+    #     width=0.5,
+    #     orientation=0,
+    #     port_type="optical2",
+    #     layer="WG",
+    # )
     # b = c << gf.c.bend_circular()
     # s = c << gf.c.straight()
     # s.connect("o1", b.ports["o2"])
