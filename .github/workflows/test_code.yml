@@ -45,7 +45,7 @@ jobs:
           make test-data
       - name: Test with pytest
         run: |
-          uv run pytest -s
+          make uv-test
   test_code_coverage:
     runs-on: ubuntu-latest
     steps:
@@ -59,7 +59,7 @@ jobs:
           make install test-data
       - name: Test with pytest
         run: |
-          make cov
+           make cov
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
