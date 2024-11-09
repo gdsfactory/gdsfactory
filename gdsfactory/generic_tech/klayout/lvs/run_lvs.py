@@ -194,7 +194,7 @@ def run_check(lvs_file: str, path: str, run_dir: str, sws: dict):
     report_path = os.path.join(run_dir, f"{layout_base_name}.lvsdb")
     ext_net_path = os.path.join(run_dir, f"{layout_base_name}.cir")
     new_sws["report"] = report_path
-    new_sws["target_netlist"] = ext_net_path
+    new_sws["tarto_yaml"] = ext_net_path
 
     sws_str = build_switches_string(new_sws)
 

@@ -25,7 +25,7 @@ def test_netlist_read() -> None:
 def regenerate_regression_test() -> None:
     c = straight_with_bend()
     filepath = PATH.netlists / "straight_with_bend.yml"
-    n = c.get_netlist()
+    n = c.to_yaml()
     c.write_netlist(n, filepath)
 
 

@@ -187,6 +187,6 @@ def wire_corner_sections(
 if __name__ == "__main__":
     c = wire_corner()
     c.pprint_ports()
-    # n = c.get_netlist()
+    # n = c.to_yaml()
     # c = wire_corner45()
     c.show()

@@ -360,5 +360,5 @@ if __name__ == "__main__":
     # c = via_stack_npp_m1()
     c = via_stack_m1_mtop(port_orientations=(0, 90))
     c.pprint_ports()
-    # n = c.get_netlist()
+    # n = c.to_yaml()
     c.show()

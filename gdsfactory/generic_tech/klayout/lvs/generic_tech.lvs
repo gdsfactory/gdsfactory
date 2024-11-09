@@ -41,14 +41,14 @@ else
   report_lvs($report_path)
 end
 
-if $target_netlist
-  logger.info("LVS extracted netlist at: #{$target_netlist}")
-  target_netlist($target_netlist)
+if $tarto_yaml
+  logger.info("LVS extracted netlist at: #{$tarto_yaml}")
+  tarto_yaml($tarto_yaml)
 else
   layout_dir = Pathname.new(RBA::CellView.active.filename).parent.realpath
   netlist_path = layout_dir.join("#{source.cell_name}_extracted.cir").to_s
   logger.info("GENERIC TECH Klayout LVS extracted netlist file at: #{source.cell_name}_extracted.cir")
-  target_netlist($netlist_path,
+  tarto_yaml($netlist_path,
                  write_spice(spice_with_net_names, spice_with_comments), 'Extracted by KLayout with GENERIC TECH LVS runset')
 end
 

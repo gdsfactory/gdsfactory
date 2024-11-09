@@ -122,7 +122,7 @@ def _is_array_reference(ref: ComponentReference) -> bool:
     return ref.na > 1 or ref.nb > 1
 
 
-def get_netlist(
+def to_yaml(
     component: Component,
     exclude_port_types: list[str] | tuple[str] | None = (
         "placement",
@@ -490,10 +490,10 @@ def _get_references_to_netlist(component: Component) -> list[ComponentReference]
     return component.insts
 
 
-def get_netlist_recursive(
+def to_yaml_recursive(
     component: Component,
     component_suffix: str = "",
-    get_netlist_func: Callable = get_netlist,
+    to_yaml_func: Callable = to_yaml,
     get_instance_name: Callable[..., str] = get_instance_name_from_alias,
     **kwargs,
 ) -> dict[str, Any]:
@@ -503,9 +503,9 @@ def get_netlist_recursive(
         component: to extract netlist.
         component_suffix: suffix to append to each component name.
             useful if to save and reload a back-annotated netlist.
-        get_netlist_func: function to extract individual netlists.
+        to_yaml_func: function to extract individual netlists.
         get_instance_name: function to get instance name.
-        kwargs: additional keyword arguments to pass to get_netlist_func.
+        kwargs: additional keyword arguments to pass to to_yaml_func.
 
     Keyword Args:
         tolerance: tolerance in grid_factor to consider two ports connected.
@@ -522,16 +522,16 @@ def get_netlist_recursive(
     references = _get_references_to_netlist(component)
 
     if references:
-        netlist = get_netlist_func(component, **kwargs)
+        netlist = to_yaml_func(component, **kwargs)
         all_netlists[f"{component.name}{component_suffix}"] = netlist
 
         # for each reference, expand the netlist
         for ref in references:
             rcell = ref.cell
-            grandchildren = get_netlist_recursive(
+            grandchildren = to_yaml_recursive(
                 component=rcell,
                 component_suffix=component_suffix,
-                get_netlist_func=get_netlist_func,
+                to_yaml_func=to_yaml_func,
                 **kwargs,
             )
             all_netlists |= grandchildren
@@ -554,7 +554,7 @@ def _demo_ring_single_array() -> None:
     import gdsfactory as gf
 
     c = gf.components.ring_single_array()
-    c.get_netlist()
+    c.to_yaml()
 
 
 def _demo_mzi_lattice() -> None:
@@ -569,7 +569,7 @@ def _demo_mzi_lattice() -> None:
         coupler_gaps=coupler_gaps,
         delta_lengths=delta_lengths,
     )
-    c.get_netlist()
+    c.to_yaml()
 
 
 DEFAULT_CONNECTION_VALIDATORS = get_default_connection_validators()
@@ -599,11 +599,11 @@ if __name__ == "__main__":
     #     gf.components.straight(length=100), spacing=(100, 0), columns=5, rows=1
     # )
     c.show()
-    n0 = c.get_netlist()
+    n0 = c.to_yaml()
     pprint(n0)
 
     # gdspath = c.write_gds("test.gds")
     # c = gf.import_gds(gdspath)
-    # n = c.get_netlist()
+    # n = c.to_yaml()
     # pprint(n["placements"])
     c.show()

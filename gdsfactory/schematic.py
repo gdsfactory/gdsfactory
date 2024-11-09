@@ -129,7 +129,7 @@ class Netlist(BaseModel):
 _route_counter = 0
 
 
-def get_netlist_graph_networkx(netlist: Netlist, nets):
+def to_yaml_graph_networkx(netlist: Netlist, nets):
     """Generates a netlist graph using NetworkX."""
     connections = netlist.connections
     placements = netlist.placements
@@ -156,7 +156,7 @@ def get_netlist_graph_networkx(netlist: Netlist, nets):
     return G, labels, pos
 
 
-def get_netlist_graph_graphviz(instances, placements, nets, show_ports=True):
+def to_graphviz(instances, placements, nets, show_ports=True):
     """Generates a netlist graph using Graphviz."""
     from graphviz import Digraph
 
@@ -294,7 +294,7 @@ class Schematic(BaseModel):
         self.netlist.placements[instance_name] = placement
 
     def from_component(self, component: Component) -> None:
-        n = component.get_netlist()
+        n = component.to_yaml()
         self.netlist = Netlist.model_validate(n)
 
     def add_net(self, net: Net) -> None:
@@ -307,28 +307,29 @@ class Schematic(BaseModel):
         else:
             self.netlist.routes[net.name].links[net.p1] = net.p2
 
-    def get_netlist_graph_graphviz(self, show_ports=True):
+    def to_graphviz(self, show_ports=True):
         """Generates a netlist graph using Graphviz.
 
         Args:
             show_ports: whether to show ports or not.
         """
-        return get_netlist_graph_graphviz(
+        return to_graphviz(
             self.netlist.instances, self.placements, self.nets, show_ports
         )
 
-    def get_netlist_graph_networkx(self):
-        return get_netlist_graph_networkx(self.netlist, self.nets)
+    def to_yaml_graph_networkx(self):
+        return to_yaml_graph_networkx(self.netlist, self.nets)
 
     def plot_graphviz(self):
         """Plots the netlist graph (Automatic fallback to networkx)."""
-        dot = self.get_netlist_graph_graphviz()
+        dot = self.to_graphviz()
         plot_graphviz(dot)
 
-    def plot_netlist(self):
+    def plot_schematic(self):
         """Plots the netlist graph (Automatic fallback to networkx)."""
         warnings.warn(
-            "plot_netlist is deprecated. Use plot_graphviz instead", DeprecationWarning
+            "plot_schematic is deprecated. Use plot_graphviz instead",
+            DeprecationWarning,
         )
         self.plot_graphviz()
 
@@ -373,5 +374,5 @@ if __name__ == "__main__":
     s.add_placement("mzi3", gt.Placement(x=200, y=0))
     s.add_net(gt.Net(p1="mzi1,o2", p2="mzi2,o2"))
     s.add_net(gt.Net(p1="mzi2,o2", p2="mzi3,o1"))
-    dot = s.get_netlist_graph_graphviz()
+    dot = s.to_graphviz()
     s.plot_graphviz()

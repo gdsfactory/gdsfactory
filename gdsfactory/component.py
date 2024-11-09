@@ -962,14 +962,33 @@ class ComponentBase:
 
         Args:
             recursive: if True, returns a recursive netlist.
-            kwargs: keyword arguments to get_netlist.
+            kwargs: keyword arguments to to_yaml.
         """
-        from gdsfactory.get_netlist import get_netlist, get_netlist_recursive
+        from gdsfactory.export.to_yaml import to_yaml, to_yaml_recursive
+
+        warnings.warn(
+            "get_netlist() is deprecated and will be removed in gdsfactory9. Please use to_yaml() instead.",
+            stacklevel=2,
+        )
 
         if recursive:
-            return get_netlist_recursive(self, **kwargs)
+            return to_yaml_recursive(self, **kwargs)
 
-        return get_netlist(self, **kwargs)
+        return to_yaml(self, **kwargs)
+
+    def to_yaml(self, recursive: bool = False, **kwargs: Any) -> dict[str, Any]:
+        """Returns a netlist for circuit simulation.
+
+        Args:
+            recursive: if True, returns a recursive netlist.
+            kwargs: keyword arguments to to_yaml.
+        """
+        from gdsfactory.export.to_yaml import to_yaml, to_yaml_recursive
+
+        if recursive:
+            return to_yaml_recursive(self, **kwargs)
+
+        return to_yaml(self, **kwargs)
 
     def write_netlist(
         self, netlist: dict[str, Any], filepath: str | pathlib.Path | None = None
@@ -987,7 +1006,7 @@ class ComponentBase:
             filepath.write_text(yaml_string)
         return yaml_string
 
-    def plot_netlist(
+    def plot_schematic(
         self,
         recursive: bool = False,
         with_labels: bool = True,
@@ -1000,7 +1019,7 @@ class ComponentBase:
             recursive: if True, returns a recursive netlist.
             with_labels: add label to each node.
             font_weight: normal, bold.
-            kwargs: keyword arguments to get_netlist.
+            kwargs: keyword arguments to to_yaml.
 
         Keyword Args:
             tolerance: tolerance in grid_factor to consider two ports connected.
@@ -1012,10 +1031,10 @@ class ComponentBase:
         import matplotlib.pyplot as plt
         import networkx as nx
 
-        from gdsfactory.get_netlist import _nets_to_connections
+        from gdsfactory.export.to_yaml import _nets_to_connections
 
         plt.figure()
-        netlist = self.get_netlist(recursive=recursive, **kwargs)
+        netlist = self.to_yaml(recursive=recursive, **kwargs)
         G = nx.Graph()
 
         if recursive:
@@ -1058,7 +1077,7 @@ class ComponentBase:
         )
         return G
 
-    def get_graphviz(
+    def to_graphviz(
         self,
         recursive: bool = False,
     ):
@@ -1067,10 +1086,10 @@ class ComponentBase:
         Args:
             recursive: if True, returns a recursive netlist.
         """
-        from gdsfactory.schematic import get_netlist_graph_graphviz
+        from gdsfactory.schematic import to_graphviz
 
-        netlist = self.get_netlist(recursive=recursive)
-        return get_netlist_graph_graphviz(
+        netlist = self.to_yaml(recursive=recursive)
+        return to_graphviz(
             netlist["instances"],
             placements=netlist["placements"],
             nets=netlist["nets"],
@@ -1300,7 +1319,7 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.c.mzi()
-    n = c.get_graphviz()
+    n = c.to_graphviz()
     # plot_graphviz(n)
 
     # c = gf.Component()
@@ -1322,13 +1341,13 @@ if __name__ == "__main__":
     # c.copy_layers({(1, 0): (2, 0)}, recursive=True)
     # c = gf.c.array(spacing=(300, 300), columns=2)
     # c.show()
-    # n0 = c.get_netlist()
+    # n0 = c.to_yaml()
     # # pprint(n0)
 
     # gdspath = c.write_gds("test.gds")
     # c = gf.import_gds(gdspath)
-    # n = c.get_netlist()
-    # c.plot_netlist(recursive=True)
+    # n = c.to_yaml()
+    # c.plot_schematic(recursive=True)
     # plt.show()
     c.show()
     # import matplotlib.pyplot as plt
@@ -1342,7 +1361,7 @@ if __name__ == "__main__":
     # c = gf.c.mzi_lattice(
     #     coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0, length_x=1
     # )
-    # n = c.get_netlist(recursive=True)
-    # c.plot_netlist(recursive=True)
+    # n = c.to_yaml(recursive=True)
+    # c.plot_schematic(recursive=True)
     # plt.show()
     # c.show()

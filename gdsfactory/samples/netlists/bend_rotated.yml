@@ -23,7 +23,7 @@ placements:
     rotation: 30.0
     mirror: false
 ports: {}
-name: test_get_netlist_yaml3
+name: test_to_yaml_yaml3
 warnings:
   optical:
     unconnected_ports:
