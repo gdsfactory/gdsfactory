@@ -29,6 +29,7 @@ jobs:
       - name: Installing the library
         run: |
           make install
+          sudo apt install graphviz -y
       - name: Build the docs
         env:
           GDSFACTORY_DISPLAY_TYPE: klayout
