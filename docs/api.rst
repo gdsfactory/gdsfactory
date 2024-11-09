@@ -129,10 +129,10 @@ Pack
 
 
 *********************
-Netlist
+Schematic
 *********************
 
-.. currentmodule:: gdsfactory.to_yaml
+.. currentmodule:: gdsfactory.read.to_yaml
 
 .. rubric:: to_yaml
 
