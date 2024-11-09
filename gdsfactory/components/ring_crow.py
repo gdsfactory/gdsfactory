@@ -87,7 +87,7 @@ def ring_crow(
         zip(gaps, radius, bends, ring_cross_sections, lengths_y)
     ):
         gap = gf.snap.snap_to_grid(gap, grid_factor=2)
-        ring = Component(f"ring{index}")
+        ring = Component()
 
         bend_c = gf.get_component(bend, radius=r, cross_section=cross_section)
         xs = gf.get_cross_section(cross_section)
@@ -142,7 +142,6 @@ def ring_crow(
     )
     c.add_port(name="o3", port=output_straight_waveguide.ports["o1"])
     c.add_port(name="o4", port=output_straight_waveguide.ports["o2"])
-    c.flatten()
     return c
 
 
