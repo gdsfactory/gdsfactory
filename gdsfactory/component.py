@@ -1006,7 +1006,51 @@ class ComponentBase:
             filepath.write_text(yaml_string)
         return yaml_string
 
-    def plot_schematic(
+    def plot_netlist(
+        self,
+        recursive: bool = False,
+        with_labels: bool = True,
+        font_weight: str = "normal",
+        **kwargs: Any,
+    ) -> nx.Graph:
+        """Plots a netlist graph with networkx.
+
+        Args:
+            recursive: if True, returns a recursive netlist.
+            with_labels: add label to each node.
+            font_weight: normal, bold.
+            kwargs: keyword arguments to to_yaml.
+
+        Keyword Args:
+            tolerance: tolerance in grid_factor to consider two ports connected.
+            exclude_port_types: optional list of port types to exclude from netlisting.
+            get_instance_name: function to get instance name.
+            allow_multiple: False to raise an error if more than two ports share the same connection. \
+                    if True, will return key: [value] pairs with [value] a list of all connected instances.
+        """
+        warnings.warn(
+            "plot_netlist() is deprecated and will be removed in gdsfactory9. Please use plot_schematic_networkx() or plot_schematic_graphviz() instead.",
+            stacklevel=2,
+        )
+        return self.plot_schematic_networkx(
+            recursive=recursive,
+            with_labels=with_labels,
+            font_weight=font_weight,
+            **kwargs,
+        )
+
+    def plot_schematic_graphviz(self, recursive: bool = False) -> None:
+        """Plots a netlist graph with graphviz.
+
+        Args:
+            recursive: if True, returns a recursive netlist.
+        """
+        from gdsfactory.schematic import plot_graphviz
+
+        n = self.to_graphviz(recursive=recursive)
+        plot_graphviz(n)
+
+    def plot_schematic_networkx(
         self,
         recursive: bool = False,
         with_labels: bool = True,
