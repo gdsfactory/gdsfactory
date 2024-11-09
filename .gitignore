@@ -17,6 +17,7 @@ notebooks/schematic.yaml
 
 # C extensions
 *.so
+*.png
 *.gv
 *.l2n
 test_manifest.csv

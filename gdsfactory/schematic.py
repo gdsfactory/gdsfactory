@@ -325,27 +325,24 @@ class Schematic(BaseModel):
         dot = self.to_graphviz()
         plot_graphviz(dot)
 
-    def plot_schematic(self):
+    def plot_schematic_networkx(self):
         """Plots the netlist graph (Automatic fallback to networkx)."""
         warnings.warn(
-            "plot_schematic is deprecated. Use plot_graphviz instead",
+            "plot_schematic_networkx is deprecated. Use plot_graphviz instead",
             DeprecationWarning,
         )
         self.plot_graphviz()
 
 
-def plot_graphviz(graph):
+def plot_graphviz(graph, interactive=False) -> None:
     """Plots the netlist graph (Automatic fallback to networkx)."""
-    import IPython
     from IPython.display import Image, display
 
-    is_jupyter = "IPython" in globals() and IPython.get_ipython() is not None
-    graph.format = "png"
-    if is_jupyter:
+    if interactive:
+        graph.view()
+    else:
         png_data = graph.pipe(format="png")
         display(Image(data=png_data))
-    else:
-        graph.view()
 
 
 def write_schema(

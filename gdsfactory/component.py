@@ -1391,7 +1391,7 @@ if __name__ == "__main__":
     # gdspath = c.write_gds("test.gds")
     # c = gf.import_gds(gdspath)
     # n = c.to_yaml()
-    # c.plot_schematic(recursive=True)
+    # c.plot_schematic_networkx(recursive=True)
     # plt.show()
     c.show()
     # import matplotlib.pyplot as plt
@@ -1406,6 +1406,6 @@ if __name__ == "__main__":
     #     coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0, length_x=1
     # )
     # n = c.to_yaml(recursive=True)
-    # c.plot_schematic(recursive=True)
+    # c.plot_schematic_networkx(recursive=True)
     # plt.show()
     # c.show()

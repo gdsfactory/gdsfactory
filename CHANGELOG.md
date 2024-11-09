@@ -423,7 +423,7 @@ No significant changes.
 
 ## [8.2.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.2.1) - 2024-06-21
 
-- fix plot_schematic [#2900](https://github.com/gdsfactory/gdsfactory/pull/2900)
+- fix plot_schematic_networkx [#2900](https://github.com/gdsfactory/gdsfactory/pull/2900)
 
 ## [8.2.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.2.0) - 2024-06-21
 
@@ -5172,7 +5172,7 @@ else:
 ## 1.3.0
 
 - `Component.get_netlist()` returns its netlist
-- `Component.plot_schematic()` renders netlist graph
+- `Component.plot_schematic_networkx()` renders netlist graph
 - `component_from_yaml` accepts netlist
 - routing jupyter notebooks
 - manhattan text can have cladding
