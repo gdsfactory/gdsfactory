@@ -38,8 +38,6 @@ def write_test_manifest(
     search_strings = list(search_strings)
     c = component
 
-    if not search_strings:
-        search_strings.extend(ci.name for ci in c.kcl.kcells.values())
     with open(csvpath, "w") as f:
         writer = csv.writer(f)
         writer.writerow(
@@ -55,7 +53,11 @@ def write_test_manifest(
         )
 
         ci = c._kdb_cell.begin_instances_rec()
-        ci.targets = "{" + ",".join(search_strings) + "}"
+        if search_strings:
+            ci.targets = "{" + ",".join(search_strings) + "}"
+        else:
+            ci.targets = c.called_cells()
+
         for _ci in ci.each():
             cell = c.kcl[_ci.inst_cell().cell_index()]
 
