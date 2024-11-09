@@ -334,9 +334,15 @@ class Schematic(BaseModel):
         self.plot_graphviz()
 
 
-def plot_graphviz(graph, interactive=False) -> None:
+def plot_graphviz(graph, interactive=False, splines: str = "ortho") -> None:
     """Plots the netlist graph (Automatic fallback to networkx)."""
     from IPython.display import Image, display
+
+    valid_splines = ["ortho", "spline", "line", "polyline", "curved"]
+    if splines not in valid_splines:
+        raise ValueError(f"Invalid splines value. Choose from {valid_splines}")
+
+    graph.graph_attr["splines"] = splines
 
     if interactive:
         graph.view()
