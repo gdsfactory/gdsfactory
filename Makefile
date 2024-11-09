@@ -4,7 +4,7 @@ help:
 	@echo 'make test-force:       Rebuilds regression test'
 
 install:
-	curl -LsSf https://astral.sh/uv/install.sh | sh
+	curl -LsSf https://astral.sh/0.4.30/uv/install.sh | sh
 	uv venv
 	uv pip install -e .[dev,docs] pre-commit
 
