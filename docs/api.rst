@@ -132,11 +132,11 @@ Pack
 Schematic
 *********************
 
-.. currentmodule:: gdsfactory.read.to_yaml
+.. currentmodule:: gdsfactory
 
 .. rubric:: to_yaml
 
 .. autosummary::
    :toctree: _autosummary/
 
-   to_yaml
+   export.to_yaml
