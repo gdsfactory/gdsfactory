@@ -122,19 +122,19 @@ def route_fiber_array(
     component_name = component_name or component.name
     excluded_ports = excluded_ports or []
     if port_names is None:
-        ports = list(select_ports(component.ports))
-        port_names = [p.name for p in ports]
+        to_route = list(select_ports(component.ports))
+        port_names = [p.name for p in to_route]
     else:
-        ports = [component.ports[lbl] for lbl in port_names]
+        to_route = [component.ports[lbl] for lbl in port_names]
 
-    ports = [p for p in ports if p.name not in excluded_ports]
+    to_route = [p for p in to_route if p.name not in excluded_ports]
 
     ports_not_terminated = []
     for port in component_to_route.ports:
         if port.name not in port_names:
             ports_not_terminated.append(port)
 
-    N = len(ports)
+    N = len(to_route)
 
     # optical_ports_labels = [p.name for p in ports]
     # print(optical_ports_labels)
@@ -169,17 +169,17 @@ def route_fiber_array(
     delta_gr_min = 2 * dy + 1
 
     # Get the center along x axis
-    x_c = round(sum(p.dx for p in ports) / N, 1)
+    x_c = round(sum(p.dx for p in to_route) / N, 1)
 
     # Sort the list of optical ports:
-    direction_ports = direction_ports_from_list_ports(ports)
+    direction_ports = direction_ports_from_list_ports(to_route)
     separation = straight_separation
 
-    K = len(ports)
+    K = len(to_route)
     K = K + 1 if K % 2 else K
 
     # Set routing type if not specified
-    pxs = [p.dx for p in ports]
+    pxs = [p.dx for p in to_route]
     is_big_component = (
         (K > 2)
         or (max(pxs) - min(pxs) > fiber_spacing - delta_gr_min)
@@ -262,12 +262,6 @@ def route_fiber_array(
     else:
         assert len(grating_indices) == nb_ports_per_line
 
-    to_route = (
-        [component_to_route.ports[p] for p in port_names]
-        if port_names
-        else component_to_route.ports
-    )
-
     # add grating couplers
     io_gratings = []
     gc_ports = []
@@ -322,8 +316,8 @@ def route_fiber_array(
 
     route_bundle(
         c,
-        ports1=to_route,
-        ports2=gc_ports,
+        ports1=list(to_route),
+        ports2=list(gc_ports),
         separation=separation,
         bend=bend90,
         straight=straight,
@@ -437,7 +431,8 @@ if __name__ == "__main__":
     # component = gf.components.straight_heater_metal()
     # component = gf.components.ring_single()
     # component = gf.components.ring_double()
-    component = gf.components.mzi_phase_shifter()
+    component = gf.components.crossing()
+    # component = gf.components.mzi_phase_shifter()
     # component = gf.components.nxn(north=10, south=10, east=10, west=10)
     # component= gf.c.straight(width=2, length=50)
 
@@ -446,7 +441,7 @@ if __name__ == "__main__":
     routes = route_fiber_array(
         c,
         ref,
-        steps=[dict(dy=-50), dict(dx=3)],
+        # steps=[dict(dy=-50), dict(dx=3)],
         # grating_coupler=gc,
         # with_loopback=True,
         # radius=10,
@@ -455,7 +450,8 @@ if __name__ == "__main__":
         # with_loopback=False,
         # fanout_length=-200,
         # force_manhattan=False,
-        auto_taper=False,
+        # auto_taper=False,
+        excluded_ports=["o1"],
     )
     c.show()
     c.pprint_ports()
