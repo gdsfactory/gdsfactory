@@ -1,12 +1,21 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.17.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.18.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.18.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.18.0) - 2024-11-10
 
-No significant changes.
-
+- Add sample reticle electrical [#3344](https://github.com/gdsfactory/gdsfactory/pull/3344)
+- Enable plot netlists and schematics with graphviz [#3333](https://github.com/gdsfactory/gdsfactory/pull/3333)
+- add test for test_write_test_manifest [#3340](https://github.com/gdsfactory/gdsfactory/pull/3340)
+- deprecate import_gds_with_conflicts and add pdk.version [#3339](https://github.com/gdsfactory/gdsfactory/pull/3339)
+- Improve test manifest [#3338](https://github.com/gdsfactory/gdsfactory/pull/3338)
+- Fix add fiber array excluded ports [#3355](https://github.com/gdsfactory/gdsfactory/pull/3355)
+- fix graphviz docs [#3354](https://github.com/gdsfactory/gdsfactory/pull/3354)
+- get all cells in manifest [#3341](https://github.com/gdsfactory/gdsfactory/pull/3341)
+- fix crow by removing hardcoded ring name [#3349](https://github.com/gdsfactory/gdsfactory/pull/3349)
+- install graphviz [#3348](https://github.com/gdsfactory/gdsfactory/pull/3348)
+- Update watchdog requirement from <6 to <7 [#3335](https://github.com/gdsfactory/gdsfactory/pull/3335)
 
 ## [8.17.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.17.0) - 2024-10-29
 
