@@ -12,7 +12,7 @@ def test_netlist_simple() -> None:
     c2.connect("o1", c1.ports["o2"])
     c.add_port("o1", port=c1.ports["o1"])
     c.add_port("o2", port=c2.ports["o2"])
-    netlist = c.get_netlist()
+    netlist = c.to_schematic()
     assert len(netlist["instances"]) == 2
 
 
@@ -24,17 +24,17 @@ def test_netlist_simple_width_mismatch_throws_error() -> None:
     c.add_port("o1", port=c1.ports["o1"])
     c.add_port("o2", port=c2.ports["o2"])
     with pytest.warns(UserWarning):
-        c.get_netlist()
+        c.to_schematic()
 
 
 def test_netlist_complex() -> None:
     c = gf.components.mzi_arms()
-    netlist = c.get_netlist()
+    netlist = c.to_schematic()
     # print(netlist.pretty())
     assert len(netlist["instances"]) == 4, len(netlist["instances"])
 
 
-def test_get_netlist_cell_array() -> None:
+def test_to_schematic_cell_array() -> None:
     rows = 3
     component_to_array = gf.components.straight(length=10)
     c = gf.components.array(
@@ -44,7 +44,7 @@ def test_get_netlist_cell_array() -> None:
         rows=rows,
         add_ports=True,
     )
-    n = c.get_netlist(allow_multiple=True)
+    n = c.to_schematic(allow_multiple=True)
     n_ports_expected = 2 * rows
     assert (
         len(c.ports) == n_ports_expected
@@ -67,7 +67,7 @@ def test_get_netlist_cell_array() -> None:
     assert inst["na"] == 1 and inst["nb"] == rows
 
 
-def test_get_netlist_cell_array_no_ports() -> None:
+def test_to_schematic_cell_array_no_ports() -> None:
     rows = 3
     c = gf.components.array(
         gf.components.straight(length=10),
@@ -76,7 +76,7 @@ def test_get_netlist_cell_array_no_ports() -> None:
         rows=rows,
         add_ports=False,
     )
-    n = c.get_netlist(allow_multiple=True)
+    n = c.to_schematic(allow_multiple=True)
     assert (
         len(c.ports) == 0
     ), f"Expected no ports on component with add_ports=False. Got {len(c.ports)}"
@@ -90,24 +90,24 @@ def test_get_netlist_cell_array_no_ports() -> None:
     assert inst["na"] == 1 and inst["nb"] == rows
 
 
-def test_get_netlist_cell_array_connecting() -> None:
+def test_to_schematic_cell_array_connecting() -> None:
     c = gf.components.array(
         gf.components.straight(length=100), spacing=(100, 0), columns=5, rows=1
     )
     with pytest.warns(UserWarning):
         # because the component-array has automatic external ports, we assume no internal self-connections
         # we expect a ValueError to be thrown where the serendipitous connections are
-        c.get_netlist(allow_multiple=False)
+        c.to_schematic(allow_multiple=False)
 
 
-def test_get_netlist_simple() -> None:
+def test_to_schematic_simple() -> None:
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
     i3 = c.add_ref(gf.components.straight(), "i3")
     i2.connect("o2", i1.ports["o1"])
     i3.dmovey(-100)
-    netlist = c.get_netlist()
+    netlist = c.to_schematic()
     links = netlist["nets"]
     assert len(links) == 1
     extracted_port_pair = set(links[0].values())
@@ -120,7 +120,7 @@ def test_get_netlist_simple() -> None:
     assert len(unconnected_optical_port_warnings[0]["ports"]) == 4
 
 
-def test_get_netlist_promoted() -> None:
+def test_to_schematic_promoted() -> None:
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
@@ -131,7 +131,7 @@ def test_get_netlist_promoted() -> None:
     c.add_port("t2", port=i2.ports["o1"])
     c.add_port("t3", port=i3.ports["o1"])
     c.add_port("t4", port=i3.ports["o2"])
-    netlist = c.get_netlist()
+    netlist = c.to_schematic()
     links = netlist["nets"]
     ports = netlist["ports"]
     expected_ports = {"t1": "i1,o2", "t2": "i2,o1", "t3": "i3,o1", "t4": "i3,o2"}
@@ -144,36 +144,36 @@ def test_get_netlist_promoted() -> None:
     assert "warnings" not in netlist
 
 
-def test_get_netlist_close_enough_fails() -> None:
+def test_to_schematic_close_enough_fails() -> None:
     """Move connection 1nm outwards."""
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
     i2.connect("o2", i1.ports["o1"])
     i2.dmovex(1)
-    netlist = c.get_netlist()
+    netlist = c.to_schematic()
     links = netlist["nets"]
     assert len(links) == 0
 
 
-def test_get_netlist_close_enough_orthogonal_fails() -> None:
+def test_to_schematic_close_enough_orthogonal_fails() -> None:
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
     i2.connect("o2", i1.ports["o1"])
     i2.dmovey(0.001)
-    netlist = c.get_netlist()
+    netlist = c.to_schematic()
     links = netlist["nets"]
     assert len(links) == 0
 
 
-def test_get_netlist_close_enough_rotated() -> None:
+def test_to_schematic_close_enough_rotated() -> None:
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
     i2.connect("o2", i1.ports["o1"])
     i2.drotate(angle=0.01)
-    netlist = c.get_netlist()
+    netlist = c.to_schematic()
     links = netlist["nets"]
     assert len(links) == 1
     extracted_port_pair = set(links[0].values())
@@ -181,17 +181,17 @@ def test_get_netlist_close_enough_rotated() -> None:
     assert extracted_port_pair == expected_port_pair
 
 
-def test_get_netlist_throws_error_bad_rotation() -> None:
+def test_to_schematic_throws_error_bad_rotation() -> None:
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
     i2.connect("o2", i1.ports["o1"])
     i2.drotate(90)
     with pytest.warns(UserWarning):
-        c.get_netlist()
+        c.to_schematic()
 
 
-def test_get_netlist_tiny() -> None:
+def test_to_schematic_tiny() -> None:
     c = gf.Component()
     cc = gf.components.straight(length=0.002)
     i1 = c.add_ref(cc, "i1")
@@ -203,7 +203,7 @@ def test_get_netlist_tiny() -> None:
     i3.connect("o2", i2.ports["o1"])
     i4.connect("o2", i3.ports["o1"])
 
-    netlist = c.get_netlist()
+    netlist = c.to_schematic()
     links = netlist["nets"]
     assert len(links) == 3
     # cpairs = list(connections.items())
@@ -212,14 +212,14 @@ def test_get_netlist_tiny() -> None:
     # assert extracted_port_pair == expected_port_pair
 
 
-def test_get_netlist_rotated() -> None:
+def test_to_schematic_rotated() -> None:
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
     i1.drotate(35)
     i2.connect("o2", i1.ports["o1"])
 
-    netlist = c.get_netlist()
+    netlist = c.to_schematic()
     links = netlist["nets"]
     assert len(links) == 1
     extracted_port_pair = set(links[0].values())
@@ -227,14 +227,14 @@ def test_get_netlist_rotated() -> None:
     assert extracted_port_pair == expected_port_pair
 
 
-def test_get_netlist_electrical_simple() -> None:
+def test_to_schematic_electrical_simple() -> None:
     c = gf.Component()
     i1 = c.add_ref(gf.components.wire_straight(), "i1")
     i2 = c.add_ref(gf.components.wire_straight(), "i2")
     i3 = c.add_ref(gf.components.wire_straight(), "i3")
     i2.connect("e2", i1.ports["e1"])
     i3.dmovey(-100)
-    netlist = c.get_netlist()
+    netlist = c.to_schematic()
     links = netlist["nets"]
     assert len(links) == 1
     extracted_port_pair = set(links[0].values())
@@ -242,13 +242,13 @@ def test_get_netlist_electrical_simple() -> None:
     assert extracted_port_pair == expected_port_pair
 
 
-def test_get_netlist_electrical_rotated_joint() -> None:
+def test_to_schematic_electrical_rotated_joint() -> None:
     c = gf.Component()
     i1 = c.add_ref(gf.components.wire_straight(), "i1")
     i2 = c.add_ref(gf.components.wire_straight(), "i2")
     i2.connect("e2", i1.ports["e1"])
     i2.drotate(45)
-    netlist = c.get_netlist()
+    netlist = c.to_schematic()
     links = netlist["nets"]
     assert len(links) == 1
     extracted_port_pair = set(links[0].values())
@@ -256,13 +256,13 @@ def test_get_netlist_electrical_rotated_joint() -> None:
     assert extracted_port_pair == expected_port_pair
 
 
-def test_get_netlist_electrical_different_widths() -> None:
+def test_to_schematic_electrical_different_widths() -> None:
     """Move connection 1nm inwards."""
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(width=1, cross_section="metal1"), "i1")
     i2 = c.add_ref(gf.components.straight(width=10, cross_section="metal1"), "i2")
     i2.connect("e2", i1.ports["e1"], allow_width_mismatch=True)
-    netlist = c.get_netlist()
+    netlist = c.to_schematic()
     links = netlist["nets"]
     assert len(links) == 1, len(links)
     extracted_port_pair = set(links[0].values())
@@ -270,7 +270,7 @@ def test_get_netlist_electrical_different_widths() -> None:
     assert extracted_port_pair == expected_port_pair
 
 
-def test_get_netlist_transformed() -> None:
+def test_to_schematic_transformed() -> None:
     rotation_value = 35
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
@@ -279,7 +279,7 @@ def test_get_netlist_transformed() -> None:
     i2.connect("o2", i1.ports["o1"])
 
     # perform the initial sanity checks on the netlist
-    netlist = c.get_netlist()
+    netlist = c.to_schematic()
     links = netlist["nets"]
     assert len(links) == 1, len(links)
     extracted_port_pair = set(links[0].values())
@@ -288,4 +288,4 @@ def test_get_netlist_transformed() -> None:
 
 
 if __name__ == "__main__":
-    test_get_netlist_cell_array()
+    test_to_schematic_cell_array()

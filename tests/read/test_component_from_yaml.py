@@ -651,7 +651,7 @@ def test_gds_and_settings(
 #     """
 #     yaml_string = yaml_strings[yaml_key]
 #     c = from_yaml(yaml_string)
-#     n = c.get_netlist()
+#     n = c.to_schematic()
 #     if check:
 #         data_regression.check(n)
 
@@ -659,7 +659,7 @@ def test_gds_and_settings(
 
 #     # print(yaml_str)
 #     c2 = from_yaml(yaml_str, name=c.name)
-#     n2 = c2.get_netlist()
+#     n2 = c2.to_schematic()
 #     # pprint(d)
 #     d = jsondiff.diff(n, n2)
 #     assert len(d) == 0, pprint(d)

@@ -1250,9 +1250,7 @@ class ComponentBase:
             left=0, right=1, top=1, bottom=0, wspace=0, hspace=0
         )  # Remove any padding
         plt.tight_layout(pad=0)  # Ensure no space is wasted
-        if return_fig:
-            return fig
-        return None
+        return fig if return_fig else None
 
     # Deprecated methods
     @property

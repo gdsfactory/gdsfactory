@@ -132,11 +132,11 @@ Pack
 Netlist
 *********************
 
-.. currentmodule:: gdsfactory.get_netlist
+.. currentmodule:: gdsfactory.to_schematic
 
-.. rubric:: get_netlist
+.. rubric:: to_schematic
 
 .. autosummary::
    :toctree: _autosummary/
 
-   get_netlist
+   to_schematic

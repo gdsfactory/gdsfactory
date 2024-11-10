@@ -47,7 +47,7 @@ def test_netlists(
     """
     c = cells[component_type]()
     connection_error_types = {"optical": []}
-    n = c.get_netlist(
+    n = c.to_schematic(
         allow_multiple=True, connection_error_types=connection_error_types
     )
 
@@ -57,7 +57,7 @@ def test_netlists(
     n.pop("warnings", None)
     yaml_str = c.write_netlist(n)
     c2 = gf.read.from_yaml(yaml_str)
-    n2 = c2.get_netlist()
+    n2 = c2.to_schematic()
 
     d = jsondiff.diff(n, n2)
     d.pop("warnings", None)
@@ -97,14 +97,14 @@ if __name__ == "__main__":
 
     c1 = cells[component_type]()
     c1.show()
-    n = c1.get_netlist(
+    n = c1.to_schematic(
         allow_multiple=True, connection_error_types=connection_error_types
     )
     n.pop("warnings", None)
     yaml_str = c1.write_netlist(n)
     # print(yaml_str)
     c2 = gf.read.from_yaml(yaml_str)
-    n2 = c2.get_netlist(allow_multiple=True)
+    n2 = c2.to_schematic(allow_multiple=True)
     d = jsondiff.diff(n, n2)
     d.pop("warnings", None)
     c2.show()
