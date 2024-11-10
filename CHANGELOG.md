@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.18.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.18.0) - 2024-11-10
+
+No significant changes.
+
+
 ## [8.17.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.17.0) - 2024-10-29
 
 - update get cells function [#3328](https://github.com/gdsfactory/gdsfactory/pull/3328)
