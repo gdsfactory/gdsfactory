@@ -19,7 +19,21 @@ GDSFactory is a powerful Python library for designing a wide range of complex sy
 
 As input you write python code, as an output GDSFactory creates CAD files (GDS, OASIS, STL, GERBER).
 
-![cad](https://i.imgur.com/7Vc9cnn.png)
+![cad](https://i.imgur.com/3cUa2GV.png)
+
+```python
+import gdsfactory as gf
+
+c = gf.Component()
+ref1 = c.add_ref(gf.components.rectangle(size=(10, 10), layer=(1, 0)))
+ref2 = c.add_ref(gf.components.text("Hello", size=10, layer=(2, 0)))
+ref3 = c.add_ref(gf.components.text("world", size=10, layer=(2, 0)))
+
+ref1.xmax = ref2.xmin - 5
+ref3.xmin = ref2.xmax + 2
+ref3.rotate(30)
+c.show()
+```
 
 Highlights:
 
