@@ -1014,10 +1014,10 @@ class ComponentBase:
         import matplotlib.pyplot as plt
         import networkx as nx
 
-        from gdsfactory.to_schematic import _nets_to_connections
+        from gdsfactory.get_netlist import _nets_to_connections
 
         plt.figure()
-        netlist = self.to_yaml(recursive=recursive, **kwargs)
+        netlist = self.get_netlist(recursive=recursive, **kwargs)
         G = nx.Graph()
 
         if recursive:
@@ -1060,16 +1060,22 @@ class ComponentBase:
         )
         return G
 
-    def plot_schematic_graphviz(self, recursive: bool = False) -> None:
+    def plot_netlist_graphviz(
+        self, recursive: bool = False, interactive: bool = False, splines: str = "ortho"
+    ) -> None:
         """Plots a netlist graph with graphviz.
 
         Args:
             recursive: if True, returns a recursive netlist.
+            interactive: if True, opens the graph in a browser.
+            splines: ortho, spline, polyline, line, curved.
         """
         from gdsfactory.schematic import plot_graphviz
 
-        n = self.to_graphviz(recursive=recursive)
-        plot_graphviz(n)
+        n = self.to_graphviz(
+            recursive=recursive,
+        )
+        plot_graphviz(n, splines=splines, interactive=interactive)
 
     def to_graphviz(
         self,
@@ -1082,7 +1088,7 @@ class ComponentBase:
         """
         from gdsfactory.schematic import to_graphviz
 
-        netlist = self.to_yaml(recursive=recursive)
+        netlist = self.get_netlist(recursive=recursive)
         return to_graphviz(
             netlist["instances"],
             placements=netlist["placements"],
@@ -1311,8 +1317,10 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.c.mzi()
-    n = c.to_graphviz()
+    # n = c.to_graphviz()
+
     # plot_graphviz(n)
+    c.plot_netlist_graphviz(interactive=True)
 
     # c = gf.Component()
     # c.add_port(
@@ -1333,13 +1341,13 @@ if __name__ == "__main__":
     # c.copy_layers({(1, 0): (2, 0)}, recursive=True)
     # c = gf.c.array(spacing=(300, 300), columns=2)
     # c.show()
-    # n0 = c.to_yaml()
+    # n0 = c.get_netlist()
     # # pprint(n0)
 
     # gdspath = c.write_gds("test.gds")
     # c = gf.import_gds(gdspath)
-    # n = c.to_yaml()
-    # c.plot_schematic_networkx(recursive=True)
+    # n = c.get_netlist()
+    # c.plot_netlist_networkx(recursive=True)
     # plt.show()
     c.show()
     # import matplotlib.pyplot as plt
@@ -1353,7 +1361,7 @@ if __name__ == "__main__":
     # c = gf.c.mzi_lattice(
     #     coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0, length_x=1
     # )
-    # n = c.to_yaml(recursive=True)
-    # c.plot_schematic_networkx(recursive=True)
+    # n = c.get_netlist(recursive=True)
+    # c.plot_netlist_networkx(recursive=True)
     # plt.show()
     # c.show()
