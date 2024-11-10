@@ -958,7 +958,9 @@ class ComponentBase:
         )
 
     def get_netlist(self, recursive: bool = False, **kwargs: Any) -> dict[str, Any]:
-        """Returns a netlist for circuit simulation.
+        """Returns a place-aware netlist for circuit simulation.
+
+        It includes not only the connectivity information (nodes and connections) but also the specific placement coordinates for each component or cell in the layout.
 
         Args:
             recursive: if True, returns a recursive netlist.
@@ -1012,10 +1014,10 @@ class ComponentBase:
         import matplotlib.pyplot as plt
         import networkx as nx
 
-        from gdsfactory.get_netlist import _nets_to_connections
+        from gdsfactory.to_schematic import _nets_to_connections
 
         plt.figure()
-        netlist = self.get_netlist(recursive=recursive, **kwargs)
+        netlist = self.to_yaml(recursive=recursive, **kwargs)
         G = nx.Graph()
 
         if recursive:
@@ -1058,7 +1060,18 @@ class ComponentBase:
         )
         return G
 
-    def get_graphviz(
+    def plot_schematic_graphviz(self, recursive: bool = False) -> None:
+        """Plots a netlist graph with graphviz.
+
+        Args:
+            recursive: if True, returns a recursive netlist.
+        """
+        from gdsfactory.schematic import plot_graphviz
+
+        n = self.to_graphviz(recursive=recursive)
+        plot_graphviz(n)
+
+    def to_graphviz(
         self,
         recursive: bool = False,
     ):
@@ -1067,10 +1080,10 @@ class ComponentBase:
         Args:
             recursive: if True, returns a recursive netlist.
         """
-        from gdsfactory.schematic import get_netlist_graph_graphviz
+        from gdsfactory.schematic import to_graphviz
 
-        netlist = self.get_netlist(recursive=recursive)
-        return get_netlist_graph_graphviz(
+        netlist = self.to_yaml(recursive=recursive)
+        return to_graphviz(
             netlist["instances"],
             placements=netlist["placements"],
             nets=netlist["nets"],
@@ -1187,9 +1200,7 @@ class ComponentBase:
             left=0, right=1, top=1, bottom=0, wspace=0, hspace=0
         )  # Remove any padding
         plt.tight_layout(pad=0)  # Ensure no space is wasted
-        if return_fig:
-            return fig
-        return None
+        return fig if return_fig else None
 
     # Deprecated methods
     @property
@@ -1300,7 +1311,7 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.c.mzi()
-    n = c.get_graphviz()
+    n = c.to_graphviz()
     # plot_graphviz(n)
 
     # c = gf.Component()
@@ -1322,13 +1333,13 @@ if __name__ == "__main__":
     # c.copy_layers({(1, 0): (2, 0)}, recursive=True)
     # c = gf.c.array(spacing=(300, 300), columns=2)
     # c.show()
-    # n0 = c.get_netlist()
+    # n0 = c.to_yaml()
     # # pprint(n0)
 
     # gdspath = c.write_gds("test.gds")
     # c = gf.import_gds(gdspath)
-    # n = c.get_netlist()
-    # c.plot_netlist(recursive=True)
+    # n = c.to_yaml()
+    # c.plot_schematic_networkx(recursive=True)
     # plt.show()
     c.show()
     # import matplotlib.pyplot as plt
@@ -1342,7 +1353,7 @@ if __name__ == "__main__":
     # c = gf.c.mzi_lattice(
     #     coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0, length_x=1
     # )
-    # n = c.get_netlist(recursive=True)
-    # c.plot_netlist(recursive=True)
+    # n = c.to_yaml(recursive=True)
+    # c.plot_schematic_networkx(recursive=True)
     # plt.show()
     # c.show()
