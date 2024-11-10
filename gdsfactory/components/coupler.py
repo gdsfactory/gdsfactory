@@ -68,5 +68,5 @@ def coupler(
 
 if __name__ == "__main__":
     c = coupler(gap=0.2, dy=100)
-    n = c.get_netlist()
+    n = c.to_schematic()
     c.show()

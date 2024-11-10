@@ -282,7 +282,7 @@ if __name__ == "__main__":
     # c = straight_heater_metal(heater_width=5, length=50.0)
 
     # c = straight_heater_metal_undercut(length=200)
-    # n = c.get_netlist()
+    # n = c.to_schematic()
     # c = straight_heater_metal(length=20)
     # c = straight_heater_metal_90_90(length=50)
     c.show()

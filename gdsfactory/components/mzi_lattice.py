@@ -358,5 +358,5 @@ if __name__ == "__main__":
     #     delta_lengths=(10.0,) * 4,
     # )
     c = mzi_lattice_mmi()
-    # c.get_netlist()
+    # c.to_schematic()
     c.show()

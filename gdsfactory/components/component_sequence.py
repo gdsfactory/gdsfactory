@@ -222,7 +222,7 @@ if __name__ == "__main__":
         sequence=sequence, symbol_to_component=symbol_to_component_map
     )
     c.show()
-    # n = c.get_netlist()
+    # n = c.to_schematic()
     # c = gf.read.from_yaml(n)
 
     # _ = c << gf.c.straight()
