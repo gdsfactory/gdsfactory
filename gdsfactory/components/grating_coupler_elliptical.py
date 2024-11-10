@@ -212,7 +212,12 @@ def grating_coupler_elliptical(
     x = np.round(taper_length + x_output, 3)
 
     c.add_port(
-        name="o1", center=(x_output, 0), width=wg_width, orientation=180, layer=layer
+        name="o1",
+        center=(x_output, 0),
+        width=wg_width,
+        orientation=180,
+        layer=layer,
+        port_type="optical",
     )
 
     if layer_slab:
