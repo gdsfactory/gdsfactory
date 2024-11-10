@@ -958,7 +958,9 @@ class ComponentBase:
         )
 
     def get_netlist(self, recursive: bool = False, **kwargs: Any) -> dict[str, Any]:
-        """Returns a netlist for circuit simulation.
+        """Returns a place-aware netlist for circuit simulation.
+
+        It includes not only the connectivity information (nodes and connections) but also the specific placement coordinates for each component or cell in the layout.
 
         Args:
             recursive: if True, returns a recursive netlist.
@@ -1058,7 +1060,24 @@ class ComponentBase:
         )
         return G
 
-    def get_graphviz(
+    def plot_netlist_graphviz(
+        self, recursive: bool = False, interactive: bool = False, splines: str = "ortho"
+    ) -> None:
+        """Plots a netlist graph with graphviz.
+
+        Args:
+            recursive: if True, returns a recursive netlist.
+            interactive: if True, opens the graph in a browser.
+            splines: ortho, spline, polyline, line, curved.
+        """
+        from gdsfactory.schematic import plot_graphviz
+
+        n = self.to_graphviz(
+            recursive=recursive,
+        )
+        plot_graphviz(n, splines=splines, interactive=interactive)
+
+    def to_graphviz(
         self,
         recursive: bool = False,
     ):
@@ -1067,10 +1086,10 @@ class ComponentBase:
         Args:
             recursive: if True, returns a recursive netlist.
         """
-        from gdsfactory.schematic import get_netlist_graph_graphviz
+        from gdsfactory.schematic import to_graphviz
 
         netlist = self.get_netlist(recursive=recursive)
-        return get_netlist_graph_graphviz(
+        return to_graphviz(
             netlist["instances"],
             placements=netlist["placements"],
             nets=netlist["nets"],
@@ -1187,9 +1206,7 @@ class ComponentBase:
             left=0, right=1, top=1, bottom=0, wspace=0, hspace=0
         )  # Remove any padding
         plt.tight_layout(pad=0)  # Ensure no space is wasted
-        if return_fig:
-            return fig
-        return None
+        return fig if return_fig else None
 
     # Deprecated methods
     @property
@@ -1300,8 +1317,10 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.c.mzi()
-    n = c.get_graphviz()
+    # n = c.to_graphviz()
+
     # plot_graphviz(n)
+    c.plot_netlist_graphviz(interactive=True)
 
     # c = gf.Component()
     # c.add_port(
@@ -1328,7 +1347,7 @@ if __name__ == "__main__":
     # gdspath = c.write_gds("test.gds")
     # c = gf.import_gds(gdspath)
     # n = c.get_netlist()
-    # c.plot_netlist(recursive=True)
+    # c.plot_netlist_networkx(recursive=True)
     # plt.show()
     c.show()
     # import matplotlib.pyplot as plt
@@ -1343,6 +1362,6 @@ if __name__ == "__main__":
     #     coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0, length_x=1
     # )
     # n = c.get_netlist(recursive=True)
-    # c.plot_netlist(recursive=True)
+    # c.plot_netlist_networkx(recursive=True)
     # plt.show()
     # c.show()
