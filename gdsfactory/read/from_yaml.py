@@ -823,15 +823,10 @@ def _get_references(c: Component, pdk, instances: dict[str, NetlistInstance]):
         comp = pdk.get_component(component=inst.component, settings=inst.settings)
         if na < 2 and nb < 2:
             ref = c.add_ref(comp, name=name)
+        elif dax or dby:
+            ref = c.add_ref(comp, rows=nb, columns=na, spacing=(dax, dby), name=name)
         else:
-            if dax or dby:
-                ref = c.add_ref(
-                    comp, rows=nb, columns=na, spacing=(dax, dby), name=name
-                )
-            else:
-                ref = c.add_ref(
-                    comp, rows=na, columns=nb, spacing=(dbx, day), name=name
-                )
+            ref = c.add_ref(comp, rows=na, columns=nb, spacing=(dbx, day), name=name)
         refs[name] = ref
     return refs
 
