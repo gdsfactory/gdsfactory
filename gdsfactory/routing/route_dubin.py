@@ -7,6 +7,7 @@ import math as m
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.typings import CrossSectionSpec
 
 
@@ -24,8 +25,8 @@ def route_dubin(
     """
     # Get start position and orientation
     x1, y1 = port1.dcenter
-    float(port1.orientation)
-    START = (x1, y1)  # Convert to um
+    angle1 = float(port1.orientation)
+    START = (x1, y1, angle1)  # Convert to um
 
     # Get end position and orientation
     x2, y2 = port2.dcenter
@@ -35,7 +36,7 @@ def route_dubin(
 
     xs = gf.get_cross_section(cross_section)
     # Find the Dubin's path between ports using radius from cross-section
-    path = dubins_path(xs, start=START, end=END)  # Convert radius to um
+    path = dubins_path(start=START, end=END, cross_section=xs)  # Convert radius to um
     return gds_solution(xs, port1, port2, solution=path)
 
 
@@ -140,8 +141,9 @@ def dubins_path_length(start, end, xs):
     return m.sqrt(lex**2.0 + ley**2.0)
 
 
-def dubins_path(xs, start, end):
+def dubins_path(start, end, cross_section: CrossSectionSpec):
     """Finds the Dubins path between two points."""
+    xs = gf.get_cross_section(cross_section)
     (sx, sy, syaw) = start  # Coordinates already in um
     (ex, ey, eyaw) = end  # Coordinates already in um
 
@@ -164,8 +166,6 @@ def dubins_path(xs, start, end):
     # Calculate normalized distance
     D = m.sqrt(lex**2.0 + ley**2.0)
     d = D / c  # Normalize by radius
-
-    print("D (um):", D)
 
     # Calculate angles for path planning
     theta = mod_to_pi(m.atan2(ley, lex))
@@ -237,29 +237,51 @@ def arrow_orientation(ANGLE):
 
 def gds_solution(xs: CrossSectionSpec, port1, port2, solution) -> Component:
     """Creates GDS component with Dubins path."""
-    c = Component()
+    c = gf.Component()
     current_position = port1
 
     for mode, length, radius in solution:
         if mode == "L":
             # Length and radius are in um, convert to nm for gdsfactory
             arc_angle = 180 * length / (m.pi * radius)
-            bend = c << gf.components.bend_circular(angle=arc_angle, cross_section=xs)
-            bend.connect("o1", destination=current_position)
+            bend = c << bend_circular(angle=arc_angle, cross_section=xs)
+            bend.connect("o1", current_position)
             current_position = bend.ports["o2"]
 
         elif mode == "R":
             arc_angle = -(180 * length / (m.pi * radius))
-            bend = c << gf.components.bend_circular(angle=arc_angle, cross_section=xs)
-            bend.connect("o1", destination=current_position)
+            bend = c << bend_circular(angle=arc_angle, cross_section=xs)
+            bend.connect("o1", current_position)
             current_position = bend.ports["o2"]
 
         elif mode == "S":
             straight = c << gf.components.straight(length=length, cross_section=xs)
-            straight.connect("o1", destination=current_position)
+            straight.connect("o1", current_position)
             current_position = straight.ports["o2"]
 
         else:
             raise ValueError(f"Invalid mode: {mode}")
 
     return c
+
+
+if __name__ == "__main__":
+    c = gf.Component()
+
+    # Create two straight waveguides with different orientations
+    wg1 = c << gf.components.straight(length=100, width=3.2, layer=(30, 0))
+    wg2 = c << gf.components.straight(length=100, width=3.2, layer=(30, 0))
+
+    # Move and rotate the second waveguide
+    wg2.move((300, 50))
+    wg2.rotate(45)
+
+    # Route between the output of wg1 and input of wg2
+    route = gf.routing.route_dubin(
+        port1=wg1.ports["o2"],
+        port2=wg2.ports["o1"],
+        cross_section=gf.cross_section.strip(width=3.2, layer=(30, 0), radius=100),
+    )
+    c << route
+    c.flatten()
+    c.show()
