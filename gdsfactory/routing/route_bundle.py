@@ -14,7 +14,7 @@ from __future__ import annotations
 
 from collections.abc import Mapping, Sequence
 from functools import partial
-from typing import Any
+from typing import Any, Literal
 
 import kfactory as kf
 from kfactory.routing.generic import ManhattanRoute
@@ -90,8 +90,8 @@ def get_min_spacing(
 
 def route_bundle(
     component: Component,
-    ports1: list[Port] | Port,
-    ports2: list[Port] | Port,
+    ports1: list[Port | kf.Port] | Port | kf.Port,
+    ports2: list[Port | kf.Port] | Port | kf.Port,
     cross_section: CrossSectionSpec | None = None,
     layer: LayerSpecs | None = None,
     separation: float = 3.0,
@@ -114,6 +114,7 @@ def route_bundle(
     steps: Sequence[Mapping[str, int | float]] | None = None,
     start_angles: int | list[int] | None = None,
     end_angles: int | list[int] | None = None,
+    router: Literal["optical", "electrical"] | None = None,
 ) -> list[ManhattanRoute]:
     """Places a bundle of routes to connect two groups of ports.
 
@@ -146,6 +147,8 @@ def route_bundle(
         steps: list of steps to add to the route.
         start_angles: list of start angles for the routes. Only used for electrical ports.
         end_angles: list of end angles for the routes. Only used for electrical ports.
+        router: Set the type of router to use, either the optical one or the electrical one.
+            If None, the router is optical unless the port_type is "electrical".
 
     .. plot::
         :include-source:
@@ -262,7 +265,9 @@ def route_bundle(
     else:
         _waypoints = waypoints
 
-    if port_type == "electrical":
+    router = router or "electrical" if port_type == "electrical" else "optical"
+
+    if router == "electrical":
         port_layer = ports1[0].layer
         return kf.routing.electrical.route_bundle(
             component,
