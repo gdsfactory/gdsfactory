@@ -5,7 +5,7 @@ from gdsfactory.component import Component
 @gf.cell
 def sample_route_dubin_basic() -> gf.Component:
     """Basic test showing Dubins path routing between two straight waveguides."""
-    c = Component()
+    c = gf.Component()
 
     # Create two straight waveguides with different orientations
     wg1 = c << gf.components.straight(length=100, width=3.2, layer=(30, 0))
@@ -16,12 +16,12 @@ def sample_route_dubin_basic() -> gf.Component:
     wg2.rotate(45)
 
     # Route between the output of wg1 and input of wg2
-    route = gf.routing.route_dubin(
+    gf.routing.route_dubin(
+        c,
         port1=wg1.ports["o2"],
         port2=wg2.ports["o1"],
         cross_section=gf.cross_section.strip(width=3.2, layer=(30, 0), radius=100),
     )
-    c << route
     return c
 
 
@@ -46,14 +46,14 @@ def sample_route_dubin_array() -> gf.Component:
     for i in range(10):
         port1_name = f"o{10-i}"  # Inverted port id for port1
         port2_name = f"o{i+1}"  # Adjusted to match available ports
-        route = gf.routing.route_dubin(
+        gf.routing.route_dubin(
+            c,
             port1=comp1.ports[port1_name],
             port2=comp2.ports[port2_name],
             cross_section=gf.cross_section.strip(
                 width=3.2, layer=(30, 0), radius=100 + i * 10
             ),
         )
-        c << route
     return c
 
 
@@ -66,5 +66,6 @@ def test_route_dubin_array() -> None:
 
 
 if __name__ == "__main__":
-    c = sample_route_dubin_basic()
+    # c = sample_route_dubin_basic()
+    c = sample_route_dubin_array()
     c.show()
