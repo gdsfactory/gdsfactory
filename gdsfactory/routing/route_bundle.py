@@ -306,6 +306,8 @@ def route_bundle(
         route_width=width_dbu,
         sort_ports=sort_ports,
         waypoints=_waypoints,
+        end_angles=end_angles,
+        start_angles=start_angles,
     )
 
 
