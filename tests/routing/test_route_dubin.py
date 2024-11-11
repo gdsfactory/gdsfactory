@@ -2,9 +2,10 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 
 
+@gf.cell
 def test_route_dubin_basic():
     """Basic test showing Dubins path routing between two straight waveguides."""
-    c = Component("dubin_basic")
+    c = Component()
 
     # Create two straight waveguides with different orientations
     wg1 = c << gf.components.straight(length=100, width=3.2, layer=(30, 0))
@@ -24,9 +25,10 @@ def test_route_dubin_basic():
     return c
 
 
+@gf.cell
 def test_route_dubin_array() -> None:
     """Test showing Dubins path routing between arrays of ports."""
-    c = Component("dubin_array")
+    c = Component()
 
     # Create two multi-port components
     comp1 = c << gf.components.nxn(

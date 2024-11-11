@@ -1,31 +1,41 @@
-# See: https://quentinwach.com/blog/2024/02/15/dubins-paths-for-waveguide-routing.html
-# A minimal implementation of Dubins paths for waveguide routing
-# adapted for gdsFactory by Quentin Wach.
-import math as m
+"""A minimal implementation of Dubins paths for waveguide routing adapted for gdsFactory by Quentin Wach.
 
-import numpy as np
+https://quentinwach.com/blog/2024/02/15/dubins-paths-for-waveguide-routing.html
+"""
+
+import math as m
 
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import CrossSectionSpec
 
 
-def route_dubin(xs: CrossSectionSpec, port1, port2) -> Component:
-    """Route between ports using Dubins paths with radius from cross-section."""
+def route_dubin(
+    port1,
+    port2,
+    cross_section: CrossSectionSpec,
+) -> Component:
+    """Route between ports using Dubins paths with radius from cross-section.
+
+    Args:
+        port1: input port.
+        port2: output port.
+        cross_section: cross-section.
+    """
     # Get start position and orientation
-    x1, y1 = port1.center
-    angle1 = float(port1.orientation)
-    START = (x1 / 1000, y1 / 1000, angle1)  # Convert to um
+    x1, y1 = port1.dcenter
+    float(port1.orientation)
+    START = (x1, y1)  # Convert to um
 
     # Get end position and orientation
-    x2, y2 = port2.center
+    x2, y2 = port2.dcenter
     angle2 = float(port2.orientation)
     angle2 = (angle2 + 180) % 360  # Adjust for input connection
-    END = (x2 / 1000, y2 / 1000, angle2)  # Convert to um
+    END = (x2, y2, angle2)  # Convert to um
 
+    xs = gf.get_cross_section(cross_section)
     # Find the Dubin's path between ports using radius from cross-section
     path = dubins_path(xs, start=START, end=END)  # Convert radius to um
-
     return gds_solution(xs, port1, port2, solution=path)
 
 
@@ -122,16 +132,12 @@ def dubins_path_length(start, end, xs):
     syaw = m.radians(syaw)
     eyaw = m.radians(eyaw)
 
-    c = xs.radius
-
     ex = ex - sx
     ey = ey - sy
 
     lex = m.cos(syaw) * ex + m.sin(syaw) * ey
     ley = -m.sin(syaw) * ex + m.cos(syaw) * ey
-    leyaw = eyaw - syaw
-    D = m.sqrt(lex**2.0 + ley**2.0)
-    return D
+    return m.sqrt(lex**2.0 + ley**2.0)
 
 
 def dubins_path(xs, start, end):
@@ -207,6 +213,7 @@ def pi_to_pi(angle):
 
 def linear(START, END, STEPS):
     """Creates a list of points on lines between a given start point and end point.
+
     start/end: [x, y, angle], the start/end point with given jaw angle.
     """
     x = []
@@ -215,27 +222,22 @@ def linear(START, END, STEPS):
     Dy = END[1] - START[1]
     dx = Dx / STEPS
     dy = Dy / STEPS
-    for step in range(0, STEPS + 1):
+    for step in range(STEPS + 1):
         x.append(step * dx + START[0])
         y.append(step * dy + START[1])
     return x, y
 
 
 def arrow_orientation(ANGLE):
-    """Returns x, y setoffs for a given angle to orient the arrows
-    marking the yaw of the start and end points.
-    """
+    """Returns x, y setoffs for a given angle to orient the arrows marking the yaw of the start and end points."""
     alpha_x = m.cos(m.radians(ANGLE))
     alpha_y = m.sin(m.radians(ANGLE))
     return alpha_x, alpha_y
 
 
-# generate a Nazca cell for a given Dubin's path solution
 def gds_solution(xs: CrossSectionSpec, port1, port2, solution) -> Component:
     """Creates GDS component with Dubins path."""
-    c = Component(
-        name="dubins_path_" + str(np.random.randint(1000000)) + str(port1.name)
-    )
+    c = Component()
     current_position = port1
 
     for mode, length, radius in solution:
