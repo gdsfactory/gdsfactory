@@ -99,15 +99,17 @@ def greek_cross_with_pads(
     greek_cross_component: ComponentSpec = "greek_cross",
     pad_via: ComponentSpec = "via_stack_m1_mtop",
     cross_section: CrossSectionSpec = metal1,
+    pad_port_name: str = "e4",
 ) -> gf.Component:
     """Greek cross under 4 DC pads, ready to test.
 
     Arguments:
-        pad: component to use for probe pads
-        pad_spacing: spacing between pads
-        greek_cross_component: component to use for greek cross
-        pad_via: via to add to the pad
-        cross_section: cross-section for cross via to pad via wiring
+        pad: component to use for probe pads.
+        pad_spacing: spacing between pads.
+        greek_cross_component: component to use for greek cross.
+        pad_via: via to add to the pad.
+        cross_section: cross-section for cross via to pad via wiring.
+        pad_port_name: name of the port to connect to the greek cross.
     """
     c = gf.Component()
 
@@ -143,10 +145,15 @@ def greek_cross_with_pads(
             start_straight_length=5,
             end_straight_length=5,
         )
+        c.add_port(
+            name=f"e{index+1}",
+            port=pad_ref.ports[pad_port_name],
+        )
 
     return c
 
 
 if __name__ == "__main__":
     c = greek_cross_with_pads()
+    c.pprint_ports()
     c.show()

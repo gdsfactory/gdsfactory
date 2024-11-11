@@ -78,8 +78,8 @@ def write_test_manifest(
                 writer.writerow(
                     [
                         cell.name,
-                        disp.x,
-                        disp.y,
+                        disp.x * c.kcl.dbu,
+                        disp.y * c.kcl.dbu,
                         json.dumps(cell.info.model_dump(exclude=parameters)),
                         json.dumps(ports),
                         cell.settings.model_dump_json(),
