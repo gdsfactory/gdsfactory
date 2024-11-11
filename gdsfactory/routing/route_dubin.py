@@ -45,7 +45,7 @@ def route_dubin(
     xs = gf.get_cross_section(cross_section)
     # Find the Dubin's path between ports using radius from cross-section
     path = dubins_path(start=START, end=END, cross_section=xs)  # Convert radius to um
-    instances = gds_solution(component, xs, port1, solution=path)
+    instances = place_dubin_path(component, xs, port1, solution=path)
     length = dubins_path_length(START, END, xs)
 
     backbone = [gf.kdb.DPoint(x1, y1), gf.kdb.DPoint(x2, y2)]  # TODO: fix this
@@ -242,10 +242,17 @@ def arrow_orientation(ANGLE):
     return alpha_x, alpha_y
 
 
-def gds_solution(
+def place_dubin_path(
     component, xs: CrossSectionSpec, port1, solution
 ) -> list[kf.VInstance]:
-    """Creates GDS component with Dubins path."""
+    """Creates GDS component with Dubins path.
+
+    Args:
+        component: component to add the route to.
+        xs: cross-section.
+        port1: input port.
+        solution: Dubins path solution.
+    """
     c = component
     current_position = port1
 

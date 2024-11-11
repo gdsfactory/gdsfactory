@@ -25,7 +25,7 @@ def sample_route_dubin_basic() -> gf.Component:
     return c
 
 
-@gf.cell
+@gf.cell(check_instances=False)
 def sample_route_dubin_array() -> gf.Component:
     """Test showing Dubins path routing between arrays of ports."""
     c = Component()
