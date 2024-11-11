@@ -16,6 +16,7 @@ from gdsfactory.routing.route_bundle import (
 )
 from gdsfactory.routing.route_bundle_all_angle import route_bundle_all_angle
 from gdsfactory.routing.route_bundle_sbend import route_bundle_sbend
+from gdsfactory.routing.route_dubin import route_dubin as route_dubin
 from gdsfactory.routing.route_ports_to_side import route_ports_to_side
 from gdsfactory.routing.route_quad import route_quad
 from gdsfactory.routing.route_sharp import route_sharp
@@ -38,6 +39,7 @@ __all__ = [
     "add_pads_bot",
     "add_fiber_array",
     "add_fiber_single",
+    "route_dubin",
     "route_bundle",
     "route_bundle_all_angle",
     "route_bundle_electrical",
