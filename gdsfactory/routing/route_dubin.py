@@ -5,6 +5,11 @@ https://quentinwach.com/blog/2024/02/15/dubins-paths-for-waveguide-routing.html
 
 import math as m
 
+import kfactory as kf
+from kfactory.routing.aa.optical import (
+    OpticalAllAngleRoute,
+)
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular_all_angle
@@ -17,7 +22,7 @@ def route_dubin(
     port1,
     port2,
     cross_section: CrossSectionSpec,
-) -> None:
+) -> OpticalAllAngleRoute:
     """Route between ports using Dubins paths with radius from cross-section.
 
     Args:
@@ -40,7 +45,17 @@ def route_dubin(
     xs = gf.get_cross_section(cross_section)
     # Find the Dubin's path between ports using radius from cross-section
     path = dubins_path(start=START, end=END, cross_section=xs)  # Convert radius to um
-    gds_solution(component, xs, port1, solution=path)
+    instances = gds_solution(component, xs, port1, solution=path)
+    length = dubins_path_length(START, END, xs)
+
+    backbone = [gf.kdb.DPoint(x1, y1), gf.kdb.DPoint(x2, y2)]  # TODO: fix this
+    return OpticalAllAngleRoute(
+        backbone=backbone,
+        start_port=port1,
+        end_port=port2,
+        length=length,
+        instances=instances,
+    )
 
 
 def general_planner(planner, alpha, beta, d):
@@ -185,7 +200,6 @@ def dubins_path(start, end, cross_section: CrossSectionSpec):
             bt, bp, bq, bmode = t, p, q, mode
             bcost = cost
 
-    print(f"Best mode: {bmode}")
     # Return path segments with lengths in um
     return list(zip(bmode, [bt * c, bp * c, bq * c], [c] * 3))
 
@@ -228,10 +242,14 @@ def arrow_orientation(ANGLE):
     return alpha_x, alpha_y
 
 
-def gds_solution(component, xs: CrossSectionSpec, port1, solution) -> None:
+def gds_solution(
+    component, xs: CrossSectionSpec, port1, solution
+) -> list[kf.VInstance]:
     """Creates GDS component with Dubins path."""
     c = component
     current_position = port1
+
+    instances = []
 
     for mode, length, radius in solution:
         if mode == "L":
@@ -242,6 +260,7 @@ def gds_solution(component, xs: CrossSectionSpec, port1, solution) -> None:
             )
             bend.connect("o1", current_position)
             current_position = bend.ports["o2"]
+            instances.append(bend)
 
         elif mode == "R":
             arc_angle = -(180 * length / (m.pi * radius))
@@ -250,6 +269,7 @@ def gds_solution(component, xs: CrossSectionSpec, port1, solution) -> None:
             )
             bend.connect("o1", current_position)
             current_position = bend.ports["o2"]
+            instances.append(bend)
 
         elif mode == "S":
             straight = c.create_vinst(
@@ -257,9 +277,12 @@ def gds_solution(component, xs: CrossSectionSpec, port1, solution) -> None:
             )
             straight.connect("o1", current_position)
             current_position = straight.ports["o2"]
+            instances.append(straight)
 
         else:
             raise ValueError(f"Invalid mode: {mode}")
+
+    return instances
 
 
 if __name__ == "__main__":
@@ -274,7 +297,7 @@ if __name__ == "__main__":
     wg2.rotate(45)
 
     # Route between the output of wg1 and input of wg2
-    gf.routing.route_dubin(
+    route = gf.routing.route_dubin(
         c,
         port1=wg1.ports["o2"],
         port2=wg2.ports["o1"],
