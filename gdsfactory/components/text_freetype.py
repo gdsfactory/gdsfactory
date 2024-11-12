@@ -73,11 +73,6 @@ def text_freetype(
             font = _get_font_by_file(str(font))
         else:
             font = _get_font_by_name(font)
-        if font is None:
-            raise ValueError(
-                f"Failed to find font: {font!r}. "
-                "Try specifying the exact (full) path to the .ttf or .otf file. "
-            )
 
         # Render each character
         for line in text.split("\n"):
