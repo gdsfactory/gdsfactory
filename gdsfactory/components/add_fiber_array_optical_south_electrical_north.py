@@ -14,7 +14,7 @@ def add_fiber_array_optical_south_electrical_north(
     electrical_port_names: list[str] | None = None,
     electrical_port_orientation: float | None = 90,
     npads: int | None = None,
-    port_types_grating_couplers=gf.CONF.port_types_grating_couplers,
+    port_types_grating_couplers: list[str] | None = None,
     **kwargs,
 ) -> gf.Component:
     """Returns a fiber array with Optical gratings on South and Electrical pads on North.
@@ -80,6 +80,9 @@ def add_fiber_array_optical_south_electrical_north(
         with_loopback=with_loopback,
         fiber_spacing=fiber_spacing,
         **kwargs,
+    )
+    port_types_grating_couplers = (
+        port_types_grating_couplers or gf.CONF.port_types_grating_couplers
     )
     optical_ports = [
         port for port in r.ports if port.port_type in port_types_grating_couplers
