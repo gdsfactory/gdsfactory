@@ -1,12 +1,19 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.18.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.18.1...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.18.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.18.1) - 2024-11-11
 
-No significant changes.
-
+- fix missing start/end angles arg in route_bundle [#3366](https://github.com/gdsfactory/gdsfactory/pull/3366)
+- Fix route_bundle to allow routing electrical ports like optical ones #3363  [#3365](https://github.com/gdsfactory/gdsfactory/pull/3365)
+- Fix test manifest [#3361](https://github.com/gdsfactory/gdsfactory/pull/3361)
+- simpler logic [#3364](https://github.com/gdsfactory/gdsfactory/pull/3364)
+- Document route dubin [#3367](https://github.com/gdsfactory/gdsfactory/pull/3367)
+- add code example in readme [#3358](https://github.com/gdsfactory/gdsfactory/pull/3358)
+- NEW ROUTING: Added optimal Dubins paths. [#3362](https://github.com/gdsfactory/gdsfactory/pull/3362)
+- Bump kfactory[ipy] from 0.21.6 to 0.21.7 [#3359](https://github.com/gdsfactory/gdsfactory/pull/3359)
+- Pin python max version [#3357](https://github.com/gdsfactory/gdsfactory/pull/3357)
 
 ## [8.18.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.18.0) - 2024-11-10
 
