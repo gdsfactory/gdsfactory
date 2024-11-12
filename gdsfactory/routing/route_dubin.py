@@ -1,37 +1,61 @@
-# See: https://quentinwach.com/blog/2024/02/15/dubins-paths-for-waveguide-routing.html
-# A minimal implementation of Dubins paths for waveguide routing
-# adapted for gdsFactory by Quentin Wach.
+"""A minimal implementation of Dubins paths for waveguide routing adapted for gdsFactory by Quentin Wach.
+
+https://quentinwach.com/blog/2024/02/15/dubins-paths-for-waveguide-routing.html
+"""
+
 import math as m
 
-import numpy as np
+import kfactory as kf
+from kfactory.routing.aa.optical import (
+    OpticalAllAngleRoute,
+)
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.components.bend_circular import bend_circular_all_angle
+from gdsfactory.components.straight import straight_all_angle
 from gdsfactory.typings import CrossSectionSpec
 
 
-def route_dubin(xs: CrossSectionSpec, port1, port2) -> Component:
-    """Route between ports using Dubins paths with radius from cross-section."""
+def route_dubin(
+    component: Component,
+    port1,
+    port2,
+    cross_section: CrossSectionSpec,
+) -> OpticalAllAngleRoute:
+    """Route between ports using Dubins paths with radius from cross-section.
+
+    Args:
+        component: component to add the route to.
+        port1: input port.
+        port2: output port.
+        cross_section: cross-section.
+    """
     # Get start position and orientation
-    x1, y1 = port1.center
+    x1, y1 = port1.dcenter
     angle1 = float(port1.orientation)
-    START = (x1 / 1000, y1 / 1000, angle1)  # Convert to um
+    START = (x1, y1, angle1)  # Convert to um
 
     # Get end position and orientation
-    x2, y2 = port2.center
+    x2, y2 = port2.dcenter
     angle2 = float(port2.orientation)
     angle2 = (angle2 + 180) % 360  # Adjust for input connection
-    END = (x2 / 1000, y2 / 1000, angle2)  # Convert to um
+    END = (x2, y2, angle2)  # Convert to um
 
+    xs = gf.get_cross_section(cross_section)
     # Find the Dubin's path between ports using radius from cross-section
-    path = dubins_path(xs, start=START, end=END)  # Convert radius to um
+    path = dubins_path(start=START, end=END, cross_section=xs)  # Convert radius to um
+    instances = place_dubin_path(component, xs, port1, solution=path)
+    length = dubins_path_length(START, END, xs)
 
-    return gds_solution(xs, port1, port2, solution=path)
-
-
-#########################################################################
-# Main
-#########################################################################
+    backbone = [gf.kdb.DPoint(x1, y1), gf.kdb.DPoint(x2, y2)]  # TODO: fix this
+    return OpticalAllAngleRoute(
+        backbone=backbone,
+        start_port=port1,
+        end_port=port2,
+        length=length,
+        instances=instances,
+    )
 
 
 def general_planner(planner, alpha, beta, d):
@@ -122,20 +146,17 @@ def dubins_path_length(start, end, xs):
     syaw = m.radians(syaw)
     eyaw = m.radians(eyaw)
 
-    c = xs.radius
-
     ex = ex - sx
     ey = ey - sy
 
     lex = m.cos(syaw) * ex + m.sin(syaw) * ey
     ley = -m.sin(syaw) * ex + m.cos(syaw) * ey
-    leyaw = eyaw - syaw
-    D = m.sqrt(lex**2.0 + ley**2.0)
-    return D
+    return m.sqrt(lex**2.0 + ley**2.0)
 
 
-def dubins_path(xs, start, end):
+def dubins_path(start, end, cross_section: CrossSectionSpec):
     """Finds the Dubins path between two points."""
+    xs = gf.get_cross_section(cross_section)
     (sx, sy, syaw) = start  # Coordinates already in um
     (ex, ey, eyaw) = end  # Coordinates already in um
 
@@ -159,8 +180,6 @@ def dubins_path(xs, start, end):
     D = m.sqrt(lex**2.0 + ley**2.0)
     d = D / c  # Normalize by radius
 
-    print("D (um):", D)
-
     # Calculate angles for path planning
     theta = mod_to_pi(m.atan2(ley, lex))
     alpha = mod_to_pi(-theta)
@@ -181,14 +200,8 @@ def dubins_path(xs, start, end):
             bt, bp, bq, bmode = t, p, q, mode
             bcost = cost
 
-    print(f"Best mode: {bmode}")
     # Return path segments with lengths in um
     return list(zip(bmode, [bt * c, bp * c, bq * c], [c] * 3))
-
-
-#########################################################################
-# Helpers
-#########################################################################
 
 
 def mod_to_pi(angle):
@@ -207,6 +220,7 @@ def pi_to_pi(angle):
 
 def linear(START, END, STEPS):
     """Creates a list of points on lines between a given start point and end point.
+
     start/end: [x, y, angle], the start/end point with given jaw angle.
     """
     x = []
@@ -215,49 +229,85 @@ def linear(START, END, STEPS):
     Dy = END[1] - START[1]
     dx = Dx / STEPS
     dy = Dy / STEPS
-    for step in range(0, STEPS + 1):
+    for step in range(STEPS + 1):
         x.append(step * dx + START[0])
         y.append(step * dy + START[1])
     return x, y
 
 
 def arrow_orientation(ANGLE):
-    """Returns x, y setoffs for a given angle to orient the arrows
-    marking the yaw of the start and end points.
-    """
+    """Returns x, y setoffs for a given angle to orient the arrows marking the yaw of the start and end points."""
     alpha_x = m.cos(m.radians(ANGLE))
     alpha_y = m.sin(m.radians(ANGLE))
     return alpha_x, alpha_y
 
 
-# generate a Nazca cell for a given Dubin's path solution
-def gds_solution(xs: CrossSectionSpec, port1, port2, solution) -> Component:
-    """Creates GDS component with Dubins path."""
-    c = Component(
-        name="dubins_path_" + str(np.random.randint(1000000)) + str(port1.name)
-    )
+def place_dubin_path(
+    component, xs: CrossSectionSpec, port1, solution
+) -> list[kf.VInstance]:
+    """Creates GDS component with Dubins path.
+
+    Args:
+        component: component to add the route to.
+        xs: cross-section.
+        port1: input port.
+        solution: Dubins path solution.
+    """
+    c = component
     current_position = port1
+
+    instances = []
 
     for mode, length, radius in solution:
         if mode == "L":
             # Length and radius are in um, convert to nm for gdsfactory
             arc_angle = 180 * length / (m.pi * radius)
-            bend = c << gf.components.bend_circular(angle=arc_angle, cross_section=xs)
-            bend.connect("o1", destination=current_position)
+            bend = c.create_vinst(
+                bend_circular_all_angle(angle=arc_angle, cross_section=xs)
+            )
+            bend.connect("o1", current_position)
             current_position = bend.ports["o2"]
+            instances.append(bend)
 
         elif mode == "R":
             arc_angle = -(180 * length / (m.pi * radius))
-            bend = c << gf.components.bend_circular(angle=arc_angle, cross_section=xs)
-            bend.connect("o1", destination=current_position)
+            bend = c.create_vinst(
+                bend_circular_all_angle(angle=arc_angle, cross_section=xs)
+            )
+            bend.connect("o1", current_position)
             current_position = bend.ports["o2"]
+            instances.append(bend)
 
         elif mode == "S":
-            straight = c << gf.components.straight(length=length, cross_section=xs)
-            straight.connect("o1", destination=current_position)
+            straight = c.create_vinst(
+                straight_all_angle(length=length, cross_section=xs)
+            )
+            straight.connect("o1", current_position)
             current_position = straight.ports["o2"]
+            instances.append(straight)
 
         else:
             raise ValueError(f"Invalid mode: {mode}")
 
-    return c
+    return instances
+
+
+if __name__ == "__main__":
+    c = gf.Component()
+
+    # Create two straight waveguides with different orientations
+    wg1 = c << gf.components.straight(length=100, width=3.2, layer=(30, 0))
+    wg2 = c << gf.components.straight(length=100, width=3.2, layer=(30, 0))
+
+    # Move and rotate the second waveguide
+    wg2.move((300, 50))
+    wg2.rotate(45)
+
+    # Route between the output of wg1 and input of wg2
+    route = gf.routing.route_dubin(
+        c,
+        port1=wg1.ports["o2"],
+        port2=wg2.ports["o1"],
+        cross_section=gf.cross_section.strip(width=3.2, layer=(30, 0), radius=100),
+    )
+    c.show()
