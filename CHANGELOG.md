@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.18.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.18.1) - 2024-11-11
+
+No significant changes.
+
+
 ## [8.18.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.18.0) - 2024-11-10
 
 - Add sample reticle electrical [#3344](https://github.com/gdsfactory/gdsfactory/pull/3344)
