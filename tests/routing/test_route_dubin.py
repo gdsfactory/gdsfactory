@@ -2,7 +2,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 
 
-@gf.cell
+@gf.cell(check_instances=False)
 def sample_route_dubin_basic() -> gf.Component:
     """Basic test showing Dubins path routing between two straight waveguides."""
     c = gf.Component()
