@@ -227,8 +227,8 @@ def route_bundle(
             cross_section=cross_section,
         )
 
-    end_straight = c.kcl.to_um(end_straight_length)
-    start_straight = c.kcl.to_um(start_straight_length)
+    end_straight = c.kcl.to_dbu(end_straight_length)
+    start_straight = c.kcl.to_dbu(start_straight_length)
 
     if collision_check_layers:
         collision_check_layers = [
