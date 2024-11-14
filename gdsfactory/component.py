@@ -244,6 +244,15 @@ class ComponentReference(kf.Instance):
     def name(self, value: str) -> None:
         self.set_property(PROPID.NAME, value)
 
+    @property
+    def parent(self) -> kf.KCell | Component:
+        """Returns the parent Component."""
+        warnings.warn(
+            "parent is deprecated, use ref.cell instead",
+            stacklevel=3,
+        )
+        return self.cell
+
 
 class ComponentReferences(kf.kcell.Instances):
     def __getitem__(self, key: str | int) -> ComponentReference:
