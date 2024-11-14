@@ -73,9 +73,6 @@ def straight_pin(
     via_stack_bot.dxmin = wg.dxmin
     via_stack_top.dxmin = wg.dxmin
 
-    # via_stack_top.dymin = +int(via_stack_spacing / 2 / c.kcl.dbu)
-    # via_stack_bot.dymax = -int(via_stack_spacing / 2 / c.kcl.dbu)
-
     via_stack_top.dymin = +via_stack_spacing / 2
     via_stack_bot.dymax = -via_stack_spacing / 2
 

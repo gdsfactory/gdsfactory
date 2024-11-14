@@ -106,6 +106,7 @@ def route_single(
     """
     p1 = port1
     p2 = port2
+    c = component
 
     if cross_section is None:
         if layer is None or route_width is None:
@@ -130,14 +131,13 @@ def route_single(
     def straight_dbu(length: int, cross_section=cross_section, **kwargs) -> Component:
         return gf.get_component(
             straight,
-            length=length * component.kcl.dbu,
+            length=c.kcl.to_um(length),
             cross_section=cross_section,
         )
 
-    dbu = component.kcl.dbu
-    end_straight = round(end_straight_length / dbu)
-    start_straight = round(start_straight_length / dbu)
-    route_width = round(width / dbu)
+    end_straight = c.kcl.to_dbu(end_straight_length)
+    start_straight = c.kcl.to_dbu(start_straight_length)
+    route_width = c.kcl.to_dbu(width)
 
     if steps and waypoints:
         raise ValueError("Provide either steps or waypoints, not both")
@@ -164,7 +164,9 @@ def route_single(
     if len(waypoints) > 0:
         if not isinstance(waypoints[0], kf.kdb.Point):
             w = [kf.kdb.Point(*p1.center)]
-            w += [kf.kdb.Point(p[0] / dbu, p[1] / dbu) for p in waypoints]
+            w += [
+                kf.kdb.Point(c.kcl.to_dbu(p[0]), c.kcl.to_dbu(p[1])) for p in waypoints
+            ]
             w += [kf.kdb.Point(*p2.center)]
             waypoints = w
 
@@ -229,22 +231,23 @@ def route_single_electrical(
         cross_section: The cross section of the route.
 
     """
+    c = component
     xs = gf.get_cross_section(cross_section)
     layer = layer or xs.layer
     width = width or xs.width
     layer = gf.get_layer(layer)
     start_straight_length = (
-        start_straight_length / component.kcl.dbu if start_straight_length else None
+        c.kcl.to_dbu(start_straight_length) if start_straight_length else None
     )
     end_straight_length = (
-        end_straight_length / component.kcl.dbu if end_straight_length else None
+        c.kcl.to_dbu(end_straight_length) if end_straight_length else None
     )
     route_elec(
         c=component,
         p1=port1,
         p2=port2,
         layer=layer,
-        width=round(width / component.kcl.dbu),
+        width=c.kcl.to_dbu(width),
         start_straight=start_straight_length,
         end_straight=end_straight_length,
     )
