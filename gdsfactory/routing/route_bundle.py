@@ -190,14 +190,13 @@ def route_bundle(
             f"Cannot have both {layer=} and {cross_section=} provided. Choose one."
         )
 
+    c = component
     ports1 = [ports1] if isinstance(ports1, Port) else list(ports1)
     ports2 = [ports2] if isinstance(ports2, Port) else list(ports2)
-
     port_type = port_type or ports1[0].port_type
-    dbu = component.kcl.dbu
 
     if route_width and not isinstance(route_width, int | float):
-        route_width = [width * dbu for width in route_width]
+        route_width = [c.to_dbu(width) for width in route_width]
 
     if len(ports1) != len(ports2):
         raise ValueError(f"ports1={len(ports1)} and ports2={len(ports2)} must be equal")
@@ -208,7 +207,7 @@ def route_bundle(
         else gf.get_cross_section(cross_section)
     )
     width = route_width or xs.width
-    width_dbu = round(width / component.kcl.dbu)
+    width_dbu = c.kcl.to_dbu(width)
     radius = radius or xs.radius
     taper_cell = gf.get_component(taper) if taper else None
     bend90 = (
@@ -224,13 +223,12 @@ def route_bundle(
     ) -> Component:
         return gf.get_component(
             straight,
-            length=length * component.kcl.dbu,
+            length=c.kcl.to_um(length),
             cross_section=cross_section,
         )
 
-    dbu = component.kcl.dbu
-    end_straight = round(end_straight_length / dbu)
-    start_straight = round(start_straight_length / dbu)
+    end_straight = c.kcl.to_dbu(end_straight_length)
+    start_straight = c.kcl.to_dbu(start_straight_length)
 
     if collision_check_layers:
         collision_check_layers = [
@@ -260,7 +258,7 @@ def route_bundle(
 
     if waypoints is not None and not isinstance(waypoints[0], kf.kdb.Point):
         _waypoints: list[kf.kdb.Point] | None = [
-            kf.kdb.Point(p[0] / dbu, p[1] / dbu) for p in waypoints
+            c.kcl.to_dbu(kf.kdb.DPoint(p[0], p[1])) for p in waypoints
         ]
     else:
         _waypoints = waypoints
@@ -273,7 +271,7 @@ def route_bundle(
             component,
             ports1,
             ports2,
-            round(separation / component.kcl.dbu),
+            c.kcl.to_dbu(separation),
             starts=start_straight,
             ends=end_straight,
             place_layer=port_layer,
@@ -291,13 +289,13 @@ def route_bundle(
         component,
         ports1,
         ports2,
-        round(separation / component.kcl.dbu),
+        c.kcl.to_dbu(separation),
         straight_factory=straight_dbu,
         bend90_cell=bend90,
         taper_cell=taper_cell,
         starts=start_straight,
         ends=end_straight,
-        min_straight_taper=round(min_straight_taper / dbu),
+        min_straight_taper=c.kcl.to_dbu(min_straight_taper),
         place_port_type=port_type,
         collision_check_layers=collision_check_layers,
         on_collision=on_collision,
