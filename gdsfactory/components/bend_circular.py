@@ -42,7 +42,9 @@ def _bend_circular(
     x = gf.get_cross_section(cross_section)
     radius = radius or x.radius
     if layer or width:
-        x = x.copy(layer=layer or x.layer, width=width or x.width)
+        x = gf.get_cross_section(
+            cross_section, layer=layer or x.layer, width=width or x.width
+        )
 
     p = arc(radius=radius, angle=angle, npoints=npoints)
     c = p.extrude(x, all_angle=all_angle)

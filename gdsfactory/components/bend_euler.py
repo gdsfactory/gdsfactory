@@ -64,7 +64,9 @@ def _bend_euler(
         return wire_corner(cross_section=x)
 
     if layer or width:
-        x = x.copy(layer=layer or x.layer, width=width or x.width)
+        x = gf.get_cross_section(
+            cross_section, layer=layer or x.layer, width=width or x.width
+        )
 
     p = euler(
         radius=radius, angle=angle, p=p, use_eff=with_arc_floorplan, npoints=npoints

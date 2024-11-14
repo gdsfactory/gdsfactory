@@ -1,7 +1,7 @@
 analysis: null
 analysis_settings:
   cross_section: strip
-  length: 10
+  length: 10.0
   npoints: 2
 doe: null
 measurement: null
