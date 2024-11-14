@@ -258,7 +258,7 @@ def route_bundle(
 
     if waypoints is not None and not isinstance(waypoints[0], kf.kdb.Point):
         _waypoints: list[kf.kdb.Point] | None = [
-            kf.kdb.Point(c.kcl.to_dbu(p[0]), c.kcl.to_dbu(p[1])) for p in waypoints
+            c.kcl.to_dbu(kf.kdb.DPoint(p[0], p[1])) for p in waypoints
         ]
     else:
         _waypoints = waypoints

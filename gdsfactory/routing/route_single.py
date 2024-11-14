@@ -164,9 +164,7 @@ def route_single(
     if len(waypoints) > 0:
         if not isinstance(waypoints[0], kf.kdb.Point):
             w = [kf.kdb.Point(*p1.center)]
-            w += [
-                kf.kdb.Point(c.kcl.to_dbu(p[0]), c.kcl.to_dbu(p[1])) for p in waypoints
-            ]
+            w += [c.kcl.to_dbu(kf.kdb.DPoint(p[0], p[1])) for p in waypoints]
             w += [kf.kdb.Point(*p2.center)]
             waypoints = w
 
