@@ -818,15 +818,21 @@ def _get_dependency_graph(net: Netlist) -> nx.DiGraph:
 def _get_references(c: Component, pdk, instances: dict[str, NetlistInstance]):
     refs = {}
     for name, inst in instances.items():
-        na, nb = inst.na, inst.nb
-        dax, day, dbx, dby = inst.dax, inst.day, inst.dbx, inst.dby
+        columns, rows = inst.columns, inst.columns
+        column_spacing = inst.column_spacing
+        row_spacing = inst.row_spacing
+
         comp = pdk.get_component(component=inst.component, settings=inst.settings)
-        if na < 2 and nb < 2:
+        if columns < 2 and rows < 2:
             ref = c.add_ref(comp, name=name)
-        elif dax or dby:
-            ref = c.add_ref(comp, rows=nb, columns=na, spacing=(dax, dby), name=name)
         else:
-            ref = c.add_ref(comp, rows=na, columns=nb, spacing=(dbx, day), name=name)
+            ref = c.add_ref(
+                comp,
+                rows=rows,
+                columns=columns,
+                spacing=(column_spacing, row_spacing),
+                name=name,
+            )
         refs[name] = ref
     return refs
 

@@ -15,12 +15,11 @@ class Instance(BaseModel):
     component: str
     settings: dict[str, Any] = Field(default_factory=dict)
     info: dict[str, Any] = Field(default_factory=dict, exclude=True)
-    na: int = 1
-    nb: int = 1
-    dax: float = 0
-    day: float = 0
-    dbx: float = 0
-    dby: float = 0
+    columns: int = 1
+    rows: int = 1
+
+    column_spacing: float = 0
+    row_spacing: float = 0
 
     model_config = {"extra": "forbid"}
 
