@@ -37,6 +37,11 @@ class SequenceGenerator:
         O: taper with input '2'
         S: short straight waveguide
         L: long straight waveguide
+
+        Args:
+            start_sequence: starting sequence.
+            end_sequence: ending sequence.
+            repeated_sequence: repeating sequence.
         """
         self.start_sequence = start_sequence
         self.end_sequence = end_sequence
