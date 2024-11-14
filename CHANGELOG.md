@@ -1,12 +1,15 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.18.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.18.2...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.18.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.18.2) - 2024-11-14
 
-No significant changes.
-
+- fix bend width [#3374](https://github.com/gdsfactory/gdsfactory/pull/3374)
+- add deprecation for ref.parent [#3377](https://github.com/gdsfactory/gdsfactory/pull/3377)
+- Cleaner to um conversion [#3375](https://github.com/gdsfactory/gdsfactory/pull/3375)
+- better pcell values [#3371](https://github.com/gdsfactory/gdsfactory/pull/3371)
+- improve_text_klayout [#3370](https://github.com/gdsfactory/gdsfactory/pull/3370)
 
 ## [8.18.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.18.1) - 2024-11-11
 
