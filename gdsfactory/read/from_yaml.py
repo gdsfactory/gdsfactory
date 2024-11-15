@@ -202,6 +202,10 @@ def _move_ref(
 
 
 def _parse_maybe_arrayed_instance(inst_spec: str) -> tuple:
+    """Parse an instance specifier that may or may not be arrayed.
+
+    Returns the instance name, and the a and b indices if they are present.
+    """
     if inst_spec.count("<") > 1:
         raise ValueError(
             f"Too many angle brackets (<) in instance specification '{inst_spec}'. Array ref indices should end with <ia.ib>, and otherwise this character should be avoided."
@@ -844,8 +848,6 @@ def _place_and_connect(
         pl = placements.get(root)
         if pl is not None:
             _update_reference_by_placement(refs, root, pl)
-        else:
-            _update_reference_by_placement(refs, root, Placement())
         for i2, i1 in nx.dfs_edges(g, root):
             ports = directed_connections.get(i1, {}).get(i2, None)
             pl = placements.get(i1)
