@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.19.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.19.0) - 2024-11-15
+
+No significant changes.
+
+
 ## [8.18.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.18.2) - 2024-11-14
 
 - fix bend width [#3374](https://github.com/gdsfactory/gdsfactory/pull/3374)
