@@ -77,12 +77,6 @@ valid_placement_keys = [
     "rotation",
     "mirror",
     "port",
-    "na",
-    "nb",
-    "dax",
-    "dbx",
-    "day",
-    "dby",
 ]
 
 
@@ -786,8 +780,8 @@ def _get_dependency_graph(net: Netlist) -> nx.DiGraph:
 
     for i, inst in net.instances.items():
         g.add_node(i)
-        if inst.na >= 2 or inst.nb >= 2:
-            for a, b in itertools.product(range(inst.na), range(inst.nb)):
+        if inst.rows >= 2 or inst.columns >= 2:
+            for a, b in itertools.product(range(inst.rows), range(inst.columns)):
                 _graph_connect(g, f"{i}<{a}.{b}>", i)
 
     for ip1, ip2 in net.connections.items():
@@ -818,15 +812,22 @@ def _get_dependency_graph(net: Netlist) -> nx.DiGraph:
 def _get_references(c: Component, pdk, instances: dict[str, NetlistInstance]):
     refs = {}
     for name, inst in instances.items():
-        na, nb = inst.na, inst.nb
-        dax, day, dbx, dby = inst.dax, inst.day, inst.dbx, inst.dby
+        columns = inst.columns
+        rows = inst.rows
+        column_pitch = inst.column_pitch
+        row_pitch = inst.row_pitch
+
         comp = pdk.get_component(component=inst.component, settings=inst.settings)
-        if na < 2 and nb < 2:
+        if columns < 2 and rows < 2:
             ref = c.add_ref(comp, name=name)
-        elif dax or dby:
-            ref = c.add_ref(comp, rows=nb, columns=na, spacing=(dax, dby), name=name)
         else:
-            ref = c.add_ref(comp, rows=na, columns=nb, spacing=(dbx, day), name=name)
+            ref = c.add_ref(
+                comp,
+                rows=rows,
+                columns=columns,
+                spacing=(column_pitch, row_pitch),
+                name=name,
+            )
         refs[name] = ref
     return refs
 
@@ -865,6 +866,7 @@ def _add_routes(
     routes: dict[str, Bundle],
     routing_strategies: dict[str, Callable] | None = None,
 ):
+    """Add routes to component."""
     from gdsfactory.pdk import get_routing_strategies
 
     routes_dict = {}
@@ -1619,10 +1621,8 @@ name: pad_array
 instances:
     pad_array:
       component: pad
-      na: 3
-      nb: 1
-      dax: 200
-      dby: 200
+      columns: 3
+      column_pitch: 200
 
 """
 sample_array = """
@@ -1631,10 +1631,10 @@ name: sample_array
 instances:
   sa1:
     component: straight
-    na: 5
-    dax: 50
-    nb: 4
-    dby: 10
+    columns: 5
+    column_pitch: 50
+    rows: 4
+    row_pitch: 10
   s2:
     component: straight
 
@@ -1646,6 +1646,8 @@ routes:
         links:
             sa1<3.0>,o2: sa1<4.0>,o1
             sa1<3.1>,o2: sa1<4.1>,o1
+        settings:
+            cross_section: strip
 
 ports:
     o1: s2,o1
@@ -1754,7 +1756,7 @@ instances:
 
 
 if __name__ == "__main__":
-    c = from_yaml(sample_mirror)
+    c = from_yaml(sample_array)
     # c = from_yaml(sample_array)
     # c = from_yaml(sample_yaml_xmin)
     # c = from_yaml(sample_array)

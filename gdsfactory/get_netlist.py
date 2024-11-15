@@ -216,12 +216,10 @@ def get_netlist(
 
         if is_array_ref:
             instances[reference_name].update(
-                na=reference.na,
-                nb=reference.nb,
-                dax=reference.da.x,
-                dbx=reference.db.x,
-                day=reference.da.y,
-                dby=reference.db.y,
+                columns=reference.na,
+                rows=reference.nb,
+                column_pitch=reference.da.x,
+                row_pitch=reference.db.y,
             )
             reference_name = get_instance_name(reference)
             for ia in range(reference.na):
@@ -594,7 +592,7 @@ if __name__ == "__main__":
     # c.add_port("o1", port=mzi.ports["o1"])
     # c.add_port("o2", port=bend.ports["o2"])
 
-    c = gf.c.mzi()
+    c = gf.c.pad_array()
     # c = gf.components.array(
     #     gf.components.straight(length=100), spacing=(100, 0), columns=5, rows=1
     # )

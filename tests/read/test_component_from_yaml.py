@@ -508,12 +508,8 @@ instances:
       - 50
       bend_s: bend_s
       cross_section: strip
-    na: 1
-    nb: 1
-    dax: 0
-    day: 0
-    dbx: 0
-    dby: 0
+    columns: 1
+    rows: 1
   dbr:
     component: array
     settings:
@@ -525,12 +521,8 @@ instances:
       rows: 8
       add_ports: true
       centered: true
-    na: 1
-    nb: 1
-    dax: 0
-    day: 0
-    dbx: 0
-    dby: 0
+    columns: 1
+    rows: 1
 placements:
   s:
     x: 0.0
@@ -571,10 +563,10 @@ name: sample_array
 instances:
   sa1:
     component: straight
-    na: 5
-    dax: 50
-    nb: 4
-    dby: 10
+    columns: 5
+    column_pitch: 50
+    rows: 4
+    row_pitch: 10
   s2:
     component: straight
 
