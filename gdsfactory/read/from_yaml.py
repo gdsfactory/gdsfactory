@@ -77,12 +77,6 @@ valid_placement_keys = [
     "rotation",
     "mirror",
     "port",
-    "na",
-    "nb",
-    "dax",
-    "dbx",
-    "day",
-    "dby",
 ]
 
 
@@ -1626,10 +1620,8 @@ name: pad_array
 instances:
     pad_array:
       component: pad
-      na: 3
-      nb: 1
-      dax: 200
-      dby: 200
+      columns: 3
+      column_pitch: 200
 
 """
 sample_array = """
@@ -1638,10 +1630,10 @@ name: sample_array
 instances:
   sa1:
     component: straight
-    na: 5
-    dax: 50
-    nb: 4
-    dby: 10
+    columns: 5
+    column_pitch: 50
+    rows: 4
+    row_pitch: 10
   s2:
     component: straight
 
@@ -1653,6 +1645,8 @@ routes:
         links:
             sa1<3.0>,o2: sa1<4.0>,o1
             sa1<3.1>,o2: sa1<4.1>,o1
+        settings:
+            cross_section: strip
 
 ports:
     o1: s2,o1
@@ -1761,7 +1755,7 @@ instances:
 
 
 if __name__ == "__main__":
-    c = from_yaml(sample_mirror)
+    c = from_yaml(sample_array)
     # c = from_yaml(sample_array)
     # c = from_yaml(sample_yaml_xmin)
     # c = from_yaml(sample_array)

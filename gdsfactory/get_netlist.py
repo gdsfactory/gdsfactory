@@ -216,12 +216,10 @@ def get_netlist(
 
         if is_array_ref:
             instances[reference_name].update(
-                na=reference.na,
-                nb=reference.nb,
-                dax=reference.da.x,
-                dbx=reference.db.x,
-                day=reference.da.y,
-                dby=reference.db.y,
+                columns=reference.na,
+                rows=reference.nb,
+                column_pitch=reference.da.x,
+                row_pitch=reference.db.y,
             )
             reference_name = get_instance_name(reference)
             for ia in range(reference.na):

@@ -45,19 +45,17 @@ instances:
       - 10
       - 10
   via_S0p7_0p7_S2_2_GNone_8696e860_m3000_2000:
+    column_pitch: 2
+    columns: 4
     component: via
-    dax: 2
-    day: 0
-    dbx: 0
-    dby: 2
     info:
       enclosure: 1
       xsize: 0.7
       xspacing: 2
       ysize: 0.7
       yspacing: 2
-    na: 4
-    nb: 4
+    row_pitch: 2
+    rows: 4
     settings:
       bbox_layers: null
       bbox_offset: 0
