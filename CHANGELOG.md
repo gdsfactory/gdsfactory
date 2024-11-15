@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.19.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.19.1) - 2024-11-15
+
+No significant changes.
+
+
 ## [8.19.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.19.0) - 2024-11-15
 
 - better netlist names for na/nb/dax/day -> columns/rows/column_pitch/row_pitch [#3380](https://github.com/gdsfactory/gdsfactory/pull/3380)
