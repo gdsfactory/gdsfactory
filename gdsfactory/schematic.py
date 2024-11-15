@@ -12,14 +12,25 @@ from gdsfactory.typings import Anchor, Component
 
 
 class Instance(BaseModel):
+    """Instance of a component.
+
+    Parameters:
+        component: component name.
+        settings: input variables.
+        info: information (polarization, wavelength ...).
+        columns: number of columns.
+        rows: number of rows.
+        column_pitch: column pitch.
+        row_pitch: row pitch.
+    """
+
     component: str
     settings: dict[str, Any] = Field(default_factory=dict)
     info: dict[str, Any] = Field(default_factory=dict, exclude=True)
     columns: int = 1
     rows: int = 1
-
-    column_spacing: float = 0
-    row_spacing: float = 0
+    column_pitch: float = 0
+    row_pitch: float = 0
 
     model_config = {"extra": "forbid"}
 

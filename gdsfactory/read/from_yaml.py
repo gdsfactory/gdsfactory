@@ -786,8 +786,8 @@ def _get_dependency_graph(net: Netlist) -> nx.DiGraph:
 
     for i, inst in net.instances.items():
         g.add_node(i)
-        if inst.na >= 2 or inst.nb >= 2:
-            for a, b in itertools.product(range(inst.na), range(inst.nb)):
+        if inst.rows >= 2 or inst.columns >= 2:
+            for a, b in itertools.product(range(inst.rows), range(inst.columns)):
                 _graph_connect(g, f"{i}<{a}.{b}>", i)
 
     for ip1, ip2 in net.connections.items():
@@ -819,8 +819,8 @@ def _get_references(c: Component, pdk, instances: dict[str, NetlistInstance]):
     refs = {}
     for name, inst in instances.items():
         columns, rows = inst.columns, inst.columns
-        column_spacing = inst.column_spacing
-        row_spacing = inst.row_spacing
+        column_pitch = inst.column_pitch
+        row_pitch = inst.row_pitch
 
         comp = pdk.get_component(component=inst.component, settings=inst.settings)
         if columns < 2 and rows < 2:
@@ -830,7 +830,7 @@ def _get_references(c: Component, pdk, instances: dict[str, NetlistInstance]):
                 comp,
                 rows=rows,
                 columns=columns,
-                spacing=(column_spacing, row_spacing),
+                spacing=(column_pitch, row_pitch),
                 name=name,
             )
         refs[name] = ref
@@ -871,6 +871,7 @@ def _add_routes(
     routes: dict[str, Bundle],
     routing_strategies: dict[str, Callable] | None = None,
 ):
+    """Add routes to component."""
     from gdsfactory.pdk import get_routing_strategies
 
     routes_dict = {}
