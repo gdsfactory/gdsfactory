@@ -1,12 +1,11 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.19.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.19.1...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.19.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.19.1) - 2024-11-15
 
-No significant changes.
-
+- fix layer or width for bends [#3390](https://github.com/gdsfactory/gdsfactory/pull/3390)
 
 ## [8.19.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.19.0) - 2024-11-15
 
