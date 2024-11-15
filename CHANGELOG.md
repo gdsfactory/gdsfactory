@@ -1,12 +1,15 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.18.2...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.19.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.19.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.19.0) - 2024-11-15
 
-No significant changes.
-
+- better netlist names for na/nb/dax/day -> columns/rows/column_pitch/row_pitch [#3380](https://github.com/gdsfactory/gdsfactory/pull/3380)
+- Fix text justify [#3388](https://github.com/gdsfactory/gdsfactory/pull/3388)
+- Fix port orientation [#3386](https://github.com/gdsfactory/gdsfactory/pull/3386)
+- fix array placement [#3385](https://github.com/gdsfactory/gdsfactory/pull/3385)
+- fix cutback_component [#3384](https://github.com/gdsfactory/gdsfactory/pull/3384)
 
 ## [8.18.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.18.2) - 2024-11-14
 
