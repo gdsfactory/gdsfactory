@@ -62,3 +62,8 @@ def test_get_ports_sort_counter_clockwise() -> None:
 def test_rename_ports(port_type, data_regression: DataRegressionFixture):
     c = gf.components.nxn(port_type=port_type)
     data_regression.check(c.to_dict())
+
+
+def test_port() -> None:
+    p = gf.Port(name="foo", orientation=359, center=(0, 0), width=5, layer=(1, 1))
+    assert p.orientation == 359
