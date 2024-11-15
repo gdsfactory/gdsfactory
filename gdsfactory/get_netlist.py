@@ -592,7 +592,7 @@ if __name__ == "__main__":
     # c.add_port("o1", port=mzi.ports["o1"])
     # c.add_port("o2", port=bend.ports["o2"])
 
-    c = gf.c.mzi()
+    c = gf.c.pad_array()
     # c = gf.components.array(
     #     gf.components.straight(length=100), spacing=(100, 0), columns=5, rows=1
     # )

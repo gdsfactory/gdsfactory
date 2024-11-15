@@ -812,7 +812,8 @@ def _get_dependency_graph(net: Netlist) -> nx.DiGraph:
 def _get_references(c: Component, pdk, instances: dict[str, NetlistInstance]):
     refs = {}
     for name, inst in instances.items():
-        columns, rows = inst.columns, inst.columns
+        columns = inst.columns
+        rows = inst.rows
         column_pitch = inst.column_pitch
         row_pitch = inst.row_pitch
 

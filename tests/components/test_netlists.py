@@ -89,6 +89,7 @@ if __name__ == "__main__":
     component_type = "delay_snake"  # FIXME
     component_type = "bbox"
     component_type = "text_freetype"
+    component_type = "pad_array"
 
     connection_error_types = {
         "optical": ["width_mismatch", "shear_angle_mismatch", "orientation_mismatch"]
