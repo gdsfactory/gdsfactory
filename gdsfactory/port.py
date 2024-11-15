@@ -149,13 +149,12 @@ class Port(kf.Port):
 
         dcplx_trans = kf.kdb.DCplxTrans(1.0, float(orientation), False, *center)
         info = info or {}
-        width = round(width / kf.kcl.dbu)
         super().__init__(
             name=name,
             layer=get_layer(layer),
-            width=width,
+            dwidth=width,
             port_type=port_type,
-            trans=dcplx_trans.s_trans().to_itype(kf.kcl.dbu),
+            dcplx_trans=dcplx_trans,
             info=info,
         )
 
