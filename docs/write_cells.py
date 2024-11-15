@@ -111,6 +111,7 @@ By doing so, you'll possess a versatile, retargetable PDK, empowering you to des
   import gdsfactory as gf
 
   c = gf.components.{name}({kwargs})
+  c.draw_ports()
   c.plot()
 
 """
