@@ -37,7 +37,6 @@ from gdsfactory.typings import (
     MaterialSpec,
     PathType,
     RoutingStrategies,
-    RoutingStrategy,
     Transition,
 )
 
