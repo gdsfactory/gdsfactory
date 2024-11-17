@@ -148,7 +148,7 @@ ignore = [
   "ANN102",  # Missing cls type annotation
   "ANN401",  # typing.Any is not allowed
   "RUF015",  # Using next() instead of [0]
-  "UP037",  # Remove quotes from type annotations
+  "UP037"  # Remove quotes from type annotations
 ]
 select = [
   "B",  # flake8-bugbear
@@ -166,10 +166,10 @@ select = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
+"gdsfactory/samples/*.py" = ["N999"]
 "gdsfactory/typings.py" = ["UP035"]
 "notebooks/*.ipynb" = ["F821", 'E402', 'F405', 'F403', "D103"]
 "tests/*.py" = ["D103"]
-"gdsfactory/samples/*.py" = ["N999"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"

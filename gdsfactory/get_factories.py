@@ -26,17 +26,19 @@ def get_cells(
     modules = modules if isinstance(modules, Iterable) else [modules]
     cells: dict[str, ComponentFactory] = {}
     for module in modules:
-        cells.update({
-            name: member
-            for name, member in getmembers(module)
-            if is_cell(
-                member,
-                ignore_non_decorated=ignore_non_decorated,
-                ignore_underscored=ignore_underscored,
-                ignore_partials=ignore_partials,
-                name=name,
-            )
-        })
+        cells.update(
+            {
+                name: member
+                for name, member in getmembers(module)
+                if is_cell(
+                    member,
+                    ignore_non_decorated=ignore_non_decorated,
+                    ignore_underscored=ignore_underscored,
+                    ignore_partials=ignore_partials,
+                    name=name,
+                )
+            }
+        )
     return cells
 
 

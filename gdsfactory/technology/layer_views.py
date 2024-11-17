@@ -516,9 +516,9 @@ class LayerView(BaseModel):
 
     def __str__(self) -> str:
         """Returns a formatted view of properties and their values."""
-        return "LayerView:\n\t" + "\n\t".join([
-            f"{k}: {v}" for k, v in self.model_dump().items()
-        ])
+        return "LayerView:\n\t" + "\n\t".join(
+            [f"{k}: {v}" for k, v in self.model_dump().items()]
+        )
 
     def __repr__(self) -> str:
         """Returns a formatted view of properties and their values."""
@@ -1049,9 +1049,9 @@ class LayerViews(BaseModel):
 
             if name is None or order is None:
                 continue
-            pattern = "\n".join([
-                line.text for line in dither_block.find("pattern").iter()
-            ])
+            pattern = "\n".join(
+                [line.text for line in dither_block.find("pattern").iter()]
+            )
 
             if name in dither_patterns:
                 warnings.warn(

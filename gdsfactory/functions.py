@@ -203,19 +203,23 @@ def get_polygons_points(
         all_points = []
         for polygon in polygons:
             if scale:
-                points = np.array([
-                    (point.x * scale, point.y * scale)
-                    for point in polygon.to_simple_polygon()
-                    .to_dtype(component_or_instance.kcl.dbu)
-                    .each_point()
-                ])
+                points = np.array(
+                    [
+                        (point.x * scale, point.y * scale)
+                        for point in polygon.to_simple_polygon()
+                        .to_dtype(component_or_instance.kcl.dbu)
+                        .each_point()
+                    ]
+                )
             else:
-                points = np.array([
-                    (point.x, point.y)
-                    for point in polygon.to_simple_polygon()
-                    .to_dtype(component_or_instance.kcl.dbu)
-                    .each_point()
-                ])
+                points = np.array(
+                    [
+                        (point.x, point.y)
+                        for point in polygon.to_simple_polygon()
+                        .to_dtype(component_or_instance.kcl.dbu)
+                        .each_point()
+                    ]
+                )
             all_points.append(points)
         polygons_points[layer] = all_points
     return polygons_points

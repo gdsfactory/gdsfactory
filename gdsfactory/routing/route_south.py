@@ -140,9 +140,9 @@ def route_south(
     def get_index_port_closest_to_x(
         x: float, component_references: list[ComponentReference]
     ) -> np.intp:
-        return np.array([
-            abs(x - p.ports[gc_port_name].dx) for p in component_references
-        ]).argmin()
+        return np.array(
+            [abs(x - p.ports[gc_port_name].dx) for p in component_references]
+        ).argmin()
 
     def gen_port_from_port(
         x: float, y: float, p: Port, cross_section: CrossSection
