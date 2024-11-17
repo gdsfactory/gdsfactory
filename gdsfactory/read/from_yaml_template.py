@@ -1,5 +1,5 @@
 import pathlib
-from collections.abc import Callable, Iterable
+from collections.abc import Iterable
 from inspect import Parameter, Signature, signature
 from io import IOBase
 from typing import IO, Any
