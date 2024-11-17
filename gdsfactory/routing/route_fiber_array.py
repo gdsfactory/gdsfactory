@@ -1,11 +1,12 @@
 from __future__ import annotations
 
-from collections.abc import Callable, Mapping, Sequence
+from collections.abc import Mapping, Sequence
+from typing import Any
 
 import kfactory as kf
 
 import gdsfactory as gf
-from gdsfactory.component import Component
+from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
 from gdsfactory.components.straight import straight as straight_function
@@ -15,11 +16,11 @@ from gdsfactory.routing.route_bundle import get_min_spacing, route_bundle
 from gdsfactory.routing.route_single import route_single
 from gdsfactory.routing.utils import direction_ports_from_list_ports
 from gdsfactory.typings import (
-    ComponentReference,
     ComponentSpec,
     ComponentSpecOrList,
     Coordinates,
     CrossSectionSpec,
+    PortsFactory,
     Strs,
 )
 
@@ -47,7 +48,7 @@ def route_fiber_array(
     component_name: str | None = None,
     x_grating_offset: float = 0,
     port_names: Strs | None = None,
-    select_ports: Callable = select_ports_optical,
+    select_ports: PortsFactory = select_ports_optical,
     radius: float | None = None,
     radius_loopback: float | None = None,
     cross_section: CrossSectionSpec = strip,
@@ -59,9 +60,9 @@ def route_fiber_array(
     auto_taper: bool = True,
     waypoints: Coordinates | None = None,
     steps: Sequence[Mapping[str, int | float]] | None = None,
-    bboxes: list | None = None,
+    bboxes: list[tuple[float, float, float, float]] | None = None,
     avoid_component_bbox: bool = True,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Returns new component with fiber array.
 
@@ -185,7 +186,7 @@ def route_fiber_array(
         or (component.dxsize > fiber_spacing)
     )
 
-    def has_p(side) -> bool:
+    def has_p(side: str) -> bool:
         return len(direction_ports[side]) > 0
 
     list_ew_ports_on_sides = [has_p(side) for side in ["E", "W"]]
@@ -413,7 +414,7 @@ def demo() -> None:
 if __name__ == "__main__":
 
     @gf.cell
-    def mzi_with_bend(radius=10, **kwargs):
+    def mzi_with_bend(radius: float = 10, **kwargs: Any) -> Component:
         c = gf.Component()
         bend = c.add_ref(gf.components.bend_euler(radius=radius, **kwargs))
         mzi = c.add_ref(gf.components.mzi(**kwargs))

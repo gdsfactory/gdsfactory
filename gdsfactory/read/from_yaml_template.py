@@ -52,7 +52,7 @@ def split_default_settings_from_yaml(yaml_lines: Iterable[str]) -> tuple[str, st
     return other_string, settings_string
 
 
-def _split_yaml_definition(subpic_yaml):
+def _split_yaml_definition(subpic_yaml: _YamlDefinition) -> tuple[str, dict[str, Any]]:
     if isinstance(subpic_yaml, IOBase):
         f = subpic_yaml
         subpic_text = f.readlines()
@@ -101,7 +101,7 @@ def get_default_settings_dict(
             if isinstance(v, list):
                 v = tuple(v)
             settings[k] = v
-        except TypeError as te:
+        except TypeError as te:  # noqa: PERF203
             raise TypeError(
                 f'Default setting "{k}" should be a dictionary with "value" defined.'
             ) from te
@@ -128,7 +128,7 @@ def yaml_cell(
     yaml_body, default_settings_def = _split_yaml_definition(yaml_definition)
     default_settings = get_default_settings_dict(default_settings_def)
 
-    def _yaml_func(**kwargs):
+    def _yaml_func(**kwargs: Any) -> Component:
         evaluated_text = _evaluate_yaml_template(yaml_body, default_settings, kwargs)
         return _pic_from_templated_yaml(evaluated_text, name, routing_strategy)
 
@@ -160,7 +160,9 @@ def yaml_cell(
     return cell(_yaml_func)
 
 
-def _evaluate_yaml_template(main_file, default_settings, settings):
+def _evaluate_yaml_template(
+    main_file: str, default_settings: dict[str, Any], settings: dict[str, Any]
+) -> str:
     template = jinja2.Template(main_file)
     complete_settings = dict(default_settings)
     complete_settings.update(settings)
@@ -168,7 +170,7 @@ def _evaluate_yaml_template(main_file, default_settings, settings):
 
 
 def _pic_from_templated_yaml(
-    evaluated_text, name, routing_strategy: RoutingStrategies
+    evaluated_text: str, name: str, routing_strategy: RoutingStrategies
 ) -> Component:
     """Creates a component from a  *.pic.yml file.
 

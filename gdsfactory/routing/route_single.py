@@ -44,6 +44,7 @@ from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.typings import (
     STEP_DIRECTIVES,
     ComponentSpec,
+    Coordinate,
     Coordinates,
     CrossSectionSpec,
     LayerSpec,
@@ -53,9 +54,9 @@ from gdsfactory.typings import (
 
 def route_single(
     component: Component,
-    port1: Port,
-    port2: Port,
-    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec | None = None,
+    port1: kf.Port,
+    port2: kf.Port,
+    cross_section: CrossSectionSpec | None = None,
     layer: LayerSpec | None = None,
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
@@ -113,10 +114,12 @@ def route_single(
             raise ValueError(
                 f"Either {cross_section=} or {layer=} and route_width must be provided"
             )
-        elif layer is not None or route_width is not None or radius is not None:
+        elif radius is not None:
             cross_section = gf.cross_section.cross_section(
                 layer=layer, width=route_width
             )
+
+    assert cross_section is not None, "cross_section or radius is required"
 
     port_type = port_type or p1.port_type
     xs = gf.get_cross_section(cross_section)
@@ -141,13 +144,15 @@ def route_single(
 
     end_straight = c.kcl.to_dbu(end_straight_length)
     start_straight = c.kcl.to_dbu(start_straight_length)
-    route_width = c.kcl.to_dbu(width)
+    route_width = c.kcl.to_dbu(width)  # type: ignore
 
     if steps and waypoints:
         raise ValueError("Provide either steps or waypoints, not both")
 
     if waypoints is None:
-        waypoints = []
+        waypoints: list[Coordinate] = []
+
+    waypoints = list(waypoints)
 
     if steps is None:
         steps = []
@@ -156,7 +161,7 @@ def route_single(
         x, y = port1.dcenter
         for d in steps:
             if not STEP_DIRECTIVES.issuperset(d):
-                invalid_step_directives = list(set(d.keys()) - STEP_DIRECTIVES)
+                invalid_step_directives = list(set[str](d.keys()) - STEP_DIRECTIVES)
                 raise ValueError(
                     f"Invalid step directives: {invalid_step_directives}."
                     f"Valid directives are {list(STEP_DIRECTIVES)}"
@@ -166,11 +171,13 @@ def route_single(
             waypoints += [(x, y)]
 
     if len(waypoints) > 0:
+        w: list[kf.kdb.Point] = []
         if not isinstance(waypoints[0], kf.kdb.Point):
             w = [kf.kdb.Point(*p1.center)]
             w += [c.kcl.to_dbu(kf.kdb.DPoint(p[0], p[1])) for p in waypoints]
             w += [kf.kdb.Point(*p2.center)]
-            waypoints = w
+        else:
+            w = waypoints  # type: ignore
 
         return place90(
             component,
@@ -178,7 +185,7 @@ def route_single(
             p2=p2,
             straight_factory=straight_dbu,
             bend90_cell=bend90,
-            pts=waypoints,
+            pts=w,
             port_type=port_type,
             allow_width_mismatch=allow_width_mismatch,
             route_width=route_width,

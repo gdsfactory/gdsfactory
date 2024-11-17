@@ -579,26 +579,24 @@ def transition_exponential(y1, y2, exp=0.5):
     return lambda t: y1 + (y2 - y1) * t**exp
 
 
-adiabatic_polyfit_TE1550SOI_220nm = np.array(
-    [
-        1.02478963e-09,
-        -8.65556534e-08,
-        3.32415694e-06,
-        -7.68408985e-05,
-        1.19282177e-03,
-        -1.31366332e-02,
-        1.05721429e-01,
-        -6.31057637e-01,
-        2.80689677e00,
-        -9.26867694e00,
-        2.24535191e01,
-        -3.90664800e01,
-        4.71899278e01,
-        -3.74726005e01,
-        1.77381560e01,
-        -1.12666286e00,
-    ]
-)
+adiabatic_polyfit_TE1550SOI_220nm = np.array([
+    1.02478963e-09,
+    -8.65556534e-08,
+    3.32415694e-06,
+    -7.68408985e-05,
+    1.19282177e-03,
+    -1.31366332e-02,
+    1.05721429e-01,
+    -6.31057637e-01,
+    2.80689677e00,
+    -9.26867694e00,
+    2.24535191e01,
+    -3.90664800e01,
+    4.71899278e01,
+    -3.74726005e01,
+    1.77381560e01,
+    -1.12666286e00,
+])
 
 
 def transition_adiabatic(
@@ -858,12 +856,10 @@ def extrude(
             p_pts = p_sec.points
 
             # This excludes the first point, so length of output array is smaller by 1
-            p_xy_segment_lengths = np.array(
-                [
-                    np.diff(p_pts[:, 0]),
-                    np.diff(p_pts[:, 1]),
-                ]
-            ).T
+            p_xy_segment_lengths = np.array([
+                np.diff(p_pts[:, 0]),
+                np.diff(p_pts[:, 1]),
+            ]).T
 
             # Using the axis=1 makes output equivalent to [np.linalg.norm(p_xy_segment_lengths[i, :])
             #                                              for i
@@ -963,13 +959,11 @@ def extrude(
             new_start_point = v_start_inset + p_pts[start_diff_idx + 1, :]
             new_stop_point = v_stop_inset + p_pts[stop_diff_idx, :]
 
-            p_sec = Path(
-                [
-                    new_start_point,
-                    *p_pts[start_diff_idx + 1 : stop_diff_idx],
-                    new_stop_point,
-                ]
-            )
+            p_sec = Path([
+                new_start_point,
+                *p_pts[start_diff_idx + 1 : stop_diff_idx],
+                new_stop_point,
+            ])
 
         if callable(offset_function):
             p_sec.offset(offset_function)
@@ -1552,13 +1546,11 @@ def spiral_archimedean(
         p.plot()
 
     """
-    return Path(
-        [
-            (separation / np.pi * theta + min_bend_radius)
-            * np.array((np.sin(theta), np.cos(theta)))
-            for theta in np.linspace(0, number_of_loops * 2 * np.pi, npoints)
-        ]
-    )
+    return Path([
+        (separation / np.pi * theta + min_bend_radius)
+        * np.array((np.sin(theta), np.cos(theta)))
+        for theta in np.linspace(0, number_of_loops * 2 * np.pi, npoints)
+    ])
 
 
 def _compute_segments(points):

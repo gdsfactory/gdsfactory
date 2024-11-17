@@ -62,6 +62,7 @@ import yaml
 
 from gdsfactory.add_pins import add_instance_label
 from gdsfactory.component import Component, ComponentReference, Instance
+from gdsfactory.port import Port
 from gdsfactory.schematic import Bundle, Netlist, Placement
 from gdsfactory.schematic import Instance as NetlistInstance
 from gdsfactory.typings import RoutingStrategies
@@ -202,7 +203,7 @@ def _move_ref(
     return _get_anchor_value_from_name(instances[instance_name_ref], port_name, x_or_y)
 
 
-def _parse_maybe_arrayed_instance(inst_spec: str) -> tuple:
+def _parse_maybe_arrayed_instance(inst_spec: str) -> tuple[str, int | None, int | None]:
     """Parse an instance specifier that may or may not be arrayed.
 
     Returns the instance name, and the a and b indices if they are present.
@@ -1089,7 +1090,7 @@ def _get_directed_connections(connections: dict[str, str]):
     return ret
 
 
-def _split_route_link(s):
+def _split_route_link(s: str) -> tuple[str, list[str] | None]:
     if s.count(":") == 2:
         ip, *jk = s.split(":")
     elif s.count(":") == 0:
@@ -1105,7 +1106,7 @@ def _split_route_link(s):
         return i, [f"{p}"]
     j, k = jk
 
-    def _try_int(i):
+    def _try_int(i: str) -> int:
         try:
             return int(i)
         except ValueError:
@@ -1122,10 +1123,12 @@ def _split_route_link(s):
     )
 
 
-def _get_ports_from_portnames(refs, i, ps):
+def _get_ports_from_portnames(
+    refs: dict[str, ComponentReference], i: str, ps: list[str]
+) -> list[Port]:
     i, ia, ib = _parse_maybe_arrayed_instance(i)
     ref = refs[i]
-    ports = []
+    ports: list[Port] = []
     for p in ps:
         if p not in ref.ports:
             raise ValueError(f"{p} not in ports of {i} ({[p.name for p in ref.ports]})")

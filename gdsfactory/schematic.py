@@ -9,8 +9,9 @@ from graphviz import Digraph
 from pydantic import BaseModel, Field, model_validator
 
 import gdsfactory
+from gdsfactory.component import Component
 from gdsfactory.config import PATH
-from gdsfactory.typings import Anchor, Component, Delta
+from gdsfactory.typings import Anchor, Delta
 
 
 class Instance(BaseModel):
@@ -148,12 +149,10 @@ def to_yaml_graph_networkx(
     connections = netlist.connections
     placements = netlist.placements
     graph = nx.Graph()
-    graph.add_edges_from(
-        [
-            (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
-            for k, v in connections.items()
-        ]
-    )
+    graph.add_edges_from([
+        (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
+        for k, v in connections.items()
+    ])
     pos = {k: (v["x"], v["y"]) for k, v in placements.items()}
     labels = {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
 

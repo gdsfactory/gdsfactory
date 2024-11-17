@@ -11,7 +11,8 @@ from kfactory.routing.aa.optical import (
 
 from gdsfactory.components.bend_euler import bend_euler_all_angle
 from gdsfactory.components.straight import straight_all_angle
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Port
+from gdsfactory.port import Port
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 def route_bundle_all_angle(

@@ -18,8 +18,8 @@ from typing import TYPE_CHECKING, Any
 
 import kfactory as kf
 import numpy as np
+import numpy.typing as npt
 import yaml
-from typing_extensions import TypeVar
 
 import gdsfactory as gf
 from gdsfactory.component import container
@@ -37,12 +37,11 @@ LayerSpec = Layer | str | int
 LayerSpecs = tuple[LayerSpec, ...]
 nm = 1e-3
 
-T = TypeVar("T")
-
 
 def _rotate(
-    vector: np.typing.NDArray[T], rotation_matrix: np.typing.NDArray[T]
-) -> np.typing.NDArray[T]:
+    vector: npt.NDArray[np.floating[Any]],
+    rotation_matrix: npt.NDArray[np.floating[Any]],
+) -> npt.NDArray[np.floating[Any]]:
     """Rotate a vector by a rotation matrix."""
     return rotation_matrix @ vector
 

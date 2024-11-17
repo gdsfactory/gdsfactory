@@ -4,6 +4,7 @@ https://quentinwach.com/blog/2024/02/15/dubins-paths-for-waveguide-routing.html
 """
 
 import math as m
+from typing import Literal
 
 import kfactory as kf
 from kfactory.routing.aa.optical import (
@@ -14,13 +15,14 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular_all_angle
 from gdsfactory.components.straight import straight_all_angle
+from gdsfactory.port import Port
 from gdsfactory.typings import CrossSectionSpec
 
 
 def route_dubin(
     component: Component,
-    port1,
-    port2,
+    port1: Port,
+    port2: Port,
     cross_section: CrossSectionSpec,
 ) -> OpticalAllAngleRoute:
     """Route between ports using Dubins paths with radius from cross-section.
@@ -58,7 +60,9 @@ def route_dubin(
     )
 
 
-def general_planner(planner, alpha, beta, d):
+def general_planner(
+    planner: str, alpha: float, beta: float, d: float
+) -> tuple[list[float | Literal[0]], list[str], float] | None:
     """Finds the optimal path between two points using various planning methods."""
     sa = m.sin(alpha)
     sb = m.sin(beta)
@@ -138,7 +142,11 @@ def general_planner(planner, alpha, beta, d):
     return (path, mode, cost)
 
 
-def dubins_path_length(start, end, xs):
+def dubins_path_length(
+    start: tuple[float, float, float],
+    end: tuple[float, float, float],
+    xs: CrossSectionSpec,
+) -> float:
     """Calculate the length of a Dubins path."""
     (sx, sy, syaw) = start
     (ex, ey, eyaw) = end
@@ -154,7 +162,11 @@ def dubins_path_length(start, end, xs):
     return m.sqrt(lex**2.0 + ley**2.0)
 
 
-def dubins_path(start, end, cross_section: CrossSectionSpec):
+def dubins_path(
+    start: tuple[float, float, float],
+    end: tuple[float, float, float],
+    cross_section: CrossSectionSpec,
+) -> list[tuple[str, float, float]]:
     """Finds the Dubins path between two points."""
     xs = gf.get_cross_section(cross_section)
     (sx, sy, syaw) = start  # Coordinates already in um
@@ -166,6 +178,8 @@ def dubins_path(start, end, cross_section: CrossSectionSpec):
 
     # Use radius in um
     c = xs.radius  # Already converted to um
+
+    assert c is not None, "Cross-section radius is None"
 
     # Calculate relative end position
     ex = ex - sx
@@ -204,12 +218,12 @@ def dubins_path(start, end, cross_section: CrossSectionSpec):
     return list(zip(bmode, [bt * c, bp * c, bq * c], [c] * 3))
 
 
-def mod_to_pi(angle):
+def mod_to_pi(angle: float) -> float:
     """Normalizes an angle to the range [0, 2*pi)."""
     return angle - 2.0 * m.pi * m.floor(angle / 2.0 / m.pi)
 
 
-def pi_to_pi(angle):
+def pi_to_pi(angle: float) -> float:
     """Constrains an angle to the range [-pi, pi]."""
     while angle >= m.pi:
         angle = angle - 2.0 * m.pi
@@ -245,7 +259,10 @@ def arrow_orientation(angle: float) -> tuple[float, float]:
 
 
 def place_dubin_path(
-    component, xs: CrossSectionSpec, port1, solution
+    component: Component,
+    xs: CrossSectionSpec,
+    port1: Port,
+    solution: list[tuple[str, float, float]],
 ) -> list[kf.VInstance]:
     """Creates GDS component with Dubins path.
 

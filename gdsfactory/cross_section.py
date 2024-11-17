@@ -12,7 +12,7 @@ from collections.abc import Callable, Iterable
 from functools import partial, wraps
 from inspect import getmembers, signature
 from types import ModuleType
-from typing import TYPE_CHECKING, Any, Literal
+from typing import TYPE_CHECKING, Any, Literal, TypeAlias
 
 import numpy as np
 from kfactory import logger
@@ -29,20 +29,26 @@ from gdsfactory.config import CONF, ErrorType
 
 if TYPE_CHECKING:
     from gdsfactory.component import Component
+    from gdsfactory.typings import (
+        PortNames,
+        PortTypes,
+    )
+
 
 nm = 1e-3
 
 
-Layer = tuple[int, int]
-Layers = tuple[Layer, ...]
-WidthTypes = Literal["sine", "linear", "parabolic"]
+Layer: TypeAlias = tuple[int, int]
+Layers: TypeAlias = tuple[Layer, ...]
+WidthTypes: TypeAlias = Literal["sine", "linear", "parabolic"]
 
-LayerSpec = Layer | str
-LayerSpecs = Iterable[LayerSpec]
+LayerSpec: TypeAlias = Layer | str
+LayerSpecs: TypeAlias = Iterable[LayerSpec]
 
-Floats = tuple[float, ...]
-port_names_electrical = ("e1", "e2")
-port_types_electrical = ("electrical", "electrical")
+Floats: TypeAlias = tuple[float, ...]
+
+port_names_electrical: "PortNames" = ("e1", "e2")
+port_types_electrical: "PortTypes" = ("electrical", "electrical")
 cladding_layers_optical = None
 cladding_offsets_optical = None
 cladding_simplify_optical = None
@@ -353,7 +359,7 @@ class CrossSection(BaseModel):
 
     def add_bbox(
         self,
-        component,
+        component: Component,
         top: float | None = None,
         bottom: float | None = None,
         right: float | None = None,
@@ -434,9 +440,9 @@ class Transition(CrossSection):
         if isinstance(width_type, str):
             return width_type
         t_values = np.linspace(0, 1, 10)
-        return ",".join(
-            [str(round(width, 3)) for width in width_type(t_values, *self.width)]
-        )
+        return ",".join([
+            str(round(width, 3)) for width in width_type(t_values, *self.width)
+        ])
 
     @property
     def width(self) -> tuple[float, float]:
@@ -454,7 +460,7 @@ cross_sections = {}
 _cross_section_default_names = {}
 
 
-def xsection(func):
+def xsection(func: Callable[..., CrossSection]) -> Callable[..., CrossSection]:
     """Decorator to register a cross section function.
 
     Ensures that the cross-section name matches the name of the function that generated it when created using default parameters
@@ -469,7 +475,7 @@ def xsection(func):
     _cross_section_default_names[default_xs.name] = func.__name__
 
     @wraps(func)
-    def newfunc(**kwargs):
+    def newfunc(**kwargs: Any) -> CrossSection:
         xs = func(**kwargs)
         if xs.name in _cross_section_default_names:
             xs._name = _cross_section_default_names[xs.name]
@@ -486,12 +492,12 @@ def cross_section(
     sections: tuple[Section, ...] | None = None,
     port_names: tuple[str, str] = ("o1", "o2"),
     port_types: tuple[str, str] = ("optical", "optical"),
-    bbox_layers: LayerSpecs | None = None,
-    bbox_offsets: Floats | None = None,
-    cladding_layers: LayerSpecs | None = None,
-    cladding_offsets: Floats | None = None,
-    cladding_simplify: Floats | None = None,
-    cladding_centers: Floats | None = None,
+    bbox_layers: "LayerSpecs | None" = None,
+    bbox_offsets: "Floats | None" = None,
+    cladding_layers: "LayerSpecs | None" = None,
+    cladding_offsets: "Floats | None" = None,
+    cladding_simplify: "Floats | None" = None,
+    cladding_centers: "Floats | None" = None,
     radius: float | None = 10.0,
     radius_min: float | None = None,
     main_section_name: str = "_default",
@@ -563,17 +569,15 @@ def cross_section(
         cladding_centers = cladding_centers or [0] * len(cladding_layers)
 
         if (
-            len(
-                {
-                    len(x)
-                    for x in (
-                        cladding_layers,
-                        cladding_offsets,
-                        cladding_simplify,
-                        cladding_centers,
-                    )
-                }
-            )
+            len({
+                len(x)
+                for x in (
+                    cladding_layers,
+                    cladding_offsets,
+                    cladding_simplify,
+                    cladding_centers,
+                )
+            })
             > 1
         ):
             raise ValueError(
@@ -993,8 +997,8 @@ def metal1(
     width: float = 10,
     layer: LayerSpec = "M1",
     radius: float | None = None,
-    port_names=port_names_electrical,
-    port_types=port_types_electrical,
+    port_names: "PortNames" = port_names_electrical,
+    port_types: "PortTypes" = port_types_electrical,
     **kwargs: Any,
 ) -> CrossSection:
     """Return Metal Strip cross_section."""
@@ -1013,8 +1017,8 @@ def metal2(
     width: float = 10,
     layer: LayerSpec = "M2",
     radius: float | None = None,
-    port_names=port_names_electrical,
-    port_types=port_types_electrical,
+    port_names: "PortNames" = port_names_electrical,
+    port_types: "PortTypes" = port_types_electrical,
     **kwargs: Any,
 ) -> CrossSection:
     """Return Metal Strip cross_section."""
@@ -1033,8 +1037,8 @@ def metal3(
     width: float = 10,
     layer: LayerSpec = "M3",
     radius: float | None = None,
-    port_names=port_names_electrical,
-    port_types=port_types_electrical,
+    port_names: "PortNames" = port_names_electrical,
+    port_types: "PortTypes" = port_types_electrical,
     **kwargs: Any,
 ) -> CrossSection:
     """Return Metal Strip cross_section."""
@@ -1053,8 +1057,8 @@ def metal_routing(
     width: float = 10,
     layer: LayerSpec = "M3",
     radius: float | None = None,
-    port_names=port_names_electrical,
-    port_types=port_types_electrical,
+    port_names: "PortNames" = port_names_electrical,
+    port_types: "PortTypes" = port_types_electrical,
     **kwargs: Any,
 ) -> CrossSection:
     """Return Metal Strip cross_section."""
@@ -1073,8 +1077,8 @@ def heater_metal(
     width: float = 2.5,
     layer: LayerSpec = "HEATER",
     radius: float | None = None,
-    port_names=port_names_electrical,
-    port_types=port_types_electrical,
+    port_names: "PortNames" = port_names_electrical,
+    port_types: "PortTypes" = port_types_electrical,
     **kwargs: Any,
 ) -> CrossSection:
     """Return Metal Strip cross_section."""
@@ -1093,8 +1097,8 @@ def npp(
     width: float = 0.5,
     layer: LayerSpec = "NPP",
     radius: float | None = None,
-    port_names=port_names_electrical,
-    port_types=port_types_electrical,
+    port_names: "PortNames" = port_names_electrical,
+    port_types: "PortTypes" = port_types_electrical,
     **kwargs: Any,
 ) -> CrossSection:
     """Return Doped NPP cross_section."""
@@ -1235,9 +1239,9 @@ def pn(
     width_metal: float = 1.0,
     port_names: tuple[str, str] = ("o1", "o2"),
     sections: tuple[Section, ...] | None = None,
-    cladding_layers: LayerSpecs | None = None,
-    cladding_offsets: Floats | None = None,
-    cladding_simplify: Floats | None = None,
+    cladding_layers: "LayerSpecs | None" = None,
+    cladding_offsets: "Floats | None" = None,
+    cladding_simplify: "Floats | None" = None,
     slab_inset: float | None = None,
     **kwargs: Any,
 ) -> CrossSection:
@@ -1423,10 +1427,10 @@ def pn_with_trenches(
     width_via: float = 1.0,
     layer_metal: LayerSpec | None = None,
     width_metal: float = 1.0,
-    port_names: tuple[str, str] = ("o1", "o2"),
+    port_names: "PortNames" = ("o1", "o2"),
     cladding_layers: Layers | None = cladding_layers_optical,
-    cladding_offsets: Floats | None = cladding_offsets_optical,
-    cladding_simplify: Floats | None = cladding_simplify_optical,
+    cladding_offsets: "Floats | None" = cladding_offsets_optical,
+    cladding_simplify: "Floats | None" = cladding_simplify_optical,
     wg_marking_layer: LayerSpec | None = None,
     sections: Sections | None = None,
     **kwargs: Any,
@@ -1633,7 +1637,7 @@ def pn_with_trenches_asymmetric(
     width_metal: float = 1.0,
     port_names: tuple[str, str] = ("o1", "o2"),
     cladding_layers: Layers | None = cladding_layers_optical,
-    cladding_offsets: Floats | None = cladding_offsets_optical,
+    cladding_offsets: "Floats | None" = cladding_offsets_optical,
     wg_marking_layer: LayerSpec | None = None,
     sections: Sections | None = None,
     **kwargs: Any,
@@ -1853,7 +1857,7 @@ def l_wg_doped_with_trenches(
     width_metal: float = 1.0,
     port_names: tuple[str, str] = ("o1", "o2"),
     cladding_layers: Layers | None = cladding_layers_optical,
-    cladding_offsets: Floats | None = cladding_offsets_optical,
+    cladding_offsets: "Floats | None" = cladding_offsets_optical,
     wg_marking_layer: LayerSpec | None = None,
     sections: Sections | None = None,
     **kwargs: Any,
@@ -2435,8 +2439,8 @@ def pn_ge_detector_si_contacts(
     layer_metal: LayerSpec | None = None,
     port_names: tuple[str, str] = ("o1", "o2"),
     cladding_layers: Layers | None = cladding_layers_optical,
-    cladding_offsets: Floats | None = cladding_offsets_optical,
-    cladding_simplify: Floats | None = None,
+    cladding_offsets: "Floats | None" = cladding_offsets_optical,
+    cladding_simplify: "Floats | None" = None,
     **kwargs: Any,
 ) -> CrossSection:
     """Linear Ge detector cross section based on a lateral p(i)n junction.

@@ -7,7 +7,13 @@ from gdsfactory.component import Component
 from gdsfactory.components.wire import wire_straight
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_quad import route_quad
-from gdsfactory.typings import Callable, ComponentSpec, Strs
+from gdsfactory.typings import (
+    AngleInDegrees,
+    ComponentSpec,
+    LayerSpec,
+    PortsFactory,
+    Strs,
+)
 
 _wire_long = partial(wire_straight, length=200.0)
 
@@ -18,10 +24,10 @@ def add_electrical_pads_shortest(
     pad: ComponentSpec = "pad",
     pad_port_spacing: float = 50.0,
     pad_size: tuple[float, float] = (100.0, 100.0),
-    select_ports: Callable = select_ports_electrical,
+    select_ports: PortsFactory = select_ports_electrical,
     port_names: Strs | None = None,
     port_orientation: AngleInDegrees = 90,
-    layer: gf.typings.LayerSpec = "M3",
+    layer: LayerSpec = "M3",
 ) -> Component:
     """Returns new Component with a pad by each electrical port.
 

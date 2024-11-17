@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable
+from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -27,7 +28,7 @@ def add_fiber_single(
     with_loopback: bool = True,
     loopback_spacing: float = 100.0,
     straight: ComponentSpec = straight_function,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Returns component with south routes and grating_couplers.
 

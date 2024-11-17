@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from functools import partial
+from typing import Any
 
 import gdsfactory as gf
 from gdsfactory import cell
@@ -23,7 +24,7 @@ def add_electrical_pads_top_dc(
     pad_array: ComponentFactory = pad_array270,
     select_ports: Callable = select_ports_electrical,
     port_names: Strs | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Returns new component with electrical ports connected to top pad array.
 
