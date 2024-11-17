@@ -666,7 +666,7 @@ def cell_from_yaml(
 
 def from_yaml(
     yaml_str: str | pathlib.Path | IO[Any] | dict[str, Any],
-    routing_strategy: dict[str, Callable] | None = None,
+    routing_strategy: RoutingStrategies | None = None,
     label_instance_function: Callable = add_instance_label,
     name: str | None = None,
 ) -> Component:

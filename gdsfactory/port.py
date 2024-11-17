@@ -45,7 +45,7 @@ from gdsfactory.cross_section import CrossSectionSpec
 
 if TYPE_CHECKING:
     from gdsfactory.component import Component
-    from gdsfactory.typings import PathType
+    from gdsfactory.typings import ComponentFactory, PathType
 
 Layer = tuple[int, int]
 Layers = tuple[Layer, ...]
@@ -442,9 +442,7 @@ def get_ports_facing(ports: list[Port], direction: str = "W") -> list[Port]:
     return direction_ports[direction]
 
 
-def deco_rename_ports(
-    component_factory: Callable[..., Component],
-) -> Callable[..., Component]:
+def deco_rename_ports(component_factory: "ComponentFactory") -> "ComponentFactory":  # noqa: UP037
     @functools.wraps(component_factory)
     def auto_named_component_factory(*args: Any, **kwargs: Any) -> Component:
         component = component_factory(*args, **kwargs)
@@ -511,7 +509,7 @@ def _rename_ports_counter_clockwise(
     ports = east_ports + north_ports + west_ports + south_ports
 
     for i, p in enumerate(ports):
-        p.name = f"{prefix}{i+1}" if prefix else i + 1
+        p.name = f"{prefix}{i + 1}" if prefix else i + 1
 
 
 def _rename_ports_clockwise(direction_ports: PortsMap, prefix: str = "") -> None:
@@ -532,7 +530,7 @@ def _rename_ports_clockwise(direction_ports: PortsMap, prefix: str = "") -> None
     ports = west_ports + north_ports + east_ports + south_ports
 
     for i, p in enumerate(ports):
-        p.name = f"{prefix}{i+1}" if prefix else i + 1
+        p.name = f"{prefix}{i + 1}" if prefix else i + 1
 
 
 def _rename_ports_clockwise_top_right(
@@ -554,7 +552,7 @@ def _rename_ports_clockwise_top_right(
     ports = east_ports + south_ports + west_ports + north_ports
 
     for i, p in enumerate(ports):
-        p.name = f"{prefix}{i+1}" if prefix else i + 1
+        p.name = f"{prefix}{i + 1}" if prefix else i + 1
 
 
 def rename_ports_by_orientation(

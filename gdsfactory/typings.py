@@ -23,21 +23,18 @@ from __future__ import annotations
 
 import dataclasses
 import pathlib
-from collections.abc import Callable, Iterable
+from collections.abc import Callable
 from typing import (
     Any,
-    Dict,
-    List,
+    Generator,
     Literal,
-    Optional,
     ParamSpec,
-    Tuple,
     TypeAlias,
-    Union,
 )
 
 import kfactory as kf
 import numpy as np
+import numpy.typing as npt
 from kfactory.kcell import LayerEnum
 
 from gdsfactory.component import (
@@ -112,6 +109,10 @@ Int2: TypeAlias = tuple[int, int]
 Int3: TypeAlias = tuple[int, int, int]
 Ints: TypeAlias = tuple[int, ...] | list[int]
 
+Size: TypeAlias = tuple[float, float]
+Position: TypeAlias = tuple[float, float]
+Spacing: TypeAlias = tuple[float, float]
+
 Layer: TypeAlias = tuple[int, int]
 Layers: TypeAlias = tuple[Layer, ...] | list[Layer]
 LayerSpec: TypeAlias = LayerEnum | str | tuple[int, int]
@@ -125,8 +126,7 @@ PathTypes: TypeAlias = tuple[PathType, ...]
 Metadata: TypeAlias = dict[str, int | float | str]
 PostProcess: TypeAlias = tuple[Callable[[Component], None], ...]
 
-
-MaterialSpec: TypeAlias = str | float | tuple[float, float] | Callable
+MaterialSpec: TypeAlias = str | float | tuple[float, float] | Callable[..., Any]
 
 Instance = ComponentReference
 ComponentOrPath: TypeAlias = PathType | Component
@@ -144,7 +144,7 @@ PortsList: TypeAlias = list[Port]
 Ports = kf.Ports
 PortsOrList: TypeAlias = Ports | PortsList
 
-Sparameters: TypeAlias = dict[str, np.ndarray]
+Sparameters: TypeAlias = dict[str, npt.NDArray[np.float64]]
 
 ComponentSpec: TypeAlias = (
     str | ComponentFactory | dict[str, Any] | kf.KCell
@@ -175,28 +175,30 @@ ConductorConductorName: TypeAlias = tuple[str, str]
 ConductorViaConductorName: TypeAlias = tuple[str, str, str] | tuple[str, str]
 ConnectivitySpec: TypeAlias = ConductorConductorName | ConductorViaConductorName
 
-RoutingStrategy: TypeAlias = Callable[
+_RoutingStrategy: TypeAlias = Callable[
     ...,
     list[kf.routing.generic.ManhattanRoute]
     | list[kf.routing.aa.optical.OpticalAllAngleRoute],
 ]
-RoutingStrategies: TypeAlias = dict[str, RoutingStrategy]
+RoutingStrategies: TypeAlias = dict[str, _RoutingStrategy]
 
 
-class TypedArray(np.ndarray):
+class TypedArray(np.ndarray[Any, np.dtype[Any]]):
     """based on https://github.com/samuelcolvin/pydantic/issues/380."""
 
     @classmethod
-    def __get_validators__(cls):
+    def __get_validators__(
+        cls,
+    ) -> Generator[Callable[[Any, Any], npt.NDArray[np.float64]], Any, None]:
         yield cls.validate_type
 
     @classmethod
-    def validate_type(cls, val, _info):
-        return np.array(val, dtype=cls.inner_type)
+    def validate_type(cls, val: Any, _info: Any) -> npt.NDArray[np.float64]:
+        return np.array(val, dtype=cls.inner_type)  # type: ignore
 
 
 class ArrayMeta(type):
-    def __getitem__(self, t):
+    def __getitem__(self, t: np.dtype[Any]) -> type[npt.NDArray[Any]]:
         return type("Array", (TypedArray,), {"inner_type": t})
 
 
@@ -206,7 +208,6 @@ class Array(np.ndarray[Any, np.dtype[Any]], metaclass=ArrayMeta):
 
 __all__ = (
     "Any",
-    "Callable",
     "Component",
     "ComponentAllAngle",
     "ComponentBase",
@@ -239,7 +240,6 @@ __all__ = (
     "MultiCrossSectionAngleSpec",
     "NameToFunctionDict",
     "Number",
-    "Optional",
     "PathType",
     "PathTypes",
     "Ports",
@@ -248,9 +248,8 @@ __all__ = (
     "Section",
     "Strs",
     "WidthTypes",
-    "Union",
-    "List",
-    "Tuple",
-    "Dict",
-    "Iterable",
+    "RoutingStrategies",
+    "Size",
+    "Position",
+    "Spacing",
 )

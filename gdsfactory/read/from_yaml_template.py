@@ -10,6 +10,7 @@ from kfactory import cell
 
 from gdsfactory.component import Component
 from gdsfactory.read.from_yaml import from_yaml
+from gdsfactory.typings import ComponentFactory, RoutingStrategies
 
 __all__ = ["cell_from_yaml_template"]
 
@@ -69,8 +70,8 @@ def _split_yaml_definition(subpic_yaml):
 def cell_from_yaml_template(
     filename: _YamlDefinition,
     name: str,
-    routing_strategy: dict[str, Callable] | None = None,
-) -> Callable:
+    routing_strategy: RoutingStrategies | None = None,
+) -> ComponentFactory:
     """Gets a PIC factory function from a yaml definition, which can optionally be a jinja template.
 
     Args:
@@ -90,7 +91,9 @@ def cell_from_yaml_template(
     )
 
 
-def get_default_settings_dict(default_settings):
+def get_default_settings_dict(
+    default_settings: dict[str, dict[str, Any]],
+) -> dict[str, Any]:
     settings = {}
     for k, v in default_settings.items():
         try:
@@ -110,8 +113,8 @@ def get_default_settings_dict(default_settings):
 
 
 def yaml_cell(
-    yaml_definition: _YamlDefinition, name: str, routing_strategy
-) -> Callable[..., Component]:
+    yaml_definition: _YamlDefinition, name: str, routing_strategy: RoutingStrategies
+) -> ComponentFactory:
     """The "cell" decorator equivalent for yaml files. Generates a proper cell function for yaml-defined circuits.
 
     Args:
@@ -164,7 +167,9 @@ def _evaluate_yaml_template(main_file, default_settings, settings):
     return template.render(**complete_settings)
 
 
-def _pic_from_templated_yaml(evaluated_text, name, routing_strategy) -> Component:
+def _pic_from_templated_yaml(
+    evaluated_text, name, routing_strategy: RoutingStrategies
+) -> Component:
     """Creates a component from a  *.pic.yml file.
 
     This is a lower-level function. See from_yaml_template() for more common usage.

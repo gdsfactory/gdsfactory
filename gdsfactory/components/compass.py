@@ -1,15 +1,15 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory import cell
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.snap import snap_to_grid2x
-from gdsfactory.typings import Ints, LayerSpec
+from gdsfactory.typings import Ints, LayerSpec, Size
 
 
 @cell
 def compass(
-    size=(4.0, 2.0),
+    size: Size = (4.0, 2.0),
     layer: LayerSpec = "WG",
     port_type: str | None = "electrical",
     port_inclusion: float = 0.0,

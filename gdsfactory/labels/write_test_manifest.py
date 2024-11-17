@@ -3,9 +3,9 @@
 import csv
 import json
 import pathlib
+from collections.abc import Iterable
 
 import gdsfactory as gf
-from gdsfactory.typings import Iterable
 
 
 def write_test_manifest(

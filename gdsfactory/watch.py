@@ -9,18 +9,34 @@ import sys
 import threading
 import time
 import traceback
-from collections.abc import Callable
 from types import SimpleNamespace
+from typing import TypeAlias
 
 import kfactory as kf
-from IPython.terminal.embed import embed  # type: ignore
-from watchdog.events import FileSystemEventHandler
+from IPython.terminal.embed import embed
+from watchdog.events import (
+    DirCreatedEvent,
+    DirDeletedEvent,
+    DirModifiedEvent,
+    DirMovedEvent,
+    FileCreatedEvent,
+    FileDeletedEvent,
+    FileModifiedEvent,
+    FileMovedEvent,
+    FileSystemEventHandler,
+)
 from watchdog.observers import Observer
 
+from gdsfactory.component import Component
 from gdsfactory.config import cwd
 from gdsfactory.pdk import get_active_pdk
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
-from gdsfactory.typings import ComponentSpec, PathType
+from gdsfactory.typings import ComponentFactory, ComponentSpec, PathType
+
+_MovedEvent: TypeAlias = DirMovedEvent | FileMovedEvent
+_CreatedEvent: TypeAlias = DirCreatedEvent | FileCreatedEvent
+_DeletedEvent: TypeAlias = DirDeletedEvent | FileDeletedEvent
+_ModifiedEvent: TypeAlias = DirModifiedEvent | FileModifiedEvent
 
 
 class FileWatcher(FileSystemEventHandler):
@@ -66,7 +82,7 @@ class FileWatcher(FileSystemEventHandler):
         self.stopping.set()
         self.thread.join()
 
-    def update_cell(self, src_path: PathType, update: bool = False) -> Callable:
+    def update_cell(self, src_path: PathType, update: bool = False) -> ComponentFactory:
         """Parses a YAML file to a cell function and registers into active pdk.
 
         Args:
@@ -85,69 +101,75 @@ class FileWatcher(FileSystemEventHandler):
         #     CACHE.pop(cell_name)
         function = cell_from_yaml_template(filepath, name=cell_name)
         try:
-            pdk.register_cells_yaml(**{cell_name: function}, update=update)
+            pdk.register_cells_yaml(**{cell_name: function}, update=update)  # type: ignore
         except ValueError as e:
             print(e)
         return function
 
-    def on_moved(self, event) -> None:
+    def _get_path(self, path: str | bytes) -> str:
+        if isinstance(path, bytes):
+            return path.decode("utf-8")
+        return path
+
+    def on_moved(self, event: _MovedEvent) -> None:
         super().on_moved(event)
 
         what = "directory" if event.is_directory else "file"
-        if what == "file" and event.dest_path.endswith(".pic.yml"):
-            self.logger.info("Moved %s: %s", what, event.src_path)
-            self.update_cell(event.dest_path)
-            self.get_component(event.src_path)
+        dest_path = self._get_path(event.dest_path)
 
-    def on_created(self, event) -> None:
+        if what == "file" and dest_path.endswith(".pic.yml"):
+            self.logger.info("Moved %s: %s", what, dest_path)
+            self.update_cell(dest_path)
+            self.get_component(dest_path)
+
+    def on_created(self, event: _CreatedEvent) -> None:
         super().on_created(event)
 
         what = "directory" if event.is_directory else "file"
-        if (
-            what == "file"
-            and event.src_path.endswith(".pic.yml")
-            or event.src_path.endswith(".py")
-        ):
-            self.logger.info("Created %s: %s", what, event.src_path)
-            self.get_component(event.src_path)
+        src_path = self._get_path(event.src_path)
+        if what == "file" and src_path.endswith(".pic.yml") or src_path.endswith(".py"):
+            self.logger.info("Created %s: %s", what, src_path)
+            self.get_component(src_path)
 
-    def on_deleted(self, event) -> None:
+    def on_deleted(self, event: _DeletedEvent) -> None:
         super().on_deleted(event)
 
         what = "directory" if event.is_directory else "file"
+        src_path = self._get_path(event.src_path)
 
-        if what == "file" and event.src_path.endswith(".pic.yml"):
+        if what == "file" and src_path.endswith(".pic.yml"):
             self.logger.info("Deleted %s: %s", what, event.src_path)
             pdk = get_active_pdk()
-            filepath = pathlib.Path(event.src_path)
+            filepath = pathlib.Path(src_path)
             cell_name = filepath.stem.split(".")[0]
             pdk.remove_cell(cell_name)
 
-    def on_modified(self, event) -> None:
+    def on_modified(self, event: _ModifiedEvent) -> None:
         super().on_modified(event)
 
         what = "directory" if event.is_directory else "file"
-        if (
-            what == "file"
-            and event.src_path.endswith(".pic.yml")
-            or event.src_path.endswith(".py")
-        ):
-            self.logger.info("Modified %s: %s", what, event.src_path)
-            self.get_component(event.src_path)
+        if isinstance(event.dest_path, bytes):
+            src_path = event.dest_path.decode("utf-8")
+        else:
+            src_path = event.dest_path
+        if what == "file" and src_path.endswith(".pic.yml") or src_path.endswith(".py"):
+            self.logger.info("Modified %s: %s", what, src_path)
+            self.get_component(src_path)
 
-    def update(self):
-        pass
-
-    def get_component(self, filepath):
-        self.update()
+    def get_component(self, filepath: PathType) -> Component | None:
         import git
+        import git.repo as gr
+
+        print("-----------------------------------")
 
         from gdsfactory.get_factories import get_cells_from_dict
 
         try:
-            repo = git.repo.Repo(".", search_parent_directories=True)
+            repo = gr.Repo(".", search_parent_directories=True)
             dirpath = repo.working_tree_dir
         except git.InvalidGitRepositoryError:
+            dirpath = cwd
+        if dirpath is None:
             dirpath = cwd
         try:
             filepath = pathlib.Path(filepath)
@@ -187,14 +209,15 @@ class FileWatcher(FileSystemEventHandler):
         except Exception as e:
             traceback.print_exc(file=sys.stdout)
             print(e)
+        return None
 
 
 def watch(
     path: PathType | None = cwd,
     pdk: str | None = None,
     run_main: bool = False,
-    run_cells=True,
-    pre_run=False,
+    run_cells: bool = True,
+    pre_run: bool = False,
 ) -> None:
     """Starts the file watcher.
 
@@ -227,7 +250,7 @@ def watch(
     logging.info(
         f"File watcher looking for changes in *.py and *.pic.yml files in {path!r}. Stop with Ctrl+C"
     )
-    embed()
+    embed()  # type: ignore
     watcher.stop()
 
 

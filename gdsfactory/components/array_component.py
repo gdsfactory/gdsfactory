@@ -1,9 +1,11 @@
 from __future__ import annotations
 
+from collections.abc import Iterable
+
 import gdsfactory as gf
 from gdsfactory import cell
 from gdsfactory.component import Component
-from gdsfactory.typings import Callable, ComponentSpec, Float2, Iterable
+from gdsfactory.typings import Callable, ComponentSpec, Float2
 
 
 @cell
@@ -65,7 +67,7 @@ def array(
             for iy in range(ref.nb):
                 for port in component.ports:
                     port = port.copy(ref.trans * gf.kdb.Trans(ix * ref.a + iy * ref.b))
-                    name = f"{port.name}_{iy+1}_{ix+1}"
+                    name = f"{port.name}_{iy + 1}_{ix + 1}"
                     c.add_port(name, port=port)
 
     if post_process:

@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 import contextlib
-from collections.abc import Iterable
+from collections.abc import Callable, Iterable
 from functools import partial
 from inspect import getmembers, isfunction, signature
+from typing import Any
 
-from gdsfactory.typings import Any, Callable, Component
+from gdsfactory.typings import Component
 
 
 def get_cells(
@@ -69,7 +70,9 @@ def is_cell(
     return False
 
 
-def get_cells_from_dict(cells: dict[str, Callable]) -> dict[str, Callable]:
+def get_cells_from_dict(
+    cells: dict[str, Callable[..., Any]],
+) -> dict[str, Callable[..., Component]]:
     """Returns PCells (component functions) from a dictionary.
 
     Args:
@@ -78,7 +81,7 @@ def get_cells_from_dict(cells: dict[str, Callable]) -> dict[str, Callable]:
     Returns:
         A dictionary of valid component functions.
     """
-    valid_cells = {}
+    valid_cells: dict[str, Callable[..., Component]] = {}
 
     for name, member in cells.items():
         if not name.startswith("_") and (
@@ -86,7 +89,7 @@ def get_cells_from_dict(cells: dict[str, Callable]) -> dict[str, Callable]:
         ):
             with contextlib.suppress(ValueError):
                 func = member.func if isinstance(member, partial) else member
-                r = signature(func).return_annotation
+                r = signature(func).return_annotation  # type: ignore
                 if r == Component or (isinstance(r, str) and r.endswith("Component")):
                     valid_cells[name] = member
     return valid_cells
