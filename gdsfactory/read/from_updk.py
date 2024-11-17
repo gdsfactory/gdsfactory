@@ -112,18 +112,23 @@ add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_
             continue
 
         parameters_string = (
-            ", ".join([
-                f"{p_name}:{p['type']}={p['value']}" for p_name, p in parameters.items()
-            ])
+            ", ".join(
+                [
+                    f"{p_name}:{p['type']}={p['value']}"
+                    for p_name, p in parameters.items()
+                ]
+            )
             if parameters
             else ""
         )
         parameters_doc = (
-            "\n    ".join([
-                f"  {p_name}: {p['doc']} (min: {p['min']}, max: {p['max']}, {p['unit']})."
-                for p_name, p in parameters.items()
-                if hasattr(p, "min")
-            ])
+            "\n    ".join(
+                [
+                    f"  {p_name}: {p['doc']} (min: {p['min']}, max: {p['max']}, {p['unit']})."
+                    for p_name, p in parameters.items()
+                    if hasattr(p, "min")
+                ]
+            )
             if parameters
             else ""
         )
@@ -136,10 +141,12 @@ add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_
         )
 
         parameters_labels = (
-            "\n".join([
-                f"    c.add_label(text=f'{p_name}', position=(xc, yc-{i}/{len(parameters)}/2*ysize), layer=layer_label)\n"
-                for i, p_name in enumerate(parameters_colon)
-            ])
+            "\n".join(
+                [
+                    f"    c.add_label(text=f'{p_name}', position=(xc, yc-{i}/{len(parameters)}/2*ysize), layer=layer_label)\n"
+                    for i, p_name in enumerate(parameters_colon)
+                ]
+            )
             if layer_label and parameters_colon
             else ""
         )
