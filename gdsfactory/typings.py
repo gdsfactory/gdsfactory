@@ -175,6 +175,13 @@ ConductorConductorName: TypeAlias = tuple[str, str]
 ConductorViaConductorName: TypeAlias = tuple[str, str, str] | tuple[str, str]
 ConnectivitySpec: TypeAlias = ConductorConductorName | ConductorViaConductorName
 
+RoutingStrategy: TypeAlias = Callable[
+    ...,
+    list[kf.routing.generic.ManhattanRoute]
+    | list[kf.routing.aa.optical.OpticalAllAngleRoute],
+]
+RoutingStrategies: TypeAlias = dict[str, RoutingStrategy]
+
 
 class TypedArray(np.ndarray):
     """based on https://github.com/samuelcolvin/pydantic/issues/380."""

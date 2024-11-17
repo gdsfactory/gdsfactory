@@ -279,7 +279,7 @@ class CrossSection(BaseModel):
         width_function: Callable | None = None,
         offset_function: Callable | None = None,
         sections: tuple[Section, ...] | None = None,
-        **kwargs,
+        **kwargs: Any,
     ) -> CrossSection:
         """Returns copy of the cross_section with new parameters.
 
@@ -434,9 +434,9 @@ class Transition(CrossSection):
         if isinstance(width_type, str):
             return width_type
         t_values = np.linspace(0, 1, 10)
-        return ",".join(
-            [str(round(width, 3)) for width in width_type(t_values, *self.width)]
-        )
+        return ",".join([
+            str(round(width, 3)) for width in width_type(t_values, *self.width)
+        ])
 
     @property
     def width(self) -> tuple[float, float]:
@@ -563,17 +563,15 @@ def cross_section(
         cladding_centers = cladding_centers or [0] * len(cladding_layers)
 
         if (
-            len(
-                {
-                    len(x)
-                    for x in (
-                        cladding_layers,
-                        cladding_offsets,
-                        cladding_simplify,
-                        cladding_centers,
-                    )
-                }
-            )
+            len({
+                len(x)
+                for x in (
+                    cladding_layers,
+                    cladding_offsets,
+                    cladding_simplify,
+                    cladding_centers,
+                )
+            })
             > 1
         ):
             raise ValueError(
@@ -621,7 +619,7 @@ def strip(
     layer: LayerSpec = "WG",
     radius: float = 10.0,
     radius_min: float = 5,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Return Strip cross_section."""
     return cross_section(
@@ -642,7 +640,7 @@ def rib(
     cladding_layers: LayerSpecs = ("SLAB90",),
     cladding_offsets: Floats = (3,),
     cladding_simplify: Floats = (50 * nm,),
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Return Rib cross_section."""
     return cross_section(
@@ -665,7 +663,7 @@ def rib_bbox(
     radius_min: float | None = None,
     bbox_layers: LayerSpecs = ("SLAB90",),
     bbox_offsets: Floats = (3,),
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Return Rib cross_section."""
     return cross_section(
@@ -687,7 +685,7 @@ def rib2(
     radius: float = radius_rib,
     radius_min: float | None = None,
     width_slab: float = 6,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Return Rib cross_section."""
     sections = (
@@ -709,7 +707,7 @@ def nitride(
     layer: LayerSpec = "WGN",
     radius: float = radius_nitride,
     radius_min: float | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Return Strip cross_section."""
     return cross_section(
@@ -729,7 +727,7 @@ def strip_rib_tip(
     layer_slab: LayerSpec = "SLAB90",
     radius: float = 10.0,
     radius_min: float | None = 5,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Return Strip cross_section."""
     sections = (Section(width=width_tip, layer=layer_slab, name="slab"),)
@@ -752,7 +750,7 @@ def strip_nitride_tip(
     width_tip_silicon: float = 0.1,
     radius: float = radius_nitride,
     radius_min: float | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Return Strip cross_section."""
     sections = (
@@ -823,7 +821,7 @@ def rib_with_trenches(
     layer_trench: LayerSpec = "DEEP_ETCH",
     wg_marking_layer: LayerSpec | None = None,
     sections: tuple[Section, ...] | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Return CrossSection of rib waveguide defined by trenches.
 
@@ -921,7 +919,7 @@ def l_with_trenches(
     layer_trench: LayerSpec = "DEEP_ETCH",
     mirror: bool = False,
     sections: tuple[Section, ...] | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Return CrossSection of l waveguide defined by trenches.
 
@@ -995,7 +993,7 @@ def metal1(
     radius: float | None = None,
     port_names=port_names_electrical,
     port_types=port_types_electrical,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Return Metal Strip cross_section."""
     return cross_section(
@@ -1015,7 +1013,7 @@ def metal2(
     radius: float | None = None,
     port_names=port_names_electrical,
     port_types=port_types_electrical,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Return Metal Strip cross_section."""
     return cross_section(
@@ -1035,7 +1033,7 @@ def metal3(
     radius: float | None = None,
     port_names=port_names_electrical,
     port_types=port_types_electrical,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Return Metal Strip cross_section."""
     return cross_section(
@@ -1055,7 +1053,7 @@ def metal_routing(
     radius: float | None = None,
     port_names=port_names_electrical,
     port_types=port_types_electrical,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Return Metal Strip cross_section."""
     return cross_section(
@@ -1075,7 +1073,7 @@ def heater_metal(
     radius: float | None = None,
     port_names=port_names_electrical,
     port_types=port_types_electrical,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Return Metal Strip cross_section."""
     return cross_section(
@@ -1095,7 +1093,7 @@ def npp(
     radius: float | None = None,
     port_names=port_names_electrical,
     port_types=port_types_electrical,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Return Doped NPP cross_section."""
     return cross_section(
@@ -1124,7 +1122,7 @@ def pin(
     via_width: float = 1,
     via_offsets: tuple[float, ...] | None = None,
     sections: tuple[Section, ...] | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Rib PIN doped cross_section.
 
@@ -1239,7 +1237,7 @@ def pn(
     cladding_offsets: Floats | None = None,
     cladding_simplify: Floats | None = None,
     slab_inset: float | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Rib PN doped cross_section.
 
@@ -1429,7 +1427,7 @@ def pn_with_trenches(
     cladding_simplify: Floats | None = cladding_simplify_optical,
     wg_marking_layer: LayerSpec | None = None,
     sections: Sections | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Rib PN doped cross_section.
 
@@ -1636,7 +1634,7 @@ def pn_with_trenches_asymmetric(
     cladding_offsets: Floats | None = cladding_offsets_optical,
     wg_marking_layer: LayerSpec | None = None,
     sections: Sections | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Rib PN doped cross_section with asymmetric dimensions left and right.
 
@@ -1856,7 +1854,7 @@ def l_wg_doped_with_trenches(
     cladding_offsets: Floats | None = cladding_offsets_optical,
     wg_marking_layer: LayerSpec | None = None,
     sections: Sections | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """L waveguide PN doped cross_section.
 
@@ -2010,7 +2008,7 @@ def strip_heater_metal_undercut(
     layer_heater: LayerSpec = "HEATER",
     layer_trench: LayerSpec = "DEEPTRENCH",
     sections: Sections | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Returns strip cross_section with top metal and undercut trenches on both.
 
@@ -2085,7 +2083,7 @@ def strip_heater_metal(
     heater_width: float = 2.5,
     layer_heater: LayerSpec = "HEATER",
     sections: Sections | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Returns strip cross_section with top heater metal.
 
@@ -2136,7 +2134,7 @@ def strip_heater_doped(
     layers_heater: LayerSpecs = ("WG", "NPP"),
     bbox_offsets_heater: tuple[float, ...] = (0, 0.1),
     sections: Sections | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Returns strip cross_section with N++ doped heaters on both sides.
 
@@ -2213,7 +2211,7 @@ def rib_heater_doped(
     with_top_heater: bool = True,
     with_bot_heater: bool = True,
     sections: Sections | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Returns rib cross_section with N++ doped heaters on both sides.
 
@@ -2303,7 +2301,7 @@ def rib_heater_doped_via_stack(
     with_top_heater: bool = True,
     with_bot_heater: bool = True,
     sections: Sections | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Returns rib cross_section with N++ doped heaters on both sides.
 
@@ -2437,7 +2435,7 @@ def pn_ge_detector_si_contacts(
     cladding_layers: Layers | None = cladding_layers_optical,
     cladding_offsets: Floats | None = cladding_offsets_optical,
     cladding_simplify: Floats | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Linear Ge detector cross section based on a lateral p(i)n junction.
 

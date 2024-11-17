@@ -64,6 +64,7 @@ from gdsfactory.add_pins import add_instance_label
 from gdsfactory.component import Component, ComponentReference, Instance
 from gdsfactory.schematic import Bundle, Netlist, Placement
 from gdsfactory.schematic import Instance as NetlistInstance
+from gdsfactory.typings import RoutingStrategies
 
 valid_placement_keys = [
     "x",
@@ -866,7 +867,7 @@ def _add_routes(
     c: Component,
     refs: dict[str, ComponentReference],
     routes: dict[str, Bundle],
-    routing_strategies: dict[str, Callable] | None = None,
+    routing_strategies: RoutingStrategies | None = None,
 ):
     """Add routes to component."""
     from gdsfactory.pdk import get_routing_strategies

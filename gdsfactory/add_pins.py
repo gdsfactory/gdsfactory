@@ -14,7 +14,7 @@ import json
 import warnings
 from collections.abc import Callable
 from functools import partial
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import kfactory as kf
 import numpy as np
@@ -320,7 +320,7 @@ def add_outline(
     component: Component,
     reference: Instance | None = None,
     layer: LayerSpec = "DEVREC",
-    **kwargs,
+    **kwargs: Any,
 ) -> None:
     """Adds devices outline bounding box in layer.
 
@@ -352,7 +352,7 @@ def add_pins_siepic(
     port_type: str = "optical",
     layer: LayerSpec = "PORT",
     pin_length: float = 10 * nm,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Add pins.
 
@@ -393,7 +393,7 @@ def add_pins(
     component: Component,
     port_type: str | None = None,
     function: Callable = add_pin_rectangle_inside,
-    **kwargs,
+    **kwargs: Any,
 ) -> None:
     """Add Pin port markers.
 

@@ -13,6 +13,8 @@ from gdsfactory.read.from_yaml import from_yaml
 
 __all__ = ["cell_from_yaml_template"]
 
+_YamlDefinition = str | IO[Any] | pathlib.Path
+
 
 def split_default_settings_from_yaml(yaml_lines: Iterable[str]) -> tuple[str, str]:
     """Separates out the 'default_settings' block from the rest of the file body.
@@ -65,7 +67,7 @@ def _split_yaml_definition(subpic_yaml):
 
 
 def cell_from_yaml_template(
-    filename: str | IO[Any] | pathlib.Path,
+    filename: _YamlDefinition,
     name: str,
     routing_strategy: dict[str, Callable] | None = None,
 ) -> Callable:
@@ -107,7 +109,9 @@ def get_default_settings_dict(default_settings):
     return settings
 
 
-def yaml_cell(yaml_definition, name: str, routing_strategy) -> Callable[..., Component]:
+def yaml_cell(
+    yaml_definition: _YamlDefinition, name: str, routing_strategy
+) -> Callable[..., Component]:
     """The "cell" decorator equivalent for yaml files. Generates a proper cell function for yaml-defined circuits.
 
     Args:

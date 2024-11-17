@@ -13,7 +13,7 @@ from collections.abc import Callable
 from types import SimpleNamespace
 
 import kfactory as kf
-from IPython.terminal.embed import embed
+from IPython.terminal.embed import embed  # type: ignore
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
 
@@ -27,7 +27,7 @@ class FileWatcher(FileSystemEventHandler):
     """Captures *.py or *.pic.yml file change events."""
 
     def __init__(
-        self, path: str | None = None, run_main: bool = False, run_cells: bool = True
+        self, path: str, run_main: bool = False, run_cells: bool = True
     ) -> None:
         """Initialize the YAML event handler.
 
@@ -66,7 +66,7 @@ class FileWatcher(FileSystemEventHandler):
         self.stopping.set()
         self.thread.join()
 
-    def update_cell(self, src_path, update: bool = False) -> Callable:
+    def update_cell(self, src_path: PathType, update: bool = False) -> Callable:
         """Parses a YAML file to a cell function and registers into active pdk.
 
         Args:
