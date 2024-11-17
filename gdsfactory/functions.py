@@ -93,7 +93,7 @@ def extract(
     return c
 
 
-def move_to_center(component: Component, dx: float = 0, dy: float = 0) -> gf.Component:
+def move_to_center(component: Component, dx: Delta = 0, dy: Delta = 0) -> gf.Component:
     """Moves the component to the center of the bounding box."""
     c = component
     c.transform(
@@ -104,7 +104,7 @@ def move_to_center(component: Component, dx: float = 0, dy: float = 0) -> gf.Com
 
 
 def move_port(
-    component: Component, port_name: str, dx: float = 0, dy: float = 0
+    component: Component, port_name: str, dx: Delta = 0, dy: Delta = 0
 ) -> gf.Component:
     """Moves the component port to a specific location.
 
@@ -203,23 +203,19 @@ def get_polygons_points(
         all_points = []
         for polygon in polygons:
             if scale:
-                points = np.array(
-                    [
-                        (point.x * scale, point.y * scale)
-                        for point in polygon.to_simple_polygon()
-                        .to_dtype(component_or_instance.kcl.dbu)
-                        .each_point()
-                    ]
-                )
+                points = np.array([
+                    (point.x * scale, point.y * scale)
+                    for point in polygon.to_simple_polygon()
+                    .to_dtype(component_or_instance.kcl.dbu)
+                    .each_point()
+                ])
             else:
-                points = np.array(
-                    [
-                        (point.x, point.y)
-                        for point in polygon.to_simple_polygon()
-                        .to_dtype(component_or_instance.kcl.dbu)
-                        .each_point()
-                    ]
-                )
+                points = np.array([
+                    (point.x, point.y)
+                    for point in polygon.to_simple_polygon()
+                    .to_dtype(component_or_instance.kcl.dbu)
+                    .each_point()
+                ])
             all_points.append(points)
         polygons_points[layer] = all_points
     return polygons_points

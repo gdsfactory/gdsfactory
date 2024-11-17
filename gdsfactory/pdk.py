@@ -615,7 +615,12 @@ def get_active_pdk(name: str | None = None) -> Pdk:
 
 
 def get_material_index(material: MaterialSpec, *args: Any, **kwargs: Any) -> Component:
-    return get_active_pdk().get_material_index(material, *args, **kwargs)
+    active_pdk = get_active_pdk()
+    if not hasattr(active_pdk, "get_material_index"):
+        raise NotImplementedError(
+            "The active PDK does not implement 'get_material_index'"
+        )
+    return active_pdk.get_material_index(material, *args, **kwargs)
 
 
 def get_component(

@@ -129,16 +129,15 @@ def route_fiber_array(
 
     to_route = [p for p in to_route if p.name not in excluded_ports]
 
-    ports_not_terminated = []
-    for port in component_to_route.ports:
-        if port.name not in port_names:
-            ports_not_terminated.append(port)
+    ports_not_terminated = [
+        port for port in component_to_route.ports if port.name not in port_names
+    ]
 
-    N = len(to_route)
+    n = len(to_route)
 
     # optical_ports_labels = [p.name for p in ports]
     # print(optical_ports_labels)
-    if N == 0:
+    if n == 0:
         return [], [], 0
 
     # grating_coupler can either be a component/function or a list of components/functions
@@ -147,7 +146,7 @@ def route_fiber_array(
         grating_coupler = grating_couplers[0]
     else:
         grating_coupler = gf.get_component(grating_coupler)
-        grating_couplers = [grating_coupler] * N
+        grating_couplers = [grating_coupler] * n
 
     gc_port_names = [port.name for port in grating_coupler.ports]
     if gc_port_name not in gc_port_names:
@@ -169,19 +168,19 @@ def route_fiber_array(
     delta_gr_min = 2 * dy + 1
 
     # Get the center along x axis
-    x_c = round(sum(p.dx for p in to_route) / N, 1)
+    x_c = round(sum(p.dx for p in to_route) / n, 1)
 
     # Sort the list of optical ports:
     direction_ports = direction_ports_from_list_ports(to_route)
     separation = straight_separation
 
-    K = len(to_route)
-    K = K + 1 if K % 2 else K
+    k = len(to_route)
+    k = k + 1 if k % 2 else k
 
     # Set routing type if not specified
     pxs = [p.dx for p in to_route]
     is_big_component = (
-        (K > 2)
+        (k > 2)
         or (max(pxs) - min(pxs) > fiber_spacing - delta_gr_min)
         or (component.dxsize > fiber_spacing)
     )
@@ -224,7 +223,7 @@ def route_fiber_array(
     y0_optical = (
         component.dymin - fanout_length - grating_coupler.ports[gc_port_name].dx - dy
     )
-    y0_optical += -K / 2 * separation
+    y0_optical += -k / 2 * separation
 
     if max_y0_optical is not None:
         y0_optical = round(min(max_y0_optical, y0_optical), 1)
@@ -248,8 +247,8 @@ def route_fiber_array(
     north_start.reverse()  # Sort right to left
     # ordered_ports = north_start + west_ports + south_ports + east_ports + north_finish
 
-    nb_ports_per_line = N // nb_optical_ports_lines
-    y_gr_gap = (K / nb_optical_ports_lines + 1) * separation
+    nb_ports_per_line = n // nb_optical_ports_lines
+    y_gr_gap = (k / nb_optical_ports_lines + 1) * separation
     gr_coupler_y_sep = grating_coupler.dysize + y_gr_gap + dy
     offset = (nb_ports_per_line - 1) * fiber_spacing / 2 - x_grating_offset
     io_gratings_lines = []  # [[gr11, gr12, gr13...], [gr21, gr22, gr23...] ...]

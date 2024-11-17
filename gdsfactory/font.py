@@ -62,7 +62,7 @@ def _get_font_by_name(name: str):
     return _get_font_by_file(font_file)
 
 
-def _get_glyph(font, letter):  # noqa: C901
+def _get_glyph(font, letter):
     """Get a block reference to the given letter."""
     if not isinstance(letter, str) and len(letter) == 1:
         raise TypeError(f"Letter must be a string of length 1. Got: {letter!r}")

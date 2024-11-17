@@ -92,7 +92,7 @@ class AbstractLayer(BaseModel):
         xoffset: int | tuple[int, ...],
         yoffset: int | tuple[int, ...] | None = None,
         mode: int | tuple[int, ...] | None = None,
-    ):
+    ) -> AbstractLayer:
         """Accumulates a list of sizing operations for the layer by the provided offset (in dbu).
 
         Args:
@@ -101,39 +101,41 @@ class AbstractLayer(BaseModel):
             mode (int | tuple): mode of the sizing operation(s). Can be a tuple for sequential sizing operations.
         """
         #  Validate inputs
+        xoffset_list: list[int]
         if isinstance(xoffset, int):
-            xoffset = [xoffset]
+            xoffset_list = [xoffset]
         else:
-            xoffset = list(xoffset)
-
+            xoffset_list = list(xoffset)
+        yoffset_list: list[int]
         if isinstance(yoffset, tuple):
-            if len(yoffset) != len(xoffset):
+            if len(yoffset) != len(xoffset_list):
                 raise ValueError(
                     "If yoffset is provided as a tuple, length must be equal to xoffset!"
                 )
             else:
-                yoffset = list(yoffset)
+                yoffset_list = list(yoffset)
         elif yoffset is None:
-            yoffset = xoffset
+            yoffset_list = xoffset_list
         else:
-            yoffset = [yoffset] * len(xoffset)
+            yoffset_list = [yoffset] * len(xoffset_list)
 
+        mode_list: list[int]
         if isinstance(mode, tuple):
-            if len(mode) != len(xoffset):
+            if len(mode) != len(xoffset_list):
                 raise ValueError(
                     "If mode is provided as a tuple, length must be equal to xoffset!"
                 )
             else:
-                mode = list(mode)
+                mode_list = list(mode)
         elif mode is None:
-            mode = [2] * len(xoffset)
+            mode_list = [2] * len(xoffset_list)
         else:
-            mode = [mode] * len(xoffset)
+            mode_list = [mode] * len(xoffset_list)
 
         # Accumulate
-        sizings_xoffsets = list(self.sizings_xoffsets) + xoffset
-        sizings_yoffsets = list(self.sizings_yoffsets) + yoffset
-        sizings_modes = list(self.sizings_modes) + mode
+        sizings_xoffsets = list(self.sizings_xoffsets) + xoffset_list
+        sizings_yoffsets = list(self.sizings_yoffsets) + yoffset_list
+        sizings_modes = list(self.sizings_modes) + mode_list
 
         # Return a copy of the layer with updated sizings
         current_layer_attributes = self.__dict__.copy()
@@ -152,7 +154,7 @@ class LogicalLayer(AbstractLayer):
 
     layer: tuple[int, int] | kf.kcell.LayerEnum | int
 
-    def __eq__(self, other):
+    def __eq__(self, other: AbstractLayer) -> bool:
         """Check if two LogicalLayer instances are equal.
 
         This method compares the 'layer' attribute of the two LogicalLayer instances.
@@ -170,7 +172,7 @@ class LogicalLayer(AbstractLayer):
             raise NotImplementedError(f"{other} is not a {type(self)}")
         return self.layer == other.layer
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         """Generates a hash value for a LogicalLayer instance.
 
         This method allows LogicalLayer instances to be used in hash-based data structures such as sets and dictionaries.
@@ -229,7 +231,7 @@ class DerivedLayer(AbstractLayer):
     layer2: LogicalLayer | DerivedLayer | int
     operation: Literal["and", "&", "or", "|", "xor", "^", "not", "-"]
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         """Generates a hash value for a LogicalLayer instance.
 
         This method allows LogicalLayer instances to be used in hash-based data structures such as sets and dictionaries.
@@ -405,7 +407,7 @@ class LayerStack(BaseModel):
         table = Table(show_header=True, header_style="bold")
         keys = ["layer", "thickness", "material", "sidewall_angle"]
 
-        for key in ["name"] + keys:
+        for key in ["name", *keys]:
             table.add_column(key)
 
         for layer_name, layer in self.layers.items():
@@ -429,7 +431,9 @@ class LayerStack(BaseModel):
 
         return layer_to_thickness
 
-    def get_component_with_derived_layers(self, component, **kwargs):
+    def get_component_with_derived_layers(
+        self, component: Component, **kwargs: Any
+    ) -> Component:
         """Returns component with derived layers."""
         return get_component_with_derived_layers(
             component=component, layer_stack=self, **kwargs
@@ -472,7 +476,7 @@ class LayerStack(BaseModel):
     def to_dict(self) -> dict[str, dict[str, Any]]:
         return {level_name: dict(level) for level_name, level in self.layers.items()}
 
-    def __getitem__(self, key) -> LayerLevel:
+    def __getitem__(self, key: str) -> LayerLevel:
         """Access layer stack elements."""
         if key not in self.layers:
             layers = list(self.layers.keys())
@@ -512,13 +516,11 @@ class LayerStack(BaseModel):
         ]
 
         # Define input layers
-        out = "\n".join(
-            [
-                f"{layer_name} = input({level.derived_layer.layer[0]}, {level.derived_layer.layer[1]})"
-                for layer_name, level in layers.items()
-                if level.derived_layer
-            ]
-        )
+        out = "\n".join([
+            f"{layer_name} = input({level.derived_layer.layer[0]}, {level.derived_layer.layer[1]})"
+            for layer_name, level in layers.items()
+            if level.derived_layer
+        ])
         out += "\n\n"
 
         # Remove all etched layers from the grown layers
@@ -531,13 +533,11 @@ class LayerStack(BaseModel):
                     unetched_layers.remove(level.derived_layer.layer)
 
         # Define layers
-        out += "\n".join(
-            [
-                f"{layer_name} = input({level.layer.layer[0]}, {level.layer.layer[1]})"
-                for layer_name, level in layers.items()
-                if hasattr(level.layer, "layer")
-            ]
-        )
+        out += "\n".join([
+            f"{layer_name} = input({level.layer.layer[0]}, {level.layer.layer[1]})"
+            for layer_name, level in layers.items()
+            if hasattr(level.layer, "layer")
+        ])
         out += "\n\n"
 
         # Define unetched layers
@@ -630,13 +630,13 @@ class LayerStack(BaseModel):
 
         return out
 
-    def filtered(self, layers) -> LayerStack:
+    def filtered(self, layers: list[str]) -> LayerStack:
         """Returns filtered layerstack, given layer specs."""
         return LayerStack(
             layers={k: self.layers[k] for k in layers if k in self.layers}
         )
 
-    def z_offset(self, dz) -> LayerStack:
+    def z_offset(self, dz: float) -> LayerStack:
         """Translates the z-coordinates of the layerstack."""
         layers = self.layers or {}
         for layer in layers.values():
@@ -653,7 +653,9 @@ class LayerStack(BaseModel):
         return self
 
 
-def get_component_with_derived_layers(component, layer_stack: LayerStack) -> Component:
+def get_component_with_derived_layers(
+    component: Component, layer_stack: LayerStack
+) -> Component:
     """Returns a component with derived layers.
 
     Args:

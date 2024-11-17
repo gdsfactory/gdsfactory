@@ -28,7 +28,7 @@ To generate a route:
 from __future__ import annotations
 
 from collections.abc import Mapping, Sequence
-from typing import Literal
+from typing import Any, Literal
 
 import kfactory as kf
 from kfactory.routing.electrical import route_elec
@@ -128,7 +128,11 @@ def route_single(
         p1 = add_auto_tapers(component, [p1], cross_section)[0]
         p2 = add_auto_tapers(component, [p2], cross_section)[0]
 
-    def straight_dbu(length: int, cross_section=cross_section, **kwargs) -> Component:
+    def straight_dbu(
+        length: int,
+        cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = cross_section,
+        **kwargs: Any,
+    ) -> Component:
         return gf.get_component(
             straight,
             length=c.kcl.to_um(length),

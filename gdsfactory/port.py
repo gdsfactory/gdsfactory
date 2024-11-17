@@ -45,7 +45,7 @@ from gdsfactory.cross_section import CrossSectionSpec
 
 if TYPE_CHECKING:
     from gdsfactory.component import Component
-    from gdsfactory.typings import ComponentFactory, PathType
+    from gdsfactory.typings import AngleInDegrees, ComponentFactory, PathType
 
 Layer = tuple[int, int]
 Layers = tuple[Layer, ...]
@@ -111,7 +111,7 @@ class Port(kf.Port):
     def __init__(
         self,
         name: str,
-        orientation: float | None,
+        orientation: AngleInDegrees | None,
         center: tuple[float, float] | kf.kdb.Point | kf.kdb.DPoint,
         width: float | None = None,
         layer: LayerSpec | None = None,
@@ -177,7 +177,7 @@ PortsMap = dict[str, list[Port]]
 def port_array(
     center: tuple[float, float] = (0.0, 0.0),
     width: float = 0.5,
-    orientation: float = 0,
+    orientation: AngleInDegrees = 0,
     pitch: tuple[float, float] = (10.0, 0.0),
     n: int = 2,
     **kwargs: Any,
@@ -324,7 +324,7 @@ def select_ports(
     layer: LayerSpec | None = None,
     prefix: str | None = None,
     suffix: str | None = None,
-    orientation: int | None = None,
+    orientation: AngleInDegrees | None = None,
     width: float | None = None,
     layers_excluded: tuple[tuple[int, int], ...] | None = None,
     port_type: str | None = None,
@@ -442,7 +442,7 @@ def get_ports_facing(ports: list[Port], direction: str = "W") -> list[Port]:
     return direction_ports[direction]
 
 
-def deco_rename_ports(component_factory: "ComponentFactory") -> "ComponentFactory":  # noqa: UP037
+def deco_rename_ports(component_factory: "ComponentFactory") -> "ComponentFactory":
     @functools.wraps(component_factory)
     def auto_named_component_factory(*args: Any, **kwargs: Any) -> Component:
         component = component_factory(*args, **kwargs)

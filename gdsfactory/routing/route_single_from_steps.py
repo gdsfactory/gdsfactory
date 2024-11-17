@@ -3,7 +3,7 @@ from __future__ import annotations
 import warnings
 from collections.abc import Mapping, Sequence
 from functools import partial
-from typing import Literal
+from typing import Any, Literal
 
 import numpy as np
 from kfactory.routing.generic import ManhattanRoute
@@ -31,7 +31,7 @@ def route_single_from_steps(
     port_type: str | None = None,
     allow_width_mismatch: bool = False,
     auto_taper: bool = True,
-    **kwargs,
+    **kwargs: Any,
 ) -> ManhattanRoute:
     """Places a route formed by the given waypoints steps.
 

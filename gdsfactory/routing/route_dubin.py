@@ -218,27 +218,29 @@ def pi_to_pi(angle):
     return angle
 
 
-def linear(START, END, STEPS):
+def linear(
+    start: tuple[float, float, float], end: tuple[float, float, float], steps: int
+) -> tuple[list[float], list[float]]:
     """Creates a list of points on lines between a given start point and end point.
 
     start/end: [x, y, angle], the start/end point with given jaw angle.
     """
-    x = []
-    y = []
-    Dx = END[0] - START[0]
-    Dy = END[1] - START[1]
-    dx = Dx / STEPS
-    dy = Dy / STEPS
-    for step in range(STEPS + 1):
-        x.append(step * dx + START[0])
-        y.append(step * dy + START[1])
+    x: list[float] = []
+    y: list[float] = []
+    dx = end[0] - start[0]
+    dy = end[1] - start[1]
+    dx = dx / steps
+    dy = dy / steps
+    for step in range(steps + 1):
+        x.append(step * dx + start[0])
+        y.append(step * dy + start[1])
     return x, y
 
 
-def arrow_orientation(ANGLE):
+def arrow_orientation(angle: float) -> tuple[float, float]:
     """Returns x, y setoffs for a given angle to orient the arrows marking the yaw of the start and end points."""
-    alpha_x = m.cos(m.radians(ANGLE))
-    alpha_y = m.sin(m.radians(ANGLE))
+    alpha_x = m.cos(m.radians(angle))
+    alpha_y = m.sin(m.radians(angle))
     return alpha_x, alpha_y
 
 

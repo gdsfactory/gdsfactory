@@ -13,7 +13,7 @@ from types import SimpleNamespace
 from typing import TypeAlias
 
 import kfactory as kf
-from IPython.terminal.embed import embed
+from IPython.terminal.embed import embed  # type: ignore[unused-ignore]
 from watchdog.events import (
     DirCreatedEvent,
     DirDeletedEvent,
@@ -127,7 +127,9 @@ class FileWatcher(FileSystemEventHandler):
 
         what = "directory" if event.is_directory else "file"
         src_path = self._get_path(event.src_path)
-        if what == "file" and src_path.endswith(".pic.yml") or src_path.endswith(".py"):
+        if (what == "file" and src_path.endswith(".pic.yml")) or src_path.endswith(
+            ".py"
+        ):
             self.logger.info("Created %s: %s", what, src_path)
             self.get_component(src_path)
 
@@ -152,15 +154,15 @@ class FileWatcher(FileSystemEventHandler):
             src_path = event.dest_path.decode("utf-8")
         else:
             src_path = event.dest_path
-        if what == "file" and src_path.endswith(".pic.yml") or src_path.endswith(".py"):
+        if (what == "file" and src_path.endswith(".pic.yml")) or src_path.endswith(
+            ".py"
+        ):
             self.logger.info("Modified %s: %s", what, src_path)
             self.get_component(src_path)
 
     def get_component(self, filepath: PathType) -> Component | None:
         import git
         import git.repo as gr
-
-        print("-----------------------------------")
 
         from gdsfactory.get_factories import get_cells_from_dict
 
@@ -204,7 +206,7 @@ class FileWatcher(FileSystemEventHandler):
                             kf.show(gdspath)
 
                 else:
-                    print("Changed file {filepath} ignored (not .pic.yml or .py)")
+                    print(f"Changed file {filepath} ignored (not .pic.yml or .py)")
 
         except Exception as e:
             traceback.print_exc(file=sys.stdout)

@@ -20,7 +20,7 @@ def add_electrical_pads_shortest(
     pad_size: tuple[float, float] = (100.0, 100.0),
     select_ports: Callable = select_ports_electrical,
     port_names: Strs | None = None,
-    port_orientation: float = 90,
+    port_orientation: AngleInDegrees = 90,
     layer: gf.typings.LayerSpec = "M3",
 ) -> Component:
     """Returns new Component with a pad by each electrical port.
@@ -78,7 +78,7 @@ def add_electrical_pads_shortest(
             p.dx = port.dx
             route_quad(c, port, p.ports["e2"], layer=layer)
 
-        c.add_port(port=p.ports["pad"], name=f"elec-{component.name}-{i+1}")
+        c.add_port(port=p.ports["pad"], name=f"elec-{component.name}-{i + 1}")
 
     c.add_ports(ref.ports)
 

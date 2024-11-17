@@ -58,7 +58,7 @@ def test_get_netlist_cell_array() -> None:
     ), f"Expected {n_ports_expected} ports in netlist. Got {len(n['ports'])}"
     for ib in range(rows):
         for port in component_to_array.ports:
-            expected_port_name = f"{port.name}_{ib+1}_1"
+            expected_port_name = f"{port.name}_{ib + 1}_1"
             expected_lower_port_name = f"{inst_name}<0.{ib}>,{port.name}"
             assert expected_port_name in n["ports"]
             assert n["ports"][expected_port_name] == expected_lower_port_name

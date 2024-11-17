@@ -3,7 +3,7 @@ import xml.etree.ElementTree as ET
 from xml.dom.minidom import Node
 
 
-def _strip_xml(node) -> None:
+def _strip_xml(node: Node) -> None:
     """Strip XML of excess whitespace.
 
     Source: https://stackoverflow.com/a/16919069

@@ -90,8 +90,8 @@ def get_min_spacing(
 
 def route_bundle(
     component: Component,
-    ports1: list[Port | kf.Port] | Port | kf.Port,
-    ports2: list[Port | kf.Port] | Port | kf.Port,
+    ports1: Sequence[Port | kf.Port] | Port | kf.Port,
+    ports2: Sequence[Port | kf.Port] | Port | kf.Port,
     cross_section: CrossSectionSpec | None = None,
     layer: LayerSpecs | None = None,
     separation: float = 3.0,

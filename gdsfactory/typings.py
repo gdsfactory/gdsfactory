@@ -23,7 +23,7 @@ from __future__ import annotations
 
 import dataclasses
 import pathlib
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 from typing import (
     Any,
     Generator,
@@ -81,8 +81,8 @@ class Step:
 
     x: float | None = None
     y: float | None = None
-    dx: float | None = None
-    dy: float | None = None
+    dx: Delta | None = None
+    dy: Delta | None = None
 
 
 Anchor = Literal[
@@ -112,6 +112,10 @@ Ints: TypeAlias = tuple[int, ...] | list[int]
 Size: TypeAlias = tuple[float, float]
 Position: TypeAlias = tuple[float, float]
 Spacing: TypeAlias = tuple[float, float]
+Radius: TypeAlias = float
+
+Delta: TypeAlias = float
+AngleInDegrees: TypeAlias = float
 
 Layer: TypeAlias = tuple[int, int]
 Layers: TypeAlias = tuple[Layer, ...] | list[Layer]
@@ -154,7 +158,7 @@ ComponentSpecOrComponent: TypeAlias = (
 )  # PCell function, function name, dict or Component
 
 ComponentSpecs: TypeAlias = tuple[ComponentSpec, ...]
-ComponentSpecsOrComponents: TypeAlias = tuple[ComponentSpecOrComponent, ...]
+ComponentSpecsOrComponents: TypeAlias = Sequence[ComponentSpecOrComponent]
 ComponentFactories: TypeAlias = tuple[ComponentFactory, ...]
 
 ComponentSpecOrList: TypeAlias = ComponentSpec | list[ComponentSpec]
@@ -198,7 +202,7 @@ class TypedArray(np.ndarray[Any, np.dtype[Any]]):
 
 
 class ArrayMeta(type):
-    def __getitem__(self, t: np.dtype[Any]) -> type[npt.NDArray[Any]]:
+    def __getitem__(cls, t: np.dtype[Any]) -> type[npt.NDArray[Any]]:
         return type("Array", (TypedArray,), {"inner_type": t})
 
 
@@ -207,6 +211,7 @@ class Array(np.ndarray[Any, np.dtype[Any]], metaclass=ArrayMeta):
 
 
 __all__ = (
+    "AngleInDegrees",
     "Any",
     "Component",
     "ComponentAllAngle",
@@ -222,16 +227,17 @@ __all__ = (
     "CrossSectionFactory",
     "CrossSectionOrFactory",
     "CrossSectionSpec",
+    "Delta",
     "Float2",
     "Float3",
     "Floats",
+    "Instance",
     "Int2",
     "Int3",
     "Ints",
-    "Instance",
     "Layer",
-    "LayerMap",
     "LayerLevel",
+    "LayerMap",
     "LayerSpec",
     "LayerSpecs",
     "LayerStack",
@@ -245,11 +251,12 @@ __all__ = (
     "Ports",
     "PortsList",
     "PortsOrList",
+    "Position",
+    "Radius",
+    "RoutingStrategies",
     "Section",
+    "Size",
+    "Spacing",
     "Strs",
     "WidthTypes",
-    "RoutingStrategies",
-    "Size",
-    "Position",
-    "Spacing",
 )

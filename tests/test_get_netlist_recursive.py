@@ -7,7 +7,7 @@ import gdsfactory as gf
 from gdsfactory.get_netlist import get_netlist_recursive
 
 
-def test_no_effect_on_original_components():
+def test_no_effect_on_original_components() -> None:
     passive_mzi = gf.components.mzi2x2_2x2()
     passive_mzi_phase_shifter_netlist_electrical = get_netlist_recursive(
         passive_mzi, exclude_port_types="optical"
@@ -16,14 +16,14 @@ def test_no_effect_on_original_components():
 
 
 @gf.cell
-def hcomponent_top():
+def hcomponent_top() -> gf.Component:
     c = gf.Component()
     c << hcomponent_l2()
     return c
 
 
 @gf.cell
-def hcomponent_l2():
+def hcomponent_l2() -> gf.Component:
     c = gf.Component()
     c << hcomponent_l3()
     c << hcomponent_l3()
@@ -31,12 +31,12 @@ def hcomponent_l2():
 
 
 @gf.cell
-def hcomponent_l3():
+def hcomponent_l3() -> gf.Component:
     c = gf.Component()
     return c
 
 
-def test_n_netlists():
+def test_n_netlists() -> None:
     c = hcomponent_top()
     netlists = get_netlist_recursive(c)
     # only netlists with hierarchy should be reported

@@ -26,7 +26,7 @@ cells_to_test = set(cells.keys()) - skip_test
 
 
 @pytest.fixture(params=cells_to_test)
-def component_name(request) -> str:
+def component_name(request: pytest.FixtureRequest) -> str:
     return request.param
 
 

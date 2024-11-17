@@ -4,7 +4,7 @@ from collections import Counter
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.typings import ComponentSpec
+from gdsfactory.typings import AngleInDegrees, ComponentSpec
 
 
 class SequenceGenerator:
@@ -47,7 +47,7 @@ class SequenceGenerator:
         self.end_sequence = end_sequence
         self.repeated_sequence = repeated_sequence
 
-    def get_sequence(self, n=2):
+    def get_sequence(self, n: int = 2) -> str:
         return self.start_sequence + n * self.repeated_sequence + self.end_sequence
 
 
@@ -59,7 +59,7 @@ def parse_component_name(name: str) -> tuple[str, bool]:
     return (name[1:], True) if len(name) != 1 and name[0] == "!" else (name, False)
 
 
-def _flip_ref(c_ref, port_name):
+def _flip_ref(c_ref: Component, port_name: str) -> Component:
     a = c_ref.ports[port_name].orientation
     if a in [0, 180]:
         y = c_ref.ports[port_name].dcenter[1]
@@ -75,7 +75,7 @@ def component_sequence(
     ports_map: dict[str, tuple[str, str]] | None = None,
     port_name1: str = "o1",
     port_name2: str = "o2",
-    start_orientation: float = 0.0,
+    start_orientation: AngleInDegrees = 0.0,
 ) -> Component:
     """Returns component from ASCII sequence.
 
@@ -126,9 +126,9 @@ def component_sequence(
     name_start_device, do_flip = parse_component_name(symbol)
     component_input, input_port, prev_port = symbol_to_component[name_start_device]
     prev_device = component.add_ref(component_input, name=f"{symbol}{index}")
-    named_references_counter.update(
-        {name_start_device: 1}
-    )  # sourcery skip:simplify-dictionary-update
+    named_references_counter.update({
+        name_start_device: 1
+    })  # sourcery skip:simplify-dictionary-update
 
     if do_flip:
         prev_device = _flip_ref(prev_device, input_port)
@@ -161,9 +161,9 @@ def component_sequence(
         index += 1
         component_i, input_port, next_port = symbol_to_component[s]
         component_i = gf.get_component(component_i)
-        named_references_counter.update(
-            {s: 1}
-        )  # sourcery skip:simplify-dictionary-update
+        named_references_counter.update({
+            s: 1
+        })  # sourcery skip:simplify-dictionary-update
         alias = f"{s}{named_references_counter[s]}"
         ref = component.add_ref(component_i, name=alias)
 

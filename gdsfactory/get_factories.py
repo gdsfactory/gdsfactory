@@ -6,7 +6,7 @@ from functools import partial
 from inspect import getmembers, isfunction, signature
 from typing import Any
 
-from gdsfactory.typings import Component
+from gdsfactory.typings import Component, ComponentFactory
 
 
 def get_cells(
@@ -14,7 +14,7 @@ def get_cells(
     ignore_non_decorated: bool = False,
     ignore_underscored: bool = True,
     ignore_partials: bool = False,
-) -> dict[str, Callable]:
+) -> dict[str, ComponentFactory]:
     """Returns PCells (component functions) from a module or list of modules.
 
     Args:
@@ -24,17 +24,19 @@ def get_cells(
         ignore_partials: only include functions, not partials
     """
     modules = modules if isinstance(modules, Iterable) else [modules]
-    cells = {}
+    cells: dict[str, ComponentFactory] = {}
     for module in modules:
-        for name, member in getmembers(module):
+        cells.update({
+            name: member
+            for name, member in getmembers(module)
             if is_cell(
                 member,
                 ignore_non_decorated=ignore_non_decorated,
                 ignore_underscored=ignore_underscored,
                 ignore_partials=ignore_partials,
                 name=name,
-            ):
-                cells[name] = member
+            )
+        })
     return cells
 
 

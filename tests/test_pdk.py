@@ -12,7 +12,7 @@ def test_get_cross_section() -> None:
     assert xs.sections[0].width == 1
 
 
-def test_get_layer():
+def test_get_layer() -> None:
     assert gf.get_layer(1) == LAYER.WG
     assert gf.get_layer((1, 0)) == LAYER.WG
     assert gf.get_layer("WG") == LAYER.WG

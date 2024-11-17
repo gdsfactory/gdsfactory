@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 from functools import partial
+from pathlib import Path
 
 import pydantic
 
 import gdsfactory as gf
-from gdsfactory.typings import Layer
+from gdsfactory.typings import ComponentFactory, Layer
 
 
 @pydantic.dataclasses.dataclass
@@ -57,7 +58,9 @@ component_factory = dict(
 )
 
 
-def write_library(component_factory, dirpath) -> None:
+def write_library(
+    component_factory: dict[str, ComponentFactory], dirpath: Path
+) -> None:
     for function in component_factory.values():
         component = function()
         component.write_gds(gdsdir=dirpath, with_metadata=True)

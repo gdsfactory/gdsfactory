@@ -157,18 +157,18 @@ class KLayoutTechnology(BaseModel):
         lyt_path.write_bytes(make_pretty_xml(root))
         print(f"Wrote {str(lyt_path)!r}")
 
-    def _define_connections(self, root) -> None:
+    def _define_connections(self, root: ET.Element) -> None:
         if not self.connectivity:
             return
         src_element = [e for e in list(root) if e.tag == "connectivity"]
         if len(src_element) != 1:
             raise KeyError("Could not get a single index for the src element.")
         src_element = src_element[0]
-        layers = set()
+        layers: set[str] = set()
         for first_layer_name, *layer_names in self.connectivity:
             connection = ",".join(
                 [first_layer_name]
-                + (layer_names if len(layer_names) == 2 else [""] + layer_names)
+                + (layer_names if len(layer_names) == 2 else ["", *layer_names])
             )
 
             for layer_name in layer_names:

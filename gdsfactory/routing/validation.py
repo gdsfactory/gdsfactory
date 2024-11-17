@@ -2,13 +2,14 @@ from warnings import warn
 
 import numpy as np
 
+import gdsfactory as gf
 from gdsfactory.config import CONF
 from gdsfactory.port import Port
 from gdsfactory.routing.utils import RouteWarning
 
 
 def make_error_traces(
-    component, ports1: list[Port], ports2: list[Port], message: str
+    component: gf.Component, ports1: list[Port], ports2: list[Port], message: str
 ) -> None:
     """Creates a set of error traces showing the intended connectivity between ports1 and ports2.
 
@@ -53,7 +54,7 @@ def is_invalid_bundle_topology(ports1: list[Port], ports2: list[Port]) -> bool:
     from shapely import intersection_all
 
     # this is not really quite angle, but a threshold to check if dot products are effectively above/below zero, excluding numerical errors
-    ANGLE_TOLERANCE = 1e-10
+    angle_tolerance = 1e-10
 
     if len(ports1) < 2:
         # if there's only one route, the bundle topology is always valid
@@ -85,9 +86,9 @@ def is_invalid_bundle_topology(ports1: list[Port], ports2: list[Port]) -> bool:
 
     intersections = intersection_all(lines)
     # print(intersections)
-    if intersections.is_empty and all(s < -ANGLE_TOLERANCE for s in ports_facing):
+    if intersections.is_empty and all(s < -angle_tolerance for s in ports_facing):
         return True
-    elif not intersections.is_empty and all(s > ANGLE_TOLERANCE for s in ports_facing):
+    elif not intersections.is_empty and all(s > angle_tolerance for s in ports_facing):
         return True
 
     # NOTE: there are more complicated cases we are ignoring for now and giving "the benefit of the doubt"

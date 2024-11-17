@@ -30,7 +30,7 @@ components = [sample_fiber_array, sample_fiber_single, sample_excluded_ports]
 
 
 @pytest.fixture(params=components, scope="function")
-def component(request) -> Component:
+def component(request: pytest.FixtureRequest) -> Component:
     return request.param()
 
 

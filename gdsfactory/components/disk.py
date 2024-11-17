@@ -4,7 +4,12 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory import Component
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
+from gdsfactory.typings import (
+    AngleInDegrees,
+    ComponentSpec,
+    CrossSectionSpec,
+    LayerSpec,
+)
 
 
 def _compute_parameters(xs_bend, wrap_angle_deg, radius):
@@ -139,7 +144,7 @@ def disk_heater(
     heater_width: float = 5.0,
     heater_extent: float = 2.0,
     via_width: float = 10.0,
-    port_orientation: float | None = 90,
+    port_orientation: AngleInDegrees | None = 90,
 ) -> Component:
     """Disk Resonator with top metal heater.
 

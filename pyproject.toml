@@ -126,8 +126,10 @@ python_files = ["gdsfactory/*.py", "tests/*.py"]
 testpaths = ["gdsfactory", "tests"]
 
 [tool.ruff]
-extend-exclude = ['docs/notebooks/']
+extend-exclude = ['docs/notebooks/', 'notebooks/']
 fix = true
+
+[tool.ruff.lint]
 ignore = [
   "B008",  # do not perform function calls in argument defaults
   "B028",  # stacklevel
@@ -140,7 +142,13 @@ ignore = [
   "D102",  # public method docstrings
   "D103",  # public function docstrings
   "D104",  # public package docstrings
-  "E501"  # line too long, handled by black
+  "E501",  # line too long, handled by black
+  "RUF005",  # Consider {expression} instead of concatenation
+  "ANN101",  # Missing self type annotation
+  "ANN102",  # Missing cls type annotation
+  "ANN401",  # typing.Any is not allowed
+  "RUF015",  # Using next() instead of [0]
+  "UP037",  # Remove quotes from type annotations
 ]
 select = [
   "B",  # flake8-bugbear
@@ -151,15 +159,19 @@ select = [
   "I",  # isort
   "T10",  # flake8-debugger
   "UP",  # pyupgrade
-  "W"  # pycodestyle warnings
+  "W",  # pycodestyle warnings
+  "PERF",  # performance improvements
+  "RUF",  # ruff
+  "ANN"  # flake8-annotations
 ]
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 "gdsfactory/typings.py" = ["UP035"]
 "notebooks/*.ipynb" = ["F821", 'E402', 'F405', 'F403', "D103"]
 "tests/*.py" = ["D103"]
+"gdsfactory/samples/*.py" = ["N999"]
 
-[tool.ruff.pydocstyle]
+[tool.ruff.lint.pydocstyle]
 convention = "google"
 
 [tool.setuptools.package-data]
