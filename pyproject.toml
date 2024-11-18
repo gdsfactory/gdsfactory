@@ -40,7 +40,8 @@ dependencies = [
   "trimesh>=4.4.1,<4.6",
   "ipykernel",
   "attrs",
-  "graphviz"
+  "graphviz",
+  "pyglet<2"
 ]
 description = "python library to generate GDS layouts"
 keywords = ["eda", "photonics", "python"]
