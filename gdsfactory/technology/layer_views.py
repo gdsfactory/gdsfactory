@@ -17,6 +17,7 @@ from typing import TYPE_CHECKING, Any
 import numpy as np
 import yaml
 from kfactory import logger
+from kfactory.kcell import LayerEnum
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 from pydantic.color import ColorType
 from pydantic_extra_types.color import Color
@@ -765,18 +766,21 @@ class LayerViews(BaseModel):
     layer_views: dict[str, LayerView] = Field(default_factory=dict)
     custom_dither_patterns: dict[str, HatchPattern] = Field(default_factory=dict)
     custom_line_styles: dict[str, LineStyle] = Field(default_factory=dict)
+    layers: type[LayerEnum] | None = None
 
     model_config = ConfigDict(extra="forbid", frozen=True)
 
     def __init__(
         self,
         filepath: PathLike | None = None,
+        layers: type[LayerEnum] | None = None,
         **data: Any,
     ) -> None:
         """Initialize LayerViews object.
 
         Args:
             filepath: can be YAML or LYP.
+            layers: Optional layermap.
             data: Additional data to add to the LayerViews object.
         """
         if filepath is not None:
@@ -795,6 +799,9 @@ class LayerViews(BaseModel):
             data["layer_views"] = lvs.layer_views
             data["custom_line_styles"] = lvs.custom_line_styles
             data["custom_dither_patterns"] = lvs.custom_dither_patterns
+
+        if layers:
+            layers = {layer.name: layer for layer in layers if layer is not None}
 
         super().__init__(**data)
 
