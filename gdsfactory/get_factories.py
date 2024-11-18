@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 import contextlib
-from collections.abc import Iterable
+from collections.abc import Callable, Iterable
 from functools import partial
 from inspect import getmembers, isfunction, signature
+from typing import Any
 
-from gdsfactory.typings import Any, Callable, Component
+from gdsfactory.typings import Component, ComponentFactory
 
 
 def get_cells(
@@ -13,7 +14,7 @@ def get_cells(
     ignore_non_decorated: bool = False,
     ignore_underscored: bool = True,
     ignore_partials: bool = False,
-) -> dict[str, Callable]:
+) -> dict[str, ComponentFactory]:
     """Returns PCells (component functions) from a module or list of modules.
 
     Args:
@@ -23,17 +24,21 @@ def get_cells(
         ignore_partials: only include functions, not partials
     """
     modules = modules if isinstance(modules, Iterable) else [modules]
-    cells = {}
+    cells: dict[str, ComponentFactory] = {}
     for module in modules:
-        for name, member in getmembers(module):
-            if is_cell(
-                member,
-                ignore_non_decorated=ignore_non_decorated,
-                ignore_underscored=ignore_underscored,
-                ignore_partials=ignore_partials,
-                name=name,
-            ):
-                cells[name] = member
+        cells.update(
+            {
+                name: member
+                for name, member in getmembers(module)
+                if is_cell(
+                    member,
+                    ignore_non_decorated=ignore_non_decorated,
+                    ignore_underscored=ignore_underscored,
+                    ignore_partials=ignore_partials,
+                    name=name,
+                )
+            }
+        )
     return cells
 
 
@@ -69,7 +74,9 @@ def is_cell(
     return False
 
 
-def get_cells_from_dict(cells: dict[str, Callable]) -> dict[str, Callable]:
+def get_cells_from_dict(
+    cells: dict[str, Callable[..., Any]],
+) -> dict[str, Callable[..., Component]]:
     """Returns PCells (component functions) from a dictionary.
 
     Args:
@@ -78,7 +85,7 @@ def get_cells_from_dict(cells: dict[str, Callable]) -> dict[str, Callable]:
     Returns:
         A dictionary of valid component functions.
     """
-    valid_cells = {}
+    valid_cells: dict[str, Callable[..., Component]] = {}
 
     for name, member in cells.items():
         if not name.startswith("_") and (
@@ -86,7 +93,7 @@ def get_cells_from_dict(cells: dict[str, Callable]) -> dict[str, Callable]:
         ):
             with contextlib.suppress(ValueError):
                 func = member.func if isinstance(member, partial) else member
-                r = signature(func).return_annotation
+                r = signature(func).return_annotation  # type: ignore
                 if r == Component or (isinstance(r, str) and r.endswith("Component")):
                     valid_cells[name] = member
     return valid_cells

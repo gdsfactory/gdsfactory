@@ -21,7 +21,7 @@ components = [add_pads0]
 
 
 @pytest.fixture(params=components, scope="function")
-def component(request) -> Component:
+def component(request: pytest.FixtureRequest) -> Component:
     return request.param()
 
 

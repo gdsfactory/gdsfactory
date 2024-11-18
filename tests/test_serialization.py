@@ -44,7 +44,7 @@ def test_clean_value_json() -> None:
 
 
 def test_clean_value_partial() -> None:
-    def sample_func(a, b=2) -> None:
+    def sample_func(a: float, b: float = 2) -> float:
         return a + b
 
     partial_func = functools.partial(sample_func, 1)

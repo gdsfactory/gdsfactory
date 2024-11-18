@@ -8,7 +8,6 @@ from collections.abc import Callable, Iterable, Iterator
 from typing import TYPE_CHECKING, Any, Literal, overload
 
 import kfactory as kf
-import klayout.db as db  # noqa: F401
 import klayout.lay as lay
 import numpy as np
 import yaml
@@ -26,6 +25,7 @@ if TYPE_CHECKING:
     from matplotlib.figure import Figure
 
     from gdsfactory.typings import (
+        AngleInDegrees,
         ComponentSpec,
         CrossSection,
         CrossSectionSpec,
@@ -309,7 +309,7 @@ class ComponentBase:
         port: kf.Port | None = None,
         center: tuple[float, float] | kf.kdb.DPoint | None = None,
         width: float | None = None,
-        orientation: float | None = None,
+        orientation: "AngleInDegrees | None" = None,
         layer: LayerSpec | None = None,
         port_type: str = "optical",
         keep_mirror: bool = False,
@@ -824,7 +824,9 @@ class ComponentBase:
         gdsdir = gdsdir or GDSDIR_TEMP
         gdsdir = pathlib.Path(gdsdir)
         gdsdir.mkdir(parents=True, exist_ok=True)
-        gdspath = gdspath or gdsdir / f"{self.name[:kf.config.max_cellname_length]}.gds"
+        gdspath = (
+            gdspath or gdsdir / f"{self.name[: kf.config.max_cellname_length]}.gds"
+        )
         gdspath = pathlib.Path(gdspath)
 
         if not gdspath.parent.is_dir():

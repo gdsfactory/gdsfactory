@@ -7,10 +7,13 @@ from functools import partial
 import gdsfactory as gf
 import gdsfactory.components as pc
 from gdsfactory.generic_tech import LAYER
+from gdsfactory.typings import Size
 
 
 @gf.cell
-def sample_reticle(size=(1000, 1000), ec="edge_coupler_silicon") -> gf.Component:
+def sample_reticle(
+    size: Size = (1000, 1000), ec: str = "edge_coupler_silicon"
+) -> gf.Component:
     """Returns MZI with edge couplers.
 
     Args:

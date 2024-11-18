@@ -59,7 +59,7 @@ def test_get_ports_sort_counter_clockwise() -> None:
 
 
 @pytest.mark.parametrize("port_type", ["electrical", "optical", "placement"])
-def test_rename_ports(port_type, data_regression: DataRegressionFixture):
+def test_rename_ports(port_type: str, data_regression: DataRegressionFixture) -> None:
     c = gf.components.nxn(port_type=port_type)
     data_regression.check(c.to_dict())
 

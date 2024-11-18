@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Iterable
 from functools import partial
 
 import numpy as np
@@ -10,7 +11,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.coupler_straight import coupler_straight
 from gdsfactory.components.text_rectangular import text_rectangular
-from gdsfactory.typings import ComponentFactory, CrossSectionSpec, Iterable
+from gdsfactory.typings import ComponentFactory, CrossSectionSpec
 
 text_rectangular_mini = partial(text_rectangular, size=1)
 

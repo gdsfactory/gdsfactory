@@ -15,6 +15,7 @@ from collections.abc import Callable
 from typing import TYPE_CHECKING, Any
 
 import numpy as np
+import numpy.typing as npt
 from numpy import mod, pi
 
 from gdsfactory import logger
@@ -29,6 +30,7 @@ from gdsfactory.cross_section import CrossSection, Section, Transition
 
 if TYPE_CHECKING:
     from gdsfactory.typings import (
+        AngleInDegrees,
         ComponentSpec,
         Coordinates,
         CrossSectionSpec,
@@ -857,7 +859,10 @@ def extrude(
 
             # This excludes the first point, so length of output array is smaller by 1
             p_xy_segment_lengths = np.array(
-                [np.diff(p_pts[:, 0]), np.diff(p_pts[:, 1])]
+                [
+                    np.diff(p_pts[:, 0]),
+                    np.diff(p_pts[:, 1]),
+                ]
             ).T
 
             # Using the axis=1 makes output equivalent to [np.linalg.norm(p_xy_segment_lengths[i, :])
@@ -1239,7 +1244,7 @@ def extrude_transition(
 
 
 def _rotated_delta(
-    point: np.ndarray, center: np.ndarray, orientation: float
+    point: np.ndarray, center: npt.NDArray[np.float64], orientation: AngleInDegrees
 ) -> np.ndarray:
     """Gets the rotated distance of a point from a center.
 

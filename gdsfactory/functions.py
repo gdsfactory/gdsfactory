@@ -93,7 +93,7 @@ def extract(
     return c
 
 
-def move_to_center(component: Component, dx: float = 0, dy: float = 0) -> gf.Component:
+def move_to_center(component: Component, dx: Delta = 0, dy: Delta = 0) -> gf.Component:
     """Moves the component to the center of the bounding box."""
     c = component
     c.transform(
@@ -104,7 +104,7 @@ def move_to_center(component: Component, dx: float = 0, dy: float = 0) -> gf.Com
 
 
 def move_port(
-    component: Component, port_name: str, dx: float = 0, dy: float = 0
+    component: Component, port_name: str, dx: Delta = 0, dy: Delta = 0
 ) -> gf.Component:
     """Moves the component port to a specific location.
 

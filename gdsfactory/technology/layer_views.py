@@ -6,12 +6,13 @@ You can maintain LayerViews in YAML (.yaml) or Klayout XML file (.lyp)
 
 from __future__ import annotations
 
+import builtins
 import os
 import pathlib
 import re
-import typing
 import warnings
 import xml.etree.ElementTree as ET
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 import yaml
@@ -30,7 +31,7 @@ from gdsfactory.technology.yaml_utils import (
     add_tuple_yaml_presenter,
 )
 
-if typing.TYPE_CHECKING:
+if TYPE_CHECKING:
     from pydantic.typing import AbstractSetIntStr, DictStrAny, MappingIntStrAny
 
     from gdsfactory.component import Component
@@ -296,7 +297,7 @@ class HatchPattern(BaseModel):
 
     @field_validator("custom_pattern")
     @classmethod
-    def check_pattern_klayout(cls, pattern: str | None, **kwargs) -> str | None:
+    def check_pattern_klayout(cls, pattern: str | None, **kwargs: Any) -> str | None:
         if pattern is None:
             return None
         lines = pattern.splitlines()
@@ -342,7 +343,7 @@ class LineStyle(BaseModel):
 
     @field_validator("custom_style")
     @classmethod
-    def check_pattern(cls, pattern: str | None, **kwargs) -> str | None:
+    def check_pattern(cls, pattern: str | None, **kwargs: Any) -> str | None:
         if pattern is None:
             return None
 
@@ -421,7 +422,7 @@ class LayerView(BaseModel):
     marked: bool = False
     xfill: bool = False
     animation: int = 0
-    group_members: typing.Dict[str, LayerView] | None = Field(default={})  # noqa: UP006
+    group_members: builtins.dict[str, LayerView] | None = Field(default={})
 
     def __init__(
         self,
@@ -429,7 +430,7 @@ class LayerView(BaseModel):
         gds_datatype: int | None = None,
         color: ColorType | None = None,
         brightness: int | None = None,
-        **data,
+        **data: Any,
     ) -> None:
         """Initialize LayerView object."""
         if (gds_layer is not None) and (gds_datatype is not None):
@@ -773,7 +774,7 @@ class LayerViews(BaseModel):
         self,
         filepath: PathLike | None = None,
         layers: LayerEnum | None = None,
-        **data,
+        **data: Any,
     ) -> None:
         """Initialize LayerViews object.
 
@@ -814,7 +815,7 @@ class LayerViews(BaseModel):
                 self.add_layer_view(name=name, layer_view=lv)
 
     def add_layer_view(
-        self, name: str, layer_view: LayerView | None = None, **kwargs
+        self, name: str, layer_view: LayerView | None = None, **kwargs: Any
     ) -> None:
         """Adds a layer to LayerViews.
 
@@ -865,12 +866,10 @@ class LayerViews(BaseModel):
         Args:
             exclude_groups: Whether to exclude LayerViews that contain other LayerViews.
         """
-        layers = {}
+        layers: dict[str, LayerView] = {}
         for name, view in self.layer_views.items():
             if view.group_members and not exclude_groups:
-                for member_name, member in view.group_members.items():
-                    layers[member_name] = member
-                continue
+                layers.update(view.group_members.items())
             layers[name] = view
         return layers
 
@@ -899,7 +898,7 @@ class LayerViews(BaseModel):
         else:
             return self.layer_views[name]
 
-    def __getitem__(self, val: str):
+    def __getitem__(self, val: str) -> LayerView:
         """Allows accessing to the layer names like ls['gold2'].
 
         Args:
@@ -955,7 +954,7 @@ class LayerViews(BaseModel):
         """
         import gdsfactory as gf
 
-        D = gf.Component()
+        component = gf.Component()
         scale = size / 100
         num_layers = len(self.get_layer_views())
         matrix_size = int(np.ceil(np.sqrt(num_layers)))
@@ -964,10 +963,10 @@ class LayerViews(BaseModel):
         )
         for n, layer in enumerate(sorted_layers):
             layer_tuple = layer.layer
-            R = gf.components.rectangle(
+            rectangle = gf.components.rectangle(
                 size=(100 * scale, 100 * scale), layer=layer_tuple
             )
-            T = gf.components.text(
+            text = gf.components.text(
                 text=f"{layer.name}\n{layer_tuple[0]} / {layer_tuple[1]}",
                 size=20 * scale,
                 position=(50 * scale, -20 * scale),
@@ -977,13 +976,13 @@ class LayerViews(BaseModel):
 
             xloc = n % matrix_size
             yloc = int(n // matrix_size)
-            ref = D.add_ref(R)
+            ref = component.add_ref(rectangle)
             ref.dmovex((100 + spacing) * xloc * scale)
             ref.dmovey(-(100 + spacing) * yloc * scale)
-            ref = D.add_ref(T)
+            ref = component.add_ref(text)
             ref.dmovex((100 + spacing) * xloc * scale)
             ref.dmovey(-(100 + spacing) * yloc * scale)
-        return D
+        return component
 
     def to_lyp(
         self, filepath: str | pathlib.Path, overwrite: bool = True

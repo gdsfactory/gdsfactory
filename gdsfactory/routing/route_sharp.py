@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Any
+
 import numpy as np
 
 import gdsfactory as gf
@@ -64,7 +66,7 @@ def path_L(port1: Port, port2: Port) -> Path:
     return Path(np.array([pt1, pt2, pt3]))
 
 
-def path_U(port1: Port, port2: Port, length1=200) -> Path:
+def path_U(port1: Port, port2: Port, length1: float = 200) -> Path:
     """Return waypoint path between port1 and port2 in a U shape.
 
     Useful when ports face the same direction or toward each other.
@@ -122,7 +124,13 @@ def path_J(
     return Path(np.array([pt1, pt2, pt3, pt4, pt5]))
 
 
-def path_C(port1: Port, port2: Port, length1=100, left1=100, length2=100) -> Path:
+def path_C(
+    port1: Port,
+    port2: Port,
+    length1: float = 100,
+    left1: float = 100,
+    length2: float = 100,
+) -> Path:
     """Return waypoint path between port1 and port2 in a C shape. Useful when ports are parallel and face away from each other.
 
     Args:
@@ -220,7 +228,9 @@ def path_manhattan(port1: Port, port2: Port, radius: float) -> Path:
     return pts
 
 
-def path_Z(port1: Port, port2: Port, length1=100, length2=100) -> Path:
+def path_Z(
+    port1: Port, port2: Port, length1: float = 100, length2: float = 100
+) -> Path:
     """Return waypoint path between port1 and port2 in a Z shape.
 
     Ports can have any relative orientation.
@@ -244,25 +254,25 @@ def path_Z(port1: Port, port2: Port, length1=100, length2=100) -> Path:
 
 
 def path_V(port1: Port, port2: Port) -> Path:
-    """Return waypoint path between port1 and port2 in a V shape. Useful when \
+    """Return waypoint path between port1 and port2 in a V shape.
 
-    ports point to a single connecting point.
+    Useful when ports point to a single connecting point.
 
     Args:
-        port1: start port.
-        port2: end port.
+        port1: Start port.
+        port2: End port.
     """
-    # get basis vectors in port directions
+    # Get basis vectors in port directions
     e1, _ = _get_rotated_basis(port1.orientation)
     e2, _ = _get_rotated_basis(port2.orientation)
 
-    # assemble route  points
+    # Assemble route points
     pt1 = port1.dcenter
     pt3 = port2.dcenter
 
-    # solve for intersection
-    E = np.column_stack((e1, -1 * e2))
-    pt2 = np.matmul(np.linalg.inv(E), pt3 - pt1)[0] * e1 + pt1
+    # Solve for intersection
+    e = np.column_stack((e1, -1 * e2))
+    pt2 = np.matmul(np.linalg.inv(e), pt3 - pt1)[0] * e1 + pt1
     return Path(np.array([pt1, pt2, pt3]))
 
 
@@ -272,11 +282,11 @@ def route_sharp(
     port2: Port,
     width: float | None = None,
     path_type: str = "manhattan",
-    manual_path=None,
+    manual_path: Path | None = None,
     layer: LayerSpec | None = None,
     cross_section: CrossSectionSpec | None = None,
     port_names: tuple[str, str] = ("o1", "o2"),
-    **kwargs,
+    **kwargs: Any,
 ) -> None:
     """Returns Component route between ports.
 
@@ -326,24 +336,24 @@ def route_sharp(
 
     """
     if path_type == "C":
-        P = path_C(port1, port2, **kwargs)
+        p = path_C(port1, port2, **kwargs)
     elif path_type == "J":
-        P = path_J(port1, port2, **kwargs)
+        p = path_J(port1, port2, **kwargs)
     elif path_type == "L":
-        P = path_L(port1, port2)
+        p = path_L(port1, port2)
     elif path_type == "U":
-        P = path_U(port1, port2, **kwargs)
+        p = path_U(port1, port2, **kwargs)
     elif path_type == "V":
-        P = path_V(port1, port2)
+        p = path_V(port1, port2)
     elif path_type == "Z":
-        P = path_Z(port1, port2, **kwargs)
+        p = path_Z(port1, port2, **kwargs)
     elif path_type == "manhattan":
         radius = max(port1.dwidth, port2.dwidth)
-        P = path_manhattan(port1, port2, radius=radius)
+        p = path_manhattan(port1, port2, radius=radius)
     elif path_type == "manual":
-        P = manual_path if isinstance(manual_path, Path) else Path(manual_path)
+        p = manual_path if isinstance(manual_path, Path) else Path(manual_path)
     elif path_type == "straight":
-        P = path_straight(port1, port2)
+        p = path_straight(port1, port2)
     else:
         raise ValueError(
             f"route_sharp() received invalid path_type {path_type} not in "
@@ -352,7 +362,7 @@ def route_sharp(
 
     if cross_section:
         cross_section = gf.get_cross_section(cross_section)
-        D = P.extrude(cross_section=cross_section)
+        d = p.extrude(cross_section=cross_section)
     elif width is None:
         layer = layer or port1.layer
         s1 = Section(
@@ -370,12 +380,12 @@ def route_sharp(
         cross_section = transition(
             cross_section1=x1, cross_section2=x2, width_type="linear"
         )
-        D = P.extrude(cross_section=cross_section)
+        d = p.extrude(cross_section=cross_section)
     else:
-        D = P.extrude(width=width, layer=layer)
+        d = p.extrude(width=width, layer=layer)
         if not isinstance(width, CrossSection):
-            newport1 = D.add_port(port=port1, name=1).drotate(180)
-            newport2 = D.add_port(port=port2, name=2).drotate(180)
+            newport1 = d.add_port(port=port1, name=1).drotate(180)
+            newport2 = d.add_port(port=port2, name=2).drotate(180)
             if np.size(width) == 1:
                 newport1.width = width
                 newport2.width = width
@@ -383,7 +393,7 @@ def route_sharp(
                 newport1.width = width[0]
                 newport2.width = width[1]
 
-    _ = component << D
+    _ = component << d
 
 
 if __name__ == "__main__":

@@ -17,7 +17,7 @@ def pad(
     bbox_layers: tuple[LayerSpec, ...] | None = None,
     bbox_offsets: tuple[float, ...] | None = None,
     port_inclusion: float = 0,
-    port_orientation: float | None = 0,
+    port_orientation: AngleInDegrees | None = 0,
     port_orientations: Ints | None = (180, 90, 0, -90),
 ) -> Component:
     """Returns rectangular pad with ports.
@@ -87,8 +87,8 @@ def pad_array(
     spacing: tuple[float, float] = (150.0, 150.0),
     columns: int = 6,
     rows: int = 1,
-    port_orientation: float = 0,
-    orientation: float | None = None,
+    port_orientation: AngleInDegrees = 0,
+    orientation: AngleInDegrees | None = None,
     size: Float2 = (100.0, 100.0),
     layer: LayerSpec = "MTOP",
     centered_ports: bool = False,
@@ -136,7 +136,7 @@ def pad_array(
                     center[1] -= size[1] / 2
 
             c.add_port(
-                name=f"e{row+1}{col+1}",
+                name=f"e{row + 1}{col + 1}",
                 center=center,
                 width=width,
                 orientation=port_orientation,

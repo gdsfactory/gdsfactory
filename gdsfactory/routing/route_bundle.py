@@ -27,7 +27,6 @@ from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
 from gdsfactory.typings import (
     STEP_DIRECTIVES,
-    Component,
     ComponentSpec,
     Coordinates,
     CrossSectionSpec,
@@ -89,9 +88,9 @@ def get_min_spacing(
 
 
 def route_bundle(
-    component: Component,
-    ports1: list[Port | kf.Port] | Port | kf.Port,
-    ports2: list[Port | kf.Port] | Port | kf.Port,
+    component: gf.Component,
+    ports1: Sequence[Port | kf.Port] | Port | kf.Port,
+    ports2: Sequence[Port | kf.Port] | Port | kf.Port,
     cross_section: CrossSectionSpec | None = None,
     layer: LayerSpecs | None = None,
     separation: float = 3.0,
@@ -212,7 +211,7 @@ def route_bundle(
     taper_cell = gf.get_component(taper) if taper else None
     bend90 = (
         bend
-        if isinstance(bend, Component)
+        if isinstance(bend, gf.Component)
         else gf.get_component(
             bend, cross_section=cross_section, radius=radius, width=width
         )
@@ -220,7 +219,7 @@ def route_bundle(
 
     def straight_dbu(
         length: int, cross_section: CrossSectionSpec = xs, **kwargs: Any
-    ) -> Component:
+    ) -> gf.Component:
         return gf.get_component(
             straight,
             length=c.kcl.to_um(length),

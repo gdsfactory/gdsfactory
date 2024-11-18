@@ -14,7 +14,7 @@ def mzit(
     w0: float = 0.5,
     w1: float = 0.45,
     w2: float = 0.55,
-    dy: float = 2.0,
+    dy: Delta = 2.0,
     delta_length: float = 10.0,
     length: float = 1.0,
     coupler_length1: float = 5.0,
@@ -132,7 +132,7 @@ def mzit(
     dx = (delta_length - 2 * dy) / 2
     assert (
         delta_length >= 4 * dy
-    ), f"`delta_length`={delta_length} needs to be at least {4*dy}"
+    ), f"`delta_length`={delta_length} needs to be at least {4 * dy}"
 
     wg2b = c << straight(length=dx, cross_section=cross_section, width=w2)
     wg2b.connect("o1", t2.ports["o2"])

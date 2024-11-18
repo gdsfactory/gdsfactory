@@ -4,7 +4,7 @@ import gdsfactory as gf
 from gdsfactory.components.bend_s import bend_s as bend_s_function
 from gdsfactory.port import Port
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
-from gdsfactory.typings import Component, ComponentSpec
+from gdsfactory.typings import Any, Component, ComponentSpec
 
 
 def route_bundle_sbend(
@@ -14,7 +14,7 @@ def route_bundle_sbend(
     bend_s: ComponentSpec = bend_s_function,
     sort_ports: bool = True,
     enforce_port_ordering: bool = True,
-    **kwargs,
+    **kwargs: Any,
 ) -> None:
     """Places sbend routes from ports1 to ports2.
 

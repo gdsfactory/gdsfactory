@@ -25,21 +25,21 @@ def c2() -> gf.Component:
     )
 
 
-def test_boolean_not(c1, c2) -> None:
+def test_boolean_not(c1: gf.Component, c2: gf.Component) -> None:
     c4 = gf.boolean(c1, c2, operation="not", layer=layer)
     assert int(c4.area(layer=layer)) == 87
 
 
-def test_boolean_or(c1, c2) -> None:
+def test_boolean_or(c1: gf.Component, c2: gf.Component) -> None:
     c4 = gf.boolean(c1, c2, operation="or", layer=layer)
     assert int(c4.area(layer=layer)) == 225
 
 
-def test_boolean_xor(c1, c2) -> None:
+def test_boolean_xor(c1: gf.Component, c2: gf.Component) -> None:
     c4 = gf.boolean(c1, c2, operation="xor", layer=layer)
     assert int(c4.area(layer=layer)) == 111
 
 
-def test_boolean_and(c1, c2) -> None:
+def test_boolean_and(c1: gf.Component, c2: gf.Component) -> None:
     c4 = gf.boolean(c1, c2, operation="and", layer=layer)
     assert int(c4.area(layer=layer)) == 113

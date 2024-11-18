@@ -7,6 +7,7 @@ from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
 from gdsfactory import Component, Port
+from gdsfactory.typings import AngleInDegrees, Delta, Layer
 
 
 def test_route_bundle_udirect_pads(
@@ -44,9 +45,9 @@ def test_route_bundle_udirect_pads(
 def test_route_connect_bundle_udirect(
     data_regression: DataRegressionFixture,
     check: bool = True,
-    dy=200,
-    orientation=270,
-    layer=(1, 0),
+    dy: Delta = 200,
+    orientation: AngleInDegrees = 270,
+    layer: Layer = (1, 0),
 ) -> None:
     xs1 = [-100, -90, -80, -55, -35, 24, 0] + [200, 210, 240]
     axis = "X" if orientation in [0, 180] else "Y"

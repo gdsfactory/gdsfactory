@@ -3,14 +3,14 @@ from gdsfactory import partial
 
 
 @gf.cell
-def inner(a=1) -> gf.Component:
+def inner(a: int = 1) -> gf.Component:
     c = gf.Component()
     c.add_ref(gf.components.rectangle(size=(a, a)))
     return c
 
 
 @gf.cell
-def outer(b=1) -> gf.Component:
+def outer(b: int = 1) -> gf.Component:
     return inner(b)
 
 

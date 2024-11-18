@@ -221,7 +221,7 @@ def crossing_etched(
 def crossing45(
     crossing: ComponentSpec = crossing,
     port_spacing: float = 40.0,
-    dx: float | None = None,
+    dx: Delta | None = None,
     alpha: float = 0.08,
     npoints: int = 101,
     cross_section: CrossSectionSpec = "strip",

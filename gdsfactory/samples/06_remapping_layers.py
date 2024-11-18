@@ -22,7 +22,7 @@ def remap_layers() -> Component:
     return c
 
 
-def test_remap_layers():
+def test_remap_layers() -> None:
     c = remap_layers()
     assert c.layers == [(2, 0)]
 

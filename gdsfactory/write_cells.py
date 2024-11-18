@@ -34,6 +34,7 @@ def get_script(gdspath: PathType, module: str | None = None) -> str:
         module: if any includes plot directive.
 
     """
+    gdspath = pathlib.Path(gdspath)
     cell = clean_name(gdspath.stem)
     gdspath = gdspath.stem + gdspath.suffix
 
@@ -97,7 +98,7 @@ def get_import_gds_script(dirpath: PathType, module: str | None = None) -> str:
 
 
 def write_cells_recursively(
-    gdspath: PathType | None = None,
+    gdspath: PathType,
     dirpath: pathlib.Path | None = None,
 ) -> dict[str, Path]:
     """Write gdstk cells recursively.
@@ -114,7 +115,7 @@ def write_cells_recursively(
     dirpath = pathlib.Path(dirpath).absolute()
     dirpath.mkdir(exist_ok=True, parents=True)
 
-    gdspaths = {}
+    gdspaths: dict[str, Path] = {}
 
     for cell_index in gf.kcl.each_cell_bottom_up():
         component = gf.kcl[cell_index]
@@ -125,7 +126,7 @@ def write_cells_recursively(
 
 
 def write_cells(
-    gdspath: PathType | None = None,
+    gdspath: PathType,
     dirpath: PathType | None = None,
 ) -> dict[str, Path]:
     """Writes cells into separate GDS files.
@@ -145,7 +146,7 @@ def write_cells(
     dirpath = pathlib.Path(dirpath).absolute()
     dirpath.mkdir(exist_ok=True, parents=True)
 
-    gdspaths = {}
+    gdspaths: dict[str, Path] = {}
 
     for component in components:
         gdspath = dirpath / f"{component.name}.gds"
@@ -155,7 +156,7 @@ def write_cells(
 
 
 if __name__ == "__main__":
-    c = gf.c.mzi()
+    c = gf.c.mzi()  # type: ignore
     gdspath = c.write_gds()
     gf.clear_cache()
     write_cells_recursively(gdspath)

@@ -34,7 +34,7 @@ def route_ports_to_side(
     side: Literal["north", "east", "south", "west"] = "north",
     x: float | None = None,
     y: float | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> tuple[list[ManhattanRoute], list[kf.Port]]:
     """Routes ports to a given side.
 
@@ -95,19 +95,27 @@ def route_ports_to_side(
     return func_route(component, ports, xy, side=side, **kwargs)
 
 
-def route_ports_to_north(list_ports, **kwargs):
+def route_ports_to_north(
+    list_ports: list[Port], **kwargs: Any
+) -> tuple[list[ManhattanRoute], list[kf.Port]]:
     return route_ports_to_side(list_ports, side="north", **kwargs)
 
 
-def route_ports_to_south(list_ports, **kwargs):
+def route_ports_to_south(
+    list_ports: list[Port], **kwargs: Any
+) -> tuple[list[ManhattanRoute], list[kf.Port]]:
     return route_ports_to_side(list_ports, side="south", **kwargs)
 
 
-def route_ports_to_west(list_ports, **kwargs):
+def route_ports_to_west(
+    list_ports: list[Port], **kwargs: Any
+) -> tuple[list[ManhattanRoute], list[kf.Port]]:
     return route_ports_to_side(list_ports, side="west", **kwargs)
 
 
-def route_ports_to_east(list_ports, **kwargs):
+def route_ports_to_east(
+    list_ports: list[Port], **kwargs: Any
+) -> tuple[list[ManhattanRoute], list[kf.Port]]:
     return route_ports_to_side(list_ports, side="east", **kwargs)
 
 
@@ -127,7 +135,7 @@ def route_ports_to_x(
     dx_start: float | None = None,
     dy_start: float | None = None,
     side: Literal["east", "west"] = "east",
-    **routing_func_args,
+    **routing_func_args: Any,
 ) -> tuple[list[ManhattanRoute], list[kf.Port]]:
     """Returns route to x.
 
@@ -233,7 +241,11 @@ def route_ports_to_x(
     ports = []
 
     def add_port(
-        p, y, l_elements, l_ports, start_straight_length=start_straight_length
+        port: Port,
+        y: float,
+        l_elements: list[ManhattanRoute],
+        l_ports: list[Port],
+        start_straight_length: float = start_straight_length,
     ) -> None:
         if side == "west":
             angle = 0
@@ -241,7 +253,7 @@ def route_ports_to_x(
         elif side == "east":
             angle = 180
 
-        new_port = p.copy()
+        new_port = port.copy()
         new_port.orientation = angle
         new_port.dx = x + extension_length
         new_port.dy = y
@@ -252,7 +264,7 @@ def route_ports_to_x(
         l_elements += [
             route_single(
                 component,
-                p,
+                port,
                 new_port,
                 start_straight_length=start_straight_length,
                 radius=radius,
@@ -456,23 +468,27 @@ def route_ports_to_y(
     backward_ports_thru_west.sort(key=sort_key_west_to_east)
     backward_ports_thru_east.sort(key=sort_key_east_to_west)
 
-    routes = []
-    ports = []
+    routes: list[ManhattanRoute] = []
+    ports: list[Port] = []
 
     def add_port(
-        p, x, l_elements, l_ports, start_straight_length=start_straight_length
-    ):
+        port: Port,
+        x: float,
+        l_elements: list[ManhattanRoute],
+        l_ports: list[Port],
+        start_straight_length: float = start_straight_length,
+    ) -> None:
         if side == "south":
             angle = 90
 
         elif side == "north":
             angle = 270
 
-        new_port = p.copy()
+        new_port = port.copy()
         new_port.orientation = angle
         new_port.dcenter = (x, y + extension_length)
 
-        if np.sum(np.abs((np.array(new_port.center) - p.center) ** 2)) < 1:
+        if np.sum(np.abs((np.array(new_port.center) - port.center) ** 2)) < 1:
             l_ports += [flipped(new_port)]
             return
 
@@ -480,7 +496,7 @@ def route_ports_to_y(
             l_elements += [
                 route_single(
                     component,
-                    p,
+                    port,
                     new_port,
                     start_straight_length=start_straight_length,
                     radius=radius,
@@ -491,7 +507,7 @@ def route_ports_to_y(
 
         except Exception as error:
             raise ValueError(
-                f"Could not connect {p.name!r} to {new_port.name!r} {error}"
+                f"Could not connect {port.name!r} to {new_port.name!r} {error}"
             ) from error
 
     x_optical_left = x0_left
