@@ -751,7 +751,7 @@ class ComponentBase:
             )
         return paths
 
-    def get_boxes(self, layer: LayerSpec, recursive: bool = True) -> list[kf.kdb.Box]:
+    def get_boxes(self, layer: LayerSpec, recursive: bool = True) -> list[kf.kdb.DBox]:
         """Returns a list of boxes.
 
         Args:
