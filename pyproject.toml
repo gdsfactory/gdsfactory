@@ -41,7 +41,7 @@ dependencies = [
   "ipykernel",
   "attrs",
   "graphviz",
-  "pyglet<2"
+  "pyglet<3"
 ]
 description = "python library to generate GDS layouts"
 keywords = ["eda", "photonics", "python"]
