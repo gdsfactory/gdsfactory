@@ -158,6 +158,9 @@ class Port(kf.Port):
             info=info,
         )
 
+    def to_dict(self) -> dict[str, Any]:
+        return to_dict(self)
+
 
 def to_dict(port: Port) -> dict[str, Any]:
     """Returns dict."""

@@ -37,8 +37,10 @@ from gdsfactory.component import (
     ComponentBase,
     ComponentReference,
 )
-from gdsfactory.cross_section import CrossSection, Transition
-from gdsfactory.port import Port
+from gdsfactory.cross_section import (  # type: ignore[attr-defined]
+    CrossSection,
+    Transition,
+)
 from gdsfactory.technology import LayerLevel, LayerMap, LayerStack, LayerViews
 
 STEP_DIRECTIVES = {
@@ -93,6 +95,7 @@ Anchor: TypeAlias = Literal[
 ]
 Axis: TypeAlias = Literal["x", "y"]
 NSEW: TypeAlias = Literal["N", "S", "E", "W"]
+WidthTypes: TypeAlias = Literal["sine", "linear", "parabolic"]
 
 Float2: TypeAlias = tuple[float, float]
 Float3: TypeAlias = tuple[float, float, float]
@@ -103,7 +106,6 @@ Int3: TypeAlias = tuple[int, int, int]
 Ints: TypeAlias = tuple[int, ...] | list[int]
 
 Size: TypeAlias = tuple[float, float]
-Position: TypeAlias = tuple[float, float]
 Spacing: TypeAlias = tuple[float, float]
 Radius: TypeAlias = float
 
@@ -134,13 +136,13 @@ Coordinate: TypeAlias = tuple[float, float]
 Coordinates: TypeAlias = Sequence[Coordinate]
 CrossSectionFactory: TypeAlias = Callable[..., CrossSection]
 CrossSectionOrFactory: TypeAlias = CrossSection | Callable[..., CrossSection]
-PortFactory: TypeAlias = Callable[..., kf.Port]
-PortsFactory: TypeAlias = Callable[..., list[kf.Port]]
-PortSymmetries: TypeAlias = dict[str, list[str]]
+
+Port: TypeAlias = kf.Port
+PortFactory: TypeAlias = Callable[..., Port]
+PortsFactory: TypeAlias = Callable[..., Sequence[Port]]
+PortSymmetries: TypeAlias = dict[str, Sequence[str]]
 PortsDict: TypeAlias = dict[str, Port]
-PortsList: TypeAlias = list[Port]
-Ports: TypeAlias = kf.Ports
-PortsOrList: TypeAlias = Ports | PortsList
+Ports: TypeAlias = kf.Ports | Sequence[Port]
 
 PortType: TypeAlias = str
 PortName: TypeAlias = str
@@ -177,11 +179,10 @@ ConductorConductorName: TypeAlias = tuple[str, str]
 ConductorViaConductorName: TypeAlias = tuple[str, str, str] | tuple[str, str]
 ConnectivitySpec: TypeAlias = ConductorConductorName | ConductorViaConductorName
 
-RoutingStrategy: TypeAlias = Callable[
-    ...,
-    list[kf.routing.generic.ManhattanRoute]
-    | list[kf.routing.aa.optical.OpticalAllAngleRoute],
-]
+Route: TypeAlias = (
+    kf.routing.generic.ManhattanRoute | kf.routing.aa.optical.OpticalAllAngleRoute
+)
+RoutingStrategy: TypeAlias = Callable[..., Sequence[Route]]
 RoutingStrategies: TypeAlias = dict[str, RoutingStrategy]
 
 
@@ -245,18 +246,17 @@ __all__ = (
     "Number",
     "PathType",
     "PathTypes",
+    "Port",
     "PortName",
     "PortNames",
     "PortType",
     "PortTypes",
     "Ports",
-    "PortsList",
-    "PortsOrList",
-    "Position",
     "PostProcesses",
     "Radius",
     "RoutingStrategies",
     "Size",
     "Spacing",
     "Strs",
+    "WidthTypes",
 )

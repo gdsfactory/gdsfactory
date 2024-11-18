@@ -1,10 +1,10 @@
 import gdsfactory as gf
-from gdsfactory.typings import LayerSpec, PortsOrList
+from gdsfactory.typings import LayerSpec, Ports
 
 
 def add_port_labels(
     component: gf.Component,
-    ports: PortsOrList,
+    ports: Ports,
     layer: LayerSpec,
     texts: list[str] | None = None,
 ) -> gf.Component:
