@@ -74,16 +74,18 @@ def optimal_step(
         W: float = 1,
         a: float = 2,
     ) -> tuple[float, float]:
-        # Finds the eta associated with the value x_desired along the optimal curve
+        """Finds the eta associated with x_desired or y_desired along the optimal curve."""
+
         def fh(eta: float) -> float:
             guessed_x, guessed_y = step_points(eta, w=W, a=a)
             if y_desired is None:
-                return (guessed_x - x_desired) ** 2  # The error
-            return (guessed_y - y_desired) ** 2
+                return (guessed_x - x_desired) ** 2  # Error relative to x_desired
+            return (guessed_y - y_desired) ** 2  # Error relative to y_desired
 
         from scipy.optimize import fminbound
 
-        found_eta = fminbound(fh, 0, np.pi)  # Correct argument order
+        # Minimize error to find optimal eta
+        found_eta = fminbound(fh, 0, np.pi)
         return step_points(found_eta, w=W, a=a)
 
     if start_width > end_width:
