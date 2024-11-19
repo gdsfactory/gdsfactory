@@ -1,10 +1,8 @@
 # Installation
 
-We support Python 3.10, 3.11 and 3.12, and recommend [VSCode](https://code.visualstudio.com/) IDE. If you do not have Python installed, you can [download Anaconda](https://www.anaconda.com/download/).
+We support Python 3.10, 3.11 and 3.12, and recommend [VSCode](https://code.visualstudio.com/) IDE and UV.
 
-Upon Python installation, open Anaconda Prompt as Administrator and install the latest gdsfactory
-
-![anaconda prompt](https://i.imgur.com/eKk2bbs.png)
+## Installation for users
 
 You can install the latest released gdsfactory using the following command:
 
@@ -18,7 +16,24 @@ If you want to install the latest pre-released version you can run:
 pip install git+https://github.com/gdsfactory/gdsfactory --force-reinstall
 ```
 
-Please note that some PDKs may only work for a specific version of gdsfactory. Ensure you install the correct gdsfactory version specified in the pyproject.toml file. This will automatically happen when you install gdsfactory as one of the PDK dependencies. For example, pip install gf180 will install the latest gdsfactory version tested for the GlobalFoundries180 PDK.
+
+## Installation for developers
+
+We recommend `uv` for installing your environment.
+
+```bash
+# On macOS and Linux.
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+```bash
+# On Windows.
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
+
+## Debugging installation
+
+Please note that some PDKs may only work for a specific version of gdsfactory. Ensure you install the correct gdsfactory version specified in the pyproject.toml file. This will automatically happen when you install gdsfactory as one of the PDK dependencies. For example, `pip install cspdk` will install the latest gdsfactory version tested for the CSPDK PDK.
 
 To determine your python and gdsfactory versions, use the following code:
 

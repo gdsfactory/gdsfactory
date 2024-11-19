@@ -28,7 +28,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: |
-          make install
+          make uv install
           make test-data
       - name: Test with pytest
         run: |
@@ -43,7 +43,7 @@ jobs:
           python-version: "3.10"
       - name: Install dependencies
         run: |
-          make install test-data
+          make uv install test-data
       - name: Test with pytest
         run: |
            make cov
