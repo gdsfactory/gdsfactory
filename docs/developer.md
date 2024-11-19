@@ -19,7 +19,7 @@ pip install git+https://github.com/gdsfactory/gdsfactory --force-reinstall
 
 ## Installation for contributors
 
-We recommend `uv` for installing your environment.
+We recommend `uv` for installing GDSFactory:
 
 ```bash
 # On macOS and Linux.
