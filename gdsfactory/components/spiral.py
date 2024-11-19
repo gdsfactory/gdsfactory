@@ -25,9 +25,15 @@ def spiral(
     """
     c = gf.Component()
     b = gf.get_component(bend, cross_section=cross_section)
-    if "radius" not in b.info:
-        raise ValueError(f"bend component {b} must have a radius info field")
-    radius = b.info["radius"]
+
+    o1 = b["o1"]
+    o2 = b["o2"]
+    dx = abs(o2.dx - o1.dx)
+    dy = abs(o2.dy - o1.dy)
+
+    if dx != dy:
+        raise ValueError(f"bend component {b} must have dx == dy")
+    radius = dx
     _length = length
 
     b_inners = [c << b for _ in range(4)]
