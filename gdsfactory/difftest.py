@@ -259,7 +259,7 @@ def diff(
     b_regions: dict[int, kdb.Region] = {}
     b_texts: dict[int, kdb.Texts] = {}
 
-    def get_region(key, regions: dict[int, kdb.Region]) -> kdb.Region:
+    def get_region(key: int, regions: dict[int, kdb.Region]) -> kdb.Region:
         if key not in regions:
             reg = kdb.Region()
             regions[key] = reg
@@ -267,7 +267,7 @@ def diff(
         else:
             return regions[key]
 
-    def get_texts(key, texts_dict: dict[int, kdb.Texts]) -> kdb.Texts:
+    def get_texts(key: int, texts_dict: dict[int, kdb.Texts]) -> kdb.Texts:
         if key not in texts_dict:
             texts = kdb.Texts()
             texts_dict[key] = texts
@@ -275,29 +275,29 @@ def diff(
         else:
             return texts_dict[key]
 
-    def polygon_diff_a(anotb: kdb.Polygon, prop_id: int):
+    def polygon_diff_a(anotb: kdb.Polygon, prop_id: int) -> None:
         get_region(ld.layer_index_a(), a_regions).insert(anotb)
 
-    def polygon_diff_b(bnota: kdb.Polygon, prop_id: int):
+    def polygon_diff_b(bnota: kdb.Polygon, prop_id: int) -> None:
         get_region(ld.layer_index_b(), b_regions).insert(bnota)
 
-    def cell_diff_a(cell: kdb.Cell):
+    def cell_diff_a(cell: kdb.Cell) -> None:
         nonlocal equivalent
         print(f"{cell.name} only in old")
         if not ignore_cell_name_differences:
             equivalent = False
 
-    def cell_diff_b(cell: kdb.Cell):
+    def cell_diff_b(cell: kdb.Cell) -> None:
         nonlocal equivalent
         print(f"{cell.name} only in new")
         if not ignore_cell_name_differences:
             equivalent = False
 
-    def text_diff_a(anotb: kdb.Text, prop_id: int):
+    def text_diff_a(anotb: kdb.Text, prop_id: int) -> None:
         print("Text only in old")
         get_texts(ld.layer_index_a(), a_texts).insert(anotb)
 
-    def text_diff_b(bnota: kdb.Text, prop_id: int):
+    def text_diff_b(bnota: kdb.Text, prop_id: int) -> None:
         print("Text only in new")
         get_texts(ld.layer_index_b(), b_texts).insert(bnota)
 

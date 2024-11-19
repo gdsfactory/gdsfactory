@@ -7,7 +7,7 @@ import gdsfactory as gf
 from gdsfactory import cell
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
-from gdsfactory.typings import ComponentFactory, Float2, Ints, LayerSpec
+from gdsfactory.typings import AngleInDegrees, ComponentFactory, Float2, Ints, LayerSpec
 
 
 @cell

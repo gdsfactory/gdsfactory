@@ -137,6 +137,9 @@ Coordinates: TypeAlias = Sequence[Coordinate]
 CrossSectionFactory: TypeAlias = Callable[..., CrossSection]
 CrossSectionOrFactory: TypeAlias = CrossSection | Callable[..., CrossSection]
 
+WidthFunction: TypeAlias = Callable[..., npt.NDArray[np.float64]]
+OffsetFunction: TypeAlias = Callable[..., npt.NDArray[np.float64]]
+
 Port: TypeAlias = kf.Port
 PortFactory: TypeAlias = Callable[..., Port]
 PortsFactory: TypeAlias = Callable[..., Sequence[Port]]

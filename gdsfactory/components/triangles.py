@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from functools import partial
+from typing import Any
 
 from gdsfactory import cell
 from gdsfactory.component import Component
@@ -44,7 +45,7 @@ def triangle(
 
 
 @cell
-def triangle2(spacing: float = 3, **kwargs):
+def triangle2(spacing: float = 3, **kwargs: Any) -> Component:
     r"""Return 2 triangles (bot, top).
 
     Args:
@@ -87,7 +88,7 @@ def triangle2(spacing: float = 3, **kwargs):
 
 
 @cell
-def triangle4(**kwargs) -> Component:
+def triangle4(**kwargs: Any) -> Component:
     r"""Return 4 triangles.
 
     Args:

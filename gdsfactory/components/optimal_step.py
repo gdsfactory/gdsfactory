@@ -36,10 +36,10 @@ def optimal_step(
     -----
     Optimal structure from https://doi.org/10.1103/PhysRevB.84.174510
     Clem, J., & Berggren, K. (2011). Geometry-dependent critical currents in
-    superconducting nanocircuits. Physical Review B, 84(17), 1–27.
+    superconducting nanocircuits. Physical Review B, 84(17), 1-27.
     """
 
-    def step_points(eta, W, a):
+    def step_points(eta: float, w: float, a: float) -> tuple[float, float]:
         """Returns step points.
 
         Returns points from a unit semicircle in the w (= u + iv) plane to
@@ -47,20 +47,20 @@ def optimal_step(
         a wire from a width of 'W' to a width of 'a'
         eta takes value 0 to pi
         """
-        W = np.array(W, dtype=complex)
-        a = np.array(a, dtype=complex)
+        w_array = np.array(w, dtype=complex)
+        a_array = np.array(a, dtype=complex)
 
-        gamma = (a**2 + W**2) / (a**2 - W**2)
+        gamma = (a_array**2 + w_array**2) / (a_array**2 - w_array**2)
 
-        w = np.exp(1j * eta)
+        w_array = np.exp(1j * eta)
 
         zeta = (
             4
             * 1j
             / np.pi
             * (
-                W * np.arctan(np.sqrt((w - gamma) / (gamma + 1)))
-                + a * np.arctan(np.sqrt((gamma - 1) / (w - gamma)))
+                w_array * np.arctan(np.sqrt((w_array - gamma) / (gamma + 1)))
+                + a_array * np.arctan(np.sqrt((gamma - 1) / (w_array - gamma)))
             )
         )
 
@@ -68,15 +68,19 @@ def optimal_step(
         y = np.imag(zeta)
         return x, y
 
-    def invert_step_point(x_desired=-10, y_desired=None, W=1, a=2):
+    def invert_step_point(
+        x_desired: float = -10,
+        y_desired: float | None = None,
+        W: float = 1,
+        a: float = 2,
+    ) -> tuple[float, float]:
         # Finds the eta associated with the value x_desired along the
         # optimal curve
-        def fh(eta):
-            guessed_x, guessed_y = step_points(eta, W=W, a=a)
+        def fh(eta: float) -> float:
+            guessed_x, guessed_y = step_points(eta, w=W, a=a)
             if y_desired is None:
                 return (guessed_x - x_desired) ** 2  # The error
-            else:
-                return (guessed_y - y_desired) ** 2
+            return (guessed_y - y_desired) ** 2
 
         try:
             from scipy.optimize import fminbound
@@ -87,7 +91,7 @@ def optimal_step(
                 "it with `pip install scipy`"
             ) from e
         found_eta = fminbound(fh, x1=0, x2=np.pi, args=())
-        return step_points(found_eta, W=W, a=a)
+        return step_points(found_eta, w=W, a=a)
 
     if start_width > end_width:
         reverse = True

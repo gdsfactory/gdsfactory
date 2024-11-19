@@ -1,4 +1,5 @@
 import numpy as np
+import numpy.typing as npt
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -23,7 +24,7 @@ def mmi2x2_with_sbend(
         cross_section: spec.
     """
 
-    def mmi_widths(t):
+    def mmi_widths(t: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
         return np.array([2 * 0.7 + 0.2, 1.48, 1.48, 1.48, 1.6])
 
     c = gf.Component()

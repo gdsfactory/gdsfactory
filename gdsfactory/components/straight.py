@@ -45,7 +45,7 @@ def straight_all_angle(
     length: float = 10.0,
     npoints: int = 2,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs,
+    **kwargs: Any,
 ) -> ComponentAllAngle:
     """Returns a Straight waveguide with offgrid ports.
 

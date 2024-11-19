@@ -1,15 +1,18 @@
 from __future__ import annotations
 
+from typing import Any
+
 import numpy as np
 
 import gdsfactory as gf
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 
 
-@gf.cell
+@cell
 def grating_coupler_rectangular(
     n_periods: int = 20,
     period: float = 0.75,
@@ -25,7 +28,7 @@ def grating_coupler_rectangular(
     slab_xmin: float = -1.0,
     slab_offset: float = 1.0,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     r"""Grating coupler with rectangular shapes (not elliptical).
 

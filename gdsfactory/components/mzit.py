@@ -6,7 +6,7 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coupler import coupler as coupler_function
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.typings import ComponentFactory
+from gdsfactory.typings import ComponentFactory, Delta
 
 
 @gf.cell

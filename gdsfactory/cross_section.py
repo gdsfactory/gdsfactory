@@ -15,6 +15,7 @@ from types import ModuleType
 from typing import TYPE_CHECKING, Any, Literal, TypeAlias
 
 import numpy as np
+import numpy.typing as npt
 from kfactory import logger
 from pydantic import (
     BaseModel,
@@ -29,10 +30,7 @@ from gdsfactory.config import CONF, ErrorType
 
 if TYPE_CHECKING:
     from gdsfactory.component import Component
-    from gdsfactory.typings import (
-        PortNames,
-        PortTypes,
-    )
+    from gdsfactory.typings import PortNames, PortTypes
 
 
 nm = 1e-3
@@ -46,6 +44,9 @@ LayerSpec: TypeAlias = Layer | str
 LayerSpecs: TypeAlias = Iterable[LayerSpec]
 
 Floats: TypeAlias = tuple[float, ...]
+
+WidthFunction: TypeAlias = Callable[..., npt.NDArray[np.float64]]
+OffsetFunction: TypeAlias = Callable[..., npt.NDArray[np.float64]]
 
 port_names_electrical: "PortNames" = ("e1", "e2")
 port_types_electrical: "PortTypes" = ("electrical", "electrical")
@@ -133,8 +134,8 @@ class Section(BaseModel):
     hidden: bool = False
     simplify: float | None = None
 
-    width_function: Callable | None = Field(default=None)
-    offset_function: Callable | None = Field(default=None)
+    width_function: WidthFunction | None = Field(default=None)
+    offset_function: OffsetFunction | None = Field(default=None)
 
     model_config = ConfigDict(extra="forbid", frozen=True)
 
@@ -282,8 +283,8 @@ class CrossSection(BaseModel):
         self,
         width: float | None = None,
         layer: LayerSpec | None = None,
-        width_function: Callable | None = None,
-        offset_function: Callable | None = None,
+        width_function: WidthFunction | None = None,
+        offset_function: OffsetFunction | None = None,
         sections: tuple[Section, ...] | None = None,
         **kwargs: Any,
     ) -> CrossSection:

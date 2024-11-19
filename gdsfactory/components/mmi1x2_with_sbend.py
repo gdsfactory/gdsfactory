@@ -1,4 +1,5 @@
 import numpy as np
+import numpy.typing as npt
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -6,12 +7,24 @@ from gdsfactory.components.bend_s import bend_s
 from gdsfactory.typings import ComponentFactory, CrossSectionSpec
 
 
-def mmi_widths(t):
+def mmi_widths(t: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
     from scipy.interpolate import interp1d
 
-    widths = np.array(
-        [0.5, 0.5, 0.6, 0.7, 0.9, 1.26, 1.4, 1.4, 1.4, 1.4, 1.31, 1.2, 1.2]
-    )
+    widths = np.array([
+        0.5,
+        0.5,
+        0.6,
+        0.7,
+        0.9,
+        1.26,
+        1.4,
+        1.4,
+        1.4,
+        1.4,
+        1.31,
+        1.2,
+        1.2,
+    ])
     xold = np.linspace(0, 1, num=len(widths))
     xnew = np.linspace(0, 1, num=100)
     f = interp1d(xold, widths, kind="cubic")

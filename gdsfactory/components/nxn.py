@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Any
+
 import numpy as np
 
 import gdsfactory as gf
@@ -18,7 +20,7 @@ def nxn(
     wg_width: float = 0.5,
     layer: LayerSpec = "WG",
     wg_margin: float = 1.0,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Returns a nxn component with nxn ports (west, east, north, south).
 

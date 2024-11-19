@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from functools import partial
+from typing import Any
 
 import numpy as np
 
@@ -16,7 +17,7 @@ wire_straight = partial(straight, cross_section="metal_routing")
 
 @gf.cell
 def wire_corner(
-    cross_section: CrossSectionSpec = "metal_routing", **kwargs
+    cross_section: CrossSectionSpec = "metal_routing", **kwargs: Any
 ) -> Component:
     """Returns 45 degrees electrical corner wire.
 

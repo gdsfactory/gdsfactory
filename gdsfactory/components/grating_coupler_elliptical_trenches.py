@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 from functools import partial
+from typing import Any
 
 import numpy as np
 
 import gdsfactory as gf
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_elliptical import grating_tooth_points
 from gdsfactory.components.taper import taper as taper_function
@@ -12,7 +14,7 @@ from gdsfactory.functions import DEG2RAD
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 
 
-@gf.cell
+@cell
 def grating_coupler_elliptical_trenches(
     polarization: str = "te",
     taper_length: float = 16.6,
@@ -29,7 +31,7 @@ def grating_coupler_elliptical_trenches(
     end_straight_length: float = 0.2,
     taper: ComponentSpec = taper_function,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     r"""Returns Grating coupler with defined trenches.
 

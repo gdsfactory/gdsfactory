@@ -3,7 +3,7 @@ from __future__ import annotations
 from functools import partial
 from typing import Any
 
-from gdsfactory import cell
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_elliptical_arbitrary import (
     grating_coupler_elliptical_arbitrary,
@@ -74,7 +74,7 @@ def grating_coupler_elliptical_lumerical(
     fiber_angle: float = 5,
     info: dict[str, Any] | None = None,
     bias_gap: float = 0,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Returns a grating coupler from lumerical inverse design 3D optimization.
 

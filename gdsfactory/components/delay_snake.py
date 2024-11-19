@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import warnings
+from typing import Any
 
 import gdsfactory as gf
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler180
 from gdsfactory.components.straight import straight
@@ -23,7 +25,7 @@ diagram = r"""
 """
 
 
-@gf.cell
+@cell
 def delay_snake(
     length: float = 1600.0,
     length0: float = 0.0,
@@ -31,7 +33,7 @@ def delay_snake(
     n: int = 2,
     bend180: ComponentSpec = bend_euler180,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     r"""Returns Snake with a starting bend and 180 bends.
 
@@ -60,7 +62,7 @@ def delay_snake(
 
     """
     if n % 2:
-        warnings.warn(f"rounding {n} to {n//2 *2}", stacklevel=3)
+        warnings.warn(f"rounding {n} to {n // 2 * 2}", stacklevel=3)
         n = n // 2 * 2
     bend180 = gf.get_component(bend180, cross_section=cross_section, **kwargs)
 

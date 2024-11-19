@@ -1,9 +1,10 @@
 from __future__ import annotations
 
 from functools import partial
+from typing import Any
 
 import gdsfactory as gf
-from gdsfactory import cell
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.port import Port
 from gdsfactory.typings import CrossSectionSpec, LayerSpec
@@ -20,7 +21,7 @@ def taper(
     port_names: tuple[str, str] = ("o1", "o2"),
     port_types: tuple[str, str] = ("optical", "optical"),
     with_bbox: bool = True,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Linear taper, which tapers only the main cross section section.
 
@@ -102,7 +103,7 @@ def taper(
     return c
 
 
-@gf.cell
+@cell
 def taper_strip_to_ridge(
     length: float = 10.0,
     width1: float = 0.5,
@@ -113,7 +114,7 @@ def taper_strip_to_ridge(
     layer_slab: LayerSpec = "SLAB90",
     cross_section: CrossSectionSpec = "strip",
     use_slab_port: bool = False,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     r"""Linear taper from strip to rib.
 
@@ -227,17 +228,17 @@ def taper_strip_to_ridge_trenches(
 taper_strip_to_slab150 = partial(taper_strip_to_ridge, layer_slab="SLAB150")
 
 
-@gf.cell
+@cell
 def taper_sc_nc(
-    width1=0.5,
-    width2=1,
-    length=20,
-    layer_wg="WG",
-    layer_nitride="WGN",
-    width_tip_nitride=0.15,
-    width_tip_silicon=0.15,
+    width1: float = 0.5,
+    width2: float = 1,
+    length: float = 20,
+    layer_wg: LayerSpec = "WG",
+    layer_nitride: LayerSpec = "WGN",
+    width_tip_nitride: float = 0.15,
+    width_tip_silicon: float = 0.15,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Taper from strip to nitride.
 
@@ -266,7 +267,9 @@ def taper_sc_nc(
     )
 
 
-def taper_nc_sc(width1=1, width2=0.5, length=20, **kwargs) -> Component:
+def taper_nc_sc(
+    width1: float = 1, width2: float = 0.5, length: float = 20, **kwargs: Any
+) -> Component:
     return taper_sc_nc(width2=width1, width1=width2, length=length, **kwargs)
 
 
