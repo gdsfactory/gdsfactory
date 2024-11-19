@@ -39,7 +39,7 @@ def optimal_step(
     superconducting nanocircuits. Physical Review B, 84(17), 1-27.
     """
 
-    def step_points(eta: float, w: float, a: float) -> tuple[float, float]:
+    def step_points(eta: float, W: complex, a: complex) -> tuple[float, float]:
         """Returns step points.
 
         Returns points from a unit semicircle in the w (= u + iv) plane to
@@ -47,26 +47,18 @@ def optimal_step(
         a wire from a width of 'W' to a width of 'a'
         eta takes value 0 to pi
         """
-        w_array = np.array(w, dtype=complex)
-        a_array = np.array(a, dtype=complex)
-
-        gamma = (a_array**2 + w_array**2) / (a_array**2 - w_array**2)
-
-        w_array = np.exp(1j * eta)
-
+        gamma = (a**2 + W**2) / (a**2 - W**2)
+        w = np.exp(1j * eta)
         zeta = (
             4
             * 1j
             / np.pi
             * (
-                w_array * np.arctan(np.sqrt((w_array - gamma) / (gamma + 1)))
-                + a_array * np.arctan(np.sqrt((gamma - 1) / (w_array - gamma)))
+                W * np.arctan(np.sqrt((w - gamma) / (gamma + 1)))
+                + a * np.arctan(np.sqrt((gamma - 1) / (w - gamma)))
             )
         )
-
-        x = np.real(zeta)
-        y = np.imag(zeta)
-        return x, y
+        return np.real(zeta), np.imag(zeta)
 
     def invert_step_point(
         x_desired: float = -10,
@@ -77,7 +69,7 @@ def optimal_step(
         """Finds the eta associated with x_desired or y_desired along the optimal curve."""
 
         def fh(eta: float) -> float:
-            guessed_x, guessed_y = step_points(eta, w=W, a=a)
+            guessed_x, guessed_y = step_points(eta, W=W + 0j, a=a + 0j)
             if y_desired is None:
                 return (guessed_x - x_desired) ** 2  # Error relative to x_desired
             return (guessed_y - y_desired) ** 2  # Error relative to y_desired
@@ -86,7 +78,7 @@ def optimal_step(
 
         # Minimize error to find optimal eta
         found_eta = fminbound(fh, 0, np.pi)
-        return step_points(found_eta, w=W, a=a)
+        return step_points(found_eta, W=W + 0j, a=a + 0j)
 
     if start_width > end_width:
         reverse = True
