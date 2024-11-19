@@ -57,6 +57,7 @@ cad = [
 ]
 dev = [
   "ipykernel",
+  "jupyterlab",
   "jsondiff",
   "jsonschema",
   "pre-commit",
