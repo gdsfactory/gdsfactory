@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.19.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.19.4) - 2024-11-19
+
+No significant changes.
+
+
 ## [8.19.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.19.3) - 2024-11-18
 - Fix spiral [#3402](https://github.com/gdsfactory/gdsfactory/pull/3402)
 - fix docs [#3401](https://github.com/gdsfactory/gdsfactory/pull/3401)
