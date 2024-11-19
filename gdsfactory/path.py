@@ -18,7 +18,6 @@ import numpy as np
 import numpy.typing as npt
 from numpy import mod, pi
 
-from gdsfactory import logger
 from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.component_layout import (
     GeometryHelper,
@@ -112,15 +111,6 @@ class Path(GeometryHelper):
             "ymax",
             "ysize",
         }:
-            logger.warning(
-                f"`Path.{__k}` is deprecated and will be removed soon."
-                f" Please use Path.`d{__k}` instead. For further information, please"
-                "consult the migration guide "
-                "https://gdsfactory.github.io/gdsfactory/notebooks/"
-                "21_migration_guide_7_8.html",
-                # category=DeprecationWarning,
-                # stacklevel=3,
-            )
             return getattr(self, f"d{__k}")
         return super().__getattribute__(__k)
 
@@ -1736,6 +1726,7 @@ if __name__ == "__main__":
     p = gf.path.straight()
     p += gf.path.arc(10)
     p += gf.path.straight()
+    p.movey(10)
 
     # Define a cross-section with a via
     via = gf.cross_section.ComponentAlongPath(

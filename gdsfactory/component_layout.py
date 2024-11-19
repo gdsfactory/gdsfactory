@@ -184,33 +184,21 @@ class GeometryHelper(ABC):
         bbox = self.dbbox
         return float(bbox[1][1] - bbox[0][1])
 
-    def dmovex(
-        self, origin: Coordinate = (0, 0), destination: Coordinate | None = None
-    ) -> Self:
+    def dmovex(self, value: float) -> None:
         """Moves an object by a specified x-distance.
 
         Args:
-            origin: array-like[2], Port, or key Origin point of the move.
-            destination: array-like[2], Port, key, or None Destination point of the move.
+            value: distance to move the object in the x-direction in um.
         """
-        if destination is None:
-            destination = origin
-            origin = (0, 0)
-        return self.dmove(origin=origin, destination=destination)
+        self.dx += value
 
-    def dmovey(
-        self, origin: Coordinate = (0, 0), destination: Coordinate | None = None
-    ) -> Self:
+    def dmovey(self, value: float) -> Self:
         """Moves an object by a specified y-distance.
 
         Args:
-            origin : array-like[2], Port, or key Origin point of the move.
-            destination : array-like[2], Port, or key Destination point of the move.
+            value: distance to move the object in the y-direction in um.
         """
-        if destination is None:
-            destination = origin
-            origin = (0, 0)
-        return self.dmove(origin=origin, destination=destination)
+        self.dy += value
 
 
 def rotate_points(
