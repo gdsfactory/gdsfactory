@@ -9,11 +9,13 @@ from typing import Any
 from gdsfactory.config import CONF
 
 
-def get_name_short(name: str, max_cellname_length=CONF.max_cellname_length) -> str:
+def get_name_short(
+    name: str, max_cellname_length: int = CONF.max_cellname_length
+) -> str:
     """Returns a short name."""
     if len(name) > max_cellname_length:
         name_hash = hashlib.md5(name.encode()).hexdigest()[:8]
-        name = f"{name[:(max_cellname_length - 9)]}_{name_hash}"
+        name = f"{name[: (max_cellname_length - 9)]}_{name_hash}"
     return name
 
 
@@ -30,7 +32,7 @@ def join_first_letters(name: str) -> str:
 component_type_to_name = {"phidl": "phidl"}
 
 
-def get_component_name(component_type: str, *args, **kwargs) -> str:
+def get_component_name(component_type: str, *args: Any, **kwargs: Any) -> str:
     """Returns concatenated kwargs Key_Value."""
     name = component_type + "_".join([clean_value(a) for a in args])
     for k, v in component_type_to_name.items():
@@ -40,7 +42,7 @@ def get_component_name(component_type: str, *args, **kwargs) -> str:
     return name
 
 
-def dict2hash(**kwargs) -> str:
+def dict2hash(**kwargs: Any) -> str:
     ignore_from_name = kwargs.pop("ignore_from_name", [])
     h = hashlib.sha256()
     for key in sorted(kwargs):
@@ -51,10 +53,10 @@ def dict2hash(**kwargs) -> str:
     return h.hexdigest()
 
 
-def dict2name(prefix: str = "", **kwargs) -> str:
+def dict2name(prefix: str = "", **kwargs: Any) -> str:
     """Returns name from a dict."""
     ignore_from_name = kwargs.pop("ignore_from_name", [])
-    kv = []
+    kv: list[str] = []
     kwargs = kwargs.copy()
     kwargs.pop("layer_to_inclusion", "")
 
@@ -68,7 +70,7 @@ def dict2name(prefix: str = "", **kwargs) -> str:
     return clean_name(label)
 
 
-def assert_first_letters_are_different(**kwargs):
+def assert_first_letters_are_different(**kwargs: Any) -> None:
     """Assert that the first letters for each key are different.
 
     Avoids different args that start with the same first letter getting
@@ -84,7 +86,7 @@ def assert_first_letters_are_different(**kwargs):
         )
 
 
-def print_first_letters_warning(**kwargs) -> None:
+def print_first_letters_warning(**kwargs: Any) -> None:
     """Prints kwargs that have same cell."""
     first_letters = [join_first_letters(k) for k in kwargs]
     if len(set(first_letters)) != len(first_letters):
@@ -153,7 +155,7 @@ def clean_name(
         replace_map["."] = ""
 
     # Replace characters using the replace_map
-    def replace_match(match):
+    def replace_match(match: re.Match[str]) -> str:
         return replace_map.get(match.group(0), "")
 
     return re.sub(pattern, replace_match, name)
@@ -184,7 +186,7 @@ if __name__ == "__main__":
     # c = gf.components.straight(polarization="TMeraer")
     # print(c.settings["polarization"])
     # print(clean_value(11.001))
-    c = gf.components.straight(length=10)
+    c = gf.components.straight(length=10)  # type: ignore
 
     # print(c.name)
     # print(c)

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from functools import partial
+from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -25,7 +26,7 @@ def ring_single_dut(
     bend: ComponentSpec = bend_euler,
     with_component: bool = True,
     port_name: str = "o1",
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Single bus ring made of two couplers (ct: top, cb: bottom) connected.
 

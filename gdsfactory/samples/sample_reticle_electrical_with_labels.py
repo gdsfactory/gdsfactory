@@ -3,13 +3,13 @@ from __future__ import annotations
 from typing import Any
 
 import gdsfactory as gf
-from gdsfactory.typings import LayerSpec, PortsOrList
+from gdsfactory.typings import LayerSpec, Ports
 
 layer_label = "TEXT"
 
 
 def label_farthest_right_port(
-    component: gf.Component, ports: PortsOrList, layer: LayerSpec, text: str
+    component: gf.Component, ports: Ports, layer: LayerSpec, text: str
 ) -> gf.Component:
     """Adds a label to the right of the farthest right port in a given component.
 

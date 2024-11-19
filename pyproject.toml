@@ -100,6 +100,7 @@ ignore-words-list = "te, te/tm, te, ba, fpr, fpr_spacing, ro, nd, donot, schem"
 [tool.mypy]
 python_version = "3.11"
 strict = true
+warn_unused_ignores = false
 
 [tool.pylsp-mypy]
 enabled = true

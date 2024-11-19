@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from functools import partial
+from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -83,7 +84,7 @@ def text_rectangular_multi_layer(
     text: str = "abcd",
     layers: LayerSpecs = ("WG", "M1", "M2", "MTOP"),
     text_factory: ComponentSpec = text_rectangular,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Returns rectangular text in different layers.
 

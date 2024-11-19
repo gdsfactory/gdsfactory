@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+from typing import Any
+
 import gdsfactory as gf
-from gdsfactory import cell
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.component_sequence import component_sequence
@@ -18,7 +20,7 @@ def mzi_arm(
     straight: ComponentSpec = straight_function,
     straight_x: ComponentSpec | None = None,
     straight_y: ComponentSpec | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Mzi.
 

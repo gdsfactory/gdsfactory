@@ -1,10 +1,11 @@
 from __future__ import annotations
 
 from functools import partial
+from typing import Any
 
 from numpy import float64
 
-from gdsfactory import cell
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular, bend_circular180
 from gdsfactory.components.bend_euler import bend_euler, bend_euler180
@@ -27,7 +28,7 @@ def cutback_bend(
     straight_length: float = 5.0,
     rows: int = 6,
     cols: int = 5,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Deprecated.
 
@@ -84,7 +85,7 @@ def cutback_bend90(
     rows: int = 6,
     cols: int = 6,
     spacing: int = 5,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Returns bend90 cutback.
 
@@ -139,7 +140,7 @@ def staircase(
     length_v: float = 5.0,
     length_h: float = 5.0,
     rows: int = 4,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Returns staircase.
 
@@ -183,7 +184,7 @@ def cutback_bend180(
     rows: int = 6,
     cols: int = 6,
     spacing: float = 3.0,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Returns cutback to measure u bend loss.
 

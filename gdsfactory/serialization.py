@@ -57,7 +57,7 @@ def complex_encoder(
 
 def clean_value_json(
     value: Any, include_module: bool = True, serialize_function_as_dict: bool = True
-) -> str | int | float | dict | list | bool | None:
+) -> str | int | float | dict[str, Any] | list[Any] | bool | None:
     """Return JSON serializable object.
 
     Args:
