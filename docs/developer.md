@@ -31,6 +31,13 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
 ```
 
+Then you can install gdsfactory with:
+
+```bash
+uv venv --python 3.11
+uv sync
+```
+
 ## Debugging installation
 
 Please note that some PDKs may only work for a specific version of gdsfactory. Ensure you install the correct gdsfactory version specified in the pyproject.toml file. This will automatically happen when you install gdsfactory as one of the PDK dependencies. For example, `pip install cspdk` will install the latest gdsfactory version tested for the CSPDK PDK.

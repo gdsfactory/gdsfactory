@@ -8,7 +8,7 @@ uv:
 
 install:
 	uv venv --python 3.11
-	uv sync
+	uv sync --extra docs --extra dev
 
 dev:
 	pip install -e .[dev,docs] pre-commit
