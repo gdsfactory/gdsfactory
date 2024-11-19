@@ -7,9 +7,7 @@ import math as m
 from typing import Literal
 
 import kfactory as kf
-from kfactory.routing.aa.optical import (
-    OpticalAllAngleRoute,
-)
+from kfactory.routing.aa.optical import OpticalAllAngleRoute
 
 import gdsfactory as gf
 from gdsfactory.component import Component

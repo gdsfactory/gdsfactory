@@ -10,20 +10,14 @@ from gdsfactory.routing.add_fiber_array import add_fiber_array
 from gdsfactory.routing.add_fiber_single import add_fiber_single
 from gdsfactory.routing.add_pads import add_pads_bot, add_pads_top
 from gdsfactory.routing.fanout2x2 import fanout2x2
-from gdsfactory.routing.route_bundle import (
-    route_bundle,
-    route_bundle_electrical,
-)
+from gdsfactory.routing.route_bundle import route_bundle, route_bundle_electrical
 from gdsfactory.routing.route_bundle_all_angle import route_bundle_all_angle
 from gdsfactory.routing.route_bundle_sbend import route_bundle_sbend
 from gdsfactory.routing.route_dubin import route_dubin as route_dubin
 from gdsfactory.routing.route_ports_to_side import route_ports_to_side
 from gdsfactory.routing.route_quad import route_quad
 from gdsfactory.routing.route_sharp import route_sharp
-from gdsfactory.routing.route_single import (
-    route_single,
-    route_single_electrical,
-)
+from gdsfactory.routing.route_single import route_single, route_single_electrical
 from gdsfactory.routing.route_single_from_steps import (
     route_single_from_steps,
     route_single_from_steps_electrical,

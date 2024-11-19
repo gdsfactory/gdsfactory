@@ -9,11 +9,7 @@ from gdsfactory.components.grating_coupler_elliptical_trenches import grating_co
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.route_fiber_array import route_fiber_array
-from gdsfactory.typings import (
-    ComponentSpec,
-    ComponentSpecOrList,
-    CrossSectionSpec,
-)
+from gdsfactory.typings import ComponentSpec, ComponentSpecOrList, CrossSectionSpec
 
 
 def add_fiber_single(

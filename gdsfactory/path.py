@@ -39,7 +39,6 @@ if TYPE_CHECKING:
         AngleInDegrees,
         ComponentSpec,
         Coordinate,
-        Coordinates,
         CrossSectionSpec,
         LayerSpec,
         WidthTypes,
@@ -593,26 +592,24 @@ def transition_exponential(
     return lambda t: y1 + (y2 - y1) * t**exp
 
 
-adiabatic_polyfit_TE1550SOI_220nm = np.array(
-    [
-        1.02478963e-09,
-        -8.65556534e-08,
-        3.32415694e-06,
-        -7.68408985e-05,
-        1.19282177e-03,
-        -1.31366332e-02,
-        1.05721429e-01,
-        -6.31057637e-01,
-        2.80689677e00,
-        -9.26867694e00,
-        2.24535191e01,
-        -3.90664800e01,
-        4.71899278e01,
-        -3.74726005e01,
-        1.77381560e01,
-        -1.12666286e00,
-    ]
-)
+adiabatic_polyfit_TE1550SOI_220nm = np.array([
+    1.02478963e-09,
+    -8.65556534e-08,
+    3.32415694e-06,
+    -7.68408985e-05,
+    1.19282177e-03,
+    -1.31366332e-02,
+    1.05721429e-01,
+    -6.31057637e-01,
+    2.80689677e00,
+    -9.26867694e00,
+    2.24535191e01,
+    -3.90664800e01,
+    4.71899278e01,
+    -3.74726005e01,
+    1.77381560e01,
+    -1.12666286e00,
+])
 
 
 def transition_adiabatic(
@@ -825,10 +822,7 @@ def extrude(
                 by more than the value listed here will be removed.
         all_angle: if True, the bend is drawn with a single euler curve.
     """
-    from gdsfactory.pdk import (
-        get_cross_section,
-        get_layer,
-    )
+    from gdsfactory.pdk import get_cross_section, get_layer
 
     if cross_section is None and layer is None:
         raise ValueError("CrossSection or layer needed")
@@ -878,12 +872,10 @@ def extrude(
             p_pts = p_sec.points
 
             # This excludes the first point, so length of output array is smaller by 1
-            p_xy_segment_lengths = np.array(
-                [
-                    np.diff(p_pts[:, 0]),
-                    np.diff(p_pts[:, 1]),
-                ]
-            ).T
+            p_xy_segment_lengths = np.array([
+                np.diff(p_pts[:, 0]),
+                np.diff(p_pts[:, 1]),
+            ]).T
 
             # Using the axis=1 makes output equivalent to [np.linalg.norm(p_xy_segment_lengths[i, :])
             #                                              for i
@@ -983,13 +975,11 @@ def extrude(
             new_start_point = v_start_inset + p_pts[start_diff_idx + 1, :]
             new_stop_point = v_stop_inset + p_pts[stop_diff_idx, :]
 
-            p_sec = Path(
-                [
-                    new_start_point,
-                    *p_pts[start_diff_idx + 1 : stop_diff_idx],
-                    new_stop_point,
-                ]
-            )
+            p_sec = Path([
+                new_start_point,
+                *p_pts[start_diff_idx + 1 : stop_diff_idx],
+                new_stop_point,
+            ])
 
         if callable(offset_function):
             p_sec.offset(offset_function)
@@ -1264,8 +1254,10 @@ def extrude_transition(
 
 
 def _rotated_delta(
-    point: np.ndarray, center: npt.NDArray[np.float64], orientation: AngleInDegrees
-) -> np.ndarray:
+    point: npt.NDArray[np.float64],
+    center: npt.NDArray[np.float64],
+    orientation: AngleInDegrees,
+) -> npt.NDArray[np.float64]:
     """Gets the rotated distance of a point from a center.
 
     Args:
@@ -1282,13 +1274,13 @@ def _rotated_delta(
     return np.dot(delta, rot_mat)
 
 
-def _cut_path_with_ray(
-    start_point: np.ndarray,
+def _cut_path_with_ray(  # type: ignore
+    start_point: npt.NDArray[np.float64],
     start_angle: float | None,
-    end_point: np.ndarray,
+    end_point: npt.NDArray[np.float64],
     end_angle: float | None,
-    path: np.ndarray,
-) -> np.ndarray:
+    path: npt.NDArray[np.float64],
+) -> npt.NDArray[np.float64]:
     """Cuts or extends a path given a point and angle to project."""
     import shapely.geometry as sg
     import shapely.ops
@@ -1307,7 +1299,7 @@ def _cut_path_with_ray(
     path_cmp[-1] += d_ext
 
     intersections = [sg.Point(path[0]), sg.Point(path[-1])]
-    distances = []
+    distances: list[float] = []
     ls = sg.LineString(path_cmp)
     for i, angle, point in [(0, start_angle, start_point), (1, end_angle, end_point)]:
         if angle:
@@ -1344,10 +1336,10 @@ def _cut_path_with_ray(
 
 
 def arc(
-    radius: float = 10.0,
+    radius: float | None = 10.0,
     angle: float = 90,
     npoints: int | None = None,
-    start_angle: float | None = -90,
+    start_angle: float = -90,
 ) -> Path:
     """Returns a radial arc.
 
@@ -1402,7 +1394,7 @@ def _fresnel(
         num_pts: Number of points to generate.
         n_iter: Number of iterations to use in the series expansion.
     """
-    t = np.linspace(0, s / (np.sqrt(2) * R0), num_pts)
+    t = np.linspace(0, s / float(np.sqrt(2) * R0), num_pts)
     x = np.zeros(num_pts)
     y = np.zeros(num_pts)
 
@@ -1454,10 +1446,10 @@ def euler(
     if (p < 0) or (p > 1):
         raise ValueError("euler requires argument `p` be between 0 and 1")
     if p == 0:
-        P = arc(radius=radius, angle=angle, npoints=npoints)
-        P.info["Reff"] = radius
-        P.info["Rmin"] = radius
-        return P
+        path = arc(radius=radius, angle=angle, npoints=npoints)
+        path.info["Reff"] = radius
+        path.info["Rmin"] = radius
+        return path
 
     if angle < 0:
         mirror = True
@@ -1468,8 +1460,8 @@ def euler(
     R0 = 1
     alpha = np.radians(angle)
     Rp = R0 / (np.sqrt(p * alpha))
-    sp = R0 * np.sqrt(p * alpha)
-    s0 = 2 * sp + Rp * alpha * (1 - p)
+    sp = float(R0 * np.sqrt(p * alpha))
+    s0 = float(2 * sp + Rp * alpha * (1 - p))
 
     pdk = get_active_pdk()
     npoints = npoints or abs(int(angle / 360 * radius / pdk.bend_points_distance / 2))
@@ -1522,17 +1514,17 @@ def euler(
     scale = radius / Reff if use_eff else radius / Rmin
     points *= scale
 
-    P = Path()
+    path = Path()
 
     # Manually add points & adjust start and end angles
-    P.points = points
-    P.start_angle = start_angle
-    P.end_angle = end_angle
-    P.info["Reff"] = Reff * scale
-    P.info["Rmin"] = Rmin * scale
+    path.points = points
+    path.start_angle = start_angle
+    path.end_angle = end_angle
+    path.info["Reff"] = Reff * scale
+    path.info["Rmin"] = Rmin * scale
     if mirror:
-        P.dmirror((1, 0))
-    return P
+        path.dmirror((1, 0))
+    return path
 
 
 def straight(length: float = 10.0, npoints: int = 2) -> Path:
@@ -1577,11 +1569,11 @@ def spiral_archimedean(
 
     """
     return Path(
-        [
+        np.array([
             (separation / np.pi * theta + min_bend_radius)
             * np.array((np.sin(theta), np.cos(theta)))
             for theta in np.linspace(0, number_of_loops * 2 * np.pi, npoints)
-        ]
+        ])
     )
 
 
@@ -1607,7 +1599,7 @@ def _compute_segments(
 
 
 def smooth(
-    points: Coordinates,
+    points: npt.NDArray[np.floating[Any]],
     radius: float = 4.0,
     bend: PathFactory = euler,
     **kwargs: Any,
@@ -1708,7 +1700,6 @@ if __name__ == "__main__":
     # s1 = gf.Section(width=3, offset=0, layer=(3, 0), name="slab")
     # x1 = gf.CrossSection(sections=(s0, s1))
     # x1 = gf.cross_section.rib
-
     # layer = (1, 0)
     # s1 = gf.Section(width=5, layer=layer, port_names=("o1", "o2"), name="core")
     # s2 = gf.Section(width=50, layer=layer, port_names=("o1", "o2"), name="core")
@@ -1720,7 +1711,6 @@ if __name__ == "__main__":
     # trans21 = gf.path.transition(
     #     cross_section1=xs2, cross_section2=xs1, width_type="linear"
     # )
-
     # WG4Path = gf.Path()
     # WG4Path.append(gf.path.straight(length=100, npoints=2))
     # c1 = gf.path.extrude_transition(WG4Path, trans12)

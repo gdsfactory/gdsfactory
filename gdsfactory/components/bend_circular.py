@@ -6,19 +6,19 @@ import gdsfactory as gf
 from gdsfactory.component import Component, ComponentAllAngle, ComponentBase
 from gdsfactory.path import arc
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.typings import CrossSectionSpec
+from gdsfactory.typings import CrossSectionSpec, LayerSpec
 
 
 def _bend_circular(
     radius: float | None = None,
     angle: float = 90.0,
     npoints: int | None = None,
-    layer: gf.typings.LayerSpec | None = None,
+    layer: LayerSpec | None = None,
     width: float | None = None,
     cross_section: CrossSectionSpec = "strip",
     allow_min_radius_violation: bool = False,
     all_angle: bool = False,
-) -> ComponentBase:
+) -> Component | ComponentAllAngle:
     """Returns a radial arc.
 
     Args:
@@ -80,7 +80,7 @@ def bend_circular(
     width: float | None = None,
     cross_section: CrossSectionSpec = "strip",
     allow_min_radius_violation: bool = False,
-) -> Component:
+) -> ComponentBase:
     """Returns a radial arc.
 
     Args:
@@ -117,7 +117,7 @@ def bend_circular_all_angle(
     width: float | None = None,
     cross_section: CrossSectionSpec = "strip",
     allow_min_radius_violation: bool = False,
-) -> ComponentAllAngle:
+) -> ComponentBase:
     """Returns a radial arc.
 
     Args:

@@ -119,6 +119,7 @@ LayerSpecs: TypeAlias = Sequence[LayerSpec]
 
 ComponentParams = ParamSpec("ComponentParams")
 ComponentFactory: TypeAlias = Callable[..., Component]
+ComponentBaseFactory: TypeAlias = Callable[..., ComponentBase]
 ComponentFactoryDict: TypeAlias = dict[str, ComponentFactory]
 PathType: TypeAlias = str | pathlib.Path
 PathTypes: TypeAlias = Sequence[PathType]
@@ -160,9 +161,9 @@ ComponentSpecOrComponent: TypeAlias = (
     str | ComponentFactory | dict[str, Any] | kf.KCell | Component
 )
 
-ComponentSpecs: TypeAlias = tuple[ComponentSpec, ...]
+ComponentSpecs: TypeAlias = Sequence[ComponentSpec]
 ComponentSpecsOrComponents: TypeAlias = Sequence[ComponentSpecOrComponent]
-ComponentFactories: TypeAlias = tuple[ComponentFactory, ...]
+ComponentFactories: TypeAlias = Sequence[ComponentFactory]
 
 ComponentSpecOrList: TypeAlias = ComponentSpec | list[ComponentSpec]
 CellSpec: TypeAlias = (

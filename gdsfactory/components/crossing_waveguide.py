@@ -10,10 +10,7 @@ from numpy import float64
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.components.bezier import (
-    bezier,
-    find_min_curv_bezier_control_points,
-)
+from gdsfactory.components.bezier import bezier, find_min_curv_bezier_control_points
 from gdsfactory.components.ellipse import ellipse
 from gdsfactory.components.taper import taper
 from gdsfactory.typings import (
