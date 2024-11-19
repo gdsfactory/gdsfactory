@@ -1,12 +1,11 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.19.3...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.19.4...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.19.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.19.4) - 2024-11-19
 
-No significant changes.
-
+- fixes PortWidthMismatch error when setting cross_section in MZI [#3404](https://github.com/gdsfactory/gdsfactory/pull/3404)
 
 ## [8.19.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.19.3) - 2024-11-18
 - Fix spiral [#3402](https://github.com/gdsfactory/gdsfactory/pull/3402)
