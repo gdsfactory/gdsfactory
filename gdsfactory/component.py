@@ -15,7 +15,7 @@ from kfactory import Instance, kdb
 from kfactory.kcell import PROPID, cell, save_layout_options
 from trimesh.scene.scene import Scene
 
-from gdsfactory.config import GDSDIR_TEMP
+from gdsfactory.config import CONF, GDSDIR_TEMP
 from gdsfactory.functions import get_polygons, get_polygons_points
 from gdsfactory.port import pprint_ports, select_ports, to_dict
 from gdsfactory.serialization import clean_value_json, convert_tuples_to_lists
@@ -824,9 +824,7 @@ class ComponentBase:
         gdsdir = gdsdir or GDSDIR_TEMP
         gdsdir = pathlib.Path(gdsdir)
         gdsdir.mkdir(parents=True, exist_ok=True)
-        gdspath = (
-            gdspath or gdsdir / f"{self.name[: kf.config.max_cellname_length]}.gds"
-        )
+        gdspath = gdspath or gdsdir / f"{self.name[: CONF.max_cellname_length]}.gds"
         gdspath = pathlib.Path(gdspath)
 
         if not gdspath.parent.is_dir():
@@ -1039,12 +1037,10 @@ class ComponentBase:
                 connections = net.get("connections", {})
                 connections = _nets_to_connections(nets, connections)
                 placements = net["placements"]
-                G.add_edges_from(
-                    [
-                        (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
-                        for k, v in connections.items()
-                    ]
-                )
+                G.add_edges_from([
+                    (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
+                    for k, v in connections.items()
+                ])
                 pos |= {k: (v["x"], v["y"]) for k, v in placements.items()}
                 labels |= {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
 
@@ -1053,12 +1049,10 @@ class ComponentBase:
             connections = netlist.get("connections", {})
             connections = _nets_to_connections(nets, connections)
             placements = netlist["placements"]
-            G.add_edges_from(
-                [
-                    (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
-                    for k, v in connections.items()
-                ]
-            )
+            G.add_edges_from([
+                (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
+                for k, v in connections.items()
+            ])
             pos = {k: (v["x"], v["y"]) for k, v in placements.items()}
             labels = {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
 

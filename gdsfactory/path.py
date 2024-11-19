@@ -653,7 +653,7 @@ def transition_adiabatic(
         [2] Fu, Yunfei, et al. "Efficient adiabatic silicon-on-insulator waveguide taper."
             Photonics Res., vol. 2, no. 3, 1 June 2014, pp. A41-A44, doi:10.1364/PRJ.2.000A41.
     """
-    from scipy.integrate import odeint
+    from scipy.integrate import odeint  # type: ignore
 
     # Define ODE
     def dWdx(
