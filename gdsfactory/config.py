@@ -16,7 +16,7 @@ from rich.table import Table
 if TYPE_CHECKING:
     pass
 
-__version__ = "8.19.1"
+__version__ = "8.19.2"
 PathType = str | pathlib.Path
 
 home = pathlib.Path.home()
@@ -90,7 +90,7 @@ def print_version_plugins_raw() -> None:
             print(plugin, "not installed", "")
 
 
-class Confing(Settings):
+class Config(Settings):
     difftest_ignore_label_differences: bool
     difftest_ignore_sliver_differences: bool
     difftest_ignore_cell_name_differences: bool
@@ -102,7 +102,7 @@ class Confing(Settings):
     port_types_grating_couplers: list[str]
 
 
-CONF: Confing = config
+CONF: Config = config
 CONF.difftest_ignore_label_differences = False
 CONF.difftest_ignore_sliver_differences = False
 CONF.difftest_ignore_cell_name_differences = True

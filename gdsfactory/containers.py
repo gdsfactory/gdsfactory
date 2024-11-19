@@ -1,3 +1,5 @@
+"""Containers are components that contain other components."""
+
 from gdsfactory.add_padding import add_padding_to_size, add_padding_to_size_container
 from gdsfactory.components.add_fiber_array_optical_south_electrical_north import (
     add_fiber_array_optical_south_electrical_north,
@@ -28,6 +30,14 @@ from gdsfactory.components.cutback_loss import (
 from gdsfactory.components.cutback_splitter import cutback_splitter
 from gdsfactory.components.extension import extend_ports
 from gdsfactory.components.pack_doe import pack_doe, pack_doe_grid
+from gdsfactory.functions import (
+    extract,
+    move_port_to_zero,
+    rotate90,
+    rotate180,
+    rotate270,
+    trim,
+)
 from gdsfactory.routing.add_electrical_pads_shortest import add_electrical_pads_shortest
 from gdsfactory.routing.add_electrical_pads_top import add_electrical_pads_top
 from gdsfactory.routing.add_electrical_pads_top_dc import add_electrical_pads_top_dc
@@ -74,4 +84,10 @@ __all__ = [
     "cutback_loss_spirals",
     "cutback_splitter",
     "extend_ports",
+    "move_port_to_zero",
+    "extract",
+    "trim",
+    "rotate90",
+    "rotate270",
+    "rotate180",
 ]

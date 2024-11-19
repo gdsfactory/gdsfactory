@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import warnings
+from functools import partial
 from typing import TYPE_CHECKING, Literal
 
 import kfactory as kf
@@ -12,7 +13,7 @@ import gdsfactory as gf
 
 if TYPE_CHECKING:
     from gdsfactory.component import Component, Instance
-    from gdsfactory.typings import Delta, LayerSpec, LayerSpecs
+    from gdsfactory.typings import LayerSpec, LayerSpecs
 
 RAD2DEG = 180.0 / np.pi
 DEG2RAD = 1 / RAD2DEG
@@ -94,9 +95,7 @@ def extract(
     return c
 
 
-def move_to_center(
-    component: Component, dx: "Delta" = 0, dy: "Delta" = 0
-) -> gf.Component:
+def move_to_center(component: Component, dx: float = 0, dy: float = 0) -> gf.Component:
     """Moves the component to the center of the bounding box."""
     c = component
     c.transform(
@@ -107,7 +106,7 @@ def move_to_center(
 
 
 def move_port(
-    component: Component, port_name: str, dx: "Delta" = 0, dy: "Delta" = 0
+    component: Component, port_name: str, dx: float = 0, dy: float = 0
 ) -> gf.Component:
     """Moves the component port to a specific location.
 
@@ -205,27 +204,31 @@ def get_polygons_points(
         all_points = []
         for polygon in polygons:
             if scale:
-                points = np.array([
-                    (point.x * scale, point.y * scale)
-                    for point in polygon.to_simple_polygon()
-                    .to_dtype(component_or_instance.kcl.dbu)
-                    .each_point()
-                ])
+                points = np.array(
+                    [
+                        (point.x * scale, point.y * scale)
+                        for point in polygon.to_simple_polygon()
+                        .to_dtype(component_or_instance.kcl.dbu)
+                        .each_point()
+                    ]
+                )
             else:
-                points = np.array([
-                    (point.x, point.y)
-                    for point in polygon.to_simple_polygon()
-                    .to_dtype(component_or_instance.kcl.dbu)
-                    .each_point()
-                ])
+                points = np.array(
+                    [
+                        (point.x, point.y)
+                        for point in polygon.to_simple_polygon()
+                        .to_dtype(component_or_instance.kcl.dbu)
+                        .each_point()
+                    ]
+                )
             all_points.append(points)
         polygons_points[layer] = all_points
     return polygons_points
 
 
 def get_point_inside(
-    component_or_instance: Component | Instance, layer: "LayerSpec"
-) -> npt.NDArray[np.float64]:
+    component_or_instance: Component | Instance, layer: LayerSpec
+) -> np.ndarray:
     """Returns a point inside the component or instance.
 
     Args:
@@ -439,11 +442,36 @@ def trim(
     return component
 
 
+@gf.cell
+def rotate(component: Component, angle: float) -> gf.Component:
+    """Rotate a component by an angle in degrees.
+
+    Args:
+        component: to rotate.
+        angle: in degrees.
+
+    Returns: Rotated component.
+    """
+    c = gf.Component()
+    component = gf.get_component(component)
+    ref = c.add_ref(component)
+    ref.rotate(angle=angle)
+    c.add_ports(ref.ports)
+    c.copy_child_info(component)
+    return c
+
+
+rotate90 = partial(rotate, angle=90)
+rotate180 = partial(rotate, angle=180)
+rotate270 = partial(rotate, angle=270)
+
+
 if __name__ == "__main__":
     c = gf.components.ring_single()
-    c = gf.components.straight_pin(length=11, taper=None)
+    c = rotate(c, -90)
+    # c = gf.components.straight_pin(length=11, taper=None)
     # c.trim(left=0, right=10, bottom=0, top=10)
-    c = trim(c, domain=[[0, 0], [0, 10], [10, 10], [10, 0]])
+    # c = trim(c, domain=[[0, 0], [0, 10], [10, 10], [10, 0]])
     c.show()
 
     # c = gf.c.rectangle(size=(10, 10), centered=True)

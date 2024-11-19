@@ -31,7 +31,7 @@ dependencies = [
   "toolz<2",
   "types-PyYAML",
   "typer<1",
-  "kfactory[ipy]==0.21.7",
+  "kfactory[ipy]==0.21.10",
   "watchdog<7",
   "freetype-py",
   "mapbox_earcut",
@@ -49,7 +49,7 @@ license = {file = "LICENSE"}
 name = "gdsfactory"
 readme = "README.md"
 requires-python = ">=3.10,<3.13"
-version = "8.19.1"
+version = "8.19.2"
 
 [project.optional-dependencies]
 cad = [
@@ -101,7 +101,6 @@ ignore-words-list = "te, te/tm, te, ba, fpr, fpr_spacing, ro, nd, donot, schem"
 python_version = "3.11"
 strict = true
 warn_unused_ignores = false
-
 
 [tool.pylsp-mypy]
 enabled = true
@@ -235,7 +234,7 @@ message_template = "Bump to {new_version}"
 tag_template = "v{new_version}"
 
 [tool.tbump.version]
-current = "8.19.1"
+current = "8.19.2"
 regex = '''
   (?P<major>\d+)
   \.
