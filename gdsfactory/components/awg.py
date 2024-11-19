@@ -8,7 +8,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.typings import CrossSectionSpec
+from gdsfactory.typings import ComponentFactory, CrossSectionSpec
 
 
 @gf.cell
@@ -104,8 +104,8 @@ free_propagation_region_output = partial(
 def awg(
     arms: int = 10,
     outputs: int = 3,
-    free_propagation_region_input_function=free_propagation_region_input,
-    free_propagation_region_output_function=free_propagation_region_output,
+    free_propagation_region_input_function: ComponentFactory = free_propagation_region_input,
+    free_propagation_region_output_function: ComponentFactory = free_propagation_region_output,
     fpr_spacing: float = 50.0,
     arm_spacing: float = 1.0,
     cross_section: CrossSectionSpec = "strip",

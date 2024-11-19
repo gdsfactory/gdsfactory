@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 from functools import partial
+from typing import Any
 
 import gdsfactory as gf
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler180
 from gdsfactory.components.component_sequence import component_sequence
@@ -11,7 +13,7 @@ from gdsfactory.components.taper_from_csv import taper_0p5_to_3_l36
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell
+@cell
 def cutback_component(
     component: ComponentSpec = taper_0p5_to_3_l36,
     cols: int = 4,
@@ -26,7 +28,7 @@ def cutback_component(
     straight_length_pair: float | None = None,
     straight: ComponentSpec = straight_function,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Returns a daisy chain of components for measuring their loss.
 

@@ -1,9 +1,11 @@
 from __future__ import annotations
 
 import numpy as np
+import numpy.typing as npt
 from numpy import ndarray
 
 import gdsfactory as gf
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.config import ErrorType
 from gdsfactory.functions import angles_deg, curvature, snap_angle
@@ -30,7 +32,7 @@ def bezier_curve(t: ndarray, control_points: Coordinates) -> ndarray:
     return np.column_stack([xs, ys])
 
 
-@gf.cell
+@cell
 def bezier(
     control_points: Coordinates = ((0.0, 0.0), (5.0, 0.0), (5.0, 1.8), (10.0, 1.8)),
     npoints: int = 201,
@@ -89,7 +91,7 @@ def bezier(
 
 
 def find_min_curv_bezier_control_points(
-    start_point: ndarray,
+    start_point: npt.NDArray[np.float64],
     end_point: Coordinate,
     start_angle: float,
     end_angle: float,
@@ -112,12 +114,12 @@ def find_min_curv_bezier_control_points(
 
     t = np.linspace(0, 1, npoints)
 
-    def array_1d_to_cpts(a):
+    def array_1d_to_cpts(a: npt.NDArray[np.float64]) -> list[tuple[float, float]]:
         xs = a[::2]
         ys = a[1::2]
         return list(zip(xs, ys))
 
-    def objective_func(p):
+    def objective_func(p: npt.NDArray[np.float64]) -> float:
         """Minimize  max curvaturea and negligible start angle and end angle mismatch."""
         ps = array_1d_to_cpts(p)
         control_points = [start_point] + ps + [end_point]

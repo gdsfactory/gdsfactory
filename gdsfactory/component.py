@@ -1085,7 +1085,7 @@ class ComponentBase:
     def to_graphviz(
         self,
         recursive: bool = False,
-    ):
+    ) -> nx.DiGraph:
         """Returns a netlist graph with graphviz.
 
         Args:

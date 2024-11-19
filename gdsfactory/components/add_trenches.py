@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from functools import partial
+from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.components.bbox import bbox
@@ -20,7 +21,7 @@ def add_trenches(
     bot: float | None = None,
     right: float | None = 0,
     left: float | None = 0,
-    **kwargs,
+    **kwargs: Any,
 ) -> gf.Component:
     """Return component with trenches.
 

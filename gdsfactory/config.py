@@ -9,7 +9,7 @@ import tempfile
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
-from kfactory.conf import config, Settings, get_affinity
+from kfactory.conf import Settings, config, get_affinity
 from rich.console import Console
 from rich.table import Table
 
