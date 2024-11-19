@@ -773,7 +773,7 @@ class LayerViews(BaseModel):
     def __init__(
         self,
         filepath: PathLike | None = None,
-        layers: LayerEnum | None = None,
+        layers: type[LayerEnum] | None = None,
         **data: Any,
     ) -> None:
         """Initialize LayerViews object.
