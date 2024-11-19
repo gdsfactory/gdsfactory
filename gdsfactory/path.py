@@ -12,7 +12,7 @@ import hashlib
 import math
 import warnings
 from collections.abc import Callable, Iterator
-from typing import TYPE_CHECKING, Any, Self
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 import numpy.typing as npt
@@ -33,6 +33,8 @@ from gdsfactory.cross_section import (  # type: ignore[attr-defined]
 from gdsfactory.typings import Axis
 
 if TYPE_CHECKING:
+    from typing import Self
+
     from gdsfactory.typings import (
         AngleInDegrees,
         ComponentSpec,

@@ -7,7 +7,10 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
-from typing import Any, Self
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from typing import Any, Self
 
 import numpy as np
 import numpy.typing as npt
