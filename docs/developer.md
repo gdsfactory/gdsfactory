@@ -17,7 +17,7 @@ pip install git+https://github.com/gdsfactory/gdsfactory --force-reinstall
 ```
 
 
-## Installation for developers
+## Installation for contributors
 
 We recommend `uv` for installing your environment.
 
@@ -35,7 +35,27 @@ Then you can install gdsfactory with:
 
 ```bash
 uv venv --python 3.11
-uv sync
+uv sync --extra docs --extra dev
+```
+
+As a contributor, if you are on windows you need to download [Git](https://git-scm.com/download/win) and optionally [GitHub Desktop](https://desktop.github.com/).
+
+Then you need to fork the [GitHub repository](https://github.com/gdsfactory/gdsfactory), git clone it (download it), git add, git commit, git push your improvement. Then pull request your changes to the main branch from the GitHub website.
+
+The following lines will:
+
+- clone your gdsfactory fork (make sure you change `YourUserName` with your GitHub user name)
+- download the GDS reference files for running GDS regressions from a separate [repo](https://github.com/gdsfactory/gdsfactory-test-data/tree/test-data)
+- install gdsfactory on your computer in `-e` edit mode.
+- install pre-commit hooks for making sure your code syntax and style matches some basic rules.
+
+```
+git clone git@github.com:YourUserName/gdsfactory.git
+cd gdsfactory
+git clone https://github.com/gdsfactory/gdsfactory-test-data.git -b test_klayout test-data-gds
+uv venv --python 3.11
+uv sync --extra docs --extra dev
+uv run pre-commit install
 ```
 
 ## Debugging installation
@@ -60,27 +80,6 @@ You can [download](https://github.com/gdsfactory/gdsfactory/archive/refs/heads/m
 We recommend running the tutorials with VSCode but you can also install and run them with jupyterlab.
 ```
 pip install jupyterlab
-```
-
-## Installation for contributors
-
-As a contributor, if you are on windows you need to download [Git](https://git-scm.com/download/win) and optionally [GitHub Desktop](https://desktop.github.com/).
-
-Then you need to fork the [GitHub repository](https://github.com/gdsfactory/gdsfactory), git clone it (download it), git add, git commit, git push your improvement. Then pull request your changes to the main branch from the GitHub website.
-
-The following lines will:
-
-- clone your gdsfactory fork (make sure you change `YourUserName` with your GitHub user name)
-- download the GDS reference files for running GDS regressions from a separate [repo](https://github.com/gdsfactory/gdsfactory-test-data/tree/test-data)
-- install gdsfactory on your computer in `-e` edit mode.
-- install pre-commit hooks for making sure your code syntax and style matches some basic rules.
-
-```
-git clone git@github.com:YourUserName/gdsfactory.git
-cd gdsfactory
-git clone https://github.com/gdsfactory/gdsfactory-test-data.git -b test_klayout test-data-gds
-pip install -e .[dev]
-pre-commit install
 ```
 
 
