@@ -114,7 +114,12 @@ def route_single(
             raise ValueError(
                 f"Either {cross_section=} or {layer=} and route_width must be provided"
             )
-        elif radius is not None:
+
+        elif radius:
+            cross_section = gf.cross_section.cross_section(
+                layer=layer, width=route_width, radius=radius
+            )
+        else:
             cross_section = gf.cross_section.cross_section(
                 layer=layer, width=route_width
             )
