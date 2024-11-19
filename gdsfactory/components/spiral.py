@@ -24,10 +24,10 @@ def spiral(
         n_loops: number of loops.
     """
     c = gf.Component()
-    xs = gf.get_cross_section(cross_section)
-
     b = gf.get_component(bend, cross_section=cross_section)
-    radius = xs.radius
+    if "radius" not in b.info:
+        raise ValueError(f"bend component {b} must have a radius info field")
+    radius = b.info["radius"]
     _length = length
 
     b_inners = [c << b for _ in range(4)]
