@@ -119,8 +119,6 @@ def route_single(
                 layer=layer, width=route_width
             )
 
-    assert cross_section is not None, "cross_section or radius is required"
-
     port_type = port_type or p1.port_type
     xs = gf.get_cross_section(cross_section)
     width = route_width or xs.width
