@@ -958,9 +958,12 @@ class LayerViews(BaseModel):
         scale = size / 100
         num_layers = len(self.get_layer_views())
         matrix_size = int(np.ceil(np.sqrt(num_layers)))
-        sorted_layers = sorted(
-            self.get_layer_views().values(), key=lambda x: (x.layer[0], x.layer[1])
-        )
+        layer_views = self.get_layer_views()
+
+        non_empty_layers = [v for v in layer_views.values() if v.layer is not None]
+
+        sorted_layers = sorted(non_empty_layers, key=lambda x: (x.layer[0], x.layer[1]))
+
         for n, layer in enumerate(sorted_layers):
             layer_tuple = layer.layer
             rectangle = gf.components.rectangle(
