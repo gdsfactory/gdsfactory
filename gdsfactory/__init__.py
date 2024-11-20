@@ -24,7 +24,7 @@ from gdsfactory.component import (
     container,
     component_with_function,
 )
-from gdsfactory.config import CONF, PATH
+from gdsfactory.config import CONF, PATH, __version__
 from gdsfactory.port import Port
 from gdsfactory.read.import_gds import import_gds
 from gdsfactory.cross_section import (
@@ -148,4 +148,5 @@ __all__ = (
     "vcell",
     "write_cells",
     "xsection",
+    "__version__",
 )
