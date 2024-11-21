@@ -32,8 +32,8 @@ class Instance(BaseModel):
     info: dict[str, Any] = Field(default_factory=dict, exclude=True)
     columns: int = 1
     rows: int = 1
-    column_pitch: float = 10
-    row_pitch: float = 10
+    column_pitch: float = 0
+    row_pitch: float = 0
 
     model_config = {"extra": "forbid"}
 
