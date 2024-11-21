@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import warnings
 from collections.abc import Iterable
 
 import gdsfactory as gf
@@ -11,13 +12,15 @@ from gdsfactory.typings import Callable, ComponentSpec, Float2
 @cell
 def array(
     component: ComponentSpec = "pad",
-    spacing: tuple[float, float] = (150.0, 150.0),
+    spacing: tuple[float, float] | None = None,
     columns: int = 6,
     rows: int = 1,
     add_ports: bool = True,
     size: Float2 | None = None,
     centered: bool = False,
     post_process: Iterable[Callable] | None = None,
+    column_pitch: float = 100,
+    row_pitch: float = 100,
     auto_rename_ports: bool = False,
 ) -> Component:
     """Returns an array of components.
@@ -31,6 +34,8 @@ def array(
         size: Optional x, y size. Overrides columns and rows.
         centered: center the array around the origin.
         post_process: function to apply to the array after creation.
+        column_pitch: pitch between columns.
+        row_pitch: pitch between rows.
         auto_rename_ports: True to auto rename ports.
 
     Raises:
@@ -40,6 +45,9 @@ def array(
     .. code::
 
         2 rows x 4 columns
+
+          column_pitch
+          <---------->
          ___        ___       ___          ___
         |   |      |   |     |   |        |   |
         |___|      |___|     |___|        |___|
@@ -48,19 +56,30 @@ def array(
         |   |      |   |     |   |        |   |
         |___|      |___|     |___|        |___|
     """
+    if spacing:
+        warnings.warn("spacing is deprecated, use column_pitch and row_pitch")
+        column_pitch, row_pitch = spacing
+
     if size:
-        columns = int(size[0] / spacing[0])
-        rows = int(size[1] / spacing[1])
+        columns = int(size[0] / column_pitch)
+        rows = int(size[1] / row_pitch)
 
-    if rows > 1 and spacing[1] == 0:
-        raise ValueError(f"rows = {rows} > 1 require spacing[1] > 0")
+    if rows > 1 and row_pitch == 0:
+        raise ValueError(f"rows = {rows} > 1 require {row_pitch=} > 0")
 
-    if columns > 1 and spacing[0] == 0:
-        raise ValueError(f"columns = {columns} > 1 require spacing[0] > 0")
+    if columns > 1 and column_pitch == 0:
+        raise ValueError(f"columns = {columns} > 1 require {column_pitch} > 0")
 
     c = Component()
     component = gf.get_component(component)
-    ref = c.add_ref(component, columns=columns, rows=rows, spacing=spacing)
+    ref = c.add_ref(
+        component,
+        columns=columns,
+        rows=rows,
+        spacing=spacing,
+        column_pitch=column_pitch,
+        row_pitch=row_pitch,
+    )
     old_center = ref.dcenter
     ref.dcenter = (0, 0) if centered else old_center
 

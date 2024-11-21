@@ -121,7 +121,7 @@ CONF.port_types = [
     "vertical_tm",  # for grating couplers with TM polarization
     "vertical_dual",  # for grating couplers with TE and TM polarization
     "electrical_rf",  # electrical ports for RF (high frequency)
-    "pad",  # for pads
+    "pad",  # for DC pads
     "pad_rf",  # for RF pads
     "bump",  # for bumps
     "edge_coupler",  # for edge couplers

@@ -6,7 +6,7 @@ from functools import partial
 import gdsfactory as gf
 from gdsfactory import cell
 from gdsfactory.component import Component
-from gdsfactory.components.compass import compass
+from gdsfactory.components.compass import compass, valid_port_orientations
 from gdsfactory.typings import AngleInDegrees, ComponentFactory, Float2, Ints, LayerSpec
 
 
@@ -19,6 +19,7 @@ def pad(
     port_inclusion: float = 0,
     port_orientation: AngleInDegrees | None = 0,
     port_orientations: Ints | None = (180, 90, 0, -90),
+    port_type: str = "pad",
 ) -> Component:
     """Returns rectangular pad with ports.
 
@@ -29,8 +30,9 @@ def pad(
         bbox_offsets: Optional offsets for each layer with respect to size.
             positive grows, negative shrinks the size.
         port_inclusion: from edge.
-        port_orientation: in degrees.
+        port_orientation: in degrees for the center port.
         port_orientations: list of port_orientations to add. None does not add ports.
+        port_type: port type for pad port.
     """
     c = Component()
     layer = gf.get_layer(layer)
@@ -62,12 +64,15 @@ def pad(
                 )
             )
 
+    if port_orientation is not None and port_orientation not in valid_port_orientations:
+        raise ValueError(f"{port_orientation=} must be in {valid_port_orientations}")
+
     width = size[1] if port_orientation in {0, 180} else size[0]
 
     if port_orientation is not None:
         c.add_port(
             name="pad",
-            port_type="pad",
+            port_type=port_type,
             layer=layer,
             center=(0, 0),
             orientation=port_orientation,
@@ -159,6 +164,7 @@ pad_array180 = partial(pad_array, port_orientation=180, columns=1, rows=3)
 
 if __name__ == "__main__":
     # c = pad_rectangular()
-    c = pad_array(columns=3, centered_ports=True, port_orientation=90)
+    # c = pad_array(columns=3, centered_ports=True, port_orientation=90)
+    c = pad(port_orientations=[270])
     c.pprint_ports()
     c.show()

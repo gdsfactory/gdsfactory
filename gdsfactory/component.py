@@ -627,8 +627,10 @@ class ComponentBase:
         name: str | None = None,
         columns: int = 1,
         rows: int = 1,
-        spacing: tuple[float, float] = (100.0, 100.0),
+        spacing: tuple[float, float] | None = None,
         alias: str | None = None,
+        column_pitch: float = 0.0,
+        row_pitch: float = 0.0,
     ) -> ComponentReference:
         """Adds a component instance reference to a Component.
 
@@ -637,13 +639,30 @@ class ComponentBase:
             name: Name of the reference.
             columns: Number of columns in the array.
             rows: Number of rows in the array.
-            spacing: x, y distance between adjacent columns and adjacent rows.
+            spacing: pitch between adjacent columns and adjacent rows. Deprecated.
             alias: Deprecated. Use name instead.
-
+            column_pitch: column pitch.
+            row_pitch: row pitch.
         """
+        if spacing is not None:
+            warnings.warn(
+                "spacing is deprecated, use column_pitch and row_pitch instead"
+            )
+            column_pitch, row_pitch = spacing
+
         if rows > 1 or columns > 1:
-            a = kf.kdb.Vector(round(spacing[0] / self.kcl.dbu), 0)
-            b = kf.kdb.Vector(0, round(spacing[1] / self.kcl.dbu))
+            if rows > 1 and row_pitch == 0:
+                raise ValueError(f"rows = {rows} > 1 require {row_pitch=} > 0")
+
+            if columns > 1 and column_pitch == 0:
+                raise ValueError(f"columns = {columns} > 1 require {column_pitch} > 0")
+
+            column_pitch_dbu = self.kcl.to_dbu(column_pitch)
+            row_pitch_dbu = self.kcl.to_dbu(row_pitch)
+
+            a = kf.kdb.Vector(column_pitch_dbu, 0)
+            b = kf.kdb.Vector(0, row_pitch_dbu)
+
             inst = self.create_inst(
                 component,
                 na=columns,
