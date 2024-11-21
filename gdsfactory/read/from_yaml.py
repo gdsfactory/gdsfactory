@@ -56,7 +56,6 @@ from copy import deepcopy
 from functools import partial
 from typing import IO, TYPE_CHECKING, Any, Literal, Protocol
 
-import kfactory as kf
 import networkx as nx
 import yaml
 
@@ -330,7 +329,8 @@ def place(
             if mirror is True and port:
                 ref.dmirror_x(x=_get_anchor_value_from_name(ref, port, "x") or 0)
             elif mirror is True:
-                ref.dcplx_trans *= kf.kdb.DCplxTrans(1, 0, True, 0, 0)
+                # ref.dcplx_trans *= kf.kdb.DCplxTrans(1, 0, True, 0, 0)
+                ref.dmirror_x()
             elif mirror is False:
                 pass
             elif isinstance(mirror, str):
@@ -1002,7 +1002,8 @@ def _update_reference_by_placement(
             if isinstance(port, str):
                 ref.dmirror_x(x=_get_anchor_value_from_name(ref, port, "x"))  # type: ignore
             else:
-                ref.dcplx_trans *= kf.kdb.DCplxTrans(1, 0, True, 0, 0)
+                # ref.dcplx_trans *= kf.kdb.DCplxTrans(1, 0, True, 0, 0)
+                ref.dmirror_x()
         elif isinstance(mirror, str) and mirror in port_names:
             x_mirror = ref.ports[mirror].dx
             ref.dmirror_x(x_mirror)
@@ -1118,10 +1119,10 @@ def _split_route_link(s: str) -> tuple[str, list[str]]:
         ip, jk = s, None
     else:
         raise ValueError(
-            f"The format for bundle routing is 'inst,port_base:i0:i1' or 'inst,port'. Got: {s}"
+            f"The format for bundle routing is 'inst,port_base:i0:i1' or 'inst,port'. Got: {s!r}"
         )
     if ip.count(",") != 1:
-        raise ValueError(f"Exactly one ',' expected in a route bundle link. Got: {s}")
+        raise ValueError(f"Exactly one ',' expected in a route bundle link. Got: {s!r}")
     i, p = ip.split(",")
     if jk is None:
         return i, [f"{p}"]
@@ -1132,7 +1133,7 @@ def _split_route_link(s: str) -> tuple[str, list[str]]:
             return int(i)
         except ValueError:
             raise ValueError(
-                f"The format for bundle routing is 'inst,port_base:i0:i1' with i0 and i1 integers. Got: {s}"
+                f"The format for bundle routing is 'inst,port_base:i0:i1' with i0 and i1 integers. Got: {s!r}"
             )
 
     j = _try_int(j)
@@ -1781,13 +1782,77 @@ instances:
       component: mzi
 """
 
+port_array_electrical = """
+instances:
+  t:
+    component: pad_array
+    settings:
+      port_orientation: 270
+      columns: 3
+  b:
+    component: pad_array
+    settings:
+      port_orientation: 90
+      columns: 3
+
+placements:
+  t:
+    x: 200
+    y: 400
+
+routes:
+  electrical:
+    settings:
+      start_straight_length: 150
+      end_straight_length: 150
+      cross_section: metal_routing
+      allow_width_mismatch: True
+    links:
+      t,e11:e13: b,e11:e13
+"""
+
+
+port_array_optical = """
+instances:
+  a:
+    component: nxn
+  b:
+    component: nxn
+
+placements:
+  b:
+    x: 50
+    y: 50
+    rotation: 180
+    # mirror: True
+    mirror: False
+
+routes:
+  optical:
+    settings:
+        cross_section: strip
+    links:
+      a,o:3:4: b,o:4:3
+"""
+
+mirror = """
+instances:
+  a:
+    component: mmi1x2
+
+placements:
+  a:
+    # rotation: 180
+    # mirror: True
+    mirror: False
+"""
 
 if __name__ == "__main__":
-    c = from_yaml(sample_array)
+    c = from_yaml(mirror)
     # c = from_yaml(sample_array)
     # c = from_yaml(sample_yaml_xmin)
     # c = from_yaml(sample_array)
-    n = c.get_netlist()
+    # n = c.get_netlist()
     c.show()
     # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
     # c2 = from_yaml(yaml_str)
