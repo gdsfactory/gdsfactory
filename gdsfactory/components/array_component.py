@@ -15,28 +15,28 @@ def array(
     spacing: tuple[float, float] | None = None,
     columns: int = 6,
     rows: int = 1,
+    column_pitch: float = 150,
+    row_pitch: float = 150,
     add_ports: bool = True,
     size: Float2 | None = None,
     centered: bool = False,
     post_process: Iterable[Callable] | None = None,
-    column_pitch: float = 100,
-    row_pitch: float = 100,
     auto_rename_ports: bool = False,
 ) -> Component:
     """Returns an array of components.
 
     Args:
         component: to replicate.
-        spacing: x, y spacing.
+        spacing: x, y spacing. Deprecated.
         columns: in x.
         rows: in y.
+        column_pitch: pitch between columns.
+        row_pitch: pitch between rows.
+        auto_rename_ports: True to auto rename ports.
         add_ports: add ports from component into the array.
         size: Optional x, y size. Overrides columns and rows.
         centered: center the array around the origin.
         post_process: function to apply to the array after creation.
-        column_pitch: pitch between columns.
-        row_pitch: pitch between rows.
-        auto_rename_ports: True to auto rename ports.
 
     Raises:
         ValueError: If columns > 1 and spacing[0] = 0.
@@ -100,20 +100,19 @@ def array(
 
 
 if __name__ == "__main__":
-    from functools import partial
-
     from gdsfactory.generic_tech import get_generic_pdk
 
     PDK = get_generic_pdk()
     PDK.activate()
 
-    c = gf.components.array(
-        partial(gf.components.straight, layer=(2, 0)),
-        rows=3,
-        columns=1,
-        spacing=(0, 50),
-        centered=False,
-    )
+    # c = gf.components.array(
+    #     partial(gf.components.straight, layer=(2, 0)),
+    #     rows=3,
+    #     columns=1,
+    #     # spacing=(0, 50),
+    #     centered=False,
+    # )
+    c = array()
     c.show()
 
     # c2 = array(rows=2, columns=2, spacing=(100, 100))
