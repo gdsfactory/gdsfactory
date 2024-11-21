@@ -56,6 +56,7 @@ from copy import deepcopy
 from functools import partial
 from typing import IO, TYPE_CHECKING, Any, Literal, Protocol
 
+import kfactory as kf
 import networkx as nx
 import yaml
 
@@ -329,8 +330,7 @@ def place(
             if mirror is True and port:
                 ref.dmirror_x(x=_get_anchor_value_from_name(ref, port, "x") or 0)
             elif mirror is True:
-                # ref.dcplx_trans *= kf.kdb.DCplxTrans(1, 0, True, 0, 0)
-                ref.dmirror_x()
+                ref.dcplx_trans *= kf.kdb.DCplxTrans(1, 0, True, 0, 0)
             elif mirror is False:
                 pass
             elif isinstance(mirror, str):
@@ -1002,8 +1002,7 @@ def _update_reference_by_placement(
             if isinstance(port, str):
                 ref.dmirror_x(x=_get_anchor_value_from_name(ref, port, "x"))  # type: ignore
             else:
-                # ref.dcplx_trans *= kf.kdb.DCplxTrans(1, 0, True, 0, 0)
-                ref.dmirror_x()
+                ref.dcplx_trans *= kf.kdb.DCplxTrans(1, 0, True, 0, 0)
         elif isinstance(mirror, str) and mirror in port_names:
             x_mirror = ref.ports[mirror].dx
             ref.dmirror_x(x_mirror)
@@ -1838,13 +1837,13 @@ routes:
 mirror = """
 instances:
   a:
-    component: mmi1x2
+    component: bend_circular
 
 placements:
   a:
     # rotation: 180
-    # mirror: True
-    mirror: False
+    mirror: True
+    # mirror: False
 """
 
 if __name__ == "__main__":
