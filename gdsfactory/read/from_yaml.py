@@ -849,8 +849,9 @@ def _get_references(
                 comp,
                 rows=rows,
                 columns=columns,
-                spacing=(column_pitch, row_pitch),
                 name=name,
+                column_pitch=column_pitch,
+                row_pitch=row_pitch,
             )
         refs[name] = ref
     return refs
@@ -1820,13 +1821,21 @@ instances:
   t:
     component: pad
     settings:
-      port_orientations: [270]
+      port_orientations:
+        - 270
+      port_orientation: null
+      port_type: electrical
     columns: 3
+    column_pitch: 150
   b:
     component: pad
     settings:
-      port_orientations: [90]
+      port_orientations:
+        - 90
+      port_orientation: null
+      port_type: electrical
     columns: 3
+    column_pitch: 150
 
 placements:
   t:
@@ -1842,7 +1851,8 @@ routes:
       allow_width_mismatch: True
       sort_ports: True
     links:
-      t,e:3:1: b,e:1:3
+      t<0.0>,e1: b<0.0>,e1
+      # t,e:3:1: b,e:1:3
 """
 
 port_array_optical = """
@@ -1881,10 +1891,9 @@ placements:
 """
 
 if __name__ == "__main__":
+    # c = from_yaml(sample_array)
     c = from_yaml(port_array_electrical2)
-    # c = from_yaml(sample_array)
     # c = from_yaml(sample_yaml_xmin)
-    # c = from_yaml(sample_array)
     # n = c.get_netlist()
     c.show()
     # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)

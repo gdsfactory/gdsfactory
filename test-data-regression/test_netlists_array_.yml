@@ -1,5 +1,5 @@
 instances:
-  pad_S100_100_LMTOP_BLNo_8d51f10c_0_0:
+  pad_S100_100_LMTOP_BLNo_163fd346_0_0:
     column_pitch: 150
     columns: 6
     component: pad
@@ -22,39 +22,40 @@ instances:
       - 90
       - 0
       - -90
+      port_type: pad
       size:
       - 100
       - 100
-name: array_Cpad_S150_150_C6__3abfb77c
+name: array_Cpad_SNone_C6_R1__8512fb90
 nets: []
 placements:
-  pad_S100_100_LMTOP_BLNo_8d51f10c_0_0:
+  pad_S100_100_LMTOP_BLNo_163fd346_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
 ports:
-  e1_1_1: pad_S100_100_LMTOP_BLNo_8d51f10c_0_0<0.0>,e1
-  e1_1_2: pad_S100_100_LMTOP_BLNo_8d51f10c_0_0<1.0>,e1
-  e1_1_3: pad_S100_100_LMTOP_BLNo_8d51f10c_0_0<2.0>,e1
-  e1_1_4: pad_S100_100_LMTOP_BLNo_8d51f10c_0_0<3.0>,e1
-  e1_1_5: pad_S100_100_LMTOP_BLNo_8d51f10c_0_0<4.0>,e1
-  e1_1_6: pad_S100_100_LMTOP_BLNo_8d51f10c_0_0<5.0>,e1
-  e2_1_1: pad_S100_100_LMTOP_BLNo_8d51f10c_0_0<0.0>,e2
-  e2_1_2: pad_S100_100_LMTOP_BLNo_8d51f10c_0_0<1.0>,e2
-  e2_1_3: pad_S100_100_LMTOP_BLNo_8d51f10c_0_0<2.0>,e2
-  e2_1_4: pad_S100_100_LMTOP_BLNo_8d51f10c_0_0<3.0>,e2
-  e2_1_5: pad_S100_100_LMTOP_BLNo_8d51f10c_0_0<4.0>,e2
-  e2_1_6: pad_S100_100_LMTOP_BLNo_8d51f10c_0_0<5.0>,e2
-  e3_1_1: pad_S100_100_LMTOP_BLNo_8d51f10c_0_0<0.0>,e3
-  e3_1_2: pad_S100_100_LMTOP_BLNo_8d51f10c_0_0<1.0>,e3
-  e3_1_3: pad_S100_100_LMTOP_BLNo_8d51f10c_0_0<2.0>,e3
-  e3_1_4: pad_S100_100_LMTOP_BLNo_8d51f10c_0_0<3.0>,e3
-  e3_1_5: pad_S100_100_LMTOP_BLNo_8d51f10c_0_0<4.0>,e3
-  e3_1_6: pad_S100_100_LMTOP_BLNo_8d51f10c_0_0<5.0>,e3
-  e4_1_1: pad_S100_100_LMTOP_BLNo_8d51f10c_0_0<0.0>,e4
-  e4_1_2: pad_S100_100_LMTOP_BLNo_8d51f10c_0_0<1.0>,e4
-  e4_1_3: pad_S100_100_LMTOP_BLNo_8d51f10c_0_0<2.0>,e4
-  e4_1_4: pad_S100_100_LMTOP_BLNo_8d51f10c_0_0<3.0>,e4
-  e4_1_5: pad_S100_100_LMTOP_BLNo_8d51f10c_0_0<4.0>,e4
-  e4_1_6: pad_S100_100_LMTOP_BLNo_8d51f10c_0_0<5.0>,e4
+  e1_1_1: pad_S100_100_LMTOP_BLNo_163fd346_0_0<0.0>,e1
+  e1_1_2: pad_S100_100_LMTOP_BLNo_163fd346_0_0<1.0>,e1
+  e1_1_3: pad_S100_100_LMTOP_BLNo_163fd346_0_0<2.0>,e1
+  e1_1_4: pad_S100_100_LMTOP_BLNo_163fd346_0_0<3.0>,e1
+  e1_1_5: pad_S100_100_LMTOP_BLNo_163fd346_0_0<4.0>,e1
+  e1_1_6: pad_S100_100_LMTOP_BLNo_163fd346_0_0<5.0>,e1
+  e2_1_1: pad_S100_100_LMTOP_BLNo_163fd346_0_0<0.0>,e2
+  e2_1_2: pad_S100_100_LMTOP_BLNo_163fd346_0_0<1.0>,e2
+  e2_1_3: pad_S100_100_LMTOP_BLNo_163fd346_0_0<2.0>,e2
+  e2_1_4: pad_S100_100_LMTOP_BLNo_163fd346_0_0<3.0>,e2
+  e2_1_5: pad_S100_100_LMTOP_BLNo_163fd346_0_0<4.0>,e2
+  e2_1_6: pad_S100_100_LMTOP_BLNo_163fd346_0_0<5.0>,e2
+  e3_1_1: pad_S100_100_LMTOP_BLNo_163fd346_0_0<0.0>,e3
+  e3_1_2: pad_S100_100_LMTOP_BLNo_163fd346_0_0<1.0>,e3
+  e3_1_3: pad_S100_100_LMTOP_BLNo_163fd346_0_0<2.0>,e3
+  e3_1_4: pad_S100_100_LMTOP_BLNo_163fd346_0_0<3.0>,e3
+  e3_1_5: pad_S100_100_LMTOP_BLNo_163fd346_0_0<4.0>,e3
+  e3_1_6: pad_S100_100_LMTOP_BLNo_163fd346_0_0<5.0>,e3
+  e4_1_1: pad_S100_100_LMTOP_BLNo_163fd346_0_0<0.0>,e4
+  e4_1_2: pad_S100_100_LMTOP_BLNo_163fd346_0_0<1.0>,e4
+  e4_1_3: pad_S100_100_LMTOP_BLNo_163fd346_0_0<2.0>,e4
+  e4_1_4: pad_S100_100_LMTOP_BLNo_163fd346_0_0<3.0>,e4
+  e4_1_5: pad_S100_100_LMTOP_BLNo_163fd346_0_0<4.0>,e4
+  e4_1_6: pad_S100_100_LMTOP_BLNo_163fd346_0_0<5.0>,e4
