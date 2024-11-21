@@ -1787,17 +1787,19 @@ instances:
     component: pad_array
     settings:
       port_orientation: 270
-      columns: 3
+      columns: 10
+      auto_rename_ports: True
   b:
     component: pad_array
     settings:
       port_orientation: 90
-      columns: 3
+      columns: 10
+      auto_rename_ports: True
 
 placements:
   t:
-    x: 200
-    y: 400
+    x: 500
+    y: 900
 
 routes:
   electrical:
@@ -1806,8 +1808,9 @@ routes:
       end_straight_length: 150
       cross_section: metal_routing
       allow_width_mismatch: True
+      sort_ports: True
     links:
-      t,e11:e13: b,e11:e13
+      t,e:10:1: b,e:1:10
 """
 
 
@@ -1847,7 +1850,7 @@ placements:
 """
 
 if __name__ == "__main__":
-    c = from_yaml(mirror)
+    c = from_yaml(port_array_electrical)
     # c = from_yaml(sample_array)
     # c = from_yaml(sample_yaml_xmin)
     # c = from_yaml(sample_array)

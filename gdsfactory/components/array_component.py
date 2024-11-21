@@ -18,6 +18,7 @@ def array(
     size: Float2 | None = None,
     centered: bool = False,
     post_process: Iterable[Callable] | None = None,
+    auto_rename_ports: bool = False,
 ) -> Component:
     """Returns an array of components.
 
@@ -30,6 +31,7 @@ def array(
         size: Optional x, y size. Overrides columns and rows.
         centered: center the array around the origin.
         post_process: function to apply to the array after creation.
+        auto_rename_ports: True to auto rename ports.
 
     Raises:
         ValueError: If columns > 1 and spacing[0] = 0.
@@ -73,6 +75,8 @@ def array(
     if post_process:
         for f in post_process:
             f(c)
+    if auto_rename_ports:
+        c.auto_rename_ports()
     return c
 
 

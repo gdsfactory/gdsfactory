@@ -1,7 +1,8 @@
 info: {}
-name: array_Cpad_S150_150_C6__b45683c8
+name: array_Cpad_S150_150_C6__3abfb77c
 settings:
   add_ports: true
+  auto_rename_ports: false
   centered: false
   columns: 6
   component: pad

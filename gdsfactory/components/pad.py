@@ -92,6 +92,7 @@ def pad_array(
     size: Float2 = (100.0, 100.0),
     layer: LayerSpec = "MTOP",
     centered_ports: bool = False,
+    auto_rename_ports: bool = False,
 ) -> Component:
     """Returns 2D array of pads.
 
@@ -105,6 +106,7 @@ def pad_array(
         size: pad size.
         layer: pad layer.
         centered_ports: True add ports to center. False add ports to the edge.
+        auto_rename_ports: True to auto rename ports.
     """
     if orientation is not None:
         warnings.warn("orientation is deprecated, use port_orientation")
@@ -143,6 +145,8 @@ def pad_array(
                 port_type="electrical",
                 layer=layer,
             )
+    if auto_rename_ports:
+        c.auto_rename_ports()
     return c
 
 
