@@ -27,7 +27,7 @@ def array(
 
     Args:
         component: to replicate.
-        spacing: x, y spacing. Deprecated.
+        spacing: x, y spacing. Deprecated, use column_pitch and row_pitch.
         columns: in x.
         rows: in y.
         column_pitch: pitch between columns.
@@ -48,13 +48,13 @@ def array(
 
           column_pitch
           <---------->
-         ___        ___       ___          ___
-        |   |      |   |     |   |        |   |
-        |___|      |___|     |___|        |___|
+         ___        ___       ___        ___
+        |   |      |   |     |   |      |   |
+        |___|      |___|     |___|      |___|
 
-         ___        ___       ___          ___
-        |   |      |   |     |   |        |   |
-        |___|      |___|     |___|        |___|
+         ___        ___       ___        ___
+        |   |      |   |     |   |      |   |
+        |___|      |___|     |___|      |___|
     """
     if spacing:
         warnings.warn("spacing is deprecated, use column_pitch and row_pitch")

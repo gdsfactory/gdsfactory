@@ -22,7 +22,7 @@ instances:
       size:
       - 100
       - 100
-name: pad_array_Ppad_S150_150_0a9fae81
+name: pad_array_Ppad_SNone_C6_fa910346
 nets: []
 placements:
   pad_S100_100_LMTOP_BLNo_23f16118_0_0:

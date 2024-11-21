@@ -1,16 +1,15 @@
 info: {}
-name: pad_array_Ppad_S150_150_c2cbe1ac
+name: pad_array_Ppad_SNone_C6_e4b6a67c
 settings:
   auto_rename_ports: false
   centered_ports: false
+  column_pitch: 150
   columns: 6
   layer: MTOP
   pad: pad
   port_orientation: 0
+  row_pitch: 150
   rows: 1
   size:
   - 100
   - 100
-  spacing:
-  - 150
-  - 150
