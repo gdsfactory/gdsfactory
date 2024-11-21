@@ -470,7 +470,28 @@ def test_route_bundle_small() -> None:
         assert np.isclose(route.length, 74500), route.length
 
 
+def test_route_bundle_width() -> None:
+    top = gf.Component()
+    wg1 = top << gf.components.straight()
+    wg2 = top << gf.components.straight()
+    wg2.movey(50)
+    wg3 = top << gf.components.straight()
+    wg3.move((50, 20))
+    wg4 = top << gf.components.straight()
+    wg4.move((50, 70))
+
+    route = gf.routing.route_bundle(
+        top,
+        [wg1["o2"], wg2["o2"]],
+        [wg3["o1"], wg4["o1"]],
+        layer=(1, 0),
+        route_width=0.5,
+    )
+    assert route[0].length == 20000, route[0].length
+
+
 if __name__ == "__main__":
-    test_route_bundle_small()
+    test_route_bundle_width()
+    # test_route_bundle_small()
     # test_route_bundle_udirect(None, check=False)
     # test_route_bundle(None)
