@@ -1,9 +1,10 @@
 instances:
-  array_Cpad_small_S100_1_f794bc0e_185500_m10000:
+  array_Cpad_small_S100_1_296a69c1_185500_m10000:
     component: array
     info: {}
     settings:
       add_ports: true
+      auto_rename_ports: false
       centered: false
       columns: 3
       component: pad_small
@@ -45,7 +46,7 @@ instances:
 name: mzi_pads_center_PTstrai_c97b64ce
 nets: []
 placements:
-  array_Cpad_small_S100_1_f794bc0e_185500_m10000:
+  array_Cpad_small_S100_1_296a69c1_185500_m10000:
     mirror: false
     rotation: 0
     x: 185.5
@@ -79,18 +80,18 @@ warnings:
     unconnected_ports:
     - message: 12 unconnected electrical ports!
       ports:
-      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,e1_1_1
-      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,e2_1_1
-      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,e3_1_1
-      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,e4_1_1
-      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,e1_1_2
-      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,e2_1_2
-      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,e3_1_2
-      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,e4_1_2
-      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,e1_1_3
-      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,e2_1_3
-      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,e3_1_3
-      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,e4_1_3
+      - array_Cpad_small_S100_1_296a69c1_185500_m10000,e1_1_1
+      - array_Cpad_small_S100_1_296a69c1_185500_m10000,e2_1_1
+      - array_Cpad_small_S100_1_296a69c1_185500_m10000,e3_1_1
+      - array_Cpad_small_S100_1_296a69c1_185500_m10000,e4_1_1
+      - array_Cpad_small_S100_1_296a69c1_185500_m10000,e1_1_2
+      - array_Cpad_small_S100_1_296a69c1_185500_m10000,e2_1_2
+      - array_Cpad_small_S100_1_296a69c1_185500_m10000,e3_1_2
+      - array_Cpad_small_S100_1_296a69c1_185500_m10000,e4_1_2
+      - array_Cpad_small_S100_1_296a69c1_185500_m10000,e1_1_3
+      - array_Cpad_small_S100_1_296a69c1_185500_m10000,e2_1_3
+      - array_Cpad_small_S100_1_296a69c1_185500_m10000,e3_1_3
+      - array_Cpad_small_S100_1_296a69c1_185500_m10000,e4_1_3
       values:
       - - 145500
         - -10000

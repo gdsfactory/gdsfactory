@@ -1,6 +1,7 @@
 info: {}
-name: pad_array_Ppad_S150_150_8d5bd96d
+name: pad_array_Ppad_S150_150_2dfc200f
 settings:
+  auto_rename_ports: false
   centered_ports: false
   columns: 1
   layer: MTOP

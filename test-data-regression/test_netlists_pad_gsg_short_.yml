@@ -1,9 +1,10 @@
 instances:
-  array_Cpad_S0_150_C1_R3_f1478c5a_122000_0:
+  array_Cpad_S0_150_C1_R3_2ae40ad7_122000_0:
     component: array
     info: {}
     settings:
       add_ports: true
+      auto_rename_ports: false
       centered: true
       columns: 1
       component: pad
@@ -61,7 +62,7 @@ instances:
 name: pad_gsg_short_S22_7_LMM_912328cd
 nets: []
 placements:
-  array_Cpad_S0_150_C1_R3_f1478c5a_122000_0:
+  array_Cpad_S0_150_C1_R3_2ae40ad7_122000_0:
     mirror: false
     rotation: 0
     x: 122
@@ -99,18 +100,18 @@ warnings:
       - rectangle_S22_7_LMTOP_C_53d534b7_m5000_m7000,e2
       - rectangle_S22_7_LMTOP_C_53d534b7_m5000_m7000,e3
       - rectangle_S22_7_LMTOP_C_53d534b7_m5000_m7000,e4
-      - array_Cpad_S0_150_C1_R3_f1478c5a_122000_0,e1_1_1
-      - array_Cpad_S0_150_C1_R3_f1478c5a_122000_0,e2_1_1
-      - array_Cpad_S0_150_C1_R3_f1478c5a_122000_0,e3_1_1
-      - array_Cpad_S0_150_C1_R3_f1478c5a_122000_0,e4_1_1
-      - array_Cpad_S0_150_C1_R3_f1478c5a_122000_0,e1_2_1
-      - array_Cpad_S0_150_C1_R3_f1478c5a_122000_0,e2_2_1
-      - array_Cpad_S0_150_C1_R3_f1478c5a_122000_0,e3_2_1
-      - array_Cpad_S0_150_C1_R3_f1478c5a_122000_0,e4_2_1
-      - array_Cpad_S0_150_C1_R3_f1478c5a_122000_0,e1_3_1
-      - array_Cpad_S0_150_C1_R3_f1478c5a_122000_0,e2_3_1
-      - array_Cpad_S0_150_C1_R3_f1478c5a_122000_0,e3_3_1
-      - array_Cpad_S0_150_C1_R3_f1478c5a_122000_0,e4_3_1
+      - array_Cpad_S0_150_C1_R3_2ae40ad7_122000_0,e1_1_1
+      - array_Cpad_S0_150_C1_R3_2ae40ad7_122000_0,e2_1_1
+      - array_Cpad_S0_150_C1_R3_2ae40ad7_122000_0,e3_1_1
+      - array_Cpad_S0_150_C1_R3_2ae40ad7_122000_0,e4_1_1
+      - array_Cpad_S0_150_C1_R3_2ae40ad7_122000_0,e1_2_1
+      - array_Cpad_S0_150_C1_R3_2ae40ad7_122000_0,e2_2_1
+      - array_Cpad_S0_150_C1_R3_2ae40ad7_122000_0,e3_2_1
+      - array_Cpad_S0_150_C1_R3_2ae40ad7_122000_0,e4_2_1
+      - array_Cpad_S0_150_C1_R3_2ae40ad7_122000_0,e1_3_1
+      - array_Cpad_S0_150_C1_R3_2ae40ad7_122000_0,e2_3_1
+      - array_Cpad_S0_150_C1_R3_2ae40ad7_122000_0,e3_3_1
+      - array_Cpad_S0_150_C1_R3_2ae40ad7_122000_0,e4_3_1
       values:
       - - -5000
         - 10500
