@@ -89,9 +89,11 @@ pad_small = partial(pad, size=(80, 80))
 @cell
 def pad_array(
     pad: ComponentFactory = "pad",
-    spacing: tuple[float, float] = (150.0, 150.0),
+    spacing: tuple[float, float] | None = None,
     columns: int = 6,
     rows: int = 1,
+    column_pitch: float = 150.0,
+    row_pitch: float = 150.0,
     port_orientation: AngleInDegrees = 0,
     orientation: AngleInDegrees | None = None,
     size: Float2 = (100.0, 100.0),
@@ -106,6 +108,8 @@ def pad_array(
         spacing: x, y pitch.
         columns: number of columns.
         rows: number of rows.
+        column_pitch: x pitch.
+        row_pitch: y pitch.
         port_orientation: port orientation in deg. None for low speed DC ports.
         orientation: Deprecated, use port_orientation.
         size: pad size.
@@ -117,18 +121,23 @@ def pad_array(
         warnings.warn("orientation is deprecated, use port_orientation")
         port_orientation = orientation
 
+    if spacing:
+        warnings.warn("spacing is deprecated, use column_pitch and row_pitch")
+        column_pitch, row_pitch = spacing
+
     c = Component()
     pad = gf.get_component(
         pad, size=size, layer=layer, port_orientations=None, port_orientation=None
     )
 
-    c.add_ref(pad, columns=columns, rows=rows, spacing=spacing)
+    c.add_ref(
+        pad, columns=columns, rows=rows, column_pitch=column_pitch, row_pitch=row_pitch
+    )
     width = size[0] if port_orientation in {90, 270} else size[1]
 
     for col in range(columns):
         for row in range(rows):
-            center = (col * spacing[0], row * spacing[1])
-
+            center = (col * column_pitch, row * row_pitch)
             port_orientation = int(port_orientation)
             center = [center[0], center[1]]
 
@@ -142,6 +151,7 @@ def pad_array(
                 elif port_orientation == 270:
                     center[1] -= size[1] / 2
 
+            center = (center[0], center[1])
             c.add_port(
                 name=f"e{row + 1}{col + 1}",
                 center=center,

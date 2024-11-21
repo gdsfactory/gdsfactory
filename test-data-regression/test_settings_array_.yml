@@ -1,11 +1,11 @@
 info: {}
-name: array_Cpad_SNone_C6_R1__319b0996
+name: array_Cpad_SNone_C6_R1__8512fb90
 settings:
   add_ports: true
   auto_rename_ports: false
   centered: false
-  column_pitch: 100
+  column_pitch: 150
   columns: 6
   component: pad
-  row_pitch: 100
+  row_pitch: 150
   rows: 1
