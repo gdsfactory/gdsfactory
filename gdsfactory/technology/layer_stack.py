@@ -516,13 +516,11 @@ class LayerStack(BaseModel):
         ]
 
         # Define input layers
-        out = "\n".join(
-            [
-                f"{layer_name} = input({level.derived_layer.layer[0]}, {level.derived_layer.layer[1]})"
-                for layer_name, level in layers.items()
-                if level.derived_layer
-            ]
-        )
+        out = "\n".join([
+            f"{layer_name} = input({level.derived_layer.layer[0]}, {level.derived_layer.layer[1]})"
+            for layer_name, level in layers.items()
+            if level.derived_layer
+        ])
         out += "\n\n"
 
         # Remove all etched layers from the grown layers
@@ -535,13 +533,11 @@ class LayerStack(BaseModel):
                     unetched_layers.remove(level.derived_layer.layer)
 
         # Define layers
-        out += "\n".join(
-            [
-                f"{layer_name} = input({level.layer.layer[0]}, {level.layer.layer[1]})"
-                for layer_name, level in layers.items()
-                if hasattr(level.layer, "layer")
-            ]
-        )
+        out += "\n".join([
+            f"{layer_name} = input({level.layer.layer[0]}, {level.layer.layer[1]})"
+            for layer_name, level in layers.items()
+            if hasattr(level.layer, "layer")
+        ])
         out += "\n\n"
 
         # Define unetched layers

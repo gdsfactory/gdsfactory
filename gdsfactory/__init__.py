@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 from functools import partial
-from toolz import compose
+from toolz import compose  # type: ignore
 from aenum import constant  # type: ignore[import-untyped]
 
 import kfactory as kf
@@ -32,6 +32,7 @@ from gdsfactory.cross_section import (
     CrossSection,
     Section,
     xsection,
+    get_cross_sections,
 )
 from gdsfactory.difftest import difftest, diff
 from gdsfactory.boolean import boolean
@@ -71,7 +72,6 @@ from gdsfactory.pdk import (
     get_constant,
 )
 from gdsfactory.get_factories import get_cells
-from gdsfactory.cross_section import get_cross_sections
 from gdsfactory.grid import grid, grid_with_text
 
 c = components
@@ -84,6 +84,7 @@ def clear_cache(kcl: kf.KCLayout = kf.kcl) -> None:
 
 __all__ = (
     "CONF",
+    "PATH",
     "Component",
     "ComponentAllAngle",
     "ComponentAlongPath",
@@ -92,7 +93,6 @@ __all__ = (
     "CrossSection",
     "Instance",
     "LayerEnum",
-    "PATH",
     "Path",
     "Pdk",
     "Port",
@@ -103,14 +103,14 @@ __all__ = (
     "add_ports",
     "boolean",
     "c",
-    "clear_cache",
     "cell",
+    "clear_cache",
+    "component_with_function",
     "components",
     "compose",
     "constant",
     "container",
     "containers",
-    "component_with_function",
     "cross_section",
     "diff",
     "difftest",
@@ -133,8 +133,8 @@ __all__ = (
     "kcl",
     "kdb",
     "kf",
-    "logger",
     "labels",
+    "logger",
     "pack",
     "partial",
     "path",

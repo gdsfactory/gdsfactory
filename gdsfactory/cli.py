@@ -148,11 +148,11 @@ def text_from_pdf(filepath: PathType) -> None:
     """Converts a PDF to text."""
     import pdftotext  # type: ignore
 
-    with open(filepath, "rb") as f:
-        pdf = pdftotext.PDF(f)
+    with open(filepath, "rb") as file:
+        pdf = pdftotext.PDF(file)  # type: ignore
 
     # Read all the text into one string
-    text = "\n".join(pdf)
+    text = "\n".join(pdf)  # type: ignore
     filepath = pathlib.Path(filepath)
     f = filepath.with_suffix(".md")
     f.write_text(text)

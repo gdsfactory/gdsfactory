@@ -28,7 +28,7 @@ def make_error_traces(
 
     warn(message, RouteWarning)
     for port1, port2 in zip(ports1, ports2):
-        path = gf.path.Path([port1.dcenter, port2.dcenter])
+        path = gf.path.Path(np.array([port1.dcenter, port2.dcenter]))
         error_component = gf.path.extrude(path, layer=CONF.layer_error_path, width=1)
         _ = component << error_component
 
@@ -50,8 +50,8 @@ def is_invalid_bundle_topology(ports1: list[Port], ports2: list[Port]) -> bool:
     # OR all lines intersect and all ports1 > 90, ports2 < 90, or vice versa
     # the topology is valid
     # (actually, the bundle can contain 2 groups-- one of each, and still maintain valid, as long as there are no crossings between them)
-    import shapely.geometry as sg
-    from shapely import intersection_all
+    import shapely.geometry as sg  # type: ignore[import-untyped]
+    from shapely import intersection_all  # type: ignore
 
     # this is not really quite angle, but a threshold to check if dot products are effectively above/below zero, excluding numerical errors
     angle_tolerance = 1e-10

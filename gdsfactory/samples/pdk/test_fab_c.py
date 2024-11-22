@@ -53,7 +53,7 @@ def test_to_updk() -> None:
 
 
 @pytest.fixture(params=cell_names, scope="function")
-def component_name(request: pytest.FixtureRequest) -> str:
+def component_name(request: pytest.FixtureRequest) -> Any:
     return request.param
 
 

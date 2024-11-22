@@ -3,9 +3,9 @@ from __future__ import annotations
 from collections.abc import Iterable
 
 import gdsfactory as gf
-from gdsfactory import cell
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.typings import Callable, ComponentSpec, Float2
+from gdsfactory.typings import AnyComponentPostProcess, ComponentSpec, Float2
 
 
 @cell
@@ -17,7 +17,7 @@ def array(
     add_ports: bool = True,
     size: Float2 | None = None,
     centered: bool = False,
-    post_process: Iterable[Callable] | None = None,
+    post_process: Iterable[AnyComponentPostProcess] | None = None,
 ) -> Component:
     """Returns an array of components.
 

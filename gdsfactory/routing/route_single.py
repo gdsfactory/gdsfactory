@@ -44,7 +44,6 @@ from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.typings import (
     STEP_DIRECTIVES,
     ComponentSpec,
-    Coordinate,
     Coordinates,
     CrossSectionSpec,
     LayerSpec,
@@ -153,9 +152,9 @@ def route_single(
         raise ValueError("Provide either steps or waypoints, not both")
 
     if waypoints is None:
-        waypoints: list[Coordinate] = []
-
-    waypoints = list(waypoints)
+        waypoints = []
+    else:
+        waypoints = list(waypoints)
 
     if steps is None:
         steps = []

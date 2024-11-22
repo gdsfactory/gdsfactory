@@ -115,7 +115,7 @@ def edge_coupler_array_with_loopback(
     ec_ref = c << ec
     p1 = ec_ref.ports["o1"]
     p2 = ec_ref.ports["o2"]
-    p3 = ec_ref.ports[f"o{n-1}"]
+    p3 = ec_ref.ports[f"o{n - 1}"]
     p4 = ec_ref.ports[f"o{n}"]
 
     gf.routing.route_single(

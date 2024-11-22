@@ -5,6 +5,7 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from itertools import zip_longest
 from typing import Literal
 
@@ -84,7 +85,7 @@ def grid(
 
 
 def grid_with_text(
-    components: tuple[ComponentSpec, ...] = (rectangle, triangle),
+    components: Sequence[ComponentSpec] = (rectangle, triangle),
     text_prefix: str = "",
     text_offsets: tuple[Float2, ...] | None = None,
     text_anchors: tuple[Anchor, ...] | None = None,

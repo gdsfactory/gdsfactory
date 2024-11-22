@@ -92,14 +92,12 @@ def test_route_waypoints_numpy() -> None:
         p0,
         p1,
         cross_section="metal_routing",
-        waypoints=np.array(
-            [
-                (p0x + o, p0y),
-                (p0x + o, ytop),
-                (p1x + o, ytop),
-                (p1x + o, p1y),
-            ]
-        ),
+        waypoints=np.array([
+            (p0x + o, p0y),
+            (p0x + o, ytop),
+            (p1x + o, ytop),
+            (p1x + o, p1y),
+        ]),
     )
 
 

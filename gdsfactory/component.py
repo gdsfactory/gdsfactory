@@ -27,6 +27,7 @@ if TYPE_CHECKING:
     from gdsfactory.typings import (
         AngleInDegrees,
         ComponentSpec,
+        Coordinates,
         CrossSection,
         CrossSectionSpec,
         Layer,
@@ -451,11 +452,7 @@ class ComponentBase:
     def add_polygon(
         self,
         points: (
-            np.ndarray[Any, np.dtype[np.float64]]
-            | kdb.DPolygon
-            | kdb.Polygon
-            | kdb.Region
-            | list[list[float]]
+            "np.ndarray[Any, np.dtype[np.float64]] | kdb.DPolygon | kdb.Polygon | kdb.Region | Coordinates"
         ),
         layer: LayerSpec,
     ) -> kdb.Shape:
@@ -1231,7 +1228,7 @@ class ComponentBase:
         raise ValueError("ref() is deprecated. Use add_ref() instead")
 
 
-class Component(ComponentBase, kf.KCell):
+class Component(ComponentBase, kf.KCell):  # type: ignore
     """Canvas where you add polygons, instances and ports.
 
     - stores settings that you use to build the component
@@ -1261,8 +1258,8 @@ class Component(ComponentBase, kf.KCell):
         return ComponentReference(kf.KCell.create_inst(self, component))
 
 
-class ComponentAllAngle(ComponentBase, kf.VKCell):
-    def plot(self, **kwargs: Any) -> None:
+class ComponentAllAngle(ComponentBase, kf.VKCell):  # type: ignore
+    def plot(self, **kwargs: Any) -> None:  # type: ignore
         """Plots the Component using klayout."""
         c = Component()
         if self.name is not None:

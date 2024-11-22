@@ -8,6 +8,7 @@ from typing import Any
 import numpy as np
 
 import gdsfactory as gf
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
 from gdsfactory.typings import CrossSectionSpec, LayerSpec
@@ -15,7 +16,7 @@ from gdsfactory.typings import CrossSectionSpec, LayerSpec
 wire_straight = partial(straight, cross_section="metal_routing")
 
 
-@gf.cell
+@cell
 def wire_corner(
     cross_section: CrossSectionSpec = "metal_routing", **kwargs: Any
 ) -> Component:

@@ -24,7 +24,7 @@ from __future__ import annotations
 import dataclasses
 import pathlib
 from collections.abc import Callable, Sequence
-from typing import Any, Generator, Literal, ParamSpec, TypeAlias
+from typing import Any, Generator, Literal, ParamSpec, TypeAlias, TypeVar
 
 import kfactory as kf
 import numpy as np
@@ -117,10 +117,17 @@ Layers: TypeAlias = Sequence[Layer]
 LayerSpec: TypeAlias = LayerEnum | str | tuple[int, int]
 LayerSpecs: TypeAlias = Sequence[LayerSpec]
 
+AnyComponent: TypeAlias = Component | ComponentAllAngle
+AnyComponentT = TypeVar("AnyComponentT", bound=AnyComponent)
+AnyComponentFactory: TypeAlias = Callable[..., AnyComponent]
+AnyComponentPostProcess: TypeAlias = Callable[[AnyComponent], None]
+
 ComponentParams = ParamSpec("ComponentParams")
 ComponentFactory: TypeAlias = Callable[..., Component]
+ComponentAllAngleFactory: TypeAlias = Callable[..., ComponentAllAngle]
 ComponentBaseFactory: TypeAlias = Callable[..., ComponentBase]
 ComponentFactoryDict: TypeAlias = dict[str, ComponentFactory]
+
 PathType: TypeAlias = str | pathlib.Path
 PathTypes: TypeAlias = Sequence[PathType]
 Metadata: TypeAlias = dict[str, int | float | str]
@@ -216,6 +223,9 @@ class Array(np.ndarray[Any, np.dtype[Any]], metaclass=ArrayMeta):
 __all__ = (
     "AngleInDegrees",
     "Any",
+    "AnyComponent",
+    "AnyComponentFactory",
+    "AnyComponentT",
     "ComponentAllAngle",
     "ComponentBase",
     "ComponentFactory",

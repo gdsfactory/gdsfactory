@@ -26,7 +26,6 @@ def big_device(
         cross_section: spec.
     """
     component = gf.Component()
-    p0 = np.array((0, 0))
 
     w, h = size
     dx = w / 2
@@ -40,14 +39,14 @@ def big_device(
         port_type=port_type, cross_section=xs, layer=layer, width=width
     )
 
-    points = [[dx, dy], [dx, -dy], [-dx, -dy], [-dx, dy]]
+    points = [(dx, dy), (dx, -dy), (-dx, -dy), (-dx, dy)]
     component.add_polygon(points, layer=layer)
-    ports = []
+    ports: list[Port] = []
 
     for i in range(n):
         port = Port(
             name=f"W{i}",
-            center=p0 + (-dx, (i - n / 2) * spacing),
+            center=(-dx, (i - n / 2) * spacing),
             orientation=180,
             **port_settings,
         )
@@ -56,7 +55,7 @@ def big_device(
     for i in range(n):
         port = Port(
             name=f"E{i}",
-            center=p0 + (dx, (i - n / 2) * spacing),
+            center=(dx, (i - n / 2) * spacing),
             orientation=0,
             **port_settings,
         )
@@ -65,7 +64,7 @@ def big_device(
     for i in range(n):
         port = Port(
             name=f"N{i}",
-            center=p0 + ((i - n / 2) * spacing, dy),
+            center=((i - n / 2) * spacing, dy),
             orientation=90,
             **port_settings,
         )
@@ -74,7 +73,7 @@ def big_device(
     for i in range(n):
         port = Port(
             name=f"S{i}",
-            center=p0 + ((i - n / 2) * spacing, -dy),
+            center=((i - n / 2) * spacing, -dy),
             orientation=-90,
             **port_settings,
         )

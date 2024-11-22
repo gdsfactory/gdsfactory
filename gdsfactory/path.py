@@ -12,7 +12,7 @@ import hashlib
 import math
 import warnings
 from collections.abc import Callable, Iterator
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Literal, overload
 
 import numpy as np
 import numpy.typing as npt
@@ -30,7 +30,7 @@ from gdsfactory.cross_section import (  # type: ignore[attr-defined]
     Section,
     Transition,
 )
-from gdsfactory.typings import Axis
+from gdsfactory.typings import AnyComponent, Axis
 
 if TYPE_CHECKING:
     from typing import Self
@@ -145,7 +145,7 @@ class Path(GeometryHelper):
         ]
         return np.array(bbox)
 
-    def append(self, path: npt.NDArray[np.float64] | Path) -> Path:
+    def append(self, path: npt.NDArray[np.float64] | Path | list[Path]) -> Path:
         """Attach Path to the end of this Path.
 
         The input path automatically rotates and translates such that it continues
@@ -162,6 +162,7 @@ class Path(GeometryHelper):
         # If array[N][2]
         elif (
             (np.asarray(path, dtype=object).ndim == 2)
+            and not isinstance(path[0], Path)
             and np.issubdtype(np.array(path).dtype, np.number)
             and (np.shape(path)[1] == 2)
         ):
@@ -170,10 +171,15 @@ class Path(GeometryHelper):
             start_angle = np.arctan2(ny1, nx1) / np.pi * 180
             nx2, ny2 = points[-1] - points[-2]
             end_angle = np.arctan2(ny2, nx2) / np.pi * 180
-        # If list of Paths or arrays
-        elif isinstance(path, list | tuple):
+        elif isinstance(path, list):
             for p in path:
-                self.append(p)
+                if isinstance(p, Path):  # type: ignore
+                    self.append(p)
+                else:
+                    raise ValueError(
+                        "Path.append() the `path` argument must be either "
+                        "a Path object, an array-like[N][2] list of points, or a list of these"
+                    )
             return self
         else:
             raise ValueError(
@@ -497,6 +503,36 @@ class Path(GeometryHelper):
         plt.grid(True)  # type: ignore
         plt.show()  # type: ignore
 
+    @overload
+    def extrude(
+        self,
+        cross_section: CrossSectionSpec | None = None,
+        layer: LayerSpec | None = None,
+        width: float | None = None,
+        simplify: float | None = None,
+        all_angle: Literal[False] = False,
+    ) -> Component: ...
+
+    @overload
+    def extrude(
+        self,
+        cross_section: CrossSectionSpec | None = None,
+        layer: LayerSpec | None = None,
+        width: float | None = None,
+        simplify: float | None = None,
+        all_angle: Literal[True] = True,
+    ) -> ComponentAllAngle: ...
+
+    @overload
+    def extrude(
+        self,
+        cross_section: CrossSectionSpec | None = None,
+        layer: LayerSpec | None = None,
+        width: float | None = None,
+        simplify: float | None = None,
+        all_angle: bool = True,
+    ) -> AnyComponent: ...
+
     def extrude(
         self,
         cross_section: CrossSectionSpec | None = None,
@@ -504,7 +540,7 @@ class Path(GeometryHelper):
         width: float | None = None,
         simplify: float | None = None,
         all_angle: bool = False,
-    ) -> Component | ComponentAllAngle:
+    ) -> AnyComponent:
         """Returns Component by extruding a Path with a CrossSection.
 
         A path can be extruded using any CrossSection returning a Component
@@ -797,6 +833,28 @@ def _get_named_sections(sections: tuple[Section, ...]) -> dict[str, Section]:
             )
         named_sections[name] = section
     return named_sections
+
+
+@overload
+def extrude(
+    p: Path,
+    cross_section: CrossSectionSpec | None = None,
+    layer: LayerSpec | None = None,
+    width: float | None = None,
+    simplify: float | None = None,
+    all_angle: Literal[False] = False,
+) -> Component: ...
+
+
+@overload
+def extrude(
+    p: Path,
+    cross_section: CrossSectionSpec | None = None,
+    layer: LayerSpec | None = None,
+    width: float | None = None,
+    simplify: float | None = None,
+    all_angle: Literal[True] = True,
+) -> ComponentAllAngle: ...
 
 
 def extrude(

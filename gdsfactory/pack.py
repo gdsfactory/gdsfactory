@@ -5,6 +5,7 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 import warnings
 from typing import Any
 
@@ -88,7 +89,7 @@ def _pack_single_bin(
 
 
 def pack(
-    component_list: list[ComponentSpec],
+    component_list: Sequence[ComponentSpec],
     spacing: float = 10.0,
     aspect_ratio: Float2 = (1.0, 1.0),
     max_size: tuple[float | None, float | None] = (None, None),
@@ -176,7 +177,7 @@ def pack(
             raise ValueError(
                 f"pack() failed because Component {D.name!r} has x or y "
                 "dimension larger than `max_size` and cannot be packed.\n"
-                f"size = {w*precision, h*precision}, max_size = {max_size*precision}"
+                f"size = {(w * precision, h * precision)}, max_size = {max_size * precision}"
             )
         rect_dict[n] = (w, h)
 

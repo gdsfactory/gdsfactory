@@ -1,4 +1,3 @@
-# type: ignore
 """You can define a path as list of points.
 
 To create a component you need to extrude the path with a cross-section.
@@ -29,12 +28,9 @@ from pydantic import (
 from gdsfactory.config import CONF, ErrorType
 
 if TYPE_CHECKING:
-    from gdsfactory.component import Component
-    from gdsfactory.typings import PortNames, PortTypes
-
+    from gdsfactory.typings import AnyComponentT, PortNames, PortTypes
 
 nm = 1e-3
-
 
 Layer: TypeAlias = tuple[int, int]
 Layers: TypeAlias = tuple[Layer, ...]
@@ -360,12 +356,12 @@ class CrossSection(BaseModel):
 
     def add_bbox(
         self,
-        component: Component,
+        component: AnyComponentT,
         top: float | None = None,
         bottom: float | None = None,
         right: float | None = None,
         left: float | None = None,
-    ) -> Component:
+    ) -> AnyComponentT:
         """Add bounding box layers to a component.
 
         Args:
@@ -441,9 +437,9 @@ class Transition(CrossSection):
         if isinstance(width_type, str):
             return width_type
         t_values = np.linspace(0, 1, 10)
-        return ",".join(
-            [str(round(width, 3)) for width in width_type(t_values, *self.width)]
-        )
+        return ",".join([
+            str(round(width, 3)) for width in width_type(t_values, *self.width)
+        ])
 
     @property
     def width(self) -> tuple[float, float]:
@@ -570,17 +566,15 @@ def cross_section(
         cladding_centers = cladding_centers or [0] * len(cladding_layers)
 
         if (
-            len(
-                {
-                    len(x)
-                    for x in (
-                        cladding_layers,
-                        cladding_offsets,
-                        cladding_simplify,
-                        cladding_centers,
-                    )
-                }
-            )
+            len({
+                len(x)
+                for x in (
+                    cladding_layers,
+                    cladding_offsets,
+                    cladding_simplify,
+                    cladding_centers,
+                )
+            })
             > 1
         ):
             raise ValueError(
