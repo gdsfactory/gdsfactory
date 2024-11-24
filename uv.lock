@@ -996,7 +996,7 @@ wheels = [
 
 [[package]]
 name = "gdsfactory"
-version = "8.19.4"
+version = "8.20.0"
 source = { editable = "." }
 dependencies = [
     { name = "attrs" },
@@ -1090,7 +1090,7 @@ requires-dist = [
     { name = "jupyter-book", marker = "extra == 'docs'", specifier = ">=0.15.1,<1.1" },
     { name = "jupyterlab", marker = "extra == 'dev'" },
     { name = "jupytext", marker = "extra == 'docs'" },
-    { name = "kfactory", extras = ["ipy"], specifier = "==0.21.10" },
+    { name = "kfactory", extras = ["ipy"], specifier = "==0.21.11" },
     { name = "kweb", marker = "extra == 'cad'", specifier = ">=1.1.9,<2.1" },
     { name = "loguru", specifier = "<1" },
     { name = "mapbox-earcut" },
@@ -2002,7 +2002,7 @@ wheels = [
 
 [[package]]
 name = "kfactory"
-version = "0.21.10"
+version = "0.21.11"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aenum" },
@@ -2020,9 +2020,9 @@ dependencies = [
     { name = "toolz" },
     { name = "typer" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/b0/a7/e67cb63e136890561e99a7b042295ea00992aeb9f262a5d0e7f8fafc9616/kfactory-0.21.10.tar.gz", hash = "sha256:de96524769e1f6ecac68bf3e5719ff13adda9d484ee197b9f49c367af7866d76", size = 1255380 }
+sdist = { url = "https://files.pythonhosted.org/packages/95/20/0ad17c739e054a22e2566f9edc69ce66cf6d8a93c931d5638f1e7aaeaa19/kfactory-0.21.11.tar.gz", hash = "sha256:012a8387cbf1ffdd0c58eeabab34710ba98d83382b2a8448a3a56140513c55e9", size = 1255384 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/cb/fe/410c0189cfca005323ae3806a9f236967b0cd50d2bec30503e2107820f62/kfactory-0.21.10-py3-none-any.whl", hash = "sha256:683424d905b95fe41b5ed392272e99bfa88aaeca10313b6beea7a978cf533728", size = 167747 },
+    { url = "https://files.pythonhosted.org/packages/cf/55/a726ca3608cc1c02a488135f7a19c1a07c0789ff853018498eee09abf8c6/kfactory-0.21.11-py3-none-any.whl", hash = "sha256:ea2dc21d924a0ff802d000f9fbc9eb66853fdd9f4ca48ae99d4093d37ffac230", size = 167635 },
 ]
 
 [package.optional-dependencies]
