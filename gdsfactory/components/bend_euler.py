@@ -6,7 +6,6 @@ from typing import Any, Literal, overload
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.cell import cell, vcell
 from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.components.wire import wire_corner
 from gdsfactory.path import euler
@@ -132,7 +131,7 @@ def _bend_euler(
     return c
 
 
-@cell
+@gf.cell
 def bend_euler_s(port1: str = "o1", port2: str = "o2", **kwargs: Any) -> Component:
     r"""Sbend made of 2 euler bends.
 
@@ -178,7 +177,7 @@ def bend_euler_s(port1: str = "o1", port2: str = "o2", **kwargs: Any) -> Compone
     return c
 
 
-@cell
+@gf.cell
 def bend_euler(
     radius: float | None = None,
     angle: float = 90.0,
@@ -222,7 +221,7 @@ def bend_euler(
     )
 
 
-@vcell
+@gf.vcell
 def bend_euler_all_angle(
     radius: float | None = None,
     angle: float = 90.0,

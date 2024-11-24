@@ -4,7 +4,6 @@ from functools import partial
 from typing import Any
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler180
 from gdsfactory.components.component_sequence import component_sequence
@@ -13,7 +12,7 @@ from gdsfactory.components.taper_from_csv import taper_0p5_to_3_l36
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@cell
+@gf.cell
 def cutback_component(
     component: ComponentSpec = taper_0p5_to_3_l36,
     cols: int = 4,

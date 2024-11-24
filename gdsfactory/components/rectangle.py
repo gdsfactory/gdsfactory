@@ -6,13 +6,13 @@ from typing import Any
 
 import numpy as np
 
-from gdsfactory.cell import cell
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
 from gdsfactory.typings import Ints, LayerSpec, LayerSpecs, Size
 
 
-@cell
+@gf.cell
 def rectangle(
     size: Size = (4.0, 2.0),
     layer: LayerSpec = "WG",
@@ -46,7 +46,7 @@ marker_te = partial(rectangle, size=(fiber_size, fiber_size), layer="TE", center
 marker_tm = partial(rectangle, size=(fiber_size, fiber_size), layer="TM", centered=True)
 
 
-@cell
+@gf.cell
 def rectangles(
     size: Size = (4.0, 2.0),
     offsets: Sequence[float] | None = None,

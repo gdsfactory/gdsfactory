@@ -8,7 +8,6 @@ import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.difftest import difftest
 from gdsfactory.generic_tech import LAYER
@@ -47,7 +46,7 @@ def looploop(num_pts: int = 1000) -> npt.NDArray[np.signedinteger[Any]]:
     return np.array((x, y)).T
 
 
-@cell
+@gf.cell
 def double_loop() -> Component:
     # Create the path points
     P = gf.Path()
@@ -66,7 +65,7 @@ def double_loop() -> Component:
     return gf.path.extrude(P, X, simplify=0.3)
 
 
-@cell
+@gf.cell
 def transition() -> Component:
     c = gf.Component()
     s0 = gf.Section(

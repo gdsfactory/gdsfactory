@@ -5,7 +5,6 @@ from __future__ import annotations
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
@@ -13,7 +12,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 LINE_LENGTH = 420.0
 
 
-@cell
+@gf.cell
 def cdsem_straight(
     widths: tuple[float, ...] = (0.4, 0.45, 0.5, 0.6, 0.8, 1.0),
     length: float = LINE_LENGTH,

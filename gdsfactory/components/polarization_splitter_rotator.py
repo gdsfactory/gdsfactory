@@ -6,7 +6,6 @@ import numpy as np
 import numpy.typing as npt
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bezier import bezier
 from gdsfactory.components.coupler_straight_asymmetric import (
@@ -16,7 +15,7 @@ from gdsfactory.components.taper import taper
 from gdsfactory.typings import CrossSectionSpec, Delta, Float2, Float3
 
 
-@cell
+@gf.cell
 def polarization_splitter_rotator(
     width_taper_in: Float3 = (0.54, 0.69, 0.83),
     length_taper_in: Float2 | Float3 = (4.0, 44.0),

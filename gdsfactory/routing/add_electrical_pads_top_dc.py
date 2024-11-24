@@ -4,7 +4,6 @@ from functools import partial
 from typing import Any
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.pad import pad_array270
 from gdsfactory.components.wire import wire_straight
@@ -22,7 +21,7 @@ from gdsfactory.typings import (
 _wire_long = partial(wire_straight, length=200.0)
 
 
-@cell
+@gf.cell
 def add_electrical_pads_top_dc(
     component: ComponentSpec = _wire_long,
     spacing: Float2 = (0.0, 100.0),

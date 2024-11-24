@@ -41,24 +41,28 @@ def die(
     if layer:
         if not draw_corners:
             street_length = sx
-        xpts = np.array([
-            sx,
-            sx,
-            sx - street_width,
-            sx - street_width,
-            sx - street_length,
-            sx - street_length,
-        ])
+        xpts = np.array(
+            [
+                sx,
+                sx,
+                sx - street_width,
+                sx - street_width,
+                sx - street_length,
+                sx - street_length,
+            ]
+        )
         if not draw_corners:
             street_length = sy
-        ypts = np.array([
-            sy,
-            sy - street_length,
-            sy - street_length,
-            sy - street_width,
-            sy - street_width,
-            sy,
-        ])
+        ypts = np.array(
+            [
+                sy,
+                sy - street_length,
+                sy - street_length,
+                sy - street_width,
+                sy - street_width,
+                sy,
+            ]
+        )
         c.add_polygon(list(zip(xpts, ypts)), layer=layer)
         c.add_polygon(list(zip(-xpts, ypts)), layer=layer)
         c.add_polygon(list(zip(xpts, -ypts)), layer=layer)

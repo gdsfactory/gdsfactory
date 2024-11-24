@@ -4,12 +4,11 @@ import warnings
 from collections.abc import Iterable
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.typings import AnyComponentPostProcess, ComponentSpec, Float2, Spacing
 
 
-@cell
+@gf.cell
 def array(
     component: ComponentSpec = "pad",
     spacing: Spacing | None = None,

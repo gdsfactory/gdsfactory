@@ -4,7 +4,6 @@ from typing import Any
 
 import gdsfactory as gf
 from gdsfactory import Component
-from gdsfactory.cell import cell
 from gdsfactory.snap import snap_to_grid2x
 from gdsfactory.typings import CrossSectionSpec, Size
 
@@ -61,7 +60,7 @@ def _generate_fins(
     return c
 
 
-@cell
+@gf.cell
 def dbr_tapered(
     length: float = 10.0,
     period: float = 0.85,

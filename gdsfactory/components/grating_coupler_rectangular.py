@@ -5,14 +5,13 @@ from typing import Any
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 
 
-@cell
+@gf.cell
 def grating_coupler_rectangular(
     n_periods: int = 20,
     period: float = 0.75,

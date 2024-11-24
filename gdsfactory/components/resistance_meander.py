@@ -2,13 +2,13 @@ from __future__ import annotations
 
 import numpy as np
 
-from gdsfactory.cell import cell
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.typings import LayerSpec, Size
 
 
-@cell
+@gf.cell
 def resistance_meander(
     pad_size: Size = (50.0, 50.0),
     num_squares: int = 1000,

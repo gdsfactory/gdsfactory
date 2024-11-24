@@ -1,12 +1,12 @@
 from __future__ import annotations
 
-from gdsfactory.cell import cell
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.port import Port
 from gdsfactory.typings import ComponentSpec, Strs
 
 
-@cell(set_name=False)
+@gf.cell(set_name=False)
 def extend_ports_list(
     ports: list[Port],
     extension: ComponentSpec,

@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import Any
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_elliptical import (
     grating_coupler_elliptical_te,
@@ -12,7 +11,7 @@ from gdsfactory.components.straight_array import straight_array
 from gdsfactory.typings import ComponentSpec
 
 
-@cell
+@gf.cell
 def grating_coupler_tree(
     n: int = 4,
     straight_spacing: float = 4.0,

@@ -4,12 +4,12 @@ from functools import partial
 
 import numpy as np
 
-from gdsfactory.cell import cell
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@cell
+@gf.cell
 def regular_polygon(
     sides: int = 6,
     side_length: float = 10,

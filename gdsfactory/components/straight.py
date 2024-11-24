@@ -5,12 +5,11 @@ from __future__ import annotations
 from typing import Any
 
 import gdsfactory as gf
-from gdsfactory.cell import cell, vcell
 from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.typings import CrossSectionSpec
 
 
-@cell
+@gf.cell
 def straight(
     length: float = 10.0,
     npoints: int = 2,
@@ -41,7 +40,7 @@ def straight(
     return c
 
 
-@vcell
+@gf.vcell
 def straight_all_angle(
     length: float = 10.0,
     npoints: int = 2,

@@ -3,14 +3,13 @@ from __future__ import annotations
 from typing import Any
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular_all_angle
 from gdsfactory.components.straight import straight
 from gdsfactory.typings import ComponentBaseFactory, ComponentSpec, CrossSectionSpec
 
 
-@cell
+@gf.cell
 def coupler_bend(
     radius: float = 10.0,
     coupler_gap: float = 0.2,
@@ -82,7 +81,7 @@ def coupler_bend(
     return c
 
 
-@cell
+@gf.cell
 def coupler_ring_bend(
     radius: float = 10.0,
     coupler_gap: float = 0.2,
@@ -142,7 +141,7 @@ def coupler_ring_bend(
     return c
 
 
-@cell
+@gf.cell
 def ring_single_bend_coupler(
     radius: float = 5.0,
     gap: float = 0.2,

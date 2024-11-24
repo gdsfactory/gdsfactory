@@ -4,12 +4,11 @@ from functools import partial
 from typing import Any
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.typings import CrossSectionSpec
 
 
-@cell
+@gf.cell
 def taper_cross_section(
     cross_section1: CrossSectionSpec = "strip_rib_tip",
     cross_section2: CrossSectionSpec = "rib2",

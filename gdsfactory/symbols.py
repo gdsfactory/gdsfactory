@@ -4,13 +4,13 @@ import functools
 from collections.abc import Callable
 from typing import Any, Protocol
 
-from gdsfactory.cell import cell
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec, LayerSpecs
 
 _F = Callable[..., Component]
 
-symbol = cell
+symbol = gf.cell
 
 
 class ToSymbol(Protocol):

@@ -110,9 +110,11 @@ def _get_glyph(font: freetype.Face, letter: str) -> tuple[Component, float, floa
         for j in range(1, len(points)):
             segments[-1].append(points[j])
             if tags[j] & (1 << 0) and j < (len(points) - 1):
-                segments.append([
-                    points[j],
-                ])
+                segments.append(
+                    [
+                        points[j],
+                    ]
+                )
         verts = [
             points[0],
         ]

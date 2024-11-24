@@ -5,14 +5,13 @@ import warnings
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.array_component import array
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.typings import Float2, LayerSpec, Size
 
 
-@cell
+@gf.cell
 def rectangle_with_slits(
     size: Size = (100.0, 200.0),
     layer: LayerSpec = "WG",

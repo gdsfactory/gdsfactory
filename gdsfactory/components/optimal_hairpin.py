@@ -2,13 +2,13 @@ from __future__ import annotations
 
 import numpy as np
 
-from gdsfactory.cell import cell
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import LayerSpec
 
 
-@cell
+@gf.cell
 def optimal_hairpin(
     width: float = 0.2,
     pitch: float = 0.6,

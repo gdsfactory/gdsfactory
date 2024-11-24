@@ -3,7 +3,7 @@ from __future__ import annotations
 from functools import partial
 from typing import Any
 
-from gdsfactory.cell import cell
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular, bend_circular180
 from gdsfactory.components.bend_euler import bend_euler, bend_euler180
@@ -19,7 +19,7 @@ def _get_bend_size(bend90: Component) -> float:
     return max(bsx, bsy)
 
 
-@cell
+@gf.cell
 def cutback_bend(
     component: ComponentSpec = bend_euler,
     straight: ComponentFactory = straight_function,
@@ -75,7 +75,7 @@ def cutback_bend(
     return c
 
 
-@cell
+@gf.cell
 def cutback_bend90(
     component: ComponentSpec = bend_euler,
     straight: ComponentFactory = straight_function,
@@ -131,7 +131,7 @@ def cutback_bend90(
     return c
 
 
-@cell
+@gf.cell
 def staircase(
     component: ComponentSpec = bend_euler,
     straight: ComponentFactory = straight_function,
@@ -176,7 +176,7 @@ def staircase(
     return c
 
 
-@cell
+@gf.cell
 def cutback_bend180(
     component: ComponentSpec = bend_euler180,
     straight: ComponentFactory = straight_function,

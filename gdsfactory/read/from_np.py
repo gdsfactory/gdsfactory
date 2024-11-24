@@ -7,8 +7,8 @@ from typing import Any
 import numpy as np
 import numpy.typing as npt
 
+import gdsfactory as gf
 from gdsfactory.boolean import boolean
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 
 
@@ -65,7 +65,7 @@ def from_np(
     return boolean(c, d, operation="not", layer=layer) if invert else d
 
 
-@cell
+@gf.cell
 def from_image(image_path: str, **kwargs: Any) -> Component:
     """Returns Component from a png image.
 

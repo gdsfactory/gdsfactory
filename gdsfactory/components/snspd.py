@@ -2,14 +2,14 @@ from __future__ import annotations
 
 import numpy as np
 
-from gdsfactory.cell import cell
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
 from gdsfactory.components.optimal_hairpin import optimal_hairpin
 from gdsfactory.typings import Float2, LayerSpec
 
 
-@cell
+@gf.cell
 def snspd(
     wire_width: float = 0.2,
     wire_pitch: float = 0.6,

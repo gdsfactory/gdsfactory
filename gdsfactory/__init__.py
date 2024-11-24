@@ -9,11 +9,11 @@ from toolz import compose  # type: ignore
 from aenum import constant  # type: ignore[import-untyped]
 
 import kfactory as kf
-from kfactory.kcell import LayerEnum, kcl, show, vcell
+from kfactory.kcell import LayerEnum, kcl, show
 from kfactory import logger
 import klayout.db as kdb
 
-from gdsfactory.cell import cell
+from gdsfactory._cell import cell, vcell
 from gdsfactory.path import Path
 from gdsfactory.component import (
     Component,
@@ -97,6 +97,7 @@ __all__ = (
     "Pdk",
     "Port",
     "Section",
+    "__version__",
     "add_padding",
     "add_padding_container",
     "add_pins",
@@ -148,5 +149,4 @@ __all__ = (
     "vcell",
     "write_cells",
     "xsection",
-    "__version__",
 )

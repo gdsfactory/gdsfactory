@@ -5,14 +5,13 @@ from typing import Any
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bezier import bezier, bezier_curve
 from gdsfactory.functions import curvature
 from gdsfactory.typings import CrossSectionSpec, Size
 
 
-@cell
+@gf.cell
 def bend_s(
     size: Size = (11.0, 1.8),
     npoints: int = 99,

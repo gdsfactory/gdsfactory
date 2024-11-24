@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular180
 from gdsfactory.components.component_sequence import component_sequence
@@ -10,7 +9,7 @@ from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.typings import ComponentFactory, ComponentSpec, CrossSectionSpec
 
 
-@cell
+@gf.cell
 def bendu_double(
     component: ComponentSpec,
     cross_section: CrossSectionSpec = "strip",
@@ -49,7 +48,7 @@ def bendu_double(
     return bendu
 
 
-@cell
+@gf.cell
 def straight_double(
     component: ComponentSpec,
     cross_section: CrossSectionSpec = "strip",
@@ -89,7 +88,7 @@ def straight_double(
     return straight_double
 
 
-@cell
+@gf.cell
 def cutback_2x2(
     component: ComponentSpec = mmi2x2,
     cols: int = 4,

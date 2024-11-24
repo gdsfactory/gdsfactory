@@ -5,7 +5,6 @@ from __future__ import annotations
 from functools import partial
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
 from gdsfactory.components.text_rectangular import text_rectangular
@@ -17,7 +16,7 @@ widths = 10 * (0.3,)
 gaps = 10 * (0.3,)
 
 
-@cell
+@gf.cell
 def cdsem_straight_density(
     widths: Floats = widths,
     gaps: Floats = gaps,

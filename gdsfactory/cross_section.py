@@ -441,9 +441,9 @@ class Transition(BaseModel):
         if isinstance(width_type, str):
             return width_type
         t_values = np.linspace(0, 1, 10)
-        return ",".join([
-            str(round(width, 3)) for width in width_type(t_values, *self.width)
-        ])
+        return ",".join(
+            [str(round(width, 3)) for width in width_type(t_values, *self.width)]
+        )
 
 
 cross_sections = {}
@@ -559,15 +559,17 @@ def cross_section(
         cladding_centers = cladding_centers or [0] * len(cladding_layers)
 
         if (
-            len({
-                len(x)
-                for x in (
-                    cladding_layers,
-                    cladding_offsets,
-                    cladding_simplify,
-                    cladding_centers,
-                )
-            })
+            len(
+                {
+                    len(x)
+                    for x in (
+                        cladding_layers,
+                        cladding_offsets,
+                        cladding_simplify,
+                        cladding_centers,
+                    )
+                }
+            )
             > 1
         ):
             raise ValueError(

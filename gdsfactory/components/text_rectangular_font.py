@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from functools import cache
 
-from gdsfactory.cell import cell
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
@@ -16,7 +16,7 @@ X   X
 """
 
 
-@cell
+@gf.cell
 def pixel_array(
     pixels: str = character_a,
     pixel_size: float = 10.0,

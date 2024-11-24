@@ -4,7 +4,6 @@ from functools import partial
 from typing import Literal, overload
 
 import gdsfactory as gf
-from gdsfactory.cell import cell, vcell
 from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.path import arc
 from gdsfactory.snap import snap_to_grid
@@ -100,7 +99,7 @@ def _bend_circular(
     return c
 
 
-@cell
+@gf.cell
 def bend_circular(
     radius: float | None = None,
     angle: float = 90.0,
@@ -137,7 +136,7 @@ def bend_circular(
     )
 
 
-@vcell
+@gf.vcell
 def bend_circular_all_angle(
     radius: float | None = None,
     angle: float = 90.0,

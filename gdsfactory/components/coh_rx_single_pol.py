@@ -3,7 +3,6 @@ from __future__ import annotations
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.ge_detector_straight_si_contacts import (
     ge_detector_straight_si_contacts,
@@ -12,7 +11,7 @@ from gdsfactory.components.mmi_90degree_hybrid import mmi_90degree_hybrid
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Spacing
 
 
-@cell
+@gf.cell
 def coh_rx_single_pol(
     bend: ComponentSpec = "bend_euler",
     cross_section: CrossSectionSpec = "strip",
