@@ -417,7 +417,7 @@ ConductorViaConductorName = tuple[str, str, str] | tuple[str, str]
 ConnectivitySpec = ConductorConductorName | ConductorViaConductorName
 
 
-class Transition(CrossSection):
+class Transition(BaseModel):
     """Waveguide information to extrude a path between two CrossSection.
 
     cladding_layers follow path shape
@@ -444,17 +444,6 @@ class Transition(CrossSection):
         return ",".join(
             [str(round(width, 3)) for width in width_type(t_values, *self.width)]
         )
-
-    @property
-    def width(self) -> tuple[float, float]:
-        return (
-            self.cross_section1.sections[0].width,
-            self.cross_section2.sections[0].width,
-        )
-
-    @property
-    def layer(self) -> LayerSpec:
-        return self.cross_section1.sections[0].layer
 
 
 cross_sections = {}
