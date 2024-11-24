@@ -8,7 +8,7 @@ import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
-from gdsfactory import cell
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.difftest import difftest
 from gdsfactory.generic_tech import LAYER

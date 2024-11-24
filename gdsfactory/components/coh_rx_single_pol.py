@@ -3,13 +3,13 @@ from __future__ import annotations
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory import cell
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.ge_detector_straight_si_contacts import (
     ge_detector_straight_si_contacts,
 )
 from gdsfactory.components.mmi_90degree_hybrid import mmi_90degree_hybrid
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Spacing
 
 
 @cell
@@ -18,7 +18,7 @@ def coh_rx_single_pol(
     cross_section: CrossSectionSpec = "strip",
     hybrid_90deg: ComponentSpec = mmi_90degree_hybrid,
     detector: ComponentSpec = ge_detector_straight_si_contacts,
-    det_spacing: tuple[float, float] = (60.0, 50.0),
+    det_spacing: Spacing = (60.0, 50.0),
     in_wg_length: float = 20.0,
     lo_input_coupler: ComponentSpec | None = None,
     signal_input_coupler: ComponentSpec | None = None,

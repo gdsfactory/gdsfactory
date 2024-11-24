@@ -5,8 +5,8 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 
 from __future__ import annotations
 
-from collections.abc import Sequence
 import warnings
+from collections.abc import Sequence
 from typing import Any
 
 import numpy as np
@@ -14,13 +14,13 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.typings import Anchor, ComponentSpec, Float2, Number
+from gdsfactory.typings import Anchor, ComponentSpec, Float2, Number, Size
 
 
 def _pack_single_bin(
     rect_dict: dict[int, tuple[Number, Number]],
     aspect_ratio: tuple[Number, Number],
-    max_size: tuple[float, float],
+    max_size: Size,
     sort_by_area: bool,
     density: float,
 ) -> tuple[dict[int, tuple[Number, Number, Number, Number]], dict[Any, Any]]:

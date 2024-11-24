@@ -6,13 +6,13 @@ from collections.abc import Iterable
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.typings import AnyComponentPostProcess, ComponentSpec, Float2
+from gdsfactory.typings import AnyComponentPostProcess, ComponentSpec, Float2, Spacing
 
 
 @cell
 def array(
     component: ComponentSpec = "pad",
-    spacing: tuple[float, float] | None = None,
+    spacing: Spacing | None = None,
     columns: int = 6,
     rows: int = 1,
     column_pitch: float = 150,

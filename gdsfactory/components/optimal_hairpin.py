@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from gdsfactory import cell
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import LayerSpec

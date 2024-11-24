@@ -12,6 +12,7 @@ from gdsfactory.typings import (
     ComponentSpec,
     LayerSpec,
     PortsFactory,
+    Size,
     Strs,
 )
 
@@ -23,7 +24,7 @@ def add_electrical_pads_shortest(
     component: ComponentSpec = _wire_long,
     pad: ComponentSpec = "pad",
     pad_port_spacing: float = 50.0,
-    pad_size: tuple[float, float] = (100.0, 100.0),
+    pad_size: Size = (100.0, 100.0),
     select_ports: PortsFactory = select_ports_electrical,
     port_names: Strs | None = None,
     port_orientation: AngleInDegrees = 90,

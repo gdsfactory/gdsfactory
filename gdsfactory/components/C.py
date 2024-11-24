@@ -2,13 +2,13 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.typings import LayerSpec
+from gdsfactory.typings import LayerSpec, Size
 
 
 @gf.cell
 def C(
     width: float = 1.0,
-    size: tuple[float, float] = (10.0, 20.0),
+    size: Size = (10.0, 20.0),
     layer: LayerSpec = "WG",
     port_type: str = "electrical",
 ) -> Component:

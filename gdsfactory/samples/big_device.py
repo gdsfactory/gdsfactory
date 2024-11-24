@@ -5,12 +5,12 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory import Port
 from gdsfactory.component import Component
-from gdsfactory.typings import CrossSectionSpec
+from gdsfactory.typings import CrossSectionSpec, Size
 
 
 @gf.cell
 def big_device(
-    size: tuple[float, float] = (400.0, 400.0),
+    size: Size = (400.0, 400.0),
     nports: int = 16,
     spacing: float = 15.0,
     port_type: str = "optical",

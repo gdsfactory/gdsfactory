@@ -7,8 +7,8 @@ from typing import Any
 import numpy as np
 import numpy.typing as npt
 
-from gdsfactory import cell
 from gdsfactory.boolean import boolean
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 
 

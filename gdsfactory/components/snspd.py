@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from gdsfactory import cell
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
 from gdsfactory.components.optimal_hairpin import optimal_hairpin

@@ -2,15 +2,15 @@ from __future__ import annotations
 
 import numpy as np
 
-from gdsfactory import cell
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
-from gdsfactory.typings import LayerSpec
+from gdsfactory.typings import LayerSpec, Size
 
 
 @cell
 def resistance_meander(
-    pad_size: tuple[float, float] = (50.0, 50.0),
+    pad_size: Size = (50.0, 50.0),
     num_squares: int = 1000,
     width: float = 1.0,
     res_layer: LayerSpec = "MTOP",

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from functools import cache
 
-from gdsfactory import cell
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 

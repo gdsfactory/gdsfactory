@@ -36,6 +36,7 @@ if TYPE_CHECKING:
         LayerStack,
         LayerViews,
         PathType,
+        Spacing,
     )
 
 cell_without_validator = cell
@@ -512,7 +513,7 @@ class ComponentBase:
         component: Component,
         columns: int = 2,
         rows: int = 2,
-        spacing: tuple[float, float] = (100, 100),
+        spacing: "Spacing" = (100, 100),
         name: str | None = None,
     ) -> ComponentReference:
         """Creates a ComponentReference reference to a Component.
@@ -624,7 +625,7 @@ class ComponentBase:
         name: str | None = None,
         columns: int = 1,
         rows: int = 1,
-        spacing: tuple[float, float] | None = None,
+        spacing: "Spacing | None" = None,
         alias: str | None = None,
         column_pitch: float = 0.0,
         row_pitch: float = 0.0,

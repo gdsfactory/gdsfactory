@@ -13,6 +13,7 @@ from typing import Literal
 from pydantic import BaseModel, Field
 
 from gdsfactory import Component
+from gdsfactory.typings import Size
 
 
 class GerberLayer(BaseModel):
@@ -30,7 +31,7 @@ class GerberOptions(BaseModel):
 
 # For generating a gerber job json file
 class BoardOptions(BaseModel):
-    size: tuple[float, float] | None = None
+    size: Size | None = None
     n_layers: int = 2
 
 

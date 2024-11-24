@@ -3,7 +3,7 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
-from gdsfactory.typings import ComponentSpec, Floats, LayerSpecs
+from gdsfactory.typings import ComponentSpec, Floats, LayerSpecs, Size
 
 
 @gf.cell
@@ -12,7 +12,7 @@ def resistance_sheet(
     layers: LayerSpecs = ("HEATER",),
     layer_offsets: Floats = (0, 0.2),
     pad: ComponentSpec = "via_stack_heater_mtop",
-    pad_size: tuple[float, float] = (50.0, 50.0),
+    pad_size: Size = (50.0, 50.0),
     pad_pitch: float = 100.0,
     ohms_per_square: float | None = None,
     pad_port_name: str = "e4",

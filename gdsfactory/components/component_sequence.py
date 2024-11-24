@@ -4,7 +4,7 @@ from collections import Counter
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.typings import AngleInDegrees, ComponentSpec
+from gdsfactory.typings import AngleInDegrees
 
 
 class SequenceGenerator:
