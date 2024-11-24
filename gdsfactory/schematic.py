@@ -1,5 +1,6 @@
 import json
 import warnings
+from math import sqrt
 from typing import Any
 
 import networkx as nx
@@ -145,7 +146,7 @@ def to_yaml_graph_networkx(netlist: Netlist, nets):
 
     for node, placement in placements.items():
         if not G.has_node(
-            node
+                node
         ):  # Check if the node is already in the graph (from connections), to avoid duplication.
             G.add_node(node)
             pos[node] = (placement.x, placement.y)
@@ -160,13 +161,19 @@ def to_graphviz(instances, placements, nets, show_ports=True):
     """Generates a netlist graph using Graphviz."""
     from graphviz import Digraph
 
-    # Graphviz implementation
     dot = Digraph(comment="Netlist Diagram")
-    dot.attr(dpi="300", layout="neato", overlap="false")
 
-    all_ports = []
+    canvas_width = 10  # in inches
+    canvas_height = 10  # in inches
+    dpi = 300
+    node_reduction_factor = 0.4  # to prevent nodes from overlapping
+    vertical_conflict_factor = 3  # minimum vertical separation between two nodes (in multiples of width)
+    horizontal_conflict_factor = 2  # minimum horizontal separation between two nodes (in multiples of height)
+
+    dot.attr(dpi=str(dpi), layout="neato", overlap="scale", size=f"{canvas_width},{canvas_height}!")
 
     # Retrieve all the ports in the component
+    all_ports = []
     for name, instance in instances.items():
         if hasattr(instance, "component"):
             instance = instance.component
@@ -175,63 +182,130 @@ def to_graphviz(instances, placements, nets, show_ports=True):
         ports = gdsfactory.get_component(instance).ports
         all_ports.append((name, ports))
 
-    for node, placement in placements.items():
+    # Check the range of positions
+    x_values = [placement.x if hasattr(placement, "x") else placement["x"] for placement in placements.values()]
+    y_values = [placement.y if hasattr(placement, "y") else placement["y"] for placement in placements.values()]
+    min_x, max_x = min(x_values), max(x_values)
+    min_y, max_y = min(y_values), max(y_values)
+    position_tracker = {}
+
+    for (node, placement) in placements.items():
         ports = dict(all_ports).get(node)
 
-        if not ports or not show_ports:
-            label = node
-        else:
-            top_ports, right_ports, bottom_ports, left_ports = [], [], [], []
+        # Define a subgraph for each component without an outer frame
+        with dot.subgraph(name=f"cluster_{node}") as sub:
+            sub.attr(style="invis")
 
-            for port in ports:
-                if 0 <= port.orientation < 45 or 315 <= port.orientation < 360:
-                    right_ports.append(port)
-                elif 45 <= port.orientation < 135:
-                    bottom_ports.append(port)
-                elif 135 <= port.orientation < 225:
-                    left_ports.append(port)
-                elif 225 <= port.orientation < 315:
-                    top_ports.append(port)
+            x = placement.x if hasattr(placement, "x") else placement["x"]
+            y = placement.y if hasattr(placement, "y") else placement["y"]
+            range_x = max_x - min_x
+            range_y = max_y - min_y
+            effective_canvas_area = canvas_height * canvas_width
+            effective_canvas_area *= range_x * range_y / (max(range_x, range_y))**2 if range_y > 0 and range_x > 0 else 1
+            node_density = len(instances) / (effective_canvas_area * dpi)
+            node_size = 1 / (node_density ** 0.5)
+            node_width = node_size * node_reduction_factor
+            node_height = node_size * node_reduction_factor
+            font_size = min(node_width, node_height) * 20
 
-            # Format ports for Graphviz record structure in anticlockwise order
-            port_labels = []
+            # Normalize and scale
+            scaling_factor = 300 / max(range_x, range_y) if max(range_x, range_y) > 0 else 1
+            x = scaling_factor * (x - min_x) if range_x > 0 else 150  # Center if no range
+            y = scaling_factor * (y - min_y) if range_y > 0 else 150
 
-            if left_ports:
-                left_ports_label = " | ".join(
-                    f"<{port.name}> {port.name}" for port in reversed(left_ports)
+            pos = (x, y)
+
+            # Check for exact position overlap and proximity
+            attempts = 0
+            while any(
+                    abs(pos[0] - tracked_pos[0]) < horizontal_conflict_factor * node_width and
+                    abs(pos[1] - tracked_pos[1]) < vertical_conflict_factor * node_height
+                    for tracked_pos in position_tracker
+            ):
+                conflicting_positions = [
+                    tracked_pos for tracked_pos in position_tracker
+                    if abs(pos[0] - tracked_pos[0]) < horizontal_conflict_factor * node_width and
+                       abs(pos[1] - tracked_pos[1]) < vertical_conflict_factor * node_height
+                ]
+
+                attempts += 1
+                if attempts > 10:  # reduce node size
+                    node_width *= 0.9
+                    node_height *= 0.9
+
+                closest_pos = min(
+                    conflicting_positions,
+                    key=lambda tracked_pos: sqrt((pos[0] - tracked_pos[0]) ** 2 + (pos[1] - tracked_pos[1]) ** 2)
                 )
-                port_labels.append(f"{{ {left_ports_label} }}")
 
-            middle_row = []
+                y_diff = pos[1] - closest_pos[1]
+                y += node_height * vertical_conflict_factor * 0.1 if y_diff > 0 \
+                    else -node_height * vertical_conflict_factor * 0.1
+                pos = (x, y)
 
-            if top_ports:
-                top_ports_label = " | ".join(
-                    f"<{port.name}> {port.name}" for port in top_ports
-                )
-                middle_row.append(f"{{ {top_ports_label} }}")
+            position_tracker[pos] = node
+            sub.node(node, label=node, shape="rectangle", pos=f"{x},{y}!", width=str(node_width),
+                     height=str(node_height), fontsize=str(font_size), style="filled", fillcolor="white")
 
-            middle_row.append(node)
+            # Create ports for the components
+            if ports and show_ports:
+                right_ports, bottom_ports, left_ports, top_ports = [], [], [], []
 
-            if bottom_ports:
-                bottom_ports_label = " | ".join(
-                    f"<{port.name}> {port.name}" for port in reversed(bottom_ports)
-                )
-                middle_row.append(f"{{ {bottom_ports_label} }}")
+                for port in ports:
+                    orientation = port.orientation
+                    if 0 <= orientation < 45 or 315 <= orientation < 360:
+                        right_ports.append(port)
+                    elif 45 <= orientation < 135:
+                        bottom_ports.append(port)
+                    elif 135 <= orientation < 225:
+                        left_ports.append(port)
+                    elif 225 <= orientation < 315:
+                        top_ports.append(port)
 
-            port_labels.append(f"{{ {' | '.join(middle_row)} }}")
+                def position_ports(port_list, side):
+                    port_count = len(port_list)
 
-            if right_ports:
-                right_ports_label = " | ".join(
-                    f"<{port.name}> {port.name}" for port in right_ports
-                )
-                port_labels.append(f"{{ {right_ports_label} }}")
+                    if port_count == 0:
+                        return
 
-            label = " | ".join(port_labels)
+                    # Reverse the port list if side is 'left' or 'bottom' to achieve the anticlockwise effect
+                    if side in ["left", "bottom"]:
+                        port_list = port_list[::-1]
 
-        x = placement.x if hasattr(placement, "x") else placement["x"]
-        y = placement.y if hasattr(placement, "y") else placement["y"]
-        pos = f"{x},{y}!"
-        dot.node(node, label=label, pos=pos, shape="record")
+                    if side in ["top", "bottom"]:
+                        port_width = node_width / port_count
+                        port_height = node_height / 2
+                    else:
+                        port_width = node_width / 2
+                        port_height = node_height / port_count
+
+                    port_font_size = min(port_width, port_height) * 15
+
+                    for i, port in enumerate(port_list):
+                        port_name = f"{node}_{port.name.replace('_', '-')}"  # Prevent ambiguity with subgraph notation
+
+                        if side == "right":
+                            port_x = x + node_width / 2 + port_width / 2
+                            port_y = y + node_height / 2 - (i + 0.5) * port_height
+                        elif side == "bottom":
+                            port_x = x - node_width / 2 + (i + 0.5) * port_width
+                            port_y = y - node_height / 2 - port_height / 2
+                        elif side == "left":
+                            port_x = x - node_width / 2 - port_width / 2
+                            port_y = y + node_height / 2 - (i + 0.5) * port_height
+                        elif side == "top":
+                            port_x = x - node_width / 2 + (i + 0.5) * port_width
+                            port_y = y + node_height / 2 + port_height / 2
+
+                        port_pos = f"{port_x},{port_y}!"
+                        sub.node(port_name, label=port_name, shape="rectangle", pos=port_pos,
+                                 fontsize=str(port_font_size), width=str(port_width), height=str(port_height),
+                                 style="filled", fillcolor="white")
+
+                position_ports(right_ports, "right")
+                position_ports(bottom_ports, "bottom")
+                position_ports(left_ports, "left")
+                position_ports(top_ports, "top")
 
     for net in nets:
         p1 = net.p1 if hasattr(net, "p1") else net["p1"]
@@ -243,7 +317,10 @@ def to_graphviz(instances, placements, nets, show_ports=True):
         p2_instance = p2.split(",")[0]
         p2_port = p2.split(",")[1]
 
-        dot.edge(f"{p1_instance}:{p1_port}", f"{p2_instance}:{p2_port}", dir="none")
+        p1_port = p1_port.replace("_", "-")  # Prevent ambiguity with subgraph notation
+        p2_port = p2_port.replace("_", "-")
+
+        dot.edge(f"{p1_instance}_{p1_port}", f"{p2_instance}_{p2_port}", dir="none")
 
     return dot
 
@@ -273,16 +350,16 @@ class Schematic(BaseModel):
     links: list[Link] = Field(default_factory=list)
 
     def add_instance(
-        self, name: str, instance: Instance, placement: Placement | None = None
+            self, name: str, instance: Instance, placement: Placement | None = None
     ) -> None:
         self.netlist.instances[name] = instance
         if placement:
             self.add_placement(name, placement)
 
     def add_placement(
-        self,
-        instance_name: str,
-        placement: Placement,
+            self,
+            instance_name: str,
+            placement: Placement,
     ) -> None:
         """Add placement to the netlist.
 
@@ -352,7 +429,7 @@ def plot_graphviz(graph, interactive=False, splines: str = "ortho") -> None:
 
 
 def write_schema(
-    model: BaseModel = Netlist, schema_path_json=PATH.schema_netlist
+        model: BaseModel = Netlist, schema_path_json=PATH.schema_netlist
 ) -> None:
     s = model.model_json_schema()
     schema_path_yaml = schema_path_json.with_suffix(".yaml")
@@ -368,14 +445,14 @@ if __name__ == "__main__":
     import gdsfactory as gf
     import gdsfactory.schematic as gt
 
-    s = Schematic()
-    s.add_instance("mzi1", gt.Instance(component=gf.c.mzi(delta_length=10)))
-    s.add_instance("mzi2", gt.Instance(component=gf.c.mzi(delta_length=100)))
-    s.add_instance("mzi3", gt.Instance(component=gf.c.mzi(delta_length=200)))
-    s.add_placement("mzi1", gt.Placement(x=000, y=0))
-    s.add_placement("mzi2", gt.Placement(x=100, y=100))
-    s.add_placement("mzi3", gt.Placement(x=200, y=0))
-    s.add_net(gt.Net(p1="mzi1,o2", p2="mzi2,o2"))
-    s.add_net(gt.Net(p1="mzi2,o2", p2="mzi3,o1"))
-    dot = s.to_graphviz()
-    s.plot_graphviz()
+    s = gt.Schematic()
+    s.add_instance("s11", gt.Instance(component=gf.c.mmi1x2()))
+    s.add_instance("s21", gt.Instance(component=gf.c.mmi1x2()))
+    s.add_instance("s22", gt.Instance(component=gf.c.mmi1x2()))
+    s.add_placement("s11", gt.Placement(x=000, y=0))
+    s.add_placement("s21", gt.Placement(x=100, y=+50))
+    s.add_placement("s22", gt.Placement(x=100, y=-50))
+    s.add_net(gt.Net(p1="s11,o2", p2="s21,o1"))
+    s.add_net(gt.Net(p1="s11,o3", p2="s22,o1"))
+    g = s.plot_graphviz()
+
