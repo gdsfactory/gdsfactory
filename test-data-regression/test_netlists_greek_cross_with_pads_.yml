@@ -13,7 +13,7 @@ instances:
       widths:
       - 2
       - 3
-  pad_S100_100_LMTOP_BLNo_8d51f10c_200000_0:
+  pad_S100_100_LMTOP_BLNo_163fd346_200000_0:
     component: pad
     info:
       size:
@@ -32,10 +32,11 @@ instances:
       - 90
       - 0
       - -90
+      port_type: pad
       size:
       - 100
       - 100
-  pad_S100_100_LMTOP_BLNo_8d51f10c_350000_0:
+  pad_S100_100_LMTOP_BLNo_163fd346_350000_0:
     component: pad
     info:
       size:
@@ -54,10 +55,11 @@ instances:
       - 90
       - 0
       - -90
+      port_type: pad
       size:
       - 100
       - 100
-  pad_S100_100_LMTOP_BLNo_8d51f10c_500000_0:
+  pad_S100_100_LMTOP_BLNo_163fd346_500000_0:
     component: pad
     info:
       size:
@@ -76,10 +78,11 @@ instances:
       - 90
       - 0
       - -90
+      port_type: pad
       size:
       - 100
       - 100
-  pad_S100_100_LMTOP_BLNo_8d51f10c_50000_0:
+  pad_S100_100_LMTOP_BLNo_163fd346_50000_0:
     component: pad
     info:
       size:
@@ -98,6 +101,7 @@ instances:
       - 90
       - 0
       - -90
+      port_type: pad
       size:
       - 100
       - 100
@@ -211,13 +215,13 @@ instances:
       - null
 name: greek_cross_with_pads_P_9b406e91
 nets:
-- p1: pad_S100_100_LMTOP_BLNo_8d51f10c_200000_0,e4
+- p1: pad_S100_100_LMTOP_BLNo_163fd346_200000_0,e4
   p2: via_stack_S11_11_LM1_M2_70ad5a55_200000_m55500,e2
-- p1: pad_S100_100_LMTOP_BLNo_8d51f10c_350000_0,e2
+- p1: pad_S100_100_LMTOP_BLNo_163fd346_350000_0,e2
   p2: via_stack_S11_11_LM1_M2_70ad5a55_350000_55500,e4
-- p1: pad_S100_100_LMTOP_BLNo_8d51f10c_500000_0,e2
+- p1: pad_S100_100_LMTOP_BLNo_163fd346_500000_0,e2
   p2: via_stack_S11_11_LM1_M2_70ad5a55_500000_55500,e4
-- p1: pad_S100_100_LMTOP_BLNo_8d51f10c_50000_0,e4
+- p1: pad_S100_100_LMTOP_BLNo_163fd346_50000_0,e4
   p2: via_stack_S11_11_LM1_M2_70ad5a55_50000_m55500,e2
 placements:
   greek_cross_L30_LWG_N_W_0e8f7afb_275000_0:
@@ -225,22 +229,22 @@ placements:
     rotation: 0
     x: 275
     y: 0
-  pad_S100_100_LMTOP_BLNo_8d51f10c_200000_0:
+  pad_S100_100_LMTOP_BLNo_163fd346_200000_0:
     mirror: false
     rotation: 0
     x: 200
     y: 0
-  pad_S100_100_LMTOP_BLNo_8d51f10c_350000_0:
+  pad_S100_100_LMTOP_BLNo_163fd346_350000_0:
     mirror: false
     rotation: 0
     x: 350
     y: 0
-  pad_S100_100_LMTOP_BLNo_8d51f10c_500000_0:
+  pad_S100_100_LMTOP_BLNo_163fd346_500000_0:
     mirror: false
     rotation: 0
     x: 500
     y: 0
-  pad_S100_100_LMTOP_BLNo_8d51f10c_50000_0:
+  pad_S100_100_LMTOP_BLNo_163fd346_50000_0:
     mirror: false
     rotation: 0
     x: 50
@@ -268,8 +272,8 @@ placements:
 ports:
   e1: via_stack_S11_11_LM1_M2_70ad5a55_50000_m55500,e2
   e2: via_stack_S11_11_LM1_M2_70ad5a55_200000_m55500,e2
-  e3: pad_S100_100_LMTOP_BLNo_8d51f10c_350000_0,e4
-  e4: pad_S100_100_LMTOP_BLNo_8d51f10c_500000_0,e4
+  e3: pad_S100_100_LMTOP_BLNo_163fd346_350000_0,e4
+  e4: pad_S100_100_LMTOP_BLNo_163fd346_500000_0,e4
 warnings:
   electrical:
     unconnected_ports:
@@ -279,25 +283,25 @@ warnings:
       - greek_cross_L30_LWG_N_W_0e8f7afb_275000_0,e1
       - greek_cross_L30_LWG_N_W_0e8f7afb_275000_0,e2
       - greek_cross_L30_LWG_N_W_0e8f7afb_275000_0,e4
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_50000_0,e1
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_50000_0,e2
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_50000_0,e3
+      - pad_S100_100_LMTOP_BLNo_163fd346_50000_0,e1
+      - pad_S100_100_LMTOP_BLNo_163fd346_50000_0,e2
+      - pad_S100_100_LMTOP_BLNo_163fd346_50000_0,e3
       - via_stack_S11_11_LM1_M2_70ad5a55_50000_m55500,e1
       - via_stack_S11_11_LM1_M2_70ad5a55_50000_m55500,e3
       - via_stack_S11_11_LM1_M2_70ad5a55_50000_m55500,e4
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_200000_0,e1
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_200000_0,e2
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_200000_0,e3
+      - pad_S100_100_LMTOP_BLNo_163fd346_200000_0,e1
+      - pad_S100_100_LMTOP_BLNo_163fd346_200000_0,e2
+      - pad_S100_100_LMTOP_BLNo_163fd346_200000_0,e3
       - via_stack_S11_11_LM1_M2_70ad5a55_200000_m55500,e1
       - via_stack_S11_11_LM1_M2_70ad5a55_200000_m55500,e3
       - via_stack_S11_11_LM1_M2_70ad5a55_200000_m55500,e4
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_350000_0,e1
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_350000_0,e3
+      - pad_S100_100_LMTOP_BLNo_163fd346_350000_0,e1
+      - pad_S100_100_LMTOP_BLNo_163fd346_350000_0,e3
       - via_stack_S11_11_LM1_M2_70ad5a55_350000_55500,e1
       - via_stack_S11_11_LM1_M2_70ad5a55_350000_55500,e2
       - via_stack_S11_11_LM1_M2_70ad5a55_350000_55500,e3
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_500000_0,e1
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_500000_0,e3
+      - pad_S100_100_LMTOP_BLNo_163fd346_500000_0,e1
+      - pad_S100_100_LMTOP_BLNo_163fd346_500000_0,e3
       - via_stack_S11_11_LM1_M2_70ad5a55_500000_55500,e1
       - via_stack_S11_11_LM1_M2_70ad5a55_500000_55500,e2
       - via_stack_S11_11_LM1_M2_70ad5a55_500000_55500,e3

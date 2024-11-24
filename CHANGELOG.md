@@ -1,7 +1,23 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.19.3...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.20.0...main)
 
 <!-- towncrier release notes start -->
+
+## [8.20.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.20.0) - 2024-11-21
+
+- Deprecate array spacing [#3410](https://github.com/gdsfactory/gdsfactory/pull/3410)
+- better array default [#3412](https://github.com/gdsfactory/gdsfactory/pull/3412)
+- expose version in `gdsfactory.__init__` [#3407](https://github.com/gdsfactory/gdsfactory/pull/3407)
+- Improve yaml mirror docs [#3409](https://github.com/gdsfactory/gdsfactory/pull/3409)
+
+## [8.19.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.19.5) - 2024-11-19
+
+- Update kfactory02111 [#3406](https://github.com/gdsfactory/gdsfactory/pull/3406)
+- use uv for installing [#3405](https://github.com/gdsfactory/gdsfactory/pull/3405)
+
+## [8.19.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.19.4) - 2024-11-19
+
+- fixes PortWidthMismatch error when setting cross_section in MZI [#3404](https://github.com/gdsfactory/gdsfactory/pull/3404)
 
 ## [8.19.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.19.3) - 2024-11-18
 - Fix spiral [#3402](https://github.com/gdsfactory/gdsfactory/pull/3402)

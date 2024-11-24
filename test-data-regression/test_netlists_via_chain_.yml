@@ -1,6 +1,6 @@
 instances:
   rectangle_S2p7_6p4_LM2__c8f1a350_36000_m1000:
-    column_pitch: 3.7
+    column_pitch: 7.4
     columns: 1
     component: rectangle
     info: {}
@@ -19,7 +19,7 @@ instances:
       - 2.7
       - 6.4
   rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700:
-    column_pitch: 3.7
+    column_pitch: 7.4
     columns: 1
     component: rectangle
     info: {}

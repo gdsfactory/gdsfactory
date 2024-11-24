@@ -6,6 +6,8 @@ from gdsfactory.component import Component
 from gdsfactory.snap import snap_to_grid2x
 from gdsfactory.typings import Ints, LayerSpec, Size
 
+valid_port_orientations = {0, 90, 180, -90, 270}
+
 
 @cell
 def compass(
@@ -41,6 +43,12 @@ def compass(
     c.add_polygon(points, layer=layer)
 
     if port_type:
+        for port_orientation in port_orientations:
+            if port_orientation not in valid_port_orientations:
+                raise ValueError(
+                    f"{port_orientation=} must be in {valid_port_orientations}"
+                )
+
         if 180 in port_orientations:
             c.add_port(
                 name="e1",
@@ -68,7 +76,7 @@ def compass(
                 layer=layer,
                 port_type=port_type,
             )
-        if -90 in port_orientations:
+        if -90 in port_orientations or 270 in port_orientations:
             c.add_port(
                 name="e4",
                 center=(0, -dy / 2 + port_inclusion),
@@ -83,6 +91,7 @@ def compass(
 
 
 if __name__ == "__main__":
-    c = compass(size=(10, 4), port_type="electrical")
+    # c = compass(size=(10, 4), port_type="electrical")
+    c = compass(port_orientations=[270])
     c.pprint_ports()
     c.show()

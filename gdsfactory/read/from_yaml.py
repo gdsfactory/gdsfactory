@@ -849,8 +849,9 @@ def _get_references(
                 comp,
                 rows=rows,
                 columns=columns,
-                spacing=(column_pitch, row_pitch),
                 name=name,
+                column_pitch=column_pitch,
+                row_pitch=row_pitch,
             )
         refs[name] = ref
     return refs
@@ -1118,10 +1119,10 @@ def _split_route_link(s: str) -> tuple[str, list[str]]:
         ip, jk = s, None
     else:
         raise ValueError(
-            f"The format for bundle routing is 'inst,port_base:i0:i1' or 'inst,port'. Got: {s}"
+            f"The format for bundle routing is 'inst,port_base:i0:i1' or 'inst,port'. Got: {s!r}"
         )
     if ip.count(",") != 1:
-        raise ValueError(f"Exactly one ',' expected in a route bundle link. Got: {s}")
+        raise ValueError(f"Exactly one ',' expected in a route bundle link. Got: {s!r}")
     i, p = ip.split(",")
     if jk is None:
         return i, [f"{p}"]
@@ -1132,7 +1133,7 @@ def _split_route_link(s: str) -> tuple[str, list[str]]:
             return int(i)
         except ValueError:
             raise ValueError(
-                f"The format for bundle routing is 'inst,port_base:i0:i1' with i0 and i1 integers. Got: {s}"
+                f"The format for bundle routing is 'inst,port_base:i0:i1' with i0 and i1 integers. Got: {s!r}"
             )
 
     j = _try_int(j)
@@ -1152,7 +1153,9 @@ def _get_ports_from_portnames(
     ports: list[Port] = []
     for p in ps:
         if p not in ref.ports:
-            raise ValueError(f"{p} not in ports of {i} ({[p.name for p in ref.ports]})")
+            raise ValueError(
+                f"{p!r} not in {i!r} available ports: {[p.name for p in ref.ports]}"
+            )
         port = ref.ports[p] if ia is None else ref.ports[p, ia, ib]
         ports.append(port)
     return ports
@@ -1781,13 +1784,117 @@ instances:
       component: mzi
 """
 
+port_array_electrical = """
+instances:
+  t:
+    component: pad_array
+    settings:
+      port_orientation: 270
+      columns: 10
+      auto_rename_ports: True
+  b:
+    component: pad_array
+    settings:
+      port_orientation: 90
+      columns: 10
+      auto_rename_ports: True
+
+placements:
+  t:
+    x: 500
+    y: 900
+
+routes:
+  electrical:
+    settings:
+      start_straight_length: 150
+      end_straight_length: 150
+      cross_section: metal_routing
+      allow_width_mismatch: True
+      sort_ports: True
+    links:
+      t,e:10:1: b,e:1:10
+"""
+
+port_array_electrical2 = """
+instances:
+  t:
+    component: pad
+    settings:
+      port_orientations:
+        - 270
+      port_orientation: null
+      port_type: electrical
+    columns: 3
+    column_pitch: 150
+  b:
+    component: pad
+    settings:
+      port_orientations:
+        - 90
+      port_orientation: null
+      port_type: electrical
+    columns: 3
+    column_pitch: 150
+
+placements:
+  t:
+    x: 500
+    y: 900
+
+routes:
+  electrical:
+    settings:
+      start_straight_length: 150
+      end_straight_length: 150
+      cross_section: metal_routing
+      allow_width_mismatch: True
+      sort_ports: True
+    links:
+      t<0.0>,e1: b<0.0>,e1
+      # t,e:3:1: b,e:1:3
+"""
+
+port_array_optical = """
+instances:
+  a:
+    component: nxn
+  b:
+    component: nxn
+
+placements:
+  b:
+    x: 50
+    y: 50
+    rotation: 180
+    # mirror: True
+    mirror: False
+
+routes:
+  optical:
+    settings:
+        cross_section: strip
+    links:
+      a,o:3:4: b,o:4:3
+"""
+
+mirror = """
+instances:
+  a:
+    component: bend_circular
+
+placements:
+  a:
+    # rotation: 180
+    mirror: True
+    # mirror: False
+"""
 
 if __name__ == "__main__":
-    c = from_yaml(sample_array)
     # c = from_yaml(sample_array)
+    c = from_yaml(port_array_electrical2)
     # c = from_yaml(sample_yaml_xmin)
-    # c = from_yaml(sample_array)
-    n = c.get_netlist()
+    # n = c.get_netlist()
     c.show()
     # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
     # c2 = from_yaml(yaml_str)

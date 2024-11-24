@@ -28,7 +28,7 @@ jobs:
           python-version: '3.11'
       - name: Installing the library
         run: |
-          make install
+          make uv install
           sudo apt install graphviz graphviz-dev -y
       - name: Build the docs
         env:

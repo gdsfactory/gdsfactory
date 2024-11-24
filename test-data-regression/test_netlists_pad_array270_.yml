@@ -1,5 +1,5 @@
 instances:
-  pad_S100_100_LMTOP_BLNo_2fadfa5f_0_0:
+  pad_S100_100_LMTOP_BLNo_23f16118_0_0:
     column_pitch: 150
     columns: 6
     component: pad
@@ -18,13 +18,14 @@ instances:
       port_inclusion: 0
       port_orientation: null
       port_orientations: null
+      port_type: pad
       size:
       - 100
       - 100
-name: pad_array_Ppad_S150_150_77fd89b7
+name: pad_array_Ppad_SNone_C6_fa910346
 nets: []
 placements:
-  pad_S100_100_LMTOP_BLNo_2fadfa5f_0_0:
+  pad_S100_100_LMTOP_BLNo_23f16118_0_0:
     mirror: false
     rotation: 0
     x: 0

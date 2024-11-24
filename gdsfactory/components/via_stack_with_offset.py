@@ -112,7 +112,11 @@ def via_stack_with_offset(
             y00 = y0 + ch + h / 2 + offset
 
             ref = c.add_ref(
-                via, columns=nb_vias_x, rows=nb_vias_y, spacing=(pitch_x, pitch_y)
+                via,
+                columns=nb_vias_x,
+                rows=nb_vias_y,
+                column_pitch=pitch_x,
+                row_pitch=pitch_y,
             )
             ref.dmove((x00, y00))
             y0 += height

@@ -16,7 +16,7 @@ from rich.table import Table
 if TYPE_CHECKING:
     pass
 
-__version__ = "8.19.3"
+__version__ = "8.20.0"
 PathType = str | pathlib.Path
 
 home = pathlib.Path.home()
@@ -121,7 +121,7 @@ CONF.port_types = [
     "vertical_tm",  # for grating couplers with TM polarization
     "vertical_dual",  # for grating couplers with TE and TM polarization
     "electrical_rf",  # electrical ports for RF (high frequency)
-    "pad",  # for pads
+    "pad",  # for DC pads
     "pad_rf",  # for RF pads
     "bump",  # for bumps
     "edge_coupler",  # for edge couplers
