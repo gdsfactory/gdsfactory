@@ -136,12 +136,20 @@ def dbr_tapered(
     size = tuple(snap_to_grid2x((period * dc, w2)))
     teeth = gf.components.rectangle(size=size, layer=xs.layer)
 
-    periodic_structures = c << gf.components.array(teeth, (period, 0), num)
+    periodic_structures = c << gf.components.array(
+        component=teeth, columns=int(num), column_pitch=period
+    )
     periodic_structures.dx = 0
     periodic_structures.dy = 0
 
     if fins:
-        _generate_fins(c, fin_size, taper_length, length, xs)
+        _generate_fins(
+            c=c,
+            fin_size=fin_size,
+            taper_length=taper_length,
+            length=length,
+            cross_section=xs,
+        )
 
     xs.add_bbox(c)
     c.add_port("o1", port=input_taper.ports["o1"])

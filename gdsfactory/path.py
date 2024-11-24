@@ -904,6 +904,10 @@ def extrude(
     x = get_cross_section(cross_section)
 
     if isinstance(x, Transition):
+        warnings.warn(
+            "Use extrude_transition() instead of extrude() for Transition cross-sections",
+            stacklevel=2,
+        )
         return extrude_transition(
             p,
             transition=x,
@@ -1782,12 +1786,21 @@ if __name__ == "__main__":
     via = gf.cross_section.ComponentAlongPath(
         component=gf.c.rectangle(size=(1, 1), centered=True), spacing=5, padding=2
     )
-    s = gf.Section(width=0.5, offset=0, layer=(1, 0), port_names=("in", "out"))
+    s = gf.Section(
+        width=0.5, offset=0, layer=(1, 0), port_names=("in", "out"), name="core"
+    )
     x = gf.CrossSection(sections=[s], components_along_path=[via])
 
     # Combine the path with the cross-section
-    c = gf.path.extrude(p, cross_section=x)
-    assert c
+    # c = gf.path.extrude(p, cross_section=x)
+    # assert c
+
+    s = gf.Section(
+        width=2, offset=0, layer=(1, 0), port_names=("in", "out"), name="core"
+    )
+    x2 = gf.CrossSection(sections=[s], components_along_path=[via])
+    t = gf.path.transition(x, x2, width_type="linear")
+    c = gf.path.extrude_transition(p, t)
 
     # c = gf.path.extrude(P, x1)
     # print(hash(P))

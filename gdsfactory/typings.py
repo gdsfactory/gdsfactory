@@ -181,9 +181,7 @@ CellSpec: TypeAlias = (
 )
 
 ComponentSpecDict: TypeAlias = dict[str, ComponentSpec]
-CrossSectionSpec: TypeAlias = (
-    CrossSectionFactory | CrossSection | dict[str, Any] | str | Transition
-)
+CrossSectionSpec: TypeAlias = CrossSectionFactory | CrossSection | dict[str, Any] | str
 CrossSectionSpecs: TypeAlias = tuple[CrossSectionSpec, ...]
 
 MultiCrossSectionAngleSpec: TypeAlias = list[tuple[CrossSectionSpec, tuple[int, ...]]]
@@ -276,5 +274,6 @@ __all__ = (
     "Size",
     "Spacing",
     "Strs",
+    "Transition",
     "WidthTypes",
 )
