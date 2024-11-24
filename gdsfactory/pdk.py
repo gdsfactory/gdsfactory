@@ -36,6 +36,7 @@ from gdsfactory.typings import (
     LayerSpec,
     MaterialSpec,
     PathType,
+    RoutingStrategies,
     Transition,
 )
 
@@ -169,9 +170,7 @@ class Pdk(BaseModel):
     )
     constants: dict[str, Any] = constants
     materials_index: dict[str, MaterialSpec] = Field(default_factory=dict)
-    routing_strategies: (
-        dict[str, Callable[..., kf.routing.generic.ManhattanRoute]] | None
-    ) = None
+    routing_strategies: RoutingStrategies | None = None
     bend_points_distance: float = 20 * nm
     connectivity: list[ConnectivitySpec] | None = None
     max_cellname_length: int = CONF.max_cellname_length
@@ -616,7 +615,12 @@ def get_active_pdk(name: str | None = None) -> Pdk:
 
 
 def get_material_index(material: MaterialSpec, *args: Any, **kwargs: Any) -> Component:
-    return get_active_pdk().get_material_index(material, *args, **kwargs)
+    active_pdk = get_active_pdk()
+    if not hasattr(active_pdk, "get_material_index"):
+        raise NotImplementedError(
+            "The active PDK does not implement 'get_material_index'"
+        )
+    return active_pdk.get_material_index(material, *args, **kwargs)
 
 
 def get_component(
@@ -630,7 +634,7 @@ def get_cell(cell: CellSpec, **kwargs: Any) -> ComponentFactory:
 
 
 def get_cross_section(
-    cross_section: CrossSectionSpec, **kwargs
+    cross_section: CrossSectionSpec, **kwargs: Any
 ) -> CrossSection | Transition:
     return get_active_pdk().get_cross_section(cross_section, **kwargs)
 
@@ -641,7 +645,7 @@ def get_layer(layer: LayerSpec) -> LayerEnum:
 
 def get_layer_name(layer: LayerSpec) -> str:
     layer_index = get_layer(layer)
-    return str(get_active_pdk().layers(layer_index))
+    return str(get_active_pdk().layers(layer_index))  # type: ignore
 
 
 def get_layer_tuple(layer: LayerSpec) -> tuple[int, int]:
@@ -673,12 +677,10 @@ def _set_active_pdk(pdk: Pdk) -> None:
     _ACTIVE_PDK = pdk
 
 
-def get_routing_strategies() -> (
-    dict[str, Callable[..., list[kf.routing.generic.ManhattanRoute]]]
-):
+def get_routing_strategies() -> RoutingStrategies:
     """Gets a dictionary of named routing functions available to the PDK, if defined, or gdsfactory defaults otherwise."""
     from gdsfactory.routing.factories import (
-        routing_strategy as default_routing_strategies,
+        routing_strategies as default_routing_strategies,
     )
 
     routing_strategies = get_active_pdk().routing_strategies

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Any
+
 import gdsfactory as gf
 from gdsfactory.routing.route_single import route_single_electrical
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
@@ -25,7 +27,7 @@ def mzi_pads_center(
     cross_section: CrossSectionSpec = "strip",
     cross_section_metal: CrossSectionSpec = "metal_routing",
     pad_spacing: float | str = "pad_spacing",
-    **kwargs,
+    **kwargs: Any,
 ) -> gf.Component:
     """Return Mzi phase shifter with pads in the middle.
 

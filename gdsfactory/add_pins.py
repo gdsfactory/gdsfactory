@@ -14,12 +14,12 @@ import json
 import warnings
 from collections.abc import Callable
 from functools import partial
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import kfactory as kf
 import numpy as np
+import numpy.typing as npt
 import yaml
-from typing_extensions import TypeVar
 
 import gdsfactory as gf
 from gdsfactory.component import container
@@ -37,12 +37,11 @@ LayerSpec = Layer | str | int
 LayerSpecs = tuple[LayerSpec, ...]
 nm = 1e-3
 
-T = TypeVar("T")
-
 
 def _rotate(
-    vector: np.typing.NDArray[T], rotation_matrix: np.typing.NDArray[T]
-) -> np.typing.NDArray[T]:
+    vector: npt.NDArray[np.floating[Any]],
+    rotation_matrix: npt.NDArray[np.floating[Any]],
+) -> npt.NDArray[np.floating[Any]]:
     """Rotate a vector by a rotation matrix."""
     return rotation_matrix @ vector
 
@@ -320,7 +319,7 @@ def add_outline(
     component: Component,
     reference: Instance | None = None,
     layer: LayerSpec = "DEVREC",
-    **kwargs,
+    **kwargs: Any,
 ) -> None:
     """Adds devices outline bounding box in layer.
 
@@ -352,7 +351,7 @@ def add_pins_siepic(
     port_type: str = "optical",
     layer: LayerSpec = "PORT",
     pin_length: float = 10 * nm,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Add pins.
 
@@ -393,7 +392,7 @@ def add_pins(
     component: Component,
     port_type: str | None = None,
     function: Callable = add_pin_rectangle_inside,
-    **kwargs,
+    **kwargs: Any,
 ) -> None:
     """Add Pin port markers.
 

@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+from typing import Any
+
 import gdsfactory as gf
-from gdsfactory import cell
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
 from gdsfactory.routing.route_single import route_single
@@ -16,7 +18,7 @@ def loss_deembedding_ch13_24(
     port_name: str = "o1",
     rotation: float = -90,
     yspacing: float | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Grating coupler test structure for fiber array.
 
@@ -85,7 +87,7 @@ def loss_deembedding_ch12_34(
     port_name: str = "o1",
     cross_section: CrossSectionSpec = "strip",
     rotation: float = -90,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Grating coupler test structure for fiber array.
 
@@ -141,7 +143,7 @@ def loss_deembedding_ch14_23(
     cross_section: CrossSectionSpec = "strip",
     port_name: str = "o1",
     rotation: float = -90,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Grating coupler test structure for fiber array.
 
@@ -196,7 +198,7 @@ def grating_coupler_loss_fiber_array(
     port_name: str = "o1",
     cross_section: CrossSectionSpec = "strip",
     rotation: float = -90,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Returns Grating coupler fiber array loopback.
 
@@ -236,7 +238,9 @@ def grating_coupler_loss_fiber_array(
 
 @cell
 def grating_coupler_loss_fiber_array4(
-    pitch: float = 127.0, grating_coupler: ComponentSpec = grating_coupler_te, **kwargs
+    pitch: float = 127.0,
+    grating_coupler: ComponentSpec = grating_coupler_te,
+    **kwargs: Any,
 ) -> Component:
     """Returns a grating coupler test structure for fiber array.
 

@@ -8,7 +8,7 @@ import numpy as np
 from numpy import float64
 
 import gdsfactory as gf
-from gdsfactory import cell
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bezier import (
     bezier,
@@ -16,7 +16,13 @@ from gdsfactory.components.bezier import (
 )
 from gdsfactory.components.ellipse import ellipse
 from gdsfactory.components.taper import taper
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
+from gdsfactory.typings import (
+    ComponentFactory,
+    ComponentSpec,
+    CrossSectionSpec,
+    Delta,
+    LayerSpec,
+)
 
 
 def snap_to_grid(p: float, grid_per_unit: int = 1000) -> float64:
@@ -120,7 +126,7 @@ _taper = partial(taper, width2=2.5, length=3)
 
 
 @cell
-def crossing_from_taper(taper=_taper) -> Component:
+def crossing_from_taper(taper: ComponentFactory = _taper) -> Component:
     """Returns Crossing based on a taper.
 
     The default is a dummy taper.
@@ -221,7 +227,7 @@ def crossing_etched(
 def crossing45(
     crossing: ComponentSpec = crossing,
     port_spacing: float = 40.0,
-    dx: float | None = None,
+    dx: Delta | None = None,
     alpha: float = 0.08,
     npoints: int = 101,
     cross_section: CrossSectionSpec = "strip",

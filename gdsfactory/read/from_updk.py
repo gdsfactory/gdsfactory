@@ -7,16 +7,20 @@ from __future__ import annotations
 
 import pathlib
 import warnings
+from collections.abc import Sequence
+from typing import TYPE_CHECKING
 
 import yaml
 
 from gdsfactory.serialization import convert_tuples_to_lists
-from gdsfactory.typings import LayerSpec, PathType
+
+if TYPE_CHECKING:
+    from gdsfactory.typings import LayerSpec, PathType
 
 
 def from_updk(
-    filepath: PathType,
-    filepath_out: PathType | None = None,
+    filepath: "PathType",
+    filepath_out: "PathType | None" = None,
     layer_bbox: tuple[int, int] = (68, 0),
     layer_bbmetal: tuple[int, int] | None = None,
     layer_label: tuple[int, int] | None = None,
@@ -24,9 +28,9 @@ def from_updk(
     layer_pin: tuple[int, int] | None = None,
     layer_pin_optical: tuple[int, int] | None = None,
     layer_pin_electrical: tuple[int, int] | None = None,
-    optical_xsections: list[str] | None = None,
-    electrical_xsections: list[str] | None = None,
-    layer_text: LayerSpec | None = None,
+    optical_xsections: Sequence[str] | None = None,
+    electrical_xsections: Sequence[str] | None = None,
+    layer_text: "LayerSpec | None" = None,
     text_size: float = 2.0,
     activate_pdk: bool = False,
     read_xsections: bool = True,

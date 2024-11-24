@@ -21,6 +21,9 @@ def test_gds(component_name: str) -> None:
 
 """
 
+from collections.abc import Generator
+from typing import Any
+
 import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
@@ -32,16 +35,16 @@ cell_names = list(cells.keys())
 
 
 @pytest.fixture(autouse=True)
-def activate_pdk():
+def activate_pdk() -> Generator[None, Any, None]:
     from gdsfactory.samples.pdk.fab_c import PDK
 
     PDK.activate()
     yield
-    PDK = get_generic_pdk()
-    PDK.activate()
+    pdk = get_generic_pdk()
+    pdk.activate()
 
 
-def test_to_updk():
+def test_to_updk() -> None:
     from gdsfactory.samples.pdk.fab_c import PDK
 
     PDK.activate()
@@ -50,7 +53,7 @@ def test_to_updk():
 
 
 @pytest.fixture(params=cell_names, scope="function")
-def component_name(request) -> str:
+def component_name(request: pytest.FixtureRequest) -> str:
     return request.param
 
 

@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.typings import Layer
+from gdsfactory.typings import ComponentFactory, Layer
 
 
 @gf.cell
@@ -64,8 +64,8 @@ def crossing_arm(
 
 @gf.cell
 def crossing(
-    arm=crossing_arm,
-    cross_section="strip",
+    arm: ComponentFactory = crossing_arm,
+    cross_section: str = "strip",
 ) -> Component:
     """Waveguide crossing.
 

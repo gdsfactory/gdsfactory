@@ -1,18 +1,20 @@
 from __future__ import annotations
 
+from collections.abc import Sequence
 from functools import partial
+from typing import Any
 
 import numpy as np
 
-from gdsfactory import cell
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
-from gdsfactory.typings import Ints, Iterable, LayerSpec, LayerSpecs
+from gdsfactory.typings import Ints, LayerSpec, LayerSpecs, Size
 
 
 @cell
 def rectangle(
-    size=(4.0, 2.0),
+    size: Size = (4.0, 2.0),
     layer: LayerSpec = "WG",
     centered: bool = False,
     port_type: str | None = "electrical",
@@ -40,17 +42,17 @@ def rectangle(
 
 
 fiber_size = 10.4
-marker_te = partial(rectangle, size=[fiber_size, fiber_size], layer="TE", centered=True)
-marker_tm = partial(rectangle, size=[fiber_size, fiber_size], layer="TM", centered=True)
+marker_te = partial(rectangle, size=(fiber_size, fiber_size), layer="TE", centered=True)
+marker_tm = partial(rectangle, size=(fiber_size, fiber_size), layer="TM", centered=True)
 
 
 @cell
 def rectangles(
-    size=(4.0, 2.0),
-    offsets: Iterable[float] | None = None,
+    size: Size = (4.0, 2.0),
+    offsets: Sequence[float] | None = None,
     layers: LayerSpecs = ("WG", "SLAB150"),
     centered: bool = True,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Returns overimposed rectangles.
 
@@ -79,7 +81,7 @@ def rectangles(
 
     """
     c = Component()
-    size = np.array(size)
+    size_np = np.array(size, dtype=np.float64)
     ref0 = None
     offsets = offsets or [0] * len(layers)
 
@@ -87,7 +89,7 @@ def rectangles(
         raise ValueError(f"len(offsets) != len(layers) {len(offsets)} != {len(layers)}")
     for layer, offset in zip(layers, offsets):
         ref = c << rectangle(
-            size=tuple(size + 2 * offset), layer=layer, centered=centered, **kwargs
+            size=tuple(size_np + 2 * offset), layer=layer, centered=centered, **kwargs
         )
         if ref0:
             ref.dcenter = ref0.dcenter

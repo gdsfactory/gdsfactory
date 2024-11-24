@@ -61,7 +61,7 @@ def xor(
     b_regions: dict[int, kdb.Region] = {}
     b_texts: dict[int, kdb.Texts] = {}
 
-    def get_region(key, regions: dict[int, kdb.Region]) -> kdb.Region:
+    def get_region(key: int, regions: dict[int, kdb.Region]) -> kdb.Region:
         if key not in regions:
             reg = kdb.Region()
             regions[key] = reg
@@ -69,7 +69,7 @@ def xor(
         else:
             return regions[key]
 
-    def get_texts(key, texts_dict: dict[int, kdb.Texts]) -> kdb.Texts:
+    def get_texts(key: int, texts_dict: dict[int, kdb.Texts]) -> kdb.Texts:
         if key not in texts_dict:
             texts = kdb.Texts()
             texts_dict[key] = texts
@@ -77,42 +77,42 @@ def xor(
         else:
             return texts_dict[key]
 
-    def polygon_diff_a(anotb: kdb.Polygon, prop_id: int):
+    def polygon_diff_a(anotb: kdb.Polygon, prop_id: int) -> None:
         get_region(ld.layer_index_a(), a_regions).insert(anotb)
 
-    def polygon_diff_b(bnota: kdb.Polygon, prop_id: int):
+    def polygon_diff_b(bnota: kdb.Polygon, prop_id: int) -> None:
         get_region(ld.layer_index_b(), b_regions).insert(bnota)
 
-    def cell_diff_a(cell: kdb.Cell):
+    def cell_diff_a(cell: kdb.Cell) -> None:
         nonlocal equivalent
         print(f"{cell.name} only in old")
         if not ignore_cell_name_differences:
             equivalent = False
 
-    def cell_diff_b(cell: kdb.Cell):
+    def cell_diff_b(cell: kdb.Cell) -> None:
         nonlocal equivalent
         print(f"{cell.name} only in new")
         if not ignore_cell_name_differences:
             equivalent = False
 
-    def text_diff_a(anotb: kdb.Text, prop_id: int):
+    def text_diff_a(anotb: kdb.Text, prop_id: int) -> None:
         print("Text only in old")
         get_texts(ld.layer_index_a(), a_texts).insert(anotb)
 
-    def text_diff_b(bnota: kdb.Text, prop_id: int):
+    def text_diff_b(bnota: kdb.Text, prop_id: int) -> None:
         print("Text only in new")
         get_texts(ld.layer_index_b(), b_texts).insert(bnota)
 
-    ld.on_cell_in_a_only = lambda anotb: cell_diff_a(anotb)
-    ld.on_cell_in_b_only = lambda anotb: cell_diff_b(anotb)
-    ld.on_text_in_a_only = lambda anotb, prop_id: text_diff_a(anotb, prop_id)
-    ld.on_text_in_b_only = lambda anotb, prop_id: text_diff_b(anotb, prop_id)
+    ld.on_cell_in_a_only = lambda anotb: cell_diff_a(anotb)  # type: ignore
+    ld.on_cell_in_b_only = lambda anotb: cell_diff_b(anotb)  # type: ignore
+    ld.on_text_in_a_only = lambda anotb, prop_id: text_diff_a(anotb, prop_id)  # type: ignore
+    ld.on_text_in_b_only = lambda anotb, prop_id: text_diff_b(anotb, prop_id)  # type: ignore
 
-    ld.on_polygon_in_a_only = lambda anotb, prop_id: polygon_diff_a(anotb, prop_id)
-    ld.on_polygon_in_b_only = lambda anotb, prop_id: polygon_diff_b(anotb, prop_id)
+    ld.on_polygon_in_a_only = lambda anotb, prop_id: polygon_diff_a(anotb, prop_id)  # type: ignore
+    ld.on_polygon_in_b_only = lambda anotb, prop_id: polygon_diff_b(anotb, prop_id)  # type: ignore
 
     if ignore_cell_name_differences:
-        ld.on_cell_name_differs = lambda anotb: print(f"cell name differs {anotb.name}")
+        ld.on_cell_name_differs = lambda anotb: print(f"cell name differs {anotb.name}")  # type: ignore
         equal = ld.compare(
             old._kdb_cell,
             new._kdb_cell,
@@ -259,7 +259,7 @@ def diff(
     b_regions: dict[int, kdb.Region] = {}
     b_texts: dict[int, kdb.Texts] = {}
 
-    def get_region(key, regions: dict[int, kdb.Region]) -> kdb.Region:
+    def get_region(key: int, regions: dict[int, kdb.Region]) -> kdb.Region:
         if key not in regions:
             reg = kdb.Region()
             regions[key] = reg
@@ -267,7 +267,7 @@ def diff(
         else:
             return regions[key]
 
-    def get_texts(key, texts_dict: dict[int, kdb.Texts]) -> kdb.Texts:
+    def get_texts(key: int, texts_dict: dict[int, kdb.Texts]) -> kdb.Texts:
         if key not in texts_dict:
             texts = kdb.Texts()
             texts_dict[key] = texts
@@ -275,29 +275,29 @@ def diff(
         else:
             return texts_dict[key]
 
-    def polygon_diff_a(anotb: kdb.Polygon, prop_id: int):
+    def polygon_diff_a(anotb: kdb.Polygon, prop_id: int) -> None:
         get_region(ld.layer_index_a(), a_regions).insert(anotb)
 
-    def polygon_diff_b(bnota: kdb.Polygon, prop_id: int):
+    def polygon_diff_b(bnota: kdb.Polygon, prop_id: int) -> None:
         get_region(ld.layer_index_b(), b_regions).insert(bnota)
 
-    def cell_diff_a(cell: kdb.Cell):
+    def cell_diff_a(cell: kdb.Cell) -> None:
         nonlocal equivalent
         print(f"{cell.name} only in old")
         if not ignore_cell_name_differences:
             equivalent = False
 
-    def cell_diff_b(cell: kdb.Cell):
+    def cell_diff_b(cell: kdb.Cell) -> None:
         nonlocal equivalent
         print(f"{cell.name} only in new")
         if not ignore_cell_name_differences:
             equivalent = False
 
-    def text_diff_a(anotb: kdb.Text, prop_id: int):
+    def text_diff_a(anotb: kdb.Text, prop_id: int) -> None:
         print("Text only in old")
         get_texts(ld.layer_index_a(), a_texts).insert(anotb)
 
-    def text_diff_b(bnota: kdb.Text, prop_id: int):
+    def text_diff_b(bnota: kdb.Text, prop_id: int) -> None:
         print("Text only in new")
         get_texts(ld.layer_index_b(), b_texts).insert(bnota)
 
@@ -492,7 +492,7 @@ def difftest(
             ) from exc
 
 
-def overwrite(ref_file, run_file):
+def overwrite(ref_file: pathlib.Path, run_file: pathlib.Path) -> None:
     val = input("Save current GDS as the new reference (Y)? [Y/n]")
     if val.upper().startswith("N"):
         raise GeometryDifference
@@ -503,7 +503,7 @@ def overwrite(ref_file, run_file):
     raise GeometryDifference
 
 
-def read_top_cell(arg0):
+def read_top_cell(arg0: pathlib.Path) -> kf.KCell:
     kcl = KCLayout(name=str(arg0))
     kcl.read(arg0)
     kcell = kcl[kcl.top_cell().name]

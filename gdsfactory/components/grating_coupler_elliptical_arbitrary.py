@@ -1,8 +1,11 @@
 from __future__ import annotations
 
+from typing import Any
+
 import numpy as np
 
 import gdsfactory as gf
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_elliptical import (
     grating_taper_points,
@@ -15,7 +18,7 @@ _gaps = (0.1,) * 10
 _widths = (0.5,) * 10
 
 
-@gf.cell
+@cell
 def grating_coupler_elliptical_arbitrary(
     gaps: Floats = _gaps,
     widths: Floats = _widths,
@@ -31,7 +34,7 @@ def grating_coupler_elliptical_arbitrary(
     spiked: bool = True,
     bias_gap: float = 0,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     r"""Grating coupler with parametrization based on Lumerical FDTD simulation.
 
@@ -170,12 +173,12 @@ def grating_coupler_elliptical_arbitrary(
     return c
 
 
-@gf.cell
+@cell
 def grating_coupler_elliptical_uniform(
     n_periods: int = 20,
     period: float = 0.75,
     fill_factor: float = 0.5,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     r"""Grating coupler with parametrization based on Lumerical FDTD simulation.
 

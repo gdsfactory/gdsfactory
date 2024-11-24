@@ -3,10 +3,13 @@
 from __future__ import annotations
 
 import gdsfactory as gf
+from gdsfactory.typings import ComponentFactory
 
 
 @gf.cell
-def pads_correct(pad=gf.components.pad, cross_section="metal3") -> gf.Component:
+def pads_correct(
+    pad: ComponentFactory = gf.components.pad, cross_section: str = "metal3"
+) -> gf.Component:
     """Returns 2 pads connected with metal wires."""
     c = gf.Component()
 
@@ -36,7 +39,9 @@ def pads_correct(pad=gf.components.pad, cross_section="metal3") -> gf.Component:
 
 
 @gf.cell
-def pads_shorted(pad=gf.components.pad, cross_section="metal3") -> gf.Component:
+def pads_shorted(
+    pad: ComponentFactory = gf.components.pad, cross_section: str = "metal3"
+) -> gf.Component:
     """Returns 2 pads connected with metal wires."""
     c = gf.Component()
     pad = gf.components.pad()

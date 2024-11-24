@@ -24,10 +24,16 @@ def spiral(
         n_loops: number of loops.
     """
     c = gf.Component()
-    xs = gf.get_cross_section(cross_section)
-
     b = gf.get_component(bend, cross_section=cross_section)
-    radius = xs.radius
+
+    o1 = b["o1"]
+    o2 = b["o2"]
+    dx = abs(o2.dx - o1.dx)
+    dy = abs(o2.dy - o1.dy)
+
+    if dx != dy:
+        raise ValueError(f"bend component {b} must have dx == dy")
+    radius = dx
     _length = length
 
     b_inners = [c << b for _ in range(4)]

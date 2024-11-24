@@ -73,12 +73,12 @@ def grid(
         ),
         align_x=align_x,
         align_y=align_y,
-        rotation=round(rotation // 90),
+        rotation=round(rotation // 90),  # type: ignore
         mirror=mirror,
     )
     for i, instances_list in enumerate(instances):
         for j, instance in enumerate(instances_list):
-            if instances_list is not None and instance is not None:
+            if instance is not None:
                 c.add_ports(instance.ports, prefix=f"{j}_{i}_")
     return c
 

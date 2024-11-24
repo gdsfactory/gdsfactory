@@ -1,5 +1,7 @@
+from typing import Any
+
 import gdsfactory as gf
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import AngleInDegrees, ComponentSpec, CrossSectionSpec
 
 
 def add_fiber_array_optical_south_electrical_north(
@@ -12,10 +14,10 @@ def add_fiber_array_optical_south_electrical_north(
     fiber_spacing: float = 127.0,
     pad_gc_spacing: float = 250.0,
     electrical_port_names: list[str] | None = None,
-    electrical_port_orientation: float | None = 90,
+    electrical_port_orientation: AngleInDegrees | None = 90,
     npads: int | None = None,
     port_types_grating_couplers: list[str] | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> gf.Component:
     """Returns a fiber array with Optical gratings on South and Electrical pads on North.
 

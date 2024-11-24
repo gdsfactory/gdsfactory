@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Any
+
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.cross_section import CrossSectionSpec
@@ -12,7 +14,7 @@ def straight(
     length: float = 10.0,
     npoints: int = 2,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Returns a Straight waveguide.
 
@@ -43,7 +45,7 @@ def straight_all_angle(
     length: float = 10.0,
     npoints: int = 2,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs,
+    **kwargs: Any,
 ) -> ComponentAllAngle:
     """Returns a Straight waveguide with offgrid ports.
 

@@ -50,6 +50,15 @@ def get_layer_stack_faba(
     )
 
 
+def test_preview_layerset() -> None:
+    from gdsfactory.generic_tech import get_generic_pdk
+
+    PDK = get_generic_pdk()
+    LAYER_VIEWS = PDK.layer_views
+    c = LAYER_VIEWS.preview_layerset()
+    assert c
+
+
 if __name__ == "__main__":
     LAYER_STACK = get_layer_stack_faba()
     WIDTH = 2

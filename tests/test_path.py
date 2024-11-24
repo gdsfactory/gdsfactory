@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+from typing import Any
+
 import numpy as np
+import numpy.typing as npt
 import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
@@ -35,7 +38,7 @@ def test_path_append() -> None:
     assert np.round(P.length(), 3) == 107.697, P.length()
 
 
-def looploop(num_pts=1000):
+def looploop(num_pts: int = 1000) -> npt.NDArray[np.signedinteger[Any]]:
     """Simple limacon looping curve."""
     t = np.linspace(-np.pi, 0, num_pts)
     r = 20 + 25 * np.sin(t)
@@ -111,7 +114,7 @@ component_names = component_factory.keys()
 
 
 @pytest.fixture(params=component_names, scope="function")
-def component(request) -> Component:
+def component(request: pytest.FixtureRequest) -> Component:
     return component_factory[request.param]()
 
 

@@ -38,14 +38,14 @@ def _nets_to_connections(nets: list[dict], connections: dict) -> dict[str, str]:
     connections = dict(connections)
     inverse_connections = {v: k for k, v in connections.items()}
 
-    def _is_connected(p):
+    def _is_connected(p: str) -> bool:
         return (p in connections) or (p in inverse_connections)
 
-    def _add_connection(p, q):
+    def _add_connection(p: str, q: str) -> None:
         connections[p] = q
         inverse_connections[q] = p
 
-    def _get_connected_port(p):
+    def _get_connected_port(p: str) -> str:
         return connections[p] if p in connections else inverse_connections[p]
 
     for net in nets:
@@ -67,7 +67,7 @@ def _nets_to_connections(nets: list[dict], connections: dict) -> dict[str, str]:
     return connections
 
 
-def get_default_connection_validators():
+def get_default_connection_validators() -> dict[str, Callable]:
     return {"optical": validate_optical_connection, "electrical": _null_validator}
 
 
@@ -225,7 +225,7 @@ def get_netlist(
             for ia in range(reference.na):
                 for ib in range(reference.nb):
                     for port in reference.cell.ports:
-                        ref_port = reference.ports[(port.name, ia, ib)]
+                        ref_port = reference.ports[port.name, ia, ib]
                         src = f"{reference_name}<{ia}.{ib}>,{port.name}"
                         name2port[src] = ref_port
                         ports_by_type[port.port_type].append(src)
@@ -292,7 +292,7 @@ def extract_connections(
     validators: dict[str, Callable] | None = None,
     allow_multiple: bool = True,
     connection_error_types: dict[str, list[str]] | None = None,
-):
+) -> tuple[list[list[str]], dict[str, list[dict[str, Any]]]]:
     if validators is None:
         validators = DEFAULT_CONNECTION_VALIDATORS
 
@@ -315,7 +315,7 @@ def _extract_connections(
     raise_error_for_warnings: list[str] | None = None,
     allow_multiple: bool = True,
     connection_error_types: dict[str, list[str]] | None = None,
-):
+) -> tuple[list[list[str]], dict[str, list[dict[str, Any]]]]:
     """Extracts connections between ports.
 
     Args:
@@ -335,10 +335,10 @@ def _extract_connections(
     if raise_error_for_warnings is None:
         raise_error_for_warnings = connection_error_types.get(port_type, [])
 
-    unconnected_port_names = list(port_names)
-    connections = []
+    unconnected_port_names: list[str] = list(port_names)
+    connections: list[list[str]] = []
 
-    by_xy = defaultdict(list)
+    by_xy: dict[tuple[float, float], list[str]] = defaultdict(list)
 
     for port_name in unconnected_port_names:
         port = ports[port_name]
@@ -406,18 +406,23 @@ def _make_warning(ports: list[str], values: Any, message: str) -> dict[str, Any]
     return clean_dict(w)
 
 
-def _null_validator(port1: Port, port2: Port, port_names, warnings) -> None:
+def _null_validator(
+    port1: Port,
+    port2: Port,
+    port_names: list[str],
+    warnings: dict[str, list[dict[str, Any]]],
+) -> None:
     pass
 
 
 def validate_optical_connection(
     port1: Port,
     port2: Port,
-    port_names,
-    warnings,
-    angle_tolerance=0.01,
-    offset_tolerance=0.001,
-    width_tolerance=0.001,
+    port_names: list[str],
+    warnings: dict[str, list[dict[str, Any]]],
+    angle_tolerance: float = 0.01,
+    offset_tolerance: float = 0.001,
+    width_tolerance: float = 0.001,
 ) -> None:
     is_top_level = [("," not in pname) for pname in port_names]
 
@@ -493,7 +498,7 @@ def get_netlist_recursive(
     component_suffix: str = "",
     get_netlist_func: Callable = get_netlist,
     get_instance_name: Callable[..., str] = get_instance_name_from_alias,
-    **kwargs,
+    **kwargs: Any,
 ) -> dict[str, Any]:
     """Returns recursive netlist for a component and subcomponents.
 

@@ -28,7 +28,7 @@ def litho_steps(
 
     height /= 2
     T1 = pc.text(
-        text=f"{str(line_widths[-1])}", size=height, justify="center", layer=layer
+        text=f"{line_widths[-1]!s}", size=height, justify="center", layer=layer
     )
 
     ref = D.add_ref(T1)

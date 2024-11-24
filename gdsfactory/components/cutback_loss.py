@@ -1,4 +1,5 @@
 from functools import partial
+from typing import Any
 
 import numpy as np
 
@@ -18,7 +19,7 @@ def cutback_loss(
     loss_dB: float = 10e-3,
     cols: int | None = 4,
     rows: int | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> list[gf.Component]:
     """Returns a list of component cutbacks.
 
@@ -69,7 +70,7 @@ def cutback_loss_spirals(
     loss: tuple[float, ...] = tuple(4 + 3 * i for i in range(3)),
     cross_section: CrossSectionSpec = "strip",
     loss_dB_per_m: float = 300,
-    **kwargs,
+    **kwargs: Any,
 ) -> list[gf.Component]:
     """Returns a list of spirals.
 

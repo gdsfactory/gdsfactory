@@ -1,13 +1,15 @@
 from __future__ import annotations
 
+from typing import Any
+
 import gdsfactory as gf
-from gdsfactory.typings import LayerSpec, PortsOrList
+from gdsfactory.typings import LayerSpec, Ports
 
 layer_label = "TEXT"
 
 
 def label_farthest_right_port(
-    component: gf.Component, ports: PortsOrList, layer: LayerSpec, text: str
+    component: gf.Component, ports: Ports, layer: LayerSpec, text: str
 ) -> gf.Component:
     """Adds a label to the right of the farthest right port in a given component.
 
@@ -27,7 +29,7 @@ def label_farthest_right_port(
     return component
 
 
-def resistance_sheet(width: float = 5, **kwargs) -> gf.Component:
+def resistance_sheet(width: float = 5, **kwargs: Any) -> gf.Component:
     """Returns a resistance sheet.
 
     Args:
@@ -50,7 +52,7 @@ def resistance_sheet(width: float = 5, **kwargs) -> gf.Component:
 
 
 def via_chain(
-    num_vias: float = 100, component_name="via_chain", **kwargs
+    num_vias: float = 100, component_name: str = "via_chain", **kwargs: Any
 ) -> gf.Component:
     """Returns a chain of vias.
 

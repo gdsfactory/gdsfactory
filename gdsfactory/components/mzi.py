@@ -121,7 +121,7 @@ def mzi(
             straight_x_top, length=length_x, cross_section=cross_section_x_top
         )
         if length_x
-        else gf.get_component(straight_x_top)
+        else gf.get_component(straight_x_top, cross_section=cross_section_x_top)
     )
     sxt = c << straight_x_top
 
@@ -132,7 +132,7 @@ def mzi(
             straight_x_bot, length=length_x, cross_section=cross_section_x_bot
         )
         if length_x
-        else gf.get_component(straight_x_bot)
+        else gf.get_component(straight_x_bot, cross_section=cross_section_x_bot)
     )
     sxb = c << straight_x_bot
     sxb.connect(port1, b6.ports[port2], mirror=mirror_bot)

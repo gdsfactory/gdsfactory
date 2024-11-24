@@ -31,7 +31,7 @@ dependencies = [
   "toolz<2",
   "types-PyYAML",
   "typer<1",
-  "kfactory[ipy]==0.21.7",
+  "kfactory[ipy]==0.21.11",
   "watchdog<7",
   "freetype-py",
   "mapbox_earcut",
@@ -40,7 +40,8 @@ dependencies = [
   "trimesh>=4.4.1,<4.6",
   "ipykernel",
   "attrs",
-  "graphviz"
+  "graphviz",
+  "pyglet<2"
 ]
 description = "python library to generate GDS layouts"
 keywords = ["eda", "photonics", "python"]
@@ -48,7 +49,7 @@ license = {file = "LICENSE"}
 name = "gdsfactory"
 readme = "README.md"
 requires-python = ">=3.10,<3.13"
-version = "8.19.1"
+version = "8.20.0"
 
 [project.optional-dependencies]
 cad = [
@@ -56,6 +57,7 @@ cad = [
 ]
 dev = [
   "ipykernel",
+  "jupyterlab",
   "jsondiff",
   "jsonschema",
   "pre-commit",
@@ -99,6 +101,7 @@ ignore-words-list = "te, te/tm, te, ba, fpr, fpr_spacing, ro, nd, donot, schem"
 [tool.mypy]
 python_version = "3.11"
 strict = true
+warn_unused_ignores = false
 
 [tool.pylsp-mypy]
 enabled = true
@@ -126,8 +129,10 @@ python_files = ["gdsfactory/*.py", "tests/*.py"]
 testpaths = ["gdsfactory", "tests"]
 
 [tool.ruff]
-extend-exclude = ['docs/notebooks/']
+extend-exclude = ['docs/notebooks/', 'notebooks/']
 fix = true
+
+[tool.ruff.lint]
 ignore = [
   "B008",  # do not perform function calls in argument defaults
   "B028",  # stacklevel
@@ -140,7 +145,13 @@ ignore = [
   "D102",  # public method docstrings
   "D103",  # public function docstrings
   "D104",  # public package docstrings
-  "E501"  # line too long, handled by black
+  "E501",  # line too long, handled by black
+  "RUF005",  # Consider {expression} instead of concatenation
+  "ANN101",  # Missing self type annotation
+  "ANN102",  # Missing cls type annotation
+  "ANN401",  # typing.Any is not allowed
+  "RUF015",  # Using next() instead of [0]
+  "UP037"  # Remove quotes from type annotations
 ]
 select = [
   "B",  # flake8-bugbear
@@ -151,15 +162,19 @@ select = [
   "I",  # isort
   "T10",  # flake8-debugger
   "UP",  # pyupgrade
-  "W"  # pycodestyle warnings
+  "W",  # pycodestyle warnings
+  "PERF",  # performance improvements
+  "RUF",  # ruff
+  "ANN"  # flake8-annotations
 ]
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
+"gdsfactory/samples/*.py" = ["N999"]
 "gdsfactory/typings.py" = ["UP035"]
 "notebooks/*.ipynb" = ["F821", 'E402', 'F405', 'F403', "D103"]
 "tests/*.py" = ["D103"]
 
-[tool.ruff.pydocstyle]
+[tool.ruff.lint.pydocstyle]
 convention = "google"
 
 [tool.setuptools.package-data]
@@ -220,7 +235,7 @@ message_template = "Bump to {new_version}"
 tag_template = "v{new_version}"
 
 [tool.tbump.version]
-current = "8.19.1"
+current = "8.20.0"
 regex = '''
   (?P<major>\d+)
   \.

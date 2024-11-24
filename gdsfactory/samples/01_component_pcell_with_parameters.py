@@ -2,7 +2,7 @@ import gdsfactory as gf
 
 
 @gf.cell
-def mzi_with_bend(radius=10):
+def mzi_with_bend(radius: float = 10) -> gf.Component:
     c = gf.Component()
     bend = c.add_ref(gf.components.bend_euler(radius=radius))
     mzi = c.add_ref(gf.components.mzi())

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from functools import partial
+from typing import Any
 
 import gdsfactory as gf
 from gdsfactory import cell
@@ -16,7 +17,7 @@ def taper_cross_section(
     npoints: int = 100,
     linear: bool = False,
     width_type: str = "sine",
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     r"""Returns taper transition between cross_section1 and cross_section2.
 

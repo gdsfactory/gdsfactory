@@ -15,7 +15,7 @@ from gdsfactory.config import PATH
 home = pathlib.Path.home()
 
 
-def clone_repository(repo_url, clone_dir) -> None:
+def clone_repository(repo_url: str, clone_dir: pathlib.Path) -> None:
     try:
         Repo.clone_from(repo_url, clone_dir)
         print(f"Repository cloned to {clone_dir}")
@@ -32,7 +32,7 @@ def remove_path_or_dir(dest: pathlib.Path) -> None:
         os.remove(dest)
 
 
-def make_link(src, dest, overwrite: bool = True) -> None:
+def make_link(src: pathlib.Path, dest: pathlib.Path, overwrite: bool = True) -> None:
     dest = pathlib.Path(dest)
     if dest.exists() and not overwrite:
         print(f"{dest} already exists")
@@ -173,19 +173,22 @@ def install_klayout_technology(
     )
 
 
-py_files = PATH.notebooks.glob("**/*.py")
+py_files = list(PATH.notebooks.glob("**/*.py"))
 
 
-def convert_py_to_ipynb(files=py_files, output_folder=PATH.cwd / "notebooks") -> None:
+def convert_py_to_ipynb(
+    files: list[pathlib.Path] = py_files,
+    output_folder: pathlib.Path = PATH.cwd / "notebooks",
+) -> None:
     """Convert notebooks from markdown to ipynb."""
-    import jupytext
+    import jupytext  # type: ignore
 
     output_folder.mkdir(exist_ok=True, parents=True)
 
     for file in files:
         notebook_file = f"{output_folder}/{file.stem}.ipynb"
-        nb = jupytext.read(file)
-        jupytext.write(nb, notebook_file)
+        nb = jupytext.read(file)  # type: ignore
+        jupytext.write(nb, notebook_file)  # type: ignore
 
 
 if __name__ == "__main__":

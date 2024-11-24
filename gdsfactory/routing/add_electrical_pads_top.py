@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from functools import partial
+from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -22,7 +23,7 @@ def add_electrical_pads_top(
     select_ports: Callable = select_ports_electrical,
     port_names: Strs | None = None,
     layer: LayerSpec = "MTOP",
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Returns new component with electrical ports connected to top pad array.
 

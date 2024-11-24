@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import sys
 from functools import partial
+from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.cross_section import get_cross_sections, strip
@@ -98,22 +99,22 @@ cell = partial(gf.cell, post_process=(_add_pins,), info=dict(pdk="fab_c"))
 
 
 @cell
-def straight_sc(cross_section="strip_nc", **kwargs):
+def straight_sc(cross_section: str = "strip_nc", **kwargs: Any) -> gf.Component:
     return gf.components.straight(cross_section=cross_section, **kwargs)
 
 
 @cell
-def straight_so(cross_section="strip_so", **kwargs):
+def straight_so(cross_section: str = "strip_so", **kwargs: Any) -> gf.Component:
     return gf.components.straight(cross_section=cross_section, **kwargs)
 
 
 @cell
-def straight_nc(cross_section="strip_nc", **kwargs):
+def straight_nc(cross_section: str = "strip_nc", **kwargs: Any) -> gf.Component:
     return gf.components.straight(cross_section=cross_section, **kwargs)
 
 
 @cell
-def straight_no(cross_section="strip_no", **kwargs):
+def straight_no(cross_section: str = "strip_no", **kwargs: Any) -> gf.Component:
     return gf.components.straight(cross_section=cross_section, **kwargs)
 
 
@@ -123,22 +124,22 @@ def straight_no(cross_section="strip_no", **kwargs):
 
 
 @cell
-def bend_euler_sc(cross_section="strip_sc", **kwargs):
+def bend_euler_sc(cross_section: str = "strip_sc", **kwargs: Any) -> gf.Component:
     return gf.components.bend_euler(cross_section=cross_section, **kwargs)
 
 
 @cell
-def bend_euler_so(cross_section="strip_so", **kwargs):
+def bend_euler_so(cross_section: str = "strip_so", **kwargs: Any) -> gf.Component:
     return gf.components.bend_euler(cross_section=cross_section, **kwargs)
 
 
 @cell
-def bend_euler_nc(cross_section="strip_nc", **kwargs):
+def bend_euler_nc(cross_section: str = "strip_nc", **kwargs: Any) -> gf.Component:
     return gf.components.bend_euler(cross_section=cross_section, **kwargs)
 
 
 @cell
-def bend_euler_no(cross_section="strip_no", **kwargs):
+def bend_euler_no(cross_section: str = "strip_no", **kwargs: Any) -> gf.Component:
     return gf.components.bend_euler(cross_section=cross_section, **kwargs)
 
 
@@ -148,28 +149,36 @@ def bend_euler_no(cross_section="strip_no", **kwargs):
 
 
 @cell
-def mmi1x2_sc(width_mmi=3, cross_section="strip_sc", **kwargs):
+def mmi1x2_sc(
+    width_mmi: float = 3, cross_section: str = "strip_sc", **kwargs: Any
+) -> gf.Component:
     return gf.components.mmi1x2(
         cross_section=cross_section, width_mmi=width_mmi, **kwargs
     )
 
 
 @cell
-def mmi1x2_so(width_mmi=3, cross_section="strip_so", **kwargs):
+def mmi1x2_so(
+    width_mmi: float = 3, cross_section: str = "strip_so", **kwargs: Any
+) -> gf.Component:
     return gf.components.mmi1x2(
         cross_section=cross_section, width_mmi=width_mmi, **kwargs
     )
 
 
 @cell
-def mmi1x2_nc(width_mmi=3, cross_section="strip_nc", **kwargs):
+def mmi1x2_nc(
+    width_mmi: float = 3, cross_section: str = "strip_nc", **kwargs: Any
+) -> gf.Component:
     return gf.components.mmi1x2(
         cross_section=cross_section, width_mmi=width_mmi, **kwargs
     )
 
 
 @cell
-def mmi1x2_no(width_mmi=3, cross_section="strip_no", **kwargs):
+def mmi1x2_no(
+    width_mmi: float = 3, cross_section: str = "strip_no", **kwargs: Any
+) -> gf.Component:
     return gf.components.mmi1x2(
         cross_section=cross_section, width_mmi=width_mmi, **kwargs
     )
@@ -187,7 +196,7 @@ _gc_nc = partial(
 
 
 @cell
-def gc_sc(**kwargs):
+def gc_sc(**kwargs: Any) -> gf.Component:
     return _gc_nc(**kwargs)
 
 

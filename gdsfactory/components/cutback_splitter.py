@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+from typing import Any
+
 import gdsfactory as gf
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler180
 from gdsfactory.components.component_sequence import component_sequence
@@ -9,7 +12,7 @@ from gdsfactory.components.straight import straight
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell
+@cell
 def cutback_splitter(
     component: ComponentSpec = mmi1x2,
     cols: int = 4,
@@ -22,7 +25,7 @@ def cutback_splitter(
     straight: ComponentSpec = straight,
     straight_length: float | None = None,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Returns a daisy chain of splitters for measuring their loss.
 

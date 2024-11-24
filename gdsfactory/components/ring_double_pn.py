@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from functools import partial
+from typing import Any
 
 import numpy as np
 
@@ -61,7 +62,7 @@ def ring_double_pn(
     doped_heater_waveguide_offset: float = 2.175,
     heater_vias: ComponentSpec = heater_vias,
     with_drop: bool = True,
-    **kwargs,
+    **kwargs: Any,
 ) -> gf.Component:
     """Returns add-drop pn ring with optional doped heater.
 

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from collections.abc import Callable
+from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -12,6 +12,7 @@ from gdsfactory.typings import (
     ComponentSpec,
     ComponentSpecOrList,
     CrossSectionSpec,
+    PortsFactory,
 )
 
 
@@ -19,11 +20,11 @@ def add_fiber_array(
     component: ComponentSpec = straight_function,
     grating_coupler: ComponentSpecOrList = grating_coupler_te,
     gc_port_name: str = "o1",
-    select_ports: Callable = select_ports_optical,
+    select_ports: PortsFactory = select_ports_optical,
     cross_section: CrossSectionSpec = "strip",
     start_straight_length: float = 0,
     end_straight_length: float = 0,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Returns component with south routes and grating_couplers.
 
@@ -102,7 +103,7 @@ def add_fiber_array(
         )
 
     if gc_port_name not in gc.ports:
-        raise ValueError(f"gc_port_name={gc_port_name!r} not in {gc.ports.keys()}")
+        raise ValueError(f"gc_port_name={gc_port_name!r} not in {list(gc.ports)}")
 
     component_new = Component()
 

@@ -53,7 +53,7 @@ def pack_doe(
     settings: dict[str, tuple[Any, ...]],
     do_permutations: bool = False,
     function: CellSpec | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Packs a component DOE (Design of Experiment) using pack.
 
@@ -103,7 +103,7 @@ def pack_doe_grid(
     do_permutations: bool = False,
     function: CellSpec | None = None,
     with_text: bool = False,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Packs a component DOE (Design of Experiment) using grid.
 

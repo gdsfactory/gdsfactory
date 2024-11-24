@@ -2,21 +2,25 @@
 
 import pathlib
 import warnings
+from typing import Any
+
+import pandas as pd  # type: ignore
 
 import gdsfactory as gf
 from gdsfactory.labels.write_test_manifest import write_test_manifest
 
 
-def get_test_manifest(component: gf.Component, csvpath: str | pathlib.Path, **kwargs):
+def get_test_manifest(
+    component: gf.Component, csvpath: str | pathlib.Path, **kwargs: Any
+) -> pd.DataFrame:
     """Returns a pandas DataFrame with test manifest."""
     warnings.warn(
         "get_test_manifest is deprecated, use write_test_manifest instead",
         DeprecationWarning,
     )
-    import pandas as pd
 
     write_test_manifest(component, csvpath, **kwargs)
-    return pd.read_csv(csvpath)
+    return pd.read_csv(csvpath)  # type: ignore
 
 
 if __name__ == "__main__":
@@ -25,6 +29,6 @@ if __name__ == "__main__":
     c = sample_reticle()
     # c = gf.pack([c])[0]
     c.show()
-    df = get_test_manifest(c)
-    df.to_csv("test_manifest.csv", index=False)
-    print(df)
+    df = get_test_manifest(c)  # type: ignore
+    df.to_csv("test_manifest.csv", index=False)  # type: ignore
+    print(df)  # type: ignore

@@ -85,9 +85,9 @@ def text_freetype(
                     xoffset += scale_factor * advance_x
                     continue
                 letter_dev = Component()
-                for _, polygon_points in letter_template.get_polygons_points(
+                for polygon_points in letter_template.get_polygons_points(
                     scale=scale_factor
-                ).items():
+                ).values():
                     for layer in layers:
                         for points in polygon_points:
                             letter_dev.add_polygon(points, layer=layer)

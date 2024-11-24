@@ -27,7 +27,6 @@ from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
 from gdsfactory.typings import (
     STEP_DIRECTIVES,
-    Component,
     ComponentSpec,
     Coordinates,
     CrossSectionSpec,
@@ -89,9 +88,9 @@ def get_min_spacing(
 
 
 def route_bundle(
-    component: Component,
-    ports1: list[Port | kf.Port] | Port | kf.Port,
-    ports2: list[Port | kf.Port] | Port | kf.Port,
+    component: gf.Component,
+    ports1: Sequence[Port | kf.Port] | Port | kf.Port,
+    ports2: Sequence[Port | kf.Port] | Port | kf.Port,
     cross_section: CrossSectionSpec | None = None,
     layer: LayerSpecs | None = None,
     separation: float = 3.0,
@@ -107,7 +106,7 @@ def route_bundle(
     bboxes: list[kf.kdb.Box] | None = None,
     allow_width_mismatch: bool = False,
     radius: float | None = None,
-    route_width: float | list[float] | None = None,
+    route_width: float | None = None,
     straight: ComponentSpec = straight_function,
     auto_taper: bool = True,
     waypoints: Coordinates | None = None,
@@ -174,6 +173,10 @@ def route_bundle(
         c.plot()
 
     """
+    if layer and cross_section:
+        raise ValueError(
+            f"Cannot have both {layer=} and {cross_section=} provided. Choose one."
+        )
     if cross_section is None:
         if layer is not None and route_width is not None:
             cross_section = partial(
@@ -185,25 +188,17 @@ def route_bundle(
                 f"Either {cross_section=} or {layer=} and {route_width=} must be provided"
             )
 
-    if layer and cross_section:
-        raise ValueError(
-            f"Cannot have both {layer=} and {cross_section=} provided. Choose one."
-        )
-
     c = component
     ports1 = [ports1] if isinstance(ports1, Port) else list(ports1)
     ports2 = [ports2] if isinstance(ports2, Port) else list(ports2)
     port_type = port_type or ports1[0].port_type
-
-    if route_width and not isinstance(route_width, int | float):
-        route_width = [c.to_dbu(width) for width in route_width]
 
     if len(ports1) != len(ports2):
         raise ValueError(f"ports1={len(ports1)} and ports2={len(ports2)} must be equal")
 
     xs = (
         gf.get_cross_section(cross_section, width=route_width)
-        if route_width
+        if route_width and not isinstance(route_width, list | tuple)
         else gf.get_cross_section(cross_section)
     )
     width = route_width or xs.width
@@ -212,7 +207,7 @@ def route_bundle(
     taper_cell = gf.get_component(taper) if taper else None
     bend90 = (
         bend
-        if isinstance(bend, Component)
+        if isinstance(bend, gf.Component)
         else gf.get_component(
             bend, cross_section=cross_section, radius=radius, width=width
         )
@@ -220,7 +215,7 @@ def route_bundle(
 
     def straight_dbu(
         length: int, cross_section: CrossSectionSpec = xs, **kwargs: Any
-    ) -> Component:
+    ) -> gf.Component:
         return gf.get_component(
             straight,
             length=c.kcl.to_um(length),

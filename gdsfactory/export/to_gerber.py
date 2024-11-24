@@ -30,19 +30,19 @@ class GerberOptions(BaseModel):
 
 # For generating a gerber job json file
 class BoardOptions(BaseModel):
-    size: tuple | None = (None,)
-    n_layers: int = (2,)
+    size: tuple[float, float] | None = None
+    n_layers: int = 2
 
 
 resolutions = {1e-3: 3, 1e-4: 4, 1e-5: 5, 1e-6: 6}
 
 
-def number(n) -> str:
+def number(n: float) -> str:
     i = int(round(n * 10000))
     return "%07d" % i
 
 
-def points(pp: list):
+def points(pp: list[tuple[float, float]]) -> str:
     out = ""
     d = "D02"
     for x, y in pp:
@@ -51,15 +51,15 @@ def points(pp: list):
     return out
 
 
-def rect(x0, y0, x1, y1):
+def rect(x0: float, y0: float, x1: float, y1: float) -> str:
     return "D10*\n" + points([(x0, y0), (x1, y0), (x1, y1), (x0, y1), (x0, y0)])
 
 
-def linestring(pp):
+def linestring(pp: list[tuple[float, float]]) -> str:
     return "D10*\n" + points(pp)
 
 
-def polygon(pp):
+def polygon(pp: list[tuple[float, float]]) -> str:
     return "G36*\n" + points(pp) + "G37*\n" + "\n"
 
 

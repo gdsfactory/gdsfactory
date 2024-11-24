@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable
+from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -31,7 +32,7 @@ def add_pads_bot(
     route_width: float | list[float] | None = 0,
     bboxes: list | None = None,
     avoid_component_bbox: bool = False,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Returns new component with ports connected bottom pads.
 
@@ -159,7 +160,7 @@ def add_pads_top(
     route_width: float | list[float] | None = 0,
     bboxes: list | None = None,
     avoid_component_bbox: bool = False,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Returns new component with ports connected top pads.
 

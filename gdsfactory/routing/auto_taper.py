@@ -4,17 +4,16 @@ from __future__ import annotations
 
 import warnings
 
+import kfactory as kf
+
 import gdsfactory as gf
 from gdsfactory.port import Port
-from gdsfactory.typings import (
-    Component,
-    CrossSectionSpec,
-)
+from gdsfactory.typings import CrossSectionSpec
 
 
 def add_auto_tapers(
-    component: Component,
-    ports: list[Port],
+    component: gf.Component,
+    ports: list[kf.Port],
     cross_section: CrossSectionSpec,
 ) -> list[Port]:
     """Adds tapers to the ports of a component (to be used for routing) and returns the new lists of ports.
@@ -31,7 +30,7 @@ def add_auto_tapers(
 
 
 def auto_taper_to_cross_section(
-    component: Component, port: Port, cross_section: CrossSectionSpec
+    component: gf.Component, port: Port, cross_section: CrossSectionSpec
 ) -> Port:
     """Creates a taper from a port to a given cross section and places it in the component. The opposite port of the taper will be returned.
 
@@ -52,7 +51,7 @@ def auto_taper_to_cross_section(
 
     if port_layer != cs_layer:
         try:
-            taper = pdk.layer_transitions[(port_layer, cs_layer)]
+            taper = pdk.layer_transitions[port_layer, cs_layer]
         except KeyError as e:
             raise KeyError(
                 f"No registered tapers between routing layers {gf.get_layer_name(port_layer)!r} and {gf.get_layer_name(cs_layer)!r}!"
