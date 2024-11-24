@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from functools import partial
+from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -67,13 +68,13 @@ def text_rectangular(
     ref = c << component
     justify = justify.lower()
     if justify == "left":
-        pass
+        ref.dxmin = position[0]
     elif justify == "right":
         ref.dxmax = position[0]
     elif justify == "center":
-        ref.dmove(origin=ref.dcenter, other=position, axis="x")
+        ref.dx = 0
     else:
-        raise ValueError(f"justify = {justify!r} not valid (left, center, right)")
+        raise ValueError(f"{justify=} not valid (left, center, right)")
     c.flatten()
     return c
 
@@ -83,7 +84,7 @@ def text_rectangular_multi_layer(
     text: str = "abcd",
     layers: LayerSpecs = ("WG", "M1", "M2", "MTOP"),
     text_factory: ComponentSpec = text_rectangular,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Returns rectangular text in different layers.
 
@@ -105,5 +106,17 @@ def text_rectangular_multi_layer(
 text_rectangular_mini = partial(text_rectangular, size=1)
 
 if __name__ == "__main__":
-    c = text_rectangular(size=8, layers=("M1", "M2"))
+    c = gf.Component()
+    text0 = c << gf.components.text_rectangular(
+        text="Center", size=10, position=(0, 40), justify="center", layer=(100, 0)
+    )
+    text1 = c << gf.components.text_rectangular(
+        text="Left", size=10, position=(0, 40), justify="left", layer=(100, 0)
+    )
+    text2 = c << gf.components.text_rectangular(
+        text="Right", size=10, position=(0, 40), justify="right", layer=(100, 0)
+    )
+
+    text1.ymin = text0.ymax + 10
+    text2.ymin = text1.ymax + 10
     c.show()

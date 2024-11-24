@@ -1,13 +1,13 @@
 from __future__ import annotations
 
-from collections.abc import Callable
+from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_s import bend_s
 from gdsfactory.components.straight import straight
 from gdsfactory.port import select_ports_optical
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, PortsFactory
 
 
 @gf.cell
@@ -16,9 +16,9 @@ def fanout2x2(
     port_spacing: float = 20.0,
     bend_length: float | None = None,
     npoints: int = 101,
-    select_ports: Callable = select_ports_optical,
+    select_ports: PortsFactory = select_ports_optical,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Returns component with Sbend fanout routes.
 

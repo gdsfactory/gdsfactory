@@ -2,7 +2,7 @@ import gdsfactory as gf
 from gdsfactory.generic_tech import LAYER
 
 
-def test_get_polygons():
+def test_get_polygons() -> None:
     c = gf.c.rectangle(size=(10, 10), centered=True)
 
     p = c.get_polygons(layers=("WG",), by="tuple")

@@ -4,10 +4,18 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory import Component
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
+from gdsfactory.cross_section import CrossSection
+from gdsfactory.typings import (
+    AngleInDegrees,
+    ComponentSpec,
+    CrossSectionSpec,
+    LayerSpec,
+)
 
 
-def _compute_parameters(xs_bend, wrap_angle_deg, radius):
+def _compute_parameters(
+    xs_bend: CrossSection, wrap_angle_deg: float, radius: float
+) -> tuple[float, float, float, float]:
     r_bend = xs_bend.radius
     theta = wrap_angle_deg / 2.0
     size_x, dy = (
@@ -18,7 +26,12 @@ def _compute_parameters(xs_bend, wrap_angle_deg, radius):
     return (r_bend, size_x, dy, bus_length)
 
 
-def _generate_bends(c, r_bend, wrap_angle_deg, cross_section):
+def _generate_bends(
+    c: Component,
+    r_bend: float,
+    wrap_angle_deg: float,
+    cross_section: CrossSectionSpec,
+) -> tuple[Component, Component, Component, Component]:
     if wrap_angle_deg != 0:
         input_arc = gf.path.arc(radius=r_bend, angle=-wrap_angle_deg / 2.0)
         bend_middle_arc = gf.path.arc(radius=r_bend, angle=-wrap_angle_deg)
@@ -39,7 +52,14 @@ def _generate_bends(c, r_bend, wrap_angle_deg, cross_section):
         return (c, None, None, None)
 
 
-def _generate_straights(c, bus_length, size_x, bend_input, bend_output, cross_section):
+def _generate_straights(
+    c: Component,
+    bus_length: float,
+    size_x: float,
+    bend_input: Component | None,
+    bend_output: Component | None,
+    cross_section: CrossSectionSpec,
+) -> tuple[Component, Component]:
     straight_left = c << gf.components.straight(
         length=(bus_length - 4 * size_x) / 2.0, cross_section=cross_section
     )
@@ -139,7 +159,7 @@ def disk_heater(
     heater_width: float = 5.0,
     heater_extent: float = 2.0,
     via_width: float = 10.0,
-    port_orientation: float | None = 90,
+    port_orientation: AngleInDegrees | None = 90,
 ) -> Component:
     """Disk Resonator with top metal heater.
 

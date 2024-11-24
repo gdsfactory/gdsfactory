@@ -86,35 +86,36 @@ def via_chain(
     wire_width = via_width + 2 * via_min_enclosure
 
     wire_size = (wire_length, wire_width)
-    via_spacing = (
-        2 * via_min_enclosure + min_metal_spacing + via_width,
-        wire_width + min_metal_spacing,
-    )
+    column_pitch = 2 * via_min_enclosure + min_metal_spacing + via_width
+    row_pitch = wire_width + min_metal_spacing
     vias = c.add_ref(
         component=via,
         columns=cols,
         rows=rows,
-        spacing=via_spacing,
+        column_pitch=column_pitch,
+        row_pitch=row_pitch,
     )
     top_wire = gf.c.rectangles(size=wire_size, layers=layers_top, offsets=offsets_top)
     top_wires = c.add_ref(
         component=top_wire,
         columns=cols // 2,
         rows=rows,
-        spacing=(wire_length + min_metal_spacing, wire_width + min_metal_spacing),
+        column_pitch=wire_length + min_metal_spacing,
+        row_pitch=wire_width + min_metal_spacing,
     )
     bot_wire = gf.c.rectangles(size=wire_size, layers=layers_bot, offsets=offsets_bot)
     bot_wires = c.add_ref(
         component=bot_wire,
         columns=cols // 2,
         rows=rows,
-        spacing=(wire_length + min_metal_spacing, wire_width + min_metal_spacing),
+        column_pitch=wire_length + min_metal_spacing,
+        row_pitch=wire_width + min_metal_spacing,
     )
     top_wires.dxmin = -via_min_enclosure
     bot_wires.dxmin = top_wires.dxmin + wire_length / 2 + min_metal_spacing / 2
     bot_wires.dymin = -via_min_enclosure
     top_wires.dymin = -via_min_enclosure
-    vias.dxmin = top_wires.dxmin + via_min_enclosure + via_spacing[0]
+    vias.dxmin = top_wires.dxmin + via_min_enclosure + column_pitch
     vias.dymin = top_wires.dymin + via_min_enclosure
 
     vertical_wire_left = gf.c.rectangle(
@@ -126,7 +127,8 @@ def via_chain(
         component=vertical_wire_left,
         columns=1,
         rows=rows // 2,
-        spacing=(wire_width + min_metal_spacing, 2 * (wire_width + min_metal_spacing)),
+        column_pitch=wire_length + min_metal_spacing,
+        row_pitch=2 * (wire_width + min_metal_spacing),
     )
 
     right_wires.dxmax = bot_wires.dxmax
@@ -136,7 +138,8 @@ def via_chain(
         component=vertical_wire_left,
         columns=1,
         rows=rows // 2 - 1,
-        spacing=(wire_width + min_metal_spacing, 2 * (wire_width + min_metal_spacing)),
+        column_pitch=wire_length + min_metal_spacing,
+        row_pitch=2 * (wire_width + min_metal_spacing),
     )
 
     left_wires.dxmin = top_wires.dxmin

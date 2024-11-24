@@ -1,17 +1,19 @@
 from __future__ import annotations
 
 import warnings
+from functools import partial
 from typing import TYPE_CHECKING, Literal
 
 import kfactory as kf
 import numpy as np
-from numpy import cos, float64, ndarray, sin
+import numpy.typing as npt
+from numpy import cos, float64, sin
 
 import gdsfactory as gf
 
 if TYPE_CHECKING:
     from gdsfactory.component import Component, Instance
-    from gdsfactory.typings import LayerSpecs
+    from gdsfactory.typings import LayerSpec, LayerSpecs
 
 RAD2DEG = 180.0 / np.pi
 DEG2RAD = 1 / RAD2DEG
@@ -59,7 +61,7 @@ def get_layers(component: Component) -> list[tuple[int, int]]:
 
 
 def extract(
-    component,
+    component: Component,
     layers: LayerSpecs,
     recursive: bool = True,
 ) -> Component:
@@ -127,7 +129,7 @@ def move_port(
 def get_polygons(
     component_or_instance: Component | Instance,
     merge: bool = False,
-    by: Literal["index"] | Literal["name"] | Literal["tuple"] = "index",
+    by: Literal["index", "name", "tuple"] = "index",
     layers: LayerSpecs | None = None,
 ) -> dict[tuple[int, int] | str | int, list[kf.kdb.Polygon]]:
     """Returns a dict of Polygons per layer.
@@ -146,11 +148,10 @@ def get_polygons(
         get_key = get_layer_name
     elif by == "tuple":
         get_key = get_layer_tuple
-
     else:
         raise ValueError("argument 'by' should be 'index' | 'name' | 'tuple'")
 
-    polygons = {}
+    polygons: dict[tuple[int, int] | str | int, list[kf.kdb.Polygon]] = {}
 
     c = component_or_instance
     if layers is None:
@@ -198,7 +199,7 @@ def get_polygons_points(
     polygons_dict = get_polygons(
         component_or_instance=component_or_instance, merge=merge, by=by, layers=layers
     )
-    polygons_points = {}
+    polygons_points: dict[tuple[int, int] | str | int, list[tuple[float, float]]] = {}
     for layer, polygons in polygons_dict.items():
         all_points = []
         for polygon in polygons:
@@ -225,7 +226,9 @@ def get_polygons_points(
     return polygons_points
 
 
-def get_point_inside(component_or_instance: Component | Instance, layer) -> np.ndarray:
+def get_point_inside(
+    component_or_instance: Component | Instance, layer: LayerSpec
+) -> np.ndarray:
     """Returns a point inside the component or instance.
 
     Args:
@@ -236,14 +239,14 @@ def get_point_inside(component_or_instance: Component | Instance, layer) -> np.n
     return get_polygons_points(component_or_instance, layers=[layer])[layer][0][0]
 
 
-def sign_shape(pts: ndarray) -> float64:
+def sign_shape(pts: npt.NDArray[np.float64]) -> float64:
     pts2 = np.roll(pts, 1, axis=0)
     dx = pts2[:, 0] - pts[:, 0]
     y = pts2[:, 1] + pts[:, 1]
     return np.sign((dx * y).sum())
 
 
-def area(pts: ndarray) -> float64:
+def area(pts: npt.NDArray[np.float64]) -> float64:
     """Returns the area."""
     pts2 = np.roll(pts, 1, axis=0)
     dx = pts2[:, 0] - pts[:, 0]
@@ -251,17 +254,19 @@ def area(pts: ndarray) -> float64:
     return (dx * y).sum() / 2
 
 
-def centered_diff(a: ndarray) -> ndarray:
+def centered_diff(a: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
     d = (np.roll(a, -1, axis=0) - np.roll(a, 1, axis=0)) / 2
     return d[1:-1]
 
 
-def centered_diff2(a: ndarray) -> ndarray:
+def centered_diff2(a: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
     d = (np.roll(a, -1, axis=0) - a) - (a - np.roll(a, 1, axis=0))
     return d[1:-1]
 
 
-def curvature(points: ndarray, t: ndarray) -> ndarray:
+def curvature(
+    points: npt.NDArray[np.float64], t: npt.NDArray[np.float64]
+) -> npt.NDArray[np.float64]:
     """Args are the points and the tangents at each point.
 
         points : numpy.array shape (n, 2)
@@ -290,11 +295,13 @@ def curvature(points: ndarray, t: ndarray) -> ndarray:
     return (dx * dy2 - dx2 * dy) / (dx**2 + dy**2) ** (3 / 2)
 
 
-def radius_of_curvature(points, t):
+def radius_of_curvature(
+    points: npt.NDArray[np.float64], t: npt.NDArray[np.float64]
+) -> float64:
     return 1 / curvature(points, t)
 
 
-def path_length(points: ndarray) -> float64:
+def path_length(points: npt.NDArray[np.float64]) -> float64:
     """Returns: The path length.
 
     Args:
@@ -324,26 +331,26 @@ def snap_angle(a: float64) -> int:
         return 0
 
 
-def angles_rad(pts: ndarray) -> ndarray:
+def angles_rad(pts: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
     """Returns the angles (radians) of the connection between each point and the next."""
     _pts = np.roll(pts, -1, 0)
     return np.arctan2(_pts[:, 1] - pts[:, 1], _pts[:, 0] - pts[:, 0])
 
 
-def angles_deg(pts: ndarray) -> ndarray:
+def angles_deg(pts: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
     """Returns the angles (degrees) of the connection between each point and the next."""
     return angles_rad(pts) * RAD2DEG
 
 
 def extrude_path(
-    points: ndarray,
+    points: npt.NDArray[np.float64],
     width: float,
     with_manhattan_facing_angles: bool = True,
     spike_length: float64 | int | float = 0,
     start_angle: int | None = None,
     end_angle: int | None = None,
     grid: float | None = None,
-) -> ndarray:
+) -> npt.NDArray[np.float64]:
     """Deprecated. Use gdsfactory.path.Path.extrude() instead.
 
     Extrude a path of `width` along a curve defined by `points`.
@@ -435,11 +442,36 @@ def trim(
     return component
 
 
+@gf.cell
+def rotate(component: Component, angle: float) -> gf.Component:
+    """Rotate a component by an angle in degrees.
+
+    Args:
+        component: to rotate.
+        angle: in degrees.
+
+    Returns: Rotated component.
+    """
+    c = gf.Component()
+    component = gf.get_component(component)
+    ref = c.add_ref(component)
+    ref.rotate(angle=angle)
+    c.add_ports(ref.ports)
+    c.copy_child_info(component)
+    return c
+
+
+rotate90 = partial(rotate, angle=90)
+rotate180 = partial(rotate, angle=180)
+rotate270 = partial(rotate, angle=270)
+
+
 if __name__ == "__main__":
     c = gf.components.ring_single()
-    c = gf.components.straight_pin(length=11, taper=None)
+    c = rotate(c, -90)
+    # c = gf.components.straight_pin(length=11, taper=None)
     # c.trim(left=0, right=10, bottom=0, top=10)
-    c = trim(c, domain=[[0, 0], [0, 10], [10, 10], [10, 0]])
+    # c = trim(c, domain=[[0, 0], [0, 10], [10, 10], [10, 0]])
     c.show()
 
     # c = gf.c.rectangle(size=(10, 10), centered=True)

@@ -95,7 +95,7 @@ def straight_heater_meander_doped(
     cross_section2 = cross_section
 
     straight_length = gf.snap.snap_to_grid2x(
-        (length - (rows - 1) * route.length * c.kcl.dbu) / rows,
+        (length - (rows - 1) * c.kcl.to_um(route.length)) / rows,
     )
     ports = {}
 

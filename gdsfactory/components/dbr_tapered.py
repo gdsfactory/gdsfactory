@@ -1,7 +1,10 @@
 from __future__ import annotations
 
+from typing import Any
+
 import gdsfactory as gf
 from gdsfactory import Component
+from gdsfactory.cell import cell
 from gdsfactory.snap import snap_to_grid2x
 from gdsfactory.typings import CrossSectionSpec
 
@@ -57,7 +60,7 @@ def _generate_fins(
     return c
 
 
-@gf.cell
+@cell
 def dbr_tapered(
     length: float = 10.0,
     period: float = 0.85,
@@ -68,7 +71,7 @@ def dbr_tapered(
     fins: bool = False,
     fin_size: tuple[float, float] = (0.2, 0.05),
     cross_section: CrossSectionSpec = "strip",
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Distributed Bragg Reflector Cell class.
 

@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+from typing import Any
+
 import gdsfactory as gf
-from gdsfactory import cell
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.dbr import dbr
 from gdsfactory.typings import ComponentSpec
@@ -13,7 +15,7 @@ def cavity(
     coupler: ComponentSpec = "coupler",
     length: float = 0.1,
     gap: float = 0.2,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     r"""Returns  cavity from a coupler and a mirror.
 

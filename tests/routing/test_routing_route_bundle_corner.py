@@ -5,13 +5,13 @@ from gdsfactory import Port
 
 
 def test_connect_corner(
-    data_regression: DataRegressionFixture | None, N=6, config="A"
+    data_regression: DataRegressionFixture | None, n: int = 6, config: str = "A"
 ) -> None:
     """Test connecting two bundles of ports in a corner.
 
     Args:
         data_regression: regression test data
-        N: number of ports
+        n: number of ports
         config: configuration of the ports
     """
     d = 10.0
@@ -29,7 +29,7 @@ def test_connect_corner(
                 orientation=0,
                 layer=layer,
             )
-            for i in range(N)
+            for i in range(n)
         ]
 
         ports_A_TL = [
@@ -40,7 +40,7 @@ def test_connect_corner(
                 orientation=180,
                 layer=layer,
             )
-            for i in range(N)
+            for i in range(n)
         ]
 
         ports_A_BR = [
@@ -51,7 +51,7 @@ def test_connect_corner(
                 orientation=0,
                 layer=layer,
             )
-            for i in range(N)
+            for i in range(n)
         ]
 
         ports_A_BL = [
@@ -62,7 +62,7 @@ def test_connect_corner(
                 orientation=180,
                 layer=layer,
             )
-            for i in range(N)
+            for i in range(n)
         ]
 
         ports_A = [ports_A_TR, ports_A_TL, ports_A_BR, ports_A_BL]
@@ -75,7 +75,7 @@ def test_connect_corner(
                 orientation=90,
                 layer=layer,
             )
-            for i in range(N)
+            for i in range(n)
         ]
 
         ports_B_TL = [
@@ -86,7 +86,7 @@ def test_connect_corner(
                 orientation=90,
                 layer=layer,
             )
-            for i in range(N)
+            for i in range(n)
         ]
 
         ports_B_BR = [
@@ -97,7 +97,7 @@ def test_connect_corner(
                 orientation=270,
                 layer=layer,
             )
-            for i in range(N)
+            for i in range(n)
         ]
 
         ports_B_BL = [
@@ -108,13 +108,13 @@ def test_connect_corner(
                 orientation=270,
                 layer=layer,
             )
-            for i in range(N)
+            for i in range(n)
         ]
 
         ports_B = [ports_B_TR, ports_B_TL, ports_B_BR, ports_B_BL]
 
     elif config in ["C", "D"]:
-        a = N * sep + 2 * d
+        a = n * sep + 2 * d
         ports_A_TR = [
             Port(
                 f"A_TR_{i}",
@@ -123,7 +123,7 @@ def test_connect_corner(
                 orientation=0,
                 layer=layer,
             )
-            for i in range(N)
+            for i in range(n)
         ]
 
         ports_A_TL = [
@@ -134,7 +134,7 @@ def test_connect_corner(
                 orientation=180,
                 layer=layer,
             )
-            for i in range(N)
+            for i in range(n)
         ]
 
         ports_A_BR = [
@@ -145,7 +145,7 @@ def test_connect_corner(
                 orientation=0,
                 layer=layer,
             )
-            for i in range(N)
+            for i in range(n)
         ]
 
         ports_A_BL = [
@@ -156,7 +156,7 @@ def test_connect_corner(
                 orientation=180,
                 layer=layer,
             )
-            for i in range(N)
+            for i in range(n)
         ]
 
         ports_A = [ports_A_TR, ports_A_TL, ports_A_BR, ports_A_BL]
@@ -169,7 +169,7 @@ def test_connect_corner(
                 orientation=90,
                 layer=layer,
             )
-            for i in range(N)
+            for i in range(n)
         ]
 
         ports_B_TL = [
@@ -180,7 +180,7 @@ def test_connect_corner(
                 orientation=90,
                 layer=layer,
             )
-            for i in range(N)
+            for i in range(n)
         ]
 
         ports_B_BR = [
@@ -191,7 +191,7 @@ def test_connect_corner(
                 orientation=270,
                 layer=layer,
             )
-            for i in range(N)
+            for i in range(n)
         ]
 
         ports_B_BL = [
@@ -202,7 +202,7 @@ def test_connect_corner(
                 orientation=270,
                 layer=layer,
             )
-            for i in range(N)
+            for i in range(n)
         ]
 
         ports_B = [ports_B_TR, ports_B_TL, ports_B_BR, ports_B_BL]

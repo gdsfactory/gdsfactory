@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 from functools import partial
+from typing import Any
 
 import numpy as np
 
 import gdsfactory as gf
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.taper import taper as taper_function
@@ -19,7 +21,7 @@ rectangle_unit_cell = partial(
 )
 
 
-@gf.cell
+@cell
 def grating_coupler_dual_pol(
     unit_cell: ComponentSpec = rectangle_unit_cell,
     period_x: float = 0.58,
@@ -33,7 +35,7 @@ def grating_coupler_dual_pol(
     taper: ComponentSpec = taper_function,
     base_layer: LayerSpec | None = "WG",
     cross_section: CrossSectionSpec = "strip",
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     r"""2 dimensional, dual polarization grating coupler.
 

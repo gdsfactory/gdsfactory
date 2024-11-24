@@ -83,7 +83,7 @@ instances:
       length: 420
       npoints: 2
       width: 1
-  text_rectangular_T1000__a50ed910_424000_35000:
+  text_rectangular_T1000__a50ed910_425000_35000:
     component: text_rectangular
     info: {}
     settings:
@@ -194,10 +194,10 @@ placements:
     rotation: 0
     x: 0
     y: 35.5
-  text_rectangular_T1000__a50ed910_424000_35000:
+  text_rectangular_T1000__a50ed910_425000_35000:
     mirror: false
     rotation: 0
-    x: 424
+    x: 425
     y: 35
   text_rectangular_T400_S_68c27dd7_425000_0:
     mirror: false

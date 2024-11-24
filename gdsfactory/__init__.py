@@ -24,10 +24,15 @@ from gdsfactory.component import (
     container,
     component_with_function,
 )
-from gdsfactory.config import CONF, PATH
+from gdsfactory.config import CONF, PATH, __version__
 from gdsfactory.port import Port
 from gdsfactory.read.import_gds import import_gds
-from gdsfactory.cross_section import CrossSection, Section, xsection
+from gdsfactory.cross_section import (
+    ComponentAlongPath,
+    CrossSection,
+    Section,
+    xsection,
+)
 from gdsfactory.difftest import difftest, diff
 from gdsfactory.boolean import boolean
 
@@ -81,6 +86,7 @@ __all__ = (
     "CONF",
     "Component",
     "ComponentAllAngle",
+    "ComponentAlongPath",
     "ComponentBase",
     "ComponentReference",
     "CrossSection",
@@ -142,4 +148,5 @@ __all__ = (
     "vcell",
     "write_cells",
     "xsection",
+    "__version__",
 )

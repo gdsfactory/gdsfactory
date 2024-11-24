@@ -91,27 +91,30 @@ def text_lines(
 
 
 @gf.cell
-def logo(text: str = "GDSFACTORY", text_function=text, spacing=1) -> Component:
-    """Returns GDSfactory logo."""
-    c = Component()
-    xmin = 0
-    for i, letter in enumerate(text):
-        ref = c << text_function(letter, layer=(i + 1, 0), size=10)
-        ref.dxmin = xmin
-        xmin = ref.dxmax + spacing
-
-    return c
-
-
-@kf.cell
 def text_klayout(
-    text: str = "a", layer: LayerSpec = "WG", bbox_layers: LayerSpecs | None = None
+    text: str = "a",
+    layer: LayerSpec = "WG",
+    layers: LayerSpecs | None = None,
+    bbox_layers: LayerSpecs | None = None,
 ) -> Component:
+    """Returns a text component.
+
+    Args:
+        text: string.
+        layer: text layer.
+        layers: layers for the text.
+        bbox_layers: layers for the text bounding box.
+    """
     c = gf.Component()
-    layer = gf.get_layer(layer)
     gen = kf.kdb.TextGenerator.default_generator()
-    reg = gen.text(text, kf.kcl.dbu)
-    c.shapes(layer).insert(reg)
+
+    layers = layers or [layer]
+
+    for layer in layers:
+        layer = gf.get_layer(layer)
+        reg = gen.text(text, kf.kcl.dbu)
+        c.shapes(layer).insert(reg)
+
     for layer in bbox_layers or []:
         layer = gf.get_layer(layer)
         c.shapes(layer).insert(reg.bbox())

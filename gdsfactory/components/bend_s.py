@@ -1,9 +1,11 @@
 from __future__ import annotations
 
+from typing import Any
+
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory import cell
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bezier import bezier, bezier_curve
 from gdsfactory.functions import curvature
@@ -16,7 +18,7 @@ def bend_s(
     npoints: int = 99,
     cross_section: CrossSectionSpec = "strip",
     allow_min_radius_violation: bool = False,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Return S bend with bezier curve.
 
@@ -49,7 +51,7 @@ def get_min_sbend_size(
     size: tuple[float | None, float | None] = (None, 10.0),
     cross_section: CrossSectionSpec = "strip",
     num_points: int = 100,
-    **kwargs,
+    **kwargs: Any,
 ) -> float:
     """Returns the minimum sbend size to comply with bend radius requirements.
 

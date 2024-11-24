@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 import gdsfactory as gf
+from gdsfactory.component import Component
 from gdsfactory.config import PATH
 
 
 @gf.cell
-def straight_with_bend(radius: float = 10):
+def straight_with_bend(radius: float = 10) -> Component:
     """Returns straight_with_bend interferometer with bend."""
     c = gf.Component()
     s = c.add_ref(gf.components.straight())

@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 from functools import partial
+from typing import Any
 
 import numpy as np
-from numpy import ndarray
+import numpy.typing as npt
 
 import gdsfactory as gf
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.functions import DEG2RAD, extrude_path
 from gdsfactory.typings import CrossSectionSpec, LayerSpec
@@ -18,7 +20,7 @@ def ellipse_arc(
     theta_min: float,
     theta_max: float,
     angle_step: float = 0.5,
-) -> ndarray:
+) -> npt.NDArray[np.floating[Any]]:
     """Returns an elliptical arc.
 
     b = a *sqrt(1-e**2)
@@ -49,7 +51,7 @@ def grating_tooth_points(
     taper_angle: float,
     spiked: bool = True,
     angle_step: float = 1.0,
-) -> ndarray:
+) -> npt.NDArray[np.floating[Any]]:
     theta_min = -taper_angle / 2
     theta_max = taper_angle / 2
 
@@ -71,7 +73,7 @@ def grating_taper_points(
     taper_angle: float,
     wg_width: float,
     angle_step: float = 1.0,
-) -> ndarray:
+) -> npt.NDArray[np.floating[Any]]:
     taper_arc = ellipse_arc(
         a=a,
         b=b,
@@ -87,7 +89,7 @@ def grating_taper_points(
     return np.vstack([p0, p1, taper_arc])
 
 
-@gf.cell
+@cell
 def grating_coupler_elliptical(
     polarization: str = "te",
     taper_length: float = 16.6,
@@ -104,7 +106,7 @@ def grating_coupler_elliptical(
     slab_offset: float = 2.0,
     spiked: bool = True,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     r"""Grating coupler with parametrization based on Lumerical FDTD simulation.
 

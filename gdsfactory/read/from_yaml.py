@@ -54,7 +54,7 @@ import pathlib
 from collections.abc import Callable
 from copy import deepcopy
 from functools import partial
-from typing import IO, Any, Literal
+from typing import IO, TYPE_CHECKING, Any, Literal, Protocol
 
 import kfactory as kf
 import networkx as nx
@@ -62,8 +62,23 @@ import yaml
 
 from gdsfactory.add_pins import add_instance_label
 from gdsfactory.component import Component, ComponentReference, Instance
+from gdsfactory.port import Port
 from gdsfactory.schematic import Bundle, Netlist, Placement
 from gdsfactory.schematic import Instance as NetlistInstance
+from gdsfactory.typings import Route, RoutingStrategies, RoutingStrategy
+
+if TYPE_CHECKING:
+    from gdsfactory.pdk import Pdk
+
+
+class LabelInstanceFunction(Protocol):
+    def __call__(
+        self, component: Component, instance_name: str, reference: ComponentReference
+    ) -> None: ...
+
+
+PlacementConf = dict[str, dict[str, int | float | str]]
+ConnectionsByTransformedInst = dict[str, dict[str, str]]
 
 valid_placement_keys = [
     "x",
@@ -77,12 +92,6 @@ valid_placement_keys = [
     "rotation",
     "mirror",
     "port",
-    "na",
-    "nb",
-    "dax",
-    "dbx",
-    "day",
-    "dby",
 ]
 
 
@@ -166,12 +175,12 @@ def _get_anchor_value_from_name(
 def _move_ref(
     x: str | float,
     x_or_y: Literal["x", "y"],
-    placements_conf,
-    connections_by_transformed_inst,
-    instances,
-    encountered_insts,
-    all_remaining_insts,
-) -> float:
+    placements_conf: PlacementConf,
+    connections_by_transformed_inst: ConnectionsByTransformedInst,
+    instances: dict[str, Instance],
+    encountered_insts: list[str],
+    all_remaining_insts: list[str],
+) -> float | None:
     if not isinstance(x, str):
         return x
     if len(x.split(",")) != 2:
@@ -207,7 +216,11 @@ def _move_ref(
     return _get_anchor_value_from_name(instances[instance_name_ref], port_name, x_or_y)
 
 
-def _parse_maybe_arrayed_instance(inst_spec: str) -> tuple:
+def _parse_maybe_arrayed_instance(inst_spec: str) -> tuple[str, int | None, int | None]:
+    """Parse an instance specifier that may or may not be arrayed.
+
+    Returns the instance name, and the a and b indices if they are present.
+    """
     if inst_spec.count("<") > 1:
         raise ValueError(
             f"Too many angle brackets (<) in instance specification '{inst_spec}'. Array ref indices should end with <ia.ib>, and otherwise this character should be avoided."
@@ -282,7 +295,7 @@ def place(
 
     if instance_name in placements_conf:
         placement_settings = placements_conf[instance_name] or {}
-        if not isinstance(placement_settings, dict):
+        if not isinstance(placement_settings, dict):  # type: ignore
             raise ValueError(
                 f"Invalid placement {placement_settings} from {valid_placement_keys}"
             )
@@ -304,6 +317,9 @@ def place(
         rotation = placement_settings.get("rotation")
         mirror = placement_settings.get("mirror")
 
+        assert isinstance(rotation, int | float | None), "rotation must be a number"
+        assert isinstance(port, str | None), "port must be a string or None"
+
         if rotation:
             if port:
                 ref.drotate(rotation, center=_get_anchor_point_from_name(ref, port))
@@ -312,7 +328,7 @@ def place(
 
         if mirror:
             if mirror is True and port:
-                ref.dmirror_x(x=_get_anchor_value_from_name(ref, port, "x"))
+                ref.dmirror_x(x=_get_anchor_value_from_name(ref, port, "x") or 0)
             elif mirror is True:
                 ref.dcplx_trans *= kf.kdb.DCplxTrans(1, 0, True, 0, 0)
             elif mirror is False:
@@ -320,7 +336,7 @@ def place(
             elif isinstance(mirror, str):
                 x_mirror = ref.ports[mirror].dx
                 ref.dmirror_x(x_mirror)
-            elif isinstance(mirror, int | float):
+            elif isinstance(mirror, int | float):  # type: ignore
                 ref.dmirror_x(x=ref.dx)
             else:
                 port_names = [port.name for port in ref.ports]
@@ -569,11 +585,11 @@ ports:
 
 def cell_from_yaml(
     yaml_str: str | pathlib.Path | IO[Any] | dict[str, Any],
-    routing_strategy: dict[str, Callable] | None = None,
+    routing_strategy: RoutingStrategy | None = None,
     label_instance_function: Callable = add_instance_label,
     name: str | None = None,
     prefix: str | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> Callable:
     """Returns Component factory from YAML string or file.
 
@@ -667,7 +683,7 @@ def cell_from_yaml(
 
 def from_yaml(
     yaml_str: str | pathlib.Path | IO[Any] | dict[str, Any],
-    routing_strategy: dict[str, Callable] | None = None,
+    routing_strategy: RoutingStrategies | None = None,
     label_instance_function: Callable = add_instance_label,
     name: str | None = None,
 ) -> Component:
@@ -764,8 +780,8 @@ def from_yaml(
     return c
 
 
-def _load_yaml_str(yaml_str: Any) -> dict:
-    dct = {}
+def _load_yaml_str(yaml_str: Any) -> dict[str, Any]:
+    dct: dict[str, Any] = {}
     if isinstance(yaml_str, dict):
         dct = deepcopy(yaml_str)
     elif isinstance(yaml_str, Netlist):
@@ -786,8 +802,8 @@ def _get_dependency_graph(net: Netlist) -> nx.DiGraph:
 
     for i, inst in net.instances.items():
         g.add_node(i)
-        if inst.na >= 2 or inst.nb >= 2:
-            for a, b in itertools.product(range(inst.na), range(inst.nb)):
+        if inst.rows >= 2 or inst.columns >= 2:
+            for a, b in itertools.product(range(inst.rows), range(inst.columns)):
                 _graph_connect(g, f"{i}<{a}.{b}>", i)
 
     for ip1, ip2 in net.connections.items():
@@ -815,23 +831,28 @@ def _get_dependency_graph(net: Netlist) -> nx.DiGraph:
     return g
 
 
-def _get_references(c: Component, pdk, instances: dict[str, NetlistInstance]):
-    refs = {}
+def _get_references(
+    c: Component, pdk: "Pdk", instances: dict[str, NetlistInstance]
+) -> dict[str, ComponentReference]:
+    refs: dict[str, ComponentReference] = {}
     for name, inst in instances.items():
-        na, nb = inst.na, inst.nb
-        dax, day, dbx, dby = inst.dax, inst.day, inst.dbx, inst.dby
+        columns = inst.columns
+        rows = inst.rows
+        column_pitch = inst.column_pitch
+        row_pitch = inst.row_pitch
+
         comp = pdk.get_component(component=inst.component, settings=inst.settings)
-        if na < 2 and nb < 2:
+        if columns < 2 and rows < 2:
             ref = c.add_ref(comp, name=name)
         else:
-            if dax or dby:
-                ref = c.add_ref(
-                    comp, rows=nb, columns=na, spacing=(dax, dby), name=name
-                )
-            else:
-                ref = c.add_ref(
-                    comp, rows=na, columns=nb, spacing=(dbx, day), name=name
-                )
+            ref = c.add_ref(
+                comp,
+                rows=rows,
+                columns=columns,
+                name=name,
+                column_pitch=column_pitch,
+                row_pitch=row_pitch,
+            )
         refs[name] = ref
     return refs
 
@@ -841,15 +862,13 @@ def _place_and_connect(
     refs: dict[str, ComponentReference],
     connections: dict[str, str],
     placements: dict[str, Placement],
-):
+) -> None:
     directed_connections = _get_directed_connections(connections)
 
     for root in _graph_roots(g):
         pl = placements.get(root)
         if pl is not None:
             _update_reference_by_placement(refs, root, pl)
-        else:
-            _update_reference_by_placement(refs, root, Placement())
         for i2, i1 in nx.dfs_edges(g, root):
             ports = directed_connections.get(i1, {}).get(i2, None)
             pl = placements.get(i1)
@@ -868,11 +887,12 @@ def _add_routes(
     c: Component,
     refs: dict[str, ComponentReference],
     routes: dict[str, Bundle],
-    routing_strategies: dict[str, Callable] | None = None,
-):
+    routing_strategies: RoutingStrategies | None = None,
+) -> Component:
+    """Add routes to component."""
     from gdsfactory.pdk import get_routing_strategies
 
-    routes_dict = {}
+    routes_dict: dict[str, Route] = {}
     routing_strategies = routing_strategies or get_routing_strategies()
     for bundle_name, bundle in routes.items():
         try:
@@ -883,9 +903,9 @@ def _add_routes(
                 f"Got:{bundle.routing_strategy}"
             ) from e
 
-        ports1 = []
-        ports2 = []
-        route_names = []
+        ports1: list[Port] = []
+        ports2: list[Port] = []
+        route_names: list[str] = []
 
         for ip1, ip2 in bundle.links.items():
             i1, p1s = _split_route_link(ip1)
@@ -906,15 +926,14 @@ def _add_routes(
             ports2=ports2,
             **bundle.settings,
         )
-        for route_name, route in zip(route_names, routes_list):
-            routes_dict[route_name] = route
+        routes_dict.update(dict(zip(route_names, routes_list)))
         c.routes = routes_dict  # type: ignore
     return c
 
 
 def _add_ports(
     c: Component, refs: dict[str, ComponentReference], ports: dict[str, str]
-):
+) -> Component:
     for name, ip in ports.items():
         i, p = (x.strip() for x in ip.split(","))
         i, ia, ib = _parse_maybe_arrayed_instance(i)
@@ -924,28 +943,30 @@ def _add_ports(
         ps = [p.name for p in ref.ports]
         if p not in ps:
             raise ValueError(f"{p!r} not in {ps} for" f" {i!r}.")
-        inst_port = ref.ports[p] if ia is None else ref.ports[p, ia, ib]
+        inst_port = ref.ports[p] if ia is None else ref.ports[p, ia, ib]  # type: ignore
         c.add_port(name, port=inst_port)
     return c
 
 
 def _add_labels(
-    c: Component, refs: dict[str, ComponentReference], label_instance_function: Callable
-):
+    c: Component,
+    refs: dict[str, ComponentReference],
+    label_instance_function: LabelInstanceFunction,
+) -> Component:
     for name, ref in refs.items():
         label_instance_function(component=c, instance_name=name, reference=ref)
     return c
 
 
 def _graph_roots(g: nx.DiGraph) -> list[str]:
-    return [node for node in g.nodes if g.in_degree(node) == 0]
+    return [node for node in g.nodes if g.in_degree(node) == 0]  # type: ignore
 
 
-def _graph_connect(g: nx.DiGraph, i1: str, i2: str):
-    g.add_edge(i2, i1)
+def _graph_connect(g: nx.DiGraph, i1: str, i2: str) -> None:
+    g.add_edge(i2, i1)  # type: ignore
 
 
-def _two_out_of_three_none(one, two, three):
+def _two_out_of_three_none(one: Any, two: Any, three: Any) -> bool:
     if one is None:
         if two is None:
             return True
@@ -956,7 +977,7 @@ def _two_out_of_three_none(one, two, three):
 
 def _update_reference_by_placement(
     refs: dict[str, ComponentReference], name: str, p: Placement
-):
+) -> None:
     ref = refs[name]
     x = p.x
     y = p.y
@@ -1078,8 +1099,10 @@ def _update_reference_by_placement(
         ref.dy += float(dy)
 
 
-def _get_directed_connections(connections: dict[str, str]):
-    ret = {}
+def _get_directed_connections(
+    connections: dict[str, str],
+) -> dict[str, dict[str, tuple[str, str]]]:
+    ret: dict[str, dict[str, tuple[str, str]]] = {}
     for ip1, ip2 in connections.items():
         i1, p1 = ip1.split(",")
         i2, p2 = ip2.split(",")
@@ -1089,28 +1112,28 @@ def _get_directed_connections(connections: dict[str, str]):
     return ret
 
 
-def _split_route_link(s):
+def _split_route_link(s: str) -> tuple[str, list[str]]:
     if s.count(":") == 2:
         ip, *jk = s.split(":")
     elif s.count(":") == 0:
         ip, jk = s, None
     else:
         raise ValueError(
-            f"The format for bundle routing is 'inst,port_base:i0:i1' or 'inst,port'. Got: {s}"
+            f"The format for bundle routing is 'inst,port_base:i0:i1' or 'inst,port'. Got: {s!r}"
         )
     if ip.count(",") != 1:
-        raise ValueError(f"Exactly one ',' expected in a route bundle link. Got: {s}")
+        raise ValueError(f"Exactly one ',' expected in a route bundle link. Got: {s!r}")
     i, p = ip.split(",")
     if jk is None:
         return i, [f"{p}"]
     j, k = jk
 
-    def _try_int(i):
+    def _try_int(i: str) -> int:
         try:
             return int(i)
         except ValueError:
             raise ValueError(
-                f"The format for bundle routing is 'inst,port_base:i0:i1' with i0 and i1 integers. Got: {s}"
+                f"The format for bundle routing is 'inst,port_base:i0:i1' with i0 and i1 integers. Got: {s!r}"
             )
 
     j = _try_int(j)
@@ -1122,13 +1145,17 @@ def _split_route_link(s):
     )
 
 
-def _get_ports_from_portnames(refs, i, ps):
+def _get_ports_from_portnames(
+    refs: dict[str, ComponentReference], i: str, ps: list[str]
+) -> list[Port]:
     i, ia, ib = _parse_maybe_arrayed_instance(i)
     ref = refs[i]
-    ports = []
+    ports: list[Port] = []
     for p in ps:
         if p not in ref.ports:
-            raise ValueError(f"{p} not in ports of {i} ({[p.name for p in ref.ports]})")
+            raise ValueError(
+                f"{p!r} not in {i!r} available ports: {[p.name for p in ref.ports]}"
+            )
         port = ref.ports[p] if ia is None else ref.ports[p, ia, ib]
         ports.append(port)
     return ports
@@ -1624,10 +1651,8 @@ name: pad_array
 instances:
     pad_array:
       component: pad
-      na: 3
-      nb: 1
-      dax: 200
-      dby: 200
+      columns: 3
+      column_pitch: 200
 
 """
 sample_array = """
@@ -1636,10 +1661,10 @@ name: sample_array
 instances:
   sa1:
     component: straight
-    na: 5
-    dax: 50
-    nb: 4
-    dby: 10
+    columns: 5
+    column_pitch: 50
+    rows: 4
+    row_pitch: 10
   s2:
     component: straight
 
@@ -1651,6 +1676,8 @@ routes:
         links:
             sa1<3.0>,o2: sa1<4.0>,o1
             sa1<3.1>,o2: sa1<4.1>,o1
+        settings:
+            cross_section: strip
 
 ports:
     o1: s2,o1
@@ -1757,13 +1784,117 @@ instances:
       component: mzi
 """
 
+port_array_electrical = """
+instances:
+  t:
+    component: pad_array
+    settings:
+      port_orientation: 270
+      columns: 10
+      auto_rename_ports: True
+  b:
+    component: pad_array
+    settings:
+      port_orientation: 90
+      columns: 10
+      auto_rename_ports: True
+
+placements:
+  t:
+    x: 500
+    y: 900
+
+routes:
+  electrical:
+    settings:
+      start_straight_length: 150
+      end_straight_length: 150
+      cross_section: metal_routing
+      allow_width_mismatch: True
+      sort_ports: True
+    links:
+      t,e:10:1: b,e:1:10
+"""
+
+port_array_electrical2 = """
+instances:
+  t:
+    component: pad
+    settings:
+      port_orientations:
+        - 270
+      port_orientation: null
+      port_type: electrical
+    columns: 3
+    column_pitch: 150
+  b:
+    component: pad
+    settings:
+      port_orientations:
+        - 90
+      port_orientation: null
+      port_type: electrical
+    columns: 3
+    column_pitch: 150
+
+placements:
+  t:
+    x: 500
+    y: 900
+
+routes:
+  electrical:
+    settings:
+      start_straight_length: 150
+      end_straight_length: 150
+      cross_section: metal_routing
+      allow_width_mismatch: True
+      sort_ports: True
+    links:
+      t<0.0>,e1: b<0.0>,e1
+      # t,e:3:1: b,e:1:3
+"""
+
+port_array_optical = """
+instances:
+  a:
+    component: nxn
+  b:
+    component: nxn
+
+placements:
+  b:
+    x: 50
+    y: 50
+    rotation: 180
+    # mirror: True
+    mirror: False
+
+routes:
+  optical:
+    settings:
+        cross_section: strip
+    links:
+      a,o:3:4: b,o:4:3
+"""
+
+mirror = """
+instances:
+  a:
+    component: bend_circular
+
+placements:
+  a:
+    # rotation: 180
+    mirror: True
+    # mirror: False
+"""
 
 if __name__ == "__main__":
-    c = from_yaml(sample_mirror)
     # c = from_yaml(sample_array)
+    c = from_yaml(port_array_electrical2)
     # c = from_yaml(sample_yaml_xmin)
-    # c = from_yaml(sample_array)
-    n = c.get_netlist()
+    # n = c.get_netlist()
     c.show()
     # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
     # c2 = from_yaml(yaml_str)

@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+from typing import Any
+
 import gdsfactory as gf
 
 
 @gf.cell
-def spiral_gc(**kwargs) -> gf.Component:
+def spiral_gc(**kwargs: Any) -> gf.Component:
     """Returns a spiral double with Grating Couplers.
 
     Args:
@@ -34,7 +36,7 @@ def spiral_gc(**kwargs) -> gf.Component:
 
 
 @gf.cell
-def mzi_gc(length_x=10, **kwargs) -> gf.Component:
+def mzi_gc(length_x: float = 10, **kwargs: Any) -> gf.Component:
     """Returns a MZI with Grating Couplers.
 
     Args:

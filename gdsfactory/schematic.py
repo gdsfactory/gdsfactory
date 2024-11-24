@@ -1,33 +1,46 @@
 import json
 import warnings
 from math import sqrt
+from pathlib import Path
 from typing import Any
 
 import networkx as nx
 import yaml
+from graphviz import Digraph
 from pydantic import BaseModel, Field, model_validator
 
 import gdsfactory
+from gdsfactory.component import Component
 from gdsfactory.config import PATH
-from gdsfactory.typings import Anchor, Component
+from gdsfactory.typings import Anchor, Delta
 
 
 class Instance(BaseModel):
+    """Instance of a component.
+
+    Parameters:
+        component: component name.
+        settings: input variables.
+        info: information (polarization, wavelength ...).
+        columns: number of columns.
+        rows: number of rows.
+        column_pitch: column pitch.
+        row_pitch: row pitch.
+    """
+
     component: str
     settings: dict[str, Any] = Field(default_factory=dict)
     info: dict[str, Any] = Field(default_factory=dict, exclude=True)
-    na: int = 1
-    nb: int = 1
-    dax: float = 0
-    day: float = 0
-    dbx: float = 0
-    dby: float = 0
+    columns: int = 1
+    rows: int = 1
+    column_pitch: float = 0
+    row_pitch: float = 0
 
     model_config = {"extra": "forbid"}
 
     @model_validator(mode="before")
     @classmethod
-    def update_settings_and_info(cls, values):
+    def update_settings_and_info(cls, values: dict[str, Any]) -> dict[str, Any]:
         """Validator to update component, settings and info based on the component."""
         component = values.get("component")
         settings = values.get("settings", {})
@@ -51,8 +64,8 @@ class Placement(BaseModel):
     ymin: str | float | None = None
     xmax: str | float | None = None
     ymax: str | float | None = None
-    dx: float = 0
-    dy: float = 0
+    dx: Delta = 0
+    dy: Delta = 0
     port: str | Anchor | None = None
     rotation: float = 0
     mirror: bool | str | float = False
@@ -86,7 +99,7 @@ class Net(BaseModel):
     settings: dict[str, Any] = Field(default_factory=dict)
     name: str | None = None
 
-    def __init__(self, **data):
+    def __init__(self, **data: Any) -> None:
         """Initialize the net."""
         global _route_counter
         super().__init__(**data)
@@ -130,12 +143,14 @@ class Netlist(BaseModel):
 _route_counter = 0
 
 
-def to_yaml_graph_networkx(netlist: Netlist, nets):
+def to_yaml_graph_networkx(
+    netlist: Netlist, nets: list[Net]
+) -> tuple[nx.Graph, dict[str, str], dict[str, tuple[float, float]]]:
     """Generates a netlist graph using NetworkX."""
     connections = netlist.connections
     placements = netlist.placements
-    G = nx.Graph()
-    G.add_edges_from(
+    graph = nx.Graph()
+    graph.add_edges_from(
         [
             (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
             for k, v in connections.items()
@@ -145,19 +160,24 @@ def to_yaml_graph_networkx(netlist: Netlist, nets):
     labels = {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
 
     for node, placement in placements.items():
-        if not G.has_node(
-                node
+        if not graph.has_node(
+            node
         ):  # Check if the node is already in the graph (from connections), to avoid duplication.
-            G.add_node(node)
+            graph.add_node(node)
             pos[node] = (placement.x, placement.y)
 
     for net in nets:
-        G.add_edge(net.p1.split(",")[0], net.p2.split(",")[0])
+        graph.add_edge(net.p1.split(",")[0], net.p2.split(",")[0])
 
-    return G, labels, pos
+    return graph, labels, pos
 
 
-def to_graphviz(instances, placements, nets, show_ports=True):
+def to_graphviz(
+    instances: dict[str, Instance],
+    placements: dict[str, Placement],
+    nets: list[Net],
+    show_ports: bool = True,
+) -> Digraph:
     """Generates a netlist graph using Graphviz."""
     from graphviz import Digraph
 
@@ -167,10 +187,19 @@ def to_graphviz(instances, placements, nets, show_ports=True):
     canvas_height = 10  # in inches
     dpi = 300
     node_reduction_factor = 0.4  # to prevent nodes from overlapping
-    vertical_conflict_factor = 3  # minimum vertical separation between two nodes (in multiples of width)
-    horizontal_conflict_factor = 2  # minimum horizontal separation between two nodes (in multiples of height)
+    vertical_conflict_factor = (
+        3  # minimum vertical separation between two nodes (in multiples of width)
+    )
+    horizontal_conflict_factor = (
+        2  # minimum horizontal separation between two nodes (in multiples of height)
+    )
 
-    dot.attr(dpi=str(dpi), layout="neato", overlap="scale", size=f"{canvas_width},{canvas_height}!")
+    dot.attr(
+        dpi=str(dpi),
+        layout="neato",
+        overlap="scale",
+        size=f"{canvas_width},{canvas_height}!",
+    )
 
     # Retrieve all the ports in the component
     all_ports = []
@@ -183,13 +212,19 @@ def to_graphviz(instances, placements, nets, show_ports=True):
         all_ports.append((name, ports))
 
     # Check the range of positions
-    x_values = [placement.x if hasattr(placement, "x") else placement["x"] for placement in placements.values()]
-    y_values = [placement.y if hasattr(placement, "y") else placement["y"] for placement in placements.values()]
+    x_values = [
+        placement.x if hasattr(placement, "x") else placement["x"]
+        for placement in placements.values()
+    ]
+    y_values = [
+        placement.y if hasattr(placement, "y") else placement["y"]
+        for placement in placements.values()
+    ]
     min_x, max_x = min(x_values), max(x_values)
     min_y, max_y = min(y_values), max(y_values)
     position_tracker = {}
 
-    for (node, placement) in placements.items():
+    for node, placement in placements.items():
         ports = dict(all_ports).get(node)
 
         # Define a subgraph for each component without an outer frame
@@ -201,16 +236,24 @@ def to_graphviz(instances, placements, nets, show_ports=True):
             range_x = max_x - min_x
             range_y = max_y - min_y
             effective_canvas_area = canvas_height * canvas_width
-            effective_canvas_area *= range_x * range_y / (max(range_x, range_y))**2 if range_y > 0 and range_x > 0 else 1
+            effective_canvas_area *= (
+                range_x * range_y / (max(range_x, range_y)) ** 2
+                if range_y > 0 and range_x > 0
+                else 1
+            )
             node_density = len(instances) / (effective_canvas_area * dpi)
-            node_size = 1 / (node_density ** 0.5)
+            node_size = 1 / (node_density**0.5)
             node_width = node_size * node_reduction_factor
             node_height = node_size * node_reduction_factor
             font_size = min(node_width, node_height) * 20
 
             # Normalize and scale
-            scaling_factor = 300 / max(range_x, range_y) if max(range_x, range_y) > 0 else 1
-            x = scaling_factor * (x - min_x) if range_x > 0 else 150  # Center if no range
+            scaling_factor = (
+                300 / max(range_x, range_y) if max(range_x, range_y) > 0 else 1
+            )
+            x = (
+                scaling_factor * (x - min_x) if range_x > 0 else 150
+            )  # Center if no range
             y = scaling_factor * (y - min_y) if range_y > 0 else 150
 
             pos = (x, y)
@@ -218,14 +261,18 @@ def to_graphviz(instances, placements, nets, show_ports=True):
             # Check for exact position overlap and proximity
             attempts = 0
             while any(
-                    abs(pos[0] - tracked_pos[0]) < horizontal_conflict_factor * node_width and
-                    abs(pos[1] - tracked_pos[1]) < vertical_conflict_factor * node_height
-                    for tracked_pos in position_tracker
+                abs(pos[0] - tracked_pos[0]) < horizontal_conflict_factor * node_width
+                and abs(pos[1] - tracked_pos[1])
+                < vertical_conflict_factor * node_height
+                for tracked_pos in position_tracker
             ):
                 conflicting_positions = [
-                    tracked_pos for tracked_pos in position_tracker
-                    if abs(pos[0] - tracked_pos[0]) < horizontal_conflict_factor * node_width and
-                       abs(pos[1] - tracked_pos[1]) < vertical_conflict_factor * node_height
+                    tracked_pos
+                    for tracked_pos in position_tracker
+                    if abs(pos[0] - tracked_pos[0])
+                    < horizontal_conflict_factor * node_width
+                    and abs(pos[1] - tracked_pos[1])
+                    < vertical_conflict_factor * node_height
                 ]
 
                 attempts += 1
@@ -235,17 +282,31 @@ def to_graphviz(instances, placements, nets, show_ports=True):
 
                 closest_pos = min(
                     conflicting_positions,
-                    key=lambda tracked_pos: sqrt((pos[0] - tracked_pos[0]) ** 2 + (pos[1] - tracked_pos[1]) ** 2)
+                    key=lambda tracked_pos: sqrt(
+                        (pos[0] - tracked_pos[0]) ** 2 + (pos[1] - tracked_pos[1]) ** 2
+                    ),
                 )
 
                 y_diff = pos[1] - closest_pos[1]
-                y += node_height * vertical_conflict_factor * 0.1 if y_diff > 0 \
+                y += (
+                    node_height * vertical_conflict_factor * 0.1
+                    if y_diff > 0
                     else -node_height * vertical_conflict_factor * 0.1
+                )
                 pos = (x, y)
 
             position_tracker[pos] = node
-            sub.node(node, label=node, shape="rectangle", pos=f"{x},{y}!", width=str(node_width),
-                     height=str(node_height), fontsize=str(font_size), style="filled", fillcolor="white")
+            sub.node(
+                node,
+                label=node,
+                shape="rectangle",
+                pos=f"{x},{y}!",
+                width=str(node_width),
+                height=str(node_height),
+                fontsize=str(font_size),
+                style="filled",
+                fillcolor="white",
+            )
 
             # Create ports for the components
             if ports and show_ports:
@@ -262,7 +323,7 @@ def to_graphviz(instances, placements, nets, show_ports=True):
                     elif 225 <= orientation < 315:
                         top_ports.append(port)
 
-                def position_ports(port_list, side):
+                def position_ports(port_list, side) -> None:
                     port_count = len(port_list)
 
                     if port_count == 0:
@@ -298,9 +359,17 @@ def to_graphviz(instances, placements, nets, show_ports=True):
                             port_y = y + node_height / 2 + port_height / 2
 
                         port_pos = f"{port_x},{port_y}!"
-                        sub.node(port_name, label=port_name, shape="rectangle", pos=port_pos,
-                                 fontsize=str(port_font_size), width=str(port_width), height=str(port_height),
-                                 style="filled", fillcolor="white")
+                        sub.node(
+                            port_name,
+                            label=port_name,
+                            shape="rectangle",
+                            pos=port_pos,
+                            fontsize=str(port_font_size),
+                            width=str(port_width),
+                            height=str(port_height),
+                            style="filled",
+                            fillcolor="white",
+                        )
 
                 position_ports(right_ports, "right")
                 position_ports(bottom_ports, "bottom")
@@ -350,16 +419,16 @@ class Schematic(BaseModel):
     links: list[Link] = Field(default_factory=list)
 
     def add_instance(
-            self, name: str, instance: Instance, placement: Placement | None = None
+        self, name: str, instance: Instance, placement: Placement | None = None
     ) -> None:
         self.netlist.instances[name] = instance
         if placement:
             self.add_placement(name, placement)
 
     def add_placement(
-            self,
-            instance_name: str,
-            placement: Placement,
+        self,
+        instance_name: str,
+        placement: Placement,
     ) -> None:
         """Add placement to the netlist.
 
@@ -384,7 +453,7 @@ class Schematic(BaseModel):
         else:
             self.netlist.routes[net.name].links[net.p1] = net.p2
 
-    def to_graphviz(self, show_ports=True):
+    def to_graphviz(self, show_ports: bool = True) -> Digraph:
         """Generates a netlist graph using Graphviz.
 
         Args:
@@ -394,15 +463,17 @@ class Schematic(BaseModel):
             self.netlist.instances, self.placements, self.nets, show_ports
         )
 
-    def to_yaml_graph_networkx(self):
+    def to_yaml_graph_networkx(
+        self,
+    ) -> tuple[nx.Graph, dict[str, str], dict[str, tuple[float, float]]]:
         return to_yaml_graph_networkx(self.netlist, self.nets)
 
-    def plot_graphviz(self):
+    def plot_graphviz(self) -> None:
         """Plots the netlist graph (Automatic fallback to networkx)."""
         dot = self.to_graphviz()
         plot_graphviz(dot)
 
-    def plot_schematic_networkx(self):
+    def plot_schematic_networkx(self) -> None:
         """Plots the netlist graph (Automatic fallback to networkx)."""
         warnings.warn(
             "plot_schematic_networkx is deprecated. Use plot_graphviz instead",
@@ -411,7 +482,9 @@ class Schematic(BaseModel):
         self.plot_graphviz()
 
 
-def plot_graphviz(graph, interactive=False, splines: str = "ortho") -> None:
+def plot_graphviz(
+    graph: Digraph, interactive: bool = False, splines: str = "ortho"
+) -> None:
     """Plots the netlist graph (Automatic fallback to networkx)."""
     from IPython.display import Image, display
 
@@ -429,7 +502,7 @@ def plot_graphviz(graph, interactive=False, splines: str = "ortho") -> None:
 
 
 def write_schema(
-        model: BaseModel = Netlist, schema_path_json=PATH.schema_netlist
+    model: BaseModel = Netlist, schema_path_json: Path = PATH.schema_netlist
 ) -> None:
     s = model.model_json_schema()
     schema_path_yaml = schema_path_json.with_suffix(".yaml")
@@ -455,4 +528,3 @@ if __name__ == "__main__":
     s.add_net(gt.Net(p1="s11,o2", p2="s21,o1"))
     s.add_net(gt.Net(p1="s11,o3", p2="s22,o1"))
     g = s.plot_graphviz()
-

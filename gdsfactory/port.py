@@ -45,7 +45,7 @@ from gdsfactory.cross_section import CrossSectionSpec
 
 if TYPE_CHECKING:
     from gdsfactory.component import Component
-    from gdsfactory.typings import PathType
+    from gdsfactory.typings import AngleInDegrees, ComponentFactory, PathType
 
 Layer = tuple[int, int]
 Layers = tuple[Layer, ...]
@@ -111,7 +111,7 @@ class Port(kf.Port):
     def __init__(
         self,
         name: str,
-        orientation: float | None,
+        orientation: AngleInDegrees | None,
         center: tuple[float, float] | kf.kdb.Point | kf.kdb.DPoint,
         width: float | None = None,
         layer: LayerSpec | None = None,
@@ -149,15 +149,17 @@ class Port(kf.Port):
 
         dcplx_trans = kf.kdb.DCplxTrans(1.0, float(orientation), False, *center)
         info = info or {}
-        width = round(width / kf.kcl.dbu)
         super().__init__(
             name=name,
             layer=get_layer(layer),
-            width=width,
+            dwidth=width,
             port_type=port_type,
-            trans=dcplx_trans.s_trans().to_itype(kf.kcl.dbu),
+            dcplx_trans=dcplx_trans,
             info=info,
         )
+
+    def to_dict(self) -> dict[str, Any]:
+        return to_dict(self)
 
 
 def to_dict(port: Port) -> dict[str, Any]:
@@ -178,7 +180,7 @@ PortsMap = dict[str, list[Port]]
 def port_array(
     center: tuple[float, float] = (0.0, 0.0),
     width: float = 0.5,
-    orientation: float = 0,
+    orientation: AngleInDegrees = 0,
     pitch: tuple[float, float] = (10.0, 0.0),
     n: int = 2,
     **kwargs: Any,
@@ -325,7 +327,7 @@ def select_ports(
     layer: LayerSpec | None = None,
     prefix: str | None = None,
     suffix: str | None = None,
-    orientation: int | None = None,
+    orientation: AngleInDegrees | None = None,
     width: float | None = None,
     layers_excluded: tuple[tuple[int, int], ...] | None = None,
     port_type: str | None = None,
@@ -443,9 +445,7 @@ def get_ports_facing(ports: list[Port], direction: str = "W") -> list[Port]:
     return direction_ports[direction]
 
 
-def deco_rename_ports(
-    component_factory: Callable[..., Component],
-) -> Callable[..., Component]:
+def deco_rename_ports(component_factory: "ComponentFactory") -> "ComponentFactory":
     @functools.wraps(component_factory)
     def auto_named_component_factory(*args: Any, **kwargs: Any) -> Component:
         component = component_factory(*args, **kwargs)
@@ -512,7 +512,7 @@ def _rename_ports_counter_clockwise(
     ports = east_ports + north_ports + west_ports + south_ports
 
     for i, p in enumerate(ports):
-        p.name = f"{prefix}{i+1}" if prefix else i + 1
+        p.name = f"{prefix}{i + 1}" if prefix else i + 1
 
 
 def _rename_ports_clockwise(direction_ports: PortsMap, prefix: str = "") -> None:
@@ -533,7 +533,7 @@ def _rename_ports_clockwise(direction_ports: PortsMap, prefix: str = "") -> None
     ports = west_ports + north_ports + east_ports + south_ports
 
     for i, p in enumerate(ports):
-        p.name = f"{prefix}{i+1}" if prefix else i + 1
+        p.name = f"{prefix}{i + 1}" if prefix else i + 1
 
 
 def _rename_ports_clockwise_top_right(
@@ -555,7 +555,7 @@ def _rename_ports_clockwise_top_right(
     ports = east_ports + south_ports + west_ports + north_ports
 
     for i, p in enumerate(ports):
-        p.name = f"{prefix}{i+1}" if prefix else i + 1
+        p.name = f"{prefix}{i + 1}" if prefix else i + 1
 
 
 def rename_ports_by_orientation(

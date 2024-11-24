@@ -28,7 +28,7 @@ To generate a route:
 from __future__ import annotations
 
 from collections.abc import Mapping, Sequence
-from typing import Literal
+from typing import Any, Literal
 
 import kfactory as kf
 from kfactory.routing.electrical import route_elec
@@ -44,6 +44,7 @@ from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.typings import (
     STEP_DIRECTIVES,
     ComponentSpec,
+    Coordinate,
     Coordinates,
     CrossSectionSpec,
     LayerSpec,
@@ -53,9 +54,9 @@ from gdsfactory.typings import (
 
 def route_single(
     component: Component,
-    port1: Port,
-    port2: Port,
-    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec | None = None,
+    port1: kf.Port,
+    port2: kf.Port,
+    cross_section: CrossSectionSpec | None = None,
     layer: LayerSpec | None = None,
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
@@ -106,13 +107,19 @@ def route_single(
     """
     p1 = port1
     p2 = port2
+    c = component
 
     if cross_section is None:
         if layer is None or route_width is None:
             raise ValueError(
                 f"Either {cross_section=} or {layer=} and route_width must be provided"
             )
-        elif layer is not None or route_width is not None or radius is not None:
+
+        elif radius:
+            cross_section = gf.cross_section.cross_section(
+                layer=layer, width=route_width, radius=radius
+            )
+        else:
             cross_section = gf.cross_section.cross_section(
                 layer=layer, width=route_width
             )
@@ -127,23 +134,28 @@ def route_single(
         p1 = add_auto_tapers(component, [p1], cross_section)[0]
         p2 = add_auto_tapers(component, [p2], cross_section)[0]
 
-    def straight_dbu(length: int, cross_section=cross_section, **kwargs) -> Component:
+    def straight_dbu(
+        length: int,
+        cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = cross_section,
+        **kwargs: Any,
+    ) -> Component:
         return gf.get_component(
             straight,
-            length=length * component.kcl.dbu,
+            length=c.kcl.to_um(length),
             cross_section=cross_section,
         )
 
-    dbu = component.kcl.dbu
-    end_straight = round(end_straight_length / dbu)
-    start_straight = round(start_straight_length / dbu)
-    route_width = round(width / dbu)
+    end_straight = c.kcl.to_dbu(end_straight_length)
+    start_straight = c.kcl.to_dbu(start_straight_length)
+    route_width = c.kcl.to_dbu(width)  # type: ignore
 
     if steps and waypoints:
         raise ValueError("Provide either steps or waypoints, not both")
 
     if waypoints is None:
-        waypoints = []
+        waypoints: list[Coordinate] = []
+
+    waypoints = list(waypoints)
 
     if steps is None:
         steps = []
@@ -152,7 +164,7 @@ def route_single(
         x, y = port1.dcenter
         for d in steps:
             if not STEP_DIRECTIVES.issuperset(d):
-                invalid_step_directives = list(set(d.keys()) - STEP_DIRECTIVES)
+                invalid_step_directives = list(set[str](d.keys()) - STEP_DIRECTIVES)
                 raise ValueError(
                     f"Invalid step directives: {invalid_step_directives}."
                     f"Valid directives are {list(STEP_DIRECTIVES)}"
@@ -162,11 +174,13 @@ def route_single(
             waypoints += [(x, y)]
 
     if len(waypoints) > 0:
+        w: list[kf.kdb.Point] = []
         if not isinstance(waypoints[0], kf.kdb.Point):
             w = [kf.kdb.Point(*p1.center)]
-            w += [kf.kdb.Point(p[0] / dbu, p[1] / dbu) for p in waypoints]
+            w += [c.kcl.to_dbu(kf.kdb.DPoint(p[0], p[1])) for p in waypoints]
             w += [kf.kdb.Point(*p2.center)]
-            waypoints = w
+        else:
+            w = waypoints  # type: ignore
 
         return place90(
             component,
@@ -174,7 +188,7 @@ def route_single(
             p2=p2,
             straight_factory=straight_dbu,
             bend90_cell=bend90,
-            pts=waypoints,
+            pts=w,
             port_type=port_type,
             allow_width_mismatch=allow_width_mismatch,
             route_width=route_width,
@@ -229,22 +243,23 @@ def route_single_electrical(
         cross_section: The cross section of the route.
 
     """
+    c = component
     xs = gf.get_cross_section(cross_section)
     layer = layer or xs.layer
     width = width or xs.width
     layer = gf.get_layer(layer)
     start_straight_length = (
-        start_straight_length / component.kcl.dbu if start_straight_length else None
+        c.kcl.to_dbu(start_straight_length) if start_straight_length else None
     )
     end_straight_length = (
-        end_straight_length / component.kcl.dbu if end_straight_length else None
+        c.kcl.to_dbu(end_straight_length) if end_straight_length else None
     )
     route_elec(
         c=component,
         p1=port1,
         p2=port2,
         layer=layer,
-        width=round(width / component.kcl.dbu),
+        width=c.kcl.to_dbu(width),
         start_straight=start_straight_length,
         end_straight=end_straight_length,
     )

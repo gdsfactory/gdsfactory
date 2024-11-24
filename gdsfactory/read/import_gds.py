@@ -1,23 +1,24 @@
 from __future__ import annotations
 
 import warnings
-from collections.abc import Callable, Hashable, Iterable
 from functools import cache
 from pathlib import Path
+from typing import Any
 
 import kfactory as kf
 from kfactory import KCLayout
 
 from gdsfactory.component import Component
+from gdsfactory.typings import PostProcesses
 
 
 @cache
 def import_gds(
     gdspath: str | Path,
     cellname: str | None = None,
-    post_process: Hashable[Iterable[Callable[[Component], None]]] | None = None,
+    post_process: PostProcesses | None = None,
     rename_duplicated_cells: bool = False,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Reads a GDS file and returns a Component.
 
@@ -72,7 +73,7 @@ def import_gds_with_conflicts(
     gdspath: str | Path,
     cellname: str | None = None,
     name: str | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Reads a GDS file and returns a Component.
 

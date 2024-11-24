@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 import warnings
+from typing import Any
 
 import numpy as np
 from numpy import ndarray
 
 import gdsfactory as gf
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.cross_section import cross_section as cross_section_function
@@ -51,7 +53,7 @@ def move_polar_rad_copy(pos: Coordinate, angle: float, length: float) -> ndarray
     return pos + length * np.array([c, s])
 
 
-@gf.cell
+@cell
 def extend_ports(
     component: ComponentSpec = mmi1x2,
     port_names: tuple[str, ...] | None = None,
@@ -65,7 +67,7 @@ def extend_ports(
     extension_port_names: list[str] | None = None,
     allow_width_mismatch: bool = False,
     auto_taper: bool = True,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Returns a new component with some ports extended.
 

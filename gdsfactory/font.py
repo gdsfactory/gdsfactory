@@ -5,8 +5,9 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 
 from __future__ import annotations
 
-import freetype
+import freetype  # type: ignore
 import numpy as np
+import numpy.typing as npt
 from matplotlib import font_manager
 from matplotlib.path import Path
 
@@ -16,7 +17,7 @@ from gdsfactory.component import Component
 _cached_fonts = {}
 
 try:
-    import freetype
+    import freetype  # type: ignore
 except ImportError:
     print(
         "gdsfactory requires freetype to use real fonts. "
@@ -29,7 +30,7 @@ except ImportError:
     )
 
 
-def _get_font_by_file(file):
+def _get_font_by_file(file: str) -> freetype.Face:
     """Load font file.
 
     Args:
@@ -45,7 +46,7 @@ def _get_font_by_file(file):
     return font_renderer
 
 
-def _get_font_by_name(name: str):
+def _get_font_by_name(name: str) -> freetype.Face:
     """Try to load a system font by name.
 
     Args:
@@ -62,14 +63,14 @@ def _get_font_by_name(name: str):
     return _get_font_by_file(font_file)
 
 
-def _get_glyph(font, letter):  # noqa: C901
+def _get_glyph(font: freetype.Face, letter: str) -> tuple[Component, float, float]:
     """Get a block reference to the given letter."""
     if not isinstance(letter, str) and len(letter) == 1:
         raise TypeError(f"Letter must be a string of length 1. Got: {letter!r}")
 
     if not isinstance(font, freetype.Face):
         raise TypeError(
-            "font {font!r} must be a freetype font face. "
+            f"font {font!r} must be a freetype font face. "
             "Load a font using _get_font_by_name first."
         )
 
@@ -173,7 +174,7 @@ def _get_glyph(font, letter):  # noqa: C901
     return font.gds_glyphs[letter]
 
 
-def _polygon_orientation(vertices) -> int:
+def _polygon_orientation(vertices: npt.NDArray[np.float64]) -> int:
     """Determine the orientation of a polygon."""
     n = len(vertices)
     if n < 3:

@@ -79,7 +79,7 @@ By doing so, you'll possess a versatile, retargetable PDK, empowering you to des
 
         kwargs = ", ".join(
             [
-                f"{p}={repr(clean_value_json(sig.parameters[p].default))}"
+                f"{p}={clean_value_json(sig.parameters[p].default)!r}"
                 for p in sig.parameters
                 if isinstance(sig.parameters[p].default, int | float | str | tuple)
                 and p not in skip_settings
@@ -111,6 +111,7 @@ By doing so, you'll possess a versatile, retargetable PDK, empowering you to des
   import gdsfactory as gf
 
   c = gf.components.{name}({kwargs})
+  c.draw_ports()
   c.plot()
 
 """

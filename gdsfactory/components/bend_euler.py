@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 from functools import partial
+from typing import Any
 
 import numpy as np
 
 import gdsfactory as gf
+from gdsfactory.cell import cell
 from gdsfactory.component import Component, ComponentAllAngle, ComponentBase
 from gdsfactory.components.wire import wire_corner
 from gdsfactory.path import euler
@@ -63,8 +65,14 @@ def _bend_euler(
     if radius is None:
         return wire_corner(cross_section=x)
 
-    if layer or width:
-        x = x.copy(layer=layer or x.layer, width=width or x.width)
+    if layer and width:
+        x = gf.get_cross_section(
+            cross_section, layer=layer or x.layer, width=width or x.width
+        )
+    elif layer:
+        x = gf.get_cross_section(cross_section, layer=layer or x.layer)
+    elif width:
+        x = gf.get_cross_section(cross_section, width=width or x.width)
 
     p = euler(
         radius=radius, angle=angle, p=p, use_eff=with_arc_floorplan, npoints=npoints
@@ -92,8 +100,8 @@ def _bend_euler(
     return c
 
 
-@gf.cell
-def bend_euler_s(port1: str = "o1", port2: str = "o2", **kwargs) -> Component:
+@cell
+def bend_euler_s(port1: str = "o1", port2: str = "o2", **kwargs: Any) -> Component:
     r"""Sbend made of 2 euler bends.
 
     Args:
@@ -242,7 +250,7 @@ def _compare_bend_euler180() -> None:
     c1.show()
 
 
-def _compare_bend_euler90():
+def _compare_bend_euler90() -> Component:
     """Compare bend euler with 90deg circular bend."""
     import gdsfactory as gf
 

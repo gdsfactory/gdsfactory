@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from functools import partial
+from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -23,7 +24,7 @@ def straight_pin_slot(
     via_stack_spacing: float = 3.0,
     via_stack_slab_spacing: float = 2.0,
     taper: ComponentSpec | None = "taper_strip_to_ridge",
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Returns a PIN straight waveguide with slotted via.
 

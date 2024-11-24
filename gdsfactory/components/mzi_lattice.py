@@ -1,9 +1,10 @@
 from __future__ import annotations
 
+from typing import Any
+
 import gdsfactory as gf
-from gdsfactory import cell
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.typings import ComponentFactory
 
 
 @cell
@@ -11,9 +12,9 @@ def mzi_lattice(
     coupler_lengths: tuple[float, ...] = (10.0, 20.0),
     coupler_gaps: tuple[float, ...] = (0.2, 0.3),
     delta_lengths: tuple[float, ...] = (10.0,),
-    mzi: ComponentFactory = "mzi_coupler",
-    splitter: ComponentFactory = "coupler",
-    **kwargs,
+    mzi: str = "mzi_coupler",
+    splitter: str = "coupler",
+    **kwargs: Any,
 ) -> Component:
     r"""Mzi lattice filter.
 
@@ -119,7 +120,7 @@ def mzi_lattice(
 
 @cell
 def mzi_lattice_mmi(
-    coupler_widths=(None, None),
+    coupler_widths: tuple[float | None, float | None] = (None, None),
     coupler_widths_tapers: tuple[float, ...] = (
         1.0,
         1.0,
@@ -140,16 +141,16 @@ def mzi_lattice_mmi(
         0.25,
         0.25,
     ),
-    taper_functions_mmis=(
+    taper_functions_mmis: tuple[str, ...] = (
         "taper",
         "taper",
     ),
-    straight_functions_mmis=("straight", "straight"),
-    cross_sections_mmis=("strip", "strip"),
+    straight_functions_mmis: tuple[str, ...] = ("straight", "straight"),
+    cross_sections_mmis: tuple[str, ...] = ("strip", "strip"),
     delta_lengths: tuple[float, ...] = (10.0,),
-    mzi="mzi2x2_2x2",
-    splitter="mmi2x2",
-    **kwargs,
+    mzi: str = "mzi2x2_2x2",
+    splitter: str = "mmi2x2",
+    **kwargs: Any,
 ) -> Component:
     r"""Mzi lattice filter, with MMI couplers.
 

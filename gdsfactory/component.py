@@ -8,7 +8,6 @@ from collections.abc import Callable, Iterable, Iterator
 from typing import TYPE_CHECKING, Any, Literal, overload
 
 import kfactory as kf
-import klayout.db as db  # noqa: F401
 import klayout.lay as lay
 import numpy as np
 import yaml
@@ -16,7 +15,7 @@ from kfactory import Instance, kdb
 from kfactory.kcell import PROPID, cell, save_layout_options
 from trimesh.scene.scene import Scene
 
-from gdsfactory.config import GDSDIR_TEMP
+from gdsfactory.config import CONF, GDSDIR_TEMP
 from gdsfactory.functions import get_polygons, get_polygons_points
 from gdsfactory.port import pprint_ports, select_ports, to_dict
 from gdsfactory.serialization import clean_value_json, convert_tuples_to_lists
@@ -26,6 +25,7 @@ if TYPE_CHECKING:
     from matplotlib.figure import Figure
 
     from gdsfactory.typings import (
+        AngleInDegrees,
         ComponentSpec,
         CrossSection,
         CrossSectionSpec,
@@ -244,6 +244,15 @@ class ComponentReference(kf.Instance):
     def name(self, value: str) -> None:
         self.set_property(PROPID.NAME, value)
 
+    @property
+    def parent(self) -> kf.KCell | Component:
+        """Returns the parent Component."""
+        warnings.warn(
+            "parent is deprecated, use ref.cell instead",
+            stacklevel=3,
+        )
+        return self.cell
+
 
 class ComponentReferences(kf.kcell.Instances):
     def __getitem__(self, key: str | int) -> ComponentReference:
@@ -300,7 +309,7 @@ class ComponentBase:
         port: kf.Port | None = None,
         center: tuple[float, float] | kf.kdb.DPoint | None = None,
         width: float | None = None,
-        orientation: float | None = None,
+        orientation: "AngleInDegrees | None" = None,
         layer: LayerSpec | None = None,
         port_type: str = "optical",
         keep_mirror: bool = False,
@@ -618,8 +627,10 @@ class ComponentBase:
         name: str | None = None,
         columns: int = 1,
         rows: int = 1,
-        spacing: tuple[float, float] = (100.0, 100.0),
+        spacing: tuple[float, float] | None = None,
         alias: str | None = None,
+        column_pitch: float = 0.0,
+        row_pitch: float = 0.0,
     ) -> ComponentReference:
         """Adds a component instance reference to a Component.
 
@@ -628,13 +639,30 @@ class ComponentBase:
             name: Name of the reference.
             columns: Number of columns in the array.
             rows: Number of rows in the array.
-            spacing: x, y distance between adjacent columns and adjacent rows.
+            spacing: pitch between adjacent columns and adjacent rows. Deprecated.
             alias: Deprecated. Use name instead.
-
+            column_pitch: column pitch.
+            row_pitch: row pitch.
         """
+        if spacing is not None:
+            warnings.warn(
+                "spacing is deprecated, use column_pitch and row_pitch instead"
+            )
+            column_pitch, row_pitch = spacing
+
         if rows > 1 or columns > 1:
-            a = kf.kdb.Vector(round(spacing[0] / self.kcl.dbu), 0)
-            b = kf.kdb.Vector(0, round(spacing[1] / self.kcl.dbu))
+            if rows > 1 and row_pitch == 0:
+                raise ValueError(f"rows = {rows} > 1 require {row_pitch=} > 0")
+
+            if columns > 1 and column_pitch == 0:
+                raise ValueError(f"columns = {columns} > 1 require {column_pitch} > 0")
+
+            column_pitch_dbu = self.kcl.to_dbu(column_pitch)
+            row_pitch_dbu = self.kcl.to_dbu(row_pitch)
+
+            a = kf.kdb.Vector(column_pitch_dbu, 0)
+            b = kf.kdb.Vector(0, row_pitch_dbu)
+
             inst = self.create_inst(
                 component,
                 na=columns,
@@ -742,7 +770,7 @@ class ComponentBase:
             )
         return paths
 
-    def get_boxes(self, layer: LayerSpec, recursive: bool = True) -> list[kf.kdb.Box]:
+    def get_boxes(self, layer: LayerSpec, recursive: bool = True) -> list[kf.kdb.DBox]:
         """Returns a list of boxes.
 
         Args:
@@ -815,7 +843,7 @@ class ComponentBase:
         gdsdir = gdsdir or GDSDIR_TEMP
         gdsdir = pathlib.Path(gdsdir)
         gdsdir.mkdir(parents=True, exist_ok=True)
-        gdspath = gdspath or gdsdir / f"{self.name[:kf.config.max_cellname_length]}.gds"
+        gdspath = gdspath or gdsdir / f"{self.name[: CONF.max_cellname_length]}.gds"
         gdspath = pathlib.Path(gdspath)
 
         if not gdspath.parent.is_dir():
@@ -1080,7 +1108,7 @@ class ComponentBase:
     def to_graphviz(
         self,
         recursive: bool = False,
-    ):
+    ) -> nx.DiGraph:
         """Returns a netlist graph with graphviz.
 
         Args:

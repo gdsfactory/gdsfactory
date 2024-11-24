@@ -1,18 +1,16 @@
 instances:
   via_S0p7_0p7_S2_2_GNone_bcb63a01_m3000_m3000:
+    column_pitch: 2
+    columns: 4
     component: via
-    dax: 2
-    day: 0
-    dbx: 0
-    dby: 2
     info:
       enclosure: 2
       xsize: 0.7
       xspacing: 2
       ysize: 0.7
       yspacing: 2
-    na: 4
-    nb: 4
+    row_pitch: 2
+    rows: 4
     settings:
       bbox_layers: null
       bbox_offset: 0
@@ -27,19 +25,17 @@ instances:
       - 2
       - 2
   via_S0p7_0p7_S2_2_GNone_c1ab00a8_m4000_m4000:
+    column_pitch: 2
+    columns: 5
     component: via
-    dax: 2
-    day: 0
-    dbx: 0
-    dby: 2
     info:
       enclosure: 1
       xsize: 0.7
       xspacing: 2
       ysize: 0.7
       yspacing: 2
-    na: 5
-    nb: 5
+    row_pitch: 2
+    rows: 5
     settings:
       bbox_layers: null
       bbox_offset: 0

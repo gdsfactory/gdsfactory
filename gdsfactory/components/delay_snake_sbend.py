@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+from typing import Any
+
 import gdsfactory as gf
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
@@ -23,7 +26,7 @@ diagram = r"""
 """
 
 
-@gf.cell
+@cell
 def delay_snake_sbend(
     length: float = 100.0,
     length1: float = 0.0,
@@ -34,7 +37,7 @@ def delay_snake_sbend(
     sbend: ComponentSpec = "bend_s",
     sbend_xsize: float = 100.0,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     r"""Returns compact Snake with sbend in the middle.
 
