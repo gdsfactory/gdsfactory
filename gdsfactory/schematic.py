@@ -468,10 +468,16 @@ class Schematic(BaseModel):
     ) -> tuple[nx.Graph, dict[str, str], dict[str, tuple[float, float]]]:
         return to_yaml_graph_networkx(self.netlist, self.nets)
 
-    def plot_graphviz(self) -> None:
-        """Plots the netlist graph (Automatic fallback to networkx)."""
+    def plot_graphviz(self, interactive: bool = False, splines: str = "ortho") -> None:
+        """Plots the netlist graph (Automatic fallback to networkx).
+
+        Args:
+            interactive: whether to plot the graph interactively or not.
+            splines: type of splines to use for the graph.
+
+        """
         dot = self.to_graphviz()
-        plot_graphviz(dot)
+        plot_graphviz(dot, interactive=interactive, splines=splines)
 
     def plot_schematic_networkx(self) -> None:
         """Plots the netlist graph (Automatic fallback to networkx)."""
