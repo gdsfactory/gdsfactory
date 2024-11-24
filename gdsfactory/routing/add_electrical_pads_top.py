@@ -10,7 +10,7 @@ from gdsfactory.components.wire import wire_straight
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_quad import route_quad
 from gdsfactory.routing.sort_ports import sort_ports_x
-from gdsfactory.typings import Callable, ComponentSpec, Float2, LayerSpec, Strs
+from gdsfactory.typings import ComponentSpec, Float2, LayerSpec, SelectPorts, Strs
 
 _wire_long = partial(wire_straight, length=200.0)
 
@@ -20,7 +20,7 @@ def add_electrical_pads_top(
     direction: str = "top",
     spacing: Float2 = (0.0, 100.0),
     pad_array: ComponentSpec = pad_array_function,
-    select_ports: Callable = select_ports_electrical,
+    select_ports: SelectPorts = select_ports_electrical,
     port_names: Strs | None = None,
     layer: LayerSpec = "MTOP",
     **kwargs: Any,

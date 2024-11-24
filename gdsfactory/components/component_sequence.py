@@ -71,7 +71,7 @@ def _flip_ref(c_ref: Component, port_name: str) -> Component:
 
 def component_sequence(
     sequence: str,
-    symbol_to_component: dict[str, tuple[ComponentSpec, str, str]],
+    symbol_to_component: dict[str, tuple[Component, str, str]],
     ports_map: dict[str, tuple[str, str]] | None = None,
     port_name1: str = "o1",
     port_name2: str = "o2",
@@ -117,7 +117,7 @@ def component_sequence(
         c.plot()
     """
     ports_map = ports_map or {}
-    named_references_counter = Counter()
+    named_references_counter: Counter[str] = Counter()
     component = Component()
 
     # Add first component reference and input port
@@ -126,9 +126,9 @@ def component_sequence(
     name_start_device, do_flip = parse_component_name(symbol)
     component_input, input_port, prev_port = symbol_to_component[name_start_device]
     prev_device = component.add_ref(component_input, name=f"{symbol}{index}")
-    named_references_counter.update(
-        {name_start_device: 1}
-    )  # sourcery skip:simplify-dictionary-update
+    named_references_counter.update({
+        name_start_device: 1
+    })  # sourcery skip:simplify-dictionary-update
 
     if do_flip:
         prev_device = _flip_ref(prev_device, input_port)
@@ -161,9 +161,9 @@ def component_sequence(
         index += 1
         component_i, input_port, next_port = symbol_to_component[s]
         component_i = gf.get_component(component_i)
-        named_references_counter.update(
-            {s: 1}
-        )  # sourcery skip:simplify-dictionary-update
+        named_references_counter.update({
+            s: 1
+        })  # sourcery skip:simplify-dictionary-update
         alias = f"{s}{named_references_counter[s]}"
         ref = component.add_ref(component_i, name=alias)
 

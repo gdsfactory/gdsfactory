@@ -55,7 +55,7 @@ def test_route_bundle(
         )
         lengths = {i: route.length for i, route in enumerate(routes)}
         if data_regression:
-            data_regression.check(lengths)
+            data_regression.check(lengths)  # type: ignore
             difftest(c)
 
 
@@ -258,7 +258,7 @@ def test_connect_corner(
 
     lengths = {}
     i = 0
-    for ports1, ports2 in zip(ports_A, ports_B):
+    for ports1, ports2 in zip(ports_A, ports_B):  # type: ignore
         if config in {"A", "C"}:
             routes = route_bundle(c, ports1, ports2, cross_section="strip")
             for route in routes:
@@ -272,7 +272,7 @@ def test_connect_corner(
                 i += 1
 
     if check:
-        data_regression.check(lengths)
+        data_regression.check(lengths)  # type: ignore
         difftest(c)
 
 
@@ -347,7 +347,7 @@ def test_route_bundle_udirect(
     lengths = {i: route.length for i, route in enumerate(routes)}
 
     if check:
-        data_regression.check(lengths)
+        data_regression.check(lengths)  # type: ignore
         difftest(c)
 
 
@@ -416,7 +416,7 @@ def test_route_bundle_u_indirect(
     )
     lengths = {i: route.length for i, route in enumerate(routes)}
     if check:
-        data_regression.check(lengths)
+        data_regression.check(lengths)  # type: ignore
         difftest(c)
 
 
@@ -449,7 +449,7 @@ def test_facing_ports(
 
     lengths = {i: route.length for i, route in enumerate(routes)}
     if check:
-        data_regression.check(lengths)
+        data_regression.check(lengths)  # type: ignore
         difftest(c)
 
 

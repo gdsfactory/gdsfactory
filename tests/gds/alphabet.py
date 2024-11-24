@@ -13,9 +13,9 @@ def alphabet(dx: Delta = 10) -> gf.Component:
     for s in characters:
         ci = gf.components.text(text=s)
         ci.name = s
-        char = c << ci.flatten()
+        char = c << ci.flatten()  # type: ignore
         char.dx = x
-        x += dx
+        x += dx  # type: ignore
 
     return c
 

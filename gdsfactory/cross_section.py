@@ -433,7 +433,11 @@ class Transition(CrossSection):
     offset_type: WidthTypes | Callable[[float, float, float], float] = "sine"
 
     @field_serializer("width_type")
-    def serialize_width(self, width_type: WidthTypes | Callable) -> str | None:
+    def serialize_width(
+        self,
+        width_type: WidthTypes
+        | Callable[[npt.NDArray[np.float_], float, float], npt.NDArray[np.float_]],
+    ) -> str:
         if isinstance(width_type, str):
             return width_type
         t_values = np.linspace(0, 1, 10)

@@ -1,8 +1,11 @@
+from kfactory.conf import CHECK_INSTANCES
+
 import gdsfactory as gf
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 
 
-@gf.cell(check_instances=False)
+@cell(check_instances=CHECK_INSTANCES.IGNORE)
 def sample_route_dubin_basic() -> gf.Component:
     """Basic test showing Dubins path routing between two straight waveguides."""
     c = gf.Component()
@@ -13,7 +16,7 @@ def sample_route_dubin_basic() -> gf.Component:
 
     # Move and rotate the second waveguide
     wg2.move((300, 50))
-    wg2.rotate(45)
+    wg2.rotate(45)  # type: ignore
 
     # Route between the output of wg1 and input of wg2
     gf.routing.route_dubin(
@@ -25,7 +28,7 @@ def sample_route_dubin_basic() -> gf.Component:
     return c
 
 
-@gf.cell(check_instances=False)
+@cell(check_instances=CHECK_INSTANCES.IGNORE)
 def sample_route_dubin_array() -> gf.Component:
     """Test showing Dubins path routing between arrays of ports."""
     c = Component()
@@ -44,8 +47,8 @@ def sample_route_dubin_array() -> gf.Component:
 
     # Route between corresponding ports
     for i in range(10):
-        port1_name = f"o{10-i}"  # Inverted port id for port1
-        port2_name = f"o{i+1}"  # Adjusted to match available ports
+        port1_name = f"o{10 - i}"  # Inverted port id for port1
+        port2_name = f"o{i + 1}"  # Adjusted to match available ports
         gf.routing.route_dubin(
             c,
             port1=comp1.ports[port1_name],

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import jsondiff
+import jsondiff  # type: ignore
 import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
@@ -46,7 +46,7 @@ def test_netlists(
     then compare YAMLs with pytest regressions
     """
     c = cells[component_type]()
-    connection_error_types = {"optical": []}
+    connection_error_types: dict[str, list[str]] = {"optical": []}
     n = c.get_netlist(
         allow_multiple=True, connection_error_types=connection_error_types
     )

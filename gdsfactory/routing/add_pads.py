@@ -1,7 +1,9 @@
 from __future__ import annotations
 
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 from typing import Any
+
+import kfactory as kf
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -9,12 +11,18 @@ from gdsfactory.components.pad import pad_rectangular
 from gdsfactory.components.straight_heater_metal import straight_heater_metal
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_fiber_array import route_fiber_array
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Strs
+from gdsfactory.typings import (
+    BoundingBoxes,
+    ComponentSpec,
+    CrossSectionSpec,
+    SelectPorts,
+    Strs,
+)
 
 
 def add_pads_bot(
     component: ComponentSpec = straight_heater_metal,
-    select_ports: Callable = select_ports_electrical,
+    select_ports: SelectPorts = select_ports_electrical,
     port_names: Strs | None = None,
     cross_section: CrossSectionSpec = "metal_routing",
     pad_port_name: str = "e1",
@@ -26,7 +34,7 @@ def add_pads_bot(
     allow_width_mismatch: bool = True,
     fanout_length: float | None = 0,
     route_width: float | list[float] | None = 0,
-    bboxes: list | None = None,
+    bboxes: BoundingBoxes | None = None,
     avoid_component_bbox: bool = False,
     **kwargs: Any,
 ) -> Component:
@@ -94,7 +102,7 @@ def add_pads_bot(
     pad_spacing = gf.get_constant(pad_spacing)
     cref = component_new << component
     ports = [cref[port_name] for port_name in port_names] if port_names else None
-    ports = ports or select_ports(cref.ports)
+    ports_list: Sequence[kf.Port] = ports or select_ports(cref.ports)
 
     pad_component = gf.get_component(pad)
     if pad_port_name not in pad_component.ports:
@@ -109,7 +117,7 @@ def add_pads_bot(
             f"port.orientation={pad_orientation} for port {pad_port_name!r} needs to be 180 degrees."
         )
 
-    if not ports:
+    if not ports_list:
         raise ValueError(
             f"select_ports or port_names did not match any ports in {list(component.ports)}"
         )
@@ -125,7 +133,7 @@ def add_pads_bot(
         bend=bend,
         straight_separation=straight_separation,
         port_names=port_names,
-        fiber_spacing=pad_spacing,
+        fiber_spacing=pad_spacing,  # type: ignore
         port_type=port_type,
         gc_port_name_fiber=pad_port_name,
         allow_width_mismatch=allow_width_mismatch,
@@ -142,7 +150,7 @@ def add_pads_bot(
 
 def add_pads_top(
     component: ComponentSpec = straight_heater_metal,
-    select_ports: Callable = select_ports_electrical,
+    select_ports: SelectPorts = select_ports_electrical,
     port_names: Strs | None = None,
     cross_section: CrossSectionSpec = "metal_routing",
     pad_port_name: str = "e1",
@@ -154,7 +162,7 @@ def add_pads_top(
     allow_width_mismatch: bool = True,
     fanout_length: float | None = 0,
     route_width: float | list[float] | None = 0,
-    bboxes: list | None = None,
+    bboxes: BoundingBoxes | None = None,
     avoid_component_bbox: bool = False,
     **kwargs: Any,
 ) -> Component:

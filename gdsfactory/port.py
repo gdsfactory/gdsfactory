@@ -45,7 +45,12 @@ from gdsfactory.cross_section import CrossSectionSpec
 
 if TYPE_CHECKING:
     from gdsfactory.component import Component
-    from gdsfactory.typings import AngleInDegrees, ComponentFactory, PathType
+    from gdsfactory.typings import (
+        AngleInDegrees,
+        ComponentFactory,
+        PathType,
+        SelectPorts,
+    )
 
 Layer = tuple[int, int]
 Layers = tuple[Layer, ...]
@@ -561,7 +566,7 @@ def _rename_ports_clockwise_top_right(
 def rename_ports_by_orientation(
     component: Component,
     layers_excluded: LayerSpec | None = None,
-    select_ports: Callable = select_ports,
+    select_ports: "SelectPorts" = select_ports,
     function: Callable[..., None] = _rename_ports_facing_side,
     prefix: str = "o",
     **kwargs: Any,

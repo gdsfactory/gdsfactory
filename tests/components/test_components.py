@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Any
+
 import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
@@ -26,7 +28,7 @@ cells_to_test = set(cells.keys()) - skip_test
 
 
 @pytest.fixture(params=cells_to_test)
-def component_name(request: pytest.FixtureRequest) -> str:
+def component_name(request: pytest.FixtureRequest) -> Any:
     return request.param
 
 

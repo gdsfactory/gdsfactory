@@ -23,7 +23,7 @@ from __future__ import annotations
 
 import dataclasses
 import pathlib
-from collections.abc import Callable, Sequence
+from collections.abc import Callable, Iterable, Sequence
 from typing import Any, Generator, Literal, ParamSpec, TypeAlias, TypeVar
 
 import kfactory as kf
@@ -105,6 +105,8 @@ Int2: TypeAlias = tuple[int, int]
 Int3: TypeAlias = tuple[int, int, int]
 Ints: TypeAlias = tuple[int, ...] | list[int]
 
+BoundingBox: TypeAlias = tuple[float, float, float, float]
+BoundingBoxes: TypeAlias = Sequence[BoundingBox]
 Size: TypeAlias = tuple[float, float]
 Spacing: TypeAlias = tuple[float, float]
 Radius: TypeAlias = float
@@ -153,7 +155,8 @@ PortFactory: TypeAlias = Callable[..., Port]
 PortsFactory: TypeAlias = Callable[..., Sequence[Port]]
 PortSymmetries: TypeAlias = dict[str, Sequence[str]]
 PortsDict: TypeAlias = dict[str, Port]
-Ports: TypeAlias = kf.Ports | Sequence[Port]
+Ports: TypeAlias = kf.Ports | Sequence[Port] | Iterable[Port]
+SelectPorts: TypeAlias = Callable[..., Sequence[Port]]
 
 PortType: TypeAlias = str
 PortName: TypeAlias = str
@@ -269,6 +272,7 @@ __all__ = (
     "PostProcesses",
     "Radius",
     "RoutingStrategies",
+    "SelectPorts",
     "Size",
     "Spacing",
     "Strs",

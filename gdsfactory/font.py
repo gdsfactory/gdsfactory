@@ -14,7 +14,7 @@ from matplotlib.path import Path
 from gdsfactory.boolean import boolean
 from gdsfactory.component import Component
 
-_cached_fonts = {}
+_cached_fonts: dict[str, freetype.Face] = {}
 
 try:
     import freetype  # type: ignore
@@ -78,7 +78,7 @@ def _get_glyph(font: freetype.Face, letter: str) -> tuple[Component, float, floa
         font.gds_glyphs = {}
 
     if letter in font.gds_glyphs:
-        return font.gds_glyphs[letter]
+        return font.gds_glyphs[letter]  # type: ignore
 
     # Get the font name
     font_name = font.family_name.decode().replace(" ", "_")
@@ -110,11 +110,9 @@ def _get_glyph(font: freetype.Face, letter: str) -> tuple[Component, float, floa
         for j in range(1, len(points)):
             segments[-1].append(points[j])
             if tags[j] & (1 << 0) and j < (len(points) - 1):
-                segments.append(
-                    [
-                        points[j],
-                    ]
-                )
+                segments.append([
+                    points[j],
+                ])
         verts = [
             points[0],
         ]
@@ -150,14 +148,14 @@ def _get_glyph(font: freetype.Face, letter: str) -> tuple[Component, float, floa
     component = Component()
 
     orientation = freetype.FT_Outline_Get_Orientation(outline._FT_Outline)
-    polygons_cw = [p for p in polygons if _polygon_orientation(p) == 0]
-    polygons_ccw = [p for p in polygons if _polygon_orientation(p) == 1]
+    polygons_cw = [p for p in polygons if _polygon_orientation(np.array(p)) == 0]
+    polygons_ccw = [p for p in polygons if _polygon_orientation(np.array(p)) == 1]
     c1 = Component()
     c2 = Component()
     for p in polygons_cw:
-        c1.add_polygon(p, layer=(1, 0))
+        c1.add_polygon(np.array(p), layer=(1, 0))
     for p in polygons_ccw:
-        c2.add_polygon(p, layer=(1, 0))
+        c2.add_polygon(np.array(p), layer=(1, 0))
     if orientation == 0:
         # TrueType specification, fill the clockwise contour
         component = boolean(c1, c2, operation="not")
@@ -171,7 +169,7 @@ def _get_glyph(font: freetype.Face, letter: str) -> tuple[Component, float, floa
 
     # Cache the return value and return it
     font.gds_glyphs[letter] = (component, glyph.advance.x, font.size.ascender)
-    return font.gds_glyphs[letter]
+    return font.gds_glyphs[letter]  # type: ignore
 
 
 def _polygon_orientation(vertices: npt.NDArray[np.float64]) -> int:

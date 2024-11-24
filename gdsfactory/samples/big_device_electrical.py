@@ -35,9 +35,7 @@ def big_device(
     xs = gf.get_cross_section(cross_section)
     layer = xs.layer
     width = xs.width
-    port_settings = dict(
-        port_type=port_type, cross_section=xs, layer=layer, width=width
-    )
+    assert isinstance(width, float)
 
     points = [(dx, dy), (dx, -dy), (-dx, -dy), (-dx, dy)]
     component.add_polygon(points, layer=layer)
@@ -48,7 +46,10 @@ def big_device(
             name=f"W{i}",
             center=(-dx, (i - n / 2) * spacing),
             orientation=180,
-            **port_settings,
+            port_type=port_type,
+            cross_section=xs,
+            layer=layer,
+            width=width,
         )
         ports.append(port)
 
@@ -57,7 +58,10 @@ def big_device(
             name=f"E{i}",
             center=(dx, (i - n / 2) * spacing),
             orientation=0,
-            **port_settings,
+            port_type=port_type,
+            cross_section=xs,
+            layer=layer,
+            width=width,
         )
         ports.append(port)
 
@@ -66,7 +70,10 @@ def big_device(
             name=f"N{i}",
             center=((i - n / 2) * spacing, dy),
             orientation=90,
-            **port_settings,
+            port_type=port_type,
+            cross_section=xs,
+            layer=layer,
+            width=width,
         )
         ports.append(port)
 
@@ -75,7 +82,10 @@ def big_device(
             name=f"S{i}",
             center=((i - n / 2) * spacing, -dy),
             orientation=-90,
-            **port_settings,
+            port_type=port_type,
+            cross_section=xs,
+            layer=layer,
+            width=width,
         )
         ports.append(port)
 

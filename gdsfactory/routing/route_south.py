@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from collections.abc import Callable
-
 import numpy as np
 from kfactory.routing.generic import ManhattanRoute
 
@@ -14,7 +12,13 @@ from gdsfactory.port import Port, select_ports_optical
 from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.routing.route_single import route_single
 from gdsfactory.routing.utils import direction_ports_from_list_ports
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Radius, Strs
+from gdsfactory.typings import (
+    ComponentSpec,
+    CrossSectionSpec,
+    Radius,
+    SelectPorts,
+    Strs,
+)
 
 
 def route_south(
@@ -27,7 +31,7 @@ def route_south(
     gc_port_name: str = "o1",
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
-    select_ports: Callable = select_ports_optical,
+    select_ports: SelectPorts = select_ports_optical,
     port_names: Strs | None = None,
     cross_section: CrossSectionSpec = strip,
     start_straight_length: float = 0.5,
@@ -140,9 +144,9 @@ def route_south(
     def get_index_port_closest_to_x(
         x: float, component_references: list[ComponentReference]
     ) -> np.intp:
-        return np.array(
-            [abs(x - p.ports[gc_port_name].dx) for p in component_references]
-        ).argmin()
+        return np.array([
+            abs(x - p.ports[gc_port_name].dx) for p in component_references
+        ]).argmin()
 
     def gen_port_from_port(
         x: float, y: float, p: Port, cross_section: CrossSection

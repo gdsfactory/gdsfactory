@@ -293,7 +293,7 @@ class ComponentBase:
     """
 
     @property
-    def layers(self) -> list[tuple[int, int]]:
+    def layers(self) -> list[Layer]:
         return [
             (info.layer, info.datatype)
             for info in self.kcl.layer_infos()
@@ -1267,6 +1267,9 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):  # type: ignore
 
         kf.VInstance(self).insert_into_flat(c, levels=0)
         c.plot(**kwargs)
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # noqa: D107
+        super().__init__(*args, **kwargs)
 
 
 def container(

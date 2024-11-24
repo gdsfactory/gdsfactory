@@ -13,8 +13,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular_all_angle
 from gdsfactory.components.straight import straight_all_angle
-from gdsfactory.port import Port
-from gdsfactory.typings import CrossSectionSpec
+from gdsfactory.typings import CrossSectionSpec, Port
 
 
 def route_dubin(
@@ -127,7 +126,7 @@ def general_planner(
         q = mod_to_pi(mod_to_pi(beta) - alpha - t + mod_to_pi(p))
 
     else:
-        print("bad planner:", planner)
+        raise ValueError(f"Invalid planner: {planner}")
 
     path = [t, p, q]
 
@@ -213,7 +212,7 @@ def dubins_path(
             bcost = cost
 
     # Return path segments with lengths in um
-    return list(zip(bmode, [bt * c, bp * c, bq * c], [c] * 3))
+    return list(zip(bmode, [bt * c, bp * c, bq * c], [c] * 3))  # type: ignore
 
 
 def mod_to_pi(angle: float) -> float:
@@ -273,7 +272,7 @@ def place_dubin_path(
     c = component
     current_position = port1
 
-    instances = []
+    instances: list[kf.VInstance] = []
 
     for mode, length, radius in solution:
         if mode == "L":
@@ -318,7 +317,7 @@ if __name__ == "__main__":
 
     # Move and rotate the second waveguide
     wg2.move((300, 50))
-    wg2.rotate(45)
+    wg2.rotate(45)  # type: ignore
 
     # Route between the output of wg1 and input of wg2
     route = gf.routing.route_dubin(
