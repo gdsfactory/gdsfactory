@@ -109,16 +109,16 @@ def dbr_tapered(
 
     xs = gf.get_cross_section(cross_section=cross_section, width=w2, **kwargs)
 
-    assert isinstance(xs.width, float)
-
     input_taper = c << gf.components.taper(
         length=taper_length,
         width1=xs.width,
         width2=w1,
-        cross_section=xs,
+        cross_section=cross_section,
     )
 
-    straight = c << gf.components.straight(length=length, cross_section=xs, width=w1)
+    straight = c << gf.components.straight(
+        length=length, cross_section=cross_section, width=w1
+    )
     straight.dx = 0
     straight.dy = 0
 
@@ -131,7 +131,7 @@ def dbr_tapered(
 
     input_taper.connect("o2", straight.ports["o1"])
     output_taper.connect("o1", straight.ports["o2"])
-    num = int((2 * taper_length + length) // period)
+    num = (2 * taper_length + length) // period
 
     size = tuple(snap_to_grid2x((period * dc, w2)))
     teeth = gf.components.rectangle(size=size, layer=xs.layer)
@@ -158,8 +158,6 @@ def dbr_tapered(
 
 
 if __name__ == "__main__":
-    c = dbr_tapered(
-        length=10, period=0.85, dc=0.5, w2=1, w1=0.4, taper_length=20, fins=True
-    )
-    # c = dbr_tapered(cross_section="rib", fins=True)
+    # c = dbr_tapered(length=10, period=0.85, dc=0.5, w2=1, w1=0.4, taper_length=20, fins=True)
+    c = dbr_tapered(cross_section="rib")
     c.show()
