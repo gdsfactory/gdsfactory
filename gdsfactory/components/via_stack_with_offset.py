@@ -9,17 +9,18 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
 from gdsfactory.components.via import viac
-from gdsfactory.typings import ComponentSpec, Float2, Floats, LayerSpecs
+from gdsfactory.typings import ComponentSpec, Float2, Floats, LayerSpec, LayerSpecs
 
 
 @gf.cell
 def via_stack_with_offset(
     layers: LayerSpecs = ("PPP", "M1"),
-    size: Float2 = (10, 10),
+    size: Float2 | None = (10, 10),
     sizes: tuple[Float2, ...] | None = None,
     layer_offsets: Floats | None = None,
     vias: tuple[ComponentSpec | None, ...] = (None, viac),
     offsets: tuple[float, ...] | None = None,
+    layer_to_port_orientations: dict[LayerSpec, list[int]] | None = None,
 ) -> Component:
     """Rectangular layer transition with offset between layers.
 
@@ -32,6 +33,7 @@ def via_stack_with_offset(
         vias: via spec for previous layer. None for no via.
         offsets: optional offset for each layer relatively to the previous one.
             By default it only offsets by size[1] if there is a via.
+        layer_to_port_orientations: Optional dictionary with layer to port orientations.
 
     .. code::
 
@@ -60,9 +62,11 @@ def via_stack_with_offset(
     if sizes and layer_offsets:
         raise ValueError("You need to set either sizes or layer_offsets")
 
+    if size and sizes:
+        raise ValueError("You need to set either size or sizes")
+
     offsets = offsets or [0] * len(layers)
     layer_offsets = layer_offsets or [0] * len(layers)
-    previous_layer = layers[0]
     sizes = sizes or [size] * len(layers)
 
     elements = {len(layers), len(layer_offsets), len(vias), len(sizes)}
@@ -72,26 +76,47 @@ def via_stack_with_offset(
             stacklevel=3,
         )
 
-    n = len(layers)
+    port_orientations = (180, 90, 0, -90)
+    layer_to_port_orientations = layer_to_port_orientations or {
+        layers[-1]: port_orientations
+    }
 
-    for i, (layer, via, size, size_offset, offset) in enumerate(
-        zip(layers, vias, sizes, layer_offsets, offsets)
+    previous_layer = layers[0]
+
+    for layer in layer_to_port_orientations:
+        if layer not in layers:
+            raise ValueError(
+                f"layer {layer} in layer_to_port_orientations not in layers {layers}"
+            )
+
+    for layer, via, size, size_offset, offset in zip(
+        layers, vias, sizes, layer_offsets, offsets
     ):
         width, height = size
         width += 2 * size_offset
         height += 2 * size_offset
         x0 = -width / 2
-        ref_layer = c << compass(
-            size=(width, height), layer=layer, port_type="placement"
-        )
+        ref_layer = c << compass(size=(width, height), layer=layer, port_type=None)
         ref_layer.dymin = y0
 
-        ref_layer = c << compass(
-            size=(width, height),
-            layer=previous_layer,
-            port_type="placement" if i != n - 1 else "electrical",
-        )
-        ref_layer.dymin = y0
+        if layer in layer_to_port_orientations:
+            ref_layer = c << compass(
+                size=(width, height),
+                layer=layer,
+                port_type="electrical",
+                port_orientations=layer_to_port_orientations[layer],
+                auto_rename_ports=False,
+            )
+            ref_layer.ymin = y0
+            c.add_ports(ref_layer.ports)
+        else:
+            ref_layer = c << compass(
+                size=(width, height),
+                layer=previous_layer,
+                port_type=None,
+                port_orientations=None,
+            )
+            ref_layer.ymin = y0
 
         if via:
             via = gf.get_component(via)
@@ -130,7 +155,6 @@ def via_stack_with_offset(
         y0 += offset
         previous_layer = layer
 
-    c.add_ports(ref_layer.ports)
     return c
 
 
@@ -156,8 +180,10 @@ via_stack_with_offset_m1_m3 = partial(
 if __name__ == "__main__":
     c = via_stack_with_offset(
         layers=("M1", "M2", "MTOP"),
+        size=None,
         sizes=((10, 10), (20, 20), (50, 30)),
         vias=(None, "via1", "via2"),
+        layer_to_port_orientations={"MTOP": [90], "M1": [270]},
     )
     # c = via_stack_with_offset_m1_m3(layer_offsets=[0, 5, 10])
     # c = via_stack_with_offset(vias=(None, None))
