@@ -42,7 +42,7 @@ dependencies = [
   "attrs",
   "graphviz",
   "pyglet<2",
-  "pytest-only>=2.1.2",
+  "pytest-only>=2.1.2"
 ]
 description = "python library to generate GDS layouts"
 keywords = ["eda", "photonics", "python"]
@@ -100,12 +100,12 @@ gf = "gdsfactory.cli:app"
 ignore-words-list = "te, te/tm, te, ba, fpr, fpr_spacing, ro, nd, donot, schem"
 
 [tool.mypy]
+exclude = [
+  "gdsfactory/export/to_svg.py"
+]
 python_version = "3.11"
 strict = true
 warn_unused_ignores = false
-exclude = [
-  "gdsfactory/export/to_svg.py",
-]
 
 [tool.pylsp-mypy]
 enabled = true
@@ -155,7 +155,7 @@ ignore = [
   "ANN102",  # Missing cls type annotation
   "ANN401",  # typing.Any is not allowed
   "RUF015",  # Using next() instead of [0]
-  "UP037",  # Remove quotes from type annotations
+  "UP037"  # Remove quotes from type annotations
 ]
 select = [
   "B",  # flake8-bugbear
@@ -169,7 +169,7 @@ select = [
   "W",  # pycodestyle warnings
   "PERF",  # performance improvements
   "RUF",  # ruff
-  "ANN",  # flake8-annotations
+  "ANN"  # flake8-annotations
 ]
 
 [tool.ruff.lint.per-file-ignores]
