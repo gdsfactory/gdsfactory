@@ -62,7 +62,7 @@ instances:
       cross_section: heater_metal
       length: 1
       npoints: 2
-  via_stack_S4_4_LHEATER__3471ec57_3000_0:
+  via_stack_S4_4_LHEATER__371e9067_3000_0:
     component: via_stack
     info:
       xsize: 4
@@ -71,6 +71,7 @@ instances:
       correct_size: true
       layer_offsets: null
       layer_port: null
+      layer_to_port_orientations: null
       layers:
       - HEATER
       - M2
@@ -89,7 +90,7 @@ instances:
       - null
       - via1
       - via2
-  via_stack_S4_4_LHEATER__3471ec57_m4000_0:
+  via_stack_S4_4_LHEATER__371e9067_m4000_0:
     component: via_stack
     info:
       xsize: 4
@@ -98,6 +99,7 @@ instances:
       correct_size: true
       layer_offsets: null
       layer_port: null
+      layer_to_port_orientations: null
       layers:
       - HEATER
       - M2
@@ -164,29 +166,29 @@ placements:
     rotation: 0
     x: -1
     y: 20.71
-  via_stack_S4_4_LHEATER__3471ec57_3000_0:
+  via_stack_S4_4_LHEATER__371e9067_3000_0:
     mirror: false
     rotation: 0
     x: 3
     y: 0
-  via_stack_S4_4_LHEATER__3471ec57_m4000_0:
+  via_stack_S4_4_LHEATER__371e9067_m4000_0:
     mirror: false
     rotation: 0
     x: -4
     y: 0
 ports:
-  l_e1: via_stack_S4_4_LHEATER__3471ec57_m4000_0,e1
-  l_e2: via_stack_S4_4_LHEATER__3471ec57_m4000_0,e2
-  l_e3: via_stack_S4_4_LHEATER__3471ec57_m4000_0,e3
-  l_e4: via_stack_S4_4_LHEATER__3471ec57_m4000_0,e4
+  l_e1: via_stack_S4_4_LHEATER__371e9067_m4000_0,e1
+  l_e2: via_stack_S4_4_LHEATER__371e9067_m4000_0,e2
+  l_e3: via_stack_S4_4_LHEATER__371e9067_m4000_0,e3
+  l_e4: via_stack_S4_4_LHEATER__371e9067_m4000_0,e4
   o1: coupler_ring_G0p2_R10_L_ca129826_0_0,o1
   o2: coupler_ring_G0p2_R10_L_ca129826_0_0,o4
   o3: coupler_ring_G0p2_R10_L_ca129826_m1000_21410,o4
   o4: coupler_ring_G0p2_R10_L_ca129826_m1000_21410,o1
-  r_e1: via_stack_S4_4_LHEATER__3471ec57_3000_0,e1
-  r_e2: via_stack_S4_4_LHEATER__3471ec57_3000_0,e2
-  r_e3: via_stack_S4_4_LHEATER__3471ec57_3000_0,e3
-  r_e4: via_stack_S4_4_LHEATER__3471ec57_3000_0,e4
+  r_e1: via_stack_S4_4_LHEATER__371e9067_3000_0,e1
+  r_e2: via_stack_S4_4_LHEATER__371e9067_3000_0,e2
+  r_e3: via_stack_S4_4_LHEATER__371e9067_3000_0,e3
+  r_e4: via_stack_S4_4_LHEATER__371e9067_3000_0,e4
 warnings:
   electrical:
     unconnected_ports:

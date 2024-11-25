@@ -66,6 +66,7 @@ def dbr_cell(
     c2.connect(port="o1", other=c1.ports["o2"], allow_width_mismatch=True)
     c.add_port("o1", port=c1.ports["o1"])
     c.add_port("o2", port=c2.ports["o2"])
+    c.flatten()
     return c
 
 
