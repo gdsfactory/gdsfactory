@@ -9,11 +9,11 @@ __all__ = [
     "add_label_ehva",
     "add_label_json",
     "add_label_yaml",
+    "add_port_labels",
     "find_labels",
     "get_test_manifest",
     "ignore",
     "prefix_to_type_default",
     "write_labels",
     "write_test_manifest",
-    "add_port_labels",
 ]

@@ -15,8 +15,8 @@ __all__ = [
     "add_electrical_pads_top",
     "add_fiber_array",
     "add_padding_container",
+    "add_pads_bot",
+    "add_pads_top",
     "add_termination",
     "fanout2x2",
-    "add_pads_top",
-    "add_pads_bot",
 ]
