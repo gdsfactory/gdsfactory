@@ -80,6 +80,7 @@ c = components
 def clear_cache(kcl: kf.KCLayout = kf.kcl) -> None:
     """Clears the whole layout object cache for the default layout."""
     kcl.clear_kcells()
+    import_gds.cache_clear()
 
 
 __all__ = (
