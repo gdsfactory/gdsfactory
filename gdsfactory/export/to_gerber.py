@@ -39,8 +39,18 @@ resolutions = {1e-3: 3, 1e-4: 4, 1e-5: 5, 1e-6: 6}
 
 
 def number(n: float) -> str:
-    i = int(round(n * 10000))
-    return "%07d" % i
+    """Formats a floating-point number by scaling it to an integer (multiplied by 10,000).
+
+    Rounding to the nearest integer, and zero-padding it to 7 characters.
+
+    Args:
+        n (float): The input floating-point number.
+
+    Returns:
+        str: The formatted string.
+    """
+    scaled_value = int(round(n * 10000))
+    return f"{scaled_value:07d}"
 
 
 def points(pp: list[tuple[float, float]]) -> str:
