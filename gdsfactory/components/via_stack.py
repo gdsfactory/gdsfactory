@@ -122,12 +122,8 @@ def via_stack(
             min_width = w + enclosure
             min_height = h + enclosure
 
-            if (
-                min_width > width
-                and correct_size
-                or min_width <= width
-                and min_height > height
-                and correct_size
+            if (min_width > width and correct_size) or (
+                min_width <= width and min_height > height and correct_size
             ):
                 warnings.warn(
                     f"Changing size from ({width}, {height}) to ({min_width}, {min_height}) to fit a via!",
@@ -234,12 +230,8 @@ def via_stack_corner45(
             min_width = w + enclosure
             min_height = h + enclosure
 
-            if (
-                min_width > width45
-                and correct_size
-                or min_width <= width45
-                and min_height > height
-                and correct_size
+            if (min_width > width45 and correct_size) or (
+                min_width <= width45 and min_height > height and correct_size
             ):
                 warnings.warn(
                     f"Changing size from ({width}, {height}) to ({min_width}, {min_height}) to fit a via!",

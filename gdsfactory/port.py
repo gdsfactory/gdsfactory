@@ -838,20 +838,20 @@ def auto_rename_ports_layer_orientation(
 
 __all__ = [
     "Port",
-    "port_array",
-    "read_port_markers",
-    "csv2port",
-    "select_ports",
-    "select_ports_list",
-    "flipped",
-    "move_copy",
-    "get_ports_facing",
-    "deco_rename_ports",
-    "rename_ports_by_orientation",
     "auto_rename_ports",
     "auto_rename_ports_counter_clockwise",
     "auto_rename_ports_orientation",
+    "csv2port",
+    "deco_rename_ports",
+    "flipped",
+    "get_ports_facing",
     "map_ports_layer_to_orientation",
+    "move_copy",
+    "port_array",
+    "read_port_markers",
+    "rename_ports_by_orientation",
+    "select_ports",
+    "select_ports_list",
 ]
 
 if __name__ == "__main__":
