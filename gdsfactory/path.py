@@ -173,13 +173,7 @@ class Path(GeometryHelper):
             end_angle = np.arctan2(ny2, nx2) / np.pi * 180
         elif isinstance(path, list):
             for p in path:
-                if isinstance(p, Path):  # type: ignore
-                    self.append(p)
-                else:
-                    raise ValueError(
-                        "Path.append() the `path` argument must be either "
-                        "a Path object, an array-like[N][2] list of points, or a list of these"
-                    )
+                self.append(p)
             return self
         else:
             raise ValueError(
