@@ -1,8 +1,9 @@
 instances:
-  compass_S10_10_LM1_PTpl_7cd6df42_0_5000:
+  compass_S10_10_LM1_PTpl_d192ee0e_0_5000:
     component: compass
     info: {}
     settings:
+      auto_rename_ports: true
       layer: M1
       port_inclusion: 0
       port_orientations:
@@ -14,10 +15,11 @@ instances:
       size:
       - 10
       - 10
-  compass_S10_10_LPPP_PTe_5f0f6ded_0_5000:
+  compass_S10_10_LPPP_PTe_cc52b25d_0_5000:
     component: compass
     info: {}
     settings:
+      auto_rename_ports: true
       layer: PPP
       port_inclusion: 0
       port_orientations:
@@ -29,10 +31,11 @@ instances:
       size:
       - 10
       - 10
-  compass_S10_10_LPPP_PTp_fb8579fa_0_5000:
+  compass_S10_10_LPPP_PTp_6b2a9598_0_5000:
     component: compass
     info: {}
     settings:
+      auto_rename_ports: true
       layer: PPP
       port_inclusion: 0
       port_orientations:
@@ -72,17 +75,17 @@ instances:
 name: via_stack_with_offset_L_3866aa71
 nets: []
 placements:
-  compass_S10_10_LM1_PTpl_7cd6df42_0_5000:
+  compass_S10_10_LM1_PTpl_d192ee0e_0_5000:
     mirror: false
     rotation: 0
     x: 0
     y: 5
-  compass_S10_10_LPPP_PTe_5f0f6ded_0_5000:
+  compass_S10_10_LPPP_PTe_cc52b25d_0_5000:
     mirror: false
     rotation: 0
     x: 0
     y: 5
-  compass_S10_10_LPPP_PTp_fb8579fa_0_5000:
+  compass_S10_10_LPPP_PTp_6b2a9598_0_5000:
     mirror: false
     rotation: 0
     x: 0
@@ -93,7 +96,7 @@ placements:
     x: -3
     y: 2
 ports:
-  e1: compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e1
-  e2: compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e2
-  e3: compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e3
-  e4: compass_S10_10_LPPP_PTe_5f0f6ded_0_5000,e4
+  e1: compass_S10_10_LPPP_PTe_cc52b25d_0_5000,e1
+  e2: compass_S10_10_LPPP_PTe_cc52b25d_0_5000,e2
+  e3: compass_S10_10_LPPP_PTe_cc52b25d_0_5000,e3
+  e4: compass_S10_10_LPPP_PTe_cc52b25d_0_5000,e4
