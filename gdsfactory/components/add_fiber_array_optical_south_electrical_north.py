@@ -100,7 +100,7 @@ def add_fiber_array_optical_south_electrical_north(
     pads = c << gf.components.array(
         component=pad,
         columns=npads,
-        spacing=(pad_spacing, 0),
+        column_pitch=pad_spacing,
     )
     pads.dx = r.dx
     pads.dymin = r.dymin + pad_gc_spacing

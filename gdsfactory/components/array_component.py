@@ -75,7 +75,6 @@ def array(
         component,
         columns=columns,
         rows=rows,
-        spacing=spacing,
         column_pitch=column_pitch,
         row_pitch=row_pitch,
     )
