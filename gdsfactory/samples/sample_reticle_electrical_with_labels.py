@@ -65,7 +65,7 @@ def via_chain(
     component_name = f"{component_name}_{num_vias}"
     c0 = gf.components.via_chain(num_vias=num_vias, **kwargs)
     r = c << c0
-    r.rotate(-90)
+    r.rotate(-90)  # type: ignore
     c.add_ports(r.ports)
     c.name = f"{c0.name}r90"
 

@@ -39,7 +39,6 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.port import Port
 from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.typings import (
     STEP_DIRECTIVES,
@@ -48,13 +47,14 @@ from gdsfactory.typings import (
     CrossSectionSpec,
     LayerSpec,
     MultiCrossSectionAngleSpec,
+    Port,
 )
 
 
 def route_single(
     component: Component,
-    port1: kf.Port,
-    port2: kf.Port,
+    port1: Port,
+    port2: Port,
     cross_section: CrossSectionSpec | None = None,
     layer: LayerSpec | None = None,
     bend: ComponentSpec = bend_euler,
@@ -135,7 +135,7 @@ def route_single(
 
     def straight_dbu(
         length: int,
-        cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = cross_section,
+        cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = cross_section,  # type: ignore[assignment]
         **kwargs: Any,
     ) -> Component:
         return gf.get_component(

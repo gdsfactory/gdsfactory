@@ -101,7 +101,8 @@ ignore-words-list = "te, te/tm, te, ba, fpr, fpr_spacing, ro, nd, donot, schem"
 
 [tool.mypy]
 exclude = [
-  "gdsfactory/export/to_svg.py"
+  "gdsfactory/export/to_svg.py",
+  "test-data-gds/."
 ]
 python_version = "3.11"
 strict = true

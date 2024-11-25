@@ -21,7 +21,7 @@ from gdsfactory.port import pprint_ports, select_ports, to_dict
 from gdsfactory.serialization import clean_value_json, convert_tuples_to_lists
 
 if TYPE_CHECKING:
-    import networkx as nx
+    import networkx as nx  # type: ignore[import-untyped]
     from matplotlib.figure import Figure
 
     from gdsfactory.typings import (
@@ -36,6 +36,8 @@ if TYPE_CHECKING:
         LayerStack,
         LayerViews,
         PathType,
+        Port,
+        Ports,
         Spacing,
     )
 
@@ -48,12 +50,9 @@ def ensure_tuple_of_tuples(points: Any) -> tuple[tuple[float, float]]:
         points = tuple(map(tuple, points.tolist()))
     elif isinstance(points, list):
         # If it's a list, check if the first element is an np.ndarray or a list to decide on conversion
-        if len(points) > 0 and isinstance(points[0], np.ndarray | list):
-            points = tuple(
-                tuple(point) if isinstance(point, np.ndarray) else tuple(point)
-                for point in points
-            )
-    return points
+        if len(points) > 0 and isinstance(points[0], np.ndarray | list):  # type: ignore
+            points = tuple(tuple(point) for point in points)  # type: ignore
+    return points  # type: ignore
 
 
 def size(region: kdb.Region, offset: float, dbu: float = 1e3) -> kdb.Region:
@@ -164,7 +163,8 @@ class ComponentReference(kf.Instance):
                     return super().dymax
                 case "ysize":
                     return super().dysize
-        return super().__getattribute__(__k)
+                case _:
+                    return super().__getattribute__(__k)
 
     def __setattr__(self, __k: str, __v: Any) -> None:
         """Set attribute with deprecation warning for dbu based attributes."""
@@ -185,17 +185,17 @@ class ComponentReference(kf.Instance):
 
     def connect(  # type: ignore[override]
         self,
-        port: str | kf.Port,
-        other: Any | None = None,
+        port: "str | Port",
+        other: "Instance | Port",
         other_port_name: str | None = None,
         allow_width_mismatch: bool = False,
         allow_layer_mismatch: bool = False,
         allow_type_mismatch: bool = False,
         overlap: float | None = None,
-        destination: kf.Port | None = None,
+        destination: "Port | None" = None,
         preserve_orientation: bool | None = None,
         **kwargs: Any,
-    ) -> ComponentReference:
+    ) -> None:
         """Return ComponentReference where port connects to a destination.
 
         Args:
@@ -215,7 +215,7 @@ class ComponentReference(kf.Instance):
         """
         if destination:
             warnings.warn("destination is deprecated, use other instead")
-            other = destination
+            other = destination  # type: ignore
         if overlap:
             warnings.warn("overlap is deprecated")
 
@@ -224,7 +224,7 @@ class ComponentReference(kf.Instance):
 
         return super().connect(
             port,
-            other=other,
+            other=other,  # type: ignore
             other_port_name=other_port_name,
             allow_width_mismatch=allow_width_mismatch,
             allow_layer_mismatch=allow_layer_mismatch,
@@ -308,7 +308,7 @@ class ComponentBase:
     def add_port(
         self,
         name: str | None = None,
-        port: kf.Port | None = None,
+        port: "Port | None" = None,
         center: tuple[float, float] | kf.kdb.DPoint | None = None,
         width: float | None = None,
         orientation: "AngleInDegrees | None" = None,
@@ -316,7 +316,7 @@ class ComponentBase:
         port_type: str = "optical",
         keep_mirror: bool = False,
         cross_section: CrossSectionSpec | None = None,
-    ) -> kf.Port:
+    ) -> "Port":
         """Adds a Port to the Component.
 
         Args:
@@ -332,7 +332,10 @@ class ComponentBase:
         """
         if port:
             return kf.KCell.add_port(
-                self, port=port, name=name, keep_mirror=keep_mirror
+                self,  # type: ignore
+                port=port,
+                name=name,
+                keep_mirror=keep_mirror,
             )
         from gdsfactory.config import CONF
         from gdsfactory.pdk import get_cross_section, get_layer
@@ -545,7 +548,7 @@ class ComponentBase:
             inst.name = name
         return ComponentReference(inst)
 
-    def get_ports_list(self, **kwargs: Any) -> list[kf.Port]:
+    def get_ports_list(self, **kwargs: Any) -> list[Port]:
         """Returns list of ports.
 
         Args:
@@ -1271,7 +1274,7 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
         name: str | None = None,
         kcl: kf.KCLayout | None = None,
         kdb_cell: kdb.Cell | None = None,
-        ports: kf.Ports | None = None,
+        ports: "Ports | None" = None,
     ) -> None:
         """Initializes a Component."""
         self.insts = ComponentReferences()
