@@ -40,7 +40,7 @@ def test_extrude_transition() -> None:
     cs2 = gf.get_cross_section("strip", width=w2)
     transition = gf.path.transition(cs1, cs2)
     p = gf.path.straight(length)
-    c = gf.path.extrude(p, transition)
+    c = gf.path.extrude_transition(p, transition)
 
     assert c.ports["o1"].width == w1 / c.kcl.dbu
     assert c.ports["o2"].width == w2 / c.kcl.dbu

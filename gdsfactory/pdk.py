@@ -37,7 +37,6 @@ from gdsfactory.typings import (
     MaterialSpec,
     PathType,
     RoutingStrategies,
-    Transition,
 )
 
 _ACTIVE_PDK: Pdk | None = None
@@ -422,7 +421,7 @@ class Pdk(BaseModel):
 
     def get_cross_section(
         self, cross_section: CrossSectionSpec, **kwargs: Any
-    ) -> CrossSection | Transition:
+    ) -> CrossSection:
         """Returns cross_section from a cross_section spec.
 
         Args:
@@ -441,7 +440,7 @@ class Pdk(BaseModel):
             xs_name = cross_section.get("cross_section", None)
             settings = cross_section.get("settings", {})
             return self.get_cross_section(xs_name, **settings)
-        elif isinstance(cross_section, CrossSection | Transition):  # type: ignore
+        elif isinstance(cross_section, CrossSection):
             if kwargs:
                 warnings.warn(
                     f"{kwargs} are ignored for cross_section {cross_section.name!r}"
@@ -633,9 +632,7 @@ def get_cell(cell: CellSpec, **kwargs: Any) -> ComponentFactory:
     return get_active_pdk().get_cell(cell, **kwargs)
 
 
-def get_cross_section(
-    cross_section: CrossSectionSpec, **kwargs: Any
-) -> CrossSection | Transition:
+def get_cross_section(cross_section: CrossSectionSpec, **kwargs: Any) -> CrossSection:
     return get_active_pdk().get_cross_section(cross_section, **kwargs)
 
 

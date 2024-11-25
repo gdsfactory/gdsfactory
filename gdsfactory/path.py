@@ -903,17 +903,16 @@ def extrude(
 
     xsection_points = []
     c = ComponentAllAngle() if all_angle else Component()
-    x = get_cross_section(cross_section)
 
-    if isinstance(x, Transition):
+    if isinstance(cross_section, Transition):
         warnings.warn(
             "Use extrude_transition() instead of extrude() for Transition cross-sections",
             stacklevel=2,
         )
-        return extrude_transition(
-            p,
-            transition=x,
-        )
+        return extrude_transition(p, transition=cross_section)
+
+    x = get_cross_section(cross_section)
+
     layer = layer or x.layer
     layer = get_layer(layer)
 
