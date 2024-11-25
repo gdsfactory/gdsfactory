@@ -15,6 +15,22 @@ instances:
       size:
       - 10
       - 10
+  compass_S10_10_LM1_PTel_d5e6c94d_0_5000:
+    component: compass
+    info: {}
+    settings:
+      auto_rename_ports: false
+      layer: M1
+      port_inclusion: 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 10
+      - 10
   compass_S10_10_LPPP_PTN_93881846_0_5000:
     component: compass
     info: {}
@@ -40,22 +56,6 @@ instances:
       port_inclusion: 0
       port_orientations: null
       port_type: null
-      size:
-      - 10
-      - 10
-  compass_S10_10_LPPP_PTe_37871c08_0_5000:
-    component: compass
-    info: {}
-    settings:
-      auto_rename_ports: false
-      layer: PPP
-      port_inclusion: 0
-      port_orientations:
-      - 180
-      - 90
-      - 0
-      - -90
-      port_type: electrical
       size:
       - 10
       - 10
@@ -92,6 +92,11 @@ placements:
     rotation: 0
     x: 0
     y: 5
+  compass_S10_10_LM1_PTel_d5e6c94d_0_5000:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 5
   compass_S10_10_LPPP_PTN_93881846_0_5000:
     mirror: false
     rotation: 0
@@ -102,18 +107,13 @@ placements:
     rotation: 0
     x: 0
     y: 5
-  compass_S10_10_LPPP_PTe_37871c08_0_5000:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 5
   via_S0p7_0p7_S2_2_GNone_8696e860_m3000_2000:
     mirror: false
     rotation: 0
     x: -3
     y: 2
 ports:
-  e1: compass_S10_10_LPPP_PTe_37871c08_0_5000,e1
-  e2: compass_S10_10_LPPP_PTe_37871c08_0_5000,e2
-  e3: compass_S10_10_LPPP_PTe_37871c08_0_5000,e3
-  e4: compass_S10_10_LPPP_PTe_37871c08_0_5000,e4
+  e1: compass_S10_10_LM1_PTel_d5e6c94d_0_5000,e1
+  e2: compass_S10_10_LM1_PTel_d5e6c94d_0_5000,e2
+  e3: compass_S10_10_LM1_PTel_d5e6c94d_0_5000,e3
+  e4: compass_S10_10_LM1_PTel_d5e6c94d_0_5000,e4
