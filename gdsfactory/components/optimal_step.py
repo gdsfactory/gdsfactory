@@ -2,12 +2,12 @@ from __future__ import annotations
 
 import numpy as np
 
-from gdsfactory import cell
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@cell
+@gf.cell
 def optimal_step(
     start_width: float = 10,
     end_width: float = 22,

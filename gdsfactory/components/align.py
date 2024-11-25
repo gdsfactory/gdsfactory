@@ -1,13 +1,12 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory import cell
 from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.typings import ComponentSpec, LayerSpec
 
 
-@cell
+@gf.cell
 def align_wafer(
     width: float = 10.0,
     spacing: float = 10.0,
@@ -72,7 +71,7 @@ def align_wafer(
     return c
 
 
-@cell
+@gf.cell
 def add_frame(
     component: ComponentSpec = rectangle,
     width: float = 10.0,

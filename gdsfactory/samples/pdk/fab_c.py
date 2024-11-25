@@ -95,25 +95,25 @@ xs_no = strip_no()
 
 
 # customize the cell decorator for this PDK
-cell = partial(gf.cell, post_process=(_add_pins,), info=dict(pdk="fab_c"))
+_cell = gf.cell(post_process=(_add_pins,), info=dict(pdk="fab_c"))
 
 
-@cell
+@_cell
 def straight_sc(cross_section: str = "strip_nc", **kwargs: Any) -> gf.Component:
     return gf.components.straight(cross_section=cross_section, **kwargs)
 
 
-@cell
+@_cell
 def straight_so(cross_section: str = "strip_so", **kwargs: Any) -> gf.Component:
     return gf.components.straight(cross_section=cross_section, **kwargs)
 
 
-@cell
+@_cell
 def straight_nc(cross_section: str = "strip_nc", **kwargs: Any) -> gf.Component:
     return gf.components.straight(cross_section=cross_section, **kwargs)
 
 
-@cell
+@_cell
 def straight_no(cross_section: str = "strip_no", **kwargs: Any) -> gf.Component:
     return gf.components.straight(cross_section=cross_section, **kwargs)
 
@@ -123,22 +123,22 @@ def straight_no(cross_section: str = "strip_no", **kwargs: Any) -> gf.Component:
 ######################
 
 
-@cell
+@_cell
 def bend_euler_sc(cross_section: str = "strip_sc", **kwargs: Any) -> gf.Component:
     return gf.components.bend_euler(cross_section=cross_section, **kwargs)
 
 
-@cell
+@_cell
 def bend_euler_so(cross_section: str = "strip_so", **kwargs: Any) -> gf.Component:
     return gf.components.bend_euler(cross_section=cross_section, **kwargs)
 
 
-@cell
+@_cell
 def bend_euler_nc(cross_section: str = "strip_nc", **kwargs: Any) -> gf.Component:
     return gf.components.bend_euler(cross_section=cross_section, **kwargs)
 
 
-@cell
+@_cell
 def bend_euler_no(cross_section: str = "strip_no", **kwargs: Any) -> gf.Component:
     return gf.components.bend_euler(cross_section=cross_section, **kwargs)
 
@@ -148,7 +148,7 @@ def bend_euler_no(cross_section: str = "strip_no", **kwargs: Any) -> gf.Componen
 ######################
 
 
-@cell
+@_cell
 def mmi1x2_sc(
     width_mmi: float = 3, cross_section: str = "strip_sc", **kwargs: Any
 ) -> gf.Component:
@@ -157,7 +157,7 @@ def mmi1x2_sc(
     )
 
 
-@cell
+@_cell
 def mmi1x2_so(
     width_mmi: float = 3, cross_section: str = "strip_so", **kwargs: Any
 ) -> gf.Component:
@@ -166,7 +166,7 @@ def mmi1x2_so(
     )
 
 
-@cell
+@_cell
 def mmi1x2_nc(
     width_mmi: float = 3, cross_section: str = "strip_nc", **kwargs: Any
 ) -> gf.Component:
@@ -175,7 +175,7 @@ def mmi1x2_nc(
     )
 
 
-@cell
+@_cell
 def mmi1x2_no(
     width_mmi: float = 3, cross_section: str = "strip_no", **kwargs: Any
 ) -> gf.Component:
@@ -195,7 +195,7 @@ _gc_nc = partial(
 )
 
 
-@cell
+@_cell
 def gc_sc(**kwargs: Any) -> gf.Component:
     return _gc_nc(**kwargs)
 

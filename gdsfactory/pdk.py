@@ -334,7 +334,7 @@ class Pdk(BaseModel):
         component: ComponentSpec,
         settings: dict[str, Any] | None = None,
         **kwargs: Any,
-    ) -> ComponentBase:
+    ) -> Component:
         """Returns component from a component spec."""
         return self._get_component(
             component=component, cells=self.cells, settings=settings, **kwargs
@@ -354,10 +354,10 @@ class Pdk(BaseModel):
     def _get_component(
         self,
         component: ComponentSpec,
-        cells: dict[str, Callable],
+        cells: dict[str, Callable[..., ComponentBase]],
         settings: dict[str, Any] | None = None,
         **kwargs: Any,
-    ) -> ComponentBase:
+    ) -> Component:
         """Returns component from a component spec.
 
         Args:
@@ -367,14 +367,14 @@ class Pdk(BaseModel):
             kwargs: settings to override.
 
         """
-        cells = sorted(cells)
+        cells = sorted(cells)  # type: ignore
 
         settings = settings or {}
         kwargs = kwargs or {}
         kwargs.update(settings)
 
         if isinstance(component, ComponentBase):
-            return component
+            return component  # type: ignore
         elif isinstance(component, kf.KCell):
             return Component.from_kcell(component)
         elif callable(component):
@@ -382,7 +382,7 @@ class Pdk(BaseModel):
         elif isinstance(component, str):
             if component not in cells:
                 substring = component
-                matching_cells = []
+                matching_cells: list[str] = []
 
                 # Reduce the length of the cell string until we find matches
                 while substring and not matching_cells:
@@ -394,7 +394,7 @@ class Pdk(BaseModel):
                     f"{component!r} not in PDK {self.name!r}. Did you mean {matching_cells}?"
                 )
             return self.cells[component](**kwargs)
-        elif isinstance(component, dict):
+        elif isinstance(component, dict):  # type: ignore
             for key in component.keys():
                 if key not in component_settings:
                     raise ValueError(
@@ -405,7 +405,7 @@ class Pdk(BaseModel):
 
             cell_name = component.get("component", None)
             cell_name = cell_name or component.get("function")
-            cell_name = cell_name.split(".")[-1]
+            cell_name = cell_name.split(".")[-1]  # type: ignore
 
             if not isinstance(cell_name, str) or cell_name not in cells:
                 matching_cells = [c for c in cells if cell_name in c]

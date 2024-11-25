@@ -7,7 +7,6 @@ import numpy as np
 import numpy.typing as npt
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.functions import DEG2RAD, extrude_path
 from gdsfactory.typings import CrossSectionSpec, LayerSpec
@@ -89,7 +88,7 @@ def grating_taper_points(
     return np.vstack([p0, p1, taper_arc])
 
 
-@cell
+@gf.cell
 def grating_coupler_elliptical(
     polarization: str = "te",
     taper_length: float = 16.6,

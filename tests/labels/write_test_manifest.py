@@ -1,4 +1,4 @@
-import pandas as pd
+import pandas as pd  # type: ignore[import-untyped]
 
 import gdsfactory as gf
 from gdsfactory.samples.sample_reticle import sample_reticle

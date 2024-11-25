@@ -7,7 +7,7 @@ import hashlib
 import inspect
 import pathlib
 from collections.abc import KeysView
-from typing import Any
+from typing import Any, overload
 
 import attrs
 import numpy as np
@@ -53,6 +53,22 @@ def complex_encoder(
     real_part = np.round(obj.real, digits)
     imag_part = np.round(obj.imag, digits)
     return {"real": real_part, "imag": imag_part}
+
+
+@overload
+def clean_value_json(
+    value: dict[str, Any],
+    include_module: bool = True,
+    serialize_function_as_dict: bool = True,
+) -> dict[str, Any]: ...
+
+
+@overload
+def clean_value_json(
+    value: str,
+    include_module: bool = True,
+    serialize_function_as_dict: bool = True,
+) -> str: ...
 
 
 def clean_value_json(

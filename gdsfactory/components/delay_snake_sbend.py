@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import Any
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
@@ -26,7 +25,7 @@ diagram = r"""
 """
 
 
-@cell
+@gf.cell
 def delay_snake_sbend(
     length: float = 100.0,
     length1: float = 0.0,

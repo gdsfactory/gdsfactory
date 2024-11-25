@@ -1,7 +1,7 @@
 from functools import partial
 
 import gdsfactory as gf
-from gdsfactory.generic_tech import LAYER
+from gdsfactory.generic_tech.layer_map import LAYER
 from gdsfactory.typings import Layer
 
 extend_ports = gf.components.extend_ports

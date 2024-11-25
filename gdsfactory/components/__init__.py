@@ -145,10 +145,7 @@ from gdsfactory.components.grating_coupler_rectangular_arbitrary import (
     grating_coupler_rectangular_arbitrary,
 )
 from gdsfactory.components.grating_coupler_tree import grating_coupler_tree
-from gdsfactory.components.greek_cross import (
-    greek_cross,
-    greek_cross_with_pads,
-)
+from gdsfactory.components.greek_cross import greek_cross, greek_cross_with_pads
 from gdsfactory.components.hline import hline
 from gdsfactory.components.interdigital_capacitor import interdigital_capacitor
 from gdsfactory.components.L import L

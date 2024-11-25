@@ -5,12 +5,12 @@ from __future__ import annotations
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.typings import ComponentFactory, Float2, LayerSpec
+from gdsfactory.typings import ComponentFactory, Float2, LayerSpec, Size
 
 
 @gf.cell
 def die(
-    size: tuple[float, float] = (10000.0, 10000.0),
+    size: Size = (10000.0, 10000.0),
     street_width: float = 100.0,
     street_length: float = 1000.0,
     die_name: str | None = "chip99",

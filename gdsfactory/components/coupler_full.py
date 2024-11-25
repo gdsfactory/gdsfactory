@@ -3,13 +3,12 @@ from __future__ import annotations
 from typing import Any
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components import bend_s
 from gdsfactory.typings import CrossSectionSpec, Delta
 
 
-@cell
+@gf.cell
 def coupler_full(
     coupling_length: float = 40.0,
     dx: Delta = 10.0,

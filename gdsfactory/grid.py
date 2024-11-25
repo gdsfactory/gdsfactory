@@ -5,6 +5,7 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from itertools import zip_longest
 from typing import Literal
 
@@ -16,12 +17,18 @@ from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.components.triangles import triangle
-from gdsfactory.typings import Anchor, ComponentSpec, ComponentSpecsOrComponents, Float2
+from gdsfactory.typings import (
+    Anchor,
+    ComponentSpec,
+    ComponentSpecsOrComponents,
+    Float2,
+    Spacing,
+)
 
 
 def grid(
     components: ComponentSpecsOrComponents = (rectangle, triangle),
-    spacing: tuple[float, float] | float = (5.0, 5.0),
+    spacing: Spacing | float = (5.0, 5.0),
     shape: tuple[int, int] | None = None,
     align_x: Literal["origin", "xmin", "xmax", "center"] = "center",
     align_y: Literal["origin", "ymin", "ymax", "center"] = "center",
@@ -84,14 +91,14 @@ def grid(
 
 
 def grid_with_text(
-    components: tuple[ComponentSpec, ...] = (rectangle, triangle),
+    components: Sequence[ComponentSpec] = (rectangle, triangle),
     text_prefix: str = "",
     text_offsets: tuple[Float2, ...] | None = None,
     text_anchors: tuple[Anchor, ...] | None = None,
     text_mirror: bool = False,
     text_rotation: int = 0,
     text: ComponentSpec | None = text_rectangular,
-    spacing: tuple[float, float] | float = (5.0, 5.0),
+    spacing: Spacing | float = (5.0, 5.0),
     shape: tuple[int, int] | None = None,
     align_x: Literal["origin", "xmin", "xmax", "center"] = "center",
     align_y: Literal["origin", "ymin", "ymax", "center"] = "center",

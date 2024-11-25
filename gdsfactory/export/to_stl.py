@@ -4,14 +4,14 @@ import pathlib
 
 from gdsfactory.component import Component
 from gdsfactory.technology import DerivedLayer, LayerStack, LogicalLayer
-from gdsfactory.typings import LayerSpec
+from gdsfactory.typings import LayerSpecs
 
 
 def to_stl(
     component: Component,
     filepath: str,
     layer_stack: LayerStack | None = None,
-    exclude_layers: tuple[LayerSpec, ...] | None = None,
+    exclude_layers: LayerSpecs | None = None,
     hull_invalid_polygons: bool = False,
     scale: float | None = None,
 ) -> None:

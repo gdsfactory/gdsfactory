@@ -54,11 +54,14 @@ def grating_coupler_array(
         radius = radius or routing_xs.radius
 
         port0 = c.ports["o0"]
-        port1 = c.ports[f"o{n-1}"]
+        port1 = c.ports[f"o{n - 1}"]
         radius = radius
         radius_dbu = round(radius / c.kcl.dbu)
         d_loop_um = straight_to_grating_spacing + max(
-            [grating_coupler.dysize, grating_coupler.dxsize]
+            [
+                grating_coupler.dysize,
+                grating_coupler.dxsize,
+            ]
         )
         d_loop = round(d_loop_um / c.kcl.dbu) + radius_dbu
         waypoints = kf.routing.optical.route_loopback(

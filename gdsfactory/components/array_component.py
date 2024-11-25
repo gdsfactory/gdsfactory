@@ -4,15 +4,14 @@ import warnings
 from collections.abc import Iterable
 
 import gdsfactory as gf
-from gdsfactory import cell
 from gdsfactory.component import Component
-from gdsfactory.typings import Callable, ComponentSpec, Float2
+from gdsfactory.typings import AnyComponentPostProcess, ComponentSpec, Float2, Spacing
 
 
-@cell
+@gf.cell
 def array(
     component: ComponentSpec = "pad",
-    spacing: tuple[float, float] | None = None,
+    spacing: Spacing | None = None,
     columns: int = 6,
     rows: int = 1,
     column_pitch: float = 150,
@@ -20,7 +19,7 @@ def array(
     add_ports: bool = True,
     size: Float2 | None = None,
     centered: bool = False,
-    post_process: Iterable[Callable] | None = None,
+    post_process: Iterable[AnyComponentPostProcess] | None = None,
     auto_rename_ports: bool = False,
 ) -> Component:
     """Returns an array of components.

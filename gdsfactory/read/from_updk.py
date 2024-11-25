@@ -168,7 +168,7 @@ add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_
 
         points = str(block["bbox"]).replace("'", "")
         script += f"""
-@cell
+@gf.cell
 def {block_name}({parameters_string})->gf.Component:
     {doc}
     c = gf.Component()

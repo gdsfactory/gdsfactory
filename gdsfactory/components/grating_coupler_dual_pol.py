@@ -6,7 +6,6 @@ from typing import Any
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.taper import taper as taper_function
@@ -21,7 +20,7 @@ rectangle_unit_cell = partial(
 )
 
 
-@cell
+@gf.cell
 def grating_coupler_dual_pol(
     unit_cell: ComponentSpec = rectangle_unit_cell,
     period_x: float = 0.58,

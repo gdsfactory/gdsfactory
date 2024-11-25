@@ -3,13 +3,12 @@ from __future__ import annotations
 from typing import Any
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.dbr import dbr
 from gdsfactory.typings import ComponentSpec
 
 
-@cell
+@gf.cell
 def cavity(
     component: ComponentSpec = "dbr",
     coupler: ComponentSpec = "coupler",

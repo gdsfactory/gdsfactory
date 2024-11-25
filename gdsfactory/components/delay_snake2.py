@@ -4,7 +4,6 @@ import warnings
 from typing import Any
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
@@ -21,7 +20,7 @@ diagram = """
 """
 
 
-@cell
+@gf.cell
 def delay_snake2(
     length: float = 1600.0,
     length0: float = 0.0,

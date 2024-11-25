@@ -12,7 +12,7 @@ import hashlib
 import math
 import warnings
 from collections.abc import Callable, Iterator
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Literal, overload
 
 import numpy as np
 import numpy.typing as npt
@@ -30,7 +30,7 @@ from gdsfactory.cross_section import (  # type: ignore[attr-defined]
     Section,
     Transition,
 )
-from gdsfactory.typings import Axis
+from gdsfactory.typings import AnyComponent, Axis
 
 if TYPE_CHECKING:
     from typing import Self
@@ -39,7 +39,6 @@ if TYPE_CHECKING:
         AngleInDegrees,
         ComponentSpec,
         Coordinate,
-        Coordinates,
         CrossSectionSpec,
         LayerSpec,
         WidthTypes,
@@ -146,7 +145,7 @@ class Path(GeometryHelper):
         ]
         return np.array(bbox)
 
-    def append(self, path: npt.NDArray[np.float64] | Path) -> Path:
+    def append(self, path: npt.NDArray[np.float64] | Path | list[Path]) -> Path:
         """Attach Path to the end of this Path.
 
         The input path automatically rotates and translates such that it continues
@@ -163,6 +162,7 @@ class Path(GeometryHelper):
         # If array[N][2]
         elif (
             (np.asarray(path, dtype=object).ndim == 2)
+            and not isinstance(path[0], Path)
             and np.issubdtype(np.array(path).dtype, np.number)
             and (np.shape(path)[1] == 2)
         ):
@@ -171,8 +171,7 @@ class Path(GeometryHelper):
             start_angle = np.arctan2(ny1, nx1) / np.pi * 180
             nx2, ny2 = points[-1] - points[-2]
             end_angle = np.arctan2(ny2, nx2) / np.pi * 180
-        # If list of Paths or arrays
-        elif isinstance(path, list | tuple):
+        elif isinstance(path, list):
             for p in path:
                 self.append(p)
             return self
@@ -498,6 +497,36 @@ class Path(GeometryHelper):
         plt.grid(True)  # type: ignore
         plt.show()  # type: ignore
 
+    @overload
+    def extrude(
+        self,
+        cross_section: CrossSectionSpec | None = None,
+        layer: LayerSpec | None = None,
+        width: float | None = None,
+        simplify: float | None = None,
+        all_angle: Literal[False] = False,
+    ) -> Component: ...
+
+    @overload
+    def extrude(
+        self,
+        cross_section: CrossSectionSpec | None = None,
+        layer: LayerSpec | None = None,
+        width: float | None = None,
+        simplify: float | None = None,
+        all_angle: Literal[True] = True,
+    ) -> ComponentAllAngle: ...
+
+    @overload
+    def extrude(
+        self,
+        cross_section: CrossSectionSpec | None = None,
+        layer: LayerSpec | None = None,
+        width: float | None = None,
+        simplify: float | None = None,
+        all_angle: bool = True,
+    ) -> AnyComponent: ...
+
     def extrude(
         self,
         cross_section: CrossSectionSpec | None = None,
@@ -505,7 +534,7 @@ class Path(GeometryHelper):
         width: float | None = None,
         simplify: float | None = None,
         all_angle: bool = False,
-    ) -> Component | ComponentAllAngle:
+    ) -> AnyComponent:
         """Returns Component by extruding a Path with a CrossSection.
 
         A path can be extruded using any CrossSection returning a Component
@@ -802,6 +831,28 @@ def _get_named_sections(sections: tuple[Section, ...]) -> dict[str, Section]:
     return named_sections
 
 
+@overload
+def extrude(
+    p: Path,
+    cross_section: CrossSectionSpec | None = None,
+    layer: LayerSpec | None = None,
+    width: float | None = None,
+    simplify: float | None = None,
+    all_angle: Literal[False] = False,
+) -> Component: ...
+
+
+@overload
+def extrude(
+    p: Path,
+    cross_section: CrossSectionSpec | None = None,
+    layer: LayerSpec | None = None,
+    width: float | None = None,
+    simplify: float | None = None,
+    all_angle: Literal[True] = True,
+) -> ComponentAllAngle: ...
+
+
 def extrude(
     p: Path,
     cross_section: CrossSectionSpec | None = None,
@@ -825,10 +876,7 @@ def extrude(
                 by more than the value listed here will be removed.
         all_angle: if True, the bend is drawn with a single euler curve.
     """
-    from gdsfactory.pdk import (
-        get_cross_section,
-        get_layer,
-    )
+    from gdsfactory.pdk import get_cross_section, get_layer
 
     if cross_section is None and layer is None:
         raise ValueError("CrossSection or layer needed")
@@ -1267,8 +1315,10 @@ def extrude_transition(
 
 
 def _rotated_delta(
-    point: np.ndarray, center: npt.NDArray[np.float64], orientation: AngleInDegrees
-) -> np.ndarray:
+    point: npt.NDArray[np.float64],
+    center: npt.NDArray[np.float64],
+    orientation: AngleInDegrees,
+) -> npt.NDArray[np.float64]:
     """Gets the rotated distance of a point from a center.
 
     Args:
@@ -1285,13 +1335,13 @@ def _rotated_delta(
     return np.dot(delta, rot_mat)
 
 
-def _cut_path_with_ray(
-    start_point: np.ndarray,
+def _cut_path_with_ray(  # type: ignore
+    start_point: npt.NDArray[np.float64],
     start_angle: float | None,
-    end_point: np.ndarray,
+    end_point: npt.NDArray[np.float64],
     end_angle: float | None,
-    path: np.ndarray,
-) -> np.ndarray:
+    path: npt.NDArray[np.float64],
+) -> npt.NDArray[np.float64]:
     """Cuts or extends a path given a point and angle to project."""
     import shapely.geometry as sg
     import shapely.ops
@@ -1310,7 +1360,7 @@ def _cut_path_with_ray(
     path_cmp[-1] += d_ext
 
     intersections = [sg.Point(path[0]), sg.Point(path[-1])]
-    distances = []
+    distances: list[float] = []
     ls = sg.LineString(path_cmp)
     for i, angle, point in [(0, start_angle, start_point), (1, end_angle, end_point)]:
         if angle:
@@ -1347,10 +1397,10 @@ def _cut_path_with_ray(
 
 
 def arc(
-    radius: float = 10.0,
+    radius: float | None = 10.0,
     angle: float = 90,
     npoints: int | None = None,
-    start_angle: float | None = -90,
+    start_angle: float = -90,
 ) -> Path:
     """Returns a radial arc.
 
@@ -1405,7 +1455,7 @@ def _fresnel(
         num_pts: Number of points to generate.
         n_iter: Number of iterations to use in the series expansion.
     """
-    t = np.linspace(0, s / (np.sqrt(2) * R0), num_pts)
+    t = np.linspace(0, s / float(np.sqrt(2) * R0), num_pts)
     x = np.zeros(num_pts)
     y = np.zeros(num_pts)
 
@@ -1457,10 +1507,10 @@ def euler(
     if (p < 0) or (p > 1):
         raise ValueError("euler requires argument `p` be between 0 and 1")
     if p == 0:
-        P = arc(radius=radius, angle=angle, npoints=npoints)
-        P.info["Reff"] = radius
-        P.info["Rmin"] = radius
-        return P
+        path = arc(radius=radius, angle=angle, npoints=npoints)
+        path.info["Reff"] = radius
+        path.info["Rmin"] = radius
+        return path
 
     if angle < 0:
         mirror = True
@@ -1471,8 +1521,8 @@ def euler(
     R0 = 1
     alpha = np.radians(angle)
     Rp = R0 / (np.sqrt(p * alpha))
-    sp = R0 * np.sqrt(p * alpha)
-    s0 = 2 * sp + Rp * alpha * (1 - p)
+    sp = float(R0 * np.sqrt(p * alpha))
+    s0 = float(2 * sp + Rp * alpha * (1 - p))
 
     pdk = get_active_pdk()
     npoints = npoints or abs(int(angle / 360 * radius / pdk.bend_points_distance / 2))
@@ -1525,17 +1575,17 @@ def euler(
     scale = radius / Reff if use_eff else radius / Rmin
     points *= scale
 
-    P = Path()
+    path = Path()
 
     # Manually add points & adjust start and end angles
-    P.points = points
-    P.start_angle = start_angle
-    P.end_angle = end_angle
-    P.info["Reff"] = Reff * scale
-    P.info["Rmin"] = Rmin * scale
+    path.points = points
+    path.start_angle = start_angle
+    path.end_angle = end_angle
+    path.info["Reff"] = Reff * scale
+    path.info["Rmin"] = Rmin * scale
     if mirror:
-        P.dmirror((1, 0))
-    return P
+        path.dmirror((1, 0))
+    return path
 
 
 def straight(length: float = 10.0, npoints: int = 2) -> Path:
@@ -1580,11 +1630,13 @@ def spiral_archimedean(
 
     """
     return Path(
-        [
-            (separation / np.pi * theta + min_bend_radius)
-            * np.array((np.sin(theta), np.cos(theta)))
-            for theta in np.linspace(0, number_of_loops * 2 * np.pi, npoints)
-        ]
+        np.array(
+            [
+                (separation / np.pi * theta + min_bend_radius)
+                * np.array((np.sin(theta), np.cos(theta)))
+                for theta in np.linspace(0, number_of_loops * 2 * np.pi, npoints)
+            ]
+        )
     )
 
 
@@ -1610,7 +1662,7 @@ def _compute_segments(
 
 
 def smooth(
-    points: Coordinates,
+    points: npt.NDArray[np.floating[Any]],
     radius: float = 4.0,
     bend: PathFactory = euler,
     **kwargs: Any,
@@ -1711,7 +1763,6 @@ if __name__ == "__main__":
     # s1 = gf.Section(width=3, offset=0, layer=(3, 0), name="slab")
     # x1 = gf.CrossSection(sections=(s0, s1))
     # x1 = gf.cross_section.rib
-
     # layer = (1, 0)
     # s1 = gf.Section(width=5, layer=layer, port_names=("o1", "o2"), name="core")
     # s2 = gf.Section(width=50, layer=layer, port_names=("o1", "o2"), name="core")
@@ -1723,7 +1774,6 @@ if __name__ == "__main__":
     # trans21 = gf.path.transition(
     #     cross_section1=xs2, cross_section2=xs1, width_type="linear"
     # )
-
     # WG4Path = gf.Path()
     # WG4Path.append(gf.path.straight(length=100, npoints=2))
     # c1 = gf.path.extrude_transition(WG4Path, trans12)

@@ -1,24 +1,51 @@
 from __future__ import annotations
 
 from functools import partial
+from typing import Literal, overload
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentAllAngle, ComponentBase
+from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.path import arc
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.typings import CrossSectionSpec
+from gdsfactory.typings import CrossSectionSpec, LayerSpec
+
+
+@overload
+def _bend_circular(
+    radius: float | None = None,
+    angle: float = 90.0,
+    npoints: int | None = None,
+    layer: LayerSpec | None = None,
+    width: float | None = None,
+    cross_section: CrossSectionSpec = "strip",
+    allow_min_radius_violation: bool = False,
+    all_angle: Literal[False] = False,
+) -> Component: ...
+
+
+@overload
+def _bend_circular(
+    radius: float | None = None,
+    angle: float = 90.0,
+    npoints: int | None = None,
+    layer: LayerSpec | None = None,
+    width: float | None = None,
+    cross_section: CrossSectionSpec = "strip",
+    allow_min_radius_violation: bool = False,
+    all_angle: Literal[True] = True,
+) -> ComponentAllAngle: ...
 
 
 def _bend_circular(
     radius: float | None = None,
     angle: float = 90.0,
     npoints: int | None = None,
-    layer: gf.typings.LayerSpec | None = None,
+    layer: LayerSpec | None = None,
     width: float | None = None,
     cross_section: CrossSectionSpec = "strip",
     allow_min_radius_violation: bool = False,
     all_angle: bool = False,
-) -> ComponentBase:
+) -> Component | ComponentAllAngle:
     """Returns a radial arc.
 
     Args:
@@ -41,6 +68,7 @@ def _bend_circular(
     """
     x = gf.get_cross_section(cross_section)
     radius = radius or x.radius
+    assert radius is not None
     if layer and width:
         x = gf.get_cross_section(
             cross_section, layer=layer or x.layer, width=width or x.width
@@ -59,7 +87,7 @@ def _bend_circular(
     c.info["width"] = width or x.width
     top = None if int(angle) in {180, -180, -90} else 0
     bottom = 0 if int(angle) in {-90} else None
-    x.add_bbox(c, top=top, bottom=bottom)
+    x.add_bbox(c, top=top, bottom=bottom)  # type: ignore
     if not allow_min_radius_violation:
         x.validate_radius(radius)
     c.add_route_info(
@@ -147,5 +175,7 @@ bend_circular180 = partial(bend_circular, angle=180)
 if __name__ == "__main__":
     c = gf.Component()
     r = c << bend_circular(radius=5)
+    bend = bend_circular_all_angle(radius=5)
+    print(type(bend))
     # r.dmirror()
     c.show()

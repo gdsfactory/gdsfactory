@@ -4,7 +4,7 @@ from collections import Counter
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.typings import AngleInDegrees, ComponentSpec
+from gdsfactory.typings import AngleInDegrees
 
 
 class SequenceGenerator:
@@ -71,7 +71,7 @@ def _flip_ref(c_ref: Component, port_name: str) -> Component:
 
 def component_sequence(
     sequence: str,
-    symbol_to_component: dict[str, tuple[ComponentSpec, str, str]],
+    symbol_to_component: dict[str, tuple[Component, str, str]],
     ports_map: dict[str, tuple[str, str]] | None = None,
     port_name1: str = "o1",
     port_name2: str = "o2",
@@ -117,7 +117,7 @@ def component_sequence(
         c.plot()
     """
     ports_map = ports_map or {}
-    named_references_counter = Counter()
+    named_references_counter: Counter[str] = Counter()
     component = Component()
 
     # Add first component reference and input port

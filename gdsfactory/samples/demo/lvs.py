@@ -16,12 +16,12 @@ def pads_correct(
     xs = gf.get_cross_section(cross_section)
     layer = gf.get_layer(xs.layer)
 
-    pad = gf.get_component(pad)
-    tl = c << pad
-    bl = c << pad
+    pad_c = gf.get_component(pad)
+    tl = c << pad_c
+    bl = c << pad_c
 
-    tr = c << pad
-    br = c << pad
+    tr = c << pad_c
+    br = c << pad_c
 
     tl.dmove((0, 300))
     br.dmove((500, 0))
@@ -44,15 +44,15 @@ def pads_shorted(
 ) -> gf.Component:
     """Returns 2 pads connected with metal wires."""
     c = gf.Component()
-    pad = gf.components.pad()
+    pad_c = gf.components.pad()
     xs = gf.get_cross_section(cross_section)
     layer = gf.get_layer(xs.layer)
 
-    tl = c << pad
-    bl = c << pad
+    tl = c << pad_c
+    bl = c << pad_c
 
-    tr = c << pad
-    br = c << pad
+    tr = c << pad_c
+    br = c << pad_c
 
     tl.dmove((0, 300))
     br.dmove((500, 0))

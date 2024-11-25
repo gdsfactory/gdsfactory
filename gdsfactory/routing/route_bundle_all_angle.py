@@ -75,7 +75,6 @@ if __name__ == "__main__":
     # p2 = list(w2.ports.filter(orientation=150))
     # p1.reverse()
     # p2.reverse()
-
     # c1 = np.array(p2[0].dcenter)
     # c2 = np.array(p1[0].dcenter)
     # d = (np.array(p2[0].dcenter) + np.array(p1[0].dcenter)) / 2
@@ -83,7 +82,6 @@ if __name__ == "__main__":
     #     d - (10.0, 0),
     #     d + (10.0, 0),
     # ]
-
     # route_bundle_all_angle(
     #     c,
     #     p1,

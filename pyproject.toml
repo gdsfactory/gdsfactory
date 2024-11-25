@@ -41,7 +41,8 @@ dependencies = [
   "ipykernel",
   "attrs",
   "graphviz",
-  "pyglet<2"
+  "pyglet<2",
+  "pytest-only>=2.1.2"
 ]
 description = "python library to generate GDS layouts"
 keywords = ["eda", "photonics", "python"]
@@ -99,6 +100,9 @@ gf = "gdsfactory.cli:app"
 ignore-words-list = "te, te/tm, te, ba, fpr, fpr_spacing, ro, nd, donot, schem"
 
 [tool.mypy]
+exclude = [
+  "gdsfactory/export/to_svg.py"
+]
 python_version = "3.11"
 strict = true
 warn_unused_ignores = false

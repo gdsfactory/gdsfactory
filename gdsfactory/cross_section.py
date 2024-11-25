@@ -1,4 +1,3 @@
-# type: ignore
 """You can define a path as list of points.
 
 To create a component you need to extrude the path with a cross-section.
@@ -29,12 +28,9 @@ from pydantic import (
 from gdsfactory.config import CONF, ErrorType
 
 if TYPE_CHECKING:
-    from gdsfactory.component import Component
-    from gdsfactory.typings import PortNames, PortTypes
-
+    from gdsfactory.typings import AnyComponentT, PortNames, PortTypes
 
 nm = 1e-3
-
 
 Layer: TypeAlias = tuple[int, int]
 Layers: TypeAlias = tuple[Layer, ...]
@@ -360,12 +356,12 @@ class CrossSection(BaseModel):
 
     def add_bbox(
         self,
-        component: Component,
+        component: AnyComponentT,
         top: float | None = None,
         bottom: float | None = None,
         right: float | None = None,
         left: float | None = None,
-    ) -> Component:
+    ) -> AnyComponentT:
         """Add bounding box layers to a component.
 
         Args:
@@ -437,7 +433,11 @@ class Transition(BaseModel):
     offset_type: WidthTypes | Callable[[float, float, float], float] = "sine"
 
     @field_serializer("width_type")
-    def serialize_width(self, width_type: WidthTypes | Callable) -> str | None:
+    def serialize_width(
+        self,
+        width_type: WidthTypes
+        | Callable[[npt.NDArray[np.float_], float, float], npt.NDArray[np.float_]],
+    ) -> str:
         if isinstance(width_type, str):
             return width_type
         t_values = np.linspace(0, 1, 10)

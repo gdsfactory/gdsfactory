@@ -13,6 +13,7 @@ from typing import Literal
 from pydantic import BaseModel, Field
 
 from gdsfactory import Component
+from gdsfactory.typings import Size
 
 
 class GerberLayer(BaseModel):
@@ -30,7 +31,7 @@ class GerberOptions(BaseModel):
 
 # For generating a gerber job json file
 class BoardOptions(BaseModel):
-    size: tuple[float, float] | None = None
+    size: Size | None = None
     n_layers: int = 2
 
 
@@ -130,11 +131,7 @@ def to_gerber(
 if __name__ == "__main__":
     import gdsfactory as gf
     from gdsfactory.config import PATH
-    from gdsfactory.technology import (
-        LayerMap,
-        LayerView,
-        LayerViews,
-    )
+    from gdsfactory.technology import LayerMap, LayerView, LayerViews
     from gdsfactory.typings import Layer
 
     class LayerMapPCB(LayerMap):

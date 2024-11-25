@@ -6,6 +6,7 @@ from pathlib import Path
 import pydantic
 
 import gdsfactory as gf
+from gdsfactory.cross_section import strip_heater_metal
 from gdsfactory.typings import ComponentFactory, Layer
 
 
@@ -22,9 +23,7 @@ LAYER = LayerMap
 
 
 xs_strip = partial(gf.cross_section.strip, layer=(1, 0), width=1)
-xs_strip_heater_metal = partial(
-    gf.cross_section.strip_heater_metal, layer=(1, 0), width=1
-)
+xs_strip_heater_metal = partial(strip_heater_metal, layer=(1, 0), width=1)
 rib_heater_doped = partial(
     gf.cross_section.rib_heater_doped, layer=(1, 0), width=1, layer_slab=LAYER.SLAB
 )

@@ -2,12 +2,12 @@ from __future__ import annotations
 
 import numpy as np
 
-from gdsfactory import cell
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@cell
+@gf.cell
 def optimal_90deg(
     width: float = 100,
     num_pts: int = 15,

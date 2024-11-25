@@ -99,7 +99,7 @@ def get_import_gds_script(dirpath: PathType, module: str | None = None) -> str:
 
 def write_cells_recursively(
     gdspath: PathType,
-    dirpath: pathlib.Path | None = None,
+    dirpath: PathType | None = None,
 ) -> dict[str, Path]:
     """Write gdstk cells recursively.
 

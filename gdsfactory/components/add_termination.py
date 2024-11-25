@@ -3,7 +3,6 @@ from __future__ import annotations
 from functools import partial
 
 import gdsfactory as gf
-from gdsfactory import cell
 from gdsfactory.component import Component
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.typings import ComponentSpec
@@ -11,7 +10,7 @@ from gdsfactory.typings import ComponentSpec
 terminator_function = partial(taper_function, width2=0.1)
 
 
-@cell
+@gf.cell
 def add_termination(
     component: ComponentSpec = "straight",
     port_names: tuple[str, ...] | None = None,

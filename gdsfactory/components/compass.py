@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.snap import snap_to_grid2x
 from gdsfactory.typings import Ints, LayerSpec, Size
@@ -9,7 +8,7 @@ from gdsfactory.typings import Ints, LayerSpec, Size
 valid_port_orientations = {0, 90, 180, -90, 270}
 
 
-@cell
+@gf.cell
 def compass(
     size: Size = (4.0, 2.0),
     layer: LayerSpec = "WG",

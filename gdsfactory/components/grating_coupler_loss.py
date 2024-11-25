@@ -3,14 +3,13 @@ from __future__ import annotations
 from typing import Any
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
 from gdsfactory.routing.route_single import route_single
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@cell
+@gf.cell
 def loss_deembedding_ch13_24(
     pitch: float = 127.0,
     grating_coupler: ComponentSpec = "grating_coupler_te",
@@ -80,7 +79,7 @@ def loss_deembedding_ch13_24(
     return c
 
 
-@cell
+@gf.cell
 def loss_deembedding_ch12_34(
     pitch: float = 127.0,
     grating_coupler: ComponentSpec = "grating_coupler_te",
@@ -136,7 +135,7 @@ def loss_deembedding_ch12_34(
     return c
 
 
-@cell
+@gf.cell
 def loss_deembedding_ch14_23(
     pitch: float = 127.0,
     grating_coupler: ComponentSpec = "grating_coupler_te",
@@ -191,7 +190,7 @@ def loss_deembedding_ch14_23(
     return c
 
 
-@cell
+@gf.cell
 def grating_coupler_loss_fiber_array(
     pitch: float = 127.0,
     grating_coupler: ComponentSpec = "grating_coupler_te",
@@ -236,7 +235,7 @@ def grating_coupler_loss_fiber_array(
     return c
 
 
-@cell
+@gf.cell
 def grating_coupler_loss_fiber_array4(
     pitch: float = 127.0,
     grating_coupler: ComponentSpec = grating_coupler_te,

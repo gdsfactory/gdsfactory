@@ -4,13 +4,13 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.typings import LayerSpec
+from gdsfactory.typings import LayerSpec, Size, Spacing
 
 
 @gf.cell
 def via(
-    size: tuple[float, float] = (0.7, 0.7),
-    spacing: tuple[float, float] | None = (2.0, 2.0),
+    size: Size = (0.7, 0.7),
+    spacing: Spacing | None = (2.0, 2.0),
     gap: tuple[float, float] | None = None,
     enclosure: float = 1.0,
     layer: LayerSpec = "VIAC",

@@ -7,9 +7,10 @@ from cachetools import Cache
 from kfactory.conf import CHECK_INSTANCES
 from kfactory.kcell import KCell, MetaData
 from kfactory.kcell import cell as _cell
+from kfactory.kcell import vcell as _vcell
 
 if TYPE_CHECKING:
-    from gdsfactory.component import Component
+    from gdsfactory.component import Component, ComponentAllAngle
 
 ComponentParams = ParamSpec("ComponentParams")
 
@@ -88,4 +89,62 @@ def cell(
         post_process=post_process,
     )
     c.is_gf_cell = True
-    return c
+    return c  # type: ignore
+
+
+class ComponentAllAngleFunc(Protocol[ComponentParams]):
+    def __call__(
+        self, *args: ComponentParams.args, **kwargs: ComponentParams.kwargs
+    ) -> ComponentAllAngle: ...
+
+
+@overload
+def vcell(
+    _func: ComponentAllAngleFunc[ComponentParams],
+    /,
+) -> ComponentAllAngleFunc[ComponentParams]: ...
+
+
+@overload
+def vcell(
+    *,
+    set_settings: bool = True,
+    set_name: bool = True,
+    check_ports: bool = True,
+    basename: str | None = None,
+    drop_params: tuple[str, ...] = ("self", "cls"),
+    register_factory: bool = True,
+) -> Callable[
+    [ComponentAllAngleFunc[ComponentParams]], ComponentAllAngleFunc[ComponentParams]
+]: ...
+
+
+def vcell(
+    _func: ComponentAllAngleFunc[ComponentParams] | None = None,
+    /,
+    *,
+    set_settings: bool = True,
+    set_name: bool = True,
+    check_ports: bool = True,
+    add_port_layers: bool = True,
+    cache: Cache[int, Any] | dict[int, Any] | None = None,
+    basename: str | None = None,
+    drop_params: tuple[str, ...] = ("self", "cls"),
+    register_factory: bool = True,
+) -> (
+    ComponentAllAngleFunc[ComponentParams]
+    | Callable[
+        [ComponentAllAngleFunc[ComponentParams]], ComponentAllAngleFunc[ComponentParams]
+    ]
+):
+    vc = _vcell(  # type: ignore
+        _func,
+        set_settings=set_settings,
+        set_name=set_name,
+        check_ports=check_ports,
+        basename=basename,
+        drop_params=list(drop_params),
+        register_factory=register_factory,
+    )
+    vc.is_gf_vcell = True
+    return vc  # type: ignore

@@ -1,15 +1,14 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory import cell
 from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
-from gdsfactory.typings import LayerSpec
+from gdsfactory.typings import LayerSpec, Size
 
 
-@cell
+@gf.cell
 def litho_calipers(
-    notch_size: tuple[float, float] = (2.0, 5.0),
+    notch_size: Size = (2.0, 5.0),
     notch_spacing: float = 2.0,
     num_notches: int = 11,
     offset_per_notch: float = 0.1,

@@ -3,7 +3,7 @@ from __future__ import annotations
 from functools import partial
 from typing import Any
 
-from gdsfactory.cell import cell
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_elliptical_arbitrary import (
     grating_coupler_elliptical_arbitrary,
@@ -64,7 +64,7 @@ parameters = (
 )
 
 
-@cell
+@gf.cell
 def grating_coupler_elliptical_lumerical(
     parameters: Floats = parameters,
     layer: LayerSpec = "WG",

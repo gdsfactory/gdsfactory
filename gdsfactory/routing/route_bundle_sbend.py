@@ -50,7 +50,6 @@ if __name__ == "__main__":
     # N = len(ys_left)
     # y0 = -10
     # ys_right = [(i - N / 2) * pitch + y0 for i in range(N)]
-
     # layer = (1, 0)
     # right_ports = [
     #     gf.Port(
@@ -65,7 +64,6 @@ if __name__ == "__main__":
     #     for i in range(N)
     # ]
     # left_ports.reverse()
-
     # routes = gf.routing.route_bundle_sbend(
     #     c, right_ports, left_ports, enforce_port_ordering=False
     # )

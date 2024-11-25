@@ -5,7 +5,6 @@ import numpy.typing as npt
 from numpy import ndarray
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.config import ErrorType
 from gdsfactory.functions import angles_deg, curvature, snap_angle
@@ -32,7 +31,7 @@ def bezier_curve(t: ndarray, control_points: Coordinates) -> ndarray:
     return np.column_stack([xs, ys])
 
 
-@cell
+@gf.cell
 def bezier(
     control_points: Coordinates = ((0.0, 0.0), (5.0, 0.0), (5.0, 1.8), (10.0, 1.8)),
     npoints: int = 201,

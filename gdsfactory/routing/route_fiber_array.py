@@ -16,6 +16,7 @@ from gdsfactory.routing.route_bundle import get_min_spacing, route_bundle
 from gdsfactory.routing.route_single import route_single
 from gdsfactory.routing.utils import direction_ports_from_list_ports
 from gdsfactory.typings import (
+    BoundingBoxes,
     ComponentSpec,
     ComponentSpecOrList,
     Coordinates,
@@ -60,7 +61,7 @@ def route_fiber_array(
     auto_taper: bool = True,
     waypoints: Coordinates | None = None,
     steps: Sequence[Mapping[str, int | float]] | None = None,
-    bboxes: list[tuple[float, float, float, float]] | None = None,
+    bboxes: BoundingBoxes | None = None,
     avoid_component_bbox: bool = True,
     **kwargs: Any,
 ) -> Component:

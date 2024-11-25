@@ -22,7 +22,6 @@ from kfactory.routing.generic import ManhattanRoute
 import gdsfactory as gf
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.wire import wire_corner
-from gdsfactory.port import Port
 from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
 from gdsfactory.typings import (
@@ -31,6 +30,8 @@ from gdsfactory.typings import (
     Coordinates,
     CrossSectionSpec,
     LayerSpecs,
+    Port,
+    Ports,
 )
 
 OpticalManhattanRoute = ManhattanRoute
@@ -39,8 +40,8 @@ TOLERANCE = 1
 
 
 def get_min_spacing(
-    ports1: list[Port],
-    ports2: list[Port],
+    ports1: Ports,
+    ports2: Ports,
     separation: float = 5.0,
     radius: float = 5.0,
     sort_ports: bool = True,
@@ -89,8 +90,8 @@ def get_min_spacing(
 
 def route_bundle(
     component: gf.Component,
-    ports1: Sequence[Port | kf.Port] | Port | kf.Port,
-    ports2: Sequence[Port | kf.Port] | Port | kf.Port,
+    ports1: Ports | Port,
+    ports2: Ports | Port,
     cross_section: CrossSectionSpec | None = None,
     layer: LayerSpecs | None = None,
     separation: float = 3.0,

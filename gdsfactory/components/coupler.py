@@ -1,14 +1,13 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.coupler_straight import coupler_straight
 from gdsfactory.components.coupler_symmetric import coupler_symmetric
 from gdsfactory.typings import CrossSectionSpec, Delta
 
 
-@cell
+@gf.cell
 def coupler(
     gap: float = 0.236,
     length: float = 20.0,

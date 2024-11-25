@@ -27,6 +27,7 @@ if TYPE_CHECKING:
     from gdsfactory.typings import (
         AngleInDegrees,
         ComponentSpec,
+        Coordinates,
         CrossSection,
         CrossSectionSpec,
         Layer,
@@ -35,6 +36,7 @@ if TYPE_CHECKING:
         LayerStack,
         LayerViews,
         PathType,
+        Spacing,
     )
 
 cell_without_validator = cell
@@ -292,7 +294,7 @@ class ComponentBase:
     """
 
     @property
-    def layers(self) -> list[tuple[int, int]]:
+    def layers(self) -> list[Layer]:
         return [
             (info.layer, info.datatype)
             for info in self.kcl.layer_infos()
@@ -451,11 +453,7 @@ class ComponentBase:
     def add_polygon(
         self,
         points: (
-            np.ndarray[Any, np.dtype[np.float64]]
-            | kdb.DPolygon
-            | kdb.Polygon
-            | kdb.Region
-            | list[list[float]]
+            "np.ndarray[Any, np.dtype[np.float64]] | kdb.DPolygon | kdb.Polygon | kdb.Region | Coordinates"
         ),
         layer: LayerSpec,
     ) -> kdb.Shape:
@@ -515,7 +513,7 @@ class ComponentBase:
         component: Component,
         columns: int = 2,
         rows: int = 2,
-        spacing: tuple[float, float] = (100, 100),
+        spacing: "Spacing" = (100, 100),
         name: str | None = None,
     ) -> ComponentReference:
         """Creates a ComponentReference reference to a Component.
@@ -627,7 +625,7 @@ class ComponentBase:
         name: str | None = None,
         columns: int = 1,
         rows: int = 1,
-        spacing: tuple[float, float] | None = None,
+        spacing: "Spacing | None" = None,
         alias: str | None = None,
         column_pitch: float = 0.0,
         row_pitch: float = 0.0,
@@ -1254,7 +1252,7 @@ class ComponentBase:
         raise ValueError("ref() is deprecated. Use add_ref() instead")
 
 
-class Component(ComponentBase, kf.KCell):
+class Component(ComponentBase, kf.KCell):  # type: ignore
     """Canvas where you add polygons, instances and ports.
 
     - stores settings that you use to build the component
@@ -1284,8 +1282,8 @@ class Component(ComponentBase, kf.KCell):
         return ComponentReference(kf.KCell.create_inst(self, component))
 
 
-class ComponentAllAngle(ComponentBase, kf.VKCell):
-    def plot(self, **kwargs: Any) -> None:
+class ComponentAllAngle(ComponentBase, kf.VKCell):  # type: ignore
+    def plot(self, **kwargs: Any) -> None:  # type: ignore
         """Plots the Component using klayout."""
         c = Component()
         if self.name is not None:
@@ -1293,6 +1291,9 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):
 
         kf.VInstance(self).insert_into_flat(c, levels=0)
         c.plot(**kwargs)
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # noqa: D107
+        super().__init__(*args, **kwargs)
 
 
 def container(

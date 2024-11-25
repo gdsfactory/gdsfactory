@@ -3,11 +3,10 @@ from __future__ import annotations
 from typing import Any
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 
 
-@cell
+@gf.cell
 def mzi_lattice(
     coupler_lengths: tuple[float, ...] = (10.0, 20.0),
     coupler_gaps: tuple[float, ...] = (0.2, 0.3),
@@ -118,7 +117,7 @@ def mzi_lattice(
     return c
 
 
-@cell
+@gf.cell
 def mzi_lattice_mmi(
     coupler_widths: tuple[float | None, float | None] = (None, None),
     coupler_widths_tapers: tuple[float, ...] = (

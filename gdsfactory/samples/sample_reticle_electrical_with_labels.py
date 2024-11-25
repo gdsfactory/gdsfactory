@@ -48,11 +48,11 @@ def resistance_sheet(width: float = 5, **kwargs: Any) -> gf.Component:
     c.info["ports_electrical"] = 2
     c.info.update(kwargs)
     label_farthest_right_port(c, c.ports, layer=layer_label, text=f"elec-4-{c.name}")
-    return c
+    return c  # type: ignore[no-any-return]
 
 
 def via_chain(
-    num_vias: float = 100, component_name: str = "via_chain", **kwargs: Any
+    num_vias: int = 100, component_name: str = "via_chain", **kwargs: Any
 ) -> gf.Component:
     """Returns a chain of vias.
 
@@ -103,7 +103,7 @@ if __name__ == "__main__":
     gdspath = c.write_gds()
     csvpath = gf.labels.write_labels(gdspath, layer_label=layer_label)
 
-    import pandas as pd
+    import pandas as pd  # type: ignore
 
     df = pd.read_csv(csvpath)
     df = df.sort_values(by=["text"])

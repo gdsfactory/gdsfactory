@@ -6,6 +6,7 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 from __future__ import annotations
 
 import warnings
+from collections.abc import Sequence
 from typing import Any
 
 import numpy as np
@@ -13,13 +14,13 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.typings import Anchor, ComponentSpec, Float2, Number
+from gdsfactory.typings import Anchor, ComponentSpec, Float2, Number, Size
 
 
 def _pack_single_bin(
     rect_dict: dict[int, tuple[Number, Number]],
     aspect_ratio: tuple[Number, Number],
-    max_size: tuple[float, float],
+    max_size: Size,
     sort_by_area: bool,
     density: float,
 ) -> tuple[dict[int, tuple[Number, Number, Number, Number]], dict[Any, Any]]:
@@ -88,7 +89,7 @@ def _pack_single_bin(
 
 
 def pack(
-    component_list: list[ComponentSpec],
+    component_list: Sequence[ComponentSpec],
     spacing: float = 10.0,
     aspect_ratio: Float2 = (1.0, 1.0),
     max_size: tuple[float | None, float | None] = (None, None),
@@ -176,7 +177,7 @@ def pack(
             raise ValueError(
                 f"pack() failed because Component {D.name!r} has x or y "
                 "dimension larger than `max_size` and cannot be packed.\n"
-                f"size = {w*precision, h*precision}, max_size = {max_size*precision}"
+                f"size = {(w * precision, h * precision)}, max_size = {max_size * precision}"
             )
         rect_dict[n] = (w, h)
 

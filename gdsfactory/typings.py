@@ -23,8 +23,8 @@ from __future__ import annotations
 
 import dataclasses
 import pathlib
-from collections.abc import Callable, Sequence
-from typing import Any, Generator, Literal, ParamSpec, TypeAlias
+from collections.abc import Callable, Iterable, Sequence
+from typing import Any, Generator, Literal, ParamSpec, TypeAlias, TypeVar
 
 import kfactory as kf
 import numpy as np
@@ -105,6 +105,8 @@ Int2: TypeAlias = tuple[int, int]
 Int3: TypeAlias = tuple[int, int, int]
 Ints: TypeAlias = tuple[int, ...] | list[int]
 
+BoundingBox: TypeAlias = tuple[float, float, float, float]
+BoundingBoxes: TypeAlias = Sequence[BoundingBox]
 Size: TypeAlias = tuple[float, float]
 Spacing: TypeAlias = tuple[float, float]
 Radius: TypeAlias = float
@@ -117,9 +119,17 @@ Layers: TypeAlias = Sequence[Layer]
 LayerSpec: TypeAlias = LayerEnum | str | tuple[int, int]
 LayerSpecs: TypeAlias = Sequence[LayerSpec]
 
+AnyComponent: TypeAlias = Component | ComponentAllAngle
+AnyComponentT = TypeVar("AnyComponentT", bound=AnyComponent)
+AnyComponentFactory: TypeAlias = Callable[..., AnyComponent]
+AnyComponentPostProcess: TypeAlias = Callable[[AnyComponent], None]
+
 ComponentParams = ParamSpec("ComponentParams")
 ComponentFactory: TypeAlias = Callable[..., Component]
+ComponentAllAngleFactory: TypeAlias = Callable[..., ComponentAllAngle]
+ComponentBaseFactory: TypeAlias = Callable[..., ComponentBase]
 ComponentFactoryDict: TypeAlias = dict[str, ComponentFactory]
+
 PathType: TypeAlias = str | pathlib.Path
 PathTypes: TypeAlias = Sequence[PathType]
 Metadata: TypeAlias = dict[str, int | float | str]
@@ -145,7 +155,8 @@ PortFactory: TypeAlias = Callable[..., Port]
 PortsFactory: TypeAlias = Callable[..., Sequence[Port]]
 PortSymmetries: TypeAlias = dict[str, Sequence[str]]
 PortsDict: TypeAlias = dict[str, Port]
-Ports: TypeAlias = kf.Ports | Sequence[Port]
+Ports: TypeAlias = kf.Ports | Sequence[Port] | Iterable[Port]
+SelectPorts: TypeAlias = Callable[..., Sequence[Port]]
 
 PortType: TypeAlias = str
 PortName: TypeAlias = str
@@ -160,9 +171,9 @@ ComponentSpecOrComponent: TypeAlias = (
     str | ComponentFactory | dict[str, Any] | kf.KCell | Component
 )
 
-ComponentSpecs: TypeAlias = tuple[ComponentSpec, ...]
+ComponentSpecs: TypeAlias = Sequence[ComponentSpec]
 ComponentSpecsOrComponents: TypeAlias = Sequence[ComponentSpecOrComponent]
-ComponentFactories: TypeAlias = tuple[ComponentFactory, ...]
+ComponentFactories: TypeAlias = Sequence[ComponentFactory]
 
 ComponentSpecOrList: TypeAlias = ComponentSpec | list[ComponentSpec]
 CellSpec: TypeAlias = (
@@ -213,6 +224,9 @@ class Array(np.ndarray[Any, np.dtype[Any]], metaclass=ArrayMeta):
 __all__ = (
     "AngleInDegrees",
     "Any",
+    "AnyComponent",
+    "AnyComponentFactory",
+    "AnyComponentT",
     "ComponentAllAngle",
     "ComponentBase",
     "ComponentFactory",
@@ -256,6 +270,7 @@ __all__ = (
     "PostProcesses",
     "Radius",
     "RoutingStrategies",
+    "SelectPorts",
     "Size",
     "Spacing",
     "Strs",

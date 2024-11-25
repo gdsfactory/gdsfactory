@@ -5,7 +5,6 @@ from __future__ import annotations
 from functools import partial
 
 import gdsfactory as gf
-from gdsfactory import cell
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
 from gdsfactory.components.text_rectangular import text_rectangular
@@ -17,7 +16,7 @@ widths = 10 * (0.3,)
 gaps = 10 * (0.3,)
 
 
-@cell
+@gf.cell
 def cdsem_straight_density(
     widths: Floats = widths,
     gaps: Floats = gaps,
@@ -37,7 +36,7 @@ def cdsem_straight_density(
         text: optional function for text.
     """
     c = Component()
-    label = label or f"{int(widths[0]*1e3)} {int(gaps[0]*1e3)}"
+    label = label or f"{int(widths[0] * 1e3)} {int(gaps[0] * 1e3)}"
 
     ymin = 0
     for width, gap in zip(widths, gaps):

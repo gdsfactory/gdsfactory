@@ -7,7 +7,7 @@ import gdsfactory as gf
 if __name__ == "__main__":
     doe = gf.components.pack_doe(
         gf.components.mmi1x2,
-        settings={"length_taper": [10, 15, 20, 30]},
+        settings={"length_taper": (10, 15, 20, 30)},
         function="add_fiber_array",
     )
     doe.show()

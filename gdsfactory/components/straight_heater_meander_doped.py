@@ -122,8 +122,8 @@ def straight_heater_meander_doped(
             straight_ref.dy = row * spacing
         else:
             straight_ref.dy = (row + 1) * spacing
-        ports[f"o1_{row+1}"] = straight_ref["o1"]
-        ports[f"o2_{row+1}"] = straight_ref["o2"]
+        ports[f"o1_{row + 1}"] = straight_ref["o1"]
+        ports[f"o2_{row + 1}"] = straight_ref["o2"]
 
     # Loopbacks
     for row in range(1, rows, 2):
@@ -131,11 +131,11 @@ def straight_heater_meander_doped(
         extra_straight1 = c << gf.c.straight(
             length=extra_length, cross_section=cross_section
         )
-        extra_straight1.connect("o1", ports[f"o1_{row+1}"])
+        extra_straight1.connect("o1", ports[f"o1_{row + 1}"])
         extra_straight2 = c << gf.c.straight(
             length=extra_length, cross_section=cross_section
         )
-        extra_straight2.connect("o1", ports[f"o1_{row+2}"])
+        extra_straight2.connect("o1", ports[f"o1_{row + 2}"])
 
         route = gf.routing.route_single(
             c,
@@ -149,7 +149,7 @@ def straight_heater_meander_doped(
         extra_straight1 = c << gf.c.straight(
             length=extra_length, cross_section=cross_section
         )
-        extra_straight1.connect("o1", ports[f"o2_{row+1}"])
+        extra_straight1.connect("o1", ports[f"o2_{row + 1}"])
         extra_straight2 = c << gf.c.straight(
             length=extra_length, cross_section=cross_section
         )

@@ -7,8 +7,9 @@ from functools import partial
 
 import kfactory as kf
 import numpy as np
+import numpy.typing as npt
 
-Value = float | tuple[float, ...] | np.ndarray
+Value = float | tuple[float, ...] | npt.NDArray[np.float64]
 
 
 def is_on_grid(
@@ -50,7 +51,7 @@ def snap_to_grid(
     x: Value,
     nm: int | None = None,
     grid_factor: int = 1,
-) -> Value:
+) -> npt.NDArray[np.float64]:
     """Snap x to grid.
 
     Args:

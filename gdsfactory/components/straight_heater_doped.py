@@ -4,7 +4,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.taper_cross_section import taper_cross_section
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Size
 
 
 @gf.cell
@@ -15,8 +15,8 @@ def straight_heater_doped_rib(
     cross_section_heater: CrossSectionSpec = "rib_heater_doped",
     via_stack: ComponentSpec | None = "via_stack_slab_npp_m3",
     via_stack_metal: ComponentSpec | None = "via_stack_m1_mtop",
-    via_stack_metal_size: tuple[float, float] = (10.0, 10.0),
-    via_stack_size: tuple[float, float] = (10.0, 10.0),
+    via_stack_metal_size: Size = (10.0, 10.0),
+    via_stack_size: Size = (10.0, 10.0),
     taper: ComponentSpec | None = taper_cross_section,
     heater_width: float = 2.0,
     heater_gap: float = 0.8,
@@ -183,8 +183,8 @@ def straight_heater_doped_strip(
     cross_section_heater: CrossSectionSpec = "rib_heater_doped",
     via_stack: ComponentSpec | None = "via_stack_npp_m1",
     via_stack_metal: ComponentSpec | None = "via_stack_m1_mtop",
-    via_stack_metal_size: tuple[float, float] = (10.0, 10.0),
-    via_stack_size: tuple[float, float] = (10.0, 10.0),
+    via_stack_metal_size: Size = (10.0, 10.0),
+    via_stack_size: Size = (10.0, 10.0),
     taper: ComponentSpec | None = taper_cross_section,
     heater_width: float = 2.0,
     heater_gap: float = 0.8,

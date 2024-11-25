@@ -4,13 +4,19 @@ import warnings
 from functools import partial
 
 import gdsfactory as gf
-from gdsfactory import cell
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass, valid_port_orientations
-from gdsfactory.typings import AngleInDegrees, ComponentFactory, Float2, Ints, LayerSpec
+from gdsfactory.typings import (
+    AngleInDegrees,
+    ComponentFactory,
+    Float2,
+    Ints,
+    LayerSpec,
+    Spacing,
+)
 
 
-@cell
+@gf.cell
 def pad(
     size: str | Float2 = (100.0, 100.0),
     layer: LayerSpec = "MTOP",
@@ -86,10 +92,10 @@ pad_rectangular = partial(pad, size="pad_size")
 pad_small = partial(pad, size=(80, 80))
 
 
-@cell
+@gf.cell
 def pad_array(
     pad: ComponentFactory = "pad",
-    spacing: tuple[float, float] | None = None,
+    spacing: Spacing | None = None,
     columns: int = 6,
     rows: int = 1,
     column_pitch: float = 150.0,

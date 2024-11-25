@@ -4,12 +4,12 @@ from functools import partial
 
 import numpy as np
 
-from gdsfactory import cell
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@cell
+@gf.cell
 def regular_polygon(
     sides: int = 6,
     side_length: float = 10,
@@ -45,7 +45,7 @@ def regular_polygon(
             angle = 270 + side_index * 360 / sides
             center = (a * np.cos(np.radians(angle)), a * np.sin(np.radians(angle)))
             c.add_port(
-                name=f"o{side_index+1}",
+                name=f"o{side_index + 1}",
                 center=center,
                 width=side_length,
                 layer=layer,

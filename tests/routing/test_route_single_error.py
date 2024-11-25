@@ -29,7 +29,7 @@ def test_route_error() -> None:
                 {"x": 120, "y": 80},
             ],
         )
-        c.add(route.labels)
+        c.add(route.labels)  # type: ignore
 
 
 if __name__ == "__main__":
@@ -55,4 +55,4 @@ if __name__ == "__main__":
                 {"x": 120, "y": 80},
             ],
         )
-        c.add(route.labels)
+        c.add(route.labels)  # type: ignore

@@ -4,13 +4,12 @@ from functools import partial
 from typing import Any
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.port import Port
 from gdsfactory.typings import CrossSectionSpec, LayerSpec
 
 
-@cell
+@gf.cell
 def taper(
     length: float = 10.0,
     width1: float = 0.5,
@@ -103,7 +102,7 @@ def taper(
     return c
 
 
-@cell
+@gf.cell
 def taper_strip_to_ridge(
     length: float = 10.0,
     width1: float = 0.5,
@@ -228,7 +227,7 @@ def taper_strip_to_ridge_trenches(
 taper_strip_to_slab150 = partial(taper_strip_to_ridge, layer_slab="SLAB150")
 
 
-@cell
+@gf.cell
 def taper_sc_nc(
     width1: float = 0.5,
     width2: float = 1,

@@ -3,12 +3,11 @@ from __future__ import annotations
 from functools import partial
 
 import gdsfactory as gf
-from gdsfactory import cell
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@cell
+@gf.cell
 def straight_heater_metal_undercut(
     length: float = 320.0,
     length_undercut_spacing: float = 6.0,
@@ -159,7 +158,7 @@ def straight_heater_metal_undercut(
     return c
 
 
-@cell
+@gf.cell
 def straight_heater_metal_simple(
     length: float = 320.0,
     cross_section_heater: CrossSectionSpec = "heater_metal",

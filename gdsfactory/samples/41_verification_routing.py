@@ -8,7 +8,7 @@ if __name__ == "__main__":
     c1 = gf.components.straight_heater_doped_strip(width=1)
     c2 = add_fiber_array_optical_south_electrical_north(
         component=c1,
-        electrical_port_names=("top_e1", "bot_e3"),
+        electrical_port_names=["top_e1", "bot_e3"],
     )
     c2.show()
 

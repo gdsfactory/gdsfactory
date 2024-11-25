@@ -4,7 +4,6 @@ import warnings
 from typing import Any
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler180
 from gdsfactory.components.straight import straight
@@ -25,7 +24,7 @@ diagram = r"""
 """
 
 
-@cell
+@gf.cell
 def delay_snake(
     length: float = 1600.0,
     length0: float = 0.0,

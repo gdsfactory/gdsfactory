@@ -3,28 +3,26 @@ from __future__ import annotations
 from functools import partial
 from typing import Any
 
-from numpy import float64
-
-from gdsfactory.cell import cell
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular, bend_circular180
 from gdsfactory.components.bend_euler import bend_euler, bend_euler180
 from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.typings import ComponentSpec
+from gdsfactory.typings import ComponentFactory, ComponentSpec
 
 
-def _get_bend_size(bend90: Component) -> float64:
+def _get_bend_size(bend90: Component) -> float:
     p1, p2 = list(bend90.ports)[:2]
     bsx = abs(p2.dx - p1.dx)
     bsy = abs(p2.dy - p1.dy)
     return max(bsx, bsy)
 
 
-@cell
+@gf.cell
 def cutback_bend(
     component: ComponentSpec = bend_euler,
-    straight: ComponentSpec = straight_function,
+    straight: ComponentFactory = straight_function,
     straight_length: float = 5.0,
     rows: int = 6,
     cols: int = 5,
@@ -77,10 +75,10 @@ def cutback_bend(
     return c
 
 
-@cell
+@gf.cell
 def cutback_bend90(
     component: ComponentSpec = bend_euler,
-    straight: ComponentSpec = straight_function,
+    straight: ComponentFactory = straight_function,
     straight_length: float = 5.0,
     rows: int = 6,
     cols: int = 6,
@@ -133,10 +131,10 @@ def cutback_bend90(
     return c
 
 
-@cell
+@gf.cell
 def staircase(
     component: ComponentSpec = bend_euler,
-    straight: ComponentSpec = straight_function,
+    straight: ComponentFactory = straight_function,
     length_v: float = 5.0,
     length_h: float = 5.0,
     rows: int = 4,
@@ -170,16 +168,18 @@ def staircase(
     s = "-A|B" * rows + "-"
 
     c = component_sequence(
-        sequence=s, symbol_to_component=symbol_to_component, start_orientation=0
+        sequence=s,
+        symbol_to_component=symbol_to_component,
+        start_orientation=0,  # type: ignore
     )
     c.info["components"] = 2 * rows
     return c
 
 
-@cell
+@gf.cell
 def cutback_bend180(
     component: ComponentSpec = bend_euler180,
-    straight: ComponentSpec = straight_function,
+    straight: ComponentFactory = straight_function,
     straight_length: float = 5.0,
     rows: int = 6,
     cols: int = 6,

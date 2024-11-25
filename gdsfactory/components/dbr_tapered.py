@@ -4,14 +4,13 @@ from typing import Any
 
 import gdsfactory as gf
 from gdsfactory import Component
-from gdsfactory.cell import cell
 from gdsfactory.snap import snap_to_grid2x
-from gdsfactory.typings import CrossSectionSpec
+from gdsfactory.typings import CrossSectionSpec, Size
 
 
 def _generate_fins(
     c: Component,
-    fin_size: tuple[float, float],
+    fin_size: Size,
     taper_length: float,
     length: float,
     cross_section: CrossSectionSpec,
@@ -61,7 +60,7 @@ def _generate_fins(
     return c
 
 
-@cell
+@gf.cell
 def dbr_tapered(
     length: float = 10.0,
     period: float = 0.85,
@@ -70,7 +69,7 @@ def dbr_tapered(
     w2: float = 1.0,
     taper_length: float = 20.0,
     fins: bool = False,
-    fin_size: tuple[float, float] = (0.2, 0.05),
+    fin_size: Size = (0.2, 0.05),
     cross_section: CrossSectionSpec = "strip",
     **kwargs: Any,
 ) -> Component:

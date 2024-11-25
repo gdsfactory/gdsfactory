@@ -102,7 +102,7 @@ class Config(Settings):
     port_types_grating_couplers: list[str]
 
 
-CONF: Config = config
+CONF: Config = config  # type: ignore
 CONF.difftest_ignore_label_differences = False
 CONF.difftest_ignore_sliver_differences = False
 CONF.difftest_ignore_cell_name_differences = True
