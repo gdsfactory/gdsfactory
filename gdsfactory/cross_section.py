@@ -101,6 +101,8 @@ class Section(BaseModel):
         simplify: Optional Tolerance value for the simplification algorithm. \
                 All points that can be removed without changing the resulting. \
                 polygon by more than the value listed here will be removed.
+        width_function: parameterized function from 0 to 1.
+        offset_function: parameterized function from 0 to 1.
 
     .. code::
 
