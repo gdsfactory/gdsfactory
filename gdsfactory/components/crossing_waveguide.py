@@ -286,9 +286,9 @@ def crossing45(
     )
 
     tol = 1e-2
-    assert abs(bend.info["start_angle"] - start_angle) < tol, print(
-        f"{bend.info['start_angle']} differs from {start_angle}"
-    )
+    assert (
+        abs(bend.info["start_angle"] - start_angle) < tol
+    ), f"{bend.info['start_angle']} differs from {start_angle}"
     assert abs(bend.info["end_angle"] - end_angle) < tol, bend.info["end_angle"]
 
     b_tr = c << bend

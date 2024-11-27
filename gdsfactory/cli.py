@@ -14,7 +14,6 @@ from gdsfactory.config import print_version_plugins
 from gdsfactory.difftest import diff
 from gdsfactory.install import install_gdsdiff, install_klayout_package
 from gdsfactory.read.from_updk import from_updk
-from gdsfactory.typings import PathType
 from gdsfactory.watch import watch as _watch
 
 app = typer.Typer()
@@ -45,9 +44,7 @@ def layermap_to_dataclass(
 
 
 @app.command()
-def write_cells(
-    gdspath: PathType, dirpath: PathType = "", recursively: bool = True
-) -> None:
+def write_cells(gdspath: str, dirpath: str = "", recursively: bool = True) -> None:
     """Write each all level cells into separate GDS files."""
     from gdsfactory.write_cells import write_cells as write_cells_top_cells
     from gdsfactory.write_cells import write_cells_recursively
@@ -59,7 +56,7 @@ def write_cells(
 
 
 @app.command()
-def merge_gds(dirpath: PathType = "", gdspath: PathType = "") -> None:
+def merge_gds(dirpath: str = "", gdspath: str = "") -> None:
     """Merges GDS cells from a directory into a single GDS."""
     from gdsfactory.read.from_gdspaths import from_gdsdir
 
@@ -75,7 +72,7 @@ def merge_gds(dirpath: PathType = "", gdspath: PathType = "") -> None:
 
 @app.command()
 def watch(
-    path: PathType = pathlib.Path.cwd(),
+    path: str = str(pathlib.Path.cwd()),
     pdk: str = typer.Option(None, "--pdk", "-pdk", help="PDK name"),
     run_main: bool = typer.Option(False, "--run-main", "-rm", help="Run main"),
     run_cells: bool = typer.Option(False, "--run-cells", "-rc", help="Run cells"),
@@ -136,7 +133,7 @@ def print_plugins() -> None:
 
 
 @app.command(name="from-updk")
-def from_updk_command(filepath: PathType, filepath_out: PathType = "") -> None:
+def from_updk_command(filepath: str, filepath_out: str = "") -> None:
     """Writes a PDK in python from uPDK YAML spec."""
     filepath = pathlib.Path(filepath)
     filepath_out = filepath_out or filepath.with_suffix(".py")
@@ -144,15 +141,15 @@ def from_updk_command(filepath: PathType, filepath_out: PathType = "") -> None:
 
 
 @app.command()
-def text_from_pdf(filepath: PathType) -> None:
+def text_from_pdf(filepath: str) -> None:
     """Converts a PDF to text."""
-    import pdftotext  # type: ignore
+    import pdftotext
 
-    with open(filepath, "rb") as file:
-        pdf = pdftotext.PDF(file)  # type: ignore
+    with open(filepath, "rb") as f:
+        pdf = pdftotext.PDF(f)
 
     # Read all the text into one string
-    text = "\n".join(pdf)  # type: ignore
+    text = "\n".join(pdf)
     filepath = pathlib.Path(filepath)
     f = filepath.with_suffix(".md")
     f.write_text(text)

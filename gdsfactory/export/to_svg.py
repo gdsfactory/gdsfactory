@@ -58,7 +58,7 @@ def to_svg(
                 zmin = level.zmin
                 layer_view = layer_views.get_from_tuple(layer)
                 color = layer_view.fill_color.as_hex(format="short")
-                f.write('  <g id="layer%03i_datatype%03i">\n' % (layer[0], layer[1]))
+                f.write(f'  <g id="layer{layer[0]:03d}_datatype{layer[1]:03d}">\n')
                 group_num += 1
                 polygons = layer_to_polygons[layer]
 
