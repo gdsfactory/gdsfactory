@@ -59,3 +59,18 @@ def test_trim() -> None:
 def test_from_kcell() -> None:
     kf.kcl.infos = kf.LayerInfos(WG=kf.kdb.LayerInfo(1, 0))
     gf.Component.from_kcell(kf.cells.straight.straight(1, 1, gf.kcl.get_info(LAYER.WG)))
+
+
+def test_remove_layers() -> None:
+    comp = gf.Component()
+    r1 = gf.components.rectangle(size=(1, 15), layer=(1, 0), centered=True)
+    _ = comp << r1
+    r2 = gf.components.rectangle(size=(2, 30), layer=(2, 0), centered=True)
+    _ = comp << r2
+    comp.flatten()
+
+    copy = comp.dup()
+    copy.remove_layers(layers=[(2, 0)])
+
+    assert comp.area((1, 0)) == 15, f"{comp.area((1, 0))}"
+    assert comp.area((2, 0)) == 60, f"{comp.area((2, 0))}"
