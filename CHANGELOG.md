@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.21.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.21.0) - 2024-11-27
+
+No significant changes.
+
+
 ## [8.20.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.20.0) - 2024-11-21
 
 - Deprecate array spacing [#3410](https://github.com/gdsfactory/gdsfactory/pull/3410)
