@@ -890,7 +890,13 @@ class ComponentBase:
         layers = [get_layer(layer) for layer in layers]
         for layer_index in layers:
             if recursive:
-                self.kcl.clear_layer(layer_index)
+                print(f"removing layer {layer_index}")
+                [
+                    self.kcl[ci].shapes(layer).clear()
+                    for ci in self.called_cells()
+                    for layer in layers
+                ]
+
             else:
                 self.shapes(layer_index).clear()
         return self
