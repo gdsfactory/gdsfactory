@@ -1,12 +1,25 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.20.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.21.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.21.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.21.0) - 2024-11-27
 
-No significant changes.
-
+- Add missing docs [#3437](https://github.com/gdsfactory/gdsfactory/pull/3437)
+- Improve via_stack ports [#3427](https://github.com/gdsfactory/gdsfactory/pull/3427)
+- Fix some MyPy errors [#3421](https://github.com/gdsfactory/gdsfactory/pull/3421)
+- remove Transition inheritance [#3419](https://github.com/gdsfactory/gdsfactory/pull/3419)
+- Fix remove layers [#3439](https://github.com/gdsfactory/gdsfactory/pull/3439)
+- fix ruff [#3431](https://github.com/gdsfactory/gdsfactory/pull/3431)
+- clear import cache on clearing layout cache [#3430](https://github.com/gdsfactory/gdsfactory/pull/3430)
+- fix cli [#3429](https://github.com/gdsfactory/gdsfactory/pull/3429)
+- fix dbr issues [#3418](https://github.com/gdsfactory/gdsfactory/pull/3418)
+- Add plot to updk [#3438](https://github.com/gdsfactory/gdsfactory/pull/3438)
+- Remove deprecated spacing [#3424](https://github.com/gdsfactory/gdsfactory/pull/3424)
+- fix: remove Transition from get_cross_section return type [#3420](https://github.com/gdsfactory/gdsfactory/pull/3420)
+- improve plot_graphviz [#3416](https://github.com/gdsfactory/gdsfactory/pull/3416)
+- Add missing docs [#3437](https://github.com/gdsfactory/gdsfactory/pull/3437)
+- Update pydantic requirement from <2.10,>=2.6 to >=2.6,<2.11 [#3423](https://github.com/gdsfactory/gdsfactory/pull/3423)
 
 ## [8.20.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.20.0) - 2024-11-21
 
