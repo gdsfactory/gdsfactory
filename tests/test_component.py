@@ -61,7 +61,7 @@ def test_from_kcell() -> None:
     gf.Component.from_kcell(kf.cells.straight.straight(1, 1, gf.kcl.get_info(LAYER.WG)))
 
 
-def test_remove_layers() -> None:
+def test_remove_layers_recursive() -> None:
     comp = gf.Component()
     r1 = gf.components.rectangle(size=(1, 15), layer=(1, 0), centered=True)
     _ = comp << r1
@@ -74,3 +74,13 @@ def test_remove_layers() -> None:
 
     assert comp.area((1, 0)) == 15, f"{comp.area((1, 0))}"
     assert comp.area((2, 0)) == 60, f"{comp.area((2, 0))}"
+
+
+def test_remove_layers_flat() -> None:
+    comp = gf.Component()
+    comp.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(2, 0))
+
+    copy = comp.dup()
+    copy.remove_layers(layers=[(2, 0)])
+    assert comp.area((2, 0)) == 0, f"{comp.area((2, 0))}"
+    assert copy.area((2, 0)) == 100, f"{copy.area((2, 0))}"
