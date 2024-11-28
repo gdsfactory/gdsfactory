@@ -194,8 +194,8 @@ def {block_name}({parameters_string})->gf.Component:
     {doc}
     c = gf.Component()
     c.add_polygon({points}, layer=layer_bbox)
-    xc = c.dx
-    yc = c.dy
+    xc = c.x
+    yc = c.y
     name = f{cell_name!r}
 """
         if "ysize" in parameters_labels:
@@ -236,8 +236,8 @@ def {block_name}({parameters_string})->gf.Component:
         if layer_text:
             script += "    text = c << text_function(text=name)\n"
 
-            script += "    text.dx = xc\n"
-            script += "    text.dy = yc\n"
+            script += "    text.x = xc\n"
+            script += "    text.y = yc\n"
 
         script += """
     c.name = name
