@@ -40,7 +40,7 @@ def grid(
     Args:
         components: Iterable to be placed onto a grid. (can be 1D or 2D).
         spacing: between adjacent elements on the grid, can be a tuple for \
-                different distances in height and width.
+                different distances in height and width or a single float.
         shape: x, y shape of the grid (see np.reshape). \
                 If no shape and the list is 1D, if np.reshape were run with (1, -1).
         align_x: x alignment along (origin, xmin, xmax, center).
