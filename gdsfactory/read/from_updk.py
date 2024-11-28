@@ -12,7 +12,7 @@ from typing import TYPE_CHECKING
 
 import yaml
 
-from gdsfactory.serialization import convert_tuples_to_lists
+from gdsfactory.serialization import clean_value_name, convert_tuples_to_lists
 
 if TYPE_CHECKING:
     from gdsfactory.typings import LayerSpec, PathType
@@ -118,7 +118,7 @@ add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_
         parameters_string = (
             ", ".join(
                 [
-                    f"{p_name}:{p['type']}={p['value']}"
+                    f"{clean_value_name(p_name)}:{p['type']}={p['value']}"
                     for p_name, p in parameters.items()
                 ]
             )
@@ -140,10 +140,20 @@ add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_
         )
 
         parameters_colon = (
-            [f"{p_name}:{{{p_name}}}" for p_name in parameters] if parameters else []
+            [
+                f"{clean_value_name(p_name)}:{{{clean_value_name(p_name)}}}"
+                for p_name in parameters
+            ]
+            if parameters
+            else []
         )
         parameters_equal = (
-            [f"{p_name}={{{p_name}}}" for p_name in parameters] if parameters else []
+            [
+                f"{clean_value_name(p_name)}={{{clean_value_name(p_name)}}}"
+                for p_name in parameters
+            ]
+            if parameters
+            else []
         )
 
         parameters_labels = (

@@ -6,7 +6,9 @@ import functools
 import hashlib
 import inspect
 import pathlib
+import re
 from collections.abc import KeysView
+from keyword import iskeyword
 from typing import Any, overload
 
 import attrs
@@ -185,9 +187,22 @@ def clean_value_partial(
 
 
 def clean_value_name(value: Any) -> str:
-    """Returns a string representation of an object."""
-    # value1 = clean_value_json(value)
-    return str(clean_value_json(value))
+    """Returns a valid Python variable name representation of an object."""
+    # Convert the value to a string and replace spaces with underscores
+    cleaned = str(clean_value_json(value)).replace(" ", "_")
+
+    # Remove invalid characters (only allow letters, numbers, and underscores)
+    cleaned = re.sub(r"[^a-zA-Z0-9_]", "", cleaned)
+
+    # Ensure the name starts with a letter or underscore
+    if not cleaned or not cleaned[0].isalpha():
+        cleaned = f"var_{cleaned}"
+
+    # Avoid reserved Python keywords
+    if iskeyword(cleaned):
+        cleaned = f"{cleaned}_var"
+
+    return cleaned
 
 
 def get_hash(value: Any) -> str:
