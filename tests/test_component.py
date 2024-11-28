@@ -77,10 +77,10 @@ def test_remove_layers_recursive() -> None:
 
 
 def test_remove_layers_flat() -> None:
-    comp = gf.Component()
-    comp.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(2, 0))
+    c = gf.Component()
+    c.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(2, 0))
 
-    copy = comp.dup()
-    copy.remove_layers(layers=[(2, 0)])
-    assert comp.area((2, 0)) == 0, f"{comp.area((2, 0))}"
-    assert copy.area((2, 0)) == 100, f"{copy.area((2, 0))}"
+    empty = c.dup()
+    empty.remove_layers(layers=[(2, 0)])
+    assert c.area((2, 0)) == 100, f"{c.area((2, 0))}"
+    assert empty.area((2, 0)) == 0, f"{empty.area((2, 0))}"
