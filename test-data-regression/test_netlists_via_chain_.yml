@@ -94,7 +94,7 @@ instances:
       spacing:
       - 2
       - 2
-  via_stack_S11_11_LM2_MT_c93e8c69_m6500_37800:
+  via_stack_S11_11_LM2_MT_ff6eecb9_m6500_37800:
     component: via_stack
     info:
       xsize: 11
@@ -103,6 +103,7 @@ instances:
       correct_size: true
       layer_offsets: null
       layer_port: null
+      layer_to_port_orientations: null
       layers:
       - M2
       - MTOP
@@ -119,7 +120,7 @@ instances:
       vias:
       - via2
       - null
-  via_stack_S11_11_LM2_MT_c93e8c69_m6500_m3800:
+  via_stack_S11_11_LM2_MT_ff6eecb9_m6500_m3800:
     component: via_stack
     info:
       xsize: 11
@@ -128,6 +129,7 @@ instances:
       correct_size: true
       layer_offsets: null
       layer_port: null
+      layer_to_port_orientations: null
       layers:
       - M2
       - MTOP
@@ -172,19 +174,19 @@ placements:
     rotation: 0
     x: 4.05
     y: 0.35
-  via_stack_S11_11_LM2_MT_c93e8c69_m6500_37800:
+  via_stack_S11_11_LM2_MT_ff6eecb9_m6500_37800:
     mirror: false
     rotation: 0
     x: -6.5
     y: 37.8
-  via_stack_S11_11_LM2_MT_c93e8c69_m6500_m3800:
+  via_stack_S11_11_LM2_MT_ff6eecb9_m6500_m3800:
     mirror: false
     rotation: 0
     x: -6.5
     y: -3.8
 ports:
-  e1: via_stack_S11_11_LM2_MT_c93e8c69_m6500_m3800,e1
-  e2: via_stack_S11_11_LM2_MT_c93e8c69_m6500_37800,e1
+  e1: via_stack_S11_11_LM2_MT_ff6eecb9_m6500_m3800,e1
+  e2: via_stack_S11_11_LM2_MT_ff6eecb9_m6500_37800,e1
 warnings:
   electrical:
     unconnected_ports:
@@ -226,12 +228,12 @@ warnings:
       - rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700<0.3>,e2
       - rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700<0.3>,e3
       - rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700<0.3>,e4
-      - via_stack_S11_11_LM2_MT_c93e8c69_m6500_m3800,e2
-      - via_stack_S11_11_LM2_MT_c93e8c69_m6500_m3800,e3
-      - via_stack_S11_11_LM2_MT_c93e8c69_m6500_m3800,e4
-      - via_stack_S11_11_LM2_MT_c93e8c69_m6500_37800,e2
-      - via_stack_S11_11_LM2_MT_c93e8c69_m6500_37800,e3
-      - via_stack_S11_11_LM2_MT_c93e8c69_m6500_37800,e4
+      - via_stack_S11_11_LM2_MT_ff6eecb9_m6500_m3800,e2
+      - via_stack_S11_11_LM2_MT_ff6eecb9_m6500_m3800,e3
+      - via_stack_S11_11_LM2_MT_ff6eecb9_m6500_m3800,e4
+      - via_stack_S11_11_LM2_MT_ff6eecb9_m6500_37800,e2
+      - via_stack_S11_11_LM2_MT_ff6eecb9_m6500_37800,e3
+      - via_stack_S11_11_LM2_MT_ff6eecb9_m6500_37800,e4
       values:
       - - 36000
         - 2200
