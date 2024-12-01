@@ -5,5 +5,5 @@ settings:
   greek_cross_component: greek_cross
   pad: pad
   pad_port_name: e4
-  pad_spacing: 150
+  pad_pitch: 150
   pad_via: via_stack_m1_mtop

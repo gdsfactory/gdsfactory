@@ -4,7 +4,7 @@ settings:
   layer_metal: MTOP
   metal_spacing: 5
   pad: pad
-  pad_spacing: 150
+  pad_pitch: 150
   route_xsize: 50
   short: true
   size:

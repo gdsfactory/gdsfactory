@@ -8,7 +8,7 @@ from gdsfactory.generic_tech.layer_map import LAYER
 # Constants
 ###################
 pad_size = (80, 80)
-pad_spacing = 100
+pad_pitch = 100
 
 ###################
 # Cells
@@ -43,7 +43,7 @@ add_fiber_array_optical_south_electrical_north = partial(
     pad=pad,
     grating_coupler=grating_coupler_te,
     cross_section_metal="metal_routing",
-    pad_spacing=pad_spacing,
+    pad_pitch=pad_pitch,
 )
 add_termination = partial(gf.c.add_termination, terminator=terminator)
 

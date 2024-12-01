@@ -16,6 +16,6 @@ settings:
   pad_gnd_top: e2_1_2
   pad_sig_bot: e1_1_1
   pad_sig_top: e3_1_3
-  pad_spacing: pad_spacing
+  pad_pitch: pad_pitch
   ps_bot: straight_heater_metal
   ps_top: straight_heater_metal

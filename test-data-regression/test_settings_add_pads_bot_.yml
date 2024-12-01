@@ -49,7 +49,7 @@ settings:
       size: pad_size
   pad_port_labels: null
   pad_port_name: e1
-  pad_spacing: pad_spacing
+  pad_pitch: pad_pitch
   port_names: null
   select_ports:
     function: select_ports
