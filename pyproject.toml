@@ -234,6 +234,9 @@ src = "gdsfactory/generic_tech/klayout/pymacros/set_menus.lym"
 [[tool.tbump.file]]
 src = ".devcontainer/Dockerfile"
 
+[[tool.tbump.file]]
+src = "uv.lock"
+
 [tool.tbump.git]
 message_template = "Bump to {new_version}"
 tag_template = "v{new_version}"
