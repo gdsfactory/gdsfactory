@@ -11,7 +11,7 @@ settings:
       straight_x_top: straight_heater_metal
   electrical_port_names: null
   electrical_port_orientation: 90
-  fiber_spacing: 127.0
+  pitch: 127.0
   grating_coupler:
     function: grating_coupler_elliptical
   npads: null

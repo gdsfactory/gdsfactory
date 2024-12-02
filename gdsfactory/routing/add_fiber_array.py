@@ -55,7 +55,7 @@ def add_fiber_array(
         routing_method: route_single.
         gc_rotation: fiber coupler rotation in degrees. Defaults to -90.
         input_port_indexes: to connect.
-        fiber_spacing: in um.
+        pitch: in um.
         radius: optional radius of the bend. Defaults to the cross_section.
         radius_loopback: optional radius of the loopback bend. Defaults to the cross_section.
         start_straight_length: length of the start straight.

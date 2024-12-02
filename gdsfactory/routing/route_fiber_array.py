@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import warnings
 from collections.abc import Mapping, Sequence
 from typing import Any
 
@@ -29,7 +30,7 @@ from gdsfactory.typings import (
 def route_fiber_array(
     component: Component,
     component_to_route: Component | ComponentReference,
-    fiber_spacing: float = 127.0,
+    pitch: float = 127.0,
     grating_coupler: ComponentSpecOrList = grating_coupler_te,
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
@@ -63,6 +64,7 @@ def route_fiber_array(
     steps: Sequence[Mapping[str, int | float]] | None = None,
     bboxes: BoundingBoxes | None = None,
     avoid_component_bbox: bool = True,
+    fiber_spacing: None | float = None,
     **kwargs: Any,
 ) -> Component:
     """Returns new component with fiber array.
@@ -70,7 +72,7 @@ def route_fiber_array(
     Args:
         component: top level component.
         component_to_route: component to route.
-        fiber_spacing: spacing between the optical fibers.
+        pitch: pitch between the array.
         grating_coupler: grating coupler instance, function or list of functions.
         bend: for bends.
         straight: straight.
@@ -114,12 +116,18 @@ def route_fiber_array(
         steps: steps for the route.
         bboxes: list bounding boxes to avoid for routing.
         avoid_component_bbox: avoid component bbox for routing.
+        fiber_spacing: Deprecated. Use pitch instead.
         kwargs: route_bundle settings.
     """
     c = component
     component = component_to_route
-    fiber_spacing = gf.get_constant(fiber_spacing)
     x = gf.get_cross_section(cross_section)
+
+    if fiber_spacing is not None:
+        warnings.warn(
+            "fiber_spacing is deprecated. Use pitch instead", DeprecationWarning
+        )
+        pitch = fiber_spacing
 
     component_name = component_name or component.name
     excluded_ports = excluded_ports or []
@@ -183,8 +191,8 @@ def route_fiber_array(
     pxs = [p.dx for p in to_route]
     is_big_component = (
         (k > 2)
-        or (max(pxs) - min(pxs) > fiber_spacing - delta_gr_min)
-        or (component.dxsize > fiber_spacing)
+        or (max(pxs) - min(pxs) > pitch - delta_gr_min)
+        or (component.dxsize > pitch)
     )
 
     def has_p(side: str) -> bool:
@@ -252,7 +260,7 @@ def route_fiber_array(
     nb_ports_per_line = n // nb_optical_ports_lines
     y_gr_gap = (k / nb_optical_ports_lines + 1) * separation
     gr_coupler_y_sep = grating_coupler.dysize + y_gr_gap + dy
-    offset = (nb_ports_per_line - 1) * fiber_spacing / 2 - x_grating_offset
+    offset = (nb_ports_per_line - 1) * pitch / 2 - x_grating_offset
     io_gratings_lines = []  # [[gr11, gr12, gr13...], [gr21, gr22, gr23...] ...]
 
     grating_coupler_port_names = [p.name for p in grating_coupler.ports]
@@ -270,7 +278,7 @@ def route_fiber_array(
         for i, gc in zip(grating_indices, grating_couplers):
             gc_ref = c << gc
             gc_ref.drotate(gc_rotation)
-            gc_ref.dx = x_c - offset + i * fiber_spacing
+            gc_ref.dx = x_c - offset + i * pitch
             gc_ref.dymax = y0_optical - j * gr_coupler_y_sep
             io_gratings += [gc_ref]
 
@@ -352,8 +360,8 @@ def route_fiber_array(
         gca1.drotate(gc_rotation)
         gca2.drotate(gc_rotation)
 
-        gca1.dx = x_c - offset + ii[0] * fiber_spacing
-        gca2.dx = x_c - offset + ii[1] * fiber_spacing
+        gca1.dx = x_c - offset + ii[0] * pitch
+        gca2.dx = x_c - offset + ii[1] * pitch
 
         gc_loopback_dymin = io_gratings_lines[0][0].dymin
         gca1.dymin = gc_loopback_dymin
@@ -446,7 +454,7 @@ if __name__ == "__main__":
         # grating_coupler=gc,
         # with_loopback=True,
         # radius=10,
-        # fiber_spacing=50,
+        # pitch=50,
         # port_names=["o1", "o2"],
         # with_loopback=False,
         # fanout_length=-200,
