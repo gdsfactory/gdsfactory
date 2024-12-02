@@ -45,7 +45,7 @@ instances:
       straight_x_top: straight_heater_metal
       straight_y: null
       with_splitter: true
-name: mzi_pads_center_PTstrai_c97b64ce
+name: mzi_pads_center_PTstrai_10e9fd66
 nets: []
 placements:
   array_Cpad_small_S100_1_ee4e58f8_185500_m10000:

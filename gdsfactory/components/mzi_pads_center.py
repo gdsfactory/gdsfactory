@@ -26,7 +26,7 @@ def mzi_pads_center(
     delta_length: float = 40.0,
     cross_section: CrossSectionSpec = "strip",
     cross_section_metal: CrossSectionSpec = "metal_routing",
-    pad_spacing: float | str = "pad_spacing",
+    pad_pitch: float | str = "pad_pitch",
     **kwargs: Any,
 ) -> gf.Component:
     """Return Mzi phase shifter with pads in the middle.
@@ -51,12 +51,12 @@ def mzi_pads_center(
         delta_length: mzi length imbalance.
         cross_section: for the mzi.
         cross_section_metal: for routing metal.
-        pad_spacing: pad pitch in um.
+        pad_pitch: pad pitch in um.
         kwargs: routing settings.
     """
     c = gf.Component()
 
-    pad_spacing = gf.get_constant(pad_spacing)
+    pad_pitch = gf.get_constant(pad_pitch)
 
     mzi_ps = gf.get_component(
         mzi,
@@ -76,7 +76,7 @@ def mzi_pads_center(
 
     m = c << mzi_ps
     pads = c << gf.components.array(
-        component=pad, columns=3, rows=1, spacing=(pad_spacing, pad_spacing)
+        component=pad, columns=3, rows=1, spacing=(pad_pitch, pad_pitch)
     )
     pads.dx = m.dx
     pads.dy = m.dy

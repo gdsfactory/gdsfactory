@@ -24,6 +24,6 @@ settings:
         - 80
   pad_assigments: null
   pad_gc_spacing: 250.0
-  pad_spacing: 100.0
+  pad_pitch: 100.0
   with_loopback: true
   xs_metal: metal_routing
