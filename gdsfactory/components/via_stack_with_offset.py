@@ -120,9 +120,19 @@ def via_stack_with_offset(
 
         if via:
             via = gf.get_component(via)
+            if "xsize" not in via.info:
+                raise ValueError(f"via {via.name!r} is missing xsize info")
+            if "ysize" not in via.info:
+                raise ValueError(f"via {via.name!r} is missing ysize info")
+            if "enclosure" not in via.info:
+                raise ValueError(f"via {via.name!r} is missing enclosure info")
+            if "pitch" not in via.info:
+                raise ValueError(f"via {via.name!r} is missing pitch info")
+
             w, h = via.info["xsize"], via.info["ysize"]
             enclosure = via.info["enclosure"]
-            pitch_x, pitch_y = via.info["xspacing"], via.info["yspacing"]
+            pitch = via.info["pitch"]
+            pitch_x, pitch_y = pitch, pitch
 
             nb_vias_x = (width - w - 2 * enclosure) / pitch_x + 1
             nb_vias_y = (height - h - 2 * enclosure) / pitch_y + 1

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import warnings
 from functools import partial
 
 import gdsfactory as gf
@@ -10,27 +11,27 @@ from gdsfactory.typings import LayerSpec, Size, Spacing
 @gf.cell
 def via(
     size: Size = (0.7, 0.7),
-    spacing: Spacing | None = (2.0, 2.0),
-    gap: tuple[float, float] | None = None,
+    spacing: Spacing | None = None,
+    gap: float | None = None,
     enclosure: float = 1.0,
     layer: LayerSpec = "VIAC",
     bbox_layers: tuple[LayerSpec, ...] | None = None,
     bbox_offset: float = 0,
     bbox_offsets: tuple[float, ...] | None = None,
+    pitch: float = 2,
 ) -> Component:
     """Rectangular via.
 
-    Defaults to a square via.
-
     Args:
-        size: in x, y direction.
-        spacing: pitch_x, pitch_y.
-        gap: edge to edge via gap in x, y.
+        size: in x and y direction.
+        spacing: pitch_x, pitch_y. Deprecated, use pitch instead.
+        gap: edge to edge via gap in x, y. Deprecated, use pitch instead.
         enclosure: inclusion of via.
         layer: via layer.
         bbox_layers: layers for the bounding box.
         bbox_offset: in um.
         bbox_offsets: List of offsets for each bbox_layer.
+        pitch: pitch between vias.
 
     .. code::
 
@@ -44,19 +45,18 @@ def via(
         |     |      |        |      |  size[1] |
         |     |______|        |______|          |
         |      <------------->                  |
-        |         spacing[0]                    |
+        |           pitch                       |
         |_______________________________________|
     """
-    if spacing is None and gap is None:
-        raise ValueError("either spacing or gap should be defined")
-    elif spacing is not None and gap is not None:
-        raise ValueError("You can't define spacing and gap at the same time")
-    if spacing is None:
-        spacing = (size[0] + gap[0], size[1] + gap[1])
+    if spacing is not None:
+        warnings.warn("spacing is deprecated, use pitch instead")
+        pitch = spacing[0]
+
+    if gap is not None:
+        warnings.warn("gap is deprecated, use pitch instead")
 
     c = Component()
-    c.info["xspacing"] = spacing[0]
-    c.info["yspacing"] = spacing[1]
+    c.info["pitch"] = pitch
     c.info["enclosure"] = enclosure
     c.info["xsize"] = size[0]
     c.info["ysize"] = size[1]
@@ -78,7 +78,31 @@ def via(
         a = (width + 2 * bbox_offset) / 2
         b = (height + 2 * bbox_offset) / 2
         c.add_polygon([(-a, -b), (a, -b), (a, b), (-a, b)], layer=layer)
+    return c
 
+
+@gf.cell
+def via_circular(
+    radius: float = 0.35,
+    enclosure: float = 1.0,
+    layer: LayerSpec = "VIAC",
+    pitch: float | None = 2,
+) -> Component:
+    """Circular via.
+
+    Args:
+        radius: in um.
+        enclosure: inclusion of via in um for the layer above.
+        layer: via layer.
+        pitch: pitch between vias.
+    """
+    c = Component()
+    _ = c << gf.c.circle(radius=radius, layer=layer)
+    c.info["pitch"] = pitch
+    c.info["enclosure"] = enclosure
+    c.info["radius"] = radius
+    c.info["xsize"] = 2 * radius
+    c.info["ysize"] = 2 * radius
     return c
 
 
@@ -88,7 +112,7 @@ via2 = partial(via, layer="VIA2")
 
 
 if __name__ == "__main__":
-    c = via()
+    c = via_circular()
     # c.pprint()
     print(c)
     c.show()

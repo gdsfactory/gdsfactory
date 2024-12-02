@@ -1,0 +1,17 @@
+instances:
+  circle_R0p35_AR2p5_LVIAC_0_0:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: VIAC
+      radius: 0.35
+name: via_circular_R0p35_E1_LVIAC_P2
+nets: []
+placements:
+  circle_R0p35_AR2p5_LVIAC_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+ports: {}

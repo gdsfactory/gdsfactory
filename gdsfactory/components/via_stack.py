@@ -34,9 +34,6 @@ def via_stack(
     also know as Via array
     http://www.vlsi-expert.com/2017/12/vias.html
 
-    spacing = via.info['spacing']
-    enclosure = via.info['enclosure']
-
     Args:
         size: of the layers.
         layers: layers on which to draw rectangles.
@@ -110,9 +107,25 @@ def via_stack(
             width += 2 * offset
             height += 2 * offset
             _via = gf.get_component(via)
-            w, h = _via.info["xsize"], _via.info["ysize"]
+
+            if "xsize" not in _via.info:
+                raise ValueError(
+                    f"Component {_via.name!r} does not have a 'xsize' key in info"
+                )
+            if "ysize" not in _via.info:
+                raise ValueError(
+                    f"Component {_via.name!r} does not have a 'ysize' key in info"
+                )
+
+            if "pitch" not in _via.info:
+                raise ValueError(
+                    f"Component {_via.name!r} does not have a 'pitch' key in info"
+                )
+
+            w, h = _via.dxsize, _via.dysize
             enclosure = _via.info["enclosure"]
-            pitch_x, pitch_y = _via.info["xspacing"], _via.info["yspacing"]
+            pitch = _via.info["pitch"]
+            pitch_x, pitch_y = pitch, pitch
 
             min_width = w + enclosure
             min_height = h + enclosure
@@ -180,9 +193,6 @@ def via_stack_corner45(
 ) -> Component:
     """Rectangular via array stack at a 45 degree angle.
 
-    spacing = via.info['spacing']
-    enclosure = via.info['enclosure']
-
     Args:
         width: of the corner45.
         layers: layers on which to draw rectangles.
@@ -235,9 +245,23 @@ def via_stack_corner45(
                 2 * (width_corner + 2 * offset) * np.cos(np.deg2rad(45))
             )  # Width in the x direction
             _via = gf.get_component(via)
+            if "xsize" not in _via.info:
+                raise ValueError(
+                    f"Component {_via.name!r} does not have a 'xsize' key in info"
+                )
+            if "ysize" not in _via.info:
+                raise ValueError(
+                    f"Component {_via.name!r} does not have a 'ysize' key in info"
+                )
+
+            if "pitch" not in _via.info:
+                raise ValueError(
+                    f"Component {_via.name!r} does not have a 'pitch' key in info"
+                )
+
             w, h = _via.info["xsize"], _via.info["ysize"]
             enclosure = _via.info["enclosure"]
-            pitch_x, pitch_y = _via.info["xspacing"], _via.info["yspacing"]
+            pitch_x, pitch_y = _via.info["pitch"], _via.info["pitch"]
 
             via = _via
 

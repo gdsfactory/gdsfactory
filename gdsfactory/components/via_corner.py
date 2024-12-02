@@ -47,14 +47,11 @@ def via_corner(
     b = min_height / 2
 
     c = gf.Component()
-    c.height = max_height
     c.info["size"] = (float(max_width), float(max_height))
     c.info["length"] = max(max_width, max_height)
 
-    n = len(layers)
-
+    port_type = "electrical"
     for i, layer in enumerate(layers):
-        port_type = "electrical" if i == n - 1 else "electrical"
         ref = c << compass(
             size=(widths[i], heights[i]), layer=layer, port_type=port_type
         )
@@ -73,12 +70,23 @@ def via_corner(
 
     for via in vias:
         via = gf.get_component(via)
+        if "xsize" not in via.info:
+            raise ValueError(f"Via {via.name!r} does not have xsize in info")
+
+        if "ysize" not in via.info:
+            raise ValueError(f"Via {via.name!r} does not have ysize in info")
+
+        if "enclosure" not in via.info:
+            raise ValueError(f"Via {via.name!r} does not have enclosure in info")
+
+        if "pitch" not in via.info:
+            raise ValueError(f"Via {via.name!r} does not have pitch in info")
 
         w = via.info["xsize"]
         h = via.info["ysize"]
         g = via.info["enclosure"]
-        pitch_x = via.info["xspacing"]
-        pitch_y = via.info["yspacing"]
+        pitch = via.info["pitch"]
+        pitch_x = pitch_y = pitch
 
         nb_vias_x = (min_width - w - 2 * g) / pitch_x + 1
         nb_vias_y = (min_height - h - 2 * g) / pitch_y + 1
