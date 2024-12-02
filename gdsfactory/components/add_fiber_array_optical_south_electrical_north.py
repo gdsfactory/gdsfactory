@@ -12,7 +12,7 @@ def add_fiber_array_optical_south_electrical_north(
     cross_section_metal: CrossSectionSpec,
     with_loopback: bool = True,
     pad_pitch: float = 100.0,
-    fiber_spacing: float = 127.0,
+    pitch: float = 127.0,
     pad_gc_spacing: float = 250.0,
     electrical_port_names: list[str] | None = None,
     electrical_port_orientation: AngleInDegrees | None = 90,
@@ -32,7 +32,7 @@ def add_fiber_array_optical_south_electrical_north(
         cross_section_metal: metal cross section.
         with_loopback: whether to add a loopback port.
         pad_pitch: spacing between pads.
-        fiber_spacing: spacing between grating couplers.
+        pitch: spacing between grating couplers.
         pad_gc_spacing: spacing between pads and grating couplers.
         electrical_port_names: list of electrical port names. Defaults to all.
         electrical_port_orientation: orientation of electrical ports. Defaults to 90.
@@ -90,7 +90,7 @@ def add_fiber_array_optical_south_electrical_north(
         component=component,
         grating_coupler=grating_coupler,
         with_loopback=with_loopback,
-        fiber_spacing=fiber_spacing,
+        pitch=pitch,
         **kwargs,
     )
     port_types_grating_couplers = (

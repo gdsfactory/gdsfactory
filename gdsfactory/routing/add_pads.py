@@ -143,7 +143,7 @@ def add_pads_bot(
         bend=bend,
         straight_separation=straight_separation,
         port_names=port_names,
-        fiber_spacing=pad_pitch,  # type: ignore
+        pitch=pad_pitch,  # type: ignore
         port_type=port_type,
         gc_port_name_fiber=pad_port_name,
         allow_width_mismatch=allow_width_mismatch,
