@@ -996,7 +996,7 @@ wheels = [
 
 [[package]]
 name = "gdsfactory"
-version = "8.20.0"
+version = "8.21.0"
 source = { editable = "." }
 dependencies = [
     { name = "attrs" },
@@ -1104,7 +1104,7 @@ requires-dist = [
     { name = "pandas" },
     { name = "plotly", marker = "extra == 'docs'" },
     { name = "pre-commit", marker = "extra == 'dev'" },
-    { name = "pydantic", specifier = ">=2.6,<2.10" },
+    { name = "pydantic", specifier = ">=2.6,<2.11" },
     { name = "pydantic-extra-types", specifier = "<3" },
     { name = "pydantic-settings", specifier = "<3" },
     { name = "pyglet", specifier = "<2" },
