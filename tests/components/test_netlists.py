@@ -31,6 +31,7 @@ skip_test = {
 cells_to_test = set(cells.keys()) - skip_test
 
 
+@pytest.mark.only
 @pytest.mark.parametrize("component_type", cells_to_test)
 def test_netlists(
     component_type: str,

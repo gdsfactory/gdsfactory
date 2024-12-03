@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.cdsem_bend180 import cdsem_bend180
 from gdsfactory.components.cdsem_straight import cdsem_straight
 from gdsfactory.components.cdsem_straight_density import cdsem_straight_density
-from gdsfactory.typings import ComponentFactory, ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -20,7 +20,7 @@ def cdsem_all(
     straight: ComponentSpec = "straight",
     bend90: ComponentSpec | None = "bend_circular",
     cross_section: CrossSectionSpec = "strip",
-    text: ComponentFactory = "text_rectangular_mini",
+    text: ComponentSpec = "text_rectangular_mini",
     spacing: float = 5,
 ) -> Component:
     """Column with all optical PCMs.
@@ -83,7 +83,7 @@ def cdsem_all(
             for w, g, lbl in density_params
         ]
 
-    ymin = 0
+    ymin = 0.0
     for d in all_devices:
         ref = c.add_ref(d)
         ref.dxmin = 0

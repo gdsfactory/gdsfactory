@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.typings import ComponentFactory, ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 LINE_LENGTH = 420.0
 
@@ -13,11 +13,11 @@ LINE_LENGTH = 420.0
 def cdsem_bend180(
     width: float = 0.5,
     radius: float = 10.0,
-    wg_length: float = LINE_LENGTH,
+    wg_length: float | None = LINE_LENGTH,
     straight: ComponentSpec = "straight",
     bend90: ComponentSpec = "bend_circular",
     cross_section: CrossSectionSpec = "strip",
-    text: ComponentFactory = "text_rectangular_mini",
+    text: ComponentSpec = "text_rectangular_mini",
 ) -> Component:
     """Returns CDSEM structures.
 
