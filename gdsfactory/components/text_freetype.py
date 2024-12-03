@@ -104,12 +104,12 @@ def text_freetype(
             yoffset -= size
 
     justify = justify.lower()
-    for ref in t.insts:
+    for inst in t.insts:
         if justify == "center":
-            ref.dmove((0, 0))
+            inst.dmove((0, 0))
 
         elif justify == "right":
-            ref.dxmax = 0
+            inst.dxmax = 0
     t.flatten()
     return t
 

@@ -111,7 +111,6 @@ def optimal_step(
         )
 
         xpts = list(np.linspace(xmin, xmax, num_pts))
-        ypts: list[float] = []
         for x in xpts:
             x, y = invert_step_point(x_desired=x, W=start_width, a=end_width)
             ypts.append(y)

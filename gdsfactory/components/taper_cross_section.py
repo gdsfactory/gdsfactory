@@ -48,7 +48,7 @@ def taper_cross_section(
     transition = gf.path.transition(
         cross_section1=x1,
         cross_section2=x2,
-        width_type="linear" if linear else width_type,
+        width_type="linear" if linear else width_type,  # type: ignore
     )
     taper_path = gf.path.straight(length=length, npoints=npoints)
 
