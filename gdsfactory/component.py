@@ -163,8 +163,7 @@ class ComponentReference(kf.Instance):
                     return super().dymax
                 case "ysize":
                     return super().dysize
-                case _:
-                    return super().__getattribute__(__k)
+        return super().__getattribute__(__k)
 
     def __setattr__(self, __k: str, __v: Any) -> None:
         """Set attribute with deprecation warning for dbu based attributes."""
