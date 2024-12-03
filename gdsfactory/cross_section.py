@@ -15,7 +15,7 @@ from typing import TYPE_CHECKING, Any, Literal, TypeAlias
 
 import numpy as np
 import numpy.typing as npt
-from kfactory import LayerEnum, logger
+from kfactory import logger
 from pydantic import (
     BaseModel,
     ConfigDict,

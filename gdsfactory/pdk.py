@@ -23,8 +23,6 @@ from gdsfactory.serialization import convert_tuples_to_lists
 from gdsfactory.symbols import floorplan_with_block_letters
 from gdsfactory.technology import LayerStack, LayerViews, klayout_tech
 from gdsfactory.typings import (
-    AnyComponent,
-    AnyComponentFactory,
     CellSpec,
     Component,
     ComponentBase,

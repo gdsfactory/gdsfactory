@@ -26,7 +26,6 @@ if TYPE_CHECKING:
 
     from gdsfactory.typings import (
         AngleInDegrees,
-        AnyComponent,
         ComponentSpec,
         Coordinates,
         CrossSection,

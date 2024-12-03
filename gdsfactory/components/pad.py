@@ -8,7 +8,6 @@ from gdsfactory.component import Component
 from gdsfactory.components.compass import compass, valid_port_orientations
 from gdsfactory.typings import (
     AngleInDegrees,
-    ComponentFactory,
     ComponentSpec,
     Float2,
     Ints,
