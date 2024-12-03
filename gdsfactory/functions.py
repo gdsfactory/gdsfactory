@@ -75,9 +75,6 @@ def extract(
     from gdsfactory.pdk import get_layer_tuple
 
     c = component.dup()
-    if recursive:
-        c.flatten()
-
     layer_tuples = [get_layer_tuple(layer) for layer in layers]
     component_layers = get_layers(c)
 
@@ -91,6 +88,8 @@ def extract(
         if layer_tuple not in layer_tuples:
             layer_index = c.kcl.layer(*layer_tuple)
             c.shapes(layer_index).clear()
+            if recursive:
+                [c.kcl[ci].shapes(layer_index).clear() for ci in c.called_cells()]
 
     return c
 
