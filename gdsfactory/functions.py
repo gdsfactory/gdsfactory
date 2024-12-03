@@ -70,26 +70,28 @@ def extract(
     Args:
         component: to extract the layers from.
         layers: list of layers to extract.
-        recursive: if True, extracts layers recursively and returns a flattened Component.
+        recursive: if True, extracts the shapes recursively.
     """
     from gdsfactory.pdk import get_layer_tuple
 
-    c = component.dup()
+    c = gf.Component()
+
     layer_tuples = [get_layer_tuple(layer) for layer in layers]
-    component_layers = get_layers(c)
+    component_layers = get_layers(component)
 
     for layer_tuple in layer_tuples:
         if layer_tuple not in component_layers:
             warnings.warn(
-                f"Layer {layer_tuple} not found in component {component.name!r} layers."
+                f"Layer {layer_tuple} not found in component {component.name!r} layers. {component_layers}"
             )
 
     for layer_tuple in component_layers:
-        if layer_tuple not in layer_tuples:
+        if layer_tuple in layer_tuples:
             layer_index = c.kcl.layer(*layer_tuple)
-            c.shapes(layer_index).clear()
             if recursive:
-                [c.kcl[ci].shapes(layer_index).clear() for ci in c.called_cells()]
+                c.shapes(layer_index).insert(component.begin_shapes_rec(layer_index))
+            else:
+                c.shapes(layer_index).insert(component.shapes(layer_index))
 
     return c
 
@@ -466,11 +468,12 @@ rotate270 = partial(rotate, angle=270)
 
 
 if __name__ == "__main__":
-    c = gf.components.ring_single()
-    c = rotate(c, -90)
+    c = gf.components.mzi_phase_shifter()
+    # c = rotate(c, -90)
     # c = gf.components.straight_pin(length=11, taper=None)
     # c.trim(left=0, right=10, bottom=0, top=10)
     # c = trim(c, domain=[[0, 0], [0, 10], [10, 10], [10, 0]])
+    c = c.extract(layers=[(1, 0)], recursive=True)
     c.show()
 
     # c = gf.c.rectangle(size=(10, 10), centered=True)
