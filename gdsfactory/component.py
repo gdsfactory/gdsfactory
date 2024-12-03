@@ -26,6 +26,7 @@ if TYPE_CHECKING:
 
     from gdsfactory.typings import (
         AngleInDegrees,
+        AnyComponent,
         ComponentSpec,
         Coordinates,
         CrossSection,
@@ -1282,7 +1283,7 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
         self.insts = ComponentReferences()
         super().__init__(name=name, kcl=kcl, kdb_cell=kdb_cell, ports=ports)
 
-    def __lshift__(self, component: gf.Component) -> ComponentReference:  # type: ignore[override]
+    def __lshift__(self, component: Component) -> ComponentReference:  # type: ignore[override]
         """Creates a ComponentReference to a Component."""
         return ComponentReference(kf.KCell.create_inst(self, component))
 

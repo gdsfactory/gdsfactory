@@ -52,14 +52,14 @@ def text(
         yoffset -= 1500 * scaling
         xoffset = position[0]
     justify = justify.lower()
-    for label in t.insts:
+    for instance in t.insts:
         if justify == "left":
             pass
         elif justify == "right":
-            label.dxmax = position[0]
+            instance.dxmax = position[0]  # type: ignore
         elif justify == "center":
-            xmin = position[0] - label.dxsize / 2
-            label.dxmin = xmin
+            xmin = position[0] - instance.dxsize / 2
+            instance.dxmin = xmin  # type: ignore
         else:
             raise ValueError(
                 f"justify = {justify!r} not in ('center', 'right', 'left')"

@@ -132,7 +132,7 @@ def dbr_tapered(
     output_taper.connect("o1", straight.ports["o2"])
     num = (2 * taper_length + length) // period
 
-    size = tuple(snap_to_grid2x((period * dc, w2)))
+    size: tuple[float, float] = tuple(snap_to_grid2x((period * dc, w2)))  # type: ignore
     teeth = gf.components.rectangle(size=size, layer=xs.layer)
 
     periodic_structures = c << gf.components.array(

@@ -8,7 +8,7 @@ import gdsfactory as gf
 from gdsfactory.components.via import via
 from gdsfactory.components.via_stack import via_stack
 from gdsfactory.cross_section import Section
-from gdsfactory.typings import ComponentSpec, CrossSection, LayerSpec
+from gdsfactory.typings import ComponentSpec, CrossSection, CrossSectionSpec, LayerSpec
 
 _pn_cross_section = partial(
     gf.cross_section.pn,
@@ -53,8 +53,8 @@ def ring_single_pn(
     gap: float = 0.3,
     radius: float = 5.0,
     doping_angle: float = 250,
-    cross_section: CrossSection = _cross_section,
-    pn_cross_section: CrossSection = _pn_cross_section,
+    cross_section: CrossSectionSpec = _cross_section,
+    pn_cross_section: CrossSectionSpec = _pn_cross_section,
     doped_heater: bool = True,
     doped_heater_angle_buffer: float = 10,
     doped_heater_layer: LayerSpec = "NPP",
@@ -111,10 +111,10 @@ def ring_single_pn(
         cross_section=cross_section, all_angle=True
     )
     undoped_ring_ref.drotate(-undoping_angle / 2)
-    undoped_ring_ref.dcenter = (0, 0)
+    undoped_ring_ref.dcenter = (0, 0)  # type: ignore[assignment]
     doped_ring_ref.connect("o1", undoped_ring_ref.ports["o1"])
     ring = c.create_vinst(r)
-    ring.dcenter = (0, 0)
+    ring.dcenter = (0, 0)  # type: ignore[assignment]
 
     if doped_heater:
         heater_radius = radius - doped_heater_waveguide_offset

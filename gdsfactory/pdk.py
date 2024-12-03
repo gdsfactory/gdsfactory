@@ -23,6 +23,8 @@ from gdsfactory.serialization import convert_tuples_to_lists
 from gdsfactory.symbols import floorplan_with_block_letters
 from gdsfactory.technology import LayerStack, LayerViews, klayout_tech
 from gdsfactory.typings import (
+    AnyComponent,
+    AnyComponentFactory,
     CellSpec,
     Component,
     ComponentBase,
@@ -352,7 +354,7 @@ class Pdk(BaseModel):
     def _get_component(
         self,
         component: ComponentSpec,
-        cells: dict[str, Callable[..., ComponentBase]],
+        cells: dict[str, ComponentFactory],
         settings: dict[str, Any] | None = None,
         **kwargs: Any,
     ) -> Component:
@@ -376,6 +378,10 @@ class Pdk(BaseModel):
         elif isinstance(component, kf.KCell):
             return Component.from_kcell(component)
         elif callable(component):
+            print(f"calling {component} of type {type(component)}")
+            result = component(**kwargs)
+            print(f"Return type: {type(result)}")
+            return result
             return component(**kwargs)
         elif isinstance(component, str):
             if component not in cells:
@@ -608,7 +614,7 @@ def get_active_pdk(name: str | None = None) -> Pdk:
 
         else:
             raise ValueError("no active pdk")
-    return _ACTIVE_PDK
+    return _ACTIVE_PDK  # type: ignore
 
 
 def get_material_index(material: MaterialSpec, *args: Any, **kwargs: Any) -> Component:
@@ -617,7 +623,7 @@ def get_material_index(material: MaterialSpec, *args: Any, **kwargs: Any) -> Com
         raise NotImplementedError(
             "The active PDK does not implement 'get_material_index'"
         )
-    return active_pdk.get_material_index(material, *args, **kwargs)
+    return active_pdk.get_material_index(material, *args, **kwargs)  # type: ignore
 
 
 def get_component(

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections.abc import Iterable
 from functools import partial
 
 import gdsfactory as gf
@@ -7,7 +8,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.via import via
 from gdsfactory.components.via_stack import via_stack
 from gdsfactory.cross_section import Section
-from gdsfactory.typings import ComponentSpec, Floats, LayerSpecs
+from gdsfactory.typings import ComponentSpec, Floats, LayerSpecs, Port
 
 via_stack = partial(
     via_stack,
@@ -172,14 +173,14 @@ def straight_heater_meander_doped(
     c.add_port("o2", port=straight2.ports["o2"])
 
     if layers_doping:
-        sectionlist = ()
+        sections: tuple[Section, ...] = ()
         for doping_layer in layers_doping:
-            sectionlist += (Section(layer=doping_layer, width=heater_width, offset=0),)
+            sections += (Section(layer=doping_layer, width=heater_width, offset=0),)
         heater_cross_section = partial(
             gf.cross_section.cross_section,
             width=heater_width,
             layer="WG",
-            sections=sectionlist,
+            sections=sections,
             port_names=("e1", "e2"),
             port_types=("electrical", "electrical"),
         )
@@ -202,28 +203,29 @@ def straight_heater_meander_doped(
         )
 
         valid_orientations = {p.orientation for p in via.ports}
-
+        ports1: Iterable[Port] = []
+        ports2: Iterable[Port] = []
         if port_orientation1 is None:
-            p1 = via_stack_west.ports
+            ports1 = via_stack_west.ports
         else:
-            p1 = via_stack_west.ports.filter(orientation=port_orientation1)
+            ports1 = via_stack_west.ports.filter(orientation=port_orientation1)
 
         if port_orientation2 is None:
-            p2 = via_stack_east.ports
+            ports2 = via_stack_east.ports
         else:
-            p2 = via_stack_east.ports.filter(orientation=port_orientation2)
+            ports2 = via_stack_east.ports.filter(orientation=port_orientation2)
 
-        if not p1:
+        if not ports1:
             raise ValueError(
                 f"No ports for port_orientation1 {port_orientation1} in {valid_orientations}"
             )
-        if not p2:
+        if not ports2:
             raise ValueError(
                 f"No ports for port_orientation2 {port_orientation2} in {valid_orientations}"
             )
 
-        c.add_ports(p1, prefix="l_")
-        c.add_ports(p2, prefix="r_")
+        c.add_ports(ports1, prefix="l_")
+        c.add_ports(ports2, prefix="r_")
 
     # delete any straights with zero length
     for inst in list(c.insts):

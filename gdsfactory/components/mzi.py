@@ -3,7 +3,7 @@ from __future__ import annotations
 from functools import partial
 
 import gdsfactory as gf
-from gdsfactory.component import Component
+from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.straight_heater_metal import straight_heater_metal
@@ -100,10 +100,10 @@ def mzi(
     cp2 = gf.get_component(combiner) if combiner else cp1
 
     if with_splitter:
-        cp1 = c << cp1
+        cp1 = c << cp1  # type: ignore
         cp1.name = "cp1"
 
-    cp2 = c << cp2
+    cp2_reference = c << cp2
     b5 = c << bend
     b5.connect(port1, cp1.ports[port_e0_splitter], mirror=True)
     b5.name = "b5"
@@ -151,8 +151,10 @@ def mzi(
     b2.name = "b2"
 
     sxt.connect(port1, b2.ports[port1])
-    cp2.mirror_x()
-    cp2.dxmin = sxt.ports[port2].dx + bend.info["radius"] * nbends + 2 * min_length
+    cp2_reference.mirror_x()
+    cp2_reference.dxmin = (
+        sxt.ports[port2].dx + bend.info["radius"] * nbends + 2 * min_length
+    )
 
     gap_ports_combiner = cp1.ports[port_e0_splitter].dy - cp1.ports[port_e1_splitter].dy
     gap_ports_splitter = cp2.ports[port_e0_combiner].dy - cp2.ports[port_e1_combiner].dy

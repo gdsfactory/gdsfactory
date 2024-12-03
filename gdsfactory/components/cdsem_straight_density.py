@@ -38,7 +38,7 @@ def cdsem_straight_density(
     c = Component()
     label = label or f"{int(widths[0] * 1e3)} {int(gaps[0] * 1e3)}"
 
-    ymin = 0
+    ymin = 0.0
     tooth_ref: ComponentReference | None = None
     for width, gap in zip(widths, gaps):
         tooth_ref = c << straight(

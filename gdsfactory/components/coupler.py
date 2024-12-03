@@ -62,7 +62,7 @@ def coupler(
     x.add_bbox(c)
     c.flatten()
     if not allow_min_radius_violation:
-        x.validate_radius(x.radius)
+        x.validate_radius(x.radius)  # type: ignore
     return c
 
 

@@ -120,6 +120,7 @@ Layers: TypeAlias = Sequence[Layer]
 LayerSpec: TypeAlias = LayerEnum | str | tuple[int, int]
 LayerSpecs: TypeAlias = Sequence[LayerSpec]
 
+
 AnyComponent: TypeAlias = Component | ComponentAllAngle
 AnyComponentT = TypeVar("AnyComponentT", bound=AnyComponent)
 AnyComponentFactory: TypeAlias = Callable[..., AnyComponent]
@@ -130,6 +131,12 @@ ComponentFactory: TypeAlias = Callable[..., Component]
 ComponentAllAngleFactory: TypeAlias = Callable[..., ComponentAllAngle]
 ComponentBaseFactory: TypeAlias = Callable[..., ComponentBase]
 ComponentFactoryDict: TypeAlias = dict[str, ComponentFactory]
+ComponentFactories: TypeAlias = Sequence[ComponentFactory]
+
+ComponentSpec: TypeAlias = str | ComponentFactory | dict[str, Any] | kf.KCell
+ComponentSpecOrComponent: TypeAlias = ComponentSpec | Component
+ComponentSpecs: TypeAlias = Sequence[ComponentSpec]
+ComponentSpecsOrComponents: TypeAlias = Sequence[ComponentSpecOrComponent]
 
 PathType: TypeAlias = str | pathlib.Path
 PathTypes: TypeAlias = Sequence[PathType]
@@ -167,14 +174,6 @@ PortNames: TypeAlias = Sequence[PortName]
 
 Sparameters: TypeAlias = dict[str, npt.NDArray[np.float64]]
 
-ComponentSpec: TypeAlias = str | ComponentFactory | dict[str, Any] | kf.KCell
-ComponentSpecOrComponent: TypeAlias = (
-    str | ComponentFactory | dict[str, Any] | kf.KCell | Component
-)
-
-ComponentSpecs: TypeAlias = Sequence[ComponentSpec]
-ComponentSpecsOrComponents: TypeAlias = Sequence[ComponentSpecOrComponent]
-ComponentFactories: TypeAlias = Sequence[ComponentFactory]
 
 ComponentSpecOrList: TypeAlias = ComponentSpec | list[ComponentSpec]
 CellSpec: TypeAlias = (

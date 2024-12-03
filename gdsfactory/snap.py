@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import warnings
+from collections.abc import Callable
 from functools import partial
+from typing import TypeVar
 
 import kfactory as kf
 import numpy as np
@@ -47,11 +49,14 @@ def assert_on_2x_grid(x: float) -> None:
         raise ValueError(f"{x} needs to be on 2x grid and should be {x_grid}")
 
 
+T = TypeVar("T", bound=Value)
+
+
 def snap_to_grid(
-    x: Value,
+    x: T,
     nm: int | None = None,
     grid_factor: int = 1,
-) -> npt.NDArray[np.float64]:
+) -> T:
     """Snap x to grid.
 
     Args:

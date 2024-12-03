@@ -53,8 +53,8 @@ def ring_double_pn(
     drop_gap: float = 0.3,
     radius: float = 5.0,
     doping_angle: float = 85,
-    cross_section: CrossSectionFactory = rib,
-    pn_cross_section: CrossSectionFactory = cross_section_pn,
+    cross_section_factory: CrossSectionFactory = rib,
+    pn_cross_section_factory: CrossSectionFactory = cross_section_pn,
     doped_heater: bool = True,
     doped_heater_angle_buffer: float = 10,
     doped_heater_layer: LayerSpec = "NPP",
@@ -73,8 +73,8 @@ def ring_double_pn(
         doping_angle: angle in degrees representing portion of ring that is doped.
         length_x: ring coupler length.
         length_y: vertical straight length.
-        cross_section: cross_section spec for non-PN doped rib waveguide sections.
-        pn_cross_section: cross section of pn junction.
+        cross_section_factory: cross_section spec for non-PN doped rib waveguide sections.
+        pn_cross_section_factory: cross section of pn junction.
         doped_heater: boolean for if we include doped heater or not.
         doped_heater_angle_buffer: angle in degrees buffering heater from pn junction.
         doped_heater_layer: doping layer for heater.
@@ -89,8 +89,8 @@ def ring_double_pn(
     drop_gap = gf.snap.snap_to_grid(drop_gap, grid_factor=2)
     c = gf.Component()
 
-    pn_cross_section = gf.get_cross_section(pn_cross_section, **kwargs)
-    cross_section = gf.get_cross_section(cross_section)
+    pn_cross_section = gf.get_cross_section(pn_cross_section_factory, **kwargs)
+    cross_section = gf.get_cross_section(cross_section_factory)
     cross_section = cross_section.copy(**kwargs)
 
     heater_vias = gf.get_component(heater_vias)
@@ -136,7 +136,7 @@ def ring_double_pn(
     top_undoped_ring_ref.connect("o2", left_doped_ring_ref.ports["o2"])
 
     ring = c.create_vinst(r)
-    ring.dcenter = (0, 0)
+    ring.dcenter = (0, 0)  # type: ignore
 
     drop_waveguide_dy = (
         radius
