@@ -3,7 +3,7 @@ from __future__ import annotations
 from functools import partial
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentReference
+from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.straight_heater_metal import straight_heater_metal
@@ -157,7 +157,10 @@ def mzi(
     )
 
     gap_ports_combiner = cp1.ports[port_e0_splitter].dy - cp1.ports[port_e1_splitter].dy
-    gap_ports_splitter = cp2.ports[port_e0_combiner].dy - cp2.ports[port_e1_combiner].dy
+    gap_ports_splitter = (
+        cp2_reference.ports[port_e0_combiner].dy
+        - cp2_reference.ports[port_e1_combiner].dy
+    )
     delta_gap_ports = gap_ports_combiner - gap_ports_splitter
 
     # Top arm
@@ -188,13 +191,13 @@ def mzi(
     b8.connect(port2, sybr.ports[port2])
     b8.name = "b8"
 
-    cp2.connect(port_e1_combiner, b4.ports[port2])
+    cp2_reference.connect(port_e1_combiner, b4.ports[port2])
 
     sytl.name = "sytl"
     syl.name = "syl"
     sxt.name = "sxt"
     sxb.name = "sxb"
-    cp2.name = "cp2"
+    cp2_reference.name = "cp2"
 
     sytr.name = "sytr"
     sybr.name = "sybr"
@@ -204,7 +207,7 @@ def mzi(
     else:
         c.add_port(port1, port=b1.ports[port1])
         c.add_port(port2, port=b5.ports[port1])
-    c.add_ports(cp2.ports.filter(orientation=0), prefix="ou_")
+    c.add_ports(cp2_reference.ports.filter(orientation=0), prefix="ou_")
     c.add_ports(sxt.ports.filter(port_type="electrical"), prefix="top_")
     c.add_ports(sxb.ports.filter(port_type="electrical"), prefix="bot_")
     c.add_ports(sxt.ports.filter(port_type="placement"), prefix="top_")

@@ -378,10 +378,6 @@ class Pdk(BaseModel):
         elif isinstance(component, kf.KCell):
             return Component.from_kcell(component)
         elif callable(component):
-            print(f"calling {component} of type {type(component)}")
-            result = component(**kwargs)
-            print(f"Return type: {type(result)}")
-            return result
             return component(**kwargs)
         elif isinstance(component, str):
             if component not in cells:
