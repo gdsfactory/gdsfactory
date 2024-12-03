@@ -10,7 +10,7 @@ from gdsfactory.typings import LayerSpec
 
 
 @gf.cell
-def pixel(size: int = 1.0, layer: LayerSpec = "WG") -> Component:
+def pixel(size: int = 1, layer: LayerSpec = "WG") -> Component:
     c = gf.Component()
     a = size / 2
     c.add_polygon([(a, a), (a, -a), (-a, -a), (-a, a)], layer)
@@ -26,18 +26,18 @@ def qrcode(data: str = "mask01", psize: int = 1, layer: LayerSpec = "WG") -> Com
         psize: pixel size.
         layer: layer to use.
     """
-    import qrcode
+    import qrcode  # type: ignore[import-untyped]
 
     pix = pixel(size=psize, layer=layer)
-    q = qrcode.QRCode()
-    q.add_data(data)
-    matrix = q.get_matrix()
+    q = qrcode.QRCode()  # type: ignore
+    q.add_data(data)  # type: ignore
+    matrix = q.get_matrix()  # type: ignore
     c = gf.Component()
-    for i, row in enumerate(matrix):
-        for j, value in enumerate(row):
+    for i, row in enumerate(matrix):  # type: ignore
+        for j, value in enumerate(row):  # type: ignore
             if value:
                 ref = c << pix
-                ref.dcenter = (i * psize, j * psize)
+                ref.dcenter = (i * psize, j * psize)  # type: ignore
     c.flatten()
     return c
 
@@ -70,25 +70,32 @@ def version_stamp(
     if with_qr_code:
         data = f"{timestamp}/{platform.node()}"
         q = c << qrcode(layer=layer, data=data, psize=pixel_size)
-        q.dcenter = (0, 0)
+        q.dcenter = (0, 0)  # type: ignore
         x = q.dxsize * 0.5 + 10
 
     else:
         x = 0
 
-    txt_params = {"layer": layer, "justify": "left", "size": text_size}
     _ = c << text(
-        position=(x, text_size + 2 * pixel_size), text=short_stamp, **txt_params
+        position=(x, text_size + 2 * pixel_size),
+        text=short_stamp,
+        layer=layer,
+        justify="left",
+        size=text_size,
     )
 
     if version:
-        _ = c << text(position=(x, 0), text=version, **txt_params)
+        _ = c << text(
+            position=(x, 0), text=version, layer=layer, justify="left", size=text_size
+        )
 
     for i, line in enumerate(labels):
         _ = c << text(
             position=(x, -(i + 1) * (text_size + 2 * pixel_size)),
             text=line,
-            **txt_params,
+            layer=layer,
+            justify="left",
+            size=text_size,
         )
 
     c.flatten()

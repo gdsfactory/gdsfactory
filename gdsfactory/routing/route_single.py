@@ -28,7 +28,7 @@ To generate a route:
 from __future__ import annotations
 
 from collections.abc import Mapping, Sequence
-from typing import Any, Literal
+from typing import Literal
 
 import kfactory as kf
 from kfactory.routing.electrical import route_elec
@@ -46,7 +46,6 @@ from gdsfactory.typings import (
     Coordinates,
     CrossSectionSpec,
     LayerSpec,
-    MultiCrossSectionAngleSpec,
     Port,
 )
 
@@ -133,11 +132,7 @@ def route_single(
         p1 = add_auto_tapers(component, [p1], cross_section)[0]
         p2 = add_auto_tapers(component, [p2], cross_section)[0]
 
-    def straight_dbu(
-        length: int,
-        cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = cross_section,  # type: ignore[assignment]
-        **kwargs: Any,
-    ) -> Component:
+    def straight_dbu(width: int, length: int) -> Component:
         return gf.get_component(
             straight,
             length=c.kcl.to_um(length),
@@ -154,7 +149,7 @@ def route_single(
     if waypoints is None:
         waypoints = []
     else:
-        waypoints = list(waypoints)
+        waypoints = waypoints
 
     if steps is None:
         steps = []
@@ -406,7 +401,7 @@ if __name__ == "__main__":
     s1 = c << gf.components.straight()
     s2 = c << gf.components.straight(width=2)
     s2.dmove((100, 50))
-    route = gf.routing.route_single(
+    route_ = gf.routing.route_single(
         c,
         port1=s1.ports["o2"],
         port2=s2.ports["o1"],

@@ -58,6 +58,8 @@ def mzi_pads_center(
 
     pad_pitch = gf.get_constant(pad_pitch)
 
+    assert isinstance(pad_pitch, float)
+
     mzi_ps = gf.get_component(
         mzi,
         length_x=length_x,

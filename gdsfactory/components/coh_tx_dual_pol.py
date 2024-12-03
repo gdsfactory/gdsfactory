@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.component import Component
+from gdsfactory.component import Component, ComponentReference
 from gdsfactory.routing.route_single import route_single
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
@@ -58,20 +58,20 @@ def coh_tx_dual_pol(
     sp.dx = single_tx_1.dxmin - xspacing
     sp.dy = (single_tx_1.ports["o1"].dy + single_tx_2.ports["o1"].dy) / 2
 
-    route = route_single(
+    route_single(
         c,
         sp.ports["o2"],
         single_tx_1.ports["o1"],
         cross_section=cross_section,
     )
 
-    route = route_single(
+    route_single(
         c,
         sp.ports["o3"],
         single_tx_2.ports["o1"],
         cross_section=cross_section,
     )
-
+    comb: ComponentReference | None = None
     if combiner:
         combiner = gf.get_component(combiner)
         comb = c << combiner
@@ -80,21 +80,19 @@ def coh_tx_dual_pol(
         comb.dx = single_tx_1.dxmax + xspacing
         comb.dy = (single_tx_1.ports["o2"].dy + single_tx_2.ports["o2"].dy) / 2
 
-        route = route_single(
+        route_single(
             c,
             comb.ports["o2"],
             single_tx_1.ports["o2"],
             cross_section=cross_section,
         )
-        c.add(route.references)
 
-        route = route_single(
+        route_single(
             c,
             comb.ports["o3"],
             single_tx_2.ports["o2"],
             cross_section=cross_section,
         )
-        c.add(route.references)
 
     if input_coupler:
         in_coupler = gf.get_component(input_coupler)
@@ -107,7 +105,7 @@ def coh_tx_dual_pol(
     if output_coupler:
         output_coupler = gf.get_component(output_coupler)
         out_coup = c << output_coupler
-        if combiner:
+        if combiner and comb is not None:
             out_coup.connect("o1", comb.ports["o1"])
         else:
             # Directly connect the output coupler to the branches.
@@ -115,14 +113,14 @@ def coh_tx_dual_pol(
             out_coup.dy = (single_tx_1.dy + single_tx_2.dy) / 2
             out_coup.dxmin = single_tx_1.dxmax + 40.0
 
-            route = route_single(
+            route_single(
                 c,
                 single_tx_1.ports["o2"],
                 out_coup.ports["o1"],
                 cross_section=cross_section,
             )
 
-            route = route_single(
+            route_single(
                 c,
                 single_tx_2.ports["o2"],
                 out_coup.ports["o2"],
@@ -138,5 +136,5 @@ def coh_tx_dual_pol(
 
 
 if __name__ == "__main__":
-    c = coh_tx_dual_pol()
+    c = coh_tx_dual_pol(combiner="mmi2x2")
     c.show()

@@ -1,9 +1,11 @@
 from __future__ import annotations
 
+from collections.abc import Sequence
+
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.component import Component
+from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.coupler import coupler
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
@@ -11,10 +13,10 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 @gf.cell
 def ring_crow_couplers(
-    radius: tuple[float, ...] = (10.0,) * 3,
-    bends: list[ComponentSpec] = (bend_circular,) * 3,
-    ring_cross_sections: list[CrossSectionSpec] = ("strip",) * 3,
-    couplers: list[ComponentSpec] = (coupler,) * 4,
+    radius: Sequence[float] = (10.0,) * 3,
+    bends: Sequence[ComponentSpec] = (bend_circular,) * 3,
+    ring_cross_sections: Sequence[CrossSectionSpec] = ("strip",) * 3,
+    couplers: Sequence[ComponentSpec] = (coupler,) * 4,
 ) -> Component:
     """Coupled ring resonators with coupler components between gaps.
 
@@ -52,7 +54,7 @@ def ring_crow_couplers(
     """
     c = Component()
 
-    couplers_refs = []
+    couplers_refs: list[ComponentReference] = []
     for cp in couplers:
         coupler_ref = c.add_ref(gf.get_component(cp))
         couplers_refs.append(coupler_ref)

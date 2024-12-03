@@ -29,6 +29,7 @@ from typing import Any, Generator, Literal, ParamSpec, TypeAlias, TypeVar
 import kfactory as kf
 import numpy as np
 import numpy.typing as npt
+from kfactory.cross_section import SymmetricalCrossSection
 from kfactory.kcell import LayerEnum
 
 from gdsfactory.component import (
@@ -181,7 +182,9 @@ CellSpec: TypeAlias = (
 )
 
 ComponentSpecDict: TypeAlias = dict[str, ComponentSpec]
-CrossSectionSpec: TypeAlias = CrossSectionFactory | CrossSection | dict[str, Any] | str
+CrossSectionSpec: TypeAlias = (
+    CrossSectionFactory | CrossSection | SymmetricalCrossSection | dict[str, Any] | str
+)
 CrossSectionSpecs: TypeAlias = tuple[CrossSectionSpec, ...]
 
 MultiCrossSectionAngleSpec: TypeAlias = list[tuple[CrossSectionSpec, tuple[int, ...]]]

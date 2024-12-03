@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Any
 
 import gdsfactory as gf
-from gdsfactory.component import Component
+from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.mzi_arm import mzi_arm
@@ -83,6 +83,7 @@ def mzi_arms(
     cp1 = get_component(splitter)
     cp2 = get_component(combiner)
 
+    cin: ComponentReference | None = None
     if with_splitter:
         cin = c << cp1
     cout = c << cp2
@@ -141,9 +142,9 @@ def mzi_arms(
 
     top_arm.connect("o1", port_e1_cp1)
     bot_arm.connect("o1", port_e0_cp1, mirror=True)
-    cout.connect(port_e1_cp2.name, bot_arm.ports["o2"])
+    cout.connect(port_e1_cp2, bot_arm.ports["o2"])
 
-    if with_splitter:
+    if with_splitter and cin:
         c.add_ports(cin.ports.filter(orientation=180), prefix="in")
     else:
         c.add_port("o1", port=bot_arm.ports["o1"])
@@ -161,5 +162,5 @@ if __name__ == "__main__":
 
     import gdsfactory as gf
 
-    c = mzi_arms(splitter=partial(gf.c.mmi1x2, gap_mmi=1), combiner=gf.c.mmi1x2)
+    c = mzi_arms(splitter=partial(mmi1x2, gap_mmi=1), combiner=mmi1x2)
     c.show()
