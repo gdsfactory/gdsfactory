@@ -4,7 +4,7 @@ from collections.abc import Iterable
 from functools import partial
 
 import gdsfactory as gf
-from gdsfactory.component import Component
+from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.via import via
 from gdsfactory.components.via_stack import via_stack
 from gdsfactory.cross_section import Section
@@ -98,7 +98,7 @@ def straight_heater_meander_doped(
     straight_length = gf.snap.snap_to_grid2x(
         (length - (rows - 1) * c.kcl.to_um(route.length)) / rows,
     )
-    ports = {}
+    ports: dict[str, Port] = {}
 
     if straight_length - 2 * taper_length <= 0:
         raise ValueError("straight_length - 2 * taper_length <= 0")
@@ -172,6 +172,8 @@ def straight_heater_meander_doped(
     c.add_port("o1", port=straight1.ports["o1"])
     c.add_port("o2", port=straight2.ports["o2"])
 
+    heater: ComponentReference | None = None
+
     if layers_doping:
         sections: tuple[Section, ...] = ()
         for doping_layer in layers_doping:
@@ -191,7 +193,7 @@ def straight_heater_meander_doped(
         )
         heater.dmovey(spacing * (rows // 2))
 
-    if layers_doping and via_stack:
+    if layers_doping and via_stack and heater is not None:
         via = via_stacke = via_stackw = gf.get_component(via_stack)
         via_stack_west = c << via_stackw
         via_stack_east = c << via_stacke

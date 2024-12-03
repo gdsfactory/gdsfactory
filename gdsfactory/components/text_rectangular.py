@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections.abc import Callable
 from functools import partial
 from typing import Any
 
@@ -7,7 +8,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.copy_layers import copy_layers
 from gdsfactory.components.text_rectangular_font import pixel_array, rectangular_font
-from gdsfactory.typings import Callable, ComponentSpec, LayerSpec, LayerSpecs
+from gdsfactory.typings import ComponentSpec, LayerSpec, LayerSpecs
 
 
 @gf.cell
@@ -36,7 +37,7 @@ def text_rectangular(
     yoffset = position[1]
     component = gf.Component()
     characters = font()
-    layers = layers or [layer]
+    layer_list = layers or [layer] if layer else []
 
     # Extract pixel width count from font definition.
     # Example below is 5, and 7 for FONT_LITHO.
@@ -53,7 +54,7 @@ def text_rectangular(
                 print(f"skipping character {character!r} not in font")
             else:
                 pixels = characters[character.upper()]
-                for layer in layers:
+                for layer in layer_list:
                     ref = component.add_ref(
                         pixel_array(pixels=pixels, pixel_size=pixel_size, layer=layer)
                     )

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from collections.abc import Iterable
+from collections.abc import Sequence
 from functools import partial
 from typing import Any
 
@@ -18,11 +18,11 @@ text_rectangular_mini = partial(text_rectangular, size=1)
 @gf.cell
 def cdsem_coupler(
     length: float = 420.0,
-    gaps: tuple[float, ...] = (0.15, 0.2, 0.25),
+    gaps: Sequence[float] = (0.15, 0.2, 0.25),
     cross_section: CrossSectionSpec = "strip",
     text: ComponentFactory | None = text_rectangular_mini,
     spacing: float = 7.0,
-    positions: Iterable[float | None] | None = None,
+    positions: Sequence[float | None] | None = None,
     **kwargs: Any,
 ) -> Component:
     """Returns 2 coupled waveguides gap sweep.

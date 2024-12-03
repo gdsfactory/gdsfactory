@@ -23,8 +23,8 @@ from __future__ import annotations
 
 import dataclasses
 import pathlib
-from collections.abc import Callable, Iterable, Sequence
-from typing import Any, Generator, Literal, ParamSpec, TypeAlias, TypeVar
+from collections.abc import Callable, Generator, Sequence
+from typing import Any, Literal, ParamSpec, TypeAlias, TypeVar
 
 import kfactory as kf
 import numpy as np
@@ -163,7 +163,7 @@ PortFactory: TypeAlias = Callable[..., Port]
 PortsFactory: TypeAlias = Callable[..., Sequence[Port]]
 PortSymmetries: TypeAlias = dict[str, Sequence[str]]
 PortsDict: TypeAlias = dict[str, Port]
-Ports: TypeAlias = kf.Ports | Sequence[Port] | Iterable[Port]
+Ports: TypeAlias = kf.Ports | Sequence[Port]
 SelectPorts: TypeAlias = Callable[..., Sequence[Port]]
 
 PortType: TypeAlias = str

@@ -9,16 +9,18 @@ from gdsfactory.components.compass import compass, valid_port_orientations
 from gdsfactory.typings import (
     AngleInDegrees,
     ComponentFactory,
+    ComponentSpec,
     Float2,
     Ints,
     LayerSpec,
+    Size,
     Spacing,
 )
 
 
 @gf.cell
 def pad(
-    size: str | Float2 = (100.0, 100.0),
+    size: Size = (100.0, 100.0),
     layer: LayerSpec = "MTOP",
     bbox_layers: tuple[LayerSpec, ...] | None = None,
     bbox_offsets: tuple[float, ...] | None = None,
@@ -57,7 +59,7 @@ def pad(
     c.info["ysize"] = size[1]
 
     if bbox_layers and bbox_offsets:
-        sizes = []
+        sizes: list[Size] = []
         for cladding_offset in bbox_offsets:
             size = (size[0] + 2 * cladding_offset, size[1] + 2 * cladding_offset)
             sizes.append(size)
@@ -94,7 +96,7 @@ pad_small = partial(pad, size=(80, 80))
 
 @gf.cell
 def pad_array(
-    pad: ComponentFactory = "pad",
+    pad: ComponentSpec = "pad",
     spacing: Spacing | None = None,
     columns: int = 6,
     rows: int = 1,
@@ -132,12 +134,16 @@ def pad_array(
         column_pitch, row_pitch = spacing
 
     c = Component()
-    pad = gf.get_component(
+    pad_component = gf.get_component(
         pad, size=size, layer=layer, port_orientations=None, port_orientation=None
     )
 
     c.add_ref(
-        pad, columns=columns, rows=rows, column_pitch=column_pitch, row_pitch=row_pitch
+        pad_component,
+        columns=columns,
+        rows=rows,
+        column_pitch=column_pitch,
+        row_pitch=row_pitch,
     )
     width = size[0] if port_orientation in {90, 270} else size[1]
 

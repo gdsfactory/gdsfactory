@@ -149,7 +149,7 @@ def route_single(
     if waypoints is None:
         waypoints = []
     else:
-        waypoints = waypoints
+        waypoints = list(waypoints)
 
     if steps is None:
         steps = []
@@ -163,8 +163,8 @@ def route_single(
                     f"Invalid step directives: {invalid_step_directives}."
                     f"Valid directives are {list(STEP_DIRECTIVES)}"
                 )
-            x = d.get("x", x) + d.get("dx", 0)
-            y = d.get("y", y) + d.get("dy", 0)
+            x = float(d.get("x", x) + d.get("dx", 0.0))
+            y = float(d.get("y", y) + d.get("dy", 0.0))
             waypoints += [(x, y)]
 
     if len(waypoints) > 0:

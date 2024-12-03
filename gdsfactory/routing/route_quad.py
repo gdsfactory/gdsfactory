@@ -6,7 +6,7 @@ import numpy as np
 import numpy.typing as npt
 
 import gdsfactory as gf
-from gdsfactory.port import Port
+from gdsfactory.typings import Port
 
 
 def _get_rotated_basis(

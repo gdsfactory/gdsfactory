@@ -12,7 +12,7 @@ import hashlib
 import math
 import warnings
 from collections.abc import Callable, Iterator
-from typing import TYPE_CHECKING, Any, Literal, overload
+from typing import TYPE_CHECKING, Any, Literal, TypeVar, overload
 
 import numpy as np
 import numpy.typing as npt
@@ -608,9 +608,10 @@ def _linear_transition(y1: float, y2: float) -> Callable[[float], Any]:
     return linear
 
 
-def transition_exponential(
-    y1: float, y2: float, exp: float = 0.5
-) -> Callable[[float], float]:
+T = TypeVar("T", float, npt.NDArray[np.float64])
+
+
+def transition_exponential(y1: float, y2: float, exp: float = 0.5) -> Callable[[T], T]:
     """Returns the function for an exponential transition.
 
     Args:
@@ -619,7 +620,7 @@ def transition_exponential(
         exp: exponent.
 
     """
-    return lambda t: y1 + (y2 - y1) * t**exp
+    return lambda t: y1 + (y2 - y1) * t**exp  # type: ignore
 
 
 adiabatic_polyfit_TE1550SOI_220nm = np.array(

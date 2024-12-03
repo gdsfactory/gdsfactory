@@ -89,8 +89,8 @@ def seal_ring_segmented(
     length_segment: float = 10,
     width_segment: float = 3,
     spacing_segment: float = 2,
-    corner: gf.Component = "via_stack_corner45_extended",
-    via_stack: gf.Component = "via_stack_m1_mtop",
+    corner: ComponentSpec = "via_stack_corner45_extended",
+    via_stack: ComponentSpec = "via_stack_m1_mtop",
     with_north: bool = True,
     with_south: bool = True,
     with_east: bool = True,
@@ -113,7 +113,7 @@ def seal_ring_segmented(
         padding: from component to seal.
     """
     c = gf.Component()
-    corner = gf.get_component(corner, width=width_segment)
+    corner_component = gf.get_component(corner, width=width_segment)
 
     if not isinstance(component, gf.Instance):
         component = gf.get_component(component)
@@ -126,8 +126,8 @@ def seal_ring_segmented(
     ymin -= padding
     ymax += padding
 
-    tl = c << corner
-    tr = c << corner
+    tl = c << corner_component
+    tr = c << corner_component
 
     tl.dxmin = xmin
     tl.dymax = ymax
@@ -136,8 +136,8 @@ def seal_ring_segmented(
     tr.dxmax = xmax
     tr.dymax = ymax
 
-    bl = c << corner
-    br = c << corner
+    bl = c << corner_component
+    br = c << corner_component
     br.dmirror()
     br.dmirror_y()
     bl.dmirror_y()

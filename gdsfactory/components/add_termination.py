@@ -28,6 +28,8 @@ def add_termination(
     terminator = gf.get_component(terminator)
     terminator_port_name = terminator_port_name or terminator.ports[0].name
 
+    assert terminator_port_name is not None
+
     c = Component()
     component = gf.get_component(component)
     ref = c.add_ref(component)

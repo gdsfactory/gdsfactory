@@ -49,6 +49,7 @@ if TYPE_CHECKING:
         AngleInDegrees,
         ComponentFactory,
         PathType,
+        Ports,
         SelectPorts,
     )
 
@@ -328,7 +329,7 @@ def sort_ports_counter_clockwise(ports: kf.Ports) -> kf.Ports:
 
 
 def select_ports(
-    ports: kf.Ports | kf.Instance,
+    ports: "Ports | kf.Instance | kf.kcell.InstancePorts",
     layer: LayerSpec | None = None,
     prefix: str | None = None,
     suffix: str | None = None,
@@ -397,7 +398,9 @@ select_ports_electrical = partial(select_ports, port_type="electrical")
 select_ports_placement = partial(select_ports, port_type="placement")
 
 
-def select_ports_list(ports: kf.Ports | kf.Instance, **kwargs: Any) -> kf.Ports:
+def select_ports_list(
+    ports: "Ports | kf.Instance | kf.kcell.InstancePorts", **kwargs: Any
+) -> "Ports":
     return select_ports(ports=ports, **kwargs)
 
 

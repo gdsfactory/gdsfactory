@@ -4,16 +4,13 @@ from __future__ import annotations
 
 import warnings
 
-import kfactory as kf
-
 import gdsfactory as gf
-from gdsfactory.port import Port
-from gdsfactory.typings import CrossSectionSpec
+from gdsfactory.typings import CrossSectionSpec, Port, Ports
 
 
 def add_auto_tapers(
     component: gf.Component,
-    ports: list[kf.Port],
+    ports: Ports,
     cross_section: CrossSectionSpec,
 ) -> list[Port]:
     """Adds tapers to the ports of a component (to be used for routing) and returns the new lists of ports.
