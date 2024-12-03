@@ -278,7 +278,7 @@ from gdsfactory.components.text_rectangular import (
 from gdsfactory.components.triangles import triangle, triangle2, triangle4
 from gdsfactory.components.verniers import verniers
 from gdsfactory.components.version_stamp import pixel, qrcode, version_stamp
-from gdsfactory.components.via import via, via1, via2, viac
+from gdsfactory.components.via import via, via1, via2, via_circular, viac
 from gdsfactory.components.via_chain import via_chain
 from gdsfactory.components.via_corner import via_corner
 from gdsfactory.components.via_stack import (
@@ -546,6 +546,7 @@ __all__ = [
     "via1",
     "via2",
     "via_chain",
+    "via_circular",
     "via_corner",
     "via_stack",
     "via_stack_corner45",

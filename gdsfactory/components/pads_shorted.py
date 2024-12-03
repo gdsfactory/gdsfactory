@@ -11,7 +11,7 @@ from gdsfactory.typings import ComponentSpec, LayerSpec
 def pads_shorted(
     pad: ComponentSpec = pad_function,
     columns: int = 8,
-    pad_spacing: float = 150.0,
+    pad_pitch: float = 150.0,
     layer_metal: LayerSpec = "MTOP",
     metal_width: float = 10,
 ) -> Component:
@@ -20,7 +20,7 @@ def pads_shorted(
     Args:
         pad: pad spec.
         columns: number of columns.
-        pad_spacing: in um
+        pad_pitch: in um
         layer_metal: for the short.
         metal_width: for the short.
     """
@@ -28,10 +28,10 @@ def pads_shorted(
     pad = gf.get_component(pad)
     for i in range(columns):
         pad_ref = c.add_ref(pad)
-        pad_ref.dmovex(i * pad_spacing - columns / 2 * pad_spacing + pad_spacing / 2)
+        pad_ref.dmovex(i * pad_pitch - columns / 2 * pad_pitch + pad_pitch / 2)
 
     short = rectangle(
-        size=(pad_spacing * (columns - 1), metal_width),
+        size=(pad_pitch * (columns - 1), metal_width),
         layer=layer_metal,
         centered=True,
     )

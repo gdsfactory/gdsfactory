@@ -26,7 +26,7 @@ def add_fiber_single(
     select_ports: SelectPorts = select_ports_optical,
     cross_section: CrossSectionSpec = "strip",
     input_port_names: Sequence[str] | None = None,
-    fiber_spacing: float = 70,
+    pitch: float = 70,
     with_loopback: bool = True,
     loopback_spacing: float = 100.0,
     straight: ComponentFactory = straight_function,
@@ -44,7 +44,7 @@ def add_fiber_single(
         select_ports: function to select ports.
         cross_section: cross_section function.
         input_port_names: list of input port names to connect to grating couplers.
-        fiber_spacing: spacing between fibers.
+        pitch: spacing between fibers.
         with_loopback: adds loopback structures.
         loopback_spacing: spacing between loopback and test structure.
         straight: straight spec.
@@ -150,7 +150,7 @@ def add_fiber_single(
         select_ports=select_ports,
         with_loopback=False,
         port_names=input_port_names,
-        fiber_spacing=fiber_spacing,
+        pitch=pitch,
         **kwargs,
     )
 
@@ -166,7 +166,7 @@ def add_fiber_single(
         select_ports=select_ports,
         with_loopback=False,
         port_names=output_port_names,
-        fiber_spacing=fiber_spacing,
+        pitch=pitch,
         **kwargs,
     )
     c2.copy_child_info(component)

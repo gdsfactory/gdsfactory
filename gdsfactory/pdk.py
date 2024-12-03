@@ -44,11 +44,9 @@ component_settings = ["function", "component", "settings"]
 cross_section_settings = ["function", "cross_section", "settings"]
 
 constants = {
-    "fiber_array_spacing": 127.0,
-    "fiber_spacing": 50.0,
     "fiber_input_to_output_spacing": 200.0,
     "metal_spacing": 10.0,
-    "pad_spacing": 100.0,
+    "pad_pitch": 100.0,
     "pad_size": (80, 80),
 }
 

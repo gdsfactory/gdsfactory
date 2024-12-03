@@ -69,16 +69,15 @@ instances:
       size:
       - 6.4
       - 2.7
-  via_S0p7_0p7_S2_2_GNone_bcb63a01_4050_350:
+  via_S0p7_0p7_SNone_GNon_c3f5c6aa_4050_350:
     column_pitch: 3.7
     columns: 10
     component: via
     info:
       enclosure: 2
+      pitch: 2
       xsize: 0.7
-      xspacing: 2
       ysize: 0.7
-      yspacing: 2
     row_pitch: 3.7
     rows: 10
     settings:
@@ -88,12 +87,11 @@ instances:
       enclosure: 2
       gap: null
       layer: VIA1
+      pitch: 2
       size:
       - 0.7
       - 0.7
-      spacing:
-      - 2
-      - 2
+      spacing: null
   via_stack_S11_11_LM2_MT_ff6eecb9_m6500_37800:
     component: via_stack
     info:
@@ -169,7 +167,7 @@ placements:
     rotation: 0
     x: 2.2
     y: 0.35
-  via_S0p7_0p7_S2_2_GNone_bcb63a01_4050_350:
+  via_S0p7_0p7_SNone_GNon_c3f5c6aa_4050_350:
     mirror: false
     rotation: 0
     x: 4.05

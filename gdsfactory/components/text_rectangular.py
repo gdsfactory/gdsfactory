@@ -16,7 +16,7 @@ def text_rectangular(
     size: float = 10.0,
     position: tuple[float, float] = (0.0, 0.0),
     justify: str = "left",
-    layer: LayerSpec = "WG",
+    layer: LayerSpec | None = "WG",
     layers: LayerSpecs | None = None,
     font: Callable[..., dict[str, str]] = rectangular_font,
 ) -> Component:

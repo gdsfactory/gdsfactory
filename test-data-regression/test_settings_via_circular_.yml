@@ -1,14 +1,12 @@
 info:
   enclosure: 1
   pitch: 2
+  radius: 0.35
   xsize: 0.7
   ysize: 0.7
-name: via_S0p7_0p7_SNone_GNon_e14245b6
+name: via_circular_R0p35_E1_LVIAC_P2
 settings:
-  bbox_offset: 0
   enclosure: 1
-  layer: VIA2
+  layer: VIAC
   pitch: 2
-  size:
-  - 0.7
-  - 0.7
+  radius: 0.35

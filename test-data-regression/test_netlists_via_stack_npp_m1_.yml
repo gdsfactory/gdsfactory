@@ -47,16 +47,15 @@ instances:
       size:
       - 11
       - 11
-  via_S0p7_0p7_S2_2_GNone_8696e860_m4000_m4000:
+  via_S0p7_0p7_SNone_GNon_372ed4f2_m4000_m4000:
     column_pitch: 2
     columns: 5
     component: via
     info:
       enclosure: 1
+      pitch: 2
       xsize: 0.7
-      xspacing: 2
       ysize: 0.7
-      yspacing: 2
     row_pitch: 2
     rows: 5
     settings:
@@ -66,12 +65,11 @@ instances:
       enclosure: 1
       gap: null
       layer: VIAC
+      pitch: 2
       size:
       - 0.7
       - 0.7
-      spacing:
-      - 2
-      - 2
+      spacing: null
 name: via_stack_S11_11_LWG_NP_2419ac71
 nets: []
 placements:
@@ -90,7 +88,7 @@ placements:
     rotation: 0
     x: 0
     y: 0
-  via_S0p7_0p7_S2_2_GNone_8696e860_m4000_m4000:
+  via_S0p7_0p7_SNone_GNon_372ed4f2_m4000_m4000:
     mirror: false
     rotation: 0
     x: -4

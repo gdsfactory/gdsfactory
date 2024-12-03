@@ -47,14 +47,13 @@ instances:
       size:
       - 4
       - 4
-  via_S0p7_0p7_S2_2_GNone_bcb63a01_0_0:
+  via_S0p7_0p7_SNone_GNon_c3f5c6aa_0_0:
     component: via
     info:
       enclosure: 2
+      pitch: 2
       xsize: 0.7
-      xspacing: 2
       ysize: 0.7
-      yspacing: 2
     settings:
       bbox_layers: null
       bbox_offset: 0
@@ -62,20 +61,18 @@ instances:
       enclosure: 2
       gap: null
       layer: VIA1
+      pitch: 2
       size:
       - 0.7
       - 0.7
-      spacing:
-      - 2
-      - 2
-  via_S0p7_0p7_S2_2_GNone_c1ab00a8_0_0:
+      spacing: null
+  via_S0p7_0p7_SNone_GNon_e14245b6_0_0:
     component: via
     info:
       enclosure: 1
+      pitch: 2
       xsize: 0.7
-      xspacing: 2
       ysize: 0.7
-      yspacing: 2
     settings:
       bbox_layers: null
       bbox_offset: 0
@@ -83,12 +80,11 @@ instances:
       enclosure: 1
       gap: null
       layer: VIA2
+      pitch: 2
       size:
       - 0.7
       - 0.7
-      spacing:
-      - 2
-      - 2
+      spacing: null
 name: via_stack_S4_4_LHEATER__371e9067
 nets: []
 placements:
@@ -107,12 +103,12 @@ placements:
     rotation: 0
     x: 0
     y: 0
-  via_S0p7_0p7_S2_2_GNone_bcb63a01_0_0:
+  via_S0p7_0p7_SNone_GNon_c3f5c6aa_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  via_S0p7_0p7_S2_2_GNone_c1ab00a8_0_0:
+  via_S0p7_0p7_SNone_GNon_e14245b6_0_0:
     mirror: false
     rotation: 0
     x: 0
