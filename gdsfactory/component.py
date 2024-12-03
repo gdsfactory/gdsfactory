@@ -133,7 +133,7 @@ class ComponentReference(kf.Instance):
         if __k == "_kfinst":
             return object.__getattribute__(self, "_kfinst")
         if __k in _deprecated_attributes:
-            match __k:
+            match __k:  # type: ignore
                 case "center":
                     return super().dcenter
                 case "mirror":
@@ -164,6 +164,7 @@ class ComponentReference(kf.Instance):
                     return super().dymax
                 case "ysize":
                     return super().dysize
+
         return super().__getattribute__(__k)
 
     def __setattr__(self, __k: str, __v: Any) -> None:

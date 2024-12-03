@@ -35,10 +35,10 @@ def compass(
         raise ValueError(f"dx={dx} and dy={dy} must be > 0")
 
     points = [
-        [-dx / 2.0, -dy / 2.0],
-        [-dx / 2.0, dy / 2],
-        [dx / 2, dy / 2],
-        [dx / 2, -dy / 2.0],
+        (-dx / 2.0, -dy / 2.0),
+        (-dx / 2.0, dy / 2),
+        (dx / 2, dy / 2),
+        (dx / 2, -dy / 2.0),
     ]
 
     c.add_polygon(points, layer=layer)

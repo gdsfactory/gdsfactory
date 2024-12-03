@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.component import Component
+from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.taper_cross_section import taper_cross_section
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Size
@@ -92,23 +92,23 @@ def straight_heater_doped_rib(
         heater_gap=heater_gap,
         width=width,
     )
-
+    taper_component: Component | None = None
     if taper:
-        taper = gf.get_component(
+        taper_component = gf.get_component(
             taper, cross_section1=cross_section, cross_section2=cross_section_heater
         )
-        length -= taper.dxsize * 2
+        length -= taper_component.dxsize * 2
 
     wg = c << gf.c.straight(
         cross_section=cross_section_heater,
         length=snap_to_grid(length),
     )
 
-    if taper:
-        taper1 = c << taper
+    if taper_component:
+        taper1 = c << taper_component
         taper1.connect("o2", wg.ports["o1"])
         c.add_port("o1", port=taper1.ports["o1"])
-        taper2 = c << taper
+        taper2 = c << taper_component
         taper2.dmirror()
         taper2.connect("o2", wg.ports["o2"])
         c.add_port("o2", port=taper2.ports["o1"])
@@ -117,18 +117,22 @@ def straight_heater_doped_rib(
         c.add_port("o2", port=wg.ports["o2"])
         c.add_port("o1", port=wg.ports["o1"])
 
+    via_stack_section: Component | None = None
     if via_stack_metal:
         via_stack_section = gf.get_component(via_stack_metal, size=via_stack_metal_size)
 
-    via_stacks = []
+    via_stacks: list[ComponentReference] = []
     length_via_stack = snap_to_grid(via_stack_size[1])
     length_section = snap_to_grid((length - length_via_stack) / nsections)
     x0 = via_stack_size[0] / 2 - xoffset_tip1
 
+    via_stack_top: ComponentReference | None = None
+    via_stack_bot: ComponentReference | None = None
+
     for i in range(nsections + 1):
         xi = x0 + length_section * i
 
-        if via_stack_metal and via_stack:
+        if via_stack_metal and via_stack and via_stack_section:
             via_stack_center = c.add_ref(via_stack_section)
             via_stack_center.dx = xi
             via_stack_ref = c << via_stack_section
@@ -148,29 +152,29 @@ def straight_heater_doped_rib(
             via_stack_bot.dx = xi
             via_stack_bot.dymax = -(heater_gap + width / 2 + via_stack_gap)
 
-    if via_stack:
+    if via_stack and via_stack_top and via_stack_bot:
         via_stack_top.dmovex(xoffset_tip2)
         via_stack_bot.dmovex(xoffset_tip2)
 
-    if via_stack_metal and via_stack:
+    if via_stack_metal and via_stack and via_stack_section:
         via_stack_length = length + via_stack_metal_size[0]
-        via_stack_top = c << gf.get_component(
+        via_stack_top_component = c << gf.get_component(
             via_stack_metal,
             size=(via_stack_length, via_stack_metal_size[0]),
         )
-        via_stack_bot = c << gf.get_component(
+        via_stack_bot_component = c << gf.get_component(
             via_stack_metal,
             size=(via_stack_length, via_stack_metal_size[0]),
         )
 
-        via_stack_bot.dxmin = via_stacks[0].dxmin
-        via_stack_top.dxmin = via_stacks[0].dxmin
+        via_stack_bot_component.dxmin = via_stacks[0].dxmin
+        via_stack_top_component.dxmin = via_stacks[0].dxmin
 
-        via_stack_top.dymin = via_stacks[0].dymax
-        via_stack_bot.dymax = via_stacks[1].dymin
+        via_stack_top_component.dymin = via_stacks[0].dymax
+        via_stack_bot_component.dymax = via_stacks[1].dymin
 
-        c.add_ports(via_stack_top.ports, prefix="top_")
-        c.add_ports(via_stack_bot.ports, prefix="bot_")
+        c.add_ports(via_stack_top_component.ports, prefix="top_")
+        c.add_ports(via_stack_bot_component.ports, prefix="bot_")
     c.flatten()
     return c
 

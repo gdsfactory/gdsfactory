@@ -37,7 +37,7 @@ def litho_steps(
 
     R1 = pc.rectangle(size=(line_spacing, height), layer=layer)
     D.add_ref(R1).dmovey(-height)
-    count = 0
+    count = 0.0
     for i in reversed(line_widths):
         count += line_spacing + i
         R2 = pc.rectangle(size=(i, height), layer=layer)

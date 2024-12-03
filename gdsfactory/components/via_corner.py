@@ -64,8 +64,7 @@ def via_corner(
                 orientation = 180
             else:
                 raise ValueError(f"Port orientation {orientations} not valid.")
-            ports = ref.ports
-            ports = select_ports(ports, orientation=orientation)
+            ports = select_ports(ref.ports, orientation=orientation)
             c.add_ports(ports, prefix=f"{layers_labels[i]}_")
 
     for via in vias:

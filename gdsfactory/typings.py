@@ -186,7 +186,9 @@ CrossSectionSpec: TypeAlias = (
 )
 CrossSectionSpecs: TypeAlias = tuple[CrossSectionSpec, ...]
 
-MultiCrossSectionAngleSpec: TypeAlias = list[tuple[CrossSectionSpec, tuple[int, ...]]]
+MultiCrossSectionAngleSpec: TypeAlias = Sequence[
+    tuple[CrossSectionSpec, tuple[int, ...]]
+]
 
 
 ConductorConductorName: TypeAlias = tuple[str, str]

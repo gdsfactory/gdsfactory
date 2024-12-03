@@ -1,7 +1,7 @@
 import gdsfactory as gf
-from gdsfactory.generic_tech import LAYER
+from gdsfactory.component import Component
+from gdsfactory.generic_tech.layer_map import LAYER
 from gdsfactory.typings import (
-    Component,
     ComponentSpec,
     CrossSectionSpec,
     LayerSpec,

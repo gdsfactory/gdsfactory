@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from functools import partial
 
+import klayout.db as kdb
+
 import gdsfactory as gf
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.snap import snap_to_grid
@@ -42,17 +44,17 @@ def seal_ring(
         component = gf.get_component(component)
 
     bbox = component.dbbox()
+    assert isinstance(bbox, kdb.DBox)
     xmin, ymin, xmax, ymax = bbox.left, bbox.bottom, bbox.right, bbox.top
     x = (xmax + xmin) / 2
     sx = xmax - xmin
     sy = ymax - ymin
 
-    snap = partial(snap_to_grid, grid_factor=2)
-    sx = snap(sx)
-    sy = snap(sy)
+    sx = snap_to_grid(sx, grid_factor=2)
+    sy = snap_to_grid(sy, grid_factor=2)
 
-    ymin_north = snap(ymax + padding)
-    ymax_south = snap(ymax - sy - padding)
+    ymin_north = snap_to_grid(ymax + padding, grid_factor=2)
+    ymax_south = snap_to_grid(ymax - sy - padding, grid_factor=2)
 
     # north south
     size_north_south = (sx + 2 * padding + 2 * width, width)

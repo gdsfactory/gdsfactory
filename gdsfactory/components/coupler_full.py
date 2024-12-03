@@ -4,7 +4,7 @@ from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import bend_s
+from gdsfactory.components.bend_s import bend_s
 from gdsfactory.typings import CrossSectionSpec, Delta
 
 

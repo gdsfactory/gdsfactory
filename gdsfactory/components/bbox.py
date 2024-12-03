@@ -57,10 +57,10 @@ def bbox(
     bbox = component.dbbox()
     xmin, ymin, xmax, ymax = bbox.left, bbox.bottom, bbox.right, bbox.top
     points = [
-        [xmin - left, ymin - bottom],
-        [xmax + right, ymin - bottom],
-        [xmax + right, ymax + top],
-        [xmin - left, ymax + top],
+        (xmin - left, ymin - bottom),
+        (xmax + right, ymin - bottom),
+        (xmax + right, ymax + top),
+        (xmin - left, ymax + top),
     ]
     c.add_polygon(points, layer=layer)
     return c
@@ -69,7 +69,7 @@ def bbox(
 if __name__ == "__main__":
     # c = gf.Component()
     # l= gf.components.L()
-    r = gf.c.text()
+    r = gf.c.text()  # type: ignore
     b = bbox(r, layer=(2, 0))
     c = gf.Component()
     c << r

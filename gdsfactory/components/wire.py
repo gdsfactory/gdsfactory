@@ -84,7 +84,7 @@ def wire_corner45(
     ypts = [-a, radius, radius + np.sqrt(2) * width, -a]
     c.add_polygon(list(zip(xpts, ypts)), layer=layer)
 
-    w = np.round(width * np.sqrt(2), 3)
+    w = float(np.round(width * np.sqrt(2), 3))  # type: ignore
 
     if with_corner90_ports:
         c.add_port(
@@ -163,7 +163,9 @@ def wire_corner_sections(
             -offset - b,
         ]
 
-        c.add_polygon(list(zip([xpts, ypts])), layer=layer)
+        assert layer is not None
+
+        c.add_polygon(list(zip(xpts, ypts)), layer=layer)
 
     c.add_port(
         name="e1",

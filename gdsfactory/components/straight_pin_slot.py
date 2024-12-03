@@ -51,9 +51,10 @@ def straight_pin_slot(
         kwargs: straight settings.
     """
     c = Component()
+    taper_component: Component | None = None
     if taper:
-        taper = gf.get_component(taper)
-        length -= 2 * taper.dxsize
+        taper_component = gf.get_component(taper)
+        length -= 2 * taper_component.dxsize
 
     wg = c << gf.components.straight(
         cross_section=cross_section,
@@ -64,9 +65,9 @@ def straight_pin_slot(
     via_stack_slab_width = via_stack_slab_width or via_stack_width
     via_stack_slab_spacing = via_stack_slab_spacing or via_stack_spacing
 
-    if taper:
-        t1 = c << taper
-        t2 = c << taper
+    if taper_component:
+        t1 = c << taper_component
+        t2 = c << taper_component
         t1.connect("o2", wg.ports["o1"])
         t2.connect("o2", wg.ports["o2"])
         c.add_port("o1", port=t1.ports["o1"])

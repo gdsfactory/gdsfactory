@@ -84,18 +84,18 @@ def optimal_hairpin(
     xpts.append(xpts[0])
     ypts.append(ypts[0])
 
-    xpts = snap_to_grid(xpts)
-    ypts = snap_to_grid(ypts)
+    xpts_np = snap_to_grid(xpts)
+    ypts_np = snap_to_grid(ypts)
 
     # ==========================================================================
     #  Create a blank device, add the geometry, and define the ports
     # ==========================================================================
     c = Component()
-    c.add_polygon(list(zip(xpts, +ypts)), layer=layer)
-    c.add_polygon(list(zip(xpts, -ypts)), layer=layer)
+    c.add_polygon(list(zip(xpts_np, +ypts_np)), layer=layer)
+    c.add_polygon(list(zip(xpts_np, -ypts_np)), layer=layer)
     port_type = "electrical"
 
-    xports = min(xpts)
+    xports = min(xpts_np)
     yports = -a + width / 2
     c.add_port(
         name="e1",

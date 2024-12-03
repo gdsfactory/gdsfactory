@@ -53,7 +53,7 @@ def taper(
     x = gf.get_cross_section(cross_section, width=width_max, **kwargs)
     layer = x.layer
 
-    if isinstance(port, gf.Port) and width1 is None:
+    if isinstance(port, gf.Port):
         width1 = port.width
 
     width2 = width2 or width1
@@ -62,7 +62,7 @@ def taper(
     y2 = width2 / 2
 
     if length:
-        p1 = gf.kdb.DPolygon([(0, y1), (length, y2), (length, -y2), (0, -y1)])
+        p1 = gf.kdb.DPolygon([(0, y1), (length, y2), (length, -y2), (0, -y1)])  # type: ignore
         c.add_polygon(p1, layer=layer)
 
         s0_width = x.sections[0].width
@@ -71,8 +71,8 @@ def taper(
             delta_width = abs(section.width - s0_width)
             y1 = (width1 + delta_width) / 2
             y2 = (width2 + delta_width) / 2
-            p1 = gf.kdb.DPolygon([(0, y1), (length, y2), (length, -y2), (0, -y1)])
-            c.add_polygon(p1, layer=section.layer)
+            p1 = gf.kdb.DPolygon([(0, y1), (length, y2), (length, -y2), (0, -y1)])  # type: ignore
+            c.add_polygon(p1, layer=section.layer)  # type: ignore
 
     if with_bbox:
         x.add_bbox(c)
