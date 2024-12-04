@@ -187,7 +187,7 @@ def get_polygons_points(
     scale: float | None = None,
     by: Literal["index"] | Literal["name"] | Literal["tuple"] = "index",
     layers: LayerSpecs | None = None,
-) -> dict[int | str | tuple[int, int], list[tuple[float, float]]]:
+) -> dict[int | str | tuple[int, int], list[npt.NDArray[np.float64]]]:
     """Returns a dict with list of points per layer.
 
     Args:
@@ -200,9 +200,11 @@ def get_polygons_points(
     polygons_dict = get_polygons(
         component_or_instance=component_or_instance, merge=merge, by=by, layers=layers
     )
-    polygons_points: dict[tuple[int, int] | str | int, list[tuple[float, float]]] = {}
+    polygons_points: dict[
+        tuple[int, int] | str | int, list[npt.NDArray[np.float64]]
+    ] = {}
     for layer, polygons in polygons_dict.items():
-        all_points = []
+        all_points: list[npt.NDArray[np.float64]] = []
         for polygon in polygons:
             if scale:
                 points = np.array(

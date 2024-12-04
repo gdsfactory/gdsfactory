@@ -4,12 +4,12 @@ import pathlib
 
 from gdsfactory.component import Component
 from gdsfactory.technology import DerivedLayer, LayerStack, LogicalLayer
-from gdsfactory.typings import LayerSpecs
+from gdsfactory.typings import LayerSpecs, PathType
 
 
 def to_stl(
     component: Component,
-    filepath: str,
+    filepath: PathType,
     layer_stack: LayerStack | None = None,
     exclude_layers: LayerSpecs | None = None,
     hull_invalid_polygons: bool = False,
@@ -49,11 +49,12 @@ def to_stl(
             layer_index = layer.layer
 
         elif isinstance(layer, DerivedLayer):
+            assert level.derived_layer is not None
             layer_index = level.derived_layer.layer
         else:
             raise ValueError(f"Layer {layer!r} is not a DerivedLayer or LogicalLayer")
 
-        layer_tuple = tuple(layer_index)
+        layer_tuple: tuple[int, int] = tuple(layer_index)  # type: ignore
 
         if layer_index in exclude_layers:
             continue
@@ -62,7 +63,7 @@ def to_stl(
             continue
 
         zmin = level.zmin
-        if zmin is not None:
+        if zmin is not None:  # type: ignore
             has_polygons = True
             polygons = polygons_per_layer[layer_index]
             height = level.thickness
@@ -73,23 +74,23 @@ def to_stl(
             print(
                 f"Write {filepath_layer.absolute()!r} zmin = {zmin:.3f}, height = {height:.3f}"
             )
-            meshes = []
+            meshes: list[trimesh.Trimesh] = []
             for polygon in polygons:
                 p = shapely.geometry.Polygon(polygon)
 
                 if hull_invalid_polygons and not p.is_valid:
                     p = p.convex_hull
 
-                mesh = trimesh.creation.extrude_polygon(p, height=height)
+                mesh = trimesh.creation.extrude_polygon(p, height=height)  # type: ignore
                 mesh.apply_translation((0, 0, zmin))
                 meshes.append(mesh)
 
-        layer_mesh = trimesh.util.concatenate(meshes)
+        layer_mesh = trimesh.util.concatenate(meshes)  # type: ignore
 
         if scale:
-            layer_mesh.apply_scale(scale)
+            layer_mesh.apply_scale(scale)  # type: ignore
 
-        layer_mesh.export(filepath_layer)
+        layer_mesh.export(filepath_layer)  # type: ignore
 
     if not has_polygons:
         raise ValueError(
@@ -101,6 +102,6 @@ def to_stl(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.components.grating_coupler_elliptical_trenches()
+    c = gf.components.grating_coupler_elliptical_trenches()  # type: ignore
     c.show()
     to_stl(c, filepath="a.stl")

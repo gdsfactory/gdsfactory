@@ -374,7 +374,9 @@ class LayerLevel(BaseModel):
         Returns:
             tuple: A tuple containing the minimum and maximum z-values of the layer level.
         """
-        return tuple(sorted([self.zmin, self.zmin + self.thickness]))
+        z_values = [self.zmin, self.zmin + self.thickness]
+        z_values.sort()
+        return z_values[0], z_values[1]
 
 
 class LayerStack(BaseModel):

@@ -1,18 +1,18 @@
 from __future__ import annotations
 
-import shapely
+import shapely  # type: ignore
 from trimesh.scene.scene import Scene
 
 from gdsfactory.component import Component
 from gdsfactory.technology import DerivedLayer, LayerStack, LayerViews, LogicalLayer
-from gdsfactory.typings import LayerSpec
+from gdsfactory.typings import LayerSpecs
 
 
 def to_3d(
     component: Component,
     layer_views: LayerViews | None = None,
     layer_stack: LayerStack | None = None,
-    exclude_layers: tuple[LayerSpec, ...] | None = None,
+    exclude_layers: LayerSpecs | None = None,
 ) -> Scene:
     """Return Component 3D trimesh Scene.
 
@@ -33,7 +33,7 @@ def to_3d(
     )
 
     try:
-        from trimesh.creation import extrude_polygon
+        from trimesh.creation import extrude_polygon  # type: ignore
         from trimesh.scene import Scene
     except ImportError as e:
         print("you need to `pip install trimesh`")
@@ -57,15 +57,16 @@ def to_3d(
 
         if isinstance(layer, LogicalLayer):
             layer_index = layer.layer
-            layer_tuple = tuple(layer_index)
+            layer_tuple: tuple[int, int] = tuple(layer_index)  # type: ignore
 
         elif isinstance(layer, DerivedLayer):
+            assert level.derived_layer is not None
             layer_index = level.derived_layer.layer
-            layer_tuple = tuple(layer_index)
+            layer_tuple = tuple(layer_index)  # type: ignore
         else:
             raise ValueError(f"Layer {layer!r} is not a DerivedLayer or LogicalLayer")
 
-        layer_index = int(get_layer(layer_index))
+        layer_index = int(get_layer(layer_index))  # type: ignore
 
         if layer_index in exclude_layers:
             continue
@@ -75,6 +76,7 @@ def to_3d(
 
         zmin = level.zmin
         layer_view = layer_views.get_from_tuple(layer_tuple)
+        assert layer_view.fill_color is not None
         color_rgb = [c / 255 for c in layer_view.fill_color.as_rgb_tuple(alpha=False)]
         if zmin is not None and layer_view.visible:
             has_polygons = True
@@ -95,16 +97,19 @@ def to_3d(
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
+    from gdsfactory.components.grating_coupler_elliptical_trenches import (
+        grating_coupler_elliptical_trenches,
+    )
 
     # c = gf.components.mzi()
     # c = gf.components.straight_heater_metal(length=40)
     # p = c.get_polygons_points()
     # c = gf.Component()
     # c << gf.c.rectangle(layer=(113, 0))
-    c = gf.components.grating_coupler_elliptical_trenches()
-    # c = gf.components.taper_strip_to_ridge_trenches()
+
+    c = grating_coupler_elliptical_trenches()
+    # c = taper_strip_to_ridge_trenches()
 
     c.show()
     s = c.to_3d()
-    s.show()
+    s.show()  # type: ignore
