@@ -187,7 +187,7 @@ def get_polygons_points(
     scale: float | None = None,
     by: Literal["index"] | Literal["name"] | Literal["tuple"] = "index",
     layers: LayerSpecs | None = None,
-) -> dict[int | str | tuple[int, int], list[list[tuple[float, float]]]]:
+) -> dict[int | str | tuple[int, int], list[npt.NDArray[np.float64]]]:
     """Returns a dict with list of points per layer.
 
     Args:
@@ -201,25 +201,29 @@ def get_polygons_points(
         component_or_instance=component_or_instance, merge=merge, by=by, layers=layers
     )
     polygons_points: dict[
-        tuple[int, int] | str | int, list[list[tuple[float, float]]]
+        tuple[int, int] | str | int, list[npt.NDArray[np.float64]]
     ] = {}
     for layer, polygons in polygons_dict.items():
-        all_points: list[list[tuple[float, float]]] = []
+        all_points: list[npt.NDArray[np.float64]] = []
         for polygon in polygons:
             if scale:
-                points = [
-                    (point.x * scale, point.y * scale)
-                    for point in polygon.to_simple_polygon()
-                    .to_dtype(component_or_instance.kcl.dbu)
-                    .each_point()
-                ]
+                points = np.array(
+                    [
+                        (point.x * scale, point.y * scale)
+                        for point in polygon.to_simple_polygon()
+                        .to_dtype(component_or_instance.kcl.dbu)
+                        .each_point()
+                    ]
+                )
             else:
-                points = [
-                    (point.x, point.y)
-                    for point in polygon.to_simple_polygon()
-                    .to_dtype(component_or_instance.kcl.dbu)
-                    .each_point()
-                ]
+                points = np.array(
+                    [
+                        (point.x, point.y)
+                        for point in polygon.to_simple_polygon()
+                        .to_dtype(component_or_instance.kcl.dbu)
+                        .each_point()
+                    ]
+                )
             all_points.append(points)
         polygons_points[layer] = all_points
     return polygons_points
