@@ -1127,8 +1127,8 @@ class ComponentBase:
             nets=netlist["nets"],
         )
 
-    def over_under(self, layer: LayerSpec, distance: float = 0.001) -> Component:
-        """Returns a new Component over-under on a layer in the Component.
+    def over_under(self, layer: LayerSpec, distance: float = 0.001) -> None:
+        """Returns a Component over-under on a layer in the Component.
 
         For big components use tiled version.
 
@@ -1140,15 +1140,14 @@ class ComponentBase:
 
         distance_dbu = self.kcl.to_dbu(distance)
 
-        c = Component()
         layer_index = get_layer(layer)
         region = kdb.Region(self.begin_shapes_rec(layer_index))
         region.size(+distance_dbu).size(-distance_dbu)
-        c.shapes(layer_index).insert(region)
-        return c
+        self.remove_layers([layer])
+        self.shapes(layer_index).insert(region)
 
-    def offset(self, layer: LayerSpec, distance: float) -> Component:
-        """Offsets a Component layer by a distance in um and returns a new Component.
+    def offset(self, layer: LayerSpec, distance: float) -> None:
+        """Offsets a Component layer by a distance in um.
 
         Args:
             layer: layer to offset the Component on.
@@ -1158,12 +1157,11 @@ class ComponentBase:
 
         distance_dbu = self.kcl.to_dbu(distance)
 
-        c = Component()
         layer_index = get_layer(layer)
         region = kdb.Region(self.begin_shapes_rec(layer_index))
         region.size(+distance_dbu)
-        c.shapes(layer_index).insert(region)
-        return c
+        self.remove_layers([layer])
+        self.shapes(layer_index).insert(region)
 
     def to_dict(self, with_ports: bool = False) -> dict[str, Any]:
         """Returns a dictionary representation of the Component."""
@@ -1372,8 +1370,8 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.c.mzi()
-    # c = c.offset("WG", 0.2)
-    c = c.over_under("WG", 0.2)
+    c.offset("WG", -0.2)
+    # c.over_under("WG", 0.2)
     # n = c.to_graphviz()
 
     # plot_graphviz(n)
