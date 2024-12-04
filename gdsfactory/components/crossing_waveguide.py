@@ -219,7 +219,7 @@ def crossing_etched(
     return c
 
 
-@gf.cell
+@gf.cell(check_instances=False)
 def crossing45(
     crossing: ComponentSpec = crossing,
     port_spacing: float = 40.0,
@@ -316,5 +316,5 @@ def crossing45(
 
 
 if __name__ == "__main__":
-    c = crossing45()
+    c = crossing()
     c.show()
