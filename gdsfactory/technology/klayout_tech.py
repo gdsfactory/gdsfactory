@@ -5,6 +5,7 @@ This module enables conversion between gdsfactory settings and KLayout technolog
 
 import pathlib
 import xml.etree.ElementTree as ET
+from collections.abc import Sequence
 from typing import Any
 
 import aenum
@@ -59,7 +60,7 @@ class KLayoutTechnology(BaseModel):
     layer_map: dict[str, tuple[int, int]]
     layer_views: LayerViews | None = None
     layer_stack: LayerStack | None = None
-    connectivity: list[ConnectivitySpec] | None = None
+    connectivity: Sequence[ConnectivitySpec] | None = None
 
     @model_validator(mode="before")
     @classmethod

@@ -5,7 +5,7 @@ from __future__ import annotations
 import importlib
 import pathlib
 import warnings
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 from functools import cached_property, partial, wraps
 from typing import Any
 
@@ -150,7 +150,7 @@ class Pdk(BaseModel):
         default_factory=dict, exclude=True
     )
     cells: dict[str, ComponentFactory] = Field(default_factory=dict, exclude=True)
-    models: dict[str, Callable] = Field(default_factory=dict, exclude=True)
+    models: dict[str, Callable[..., Any]] = Field(default_factory=dict, exclude=True)
     symbols: dict[str, ComponentFactory] = Field(default_factory=dict)
     default_symbol_factory: Callable[..., ComponentFactory] = Field(
         default=floorplan_with_block_letters, exclude=True
@@ -169,7 +169,7 @@ class Pdk(BaseModel):
     materials_index: dict[str, MaterialSpec] = Field(default_factory=dict)
     routing_strategies: RoutingStrategies | None = None
     bend_points_distance: float = 20 * nm
-    connectivity: list[ConnectivitySpec] | None = None
+    connectivity: Sequence[ConnectivitySpec] | None = None
     max_cellname_length: int = CONF.max_cellname_length
 
     model_config = ConfigDict(

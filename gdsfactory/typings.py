@@ -143,7 +143,9 @@ PathTypes: TypeAlias = Sequence[PathType]
 Metadata: TypeAlias = dict[str, int | float | str]
 PostProcess: TypeAlias = Callable[[Component], None]
 PostProcesses: TypeAlias = Sequence[PostProcess]
-MaterialSpec: TypeAlias = str | float | tuple[float, float] | Callable[..., Any]
+MaterialSpec: TypeAlias = (
+    str | float | tuple[float, float] | Callable[..., Any] | npt.NDArray[np.float64]
+)
 
 Instance: TypeAlias = ComponentReference
 ComponentOrPath: TypeAlias = PathType | Component
@@ -192,7 +194,7 @@ MultiCrossSectionAngleSpec: TypeAlias = Sequence[
 
 
 ConductorConductorName: TypeAlias = tuple[str, str]
-ConductorViaConductorName: TypeAlias = tuple[str, str, str] | tuple[str, str]
+ConductorViaConductorName: TypeAlias = tuple[str, str, str] | ConductorConductorName
 ConnectivitySpec: TypeAlias = ConductorConductorName | ConductorViaConductorName
 
 Route: TypeAlias = (
