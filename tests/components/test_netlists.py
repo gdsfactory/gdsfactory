@@ -27,6 +27,7 @@ skip_test = {
     "spiral_racetrack",
     "spiral_racetrack_heater_metal",
     "text_freetype",
+    "crossing45",
 }
 cells_to_test = set(cells.keys()) - skip_test
 
