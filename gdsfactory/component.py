@@ -709,7 +709,7 @@ class ComponentBase:
         scale: float | None = None,
         by: Literal["index"] | Literal["name"] | Literal["tuple"] = "index",
         layers: LayerSpecs | None = None,
-    ) -> dict[int | str | tuple[int, int], list[tuple[float, float]]]:
+    ) -> dict[int | str | tuple[int, int], list[list[tuple[float, float]]]]:
         """Returns a dict with list of points per layer.
 
         Args:

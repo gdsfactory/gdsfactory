@@ -107,6 +107,7 @@ exclude = [
 python_version = "3.11"
 strict = true
 warn_unused_ignores = false
+disable_error_code = "import-untyped"
 
 [tool.pylsp-mypy]
 enabled = true

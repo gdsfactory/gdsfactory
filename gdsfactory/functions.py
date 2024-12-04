@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from pprint import pprint
 import warnings
 from functools import partial
 from typing import TYPE_CHECKING, Literal
@@ -187,7 +188,7 @@ def get_polygons_points(
     scale: float | None = None,
     by: Literal["index"] | Literal["name"] | Literal["tuple"] = "index",
     layers: LayerSpecs | None = None,
-) -> dict[int | str | tuple[int, int], list[tuple[float, float]]]:
+) -> dict[int | str | tuple[int, int], list[list[tuple[float, float]]]]:
     """Returns a dict with list of points per layer.
 
     Args:
@@ -200,28 +201,26 @@ def get_polygons_points(
     polygons_dict = get_polygons(
         component_or_instance=component_or_instance, merge=merge, by=by, layers=layers
     )
-    polygons_points: dict[tuple[int, int] | str | int, list[tuple[float, float]]] = {}
+    polygons_points: dict[
+        tuple[int, int] | str | int, list[list[tuple[float, float]]]
+    ] = {}
     for layer, polygons in polygons_dict.items():
-        all_points = []
+        all_points: list[list[tuple[float, float]]] = []
         for polygon in polygons:
             if scale:
-                points = np.array(
-                    [
-                        (point.x * scale, point.y * scale)
-                        for point in polygon.to_simple_polygon()
-                        .to_dtype(component_or_instance.kcl.dbu)
-                        .each_point()
-                    ]
-                )
+                points = [
+                    (point.x * scale, point.y * scale)
+                    for point in polygon.to_simple_polygon()
+                    .to_dtype(component_or_instance.kcl.dbu)
+                    .each_point()
+                ]
             else:
-                points = np.array(
-                    [
-                        (point.x, point.y)
-                        for point in polygon.to_simple_polygon()
-                        .to_dtype(component_or_instance.kcl.dbu)
-                        .each_point()
-                    ]
-                )
+                points = [
+                    (point.x, point.y)
+                    for point in polygon.to_simple_polygon()
+                    .to_dtype(component_or_instance.kcl.dbu)
+                    .each_point()
+                ]
             all_points.append(points)
         polygons_points[layer] = all_points
     return polygons_points
