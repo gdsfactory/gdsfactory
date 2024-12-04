@@ -28,8 +28,8 @@ def to_np(
 
     pixels_per_um = (1 / nm_per_pixel) * 1e3
 
-    dbbox = component.bbox() * 1e-3
-    xmin, ymin, xmax, ymax = dbbox.left, dbbox.bottom, dbbox.right, dbbox.top
+    xmin, ymin = component.bbox[0]
+    xmax, ymax = component.bbox[1]
 
     shape = (
         int(np.ceil(xmax - xmin) * pixels_per_um),
@@ -44,8 +44,8 @@ def to_np(
         if layer in layer_to_polygons:
             polygons = layer_to_polygons[layer]
             for polygon in polygons:
-                r = np.array([point[0] for point in polygon]) - xmin
-                c = np.array([point[1] for point in polygon]) - ymin
+                r = polygon[:, 0] - xmin
+                c = polygon[:, 1] - ymin
                 rr, cc = skdraw.polygon(  # type: ignore
                     r * pixels_per_um, c * pixels_per_um, shape=shape
                 )
@@ -64,7 +64,6 @@ if __name__ == "__main__":
     c = bend_circular()
     # i = to_np(c, nm_per_pixel=250)
     i = to_np(c, nm_per_pixel=20)
-    c.show()
     c.show()
     plt.imshow(i.transpose(), origin="lower")  # type: ignore
     plt.colorbar()  # type: ignore

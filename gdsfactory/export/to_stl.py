@@ -63,26 +63,27 @@ def to_stl(
             continue
 
         zmin = level.zmin
-        has_polygons = True
-        polygons = polygons_per_layer[layer_index]
-        height = level.thickness
-        layer_name = level.name or f"{layer_tuple[0]}_{layer_tuple[1]}"
-        filepath_layer = (
-            filepath.parent / f"{filepath.stem}_{layer_name}{filepath.suffix}"
-        )
-        print(
-            f"Write {filepath_layer.absolute()!r} zmin = {zmin:.3f}, height = {height:.3f}"
-        )
-        meshes: list[trimesh.Trimesh] = []
-        for polygon in polygons:
-            p = shapely.geometry.Polygon(polygon)
+        if zmin is not None:  # type: ignore
+            has_polygons = True
+            polygons = polygons_per_layer[layer_index]
+            height = level.thickness
+            layer_name = level.name or f"{layer_tuple[0]}_{layer_tuple[1]}"
+            filepath_layer = (
+                filepath.parent / f"{filepath.stem}_{layer_name}{filepath.suffix}"
+            )
+            print(
+                f"Write {filepath_layer.absolute()!r} zmin = {zmin:.3f}, height = {height:.3f}"
+            )
+            meshes: list[trimesh.Trimesh] = []
+            for polygon in polygons:
+                p = shapely.geometry.Polygon(polygon)
 
-            if hull_invalid_polygons and not p.is_valid:
-                p = p.convex_hull
+                if hull_invalid_polygons and not p.is_valid:
+                    p = p.convex_hull
 
-            mesh = trimesh.creation.extrude_polygon(p, height=height)  # type: ignore
-            mesh.apply_translation((0, 0, zmin))
-            meshes.append(mesh)
+                mesh = trimesh.creation.extrude_polygon(p, height=height)  # type: ignore
+                mesh.apply_translation((0, 0, zmin))
+                meshes.append(mesh)
 
         layer_mesh = trimesh.util.concatenate(meshes)  # type: ignore
 

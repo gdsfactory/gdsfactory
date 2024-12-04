@@ -100,7 +100,7 @@ def to_gerber(
     # Each layer and a list of the polygons (as lists of points) on that layer
     layer_to_polygons = component.get_polygons_points()
 
-    for layer in layermap_to_gerber_layer.values():
+    for layer_tup, layer in layermap_to_gerber_layer.items():
         filename = (dirpath / layer.name.replace(" ", "_")).with_suffix(".gbr")
 
         with open(filename, "w+") as f:
@@ -130,9 +130,9 @@ def to_gerber(
             f.write("%ADD10C,0.050000*%\n")
 
             # Only supports polygons for now
-            for polygon_points in layer_to_polygons.values():
-                for poly in polygon_points:
-                    f.write(polygon(poly))
+            if layer_tup in layer_to_polygons.keys():
+                for poly in layer_to_polygons[layer_tup.layer]:  # type: ignore
+                    f.write(polygon(poly))  # type: ignore
 
             # File end
             f.write("M02*\n")

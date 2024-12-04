@@ -10,6 +10,7 @@ from typing import TYPE_CHECKING, Any, Literal, overload
 import kfactory as kf
 import klayout.lay as lay
 import numpy as np
+import numpy.typing as npt
 import yaml
 from kfactory import Instance, kdb
 from kfactory.kcell import PROPID, cell, save_layout_options
@@ -709,7 +710,7 @@ class ComponentBase:
         scale: float | None = None,
         by: Literal["index"] | Literal["name"] | Literal["tuple"] = "index",
         layers: LayerSpecs | None = None,
-    ) -> dict[int | str | tuple[int, int], list[list[tuple[float, float]]]]:
+    ) -> dict[int | str | tuple[int, int], list[npt.NDArray[np.float64]]]:
         """Returns a dict with list of points per layer.
 
         Args:
