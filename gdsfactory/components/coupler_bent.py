@@ -65,15 +65,15 @@ def coupler_bent_half(
         + inner_exit_straight
     )
 
-    inner = c << inner.extrude(xs2)
-    outer = c << outer.extrude(xs1)
-    outer.dmovey(+(width1 + gap) / 2)
-    inner.dmovey(-(width2 + gap) / 2)
+    inner_component = c << inner.extrude(xs2)
+    outer_component = c << outer.extrude(xs1)
+    outer_component.dmovey(+(width1 + gap) / 2)
+    inner_component.dmovey(-(width2 + gap) / 2)
 
-    c.add_port("o1", port=outer.ports["o1"])
-    c.add_port("o2", port=inner.ports["o1"])
-    c.add_port("o3", port=outer.ports["o2"])
-    c.add_port("o4", port=inner.ports["o2"])
+    c.add_port("o1", port=outer_component.ports["o1"])
+    c.add_port("o2", port=inner_component.ports["o1"])
+    c.add_port("o3", port=outer_component.ports["o2"])
+    c.add_port("o4", port=inner_component.ports["o2"])
     c.flatten()
     return c
 

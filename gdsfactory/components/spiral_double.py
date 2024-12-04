@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.components import bend_circular
+from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.path import spiral_archimedean
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -11,8 +12,8 @@ def spiral_double(
     separation: float = 2.0,
     number_of_loops: float = 3,
     npoints: int = 1000,
-    cross_section: gf.typings.CrossSectionSpec = "strip",
-    bend: gf.typings.ComponentSpec = bend_circular,
+    cross_section: CrossSectionSpec = "strip",
+    bend: ComponentSpec = bend_circular,
 ) -> gf.Component:
     """Returns a spiral double (spiral in, and then out).
 

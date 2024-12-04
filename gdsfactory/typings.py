@@ -23,12 +23,13 @@ from __future__ import annotations
 
 import dataclasses
 import pathlib
-from collections.abc import Callable, Iterable, Sequence
-from typing import Any, Generator, Literal, ParamSpec, TypeAlias, TypeVar
+from collections.abc import Callable, Generator, Sequence
+from typing import Any, Literal, ParamSpec, TypeAlias, TypeVar
 
 import kfactory as kf
 import numpy as np
 import numpy.typing as npt
+from kfactory.cross_section import SymmetricalCrossSection
 from kfactory.kcell import LayerEnum
 
 from gdsfactory.component import (
@@ -119,6 +120,7 @@ Layers: TypeAlias = Sequence[Layer]
 LayerSpec: TypeAlias = LayerEnum | str | tuple[int, int]
 LayerSpecs: TypeAlias = Sequence[LayerSpec]
 
+
 AnyComponent: TypeAlias = Component | ComponentAllAngle
 AnyComponentT = TypeVar("AnyComponentT", bound=AnyComponent)
 AnyComponentFactory: TypeAlias = Callable[..., AnyComponent]
@@ -129,6 +131,12 @@ ComponentFactory: TypeAlias = Callable[..., Component]
 ComponentAllAngleFactory: TypeAlias = Callable[..., ComponentAllAngle]
 ComponentBaseFactory: TypeAlias = Callable[..., ComponentBase]
 ComponentFactoryDict: TypeAlias = dict[str, ComponentFactory]
+ComponentFactories: TypeAlias = Sequence[ComponentFactory]
+
+ComponentSpec: TypeAlias = str | ComponentFactory | dict[str, Any] | kf.KCell
+ComponentSpecOrComponent: TypeAlias = ComponentSpec | Component
+ComponentSpecs: TypeAlias = Sequence[ComponentSpec]
+ComponentSpecsOrComponents: TypeAlias = Sequence[ComponentSpecOrComponent]
 
 PathType: TypeAlias = str | pathlib.Path
 PathTypes: TypeAlias = Sequence[PathType]
@@ -155,7 +163,7 @@ PortFactory: TypeAlias = Callable[..., Port]
 PortsFactory: TypeAlias = Callable[..., Sequence[Port]]
 PortSymmetries: TypeAlias = dict[str, Sequence[str]]
 PortsDict: TypeAlias = dict[str, Port]
-Ports: TypeAlias = kf.Ports | Sequence[Port] | Iterable[Port]
+Ports: TypeAlias = kf.Ports | Sequence[Port]
 SelectPorts: TypeAlias = Callable[..., Sequence[Port]]
 
 PortType: TypeAlias = str
@@ -166,14 +174,6 @@ PortNames: TypeAlias = Sequence[PortName]
 
 Sparameters: TypeAlias = dict[str, npt.NDArray[np.float64]]
 
-ComponentSpec: TypeAlias = str | ComponentFactory | dict[str, Any] | kf.KCell
-ComponentSpecOrComponent: TypeAlias = (
-    str | ComponentFactory | dict[str, Any] | kf.KCell | Component
-)
-
-ComponentSpecs: TypeAlias = Sequence[ComponentSpec]
-ComponentSpecsOrComponents: TypeAlias = Sequence[ComponentSpecOrComponent]
-ComponentFactories: TypeAlias = Sequence[ComponentFactory]
 
 ComponentSpecOrList: TypeAlias = ComponentSpec | list[ComponentSpec]
 CellSpec: TypeAlias = (
@@ -181,10 +181,14 @@ CellSpec: TypeAlias = (
 )
 
 ComponentSpecDict: TypeAlias = dict[str, ComponentSpec]
-CrossSectionSpec: TypeAlias = CrossSectionFactory | CrossSection | dict[str, Any] | str
+CrossSectionSpec: TypeAlias = (
+    CrossSectionFactory | CrossSection | SymmetricalCrossSection | dict[str, Any] | str
+)
 CrossSectionSpecs: TypeAlias = tuple[CrossSectionSpec, ...]
 
-MultiCrossSectionAngleSpec: TypeAlias = list[tuple[CrossSectionSpec, tuple[int, ...]]]
+MultiCrossSectionAngleSpec: TypeAlias = Sequence[
+    tuple[CrossSectionSpec, tuple[int, ...]]
+]
 
 
 ConductorConductorName: TypeAlias = tuple[str, str]

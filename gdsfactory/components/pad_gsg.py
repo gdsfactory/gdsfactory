@@ -35,7 +35,7 @@ def pad_gsg_short(
     gnd_top = c << via
 
     if short:
-        short = c << rectangle(size=size, layer=layer_metal)
+        c << rectangle(size=size, layer=layer_metal)
     gnd_bot = c << via
 
     gnd_bot.dymax = via.dymin

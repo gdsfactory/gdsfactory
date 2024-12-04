@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import numpy as np
 import numpy.typing as npt
-from numpy import ndarray
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -11,14 +10,16 @@ from gdsfactory.functions import angles_deg, curvature, snap_angle
 from gdsfactory.typings import Coordinate, Coordinates, CrossSectionSpec
 
 
-def bezier_curve(t: ndarray, control_points: Coordinates) -> ndarray:
+def bezier_curve(
+    t: npt.NDArray[np.float64], control_points: Coordinates
+) -> npt.NDArray[np.float64]:
     """Returns bezier coordinates.
 
     Args:
         t: 1D array of points varying between 0 and 1.
         control_points: for the bezier curve.
     """
-    from scipy.special import binom
+    from scipy.special import binom  # type: ignore
 
     xs = 0.0
     ys = 0.0
@@ -60,8 +61,8 @@ def bezier(
     path = gf.Path(path_points)
 
     if with_manhattan_facing_angles:
-        path.start_angle = start_angle or snap_angle(path.start_angle)
-        path.end_angle = end_angle or snap_angle(path.end_angle)
+        path.start_angle = start_angle or snap_angle(path.start_angle)  # type: ignore
+        path.end_angle = end_angle or snap_angle(path.end_angle)  # type: ignore
 
     c = path.extrude(xs)
     curv = curvature(path_points, t)
@@ -90,7 +91,7 @@ def bezier(
 
 
 def find_min_curv_bezier_control_points(
-    start_point: npt.NDArray[np.float64],
+    start_point: Coordinate,
     end_point: Coordinate,
     start_angle: float,
     end_angle: float,
@@ -109,7 +110,7 @@ def find_min_curv_bezier_control_points(
         alpha: weight for angle mismatch.
         nb_pts: number of control points.
     """
-    from scipy.optimize import minimize
+    from scipy.optimize import minimize  # type: ignore
 
     t = np.linspace(0, 1, npoints)
 
@@ -130,22 +131,22 @@ def find_min_curv_bezier_control_points(
         dstart_angle = abs(angles[0] - start_angle)
         dend_angle = abs(angles[-2] - end_angle)
         angle_mismatch = dstart_angle + dend_angle
-        return angle_mismatch * alpha + max_curv
+        return angle_mismatch * alpha + max_curv  # type: ignore
 
     x0, y0 = start_point[0], start_point[1]
     xn, yn = end_point[0], end_point[1]
 
-    initial_guess = []
+    initial_guess: list[float] = []
     for i in range(nb_pts):
         x = (i + 1) * (x0 + xn) / nb_pts
         y = (i + 1) * (y0 + yn) / nb_pts
         initial_guess += [x, y]
 
     # initial_guess = [(x0 + xn) / 2, y0, (x0 + xn) / 2, yn]
-    res = minimize(objective_func, initial_guess, method="Nelder-Mead")
-    p = res.x
-    points = [tuple(start_point)] + array_1d_to_cpts(p) + [tuple(end_point)]
-    return tuple(points)
+    res = minimize(objective_func, initial_guess, method="Nelder-Mead")  # type: ignore
+    p = res.x  # type: ignore
+    points = [tuple(start_point)] + array_1d_to_cpts(p) + [tuple(end_point)]  # type: ignore
+    return tuple(points)  # type: ignore
 
 
 if __name__ == "__main__":

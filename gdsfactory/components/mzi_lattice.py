@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Any
 
 import gdsfactory as gf
-from gdsfactory.component import Component
+from gdsfactory.component import Component, ComponentReference
 
 
 @gf.cell
@@ -63,11 +63,12 @@ def mzi_lattice(
 
     c = Component()
 
-    splitter_settings = dict(gap=coupler_gaps[0], length=coupler_lengths[0])
-    combiner_settings = dict(gap=coupler_gaps[1], length=coupler_lengths[1])
-
-    cp1 = splitter1 = gf.get_component(splitter, **splitter_settings)
-    combiner1 = gf.get_component(splitter, **combiner_settings)
+    cp1 = splitter1 = gf.get_component(
+        splitter, gap=coupler_gaps[0], length=coupler_lengths[0]
+    )
+    combiner1 = gf.get_component(
+        splitter, gap=coupler_gaps[1], length=coupler_lengths[1]
+    )
 
     sprevious = c << gf.get_component(
         mzi,
@@ -79,15 +80,15 @@ def mzi_lattice(
     )
     c.add_ports(sprevious.ports.filter(port_type="electrical"))
 
-    stages = []
+    stages: list[ComponentReference] = []
 
     for length, gap, delta_length in zip(
         coupler_lengths[2:], coupler_gaps[2:], delta_lengths[1:]
     ):
         splitter_settings = dict(gap=coupler_gaps[1], length=coupler_lengths[1])
         combiner_settings = dict(length=length, gap=gap)
-        splitter1 = gf.get_component(splitter, **splitter_settings)
-        combiner1 = gf.get_component(splitter, **combiner_settings)
+        splitter1 = gf.get_component(splitter, **splitter_settings)  # type: ignore
+        combiner1 = gf.get_component(splitter, **combiner_settings)  # type: ignore
 
         stage = c << gf.get_component(
             mzi,
@@ -239,8 +240,8 @@ def mzi_lattice_mmi(
         cross_section=cross_sections_mmis[1],
     )
 
-    cp1 = splitter1 = gf.get_component(splitter, **splitter_settings)
-    combiner1 = gf.get_component(splitter, **combiner_settings)
+    cp1 = splitter1 = gf.get_component(splitter, **splitter_settings)  # type: ignore
+    combiner1 = gf.get_component(splitter, **combiner_settings)  # type: ignore
 
     sprevious = c << gf.get_component(
         mzi,
@@ -252,7 +253,7 @@ def mzi_lattice_mmi(
     )
     c.add_ports(sprevious.ports.filter(port_type="electrical"))
 
-    stages = []
+    stages: list[ComponentReference] = []
 
     for (
         coupler_width,
@@ -299,8 +300,8 @@ def mzi_lattice_mmi(
             straight=straight,
             cross_section=cross_section,
         )
-        splitter1 = gf.get_component(splitter, **splitter_settings)
-        combiner1 = gf.get_component(splitter, **combiner_settings)
+        splitter1 = gf.get_component(splitter, **splitter_settings)  # type: ignore
+        combiner1 = gf.get_component(splitter, **combiner_settings)  # type: ignore
 
         stage = c << gf.get_component(
             mzi,
@@ -331,9 +332,9 @@ def mzi_lattice_mmi(
 
 
 if __name__ == "__main__":
-    cpl = (10, 20, 30)
-    cpg = (0.1, 0.2, 0.3)
-    dl0 = (100, 200)
+    # cpl = (10, 20, 30)
+    # cpg = (0.1, 0.2, 0.3)
+    # dl0 = (100, 200)
 
     cpl = (10, 20, 30, 40)
     cpg = (0.2, 0.3, 0.5, 0.5)

@@ -3,8 +3,8 @@ from __future__ import annotations
 from functools import partial
 
 import gdsfactory as gf
-from gdsfactory.component import Component
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats, LayerSpec
+from gdsfactory.component import Component, ComponentReference
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats, LayerSpec, Port
 
 
 @gf.cell
@@ -19,8 +19,8 @@ def straight_heater_meander(
     via_stack: ComponentSpec | None = "via_stack_heater_mtop",
     port_orientation1: float | None = None,
     port_orientation2: float | None = None,
-    heater_taper_length: float | None = 10.0,
-    straight_widths: Floats | None = (0.8, 0.9, 0.8),
+    heater_taper_length: float = 10.0,
+    straight_widths: Floats = (0.8, 0.9, 0.8),
     taper_length: float = 10,
     n: int | None = None,
 ) -> Component:
@@ -55,10 +55,12 @@ def straight_heater_meander(
     cross_section2 = cross_section
 
     straight_length = gf.snap.snap_to_grid(length / rows, grid_factor=2)
-    ports = {}
+    ports: dict[str, Port] = {}
 
     x = gf.get_cross_section(cross_section)
     radius = radius or x.radius
+
+    assert radius is not None
 
     if n and not straight_widths:
         if n % 2 == 0:
@@ -137,6 +139,8 @@ def straight_heater_meander(
     c.add_port("o1", port=straight1.ports["o1"])
     c.add_port("o2", port=straight2.ports["o2"])
 
+    heater: ComponentReference | None = None
+    heater_cross_section: CrossSectionSpec | None = None
     if layer_heater:
         heater_cross_section = partial(
             gf.cross_section.cross_section, width=heater_width, layer=layer_heater
@@ -148,7 +152,7 @@ def straight_heater_meander(
         )
         heater.dmovey(spacing * (rows // 2))
 
-    if layer_heater and via_stack:
+    if layer_heater and via_stack and heater:
         via = gf.get_component(via_stack)
         dx = via.dxsize / 2 + heater_taper_length or 0
         via_stack_west_center = (heater.dbbox().left - dx, 0)
@@ -174,7 +178,7 @@ def straight_heater_meander(
                 f"No ports for port_orientation2 {port_orientation2} in {valid_orientations}"
             )
 
-        if heater_taper_length:
+        if heater_taper_length and heater_cross_section:
             taper = gf.c.taper(
                 cross_section=heater_cross_section,
                 width1=via.ports["e1"].dwidth,

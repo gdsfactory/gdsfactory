@@ -53,7 +53,7 @@ def get_grating_period(
     """
     DEG2RAD = pi / 180
     neff = (neff_high + neff_low) / 2
-    return wavelength / (neff - sin(DEG2RAD * fiber_angle) * n_clad)
+    return wavelength / (neff - float(sin(DEG2RAD * fiber_angle)) * n_clad)
 
 
 if __name__ == "__main__":

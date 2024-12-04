@@ -48,9 +48,16 @@ def C(
         (-w, -w),
     ]
     c.add_polygon(points, layer=layer)
-    port_settings = dict(width=width, orientation=0, layer=layer, port_type=port_type)
-    c.add_port(name="o1", center=(s1, s2), **port_settings)
-    c.add_port(name="o2", center=(s1, 0), **port_settings)
+
+    for name, center in (("o1", (s1, s2)), ("o2", (s1, 0))):
+        c.add_port(
+            name=name,
+            center=center,
+            width=width,
+            orientation=0,
+            layer=layer,
+            port_type=port_type,
+        )
     return c
 
 

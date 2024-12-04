@@ -104,9 +104,11 @@ def add_fiber_array_optical_south_electrical_north(
     electrical_ports = r.ports.filter(
         port_type="electrical", orientation=electrical_port_orientation
     )
-    electrical_port_names = electrical_port_names or [p.name for p in electrical_ports]
+    electrical_port_names_list = electrical_port_names or [
+        p.name for p in electrical_ports if p.name is not None
+    ]
 
-    npads = npads or len(electrical_port_names)
+    npads = npads or len(electrical_port_names_list)
     pads = c << gf.components.array(
         component=pad,
         columns=npads,
@@ -115,7 +117,7 @@ def add_fiber_array_optical_south_electrical_north(
     pads.dx = r.dx
     pads.dymin = r.dymin + pad_gc_spacing
 
-    electrical_ports = [r[por_name] for por_name in electrical_port_names]
+    electrical_ports = [r[por_name] for por_name in electrical_port_names_list]
     nroutes = min(len(electrical_ports), npads)
 
     ports1 = electrical_ports[:nroutes]
@@ -139,8 +141,8 @@ if __name__ == "__main__":
 
     c = gf.c.add_fiber_array_optical_south_electrical_north(
         component=gf.c.straight_heater_metal,
-        pad=gf.c.pad,
-        grating_coupler=gf.c.grating_coupler_te,
+        pad=gf.c.pad,  # type: ignore
+        grating_coupler=gf.c.grating_coupler_te,  # type: ignore
         cross_section_metal=xs.metal_routing,
         pad_pitch=100,
     )

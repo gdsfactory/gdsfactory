@@ -1,14 +1,15 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.typings import Component, ComponentFactory
+from gdsfactory.component import Component
+from gdsfactory.typings import ComponentSpec
 
 _cols_200mm_wafer = (2, 6, 6, 8, 8, 6, 6, 2)
 
 
 @gf.cell
 def wafer(
-    reticle: ComponentFactory = "die",
+    reticle: ComponentSpec = "die",
     cols: tuple[int, ...] = _cols_200mm_wafer,
     xspacing: float | None = None,
     yspacing: float | None = None,

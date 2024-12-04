@@ -184,7 +184,7 @@ def bend_euler(
     p: float = 0.5,
     with_arc_floorplan: bool = True,
     npoints: int | None = None,
-    layer: gf.typings.LayerSpec | None = None,
+    layer: LayerSpec | None = None,
     width: float | None = None,
     cross_section: CrossSectionSpec = "strip",
     allow_min_radius_violation: bool = False,

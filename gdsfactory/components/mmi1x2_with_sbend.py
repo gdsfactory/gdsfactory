@@ -8,7 +8,7 @@ from gdsfactory.typings import ComponentFactory, CrossSectionSpec
 
 
 def mmi_widths(t: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
-    from scipy.interpolate import interp1d
+    from scipy.interpolate import interp1d  # type: ignore
 
     widths = np.array(
         [
@@ -30,7 +30,7 @@ def mmi_widths(t: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
     xold = np.linspace(0, 1, num=len(widths))
     xnew = np.linspace(0, 1, num=100)
     f = interp1d(xold, widths, kind="cubic")
-    return f(xnew)
+    return f(xnew)  # type: ignore
 
 
 @gf.cell
@@ -58,11 +58,11 @@ def mmi1x2_with_sbend(
     # Add "stub" straight sections for ports
     straight = gf.components.straight(length=0.25, cross_section=cross_section)
     sl = c << straight
-    sl.dcenter = (-0.125, 0)
+    sl.dcenter = (-0.125, 0)  # type: ignore
     s_topr = c << straight
-    s_topr.dcenter = (2.125, 0.35)
+    s_topr.dcenter = (2.125, 0.35)  # type: ignore
     s_botr = c << straight
-    s_botr.dcenter = (2.125, -0.35)
+    s_botr.dcenter = (2.125, -0.35)  # type: ignore
 
     if with_sbend:
         sbend = s_bend(cross_section=cross_section)

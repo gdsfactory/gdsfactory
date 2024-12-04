@@ -22,7 +22,7 @@ def straight_heater_metal_undercut(
     via_stack: ComponentSpec | None = "via_stack_heater_mtop",
     port_orientation1: int | None = None,
     port_orientation2: int | None = None,
-    heater_taper_length: float | None = 5.0,
+    heater_taper_length: float = 5.0,
     ohms_per_square: float | None = None,
 ) -> Component:
     """Returns a thermal phase shifter.
@@ -104,7 +104,8 @@ def straight_heater_metal_undercut(
 
     if via_stack:
         via_stack = gf.get_component(via_stack)
-        dx = via_stack.dxsize / 2 + heater_taper_length or 0
+
+        dx = via_stack.dxsize / 2 + heater_taper_length
         dx -= length_straight
 
         via_stack_west = c << via_stack
@@ -166,7 +167,7 @@ def straight_heater_metal_simple(
     via_stack: ComponentSpec | None = "via_stack_heater_mtop",
     port_orientation1: int | None = None,
     port_orientation2: int | None = None,
-    heater_taper_length: float | None = 5.0,
+    heater_taper_length: float = 5.0,
     ohms_per_square: float | None = None,
 ) -> Component:
     """Returns a thermal phase shifter that has properly fixed electrical connectivity to extract a suitable electrical netlist and models.
@@ -197,7 +198,7 @@ def straight_heater_metal_simple(
 
     if via_stack:
         via = via_stackw = via_stacke = gf.get_component(via_stack)
-        dx = via_stackw.dxsize / 2 + heater_taper_length or 0
+        dx = via_stackw.dxsize / 2 + heater_taper_length
         via_stack_west_center = (
             straight_heater_section.dxmin - dx,
             straight_heater_section.dy,

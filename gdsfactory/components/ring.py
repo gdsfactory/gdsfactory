@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import numpy as np
+import numpy.typing as npt
 from numpy import cos, pi, sin
 
 import gdsfactory as gf
@@ -29,7 +30,8 @@ def ring(
     inner_radius = radius - width / 2
     outer_radius = radius + width / 2
     n = int(np.round(360 / angle_resolution))
-    t = np.linspace(0, angle, n + 1) * pi / 180
+    t: npt.NDArray[np.float64] = np.linspace(0, angle, n + 1) * pi / 180  # type: ignore
+    assert isinstance(t, np.ndarray)
     inner_points_x = (inner_radius * cos(t)).tolist()
     inner_points_y = (inner_radius * sin(t)).tolist()
     outer_points_x = (outer_radius * cos(t)).tolist()

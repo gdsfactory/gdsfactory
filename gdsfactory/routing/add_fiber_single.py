@@ -93,14 +93,24 @@ def add_fiber_single(
         gc = grating_coupler
     gc = gf.get_component(gc)
     if gc_port_name not in gc.ports:
-        raise ValueError(f"gc_port_name={gc_port_name!r} not in {gc.ports.keys()}")
+        raise ValueError(f"gc_port_name={gc_port_name!r} not in {list(gc.ports)}")
 
     gc_port_names = [port.name for port in gc.ports]
     if gc_port_name_fiber not in gc_port_names:
-        gc_port_name_fiber = gc_port_names[0]
+        gc_port_name_fiber_option = next(
+            (name for name in gc_port_names if name is not None), None
+        )
+        if gc_port_name_fiber_option is None:
+            raise ValueError("No valid grating coupler port names found.")
+        gc_port_name_fiber = gc_port_name_fiber_option
 
     if gc_port_name not in gc_port_names:
-        gc_port_name = gc_port_names[0]
+        gc_port_name_option = next(
+            (name for name in gc_port_names if name is not None), None
+        )
+        if gc_port_name_option is None:
+            raise ValueError("No valid grating coupler port names found.")
+        gc_port_name = gc_port_name_option
 
     orientation = gc.ports[gc_port_name].orientation
     if int(orientation) != 180:
@@ -119,9 +129,10 @@ def add_fiber_single(
     c1 = Component()
     ref = c1.add_ref(component)
 
-    input_port_names = input_port_names or [
-        p.name for p in ref.ports.filter(orientation=180)
-    ]
+    input_port_names = list(
+        input_port_names
+        or [p.name for p in ref.ports.filter(orientation=180) if p.name is not None]
+    )
     output_port_names = [
         port.name
         for port in ref.ports
@@ -186,6 +197,6 @@ if __name__ == "__main__":
     c = big_device(nports=1)
     c.info["polarization"] = "te"
     # c = gf.c.mmi2x2()
-    c = add_fiber_single(c)
+    c = add_fiber_single(c, gc_port_name_fiber="o3")
     c.pprint_ports()
     c.show()

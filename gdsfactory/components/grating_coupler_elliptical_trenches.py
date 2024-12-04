@@ -24,7 +24,7 @@ def grating_coupler_elliptical_trenches(
     grating_line_width: float = 0.343,
     neff: float = 2.638,  # tooth effective index
     ncladding: float = 1.443,  # cladding index
-    layer_trench: LayerSpec | None = "SHALLOW_ETCH",
+    layer_trench: LayerSpec = "SHALLOW_ETCH",
     p_start: int = 26,
     n_periods: int = 30,
     end_straight_length: float = 0.2,
@@ -109,18 +109,18 @@ def grating_coupler_elliptical_trenches(
     y = wg_width / 2 + np.tan(taper_angle / 2 * np.pi / 180) * xmax
 
     taper_length2 = (xmax + end_straight_length) - x_output
-    taper = c << gf.get_component(
+    taper_component = c << gf.get_component(
         taper,
         width1=wg_width,
         width2=2 * y,
         length=taper_length2,
         cross_section=cross_section,
     )
-    taper.dxmin = x_output
+    taper_component.dxmin = x_output
 
     c.add_port(
         name="o1",
-        port=taper.ports["o1"],
+        port=taper_component.ports["o1"],
     )
     c.info["period"] = float(np.round(period, 3))
     c.info["polarization"] = polarization

@@ -58,7 +58,7 @@ def optimal_step(
                 + a * np.arctan(np.sqrt((gamma - 1) / (w - gamma)))
             )
         )
-        return np.real(zeta), np.imag(zeta)
+        return np.real(zeta), np.imag(zeta)  # type: ignore
 
     def invert_step_point(
         x_desired: float = -10,
@@ -74,11 +74,11 @@ def optimal_step(
                 return (guessed_x - x_desired) ** 2  # Error relative to x_desired
             return (guessed_y - y_desired) ** 2  # Error relative to y_desired
 
-        from scipy.optimize import fminbound
+        from scipy.optimize import fminbound  # type: ignore
 
         # Minimize error to find optimal eta
-        found_eta = fminbound(fh, 0, np.pi)
-        return step_points(found_eta, W=W + 0j, a=a + 0j)
+        found_eta = fminbound(fh, 0, np.pi)  # type: ignore
+        return step_points(found_eta, W=W + 0j, a=a + 0j)  # type: ignore
 
     if start_width > end_width:
         reverse = True
@@ -87,6 +87,8 @@ def optimal_step(
         reverse = False
 
     D = Component()
+    xpts: list[float] = []
+    ypts: list[float] = []
     if start_width == end_width:  # Just return a square
         if symmetric:
             ypts = [
@@ -101,15 +103,14 @@ def optimal_step(
             xpts = [0, 0, start_width, start_width]
         D.info["num_squares"] = 1
     else:
-        xmin, ymin = invert_step_point(
+        xmin, _ = invert_step_point(
             y_desired=start_width * (1 + width_tol), W=start_width, a=end_width
         )
-        xmax, ymax = invert_step_point(
+        xmax, _ = invert_step_point(
             y_desired=end_width * (1 - width_tol), W=start_width, a=end_width
         )
 
-        xpts = np.linspace(xmin, xmax, num_pts).tolist()
-        ypts = []
+        xpts = list(np.linspace(xmin, xmax, num_pts))
         for x in xpts:
             x, y = invert_step_point(x_desired=x, W=start_width, a=end_width)
             ypts.append(y)
@@ -150,14 +151,14 @@ def optimal_step(
     if not symmetric:
         D.add_port(
             name="e1",
-            center=[min(xpts), start_width / 2],
+            center=(min(xpts), start_width / 2),
             width=start_width,
             orientation=180,
             layer=layer,
         )
         D.add_port(
             name="e2",
-            center=[max(xpts), end_width / 2],
+            center=(max(xpts), end_width / 2),
             width=end_width,
             orientation=0,
             layer=layer,
@@ -165,14 +166,14 @@ def optimal_step(
     if symmetric:
         D.add_port(
             name="e1",
-            center=[min(xpts), 0],
+            center=(min(xpts), 0),
             width=start_width,
             orientation=180,
             layer=layer,
         )
         D.add_port(
             name="e2",
-            center=[max(xpts), 0],
+            center=(max(xpts), 0),
             width=end_width,
             orientation=0,
             layer=layer,

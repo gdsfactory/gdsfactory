@@ -8,7 +8,7 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import PATH
-from gdsfactory.constants import _glyph, _indent, _width
+from gdsfactory.constants import _glyph, _indent, _width  # type: ignore
 from gdsfactory.typings import LayerSpec, LayerSpecs, PathType
 
 
@@ -35,11 +35,11 @@ def text_freetype(
 
     """
     t = Component()
-    yoffset = 0
+    yoffset = 0.0
     layers = layers or [layer]
 
     face = font
-    xoffset = 0
+    xoffset = 0.0
     if face == "DEPLOF":
         scaling = size / 1000
 
@@ -53,7 +53,7 @@ def text_freetype(
                     for poly in _glyph[ascii_val]:
                         xpts = np.array(poly)[:, 0] * scaling + xoffset
                         ypts = np.array(poly)[:, 1] * scaling + yoffset
-                        points = list(zip(xpts, ypts))
+                        points: list[tuple[float, float]] = list(zip(xpts, ypts))
                         char.add_polygon(points, layer=layer)
                     xoffset += (_width[ascii_val] + _indent[ascii_val]) * scaling
                 else:
@@ -65,21 +65,25 @@ def text_freetype(
             yoffset -= 1500 * scaling
             xoffset = 0
     else:
-        from gdsfactory.font import _get_font_by_file, _get_font_by_name, _get_glyph
+        from gdsfactory.font import (
+            _get_font_by_file,  # type: ignore
+            _get_font_by_name,  # type: ignore
+            _get_glyph,  # type: ignore
+        )
 
         font_path = pathlib.Path(font)
         # Load the font. If we've passed a valid file, try to load that, otherwise search system fonts
         if font_path.is_file() and font_path.suffix in {".otf", ".ttf"}:
-            font = _get_font_by_file(str(font))
+            face = _get_font_by_file(str(font))
         else:
-            font = _get_font_by_name(font)
+            face = _get_font_by_name(str(font))
 
         # Render each character
         for line in text.split("\n"):
             char = Component()
             xoffset = 0
             for letter in line:
-                letter_template, advance_x, ascender = _get_glyph(font, letter)
+                letter_template, advance_x, ascender = _get_glyph(face, letter)
                 scale_factor = size / ascender
                 if letter == " ":
                     xoffset += scale_factor * advance_x
@@ -89,8 +93,8 @@ def text_freetype(
                     scale=scale_factor
                 ).values():
                     for layer in layers:
-                        for points in polygon_points:
-                            letter_dev.add_polygon(points, layer=layer)
+                        for points_ in polygon_points:
+                            letter_dev.add_polygon(points_, layer=layer)  # type: ignore
                 ref = char.add_ref(letter_dev)
                 ref.dmove((xoffset, 0))
                 xoffset += scale_factor * advance_x
@@ -100,12 +104,12 @@ def text_freetype(
             yoffset -= size
 
     justify = justify.lower()
-    for ref in t.insts:
+    for inst in t.insts:
         if justify == "center":
-            ref.dmove((0, 0))
+            inst.dmove((0, 0))
 
         elif justify == "right":
-            ref.dxmax = 0
+            inst.dxmax = 0
     t.flatten()
     return t
 

@@ -93,7 +93,8 @@ def coupler_broadband(
 
     for section in xs.sections[1:]:
         w = section.width / 2
-        layer = section.layer
+        layer = section.layer  # type: ignore
+        assert layer is not None
         vertices_top = [
             (L_2 / 2 + L_t, -w),
             (L_2 / 2 + L_t, w),

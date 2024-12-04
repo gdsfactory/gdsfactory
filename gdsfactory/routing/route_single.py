@@ -28,7 +28,7 @@ To generate a route:
 from __future__ import annotations
 
 from collections.abc import Mapping, Sequence
-from typing import Any, Literal
+from typing import Literal
 
 import kfactory as kf
 from kfactory.routing.electrical import route_elec
@@ -39,7 +39,6 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.port import Port
 from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.typings import (
     STEP_DIRECTIVES,
@@ -47,14 +46,14 @@ from gdsfactory.typings import (
     Coordinates,
     CrossSectionSpec,
     LayerSpec,
-    MultiCrossSectionAngleSpec,
+    Port,
 )
 
 
 def route_single(
     component: Component,
-    port1: kf.Port,
-    port2: kf.Port,
+    port1: Port,
+    port2: Port,
     cross_section: CrossSectionSpec | None = None,
     layer: LayerSpec | None = None,
     bend: ComponentSpec = bend_euler,
@@ -133,11 +132,7 @@ def route_single(
         p1 = add_auto_tapers(component, [p1], cross_section)[0]
         p2 = add_auto_tapers(component, [p2], cross_section)[0]
 
-    def straight_dbu(
-        length: int,
-        cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = cross_section,
-        **kwargs: Any,
-    ) -> Component:
+    def straight_dbu(width: int, length: int) -> Component:
         return gf.get_component(
             straight,
             length=c.kcl.to_um(length),
@@ -168,8 +163,8 @@ def route_single(
                     f"Invalid step directives: {invalid_step_directives}."
                     f"Valid directives are {list(STEP_DIRECTIVES)}"
                 )
-            x = d.get("x", x) + d.get("dx", 0)
-            y = d.get("y", y) + d.get("dy", 0)
+            x = float(d.get("x", x) + d.get("dx", 0.0))
+            y = float(d.get("y", y) + d.get("dy", 0.0))
             waypoints += [(x, y)]
 
     if len(waypoints) > 0:
@@ -406,7 +401,7 @@ if __name__ == "__main__":
     s1 = c << gf.components.straight()
     s2 = c << gf.components.straight(width=2)
     s2.dmove((100, 50))
-    route = gf.routing.route_single(
+    route_ = gf.routing.route_single(
         c,
         port1=s1.ports["o2"],
         port2=s2.ports["o1"],

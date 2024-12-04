@@ -4,12 +4,15 @@ from __future__ import annotations
 
 import warnings
 from functools import partial
+from typing import Any, overload
 
 import kfactory as kf
 import numpy as np
 import numpy.typing as npt
 
-Value = float | tuple[float, ...] | npt.NDArray[np.float64]
+Value = (
+    float | tuple[float, ...] | npt.NDArray[np.float64] | npt.NDArray[np.floating[Any]]
+)
 
 
 def is_on_grid(
@@ -47,11 +50,26 @@ def assert_on_2x_grid(x: float) -> None:
         raise ValueError(f"{x} needs to be on 2x grid and should be {x_grid}")
 
 
+@overload
 def snap_to_grid(
-    x: Value,
+    x: tuple[float, ...]
+    | npt.NDArray[np.float64]
+    | npt.NDArray[np.floating[Any]]
+    | list[float],
     nm: int | None = None,
     grid_factor: int = 1,
-) -> npt.NDArray[np.float64]:
+) -> npt.NDArray[np.float64]: ...
+@overload
+def snap_to_grid(
+    x: float,
+    nm: int | None = None,
+    grid_factor: int = 1,
+) -> float: ...
+def snap_to_grid(
+    x: Value | list[float],
+    nm: int | None = None,
+    grid_factor: int = 1,
+) -> npt.NDArray[np.float64] | float:
     """Snap x to grid.
 
     Args:
@@ -61,14 +79,34 @@ def snap_to_grid(
     """
     grid_size = kf.kcl.dbu
     nm = nm or round(grid_size * 1000 * grid_factor)
-    return nm * np.round(np.asarray(x, dtype=float) * 1e3 / nm) / 1e3
+    res = nm * np.round(np.asarray(x, dtype=float) * 1e3 / nm) / 1e3  # type: ignore
+    if isinstance(res, np.floating):
+        return float(res)
+    return res
 
 
-snap_to_grid2x = partial(snap_to_grid, grid_factor=2)
+@overload
+def snap_to_grid2x(
+    x: tuple[float, ...]
+    | npt.NDArray[np.float64]
+    | npt.NDArray[np.floating[Any]]
+    | list[float],
+    nm: int | None = None,
+) -> npt.NDArray[np.float64]: ...
+@overload
+def snap_to_grid2x(
+    x: float,
+    nm: int | None = None,
+) -> float: ...
+def snap_to_grid2x(
+    x: Value | list[float],
+    nm: int | None = None,
+) -> npt.NDArray[np.float64] | float:
+    return snap_to_grid(x, nm, grid_factor=2)
 
 
 if __name__ == "__main__":
-    print(assert_on_grid(1.1e-3))
+    assert_on_grid(1.1e-3)
     # print(snap_to_grid(1.1e-3))
     # print(snap_to_2nm_grid(1.1e-3))
     # print(snap_to_2nm_grid(3.1e-3))

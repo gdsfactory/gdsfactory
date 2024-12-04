@@ -125,7 +125,6 @@ def greek_cross_with_pads(
         2: ("e2", "e4"),
         3: ("e3", "e4"),
     }
-    kwargs = dict(allow_layer_mismatch=True, allow_width_mismatch=True)
 
     # Vias to pads
     for index in range(4):
@@ -133,9 +132,19 @@ def greek_cross_with_pads(
         pad_ref.dx = index * pad_pitch + pad_ref.dxsize / 2
         via_ref = c << gf.get_component(pad_via)
         if index < 2:
-            via_ref.connect("e2", other=pad_ref.ports["e4"], **kwargs)
+            via_ref.connect(
+                "e2",
+                other=pad_ref.ports["e4"],
+                allow_layer_mismatch=True,
+                allow_width_mismatch=True,
+            )
         else:
-            via_ref.connect("e4", other=pad_ref.ports["e2"], **kwargs)
+            via_ref.connect(
+                "e4",
+                other=pad_ref.ports["e2"],
+                allow_layer_mismatch=True,
+                allow_width_mismatch=True,
+            )
 
         gf.routing.route_single_electrical(
             c,

@@ -2,13 +2,12 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.port import Port
-from gdsfactory.typings import ComponentSpec, Strs
+from gdsfactory.typings import ComponentSpec, Ports, Strs
 
 
 @gf.cell(set_name=False)
 def extend_ports_list(
-    ports: list[Port],
+    ports: Ports,
     extension: ComponentSpec,
     extension_port_name: str | None = None,
     ignore_ports: Strs | None = None,
@@ -27,12 +26,12 @@ def extend_ports_list(
     extension = get_component(extension)
     c.name = f"{extension.name}_extended_{c.cell_index()}"
 
-    extension_port_name = extension_port_name or extension.ports[0]
+    extension_port_name_or_port = extension_port_name or extension.ports[0]
     ignore_ports = ignore_ports or ()
 
     for i, port in enumerate(ports):
         extension_ref = c << extension
-        extension_ref.connect(extension_port_name, port)
+        extension_ref.connect(extension_port_name_or_port, port)
 
         for port in extension_ref.ports:
             port_name = port.name

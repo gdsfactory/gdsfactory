@@ -32,7 +32,7 @@ def grating_coupler_dual_pol(
     polarization: str = "te",
     wavelength: float = 1.55,
     taper: ComponentSpec = taper_function,
-    base_layer: LayerSpec | None = "WG",
+    base_layer: LayerSpec = "WG",
     cross_section: CrossSectionSpec = "strip",
     **kwargs: Any,
 ) -> Component:

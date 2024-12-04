@@ -3,12 +3,18 @@ from __future__ import annotations
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.component import Component
+from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.bend_s import bend_s, get_min_sbend_size
 from gdsfactory.components.straight import straight
 from gdsfactory.routing.route_single import route_single
-from gdsfactory.typings import ComponentFactory, ComponentSpec, CrossSectionSpec, Floats
+from gdsfactory.typings import (
+    ComponentFactory,
+    ComponentSpec,
+    CrossSectionSpec,
+    Floats,
+    Port,
+)
 
 
 @gf.cell
@@ -45,7 +51,7 @@ def spiral_racetrack(
     c = gf.Component()
 
     if with_inner_ports:
-        bend_s = gf.get_component(
+        bend_s: ComponentReference | Component = gf.get_component(
             bend_s_factory,
             size=(straight_length, -min_radius * 2 + 1 * spacings[0]),
             cross_section=cross_section_s or cross_section,
@@ -75,7 +81,7 @@ def spiral_racetrack(
         bend_s = c << _bend_s
         c.info["length"] = _bend_s.info["length"]
 
-    ports = []
+    ports: list[Port] = []
     for port in bend_s.ports:
         for i in range(len(spacings)):
             _bend = gf.get_component(
@@ -254,16 +260,16 @@ def _req_straight_len(
         cross_section: cross-section of the waveguides.
         cross_section_s_bend: s bend cross section
     """
-    from scipy.interpolate import interp1d
+    from scipy.interpolate import interp1d  # type: ignore
 
     # "Brute force" approach - sweep length and save total length
 
-    lens = []
+    lens: list[float] = []
 
     # Figure out the min straight for the spiral so that the inner
     # s bend has min radius within the bend radius of the waveguide
     min_straigth_length = get_min_sbend_size(
-        [None, -min_radius * 2 + 1 * spacings[0]], cross_section_s_bend
+        (None, -min_radius * 2 + 1 * spacings[0]), cross_section_s_bend
     )
 
     if min_straigth_length > 0.8 * in_out_port_spacing:
@@ -318,7 +324,7 @@ def _req_straight_len(
 
     # get the required spacing to achieve the required length (interpolate)
     f = interp1d(lens, straight_lengths)
-    return float(f(length))
+    return float(f(length))  # type: ignore
 
 
 @gf.cell
@@ -352,7 +358,7 @@ def spiral_racetrack_heater_metal(
     """
     c = gf.Component()
     xs = gf.get_cross_section(waveguide_cross_section)
-    min_radius = min_radius or xs.radius
+    min_radius = min_radius or xs.radius or 0
 
     spiral = c << spiral_racetrack(
         min_radius,
@@ -455,7 +461,7 @@ def spiral_racetrack_heater_doped(
         heater_cross_section: cross-section of the heater.
     """
     xs = gf.get_cross_section(waveguide_cross_section)
-    min_radius = min_radius or xs.radius
+    min_radius = min_radius or xs.radius or 0
 
     c = gf.Component()
 

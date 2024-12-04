@@ -50,20 +50,22 @@ def nxn(
     _ = c << gf.components.rectangle(size=(xsize, ysize), layer=layer)
 
     if west > 0:
-        x = 0
-        y = (
+        x_west = 0
+        y_west = (
             [ysize / 2]
             if west == 1
-            else np.linspace(
-                wg_margin + wg_width / 2, ysize - wg_margin - wg_width / 2, west
+            else list(
+                np.linspace(
+                    wg_margin + wg_width / 2, ysize - wg_margin - wg_width / 2, west
+                )
             )
         )
         orientation = 180
 
-        for i, yi in enumerate(y):
+        for i, yi in enumerate(y_west):
             c.add_port(
                 f"W{i}",
-                center=(x, yi),
+                center=(float(x_west), float(yi)),
                 width=wg_width,
                 orientation=orientation,
                 layer=layer,
@@ -71,20 +73,22 @@ def nxn(
             )
 
     if east > 0:
-        x = xsize
-        y = (
+        x_east = xsize
+        y_east = (
             [ysize / 2]
             if east == 1
-            else np.linspace(
-                wg_margin + wg_width / 2, ysize - wg_margin - wg_width / 2, east
+            else list(
+                np.linspace(
+                    wg_margin + wg_width / 2, ysize - wg_margin - wg_width / 2, east
+                )
             )
         )
         orientation = 0
 
-        for i, yi in enumerate(y):
+        for i, yi in enumerate(y_east):
             c.add_port(
                 f"E{i}",
-                center=(x, yi),
+                center=(float(x_east), float(yi)),
                 width=wg_width,
                 orientation=orientation,
                 layer=layer,
@@ -92,40 +96,44 @@ def nxn(
             )
 
     if north > 0:
-        y = ysize
-        x = (
+        y_north = ysize
+        x_north = (
             [xsize / 2]
             if north == 1
-            else np.linspace(
-                wg_margin + wg_width / 2, xsize - wg_margin - wg_width / 2, north
+            else list(
+                np.linspace(
+                    wg_margin + wg_width / 2, xsize - wg_margin - wg_width / 2, north
+                )
             )
         )
         orientation = 90
 
-        for i, xi in enumerate(x):
+        for i, xi in enumerate(x_north):
             c.add_port(
                 f"N{i}",
-                center=(xi, y),
+                center=(float(xi), float(y_north)),
                 width=wg_width,
                 orientation=orientation,
                 layer=layer,
                 **kwargs,
             )
     if south > 0:
-        y = 0
-        x = (
+        y_south = 0
+        x_south = (
             [xsize / 2]
             if south == 1
-            else np.linspace(
-                wg_margin + wg_width / 2, xsize - wg_margin - wg_width / 2, south
+            else list(
+                np.linspace(
+                    wg_margin + wg_width / 2, xsize - wg_margin - wg_width / 2, south
+                )
             )
         )
         orientation = 270
 
-        for i, xi in enumerate(x):
+        for i, xi in enumerate(x_south):
             c.add_port(
                 f"S{i}",
-                center=(xi, y),
+                center=(float(xi), float(y_south)),
                 width=wg_width,
                 orientation=orientation,
                 layer=layer,

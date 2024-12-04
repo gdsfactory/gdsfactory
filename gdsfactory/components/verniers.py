@@ -27,7 +27,7 @@ def verniers(
         kwargs: straight settings.
     """
     c = gf.Component()
-    y = 0
+    y = 0.0
 
     for width in widths:
         w = c << gf.get_component(straight, width=width, length=xsize, **kwargs)

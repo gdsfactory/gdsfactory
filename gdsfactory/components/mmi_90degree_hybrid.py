@@ -3,7 +3,7 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.typings import ComponentFactory, CrossSectionSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -14,7 +14,7 @@ def mmi_90degree_hybrid(
     length_mmi: float = 175.0,
     width_mmi: float = 10.0,
     gap_mmi: float = 0.8,
-    straight: ComponentFactory = "straight",
+    straight: ComponentSpec = "straight",
     cross_section: CrossSectionSpec = "strip",
 ) -> Component:
     r"""90 degree hybrid based on a 4x4 MMI.

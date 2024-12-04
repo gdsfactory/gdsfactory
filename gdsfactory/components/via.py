@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import warnings
+from collections.abc import Sequence
 from functools import partial
 
 import gdsfactory as gf
@@ -15,9 +16,9 @@ def via(
     gap: float | None = None,
     enclosure: float = 1.0,
     layer: LayerSpec = "VIAC",
-    bbox_layers: tuple[LayerSpec, ...] | None = None,
+    bbox_layers: Sequence[LayerSpec] | None = None,
     bbox_offset: float = 0,
-    bbox_offsets: tuple[float, ...] | None = None,
+    bbox_offsets: Sequence[float] | None = None,
     pitch: float = 2,
 ) -> Component:
     """Rectangular via.

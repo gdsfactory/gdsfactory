@@ -23,7 +23,7 @@ from gdsfactory.typings import (
 
 def snap_to_grid(p: float, grid_per_unit: int = 1000) -> float64:
     """Round."""
-    return np.round(p * grid_per_unit) / grid_per_unit
+    return np.round(p * grid_per_unit) / grid_per_unit  # type: ignore
 
 
 @gf.cell
@@ -109,7 +109,7 @@ def crossing(
         ref = c << arm
         ref.drotate(rotation)
         for p in ref.ports:
-            c.add_port(name=port_id, port=p)
+            c.add_port(name=str(port_id), port=p)
             port_id += 1
 
     c.auto_rename_ports()
@@ -130,15 +130,15 @@ def crossing_from_taper(taper: ComponentFactory = _taper) -> Component:
     Args:
         taper: taper function.
     """
-    taper = gf.get_component(taper)
+    taper_component = gf.get_component(taper)
 
     c = Component()
     for i, a in enumerate([0, 90, 180, 270]):
         # _taper = taper.ref(position=(0, 0), port_id="o2", rotation=a)
         # c.add(_taper)
-        _taper = c << taper
+        _taper = c << taper_component
         _taper.drotate(a, center=gf.kdb.DPoint(*_taper["o2"].dcenter))
-        c.add_port(name=i, port=_taper.ports["o1"])
+        c.add_port(name=str(i), port=_taper.ports["o1"])
 
     c.auto_rename_ports()
     c.flatten()
@@ -309,9 +309,9 @@ def crossing45(
     c.add_port("o3", port=b_tr.ports["o1"])
     c.add_port("o4", port=b_br.ports["o1"])
 
-    c.over_under(layer=bend.ports[0].layer)
-    x = gf.get_cross_section(cross_section)
-    x.add_bbox(c)
+    c.over_under(layer=bend.ports[0].layer)  # type: ignore
+    xs = gf.get_cross_section(cross_section)
+    xs.add_bbox(c)
     return c
 
 

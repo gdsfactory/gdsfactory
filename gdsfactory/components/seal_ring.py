@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from functools import partial
 
+import klayout.db as kdb
+
 import gdsfactory as gf
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.snap import snap_to_grid
@@ -42,17 +44,17 @@ def seal_ring(
         component = gf.get_component(component)
 
     bbox = component.dbbox()
+    assert isinstance(bbox, kdb.DBox)
     xmin, ymin, xmax, ymax = bbox.left, bbox.bottom, bbox.right, bbox.top
     x = (xmax + xmin) / 2
     sx = xmax - xmin
     sy = ymax - ymin
 
-    snap = partial(snap_to_grid, grid_factor=2)
-    sx = snap(sx)
-    sy = snap(sy)
+    sx = snap_to_grid(sx, grid_factor=2)
+    sy = snap_to_grid(sy, grid_factor=2)
 
-    ymin_north = snap(ymax + padding)
-    ymax_south = snap(ymax - sy - padding)
+    ymin_north = snap_to_grid(ymax + padding, grid_factor=2)
+    ymax_south = snap_to_grid(ymax - sy - padding, grid_factor=2)
 
     # north south
     size_north_south = (sx + 2 * padding + 2 * width, width)
@@ -89,8 +91,8 @@ def seal_ring_segmented(
     length_segment: float = 10,
     width_segment: float = 3,
     spacing_segment: float = 2,
-    corner: gf.Component = "via_stack_corner45_extended",
-    via_stack: gf.Component = "via_stack_m1_mtop",
+    corner: ComponentSpec = "via_stack_corner45_extended",
+    via_stack: ComponentSpec = "via_stack_m1_mtop",
     with_north: bool = True,
     with_south: bool = True,
     with_east: bool = True,
@@ -113,7 +115,7 @@ def seal_ring_segmented(
         padding: from component to seal.
     """
     c = gf.Component()
-    corner = gf.get_component(corner, width=width_segment)
+    corner_component = gf.get_component(corner, width=width_segment)
 
     if not isinstance(component, gf.Instance):
         component = gf.get_component(component)
@@ -126,8 +128,8 @@ def seal_ring_segmented(
     ymin -= padding
     ymax += padding
 
-    tl = c << corner
-    tr = c << corner
+    tl = c << corner_component
+    tr = c << corner_component
 
     tl.dxmin = xmin
     tl.dymax = ymax
@@ -136,8 +138,8 @@ def seal_ring_segmented(
     tr.dxmax = xmax
     tr.dymax = ymax
 
-    bl = c << corner
-    br = c << corner
+    bl = c << corner_component
+    br = c << corner_component
     br.dmirror()
     br.dmirror_y()
     bl.dmirror_y()

@@ -39,7 +39,7 @@ def triangle(
               x
     """
     c = Component()
-    points = [[0, 0], [x, 0], [x, ybot], [xtop, y], [0, y]]
+    points = [(0, 0), (x, 0), (x, ybot), (xtop, y), (0, y)]
     c.add_polygon(points, layer=layer)
     return c
 

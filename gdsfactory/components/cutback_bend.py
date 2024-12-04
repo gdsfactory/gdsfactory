@@ -133,7 +133,7 @@ def cutback_bend90(
 
 @gf.cell
 def staircase(
-    component: ComponentSpec = bend_euler,
+    component: ComponentFactory | Component = bend_euler,
     straight: ComponentFactory = straight_function,
     length_v: float = 5.0,
     length_h: float = 5.0,
