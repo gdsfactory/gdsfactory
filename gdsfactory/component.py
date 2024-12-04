@@ -1138,17 +1138,17 @@ class ComponentBase:
         """
         from gdsfactory import get_layer
 
-        distance = self.kcl.to_dbu(distance)
+        distance_dbu = self.kcl.to_dbu(distance)
 
         c = Component()
-        layer = get_layer(layer)
-        region = kdb.Region(self.begin_shapes_rec(layer))
-        region.size(+distance).size(-distance)
-        c.shapes(layer).insert(region)
+        layer_index = get_layer(layer)
+        region = kdb.Region(self.begin_shapes_rec(layer_index))
+        region.size(+distance_dbu).size(-distance_dbu)
+        c.shapes(layer_index).insert(region)
         return c
 
-    def offset(self, layer: LayerSpec, distance: float) -> None:
-        """Offsets the Component by a distance.
+    def offset(self, layer: LayerSpec, distance: float) -> Component:
+        """Offsets a Component layer by a distance in um and returns a new Component.
 
         Args:
             layer: layer to offset the Component on.
@@ -1156,13 +1156,13 @@ class ComponentBase:
         """
         from gdsfactory import get_layer
 
-        distance = self.kcl.to_dbu(distance)
+        distance_dbu = self.kcl.to_dbu(distance)
 
         c = Component()
-        layer = get_layer(layer)
-        region = kdb.Region(self.begin_shapes_rec(layer))
-        region.size(+distance)
-        c.shapes(layer).insert(region)
+        layer_index = get_layer(layer)
+        region = kdb.Region(self.begin_shapes_rec(layer_index))
+        region.size(+distance_dbu)
+        c.shapes(layer_index).insert(region)
         return c
 
     def to_dict(self, with_ports: bool = False) -> dict[str, Any]:
