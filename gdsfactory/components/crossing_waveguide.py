@@ -309,7 +309,6 @@ def crossing45(
     c.add_port("o3", port=b_tr.ports["o1"])
     c.add_port("o4", port=b_br.ports["o1"])
 
-    c.over_under(layer=bend.ports[0].layer)  # type: ignore
     xs = gf.get_cross_section(cross_section)
     xs.add_bbox(c)
     return c
