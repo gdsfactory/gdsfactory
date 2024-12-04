@@ -1128,23 +1128,41 @@ class ComponentBase:
             nets=netlist["nets"],
         )
 
-    def over_under(self, layer: LayerSpec, distance: int = 1) -> None:
-        """Flattens and performs over-under on a layer in the Component.
+    def over_under(self, layer: LayerSpec, distance: float = 0.001) -> None:
+        """Returns a Component over-under on a layer in the Component.
 
         For big components use tiled version.
 
         Args:
             layer: layer to perform over-under on.
-            distance: distance to perform over-under in DBU. Defaults to 1.
+            distance: distance to perform over-under in um.
         """
         from gdsfactory import get_layer
 
-        self.flatten()
-        layer = get_layer(layer)
-        region = kdb.Region(self.shapes(layer))
-        region.size(+distance).size(-distance)
-        self.shapes(layer).clear()
-        self.shapes(layer).insert(region)
+        distance_dbu = self.kcl.to_dbu(distance)
+
+        layer_index = get_layer(layer)
+        region = kdb.Region(self.begin_shapes_rec(layer_index))
+        region.size(+distance_dbu).size(-distance_dbu)
+        self.remove_layers([layer])
+        self.shapes(layer_index).insert(region)
+
+    def offset(self, layer: LayerSpec, distance: float) -> None:
+        """Offsets a Component layer by a distance in um.
+
+        Args:
+            layer: layer to offset the Component on.
+            distance: distance to offset the Component in um.
+        """
+        from gdsfactory import get_layer
+
+        distance_dbu = self.kcl.to_dbu(distance)
+
+        layer_index = get_layer(layer)
+        region = kdb.Region(self.begin_shapes_rec(layer_index))
+        region.size(+distance_dbu)
+        self.remove_layers([layer])
+        self.shapes(layer_index).insert(region)
 
     def to_dict(self, with_ports: bool = False) -> dict[str, Any]:
         """Returns a dictionary representation of the Component."""
@@ -1353,10 +1371,12 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.c.mzi()
+    c.offset("WG", -0.2)
+    # c.over_under("WG", 0.2)
     # n = c.to_graphviz()
 
     # plot_graphviz(n)
-    c.plot_netlist_graphviz(interactive=True)
+    # c.plot_netlist_graphviz(interactive=True)
 
     # c = gf.Component()
     # c.add_port(
