@@ -1,5 +1,5 @@
 instances:
-  straight_L1980_N2_CSpn_0_0:
+  straight_L1980_N2_CSpn_WNone_0_0:
     component: straight
     info:
       length: 1980
@@ -12,6 +12,7 @@ instances:
       cross_section: pn
       length: 1980
       npoints: 2
+      width: null
   taper_strip_to_ridge_L1_3a86af41_1990000_0:
     component: taper_strip_to_ridge
     info:
@@ -102,12 +103,12 @@ instances:
       - null
 name: straight_pin_L2000_CSpn_958ac331
 nets:
-- p1: straight_L1980_N2_CSpn_0_0,o1
+- p1: straight_L1980_N2_CSpn_WNone_0_0,o1
   p2: taper_strip_to_ridge_L1_3a86af41_m10000_0,o2
-- p1: straight_L1980_N2_CSpn_0_0,o2
+- p1: straight_L1980_N2_CSpn_WNone_0_0,o2
   p2: taper_strip_to_ridge_L1_3a86af41_1990000_0,o2
 placements:
-  straight_L1980_N2_CSpn_0_0:
+  straight_L1980_N2_CSpn_WNone_0_0:
     mirror: false
     rotation: 0
     x: 0

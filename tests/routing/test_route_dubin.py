@@ -10,8 +10,8 @@ def sample_route_dubin_basic() -> gf.Component:
     c = gf.Component()
 
     # Create two straight waveguides with different orientations
-    wg1 = c << gf.components.straight(length=100, width=3.2, layer=(30, 0))
-    wg2 = c << gf.components.straight(length=100, width=3.2, layer=(30, 0))
+    wg1 = c << gf.components.straight(length=100, width=3.2)
+    wg2 = c << gf.components.straight(length=100, width=3.2)
 
     # Move and rotate the second waveguide
     wg2.move((300, 50))
@@ -22,7 +22,7 @@ def sample_route_dubin_basic() -> gf.Component:
         c,
         port1=wg1.ports["o2"],
         port2=wg2.ports["o1"],
-        cross_section=gf.cross_section.strip(width=3.2, layer=(30, 0), radius=100),
+        cross_section=gf.cross_section.strip(width=3.2, radius=100),
     )
     return c
 

@@ -631,7 +631,8 @@ def get_cell(cell: CellSpec, **kwargs: Any) -> ComponentFactory:
 
 
 def get_cross_section(cross_section: CrossSectionSpec, **kwargs: Any) -> CrossSection:
-    return get_active_pdk().get_cross_section(cross_section, **kwargs)
+    kwargs_clean = {k: v for k, v in kwargs.items() if v is not None}
+    return get_active_pdk().get_cross_section(cross_section, **kwargs_clean)
 
 
 def get_layer(layer: LayerSpec) -> LayerEnum:

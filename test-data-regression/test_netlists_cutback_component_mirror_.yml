@@ -684,6 +684,7 @@ instances:
       cross_section: strip
       length: 20
       npoints: 2
+      width: null
   m1:
     component: straight
     info:
@@ -697,6 +698,7 @@ instances:
       cross_section: strip
       length: 20
       npoints: 2
+      width: null
 name: cutback_component_CFtap_4bce6c9a
 nets:
 - p1: A1,o2

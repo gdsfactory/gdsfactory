@@ -80,6 +80,7 @@ instances:
       cross_section: strip
       length: 78.681
       npoints: 2
+      width: null
   s3:
     component: straight
     info:
@@ -93,6 +94,7 @@ instances:
       cross_section: strip
       length: 78.681
       npoints: 2
+      width: null
 name: delay_snake_sbend_L100__a249e5b3
 nets:
 - p1: bend_euler_R5_A180_P0p5_7f7c6f20_0_m10000,o1

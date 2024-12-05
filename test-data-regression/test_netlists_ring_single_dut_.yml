@@ -59,7 +59,7 @@ instances:
       length_x: 4
       radius: 5
       straight: straight
-  straight_L10_N2_CSstrip_m9000_15700:
+  straight_L10_N2_CSstrip_WNone_m9000_15700:
     component: straight
     info:
       length: 10
@@ -72,7 +72,8 @@ instances:
       cross_section: strip
       length: 10
       npoints: 2
-  straight_L4_N2_CSstrip_m4000_20700:
+      width: null
+  straight_L4_N2_CSstrip_WNone_m4000_20700:
     component: straight
     info:
       length: 4
@@ -85,7 +86,8 @@ instances:
       cross_section: strip
       length: 4
       npoints: 2
-  taper_L10_W0p5_W3_PNone_8fb8efc8_5000_15700:
+      width: null
+  taper_L10_W0p5_W3_LNone_5e3a56c5_5000_15700:
     component: taper
     info:
       length: 10
@@ -93,6 +95,7 @@ instances:
       width2: 3
     settings:
       cross_section: strip
+      layer: null
       length: 10
       port: null
       port_names:
@@ -108,17 +111,17 @@ instances:
 name: ring_single_dut_CFtaper_ab2e96a5
 nets:
 - p1: bend_euler_R5_A90_P0p5__c7bd5c45_5000_15700,o1
-  p2: taper_L10_W0p5_W3_PNone_8fb8efc8_5000_15700,o1
+  p2: taper_L10_W0p5_W3_LNone_5e3a56c5_5000_15700,o1
 - p1: bend_euler_R5_A90_P0p5__c7bd5c45_5000_15700,o2
-  p2: straight_L4_N2_CSstrip_m4000_20700,o2
+  p2: straight_L4_N2_CSstrip_WNone_m4000_20700,o2
 - p1: bend_euler_R5_A90_P0p5__c7bd5c45_m4000_20700,o1
-  p2: straight_L4_N2_CSstrip_m4000_20700,o1
+  p2: straight_L4_N2_CSstrip_WNone_m4000_20700,o1
 - p1: bend_euler_R5_A90_P0p5__c7bd5c45_m4000_20700,o2
-  p2: straight_L10_N2_CSstrip_m9000_15700,o1
+  p2: straight_L10_N2_CSstrip_WNone_m9000_15700,o1
 - p1: coupler_ring_G0p2_R5_LX_ba10ec54_0_0,o2
-  p2: straight_L10_N2_CSstrip_m9000_15700,o2
+  p2: straight_L10_N2_CSstrip_WNone_m9000_15700,o2
 - p1: coupler_ring_G0p2_R5_LX_ba10ec54_0_0,o3
-  p2: taper_L10_W0p5_W3_PNone_8fb8efc8_5000_15700,o2
+  p2: taper_L10_W0p5_W3_LNone_5e3a56c5_5000_15700,o2
 placements:
   bend_euler_R5_A90_P0p5__c7bd5c45_5000_15700:
     mirror: false
@@ -135,17 +138,17 @@ placements:
     rotation: 0
     x: 0
     y: 0
-  straight_L10_N2_CSstrip_m9000_15700:
+  straight_L10_N2_CSstrip_WNone_m9000_15700:
     mirror: false
     rotation: 270
     x: -9
     y: 15.7
-  straight_L4_N2_CSstrip_m4000_20700:
+  straight_L4_N2_CSstrip_WNone_m4000_20700:
     mirror: false
     rotation: 0
     x: -4
     y: 20.7
-  taper_L10_W0p5_W3_PNone_8fb8efc8_5000_15700:
+  taper_L10_W0p5_W3_LNone_5e3a56c5_5000_15700:
     mirror: false
     rotation: 270
     x: 5
@@ -156,11 +159,11 @@ ports:
 warnings:
   optical:
     width_mismatch:
-    - message: Widths of ports coupler_ring_G0p2_R5_LX_ba10ec54_0_0,o3 and taper_L10_W0p5_W3_PNone_8fb8efc8_5000_15700,o2
+    - message: Widths of ports coupler_ring_G0p2_R5_LX_ba10ec54_0_0,o3 and taper_L10_W0p5_W3_LNone_5e3a56c5_5000_15700,o2
         not equal. Difference of 2500 um
       ports:
       - coupler_ring_G0p2_R5_LX_ba10ec54_0_0,o3
-      - taper_L10_W0p5_W3_PNone_8fb8efc8_5000_15700,o2
+      - taper_L10_W0p5_W3_LNone_5e3a56c5_5000_15700,o2
       values:
       - 500
       - 3000

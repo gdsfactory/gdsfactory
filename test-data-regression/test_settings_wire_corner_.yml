@@ -1,6 +1,12 @@
 info:
   dy: 10
   length: 10
-name: wire_corner_CSmetal_routing
+name: wire_corner_CSmetal_rou_ac763080
 settings:
   cross_section: metal_routing
+  port_names:
+  - e1
+  - e2
+  port_types:
+  - electrical
+  - electrical

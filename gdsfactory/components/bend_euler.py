@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import Any, Literal, overload
+from typing import Literal, overload
 
 import numpy as np
 
@@ -132,24 +132,32 @@ def _bend_euler(
 
 
 @gf.cell
-def bend_euler_s(port1: str = "o1", port2: str = "o2", **kwargs: Any) -> Component:
+def bend_euler_s(
+    radius: float | None = None,
+    p: float = 0.5,
+    with_arc_floorplan: bool = True,
+    npoints: int | None = None,
+    layer: LayerSpec | None = None,
+    width: float | None = None,
+    cross_section: CrossSectionSpec = "strip",
+    allow_min_radius_violation: bool = False,
+    port1: str = "o1",
+    port2: str = "o2",
+) -> Component:
     r"""Sbend made of 2 euler bends.
 
     Args:
+        radius: in um. Defaults to cross_section_radius.
+        p: Proportion of the curve that is an Euler curve.
+        with_arc_floorplan: If False: `radius` is the minimum radius of curvature.
+        npoints: Number of points used per 360 degrees.
+        layer: layer to use. Defaults to cross_section.layer.
+        width: width to use. Defaults to cross_section.width.
+        cross_section: specification (CrossSection, string, CrossSectionFactory dict).
+        allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
         port1: input port name.
         port2: output port name.
 
-    Keyword Args:
-        angle: total angle of the curve.
-        p: Proportion of the curve that is an Euler curve.
-        with_arc_floorplan: If False: `radius` is the minimum radius of curvature
-          If True: The curve scales such that the endpoints match a bend_circular
-          with parameters `radius` and `angle`.
-        npoints: Number of points used per 360 degrees.
-        direction: cw (clock-wise) or ccw (counter clock-wise).
-        with_bbox: add bbox_layers and bbox_offsets to avoid DRC sharp edges.
-        cross_section: specification (CrossSection, string, CrossSectionFactory dict).
-        kwargs: cross_section settings.
 
     .. code::
 
@@ -166,7 +174,16 @@ def bend_euler_s(port1: str = "o1", port2: str = "o2", **kwargs: Any) -> Compone
 
     """
     c = Component()
-    b = bend_euler(**kwargs)
+    b = bend_euler(
+        radius=radius,
+        p=p,
+        with_arc_floorplan=with_arc_floorplan,
+        npoints=npoints,
+        layer=layer,
+        width=width,
+        cross_section=cross_section,
+        allow_min_radius_violation=allow_min_radius_violation,
+    )
     b1 = c.add_ref(b)
     b2 = c.add_ref(b)
     b2.connect(port1, b1[port2], mirror=True)

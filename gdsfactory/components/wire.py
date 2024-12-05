@@ -10,19 +10,25 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
-from gdsfactory.typings import CrossSectionSpec, LayerSpec
+from gdsfactory.cross_section import port_names_electrical, port_types_electrical
+from gdsfactory.typings import CrossSectionSpec, LayerSpec, PortNames, PortTypes
 
 wire_straight = partial(straight, cross_section="metal_routing")
 
 
 @gf.cell
 def wire_corner(
-    cross_section: CrossSectionSpec = "metal_routing", **kwargs: Any
+    cross_section: CrossSectionSpec = "metal_routing",
+    port_names: "PortNames" = port_names_electrical,
+    port_types: "PortTypes" = port_types_electrical,
+    **kwargs: Any,
 ) -> Component:
     """Returns 45 degrees electrical corner wire.
 
     Args:
         cross_section: spec.
+        port_names: port names.
+        port_types: port types.
         kwargs: cross_section parameters.
     """
     x = gf.get_cross_section(cross_section, **kwargs)
@@ -35,20 +41,20 @@ def wire_corner(
     ypts = [-a, -a, a, a]
     c.add_polygon(list(zip(xpts, ypts)), layer=layer)
     c.add_port(
-        name="e1",
+        name=port_names[0],
         center=(-a, 0),
         width=width,
         orientation=180,
         layer=layer,
-        port_type="electrical",
+        port_type=port_types[0],
     )
     c.add_port(
-        name="e2",
+        name=port_names[1],
         center=(0, a),
         width=width,
         orientation=90,
         layer=layer,
-        port_type="electrical",
+        port_type=port_types[1],
     )
     c.info["length"] = width
     c.info["dy"] = width
@@ -84,8 +90,6 @@ def wire_corner45(
     ypts = [-a, radius, radius + np.sqrt(2) * width, -a]
     c.add_polygon(list(zip(xpts, ypts)), layer=layer)
 
-    w = float(np.round(width * np.sqrt(2), 3))  # type: ignore
-
     if with_corner90_ports:
         c.add_port(
             name="e1",
@@ -105,6 +109,8 @@ def wire_corner45(
         )
 
     else:
+        w = float(np.round(width * np.sqrt(2), 3))  # type: ignore
+
         c.add_port(
             name="e1",
             center=(-w / 2, -a),
