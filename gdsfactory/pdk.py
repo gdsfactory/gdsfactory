@@ -623,7 +623,8 @@ def get_material_index(material: MaterialSpec, *args: Any, **kwargs: Any) -> Com
 def get_component(
     component: ComponentSpec, settings: dict[str, Any] | None = None, **kwargs: Any
 ) -> Component:
-    return get_active_pdk().get_component(component, settings=settings, **kwargs)
+    kwargs_clean = {k: v for k, v in kwargs.items() if v is not None}
+    return get_active_pdk().get_component(component, settings=settings, **kwargs_clean)
 
 
 def get_cell(cell: CellSpec, **kwargs: Any) -> ComponentFactory:
