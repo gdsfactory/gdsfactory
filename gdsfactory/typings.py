@@ -42,7 +42,14 @@ from gdsfactory.cross_section import (  # type: ignore[attr-defined]
     CrossSection,
     Transition,
 )
-from gdsfactory.technology import LayerLevel, LayerMap, LayerStack, LayerViews
+from gdsfactory.technology import (
+    DerivedLayer,
+    LayerLevel,
+    LayerMap,
+    LayerStack,
+    LayerViews,
+    LogicalLayer,
+)
 
 STEP_DIRECTIVES = {
     "x",
@@ -117,9 +124,8 @@ AngleInDegrees: TypeAlias = float
 
 Layer: TypeAlias = tuple[int, int]
 Layers: TypeAlias = Sequence[Layer]
-LayerSpec: TypeAlias = LayerEnum | str | tuple[int, int]
+LayerSpec: TypeAlias = LayerEnum | str | tuple[int, int] | int
 LayerSpecs: TypeAlias = Sequence[LayerSpec]
-
 
 AnyComponent: TypeAlias = Component | ComponentAllAngle
 AnyComponentT = TypeVar("AnyComponentT", bound=AnyComponent)

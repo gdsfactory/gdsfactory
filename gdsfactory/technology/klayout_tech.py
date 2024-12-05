@@ -80,7 +80,7 @@ class KLayoutTechnology(BaseModel):
         lyp_filename: str = "layers.lyp",
         lyt_filename: str = "tech.lyt",
         d25_filename: str | None = None,
-        mebes_config: dict | None = None,
+        mebes_config: dict[str, Any] | None = None,
     ) -> None:
         """Write technology files into 'tech_dir'.
 
@@ -135,8 +135,9 @@ class KLayoutTechnology(BaseModel):
             ET.SubElement(mebes, k).text = v
 
         reader_opts = root.find("reader-options")
-        lefdef_idx = list(reader_opts).index(reader_opts.find("lefdef"))
-        reader_opts.insert(lefdef_idx + 1, mebes)
+        if reader_opts is not None:
+            lefdef_idx = list(reader_opts).index(reader_opts.find("lefdef"))  # type: ignore
+            reader_opts.insert(lefdef_idx + 1, mebes)
 
         # FIXME
         if self.layer_stack:
@@ -161,10 +162,10 @@ class KLayoutTechnology(BaseModel):
     def _define_connections(self, root: ET.Element) -> None:
         if not self.connectivity:
             return
-        src_element = [e for e in list(root) if e.tag == "connectivity"]
-        if len(src_element) != 1:
+        src_elements = [e for e in list(root) if e.tag == "connectivity"]
+        if len(src_elements) != 1:
             raise KeyError("Could not get a single index for the src element.")
-        src_element = src_element[0]
+        src_element = src_elements[0]
         layers: set[str] = set()
         for first_layer_name, *layer_names in self.connectivity:
             connection = ",".join(
@@ -213,7 +214,7 @@ if __name__ == "__main__":
         name="generic_tech",
         layer_views=lyp,
         connectivity=connectivity,
-        layer_map=LAYER,
+        layer_map=LAYER,  # type: ignore
         layer_stack=LAYER_STACK,
     )
     tech_dir = PATH.klayout_tech

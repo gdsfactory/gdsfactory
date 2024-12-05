@@ -422,7 +422,7 @@ class LayerView(BaseModel):
     marked: bool = False
     xfill: bool = False
     animation: int = 0
-    group_members: builtins.dict[str, LayerView] | None = Field(default={})
+    group_members: builtins.dict[str, LayerView] = Field(default_factory=builtins.dict)
 
     def __init__(
         self,
@@ -538,8 +538,8 @@ class LayerView(BaseModel):
         else:
             return 0.3
 
-    def get_color_dict(self) -> dict[str, str]:
-        if self.fill_color is not None or self.frame_color is not None:
+    def get_color_dict(self) -> builtins.dict[str, str]:
+        if self.fill_color is not None and self.frame_color is not None:
             return {
                 "fill_color": ensure_six_digit_hex_color(self.fill_color.as_hex()),
                 "frame_color": ensure_six_digit_hex_color(self.frame_color.as_hex()),
@@ -559,11 +559,18 @@ class LayerView(BaseModel):
             "#3d87cc",
             "#e5520e",
         ]
-        color = layer_colors[np.mod(self.layer[0], len(layer_colors))]
+        if self.layer is not None:
+            color = layer_colors[np.mod(self.layer[0], len(layer_colors))]
+        else:
+            color = None
         return {"fill_color": color, "frame_color": color}
 
     def _build_klayout_xml_element(
-        self, tag: str, name: str, custom_hatch_patterns: dict, custom_line_styles: dict
+        self,
+        tag: str,
+        name: str,
+        custom_hatch_patterns: builtins.dict[str, HatchPattern],
+        custom_line_styles: builtins.dict[str, LineStyle],
     ) -> ET.Element:
         """Get XML Element from attributes."""
         # If hatch pattern name matches a named (built-in) KLayout pattern, use 'I<idx>' notation
@@ -1025,7 +1032,7 @@ class LayerViews(BaseModel):
     @staticmethod
     def from_lyp(
         filepath: str | pathlib.Path,
-        layer_pattern: str | re.Pattern | None = None,
+        layer_pattern: str | re.Pattern[str] | None = None,
     ) -> LayerViews:
         r"""Write all layer properties to a KLayout .lyp file.
 
@@ -1045,7 +1052,7 @@ class LayerViews(BaseModel):
         if root.tag != "layer-properties":
             raise OSError("Layer properties file incorrectly formatted, cannot read.")
 
-        dither_patterns = {}
+        dither_patterns: dict[str, HatchPattern] = {}
         for dither_block in root.iter("custom-dither-pattern"):
             name = dither_block.find("name").text
             order = dither_block.find("order").text
@@ -1067,7 +1074,7 @@ class LayerViews(BaseModel):
                 order=int(order),
                 custom_pattern=pattern.lstrip(),
             )
-        line_styles = {}
+        line_styles: dict[str, LineStyle] = {}
         for line_block in root.iter("custom-line-style"):
             name = line_block.find("name").text
             order = line_block.find("order").text
