@@ -43,12 +43,10 @@ from gdsfactory.cross_section import (  # type: ignore[attr-defined]
     Transition,
 )
 from gdsfactory.technology import (
-    DerivedLayer,
     LayerLevel,
     LayerMap,
     LayerStack,
     LayerViews,
-    LogicalLayer,
 )
 
 STEP_DIRECTIVES = {

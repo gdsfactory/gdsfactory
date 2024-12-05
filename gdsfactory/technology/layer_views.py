@@ -538,7 +538,7 @@ class LayerView(BaseModel):
         else:
             return 0.3
 
-    def get_color_dict(self) -> builtins.dict[str, str]:
+    def get_color_dict(self) -> builtins.dict[str, str | None]:
         if self.fill_color is not None and self.frame_color is not None:
             return {
                 "fill_color": ensure_six_digit_hex_color(self.fill_color.as_hex()),
@@ -560,7 +560,7 @@ class LayerView(BaseModel):
             "#e5520e",
         ]
         if self.layer is not None:
-            color = layer_colors[np.mod(self.layer[0], len(layer_colors))]
+            color = layer_colors[int(np.mod(self.layer[0], len(layer_colors)))]
         else:
             color = None
         return {"fill_color": color, "frame_color": color}
@@ -578,9 +578,9 @@ class LayerView(BaseModel):
         if hatch_name is None:
             dither_pattern = None
         elif hatch_name in _klayout_dither_patterns:
-            dither_pattern = f"I{list(_klayout_dither_patterns).index(hatch_name)}"
+            dither_pattern = f"I{list(_klayout_dither_patterns).index(str(hatch_name))}"
         elif hatch_name in custom_hatch_patterns:
-            dither_pattern = f"C{list(custom_hatch_patterns).index(hatch_name)}"
+            dither_pattern = f"C{list(custom_hatch_patterns).index(str(hatch_name))}"
         else:
             warnings.warn(
                 f"Dither pattern {hatch_name!r} does not correspond to any KLayout built-in or custom pattern! Using 'solid' instead."
@@ -592,9 +592,9 @@ class LayerView(BaseModel):
         if ls_name is None:
             line_style = None
         elif ls_name in _klayout_line_styles:
-            line_style = f"I{list(_klayout_line_styles).index(ls_name)}"
+            line_style = f"I{list(_klayout_line_styles).index(str(ls_name))}"
         elif ls_name in custom_line_styles:
-            line_style = f"C{list(custom_line_styles).index(ls_name)}"
+            line_style = f"C{list(custom_line_styles).index(str(ls_name))}"
         else:
             warnings.warn(
                 f"Line style {ls_name!r} does not correspond to any KLayout built-in or custom pattern! Using 'solid' instead."
@@ -625,12 +625,16 @@ class LayerView(BaseModel):
             "marked": str(self.marked).lower(),
             "xfill": str(self.xfill).lower(),
             "animation": self.animation,
-            "name": f"{name} {self.layer[0]}/{self.layer[1]}"
-            if self.layer_in_name
-            else name,
-            "source": f"{self.layer[0]}/{self.layer[1]}@1"
-            if self.layer is not None
-            else "*/*@*",
+            "name": (
+                f"{name} {self.layer[0]}/{self.layer[1]}"
+                if self.layer_in_name and self.layer is not None
+                else name
+            ),
+            "source": (
+                f"{self.layer[0]}/{self.layer[1]}@1"
+                if self.layer is not None
+                else "*/*@*"
+            ),
         }
         el = ET.Element(tag)
         for key, value in prop_dict.items():
@@ -646,12 +650,14 @@ class LayerView(BaseModel):
         return el
 
     def to_klayout_xml(
-        self, custom_hatch_patterns: dict, custom_line_styles: dict
+        self,
+        custom_hatch_patterns: builtins.dict[str, HatchPattern],
+        custom_line_styles: builtins.dict[str, LineStyle],
     ) -> ET.Element:
         """Return an XML representation of the LayerView."""
         props = self._build_klayout_xml_element(
             "properties",
-            name=self.name,
+            name=self.name,  # type: ignore
             custom_hatch_patterns=custom_hatch_patterns,
             custom_line_styles=custom_line_styles,
         )
@@ -668,7 +674,7 @@ class LayerView(BaseModel):
 
     @staticmethod
     def _process_name(
-        name: str, layer_pattern: str | re.Pattern
+        name: str, layer_pattern: str | re.Pattern[str]
     ) -> tuple[str | None, bool | None]:
         """Strip layer info from name if it exists.
 
@@ -687,7 +693,9 @@ class LayerView(BaseModel):
         return clean_name(name, remove_dots=True), layer_in_name
 
     @staticmethod
-    def _process_layer(layer: str, layer_pattern: str | re.Pattern) -> Layer | None:
+    def _process_layer(
+        layer: str, layer_pattern: str | re.Pattern[str]
+    ) -> Layer | None:
         """Convert .lyp XML layer entry to a Layer.
 
         Args:
@@ -702,7 +710,7 @@ class LayerView(BaseModel):
 
     @classmethod
     def from_xml_element(
-        cls, element: ET.Element, layer_pattern: str | re.Pattern
+        cls, element: ET.Element, layer_pattern: str | re.Pattern[str]
     ) -> LayerView | None:
         """Read properties from .lyp XML and generate LayerViews from them.
 
@@ -711,12 +719,13 @@ class LayerView(BaseModel):
             layer_pattern: Regex pattern to match layers with.
         """
         name, layer_in_name = cls._process_name(
-            element.find("name").text, layer_pattern
+            element.find("name").text,  # type: ignore
+            layer_pattern,
         )
         if name is None:
             return None
 
-        hatch_pattern = element.find("dither-pattern").text
+        hatch_pattern = element.find("dither-pattern").text  # type: ignore
         # Translate KLayout index to hatch name
         if hatch_pattern and re.match(r"I\d+", hatch_pattern):
             hatch_pattern = list(_klayout_dither_patterns.keys())[
@@ -725,16 +734,16 @@ class LayerView(BaseModel):
 
         # Translate KLayout index to line style name
         line_style = element.find("line-style")
-        if line_style and re.match(r"I\d+", line_style.text):
-            line_style = list(_klayout_line_styles.keys())[int(line_style.text[1:])]
+        if line_style and re.match(r"I\d+", line_style.text):  # type: ignore
+            line_style = list(_klayout_line_styles.keys())[int(line_style.text[1:])]  # type: ignore
 
         lv = LayerView(
             name=name,
-            layer=cls._process_layer(element.find("source").text, layer_pattern),
+            layer=cls._process_layer(element.find("source").text, layer_pattern),  # type: ignore
             fill_color=getattr(element.find("fill-color"), "text", None),
             frame_color=getattr(element.find("frame-color"), "text", None),
-            fill_brightness=element.find("fill-brightness").text or 0,
-            frame_brightness=element.find("frame-brightness").text or 0,
+            fill_brightness=element.find("fill-brightness").text or 0,  # type: ignore
+            frame_brightness=element.find("frame-brightness").text or 0,  # type: ignore
             hatch_pattern=hatch_pattern or None,
             line_style=line_style or None,
             valid=getattr(element.find("valid"), "text", True),
@@ -748,10 +757,10 @@ class LayerView(BaseModel):
         )
 
         # Add only if needed, so we can filter by defaults when dumping to yaml
-        group_members = {}
+        group_members: builtins.dict[str, LayerView] = {}
         for member in element.iterfind("group-members"):
             member_lv = cls.from_xml_element(member, layer_pattern)
-            if member_lv:
+            if member_lv and member_lv.name is not None:
                 group_members[member_lv.name] = member_lv
 
         if group_members != {}:
@@ -806,19 +815,28 @@ class LayerViews(BaseModel):
             data["layer_views"] = lvs.layer_views
             data["custom_line_styles"] = lvs.custom_line_styles
             data["custom_dither_patterns"] = lvs.custom_dither_patterns
-
+        layer_names: builtins.dict[str, LayerEnum] | None = None
         if layers:
-            layers = {layer.name: layer for layer in layers if layer is not None}
+            layer_names = {
+                layer.name: layer
+                for layer in layers  # type: ignore[attr-defined]
+                if layer is not None
+            }
+        else:
+            layer_names = None
 
         super().__init__(**data)
 
         for name in self.model_dump():
             lv = getattr(self, name)
             if isinstance(lv, LayerView):
-                #
-                if layers is not None and name in layers:
+                if (
+                    layers is not None
+                    and layer_names is not None
+                    and name in layer_names
+                ):
                     lv_dict = lv.dict(exclude={"layer", "name"})
-                    lv = LayerView(layer=layers[name], name=name, **lv_dict)
+                    lv = LayerView(layer=layer_names[name], name=name, **lv_dict)
                 self.add_layer_view(name=name, layer_view=lv)
 
     def add_layer_view(
@@ -843,9 +861,9 @@ class LayerViews(BaseModel):
 
         # If the dither pattern is a CustomDitherPattern, add it to custom_patterns
         dither_pattern = layer_view.hatch_pattern
-        if (
-            isinstance(dither_pattern, HatchPattern)
-            and dither_pattern not in self.custom_dither_patterns.keys()
+        if isinstance(dither_pattern, HatchPattern) and (
+            dither_pattern.name is not None
+            and dither_pattern.name not in self.custom_dither_patterns.keys()
         ):
             self.custom_dither_patterns[dither_pattern.name] = dither_pattern
 
@@ -857,9 +875,9 @@ class LayerViews(BaseModel):
             layer_view.hatch_pattern = self.custom_dither_patterns[dither_pattern]
 
         line_style = layer_view.line_style
-        if (
-            isinstance(line_style, LineStyle)
-            and line_style not in self.custom_line_styles.keys()
+        if isinstance(line_style, LineStyle) and (
+            line_style.name is not None
+            and line_style.name not in self.custom_line_styles.keys()
         ):
             self.custom_line_styles[line_style.name] = line_style
         elif (
@@ -931,7 +949,6 @@ class LayerViews(BaseModel):
         Returns:
             LayerView.
         """
-        layer_tuple = tuple(layer_tuple)
         tuple_to_name = {v.layer: k for k, v in self.get_layer_views().items()}
         if layer_tuple not in tuple_to_name:
             raise ValueError(
@@ -943,7 +960,11 @@ class LayerViews(BaseModel):
 
     def get_layer_tuples(self) -> set[Layer]:
         """Returns a tuple for each layer."""
-        return {layer.layer for layer in self.get_layer_views().values()}
+        return {
+            layer.layer
+            for layer in self.get_layer_views().values()
+            if layer.layer is not None
+        }
 
     def clear(self) -> None:
         """Deletes all layers in the LayerViews."""
@@ -969,15 +990,22 @@ class LayerViews(BaseModel):
 
         non_empty_layers = [v for v in layer_views.values() if v.layer is not None]
 
-        sorted_layers = sorted(non_empty_layers, key=lambda x: (x.layer[0], x.layer[1]))
+        sorted_layers = sorted(
+            non_empty_layers,
+            key=lambda x: (x.layer[0], x.layer[1]),  # type: ignore[index]
+        )
 
         for n, layer in enumerate(sorted_layers):
             layer_tuple = layer.layer
+            if layer_tuple is None:
+                continue
             rectangle = gf.components.rectangle(
                 size=(100 * scale, 100 * scale), layer=layer_tuple
             )
             text = gf.components.text(
-                text=f"{layer.name}\n{layer_tuple[0]} / {layer_tuple[1]}",
+                text=f"{layer.name}\n{layer_tuple[0]} / {layer_tuple[1]}"
+                if layer_tuple is not None
+                else layer.name,
                 size=20 * scale,
                 position=(50 * scale, -20 * scale),
                 justify="center",
@@ -1054,13 +1082,13 @@ class LayerViews(BaseModel):
 
         dither_patterns: dict[str, HatchPattern] = {}
         for dither_block in root.iter("custom-dither-pattern"):
-            name = dither_block.find("name").text
-            order = dither_block.find("order").text
+            name = dither_block.find("name").text  # type: ignore[union-attr]
+            order = dither_block.find("order").text  # type: ignore[union-attr]
 
             if name is None or order is None:
                 continue
             pattern = "\n".join(
-                [line.text for line in dither_block.find("pattern").iter()]
+                [line.text for line in dither_block.find("pattern").iter()]  # type: ignore[union-attr,misc]
             )
 
             if name in dither_patterns:
@@ -1076,8 +1104,9 @@ class LayerViews(BaseModel):
             )
         line_styles: dict[str, LineStyle] = {}
         for line_block in root.iter("custom-line-style"):
-            name = line_block.find("name").text
-            order = line_block.find("order").text
+            print(line_block, type(line_block))
+            name = line_block.find("name").text  # type: ignore[union-attr]
+            order = line_block.find("order").text  # type: ignore[union-attr]
 
             if name is None or order is None:
                 continue
@@ -1091,7 +1120,7 @@ class LayerViews(BaseModel):
             line_styles[name] = LineStyle(
                 name=name,
                 order=int(order),
-                custom_style=line_block.find("pattern").text,
+                custom_style=line_block.find("pattern").text,  # type: ignore[union-attr]
             )
 
         layer_views = {}
@@ -1215,6 +1244,7 @@ if __name__ == "__main__":
     PDK = get_generic_pdk()
     LAYER_VIEWS = PDK.layer_views
     # LAYER_VIEWS.to_yaml(PATH.repo / "extra" / "layers.yml")
+    assert LAYER_VIEWS is not None
     c = LAYER_VIEWS.preview_layerset()
     c.show()
 

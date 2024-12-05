@@ -11,7 +11,7 @@ from rich.console import Console
 from rich.table import Table
 
 import gdsfactory as gf
-from gdsfactory.component import Component
+from gdsfactory.component import Component, boolean_operations
 
 if TYPE_CHECKING:
     from gdsfactory.technology import LayerViews
@@ -285,7 +285,7 @@ class DerivedLayer(AbstractLayer):
         """
         r1 = self.layer1.get_shapes(component)
         r2 = self.layer2.get_shapes(component)
-        region = gf.component.boolean_operations[self.operation](r1, r2)
+        region = boolean_operations[self.operation](r1, r2)
         if not (
             all(v == 0 for v in self.sizings_xoffsets)
             and all(v == 0 for v in self.sizings_yoffsets)
@@ -593,12 +593,12 @@ class LayerStack(BaseModel):
                         if layer1 in layer_views:  # type: ignore
                             props = layer_views.get_from_tuple(layer1)  # type: ignore
                             if hasattr(props, "color"):
-                                if props.color.fill == props.color.frame:
-                                    txt += f"color: {props.color.fill}"
+                                if props.color.fill == props.color.frame:  # type: ignore
+                                    txt += f"color: {props.color.fill}"  # type: ignore
                                 else:
                                     txt += (
-                                        f"fill: {props.color.fill}, "
-                                        f"frame: {props.color.frame}"
+                                        f"fill: {props.color.fill}, "  # type: ignore
+                                        f"frame: {props.color.frame}"  # type: ignore
                                     )
                     txt += ")"
                     out += f"{txt}\n"
@@ -620,12 +620,12 @@ class LayerStack(BaseModel):
                     txt += ", "
                     props = layer_views.get_from_tuple(layer_tuple)
                     if hasattr(props, "color"):
-                        if props.color.fill == props.color.frame:
-                            txt += f"color: {props.color.fill}"
+                        if props.color.fill == props.color.frame:  # type: ignore
+                            txt += f"color: {props.color.fill}"  # type: ignore
                         else:
                             txt += (
-                                f"fill: {props.color.fill}, "
-                                f"frame: {props.color.frame}"
+                                f"fill: {props.color.fill}, "  # type: ignore
+                                f"frame: {props.color.frame}"  # type: ignore
                             )
 
                 txt += ")"
