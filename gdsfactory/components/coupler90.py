@@ -10,7 +10,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 @gf.cell
 def coupler90(
     gap: float = 0.2,
-    radius: float = 10.0,
+    radius: float | None = None,
     bend: ComponentSpec = "bend_euler",
     straight: ComponentSpec = "straight",
     cross_section: CrossSectionSpec = "strip",
@@ -67,5 +67,5 @@ coupler90circular = partial(coupler90, bend="bend_circular")
 
 
 if __name__ == "__main__":
-    c = coupler90(radius=10, cross_section_bend="strip_heater_metal")
+    c = coupler90(cross_section_bend="strip_heater_metal")
     c.show()
