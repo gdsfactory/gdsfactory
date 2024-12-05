@@ -10,6 +10,7 @@ import numpy.typing as npt
 import gdsfactory as gf
 from gdsfactory.boolean import boolean
 from gdsfactory.component import Component
+from gdsfactory.typings import PathType
 
 
 def compute_area_signed(pr: npt.NDArray[np.floating[Any]]) -> float:
@@ -66,7 +67,7 @@ def from_np(
 
 
 @gf.cell
-def from_image(image_path: str, **kwargs: Any) -> Component:
+def from_image(image_path: PathType, **kwargs: Any) -> Component:
     """Returns Component from a png image.
 
     Args:

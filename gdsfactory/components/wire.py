@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import Any
 
 import numpy as np
 
@@ -21,7 +20,7 @@ def wire_corner(
     cross_section: CrossSectionSpec = "metal_routing",
     port_names: "PortNames" = port_names_electrical,
     port_types: "PortTypes" = port_types_electrical,
-    **kwargs: Any,
+    width: float | None = None,
 ) -> Component:
     """Returns 45 degrees electrical corner wire.
 
@@ -29,9 +28,9 @@ def wire_corner(
         cross_section: spec.
         port_names: port names.
         port_types: port types.
-        kwargs: cross_section parameters.
+        width: optional width. Defaults to cross_section width.
     """
-    x = gf.get_cross_section(cross_section, **kwargs)
+    x = gf.get_cross_section(cross_section, width=width)
     layer = x.layer
     width = x.width
 

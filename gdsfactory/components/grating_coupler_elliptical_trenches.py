@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import Any
 
 import numpy as np
 
@@ -30,7 +29,6 @@ def grating_coupler_elliptical_trenches(
     end_straight_length: float = 0.2,
     taper: ComponentSpec = taper_function,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs: Any,
 ) -> Component:
     r"""Returns Grating coupler with defined trenches.
 
@@ -53,7 +51,6 @@ def grating_coupler_elliptical_trenches(
         end_straight_length: at the end of straight.
         taper: taper function.
         cross_section: cross_section spec.
-        kwargs: cross_section settings.
 
 
     .. code::
@@ -66,7 +63,7 @@ def grating_coupler_elliptical_trenches(
         WG  o1  ______________|
 
     """
-    xs = gf.get_cross_section(cross_section, **kwargs)
+    xs = gf.get_cross_section(cross_section)
     wg_width = xs.width
     layer = xs.layer
 

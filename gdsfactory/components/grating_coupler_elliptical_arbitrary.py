@@ -33,7 +33,6 @@ def grating_coupler_elliptical_arbitrary(
     spiked: bool = True,
     bias_gap: float = 0,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs: Any,
 ) -> Component:
     r"""Grating coupler with parametrization based on Lumerical FDTD simulation.
 
@@ -58,7 +57,6 @@ def grating_coupler_elliptical_arbitrary(
         bias_gap: etch gap (um).
             Positive bias increases gap and reduces width to keep period constant.
         cross_section: cross_section spec for waveguide port.
-        kwargs: cross_section settings.
 
     https://en.wikipedia.org/wiki/Ellipse
     c = (a1 ** 2 - b1 ** 2) ** 0.5
@@ -77,7 +75,7 @@ def grating_coupler_elliptical_arbitrary(
             o1  ______________|
 
     """
-    xs = gf.get_cross_section(cross_section, **kwargs)
+    xs = gf.get_cross_section(cross_section)
     wg_width = xs.width
     layer_wg = gf.get_layer(xs.layer)
 

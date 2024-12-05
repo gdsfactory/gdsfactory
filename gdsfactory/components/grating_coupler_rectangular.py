@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Any
-
 import numpy as np
 
 import gdsfactory as gf
@@ -27,7 +25,6 @@ def grating_coupler_rectangular(
     slab_xmin: float = -1.0,
     slab_offset: float = 1.0,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs: Any,
 ) -> Component:
     r"""Grating coupler with rectangular shapes (not elliptical).
 
@@ -50,7 +47,6 @@ def grating_coupler_rectangular(
         slab_xmin: where 0 is at the start of the taper.
         slab_offset: from edge of grating to edge of the slab.
         cross_section: for input waveguide port.
-        kwargs: cross_section settings.
 
     .. code::
 
@@ -78,7 +74,7 @@ def grating_coupler_rectangular(
                  <-->
                 taper_length
     """
-    xs = gf.get_cross_section(cross_section, **kwargs)
+    xs = gf.get_cross_section(cross_section)
     wg_width = xs.width
     layer = layer_grating or xs.layer
 
