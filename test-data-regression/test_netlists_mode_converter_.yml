@@ -48,7 +48,7 @@ instances:
       length: 10
       width_bot: 1
       width_top: 0.5
-  taper_L25_W1_W1p2_PNone_c47a90e6_0_0:
+  taper_L25_W1_W1p2_LNone_38ef62c2_0_0:
     component: taper
     info:
       length: 25
@@ -56,6 +56,7 @@ instances:
       width2: 1.2
     settings:
       cross_section: strip
+      layer: null
       length: 25
       port: null
       port_names:
@@ -68,7 +69,7 @@ instances:
       width2: 1.2
       with_bbox: true
       with_two_ports: true
-  taper_L25_W1_W1p2_PNone_c47a90e6_10000_0:
+  taper_L25_W1_W1p2_LNone_38ef62c2_10000_0:
     component: taper
     info:
       length: 25
@@ -76,6 +77,7 @@ instances:
       width2: 1.2
     settings:
       cross_section: strip
+      layer: null
       length: 25
       port: null
       port_names:
@@ -95,9 +97,9 @@ nets:
 - p1: bend_s_S25_3_N99_CSstri_7865203f_10000_1050,o1
   p2: coupler_straight_asymme_d7b83f37_0_0,o3
 - p1: coupler_straight_asymme_d7b83f37_0_0,o1
-  p2: taper_L25_W1_W1p2_PNone_c47a90e6_0_0,o1
+  p2: taper_L25_W1_W1p2_LNone_38ef62c2_0_0,o1
 - p1: coupler_straight_asymme_d7b83f37_0_0,o4
-  p2: taper_L25_W1_W1p2_PNone_c47a90e6_10000_0,o1
+  p2: taper_L25_W1_W1p2_LNone_38ef62c2_10000_0,o1
 placements:
   bend_s_S25_3_N99_CSstri_7865203f_0_1050:
     mirror: true
@@ -114,18 +116,18 @@ placements:
     rotation: 0
     x: 0
     y: 0
-  taper_L25_W1_W1p2_PNone_c47a90e6_0_0:
+  taper_L25_W1_W1p2_LNone_38ef62c2_0_0:
     mirror: false
     rotation: 180
     x: 0
     y: 0
-  taper_L25_W1_W1p2_PNone_c47a90e6_10000_0:
+  taper_L25_W1_W1p2_LNone_38ef62c2_10000_0:
     mirror: false
     rotation: 0
     x: 10
     y: 0
 ports:
-  o1: taper_L25_W1_W1p2_PNone_c47a90e6_0_0,o2
+  o1: taper_L25_W1_W1p2_LNone_38ef62c2_0_0,o2
   o2: bend_s_S25_3_N99_CSstri_7865203f_0_1050,o2
-  o3: taper_L25_W1_W1p2_PNone_c47a90e6_10000_0,o2
+  o3: taper_L25_W1_W1p2_LNone_38ef62c2_10000_0,o2
   o4: bend_s_S25_3_N99_CSstri_7865203f_10000_1050,o2

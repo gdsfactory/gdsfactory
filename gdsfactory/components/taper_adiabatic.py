@@ -37,7 +37,7 @@ def neff_TE1550SOI_220nm(w: float) -> float:
         w: width in um.
 
     Returns:
-        effective index
+        effective index.
     """
     return np.poly1d(adiabatic_polyfit_TE1550SOI_220nm)(w)  # type: ignore
 

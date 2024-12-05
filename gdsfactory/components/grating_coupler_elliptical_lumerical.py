@@ -8,7 +8,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_elliptical_arbitrary import (
     grating_coupler_elliptical_arbitrary,
 )
-from gdsfactory.typings import Floats, LayerSpec
+from gdsfactory.typings import CrossSectionSpec, Floats, LayerSpec
 
 parameters = (
     -2.4298362615732447,
@@ -67,14 +67,13 @@ parameters = (
 @gf.cell
 def grating_coupler_elliptical_lumerical(
     parameters: Floats = parameters,
-    layer: LayerSpec = "WG",
     layer_slab: LayerSpec | None = "SLAB150",
     taper_angle: float = 55,
     taper_length: float = 12.24 + 0.36,
     fiber_angle: float = 5,
     info: dict[str, Any] | None = None,
     bias_gap: float = 0,
-    **kwargs: Any,
+    cross_section: CrossSectionSpec = "strip",
 ) -> Component:
     """Returns a grating coupler from lumerical inverse design 3D optimization.
 
@@ -105,7 +104,6 @@ def grating_coupler_elliptical_lumerical(
         fiber_angle: used to compute ellipticity.
         info: optional simulation settings.
         bias_gap: gap/trenches bias (um) to compensate for etching bias.
-        kwargs: cross_section settings.
 
     Keyword Args:
         taper_length: taper length from input in um.
@@ -131,10 +129,9 @@ def grating_coupler_elliptical_lumerical(
         widths=widths,
         taper_angle=taper_angle,
         taper_length=taper_length,
-        layer=layer,
         layer_slab=layer_slab,
         fiber_angle=fiber_angle,
-        **kwargs,
+        cross_section=cross_section,
     )
     c.info.update(info)
     c.info["xinput"] = xinput
@@ -154,6 +151,6 @@ grating_coupler_elliptical_lumerical_etch70 = partial(
 )
 
 if __name__ == "__main__":
-    # c = grating_coupler_elliptical_lumerical_etch70()
-    c = grating_coupler_elliptical_lumerical()
+    c = grating_coupler_elliptical_lumerical_etch70()
+    # c = grating_coupler_elliptical_lumerical()
     c.show()

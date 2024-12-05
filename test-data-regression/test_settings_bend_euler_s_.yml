@@ -1,6 +1,10 @@
 info:
   length: 33.274
-name: bend_euler_s_Po1_Po2
+name: bend_euler_s_RNone_P0p5_a75130fe
 settings:
+  allow_min_radius_violation: false
+  cross_section: strip
+  p: 0.5
   port1: o1
   port2: o2
+  with_arc_floorplan: true

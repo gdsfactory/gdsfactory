@@ -60,6 +60,7 @@ instances:
       cross_section: strip
       length: 0.8
       npoints: 2
+      width: null
   R1:
     component: straight
     info:
@@ -73,6 +74,7 @@ instances:
       cross_section: strip
       length: 0.8
       npoints: 2
+      width: null
   b1:
     component: bend_euler
     info:
@@ -134,6 +136,7 @@ instances:
       cross_section: strip
       length: 0.1
       npoints: 2
+      width: null
 name: mzi_arm_LYL0p8_LYR0p8_L_1bd36bcd
 nets:
 - p1: B1,o1

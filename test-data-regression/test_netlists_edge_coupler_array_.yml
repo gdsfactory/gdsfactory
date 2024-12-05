@@ -7,6 +7,7 @@ instances:
       width2: 0.2
     settings:
       cross_section: strip
+      layer: null
       length: 100
       port: null
       port_names:
@@ -27,6 +28,7 @@ instances:
       width2: 0.2
     settings:
       cross_section: strip
+      layer: null
       length: 100
       port: null
       port_names:
@@ -47,6 +49,7 @@ instances:
       width2: 0.2
     settings:
       cross_section: strip
+      layer: null
       length: 100
       port: null
       port_names:
@@ -67,6 +70,7 @@ instances:
       width2: 0.2
     settings:
       cross_section: strip
+      layer: null
       length: 100
       port: null
       port_names:
@@ -87,6 +91,7 @@ instances:
       width2: 0.2
     settings:
       cross_section: strip
+      layer: null
       length: 100
       port: null
       port_names:

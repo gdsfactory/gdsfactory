@@ -929,7 +929,7 @@ class ComponentBase:
         """Remaps a list of layers and returns the same Component.
 
         Args:
-            layer_map: dictionary of layers to remap.
+            layer_map: dictionary of layers to copy.
             recursive: if True, remaps layers recursively.
         """
         from gdsfactory import get_layer

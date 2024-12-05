@@ -12,6 +12,7 @@ instances:
       cross_section: strip
       length: 40.656
       npoints: 2
+      width: null
   '2':
     component: straight
     info:
@@ -25,6 +26,7 @@ instances:
       cross_section: strip
       length: 40.656
       npoints: 2
+      width: null
   '3':
     component: straight
     info:
@@ -38,6 +40,7 @@ instances:
       cross_section: strip
       length: 40.656
       npoints: 2
+      width: null
   '4':
     component: straight
     info:
@@ -51,6 +54,7 @@ instances:
       cross_section: strip
       length: 40.656
       npoints: 2
+      width: null
   '5':
     component: straight
     info:
@@ -64,6 +68,7 @@ instances:
       cross_section: strip
       length: 40.656
       npoints: 2
+      width: null
   C1:
     component: bend_euler
     info:
@@ -1805,6 +1810,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m10:
     component: straight
     info:
@@ -1818,6 +1824,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m11:
     component: straight
     info:
@@ -1831,6 +1838,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m12:
     component: straight
     info:
@@ -1844,6 +1852,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m13:
     component: straight
     info:
@@ -1857,6 +1866,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m14:
     component: straight
     info:
@@ -1870,6 +1880,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m15:
     component: straight
     info:
@@ -1883,6 +1894,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m16:
     component: straight
     info:
@@ -1896,6 +1908,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m17:
     component: straight
     info:
@@ -1909,6 +1922,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m18:
     component: straight
     info:
@@ -1922,6 +1936,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m19:
     component: straight
     info:
@@ -1935,6 +1950,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m2:
     component: straight
     info:
@@ -1948,6 +1964,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m20:
     component: straight
     info:
@@ -1961,6 +1978,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m21:
     component: straight
     info:
@@ -1974,6 +1992,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m22:
     component: straight
     info:
@@ -1987,6 +2006,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m23:
     component: straight
     info:
@@ -2000,6 +2020,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m24:
     component: straight
     info:
@@ -2013,6 +2034,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m25:
     component: straight
     info:
@@ -2026,6 +2048,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m26:
     component: straight
     info:
@@ -2039,6 +2062,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m27:
     component: straight
     info:
@@ -2052,6 +2076,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m28:
     component: straight
     info:
@@ -2065,6 +2090,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m29:
     component: straight
     info:
@@ -2078,6 +2104,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m3:
     component: straight
     info:
@@ -2091,6 +2118,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m30:
     component: straight
     info:
@@ -2104,6 +2132,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m31:
     component: straight
     info:
@@ -2117,6 +2146,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m32:
     component: straight
     info:
@@ -2130,6 +2160,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m33:
     component: straight
     info:
@@ -2143,6 +2174,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m34:
     component: straight
     info:
@@ -2156,6 +2188,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m35:
     component: straight
     info:
@@ -2169,6 +2202,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m36:
     component: straight
     info:
@@ -2182,6 +2216,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m37:
     component: straight
     info:
@@ -2195,6 +2230,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m38:
     component: straight
     info:
@@ -2208,6 +2244,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m39:
     component: straight
     info:
@@ -2221,6 +2258,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m4:
     component: straight
     info:
@@ -2234,6 +2272,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m40:
     component: straight
     info:
@@ -2247,6 +2286,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m41:
     component: straight
     info:
@@ -2260,6 +2300,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m42:
     component: straight
     info:
@@ -2273,6 +2314,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m43:
     component: straight
     info:
@@ -2286,6 +2328,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m44:
     component: straight
     info:
@@ -2299,6 +2342,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m45:
     component: straight
     info:
@@ -2312,6 +2356,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m46:
     component: straight
     info:
@@ -2325,6 +2370,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m47:
     component: straight
     info:
@@ -2338,6 +2384,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m48:
     component: straight
     info:
@@ -2351,6 +2398,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m49:
     component: straight
     info:
@@ -2364,6 +2412,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m5:
     component: straight
     info:
@@ -2377,6 +2426,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m50:
     component: straight
     info:
@@ -2390,6 +2440,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m51:
     component: straight
     info:
@@ -2403,6 +2454,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m52:
     component: straight
     info:
@@ -2416,6 +2468,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m53:
     component: straight
     info:
@@ -2429,6 +2482,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m54:
     component: straight
     info:
@@ -2442,6 +2496,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m55:
     component: straight
     info:
@@ -2455,6 +2510,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m56:
     component: straight
     info:
@@ -2468,6 +2524,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m57:
     component: straight
     info:
@@ -2481,6 +2538,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m58:
     component: straight
     info:
@@ -2494,6 +2552,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m59:
     component: straight
     info:
@@ -2507,6 +2566,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m6:
     component: straight
     info:
@@ -2520,6 +2580,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m60:
     component: straight
     info:
@@ -2533,6 +2594,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m61:
     component: straight
     info:
@@ -2546,6 +2608,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m62:
     component: straight
     info:
@@ -2559,6 +2622,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m63:
     component: straight
     info:
@@ -2572,6 +2636,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m64:
     component: straight
     info:
@@ -2585,6 +2650,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m65:
     component: straight
     info:
@@ -2598,6 +2664,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m66:
     component: straight
     info:
@@ -2611,6 +2678,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m67:
     component: straight
     info:
@@ -2624,6 +2692,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m68:
     component: straight
     info:
@@ -2637,6 +2706,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m69:
     component: straight
     info:
@@ -2650,6 +2720,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m7:
     component: straight
     info:
@@ -2663,6 +2734,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m70:
     component: straight
     info:
@@ -2676,6 +2748,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m71:
     component: straight
     info:
@@ -2689,6 +2762,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m72:
     component: straight
     info:
@@ -2702,6 +2776,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m8:
     component: straight
     info:
@@ -2715,6 +2790,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m9:
     component: straight
     info:
@@ -2728,6 +2804,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
 name: cutback_bend180_CFbend__5a8124e5
 nets:
 - p1: 1,o1

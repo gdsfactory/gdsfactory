@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
-from typing import Any
 
 import numpy as np
 
@@ -18,7 +17,6 @@ def bend_s(
     npoints: int = 99,
     cross_section: CrossSectionSpec = "strip",
     allow_min_radius_violation: bool = False,
-    **kwargs: Any,
 ) -> Component:
     """Return S bend with bezier curve.
 
@@ -30,20 +28,18 @@ def bend_s(
         npoints: number of points.
         cross_section: spec.
         allow_min_radius_violation: bool.
-        kwargs: cross_section settings.
 
     """
     dx, dy = size
 
     if dy == 0:
-        return gf.components.straight(length=dx, cross_section=cross_section, **kwargs)
+        return gf.components.straight(length=dx, cross_section=cross_section)
 
     return bezier(
         control_points=((0, 0), (dx / 2, 0), (dx / 2, dy), (dx, dy)),
         npoints=npoints,
         cross_section=cross_section,
         allow_min_radius_violation=allow_min_radius_violation,
-        **kwargs,
     )
 
 
@@ -51,7 +47,6 @@ def get_min_sbend_size(
     size: tuple[float | None, float | None] = (None, 10.0),
     cross_section: CrossSectionSpec = "strip",
     num_points: int = 100,
-    **kwargs: Any,
 ) -> float:
     """Returns the minimum sbend size to comply with bend radius requirements.
 
@@ -59,10 +54,9 @@ def get_min_sbend_size(
         size: in x and y direction. One of them is None, which is the size we need to figure out.
         cross_section: spec.
         num_points: number of points to iterate over between max_size and 0.1 * max_size.
-        kwargs: cross_section settings.
     """
     size_list = list(size)
-    cross_section_f = gf.get_cross_section(cross_section, **kwargs)
+    cross_section_f = gf.get_cross_section(cross_section)
 
     if size_list[0] is None:
         ind = 0

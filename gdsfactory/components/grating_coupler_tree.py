@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Any
-
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_elliptical import (
@@ -19,7 +17,6 @@ def grating_coupler_tree(
     with_loopback: bool = False,
     bend: ComponentSpec = "bend_euler",
     fanout_length: float = 0.0,
-    **kwargs: Any,
 ) -> Component:
     """Array of straights connected with grating couplers.
 
@@ -32,12 +29,10 @@ def grating_coupler_tree(
         with_loopback: adds loopback.
         bend: bend spec.
         fanout_length: in um.
-        kwargs: cross_section settings.
     """
     c = straight_array(
         n=n,
         spacing=straight_spacing,
-        **kwargs,
     )
 
     return gf.routing.add_fiber_array(
@@ -46,7 +41,6 @@ def grating_coupler_tree(
         grating_coupler=grating_coupler,
         fanout_length=fanout_length,
         bend=bend,
-        **kwargs,
     )
 
 
