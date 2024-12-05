@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 from functools import partial
-from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -23,7 +22,7 @@ def cdsem_coupler(
     text: ComponentFactory | None = text_rectangular_mini,
     spacing: float = 7.0,
     positions: Sequence[float | None] | None = None,
-    **kwargs: Any,
+    width: float | None = None,
 ) -> Component:
     """Returns 2 coupled waveguides gap sweep.
 
@@ -34,10 +33,10 @@ def cdsem_coupler(
         text: optional text for labels.
         spacing: Optional center to center spacing.
         positions: Optional positions for the text labels.
-        kwargs: cross_section settings.
+        width: width of the waveguide. If None, it will use the width of the cross_section.
     """
     c = Component()
-    xs = gf.get_cross_section(cross_section, **kwargs)
+    xs = gf.get_cross_section(cross_section, width=width)
     p = 0
 
     if positions is not None:
@@ -59,5 +58,5 @@ def cdsem_coupler(
 
 if __name__ == "__main__":
     # c = cdsem_coupler(cross_section="rib_with_trenches")
-    c = cdsem_coupler(cross_section="strip")
+    c = cdsem_coupler(cross_section="strip", width=1)
     c.show()

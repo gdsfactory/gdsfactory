@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Any
-
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_s import bend_s
@@ -16,7 +14,6 @@ def coupler_full(
     gap: float = 0.5,
     dw: float = 0.1,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs: Any,
 ) -> Component:
     """Adiabatic Full coupler.
 
@@ -42,14 +39,12 @@ def coupler_full(
         gap: Distance between the two straights in um.
         dw: delta width. Top arm tapers to width - dw, bottom to width + dw in um.
         cross_section: cross-section spec.
-        kwargs: cross_section settings.
+        width: width of the waveguide. If None, it will use the width of the cross_section.
 
-    Keyword Args:
-        cross_section kwargs.
     """
     c = gf.Component()
 
-    x = gf.get_cross_section(cross_section=cross_section, **kwargs)
+    x = gf.get_cross_section(cross_section=cross_section)
 
     x_top = x.copy(width=x.width + dw)
     x_bottom = x.copy(width=x.width - dw)
