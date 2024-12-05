@@ -31,7 +31,7 @@ def test_route_bundle_udirect_pads(
     pbports.reverse()
 
     routes = gf.routing.route_bundle_electrical(
-        c, pbports, ptports, radius=5, cross_section="metal_routing"
+        c, pbports, ptports, cross_section="metal_routing"
     )
 
     lengths = {}

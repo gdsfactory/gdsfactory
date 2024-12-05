@@ -359,7 +359,7 @@ instances:
       taper_angle: 40
       taper_length: 16.6
       wavelength: 1.554
-  straight_L175p5_N2_CSstrip_185500_4500:
+  straight_L175p5_N2_CSstrip_WNone_185500_4500:
     component: straight
     info:
       length: 175.5
@@ -372,7 +372,8 @@ instances:
       cross_section: strip
       length: 175.5
       npoints: 2
-  straight_L175p5_N2_CSstrip_m175500_4500:
+      width: null
+  straight_L175p5_N2_CSstrip_WNone_m175500_4500:
     component: straight
     info:
       length: 175.5
@@ -385,7 +386,8 @@ instances:
       cross_section: strip
       length: 175.5
       npoints: 2
-  straight_L302p5_N2_CSstrip_312500_9000:
+      width: null
+  straight_L302p5_N2_CSstrip_WNone_312500_9000:
     component: straight
     info:
       length: 302.5
@@ -398,7 +400,8 @@ instances:
       cross_section: strip
       length: 302.5
       npoints: 2
-  straight_L302p5_N2_CSstrip_m302500_9000:
+      width: null
+  straight_L302p5_N2_CSstrip_WNone_m302500_9000:
     component: straight
     info:
       length: 302.5
@@ -411,7 +414,8 @@ instances:
       cross_section: strip
       length: 302.5
       npoints: 2
-  straight_L429p5_N2_CSstrip_439500_13500:
+      width: null
+  straight_L429p5_N2_CSstrip_WNone_439500_13500:
     component: straight
     info:
       length: 429.5
@@ -424,7 +428,8 @@ instances:
       cross_section: strip
       length: 429.5
       npoints: 2
-  straight_L429p5_N2_CSstrip_m429500_13500:
+      width: null
+  straight_L429p5_N2_CSstrip_WNone_m429500_13500:
     component: straight
     info:
       length: 429.5
@@ -437,7 +442,8 @@ instances:
       cross_section: strip
       length: 429.5
       npoints: 2
-  straight_L48p5_N2_CSstrip_58500_0:
+      width: null
+  straight_L48p5_N2_CSstrip_WNone_58500_0:
     component: straight
     info:
       length: 48.5
@@ -450,7 +456,8 @@ instances:
       cross_section: strip
       length: 48.5
       npoints: 2
-  straight_L48p5_N2_CSstrip_m48500_0:
+      width: null
+  straight_L48p5_N2_CSstrip_WNone_m48500_0:
     component: straight
     info:
       length: 48.5
@@ -463,7 +470,8 @@ instances:
       cross_section: strip
       length: 48.5
       npoints: 2
-  straight_L59p5_N2_CSstrip_68500_m10000:
+      width: null
+  straight_L59p5_N2_CSstrip_WNone_68500_m10000:
     component: straight
     info:
       length: 59.5
@@ -476,7 +484,8 @@ instances:
       cross_section: strip
       length: 59.5
       npoints: 2
-  straight_L59p5_N2_CSstrip_m58500_m10000:
+      width: null
+  straight_L59p5_N2_CSstrip_WNone_m58500_m10000:
     component: straight
     info:
       length: 59.5
@@ -489,7 +498,8 @@ instances:
       cross_section: strip
       length: 59.5
       npoints: 2
-  straight_L64_N2_CSstrip_195500_m5500:
+      width: null
+  straight_L64_N2_CSstrip_WNone_195500_m5500:
     component: straight
     info:
       length: 64
@@ -502,7 +512,8 @@ instances:
       cross_section: strip
       length: 64
       npoints: 2
-  straight_L64_N2_CSstrip_m185500_m5500:
+      width: null
+  straight_L64_N2_CSstrip_WNone_m185500_m5500:
     component: straight
     info:
       length: 64
@@ -515,7 +526,8 @@ instances:
       cross_section: strip
       length: 64
       npoints: 2
-  straight_L68p5_N2_CSstrip_322500_m1000:
+      width: null
+  straight_L68p5_N2_CSstrip_WNone_322500_m1000:
     component: straight
     info:
       length: 68.5
@@ -528,7 +540,8 @@ instances:
       cross_section: strip
       length: 68.5
       npoints: 2
-  straight_L68p5_N2_CSstrip_m312500_m1000:
+      width: null
+  straight_L68p5_N2_CSstrip_WNone_m312500_m1000:
     component: straight
     info:
       length: 68.5
@@ -541,7 +554,8 @@ instances:
       cross_section: strip
       length: 68.5
       npoints: 2
-  straight_L73_N2_CSstrip_449500_3500:
+      width: null
+  straight_L73_N2_CSstrip_WNone_449500_3500:
     component: straight
     info:
       length: 73
@@ -554,7 +568,8 @@ instances:
       cross_section: strip
       length: 73
       npoints: 2
-  straight_L73_N2_CSstrip_m439500_3500:
+      width: null
+  straight_L73_N2_CSstrip_WNone_m439500_3500:
     component: straight
     info:
       length: 73
@@ -567,6 +582,7 @@ instances:
       cross_section: strip
       length: 73
       npoints: 2
+      width: null
   straight_array_N4_S4_L10_CSstrip_0_0:
     component: straight_array
     info: {}
@@ -578,68 +594,68 @@ instances:
 name: grating_coupler_tree_N4_2a7d2c50
 nets:
 - p1: bend_euler_RNone_A90_P0_d7c3a5a9_195500_m5500,o1
-  p2: straight_L64_N2_CSstrip_195500_m5500,o1
+  p2: straight_L64_N2_CSstrip_WNone_195500_m5500,o1
 - p1: bend_euler_RNone_A90_P0_d7c3a5a9_195500_m5500,o2
-  p2: straight_L175p5_N2_CSstrip_185500_4500,o1
+  p2: straight_L175p5_N2_CSstrip_WNone_185500_4500,o1
 - p1: bend_euler_RNone_A90_P0_d7c3a5a9_322500_m1000,o1
-  p2: straight_L68p5_N2_CSstrip_322500_m1000,o1
+  p2: straight_L68p5_N2_CSstrip_WNone_322500_m1000,o1
 - p1: bend_euler_RNone_A90_P0_d7c3a5a9_322500_m1000,o2
-  p2: straight_L302p5_N2_CSstrip_312500_9000,o1
+  p2: straight_L302p5_N2_CSstrip_WNone_312500_9000,o1
 - p1: bend_euler_RNone_A90_P0_d7c3a5a9_449500_3500,o1
-  p2: straight_L73_N2_CSstrip_449500_3500,o1
+  p2: straight_L73_N2_CSstrip_WNone_449500_3500,o1
 - p1: bend_euler_RNone_A90_P0_d7c3a5a9_449500_3500,o2
-  p2: straight_L429p5_N2_CSstrip_439500_13500,o1
+  p2: straight_L429p5_N2_CSstrip_WNone_439500_13500,o1
 - p1: bend_euler_RNone_A90_P0_d7c3a5a9_68500_m10000,o1
-  p2: straight_L59p5_N2_CSstrip_68500_m10000,o1
+  p2: straight_L59p5_N2_CSstrip_WNone_68500_m10000,o1
 - p1: bend_euler_RNone_A90_P0_d7c3a5a9_68500_m10000,o2
-  p2: straight_L48p5_N2_CSstrip_58500_0,o1
+  p2: straight_L48p5_N2_CSstrip_WNone_58500_0,o1
 - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m185500_m5500,o1
-  p2: straight_L64_N2_CSstrip_m185500_m5500,o1
+  p2: straight_L64_N2_CSstrip_WNone_m185500_m5500,o1
 - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m185500_m5500,o2
-  p2: straight_L175p5_N2_CSstrip_m175500_4500,o1
+  p2: straight_L175p5_N2_CSstrip_WNone_m175500_4500,o1
 - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m312500_m1000,o1
-  p2: straight_L68p5_N2_CSstrip_m312500_m1000,o1
+  p2: straight_L68p5_N2_CSstrip_WNone_m312500_m1000,o1
 - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m312500_m1000,o2
-  p2: straight_L302p5_N2_CSstrip_m302500_9000,o1
+  p2: straight_L302p5_N2_CSstrip_WNone_m302500_9000,o1
 - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m439500_3500,o1
-  p2: straight_L73_N2_CSstrip_m439500_3500,o1
+  p2: straight_L73_N2_CSstrip_WNone_m439500_3500,o1
 - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m439500_3500,o2
-  p2: straight_L429p5_N2_CSstrip_m429500_13500,o1
+  p2: straight_L429p5_N2_CSstrip_WNone_m429500_13500,o1
 - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m58500_m10000,o1
-  p2: straight_L59p5_N2_CSstrip_m58500_m10000,o1
+  p2: straight_L59p5_N2_CSstrip_WNone_m58500_m10000,o1
 - p1: bend_euler_RNone_A90_P0_d7c3a5a9_m58500_m10000,o2
-  p2: straight_L48p5_N2_CSstrip_m48500_0,o1
+  p2: straight_L48p5_N2_CSstrip_WNone_m48500_0,o1
 - p1: grating_coupler_ellipti_07e69d9a_195500_m69500,o1
-  p2: straight_L64_N2_CSstrip_195500_m5500,o2
+  p2: straight_L64_N2_CSstrip_WNone_195500_m5500,o2
 - p1: grating_coupler_ellipti_07e69d9a_322500_m69500,o1
-  p2: straight_L68p5_N2_CSstrip_322500_m1000,o2
+  p2: straight_L68p5_N2_CSstrip_WNone_322500_m1000,o2
 - p1: grating_coupler_ellipti_07e69d9a_449500_m69500,o1
-  p2: straight_L73_N2_CSstrip_449500_3500,o2
+  p2: straight_L73_N2_CSstrip_WNone_449500_3500,o2
 - p1: grating_coupler_ellipti_07e69d9a_68500_m69500,o1
-  p2: straight_L59p5_N2_CSstrip_68500_m10000,o2
+  p2: straight_L59p5_N2_CSstrip_WNone_68500_m10000,o2
 - p1: grating_coupler_ellipti_07e69d9a_m185500_m69500,o1
-  p2: straight_L64_N2_CSstrip_m185500_m5500,o2
+  p2: straight_L64_N2_CSstrip_WNone_m185500_m5500,o2
 - p1: grating_coupler_ellipti_07e69d9a_m312500_m69500,o1
-  p2: straight_L68p5_N2_CSstrip_m312500_m1000,o2
+  p2: straight_L68p5_N2_CSstrip_WNone_m312500_m1000,o2
 - p1: grating_coupler_ellipti_07e69d9a_m439500_m69500,o1
-  p2: straight_L73_N2_CSstrip_m439500_3500,o2
+  p2: straight_L73_N2_CSstrip_WNone_m439500_3500,o2
 - p1: grating_coupler_ellipti_07e69d9a_m58500_m69500,o1
-  p2: straight_L59p5_N2_CSstrip_m58500_m10000,o2
-- p1: straight_L175p5_N2_CSstrip_185500_4500,o2
+  p2: straight_L59p5_N2_CSstrip_WNone_m58500_m10000,o2
+- p1: straight_L175p5_N2_CSstrip_WNone_185500_4500,o2
   p2: straight_array_N4_S4_L10_CSstrip_0_0,o7
-- p1: straight_L175p5_N2_CSstrip_m175500_4500,o2
+- p1: straight_L175p5_N2_CSstrip_WNone_m175500_4500,o2
   p2: straight_array_N4_S4_L10_CSstrip_0_0,o2
-- p1: straight_L302p5_N2_CSstrip_312500_9000,o2
+- p1: straight_L302p5_N2_CSstrip_WNone_312500_9000,o2
   p2: straight_array_N4_S4_L10_CSstrip_0_0,o6
-- p1: straight_L302p5_N2_CSstrip_m302500_9000,o2
+- p1: straight_L302p5_N2_CSstrip_WNone_m302500_9000,o2
   p2: straight_array_N4_S4_L10_CSstrip_0_0,o3
-- p1: straight_L429p5_N2_CSstrip_439500_13500,o2
+- p1: straight_L429p5_N2_CSstrip_WNone_439500_13500,o2
   p2: straight_array_N4_S4_L10_CSstrip_0_0,o5
-- p1: straight_L429p5_N2_CSstrip_m429500_13500,o2
+- p1: straight_L429p5_N2_CSstrip_WNone_m429500_13500,o2
   p2: straight_array_N4_S4_L10_CSstrip_0_0,o4
-- p1: straight_L48p5_N2_CSstrip_58500_0,o2
+- p1: straight_L48p5_N2_CSstrip_WNone_58500_0,o2
   p2: straight_array_N4_S4_L10_CSstrip_0_0,o8
-- p1: straight_L48p5_N2_CSstrip_m48500_0,o2
+- p1: straight_L48p5_N2_CSstrip_WNone_m48500_0,o2
   p2: straight_array_N4_S4_L10_CSstrip_0_0,o1
 placements:
   bend_euler_RNone_A90_P0_d7c3a5a9_195500_m5500:
@@ -722,82 +738,82 @@ placements:
     rotation: 270
     x: -58.5
     y: -69.5
-  straight_L175p5_N2_CSstrip_185500_4500:
+  straight_L175p5_N2_CSstrip_WNone_185500_4500:
     mirror: false
     rotation: 180
     x: 185.5
     y: 4.5
-  straight_L175p5_N2_CSstrip_m175500_4500:
+  straight_L175p5_N2_CSstrip_WNone_m175500_4500:
     mirror: false
     rotation: 0
     x: -175.5
     y: 4.5
-  straight_L302p5_N2_CSstrip_312500_9000:
+  straight_L302p5_N2_CSstrip_WNone_312500_9000:
     mirror: false
     rotation: 180
     x: 312.5
     y: 9
-  straight_L302p5_N2_CSstrip_m302500_9000:
+  straight_L302p5_N2_CSstrip_WNone_m302500_9000:
     mirror: false
     rotation: 0
     x: -302.5
     y: 9
-  straight_L429p5_N2_CSstrip_439500_13500:
+  straight_L429p5_N2_CSstrip_WNone_439500_13500:
     mirror: false
     rotation: 180
     x: 439.5
     y: 13.5
-  straight_L429p5_N2_CSstrip_m429500_13500:
+  straight_L429p5_N2_CSstrip_WNone_m429500_13500:
     mirror: false
     rotation: 0
     x: -429.5
     y: 13.5
-  straight_L48p5_N2_CSstrip_58500_0:
+  straight_L48p5_N2_CSstrip_WNone_58500_0:
     mirror: false
     rotation: 180
     x: 58.5
     y: 0
-  straight_L48p5_N2_CSstrip_m48500_0:
+  straight_L48p5_N2_CSstrip_WNone_m48500_0:
     mirror: false
     rotation: 0
     x: -48.5
     y: 0
-  straight_L59p5_N2_CSstrip_68500_m10000:
+  straight_L59p5_N2_CSstrip_WNone_68500_m10000:
     mirror: false
     rotation: 270
     x: 68.5
     y: -10
-  straight_L59p5_N2_CSstrip_m58500_m10000:
+  straight_L59p5_N2_CSstrip_WNone_m58500_m10000:
     mirror: false
     rotation: 270
     x: -58.5
     y: -10
-  straight_L64_N2_CSstrip_195500_m5500:
+  straight_L64_N2_CSstrip_WNone_195500_m5500:
     mirror: false
     rotation: 270
     x: 195.5
     y: -5.5
-  straight_L64_N2_CSstrip_m185500_m5500:
+  straight_L64_N2_CSstrip_WNone_m185500_m5500:
     mirror: false
     rotation: 270
     x: -185.5
     y: -5.5
-  straight_L68p5_N2_CSstrip_322500_m1000:
+  straight_L68p5_N2_CSstrip_WNone_322500_m1000:
     mirror: false
     rotation: 270
     x: 322.5
     y: -1
-  straight_L68p5_N2_CSstrip_m312500_m1000:
+  straight_L68p5_N2_CSstrip_WNone_m312500_m1000:
     mirror: false
     rotation: 270
     x: -312.5
     y: -1
-  straight_L73_N2_CSstrip_449500_3500:
+  straight_L73_N2_CSstrip_WNone_449500_3500:
     mirror: false
     rotation: 270
     x: 449.5
     y: 3.5
-  straight_L73_N2_CSstrip_m439500_3500:
+  straight_L73_N2_CSstrip_WNone_m439500_3500:
     mirror: false
     rotation: 270
     x: -439.5

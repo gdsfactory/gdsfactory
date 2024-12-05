@@ -126,7 +126,7 @@ instances:
       cross_section: strip
       gap: 0.27
       length: 50
-  taper_L10_W0p5_W0p4_PNo_a87d0813_0_0:
+  taper_L10_W0p5_W0p4_LNo_789cfae8_0_0:
     component: taper
     info:
       length: 10
@@ -134,6 +134,7 @@ instances:
       width2: 0.4
     settings:
       cross_section: strip
+      layer: null
       length: 10
       port: null
       port_names:
@@ -146,7 +147,7 @@ instances:
       width2: 0.4
       with_bbox: true
       with_two_ports: true
-  taper_L10_W0p5_W0p6_PNo_23934efe_0_770:
+  taper_L10_W0p5_W0p6_LNo_372c593e_0_770:
     component: taper
     info:
       length: 10
@@ -154,6 +155,7 @@ instances:
       width2: 0.6
     settings:
       cross_section: strip
+      layer: null
       length: 10
       port: null
       port_names:
@@ -169,17 +171,17 @@ instances:
 name: coupler_adiabatic_L20_L_6807e123
 nets:
 - p1: bezier_CP0_0_10_0_10_m1_8e7e82ff_m30000_1770,o2
-  p2: taper_L10_W0p5_W0p6_PNo_23934efe_0_770,o2
+  p2: taper_L10_W0p5_W0p6_LNo_372c593e_0_770,o2
 - p1: bezier_CP0_m3_10_m3_10__aaf3b4a4_m30000_2000,o2
-  p2: taper_L10_W0p5_W0p4_PNo_a87d0813_0_0,o2
+  p2: taper_L10_W0p5_W0p4_LNo_789cfae8_0_0,o2
 - p1: bezier_CP70_m1_85_m1_85_c9a8926c_m20000_1770,o1
   p2: coupler_straight_L50_G0_e5e3337b_0_0,o3
 - p1: bezier_CP70_m1_85_m1_85_c9a8926c_m20000_m1000,o1
   p2: coupler_straight_L50_G0_e5e3337b_0_0,o4
 - p1: coupler_straight_L50_G0_e5e3337b_0_0,o1
-  p2: taper_L10_W0p5_W0p4_PNo_a87d0813_0_0,o1
+  p2: taper_L10_W0p5_W0p4_LNo_789cfae8_0_0,o1
 - p1: coupler_straight_L50_G0_e5e3337b_0_0,o2
-  p2: taper_L10_W0p5_W0p6_PNo_23934efe_0_770,o1
+  p2: taper_L10_W0p5_W0p6_LNo_372c593e_0_770,o1
 placements:
   bezier_CP0_0_10_0_10_m1_8e7e82ff_m30000_1770:
     mirror: false
@@ -206,12 +208,12 @@ placements:
     rotation: 0
     x: 0
     y: 0
-  taper_L10_W0p5_W0p4_PNo_a87d0813_0_0:
+  taper_L10_W0p5_W0p4_LNo_789cfae8_0_0:
     mirror: false
     rotation: 180
     x: 0
     y: 0
-  taper_L10_W0p5_W0p6_PNo_23934efe_0_770:
+  taper_L10_W0p5_W0p6_LNo_372c593e_0_770:
     mirror: false
     rotation: 180
     x: 0

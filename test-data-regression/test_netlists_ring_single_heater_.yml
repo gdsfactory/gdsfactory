@@ -59,7 +59,7 @@ instances:
       length_x: 1
       radius: 10
       straight: straight
-  straight_L0p01_N2_CSstr_b7a6e359_10000_10710:
+  straight_L0p01_N2_CSstr_99fbf211_10000_10710:
     component: straight
     info:
       length: 0.01
@@ -72,7 +72,8 @@ instances:
       cross_section: strip_heater_metal
       length: 0.01
       npoints: 2
-  straight_L0p01_N2_CSstr_b7a6e359_m11000_10700:
+      width: null
+  straight_L0p01_N2_CSstr_99fbf211_m11000_10700:
     component: straight
     info:
       length: 0.01
@@ -85,7 +86,8 @@ instances:
       cross_section: strip_heater_metal
       length: 0.01
       npoints: 2
-  straight_L1_N2_CSstrip__f1c4f592_0_20710:
+      width: null
+  straight_L1_N2_CSstrip__a1f45d7c_0_20710:
     component: straight
     info:
       length: 1
@@ -98,6 +100,7 @@ instances:
       cross_section: strip_heater_metal
       length: 1
       npoints: 2
+      width: null
   via_stack_S4_4_LHEATER__371e9067_3000_0:
     component: via_stack
     info:
@@ -157,29 +160,29 @@ instances:
 name: ring_double_heater_G0p2_113fb173
 nets:
 - p1: bend_euler_R10_A90_P0p5_8747be7e_10000_10710,e1
-  p2: straight_L0p01_N2_CSstr_b7a6e359_10000_10710,e1
+  p2: straight_L0p01_N2_CSstr_99fbf211_10000_10710,e1
 - p1: bend_euler_R10_A90_P0p5_8747be7e_10000_10710,e2
-  p2: straight_L1_N2_CSstrip__f1c4f592_0_20710,e1
+  p2: straight_L1_N2_CSstrip__a1f45d7c_0_20710,e1
 - p1: bend_euler_R10_A90_P0p5_8747be7e_10000_10710,o1
-  p2: straight_L0p01_N2_CSstr_b7a6e359_10000_10710,o1
+  p2: straight_L0p01_N2_CSstr_99fbf211_10000_10710,o1
 - p1: bend_euler_R10_A90_P0p5_8747be7e_10000_10710,o2
-  p2: straight_L1_N2_CSstrip__f1c4f592_0_20710,o1
+  p2: straight_L1_N2_CSstrip__a1f45d7c_0_20710,o1
 - p1: bend_euler_R10_A90_P0p5_8747be7e_m1000_20710,e1
-  p2: straight_L1_N2_CSstrip__f1c4f592_0_20710,e2
+  p2: straight_L1_N2_CSstrip__a1f45d7c_0_20710,e2
 - p1: bend_euler_R10_A90_P0p5_8747be7e_m1000_20710,e2
-  p2: straight_L0p01_N2_CSstr_b7a6e359_m11000_10700,e2
+  p2: straight_L0p01_N2_CSstr_99fbf211_m11000_10700,e2
 - p1: bend_euler_R10_A90_P0p5_8747be7e_m1000_20710,o1
-  p2: straight_L1_N2_CSstrip__f1c4f592_0_20710,o2
+  p2: straight_L1_N2_CSstrip__a1f45d7c_0_20710,o2
 - p1: bend_euler_R10_A90_P0p5_8747be7e_m1000_20710,o2
-  p2: straight_L0p01_N2_CSstr_b7a6e359_m11000_10700,o2
+  p2: straight_L0p01_N2_CSstr_99fbf211_m11000_10700,o2
 - p1: coupler_ring_G0p2_R10_L_ca129826_0_0,e2
-  p2: straight_L0p01_N2_CSstr_b7a6e359_m11000_10700,e1
+  p2: straight_L0p01_N2_CSstr_99fbf211_m11000_10700,e1
 - p1: coupler_ring_G0p2_R10_L_ca129826_0_0,e3
-  p2: straight_L0p01_N2_CSstr_b7a6e359_10000_10710,e2
+  p2: straight_L0p01_N2_CSstr_99fbf211_10000_10710,e2
 - p1: coupler_ring_G0p2_R10_L_ca129826_0_0,o2
-  p2: straight_L0p01_N2_CSstr_b7a6e359_m11000_10700,o1
+  p2: straight_L0p01_N2_CSstr_99fbf211_m11000_10700,o1
 - p1: coupler_ring_G0p2_R10_L_ca129826_0_0,o3
-  p2: straight_L0p01_N2_CSstr_b7a6e359_10000_10710,o2
+  p2: straight_L0p01_N2_CSstr_99fbf211_10000_10710,o2
 placements:
   bend_euler_R10_A90_P0p5_8747be7e_10000_10710:
     mirror: false
@@ -196,17 +199,17 @@ placements:
     rotation: 0
     x: 0
     y: 0
-  straight_L0p01_N2_CSstr_b7a6e359_10000_10710:
+  straight_L0p01_N2_CSstr_99fbf211_10000_10710:
     mirror: false
     rotation: 270
     x: 10
     y: 10.71
-  straight_L0p01_N2_CSstr_b7a6e359_m11000_10700:
+  straight_L0p01_N2_CSstr_99fbf211_m11000_10700:
     mirror: false
     rotation: 90
     x: -11
     y: 10.7
-  straight_L1_N2_CSstrip__f1c4f592_0_20710:
+  straight_L1_N2_CSstrip__a1f45d7c_0_20710:
     mirror: false
     rotation: 180
     x: 0

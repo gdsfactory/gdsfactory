@@ -23,7 +23,7 @@ instances:
       length_x: 1
       radius: 10
       straight: straight
-  straight_L0p01_N2_CSstr_b7a6e359_10000_10700:
+  straight_L0p01_N2_CSstr_99fbf211_10000_10700:
     component: straight
     info:
       length: 0.01
@@ -36,7 +36,8 @@ instances:
       cross_section: strip_heater_metal
       length: 0.01
       npoints: 2
-  straight_L0p01_N2_CSstr_b7a6e359_m11000_10700:
+      width: null
+  straight_L0p01_N2_CSstr_99fbf211_m11000_10700:
     component: straight
     info:
       length: 0.01
@@ -49,7 +50,8 @@ instances:
       cross_section: strip_heater_metal
       length: 0.01
       npoints: 2
-  straight_L1_N2_CSheater_metal_m1000_20710:
+      width: null
+  straight_L1_N2_CSheater_7547f2a1_m1000_20710:
     component: straight
     info:
       length: 1
@@ -62,6 +64,7 @@ instances:
       cross_section: heater_metal
       length: 1
       npoints: 2
+      width: null
   via_stack_S4_4_LHEATER__371e9067_3000_0:
     component: via_stack
     info:
@@ -121,25 +124,25 @@ instances:
 name: ring_double_heater_G0p2_26d47ff1
 nets:
 - p1: coupler_ring_G0p2_R10_L_ca129826_0_0,e2
-  p2: straight_L0p01_N2_CSstr_b7a6e359_m11000_10700,e1
+  p2: straight_L0p01_N2_CSstr_99fbf211_m11000_10700,e1
 - p1: coupler_ring_G0p2_R10_L_ca129826_0_0,e3
-  p2: straight_L0p01_N2_CSstr_b7a6e359_10000_10700,e1
+  p2: straight_L0p01_N2_CSstr_99fbf211_10000_10700,e1
 - p1: coupler_ring_G0p2_R10_L_ca129826_0_0,o2
-  p2: straight_L0p01_N2_CSstr_b7a6e359_m11000_10700,o1
+  p2: straight_L0p01_N2_CSstr_99fbf211_m11000_10700,o1
 - p1: coupler_ring_G0p2_R10_L_ca129826_0_0,o3
-  p2: straight_L0p01_N2_CSstr_b7a6e359_10000_10700,o1
+  p2: straight_L0p01_N2_CSstr_99fbf211_10000_10700,o1
 - p1: coupler_ring_G0p2_R10_L_ca129826_m1000_21410,e1
-  p2: straight_L1_N2_CSheater_metal_m1000_20710,e1
+  p2: straight_L1_N2_CSheater_7547f2a1_m1000_20710,e1
 - p1: coupler_ring_G0p2_R10_L_ca129826_m1000_21410,e2
-  p2: straight_L0p01_N2_CSstr_b7a6e359_10000_10700,e2
+  p2: straight_L0p01_N2_CSstr_99fbf211_10000_10700,e2
 - p1: coupler_ring_G0p2_R10_L_ca129826_m1000_21410,e3
-  p2: straight_L0p01_N2_CSstr_b7a6e359_m11000_10700,e2
+  p2: straight_L0p01_N2_CSstr_99fbf211_m11000_10700,e2
 - p1: coupler_ring_G0p2_R10_L_ca129826_m1000_21410,e4
-  p2: straight_L1_N2_CSheater_metal_m1000_20710,e2
+  p2: straight_L1_N2_CSheater_7547f2a1_m1000_20710,e2
 - p1: coupler_ring_G0p2_R10_L_ca129826_m1000_21410,o2
-  p2: straight_L0p01_N2_CSstr_b7a6e359_10000_10700,o2
+  p2: straight_L0p01_N2_CSstr_99fbf211_10000_10700,o2
 - p1: coupler_ring_G0p2_R10_L_ca129826_m1000_21410,o3
-  p2: straight_L0p01_N2_CSstr_b7a6e359_m11000_10700,o2
+  p2: straight_L0p01_N2_CSstr_99fbf211_m11000_10700,o2
 placements:
   coupler_ring_G0p2_R10_L_ca129826_0_0:
     mirror: false
@@ -151,17 +154,17 @@ placements:
     rotation: 180
     x: -1
     y: 21.41
-  straight_L0p01_N2_CSstr_b7a6e359_10000_10700:
+  straight_L0p01_N2_CSstr_99fbf211_10000_10700:
     mirror: false
     rotation: 90
     x: 10
     y: 10.7
-  straight_L0p01_N2_CSstr_b7a6e359_m11000_10700:
+  straight_L0p01_N2_CSstr_99fbf211_m11000_10700:
     mirror: false
     rotation: 90
     x: -11
     y: 10.7
-  straight_L1_N2_CSheater_metal_m1000_20710:
+  straight_L1_N2_CSheater_7547f2a1_m1000_20710:
     mirror: false
     rotation: 0
     x: -1

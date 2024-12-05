@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from typing import Any
-
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.typings import CrossSectionSpec
@@ -14,7 +12,7 @@ def straight(
     length: float = 10.0,
     npoints: int = 2,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs: Any,
+    width: float | None = None,
 ) -> Component:
     """Returns a Straight waveguide.
 
@@ -22,14 +20,14 @@ def straight(
         length: straight length (um).
         npoints: number of points.
         cross_section: specification (CrossSection, string or dict).
-        kwargs: additional cross_section arguments.
+        width: width of the waveguide. If None, it will use the width of the cross_section.
 
     .. code::
 
         o1 -------------- o2
                 length
     """
-    x = gf.get_cross_section(cross_section, **kwargs)
+    x = gf.get_cross_section(cross_section, width=width)
     p = gf.path.straight(length=length, npoints=npoints)
     c = p.extrude(x)
     x.add_bbox(c)
@@ -45,7 +43,7 @@ def straight_all_angle(
     length: float = 10.0,
     npoints: int = 2,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs: Any,
+    width: float | None = None,
 ) -> ComponentAllAngle:
     """Returns a Straight waveguide with offgrid ports.
 
@@ -53,14 +51,14 @@ def straight_all_angle(
         length: straight length (um).
         npoints: number of points.
         cross_section: specification (CrossSection, string or dict).
-        kwargs: additional cross_section arguments.
+        width: width of the waveguide. If None, it will use the width of the cross_section.
 
     .. code::
 
         o1 -------------- o2
                 length
     """
-    x = gf.get_cross_section(cross_section, **kwargs)
+    x = gf.get_cross_section(cross_section, width=width)
     p = gf.path.straight(length=length, npoints=npoints)
     c = p.extrude(x, all_angle=True)
     x.add_bbox(c)
@@ -77,7 +75,7 @@ if __name__ == "__main__":
     # c = gf.Component()
     c = straight(
         length=10,
-        width=2,
+        # width=2,
         # cross_section="rib_bbox",
     )
     # ref = c << w

@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -14,13 +13,13 @@ def taper(
     length: float = 10.0,
     width1: float = 0.5,
     width2: float | None = None,
+    layer: LayerSpec | None = None,
     port: Port | None = None,
     with_two_ports: bool = True,
     cross_section: CrossSectionSpec = "strip",
     port_names: tuple[str, str] = ("o1", "o2"),
     port_types: tuple[str, str] = ("optical", "optical"),
     with_bbox: bool = True,
-    **kwargs: Any,
 ) -> Component:
     """Linear taper, which tapers only the main cross section section.
 
@@ -28,6 +27,7 @@ def taper(
         length: taper length.
         width1: width of the west/left port.
         width2: width of the east/right port. Defaults to width1.
+        layer: layer for the taper.
         port: can taper from a port instead of defining width1.
         with_two_ports: includes a second port.
             False for terminator and edge coupler fiber interface.
@@ -35,23 +35,22 @@ def taper(
         port_names: input and output port names. Second name only used if with_two_ports.
         port_types: input and output port types. Second type only used if with_two_ports.
         with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
-        kwargs: cross_section settings.
     """
     if len(port_types) != 2:
         raise ValueError("port_types should have two elements")
 
-    x1 = gf.get_cross_section(cross_section, width=width1, **kwargs)
+    x1 = gf.get_cross_section(cross_section, width=width1)
     if width2:
         width2 = gf.snap.snap_to_grid2x(width2)
-        x2 = gf.get_cross_section(cross_section, width=width2, **kwargs)
+        x2 = gf.get_cross_section(cross_section, width=width2)
     else:
         x2 = x1
 
     width1 = x1.width
     width2 = x2.width
     width_max = max([width1, width2])
-    x = gf.get_cross_section(cross_section, width=width_max, **kwargs)
-    layer = x.layer
+    x = gf.get_cross_section(cross_section, width=width_max, layer=layer)
+    layer = layer or x.layer
 
     if isinstance(port, gf.Port):
         width1 = port.width
@@ -81,7 +80,7 @@ def taper(
         center=(0, 0),
         width=width1,
         orientation=180,
-        layer=x.layer,
+        layer=layer,
         cross_section=x1,
         port_type=port_types[0],
     )
@@ -91,7 +90,7 @@ def taper(
             center=(length, 0),
             width=width2,
             orientation=0,
-            layer=x.layer,
+            layer=layer,
             cross_section=x2,
             port_type=port_types[1],
         )
@@ -113,7 +112,6 @@ def taper_strip_to_ridge(
     layer_slab: LayerSpec = "SLAB90",
     cross_section: CrossSectionSpec = "strip",
     use_slab_port: bool = False,
-    **kwargs: Any,
 ) -> Component:
     r"""Linear taper from strip to rib.
 
@@ -127,7 +125,6 @@ def taper_strip_to_ridge(
         layer_slab: for output waveguide with slab.
         cross_section: for input waveguide.
         use_slab_port: if True adds a second port for the slab.
-        kwargs: cross_section settings.
 
     .. code::
 
@@ -141,7 +138,7 @@ def taper_strip_to_ridge(
                      \__________________________
 
     """
-    xs = gf.get_cross_section(cross_section, **kwargs)
+    xs = gf.get_cross_section(cross_section)
 
     taper_wg = taper(
         length=length,
@@ -237,7 +234,6 @@ def taper_sc_nc(
     width_tip_nitride: float = 0.15,
     width_tip_silicon: float = 0.15,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs: Any,
 ) -> Component:
     """Taper from strip to nitride.
 
@@ -250,7 +246,6 @@ def taper_sc_nc(
         width_tip_nitride: tip width for nitride.
         width_tip_silicon: tip width for strip.
         cross_section: cross_section specification.
-        kwargs: cross_section settings.
     """
     return taper_strip_to_ridge(
         layer_wg=layer_wg,
@@ -262,14 +257,41 @@ def taper_sc_nc(
         w_slab2=width2,
         use_slab_port=True,
         cross_section=cross_section,
-        **kwargs,
     )
 
 
 def taper_nc_sc(
-    width1: float = 1, width2: float = 0.5, length: float = 20, **kwargs: Any
+    width1: float = 1,
+    width2: float = 0.5,
+    length: float = 20,
+    layer_wg: LayerSpec = "WGN",
+    layer_nitride: LayerSpec = "WG",
+    width_tip_nitride: float = 0.15,
+    width_tip_silicon: float = 0.15,
+    cross_section: CrossSectionSpec = "strip",
 ) -> Component:
-    return taper_sc_nc(width2=width1, width1=width2, length=length, **kwargs)
+    """Taper from nitride to strip.
+
+    Args:
+        width1: nitride width.
+        width2: strip width.
+        length: taper length.
+        layer_wg: nitride layer.
+        layer_nitride: strip layer.
+        width_tip_nitride: tip width for nitride.
+        width_tip_silicon: tip width for strip.
+        cross_section: cross_section specification.
+    """
+    return taper_sc_nc(
+        width2=width1,
+        width1=width2,
+        length=length,
+        layer_wg=layer_nitride,
+        layer_nitride=layer_wg,
+        width_tip_nitride=width_tip_silicon,
+        width_tip_silicon=width_tip_nitride,
+        cross_section=cross_section,
+    )
 
 
 taper_electrical = partial(
@@ -281,7 +303,7 @@ taper_electrical = partial(
 
 
 if __name__ == "__main__":
-    c = taper()
+    c = taper_electrical(width1=2, width2=1)
     # c = gf.grid([taper_nc_sc(), taper_sc_nc()])
     # c = taper(cross_section="rib", width2=5, port_types="optical")
     # c = taper_strip_to_ridge_trenches()

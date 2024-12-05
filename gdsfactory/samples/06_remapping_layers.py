@@ -11,9 +11,9 @@ def remap_layers() -> Component:
     c = gf.Component()
     straight = gf.components.straight
 
-    wg1 = c << straight(length=11, width=1, layer=(1, 0))
-    wg2 = c << straight(length=11, width=1, layer=(1, 0))
-    wg3 = c << straight(length=11, width=1, layer=(1, 0))
+    wg1 = c << straight(length=11, width=1)
+    wg2 = c << straight(length=11, width=1)
+    wg3 = c << straight(length=11, width=1)
 
     wg2.connect("o1", wg1.ports["o2"])
     wg3.connect("o1", wg2.ports["o2"])

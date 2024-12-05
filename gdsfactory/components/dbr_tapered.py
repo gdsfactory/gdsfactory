@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Any
-
 import gdsfactory as gf
 from gdsfactory import Component
 from gdsfactory.snap import snap_to_grid2x
@@ -71,7 +69,6 @@ def dbr_tapered(
     fins: bool = False,
     fin_size: Size = (0.2, 0.05),
     cross_section: CrossSectionSpec = "strip",
-    **kwargs: Any,
 ) -> Component:
     """Distributed Bragg Reflector Cell class.
 
@@ -88,10 +85,6 @@ def dbr_tapered(
        fins: If `True`, adds fins to the input/output straights.
        fin_size: Specifies the x- and y-size of the `fins`. Defaults to 200 nm x 50 nm
        cross_section: cross_section spec.
-       kwargs: cross_section settings.
-
-    Keyword Args:
-        cross_section kwargs.
 
     .. code::
 
@@ -106,7 +99,7 @@ def dbr_tapered(
     """
     c = gf.Component()
 
-    xs = gf.get_cross_section(cross_section=cross_section, width=w2, **kwargs)
+    xs = gf.get_cross_section(cross_section=cross_section, width=w2)
 
     input_taper = c << gf.components.taper(
         length=taper_length,

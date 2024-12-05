@@ -230,6 +230,7 @@ instances:
       cross_section: strip
       length: 100
       npoints: 2
+      width: null
   sxt:
     component: straight_pin
     info: {}
@@ -253,6 +254,7 @@ instances:
       cross_section: strip
       length: 2
       npoints: 2
+      width: null
   syl:
     component: straight
     info:
@@ -266,6 +268,7 @@ instances:
       cross_section: strip
       length: 2
       npoints: 2
+      width: null
   sytl:
     component: straight
     info:
@@ -279,6 +282,7 @@ instances:
       cross_section: strip
       length: 2
       npoints: 2
+      width: null
   sytr:
     component: straight
     info:
@@ -292,6 +296,7 @@ instances:
       cross_section: strip
       length: 2
       npoints: 2
+      width: null
 name: mzi_DL0_LY2_LX100_Bbend_f9c88a9b
 nets:
 - p1: b1,o1
