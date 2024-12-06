@@ -14,6 +14,7 @@ def coupler_full(
     gap: float = 0.5,
     dw: float = 0.1,
     cross_section: CrossSectionSpec = "strip",
+    width: float | None = None,
 ) -> Component:
     """Adiabatic Full coupler.
 
@@ -44,8 +45,7 @@ def coupler_full(
     """
     c = gf.Component()
 
-    x = gf.get_cross_section(cross_section=cross_section)
-
+    x = gf.get_cross_section(cross_section=cross_section, width=width)
     x_top = x.copy(width=x.width + dw)
     x_bottom = x.copy(width=x.width - dw)
 
