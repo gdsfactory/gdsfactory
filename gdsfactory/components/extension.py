@@ -104,10 +104,9 @@ def extend_ports(
         clockwise: if True, sort ports clockwise, False: counter-clockwise.
     """
     c = gf.Component()
-    component = gf.get_component(component).dup()
+    component = gf.get_component(component)
 
     cref = c << component
-
     if centered:
         cref.dx = 0
         cref.dy = 0
@@ -121,7 +120,7 @@ def extend_ports(
 
     if auto_taper and cross_section:
         ports_to_extend = add_auto_tapers(
-            component=component, ports=ports_to_extend, cross_section=cross_section
+            component=c, ports=ports_to_extend, cross_section=cross_section
         )
 
     for port_name in ports_to_extend_names:
@@ -180,4 +179,5 @@ if __name__ == "__main__":
     # p0 = c0["o1"]
     # c = extend_ports(c0, extension=t)
     c = extend_ports()
+    c.pprint_ports()
     c.show()
