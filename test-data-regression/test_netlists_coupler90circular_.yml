@@ -1,5 +1,5 @@
 instances:
-  bend_circular_RNone_A90_35590aa7_0_700:
+  bend_circular_R10_A90_N_aaec1a70_0_700:
     component: bend_circular
     info:
       dy: 10
@@ -18,7 +18,7 @@ instances:
       cross_section: strip
       layer: null
       npoints: null
-      radius: null
+      radius: 10
       width: null
   straight_L10_N2_CSstrip_WNone_0_0:
     component: straight
@@ -34,10 +34,10 @@ instances:
       length: 10
       npoints: 2
       width: null
-name: coupler90_G0p2_RNone_Bb_67b257dd
+name: coupler90_G0p2_R10_Bben_0c9734ee
 nets: []
 placements:
-  bend_circular_RNone_A90_35590aa7_0_700:
+  bend_circular_R10_A90_N_aaec1a70_0_700:
     mirror: false
     rotation: 0
     x: 0
@@ -49,6 +49,6 @@ placements:
     y: 0
 ports:
   o1: straight_L10_N2_CSstrip_WNone_0_0,o1
-  o2: bend_circular_RNone_A90_35590aa7_0_700,o1
-  o3: bend_circular_RNone_A90_35590aa7_0_700,o2
+  o2: bend_circular_R10_A90_N_aaec1a70_0_700,o1
+  o3: bend_circular_R10_A90_N_aaec1a70_0_700,o2
   o4: straight_L10_N2_CSstrip_WNone_0_0,o2

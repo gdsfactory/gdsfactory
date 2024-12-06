@@ -1,7 +1,8 @@
 info: {}
-name: coupler90_G0p2_RNone_Bb_9c88eb65
+name: coupler90_G0p2_R10_Bben_11d57add
 settings:
   bend: bend_euler
   cross_section: strip
   gap: 0.2
+  radius: 10
   straight: straight
