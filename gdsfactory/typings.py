@@ -42,7 +42,12 @@ from gdsfactory.cross_section import (  # type: ignore[attr-defined]
     CrossSection,
     Transition,
 )
-from gdsfactory.technology import LayerLevel, LayerMap, LayerStack, LayerViews
+from gdsfactory.technology import (
+    LayerLevel,
+    LayerMap,
+    LayerStack,
+    LayerViews,
+)
 
 STEP_DIRECTIVES = {
     "x",
@@ -117,9 +122,8 @@ AngleInDegrees: TypeAlias = float
 
 Layer: TypeAlias = tuple[int, int]
 Layers: TypeAlias = Sequence[Layer]
-LayerSpec: TypeAlias = LayerEnum | str | tuple[int, int]
+LayerSpec: TypeAlias = LayerEnum | str | tuple[int, int] | int
 LayerSpecs: TypeAlias = Sequence[LayerSpec]
-
 
 AnyComponent: TypeAlias = Component | ComponentAllAngle
 AnyComponentT = TypeVar("AnyComponentT", bound=AnyComponent)
@@ -143,7 +147,9 @@ PathTypes: TypeAlias = Sequence[PathType]
 Metadata: TypeAlias = dict[str, int | float | str]
 PostProcess: TypeAlias = Callable[[Component], None]
 PostProcesses: TypeAlias = Sequence[PostProcess]
-MaterialSpec: TypeAlias = str | float | tuple[float, float] | Callable[..., Any]
+MaterialSpec: TypeAlias = (
+    str | float | tuple[float, float] | Callable[..., Any] | npt.NDArray[np.float64]
+)
 
 Instance: TypeAlias = ComponentReference
 ComponentOrPath: TypeAlias = PathType | Component
@@ -192,7 +198,7 @@ MultiCrossSectionAngleSpec: TypeAlias = Sequence[
 
 
 ConductorConductorName: TypeAlias = tuple[str, str]
-ConductorViaConductorName: TypeAlias = tuple[str, str, str] | tuple[str, str]
+ConductorViaConductorName: TypeAlias = tuple[str, str, str] | ConductorConductorName
 ConnectivitySpec: TypeAlias = ConductorConductorName | ConductorViaConductorName
 
 Route: TypeAlias = (

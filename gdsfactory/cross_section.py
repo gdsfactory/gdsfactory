@@ -448,7 +448,7 @@ class Transition(BaseModel):
         )
 
 
-cross_sections = {}
+cross_sections: dict[str, CrossSectionFactory] = {}
 _cross_section_default_names = {}
 
 
