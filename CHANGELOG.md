@@ -1,17 +1,30 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.21.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.23.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.23.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.23.0) - 2024-12-05
 
-No significant changes.
-
+- less kwargs [#3457](https://github.com/gdsfactory/gdsfactory/pull/3457)
+- add offset [#3454](https://github.com/gdsfactory/gdsfactory/pull/3454)
+- Less kwargs3 [#3461](https://github.com/gdsfactory/gdsfactory/pull/3461)
+- remove dup [#3460](https://github.com/gdsfactory/gdsfactory/pull/3460)
+- Less kwargs2 [#3458](https://github.com/gdsfactory/gdsfactory/pull/3458)
+- Fix mypy errors in generic_tech and technology folders [#3459](https://github.com/gdsfactory/gdsfactory/pull/3459)
+- Fix MyPy issues in export folder [#3453](https://github.com/gdsfactory/gdsfactory/pull/3453)
+- Fix all MyPy errors in components folder [#3452](https://github.com/gdsfactory/gdsfactory/pull/3452)
+- Move Section to cross_section functions in api docs [#3456](https://github.com/gdsfactory/gdsfactory/pull/3456)
+- Faster extract [#3451](https://github.com/gdsfactory/gdsfactory/pull/3451)
 
 ## [8.22.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.22.0) - 2024-12-01
 
-No significant changes.
-
+- add uv-precommit [#3450](https://github.com/gdsfactory/gdsfactory/pull/3450)
+- rename via_spacing to pitch and add via_circular [#3449](https://github.com/gdsfactory/gdsfactory/pull/3449)
+- fix grid docs [#3443](https://github.com/gdsfactory/gdsfactory/pull/3443)
+- rename_fiber_spacing_to_pitch [#3448](https://github.com/gdsfactory/gdsfactory/pull/3448)
+- better type annotation [#3447](https://github.com/gdsfactory/gdsfactory/pull/3447)
+- Bump codecov/codecov-action from 4 to 5 [#3445](https://github.com/gdsfactory/gdsfactory/pull/3445)
+- rename_pad_spacing_to_pad_pitch [#3446](https://github.com/gdsfactory/gdsfactory/pull/3446)
 
 ## [8.21.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.21.0) - 2024-11-27
 
