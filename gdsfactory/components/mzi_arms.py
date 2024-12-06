@@ -71,8 +71,6 @@ def mzi_arms(
             |          |          |
             |__________|          |__________
     """
-    from gdsfactory.pdk import get_component
-
     combiner = combiner or splitter
 
     straight_x_top = straight_x_top or straight
@@ -80,8 +78,8 @@ def mzi_arms(
     straight_y = straight_y or straight
 
     c = Component()
-    cp1 = get_component(splitter)
-    cp2 = get_component(combiner)
+    cp1 = gf.get_component(splitter)
+    cp2 = gf.get_component(combiner)
 
     cin: ComponentReference | None = None
     if with_splitter:

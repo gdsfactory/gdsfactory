@@ -59,7 +59,6 @@ def mzi_arm(
     # Each character in the sequence represents a component
     sequence = "bLB-BRb"
     c = component_sequence(sequence=sequence, symbol_to_component=symbol_to_component)
-    c = c.dup()
     c.auto_rename_ports()
     c.info["length_x"] = length_x
     c.info["length_xsize"] = straight_x.dxsize
@@ -67,6 +66,7 @@ def mzi_arm(
 
 
 if __name__ == "__main__":
-    c = mzi_arm(straight_x=gf.components.straight_heater_metal)
+    # c = mzi_arm(straight_x=gf.components.straight_heater_metal)
+    c = mzi_arm()
     c.pprint_ports()
     c.show()
