@@ -149,7 +149,7 @@ instances:
       vias:
       - viac
       - via1
-name: straight_pin_slot_L500__1e9e7886
+name: straight_pin_slot_L500__8d716eeb
 nets:
 - p1: straight_L480_N2_CSpin_WNone_0_0,o1
   p2: taper_strip_to_ridge_L1_3a86af41_m10000_0,o2

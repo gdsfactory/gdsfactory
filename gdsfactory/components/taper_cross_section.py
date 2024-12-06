@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -16,7 +15,6 @@ def taper_cross_section(
     npoints: int = 100,
     linear: bool = False,
     width_type: str = "sine",
-    **kwargs: Any,
 ) -> Component:
     r"""Returns taper transition between cross_section1 and cross_section2.
 
@@ -27,7 +25,6 @@ def taper_cross_section(
         npoints: number of points.
         linear: shape of the transition, sine when False.
         width_type: shape of the transition ONLY IF linear is False
-        kwargs: cross_section settings for both cross_sections.
 
 
     .. code::
@@ -43,8 +40,8 @@ def taper_cross_section(
 
 
     """
-    x1 = gf.get_cross_section(cross_section1, **kwargs)
-    x2 = gf.get_cross_section(cross_section2, **kwargs)
+    x1 = gf.get_cross_section(cross_section1)
+    x2 = gf.get_cross_section(cross_section2)
     transition = gf.path.transition(
         cross_section1=x1,
         cross_section2=x2,
