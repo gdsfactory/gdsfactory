@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import Any
 
 import numpy as np
 
@@ -34,7 +33,6 @@ def grating_coupler_dual_pol(
     taper: ComponentSpec = taper_function,
     base_layer: LayerSpec = "WG",
     cross_section: CrossSectionSpec = "strip",
-    **kwargs: Any,
 ) -> Component:
     r"""2 dimensional, dual polarization grating coupler.
 
@@ -55,7 +53,6 @@ def grating_coupler_dual_pol(
         base_layer: layer to draw over the whole photonic crystal \
                 (necessary if the unit cells are etched into a base layer).
         cross_section: for the routing waveguides.
-        kwargs: cross_section settings.
 
     .. code::
 
@@ -84,7 +81,7 @@ def grating_coupler_dual_pol(
                          o2
 
     """
-    xs = gf.get_cross_section(cross_section, **kwargs)
+    xs = gf.get_cross_section(cross_section)
     wg_width = xs.width
     layer = xs.layer
 

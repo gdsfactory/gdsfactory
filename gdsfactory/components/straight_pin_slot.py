@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -24,7 +23,7 @@ def straight_pin_slot(
     via_stack_spacing: float = 3.0,
     via_stack_slab_spacing: float = 2.0,
     taper: ComponentSpec | None = "taper_strip_to_ridge",
-    **kwargs: Any,
+    width: float | None = None,
 ) -> Component:
     """Returns a PIN straight waveguide with slotted via.
 
@@ -48,7 +47,7 @@ def straight_pin_slot(
         via_stack_spacing: spacing between via_stacks.
         via_stack_slab_spacing: spacing between via_stacks slabs.
         taper: optional taper.
-        kwargs: straight settings.
+        width: width of the waveguide. If None, it will use the width of the cross_section.
     """
     c = Component()
     taper_component: Component | None = None
@@ -57,9 +56,7 @@ def straight_pin_slot(
         length -= 2 * taper_component.dxsize
 
     wg = c << gf.components.straight(
-        cross_section=cross_section,
-        length=length,
-        **kwargs,
+        cross_section=cross_section, length=length, width=width
     )
 
     via_stack_slab_width = via_stack_slab_width or via_stack_width

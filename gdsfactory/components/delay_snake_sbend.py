@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Any
-
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
@@ -36,7 +34,7 @@ def delay_snake_sbend(
     sbend: ComponentSpec = "bend_s",
     sbend_xsize: float = 100.0,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs: Any,
+    width: float | None = None,
 ) -> Component:
     r"""Returns compact Snake with sbend in the middle.
 
@@ -52,7 +50,7 @@ def delay_snake_sbend(
         sbend: sbend spec.
         sbend_xsize: sbend size.
         cross_section: cross_section spec.
-        kwargs: cross_section settings.
+        width: width of the waveguide. If None, it will use the width of the cross_section.
 
     .. code::
 
@@ -76,10 +74,10 @@ def delay_snake_sbend(
 
     bend180_radius = (radius + waveguide_spacing) / 2
     bend = gf.get_component(
-        bend, radius=bend180_radius, angle=180, cross_section=cross_section, **kwargs
+        bend, radius=bend180_radius, angle=180, cross_section=cross_section, width=width
     )
     sbend = gf.get_component(
-        sbend, size=(sbend_xsize, radius), cross_section=cross_section, **kwargs
+        sbend, size=(sbend_xsize, radius), cross_section=cross_section, width=width
     )
 
     b1 = c << bend
@@ -99,10 +97,10 @@ def delay_snake_sbend(
             f"or length3 = {length3} or increase length = {length}\n" + diagram
         )
 
-    straight1 = straight(length=length1, cross_section=cross_section, **kwargs)
-    straight2 = straight(length=length2, cross_section=cross_section, **kwargs)
-    straight3 = straight(length=length3, cross_section=cross_section, **kwargs)
-    straight4 = straight(length=length4, cross_section=cross_section, **kwargs)
+    straight1 = straight(length=length1, cross_section=cross_section, width=width)
+    straight2 = straight(length=length2, cross_section=cross_section, width=width)
+    straight3 = straight(length=length3, cross_section=cross_section, width=width)
+    straight4 = straight(length=length4, cross_section=cross_section, width=width)
 
     # sequence = ["s1", "b1", "bs", "s2", "b2", "s3", "s4"]
     # for i_straight, component in enumerate(straight1, straight2, straight3, straight4):

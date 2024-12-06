@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import warnings
-from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -32,7 +31,7 @@ def delay_snake(
     n: int = 2,
     bend180: ComponentSpec = bend_euler180,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs: Any,
+    width: float | None = None,
 ) -> Component:
     r"""Returns Snake with a starting bend and 180 bends.
 
@@ -43,7 +42,7 @@ def delay_snake(
         n: number of loops.
         bend180: ubend spec.
         cross_section: cross_section spec.
-        kwargs: cross_section settings.
+        width: width of the waveguide. If None, it will use the width of the cross_section.
 
     .. code::
 
@@ -63,7 +62,7 @@ def delay_snake(
     if n % 2:
         warnings.warn(f"rounding {n} to {n // 2 * 2}", stacklevel=3)
         n = n // 2 * 2
-    bend180 = gf.get_component(bend180, cross_section=cross_section, **kwargs)
+    bend180 = gf.get_component(bend180, cross_section=cross_section, width=width)
 
     delta_length = (length - length0 - length2 - n * bend180.info["length"]) / n
     if delta_length < 0:
@@ -73,9 +72,9 @@ def delay_snake(
             f"delta_length = {int(delta_length)}\n" + diagram
         )
 
-    s0 = straight(cross_section=cross_section, length=length0, **kwargs)
-    sd = straight(cross_section=cross_section, length=delta_length, **kwargs)
-    s2 = straight(cross_section=cross_section, length=length2, **kwargs)
+    s0 = straight(cross_section=cross_section, length=length0, width=width)
+    sd = straight(cross_section=cross_section, length=delta_length, width=width)
+    s2 = straight(cross_section=cross_section, length=length2, width=width)
 
     symbol_to_component = {
         "_": (s0, "o1", "o2"),
