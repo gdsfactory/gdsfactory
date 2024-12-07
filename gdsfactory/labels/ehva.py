@@ -100,12 +100,12 @@ if __name__ == "__main__":
         die="demo_die",
         metadata_include_parent=["grating_coupler:settings:polarization"],
     )
+    from gdsfactory.components.mmi2x2 import mmi2x2
 
     c = gf.c.straight(length=11)
-    c = gf.c.mmi2x2(length_mmi=2.2)
+    c = mmi2x2(length_mmi=2.2)
     c = gf.routing.add_fiber_array(
         c,
-        grating_coupler=gf.c.grating_coupler_te,
     )
     c = add_label_ehva(c)
 

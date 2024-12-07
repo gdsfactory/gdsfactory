@@ -44,6 +44,7 @@ from rich.table import Table
 from gdsfactory.cross_section import CrossSectionSpec
 
 if TYPE_CHECKING:
+    from gdsfactory import typings
     from gdsfactory.component import Component
     from gdsfactory.typings import (
         AngleInDegrees,
@@ -168,7 +169,7 @@ class Port(kf.Port):
         return to_dict(self)
 
 
-def to_dict(port: Port) -> dict[str, Any]:
+def to_dict(port: "typings.Port") -> dict[str, Any]:
     """Returns dict."""
     return {
         "name": port.name,

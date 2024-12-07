@@ -271,7 +271,7 @@ if __name__ == "__main__":
     c.show()
 """
     if filepath_out:
-        dirpath = filepath_out.parent
+        dirpath = pathlib.Path(filepath_out).parent
         dirpath.mkdir(parents=True, exist_ok=True)
         filepath_out = pathlib.Path(filepath_out)
         filepath_out.write_text(script)
