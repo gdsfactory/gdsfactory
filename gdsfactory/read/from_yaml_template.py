@@ -1,5 +1,4 @@
 import pathlib
-from collections.abc import Iterable
 from inspect import Parameter, Signature, signature
 from io import IOBase
 from typing import IO, Any
@@ -17,7 +16,7 @@ __all__ = ["cell_from_yaml_template"]
 _YamlDefinition = str | IO[Any] | pathlib.Path
 
 
-def split_default_settings_from_yaml(yaml_lines: Iterable[str]) -> tuple[str, str]:
+def split_default_settings_from_yaml(yaml_lines: list[str]) -> tuple[str, str]:
     """Separates out the 'default_settings' block from the rest of the file body.
 
     Note: 'default settings' MUST be at the TOP of the file.
@@ -57,7 +56,7 @@ def _split_yaml_definition(subpic_yaml: _YamlDefinition) -> tuple[str, dict[str,
         f = subpic_yaml
         subpic_text = f.readlines()
     else:
-        with open(subpic_yaml) as f:
+        with pathlib.Path(subpic_yaml).open() as f:  # type: ignore[arg-type]
             subpic_text = f.readlines()
     main_file, default_settings_string = split_default_settings_from_yaml(subpic_text)
     if default_settings_string:
@@ -155,7 +154,7 @@ def yaml_cell(
 
     _yaml_func.__name__ = name
     _yaml_func.__module__ = "yaml_jinja"
-    _yaml_func.__signature__ = new_sig
+    _yaml_func.__signature__ = new_sig  # type: ignore[attr-defined]
     _yaml_func.__doc__ = docstring
     return cell(_yaml_func)
 

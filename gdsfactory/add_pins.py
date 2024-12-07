@@ -14,12 +14,13 @@ import json
 import warnings
 from collections.abc import Callable
 from functools import partial
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, TypeAlias
 
 import kfactory as kf
 import numpy as np
 import numpy.typing as npt
 import yaml
+from kfactory import Instance, LayerEnum
 
 import gdsfactory as gf
 from gdsfactory.component import container
@@ -28,13 +29,13 @@ from gdsfactory.port import select_ports
 from gdsfactory.serialization import convert_tuples_to_lists
 
 if TYPE_CHECKING:
-    from gdsfactory.component import Component, Instance
+    from gdsfactory.component import Component
     from gdsfactory.port import Port
 
-Layer = tuple[int, int]
-Layers = tuple[Layer, ...]
-LayerSpec = Layer | str | int
-LayerSpecs = tuple[LayerSpec, ...]
+Layer: TypeAlias = tuple[int, int]
+Layers: TypeAlias = tuple[Layer, ...]
+LayerSpec: TypeAlias = Layer | str | int
+LayerSpecs: TypeAlias = tuple[LayerSpec, ...]
 nm = 1e-3
 
 

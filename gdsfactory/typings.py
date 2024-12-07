@@ -122,7 +122,7 @@ AngleInDegrees: TypeAlias = float
 
 Layer: TypeAlias = tuple[int, int]
 Layers: TypeAlias = Sequence[Layer]
-LayerSpec: TypeAlias = LayerEnum | str | tuple[int, int] | int
+LayerSpec: TypeAlias = Layer | str | int | LayerEnum
 LayerSpecs: TypeAlias = Sequence[LayerSpec]
 
 AnyComponent: TypeAlias = Component | ComponentAllAngle
