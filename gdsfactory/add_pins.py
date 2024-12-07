@@ -20,7 +20,7 @@ import kfactory as kf
 import numpy as np
 import numpy.typing as npt
 import yaml
-from kfactory import Instance, LayerEnum
+from kfactory import Instance
 
 import gdsfactory as gf
 from gdsfactory.component import container
