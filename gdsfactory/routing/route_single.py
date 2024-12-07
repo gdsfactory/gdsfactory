@@ -31,6 +31,7 @@ from collections.abc import Mapping, Sequence
 from typing import Literal
 
 import kfactory as kf
+import klayout.db as kdb
 from kfactory.routing.electrical import route_elec
 from kfactory.routing.generic import ManhattanRoute
 from kfactory.routing.optical import place90, route
@@ -60,7 +61,7 @@ def route_single(
     straight: ComponentSpec = straight_function,
     start_straight_length: float = 0.0,
     end_straight_length: float = 0.0,
-    waypoints: Coordinates | None = None,
+    waypoints: Sequence[Coordinates | kdb.Point] | None = None,
     steps: Sequence[Mapping[Literal["x", "y", "dx", "dy"], int | float]] | None = None,
     port_type: str | None = None,
     allow_width_mismatch: bool = False,
@@ -147,9 +148,9 @@ def route_single(
         raise ValueError("Provide either steps or waypoints, not both")
 
     if waypoints is None:
-        waypoints = []
+        waypoints_list = []
     else:
-        waypoints = list(waypoints)
+        waypoints_list = list(waypoints)
 
     if steps is None:
         steps = []
@@ -165,16 +166,16 @@ def route_single(
                 )
             x = float(d.get("x", x) + d.get("dx", 0.0))
             y = float(d.get("y", y) + d.get("dy", 0.0))
-            waypoints += [(x, y)]
+            waypoints_list.append((x, y))
 
-    if len(waypoints) > 0:
+    if len(waypoints_list) > 0:
         w: list[kf.kdb.Point] = []
-        if not isinstance(waypoints[0], kf.kdb.Point):
+        if not isinstance(waypoints_list[0], kf.kdb.Point):
             w = [kf.kdb.Point(*p1.center)]
-            w += [c.kcl.to_dbu(kf.kdb.DPoint(p[0], p[1])) for p in waypoints]
+            w += [c.kcl.to_dbu(kf.kdb.DPoint(p[0], p[1])) for p in waypoints_list]
             w += [kf.kdb.Point(*p2.center)]
         else:
-            w = waypoints  # type: ignore
+            w = waypoints_list  # type: ignore
 
         return place90(
             component,

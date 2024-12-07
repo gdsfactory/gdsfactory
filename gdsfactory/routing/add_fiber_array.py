@@ -5,6 +5,7 @@ from typing import Any
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
+from gdsfactory.components.mmi2x2 import mmi2x2
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.route_fiber_array import route_fiber_array
@@ -131,7 +132,7 @@ def add_fiber_array(
 if __name__ == "__main__":
     # from gdsfactory.samples.big_device import big_device
 
-    component = gf.c.mmi2x2()
+    component = mmi2x2()
     # component = big_device(nports=2)
     # radius = 5.0
     c = add_fiber_array(component=component)

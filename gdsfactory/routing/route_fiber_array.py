@@ -318,10 +318,10 @@ def route_fiber_array(
     gc_ports = [gc.ports[gc_port_name] for gc in io_gratings]
     # c.shapes(c.kcl.layer(1, 10)).insert(component_to_route.bbox())
 
-    bboxes = bboxes or []
+    bboxes = list(bboxes or [])
 
     if avoid_component_bbox:
-        bboxes += [component_to_route.bbox()]
+        bboxes.append(component_to_route.bbox())
 
     route_bundle(
         c,
@@ -344,7 +344,14 @@ def route_fiber_array(
         **kwargs,
     )
     if gc_port_name_fiber not in grating_coupler_port_names:
-        gc_port_name_fiber = gc_port_names[0]
+        _gc_port_name_fiber = gc_port_names[0]
+        if _gc_port_name_fiber is not None:
+            gc_port_name_fiber = _gc_port_name_fiber
+        else:
+            raise ValueError(
+                f"{gc_port_name_fiber!r} not in {grating_coupler_port_names}"
+            )
+
     fiber_ports = [gc.ports[gc_port_name_fiber] for gc in io_gratings]
 
     c.ports = kf.Ports(kcl=c.kcl)
@@ -370,11 +377,12 @@ def route_fiber_array(
         port0 = gca1[gc_port_name]
         port1 = gca2[gc_port_name]
         radius = radius_loopback or radius or x.radius
+        assert radius is not None
         radius_dbu = c.kcl.to_dbu(radius)
         d_loop = straight_to_grating_spacing + radius + gca1.dysize
         d_loop_dbu = c.kcl.to_dbu(d_loop)
 
-        waypoints = kf.routing.optical.route_loopback(
+        waypoints_loopback = kf.routing.optical.route_loopback(
             port0,
             port1,
             bend90_radius=radius_dbu,
@@ -389,7 +397,7 @@ def route_fiber_array(
             c,
             port1=port0,
             port2=port1,
-            waypoints=waypoints,
+            waypoints=waypoints_loopback,
             straight=straight,
             bend=bend90,
             cross_section=cross_section,
@@ -399,25 +407,6 @@ def route_fiber_array(
         c.add_port(name="loopback1", port=port0)
         c.add_port(name="loopback2", port=port1)
     return c
-
-
-def demo() -> None:
-    gcte = gf.components.grating_coupler_te
-    gctm = gf.components.grating_coupler_tm
-
-    c = gf.components.straight(length=500)
-    c = gf.components.mmi2x2()
-
-    route_fiber_array(
-        component=c,
-        grating_coupler=[gcte, gctm, gcte, gctm],
-        with_loopback=True,
-        # bend=gf.components.bend_euler,
-        bend=gf.components.bend_circular,
-        radius=20,
-        # force_manhattan=True
-    )
-    c.show()
 
 
 if __name__ == "__main__":
