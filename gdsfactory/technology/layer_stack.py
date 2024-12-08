@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections import defaultdict
 from collections.abc import Sequence
-from typing import TYPE_CHECKING, Any, Literal, TypeAlias, TypeVar
+from typing import Any, Literal, TypeAlias, TypeVar
 
 import kfactory as kf
 from kfactory.kcell import LayerEnum
@@ -12,9 +12,7 @@ from rich.table import Table
 
 import gdsfactory as gf
 from gdsfactory.component import Component, boolean_operations
-
-if TYPE_CHECKING:
-    from gdsfactory.technology import LayerViews
+from gdsfactory.technology.layer_views import LayerViews
 
 T = TypeVar("T", bound="AbstractLayer")
 

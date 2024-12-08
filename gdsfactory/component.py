@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pathlib
 import warnings
-from collections.abc import Callable, Iterable, Iterator
+from collections.abc import Callable, Iterable, Iterator, Sequence
 from typing import TYPE_CHECKING, Any, Literal, overload
 
 import kfactory as kf
@@ -25,17 +25,17 @@ if TYPE_CHECKING:
     import networkx as nx  # type: ignore[import-untyped]
     from matplotlib.figure import Figure
 
+    from gdsfactory.cross_section import CrossSection
+    from gdsfactory.technology.layer_stack import LayerStack
+    from gdsfactory.technology.layer_views import LayerViews
     from gdsfactory.typings import (
         AngleInDegrees,
         ComponentSpec,
         Coordinates,
-        CrossSection,
         CrossSectionSpec,
         Layer,
         LayerSpec,
         LayerSpecs,
-        LayerStack,
-        LayerViews,
         PathType,
         Port,
         Ports,
@@ -316,7 +316,7 @@ class ComponentBase:
         layer: LayerSpec | None = None,
         port_type: str = "optical",
         keep_mirror: bool = False,
-        cross_section: CrossSectionSpec | None = None,
+        cross_section: "CrossSectionSpec | None" = None,
     ) -> "Port":
         """Adds a Port to the Component.
 
@@ -459,7 +459,7 @@ class ComponentBase:
         points: (
             "np.ndarray[Any, np.dtype[np.float64]] | kdb.DPolygon | kdb.Polygon | kdb.Region | Coordinates"
         ),
-        layer: LayerSpec,
+        layer: "LayerSpec",
     ) -> kdb.Shape:
         """Adds a Polygon to the Component and returns a klayout Shape.
 
@@ -489,7 +489,7 @@ class ComponentBase:
         self,
         text: str = "hello",
         position: tuple[float, float] | kf.kdb.DPoint = (0.0, 0.0),
-        layer: LayerSpec = "TEXT",
+        layer: "LayerSpec" = "TEXT",
     ) -> kdb.Shape:
         """Adds Label to the Component.
 
@@ -549,7 +549,7 @@ class ComponentBase:
             inst.name = name
         return ComponentReference(inst)
 
-    def get_ports_list(self, **kwargs: Any) -> list[Port]:
+    def get_ports_list(self, **kwargs: Any) -> "list[Port]":
         """Returns list of ports.
 
         Args:
@@ -570,7 +570,7 @@ class ComponentBase:
 
     def add_route_info(
         self,
-        cross_section: CrossSection | str,
+        cross_section: "CrossSection | str",
         length: float,
         length_eff: float | None = None,
         taper: bool = False,
@@ -693,7 +693,7 @@ class ComponentBase:
         self,
         merge: bool = False,
         by: Literal["index"] | Literal["name"] | Literal["tuple"] = "index",
-        layers: LayerSpecs | None = None,
+        layers: "LayerSpecs | None" = None,
     ) -> dict[tuple[int, int] | str | int, list[kf.kdb.Polygon]]:
         """Returns a dict of Polygons per layer.
 
@@ -709,7 +709,7 @@ class ComponentBase:
         merge: bool = False,
         scale: float | None = None,
         by: Literal["index"] | Literal["name"] | Literal["tuple"] = "index",
-        layers: LayerSpecs | None = None,
+        layers: "LayerSpecs | None" = None,
     ) -> dict[int | str | tuple[int, int], list[npt.NDArray[np.float64]]]:
         """Returns a dict with list of points per layer.
 
@@ -722,7 +722,7 @@ class ComponentBase:
         return get_polygons_points(self, merge=merge, scale=scale, by=by, layers=layers)
 
     def get_labels(
-        self, layer: LayerSpec, recursive: bool = True
+        self, layer: "LayerSpec", recursive: bool = True
     ) -> list[kf.kdb.DText]:
         """Returns a list of labels from the Component.
 
@@ -745,7 +745,9 @@ class ComponentBase:
                 shape.dtext for shape in self.shapes(layer_enum).each(kdb.Shapes.STexts)
             ]
 
-    def get_paths(self, layer: LayerSpec, recursive: bool = True) -> list[kf.kdb.DPath]:
+    def get_paths(
+        self, layer: "LayerSpec", recursive: bool = True
+    ) -> list[kf.kdb.DPath]:
         """Returns a list of paths.
 
         Args:
@@ -772,7 +774,9 @@ class ComponentBase:
             )
         return paths
 
-    def get_boxes(self, layer: LayerSpec, recursive: bool = True) -> list[kf.kdb.DBox]:
+    def get_boxes(
+        self, layer: "LayerSpec", recursive: bool = True
+    ) -> list[kf.kdb.DBox]:
         """Returns a list of boxes.
 
         Args:
@@ -799,7 +803,7 @@ class ComponentBase:
             )
         return boxes
 
-    def area(self, layer: LayerSpec) -> float:
+    def area(self, layer: "LayerSpec") -> float:
         """Returns the area of the Component in um2."""
         from gdsfactory import get_layer
 
@@ -821,9 +825,9 @@ class ComponentBase:
 
     def write_gds(
         self,
-        gdspath: PathType | None = None,
-        gdsdir: PathType | None = None,
-        save_options: kdb.SaveLayoutOptions | None = None,
+        gdspath: "PathType | None" = None,
+        gdsdir: "PathType | None" = None,
+        save_options: "kdb.SaveLayoutOptions | None" = None,
         with_metadata: bool = True,
         **kwargs: Any,
     ) -> pathlib.Path:
@@ -865,7 +869,7 @@ class ComponentBase:
 
     def extract(
         self,
-        layers: LayerSpecs,
+        layers: "LayerSpecs",
         recursive: bool = True,
     ) -> Component:
         """Extracts a list of layers and adds them to a new Component.
@@ -880,7 +884,7 @@ class ComponentBase:
 
     def remove_layers(
         self,
-        layers: LayerSpecs,
+        layers: "LayerSpecs",
         recursive: bool = True,
     ) -> Component:
         """Removes a list of layers and returns the same Component.
@@ -903,7 +907,7 @@ class ComponentBase:
         return self
 
     def remap_layers(
-        self, layer_map: dict[LayerSpec, LayerSpec], recursive: bool = False
+        self, layer_map: "dict[LayerSpec, LayerSpec]", recursive: bool = False
     ) -> Component:
         """Remaps a list of layers and returns the same Component.
 
@@ -924,7 +928,7 @@ class ComponentBase:
         return self
 
     def copy_layers(
-        self, layer_map: dict[LayerSpec, LayerSpec], recursive: bool = False
+        self, layer_map: "dict[LayerSpec, LayerSpec]", recursive: bool = False
     ) -> Component:
         """Remaps a list of layers and returns the same Component.
 
@@ -966,9 +970,9 @@ class ComponentBase:
 
     def to_3d(
         self,
-        layer_views: LayerViews | None = None,
-        layer_stack: LayerStack | None = None,
-        exclude_layers: tuple[Layer, ...] | None = None,
+        layer_views: "LayerViews" | None = None,
+        layer_stack: "LayerStack" | None = None,
+        exclude_layers: "Sequence[Layer]" | None = None,
     ) -> Scene:
         """Return Component 3D trimesh Scene.
 
@@ -1128,7 +1132,7 @@ class ComponentBase:
             nets=netlist["nets"],
         )
 
-    def over_under(self, layer: LayerSpec, distance: float = 0.001) -> None:
+    def over_under(self, layer: "LayerSpec", distance: float = 0.001) -> None:
         """Returns a Component over-under on a layer in the Component.
 
         For big components use tiled version.
@@ -1147,7 +1151,7 @@ class ComponentBase:
         self.remove_layers([layer])
         self.shapes(layer_index).insert(region)
 
-    def offset(self, layer: LayerSpec, distance: float) -> None:
+    def offset(self, layer: "LayerSpec", distance: float) -> None:
         """Offsets a Component layer by a distance in um.
 
         Args:
@@ -1322,7 +1326,7 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):  # type: ignore
 
 
 def container(
-    component: ComponentSpec, function: Callable[..., None], **kwargs: Any
+    component: "ComponentSpec", function: Callable[..., None], **kwargs: Any
 ) -> Component:
     """Returns new component with a component reference.
 
@@ -1343,7 +1347,7 @@ def container(
 
 
 def component_with_function(
-    component: ComponentSpec,
+    component: "ComponentSpec",
     function: Callable[..., None] | None = None,
     **kwargs: Any,
 ) -> gf.Component:

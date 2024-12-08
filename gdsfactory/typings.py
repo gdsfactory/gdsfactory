@@ -112,6 +112,7 @@ LayerSpecs: TypeAlias = Sequence[LayerSpec]
 Number: TypeAlias = float | int
 Coordinate: TypeAlias = tuple[float, float]
 Coordinates: TypeAlias = Sequence[Coordinate]
+WayPoints: TypeAlias = Sequence[Coordinate | kdb.Point]
 
 MaterialSpec: TypeAlias = (
     str | float | tuple[float, float] | Callable[..., Any] | npt.NDArray[np.float64]
@@ -142,13 +143,33 @@ ConductorConductorName: TypeAlias = tuple[str, str]
 ConductorViaConductorName: TypeAlias = tuple[str, str, str] | ConductorConductorName
 ConnectivitySpec: TypeAlias = ConductorConductorName | ConductorViaConductorName
 
+Sparameters: TypeAlias = dict[str, npt.NDArray[np.float64]]
+
 Route: TypeAlias = (
     kf.routing.generic.ManhattanRoute | kf.routing.aa.optical.OpticalAllAngleRoute
 )
 RoutingStrategy: TypeAlias = Callable[..., Sequence[Route]]
 RoutingStrategies: TypeAlias = dict[str, RoutingStrategy]
 
-from gdsfactory import component, cross_section  # noqa: E402
+from gdsfactory import cross_section  # noqa: E402
+
+CrossSectionFactory: TypeAlias = Callable[..., cross_section.CrossSection]
+CrossSectionOrFactory: TypeAlias = cross_section.CrossSection | CrossSectionFactory
+
+CrossSectionSpec: TypeAlias = (
+    CrossSectionFactory
+    | cross_section.CrossSection
+    | SymmetricalCrossSection
+    | dict[str, Any]
+    | str
+)
+CrossSectionSpecs: TypeAlias = tuple[CrossSectionSpec, ...]
+
+MultiCrossSectionAngleSpec: TypeAlias = Sequence[
+    tuple[CrossSectionSpec, tuple[int, ...]]
+]
+
+from gdsfactory import component  # noqa: E402
 
 AnyComponent: TypeAlias = component.Component | component.ComponentAllAngle
 AnyComponentT = TypeVar("AnyComponentT", bound=AnyComponent)
@@ -176,31 +197,12 @@ ComponentOrPath: TypeAlias = PathType | component.Component
 ComponentOrReference: TypeAlias = component.Component | component.ComponentReference
 NameToFunctionDict: TypeAlias = dict[str, ComponentFactory]
 
-CrossSectionFactory: TypeAlias = Callable[..., cross_section.CrossSection]
-CrossSectionOrFactory: TypeAlias = cross_section.CrossSection | CrossSectionFactory
-WayPoints: TypeAlias = Sequence[Coordinate | kdb.Point]
-
-
-Sparameters: TypeAlias = dict[str, npt.NDArray[np.float64]]
 
 ComponentSpecOrList: TypeAlias = ComponentSpec | list[ComponentSpec]
 CellSpec: TypeAlias = (
     str | ComponentFactory | dict[str, Any]  # PCell function, function name or dict
 )
-
 ComponentSpecDict: TypeAlias = dict[str, ComponentSpec]
-CrossSectionSpec: TypeAlias = (
-    CrossSectionFactory
-    | cross_section.CrossSection
-    | SymmetricalCrossSection
-    | dict[str, Any]
-    | str
-)
-CrossSectionSpecs: TypeAlias = tuple[CrossSectionSpec, ...]
-
-MultiCrossSectionAngleSpec: TypeAlias = Sequence[
-    tuple[CrossSectionSpec, tuple[int, ...]]
-]
 
 
 class TypedArray(np.ndarray[Any, np.dtype[Any]]):
