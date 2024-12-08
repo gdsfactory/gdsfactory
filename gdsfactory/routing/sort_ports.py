@@ -2,27 +2,25 @@ from __future__ import annotations
 
 from collections.abc import Callable
 
-import kfactory as kf
-
-from gdsfactory.port import Port
+from gdsfactory.typings import Port, Ports
 
 
-def get_port_x(port: Port | kf.Port) -> float:
+def get_port_x(port: Port) -> float:
     return port.dcenter[0]
 
 
-def get_port_y(port: Port | kf.Port) -> float:
+def get_port_y(port: Port) -> float:
     return port.dcenter[1]
 
 
-def sort_ports_x(ports: list[Port | kf.Port]) -> list[Port | kf.Port]:
+def sort_ports_x(ports: Ports) -> list[Port]:
     ports = list(ports)
     f_key = get_port_x
     ports.sort(key=f_key)
     return ports
 
 
-def sort_ports_y(ports: list[Port | kf.Port]) -> list[Port | kf.Port]:
+def sort_ports_y(ports: Ports) -> list[Port]:
     ports = list(ports)
     f_key = get_port_y
     ports.sort(key=f_key)
@@ -30,10 +28,10 @@ def sort_ports_y(ports: list[Port | kf.Port]) -> list[Port | kf.Port]:
 
 
 def sort_ports(
-    ports1: list[Port] | kf.Ports,
-    ports2: list[Port] | kf.Ports,
+    ports1: Ports,
+    ports2: Ports,
     enforce_port_ordering: bool,
-) -> tuple[list[Port | kf.Port], list[Port | kf.Port]]:
+) -> tuple[list[Port], list[Port]]:
     """Returns two lists of sorted ports.
 
     Args:
@@ -79,10 +77,10 @@ def sort_ports(
 
 
 def _sort(
-    key_func: Callable[[Port | kf.Port], float],
-    ports1: list[Port | kf.Port],
+    key_func: Callable[[Port], float],
+    ports1: list[Port],
     enforce_port_ordering: bool,
-    ports2: list[Port | kf.Port],
+    ports2: list[Port],
 ) -> None:
     ports1.sort(key=key_func)
     if not enforce_port_ordering:
@@ -95,5 +93,5 @@ if __name__ == "__main__":
     c = gf.Component()
     c1 = c << gf.c.straight()
     c2 = c << gf.c.straight()
-    sort_ports(c1.ports, c2.ports, enforce_port_ordering=True)  # type: ignore
+    sort_ports(c1.ports, c2.ports, enforce_port_ordering=True)
     c.show()

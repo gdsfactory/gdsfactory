@@ -27,10 +27,11 @@ from collections.abc import Callable, Generator, Sequence
 from typing import Any, Literal, ParamSpec, TypeAlias, TypeVar
 
 import kfactory as kf
+import klayout.db as kdb
 import numpy as np
 import numpy.typing as npt
 from kfactory.cross_section import SymmetricalCrossSection
-from kfactory.kcell import LayerEnum
+from kfactory.kcell import InstancePorts, LayerEnum
 
 from gdsfactory.component import (
     Component,
@@ -160,6 +161,7 @@ Coordinate: TypeAlias = tuple[float, float]
 Coordinates: TypeAlias = Sequence[Coordinate]
 CrossSectionFactory: TypeAlias = Callable[..., CrossSection]
 CrossSectionOrFactory: TypeAlias = CrossSection | Callable[..., CrossSection]
+WayPoints: TypeAlias = Sequence[Coordinate | kdb.Point]
 
 WidthFunction: TypeAlias = Callable[..., npt.NDArray[np.float64]]
 OffsetFunction: TypeAlias = Callable[..., npt.NDArray[np.float64]]
@@ -169,7 +171,7 @@ PortFactory: TypeAlias = Callable[..., Port]
 PortsFactory: TypeAlias = Callable[..., Sequence[Port]]
 PortSymmetries: TypeAlias = dict[str, Sequence[str]]
 PortsDict: TypeAlias = dict[str, Port]
-Ports: TypeAlias = kf.Ports | Sequence[Port]
+Ports: TypeAlias = kf.Ports | Sequence[Port] | InstancePorts
 SelectPorts: TypeAlias = Callable[..., Sequence[Port]]
 
 PortType: TypeAlias = str
@@ -285,5 +287,6 @@ __all__ = (
     "Spacing",
     "Strs",
     "Transition",
+    "WayPoints",
     "WidthTypes",
 )

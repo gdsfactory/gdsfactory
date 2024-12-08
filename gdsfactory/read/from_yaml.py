@@ -51,7 +51,6 @@ from __future__ import annotations
 
 import itertools
 import pathlib
-import warnings
 from collections.abc import Callable
 from copy import deepcopy
 from functools import partial
@@ -63,9 +62,9 @@ import yaml
 from kfactory.kcell import Instance
 
 from gdsfactory import typings
+from gdsfactory._deprecation import deprecate
 from gdsfactory.add_pins import add_instance_label
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.config import __next_major_version__
 from gdsfactory.schematic import Bundle, Netlist, Placement
 from gdsfactory.schematic import Instance as NetlistInstance
 from gdsfactory.typings import LayerSpec, Route, RoutingStrategies
@@ -690,17 +689,10 @@ def cell_from_yaml(
 
     """
     if prefix is not None:
-        warnings.warn(
-            f"The 'prefix' parameter is deprecated and will be removed in gdsfactory {__next_major_version__}",
-            DeprecationWarning,
-            stacklevel=2,
-        )
+        deprecate("prefix")
+
     if routing_strategy is not None:
-        warnings.warn(
-            f"The 'routing_strategy' parameter is deprecated and will be removed in gdsfactory {__next_major_version__}",
-            DeprecationWarning,
-            stacklevel=2,
-        )
+        deprecate("routing_strategy")
 
     routing_strategies = (routing_strategies or {}) | (routing_strategy or {})
 
@@ -801,11 +793,7 @@ def from_yaml(
     from gdsfactory.pdk import get_active_pdk
 
     if routing_strategy is not None:
-        warnings.warn(
-            f"The 'routing_strategy' parameter is deprecated and will be removed in gdsfactory {__next_major_version__}",
-            DeprecationWarning,
-            stacklevel=2,
-        )
+        deprecate("routing_strategy")
 
     routing_strategies = (routing_strategies or {}) | (routing_strategy or {})
 

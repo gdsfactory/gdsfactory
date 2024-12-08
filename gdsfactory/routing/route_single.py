@@ -43,10 +43,10 @@ from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.typings import (
     STEP_DIRECTIVES,
     ComponentSpec,
-    Coordinates,
     CrossSectionSpec,
     LayerSpec,
     Port,
+    WayPoints,
 )
 
 
@@ -60,7 +60,7 @@ def route_single(
     straight: ComponentSpec = straight_function,
     start_straight_length: float = 0.0,
     end_straight_length: float = 0.0,
-    waypoints: Coordinates | None = None,
+    waypoints: WayPoints | None = None,
     steps: Sequence[Mapping[Literal["x", "y", "dx", "dy"], int | float]] | None = None,
     port_type: str | None = None,
     allow_width_mismatch: bool = False,
@@ -115,11 +115,14 @@ def route_single(
 
         elif radius:
             cross_section = gf.cross_section.cross_section(
-                layer=layer, width=route_width, radius=radius
+                layer=layer,
+                width=route_width,
+                radius=radius,
             )
         else:
             cross_section = gf.cross_section.cross_section(
-                layer=layer, width=route_width
+                layer=layer,
+                width=route_width,
             )
 
     port_type = port_type or p1.port_type
@@ -141,15 +144,15 @@ def route_single(
 
     end_straight = c.kcl.to_dbu(end_straight_length)
     start_straight = c.kcl.to_dbu(start_straight_length)
-    route_width = c.kcl.to_dbu(width)  # type: ignore
+    route_width = c.kcl.to_dbu(width)
 
     if steps and waypoints:
         raise ValueError("Provide either steps or waypoints, not both")
 
     if waypoints is None:
-        waypoints = []
+        waypoints_list = []
     else:
-        waypoints = list(waypoints)
+        waypoints_list = list(waypoints)
 
     if steps is None:
         steps = []
@@ -165,16 +168,20 @@ def route_single(
                 )
             x = float(d.get("x", x) + d.get("dx", 0.0))
             y = float(d.get("y", y) + d.get("dy", 0.0))
-            waypoints += [(x, y)]
+            waypoints_list.append((x, y))
 
-    if len(waypoints) > 0:
+    if len(waypoints_list) > 0:
         w: list[kf.kdb.Point] = []
-        if not isinstance(waypoints[0], kf.kdb.Point):
-            w = [kf.kdb.Point(*p1.center)]
-            w += [c.kcl.to_dbu(kf.kdb.DPoint(p[0], p[1])) for p in waypoints]
-            w += [kf.kdb.Point(*p2.center)]
+        if not isinstance(waypoints_list[0], kf.kdb.Point):
+            w.append(kf.kdb.Point(*p1.center))
+            for p in waypoints_list:
+                if isinstance(p, tuple):
+                    w.append(c.kcl.to_dbu(kf.kdb.DPoint(p[0], p[1])))
+                else:
+                    w.append(p)
+            w.append(kf.kdb.Point(*p2.center))
         else:
-            w = waypoints  # type: ignore
+            w = waypoints_list  # type: ignore
 
         return place90(
             component,

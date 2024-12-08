@@ -4,6 +4,7 @@ from functools import partial
 from typing import Any
 
 import gdsfactory as gf
+from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component
 from gdsfactory.components.pad import pad_array270
 from gdsfactory.components.wire import wire_straight
@@ -26,6 +27,7 @@ def add_electrical_pads_top_dc(
     component: ComponentSpec = _wire_long,
     spacing: Float2 = (0.0, 100.0),
     pad_array: ComponentFactory = pad_array270,
+    pad_array_factory: ComponentFactory = pad_array270,
     select_ports: SelectPorts = select_ports_electrical,
     port_names: Strs | None = None,
     **kwargs: Any,
@@ -35,7 +37,8 @@ def add_electrical_pads_top_dc(
     Args:
         component: component spec to connect to.
         spacing: component to pad spacing.
-        pad_array: component spec for pad_array.
+        pad_array: component factor for pad_array. (deprecated)
+        pad_array_factory: component factory for pad_array.
         select_ports: function to select_ports.
         route_bundle_function: function to route bundle of ports.
         port_names: optional port names. Overrides select_ports.
@@ -50,27 +53,33 @@ def add_electrical_pads_top_dc(
         c.plot()
 
     """
+    if pad_array is not None:
+        deprecate("pad_array", "pad_array_factory")
+        pad_array_factory = pad_array
+
     c = Component()
     component = gf.get_component(component)
 
     cref = c << component
-    ports = [cref[port_name] for port_name in port_names] if port_names else None
-    ports = ports or select_ports(cref.ports)
+    ports = (
+        [cref[port_name] for port_name in port_names]
+        if port_names
+        else select_ports(cref.ports)
+    )
 
     if not ports:
-        port_names = [port.name for port in component.ports]
         raise ValueError(
-            f"select_ports or port_names did not match any ports in {port_names}"
+            f"select_ports or port_names did not match any ports in "
+            f"{[port.name for port in component.ports]}"
         )
 
-    ports_component = list(ports.values()) if isinstance(ports, dict) else ports
-    ports_component = [port.copy() for port in ports_component]
+    ports_component = [port.copy() for port in ports]
 
     for port in ports_component:
         port.dangle = 90
 
-    pad_array = pad_array(columns=len(ports))
-    pads = c << pad_array
+    pad_array_component = pad_array_factory(columns=len(ports))
+    pads = c << pad_array_component
     pads.dx = cref.dx + spacing[0]
     pads.dymin = cref.dymax + spacing[1]
 

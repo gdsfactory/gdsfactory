@@ -211,8 +211,10 @@ def dubins_path(
             bt, bp, bq, bmode = t, p, q, mode
             bcost = cost
 
+    assert bt is not None and bp is not None and bq is not None and bmode is not None
+
     # Return path segments with lengths in um
-    return list(zip(bmode, [bt * c, bp * c, bq * c], [c] * 3))  # type: ignore
+    return list(zip(bmode, [bt * c, bp * c, bq * c], [c] * 3))
 
 
 def mod_to_pi(angle: float) -> float:
@@ -312,8 +314,8 @@ if __name__ == "__main__":
     c = gf.Component()
 
     # Create two straight waveguides with different orientations
-    wg1 = c << gf.components.straight(length=100, width=3.2, layer=(30, 0))
-    wg2 = c << gf.components.straight(length=100, width=3.2, layer=(30, 0))
+    wg1 = c << gf.components.straight(length=100, width=3.2)
+    wg2 = c << gf.components.straight(length=100, width=3.2)
 
     # Move and rotate the second waveguide
     wg2.move((300, 50))

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import Any
+from typing import Any, Literal
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -17,7 +17,7 @@ _wire_long = partial(wire_straight, length=200.0)
 
 def add_electrical_pads_top(
     component: ComponentSpec = _wire_long,
-    direction: str = "top",
+    direction: Literal["top", "right"] = "top",
     spacing: Float2 = (0.0, 100.0),
     pad_array: ComponentSpec = pad_array_function,
     select_ports: SelectPorts = select_ports_electrical,
@@ -76,6 +76,9 @@ def add_electrical_pads_top(
         pads = c << gf.get_component(
             pad_array, columns=1, rows=len(ports_electrical), orientation=270
         )
+    else:
+        raise ValueError(f"Invalid direction {direction}")
+
     pads.dx = ref.dx + spacing[0]
     pads.dymin = ref.dymax + spacing[1]
 
@@ -96,9 +99,9 @@ def add_electrical_pads_top(
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
+    from gdsfactory.components.straight_heater_metal import straight_heater_metal
 
-    c = gf.components.straight_heater_metal()
+    c = straight_heater_metal()
     # c = gf.components.mzi_phase_shifter_top_heater_metal()
     # cc = gf.routing.add_electrical_pads_top(component=c, spacing=(-150, 30))
     c = add_electrical_pads_top(c)
