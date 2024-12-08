@@ -10,18 +10,20 @@ COPY  --chmod=777 . ${HOME}
 # Update and install dependencies
 RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \
-        make \
+        curl \
         git \
-        python3-gmsh \
         htop \
-        neovim \
         klayout \
+        make \
+        neovim \
+        python3-gmsh \
         software-properties-common \
         gnupg && \
     # apt-add-repository ppa:elmer-csc-ubuntu/elmer-csc-ppa && \
     # apt-get update --yes && \
     # apt-get install --yes elmerfem-csc && \
     rm -rf /var/lib/apt/lists/*
+    curl -LsSf https://astral.sh/uv/install.sh | sh
 
 USER ${USER}
 # Using pip to install Python packages
