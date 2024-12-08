@@ -1,12 +1,12 @@
 from __future__ import annotations
 
-import warnings
 from collections.abc import Sequence
 from typing import Any
 
 import kfactory as kf
 
 import gdsfactory as gf
+from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component
 from gdsfactory.components.pad import pad_rectangular
 from gdsfactory.components.straight_heater_metal import straight_heater_metal
@@ -100,10 +100,7 @@ def add_pads_bot(
 
     """
     if pad_spacing is not None:
-        warnings.warn(
-            "pad_spacing is deprecated. Use pad_pitch instead.",
-            DeprecationWarning,
-        )
+        deprecate("pad_spacing", "pad_pitch")
         pad_pitch = pad_spacing
 
     component_new = Component()
@@ -132,6 +129,8 @@ def add_pads_bot(
             f"select_ports or port_names did not match any ports in {list(component.ports)}"
         )
 
+    assert isinstance(pad_pitch, float)
+
     route_fiber_array(
         component_new,
         component,
@@ -143,7 +142,7 @@ def add_pads_bot(
         bend=bend,
         straight_separation=straight_separation,
         port_names=port_names,
-        pitch=pad_pitch,  # type: ignore
+        pitch=pad_pitch,
         port_type=port_type,
         gc_port_name_fiber=pad_port_name,
         allow_width_mismatch=allow_width_mismatch,

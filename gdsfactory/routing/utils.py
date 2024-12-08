@@ -56,7 +56,7 @@ def check_ports_have_equal_spacing(list_ports: Sequence[Port]) -> float:
     different_seps = set(seps)
     if len(different_seps) > 1:
         raise ValueError(f"Ports should have the same separation. Got {different_seps}")
-    return seps[0]
+    return float(seps[0])
 
 
 def get_list_ports_angle(list_ports: Sequence[Port]) -> float | None:

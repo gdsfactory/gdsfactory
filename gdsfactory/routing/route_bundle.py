@@ -91,8 +91,8 @@ def get_min_spacing(
 
 def route_bundle(
     component: gf.Component,
-    ports1: Ports | Port,
-    ports2: Ports | Port,
+    ports1: Ports,
+    ports2: Ports,
     cross_section: CrossSectionSpec | None = None,
     layer: LayerSpecs | None = None,
     separation: float = 3.0,
@@ -104,7 +104,7 @@ def route_bundle(
     taper: ComponentSpec | None = None,
     port_type: str | None = None,
     collision_check_layers: LayerSpecs | None = None,
-    on_collision: str | None = "show_error",
+    on_collision: Literal["error", "show_error"] | None = "show_error",
     bboxes: list[kf.kdb.Box] | None = None,
     allow_width_mismatch: bool = False,
     radius: float | None = None,
@@ -215,22 +215,22 @@ def route_bundle(
         )
     )
 
-    def straight_dbu(
-        length: int, cross_section: CrossSectionSpec = xs, **kwargs: Any
-    ) -> gf.Component:
+    def straight_dbu(width: int, length: int) -> gf.Component:
         return gf.get_component(
             straight,
             length=c.kcl.to_um(length),
-            cross_section=cross_section,
+            cross_section=xs,
         )
 
     end_straight = c.kcl.to_dbu(end_straight_length)
     start_straight = c.kcl.to_dbu(start_straight_length)
 
     if collision_check_layers:
-        collision_check_layers = [
+        collision_check_layer_enums = [
             gf.get_layer(layer) for layer in collision_check_layers
         ]
+    else:
+        collision_check_layer_enums = None
 
     if auto_taper:
         ports1 = add_auto_tapers(component, ports1, cross_section)
@@ -264,6 +264,7 @@ def route_bundle(
 
     if router == "electrical":
         port_layer = ports1[0].layer
+        print(port_layer)
         return kf.routing.electrical.route_bundle(
             component,
             ports1,
@@ -272,7 +273,7 @@ def route_bundle(
             starts=start_straight,
             ends=end_straight,
             place_layer=port_layer,
-            collision_check_layers=collision_check_layers,
+            collision_check_layers=collision_check_layer_enums,
             on_collision=on_collision,
             bboxes=to_kdb_boxes(bboxes or []),
             route_width=width_dbu,
@@ -294,7 +295,7 @@ def route_bundle(
         ends=end_straight,
         min_straight_taper=c.kcl.to_dbu(min_straight_taper),
         place_port_type=port_type,
-        collision_check_layers=collision_check_layers,
+        collision_check_layers=collision_check_layer_enums,
         on_collision=on_collision,
         allow_width_mismatch=allow_width_mismatch,
         bboxes=to_kdb_boxes(bboxes or []),
@@ -334,7 +335,7 @@ if __name__ == "__main__":
     ptop.dmovey(300)
     routes = gf.routing.route_bundle_electrical(
         c,
-        reversed(pbot.ports),
+        list(reversed(pbot.ports)),
         ptop.ports,
         # end_straight_length=50,
         start_straight_length=100,

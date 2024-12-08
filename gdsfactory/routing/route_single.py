@@ -115,13 +115,13 @@ def route_single(
 
         elif radius:
             cross_section = gf.cross_section.cross_section(
-                layer=layer,  # type: ignore[arg-type]
+                layer=layer,
                 width=route_width,
                 radius=radius,
             )
         else:
             cross_section = gf.cross_section.cross_section(
-                layer=layer,  # type: ignore[arg-type]
+                layer=layer,
                 width=route_width,
             )
 
@@ -144,7 +144,7 @@ def route_single(
 
     end_straight = c.kcl.to_dbu(end_straight_length)
     start_straight = c.kcl.to_dbu(start_straight_length)
-    route_width = c.kcl.to_dbu(width)  # type: ignore
+    route_width = c.kcl.to_dbu(width)
 
     if steps and waypoints:
         raise ValueError("Provide either steps or waypoints, not both")

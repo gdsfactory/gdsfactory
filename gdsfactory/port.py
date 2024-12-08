@@ -56,7 +56,7 @@ if TYPE_CHECKING:
 
 Layer = tuple[int, int]
 Layers = tuple[Layer, ...]
-LayerSpec = Layer | str | None | kf.kcell.LayerEnum
+LayerSpec = Layer | str | None | kf.kcell.LayerEnum | int
 LayerSpecs = tuple[LayerSpec, ...]
 Float2 = tuple[float, float]
 valid_error_types = ["error", "warn", "ignore"]
@@ -119,7 +119,7 @@ class Port(kf.Port):
 
     def __init__(
         self,
-        name: str,
+        name: str | None,
         orientation: AngleInDegrees | None,
         center: tuple[float, float] | kf.kdb.Point | kf.kdb.DPoint,
         width: float | None = None,

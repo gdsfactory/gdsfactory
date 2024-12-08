@@ -28,6 +28,7 @@ from pydantic import (
 from gdsfactory.config import CONF, ErrorType
 
 if TYPE_CHECKING:
+    from gdsfactory import typings
     from gdsfactory.typings import AnyComponentT, PortNames, PortTypes
 
 nm = 1e-3
@@ -480,7 +481,7 @@ def xsection(func: Callable[..., CrossSection]) -> Callable[..., CrossSection]:
 def cross_section(
     width: float = 0.5,
     offset: float = 0,
-    layer: LayerSpec | None = "WG",
+    layer: "typings.LayerSpec | None" = "WG",
     sections: tuple[Section, ...] | None = None,
     port_names: tuple[str, str] = ("o1", "o2"),
     port_types: tuple[str, str] = ("optical", "optical"),

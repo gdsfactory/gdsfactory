@@ -44,7 +44,6 @@ def fanout2x2(
     c = gf.Component()
 
     component = gf.get_component(component)
-    component.component = component
     ref = c << component
     ref.dmovey(-ref.dy)
 
