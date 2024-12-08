@@ -32,9 +32,9 @@ from __future__ import annotations
 import csv
 import functools
 import warnings
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 from functools import partial
-from typing import TYPE_CHECKING, Any, Literal
+from typing import TYPE_CHECKING, Any, Literal, TypeVar
 
 import kfactory as kf
 import numpy as np
@@ -60,6 +60,8 @@ LayerSpec = Layer | str | None | kf.kcell.LayerEnum
 LayerSpecs = tuple[LayerSpec, ...]
 Float2 = tuple[float, float]
 valid_error_types = ["error", "warn", "ignore"]
+
+_PortT = TypeVar("_PortT", bound="typings.Port")
 
 
 class PortNotOnGridError(ValueError):
@@ -408,7 +410,7 @@ def select_ports_list(
 get_ports_list = select_ports_list
 
 
-def flipped(port: Port) -> Port:
+def flipped(port: _PortT) -> _PortT:
     if port.orientation is None:
         raise ValueError(f"port {port.name!r} has None orientation")
     p = port.copy()
@@ -425,7 +427,7 @@ def move_copy(port: Port, x: int = 0, y: int = 0) -> Port:
     return _port
 
 
-def get_ports_facing(ports: list[Port], direction: str = "W") -> list[Port]:
+def get_ports_facing(ports: Sequence[Port], direction: str = "W") -> list[Port]:
     from gdsfactory.component import Component, ComponentReference
 
     valid_directions = ["E", "N", "W", "S"]

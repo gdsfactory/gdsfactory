@@ -153,8 +153,6 @@ ignore = [
   "D104",  # public package docstrings
   "E501",  # line too long, handled by black
   "RUF005",  # Consider {expression} instead of concatenation
-  "ANN101",  # Missing self type annotation
-  "ANN102",  # Missing cls type annotation
   "ANN401",  # typing.Any is not allowed
   "RUF015",  # Using next() instead of [0]
   "UP037"  # Remove quotes from type annotations

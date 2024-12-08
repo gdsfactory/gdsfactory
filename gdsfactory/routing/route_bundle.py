@@ -33,7 +33,7 @@ from gdsfactory.typings import (
     Port,
     Ports,
 )
-from gdsfactory.utils import to_boxes
+from gdsfactory.utils import to_kdb_boxes
 
 OpticalManhattanRoute = ManhattanRoute
 
@@ -274,7 +274,7 @@ def route_bundle(
             place_layer=port_layer,
             collision_check_layers=collision_check_layers,
             on_collision=on_collision,
-            bboxes=to_boxes(bboxes or []),
+            bboxes=to_kdb_boxes(bboxes or []),
             route_width=width_dbu,
             sort_ports=sort_ports,
             waypoints=_waypoints,
@@ -297,7 +297,7 @@ def route_bundle(
         collision_check_layers=collision_check_layers,
         on_collision=on_collision,
         allow_width_mismatch=allow_width_mismatch,
-        bboxes=to_boxes(bboxes or []),
+        bboxes=to_kdb_boxes(bboxes or []),
         route_width=width_dbu,
         sort_ports=sort_ports,
         waypoints=_waypoints,

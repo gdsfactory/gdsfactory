@@ -5,18 +5,17 @@ from collections.abc import Mapping, Sequence
 from functools import partial
 from typing import Any, Literal
 
-import numpy as np
 from kfactory.routing.generic import ManhattanRoute
 
 import gdsfactory as gf
-from gdsfactory.port import Port
+from gdsfactory.component import Component
 from gdsfactory.routing.route_single import route_single
 from gdsfactory.typings import (
     STEP_DIRECTIVES,
-    Component,
     ComponentSpec,
+    Coordinate,
     CrossSectionSpec,
-    MultiCrossSectionAngleSpec,
+    Port,
 )
 
 
@@ -27,7 +26,7 @@ def route_single_from_steps(
     steps: Sequence[Mapping[Literal["x", "y", "dx", "dy"], int | float]] | None = None,
     bend: ComponentSpec = "bend_euler",
     straight: ComponentSpec = "straight",
-    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "strip",
+    cross_section: CrossSectionSpec = "strip",
     port_type: str | None = None,
     allow_width_mismatch: bool = False,
     auto_taper: bool = True,
@@ -90,12 +89,12 @@ def route_single_from_steps(
         "route_single_from_steps is deprecated, use route_single instead", stacklevel=2
     )
     x, y = port1.dcenter
-    waypoints = []
-    steps = steps or []
+    waypoints: list[Coordinate] = []
+    steps = list(steps or [])
 
     for d in steps:
         if not STEP_DIRECTIVES.issuperset(d):
-            invalid_step_directives = list(set(d.keys()) - STEP_DIRECTIVES)
+            invalid_step_directives = list(set(map(str, d.keys())) - STEP_DIRECTIVES)
             raise ValueError(
                 f"Invalid step directives: {invalid_step_directives}."
                 f"Valid directives are {list(STEP_DIRECTIVES)}"
@@ -103,19 +102,6 @@ def route_single_from_steps(
         x = d.get("x", x) + d.get("dx", 0)
         y = d.get("y", y) + d.get("dy", 0)
         waypoints += [(x, y)]
-
-    waypoints = np.array(waypoints)
-
-    if isinstance(cross_section, list | tuple):
-        xs_list = []
-        for element in cross_section:
-            xs, angles = element
-            xs = gf.get_cross_section(xs, **kwargs)
-            xs_list.append((xs, angles))
-        cross_section = xs_list
-
-    else:
-        xs = gf.get_cross_section(cross_section, **kwargs)
 
     port_type = port_type or port1.port_type
     return route_single(
