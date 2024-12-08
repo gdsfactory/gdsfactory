@@ -23,9 +23,9 @@ RUN apt-get update --yes && \
     # apt-get update --yes && \
     # apt-get install --yes elmerfem-csc && \
     rm -rf /var/lib/apt/lists/*
-    /bin/bash -c "curl -LsSf https://astral.sh/uv/install.sh | sh"
 
 USER ${USER}
 # Using pip to install Python packages
 # Ensure your base image has all the necessary libraries or install them before switching users
 RUN pip install .[dev,docs,full]
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
