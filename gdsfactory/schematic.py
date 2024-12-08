@@ -1,5 +1,4 @@
 import json
-import warnings
 from pathlib import Path
 from typing import Any
 
@@ -9,6 +8,7 @@ from graphviz import Digraph
 from pydantic import BaseModel, Field, model_validator
 
 import gdsfactory
+from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component
 from gdsfactory.config import PATH
 from gdsfactory.typings import Anchor, Delta
@@ -355,10 +355,7 @@ class Schematic(BaseModel):
 
     def plot_schematic_networkx(self) -> None:
         """Plots the netlist graph (Automatic fallback to networkx)."""
-        warnings.warn(
-            "plot_schematic_networkx is deprecated. Use plot_graphviz instead",
-            DeprecationWarning,
-        )
+        deprecate("plot_schematic_networkx", "plot_graphviz")
         self.plot_graphviz()
 
 

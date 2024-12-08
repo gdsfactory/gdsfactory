@@ -1,7 +1,7 @@
-import warnings
 from typing import Any
 
 import gdsfactory as gf
+from gdsfactory._deprecation import deprecate
 from gdsfactory.typings import AngleInDegrees, ComponentSpec, CrossSectionSpec
 
 
@@ -78,10 +78,7 @@ def add_fiber_array_optical_south_electrical_north(
 
     """
     if pad_spacing is not None:
-        warnings.warn(
-            "pad_spacing is deprecated. Use pad_pitch instead.",
-            DeprecationWarning,
-        )
+        deprecate("pad_spacing", "pad_pitch")
         pad_pitch = pad_spacing
 
     c = gf.Component()

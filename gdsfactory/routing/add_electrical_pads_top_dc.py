@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-import warnings
 from functools import partial
 from typing import Any
 
 import gdsfactory as gf
+from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component
 from gdsfactory.components.pad import pad_array270
 from gdsfactory.components.wire import wire_straight
@@ -54,10 +54,7 @@ def add_electrical_pads_top_dc(
 
     """
     if pad_array is not None:
-        warnings.warn(
-            "pad_array is deprecated. Use pad_array_factory instead.",
-            DeprecationWarning,
-        )
+        deprecate("pad_array", "pad_array_factory")
         pad_array_factory = pad_array
 
     c = Component()

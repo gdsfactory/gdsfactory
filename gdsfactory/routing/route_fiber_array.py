@@ -1,17 +1,16 @@
 from __future__ import annotations
 
-import warnings
 from collections.abc import Mapping, Sequence
 from typing import Any
 
 import kfactory as kf
 
 import gdsfactory as gf
+from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.config import __next_major_version__
 from gdsfactory.cross_section import strip
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.route_bundle import get_min_spacing, route_bundle
@@ -126,11 +125,7 @@ def route_fiber_array(
     x = gf.get_cross_section(cross_section)
 
     if fiber_spacing is not None:
-        warnings.warn(
-            f"fiber_spacing is deprecated. Use pitch instead, fiber_spacing will be removed in {__next_major_version__}",
-            DeprecationWarning,
-            2,
-        )
+        deprecate("fiber_spacing", "pitch")
         pitch = fiber_spacing
 
     component_name = component_name or component_to_route.name
