@@ -568,6 +568,12 @@ class Path(GeometryHelper):
             all_angle=all_angle,
         )
 
+    def extrude_transition(
+        self,
+        transition: Transition,
+    ) -> Component:
+        return extrude(p=self, cross_section=transition)
+
     def copy(self) -> Path:
         """Returns a copy of the Path."""
         p = Path()

@@ -338,7 +338,7 @@ class Pdk(BaseModel):
             component=component, cells=self.cells, settings=settings, **kwargs
         )
 
-    def get_symbol(self, component: ComponentSpec, **kwargs: Any) -> ComponentBase:
+    def get_symbol(self, component: ComponentSpec, **kwargs: Any) -> Component:
         """Returns a component's symbol from a component spec."""
         # this is a pretty rough first implementation
         try:

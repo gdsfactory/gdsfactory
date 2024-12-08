@@ -14,7 +14,7 @@ from __future__ import annotations
 
 from collections.abc import Mapping, Sequence
 from functools import partial
-from typing import Any, Literal
+from typing import Literal
 
 import kfactory as kf
 from kfactory.routing.generic import ManhattanRoute
@@ -29,6 +29,7 @@ from gdsfactory.typings import (
     ComponentSpec,
     Coordinates,
     CrossSectionSpec,
+    LayerSpec,
     LayerSpecs,
     Port,
     Ports,
@@ -94,7 +95,7 @@ def route_bundle(
     ports1: Ports,
     ports2: Ports,
     cross_section: CrossSectionSpec | None = None,
-    layer: LayerSpecs | None = None,
+    layer: LayerSpec | None = None,
     separation: float = 3.0,
     bend: ComponentSpec = "bend_euler",
     sort_ports: bool = False,
@@ -263,8 +264,6 @@ def route_bundle(
     router = router or "electrical" if port_type == "electrical" else "optical"
 
     if router == "electrical":
-        port_layer = ports1[0].layer
-        print(port_layer)
         return kf.routing.electrical.route_bundle(
             component,
             ports1,
@@ -272,7 +271,6 @@ def route_bundle(
             c.kcl.to_dbu(separation),
             starts=start_straight,
             ends=end_straight,
-            place_layer=port_layer,
             collision_check_layers=collision_check_layer_enums,
             on_collision=on_collision,
             bboxes=to_kdb_boxes(bboxes or []),

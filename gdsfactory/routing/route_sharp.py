@@ -11,7 +11,6 @@ from gdsfactory import typings
 from gdsfactory.component import Component
 from gdsfactory.cross_section import CrossSection, Section
 from gdsfactory.path import Path, transition
-from gdsfactory.port import Port
 from gdsfactory.routing.route_quad import _get_rotated_basis
 from gdsfactory.typings import CrossSectionSpec, LayerSpec
 
@@ -273,7 +272,7 @@ def path_V(port1: typings.Port, port2: typings.Port) -> Path:
 
     # Solve for intersection
     e = np.column_stack((e1, -1 * e2))
-    pt2 = np.matmul(np.linalg.inv(e), pt3 - pt1)[0] * e1 + pt1
+    pt2 = np.matmul(np.linalg.inv(e), np.array(pt3) - np.array(pt1))[0] * e1 + pt1
     return Path(np.array([pt1, pt2, pt3]))
 
 
@@ -380,24 +379,16 @@ def route_sharp(
         )
         x1 = CrossSection(sections=(s1,))
         x2 = CrossSection(sections=(s2,))
-        cross_section = transition(
-            cross_section1=x1, cross_section2=x2, width_type="linear"
-        )
-        d = p.extrude(cross_section=cross_section)
+        trans = transition(cross_section1=x1, cross_section2=x2, width_type="linear")
+        d = p.extrude_transition(transition=trans)
     else:
-        print(layer)
+        if layer is None:
+            raise ValueError("layer is required for width")
         d = p.extrude(width=width, layer=layer)
         if not isinstance(width, CrossSection):
-            newport1 = d.add_port(port=port1, name=1).drotate(180)
-            newport2 = d.add_port(port=port2, name=2).drotate(180)
-            if np.size(width) == 1:
-                newport1.width = width
-                newport2.width = width
-            if np.size(width) == 2:
-                newport1.width = width[0]
-                newport2.width = width[1]
+            raise NotImplementedError("TODO")
 
-    _ = component << d
+    component << d
 
 
 if __name__ == "__main__":
@@ -408,5 +399,5 @@ if __name__ == "__main__":
     # c2.dmovex(400)
     # c2.dmovey(-200)
 
-    route_sharp(c, c1.ports["e4"], c2.ports["e1"], path_type="L", width=0.5)
+    route_sharp(c, c1.ports["e4"], c2.ports["e1"], path_type="L", layer=(1, 0))
     c.show()
