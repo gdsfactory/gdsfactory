@@ -41,14 +41,13 @@ import numpy as np
 from rich.console import Console
 from rich.table import Table
 
-from gdsfactory.cross_section import CrossSectionSpec
-
 if TYPE_CHECKING:
     from gdsfactory import typings
     from gdsfactory.component import Component
     from gdsfactory.typings import (
         AngleInDegrees,
         ComponentFactory,
+        CrossSectionSpec,
         PathType,
         Ports,
         SelectPorts,
@@ -125,7 +124,7 @@ class Port(kf.Port):
         width: float | None = None,
         layer: LayerSpec | None = None,
         port_type: str = "optical",
-        cross_section: CrossSectionSpec | None = None,
+        cross_section: "CrossSectionSpec | None" = None,
         info: dict[str, int | float | str] | None = None,
     ) -> None:
         """Initializes Port."""

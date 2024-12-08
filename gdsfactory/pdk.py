@@ -16,7 +16,9 @@ from kfactory.kcell import LayerEnum
 from pydantic import BaseModel, ConfigDict, Field
 
 from gdsfactory import logger
+from gdsfactory.component import Component, ComponentBase
 from gdsfactory.config import CONF
+from gdsfactory.cross_section import CrossSection
 from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
 from gdsfactory.serialization import convert_tuples_to_lists
@@ -24,12 +26,9 @@ from gdsfactory.symbols import floorplan_with_block_letters
 from gdsfactory.technology import LayerStack, LayerViews, klayout_tech
 from gdsfactory.typings import (
     CellSpec,
-    Component,
-    ComponentBase,
     ComponentFactory,
     ComponentSpec,
     ConnectivitySpec,
-    CrossSection,
     CrossSectionFactory,
     CrossSectionSpec,
     Layer,

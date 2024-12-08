@@ -14,7 +14,7 @@ import json
 import warnings
 from collections.abc import Callable
 from functools import partial
-from typing import TYPE_CHECKING, Any, TypeAlias
+from typing import Any
 
 import kfactory as kf
 import numpy as np
@@ -23,19 +23,12 @@ import yaml
 from kfactory import Instance
 
 import gdsfactory as gf
-from gdsfactory.component import container
+from gdsfactory import typings
+from gdsfactory.component import Component, container
 from gdsfactory.config import CONF
-from gdsfactory.port import select_ports
+from gdsfactory.port import Port, select_ports
 from gdsfactory.serialization import convert_tuples_to_lists
 
-if TYPE_CHECKING:
-    from gdsfactory.component import Component
-    from gdsfactory.port import Port
-
-Layer: TypeAlias = tuple[int, int]
-Layers: TypeAlias = tuple[Layer, ...]
-LayerSpec: TypeAlias = Layer | str | int
-LayerSpecs: TypeAlias = tuple[LayerSpec, ...]
 nm = 1e-3
 
 
@@ -49,7 +42,7 @@ def _rotate(
 
 def add_bbox(
     component: Component,
-    bbox_layer: LayerSpec = "DEVREC",
+    bbox_layer: typings.LayerSpec = "DEVREC",
     top: float = 0,
     bottom: float = 0,
     left: float = 0,
@@ -82,8 +75,8 @@ def add_bbox(
 
 def add_bbox_siepic(
     component: Component,
-    bbox_layer: LayerSpec = "DEVREC",
-    remove_layers: LayerSpecs = ("PORT", "PORTE"),
+    bbox_layer: typings.LayerSpec = "DEVREC",
+    remove_layers: typings.LayerSpecs = ("PORT", "PORTE"),
 ) -> Component:
     """Add bounding box device recognition layer.
 
@@ -145,8 +138,8 @@ def get_pin_triangle_polygon_tip(
 def add_pin_triangle(
     component: Component,
     port: Port,
-    layer: LayerSpec = "PORT",
-    layer_label: LayerSpec = "TEXT",
+    layer: typings.LayerSpec = "PORT",
+    layer_label: typings.LayerSpec = "TEXT",
 ) -> None:
     """Add triangle pin with a right angle, pointing out of the port.
 
@@ -172,8 +165,8 @@ def add_pin_rectangle_inside(
     component: Component,
     port: Port,
     pin_length: float = 0.1,
-    layer: LayerSpec | None = "PORT",
-    layer_label: LayerSpec = "TEXT",
+    layer: typings.LayerSpec | None = "PORT",
+    layer_label: typings.LayerSpec = "TEXT",
 ) -> None:
     """Add square pin towards the inside of the port.
 
@@ -215,8 +208,8 @@ def add_pin_rectangle(
     component: Component,
     port: Port,
     pin_length: float = 0.1,
-    layer: LayerSpec | None = "PORT",
-    layer_label: LayerSpec = "TEXT",
+    layer: typings.LayerSpec | None = "PORT",
+    layer_label: typings.LayerSpec = "TEXT",
     port_margin: float = 0.0,
 ) -> None:
     """Add half out pin to a component.
@@ -262,8 +255,8 @@ def add_pin_path(
     component: Component,
     port: Port,
     pin_length: float = 2 * nm,
-    layer: LayerSpec = "PORT",
-    layer_label: LayerSpec | None = None,
+    layer: typings.LayerSpec = "PORT",
+    layer_label: typings.LayerSpec | None = None,
 ) -> None:
     """Add half out path pin to a component.
 
@@ -319,7 +312,7 @@ def add_pin_path(
 def add_outline(
     component: Component,
     reference: Instance | None = None,
-    layer: LayerSpec = "DEVREC",
+    layer: typings.LayerSpec = "DEVREC",
     **kwargs: Any,
 ) -> None:
     """Adds devices outline bounding box in layer.
@@ -350,7 +343,7 @@ def add_pins_siepic(
     component: Component,
     function: Callable = add_pin_path,
     port_type: str = "optical",
-    layer: LayerSpec = "PORT",
+    layer: typings.LayerSpec = "PORT",
     pin_length: float = 10 * nm,
     **kwargs: Any,
 ) -> Component:
@@ -431,7 +424,7 @@ add_pins_inside2um = partial(add_pins, function=add_pin_inside2um)
 def add_settings_label(
     component: Component,
     reference: Instance | None = None,
-    layer_label: LayerSpec = "LABEL_SETTINGS",
+    layer_label: typings.LayerSpec = "LABEL_SETTINGS",
     with_yaml_format: bool = False,
 ) -> None:
     """Add settings in label.
@@ -464,7 +457,7 @@ def add_settings_label(
 def add_instance_label(
     component: Component,
     reference: Instance,
-    layer: LayerSpec | None = None,
+    layer: typings.LayerSpec | None = None,
     instance_name: str | None = None,
 ) -> None:
     """Adds label to a reference in a component.
