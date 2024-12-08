@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-import warnings
 from functools import partial
 
 import gdsfactory as gf
+from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass, valid_port_orientations
 from gdsfactory.typings import (
@@ -125,11 +125,11 @@ def pad_array(
         auto_rename_ports: True to auto rename ports.
     """
     if orientation is not None:
-        warnings.warn("orientation is deprecated, use port_orientation")
+        deprecate("orientation", "port_orientation")
         port_orientation = orientation
 
-    if spacing:
-        warnings.warn("spacing is deprecated, use column_pitch and row_pitch")
+    if spacing is not None:
+        deprecate("spacing", "column_pitch and row_pitch")
         column_pitch, row_pitch = spacing
 
     c = Component()

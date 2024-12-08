@@ -5,6 +5,7 @@ from __future__ import annotations
 from functools import partial
 
 import numpy as np
+from kfactory.conf import CHECK_INSTANCES
 from numpy import float64
 
 import gdsfactory as gf
@@ -219,7 +220,7 @@ def crossing_etched(
     return c
 
 
-@gf.cell(check_instances=False)
+@gf.cell(check_instances=CHECK_INSTANCES.IGNORE)
 def crossing45(
     crossing: ComponentSpec = crossing,
     port_spacing: float = 40.0,

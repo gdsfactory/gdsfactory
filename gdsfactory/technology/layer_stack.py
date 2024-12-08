@@ -303,9 +303,7 @@ class DerivedLayer(AbstractLayer):
     __str__ = __repr__
 
 
-LayerBroad: TypeAlias = (
-    LogicalLayer | DerivedLayer | int | str | tuple[int, int] | LayerEnum
-)
+AbstractLayerSubClass: TypeAlias = LogicalLayer | DerivedLayer
 
 
 class LayerLevel(BaseModel):
@@ -335,7 +333,7 @@ class LayerLevel(BaseModel):
 
     # ID
     name: str | None = None
-    layer: LayerBroad
+    layer: AbstractLayerSubClass
     derived_layer: LogicalLayer | None = None
 
     # Extrusion rules
@@ -358,7 +356,7 @@ class LayerLevel(BaseModel):
 
     @field_validator("layer")
     @classmethod
-    def check_layer(cls, layer: LayerBroad) -> LogicalLayer | DerivedLayer:
+    def check_layer(cls, layer: AbstractLayerSubClass) -> LogicalLayer | DerivedLayer:
         if isinstance(layer, int | str | tuple | LayerEnum):
             layer = gf.get_layer(layer)
             return LogicalLayer(layer=layer)
@@ -419,9 +417,9 @@ class LayerStack(BaseModel):
 
         console.print(table)
 
-    def get_layer_to_thickness(self) -> dict[LayerBroad, float]:
+    def get_layer_to_thickness(self) -> dict[AbstractLayerSubClass, float]:
         """Returns layer tuple to thickness (um)."""
-        layer_to_thickness: dict[LayerBroad, float] = {}
+        layer_to_thickness: dict[AbstractLayerSubClass, float] = {}
 
         for level in self.layers.values():
             layer = level.layer
@@ -439,13 +437,13 @@ class LayerStack(BaseModel):
             component=component, layer_stack=self, **kwargs
         )
 
-    def get_layer_to_zmin(self) -> dict[LayerBroad, float]:
+    def get_layer_to_zmin(self) -> dict[AbstractLayerSubClass, float]:
         """Returns layer tuple to z min position (um)."""
         return {
             level.layer: level.zmin for level in self.layers.values() if level.thickness
         }
 
-    def get_layer_to_material(self) -> dict[LayerBroad, str | None]:
+    def get_layer_to_material(self) -> dict[AbstractLayerSubClass, str | None]:
         """Returns layer tuple to material name."""
         return {
             level.layer: level.material
@@ -453,7 +451,7 @@ class LayerStack(BaseModel):
             if level.thickness
         }
 
-    def get_layer_to_sidewall_angle(self) -> dict[LayerBroad, float]:
+    def get_layer_to_sidewall_angle(self) -> dict[AbstractLayerSubClass, float]:
         """Returns layer tuple to material name."""
         return {
             level.layer: level.sidewall_angle
@@ -461,13 +459,13 @@ class LayerStack(BaseModel):
             if level.thickness
         }
 
-    def get_layer_to_info(self) -> dict[LayerBroad, dict[str, Any]]:
+    def get_layer_to_info(self) -> dict[AbstractLayerSubClass, dict[str, Any]]:
         """Returns layer tuple to info dict."""
         return {level.layer: level.info for level in self.layers.values()}
 
-    def get_layer_to_layername(self) -> dict[LayerBroad, list[str]]:
+    def get_layer_to_layername(self) -> dict[AbstractLayerSubClass, list[str]]:
         """Returns layer tuple to layername."""
-        d: dict[LayerBroad, list[str]] = defaultdict(list)
+        d: dict[AbstractLayerSubClass, list[str]] = defaultdict(list)
         for level_name, level in self.layers.items():
             d[level.layer].append(level_name)
 
