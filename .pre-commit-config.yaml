@@ -18,7 +18,7 @@ repos:
         additional_dependencies:
           - tomli
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: "v0.8.1"
+    rev: "v0.8.2"
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix, --config=pyproject.toml]
@@ -54,7 +54,7 @@ repos:
     #       args: [--strict, --ignore-missing-imports, --config-file=pyproject.toml]
 
     # uv version.
-    rev: 0.5.5
+    rev: 0.5.7
     hooks:
       # Update the uv lockfile
       - id: uv-lock
