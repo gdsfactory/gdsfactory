@@ -77,6 +77,7 @@ def grating_coupler_elliptical_arbitrary(
     """
     xs = gf.get_cross_section(cross_section)
     wg_width = xs.width
+    assert xs.layer is not None
     layer_wg = gf.get_layer(xs.layer)
 
     layer_grating = layer_grating or layer_wg

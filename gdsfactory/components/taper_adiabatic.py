@@ -3,6 +3,7 @@ from __future__ import annotations
 from collections.abc import Callable
 
 import numpy as np
+import numpy.typing as npt
 
 import gdsfactory as gf
 from gdsfactory.path import transition_adiabatic
@@ -76,6 +77,7 @@ def taper_adiabatic(
     """
     xs = gf.get_cross_section(cross_section)
     layer = xs.layer
+    assert layer is not None
 
     # Obtain optimal curve
     x_opt, w_opt = transition_adiabatic(
@@ -90,7 +92,7 @@ def taper_adiabatic(
     if not length:
         length = x_opt[-1]
     x = np.linspace(0, length, npoints)
-    w = w_opt_interp(x)
+    w: npt.NDArray[np.float64] = w_opt_interp(x)
 
     # Stretch/compress x
     x_array = np.linspace(0, length, npoints) * (1 + length - x_opt[-1])

@@ -14,7 +14,7 @@ if __name__ == "__main__":
     c = gf.Component("demo")
 
     wg1 = c << gf.components.straight(length=10, width=1)
-    wg2 = c << gf.components.straight(length=10, width=2, layer=(3, 0))
+    wg2 = c << gf.components.straight(length=10, width=2)
 
     # You can uncomment each of the following move commands
     # wg2.dmove([10, 1])  # Shift the second straight we created over by dx = 10, dy = 4

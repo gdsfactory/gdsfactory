@@ -53,6 +53,7 @@ def crossing_arm(
 
     xs = gf.get_cross_section(cross_section)
     width = xs.width
+    assert xs.layer is not None
     layer_wg = gf.get_layer(xs.layer)
 
     a = np.round(L + w / 2, 3)

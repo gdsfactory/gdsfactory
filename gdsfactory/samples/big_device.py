@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from functools import partial
+
 import numpy as np
 
 import gdsfactory as gf
@@ -35,48 +37,46 @@ def big_device(
 
     xs = gf.get_cross_section(cross_section)
     layer = xs.layer
+    assert layer is not None
     width = xs.width
-    port_settings = dict(
-        port_type=port_type, cross_section=xs, layer=layer, width=width
+
+    points = [(dx, dy), (dx, -dy), (-dx, -dy), (-dx, dy)]
+    component.add_polygon(points, layer=layer)
+    ports: list[Port] = []
+
+    create_port_with_port_settings = partial(
+        Port, port_type=port_type, cross_section=xs, layer=layer, width=width
     )
 
-    points = [[dx, dy], [dx, -dy], [-dx, -dy], [-dx, dy]]
-    component.add_polygon(points, layer=layer)
-    ports = []
-
     for i in range(n):
-        port = Port(
+        port = create_port_with_port_settings(
             name=f"W{i}",
-            center=p0 + (-dx, (i - n / 2) * spacing),
+            center=tuple(p0 + (-dx, (i - n / 2) * spacing)),
             orientation=180,
-            **port_settings,
         )
         ports.append(port)
 
     for i in range(n):
-        port = Port(
+        port = create_port_with_port_settings(
             name=f"E{i}",
-            center=p0 + (dx, (i - n / 2) * spacing),
+            center=tuple(p0 + (dx, (i - n / 2) * spacing)),
             orientation=0,
-            **port_settings,
         )
         ports.append(port)
 
     for i in range(n):
-        port = Port(
+        port = create_port_with_port_settings(
             name=f"N{i}",
-            center=p0 + ((i - n / 2) * spacing, dy),
+            center=tuple(p0 + ((i - n / 2) * spacing, dy)),
             orientation=90,
-            **port_settings,
         )
         ports.append(port)
 
     for i in range(n):
-        port = Port(
+        port = create_port_with_port_settings(
             name=f"S{i}",
-            center=p0 + ((i - n / 2) * spacing, -dy),
+            center=tuple(p0 + ((i - n / 2) * spacing, -dy)),
             orientation=-90,
-            **port_settings,
         )
         ports.append(port)
 

@@ -16,6 +16,7 @@ from typing import Any, TypeAlias
 import numpy as np
 import numpy.typing as npt
 from kfactory import logger
+from kfactory.cross_section import SymmetricalCrossSection
 from pydantic import (
     BaseModel,
     ConfigDict,
@@ -398,7 +399,11 @@ class CrossSection(BaseModel):
 
 
 CrossSectionSpec: TypeAlias = (
-    CrossSection | str | dict[str, Any] | Callable[..., CrossSection]
+    CrossSection
+    | str
+    | dict[str, Any]
+    | Callable[..., CrossSection]
+    | SymmetricalCrossSection
 )
 CrossSectionFactory: TypeAlias = Callable[..., CrossSection]
 

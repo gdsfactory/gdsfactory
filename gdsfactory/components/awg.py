@@ -47,6 +47,7 @@ def free_propagation_region(
     xs = gf.get_cross_section(cross_section)
     o = 0
     layer = xs.layer
+    assert layer is not None
 
     xpts = [0, length, length, 0]
     ypts = [y1, y2, -y2, -y1]
