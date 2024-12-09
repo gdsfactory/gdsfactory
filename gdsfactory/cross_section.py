@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import hashlib
 import warnings
-from collections.abc import Callable, Iterable, Sequence
+from collections.abc import Callable, Sequence
 from functools import partial, wraps
 from inspect import getmembers, signature
 from types import ModuleType
