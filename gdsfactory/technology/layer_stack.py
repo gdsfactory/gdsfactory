@@ -331,7 +331,7 @@ class LayerLevel(BaseModel):
 
     # ID
     name: str | None = None
-    layer: AbstractLayerSubClass
+    layer: AbstractLayerSubClass | int | str | tuple[int, int] | LayerEnum
     derived_layer: LogicalLayer | None = None
 
     # Extrusion rules
