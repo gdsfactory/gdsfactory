@@ -2,9 +2,9 @@ info:
   length: 10
   pdk: fab_c
   route_info_length: 10
-  route_info_type: xs_220cafc3
+  route_info_type: xs_d70275a4
   route_info_weight: 10
-  route_info_xs_220cafc3_length: 10
+  route_info_xs_d70275a4_length: 10
   width: 0.4
 name: straight_so_CSstrip_so
 settings:

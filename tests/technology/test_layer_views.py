@@ -2,7 +2,9 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.technology import LayerStack, LayerView, LayerViews
-from gdsfactory.typings import Layer, LayerLevel, LayerMap
+from gdsfactory.technology.layer_map import LayerMap
+from gdsfactory.technology.layer_stack import LayerLevel
+from gdsfactory.typings import Layer
 
 nm = 1e-3
 

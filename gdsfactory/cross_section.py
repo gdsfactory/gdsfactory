@@ -11,7 +11,7 @@ from collections.abc import Callable, Iterable
 from functools import partial, wraps
 from inspect import getmembers, signature
 from types import ModuleType
-from typing import TYPE_CHECKING, Any, Literal, TypeAlias
+from typing import Any
 
 import numpy as np
 import numpy.typing as npt
@@ -25,28 +25,14 @@ from pydantic import (
     model_validator,
 )
 
+from gdsfactory import typings
 from gdsfactory.config import CONF, ErrorType
-
-if TYPE_CHECKING:
-    from gdsfactory import typings
-    from gdsfactory.typings import AnyComponentT, PortNames, PortTypes
 
 nm = 1e-3
 
-Layer: TypeAlias = tuple[int, int]
-Layers: TypeAlias = tuple[Layer, ...]
-WidthTypes: TypeAlias = Literal["sine", "linear", "parabolic"]
 
-LayerSpec: TypeAlias = Layer | str
-LayerSpecs: TypeAlias = Iterable[LayerSpec]
-
-Floats: TypeAlias = tuple[float, ...]
-
-WidthFunction: TypeAlias = Callable[..., npt.NDArray[np.float64]]
-OffsetFunction: TypeAlias = Callable[..., npt.NDArray[np.float64]]
-
-port_names_electrical: "PortNames" = ("e1", "e2")
-port_types_electrical: "PortTypes" = ("electrical", "electrical")
+port_names_electrical: typings.PortNames = ("e1", "e2")
+port_types_electrical: typings.PortTypes = ("electrical", "electrical")
 cladding_layers_optical = None
 cladding_offsets_optical = None
 cladding_simplify_optical = None
@@ -126,15 +112,15 @@ class Section(BaseModel):
     width: float
     offset: float = 0
     insets: tuple[float, float] | None = None
-    layer: LayerSpec | None = None
+    layer: typings.LayerSpec | None = None
     port_names: tuple[str | None, str | None] = (None, None)
     port_types: tuple[str, str] = ("optical", "optical")
     name: str | None = None
     hidden: bool = False
     simplify: float | None = None
 
-    width_function: WidthFunction | None = Field(default=None)
-    offset_function: OffsetFunction | None = Field(default=None)
+    width_function: typings.WidthFunction | None = Field(default=None)
+    offset_function: typings.OffsetFunction | None = Field(default=None)
 
     model_config = ConfigDict(extra="forbid", frozen=True)
 
@@ -221,8 +207,8 @@ class CrossSection(BaseModel):
     components_along_path: tuple[ComponentAlongPath, ...] = Field(default_factory=tuple)
     radius: float | None = None
     radius_min: float | None = None
-    bbox_layers: LayerSpecs | None = None
-    bbox_offsets: Floats | None = None
+    bbox_layers: typings.LayerSpecs | None = None
+    bbox_offsets: typings.Floats | None = None
 
     model_config = ConfigDict(extra="forbid", frozen=True)
     _name = PrivateAttr("")
@@ -257,7 +243,7 @@ class CrossSection(BaseModel):
         return self.sections[0].width
 
     @property
-    def layer(self) -> LayerSpec:
+    def layer(self) -> typings.LayerSpec:
         return self.sections[0].layer
 
     def append_sections(self, sections: Sections) -> CrossSection:
@@ -281,9 +267,9 @@ class CrossSection(BaseModel):
     def copy(
         self,
         width: float | None = None,
-        layer: LayerSpec | None = None,
-        width_function: WidthFunction | None = None,
-        offset_function: OffsetFunction | None = None,
+        layer: typings.LayerSpec | None = None,
+        width_function: typings.WidthFunction | None = None,
+        offset_function: typings.OffsetFunction | None = None,
         sections: tuple[Section, ...] | None = None,
         **kwargs: Any,
     ) -> CrossSection:
@@ -359,12 +345,12 @@ class CrossSection(BaseModel):
 
     def add_bbox(
         self,
-        component: AnyComponentT,
+        component: typings.AnyComponentT,
         top: float | None = None,
         bottom: float | None = None,
         right: float | None = None,
         left: float | None = None,
-    ) -> AnyComponentT:
+    ) -> typings.AnyComponentT:
         """Add bounding box layers to a component.
 
         Args:
@@ -432,13 +418,13 @@ class Transition(BaseModel):
 
     cross_section1: CrossSectionSpec
     cross_section2: CrossSectionSpec
-    width_type: WidthTypes | Callable[[float, float, float], float] = "sine"
-    offset_type: WidthTypes | Callable[[float, float, float], float] = "sine"
+    width_type: typings.WidthTypes | Callable[[float, float, float], float] = "sine"
+    offset_type: typings.WidthTypes | Callable[[float, float, float], float] = "sine"
 
     @field_serializer("width_type")
     def serialize_width(
         self,
-        width_type: WidthTypes
+        width_type: typings.WidthTypes
         | Callable[[npt.NDArray[np.float_], float, float], npt.NDArray[np.float_]],
     ) -> str:
         if isinstance(width_type, str):
@@ -485,12 +471,12 @@ def cross_section(
     sections: tuple[Section, ...] | None = None,
     port_names: tuple[str, str] = ("o1", "o2"),
     port_types: tuple[str, str] = ("optical", "optical"),
-    bbox_layers: "LayerSpecs | None" = None,
-    bbox_offsets: "Floats | None" = None,
-    cladding_layers: "LayerSpecs | None" = None,
-    cladding_offsets: "Floats | None" = None,
-    cladding_simplify: "Floats | None" = None,
-    cladding_centers: "Floats | None" = None,
+    bbox_layers: "typings.LayerSpecs | None" = None,
+    bbox_offsets: "typings.Floats | None" = None,
+    cladding_layers: "typings.LayerSpecs | None" = None,
+    cladding_offsets: "typings.Floats | None" = None,
+    cladding_simplify: "typings.Floats | None" = None,
+    cladding_centers: "typings.Floats | None" = None,
     radius: float | None = 10.0,
     radius_min: float | None = None,
     main_section_name: str = "_default",
@@ -617,7 +603,7 @@ radius_rib = 20
 @xsection
 def strip(
     width: float = 0.5,
-    layer: LayerSpec = "WG",
+    layer: typings.LayerSpec = "WG",
     radius: float = 10.0,
     radius_min: float = 5,
     **kwargs: Any,
@@ -635,12 +621,12 @@ def strip(
 @xsection
 def rib(
     width: float = 0.5,
-    layer: LayerSpec = "WG",
+    layer: typings.LayerSpec = "WG",
     radius: float = radius_rib,
     radius_min: float | None = None,
-    cladding_layers: LayerSpecs = ("SLAB90",),
-    cladding_offsets: Floats = (3,),
-    cladding_simplify: Floats = (50 * nm,),
+    cladding_layers: typings.LayerSpecs = ("SLAB90",),
+    cladding_offsets: typings.Floats = (3,),
+    cladding_simplify: typings.Floats = (50 * nm,),
     **kwargs: Any,
 ) -> CrossSection:
     """Return Rib cross_section."""
@@ -659,11 +645,11 @@ def rib(
 @xsection
 def rib_bbox(
     width: float = 0.5,
-    layer: LayerSpec = "WG",
+    layer: typings.LayerSpec = "WG",
     radius: float = radius_rib,
     radius_min: float | None = None,
-    bbox_layers: LayerSpecs = ("SLAB90",),
-    bbox_offsets: Floats = (3,),
+    bbox_layers: typings.LayerSpecs = ("SLAB90",),
+    bbox_offsets: typings.Floats = (3,),
     **kwargs: Any,
 ) -> CrossSection:
     """Return Rib cross_section."""
@@ -681,8 +667,8 @@ def rib_bbox(
 @xsection
 def rib2(
     width: float = 0.5,
-    layer: LayerSpec = "WG",
-    layer_slab: LayerSpec = "SLAB90",
+    layer: typings.LayerSpec = "WG",
+    layer_slab: typings.LayerSpec = "SLAB90",
     radius: float = radius_rib,
     radius_min: float | None = None,
     width_slab: float = 6,
@@ -705,7 +691,7 @@ def rib2(
 @xsection
 def nitride(
     width: float = 1.0,
-    layer: LayerSpec = "WGN",
+    layer: typings.LayerSpec = "WGN",
     radius: float = radius_nitride,
     radius_min: float | None = None,
     **kwargs: Any,
@@ -724,8 +710,8 @@ def nitride(
 def strip_rib_tip(
     width: float = 0.5,
     width_tip: float = 0.2,
-    layer: LayerSpec = "WG",
-    layer_slab: LayerSpec = "SLAB90",
+    layer: typings.LayerSpec = "WG",
+    layer_slab: typings.LayerSpec = "SLAB90",
     radius: float = 10.0,
     radius_min: float | None = 5,
     **kwargs: Any,
@@ -745,8 +731,8 @@ def strip_rib_tip(
 @xsection
 def strip_nitride_tip(
     width: float = 1.0,
-    layer: LayerSpec = "WGN",
-    layer_silicon: LayerSpec = "WG",
+    layer: typings.LayerSpec = "WGN",
+    layer_silicon: typings.LayerSpec = "WG",
     width_tip_nitride: float = 0.2,
     width_tip_silicon: float = 0.1,
     radius: float = radius_nitride,
@@ -771,7 +757,7 @@ def strip_nitride_tip(
 @xsection
 def slot(
     width: float = 0.5,
-    layer: LayerSpec = "WG",
+    layer: typings.LayerSpec = "WG",
     slot_width: float = 0.04,
     sections: tuple[Section, ...] | None = None,
 ) -> CrossSection:
@@ -818,9 +804,9 @@ def rib_with_trenches(
     slab_offset: float | None = 0.3,
     width_slab: float | None = None,
     simplify_slab: float | None = None,
-    layer: LayerSpec | None = "WG",
-    layer_trench: LayerSpec = "DEEP_ETCH",
-    wg_marking_layer: LayerSpec | None = None,
+    layer: typings.LayerSpec | None = "WG",
+    layer_trench: typings.LayerSpec = "DEEP_ETCH",
+    wg_marking_layer: typings.LayerSpec | None = None,
     sections: tuple[Section, ...] | None = None,
     **kwargs: Any,
 ) -> CrossSection:
@@ -915,9 +901,9 @@ def l_with_trenches(
     width: float = 0.5,
     width_trench: float = 2.0,
     width_slab: float = 7.0,
-    layer: LayerSpec | None = "WG",
-    layer_slab: LayerSpec | None = "WG",
-    layer_trench: LayerSpec = "DEEP_ETCH",
+    layer: typings.LayerSpec | None = "WG",
+    layer_slab: typings.LayerSpec | None = "WG",
+    layer_trench: typings.LayerSpec = "DEEP_ETCH",
     mirror: bool = False,
     sections: tuple[Section, ...] | None = None,
     **kwargs: Any,
@@ -990,10 +976,10 @@ def l_with_trenches(
 @xsection
 def metal1(
     width: float = 10,
-    layer: LayerSpec = "M1",
+    layer: typings.LayerSpec = "M1",
     radius: float | None = None,
-    port_names: "PortNames" = port_names_electrical,
-    port_types: "PortTypes" = port_types_electrical,
+    port_names: typings.PortNames = port_names_electrical,
+    port_types: typings.PortTypes = port_types_electrical,
     **kwargs: Any,
 ) -> CrossSection:
     """Return Metal Strip cross_section."""
@@ -1010,10 +996,10 @@ def metal1(
 @xsection
 def metal2(
     width: float = 10,
-    layer: LayerSpec = "M2",
+    layer: typings.LayerSpec = "M2",
     radius: float | None = None,
-    port_names: "PortNames" = port_names_electrical,
-    port_types: "PortTypes" = port_types_electrical,
+    port_names: typings.PortNames = port_names_electrical,
+    port_types: typings.PortTypes = port_types_electrical,
     **kwargs: Any,
 ) -> CrossSection:
     """Return Metal Strip cross_section."""
@@ -1030,10 +1016,10 @@ def metal2(
 @xsection
 def metal3(
     width: float = 10,
-    layer: LayerSpec = "M3",
+    layer: typings.LayerSpec = "M3",
     radius: float | None = None,
-    port_names: "PortNames" = port_names_electrical,
-    port_types: "PortTypes" = port_types_electrical,
+    port_names: typings.PortNames = port_names_electrical,
+    port_types: typings.PortTypes = port_types_electrical,
     **kwargs: Any,
 ) -> CrossSection:
     """Return Metal Strip cross_section."""
@@ -1050,10 +1036,10 @@ def metal3(
 @xsection
 def metal_routing(
     width: float = 10,
-    layer: LayerSpec = "M3",
+    layer: typings.LayerSpec = "M3",
     radius: float | None = None,
-    port_names: "PortNames" = port_names_electrical,
-    port_types: "PortTypes" = port_types_electrical,
+    port_names: typings.PortNames = port_names_electrical,
+    port_types: typings.PortTypes = port_types_electrical,
     **kwargs: Any,
 ) -> CrossSection:
     """Return Metal Strip cross_section."""
@@ -1070,10 +1056,10 @@ def metal_routing(
 @xsection
 def heater_metal(
     width: float = 2.5,
-    layer: LayerSpec = "HEATER",
+    layer: typings.LayerSpec = "HEATER",
     radius: float | None = None,
-    port_names: "PortNames" = port_names_electrical,
-    port_types: "PortTypes" = port_types_electrical,
+    port_names: typings.PortNames = port_names_electrical,
+    port_types: typings.PortTypes = port_types_electrical,
     **kwargs: Any,
 ) -> CrossSection:
     """Return Metal Strip cross_section."""
@@ -1090,10 +1076,10 @@ def heater_metal(
 @xsection
 def npp(
     width: float = 0.5,
-    layer: LayerSpec = "NPP",
+    layer: typings.LayerSpec = "NPP",
     radius: float | None = None,
-    port_names: "PortNames" = port_names_electrical,
-    port_types: "PortTypes" = port_types_electrical,
+    port_names: typings.PortNames = port_names_electrical,
+    port_types: typings.PortTypes = port_types_electrical,
     **kwargs: Any,
 ) -> CrossSection:
     """Return Doped NPP cross_section."""
@@ -1110,16 +1096,16 @@ def npp(
 @xsection
 def pin(
     width: float = 0.5,
-    layer: LayerSpec = "WG",
-    layer_slab: LayerSpec = "SLAB90",
-    layers_via_stack1: LayerSpecs = ("PPP",),
-    layers_via_stack2: LayerSpecs = ("NPP",),
+    layer: typings.LayerSpec = "WG",
+    layer_slab: typings.LayerSpec = "SLAB90",
+    layers_via_stack1: typings.LayerSpecs = ("PPP",),
+    layers_via_stack2: typings.LayerSpecs = ("NPP",),
     bbox_offsets_via_stack1: tuple[float, ...] = (0, -0.2),
     bbox_offsets_via_stack2: tuple[float, ...] = (0, -0.2),
     via_stack_width: float = 9.0,
     via_stack_gap: float = 0.55,
     slab_gap: float = -0.2,
-    layer_via: LayerSpec | None = None,
+    layer_via: typings.LayerSpec | None = None,
     via_width: float = 1,
     via_offsets: tuple[float, ...] | None = None,
     sections: tuple[Section, ...] | None = None,
@@ -1214,29 +1200,29 @@ def pin(
 @xsection
 def pn(
     width: float = 0.5,
-    layer: LayerSpec = "WG",
-    layer_slab: LayerSpec = "SLAB90",
+    layer: typings.LayerSpec = "WG",
+    layer_slab: typings.LayerSpec = "SLAB90",
     gap_low_doping: float = 0.0,
     gap_medium_doping: float | None = 0.5,
     gap_high_doping: float | None = 1.0,
     offset_low_doping: float | None = 0.0,
     width_doping: float = 8.0,
     width_slab: float = 7.0,
-    layer_p: LayerSpec | None = "P",
-    layer_pp: LayerSpec | None = "PP",
-    layer_ppp: LayerSpec | None = "PPP",
-    layer_n: LayerSpec | None = "N",
-    layer_np: LayerSpec | None = "NP",
-    layer_npp: LayerSpec | None = "NPP",
-    layer_via: LayerSpec | None = None,
+    layer_p: typings.LayerSpec | None = "P",
+    layer_pp: typings.LayerSpec | None = "PP",
+    layer_ppp: typings.LayerSpec | None = "PPP",
+    layer_n: typings.LayerSpec | None = "N",
+    layer_np: typings.LayerSpec | None = "NP",
+    layer_npp: typings.LayerSpec | None = "NPP",
+    layer_via: typings.LayerSpec | None = None,
     width_via: float = 1.0,
-    layer_metal: LayerSpec | None = None,
+    layer_metal: typings.LayerSpec | None = None,
     width_metal: float = 1.0,
     port_names: tuple[str, str] = ("o1", "o2"),
     sections: tuple[Section, ...] | None = None,
-    cladding_layers: "LayerSpecs | None" = None,
-    cladding_offsets: "Floats | None" = None,
-    cladding_simplify: "Floats | None" = None,
+    cladding_layers: "typings.LayerSpecs | None" = None,
+    cladding_offsets: "typings.Floats | None" = None,
+    cladding_simplify: "typings.Floats | None" = None,
     slab_inset: float | None = None,
     **kwargs: Any,
 ) -> CrossSection:
@@ -1402,8 +1388,8 @@ def pn(
 @xsection
 def pn_with_trenches(
     width: float = 0.5,
-    layer: LayerSpec | None = None,
-    layer_trench: LayerSpec = "DEEP_ETCH",
+    layer: typings.LayerSpec | None = None,
+    layer_trench: typings.LayerSpec = "DEEP_ETCH",
     gap_low_doping: float = 0.0,
     gap_medium_doping: float | None = 0.5,
     gap_high_doping: float | None = 1.0,
@@ -1412,21 +1398,21 @@ def pn_with_trenches(
     slab_offset: float | None = 0.3,
     width_slab: float | None = None,
     width_trench: float = 2.0,
-    layer_p: LayerSpec | None = "P",
-    layer_pp: LayerSpec | None = "PP",
-    layer_ppp: LayerSpec | None = "PPP",
-    layer_n: LayerSpec | None = "N",
-    layer_np: LayerSpec | None = "NP",
-    layer_npp: LayerSpec | None = "NPP",
-    layer_via: LayerSpec | None = None,
+    layer_p: typings.LayerSpec | None = "P",
+    layer_pp: typings.LayerSpec | None = "PP",
+    layer_ppp: typings.LayerSpec | None = "PPP",
+    layer_n: typings.LayerSpec | None = "N",
+    layer_np: typings.LayerSpec | None = "NP",
+    layer_npp: typings.LayerSpec | None = "NPP",
+    layer_via: typings.LayerSpec | None = None,
     width_via: float = 1.0,
-    layer_metal: LayerSpec | None = None,
+    layer_metal: typings.LayerSpec | None = None,
     width_metal: float = 1.0,
-    port_names: "PortNames" = ("o1", "o2"),
-    cladding_layers: Layers | None = cladding_layers_optical,
-    cladding_offsets: "Floats | None" = cladding_offsets_optical,
-    cladding_simplify: "Floats | None" = cladding_simplify_optical,
-    wg_marking_layer: LayerSpec | None = None,
+    port_names: typings.PortNames = ("o1", "o2"),
+    cladding_layers: typings.Layers | None = cladding_layers_optical,
+    cladding_offsets: "typings.Floats | None" = cladding_offsets_optical,
+    cladding_simplify: "typings.Floats | None" = cladding_simplify_optical,
+    wg_marking_layer: typings.LayerSpec | None = None,
     sections: Sections | None = None,
     **kwargs: Any,
 ) -> CrossSection:
@@ -1611,8 +1597,8 @@ def pn_with_trenches(
 @xsection
 def pn_with_trenches_asymmetric(
     width: float = 0.5,
-    layer: LayerSpec | None = None,
-    layer_trench: LayerSpec = "DEEP_ETCH",
+    layer: typings.LayerSpec | None = None,
+    layer_trench: typings.LayerSpec = "DEEP_ETCH",
     gap_low_doping: float | tuple[float, float] = (0.0, 0.0),
     gap_medium_doping: float | tuple[float, float] | None = (0.5, 0.2),
     gap_high_doping: float | tuple[float, float] | None = (1.0, 0.8),
@@ -1620,20 +1606,20 @@ def pn_with_trenches_asymmetric(
     slab_offset: float | None = 0.3,
     width_slab: float | None = None,
     width_trench: float = 2.0,
-    layer_p: LayerSpec | None = "P",
-    layer_pp: LayerSpec | None = "PP",
-    layer_ppp: LayerSpec | None = "PPP",
-    layer_n: LayerSpec | None = "N",
-    layer_np: LayerSpec | None = "NP",
-    layer_npp: LayerSpec | None = "NPP",
-    layer_via: LayerSpec | None = None,
+    layer_p: typings.LayerSpec | None = "P",
+    layer_pp: typings.LayerSpec | None = "PP",
+    layer_ppp: typings.LayerSpec | None = "PPP",
+    layer_n: typings.LayerSpec | None = "N",
+    layer_np: typings.LayerSpec | None = "NP",
+    layer_npp: typings.LayerSpec | None = "NPP",
+    layer_via: typings.LayerSpec | None = None,
     width_via: float = 1.0,
-    layer_metal: LayerSpec | None = None,
+    layer_metal: typings.LayerSpec | None = None,
     width_metal: float = 1.0,
     port_names: tuple[str, str] = ("o1", "o2"),
-    cladding_layers: Layers | None = cladding_layers_optical,
-    cladding_offsets: "Floats | None" = cladding_offsets_optical,
-    wg_marking_layer: LayerSpec | None = None,
+    cladding_layers: typings.Layers | None = cladding_layers_optical,
+    cladding_offsets: "typings.Floats | None" = cladding_offsets_optical,
+    wg_marking_layer: typings.LayerSpec | None = None,
     sections: Sections | None = None,
     **kwargs: Any,
 ) -> CrossSection:
@@ -1834,8 +1820,8 @@ def pn_with_trenches_asymmetric(
 @xsection
 def l_wg_doped_with_trenches(
     width: float = 0.5,
-    layer: LayerSpec | None = None,
-    layer_trench: LayerSpec = "DEEP_ETCH",
+    layer: typings.LayerSpec | None = None,
+    layer_trench: typings.LayerSpec = "DEEP_ETCH",
     gap_low_doping: float = 0.0,
     gap_medium_doping: float | None = 0.5,
     gap_high_doping: float | None = 1.0,
@@ -1843,17 +1829,17 @@ def l_wg_doped_with_trenches(
     slab_offset: float | None = 0.3,
     width_slab: float | None = None,
     width_trench: float = 2.0,
-    layer_low: LayerSpec = "P",
-    layer_mid: LayerSpec = "PP",
-    layer_high: LayerSpec = "PPP",
-    layer_via: LayerSpec | None = None,
+    layer_low: typings.LayerSpec = "P",
+    layer_mid: typings.LayerSpec = "PP",
+    layer_high: typings.LayerSpec = "PPP",
+    layer_via: typings.LayerSpec | None = None,
     width_via: float = 1.0,
-    layer_metal: LayerSpec | None = None,
+    layer_metal: typings.LayerSpec | None = None,
     width_metal: float = 1.0,
     port_names: tuple[str, str] = ("o1", "o2"),
-    cladding_layers: Layers | None = cladding_layers_optical,
-    cladding_offsets: "Floats | None" = cladding_offsets_optical,
-    wg_marking_layer: LayerSpec | None = None,
+    cladding_layers: typings.Layers | None = cladding_layers_optical,
+    cladding_offsets: "typings.Floats | None" = cladding_offsets_optical,
+    wg_marking_layer: typings.LayerSpec | None = None,
     sections: Sections | None = None,
     **kwargs: Any,
 ) -> CrossSection:
@@ -2002,12 +1988,12 @@ def l_wg_doped_with_trenches(
 @xsection
 def strip_heater_metal_undercut(
     width: float = 0.5,
-    layer: LayerSpec = "WG",
+    layer: typings.LayerSpec = "WG",
     heater_width: float = 2.5,
     trench_width: float = 6.5,
     trench_gap: float = 2.0,
-    layer_heater: LayerSpec = "HEATER",
-    layer_trench: LayerSpec = "DEEPTRENCH",
+    layer_heater: typings.LayerSpec = "HEATER",
+    layer_trench: typings.LayerSpec = "DEEPTRENCH",
     sections: Sections | None = None,
     **kwargs: Any,
 ) -> CrossSection:
@@ -2080,9 +2066,9 @@ def strip_heater_metal_undercut(
 @xsection
 def strip_heater_metal(
     width: float = 0.5,
-    layer: LayerSpec = "WG",
+    layer: typings.LayerSpec = "WG",
     heater_width: float = 2.5,
-    layer_heater: LayerSpec = "HEATER",
+    layer_heater: typings.LayerSpec = "HEATER",
     sections: Sections | None = None,
     **kwargs: Any,
 ) -> CrossSection:
@@ -2129,10 +2115,10 @@ def strip_heater_metal(
 @xsection
 def strip_heater_doped(
     width: float = 0.5,
-    layer: LayerSpec = "WG",
+    layer: typings.LayerSpec = "WG",
     heater_width: float = 2.0,
     heater_gap: float = 0.8,
-    layers_heater: LayerSpecs = ("WG", "NPP"),
+    layers_heater: typings.LayerSpecs = ("WG", "NPP"),
     bbox_offsets_heater: tuple[float, ...] = (0, 0.1),
     sections: Sections | None = None,
     **kwargs: Any,
@@ -2203,11 +2189,11 @@ def strip_heater_doped(
 @xsection
 def rib_heater_doped(
     width: float = 0.5,
-    layer: LayerSpec = "WG",
+    layer: typings.LayerSpec = "WG",
     heater_width: float = 2.0,
     heater_gap: float = 0.8,
-    layer_heater: LayerSpec = "NPP",
-    layer_slab: LayerSpec = "SLAB90",
+    layer_heater: typings.LayerSpec = "NPP",
+    layer_slab: typings.LayerSpec = "SLAB90",
     slab_gap: float = 0.2,
     with_top_heater: bool = True,
     with_bot_heater: bool = True,
@@ -2288,14 +2274,14 @@ def rib_heater_doped(
 @xsection
 def rib_heater_doped_via_stack(
     width: float = 0.5,
-    layer: LayerSpec = "WG",
+    layer: typings.LayerSpec = "WG",
     heater_width: float = 1.0,
     heater_gap: float = 0.8,
-    layer_slab: LayerSpec = "SLAB90",
-    layer_heater: LayerSpec = "NPP",
+    layer_slab: typings.LayerSpec = "SLAB90",
+    layer_heater: typings.LayerSpec = "NPP",
     via_stack_width: float = 2.0,
     via_stack_gap: float = 0.8,
-    layers_via_stack: LayerSpecs = ("NPP", "VIAC"),
+    layers_via_stack: typings.LayerSpecs = ("NPP", "VIAC"),
     bbox_offsets_via_stack: tuple[float, ...] = (0, -0.2),
     slab_gap: float = 0.2,
     slab_offset: float = 0,
@@ -2416,26 +2402,26 @@ def rib_heater_doped_via_stack(
 @xsection
 def pn_ge_detector_si_contacts(
     width_si: float = 6.0,
-    layer_si: LayerSpec = "WG",
+    layer_si: typings.LayerSpec = "WG",
     width_ge: float = 3.0,
-    layer_ge: LayerSpec = "GE",
+    layer_ge: typings.LayerSpec = "GE",
     gap_low_doping: float = 0.6,
     gap_medium_doping: float | None = 0.9,
     gap_high_doping: float | None = 1.1,
     width_doping: float = 8.0,
-    layer_p: LayerSpec = "P",
-    layer_pp: LayerSpec = "PP",
-    layer_ppp: LayerSpec = "PPP",
-    layer_n: LayerSpec = "N",
-    layer_np: LayerSpec = "NP",
-    layer_npp: LayerSpec = "NPP",
-    layer_via: LayerSpec | None = None,
+    layer_p: typings.LayerSpec = "P",
+    layer_pp: typings.LayerSpec = "PP",
+    layer_ppp: typings.LayerSpec = "PPP",
+    layer_n: typings.LayerSpec = "N",
+    layer_np: typings.LayerSpec = "NP",
+    layer_npp: typings.LayerSpec = "NPP",
+    layer_via: typings.LayerSpec | None = None,
     width_via: float = 1.0,
-    layer_metal: LayerSpec | None = None,
+    layer_metal: typings.LayerSpec | None = None,
     port_names: tuple[str, str] = ("o1", "o2"),
-    cladding_layers: Layers | None = cladding_layers_optical,
-    cladding_offsets: "Floats | None" = cladding_offsets_optical,
-    cladding_simplify: "Floats | None" = None,
+    cladding_layers: typings.Layers | None = cladding_layers_optical,
+    cladding_offsets: "typings.Floats | None" = cladding_offsets_optical,
+    cladding_simplify: "typings.Floats | None" = None,
     **kwargs: Any,
 ) -> CrossSection:
     """Linear Ge detector cross section based on a lateral p(i)n junction.

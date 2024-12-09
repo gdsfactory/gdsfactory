@@ -365,8 +365,6 @@ def route_sharp(
         d = p.extrude(cross_section=cross_section)
     elif width is None:
         layer = layer or port1.layer
-        if isinstance(layer, int):
-            layer = (layer, 0)
         s1 = Section(
             width=port1.dwidth,
             port_names=port_names,
