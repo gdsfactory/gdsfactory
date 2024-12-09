@@ -30,7 +30,6 @@ import kfactory as kf
 import klayout.db as kdb
 import numpy as np
 import numpy.typing as npt
-from kfactory.cross_section import SymmetricalCrossSection
 from kfactory.kcell import InstancePorts, LayerEnum
 
 STEP_DIRECTIVES = {
@@ -126,6 +125,8 @@ PathTypes: TypeAlias = Sequence[PathType]
 Metadata: TypeAlias = dict[str, int | float | str]
 
 Port: TypeAlias = kf.Port
+_TPort = TypeVar("_TPort", bound=Port)
+IOPorts: TypeAlias = tuple[str, str]
 PortFactory: TypeAlias = Callable[..., Port]
 PortsFactory: TypeAlias = Callable[..., Sequence[Port]]
 PortSymmetries: TypeAlias = dict[str, Sequence[str]]
@@ -151,19 +152,7 @@ Route: TypeAlias = (
 RoutingStrategy: TypeAlias = Callable[..., Sequence[Route]]
 RoutingStrategies: TypeAlias = dict[str, RoutingStrategy]
 
-from gdsfactory import cross_section  # noqa: E402
-
-CrossSectionFactory: TypeAlias = Callable[..., cross_section.CrossSection]
-CrossSectionOrFactory: TypeAlias = cross_section.CrossSection | CrossSectionFactory
-
-CrossSectionSpec: TypeAlias = (
-    CrossSectionFactory
-    | cross_section.CrossSection
-    | SymmetricalCrossSection
-    | dict[str, Any]
-    | str
-)
-CrossSectionSpecs: TypeAlias = tuple[CrossSectionSpec, ...]
+from gdsfactory.cross_section import CrossSectionFactory, CrossSectionSpec  # noqa: E402
 
 MultiCrossSectionAngleSpec: TypeAlias = Sequence[
     tuple[CrossSectionSpec, tuple[int, ...]]
@@ -187,7 +176,6 @@ ComponentSpec: TypeAlias = str | ComponentFactory | dict[str, Any] | kf.KCell
 ComponentSpecOrComponent: TypeAlias = ComponentSpec | component.Component
 ComponentSpecs: TypeAlias = Sequence[ComponentSpec]
 ComponentSpecsOrComponents: TypeAlias = Sequence[ComponentSpecOrComponent]
-
 
 PostProcess: TypeAlias = Callable[[component.Component], None]
 PostProcesses: TypeAlias = Sequence[PostProcess]
@@ -241,7 +229,6 @@ __all__ = (
     "Coordinate",
     "Coordinates",
     "CrossSectionFactory",
-    "CrossSectionOrFactory",
     "CrossSectionSpec",
     "Delta",
     "Float2",

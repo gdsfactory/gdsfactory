@@ -12,7 +12,7 @@ import hashlib
 import math
 import warnings
 from collections.abc import Callable, Iterator
-from typing import TYPE_CHECKING, Any, Literal, TypeVar, overload
+from typing import Any, Literal, Self, TypeVar, overload
 
 import numpy as np
 import numpy.typing as npt
@@ -30,19 +30,16 @@ from gdsfactory.cross_section import (  # type: ignore[attr-defined]
     Section,
     Transition,
 )
-from gdsfactory.typings import AnyComponent, Axis
-
-if TYPE_CHECKING:
-    from typing import Self
-
-    from gdsfactory.typings import (
-        AngleInDegrees,
-        ComponentSpec,
-        Coordinate,
-        CrossSectionSpec,
-        LayerSpec,
-        WidthTypes,
-    )
+from gdsfactory.typings import (
+    AngleInDegrees,
+    AnyComponent,
+    Axis,
+    ComponentSpec,
+    Coordinate,
+    CrossSectionSpec,
+    LayerSpec,
+    WidthTypes,
+)
 
 
 def _simplify(
@@ -572,11 +569,8 @@ class Path(GeometryHelper):
             all_angle=all_angle,
         )
 
-    def extrude_transition(
-        self,
-        transition: Transition,
-    ) -> Component:
-        return extrude(p=self, cross_section=transition)
+    def extrude_transition(self, transition: Transition) -> Component:
+        return extrude_transition(p=self, transition=transition)
 
     def copy(self) -> Path:
         """Returns a copy of the Path."""
@@ -1150,10 +1144,7 @@ def extrude(
     return c
 
 
-def extrude_transition(
-    p: Path,
-    transition: Transition,
-) -> Component:
+def extrude_transition(p: Path, transition: Transition) -> Component:
     """Extrudes a path along a transition.
 
     Args:
