@@ -159,7 +159,7 @@ class AbstractLayer(BaseModel):
 class LogicalLayer(AbstractLayer):
     """GDS design layer."""
 
-    layer: tuple[int, int] | LayerEnum
+    layer: tuple[int, int] | LayerEnum | str | int
 
     def __eq__(self, other: object) -> bool:
         """Check if two LogicalLayer instances are equal.
@@ -331,7 +331,7 @@ class LayerLevel(BaseModel):
 
     # ID
     name: str | None = None
-    layer: AbstractLayerSubClass
+    layer: AbstractLayerSubClass | int | str | tuple[int, int] | LayerEnum
     derived_layer: LogicalLayer | None = None
 
     # Extrusion rules
@@ -354,7 +354,9 @@ class LayerLevel(BaseModel):
 
     @field_validator("layer")
     @classmethod
-    def check_layer(cls, layer: AbstractLayerSubClass) -> LogicalLayer | DerivedLayer:
+    def check_layer(
+        cls, layer: AbstractLayerSubClass | int | str | tuple[int, int] | LayerEnum
+    ) -> LogicalLayer | DerivedLayer:
         if isinstance(layer, int | str | tuple | LayerEnum):
             layer = gf.get_layer(layer)
             return LogicalLayer(layer=layer)
