@@ -1,8 +1,13 @@
 import pytest
 
-from gdsfactory.generic_tech import LAYER_STACK
+import gdsfactory as gf
+from gdsfactory.generic_tech import LAYER, LAYER_STACK
+from gdsfactory.technology import LayerLevel
+
+nm = 1e-3
 
 
+# TODO: fix this test
 @pytest.mark.skip(
     reason="Skipping as it is not implemented yet for the new LayerStack."
 )
@@ -22,9 +27,18 @@ def test_layerstack_copy() -> None:
     assert len(ls2.layers) == len(ls1.layers) + 1
 
 
-def test_component_with_derived_layers() -> None:
-    assert True
+def test_layer_level() -> None:
+    layers = ["WG", (1, 0), LAYER.WG]
 
-
-if __name__ == "__main__":
-    test_component_with_derived_layers()
+    for layer in layers:
+        level = LayerLevel(
+            layer=layer,
+            thickness=220 * nm,
+            thickness_tolerance=5 * nm,
+            material="Si",
+            mesh_order=2,
+            zmin=0,
+            sidewall_angle=10,
+            sidewall_angle_tolerance=2,
+        )
+        assert int(gf.get_layer(level.layer.layer)) == 1, int(level.layer)
