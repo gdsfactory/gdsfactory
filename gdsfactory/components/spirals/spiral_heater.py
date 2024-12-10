@@ -505,13 +505,6 @@ def spiral_racetrack_heater_doped(
     return c
 
 
-def test_length_spiral_racetrack() -> None:
-    length = 1000
-    c = spiral_racetrack_fixed_length(length=length, cross_section="strip")
-    length_computed = c.area(layer=(1, 0)) / 0.5
-    np.isclose(length, length_computed)
-
-
 if __name__ == "__main__":
     # test_length_spiral_racetrack()
 

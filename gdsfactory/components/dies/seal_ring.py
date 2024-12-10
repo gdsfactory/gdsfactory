@@ -1,11 +1,8 @@
 from __future__ import annotations
 
-from functools import partial
-
 import klayout.db as kdb
 
 import gdsfactory as gf
-from gdsfactory.components import rectangle
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import ComponentSpec
 
@@ -85,9 +82,7 @@ def seal_ring(
 
 @gf.cell
 def seal_ring_segmented(
-    component: gf.Component | gf.Instance | ComponentSpec = partial(
-        rectangle, size=(500, 500)
-    ),
+    component: gf.Component | gf.Instance | ComponentSpec,
     length_segment: float = 10,
     width_segment: float = 3,
     spacing_segment: float = 2,
@@ -215,6 +210,8 @@ def seal_ring_segmented(
 
 
 if __name__ == "__main__":
+    from gdsfactory.components import rectangle
+
     c = gf.Component("demo")
     big_square = rectangle(size=(1300, 2600))
     sq = c << big_square

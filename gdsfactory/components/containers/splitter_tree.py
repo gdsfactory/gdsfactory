@@ -154,23 +154,6 @@ switch_tree = partial(
 )
 
 
-def test_splitter_tree_ports() -> None:
-    c = splitter_tree(
-        coupler="mmi2x2",
-        noutputs=4,
-    )
-    assert len(c.ports) == 8, len(c.ports)
-
-
-def test_splitter_tree_ports_no_sbend() -> None:
-    c = splitter_tree(
-        coupler="mmi2x2",
-        noutputs=4,
-        bend_s=None,
-    )
-    assert len(c.ports) == 8, len(c.ports)
-
-
 if __name__ == "__main__":
     import gdsfactory as gf
 

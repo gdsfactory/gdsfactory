@@ -1,15 +1,6 @@
 from gdsfactory.components.filters.awg import (
     awg,
 )
-from gdsfactory.components.filters.coh_rx_single_pol import (
-    coh_rx_single_pol,
-)
-from gdsfactory.components.filters.coh_tx_dual_pol import (
-    coh_tx_dual_pol,
-)
-from gdsfactory.components.filters.coh_tx_single_pol import (
-    coh_tx_single_pol,
-)
 from gdsfactory.components.filters.crossing_waveguide import (
     crossing,
     crossing45,
@@ -62,9 +53,6 @@ from gdsfactory.components.filters.terminator import (
 
 __all__ = [
     "awg",
-    "coh_rx_single_pol",
-    "coh_tx_dual_pol",
-    "coh_tx_single_pol",
     "crossing",
     "crossing45",
     "crossing_arm",
