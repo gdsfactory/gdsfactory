@@ -472,6 +472,7 @@ class Pdk(BaseModel):
 
     def get_layer_name(self, layer: LayerSpec) -> str:
         layer_index = self.get_layer(layer)
+        assert self.layers is not None
         return self.layers[layer_index]
 
     def get_layer_views(self) -> LayerViews:
@@ -485,8 +486,6 @@ class Pdk(BaseModel):
         return self.layer_stack
 
     def get_constant(self, key: str) -> Any:
-        if not isinstance(key, str):
-            return key
         if key not in self.constants:
             constants = list(self.constants.keys())
             raise ValueError(f"{key!r} not in {constants}")
