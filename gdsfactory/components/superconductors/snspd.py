@@ -4,7 +4,6 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import compass, optimal_hairpin
 from gdsfactory.typings import Float2, LayerSpec
 
 
@@ -67,7 +66,7 @@ def snspd(
     num_meanders = int(np.ceil(ysize / wire_pitch))
 
     D = Component()
-    hairpin = optimal_hairpin(
+    hairpin = gf.c.optimal_hairpin(
         width=wire_width,
         pitch=wire_pitch,
         turn_ratio=turn_ratio,
@@ -84,7 +83,7 @@ def snspd(
     port_type = "electrical"
 
     start_nw = D.add_ref(
-        compass(size=(xsize / 2, wire_width), layer=layer, port_type=port_type)
+        gf.c.compass(size=(xsize / 2, wire_width), layer=layer, port_type=port_type)
     )
     hp_prev = D.add_ref(hairpin)
     hp_prev.connect("e1", start_nw.ports["e3"])
@@ -100,7 +99,7 @@ def snspd(
         alternate = not alternate
 
     finish_se = D.add_ref(
-        compass(size=(xsize / 2, wire_width), layer=layer, port_type=port_type)
+        gf.c.compass(size=(xsize / 2, wire_width), layer=layer, port_type=port_type)
     )
     finish_se.connect("e3", last_port)
 

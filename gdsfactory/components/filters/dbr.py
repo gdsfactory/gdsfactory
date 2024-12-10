@@ -13,7 +13,6 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import straight
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import CrossSectionSpec
 
@@ -61,8 +60,8 @@ def dbr_cell(
     xs2 = gf.get_cross_section(cross_section, width=w2)
 
     c = Component()
-    c1 = c << straight(length=l1, cross_section=xs1)
-    c2 = c << straight(length=l2, cross_section=xs2)
+    c1 = c << gf.c.straight(length=l1, cross_section=xs1)
+    c2 = c << gf.c.straight(length=l2, cross_section=xs2)
     c2.connect(port="o1", other=c1.ports["o2"], allow_width_mismatch=True)
     c.add_port("o1", port=c1.ports["o1"])
     c.add_port("o2", port=c2.ports["o2"])
@@ -104,8 +103,8 @@ def dbr(
     """
     c = Component()
     xs = gf.get_cross_section(cross_section)
-    s1 = c << straight(cross_section=xs, length=straight_length)
-    s2 = c << straight(cross_section=xs, length=straight_length)
+    s1 = c << gf.c.straight(cross_section=xs, length=straight_length)
+    s2 = c << gf.c.straight(cross_section=xs, length=straight_length)
 
     cell = dbr_cell(w1=w1, w2=w2, l1=l1, l2=l2, cross_section=cross_section)
     ref = c.add_ref(cell, columns=n, rows=1, column_pitch=l1 + l2)

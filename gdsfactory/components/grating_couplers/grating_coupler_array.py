@@ -4,13 +4,12 @@ import kfactory as kf
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import grating_coupler_elliptical
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
 def grating_coupler_array(
-    grating_coupler: ComponentSpec = grating_coupler_elliptical,
+    grating_coupler: ComponentSpec = "grating_coupler_elliptical",
     pitch: float = 127.0,
     n: int = 6,
     port_name: str = "o1",

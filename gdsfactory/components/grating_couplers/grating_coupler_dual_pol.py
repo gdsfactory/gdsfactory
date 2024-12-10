@@ -7,7 +7,6 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components import rectangle
-from gdsfactory.components import taper as taper_function
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 
 # The default values are loosely based on Taillaert et al,
@@ -30,7 +29,7 @@ def grating_coupler_dual_pol(
     width_taper: float = 10.0,
     polarization: str = "te",
     wavelength: float = 1.55,
-    taper: ComponentSpec = taper_function,
+    taper: ComponentSpec = "taper",
     base_layer: LayerSpec = "WG",
     cross_section: CrossSectionSpec = "strip",
 ) -> Component:

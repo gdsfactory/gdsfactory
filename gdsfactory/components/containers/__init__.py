@@ -39,8 +39,6 @@ from gdsfactory.components.containers.splitter_chain import (
 from gdsfactory.components.containers.splitter_tree import (
     splitter_tree,
     switch_tree,
-    test_splitter_tree_ports,
-    test_splitter_tree_ports_no_sbend,
 )
 
 __all__ = [
@@ -64,6 +62,4 @@ __all__ = [
     "splitter_chain",
     "splitter_tree",
     "switch_tree",
-    "test_splitter_tree_ports",
-    "test_splitter_tree_ports_no_sbend",
 ]

@@ -2,22 +2,17 @@
 
 from __future__ import annotations
 
-from functools import partial
-
 import numpy as np
 from kfactory.conf import CHECK_INSTANCES
 from numpy import float64
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import (
+from gdsfactory.components.bends.bend_s import (
     bezier,
-    ellipse,
     find_min_curv_bezier_control_points,
-    taper,
 )
 from gdsfactory.typings import (
-    ComponentFactory,
     ComponentSpec,
     CrossSectionSpec,
     Delta,
@@ -52,7 +47,7 @@ def crossing_arm(
     c = Component()
 
     layer_slab = gf.get_layer(layer_slab)
-    c << ellipse(radii=(r1, r2), layer=layer_slab)
+    c << gf.c.ellipse(radii=(r1, r2), layer=layer_slab)
 
     xs = gf.get_cross_section(cross_section)
     width = xs.width
@@ -123,19 +118,27 @@ def crossing(
     return c
 
 
-_taper = partial(taper, width2=2.5, length=3)
-
-
 @gf.cell
-def crossing_from_taper(taper: ComponentFactory = _taper) -> Component:
+def crossing_from_taper(
+    width1: float = 0.5,
+    width2: float = 2.5,
+    length: float = 3,
+    cross_section: CrossSectionSpec = "strip",
+) -> Component:
     """Returns Crossing based on a taper.
 
     The default is a dummy taper.
 
     Args:
-        taper: taper function.
+        width1: input width.
+        width2: output width.
+        length: taper length.
+        cross_section: cross_section spec.
+
     """
-    taper_component = gf.get_component(taper)
+    taper_component = gf.c.taper(
+        width1=width1, width2=width2, length=length, cross_section=cross_section
+    )
 
     c = Component()
     for i, a in enumerate([0, 90, 180, 270]):
@@ -179,8 +182,8 @@ def crossing_etched(
 
     # Draw the ellipses
     c = Component()
-    _ = c << ellipse(radii=(r1, r2), layer=layer_wg)
-    _ = c << ellipse(radii=(r2, r1), layer=layer_wg)
+    _ = c << gf.c.ellipse(radii=(r1, r2), layer=layer_wg)
+    _ = c << gf.c.ellipse(radii=(r2, r1), layer=layer_wg)
 
     a = L + w / 2
     h = width / 2
