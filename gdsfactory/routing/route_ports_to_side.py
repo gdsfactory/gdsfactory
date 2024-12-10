@@ -546,7 +546,7 @@ def route_ports_to_y(
 
 
 if __name__ == "__main__":
-    from gdsfactory.components.nxn import nxn
+    from gdsfactory.components import nxn
 
     c = Component("sample_route_sides")
     cross_section = "strip"

@@ -91,7 +91,7 @@ def route_quad(
 
 
 if __name__ == "__main__":
-    from gdsfactory.components.pad import pad
+    from gdsfactory.components import pad
 
     c = gf.Component()
     pad1 = c << pad(size=(50, 50))

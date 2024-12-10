@@ -494,7 +494,7 @@ class Pdk(BaseModel):
 
     def to_updk(self) -> str:
         """Export to uPDK YAML definition."""
-        from gdsfactory.components.bbox import bbox_to_points
+        from gdsfactory.components import bbox_to_points
 
         blocks = {cell_name: cell() for cell_name, cell in self.cells.items()}
         blocks = {

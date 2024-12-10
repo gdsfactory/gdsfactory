@@ -31,7 +31,7 @@ def add_port_labels(
 
 if __name__ == "__main__":
     c = gf.Component()
-    from gdsfactory.components.wire import wire_straight
+    from gdsfactory.components import wire_straight
 
     # ref = c << gf.components.straight()
     # ref = c << gf.routing.add_fiber_array(gf.components.straight())

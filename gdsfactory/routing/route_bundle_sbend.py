@@ -4,7 +4,7 @@ from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bend_s import bend_s as bend_s_function
+from gdsfactory.components import bend_s as bend_s_function
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
 from gdsfactory.typings import ComponentSpec, Ports
 

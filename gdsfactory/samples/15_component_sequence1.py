@@ -12,10 +12,12 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import bend_circular
-from gdsfactory.components.component_sequence import component_sequence
-from gdsfactory.components.straight import straight
-from gdsfactory.components.straight_pin import straight_pn
+from gdsfactory.components import (
+    bend_circular,
+    component_sequence,
+    straight,
+    straight_pn,
+)
 
 
 @gf.cell

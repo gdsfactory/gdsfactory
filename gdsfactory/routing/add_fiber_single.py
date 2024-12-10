@@ -5,8 +5,8 @@ from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
-from gdsfactory.components.straight import straight as straight_function
+from gdsfactory.components import grating_coupler_te
+from gdsfactory.components import straight as straight_function
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.route_fiber_array import route_fiber_array
 from gdsfactory.typings import (

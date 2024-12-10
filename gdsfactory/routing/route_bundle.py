@@ -20,8 +20,8 @@ import kfactory as kf
 from kfactory.routing.generic import ManhattanRoute
 
 import gdsfactory as gf
-from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.components.wire import wire_corner
+from gdsfactory.components import straight as straight_function
+from gdsfactory.components import wire_corner
 from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
 from gdsfactory.typings import (

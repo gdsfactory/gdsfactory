@@ -57,8 +57,7 @@ def to_np(
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
-    from gdsfactory.components.bend_circular import bend_circular
-    from gdsfactory.components.straight import straight
+    from gdsfactory.components import bend_circular, straight
 
     c = straight()
     c = bend_circular()

@@ -37,8 +37,8 @@ from kfactory.routing.optical import place90, route
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.straight import straight as straight_function
+from gdsfactory.components import bend_euler
+from gdsfactory.components import straight as straight_function
 from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.typings import (
     STEP_DIRECTIVES,

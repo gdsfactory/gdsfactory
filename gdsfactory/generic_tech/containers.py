@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from gdsfactory.add_padding import add_padding_container
-from gdsfactory.components.add_termination import add_termination
+from gdsfactory.components import add_termination
 from gdsfactory.routing import add_pads_bot, add_pads_top
 from gdsfactory.routing.add_electrical_pads_shortest import add_electrical_pads_shortest
 from gdsfactory.routing.add_electrical_pads_top import add_electrical_pads_top
