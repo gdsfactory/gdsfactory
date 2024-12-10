@@ -205,14 +205,14 @@ def gc_sc(**kwargs: Any) -> gf.Component:
 ######################
 
 mzi_nc = partial(
-    gf.components.mzi,
+    gf.components.mzi,  # type: ignore[has-type]
     splitter=mmi1x2_nc,
     straight=straight_nc,
     bend=bend_euler_nc,
     cross_section="strip_nc",
 )
 mzi_no = partial(
-    gf.components.mzi,
+    gf.components.mzi,  # type: ignore[has-type]
     splitter=mmi1x2_no,
     straight=straight_no,
     bend=bend_euler_no,

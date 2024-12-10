@@ -60,13 +60,10 @@ def merge_gds(dirpath: str = "", gdspath: str = "") -> None:
     """Merges GDS cells from a directory into a single GDS."""
     from gdsfactory.read.from_gdspaths import from_gdsdir
 
-    dirpath = dirpath or pathlib.Path.cwd()
-    gdspath = gdspath or pathlib.Path.cwd() / "merged.gds"
-
-    dirpath = pathlib.Path(dirpath)
-
-    c = from_gdsdir(dirpath=dirpath)
-    c.write_gds(gdspath=gdspath)
+    dirpath_path = pathlib.Path(dirpath) or pathlib.Path.cwd()
+    gdspath_path = pathlib.Path(gdspath) or pathlib.Path.cwd() / "merged.gds"
+    c = from_gdsdir(dirpath=dirpath_path)
+    c.write_gds(gdspath=gdspath_path)
     c.show()
 
 
@@ -93,8 +90,8 @@ def watch(
         pre_run: build all cells on startup.
         overwrite: overwrite existing cells.
     """
-    path = pathlib.Path(path)
-    path = path if path.is_dir() else path.parent
+    path_path = pathlib.Path(path)
+    path_path = path_path if path_path.is_dir() else path_path.parent
     if overwrite:
         from gdsfactory import CONF
 
@@ -135,24 +132,24 @@ def print_plugins() -> None:
 @app.command(name="from-updk")
 def from_updk_command(filepath: str, filepath_out: str = "") -> None:
     """Writes a PDK in python from uPDK YAML spec."""
-    filepath = pathlib.Path(filepath)
-    filepath_out = filepath_out or filepath.with_suffix(".py")
-    from_updk(filepath, filepath_out=filepath_out)
+    filepath_path = pathlib.Path(filepath)
+    filepath_out_path = filepath_out or filepath_path.with_suffix(".py")
+    from_updk(filepath, filepath_out=filepath_out_path)
 
 
 @app.command()
 def text_from_pdf(filepath: str) -> None:
     """Converts a PDF to text."""
-    import pdftotext
+    import pdftotext  # type: ignore
 
     with open(filepath, "rb") as f:
-        pdf = pdftotext.PDF(f)
+        pdf = pdftotext.PDF(f)  # type: ignore
 
     # Read all the text into one string
-    text = "\n".join(pdf)
-    filepath = pathlib.Path(filepath)
-    f = filepath.with_suffix(".md")
-    f.write_text(text)
+    text = "\n".join(pdf)  # type: ignore
+    filepath_path = pathlib.Path(filepath)
+    filepath_path_with_suffix = filepath_path.with_suffix(".md")
+    filepath_path_with_suffix.write_text(text)
 
 
 @app.command()

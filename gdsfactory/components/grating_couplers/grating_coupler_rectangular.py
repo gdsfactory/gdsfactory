@@ -77,6 +77,7 @@ def grating_coupler_rectangular(
     xs = gf.get_cross_section(cross_section)
     wg_width = xs.width
     layer = layer_grating or xs.layer
+    assert layer is not None
 
     c = Component()
     taper_ref = c << gf.get_component(
@@ -89,7 +90,6 @@ def grating_coupler_rectangular(
 
     c.add_port(port=taper_ref.ports["o1"], name="o1")
     x0 = length_taper
-
     for i in range(n_periods):
         xsize = gf.snap.snap_to_grid(period * fill_factor)
         cgrating = c.add_ref(

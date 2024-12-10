@@ -52,10 +52,10 @@ def via_corner(
 
     port_type = "electrical"
     for i, layer in enumerate(layers):
+        assert layer is not None
         ref = c << compass(
             size=(widths[i], heights[i]), layer=layer, port_type=port_type
         )
-
         if layer in layers_ports:
             orientations = port_orientations[i]
             if (90 in orientations) or (270 in orientations):

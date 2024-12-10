@@ -14,6 +14,7 @@ def pads_correct(
     c = gf.Component()
 
     xs = gf.get_cross_section(cross_section)
+    assert xs.layer is not None
     layer = gf.get_layer(xs.layer)
 
     pad_c = gf.get_component(pad)
@@ -46,6 +47,7 @@ def pads_shorted(
     c = gf.Component()
     pad_c = gf.components.pad()
     xs = gf.get_cross_section(cross_section)
+    assert xs.layer is not None
     layer = gf.get_layer(xs.layer)
 
     tl = c << pad_c

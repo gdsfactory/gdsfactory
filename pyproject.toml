@@ -103,7 +103,8 @@ ignore-words-list = "te, te/tm, te, ba, fpr, fpr_spacing, ro, nd, donot, schem"
 disable_error_code = "import-untyped"
 exclude = [
   "gdsfactory/export/to_svg.py",
-  "test-data-gds/."
+  "test-data-gds/.",
+  "gdsfactory/samples/demo/layers_sky130.py"
 ]
 python_version = "3.11"
 strict = true
