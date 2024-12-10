@@ -75,6 +75,7 @@ def grating_coupler_rectangular_arbitrary(
 
     """
     xs = gf.get_cross_section(cross_section)
+    assert xs.layer is not None
     layer_wg = gf.get_layer(xs.layer)
     layer_grating = layer_grating or layer_wg
 

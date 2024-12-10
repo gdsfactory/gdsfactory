@@ -29,7 +29,7 @@ def _generate_fins(
         -num_fins * (2 * fin_size[1]) / 2.0 + fin_size[1] / 2.0,
     )
     xend = 2 * taper_length + length
-
+    assert xs.layer is not None
     for i in range(int(num_fins)):
         y = y0 + i * 2 * fin_size[1]
         rectangle_input = c << gf.components.rectangle(
@@ -126,6 +126,7 @@ def dbr_tapered(
     num = (2 * taper_length + length) // period
 
     size: tuple[float, float] = tuple(snap_to_grid2x((period * dc, w2)))  # type: ignore
+    assert xs.layer is not None
     teeth = gf.components.rectangle(size=size, layer=xs.layer)
 
     periodic_structures = c << gf.components.array(

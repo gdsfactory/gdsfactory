@@ -44,6 +44,7 @@ def coupler_broadband(
     c = gf.Component()
 
     xs = gf.get_cross_section(cross_section)
+    assert xs.layer is not None
     layer = gf.get_layer(xs.layer)
 
     L_t = legnth_taper

@@ -141,6 +141,7 @@ def grating_coupler_elliptical(
 
     wg_width = xs.width
     layer = xs.layer
+    assert layer is not None
 
     # Compute some ellipse parameters
     sthc = np.sin(fiber_angle * DEG2RAD)
@@ -149,9 +150,9 @@ def grating_coupler_elliptical(
     b1 = wavelength / np.sqrt(d)
     x1 = wavelength * nclad * sthc / d
 
-    a1 = round(a1, 3)
-    b1 = round(b1, 3)
-    x1 = round(x1, 3)
+    a1 = float(round(a1, 3))
+    b1 = float(round(b1, 3))
+    x1 = float(round(x1, 3))
 
     period = a1 + x1
 

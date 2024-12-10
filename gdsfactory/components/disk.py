@@ -130,7 +130,7 @@ def disk(
     c, straight_left, straight_right = _generate_straights(
         c, bus_length, size_x, bend_input, bend_output, xs_bend
     )
-
+    assert xs.layer is not None
     circle = c << gf.components.circle(radius=radius_disk, layer=xs.layer)
 
     circle_cladding = None

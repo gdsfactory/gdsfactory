@@ -51,6 +51,7 @@ def taper(
     width_max = max([width1, width2])
     x = gf.get_cross_section(cross_section, width=width_max, layer=layer)
     layer = layer or x.layer
+    assert layer is not None
 
     if isinstance(port, gf.Port):
         width1 = port.width

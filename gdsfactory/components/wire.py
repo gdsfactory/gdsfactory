@@ -32,6 +32,7 @@ def wire_corner(
     """
     x = gf.get_cross_section(cross_section, width=width)
     layer = x.layer
+    assert layer is not None
     width = x.width
 
     c = Component()
@@ -80,6 +81,7 @@ def wire_corner45(
     """
     x = gf.get_cross_section(cross_section)
     layer = layer or x.layer
+    assert layer is not None
     width = width or x.width
     radius = radius or width
 
