@@ -4,13 +4,14 @@ from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import cross
 from gdsfactory.typings import ComponentSpec, LayerSpecs
 
 
 @gf.cell
 def copy_layers(
-    factory: ComponentSpec = cross, layers: LayerSpecs = ((1, 0), (2, 0)), **kwargs: Any
+    factory: ComponentSpec = "cross",
+    layers: LayerSpecs = ((1, 0), (2, 0)),
+    **kwargs: Any,
 ) -> Component:
     """Returns a component with the geometry copied in different layers.
 

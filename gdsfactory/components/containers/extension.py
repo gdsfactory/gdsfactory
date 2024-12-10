@@ -8,10 +8,8 @@ from numpy.typing import NDArray
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.cross_section import cross_section as cross_section_function
 from gdsfactory.port import Port
-from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.typings import ComponentSpec, Coordinate, CrossSectionSpec, PortNames
 
 DEG2RAD = np.pi / 180
@@ -59,7 +57,7 @@ def move_polar_rad_copy(
 
 @gf.cell
 def extend_ports(
-    component: ComponentSpec = mmi1x2,
+    component: ComponentSpec = "mmi1x2",
     port_names: PortNames | None = None,
     length: float = 5.0,
     extension: ComponentSpec | None = None,
@@ -119,6 +117,8 @@ def extend_ports(
     ports_to_extend_names = port_names or ports_to_extend_names  # type: ignore
 
     if auto_taper and cross_section:
+        from gdsfactory.routing.auto_taper import add_auto_tapers
+
         ports_to_extend = add_auto_tapers(
             component=c, ports=ports_to_extend, cross_section=cross_section
         )

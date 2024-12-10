@@ -3,7 +3,6 @@ from gdsfactory.components.containers.add_fiber_array_optical_south_electrical_n
 )
 from gdsfactory.components.containers.add_termination import (
     add_termination,
-    terminator_function,
 )
 from gdsfactory.components.containers.add_trenches import (
     add_trenches,
@@ -65,7 +64,6 @@ __all__ = [
     "splitter_chain",
     "splitter_tree",
     "switch_tree",
-    "terminator_function",
     "test_splitter_tree_ports",
     "test_splitter_tree_ports_no_sbend",
 ]

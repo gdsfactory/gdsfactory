@@ -4,13 +4,12 @@ from functools import partial
 from typing import Any
 
 import gdsfactory as gf
-from gdsfactory.components import bbox, bend_euler, coupler
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 
 
 @gf.cell
 def add_trenches(
-    component: ComponentSpec = coupler,
+    component: ComponentSpec = "coupler",
     layer_component: LayerSpec = "WG",
     layer_trench: LayerSpec = "DEEP_ETCH",
     width_trench: float = 2.0,
@@ -44,7 +43,9 @@ def add_trenches(
     left = left if left is not None else width_trench
 
     core = component
-    clad = bbox(core, layer=layer_trench, top=top, bottom=bot, left=left, right=right)
+    clad = gf.c.bbox(
+        core, layer=layer_trench, top=top, bottom=bot, left=left, right=right
+    )
     c = gf.boolean(
         clad,
         core,
@@ -60,7 +61,9 @@ def add_trenches(
     return c
 
 
-add_trenches90 = partial(add_trenches, component=bend_euler, top=0, left=0, right=None)
+add_trenches90 = partial(
+    add_trenches, component="bend_euler", top=0, left=0, right=None
+)
 
 if __name__ == "__main__":
     c = add_trenches90()

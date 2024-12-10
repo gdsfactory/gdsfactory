@@ -14,7 +14,6 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import rectangle, text_rectangular, triangle
 from gdsfactory.typings import (
     Anchor,
     ComponentSpec,
@@ -25,7 +24,7 @@ from gdsfactory.typings import (
 
 
 def grid(
-    components: ComponentSpecsOrComponents = (rectangle, triangle),
+    components: ComponentSpecsOrComponents = ("rectangle", "triangle"),
     spacing: Spacing | float = (5.0, 5.0),
     shape: tuple[int, int] | None = None,
     align_x: Literal["origin", "xmin", "xmax", "center"] = "center",
@@ -89,13 +88,13 @@ def grid(
 
 
 def grid_with_text(
-    components: Sequence[ComponentSpec] = (rectangle, triangle),
+    components: Sequence[ComponentSpec] = ("rectangle", "triangle"),
     text_prefix: str = "",
     text_offsets: tuple[Float2, ...] | None = None,
     text_anchors: tuple[Anchor, ...] | None = None,
     text_mirror: bool = False,
     text_rotation: int = 0,
-    text: ComponentSpec | None = text_rectangular,
+    text: ComponentSpec | None = "text_rectangular",
     spacing: Spacing | float = (5.0, 5.0),
     shape: tuple[int, int] | None = None,
     align_x: Literal["origin", "xmin", "xmax", "center"] = "center",

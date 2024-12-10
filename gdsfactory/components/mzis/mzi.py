@@ -4,8 +4,6 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import bend_euler, straight_heater_metal
-from gdsfactory.components import straight as straight_function
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
@@ -14,8 +12,8 @@ def mzi(
     delta_length: float = 10.0,
     length_y: float = 2.0,
     length_x: float | None = 0.1,
-    bend: ComponentSpec = bend_euler,
-    straight: ComponentSpec = straight_function,
+    bend: ComponentSpec = "bend_euler",
+    straight: ComponentSpec = "straight",
     straight_y: ComponentSpec | None = None,
     straight_x_top: ComponentSpec | None = None,
     straight_x_bot: ComponentSpec | None = None,
@@ -263,7 +261,7 @@ mzi2x2_2x2_phase_shifter = partial(
 )
 
 mzi_phase_shifter_top_heater_metal = partial(
-    mzi_phase_shifter, straight_x_top=straight_heater_metal
+    mzi_phase_shifter, straight_x_top="straight_heater_metal"
 )
 
 mzm = partial(

@@ -22,19 +22,16 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import bend_s as bend_s_function
-from gdsfactory.components import mzi1x2_2x2, straight_heater_metal
-from gdsfactory.components.mmi1x2 import mmi1x2
-from gdsfactory.components.mmi2x2 import mmi2x2
+from gdsfactory.components.mzis import mzi1x2_2x2
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Float2
 
 
 @gf.cell
 def splitter_tree(
-    coupler: ComponentSpec = mmi1x2,
+    coupler: ComponentSpec = "mmi1x2",
     noutputs: int = 4,
     spacing: Float2 = (90.0, 50.0),
-    bend_s: ComponentSpec | None = bend_s_function,
+    bend_s: ComponentSpec | None = "bend_s",
     bend_s_xsize: float | None = None,
     cross_section: CrossSectionSpec = "strip",
 ) -> gf.Component:
@@ -103,10 +100,7 @@ def splitter_tree(
                         c.add_port(name=f"{port.name}_{col}_{i}", port=port)
                         i += 1
             if col > 0:
-                if row % 2 == 0:
-                    port_name = e0_port_name
-                else:
-                    port_name = e1_port_name
+                port_name = e0_port_name if row % 2 == 0 else e1_port_name
                 gf.routing.route_single(
                     c,
                     c.insts[f"coupler_{col - 1}_{row // 2}"].ports[port_name],
@@ -147,9 +141,9 @@ def splitter_tree(
 
 _mzi1x2_2x2 = partial(
     mzi1x2_2x2,
-    combiner=mmi2x2,
+    combiner="mmi2x2",
     delta_length=0,
-    straight_x_top=straight_heater_metal,
+    straight_x_top="straight_heater_metal",
     length_x=None,
 )
 
@@ -162,7 +156,7 @@ switch_tree = partial(
 
 def test_splitter_tree_ports() -> None:
     c = splitter_tree(
-        coupler=mmi2x2,
+        coupler="mmi2x2",
         noutputs=4,
     )
     assert len(c.ports) == 8, len(c.ports)
@@ -170,7 +164,7 @@ def test_splitter_tree_ports() -> None:
 
 def test_splitter_tree_ports_no_sbend() -> None:
     c = splitter_tree(
-        coupler=mmi2x2,
+        coupler="mmi2x2",
         noutputs=4,
         bend_s=None,
     )
