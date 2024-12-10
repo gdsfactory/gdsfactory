@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import rectangle
 from gdsfactory.typings import ComponentSpec, LayerSpec
 
 
@@ -33,8 +32,8 @@ def align_wafer(
     b = cross_length / 2 + spacing + width / 2
     w = width
 
-    rh = rectangle(size=(2 * b + w, w), layer=layer, centered=True)
-    rv = rectangle(size=(w, 2 * b), layer=layer, centered=True)
+    rh = gf.c.rectangle(size=(2 * b + w, w), layer=layer, centered=True)
+    rv = gf.c.rectangle(size=(w, 2 * b), layer=layer, centered=True)
 
     rtop = c.add_ref(rh)
     rbot = c.add_ref(rh)
@@ -48,7 +47,7 @@ def align_wafer(
     rr.dmovex(+b)
 
     wsq = (cross_length + 2 * spacing) / 4
-    square_mark = c << rectangle(size=(wsq, wsq), layer=layer, centered=True)
+    square_mark = c << gf.c.rectangle(size=(wsq, wsq), layer=layer, centered=True)
     a = width / 2 + wsq / 2 + spacing
 
     corner_to_position = {
@@ -61,7 +60,7 @@ def align_wafer(
     square_mark.dmove(corner_to_position[square_corner])
 
     if layer_cladding:
-        rc_tile_excl = rectangle(
+        rc_tile_excl = gf.c.rectangle(
             size=(2 * (b + spacing), 2 * (b + spacing)),
             layer=layer_cladding,
             centered=True,
@@ -73,7 +72,7 @@ def align_wafer(
 
 @gf.cell
 def add_frame(
-    component: ComponentSpec = rectangle,
+    component: ComponentSpec = "rectangle",
     width: float = 10.0,
     spacing: float = 10.0,
     layer: LayerSpec = "WG",
@@ -96,13 +95,13 @@ def add_frame(
     x = y
     w = width
 
-    rh = rectangle(size=(2 * y + w, w), layer=layer, centered=True)
+    rh = gf.c.rectangle(size=(2 * y + w, w), layer=layer, centered=True)
     rtop = c.add_ref(rh)
     rbot = c.add_ref(rh)
     rtop.dmovey(+y)
     rbot.dmovey(-y)
 
-    rv = rectangle(size=(w, 2 * y), layer=layer, centered=True)
+    rv = gf.c.rectangle(size=(w, 2 * y), layer=layer, centered=True)
     rl = c.add_ref(rv)
     rr = c.add_ref(rv)
     rl.dmovex(-x)

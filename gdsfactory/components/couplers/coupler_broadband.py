@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import bend_euler, coupler_straight
 from gdsfactory.typings import ComponentFactory, CrossSectionSpec
 
 
@@ -13,8 +12,8 @@ def coupler_broadband(
     w_top: float = 0.6,  # width of the top waveguide in the phase control section
     gap_pc: float = 0.3,  # gap size in the phase control section
     legnth_taper: float = 1.0,  # length of the tapers
-    bend: ComponentFactory = bend_euler,
-    coupler_straight: ComponentFactory = coupler_straight,
+    bend: ComponentFactory = "bend_euler",
+    coupler_straight: ComponentFactory = "coupler_straight",
     length_coupler_straight: float = 12.4,  # optimal L_1 from the 3d fdtd analysis
     lenght_coupler_big_gap: float = 4.7,  # optimal L_2 from the 3d fdtd analysis
     cross_section: CrossSectionSpec = "strip",
@@ -53,12 +52,14 @@ def coupler_broadband(
 
     y_coupler = -w_sc + xs.width / 2 + gap_pc / 2
 
-    coupler = coupler_straight(length=L_1, cross_section=cross_section, gap=gap_sc)
+    coupler = gf.get_component(
+        coupler_straight, length=L_1, cross_section=cross_section, gap=gap_sc
+    )
     coupler1 = c << coupler
     coupler1.dxmin = -L_2 / 2 - L_t - L_1
     coupler1.dy = y_coupler
 
-    _bend = bend(radius=radius, cross_section=cross_section)
+    _bend = gf.get_component(bend, radius=radius, cross_section=cross_section)
     bend_lt = c << _bend
     bend_lb = c << _bend
 

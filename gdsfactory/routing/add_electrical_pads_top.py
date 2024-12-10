@@ -1,25 +1,20 @@
 from __future__ import annotations
 
-from functools import partial
 from typing import Any, Literal
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import pad_array as pad_array_function
-from gdsfactory.components import wire_straight
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_quad import route_quad
 from gdsfactory.routing.sort_ports import sort_ports_x
 from gdsfactory.typings import ComponentSpec, Float2, LayerSpec, SelectPorts, Strs
 
-_wire_long = partial(wire_straight, length=200.0)
-
 
 def add_electrical_pads_top(
-    component: ComponentSpec = _wire_long,
+    component: ComponentSpec = "wire",
     direction: Literal["top", "right"] = "top",
     spacing: Float2 = (0.0, 100.0),
-    pad_array: ComponentSpec = pad_array_function,
+    pad_array: ComponentSpec = "pad_array",
     select_ports: SelectPorts = select_ports_electrical,
     port_names: Strs | None = None,
     layer: LayerSpec = "MTOP",

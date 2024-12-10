@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import bend_euler
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
@@ -10,7 +9,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 def coupler90bend(
     radius: float = 10.0,
     gap: float = 0.2,
-    bend: ComponentSpec = bend_euler,
+    bend: ComponentSpec = "bend_euler",
     cross_section_inner: CrossSectionSpec = "strip",
     cross_section_outer: CrossSectionSpec = "strip",
 ) -> Component:

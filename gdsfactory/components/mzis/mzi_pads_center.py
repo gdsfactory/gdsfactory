@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import Any
 
 import gdsfactory as gf
-from gdsfactory.routing.route_single import route_single_electrical
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
@@ -84,7 +83,7 @@ def mzi_pads_center(
     pads.dy = m.dy
 
     if mzi_sig_top is not None:
-        route_single_electrical(
+        gf.routing.route_single_electrical(
             c,
             m.ports[mzi_sig_bot],
             pads.ports[pad_sig_bot],
@@ -93,7 +92,7 @@ def mzi_pads_center(
         )
 
     if mzi_gnd_bot:
-        route_single_electrical(
+        gf.routing.route_single_electrical(
             c,
             m.ports[mzi_gnd_bot],
             pads.ports[pad_gnd_bot],
@@ -102,7 +101,7 @@ def mzi_pads_center(
         )
 
     if mzi_gnd_top:
-        route_single_electrical(
+        gf.routing.route_single_electrical(
             c,
             m.ports[mzi_gnd_top],
             pads.ports[pad_gnd_top],
@@ -111,7 +110,7 @@ def mzi_pads_center(
         )
 
     if mzi_sig_top:
-        route_single_electrical(
+        gf.routing.route_single_electrical(
             c,
             m.ports[mzi_sig_top],
             pads.ports[pad_sig_top],

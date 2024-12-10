@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import bend_s, straight
 from gdsfactory.typings import CrossSectionSpec, Delta
 
 
@@ -34,8 +33,8 @@ def coupler_asymmetric(
     c = Component()
     x = gf.get_cross_section(cross_section)
     width = x.width
-    bend = bend_s(size=(dx, dy - gap - width), cross_section=cross_section)
-    wg = straight(cross_section=cross_section)
+    bend = gf.c.bend_s(size=(dx, dy - gap - width), cross_section=cross_section)
+    wg = gf.c.straight(cross_section=cross_section)
 
     w = bend.ports[0].dwidth
     y = (w + gap) / 2

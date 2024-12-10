@@ -1,10 +1,7 @@
 from __future__ import annotations
 
-from functools import partial
-
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import wire_straight
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_quad import route_quad
 from gdsfactory.typings import (
@@ -16,12 +13,10 @@ from gdsfactory.typings import (
     Strs,
 )
 
-_wire_long = partial(wire_straight, length=200.0)
-
 
 @gf.cell
 def add_electrical_pads_shortest(
-    component: ComponentSpec = _wire_long,
+    component: ComponentSpec = "wire",
     pad: ComponentSpec = "pad",
     pad_port_spacing: float = 50.0,
     pad_size: Size = (100.0, 100.0),

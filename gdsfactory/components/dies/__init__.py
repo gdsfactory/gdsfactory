@@ -1,26 +1,26 @@
-from gdsfactory.components.die.align import (
+from gdsfactory.components.dies.align import (
     add_frame,
     align_wafer,
 )
-from gdsfactory.components.die.dicing_lane import (
+from gdsfactory.components.dies.dicing_lane import (
     dicing_lane,
     triangle_metal,
 )
-from gdsfactory.components.die.die import (
+from gdsfactory.components.dies.die import (
     die,
 )
-from gdsfactory.components.die.die_bbox import (
+from gdsfactory.components.dies.die_bbox import (
     big_square,
     die_bbox,
 )
-from gdsfactory.components.die.die_with_pads import (
+from gdsfactory.components.dies.die_with_pads import (
     die_with_pads,
 )
-from gdsfactory.components.die.seal_ring import (
+from gdsfactory.components.dies.seal_ring import (
     seal_ring,
     seal_ring_segmented,
 )
-from gdsfactory.components.die.wafer import (
+from gdsfactory.components.dies.wafer import (
     wafer,
 )
 

@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import straight
 from gdsfactory.typings import CrossSectionSpec
 
 
@@ -28,8 +27,8 @@ def coupler_straight_asymmetric(
     xs_top = gf.get_cross_section(cross_section, width=width_top)
     xs_bot = gf.get_cross_section(cross_section, width=width_bot)
 
-    top = c << straight(length=length, cross_section=xs_top)
-    bot = c << straight(length=length, cross_section=xs_bot)
+    top = c << gf.c.straight(length=length, cross_section=xs_top)
+    bot = c << gf.c.straight(length=length, cross_section=xs_bot)
 
     dy = 0.5 * (width_top + width_bot) + gap
     top.dmovey(dy)

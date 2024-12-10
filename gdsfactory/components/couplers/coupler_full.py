@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import bend_s
 from gdsfactory.typings import CrossSectionSpec, Delta
 
 
@@ -63,12 +62,12 @@ def coupler_full(
         cross_section=cross_section,
     )
 
-    bend_input_top = c << bend_s(
+    bend_input_top = c << gf.c.bend_s(
         size=(dx, (dy - gap - x_top.width) / 2.0), cross_section=x_top
     )
     bend_input_top.dmovey((x_top.width + gap) / 2.0)
 
-    bend_input_bottom = c << bend_s(
+    bend_input_bottom = c << gf.c.bend_s(
         size=(dx, (-dy + gap + x_bottom.width) / 2.0), cross_section=x_bottom
     )
     bend_input_bottom.dmovey(-(x_bottom.width + gap) / 2.0)
@@ -76,11 +75,11 @@ def coupler_full(
     taper_top.connect("o1", bend_input_top.ports["o1"])
     taper_bottom.connect("o1", bend_input_bottom.ports["o1"])
 
-    bend_output_top = c << bend_s(
+    bend_output_top = c << gf.c.bend_s(
         size=(dx, (dy - gap - x_top.width) / 2.0), cross_section=x_bottom
     )
 
-    bend_output_bottom = c << bend_s(
+    bend_output_bottom = c << gf.c.bend_s(
         size=(dx, (-dy + gap + x_bottom.width) / 2.0), cross_section=x_top
     )
 
