@@ -113,7 +113,7 @@ class Section(BaseModel):
     width: float
     offset: float = 0
     insets: tuple[float, float] | None = None
-    layer: typings.LayerSpec | None = None
+    layer: typings.LayerSpec
     port_names: tuple[str | None, str | None] = (None, None)
     port_types: tuple[str, str] = ("optical", "optical")
     name: str | None = None
@@ -246,7 +246,7 @@ class CrossSection(BaseModel):
         return self.sections[0].width
 
     @property
-    def layer(self) -> typings.LayerSpec | None:
+    def layer(self) -> typings.LayerSpec:
         return self.sections[0].layer
 
     def append_sections(self, sections: Sections) -> CrossSection:
@@ -474,7 +474,7 @@ def xsection(func: Callable[..., CrossSection]) -> Callable[..., CrossSection]:
 def cross_section(
     width: float = 0.5,
     offset: float = 0,
-    layer: typings.LayerSpec | None = "WG",
+    layer: typings.LayerSpec = "WG",
     sections: Sections | None = None,
     port_names: typings.IOPorts = ("o1", "o2"),
     port_types: typings.IOPorts = ("optical", "optical"),
@@ -819,7 +819,7 @@ def slot(
 
     return strip(
         width=width,
-        layer=None,
+        layer="WG_ABSTRACT",
         sections=sections,
     )
 
@@ -833,7 +833,7 @@ def rib_with_trenches(
     simplify_slab: float | None = None,
     layer: typings.LayerSpec | None = "WG",
     layer_trench: typings.LayerSpec = "DEEP_ETCH",
-    wg_marking_layer: typings.LayerSpec | None = None,
+    wg_marking_layer: typings.LayerSpec = "WG_ABSTRACT",
     sections: Sections | None = None,
     **kwargs: Any,
 ) -> CrossSection:
@@ -929,7 +929,7 @@ def l_with_trenches(
     width: float = 0.5,
     width_trench: float = 2.0,
     width_slab: float = 7.0,
-    layer: typings.LayerSpec | None = "WG",
+    layer: typings.LayerSpec = "WG",
     layer_slab: typings.LayerSpec | None = "WG",
     layer_trench: typings.LayerSpec = "DEEP_ETCH",
     mirror: bool = False,
@@ -1416,7 +1416,7 @@ def pn(
 @xsection
 def pn_with_trenches(
     width: float = 0.5,
-    layer: typings.LayerSpec | None = None,
+    layer: typings.LayerSpec = "WG",
     layer_trench: typings.LayerSpec = "DEEP_ETCH",
     gap_low_doping: float = 0.0,
     gap_medium_doping: float | None = 0.5,
@@ -1635,7 +1635,7 @@ def pn_with_trenches(
 @xsection
 def pn_with_trenches_asymmetric(
     width: float = 0.5,
-    layer: typings.LayerSpec | None = None,
+    layer: typings.LayerSpec = "WG",
     layer_trench: typings.LayerSpec = "DEEP_ETCH",
     gap_low_doping: float | tuple[float, float] = (0.0, 0.0),
     gap_medium_doping: float | tuple[float, float] | None = (0.5, 0.2),
@@ -1866,7 +1866,7 @@ def pn_with_trenches_asymmetric(
 @xsection
 def l_wg_doped_with_trenches(
     width: float = 0.5,
-    layer: typings.LayerSpec | None = None,
+    layer: typings.LayerSpec = "WG",
     layer_trench: typings.LayerSpec = "DEEP_ETCH",
     gap_low_doping: float = 0.0,
     gap_medium_doping: float | None = 0.5,
