@@ -2,10 +2,8 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bend_circular import bend_circular180
-from gdsfactory.components.component_sequence import component_sequence
-from gdsfactory.components.mmi2x2 import mmi2x2
-from gdsfactory.components.straight import straight as straight_function
+from gdsfactory.components import bend_circular180, component_sequence, mmi2x2
+from gdsfactory.components import straight as straight_function
 from gdsfactory.typings import ComponentFactory, ComponentSpec, CrossSectionSpec
 
 
@@ -69,7 +67,7 @@ def straight_double(
     """
     xs = gf.get_cross_section(cross_section)
 
-    straight_double = gf.Component()
+    c = gf.Component()
     straight_component = straight(
         length=straight_length or xs.radius * 2,  # type: ignore
         cross_section=xs,
@@ -78,16 +76,16 @@ def straight_double(
         length=straight_length or xs.radius * 2,  # type: ignore
         cross_section=xs,
     )
-    straight_r = straight_double << straight_component
-    straight_r2 = straight_double << straight_component2
+    straight_r = c << straight_component
+    straight_r2 = c << straight_component2
     straight_r2_instance = straight_r2.dmove(
         (0, -component.ports[port1].dy + component.ports[port2].dy),
     )
-    straight_double.add_port("o1", port=straight_r.ports["o1"])
-    straight_double.add_port("o2", port=straight_r2_instance.ports["o1"])
-    straight_double.add_port("o3", port=straight_r2_instance.ports["o2"])
-    straight_double.add_port("o4", port=straight_r.ports["o2"])
-    return straight_double
+    c.add_port("o1", port=straight_r.ports["o1"])
+    c.add_port("o2", port=straight_r2_instance.ports["o1"])
+    c.add_port("o3", port=straight_r2_instance.ports["o2"])
+    c.add_port("o4", port=straight_r.ports["o2"])
+    return c
 
 
 @gf.cell

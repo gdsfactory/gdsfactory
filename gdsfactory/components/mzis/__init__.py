@@ -1,12 +1,3 @@
-from gdsfactory.components.mzis import (
-    mzi,
-    mzi_arm,
-    mzi_arms,
-    mzi_lattice,
-    mzi_pads_center,
-    mzit,
-    mzit_lattice,
-)
 from gdsfactory.components.mzis.mzi import (
     mzi,
     mzi1x2,

@@ -1,14 +1,3 @@
-from gdsfactory.components.waveguides import (
-    straight,
-    straight_array,
-    straight_heater_doped,
-    straight_heater_meander,
-    straight_heater_meander_doped,
-    straight_heater_metal,
-    straight_pin,
-    straight_pin_slot,
-    wire,
-)
 from gdsfactory.components.waveguides.straight import (
     straight,
     straight_all_angle,
@@ -54,7 +43,6 @@ __all__ = [
     "straight",
     "straight_all_angle",
     "straight_array",
-    "straight_heater_doped",
     "straight_heater_doped_rib",
     "straight_heater_doped_strip",
     "straight_heater_meander",
@@ -70,7 +58,6 @@ __all__ = [
     "straight_pn_slot",
     "test_ports",
     "via_stack",
-    "wire",
     "wire_corner",
     "wire_corner45",
     "wire_corner_sections",

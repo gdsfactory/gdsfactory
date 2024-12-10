@@ -2,7 +2,7 @@ from gdsfactory.components import (
     bends,
     containers,
     couplers,
-    die,
+    dies,
     filters,
     grating_couplers,
     mmis,
@@ -14,7 +14,7 @@ from gdsfactory.components import (
     spirals,
     superconductors,
     tapers,
-    text,
+    texts,
     vias,
     waveguides,
 )
@@ -76,7 +76,7 @@ from gdsfactory.components.couplers import (
     coupler_straight_asymmetric,
     coupler_symmetric,
 )
-from gdsfactory.components.die import (
+from gdsfactory.components.dies import (
     Coordinate,
     Float2,
     add_frame,
@@ -239,7 +239,6 @@ from gdsfactory.components.pcms import (
     resistance_sheet,
     staircase,
     straight_double,
-    text_rectangular_mini,
     verniers,
     version_stamp,
     widths,
@@ -344,7 +343,7 @@ from gdsfactory.components.tapers import (
     taper_w11_l200,
     taper_w12_l200,
 )
-from gdsfactory.components.text import (
+from gdsfactory.components.texts import (
     FONT,
     character_a,
     pixel_array,
@@ -355,7 +354,6 @@ from gdsfactory.components.text import (
     text_lines,
     text_rectangular,
     text_rectangular_font,
-    text_rectangular_mini,
     text_rectangular_multi_layer,
 )
 from gdsfactory.components.vias import (
@@ -515,6 +513,7 @@ __all__ = [
     "die",
     "die_bbox",
     "die_with_pads",
+    "dies",
     "disk",
     "disk_heater",
     "dw",
@@ -734,8 +733,8 @@ __all__ = [
     "text_lines",
     "text_rectangular",
     "text_rectangular_font",
-    "text_rectangular_mini",
     "text_rectangular_multi_layer",
+    "texts",
     "triangle",
     "triangle2",
     "triangle2_thin",

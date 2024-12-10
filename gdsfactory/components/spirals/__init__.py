@@ -1,23 +1,11 @@
-from gdsfactory.components.spirals import (
-    delay_snake,
-    delay_snake2,
-    delay_snake_sbend,
-    spiral,
-    spiral_double,
-    spiral_heater,
-    spiral_inductor,
-)
 from gdsfactory.components.spirals.delay_snake import (
     delay_snake,
-    diagram,
 )
 from gdsfactory.components.spirals.delay_snake2 import (
     delay_snake2,
-    diagram,
 )
 from gdsfactory.components.spirals.delay_snake_sbend import (
     delay_snake_sbend,
-    diagram,
 )
 from gdsfactory.components.spirals.spiral import (
     spiral,
@@ -40,10 +28,8 @@ __all__ = [
     "delay_snake",
     "delay_snake2",
     "delay_snake_sbend",
-    "diagram",
     "spiral",
     "spiral_double",
-    "spiral_heater",
     "spiral_inductor",
     "spiral_racetrack",
     "spiral_racetrack_fixed_length",

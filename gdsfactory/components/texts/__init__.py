@@ -1,9 +1,3 @@
-from gdsfactory.components.text import (
-    text,
-    text_freetype,
-    text_rectangular,
-    text_rectangular_font,
-)
 from gdsfactory.components.text.text import (
     text,
     text_klayout,
@@ -34,7 +28,6 @@ __all__ = [
     "text_klayout",
     "text_lines",
     "text_rectangular",
-    "text_rectangular_font",
     "text_rectangular_mini",
     "text_rectangular_multi_layer",
 ]

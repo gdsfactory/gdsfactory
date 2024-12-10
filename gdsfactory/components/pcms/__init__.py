@@ -1,24 +1,3 @@
-from gdsfactory.components.pcms import (
-    cavity,
-    cdsem_all,
-    cdsem_bend180,
-    cdsem_coupler,
-    cdsem_straight,
-    cdsem_straight_density,
-    cutback_2x2,
-    cutback_bend,
-    cutback_component,
-    cutback_loss,
-    cutback_splitter,
-    greek_cross,
-    litho_calipers,
-    litho_ruler,
-    litho_steps,
-    resistance_meander,
-    resistance_sheet,
-    verniers,
-    version_stamp,
-)
 from gdsfactory.components.pcms.cavity import (
     cavity,
 )
@@ -26,27 +5,21 @@ from gdsfactory.components.pcms.cdsem_all import (
     cdsem_all,
 )
 from gdsfactory.components.pcms.cdsem_bend180 import (
-    LINE_LENGTH,
     cdsem_bend180,
 )
 from gdsfactory.components.pcms.cdsem_coupler import (
     cdsem_coupler,
-    text_rectangular_mini,
 )
 from gdsfactory.components.pcms.cdsem_straight import (
-    LINE_LENGTH,
     cdsem_straight,
 )
 from gdsfactory.components.pcms.cdsem_straight_density import (
     cdsem_straight_density,
     gaps,
-    text_rectangular_mini,
     widths,
 )
 from gdsfactory.components.pcms.cutback_2x2 import (
-    bendu_double,
     cutback_2x2,
-    straight_double,
 )
 from gdsfactory.components.pcms.cutback_bend import (
     cutback_bend,
@@ -99,8 +72,6 @@ from gdsfactory.components.pcms.version_stamp import (
 )
 
 __all__ = [
-    "LINE_LENGTH",
-    "bendu_double",
     "cavity",
     "cdsem_all",
     "cdsem_bend180",
@@ -132,8 +103,6 @@ __all__ = [
     "resistance_meander",
     "resistance_sheet",
     "staircase",
-    "straight_double",
-    "text_rectangular_mini",
     "verniers",
     "version_stamp",
     "widths",

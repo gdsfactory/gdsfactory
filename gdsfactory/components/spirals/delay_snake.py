@@ -8,7 +8,7 @@ from gdsfactory.components.bend_euler import bend_euler180
 from gdsfactory.components.straight import straight
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
-diagram = r"""
+_diagram = r"""
                  | length0   |
 
                  >---------\
@@ -69,7 +69,7 @@ def delay_snake(
         raise ValueError(
             "Snake is too short: either reduce length0, length2, "
             f"increase the total length, or decrease the number of loops (n = {n}). "
-            f"delta_length = {int(delta_length)}\n" + diagram
+            f"delta_length = {int(delta_length)}\n" + _diagram
         )
 
     s0 = straight(cross_section=cross_section, length=length0, width=width)

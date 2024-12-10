@@ -1,4 +1,3 @@
-from gdsfactory.components.pads import pad, pad_gsg, pads_shorted, rectangle_with_slits
 from gdsfactory.components.pads.pad import (
     pad,
     pad_array,

@@ -1,16 +1,3 @@
-from gdsfactory.components.containers import (
-    add_fiber_array_optical_south_electrical_north,
-    add_termination,
-    add_trenches,
-    array_component,
-    component_sequence,
-    copy_layers,
-    extend_ports_list,
-    extension,
-    pack_doe,
-    splitter_chain,
-    splitter_tree,
-)
 from gdsfactory.components.containers.add_fiber_array_optical_south_electrical_north import (
     add_fiber_array_optical_south_electrical_north,
 )
@@ -65,12 +52,10 @@ __all__ = [
     "add_trenches",
     "add_trenches90",
     "array",
-    "array_component",
     "component_sequence",
     "copy_layers",
     "extend_ports",
     "extend_ports_list",
-    "extension",
     "generate_doe",
     "line",
     "move_polar_rad_copy",

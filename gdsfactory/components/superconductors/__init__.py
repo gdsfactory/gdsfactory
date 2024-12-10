@@ -1,10 +1,3 @@
-from gdsfactory.components.superconductors import (
-    hline,
-    optimal_90deg,
-    optimal_hairpin,
-    optimal_step,
-    snspd,
-)
 from gdsfactory.components.superconductors.hline import (
     hline,
 )

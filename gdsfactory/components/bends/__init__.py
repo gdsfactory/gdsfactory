@@ -1,10 +1,3 @@
-from gdsfactory.components.bends import (
-    bend_circular,
-    bend_circular_heater,
-    bend_euler,
-    bend_s,
-    bezier,
-)
 from gdsfactory.components.bends.bend_circular import (
     bend_circular,
     bend_circular180,

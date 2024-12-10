@@ -6,7 +6,6 @@ from collections.abc import Sequence
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.straight import straight
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 LINE_LENGTH = 420.0
@@ -39,7 +38,9 @@ def cdsem_straight(
         positions = [i * spacing for i in range(len(widths))]
 
     for width, position in zip(widths, positions):
-        line = c << straight(length=length, cross_section=cross_section, width=width)
+        line = c << gf.c.straight(
+            length=length, cross_section=cross_section, width=width
+        )
         p = position or p  # type: ignore
         line.dymin = p
         if text:

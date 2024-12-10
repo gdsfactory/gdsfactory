@@ -1,10 +1,3 @@
-from gdsfactory.components.vias import (
-    via,
-    via_chain,
-    via_corner,
-    via_stack,
-    via_stack_with_offset,
-)
 from gdsfactory.components.vias.via import (
     via,
     via1,

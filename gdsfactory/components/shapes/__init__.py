@@ -1,17 +1,3 @@
-from gdsfactory.components.shapes import (
-    C,
-    L,
-    bbox,
-    circle,
-    compass,
-    cross,
-    ellipse,
-    fiducial_squares,
-    nxn,
-    rectangle,
-    regular_polygon,
-    triangles,
-)
 from gdsfactory.components.shapes.bbox import (
     bbox,
     bbox_to_points,
@@ -24,7 +10,6 @@ from gdsfactory.components.shapes.circle import (
 )
 from gdsfactory.components.shapes.compass import (
     compass,
-    valid_port_orientations,
 )
 from gdsfactory.components.shapes.cross import (
     cross,
@@ -87,6 +72,4 @@ __all__ = [
     "triangle4",
     "triangle4_thin",
     "triangle_thin",
-    "triangles",
-    "valid_port_orientations",
 ]

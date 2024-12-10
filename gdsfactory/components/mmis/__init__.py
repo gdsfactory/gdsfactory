@@ -1,12 +1,3 @@
-from gdsfactory.components.mmis import (
-    mmi,
-    mmi1x2,
-    mmi1x2_with_sbend,
-    mmi2x2,
-    mmi2x2_with_sbend,
-    mmi_90degree_hybrid,
-    mmi_tapered,
-)
 from gdsfactory.components.mmis.mmi import (
     mmi,
 )
