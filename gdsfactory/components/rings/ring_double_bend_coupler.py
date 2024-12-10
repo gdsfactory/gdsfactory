@@ -2,9 +2,7 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bend_circular import bend_circular_all_angle
-from gdsfactory.components.ring_single_bend_coupler import coupler_ring_bend
-from gdsfactory.components.straight import straight
+from gdsfactory.components import bend_circular_all_angle, coupler_ring_bend, straight
 from gdsfactory.typings import ComponentAllAngleFactory, CrossSectionSpec
 
 

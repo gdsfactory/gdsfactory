@@ -8,8 +8,7 @@ from numpy import floor
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.compass import compass
-from gdsfactory.components.via import viac
+from gdsfactory.components import compass, viac
 from gdsfactory.typings import ComponentSpec, LayerSpec, LayerSpecs, Size
 
 

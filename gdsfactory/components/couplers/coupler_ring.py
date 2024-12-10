@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.components import coupler_straight
 from gdsfactory.components.coupler90 import coupler90
-from gdsfactory.components.coupler_straight import coupler_straight
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 

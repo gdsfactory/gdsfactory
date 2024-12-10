@@ -7,11 +7,11 @@ import numpy.typing as npt
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bezier import bezier
-from gdsfactory.components.coupler_straight_asymmetric import (
+from gdsfactory.components import (
+    bezier,
     coupler_straight_asymmetric,
+    taper,
 )
-from gdsfactory.components.taper import taper
 from gdsfactory.typings import CrossSectionSpec, Delta, Float2, Float3
 
 

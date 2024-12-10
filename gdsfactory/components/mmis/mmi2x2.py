@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.components.taper import taper as taper_function
+from gdsfactory.components import straight as straight_function
+from gdsfactory.components import taper as taper_function
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 

@@ -3,7 +3,7 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
-from gdsfactory.components.taper_cross_section import taper_cross_section
+from gdsfactory.components import taper_cross_section
 from gdsfactory.cross_section import strip
 from gdsfactory.typings import CrossSectionSpec, LayerSpecs
 

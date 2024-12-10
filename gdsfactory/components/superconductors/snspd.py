@@ -4,8 +4,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.compass import compass
-from gdsfactory.components.optimal_hairpin import optimal_hairpin
+from gdsfactory.components import compass, optimal_hairpin
 from gdsfactory.typings import Float2, LayerSpec
 
 

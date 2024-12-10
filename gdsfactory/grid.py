@@ -14,9 +14,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.rectangle import rectangle
-from gdsfactory.components.text_rectangular import text_rectangular
-from gdsfactory.components.triangles import triangle
+from gdsfactory.components import rectangle, text_rectangular, triangle
 from gdsfactory.typings import (
     Anchor,
     ComponentSpec,

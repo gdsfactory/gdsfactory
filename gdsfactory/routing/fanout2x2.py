@@ -4,8 +4,7 @@ from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bend_s import bend_s
-from gdsfactory.components.straight import straight
+from gdsfactory.components import bend_s, straight
 from gdsfactory.port import select_ports_optical
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, PortsFactory
 

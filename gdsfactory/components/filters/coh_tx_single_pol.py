@@ -53,7 +53,7 @@ def coh_tx_single_pol(
                                 |                  |
                                 |___ mzm_q __ ps_q_|
     """
-    from gdsfactory.components.straight import straight as straight_function
+    from gdsfactory.components import straight as straight_function
 
     combiner = combiner or splitter
     pad_array = dict(component=pad_array, settings=dict(columns=1, rows=1))

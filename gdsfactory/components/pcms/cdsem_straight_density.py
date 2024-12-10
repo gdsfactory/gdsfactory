@@ -6,8 +6,7 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.components.straight import straight
-from gdsfactory.components.text_rectangular import text_rectangular
+from gdsfactory.components import straight, text_rectangular
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats
 
 text_rectangular_mini = partial(text_rectangular, size=1)

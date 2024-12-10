@@ -6,8 +6,7 @@ from typing import Any
 import gdsfactory as gf
 from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component
-from gdsfactory.components.pad import pad_array270
-from gdsfactory.components.wire import wire_straight
+from gdsfactory.components import pad_array270, wire_straight
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_bundle import route_bundle_electrical
 from gdsfactory.routing.sort_ports import sort_ports_x

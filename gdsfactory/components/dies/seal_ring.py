@@ -5,7 +5,7 @@ from functools import partial
 import klayout.db as kdb
 
 import gdsfactory as gf
-from gdsfactory.components.rectangle import rectangle
+from gdsfactory.components import rectangle
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import ComponentSpec
 

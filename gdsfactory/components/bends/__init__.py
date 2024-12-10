@@ -14,12 +14,6 @@ from gdsfactory.components.bends.bend_euler import (
 )
 from gdsfactory.components.bends.bend_s import (
     bend_s,
-    get_min_sbend_size,
-)
-from gdsfactory.components.bends.bezier import (
-    bezier,
-    bezier_curve,
-    find_min_curv_bezier_control_points,
 )
 
 __all__ = [
@@ -32,8 +26,4 @@ __all__ = [
     "bend_euler_all_angle",
     "bend_euler_s",
     "bend_s",
-    "bezier",
-    "bezier_curve",
-    "find_min_curv_bezier_control_points",
-    "get_min_sbend_size",
 ]

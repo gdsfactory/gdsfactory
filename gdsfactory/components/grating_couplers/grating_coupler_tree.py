@@ -2,10 +2,10 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.grating_coupler_elliptical import (
+from gdsfactory.components import (
     grating_coupler_elliptical_te,
+    straight_array,
 )
-from gdsfactory.components.straight_array import straight_array
 from gdsfactory.typings import ComponentSpec
 
 

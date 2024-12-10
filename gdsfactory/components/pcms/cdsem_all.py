@@ -4,9 +4,8 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.components import cdsem_straight, cdsem_straight_density
 from gdsfactory.components.cdsem_bend180 import cdsem_bend180
-from gdsfactory.components.cdsem_straight import cdsem_straight
-from gdsfactory.components.cdsem_straight_density import cdsem_straight_density
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 

@@ -6,8 +6,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.components.bend_circular import bend_circular
-from gdsfactory.components.coupler import coupler
+from gdsfactory.components import bend_circular, coupler
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 

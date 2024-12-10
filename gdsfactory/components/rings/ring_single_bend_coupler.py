@@ -4,8 +4,7 @@ from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bend_circular import bend_circular_all_angle
-from gdsfactory.components.straight import straight
+from gdsfactory.components import bend_circular_all_angle, straight
 from gdsfactory.typings import AnyComponentFactory, ComponentSpec, CrossSectionSpec
 
 

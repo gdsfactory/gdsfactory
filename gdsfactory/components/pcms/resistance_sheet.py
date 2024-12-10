@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.compass import compass
+from gdsfactory.components import compass
 from gdsfactory.typings import ComponentSpec, Floats, LayerSpecs, Size
 
 

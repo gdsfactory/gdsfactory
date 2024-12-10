@@ -8,8 +8,7 @@ import kfactory as kf
 import gdsfactory as gf
 from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component
-from gdsfactory.components.pad import pad_rectangular
-from gdsfactory.components.straight_heater_metal import straight_heater_metal
+from gdsfactory.components import pad_rectangular, straight_heater_metal
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_fiber_array import route_fiber_array
 from gdsfactory.typings import (

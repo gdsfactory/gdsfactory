@@ -6,8 +6,8 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.rectangle import rectangle
-from gdsfactory.components.taper import taper as taper_function
+from gdsfactory.components import rectangle
+from gdsfactory.components import taper as taper_function
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 
 # The default values are loosely based on Taillaert et al,

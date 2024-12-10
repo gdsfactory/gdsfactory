@@ -5,7 +5,7 @@ import platform
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.text import text
+from gdsfactory.components import text
 from gdsfactory.typings import LayerSpec
 
 

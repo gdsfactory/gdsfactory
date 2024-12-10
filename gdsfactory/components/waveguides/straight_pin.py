@@ -6,8 +6,7 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.taper import taper_strip_to_ridge
-from gdsfactory.components.via_stack import via_stack_slab_m3
+from gdsfactory.components import taper_strip_to_ridge, via_stack_slab_m3
 from gdsfactory.cross_section import pin
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 

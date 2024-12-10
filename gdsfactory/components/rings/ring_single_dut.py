@@ -5,10 +5,7 @@ from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.coupler_ring import coupler_ring
-from gdsfactory.components.straight import straight
-from gdsfactory.components.taper import taper
+from gdsfactory.components import bend_euler, coupler_ring, straight, taper
 from gdsfactory.snap import assert_on_2x_grid
 from gdsfactory.typings import ComponentSpec
 

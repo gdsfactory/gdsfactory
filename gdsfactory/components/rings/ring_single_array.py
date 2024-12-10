@@ -2,8 +2,7 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.ring_single import ring_single
-from gdsfactory.components.straight import straight
+from gdsfactory.components import ring_single, straight
 from gdsfactory.typings import ComponentFactory, CrossSectionSpec
 
 _list_of_dicts = (

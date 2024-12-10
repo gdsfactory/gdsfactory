@@ -4,9 +4,8 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.components.straight_heater_metal import straight_heater_metal
+from gdsfactory.components import bend_euler, straight_heater_metal
+from gdsfactory.components import straight as straight_function
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 

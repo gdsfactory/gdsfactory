@@ -4,11 +4,11 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bend_s import bend_s
-from gdsfactory.components.coupler_straight_asymmetric import (
+from gdsfactory.components import bend_s
+from gdsfactory.components import (
     coupler_straight_asymmetric as coupler_straight_asymmetric_function,
 )
-from gdsfactory.components.taper import taper as taper_function
+from gdsfactory.components import taper as taper_function
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 

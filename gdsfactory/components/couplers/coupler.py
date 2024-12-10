@@ -2,9 +2,111 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.coupler_straight import coupler_straight
-from gdsfactory.components.coupler_symmetric import coupler_symmetric
-from gdsfactory.typings import CrossSectionSpec, Delta
+from gdsfactory.components.bends import bend_s
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Delta
+
+
+@gf.cell
+def coupler_symmetric(
+    bend: ComponentSpec = bend_s,
+    gap: float = 0.234,
+    dy: Delta = 4.0,
+    dx: Delta = 10.0,
+    cross_section: CrossSectionSpec = "strip",
+) -> Component:
+    r"""Two coupled straights with bends.
+
+    Args:
+        bend: bend spec.
+        gap: in um.
+        dy: port to port vertical spacing.
+        dx: bend length in x direction.
+        cross_section: section.
+
+    .. code::
+
+                       dx
+                    |-----|
+                       ___ o3
+                      /       |
+             o2 _____/        |
+                              |
+             o1 _____         |  dy
+                     \        |
+                      \___    |
+                           o4
+
+    """
+    c = Component()
+    x = gf.get_cross_section(cross_section)
+    width = x.width
+    dy = (dy - gap - width) / 2
+
+    bend_component = gf.get_component(
+        bend,
+        size=(dx, dy),
+        cross_section=cross_section,
+    )
+    top_bend = c << bend_component
+    bot_bend = c << bend_component
+    bend_ports = top_bend.ports.filter(port_type="optical")
+    bend_port1_name = bend_ports[0].name
+    bend_port2_name = bend_ports[1].name
+
+    w = bend_component[bend_port1_name].dwidth
+    y = w + gap
+    y /= 2
+
+    bot_bend.dmirror_y()
+    top_bend.dmovey(+y)
+    bot_bend.dmovey(-y)
+
+    c.add_port("o1", port=bot_bend[bend_port1_name])
+    c.add_port("o2", port=top_bend[bend_port1_name])
+    c.add_port("o3", port=top_bend[bend_port2_name])
+    c.add_port("o4", port=bot_bend[bend_port2_name])
+
+    c.info["length"] = bend_component.info["length"]
+    c.info["min_bend_radius"] = bend_component.info["min_bend_radius"]
+    return c
+
+
+@gf.cell
+def coupler_straight(
+    length: float = 10.0,
+    gap: float = 0.27,
+    cross_section: CrossSectionSpec = "strip",
+) -> Component:
+    """Coupler_straight with two parallel straights.
+
+    Args:
+        length: of straight.
+        gap: between straights.
+        cross_section: specification (CrossSection, string or dict).
+
+    .. code::
+
+        o2──────▲─────────o3
+                │gap
+        o1──────▼─────────o4
+    """
+    c = Component()
+    _straight = gf.c.straight(length=length, cross_section=cross_section)
+
+    top = c << _straight
+    bot = c << _straight
+
+    w = _straight.ports[0].dwidth
+    y = w + gap
+
+    top.dmovey(+y)
+
+    c.add_port("o1", port=bot.ports[0])
+    c.add_port("o2", port=top.ports[0])
+    c.add_port("o3", port=bot.ports[1])
+    c.add_port("o4", port=top.ports[1])
+    c.auto_rename_ports()
+    return c
 
 
 @gf.cell

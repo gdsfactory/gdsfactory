@@ -4,7 +4,7 @@ from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.cross import cross
+from gdsfactory.components import cross
 from gdsfactory.typings import ComponentSpec, LayerSpecs
 
 

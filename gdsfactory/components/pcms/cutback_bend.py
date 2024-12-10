@@ -5,10 +5,14 @@ from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bend_circular import bend_circular, bend_circular180
-from gdsfactory.components.bend_euler import bend_euler, bend_euler180
-from gdsfactory.components.component_sequence import component_sequence
-from gdsfactory.components.straight import straight as straight_function
+from gdsfactory.components import (
+    bend_circular,
+    bend_circular180,
+    bend_euler,
+    bend_euler180,
+    component_sequence,
+)
+from gdsfactory.components import straight as straight_function
 from gdsfactory.typings import ComponentFactory, ComponentSpec
 
 

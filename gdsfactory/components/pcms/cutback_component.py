@@ -5,10 +5,8 @@ from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bend_euler import bend_euler180
-from gdsfactory.components.component_sequence import component_sequence
-from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.components.taper_from_csv import taper_0p5_to_3_l36
+from gdsfactory.components import bend_euler180, component_sequence, taper_0p5_to_3_l36
+from gdsfactory.components import straight as straight_function
 from gdsfactory.typings import ComponentFactory, ComponentSpec, CrossSectionSpec
 
 

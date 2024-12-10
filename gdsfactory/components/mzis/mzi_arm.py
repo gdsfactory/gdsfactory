@@ -4,9 +4,8 @@ from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.component_sequence import component_sequence
-from gdsfactory.components.straight import straight as straight_function
+from gdsfactory.components import bend_euler, component_sequence
+from gdsfactory.components import straight as straight_function
 from gdsfactory.typings import ComponentSpec
 
 

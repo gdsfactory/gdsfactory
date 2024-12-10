@@ -4,8 +4,7 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.rectangle import rectangle
-from gdsfactory.components.triangles import triangle
+from gdsfactory.components import rectangle, triangle
 from gdsfactory.typings import ComponentSpec, Float2, LayerSpec, LayerSpecs
 
 triangle_metal = partial(triangle, layer="MTOP", xtop=2)

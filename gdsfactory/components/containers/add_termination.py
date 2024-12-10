@@ -4,17 +4,17 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.taper import taper as taper_function
+from gdsfactory.components.tapers import taper
 from gdsfactory.typings import ComponentSpec
 
-terminator_function = partial(taper_function, width2=0.1)
+_terminator_function = partial(taper, width2=0.1)
 
 
 @gf.cell
 def add_termination(
     component: ComponentSpec = "straight",
     port_names: tuple[str, ...] | None = None,
-    terminator: ComponentSpec = terminator_function,
+    terminator: ComponentSpec = _terminator_function,
     terminator_port_name: str | None = None,
 ) -> Component:
     """Returns component with terminator on some ports.

@@ -8,8 +8,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.components.compass import compass
-from gdsfactory.components.wire import wire_corner45
+from gdsfactory.components import compass, wire_corner45
 from gdsfactory.typings import ComponentSpec, Floats, Ints, LayerSpec, LayerSpecs, Size
 
 

@@ -6,7 +6,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.grating_coupler_elliptical import (
+from gdsfactory.components import (
     grating_taper_points,
     grating_tooth_points,
 )

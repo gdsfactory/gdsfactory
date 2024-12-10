@@ -5,7 +5,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.text_rectangular import text_rectangular
+from gdsfactory.components import text_rectangular
 from gdsfactory.constants import _glyph, _indent, _width
 from gdsfactory.typings import Coordinate, LayerSpec, LayerSpecs
 

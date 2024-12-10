@@ -6,8 +6,7 @@ from typing import Any
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.components.via import via
-from gdsfactory.components.via_stack import via_stack
+from gdsfactory.components import via, via_stack
 from gdsfactory.cross_section import Section, rib
 from gdsfactory.typings import ComponentSpec, CrossSectionFactory, LayerSpec
 

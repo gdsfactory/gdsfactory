@@ -11,8 +11,7 @@ from kfactory.routing.aa.optical import OpticalAllAngleRoute
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bend_circular import bend_circular_all_angle
-from gdsfactory.components.straight import straight_all_angle
+from gdsfactory.components import bend_circular_all_angle, straight_all_angle
 from gdsfactory.typings import CrossSectionSpec, Port
 
 

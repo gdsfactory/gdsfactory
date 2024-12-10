@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.straight import straight
+from gdsfactory.components import straight
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import CrossSectionSpec
 

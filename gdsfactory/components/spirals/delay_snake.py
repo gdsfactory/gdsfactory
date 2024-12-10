@@ -4,8 +4,7 @@ import warnings
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bend_euler import bend_euler180
-from gdsfactory.components.straight import straight
+from gdsfactory.components import bend_euler180, straight
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 _diagram = r"""

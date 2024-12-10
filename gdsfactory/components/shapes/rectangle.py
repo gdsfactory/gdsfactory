@@ -8,7 +8,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.compass import compass
+from gdsfactory.components import compass
 from gdsfactory.typings import Ints, LayerSpec, LayerSpecs, Size
 
 

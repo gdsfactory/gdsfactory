@@ -4,7 +4,7 @@ from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.dbr import dbr
+from gdsfactory.components import dbr
 from gdsfactory.typings import ComponentSpec
 
 
@@ -56,7 +56,7 @@ def cavity(
 
 
 if __name__ == "__main__":
-    from gdsfactory.components.dbr import dbr
+    from gdsfactory.components import dbr
 
     c = cavity(component=dbr())
     c.show()

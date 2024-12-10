@@ -4,10 +4,9 @@ from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.components.bend_euler import bend_euler
+from gdsfactory.components import bend_euler, mzi_arm
+from gdsfactory.components import straight as straight_function
 from gdsfactory.components.mmi1x2 import mmi1x2
-from gdsfactory.components.mzi_arm import mzi_arm
-from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.typings import ComponentSpec
 
 

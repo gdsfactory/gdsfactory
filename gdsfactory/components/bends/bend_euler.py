@@ -7,7 +7,6 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentAllAngle
-from gdsfactory.components.wire import wire_corner
 from gdsfactory.path import euler
 from gdsfactory.typings import AnyComponent, CrossSectionSpec, LayerSpec
 
@@ -92,7 +91,7 @@ def _bend_euler(
     radius = radius or x.radius
 
     if radius is None:
-        return wire_corner(cross_section=x)
+        return gf.c.wire_corner(cross_section=x)
 
     if layer and width:
         x = gf.get_cross_section(

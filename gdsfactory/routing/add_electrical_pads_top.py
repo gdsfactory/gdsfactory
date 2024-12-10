@@ -5,8 +5,8 @@ from typing import Any, Literal
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.pad import pad_array as pad_array_function
-from gdsfactory.components.wire import wire_straight
+from gdsfactory.components import pad_array as pad_array_function
+from gdsfactory.components import wire_straight
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_quad import route_quad
 from gdsfactory.routing.sort_ports import sort_ports_x
@@ -99,7 +99,7 @@ def add_electrical_pads_top(
 
 
 if __name__ == "__main__":
-    from gdsfactory.components.straight_heater_metal import straight_heater_metal
+    from gdsfactory.components import straight_heater_metal
 
     c = straight_heater_metal()
     # c = gf.components.mzi_phase_shifter_top_heater_metal()

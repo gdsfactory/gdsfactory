@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bend_s import bend_s as bend_s_function
+from gdsfactory.components import bend_s as bend_s_function
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Port
 
 

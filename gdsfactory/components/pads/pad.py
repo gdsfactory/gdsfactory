@@ -5,7 +5,7 @@ from functools import partial
 import gdsfactory as gf
 from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component
-from gdsfactory.components.compass import compass, valid_port_orientations
+from gdsfactory.components import compass, valid_port_orientations
 from gdsfactory.typings import (
     AngleInDegrees,
     ComponentSpec,

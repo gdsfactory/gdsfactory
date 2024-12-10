@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.taper import taper as taper_func
-from gdsfactory.components.via_stack import via_stack_slab_m3
+from gdsfactory.components import taper as taper_func
+from gdsfactory.components import via_stack_slab_m3
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 

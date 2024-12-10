@@ -8,8 +8,8 @@ from kfactory.routing.generic import ManhattanRoute
 import gdsfactory as gf
 from gdsfactory import typings
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.straight import straight as straight_function
+from gdsfactory.components import bend_euler
+from gdsfactory.components import straight as straight_function
 from gdsfactory.cross_section import CrossSection, strip
 from gdsfactory.port import Port, select_ports_optical
 from gdsfactory.routing.auto_taper import add_auto_tapers

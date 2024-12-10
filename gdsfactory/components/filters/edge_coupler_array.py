@@ -4,8 +4,7 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.extension import extend_ports
-from gdsfactory.components.taper import taper
+from gdsfactory.components import extend_ports, taper
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Float2
 
 edge_coupler_silicon = partial(

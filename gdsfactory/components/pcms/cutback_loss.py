@@ -5,11 +5,15 @@ from typing import Any
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.components.bend_euler import bend_euler, bend_euler180
-from gdsfactory.components.cutback_bend import cutback_bend90, cutback_bend180
-from gdsfactory.components.cutback_component import cutback_component
+from gdsfactory.components import (
+    bend_euler,
+    bend_euler180,
+    cutback_bend90,
+    cutback_bend180,
+    cutback_component,
+    spiral,
+)
 from gdsfactory.components.mmi1x2 import mmi1x2
-from gdsfactory.components.spiral import spiral
 from gdsfactory.typings import ComponentFactory, CrossSectionSpec
 
 

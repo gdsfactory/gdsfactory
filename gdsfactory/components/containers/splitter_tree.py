@@ -22,11 +22,10 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bend_s import bend_s as bend_s_function
+from gdsfactory.components import bend_s as bend_s_function
+from gdsfactory.components import mzi1x2_2x2, straight_heater_metal
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.mmi2x2 import mmi2x2
-from gdsfactory.components.mzi import mzi1x2_2x2
-from gdsfactory.components.straight_heater_metal import straight_heater_metal
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Float2
 
 

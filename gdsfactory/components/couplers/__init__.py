@@ -27,14 +27,8 @@ from gdsfactory.components.couplers.coupler_full import (
 from gdsfactory.components.couplers.coupler_ring import (
     coupler_ring,
 )
-from gdsfactory.components.couplers.coupler_straight import (
-    coupler_straight,
-)
 from gdsfactory.components.couplers.coupler_straight_asymmetric import (
     coupler_straight_asymmetric,
-)
-from gdsfactory.components.couplers.coupler_symmetric import (
-    coupler_symmetric,
 )
 
 __all__ = [
@@ -49,7 +43,5 @@ __all__ = [
     "coupler_broadband",
     "coupler_full",
     "coupler_ring",
-    "coupler_straight",
     "coupler_straight_asymmetric",
-    "coupler_symmetric",
 ]
