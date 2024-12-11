@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import compass
 from gdsfactory.typings import ComponentSpec, Floats, LayerSpecs, Size
 
 
@@ -38,12 +37,14 @@ def resistance_sheet(
 
     pad1 = c << pad
     pad2 = c << pad
-    r0 = c << compass(
+    r0 = c << gf.c.compass(
         size=(length + layer_offsets[0], width + layer_offsets[0]), layer=layers[0]
     )
 
     for layer, offset in zip(layers[1:], layer_offsets[1:]):
-        _ = c << compass(size=(length + 2 * offset, width + 2 * offset), layer=layer)
+        _ = c << gf.c.compass(
+            size=(length + 2 * offset, width + 2 * offset), layer=layer
+        )
 
     pad1.connect(
         "e3", r0.ports["e1"], allow_width_mismatch=True, allow_layer_mismatch=True

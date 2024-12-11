@@ -4,7 +4,6 @@ from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import dbr
 from gdsfactory.typings import ComponentSpec
 
 

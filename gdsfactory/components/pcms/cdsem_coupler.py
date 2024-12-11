@@ -3,14 +3,10 @@
 from __future__ import annotations
 
 from collections.abc import Sequence
-from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import coupler_straight, text_rectangular
-from gdsfactory.typings import ComponentFactory, CrossSectionSpec
-
-text_rectangular_mini = partial(text_rectangular, size=1)
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -18,10 +14,11 @@ def cdsem_coupler(
     length: float = 420.0,
     gaps: Sequence[float] = (0.15, 0.2, 0.25),
     cross_section: CrossSectionSpec = "strip",
-    text: ComponentFactory | None = text_rectangular_mini,
+    text: ComponentSpec | None = "text_rectangular",
     spacing: float = 7.0,
     positions: Sequence[float | None] | None = None,
     width: float | None = None,
+    text_size: float = 1.0,
 ) -> Component:
     """Returns 2 coupled waveguides gap sweep.
 
@@ -33,6 +30,7 @@ def cdsem_coupler(
         spacing: Optional center to center spacing.
         positions: Optional positions for the text labels.
         width: width of the waveguide. If None, it will use the width of the cross_section.
+        text_size: size of the text.
     """
     c = Component()
     xs = gf.get_cross_section(cross_section, width=width)
@@ -44,11 +42,11 @@ def cdsem_coupler(
         positions = [i * spacing for i in range(len(gaps))]
 
     for gap, position in zip(gaps, positions):
-        line = c << coupler_straight(length=length, cross_section=xs, gap=gap)
+        line = c << gf.c.coupler_straight(length=length, cross_section=xs, gap=gap)
         p = position or p  # type: ignore
         line.dymin = p
         if text:
-            t = c << text(str(int(gap * 1e3)))
+            t = c << gf.get_component(text, str(int(gap * 1e3)), size=text_size)
             t.dxmin = line.dxmax + 5
             t.dymin = p
 

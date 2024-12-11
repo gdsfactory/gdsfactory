@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import rectangle
 from gdsfactory.typings import LayerSpec, Size
 
 
@@ -33,8 +32,8 @@ def litho_calipers(
     D = gf.Component()
     num_notches_total = num_notches * 2 + 1
     centre_notch = num_notches
-    R1 = rectangle(size=notch_size, layer=layer1)
-    R2 = rectangle(size=notch_size, layer=layer2)
+    R1 = gf.c.rectangle(size=notch_size, layer=layer1)
+    R2 = gf.c.rectangle(size=notch_size, layer=layer2)
 
     for i in range(num_notches_total):
         if i == centre_notch:

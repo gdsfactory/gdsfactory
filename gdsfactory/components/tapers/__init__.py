@@ -11,7 +11,6 @@ from gdsfactory.components.tapers.taper import (
     taper_strip_to_slab150,
 )
 from gdsfactory.components.tapers.taper_adiabatic import (
-    adiabatic_polyfit_TE1550SOI_220nm,
     taper_adiabatic,
 )
 from gdsfactory.components.tapers.taper_cross_section import (
@@ -21,7 +20,6 @@ from gdsfactory.components.tapers.taper_cross_section import (
     taper_cross_section_sine,
 )
 from gdsfactory.components.tapers.taper_from_csv import (
-    data,
     taper_0p5_to_3_l36,
     taper_from_csv,
     taper_w10_l100,
@@ -35,8 +33,6 @@ from gdsfactory.components.tapers.taper_parabolic import (
 )
 
 __all__ = [
-    "adiabatic_polyfit_TE1550SOI_220nm",
-    "data",
     "ramp",
     "taper",
     "taper_0p5_to_3_l36",

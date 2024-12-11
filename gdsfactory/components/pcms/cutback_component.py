@@ -5,25 +5,23 @@ from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import bend_euler180, component_sequence, taper_0p5_to_3_l36
-from gdsfactory.components import straight as straight_function
-from gdsfactory.typings import ComponentFactory, ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
 def cutback_component(
-    component: ComponentSpec = taper_0p5_to_3_l36,
+    component: ComponentSpec = "taper_0p5_to_3_l36",
     cols: int = 4,
     rows: int = 5,
     port1: str = "o1",
     port2: str = "o2",
-    bend180: ComponentSpec = bend_euler180,
+    bend180: ComponentSpec = "bend_euler180",
     mirror: bool = False,
     mirror1: bool = False,
     mirror2: bool = False,
     straight_length: float | None = None,
     straight_length_pair: float | None = None,
-    straight: ComponentFactory = straight_function,
+    straight: ComponentSpec = "straight",
     cross_section: CrossSectionSpec = "strip",
     **kwargs: Any,
 ) -> Component:
@@ -53,9 +51,13 @@ def cutback_component(
     bendu = gf.get_component(bend180, cross_section=xs)
 
     straight_length = xs.radius * 2 if straight_length is None else straight_length  # type: ignore
-    straight_component = straight(length=straight_length, cross_section=xs)
+    straight_component = gf.get_component(
+        straight, length=straight_length, cross_section=xs
+    )
 
-    straight_pair = straight(length=straight_length_pair or 0, cross_section=xs)
+    straight_pair = gf.get_component(
+        straight, length=straight_length_pair or 0, cross_section=xs
+    )
 
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
@@ -90,7 +92,7 @@ def cutback_component(
 
     s = s[:-1]
 
-    c = component_sequence(sequence=s, symbol_to_component=symbol_to_component)
+    c = gf.c.component_sequence(sequence=s, symbol_to_component=symbol_to_component)
     n = 2 * s.count("A")
     c.info["components"] = n
     return c

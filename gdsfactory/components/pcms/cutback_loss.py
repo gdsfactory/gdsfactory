@@ -13,7 +13,7 @@ from gdsfactory.components import (
     cutback_component,
     spiral,
 )
-from gdsfactory.components.mmi1x2 import mmi1x2
+from gdsfactory.components.mmis.mmi1x2 import mmi1x2
 from gdsfactory.typings import ComponentFactory, CrossSectionSpec
 
 

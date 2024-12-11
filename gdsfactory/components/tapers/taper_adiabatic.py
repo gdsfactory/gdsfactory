@@ -9,27 +9,6 @@ import gdsfactory as gf
 from gdsfactory.path import transition_adiabatic
 from gdsfactory.typings import CrossSectionSpec
 
-adiabatic_polyfit_TE1550SOI_220nm = np.array(
-    [
-        1.02478963e-09,
-        -8.65556534e-08,
-        3.32415694e-06,
-        -7.68408985e-05,
-        1.19282177e-03,
-        -1.31366332e-02,
-        1.05721429e-01,
-        -6.31057637e-01,
-        2.80689677e00,
-        -9.26867694e00,
-        2.24535191e01,
-        -3.90664800e01,
-        4.71899278e01,
-        -3.74726005e01,
-        1.77381560e01,
-        -1.12666286e00,
-    ]
-)
-
 
 def neff_TE1550SOI_220nm(w: float) -> float:
     """Returns the effective index of the fundamental TE mode for a 220nm-thick core with 3.45 index, fully clad with 1.44 index.
@@ -40,6 +19,26 @@ def neff_TE1550SOI_220nm(w: float) -> float:
     Returns:
         effective index.
     """
+    adiabatic_polyfit_TE1550SOI_220nm = np.array(
+        [
+            1.02478963e-09,
+            -8.65556534e-08,
+            3.32415694e-06,
+            -7.68408985e-05,
+            1.19282177e-03,
+            -1.31366332e-02,
+            1.05721429e-01,
+            -6.31057637e-01,
+            2.80689677e00,
+            -9.26867694e00,
+            2.24535191e01,
+            -3.90664800e01,
+            4.71899278e01,
+            -3.74726005e01,
+            1.77381560e01,
+            -1.12666286e00,
+        ]
+    )
     return np.poly1d(adiabatic_polyfit_TE1550SOI_220nm)(w)  # type: ignore
 
 

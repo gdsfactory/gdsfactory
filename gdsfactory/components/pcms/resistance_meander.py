@@ -4,7 +4,6 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import rectangle
 from gdsfactory.typings import LayerSpec, Size
 
 
@@ -59,8 +58,8 @@ def resistance_meander(
 
     # Creating row/column corner combination structure
     T = Component()
-    Row = rectangle(size=(length_row, width), layer=res_layer)
-    Col = rectangle(size=(width, width), layer=res_layer)
+    Row = gf.c.rectangle(size=(length_row, width), layer=res_layer)
+    Col = gf.c.rectangle(size=(width, width), layer=res_layer)
 
     T.add_ref(Row)
     col = T.add_ref(Col)
@@ -84,7 +83,7 @@ def resistance_meander(
 
     # Creating pads
     P = Component()
-    pad = rectangle(size=(x, z), layer=pad_layer)
+    pad = gf.c.rectangle(size=(x, z), layer=pad_layer)
     pad1 = P.add_ref(pad)
     pad1.dmovex(-x - width)
     pad2 = P.add_ref(pad)

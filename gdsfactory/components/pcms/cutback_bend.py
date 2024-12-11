@@ -5,15 +5,7 @@ from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import (
-    bend_circular,
-    bend_circular180,
-    bend_euler,
-    bend_euler180,
-    component_sequence,
-)
-from gdsfactory.components import straight as straight_function
-from gdsfactory.typings import ComponentFactory, ComponentSpec
+from gdsfactory.typings import ComponentSpec
 
 
 def _get_bend_size(bend90: Component) -> float:
@@ -25,8 +17,8 @@ def _get_bend_size(bend90: Component) -> float:
 
 @gf.cell
 def cutback_bend(
-    component: ComponentSpec = bend_euler,
-    straight: ComponentFactory = straight_function,
+    component: ComponentSpec = "bend_euler",
+    straight: ComponentSpec = "straight",
     straight_length: float = 5.0,
     rows: int = 6,
     cols: int = 5,
@@ -56,7 +48,7 @@ def cutback_bend(
     from gdsfactory.pdk import get_component
 
     bend90 = get_component(component, **kwargs)
-    straightx = straight(length=straight_length, **kwargs)
+    straightx = gf.get_component(straight, length=straight_length, **kwargs)
 
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
@@ -72,7 +64,7 @@ def cutback_bend(
         s += "ASAS" if i % 2 == 0 else "BSBS"
     s = s[:-4]
 
-    c = component_sequence(
+    c = gf.c.component_sequence(
         sequence=s, symbol_to_component=symbol_to_component, start_orientation=90
     )
     c.info["components"] = rows * cols * 2 + cols * 2 - 2
@@ -81,8 +73,8 @@ def cutback_bend(
 
 @gf.cell
 def cutback_bend90(
-    component: ComponentSpec = bend_euler,
-    straight: ComponentFactory = straight_function,
+    component: ComponentSpec = "bend_euler",
+    straight: ComponentSpec = "straight",
     straight_length: float = 5.0,
     rows: int = 6,
     cols: int = 6,
@@ -105,12 +97,10 @@ def cutback_bend90(
            _
         |_| |
     """
-    from gdsfactory.pdk import get_component
-
-    bend90 = get_component(component, **kwargs)
-    straightx = straight(length=straight_length, **kwargs)
+    bend90 = gf.get_component(component, **kwargs)
+    straightx = gf.get_component(straight, length=straight_length, **kwargs)
     straight_length = 2 * _get_bend_size(bend90) + spacing + straight_length
-    straighty = straight(length=straight_length, **kwargs)
+    straighty = gf.get_component(straight, length=straight_length, **kwargs)
 
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
@@ -128,7 +118,7 @@ def cutback_bend90(
     s = s[:-1]
 
     # Create the component from the sequence
-    c = component_sequence(
+    c = gf.c.component_sequence(
         sequence=s, symbol_to_component=symbol_to_component, start_orientation=0
     )
     c.info["components"] = rows * cols * 4
@@ -137,8 +127,8 @@ def cutback_bend90(
 
 @gf.cell
 def staircase(
-    component: ComponentFactory | Component = bend_euler,
-    straight: ComponentFactory = straight_function,
+    component: ComponentSpec | Component = "bend_euler",
+    straight: ComponentSpec = "straight",
     length_v: float = 5.0,
     length_h: float = 5.0,
     rows: int = 4,
@@ -171,7 +161,7 @@ def staircase(
     # Generate the sequence of staircases
     s = "-A|B" * rows + "-"
 
-    c = component_sequence(
+    c = gf.c.component_sequence(
         sequence=s,
         symbol_to_component=symbol_to_component,
         start_orientation=0,  # type: ignore
@@ -182,8 +172,8 @@ def staircase(
 
 @gf.cell
 def cutback_bend180(
-    component: ComponentSpec = bend_euler180,
-    straight: ComponentFactory = straight_function,
+    component: ComponentSpec = "bend_euler180",
+    straight: ComponentSpec = "straight",
     straight_length: float = 5.0,
     rows: int = 6,
     cols: int = 6,
@@ -232,15 +222,15 @@ def cutback_bend180(
 
     s = s[:-1]
 
-    c = component_sequence(
+    c = gf.c.component_sequence(
         sequence=s, symbol_to_component=symbol_to_component, start_orientation=0
     )
     c.info["components"] = rows * cols * 2 + cols * 2 - 2
     return c
 
 
-cutback_bend180circular = partial(cutback_bend180, component=bend_circular180)
-cutback_bend90circular = partial(cutback_bend90, component=bend_circular)
+cutback_bend180circular = partial(cutback_bend180, component="bend_circular180")
+cutback_bend90circular = partial(cutback_bend90, component="bend_circular")
 
 if __name__ == "__main__":
     # c = cutback_bend()

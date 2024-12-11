@@ -2,16 +2,14 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import bend_circular180, component_sequence, mmi2x2
-from gdsfactory.components import straight as straight_function
-from gdsfactory.typings import ComponentFactory, ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
 def bendu_double(
     component: Component,
     cross_section: CrossSectionSpec = "strip",
-    bend180: ComponentFactory = bend_circular180,
+    bend180: ComponentSpec = "bend_circular180",
     port1: str = "o1",
     port2: str = "o2",
 ) -> Component:
@@ -32,8 +30,9 @@ def bendu_double(
     )
 
     bendu = Component()
-    bend_r = bendu << bend180(cross_section=xs)
-    bend_r2 = bendu << bend180(
+    bend_r = bendu << gf.get_component(bend180, cross_section=xs)
+    bend_r2 = bendu << gf.get_component(
+        bend180,
         cross_section=xs_r2,
     )
     bend_r2_instance = bend_r2.dmove(
@@ -53,7 +52,7 @@ def straight_double(
     port1: str = "o1",
     port2: str = "o2",
     straight_length: float | None = None,
-    straight: ComponentFactory = straight_function,
+    straight: ComponentSpec = "straight",
 ) -> Component:
     """Returns double straight.
 
@@ -68,11 +67,13 @@ def straight_double(
     xs = gf.get_cross_section(cross_section)
 
     c = gf.Component()
-    straight_component = straight(
+    straight_component = gf.get_component(
+        straight,
         length=straight_length or xs.radius * 2,  # type: ignore
         cross_section=xs,
     )
-    straight_component2 = straight(
+    straight_component2 = gf.get_component(
+        straight,
         length=straight_length or xs.radius * 2,  # type: ignore
         cross_section=xs,
     )
@@ -90,18 +91,18 @@ def straight_double(
 
 @gf.cell
 def cutback_2x2(
-    component: ComponentSpec = mmi2x2,
+    component: ComponentSpec = "mmi2x2",
     cols: int = 4,
     rows: int = 5,
     port1: str = "o1",
     port2: str = "o2",
     port3: str = "o3",
     port4: str = "o4",
-    bend180: ComponentFactory = bend_circular180,
+    bend180: ComponentSpec = "bend_circular180",
     mirror: bool = False,
     straight_length: float | None = None,
     cross_section: CrossSectionSpec = "strip",
-    straight: ComponentFactory = straight_function,
+    straight: ComponentSpec = "straight",
 ) -> Component:
     """Returns a daisy chain of splitters for measuring their loss.
 
@@ -166,7 +167,7 @@ def cutback_2x2(
 
     s = s[:-1]
     n = cols * rows * 2
-    c = component_sequence(sequence=s, symbol_to_component=symbol_to_component)
+    c = gf.c.component_sequence(sequence=s, symbol_to_component=symbol_to_component)
     c.ports._ports = []  # type: ignore
     c.add_port("o1", port=c.insts["A1"].ports["o1"])
     c.add_port("o2", port=c.insts["A1"].ports["o2"])

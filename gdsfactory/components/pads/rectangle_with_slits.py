@@ -6,7 +6,6 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import array, rectangle
 from gdsfactory.typings import Float2, LayerSpec, Size
 
 
@@ -71,12 +70,14 @@ def rectangle_with_slits(
         slit_column_pitch = slit_spacing[0]
         slit_row_pitch = slit_spacing[1]
 
-    r = c << rectangle(size=size, layer=layer, port_type=port_type, centered=centered)
+    r = c << gf.c.rectangle(
+        size=size, layer=layer, port_type=port_type, centered=centered
+    )
     c.add_ports(r.ports)
-    slit = rectangle(size=slit_size, port_type=None, layer=layer_slit or layer)
+    slit = gf.c.rectangle(size=slit_size, port_type=None, layer=layer_slit or layer)
     columns = np.floor((size[0] - 2 * slit_enclosure) / slit_column_pitch)
     rows = np.floor((size[1] - 2 * slit_enclosure) / slit_row_pitch)
-    slits = c << array(
+    slits = c << gf.c.array(
         slit,
         columns=columns,
         rows=rows,
