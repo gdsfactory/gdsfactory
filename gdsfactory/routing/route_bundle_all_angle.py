@@ -4,7 +4,8 @@ from functools import partial
 from kfactory.routing.aa.optical import OpticalAllAngleRoute, route_bundle
 
 import gdsfactory as gf
-from gdsfactory.components import bend_euler_all_angle, straight_all_angle
+from gdsfactory.components.bends import bend_euler_all_angle
+from gdsfactory.components.waveguides import straight_all_angle
 from gdsfactory.typings import (
     ComponentAllAngleFactory,
     ComponentSpec,

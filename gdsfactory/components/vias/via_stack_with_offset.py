@@ -8,7 +8,6 @@ from numpy import floor
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import compass, viac
 from gdsfactory.typings import ComponentSpec, LayerSpec, LayerSpecs, Size
 
 
@@ -18,7 +17,7 @@ def via_stack_with_offset(
     size: Size | None = (10, 10),
     sizes: Sequence[Size] | None = None,
     layer_offsets: Sequence[float] | None = None,
-    vias: Sequence[ComponentSpec | None] = (None, viac),
+    vias: Sequence[ComponentSpec | None] = (None, "viac"),
     offsets: Sequence[float] | None = None,
     layer_to_port_orientations: dict[LayerSpec, list[int]] | None = None,
 ) -> Component:
@@ -100,11 +99,11 @@ def via_stack_with_offset(
         width += 2 * size_offset
         height += 2 * size_offset
         x0 = -width / 2
-        ref_layer = c << compass(size=(width, height), layer=layer, port_type=None)
+        ref_layer = c << gf.c.compass(size=(width, height), layer=layer, port_type=None)
         ref_layer.dymin = y0
 
         if layer in layer_to_port_orientations_dict:
-            ref_layer = c << compass(
+            ref_layer = c << gf.c.compass(
                 size=(width, height),
                 layer=layer,
                 port_type="electrical",
@@ -114,7 +113,7 @@ def via_stack_with_offset(
             ref_layer.ymin = int(y0)
             c.add_ports(ref_layer.ports)
         else:
-            ref_layer = c << compass(
+            ref_layer = c << gf.c.compass(
                 size=(width, height),
                 layer=previous_layer,
                 port_type=None,
@@ -175,13 +174,13 @@ def via_stack_with_offset(
 via_stack_with_offset_ppp_m1 = partial(
     via_stack_with_offset,
     layers=("PPP", "M1"),
-    vias=(None, viac),
+    vias=(None, "viac"),
 )
 
 via_stack_with_offset_ppp_m1 = partial(
     via_stack_with_offset,
     layers=("PPP", "M1"),
-    vias=(None, viac),
+    vias=(None, "viac"),
 )
 
 via_stack_with_offset_m1_m3 = partial(

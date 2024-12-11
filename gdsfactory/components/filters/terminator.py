@@ -3,7 +3,6 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
-from gdsfactory.components import taper_cross_section
 from gdsfactory.cross_section import strip
 from gdsfactory.typings import CrossSectionSpec, LayerSpecs
 
@@ -35,7 +34,7 @@ def terminator(
     )
 
     taper = c << gf.get_component(
-        taper_cross_section,
+        gf.c.taper_cross_section,
         length=length,
         cross_section1=cross_section_input,
         cross_section2=cross_section_tip,

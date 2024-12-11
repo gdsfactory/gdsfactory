@@ -18,6 +18,7 @@ from gdsfactory.components import (
     vias,
     waveguides,
 )
+from gdsfactory.components.analog import interdigital_capacitor
 from gdsfactory.components.bends import (
     bend_circular,
     bend_circular180,
@@ -67,6 +68,7 @@ from gdsfactory.components.couplers import (
     coupler_ring,
     coupler_straight_asymmetric,
 )
+from gdsfactory.components.detectors import ge_detector_straight_si_contacts
 from gdsfactory.components.dies import (
     add_frame,
     align,
@@ -77,28 +79,20 @@ from gdsfactory.components.dies import (
     seal_ring_segmented,
     wafer,
 )
-from gdsfactory.components.filters import (
-    awg,
-    crossing,
-    crossing45,
-    crossing_arm,
-    crossing_etched,
-    crossing_from_taper,
-    crossing_waveguide,
-    dbr,
-    dbr_tapered,
+from gdsfactory.components.edge_couplers import (
     edge_coupler_array,
     edge_coupler_array_with_loopback,
     edge_coupler_silicon,
+)
+from gdsfactory.components.filters import (
+    awg,
+    dbr,
+    dbr_tapered,
     fiber,
     fiber_array,
-    ge_detector_straight_si_contacts,
-    interdigital_capacitor,
     loop_mirror,
     mode_converter,
-    period,
     polarization_splitter_rotator,
-    snap_to_grid,
     terminator,
 )
 from gdsfactory.components.grating_couplers import (
@@ -299,7 +293,6 @@ from gdsfactory.components.tapers import (
     taper_w12_l200,
 )
 from gdsfactory.components.texts import (
-    FONT,
     character_a,
     pixel_array,
     rectangular_font,
@@ -340,6 +333,11 @@ from gdsfactory.components.vias import (
     viac,
 )
 from gdsfactory.components.waveguides import (
+    crossing,
+    crossing45,
+    crossing_etched,
+    crossing_from_taper,
+    crossing_waveguide,
     straight,
     straight_all_angle,
     straight_array,
@@ -366,7 +364,6 @@ from gdsfactory.components.waveguides import (
 
 __all__ = [
     "DEG2RAD",
-    "FONT",
     "C",
     "L",
     "SequenceGenerator",
@@ -425,7 +422,6 @@ __all__ = [
     "cross_section_rib",
     "crossing",
     "crossing45",
-    "crossing_arm",
     "crossing_etched",
     "crossing_from_taper",
     "crossing_waveguide",
@@ -554,7 +550,6 @@ __all__ = [
     "pads_shorted",
     "parse_component_name",
     "pcms",
-    "period",
     "pixel",
     "pixel_array",
     "polarization_splitter_rotator",
@@ -585,7 +580,6 @@ __all__ = [
     "seal_ring",
     "seal_ring_segmented",
     "shapes",
-    "snap_to_grid",
     "snspd",
     "spiral",
     "spiral_double",

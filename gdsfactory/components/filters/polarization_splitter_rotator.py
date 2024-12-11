@@ -7,10 +7,8 @@ import numpy.typing as npt
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import (
+from gdsfactory.components.bends.bend_s import (
     bezier,
-    coupler_straight_asymmetric,
-    taper,
 )
 from gdsfactory.typings import CrossSectionSpec, Delta, Float2, Float3
 
@@ -60,11 +58,17 @@ def polarization_splitter_rotator(
     else:
         l1, l2, l3 = length_taper_in
 
-    taper_in1 = c << taper(length=l1, width1=w0, width2=w1, cross_section=cross_section)
-    taper_in2 = c << taper(length=l2, width1=w1, width2=w2, cross_section=cross_section)
-    taper_in3 = c << taper(length=l3, width1=w2, width2=w3, cross_section=cross_section)
+    taper_in1 = c << gf.c.taper(
+        length=l1, width1=w0, width2=w1, cross_section=cross_section
+    )
+    taper_in2 = c << gf.c.taper(
+        length=l2, width1=w1, width2=w2, cross_section=cross_section
+    )
+    taper_in3 = c << gf.c.taper(
+        length=l3, width1=w2, width2=w3, cross_section=cross_section
+    )
 
-    coupler = c << coupler_straight_asymmetric(
+    coupler = c << gf.c.coupler_straight_asymmetric(
         length=length_coupler,
         gap=gap,
         width_top=w4,
@@ -87,7 +91,7 @@ def polarization_splitter_rotator(
         cross_section=x_bend,
     )
 
-    taper_out = c << taper(
+    taper_out = c << gf.c.taper(
         length=length_out, width1=w3, width2=width_out, cross_section=cross_section
     )
 

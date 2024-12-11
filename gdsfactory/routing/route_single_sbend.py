@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import bend_s as bend_s_function
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Port
 
 
@@ -10,7 +9,7 @@ def route_single_sbend(
     component: Component,
     port1: Port,
     port2: Port,
-    bend_s: ComponentSpec = bend_s_function,
+    bend_s: ComponentSpec = "bend_s",
     cross_section: CrossSectionSpec = "strip",
     allow_layer_mismatch: bool = False,
     allow_width_mismatch: bool = False,

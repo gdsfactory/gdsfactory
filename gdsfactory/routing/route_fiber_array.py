@@ -8,9 +8,6 @@ import kfactory as kf
 import gdsfactory as gf
 from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.components import bend_euler, grating_coupler_te
-from gdsfactory.components import straight as straight_function
-from gdsfactory.cross_section import strip
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.route_bundle import get_min_spacing, route_bundle
 from gdsfactory.routing.route_single import route_single
@@ -31,9 +28,9 @@ def route_fiber_array(
     component: Component,
     component_to_route: Component | ComponentReference,
     pitch: float = 127.0,
-    grating_coupler: ComponentSpecOrList = grating_coupler_te,
-    bend: ComponentSpec = bend_euler,
-    straight: ComponentSpec = straight_function,
+    grating_coupler: ComponentSpecOrList = "grating_coupler_te",
+    bend: ComponentSpec = "bend_euler",
+    straight: ComponentSpec = "straight",
     fanout_length: float | None = None,
     max_y0_optical: None = None,
     with_loopback: bool = True,
@@ -53,7 +50,7 @@ def route_fiber_array(
     select_ports: PortsFactory = select_ports_optical,
     radius: float | None = None,
     radius_loopback: float | None = None,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: CrossSectionSpec = "strip",
     allow_width_mismatch: bool = False,
     port_type: str = "optical",
     route_width: float | None = 0,

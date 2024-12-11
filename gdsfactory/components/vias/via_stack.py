@@ -8,7 +8,6 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.components import compass, wire_corner45
 from gdsfactory.typings import ComponentSpec, Floats, Ints, LayerSpec, LayerSpecs, Size
 
 
@@ -83,7 +82,7 @@ def via_stack(
         size_m = (width_m + 2 * offset, height_m + 2 * offset)
 
         if layer in layer_to_port_orientations_list:
-            ref = c << compass(
+            ref = c << gf.c.compass(
                 size=size_m,
                 layer=layer,
                 port_type="electrical",
@@ -92,7 +91,7 @@ def via_stack(
             )
             c.add_ports(ref.ports)
         else:
-            ref = c << compass(
+            ref = c << gf.c.compass(
                 size=size_m,
                 layer=layer,
                 port_type=None,
@@ -224,12 +223,12 @@ def via_stack_corner45(
     ref: ComponentReference | None = None
     for layer, offset in zip(layers_list, layer_offsets_list):
         if layer and layer == layer_port:
-            ref = c << wire_corner45(
+            ref = c << gf.c.wire_corner45(
                 width=width + 2 * offset, layer=layer, with_corner90_ports=False
             )
             c.add_ports(ref.ports)
         elif layer is not None:
-            ref = c << wire_corner45(
+            ref = c << gf.c.wire_corner45(
                 width=width + 2 * offset, layer=layer, with_corner90_ports=False
             )
     assert ref is not None

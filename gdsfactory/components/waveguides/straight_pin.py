@@ -6,7 +6,6 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import taper_strip_to_ridge, via_stack_slab_m3
 from gdsfactory.cross_section import pin
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
@@ -15,10 +14,10 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 def straight_pin(
     length: float = 500.0,
     cross_section: CrossSectionSpec = pin,
-    via_stack: ComponentSpec = via_stack_slab_m3,
+    via_stack: ComponentSpec = "via_stack_slab_m3",
     via_stack_width: float = 10.0,
     via_stack_spacing: float = 2,
-    taper: ComponentSpec | None = taper_strip_to_ridge,
+    taper: ComponentSpec | None = "taper_strip_to_ridge",
 ) -> Component:
     """Returns rib waveguide with doping and via_stacks used for PN and PIN modulators.
 

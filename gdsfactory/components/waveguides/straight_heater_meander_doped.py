@@ -5,7 +5,7 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.components import via, via_stack
+from gdsfactory.components.vias import via, via_stack
 from gdsfactory.cross_section import Section
 from gdsfactory.typings import ComponentSpec, Floats, LayerSpecs, Port
 

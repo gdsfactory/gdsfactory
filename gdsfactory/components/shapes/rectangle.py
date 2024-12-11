@@ -8,7 +8,6 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import compass
 from gdsfactory.typings import Ints, LayerSpec, LayerSpecs, Size
 
 
@@ -30,7 +29,7 @@ def rectangle(
         port_orientations: list of port_orientations to add. None adds no ports.
     """
     c = Component()
-    ref = c << compass(
+    ref = c << gf.c.compass(
         size=size, layer=layer, port_type=port_type, port_orientations=port_orientations
     )
     if not centered:

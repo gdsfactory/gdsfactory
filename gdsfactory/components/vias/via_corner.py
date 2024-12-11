@@ -5,7 +5,6 @@ from typing import Any
 from numpy import floor
 
 import gdsfactory as gf
-from gdsfactory.components import compass, via1
 from gdsfactory.cross_section import metal2, metal3
 from gdsfactory.port import select_ports
 from gdsfactory.typings import ComponentSpec, MultiCrossSectionAngleSpec
@@ -17,7 +16,7 @@ def via_corner(
         (metal2, (0, 180)),
         (metal3, (90, 270)),
     ),
-    vias: tuple[ComponentSpec] = (via1,),
+    vias: tuple[ComponentSpec] = ("via1",),
     layers_labels: tuple[str, ...] = ("m2", "m3"),
     **kwargs: Any,
 ) -> gf.Component:
@@ -52,7 +51,7 @@ def via_corner(
     port_type = "electrical"
     for i, layer in enumerate(layers):
         assert layer is not None
-        ref = c << compass(
+        ref = c << gf.c.compass(
             size=(widths[i], heights[i]), layer=layer, port_type=port_type
         )
         if layer in layers_ports:

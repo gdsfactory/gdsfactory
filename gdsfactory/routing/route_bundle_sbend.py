@@ -4,7 +4,6 @@ from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import bend_s as bend_s_function
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
 from gdsfactory.typings import ComponentSpec, Ports
 
@@ -13,7 +12,7 @@ def route_bundle_sbend(
     component: Component,
     ports1: Ports,
     ports2: Ports,
-    bend_s: ComponentSpec = bend_s_function,
+    bend_s: ComponentSpec = "bend_s",
     sort_ports: bool = True,
     enforce_port_ordering: bool = True,
     **kwargs: Any,

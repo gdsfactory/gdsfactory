@@ -2,17 +2,12 @@
 
 from __future__ import annotations
 
-from functools import partial
-
 import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import straight
 from gdsfactory.cross_section import port_names_electrical, port_types_electrical
 from gdsfactory.typings import CrossSectionSpec, LayerSpec, PortNames, PortTypes
-
-wire_straight = partial(straight, cross_section="metal_routing")
 
 
 @gf.cell

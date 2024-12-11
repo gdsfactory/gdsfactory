@@ -4,11 +4,7 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import bend_s
-from gdsfactory.components import (
-    coupler_straight_asymmetric as coupler_straight_asymmetric_function,
-)
-from gdsfactory.components import taper as taper_function
+from gdsfactory.components.bends import bend_s
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
@@ -16,9 +12,9 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 def mode_converter(
     gap: float = 0.3,
     length: float = 10,
-    coupler_straight_asymmetric: ComponentSpec = coupler_straight_asymmetric_function,
+    coupler_straight_asymmetric: ComponentSpec = "coupler_straight_asymmetric",
     bend: ComponentSpec = partial(bend_s, size=(25, 3)),
-    taper: ComponentSpec = taper_function,
+    taper: ComponentSpec = "taper",
     mm_width: float = 1.2,
     mc_mm_width: float = 1,
     sm_width: float = 0.5,

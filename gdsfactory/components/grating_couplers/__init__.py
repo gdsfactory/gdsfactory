@@ -8,8 +8,6 @@ from gdsfactory.components.grating_couplers.grating_coupler_elliptical import (
     grating_coupler_elliptical,
     grating_coupler_elliptical_te,
     grating_coupler_elliptical_tm,
-    grating_taper_points,
-    grating_tooth_points,
 )
 from gdsfactory.components.grating_couplers.grating_coupler_elliptical_arbitrary import (
     grating_coupler_elliptical_arbitrary,
@@ -59,8 +57,6 @@ __all__ = [
     "grating_coupler_te",
     "grating_coupler_tm",
     "grating_coupler_tree",
-    "grating_taper_points",
-    "grating_tooth_points",
     "loss_deembedding_ch12_34",
     "loss_deembedding_ch13_24",
     "loss_deembedding_ch14_23",

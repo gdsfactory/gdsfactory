@@ -1,26 +1,21 @@
 from __future__ import annotations
 
-from functools import partial
-
 import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import rectangle
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 
-# The default values are loosely based on Taillaert et al,
-#  "A Compact Two-Dimensional Grating Coupler Used
-# as a Polarization Splitter", IEEE Phot. Techn. Lett. 15(9), 2003
 
-rectangle_unit_cell = partial(
-    rectangle, size=(0.3, 0.3), layer="SLAB150", centered=True, port_type=None
-)
+def _unit_cell() -> gf.Component:
+    return gf.components.rectangle(
+        size=(0.3, 0.3), layer="SLAB150", centered=True, port_type=None
+    )
 
 
 @gf.cell
 def grating_coupler_dual_pol(
-    unit_cell: ComponentSpec = rectangle_unit_cell,
+    unit_cell: ComponentSpec = _unit_cell,
     period_x: float = 0.58,
     period_y: float = 0.58,
     x_span: float = 11,
@@ -37,6 +32,8 @@ def grating_coupler_dual_pol(
 
     Based on a photonic crystal with a unit cell that is usually an ellipse,
     a rectangle or a circle.
+    # The default values are loosely based on Taillaert et al,
+    # "A Compact Two-Dimensional Grating Coupler Used as a Polarization Splitter", IEEE Phot. Techn. Lett. 15(9), 2003
 
     Args:
         unit_cell: component describing the unit cell of the photonic crystal.
@@ -86,7 +83,7 @@ def grating_coupler_dual_pol(
 
     c = Component()
 
-    _ = c << rectangle(
+    _ = c << gf.c.rectangle(
         size=(x_span, y_span), layer=base_layer, centered=True, port_type=None
     )
 

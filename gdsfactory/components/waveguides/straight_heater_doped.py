@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.components import taper_cross_section
+from gdsfactory.components.tapers import taper_cross_section
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Size
 

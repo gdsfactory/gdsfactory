@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import straight
+from gdsfactory.components.straights import straight
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 diagram = r"""

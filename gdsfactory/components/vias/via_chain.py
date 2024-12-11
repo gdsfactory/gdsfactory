@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import via1, via_stack_m2_m3
 from gdsfactory.typings import ComponentSpec, LayerSpecs
 
 
@@ -12,8 +11,8 @@ from gdsfactory.typings import ComponentSpec, LayerSpecs
 def via_chain(
     num_vias: int = 100,
     cols: int = 10,
-    via: ComponentSpec = via1,
-    contact: ComponentSpec = via_stack_m2_m3,
+    via: ComponentSpec = "via1",
+    contact: ComponentSpec = "via_stack_m2_m3",
     layers_bot: LayerSpecs = ("M1",),
     layers_top: LayerSpecs = ("M2",),
     offsets_top: tuple[float, ...] = (0,),

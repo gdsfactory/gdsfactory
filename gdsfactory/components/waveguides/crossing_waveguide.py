@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import numpy as np
 from kfactory.conf import CHECK_INSTANCES
-from numpy import float64
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -18,11 +17,6 @@ from gdsfactory.typings import (
     Delta,
     LayerSpec,
 )
-
-
-def snap_to_grid(p: float, grid_per_unit: int = 1000) -> float64:
-    """Round."""
-    return np.round(p * grid_per_unit) / grid_per_unit  # type: ignore
 
 
 @gf.cell
@@ -321,6 +315,13 @@ def crossing45(
     xs.add_bbox(c)
     return c
 
+
+__all__ = [
+    "crossing",
+    "crossing45",
+    "crossing_etched",
+    "crossing_from_taper",
+]
 
 if __name__ == "__main__":
     c = crossing()

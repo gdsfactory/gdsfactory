@@ -8,7 +8,6 @@ import kfactory as kf
 import gdsfactory as gf
 from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component
-from gdsfactory.components import pad_rectangular, straight_heater_metal
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_fiber_array import route_fiber_array
 from gdsfactory.typings import (
@@ -21,12 +20,12 @@ from gdsfactory.typings import (
 
 
 def add_pads_bot(
-    component: ComponentSpec = straight_heater_metal,
+    component: ComponentSpec = "straight_heater_metal",
     select_ports: SelectPorts = select_ports_electrical,
     port_names: Strs | None = None,
     cross_section: CrossSectionSpec = "metal_routing",
     pad_port_name: str = "e1",
-    pad: ComponentSpec = pad_rectangular,
+    pad: ComponentSpec = "pad_rectangular",
     bend: ComponentSpec = "wire_corner",
     straight_separation: float = 15.0,
     pad_pitch: float | str = "pad_pitch",
@@ -157,12 +156,12 @@ def add_pads_bot(
 
 
 def add_pads_top(
-    component: ComponentSpec = straight_heater_metal,
+    component: ComponentSpec = "straight_heater_metal",
     select_ports: SelectPorts = select_ports_electrical,
     port_names: Strs | None = None,
     cross_section: CrossSectionSpec = "metal_routing",
     pad_port_name: str = "e1",
-    pad: ComponentSpec = pad_rectangular,
+    pad: ComponentSpec = "pad_rectangular",
     bend: ComponentSpec = "wire_corner",
     straight_separation: float = 15.0,
     pad_pitch: float | str = "pad_pitch",
