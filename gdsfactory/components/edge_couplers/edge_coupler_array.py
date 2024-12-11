@@ -4,16 +4,40 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import extend_ports, taper
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Float2
 
-edge_coupler_silicon = partial(
-    taper,
-    width2=0.2,
-    length=100,
-    with_two_ports=True,
-    port_types=("optical", "edge_coupler"),
-)
+
+@gf.cell
+def edge_coupler_silicon(
+    length: float = 100,
+    width1: float = 0.5,
+    width2: float = 0.2,
+    with_two_ports: bool = True,
+    port_names: tuple[str, str] = ("o1", "o2"),
+    port_types: tuple[str, str] = ("optical", "edge_coupler"),
+    cross_section: CrossSectionSpec = "strip",
+) -> Component:
+    """Edge coupler for silicon photonics.
+
+    Args:
+        length: length of the taper.
+        width1: width1 of the taper.
+        width2: width2 of the taper.
+        with_two_ports: add two ports.
+        port_names: tuple with port names.
+        port_types: tuple with port types.
+        cross_section: cross_section spec.
+
+    """
+    return gf.c.taper(
+        width1=width1,
+        width2=width2,
+        length=length,
+        with_two_ports=with_two_ports,
+        port_names=port_names,
+        port_types=port_types,
+        cross_section=cross_section,
+    )
 
 
 @gf.cell
@@ -103,7 +127,7 @@ def edge_coupler_array_with_loopback(
         text_rotation=text_rotation,
     )
     if extension_length > 0:
-        ec = extend_ports(
+        ec = gf.c.extend_ports(
             component=ec,
             port_names=("o1", "o2"),
             length=extension_length,
