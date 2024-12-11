@@ -25,7 +25,7 @@ def test_import_gds_info() -> None:
 
 def test_import_gds_hierarchy() -> None:
     """Import a GDS with hierarchy."""
-    c0 = gf.components.mzi_arms(delta_length=11)
+    c0 = gf.components.mzi(delta_length=11)
     gdspath = c0.write_gds()
 
     c = import_gds(gdspath)

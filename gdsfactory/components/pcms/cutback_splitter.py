@@ -15,7 +15,7 @@ def cutback_splitter(
     port1: str = "o1",
     port2: str = "o2",
     port3: str = "o3",
-    bend180: ComponentSpec = b"end_euler180",
+    bend180: ComponentSpec = "bend_euler180",
     mirror: bool = False,
     straight: ComponentSpec = "straight",
     straight_length: float | None = None,

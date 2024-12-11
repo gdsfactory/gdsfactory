@@ -84,6 +84,7 @@ from gdsfactory.components.edge_couplers import (
 from gdsfactory.components.filters import (
     awg,
     dbr,
+    dbr_cell,
     dbr_tapered,
     fiber,
     fiber_array,
@@ -425,6 +426,7 @@ __all__ = [
     "cutback_loss_spirals",
     "cutback_splitter",
     "dbr",
+    "dbr_cell",
     "dbr_tapered",
     "delay_snake",
     "delay_snake2",

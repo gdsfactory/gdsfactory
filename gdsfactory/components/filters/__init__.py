@@ -3,6 +3,7 @@ from gdsfactory.components.filters.awg import (
 )
 from gdsfactory.components.filters.dbr import (
     dbr,
+    dbr_cell,
 )
 from gdsfactory.components.filters.dbr_tapered import (
     dbr_tapered,
@@ -29,6 +30,7 @@ from gdsfactory.components.filters.terminator import (
 __all__ = [
     "awg",
     "dbr",
+    "dbr_cell",
     "dbr_tapered",
     "fiber",
     "fiber_array",

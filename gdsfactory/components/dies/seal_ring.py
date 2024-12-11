@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import klayout.db as kdb
-
 import gdsfactory as gf
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import ComponentSpec
@@ -12,7 +10,7 @@ Coordinate = tuple[Float2, Float2]
 
 @gf.cell
 def seal_ring(
-    component: gf.Component | gf.Instance | ComponentSpec = "rectangle",
+    size: Float2 = (500, 500),
     seal: ComponentSpec = "via_stack",
     width: float = 10,
     padding: float = 10.0,
@@ -26,7 +24,7 @@ def seal_ring(
     Prevents cracks from spreading and shields when connected to ground.
 
     Args:
-        component: to add seal ring around. You can pass Component.bbox.
+        size: of the seal.
         seal: function for the seal.
         width: of the seal.
         padding: from component to seal.
@@ -37,12 +35,9 @@ def seal_ring(
     """
     c = gf.Component()
 
-    if not isinstance(component, gf.Instance):
-        component = gf.get_component(component)
-
-    bbox = component.dbbox()
-    assert isinstance(bbox, kdb.DBox)
-    xmin, ymin, xmax, ymax = bbox.left, bbox.bottom, bbox.right, bbox.top
+    xmin, ymin = 0, 0
+    xmax = size[0]
+    ymax = size[1]
     x = (xmax + xmin) / 2
     sx = xmax - xmin
     sy = ymax - ymin
@@ -82,7 +77,7 @@ def seal_ring(
 
 @gf.cell
 def seal_ring_segmented(
-    component: gf.Component | gf.Instance | ComponentSpec,
+    size: Float2 = (500, 500),
     length_segment: float = 10,
     width_segment: float = 3,
     spacing_segment: float = 2,
@@ -92,12 +87,11 @@ def seal_ring_segmented(
     with_south: bool = True,
     with_east: bool = True,
     with_west: bool = True,
-    padding: float = 10.0,
 ) -> gf.Component:
     """Segmented Seal ring.
 
     Args:
-        component: to get the bbox from.
+        size: of the seal ring.
         length_segment: length of each segment.
         width_segment: width of each segment.
         spacing_segment: spacing between segments.
@@ -107,21 +101,13 @@ def seal_ring_segmented(
         with_south: includes seal.
         with_east: includes seal.
         with_west: includes seal.
-        padding: from component to seal.
     """
     c = gf.Component()
     corner_component = gf.get_component(corner, width=width_segment)
 
-    if not isinstance(component, gf.Instance):
-        component = gf.get_component(component)
-
-    bbox = component.dbbox()
-    xmin, ymin, xmax, ymax = bbox.left, bbox.bottom, bbox.right, bbox.top
-
-    xmin -= padding
-    xmax += padding
-    ymin -= padding
-    ymax += padding
+    xmin, ymin = 0, 0
+    xmax = size[0]
+    ymax = size[1]
 
     tl = c << corner_component
     tr = c << corner_component
@@ -153,9 +139,7 @@ def seal_ring_segmented(
     )
 
     horizontal = gf.c.array(
-        component=segment_horizontal,
-        columns=int(dx / pitch),
-        spacing=(pitch, 0),
+        component=segment_horizontal, columns=int(dx / pitch), column_pitch=pitch
     )
 
     if with_north:
@@ -182,10 +166,7 @@ def seal_ring_segmented(
     dy = abs(tl.dymin - bl.dymax)
 
     vertical = gf.c.array(
-        component=segment_vertical,
-        rows=int(dy / pitch),
-        columns=1,
-        spacing=(0, pitch),
+        component=segment_vertical, rows=int(dy / pitch), columns=1, row_pitch=pitch
     )
 
     if with_east:
@@ -210,12 +191,5 @@ def seal_ring_segmented(
 
 
 if __name__ == "__main__":
-    from gdsfactory.components import rectangle
-
-    c = gf.Component("demo")
-    big_square = rectangle(size=(1300, 2600))
-    sq = c << big_square
-    sq.dmovex(100)
-    _ = c << seal_ring(sq, with_south=False)
-    print(sq.name)
-    # c.show()
+    c = seal_ring_segmented()
+    c.show()

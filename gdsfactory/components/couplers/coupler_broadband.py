@@ -126,7 +126,7 @@ def coupler_broadband(
     coupler2.dxmax = L_2 / 2 + L_t + L_1
     coupler2.dy = y_coupler
 
-    _bend = bend(radius=radius, cross_section=cross_section)
+    _bend = gf.get_component(bend, radius=radius, cross_section=cross_section)
     bend_rt = c << _bend
     bend_rb = c << _bend
 

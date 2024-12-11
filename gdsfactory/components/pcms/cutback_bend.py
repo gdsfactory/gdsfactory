@@ -147,8 +147,8 @@ def staircase(
     """
     bend90 = component(**kwargs) if callable(component) else component
 
-    wgh = straight(length=length_h, **kwargs)
-    wgv = straight(length=length_v, **kwargs)
+    wgh = gf.get_component(straight, length=length_h, **kwargs)
+    wgv = gf.get_component(straight, length=length_v, **kwargs)
 
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
@@ -198,11 +198,10 @@ def cutback_bend180(
 
         _ this is a column
     """
-    from gdsfactory.pdk import get_component
-
-    bend180 = get_component(component, **kwargs)
-    straightx = straight(length=straight_length, **kwargs)
-    wg_vertical = straight(
+    bend180 = gf.get_component(component, **kwargs)
+    straightx = gf.get_component(straight, length=straight_length, **kwargs)
+    wg_vertical = gf.get_component(
+        straight,
         length=2 * bend180.dxsize + straight_length + spacing,
         **kwargs,
     )
@@ -235,7 +234,7 @@ cutback_bend90circular = partial(cutback_bend90, component="bend_circular")
 if __name__ == "__main__":
     # c = cutback_bend()
     # c = cutback_bend90()
-    c = cutback_bend90circular(rows=7, cols=4, radius=5)
+    c = cutback_bend90circular(rows=7, cols=4)
     # c = cutback_bend_circular(rows=14, cols=4)
     # c = cutback_bend90()
     # c = cutback_bend180(rows=3, cols=1)
