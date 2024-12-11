@@ -17,7 +17,8 @@ def cdsem_bend180(
     straight: ComponentSpec = "straight",
     bend90: ComponentSpec = "bend_circular",
     cross_section: CrossSectionSpec = "strip",
-    text: ComponentSpec = "text_rectangular_mini",
+    text: ComponentSpec = "text_rectangular",
+    text_size: float = 1.0,
 ) -> Component:
     """Returns CDSEM structures.
 
@@ -29,6 +30,7 @@ def cdsem_bend180(
         bend90: spec.
         cross_section: spec.
         text: spec.
+        text_size: um.
     """
     c = Component()
     r = radius
@@ -54,7 +56,7 @@ def cdsem_bend180(
     wg2 = c.add_ref(wg)
     wg2.connect("o1", b2.ports["o1"])
 
-    label = c << gf.get_component(text, text=str(int(width * 1e3)))
+    label = c << gf.get_component(text, text=str(int(width * 1e3)), size=text_size)
     label.dymax = b2.dymin - 5
     label.dx = 0
 

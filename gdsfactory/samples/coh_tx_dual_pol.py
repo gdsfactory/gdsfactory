@@ -3,6 +3,7 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.routing.route_single import route_single
+from gdsfactory.samples.coh_tx_single_pol import coh_tx_single_pol
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
@@ -10,7 +11,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 def coh_tx_dual_pol(
     splitter: ComponentSpec = "mmi1x2",
     combiner: ComponentSpec | None = None,
-    spol_coh_tx: ComponentSpec = "coh_tx_single_pol",
+    spol_coh_tx: ComponentSpec = coh_tx_single_pol,
     yspacing: float = 10.0,
     xspacing: float = 40.0,
     input_coupler: ComponentSpec | None = None,

@@ -46,7 +46,7 @@ def cdsem_coupler(
         p = position or p  # type: ignore
         line.dymin = p
         if text:
-            t = c << gf.get_component(text, str(int(gap * 1e3)), size=text_size)
+            t = c << gf.get_component(text, text=str(int(gap * 1e3)), size=text_size)
             t.dxmin = line.dxmax + 5
             t.dymin = p
 

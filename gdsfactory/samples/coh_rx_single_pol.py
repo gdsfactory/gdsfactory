@@ -4,10 +4,6 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.components import (
-    ge_detector_straight_si_contacts,
-)
-from gdsfactory.components.mmi_90degree_hybrid import mmi_90degree_hybrid
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Port, Spacing
 
 
@@ -15,8 +11,8 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Port, Spacing
 def coh_rx_single_pol(
     bend: ComponentSpec = "bend_euler",
     cross_section: CrossSectionSpec = "strip",
-    hybrid_90deg: ComponentSpec = mmi_90degree_hybrid,
-    detector: ComponentSpec = ge_detector_straight_si_contacts,
+    hybrid_90deg: ComponentSpec = gf.c.mmi_90degree_hybrid,
+    detector: ComponentSpec = gf.c.ge_detector_straight_si_contacts,
     det_spacing: Spacing = (60.0, 50.0),
     in_wg_length: float = 20.0,
     lo_input_coupler: ComponentSpec | None = None,

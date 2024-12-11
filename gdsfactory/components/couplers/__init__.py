@@ -1,5 +1,6 @@
 from gdsfactory.components.couplers.coupler import (
     coupler,
+    coupler_straight,
 )
 from gdsfactory.components.couplers.coupler90 import (
     coupler90,
@@ -16,7 +17,6 @@ from gdsfactory.components.couplers.coupler_asymmetric import (
 )
 from gdsfactory.components.couplers.coupler_bent import (
     coupler_bent,
-    coupler_bent_half,
 )
 from gdsfactory.components.couplers.coupler_broadband import (
     coupler_broadband,
@@ -39,9 +39,9 @@ __all__ = [
     "coupler_adiabatic",
     "coupler_asymmetric",
     "coupler_bent",
-    "coupler_bent_half",
     "coupler_broadband",
     "coupler_full",
     "coupler_ring",
+    "coupler_straight",
     "coupler_straight_asymmetric",
 ]

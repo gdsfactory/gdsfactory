@@ -17,9 +17,10 @@ def cdsem_all(
     straight: ComponentSpec = "straight",
     bend90: ComponentSpec | None = "bend_circular",
     cross_section: CrossSectionSpec = "strip",
-    text: ComponentSpec = "text_rectangular_mini",
+    text: ComponentSpec = "text_rectangular",
     spacing: float = 5,
     cdsem_bend180: ComponentSpec = "cdsem_bend180",
+    text_size: float = 1,
 ) -> Component:
     """Column with all optical PCMs.
 
@@ -35,6 +36,7 @@ def cdsem_all(
         text: spec.
         spacing: from group to group.
         cdsem_bend180: spec.
+        text_size: in um.
     """
     c = Component()
     _c1 = gf.get_component(
@@ -54,6 +56,7 @@ def cdsem_all(
                 bend90=bend90,
                 cross_section=cross_section,
                 text=text,
+                text_size=text_size,
             )
             for width in widths
         ]
@@ -81,6 +84,7 @@ def cdsem_all(
                 label=lbl,
                 cross_section=cross_section,
                 text=text,
+                text_size=text_size,
             )
             for w, g, lbl in density_params
         ]
