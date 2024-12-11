@@ -259,6 +259,7 @@ def ring_single_pn(
         - gap
         - bus_waveguide.ports["o1"].dwidth / 2
         - pn_cross_section.width / 2
+        + 0.576  # adjust gap # TODO: remove this
     )
 
     r = gf.ComponentAllAngle()
@@ -324,5 +325,5 @@ def ring_single_pn(
 
 
 if __name__ == "__main__":
-    c = ring_single_pn()
+    c = ring_single_pn(radius=5)
     c.show()
