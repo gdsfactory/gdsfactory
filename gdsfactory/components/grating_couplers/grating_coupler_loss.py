@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import grating_coupler_te
 from gdsfactory.routing.route_single import route_single
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Port
 
@@ -10,7 +9,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Port
 @gf.cell
 def loss_deembedding_ch13_24(
     pitch: float = 127.0,
-    grating_coupler: ComponentSpec = "grating_coupler_te",
+    grating_coupler: ComponentSpec = "grating_coupler_elliptical_trenches",
     cross_section: CrossSectionSpec = "strip",
     port_name: str = "o1",
     rotation: float = -90,
@@ -79,7 +78,7 @@ def loss_deembedding_ch13_24(
 @gf.cell
 def loss_deembedding_ch12_34(
     pitch: float = 127.0,
-    grating_coupler: ComponentSpec = "grating_coupler_te",
+    grating_coupler: ComponentSpec = "grating_coupler_elliptical_trenches",
     port_name: str = "o1",
     cross_section: CrossSectionSpec = "strip",
     rotation: float = -90,
@@ -128,7 +127,7 @@ def loss_deembedding_ch12_34(
 @gf.cell
 def loss_deembedding_ch14_23(
     pitch: float = 127.0,
-    grating_coupler: ComponentSpec = "grating_coupler_te",
+    grating_coupler: ComponentSpec = "grating_coupler_elliptical_trenches",
     cross_section: CrossSectionSpec = "strip",
     port_name: str = "o1",
     rotation: float = -90,
@@ -177,7 +176,7 @@ def loss_deembedding_ch14_23(
 @gf.cell
 def grating_coupler_loss_fiber_array(
     pitch: float = 127.0,
-    grating_coupler: ComponentSpec = "grating_coupler_te",
+    grating_coupler: ComponentSpec = "grating_coupler_elliptical_trenches",
     port_name: str = "o1",
     cross_section: CrossSectionSpec = "strip",
     rotation: float = -90,
@@ -216,7 +215,7 @@ def grating_coupler_loss_fiber_array(
 @gf.cell
 def grating_coupler_loss_fiber_array4(
     pitch: float = 127.0,
-    grating_coupler: ComponentSpec = grating_coupler_te,
+    grating_coupler: ComponentSpec = "grating_coupler_elliptical_trenches",
 ) -> Component:
     """Returns a grating coupler test structure for fiber array.
 
