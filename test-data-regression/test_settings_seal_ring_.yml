@@ -1,9 +1,11 @@
 info: {}
-name: seal_ring_Crectangle_Sv_f34f177a
+name: seal_ring_S500_500_Svia_d370abe4
 settings:
-  component: rectangle
   padding: 10
   seal: via_stack
+  size:
+  - 500
+  - 500
   width: 10
   with_east: true
   with_north: true
