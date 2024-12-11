@@ -8,7 +8,7 @@ info:
   wavelength: 1.554
   width_min: 0.1
   xinput: -2.43
-name: grating_coupler_ellipti_ed646bac
+name: grating_coupler_ellipti_f4039268
 settings:
   bias_gap: 0
   cross_section: strip

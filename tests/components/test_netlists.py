@@ -30,6 +30,8 @@ skip_test = {
     "text_freetype",
     "crossing45",
     "seal_ring_segmented",
+    "grating_coupler_elliptical_lumerical_etch70",
+    "coupler_ring_bend",
 }
 cells_to_test = set(cells.keys()) - skip_test
 

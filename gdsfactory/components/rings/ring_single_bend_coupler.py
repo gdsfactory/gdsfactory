@@ -223,6 +223,7 @@ def ring_single_bend_coupler(
 if __name__ == "__main__":
     # c = coupler_bend()
     # n = c.get_netlist()
-    # c = coupler_ring_bend()
-    c = ring_single_bend_coupler()
+    c = coupler_ring_bend()
+    # c = ring_single_bend_coupler()
+    c.pprint_ports()
     c.show()
