@@ -4,8 +4,6 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import taper as taper_func
-from gdsfactory.components import via_stack_slab_m3
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
@@ -44,7 +42,7 @@ def ge_detector_straight_si_contacts(
     c = Component()
     xs = gf.get_cross_section(taper_cros_section)
 
-    taper = taper_func(
+    taper = gf.c.taper(
         width1=xs.width,
         width2=taper_width,
         length=taper_length,
@@ -80,7 +78,5 @@ def ge_detector_straight_si_contacts(
 
 
 if __name__ == "__main__":
-    c = ge_detector_straight_si_contacts(
-        via_stack=via_stack_slab_m3, via_stack_offset=0
-    )
+    c = ge_detector_straight_si_contacts(via_stack_offset=0)
     c.show()

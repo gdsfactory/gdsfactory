@@ -2,8 +2,7 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import ring_single, straight
-from gdsfactory.typings import ComponentFactory, CrossSectionSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 _list_of_dicts = (
     dict(length_x=10.0, radius=5.0),
@@ -13,7 +12,7 @@ _list_of_dicts = (
 
 @gf.cell
 def ring_single_array(
-    ring: ComponentFactory = ring_single,
+    ring: ComponentSpec = "ring_single",
     spacing: float = 5.0,
     list_of_dicts: tuple[dict[str, float], ...] | None = None,
     cross_section: CrossSectionSpec = "strip",
@@ -39,13 +38,13 @@ def ring_single_array(
     list_of_dicts = list_of_dicts or _list_of_dicts
     c = Component()
     settings0 = list_of_dicts[0]
-    ring1 = c << ring(cross_section=cross_section, **settings0)
+    ring1 = c << gf.get_component(ring, cross_section=cross_section, **settings0)
 
     ring0 = ring1
-    wg = straight(length=spacing, cross_section=cross_section)
+    wg = gf.c.straight(length=spacing, cross_section=cross_section)
 
     for settings in list_of_dicts[1:]:
-        ringi = c << ring(cross_section=cross_section, **settings)
+        ringi = c << gf.get_component(ring, cross_section=cross_section, **settings)
         wgi = c << wg
         wgi.connect("o1", ring0.ports["o2"])
         ringi.connect("o1", wgi.ports["o2"])

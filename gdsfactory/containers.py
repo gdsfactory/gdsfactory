@@ -25,7 +25,7 @@ from gdsfactory.components import (
     pack_doe_grid,
     staircase,
 )
-from gdsfactory.components.cutback_2x2 import cutback_2x2
+from gdsfactory.components.pcms.cutback_2x2 import cutback_2x2
 from gdsfactory.functions import (
     extract,
     move_port_to_zero,

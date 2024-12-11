@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.components import bend_circular
 from gdsfactory.path import spiral_archimedean
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
@@ -13,7 +12,7 @@ def spiral_double(
     number_of_loops: float = 3,
     npoints: int = 1000,
     cross_section: CrossSectionSpec = "strip",
-    bend: ComponentSpec = bend_circular,
+    bend: ComponentSpec = "bend_circular",
 ) -> gf.Component:
     """Returns a spiral double (spiral in, and then out).
 

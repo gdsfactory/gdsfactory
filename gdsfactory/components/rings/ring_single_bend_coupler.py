@@ -4,7 +4,7 @@ from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import bend_circular_all_angle, straight
+from gdsfactory.components.bends.bend_circular import bend_circular_all_angle
 from gdsfactory.typings import AnyComponentFactory, ComponentSpec, CrossSectionSpec
 
 
@@ -93,6 +93,7 @@ def coupler_ring_bend(
     cross_section_outer: CrossSectionSpec = "strip",
     bend: AnyComponentFactory = bend_circular_all_angle,
     bend_output: ComponentSpec = "bend_euler",
+    straight: ComponentSpec = "straight",
 ) -> Component:
     r"""Two back-to-back coupler_bend.
 
@@ -107,6 +108,7 @@ def coupler_ring_bend(
         cross_section_outer: spec outer bend.
         bend: for bend.
         bend_output: for bend.
+        straight: for straight.
     """
     c = Component()
     cp = coupler_bend(
@@ -191,6 +193,7 @@ def ring_single_bend_coupler(
     cb = c << coupler
 
     cross_section = cross_section_inner
+    straight = gf.c.straight
     sx = gf.get_component(
         straight, length=length_x, cross_section=cross_section, **kwargs
     )

@@ -31,8 +31,6 @@ from gdsfactory.components.bends import (
     bend_s,
 )
 from gdsfactory.components.containers import (
-    DEG2RAD,
-    SequenceGenerator,
     add_fiber_array_optical_south_electrical_north,
     add_termination,
     add_trenches,
@@ -46,7 +44,6 @@ from gdsfactory.components.containers import (
     extension,
     generate_doe,
     line,
-    move_polar_rad_copy,
     pack_doe,
     pack_doe_grid,
     parse_component_name,
@@ -106,7 +103,6 @@ from gdsfactory.components.grating_couplers import (
     grating_coupler_elliptical_tm,
     grating_coupler_elliptical_trenches,
     grating_coupler_elliptical_uniform,
-    grating_coupler_functions,
     grating_coupler_loss,
     grating_coupler_loss_fiber_array,
     grating_coupler_loss_fiber_array4,
@@ -115,8 +111,6 @@ from gdsfactory.components.grating_couplers import (
     grating_coupler_te,
     grating_coupler_tm,
     grating_coupler_tree,
-    grating_taper_points,
-    grating_tooth_points,
     loss_deembedding_ch12_34,
     loss_deembedding_ch13_24,
     loss_deembedding_ch14_23,
@@ -269,7 +263,6 @@ from gdsfactory.components.superconductors import (
     snspd,
 )
 from gdsfactory.components.tapers import (
-    adiabatic_polyfit_TE1550SOI_220nm,
     ramp,
     taper,
     taper_0p5_to_3_l36,
@@ -363,16 +356,13 @@ from gdsfactory.components.waveguides import (
 )
 
 __all__ = [
-    "DEG2RAD",
     "C",
     "L",
-    "SequenceGenerator",
     "add_fiber_array_optical_south_electrical_north",
     "add_frame",
     "add_termination",
     "add_trenches",
     "add_trenches90",
-    "adiabatic_polyfit_TE1550SOI_220nm",
     "align",
     "align_wafer",
     "array",
@@ -473,7 +463,6 @@ __all__ = [
     "grating_coupler_elliptical_tm",
     "grating_coupler_elliptical_trenches",
     "grating_coupler_elliptical_uniform",
-    "grating_coupler_functions",
     "grating_coupler_loss",
     "grating_coupler_loss_fiber_array",
     "grating_coupler_loss_fiber_array4",
@@ -483,8 +472,6 @@ __all__ = [
     "grating_coupler_tm",
     "grating_coupler_tree",
     "grating_couplers",
-    "grating_taper_points",
-    "grating_tooth_points",
     "greek_cross",
     "greek_cross_with_pads",
     "heater_vias",
@@ -511,7 +498,6 @@ __all__ = [
     "mmi_widths",
     "mmis",
     "mode_converter",
-    "move_polar_rad_copy",
     "mzi",
     "mzi1x2",
     "mzi1x2_2x2",

@@ -18,7 +18,6 @@ from gdsfactory.components.spirals.spiral_heater import (
     spiral_racetrack_fixed_length,
     spiral_racetrack_heater_doped,
     spiral_racetrack_heater_metal,
-    test_length_spiral_racetrack,
 )
 from gdsfactory.components.spirals.spiral_inductor import (
     spiral_inductor,
@@ -35,5 +34,4 @@ __all__ = [
     "spiral_racetrack_fixed_length",
     "spiral_racetrack_heater_doped",
     "spiral_racetrack_heater_metal",
-    "test_length_spiral_racetrack",
 ]

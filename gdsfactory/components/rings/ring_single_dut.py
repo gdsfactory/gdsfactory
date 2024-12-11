@@ -1,26 +1,22 @@
 from __future__ import annotations
 
-from functools import partial
 from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import bend_euler, coupler_ring, straight, taper
 from gdsfactory.snap import assert_on_2x_grid
 from gdsfactory.typings import ComponentSpec
-
-taper2 = partial(taper, width2=3)
 
 
 @gf.cell
 def ring_single_dut(
-    component: ComponentSpec = taper2,
+    component: ComponentSpec = "straight",
     gap: float = 0.2,
     length_x: float = 4,
     length_y: float = 0,
     radius: float = 5.0,
-    coupler: ComponentSpec = coupler_ring,
-    bend: ComponentSpec = bend_euler,
+    coupler: ComponentSpec = "coupler_ring",
+    bend: ComponentSpec = "bend_euler",
     with_component: bool = True,
     port_name: str = "o1",
     **kwargs: Any,
@@ -63,8 +59,8 @@ def ring_single_dut(
     )
 
     component_xsize = component.dxsize
-    straight_side = straight(length=length_y + component_xsize, **kwargs)
-    straight_top = straight(length=length_x, **kwargs)
+    straight_side = gf.c.straight(length=length_y + component_xsize, **kwargs)
+    straight_top = gf.c.straight(length=length_x, **kwargs)
     bend = gf.get_component(bend, radius=radius, **kwargs)
 
     c = Component()
