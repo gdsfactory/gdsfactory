@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import bend_circular, straight
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
@@ -59,12 +58,14 @@ def ring_crow(
     """
     c = Component()
 
-    bends = bends or (bend_circular,) * len(radius)
+    bends = bends or (gf.c.bend_circular,) * len(radius)
     input_straight_cross_section = input_straight_cross_section or cross_section
     output_straight_cross_section = output_straight_cross_section or cross_section
 
     output_straight_cross_section = gf.get_cross_section(output_straight_cross_section)
     input_straight_cross_section = gf.get_cross_section(input_straight_cross_section)
+
+    straight = gf.c.straight
 
     # Input bus
     input_straight = gf.get_component(

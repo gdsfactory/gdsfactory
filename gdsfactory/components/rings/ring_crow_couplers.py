@@ -6,16 +6,15 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.components import bend_circular, coupler
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
 def ring_crow_couplers(
     radius: Sequence[float] = (10.0,) * 3,
-    bends: Sequence[ComponentSpec] = (bend_circular,) * 3,
+    bends: Sequence[ComponentSpec] = ("bend_circular",) * 3,
     ring_cross_sections: Sequence[CrossSectionSpec] = ("strip",) * 3,
-    couplers: Sequence[ComponentSpec] = (coupler,) * 4,
+    couplers: Sequence[ComponentSpec] = ("coupler",) * 4,
 ) -> Component:
     """Coupled ring resonators with coupler components between gaps.
 

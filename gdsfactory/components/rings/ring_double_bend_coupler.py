@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import bend_circular_all_angle, coupler_ring_bend, straight
+from gdsfactory.components.bends.bend_circular import bend_circular_all_angle
 from gdsfactory.typings import ComponentAllAngleFactory, CrossSectionSpec
 
 
@@ -31,7 +31,7 @@ def ring_double_bend_coupler(
     """
     c = Component()
 
-    c_halfring = coupler_ring_bend(
+    c_halfring = gf.c.coupler_ring_bend(
         radius=radius,
         coupler_gap=gap,
         coupling_angle_coverage=coupling_angle_coverage,
@@ -55,7 +55,7 @@ def ring_double_bend_coupler(
     ct = c << c_halfring
 
     cross_section = cross_section_inner
-    sy = straight(length=length_y, cross_section=cross_section)
+    sy = gf.c.straight(length=length_y, cross_section=cross_section)
     sl = c << sy
     sr = c << sy
 
