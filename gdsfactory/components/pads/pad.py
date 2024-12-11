@@ -5,7 +5,7 @@ from functools import partial
 import gdsfactory as gf
 from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component
-from gdsfactory.components import compass, valid_port_orientations
+from gdsfactory.config import valid_port_orientations
 from gdsfactory.typings import (
     AngleInDegrees,
     ComponentSpec,
@@ -44,7 +44,7 @@ def pad(
     c = Component()
     layer = gf.get_layer(layer)
     size = gf.get_constant(size)
-    rect = compass(
+    rect = gf.c.compass(
         size=size,
         layer=layer,
         port_inclusion=port_inclusion,
@@ -65,7 +65,7 @@ def pad(
 
         for layer, size in zip(bbox_layers, sizes):
             c.add_ref(
-                compass(
+                gf.c.compass(
                     size=size,
                     layer=layer,
                 )

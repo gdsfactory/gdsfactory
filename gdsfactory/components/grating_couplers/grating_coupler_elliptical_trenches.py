@@ -6,8 +6,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import grating_tooth_points
-from gdsfactory.components import taper as taper_function
+from gdsfactory.components.grating_couplers.functions import grating_tooth_points
 from gdsfactory.functions import DEG2RAD
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 
@@ -27,7 +26,7 @@ def grating_coupler_elliptical_trenches(
     p_start: int = 26,
     n_periods: int = 30,
     end_straight_length: float = 0.2,
-    taper: ComponentSpec = taper_function,
+    taper: ComponentSpec = "taper",
     cross_section: CrossSectionSpec = "strip",
 ) -> Component:
     r"""Returns Grating coupler with defined trenches.

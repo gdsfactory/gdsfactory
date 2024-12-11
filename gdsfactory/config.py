@@ -164,6 +164,8 @@ class Paths:
 PATH = Paths()
 sparameters_path = PATH.sparameters
 
+valid_port_orientations = {0, 90, 180, -90, 270}
+
 
 def rich_output() -> None:
     """Enables rich output."""

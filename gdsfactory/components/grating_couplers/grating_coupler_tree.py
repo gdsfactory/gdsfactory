@@ -2,10 +2,6 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import (
-    grating_coupler_elliptical_te,
-    straight_array,
-)
 from gdsfactory.typings import ComponentSpec
 
 
@@ -13,7 +9,7 @@ from gdsfactory.typings import ComponentSpec
 def grating_coupler_tree(
     n: int = 4,
     straight_spacing: float = 4.0,
-    grating_coupler: ComponentSpec = grating_coupler_elliptical_te,
+    grating_coupler: ComponentSpec = "grating_coupler_elliptical_te",
     with_loopback: bool = False,
     bend: ComponentSpec = "bend_euler",
     fanout_length: float = 0.0,
@@ -30,7 +26,7 @@ def grating_coupler_tree(
         bend: bend spec.
         fanout_length: in um.
     """
-    c = straight_array(
+    c = gf.c.straight_array(
         n=n,
         spacing=straight_spacing,
     )

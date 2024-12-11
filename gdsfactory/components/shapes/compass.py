@@ -2,10 +2,9 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.config import valid_port_orientations
 from gdsfactory.snap import snap_to_grid2x
 from gdsfactory.typings import Ints, LayerSpec, Size
-
-valid_port_orientations = {0, 90, 180, -90, 270}
 
 
 @gf.cell

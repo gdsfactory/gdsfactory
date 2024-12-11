@@ -2,14 +2,12 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import pad as pad_function
-from gdsfactory.components import rectangle
 from gdsfactory.typings import ComponentSpec, LayerSpec
 
 
 @gf.cell
 def pads_shorted(
-    pad: ComponentSpec = pad_function,
+    pad: ComponentSpec = "pad",
     columns: int = 8,
     pad_pitch: float = 150.0,
     layer_metal: LayerSpec = "MTOP",
@@ -30,7 +28,7 @@ def pads_shorted(
         pad_ref = c.add_ref(pad)
         pad_ref.dmovex(i * pad_pitch - columns / 2 * pad_pitch + pad_pitch / 2)
 
-    short = rectangle(
+    short = gf.c.rectangle(
         size=(pad_pitch * (columns - 1), metal_width),
         layer=layer_metal,
         centered=True,

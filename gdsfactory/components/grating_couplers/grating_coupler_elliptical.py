@@ -1,91 +1,17 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import Any
 
 import numpy as np
-import numpy.typing as npt
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.functions import DEG2RAD, extrude_path
+from gdsfactory.components.grating_couplers.functions import (
+    grating_taper_points,
+    grating_tooth_points,
+)
+from gdsfactory.functions import DEG2RAD
 from gdsfactory.typings import CrossSectionSpec, LayerSpec
-
-
-def ellipse_arc(
-    a: float,
-    b: float,
-    x0: float,
-    theta_min: float,
-    theta_max: float,
-    angle_step: float = 0.5,
-) -> npt.NDArray[np.floating[Any]]:
-    """Returns an elliptical arc.
-
-    b = a *sqrt(1-e**2)
-
-    An ellipse with a = b has zero eccentricity (is a circle)
-
-    Args:
-        a: ellipse semi-major axis.
-        b: semi-minor axis.
-        x0: in um.
-        theta_min: in rad.
-        theta_max: in rad.
-        angle_step: in rad.
-    """
-    theta = np.arange(theta_min, theta_max + angle_step, angle_step) * DEG2RAD
-    xs = a * np.cos(theta) + x0
-    xs = gf.snap.snap_to_grid(xs)
-    ys = b * np.sin(theta)
-    ys = gf.snap.snap_to_grid(ys)
-    return np.column_stack([xs, ys])
-
-
-def grating_tooth_points(
-    ap: float,
-    bp: float,
-    xp: float,
-    width: float,
-    taper_angle: float,
-    spiked: bool = True,
-    angle_step: float = 1.0,
-) -> npt.NDArray[np.floating[Any]]:
-    theta_min = -taper_angle / 2
-    theta_max = taper_angle / 2
-
-    backbone_points = ellipse_arc(ap, bp, xp, theta_min, theta_max, angle_step)
-    spike_length = width / 3 if spiked else 0.0
-    return extrude_path(
-        backbone_points,
-        width,
-        with_manhattan_facing_angles=False,
-        spike_length=spike_length,
-    )
-
-
-def grating_taper_points(
-    a: float,
-    b: float,
-    x0: float,
-    taper_length: float,
-    taper_angle: float,
-    wg_width: float,
-    angle_step: float = 1.0,
-) -> npt.NDArray[np.floating[Any]]:
-    taper_arc = ellipse_arc(
-        a=a,
-        b=b,
-        x0=taper_length,
-        theta_min=-taper_angle / 2,
-        theta_max=taper_angle / 2,
-        angle_step=angle_step,
-    )
-
-    port_position = np.array((x0, 0))
-    p0 = port_position + (0, wg_width / 2)
-    p1 = port_position + (0, -wg_width / 2)
-    return np.vstack([p0, p1, taper_arc])
 
 
 @gf.cell

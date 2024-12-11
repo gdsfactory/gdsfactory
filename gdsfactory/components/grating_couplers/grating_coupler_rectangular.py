@@ -4,8 +4,6 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import rectangle
-from gdsfactory.components import taper as taper_function
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 
 
@@ -18,7 +16,7 @@ def grating_coupler_rectangular(
     length_taper: float = 150.0,
     polarization: str = "te",
     wavelength: float = 1.55,
-    taper: ComponentSpec = taper_function,
+    taper: ComponentSpec = "taper",
     layer_slab: LayerSpec | None = "SLAB150",
     layer_grating: LayerSpec | None = None,
     fiber_angle: float = 15,
@@ -93,7 +91,7 @@ def grating_coupler_rectangular(
     for i in range(n_periods):
         xsize = gf.snap.snap_to_grid(period * fill_factor)
         cgrating = c.add_ref(
-            rectangle(size=(xsize, width_grating), layer=layer, port_type=None)
+            gf.c.rectangle(size=(xsize, width_grating), layer=layer, port_type=None)
         )
         cgrating.dxmin = gf.snap.snap_to_grid(x0 + i * period)
         cgrating.dy = 0

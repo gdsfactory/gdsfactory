@@ -5,7 +5,6 @@ from __future__ import annotations
 from functools import partial
 
 import gdsfactory as gf
-from gdsfactory.components import rectangle
 from gdsfactory.typings import ComponentSpec, Float2, LayerSpec
 
 
@@ -31,11 +30,11 @@ def pad_gsg_short(
         route_xsize: in um.
     """
     c = gf.Component()
-    via = rectangle(size=size, layer=layer_metal)
+    via = gf.c.rectangle(size=size, layer=layer_metal)
     gnd_top = c << via
 
     if short:
-        c << rectangle(size=size, layer=layer_metal)
+        c << gf.c.rectangle(size=size, layer=layer_metal)
     gnd_bot = c << via
 
     gnd_bot.dymax = via.dymin

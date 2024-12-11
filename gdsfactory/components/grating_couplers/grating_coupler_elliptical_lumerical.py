@@ -5,7 +5,7 @@ from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import (
+from gdsfactory.components.grating_couplers.grating_coupler_elliptical_arbitrary import (
     grating_coupler_elliptical_arbitrary,
 )
 from gdsfactory.typings import CrossSectionSpec, Floats, LayerSpec
