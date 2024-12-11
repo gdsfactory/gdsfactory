@@ -224,7 +224,7 @@ instances:
       cross_section: strip
       length: 200
       taper: taper_strip_to_ridge
-      via_stack: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLSLAB90_M1_M2_MTOP_Vviac_via1_via2_None
+      via_stack: via_stack_slab_m3
       via_stack_spacing: 2
       via_stack_width: 10
   sxt:
@@ -234,7 +234,7 @@ instances:
       cross_section: strip
       length: 200
       taper: taper_strip_to_ridge
-      via_stack: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLSLAB90_M1_M2_MTOP_Vviac_via1_via2_None
+      via_stack: via_stack_slab_m3
       via_stack_spacing: 2
       via_stack_width: 10
   sybr:

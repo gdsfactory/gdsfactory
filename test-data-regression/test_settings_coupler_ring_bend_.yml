@@ -1,0 +1,12 @@
+info: {}
+name: coupler_ring_bend_R10_C_3794c480
+settings:
+  bend: bend_circular_all_angle
+  bend_output: bend_euler
+  coupler_gap: 0.2
+  coupling_angle_coverage: 90
+  cross_section_inner: strip
+  cross_section_outer: strip
+  length_x: 0
+  radius: 10
+  straight: straight

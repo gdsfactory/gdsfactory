@@ -1,5 +1,5 @@
 info: {}
-name: grating_coupler_loss_fi_07f21f40
+name: grating_coupler_loss_fi_93128db2
 settings:
-  grating_coupler: Fgrating_coupler_elliptical_trenches_Mgdsfactorypcomponentspgrating_coupler_elliptical_trenches_SPte_TA35
+  grating_coupler: grating_coupler_elliptical_trenches
   pitch: 127

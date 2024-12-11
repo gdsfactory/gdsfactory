@@ -1,8 +1,8 @@
 info: {}
-name: ring_single_dut_CFtaper_ab2e96a5
+name: ring_single_dut_Cstraig_3023a85c
 settings:
   bend: bend_euler
-  component: Ftaper_Mgdsfactorypcomponentsptaper_SW3
+  component: straight
   coupler: coupler_ring
   gap: 0.2
   length_x: 4

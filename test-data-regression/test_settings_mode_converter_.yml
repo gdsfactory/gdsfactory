@@ -1,7 +1,7 @@
 info: {}
-name: mode_converter_G0p3_L10_17f2b57c
+name: mode_converter_G0p3_L10_0aabb81a
 settings:
-  bend: Fbend_s_Mgdsfactorypcomponentspbend_s_SS25_3
+  bend: Fbend_s_Mgdsfactorypcomponentspbendspbend_s_SS25_3
   coupler_straight_asymmetric: coupler_straight_asymmetric
   cross_section: strip
   gap: 0.3

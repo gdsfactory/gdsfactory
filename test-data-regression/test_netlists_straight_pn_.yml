@@ -101,7 +101,7 @@ instances:
       - via1
       - via2
       - null
-name: straight_pin_L2000_CSpn_958ac331
+name: straight_pin_L2000_CSpn_5e121870
 nets:
 - p1: straight_L1980_N2_CSpn_WNone_0_0,o1
   p2: taper_strip_to_ridge_L1_3a86af41_m10000_0,o2

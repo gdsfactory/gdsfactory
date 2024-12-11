@@ -1,5 +1,5 @@
 info: {}
-name: mzi_DL10_LY2_LX200_Bben_f0fe831d
+name: mzi_DL10_LY2_LX200_Bben_6e9f3e3b
 settings:
   add_optical_ports_arms: false
   auto_rename_ports: true
@@ -19,5 +19,5 @@ settings:
   port_e1_splitter: o2
   splitter: mmi1x2
   straight: straight
-  straight_x_top: Fstraight_heater_metal_undercut_Mgdsfactorypcomponentspstraight_heater_metal_SWUFalse_LSI0p1_LU5_LUS0
+  straight_x_top: straight_heater_metal
   with_splitter: true
