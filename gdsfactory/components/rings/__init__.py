@@ -17,16 +17,13 @@ from gdsfactory.components.rings.ring_double import (
 from gdsfactory.components.rings.ring_double_bend_coupler import (
     ring_double_bend_coupler,
 )
-from gdsfactory.components.rings.ring_double_pn import (
-    cross_section_pn,
-    cross_section_rib,
-    heater_vias,
-    ring_double_pn,
-    ring_single_pn,
-)
 from gdsfactory.components.rings.ring_heater import (
     ring_double_heater,
     ring_single_heater,
+)
+from gdsfactory.components.rings.ring_pn import (
+    ring_double_pn,
+    ring_single_pn,
 )
 from gdsfactory.components.rings.ring_single import (
     ring_single,
@@ -46,11 +43,8 @@ from gdsfactory.components.rings.ring_single_dut import (
 __all__ = [
     "coupler_bend",
     "coupler_ring_bend",
-    "cross_section_pn",
-    "cross_section_rib",
     "disk",
     "disk_heater",
-    "heater_vias",
     "ring",
     "ring_crow",
     "ring_crow_couplers",
