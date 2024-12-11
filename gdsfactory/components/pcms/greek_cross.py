@@ -1,7 +1,6 @@
 """Greek cross test structure."""
 
 import gdsfactory as gf
-from gdsfactory.components import cross
 from gdsfactory.cross_section import metal1
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats, LayerSpecs
 
@@ -63,10 +62,8 @@ def greek_cross(
     offsets = offsets or (0.0,) * len(layers)
     index = 0
 
-    # Layout cross
     for layer, width, offset in zip(layers, widths, offsets):
-        ref = c << gf.get_component(
-            cross,
+        ref = c << gf.c.cross(
             length=length + 2 * offset,
             width=width,
             layer=layer,

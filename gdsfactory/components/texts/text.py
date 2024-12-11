@@ -5,7 +5,6 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import text_rectangular
 from gdsfactory.constants import _glyph, _indent, _width
 from gdsfactory.typings import Coordinate, LayerSpec, LayerSpecs
 
@@ -84,7 +83,7 @@ def text_lines(
     c = gf.Component()
 
     for i, texti in enumerate(text):
-        t = text_rectangular(text=texti, size=size, layer=layer)
+        t = gf.c.text_rectangular(text=texti, size=size, layer=layer)
         tref = c.add_ref(t)
         tref.dmovey(-6 * size * (i + 1))
     return c

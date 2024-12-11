@@ -6,7 +6,10 @@ from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import copy_layers, pixel_array, rectangular_font
+from gdsfactory.components.texts.text_rectangular_font import (
+    pixel_array,
+    rectangular_font,
+)
 from gdsfactory.typings import ComponentSpec, LayerSpec, LayerSpecs
 
 
@@ -100,7 +103,7 @@ def text_rectangular_multi_layer(
         justify: left, right or center.
         font: function that returns dictionary of characters.
     """
-    return copy_layers(factory=text_factory, text=text, layers=layers, **kwargs)
+    return gf.c.copy_layers(factory=text_factory, text=text, layers=layers, **kwargs)
 
 
 text_rectangular_mini = partial(text_rectangular, size=1)

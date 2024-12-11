@@ -5,21 +5,12 @@ from typing import Any
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.components import (
-    bend_euler,
-    bend_euler180,
-    cutback_bend90,
-    cutback_bend180,
-    cutback_component,
-    spiral,
-)
-from gdsfactory.components.mmis.mmi1x2 import mmi1x2
-from gdsfactory.typings import ComponentFactory, CrossSectionSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 def cutback_loss(
-    component: ComponentFactory = mmi1x2,
-    cutback: ComponentFactory = cutback_component,
+    component: ComponentSpec = "mmi1x2",
+    cutback: ComponentSpec = "cutback_component",
     loss: Sequence[float] = (1.0, 2.0, 3.0),
     loss_dB: float = 10e-3,
     cols: int | None = 4,
@@ -57,13 +48,17 @@ def cutback_loss(
         rows_list = loss_array / loss_dB / cols
         rows_list = rows_list // 2 * 2 + 1
         return [
-            cutback(component=component, rows=int(rows), cols=cols, **kwargs)
+            gf.get_component(
+                cutback, component=component, rows=int(rows), cols=cols, **kwargs
+            )
             for rows in rows_list
         ]
     elif cols is None and rows is not None:
         cols_list = loss_array / loss_dB / rows
         return [
-            cutback(component=component, rows=rows, cols=int(cols), **kwargs)
+            gf.get_component(
+                cutback, component=component, rows=rows, cols=int(cols), **kwargs
+            )
             for cols in cols_list
         ]
     else:
@@ -74,7 +69,7 @@ _loss_default = tuple(4 + 3 * i for i in range(3))
 
 
 def cutback_loss_spirals(
-    spiral: ComponentFactory = spiral,
+    spiral: ComponentSpec = "spiral",
     loss: Sequence[float] = _loss_default,
     cross_section: CrossSectionSpec = "strip",
     loss_dB_per_m: float = 300,
@@ -91,17 +86,19 @@ def cutback_loss_spirals(
     """
     lengths = [loss_dB / loss_dB_per_m * 1e6 for loss_dB in loss]
     return [
-        spiral(length=length, cross_section=cross_section, **kwargs)
+        gf.get_component(spiral, length=length, cross_section=cross_section, **kwargs)
         for length in lengths
     ]
 
 
-cutback_loss_mmi1x2 = partial(cutback_loss, component=mmi1x2, port2="o3", mirror2=True)
+cutback_loss_mmi1x2 = partial(
+    cutback_loss, component="mmi1x2", port2="o3", mirror2=True
+)
 cutback_loss_bend90 = partial(
-    cutback_loss, component=bend_euler, cutback=cutback_bend90, cols=12
+    cutback_loss, component="bend_euler", cutback="cutback_bend90", cols=12
 )
 cutback_loss_bend180 = partial(
-    cutback_loss, component=bend_euler180, cutback=cutback_bend180, cols=12
+    cutback_loss, component="bend_euler180", cutback="cutback_bend180", cols=12
 )
 
 

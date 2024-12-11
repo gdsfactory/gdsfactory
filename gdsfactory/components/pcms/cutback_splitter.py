@@ -4,22 +4,20 @@ from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import bend_euler180, component_sequence, straight
-from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
 def cutback_splitter(
-    component: ComponentSpec = mmi1x2,
+    component: ComponentSpec = "mmi1x2",
     cols: int = 4,
     rows: int = 5,
     port1: str = "o1",
     port2: str = "o2",
     port3: str = "o3",
-    bend180: ComponentSpec = bend_euler180,
+    bend180: ComponentSpec = b"end_euler180",
     mirror: bool = False,
-    straight: ComponentSpec = straight,
+    straight: ComponentSpec = "straight",
     straight_length: float | None = None,
     cross_section: CrossSectionSpec = "strip",
     **kwargs: Any,
@@ -77,7 +75,7 @@ def cutback_splitter(
 
     s = s[:-1]
 
-    c = component_sequence(sequence=s, symbol_to_component=symbol_to_component)
+    c = gf.c.component_sequence(sequence=s, symbol_to_component=symbol_to_component)
     n = len(s) - 2
     c.info["components"] = n
     return c
