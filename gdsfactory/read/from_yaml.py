@@ -65,7 +65,13 @@ from gdsfactory import typings
 from gdsfactory._deprecation import deprecate
 from gdsfactory.add_pins import add_instance_label
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.schematic import Bundle, Netlist, Placement
+from gdsfactory.schematic import (
+    Bundle,
+    GridArray,
+    Netlist,
+    OrthogonalGridArray,
+    Placement,
+)
 from gdsfactory.schematic import Instance as NetlistInstance
 from gdsfactory.typings import LayerSpec, Route, RoutingStrategies
 
@@ -833,9 +839,18 @@ def _get_dependency_graph(net: Netlist) -> nx.DiGraph:
 
     for i, inst in net.instances.items():
         g.add_node(i)
-        if inst.rows >= 2 or inst.columns >= 2:
-            for a, b in itertools.product(range(inst.rows), range(inst.columns)):
-                _graph_connect(g, f"{i}<{a}.{b}>", i)
+        if isinstance(inst.array, OrthogonalGridArray):
+            if inst.array.rows >= 2 or inst.array.columns >= 2:
+                for a, b in itertools.product(
+                    range(inst.array.rows), range(inst.array.columns)
+                ):
+                    _graph_connect(g, f"{i}<{a}.{b}>", i)
+        elif isinstance(inst.array, GridArray):
+            if inst.array.num_a >= 2 or inst.array.num_b >= 2:
+                for a, b in itertools.product(
+                    range(inst.array.num_a), range(inst.array.num_b)
+                ):
+                    _graph_connect(g, f"{i}<{a}.{b}>", i)
 
     for ip1, ip2 in net.connections.items():
         i1, _ = ip1.split(",")
@@ -867,23 +882,34 @@ def _get_references(
 ) -> dict[str, ComponentReference]:
     refs: dict[str, ComponentReference] = {}
     for name, inst in instances.items():
-        columns = inst.columns
-        rows = inst.rows
-        column_pitch = inst.column_pitch
-        row_pitch = inst.row_pitch
-
         comp = pdk.get_component(component=inst.component, settings=inst.settings)
-        if columns < 2 and rows < 2:
-            ref = c.add_ref(comp, name=name)
-        else:
+        if isinstance(inst.array, OrthogonalGridArray):
             ref = c.add_ref(
                 comp,
-                rows=rows,
-                columns=columns,
+                rows=inst.array.rows,
+                columns=inst.array.columns,
                 name=name,
-                column_pitch=column_pitch,
-                row_pitch=row_pitch,
+                column_pitch=inst.array.column_pitch,
+                row_pitch=inst.array.row_pitch,
             )
+        elif isinstance(inst.array, GridArray):
+            ref = ComponentReference(
+                c.create_inst(
+                    comp,
+                    na=inst.array.num_a,
+                    nb=inst.array.num_b,
+                    a=kf.kdb.Vector(
+                        c.kcl.to_dbu(inst.array.pitch_a[0]),
+                        c.kcl.to_dbu(inst.array.pitch_a[1]),
+                    ),
+                    b=kf.kdb.Vector(
+                        c.kcl.to_dbu(inst.array.pitch_b[0]),
+                        c.kcl.to_dbu(inst.array.pitch_b[1]),
+                    ),
+                )
+            )
+        else:
+            ref = c.add_ref(comp, name=name)
         refs[name] = ref
     return refs
 
