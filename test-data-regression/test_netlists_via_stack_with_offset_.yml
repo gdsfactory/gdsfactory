@@ -60,16 +60,17 @@ instances:
       - 10
       - 10
   via_S0p7_0p7_SNone_GNon_372ed4f2_m3000_2000:
-    column_pitch: 2
-    columns: 4
+    array:
+      column_pitch: 2
+      columns: 4
+      row_pitch: 2
+      rows: 4
     component: via
     info:
       enclosure: 1
       pitch: 2
       xsize: 0.7
       ysize: 0.7
-    row_pitch: 2
-    rows: 4
     settings:
       bbox_layers: null
       bbox_offset: 0
