@@ -27,6 +27,18 @@ instances:
       size:
       - 10
       - 10
+  compass_S10_10_LM2_PTNo_14f241bf_0_15000:
+    component: compass
+    info: {}
+    settings:
+      auto_rename_ports: true
+      layer: M2
+      port_inclusion: 0
+      port_orientations: null
+      port_type: null
+      size:
+      - 10
+      - 10
   compass_S10_10_LM2_PTNo_2f1c6aab_0_5000:
     component: compass
     info: {}
@@ -134,6 +146,11 @@ placements:
     rotation: 0
     x: 0
     y: 5
+  compass_S10_10_LM2_PTNo_14f241bf_0_15000:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 15
   compass_S10_10_LM2_PTNo_2f1c6aab_0_5000:
     mirror: false
     rotation: 0
