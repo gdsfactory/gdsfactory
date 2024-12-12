@@ -1,26 +1,38 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.23.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.25.1...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.25.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.25.1) - 2024-12-12
 
-No significant changes.
-
+- fixes bezier [#3488](https://github.com/gdsfactory/gdsfactory/pull/3488)
+- mmi accepts component spec [#3489](https://github.com/gdsfactory/gdsfactory/pull/3489)
+- use pytest_randomly [#3484](https://github.com/gdsfactory/gdsfactory/pull/3484)
 
 ## [8.25.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.25.0) - 2024-12-12
 
-No significant changes.
-
+- make netlist array instances nicer [#3486](https://github.com/gdsfactory/gdsfactory/pull/3486)
+- Eliminate side effects to global yaml behavior [#3485](https://github.com/gdsfactory/gdsfactory/pull/3485)
+- Fix label side effect [#3483](https://github.com/gdsfactory/gdsfactory/pull/3483)
 
 ## [8.24.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.24.1) - 2024-12-11
 
-No significant changes.
-
+- Fix sections type [#3480](https://github.com/gdsfactory/gdsfactory/pull/3480)
 
 ## [8.24.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.24.0) - 2024-12-11
 
-No significant changes.
+- add categories [#3474](https://github.com/gdsfactory/gdsfactory/pull/3474)
+- add uv to docker [#3463](https://github.com/gdsfactory/gdsfactory/pull/3463)
+- fix via_stack_with_offset [#3479](https://github.com/gdsfactory/gdsfactory/pull/3479)
+- Enforce layer in section [#3475](https://github.com/gdsfactory/gdsfactory/pull/3475)
+- Fix mypy errors in samples and components folders and cli file [#3473](https://github.com/gdsfactory/gdsfactory/pull/3473)
+- Fix mypy errors in cross_section.py file [#3472](https://github.com/gdsfactory/gdsfactory/pull/3472)
+- [pre-commit.ci] pre-commit autoupdate [#3470](https://github.com/gdsfactory/gdsfactory/pull/3470)
+- Layer stack accepts layers [#3471](https://github.com/gdsfactory/gdsfactory/pull/3471)
+- deprecate d-attributes for path [#3467](https://github.com/gdsfactory/gdsfactory/pull/3467)
+- Remove duplicate types [#3466](https://github.com/gdsfactory/gdsfactory/pull/3466)
+- Fix MyPy errors in routing folder [#3464](https://github.com/gdsfactory/gdsfactory/pull/3464)
+- Fix mypy errors in labels and read folders [#3462](https://github.com/gdsfactory/gdsfactory/pull/3462)
 
 
 ## [8.23.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.23.0) - 2024-12-05
