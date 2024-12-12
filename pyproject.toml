@@ -68,7 +68,9 @@ dev = [
   "pytest_regressions",
   "types-PyYAML",
   "types-cachetools",
-  "pytest-github-actions-annotate-failures"
+  "pytest-github-actions-annotate-failures",
+  "pytest-randomly",
+  "pytest-xdist"
 ]
 docs = [
   "autodoc_pydantic>=2.0.1,<3",
