@@ -168,6 +168,13 @@ def via_stack_with_offset(
         y0 += offset
         previous_layer = layer
 
+    ref = c << gf.c.compass(
+        size=(width, height),
+        layer=layers[-2],
+        port_type=None,
+        port_orientations=None,
+    )
+    ref.dymin = ref_layer.dymin
     return c
 
 
