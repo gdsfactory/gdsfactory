@@ -90,7 +90,7 @@ instances:
       width2: 1.2
       with_bbox: true
       with_two_ports: true
-name: mode_converter_G0p3_L10_17f2b57c
+name: mode_converter_G0p3_L10_0aabb81a
 nets:
 - p1: bend_s_S25_3_N99_CSstri_7865203f_0_1050,o1
   p2: coupler_straight_asymme_d7b83f37_0_0,o2

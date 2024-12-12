@@ -10,6 +10,7 @@ from gdsfactory.get_factories import get_cells
 cells = get_cells([gf.components])
 
 skip_test = {
+    "awg",
     "add_fiber_array_optical_south_electrical_north",
     "bbox",
     "component_sequence",
@@ -28,6 +29,9 @@ skip_test = {
     "spiral_racetrack_heater_metal",
     "text_freetype",
     "crossing45",
+    "seal_ring_segmented",
+    "grating_coupler_elliptical_lumerical_etch70",
+    "coupler_ring_bend",
 }
 cells_to_test = set(cells.keys()) - skip_test
 

@@ -1,7 +1,7 @@
 info:
   polarization: te
   wavelength: 1.55
-name: grating_coupler_dual_po_3fe35744
+name: grating_coupler_dual_po_45d03cc3
 settings:
   base_layer: WG
   cross_section: strip
@@ -10,7 +10,7 @@ settings:
   period_y: 0.58
   polarization: te
   taper: taper
-  unit_cell: Frectangle_Mgdsfactorypcomponentsprectangle_SS0p3_0p3_LSLAB150_CTrue_PTNone
+  unit_cell: _unit_cell
   wavelength: 1.55
   width_taper: 10
   x_span: 11
