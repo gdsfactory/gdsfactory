@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.24.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.24.0) - 2024-12-11
+
+No significant changes.
+
+
 ## [8.23.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.23.0) - 2024-12-05
 
 - less kwargs [#3457](https://github.com/gdsfactory/gdsfactory/pull/3457)
