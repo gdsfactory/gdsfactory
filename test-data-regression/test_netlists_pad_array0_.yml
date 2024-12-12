@@ -1,7 +1,10 @@
 instances:
   pad_S100_100_LMTOP_BLNo_163fd346_0_0:
-    column_pitch: 150
-    columns: 1
+    array:
+      column_pitch: 150
+      columns: 1
+      row_pitch: 150
+      rows: 3
     component: pad
     info:
       size:
@@ -9,8 +12,6 @@ instances:
       - 100
       xsize: 100
       ysize: 100
-    row_pitch: 150
-    rows: 3
     settings:
       bbox_layers: null
       bbox_offsets: null
