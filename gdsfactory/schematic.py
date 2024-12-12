@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from typing import Any
+from typing import Any, Self
 
 import networkx as nx
 import yaml
@@ -14,6 +14,38 @@ from gdsfactory.config import PATH
 from gdsfactory.typings import Anchor, Delta
 
 
+class OrthogonalGridArray(BaseModel):
+    """Orthogonal grid array config.
+
+    Parameters:
+        columns: number of columns.
+        rows: number of rows.
+        column_pitch: column pitch.
+        row_pitch: row pitch.
+    """
+
+    columns: int = 1
+    rows: int = 1
+    column_pitch: float = 0
+    row_pitch: float = 0
+
+
+class GridArray(BaseModel):
+    """Orthogonal grid array config.
+
+    Parameters:
+        columns: number of columns.
+        rows: number of rows.
+        column_pitch: column pitch.
+        row_pitch: row pitch.
+    """
+
+    num_a: int = 1
+    num_b: int = 1
+    pitch_a: tuple[float, float] = (1.0, 0.0)
+    pitch_b: tuple[float, float] = (0.0, 1.0)
+
+
 class Instance(BaseModel):
     """Instance of a component.
 
@@ -21,19 +53,13 @@ class Instance(BaseModel):
         component: component name.
         settings: input variables.
         info: information (polarization, wavelength ...).
-        columns: number of columns.
-        rows: number of rows.
-        column_pitch: column pitch.
-        row_pitch: row pitch.
+        array: array config to make create an array reference for this instance
     """
 
     component: str
     settings: dict[str, Any] = Field(default_factory=dict)
     info: dict[str, Any] = Field(default_factory=dict, exclude=True)
-    columns: int = 1
-    rows: int = 1
-    column_pitch: float = 0
-    row_pitch: float = 0
+    array: OrthogonalGridArray | GridArray | None = None
 
     model_config = {"extra": "forbid"}
 
@@ -54,6 +80,24 @@ class Instance(BaseModel):
         values["settings"] = {**component_settings, **settings}
         values["component"] = c.function_name or component
         return values
+
+    @model_validator(mode="after")
+    def validate_array(self) -> Self:
+        if isinstance(self.array, OrthogonalGridArray):
+            if self.array.columns < 2:
+                self.array.columns = 1
+            if self.array.rows < 2:
+                self.array.rows = 1
+            if self.array.columns == 1 and self.array.rows == 1:
+                self.array = None
+        elif isinstance(self.array, GridArray):
+            if self.array.num_a < 2:
+                self.array.num_a = 1
+            if self.array.num_b < 2:
+                self.array.num_b = 1
+            if self.array.num_a == 1 and self.array.num_b == 1:
+                self.array = None
+        return self
 
 
 class Placement(BaseModel):

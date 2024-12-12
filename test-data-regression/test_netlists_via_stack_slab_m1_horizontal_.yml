@@ -32,16 +32,17 @@ instances:
       - 11
       - 11
   via_S7_0p70000000000000_6ce51dbf_0_m3000:
-    column_pitch: 2
-    columns: 1
+    array:
+      column_pitch: 2
+      columns: 1
+      row_pitch: 2
+      rows: 4
     component: via
     info:
       enclosure: 2
       pitch: 2
       xsize: 7
       ysize: 0.7
-    row_pitch: 2
-    rows: 4
     settings:
       bbox_layers: null
       bbox_offset: 0
@@ -55,16 +56,17 @@ instances:
       - 0.7
       spacing: null
   via_S9_0p70000000000000_a6f786c9_0_m4000:
-    column_pitch: 2
-    columns: 1
+    array:
+      column_pitch: 2
+      columns: 1
+      row_pitch: 2
+      rows: 5
     component: via
     info:
       enclosure: 1
       pitch: 2
       xsize: 9
       ysize: 0.7
-    row_pitch: 2
-    rows: 5
     settings:
       bbox_layers: null
       bbox_offset: 0
