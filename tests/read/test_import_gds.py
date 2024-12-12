@@ -34,7 +34,7 @@ def test_import_gds_hierarchy() -> None:
 
 def test_import_json_label(data_regression: DataRegressionFixture) -> None:
     """Import ports from GDS."""
-    c = gf.Component()
+    c = gf.Component("test_import_json_label")
     c1 = gf.labels.add_label_json(c)
     gdspath = c1.write_gds()
     csvpath = gf.labels.write_labels(gdspath, prefixes=["{"])
