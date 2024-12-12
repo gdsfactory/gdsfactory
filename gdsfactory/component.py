@@ -19,7 +19,7 @@ from trimesh.scene.scene import Scene
 from gdsfactory.config import CONF, GDSDIR_TEMP
 from gdsfactory.functions import get_polygons, get_polygons_points
 from gdsfactory.port import pprint_ports, select_ports, to_dict
-from gdsfactory.serialization import clean_value_json, convert_tuples_to_lists
+from gdsfactory.serialization import clean_value_json
 
 if TYPE_CHECKING:
     import networkx as nx  # type: ignore[import-untyped]
@@ -1019,7 +1019,6 @@ class ComponentBase:
             netlist: netlist to write.
             filepath: Optional file path to write to.
         """
-        netlist = convert_tuples_to_lists(netlist)
         yaml_string = yaml.dump(netlist)
         if filepath:
             filepath = pathlib.Path(filepath)
