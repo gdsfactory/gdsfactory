@@ -2,9 +2,7 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.tapers.taper import taper as taper_function
-from gdsfactory.components.waveguides.straight import straight as straight_function
-from gdsfactory.typings import ComponentFactory, CrossSectionSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -18,8 +16,8 @@ def mmi(
     width_mmi: float = 5,
     gap_input_tapers: float = 0.25,
     gap_output_tapers: float = 0.25,
-    taper: ComponentFactory = taper_function,
-    straight: ComponentFactory = straight_function,
+    taper: ComponentSpec = "taper",
+    straight: ComponentSpec = "straight",
     cross_section: CrossSectionSpec = "strip",
     input_positions: list[float] | None = None,
     output_positions: list[float] | None = None,
@@ -68,14 +66,15 @@ def mmi(
     xs_mmi = gf.get_cross_section(cross_section, width=width_mmi)
     width = width or x.width
 
-    _taper = taper(
+    _taper = gf.get_component(
+        taper,
         length=length_taper,
         width1=width,
         width2=w_taper,
         cross_section=cross_section,
     )
 
-    _ = c << straight(length=length_mmi, cross_section=xs_mmi)
+    _ = c << gf.get_component(straight, length=length_mmi, cross_section=xs_mmi)
     wg_spacing_input = gap_input_tapers + width_taper
     wg_spacing_output = gap_output_tapers + width_taper
 
@@ -125,9 +124,5 @@ def mmi(
 
 
 if __name__ == "__main__":
-    c = gf.Component()
-    s = c << gf.c.straight()
-    b = c << gf.c.bend_circular()  # type: ignore
-    # b.dmirror()
-    b.connect("o1", s.ports["o1"])
+    c = mmi(inputs=1, outputs=4)
     c.show()
