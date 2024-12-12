@@ -91,7 +91,8 @@ maintainer = [
   "tbump",
   "autotyping",
   "towncrier",
-  "pytest-randomly"
+  "pytest-randomly",
+  "pytest-xdist"
 ]
 
 [project.scripts]

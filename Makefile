@@ -31,7 +31,7 @@ test: test-data-gds
 	pytest -s
 
 test-force:
-	pytest -n auto --randomly-seed=41 --force-regen
+	pytest -n auto --force-regen
 
 uv-test: test-data-gds
 	uv run pytest -s
