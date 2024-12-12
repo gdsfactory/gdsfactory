@@ -90,7 +90,8 @@ maintainer = [
   "mypy",
   "tbump",
   "autotyping",
-  "towncrier"
+  "towncrier",
+  'pytest-randomly'
 ]
 
 [project.scripts]
