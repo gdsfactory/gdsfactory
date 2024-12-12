@@ -155,10 +155,17 @@ def test_extrude_component_along_path() -> None:
         component=gf.c.rectangle(size=(1, 1), centered=True), spacing=5, padding=2
     )
     s = gf.Section(width=0.5, offset=0, layer=(1, 0), port_names=("in", "out"))
-    x = gf.CrossSection(sections=[s], components_along_path=[via])
+    x = gf.CrossSection(sections=(s,), components_along_path=(via,))
 
     # Combine the path with the cross-section
     c = gf.path.extrude(p, cross_section=x)
+    assert c
+
+
+def test_extrude_cross_section_list_of_sections() -> None:
+    s = gf.Section(width=0.5, offset=0.5, layer="WG")
+    xs = gf.CrossSection(sections=[s])  # type: ignore
+    c = gf.c.straight(cross_section=xs)
     assert c
 
 
