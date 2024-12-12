@@ -187,13 +187,14 @@ class GeometryHelper(ABC):
         bbox = self.bbox
         return float(bbox[1][1] - bbox[0][1])
 
-    def movex(self, value: float) -> None:
+    def movex(self, value: float) -> Self:
         """Moves an object by a specified x-distance.
 
         Args:
             value: distance to move the object in the x-direction in um.
         """
         self.x += value
+        return self
 
     def movey(self, value: float) -> Self:
         """Moves an object by a specified y-distance.
@@ -202,6 +203,7 @@ class GeometryHelper(ABC):
             value: distance to move the object in the y-direction in um.
         """
         self.y += value
+        return self
 
 
 def rotate_points(

@@ -16,6 +16,7 @@ from kfactory import Instance, kdb
 from kfactory.kcell import PROPID, cell, save_layout_options
 from trimesh.scene.scene import Scene
 
+from gdsfactory._deprecation import deprecate
 from gdsfactory.config import CONF, GDSDIR_TEMP
 from gdsfactory.functions import get_polygons, get_polygons_points
 from gdsfactory.port import pprint_ports, select_ports, to_dict
@@ -970,9 +971,9 @@ class ComponentBase:
 
     def to_3d(
         self,
-        layer_views: "LayerViews" | None = None,
-        layer_stack: "LayerStack" | None = None,
-        exclude_layers: "Sequence[Layer]" | None = None,
+        layer_views: "LayerViews | None" = None,
+        layer_stack: "LayerStack | None" = None,
+        exclude_layers: "Sequence[Layer] | None" = None,
     ) -> Scene:
         """Return Component 3D trimesh Scene.
 
@@ -1019,8 +1020,8 @@ class ComponentBase:
             netlist: netlist to write.
             filepath: Optional file path to write to.
         """
-        netlist = convert_tuples_to_lists(netlist)
-        yaml_string = yaml.dump(netlist)
+        netlist_converted = convert_tuples_to_lists(netlist)
+        yaml_string = yaml.dump(netlist_converted)
         if filepath:
             filepath = pathlib.Path(filepath)
             filepath.write_text(yaml_string)
@@ -1051,19 +1052,19 @@ class ComponentBase:
         import matplotlib.pyplot as plt
         import networkx as nx
 
-        from gdsfactory.get_netlist import _nets_to_connections
+        from gdsfactory.get_netlist import nets_to_connections
 
         plt.figure()
         netlist = self.get_netlist(recursive=recursive, **kwargs)
         G = nx.Graph()
 
         if recursive:
-            pos = {}
-            labels = {}
+            pos: dict[str, tuple[float, float]] = {}
+            labels: dict[str, str] = {}
             for net in netlist.values():
                 nets = net.get("nets", [])
                 connections = net.get("connections", {})
-                connections = _nets_to_connections(nets, connections)
+                connections = nets_to_connections(nets, connections)
                 placements = net["placements"]
                 G.add_edges_from(
                     [
@@ -1077,7 +1078,7 @@ class ComponentBase:
         else:
             nets = netlist.get("nets", [])
             connections = netlist.get("connections", {})
-            connections = _nets_to_connections(nets, connections)
+            connections = nets_to_connections(nets, connections)
             placements = netlist["placements"]
             G.add_edges_from(
                 [
@@ -1255,7 +1256,7 @@ class ComponentBase:
         # Remove margins and display the image
         ax.imshow(img_array)
         ax.axis("off")  # Hide axes
-        ax.set_position([0, 0, 1, 1])  # Set axes to occupy the full figure space
+        ax.set_position((0, 0, 1, 1))  # Set axes to occupy the full figure space
 
         plt.subplots_adjust(
             left=0, right=1, top=1, bottom=0, wspace=0, hspace=0
@@ -1267,13 +1268,13 @@ class ComponentBase:
     @property
     def named_references(self) -> list[ComponentReference]:
         """Returns a dictionary of named references."""
-        warnings.warn("named_references is deprecated. Use insts instead")
-        return self.insts
+        deprecate("named_references", "insts")
+        return self.insts  # type: ignore[no-any-return]
 
     @property
     def references(self) -> list[ComponentReference]:
         """Returns a list of references."""
-        warnings.warn("references is deprecated. Use insts instead")
+        deprecate("references", "insts")
         return list(self.insts)
 
     def ref(self, *args: Any, **kwargs: Any) -> kdb.DCellInstArray:
@@ -1304,7 +1305,7 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
     ) -> None:
         """Initializes a Component."""
         self.insts = ComponentReferences()
-        super().__init__(name=name, kcl=kcl, kdb_cell=kdb_cell, ports=ports)
+        super().__init__(name=name, kcl=kcl, kdb_cell=kdb_cell, ports=ports)  # type: ignore
 
     def __lshift__(self, component: Component) -> ComponentReference:  # type: ignore[override]
         """Creates a ComponentReference to a Component."""
@@ -1373,8 +1374,9 @@ def component_with_function(
 
 if __name__ == "__main__":
     import gdsfactory as gf
+    from gdsfactory.components.mzi import mzi
 
-    c = gf.c.mzi()
+    c = mzi()
     c.offset("WG", -0.2)
     # c.over_under("WG", 0.2)
     # n = c.to_graphviz()
