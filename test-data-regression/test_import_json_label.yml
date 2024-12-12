@@ -7,7 +7,7 @@ analysis_settings:
 doe: null
 measurement: null
 measurement_settings: {}
-name: straight_L10_N2_CSstrip_WNone
+name: straight__test_import_json_label
 xelec: []
 xopt:
 - 0
