@@ -162,7 +162,7 @@ class ComponentAlongPath(BaseModel):
     model_config = ConfigDict(extra="forbid", frozen=True)
 
 
-Sections = Sequence[Section]
+Sections = tuple[Section, ...]
 
 
 class CrossSection(BaseModel):
