@@ -1,11 +1,11 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.25.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.25.2...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.25.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.25.2) - 2024-12-12
 
-No significant changes.
+- support different column_pitch and row_pitch for vias [#3490](https://github.com/gdsfactory/gdsfactory/pull/3490)
 
 
 ## [8.25.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.25.1) - 2024-12-12
