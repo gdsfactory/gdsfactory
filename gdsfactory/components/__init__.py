@@ -29,6 +29,7 @@ from gdsfactory.components.bends import (
     bend_euler_all_angle,
     bend_euler_s,
     bend_s,
+    bezier,
 )
 from gdsfactory.components.containers import (
     add_fiber_array_optical_south_electrical_north,
@@ -378,6 +379,7 @@ __all__ = [
     "bend_euler_s",
     "bend_s",
     "bends",
+    "bezier",
     "cavity",
     "cdsem_all",
     "cdsem_bend180",
