@@ -129,13 +129,19 @@ def via_stack_with_offset(
                 raise ValueError(f"via {via.name!r} is missing ysize info")
             if "enclosure" not in via.info:
                 raise ValueError(f"via {via.name!r} is missing enclosure info")
-            if "pitch" not in via.info:
-                raise ValueError(f"via {via.name!r} is missing pitch info")
+            if "column_pitch" not in via.info:
+                raise ValueError(
+                    f"Component {via.name!r} does not have a 'column_pitch' key in info"
+                )
+            if "row_pitch" not in via.info:
+                raise ValueError(
+                    f"Component {via.name!r} does not have a 'row_pitch' key in info"
+                )
 
             w, h = via.info["xsize"], via.info["ysize"]
             enclosure = via.info["enclosure"]
-            pitch = via.info["pitch"]
-            pitch_x, pitch_y = pitch, pitch
+            pitch_x = via.info["column_pitch"]
+            pitch_y = via.info["row_pitch"]
 
             nb_vias_x = (width - w - 2 * enclosure) / pitch_x + 1
             nb_vias_y = (height - h - 2 * enclosure) / pitch_y + 1

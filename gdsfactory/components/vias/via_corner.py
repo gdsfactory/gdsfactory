@@ -76,14 +76,20 @@ def via_corner(
         if "enclosure" not in via.info:
             raise ValueError(f"Via {via.name!r} does not have enclosure in info")
 
-        if "pitch" not in via.info:
-            raise ValueError(f"Via {via.name!r} does not have pitch in info")
+        if "column_pitch" not in via.info:
+            raise ValueError(
+                f"Component {via.name!r} does not have a 'column_pitch' key in info"
+            )
+        if "row_pitch" not in via.info:
+            raise ValueError(
+                f"Component {via.name!r} does not have a 'row_pitch' key in info"
+            )
 
         w = via.info["xsize"]
         h = via.info["ysize"]
         g = via.info["enclosure"]
-        pitch = via.info["pitch"]
-        pitch_x = pitch_y = pitch
+        pitch_y = via.info["row_pitch"]
+        pitch_x = via.info["column_pitch"]
 
         nb_vias_x = (min_width - w - 2 * g) / pitch_x + 1
         nb_vias_y = (min_height - h - 2 * g) / pitch_y + 1

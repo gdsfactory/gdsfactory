@@ -116,15 +116,19 @@ def via_stack(
                     f"Component {_via.name!r} does not have a 'ysize' key in info"
                 )
 
-            if "pitch" not in _via.info:
+            if "column_pitch" not in _via.info:
                 raise ValueError(
-                    f"Component {_via.name!r} does not have a 'pitch' key in info"
+                    f"Component {_via.name!r} does not have a 'column_pitch' key in info"
+                )
+            if "row_pitch" not in _via.info:
+                raise ValueError(
+                    f"Component {_via.name!r} does not have a 'row_pitch' key in info"
                 )
 
             w, h = _via.dxsize, _via.dysize
             enclosure = _via.info["enclosure"]
-            pitch = _via.info["pitch"]
-            pitch_x, pitch_y = pitch, pitch
+            pitch_y = _via.info["row_pitch"]
+            pitch_x = _via.info["column_pitch"]
 
             min_width = w + enclosure
             min_height = h + enclosure
@@ -255,14 +259,19 @@ def via_stack_corner45(
                     f"Component {_via.name!r} does not have a 'ysize' key in info"
                 )
 
-            if "pitch" not in _via.info:
+            if "column_pitch" not in _via.info:
                 raise ValueError(
-                    f"Component {_via.name!r} does not have a 'pitch' key in info"
+                    f"Component {_via.name!r} does not have a 'column_pitch' key in info"
+                )
+            if "row_pitch" not in _via.info:
+                raise ValueError(
+                    f"Component {_via.name!r} does not have a 'row_pitch' key in info"
                 )
 
             w, h = _via.info["xsize"], _via.info["ysize"]
             enclosure = _via.info["enclosure"]
-            pitch_x, pitch_y = _via.info["pitch"], _via.info["pitch"]
+            pitch_x = _via.info["column_pitch"]
+            pitch_y = _via.info["row_pitch"]
 
             via = _via
 
@@ -390,11 +399,14 @@ via_stack_slab_m1_horizontal = partial(via_stack_slab_m1, slot_horizontal=True)
 
 
 if __name__ == "__main__":
+    from functools import partial
+
+    c = via_stack(vias=(partial(gf.c.via1, column_pitch=2, row_pitch=1), "via2", None))
     # c = via_stack_corner45()
     # c = via_stack_slab_m3(size=(100, 10), slot_vertical=True)
     # c = via_stack_npp_m1()
     # c = via_stack_m1_mtop(port_orientations=(0, 90))
-    c = via_stack_m1_m3(layer_to_port_orientations={"M1": [0], "MTOP": [90]})
+    # c = via_stack_m1_m3(layer_to_port_orientations={"M1": [0], "MTOP": [90]})
     # c = via_stack_m1_m3()
     c.pprint_ports()
     # n = c.get_netlist()
