@@ -25,11 +25,7 @@ from pydantic_extra_types.color import Color
 from gdsfactory.name import clean_name
 from gdsfactory.technology.color_utils import ensure_six_digit_hex_color
 from gdsfactory.technology.xml_utils import make_pretty_xml
-from gdsfactory.technology.yaml_utils import (
-    add_color_yaml_presenter,
-    add_multiline_str_yaml_presenter,
-    add_tuple_yaml_presenter,
-)
+from gdsfactory.technology.yaml_utils import TechnologyDumper
 
 if TYPE_CHECKING:
     from pydantic.typing import AbstractSetIntStr, DictStrAny, MappingIntStrAny
@@ -1137,22 +1133,15 @@ class LayerViews(BaseModel):
             custom_line_styles=line_styles,
         )
 
-    def to_yaml(
-        self, layer_file: str | pathlib.Path, prefer_named_color: bool = True
-    ) -> None:
+    def to_yaml(self, layer_file: str | pathlib.Path) -> None:
         """Export layer properties to a YAML file.
 
         Args:
             layer_file: Name of the file to write LayerViews to.
-            prefer_named_color: Write the name of a color instead of its hex representation when possible.
         """
         lf_path = pathlib.Path(layer_file)
         dirpath = lf_path.parent
         dirpath.mkdir(exist_ok=True, parents=True)
-
-        add_tuple_yaml_presenter()
-        add_multiline_str_yaml_presenter()
-        add_color_yaml_presenter(prefer_named_color=prefer_named_color)
 
         lvs = {
             name: lv.dict(exclude_none=True, exclude_defaults=True, exclude_unset=True)
@@ -1181,6 +1170,7 @@ class LayerViews(BaseModel):
                 sort_keys=False,
                 default_flow_style=False,
                 encoding="utf-8",
+                Dumper=TechnologyDumper,
             )
         )
 
