@@ -59,7 +59,7 @@ instances:
       size:
       - 10
       - 10
-  via_S0p7_0p7_SNone_GNon_372ed4f2_m3000_2000:
+  via_S0p7_0p7_SNone_GNon_9f66867f_m3000_2000:
     array:
       column_pitch: 2
       columns: 4
@@ -67,18 +67,21 @@ instances:
       rows: 4
     component: via
     info:
+      column_pitch: 2
       enclosure: 1
-      pitch: 2
+      row_pitch: 2
       xsize: 0.7
       ysize: 0.7
     settings:
       bbox_layers: null
       bbox_offset: 0
       bbox_offsets: null
+      column_pitch: null
       enclosure: 1
       gap: null
       layer: VIAC
       pitch: 2
+      row_pitch: null
       size:
       - 0.7
       - 0.7
@@ -106,7 +109,7 @@ placements:
     rotation: 0
     x: 0
     y: 5
-  via_S0p7_0p7_SNone_GNon_372ed4f2_m3000_2000:
+  via_S0p7_0p7_SNone_GNon_9f66867f_m3000_2000:
     mirror: false
     rotation: 0
     x: -3
