@@ -37,8 +37,6 @@ from kfactory.routing.optical import place90, route
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.typings import (
     STEP_DIRECTIVES,
@@ -56,8 +54,8 @@ def route_single(
     port2: Port,
     cross_section: CrossSectionSpec | None = None,
     layer: LayerSpec | None = None,
-    bend: ComponentSpec = bend_euler,
-    straight: ComponentSpec = straight_function,
+    bend: ComponentSpec = "bend_euler",
+    straight: ComponentSpec = "straight",
     start_straight_length: float = 0.0,
     end_straight_length: float = 0.0,
     waypoints: WayPoints | None = None,

@@ -161,7 +161,7 @@ instances:
       - 0
       size: 1
       text: '800'
-name: cdsem_straight_W0p4_0p4_e37085c4
+name: cdsem_straight_W0p4_0p4_ac74fcb4
 nets: []
 placements:
   straight_L420_N2_CSstrip_W0p45_0_7225:

@@ -8,9 +8,7 @@ from kfactory.routing.generic import ManhattanRoute
 import gdsfactory as gf
 from gdsfactory import typings
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.cross_section import CrossSection, strip
+from gdsfactory.cross_section import CrossSection
 from gdsfactory.port import Port, select_ports_optical
 from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.routing.route_single import route_single
@@ -32,11 +30,11 @@ def route_south(
     straight_separation: float = 4.0,
     io_gratings_lines: list[list[ComponentReference]] | None = None,
     gc_port_name: str = "o1",
-    bend: ComponentSpec = bend_euler,
-    straight: ComponentSpec = straight_function,
+    bend: ComponentSpec = "bend_euler",
+    straight: ComponentSpec = "straight",
     select_ports: SelectPorts = select_ports_optical,
     port_names: Strs | None = None,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: CrossSectionSpec = "strip",
     start_straight_length: float = 0.5,
     port_type: str | None = None,
     allow_width_mismatch: bool = False,

@@ -16,7 +16,7 @@ from rich.table import Table
 if TYPE_CHECKING:
     pass
 
-__version__ = "8.23.0"
+__version__ = "8.24.0"
 __next_major_version__ = "9.0.0"
 
 PathType = str | pathlib.Path
@@ -157,12 +157,14 @@ class Paths:
     gds_diff = GDSDIR_TEMP / "gds_diff"
     cwd = cwd
     sparameters_repo = test_data / "sp"  # repo with some demo sparameters
-    fonts = module / "components" / "fonts"
+    fonts = module / "components" / "texts" / "fonts"
     font_ocr = fonts / "OCR-A.ttf"
 
 
 PATH = Paths()
 sparameters_path = PATH.sparameters
+
+valid_port_orientations = {0, 90, 180, -90, 270}
 
 
 def rich_output() -> None:

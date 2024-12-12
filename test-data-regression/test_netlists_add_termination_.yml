@@ -55,7 +55,7 @@ instances:
       width2: 0.1
       with_bbox: true
       with_two_ports: true
-name: add_termination_Cstraig_a456518a
+name: add_termination_Cstraig_311ba3e0
 nets:
 - p1: straight_L10_N2_CSstrip_WNone_0_0,o1
   p2: taper_L10_W0p5_W0p1_LNo_81147eb0_0_0,o1

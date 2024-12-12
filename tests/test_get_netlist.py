@@ -28,10 +28,9 @@ def test_netlist_simple_width_mismatch_throws_error() -> None:
 
 
 def test_netlist_complex() -> None:
-    c = gf.components.mzi_arms()
+    c = gf.components.ring_single()
     netlist = c.get_netlist()
-    # print(netlist.pretty())
-    assert len(netlist["instances"]) == 4, len(netlist["instances"])
+    assert len(netlist["instances"]) == 6, len(netlist["instances"])
 
 
 def test_get_netlist_cell_array() -> None:
@@ -292,4 +291,4 @@ def test_get_netlist_transformed() -> None:
 
 
 if __name__ == "__main__":
-    test_get_netlist_cell_array()
+    test_netlist_complex()

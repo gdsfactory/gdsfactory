@@ -189,7 +189,7 @@ def _polygon_orientation(vertices: npt.NDArray[np.float64]) -> int:
 
 
 if __name__ == "__main__":
-    from gdsfactory.components.text_freetype import text_freetype
+    from gdsfactory.components import text_freetype
 
     c = text_freetype("hello")
     c.show()

@@ -2805,7 +2805,7 @@ instances:
       length: 5
       npoints: 2
       width: null
-name: cutback_bend180_CFbend__5a8124e5
+name: cutback_bend180_Cbend_e_ea441d2d
 nets:
 - p1: 1,o1
   p2: m12,o2

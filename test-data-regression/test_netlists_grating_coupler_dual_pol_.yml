@@ -75,7 +75,7 @@ instances:
       width2: 10
       with_bbox: true
       with_two_ports: true
-name: grating_coupler_dual_po_3fe35744
+name: grating_coupler_dual_po_45d03cc3
 nets: []
 placements:
   rectangle_S0p3_0p3_LSLA_62b062b0_m5070_m5070:

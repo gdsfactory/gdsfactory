@@ -1,13 +1,10 @@
 from __future__ import annotations
 
-from functools import partial
 from typing import Any
 
 import gdsfactory as gf
 from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component
-from gdsfactory.components.pad import pad_array270
-from gdsfactory.components.wire import wire_straight
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_bundle import route_bundle_electrical
 from gdsfactory.routing.sort_ports import sort_ports_x
@@ -19,15 +16,13 @@ from gdsfactory.typings import (
     Strs,
 )
 
-_wire_long = partial(wire_straight, length=200.0)
-
 
 @gf.cell
 def add_electrical_pads_top_dc(
-    component: ComponentSpec = _wire_long,
+    component: ComponentSpec = "wire",
     spacing: Float2 = (0.0, 100.0),
-    pad_array: ComponentFactory = pad_array270,
-    pad_array_factory: ComponentFactory = pad_array270,
+    pad_array: ComponentFactory = "pad_array270",
+    pad_array_factory: ComponentFactory = "pad_array270",
     select_ports: SelectPorts = select_ports_electrical,
     port_names: Strs | None = None,
     **kwargs: Any,

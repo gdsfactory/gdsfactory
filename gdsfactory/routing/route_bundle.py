@@ -20,8 +20,6 @@ import kfactory as kf
 from kfactory.routing.generic import ManhattanRoute
 
 import gdsfactory as gf
-from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.components.wire import wire_corner
 from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
 from gdsfactory.typings import (
@@ -110,7 +108,7 @@ def route_bundle(
     allow_width_mismatch: bool = False,
     radius: float | None = None,
     route_width: float | None = None,
-    straight: ComponentSpec = straight_function,
+    straight: ComponentSpec = "straight",
     auto_taper: bool = True,
     waypoints: Coordinates | None = None,
     steps: Sequence[Mapping[str, int | float]] | None = None,
@@ -307,7 +305,7 @@ def route_bundle(
 
 route_bundle_electrical = partial(
     route_bundle,
-    bend=wire_corner,
+    bend="wire_corner",
     allow_width_mismatch=True,
 )
 
