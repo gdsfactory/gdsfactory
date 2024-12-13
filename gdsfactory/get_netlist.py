@@ -26,8 +26,7 @@ from warnings import warn
 
 import numpy as np
 
-from gdsfactory import Port
-from gdsfactory import typings
+from gdsfactory import Port, typings
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.name import clean_name
 from gdsfactory.serialization import clean_dict, clean_value_json

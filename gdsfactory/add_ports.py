@@ -9,7 +9,6 @@ from functools import partial
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory import typings
 from gdsfactory.component import Component
 from gdsfactory.port import Port, read_port_markers, sort_ports_clockwise
 from gdsfactory.snap import snap_to_grid
