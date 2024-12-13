@@ -31,10 +31,10 @@ test: test-data-gds
 	pytest -s
 
 test-force:
-	run pytest --force-regen -s
+	pytest -n auto --force-regen
 
 uv-test: test-data-gds
-	uv run pytest -s
+	uv run pytest -s -n auto
 
 cov:
 	uv run pytest --cov=gdsfactory

@@ -87,48 +87,56 @@ instances:
       size:
       - 10
       - 10
-  via_S0p7_0p7_SNone_GNon_c3f5c6aa_m2000_3000:
-    column_pitch: 2
-    columns: 3
+  via_S0p7_0p7_SNone_GNon_a794b952_m3000_12000:
+    array:
+      column_pitch: 2
+      columns: 4
+      row_pitch: 2
+      rows: 4
     component: via
     info:
-      enclosure: 2
-      pitch: 2
-      xsize: 0.7
-      ysize: 0.7
-    row_pitch: 2
-    rows: 3
-    settings:
-      bbox_layers: null
-      bbox_offset: 0
-      bbox_offsets: null
-      enclosure: 2
-      gap: null
-      layer: VIA1
-      pitch: 2
-      size:
-      - 0.7
-      - 0.7
-      spacing: null
-  via_S0p7_0p7_SNone_GNon_e14245b6_m3000_12000:
-    column_pitch: 2
-    columns: 4
-    component: via
-    info:
+      column_pitch: 2
       enclosure: 1
-      pitch: 2
+      row_pitch: 2
       xsize: 0.7
       ysize: 0.7
-    row_pitch: 2
-    rows: 4
     settings:
       bbox_layers: null
       bbox_offset: 0
       bbox_offsets: null
+      column_pitch: null
       enclosure: 1
       gap: null
       layer: VIA2
       pitch: 2
+      row_pitch: null
+      size:
+      - 0.7
+      - 0.7
+      spacing: null
+  via_S0p7_0p7_SNone_GNon_d0c93b95_m2000_3000:
+    array:
+      column_pitch: 2
+      columns: 3
+      row_pitch: 2
+      rows: 3
+    component: via
+    info:
+      column_pitch: 2
+      enclosure: 2
+      row_pitch: 2
+      xsize: 0.7
+      ysize: 0.7
+    settings:
+      bbox_layers: null
+      bbox_offset: 0
+      bbox_offsets: null
+      column_pitch: null
+      enclosure: 2
+      gap: null
+      layer: VIA1
+      pitch: 2
+      row_pitch: null
       size:
       - 0.7
       - 0.7
@@ -166,16 +174,16 @@ placements:
     rotation: 0
     x: 0
     y: 15
-  via_S0p7_0p7_SNone_GNon_c3f5c6aa_m2000_3000:
-    mirror: false
-    rotation: 0
-    x: -2
-    y: 3
-  via_S0p7_0p7_SNone_GNon_e14245b6_m3000_12000:
+  via_S0p7_0p7_SNone_GNon_a794b952_m3000_12000:
     mirror: false
     rotation: 0
     x: -3
     y: 12
+  via_S0p7_0p7_SNone_GNon_d0c93b95_m2000_3000:
+    mirror: false
+    rotation: 0
+    x: -2
+    y: 3
 ports:
   e1: compass_S10_10_LMTOP_PT_d880c866_0_15000,e1
   e2: compass_S10_10_LMTOP_PT_d880c866_0_15000,e2

@@ -508,8 +508,6 @@ instances:
       - 50
       bend_s: bend_s
       cross_section: strip
-    columns: 1
-    rows: 1
   dbr:
     component: array
     settings:
@@ -521,8 +519,6 @@ instances:
       rows: 8
       add_ports: true
       centered: true
-    columns: 1
-    rows: 1
 placements:
   s:
     x: 0.0
@@ -563,10 +559,11 @@ name: sample_array
 instances:
   sa1:
     component: straight
-    columns: 5
-    column_pitch: 50
-    rows: 4
-    row_pitch: 10
+    array:
+      columns: 5
+      column_pitch: 50
+      rows: 4
+      row_pitch: 10
   s2:
     component: straight
 
@@ -592,10 +589,11 @@ name: sample_array_connect
 instances:
   sa:
     component: straight
-    columns: 1
-    column_pitch: 20
-    rows: 3
-    row_pitch: 20
+    array:
+      columns: 1
+      column_pitch: 20
+      rows: 3
+      row_pitch: 20
 
   b1:
     component: bend_euler

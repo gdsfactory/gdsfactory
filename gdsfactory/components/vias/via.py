@@ -20,6 +20,8 @@ def via(
     bbox_offset: float = 0,
     bbox_offsets: Sequence[float] | None = None,
     pitch: float = 2,
+    column_pitch: float | None = None,
+    row_pitch: float | None = None,
 ) -> Component:
     """Rectangular via.
 
@@ -33,6 +35,8 @@ def via(
         bbox_offset: in um.
         bbox_offsets: List of offsets for each bbox_layer.
         pitch: pitch between vias.
+        column_pitch: Optional pitch between columns of vias. Default is pitch.
+        row_pitch: Optional pitch between rows of vias. Default is pitch.
 
     .. code::
 
@@ -50,14 +54,18 @@ def via(
         |_______________________________________|
     """
     if spacing is not None:
-        warnings.warn("spacing is deprecated, use pitch instead")
+        warnings.warn("spacing is deprecated, use pitch, row_pitch or column_pitch")
         pitch = spacing[0]
 
     if gap is not None:
-        warnings.warn("gap is deprecated, use pitch instead")
+        warnings.warn("gap is deprecated, use pitch, row_pitch or column_pitch")
+
+    row_pitch = row_pitch or pitch
+    column_pitch = column_pitch or pitch
 
     c = Component()
-    c.info["pitch"] = pitch
+    c.info["row_pitch"] = row_pitch
+    c.info["column_pitch"] = column_pitch
     c.info["enclosure"] = enclosure
     c.info["xsize"] = size[0]
     c.info["ysize"] = size[1]

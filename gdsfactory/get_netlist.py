@@ -124,6 +124,10 @@ def _is_array_reference(ref: ComponentReference) -> bool:
     return ref.na > 1 or ref.nb > 1
 
 
+def _is_orthogonal_array_reference(ref: ComponentReference) -> bool:
+    return abs(ref.a.y) == 0 and abs(ref.b.x) == 0
+
+
 def get_netlist(
     component: Component,
     exclude_port_types: Sequence[str] | None = (
@@ -187,9 +191,6 @@ def get_netlist(
         x = origin.x
         y = origin.y
         reference_name = get_instance_name(reference)
-        is_array_ref = False
-        if _is_array_reference(reference):
-            is_array_ref = True
         instance: dict[str, Any] = {}
 
         if c.info:
@@ -216,13 +217,21 @@ def get_netlist(
             "mirror": reference.dtrans.mirror,
         }
 
-        if is_array_ref:
-            instances[reference_name].update(
-                columns=reference.na,
-                rows=reference.nb,
-                column_pitch=reference.da.x,
-                row_pitch=reference.db.y,
-            )
+        if _is_array_reference(reference):
+            if _is_orthogonal_array_reference(reference):
+                instances[reference_name]["array"] = {
+                    "columns": reference.na,
+                    "rows": reference.nb,
+                    "column_pitch": reference.da.x,
+                    "row_pitch": reference.db.y,
+                }
+            else:
+                instances[reference_name]["array"] = {
+                    "num_a": reference.na,
+                    "num_b": reference.nb,
+                    "pitch_a": (reference.da.x, reference.da.y),
+                    "pitch_b": (reference.db.x, reference.db.y),
+                }
             reference_name = get_instance_name(reference)
             for ia in range(reference.na):
                 for ib in range(reference.nb):
