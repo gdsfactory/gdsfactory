@@ -92,11 +92,12 @@ def watch(
     """
     path_path = pathlib.Path(path)
     path_path = path_path if path_path.is_dir() else path_path.parent
+    path = str(path_path.absolute())
     if overwrite:
         from gdsfactory import CONF
 
         CONF.cell_overwrite_existing = True
-    _watch(str(path), pdk=pdk, run_main=run_main, run_cells=run_cells, pre_run=pre_run)
+    _watch(path, pdk=pdk, run_main=run_main, run_cells=run_cells, pre_run=pre_run)
 
 
 @app.command()
