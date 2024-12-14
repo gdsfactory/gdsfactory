@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import networkx as nx
 import numpy as np
+from klayout.dbcore import Point
 from shapely.geometry import LineString
 
 import gdsfactory as gf
@@ -208,10 +209,13 @@ def get_route_astar(
 
     # Align second waypoint y with first waypoint y
     my_waypoints[1][1] = my_waypoints[0][1]
-    my_waypoints.pop(0)
+    my_waypoints += [[port2x, port2y]]
+
+    # Convert to native floats or Point instances
+    cleaned_waypoints = [Point(float(x) * 1000, float(y) * 1000) for x, y in my_waypoints]
 
     return gf.routing.route_single(
-        component=c, port1=port1, port2=port2, waypoints=my_waypoints, cross_section=cross_section, bend=bend
+        component=c, port1=port1, port2=port2, waypoints=cleaned_waypoints, cross_section=cross_section, bend=bend
     )
 
 
