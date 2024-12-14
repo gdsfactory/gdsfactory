@@ -12,9 +12,8 @@ from __future__ import annotations
 
 import json
 import warnings
-from collections.abc import Callable
 from functools import partial
-from typing import Any
+from typing import Any, Protocol
 
 import kfactory as kf
 import numpy as np
@@ -26,7 +25,7 @@ import gdsfactory as gf
 from gdsfactory import typings
 from gdsfactory.component import Component, container
 from gdsfactory.config import CONF
-from gdsfactory.port import Port, select_ports
+from gdsfactory.port import select_ports
 from gdsfactory.serialization import convert_tuples_to_lists
 
 nm = 1e-3
@@ -64,10 +63,10 @@ def add_bbox(
     bbox = component.dbbox()
     dxmin, dymin, dxmax, dymax = bbox.left, bbox.bottom, bbox.right, bbox.top
     points = [
-        [dxmin - left, dymin - bottom],
-        [dxmax + right, dymin - bottom],
-        [dxmax + right, dymax + top],
-        [dxmin - left, dymax + top],
+        (dxmin - left, dymin - bottom),
+        (dxmax + right, dymin - bottom),
+        (dxmax + right, dymax + top),
+        (dxmin - left, dymax + top),
     ]
     component.add_polygon(points, layer=layer)
     return component
@@ -99,16 +98,13 @@ def add_bbox_siepic(
 
 
 def get_pin_triangle_polygon_tip(
-    port: Port,
-) -> tuple[list[float], tuple[float, float]]:
+    port: typings.Port,
+) -> tuple[npt.NDArray[np.floating[Any]], tuple[float, float]]:
     """Returns triangle polygon and tip position."""
     p = port
     port_face = p.info.get("face", None)
 
     orientation = p.orientation
-
-    if orientation is None:
-        raise ValueError("Port {port.name!r} needs to have an orientation.")
 
     ca = np.cos(orientation * np.pi / 180)
     sa = np.sin(orientation * np.pi / 180)
@@ -128,18 +124,18 @@ def get_pin_triangle_polygon_tip(
     p1 = p.dcenter + _rotate(dtop, rot_mat)
     port_face = [p0, p1]
 
-    ptip = p.dcenter + _rotate(dtip, rot_mat)
+    ptip = tuple(p.dcenter + _rotate(dtip, rot_mat))
 
     polygon = list(port_face) + [ptip]
-    polygon = np.stack(polygon)
-    return polygon, ptip
+    polygon_stacked = np.stack(polygon)
+    return polygon_stacked, ptip
 
 
 def add_pin_triangle(
     component: Component,
-    port: Port,
+    port: typings.Port,
     layer: typings.LayerSpec = "PORT",
-    layer_label: typings.LayerSpec = "TEXT",
+    layer_label: typings.LayerSpec | None = "TEXT",
 ) -> None:
     """Add triangle pin with a right angle, pointing out of the port.
 
@@ -149,24 +145,23 @@ def add_pin_triangle(
         layer: for the pin marker.
         layer_label: for the label.
     """
-    if port.orientation is not None:
-        polygon, ptip = get_pin_triangle_polygon_tip(port=port)
-        component.add_polygon(polygon, layer=layer)
+    polygon, ptip = get_pin_triangle_polygon_tip(port=port)
+    component.add_polygon(polygon, layer=layer)
 
-        if layer_label:
-            component.add_label(
-                text=str(port.name),
-                position=ptip,
-                layer=layer_label,
-            )
+    if layer_label:
+        component.add_label(
+            text=str(port.name),
+            position=ptip,
+            layer=layer_label,
+        )
 
 
 def add_pin_rectangle_inside(
     component: Component,
-    port: Port,
+    port: typings.Port,
     pin_length: float = 0.1,
-    layer: typings.LayerSpec | None = "PORT",
-    layer_label: typings.LayerSpec = "TEXT",
+    layer: typings.LayerSpec = "PORT",
+    layer_label: typings.LayerSpec | None = "TEXT",
 ) -> None:
     """Add square pin towards the inside of the port.
 
@@ -197,6 +192,7 @@ def add_pin_rectangle_inside(
         component.shapes(gf.get_layer(layer)).insert(poly)
 
     if layer_label:
+        assert port.name is not None
         component.add_label(
             text=port.name,
             position=port.dcenter,
@@ -206,10 +202,10 @@ def add_pin_rectangle_inside(
 
 def add_pin_rectangle(
     component: Component,
-    port: Port,
+    port: typings.Port,
     pin_length: float = 0.1,
     layer: typings.LayerSpec | None = "PORT",
-    layer_label: typings.LayerSpec = "TEXT",
+    layer_label: typings.LayerSpec | None = "TEXT",
     port_margin: float = 0.0,
 ) -> None:
     """Add half out pin to a component.
@@ -236,24 +232,34 @@ def add_pin_rectangle(
                  __
     """
     if layer:
-        p = port
-        width = p.dwidth + port_margin
+        width = port.dwidth + port_margin
         poly = gf.kdb.DPolygon(
             gf.kdb.DBox(-pin_length / 2, -width / 2, +pin_length / 2, width / 2)
-        ).transform(p.dcplx_trans)
+        ).transform(port.dcplx_trans)
         component.shapes(gf.get_layer(layer)).insert(poly)
 
     if layer_label:
         component.add_label(
-            text=str(p.name),
-            position=p.dcenter,
+            text=str(port.name),
+            position=port.dcenter,
             layer=layer_label,
         )
 
 
+class AddPinPathFunction(Protocol):
+    def __call__(
+        self,
+        component: Component,
+        port: typings.Port,
+        pin_length: float = ...,
+        layer: typings.LayerSpec = ...,
+        layer_label: typings.LayerSpec | None = ...,
+    ) -> None: ...
+
+
 def add_pin_path(
     component: Component,
-    port: Port,
+    port: typings.Port,
     pin_length: float = 2 * nm,
     layer: typings.LayerSpec = "PORT",
     layer_label: typings.LayerSpec | None = None,
@@ -298,11 +304,11 @@ def add_pin_path(
     p1 = p.dcenter + _rotate(d1, rot_mat)
 
     points = [p0, p1]
-    points = [kf.kdb.DPoint(p[0], p[1]) for p in points]
+    dpoints = [kf.kdb.DPoint(p[0], p[1]) for p in points]
     layer = get_layer(layer)
 
     dpath = kf.kdb.DPath(
-        points,
+        dpoints,
         p.dwidth,
     )
     component.add_label(text=str(p.name), position=p.dcenter, layer=layer_label)
@@ -341,7 +347,7 @@ def add_outline(
 
 def add_pins_siepic(
     component: Component,
-    function: Callable = add_pin_path,
+    function: AddPinPathFunction = add_pin_path,
     port_type: str = "optical",
     layer: typings.LayerSpec = "PORT",
     pin_length: float = 10 * nm,
@@ -382,10 +388,16 @@ add_pins_siepic_electrical = partial(
 )
 
 
+class AddPinFunction(Protocol):
+    def __call__(
+        self, component: Component, port: typings.Port, **kwargs: Any
+    ) -> None: ...
+
+
 def add_pins(
     component: Component,
     port_type: str | None = None,
-    function: Callable = add_pin_rectangle_inside,
+    function: AddPinFunction = add_pin_rectangle_inside,  # type: ignore[assignment]
     **kwargs: Any,
 ) -> None:
     """Add Pin port markers.
@@ -408,17 +420,17 @@ def add_pins(
     )
 
     for port in ports:
-        function(component=component, port=port, **kwargs)
+        function(component, port, **kwargs)
 
 
-add_pins_triangle = partial(add_pins, function=add_pin_triangle)
-add_pins_center = partial(add_pins, function=add_pin_rectangle)
+add_pins_triangle = partial(add_pins, function=add_pin_triangle)  # type: ignore[arg-type]
+add_pins_center = partial(add_pins, function=add_pin_rectangle)  # type: ignore[arg-type]
 add_pin_inside1nm = partial(
     add_pin_rectangle_inside, pin_length=1 * nm, layer_label=None
 )
 add_pin_inside2um = partial(add_pin_rectangle_inside, pin_length=2, layer_label=None)
-add_pins_inside1nm = partial(add_pins, function=add_pin_inside1nm)
-add_pins_inside2um = partial(add_pins, function=add_pin_inside2um)
+add_pins_inside1nm = partial(add_pins, function=add_pin_inside1nm)  # type: ignore[arg-type]
+add_pins_inside2um = partial(add_pins, function=add_pin_inside2um)  # type: ignore[arg-type]
 
 
 def add_settings_label(
@@ -439,8 +451,8 @@ def add_settings_label(
 
     layer_label = get_layer(layer_label)
 
-    reference = reference or component
-    info = reference.cell.info
+    reference_or_component = reference or component
+    info = reference_or_component.cell.info
     settings_dict = dict(info)
     settings_string = (
         yaml.dump(convert_tuples_to_lists(settings_dict))
@@ -450,7 +462,7 @@ def add_settings_label(
     if len(settings_string) > 1024:
         raise ValueError(f"label > 1024 characters: {settings_string}")
     component.add_label(
-        position=reference.dcenter, text=settings_string, layer=layer_label
+        position=reference_or_component.dcenter, text=settings_string, layer=layer_label
     )
 
 
@@ -488,13 +500,25 @@ def add_instance_label(
     )
 
 
+class AddInstanceLabelFunction(Protocol):
+    def __call__(
+        self, component: Component, reference: Instance | None = None
+    ) -> None: ...
+
+
+class AddPinsFunction(Protocol):
+    def __call__(
+        self, component: Component, reference: Instance | None = None
+    ) -> None: ...
+
+
 def add_pins_and_outline(
     component: Component,
     reference: Instance | None = None,
-    add_outline_function: Callable | None = add_outline,
-    add_pins_function: Callable | None = add_pins,
-    add_settings_function: Callable | None = add_settings_label,
-    add_instance_label_function: Callable | None = add_settings_label,
+    add_outline_function: AddInstanceLabelFunction | None = add_outline,
+    add_pins_function: AddPinsFunction | None = add_pins,  # type: ignore[assignment]
+    add_settings_function: AddInstanceLabelFunction | None = add_settings_label,
+    add_instance_label_function: AddInstanceLabelFunction | None = add_settings_label,
 ) -> None:
     """Add pins component outline.
 
@@ -509,7 +533,7 @@ def add_pins_and_outline(
     if add_outline_function:
         add_outline_function(component=component, reference=reference)
     if add_pins_function:
-        add_pins_function(component=component, reference=reference)
+        add_pins_function(component, reference)
     if add_settings_function:
         add_settings_function(component=component, reference=reference)
     if add_instance_label_function:
@@ -517,7 +541,7 @@ def add_pins_and_outline(
 
 
 add_pins_container = partial(container, function=add_pins)
-add_pins_siepic_container = partial(container, function=add_pins_siepic)
+add_pins_siepic_container = partial(container, function=add_pins_siepic)  # type: ignore[arg-type]
 
 if __name__ == "__main__":
     import gdsfactory as gf

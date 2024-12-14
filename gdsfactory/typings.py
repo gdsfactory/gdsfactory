@@ -125,12 +125,12 @@ PathTypes: TypeAlias = Sequence[PathType]
 Metadata: TypeAlias = dict[str, int | float | str]
 
 Port: TypeAlias = kf.Port
-_TPort = TypeVar("_TPort", bound=Port)
+TPort = TypeVar("TPort", bound=Port)
 IOPorts: TypeAlias = tuple[str, str]
 PortFactory: TypeAlias = Callable[..., Port]
 PortsFactory: TypeAlias = Callable[..., Sequence[Port]]
 PortSymmetries: TypeAlias = dict[str, Sequence[str]]
-PortsDict: TypeAlias = dict[str, Port]
+PortDict: TypeAlias = dict[str, Port]
 Ports: TypeAlias = kf.Ports | Sequence[Port] | InstancePorts
 SelectPorts: TypeAlias = Callable[..., Sequence[Port]]
 
@@ -139,6 +139,9 @@ PortName: TypeAlias = str
 
 PortTypes: TypeAlias = Sequence[PortType]
 PortNames: TypeAlias = Sequence[PortName]
+
+PortsDict: TypeAlias = dict[str, list[Port]]
+PortsDictGeneric: TypeAlias = dict[str, list[TPort]]
 
 ConductorConductorName: TypeAlias = tuple[str, str]
 ConductorViaConductorName: TypeAlias = tuple[str, str, str] | ConductorConductorName
@@ -248,11 +251,14 @@ __all__ = (
     "PathType",
     "PathTypes",
     "Port",
+    "PortDict",
     "PortName",
     "PortNames",
     "PortType",
     "PortTypes",
     "Ports",
+    "PortsDict",
+    "PortsDictGeneric",
     "PostProcesses",
     "Radius",
     "RoutingStrategies",
@@ -260,6 +266,7 @@ __all__ = (
     "Size",
     "Spacing",
     "Strs",
+    "TPort",
     "WayPoints",
     "WidthTypes",
 )
