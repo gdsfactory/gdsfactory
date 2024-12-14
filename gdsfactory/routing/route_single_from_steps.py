@@ -170,5 +170,4 @@ if __name__ == "__main__":
     #     # cross_section='metal_routing',
     #     # bend=gf.components.wire_corner,
     # )
-    # c.add(route.references)
     # c.show()
