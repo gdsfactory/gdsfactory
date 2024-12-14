@@ -6,6 +6,6 @@ settings:
   radius: 10.0
   straight: straight
   text: text_rectangular
-  text_size: 1.0
+  text_size: 1
   wg_length: 420.0
   width: 0.5
