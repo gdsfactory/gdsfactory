@@ -883,6 +883,10 @@ class ComponentBase:
 
         return extract(self, layers=layers, recursive=recursive)
 
+    @property
+    def cells(self) -> kf.KCLayout:
+        return self.kcl
+
     def remove_layers(
         self,
         layers: "LayerSpecs",
@@ -1374,56 +1378,9 @@ def component_with_function(
 
 if __name__ == "__main__":
     import gdsfactory as gf
-    from gdsfactory.components.mzi import mzi
 
-    c = mzi()
-    c.offset("WG", -0.2)
-    # c.over_under("WG", 0.2)
-    # n = c.to_graphviz()
-
-    # plot_graphviz(n)
-    # c.plot_netlist_graphviz(interactive=True)
-
-    # c = gf.Component()
-    # c.add_port(
-    #     name="o1",
-    #     center=(0, 0),
-    #     width=0.5,
-    #     orientation=0,
-    #     port_type="optical2",
-    #     layer="WG",
-    # )
-    # b = c << gf.c.bend_circular()
-    # s = c << gf.c.straight()
-    # s.connect("o1", b.ports["o2"])
-    # p = c.get_polygons()
-    # p1 = c.get_polygons(by="name")
-    # c = gf.c.mzi_lattice(cross_section="rib")
-    # c = c.extract(["WG"])
-    # c.copy_layers({(1, 0): (2, 0)}, recursive=True)
-    # c = gf.c.array(spacing=(300, 300), columns=2)
-    # c.show()
-    # n0 = c.get_netlist()
-    # # pprint(n0)
-
-    # gdspath = c.write_gds("test.gds")
-    # c = gf.import_gds(gdspath)
-    # n = c.get_netlist()
-    # c.plot_netlist_networkx(recursive=True)
-    # plt.show()
+    c = gf.Component()
+    b = c << gf.c.bend_euler()
+    s = c << gf.c.straight()
+    b.connect("o1", s.ports["o2"])
     c.show()
-    # import matplotlib.pyplot as plt
-
-    # import gdsfactory as gf
-
-    # cpl = (10, 20, 30, 40)
-    # cpg = (0.2, 0.3, 0.5, 0.5)
-    # dl0 = (0, 50, 100)
-
-    # c = gf.c.mzi_lattice(
-    #     coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0, length_x=1
-    # )
-    # n = c.get_netlist(recursive=True)
-    # c.plot_netlist_networkx(recursive=True)
-    # plt.show()
-    # c.show()
