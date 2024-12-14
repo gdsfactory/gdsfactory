@@ -2,15 +2,15 @@
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from functools import partial
-
-import numpy as np
+from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.coupler_straight import coupler_straight
 from gdsfactory.components.text_rectangular import text_rectangular
-from gdsfactory.typings import ComponentFactory, CrossSectionSpec, Iterable
+from gdsfactory.typings import ComponentFactory, CrossSectionSpec
 
 text_rectangular_mini = partial(text_rectangular, size=1)
 
@@ -18,12 +18,12 @@ text_rectangular_mini = partial(text_rectangular, size=1)
 @gf.cell
 def cdsem_coupler(
     length: float = 420.0,
-    gaps: tuple[float, ...] = (0.15, 0.2, 0.25),
+    gaps: Sequence[float] = (0.15, 0.2, 0.25),
     cross_section: CrossSectionSpec = "strip",
     text: ComponentFactory | None = text_rectangular_mini,
-    spacing: float | None = 7.0,
-    positions: Iterable[float] | None = None,
-    **kwargs,
+    spacing: float = 7.0,
+    positions: Sequence[float | None] | None = None,
+    **kwargs: Any,
 ) -> Component:
     """Returns 2 coupled waveguides gap sweep.
 
@@ -40,16 +40,14 @@ def cdsem_coupler(
     xs = gf.get_cross_section(cross_section, **kwargs)
     p = 0
 
-    if positions is None and spacing is None:
-        raise ValueError("Either positions or spacing should be defined")
-    elif positions:
+    if positions is not None:
         positions = positions or [None] * len(gaps)
     else:
-        positions = np.arange(len(gaps)) * spacing
+        positions = [i * spacing for i in range(len(gaps))]
 
     for gap, position in zip(gaps, positions):
         line = c << coupler_straight(length=length, cross_section=xs, gap=gap)
-        p = position or p
+        p = position or p  # type: ignore
         line.dymin = p
         if text:
             t = c << text(str(int(gap * 1e3)))

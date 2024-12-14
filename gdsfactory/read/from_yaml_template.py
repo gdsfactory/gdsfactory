@@ -1,5 +1,5 @@
 import pathlib
-from collections.abc import Callable, Iterable
+from collections.abc import Iterable
 from inspect import Parameter, Signature, signature
 from io import IOBase
 from typing import IO, Any
@@ -10,8 +10,11 @@ from kfactory import cell
 
 from gdsfactory.component import Component
 from gdsfactory.read.from_yaml import from_yaml
+from gdsfactory.typings import ComponentFactory, RoutingStrategies
 
 __all__ = ["cell_from_yaml_template"]
+
+_YamlDefinition = str | IO[Any] | pathlib.Path
 
 
 def split_default_settings_from_yaml(yaml_lines: Iterable[str]) -> tuple[str, str]:
@@ -49,7 +52,7 @@ def split_default_settings_from_yaml(yaml_lines: Iterable[str]) -> tuple[str, st
     return other_string, settings_string
 
 
-def _split_yaml_definition(subpic_yaml):
+def _split_yaml_definition(subpic_yaml: _YamlDefinition) -> tuple[str, dict[str, Any]]:
     if isinstance(subpic_yaml, IOBase):
         f = subpic_yaml
         subpic_text = f.readlines()
@@ -65,10 +68,10 @@ def _split_yaml_definition(subpic_yaml):
 
 
 def cell_from_yaml_template(
-    filename: str | IO[Any] | pathlib.Path,
+    filename: _YamlDefinition,
     name: str,
-    routing_strategy: dict[str, Callable] | None = None,
-) -> Callable:
+    routing_strategy: RoutingStrategies | None = None,
+) -> ComponentFactory:
     """Gets a PIC factory function from a yaml definition, which can optionally be a jinja template.
 
     Args:
@@ -88,7 +91,9 @@ def cell_from_yaml_template(
     )
 
 
-def get_default_settings_dict(default_settings):
+def get_default_settings_dict(
+    default_settings: dict[str, dict[str, Any]],
+) -> dict[str, Any]:
     settings = {}
     for k, v in default_settings.items():
         try:
@@ -96,7 +101,7 @@ def get_default_settings_dict(default_settings):
             if isinstance(v, list):
                 v = tuple(v)
             settings[k] = v
-        except TypeError as te:
+        except TypeError as te:  # noqa: PERF203
             raise TypeError(
                 f'Default setting "{k}" should be a dictionary with "value" defined.'
             ) from te
@@ -107,7 +112,9 @@ def get_default_settings_dict(default_settings):
     return settings
 
 
-def yaml_cell(yaml_definition, name: str, routing_strategy) -> Callable[..., Component]:
+def yaml_cell(
+    yaml_definition: _YamlDefinition, name: str, routing_strategy: RoutingStrategies
+) -> ComponentFactory:
     """The "cell" decorator equivalent for yaml files. Generates a proper cell function for yaml-defined circuits.
 
     Args:
@@ -121,7 +128,7 @@ def yaml_cell(yaml_definition, name: str, routing_strategy) -> Callable[..., Com
     yaml_body, default_settings_def = _split_yaml_definition(yaml_definition)
     default_settings = get_default_settings_dict(default_settings_def)
 
-    def _yaml_func(**kwargs):
+    def _yaml_func(**kwargs: Any) -> Component:
         evaluated_text = _evaluate_yaml_template(yaml_body, default_settings, kwargs)
         return _pic_from_templated_yaml(evaluated_text, name, routing_strategy)
 
@@ -153,14 +160,18 @@ def yaml_cell(yaml_definition, name: str, routing_strategy) -> Callable[..., Com
     return cell(_yaml_func)
 
 
-def _evaluate_yaml_template(main_file, default_settings, settings):
+def _evaluate_yaml_template(
+    main_file: str, default_settings: dict[str, Any], settings: dict[str, Any]
+) -> str:
     template = jinja2.Template(main_file)
     complete_settings = dict(default_settings)
     complete_settings.update(settings)
     return template.render(**complete_settings)
 
 
-def _pic_from_templated_yaml(evaluated_text, name, routing_strategy) -> Component:
+def _pic_from_templated_yaml(
+    evaluated_text: str, name: str, routing_strategy: RoutingStrategies
+) -> Component:
     """Creates a component from a  *.pic.yml file.
 
     This is a lower-level function. See from_yaml_template() for more common usage.

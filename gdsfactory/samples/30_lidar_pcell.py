@@ -8,12 +8,17 @@ Exercise2. Make a PCell.
 
 from __future__ import annotations
 
+import kfactory.kcell as kfc
+
 import gdsfactory as gf
+from gdsfactory.typings import Spacing
 
 
 @gf.cell
 def lidar(
-    noutputs=2**2, antenna_pitch=2.0, splitter_tree_spacing=(50.0, 70.0)
+    noutputs: int = 2**2,
+    antenna_pitch: float = 2.0,
+    splitter_tree_spacing: Spacing = (50.0, 70.0),
 ) -> gf.Component:
     """LiDAR demo.
 
@@ -31,7 +36,7 @@ def lidar(
 
     # phase Shifters
     phase_shifter = gf.components.straight_heater_meander()
-    phase_shifter_optical_ports = []
+    phase_shifter_optical_ports: list[kfc.Port] = []
 
     for i, port in enumerate(
         splitter_tree.ports.filter(orientation=0, port_type="optical")

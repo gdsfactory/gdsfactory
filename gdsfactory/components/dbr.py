@@ -66,6 +66,7 @@ def dbr_cell(
     c2.connect(port="o1", other=c1.ports["o2"], allow_width_mismatch=True)
     c.add_port("o1", port=c1.ports["o1"])
     c.add_port("o2", port=c2.ports["o2"])
+    c.flatten()
     return c
 
 
@@ -107,7 +108,7 @@ def dbr(
     s2 = c << straight(cross_section=xs, length=straight_length)
 
     cell = dbr_cell(w1=w1, w2=w2, l1=l1, l2=l2, cross_section=cross_section)
-    ref = c.add_ref(cell, columns=n, rows=1, spacing=(l1 + l2, 0))
+    ref = c.add_ref(cell, columns=n, rows=1, column_pitch=l1 + l2)
 
     s1.connect(port="o1", other=cell.ports["o1"], allow_width_mismatch=True)
     s2.connect(port="o1", other=cell.ports["o2"], allow_width_mismatch=True)

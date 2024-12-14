@@ -1,17 +1,14 @@
 info:
   enclosure: 1
+  pitch: 2
   xsize: 0.7
-  xspacing: 2
   ysize: 0.7
-  yspacing: 2
-name: via_S0p7_0p7_S2_2_GNone_c1ab00a8
+name: via_S0p7_0p7_SNone_GNon_e14245b6
 settings:
   bbox_offset: 0
   enclosure: 1
   layer: VIA2
+  pitch: 2
   size:
   - 0.7
   - 0.7
-  spacing:
-  - 2
-  - 2

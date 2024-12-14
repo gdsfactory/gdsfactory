@@ -14,7 +14,7 @@ from __future__ import annotations
 
 from collections.abc import Mapping, Sequence
 from functools import partial
-from typing import Any
+from typing import Any, Literal
 
 import kfactory as kf
 from kfactory.routing.generic import ManhattanRoute
@@ -22,16 +22,16 @@ from kfactory.routing.generic import ManhattanRoute
 import gdsfactory as gf
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.wire import wire_corner
-from gdsfactory.port import Port
 from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
 from gdsfactory.typings import (
     STEP_DIRECTIVES,
-    Component,
     ComponentSpec,
     Coordinates,
     CrossSectionSpec,
     LayerSpecs,
+    Port,
+    Ports,
 )
 
 OpticalManhattanRoute = ManhattanRoute
@@ -40,8 +40,8 @@ TOLERANCE = 1
 
 
 def get_min_spacing(
-    ports1: list[Port],
-    ports2: list[Port],
+    ports1: Ports,
+    ports2: Ports,
     separation: float = 5.0,
     radius: float = 5.0,
     sort_ports: bool = True,
@@ -89,9 +89,9 @@ def get_min_spacing(
 
 
 def route_bundle(
-    component: Component,
-    ports1: list[Port] | Port,
-    ports2: list[Port] | Port,
+    component: gf.Component,
+    ports1: Ports | Port,
+    ports2: Ports | Port,
     cross_section: CrossSectionSpec | None = None,
     layer: LayerSpecs | None = None,
     separation: float = 3.0,
@@ -107,13 +107,14 @@ def route_bundle(
     bboxes: list[kf.kdb.Box] | None = None,
     allow_width_mismatch: bool = False,
     radius: float | None = None,
-    route_width: float | list[float] | None = None,
+    route_width: float | None = None,
     straight: ComponentSpec = straight_function,
     auto_taper: bool = True,
     waypoints: Coordinates | None = None,
     steps: Sequence[Mapping[str, int | float]] | None = None,
     start_angles: int | list[int] | None = None,
     end_angles: int | list[int] | None = None,
+    router: Literal["optical", "electrical"] | None = None,
 ) -> list[ManhattanRoute]:
     """Places a bundle of routes to connect two groups of ports.
 
@@ -146,6 +147,8 @@ def route_bundle(
         steps: list of steps to add to the route.
         start_angles: list of start angles for the routes. Only used for electrical ports.
         end_angles: list of end angles for the routes. Only used for electrical ports.
+        router: Set the type of router to use, either the optical one or the electrical one.
+            If None, the router is optical unless the port_type is "electrical".
 
     .. plot::
         :include-source:
@@ -171,6 +174,10 @@ def route_bundle(
         c.plot()
 
     """
+    if layer and cross_section:
+        raise ValueError(
+            f"Cannot have both {layer=} and {cross_section=} provided. Choose one."
+        )
     if cross_section is None:
         if layer is not None and route_width is not None:
             cross_section = partial(
@@ -182,35 +189,26 @@ def route_bundle(
                 f"Either {cross_section=} or {layer=} and {route_width=} must be provided"
             )
 
-    if layer and cross_section:
-        raise ValueError(
-            f"Cannot have both {layer=} and {cross_section=} provided. Choose one."
-        )
-
+    c = component
     ports1 = [ports1] if isinstance(ports1, Port) else list(ports1)
     ports2 = [ports2] if isinstance(ports2, Port) else list(ports2)
-
     port_type = port_type or ports1[0].port_type
-    dbu = component.kcl.dbu
-
-    if route_width and not isinstance(route_width, int | float):
-        route_width = [width * dbu for width in route_width]
 
     if len(ports1) != len(ports2):
         raise ValueError(f"ports1={len(ports1)} and ports2={len(ports2)} must be equal")
 
     xs = (
         gf.get_cross_section(cross_section, width=route_width)
-        if route_width
+        if route_width and not isinstance(route_width, list | tuple)
         else gf.get_cross_section(cross_section)
     )
     width = route_width or xs.width
-    width_dbu = round(width / component.kcl.dbu)
+    width_dbu = c.kcl.to_dbu(width)
     radius = radius or xs.radius
     taper_cell = gf.get_component(taper) if taper else None
     bend90 = (
         bend
-        if isinstance(bend, Component)
+        if isinstance(bend, gf.Component)
         else gf.get_component(
             bend, cross_section=cross_section, radius=radius, width=width
         )
@@ -218,16 +216,15 @@ def route_bundle(
 
     def straight_dbu(
         length: int, cross_section: CrossSectionSpec = xs, **kwargs: Any
-    ) -> Component:
+    ) -> gf.Component:
         return gf.get_component(
             straight,
-            length=length * component.kcl.dbu,
+            length=c.kcl.to_um(length),
             cross_section=cross_section,
         )
 
-    dbu = component.kcl.dbu
-    end_straight = round(end_straight_length / dbu)
-    start_straight = round(start_straight_length / dbu)
+    end_straight = c.kcl.to_dbu(end_straight_length)
+    start_straight = c.kcl.to_dbu(start_straight_length)
 
     if collision_check_layers:
         collision_check_layers = [
@@ -257,18 +254,20 @@ def route_bundle(
 
     if waypoints is not None and not isinstance(waypoints[0], kf.kdb.Point):
         _waypoints: list[kf.kdb.Point] | None = [
-            kf.kdb.Point(p[0] / dbu, p[1] / dbu) for p in waypoints
+            c.kcl.to_dbu(kf.kdb.DPoint(p[0], p[1])) for p in waypoints
         ]
     else:
         _waypoints = waypoints
 
-    if port_type == "electrical":
+    router = router or "electrical" if port_type == "electrical" else "optical"
+
+    if router == "electrical":
         port_layer = ports1[0].layer
         return kf.routing.electrical.route_bundle(
             component,
             ports1,
             ports2,
-            round(separation / component.kcl.dbu),
+            c.kcl.to_dbu(separation),
             starts=start_straight,
             ends=end_straight,
             place_layer=port_layer,
@@ -286,13 +285,13 @@ def route_bundle(
         component,
         ports1,
         ports2,
-        round(separation / component.kcl.dbu),
+        c.kcl.to_dbu(separation),
         straight_factory=straight_dbu,
         bend90_cell=bend90,
         taper_cell=taper_cell,
         starts=start_straight,
         ends=end_straight,
-        min_straight_taper=round(min_straight_taper / dbu),
+        min_straight_taper=c.kcl.to_dbu(min_straight_taper),
         place_port_type=port_type,
         collision_check_layers=collision_check_layers,
         on_collision=on_collision,
@@ -301,6 +300,8 @@ def route_bundle(
         route_width=width_dbu,
         sort_ports=sort_ports,
         waypoints=_waypoints,
+        end_angles=end_angles,
+        start_angles=start_angles,
     )
 
 

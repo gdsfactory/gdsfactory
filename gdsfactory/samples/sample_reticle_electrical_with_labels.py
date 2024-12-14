@@ -1,13 +1,15 @@
 from __future__ import annotations
 
+from typing import Any
+
 import gdsfactory as gf
-from gdsfactory.typings import LayerSpec, PortsOrList
+from gdsfactory.typings import LayerSpec, Ports
 
 layer_label = "TEXT"
 
 
 def label_farthest_right_port(
-    component: gf.Component, ports: PortsOrList, layer: LayerSpec, text: str
+    component: gf.Component, ports: Ports, layer: LayerSpec, text: str
 ) -> gf.Component:
     """Adds a label to the right of the farthest right port in a given component.
 
@@ -27,7 +29,7 @@ def label_farthest_right_port(
     return component
 
 
-def resistance_sheet(width: float = 5, **kwargs) -> gf.Component:
+def resistance_sheet(width: float = 5, **kwargs: Any) -> gf.Component:
     """Returns a resistance sheet.
 
     Args:
@@ -46,11 +48,11 @@ def resistance_sheet(width: float = 5, **kwargs) -> gf.Component:
     c.info["ports_electrical"] = 2
     c.info.update(kwargs)
     label_farthest_right_port(c, c.ports, layer=layer_label, text=f"elec-4-{c.name}")
-    return c
+    return c  # type: ignore[no-any-return]
 
 
 def via_chain(
-    num_vias: float = 100, component_name="via_chain", **kwargs
+    num_vias: int = 100, component_name: str = "via_chain", **kwargs: Any
 ) -> gf.Component:
     """Returns a chain of vias.
 
@@ -63,7 +65,7 @@ def via_chain(
     component_name = f"{component_name}_{num_vias}"
     c0 = gf.components.via_chain(num_vias=num_vias, **kwargs)
     r = c << c0
-    r.rotate(-90)
+    r.rotate(-90)  # type: ignore
     c.add_ports(r.ports)
     c.name = f"{c0.name}r90"
 
@@ -101,7 +103,7 @@ if __name__ == "__main__":
     gdspath = c.write_gds()
     csvpath = gf.labels.write_labels(gdspath, layer_label=layer_label)
 
-    import pandas as pd
+    import pandas as pd  # type: ignore
 
     df = pd.read_csv(csvpath)
     df = df.sort_values(by=["text"])

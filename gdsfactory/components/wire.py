@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from functools import partial
+from typing import Any
 
 import numpy as np
 
@@ -16,7 +17,7 @@ wire_straight = partial(straight, cross_section="metal_routing")
 
 @gf.cell
 def wire_corner(
-    cross_section: CrossSectionSpec = "metal_routing", **kwargs
+    cross_section: CrossSectionSpec = "metal_routing", **kwargs: Any
 ) -> Component:
     """Returns 45 degrees electrical corner wire.
 
@@ -83,7 +84,7 @@ def wire_corner45(
     ypts = [-a, radius, radius + np.sqrt(2) * width, -a]
     c.add_polygon(list(zip(xpts, ypts)), layer=layer)
 
-    w = np.round(width * np.sqrt(2), 3)
+    w = float(np.round(width * np.sqrt(2), 3))  # type: ignore
 
     if with_corner90_ports:
         c.add_port(
@@ -162,7 +163,9 @@ def wire_corner_sections(
             -offset - b,
         ]
 
-        c.add_polygon(list(zip([xpts, ypts])), layer=layer)
+        assert layer is not None
+
+        c.add_polygon(list(zip(xpts, ypts)), layer=layer)
 
     c.add_port(
         name="e1",

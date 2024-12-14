@@ -1,9 +1,10 @@
 from __future__ import annotations
 
 import warnings
+from typing import Any
 
 import numpy as np
-from numpy import ndarray
+from numpy.typing import NDArray
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -11,7 +12,7 @@ from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.cross_section import cross_section as cross_section_function
 from gdsfactory.port import Port
 from gdsfactory.routing.auto_taper import add_auto_tapers
-from gdsfactory.typings import ComponentSpec, Coordinate, CrossSectionSpec
+from gdsfactory.typings import ComponentSpec, Coordinate, CrossSectionSpec, PortNames
 
 DEG2RAD = np.pi / 180
 
@@ -20,7 +21,9 @@ def line(
     p_start: Port | Coordinate,
     p_end: Port | Coordinate,
     width: float | None = None,
-) -> tuple[float, float, float, float]:
+) -> tuple[
+    NDArray[np.float64], NDArray[np.float64], NDArray[np.float64], NDArray[np.float64]
+]:
     if isinstance(p_start, gf.Port):
         width = p_start.width
         p_start = p_start.dcenter
@@ -29,6 +32,7 @@ def line(
         p_end = p_end.dcenter
 
     w = width
+    assert w is not None
     angle = np.arctan2(p_end[1] - p_start[1], p_end[0] - p_start[0])
     a = np.pi / 2
     p0 = move_polar_rad_copy(p_start, angle + a, w / 2)
@@ -38,7 +42,9 @@ def line(
     return p0, p1, p2, p3
 
 
-def move_polar_rad_copy(pos: Coordinate, angle: float, length: float) -> ndarray:
+def move_polar_rad_copy(
+    pos: Coordinate, angle: float, length: float
+) -> NDArray[np.float64]:
     """Returns the points of a position (pos) with angle, shifted by length.
 
     Args:
@@ -54,7 +60,7 @@ def move_polar_rad_copy(pos: Coordinate, angle: float, length: float) -> ndarray
 @gf.cell
 def extend_ports(
     component: ComponentSpec = mmi1x2,
-    port_names: tuple[str, ...] | None = None,
+    port_names: PortNames | None = None,
     length: float = 5.0,
     extension: ComponentSpec | None = None,
     port1: str | None = None,
@@ -65,7 +71,7 @@ def extend_ports(
     extension_port_names: list[str] | None = None,
     allow_width_mismatch: bool = False,
     auto_taper: bool = True,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Returns a new component with some ports extended.
 
@@ -109,12 +115,9 @@ def extend_ports(
     ports_all = cref.ports
     port_names_all = [p.name for p in ports_all]
 
-    ports_to_extend = cref.ports
-    ports_to_extend = gf.port.get_ports_list(
-        ports_to_extend, port_type=port_type, **kwargs
-    )
+    ports_to_extend = gf.port.get_ports_list(cref.ports, port_type=port_type, **kwargs)
     ports_to_extend_names = [p.name for p in ports_to_extend]
-    ports_to_extend_names = port_names or ports_to_extend_names
+    ports_to_extend_names = port_names or ports_to_extend_names  # type: ignore
 
     if auto_taper and cross_section:
         ports_to_extend = add_auto_tapers(
@@ -136,7 +139,8 @@ def extend_ports(
                 extension_component = gf.get_component(extension)
             else:
                 cross_section_extension = cross_section or cross_section_function(
-                    layer=gf.pdk.get_layer_tuple(port.layer), width=port.dwidth
+                    layer=gf.get_layer_tuple(port.layer),  # type: ignore
+                    width=port.dwidth,
                 )
 
                 if cross_section_extension is None:
@@ -149,6 +153,8 @@ def extend_ports(
             port_labels = [p.name for p in extension_component.ports]
             port1 = port1 or port_labels[0]
             port2 = port2 or port_labels[-1]
+
+            assert port1 is not None
 
             extension_ref = c << extension_component
             extension_ref.connect(

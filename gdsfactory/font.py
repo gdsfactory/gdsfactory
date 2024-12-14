@@ -5,18 +5,19 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 
 from __future__ import annotations
 
-import freetype
+import freetype  # type: ignore
 import numpy as np
+import numpy.typing as npt
 from matplotlib import font_manager
 from matplotlib.path import Path
 
 from gdsfactory.boolean import boolean
 from gdsfactory.component import Component
 
-_cached_fonts = {}
+_cached_fonts: dict[str, freetype.Face] = {}
 
 try:
-    import freetype
+    import freetype  # type: ignore
 except ImportError:
     print(
         "gdsfactory requires freetype to use real fonts. "
@@ -29,7 +30,7 @@ except ImportError:
     )
 
 
-def _get_font_by_file(file):
+def _get_font_by_file(file: str) -> freetype.Face:
     """Load font file.
 
     Args:
@@ -45,7 +46,7 @@ def _get_font_by_file(file):
     return font_renderer
 
 
-def _get_font_by_name(name: str):
+def _get_font_by_name(name: str) -> freetype.Face:
     """Try to load a system font by name.
 
     Args:
@@ -62,14 +63,14 @@ def _get_font_by_name(name: str):
     return _get_font_by_file(font_file)
 
 
-def _get_glyph(font, letter):  # noqa: C901
+def _get_glyph(font: freetype.Face, letter: str) -> tuple[Component, float, float]:
     """Get a block reference to the given letter."""
     if not isinstance(letter, str) and len(letter) == 1:
         raise TypeError(f"Letter must be a string of length 1. Got: {letter!r}")
 
     if not isinstance(font, freetype.Face):
         raise TypeError(
-            "font {font!r} must be a freetype font face. "
+            f"font {font!r} must be a freetype font face. "
             "Load a font using _get_font_by_name first."
         )
 
@@ -77,7 +78,7 @@ def _get_glyph(font, letter):  # noqa: C901
         font.gds_glyphs = {}
 
     if letter in font.gds_glyphs:
-        return font.gds_glyphs[letter]
+        return font.gds_glyphs[letter]  # type: ignore
 
     # Get the font name
     font_name = font.family_name.decode().replace(" ", "_")
@@ -149,14 +150,14 @@ def _get_glyph(font, letter):  # noqa: C901
     component = Component()
 
     orientation = freetype.FT_Outline_Get_Orientation(outline._FT_Outline)
-    polygons_cw = [p for p in polygons if _polygon_orientation(p) == 0]
-    polygons_ccw = [p for p in polygons if _polygon_orientation(p) == 1]
+    polygons_cw = [p for p in polygons if _polygon_orientation(np.array(p)) == 0]
+    polygons_ccw = [p for p in polygons if _polygon_orientation(np.array(p)) == 1]
     c1 = Component()
     c2 = Component()
     for p in polygons_cw:
-        c1.add_polygon(p, layer=(1, 0))
+        c1.add_polygon(np.array(p), layer=(1, 0))
     for p in polygons_ccw:
-        c2.add_polygon(p, layer=(1, 0))
+        c2.add_polygon(np.array(p), layer=(1, 0))
     if orientation == 0:
         # TrueType specification, fill the clockwise contour
         component = boolean(c1, c2, operation="not")
@@ -170,10 +171,10 @@ def _get_glyph(font, letter):  # noqa: C901
 
     # Cache the return value and return it
     font.gds_glyphs[letter] = (component, glyph.advance.x, font.size.ascender)
-    return font.gds_glyphs[letter]
+    return font.gds_glyphs[letter]  # type: ignore
 
 
-def _polygon_orientation(vertices) -> int:
+def _polygon_orientation(vertices: npt.NDArray[np.float64]) -> int:
     """Determine the orientation of a polygon."""
     n = len(vertices)
     if n < 3:

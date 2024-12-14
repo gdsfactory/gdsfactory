@@ -6,17 +6,17 @@ from gdsfactory.components.bend_circular import bend_circular180
 from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.mmi2x2 import mmi2x2
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentFactory, ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
 def bendu_double(
-    component: ComponentSpec,
+    component: Component,
     cross_section: CrossSectionSpec = "strip",
-    bend180: ComponentSpec = bend_circular180,
+    bend180: ComponentFactory = bend_circular180,
     port1: str = "o1",
     port2: str = "o2",
-) -> ComponentSpec:
+) -> Component:
     """Returns double bend.
 
     Args:
@@ -30,33 +30,33 @@ def bendu_double(
 
     xs_r2 = gf.get_cross_section(
         cross_section,
-        radius=xs.radius - (component.ports[port1].dy - component.ports[port2].dy),
+        radius=xs.radius - (component.ports[port1].dy - component.ports[port2].dy),  # type: ignore
     )
 
-    bendu = gf.Component()
+    bendu = Component()
     bend_r = bendu << bend180(cross_section=xs)
     bend_r2 = bendu << bend180(
         cross_section=xs_r2,
     )
-    bend_r2 = bend_r2.dmove(
+    bend_r2_instance = bend_r2.dmove(
         (0, component.ports[port1].dy - component.ports[port2].dy),
     )
     bendu.add_port("o1", port=bend_r.ports["o1"])
-    bendu.add_port("o2", port=bend_r2.ports["o1"])
-    bendu.add_port("o3", port=bend_r2.ports["o2"])
+    bendu.add_port("o2", port=bend_r2_instance.ports["o1"])
+    bendu.add_port("o3", port=bend_r2_instance.ports["o2"])
     bendu.add_port("o4", port=bend_r.ports["o2"])
     return bendu
 
 
 @gf.cell
 def straight_double(
-    component: ComponentSpec,
+    component: Component,
     cross_section: CrossSectionSpec = "strip",
     port1: str = "o1",
     port2: str = "o2",
     straight_length: float | None = None,
-    straight: ComponentSpec = straight_function,
-) -> ComponentSpec:
+    straight: ComponentFactory = straight_function,
+) -> Component:
     """Returns double straight.
 
     Args:
@@ -71,19 +71,21 @@ def straight_double(
 
     straight_double = gf.Component()
     straight_component = straight(
-        length=straight_length or xs.radius * 2, cross_section=xs
+        length=straight_length or xs.radius * 2,  # type: ignore
+        cross_section=xs,
     )
     straight_component2 = straight(
-        length=straight_length or xs.radius * 2, cross_section=xs
+        length=straight_length or xs.radius * 2,  # type: ignore
+        cross_section=xs,
     )
     straight_r = straight_double << straight_component
     straight_r2 = straight_double << straight_component2
-    straight_r2 = straight_r2.dmove(
+    straight_r2_instance = straight_r2.dmove(
         (0, -component.ports[port1].dy + component.ports[port2].dy),
     )
     straight_double.add_port("o1", port=straight_r.ports["o1"])
-    straight_double.add_port("o2", port=straight_r2.ports["o1"])
-    straight_double.add_port("o3", port=straight_r2.ports["o2"])
+    straight_double.add_port("o2", port=straight_r2_instance.ports["o1"])
+    straight_double.add_port("o3", port=straight_r2_instance.ports["o2"])
     straight_double.add_port("o4", port=straight_r.ports["o2"])
     return straight_double
 
@@ -97,11 +99,11 @@ def cutback_2x2(
     port2: str = "o2",
     port3: str = "o3",
     port4: str = "o4",
-    bend180: ComponentSpec = bend_circular180,
+    bend180: ComponentFactory = bend_circular180,
     mirror: bool = False,
     straight_length: float | None = None,
     cross_section: CrossSectionSpec = "strip",
-    straight: ComponentSpec = straight_function,
+    straight: ComponentFactory = straight_function,
 ) -> Component:
     """Returns a daisy chain of splitters for measuring their loss.
 
@@ -129,7 +131,7 @@ def cutback_2x2(
         port2=port2,
     )
 
-    straight = straight_double(
+    straight_component = straight_double(
         component=component,
         cross_section=cross_section,
         straight_length=straight_length,
@@ -144,8 +146,8 @@ def cutback_2x2(
         "B": (component, port4, port2),
         "D": (bendu, "o2", "o3"),
         "C": (bendu, "o4", "o1"),
-        "-": (straight, "o1", "o3"),
-        "_": (straight, "o2", "o4"),
+        "-": (straight_component, "o1", "o3"),
+        "_": (straight_component, "o2", "o4"),
     }
 
     # Generate the sequence of staircases
@@ -167,7 +169,7 @@ def cutback_2x2(
     s = s[:-1]
     n = cols * rows * 2
     c = component_sequence(sequence=s, symbol_to_component=symbol_to_component)
-    c.ports._ports = []
+    c.ports._ports = []  # type: ignore
     c.add_port("o1", port=c.insts["A1"].ports["o1"])
     c.add_port("o2", port=c.insts["A1"].ports["o2"])
 

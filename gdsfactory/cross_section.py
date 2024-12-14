@@ -1,4 +1,3 @@
-# type: ignore
 """You can define a path as list of points.
 
 To create a component you need to extrude the path with a cross-section.
@@ -12,9 +11,10 @@ from collections.abc import Callable, Iterable
 from functools import partial, wraps
 from inspect import getmembers, signature
 from types import ModuleType
-from typing import TYPE_CHECKING, Any, Literal
+from typing import TYPE_CHECKING, Any, Literal, TypeAlias
 
 import numpy as np
+import numpy.typing as npt
 from kfactory import logger
 from pydantic import (
     BaseModel,
@@ -28,21 +28,24 @@ from pydantic import (
 from gdsfactory.config import CONF, ErrorType
 
 if TYPE_CHECKING:
-    from gdsfactory.component import Component
+    from gdsfactory.typings import AnyComponentT, PortNames, PortTypes
 
 nm = 1e-3
 
+Layer: TypeAlias = tuple[int, int]
+Layers: TypeAlias = tuple[Layer, ...]
+WidthTypes: TypeAlias = Literal["sine", "linear", "parabolic"]
 
-Layer = tuple[int, int]
-Layers = tuple[Layer, ...]
-WidthTypes = Literal["sine", "linear", "parabolic"]
+LayerSpec: TypeAlias = Layer | str
+LayerSpecs: TypeAlias = Iterable[LayerSpec]
 
-LayerSpec = Layer | str
-LayerSpecs = Iterable[LayerSpec]
+Floats: TypeAlias = tuple[float, ...]
 
-Floats = tuple[float, ...]
-port_names_electrical = ("e1", "e2")
-port_types_electrical = ("electrical", "electrical")
+WidthFunction: TypeAlias = Callable[..., npt.NDArray[np.float64]]
+OffsetFunction: TypeAlias = Callable[..., npt.NDArray[np.float64]]
+
+port_names_electrical: "PortNames" = ("e1", "e2")
+port_types_electrical: "PortTypes" = ("electrical", "electrical")
 cladding_layers_optical = None
 cladding_offsets_optical = None
 cladding_simplify_optical = None
@@ -98,6 +101,8 @@ class Section(BaseModel):
         simplify: Optional Tolerance value for the simplification algorithm. \
                 All points that can be removed without changing the resulting. \
                 polygon by more than the value listed here will be removed.
+        width_function: parameterized function from 0 to 1.
+        offset_function: parameterized function from 0 to 1.
 
     .. code::
 
@@ -127,8 +132,8 @@ class Section(BaseModel):
     hidden: bool = False
     simplify: float | None = None
 
-    width_function: Callable | None = Field(default=None)
-    offset_function: Callable | None = Field(default=None)
+    width_function: WidthFunction | None = Field(default=None)
+    offset_function: OffsetFunction | None = Field(default=None)
 
     model_config = ConfigDict(extra="forbid", frozen=True)
 
@@ -276,10 +281,10 @@ class CrossSection(BaseModel):
         self,
         width: float | None = None,
         layer: LayerSpec | None = None,
-        width_function: Callable | None = None,
-        offset_function: Callable | None = None,
+        width_function: WidthFunction | None = None,
+        offset_function: OffsetFunction | None = None,
         sections: tuple[Section, ...] | None = None,
-        **kwargs,
+        **kwargs: Any,
     ) -> CrossSection:
         """Returns copy of the cross_section with new parameters.
 
@@ -353,12 +358,12 @@ class CrossSection(BaseModel):
 
     def add_bbox(
         self,
-        component,
+        component: AnyComponentT,
         top: float | None = None,
         bottom: float | None = None,
         right: float | None = None,
         left: float | None = None,
-    ) -> Component:
+    ) -> AnyComponentT:
         """Add bounding box layers to a component.
 
         Args:
@@ -410,7 +415,7 @@ ConductorViaConductorName = tuple[str, str, str] | tuple[str, str]
 ConnectivitySpec = ConductorConductorName | ConductorViaConductorName
 
 
-class Transition(CrossSection):
+class Transition(BaseModel):
     """Waveguide information to extrude a path between two CrossSection.
 
     cladding_layers follow path shape
@@ -426,11 +431,15 @@ class Transition(CrossSection):
 
     cross_section1: CrossSectionSpec
     cross_section2: CrossSectionSpec
-    width_type: WidthTypes | Callable = "sine"
-    offset_type: WidthTypes | Callable = "sine"
+    width_type: WidthTypes | Callable[[float, float, float], float] = "sine"
+    offset_type: WidthTypes | Callable[[float, float, float], float] = "sine"
 
     @field_serializer("width_type")
-    def serialize_width(self, width_type: WidthTypes | Callable) -> str | None:
+    def serialize_width(
+        self,
+        width_type: WidthTypes
+        | Callable[[npt.NDArray[np.float_], float, float], npt.NDArray[np.float_]],
+    ) -> str:
         if isinstance(width_type, str):
             return width_type
         t_values = np.linspace(0, 1, 10)
@@ -438,23 +447,12 @@ class Transition(CrossSection):
             [str(round(width, 3)) for width in width_type(t_values, *self.width)]
         )
 
-    @property
-    def width(self) -> tuple[float, float]:
-        return (
-            self.cross_section1.sections[0].width,
-            self.cross_section2.sections[0].width,
-        )
-
-    @property
-    def layer(self) -> LayerSpec:
-        return self.cross_section1.sections[0].layer
-
 
 cross_sections = {}
 _cross_section_default_names = {}
 
 
-def xsection(func):
+def xsection(func: Callable[..., CrossSection]) -> Callable[..., CrossSection]:
     """Decorator to register a cross section function.
 
     Ensures that the cross-section name matches the name of the function that generated it when created using default parameters
@@ -469,7 +467,7 @@ def xsection(func):
     _cross_section_default_names[default_xs.name] = func.__name__
 
     @wraps(func)
-    def newfunc(**kwargs):
+    def newfunc(**kwargs: Any) -> CrossSection:
         xs = func(**kwargs)
         if xs.name in _cross_section_default_names:
             xs._name = _cross_section_default_names[xs.name]
@@ -486,12 +484,12 @@ def cross_section(
     sections: tuple[Section, ...] | None = None,
     port_names: tuple[str, str] = ("o1", "o2"),
     port_types: tuple[str, str] = ("optical", "optical"),
-    bbox_layers: LayerSpecs | None = None,
-    bbox_offsets: Floats | None = None,
-    cladding_layers: LayerSpecs | None = None,
-    cladding_offsets: Floats | None = None,
-    cladding_simplify: Floats | None = None,
-    cladding_centers: Floats | None = None,
+    bbox_layers: "LayerSpecs | None" = None,
+    bbox_offsets: "Floats | None" = None,
+    cladding_layers: "LayerSpecs | None" = None,
+    cladding_offsets: "Floats | None" = None,
+    cladding_simplify: "Floats | None" = None,
+    cladding_centers: "Floats | None" = None,
     radius: float | None = 10.0,
     radius_min: float | None = None,
     main_section_name: str = "_default",
@@ -621,7 +619,7 @@ def strip(
     layer: LayerSpec = "WG",
     radius: float = 10.0,
     radius_min: float = 5,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Return Strip cross_section."""
     return cross_section(
@@ -642,7 +640,7 @@ def rib(
     cladding_layers: LayerSpecs = ("SLAB90",),
     cladding_offsets: Floats = (3,),
     cladding_simplify: Floats = (50 * nm,),
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Return Rib cross_section."""
     return cross_section(
@@ -665,7 +663,7 @@ def rib_bbox(
     radius_min: float | None = None,
     bbox_layers: LayerSpecs = ("SLAB90",),
     bbox_offsets: Floats = (3,),
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Return Rib cross_section."""
     return cross_section(
@@ -687,7 +685,7 @@ def rib2(
     radius: float = radius_rib,
     radius_min: float | None = None,
     width_slab: float = 6,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Return Rib cross_section."""
     sections = (
@@ -709,7 +707,7 @@ def nitride(
     layer: LayerSpec = "WGN",
     radius: float = radius_nitride,
     radius_min: float | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Return Strip cross_section."""
     return cross_section(
@@ -729,7 +727,7 @@ def strip_rib_tip(
     layer_slab: LayerSpec = "SLAB90",
     radius: float = 10.0,
     radius_min: float | None = 5,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Return Strip cross_section."""
     sections = (Section(width=width_tip, layer=layer_slab, name="slab"),)
@@ -752,7 +750,7 @@ def strip_nitride_tip(
     width_tip_silicon: float = 0.1,
     radius: float = radius_nitride,
     radius_min: float | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Return Strip cross_section."""
     sections = (
@@ -823,7 +821,7 @@ def rib_with_trenches(
     layer_trench: LayerSpec = "DEEP_ETCH",
     wg_marking_layer: LayerSpec | None = None,
     sections: tuple[Section, ...] | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Return CrossSection of rib waveguide defined by trenches.
 
@@ -921,7 +919,7 @@ def l_with_trenches(
     layer_trench: LayerSpec = "DEEP_ETCH",
     mirror: bool = False,
     sections: tuple[Section, ...] | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Return CrossSection of l waveguide defined by trenches.
 
@@ -993,9 +991,9 @@ def metal1(
     width: float = 10,
     layer: LayerSpec = "M1",
     radius: float | None = None,
-    port_names=port_names_electrical,
-    port_types=port_types_electrical,
-    **kwargs,
+    port_names: "PortNames" = port_names_electrical,
+    port_types: "PortTypes" = port_types_electrical,
+    **kwargs: Any,
 ) -> CrossSection:
     """Return Metal Strip cross_section."""
     return cross_section(
@@ -1013,9 +1011,9 @@ def metal2(
     width: float = 10,
     layer: LayerSpec = "M2",
     radius: float | None = None,
-    port_names=port_names_electrical,
-    port_types=port_types_electrical,
-    **kwargs,
+    port_names: "PortNames" = port_names_electrical,
+    port_types: "PortTypes" = port_types_electrical,
+    **kwargs: Any,
 ) -> CrossSection:
     """Return Metal Strip cross_section."""
     return cross_section(
@@ -1033,9 +1031,9 @@ def metal3(
     width: float = 10,
     layer: LayerSpec = "M3",
     radius: float | None = None,
-    port_names=port_names_electrical,
-    port_types=port_types_electrical,
-    **kwargs,
+    port_names: "PortNames" = port_names_electrical,
+    port_types: "PortTypes" = port_types_electrical,
+    **kwargs: Any,
 ) -> CrossSection:
     """Return Metal Strip cross_section."""
     return cross_section(
@@ -1053,9 +1051,9 @@ def metal_routing(
     width: float = 10,
     layer: LayerSpec = "M3",
     radius: float | None = None,
-    port_names=port_names_electrical,
-    port_types=port_types_electrical,
-    **kwargs,
+    port_names: "PortNames" = port_names_electrical,
+    port_types: "PortTypes" = port_types_electrical,
+    **kwargs: Any,
 ) -> CrossSection:
     """Return Metal Strip cross_section."""
     return cross_section(
@@ -1073,9 +1071,9 @@ def heater_metal(
     width: float = 2.5,
     layer: LayerSpec = "HEATER",
     radius: float | None = None,
-    port_names=port_names_electrical,
-    port_types=port_types_electrical,
-    **kwargs,
+    port_names: "PortNames" = port_names_electrical,
+    port_types: "PortTypes" = port_types_electrical,
+    **kwargs: Any,
 ) -> CrossSection:
     """Return Metal Strip cross_section."""
     return cross_section(
@@ -1093,9 +1091,9 @@ def npp(
     width: float = 0.5,
     layer: LayerSpec = "NPP",
     radius: float | None = None,
-    port_names=port_names_electrical,
-    port_types=port_types_electrical,
-    **kwargs,
+    port_names: "PortNames" = port_names_electrical,
+    port_types: "PortTypes" = port_types_electrical,
+    **kwargs: Any,
 ) -> CrossSection:
     """Return Doped NPP cross_section."""
     return cross_section(
@@ -1124,7 +1122,7 @@ def pin(
     via_width: float = 1,
     via_offsets: tuple[float, ...] | None = None,
     sections: tuple[Section, ...] | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Rib PIN doped cross_section.
 
@@ -1235,11 +1233,11 @@ def pn(
     width_metal: float = 1.0,
     port_names: tuple[str, str] = ("o1", "o2"),
     sections: tuple[Section, ...] | None = None,
-    cladding_layers: LayerSpecs | None = None,
-    cladding_offsets: Floats | None = None,
-    cladding_simplify: Floats | None = None,
+    cladding_layers: "LayerSpecs | None" = None,
+    cladding_offsets: "Floats | None" = None,
+    cladding_simplify: "Floats | None" = None,
     slab_inset: float | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Rib PN doped cross_section.
 
@@ -1423,13 +1421,13 @@ def pn_with_trenches(
     width_via: float = 1.0,
     layer_metal: LayerSpec | None = None,
     width_metal: float = 1.0,
-    port_names: tuple[str, str] = ("o1", "o2"),
+    port_names: "PortNames" = ("o1", "o2"),
     cladding_layers: Layers | None = cladding_layers_optical,
-    cladding_offsets: Floats | None = cladding_offsets_optical,
-    cladding_simplify: Floats | None = cladding_simplify_optical,
+    cladding_offsets: "Floats | None" = cladding_offsets_optical,
+    cladding_simplify: "Floats | None" = cladding_simplify_optical,
     wg_marking_layer: LayerSpec | None = None,
     sections: Sections | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Rib PN doped cross_section.
 
@@ -1633,10 +1631,10 @@ def pn_with_trenches_asymmetric(
     width_metal: float = 1.0,
     port_names: tuple[str, str] = ("o1", "o2"),
     cladding_layers: Layers | None = cladding_layers_optical,
-    cladding_offsets: Floats | None = cladding_offsets_optical,
+    cladding_offsets: "Floats | None" = cladding_offsets_optical,
     wg_marking_layer: LayerSpec | None = None,
     sections: Sections | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Rib PN doped cross_section with asymmetric dimensions left and right.
 
@@ -1853,10 +1851,10 @@ def l_wg_doped_with_trenches(
     width_metal: float = 1.0,
     port_names: tuple[str, str] = ("o1", "o2"),
     cladding_layers: Layers | None = cladding_layers_optical,
-    cladding_offsets: Floats | None = cladding_offsets_optical,
+    cladding_offsets: "Floats | None" = cladding_offsets_optical,
     wg_marking_layer: LayerSpec | None = None,
     sections: Sections | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """L waveguide PN doped cross_section.
 
@@ -2010,7 +2008,7 @@ def strip_heater_metal_undercut(
     layer_heater: LayerSpec = "HEATER",
     layer_trench: LayerSpec = "DEEPTRENCH",
     sections: Sections | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Returns strip cross_section with top metal and undercut trenches on both.
 
@@ -2085,7 +2083,7 @@ def strip_heater_metal(
     heater_width: float = 2.5,
     layer_heater: LayerSpec = "HEATER",
     sections: Sections | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Returns strip cross_section with top heater metal.
 
@@ -2136,7 +2134,7 @@ def strip_heater_doped(
     layers_heater: LayerSpecs = ("WG", "NPP"),
     bbox_offsets_heater: tuple[float, ...] = (0, 0.1),
     sections: Sections | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Returns strip cross_section with N++ doped heaters on both sides.
 
@@ -2213,7 +2211,7 @@ def rib_heater_doped(
     with_top_heater: bool = True,
     with_bot_heater: bool = True,
     sections: Sections | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Returns rib cross_section with N++ doped heaters on both sides.
 
@@ -2303,7 +2301,7 @@ def rib_heater_doped_via_stack(
     with_top_heater: bool = True,
     with_bot_heater: bool = True,
     sections: Sections | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> CrossSection:
     """Returns rib cross_section with N++ doped heaters on both sides.
 
@@ -2435,9 +2433,9 @@ def pn_ge_detector_si_contacts(
     layer_metal: LayerSpec | None = None,
     port_names: tuple[str, str] = ("o1", "o2"),
     cladding_layers: Layers | None = cladding_layers_optical,
-    cladding_offsets: Floats | None = cladding_offsets_optical,
-    cladding_simplify: Floats | None = None,
-    **kwargs,
+    cladding_offsets: "Floats | None" = cladding_offsets_optical,
+    cladding_simplify: "Floats | None" = None,
+    **kwargs: Any,
 ) -> CrossSection:
     """Linear Ge detector cross section based on a lateral p(i)n junction.
 

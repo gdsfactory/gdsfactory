@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Any
+
 import numpy as np
 
 import gdsfactory as gf
@@ -25,7 +27,7 @@ def grating_coupler_rectangular(
     slab_xmin: float = -1.0,
     slab_offset: float = 1.0,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     r"""Grating coupler with rectangular shapes (not elliptical).
 

@@ -3,8 +3,8 @@ from __future__ import annotations
 from collections import Counter
 
 import gdsfactory as gf
-from gdsfactory.component import Component
-from gdsfactory.typings import ComponentSpec
+from gdsfactory.component import Component, ComponentReference
+from gdsfactory.typings import AngleInDegrees
 
 
 class SequenceGenerator:
@@ -37,12 +37,17 @@ class SequenceGenerator:
         O: taper with input '2'
         S: short straight waveguide
         L: long straight waveguide
+
+        Args:
+            start_sequence: starting sequence.
+            end_sequence: ending sequence.
+            repeated_sequence: repeating sequence.
         """
         self.start_sequence = start_sequence
         self.end_sequence = end_sequence
         self.repeated_sequence = repeated_sequence
 
-    def get_sequence(self, n=2):
+    def get_sequence(self, n: int = 2) -> str:
         return self.start_sequence + n * self.repeated_sequence + self.end_sequence
 
 
@@ -54,23 +59,23 @@ def parse_component_name(name: str) -> tuple[str, bool]:
     return (name[1:], True) if len(name) != 1 and name[0] == "!" else (name, False)
 
 
-def _flip_ref(c_ref, port_name):
+def _flip_ref(c_ref: ComponentReference, port_name: str) -> ComponentReference:
     a = c_ref.ports[port_name].orientation
     if a in [0, 180]:
         y = c_ref.ports[port_name].dcenter[1]
         c_ref.dmirror_y(y)
     else:
-        c_ref.dmirror_x(port_name)
+        c_ref.dmirror_x(port_name)  # type: ignore
     return c_ref
 
 
 def component_sequence(
     sequence: str,
-    symbol_to_component: dict[str, tuple[ComponentSpec, str, str]],
+    symbol_to_component: dict[str, tuple[Component, str, str]],
     ports_map: dict[str, tuple[str, str]] | None = None,
     port_name1: str = "o1",
     port_name2: str = "o2",
-    start_orientation: float = 0.0,
+    start_orientation: AngleInDegrees = 0.0,
 ) -> Component:
     """Returns component from ASCII sequence.
 
@@ -112,7 +117,7 @@ def component_sequence(
         c.plot()
     """
     ports_map = ports_map or {}
-    named_references_counter = Counter()
+    named_references_counter: Counter[str] = Counter()
     component = Component()
 
     # Add first component reference and input port
@@ -183,7 +188,7 @@ def component_sequence(
         next_port = prev_port
 
     try:
-        component.add_port(name=port_name2, port=ref.ports[next_port])
+        component.add_port(name=port_name2, port=ref.ports[next_port])  # type: ignore
     except BaseException:
         print(sequence)
         raise
@@ -200,8 +205,8 @@ def component_sequence(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    bend180 = gf.components.bend_circular180()
-    wg_pin = gf.components.straight_pin(length=40)
+    bend180 = gf.components.bend_circular180()  # type: ignore
+    wg_pin = gf.components.straight_pin(length=40)  # type: ignore
     wg = gf.components.straight()
 
     # Define a map between symbols and (component, input port, output port)

@@ -1,19 +1,21 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory import cell
 from gdsfactory.component import Component
 from gdsfactory.snap import snap_to_grid2x
-from gdsfactory.typings import Ints, LayerSpec
+from gdsfactory.typings import Ints, LayerSpec, Size
+
+valid_port_orientations = {0, 90, 180, -90, 270}
 
 
-@cell
+@gf.cell
 def compass(
-    size=(4.0, 2.0),
+    size: Size = (4.0, 2.0),
     layer: LayerSpec = "WG",
     port_type: str | None = "electrical",
     port_inclusion: float = 0.0,
     port_orientations: Ints | None = (180, 90, 0, -90),
+    auto_rename_ports: bool = True,
 ) -> Component:
     """Rectangle with ports on each edge (north, south, east, and west).
 
@@ -23,6 +25,7 @@ def compass(
         port_type: optical, electrical.
         port_inclusion: from edge.
         port_orientations: list of port_orientations to add. None does not add ports.
+        auto_rename_ports: auto rename ports.
     """
     c = gf.Component()
     dx, dy = snap_to_grid2x(size)
@@ -32,15 +35,21 @@ def compass(
         raise ValueError(f"dx={dx} and dy={dy} must be > 0")
 
     points = [
-        [-dx / 2.0, -dy / 2.0],
-        [-dx / 2.0, dy / 2],
-        [dx / 2, dy / 2],
-        [dx / 2, -dy / 2.0],
+        (-dx / 2.0, -dy / 2.0),
+        (-dx / 2.0, dy / 2),
+        (dx / 2, dy / 2),
+        (dx / 2, -dy / 2.0),
     ]
 
     c.add_polygon(points, layer=layer)
 
     if port_type:
+        for port_orientation in port_orientations:
+            if port_orientation not in valid_port_orientations:
+                raise ValueError(
+                    f"{port_orientation=} must be in {valid_port_orientations}"
+                )
+
         if 180 in port_orientations:
             c.add_port(
                 name="e1",
@@ -68,7 +77,7 @@ def compass(
                 layer=layer,
                 port_type=port_type,
             )
-        if -90 in port_orientations:
+        if -90 in port_orientations or 270 in port_orientations:
             c.add_port(
                 name="e4",
                 center=(0, -dy / 2 + port_inclusion),
@@ -78,11 +87,13 @@ def compass(
                 port_type=port_type,
             )
 
-        c.auto_rename_ports()
+        if auto_rename_ports:
+            c.auto_rename_ports()
     return c
 
 
 if __name__ == "__main__":
-    c = compass(size=(10, 4), port_type="electrical")
+    # c = compass(size=(10, 4), port_type="electrical")
+    c = compass(port_orientations=[270])
     c.pprint_ports()
     c.show()

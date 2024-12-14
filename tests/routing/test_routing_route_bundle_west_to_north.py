@@ -15,10 +15,10 @@ def test_route_bundle_west_to_north(
     pad = gf.components.pad
     c = gf.Component()
     pad_south = gf.components.pad_array(
-        port_orientation=270, spacing=(15.0, 0.0), pad=pad, size=(10, 10)
+        port_orientation=270, pad=pad, size=(10, 10), column_pitch=15
     )
     pad_north = gf.components.pad_array(
-        port_orientation=90, spacing=(15.0, 0.0), pad=pad, size=(10, 10)
+        port_orientation=90, pad=pad, size=(10, 10), column_pitch=15
     )
     pl = c << pad_south
     pb = c << pad_north

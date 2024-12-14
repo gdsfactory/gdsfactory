@@ -4,8 +4,9 @@ from functools import partial
 from typing import TYPE_CHECKING
 
 import numpy as np
+import numpy.typing as npt
 from pydantic import BaseModel
-from scipy import interpolate
+from scipy import interpolate  # type: ignore
 
 if TYPE_CHECKING:
     pass
@@ -133,7 +134,11 @@ refractive_indices_oxide = [
 ]
 
 
-def _interpolate_material(wav: np.ndarray, wavelengths, refractive_index) -> np.ndarray:
+def _interpolate_material(
+    wav: npt.NDArray[np.float64],
+    wavelengths: list[float],
+    refractive_index: list[float],
+) -> npt.NDArray[np.float64]:
     """Returns Interpolated refractive index of material for given wavelength.
 
     Args:
@@ -142,7 +147,7 @@ def _interpolate_material(wav: np.ndarray, wavelengths, refractive_index) -> np.
         refractive_index: list of reference refractive indices.
     """
     f = interpolate.interp1d(wavelengths, refractive_index)
-    return f(wav)
+    return f(wav)  # type: ignore
 
 
 si = partial(
@@ -165,4 +170,4 @@ sin = partial(
 materials_index = {"si": si, "sio2": sio2, "sin": sin}
 
 if __name__ == "__main__":
-    print(sio2(1.55))
+    print(sio2(1.55))  # type: ignore

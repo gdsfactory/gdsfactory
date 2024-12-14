@@ -1,24 +1,26 @@
 from __future__ import annotations
 
 import warnings
+from collections.abc import Sequence
 from functools import partial
 
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.component import Component
+from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.compass import compass
 from gdsfactory.components.wire import wire_corner45
-from gdsfactory.typings import ComponentSpec, Floats, Ints, LayerSpec, LayerSpecs
+from gdsfactory.typings import ComponentSpec, Floats, Ints, LayerSpec, LayerSpecs, Size
 
 
 @gf.cell
 def via_stack(
-    size=(11.0, 11.0),
+    size: Size = (11.0, 11.0),
     layers: LayerSpecs = ("M1", "M2", "MTOP"),
     layer_offsets: Floats | None = None,
-    vias: tuple[ComponentSpec | None, ...] | None = ("via1", "via2", None),
+    vias: Sequence[ComponentSpec | None] = ("via1", "via2", None),
     layer_port: LayerSpec | None = None,
+    layer_to_port_orientations: dict[LayerSpec, list[int]] | None = None,
     correct_size: bool = True,
     slot_horizontal: bool = False,
     slot_vertical: bool = False,
@@ -33,16 +35,14 @@ def via_stack(
     also know as Via array
     http://www.vlsi-expert.com/2017/12/vias.html
 
-    spacing = via.info['spacing']
-    enclosure = via.info['enclosure']
-
     Args:
         size: of the layers.
         layers: layers on which to draw rectangles.
         layer_offsets: Optional offsets for each layer with respect to size.
             positive grows, negative shrinks the size.
         vias: vias to use to fill the rectangles.
-        layer_port: if None assumes port is on the last layer.
+        layer_port: if None assumes port is on the last layer. Deprecated.
+        layer_to_port_orientations: dictionary of layer to port_orientations.
         correct_size: if True, if the specified dimensions are too small it increases
             them to the minimum possible to fit a via.
         slot_horizontal: if True, then vias are horizontal.
@@ -55,6 +55,15 @@ def via_stack(
 
     layers = layers or []
     layer_offsets = layer_offsets or [0] * len(layers)
+    layer_to_port_orientations_list = layer_to_port_orientations or {
+        layers[-1]: port_orientations  # type: ignore
+    }
+
+    for layer in layer_to_port_orientations_list:
+        if layer not in layers:
+            raise ValueError(
+                f"layer {layer} in layer_to_port_orientations not in layers {layers}"
+            )
 
     elements = {len(layers), len(layer_offsets), len(vias)}
     if len(elements) > 1:
@@ -63,21 +72,24 @@ def via_stack(
             stacklevel=3,
         )
 
-    if layers:
-        layer_port = layer_port or layers[-1]
+    if layer_port:
+        warnings.warn(
+            "layer_port is deprecated. Use layer_to_ports instead", stacklevel=2
+        )
 
     c = Component()
-    c.height = height_m
     c.info["xsize"], c.info["ysize"] = size
 
     for layer, offset in zip(layers, layer_offsets):
         size_m = (width_m + 2 * offset, height_m + 2 * offset)
-        if layer == layer_port:
+
+        if layer in layer_to_port_orientations_list:
             ref = c << compass(
                 size=size_m,
                 layer=layer,
                 port_type="electrical",
-                port_orientations=port_orientations,
+                port_orientations=layer_to_port_orientations_list[layer],
+                auto_rename_ports=False,
             )
             c.add_ports(ref.ports)
         else:
@@ -87,18 +99,34 @@ def via_stack(
                 port_type=None,
                 port_orientations=port_orientations,
             )
-        c.absorb(ref)
+        # c.absorb(ref)
 
-    vias = vias or []
-    for via, offset in zip(vias, layer_offsets):
+    vias_list = vias or []
+    for via, offset in zip(vias_list, layer_offsets):
         if via is not None:
             width, height = size
             width += 2 * offset
             height += 2 * offset
             _via = gf.get_component(via)
-            w, h = _via.info["xsize"], _via.info["ysize"]
+
+            if "xsize" not in _via.info:
+                raise ValueError(
+                    f"Component {_via.name!r} does not have a 'xsize' key in info"
+                )
+            if "ysize" not in _via.info:
+                raise ValueError(
+                    f"Component {_via.name!r} does not have a 'ysize' key in info"
+                )
+
+            if "pitch" not in _via.info:
+                raise ValueError(
+                    f"Component {_via.name!r} does not have a 'pitch' key in info"
+                )
+
+            w, h = _via.dxsize, _via.dysize
             enclosure = _via.info["enclosure"]
-            pitch_x, pitch_y = _via.info["xspacing"], _via.info["yspacing"]
+            pitch = _via.info["pitch"]
+            pitch_x, pitch_y = pitch, pitch
 
             min_width = w + enclosure
             min_height = h + enclosure
@@ -122,12 +150,8 @@ def via_stack(
             min_width = w + enclosure
             min_height = h + enclosure
 
-            if (
-                min_width > width
-                and correct_size
-                or min_width <= width
-                and min_height > height
-                and correct_size
+            if (min_width > width and correct_size) or (
+                min_width <= width and min_height > height and correct_size
             ):
                 warnings.warn(
                     f"Changing size from ({width}, {height}) to ({min_width}, {min_height}) to fit a via!",
@@ -142,7 +166,11 @@ def via_stack(
             nb_vias_y = int(np.floor(nb_vias_y)) or 1
 
             ref = c.add_ref(
-                via, columns=nb_vias_x, rows=nb_vias_y, spacing=(pitch_x, pitch_y)
+                via,
+                columns=nb_vias_x,
+                rows=nb_vias_y,
+                column_pitch=pitch_x,
+                row_pitch=pitch_y,
             )
 
             a = width / 2
@@ -158,16 +186,13 @@ def via_stack(
 @gf.cell
 def via_stack_corner45(
     width: float = 10,
-    layers: tuple[LayerSpec | None, ...] = ("M1", "M2", "MTOP"),
+    layers: Sequence[LayerSpec | None] = ("M1", "M2", "MTOP"),
     layer_offsets: Floats | None = None,
-    vias: tuple[ComponentSpec | None, ...] | None = ("via1", "via2", None),
+    vias: Sequence[ComponentSpec | None] = ("via1", "via2", None),
     layer_port: LayerSpec | None = None,
     correct_size: bool = True,
 ) -> Component:
     """Rectangular via array stack at a 45 degree angle.
-
-    spacing = via.info['spacing']
-    enclosure = via.info['enclosure']
 
     Args:
         width: of the corner45.
@@ -180,24 +205,25 @@ def via_stack_corner45(
             them to the minimum possible to fit a via.
     """
     height = width
-    layers = layers or []
-    layer_offsets = layer_offsets or [0] * len(layers)
+    layers_list = layers or []
+    layer_offsets_list = layer_offsets or [0] * len(layers_list)
 
-    elements = {len(layers), len(layer_offsets), len(vias)}
+    elements = {len(layers_list), len(layer_offsets_list), len(vias)}
     if len(elements) > 1:
         warnings.warn(
-            f"Got {len(layers)} layers, {len(layer_offsets)} layer_offsets, {len(vias)} vias",
+            f"Got {len(layers_list)} layers, {len(layer_offsets_list)} layer_offsets, {len(vias)} vias",
             stacklevel=3,
         )
 
-    if layers:
-        layer_port = layer_port or layers[-1]
+    if layers_list:
+        layer_port = layer_port or layers_list[-1]
 
     c = Component()
     if layer_port:
         c.info["layer"] = layer_port
 
-    for layer, offset in zip(layers, layer_offsets):
+    ref: ComponentReference | None = None
+    for layer, offset in zip(layers_list, layer_offsets_list):
         if layer and layer == layer_port:
             ref = c << wire_corner45(
                 width=width + 2 * offset, layer=layer, with_corner90_ports=False
@@ -207,6 +233,7 @@ def via_stack_corner45(
             ref = c << wire_corner45(
                 width=width + 2 * offset, layer=layer, with_corner90_ports=False
             )
+    assert ref is not None
 
     width_corner = width
     width = ref.dxsize
@@ -214,28 +241,38 @@ def via_stack_corner45(
     xmin = ref.dxmin
     ymin = ref.dymin
 
-    vias = vias or []
-    for via, offset in zip(vias, layer_offsets):
+    vias_list = vias or []
+    for via, offset in zip(vias_list, layer_offsets_list):
         if via is not None:
             width45 = (
                 2 * (width_corner + 2 * offset) * np.cos(np.deg2rad(45))
             )  # Width in the x direction
             _via = gf.get_component(via)
+            if "xsize" not in _via.info:
+                raise ValueError(
+                    f"Component {_via.name!r} does not have a 'xsize' key in info"
+                )
+            if "ysize" not in _via.info:
+                raise ValueError(
+                    f"Component {_via.name!r} does not have a 'ysize' key in info"
+                )
+
+            if "pitch" not in _via.info:
+                raise ValueError(
+                    f"Component {_via.name!r} does not have a 'pitch' key in info"
+                )
+
             w, h = _via.info["xsize"], _via.info["ysize"]
             enclosure = _via.info["enclosure"]
-            pitch_x, pitch_y = _via.info["xspacing"], _via.info["yspacing"]
+            pitch_x, pitch_y = _via.info["pitch"], _via.info["pitch"]
 
             via = _via
 
             min_width = w + enclosure
             min_height = h + enclosure
 
-            if (
-                min_width > width45
-                and correct_size
-                or min_width <= width45
-                and min_height > height
-                and correct_size
+            if (min_width > width45 and correct_size) or (
+                min_width <= width45 and min_height > height and correct_size
             ):
                 warnings.warn(
                     f"Changing size from ({width}, {height}) to ({min_width}, {min_height}) to fit a via!",
@@ -275,7 +312,7 @@ def via_stack_corner45(
                     # Place the vias at the given x, y
                     for i in range(int(vias_per_row)):
                         ref = c << via
-                        ref.dcenter = (xpos0 + pitch_x * i + w / 2, y)
+                        ref.dcenter = (xpos0 + pitch_x * i + w / 2, y)  # type: ignore
 
                 y_covered = y_covered + h + pitch_y
 
@@ -299,12 +336,12 @@ def via_stack_corner45_extended(
         length: of the straight.
     """
     c = gf.Component()
-    corner = c << gf.get_component(corner, width=width / np.sqrt(2))
+    corner_component = c << gf.get_component(corner, width=width / np.sqrt(2))
     s = gf.get_component(via_stack, size=(length, width))
     sr = c << s
     sl = c << s
-    sr.connect("e1", corner.ports["e1"])
-    sl.connect("e1", corner.ports["e2"])
+    sr.connect("e1", corner_component.ports["e1"])
+    sl.connect("e1", corner_component.ports["e2"])
     return c
 
 
@@ -358,7 +395,9 @@ if __name__ == "__main__":
     # c = via_stack_corner45()
     # c = via_stack_slab_m3(size=(100, 10), slot_vertical=True)
     # c = via_stack_npp_m1()
-    c = via_stack_m1_mtop(port_orientations=(0, 90))
+    # c = via_stack_m1_mtop(port_orientations=(0, 90))
+    c = via_stack_m1_m3(layer_to_port_orientations={"M1": [0], "MTOP": [90]})
+    # c = via_stack_m1_m3()
     c.pprint_ports()
     # n = c.get_netlist()
     c.show()

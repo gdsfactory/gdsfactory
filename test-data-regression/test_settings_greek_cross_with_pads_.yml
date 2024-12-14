@@ -1,8 +1,9 @@
 info: {}
-name: greek_cross_with_pads_P_d48c0f08
+name: greek_cross_with_pads_P_f660b0c5
 settings:
   cross_section: metal1
   greek_cross_component: greek_cross
   pad: pad
-  pad_spacing: 150
+  pad_pitch: 150
+  pad_port_name: e4
   pad_via: via_stack_m1_mtop

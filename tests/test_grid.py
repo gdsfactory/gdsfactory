@@ -2,11 +2,11 @@ import gdsfactory as gf
 
 
 @gf.cell
-def swatch(index) -> gf.Component:
+def swatch(index: int) -> gf.Component:
     return gf.components.rectangle(size=(1, 1), layer=(index + 1, 0))
 
 
-def test_grid_with_None_ports(rows=3, columns=4) -> None:
+def test_grid_with_None_ports(rows: int = 3, columns: int = 4) -> None:
     swatches = [swatch(index) for index in range(11)]
     c = gf.grid(
         components=swatches,
@@ -18,12 +18,10 @@ def test_grid_with_None_ports(rows=3, columns=4) -> None:
     assert c
 
 
-def test_grid_with_ports(rows=3, columns=4) -> None:
+def test_grid_with_ports(rows: int = 3, columns: int = 4) -> None:
     n = 3
     components = [gf.c.rectangle(size=(1, 1)) for _ in range(3)]
-    c = gf.grid(
-        components=components,
-    )
+    c = gf.grid(components=components)
     assert len(c.ports) == n * 4, len(c.ports)
 
 

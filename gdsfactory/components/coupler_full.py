@@ -1,20 +1,22 @@
 from __future__ import annotations
 
+from typing import Any
+
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import bend_s
-from gdsfactory.typings import CrossSectionSpec
+from gdsfactory.components.bend_s import bend_s
+from gdsfactory.typings import CrossSectionSpec, Delta
 
 
 @gf.cell
 def coupler_full(
     coupling_length: float = 40.0,
-    dx: float = 10.0,
-    dy: float = 4.8,
+    dx: Delta = 10.0,
+    dy: Delta = 4.8,
     gap: float = 0.5,
     dw: float = 0.1,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Adiabatic Full coupler.
 

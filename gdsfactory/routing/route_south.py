@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from collections.abc import Callable
-
 import numpy as np
 from kfactory.routing.generic import ManhattanRoute
 
@@ -9,12 +7,18 @@ import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.cross_section import strip
+from gdsfactory.cross_section import CrossSection, strip
 from gdsfactory.port import Port, select_ports_optical
 from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.routing.route_single import route_single
 from gdsfactory.routing.utils import direction_ports_from_list_ports
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Strs
+from gdsfactory.typings import (
+    ComponentSpec,
+    CrossSectionSpec,
+    Radius,
+    SelectPorts,
+    Strs,
+)
 
 
 def route_south(
@@ -27,7 +31,7 @@ def route_south(
     gc_port_name: str = "o1",
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
-    select_ports: Callable = select_ports_optical,
+    select_ports: SelectPorts = select_ports_optical,
     port_names: Strs | None = None,
     cross_section: CrossSectionSpec = strip,
     start_straight_length: float = 0.5,
@@ -137,12 +141,16 @@ def route_south(
     north_start.reverse()  # Sort right to left
     ordered_ports = north_start + west_ports + south_ports + east_ports + north_finish
 
-    def get_index_port_closest_to_x(x, list_ports):
+    def get_index_port_closest_to_x(
+        x: float, component_references: list[ComponentReference]
+    ) -> np.intp:
         return np.array(
-            [abs(x - p.ports[gc_port_name].dx) for p in list_ports]
+            [abs(x - p.ports[gc_port_name].dx) for p in component_references]
         ).argmin()
 
-    def gen_port_from_port(x, y, p, cross_section):
+    def gen_port_from_port(
+        x: float, y: float, p: Port, cross_section: CrossSection
+    ) -> Port:
         return Port(
             name=p.name,
             center=(x, y),
@@ -286,7 +294,7 @@ if __name__ == "__main__":
     c = gf.Component()
 
     @gf.cell
-    def mzi_with_bend(radius=10):
+    def mzi_with_bend(radius: Radius = 10) -> Component:
         c = gf.Component()
         bend = c.add_ref(gf.components.bend_euler(radius=radius))
         mzi = c.add_ref(gf.components.mzi())

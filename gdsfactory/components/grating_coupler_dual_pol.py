@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from functools import partial
+from typing import Any
 
 import numpy as np
 
@@ -31,9 +32,9 @@ def grating_coupler_dual_pol(
     polarization: str = "te",
     wavelength: float = 1.55,
     taper: ComponentSpec = taper_function,
-    base_layer: LayerSpec | None = "WG",
+    base_layer: LayerSpec = "WG",
     cross_section: CrossSectionSpec = "strip",
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     r"""2 dimensional, dual polarization grating coupler.
 

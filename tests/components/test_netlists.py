@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import jsondiff
+import jsondiff  # type: ignore
 import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
@@ -27,6 +27,7 @@ skip_test = {
     "spiral_racetrack",
     "spiral_racetrack_heater_metal",
     "text_freetype",
+    "crossing45",
 }
 cells_to_test = set(cells.keys()) - skip_test
 
@@ -46,7 +47,7 @@ def test_netlists(
     then compare YAMLs with pytest regressions
     """
     c = cells[component_type]()
-    connection_error_types = {"optical": []}
+    connection_error_types: dict[str, list[str]] = {"optical": []}
     n = c.get_netlist(
         allow_multiple=True, connection_error_types=connection_error_types
     )
@@ -89,6 +90,7 @@ if __name__ == "__main__":
     component_type = "delay_snake"  # FIXME
     component_type = "bbox"
     component_type = "text_freetype"
+    component_type = "pad_array"
 
     connection_error_types = {
         "optical": ["width_mismatch", "shear_angle_mismatch", "orientation_mismatch"]

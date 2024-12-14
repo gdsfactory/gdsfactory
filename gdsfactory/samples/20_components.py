@@ -3,11 +3,12 @@
 from __future__ import annotations
 
 from functools import partial
+from typing import Any
 
 import gdsfactory as gf
 
 
-def straight_wide1(width=10, **kwargs) -> gf.Component:
+def straight_wide1(width: float = 10, **kwargs: Any) -> gf.Component:
     return gf.components.straight(width=width, **kwargs)
 
 

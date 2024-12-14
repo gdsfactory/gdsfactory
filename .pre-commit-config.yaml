@@ -7,7 +7,7 @@ repos:
       - id: end-of-file-fixer
       - id: trailing-whitespace
   - repo: https://github.com/kynan/nbstripout
-    rev: 0.8.0
+    rev: 0.8.1
     hooks:
       - id: nbstripout
         files: ".ipynb"
@@ -18,10 +18,10 @@ repos:
         additional_dependencies:
           - tomli
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: "v0.7.2"
+    rev: "v0.8.1"
     hooks:
       - id: ruff
-        args: [--fix, --exit-non-zero-on-fix]
+        args: [--fix, --exit-non-zero-on-fix, --config=pyproject.toml]
       - id: ruff-format
   - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
     rev: v2.14.0
@@ -45,3 +45,16 @@ repos:
     rev: v1.7.4
     hooks:
       - id: actionlint
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    # - repo: https://github.com/pre-commit/mirrors-mypy
+    #   rev: v1.13.0
+    #   hooks:
+    #     - id: mypy
+    #       stages: [pre-commit]
+    #       args: [--strict, --ignore-missing-imports, --config-file=pyproject.toml]
+
+    # uv version.
+    rev: 0.5.5
+    hooks:
+      # Update the uv lockfile
+      - id: uv-lock

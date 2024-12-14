@@ -30,8 +30,8 @@ components = [sample_fiber_array, sample_fiber_single, sample_excluded_ports]
 
 
 @pytest.fixture(params=components, scope="function")
-def component(request) -> Component:
-    return request.param()
+def component(request: pytest.FixtureRequest) -> Component:
+    return request.param()  # type: ignore[no-any-return]
 
 
 def test_gds(component: Component) -> None:

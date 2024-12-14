@@ -1,5 +1,8 @@
+import warnings
+from typing import Any
+
 import gdsfactory as gf
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import AngleInDegrees, ComponentSpec, CrossSectionSpec
 
 
 def add_fiber_array_optical_south_electrical_north(
@@ -8,14 +11,15 @@ def add_fiber_array_optical_south_electrical_north(
     grating_coupler: ComponentSpec,
     cross_section_metal: CrossSectionSpec,
     with_loopback: bool = True,
-    pad_spacing: float = 100.0,
-    fiber_spacing: float = 127.0,
+    pad_pitch: float = 100.0,
+    pitch: float = 127.0,
     pad_gc_spacing: float = 250.0,
     electrical_port_names: list[str] | None = None,
-    electrical_port_orientation: float | None = 90,
+    electrical_port_orientation: AngleInDegrees | None = 90,
     npads: int | None = None,
-    port_types_grating_couplers=gf.CONF.port_types_grating_couplers,
-    **kwargs,
+    port_types_grating_couplers: list[str] | None = None,
+    pad_spacing: float | None = None,
+    **kwargs: Any,
 ) -> gf.Component:
     """Returns a fiber array with Optical gratings on South and Electrical pads on North.
 
@@ -27,13 +31,14 @@ def add_fiber_array_optical_south_electrical_north(
         grating_coupler: grating coupler function.
         cross_section_metal: metal cross section.
         with_loopback: whether to add a loopback port.
-        pad_spacing: spacing between pads.
-        fiber_spacing: spacing between grating couplers.
+        pad_pitch: spacing between pads.
+        pitch: spacing between grating couplers.
         pad_gc_spacing: spacing between pads and grating couplers.
         electrical_port_names: list of electrical port names. Defaults to all.
         electrical_port_orientation: orientation of electrical ports. Defaults to 90.
         npads: number of pads. Defaults to one per electrical_port_names.
         port_types_grating_couplers: port types for grating couplers. Defaults to vertical TE, TM, and dual.
+        pad_spacing: Deprecated. Use pad_pitch instead.
         kwargs: additional arguments.
 
     Keyword Args:
@@ -72,14 +77,24 @@ def add_fiber_array_optical_south_electrical_north(
         input_port_indexes: to connect.
 
     """
+    if pad_spacing is not None:
+        warnings.warn(
+            "pad_spacing is deprecated. Use pad_pitch instead.",
+            DeprecationWarning,
+        )
+        pad_pitch = pad_spacing
+
     c = gf.Component()
     component = gf.get_component(component)
     r = c << gf.routing.add_fiber_array(
         component=component,
         grating_coupler=grating_coupler,
         with_loopback=with_loopback,
-        fiber_spacing=fiber_spacing,
+        pitch=pitch,
         **kwargs,
+    )
+    port_types_grating_couplers = (
+        port_types_grating_couplers or gf.CONF.port_types_grating_couplers
     )
     optical_ports = [
         port for port in r.ports if port.port_type in port_types_grating_couplers
@@ -89,18 +104,20 @@ def add_fiber_array_optical_south_electrical_north(
     electrical_ports = r.ports.filter(
         port_type="electrical", orientation=electrical_port_orientation
     )
-    electrical_port_names = electrical_port_names or [p.name for p in electrical_ports]
+    electrical_port_names_list = electrical_port_names or [
+        p.name for p in electrical_ports if p.name is not None
+    ]
 
-    npads = npads or len(electrical_port_names)
+    npads = npads or len(electrical_port_names_list)
     pads = c << gf.components.array(
         component=pad,
         columns=npads,
-        spacing=(pad_spacing, 0),
+        column_pitch=pad_pitch,
     )
     pads.dx = r.dx
     pads.dymin = r.dymin + pad_gc_spacing
 
-    electrical_ports = [r[por_name] for por_name in electrical_port_names]
+    electrical_ports = [r[por_name] for por_name in electrical_port_names_list]
     nroutes = min(len(electrical_ports), npads)
 
     ports1 = electrical_ports[:nroutes]
@@ -124,10 +141,10 @@ if __name__ == "__main__":
 
     c = gf.c.add_fiber_array_optical_south_electrical_north(
         component=gf.c.straight_heater_metal,
-        pad=gf.c.pad,
-        grating_coupler=gf.c.grating_coupler_te,
+        pad=gf.c.pad,  # type: ignore
+        grating_coupler=gf.c.grating_coupler_te,  # type: ignore
         cross_section_metal=xs.metal_routing,
-        pad_spacing=100,
+        pad_pitch=100,
     )
     c.pprint_ports()
     c.show()

@@ -1,7 +1,8 @@
 from functools import partial
 
 import gdsfactory as gf
-from gdsfactory.generic_tech import LAYER
+from gdsfactory.generic_tech.layer_map import LAYER
+from gdsfactory.typings import Layer
 
 extend_ports = gf.components.extend_ports
 
@@ -33,7 +34,9 @@ def test_extend_ports() -> None:
     p = assert_polygons(c4, 1)
 
 
-def assert_polygons(component, n_polygons, layer=LAYER.WG):
+def assert_polygons(
+    component: gf.Component, n_polygons: int, layer: Layer = LAYER.WG
+) -> int:
     result = len(component.get_polygons()[layer])
     assert result == n_polygons, result
     assert len(component.insts) == n_polygons, len(component.insts)

@@ -3,22 +3,21 @@ from __future__ import annotations
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory import cell
-from gdsfactory.component import Component
+from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.ge_detector_straight_si_contacts import (
     ge_detector_straight_si_contacts,
 )
 from gdsfactory.components.mmi_90degree_hybrid import mmi_90degree_hybrid
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Port, Spacing
 
 
-@cell
+@gf.cell
 def coh_rx_single_pol(
     bend: ComponentSpec = "bend_euler",
     cross_section: CrossSectionSpec = "strip",
     hybrid_90deg: ComponentSpec = mmi_90degree_hybrid,
     detector: ComponentSpec = ge_detector_straight_si_contacts,
-    det_spacing: tuple[float, float] = (60.0, 50.0),
+    det_spacing: Spacing = (60.0, 50.0),
     in_wg_length: float = 20.0,
     lo_input_coupler: ComponentSpec | None = None,
     signal_input_coupler: ComponentSpec | None = None,
@@ -60,6 +59,8 @@ def coh_rx_single_pol(
 
     # ----- Draw input waveguides (and coupler if indicated) ---
 
+    lo_in: ComponentReference | None = None
+    signal_in: ComponentReference | None = None
     if in_wg_length > 0.0:
         straight = gf.components.straight(
             length=in_wg_length, cross_section=cross_section
@@ -74,12 +75,12 @@ def coh_rx_single_pol(
         lo_in_coupler = gf.get_component(lo_input_coupler)
         in_coup_lo = c << lo_in_coupler
 
-        if in_wg_length > 0.0:
+        if in_wg_length > 0.0 and lo_in is not None:
             in_coup_lo.connect("o1", lo_in.ports["o1"])
         else:
             in_coup_lo.connect("o1", hybrid.ports["LO_in"])
 
-    elif in_wg_length > 0.0:
+    elif in_wg_length > 0.0 and lo_in is not None:
         c.add_port("LO_in", port=lo_in.ports["o1"])
     else:
         c.add_port("LO_in", port=hybrid.ports["LO_in"])
@@ -88,12 +89,12 @@ def coh_rx_single_pol(
         signal_in_coupler = gf.get_component(signal_input_coupler)
         in_coup_signal = c << signal_in_coupler
 
-        if in_wg_length > 0.0:
+        if in_wg_length > 0.0 and signal_in is not None:
             in_coup_signal.connect("o1", signal_in.ports["o1"])
         else:
             in_coup_signal.connect("o1", hybrid.ports["signal_in"])
 
-    elif in_wg_length > 0.0:
+    elif in_wg_length > 0.0 and signal_in is not None:
         c.add_port("signal_in", port=signal_in.ports["o1"])
     else:
         c.add_port("signal_in", port=hybrid.ports["signal_in"])
@@ -117,16 +118,15 @@ def coh_rx_single_pol(
     # of the 90 degree hybrid to avoid crossings
     hybrid_ports = {"I_out1": pd_i1, "I_out2": pd_i2, "Q_out1": pd_q1, "Q_out2": pd_q2}
 
-    port_names = hybrid_ports.keys()
+    port_names = list(hybrid_ports.keys())
     ports_y_pos = [hybrid.ports[port_name].dy for port_name in port_names]
     inds = np.argsort(ports_y_pos)
-    port_names = list(port_names)
-    port_names = [port_names[i] for i in inds]
+    port_names = [port_names[int(i)] for i in inds]
 
     y_pos = hybrid.dy - 1.5 * det_spacing[1]
 
-    det_ports = []
-    ports_hybrid = []
+    det_ports: list[Port] = []
+    ports_hybrid: list[Port] = []
     for port_name in port_names:
         det = hybrid_ports[port_name]
         det.dy = y_pos

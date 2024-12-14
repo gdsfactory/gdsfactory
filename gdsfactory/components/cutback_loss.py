@@ -1,4 +1,6 @@
+from collections.abc import Sequence
 from functools import partial
+from typing import Any
 
 import numpy as np
 
@@ -14,11 +16,11 @@ from gdsfactory.typings import ComponentFactory, CrossSectionSpec
 def cutback_loss(
     component: ComponentFactory = mmi1x2,
     cutback: ComponentFactory = cutback_component,
-    loss: tuple[float, ...] = (1.0, 2.0, 3.0),
+    loss: Sequence[float] = (1.0, 2.0, 3.0),
     loss_dB: float = 10e-3,
     cols: int | None = 4,
     rows: int | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> list[gf.Component]:
     """Returns a list of component cutbacks.
 
@@ -43,19 +45,19 @@ def cutback_loss(
         kwargs: component settings.
 
     """
-    loss = np.array(list(loss))
+    loss_array = np.array(loss)
 
     if rows and cols:
         raise ValueError("Specify either cols or rows")
-    elif rows is None:
-        rows_list = loss / loss_dB / cols
+    elif rows is None and cols is not None:
+        rows_list = loss_array / loss_dB / cols
         rows_list = rows_list // 2 * 2 + 1
         return [
             cutback(component=component, rows=int(rows), cols=cols, **kwargs)
             for rows in rows_list
         ]
-    elif cols is None:
-        cols_list = loss / loss_dB / rows
+    elif cols is None and rows is not None:
+        cols_list = loss_array / loss_dB / rows
         return [
             cutback(component=component, rows=rows, cols=int(cols), **kwargs)
             for cols in cols_list
@@ -64,12 +66,15 @@ def cutback_loss(
         raise ValueError("Specify either cols or rows")
 
 
+_loss_default = tuple(4 + 3 * i for i in range(3))
+
+
 def cutback_loss_spirals(
     spiral: ComponentFactory = spiral,
-    loss: tuple[float, ...] = tuple(4 + 3 * i for i in range(3)),
+    loss: Sequence[float] = _loss_default,
     cross_section: CrossSectionSpec = "strip",
     loss_dB_per_m: float = 300,
-    **kwargs,
+    **kwargs: Any,
 ) -> list[gf.Component]:
     """Returns a list of spirals.
 

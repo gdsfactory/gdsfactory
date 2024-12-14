@@ -1,12 +1,14 @@
 from __future__ import annotations
 
+from collections.abc import Callable
 from functools import partial
+from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.copy_layers import copy_layers
 from gdsfactory.components.text_rectangular_font import pixel_array, rectangular_font
-from gdsfactory.typings import Callable, ComponentSpec, LayerSpec, LayerSpecs
+from gdsfactory.typings import ComponentSpec, LayerSpec, LayerSpecs
 
 
 @gf.cell
@@ -15,7 +17,7 @@ def text_rectangular(
     size: float = 10.0,
     position: tuple[float, float] = (0.0, 0.0),
     justify: str = "left",
-    layer: LayerSpec = "WG",
+    layer: LayerSpec | None = "WG",
     layers: LayerSpecs | None = None,
     font: Callable[..., dict[str, str]] = rectangular_font,
 ) -> Component:
@@ -35,7 +37,7 @@ def text_rectangular(
     yoffset = position[1]
     component = gf.Component()
     characters = font()
-    layers = layers or [layer]
+    layer_list = layers or [layer] if layer else []
 
     # Extract pixel width count from font definition.
     # Example below is 5, and 7 for FONT_LITHO.
@@ -52,7 +54,7 @@ def text_rectangular(
                 print(f"skipping character {character!r} not in font")
             else:
                 pixels = characters[character.upper()]
-                for layer in layers:
+                for layer in layer_list:
                     ref = component.add_ref(
                         pixel_array(pixels=pixels, pixel_size=pixel_size, layer=layer)
                     )
@@ -67,13 +69,13 @@ def text_rectangular(
     ref = c << component
     justify = justify.lower()
     if justify == "left":
-        pass
+        ref.dxmin = position[0]
     elif justify == "right":
         ref.dxmax = position[0]
     elif justify == "center":
-        ref.dmove(origin=ref.dcenter, other=position, axis="x")
+        ref.dx = 0
     else:
-        raise ValueError(f"justify = {justify!r} not valid (left, center, right)")
+        raise ValueError(f"{justify=} not valid (left, center, right)")
     c.flatten()
     return c
 
@@ -83,7 +85,7 @@ def text_rectangular_multi_layer(
     text: str = "abcd",
     layers: LayerSpecs = ("WG", "M1", "M2", "MTOP"),
     text_factory: ComponentSpec = text_rectangular,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Returns rectangular text in different layers.
 
@@ -105,5 +107,17 @@ def text_rectangular_multi_layer(
 text_rectangular_mini = partial(text_rectangular, size=1)
 
 if __name__ == "__main__":
-    c = text_rectangular(size=8, layers=("M1", "M2"))
+    c = gf.Component()
+    text0 = c << gf.components.text_rectangular(
+        text="Center", size=10, position=(0, 40), justify="center", layer=(100, 0)
+    )
+    text1 = c << gf.components.text_rectangular(
+        text="Left", size=10, position=(0, 40), justify="left", layer=(100, 0)
+    )
+    text2 = c << gf.components.text_rectangular(
+        text="Right", size=10, position=(0, 40), justify="right", layer=(100, 0)
+    )
+
+    text1.ymin = text0.ymax + 10
+    text2.ymin = text1.ymax + 10
     c.show()

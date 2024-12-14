@@ -1,17 +1,19 @@
 from __future__ import annotations
 
+from typing import Any
+
 import gdsfactory as gf
 from gdsfactory import Component
 from gdsfactory.snap import snap_to_grid2x
-from gdsfactory.typings import CrossSectionSpec
+from gdsfactory.typings import CrossSectionSpec, Size
 
 
 def _generate_fins(
     c: Component,
-    fin_size: tuple[float, float],
+    fin_size: Size,
     taper_length: float,
     length: float,
-    xs: CrossSectionSpec,
+    cross_section: CrossSectionSpec,
 ) -> Component:
     """Generates fins on the input/output straights.
 
@@ -20,8 +22,9 @@ def _generate_fins(
         fin_size: Specifies the x- and y-size of the `fins`.
         taper_length: between the input/output straight and the DBR region.
         length: Length of the DBR region.
-        xs: CrossSectionSpec.
+        cross_section: CrossSectionSpec.
     """
+    xs = gf.get_cross_section(cross_section=cross_section)
     num_fins = xs.width // (2 * fin_size[1])
     x0, y0 = (
         0,
@@ -40,7 +43,7 @@ def _generate_fins(
         )
         rectangle_input.dmove(
             origin=(x0, y0),
-            other=(
+            destination=(
                 x0 + fin_size[0] / 2.0 - (2 * taper_length) / 2.0,
                 y0 + y + fin_size[1] / 2.0,
             ),
@@ -49,7 +52,7 @@ def _generate_fins(
         rectangle_output = c << rectangle_input.parent.copy()
         rectangle_output.dmove(
             origin=(x0, y0),
-            other=(
+            destination=(
                 xend - fin_size[0] / 2.0 - (2 * taper_length) / 2.0,
                 y0 + y + fin_size[1] / 2.0,
             ),
@@ -66,9 +69,9 @@ def dbr_tapered(
     w2: float = 1.0,
     taper_length: float = 20.0,
     fins: bool = False,
-    fin_size: tuple[float, float] = (0.2, 0.05),
+    fin_size: Size = (0.2, 0.05),
     cross_section: CrossSectionSpec = "strip",
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Distributed Bragg Reflector Cell class.
 
@@ -129,15 +132,23 @@ def dbr_tapered(
     output_taper.connect("o1", straight.ports["o2"])
     num = (2 * taper_length + length) // period
 
-    size = tuple(snap_to_grid2x((period * dc, w2)))
+    size: tuple[float, float] = tuple(snap_to_grid2x((period * dc, w2)))  # type: ignore
     teeth = gf.components.rectangle(size=size, layer=xs.layer)
 
-    periodic_structures = c << gf.components.array(teeth, (period, 0), num)
+    periodic_structures = c << gf.components.array(
+        component=teeth, columns=int(num), column_pitch=period
+    )
     periodic_structures.dx = 0
     periodic_structures.dy = 0
 
     if fins:
-        _generate_fins(c, fin_size, taper_length, length, xs)
+        _generate_fins(
+            c=c,
+            fin_size=fin_size,
+            taper_length=taper_length,
+            length=length,
+            cross_section=xs,
+        )
 
     xs.add_bbox(c)
     c.add_port("o1", port=input_taper.ports["o1"])

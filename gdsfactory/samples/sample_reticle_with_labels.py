@@ -1,13 +1,15 @@
 from __future__ import annotations
 
+from typing import Any
+
 import gdsfactory as gf
-from gdsfactory.typings import LayerSpec, PortsOrList
+from gdsfactory.typings import LayerSpec, Ports
 
 layer_label = "TEXT"
 
 
 def label_farthest_right_port(
-    component: gf.Component, ports: PortsOrList, layer: LayerSpec, text: str
+    component: gf.Component, ports: Ports, layer: LayerSpec, text: str
 ) -> gf.Component:
     """Adds a label to the right of the farthest right port in a given component.
 
@@ -27,7 +29,7 @@ def label_farthest_right_port(
     return component
 
 
-def spiral_gc(length: float = 0, **kwargs) -> gf.Component:
+def spiral_gc(length: float = 0, **kwargs: Any) -> gf.Component:
     """Returns a spiral double with Grating Couplers.
 
     Args:
@@ -56,7 +58,7 @@ def spiral_gc(length: float = 0, **kwargs) -> gf.Component:
     return c
 
 
-def mzi_gc(length_x=10, **kwargs) -> gf.Component:
+def mzi_gc(length_x: float = 10, **kwargs: Any) -> gf.Component:
     """Returns a MZI with Grating Couplers.
 
     Args:
@@ -103,7 +105,7 @@ def sample_reticle_with_labels(grid: bool = False) -> gf.Component:
 
     mzis = [mzi_gc(length_x=lengths) for lengths in [100, 200, 300]]
     spirals = [spiral_gc(length=length) for length in [0, 100, 200]]
-    rings = []
+    rings: list[gf.Component] = []
     for length_x in [10, 20, 30]:
         ring = gf.components.ring_single_heater(length_x=length_x)
         c = add_fiber_array_optical_south_electrical_north(
@@ -135,14 +137,14 @@ def sample_reticle_with_labels(grid: bool = False) -> gf.Component:
     components = mzis * copies + rings * copies + spirals * copies
     if grid:
         return gf.grid(components)
-    c = gf.pack(components)
-    if len(c) > 1:
-        c = gf.pack(c)
-    return c[0]
+    components_packed = gf.pack(components)
+    if len(components_packed) > 1:
+        components_packed = gf.pack(components_packed)
+    return components_packed[0]
 
 
 if __name__ == "__main__":
-    import pandas as pd
+    import pandas as pd  # type: ignore
 
     c = sample_reticle_with_labels()
     # c.name = "sample_reticle_with_labels"

@@ -1,14 +1,15 @@
 from __future__ import annotations
 
+from typing import Any
+
 import gdsfactory as gf
-from gdsfactory import cell
 from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
 from gdsfactory.routing.route_single import route_single
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Port
 
 
-@cell
+@gf.cell
 def loss_deembedding_ch13_24(
     pitch: float = 127.0,
     grating_coupler: ComponentSpec = "grating_coupler_te",
@@ -16,7 +17,7 @@ def loss_deembedding_ch13_24(
     port_name: str = "o1",
     rotation: float = -90,
     yspacing: float | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Grating coupler test structure for fiber array.
 
@@ -34,7 +35,7 @@ def loss_deembedding_ch13_24(
     gc = gf.get_component(grating_coupler)
     c = gf.Component()
     dx = pitch
-    gc_ports = []
+    gc_ports: list[Port] = []
 
     for i in range(4):
         g = c << gc
@@ -54,6 +55,9 @@ def loss_deembedding_ch13_24(
     x = gf.get_cross_section(cross_section, **kwargs)
     radius = x.radius
 
+    if radius is None:
+        radius = 0
+
     p1 = gc_ports[1]
     p3 = gc_ports[3]
     yspacing = yspacing or gc.dysize + 2 * radius
@@ -68,7 +72,7 @@ def loss_deembedding_ch13_24(
         c,
         port1=p1,
         port2=p3,
-        waypoints=points,
+        waypoints=points,  # type: ignore
         bend=bend90,
         straight=gf.components.straight,
         cross_section=cross_section,
@@ -78,14 +82,14 @@ def loss_deembedding_ch13_24(
     return c
 
 
-@cell
+@gf.cell
 def loss_deembedding_ch12_34(
     pitch: float = 127.0,
     grating_coupler: ComponentSpec = "grating_coupler_te",
     port_name: str = "o1",
     cross_section: CrossSectionSpec = "strip",
     rotation: float = -90,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Grating coupler test structure for fiber array.
 
@@ -107,7 +111,7 @@ def loss_deembedding_ch12_34(
     c = gf.Component()
     dx = pitch
 
-    gc_ports = []
+    gc_ports: list[Port] = []
 
     for i in range(4):
         g = c << gc
@@ -134,14 +138,14 @@ def loss_deembedding_ch12_34(
     return c
 
 
-@cell
+@gf.cell
 def loss_deembedding_ch14_23(
     pitch: float = 127.0,
     grating_coupler: ComponentSpec = "grating_coupler_te",
     cross_section: CrossSectionSpec = "strip",
     port_name: str = "o1",
     rotation: float = -90,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Grating coupler test structure for fiber array.
 
@@ -162,7 +166,7 @@ def loss_deembedding_ch14_23(
 
     c = gf.Component()
     dx = pitch
-    gc_ports = []
+    gc_ports: list[Port] = []
 
     for i in range(4):
         g = c << gc
@@ -189,14 +193,14 @@ def loss_deembedding_ch14_23(
     return c
 
 
-@cell
+@gf.cell
 def grating_coupler_loss_fiber_array(
     pitch: float = 127.0,
     grating_coupler: ComponentSpec = "grating_coupler_te",
     port_name: str = "o1",
     cross_section: CrossSectionSpec = "strip",
     rotation: float = -90,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Returns Grating coupler fiber array loopback.
 
@@ -215,7 +219,7 @@ def grating_coupler_loss_fiber_array(
 
     c = gf.Component()
     dx = pitch
-    gc_ports = []
+    gc_ports: list[Port] = []
 
     for i in range(2):
         g = c << gc
@@ -234,9 +238,11 @@ def grating_coupler_loss_fiber_array(
     return c
 
 
-@cell
+@gf.cell
 def grating_coupler_loss_fiber_array4(
-    pitch: float = 127.0, grating_coupler: ComponentSpec = grating_coupler_te, **kwargs
+    pitch: float = 127.0,
+    grating_coupler: ComponentSpec = grating_coupler_te,
+    **kwargs: Any,
 ) -> Component:
     """Returns a grating coupler test structure for fiber array.
 
@@ -256,10 +262,10 @@ def grating_coupler_loss_fiber_array4(
     c2 = loss_deembedding_ch14_23(grating_coupler=grating_coupler, **kwargs)
     c3 = loss_deembedding_ch12_34(grating_coupler=grating_coupler, **kwargs)
     c.add_ref(c1)
-    c2 = c.add_ref(c2)
-    c3 = c.add_ref(c3)
-    c2.dmovex(pitch * 4)
-    c3.dmovex(pitch * 8)
+    c2_ref = c.add_ref(c2)
+    c3_ref = c.add_ref(c3)
+    c2_ref.dmovex(pitch * 4)
+    c3_ref.dmovex(pitch * 8)
     return c
 
 

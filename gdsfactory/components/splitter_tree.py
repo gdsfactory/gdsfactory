@@ -21,6 +21,7 @@ from functools import partial
 import numpy as np
 
 import gdsfactory as gf
+from gdsfactory.component import Component
 from gdsfactory.components.bend_s import bend_s as bend_s_function
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.mmi2x2 import mmi2x2
@@ -105,11 +106,11 @@ def splitter_tree(
             if col > 0:
                 if row % 2 == 0:
                     port_name = e0_port_name
-                if row % 2 == 1:
+                else:
                     port_name = e1_port_name
                 gf.routing.route_single(
                     c,
-                    c.insts[f"coupler_{col-1}_{row//2}"].ports[port_name],
+                    c.insts[f"coupler_{col - 1}_{row // 2}"].ports[port_name],
                     coupler_ref["o1"],
                     cross_section=cross_section,
                 )
@@ -129,6 +130,7 @@ def splitter_tree(
                         c.add_port(name=f"{port.name}_{col}_{i}", port=port)
                         i += 1
             if col == cols - 1 and bend_s:
+                assert isinstance(bend_s, Component)
                 btop = c << bend_s
                 bbot = c << bend_s
                 bbot.dmirror()

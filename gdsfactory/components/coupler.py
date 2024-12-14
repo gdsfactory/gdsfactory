@@ -4,15 +4,15 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.coupler_straight import coupler_straight
 from gdsfactory.components.coupler_symmetric import coupler_symmetric
-from gdsfactory.typings import CrossSectionSpec
+from gdsfactory.typings import CrossSectionSpec, Delta
 
 
 @gf.cell
 def coupler(
     gap: float = 0.236,
     length: float = 20.0,
-    dy: float = 4.0,
-    dx: float = 10.0,
+    dy: Delta = 4.0,
+    dx: Delta = 10.0,
     cross_section: CrossSectionSpec = "strip",
     allow_min_radius_violation: bool = False,
 ) -> Component:
@@ -62,7 +62,7 @@ def coupler(
     x.add_bbox(c)
     c.flatten()
     if not allow_min_radius_violation:
-        x.validate_radius(x.radius)
+        x.validate_radius(x.radius)  # type: ignore
     return c
 
 

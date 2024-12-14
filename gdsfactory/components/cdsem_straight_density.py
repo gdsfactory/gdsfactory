@@ -5,11 +5,10 @@ from __future__ import annotations
 from functools import partial
 
 import gdsfactory as gf
-from gdsfactory import cell
-from gdsfactory.component import Component
+from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.straight import straight
 from gdsfactory.components.text_rectangular import text_rectangular
-from gdsfactory.typings import ComponentFactory, CrossSectionSpec, Floats
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats
 
 text_rectangular_mini = partial(text_rectangular, size=1)
 
@@ -17,14 +16,14 @@ widths = 10 * (0.3,)
 gaps = 10 * (0.3,)
 
 
-@cell
+@gf.cell
 def cdsem_straight_density(
     widths: Floats = widths,
     gaps: Floats = gaps,
     length: float = 420.0,
     label: str = "",
     cross_section: CrossSectionSpec = "strip",
-    text: ComponentFactory | None = text_rectangular_mini,
+    text: ComponentSpec | None = text_rectangular_mini,
 ) -> Component:
     """Returns sweep of dense straight lines.
 
@@ -37,9 +36,10 @@ def cdsem_straight_density(
         text: optional function for text.
     """
     c = Component()
-    label = label or f"{int(widths[0]*1e3)} {int(gaps[0]*1e3)}"
+    label = label or f"{int(widths[0] * 1e3)} {int(gaps[0] * 1e3)}"
 
-    ymin = 0
+    ymin = 0.0
+    tooth_ref: ComponentReference | None = None
     for width, gap in zip(widths, gaps):
         tooth_ref = c << straight(
             length=length, cross_section=cross_section, width=width
@@ -47,7 +47,7 @@ def cdsem_straight_density(
         tooth_ref.dymin = ymin
         ymin += width + gap
 
-    if text:
+    if text and tooth_ref is not None:
         marker_label = c << gf.get_component(text, text=f"{label}")
         marker_label.dxmin = tooth_ref.dxmax + 5
     return c

@@ -1,13 +1,14 @@
 from __future__ import annotations
 
+from collections.abc import Iterable
 from functools import partial
 
 import gdsfactory as gf
-from gdsfactory.component import Component
+from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.via import via
 from gdsfactory.components.via_stack import via_stack
 from gdsfactory.cross_section import Section
-from gdsfactory.typings import ComponentSpec, Floats, LayerSpecs
+from gdsfactory.typings import ComponentSpec, Floats, LayerSpecs, Port
 
 via_stack = partial(
     via_stack,
@@ -95,9 +96,9 @@ def straight_heater_meander_doped(
     cross_section2 = cross_section
 
     straight_length = gf.snap.snap_to_grid2x(
-        (length - (rows - 1) * route.length * c.kcl.dbu) / rows,
+        (length - (rows - 1) * c.kcl.to_um(route.length)) / rows,
     )
-    ports = {}
+    ports: dict[str, Port] = {}
 
     if straight_length - 2 * taper_length <= 0:
         raise ValueError("straight_length - 2 * taper_length <= 0")
@@ -122,8 +123,8 @@ def straight_heater_meander_doped(
             straight_ref.dy = row * spacing
         else:
             straight_ref.dy = (row + 1) * spacing
-        ports[f"o1_{row+1}"] = straight_ref["o1"]
-        ports[f"o2_{row+1}"] = straight_ref["o2"]
+        ports[f"o1_{row + 1}"] = straight_ref["o1"]
+        ports[f"o2_{row + 1}"] = straight_ref["o2"]
 
     # Loopbacks
     for row in range(1, rows, 2):
@@ -131,11 +132,11 @@ def straight_heater_meander_doped(
         extra_straight1 = c << gf.c.straight(
             length=extra_length, cross_section=cross_section
         )
-        extra_straight1.connect("o1", ports[f"o1_{row+1}"])
+        extra_straight1.connect("o1", ports[f"o1_{row + 1}"])
         extra_straight2 = c << gf.c.straight(
             length=extra_length, cross_section=cross_section
         )
-        extra_straight2.connect("o1", ports[f"o1_{row+2}"])
+        extra_straight2.connect("o1", ports[f"o1_{row + 2}"])
 
         route = gf.routing.route_single(
             c,
@@ -149,7 +150,7 @@ def straight_heater_meander_doped(
         extra_straight1 = c << gf.c.straight(
             length=extra_length, cross_section=cross_section
         )
-        extra_straight1.connect("o1", ports[f"o2_{row+1}"])
+        extra_straight1.connect("o1", ports[f"o2_{row + 1}"])
         extra_straight2 = c << gf.c.straight(
             length=extra_length, cross_section=cross_section
         )
@@ -171,15 +172,17 @@ def straight_heater_meander_doped(
     c.add_port("o1", port=straight1.ports["o1"])
     c.add_port("o2", port=straight2.ports["o2"])
 
+    heater: ComponentReference | None = None
+
     if layers_doping:
-        sectionlist = ()
+        sections: tuple[Section, ...] = ()
         for doping_layer in layers_doping:
-            sectionlist += (Section(layer=doping_layer, width=heater_width, offset=0),)
+            sections += (Section(layer=doping_layer, width=heater_width, offset=0),)
         heater_cross_section = partial(
             gf.cross_section.cross_section,
             width=heater_width,
             layer="WG",
-            sections=sectionlist,
+            sections=sections,
             port_names=("e1", "e2"),
             port_types=("electrical", "electrical"),
         )
@@ -190,7 +193,7 @@ def straight_heater_meander_doped(
         )
         heater.dmovey(spacing * (rows // 2))
 
-    if layers_doping and via_stack:
+    if layers_doping and via_stack and heater is not None:
         via = via_stacke = via_stackw = gf.get_component(via_stack)
         via_stack_west = c << via_stackw
         via_stack_east = c << via_stacke
@@ -202,28 +205,29 @@ def straight_heater_meander_doped(
         )
 
         valid_orientations = {p.orientation for p in via.ports}
-
+        ports1: Iterable[Port] = []
+        ports2: Iterable[Port] = []
         if port_orientation1 is None:
-            p1 = via_stack_west.ports
+            ports1 = via_stack_west.ports
         else:
-            p1 = via_stack_west.ports.filter(orientation=port_orientation1)
+            ports1 = via_stack_west.ports.filter(orientation=port_orientation1)
 
         if port_orientation2 is None:
-            p2 = via_stack_east.ports
+            ports2 = via_stack_east.ports
         else:
-            p2 = via_stack_east.ports.filter(orientation=port_orientation2)
+            ports2 = via_stack_east.ports.filter(orientation=port_orientation2)
 
-        if not p1:
+        if not ports1:
             raise ValueError(
                 f"No ports for port_orientation1 {port_orientation1} in {valid_orientations}"
             )
-        if not p2:
+        if not ports2:
             raise ValueError(
                 f"No ports for port_orientation2 {port_orientation2} in {valid_orientations}"
             )
 
-        c.add_ports(p1, prefix="l_")
-        c.add_ports(p2, prefix="r_")
+        c.add_ports(ports1, prefix="l_")
+        c.add_ports(ports2, prefix="r_")
 
     # delete any straights with zero length
     for inst in list(c.insts):

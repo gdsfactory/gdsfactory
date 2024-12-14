@@ -3,7 +3,7 @@ from __future__ import annotations
 from functools import partial
 from typing import Any
 
-from gdsfactory import cell
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_elliptical_arbitrary import (
     grating_coupler_elliptical_arbitrary,
@@ -64,7 +64,7 @@ parameters = (
 )
 
 
-@cell
+@gf.cell
 def grating_coupler_elliptical_lumerical(
     parameters: Floats = parameters,
     layer: LayerSpec = "WG",
@@ -74,7 +74,7 @@ def grating_coupler_elliptical_lumerical(
     fiber_angle: float = 5,
     info: dict[str, Any] | None = None,
     bias_gap: float = 0,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Returns a grating coupler from lumerical inverse design 3D optimization.
 
@@ -118,10 +118,7 @@ def grating_coupler_elliptical_lumerical(
         spiked: grating teeth include sharp spikes to avoid non-manhattan drc errors.
         cross_section: cross_section spec for waveguide port.
     """
-    parameters = (
-        parameters.strip().split() if isinstance(parameters, str) else parameters
-    )
-    parameters = tuple(float(t) for t in parameters)
+    parameters = tuple(parameters)
     xinput = parameters[0]
     teeth_list = parameters[1:]
     gaps = teeth_list[::2]

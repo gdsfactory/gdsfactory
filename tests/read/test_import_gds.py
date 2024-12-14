@@ -2,11 +2,12 @@ from __future__ import annotations
 
 import json
 
-import jsondiff
-import pandas as pd
+import jsondiff  # type: ignore
+import pandas as pd  # type: ignore
+from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
-from gdsfactory.generic_tech import LAYER
+from gdsfactory.generic_tech.layer_map import LAYER
 from gdsfactory.read.import_gds import import_gds
 
 
@@ -31,7 +32,7 @@ def test_import_gds_hierarchy() -> None:
     assert c.name == c0.name, c.name
 
 
-def test_import_json_label(data_regression) -> None:
+def test_import_json_label(data_regression: DataRegressionFixture) -> None:
     """Import ports from GDS."""
     c = gf.components.straight()
     c1 = gf.labels.add_label_json(c)
@@ -55,7 +56,7 @@ def test_import_gds_array() -> None:
     assert len(c1.get_polygons()[LAYER.WG]) == 4, len(c1.get_polygons()[LAYER.WG])
 
 
-def test_import_gds_ports(data_regression) -> None:
+def test_import_gds_ports(data_regression: DataRegressionFixture) -> None:
     """Import the ports."""
     c0 = gf.components.straight()
     gdspath = c0.write_gds()

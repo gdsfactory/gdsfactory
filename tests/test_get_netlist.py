@@ -58,13 +58,17 @@ def test_get_netlist_cell_array() -> None:
     ), f"Expected {n_ports_expected} ports in netlist. Got {len(n['ports'])}"
     for ib in range(rows):
         for port in component_to_array.ports:
-            expected_port_name = f"{port.name}_{ib+1}_1"
+            expected_port_name = f"{port.name}_{ib + 1}_1"
             expected_lower_port_name = f"{inst_name}<0.{ib}>,{port.name}"
             assert expected_port_name in n["ports"]
             assert n["ports"][expected_port_name] == expected_lower_port_name
 
     inst = list(n["instances"].values())[0]
-    assert inst["na"] == 1 and inst["nb"] == rows
+    n_rows = inst["rows"]
+    n_columns = inst["columns"]
+    assert (
+        n_rows == rows and n_columns == 1
+    ), f"Expected {n_rows=}={rows} and {n_columns=}=1"
 
 
 def test_get_netlist_cell_array_no_ports() -> None:
@@ -87,7 +91,7 @@ def test_get_netlist_cell_array_no_ports() -> None:
         len(n["instances"]) == 1
     ), f"Expected only one instance for array. Got {len(n['instances'])}"
     inst = list(n["instances"].values())[0]
-    assert inst["na"] == 1 and inst["nb"] == rows
+    assert inst["columns"] == 1 and inst["rows"] == rows
 
 
 def test_get_netlist_cell_array_connecting() -> None:

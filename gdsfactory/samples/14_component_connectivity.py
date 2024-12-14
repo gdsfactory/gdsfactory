@@ -43,12 +43,12 @@ def ring_single_sample(
           length_x
 
     """
-    gap = gf.snap.snap_to_grid(gap, grid_factor=2)
+    gap_array = gf.snap.snap_to_grid(gap, grid_factor=2)
 
     coupler_ring_component = gf.get_component(
         coupler_ring,
         bend=bend,
-        gap=gap,
+        gap=gap_array,
         radius=radius,
         length_x=length_x,
         cross_section=cross_section,

@@ -2,17 +2,24 @@ from __future__ import annotations
 
 import functools
 from collections.abc import Callable
+from typing import Any, Protocol
 
-from gdsfactory import cell
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec, LayerSpecs
 
 _F = Callable[..., Component]
 
-symbol = cell
+symbol = gf.cell
 
 
-def symbol_from_cell(func: _F, to_symbol: Callable[[Component, ...], Component]) -> _F:
+class ToSymbol(Protocol):
+    def __call__(
+        self, component: Component, *args: Any, **kwargs: Any
+    ) -> Component: ...
+
+
+def symbol_from_cell(func: _F, to_symbol: ToSymbol) -> _F:
     """Creates a symbol function from a component function.
 
     Args:
@@ -24,12 +31,12 @@ def symbol_from_cell(func: _F, to_symbol: Callable[[Component, ...], Component])
     """
 
     @functools.wraps(func)
-    def _symbol(*args, **kwargs):
+    def _symbol(*args: Any, **kwargs: Any) -> Component:
         component = func(*args, **kwargs)
-        symbol = to_symbol(component, prefix=f"SYMBOL_{func.__name__}")
-        return symbol
+        c_symbol = to_symbol(component, prefix=f"SYMBOL_{func.__name__}")
+        return c_symbol
 
-    _symbol._symbol = True
+    _symbol._symbol = True  # type: ignore
     return _symbol
 
 
@@ -72,7 +79,7 @@ def floorplan_with_block_letters(
     max_w, max_h = w * (1 - margin), h * (1 - margin)
     text_init_size = 3.0
     text_init = text(
-        component.function_name,
+        component.function_name or "",
         size=text_init_size,
         layer=text_layer,
         justify="center",
@@ -85,7 +92,10 @@ def floorplan_with_block_letters(
     scaling = min(w_scaling, h_scaling)
     text_size = text_init_size * scaling
     text_component = text(
-        component.function_name, size=text_size, layer=text_layer, justify="center"
+        component.function_name or "",
+        size=text_size,
+        layer=text_layer,
+        justify="center",
     )
 
     text = sym << text_component
@@ -108,6 +118,6 @@ def floorplan_with_block_letters(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.c.mmi1x2()
+    c = gf.c.mmi1x2()  # type: ignore
     s = floorplan_with_block_letters(c)
     s.show()

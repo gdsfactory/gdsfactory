@@ -1,13 +1,11 @@
 instances:
   dbr_cell_W0p45_W0p55_L0_81fd17cb_0_0:
+    column_pitch: 0.318
+    columns: 10
     component: dbr_cell
-    dax: 0.318
-    day: 0
-    dbx: 0
-    dby: 0
     info: {}
-    na: 10
-    nb: 1
+    row_pitch: 0
+    rows: 1
     settings:
       cross_section: strip
       l1: 0.159

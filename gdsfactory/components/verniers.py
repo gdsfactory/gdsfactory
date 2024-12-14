@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Any
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, Floats, LayerSpec
@@ -12,7 +14,7 @@ def verniers(
     xsize: float = 100.0,
     layer_label: LayerSpec = "TEXT",
     straight: ComponentSpec = "straight",
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Returns a component with verniers.
 
@@ -25,7 +27,7 @@ def verniers(
         kwargs: straight settings.
     """
     c = gf.Component()
-    y = 0
+    y = 0.0
 
     for width in widths:
         w = c << gf.get_component(straight, width=width, length=xsize, **kwargs)

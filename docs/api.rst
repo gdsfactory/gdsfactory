@@ -44,6 +44,7 @@ Classes and functions for construction and manipulation of geometric objects.
 
    CrossSection
    Transition
+   Section
    cross_section
    strip
    heater_metal
@@ -108,7 +109,6 @@ Classes and functions for construction and manipulation of geometric objects.
    MaterialSpec
    MultiCrossSectionAngleSpec
    PathType
-   Section
    Step
 
 

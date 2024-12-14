@@ -16,7 +16,7 @@ def pad_gsg_short(
     metal_spacing: float = 5.0,
     short: bool = True,
     pad: ComponentSpec = "pad",
-    pad_spacing: float = 150,
+    pad_pitch: float = 150,
     route_xsize: float = 50,
 ) -> gf.Component:
     """Returns high speed GSG pads for calibrating the RF probes.
@@ -27,7 +27,7 @@ def pad_gsg_short(
         metal_spacing: in um.
         short: if False returns an open.
         pad: function for pad.
-        pad_spacing: in um.
+        pad_pitch: in um.
         route_xsize: in um.
     """
     c = gf.Component()
@@ -35,7 +35,7 @@ def pad_gsg_short(
     gnd_top = c << via
 
     if short:
-        short = c << rectangle(size=size, layer=layer_metal)
+        c << rectangle(size=size, layer=layer_metal)
     gnd_bot = c << via
 
     gnd_bot.dymax = via.dymin
@@ -45,7 +45,7 @@ def pad_gsg_short(
     gnd_bot.dmovex(-metal_spacing)
 
     pads = c << gf.components.array(
-        pad, columns=1, rows=3, spacing=(0, pad_spacing), centered=True
+        pad, columns=1, rows=3, spacing=(0, pad_pitch), centered=True
     )
     pads.dxmin = via.dxmax + route_xsize
     pads.dy = 0

@@ -1,13 +1,11 @@
 instances:
   rectangle_S2p7_6p4_LM2__c8f1a350_36000_m1000:
+    column_pitch: 7.4
+    columns: 1
     component: rectangle
-    dax: 3.7
-    day: 0
-    dbx: 0
-    dby: 7.4
     info: {}
-    na: 1
-    nb: 5
+    row_pitch: 7.4
+    rows: 5
     settings:
       centered: false
       layer: M2
@@ -21,14 +19,12 @@ instances:
       - 2.7
       - 6.4
   rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700:
+    column_pitch: 7.4
+    columns: 1
     component: rectangle
-    dax: 3.7
-    day: 0
-    dbx: 0
-    dby: 7.4
     info: {}
-    na: 1
-    nb: 4
+    row_pitch: 7.4
+    rows: 4
     settings:
       centered: false
       layer: M2
@@ -42,14 +38,12 @@ instances:
       - 2.7
       - 6.4
   rectangles_S6p4_2p7_O0_LM1_CTrue_5900_350:
+    column_pitch: 7.4
+    columns: 5
     component: rectangles
-    dax: 7.4
-    day: 0
-    dbx: 0
-    dby: 3.7
     info: {}
-    na: 5
-    nb: 10
+    row_pitch: 3.7
+    rows: 10
     settings:
       centered: true
       layers:
@@ -60,14 +54,12 @@ instances:
       - 6.4
       - 2.7
   rectangles_S6p4_2p7_O0_LM2_CTrue_2200_350:
+    column_pitch: 7.4
+    columns: 5
     component: rectangles
-    dax: 7.4
-    day: 0
-    dbx: 0
-    dby: 3.7
     info: {}
-    na: 5
-    nb: 10
+    row_pitch: 3.7
+    rows: 10
     settings:
       centered: true
       layers:
@@ -77,20 +69,17 @@ instances:
       size:
       - 6.4
       - 2.7
-  via_S0p7_0p7_S2_2_GNone_bcb63a01_4050_350:
+  via_S0p7_0p7_SNone_GNon_c3f5c6aa_4050_350:
+    column_pitch: 3.7
+    columns: 10
     component: via
-    dax: 3.7
-    day: 0
-    dbx: 0
-    dby: 3.7
     info:
       enclosure: 2
+      pitch: 2
       xsize: 0.7
-      xspacing: 2
       ysize: 0.7
-      yspacing: 2
-    na: 10
-    nb: 10
+    row_pitch: 3.7
+    rows: 10
     settings:
       bbox_layers: null
       bbox_offset: 0
@@ -98,13 +87,12 @@ instances:
       enclosure: 2
       gap: null
       layer: VIA1
+      pitch: 2
       size:
       - 0.7
       - 0.7
-      spacing:
-      - 2
-      - 2
-  via_stack_S11_11_LM2_MT_c93e8c69_m6500_37800:
+      spacing: null
+  via_stack_S11_11_LM2_MT_ff6eecb9_m6500_37800:
     component: via_stack
     info:
       xsize: 11
@@ -113,6 +101,7 @@ instances:
       correct_size: true
       layer_offsets: null
       layer_port: null
+      layer_to_port_orientations: null
       layers:
       - M2
       - MTOP
@@ -129,7 +118,7 @@ instances:
       vias:
       - via2
       - null
-  via_stack_S11_11_LM2_MT_c93e8c69_m6500_m3800:
+  via_stack_S11_11_LM2_MT_ff6eecb9_m6500_m3800:
     component: via_stack
     info:
       xsize: 11
@@ -138,6 +127,7 @@ instances:
       correct_size: true
       layer_offsets: null
       layer_port: null
+      layer_to_port_orientations: null
       layers:
       - M2
       - MTOP
@@ -177,24 +167,24 @@ placements:
     rotation: 0
     x: 2.2
     y: 0.35
-  via_S0p7_0p7_S2_2_GNone_bcb63a01_4050_350:
+  via_S0p7_0p7_SNone_GNon_c3f5c6aa_4050_350:
     mirror: false
     rotation: 0
     x: 4.05
     y: 0.35
-  via_stack_S11_11_LM2_MT_c93e8c69_m6500_37800:
+  via_stack_S11_11_LM2_MT_ff6eecb9_m6500_37800:
     mirror: false
     rotation: 0
     x: -6.5
     y: 37.8
-  via_stack_S11_11_LM2_MT_c93e8c69_m6500_m3800:
+  via_stack_S11_11_LM2_MT_ff6eecb9_m6500_m3800:
     mirror: false
     rotation: 0
     x: -6.5
     y: -3.8
 ports:
-  e1: via_stack_S11_11_LM2_MT_c93e8c69_m6500_m3800,e1
-  e2: via_stack_S11_11_LM2_MT_c93e8c69_m6500_37800,e1
+  e1: via_stack_S11_11_LM2_MT_ff6eecb9_m6500_m3800,e1
+  e2: via_stack_S11_11_LM2_MT_ff6eecb9_m6500_37800,e1
 warnings:
   electrical:
     unconnected_ports:
@@ -236,12 +226,12 @@ warnings:
       - rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700<0.3>,e2
       - rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700<0.3>,e3
       - rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700<0.3>,e4
-      - via_stack_S11_11_LM2_MT_c93e8c69_m6500_m3800,e2
-      - via_stack_S11_11_LM2_MT_c93e8c69_m6500_m3800,e3
-      - via_stack_S11_11_LM2_MT_c93e8c69_m6500_m3800,e4
-      - via_stack_S11_11_LM2_MT_c93e8c69_m6500_37800,e2
-      - via_stack_S11_11_LM2_MT_c93e8c69_m6500_37800,e3
-      - via_stack_S11_11_LM2_MT_c93e8c69_m6500_37800,e4
+      - via_stack_S11_11_LM2_MT_ff6eecb9_m6500_m3800,e2
+      - via_stack_S11_11_LM2_MT_ff6eecb9_m6500_m3800,e3
+      - via_stack_S11_11_LM2_MT_ff6eecb9_m6500_m3800,e4
+      - via_stack_S11_11_LM2_MT_ff6eecb9_m6500_37800,e2
+      - via_stack_S11_11_LM2_MT_ff6eecb9_m6500_37800,e3
+      - via_stack_S11_11_LM2_MT_ff6eecb9_m6500_37800,e4
       values:
       - - 36000
         - 2200

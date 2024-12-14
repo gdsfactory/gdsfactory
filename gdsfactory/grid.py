@@ -5,6 +5,7 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from itertools import zip_longest
 from typing import Literal
 
@@ -16,12 +17,18 @@ from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.components.triangles import triangle
-from gdsfactory.typings import Anchor, ComponentSpec, ComponentSpecsOrComponents, Float2
+from gdsfactory.typings import (
+    Anchor,
+    ComponentSpec,
+    ComponentSpecsOrComponents,
+    Float2,
+    Spacing,
+)
 
 
 def grid(
     components: ComponentSpecsOrComponents = (rectangle, triangle),
-    spacing: tuple[float, float] | float = (5.0, 5.0),
+    spacing: Spacing | float = (5.0, 5.0),
     shape: tuple[int, int] | None = None,
     align_x: Literal["origin", "xmin", "xmax", "center"] = "center",
     align_y: Literal["origin", "ymin", "ymax", "center"] = "center",
@@ -33,7 +40,7 @@ def grid(
     Args:
         components: Iterable to be placed onto a grid. (can be 1D or 2D).
         spacing: between adjacent elements on the grid, can be a tuple for \
-                different distances in height and width.
+                different distances in height and width or a single float.
         shape: x, y shape of the grid (see np.reshape). \
                 If no shape and the list is 1D, if np.reshape were run with (1, -1).
         align_x: x alignment along (origin, xmin, xmax, center).
@@ -73,25 +80,25 @@ def grid(
         ),
         align_x=align_x,
         align_y=align_y,
-        rotation=round(rotation // 90),
+        rotation=round(rotation // 90),  # type: ignore
         mirror=mirror,
     )
     for i, instances_list in enumerate(instances):
         for j, instance in enumerate(instances_list):
-            if instances_list is not None and instance is not None:
+            if instance is not None:
                 c.add_ports(instance.ports, prefix=f"{j}_{i}_")
     return c
 
 
 def grid_with_text(
-    components: tuple[ComponentSpec, ...] = (rectangle, triangle),
+    components: Sequence[ComponentSpec] = (rectangle, triangle),
     text_prefix: str = "",
     text_offsets: tuple[Float2, ...] | None = None,
     text_anchors: tuple[Anchor, ...] | None = None,
     text_mirror: bool = False,
     text_rotation: int = 0,
     text: ComponentSpec | None = text_rectangular,
-    spacing: tuple[float, float] | float = (5.0, 5.0),
+    spacing: Spacing | float = (5.0, 5.0),
     shape: tuple[int, int] | None = None,
     align_x: Literal["origin", "xmin", "xmax", "center"] = "center",
     align_y: Literal["origin", "ymin", "ymax", "center"] = "center",

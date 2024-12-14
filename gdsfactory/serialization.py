@@ -6,8 +6,10 @@ import functools
 import hashlib
 import inspect
 import pathlib
-from collections.abc import KeysView as dict_keys
-from typing import Any
+import re
+from collections.abc import KeysView
+from keyword import iskeyword
+from typing import Any, overload
 
 import attrs
 import numpy as np
@@ -21,7 +23,7 @@ DEFAULT_SERIALIZATION_MAX_DIGITS = 3
 
 
 def convert_tuples_to_lists(
-    data: dict[str, Any] | list[Any],
+    data: dict[str, Any] | list[Any] | tuple[Any, ...] | Any,
 ) -> dict[str, Any] | list[Any]:
     if isinstance(data, dict):
         return {key: convert_tuples_to_lists(value) for key, value in data.items()}
@@ -29,8 +31,7 @@ def convert_tuples_to_lists(
         return [convert_tuples_to_lists(item) for item in data]
     elif isinstance(data, tuple):
         return list(data)
-    else:
-        return data
+    return data
 
 
 def get_string(value: Any) -> str:
@@ -44,19 +45,37 @@ def get_string(value: Any) -> str:
     return s
 
 
-def clean_dict(dictionary: dict) -> dict:
+def clean_dict(dictionary: dict[str, Any]) -> dict[str, Any]:
     return {k: clean_value_json(v) for k, v in dictionary.items()}
 
 
-def complex_encoder(obj, digits=DEFAULT_SERIALIZATION_MAX_DIGITS):
+def complex_encoder(
+    obj: complex, digits: int = DEFAULT_SERIALIZATION_MAX_DIGITS
+) -> dict[str, Any]:
     real_part = np.round(obj.real, digits)
     imag_part = np.round(obj.imag, digits)
     return {"real": real_part, "imag": imag_part}
 
 
+@overload
+def clean_value_json(
+    value: dict[str, Any],
+    include_module: bool = True,
+    serialize_function_as_dict: bool = True,
+) -> dict[str, Any]: ...
+
+
+@overload
+def clean_value_json(
+    value: str,
+    include_module: bool = True,
+    serialize_function_as_dict: bool = True,
+) -> str: ...
+
+
 def clean_value_json(
     value: Any, include_module: bool = True, serialize_function_as_dict: bool = True
-) -> str | int | float | dict | list | bool | None:
+) -> str | int | float | dict[str, Any] | list[Any] | bool | None:
     """Return JSON serializable object.
 
     Args:
@@ -126,7 +145,7 @@ def clean_value_json(
     elif isinstance(value, dict):
         return clean_dict(value.copy())
 
-    elif isinstance(value, list | tuple | set | dict_keys):
+    elif isinstance(value, list | tuple | set | KeysView):
         return tuple([clean_value_json(i) for i in value])
 
     elif attrs.has(value):
@@ -144,8 +163,10 @@ def clean_value_json(
 
 
 def clean_value_partial(
-    value, include_module: bool = True, serialize_function_as_dict: bool = True
-):
+    value: functools.partial[Any],
+    include_module: bool = True,
+    serialize_function_as_dict: bool = True,
+) -> str | Any | dict[str, str | Any | dict[str, Any]]:
     sig = inspect.signature(value.func)
     args_as_kwargs = dict(zip(sig.parameters.keys(), value.args))
     args_as_kwargs |= value.keywords
@@ -153,7 +174,7 @@ def clean_value_partial(
 
     func = value.func
     while hasattr(func, "func"):
-        func = func.func
+        func = func.func  # type: ignore
     v = {
         "function": func.__name__,
         "settings": args_as_kwargs,
@@ -166,9 +187,22 @@ def clean_value_partial(
 
 
 def clean_value_name(value: Any) -> str:
-    """Returns a string representation of an object."""
-    # value1 = clean_value_json(value)
-    return str(clean_value_json(value))
+    """Returns a valid Python variable name representation of an object."""
+    # Convert the value to a string and replace spaces with underscores
+    cleaned = str(clean_value_json(value)).replace(" ", "_")
+
+    # Remove invalid characters (only allow letters, numbers, and underscores)
+    cleaned = re.sub(r"[^a-zA-Z0-9_]", "", cleaned)
+
+    # Ensure the name starts with a letter or underscore
+    if not cleaned or not cleaned[0].isalpha():
+        cleaned = f"var_{cleaned}"
+
+    # Avoid reserved Python keywords
+    if iskeyword(cleaned):
+        cleaned = f"{cleaned}_var"
+
+    return cleaned
 
 
 def get_hash(value: Any) -> str:

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import warnings
+from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -27,7 +28,7 @@ def delay_snake2(
     n: int = 2,
     bend180: ComponentSpec = "bend_euler180",
     cross_section: CrossSectionSpec = "strip",
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Returns Snake with a starting straight and 180 bends.
 
@@ -55,7 +56,7 @@ def delay_snake2(
        |   delta_length    |        |
     """
     if n % 2:
-        warnings.warn(f"rounding {n} to {n//2 *2}", stacklevel=3)
+        warnings.warn(f"rounding {n} to {n // 2 * 2}", stacklevel=3)
         n = n // 2 * 2
 
     bend180 = gf.get_component(bend180, cross_section=cross_section, **kwargs)

@@ -12,12 +12,12 @@ def test_route_south(
     cr = c << gf.components.mmi2x2()
     routes = gf.routing.route_south(c, cr)
 
-    lengths = {}
+    lengths: dict[int, int] = {}
     for i, route in enumerate(routes):
         lengths[i] = route.length
     if check:
-        data_regression.check(lengths)
+        data_regression.check(lengths)  # type: ignore
 
 
 if __name__ == "__main__":
-    test_route_south(None, check=False)
+    test_route_south(None, check=False)  # type: ignore

@@ -1,11 +1,17 @@
 import gdsfactory as gf
-from gdsfactory.generic_tech import LAYER
-from gdsfactory.typings import Component, ComponentSpec, CrossSectionSpec, LayerSpec
+from gdsfactory.component import Component
+from gdsfactory.generic_tech.layer_map import LAYER
+from gdsfactory.typings import (
+    ComponentSpec,
+    CrossSectionSpec,
+    LayerSpec,
+    Size,
+)
 
 
 @gf.cell
 def die_with_pads(
-    size: tuple[float, float] = (11470.0, 4900.0),
+    size: Size = (11470.0, 4900.0),
     ngratings: int = 14,
     npads: int = 31,
     grating_pitch: float = 250.0,

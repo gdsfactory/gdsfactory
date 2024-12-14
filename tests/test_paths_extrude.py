@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory import Section
+from gdsfactory.cross_section import CrossSection
 from gdsfactory.generic_tech import LAYER
+from gdsfactory.typings import LayerSpec
 
 
 def test_path_near_collinear() -> None:
@@ -38,7 +40,7 @@ def test_extrude_transition() -> None:
     cs2 = gf.get_cross_section("strip", width=w2)
     transition = gf.path.transition(cs1, cs2)
     p = gf.path.straight(length)
-    c = gf.path.extrude(p, transition)
+    c = gf.path.extrude_transition(p, transition)
 
     assert c.ports["o1"].width == w1 / c.kcl.dbu
     assert c.ports["o2"].width == w2 / c.kcl.dbu
@@ -65,7 +67,13 @@ def test_transition_cross_section() -> None:
     assert c.ports["o2"].width == w2
 
 
-def dummy_cladded_wg_cs(intent_layer, core_layer, core_width, clad_layer, clad_width):
+def dummy_cladded_wg_cs(
+    intent_layer: LayerSpec,
+    core_layer: LayerSpec,
+    core_width: float,
+    clad_layer: LayerSpec,
+    clad_width: float,
+) -> CrossSection:
     sections = (
         Section(width=core_width, offset=0, layer=core_layer, name="core"),
         Section(width=clad_width, offset=0, layer=clad_layer, name="clad"),
@@ -137,7 +145,7 @@ def test_extrude_port_centers() -> None:
     assert s.ports["e2"].dcenter[1] == s.ports["o2"].dcenter[1] - s1_offset
 
 
-def test_extrude_component_along_path():
+def test_extrude_component_along_path() -> None:
     p = gf.path.straight()
     p += gf.path.arc(10)
     p += gf.path.straight()

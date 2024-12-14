@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Any
+
 import numpy as np
 
 import gdsfactory as gf
@@ -31,7 +33,7 @@ def grating_coupler_elliptical_arbitrary(
     spiked: bool = True,
     bias_gap: float = 0,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     r"""Grating coupler with parametrization based on Lumerical FDTD simulation.
 
@@ -89,21 +91,21 @@ def grating_coupler_elliptical_arbitrary(
     c.info["wavelength"] = wavelength
 
     # get the physical parameters needed to compute ellipses
-    gaps = gf.snap.snap_to_grid(np.array(gaps) + bias_gap)
-    widths = gf.snap.snap_to_grid(np.array(widths) - bias_gap)
-    periods = [g + w for g, w in zip(gaps, widths)]
+    gaps_array = gf.snap.snap_to_grid(np.array(gaps) + bias_gap)
+    widths_array = gf.snap.snap_to_grid(np.array(widths) - bias_gap)
+    periods = [g + w for g, w in zip(gaps_array, widths_array)]
     neffs = [wavelength / p + nclad * sthc for p in periods]
     ds = [neff**2 - nclad**2 * sthc**2 for neff in neffs]
     a1s = [round(wavelength * neff / d, 3) for neff, d in zip(neffs, ds)]
     b1s = [round(wavelength / np.sqrt(d), 3) for d in ds]
     x1s = [round(wavelength * nclad * sthc / d, 3) for d in ds]
     xis = np.add(
-        taper_length + np.cumsum(periods), -widths / 2
+        taper_length + np.cumsum(periods), -widths_array / 2
     )  # position of middle of each tooth
     ps = np.divide(xis, periods)
 
     # grating teeth
-    for a1, b1, x1, p, width in zip(a1s, b1s, x1s, ps, widths):
+    for a1, b1, x1, p, width in zip(a1s, b1s, x1s, ps, widths_array):
         pts = grating_tooth_points(
             p * a1, p * b1, p * x1, width, taper_angle, spiked=spiked
         )
@@ -114,7 +116,7 @@ def grating_coupler_elliptical_arbitrary(
     a_taper = p * a1s[0]
     b_taper = p * b1s[0]
     x_taper = p * x1s[0]
-    x_output = a_taper + x_taper - taper_length + widths[0] / 2
+    x_output = a_taper + x_taper - taper_length + widths_array[0] / 2
 
     if layer_grating == layer_wg:
         pts = grating_taper_points(
@@ -127,7 +129,7 @@ def grating_coupler_elliptical_arbitrary(
             a_taper,
             b_taper,
             x_output,
-            x_taper + np.sum(widths) + np.sum(gaps) + 1,
+            x_taper + np.sum(widths_array) + np.sum(gaps_array) + 1,
             taper_angle,
             wg_width=wg_width,
         )
@@ -175,7 +177,7 @@ def grating_coupler_elliptical_uniform(
     n_periods: int = 20,
     period: float = 0.75,
     fill_factor: float = 0.5,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     r"""Grating coupler with parametrization based on Lumerical FDTD simulation.
 

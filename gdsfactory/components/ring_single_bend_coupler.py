@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+from typing import Any
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular_all_angle
 from gdsfactory.components.straight import straight
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import AnyComponentFactory, ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -14,7 +16,7 @@ def coupler_bend(
     coupling_angle_coverage: float = 120.0,
     cross_section_inner: CrossSectionSpec = "strip",
     cross_section_outer: CrossSectionSpec = "strip",
-    bend: ComponentSpec = bend_circular_all_angle,
+    bend: AnyComponentFactory = bend_circular_all_angle,
     bend_output: ComponentSpec = "bend_euler",
 ) -> Component:
     r"""Compact curved coupler with bezier escape.
@@ -52,10 +54,13 @@ def coupler_bend(
     spacing = gap + width
 
     bend90_inner_right = gf.get_component(
-        bend, radius=radius, cross_section=cross_section_inner, angle=angle_inner
+        bend,  # type: ignore
+        radius=radius,
+        cross_section=cross_section_inner,
+        angle=angle_inner,
     )
     bend_output_right = gf.get_component(
-        bend,
+        bend,  # type: ignore
         radius=radius + spacing,
         cross_section=cross_section_outer,
         angle=angle_outer,
@@ -87,7 +92,7 @@ def coupler_ring_bend(
     length_x: float = 0.0,
     cross_section_inner: CrossSectionSpec = "strip",
     cross_section_outer: CrossSectionSpec = "strip",
-    bend: ComponentSpec = bend_circular_all_angle,
+    bend: AnyComponentFactory = bend_circular_all_angle,
     bend_output: ComponentSpec = "bend_euler",
 ) -> Component:
     r"""Two back-to-back coupler_bend.
@@ -144,14 +149,14 @@ def ring_single_bend_coupler(
     radius: float = 5.0,
     gap: float = 0.2,
     coupling_angle_coverage: float = 180.0,
-    bend_all_angle: ComponentSpec = bend_circular_all_angle,
+    bend_all_angle: AnyComponentFactory = bend_circular_all_angle,
     bend: ComponentSpec = "bend_circular",
     bend_output: ComponentSpec = "bend_euler",
     length_x: float = 0.6,
     length_y: float = 0.6,
     cross_section_inner: CrossSectionSpec = "strip",
     cross_section_outer: CrossSectionSpec = "strip",
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     r"""Returns ring with curved coupler.
 

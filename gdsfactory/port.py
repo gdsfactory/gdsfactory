@@ -45,7 +45,13 @@ from gdsfactory.cross_section import CrossSectionSpec
 
 if TYPE_CHECKING:
     from gdsfactory.component import Component
-    from gdsfactory.typings import PathType
+    from gdsfactory.typings import (
+        AngleInDegrees,
+        ComponentFactory,
+        PathType,
+        Ports,
+        SelectPorts,
+    )
 
 Layer = tuple[int, int]
 Layers = tuple[Layer, ...]
@@ -111,7 +117,7 @@ class Port(kf.Port):
     def __init__(
         self,
         name: str,
-        orientation: float | None,
+        orientation: AngleInDegrees | None,
         center: tuple[float, float] | kf.kdb.Point | kf.kdb.DPoint,
         width: float | None = None,
         layer: LayerSpec | None = None,
@@ -149,15 +155,17 @@ class Port(kf.Port):
 
         dcplx_trans = kf.kdb.DCplxTrans(1.0, float(orientation), False, *center)
         info = info or {}
-        width = round(width / kf.kcl.dbu)
         super().__init__(
             name=name,
             layer=get_layer(layer),
-            width=width,
+            dwidth=width,
             port_type=port_type,
-            trans=dcplx_trans.s_trans().to_itype(kf.kcl.dbu),
+            dcplx_trans=dcplx_trans,
             info=info,
         )
+
+    def to_dict(self) -> dict[str, Any]:
+        return to_dict(self)
 
 
 def to_dict(port: Port) -> dict[str, Any]:
@@ -178,7 +186,7 @@ PortsMap = dict[str, list[Port]]
 def port_array(
     center: tuple[float, float] = (0.0, 0.0),
     width: float = 0.5,
-    orientation: float = 0,
+    orientation: AngleInDegrees = 0,
     pitch: tuple[float, float] = (10.0, 0.0),
     n: int = 2,
     **kwargs: Any,
@@ -321,11 +329,11 @@ def sort_ports_counter_clockwise(ports: kf.Ports) -> kf.Ports:
 
 
 def select_ports(
-    ports: kf.Ports | kf.Instance,
+    ports: "Ports | kf.Instance | kf.kcell.InstancePorts",
     layer: LayerSpec | None = None,
     prefix: str | None = None,
     suffix: str | None = None,
-    orientation: int | None = None,
+    orientation: AngleInDegrees | None = None,
     width: float | None = None,
     layers_excluded: tuple[tuple[int, int], ...] | None = None,
     port_type: str | None = None,
@@ -390,7 +398,9 @@ select_ports_electrical = partial(select_ports, port_type="electrical")
 select_ports_placement = partial(select_ports, port_type="placement")
 
 
-def select_ports_list(ports: kf.Ports | kf.Instance, **kwargs: Any) -> kf.Ports:
+def select_ports_list(
+    ports: "Ports | kf.Instance | kf.kcell.InstancePorts", **kwargs: Any
+) -> "Ports":
     return select_ports(ports=ports, **kwargs)
 
 
@@ -443,9 +453,7 @@ def get_ports_facing(ports: list[Port], direction: str = "W") -> list[Port]:
     return direction_ports[direction]
 
 
-def deco_rename_ports(
-    component_factory: Callable[..., Component],
-) -> Callable[..., Component]:
+def deco_rename_ports(component_factory: "ComponentFactory") -> "ComponentFactory":
     @functools.wraps(component_factory)
     def auto_named_component_factory(*args: Any, **kwargs: Any) -> Component:
         component = component_factory(*args, **kwargs)
@@ -512,7 +520,7 @@ def _rename_ports_counter_clockwise(
     ports = east_ports + north_ports + west_ports + south_ports
 
     for i, p in enumerate(ports):
-        p.name = f"{prefix}{i+1}" if prefix else i + 1
+        p.name = f"{prefix}{i + 1}" if prefix else i + 1
 
 
 def _rename_ports_clockwise(direction_ports: PortsMap, prefix: str = "") -> None:
@@ -533,7 +541,7 @@ def _rename_ports_clockwise(direction_ports: PortsMap, prefix: str = "") -> None
     ports = west_ports + north_ports + east_ports + south_ports
 
     for i, p in enumerate(ports):
-        p.name = f"{prefix}{i+1}" if prefix else i + 1
+        p.name = f"{prefix}{i + 1}" if prefix else i + 1
 
 
 def _rename_ports_clockwise_top_right(
@@ -555,13 +563,13 @@ def _rename_ports_clockwise_top_right(
     ports = east_ports + south_ports + west_ports + north_ports
 
     for i, p in enumerate(ports):
-        p.name = f"{prefix}{i+1}" if prefix else i + 1
+        p.name = f"{prefix}{i + 1}" if prefix else i + 1
 
 
 def rename_ports_by_orientation(
     component: Component,
     layers_excluded: LayerSpec | None = None,
-    select_ports: Callable = select_ports,
+    select_ports: "SelectPorts" = select_ports,
     function: Callable[..., None] = _rename_ports_facing_side,
     prefix: str = "o",
     **kwargs: Any,
@@ -833,20 +841,20 @@ def auto_rename_ports_layer_orientation(
 
 __all__ = [
     "Port",
-    "port_array",
-    "read_port_markers",
-    "csv2port",
-    "select_ports",
-    "select_ports_list",
-    "flipped",
-    "move_copy",
-    "get_ports_facing",
-    "deco_rename_ports",
-    "rename_ports_by_orientation",
     "auto_rename_ports",
     "auto_rename_ports_counter_clockwise",
     "auto_rename_ports_orientation",
+    "csv2port",
+    "deco_rename_ports",
+    "flipped",
+    "get_ports_facing",
     "map_ports_layer_to_orientation",
+    "move_copy",
+    "port_array",
+    "read_port_markers",
+    "rename_ports_by_orientation",
+    "select_ports",
+    "select_ports_list",
 ]
 
 if __name__ == "__main__":

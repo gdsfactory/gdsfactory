@@ -1,13 +1,11 @@
 instances:
   rectangle_S0p3_0p3_LSLA_62b062b0_m5070_m5070:
+    column_pitch: 0.58
+    columns: 18
     component: rectangle
-    dax: 0.58
-    day: 0
-    dbx: 0
-    dby: 0.58
     info: {}
-    na: 18
-    nb: 18
+    row_pitch: 0.58
+    rows: 18
     settings:
       centered: true
       layer: SLAB150

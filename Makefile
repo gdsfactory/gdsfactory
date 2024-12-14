@@ -3,10 +3,12 @@ help:
 	@echo 'make test:             Run tests with pytest'
 	@echo 'make test-force:       Rebuilds regression test'
 
-install:
+uv:
 	curl -LsSf https://astral.sh/uv/0.4.30/install.sh | sh
-	uv venv
-	uv pip install -e .[dev,docs] pre-commit
+
+install:
+	uv venv --python 3.11
+	uv sync --extra docs --extra dev
 
 dev:
 	pip install -e .[dev,docs] pre-commit

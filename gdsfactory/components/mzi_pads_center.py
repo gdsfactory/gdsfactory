@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Any
+
 import gdsfactory as gf
 from gdsfactory.routing.route_single import route_single_electrical
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
@@ -13,10 +15,10 @@ def mzi_pads_center(
     pad: ComponentSpec = "pad_small",
     length_x: float = 500,
     length_y: float = 40,
-    mzi_sig_top: str = "top_r_e2",
-    mzi_gnd_top: str = "top_l_e2",
-    mzi_sig_bot: str = "bot_l_e2",
-    mzi_gnd_bot: str = "bot_r_e2",
+    mzi_sig_top: str | None = "top_r_e2",
+    mzi_gnd_top: str | None = "top_l_e2",
+    mzi_sig_bot: str | None = "bot_l_e2",
+    mzi_gnd_bot: str | None = "bot_r_e2",
     pad_sig_bot: str = "e1_1_1",
     pad_sig_top: str = "e3_1_3",
     pad_gnd_bot: str = "e4_1_2",
@@ -24,13 +26,12 @@ def mzi_pads_center(
     delta_length: float = 40.0,
     cross_section: CrossSectionSpec = "strip",
     cross_section_metal: CrossSectionSpec = "metal_routing",
-    pad_spacing: float | str = "pad_spacing",
-    **kwargs,
+    pad_pitch: float | str = "pad_pitch",
+    **kwargs: Any,
 ) -> gf.Component:
     """Return Mzi phase shifter with pads in the middle.
 
-    GND is the middle pad
-    and is shared between top and bottom phase shifters.
+    GND is the middle pad and is shared between top and bottom phase shifters.
 
     Args:
         ps_top: phase shifter top.
@@ -39,10 +40,10 @@ def mzi_pads_center(
         pad: pad function.
         length_x: horizontal length.
         length_y: vertical length.
-        mzi_sig_top: port name for top phase shifter signal.
-        mzi_gnd_top: port name for top phase shifter GND.
-        mzi_sig_bot: port name for top phase shifter signal.
-        mzi_gnd_bot: port name for top phase shifter GND.
+        mzi_sig_top: port name for top phase shifter signal. None if no connection.
+        mzi_gnd_top: port name for top phase shifter GND. None if no connection.
+        mzi_sig_bot: port name for top phase shifter signal. None if no connection.
+        mzi_gnd_bot: port name for top phase shifter GND. None if no connection.
         pad_sig_bot: port name for top pad.
         pad_sig_top: port name for top pad.
         pad_gnd_bot: port name for top pad.
@@ -50,12 +51,14 @@ def mzi_pads_center(
         delta_length: mzi length imbalance.
         cross_section: for the mzi.
         cross_section_metal: for routing metal.
-        pad_spacing: pad pitch in um.
+        pad_pitch: pad pitch in um.
         kwargs: routing settings.
     """
     c = gf.Component()
 
-    pad_spacing = gf.get_constant(pad_spacing)
+    pad_pitch = gf.get_constant(pad_pitch)
+
+    assert isinstance(pad_pitch, float)
 
     mzi_ps = gf.get_component(
         mzi,
@@ -70,46 +73,51 @@ def mzi_pads_center(
 
     port_names = [p.name for p in mzi_ps.ports]
     for port_name in [mzi_sig_top, mzi_gnd_top, mzi_sig_bot, mzi_gnd_bot]:
-        if port_name not in port_names:
+        if port_name and port_name not in port_names:
             raise ValueError(f"port {port_name!r} not in {port_names}")
 
     m = c << mzi_ps
     pads = c << gf.components.array(
-        component=pad, columns=3, rows=1, spacing=(pad_spacing, pad_spacing)
+        component=pad, columns=3, rows=1, spacing=(pad_pitch, pad_pitch)
     )
     pads.dx = m.dx
     pads.dy = m.dy
 
-    route_single_electrical(
-        c,
-        m.ports[mzi_sig_bot],
-        pads.ports[pad_sig_bot],
-        cross_section=cross_section_metal,
-        **kwargs,
-    )
+    if mzi_sig_top is not None:
+        route_single_electrical(
+            c,
+            m.ports[mzi_sig_bot],
+            pads.ports[pad_sig_bot],
+            cross_section=cross_section_metal,
+            **kwargs,
+        )
 
-    route_single_electrical(
-        c,
-        m.ports[mzi_gnd_bot],
-        pads.ports[pad_gnd_bot],
-        cross_section=cross_section_metal,
-        **kwargs,
-    )
-    route_single_electrical(
-        c,
-        m.ports[mzi_gnd_top],
-        pads.ports[pad_gnd_top],
-        cross_section=cross_section_metal,
-        **kwargs,
-    )
+    if mzi_gnd_bot:
+        route_single_electrical(
+            c,
+            m.ports[mzi_gnd_bot],
+            pads.ports[pad_gnd_bot],
+            cross_section=cross_section_metal,
+            **kwargs,
+        )
 
-    route_single_electrical(
-        c,
-        m.ports[mzi_sig_top],
-        pads.ports[pad_sig_top],
-        cross_section=cross_section_metal,
-        **kwargs,
-    )
+    if mzi_gnd_top:
+        route_single_electrical(
+            c,
+            m.ports[mzi_gnd_top],
+            pads.ports[pad_gnd_top],
+            cross_section=cross_section_metal,
+            **kwargs,
+        )
+
+    if mzi_sig_top:
+        route_single_electrical(
+            c,
+            m.ports[mzi_sig_top],
+            pads.ports[pad_sig_top],
+            cross_section=cross_section_metal,
+            **kwargs,
+        )
 
     c.add_ports(m.ports)
     return c

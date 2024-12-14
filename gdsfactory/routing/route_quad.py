@@ -3,12 +3,15 @@
 from __future__ import annotations
 
 import numpy as np
+import numpy.typing as npt
 
 import gdsfactory as gf
-from gdsfactory.port import Port
+from gdsfactory.typings import Port
 
 
-def _get_rotated_basis(theta):
+def _get_rotated_basis(
+    theta: float,
+) -> tuple[npt.NDArray[np.float64], npt.NDArray[np.float64]]:
     """Returns basis vectors rotated CCW by theta (in degrees)."""
     theta = np.radians(theta)
     e1 = np.array([np.cos(theta), np.sin(theta)])
@@ -57,7 +60,9 @@ def route_quad(
 
     """
 
-    def get_port_edges(port, width):
+    def get_port_edges(
+        port: Port, width: float
+    ) -> tuple[npt.NDArray[np.float64], npt.NDArray[np.float64]]:
         _, e1 = _get_rotated_basis(port.orientation)
         pt1 = port.dcenter + e1 * width / 2
         pt2 = port.dcenter - e1 * width / 2

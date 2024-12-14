@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 from functools import partial
+from pathlib import Path
 
 import pydantic
 
 import gdsfactory as gf
-from gdsfactory.typings import Layer
+from gdsfactory.cross_section import strip_heater_metal
+from gdsfactory.typings import ComponentFactory, Layer
 
 
 @pydantic.dataclasses.dataclass
@@ -21,9 +23,7 @@ LAYER = LayerMap
 
 
 xs_strip = partial(gf.cross_section.strip, layer=(1, 0), width=1)
-xs_strip_heater_metal = partial(
-    gf.cross_section.strip_heater_metal, layer=(1, 0), width=1
-)
+xs_strip_heater_metal = partial(strip_heater_metal, layer=(1, 0), width=1)
 rib_heater_doped = partial(
     gf.cross_section.rib_heater_doped, layer=(1, 0), width=1, layer_slab=LAYER.SLAB
 )
@@ -57,7 +57,9 @@ component_factory = dict(
 )
 
 
-def write_library(component_factory, dirpath) -> None:
+def write_library(
+    component_factory: dict[str, ComponentFactory], dirpath: Path
+) -> None:
     for function in component_factory.values():
         component = function()
         component.write_gds(gdsdir=dirpath, with_metadata=True)

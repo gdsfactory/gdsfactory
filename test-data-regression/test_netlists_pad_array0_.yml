@@ -1,18 +1,16 @@
 instances:
-  pad_S100_100_LMTOP_BLNo_2fadfa5f_0_0:
+  pad_S100_100_LMTOP_BLNo_23f16118_0_0:
+    column_pitch: 150
+    columns: 1
     component: pad
-    dax: 150
-    day: 0
-    dbx: 0
-    dby: 150
     info:
       size:
       - 100
       - 100
       xsize: 100
       ysize: 100
-    na: 1
-    nb: 3
+    row_pitch: 150
+    rows: 3
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -20,13 +18,14 @@ instances:
       port_inclusion: 0
       port_orientation: null
       port_orientations: null
+      port_type: pad
       size:
       - 100
       - 100
-name: pad_array_Ppad_S150_150_8d5bd96d
+name: pad_array_Ppad_SNone_C1_79b1e858
 nets: []
 placements:
-  pad_S100_100_LMTOP_BLNo_2fadfa5f_0_0:
+  pad_S100_100_LMTOP_BLNo_23f16118_0_0:
     mirror: false
     rotation: 0
     x: 0

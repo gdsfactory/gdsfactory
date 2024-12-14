@@ -36,7 +36,7 @@ from gdsfactory.typings import (
     LayerSpec,
     MaterialSpec,
     PathType,
-    Transition,
+    RoutingStrategies,
 )
 
 _ACTIVE_PDK: Pdk | None = None
@@ -44,11 +44,9 @@ component_settings = ["function", "component", "settings"]
 cross_section_settings = ["function", "cross_section", "settings"]
 
 constants = {
-    "fiber_array_spacing": 127.0,
-    "fiber_spacing": 50.0,
     "fiber_input_to_output_spacing": 200.0,
     "metal_spacing": 10.0,
-    "pad_spacing": 100.0,
+    "pad_pitch": 100.0,
     "pad_size": (80, 80),
 }
 
@@ -169,9 +167,7 @@ class Pdk(BaseModel):
     )
     constants: dict[str, Any] = constants
     materials_index: dict[str, MaterialSpec] = Field(default_factory=dict)
-    routing_strategies: (
-        dict[str, Callable[..., kf.routing.generic.ManhattanRoute]] | None
-    ) = None
+    routing_strategies: RoutingStrategies | None = None
     bend_points_distance: float = 20 * nm
     connectivity: list[ConnectivitySpec] | None = None
     max_cellname_length: int = CONF.max_cellname_length
@@ -336,7 +332,7 @@ class Pdk(BaseModel):
         component: ComponentSpec,
         settings: dict[str, Any] | None = None,
         **kwargs: Any,
-    ) -> ComponentBase:
+    ) -> Component:
         """Returns component from a component spec."""
         return self._get_component(
             component=component, cells=self.cells, settings=settings, **kwargs
@@ -356,10 +352,10 @@ class Pdk(BaseModel):
     def _get_component(
         self,
         component: ComponentSpec,
-        cells: dict[str, Callable],
+        cells: dict[str, ComponentFactory],
         settings: dict[str, Any] | None = None,
         **kwargs: Any,
-    ) -> ComponentBase:
+    ) -> Component:
         """Returns component from a component spec.
 
         Args:
@@ -369,14 +365,14 @@ class Pdk(BaseModel):
             kwargs: settings to override.
 
         """
-        cells = sorted(cells)
+        cells = sorted(cells)  # type: ignore
 
         settings = settings or {}
         kwargs = kwargs or {}
         kwargs.update(settings)
 
         if isinstance(component, ComponentBase):
-            return component
+            return component  # type: ignore
         elif isinstance(component, kf.KCell):
             return Component.from_kcell(component)
         elif callable(component):
@@ -384,7 +380,7 @@ class Pdk(BaseModel):
         elif isinstance(component, str):
             if component not in cells:
                 substring = component
-                matching_cells = []
+                matching_cells: list[str] = []
 
                 # Reduce the length of the cell string until we find matches
                 while substring and not matching_cells:
@@ -396,7 +392,7 @@ class Pdk(BaseModel):
                     f"{component!r} not in PDK {self.name!r}. Did you mean {matching_cells}?"
                 )
             return self.cells[component](**kwargs)
-        elif isinstance(component, dict):
+        elif isinstance(component, dict):  # type: ignore
             for key in component.keys():
                 if key not in component_settings:
                     raise ValueError(
@@ -407,7 +403,7 @@ class Pdk(BaseModel):
 
             cell_name = component.get("component", None)
             cell_name = cell_name or component.get("function")
-            cell_name = cell_name.split(".")[-1]
+            cell_name = cell_name.split(".")[-1]  # type: ignore
 
             if not isinstance(cell_name, str) or cell_name not in cells:
                 matching_cells = [c for c in cells if cell_name in c]
@@ -423,7 +419,7 @@ class Pdk(BaseModel):
 
     def get_cross_section(
         self, cross_section: CrossSectionSpec, **kwargs: Any
-    ) -> CrossSection | Transition:
+    ) -> CrossSection:
         """Returns cross_section from a cross_section spec.
 
         Args:
@@ -442,7 +438,7 @@ class Pdk(BaseModel):
             xs_name = cross_section.get("cross_section", None)
             settings = cross_section.get("settings", {})
             return self.get_cross_section(xs_name, **settings)
-        elif isinstance(cross_section, CrossSection | Transition):
+        elif isinstance(cross_section, CrossSection):
             if kwargs:
                 warnings.warn(
                     f"{kwargs} are ignored for cross_section {cross_section.name!r}"
@@ -612,11 +608,16 @@ def get_active_pdk(name: str | None = None) -> Pdk:
 
         else:
             raise ValueError("no active pdk")
-    return _ACTIVE_PDK
+    return _ACTIVE_PDK  # type: ignore
 
 
 def get_material_index(material: MaterialSpec, *args: Any, **kwargs: Any) -> Component:
-    return get_active_pdk().get_material_index(material, *args, **kwargs)
+    active_pdk = get_active_pdk()
+    if not hasattr(active_pdk, "get_material_index"):
+        raise NotImplementedError(
+            "The active PDK does not implement 'get_material_index'"
+        )
+    return active_pdk.get_material_index(material, *args, **kwargs)  # type: ignore
 
 
 def get_component(
@@ -629,9 +630,7 @@ def get_cell(cell: CellSpec, **kwargs: Any) -> ComponentFactory:
     return get_active_pdk().get_cell(cell, **kwargs)
 
 
-def get_cross_section(
-    cross_section: CrossSectionSpec, **kwargs
-) -> CrossSection | Transition:
+def get_cross_section(cross_section: CrossSectionSpec, **kwargs: Any) -> CrossSection:
     return get_active_pdk().get_cross_section(cross_section, **kwargs)
 
 
@@ -641,7 +640,7 @@ def get_layer(layer: LayerSpec) -> LayerEnum:
 
 def get_layer_name(layer: LayerSpec) -> str:
     layer_index = get_layer(layer)
-    return str(get_active_pdk().layers(layer_index))
+    return str(get_active_pdk().layers(layer_index))  # type: ignore
 
 
 def get_layer_tuple(layer: LayerSpec) -> tuple[int, int]:
@@ -673,12 +672,10 @@ def _set_active_pdk(pdk: Pdk) -> None:
     _ACTIVE_PDK = pdk
 
 
-def get_routing_strategies() -> (
-    dict[str, Callable[..., list[kf.routing.generic.ManhattanRoute]]]
-):
+def get_routing_strategies() -> RoutingStrategies:
     """Gets a dictionary of named routing functions available to the PDK, if defined, or gdsfactory defaults otherwise."""
     from gdsfactory.routing.factories import (
-        routing_strategy as default_routing_strategies,
+        routing_strategies as default_routing_strategies,
     )
 
     routing_strategies = get_active_pdk().routing_strategies

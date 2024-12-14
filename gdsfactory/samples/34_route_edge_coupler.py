@@ -6,11 +6,15 @@ from functools import partial
 
 import gdsfactory as gf
 import gdsfactory.components as pc
-from gdsfactory.generic_tech import LAYER
+from gdsfactory.component import Component
+from gdsfactory.generic_tech.layer_map import LAYER
+from gdsfactory.typings import Size
 
 
 @gf.cell
-def sample_reticle(size=(1000, 1000), ec="edge_coupler_silicon") -> gf.Component:
+def sample_reticle(
+    size: Size = (1000, 1000), ec: str = "edge_coupler_silicon"
+) -> gf.Component:
     """Returns MZI with edge couplers.
 
     Args:
@@ -23,11 +27,11 @@ def sample_reticle(size=(1000, 1000), ec="edge_coupler_silicon") -> gf.Component
 
     xsizes = [component.dxsize for component in components]
     xsize_max = max(xsizes)
-    ec = gf.get_component(ec)
+    ec_c = gf.get_component(ec)
     taper = pc.taper(width2=0.5)
-    components_ec = []
+    components_ec: list[Component] = []
 
-    if xsize_max + 2 * taper.dxsize + 2 * ec.dxsize > size[0]:
+    if xsize_max + 2 * taper.dxsize + 2 * ec_c.dxsize > size[0]:
         raise ValueError(
             f"Component xsize_max={xsize_max} is larger than reticle size[0]={size[0]}"
         )
@@ -36,7 +40,7 @@ def sample_reticle(size=(1000, 1000), ec="edge_coupler_silicon") -> gf.Component
         component_extended = gf.components.extend_ports(
             component,
             extension=pc.straight(
-                length=(size[0] - 2 * taper.dxsize - 2 * ec.dxsize - component.dxsize)
+                length=(size[0] - 2 * taper.dxsize - 2 * ec_c.dxsize - component.dxsize)
                 / 2
             ),
             port2="o2",
@@ -47,7 +51,7 @@ def sample_reticle(size=(1000, 1000), ec="edge_coupler_silicon") -> gf.Component
             component_extended, extension=taper, port2="o2", port1="o1"
         )
         component_ec = gf.components.extend_ports(
-            component_tapered, extension=ec, port1="o1", port2="o2"
+            component_tapered, extension=ec_c, port1="o1", port2="o2"
         )
         components_ec.append(component_ec)
 

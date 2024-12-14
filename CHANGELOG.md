@@ -1,7 +1,94 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.18.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.21.0...main)
 
 <!-- towncrier release notes start -->
+
+## [8.22.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.22.0) - 2024-12-01
+
+No significant changes.
+
+
+## [8.21.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.21.0) - 2024-11-27
+
+- Add missing docs [#3437](https://github.com/gdsfactory/gdsfactory/pull/3437)
+- Improve via_stack ports [#3427](https://github.com/gdsfactory/gdsfactory/pull/3427)
+- Fix some MyPy errors [#3421](https://github.com/gdsfactory/gdsfactory/pull/3421)
+- remove Transition inheritance [#3419](https://github.com/gdsfactory/gdsfactory/pull/3419)
+- Fix remove layers [#3439](https://github.com/gdsfactory/gdsfactory/pull/3439)
+- fix ruff [#3431](https://github.com/gdsfactory/gdsfactory/pull/3431)
+- clear import cache on clearing layout cache [#3430](https://github.com/gdsfactory/gdsfactory/pull/3430)
+- fix cli [#3429](https://github.com/gdsfactory/gdsfactory/pull/3429)
+- fix dbr issues [#3418](https://github.com/gdsfactory/gdsfactory/pull/3418)
+- Add plot to updk [#3438](https://github.com/gdsfactory/gdsfactory/pull/3438)
+- Remove deprecated spacing [#3424](https://github.com/gdsfactory/gdsfactory/pull/3424)
+- fix: remove Transition from get_cross_section return type [#3420](https://github.com/gdsfactory/gdsfactory/pull/3420)
+- improve plot_graphviz [#3416](https://github.com/gdsfactory/gdsfactory/pull/3416)
+- Add missing docs [#3437](https://github.com/gdsfactory/gdsfactory/pull/3437)
+- Update pydantic requirement from <2.10,>=2.6 to >=2.6,<2.11 [#3423](https://github.com/gdsfactory/gdsfactory/pull/3423)
+
+## [8.20.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.20.0) - 2024-11-21
+
+- Deprecate array spacing [#3410](https://github.com/gdsfactory/gdsfactory/pull/3410)
+- better array default [#3412](https://github.com/gdsfactory/gdsfactory/pull/3412)
+- expose version in `gdsfactory.__init__` [#3407](https://github.com/gdsfactory/gdsfactory/pull/3407)
+- Improve yaml mirror docs [#3409](https://github.com/gdsfactory/gdsfactory/pull/3409)
+
+## [8.19.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.19.5) - 2024-11-19
+
+- Update kfactory02111 [#3406](https://github.com/gdsfactory/gdsfactory/pull/3406)
+- use uv for installing [#3405](https://github.com/gdsfactory/gdsfactory/pull/3405)
+
+## [8.19.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.19.4) - 2024-11-19
+
+- fixes PortWidthMismatch error when setting cross_section in MZI [#3404](https://github.com/gdsfactory/gdsfactory/pull/3404)
+
+## [8.19.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.19.3) - 2024-11-18
+- Fix spiral [#3402](https://github.com/gdsfactory/gdsfactory/pull/3402)
+- fix docs [#3401](https://github.com/gdsfactory/gdsfactory/pull/3401)
+- Fix all Ruff linting errors [#3403](https://github.com/gdsfactory/gdsfactory/pull/3403)
+- Re-type `LayerViews.layers` [#3398](https://github.com/gdsfactory/gdsfactory/pull/3398)
+- Make ComponentAlongPath accessible [#3399](https://github.com/gdsfactory/gdsfactory/pull/3399)
+- fix docs [#3401](https://github.com/gdsfactory/gdsfactory/pull/3401)
+- bump kfactory from 0.21.7 to 0.21.10 [#3400](https://github.com/gdsfactory/gdsfactory/pull/3400)
+
+## [8.19.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.19.2) - 2024-11-18
+
+- Fix return typing for get_boxes() [#3392](https://github.com/gdsfactory/gdsfactory/pull/3392)
+- add rotate [#3397](https://github.com/gdsfactory/gdsfactory/pull/3397)
+- Fix Type Hints [#3391](https://github.com/gdsfactory/gdsfactory/pull/3391)
+- add pyglet [#3393](https://github.com/gdsfactory/gdsfactory/pull/3393)
+
+## [8.19.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.19.1) - 2024-11-15
+
+- fix layer or width for bends [#3390](https://github.com/gdsfactory/gdsfactory/pull/3390)
+
+## [8.19.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.19.0) - 2024-11-15
+
+- better netlist names for na/nb/dax/day -> columns/rows/column_pitch/row_pitch [#3380](https://github.com/gdsfactory/gdsfactory/pull/3380)
+- Fix text justify [#3388](https://github.com/gdsfactory/gdsfactory/pull/3388)
+- Fix port orientation [#3386](https://github.com/gdsfactory/gdsfactory/pull/3386)
+- fix array placement [#3385](https://github.com/gdsfactory/gdsfactory/pull/3385)
+- fix cutback_component [#3384](https://github.com/gdsfactory/gdsfactory/pull/3384)
+
+## [8.18.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.18.2) - 2024-11-14
+
+- fix bend width [#3374](https://github.com/gdsfactory/gdsfactory/pull/3374)
+- add deprecation for ref.parent [#3377](https://github.com/gdsfactory/gdsfactory/pull/3377)
+- Cleaner to um conversion [#3375](https://github.com/gdsfactory/gdsfactory/pull/3375)
+- better pcell values [#3371](https://github.com/gdsfactory/gdsfactory/pull/3371)
+- improve_text_klayout [#3370](https://github.com/gdsfactory/gdsfactory/pull/3370)
+
+## [8.18.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.18.1) - 2024-11-11
+
+- fix missing start/end angles arg in route_bundle [#3366](https://github.com/gdsfactory/gdsfactory/pull/3366)
+- Fix route_bundle to allow routing electrical ports like optical ones #3363  [#3365](https://github.com/gdsfactory/gdsfactory/pull/3365)
+- Fix test manifest [#3361](https://github.com/gdsfactory/gdsfactory/pull/3361)
+- simpler logic [#3364](https://github.com/gdsfactory/gdsfactory/pull/3364)
+- Document route dubin [#3367](https://github.com/gdsfactory/gdsfactory/pull/3367)
+- add code example in readme [#3358](https://github.com/gdsfactory/gdsfactory/pull/3358)
+- NEW ROUTING: Added optimal Dubins paths. [#3362](https://github.com/gdsfactory/gdsfactory/pull/3362)
+- Bump kfactory[ipy] from 0.21.6 to 0.21.7 [#3359](https://github.com/gdsfactory/gdsfactory/pull/3359)
+- Pin python max version [#3357](https://github.com/gdsfactory/gdsfactory/pull/3357)
 
 ## [8.18.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.18.0) - 2024-11-10
 

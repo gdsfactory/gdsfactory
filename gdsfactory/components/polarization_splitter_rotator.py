@@ -1,6 +1,9 @@
 from __future__ import annotations
 
-from numpy import ndarray
+from typing import Any
+
+import numpy as np
+import numpy.typing as npt
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -9,7 +12,7 @@ from gdsfactory.components.coupler_straight_asymmetric import (
     coupler_straight_asymmetric,
 )
 from gdsfactory.components.taper import taper
-from gdsfactory.typings import CrossSectionSpec, Float2, Float3
+from gdsfactory.typings import CrossSectionSpec, Delta, Float2, Float3
 
 
 @gf.cell
@@ -21,7 +24,7 @@ def polarization_splitter_rotator(
     gap: float = 0.15,
     width_out: float = 0.54,
     length_out: float = 14.33,
-    dy: float = 5.0,
+    dy: Delta = 5.0,
     cross_section: CrossSectionSpec = "strip",
 ) -> Component:
     """Returns polarization splitter rotator.
@@ -69,7 +72,7 @@ def polarization_splitter_rotator(
         cross_section=cross_section,
     )
 
-    def bend_s_width(t: ndarray) -> ndarray:
+    def bend_s_width(t: npt.NDArray[np.floating[Any]]) -> npt.NDArray[np.floating[Any]]:
         return w4 + (width_out - w4) * t
 
     x_bend = x.copy(width_function=bend_s_width)

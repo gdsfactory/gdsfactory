@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from functools import partial
+from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -8,7 +9,7 @@ from gdsfactory.components.bend_euler import bend_euler180
 from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper_from_csv import taper_0p5_to_3_l36
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentFactory, ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -24,9 +25,9 @@ def cutback_component(
     mirror2: bool = False,
     straight_length: float | None = None,
     straight_length_pair: float | None = None,
-    straight: ComponentSpec = straight_function,
+    straight: ComponentFactory = straight_function,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Returns a daisy chain of components for measuring their loss.
 
@@ -52,9 +53,10 @@ def cutback_component(
 
     component = gf.get_component(component, **kwargs)
     bendu = gf.get_component(bend180, cross_section=xs)
-    straight_component = straight(
-        length=straight_length or xs.radius * 2, cross_section=xs
-    )
+
+    straight_length = xs.radius * 2 if straight_length is None else straight_length  # type: ignore
+    straight_component = straight(length=straight_length, cross_section=xs)
+
     straight_pair = straight(length=straight_length_pair or 0, cross_section=xs)
 
     # Define a map between symbols and (component, input port, output port)

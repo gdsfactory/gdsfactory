@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import itertools as it
+from collections.abc import Sequence
 from typing import Any
 
 import gdsfactory as gf
@@ -12,10 +13,10 @@ from gdsfactory.typings import CellSpec, ComponentSpec
 
 def generate_doe(
     doe: ComponentSpec,
-    settings: dict[str, list[Any]],
+    settings: dict[str, Sequence[Any]],
     do_permutations: bool = False,
     function: CellSpec | None = None,
-) -> tuple[tuple[Component, ...], tuple[dict, ...]]:
+) -> tuple[list[Component], list[dict[str, Any]]]:
     """Generates a component DOE (Design of Experiment).
 
     which can then be packed, or used elsewhere.
@@ -43,17 +44,15 @@ def generate_doe(
             gf.get_component(doe, **settings) for settings in settings_list
         ]
 
-    component_list = tuple(component_list)
-    settings_list = tuple(settings_list)
     return component_list, settings_list
 
 
 def pack_doe(
     doe: ComponentSpec,
-    settings: dict[str, tuple[Any, ...]],
+    settings: dict[str, Sequence[Any]],
     do_permutations: bool = False,
     function: CellSpec | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Packs a component DOE (Design of Experiment) using pack.
 
@@ -85,25 +84,25 @@ def pack_doe(
         doe=doe, settings=settings, do_permutations=do_permutations, function=function
     )
 
-    c = pack(component_list, **kwargs)
+    components = pack(component_list, **kwargs)
 
-    if len(c) > 1:
+    if len(components) > 1:
         raise ValueError(
-            f"failed to pack in one Component, it created {len(c)} Components"
+            f"failed to pack in one Component, it created {len(components)} Components"
         )
-    c = c[0]
-    c.doe_names = [component.name for component in component_list]
-    c.doe_settings = settings_list
-    return c
+    component = components[0]
+    component.doe_names = [component.name for component in component_list]  # type: ignore
+    component.doe_settings = settings_list  # type: ignore
+    return component
 
 
 def pack_doe_grid(
     doe: ComponentSpec,
-    settings: dict[str, tuple[Any, ...]],
+    settings: dict[str, Sequence[Any]],
     do_permutations: bool = False,
     function: CellSpec | None = None,
     with_text: bool = False,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Packs a component DOE (Design of Experiment) using grid.
 
@@ -147,17 +146,14 @@ def pack_doe_grid(
             gf.get_component(doe, **settings) for settings in settings_list
         ]
 
-    component_list = tuple(component_list)
-    settings_list = tuple(settings_list)
-
     if with_text:
         c = grid_with_text(component_list, **kwargs)
 
     else:
         c = grid(component_list, **kwargs)
 
-    c.doe_names = [component.name for component in component_list]
-    c.doe_settings = settings_list
+    c.doe_names = [component.name for component in component_list]  # type: ignore
+    c.doe_settings = settings_list  # type: ignore
     return c
 
 
@@ -171,6 +167,6 @@ if __name__ == "__main__":
         do_permutations=True,
     )
 
-    c = pack_doe(doe="mmi1x2", settings=dict(length_mmi=[2, 100], width_mmi=[4, 10]))
+    c = pack_doe(doe="mmi1x2", settings=dict(length_mmi=(2, 100), width_mmi=(4, 10)))
     # c = pack_doe()
     c.show()

@@ -31,6 +31,7 @@ def bend_circular_heater(
     """
     x = gf.get_cross_section(cross_section)
     radius = radius or x.radius
+    assert radius is not None
     width = x.width
 
     offset = heater_to_wg_distance + width / 2

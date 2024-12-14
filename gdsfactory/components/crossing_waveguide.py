@@ -8,23 +8,25 @@ import numpy as np
 from numpy import float64
 
 import gdsfactory as gf
-from gdsfactory import cell
 from gdsfactory.component import Component
-from gdsfactory.components.bezier import (
-    bezier,
-    find_min_curv_bezier_control_points,
-)
+from gdsfactory.components.bezier import bezier, find_min_curv_bezier_control_points
 from gdsfactory.components.ellipse import ellipse
 from gdsfactory.components.taper import taper
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
+from gdsfactory.typings import (
+    ComponentFactory,
+    ComponentSpec,
+    CrossSectionSpec,
+    Delta,
+    LayerSpec,
+)
 
 
 def snap_to_grid(p: float, grid_per_unit: int = 1000) -> float64:
     """Round."""
-    return np.round(p * grid_per_unit) / grid_per_unit
+    return np.round(p * grid_per_unit) / grid_per_unit  # type: ignore
 
 
-@cell
+@gf.cell
 def crossing_arm(
     r1: float = 3.0,
     r2: float = 1.1,
@@ -88,7 +90,7 @@ def crossing_arm(
     return c
 
 
-@cell
+@gf.cell
 def crossing(
     arm: ComponentSpec = crossing_arm,
     cross_section: CrossSectionSpec = "strip",
@@ -107,7 +109,7 @@ def crossing(
         ref = c << arm
         ref.drotate(rotation)
         for p in ref.ports:
-            c.add_port(name=port_id, port=p)
+            c.add_port(name=str(port_id), port=p)
             port_id += 1
 
     c.auto_rename_ports()
@@ -119,8 +121,8 @@ def crossing(
 _taper = partial(taper, width2=2.5, length=3)
 
 
-@cell
-def crossing_from_taper(taper=_taper) -> Component:
+@gf.cell
+def crossing_from_taper(taper: ComponentFactory = _taper) -> Component:
     """Returns Crossing based on a taper.
 
     The default is a dummy taper.
@@ -128,22 +130,22 @@ def crossing_from_taper(taper=_taper) -> Component:
     Args:
         taper: taper function.
     """
-    taper = gf.get_component(taper)
+    taper_component = gf.get_component(taper)
 
     c = Component()
     for i, a in enumerate([0, 90, 180, 270]):
         # _taper = taper.ref(position=(0, 0), port_id="o2", rotation=a)
         # c.add(_taper)
-        _taper = c << taper
+        _taper = c << taper_component
         _taper.drotate(a, center=gf.kdb.DPoint(*_taper["o2"].dcenter))
-        c.add_port(name=i, port=_taper.ports["o1"])
+        c.add_port(name=str(i), port=_taper.ports["o1"])
 
     c.auto_rename_ports()
     c.flatten()
     return c
 
 
-@cell
+@gf.cell
 def crossing_etched(
     width: float = 0.5,
     r1: float = 3.0,
@@ -217,11 +219,11 @@ def crossing_etched(
     return c
 
 
-@cell
+@gf.cell(check_instances=False)
 def crossing45(
     crossing: ComponentSpec = crossing,
     port_spacing: float = 40.0,
-    dx: float | None = None,
+    dx: Delta | None = None,
     alpha: float = 0.08,
     npoints: int = 101,
     cross_section: CrossSectionSpec = "strip",
@@ -284,9 +286,9 @@ def crossing45(
     )
 
     tol = 1e-2
-    assert abs(bend.info["start_angle"] - start_angle) < tol, print(
-        f"{bend.info['start_angle']} differs from {start_angle}"
-    )
+    assert (
+        abs(bend.info["start_angle"] - start_angle) < tol
+    ), f"{bend.info['start_angle']} differs from {start_angle}"
     assert abs(bend.info["end_angle"] - end_angle) < tol, bend.info["end_angle"]
 
     b_tr = c << bend
@@ -307,12 +309,11 @@ def crossing45(
     c.add_port("o3", port=b_tr.ports["o1"])
     c.add_port("o4", port=b_br.ports["o1"])
 
-    c.over_under(layer=bend.ports[0].layer)
-    x = gf.get_cross_section(cross_section)
-    x.add_bbox(c)
+    xs = gf.get_cross_section(cross_section)
+    xs.add_bbox(c)
     return c
 
 
 if __name__ == "__main__":
-    c = crossing45()
+    c = crossing()
     c.show()

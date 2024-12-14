@@ -508,12 +508,8 @@ instances:
       - 50
       bend_s: bend_s
       cross_section: strip
-    na: 1
-    nb: 1
-    dax: 0
-    day: 0
-    dbx: 0
-    dby: 0
+    columns: 1
+    rows: 1
   dbr:
     component: array
     settings:
@@ -525,12 +521,8 @@ instances:
       rows: 8
       add_ports: true
       centered: true
-    na: 1
-    nb: 1
-    dax: 0
-    day: 0
-    dbx: 0
-    dby: 0
+    columns: 1
+    rows: 1
 placements:
   s:
     x: 0.0
@@ -571,10 +563,10 @@ name: sample_array
 instances:
   sa1:
     component: straight
-    na: 5
-    dax: 50
-    nb: 4
-    dby: 10
+    columns: 5
+    column_pitch: 50
+    rows: 4
+    row_pitch: 10
   s2:
     component: straight
 
@@ -593,6 +585,32 @@ ports:
     o1: s2,o1
     o2: sa1<0.0>,o1
 """
+
+sample_array_connect = """
+name: sample_array_connect
+
+instances:
+  sa:
+    component: straight
+    columns: 1
+    column_pitch: 20
+    rows: 3
+    row_pitch: 20
+
+  b1:
+    component: bend_euler
+  b2:
+    component: bend_euler
+  b3:
+    component: bend_euler
+
+connections:
+    b1,o1: sa<0.0>,o2
+    b2,o1: sa<0.1>,o2
+    b3,o1: sa<0.2>,o2
+
+"""
+
 
 # FIXME: Fix both uncommented cases
 # yaml_fail should actually fail
@@ -617,6 +635,7 @@ yaml_strings = dict(
     sample_rotation=sample_rotation,
     sample_array=sample_array,
     sample_array2=sample_array2,
+    sample_array_connect=sample_array_connect,
 )
 
 
@@ -669,10 +688,10 @@ if __name__ == "__main__":
     # test_sample()
     # test_connections_2x2()
     # test_connections_regex_backwards()
-    test_connections_different_factory()
+    # test_connections_different_factory()
     # import gdsfactory as gf
 
-    # import gdsfactory as gf
+    import gdsfactory as gf
 
-    # c = gf.read.from_yaml(sample_array2)
-    # c.show()
+    c = gf.read.from_yaml(sample_array_connect)
+    c.show()

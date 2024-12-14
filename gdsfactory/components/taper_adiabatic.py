@@ -39,7 +39,7 @@ def neff_TE1550SOI_220nm(w: float) -> float:
     Returns:
         effective index
     """
-    return np.poly1d(adiabatic_polyfit_TE1550SOI_220nm)(w)
+    return np.poly1d(adiabatic_polyfit_TE1550SOI_220nm)(w)  # type: ignore
 
 
 @gf.cell
@@ -47,7 +47,7 @@ def taper_adiabatic(
     width1: float = 0.5,
     width2: float = 5.0,
     length: float = 0,
-    neff_w: Callable = neff_TE1550SOI_220nm,
+    neff_w: Callable[[float], float] = neff_TE1550SOI_220nm,
     alpha: float = 1,
     wavelength: float = 1.55,
     npoints: int = 200,
@@ -83,7 +83,7 @@ def taper_adiabatic(
     )
 
     # Resample the points
-    from scipy import interpolate
+    from scipy import interpolate  # type: ignore
 
     w_opt_interp = interpolate.interp1d(x_opt, w_opt)
 

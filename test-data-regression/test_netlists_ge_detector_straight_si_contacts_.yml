@@ -32,7 +32,7 @@ instances:
       width2: 0.8
       with_bbox: true
       with_two_ports: true
-  via_stack_S40_10_LSLAB9_8904abd4_20000_7500:
+  via_stack_S40_10_LSLAB9_7a3de302_20000_7500:
     component: via_stack
     info:
       xsize: 40
@@ -41,6 +41,7 @@ instances:
       correct_size: true
       layer_offsets: null
       layer_port: null
+      layer_to_port_orientations: null
       layers:
       - SLAB90
       - M1
@@ -61,7 +62,7 @@ instances:
       - via1
       - via2
       - null
-  via_stack_S40_10_LSLAB9_8904abd4_20000_m7500:
+  via_stack_S40_10_LSLAB9_7a3de302_20000_m7500:
     component: via_stack
     info:
       xsize: 40
@@ -70,6 +71,7 @@ instances:
       correct_size: true
       layer_offsets: null
       layer_port: null
+      layer_to_port_orientations: null
       layers:
       - SLAB90
       - M1
@@ -105,26 +107,26 @@ placements:
     rotation: 0
     x: -20
     y: 0
-  via_stack_S40_10_LSLAB9_8904abd4_20000_7500:
+  via_stack_S40_10_LSLAB9_7a3de302_20000_7500:
     mirror: false
     rotation: 0
     x: 20
     y: 7.5
-  via_stack_S40_10_LSLAB9_8904abd4_20000_m7500:
+  via_stack_S40_10_LSLAB9_7a3de302_20000_m7500:
     mirror: false
     rotation: 0
     x: 20
     y: -7.5
 ports:
-  bot_e1: via_stack_S40_10_LSLAB9_8904abd4_20000_m7500,e1
-  bot_e2: via_stack_S40_10_LSLAB9_8904abd4_20000_m7500,e2
-  bot_e3: via_stack_S40_10_LSLAB9_8904abd4_20000_m7500,e3
-  bot_e4: via_stack_S40_10_LSLAB9_8904abd4_20000_m7500,e4
+  bot_e1: via_stack_S40_10_LSLAB9_7a3de302_20000_m7500,e1
+  bot_e2: via_stack_S40_10_LSLAB9_7a3de302_20000_m7500,e2
+  bot_e3: via_stack_S40_10_LSLAB9_7a3de302_20000_m7500,e3
+  bot_e4: via_stack_S40_10_LSLAB9_7a3de302_20000_m7500,e4
   o1: taper_L20_W0p5_W0p8_PNo_1374d3b8_m20000_0,o1
-  top_e1: via_stack_S40_10_LSLAB9_8904abd4_20000_7500,e1
-  top_e2: via_stack_S40_10_LSLAB9_8904abd4_20000_7500,e2
-  top_e3: via_stack_S40_10_LSLAB9_8904abd4_20000_7500,e3
-  top_e4: via_stack_S40_10_LSLAB9_8904abd4_20000_7500,e4
+  top_e1: via_stack_S40_10_LSLAB9_7a3de302_20000_7500,e1
+  top_e2: via_stack_S40_10_LSLAB9_7a3de302_20000_7500,e2
+  top_e3: via_stack_S40_10_LSLAB9_7a3de302_20000_7500,e3
+  top_e4: via_stack_S40_10_LSLAB9_7a3de302_20000_7500,e4
 warnings:
   optical:
     unconnected_ports:

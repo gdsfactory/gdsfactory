@@ -2,13 +2,13 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.typings import LayerSpec
+from gdsfactory.typings import LayerSpec, Size
 
 
 @gf.cell
 def C(
     width: float = 1.0,
-    size: tuple[float, float] = (10.0, 20.0),
+    size: Size = (10.0, 20.0),
     layer: LayerSpec = "WG",
     port_type: str = "electrical",
 ) -> Component:
@@ -48,9 +48,16 @@ def C(
         (-w, -w),
     ]
     c.add_polygon(points, layer=layer)
-    port_settings = dict(width=width, orientation=0, layer=layer, port_type=port_type)
-    c.add_port(name="o1", center=(s1, s2), **port_settings)
-    c.add_port(name="o2", center=(s1, 0), **port_settings)
+
+    for name, center in (("o1", (s1, s2)), ("o2", (s1, 0))):
+        c.add_port(
+            name=name,
+            center=center,
+            width=width,
+            orientation=0,
+            layer=layer,
+            port_type=port_type,
+        )
     return c
 
 

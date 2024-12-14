@@ -1,11 +1,13 @@
 from __future__ import annotations
 
+from typing import Any
+
 import numpy as np
+import numpy.typing as npt
 import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
-from gdsfactory import cell
 from gdsfactory.component import Component
 from gdsfactory.difftest import difftest
 from gdsfactory.generic_tech import LAYER
@@ -35,7 +37,7 @@ def test_path_append() -> None:
     assert np.round(P.length(), 3) == 107.697, P.length()
 
 
-def looploop(num_pts=1000):
+def looploop(num_pts: int = 1000) -> npt.NDArray[np.signedinteger[Any]]:
     """Simple limacon looping curve."""
     t = np.linspace(-np.pi, 0, num_pts)
     r = 20 + 25 * np.sin(t)
@@ -44,7 +46,7 @@ def looploop(num_pts=1000):
     return np.array((x, y)).T
 
 
-@cell
+@gf.cell
 def double_loop() -> Component:
     # Create the path points
     P = gf.Path()
@@ -63,7 +65,7 @@ def double_loop() -> Component:
     return gf.path.extrude(P, X, simplify=0.3)
 
 
-@cell
+@gf.cell
 def transition() -> Component:
     c = gf.Component()
     s0 = gf.Section(
@@ -111,7 +113,7 @@ component_names = component_factory.keys()
 
 
 @pytest.fixture(params=component_names, scope="function")
-def component(request) -> Component:
+def component(request: pytest.FixtureRequest) -> Component:
     return component_factory[request.param]()
 
 
@@ -219,3 +221,24 @@ def test_dmirror() -> None:
     path.dmirror((0, 0), (0, 1))
     expected_points = np.array([[0, 0], [-1, 1], [-2, 0]])
     np.testing.assert_allclose(path.points, expected_points, atol=1e-4)
+
+
+def test_path_append_list() -> None:
+    p = gf.Path()
+
+    # Create the basic Path components
+    left_turn = gf.path.euler(radius=4, angle=90)
+    right_turn = gf.path.euler(radius=4, angle=-90)
+    p = gf.Path()
+
+    # Create an "S-turn" using a list
+    s_turn = [left_turn, right_turn]
+
+    # Repeat the S-turn 3 times by nesting our S-turn list 3x times in another list
+    triple_s_turn = [s_turn, s_turn, s_turn]
+    p.append(triple_s_turn)
+    assert p.length() == 56.545, p.length()
+
+
+if __name__ == "__main__":
+    test_path_append_list()

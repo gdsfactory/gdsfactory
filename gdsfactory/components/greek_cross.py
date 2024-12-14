@@ -95,26 +95,28 @@ def greek_cross(
 @gf.cell
 def greek_cross_with_pads(
     pad: ComponentSpec = "pad",
-    pad_spacing: float = 150.0,
+    pad_pitch: float = 150.0,
     greek_cross_component: ComponentSpec = "greek_cross",
     pad_via: ComponentSpec = "via_stack_m1_mtop",
     cross_section: CrossSectionSpec = metal1,
+    pad_port_name: str = "e4",
 ) -> gf.Component:
     """Greek cross under 4 DC pads, ready to test.
 
     Arguments:
-        pad: component to use for probe pads
-        pad_spacing: spacing between pads
-        greek_cross_component: component to use for greek cross
-        pad_via: via to add to the pad
-        cross_section: cross-section for cross via to pad via wiring
+        pad: component to use for probe pads.
+        pad_pitch: spacing between pads.
+        greek_cross_component: component to use for greek cross.
+        pad_via: via to add to the pad.
+        cross_section: cross-section for cross via to pad via wiring.
+        pad_port_name: name of the port to connect to the greek cross.
     """
     c = gf.Component()
 
     # Cross
     cross_ref = c << gf.get_component(greek_cross_component)
     cross_ref.dx = (
-        2 * pad_spacing - (pad_spacing - gf.get_component(pad).info["size"][0]) / 2
+        2 * pad_pitch - (pad_pitch - gf.get_component(pad).info["size"][0]) / 2
     )
 
     cross_pad_via_port_pairs = {
@@ -123,17 +125,26 @@ def greek_cross_with_pads(
         2: ("e2", "e4"),
         3: ("e3", "e4"),
     }
-    kwargs = dict(allow_layer_mismatch=True, allow_width_mismatch=True)
 
     # Vias to pads
     for index in range(4):
         pad_ref = c << gf.get_component(pad)
-        pad_ref.dx = index * pad_spacing + pad_ref.dxsize / 2
+        pad_ref.dx = index * pad_pitch + pad_ref.dxsize / 2
         via_ref = c << gf.get_component(pad_via)
         if index < 2:
-            via_ref.connect("e2", other=pad_ref.ports["e4"], **kwargs)
+            via_ref.connect(
+                "e2",
+                other=pad_ref.ports["e4"],
+                allow_layer_mismatch=True,
+                allow_width_mismatch=True,
+            )
         else:
-            via_ref.connect("e4", other=pad_ref.ports["e2"], **kwargs)
+            via_ref.connect(
+                "e4",
+                other=pad_ref.ports["e2"],
+                allow_layer_mismatch=True,
+                allow_width_mismatch=True,
+            )
 
         gf.routing.route_single_electrical(
             c,
@@ -143,10 +154,15 @@ def greek_cross_with_pads(
             start_straight_length=5,
             end_straight_length=5,
         )
+        c.add_port(
+            name=f"e{index+1}",
+            port=pad_ref.ports[pad_port_name],
+        )
 
     return c
 
 
 if __name__ == "__main__":
     c = greek_cross_with_pads()
+    c.pprint_ports()
     c.show()

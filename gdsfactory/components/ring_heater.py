@@ -4,7 +4,7 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Float2
+from gdsfactory.typings import AngleInDegrees, ComponentSpec, CrossSectionSpec, Float2
 
 
 @gf.cell
@@ -21,7 +21,7 @@ def ring_double_heater(
     cross_section_waveguide_heater: CrossSectionSpec = "strip_heater_metal",
     cross_section: CrossSectionSpec = "strip",
     via_stack: ComponentSpec = "via_stack_heater_mtop_mini",
-    port_orientation: float | None = None,
+    port_orientation: AngleInDegrees | None = None,
     via_stack_offset: Float2 = (1, 0),
     with_drop: bool = True,
 ) -> Component:

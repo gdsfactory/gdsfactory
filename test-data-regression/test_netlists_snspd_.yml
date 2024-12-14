@@ -1,8 +1,9 @@
 instances:
-  compass_S5_0p2_L1_0_PTe_2d430469_0_0:
+  compass_S5_0p2_L1_0_PTe_0eda5fa4_0_0:
     component: compass
     info: {}
     settings:
+      auto_rename_ports: true
       layer:
       - 1
       - 0
@@ -16,10 +17,11 @@ instances:
       size:
       - 5
       - 0.2
-  compass_S5_0p2_L1_0_PTe_2d430469_5000_m8400:
+  compass_S5_0p2_L1_0_PTe_0eda5fa4_5000_m8400:
     component: compass
     info: {}
     settings:
+      auto_rename_ports: true
       layer:
       - 1
       - 0
@@ -203,9 +205,9 @@ instances:
       width: 0.2
 name: snspd_WW0p2_WP0p6_S10_8_6a8ca92d
 nets:
-- p1: compass_S5_0p2_L1_0_PTe_2d430469_0_0,e3
+- p1: compass_S5_0p2_L1_0_PTe_0eda5fa4_0_0,e3
   p2: optimal_hairpin_W0p2_P0_52d59101_6608_m300,e1
-- p1: compass_S5_0p2_L1_0_PTe_2d430469_5000_m8400,e3
+- p1: compass_S5_0p2_L1_0_PTe_0eda5fa4_5000_m8400,e3
   p2: optimal_hairpin_W0p2_P0_52d59101_m1608_m8100,e1
 - p1: optimal_hairpin_W0p2_P0_52d59101_6608_m1500,e1
   p2: optimal_hairpin_W0p2_P0_52d59101_m1608_m900,e1
@@ -234,12 +236,12 @@ nets:
 - p1: optimal_hairpin_W0p2_P0_52d59101_6608_m7500,e2
   p2: optimal_hairpin_W0p2_P0_52d59101_m1608_m8100,e2
 placements:
-  compass_S5_0p2_L1_0_PTe_2d430469_0_0:
+  compass_S5_0p2_L1_0_PTe_0eda5fa4_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  compass_S5_0p2_L1_0_PTe_2d430469_5000_m8400:
+  compass_S5_0p2_L1_0_PTe_0eda5fa4_5000_m8400:
     mirror: false
     rotation: 180
     x: 5
@@ -315,17 +317,17 @@ placements:
     x: -1.608
     y: -0.9
 ports:
-  e1: compass_S5_0p2_L1_0_PTe_2d430469_0_0,e1
-  e2: compass_S5_0p2_L1_0_PTe_2d430469_5000_m8400,e1
+  e1: compass_S5_0p2_L1_0_PTe_0eda5fa4_0_0,e1
+  e2: compass_S5_0p2_L1_0_PTe_0eda5fa4_5000_m8400,e1
 warnings:
   electrical:
     unconnected_ports:
     - message: 4 unconnected electrical ports!
       ports:
-      - compass_S5_0p2_L1_0_PTe_2d430469_0_0,e2
-      - compass_S5_0p2_L1_0_PTe_2d430469_0_0,e4
-      - compass_S5_0p2_L1_0_PTe_2d430469_5000_m8400,e2
-      - compass_S5_0p2_L1_0_PTe_2d430469_5000_m8400,e4
+      - compass_S5_0p2_L1_0_PTe_0eda5fa4_0_0,e2
+      - compass_S5_0p2_L1_0_PTe_0eda5fa4_0_0,e4
+      - compass_S5_0p2_L1_0_PTe_0eda5fa4_5000_m8400,e2
+      - compass_S5_0p2_L1_0_PTe_0eda5fa4_5000_m8400,e4
       values:
       - - 0
         - 100

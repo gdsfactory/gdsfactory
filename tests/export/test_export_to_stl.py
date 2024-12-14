@@ -4,7 +4,7 @@ import pytest
 
 import gdsfactory as gf
 from gdsfactory.export.to_stl import to_stl
-from gdsfactory.generic_tech import LAYER
+from gdsfactory.generic_tech.layer_map import LAYER
 
 
 # Tests that a Component is exported into STL with a specified filepath prefix.

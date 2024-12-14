@@ -100,10 +100,10 @@ def mzi(
     cp2 = gf.get_component(combiner) if combiner else cp1
 
     if with_splitter:
-        cp1 = c << cp1
+        cp1 = c << cp1  # type: ignore
         cp1.name = "cp1"
 
-    cp2 = c << cp2
+    cp2_reference = c << cp2
     b5 = c << bend
     b5.connect(port1, cp1.ports[port_e0_splitter], mirror=True)
     b5.name = "b5"
@@ -121,7 +121,7 @@ def mzi(
             straight_x_top, length=length_x, cross_section=cross_section_x_top
         )
         if length_x
-        else gf.get_component(straight_x_top)
+        else gf.get_component(straight_x_top, cross_section=cross_section_x_top)
     )
     sxt = c << straight_x_top
 
@@ -132,7 +132,7 @@ def mzi(
             straight_x_bot, length=length_x, cross_section=cross_section_x_bot
         )
         if length_x
-        else gf.get_component(straight_x_bot)
+        else gf.get_component(straight_x_bot, cross_section=cross_section_x_bot)
     )
     sxb = c << straight_x_bot
     sxb.connect(port1, b6.ports[port2], mirror=mirror_bot)
@@ -151,11 +151,16 @@ def mzi(
     b2.name = "b2"
 
     sxt.connect(port1, b2.ports[port1])
-    cp2.mirror_x()
-    cp2.dxmin = sxt.ports[port2].dx + bend.info["radius"] * nbends + 2 * min_length
+    cp2_reference.mirror_x()
+    cp2_reference.dxmin = (
+        sxt.ports[port2].dx + bend.info["radius"] * nbends + 2 * min_length
+    )
 
     gap_ports_combiner = cp1.ports[port_e0_splitter].dy - cp1.ports[port_e1_splitter].dy
-    gap_ports_splitter = cp2.ports[port_e0_combiner].dy - cp2.ports[port_e1_combiner].dy
+    gap_ports_splitter = (
+        cp2_reference.ports[port_e0_combiner].dy
+        - cp2_reference.ports[port_e1_combiner].dy
+    )
     delta_gap_ports = gap_ports_combiner - gap_ports_splitter
 
     # Top arm
@@ -186,13 +191,13 @@ def mzi(
     b8.connect(port2, sybr.ports[port2])
     b8.name = "b8"
 
-    cp2.connect(port_e1_combiner, b4.ports[port2])
+    cp2_reference.connect(port_e1_combiner, b4.ports[port2])
 
     sytl.name = "sytl"
     syl.name = "syl"
     sxt.name = "sxt"
     sxb.name = "sxb"
-    cp2.name = "cp2"
+    cp2_reference.name = "cp2"
 
     sytr.name = "sytr"
     sybr.name = "sybr"
@@ -202,7 +207,7 @@ def mzi(
     else:
         c.add_port(port1, port=b1.ports[port1])
         c.add_port(port2, port=b5.ports[port1])
-    c.add_ports(cp2.ports.filter(orientation=0), prefix="ou_")
+    c.add_ports(cp2_reference.ports.filter(orientation=0), prefix="ou_")
     c.add_ports(sxt.ports.filter(port_type="electrical"), prefix="top_")
     c.add_ports(sxb.ports.filter(port_type="electrical"), prefix="bot_")
     c.add_ports(sxt.ports.filter(port_type="placement"), prefix="top_")

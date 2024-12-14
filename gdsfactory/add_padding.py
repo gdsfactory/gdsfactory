@@ -2,19 +2,21 @@ from __future__ import annotations
 
 from functools import partial
 
+from kfactory import Instance
+
 import gdsfactory as gf
-from gdsfactory.component import Component, Instance, container
-from gdsfactory.typings import ComponentSpec, LayerSpec
+from gdsfactory.component import Component, ComponentAllAngle, container
+from gdsfactory.typings import ComponentSpec, Coordinate, LayerSpec
 
 
 def get_padding_points(
-    component: Component | Instance,
+    component: Component | Instance | ComponentAllAngle,
     default: float = 50.0,
     top: float | None = None,
     bottom: float | None = None,
     right: float | None = None,
     left: float | None = None,
-) -> list[list[float]]:
+) -> list[Coordinate]:
     """Returns padding points for a component outline.
 
     Args:
@@ -31,10 +33,10 @@ def get_padding_points(
     right = right if right is not None else default
     left = left if left is not None else default
     return [
-        [c.dxmin - left, c.dymin - bottom],
-        [c.dxmax + right, c.dymin - bottom],
-        [c.dxmax + right, c.dymax + top],
-        [c.dxmin - left, c.dymax + top],
+        (c.dxmin - left, c.dymin - bottom),
+        (c.dxmax + right, c.dymin - bottom),
+        (c.dxmax + right, c.dymax + top),
+        (c.dxmin - left, c.dymax + top),
     ]
 
 
@@ -99,10 +101,10 @@ def add_padding_to_size(
     top = abs(ysize - component.dysize) if ysize else 0
     right = abs(xsize - component.dxsize) if xsize else 0
     points = [
-        [c.dxmin - left, c.dymin - bottom],
-        [c.dxmax + right, c.dymin - bottom],
-        [c.dxmax + right, c.dymax + top],
-        [c.dxmin - left, c.dymax + top],
+        (c.dxmin - left, c.dymin - bottom),
+        (c.dxmax + right, c.dymin - bottom),
+        (c.dxmax + right, c.dymax + top),
+        (c.dxmin - left, c.dymax + top),
     ]
 
     for layer in layers:
@@ -111,15 +113,15 @@ def add_padding_to_size(
     return component
 
 
-add_padding_container = partial(container, function=add_padding)
-add_padding_to_size_container = partial(container, function=add_padding_to_size)
+add_padding_container = partial(container, function=add_padding)  # type: ignore
+add_padding_to_size_container = partial(container, function=add_padding_to_size)  # type: ignore
 
 
 if __name__ == "__main__":
     # test_container()
 
     # p = partial(add_padding, layers=((1, 0)))
-    c = gf.components.straight(length=10)
+    c = gf.components.straight(length=10)  # type: ignore
     c1 = add_padding_to_size_container(c, xsize=100, ysize=100)
     c2 = add_padding_to_size_container(c, xsize=100, ysize=100)
     print(c1.name)

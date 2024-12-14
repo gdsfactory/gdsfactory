@@ -1,14 +1,45 @@
 from __future__ import annotations
 
 from functools import partial
+from typing import Any, Literal, overload
 
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentAllAngle, ComponentBase
+from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.components.wire import wire_corner
 from gdsfactory.path import euler
-from gdsfactory.typings import CrossSectionSpec
+from gdsfactory.typings import AnyComponent, CrossSectionSpec, LayerSpec
+
+
+@overload
+def _bend_euler(
+    radius: float | None = None,
+    angle: float = 90.0,
+    p: float = 0.5,
+    with_arc_floorplan: bool = True,
+    npoints: int | None = None,
+    layer: LayerSpec | None = None,
+    width: float | None = None,
+    cross_section: CrossSectionSpec = "strip",
+    allow_min_radius_violation: bool = False,
+    all_angle: Literal[False] = False,
+) -> Component: ...
+
+
+@overload
+def _bend_euler(
+    radius: float | None = None,
+    angle: float = 90.0,
+    p: float = 0.5,
+    with_arc_floorplan: bool = True,
+    npoints: int | None = None,
+    layer: LayerSpec | None = None,
+    width: float | None = None,
+    cross_section: CrossSectionSpec = "strip",
+    allow_min_radius_violation: bool = False,
+    all_angle: Literal[True] = True,
+) -> ComponentAllAngle: ...
 
 
 def _bend_euler(
@@ -17,12 +48,12 @@ def _bend_euler(
     p: float = 0.5,
     with_arc_floorplan: bool = True,
     npoints: int | None = None,
-    layer: gf.typings.LayerSpec | None = None,
+    layer: LayerSpec | None = None,
     width: float | None = None,
     cross_section: CrossSectionSpec = "strip",
     allow_min_radius_violation: bool = False,
     all_angle: bool = False,
-) -> ComponentBase:
+) -> AnyComponent:
     """Euler bend with changing bend radius.
 
     By default, `radius` corresponds to the minimum radius of curvature of the bend.
@@ -63,16 +94,24 @@ def _bend_euler(
     if radius is None:
         return wire_corner(cross_section=x)
 
-    if layer or width:
-        x = x.copy(layer=layer or x.layer, width=width or x.width)
+    if layer and width:
+        x = gf.get_cross_section(
+            cross_section, layer=layer or x.layer, width=width or x.width
+        )
+    elif layer:
+        x = gf.get_cross_section(cross_section, layer=layer or x.layer)
+    elif width:
+        x = gf.get_cross_section(cross_section, width=width or x.width)
 
-    p = euler(
+    path = euler(
         radius=radius, angle=angle, p=p, use_eff=with_arc_floorplan, npoints=npoints
     )
-    c = p.extrude(x, all_angle=all_angle)
-    min_bend_radius = float(np.round(p.info["Rmin"], 3))
-    c.info["length"] = float(np.round(p.length(), 3))
-    c.info["dy"] = float(np.round(abs(float(p.points[0][0] - p.points[-1][0])), 3))
+    c = path.extrude(x, all_angle=all_angle)
+    min_bend_radius = float(np.round(path.info["Rmin"], 3))  # type: ignore
+    c.info["length"] = float(np.round(path.length(), 3))
+    c.info["dy"] = float(
+        np.round(abs(float(path.points[0][0] - path.points[-1][0])), 3)
+    )
     c.info["min_bend_radius"] = min_bend_radius
     c.info["radius"] = float(radius)
     c.info["width"] = width or x.width
@@ -93,7 +132,7 @@ def _bend_euler(
 
 
 @gf.cell
-def bend_euler_s(port1: str = "o1", port2: str = "o2", **kwargs) -> Component:
+def bend_euler_s(port1: str = "o1", port2: str = "o2", **kwargs: Any) -> Component:
     r"""Sbend made of 2 euler bends.
 
     Args:
@@ -145,7 +184,7 @@ def bend_euler(
     p: float = 0.5,
     with_arc_floorplan: bool = True,
     npoints: int | None = None,
-    layer: gf.typings.LayerSpec | None = None,
+    layer: LayerSpec | None = None,
     width: float | None = None,
     cross_section: CrossSectionSpec = "strip",
     allow_min_radius_violation: bool = False,
@@ -225,14 +264,14 @@ def bend_euler_all_angle(
 bend_euler180 = partial(bend_euler, angle=180)
 
 
-def _compare_bend_euler180() -> None:
+def _compare_bend_euler180() -> None:  # type: ignore
     """Compare 180 bend euler with 2 90deg euler bends."""
     import gdsfactory as gf
 
     p1 = gf.Path()
     p1.append([gf.path.euler(angle=90), gf.path.euler(angle=90)])
     p2 = gf.path.euler(angle=180)
-    x = gf.cross_section.strip()
+    x = gf.cross_section.strip()  # type: ignore[attr-defined]
 
     c1 = gf.path.extrude(p1, x)
     c1.name = "two_90_euler"
@@ -242,7 +281,7 @@ def _compare_bend_euler180() -> None:
     c1.show()
 
 
-def _compare_bend_euler90():
+def _compare_bend_euler90() -> Component:  # type: ignore
     """Compare bend euler with 90deg circular bend."""
     import gdsfactory as gf
 
