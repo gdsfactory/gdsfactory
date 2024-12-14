@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Any
+
 import networkx as nx
 import numpy as np
 from klayout.dbcore import Point
@@ -12,7 +14,9 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec, Route
 
 
 class Node:
-    def __init__(self, parent=None, position: tuple = ()) -> None:
+    def __init__(
+        self, parent: Node | None = None, position: tuple[int, int] = ()
+    ) -> None:
         """Initializes a node. A node is a point on the grid."""
         self.parent = parent  # parent node of current node
         self.position = position  # position of current node
@@ -22,7 +26,9 @@ class Node:
         self.f = self.g + self.h  # cost of the node (sum of g and h)
 
 
-def _extract_all_bbox(c: Component, avoid_layers: list[LayerSpec] | None = None):
+def _extract_all_bbox(
+    c: Component, avoid_layers: list[LayerSpec] | None = None
+) -> list[dict[tuple[int, int] | str | int, list[gf.kdb.Polygon]]]:
     """Extract all polygons whose layer is in `avoid_layers`.
 
     Args:
@@ -33,19 +39,17 @@ def _extract_all_bbox(c: Component, avoid_layers: list[LayerSpec] | None = None)
     return [c.get_polygons(by="name", layers=avoid_layers)]
 
 
-def _parse_bbox_to_array(bbox):
-    """Args:
-        bbox: Parses bbox in the form of (a,b;c,d)
+def _parse_bbox_to_array(bbox: tuple[float, float]) -> np.ndarray:
+    """Parses bbox in the form of (a,b;c,d) to [[a, b], [c, d]].
 
-    Returns:
-        bbox_array: Returns bbox in the form of [[a, b], [c, d]]
+    Args:
+        bbox: Parses bbox in the form of (a,b;c,d).
 
     """
     bbox = str(bbox).strip("()")
     rows = bbox.split(";")
     bbox = [list(map(int, row.split(","))) for row in rows]
-    bbox_array = np.array(bbox)
-    return bbox_array
+    return np.array(bbox)
 
 
 def _generate_grid(
@@ -53,7 +57,7 @@ def _generate_grid(
     resolution: float = 0.5,
     avoid_layers: list[LayerSpec] | None = None,
     distance: float = 1,
-) -> np.ndarray:
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """Generate discretization grid that the algorithm will step through.
 
     Args:
@@ -110,7 +114,9 @@ def _generate_grid(
     return np.ndarray.round(grid, 3), np.ndarray.round(x, 3), np.ndarray.round(y, 3)
 
 
-def simplify_path(waypoints, tolerance):
+def simplify_path(
+    waypoints: list[tuple[float, float]], tolerance: float
+) -> list[tuple[float, float]]:
     """Simplifies a list of waypoints using the Douglas-Peucker algorithm.
 
     Args:
@@ -129,7 +135,7 @@ def simplify_path(waypoints, tolerance):
     )  # Convert simplified line back to a list of waypoints
 
 
-def get_route_astar(
+def route_astar(
     component: Component,
     port1: Port,
     port2: Port,
@@ -138,7 +144,7 @@ def get_route_astar(
     distance: float = 8,
     cross_section: CrossSectionSpec = "strip",
     bend: ComponentSpec = "wire_corner",
-    **kwargs,
+    **kwargs: Any,
 ) -> Route:
     """Bidirectional routing function using NetworkX. Finds a route between two ports avoiding obstacles.
 
@@ -151,7 +157,7 @@ def get_route_astar(
         distance: Distance from obstacles in um.
         cross_section: Cross-section specification.
         bend: Component to use for bends. Use wire_corner for Manhattan routing or bend_euler for Euler routing.
-        kwargs: Cross-section settings.
+        kwargs: cross-section settings.
     """
     cross_section = gf.get_cross_section(cross_section, **kwargs)
     grid, x, y = _generate_grid(component, resolution, avoid_layers, distance)
@@ -214,7 +220,7 @@ def get_route_astar(
     ]
 
     return gf.routing.route_single(
-        component=c,
+        component=component,
         port1=port1,
         port2=port2,
         waypoints=cleaned_waypoints,
@@ -224,11 +230,11 @@ def get_route_astar(
 
 
 if __name__ == "__main__":
-    c = gf.Component("get_route_astar_avoid_layers")
     # cross_section = "xs_metal_routing"
     # port_prefix = "e"
     # bend = gf.components.wire_corner
 
+    c = gf.Component()
     cross_section = "strip"
     port_prefix = "o"
     bend = gf.components.bend_euler
@@ -245,9 +251,7 @@ if __name__ == "__main__":
     obstacle2 = c << obstacle
     obstacle3 = c << obstacle
     obstacle4 = c << obstacle
-    obstacle5 = c << obstacle
     obstacle4.rotate(90)
-    obstacle5.rotate(90)
     obstacle1.ymin = 50
     obstacle1.xmin = -10
     obstacle2.xmin = 35
@@ -255,12 +259,10 @@ if __name__ == "__main__":
     obstacle3.xmin = 72.23
     obstacle4.xmin = 200
     obstacle4.ymin = 55
-    obstacle5.xmin = 600
-    obstacle5.ymin = 200
     port1 = left.ports[f"{port_prefix}1"]
     port2 = right.ports[f"{port_prefix}2"]
 
-    route = get_route_astar(
+    route = route_astar(
         component=c,
         port1=port1,
         port2=port2,
@@ -270,5 +272,4 @@ if __name__ == "__main__":
         avoid_layers=("M2",),
         bend=bend,
     )
-
     c.show()
