@@ -235,6 +235,7 @@ def spiral_racetrack_fixed_length(
     )
     c.add_port("o1", port=in_wg.ports["o2"])
     c.info["length"] += c.kcl.to_um(route.length)
+    c.info["length"] = float(np.round(c.info["length"], 3))
     return c
 
 

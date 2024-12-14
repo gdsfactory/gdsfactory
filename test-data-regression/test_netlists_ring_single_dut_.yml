@@ -56,7 +56,7 @@ instances:
       cross_section_bend: null
       gap: 0.2
       length_extension: 3
-      length_x: 4
+      length_x: 4.0
       radius: 5.0
       straight: straight
   straight_L10_N2_CSstrip_WNone_5000_15700:
@@ -90,15 +90,15 @@ instances:
   straight_L4_N2_CSstrip_WNone_m4000_20700:
     component: straight
     info:
-      length: 4
-      route_info_length: 4
-      route_info_strip_length: 4
+      length: 4.0
+      route_info_length: 4.0
+      route_info_strip_length: 4.0
       route_info_type: strip
-      route_info_weight: 4
+      route_info_weight: 4.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 4
+      length: 4.0
       npoints: 2
       width: null
 name: ring_single_dut_Cstraig_3023a85c

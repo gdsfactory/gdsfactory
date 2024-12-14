@@ -1174,11 +1174,11 @@ class ComponentBase:
         d = {
             "name": self.name,
             "info": self.info.model_dump(exclude_none=True),
-            "settings": self.settings.model_dump(exclude_none=True),
+            "settings": clean_value_json(self.settings.model_dump(exclude_none=True)),
         }
         if with_ports:
             d["ports"] = {port.name: to_dict(port) for port in self.ports}
-        return clean_value_json(d)
+        return d
 
     @overload
     def plot(

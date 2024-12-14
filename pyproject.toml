@@ -69,7 +69,6 @@ dev = [
   "types-PyYAML",
   "types-cachetools",
   "pytest-github-actions-annotate-failures",
-  "pytest-randomly",
   "pytest-xdist"
 ]
 docs = [

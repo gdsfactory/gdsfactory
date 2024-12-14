@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import numpy as np
+
 import gdsfactory as gf
 from gdsfactory.typings import ComponentSpec
 
@@ -115,7 +117,7 @@ def spiral(
 
     c.add_port(name="o1", port=p1)
     c.add_port(name="o2", port=p2)
-    c.info["length"] = length * 2 * n_loops
+    c.info["length"] = float(np.round(length * 2 * n_loops, 3))
     return c
 
 
