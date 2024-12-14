@@ -50,6 +50,7 @@ if TYPE_CHECKING:
         CrossSectionSpec,
         PathType,
         Ports,
+        PortsDict,
         PortsDictGeneric,
         SelectPorts,
         TPort,
