@@ -11,5 +11,5 @@ settings:
   - -90
   port_type: electrical
   size:
-  - 4
-  - 2
+  - 4.0
+  - 2.0

@@ -6,12 +6,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A10:
     component: mmi1x2
     info: {}
@@ -19,12 +19,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A11:
     component: mmi1x2
     info: {}
@@ -32,12 +32,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A12:
     component: mmi1x2
     info: {}
@@ -45,12 +45,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A13:
     component: mmi1x2
     info: {}
@@ -58,12 +58,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A14:
     component: mmi1x2
     info: {}
@@ -71,12 +71,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A15:
     component: mmi1x2
     info: {}
@@ -84,12 +84,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A16:
     component: mmi1x2
     info: {}
@@ -97,12 +97,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A17:
     component: mmi1x2
     info: {}
@@ -110,12 +110,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A18:
     component: mmi1x2
     info: {}
@@ -123,12 +123,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A19:
     component: mmi1x2
     info: {}
@@ -136,12 +136,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A2:
     component: mmi1x2
     info: {}
@@ -149,12 +149,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A20:
     component: mmi1x2
     info: {}
@@ -162,12 +162,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A21:
     component: mmi1x2
     info: {}
@@ -175,12 +175,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A22:
     component: mmi1x2
     info: {}
@@ -188,12 +188,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A23:
     component: mmi1x2
     info: {}
@@ -201,12 +201,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A24:
     component: mmi1x2
     info: {}
@@ -214,12 +214,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A25:
     component: mmi1x2
     info: {}
@@ -227,12 +227,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A26:
     component: mmi1x2
     info: {}
@@ -240,12 +240,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A27:
     component: mmi1x2
     info: {}
@@ -253,12 +253,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A28:
     component: mmi1x2
     info: {}
@@ -266,12 +266,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A29:
     component: mmi1x2
     info: {}
@@ -279,12 +279,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A3:
     component: mmi1x2
     info: {}
@@ -292,12 +292,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A30:
     component: mmi1x2
     info: {}
@@ -305,12 +305,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A31:
     component: mmi1x2
     info: {}
@@ -318,12 +318,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A32:
     component: mmi1x2
     info: {}
@@ -331,12 +331,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A33:
     component: mmi1x2
     info: {}
@@ -344,12 +344,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A34:
     component: mmi1x2
     info: {}
@@ -357,12 +357,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A35:
     component: mmi1x2
     info: {}
@@ -370,12 +370,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A36:
     component: mmi1x2
     info: {}
@@ -383,12 +383,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A37:
     component: mmi1x2
     info: {}
@@ -396,12 +396,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A38:
     component: mmi1x2
     info: {}
@@ -409,12 +409,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A39:
     component: mmi1x2
     info: {}
@@ -422,12 +422,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A4:
     component: mmi1x2
     info: {}
@@ -435,12 +435,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A40:
     component: mmi1x2
     info: {}
@@ -448,12 +448,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A5:
     component: mmi1x2
     info: {}
@@ -461,12 +461,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A6:
     component: mmi1x2
     info: {}
@@ -474,12 +474,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A7:
     component: mmi1x2
     info: {}
@@ -487,12 +487,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A8:
     component: mmi1x2
     info: {}
@@ -500,12 +500,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A9:
     component: mmi1x2
     info: {}
@@ -513,12 +513,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B1:
     component: mmi1x2
     info: {}
@@ -526,12 +526,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B10:
     component: mmi1x2
     info: {}
@@ -539,12 +539,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B11:
     component: mmi1x2
     info: {}
@@ -552,12 +552,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B12:
     component: mmi1x2
     info: {}
@@ -565,12 +565,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B13:
     component: mmi1x2
     info: {}
@@ -578,12 +578,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B14:
     component: mmi1x2
     info: {}
@@ -591,12 +591,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B15:
     component: mmi1x2
     info: {}
@@ -604,12 +604,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B16:
     component: mmi1x2
     info: {}
@@ -617,12 +617,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B17:
     component: mmi1x2
     info: {}
@@ -630,12 +630,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B18:
     component: mmi1x2
     info: {}
@@ -643,12 +643,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B19:
     component: mmi1x2
     info: {}
@@ -656,12 +656,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B2:
     component: mmi1x2
     info: {}
@@ -669,12 +669,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B20:
     component: mmi1x2
     info: {}
@@ -682,12 +682,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B21:
     component: mmi1x2
     info: {}
@@ -695,12 +695,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B22:
     component: mmi1x2
     info: {}
@@ -708,12 +708,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B23:
     component: mmi1x2
     info: {}
@@ -721,12 +721,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B24:
     component: mmi1x2
     info: {}
@@ -734,12 +734,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B25:
     component: mmi1x2
     info: {}
@@ -747,12 +747,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B26:
     component: mmi1x2
     info: {}
@@ -760,12 +760,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B27:
     component: mmi1x2
     info: {}
@@ -773,12 +773,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B28:
     component: mmi1x2
     info: {}
@@ -786,12 +786,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B29:
     component: mmi1x2
     info: {}
@@ -799,12 +799,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B3:
     component: mmi1x2
     info: {}
@@ -812,12 +812,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B30:
     component: mmi1x2
     info: {}
@@ -825,12 +825,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B31:
     component: mmi1x2
     info: {}
@@ -838,12 +838,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B32:
     component: mmi1x2
     info: {}
@@ -851,12 +851,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B33:
     component: mmi1x2
     info: {}
@@ -864,12 +864,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B34:
     component: mmi1x2
     info: {}
@@ -877,12 +877,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B35:
     component: mmi1x2
     info: {}
@@ -890,12 +890,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B36:
     component: mmi1x2
     info: {}
@@ -903,12 +903,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B37:
     component: mmi1x2
     info: {}
@@ -916,12 +916,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B38:
     component: mmi1x2
     info: {}
@@ -929,12 +929,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B39:
     component: mmi1x2
     info: {}
@@ -942,12 +942,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B4:
     component: mmi1x2
     info: {}
@@ -955,12 +955,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B40:
     component: mmi1x2
     info: {}
@@ -968,12 +968,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B5:
     component: mmi1x2
     info: {}
@@ -981,12 +981,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B6:
     component: mmi1x2
     info: {}
@@ -994,12 +994,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B7:
     component: mmi1x2
     info: {}
@@ -1007,12 +1007,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B8:
     component: mmi1x2
     info: {}
@@ -1020,12 +1020,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B9:
     component: mmi1x2
     info: {}
@@ -1033,12 +1033,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   C1:
     component: bend_euler
     info:

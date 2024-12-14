@@ -14,7 +14,7 @@ instances:
       width: 0.5
     settings:
       allow_min_radius_violation: false
-      angle: 90.0
+      angle: 90
       cross_section: strip
       layer: null
       npoints: null

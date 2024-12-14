@@ -198,12 +198,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   cp2:
     component: mmi2x2
     info: {}
