@@ -201,7 +201,7 @@ instances:
       splitter: mmi1x2
       straight: straight
       straight_x_bot: null
-      straight_x_top: Fstraight_heater_metal_undercut_Mgdsfactorypcomponentspstraight_heater_metal_SWUFalse_LSI0p1_LU5_LUS0
+      straight_x_top: straight_heater_metal
       straight_y: null
       with_splitter: true
   coupler_1_0:
@@ -230,7 +230,7 @@ instances:
       splitter: mmi1x2
       straight: straight
       straight_x_bot: null
-      straight_x_top: Fstraight_heater_metal_undercut_Mgdsfactorypcomponentspstraight_heater_metal_SWUFalse_LSI0p1_LU5_LUS0
+      straight_x_top: straight_heater_metal
       straight_y: null
       with_splitter: true
   coupler_1_1:
@@ -259,10 +259,10 @@ instances:
       splitter: mmi1x2
       straight: straight
       straight_x_bot: null
-      straight_x_top: Fstraight_heater_metal_undercut_Mgdsfactorypcomponentspstraight_heater_metal_SWUFalse_LSI0p1_LU5_LUS0
+      straight_x_top: straight_heater_metal
       straight_y: null
       with_splitter: true
-  straight_L29p375_N2_CSstrip_411000_40000:
+  straight_L29p375_N2_CSs_6ed2bfdd_411000_40000:
     component: straight
     info:
       length: 29.375
@@ -275,7 +275,8 @@ instances:
       cross_section: strip
       length: 29.375
       npoints: 2
-  straight_L29p375_N2_CSstrip_411000_m40000:
+      width: null
+  straight_L29p375_N2_CSs_6ed2bfdd_411000_m40000:
     component: straight
     info:
       length: 29.375
@@ -288,7 +289,8 @@ instances:
       cross_section: strip
       length: 29.375
       npoints: 2
-  straight_L69_N2_CSstrip_421000_50000:
+      width: null
+  straight_L69_N2_CSstrip_WNone_421000_50000:
     component: straight
     info:
       length: 69
@@ -301,7 +303,8 @@ instances:
       cross_section: strip
       length: 69
       npoints: 2
-  straight_L69_N2_CSstrip_421000_m50000:
+      width: null
+  straight_L69_N2_CSstrip_WNone_421000_m50000:
     component: straight
     info:
       length: 69
@@ -314,24 +317,25 @@ instances:
       cross_section: strip
       length: 69
       npoints: 2
-name: splitter_tree_CFmzi_Mgd_25171b11
+      width: null
+name: splitter_tree_CFmzi_Mgd_4d8fa7c0
 nets:
 - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_411000_10625,o1
-  p2: straight_L29p375_N2_CSstrip_411000_40000,o2
+  p2: straight_L29p375_N2_CSs_6ed2bfdd_411000_40000,o2
 - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_411000_10625,o2
   p2: coupler_0_0,o2
 - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_411000_m10625,o1
-  p2: straight_L29p375_N2_CSstrip_411000_m40000,o2
+  p2: straight_L29p375_N2_CSs_6ed2bfdd_411000_m40000,o2
 - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_411000_m10625,o2
   p2: coupler_0_0,o3
 - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_421000_50000,o1
-  p2: straight_L69_N2_CSstrip_421000_50000,o1
+  p2: straight_L69_N2_CSstrip_WNone_421000_50000,o1
 - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_421000_50000,o2
-  p2: straight_L29p375_N2_CSstrip_411000_40000,o1
+  p2: straight_L29p375_N2_CSs_6ed2bfdd_411000_40000,o1
 - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_421000_m50000,o1
-  p2: straight_L69_N2_CSstrip_421000_m50000,o1
+  p2: straight_L69_N2_CSstrip_WNone_421000_m50000,o1
 - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_421000_m50000,o2
-  p2: straight_L29p375_N2_CSstrip_411000_m40000,o1
+  p2: straight_L29p375_N2_CSs_6ed2bfdd_411000_m40000,o1
 - p1: bend_s_S500_24p375_N99__7434ea4c_901000_49375,o1
   p2: coupler_1_1,o3
 - p1: bend_s_S500_24p375_N99__7434ea4c_901000_50625,o1
@@ -341,9 +345,9 @@ nets:
 - p1: bend_s_S500_24p375_N99__7434ea4c_901000_m50625,o1
   p2: coupler_1_0,o3
 - p1: coupler_1_0,o1
-  p2: straight_L69_N2_CSstrip_421000_m50000,o2
+  p2: straight_L69_N2_CSstrip_WNone_421000_m50000,o2
 - p1: coupler_1_1,o1
-  p2: straight_L69_N2_CSstrip_421000_50000,o2
+  p2: straight_L69_N2_CSstrip_WNone_421000_50000,o2
 placements:
   bend_euler_R10_A90_P0p5_2f1f5c6d_411000_10625:
     mirror: true
@@ -400,22 +404,22 @@ placements:
     rotation: 0
     x: 500
     y: 50
-  straight_L29p375_N2_CSstrip_411000_40000:
+  straight_L29p375_N2_CSs_6ed2bfdd_411000_40000:
     mirror: false
     rotation: 270
     x: 411
     y: 40
-  straight_L29p375_N2_CSstrip_411000_m40000:
+  straight_L29p375_N2_CSs_6ed2bfdd_411000_m40000:
     mirror: false
     rotation: 90
     x: 411
     y: -40
-  straight_L69_N2_CSstrip_421000_50000:
+  straight_L69_N2_CSstrip_WNone_421000_50000:
     mirror: false
     rotation: 0
     x: 421
     y: 50
-  straight_L69_N2_CSstrip_421000_m50000:
+  straight_L69_N2_CSstrip_WNone_421000_m50000:
     mirror: false
     rotation: 0
     x: 421

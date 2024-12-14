@@ -1,28 +1,29 @@
 from collections.abc import Sequence
 from functools import partial
 
-import kfactory as kf
-from kfactory.routing.aa.optical import (
-    BendFactory,
-    OpticalAllAngleRoute,
-    StraightFactory,
-    route_bundle,
-)
+from kfactory.routing.aa.optical import OpticalAllAngleRoute, route_bundle
 
-from gdsfactory.components.bend_euler import bend_euler_all_angle
-from gdsfactory.components.straight import straight_all_angle
-from gdsfactory.port import Port
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+import gdsfactory as gf
+from gdsfactory.components.bends import bend_euler_all_angle
+from gdsfactory.components.waveguides import straight_all_angle
+from gdsfactory.typings import (
+    ComponentAllAngleFactory,
+    ComponentSpec,
+    Coordinates,
+    CrossSectionSpec,
+    Ports,
+)
+from gdsfactory.utils import to_kdb_dpoints
 
 
 def route_bundle_all_angle(
     component: ComponentSpec,
-    ports1: list[Port],
-    ports2: list[Port],
-    backbone: Sequence[tuple[float, float]] | None = None,
-    separation: list[float] | float = 3.0,
-    straight: StraightFactory = straight_all_angle,
-    bend: BendFactory = partial(bend_euler_all_angle, radius=5),
+    ports1: Ports,
+    ports2: Ports,
+    backbone: Coordinates | None = None,
+    separation: Sequence[float] | float = 3.0,
+    straight: ComponentAllAngleFactory = straight_all_angle,
+    bend: ComponentAllAngleFactory = partial(bend_euler_all_angle, radius=5),
     bend_ports: tuple[str, str] = ("o1", "o2"),
     straight_ports: tuple[str, str] = ("o1", "o2"),
     cross_section: CrossSectionSpec | None = None,
@@ -46,14 +47,14 @@ def route_bundle_all_angle(
         bend = partial(bend, cross_section=cross_section)
 
     backbone = backbone or []
-    if backbone:
-        backbone = [kf.kdb.DPoint(*p) for p in backbone]
+
+    c = gf.get_component(component)
 
     return route_bundle(
-        c=component,
+        c=c,
         start_ports=ports1,
         end_ports=ports2,
-        backbone=backbone,
+        backbone=to_kdb_dpoints(backbone),
         separation=separation,
         straight_factory=straight,
         bend_factory=bend,

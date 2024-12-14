@@ -1,4 +1,7 @@
 info: {}
-name: crossing_from_taper_TFt_1d7a40e3
+name: crossing_from_taper_W0p_a89a508c
 settings:
-  taper: Ftaper_Mgdsfactorypcomponentsptaper_SW2p5_L3
+  cross_section: strip
+  length: 3
+  width1: 0.5
+  width2: 2.5

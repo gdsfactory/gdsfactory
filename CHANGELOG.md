@@ -1,12 +1,67 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.21.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.25.2...main)
 
 <!-- towncrier release notes start -->
 
+## [8.25.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.25.2) - 2024-12-12
+
+- support different column_pitch and row_pitch for vias [#3490](https://github.com/gdsfactory/gdsfactory/pull/3490)
+
+
+## [8.25.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.25.1) - 2024-12-12
+
+- fixes bezier [#3488](https://github.com/gdsfactory/gdsfactory/pull/3488)
+- mmi accepts component spec [#3489](https://github.com/gdsfactory/gdsfactory/pull/3489)
+- use pytest_randomly [#3484](https://github.com/gdsfactory/gdsfactory/pull/3484)
+
+## [8.25.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.25.0) - 2024-12-12
+
+- make netlist array instances nicer [#3486](https://github.com/gdsfactory/gdsfactory/pull/3486)
+- Eliminate side effects to global yaml behavior [#3485](https://github.com/gdsfactory/gdsfactory/pull/3485)
+- Fix label side effect [#3483](https://github.com/gdsfactory/gdsfactory/pull/3483)
+
+## [8.24.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.24.1) - 2024-12-11
+
+- Fix sections type [#3480](https://github.com/gdsfactory/gdsfactory/pull/3480)
+
+## [8.24.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.24.0) - 2024-12-11
+
+- add categories [#3474](https://github.com/gdsfactory/gdsfactory/pull/3474)
+- add uv to docker [#3463](https://github.com/gdsfactory/gdsfactory/pull/3463)
+- fix via_stack_with_offset [#3479](https://github.com/gdsfactory/gdsfactory/pull/3479)
+- Enforce layer in section [#3475](https://github.com/gdsfactory/gdsfactory/pull/3475)
+- Fix mypy errors in samples and components folders and cli file [#3473](https://github.com/gdsfactory/gdsfactory/pull/3473)
+- Fix mypy errors in cross_section.py file [#3472](https://github.com/gdsfactory/gdsfactory/pull/3472)
+- [pre-commit.ci] pre-commit autoupdate [#3470](https://github.com/gdsfactory/gdsfactory/pull/3470)
+- Layer stack accepts layers [#3471](https://github.com/gdsfactory/gdsfactory/pull/3471)
+- deprecate d-attributes for path [#3467](https://github.com/gdsfactory/gdsfactory/pull/3467)
+- Remove duplicate types [#3466](https://github.com/gdsfactory/gdsfactory/pull/3466)
+- Fix MyPy errors in routing folder [#3464](https://github.com/gdsfactory/gdsfactory/pull/3464)
+- Fix mypy errors in labels and read folders [#3462](https://github.com/gdsfactory/gdsfactory/pull/3462)
+
+
+## [8.23.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.23.0) - 2024-12-05
+
+- less kwargs [#3457](https://github.com/gdsfactory/gdsfactory/pull/3457)
+- add offset [#3454](https://github.com/gdsfactory/gdsfactory/pull/3454)
+- Less kwargs3 [#3461](https://github.com/gdsfactory/gdsfactory/pull/3461)
+- remove dup [#3460](https://github.com/gdsfactory/gdsfactory/pull/3460)
+- Less kwargs2 [#3458](https://github.com/gdsfactory/gdsfactory/pull/3458)
+- Fix mypy errors in generic_tech and technology folders [#3459](https://github.com/gdsfactory/gdsfactory/pull/3459)
+- Fix MyPy issues in export folder [#3453](https://github.com/gdsfactory/gdsfactory/pull/3453)
+- Fix all MyPy errors in components folder [#3452](https://github.com/gdsfactory/gdsfactory/pull/3452)
+- Move Section to cross_section functions in api docs [#3456](https://github.com/gdsfactory/gdsfactory/pull/3456)
+- Faster extract [#3451](https://github.com/gdsfactory/gdsfactory/pull/3451)
+
 ## [8.22.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.22.0) - 2024-12-01
 
-No significant changes.
-
+- add uv-precommit [#3450](https://github.com/gdsfactory/gdsfactory/pull/3450)
+- rename via_spacing to pitch and add via_circular [#3449](https://github.com/gdsfactory/gdsfactory/pull/3449)
+- fix grid docs [#3443](https://github.com/gdsfactory/gdsfactory/pull/3443)
+- rename_fiber_spacing_to_pitch [#3448](https://github.com/gdsfactory/gdsfactory/pull/3448)
+- better type annotation [#3447](https://github.com/gdsfactory/gdsfactory/pull/3447)
+- Bump codecov/codecov-action from 4 to 5 [#3445](https://github.com/gdsfactory/gdsfactory/pull/3445)
+- rename_pad_spacing_to_pad_pitch [#3446](https://github.com/gdsfactory/gdsfactory/pull/3446)
 
 ## [8.21.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.21.0) - 2024-11-27
 

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import warnings
+from collections.abc import Sequence
 from functools import partial
 
 import numpy as np
@@ -22,7 +23,7 @@ def add_ports_from_markers_square(
     min_pin_area_um2: float = 0,
     max_pin_area_um2: float | None = 150 * 150,
     pin_extra_width: float = 0.0,
-    port_names: tuple[str, ...] | None = None,
+    port_names: Sequence[str] | None = None,
     port_name_prefix: str | None = None,
     port_type: str = "optical",
 ) -> Component:
@@ -43,9 +44,10 @@ def add_ports_from_markers_square(
     port_name_prefix_default = "o" if port_type == "optical" else "e"
     port_name_prefix = port_name_prefix or port_name_prefix_default
     port_markers = read_port_markers(component, (pin_layer,))
-    port_names = port_names or [
-        f"{port_name_prefix}{i + 1}" for i in range(len(port_markers.polygons))
-    ]
+    port_names = list(
+        port_names
+        or [f"{port_name_prefix}{i + 1}" for i in range(len(port_markers.polygons))]
+    )
     layer = port_layer or pin_layer
 
     for port_name, p in zip(port_names, port_markers.polygons):
@@ -155,12 +157,11 @@ def add_ports_from_markers_center(
     dxmin = component.dxmin
     dymax = component.dymax
     dymin = component.dymin
-    dbu = component.kcl.dbu
+    dbu = float(component.kcl.dbu)
 
     layer = port_layer or pin_layer
-    port_locations = []
+    port_locations: list[tuple[float, float]] = []
 
-    ports = {}
     port_name_prefix_default = "o" if port_type == "optical" else "e"
     port_name_prefix = port_name_prefix or port_name_prefix_default
 
@@ -172,12 +173,20 @@ def add_ports_from_markers_center(
         return component
 
     port_markers = polygons[pin_layer]
-    ports = []
+    ports: list[Port] = []
 
     for i, p in enumerate(port_markers):
         port_name = f"{port_name_prefix}{i + 1}" if port_name_prefix else str(i)
         bbox = p.bbox()
-        pxmin, pymin, pxmax, pymax = bbox.left, bbox.bottom, bbox.right, bbox.top
+        pxmin, pymin, pxmax, pymax = map(
+            float,
+            (
+                (bbox.left),
+                (bbox.bottom),
+                (bbox.right),
+                (bbox.top),
+            ),
+        )
 
         x = (pxmax + pxmin) / 2
         y = (pymin + pymax) / 2
@@ -275,11 +284,11 @@ def add_ports_from_markers_center(
     ports = sort_ports_clockwise(ports)
 
     for port in ports:
-        port_name = port.name
-        if port_name in component.ports:
+        _port_name_or_none = port.name
+        if port in component.ports:
             component_ports = [p.name for p in component.ports]
             raise ValueError(
-                f"port {port_name!r} already in {component_ports}. "
+                f"port {_port_name_or_none!r} already in {component_ports}. "
                 "You can pass a port_name_prefix to add it with a different name."
             )
 
@@ -375,9 +384,9 @@ def add_ports_from_boxes(
     dymin = component.dymin
 
     layer = port_layer or pin_layer
-    port_locations = []
+    port_locations: list[tuple[float, float]] = []
 
-    ports = []
+    ports: list[Port] = []
     port_name_prefix_default = "o" if port_type == "optical" else "e"
     port_name_prefix = port_name_prefix or port_name_prefix_default
 
@@ -478,16 +487,18 @@ def add_ports_from_boxes(
     ports = sort_ports_clockwise(ports)
 
     for port in ports:
-        port_name = port.name
-        if port_name in component.ports:
+        _port_name_or_none = port.name
+        if _port_name_or_none is None:
+            continue
+        if _port_name_or_none in component.ports:
             component_ports = [p.name for p in component.ports]
             raise ValueError(
-                f"port {port_name!r} already in {component_ports}. "
+                f"port {_port_name_or_none!r} already in {component_ports}. "
                 "You can pass a port_name_prefix to add it with a different name."
             )
 
         else:
-            component.add_port(name=port_name, port=port)
+            component.add_port(name=_port_name_or_none, port=port)
     if auto_rename_ports:
         component.auto_rename_ports()
     return component
@@ -534,7 +545,7 @@ def add_ports_from_labels(
     port_name_prefix = port_name_prefix or port_name_prefix_default
     yc = component.dy
 
-    port_name_to_index = {}
+    port_name_to_index: dict[str, int] = {}
     layer_label = layer_label or port_layer
 
     xc = xcenter or component.dx
@@ -548,7 +559,7 @@ def add_ports_from_labels(
         if get_name_from_label:
             port_name = label.string
         else:
-            port_name = f"{port_name_prefix}{i + 1}" if port_name_prefix else i
+            port_name = f"{port_name_prefix}{i + 1}" if port_name_prefix else str(i)
 
         orientation = port_orientation
 
@@ -621,7 +632,7 @@ def add_ports_from_siepic_pins(
             orientation = 2
         elif v.x > 0:
             orientation = 0
-        elif v.dy > 0:
+        elif v.y > 0:
             orientation = 1
         else:
             orientation = 3

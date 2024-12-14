@@ -1,7 +1,10 @@
 instances:
-  pad_S100_100_LMTOP_BLNo_23f16118_0_0:
-    column_pitch: 150
-    columns: 1
+  pad_S100_100_LMTOP_BLNo_163fd346_0_0:
+    array:
+      column_pitch: 150
+      columns: 1
+      row_pitch: 150
+      rows: 3
     component: pad
     info:
       size:
@@ -9,15 +12,17 @@ instances:
       - 100
       xsize: 100
       ysize: 100
-    row_pitch: 150
-    rows: 3
     settings:
       bbox_layers: null
       bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
-      port_orientation: null
-      port_orientations: null
+      port_orientation: 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
       port_type: pad
       size:
       - 100
@@ -25,9 +30,45 @@ instances:
 name: pad_array_Ppad_SNone_C1_024a62db
 nets: []
 placements:
-  pad_S100_100_LMTOP_BLNo_23f16118_0_0:
+  pad_S100_100_LMTOP_BLNo_163fd346_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-ports: {}
+ports:
+  e11: pad_S100_100_LMTOP_BLNo_163fd346_0_0<0.0>,e1
+  e21: pad_S100_100_LMTOP_BLNo_163fd346_0_0<0.1>,e1
+  e31: pad_S100_100_LMTOP_BLNo_163fd346_0_0<0.2>,e1
+warnings:
+  electrical:
+    unconnected_ports:
+    - message: 9 unconnected electrical ports!
+      ports:
+      - pad_S100_100_LMTOP_BLNo_163fd346_0_0<0.0>,e2
+      - pad_S100_100_LMTOP_BLNo_163fd346_0_0<0.0>,e3
+      - pad_S100_100_LMTOP_BLNo_163fd346_0_0<0.0>,e4
+      - pad_S100_100_LMTOP_BLNo_163fd346_0_0<0.1>,e2
+      - pad_S100_100_LMTOP_BLNo_163fd346_0_0<0.1>,e3
+      - pad_S100_100_LMTOP_BLNo_163fd346_0_0<0.1>,e4
+      - pad_S100_100_LMTOP_BLNo_163fd346_0_0<0.2>,e2
+      - pad_S100_100_LMTOP_BLNo_163fd346_0_0<0.2>,e3
+      - pad_S100_100_LMTOP_BLNo_163fd346_0_0<0.2>,e4
+      values:
+      - - 0
+        - 50000
+      - - 50000
+        - 0
+      - - 0
+        - -50000
+      - - 0
+        - 200000
+      - - 50000
+        - 150000
+      - - 0
+        - 100000
+      - - 0
+        - 350000
+      - - 50000
+        - 300000
+      - - 0
+        - 250000

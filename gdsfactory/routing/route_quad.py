@@ -77,21 +77,25 @@ def route_quad(
     displacements = vertices - center
     # sort vertices by angle from center of quadrilateral to make convex polygon
     angles = np.array([np.arctan2(disp[0], disp[1]) for disp in displacements])
-    vertices = [vert for _, vert in sorted(zip(angles, vertices), key=lambda x: x[0])]
+    sorted_vertices = [
+        vert for _, vert in sorted(zip(angles, vertices), key=lambda x: x[0])
+    ]
 
     if manhattan_target_step:
         component.add_polygon(
-            vertices,
+            sorted_vertices,
             layer=layer,
         )
     else:
-        component.add_polygon(points=vertices, layer=layer)
+        component.add_polygon(points=sorted_vertices, layer=layer)
 
 
 if __name__ == "__main__":
+    from gdsfactory.components import pad
+
     c = gf.Component()
-    pad1 = c << gf.components.pad(size=(50, 50))
-    pad2 = c << gf.components.pad(size=(10, 10))
+    pad1 = c << pad(size=(50, 50))
+    pad2 = c << pad(size=(10, 10))
     pad2.dmovex(100)
     pad2.dmovey(50)
     route_quad(

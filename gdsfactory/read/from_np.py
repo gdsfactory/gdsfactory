@@ -10,6 +10,7 @@ import numpy.typing as npt
 import gdsfactory as gf
 from gdsfactory.boolean import boolean
 from gdsfactory.component import Component
+from gdsfactory.typings import PathType
 
 
 def compute_area_signed(pr: npt.NDArray[np.floating[Any]]) -> float:
@@ -22,7 +23,7 @@ def compute_area_signed(pr: npt.NDArray[np.floating[Any]]) -> float:
     xs, ys = map(list, zip(*pr))
     xs.append(xs[1])
     ys.append(ys[1])
-    return sum(xs[i] * (ys[i + 1] - ys[i - 1]) for i in range(1, len(pr))) / 2.0
+    return sum(xs[i] * (ys[i + 1] - ys[i - 1]) for i in range(1, len(pr))) / 2.0  # type: ignore[no-any-return]
 
 
 def from_np(
@@ -48,7 +49,7 @@ def from_np(
     c = Component()
     d = Component()
     ndarray = np.pad(ndarray, 2)
-    contours = measure.find_contours(ndarray, threshold)
+    contours = measure.find_contours(ndarray, threshold)  # type: ignore[no-untyped-call]
     assert len(contours) > 0, (
         f"no contours found for threshold = {threshold}, maybe you can reduce the"
         " threshold"
@@ -66,7 +67,7 @@ def from_np(
 
 
 @gf.cell
-def from_image(image_path: str, **kwargs: Any) -> Component:
+def from_image(image_path: PathType, **kwargs: Any) -> Component:
     """Returns Component from a png image.
 
     Args:

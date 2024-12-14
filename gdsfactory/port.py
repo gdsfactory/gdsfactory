@@ -32,33 +32,37 @@ from __future__ import annotations
 import csv
 import functools
 import warnings
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 from functools import partial
-from typing import TYPE_CHECKING, Any, Literal
+from typing import TYPE_CHECKING, Any, Literal, TypeVar
 
 import kfactory as kf
 import numpy as np
 from rich.console import Console
 from rich.table import Table
 
-from gdsfactory.cross_section import CrossSectionSpec
-
 if TYPE_CHECKING:
+    from gdsfactory import typings
     from gdsfactory.component import Component
     from gdsfactory.typings import (
         AngleInDegrees,
         ComponentFactory,
+        CrossSectionSpec,
         PathType,
         Ports,
+        PortsDictGeneric,
         SelectPorts,
+        TPort,
     )
 
 Layer = tuple[int, int]
 Layers = tuple[Layer, ...]
-LayerSpec = Layer | str | None | kf.kcell.LayerEnum
+LayerSpec = Layer | str | None | kf.kcell.LayerEnum | int
 LayerSpecs = tuple[LayerSpec, ...]
 Float2 = tuple[float, float]
 valid_error_types = ["error", "warn", "ignore"]
+
+_PortT = TypeVar("_PortT", bound="typings.Port")
 
 
 class PortNotOnGridError(ValueError):
@@ -116,13 +120,13 @@ class Port(kf.Port):
 
     def __init__(
         self,
-        name: str,
+        name: str | None,
         orientation: AngleInDegrees | None,
         center: tuple[float, float] | kf.kdb.Point | kf.kdb.DPoint,
         width: float | None = None,
         layer: LayerSpec | None = None,
         port_type: str = "optical",
-        cross_section: CrossSectionSpec | None = None,
+        cross_section: "CrossSectionSpec | None" = None,
         info: dict[str, int | float | str] | None = None,
     ) -> None:
         """Initializes Port."""
@@ -168,7 +172,7 @@ class Port(kf.Port):
         return to_dict(self)
 
 
-def to_dict(port: Port) -> dict[str, Any]:
+def to_dict(port: "typings.Port") -> dict[str, Any]:
     """Returns dict."""
     return {
         "name": port.name,
@@ -178,9 +182,6 @@ def to_dict(port: Port) -> dict[str, Any]:
         "layer": port.layer,
         "port_type": port.port_type,
     }
-
-
-PortsMap = dict[str, list[Port]]
 
 
 def port_array(
@@ -202,12 +203,12 @@ def port_array(
         kwargs: additional arguments.
 
     """
-    pitch = np.array(pitch)
+    pitch_array = np.array(pitch)
     return [
         Port(
             name=str(i),
             width=width,
-            center=np.array(center) + i * pitch - (n - 1) / 2 * pitch,
+            center=np.array(center) + i * pitch_array - (n - 1) / 2 * pitch_array,
             orientation=orientation,
             **kwargs,
         )
@@ -231,7 +232,7 @@ def read_port_markers(component: object, layers: LayerSpecs = ("PORT",)) -> Comp
 
 def csv2port(csvpath: PathType) -> dict[str, Port]:
     """Reads ports from a CSV file and returns a Dict."""
-    ports = {}
+    ports: PortsDict = {}
     with open(csvpath) as csvfile:
         rows = csv.reader(csvfile, delimiter=",", quotechar="|")
         for row in rows:
@@ -240,7 +241,7 @@ def csv2port(csvpath: PathType) -> dict[str, Port]:
     return ports
 
 
-def sort_ports_clockwise(ports: kf.Ports) -> kf.Ports:
+def sort_ports_clockwise(ports: "Sequence[TPort]") -> "list[TPort]":
     """Sort and return ports in the clockwise direction.
 
     .. code::
@@ -254,10 +255,9 @@ def sort_ports_clockwise(ports: kf.Ports) -> kf.Ports:
             8   7
 
     """
-    port_list = ports
-    direction_ports: PortsMap = {x: [] for x in ["E", "N", "W", "S"]}
+    direction_ports: "PortsDictGeneric[TPort]" = {x: [] for x in ["E", "N", "W", "S"]}
 
-    for p in port_list:
+    for p in ports:
         angle = p.angle * 90
         if angle <= 45 or angle >= 315:
             direction_ports["E"].append(p)
@@ -299,7 +299,7 @@ def sort_ports_counter_clockwise(ports: kf.Ports) -> kf.Ports:
 
     """
     port_list = list(ports)
-    direction_ports: PortsMap = {x: [] for x in ["E", "N", "W", "S"]}
+    direction_ports: PortsDict = {x: [] for x in ["E", "N", "W", "S"]}
 
     for p in port_list:
         angle = p.angle * 90
@@ -407,7 +407,7 @@ def select_ports_list(
 get_ports_list = select_ports_list
 
 
-def flipped(port: Port) -> Port:
+def flipped(port: _PortT) -> _PortT:
     if port.orientation is None:
         raise ValueError(f"port {port.name!r} has None orientation")
     p = port.copy()
@@ -424,7 +424,7 @@ def move_copy(port: Port, x: int = 0, y: int = 0) -> Port:
     return _port
 
 
-def get_ports_facing(ports: list[Port], direction: str = "W") -> list[Port]:
+def get_ports_facing(ports: Sequence[Port], direction: str = "W") -> list[Port]:
     from gdsfactory.component import Component, ComponentReference
 
     valid_directions = ["E", "N", "W", "S"]
@@ -523,7 +523,7 @@ def _rename_ports_counter_clockwise(
         p.name = f"{prefix}{i + 1}" if prefix else i + 1
 
 
-def _rename_ports_clockwise(direction_ports: PortsMap, prefix: str = "") -> None:
+def _rename_ports_clockwise(direction_ports: PortsDict, prefix: str = "") -> None:
     """Rename ports in the clockwise directionjstarting from the bottom left corner."""
     east_ports = direction_ports["E"]
     east_ports.sort(key=lambda p: -p.dy)  # sort north to south
@@ -545,7 +545,7 @@ def _rename_ports_clockwise(direction_ports: PortsMap, prefix: str = "") -> None
 
 
 def _rename_ports_clockwise_top_right(
-    direction_ports: PortsMap, prefix: str = ""
+    direction_ports: PortsDict, prefix: str = ""
 ) -> None:
     """Rename ports in clockwise direction starting from the top right corner."""
     east_ports = direction_ports["E"]
@@ -596,7 +596,7 @@ def rename_ports_by_orientation(
 
     """
     layers_excluded = layers_excluded or []
-    direction_ports: PortsMap = {x: [] for x in ["E", "N", "W", "S"]}
+    direction_ports: PortsDict = {x: [] for x in ["E", "N", "W", "S"]}
 
     ports = component.ports
     ports = select_ports(ports, **kwargs)
@@ -724,7 +724,7 @@ def map_ports_layer_to_orientation(
 
     """
     m = {}
-    direction_ports: PortsMap = {x: [] for x in ["E", "N", "W", "S"]}
+    direction_ports: PortsDict = {x: [] for x in ["E", "N", "W", "S"]}
     layers = {port.layer for port in ports}
 
     for layer in layers:
@@ -771,7 +771,7 @@ def map_ports_to_orientation_cw(
             S0   S1
 
     """
-    direction_ports: PortsMap = {x: [] for x in ["E", "N", "W", "S"]}
+    direction_ports: PortsDict = {x: [] for x in ["E", "N", "W", "S"]}
 
     ports = select_ports(ports, **kwargs)
     ports_on_layer = [p.copy() for p in ports]
@@ -817,7 +817,7 @@ def auto_rename_ports_layer_orientation(
     """
     new_ports = {}
     ports = component.ports
-    direction_ports: PortsMap = {x: [] for x in ["E", "N", "W", "S"]}
+    direction_ports: PortsDict = {x: [] for x in ["E", "N", "W", "S"]}
     layers = {port.layer for port in ports}
 
     for layer in layers:

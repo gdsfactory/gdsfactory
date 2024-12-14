@@ -28,7 +28,7 @@ instances:
       length: 10
       npoints: 2
       width: 0.4
-  taper_L20_W0p4_W1_PNone_0f93cfde_5000_0:
+  taper_L20_W0p4_W1_LNone_1073290e_5000_0:
     component: taper
     info:
       length: 20
@@ -36,6 +36,7 @@ instances:
       width2: 1
     settings:
       cross_section: strip
+      layer: null
       length: 20
       port: null
       port_names:
@@ -48,7 +49,7 @@ instances:
       width2: 1
       with_bbox: true
       with_two_ports: true
-  taper_L20_W1_W0p4_PNone_92d96627_m25000_0:
+  taper_L20_W1_W0p4_LNone_ebd83a58_m25000_0:
     component: taper
     info:
       length: 20
@@ -56,6 +57,7 @@ instances:
       width2: 0.4
     settings:
       cross_section: strip
+      layer: null
       length: 20
       port: null
       port_names:
@@ -71,9 +73,9 @@ instances:
 name: dbr_tapered_L10_P0p85_D_9872475d
 nets:
 - p1: straight_L10_N2_CSstrip_W0p4_m5000_0,o1
-  p2: taper_L20_W1_W0p4_PNone_92d96627_m25000_0,o2
+  p2: taper_L20_W1_W0p4_LNone_ebd83a58_m25000_0,o2
 - p1: straight_L10_N2_CSstrip_W0p4_m5000_0,o2
-  p2: taper_L20_W0p4_W1_PNone_0f93cfde_5000_0,o1
+  p2: taper_L20_W0p4_W1_LNone_1073290e_5000_0,o1
 placements:
   array_Crectangle_S0p424_fb9b4fef_m24437_m500:
     mirror: false
@@ -85,19 +87,19 @@ placements:
     rotation: 0
     x: -5
     y: 0
-  taper_L20_W0p4_W1_PNone_0f93cfde_5000_0:
+  taper_L20_W0p4_W1_LNone_1073290e_5000_0:
     mirror: false
     rotation: 0
     x: 5
     y: 0
-  taper_L20_W1_W0p4_PNone_92d96627_m25000_0:
+  taper_L20_W1_W0p4_LNone_ebd83a58_m25000_0:
     mirror: false
     rotation: 0
     x: -25
     y: 0
 ports:
-  o1: taper_L20_W1_W0p4_PNone_92d96627_m25000_0,o1
-  o2: taper_L20_W0p4_W1_PNone_0f93cfde_5000_0,o2
+  o1: taper_L20_W1_W0p4_LNone_ebd83a58_m25000_0,o1
+  o2: taper_L20_W0p4_W1_LNone_1073290e_5000_0,o2
 warnings:
   electrical:
     unconnected_ports:

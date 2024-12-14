@@ -1,0 +1,191 @@
+instances:
+  compass_S10_10_LM1_PTNo_2f697bf2_0_5000:
+    component: compass
+    info: {}
+    settings:
+      auto_rename_ports: true
+      layer: M1
+      port_inclusion: 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: null
+      size:
+      - 10
+      - 10
+  compass_S10_10_LM1_PTNo_3d24c742_0_5000:
+    component: compass
+    info: {}
+    settings:
+      auto_rename_ports: true
+      layer: M1
+      port_inclusion: 0
+      port_orientations: null
+      port_type: null
+      size:
+      - 10
+      - 10
+  compass_S10_10_LM2_PTNo_14f241bf_0_15000:
+    component: compass
+    info: {}
+    settings:
+      auto_rename_ports: true
+      layer: M2
+      port_inclusion: 0
+      port_orientations: null
+      port_type: null
+      size:
+      - 10
+      - 10
+  compass_S10_10_LM2_PTNo_2f1c6aab_0_5000:
+    component: compass
+    info: {}
+    settings:
+      auto_rename_ports: true
+      layer: M2
+      port_inclusion: 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: null
+      size:
+      - 10
+      - 10
+  compass_S10_10_LMTOP_PT_aa0a1e19_0_15000:
+    component: compass
+    info: {}
+    settings:
+      auto_rename_ports: true
+      layer: MTOP
+      port_inclusion: 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: null
+      size:
+      - 10
+      - 10
+  compass_S10_10_LMTOP_PT_d880c866_0_15000:
+    component: compass
+    info: {}
+    settings:
+      auto_rename_ports: false
+      layer: MTOP
+      port_inclusion: 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 10
+      - 10
+  via_S0p7_0p7_SNone_GNon_a794b952_m3000_12000:
+    array:
+      column_pitch: 2
+      columns: 4
+      row_pitch: 2
+      rows: 4
+    component: via
+    info:
+      column_pitch: 2
+      enclosure: 1
+      row_pitch: 2
+      xsize: 0.7
+      ysize: 0.7
+    settings:
+      bbox_layers: null
+      bbox_offset: 0
+      bbox_offsets: null
+      column_pitch: null
+      enclosure: 1
+      gap: null
+      layer: VIA2
+      pitch: 2
+      row_pitch: null
+      size:
+      - 0.7
+      - 0.7
+      spacing: null
+  via_S0p7_0p7_SNone_GNon_d0c93b95_m2000_3000:
+    array:
+      column_pitch: 2
+      columns: 3
+      row_pitch: 2
+      rows: 3
+    component: via
+    info:
+      column_pitch: 2
+      enclosure: 2
+      row_pitch: 2
+      xsize: 0.7
+      ysize: 0.7
+    settings:
+      bbox_layers: null
+      bbox_offset: 0
+      bbox_offsets: null
+      column_pitch: null
+      enclosure: 2
+      gap: null
+      layer: VIA1
+      pitch: 2
+      row_pitch: null
+      size:
+      - 0.7
+      - 0.7
+      spacing: null
+name: via_stack_with_offset_L_7cc77680
+nets: []
+placements:
+  compass_S10_10_LM1_PTNo_2f697bf2_0_5000:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 5
+  compass_S10_10_LM1_PTNo_3d24c742_0_5000:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 5
+  compass_S10_10_LM2_PTNo_14f241bf_0_15000:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 15
+  compass_S10_10_LM2_PTNo_2f1c6aab_0_5000:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 5
+  compass_S10_10_LMTOP_PT_aa0a1e19_0_15000:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 15
+  compass_S10_10_LMTOP_PT_d880c866_0_15000:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 15
+  via_S0p7_0p7_SNone_GNon_a794b952_m3000_12000:
+    mirror: false
+    rotation: 0
+    x: -3
+    y: 12
+  via_S0p7_0p7_SNone_GNon_d0c93b95_m2000_3000:
+    mirror: false
+    rotation: 0
+    x: -2
+    y: 3
+ports:
+  e1: compass_S10_10_LMTOP_PT_d880c866_0_15000,e1
+  e2: compass_S10_10_LMTOP_PT_d880c866_0_15000,e2
+  e3: compass_S10_10_LMTOP_PT_d880c866_0_15000,e3
+  e4: compass_S10_10_LMTOP_PT_d880c866_0_15000,e4

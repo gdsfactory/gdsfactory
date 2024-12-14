@@ -99,9 +99,9 @@ def import_gds_with_conflicts(
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
+    from gdsfactory.components import mzi
 
-    c = gf.components.mzi()
+    c = mzi()
     c.pprint_ports()
     gdspath = c.write_gds()
 

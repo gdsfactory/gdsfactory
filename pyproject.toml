@@ -50,7 +50,7 @@ license = {file = "LICENSE"}
 name = "gdsfactory"
 readme = "README.md"
 requires-python = ">=3.10,<3.13"
-version = "8.22.0"
+version = "8.25.2"
 
 [project.optional-dependencies]
 cad = [
@@ -68,7 +68,9 @@ dev = [
   "pytest_regressions",
   "types-PyYAML",
   "types-cachetools",
-  "pytest-github-actions-annotate-failures"
+  "pytest-github-actions-annotate-failures",
+  "pytest-randomly",
+  "pytest-xdist"
 ]
 docs = [
   "autodoc_pydantic>=2.0.1,<3",
@@ -103,7 +105,8 @@ ignore-words-list = "te, te/tm, te, ba, fpr, fpr_spacing, ro, nd, donot, schem"
 disable_error_code = "import-untyped"
 exclude = [
   "gdsfactory/export/to_svg.py",
-  "test-data-gds/."
+  "test-data-gds/.",
+  "gdsfactory/samples/demo/layers_sky130.py"
 ]
 python_version = "3.11"
 strict = true
@@ -153,8 +156,6 @@ ignore = [
   "D104",  # public package docstrings
   "E501",  # line too long, handled by black
   "RUF005",  # Consider {expression} instead of concatenation
-  "ANN101",  # Missing self type annotation
-  "ANN102",  # Missing cls type annotation
   "ANN401",  # typing.Any is not allowed
   "RUF015",  # Using next() instead of [0]
   "UP037"  # Remove quotes from type annotations
@@ -244,7 +245,7 @@ message_template = "Bump to {new_version}"
 tag_template = "v{new_version}"
 
 [tool.tbump.version]
-current = "8.22.0"
+current = "8.25.2"
 regex = '''
   (?P<major>\d+)
   \.

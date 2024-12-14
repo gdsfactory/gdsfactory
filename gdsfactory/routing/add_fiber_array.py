@@ -4,8 +4,6 @@ from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
-from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.route_fiber_array import route_fiber_array
 from gdsfactory.typings import (
@@ -17,8 +15,8 @@ from gdsfactory.typings import (
 
 
 def add_fiber_array(
-    component: ComponentSpec = straight_function,
-    grating_coupler: ComponentSpecOrList = grating_coupler_te,
+    component: ComponentSpec = "straight",
+    grating_coupler: ComponentSpecOrList = "grating_coupler_te",
     gc_port_name: str = "o1",
     select_ports: PortsFactory = select_ports_optical,
     cross_section: CrossSectionSpec = "strip",

@@ -1,11 +1,12 @@
 instances:
   rectangle_S2p7_6p4_LM2__c8f1a350_36000_m1000:
-    column_pitch: 7.4
-    columns: 1
+    array:
+      column_pitch: 7.4
+      columns: 1
+      row_pitch: 7.4
+      rows: 5
     component: rectangle
     info: {}
-    row_pitch: 7.4
-    rows: 5
     settings:
       centered: false
       layer: M2
@@ -19,12 +20,13 @@ instances:
       - 2.7
       - 6.4
   rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700:
-    column_pitch: 7.4
-    columns: 1
+    array:
+      column_pitch: 7.4
+      columns: 1
+      row_pitch: 7.4
+      rows: 4
     component: rectangle
     info: {}
-    row_pitch: 7.4
-    rows: 4
     settings:
       centered: false
       layer: M2
@@ -38,12 +40,13 @@ instances:
       - 2.7
       - 6.4
   rectangles_S6p4_2p7_O0_LM1_CTrue_5900_350:
-    column_pitch: 7.4
-    columns: 5
+    array:
+      column_pitch: 7.4
+      columns: 5
+      row_pitch: 3.7
+      rows: 10
     component: rectangles
     info: {}
-    row_pitch: 3.7
-    rows: 10
     settings:
       centered: true
       layers:
@@ -54,12 +57,13 @@ instances:
       - 6.4
       - 2.7
   rectangles_S6p4_2p7_O0_LM2_CTrue_2200_350:
-    column_pitch: 7.4
-    columns: 5
+    array:
+      column_pitch: 7.4
+      columns: 5
+      row_pitch: 3.7
+      rows: 10
     component: rectangles
     info: {}
-    row_pitch: 3.7
-    rows: 10
     settings:
       centered: true
       layers:
@@ -69,25 +73,29 @@ instances:
       size:
       - 6.4
       - 2.7
-  via_S0p7_0p7_SNone_GNon_c3f5c6aa_4050_350:
-    column_pitch: 3.7
-    columns: 10
+  via_S0p7_0p7_SNone_GNon_d0c93b95_4050_350:
+    array:
+      column_pitch: 3.7
+      columns: 10
+      row_pitch: 3.7
+      rows: 10
     component: via
     info:
+      column_pitch: 2
       enclosure: 2
-      pitch: 2
+      row_pitch: 2
       xsize: 0.7
       ysize: 0.7
-    row_pitch: 3.7
-    rows: 10
     settings:
       bbox_layers: null
       bbox_offset: 0
       bbox_offsets: null
+      column_pitch: null
       enclosure: 2
       gap: null
       layer: VIA1
       pitch: 2
+      row_pitch: null
       size:
       - 0.7
       - 0.7
@@ -144,7 +152,7 @@ instances:
       vias:
       - via2
       - null
-name: via_chain_NV100_C10_VFv_7bb40f3e
+name: via_chain_NV100_C10_Vvi_a44e7637
 nets: []
 placements:
   rectangle_S2p7_6p4_LM2__c8f1a350_36000_m1000:
@@ -167,7 +175,7 @@ placements:
     rotation: 0
     x: 2.2
     y: 0.35
-  via_S0p7_0p7_SNone_GNon_c3f5c6aa_4050_350:
+  via_S0p7_0p7_SNone_GNon_d0c93b95_4050_350:
     mirror: false
     rotation: 0
     x: 4.05

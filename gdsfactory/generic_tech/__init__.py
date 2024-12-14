@@ -11,6 +11,8 @@ from gdsfactory.technology import LayerViews
 if typing.TYPE_CHECKING:
     from gdsfactory.pdk import Pdk
 
+__all__ = ["LAYER", "LAYER_STACK", "get_generic_pdk"]
+
 
 PORT_MARKER_LAYER_TO_TYPE = {
     LAYER.PORT: "optical",
@@ -70,8 +72,8 @@ def get_generic_pdk() -> Pdk:
         layers=LAYER,
         layer_stack=LAYER_STACK,
         layer_views=LAYER_VIEWS,
-        layer_transitions=layer_transitions,
-        materials_index=materials_index,
+        layer_transitions=layer_transitions,  # type: ignore
+        materials_index=materials_index,  # type: ignore
         constants=constants,
         connectivity=LAYER_CONNECTIVITY,
     )
@@ -89,12 +91,12 @@ if __name__ == "__main__":
 
     t = KLayoutTechnology(
         name="generic_tech",
-        layer_map=LAYER,
+        layer_map=LAYER,  # type: ignore
         layer_views=LAYER_VIEWS,
         layer_stack=LAYER_STACK,
         connectivity=connectivity,
     )
-    t.write_tech(tech_dir=PATH.klayout)
+    t.write_tech(tech_dir=PATH.klayout)  # type: ignore
 
     layer_views = LayerViews(filepath=PATH.klayout_yaml)
     layer_views.to_lyp(PATH.klayout_lyp)

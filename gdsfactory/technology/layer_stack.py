@@ -1,18 +1,21 @@
 from __future__ import annotations
 
 from collections import defaultdict
-from typing import TYPE_CHECKING, Any, Literal
+from collections.abc import Sequence
+from typing import Any, Literal, TypeAlias, TypeVar
 
 import kfactory as kf
+from kfactory.kcell import LayerEnum
 from pydantic import BaseModel, Field, field_validator
 from rich.console import Console
 from rich.table import Table
 
 import gdsfactory as gf
-from gdsfactory.component import Component
+from gdsfactory.component import Component, boolean_operations
+from gdsfactory.technology.layer_views import LayerViews
+from gdsfactory.typings import LayerSpec
 
-if TYPE_CHECKING:
-    from gdsfactory.technology import LayerViews
+T = TypeVar("T", bound="AbstractLayer")
 
 
 class AbstractLayer(BaseModel):
@@ -24,9 +27,18 @@ class AbstractLayer(BaseModel):
         sizings_modes: sequence of sizing modes to apply to this Logical or Derived layer.
     """
 
-    sizings_xoffsets: tuple[int, ...] = (0,)
-    sizings_yoffsets: tuple[int, ...] = (0,)
-    sizings_modes: tuple[int, ...] = (2,)
+    sizings_xoffsets: Sequence[int] = (0,)
+    sizings_yoffsets: Sequence[int] = (0,)
+    sizings_modes: Sequence[int] = (2,)
+
+    def _perform_operation(
+        self, other: AbstractLayer, operation: Literal["and", "or", "xor", "not"]
+    ) -> DerivedLayer:
+        if isinstance(other, DerivedLayer | LogicalLayer) and isinstance(
+            self, DerivedLayer | LogicalLayer
+        ):
+            return DerivedLayer(layer1=self, layer2=other, operation=operation)
+        raise ValueError(f"{other} is not a DerivedLayer or LogicalLayer")
 
     # Boolean AND (&)
     def __and__(self, other: AbstractLayer) -> DerivedLayer:
@@ -38,7 +50,7 @@ class AbstractLayer(BaseModel):
         Returns:
             A new DerivedLayer with the AND operation logged.
         """
-        return DerivedLayer(layer1=self, layer2=other, operation="and")
+        return self._perform_operation(other, "and")
 
     # Boolean OR (|, +)
     def __or__(self, other: AbstractLayer) -> DerivedLayer:
@@ -50,7 +62,7 @@ class AbstractLayer(BaseModel):
         Returns:
             A new DerivedLayer with the OR operation logged.
         """
-        return DerivedLayer(layer1=self, layer2=other, operation="or")
+        return self._perform_operation(other, "or")
 
     def __add__(self, other: AbstractLayer) -> DerivedLayer:
         """Represents boolean OR (+) operation between two derived layers.
@@ -61,7 +73,7 @@ class AbstractLayer(BaseModel):
         Returns:
             A new DerivedLayer with the AND operation logged.
         """
-        return DerivedLayer(layer1=self, layer2=other, operation="or")
+        return self._perform_operation(other, "or")
 
     # Boolean XOR (^)
     def __xor__(self, other: AbstractLayer) -> DerivedLayer:
@@ -73,7 +85,7 @@ class AbstractLayer(BaseModel):
         Returns:
             A new DerivedLayer with the XOR operation logged.
         """
-        return DerivedLayer(layer1=self, layer2=other, operation="xor")
+        return self._perform_operation(other, "xor")
 
     # Boolean NOT (-)
     def __sub__(self, other: AbstractLayer) -> DerivedLayer:
@@ -85,14 +97,14 @@ class AbstractLayer(BaseModel):
         Returns:
             A new DerivedLayer with the NOT operation logged.
         """
-        return DerivedLayer(layer1=self, layer2=other, operation="not")
+        return self._perform_operation(other, "not")
 
     def sized(
-        self,
+        self: T,
         xoffset: int | tuple[int, ...],
         yoffset: int | tuple[int, ...] | None = None,
         mode: int | tuple[int, ...] | None = None,
-    ) -> AbstractLayer:
+    ) -> T:
         """Accumulates a list of sizing operations for the layer by the provided offset (in dbu).
 
         Args:
@@ -142,19 +154,15 @@ class AbstractLayer(BaseModel):
         current_layer_attributes["sizings_xoffsets"] = sizings_xoffsets
         current_layer_attributes["sizings_yoffsets"] = sizings_yoffsets
         current_layer_attributes["sizings_modes"] = sizings_modes
-        if isinstance(self, LogicalLayer):
-            current_layer_class = LogicalLayer
-        else:
-            current_layer_class = DerivedLayer
-        return current_layer_class(**current_layer_attributes)
+        return self.__class__(**current_layer_attributes)
 
 
 class LogicalLayer(AbstractLayer):
     """GDS design layer."""
 
-    layer: tuple[int, int] | kf.kcell.LayerEnum | int
+    layer: LayerSpec
 
-    def __eq__(self, other: AbstractLayer) -> bool:
+    def __eq__(self, other: object) -> bool:
         """Check if two LogicalLayer instances are equal.
 
         This method compares the 'layer' attribute of the two LogicalLayer instances.
@@ -227,8 +235,8 @@ class DerivedLayer(AbstractLayer):
         operation: operation to perform between layer1 and layer2. One of "and", "or", "xor", or "not" or associated symbols.
     """
 
-    layer1: LogicalLayer | DerivedLayer | int
-    layer2: LogicalLayer | DerivedLayer | int
+    layer1: DerivedLayer | LogicalLayer
+    layer2: DerivedLayer | LogicalLayer
     operation: Literal["and", "&", "or", "|", "xor", "^", "not", "-"]
 
     def __hash__(self) -> int:
@@ -242,7 +250,7 @@ class DerivedLayer(AbstractLayer):
         return hash((self.layer1.__hash__(), self.layer2.__hash__(), self.operation))
 
     @property
-    def keyword_to_symbol(self) -> dict:
+    def keyword_to_symbol(self) -> dict[str, str]:
         return {
             "and": "&",
             "or": "|",
@@ -251,7 +259,7 @@ class DerivedLayer(AbstractLayer):
         }
 
     @property
-    def symbol_to_keyword(self) -> dict:
+    def symbol_to_keyword(self) -> dict[str, str]:
         return {
             "&": "and",
             "|": "or",
@@ -276,7 +284,7 @@ class DerivedLayer(AbstractLayer):
         """
         r1 = self.layer1.get_shapes(component)
         r2 = self.layer2.get_shapes(component)
-        region = gf.component.boolean_operations[self.operation](r1, r2)
+        region = boolean_operations[self.operation](r1, r2)
         if not (
             all(v == 0 for v in self.sizings_xoffsets)
             and all(v == 0 for v in self.sizings_yoffsets)
@@ -292,6 +300,11 @@ class DerivedLayer(AbstractLayer):
         return f"({self.layer1} {self.get_symbol()} {self.layer2})"
 
     __str__ = __repr__
+
+
+BroadLayer: TypeAlias = (
+    LogicalLayer | DerivedLayer | int | str | tuple[int, int] | LayerEnum
+)
 
 
 class LayerLevel(BaseModel):
@@ -321,15 +334,7 @@ class LayerLevel(BaseModel):
 
     # ID
     name: str | None = None
-    layer: (
-        LogicalLayer
-        | DerivedLayer
-        | int
-        | str
-        | tuple[int, int]
-        | kf.kcell.LayerEnum
-        | None
-    ) = None
+    layer: BroadLayer
     derived_layer: LogicalLayer | None = None
 
     # Extrusion rules
@@ -353,15 +358,9 @@ class LayerLevel(BaseModel):
     @field_validator("layer")
     @classmethod
     def check_layer(
-        cls,
-        layer: LogicalLayer
-        | DerivedLayer
-        | int
-        | str
-        | tuple[int, int]
-        | kf.kcell.LayerEnum,
+        cls, layer: BroadLayer | int | str | tuple[int, int] | LayerEnum
     ) -> LogicalLayer | DerivedLayer:
-        if isinstance(layer, int | str | tuple | kf.kcell.LayerEnum):
+        if isinstance(layer, int | str | tuple | LayerEnum):
             layer = gf.get_layer(layer)
             return LogicalLayer(layer=layer)
 
@@ -391,9 +390,11 @@ class LayerStack(BaseModel):
         description="dict of layer_levels",
     )
 
-    def model_copy(self) -> LayerStack:
+    def model_copy(
+        self, *, update: dict[str, Any] | None = None, deep: bool = False
+    ) -> LayerStack:
         """Returns a copy of the LayerStack."""
-        return LayerStack.model_validate_json(self.model_dump_json())
+        return super().model_copy(update=update, deep=True)
 
     def __init__(self, **data: Any) -> None:
         """Add LayerLevels automatically for subclassed LayerStacks."""
@@ -419,17 +420,15 @@ class LayerStack(BaseModel):
 
         console.print(table)
 
-    def get_layer_to_thickness(self) -> dict[tuple[int, int], float]:
+    def get_layer_to_thickness(self) -> dict[BroadLayer, float]:
         """Returns layer tuple to thickness (um)."""
-        layer_to_thickness = {}
+        layer_to_thickness: dict[BroadLayer, float] = {}
 
         for level in self.layers.values():
             layer = level.layer
 
-            if layer and level.thickness:
+            if (layer and level.thickness) or hasattr(level, "operator"):
                 layer_to_thickness[layer] = level.thickness
-            elif hasattr(level, "operator"):
-                layer_to_thickness[level.layer] = level.thickness
 
         return layer_to_thickness
 
@@ -441,13 +440,13 @@ class LayerStack(BaseModel):
             component=component, layer_stack=self, **kwargs
         )
 
-    def get_layer_to_zmin(self) -> dict[tuple[int, int], float]:
+    def get_layer_to_zmin(self) -> dict[BroadLayer, float]:
         """Returns layer tuple to z min position (um)."""
         return {
             level.layer: level.zmin for level in self.layers.values() if level.thickness
         }
 
-    def get_layer_to_material(self) -> dict[tuple[int, int], str]:
+    def get_layer_to_material(self) -> dict[BroadLayer, str | None]:
         """Returns layer tuple to material name."""
         return {
             level.layer: level.material
@@ -455,7 +454,7 @@ class LayerStack(BaseModel):
             if level.thickness
         }
 
-    def get_layer_to_sidewall_angle(self) -> dict[tuple[int, int], str]:
+    def get_layer_to_sidewall_angle(self) -> dict[BroadLayer, float]:
         """Returns layer tuple to material name."""
         return {
             level.layer: level.sidewall_angle
@@ -463,13 +462,13 @@ class LayerStack(BaseModel):
             if level.thickness
         }
 
-    def get_layer_to_info(self) -> dict[tuple[int, int], dict]:
+    def get_layer_to_info(self) -> dict[BroadLayer, dict[str, Any]]:
         """Returns layer tuple to info dict."""
         return {level.layer: level.info for level in self.layers.values()}
 
-    def get_layer_to_layername(self) -> dict[tuple[int, int], str]:
+    def get_layer_to_layername(self) -> dict[BroadLayer, list[str]]:
         """Returns layer tuple to layername."""
-        d = defaultdict(list)
+        d: dict[BroadLayer, list[str]] = defaultdict(list)
         for level_name, level in self.layers.items():
             d[level.layer].append(level_name)
 
@@ -516,11 +515,12 @@ class LayerStack(BaseModel):
             for layer_name, level in layers.items()
             if isinstance(level.layer, LogicalLayer)
         ]
+        from gdsfactory.pdk import get_layer, get_layer_tuple
 
         # Define input layers
         out = "\n".join(
             [
-                f"{layer_name} = input({level.derived_layer.layer[0]}, {level.derived_layer.layer[1]})"
+                f"{layer_name} = input({(__layer:=get_layer_tuple(level.derived_layer.layer))[0]}, {__layer[1]})"
                 for layer_name, level in layers.items()
                 if level.derived_layer
             ]
@@ -528,18 +528,18 @@ class LayerStack(BaseModel):
         out += "\n\n"
 
         # Remove all etched layers from the grown layers
-        unetched_layers_dict = defaultdict(list)
+        unetched_layers_dict: dict[BroadLayer, list[str]] = defaultdict(list)
         for layer_name in etch_layers:
             level = layers[layer_name]
             if level.derived_layer:
                 unetched_layers_dict[level.derived_layer.layer].append(layer_name)
                 if level.derived_layer.layer in unetched_layers:
-                    unetched_layers.remove(level.derived_layer.layer)
+                    unetched_layers.remove(level.derived_layer.layer)  # type: ignore
 
         # Define layers
         out += "\n".join(
             [
-                f"{layer_name} = input({level.layer.layer[0]}, {level.layer.layer[1]})"
+                f"{layer_name} = input({level.layer.layer[0]}, {level.layer.layer[1]})"  # type: ignore
                 for layer_name, level in layers.items()
                 if hasattr(level.layer, "layer")
             ]
@@ -556,9 +556,8 @@ class LayerStack(BaseModel):
         # Define slabs
         for layer_name, level in layers.items():
             if level.derived_layer:
-                derived_layer = level.derived_layer.layer
-                for i, layer1 in enumerate(derived_layer):
-                    out += f"slab_{layer1}_{layer_name}_{i} = {layer1} & {layer_name}\n"
+                _layer_from_derived = get_layer(level.derived_layer.layer)
+                out += f"slab_{_layer_from_derived}_{layer_name} = {_layer_from_derived} & {layer_name}\n"
 
         out += "\n"
 
@@ -571,47 +570,41 @@ class LayerStack(BaseModel):
                 zmin = round(zmin, rnd_pl)
                 zmax = round(zmax, rnd_pl)
 
-            if layer is None:
-                continue
-
             elif level.derived_layer:
                 derived_layer = level.derived_layer.layer
-                for i, layer1 in enumerate(derived_layer):
-                    slab_layer_name = f"slab_{layer1}_{layer_name}_{i}"
-                    slab_zmin = zmin
-                    slab_zmax = zmax - level.thickness
-                    if isinstance(layer1, list | tuple) and len(layer1) == 2:
-                        name = f"{slab_layer_name}: {level.material} {layer1[0]}/{layer1[1]}"
-                    else:
-                        name = f"{slab_layer_name}: {level.material}"
-                    txt = (
-                        f"z("
-                        f"{slab_layer_name}, "
-                        f"zstart: {slab_zmin}, "
-                        f"zstop: {slab_zmax}, "
-                        f"name: '{name}'"
-                    )
-                    if layer_views:
-                        txt += ", "
-                        if layer1 in layer_views:
-                            props = layer_views.get_from_tuple(layer1)
-                            if hasattr(props, "color"):
-                                if props.color.fill == props.color.frame:
-                                    txt += f"color: {props.color.fill}"
-                                else:
-                                    txt += (
-                                        f"fill: {props.color.fill}, "
-                                        f"frame: {props.color.frame}"
-                                    )
-                    txt += ")"
-                    out += f"{txt}\n"
+                derived_layer_layer = get_layer_tuple(derived_layer)
+                slab_layer_name = f"slab_{layer}_{layer_name}"
+                slab_zmin = zmin
+                slab_zmax = zmax - level.thickness
+                name = f"{slab_layer_name}: {level.material} {derived_layer_layer[0]}/{derived_layer_layer[1]}"
+                txt = (
+                    f"z("
+                    f"{slab_layer_name}, "
+                    f"zstart: {slab_zmin}, "
+                    f"zstop: {slab_zmax}, "
+                    f"name: '{name}'"
+                )
+                if layer_views:
+                    txt += ", "
+                    if layer in layer_views:  # type: ignore
+                        props = layer_views.get_from_tuple(layer)  # type: ignore
+                        if hasattr(props, "color"):
+                            if props.color.fill == props.color.frame:  # type: ignore
+                                txt += f"color: {props.color.fill}"  # type: ignore
+                            else:
+                                txt += (
+                                    f"fill: {props.color.fill}, "  # type: ignore
+                                    f"frame: {props.color.frame}"  # type: ignore
+                                )
+                txt += ")"
+                out += f"{txt}\n"
 
             elif layer_name in unetched_layers:
-                layer_tuple = layer.layer
-                if isinstance(layer_tuple, list | tuple) and len(layer_tuple) == 2:
-                    name = f"{layer_name}: {level.material} {layer_tuple[0]}/{layer_tuple[1]}"
-                else:
-                    name = f"{layer_name}: {level.material}"
+                # TODO: Reimplement this
+                layer_tuple = get_layer_tuple(layer.layer)  # type: ignore
+                name = (
+                    f"{layer_name}: {level.material} {layer_tuple[0]}/{layer_tuple[1]}"
+                )
                 txt = (
                     f"z("
                     f"{layer_name}, "
@@ -621,14 +614,14 @@ class LayerStack(BaseModel):
                 )
                 if layer_views:
                     txt += ", "
-                    props = layer_views.get_from_tuple(layer_tuple)
+                    props = layer_views.get_from_tuple(get_layer_tuple(layer_tuple))
                     if hasattr(props, "color"):
-                        if props.color.fill == props.color.frame:
-                            txt += f"color: {props.color.fill}"
+                        if props.color.fill == props.color.frame:  # type: ignore
+                            txt += f"color: {props.color.fill}"  # type: ignore
                         else:
                             txt += (
-                                f"fill: {props.color.fill}, "
-                                f"frame: {props.color.frame}"
+                                f"fill: {props.color.fill}, "  # type: ignore
+                                f"frame: {props.color.frame}"  # type: ignore
                             )
 
                 txt += ")"
@@ -682,9 +675,9 @@ def get_component_with_derived_layers(
                 )
         else:
             derived_layer_index = get_layer(level.derived_layer.layer)
-
-        shapes = level.layer.get_shapes(component=component)
-        component_derived.shapes(derived_layer_index).insert(shapes)
+        if isinstance(level.layer, AbstractLayer):
+            shapes = level.layer.get_shapes(component=component)
+            component_derived.shapes(derived_layer_index).insert(shapes)
 
     component_derived.add_ports(component.ports)
     return component_derived
@@ -743,8 +736,8 @@ if __name__ == "__main__":
 
     c = gf.Component()
 
-    rect1 = c << gf.components.rectangle(size=(10, 10), layer=(1, 0))
-    rect2 = c << gf.components.rectangle(size=(10, 10), layer=(3, 0))
+    rect1 = c << gf.components.rectangle(size=(10, 10), layer=(1, 0))  # type: ignore
+    rect2 = c << gf.components.rectangle(size=(10, 10), layer=(3, 0))  # type: ignore
     rect2.dmove((30, 30))
     # c.show()
 
@@ -762,3 +755,5 @@ if __name__ == "__main__":
 
     # s = ls.get_klayout_3d_script()
     # print(s)
+
+    res = ls.get_klayout_3d_script()

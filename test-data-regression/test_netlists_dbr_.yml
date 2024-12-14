@@ -1,18 +1,19 @@
 instances:
   dbr_cell_W0p45_W0p55_L0_81fd17cb_0_0:
-    column_pitch: 0.318
-    columns: 10
+    array:
+      column_pitch: 0.318
+      columns: 10
+      row_pitch: 0
+      rows: 1
     component: dbr_cell
     info: {}
-    row_pitch: 0
-    rows: 1
     settings:
       cross_section: strip
       l1: 0.159
       l2: 0.159
       w1: 0.45
       w2: 0.55
-  straight_L0p01_N2_CSstrip_0_0:
+  straight_L0p01_N2_CSstrip_WNone_0_0:
     component: straight
     info:
       length: 0.01
@@ -25,7 +26,8 @@ instances:
       cross_section: strip
       length: 0.01
       npoints: 2
-  straight_L0p01_N2_CSstrip_3180_0:
+      width: null
+  straight_L0p01_N2_CSstrip_WNone_3180_0:
     component: straight
     info:
       length: 0.01
@@ -38,10 +40,11 @@ instances:
       cross_section: strip
       length: 0.01
       npoints: 2
+      width: null
 name: dbr_W0p45_W0p55_L0p159__efcfb70c
 nets:
 - p1: dbr_cell_W0p45_W0p55_L0_81fd17cb_0_0<0.0>,o1
-  p2: straight_L0p01_N2_CSstrip_0_0,o1
+  p2: straight_L0p01_N2_CSstrip_WNone_0_0,o1
 - p1: dbr_cell_W0p45_W0p55_L0_81fd17cb_0_0<0.0>,o2
   p2: dbr_cell_W0p45_W0p55_L0_81fd17cb_0_0<1.0>,o1
 - p1: dbr_cell_W0p45_W0p55_L0_81fd17cb_0_0<1.0>,o2
@@ -61,47 +64,47 @@ nets:
 - p1: dbr_cell_W0p45_W0p55_L0_81fd17cb_0_0<8.0>,o2
   p2: dbr_cell_W0p45_W0p55_L0_81fd17cb_0_0<9.0>,o1
 - p1: dbr_cell_W0p45_W0p55_L0_81fd17cb_0_0<9.0>,o2
-  p2: straight_L0p01_N2_CSstrip_3180_0,o1
+  p2: straight_L0p01_N2_CSstrip_WNone_3180_0,o1
 placements:
   dbr_cell_W0p45_W0p55_L0_81fd17cb_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  straight_L0p01_N2_CSstrip_0_0:
+  straight_L0p01_N2_CSstrip_WNone_0_0:
     mirror: false
     rotation: 180
     x: 0
     y: 0
-  straight_L0p01_N2_CSstrip_3180_0:
+  straight_L0p01_N2_CSstrip_WNone_3180_0:
     mirror: false
     rotation: 0
     x: 3.18
     y: 0
 ports:
-  o1: straight_L0p01_N2_CSstrip_0_0,o2
+  o1: straight_L0p01_N2_CSstrip_WNone_0_0,o2
 warnings:
   optical:
     unconnected_ports:
     - message: 1 unconnected optical ports!
       ports:
-      - straight_L0p01_N2_CSstrip_3180_0,o2
+      - straight_L0p01_N2_CSstrip_WNone_3180_0,o2
       values:
       - - 3190
         - 0
     width_mismatch:
-    - message: Widths of ports straight_L0p01_N2_CSstrip_0_0,o1 and dbr_cell_W0p45_W0p55_L0_81fd17cb_0_0<0.0>,o1
+    - message: Widths of ports straight_L0p01_N2_CSstrip_WNone_0_0,o1 and dbr_cell_W0p45_W0p55_L0_81fd17cb_0_0<0.0>,o1
         not equal. Difference of 50 um
       ports:
-      - straight_L0p01_N2_CSstrip_0_0,o1
+      - straight_L0p01_N2_CSstrip_WNone_0_0,o1
       - dbr_cell_W0p45_W0p55_L0_81fd17cb_0_0<0.0>,o1
       values:
       - 500
       - 450
-    - message: Widths of ports straight_L0p01_N2_CSstrip_3180_0,o1 and dbr_cell_W0p45_W0p55_L0_81fd17cb_0_0<9.0>,o2
+    - message: Widths of ports straight_L0p01_N2_CSstrip_WNone_3180_0,o1 and dbr_cell_W0p45_W0p55_L0_81fd17cb_0_0<9.0>,o2
         not equal. Difference of 50 um
       ports:
-      - straight_L0p01_N2_CSstrip_3180_0,o1
+      - straight_L0p01_N2_CSstrip_WNone_3180_0,o1
       - dbr_cell_W0p45_W0p55_L0_81fd17cb_0_0<9.0>,o2
       values:
       - 500

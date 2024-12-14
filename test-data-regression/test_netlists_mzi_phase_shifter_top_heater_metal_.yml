@@ -230,6 +230,7 @@ instances:
       cross_section: strip
       length: 200
       npoints: 2
+      width: null
   sxt:
     component: straight_heater_metal_undercut
     info:
@@ -263,6 +264,7 @@ instances:
       cross_section: strip
       length: 7
       npoints: 2
+      width: null
   syl:
     component: straight
     info:
@@ -276,6 +278,7 @@ instances:
       cross_section: strip
       length: 7
       npoints: 2
+      width: null
   sytl:
     component: straight
     info:
@@ -289,6 +292,7 @@ instances:
       cross_section: strip
       length: 2
       npoints: 2
+      width: null
   sytr:
     component: straight
     info:
@@ -302,7 +306,8 @@ instances:
       cross_section: strip
       length: 2
       npoints: 2
-name: mzi_DL10_LY2_LX200_Bben_f0fe831d
+      width: null
+name: mzi_DL10_LY2_LX200_Bben_6e9f3e3b
 nets:
 - p1: b1,o1
   p2: cp1,o2

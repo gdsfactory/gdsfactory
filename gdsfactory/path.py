@@ -12,7 +12,7 @@ import hashlib
 import math
 import warnings
 from collections.abc import Callable, Iterator
-from typing import TYPE_CHECKING, Any, Literal, TypeVar, overload
+from typing import Any, Literal, Self, TypeVar, overload
 
 import numpy as np
 import numpy.typing as npt
@@ -30,19 +30,16 @@ from gdsfactory.cross_section import (  # type: ignore[attr-defined]
     Section,
     Transition,
 )
-from gdsfactory.typings import AnyComponent, Axis
-
-if TYPE_CHECKING:
-    from typing import Self
-
-    from gdsfactory.typings import (
-        AngleInDegrees,
-        ComponentSpec,
-        Coordinate,
-        CrossSectionSpec,
-        LayerSpec,
-        WidthTypes,
-    )
+from gdsfactory.typings import (
+    AngleInDegrees,
+    AnyComponent,
+    Axis,
+    ComponentSpec,
+    Coordinate,
+    CrossSectionSpec,
+    LayerSpec,
+    WidthTypes,
+)
 
 
 def _simplify(
@@ -95,24 +92,28 @@ class Path(GeometryHelper):
                 )
 
     def __getattribute__(self, __k: str) -> Any:
-        """Shadow dbu based attributes with um based ones."""
+        """Deprecate dbu prefixed attributes."""
         if __k in {
-            "center",
-            "mirror",
-            "move",
-            "movex",
-            "movey",
-            "rotate",
-            "x",
-            "xmin",
-            "xmax",
-            "xsize",
-            "y",
-            "ymin",
-            "ymax",
-            "ysize",
+            "dcenter",
+            "dmirror",
+            "dmove",
+            "dmovex",
+            "dmovey",
+            "drotate",
+            "dx",
+            "dxmin",
+            "dxmax",
+            "dxsize",
+            "dy",
+            "dymin",
+            "dymax",
+            "dysize",
         }:
-            return getattr(self, f"d{__k}")
+            warnings.warn(
+                f"Deprecation warning. Use {__k[1:]!r} instead of {__k!r} for Path objects.",
+                stacklevel=2,
+            )
+            return getattr(self, f"{__k[1:]}")
         return super().__getattribute__(__k)
 
     def __repr__(self) -> str:
@@ -137,7 +138,7 @@ class Path(GeometryHelper):
         return new.append(path)
 
     @property
-    def dbbox(self) -> npt.NDArray[np.float64]:
+    def bbox(self) -> npt.NDArray[np.float64]:
         """Returns the bounding box of the Path."""
         bbox = [
             (np.min(self.points[:, 0]), np.min(self.points[:, 1])),
@@ -243,7 +244,7 @@ class Path(GeometryHelper):
         self.end_angle = end_angle
         return self
 
-    def dmove(
+    def move(
         self,
         origin: Coordinate,
         destination: Coordinate | None = None,
@@ -263,7 +264,7 @@ class Path(GeometryHelper):
         self.points += np.array([dx, dy])
         return self
 
-    def drotate(self, angle: float = 45, center: Coordinate = (0, 0)) -> Self:
+    def rotate(self, angle: float = 45, center: Coordinate = (0, 0)) -> Self:
         """Rotates all Polygons in the Component around the specified center point.
 
         If no center point specified will rotate around (0,0).
@@ -281,7 +282,7 @@ class Path(GeometryHelper):
             self.end_angle = mod(self.end_angle + angle, 360)
         return self
 
-    def dmirror(self, p1: Coordinate = (0, 1), p2: Coordinate = (0, 0)) -> Path:
+    def mirror(self, p1: Coordinate = (0, 1), p2: Coordinate = (0, 0)) -> Path:
         """Mirrors the Path across the line formed between the two specified points.
 
         ``points`` may be input as either single points [1,2]
@@ -567,6 +568,9 @@ class Path(GeometryHelper):
             simplify=simplify,
             all_angle=all_angle,
         )
+
+    def extrude_transition(self, transition: Transition) -> Component:
+        return extrude_transition(p=self, transition=transition)
 
     def copy(self) -> Path:
         """Returns a copy of the Path."""
@@ -1140,10 +1144,7 @@ def extrude(
     return c
 
 
-def extrude_transition(
-    p: Path,
-    transition: Transition,
-) -> Component:
+def extrude_transition(p: Path, transition: Transition) -> Component:
     """Extrudes a path along a transition.
 
     Args:
@@ -1585,7 +1586,7 @@ def euler(
     path.info["Reff"] = Reff * scale
     path.info["Rmin"] = Rmin * scale
     if mirror:
-        path.dmirror((1, 0))
+        path.mirror((1, 0))
     return path
 
 
@@ -1726,16 +1727,16 @@ def smooth(
     new_points.append([points[0, :]])
     for n in range(len(dtheta)):
         P = paths[n]
-        P.drotate(theta[n] - 0)
-        P.dmove(p1[n])
+        P.rotate(theta[n] - 0)
+        P.move(p1[n])
         new_points.append(P.points)
     new_points.append([points[-1, :]])
     new_points = np.concatenate(new_points)
 
     P = Path()
-    P.drotate(theta[0])
+    P.rotate(theta[0])
     P.append(new_points)
-    P.dmove(points[0, :])
+    P.move(points[0, :])
     return P
 
 

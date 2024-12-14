@@ -47,7 +47,7 @@ instances:
       radius: 10
       width: null
       with_arc_floorplan: true
-  grating_coupler_ellipti_7b8aa449_0_0:
+  grating_coupler_ellipti_ea10bcf6_0_0:
     component: grating_coupler_elliptical_trenches
     info:
       period: 0.676
@@ -65,11 +65,11 @@ instances:
       p_start: 26
       polarization: te
       taper: taper
-      taper_angle: 35
+      taper_angle: 30
       taper_length: 16.6
       trenches_extra_angle: 9
       wavelength: 1.53
-  grating_coupler_ellipti_7b8aa449_127000_0:
+  grating_coupler_ellipti_ea10bcf6_127000_0:
     component: grating_coupler_elliptical_trenches
     info:
       period: 0.676
@@ -87,11 +87,11 @@ instances:
       p_start: 26
       polarization: te
       taper: taper
-      taper_angle: 35
+      taper_angle: 30
       taper_length: 16.6
       trenches_extra_angle: 9
       wavelength: 1.53
-  straight_L107_N2_CSstrip_117000_49529:
+  straight_L107_N2_CSstrip_WNone_117000_49529:
     component: straight
     info:
       length: 107
@@ -104,7 +104,8 @@ instances:
       cross_section: strip
       length: 107
       npoints: 2
-  straight_L40_N2_CSstrip_0_39529:
+      width: null
+  straight_L40_N2_CSstrip_WNone_0_39529:
     component: straight
     info:
       length: 40
@@ -117,7 +118,8 @@ instances:
       cross_section: strip
       length: 40
       npoints: 2
-  straight_L40_N2_CSstrip_127000_39529:
+      width: null
+  straight_L40_N2_CSstrip_WNone_127000_39529:
     component: straight
     info:
       length: 40
@@ -130,20 +132,21 @@ instances:
       cross_section: strip
       length: 40
       npoints: 2
-name: grating_coupler_loss_fi_1149cf5f
+      width: null
+name: grating_coupler_loss_fi_8f6fc89a
 nets:
 - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_10000_49529,o1
-  p2: straight_L107_N2_CSstrip_117000_49529,o2
+  p2: straight_L107_N2_CSstrip_WNone_117000_49529,o2
 - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_10000_49529,o2
-  p2: straight_L40_N2_CSstrip_0_39529,o1
+  p2: straight_L40_N2_CSstrip_WNone_0_39529,o1
 - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_127000_39529,o1
-  p2: straight_L40_N2_CSstrip_127000_39529,o1
+  p2: straight_L40_N2_CSstrip_WNone_127000_39529,o1
 - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_127000_39529,o2
-  p2: straight_L107_N2_CSstrip_117000_49529,o1
-- p1: grating_coupler_ellipti_7b8aa449_0_0,o1
-  p2: straight_L40_N2_CSstrip_0_39529,o2
-- p1: grating_coupler_ellipti_7b8aa449_127000_0,o1
-  p2: straight_L40_N2_CSstrip_127000_39529,o2
+  p2: straight_L107_N2_CSstrip_WNone_117000_49529,o1
+- p1: grating_coupler_ellipti_ea10bcf6_0_0,o1
+  p2: straight_L40_N2_CSstrip_WNone_0_39529,o2
+- p1: grating_coupler_ellipti_ea10bcf6_127000_0,o1
+  p2: straight_L40_N2_CSstrip_WNone_127000_39529,o2
 placements:
   bend_euler_R10_A90_P0p5_2f1f5c6d_10000_49529:
     mirror: false
@@ -155,27 +158,27 @@ placements:
     rotation: 90
     x: 127
     y: 39.529
-  grating_coupler_ellipti_7b8aa449_0_0:
+  grating_coupler_ellipti_ea10bcf6_0_0:
     mirror: false
     rotation: 270
     x: 0
     y: 0
-  grating_coupler_ellipti_7b8aa449_127000_0:
+  grating_coupler_ellipti_ea10bcf6_127000_0:
     mirror: false
     rotation: 270
     x: 127
     y: 0
-  straight_L107_N2_CSstrip_117000_49529:
+  straight_L107_N2_CSstrip_WNone_117000_49529:
     mirror: false
     rotation: 180
     x: 117
     y: 49.529
-  straight_L40_N2_CSstrip_0_39529:
+  straight_L40_N2_CSstrip_WNone_0_39529:
     mirror: false
     rotation: 270
     x: 0
     y: 39.529
-  straight_L40_N2_CSstrip_127000_39529:
+  straight_L40_N2_CSstrip_WNone_127000_39529:
     mirror: false
     rotation: 270
     x: 127

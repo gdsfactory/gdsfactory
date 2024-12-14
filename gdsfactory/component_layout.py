@@ -51,16 +51,16 @@ class GeometryHelper(ABC):
     """Helper class for a class with functions move() and the property bbox.
 
     It uses that function+property to enable you to do things like check what the
-    center of the bounding box is (self.dcenter), and also to do things like move
-    the bounding box such that its maximum x value is 5.2 (self.dxmax = 5.2).
+    center of the bounding box is (self.center), and also to do things like move
+    the bounding box such that its maximum x value is 5.2 (self.xmax = 5.2).
     """
 
     @property
     @abstractmethod
-    def dbbox(self) -> npt.NDArray[np.float64]: ...
+    def bbox(self) -> npt.NDArray[np.float64]: ...
 
     @abstractmethod
-    def dmove(
+    def move(
         self,
         origin: Coordinate,
         destination: Coordinate | None = None,
@@ -68,140 +68,142 @@ class GeometryHelper(ABC):
     ) -> Self: ...
 
     @property
-    def dcenter(self) -> Coordinate:
+    def center(self) -> Coordinate:
         """Returns the center of the bounding box."""
-        return tuple(np.sum(self.dbbox, 0) / 2)
+        return tuple(np.sum(self.bbox, 0) / 2)
 
-    @dcenter.setter
-    def dcenter(self, destination: Coordinate) -> None:
+    @center.setter
+    def center(self, destination: Coordinate) -> None:
         """Sets the center of the bounding box.
 
         Args:
             destination : array-like[2] Coordinates of the new bounding box center.
         """
-        self.dmove(destination=destination, origin=self.dcenter)
+        self.move(destination=destination, origin=self.center)
 
     @property
-    def dx(self) -> float:
+    def x(self) -> float:
         """Returns the x-coordinate of the center of the bounding box."""
-        return float(np.sum(self.dbbox, 0)[0] / 2)
+        return float(np.sum(self.bbox, 0)[0] / 2)
 
-    @dx.setter
-    def dx(self, destination: float) -> None:
+    @x.setter
+    def x(self, destination: float) -> None:
         """Sets the x-coordinate of the center of the bounding box.
 
         Args:
             destination : int or float x-coordinate of the bbox center.
         """
-        destination_t = (destination, self.dcenter[1])
-        self.dmove(destination=destination_t, origin=self.dcenter, axis="x")
+        destination_t = (destination, self.center[1])
+        self.move(destination=destination_t, origin=self.center, axis="x")
 
     @property
-    def dy(self) -> float:
+    def y(self) -> float:
         """Returns the y-coordinate of the center of the bounding box."""
-        return float(np.sum(self.dbbox, 0)[1] / 2)
+        return float(np.sum(self.bbox, 0)[1] / 2)
 
-    @dy.setter
-    def dy(self, destination: float) -> None:
+    @y.setter
+    def y(self, destination: float) -> None:
         """Sets the y-coordinate of the center of the bounding box.
 
         Args:
         destination : int or float
             y-coordinate of the bbox center.
         """
-        destination_t = (self.dcenter[0], destination)
-        self.dmove(destination=destination_t, origin=self.dcenter, axis="y")
+        destination_t = (self.center[0], destination)
+        self.move(destination=destination_t, origin=self.center, axis="y")
 
     @property
-    def dxmax(self) -> float:
+    def xmax(self) -> float:
         """Returns the maximum x-value of the bounding box."""
-        return float(self.dbbox[1][0])
+        return float(self.bbox[1][0])
 
-    @dxmax.setter
-    def dxmax(self, destination: float) -> None:
+    @xmax.setter
+    def xmax(self, destination: float) -> None:
         """Sets the x-coordinate of the maximum edge of the bounding box.
 
         Args:
         destination : int or float
             x-coordinate of the maximum edge of the bbox.
         """
-        self.dmove(destination=(destination, 0), origin=self.dbbox[1], axis="x")
+        self.move(destination=(destination, 0), origin=self.bbox[1], axis="x")
 
     @property
-    def dymax(self) -> float:
+    def ymax(self) -> float:
         """Returns the maximum y-value of the bounding box."""
-        return float(self.dbbox[1][1])
+        return float(self.bbox[1][1])
 
-    @dymax.setter
-    def dymax(self, destination: float) -> None:
+    @ymax.setter
+    def ymax(self, destination: float) -> None:
         """Sets the y-coordinate of the maximum edge of the bounding box.
 
         Args:
             destination : int or float y-coordinate of the maximum edge of the bbox.
         """
-        self.dmove(destination=(0, destination), origin=self.dbbox[1], axis="y")
+        self.move(destination=(0, destination), origin=self.bbox[1], axis="y")
 
     @property
-    def dxmin(self) -> float:
+    def xmin(self) -> float:
         """Returns the minimum x-value of the bounding box."""
-        return float(self.dbbox[0][0])
+        return float(self.bbox[0][0])
 
-    @dxmin.setter
-    def dxmin(self, destination: float) -> None:
+    @xmin.setter
+    def xmin(self, destination: float) -> None:
         """Sets the x-coordinate of the minimum edge of the bounding box.
 
         Args:
             destination : int or float x-coordinate of the minimum edge of the bbox.
         """
-        self.dmove(destination=(destination, 0), origin=self.dbbox[0], axis="x")
+        self.move(destination=(destination, 0), origin=self.bbox[0], axis="x")
 
     @property
-    def dymin(self) -> float:
+    def ymin(self) -> float:
         """Returns the minimum y-value of the bounding box."""
-        return float(self.dbbox[0][1])
+        return float(self.bbox[0][1])
 
-    @dymin.setter
-    def dymin(self, destination: float) -> None:
+    @ymin.setter
+    def ymin(self, destination: float) -> None:
         """Sets the y-coordinate of the minimum edge of the bounding box.
 
         Args:
             destination : int or float y-coordinate of the minimum edge of the bbox.
         """
-        self.dmove(destination=(0, destination), origin=self.dbbox[0], axis="y")
+        self.move(destination=(0, destination), origin=self.bbox[0], axis="y")
 
     @property
-    def dsize(self) -> tuple[float, float]:
+    def size(self) -> tuple[float, float]:
         """Returns the (x, y) size of the bounding box."""
-        dbbox = self.dbbox
-        return tuple(dbbox[1] - dbbox[0])
+        bbox = self.bbox
+        return tuple(bbox[1] - bbox[0])
 
     @property
     def xsize(self) -> float:
         """Returns the horizontal size of the bounding box."""
-        bbox = self.dbbox
+        bbox = self.bbox
         return float(bbox[1][0] - bbox[0][0])
 
     @property
     def ysize(self) -> float:
         """Returns the vertical size of the bounding box."""
-        bbox = self.dbbox
+        bbox = self.bbox
         return float(bbox[1][1] - bbox[0][1])
 
-    def dmovex(self, value: float) -> None:
+    def movex(self, value: float) -> Self:
         """Moves an object by a specified x-distance.
 
         Args:
             value: distance to move the object in the x-direction in um.
         """
-        self.dx += value
+        self.x += value
+        return self
 
-    def dmovey(self, value: float) -> Self:
+    def movey(self, value: float) -> Self:
         """Moves an object by a specified y-distance.
 
         Args:
             value: distance to move the object in the y-direction in um.
         """
-        self.dy += value
+        self.y += value
+        return self
 
 
 def rotate_points(

@@ -1,8 +1,8 @@
 info: {}
-name: via_chain_NV100_C10_VFv_7bb40f3e
+name: via_chain_NV100_C10_Vvi_a44e7637
 settings:
   cols: 10
-  contact: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLM2_MTOP_Vvia2_None
+  contact: via_stack_m2_m3
   layers_bot:
   - M1
   layers_top:
@@ -13,5 +13,5 @@ settings:
   - 0
   offsets_top:
   - 0
-  via: Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2
+  via: via1
   via_min_enclosure: 1

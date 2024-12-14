@@ -5,7 +5,7 @@ from __future__ import annotations
 import importlib
 import pathlib
 import warnings
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 from functools import cached_property, partial, wraps
 from typing import Any
 
@@ -16,7 +16,9 @@ from kfactory.kcell import LayerEnum
 from pydantic import BaseModel, ConfigDict, Field
 
 from gdsfactory import logger
+from gdsfactory.component import Component, ComponentBase
 from gdsfactory.config import CONF
+from gdsfactory.cross_section import CrossSection
 from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
 from gdsfactory.serialization import convert_tuples_to_lists
@@ -24,12 +26,9 @@ from gdsfactory.symbols import floorplan_with_block_letters
 from gdsfactory.technology import LayerStack, LayerViews, klayout_tech
 from gdsfactory.typings import (
     CellSpec,
-    Component,
-    ComponentBase,
     ComponentFactory,
     ComponentSpec,
     ConnectivitySpec,
-    CrossSection,
     CrossSectionFactory,
     CrossSectionSpec,
     Layer,
@@ -150,7 +149,7 @@ class Pdk(BaseModel):
         default_factory=dict, exclude=True
     )
     cells: dict[str, ComponentFactory] = Field(default_factory=dict, exclude=True)
-    models: dict[str, Callable] = Field(default_factory=dict, exclude=True)
+    models: dict[str, Callable[..., Any]] = Field(default_factory=dict, exclude=True)
     symbols: dict[str, ComponentFactory] = Field(default_factory=dict)
     default_symbol_factory: Callable[..., ComponentFactory] = Field(
         default=floorplan_with_block_letters, exclude=True
@@ -169,7 +168,7 @@ class Pdk(BaseModel):
     materials_index: dict[str, MaterialSpec] = Field(default_factory=dict)
     routing_strategies: RoutingStrategies | None = None
     bend_points_distance: float = 20 * nm
-    connectivity: list[ConnectivitySpec] | None = None
+    connectivity: Sequence[ConnectivitySpec] | None = None
     max_cellname_length: int = CONF.max_cellname_length
 
     model_config = ConfigDict(
@@ -338,7 +337,7 @@ class Pdk(BaseModel):
             component=component, cells=self.cells, settings=settings, **kwargs
         )
 
-    def get_symbol(self, component: ComponentSpec, **kwargs: Any) -> ComponentBase:
+    def get_symbol(self, component: ComponentSpec, **kwargs: Any) -> Component:
         """Returns a component's symbol from a component spec."""
         # this is a pretty rough first implementation
         try:
@@ -473,6 +472,7 @@ class Pdk(BaseModel):
 
     def get_layer_name(self, layer: LayerSpec) -> str:
         layer_index = self.get_layer(layer)
+        assert self.layers is not None
         return self.layers[layer_index]
 
     def get_layer_views(self) -> LayerViews:
@@ -486,8 +486,6 @@ class Pdk(BaseModel):
         return self.layer_stack
 
     def get_constant(self, key: str) -> Any:
-        if not isinstance(key, str):
-            return key
         if key not in self.constants:
             constants = list(self.constants.keys())
             raise ValueError(f"{key!r} not in {constants}")
@@ -495,7 +493,7 @@ class Pdk(BaseModel):
 
     def to_updk(self) -> str:
         """Export to uPDK YAML definition."""
-        from gdsfactory.components.bbox import bbox_to_points
+        from gdsfactory.components import bbox_to_points
 
         blocks = {cell_name: cell() for cell_name, cell in self.cells.items()}
         blocks = {
@@ -623,7 +621,8 @@ def get_material_index(material: MaterialSpec, *args: Any, **kwargs: Any) -> Com
 def get_component(
     component: ComponentSpec, settings: dict[str, Any] | None = None, **kwargs: Any
 ) -> Component:
-    return get_active_pdk().get_component(component, settings=settings, **kwargs)
+    kwargs_clean = {k: v for k, v in kwargs.items() if v is not None}
+    return get_active_pdk().get_component(component, settings=settings, **kwargs_clean)
 
 
 def get_cell(cell: CellSpec, **kwargs: Any) -> ComponentFactory:
@@ -631,7 +630,8 @@ def get_cell(cell: CellSpec, **kwargs: Any) -> ComponentFactory:
 
 
 def get_cross_section(cross_section: CrossSectionSpec, **kwargs: Any) -> CrossSection:
-    return get_active_pdk().get_cross_section(cross_section, **kwargs)
+    kwargs_clean = {k: v for k, v in kwargs.items() if v is not None}
+    return get_active_pdk().get_cross_section(cross_section, **kwargs_clean)
 
 
 def get_layer(layer: LayerSpec) -> LayerEnum:

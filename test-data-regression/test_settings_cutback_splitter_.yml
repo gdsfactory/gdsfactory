@@ -1,8 +1,8 @@
 info:
   components: 88
-name: cutback_splitter_Cmmi1x_5fd4c12d
+name: cutback_splitter_Cmmi1x_7c0cdfa9
 settings:
-  bend180: Fbend_euler_Mgdsfactorypcomponentspbend_euler_SA180
+  bend180: bend_euler180
   cols: 4
   component: mmi1x2
   cross_section: strip

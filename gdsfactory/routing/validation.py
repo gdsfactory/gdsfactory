@@ -50,8 +50,8 @@ def is_invalid_bundle_topology(ports1: list[Port], ports2: list[Port]) -> bool:
     # OR all lines intersect and all ports1 > 90, ports2 < 90, or vice versa
     # the topology is valid
     # (actually, the bundle can contain 2 groups-- one of each, and still maintain valid, as long as there are no crossings between them)
-    import shapely.geometry as sg  # type: ignore[import-untyped]
-    from shapely import intersection_all  # type: ignore
+    import shapely.geometry as sg
+    from shapely import intersection_all
 
     # this is not really quite angle, but a threshold to check if dot products are effectively above/below zero, excluding numerical errors
     angle_tolerance = 1e-10

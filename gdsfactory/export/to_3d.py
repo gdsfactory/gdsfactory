@@ -97,7 +97,7 @@ def to_3d(
 
 
 if __name__ == "__main__":
-    from gdsfactory.components.grating_coupler_elliptical_trenches import (
+    from gdsfactory.components import (
         grating_coupler_elliptical_trenches,
     )
 

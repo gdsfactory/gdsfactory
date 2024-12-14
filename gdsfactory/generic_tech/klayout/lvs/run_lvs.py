@@ -21,6 +21,7 @@ Options:
 
 import logging
 import os
+from collections.abc import Sequence
 from datetime import UTC, datetime
 from subprocess import check_call
 
@@ -154,7 +155,7 @@ def build_switches_string(sws: dict[str, str]) -> str:
     return " ".join(f"-rd {k}={v}" for k, v in sws.items())
 
 
-def check_lvs_results(results_db_files: list[str]) -> None:
+def check_lvs_results(results_db_files: Sequence[str]) -> None:
     """check_lvs_results Checks the results db generated from run and report at the end if the LVS run failed or passed.
 
     Parameters

@@ -32,6 +32,7 @@ def big_device(
 
     xs = gf.get_cross_section(cross_section)
     layer = xs.layer
+    assert layer is not None
     width = xs.width
     assert isinstance(width, float)
 

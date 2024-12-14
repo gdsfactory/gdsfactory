@@ -81,6 +81,7 @@ def auto_taper_to_cross_section(
             f"Taper component ports do not match the port's layer and width! Got {taper_ports}. and {layer}, {width}"
         )
     taper_ref = component.add_ref(taper_component)
+    assert p0.name is not None
     taper_ref.connect(p0.name, port)
     port_new = taper_ref.ports[p1.name].copy()
     port_new.name = port.name

@@ -5,12 +5,9 @@ from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
-from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.route_fiber_array import route_fiber_array
 from gdsfactory.typings import (
-    ComponentFactory,
     ComponentSpec,
     ComponentSpecOrList,
     CrossSectionSpec,
@@ -19,8 +16,8 @@ from gdsfactory.typings import (
 
 
 def add_fiber_single(
-    component: ComponentSpec = straight_function,
-    grating_coupler: ComponentSpecOrList = grating_coupler_te,
+    component: ComponentSpec = "straight",
+    grating_coupler: ComponentSpecOrList = "grating_coupler_te",
     gc_port_name: str = "o1",
     gc_port_name_fiber: str = "o2",
     select_ports: SelectPorts = select_ports_optical,
@@ -29,7 +26,7 @@ def add_fiber_single(
     pitch: float = 70,
     with_loopback: bool = True,
     loopback_spacing: float = 100.0,
-    straight: ComponentFactory = straight_function,
+    straight: ComponentSpec = "straight",
     **kwargs: Any,
 ) -> Component:
     """Returns component with south routes and grating_couplers.

@@ -1,4 +1,3 @@
-# type: ignore
 """Extract netlist from component port connectivity.
 
 Assumes two ports are connected when they have same width, x, y
@@ -20,21 +19,23 @@ Assumes two ports are connected when they have same width, x, y
 from __future__ import annotations
 
 from collections import defaultdict
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 from pprint import pprint
-from typing import Any
+from typing import Any, Protocol
 from warnings import warn
 
 import numpy as np
 
-from gdsfactory import Port
+from gdsfactory import Port, typings
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.name import clean_name
 from gdsfactory.serialization import clean_dict, clean_value_json
 from gdsfactory.typings import LayerSpec
 
 
-def _nets_to_connections(nets: list[dict], connections: dict) -> dict[str, str]:
+def nets_to_connections(
+    nets: list[dict[str, Any]], connections: dict[str, Any]
+) -> dict[str, str]:
     connections = dict(connections)
     inverse_connections = {v: k for k, v in connections.items()}
 
@@ -45,7 +46,7 @@ def _nets_to_connections(nets: list[dict], connections: dict) -> dict[str, str]:
         connections[p] = q
         inverse_connections[q] = p
 
-    def _get_connected_port(p: str) -> str:
+    def _get_connected_port(p: str) -> Any:
         return connections[p] if p in connections else inverse_connections[p]
 
     for net in nets:
@@ -67,7 +68,7 @@ def _nets_to_connections(nets: list[dict], connections: dict) -> dict[str, str]:
     return connections
 
 
-def get_default_connection_validators() -> dict[str, Callable]:
+def get_default_connection_validators() -> dict[str, Callable[..., None]]:
     return {"optical": validate_optical_connection, "electrical": _null_validator}
 
 
@@ -122,9 +123,13 @@ def _is_array_reference(ref: ComponentReference) -> bool:
     return ref.na > 1 or ref.nb > 1
 
 
+def _is_orthogonal_array_reference(ref: ComponentReference) -> bool:
+    return abs(ref.a.y) == 0 and abs(ref.b.x) == 0
+
+
 def get_netlist(
     component: Component,
-    exclude_port_types: list[str] | tuple[str] | None = (
+    exclude_port_types: Sequence[str] | None = (
         "placement",
         "pad",
         "bump",
@@ -164,18 +169,18 @@ def get_netlist(
         warnings: warning messages (disconnected pins).
 
     """
-    placements = {}
-    instances = {}
-    nets = []
-    top_ports = {}
+    placements: dict[str, dict[str, Any]] = {}
+    instances: dict[str, dict[str, Any]] = {}
+    nets: list[dict[str, Any]] = []
+    top_ports: dict[str, str] = {}
 
     # store where ports are located
     name2port = {}
 
     # TOP level ports
     ports = component.ports
-    ports_by_type = defaultdict(list)
-    top_ports_list = set()
+    ports_by_type: defaultdict[str, list[str]] = defaultdict(list)
+    top_ports_list: set[str] = set()
 
     references = _get_references_to_netlist(component)
 
@@ -185,10 +190,7 @@ def get_netlist(
         x = origin.x
         y = origin.y
         reference_name = get_instance_name(reference)
-        is_array_ref = False
-        if _is_array_reference(reference):
-            is_array_ref = True
-        instance = {}
+        instance: dict[str, Any] = {}
 
         if c.info:
             instance.update(component=c.name, info=c.info.model_dump())
@@ -214,13 +216,21 @@ def get_netlist(
             "mirror": reference.dtrans.mirror,
         }
 
-        if is_array_ref:
-            instances[reference_name].update(
-                columns=reference.na,
-                rows=reference.nb,
-                column_pitch=reference.da.x,
-                row_pitch=reference.db.y,
-            )
+        if _is_array_reference(reference):
+            if _is_orthogonal_array_reference(reference):
+                instances[reference_name]["array"] = {
+                    "columns": reference.na,
+                    "rows": reference.nb,
+                    "column_pitch": reference.da.x,
+                    "row_pitch": reference.db.y,
+                }
+            else:
+                instances[reference_name]["array"] = {
+                    "num_a": reference.na,
+                    "num_b": reference.nb,
+                    "pitch_a": (reference.da.x, reference.da.y),
+                    "pitch_b": (reference.db.x, reference.db.y),
+                }
             reference_name = get_instance_name(reference)
             for ia in range(reference.na):
                 for ib in range(reference.nb):
@@ -238,10 +248,11 @@ def get_netlist(
                 ports_by_type[port.port_type].append(src)
 
     for port in ports:
-        src = port.name
-        name2port[src] = port
-        top_ports_list.add(src)
-        ports_by_type[port.port_type].append(src)
+        port_name = port.name
+        if port_name is not None:
+            name2port[port_name] = port
+            top_ports_list.add(port_name)
+            ports_by_type[port.port_type].append(port_name)
 
     warnings = {}
     for port_type, port_names in ports_by_type.items():
@@ -286,10 +297,10 @@ def get_netlist(
 
 
 def extract_connections(
-    port_names: list[str],
-    ports: dict[str, Port],
+    port_names: Sequence[str],
+    ports: dict[str, typings.Port],
     port_type: str,
-    validators: dict[str, Callable] | None = None,
+    validators: dict[str, Callable[..., None]] | None = None,
     allow_multiple: bool = True,
     connection_error_types: dict[str, list[str]] | None = None,
 ) -> tuple[list[list[str]], dict[str, list[dict[str, Any]]]]:
@@ -308,10 +319,10 @@ def extract_connections(
 
 
 def _extract_connections(
-    port_names: list[str],
-    ports: dict[str, Port],
+    port_names: Sequence[str],
+    ports: dict[str, typings.Port],
     port_type: str,
-    connection_validator: Callable,
+    connection_validator: Callable[..., None],
     raise_error_for_warnings: list[str] | None = None,
     allow_multiple: bool = True,
     connection_error_types: dict[str, list[str]] | None = None,
@@ -331,7 +342,7 @@ def _extract_connections(
     if connection_error_types is None:
         connection_error_types = DEFAULT_CRITICAL_CONNECTION_ERROR_TYPES
 
-    warnings = defaultdict(list)
+    warnings: defaultdict[str, list[list[str]]] = defaultdict(list)
     if raise_error_for_warnings is None:
         raise_error_for_warnings = connection_error_types.get(port_type, [])
 
@@ -493,10 +504,14 @@ def _get_references_to_netlist(component: Component) -> list[ComponentReference]
     return component.insts
 
 
+class GetNetlistFunc(Protocol):
+    def __call__(self, component: Component, **kwargs: Any) -> dict[str, Any]: ...
+
+
 def get_netlist_recursive(
     component: Component,
     component_suffix: str = "",
-    get_netlist_func: Callable = get_netlist,
+    get_netlist_func: GetNetlistFunc = get_netlist,
     get_instance_name: Callable[..., str] = get_instance_name_from_alias,
     **kwargs: Any,
 ) -> dict[str, Any]:

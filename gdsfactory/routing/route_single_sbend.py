@@ -1,16 +1,15 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.components.bend_s import bend_s as bend_s_function
-from gdsfactory.port import Port
-from gdsfactory.typings import Component, ComponentSpec, CrossSectionSpec
+from gdsfactory.component import Component
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Port
 
 
 def route_single_sbend(
     component: Component,
     port1: Port,
     port2: Port,
-    bend_s: ComponentSpec = bend_s_function,
+    bend_s: ComponentSpec = "bend_s",
     cross_section: CrossSectionSpec = "strip",
     allow_layer_mismatch: bool = False,
     allow_width_mismatch: bool = False,
@@ -69,5 +68,5 @@ if __name__ == "__main__":
     mmi2 = c << gf.components.mmi1x2()
     mmi2.dmovex(50)
     mmi2.dmovey(5)
-    route = route_single_sbend(c, mmi1.ports["o2"], mmi2.ports["o1"])
+    route_single_sbend(c, mmi1.ports["o2"], mmi2.ports["o1"])
     c.show()

@@ -14,14 +14,12 @@ from __future__ import annotations
 
 from collections.abc import Mapping, Sequence
 from functools import partial
-from typing import Any, Literal
+from typing import Literal
 
 import kfactory as kf
 from kfactory.routing.generic import ManhattanRoute
 
 import gdsfactory as gf
-from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.components.wire import wire_corner
 from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
 from gdsfactory.typings import (
@@ -29,10 +27,12 @@ from gdsfactory.typings import (
     ComponentSpec,
     Coordinates,
     CrossSectionSpec,
+    LayerSpec,
     LayerSpecs,
     Port,
     Ports,
 )
+from gdsfactory.utils import to_kdb_boxes
 
 OpticalManhattanRoute = ManhattanRoute
 
@@ -90,10 +90,10 @@ def get_min_spacing(
 
 def route_bundle(
     component: gf.Component,
-    ports1: Ports | Port,
-    ports2: Ports | Port,
+    ports1: Ports,
+    ports2: Ports,
     cross_section: CrossSectionSpec | None = None,
-    layer: LayerSpecs | None = None,
+    layer: LayerSpec | None = None,
     separation: float = 3.0,
     bend: ComponentSpec = "bend_euler",
     sort_ports: bool = False,
@@ -103,12 +103,12 @@ def route_bundle(
     taper: ComponentSpec | None = None,
     port_type: str | None = None,
     collision_check_layers: LayerSpecs | None = None,
-    on_collision: str | None = "show_error",
+    on_collision: Literal["error", "show_error"] | None = "show_error",
     bboxes: list[kf.kdb.Box] | None = None,
     allow_width_mismatch: bool = False,
     radius: float | None = None,
     route_width: float | None = None,
-    straight: ComponentSpec = straight_function,
+    straight: ComponentSpec = "straight",
     auto_taper: bool = True,
     waypoints: Coordinates | None = None,
     steps: Sequence[Mapping[str, int | float]] | None = None,
@@ -214,22 +214,22 @@ def route_bundle(
         )
     )
 
-    def straight_dbu(
-        length: int, cross_section: CrossSectionSpec = xs, **kwargs: Any
-    ) -> gf.Component:
+    def straight_dbu(width: int, length: int) -> gf.Component:
         return gf.get_component(
             straight,
             length=c.kcl.to_um(length),
-            cross_section=cross_section,
+            cross_section=xs,
         )
 
     end_straight = c.kcl.to_dbu(end_straight_length)
     start_straight = c.kcl.to_dbu(start_straight_length)
 
     if collision_check_layers:
-        collision_check_layers = [
+        collision_check_layer_enums = [
             gf.get_layer(layer) for layer in collision_check_layers
         ]
+    else:
+        collision_check_layer_enums = None
 
     if auto_taper:
         ports1 = add_auto_tapers(component, ports1, cross_section)
@@ -262,7 +262,6 @@ def route_bundle(
     router = router or "electrical" if port_type == "electrical" else "optical"
 
     if router == "electrical":
-        port_layer = ports1[0].layer
         return kf.routing.electrical.route_bundle(
             component,
             ports1,
@@ -270,10 +269,9 @@ def route_bundle(
             c.kcl.to_dbu(separation),
             starts=start_straight,
             ends=end_straight,
-            place_layer=port_layer,
-            collision_check_layers=collision_check_layers,
+            collision_check_layers=collision_check_layer_enums,
             on_collision=on_collision,
-            bboxes=bboxes or [],
+            bboxes=to_kdb_boxes(bboxes or []),
             route_width=width_dbu,
             sort_ports=sort_ports,
             waypoints=_waypoints,
@@ -293,10 +291,10 @@ def route_bundle(
         ends=end_straight,
         min_straight_taper=c.kcl.to_dbu(min_straight_taper),
         place_port_type=port_type,
-        collision_check_layers=collision_check_layers,
+        collision_check_layers=collision_check_layer_enums,
         on_collision=on_collision,
         allow_width_mismatch=allow_width_mismatch,
-        bboxes=bboxes or [],
+        bboxes=to_kdb_boxes(bboxes or []),
         route_width=width_dbu,
         sort_ports=sort_ports,
         waypoints=_waypoints,
@@ -307,7 +305,7 @@ def route_bundle(
 
 route_bundle_electrical = partial(
     route_bundle,
-    bend=wire_corner,
+    bend="wire_corner",
     allow_width_mismatch=True,
 )
 
@@ -333,7 +331,7 @@ if __name__ == "__main__":
     ptop.dmovey(300)
     routes = gf.routing.route_bundle_electrical(
         c,
-        reversed(pbot.ports),
+        list(reversed(pbot.ports)),
         ptop.ports,
         # end_straight_length=50,
         start_straight_length=100,

@@ -59,7 +59,7 @@ instances:
       length_x: 4
       radius: 10
       straight: straight
-  straight_L0p6_N2_CSstrip_10000_11300:
+  straight_L0p6_N2_CSstrip_WNone_10000_11300:
     component: straight
     info:
       length: 0.6
@@ -72,7 +72,8 @@ instances:
       cross_section: strip
       length: 0.6
       npoints: 2
-  straight_L0p6_N2_CSstrip_m14000_10700:
+      width: null
+  straight_L0p6_N2_CSstrip_WNone_m14000_10700:
     component: straight
     info:
       length: 0.6
@@ -85,7 +86,8 @@ instances:
       cross_section: strip
       length: 0.6
       npoints: 2
-  straight_L4_N2_CSstrip_0_21300:
+      width: null
+  straight_L4_N2_CSstrip_WNone_0_21300:
     component: straight
     info:
       length: 4
@@ -98,20 +100,21 @@ instances:
       cross_section: strip
       length: 4
       npoints: 2
+      width: null
 name: ring_single_G0p2_R10_LX_1ab45a89
 nets:
 - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_10000_11300,o1
-  p2: straight_L0p6_N2_CSstrip_10000_11300,o1
+  p2: straight_L0p6_N2_CSstrip_WNone_10000_11300,o1
 - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_10000_11300,o2
-  p2: straight_L4_N2_CSstrip_0_21300,o1
+  p2: straight_L4_N2_CSstrip_WNone_0_21300,o1
 - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m4000_21300,o1
-  p2: straight_L4_N2_CSstrip_0_21300,o2
+  p2: straight_L4_N2_CSstrip_WNone_0_21300,o2
 - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m4000_21300,o2
-  p2: straight_L0p6_N2_CSstrip_m14000_10700,o2
+  p2: straight_L0p6_N2_CSstrip_WNone_m14000_10700,o2
 - p1: coupler_ring_G0p2_R10_L_9871ac59_0_0,o2
-  p2: straight_L0p6_N2_CSstrip_m14000_10700,o1
+  p2: straight_L0p6_N2_CSstrip_WNone_m14000_10700,o1
 - p1: coupler_ring_G0p2_R10_L_9871ac59_0_0,o3
-  p2: straight_L0p6_N2_CSstrip_10000_11300,o2
+  p2: straight_L0p6_N2_CSstrip_WNone_10000_11300,o2
 placements:
   bend_euler_R10_A90_P0p5_2f1f5c6d_10000_11300:
     mirror: false
@@ -128,17 +131,17 @@ placements:
     rotation: 0
     x: 0
     y: 0
-  straight_L0p6_N2_CSstrip_10000_11300:
+  straight_L0p6_N2_CSstrip_WNone_10000_11300:
     mirror: false
     rotation: 270
     x: 10
     y: 11.3
-  straight_L0p6_N2_CSstrip_m14000_10700:
+  straight_L0p6_N2_CSstrip_WNone_m14000_10700:
     mirror: false
     rotation: 90
     x: -14
     y: 10.7
-  straight_L4_N2_CSstrip_0_21300:
+  straight_L4_N2_CSstrip_WNone_0_21300:
     mirror: false
     rotation: 180
     x: 0

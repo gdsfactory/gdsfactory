@@ -1244,6 +1244,7 @@ instances:
       cross_section: strip
       length: 20
       npoints: 2
+      width: null
   m1:
     component: straight
     info:
@@ -1257,7 +1258,8 @@ instances:
       cross_section: strip
       length: 20
       npoints: 2
-name: cutback_splitter_Cmmi1x_5fd4c12d
+      width: null
+name: cutback_splitter_Cmmi1x_7c0cdfa9
 nets:
 - p1: A1,o2
   p2: B1,o3
