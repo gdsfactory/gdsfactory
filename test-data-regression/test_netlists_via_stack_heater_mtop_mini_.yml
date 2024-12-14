@@ -5,7 +5,7 @@ instances:
     settings:
       auto_rename_ports: true
       layer: HEATER
-      port_inclusion: 0
+      port_inclusion: 0.0
       port_orientations:
       - 180
       - 90
@@ -21,7 +21,7 @@ instances:
     settings:
       auto_rename_ports: true
       layer: M2
-      port_inclusion: 0
+      port_inclusion: 0.0
       port_orientations:
       - 180
       - 90
@@ -37,7 +37,7 @@ instances:
     settings:
       auto_rename_ports: false
       layer: MTOP
-      port_inclusion: 0
+      port_inclusion: 0.0
       port_orientations:
       - 180
       - 90
@@ -51,7 +51,7 @@ instances:
     component: via
     info:
       column_pitch: 2
-      enclosure: 1
+      enclosure: 1.0
       row_pitch: 2
       xsize: 0.7
       ysize: 0.7
@@ -60,7 +60,7 @@ instances:
       bbox_offset: 0
       bbox_offsets: null
       column_pitch: null
-      enclosure: 1
+      enclosure: 1.0
       gap: null
       layer: VIA2
       pitch: 2
@@ -96,29 +96,29 @@ nets: []
 placements:
   compass_S4_4_LHEATER_PT_3259000c_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
   compass_S4_4_LM2_PTNone_29061e81_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
   compass_S4_4_LMTOP_PTel_ce4b57f9_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
   via_S0p7_0p7_SNone_GNon_a794b952_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
   via_S0p7_0p7_SNone_GNon_d0c93b95_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
 ports:
   e1: compass_S4_4_LMTOP_PTel_ce4b57f9_0_0,e1
   e2: compass_S4_4_LMTOP_PTel_ce4b57f9_0_0,e2

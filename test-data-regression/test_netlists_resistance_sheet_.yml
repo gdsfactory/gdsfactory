@@ -5,7 +5,7 @@ instances:
     settings:
       auto_rename_ports: true
       layer: HEATER
-      port_inclusion: 0
+      port_inclusion: 0.0
       port_orientations:
       - 180
       - 90
@@ -13,13 +13,13 @@ instances:
       - -90
       port_type: electrical
       size:
-      - 50
-      - 10
+      - 50.0
+      - 10.0
   via_stack_S50_50_LHEATE_cc34f1db_50000_0:
     component: via_stack
     info:
-      xsize: 50
-      ysize: 50
+      xsize: 50.0
+      ysize: 50.0
     settings:
       correct_size: true
       layer_offsets: null
@@ -35,8 +35,8 @@ instances:
       - 0
       - -90
       size:
-      - 50
-      - 50
+      - 50.0
+      - 50.0
       slot_horizontal: false
       slot_vertical: false
       vias:
@@ -46,8 +46,8 @@ instances:
   via_stack_S50_50_LHEATE_cc34f1db_m50000_0:
     component: via_stack
     info:
-      xsize: 50
-      ysize: 50
+      xsize: 50.0
+      ysize: 50.0
     settings:
       correct_size: true
       layer_offsets: null
@@ -63,8 +63,8 @@ instances:
       - 0
       - -90
       size:
-      - 50
-      - 50
+      - 50.0
+      - 50.0
       slot_horizontal: false
       slot_vertical: false
       vias:
@@ -80,19 +80,19 @@ nets:
 placements:
   compass_S50_10_LHEATER__815ec8f4_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
   via_stack_S50_50_LHEATE_cc34f1db_50000_0:
     mirror: false
-    rotation: 0
-    x: 50
-    y: 0
+    rotation: 0.0
+    x: 50.0
+    y: 0.0
   via_stack_S50_50_LHEATE_cc34f1db_m50000_0:
     mirror: false
-    rotation: 0
-    x: -50
-    y: 0
+    rotation: 0.0
+    x: -50.0
+    y: 0.0
 ports:
   pad1: via_stack_S50_50_LHEATE_cc34f1db_m50000_0,e4
   pad2: via_stack_S50_50_LHEATE_cc34f1db_50000_0,e4

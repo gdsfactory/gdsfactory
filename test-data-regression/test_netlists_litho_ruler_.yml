@@ -319,109 +319,109 @@ nets: []
 placements:
   rectangle_S0p5_2_LWG_CF_06c4f7a9_1250_0:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 1.25
-    y: 0
+    y: 0.0
   rectangle_S0p5_2_LWG_CF_06c4f7a9_13750_0:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 13.75
-    y: 0
+    y: 0.0
   rectangle_S0p5_2_LWG_CF_06c4f7a9_16250_0:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 16.25
-    y: 0
+    y: 0.0
   rectangle_S0p5_2_LWG_CF_06c4f7a9_18750_0:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 18.75
-    y: 0
+    y: 0.0
   rectangle_S0p5_2_LWG_CF_06c4f7a9_21250_0:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 21.25
-    y: 0
+    y: 0.0
   rectangle_S0p5_2_LWG_CF_06c4f7a9_3750_0:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 3.75
-    y: 0
+    y: 0.0
   rectangle_S0p5_2_LWG_CF_06c4f7a9_6250_0:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 6.25
-    y: 0
+    y: 0.0
   rectangle_S0p5_2_LWG_CF_06c4f7a9_8750_0:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 8.75
-    y: 0
+    y: 0.0
   rectangle_S0p5_2_LWG_CF_06c4f7a9_m11250_0:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: -11.25
-    y: 0
+    y: 0.0
   rectangle_S0p5_2_LWG_CF_06c4f7a9_m16250_0:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: -16.25
-    y: 0
+    y: 0.0
   rectangle_S0p5_2_LWG_CF_06c4f7a9_m18750_0:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: -18.75
-    y: 0
+    y: 0.0
   rectangle_S0p5_2_LWG_CF_06c4f7a9_m21250_0:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: -21.25
-    y: 0
+    y: 0.0
   rectangle_S0p5_2_LWG_CF_06c4f7a9_m23750_0:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: -23.75
-    y: 0
+    y: 0.0
   rectangle_S0p5_2_LWG_CF_06c4f7a9_m3750_0:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: -3.75
-    y: 0
+    y: 0.0
   rectangle_S0p5_2_LWG_CF_06c4f7a9_m6250_0:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: -6.25
-    y: 0
+    y: 0.0
   rectangle_S0p5_2_LWG_CF_06c4f7a9_m8750_0:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: -8.75
-    y: 0
+    y: 0.0
   rectangle_S0p5_4_LWG_CF_a870e2f3_11250_0:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 11.25
-    y: 0
+    y: 0.0
   rectangle_S0p5_4_LWG_CF_a870e2f3_m13750_0:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: -13.75
-    y: 0
+    y: 0.0
   rectangle_S0p5_6_LWG_CF_4a339026_23750_0:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 23.75
-    y: 0
+    y: 0.0
   rectangle_S0p5_6_LWG_CF_4a339026_m1250_0:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: -1.25
-    y: 0
+    y: 0.0
   rectangle_S0p5_6_LWG_CF_4a339026_m26250_0:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: -26.25
-    y: 0
+    y: 0.0
 ports: {}
 warnings:
   electrical:

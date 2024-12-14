@@ -4,7 +4,7 @@ settings:
   num_squares: 1000
   pad_layer: MTOP
   pad_size:
-  - 50
-  - 50
+  - 50.0
+  - 50.0
   res_layer: MTOP
-  width: 1
+  width: 1.0

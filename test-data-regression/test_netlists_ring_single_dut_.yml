@@ -2,20 +2,20 @@ instances:
   bend_euler_R5_A90_P0p5__c7bd5c45_5000_15700:
     component: bend_euler
     info:
-      dy: 5
+      dy: 5.0
       length: 8.318
       min_bend_radius: 3.53
-      radius: 5
+      radius: 5.0
       route_info_length: 8.318
       route_info_min_bend_radius: 3.53
-      route_info_n_bend_90: 1
+      route_info_n_bend_90: 1.0
       route_info_strip_length: 8.318
       route_info_type: strip
       route_info_weight: 8.318
       width: 0.5
     settings:
       allow_min_radius_violation: false
-      angle: 90
+      angle: 90.0
       cross_section: strip
       layer: null
       npoints: null
@@ -26,20 +26,20 @@ instances:
   bend_euler_R5_A90_P0p5__c7bd5c45_m4000_20700:
     component: bend_euler
     info:
-      dy: 5
+      dy: 5.0
       length: 8.318
       min_bend_radius: 3.53
-      radius: 5
+      radius: 5.0
       route_info_length: 8.318
       route_info_min_bend_radius: 3.53
-      route_info_n_bend_90: 1
+      route_info_n_bend_90: 1.0
       route_info_strip_length: 8.318
       route_info_type: strip
       route_info_weight: 8.318
       width: 0.5
     settings:
       allow_min_radius_violation: false
-      angle: 90
+      angle: 90.0
       cross_section: strip
       layer: null
       npoints: null
@@ -57,48 +57,48 @@ instances:
       gap: 0.2
       length_extension: 3
       length_x: 4
-      radius: 5
+      radius: 5.0
       straight: straight
   straight_L10_N2_CSstrip_WNone_5000_15700:
     component: straight
     info:
-      length: 10
-      route_info_length: 10
-      route_info_strip_length: 10
+      length: 10.0
+      route_info_length: 10.0
+      route_info_strip_length: 10.0
       route_info_type: strip
-      route_info_weight: 10
+      route_info_weight: 10.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 10
+      length: 10.0
       npoints: 2
       width: null
   straight_L10_N2_CSstrip_WNone_m9000_15700:
     component: straight
     info:
-      length: 10
-      route_info_length: 10
-      route_info_strip_length: 10
+      length: 10.0
+      route_info_length: 10.0
+      route_info_strip_length: 10.0
       route_info_type: strip
-      route_info_weight: 10
+      route_info_weight: 10.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 10
+      length: 10.0
       npoints: 2
       width: null
   straight_L4_N2_CSstrip_WNone_m4000_20700:
     component: straight
     info:
-      length: 4
-      route_info_length: 4
-      route_info_strip_length: 4
+      length: 4.0
+      route_info_length: 4.0
+      route_info_strip_length: 4.0
       route_info_type: strip
-      route_info_weight: 4
+      route_info_weight: 4.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 4
+      length: 4.0
       npoints: 2
       width: null
 name: ring_single_dut_Cstraig_3023a85c
@@ -118,33 +118,33 @@ nets:
 placements:
   bend_euler_R5_A90_P0p5__c7bd5c45_5000_15700:
     mirror: false
-    rotation: 90
-    x: 5
+    rotation: 90.0
+    x: 5.0
     y: 15.7
   bend_euler_R5_A90_P0p5__c7bd5c45_m4000_20700:
     mirror: false
-    rotation: 180
-    x: -4
+    rotation: 180.0
+    x: -4.0
     y: 20.7
   coupler_ring_G0p2_R5_LX_ba10ec54_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
   straight_L10_N2_CSstrip_WNone_5000_15700:
     mirror: false
-    rotation: 270
-    x: 5
+    rotation: 270.0
+    x: 5.0
     y: 15.7
   straight_L10_N2_CSstrip_WNone_m9000_15700:
     mirror: false
-    rotation: 270
-    x: -9
+    rotation: 270.0
+    x: -9.0
     y: 15.7
   straight_L4_N2_CSstrip_WNone_m4000_20700:
     mirror: false
-    rotation: 0
-    x: -4
+    rotation: 0.0
+    x: -4.0
     y: 20.7
 ports:
   o1: coupler_ring_G0p2_R5_LX_ba10ec54_0_0,o1

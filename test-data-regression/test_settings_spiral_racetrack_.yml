@@ -17,5 +17,5 @@ settings:
   - 2
   - 2
   straight_factory: straight
-  straight_length: 20
+  straight_length: 20.0
   with_inner_ports: false

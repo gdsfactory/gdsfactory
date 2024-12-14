@@ -22,12 +22,12 @@ nets: []
 placements:
   triangle_X2_X0p2_Y5_Y0_LWG_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
   triangle_X2_X0p2_Y5_Y0_LWG_0_m3000:
     mirror: true
-    rotation: 0
-    x: 0
-    y: -3
+    rotation: 0.0
+    x: 0.0
+    y: -3.0
 ports: {}

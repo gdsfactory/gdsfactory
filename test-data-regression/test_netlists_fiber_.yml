@@ -5,7 +5,7 @@ instances:
     settings:
       angle_resolution: 2.5
       layer: WG
-      radius: 5
+      radius: 5.0
   circle_R62p5_AR2p5_LWGCLAD_0_0:
     component: circle
     info: {}
@@ -18,12 +18,12 @@ nets: []
 placements:
   circle_R5_AR2p5_LWG_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
   circle_R62p5_AR2p5_LWGCLAD_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
 ports: {}

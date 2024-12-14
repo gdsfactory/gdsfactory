@@ -37,13 +37,13 @@ instances:
   taper_L150_W0p5_W10_LNo_29b81de7_0_m155500:
     component: taper
     info:
-      length: 150
+      length: 150.0
       width1: 0.5
-      width2: 10
+      width2: 10.0
     settings:
       cross_section: strip
       layer: null
-      length: 150
+      length: 150.0
       port: null
       port_names:
       - o1
@@ -52,19 +52,19 @@ instances:
       - optical
       - optical
       width1: 0.5
-      width2: 10
+      width2: 10.0
       with_bbox: true
       with_two_ports: true
   taper_L150_W0p5_W10_LNo_29b81de7_m155500_0:
     component: taper
     info:
-      length: 150
+      length: 150.0
       width1: 0.5
-      width2: 10
+      width2: 10.0
     settings:
       cross_section: strip
       layer: null
-      length: 150
+      length: 150.0
       port: null
       port_names:
       - o1
@@ -73,7 +73,7 @@ instances:
       - optical
       - optical
       width1: 0.5
-      width2: 10
+      width2: 10.0
       with_bbox: true
       with_two_ports: true
 name: grating_coupler_dual_po_45d03cc3
@@ -81,24 +81,24 @@ nets: []
 placements:
   rectangle_S0p3_0p3_LSLA_62b062b0_m5070_m5070:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: -5.07
     y: -5.07
   rectangle_S11_11_LWG_CT_2ab7e8cb_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
   taper_L150_W0p5_W10_LNo_29b81de7_0_m155500:
     mirror: false
-    rotation: 90
-    x: 0
+    rotation: 90.0
+    x: 0.0
     y: -155.5
   taper_L150_W0p5_W10_LNo_29b81de7_m155500_0:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: -155.5
-    y: 0
+    y: 0.0
 ports:
   o1: taper_L150_W0p5_W10_LNo_29b81de7_m155500_0,o1
   o2: taper_L150_W0p5_W10_LNo_29b81de7_0_m155500,o1

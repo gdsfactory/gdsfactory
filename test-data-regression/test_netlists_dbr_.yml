@@ -3,7 +3,7 @@ instances:
     array:
       column_pitch: 0.318
       columns: 10
-      row_pitch: 0
+      row_pitch: 0.0
       rows: 1
     component: dbr_cell
     info: {}
@@ -68,19 +68,19 @@ nets:
 placements:
   dbr_cell_W0p45_W0p55_L0_81fd17cb_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
   straight_L0p01_N2_CSstrip_WNone_0_0:
     mirror: false
-    rotation: 180
-    x: 0
-    y: 0
+    rotation: 180.0
+    x: 0.0
+    y: 0.0
   straight_L0p01_N2_CSstrip_WNone_3180_0:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 3.18
-    y: 0
+    y: 0.0
 ports:
   o1: straight_L0p01_N2_CSstrip_WNone_0_0,o2
 warnings:

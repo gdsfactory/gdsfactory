@@ -7,11 +7,11 @@ instances:
       cross_section: strip
       grating_coupler: grating_coupler_te
       n: 14
-      pitch: 250
+      pitch: 250.0
       port_name: o1
       radius: null
       rotation: -90
-      straight_to_grating_spacing: 10
+      straight_to_grating_spacing: 10.0
       with_loopback: true
   grating_coupler_array_G_2a505a43_m5524199_0:
     component: grating_coupler_array
@@ -21,20 +21,20 @@ instances:
       cross_section: strip
       grating_coupler: grating_coupler_te
       n: 14
-      pitch: 250
+      pitch: 250.0
       port_name: o1
       radius: null
       rotation: -90
-      straight_to_grating_spacing: 10
+      straight_to_grating_spacing: 10.0
       with_loopback: true
   pad_S100_100_LMTOP_BLNo_163fd346_1250000_2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -48,16 +48,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_1250000_m2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -71,16 +71,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_1550000_2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -94,16 +94,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_1550000_m2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -117,16 +117,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_1850000_2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -140,16 +140,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_1850000_m2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -163,16 +163,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_2150000_2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -186,16 +186,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_2150000_m2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -209,16 +209,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_2450000_2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -232,16 +232,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_2450000_m2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -255,16 +255,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_2750000_2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -278,16 +278,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_2750000_m2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -301,16 +301,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_3050000_2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -324,16 +324,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_3050000_m2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -347,16 +347,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_3350000_2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -370,16 +370,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_3350000_m2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -393,16 +393,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_350000_2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -416,16 +416,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_350000_m2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -439,16 +439,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_3650000_2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -462,16 +462,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_3650000_m2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -485,16 +485,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_3950000_2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -508,16 +508,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_3950000_m2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -531,16 +531,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_4250000_2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -554,16 +554,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_4250000_m2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -577,16 +577,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_4550000_2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -600,16 +600,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_4550000_m2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -623,16 +623,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_50000_2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -646,16 +646,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_50000_m2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -669,16 +669,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_650000_2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -692,16 +692,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_650000_m2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -715,16 +715,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_950000_2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -738,16 +738,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_950000_m2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -761,16 +761,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_m1150000_2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -784,16 +784,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_m1150000_m2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -807,16 +807,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_m1450000_2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -830,16 +830,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_m1450000_m2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -853,16 +853,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_m1750000_2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -876,16 +876,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_m1750000_m2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -899,16 +899,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_m2050000_2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -922,16 +922,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_m2050000_m2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -945,16 +945,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_m2350000_2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -968,16 +968,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_m2350000_m2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -991,16 +991,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_m250000_2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -1014,16 +1014,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_m250000_m2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -1037,16 +1037,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_m2650000_2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -1060,16 +1060,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_m2650000_m2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -1083,16 +1083,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_m2950000_2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -1106,16 +1106,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_m2950000_m2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -1129,16 +1129,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_m3250000_2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -1152,16 +1152,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_m3250000_m2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -1175,16 +1175,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_m3550000_2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -1198,16 +1198,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_m3550000_m2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -1221,16 +1221,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_m3850000_2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -1244,16 +1244,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_m3850000_m2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -1267,16 +1267,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_m4150000_2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -1290,16 +1290,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_m4150000_m2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -1313,16 +1313,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_m4450000_2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -1336,16 +1336,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_m4450000_m2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -1359,16 +1359,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_m550000_2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -1382,16 +1382,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_m550000_m2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -1405,16 +1405,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_m850000_2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -1428,16 +1428,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_m850000_m2250000:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -1451,8 +1451,8 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   rectangle_S11470_4900_L_392670d4_0_0:
     component: rectangle
     info: {}
@@ -1466,336 +1466,336 @@ instances:
       - -90
       port_type: null
       size:
-      - 11470
-      - 4900
+      - 11470.0
+      - 4900.0
 name: die_with_pads_S11470_49_6e7ce968
 nets: []
 placements:
   grating_coupler_array_G_2a505a43_5524199_0:
     mirror: false
-    rotation: 90
+    rotation: 90.0
     x: 5524.199
-    y: 0
+    y: 0.0
   grating_coupler_array_G_2a505a43_m5524199_0:
     mirror: false
-    rotation: 270
+    rotation: 270.0
     x: -5524.199
-    y: 0
+    y: 0.0
   pad_S100_100_LMTOP_BLNo_163fd346_1250000_2250000:
     mirror: false
-    rotation: 0
-    x: 1250
-    y: 2250
+    rotation: 0.0
+    x: 1250.0
+    y: 2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_1250000_m2250000:
     mirror: false
-    rotation: 0
-    x: 1250
-    y: -2250
+    rotation: 0.0
+    x: 1250.0
+    y: -2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_1550000_2250000:
     mirror: false
-    rotation: 0
-    x: 1550
-    y: 2250
+    rotation: 0.0
+    x: 1550.0
+    y: 2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_1550000_m2250000:
     mirror: false
-    rotation: 0
-    x: 1550
-    y: -2250
+    rotation: 0.0
+    x: 1550.0
+    y: -2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_1850000_2250000:
     mirror: false
-    rotation: 0
-    x: 1850
-    y: 2250
+    rotation: 0.0
+    x: 1850.0
+    y: 2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_1850000_m2250000:
     mirror: false
-    rotation: 0
-    x: 1850
-    y: -2250
+    rotation: 0.0
+    x: 1850.0
+    y: -2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_2150000_2250000:
     mirror: false
-    rotation: 0
-    x: 2150
-    y: 2250
+    rotation: 0.0
+    x: 2150.0
+    y: 2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_2150000_m2250000:
     mirror: false
-    rotation: 0
-    x: 2150
-    y: -2250
+    rotation: 0.0
+    x: 2150.0
+    y: -2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_2450000_2250000:
     mirror: false
-    rotation: 0
-    x: 2450
-    y: 2250
+    rotation: 0.0
+    x: 2450.0
+    y: 2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_2450000_m2250000:
     mirror: false
-    rotation: 0
-    x: 2450
-    y: -2250
+    rotation: 0.0
+    x: 2450.0
+    y: -2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_2750000_2250000:
     mirror: false
-    rotation: 0
-    x: 2750
-    y: 2250
+    rotation: 0.0
+    x: 2750.0
+    y: 2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_2750000_m2250000:
     mirror: false
-    rotation: 0
-    x: 2750
-    y: -2250
+    rotation: 0.0
+    x: 2750.0
+    y: -2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_3050000_2250000:
     mirror: false
-    rotation: 0
-    x: 3050
-    y: 2250
+    rotation: 0.0
+    x: 3050.0
+    y: 2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_3050000_m2250000:
     mirror: false
-    rotation: 0
-    x: 3050
-    y: -2250
+    rotation: 0.0
+    x: 3050.0
+    y: -2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_3350000_2250000:
     mirror: false
-    rotation: 0
-    x: 3350
-    y: 2250
+    rotation: 0.0
+    x: 3350.0
+    y: 2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_3350000_m2250000:
     mirror: false
-    rotation: 0
-    x: 3350
-    y: -2250
+    rotation: 0.0
+    x: 3350.0
+    y: -2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_350000_2250000:
     mirror: false
-    rotation: 0
-    x: 350
-    y: 2250
+    rotation: 0.0
+    x: 350.0
+    y: 2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_350000_m2250000:
     mirror: false
-    rotation: 0
-    x: 350
-    y: -2250
+    rotation: 0.0
+    x: 350.0
+    y: -2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_3650000_2250000:
     mirror: false
-    rotation: 0
-    x: 3650
-    y: 2250
+    rotation: 0.0
+    x: 3650.0
+    y: 2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_3650000_m2250000:
     mirror: false
-    rotation: 0
-    x: 3650
-    y: -2250
+    rotation: 0.0
+    x: 3650.0
+    y: -2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_3950000_2250000:
     mirror: false
-    rotation: 0
-    x: 3950
-    y: 2250
+    rotation: 0.0
+    x: 3950.0
+    y: 2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_3950000_m2250000:
     mirror: false
-    rotation: 0
-    x: 3950
-    y: -2250
+    rotation: 0.0
+    x: 3950.0
+    y: -2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_4250000_2250000:
     mirror: false
-    rotation: 0
-    x: 4250
-    y: 2250
+    rotation: 0.0
+    x: 4250.0
+    y: 2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_4250000_m2250000:
     mirror: false
-    rotation: 0
-    x: 4250
-    y: -2250
+    rotation: 0.0
+    x: 4250.0
+    y: -2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_4550000_2250000:
     mirror: false
-    rotation: 0
-    x: 4550
-    y: 2250
+    rotation: 0.0
+    x: 4550.0
+    y: 2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_4550000_m2250000:
     mirror: false
-    rotation: 0
-    x: 4550
-    y: -2250
+    rotation: 0.0
+    x: 4550.0
+    y: -2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_50000_2250000:
     mirror: false
-    rotation: 0
-    x: 50
-    y: 2250
+    rotation: 0.0
+    x: 50.0
+    y: 2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_50000_m2250000:
     mirror: false
-    rotation: 0
-    x: 50
-    y: -2250
+    rotation: 0.0
+    x: 50.0
+    y: -2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_650000_2250000:
     mirror: false
-    rotation: 0
-    x: 650
-    y: 2250
+    rotation: 0.0
+    x: 650.0
+    y: 2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_650000_m2250000:
     mirror: false
-    rotation: 0
-    x: 650
-    y: -2250
+    rotation: 0.0
+    x: 650.0
+    y: -2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_950000_2250000:
     mirror: false
-    rotation: 0
-    x: 950
-    y: 2250
+    rotation: 0.0
+    x: 950.0
+    y: 2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_950000_m2250000:
     mirror: false
-    rotation: 0
-    x: 950
-    y: -2250
+    rotation: 0.0
+    x: 950.0
+    y: -2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_m1150000_2250000:
     mirror: false
-    rotation: 0
-    x: -1150
-    y: 2250
+    rotation: 0.0
+    x: -1150.0
+    y: 2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_m1150000_m2250000:
     mirror: false
-    rotation: 0
-    x: -1150
-    y: -2250
+    rotation: 0.0
+    x: -1150.0
+    y: -2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_m1450000_2250000:
     mirror: false
-    rotation: 0
-    x: -1450
-    y: 2250
+    rotation: 0.0
+    x: -1450.0
+    y: 2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_m1450000_m2250000:
     mirror: false
-    rotation: 0
-    x: -1450
-    y: -2250
+    rotation: 0.0
+    x: -1450.0
+    y: -2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_m1750000_2250000:
     mirror: false
-    rotation: 0
-    x: -1750
-    y: 2250
+    rotation: 0.0
+    x: -1750.0
+    y: 2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_m1750000_m2250000:
     mirror: false
-    rotation: 0
-    x: -1750
-    y: -2250
+    rotation: 0.0
+    x: -1750.0
+    y: -2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_m2050000_2250000:
     mirror: false
-    rotation: 0
-    x: -2050
-    y: 2250
+    rotation: 0.0
+    x: -2050.0
+    y: 2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_m2050000_m2250000:
     mirror: false
-    rotation: 0
-    x: -2050
-    y: -2250
+    rotation: 0.0
+    x: -2050.0
+    y: -2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_m2350000_2250000:
     mirror: false
-    rotation: 0
-    x: -2350
-    y: 2250
+    rotation: 0.0
+    x: -2350.0
+    y: 2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_m2350000_m2250000:
     mirror: false
-    rotation: 0
-    x: -2350
-    y: -2250
+    rotation: 0.0
+    x: -2350.0
+    y: -2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_m250000_2250000:
     mirror: false
-    rotation: 0
-    x: -250
-    y: 2250
+    rotation: 0.0
+    x: -250.0
+    y: 2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_m250000_m2250000:
     mirror: false
-    rotation: 0
-    x: -250
-    y: -2250
+    rotation: 0.0
+    x: -250.0
+    y: -2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_m2650000_2250000:
     mirror: false
-    rotation: 0
-    x: -2650
-    y: 2250
+    rotation: 0.0
+    x: -2650.0
+    y: 2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_m2650000_m2250000:
     mirror: false
-    rotation: 0
-    x: -2650
-    y: -2250
+    rotation: 0.0
+    x: -2650.0
+    y: -2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_m2950000_2250000:
     mirror: false
-    rotation: 0
-    x: -2950
-    y: 2250
+    rotation: 0.0
+    x: -2950.0
+    y: 2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_m2950000_m2250000:
     mirror: false
-    rotation: 0
-    x: -2950
-    y: -2250
+    rotation: 0.0
+    x: -2950.0
+    y: -2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_m3250000_2250000:
     mirror: false
-    rotation: 0
-    x: -3250
-    y: 2250
+    rotation: 0.0
+    x: -3250.0
+    y: 2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_m3250000_m2250000:
     mirror: false
-    rotation: 0
-    x: -3250
-    y: -2250
+    rotation: 0.0
+    x: -3250.0
+    y: -2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_m3550000_2250000:
     mirror: false
-    rotation: 0
-    x: -3550
-    y: 2250
+    rotation: 0.0
+    x: -3550.0
+    y: 2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_m3550000_m2250000:
     mirror: false
-    rotation: 0
-    x: -3550
-    y: -2250
+    rotation: 0.0
+    x: -3550.0
+    y: -2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_m3850000_2250000:
     mirror: false
-    rotation: 0
-    x: -3850
-    y: 2250
+    rotation: 0.0
+    x: -3850.0
+    y: 2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_m3850000_m2250000:
     mirror: false
-    rotation: 0
-    x: -3850
-    y: -2250
+    rotation: 0.0
+    x: -3850.0
+    y: -2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_m4150000_2250000:
     mirror: false
-    rotation: 0
-    x: -4150
-    y: 2250
+    rotation: 0.0
+    x: -4150.0
+    y: 2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_m4150000_m2250000:
     mirror: false
-    rotation: 0
-    x: -4150
-    y: -2250
+    rotation: 0.0
+    x: -4150.0
+    y: -2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_m4450000_2250000:
     mirror: false
-    rotation: 0
-    x: -4450
-    y: 2250
+    rotation: 0.0
+    x: -4450.0
+    y: 2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_m4450000_m2250000:
     mirror: false
-    rotation: 0
-    x: -4450
-    y: -2250
+    rotation: 0.0
+    x: -4450.0
+    y: -2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_m550000_2250000:
     mirror: false
-    rotation: 0
-    x: -550
-    y: 2250
+    rotation: 0.0
+    x: -550.0
+    y: 2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_m550000_m2250000:
     mirror: false
-    rotation: 0
-    x: -550
-    y: -2250
+    rotation: 0.0
+    x: -550.0
+    y: -2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_m850000_2250000:
     mirror: false
-    rotation: 0
-    x: -850
-    y: 2250
+    rotation: 0.0
+    x: -850.0
+    y: 2250.0
   pad_S100_100_LMTOP_BLNo_163fd346_m850000_m2250000:
     mirror: false
-    rotation: 0
-    x: -850
-    y: -2250
+    rotation: 0.0
+    x: -850.0
+    y: -2250.0
   rectangle_S11470_4900_L_392670d4_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
 ports:
   e1: pad_S100_100_LMTOP_BLNo_163fd346_m4450000_m2250000,e2
   e10: pad_S100_100_LMTOP_BLNo_163fd346_m1750000_m2250000,e2

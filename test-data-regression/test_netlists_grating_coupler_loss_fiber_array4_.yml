@@ -5,7 +5,7 @@ instances:
     settings:
       cross_section: strip
       grating_coupler: grating_coupler_elliptical_trenches
-      pitch: 127
+      pitch: 127.0
       port_name: o1
       rotation: -90
   loss_deembedding_ch13_2_d640f63c_0_0:
@@ -14,7 +14,7 @@ instances:
     settings:
       cross_section: strip
       grating_coupler: grating_coupler_elliptical_trenches
-      pitch: 127
+      pitch: 127.0
       port_name: o1
       rotation: -90
       yspacing: null
@@ -24,7 +24,7 @@ instances:
     settings:
       cross_section: strip
       grating_coupler: grating_coupler_elliptical_trenches
-      pitch: 127
+      pitch: 127.0
       port_name: o1
       rotation: -90
 name: grating_coupler_loss_fi_93128db2
@@ -32,17 +32,17 @@ nets: []
 placements:
   loss_deembedding_ch12_3_f47e76bb_1016000_0:
     mirror: false
-    rotation: 0
-    x: 1016
-    y: 0
+    rotation: 0.0
+    x: 1016.0
+    y: 0.0
   loss_deembedding_ch13_2_d640f63c_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
   loss_deembedding_ch14_2_017fd216_508000_0:
     mirror: false
-    rotation: 0
-    x: 508
-    y: 0
+    rotation: 0.0
+    x: 508.0
+    y: 0.0
 ports: {}

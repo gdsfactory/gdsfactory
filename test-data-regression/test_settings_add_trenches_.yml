@@ -9,4 +9,4 @@ settings:
   layer_trench: DEEP_ETCH
   left: 0
   right: 0
-  width_trench: 2
+  width_trench: 2.0

@@ -2,57 +2,57 @@ instances:
   straight_L10_N2_CSstrip_WNone_0_0:
     component: straight
     info:
-      length: 10
-      route_info_length: 10
-      route_info_strip_length: 10
+      length: 10.0
+      route_info_length: 10.0
+      route_info_strip_length: 10.0
       route_info_type: strip
-      route_info_weight: 10
+      route_info_weight: 10.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 10
+      length: 10.0
       npoints: 2
       width: null
   straight_L10_N2_CSstrip_WNone_0_13500:
     component: straight
     info:
-      length: 10
-      route_info_length: 10
-      route_info_strip_length: 10
+      length: 10.0
+      route_info_length: 10.0
+      route_info_strip_length: 10.0
       route_info_type: strip
-      route_info_weight: 10
+      route_info_weight: 10.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 10
+      length: 10.0
       npoints: 2
       width: null
   straight_L10_N2_CSstrip_WNone_0_4500:
     component: straight
     info:
-      length: 10
-      route_info_length: 10
-      route_info_strip_length: 10
+      length: 10.0
+      route_info_length: 10.0
+      route_info_strip_length: 10.0
       route_info_type: strip
-      route_info_weight: 10
+      route_info_weight: 10.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 10
+      length: 10.0
       npoints: 2
       width: null
   straight_L10_N2_CSstrip_WNone_0_9000:
     component: straight
     info:
-      length: 10
-      route_info_length: 10
-      route_info_strip_length: 10
+      length: 10.0
+      route_info_length: 10.0
+      route_info_strip_length: 10.0
       route_info_type: strip
-      route_info_weight: 10
+      route_info_weight: 10.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 10
+      length: 10.0
       npoints: 2
       width: null
 name: straight_array_N4_S4_L10_CSstrip
@@ -60,24 +60,24 @@ nets: []
 placements:
   straight_L10_N2_CSstrip_WNone_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
   straight_L10_N2_CSstrip_WNone_0_13500:
     mirror: false
-    rotation: 0
-    x: 0
+    rotation: 0.0
+    x: 0.0
     y: 13.5
   straight_L10_N2_CSstrip_WNone_0_4500:
     mirror: false
-    rotation: 0
-    x: 0
+    rotation: 0.0
+    x: 0.0
     y: 4.5
   straight_L10_N2_CSstrip_WNone_0_9000:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 9
+    rotation: 0.0
+    x: 0.0
+    y: 9.0
 ports:
   o1: straight_L10_N2_CSstrip_WNone_0_0,o1
   o2: straight_L10_N2_CSstrip_WNone_0_4500,o1

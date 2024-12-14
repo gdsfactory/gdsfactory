@@ -2,20 +2,20 @@ instances:
   bend_euler_RNone_A90_P0_d7c3a5a9_25500_m10625:
     component: bend_euler
     info:
-      dy: 10
+      dy: 10.0
       length: 16.637
       min_bend_radius: 7.061
-      radius: 10
+      radius: 10.0
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
-      route_info_n_bend_90: 1
+      route_info_n_bend_90: 1.0
       route_info_strip_length: 16.637
       route_info_type: strip
       route_info_weight: 16.637
       width: 0.5
     settings:
       allow_min_radius_violation: false
-      angle: 90
+      angle: 90.0
       cross_section: strip
       layer: null
       npoints: null
@@ -26,20 +26,20 @@ instances:
   bend_euler_RNone_A90_P0_d7c3a5a9_35500_625:
     component: bend_euler
     info:
-      dy: 10
+      dy: 10.0
       length: 16.637
       min_bend_radius: 7.061
-      radius: 10
+      radius: 10.0
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
-      route_info_n_bend_90: 1
+      route_info_n_bend_90: 1.0
       route_info_strip_length: 16.637
       route_info_type: strip
       route_info_weight: 16.637
       width: 0.5
     settings:
       allow_min_radius_violation: false
-      angle: 90
+      angle: 90.0
       cross_section: strip
       layer: null
       npoints: null
@@ -50,20 +50,20 @@ instances:
   bend_euler_RNone_A90_P0_d7c3a5a9_35500_m20625:
     component: bend_euler
     info:
-      dy: 10
+      dy: 10.0
       length: 16.637
       min_bend_radius: 7.061
-      radius: 10
+      radius: 10.0
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
-      route_info_n_bend_90: 1
+      route_info_n_bend_90: 1.0
       route_info_strip_length: 16.637
       route_info_type: strip
       route_info_weight: 16.637
       width: 0.5
     settings:
       allow_min_radius_violation: false
-      angle: 90
+      angle: 90.0
       cross_section: strip
       layer: null
       npoints: null
@@ -74,20 +74,20 @@ instances:
   bend_euler_RNone_A90_P0_d7c3a5a9_45500_m10625:
     component: bend_euler
     info:
-      dy: 10
+      dy: 10.0
       length: 16.637
       min_bend_radius: 7.061
-      radius: 10
+      radius: 10.0
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
-      route_info_n_bend_90: 1
+      route_info_n_bend_90: 1.0
       route_info_strip_length: 16.637
       route_info_type: strip
       route_info_weight: 16.637
       width: 0.5
     settings:
       allow_min_radius_violation: false
-      angle: 90
+      angle: 90.0
       cross_section: strip
       layer: null
       npoints: null
@@ -102,12 +102,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   straight_L1p25_N2_CSstrip_WNone_45500_m9375:
     component: straight
     info:
@@ -125,15 +125,15 @@ instances:
   straight_L20_N2_CSstrip_WNone_35500_625:
     component: straight
     info:
-      length: 20
-      route_info_length: 20
-      route_info_strip_length: 20
+      length: 20.0
+      route_info_length: 20.0
+      route_info_strip_length: 20.0
       route_info_type: strip
-      route_info_weight: 20
+      route_info_weight: 20.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 20
+      length: 20.0
       npoints: 2
       width: null
 name: loop_mirror_Cmmi1x2_Bbe_15330a29
@@ -155,37 +155,37 @@ nets:
 placements:
   bend_euler_RNone_A90_P0_d7c3a5a9_25500_m10625:
     mirror: false
-    rotation: 90
+    rotation: 90.0
     x: 25.5
     y: -10.625
   bend_euler_RNone_A90_P0_d7c3a5a9_35500_625:
     mirror: true
-    rotation: 0
+    rotation: 0.0
     x: 35.5
     y: 0.625
   bend_euler_RNone_A90_P0_d7c3a5a9_35500_m20625:
     mirror: true
-    rotation: 180
+    rotation: 180.0
     x: 35.5
     y: -20.625
   bend_euler_RNone_A90_P0_d7c3a5a9_45500_m10625:
     mirror: true
-    rotation: 270
+    rotation: 270.0
     x: 45.5
     y: -10.625
   mmi1x2_WNone_WT1_LT10_L_4e0f7121_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
   straight_L1p25_N2_CSstrip_WNone_45500_m9375:
     mirror: false
-    rotation: 270
+    rotation: 270.0
     x: 45.5
     y: -9.375
   straight_L20_N2_CSstrip_WNone_35500_625:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 35.5
     y: 0.625
 ports:

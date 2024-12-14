@@ -103,8 +103,8 @@ instances:
   via_stack_S11_11_LM2_MT_ff6eecb9_m6500_37800:
     component: via_stack
     info:
-      xsize: 11
-      ysize: 11
+      xsize: 11.0
+      ysize: 11.0
     settings:
       correct_size: true
       layer_offsets: null
@@ -119,8 +119,8 @@ instances:
       - 0
       - -90
       size:
-      - 11
-      - 11
+      - 11.0
+      - 11.0
       slot_horizontal: false
       slot_vertical: false
       vias:
@@ -129,8 +129,8 @@ instances:
   via_stack_S11_11_LM2_MT_ff6eecb9_m6500_m3800:
     component: via_stack
     info:
-      xsize: 11
-      ysize: 11
+      xsize: 11.0
+      ysize: 11.0
     settings:
       correct_size: true
       layer_offsets: null
@@ -145,8 +145,8 @@ instances:
       - 0
       - -90
       size:
-      - 11
-      - 11
+      - 11.0
+      - 11.0
       slot_horizontal: false
       slot_vertical: false
       vias:
@@ -157,37 +157,37 @@ nets: []
 placements:
   rectangle_S2p7_6p4_LM2__c8f1a350_36000_m1000:
     mirror: false
-    rotation: 0
-    x: 36
-    y: -1
+    rotation: 0.0
+    x: 36.0
+    y: -1.0
   rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700:
     mirror: false
-    rotation: 0
-    x: -1
+    rotation: 0.0
+    x: -1.0
     y: 2.7
   rectangles_S6p4_2p7_O0_LM1_CTrue_5900_350:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 5.9
     y: 0.35
   rectangles_S6p4_2p7_O0_LM2_CTrue_2200_350:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 2.2
     y: 0.35
   via_S0p7_0p7_SNone_GNon_d0c93b95_4050_350:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 4.05
     y: 0.35
   via_stack_S11_11_LM2_MT_ff6eecb9_m6500_37800:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: -6.5
     y: 37.8
   via_stack_S11_11_LM2_MT_ff6eecb9_m6500_m3800:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: -6.5
     y: -3.8
 ports:

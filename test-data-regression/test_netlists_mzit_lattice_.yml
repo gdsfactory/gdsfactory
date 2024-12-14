@@ -8,15 +8,15 @@ instances:
       coupler2: coupler
       coupler_gap1: 0.2
       coupler_gap2: 0.3
-      coupler_length1: 10
-      coupler_length2: 20
+      coupler_length1: 10.0
+      coupler_length2: 20.0
       cross_section: strip
-      delta_length: 10
-      dy: 2
-      length: 1
+      delta_length: 10.0
+      dy: 2.0
+      length: 1.0
       straight: straight
       taper: taper
-      taper_length: 5
+      taper_length: 5.0
       w0: 0.5
       w1: 0.45
       w2: 0.55
@@ -25,9 +25,9 @@ nets: []
 placements:
   mzit_W0p5_W0p45_W0p55_D_65d5ac70_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
 ports:
   o1: mzit_W0p5_W0p45_W0p55_D_65d5ac70_0_0,o1
   o2: mzit_W0p5_W0p45_W0p55_D_65d5ac70_0_0,o2

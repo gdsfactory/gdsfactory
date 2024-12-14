@@ -7,17 +7,17 @@ instances:
     settings:
       big_last_tooth: false
       cross_section: strip
-      fiber_angle: 15
+      fiber_angle: 15.0
       grating_line_width: 0.343
       layer_slab: SLAB150
       n_periods: 30
       nclad: 1.443
       neff: 2.638
       polarization: te
-      slab_offset: 2
-      slab_xmin: -1
+      slab_offset: 2.0
+      slab_xmin: -1.0
       spiked: true
-      taper_angle: 40
+      taper_angle: 40.0
       taper_length: 16.6
       wavelength: 1.554
   grating_coupler_ellipti_07e69d9a_317500_0:
@@ -28,17 +28,17 @@ instances:
     settings:
       big_last_tooth: false
       cross_section: strip
-      fiber_angle: 15
+      fiber_angle: 15.0
       grating_line_width: 0.343
       layer_slab: SLAB150
       n_periods: 30
       nclad: 1.443
       neff: 2.638
       polarization: te
-      slab_offset: 2
-      slab_xmin: -1
+      slab_offset: 2.0
+      slab_xmin: -1.0
       spiked: true
-      taper_angle: 40
+      taper_angle: 40.0
       taper_length: 16.6
       wavelength: 1.554
   grating_coupler_ellipti_07e69d9a_63500_0:
@@ -49,17 +49,17 @@ instances:
     settings:
       big_last_tooth: false
       cross_section: strip
-      fiber_angle: 15
+      fiber_angle: 15.0
       grating_line_width: 0.343
       layer_slab: SLAB150
       n_periods: 30
       nclad: 1.443
       neff: 2.638
       polarization: te
-      slab_offset: 2
-      slab_xmin: -1
+      slab_offset: 2.0
+      slab_xmin: -1.0
       spiked: true
-      taper_angle: 40
+      taper_angle: 40.0
       taper_length: 16.6
       wavelength: 1.554
   grating_coupler_ellipti_07e69d9a_m190500_0:
@@ -70,17 +70,17 @@ instances:
     settings:
       big_last_tooth: false
       cross_section: strip
-      fiber_angle: 15
+      fiber_angle: 15.0
       grating_line_width: 0.343
       layer_slab: SLAB150
       n_periods: 30
       nclad: 1.443
       neff: 2.638
       polarization: te
-      slab_offset: 2
-      slab_xmin: -1
+      slab_offset: 2.0
+      slab_xmin: -1.0
       spiked: true
-      taper_angle: 40
+      taper_angle: 40.0
       taper_length: 16.6
       wavelength: 1.554
   grating_coupler_ellipti_07e69d9a_m317500_0:
@@ -91,17 +91,17 @@ instances:
     settings:
       big_last_tooth: false
       cross_section: strip
-      fiber_angle: 15
+      fiber_angle: 15.0
       grating_line_width: 0.343
       layer_slab: SLAB150
       n_periods: 30
       nclad: 1.443
       neff: 2.638
       polarization: te
-      slab_offset: 2
-      slab_xmin: -1
+      slab_offset: 2.0
+      slab_xmin: -1.0
       spiked: true
-      taper_angle: 40
+      taper_angle: 40.0
       taper_length: 16.6
       wavelength: 1.554
   grating_coupler_ellipti_07e69d9a_m63500_0:
@@ -112,17 +112,17 @@ instances:
     settings:
       big_last_tooth: false
       cross_section: strip
-      fiber_angle: 15
+      fiber_angle: 15.0
       grating_line_width: 0.343
       layer_slab: SLAB150
       n_periods: 30
       nclad: 1.443
       neff: 2.638
       polarization: te
-      slab_offset: 2
-      slab_xmin: -1
+      slab_offset: 2.0
+      slab_xmin: -1.0
       spiked: true
-      taper_angle: 40
+      taper_angle: 40.0
       taper_length: 16.6
       wavelength: 1.554
 name: grating_coupler_array_G_b26a424e
@@ -130,34 +130,34 @@ nets: []
 placements:
   grating_coupler_ellipti_07e69d9a_190500_0:
     mirror: false
-    rotation: 270
+    rotation: 270.0
     x: 190.5
-    y: 0
+    y: 0.0
   grating_coupler_ellipti_07e69d9a_317500_0:
     mirror: false
-    rotation: 270
+    rotation: 270.0
     x: 317.5
-    y: 0
+    y: 0.0
   grating_coupler_ellipti_07e69d9a_63500_0:
     mirror: false
-    rotation: 270
+    rotation: 270.0
     x: 63.5
-    y: 0
+    y: 0.0
   grating_coupler_ellipti_07e69d9a_m190500_0:
     mirror: false
-    rotation: 270
+    rotation: 270.0
     x: -190.5
-    y: 0
+    y: 0.0
   grating_coupler_ellipti_07e69d9a_m317500_0:
     mirror: false
-    rotation: 270
+    rotation: 270.0
     x: -317.5
-    y: 0
+    y: 0.0
   grating_coupler_ellipti_07e69d9a_m63500_0:
     mirror: false
-    rotation: 270
+    rotation: 270.0
     x: -63.5
-    y: 0
+    y: 0.0
 ports:
   o0: grating_coupler_ellipti_07e69d9a_m317500_0,o1
   o1: grating_coupler_ellipti_07e69d9a_m190500_0,o1

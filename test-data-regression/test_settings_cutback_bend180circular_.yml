@@ -5,6 +5,6 @@ settings:
   cols: 6
   component: bend_circular180
   rows: 6
-  spacing: 3
+  spacing: 3.0
   straight: straight
-  straight_length: 5
+  straight_length: 5.0

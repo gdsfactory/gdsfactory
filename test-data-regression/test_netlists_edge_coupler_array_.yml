@@ -98,9 +98,9 @@ instances:
       layer: WG
       layers: null
       position:
-      - 0
-      - 0
-      size: 10
+      - 0.0
+      - 0.0
+      size: 10.0
       text: '1'
   text_rectangular_T2_S10_7442cfc8_10000_147000:
     component: text_rectangular
@@ -111,9 +111,9 @@ instances:
       layer: WG
       layers: null
       position:
-      - 0
-      - 0
-      size: 10
+      - 0.0
+      - 0.0
+      size: 10.0
       text: '2'
   text_rectangular_T3_S10_2c754110_10000_274000:
     component: text_rectangular
@@ -124,9 +124,9 @@ instances:
       layer: WG
       layers: null
       position:
-      - 0
-      - 0
-      size: 10
+      - 0.0
+      - 0.0
+      size: 10.0
       text: '3'
   text_rectangular_T4_S10_228a90b5_10000_401000:
     component: text_rectangular
@@ -137,9 +137,9 @@ instances:
       layer: WG
       layers: null
       position:
-      - 0
-      - 0
-      size: 10
+      - 0.0
+      - 0.0
+      size: 10.0
       text: '4'
   text_rectangular_T5_S10_6ce0d6c0_10000_528000:
     component: text_rectangular
@@ -150,63 +150,63 @@ instances:
       layer: WG
       layers: null
       position:
-      - 0
-      - 0
-      size: 10
+      - 0.0
+      - 0.0
+      size: 10.0
       text: '5'
 name: edge_coupler_array_ECed_0e2b58eb
 nets: []
 placements:
   ec_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
   ec_1:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 127
+    rotation: 0.0
+    x: 0.0
+    y: 127.0
   ec_2:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 254
+    rotation: 0.0
+    x: 0.0
+    y: 254.0
   ec_3:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 381
+    rotation: 0.0
+    x: 0.0
+    y: 381.0
   ec_4:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 508
+    rotation: 0.0
+    x: 0.0
+    y: 508.0
   text_rectangular_T1_S10_49b23f95_10000_20000:
     mirror: false
-    rotation: 0
-    x: 10
-    y: 20
+    rotation: 0.0
+    x: 10.0
+    y: 20.0
   text_rectangular_T2_S10_7442cfc8_10000_147000:
     mirror: false
-    rotation: 0
-    x: 10
-    y: 147
+    rotation: 0.0
+    x: 10.0
+    y: 147.0
   text_rectangular_T3_S10_2c754110_10000_274000:
     mirror: false
-    rotation: 0
-    x: 10
-    y: 274
+    rotation: 0.0
+    x: 10.0
+    y: 274.0
   text_rectangular_T4_S10_228a90b5_10000_401000:
     mirror: false
-    rotation: 0
-    x: 10
-    y: 401
+    rotation: 0.0
+    x: 10.0
+    y: 401.0
   text_rectangular_T5_S10_6ce0d6c0_10000_528000:
     mirror: false
-    rotation: 0
-    x: 10
-    y: 528
+    rotation: 0.0
+    x: 10.0
+    y: 528.0
 ports:
   o1: ec_0,o1
   o2: ec_1,o1

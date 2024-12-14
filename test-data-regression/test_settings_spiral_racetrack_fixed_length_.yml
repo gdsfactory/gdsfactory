@@ -9,7 +9,7 @@ settings:
   in_out_port_spacing: 150
   length: 1000
   min_radius: 5
-  min_spacing: 5
+  min_spacing: 5.0
   n_bend_points: 99
   n_straight_sections: 8
   straight_factory: straight

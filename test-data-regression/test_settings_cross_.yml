@@ -2,5 +2,5 @@ info: {}
 name: cross_L10_W3_LWG_PTNone
 settings:
   layer: WG
-  length: 10
-  width: 3
+  length: 10.0
+  width: 3.0

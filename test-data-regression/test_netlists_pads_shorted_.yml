@@ -3,10 +3,10 @@ instances:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -20,16 +20,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_375000_0:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -43,16 +43,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_525000_0:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -66,16 +66,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_75000_0:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -89,16 +89,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_m225000_0:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -112,16 +112,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_m375000_0:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -135,16 +135,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_m525000_0:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -158,16 +158,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_m75000_0:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -181,8 +181,8 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   rectangle_S1050_10_LMTO_73abeb10_0_0:
     component: rectangle
     info: {}
@@ -196,56 +196,56 @@ instances:
       - -90
       port_type: electrical
       size:
-      - 1050
+      - 1050.0
       - 10
 name: pads_shorted_Ppad_C8_PP_7b031a21
 nets: []
 placements:
   pad_S100_100_LMTOP_BLNo_163fd346_225000_0:
     mirror: false
-    rotation: 0
-    x: 225
-    y: 0
+    rotation: 0.0
+    x: 225.0
+    y: 0.0
   pad_S100_100_LMTOP_BLNo_163fd346_375000_0:
     mirror: false
-    rotation: 0
-    x: 375
-    y: 0
+    rotation: 0.0
+    x: 375.0
+    y: 0.0
   pad_S100_100_LMTOP_BLNo_163fd346_525000_0:
     mirror: false
-    rotation: 0
-    x: 525
-    y: 0
+    rotation: 0.0
+    x: 525.0
+    y: 0.0
   pad_S100_100_LMTOP_BLNo_163fd346_75000_0:
     mirror: false
-    rotation: 0
-    x: 75
-    y: 0
+    rotation: 0.0
+    x: 75.0
+    y: 0.0
   pad_S100_100_LMTOP_BLNo_163fd346_m225000_0:
     mirror: false
-    rotation: 0
-    x: -225
-    y: 0
+    rotation: 0.0
+    x: -225.0
+    y: 0.0
   pad_S100_100_LMTOP_BLNo_163fd346_m375000_0:
     mirror: false
-    rotation: 0
-    x: -375
-    y: 0
+    rotation: 0.0
+    x: -375.0
+    y: 0.0
   pad_S100_100_LMTOP_BLNo_163fd346_m525000_0:
     mirror: false
-    rotation: 0
-    x: -525
-    y: 0
+    rotation: 0.0
+    x: -525.0
+    y: 0.0
   pad_S100_100_LMTOP_BLNo_163fd346_m75000_0:
     mirror: false
-    rotation: 0
-    x: -75
-    y: 0
+    rotation: 0.0
+    x: -75.0
+    y: 0.0
   rectangle_S1050_10_LMTO_73abeb10_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
 ports: {}
 warnings:
   electrical:

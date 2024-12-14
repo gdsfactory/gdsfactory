@@ -3,9 +3,9 @@ name: cdsem_bend180_W0p5_R10__c02eb94b
 settings:
   bend90: bend_circular
   cross_section: strip
-  radius: 10
+  radius: 10.0
   straight: straight
   text: text_rectangular
   text_size: 1
-  wg_length: 420
+  wg_length: 420.0
   width: 0.5

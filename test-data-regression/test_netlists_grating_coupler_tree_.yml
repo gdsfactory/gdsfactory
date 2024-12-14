@@ -2,20 +2,20 @@ instances:
   bend_euler_RNone_A90_P0_d7c3a5a9_195500_m5500:
     component: bend_euler
     info:
-      dy: 10
+      dy: 10.0
       length: 16.637
       min_bend_radius: 7.061
-      radius: 10
+      radius: 10.0
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
-      route_info_n_bend_90: 1
+      route_info_n_bend_90: 1.0
       route_info_strip_length: 16.637
       route_info_type: strip
       route_info_weight: 16.637
       width: 0.5
     settings:
       allow_min_radius_violation: false
-      angle: 90
+      angle: 90.0
       cross_section: strip
       layer: null
       npoints: null
@@ -26,20 +26,20 @@ instances:
   bend_euler_RNone_A90_P0_d7c3a5a9_322500_m1000:
     component: bend_euler
     info:
-      dy: 10
+      dy: 10.0
       length: 16.637
       min_bend_radius: 7.061
-      radius: 10
+      radius: 10.0
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
-      route_info_n_bend_90: 1
+      route_info_n_bend_90: 1.0
       route_info_strip_length: 16.637
       route_info_type: strip
       route_info_weight: 16.637
       width: 0.5
     settings:
       allow_min_radius_violation: false
-      angle: 90
+      angle: 90.0
       cross_section: strip
       layer: null
       npoints: null
@@ -50,20 +50,20 @@ instances:
   bend_euler_RNone_A90_P0_d7c3a5a9_449500_3500:
     component: bend_euler
     info:
-      dy: 10
+      dy: 10.0
       length: 16.637
       min_bend_radius: 7.061
-      radius: 10
+      radius: 10.0
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
-      route_info_n_bend_90: 1
+      route_info_n_bend_90: 1.0
       route_info_strip_length: 16.637
       route_info_type: strip
       route_info_weight: 16.637
       width: 0.5
     settings:
       allow_min_radius_violation: false
-      angle: 90
+      angle: 90.0
       cross_section: strip
       layer: null
       npoints: null
@@ -74,20 +74,20 @@ instances:
   bend_euler_RNone_A90_P0_d7c3a5a9_68500_m10000:
     component: bend_euler
     info:
-      dy: 10
+      dy: 10.0
       length: 16.637
       min_bend_radius: 7.061
-      radius: 10
+      radius: 10.0
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
-      route_info_n_bend_90: 1
+      route_info_n_bend_90: 1.0
       route_info_strip_length: 16.637
       route_info_type: strip
       route_info_weight: 16.637
       width: 0.5
     settings:
       allow_min_radius_violation: false
-      angle: 90
+      angle: 90.0
       cross_section: strip
       layer: null
       npoints: null
@@ -98,20 +98,20 @@ instances:
   bend_euler_RNone_A90_P0_d7c3a5a9_m185500_m5500:
     component: bend_euler
     info:
-      dy: 10
+      dy: 10.0
       length: 16.637
       min_bend_radius: 7.061
-      radius: 10
+      radius: 10.0
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
-      route_info_n_bend_90: 1
+      route_info_n_bend_90: 1.0
       route_info_strip_length: 16.637
       route_info_type: strip
       route_info_weight: 16.637
       width: 0.5
     settings:
       allow_min_radius_violation: false
-      angle: 90
+      angle: 90.0
       cross_section: strip
       layer: null
       npoints: null
@@ -122,20 +122,20 @@ instances:
   bend_euler_RNone_A90_P0_d7c3a5a9_m312500_m1000:
     component: bend_euler
     info:
-      dy: 10
+      dy: 10.0
       length: 16.637
       min_bend_radius: 7.061
-      radius: 10
+      radius: 10.0
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
-      route_info_n_bend_90: 1
+      route_info_n_bend_90: 1.0
       route_info_strip_length: 16.637
       route_info_type: strip
       route_info_weight: 16.637
       width: 0.5
     settings:
       allow_min_radius_violation: false
-      angle: 90
+      angle: 90.0
       cross_section: strip
       layer: null
       npoints: null
@@ -146,20 +146,20 @@ instances:
   bend_euler_RNone_A90_P0_d7c3a5a9_m439500_3500:
     component: bend_euler
     info:
-      dy: 10
+      dy: 10.0
       length: 16.637
       min_bend_radius: 7.061
-      radius: 10
+      radius: 10.0
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
-      route_info_n_bend_90: 1
+      route_info_n_bend_90: 1.0
       route_info_strip_length: 16.637
       route_info_type: strip
       route_info_weight: 16.637
       width: 0.5
     settings:
       allow_min_radius_violation: false
-      angle: 90
+      angle: 90.0
       cross_section: strip
       layer: null
       npoints: null
@@ -170,20 +170,20 @@ instances:
   bend_euler_RNone_A90_P0_d7c3a5a9_m58500_m10000:
     component: bend_euler
     info:
-      dy: 10
+      dy: 10.0
       length: 16.637
       min_bend_radius: 7.061
-      radius: 10
+      radius: 10.0
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
-      route_info_n_bend_90: 1
+      route_info_n_bend_90: 1.0
       route_info_strip_length: 16.637
       route_info_type: strip
       route_info_weight: 16.637
       width: 0.5
     settings:
       allow_min_radius_violation: false
-      angle: 90
+      angle: 90.0
       cross_section: strip
       layer: null
       npoints: null
@@ -199,17 +199,17 @@ instances:
     settings:
       big_last_tooth: false
       cross_section: strip
-      fiber_angle: 15
+      fiber_angle: 15.0
       grating_line_width: 0.343
       layer_slab: SLAB150
       n_periods: 30
       nclad: 1.443
       neff: 2.638
       polarization: te
-      slab_offset: 2
-      slab_xmin: -1
+      slab_offset: 2.0
+      slab_xmin: -1.0
       spiked: true
-      taper_angle: 40
+      taper_angle: 40.0
       taper_length: 16.6
       wavelength: 1.554
   grating_coupler_ellipti_07e69d9a_322500_m69500:
@@ -220,17 +220,17 @@ instances:
     settings:
       big_last_tooth: false
       cross_section: strip
-      fiber_angle: 15
+      fiber_angle: 15.0
       grating_line_width: 0.343
       layer_slab: SLAB150
       n_periods: 30
       nclad: 1.443
       neff: 2.638
       polarization: te
-      slab_offset: 2
-      slab_xmin: -1
+      slab_offset: 2.0
+      slab_xmin: -1.0
       spiked: true
-      taper_angle: 40
+      taper_angle: 40.0
       taper_length: 16.6
       wavelength: 1.554
   grating_coupler_ellipti_07e69d9a_449500_m69500:
@@ -241,17 +241,17 @@ instances:
     settings:
       big_last_tooth: false
       cross_section: strip
-      fiber_angle: 15
+      fiber_angle: 15.0
       grating_line_width: 0.343
       layer_slab: SLAB150
       n_periods: 30
       nclad: 1.443
       neff: 2.638
       polarization: te
-      slab_offset: 2
-      slab_xmin: -1
+      slab_offset: 2.0
+      slab_xmin: -1.0
       spiked: true
-      taper_angle: 40
+      taper_angle: 40.0
       taper_length: 16.6
       wavelength: 1.554
   grating_coupler_ellipti_07e69d9a_68500_m69500:
@@ -262,17 +262,17 @@ instances:
     settings:
       big_last_tooth: false
       cross_section: strip
-      fiber_angle: 15
+      fiber_angle: 15.0
       grating_line_width: 0.343
       layer_slab: SLAB150
       n_periods: 30
       nclad: 1.443
       neff: 2.638
       polarization: te
-      slab_offset: 2
-      slab_xmin: -1
+      slab_offset: 2.0
+      slab_xmin: -1.0
       spiked: true
-      taper_angle: 40
+      taper_angle: 40.0
       taper_length: 16.6
       wavelength: 1.554
   grating_coupler_ellipti_07e69d9a_m185500_m69500:
@@ -283,17 +283,17 @@ instances:
     settings:
       big_last_tooth: false
       cross_section: strip
-      fiber_angle: 15
+      fiber_angle: 15.0
       grating_line_width: 0.343
       layer_slab: SLAB150
       n_periods: 30
       nclad: 1.443
       neff: 2.638
       polarization: te
-      slab_offset: 2
-      slab_xmin: -1
+      slab_offset: 2.0
+      slab_xmin: -1.0
       spiked: true
-      taper_angle: 40
+      taper_angle: 40.0
       taper_length: 16.6
       wavelength: 1.554
   grating_coupler_ellipti_07e69d9a_m312500_m69500:
@@ -304,17 +304,17 @@ instances:
     settings:
       big_last_tooth: false
       cross_section: strip
-      fiber_angle: 15
+      fiber_angle: 15.0
       grating_line_width: 0.343
       layer_slab: SLAB150
       n_periods: 30
       nclad: 1.443
       neff: 2.638
       polarization: te
-      slab_offset: 2
-      slab_xmin: -1
+      slab_offset: 2.0
+      slab_xmin: -1.0
       spiked: true
-      taper_angle: 40
+      taper_angle: 40.0
       taper_length: 16.6
       wavelength: 1.554
   grating_coupler_ellipti_07e69d9a_m439500_m69500:
@@ -325,17 +325,17 @@ instances:
     settings:
       big_last_tooth: false
       cross_section: strip
-      fiber_angle: 15
+      fiber_angle: 15.0
       grating_line_width: 0.343
       layer_slab: SLAB150
       n_periods: 30
       nclad: 1.443
       neff: 2.638
       polarization: te
-      slab_offset: 2
-      slab_xmin: -1
+      slab_offset: 2.0
+      slab_xmin: -1.0
       spiked: true
-      taper_angle: 40
+      taper_angle: 40.0
       taper_length: 16.6
       wavelength: 1.554
   grating_coupler_ellipti_07e69d9a_m58500_m69500:
@@ -346,17 +346,17 @@ instances:
     settings:
       big_last_tooth: false
       cross_section: strip
-      fiber_angle: 15
+      fiber_angle: 15.0
       grating_line_width: 0.343
       layer_slab: SLAB150
       n_periods: 30
       nclad: 1.443
       neff: 2.638
       polarization: te
-      slab_offset: 2
-      slab_xmin: -1
+      slab_offset: 2.0
+      slab_xmin: -1.0
       spiked: true
-      taper_angle: 40
+      taper_angle: 40.0
       taper_length: 16.6
       wavelength: 1.554
   straight_L175p5_N2_CSstrip_WNone_185500_4500:
@@ -502,29 +502,29 @@ instances:
   straight_L64_N2_CSstrip_WNone_195500_m5500:
     component: straight
     info:
-      length: 64
-      route_info_length: 64
-      route_info_strip_length: 64
+      length: 64.0
+      route_info_length: 64.0
+      route_info_strip_length: 64.0
       route_info_type: strip
-      route_info_weight: 64
+      route_info_weight: 64.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 64
+      length: 64.0
       npoints: 2
       width: null
   straight_L64_N2_CSstrip_WNone_m185500_m5500:
     component: straight
     info:
-      length: 64
-      route_info_length: 64
-      route_info_strip_length: 64
+      length: 64.0
+      route_info_length: 64.0
+      route_info_strip_length: 64.0
       route_info_type: strip
-      route_info_weight: 64
+      route_info_weight: 64.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 64
+      length: 64.0
       npoints: 2
       width: null
   straight_L68p5_N2_CSstrip_WNone_322500_m1000:
@@ -558,29 +558,29 @@ instances:
   straight_L73_N2_CSstrip_WNone_449500_3500:
     component: straight
     info:
-      length: 73
-      route_info_length: 73
-      route_info_strip_length: 73
+      length: 73.0
+      route_info_length: 73.0
+      route_info_strip_length: 73.0
       route_info_type: strip
-      route_info_weight: 73
+      route_info_weight: 73.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 73
+      length: 73.0
       npoints: 2
       width: null
   straight_L73_N2_CSstrip_WNone_m439500_3500:
     component: straight
     info:
-      length: 73
-      route_info_length: 73
-      route_info_strip_length: 73
+      length: 73.0
+      route_info_length: 73.0
+      route_info_strip_length: 73.0
       route_info_type: strip
-      route_info_weight: 73
+      route_info_weight: 73.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 73
+      length: 73.0
       npoints: 2
       width: null
   straight_array_N4_S4_L10_CSstrip_0_0:
@@ -588,9 +588,9 @@ instances:
     info: {}
     settings:
       cross_section: strip
-      length: 10
+      length: 10.0
       n: 4
-      spacing: 4
+      spacing: 4.0
 name: grating_coupler_tree_N4_86453336
 nets:
 - p1: bend_euler_RNone_A90_P0_d7c3a5a9_195500_m5500,o1
@@ -660,167 +660,167 @@ nets:
 placements:
   bend_euler_RNone_A90_P0_d7c3a5a9_195500_m5500:
     mirror: false
-    rotation: 90
+    rotation: 90.0
     x: 195.5
     y: -5.5
   bend_euler_RNone_A90_P0_d7c3a5a9_322500_m1000:
     mirror: false
-    rotation: 90
+    rotation: 90.0
     x: 322.5
-    y: -1
+    y: -1.0
   bend_euler_RNone_A90_P0_d7c3a5a9_449500_3500:
     mirror: false
-    rotation: 90
+    rotation: 90.0
     x: 449.5
     y: 3.5
   bend_euler_RNone_A90_P0_d7c3a5a9_68500_m10000:
     mirror: false
-    rotation: 90
+    rotation: 90.0
     x: 68.5
-    y: -10
+    y: -10.0
   bend_euler_RNone_A90_P0_d7c3a5a9_m185500_m5500:
     mirror: true
-    rotation: 90
+    rotation: 90.0
     x: -185.5
     y: -5.5
   bend_euler_RNone_A90_P0_d7c3a5a9_m312500_m1000:
     mirror: true
-    rotation: 90
+    rotation: 90.0
     x: -312.5
-    y: -1
+    y: -1.0
   bend_euler_RNone_A90_P0_d7c3a5a9_m439500_3500:
     mirror: true
-    rotation: 90
+    rotation: 90.0
     x: -439.5
     y: 3.5
   bend_euler_RNone_A90_P0_d7c3a5a9_m58500_m10000:
     mirror: true
-    rotation: 90
+    rotation: 90.0
     x: -58.5
-    y: -10
+    y: -10.0
   grating_coupler_ellipti_07e69d9a_195500_m69500:
     mirror: false
-    rotation: 270
+    rotation: 270.0
     x: 195.5
     y: -69.5
   grating_coupler_ellipti_07e69d9a_322500_m69500:
     mirror: false
-    rotation: 270
+    rotation: 270.0
     x: 322.5
     y: -69.5
   grating_coupler_ellipti_07e69d9a_449500_m69500:
     mirror: false
-    rotation: 270
+    rotation: 270.0
     x: 449.5
     y: -69.5
   grating_coupler_ellipti_07e69d9a_68500_m69500:
     mirror: false
-    rotation: 270
+    rotation: 270.0
     x: 68.5
     y: -69.5
   grating_coupler_ellipti_07e69d9a_m185500_m69500:
     mirror: false
-    rotation: 270
+    rotation: 270.0
     x: -185.5
     y: -69.5
   grating_coupler_ellipti_07e69d9a_m312500_m69500:
     mirror: false
-    rotation: 270
+    rotation: 270.0
     x: -312.5
     y: -69.5
   grating_coupler_ellipti_07e69d9a_m439500_m69500:
     mirror: false
-    rotation: 270
+    rotation: 270.0
     x: -439.5
     y: -69.5
   grating_coupler_ellipti_07e69d9a_m58500_m69500:
     mirror: false
-    rotation: 270
+    rotation: 270.0
     x: -58.5
     y: -69.5
   straight_L175p5_N2_CSstrip_WNone_185500_4500:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 185.5
     y: 4.5
   straight_L175p5_N2_CSstrip_WNone_m175500_4500:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: -175.5
     y: 4.5
   straight_L302p5_N2_CSstrip_WNone_312500_9000:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 312.5
-    y: 9
+    y: 9.0
   straight_L302p5_N2_CSstrip_WNone_m302500_9000:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: -302.5
-    y: 9
+    y: 9.0
   straight_L429p5_N2_CSstrip_WNone_439500_13500:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 439.5
     y: 13.5
   straight_L429p5_N2_CSstrip_WNone_m429500_13500:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: -429.5
     y: 13.5
   straight_L48p5_N2_CSstrip_WNone_58500_0:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 58.5
-    y: 0
+    y: 0.0
   straight_L48p5_N2_CSstrip_WNone_m48500_0:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: -48.5
-    y: 0
+    y: 0.0
   straight_L59p5_N2_CSstrip_WNone_68500_m10000:
     mirror: false
-    rotation: 270
+    rotation: 270.0
     x: 68.5
-    y: -10
+    y: -10.0
   straight_L59p5_N2_CSstrip_WNone_m58500_m10000:
     mirror: false
-    rotation: 270
+    rotation: 270.0
     x: -58.5
-    y: -10
+    y: -10.0
   straight_L64_N2_CSstrip_WNone_195500_m5500:
     mirror: false
-    rotation: 270
+    rotation: 270.0
     x: 195.5
     y: -5.5
   straight_L64_N2_CSstrip_WNone_m185500_m5500:
     mirror: false
-    rotation: 270
+    rotation: 270.0
     x: -185.5
     y: -5.5
   straight_L68p5_N2_CSstrip_WNone_322500_m1000:
     mirror: false
-    rotation: 270
+    rotation: 270.0
     x: 322.5
-    y: -1
+    y: -1.0
   straight_L68p5_N2_CSstrip_WNone_m312500_m1000:
     mirror: false
-    rotation: 270
+    rotation: 270.0
     x: -312.5
-    y: -1
+    y: -1.0
   straight_L73_N2_CSstrip_WNone_449500_3500:
     mirror: false
-    rotation: 270
+    rotation: 270.0
     x: 449.5
     y: 3.5
   straight_L73_N2_CSstrip_WNone_m439500_3500:
     mirror: false
-    rotation: 270
+    rotation: 270.0
     x: -439.5
     y: 3.5
   straight_array_N4_S4_L10_CSstrip_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
 ports: {}

@@ -4,6 +4,6 @@ settings:
   layer: WG
   port_type: electrical
   size:
-  - 10
-  - 20
-  width: 1
+  - 10.0
+  - 20.0
+  width: 1.0

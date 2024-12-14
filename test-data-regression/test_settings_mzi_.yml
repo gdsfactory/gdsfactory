@@ -7,7 +7,7 @@ settings:
   cross_section: strip
   delta_length: 10
   length_x: 0.1
-  length_y: 2
+  length_y: 2.0
   min_length: 0.01
   mirror_bot: false
   nbends: 2

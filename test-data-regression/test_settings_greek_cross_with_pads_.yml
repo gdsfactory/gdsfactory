@@ -4,6 +4,6 @@ settings:
   cross_section: metal1
   greek_cross_component: greek_cross
   pad: pad
-  pad_pitch: 150
+  pad_pitch: 150.0
   pad_port_name: e4
   pad_via: via_stack_m1_mtop

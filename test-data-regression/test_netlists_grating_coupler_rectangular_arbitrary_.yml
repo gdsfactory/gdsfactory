@@ -2,13 +2,13 @@ instances:
   taper_L150_W0p5_W11_LNo_935c804f_0_0:
     component: taper
     info:
-      length: 150
+      length: 150.0
       width1: 0.5
-      width2: 11
+      width2: 11.0
     settings:
       cross_section: strip
       layer: null
-      length: 150
+      length: 150.0
       port: null
       port_names:
       - o1
@@ -17,7 +17,7 @@ instances:
       - optical
       - optical
       width1: 0.5
-      width2: 11
+      width2: 11.0
       with_bbox: true
       with_two_ports: true
 name: grating_coupler_rectang_484ead2a
@@ -25,9 +25,9 @@ nets: []
 placements:
   taper_L150_W0p5_W11_LNo_935c804f_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
 ports:
   o1: taper_L150_W0p5_W11_LNo_935c804f_0_0,o1
 warnings:

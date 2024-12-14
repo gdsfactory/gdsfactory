@@ -14,8 +14,8 @@ instances:
       rows: 1
       size: null
       spacing:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   mzi_DL40_LY40_LX500_Bbe_2a7d538d_0_0:
     component: mzi
     info: {}
@@ -27,7 +27,7 @@ instances:
       cross_section: strip
       cross_section_x_bot: null
       cross_section_x_top: null
-      delta_length: 40
+      delta_length: 40.0
       length_x: 500
       length_y: 40
       min_length: 0.01
@@ -50,14 +50,14 @@ nets: []
 placements:
   array_Cpad_small_S100_1_ee4e58f8_185500_m10000:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 185.5
-    y: -10
+    y: -10.0
   mzi_DL40_LY40_LX500_Bbe_2a7d538d_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
 ports:
   bot_l_e1: mzi_DL40_LY40_LX500_Bbe_2a7d538d_0_0,bot_l_e1
   bot_l_e2: mzi_DL40_LY40_LX500_Bbe_2a7d538d_0_0,bot_l_e2

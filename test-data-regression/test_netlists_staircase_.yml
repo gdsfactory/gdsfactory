@@ -2,76 +2,76 @@ instances:
   '1':
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   '2':
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   '3':
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   '4':
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   A1:
     component: bend_euler
     info:
-      dy: 10
+      dy: 10.0
       length: 16.637
       min_bend_radius: 7.061
-      radius: 10
+      radius: 10.0
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
-      route_info_n_bend_90: 1
+      route_info_n_bend_90: 1.0
       route_info_strip_length: 16.637
       route_info_type: strip
       route_info_weight: 16.637
       width: 0.5
     settings:
       allow_min_radius_violation: false
-      angle: 90
+      angle: 90.0
       cross_section: strip
       layer: null
       npoints: null
@@ -82,20 +82,20 @@ instances:
   A2:
     component: bend_euler
     info:
-      dy: 10
+      dy: 10.0
       length: 16.637
       min_bend_radius: 7.061
-      radius: 10
+      radius: 10.0
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
-      route_info_n_bend_90: 1
+      route_info_n_bend_90: 1.0
       route_info_strip_length: 16.637
       route_info_type: strip
       route_info_weight: 16.637
       width: 0.5
     settings:
       allow_min_radius_violation: false
-      angle: 90
+      angle: 90.0
       cross_section: strip
       layer: null
       npoints: null
@@ -106,20 +106,20 @@ instances:
   A3:
     component: bend_euler
     info:
-      dy: 10
+      dy: 10.0
       length: 16.637
       min_bend_radius: 7.061
-      radius: 10
+      radius: 10.0
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
-      route_info_n_bend_90: 1
+      route_info_n_bend_90: 1.0
       route_info_strip_length: 16.637
       route_info_type: strip
       route_info_weight: 16.637
       width: 0.5
     settings:
       allow_min_radius_violation: false
-      angle: 90
+      angle: 90.0
       cross_section: strip
       layer: null
       npoints: null
@@ -130,20 +130,20 @@ instances:
   A4:
     component: bend_euler
     info:
-      dy: 10
+      dy: 10.0
       length: 16.637
       min_bend_radius: 7.061
-      radius: 10
+      radius: 10.0
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
-      route_info_n_bend_90: 1
+      route_info_n_bend_90: 1.0
       route_info_strip_length: 16.637
       route_info_type: strip
       route_info_weight: 16.637
       width: 0.5
     settings:
       allow_min_radius_violation: false
-      angle: 90
+      angle: 90.0
       cross_section: strip
       layer: null
       npoints: null
@@ -154,20 +154,20 @@ instances:
   B1:
     component: bend_euler
     info:
-      dy: 10
+      dy: 10.0
       length: 16.637
       min_bend_radius: 7.061
-      radius: 10
+      radius: 10.0
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
-      route_info_n_bend_90: 1
+      route_info_n_bend_90: 1.0
       route_info_strip_length: 16.637
       route_info_type: strip
       route_info_weight: 16.637
       width: 0.5
     settings:
       allow_min_radius_violation: false
-      angle: 90
+      angle: 90.0
       cross_section: strip
       layer: null
       npoints: null
@@ -178,20 +178,20 @@ instances:
   B2:
     component: bend_euler
     info:
-      dy: 10
+      dy: 10.0
       length: 16.637
       min_bend_radius: 7.061
-      radius: 10
+      radius: 10.0
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
-      route_info_n_bend_90: 1
+      route_info_n_bend_90: 1.0
       route_info_strip_length: 16.637
       route_info_type: strip
       route_info_weight: 16.637
       width: 0.5
     settings:
       allow_min_radius_violation: false
-      angle: 90
+      angle: 90.0
       cross_section: strip
       layer: null
       npoints: null
@@ -202,20 +202,20 @@ instances:
   B3:
     component: bend_euler
     info:
-      dy: 10
+      dy: 10.0
       length: 16.637
       min_bend_radius: 7.061
-      radius: 10
+      radius: 10.0
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
-      route_info_n_bend_90: 1
+      route_info_n_bend_90: 1.0
       route_info_strip_length: 16.637
       route_info_type: strip
       route_info_weight: 16.637
       width: 0.5
     settings:
       allow_min_radius_violation: false
-      angle: 90
+      angle: 90.0
       cross_section: strip
       layer: null
       npoints: null
@@ -226,20 +226,20 @@ instances:
   B4:
     component: bend_euler
     info:
-      dy: 10
+      dy: 10.0
       length: 16.637
       min_bend_radius: 7.061
-      radius: 10
+      radius: 10.0
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
-      route_info_n_bend_90: 1
+      route_info_n_bend_90: 1.0
       route_info_strip_length: 16.637
       route_info_type: strip
       route_info_weight: 16.637
       width: 0.5
     settings:
       allow_min_radius_violation: false
-      angle: 90
+      angle: 90.0
       cross_section: strip
       layer: null
       npoints: null
@@ -250,71 +250,71 @@ instances:
   m1:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m2:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m3:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m4:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m5:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
 name: staircase_Cbend_euler_S_c2f7854d
@@ -354,89 +354,89 @@ nets:
 placements:
   '1':
     mirror: false
-    rotation: 90
-    x: 15
-    y: 10
+    rotation: 90.0
+    x: 15.0
+    y: 10.0
   '2':
     mirror: false
-    rotation: 90
-    x: 40
-    y: 35
+    rotation: 90.0
+    x: 40.0
+    y: 35.0
   '3':
     mirror: false
-    rotation: 90
-    x: 65
-    y: 60
+    rotation: 90.0
+    x: 65.0
+    y: 60.0
   '4':
     mirror: false
-    rotation: 90
-    x: 90
-    y: 85
+    rotation: 90.0
+    x: 90.0
+    y: 85.0
   A1:
     mirror: false
-    rotation: 0
-    x: 5
-    y: 0
+    rotation: 0.0
+    x: 5.0
+    y: 0.0
   A2:
     mirror: false
-    rotation: 0
-    x: 30
-    y: 25
+    rotation: 0.0
+    x: 30.0
+    y: 25.0
   A3:
     mirror: false
-    rotation: 0
-    x: 55
-    y: 50
+    rotation: 0.0
+    x: 55.0
+    y: 50.0
   A4:
     mirror: false
-    rotation: 0
-    x: 80
-    y: 75
+    rotation: 0.0
+    x: 80.0
+    y: 75.0
   B1:
     mirror: false
-    rotation: 180
-    x: 25
-    y: 25
+    rotation: 180.0
+    x: 25.0
+    y: 25.0
   B2:
     mirror: false
-    rotation: 180
-    x: 50
-    y: 50
+    rotation: 180.0
+    x: 50.0
+    y: 50.0
   B3:
     mirror: false
-    rotation: 180
-    x: 75
-    y: 75
+    rotation: 180.0
+    x: 75.0
+    y: 75.0
   B4:
     mirror: false
-    rotation: 180
-    x: 100
-    y: 100
+    rotation: 180.0
+    x: 100.0
+    y: 100.0
   m1:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
   m2:
     mirror: false
-    rotation: 0
-    x: 25
-    y: 25
+    rotation: 0.0
+    x: 25.0
+    y: 25.0
   m3:
     mirror: false
-    rotation: 0
-    x: 50
-    y: 50
+    rotation: 0.0
+    x: 50.0
+    y: 50.0
   m4:
     mirror: false
-    rotation: 0
-    x: 75
-    y: 75
+    rotation: 0.0
+    x: 75.0
+    y: 75.0
   m5:
     mirror: false
-    rotation: 0
-    x: 100
-    y: 100
+    rotation: 0.0
+    x: 100.0
+    y: 100.0
 ports:
   o1: m1,o1
   o2: m5,o2

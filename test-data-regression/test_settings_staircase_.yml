@@ -3,7 +3,7 @@ info:
 name: staircase_Cbend_euler_S_c2f7854d
 settings:
   component: bend_euler
-  length_h: 5
-  length_v: 5
+  length_h: 5.0
+  length_v: 5.0
   rows: 4
   straight: straight

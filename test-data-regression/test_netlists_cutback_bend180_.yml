@@ -72,13 +72,13 @@ instances:
   C1:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -96,13 +96,13 @@ instances:
   C10:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -120,13 +120,13 @@ instances:
   C11:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -144,13 +144,13 @@ instances:
   C12:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -168,13 +168,13 @@ instances:
   C13:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -192,13 +192,13 @@ instances:
   C14:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -216,13 +216,13 @@ instances:
   C15:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -240,13 +240,13 @@ instances:
   C16:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -264,13 +264,13 @@ instances:
   C17:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -288,13 +288,13 @@ instances:
   C18:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -312,13 +312,13 @@ instances:
   C19:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -336,13 +336,13 @@ instances:
   C2:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -360,13 +360,13 @@ instances:
   C20:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -384,13 +384,13 @@ instances:
   C21:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -408,13 +408,13 @@ instances:
   C22:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -432,13 +432,13 @@ instances:
   C23:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -456,13 +456,13 @@ instances:
   C24:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -480,13 +480,13 @@ instances:
   C25:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -504,13 +504,13 @@ instances:
   C26:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -528,13 +528,13 @@ instances:
   C27:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -552,13 +552,13 @@ instances:
   C28:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -576,13 +576,13 @@ instances:
   C29:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -600,13 +600,13 @@ instances:
   C3:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -624,13 +624,13 @@ instances:
   C30:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -648,13 +648,13 @@ instances:
   C31:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -672,13 +672,13 @@ instances:
   C32:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -696,13 +696,13 @@ instances:
   C33:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -720,13 +720,13 @@ instances:
   C34:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -744,13 +744,13 @@ instances:
   C35:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -768,13 +768,13 @@ instances:
   C36:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -792,13 +792,13 @@ instances:
   C4:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -816,13 +816,13 @@ instances:
   C5:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -840,13 +840,13 @@ instances:
   C6:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -864,13 +864,13 @@ instances:
   C7:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -888,13 +888,13 @@ instances:
   C8:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -912,13 +912,13 @@ instances:
   C9:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -936,13 +936,13 @@ instances:
   D1:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -960,13 +960,13 @@ instances:
   D10:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -984,13 +984,13 @@ instances:
   D11:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1008,13 +1008,13 @@ instances:
   D12:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1032,13 +1032,13 @@ instances:
   D13:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1056,13 +1056,13 @@ instances:
   D14:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1080,13 +1080,13 @@ instances:
   D15:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1104,13 +1104,13 @@ instances:
   D16:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1128,13 +1128,13 @@ instances:
   D17:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1152,13 +1152,13 @@ instances:
   D18:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1176,13 +1176,13 @@ instances:
   D19:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1200,13 +1200,13 @@ instances:
   D2:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1224,13 +1224,13 @@ instances:
   D20:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1248,13 +1248,13 @@ instances:
   D21:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1272,13 +1272,13 @@ instances:
   D22:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1296,13 +1296,13 @@ instances:
   D23:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1320,13 +1320,13 @@ instances:
   D24:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1344,13 +1344,13 @@ instances:
   D25:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1368,13 +1368,13 @@ instances:
   D26:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1392,13 +1392,13 @@ instances:
   D27:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1416,13 +1416,13 @@ instances:
   D28:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1440,13 +1440,13 @@ instances:
   D29:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1464,13 +1464,13 @@ instances:
   D3:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1488,13 +1488,13 @@ instances:
   D30:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1512,13 +1512,13 @@ instances:
   D31:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1536,13 +1536,13 @@ instances:
   D32:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1560,13 +1560,13 @@ instances:
   D33:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1584,13 +1584,13 @@ instances:
   D34:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1608,13 +1608,13 @@ instances:
   D35:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1632,13 +1632,13 @@ instances:
   D36:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1656,13 +1656,13 @@ instances:
   D4:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1680,13 +1680,13 @@ instances:
   D5:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1704,13 +1704,13 @@ instances:
   D6:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1728,13 +1728,13 @@ instances:
   D7:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1752,13 +1752,13 @@ instances:
   D8:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1776,13 +1776,13 @@ instances:
   D9:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1800,1009 +1800,1009 @@ instances:
   m1:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m10:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m11:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m12:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m13:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m14:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m15:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m16:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m17:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m18:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m19:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m2:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m20:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m21:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m22:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m23:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m24:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m25:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m26:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m27:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m28:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m29:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m3:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m30:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m31:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m32:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m33:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m34:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m35:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m36:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m37:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m38:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m39:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m4:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m40:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m41:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m42:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m43:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m44:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m45:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m46:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m47:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m48:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m49:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m5:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m50:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m51:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m52:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m53:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m54:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m55:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m56:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m57:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m58:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m59:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m6:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m60:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m61:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m62:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m63:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m64:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m65:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m66:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m67:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m68:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m69:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m7:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m70:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m71:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m72:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m8:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
   m9:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
 name: cutback_bend180_Cbend_e_ea441d2d
@@ -3106,749 +3106,749 @@ nets:
 placements:
   '1':
     mirror: false
-    rotation: 0
-    x: 0
-    y: 240
+    rotation: 0.0
+    x: 0.0
+    y: 240.0
   '2':
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 40.656
-    y: 0
+    y: 0.0
   '3':
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 81.312
-    y: 240
+    y: 240.0
   '4':
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 121.968
-    y: 0
+    y: 0.0
   '5':
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 162.624
-    y: 240
+    y: 240.0
   C1:
     mirror: false
-    rotation: 180
-    x: -5
-    y: 40
+    rotation: 180.0
+    x: -5.0
+    y: 40.0
   C10:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 40.656
-    y: 100
+    y: 100.0
   C11:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 40.656
-    y: 60
+    y: 60.0
   C12:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 40.656
-    y: 20
+    y: 20.0
   C13:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 76.312
-    y: 40
+    y: 40.0
   C14:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 76.312
-    y: 80
+    y: 80.0
   C15:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 76.312
-    y: 120
+    y: 120.0
   C16:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 76.312
-    y: 160
+    y: 160.0
   C17:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 76.312
-    y: 200
+    y: 200.0
   C18:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 76.312
-    y: 240
+    y: 240.0
   C19:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 121.968
-    y: 220
+    y: 220.0
   C2:
     mirror: false
-    rotation: 180
-    x: -5
-    y: 80
+    rotation: 180.0
+    x: -5.0
+    y: 80.0
   C20:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 121.968
-    y: 180
+    y: 180.0
   C21:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 121.968
-    y: 140
+    y: 140.0
   C22:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 121.968
-    y: 100
+    y: 100.0
   C23:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 121.968
-    y: 60
+    y: 60.0
   C24:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 121.968
-    y: 20
+    y: 20.0
   C25:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 157.624
-    y: 40
+    y: 40.0
   C26:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 157.624
-    y: 80
+    y: 80.0
   C27:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 157.624
-    y: 120
+    y: 120.0
   C28:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 157.624
-    y: 160
+    y: 160.0
   C29:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 157.624
-    y: 200
+    y: 200.0
   C3:
     mirror: false
-    rotation: 180
-    x: -5
-    y: 120
+    rotation: 180.0
+    x: -5.0
+    y: 120.0
   C30:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 157.624
-    y: 240
+    y: 240.0
   C31:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 203.28
-    y: 220
+    y: 220.0
   C32:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 203.28
-    y: 180
+    y: 180.0
   C33:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 203.28
-    y: 140
+    y: 140.0
   C34:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 203.28
-    y: 100
+    y: 100.0
   C35:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 203.28
-    y: 60
+    y: 60.0
   C36:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 203.28
-    y: 20
+    y: 20.0
   C4:
     mirror: false
-    rotation: 180
-    x: -5
-    y: 160
+    rotation: 180.0
+    x: -5.0
+    y: 160.0
   C5:
     mirror: false
-    rotation: 180
-    x: -5
-    y: 200
+    rotation: 180.0
+    x: -5.0
+    y: 200.0
   C6:
     mirror: false
-    rotation: 180
-    x: -5
-    y: 240
+    rotation: 180.0
+    x: -5.0
+    y: 240.0
   C7:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 40.656
-    y: 220
+    y: 220.0
   C8:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 40.656
-    y: 180
+    y: 180.0
   C9:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 40.656
-    y: 140
+    y: 140.0
   D1:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
   D10:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 35.656
-    y: 100
+    y: 100.0
   D11:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 35.656
-    y: 60
+    y: 60.0
   D12:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 35.656
-    y: 20
+    y: 20.0
   D13:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 81.312
-    y: 0
+    y: 0.0
   D14:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 81.312
-    y: 40
+    y: 40.0
   D15:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 81.312
-    y: 80
+    y: 80.0
   D16:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 81.312
-    y: 120
+    y: 120.0
   D17:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 81.312
-    y: 160
+    y: 160.0
   D18:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 81.312
-    y: 200
+    y: 200.0
   D19:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 116.968
-    y: 220
+    y: 220.0
   D2:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 40
+    rotation: 0.0
+    x: 0.0
+    y: 40.0
   D20:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 116.968
-    y: 180
+    y: 180.0
   D21:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 116.968
-    y: 140
+    y: 140.0
   D22:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 116.968
-    y: 100
+    y: 100.0
   D23:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 116.968
-    y: 60
+    y: 60.0
   D24:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 116.968
-    y: 20
+    y: 20.0
   D25:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 162.624
-    y: 0
+    y: 0.0
   D26:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 162.624
-    y: 40
+    y: 40.0
   D27:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 162.624
-    y: 80
+    y: 80.0
   D28:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 162.624
-    y: 120
+    y: 120.0
   D29:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 162.624
-    y: 160
+    y: 160.0
   D3:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 80
+    rotation: 0.0
+    x: 0.0
+    y: 80.0
   D30:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 162.624
-    y: 200
+    y: 200.0
   D31:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 198.28
-    y: 220
+    y: 220.0
   D32:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 198.28
-    y: 180
+    y: 180.0
   D33:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 198.28
-    y: 140
+    y: 140.0
   D34:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 198.28
-    y: 100
+    y: 100.0
   D35:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 198.28
-    y: 60
+    y: 60.0
   D36:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 198.28
-    y: 20
+    y: 20.0
   D4:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 120
+    rotation: 0.0
+    x: 0.0
+    y: 120.0
   D5:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 160
+    rotation: 0.0
+    x: 0.0
+    y: 160.0
   D6:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 200
+    rotation: 0.0
+    x: 0.0
+    y: 200.0
   D7:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 35.656
-    y: 220
+    y: 220.0
   D8:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 35.656
-    y: 180
+    y: 180.0
   D9:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 35.656
-    y: 140
+    y: 140.0
   m1:
     mirror: false
-    rotation: 180
-    x: 0
-    y: 20
+    rotation: 180.0
+    x: 0.0
+    y: 20.0
   m10:
     mirror: false
-    rotation: 0
-    x: -5
-    y: 200
+    rotation: 0.0
+    x: -5.0
+    y: 200.0
   m11:
     mirror: false
-    rotation: 180
-    x: 0
-    y: 220
+    rotation: 180.0
+    x: 0.0
+    y: 220.0
   m12:
     mirror: false
-    rotation: 0
-    x: -5
-    y: 240
+    rotation: 0.0
+    x: -5.0
+    y: 240.0
   m13:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 40.656
-    y: 220
+    y: 220.0
   m14:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 35.656
-    y: 200
+    y: 200.0
   m15:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 40.656
-    y: 180
+    y: 180.0
   m16:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 35.656
-    y: 160
+    y: 160.0
   m17:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 40.656
-    y: 140
+    y: 140.0
   m18:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 35.656
-    y: 120
+    y: 120.0
   m19:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 40.656
-    y: 100
+    y: 100.0
   m2:
     mirror: false
-    rotation: 0
-    x: -5
-    y: 40
+    rotation: 0.0
+    x: -5.0
+    y: 40.0
   m20:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 35.656
-    y: 80
+    y: 80.0
   m21:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 40.656
-    y: 60
+    y: 60.0
   m22:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 35.656
-    y: 40
+    y: 40.0
   m23:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 40.656
-    y: 20
+    y: 20.0
   m24:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 35.656
-    y: 0
+    y: 0.0
   m25:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 81.312
-    y: 20
+    y: 20.0
   m26:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 76.312
-    y: 40
+    y: 40.0
   m27:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 81.312
-    y: 60
+    y: 60.0
   m28:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 76.312
-    y: 80
+    y: 80.0
   m29:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 81.312
-    y: 100
+    y: 100.0
   m3:
     mirror: false
-    rotation: 180
-    x: 0
-    y: 60
+    rotation: 180.0
+    x: 0.0
+    y: 60.0
   m30:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 76.312
-    y: 120
+    y: 120.0
   m31:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 81.312
-    y: 140
+    y: 140.0
   m32:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 76.312
-    y: 160
+    y: 160.0
   m33:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 81.312
-    y: 180
+    y: 180.0
   m34:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 76.312
-    y: 200
+    y: 200.0
   m35:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 81.312
-    y: 220
+    y: 220.0
   m36:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 76.312
-    y: 240
+    y: 240.0
   m37:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 121.968
-    y: 220
+    y: 220.0
   m38:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 116.968
-    y: 200
+    y: 200.0
   m39:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 121.968
-    y: 180
+    y: 180.0
   m4:
     mirror: false
-    rotation: 0
-    x: -5
-    y: 80
+    rotation: 0.0
+    x: -5.0
+    y: 80.0
   m40:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 116.968
-    y: 160
+    y: 160.0
   m41:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 121.968
-    y: 140
+    y: 140.0
   m42:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 116.968
-    y: 120
+    y: 120.0
   m43:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 121.968
-    y: 100
+    y: 100.0
   m44:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 116.968
-    y: 80
+    y: 80.0
   m45:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 121.968
-    y: 60
+    y: 60.0
   m46:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 116.968
-    y: 40
+    y: 40.0
   m47:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 121.968
-    y: 20
+    y: 20.0
   m48:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 116.968
-    y: 0
+    y: 0.0
   m49:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 162.624
-    y: 20
+    y: 20.0
   m5:
     mirror: false
-    rotation: 180
-    x: 0
-    y: 100
+    rotation: 180.0
+    x: 0.0
+    y: 100.0
   m50:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 157.624
-    y: 40
+    y: 40.0
   m51:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 162.624
-    y: 60
+    y: 60.0
   m52:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 157.624
-    y: 80
+    y: 80.0
   m53:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 162.624
-    y: 100
+    y: 100.0
   m54:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 157.624
-    y: 120
+    y: 120.0
   m55:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 162.624
-    y: 140
+    y: 140.0
   m56:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 157.624
-    y: 160
+    y: 160.0
   m57:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 162.624
-    y: 180
+    y: 180.0
   m58:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 157.624
-    y: 200
+    y: 200.0
   m59:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 162.624
-    y: 220
+    y: 220.0
   m6:
     mirror: false
-    rotation: 0
-    x: -5
-    y: 120
+    rotation: 0.0
+    x: -5.0
+    y: 120.0
   m60:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 157.624
-    y: 240
+    y: 240.0
   m61:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 203.28
-    y: 220
+    y: 220.0
   m62:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 198.28
-    y: 200
+    y: 200.0
   m63:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 203.28
-    y: 180
+    y: 180.0
   m64:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 198.28
-    y: 160
+    y: 160.0
   m65:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 203.28
-    y: 140
+    y: 140.0
   m66:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 198.28
-    y: 120
+    y: 120.0
   m67:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 203.28
-    y: 100
+    y: 100.0
   m68:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 198.28
-    y: 80
+    y: 80.0
   m69:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 203.28
-    y: 60
+    y: 60.0
   m7:
     mirror: false
-    rotation: 180
-    x: 0
-    y: 140
+    rotation: 180.0
+    x: 0.0
+    y: 140.0
   m70:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 198.28
-    y: 40
+    y: 40.0
   m71:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 203.28
-    y: 20
+    y: 20.0
   m72:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 198.28
-    y: 0
+    y: 0.0
   m8:
     mirror: false
-    rotation: 0
-    x: -5
-    y: 160
+    rotation: 0.0
+    x: -5.0
+    y: 160.0
   m9:
     mirror: false
-    rotation: 180
-    x: 0
-    y: 180
+    rotation: 180.0
+    x: 0.0
+    y: 180.0
 ports:
   o1: D1,o1
   o2: m72,o2

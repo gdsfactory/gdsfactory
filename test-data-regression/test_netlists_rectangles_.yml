@@ -12,8 +12,8 @@ instances:
       - -90
       port_type: electrical
       size:
-      - 4
-      - 2
+      - 4.0
+      - 2.0
   rectangle_S4_2_LWG_CTru_db552270_0_0:
     component: rectangle
     info: {}
@@ -27,8 +27,8 @@ instances:
       - -90
       port_type: electrical
       size:
-      - 4
-      - 2
+      - 4.0
+      - 2.0
 name: rectangles_S4_2_ONone_L_071c19ed
 nets:
 - p1: rectangle_S4_2_LSLAB150_0c5587d4_0_0,e1
@@ -42,12 +42,12 @@ nets:
 placements:
   rectangle_S4_2_LSLAB150_0c5587d4_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
   rectangle_S4_2_LWG_CTru_db552270_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
 ports: {}

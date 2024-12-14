@@ -6,8 +6,8 @@ settings:
   bend: bend_euler
   combiner: coupler
   cross_section: strip
-  delta_length: 10
-  length_y: 2
+  delta_length: 10.0
+  length_y: 2.0
   min_length: 0.01
   mirror_bot: false
   nbends: 2

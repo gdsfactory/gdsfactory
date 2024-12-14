@@ -19,9 +19,9 @@ nets: []
 placements:
   taper_cross_section_CSs_d7986ffc_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
 ports:
   o1: taper_cross_section_CSs_d7986ffc_0_0,o1
 warnings:

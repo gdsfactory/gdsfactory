@@ -3,9 +3,9 @@ name: edge_coupler_array_with_0e29eb5f
 settings:
   cross_section: strip
   edge_coupler: edge_coupler_silicon
-  extension_length: 1
+  extension_length: 1.0
   n: 8
-  pitch: 127
+  pitch: 127.0
   radius: 30
   text: text_rectangular
   text_offset:

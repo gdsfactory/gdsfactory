@@ -3,6 +3,6 @@ name: coupler_straight_asymme_ef3c4e78
 settings:
   cross_section: strip
   gap: 0.27
-  length: 10
+  length: 10.0
   width_bot: 1
   width_top: 0.5

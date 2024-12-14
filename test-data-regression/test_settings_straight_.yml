@@ -1,12 +1,12 @@
 info:
-  length: 10
-  route_info_length: 10
-  route_info_strip_length: 10
+  length: 10.0
+  route_info_length: 10.0
+  route_info_strip_length: 10.0
   route_info_type: strip
-  route_info_weight: 10
+  route_info_weight: 10.0
   width: 0.5
 name: straight_L10_N2_CSstrip_WNone
 settings:
   cross_section: strip
-  length: 10
+  length: 10.0
   npoints: 2

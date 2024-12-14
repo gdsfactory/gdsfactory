@@ -81,19 +81,19 @@ nets:
 placements:
   via_stack_S10_3_LM1_M2__c1715970_16061_11500:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 16.061
     y: 11.5
   via_stack_S10_3_LM1_M2__c1715970_m1500_m6061:
     mirror: false
-    rotation: 270
+    rotation: 270.0
     x: -1.5
     y: -6.061
   via_stack_corner45_W2p1_2f36860f_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
 ports: {}
 warnings:
   electrical:

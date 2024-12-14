@@ -6,9 +6,9 @@ settings:
   bend: bend_euler
   cross_section: strip
   cross_section_x_top: pin
-  delta_length: 0
+  delta_length: 0.0
   length_x: 100
-  length_y: 2
+  length_y: 2.0
   min_length: 0.01
   mirror_bot: false
   nbends: 2

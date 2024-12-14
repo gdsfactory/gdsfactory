@@ -482,13 +482,13 @@ instances:
   C1:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -506,13 +506,13 @@ instances:
   C2:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -530,13 +530,13 @@ instances:
   C3:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -554,13 +554,13 @@ instances:
   C4:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -578,13 +578,13 @@ instances:
   D1:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -602,13 +602,13 @@ instances:
   D2:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -626,13 +626,13 @@ instances:
   D3:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -650,13 +650,13 @@ instances:
   D4:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -674,29 +674,29 @@ instances:
   _1:
     component: straight
     info:
-      length: 20
-      route_info_length: 20
-      route_info_strip_length: 20
+      length: 20.0
+      route_info_length: 20.0
+      route_info_strip_length: 20.0
       route_info_type: strip
-      route_info_weight: 20
+      route_info_weight: 20.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 20
+      length: 20.0
       npoints: 2
       width: null
   m1:
     component: straight
     info:
-      length: 20
-      route_info_length: 20
-      route_info_strip_length: 20
+      length: 20.0
+      route_info_length: 20.0
+      route_info_strip_length: 20.0
       route_info_type: strip
-      route_info_weight: 20
+      route_info_weight: 20.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 20
+      length: 20.0
       npoints: 2
       width: null
 name: cutback_component_Ctape_13a5b25d
@@ -882,454 +882,454 @@ nets:
 placements:
   A1:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
   A10:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 70.46
-    y: -40
+    y: -40.0
   A11:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 140.92
-    y: -40
+    y: -40.0
   A12:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 211.38
-    y: -40
+    y: -40.0
   A13:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 281.84
-    y: -60
+    y: -60.0
   A14:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 211.38
-    y: -60
+    y: -60.0
   A15:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 140.92
-    y: -60
+    y: -60.0
   A16:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 70.46
-    y: -60
+    y: -60.0
   A17:
     mirror: false
-    rotation: 0
-    x: 0
-    y: -80
+    rotation: 0.0
+    x: 0.0
+    y: -80.0
   A18:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 70.46
-    y: -80
+    y: -80.0
   A19:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 140.92
-    y: -80
+    y: -80.0
   A2:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 70.46
-    y: 0
+    y: 0.0
   A20:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 211.38
-    y: -80
+    y: -80.0
   A21:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 321.84
-    y: -80
+    y: -80.0
   A22:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 392.3
-    y: -80
+    y: -80.0
   A23:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 462.76
-    y: -80
+    y: -80.0
   A24:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 533.22
-    y: -80
+    y: -80.0
   A25:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 603.68
-    y: -100
+    y: -100.0
   A26:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 533.22
-    y: -100
+    y: -100.0
   A27:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 462.76
-    y: -100
+    y: -100.0
   A28:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 392.3
-    y: -100
+    y: -100.0
   A29:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 321.84
-    y: -120
+    y: -120.0
   A3:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 140.92
-    y: 0
+    y: 0.0
   A30:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 392.3
-    y: -120
+    y: -120.0
   A31:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 462.76
-    y: -120
+    y: -120.0
   A32:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 533.22
-    y: -120
+    y: -120.0
   A33:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 603.68
-    y: -140
+    y: -140.0
   A34:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 533.22
-    y: -140
+    y: -140.0
   A35:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 462.76
-    y: -140
+    y: -140.0
   A36:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 392.3
-    y: -140
+    y: -140.0
   A37:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 321.84
-    y: -160
+    y: -160.0
   A38:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 392.3
-    y: -160
+    y: -160.0
   A39:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 462.76
-    y: -160
+    y: -160.0
   A4:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 211.38
-    y: 0
+    y: 0.0
   A40:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 533.22
-    y: -160
+    y: -160.0
   A5:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 281.84
-    y: -20
+    y: -20.0
   A6:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 211.38
-    y: -20
+    y: -20.0
   A7:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 140.92
-    y: -20
+    y: -20.0
   A8:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 70.46
-    y: -20
+    y: -20.0
   A9:
     mirror: false
-    rotation: 0
-    x: 0
-    y: -40
+    rotation: 0.0
+    x: 0.0
+    y: -40.0
   B1:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 70.46
-    y: 0
+    y: 0.0
   B10:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 140.92
-    y: -40
+    y: -40.0
   B11:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 211.38
-    y: -40
+    y: -40.0
   B12:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 281.84
-    y: -40
+    y: -40.0
   B13:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 211.38
-    y: -60
+    y: -60.0
   B14:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 140.92
-    y: -60
+    y: -60.0
   B15:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 70.46
-    y: -60
+    y: -60.0
   B16:
     mirror: false
-    rotation: 0
-    x: 0
-    y: -60
+    rotation: 0.0
+    x: 0.0
+    y: -60.0
   B17:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 70.46
-    y: -80
+    y: -80.0
   B18:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 140.92
-    y: -80
+    y: -80.0
   B19:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 211.38
-    y: -80
+    y: -80.0
   B2:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 140.92
-    y: 0
+    y: 0.0
   B20:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 281.84
-    y: -80
+    y: -80.0
   B21:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 392.3
-    y: -80
+    y: -80.0
   B22:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 462.76
-    y: -80
+    y: -80.0
   B23:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 533.22
-    y: -80
+    y: -80.0
   B24:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 603.68
-    y: -80
+    y: -80.0
   B25:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 533.22
-    y: -100
+    y: -100.0
   B26:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 462.76
-    y: -100
+    y: -100.0
   B27:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 392.3
-    y: -100
+    y: -100.0
   B28:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 321.84
-    y: -100
+    y: -100.0
   B29:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 392.3
-    y: -120
+    y: -120.0
   B3:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 211.38
-    y: 0
+    y: 0.0
   B30:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 462.76
-    y: -120
+    y: -120.0
   B31:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 533.22
-    y: -120
+    y: -120.0
   B32:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 603.68
-    y: -120
+    y: -120.0
   B33:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 533.22
-    y: -140
+    y: -140.0
   B34:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 462.76
-    y: -140
+    y: -140.0
   B35:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 392.3
-    y: -140
+    y: -140.0
   B36:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 321.84
-    y: -140
+    y: -140.0
   B37:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 392.3
-    y: -160
+    y: -160.0
   B38:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 462.76
-    y: -160
+    y: -160.0
   B39:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 533.22
-    y: -160
+    y: -160.0
   B4:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 281.84
-    y: 0
+    y: 0.0
   B40:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 603.68
-    y: -160
+    y: -160.0
   B5:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 211.38
-    y: -20
+    y: -20.0
   B6:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 140.92
-    y: -20
+    y: -20.0
   B7:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 70.46
-    y: -20
+    y: -20.0
   B8:
     mirror: false
-    rotation: 0
-    x: 0
-    y: -20
+    rotation: 0.0
+    x: 0.0
+    y: -20.0
   B9:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 70.46
-    y: -40
+    y: -40.0
   C1:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 281.84
-    y: -20
+    y: -20.0
   C2:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 281.84
-    y: -60
+    y: -60.0
   C3:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 603.68
-    y: -100
+    y: -100.0
   C4:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 603.68
-    y: -140
+    y: -140.0
   D1:
     mirror: false
-    rotation: 180
-    x: 0
-    y: -20
+    rotation: 180.0
+    x: 0.0
+    y: -20.0
   D2:
     mirror: false
-    rotation: 180
-    x: 0
-    y: -60
+    rotation: 180.0
+    x: 0.0
+    y: -60.0
   D3:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 321.84
-    y: -100
+    y: -100.0
   D4:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 321.84
-    y: -140
+    y: -140.0
   _1:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: 321.84
-    y: -80
+    y: -80.0
   m1:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 281.84
-    y: -80
+    y: -80.0
 ports:
   o1: A1,o1
   o2: B40,o1

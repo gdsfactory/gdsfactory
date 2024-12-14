@@ -9,7 +9,7 @@ instances:
       gap: 0.2
       length_extension: 3
       length_x: 0.01
-      radius: 10
+      radius: 10.0
       straight: straight
   coupler_ring_G0p2_R10_L_f700a51f_m10_21410:
     component: coupler_ring
@@ -21,7 +21,7 @@ instances:
       gap: 0.2
       length_extension: 3
       length_x: 0.01
-      radius: 10
+      radius: 10.0
       straight: straight
   straight_L0p01_N2_CSstrip_WNone_10000_10710:
     component: straight
@@ -64,22 +64,22 @@ nets:
 placements:
   coupler_ring_G0p2_R10_L_f700a51f_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
   coupler_ring_G0p2_R10_L_f700a51f_m10_21410:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: -0.01
     y: 21.41
   straight_L0p01_N2_CSstrip_WNone_10000_10710:
     mirror: false
-    rotation: 270
-    x: 10
+    rotation: 270.0
+    x: 10.0
     y: 10.71
   straight_L0p01_N2_CSstrip_WNone_m10010_10700:
     mirror: false
-    rotation: 90
+    rotation: 90.0
     x: -10.01
     y: 10.7
 ports:

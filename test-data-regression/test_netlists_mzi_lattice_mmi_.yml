@@ -10,9 +10,9 @@ instances:
       cross_section: strip
       cross_section_x_bot: null
       cross_section_x_top: null
-      delta_length: 10
+      delta_length: 10.0
       length_x: null
-      length_y: 2
+      length_y: 2.0
       min_length: 0.01
       mirror_bot: false
       nbends: 2
@@ -33,9 +33,9 @@ nets: []
 placements:
   mzi_DL10_LY2_LXNone_Bbe_5cec44c0_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
 ports:
   o1: mzi_DL10_LY2_LXNone_Bbe_5cec44c0_0_0,o1
   o2: mzi_DL10_LY2_LXNone_Bbe_5cec44c0_0_0,o2

@@ -6,5 +6,5 @@ settings:
   cross_section: strip
   length: 100
   n_loops: 6
-  spacing: 3
+  spacing: 3.0
   straight: straight

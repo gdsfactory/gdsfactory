@@ -8,14 +8,14 @@ instances:
       position:
       - 0
       - 0
-      size: 100
+      size: 100.0
       text: chip99
 name: die_S10000_10000_SW100__48b1c773
 nets: []
 placements:
   text_Tchip99_S100_P0_0_Jleft_LWG_m4890000_m4850000:
     mirror: false
-    rotation: 0
-    x: -4890
-    y: -4850
+    rotation: 0.0
+    x: -4890.0
+    y: -4850.0
 ports: {}

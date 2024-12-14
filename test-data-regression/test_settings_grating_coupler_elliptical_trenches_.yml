@@ -6,7 +6,7 @@ name: grating_coupler_ellipti_ea10bcf6
 settings:
   cross_section: strip
   end_straight_length: 0.2
-  fiber_angle: 15
+  fiber_angle: 15.0
   grating_line_width: 0.343
   layer_trench: SHALLOW_ETCH
   n_periods: 30
@@ -15,7 +15,7 @@ settings:
   p_start: 26
   polarization: te
   taper: taper
-  taper_angle: 30
+  taper_angle: 30.0
   taper_length: 16.6
-  trenches_extra_angle: 9
+  trenches_extra_angle: 9.0
   wavelength: 1.53
