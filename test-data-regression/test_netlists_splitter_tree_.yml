@@ -182,12 +182,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10.0
+      length_taper: 10
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1.0
+      width_taper: 1
   coupler_1_0:
     component: mmi1x2
     info: {}
@@ -195,12 +195,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10.0
+      length_taper: 10
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1.0
+      width_taper: 1
   coupler_1_1:
     component: mmi1x2
     info: {}
@@ -208,12 +208,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10.0
+      length_taper: 10
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1.0
+      width_taper: 1
   straight_L44p5_N2_CSstrip_WNone_35500_25000:
     component: straight
     info:

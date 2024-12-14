@@ -90,15 +90,15 @@ instances:
   straight_L4_N2_CSstrip_WNone_m4000_20700:
     component: straight
     info:
-      length: 4.0
-      route_info_length: 4.0
-      route_info_strip_length: 4.0
+      length: 4
+      route_info_length: 4
+      route_info_strip_length: 4
       route_info_type: strip
-      route_info_weight: 4.0
+      route_info_weight: 4
       width: 0.5
     settings:
       cross_section: strip
-      length: 4.0
+      length: 4
       npoints: 2
       width: null
 name: ring_single_dut_Cstraig_3023a85c

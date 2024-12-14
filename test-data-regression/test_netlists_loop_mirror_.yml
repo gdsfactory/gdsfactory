@@ -102,12 +102,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10.0
+      length_taper: 10
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1.0
+      width_taper: 1
   straight_L1p25_N2_CSstrip_WNone_45500_m9375:
     component: straight
     info:
