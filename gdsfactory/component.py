@@ -883,10 +883,6 @@ class ComponentBase:
 
         return extract(self, layers=layers, recursive=recursive)
 
-    @property
-    def cells(self) -> kf.KCLayout:
-        return self.kcl
-
     def remove_layers(
         self,
         layers: "LayerSpecs",
