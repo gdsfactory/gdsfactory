@@ -34,8 +34,7 @@ def _extract_all_bbox(c: Component, avoid_layers: list[LayerSpec] | None = None)
 
 
 def _parse_bbox_to_array(bbox):
-    """
-    Args:
+    """Args:
         bbox: Parses bbox in the form of (a,b;c,d)
 
     Returns:
@@ -50,10 +49,10 @@ def _parse_bbox_to_array(bbox):
 
 
 def _generate_grid(
-        c: Component,
-        resolution: float = 0.5,
-        avoid_layers: list[LayerSpec] | None = None,
-        distance: float = 1,
+    c: Component,
+    resolution: float = 0.5,
+    avoid_layers: list[LayerSpec] | None = None,
+    distance: float = 1,
 ) -> np.ndarray:
     """Generate discretization grid that the algorithm will step through.
 
@@ -63,9 +62,8 @@ def _generate_grid(
         avoid_layers: List of layers to avoid.
         distance: Distance from obstacles in um.
     """
-
     bbox = _parse_bbox_to_array(c.bbox())
-    bbox = bbox/1000  # Change units
+    bbox = bbox / 1000  # Change units
 
     x, y = np.meshgrid(
         np.linspace(
@@ -89,7 +87,7 @@ def _generate_grid(
     # assign 1 for obstacles
     if avoid_layers is None:
         for inst in c.insts:
-            bbox = _parse_bbox_to_array(inst.bbox())/1000
+            bbox = _parse_bbox_to_array(inst.bbox()) / 1000
             xmin = np.abs(x - bbox[0][0] + distance).argmin()
             xmax = np.abs(x - bbox[1][0] - distance).argmin()
             ymin = np.abs(y - bbox[0][1] + distance).argmin()
@@ -101,7 +99,7 @@ def _generate_grid(
             for bbox_array in layer.values():
                 for bbox in bbox_array:
                     bbox = _parse_bbox_to_array(bbox)
-                    bbox = bbox/1000
+                    bbox = bbox / 1000
                     # Determine min/max for the bounding box
                     xmin = np.abs(x - bbox[0][0] + distance).argmin()
                     xmax = np.abs(x - bbox[2][0] - distance).argmin()
@@ -113,8 +111,7 @@ def _generate_grid(
 
 
 def simplify_path(waypoints, tolerance):
-    """
-    Simplifies a list of waypoints using the Douglas-Peucker algorithm.
+    """Simplifies a list of waypoints using the Douglas-Peucker algorithm.
 
     Args:
         waypoints: List of waypoints as coordinate pairs (x, y).
@@ -212,10 +209,17 @@ def get_route_astar(
     my_waypoints += [[port2x, port2y]]
 
     # Convert to native floats or Point instances
-    cleaned_waypoints = [Point(float(x) * 1000, float(y) * 1000) for x, y in my_waypoints]
+    cleaned_waypoints = [
+        Point(float(x) * 1000, float(y) * 1000) for x, y in my_waypoints
+    ]
 
     return gf.routing.route_single(
-        component=c, port1=port1, port2=port2, waypoints=cleaned_waypoints, cross_section=cross_section, bend=bend
+        component=c,
+        port1=port1,
+        port2=port2,
+        waypoints=cleaned_waypoints,
+        cross_section=cross_section,
+        bend=bend,
     )
 
 
