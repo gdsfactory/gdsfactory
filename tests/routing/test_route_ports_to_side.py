@@ -21,8 +21,8 @@ def test_route_ports_to_side(
         x=-100,
     )
 
-        lengths: dict[int, int] = {i: route.length for i, route in enumerate(routes)}
     if check:
+        lengths = {i: route.length for i, route in enumerate(routes)}
         data_regression.check(lengths)  # type: ignore
 
 
@@ -40,8 +40,8 @@ def test_route_ports_to_x(
         x=50,
         side="east",
     )
-        lengths: dict[int, int] = {i: route.length for i, route in enumerate(routes)}
     if check:
+        lengths = {i: route.length for i, route in enumerate(routes)}
         data_regression.check(lengths)  # type: ignore
 
 
@@ -59,6 +59,6 @@ def test_route_ports_to_y(
         y=50,
         side="north",
     )
-        lengths: dict[int, int] = {i: route.length for i, route in enumerate(routes)}
     if check:
+        lengths = {i: route.length for i, route in enumerate(routes)}
         data_regression.check(lengths)  # type: ignore
