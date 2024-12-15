@@ -86,7 +86,7 @@ def route_ports_to_side(
     if not ports:
         return [], []
 
-    if side == "north" or side == "south":
+    if side in ["north", "south"]:
         xy_ns = y if y is not None else side
         return route_ports_to_y(
             component=component,
