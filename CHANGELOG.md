@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.26.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.26.0) - 2024-12-15
+
+No significant changes.
+
+
 ## [8.25.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.25.2) - 2024-12-12
 
 - support different column_pitch and row_pitch for vias [#3490](https://github.com/gdsfactory/gdsfactory/pull/3490)
