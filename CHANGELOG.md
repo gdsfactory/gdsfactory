@@ -1,11 +1,14 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.25.2...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.26.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.26.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.26.0) - 2024-12-15
 
-No significant changes.
+- Add A* routing [#3495](https://github.com/gdsfactory/gdsfactory/pull/3495)
+- Fix route ports to side [#3499](https://github.com/gdsfactory/gdsfactory/pull/3499)
+- Better docs [#3498](https://github.com/gdsfactory/gdsfactory/pull/3498)
+- Fix mypy errors [#3493](https://github.com/gdsfactory/gdsfactory/pull/3493)
 
 
 ## [8.25.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.25.2) - 2024-12-12
