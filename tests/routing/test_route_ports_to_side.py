@@ -59,8 +59,6 @@ def test_route_ports_to_y(
         y=50,
         side="north",
     )
-    lengths: dict[int, int] = {}
-    for i, route in enumerate(routes):
-        lengths[i] = route.length
+        lengths: dict[int, int] = {i: route.length for i, route in enumerate(routes)}
     if check:
         data_regression.check(lengths)  # type: ignore
