@@ -8,7 +8,6 @@ from gdsfactory.components.texts.text_freetype import (
 )
 from gdsfactory.components.texts.text_rectangular import (
     text_rectangular,
-    text_rectangular_mini,
     text_rectangular_multi_layer,
 )
 from gdsfactory.components.texts.text_rectangular_font import (
@@ -26,6 +25,5 @@ __all__ = [
     "text_klayout",
     "text_lines",
     "text_rectangular",
-    "text_rectangular_mini",
     "text_rectangular_multi_layer",
 ]
