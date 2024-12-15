@@ -11,7 +11,7 @@ from gdsfactory import typings
 from gdsfactory.component import Component
 from gdsfactory.port import flipped
 from gdsfactory.routing.route_single import route_single
-from gdsfactory.typings import Ports
+from gdsfactory.typings import CrossSectionSpec, Ports
 
 
 def sort_key_west_to_east(port: typings.Port) -> float:
@@ -32,6 +32,7 @@ def sort_key_north_to_south(port: typings.Port) -> float:
 
 def route_ports_to_side(
     component: Component,
+    cross_section: CrossSectionSpec,
     ports: Ports | None = None,
     side: Literal["north", "east", "south", "west"] = "north",
     x: float | None = None,
@@ -41,6 +42,7 @@ def route_ports_to_side(
 
     Args:
         component: component to route.
+        cross_section: cross_section to use for routing.
         ports: ports to route to a side.
         side: 'north', 'south', 'east' or 'west'.
         x: position to route ports for east/west. None, uses most east/west value.
@@ -62,18 +64,19 @@ def route_ports_to_side(
 
         import gdsfactory as gf
 
-        c = gf.Component('sample_route_sides')
+        c = gf.Component()
         dummy = gf.components.nxn(north=2, south=2, west=2, east=2)
         sides = ["north", "south", "east", "west"]
         d = 100
         positions = [(0, 0), (d, 0), (d, d), (0, d)]
 
         for pos, side in zip(positions, sides):
-            dummy_ref = dummy.ref(position=pos)
-            c.add(dummy_ref)
-            routes, ports = gf.routing.route_ports_to_side(dummy_ref, side, layer=(1, 0))
-            for route in routes:
-                c.add(route.references)
+            dummy_ref = c << dummy
+            dummy_ref.move(pos)
+            routes, ports = gf.routing.route_ports_to_side(
+                component=c, side=side, ports=dummy_ref.ports, cross_section="strip"
+            )
+
             for i, p in enumerate(ports):
                 c.add_port(name=f"{side[0]}{i}", port=p)
 
@@ -83,40 +86,29 @@ def route_ports_to_side(
     if not ports:
         return [], []
 
-    if side == "north" or side == "south":
+    if side in ["north", "south"]:
         xy_ns = y if y is not None else side
-        return route_ports_to_y(component, ports, xy_ns, side=side)
+        return route_ports_to_y(
+            component=component,
+            ports=ports,
+            y=xy_ns,
+            side=side,
+            cross_section=cross_section,
+        )
     xy_ew = x if x is not None else side
-    return route_ports_to_x(component, ports, xy_ew, side=side)
-
-
-def route_ports_to_north(
-    component: Component, list_ports: Ports
-) -> tuple[list[ManhattanRoute], list[typings.Port]]:
-    return route_ports_to_side(component, list_ports, side="north")
-
-
-def route_ports_to_south(
-    component: Component, list_ports: Ports
-) -> tuple[list[ManhattanRoute], list[typings.Port]]:
-    return route_ports_to_side(component, list_ports, side="south")
-
-
-def route_ports_to_west(
-    component: Component, list_ports: Ports
-) -> tuple[list[ManhattanRoute], list[typings.Port]]:
-    return route_ports_to_side(component, list_ports, side="west")
-
-
-def route_ports_to_east(
-    component: Component, list_ports: Ports
-) -> tuple[list[ManhattanRoute], list[typings.Port]]:
-    return route_ports_to_side(component, list_ports, side="east")
+    return route_ports_to_x(
+        component=component,
+        ports=ports,
+        x=xy_ew,
+        side=side,
+        cross_section=cross_section,
+    )
 
 
 def route_ports_to_x(
     component: Component,
-    list_ports: Ports,
+    ports: Ports,
+    cross_section: CrossSectionSpec,
     x: float | Literal["east", "west"] = "east",
     separation: float = 10.0,
     radius: float = 10.0,
@@ -136,11 +128,12 @@ def route_ports_to_x(
 
     Args:
         component: component to route.
-        list_ports: reasonably well behaved list of ports.
+        ports: reasonably well behaved list of ports.
            ports facing north ports are norther than any other ports
            ports facing south ports are souther ...
            ports facing west ports are the wester ...
            ports facing east ports are the easter ...
+        cross_section: cross_section to use for routing.
         x: float or string.
            if float: x coordinate to which the ports will be routed
            if string: "east" -> route to east
@@ -171,18 +164,18 @@ def route_ports_to_x(
     4. north ports
 
     """
-    north_ports = [p for p in list_ports if p.orientation == 90]
-    south_ports = [p for p in list_ports if p.orientation == 270]
-    east_ports = [p for p in list_ports if p.orientation == 0]
-    west_ports = [p for p in list_ports if p.orientation == 180]
+    north_ports = [p for p in ports if p.orientation == 90]
+    south_ports = [p for p in ports if p.orientation == 270]
+    east_ports = [p for p in ports if p.orientation == 0]
+    west_ports = [p for p in ports if p.orientation == 180]
 
     epsilon = 1.0
     a = epsilon + max(radius, separation)
     bx = epsilon + max(radius, dx_start) if dx_start else a
     by = epsilon + max(radius, dy_start) if dy_start else a
 
-    xs = [p.dx for p in list_ports]
-    ys = [p.dy for p in list_ports]
+    xs = [p.dx for p in ports]
+    ys = [p.dy for p in ports]
 
     if y0_bottom is None:
         y0_bottom = min(ys) - by
@@ -197,9 +190,9 @@ def route_ports_to_x(
         extension_length = -extension_length
 
     if x == "east":
-        x = max(p.dx for p in list_ports) + bx
+        x = max(p.dx for p in ports) + bx
     elif x == "west":
-        x = min(p.dx for p in list_ports) - bx
+        x = min(p.dx for p in ports) - bx
     elif isinstance(x, float | int):
         pass
     else:
@@ -233,7 +226,7 @@ def route_ports_to_x(
     backward_ports_thru_north.sort(key=sort_key_north_to_south)
 
     routes: list[ManhattanRoute] = []
-    ports: list[typings.Port] = []
+    new_ports: list[typings.Port] = []
 
     def add_port(
         port: typings.Port,
@@ -263,6 +256,7 @@ def route_ports_to_x(
                 new_port,
                 start_straight_length=start_straight_length,
                 radius=radius,
+                cross_section=cross_section,
                 **routing_func_args,
             )
         ]
@@ -270,15 +264,15 @@ def route_ports_to_x(
 
     y_optical_bot = y0_bottom
     for p in south_ports:
-        add_port(p, y_optical_bot, routes, ports)
+        add_port(p, y_optical_bot, routes, new_ports)
         y_optical_bot -= separation
 
     for p in forward_ports:
-        add_port(p, p.dy, routes, ports)
+        add_port(p, p.dy, routes, new_ports)
 
     y_optical_top = y0_top
     for p in north_ports:
-        add_port(p, y_optical_top, routes, ports)
+        add_port(p, y_optical_top, routes, new_ports)
         y_optical_top += separation
 
     start_straight_length_section = start_straight_length
@@ -286,7 +280,7 @@ def route_ports_to_x(
     min_x = min(xs)
 
     for p in backward_ports_thru_north:
-        # Extend ports if necessary
+        # Extend new_ports if necessary
         if angle == 0 and p.dx < max_x:
             start_straight_length_section = max_x - p.dx
         elif angle == 180 and p.dx > min_x:
@@ -298,7 +292,7 @@ def route_ports_to_x(
             p,
             y_optical_top,
             routes,
-            ports,
+            new_ports,
             start_straight_length=start_straight_length + start_straight_length_section,
         )
         y_optical_top += separation
@@ -306,7 +300,7 @@ def route_ports_to_x(
 
     start_straight_length_section = start_straight_length
     for p in backward_ports_thru_south:
-        # Extend ports if necessary
+        # Extend new_ports if necessary
         if angle == 0 and p.dx < max_x:
             start_straight_length_section = max_x - p.dx
         elif angle == 180 and p.dx > min_x:
@@ -318,18 +312,19 @@ def route_ports_to_x(
             p,
             y_optical_bot,
             routes,
-            ports,
+            new_ports,
             start_straight_length=start_straight_length + start_straight_length_section,
         )
         y_optical_bot -= separation
         start_straight_length += separation
 
-    return routes, ports
+    return routes, new_ports
 
 
 def route_ports_to_y(
     component: Component,
-    list_ports: Ports,
+    ports: Ports,
+    cross_section: CrossSectionSpec,
     y: float | Literal["north", "south"] = "north",
     separation: float = 10.0,
     radius: float = 10.0,
@@ -349,11 +344,12 @@ def route_ports_to_y(
 
     Args:
         component: component to route.
-        list_ports: reasonably well behaved list of ports.
+        ports: reasonably well behaved list of ports.
            ports facing north ports are norther than any other ports
            ports facing south ports are souther ...
            ports facing west ports are the wester ...
            ports facing east ports are the easter ...
+        cross_section: cross_section to use for routing.
         y: float or string.
                if float: y coordinate to which the ports will be routed
                if string: "north" -> route to north
@@ -391,16 +387,14 @@ def route_ports_to_y(
 
     da = 45
     north_ports = [
-        p for p in list_ports if p.orientation > 90 - da and p.orientation < 90 + da
+        p for p in ports if p.orientation > 90 - da and p.orientation < 90 + da
     ]
     south_ports = [
-        p for p in list_ports if p.orientation > 270 - da and p.orientation < 270 + da
+        p for p in ports if p.orientation > 270 - da and p.orientation < 270 + da
     ]
-    east_ports = [
-        p for p in list_ports if p.orientation < da or p.orientation > 360 - da
-    ]
+    east_ports = [p for p in ports if p.orientation < da or p.orientation > 360 - da]
     west_ports = [
-        p for p in list_ports if p.orientation < 180 + da and p.orientation > 180 - da
+        p for p in ports if p.orientation < 180 + da and p.orientation > 180 - da
     ]
 
     epsilon = 1.0
@@ -408,8 +402,8 @@ def route_ports_to_y(
     bx = epsilon + max(radius, dx_start) if dx_start else a
     by = epsilon + max(radius, dy_start) if dy_start else a
 
-    xs = [p.dx for p in list_ports]
-    ys = [p.dy for p in list_ports]
+    xs = [p.dx for p in ports]
+    ys = [p.dy for p in ports]
 
     if x0_left is None:
         x0_left = min(xs) - bx
@@ -421,18 +415,12 @@ def route_ports_to_y(
 
     if y == "north":
         y_float = (
-            max(
-                p.dy + a * np.abs(np.cos(p.orientation * np.pi / 180))
-                for p in list_ports
-            )
+            max(p.dy + a * np.abs(np.cos(p.orientation * np.pi / 180)) for p in ports)
             + by
         )
     elif y == "south":
         y_float = (
-            min(
-                p.dy - a * np.abs(np.cos(p.orientation * np.pi / 180))
-                for p in list_ports
-            )
+            min(p.dy - a * np.abs(np.cos(p.orientation * np.pi / 180)) for p in ports)
             - by
         )
     elif isinstance(y, float | int):
@@ -464,7 +452,7 @@ def route_ports_to_y(
     backward_ports_thru_east.sort(key=sort_key_east_to_west)
 
     routes: list[ManhattanRoute] = []
-    ports: list[typings.Port] = []
+    new_ports: list[typings.Port] = []
 
     def add_port(
         port: typings.Port,
@@ -495,6 +483,7 @@ def route_ports_to_y(
                     new_port,
                     start_straight_length=start_straight_length,
                     radius=radius,
+                    cross_section=cross_section,
                     **routing_func_args,
                 )
             ]
@@ -507,15 +496,15 @@ def route_ports_to_y(
 
     x_optical_left = x0_left
     for p in west_ports:
-        add_port(p, x_optical_left, routes, ports)
+        add_port(p, x_optical_left, routes, new_ports)
         x_optical_left -= separation
 
     for p in forward_ports:
-        add_port(p, p.dx, routes, ports)
+        add_port(p, p.dx, routes, new_ports)
 
     x_optical_right = x0_right
     for p in east_ports:
-        add_port(p, x_optical_right, routes, ports)
+        add_port(p, x_optical_right, routes, new_ports)
         x_optical_right += separation
 
     start_straight_length_section = start_straight_length
@@ -524,7 +513,7 @@ def route_ports_to_y(
             p,
             x_optical_right,
             routes,
-            ports,
+            new_ports,
             start_straight_length=start_straight_length_section,
         )
         x_optical_right += separation
@@ -536,29 +525,41 @@ def route_ports_to_y(
             p,
             x_optical_left,
             routes,
-            ports,
+            new_ports,
             start_straight_length=start_straight_length_section,
         )
         x_optical_left -= separation
         start_straight_length_section += separation
 
-    return routes, ports
+    return routes, new_ports
 
 
 if __name__ == "__main__":
-    from gdsfactory.components import nxn
-
-    c = Component("sample_route_sides")
+    c = Component()
     cross_section = "strip"
-    dummy = nxn(north=2, south=2, west=2, east=2, cross_section=cross_section)
+    dummy = gf.c.nxn(north=2, south=2, west=2, east=2, cross_section=cross_section)
     dummy_ref = c << dummy
-    routes = route_ports_to_side(
+    # routes, _ = route_ports_to_side(
+    #     c,
+    #     ports=dummy_ref.ports,
+    #     side="south",
+    #     cross_section=cross_section,
+    #     y=-91,
+    #     x=-100,
+    # )
+    # routes, _ = gf.routing.route_ports_to_side(
+    #     c,
+    #     ports=dummy_ref.ports,
+    #     cross_section=cross_section,
+    #     x=50,
+    #     side="east",
+    # )
+    routes, _ = gf.routing.route_ports_to_side(
         c,
-        dummy_ref.ports,
-        "south",
-        y=-91,
-        x=-100,
-        # radius=5
+        ports=dummy_ref.ports,
+        cross_section=cross_section,
+        y=50,
+        side="north",
     )
     # sides = ["north", "south", "east", "west"]
     # d = 100
