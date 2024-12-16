@@ -4,6 +4,7 @@ from functools import partial
 from typing import Any
 
 import gdsfactory as gf
+from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec
 
@@ -45,6 +46,7 @@ def cutback_bend(
 
         _ this is a row
     """
+    deprecate("cutback_bend", "cutback_bend90")
     from gdsfactory.pdk import get_component
 
     bend90 = get_component(component, **kwargs)

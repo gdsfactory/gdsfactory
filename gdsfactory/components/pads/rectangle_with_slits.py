@@ -1,10 +1,9 @@
 from __future__ import annotations
 
-import warnings
-
 import numpy as np
 
 import gdsfactory as gf
+from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component
 from gdsfactory.typings import Float2, LayerSpec, Size
 
@@ -64,9 +63,7 @@ def rectangle_with_slits(
     layer = gf.get_layer(layer)
 
     if slit_spacing:
-        warnings.warn(
-            "slit_spacing is deprecated. Use slit_column_pitch and slit_row_pitch instead"
-        )
+        deprecate("slit_spacing", "slit_column_pitch and slit_row_pitch")
         slit_column_pitch = slit_spacing[0]
         slit_row_pitch = slit_spacing[1]
 

@@ -17,7 +17,7 @@ def test_route_bundle_udirect_pads(
 
     pad = partial(gf.components.pad, size=(10, 10))
     pad_south = gf.components.pad_array(
-        port_orientation=270, spacing=(15.0, 0), pad=pad
+        port_orientation=270, column_pitch=15.0, row_pitch=0, pad=pad
     )
     pt = c << pad_south
     pb = c << pad_south
