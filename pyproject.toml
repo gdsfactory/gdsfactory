@@ -42,7 +42,8 @@ dependencies = [
   "attrs",
   "graphviz",
   "pyglet<2",
-  "pytest-only>=2.1.2"
+  "pytest-only>=2.1.2",
+  "typing-extensions"
 ]
 description = "python library to generate GDS layouts"
 keywords = ["eda", "photonics", "python"]

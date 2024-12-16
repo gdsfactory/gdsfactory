@@ -1037,6 +1037,7 @@ dependencies = [
     { name = "trimesh" },
     { name = "typer" },
     { name = "types-pyyaml" },
+    { name = "typing-extensions" },
     { name = "watchdog" },
 ]
 
@@ -1145,6 +1146,7 @@ requires-dist = [
     { name = "types-cachetools", marker = "extra == 'dev'" },
     { name = "types-pyyaml" },
     { name = "types-pyyaml", marker = "extra == 'dev'" },
+    { name = "typing-extensions" },
     { name = "watchdog", specifier = "<7" },
     { name = "xdoctest", marker = "extra == 'maintainer'" },
 ]
