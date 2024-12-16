@@ -10,6 +10,10 @@ install:
 	uv venv --python 3.11
 	uv sync --extra docs --extra dev
 
+install310:
+	uv venv --python 3.10
+	uv sync --extra docs --extra dev
+
 dev:
 	pip install -e .[dev,docs] pre-commit
 	gf install-klayout-genericpdk
