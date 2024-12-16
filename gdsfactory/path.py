@@ -12,11 +12,12 @@ import hashlib
 import math
 import warnings
 from collections.abc import Callable, Iterator
-from typing import Any, Literal, Self, TypeVar, overload
+from typing import Any, Literal, TypeVar, overload
 
 import numpy as np
 import numpy.typing as npt
 from numpy import mod, pi
+from typing_extensions import Self
 
 from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.component_layout import (

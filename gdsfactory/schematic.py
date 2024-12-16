@@ -1,11 +1,12 @@
 import json
 from pathlib import Path
-from typing import Any, Self
+from typing import Any
 
 import networkx as nx
 import yaml
 from graphviz import Digraph
 from pydantic import BaseModel, Field, model_validator
+from typing_extensions import Self
 
 import gdsfactory
 from gdsfactory._deprecation import deprecate
