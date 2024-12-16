@@ -147,11 +147,7 @@ def route_single(
     if steps and waypoints:
         raise ValueError("Provide either steps or waypoints, not both")
 
-    if waypoints is None:
-        waypoints_list = []
-    else:
-        waypoints_list = list(waypoints)
-
+    waypoints_list = [] if waypoints is None else list(waypoints)
     if steps is None:
         steps = []
 
@@ -168,7 +164,7 @@ def route_single(
             y = float(d.get("y", y) + d.get("dy", 0.0))
             waypoints_list.append((x, y))
 
-    if len(waypoints_list) > 0:
+    if waypoints_list:
         w: list[kf.kdb.Point] = []
         if not isinstance(waypoints_list[0], kf.kdb.Point):
             w.append(kf.kdb.Point(*p1.center))

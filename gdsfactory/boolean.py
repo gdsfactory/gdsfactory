@@ -91,6 +91,7 @@ def boolean(
 
 if __name__ == "__main__":
     import gdsfactory as gf
+    from gdsfactory.components import bbox, coupler
 
     # c = gf.Component()
     # e2 = c << gf.components.ellipse(radii=(10, 6))
@@ -98,8 +99,8 @@ if __name__ == "__main__":
     # e3.dmovex(5)
     # c = boolean(A=e2, B=e3, operation="and")
     c0 = gf.Component()
-    core = c0 << gf.c.coupler()
-    clad = c0 << gf.c.bbox(core, layer=(2, 0))
+    core = c0 << coupler()
+    clad = c0 << bbox(core, layer=(2, 0))
     clad.dmovex(5)
     c = boolean(clad, core, operation="not", layer=(3, 0), layer1=(2, 0), layer2=(1, 0))
     c.show()

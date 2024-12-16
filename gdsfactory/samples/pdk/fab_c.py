@@ -84,7 +84,7 @@ strip_no = partial(
     width=WIDTH_NITRIDE_OBAND,
 )
 
-strip = strip_sc()
+strip = strip_sc()  # type: ignore[assignment]
 xs_so = strip_so()
 xs_nc = strip_nc()
 xs_no = strip_no()
