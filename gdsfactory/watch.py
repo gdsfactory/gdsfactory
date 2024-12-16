@@ -104,9 +104,7 @@ class FileWatcher(FileSystemEventHandler):
         return function
 
     def _get_path(self, path: str | bytes) -> str:
-        if isinstance(path, bytes):
-            return path.decode("utf-8")
-        return path
+        return path.decode("utf-8") if isinstance(path, bytes) else path
 
     def on_moved(self, event: _MovedEvent) -> None:
         super().on_moved(event)
@@ -209,11 +207,11 @@ class FileWatcher(FileSystemEventHandler):
             print(e)
         return None
 
-    # TODO Rename this here and in `get_component`
     def get_component_yaml(self, filepath: PathType, dirpath: PathType) -> Component:
+        """Parses a YAML file to a cell function and registers into active pdk."""
         cell_func = self.update_cell(filepath, update=True)
         c = cell_func()
-        gdspath = dirpath / str(filepath.relative_to(self.path)).replace(
+        gdspath = pathlib.Path(dirpath) / str(filepath.relative_to(self.path)).replace(
             ".pic.yml", ".gds"
         )
         c.write_gds(gdspath)
