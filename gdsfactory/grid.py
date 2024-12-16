@@ -58,8 +58,7 @@ def grid(
             components,
             shape=(1, len(components)),
             rotation=0,
-            h_mirror=False,
-            v_mirror=True,
+            mirror=False,
             spacing=(100, 100),
         )
         c.plot()
@@ -133,8 +132,7 @@ def grid_with_text(
             components,
             shape=(1, len(components)),
             rotation=0,
-            h_mirror=False,
-            v_mirror=True,
+            mirror=False,
             spacing=(100, 100),
             text_offsets=((0, 100), (0, -100)),
             text_anchors=("nc", "sc"),

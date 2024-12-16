@@ -98,19 +98,31 @@ Classes and functions for construction and manipulation of geometric objects.
    CellSpec
    ComponentFactory
    ComponentSpec
-   Component
-   CrossSection
    CrossSectionFactory
    CrossSectionSpec
    Layer
    LayerSpec
    LayerSpecs
-   LayerLevel
    MaterialSpec
    MultiCrossSectionAngleSpec
    PathType
    Step
 
+.. currentmodule:: gdsfactory.technology
+.. rubric:: technology
+
+.. autosummary::
+   :toctree: _autosummary/
+
+   AbstractLayer
+   DerivedLayer
+   LayerLevel
+   LayerMap
+   LayerStack
+   LayerView
+   LayerViews
+   LogicalLayer
+   lyp_to_dataclass
 
 *********************
 Pack
