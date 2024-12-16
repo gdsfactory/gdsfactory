@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import warnings
 from collections.abc import Mapping, Sequence
 from functools import partial
 from typing import Any, Literal
@@ -8,6 +7,7 @@ from typing import Any, Literal
 from kfactory.routing.generic import ManhattanRoute
 
 import gdsfactory as gf
+from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component
 from gdsfactory.routing.route_single import route_single
 from gdsfactory.typings import (
@@ -85,9 +85,7 @@ def route_single_from_steps(
         c.plot()
 
     """
-    warnings.warn(
-        "route_single_from_steps is deprecated, use route_single instead", stacklevel=2
-    )
+    deprecate("route_single_from_steps", "route_single")
     x, y = port1.dcenter
     waypoints: list[Coordinate] = []
     steps = list(steps or [])
@@ -170,4 +168,5 @@ if __name__ == "__main__":
     #     # cross_section='metal_routing',
     #     # bend=gf.components.wire_corner,
     # )
+    # c.add(route.references)
     # c.show()

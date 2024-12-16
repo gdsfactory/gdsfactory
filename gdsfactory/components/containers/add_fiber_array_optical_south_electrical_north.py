@@ -38,7 +38,7 @@ def add_fiber_array_optical_south_electrical_north(
         electrical_port_orientation: orientation of electrical ports. Defaults to 90.
         npads: number of pads. Defaults to one per electrical_port_names.
         port_types_grating_couplers: port types for grating couplers. Defaults to vertical TE, TM, and dual.
-        pad_spacing: Deprecated. Use pad_pitch instead.
+        pad_spacing: (deprecated).
         kwargs: additional arguments.
 
     Keyword Args:

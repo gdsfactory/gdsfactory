@@ -97,7 +97,11 @@ def via_corner(
         nb_vias_x = int(floor(nb_vias_x)) or 1
         nb_vias_y = int(floor(nb_vias_y)) or 1
         ref = c.add_ref(
-            via, columns=nb_vias_x, rows=nb_vias_y, spacing=(pitch_x, pitch_y)
+            via,
+            columns=nb_vias_x,
+            rows=nb_vias_y,
+            column_pitch=pitch_x,
+            row_pitch=pitch_y,
         )
 
         cw = (min_width - (nb_vias_x - 1) * pitch_x - w) / 2

@@ -7,6 +7,7 @@ from functools import partial
 import numpy as np
 
 import gdsfactory as gf
+from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.typings import ComponentSpec, Floats, Ints, LayerSpec, LayerSpecs, Size
 
@@ -39,7 +40,7 @@ def via_stack(
         layer_offsets: Optional offsets for each layer with respect to size.
             positive grows, negative shrinks the size.
         vias: vias to use to fill the rectangles.
-        layer_port: if None assumes port is on the last layer. Deprecated.
+        layer_port: if None assumes port is on the last layer. (deprecated).
         layer_to_port_orientations: dictionary of layer to port_orientations.
         correct_size: if True, if the specified dimensions are too small it increases
             them to the minimum possible to fit a via.
@@ -71,9 +72,7 @@ def via_stack(
         )
 
     if layer_port:
-        warnings.warn(
-            "layer_port is deprecated. Use layer_to_ports instead", stacklevel=2
-        )
+        deprecate("layer_port", "layer_to_ports")
 
     c = Component()
     c.info["xsize"], c.info["ysize"] = size

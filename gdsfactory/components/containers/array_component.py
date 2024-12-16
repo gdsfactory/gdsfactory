@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-import warnings
 from collections.abc import Iterable
 
 import gdsfactory as gf
+from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component
 from gdsfactory.typings import AnyComponentPostProcess, ComponentSpec, Float2, Spacing
 
@@ -26,7 +26,7 @@ def array(
 
     Args:
         component: to replicate.
-        spacing: x, y spacing. Deprecated, use column_pitch and row_pitch.
+        spacing: x, y spacing (deprecated).
         columns: in x.
         rows: in y.
         column_pitch: pitch between columns.
@@ -56,7 +56,7 @@ def array(
         |___|      |___|     |___|      |___|
     """
     if spacing:
-        warnings.warn("spacing is deprecated, use column_pitch and row_pitch")
+        deprecate("spacing", "column_pitch and row_pitch")
         column_pitch, row_pitch = spacing
 
     if size:

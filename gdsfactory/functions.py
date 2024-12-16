@@ -10,6 +10,7 @@ import numpy.typing as npt
 from numpy import cos, float64, sin
 
 import gdsfactory as gf
+from gdsfactory._deprecation import deprecate
 
 if TYPE_CHECKING:
     from gdsfactory.component import Component, Instance
@@ -354,9 +355,7 @@ def extrude_path(
     end_angle: int | None = None,
     grid: float | None = None,
 ) -> npt.NDArray[np.float64]:
-    """Deprecated. Use gdsfactory.path.Path.extrude() instead.
-
-    Extrude a path of `width` along a curve defined by `points`.
+    """Extrude a path of `width` along a curve defined by `points`.
 
     Args:
         points: numpy 2D array of shape (N, 2).
@@ -370,6 +369,7 @@ def extrude_path(
     Returns:
         numpy 2D array of shape (2*N, 2).
     """
+    deprecate("extrude_path", "gdsfactory.path.Path.extrude()")
     grid = grid or gf.kcl.dbu
 
     if isinstance(points, list):

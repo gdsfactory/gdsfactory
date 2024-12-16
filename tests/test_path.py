@@ -204,21 +204,21 @@ def test_length() -> None:
 
 def test_dmove() -> None:
     path = Path([[0, 0], [1, 1], [2, 0]])
-    path.dmove((0, 0), (1, 1))
+    path.move((0, 0), (1, 1))
     expected_points = np.array([[1, 1], [2, 2], [3, 1]])
     assert np.array_equal(path.points, expected_points)
 
 
 def test_drotate() -> None:
     path = Path([[0, 0], [1, 1], [2, 0]])
-    path.drotate(90)
+    path.rotate(90)
     expected_points = np.array([[0, 0], [-1, 1], [0, 2]])
     np.testing.assert_allclose(path.points, expected_points, atol=1e-4)
 
 
 def test_dmirror() -> None:
     path = Path([[0, 0], [1, 1], [2, 0]])
-    path.dmirror((0, 0), (0, 1))
+    path.mirror((0, 0), (0, 1))
     expected_points = np.array([[0, 0], [-1, 1], [-2, 0]])
     np.testing.assert_allclose(path.points, expected_points, atol=1e-4)
 

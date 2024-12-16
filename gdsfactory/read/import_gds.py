@@ -8,6 +8,7 @@ from typing import Any
 import kfactory as kf
 from kfactory import KCLayout
 
+from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component
 from gdsfactory.typings import PostProcesses
 
@@ -27,11 +28,11 @@ def import_gds(
         cellname: name of the cell to return. Defaults to top cell.
         post_process: function to run after reading the GDS file.
         rename_duplicated_cells: if True, rename duplicated cells.
-        kwargs: deprecated and ignored.
+        kwargs: (deprecated and ignored).
     """
     if kwargs:
         for k in kwargs:
-            warnings.warn(f"kwargs {k!r} is deprecated and ignored")
+            deprecate(f"kwargs {k!r}")
 
     temp_kcl = KCLayout(name=str(gdspath))
     options = kf.kcell.load_layout_options()
@@ -81,7 +82,7 @@ def import_gds_with_conflicts(
         gdspath: path to GDS file.
         cellname: name of the cell to return. Defaults to top cell.
         name: optional name.
-        kwargs: deprecated and ignored.
+        kwargs: (deprecated and ignored).
 
     Modes:
         AddToCell: Add content to existing cell. Content of new cells is simply added to existing cells with the same name.
@@ -89,9 +90,9 @@ def import_gds_with_conflicts(
         RenameCell: The new cell will be renamed to become unique
         SkipNewCell: The new cell is skipped entirely (including child cells which are not used otherwise)
     """
-    warnings.warn(
-        "import_gds_with_conflicts is deprecated, use import_gds with rename_duplicated_cells=True"
-    )
+    if kwargs:
+        for k in kwargs:
+            deprecate(f"kwargs {k!r}")
 
     return import_gds(
         gdspath, cellname=cellname, rename_duplicated_cells=True, **kwargs

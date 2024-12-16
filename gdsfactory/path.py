@@ -18,6 +18,7 @@ import numpy as np
 import numpy.typing as npt
 from numpy import mod, pi
 
+from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.component_layout import (
     GeometryHelper,
@@ -109,10 +110,7 @@ class Path(GeometryHelper):
             "dymax",
             "dysize",
         }:
-            warnings.warn(
-                f"Deprecation warning. Use {__k[1:]!r} instead of {__k!r} for Path objects.",
-                stacklevel=2,
-            )
+            deprecate(__k, f"{__k[1:]}")
             return getattr(self, f"{__k[1:]}")
         return super().__getattribute__(__k)
 
@@ -904,10 +902,7 @@ def extrude(
     c = ComponentAllAngle() if all_angle else Component()
 
     if isinstance(cross_section, Transition):
-        warnings.warn(
-            "Use extrude_transition() instead of extrude() for Transition cross-sections",
-            stacklevel=2,
-        )
+        deprecate("extrude", "extrude_transition")
         return extrude_transition(p, transition=cross_section)
 
     x = get_cross_section(cross_section)
