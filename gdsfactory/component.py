@@ -1035,7 +1035,7 @@ class ComponentBase:
         import matplotlib.pyplot as plt
         import networkx as nx
 
-        from gdsfactory.get_netlist import _nets_to_connections
+        from gdsfactory.get_netlist import nets_to_connections
 
         plt.figure()
         netlist = self.get_netlist(recursive=recursive, **kwargs)
@@ -1047,7 +1047,7 @@ class ComponentBase:
             for net in netlist.values():
                 nets = net.get("nets", [])
                 connections = net.get("connections", {})
-                connections = _nets_to_connections(nets, connections)
+                connections = nets_to_connections(nets, connections)
                 placements = net["placements"]
                 G.add_edges_from(
                     [
@@ -1061,7 +1061,7 @@ class ComponentBase:
         else:
             nets = netlist.get("nets", [])
             connections = netlist.get("connections", {})
-            connections = _nets_to_connections(nets, connections)
+            connections = nets_to_connections(nets, connections)
             placements = netlist["placements"]
             G.add_edges_from(
                 [
