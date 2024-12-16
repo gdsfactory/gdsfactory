@@ -41,9 +41,8 @@ def add_electrical_pads_shortest(
         :include-source:
 
         import gdsfactory as gf
-        c = gf.components.straight_heater_metal(length=100)
-        wire_long = gf.components.wire_straight(length=200.)
-        c = gf.routing.add_electrical_pads_shortest(wire_long)
+        c = gf.components.cross(length=100, layer=(49, 0), port_type="electrical")
+        c = gf.routing.add_electrical_pads_shortest(c, pad_port_spacing=200)
         c.plot()
 
     """
