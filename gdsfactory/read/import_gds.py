@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import warnings
 from functools import cache
 from pathlib import Path
 from typing import Any
