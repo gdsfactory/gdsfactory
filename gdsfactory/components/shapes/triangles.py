@@ -60,6 +60,7 @@ def triangle2(spacing: float = 3, **kwargs: Any) -> Component:
         layer: layer.
 
     .. code::
+
           _
          | \
          |  \

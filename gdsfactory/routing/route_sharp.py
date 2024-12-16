@@ -324,14 +324,14 @@ def route_sharp(
 
         import gdsfactory as gf
 
-        c = gf.Component("pads")
+        c = gf.Component()
         c1 = c << gf.components.pad(port_orientation=None)
         c2 = c << gf.components.pad(port_orientation=None)
 
         c2.dmovex(400)
         c2.dmovey(-200)
 
-        route = c << gf.routing.route_sharp(c1.ports["e4"], c2.ports["e1"], path_type="L")
+        gf.routing.route_sharp(c, c1.ports["e4"], c2.ports["e1"], path_type="L")
         c.plot()
 
     """

@@ -170,7 +170,7 @@ def route_bundle(
         ports2 = [gf.Port(f"bot_{i}", center=(xs2[i], dy), width=0.5, orientation=a2, layer=(1,0)) for i in range(N)]
 
         c = gf.Component()
-        gf.routing.route_bundle(c, ports1, ports2)
+        gf.routing.route_bundle(component=c, ports1=ports1, ports2=ports2, cross_section='strip', separation=5)
         c.plot()
 
     """
