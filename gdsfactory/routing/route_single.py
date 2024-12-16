@@ -94,11 +94,11 @@ def route_single(
 
         import gdsfactory as gf
 
-        c = gf.Component('sample_connect')
+        c = gf.Component()
         mmi1 = c << gf.components.mmi1x2()
         mmi2 = c << gf.components.mmi1x2()
         mmi2.dmove((40, 20))
-        gf.routing.route_single(c, mmi1.ports["o2"], mmi2.ports["o1"], radius=5)
+        gf.routing.route_single(c, mmi1.ports["o2"], mmi2.ports["o1"], radius=5, cross_section="strip")
         c.plot()
     """
     p1 = port1
