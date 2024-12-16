@@ -96,9 +96,6 @@ class FileWatcher(FileSystemEventHandler):
         print(f"Active PDK: {pdk.name!r}")
         filepath = pathlib.Path(src_path)
         cell_name = filepath.stem.split(".")[0]
-        # FIXME: This is a temporary fix to avoid caching issues
-        # if cell_name in CACHE:
-        #     CACHE.pop(cell_name)
         function = cell_from_yaml_template(filepath, name=cell_name)
         try:
             pdk.register_cells_yaml(**{cell_name: function}, update=update)  # type: ignore
@@ -147,18 +144,24 @@ class FileWatcher(FileSystemEventHandler):
             pdk.remove_cell(cell_name)
 
     def on_modified(self, event: _ModifiedEvent) -> None:
+        """Handle modified file events."""
         super().on_modified(event)
 
+        # Determine file type
         what = "directory" if event.is_directory else "file"
-        if isinstance(event.dest_path, bytes):
-            src_path = event.dest_path.decode("utf-8")
+        if not isinstance(event.src_path, str):
+            src_path = event.src_path.decode("utf-8")
         else:
-            src_path = event.dest_path
-        if (what == "file" and src_path.endswith(".pic.yml")) or src_path.endswith(
-            ".py"
+            src_path = event.src_path
+
+        # Check if the file matches the extensions we care about
+        if what == "file" and (
+            src_path.endswith(".pic.yml") or src_path.endswith(".py")
         ):
             self.logger.info("Modified %s: %s", what, src_path)
             self.get_component(src_path)
+        else:
+            print(f"Ignored {what}: {src_path}")
 
     def get_component(self, filepath: PathType) -> Component | None:
         import git
@@ -180,14 +183,7 @@ class FileWatcher(FileSystemEventHandler):
 
             if filepath.exists():
                 if str(filepath).endswith(".pic.yml"):
-                    cell_func = self.update_cell(filepath, update=True)
-                    c = cell_func()
-                    gdspath = dirpath / str(filepath.relative_to(self.path)).replace(
-                        ".pic.yml", ".gds"
-                    )
-                    c.write_gds(gdspath)
-                    kf.show(gdspath)
-                    return c
+                    return self.get_component_yaml(filepath, dirpath)
                 elif str(filepath).endswith(".py"):
                     context = dict(locals(), **globals())
                     if self.run_main:
@@ -213,11 +209,22 @@ class FileWatcher(FileSystemEventHandler):
             print(e)
         return None
 
+    # TODO Rename this here and in `get_component`
+    def get_component_yaml(self, filepath: PathType, dirpath: PathType) -> Component:
+        cell_func = self.update_cell(filepath, update=True)
+        c = cell_func()
+        gdspath = dirpath / str(filepath.relative_to(self.path)).replace(
+            ".pic.yml", ".gds"
+        )
+        c.write_gds(gdspath)
+        kf.show(gdspath)
+        return c
+
 
 def watch(
     path: PathType | None = cwd,
     pdk: str | None = None,
-    run_main: bool = False,
+    run_main: bool = True,
     run_cells: bool = True,
     pre_run: bool = False,
 ) -> None:
@@ -239,6 +246,8 @@ def watch(
     )
     if pdk:
         get_active_pdk(name=pdk)
+
+    print(f"Watching {path=}, {pdk=} {run_main=}, {run_cells=}, {pre_run=}")
     watcher = FileWatcher(path=path, run_main=run_main, run_cells=run_cells)
     watcher.start()
     if pre_run:
