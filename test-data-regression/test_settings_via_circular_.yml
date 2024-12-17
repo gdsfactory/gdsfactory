@@ -1,10 +1,11 @@
 info:
+  column_pitch: 2
   enclosure: 1
-  pitch: 2
   radius: 0.35
+  row_pitch: 2
   xsize: 0.7
   ysize: 0.7
-name: via_circular_R0p35_E1_LVIAC_P2
+name: via_circular_R0p35_E1_L_23e09619
 settings:
   enclosure: 1
   layer: VIAC
