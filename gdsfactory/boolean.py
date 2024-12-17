@@ -18,11 +18,14 @@ def boolean(
     layer2: LayerSpec | None = None,
     layer: LayerSpec = (1, 0),
 ) -> Component:
-    """Performs boolean operations between 2 Component/Reference/list objects.
+    """Performs boolean operations between 2 Component or Instance objects.
 
-    ``operation`` should be one of {'not', 'and', 'or', 'xor', '-', '&', '|', '^'}.
-    Note that '|' is equivalent to 'or', '-' is equivalent to 'not',
-    '&' is equivalent to 'and', and '^' is equivalent to 'xor'.
+    The `operation` parameter specifies the type of boolean operation to perform.
+    Supported operations include {'not', 'and', 'or', 'xor', '-', '&', '|', '^'}:
+      - `'|'` is equivalent to `'or'`
+      - `'-'` is equivalent to `'not'`
+      - `'&'` is equivalent to `'and'`
+      - `'^'` is equivalent to `'xor'`
 
     Args:
         A: Component(/Reference) or list of Component(/References).
@@ -35,13 +38,6 @@ def boolean(
     Returns: Component with polygon(s) of the boolean operations between
       the 2 input Components performed.
 
-    Notes:
-    -----
-    - '|' is equivalent to 'or'.
-    - '-' is equivalent to 'not'.
-    - '&' is equivalent to 'and'.
-    - '^' is equivalent to 'not'.
-
     .. plot::
       :include-source:
 
@@ -50,7 +46,7 @@ def boolean(
       c = gf.Component()
       c1 = c << gf.components.circle(radius=10)
       c2 = c << gf.components.circle(radius=9)
-      c2.dmovex(5)
+      c2.movex(5)
 
       c = gf.boolean(c1, c2, operation="xor")
       c.plot()

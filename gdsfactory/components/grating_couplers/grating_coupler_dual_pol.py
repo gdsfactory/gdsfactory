@@ -95,7 +95,11 @@ def grating_coupler_dual_pol(
 
     unit_cell_grating = gf.get_component(unit_cell)
     g = c.add_ref(
-        unit_cell_grating, columns=num_x, rows=num_y, spacing=(period_x, period_y)
+        unit_cell_grating,
+        columns=num_x,
+        rows=num_y,
+        column_pitch=period_x,
+        row_pitch=period_y,
     )
     g.dxmin = x_start
     g.dymin = y_start

@@ -58,8 +58,7 @@ def grid(
             components,
             shape=(1, len(components)),
             rotation=0,
-            h_mirror=False,
-            v_mirror=True,
+            mirror=False,
             spacing=(100, 100),
         )
         c.plot()
@@ -133,8 +132,7 @@ def grid_with_text(
             components,
             shape=(1, len(components)),
             rotation=0,
-            h_mirror=False,
-            v_mirror=True,
+            mirror=False,
             spacing=(100, 100),
             text_offsets=((0, 100), (0, -100)),
             text_anchors=("nc", "sc"),
@@ -171,7 +169,7 @@ def grid_with_text(
 
             if text:
                 for text_offset, text_anchor in zip_longest(text_offsets, text_anchors):
-                    t = c << text(text_string)
+                    t = c << gf.get_component(text, text=text_string)
                     size_info = instance.dsize_info
                     text_offset = text_offset or (0, 0)
                     text_anchor = text_anchor or "center"

@@ -10,8 +10,15 @@ install:
 	uv venv --python 3.11
 	uv sync --extra docs --extra dev
 
+install310:
+	uv venv --python 3.10
+	uv sync --extra docs --extra dev
+
 dev:
-	pip install -e .[dev,docs] pre-commit
+	uv venv --python 3.12
+	uv sync --all-extras
+	uv pip install -e .
+	uv run pre-commit install
 	gf install-klayout-genericpdk
 	gf install-git-diff
 

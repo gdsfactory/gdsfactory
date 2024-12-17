@@ -113,7 +113,7 @@ def route_fiber_array(
         steps: steps for the route.
         bboxes: list bounding boxes to avoid for routing.
         avoid_component_bbox: avoid component bbox for routing.
-        fiber_spacing: Deprecated. Use pitch instead.
+        fiber_spacing: (deprecated).
         kwargs: route_bundle settings.
     """
     # c = component

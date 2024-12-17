@@ -80,9 +80,10 @@ def fanout2x2(
     c.info["min_bend_radius"] = bend.info["min_bend_radius"]
 
     optical_ports = select_ports(ref.ports)
+    optical_port_names = [port.name for port in optical_ports]
     for port in ref.ports:
         port_name = port.name
-        if port_name not in optical_ports:
+        if port_name not in optical_port_names:
             c.add_port(port_name, port=ref.ports[port_name])
     c.copy_child_info(component)
     return c

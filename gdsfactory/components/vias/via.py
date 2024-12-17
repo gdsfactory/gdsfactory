@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-import warnings
 from collections.abc import Sequence
 from functools import partial
 
 import gdsfactory as gf
+from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec, Size, Spacing
 
@@ -27,8 +27,8 @@ def via(
 
     Args:
         size: in x and y direction.
-        spacing: pitch_x, pitch_y. Deprecated, use pitch instead.
-        gap: edge to edge via gap in x, y. Deprecated, use pitch instead.
+        spacing: pitch_x, pitch_y. (deprecated).
+        gap: edge to edge via gap in x, y. (deprecated).
         enclosure: inclusion of via.
         layer: via layer.
         bbox_layers: layers for the bounding box.
@@ -54,11 +54,11 @@ def via(
         |_______________________________________|
     """
     if spacing is not None:
-        warnings.warn("spacing is deprecated, use pitch, row_pitch or column_pitch")
+        deprecate("spacing", "pitch, row_pitch or column_pitch")
         pitch = spacing[0]
 
     if gap is not None:
-        warnings.warn("gap is deprecated, use pitch, row_pitch or column_pitch")
+        deprecate("gap", "pitch, row_pitch or column_pitch")
 
     row_pitch = row_pitch or pitch
     column_pitch = column_pitch or pitch

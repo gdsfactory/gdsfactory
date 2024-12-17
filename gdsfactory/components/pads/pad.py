@@ -118,7 +118,7 @@ def pad_array(
         column_pitch: x pitch.
         row_pitch: y pitch.
         port_orientation: port orientation in deg. None for low speed DC ports.
-        orientation: Deprecated, use port_orientation.
+        orientation: (deprecated).
         size: pad size.
         layer: pad layer.
         centered_ports: True add ports to center. False add ports to the edge.

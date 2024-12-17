@@ -42,7 +42,8 @@ dependencies = [
   "attrs",
   "graphviz",
   "pyglet<2",
-  "pytest-only>=2.1.2"
+  "pytest-only>=2.1.2",
+  "typing-extensions"
 ]
 description = "python library to generate GDS layouts"
 keywords = ["eda", "photonics", "python"]
@@ -50,7 +51,7 @@ license = {file = "LICENSE"}
 name = "gdsfactory"
 readme = "README.md"
 requires-python = ">=3.10,<3.13"
-version = "8.25.2"
+version = "8.26.0"
 
 [project.optional-dependencies]
 cad = [
@@ -85,7 +86,7 @@ full = [
   "autograd"
 ]
 maintainer = [
-  "ruff",
+  "ruff>=0.8.3",
   "doc8",
   "xdoctest",
   "mypy",
@@ -244,7 +245,7 @@ message_template = "Bump to {new_version}"
 tag_template = "v{new_version}"
 
 [tool.tbump.version]
-current = "8.25.2"
+current = "8.26.0"
 regex = '''
   (?P<major>\d+)
   \.

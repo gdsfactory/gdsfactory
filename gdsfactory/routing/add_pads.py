@@ -59,7 +59,7 @@ def add_pads_bot(
         route_width: width of the route. If None, defaults to cross_section.width.
         bboxes: list bounding boxes to avoid for routing.
         avoid_component_bbox: avoid component bbox for routing.
-        pad_spacing: deprecated. Use pad_pitch instead.
+        pad_spacing: (deprecated).
         kwargs: additional arguments.
 
     Keyword Args:
