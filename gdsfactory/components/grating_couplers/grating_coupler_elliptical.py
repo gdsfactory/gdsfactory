@@ -184,19 +184,3 @@ grating_coupler_elliptical_tm = partial(
 
 
 grating_coupler_elliptical_te = grating_coupler_elliptical
-
-
-if __name__ == "__main__":
-    # c = grating_coupler_elliptical_tm(taper_length=30)
-    # c = grating_coupler_elliptical_te(cladding_layers=((2, 0), (3, 0)))
-    # c = grating_coupler_elliptical(layer=(2, 0), taper_length=50, slab_xmin=-5)
-    # print(c.polarization)
-    # print(c.wavelength)
-    # print(c.ports)
-    # c.pprint()
-    # c = gf.c.extend_ports(c)
-    # c = gf.routing.add_fiber_array(grating_coupler=grating_coupler_elliptical, with_loopback=False)
-
-    # c = gf.components.grating_coupler_elliptical_te()
-    c = gf.components.grating_coupler_elliptical_tm()
-    c.show()

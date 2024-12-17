@@ -7,8 +7,8 @@ instances:
     settings:
       allow_min_radius_violation: false
       cross_section: strip
-      dx: 10
-      dy: 4
+      dx: 10.0
+      dy: 4.0
       gap: 0.2
       length: 0.1
   dbr_W0p45_W0p55_L0p159__efcfb70c_10110_2350:
@@ -42,17 +42,17 @@ nets:
 placements:
   coupler_G0p2_L0p1_D4_D1_250a8812_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
   dbr_W0p45_W0p55_L0p159__efcfb70c_10110_2350:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: 10.11
     y: 2.35
   dbr_W0p45_W0p55_L0p159__efcfb70c_m10010_2350:
     mirror: false
-    rotation: 180
+    rotation: 180.0
     x: -10.01
     y: 2.35
 ports:

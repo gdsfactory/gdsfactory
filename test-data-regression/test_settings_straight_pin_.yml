@@ -2,8 +2,8 @@ info: {}
 name: straight_pin_L500_CSpin_120c3472
 settings:
   cross_section: pin
-  length: 500
+  length: 500.0
   taper: taper_strip_to_ridge
   via_stack: via_stack_slab_m3
   via_stack_spacing: 2
-  via_stack_width: 10
+  via_stack_width: 10.0

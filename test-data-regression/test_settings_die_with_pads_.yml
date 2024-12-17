@@ -2,16 +2,16 @@ info: {}
 name: die_with_pads_S11470_49_6e7ce968
 settings:
   cross_section: strip
-  edge_to_grating_distance: 150
-  edge_to_pad_distance: 150
+  edge_to_grating_distance: 150.0
+  edge_to_pad_distance: 150.0
   grating_coupler: grating_coupler_te
-  grating_pitch: 250
+  grating_pitch: 250.0
   layer_floorplan: FLOORPLAN
   ngratings: 14
   npads: 31
   pad: pad
-  pad_pitch: 300
+  pad_pitch: 300.0
   size:
-  - 11470
-  - 4900
+  - 11470.0
+  - 4900.0
   with_loopback: true

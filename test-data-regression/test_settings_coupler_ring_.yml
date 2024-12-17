@@ -6,5 +6,5 @@ settings:
   gap: 0.2
   length_extension: 3
   length_x: 4
-  radius: 5
+  radius: 5.0
   straight: straight

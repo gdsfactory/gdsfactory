@@ -6,8 +6,8 @@ settings:
   cross_section_heater: heater_metal
   cross_section_heater_undercut: strip_heater_metal_undercut
   cross_section_waveguide_heater: strip_heater_metal
-  heater_taper_length: 5
-  length: 320
+  heater_taper_length: 5.0
+  length: 320.0
   length_straight: 0.1
   length_straight_input: 0.1
   length_undercut: 5

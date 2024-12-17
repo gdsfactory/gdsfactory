@@ -66,24 +66,24 @@ nets: []
 placements:
   array_Cpad_S0_150_C1_R3_2400f71e_122000_0:
     mirror: false
-    rotation: 0
-    x: 122
-    y: 0
+    rotation: 0.0
+    x: 122.0
+    y: 0.0
   rectangle_S22_7_LMTOP_C_53d534b7_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
   rectangle_S22_7_LMTOP_C_53d534b7_m5000_7000:
     mirror: false
-    rotation: 0
-    x: -5
-    y: 7
+    rotation: 0.0
+    x: -5.0
+    y: 7.0
   rectangle_S22_7_LMTOP_C_53d534b7_m5000_m7000:
     mirror: false
-    rotation: 0
-    x: -5
-    y: -7
+    rotation: 0.0
+    x: -5.0
+    y: -7.0
 ports: {}
 warnings:
   electrical:

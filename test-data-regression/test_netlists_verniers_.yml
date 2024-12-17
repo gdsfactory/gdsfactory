@@ -2,71 +2,71 @@ instances:
   straight_L100_N2_CSstrip_W0p1_0_50:
     component: straight
     info:
-      length: 100
-      route_info_length: 100
+      length: 100.0
+      route_info_length: 100.0
       route_info_type: xs_9ae2bb6f
-      route_info_weight: 100
-      route_info_xs_9ae2bb6f_length: 100
+      route_info_weight: 100.0
+      route_info_xs_9ae2bb6f_length: 100.0
       width: 0.1
     settings:
       cross_section: strip
-      length: 100
+      length: 100.0
       npoints: 2
       width: 0.1
   straight_L100_N2_CSstrip_W0p2_0_300:
     component: straight
     info:
-      length: 100
-      route_info_length: 100
+      length: 100.0
+      route_info_length: 100.0
       route_info_type: xs_960aa7b6
-      route_info_weight: 100
-      route_info_xs_960aa7b6_length: 100
+      route_info_weight: 100.0
+      route_info_xs_960aa7b6_length: 100.0
       width: 0.2
     settings:
       cross_section: strip
-      length: 100
+      length: 100.0
       npoints: 2
       width: 0.2
   straight_L100_N2_CSstrip_W0p3_0_650:
     component: straight
     info:
-      length: 100
-      route_info_length: 100
+      length: 100.0
+      route_info_length: 100.0
       route_info_type: xs_e437d51d
-      route_info_weight: 100
-      route_info_xs_e437d51d_length: 100
+      route_info_weight: 100.0
+      route_info_xs_e437d51d_length: 100.0
       width: 0.3
     settings:
       cross_section: strip
-      length: 100
+      length: 100.0
       npoints: 2
       width: 0.3
   straight_L100_N2_CSstrip_W0p4_0_1100:
     component: straight
     info:
-      length: 100
-      route_info_length: 100
+      length: 100.0
+      route_info_length: 100.0
       route_info_type: xs_d9e914be
-      route_info_weight: 100
-      route_info_xs_d9e914be_length: 100
+      route_info_weight: 100.0
+      route_info_xs_d9e914be_length: 100.0
       width: 0.4
     settings:
       cross_section: strip
-      length: 100
+      length: 100.0
       npoints: 2
       width: 0.4
   straight_L100_N2_CSstrip_W0p5_0_1650:
     component: straight
     info:
-      length: 100
-      route_info_length: 100
-      route_info_strip_length: 100
+      length: 100.0
+      route_info_length: 100.0
+      route_info_strip_length: 100.0
       route_info_type: strip
-      route_info_weight: 100
+      route_info_weight: 100.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 100
+      length: 100.0
       npoints: 2
       width: 0.5
 name: verniers_W0p1_0p2_0p3_0_af977b0b
@@ -74,28 +74,28 @@ nets: []
 placements:
   straight_L100_N2_CSstrip_W0p1_0_50:
     mirror: false
-    rotation: 0
-    x: 0
+    rotation: 0.0
+    x: 0.0
     y: 0.05
   straight_L100_N2_CSstrip_W0p2_0_300:
     mirror: false
-    rotation: 0
-    x: 0
+    rotation: 0.0
+    x: 0.0
     y: 0.3
   straight_L100_N2_CSstrip_W0p3_0_650:
     mirror: false
-    rotation: 0
-    x: 0
+    rotation: 0.0
+    x: 0.0
     y: 0.65
   straight_L100_N2_CSstrip_W0p4_0_1100:
     mirror: false
-    rotation: 0
-    x: 0
+    rotation: 0.0
+    x: 0.0
     y: 1.1
   straight_L100_N2_CSstrip_W0p5_0_1650:
     mirror: false
-    rotation: 0
-    x: 0
+    rotation: 0.0
+    x: 0.0
     y: 1.65
 ports: {}
 warnings:

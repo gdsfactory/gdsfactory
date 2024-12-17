@@ -1,13 +1,13 @@
 info:
-  length: 10
+  length: 10.0
 name: taper_strip_to_ridge_L1_d9f70908
 settings:
   cross_section: strip
   layer_slab: SLAB150
   layer_wg: WG
-  length: 10
+  length: 10.0
   use_slab_port: false
   w_slab1: 0.15
-  w_slab2: 6
+  w_slab2: 6.0
   width1: 0.5
   width2: 0.5

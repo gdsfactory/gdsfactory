@@ -1,9 +1,9 @@
 info: {}
 name: coupler_full_CL40_D10_D_c54f6075
 settings:
-  coupling_length: 40
+  coupling_length: 40.0
   cross_section: strip
   dw: 0.1
-  dx: 10
+  dx: 10.0
   dy: 4.8
   gap: 0.5

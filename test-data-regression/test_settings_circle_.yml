@@ -3,4 +3,4 @@ name: circle_R10_AR2p5_LWG
 settings:
   angle_resolution: 2.5
   layer: WG
-  radius: 10
+  radius: 10.0

@@ -11,7 +11,7 @@ nets: []
 placements:
   circle_R0p35_AR2p5_LVIAC_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
 ports: {}

@@ -2,6 +2,6 @@ info: {}
 name: coupler_asymmetric_G0p2_8985aeb3
 settings:
   cross_section: strip
-  dx: 10
+  dx: 10.0
   dy: 2.5
   gap: 0.234

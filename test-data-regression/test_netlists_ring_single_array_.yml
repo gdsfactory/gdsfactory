@@ -7,9 +7,9 @@ instances:
       coupler_ring: coupler_ring
       cross_section: strip
       gap: 0.2
-      length_x: 20
+      length_x: 20.0
       length_y: 0.6
-      radius: 10
+      radius: 10.0
       straight: straight
   ring_single_G0p2_R5_LX1_7dcbd653_0_0:
     component: ring_single
@@ -19,22 +19,22 @@ instances:
       coupler_ring: coupler_ring
       cross_section: strip
       gap: 0.2
-      length_x: 10
+      length_x: 10.0
       length_y: 0.6
-      radius: 5
+      radius: 5.0
       straight: straight
   straight_L5_N2_CSstrip_WNone_8000_0:
     component: straight
     info:
-      length: 5
-      route_info_length: 5
-      route_info_strip_length: 5
+      length: 5.0
+      route_info_length: 5.0
+      route_info_strip_length: 5.0
       route_info_type: strip
-      route_info_weight: 5
+      route_info_weight: 5.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 5
+      length: 5.0
       npoints: 2
       width: null
 name: ring_single_array_Rring_c44178b9
@@ -46,19 +46,19 @@ nets:
 placements:
   ring_single_G0p2_R10_LX_756584a5_46000_0:
     mirror: false
-    rotation: 0
-    x: 46
-    y: 0
+    rotation: 0.0
+    x: 46.0
+    y: 0.0
   ring_single_G0p2_R5_LX1_7dcbd653_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
   straight_L5_N2_CSstrip_WNone_8000_0:
     mirror: false
-    rotation: 0
-    x: 8
-    y: 0
+    rotation: 0.0
+    x: 8.0
+    y: 0.0
 ports:
   o1: ring_single_G0p2_R5_LX1_7dcbd653_0_0,o1
   o2: ring_single_G0p2_R10_LX_756584a5_46000_0,o2

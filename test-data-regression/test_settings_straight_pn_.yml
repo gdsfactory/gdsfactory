@@ -6,4 +6,4 @@ settings:
   taper: taper_strip_to_ridge
   via_stack: via_stack_slab_m3
   via_stack_spacing: 2
-  via_stack_width: 10
+  via_stack_width: 10.0

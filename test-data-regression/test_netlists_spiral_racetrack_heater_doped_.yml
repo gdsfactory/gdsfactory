@@ -10,7 +10,7 @@ instances:
       cross_section: strip
       cross_section_s: null
       extra_90_deg_bend: false
-      min_radius: 10
+      min_radius: 10.0
       n_bend_points: 99
       spacings:
       - 2
@@ -57,19 +57,19 @@ nets: []
 placements:
   spiral_racetrack_MR10_S_2cd856ae_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
   straight_L30_N2_CSnpp_WNone_0_12000:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 12
+    rotation: 0.0
+    x: 0.0
+    y: 12.0
   straight_L30_N2_CSnpp_WNone_30000_m30000:
     mirror: false
-    rotation: 180
-    x: 30
-    y: -30
+    rotation: 180.0
+    x: 30.0
+    y: -30.0
 ports:
   bot_e1: straight_L30_N2_CSnpp_WNone_0_12000,e1
   bot_e2: straight_L30_N2_CSnpp_WNone_0_12000,e2

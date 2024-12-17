@@ -92,13 +92,14 @@ def ring_single(
 if __name__ == "__main__":
     # c = ring_single(layer=(2, 0), cross_section_factory=gf.cross_section.pin, width=1)
     # c = ring_single(width=2, gap=1, layer=(2, 0), radius=7, length_y=1)
-    c = ring_single(radius=5, gap=0.111, bend="bend_circular")
+    # c = ring_single(radius=5, gap=0.111, bend="bend_circular")
     # print(c.ports)
 
     # c = gf.routing.add_fiber_array(ring_single)
     # c = ring_single(cross_section="rib", width=2)
     # c = ring_single(length_y=0, length_x=0)
     # c.get_netlist()
+    c = ring_single()
     c.show()
 
     # cc = gf.add_pins(c)

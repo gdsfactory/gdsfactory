@@ -3,7 +3,7 @@ name: edge_coupler_array_ECed_0e2b58eb
 settings:
   edge_coupler: edge_coupler_silicon
   n: 5
-  pitch: 127
+  pitch: 127.0
   text: text_rectangular
   text_offset:
   - 10

@@ -6,12 +6,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A10:
     component: mmi1x2
     info: {}
@@ -19,12 +19,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A11:
     component: mmi1x2
     info: {}
@@ -32,12 +32,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A12:
     component: mmi1x2
     info: {}
@@ -45,12 +45,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A13:
     component: mmi1x2
     info: {}
@@ -58,12 +58,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A14:
     component: mmi1x2
     info: {}
@@ -71,12 +71,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A15:
     component: mmi1x2
     info: {}
@@ -84,12 +84,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A16:
     component: mmi1x2
     info: {}
@@ -97,12 +97,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A17:
     component: mmi1x2
     info: {}
@@ -110,12 +110,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A18:
     component: mmi1x2
     info: {}
@@ -123,12 +123,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A19:
     component: mmi1x2
     info: {}
@@ -136,12 +136,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A2:
     component: mmi1x2
     info: {}
@@ -149,12 +149,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A20:
     component: mmi1x2
     info: {}
@@ -162,12 +162,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A21:
     component: mmi1x2
     info: {}
@@ -175,12 +175,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A22:
     component: mmi1x2
     info: {}
@@ -188,12 +188,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A23:
     component: mmi1x2
     info: {}
@@ -201,12 +201,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A24:
     component: mmi1x2
     info: {}
@@ -214,12 +214,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A25:
     component: mmi1x2
     info: {}
@@ -227,12 +227,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A26:
     component: mmi1x2
     info: {}
@@ -240,12 +240,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A27:
     component: mmi1x2
     info: {}
@@ -253,12 +253,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A28:
     component: mmi1x2
     info: {}
@@ -266,12 +266,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A29:
     component: mmi1x2
     info: {}
@@ -279,12 +279,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A3:
     component: mmi1x2
     info: {}
@@ -292,12 +292,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A30:
     component: mmi1x2
     info: {}
@@ -305,12 +305,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A31:
     component: mmi1x2
     info: {}
@@ -318,12 +318,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A32:
     component: mmi1x2
     info: {}
@@ -331,12 +331,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A33:
     component: mmi1x2
     info: {}
@@ -344,12 +344,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A34:
     component: mmi1x2
     info: {}
@@ -357,12 +357,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A35:
     component: mmi1x2
     info: {}
@@ -370,12 +370,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A36:
     component: mmi1x2
     info: {}
@@ -383,12 +383,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A37:
     component: mmi1x2
     info: {}
@@ -396,12 +396,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A38:
     component: mmi1x2
     info: {}
@@ -409,12 +409,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A39:
     component: mmi1x2
     info: {}
@@ -422,12 +422,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A4:
     component: mmi1x2
     info: {}
@@ -435,12 +435,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A40:
     component: mmi1x2
     info: {}
@@ -448,12 +448,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A5:
     component: mmi1x2
     info: {}
@@ -461,12 +461,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A6:
     component: mmi1x2
     info: {}
@@ -474,12 +474,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A7:
     component: mmi1x2
     info: {}
@@ -487,12 +487,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A8:
     component: mmi1x2
     info: {}
@@ -500,12 +500,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   A9:
     component: mmi1x2
     info: {}
@@ -513,12 +513,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B1:
     component: mmi1x2
     info: {}
@@ -526,12 +526,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B10:
     component: mmi1x2
     info: {}
@@ -539,12 +539,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B11:
     component: mmi1x2
     info: {}
@@ -552,12 +552,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B12:
     component: mmi1x2
     info: {}
@@ -565,12 +565,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B13:
     component: mmi1x2
     info: {}
@@ -578,12 +578,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B14:
     component: mmi1x2
     info: {}
@@ -591,12 +591,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B15:
     component: mmi1x2
     info: {}
@@ -604,12 +604,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B16:
     component: mmi1x2
     info: {}
@@ -617,12 +617,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B17:
     component: mmi1x2
     info: {}
@@ -630,12 +630,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B18:
     component: mmi1x2
     info: {}
@@ -643,12 +643,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B19:
     component: mmi1x2
     info: {}
@@ -656,12 +656,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B2:
     component: mmi1x2
     info: {}
@@ -669,12 +669,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B20:
     component: mmi1x2
     info: {}
@@ -682,12 +682,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B21:
     component: mmi1x2
     info: {}
@@ -695,12 +695,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B22:
     component: mmi1x2
     info: {}
@@ -708,12 +708,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B23:
     component: mmi1x2
     info: {}
@@ -721,12 +721,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B24:
     component: mmi1x2
     info: {}
@@ -734,12 +734,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B25:
     component: mmi1x2
     info: {}
@@ -747,12 +747,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B26:
     component: mmi1x2
     info: {}
@@ -760,12 +760,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B27:
     component: mmi1x2
     info: {}
@@ -773,12 +773,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B28:
     component: mmi1x2
     info: {}
@@ -786,12 +786,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B29:
     component: mmi1x2
     info: {}
@@ -799,12 +799,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B3:
     component: mmi1x2
     info: {}
@@ -812,12 +812,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B30:
     component: mmi1x2
     info: {}
@@ -825,12 +825,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B31:
     component: mmi1x2
     info: {}
@@ -838,12 +838,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B32:
     component: mmi1x2
     info: {}
@@ -851,12 +851,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B33:
     component: mmi1x2
     info: {}
@@ -864,12 +864,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B34:
     component: mmi1x2
     info: {}
@@ -877,12 +877,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B35:
     component: mmi1x2
     info: {}
@@ -890,12 +890,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B36:
     component: mmi1x2
     info: {}
@@ -903,12 +903,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B37:
     component: mmi1x2
     info: {}
@@ -916,12 +916,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B38:
     component: mmi1x2
     info: {}
@@ -929,12 +929,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B39:
     component: mmi1x2
     info: {}
@@ -942,12 +942,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B4:
     component: mmi1x2
     info: {}
@@ -955,12 +955,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B40:
     component: mmi1x2
     info: {}
@@ -968,12 +968,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B5:
     component: mmi1x2
     info: {}
@@ -981,12 +981,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B6:
     component: mmi1x2
     info: {}
@@ -994,12 +994,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B7:
     component: mmi1x2
     info: {}
@@ -1007,12 +1007,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B8:
     component: mmi1x2
     info: {}
@@ -1020,12 +1020,12 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   B9:
     component: mmi1x2
     info: {}
@@ -1033,22 +1033,22 @@ instances:
       cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       straight: straight
       taper: taper
       width: null
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
   C1:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1066,13 +1066,13 @@ instances:
   C2:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1090,13 +1090,13 @@ instances:
   C3:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1114,13 +1114,13 @@ instances:
   C4:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1138,13 +1138,13 @@ instances:
   D1:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1162,13 +1162,13 @@ instances:
   D2:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1186,13 +1186,13 @@ instances:
   D3:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1210,13 +1210,13 @@ instances:
   D4:
     component: bend_euler
     info:
-      dy: 0
+      dy: 0.0
       length: 42.817
       min_bend_radius: 9.086
-      radius: 10
+      radius: 10.0
       route_info_length: 42.817
       route_info_min_bend_radius: 9.086
-      route_info_n_bend_90: 2
+      route_info_n_bend_90: 2.0
       route_info_strip_length: 42.817
       route_info_type: strip
       route_info_weight: 42.817
@@ -1234,29 +1234,29 @@ instances:
   _1:
     component: straight
     info:
-      length: 20
-      route_info_length: 20
-      route_info_strip_length: 20
+      length: 20.0
+      route_info_length: 20.0
+      route_info_strip_length: 20.0
       route_info_type: strip
-      route_info_weight: 20
+      route_info_weight: 20.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 20
+      length: 20.0
       npoints: 2
       width: null
   m1:
     component: straight
     info:
-      length: 20
-      route_info_length: 20
-      route_info_strip_length: 20
+      length: 20.0
+      route_info_length: 20.0
+      route_info_strip_length: 20.0
       route_info_type: strip
-      route_info_weight: 20
+      route_info_weight: 20.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 20
+      length: 20.0
       npoints: 2
       width: null
 name: cutback_splitter_Cmmi1x_7c0cdfa9
@@ -1522,454 +1522,454 @@ nets:
 placements:
   A1:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
   A10:
     mirror: false
-    rotation: 0
-    x: 51
-    y: 40
+    rotation: 0.0
+    x: 51.0
+    y: 40.0
   A11:
     mirror: false
-    rotation: 0
-    x: 102
-    y: 40
+    rotation: 0.0
+    x: 102.0
+    y: 40.0
   A12:
     mirror: false
-    rotation: 0
-    x: 153
-    y: 40
+    rotation: 0.0
+    x: 153.0
+    y: 40.0
   A13:
     mirror: false
-    rotation: 180
-    x: 184
-    y: 60
+    rotation: 180.0
+    x: 184.0
+    y: 60.0
   A14:
     mirror: false
-    rotation: 180
-    x: 133
-    y: 60
+    rotation: 180.0
+    x: 133.0
+    y: 60.0
   A15:
     mirror: false
-    rotation: 180
-    x: 82
-    y: 60
+    rotation: 180.0
+    x: 82.0
+    y: 60.0
   A16:
     mirror: false
-    rotation: 180
-    x: 31
-    y: 60
+    rotation: 180.0
+    x: 31.0
+    y: 60.0
   A17:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 80
+    rotation: 0.0
+    x: 0.0
+    y: 80.0
   A18:
     mirror: false
-    rotation: 0
-    x: 51
-    y: 80
+    rotation: 0.0
+    x: 51.0
+    y: 80.0
   A19:
     mirror: false
-    rotation: 0
-    x: 102
-    y: 80
+    rotation: 0.0
+    x: 102.0
+    y: 80.0
   A2:
     mirror: false
-    rotation: 0
-    x: 51
-    y: 0
+    rotation: 0.0
+    x: 51.0
+    y: 0.0
   A20:
     mirror: false
-    rotation: 0
-    x: 153
-    y: 80
+    rotation: 0.0
+    x: 153.0
+    y: 80.0
   A21:
     mirror: false
-    rotation: 0
-    x: 244
-    y: 80
+    rotation: 0.0
+    x: 244.0
+    y: 80.0
   A22:
     mirror: false
-    rotation: 0
-    x: 295
-    y: 80
+    rotation: 0.0
+    x: 295.0
+    y: 80.0
   A23:
     mirror: false
-    rotation: 0
-    x: 346
-    y: 80
+    rotation: 0.0
+    x: 346.0
+    y: 80.0
   A24:
     mirror: false
-    rotation: 0
-    x: 397
-    y: 80
+    rotation: 0.0
+    x: 397.0
+    y: 80.0
   A25:
     mirror: false
-    rotation: 180
-    x: 428
-    y: 60
+    rotation: 180.0
+    x: 428.0
+    y: 60.0
   A26:
     mirror: false
-    rotation: 180
-    x: 377
-    y: 60
+    rotation: 180.0
+    x: 377.0
+    y: 60.0
   A27:
     mirror: false
-    rotation: 180
-    x: 326
-    y: 60
+    rotation: 180.0
+    x: 326.0
+    y: 60.0
   A28:
     mirror: false
-    rotation: 180
-    x: 275
-    y: 60
+    rotation: 180.0
+    x: 275.0
+    y: 60.0
   A29:
     mirror: false
-    rotation: 0
-    x: 244
-    y: 40
+    rotation: 0.0
+    x: 244.0
+    y: 40.0
   A3:
     mirror: false
-    rotation: 0
-    x: 102
-    y: 0
+    rotation: 0.0
+    x: 102.0
+    y: 0.0
   A30:
     mirror: false
-    rotation: 0
-    x: 295
-    y: 40
+    rotation: 0.0
+    x: 295.0
+    y: 40.0
   A31:
     mirror: false
-    rotation: 0
-    x: 346
-    y: 40
+    rotation: 0.0
+    x: 346.0
+    y: 40.0
   A32:
     mirror: false
-    rotation: 0
-    x: 397
-    y: 40
+    rotation: 0.0
+    x: 397.0
+    y: 40.0
   A33:
     mirror: false
-    rotation: 180
-    x: 428
-    y: 20
+    rotation: 180.0
+    x: 428.0
+    y: 20.0
   A34:
     mirror: false
-    rotation: 180
-    x: 377
-    y: 20
+    rotation: 180.0
+    x: 377.0
+    y: 20.0
   A35:
     mirror: false
-    rotation: 180
-    x: 326
-    y: 20
+    rotation: 180.0
+    x: 326.0
+    y: 20.0
   A36:
     mirror: false
-    rotation: 180
-    x: 275
-    y: 20
+    rotation: 180.0
+    x: 275.0
+    y: 20.0
   A37:
     mirror: false
-    rotation: 0
-    x: 244
-    y: 0
+    rotation: 0.0
+    x: 244.0
+    y: 0.0
   A38:
     mirror: false
-    rotation: 0
-    x: 295
-    y: 0
+    rotation: 0.0
+    x: 295.0
+    y: 0.0
   A39:
     mirror: false
-    rotation: 0
-    x: 346
-    y: 0
+    rotation: 0.0
+    x: 346.0
+    y: 0.0
   A4:
     mirror: false
-    rotation: 0
-    x: 153
-    y: 0
+    rotation: 0.0
+    x: 153.0
+    y: 0.0
   A40:
     mirror: false
-    rotation: 0
-    x: 397
-    y: 0
+    rotation: 0.0
+    x: 397.0
+    y: 0.0
   A5:
     mirror: false
-    rotation: 180
-    x: 184
-    y: 20
+    rotation: 180.0
+    x: 184.0
+    y: 20.0
   A6:
     mirror: false
-    rotation: 180
-    x: 133
-    y: 20
+    rotation: 180.0
+    x: 133.0
+    y: 20.0
   A7:
     mirror: false
-    rotation: 180
-    x: 82
-    y: 20
+    rotation: 180.0
+    x: 82.0
+    y: 20.0
   A8:
     mirror: false
-    rotation: 180
-    x: 31
-    y: 20
+    rotation: 180.0
+    x: 31.0
+    y: 20.0
   A9:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 40
+    rotation: 0.0
+    x: 0.0
+    y: 40.0
   B1:
     mirror: false
-    rotation: 180
-    x: 31
-    y: 0
+    rotation: 180.0
+    x: 31.0
+    y: 0.0
   B10:
     mirror: false
-    rotation: 180
-    x: 82
-    y: 40
+    rotation: 180.0
+    x: 82.0
+    y: 40.0
   B11:
     mirror: false
-    rotation: 180
-    x: 133
-    y: 40
+    rotation: 180.0
+    x: 133.0
+    y: 40.0
   B12:
     mirror: false
-    rotation: 180
-    x: 184
-    y: 40
+    rotation: 180.0
+    x: 184.0
+    y: 40.0
   B13:
     mirror: false
-    rotation: 0
-    x: 153
-    y: 60
+    rotation: 0.0
+    x: 153.0
+    y: 60.0
   B14:
     mirror: false
-    rotation: 0
-    x: 102
-    y: 60
+    rotation: 0.0
+    x: 102.0
+    y: 60.0
   B15:
     mirror: false
-    rotation: 0
-    x: 51
-    y: 60
+    rotation: 0.0
+    x: 51.0
+    y: 60.0
   B16:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 60
+    rotation: 0.0
+    x: 0.0
+    y: 60.0
   B17:
     mirror: false
-    rotation: 180
-    x: 31
-    y: 80
+    rotation: 180.0
+    x: 31.0
+    y: 80.0
   B18:
     mirror: false
-    rotation: 180
-    x: 82
-    y: 80
+    rotation: 180.0
+    x: 82.0
+    y: 80.0
   B19:
     mirror: false
-    rotation: 180
-    x: 133
-    y: 80
+    rotation: 180.0
+    x: 133.0
+    y: 80.0
   B2:
     mirror: false
-    rotation: 180
-    x: 82
-    y: 0
+    rotation: 180.0
+    x: 82.0
+    y: 0.0
   B20:
     mirror: false
-    rotation: 180
-    x: 184
-    y: 80
+    rotation: 180.0
+    x: 184.0
+    y: 80.0
   B21:
     mirror: false
-    rotation: 180
-    x: 275
-    y: 80
+    rotation: 180.0
+    x: 275.0
+    y: 80.0
   B22:
     mirror: false
-    rotation: 180
-    x: 326
-    y: 80
+    rotation: 180.0
+    x: 326.0
+    y: 80.0
   B23:
     mirror: false
-    rotation: 180
-    x: 377
-    y: 80
+    rotation: 180.0
+    x: 377.0
+    y: 80.0
   B24:
     mirror: false
-    rotation: 180
-    x: 428
-    y: 80
+    rotation: 180.0
+    x: 428.0
+    y: 80.0
   B25:
     mirror: false
-    rotation: 0
-    x: 397
-    y: 60
+    rotation: 0.0
+    x: 397.0
+    y: 60.0
   B26:
     mirror: false
-    rotation: 0
-    x: 346
-    y: 60
+    rotation: 0.0
+    x: 346.0
+    y: 60.0
   B27:
     mirror: false
-    rotation: 0
-    x: 295
-    y: 60
+    rotation: 0.0
+    x: 295.0
+    y: 60.0
   B28:
     mirror: false
-    rotation: 0
-    x: 244
-    y: 60
+    rotation: 0.0
+    x: 244.0
+    y: 60.0
   B29:
     mirror: false
-    rotation: 180
-    x: 275
-    y: 40
+    rotation: 180.0
+    x: 275.0
+    y: 40.0
   B3:
     mirror: false
-    rotation: 180
-    x: 133
-    y: 0
+    rotation: 180.0
+    x: 133.0
+    y: 0.0
   B30:
     mirror: false
-    rotation: 180
-    x: 326
-    y: 40
+    rotation: 180.0
+    x: 326.0
+    y: 40.0
   B31:
     mirror: false
-    rotation: 180
-    x: 377
-    y: 40
+    rotation: 180.0
+    x: 377.0
+    y: 40.0
   B32:
     mirror: false
-    rotation: 180
-    x: 428
-    y: 40
+    rotation: 180.0
+    x: 428.0
+    y: 40.0
   B33:
     mirror: false
-    rotation: 0
-    x: 397
-    y: 20
+    rotation: 0.0
+    x: 397.0
+    y: 20.0
   B34:
     mirror: false
-    rotation: 0
-    x: 346
-    y: 20
+    rotation: 0.0
+    x: 346.0
+    y: 20.0
   B35:
     mirror: false
-    rotation: 0
-    x: 295
-    y: 20
+    rotation: 0.0
+    x: 295.0
+    y: 20.0
   B36:
     mirror: false
-    rotation: 0
-    x: 244
-    y: 20
+    rotation: 0.0
+    x: 244.0
+    y: 20.0
   B37:
     mirror: false
-    rotation: 180
-    x: 275
-    y: 0
+    rotation: 180.0
+    x: 275.0
+    y: 0.0
   B38:
     mirror: false
-    rotation: 180
-    x: 326
-    y: 0
+    rotation: 180.0
+    x: 326.0
+    y: 0.0
   B39:
     mirror: false
-    rotation: 180
-    x: 377
-    y: 0
+    rotation: 180.0
+    x: 377.0
+    y: 0.0
   B4:
     mirror: false
-    rotation: 180
-    x: 184
-    y: 0
+    rotation: 180.0
+    x: 184.0
+    y: 0.0
   B40:
     mirror: false
-    rotation: 180
-    x: 428
-    y: 0
+    rotation: 180.0
+    x: 428.0
+    y: 0.0
   B5:
     mirror: false
-    rotation: 0
-    x: 153
-    y: 20
+    rotation: 0.0
+    x: 153.0
+    y: 20.0
   B6:
     mirror: false
-    rotation: 0
-    x: 102
-    y: 20
+    rotation: 0.0
+    x: 102.0
+    y: 20.0
   B7:
     mirror: false
-    rotation: 0
-    x: 51
-    y: 20
+    rotation: 0.0
+    x: 51.0
+    y: 20.0
   B8:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 20
+    rotation: 0.0
+    x: 0.0
+    y: 20.0
   B9:
     mirror: false
-    rotation: 180
-    x: 31
-    y: 40
+    rotation: 180.0
+    x: 31.0
+    y: 40.0
   C1:
     mirror: false
-    rotation: 180
-    x: -10
-    y: 40
+    rotation: 180.0
+    x: -10.0
+    y: 40.0
   C2:
     mirror: false
-    rotation: 180
-    x: -10
-    y: 80
+    rotation: 180.0
+    x: -10.0
+    y: 80.0
   C3:
     mirror: false
-    rotation: 0
-    x: 438
-    y: 60
+    rotation: 0.0
+    x: 438.0
+    y: 60.0
   C4:
     mirror: false
-    rotation: 0
-    x: 438
-    y: 20
+    rotation: 0.0
+    x: 438.0
+    y: 20.0
   D1:
     mirror: false
-    rotation: 0
-    x: 194
-    y: 0
+    rotation: 0.0
+    x: 194.0
+    y: 0.0
   D2:
     mirror: false
-    rotation: 0
-    x: 194
-    y: 40
+    rotation: 0.0
+    x: 194.0
+    y: 40.0
   D3:
     mirror: false
-    rotation: 180
-    x: 234
-    y: 60
+    rotation: 180.0
+    x: 234.0
+    y: 60.0
   D4:
     mirror: false
-    rotation: 180
-    x: 234
-    y: 20
+    rotation: 180.0
+    x: 234.0
+    y: 20.0
   _1:
     mirror: false
-    rotation: 180
-    x: 234
-    y: 80
+    rotation: 180.0
+    x: 234.0
+    y: 80.0
   m1:
     mirror: false
-    rotation: 0
-    x: 194
-    y: 80
+    rotation: 0.0
+    x: 194.0
+    y: 80.0
 ports:
   o1: A1,o1
   o2: B40,o1

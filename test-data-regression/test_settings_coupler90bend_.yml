@@ -5,4 +5,4 @@ settings:
   cross_section_inner: strip
   cross_section_outer: strip
   gap: 0.2
-  radius: 10
+  radius: 10.0

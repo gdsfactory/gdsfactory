@@ -6,9 +6,9 @@ settings:
   gap_output_tapers: 0.25
   inputs: 1
   length_mmi: 5.5
-  length_taper: 10
+  length_taper: 10.0
   outputs: 4
   straight: straight
   taper: taper
   width_mmi: 5
-  width_taper: 1
+  width_taper: 1.0

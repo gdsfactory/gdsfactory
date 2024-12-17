@@ -7,4 +7,4 @@ settings:
   rows: 6
   spacing: 5
   straight: straight
-  straight_length: 5
+  straight_length: 5.0

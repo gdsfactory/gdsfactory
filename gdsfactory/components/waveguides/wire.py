@@ -183,7 +183,7 @@ def wire_corner_sections(
         cross_section=x,
         layer=x.layer,
     )
-    c.info["length"] = ymax - xmin
+    c.info["length"] = float(np.round(ymax - xmin, 3))
     c.info["dy"] = ymax - xmin
     x.add_bbox(c)
     return c

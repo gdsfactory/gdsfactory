@@ -5,7 +5,7 @@ instances:
     settings:
       auto_rename_ports: true
       layer: HEATER
-      port_inclusion: 0
+      port_inclusion: 0.0
       port_orientations:
       - 180
       - 90
@@ -13,15 +13,15 @@ instances:
       - -90
       port_type: null
       size:
-      - 11
-      - 11
+      - 11.0
+      - 11.0
   compass_S11_11_LM2_PTel_05df260f_0_0:
     component: compass
     info: {}
     settings:
       auto_rename_ports: false
       layer: M2
-      port_inclusion: 0
+      port_inclusion: 0.0
       port_orientations:
       - 180
       - 90
@@ -29,13 +29,13 @@ instances:
       - -90
       port_type: electrical
       size:
-      - 11
-      - 11
+      - 11.0
+      - 11.0
   via_S0p7_0p7_SNone_GNon_d0c93b95_m3000_m3000:
     array:
-      column_pitch: 2
+      column_pitch: 2.0
       columns: 4
-      row_pitch: 2
+      row_pitch: 2.0
       rows: 4
     component: via
     info:
@@ -63,19 +63,19 @@ nets: []
 placements:
   compass_S11_11_LHEATER__a0235df0_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
   compass_S11_11_LM2_PTel_05df260f_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
   via_S0p7_0p7_SNone_GNon_d0c93b95_m3000_m3000:
     mirror: false
-    rotation: 0
-    x: -3
-    y: -3
+    rotation: 0.0
+    x: -3.0
+    y: -3.0
 ports:
   e1: compass_S11_11_LM2_PTel_05df260f_0_0,e1
   e2: compass_S11_11_LM2_PTel_05df260f_0_0,e2

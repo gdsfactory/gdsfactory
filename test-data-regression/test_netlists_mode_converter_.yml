@@ -2,7 +2,7 @@ instances:
   bend_s_S25_3_N99_CSstri_7865203f_0_1050:
     component: bend_s
     info:
-      end_angle: 0
+      end_angle: 0.0
       length: 25.254
       min_bend_radius: 39.163
       route_info_length: 25.254
@@ -11,7 +11,7 @@ instances:
       route_info_strip_length: 25.254
       route_info_type: strip
       route_info_weight: 25.254
-      start_angle: 0
+      start_angle: 0.0
     settings:
       allow_min_radius_violation: false
       cross_section: strip
@@ -22,7 +22,7 @@ instances:
   bend_s_S25_3_N99_CSstri_7865203f_10000_1050:
     component: bend_s
     info:
-      end_angle: 0
+      end_angle: 0.0
       length: 25.254
       min_bend_radius: 39.163
       route_info_length: 25.254
@@ -31,7 +31,7 @@ instances:
       route_info_strip_length: 25.254
       route_info_type: strip
       route_info_weight: 25.254
-      start_angle: 0
+      start_angle: 0.0
     settings:
       allow_min_radius_violation: false
       cross_section: strip
@@ -52,7 +52,7 @@ instances:
     component: taper
     info:
       length: 25
-      width1: 1
+      width1: 1.0
       width2: 1.2
     settings:
       cross_section: strip
@@ -73,7 +73,7 @@ instances:
     component: taper
     info:
       length: 25
-      width1: 1
+      width1: 1.0
       width2: 1.2
     settings:
       cross_section: strip
@@ -103,29 +103,29 @@ nets:
 placements:
   bend_s_S25_3_N99_CSstri_7865203f_0_1050:
     mirror: true
-    rotation: 180
-    x: 0
+    rotation: 180.0
+    x: 0.0
     y: 1.05
   bend_s_S25_3_N99_CSstri_7865203f_10000_1050:
     mirror: false
-    rotation: 0
-    x: 10
+    rotation: 0.0
+    x: 10.0
     y: 1.05
   coupler_straight_asymme_d7b83f37_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
   taper_L25_W1_W1p2_LNone_38ef62c2_0_0:
     mirror: false
-    rotation: 180
-    x: 0
-    y: 0
+    rotation: 180.0
+    x: 0.0
+    y: 0.0
   taper_L25_W1_W1p2_LNone_38ef62c2_10000_0:
     mirror: false
-    rotation: 0
-    x: 10
-    y: 0
+    rotation: 0.0
+    x: 10.0
+    y: 0.0
 ports:
   o1: taper_L25_W1_W1p2_LNone_38ef62c2_0_0,o2
   o2: bend_s_S25_3_N99_CSstri_7865203f_0_1050,o2

@@ -2,6 +2,6 @@ info: {}
 name: ramp_L10_W5_W8_LWG
 settings:
   layer: WG
-  length: 10
-  width1: 5
-  width2: 8
+  length: 10.0
+  width1: 5.0
+  width2: 8.0

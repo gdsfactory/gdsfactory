@@ -3,6 +3,8 @@ from __future__ import annotations
 from functools import partial
 from typing import Any
 
+import numpy as np
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.grating_couplers.grating_coupler_elliptical_arbitrary import (
@@ -134,7 +136,7 @@ def grating_coupler_elliptical_lumerical(
         cross_section=cross_section,
     )
     c.info.update(info)
-    c.info["xinput"] = xinput
+    c.info["xinput"] = float(np.round(xinput, 3))
     return c
 
 
@@ -152,5 +154,4 @@ grating_coupler_elliptical_lumerical_etch70 = partial(
 
 if __name__ == "__main__":
     c = grating_coupler_elliptical_lumerical_etch70()
-    # c = grating_coupler_elliptical_lumerical()
     c.show()

@@ -11,9 +11,9 @@ settings:
   - coupler
   - coupler
   radius:
-  - 10
-  - 10
-  - 10
+  - 10.0
+  - 10.0
+  - 10.0
   ring_cross_sections:
   - strip
   - strip

@@ -6,7 +6,7 @@ name: grating_coupler_ellipti_7b8aa449
 settings:
   cross_section: strip
   end_straight_length: 0.2
-  fiber_angle: 15
+  fiber_angle: 15.0
   grating_line_width: 0.343
   layer_trench: SHALLOW_ETCH
   n_periods: 30
@@ -17,5 +17,5 @@ settings:
   taper: taper
   taper_angle: 35
   taper_length: 16.6
-  trenches_extra_angle: 9
+  trenches_extra_angle: 9.0
   wavelength: 1.53

@@ -5,11 +5,11 @@ settings:
   layer: WG
   layer_slit: SLAB150
   size:
-  - 100
-  - 200
+  - 100.0
+  - 200.0
   slit_column_pitch: 20
   slit_enclosure: 10
   slit_row_pitch: 20
   slit_size:
-  - 1
-  - 1
+  - 1.0
+  - 1.0

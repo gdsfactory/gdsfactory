@@ -2,10 +2,10 @@ info: {}
 name: straight_pin_slot_L500__0d93df0e
 settings:
   cross_section: pn
-  length: 500
+  length: 500.0
   taper: taper_strip_to_ridge
   via_stack: via_stack_m1_mtop
   via_stack_slab: via_stack_slab_m1_horizontal
-  via_stack_slab_spacing: 2
-  via_stack_spacing: 3
-  via_stack_width: 10
+  via_stack_slab_spacing: 2.0
+  via_stack_spacing: 3.0
+  via_stack_width: 10.0

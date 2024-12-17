@@ -8,8 +8,8 @@ settings:
   - 5.5
   - 5.5
   coupler_lengths_tapers:
-  - 10
-  - 10
+  - 10.0
+  - 10.0
   coupler_widths:
   - null
   - null
@@ -17,13 +17,13 @@ settings:
   - 2.5
   - 2.5
   coupler_widths_tapers:
-  - 1
-  - 1
+  - 1.0
+  - 1.0
   cross_sections_mmis:
   - strip
   - strip
   delta_lengths:
-  - 10
+  - 10.0
   mzi: mzi2x2_2x2
   splitter: mmi2x2
   straight_functions_mmis:

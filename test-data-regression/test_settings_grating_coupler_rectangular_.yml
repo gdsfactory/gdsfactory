@@ -8,12 +8,12 @@ settings:
   fiber_angle: 15
   fill_factor: 0.5
   layer_slab: SLAB150
-  length_taper: 150
+  length_taper: 150.0
   n_periods: 20
   period: 0.75
   polarization: te
-  slab_offset: 1
-  slab_xmin: -1
+  slab_offset: 1.0
+  slab_xmin: -1.0
   taper: taper
   wavelength: 1.55
-  width_grating: 11
+  width_grating: 11.0

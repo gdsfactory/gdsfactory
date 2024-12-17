@@ -5,13 +5,13 @@ name: grating_coupler_dual_po_45d03cc3
 settings:
   base_layer: WG
   cross_section: strip
-  length_taper: 150
+  length_taper: 150.0
   period_x: 0.58
   period_y: 0.58
   polarization: te
   taper: taper
   unit_cell: _unit_cell
   wavelength: 1.55
-  width_taper: 10
+  width_taper: 10.0
   x_span: 11
   y_span: 11

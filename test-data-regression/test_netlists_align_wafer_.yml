@@ -4,9 +4,9 @@ instances:
     info: {}
     settings:
       layer: WG
-      length: 80
+      length: 80.0
       port_type: null
-      width: 10
+      width: 10.0
   rectangle_S10_110_LWG_C_804deee6_55000_0:
     component: rectangle
     info: {}
@@ -20,8 +20,8 @@ instances:
       - -90
       port_type: electrical
       size:
-      - 10
-      - 110
+      - 10.0
+      - 110.0
   rectangle_S10_110_LWG_C_804deee6_m55000_0:
     component: rectangle
     info: {}
@@ -35,8 +35,8 @@ instances:
       - -90
       port_type: electrical
       size:
-      - 10
-      - 110
+      - 10.0
+      - 110.0
   rectangle_S120_10_LWG_C_6331a70d_0_55000:
     component: rectangle
     info: {}
@@ -50,8 +50,8 @@ instances:
       - -90
       port_type: electrical
       size:
-      - 120
-      - 10
+      - 120.0
+      - 10.0
   rectangle_S120_10_LWG_C_6331a70d_0_m55000:
     component: rectangle
     info: {}
@@ -65,8 +65,8 @@ instances:
       - -90
       port_type: electrical
       size:
-      - 120
-      - 10
+      - 120.0
+      - 10.0
   rectangle_S25_25_LWG_CT_b4cc56e5_m27500_m27500:
     component: rectangle
     info: {}
@@ -80,39 +80,39 @@ instances:
       - -90
       port_type: electrical
       size:
-      - 25
-      - 25
+      - 25.0
+      - 25.0
 name: align_wafer_W10_S10_CL8_ecd2fcec
 nets: []
 placements:
   cross_L80_W10_LWG_PTNone_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
   rectangle_S10_110_LWG_C_804deee6_55000_0:
     mirror: false
-    rotation: 0
-    x: 55
-    y: 0
+    rotation: 0.0
+    x: 55.0
+    y: 0.0
   rectangle_S10_110_LWG_C_804deee6_m55000_0:
     mirror: false
-    rotation: 0
-    x: -55
-    y: 0
+    rotation: 0.0
+    x: -55.0
+    y: 0.0
   rectangle_S120_10_LWG_C_6331a70d_0_55000:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 55
+    rotation: 0.0
+    x: 0.0
+    y: 55.0
   rectangle_S120_10_LWG_C_6331a70d_0_m55000:
     mirror: false
-    rotation: 0
-    x: 0
-    y: -55
+    rotation: 0.0
+    x: 0.0
+    y: -55.0
   rectangle_S25_25_LWG_CT_b4cc56e5_m27500_m27500:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: -27.5
     y: -27.5
 ports: {}

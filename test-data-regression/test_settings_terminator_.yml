@@ -4,6 +4,6 @@ settings:
   cross_section_input: strip
   doping_layers:
   - NPP
-  doping_offset: 1
+  doping_offset: 1.0
   length: 50
   tapered_width: 0.2

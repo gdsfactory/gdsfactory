@@ -11,16 +11,16 @@ instances:
       offsets: null
       via_stack: via_stack_npp_m1
       widths:
-      - 2
-      - 3
+      - 2.0
+      - 3.0
   pad_S100_100_LMTOP_BLNo_163fd346_200000_0:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -34,16 +34,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_350000_0:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -57,16 +57,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_500000_0:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -80,16 +80,16 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   pad_S100_100_LMTOP_BLNo_163fd346_50000_0:
     component: pad
     info:
       size:
-      - 100
-      - 100
-      xsize: 100
-      ysize: 100
+      - 100.0
+      - 100.0
+      xsize: 100.0
+      ysize: 100.0
     settings:
       bbox_layers: null
       bbox_offsets: null
@@ -103,13 +103,13 @@ instances:
       - -90
       port_type: pad
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
   via_stack_S11_11_LM1_M2_e0ab0502_200000_m55500:
     component: via_stack
     info:
-      xsize: 11
-      ysize: 11
+      xsize: 11.0
+      ysize: 11.0
     settings:
       correct_size: true
       layer_offsets: null
@@ -125,8 +125,8 @@ instances:
       - 0
       - -90
       size:
-      - 11
-      - 11
+      - 11.0
+      - 11.0
       slot_horizontal: false
       slot_vertical: false
       vias:
@@ -136,8 +136,8 @@ instances:
   via_stack_S11_11_LM1_M2_e0ab0502_350000_55500:
     component: via_stack
     info:
-      xsize: 11
-      ysize: 11
+      xsize: 11.0
+      ysize: 11.0
     settings:
       correct_size: true
       layer_offsets: null
@@ -153,8 +153,8 @@ instances:
       - 0
       - -90
       size:
-      - 11
-      - 11
+      - 11.0
+      - 11.0
       slot_horizontal: false
       slot_vertical: false
       vias:
@@ -164,8 +164,8 @@ instances:
   via_stack_S11_11_LM1_M2_e0ab0502_500000_55500:
     component: via_stack
     info:
-      xsize: 11
-      ysize: 11
+      xsize: 11.0
+      ysize: 11.0
     settings:
       correct_size: true
       layer_offsets: null
@@ -181,8 +181,8 @@ instances:
       - 0
       - -90
       size:
-      - 11
-      - 11
+      - 11.0
+      - 11.0
       slot_horizontal: false
       slot_vertical: false
       vias:
@@ -192,8 +192,8 @@ instances:
   via_stack_S11_11_LM1_M2_e0ab0502_50000_m55500:
     component: via_stack
     info:
-      xsize: 11
-      ysize: 11
+      xsize: 11.0
+      ysize: 11.0
     settings:
       correct_size: true
       layer_offsets: null
@@ -209,8 +209,8 @@ instances:
       - 0
       - -90
       size:
-      - 11
-      - 11
+      - 11.0
+      - 11.0
       slot_horizontal: false
       slot_vertical: false
       vias:
@@ -230,48 +230,48 @@ nets:
 placements:
   greek_cross_L30_LWG_N_W_0e8f7afb_275000_0:
     mirror: false
-    rotation: 0
-    x: 275
-    y: 0
+    rotation: 0.0
+    x: 275.0
+    y: 0.0
   pad_S100_100_LMTOP_BLNo_163fd346_200000_0:
     mirror: false
-    rotation: 0
-    x: 200
-    y: 0
+    rotation: 0.0
+    x: 200.0
+    y: 0.0
   pad_S100_100_LMTOP_BLNo_163fd346_350000_0:
     mirror: false
-    rotation: 0
-    x: 350
-    y: 0
+    rotation: 0.0
+    x: 350.0
+    y: 0.0
   pad_S100_100_LMTOP_BLNo_163fd346_500000_0:
     mirror: false
-    rotation: 0
-    x: 500
-    y: 0
+    rotation: 0.0
+    x: 500.0
+    y: 0.0
   pad_S100_100_LMTOP_BLNo_163fd346_50000_0:
     mirror: false
-    rotation: 0
-    x: 50
-    y: 0
+    rotation: 0.0
+    x: 50.0
+    y: 0.0
   via_stack_S11_11_LM1_M2_e0ab0502_200000_m55500:
     mirror: false
-    rotation: 0
-    x: 200
+    rotation: 0.0
+    x: 200.0
     y: -55.5
   via_stack_S11_11_LM1_M2_e0ab0502_350000_55500:
     mirror: false
-    rotation: 0
-    x: 350
+    rotation: 0.0
+    x: 350.0
     y: 55.5
   via_stack_S11_11_LM1_M2_e0ab0502_500000_55500:
     mirror: false
-    rotation: 0
-    x: 500
+    rotation: 0.0
+    x: 500.0
     y: 55.5
   via_stack_S11_11_LM1_M2_e0ab0502_50000_m55500:
     mirror: false
-    rotation: 0
-    x: 50
+    rotation: 0.0
+    x: 50.0
     y: -55.5
 ports:
   e1: via_stack_S11_11_LM1_M2_e0ab0502_50000_m55500,e2

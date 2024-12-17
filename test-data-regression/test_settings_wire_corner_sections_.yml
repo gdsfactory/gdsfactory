@@ -1,6 +1,6 @@
 info:
-  dy: 10
-  length: 10
+  dy: 10.0
+  length: 10.0
 name: wire_corner_sections_CS_91c5e55f
 settings:
   cross_section: metal_routing

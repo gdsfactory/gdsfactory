@@ -3,7 +3,7 @@ name: mzi_pads_center_PTstrai_10e9fd66
 settings:
   cross_section: strip
   cross_section_metal: metal_routing
-  delta_length: 40
+  delta_length: 40.0
   length_x: 500
   length_y: 40
   mzi: mzi

@@ -5,21 +5,21 @@ instances:
     settings:
       cross_section: strip
       gap: 0.25
-      length: 420
+      length: 420.0
   coupler_straight_L420_G_ae24e604_0_7250:
     component: coupler_straight
     info: {}
     settings:
       cross_section: strip
       gap: 0.2
-      length: 420
+      length: 420.0
   coupler_straight_L420_G_c3c00a0e_0_250:
     component: coupler_straight
     info: {}
     settings:
       cross_section: strip
       gap: 0.15
-      length: 420
+      length: 420.0
   text_rectangular_T150_S_cf4e8581_425000_0:
     component: text_rectangular
     info: {}
@@ -29,9 +29,9 @@ instances:
       layer: WG
       layers: null
       position:
-      - 0
-      - 0
-      size: 1
+      - 0.0
+      - 0.0
+      size: 1.0
       text: '150'
   text_rectangular_T200_S_769a3549_425000_7000:
     component: text_rectangular
@@ -42,9 +42,9 @@ instances:
       layer: WG
       layers: null
       position:
-      - 0
-      - 0
-      size: 1
+      - 0.0
+      - 0.0
+      size: 1.0
       text: '200'
   text_rectangular_T250_S_66ea053f_425000_14000:
     component: text_rectangular
@@ -55,43 +55,43 @@ instances:
       layer: WG
       layers: null
       position:
-      - 0
-      - 0
-      size: 1
+      - 0.0
+      - 0.0
+      size: 1.0
       text: '250'
 name: cdsem_coupler_L420_G0p1_295ecaee
 nets: []
 placements:
   coupler_straight_L420_G_5a603e4c_0_14250:
     mirror: false
-    rotation: 0
-    x: 0
+    rotation: 0.0
+    x: 0.0
     y: 14.25
   coupler_straight_L420_G_ae24e604_0_7250:
     mirror: false
-    rotation: 0
-    x: 0
+    rotation: 0.0
+    x: 0.0
     y: 7.25
   coupler_straight_L420_G_c3c00a0e_0_250:
     mirror: false
-    rotation: 0
-    x: 0
+    rotation: 0.0
+    x: 0.0
     y: 0.25
   text_rectangular_T150_S_cf4e8581_425000_0:
     mirror: false
-    rotation: 0
-    x: 425
-    y: 0
+    rotation: 0.0
+    x: 425.0
+    y: 0.0
   text_rectangular_T200_S_769a3549_425000_7000:
     mirror: false
-    rotation: 0
-    x: 425
-    y: 7
+    rotation: 0.0
+    x: 425.0
+    y: 7.0
   text_rectangular_T250_S_66ea053f_425000_14000:
     mirror: false
-    rotation: 0
-    x: 425
-    y: 14
+    rotation: 0.0
+    x: 425.0
+    y: 14.0
 ports: {}
 warnings:
   optical:

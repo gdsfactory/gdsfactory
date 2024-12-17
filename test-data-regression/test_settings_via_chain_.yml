@@ -7,11 +7,11 @@ settings:
   - M1
   layers_top:
   - M2
-  min_metal_spacing: 1
+  min_metal_spacing: 1.0
   num_vias: 100
   offsets_bot:
   - 0
   offsets_top:
   - 0
   via: via1
-  via_min_enclosure: 1
+  via_min_enclosure: 1.0

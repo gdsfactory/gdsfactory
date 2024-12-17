@@ -38,12 +38,12 @@ nets: []
 placements:
   rectangle_S5_5_L1_0_CFa_fd778b63_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
   rectangle_S5_5_L1_0_CFa_fd778b63_m5140_m5140:
     mirror: false
-    rotation: 0
+    rotation: 0.0
     x: -5.14
     y: -5.14
 ports: {}

@@ -1,8 +1,8 @@
 info: {}
 name: interdigital_capacitor__f36503d6
 settings:
-  finger_gap: 2
-  finger_length: 20
+  finger_gap: 2.0
+  finger_length: 20.0
   fingers: 4
   layer: WG
-  thickness: 5
+  thickness: 5.0

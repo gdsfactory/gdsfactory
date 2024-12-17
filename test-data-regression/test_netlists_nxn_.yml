@@ -12,16 +12,16 @@ instances:
       - -90
       port_type: electrical
       size:
-      - 8
-      - 8
+      - 8.0
+      - 8.0
 name: nxn_W1_E4_N0_S0_X8_Y8_W_96626965
 nets: []
 placements:
   rectangle_S8_8_LWG_CFal_95ca53b5_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
 ports: {}
 warnings:
   electrical:

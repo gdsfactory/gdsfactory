@@ -8,4 +8,4 @@ settings:
   npoints: 200
   wavelength: 1.55
   width1: 0.5
-  width2: 5
+  width2: 5.0

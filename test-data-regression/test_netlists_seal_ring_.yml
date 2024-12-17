@@ -3,7 +3,7 @@ instances:
     component: via_stack
     info:
       xsize: 10
-      ysize: 520
+      ysize: 520.0
     settings:
       correct_size: true
       layer_offsets: null
@@ -20,7 +20,7 @@ instances:
       - -90
       size:
       - 10
-      - 520
+      - 520.0
       slot_horizontal: false
       slot_vertical: false
       vias:
@@ -31,7 +31,7 @@ instances:
     component: via_stack
     info:
       xsize: 10
-      ysize: 520
+      ysize: 520.0
     settings:
       correct_size: true
       layer_offsets: null
@@ -48,7 +48,7 @@ instances:
       - -90
       size:
       - 10
-      - 520
+      - 520.0
       slot_horizontal: false
       slot_vertical: false
       vias:
@@ -58,7 +58,7 @@ instances:
   via_stack_S540_10_LM1_M_ebd1600b_250000_515000:
     component: via_stack
     info:
-      xsize: 540
+      xsize: 540.0
       ysize: 10
     settings:
       correct_size: true
@@ -75,7 +75,7 @@ instances:
       - 0
       - -90
       size:
-      - 540
+      - 540.0
       - 10
       slot_horizontal: false
       slot_vertical: false
@@ -86,7 +86,7 @@ instances:
   via_stack_S540_10_LM1_M_ebd1600b_250000_m15000:
     component: via_stack
     info:
-      xsize: 540
+      xsize: 540.0
       ysize: 10
     settings:
       correct_size: true
@@ -103,7 +103,7 @@ instances:
       - 0
       - -90
       size:
-      - 540
+      - 540.0
       - 10
       slot_horizontal: false
       slot_vertical: false
@@ -116,24 +116,24 @@ nets: []
 placements:
   via_stack_S10_520_LM1_M_a97a51b5_515000_250000:
     mirror: false
-    rotation: 0
-    x: 515
-    y: 250
+    rotation: 0.0
+    x: 515.0
+    y: 250.0
   via_stack_S10_520_LM1_M_a97a51b5_m15000_250000:
     mirror: false
-    rotation: 0
-    x: -15
-    y: 250
+    rotation: 0.0
+    x: -15.0
+    y: 250.0
   via_stack_S540_10_LM1_M_ebd1600b_250000_515000:
     mirror: false
-    rotation: 0
-    x: 250
-    y: 515
+    rotation: 0.0
+    x: 250.0
+    y: 515.0
   via_stack_S540_10_LM1_M_ebd1600b_250000_m15000:
     mirror: false
-    rotation: 0
-    x: 250
-    y: -15
+    rotation: 0.0
+    x: 250.0
+    y: -15.0
 ports: {}
 warnings:
   electrical:

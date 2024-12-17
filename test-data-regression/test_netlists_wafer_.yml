@@ -8,13 +8,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__03eef000_m30000000_50000000:
     component: die
     info: {}
@@ -24,13 +24,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__043c635e_m30000000_20000000:
     component: die
     info: {}
@@ -40,13 +40,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__0472b2f3_30000000_40000000:
     component: die
     info: {}
@@ -56,13 +56,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__05f1160f_20000000_10000000:
     component: die
     info: {}
@@ -72,13 +72,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__076ea13c_20000000_50000000:
     component: die
     info: {}
@@ -88,13 +88,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__0c2ea734_20000000_60000000:
     component: die
     info: {}
@@ -104,13 +104,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__11ff90c1_10000000_40000000:
     component: die
     info: {}
@@ -120,13 +120,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__1670ee81_0_60000000:
     component: die
     info: {}
@@ -136,13 +136,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__1a0ca07b_m30000000_30000000:
     component: die
     info: {}
@@ -152,13 +152,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__1ff70ad0_m40000000_40000000:
     component: die
     info: {}
@@ -168,13 +168,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__2e0997df_0_70000000:
     component: die
     info: {}
@@ -184,13 +184,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__3541f110_10000000_50000000:
     component: die
     info: {}
@@ -200,13 +200,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__50dd393c_0_0:
     component: die
     info: {}
@@ -216,13 +216,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__52679ef4_m10000000_60000000:
     component: die
     info: {}
@@ -232,13 +232,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__5cbd3bfb_0_10000000:
     component: die
     info: {}
@@ -248,13 +248,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__5e5dee17_m10000000_40000000:
     component: die
     info: {}
@@ -264,13 +264,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__5f3173a7_20000000_20000000:
     component: die
     info: {}
@@ -280,13 +280,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__61218871_10000000_20000000:
     component: die
     info: {}
@@ -296,13 +296,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__63134e2e_10000000_60000000:
     component: die
     info: {}
@@ -312,13 +312,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__6919964c_m20000000_10000000:
     component: die
     info: {}
@@ -328,13 +328,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__69209640_0_30000000:
     component: die
     info: {}
@@ -344,13 +344,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__6cf628e5_m20000000_50000000:
     component: die
     info: {}
@@ -360,13 +360,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__703d83d4_10000000_10000000:
     component: die
     info: {}
@@ -376,13 +376,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__76fb6550_0_40000000:
     component: die
     info: {}
@@ -392,13 +392,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__78b748de_m20000000_60000000:
     component: die
     info: {}
@@ -408,13 +408,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__7d7b0512_m20000000_20000000:
     component: die
     info: {}
@@ -424,13 +424,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__8546e79d_m10000000_20000000:
     component: die
     info: {}
@@ -440,13 +440,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__878ffc7d_m30000000_40000000:
     component: die
     info: {}
@@ -456,13 +456,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__8ef36291_20000000_30000000:
     component: die
     info: {}
@@ -472,13 +472,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__98beffe1_m30000000_60000000:
     component: die
     info: {}
@@ -488,13 +488,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__9cdab807_m20000000_30000000:
     component: die
     info: {}
@@ -504,13 +504,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__9d8a2ea9_m10000000_50000000:
     component: die
     info: {}
@@ -520,13 +520,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__a433b517_0_20000000:
     component: die
     info: {}
@@ -536,13 +536,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__a78e1fdc_m10000000_70000000:
     component: die
     info: {}
@@ -552,13 +552,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__b4c945ee_m10000000_0:
     component: die
     info: {}
@@ -568,13 +568,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__b8720279_m20000000_40000000:
     component: die
     info: {}
@@ -584,13 +584,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__c09b2810_30000000_30000000:
     component: die
     info: {}
@@ -600,13 +600,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__c53ffe33_m30000000_10000000:
     component: die
     info: {}
@@ -616,13 +616,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__c5938623_20000000_40000000:
     component: die
     info: {}
@@ -632,13 +632,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__ced8053b_m10000000_10000000:
     component: die
     info: {}
@@ -648,13 +648,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__efc61ecb_0_50000000:
     component: die
     info: {}
@@ -664,13 +664,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__f957c20b_m10000000_30000000:
     component: die
     info: {}
@@ -680,13 +680,13 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
   die_S10000_10000_SW100__fdbc9357_m40000000_30000000:
     component: die
     info: {}
@@ -696,234 +696,234 @@ instances:
       draw_corners: false
       layer: FLOORPLAN
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text: text
       text_location: SW
-      text_size: 100
+      text_size: 100.0
 name: wafer_Rdie_C2_6_6_8_8_6_ad04a226
 nets: []
 placements:
   die_S10000_10000_SW100__01fc4f65_10000000_30000000:
     mirror: false
-    rotation: 0
-    x: 10000
-    y: 30000
+    rotation: 0.0
+    x: 10000.0
+    y: 30000.0
   die_S10000_10000_SW100__03eef000_m30000000_50000000:
     mirror: false
-    rotation: 0
-    x: -30000
-    y: 50000
+    rotation: 0.0
+    x: -30000.0
+    y: 50000.0
   die_S10000_10000_SW100__043c635e_m30000000_20000000:
     mirror: false
-    rotation: 0
-    x: -30000
-    y: 20000
+    rotation: 0.0
+    x: -30000.0
+    y: 20000.0
   die_S10000_10000_SW100__0472b2f3_30000000_40000000:
     mirror: false
-    rotation: 0
-    x: 30000
-    y: 40000
+    rotation: 0.0
+    x: 30000.0
+    y: 40000.0
   die_S10000_10000_SW100__05f1160f_20000000_10000000:
     mirror: false
-    rotation: 0
-    x: 20000
-    y: 10000
+    rotation: 0.0
+    x: 20000.0
+    y: 10000.0
   die_S10000_10000_SW100__076ea13c_20000000_50000000:
     mirror: false
-    rotation: 0
-    x: 20000
-    y: 50000
+    rotation: 0.0
+    x: 20000.0
+    y: 50000.0
   die_S10000_10000_SW100__0c2ea734_20000000_60000000:
     mirror: false
-    rotation: 0
-    x: 20000
-    y: 60000
+    rotation: 0.0
+    x: 20000.0
+    y: 60000.0
   die_S10000_10000_SW100__11ff90c1_10000000_40000000:
     mirror: false
-    rotation: 0
-    x: 10000
-    y: 40000
+    rotation: 0.0
+    x: 10000.0
+    y: 40000.0
   die_S10000_10000_SW100__1670ee81_0_60000000:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 60000
+    rotation: 0.0
+    x: 0.0
+    y: 60000.0
   die_S10000_10000_SW100__1a0ca07b_m30000000_30000000:
     mirror: false
-    rotation: 0
-    x: -30000
-    y: 30000
+    rotation: 0.0
+    x: -30000.0
+    y: 30000.0
   die_S10000_10000_SW100__1ff70ad0_m40000000_40000000:
     mirror: false
-    rotation: 0
-    x: -40000
-    y: 40000
+    rotation: 0.0
+    x: -40000.0
+    y: 40000.0
   die_S10000_10000_SW100__2e0997df_0_70000000:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 70000
+    rotation: 0.0
+    x: 0.0
+    y: 70000.0
   die_S10000_10000_SW100__3541f110_10000000_50000000:
     mirror: false
-    rotation: 0
-    x: 10000
-    y: 50000
+    rotation: 0.0
+    x: 10000.0
+    y: 50000.0
   die_S10000_10000_SW100__50dd393c_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
   die_S10000_10000_SW100__52679ef4_m10000000_60000000:
     mirror: false
-    rotation: 0
-    x: -10000
-    y: 60000
+    rotation: 0.0
+    x: -10000.0
+    y: 60000.0
   die_S10000_10000_SW100__5cbd3bfb_0_10000000:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 10000
+    rotation: 0.0
+    x: 0.0
+    y: 10000.0
   die_S10000_10000_SW100__5e5dee17_m10000000_40000000:
     mirror: false
-    rotation: 0
-    x: -10000
-    y: 40000
+    rotation: 0.0
+    x: -10000.0
+    y: 40000.0
   die_S10000_10000_SW100__5f3173a7_20000000_20000000:
     mirror: false
-    rotation: 0
-    x: 20000
-    y: 20000
+    rotation: 0.0
+    x: 20000.0
+    y: 20000.0
   die_S10000_10000_SW100__61218871_10000000_20000000:
     mirror: false
-    rotation: 0
-    x: 10000
-    y: 20000
+    rotation: 0.0
+    x: 10000.0
+    y: 20000.0
   die_S10000_10000_SW100__63134e2e_10000000_60000000:
     mirror: false
-    rotation: 0
-    x: 10000
-    y: 60000
+    rotation: 0.0
+    x: 10000.0
+    y: 60000.0
   die_S10000_10000_SW100__6919964c_m20000000_10000000:
     mirror: false
-    rotation: 0
-    x: -20000
-    y: 10000
+    rotation: 0.0
+    x: -20000.0
+    y: 10000.0
   die_S10000_10000_SW100__69209640_0_30000000:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 30000
+    rotation: 0.0
+    x: 0.0
+    y: 30000.0
   die_S10000_10000_SW100__6cf628e5_m20000000_50000000:
     mirror: false
-    rotation: 0
-    x: -20000
-    y: 50000
+    rotation: 0.0
+    x: -20000.0
+    y: 50000.0
   die_S10000_10000_SW100__703d83d4_10000000_10000000:
     mirror: false
-    rotation: 0
-    x: 10000
-    y: 10000
+    rotation: 0.0
+    x: 10000.0
+    y: 10000.0
   die_S10000_10000_SW100__76fb6550_0_40000000:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 40000
+    rotation: 0.0
+    x: 0.0
+    y: 40000.0
   die_S10000_10000_SW100__78b748de_m20000000_60000000:
     mirror: false
-    rotation: 0
-    x: -20000
-    y: 60000
+    rotation: 0.0
+    x: -20000.0
+    y: 60000.0
   die_S10000_10000_SW100__7d7b0512_m20000000_20000000:
     mirror: false
-    rotation: 0
-    x: -20000
-    y: 20000
+    rotation: 0.0
+    x: -20000.0
+    y: 20000.0
   die_S10000_10000_SW100__8546e79d_m10000000_20000000:
     mirror: false
-    rotation: 0
-    x: -10000
-    y: 20000
+    rotation: 0.0
+    x: -10000.0
+    y: 20000.0
   die_S10000_10000_SW100__878ffc7d_m30000000_40000000:
     mirror: false
-    rotation: 0
-    x: -30000
-    y: 40000
+    rotation: 0.0
+    x: -30000.0
+    y: 40000.0
   die_S10000_10000_SW100__8ef36291_20000000_30000000:
     mirror: false
-    rotation: 0
-    x: 20000
-    y: 30000
+    rotation: 0.0
+    x: 20000.0
+    y: 30000.0
   die_S10000_10000_SW100__98beffe1_m30000000_60000000:
     mirror: false
-    rotation: 0
-    x: -30000
-    y: 60000
+    rotation: 0.0
+    x: -30000.0
+    y: 60000.0
   die_S10000_10000_SW100__9cdab807_m20000000_30000000:
     mirror: false
-    rotation: 0
-    x: -20000
-    y: 30000
+    rotation: 0.0
+    x: -20000.0
+    y: 30000.0
   die_S10000_10000_SW100__9d8a2ea9_m10000000_50000000:
     mirror: false
-    rotation: 0
-    x: -10000
-    y: 50000
+    rotation: 0.0
+    x: -10000.0
+    y: 50000.0
   die_S10000_10000_SW100__a433b517_0_20000000:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 20000
+    rotation: 0.0
+    x: 0.0
+    y: 20000.0
   die_S10000_10000_SW100__a78e1fdc_m10000000_70000000:
     mirror: false
-    rotation: 0
-    x: -10000
-    y: 70000
+    rotation: 0.0
+    x: -10000.0
+    y: 70000.0
   die_S10000_10000_SW100__b4c945ee_m10000000_0:
     mirror: false
-    rotation: 0
-    x: -10000
-    y: 0
+    rotation: 0.0
+    x: -10000.0
+    y: 0.0
   die_S10000_10000_SW100__b8720279_m20000000_40000000:
     mirror: false
-    rotation: 0
-    x: -20000
-    y: 40000
+    rotation: 0.0
+    x: -20000.0
+    y: 40000.0
   die_S10000_10000_SW100__c09b2810_30000000_30000000:
     mirror: false
-    rotation: 0
-    x: 30000
-    y: 30000
+    rotation: 0.0
+    x: 30000.0
+    y: 30000.0
   die_S10000_10000_SW100__c53ffe33_m30000000_10000000:
     mirror: false
-    rotation: 0
-    x: -30000
-    y: 10000
+    rotation: 0.0
+    x: -30000.0
+    y: 10000.0
   die_S10000_10000_SW100__c5938623_20000000_40000000:
     mirror: false
-    rotation: 0
-    x: 20000
-    y: 40000
+    rotation: 0.0
+    x: 20000.0
+    y: 40000.0
   die_S10000_10000_SW100__ced8053b_m10000000_10000000:
     mirror: false
-    rotation: 0
-    x: -10000
-    y: 10000
+    rotation: 0.0
+    x: -10000.0
+    y: 10000.0
   die_S10000_10000_SW100__efc61ecb_0_50000000:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 50000
+    rotation: 0.0
+    x: 0.0
+    y: 50000.0
   die_S10000_10000_SW100__f957c20b_m10000000_30000000:
     mirror: false
-    rotation: 0
-    x: -10000
-    y: 30000
+    rotation: 0.0
+    x: -10000.0
+    y: 30000.0
   die_S10000_10000_SW100__fdbc9357_m40000000_30000000:
     mirror: false
-    rotation: 0
-    x: -40000
-    y: 30000
+    rotation: 0.0
+    x: -40000.0
+    y: 30000.0
 ports: {}

@@ -3,13 +3,13 @@ name: pad_array_Ppad_SNone_C6_fa910346
 settings:
   auto_rename_ports: false
   centered_ports: false
-  column_pitch: 150
+  column_pitch: 150.0
   columns: 6
   layer: MTOP
   pad: pad
   port_orientation: 270
-  row_pitch: 150
+  row_pitch: 150.0
   rows: 1
   size:
-  - 100
-  - 100
+  - 100.0
+  - 100.0

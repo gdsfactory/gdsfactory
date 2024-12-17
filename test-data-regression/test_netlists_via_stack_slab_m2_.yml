@@ -5,7 +5,7 @@ instances:
     settings:
       auto_rename_ports: true
       layer: M1
-      port_inclusion: 0
+      port_inclusion: 0.0
       port_orientations:
       - 180
       - 90
@@ -13,15 +13,15 @@ instances:
       - -90
       port_type: null
       size:
-      - 11
-      - 11
+      - 11.0
+      - 11.0
   compass_S11_11_LM2_PTel_05df260f_0_0:
     component: compass
     info: {}
     settings:
       auto_rename_ports: false
       layer: M2
-      port_inclusion: 0
+      port_inclusion: 0.0
       port_orientations:
       - 180
       - 90
@@ -29,15 +29,15 @@ instances:
       - -90
       port_type: electrical
       size:
-      - 11
-      - 11
+      - 11.0
+      - 11.0
   compass_S11_11_LSLAB90__a8eca2c4_0_0:
     component: compass
     info: {}
     settings:
       auto_rename_ports: true
       layer: SLAB90
-      port_inclusion: 0
+      port_inclusion: 0.0
       port_orientations:
       - 180
       - 90
@@ -45,18 +45,18 @@ instances:
       - -90
       port_type: null
       size:
-      - 11
-      - 11
+      - 11.0
+      - 11.0
   via_S0p7_0p7_SNone_GNon_9f66867f_m4000_m4000:
     array:
-      column_pitch: 2
+      column_pitch: 2.0
       columns: 5
-      row_pitch: 2
+      row_pitch: 2.0
       rows: 5
     component: via
     info:
       column_pitch: 2
-      enclosure: 1
+      enclosure: 1.0
       row_pitch: 2
       xsize: 0.7
       ysize: 0.7
@@ -65,7 +65,7 @@ instances:
       bbox_offset: 0
       bbox_offsets: null
       column_pitch: null
-      enclosure: 1
+      enclosure: 1.0
       gap: null
       layer: VIAC
       pitch: 2
@@ -76,9 +76,9 @@ instances:
       spacing: null
   via_S0p7_0p7_SNone_GNon_d0c93b95_m3000_m3000:
     array:
-      column_pitch: 2
+      column_pitch: 2.0
       columns: 4
-      row_pitch: 2
+      row_pitch: 2.0
       rows: 4
     component: via
     info:
@@ -106,29 +106,29 @@ nets: []
 placements:
   compass_S11_11_LM1_PTNo_32b23b4d_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
   compass_S11_11_LM2_PTel_05df260f_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
   compass_S11_11_LSLAB90__a8eca2c4_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
   via_S0p7_0p7_SNone_GNon_9f66867f_m4000_m4000:
     mirror: false
-    rotation: 0
-    x: -4
-    y: -4
+    rotation: 0.0
+    x: -4.0
+    y: -4.0
   via_S0p7_0p7_SNone_GNon_d0c93b95_m3000_m3000:
     mirror: false
-    rotation: 0
-    x: -3
-    y: -3
+    rotation: 0.0
+    x: -3.0
+    y: -3.0
 ports:
   e1: compass_S11_11_LM2_PTel_05df260f_0_0,e1
   e2: compass_S11_11_LM2_PTel_05df260f_0_0,e2
