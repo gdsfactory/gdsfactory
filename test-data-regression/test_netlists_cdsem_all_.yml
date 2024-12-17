@@ -32,7 +32,7 @@ instances:
       radius: 10.0
       straight: straight
       text: text_rectangular
-      text_size: 1
+      text_size: 1.0
       wg_length: 420.0
       width: 0.5
   cdsem_bend180_W0p6_R10__a9bb6f05_430000_131650:
