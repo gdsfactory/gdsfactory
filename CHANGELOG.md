@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.26.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.26.1) - 2024-12-16
+
+No significant changes.
+
+
 ## [8.26.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.26.0) - 2024-12-15
 
 - Add A* routing [#3495](https://github.com/gdsfactory/gdsfactory/pull/3495)
