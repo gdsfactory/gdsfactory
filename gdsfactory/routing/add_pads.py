@@ -28,7 +28,7 @@ def add_pads_bot(
     pad: ComponentSpec = "pad_rectangular",
     bend: ComponentSpec = "wire_corner",
     straight_separation: float = 15.0,
-    pad_pitch: float | str = "pad_pitch",
+    pad_pitch: float = 100.0,
     port_type: str = "electrical",
     allow_width_mismatch: bool = True,
     fanout_length: float | None = 0,
@@ -104,7 +104,6 @@ def add_pads_bot(
     component_new = Component()
     component = gf.get_component(component)
 
-    pad_pitch = gf.get_constant(pad_pitch)
     cref = component_new << component
     ports = [cref[port_name] for port_name in port_names] if port_names else None
     ports_list: Sequence[kf.Port] = ports or select_ports(cref.ports)
@@ -126,8 +125,6 @@ def add_pads_bot(
         raise ValueError(
             f"select_ports or port_names did not match any ports in {list(component.ports)}"
         )
-
-    assert isinstance(pad_pitch, float)
 
     route_fiber_array(
         component_new,
@@ -164,7 +161,7 @@ def add_pads_top(
     pad: ComponentSpec = "pad_rectangular",
     bend: ComponentSpec = "wire_corner",
     straight_separation: float = 15.0,
-    pad_pitch: float | str = "pad_pitch",
+    pad_pitch: float = 100.0,
     port_type: str = "electrical",
     allow_width_mismatch: bool = True,
     fanout_length: float | None = 0,
