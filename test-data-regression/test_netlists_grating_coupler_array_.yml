@@ -158,28 +158,10 @@ placements:
     rotation: 270
     x: -63.5
     y: 0
-ports: {}
-warnings:
-  optical:
-    unconnected_ports:
-    - message: 6 unconnected optical ports!
-      ports:
-      - grating_coupler_ellipti_07e69d9a_m317500_0,o1
-      - grating_coupler_ellipti_07e69d9a_m190500_0,o1
-      - grating_coupler_ellipti_07e69d9a_m63500_0,o1
-      - grating_coupler_ellipti_07e69d9a_63500_0,o1
-      - grating_coupler_ellipti_07e69d9a_190500_0,o1
-      - grating_coupler_ellipti_07e69d9a_317500_0,o1
-      values:
-      - - -317500
-        - 0
-      - - -190500
-        - 0
-      - - -63500
-        - 0
-      - - 63500
-        - 0
-      - - 190500
-        - 0
-      - - 317500
-        - 0
+ports:
+  o0: grating_coupler_ellipti_07e69d9a_m317500_0,o1
+  o1: grating_coupler_ellipti_07e69d9a_m190500_0,o1
+  o2: grating_coupler_ellipti_07e69d9a_m63500_0,o1
+  o3: grating_coupler_ellipti_07e69d9a_63500_0,o1
+  o4: grating_coupler_ellipti_07e69d9a_190500_0,o1
+  o5: grating_coupler_ellipti_07e69d9a_317500_0,o1
