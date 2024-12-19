@@ -1,7 +1,18 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.26.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.26.1...main)
 
 <!-- towncrier release notes start -->
+
+## [8.26.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.26.1) - 2024-12-16
+
+- Add via circular pitch [#3508](https://github.com/gdsfactory/gdsfactory/pull/3508)
+- fix python3.10 [#3505](https://github.com/gdsfactory/gdsfactory/pull/3505)
+- fix FileWatcher [#3503](https://github.com/gdsfactory/gdsfactory/pull/3503)
+- Fix metal routing docstrings [#3506](https://github.com/gdsfactory/gdsfactory/pull/3506)
+- Improve docs [#3504](https://github.com/gdsfactory/gdsfactory/pull/3504)
+- Update dev command in Makefile [#3507](https://github.com/gdsfactory/gdsfactory/pull/3507)
+- Refactor all warnings deprecation warnings to use deprecate function [#3501](https://github.com/gdsfactory/gdsfactory/pull/3501)
+- [pre-commit.ci] pre-commit autoupdate [#3502](https://github.com/gdsfactory/gdsfactory/pull/3502)
 
 ## [8.26.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.26.0) - 2024-12-15
 
@@ -10,11 +21,9 @@
 - Better docs [#3498](https://github.com/gdsfactory/gdsfactory/pull/3498)
 - Fix mypy errors [#3493](https://github.com/gdsfactory/gdsfactory/pull/3493)
 
-
 ## [8.25.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.25.2) - 2024-12-12
 
 - support different column_pitch and row_pitch for vias [#3490](https://github.com/gdsfactory/gdsfactory/pull/3490)
-
 
 ## [8.25.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.25.1) - 2024-12-12
 

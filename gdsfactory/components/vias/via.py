@@ -96,6 +96,8 @@ def via_circular(
     enclosure: float = 1.0,
     layer: LayerSpec = "VIAC",
     pitch: float | None = 2,
+    column_pitch: float | None = None,
+    row_pitch: float | None = None,
 ) -> Component:
     """Circular via.
 
@@ -104,10 +106,16 @@ def via_circular(
         enclosure: inclusion of via in um for the layer above.
         layer: via layer.
         pitch: pitch between vias.
+        column_pitch: Optional pitch between columns of vias. Default is pitch.
+        row_pitch: Optional pitch between rows of vias. Default is pitch.
     """
     c = Component()
     _ = c << gf.c.circle(radius=radius, layer=layer)
-    c.info["pitch"] = pitch
+    row_pitch = row_pitch or pitch
+    column_pitch = column_pitch or pitch
+
+    c.info["row_pitch"] = row_pitch
+    c.info["column_pitch"] = column_pitch
     c.info["enclosure"] = enclosure
     c.info["radius"] = radius
     c.info["xsize"] = 2 * radius
