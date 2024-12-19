@@ -56,7 +56,7 @@ instances:
       cross_section_bend: null
       gap: 0.2
       length_extension: 3
-      length_x: 4
+      length_x: 4.0
       radius: 5.0
       straight: straight
   straight_L10_N2_CSstrip_WNone_5000_15700:
