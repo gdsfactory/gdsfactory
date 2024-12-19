@@ -11,6 +11,6 @@ settings:
   pad_pitch: 100
   pad_port_name: e4
   pad_size:
-  - 50.0
-  - 50.0
+  - 50
+  - 50
   width: 10

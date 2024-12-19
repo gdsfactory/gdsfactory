@@ -5,8 +5,8 @@ settings:
   layer: WG
   line_spacing: 10
   line_widths:
-  - 1.0
-  - 2.0
-  - 4.0
-  - 8.0
-  - 16.0
+  - 1
+  - 2
+  - 4
+  - 8
+  - 16

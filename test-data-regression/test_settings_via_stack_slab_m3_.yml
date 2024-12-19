@@ -1,6 +1,6 @@
 info:
-  xsize: 11.0
-  ysize: 11.0
+  xsize: 11
+  ysize: 11
 name: via_stack_S11_11_LSLAB9_a891ac05
 settings:
   correct_size: 1
@@ -15,8 +15,8 @@ settings:
   - 0
   - -90
   size:
-  - 11.0
-  - 11.0
+  - 11
+  - 11
   slot_horizontal: 0
   slot_vertical: 0
   vias:

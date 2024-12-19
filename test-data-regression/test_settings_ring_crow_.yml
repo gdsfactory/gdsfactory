@@ -13,9 +13,9 @@ settings:
   - 0
   - 0
   radius:
-  - 10.0
-  - 10.0
-  - 10.0
+  - 10
+  - 10
+  - 10
   ring_cross_sections:
   - strip
   - strip

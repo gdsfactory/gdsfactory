@@ -1,6 +1,6 @@
 info:
   length: 1000.001
-  straight_length: 66.29206301108277
+  straight_length: 66.292
 name: spiral_racetrack_fixed__e95fe6cc
 settings:
   bend_factory: bend_euler

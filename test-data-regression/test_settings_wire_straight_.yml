@@ -1,10 +1,10 @@
 info:
-  length: 10.0
-  route_info_length: 10.0
-  route_info_metal_routing_length: 10.0
+  length: 10
+  route_info_length: 10
+  route_info_metal_routing_length: 10
   route_info_type: metal_routing
-  route_info_weight: 10.0
-  width: 10.0
+  route_info_weight: 10
+  width: 10
 name: wire_straight_L10_N2_CS_ffb2e64f
 settings:
   cross_section: metal_routing

@@ -1,8 +1,8 @@
 info:
-  length: 10.0
+  length: 10
   size:
-  - 10.0
-  - 10.0
+  - 10
+  - 10
 name: via_corner_CSmetal2_0_1_37dda7c7
 settings:
   cross_section:

@@ -8,5 +8,5 @@ settings:
   length: 30
   via_stack: via_stack_npp_m1
   widths:
-  - 2.0
-  - 3.0
+  - 2
+  - 3

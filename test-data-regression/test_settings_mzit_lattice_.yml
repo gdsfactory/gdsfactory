@@ -5,8 +5,8 @@ settings:
   - 0.2
   - 0.3
   coupler_lengths:
-  - 10.0
-  - 20.0
+  - 10
+  - 20
   delta_lengths:
-  - 10.0
+  - 10
   mzi: mzit

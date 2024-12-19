@@ -12,6 +12,6 @@ settings:
   pad: pad
   pad_pitch: 300
   size:
-  - 11470.0
-  - 4900.0
+  - 11470
+  - 4900
   with_loopback: 1

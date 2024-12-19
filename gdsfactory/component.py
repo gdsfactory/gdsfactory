@@ -50,7 +50,7 @@ def normalize_values(data: Any) -> Any:
     """Recursively normalize values to ensure consistent serialization."""
     if isinstance(data, dict):
         return {k: normalize_values(v) for k, v in data.items()}
-    elif isinstance(data, list):
+    elif isinstance(data, list | tuple):
         return [normalize_values(v) for v in data]
     elif isinstance(data, float):
         if int(data) == data:
@@ -1172,12 +1172,14 @@ class ComponentBase:
     ) -> dict[str, Any]:
         """Returns a dictionary representation of the Component."""
         settings = clean_value_json(self.settings.model_dump(exclude_none=True))
+        info = self.info.model_dump(exclude_none=True)
         if normalize:
             settings = normalize_values(settings)
+            info = normalize_values(info)
 
         d = {
             "name": self.name,
-            "info": self.info.model_dump(exclude_none=True),
+            "info": info,
             "settings": settings,
         }
         if with_ports:

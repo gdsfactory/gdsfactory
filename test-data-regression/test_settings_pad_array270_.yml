@@ -11,5 +11,5 @@ settings:
   row_pitch: 150
   rows: 1
   size:
-  - 100.0
-  - 100.0
+  - 100
+  - 100

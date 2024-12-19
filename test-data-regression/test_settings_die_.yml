@@ -6,8 +6,8 @@ settings:
   draw_corners: 0
   layer: FLOORPLAN
   size:
-  - 10000.0
-  - 10000.0
+  - 10000
+  - 10000
   street_length: 1000
   street_width: 100
   text: text
