@@ -44,7 +44,7 @@ def grating_coupler_array(
         gc.dx = (i - (n - 1) / 2) * pitch if centered else i * pitch
         port_name_new = f"o{i}"
         ports[port_name_new] = gc.ports[port_name]
-        if with_loopback and i not in [0, n - 1]:
+        if not with_loopback or i not in [0, n - 1]:
             c.add_port(port=gc.ports[port_name], name=port_name_new)
 
     if with_loopback:
@@ -86,7 +86,7 @@ def grating_coupler_array(
 
 if __name__ == "__main__":
     c = grating_coupler_array(
-        with_loopback=True, centered=True, cross_section="rib_bbox"
+        with_loopback=False, centered=True, cross_section="rib_bbox", n=2
     )
     c.pprint_ports()
     c.show()
