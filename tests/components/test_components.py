@@ -41,7 +41,7 @@ def test_gds(component_name: str) -> None:
 def test_settings(component_name: str, data_regression: DataRegressionFixture) -> None:
     """Avoid regressions when exporting settings."""
     component = cells[component_name]()
-    data_regression.check(component.to_dict(), round_digits=3)
+    data_regression.check(component.to_dict())
 
 
 if __name__ == "__main__":
