@@ -33,7 +33,7 @@ from typing import Literal
 import kfactory as kf
 from kfactory.routing.electrical import route_elec
 from kfactory.routing.generic import ManhattanRoute
-from kfactory.routing.optical import place90, route
+from kfactory.routing.optical import place90
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -177,17 +177,45 @@ def route_single(
         else:
             w = waypoints_list  # type: ignore
 
-        return place90(
-            component,
-            p1=p1,
-            p2=p2,
-            straight_factory=straight_dbu,
-            bend90_cell=bend90,
-            pts=w,
-            port_type=port_type,
-            allow_width_mismatch=allow_width_mismatch,
-            route_width=route_width,
-        )
+        try:
+            route = place90(
+                component,
+                p1=p1,
+                p2=p2,
+                straight_factory=straight_dbu,
+                bend90_cell=bend90,
+                pts=w,
+                port_type=port_type,
+                allow_width_mismatch=allow_width_mismatch,
+                route_width=route_width,
+            )
+        except Exception as e:
+            # error_route((ps, pe, router.start.pts, router.width))
+            ps = p1
+            pe = p2
+            c = component
+            pts = w
+            db = kf.rdb.ReportDatabase("Route Placing Errors")
+            cell = db.create_cell(
+                c.name
+                if not c.name.startswith("Unnamed_")
+                else c.kcl.future_cell_name or c.name
+            )
+            cat = db.create_category(f"{ps.name} - {pe.name}")
+            it = db.create_item(cell=cell, category=cat)
+            it.add_value(
+                f"Error while trying to place route from {ps.name} to {pe.name} at"
+                f" points (dbu): {pts}"
+            )
+            it.add_value(f"Exception: {e}")
+            path = kf.kdb.Path(pts, route_width or ps.width)
+            it.add_value(c.kcl.to_um(path.polygon()))
+            c.show(lyrdb=db)
+            raise kf.routing.generic.PlacerError(
+                f"Error while trying to place route from {ps.name} to {pe.name} at"
+                f" points (dbu): {pts}"
+            ) from e
+        return route
 
     else:
         return route(
