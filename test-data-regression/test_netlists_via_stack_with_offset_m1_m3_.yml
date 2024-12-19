@@ -13,8 +13,8 @@ instances:
       - -90
       port_type: null
       size:
-      - 10.0
-      - 10.0
+      - 10
+      - 10
   compass_S10_10_LM1_PTNo_3d24c742_0_5000:
     component: compass
     info: {}
@@ -53,8 +53,8 @@ instances:
       - -90
       port_type: null
       size:
-      - 10.0
-      - 10.0
+      - 10
+      - 10
   compass_S10_10_LMTOP_PT_aa0a1e19_0_15000:
     component: compass
     info: {}
@@ -85,8 +85,8 @@ instances:
       - -90
       port_type: electrical
       size:
-      - 10.0
-      - 10.0
+      - 10
+      - 10
   via_S0p7_0p7_SNone_GNon_a794b952_m3000_12000:
     array:
       column_pitch: 2.0

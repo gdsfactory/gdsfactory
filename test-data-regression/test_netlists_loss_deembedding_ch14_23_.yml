@@ -242,29 +242,29 @@ instances:
   straight_L40_N2_CSstrip_WNone_0_39529:
     component: straight
     info:
-      length: 40.0
-      route_info_length: 40.0
-      route_info_strip_length: 40.0
+      length: 40
+      route_info_length: 40
+      route_info_strip_length: 40
       route_info_type: strip
-      route_info_weight: 40.0
+      route_info_weight: 40
       width: 0.5
     settings:
       cross_section: strip
-      length: 40.0
+      length: 40
       npoints: 2
       width: null
   straight_L40_N2_CSstrip_WNone_381000_39529:
     component: straight
     info:
-      length: 40.0
-      route_info_length: 40.0
-      route_info_strip_length: 40.0
+      length: 40
+      route_info_length: 40
+      route_info_strip_length: 40
       route_info_type: strip
-      route_info_weight: 40.0
+      route_info_weight: 40
       width: 0.5
     settings:
       cross_section: strip
-      length: 40.0
+      length: 40
       npoints: 2
       width: null
 name: loss_deembedding_ch14_2_017fd216
