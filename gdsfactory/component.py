@@ -53,6 +53,8 @@ def normalize_values(data: Any) -> Any:
     elif isinstance(data, list):
         return [normalize_values(v) for v in data]
     elif isinstance(data, float):
+        if int(data) == data:
+            return int(data)
         return round(data, 3)  # Round floats to 3 decimal places
     elif isinstance(data, int):
         return int(data)  # Ensure ints remain as ints

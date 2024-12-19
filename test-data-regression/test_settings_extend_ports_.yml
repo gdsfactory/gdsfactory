@@ -5,5 +5,5 @@ settings:
   auto_taper: 1
   centered: 0
   component: mmi1x2
-  length: 5.0
+  length: 5
   port_type: optical

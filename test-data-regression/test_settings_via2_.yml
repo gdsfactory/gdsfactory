@@ -7,7 +7,7 @@ info:
 name: via_S0p7_0p7_SNone_GNon_a794b952
 settings:
   bbox_offset: 0
-  enclosure: 1.0
+  enclosure: 1
   layer: VIA2
   pitch: 2
   size:

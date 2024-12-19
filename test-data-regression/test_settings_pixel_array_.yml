@@ -6,5 +6,5 @@ name: 'pixel_array_P
   X____7a08b88d'
 settings:
   layer: M1
-  pixel_size: 10.0
+  pixel_size: 10
   pixels: "\n XXX\nX   X\nXXXXX\nX   X\nX   X\n\n"

@@ -2,11 +2,11 @@ info: {}
 name: ge_detector_straight_si_857c1c1e
 settings:
   cross_section: pn_ge_detector_si_contacts
-  length: 40.0
+  length: 40
   taper_cros_section: strip
-  taper_length: 20.0
+  taper_length: 20
   taper_width: 0.8
   via_stack: via_stack_slab_m3
-  via_stack_offset: 0.0
-  via_stack_spacing: 5.0
-  via_stack_width: 10.0
+  via_stack_offset: 0
+  via_stack_spacing: 5
+  via_stack_width: 10

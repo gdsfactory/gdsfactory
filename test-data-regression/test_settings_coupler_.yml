@@ -5,7 +5,7 @@ name: coupler_G0p236_L20_D4_D_83b94450
 settings:
   allow_min_radius_violation: 0
   cross_section: strip
-  dx: 10.0
-  dy: 4.0
+  dx: 10
+  dy: 4
   gap: 0.236
-  length: 20.0
+  length: 20

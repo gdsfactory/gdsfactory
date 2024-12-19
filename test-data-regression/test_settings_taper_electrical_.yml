@@ -5,7 +5,7 @@ info:
 name: taper_L10_W0p5_WNone_LN_f522d331
 settings:
   cross_section: metal_routing
-  length: 10.0
+  length: 10
   port_names:
   - e1
   - e2

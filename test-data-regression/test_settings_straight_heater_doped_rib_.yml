@@ -4,12 +4,12 @@ settings:
   cross_section: strip_rib_tip
   cross_section_heater: rib_heater_doped
   heater_gap: 0.8
-  heater_width: 2.0
-  length: 320.0
+  heater_width: 2
+  length: 320
   nsections: 3
   taper: taper_cross_section
   via_stack: via_stack_slab_npp_m3
-  via_stack_gap: 0.0
+  via_stack_gap: 0
   via_stack_metal: via_stack_m1_mtop
   via_stack_metal_size:
   - 10.0

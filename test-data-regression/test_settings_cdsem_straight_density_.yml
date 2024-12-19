@@ -14,9 +14,9 @@ settings:
   - 0.3
   - 0.3
   label: ''
-  length: 420.0
+  length: 420
   text: text_rectangular
-  text_size: 1.0
+  text_size: 1
   widths:
   - 0.3
   - 0.3

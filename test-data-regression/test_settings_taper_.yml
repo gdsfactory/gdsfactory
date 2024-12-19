@@ -5,7 +5,7 @@ info:
 name: taper_L10_W0p5_WNone_LN_08b35698
 settings:
   cross_section: strip
-  length: 10.0
+  length: 10
   port_names:
   - o1
   - o2

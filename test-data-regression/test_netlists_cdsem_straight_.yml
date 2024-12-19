@@ -133,7 +133,7 @@ instances:
       position:
       - 0.0
       - 0.0
-      size: 1
+      size: 1.0
       text: '500'
   text_rectangular_T600_S_037e40d7_425000_21000:
     component: text_rectangular

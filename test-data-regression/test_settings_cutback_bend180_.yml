@@ -5,6 +5,6 @@ settings:
   cols: 6
   component: bend_euler180
   rows: 6
-  spacing: 3.0
+  spacing: 3
   straight: straight
-  straight_length: 5.0
+  straight_length: 5

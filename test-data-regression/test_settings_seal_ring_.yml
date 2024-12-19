@@ -1,7 +1,7 @@
 info: {}
 name: seal_ring_S500_500_Svia_d370abe4
 settings:
-  padding: 10.0
+  padding: 10
   seal: via_stack
   size:
   - 500

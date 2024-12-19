@@ -4,7 +4,7 @@ settings:
   bend: bend_circular_all_angle
   bend_output: bend_euler
   coupler_gap: 0.2
-  coupling_angle_coverage: 120.0
+  coupling_angle_coverage: 120
   cross_section_inner: strip
   cross_section_outer: strip
-  radius: 10.0
+  radius: 10

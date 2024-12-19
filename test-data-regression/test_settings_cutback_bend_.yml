@@ -6,4 +6,4 @@ settings:
   component: bend_euler
   rows: 6
   straight: straight
-  straight_length: 5.0
+  straight_length: 5

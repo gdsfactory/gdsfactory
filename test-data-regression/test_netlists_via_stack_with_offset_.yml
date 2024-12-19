@@ -13,8 +13,8 @@ instances:
       - -90
       port_type: null
       size:
-      - 10
-      - 10
+      - 10.0
+      - 10.0
   compass_S10_10_LM1_PTel_d5e6c94d_0_5000:
     component: compass
     info: {}

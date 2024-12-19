@@ -8,5 +8,5 @@ info:
 name: wire_straight_L10_N2_CS_ffb2e64f
 settings:
   cross_section: metal_routing
-  length: 10.0
+  length: 10
   npoints: 2

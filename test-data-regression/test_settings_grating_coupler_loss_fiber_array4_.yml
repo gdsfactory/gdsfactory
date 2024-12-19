@@ -2,4 +2,4 @@ info: {}
 name: grating_coupler_loss_fi_93128db2
 settings:
   grating_coupler: grating_coupler_elliptical_trenches
-  pitch: 127.0
+  pitch: 127

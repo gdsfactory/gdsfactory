@@ -7,7 +7,7 @@ info:
   ysize: 0.7
 name: via_circular_R0p35_E1_L_23e09619
 settings:
-  enclosure: 1.0
+  enclosure: 1
   layer: VIAC
   pitch: 2
   radius: 0.35

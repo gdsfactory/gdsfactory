@@ -2,8 +2,8 @@ info: {}
 name: cdsem_straight_W0p4_0p4_ac74fcb4
 settings:
   cross_section: strip
-  length: 420.0
-  spacing: 7.0
+  length: 420
+  spacing: 7
   text: text_rectangular
   text_size: 1
   widths:

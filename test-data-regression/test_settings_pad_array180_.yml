@@ -3,12 +3,12 @@ name: pad_array_Ppad_SNone_C1_024a62db
 settings:
   auto_rename_ports: 0
   centered_ports: 0
-  column_pitch: 150.0
+  column_pitch: 150
   columns: 1
   layer: MTOP
   pad: pad
   port_orientation: 180
-  row_pitch: 150.0
+  row_pitch: 150
   rows: 3
   size:
   - 100.0

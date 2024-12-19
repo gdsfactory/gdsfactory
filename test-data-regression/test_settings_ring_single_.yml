@@ -5,7 +5,7 @@ settings:
   coupler_ring: coupler_ring
   cross_section: strip
   gap: 0.2
-  length_x: 4.0
+  length_x: 4
   length_y: 0.6
-  radius: 10.0
+  radius: 10
   straight: straight

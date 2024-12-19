@@ -11,4 +11,4 @@ settings:
   gap: 0.3
   heater_vias: Fvia_stack_Mgdsfactorypcomponentspviaspvia_stack_SS0p5_0p5_LM1_M2_VFvia_Mgdsfactorypcomponentspviaspvia_SLVIAC_S0p1_0p1_E0p1_P0p2_Fvia_Mgdsfactorypcomponentspviaspvia_SLVIA1_S0p1_0p1_E0p1_P0p2
   pn_cross_section: Fpn_Mgdsfactorypcross_section_SWD2p425_WS4p85_LVVIAC_WV0p5_LMM1_WM0p5
-  radius: 5.0
+  radius: 5

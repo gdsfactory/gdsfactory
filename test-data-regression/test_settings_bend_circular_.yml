@@ -12,5 +12,5 @@ info:
 name: bend_circular_RNone_A90_35590aa7
 settings:
   allow_min_radius_violation: 0
-  angle: 90.0
+  angle: 90
   cross_section: strip

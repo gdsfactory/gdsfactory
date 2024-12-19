@@ -8,5 +8,5 @@ info:
 name: straight_L10_N2_CSstrip_WNone
 settings:
   cross_section: strip
-  length: 10.0
+  length: 10
   npoints: 2

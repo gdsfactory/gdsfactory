@@ -6,8 +6,8 @@ settings:
   bend: bend_euler
   combiner: mmi2x2
   cross_section: strip
-  delta_length: 10.0
-  length_y: 2.0
+  delta_length: 10
+  length_y: 2
   min_length: 0.01
   mirror_bot: 0
   nbends: 2

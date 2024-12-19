@@ -2,7 +2,7 @@ info: {}
 name: pad_gsg_short_S22_7_LMM_7649c5dc
 settings:
   layer_metal: MTOP
-  metal_spacing: 5.0
+  metal_spacing: 5
   pad: pad
   pad_pitch: 150
   route_xsize: 50

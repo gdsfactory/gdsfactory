@@ -6,7 +6,7 @@ settings:
   - 0.15
   - 0.2
   - 0.25
-  length: 420.0
-  spacing: 7.0
+  length: 420
+  spacing: 7
   text: text_rectangular
-  text_size: 1.0
+  text_size: 1

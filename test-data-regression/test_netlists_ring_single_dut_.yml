@@ -20,7 +20,7 @@ instances:
       layer: null
       npoints: null
       p: 0.5
-      radius: 5
+      radius: 5.0
       width: null
       with_arc_floorplan: true
   bend_euler_R5_A90_P0p5__c7bd5c45_m4000_20700:
@@ -44,7 +44,7 @@ instances:
       layer: null
       npoints: null
       p: 0.5
-      radius: 5
+      radius: 5.0
       width: null
       with_arc_floorplan: true
   coupler_ring_G0p2_R5_LX_ba10ec54_0_0:

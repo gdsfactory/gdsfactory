@@ -1,8 +1,8 @@
 info: {}
 name: align_wafer_W10_S10_CL8_ecd2fcec
 settings:
-  cross_length: 80.0
+  cross_length: 80
   layer: WG
-  spacing: 10.0
+  spacing: 10
   square_corner: bottom_left
-  width: 10.0
+  width: 10
