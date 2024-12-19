@@ -33,7 +33,7 @@ from typing import Literal
 import kfactory as kf
 from kfactory.routing.electrical import route_elec
 from kfactory.routing.generic import ManhattanRoute
-from kfactory.routing.optical import place90
+from kfactory.routing.optical import place90, route
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -178,7 +178,7 @@ def route_single(
             w = waypoints_list  # type: ignore
 
         try:
-            route = place90(
+            return place90(
                 component,
                 p1=p1,
                 p2=p2,
@@ -197,9 +197,9 @@ def route_single(
             pts = w
             db = kf.rdb.ReportDatabase("Route Placing Errors")
             cell = db.create_cell(
-                c.name
-                if not c.name.startswith("Unnamed_")
-                else c.kcl.future_cell_name or c.name
+                c.kcl.future_cell_name or c.name
+                if c.name.startswith("Unnamed_")
+                else c.name
             )
             cat = db.create_category(f"{ps.name} - {pe.name}")
             it = db.create_item(cell=cell, category=cat)
@@ -215,7 +215,6 @@ def route_single(
                 f"Error while trying to place route from {ps.name} to {pe.name} at"
                 f" points (dbu): {pts}"
             ) from e
-        return route
 
     else:
         return route(
