@@ -1,7 +1,7 @@
 info: {}
 name: rectangle_S4_2_LWG_CFal_8c86e425
 settings:
-  centered: false
+  centered: 0
   layer: WG
   port_orientations:
   - 180

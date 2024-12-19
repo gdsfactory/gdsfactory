@@ -1,7 +1,7 @@
 info: {}
 name: rectangles_S4_2_ONone_L_071c19ed
 settings:
-  centered: true
+  centered: 1
   layers:
   - WG
   - SLAB150

@@ -15,4 +15,4 @@ settings:
   via_stack_offset:
   - 1
   - 0
-  with_drop: true
+  with_drop: 1

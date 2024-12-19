@@ -3,7 +3,7 @@ info:
   ysize: 11.0
 name: via_stack_S11_11_LWG_NP_2419ac71
 settings:
-  correct_size: true
+  correct_size: 1
   layers:
   - WG
   - NPP
@@ -16,8 +16,8 @@ settings:
   size:
   - 11.0
   - 11.0
-  slot_horizontal: false
-  slot_vertical: false
+  slot_horizontal: 0
+  slot_vertical: 0
   vias:
   - null
   - null

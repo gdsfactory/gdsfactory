@@ -1,9 +1,9 @@
 info: {}
 name: array_Cpad_SNone_C6_R1__8512fb90
 settings:
-  add_ports: true
-  auto_rename_ports: false
-  centered: false
+  add_ports: 1
+  auto_rename_ports: 0
+  centered: 0
   column_pitch: 150
   columns: 6
   component: pad

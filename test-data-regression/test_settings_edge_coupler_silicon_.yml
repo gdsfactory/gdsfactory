@@ -14,4 +14,4 @@ settings:
   - edge_coupler
   width1: 0.5
   width2: 0.2
-  with_two_ports: true
+  with_two_ports: 1

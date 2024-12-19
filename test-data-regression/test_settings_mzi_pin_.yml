@@ -1,8 +1,8 @@
 info: {}
 name: mzi_DL0_LY2_LX100_Bbend_f9c88a9b
 settings:
-  add_optical_ports_arms: false
-  auto_rename_ports: true
+  add_optical_ports_arms: 0
+  auto_rename_ports: 1
   bend: bend_euler
   cross_section: strip
   cross_section_x_top: pin
@@ -10,7 +10,7 @@ settings:
   length_x: 100
   length_y: 2.0
   min_length: 0.01
-  mirror_bot: false
+  mirror_bot: 0
   nbends: 2
   port1: o1
   port2: o2
@@ -21,4 +21,4 @@ settings:
   splitter: mmi1x2
   straight: straight
   straight_x_top: straight_pin
-  with_splitter: true
+  with_splitter: 1

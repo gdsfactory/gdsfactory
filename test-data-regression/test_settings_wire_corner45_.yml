@@ -4,4 +4,4 @@ name: wire_corner45_CSmetal_r_f85cf683
 settings:
   cross_section: metal_routing
   radius: 10
-  with_corner90_ports: true
+  with_corner90_ports: 1

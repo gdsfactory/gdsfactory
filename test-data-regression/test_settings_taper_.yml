@@ -13,5 +13,5 @@ settings:
   - optical
   - optical
   width1: 0.5
-  with_bbox: true
-  with_two_ports: true
+  with_bbox: 1
+  with_two_ports: 1

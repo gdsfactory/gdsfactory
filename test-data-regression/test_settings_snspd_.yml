@@ -12,7 +12,7 @@ settings:
   size:
   - 10
   - 8
-  terminals_same_side: false
+  terminals_same_side: 0
   turn_ratio: 4
   wire_pitch: 0.6
   wire_width: 0.2

@@ -1,8 +1,8 @@
 info: {}
 name: pad_array_Ppad_SNone_C1_024a62db
 settings:
-  auto_rename_ports: false
-  centered_ports: false
+  auto_rename_ports: 0
+  centered_ports: 0
   column_pitch: 150.0
   columns: 1
   layer: MTOP

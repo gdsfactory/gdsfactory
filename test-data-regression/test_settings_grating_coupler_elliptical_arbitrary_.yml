@@ -20,7 +20,7 @@ settings:
   layer_slab: SLAB150
   nclad: 1.443
   polarization: te
-  spiked: true
+  spiked: 1
   taper_angle: 60.0
   taper_length: 16.6
   taper_to_slab_offset: -3.0

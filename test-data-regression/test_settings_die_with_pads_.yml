@@ -14,4 +14,4 @@ settings:
   size:
   - 11470.0
   - 4900.0
-  with_loopback: true
+  with_loopback: 1

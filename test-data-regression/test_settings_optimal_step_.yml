@@ -9,5 +9,5 @@ settings:
   - 0
   num_pts: 50
   start_width: 10
-  symmetric: false
+  symmetric: 0
   width_tol: 0.001

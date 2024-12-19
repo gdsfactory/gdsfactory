@@ -7,7 +7,7 @@ settings:
   - 500
   - 500
   width: 10
-  with_east: true
-  with_north: true
-  with_south: true
-  with_west: true
+  with_east: 1
+  with_north: 1
+  with_south: 1
+  with_west: 1

@@ -6,7 +6,7 @@ settings:
   pad: pad
   pad_pitch: 150
   route_xsize: 50
-  short: false
+  short: 0
   size:
   - 22
   - 7

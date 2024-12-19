@@ -11,6 +11,6 @@ info:
   width: 0.5
 name: bend_circular_RNone_A18_72bb12de
 settings:
-  allow_min_radius_violation: false
+  allow_min_radius_violation: 0
   angle: 180
   cross_section: strip

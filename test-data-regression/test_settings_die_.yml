@@ -3,7 +3,7 @@ name: die_S10000_10000_SW100__48b1c773
 settings:
   bbox_layer: FLOORPLAN
   die_name: chip99
-  draw_corners: false
+  draw_corners: 0
   layer: FLOORPLAN
   size:
   - 10000.0

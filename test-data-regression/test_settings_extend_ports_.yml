@@ -1,9 +1,9 @@
 info: {}
 name: extend_ports_Cmmi1x2_PN_b9f68e2a
 settings:
-  allow_width_mismatch: false
-  auto_taper: true
-  centered: false
+  allow_width_mismatch: 0
+  auto_taper: 1
+  centered: 0
   component: mmi1x2
   length: 5.0
   port_type: optical

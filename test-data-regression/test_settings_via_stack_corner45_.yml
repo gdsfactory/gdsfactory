@@ -2,7 +2,7 @@ info:
   layer: MTOP
 name: via_stack_corner45_W10__239d9688
 settings:
-  correct_size: true
+  correct_size: 1
   layers:
   - M1
   - M2

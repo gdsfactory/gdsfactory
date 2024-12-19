@@ -15,4 +15,4 @@ settings:
   port_orientation1: 90
   port_orientation2: 90
   via_stack: via_stack_heater_mtop
-  with_undercut: true
+  with_undercut: 1

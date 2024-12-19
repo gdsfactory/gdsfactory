@@ -1,15 +1,15 @@
 info: {}
 name: mzi_DL10_LY2_LXNone_Bbe_845a7ade
 settings:
-  add_optical_ports_arms: false
-  auto_rename_ports: true
+  add_optical_ports_arms: 0
+  auto_rename_ports: 1
   bend: bend_euler
   combiner: mmi2x2
   cross_section: strip
   delta_length: 10.0
   length_y: 2.0
   min_length: 0.01
-  mirror_bot: false
+  mirror_bot: 0
   nbends: 2
   port1: o1
   port2: o2
@@ -19,4 +19,4 @@ settings:
   port_e1_splitter: o3
   splitter: mmi2x2
   straight: straight
-  with_splitter: true
+  with_splitter: 1

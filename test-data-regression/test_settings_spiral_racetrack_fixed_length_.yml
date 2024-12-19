@@ -13,4 +13,4 @@ settings:
   n_bend_points: 99
   n_straight_sections: 8
   straight_factory: straight
-  with_inner_ports: false
+  with_inner_ports: 0

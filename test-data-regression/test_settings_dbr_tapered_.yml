@@ -6,7 +6,7 @@ settings:
   fin_size:
   - 0.2
   - 0.05
-  fins: false
+  fins: 0
   length: 10.0
   period: 0.85
   taper_length: 20.0

@@ -13,4 +13,4 @@ settings:
   length_undercut: 30.0
   length_undercut_spacing: 6.0
   via_stack: via_stack_heater_mtop
-  with_undercut: true
+  with_undercut: 1

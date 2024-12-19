@@ -9,6 +9,6 @@ settings:
   cross_section1: strip_rib_tip
   cross_section2: rib2
   length: 10
-  linear: true
+  linear: 1
   npoints: 2
   width_type: sine

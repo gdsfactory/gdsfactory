@@ -29,8 +29,8 @@ instances:
       - -90
       port_type: electrical
       size:
-      - 10.0
-      - 10.0
+      - 10
+      - 10
   compass_S10_10_LPPP_PTN_93881846_0_5000:
     component: compass
     info: {}

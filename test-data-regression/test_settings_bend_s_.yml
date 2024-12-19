@@ -11,7 +11,7 @@ info:
   start_angle: 0.0
 name: bend_s_S11_1p8_N99_CSst_71d8cbbd
 settings:
-  allow_min_radius_violation: false
+  allow_min_radius_violation: 0
   cross_section: strip
   npoints: 99
   size:

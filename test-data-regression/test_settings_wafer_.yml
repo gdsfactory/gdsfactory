@@ -10,5 +10,5 @@ settings:
   - 6
   - 6
   - 2
-  die_name_col_row: false
+  die_name_col_row: 0
   reticle: die

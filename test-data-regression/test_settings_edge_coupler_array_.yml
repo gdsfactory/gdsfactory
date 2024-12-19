@@ -9,4 +9,4 @@ settings:
   - 10
   - 20
   text_rotation: 0
-  x_reflection: false
+  x_reflection: 0

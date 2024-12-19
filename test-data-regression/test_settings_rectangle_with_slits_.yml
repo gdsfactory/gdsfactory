@@ -1,7 +1,7 @@
 info: {}
 name: rectangle_with_slits_S1_4aa9e4fe
 settings:
-  centered: false
+  centered: 0
   layer: WG
   layer_slit: SLAB150
   size:

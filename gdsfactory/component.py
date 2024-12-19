@@ -46,6 +46,19 @@ if TYPE_CHECKING:
 cell_without_validator = cell
 
 
+def normalize_values(data: Any) -> Any:
+    """Recursively normalize values to ensure consistent serialization."""
+    if isinstance(data, dict):
+        return {k: normalize_values(v) for k, v in data.items()}
+    elif isinstance(data, list):
+        return [normalize_values(v) for v in data]
+    elif isinstance(data, float):
+        return round(data, 3)  # Round floats to 3 decimal places
+    elif isinstance(data, int):
+        return int(data)  # Ensure ints remain as ints
+    return data
+
+
 def ensure_tuple_of_tuples(points: Any) -> tuple[tuple[float, float]]:
     # Convert a single NumPy array to a tuple of tuples
     if isinstance(points, np.ndarray):
@@ -1152,12 +1165,18 @@ class ComponentBase:
         self.remove_layers([layer])
         self.shapes(layer_index).insert(region)
 
-    def to_dict(self, with_ports: bool = False) -> dict[str, Any]:
+    def to_dict(
+        self, with_ports: bool = False, normalize: bool = True
+    ) -> dict[str, Any]:
         """Returns a dictionary representation of the Component."""
+        settings = clean_value_json(self.settings.model_dump(exclude_none=True))
+        if normalize:
+            settings = normalize_values(settings)
+
         d = {
             "name": self.name,
             "info": self.info.model_dump(exclude_none=True),
-            "settings": clean_value_json(self.settings.model_dump(exclude_none=True)),
+            "settings": settings,
         }
         if with_ports:
             d["ports"] = {port.name: to_dict(port) for port in self.ports}

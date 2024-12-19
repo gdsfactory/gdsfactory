@@ -3,7 +3,7 @@ info:
   min_bend_radius: 11.857
 name: coupler_G0p236_L20_D4_D_83b94450
 settings:
-  allow_min_radius_violation: false
+  allow_min_radius_violation: 0
   cross_section: strip
   dx: 10.0
   dy: 4.0

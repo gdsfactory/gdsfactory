@@ -12,8 +12,8 @@ info:
   width: 0.5
 name: bend_euler_RNone_A180_P_a75aec30
 settings:
-  allow_min_radius_violation: false
+  allow_min_radius_violation: 0
   angle: 180
   cross_section: strip
   p: 0.5
-  with_arc_floorplan: true
+  with_arc_floorplan: 1

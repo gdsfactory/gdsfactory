@@ -4,7 +4,7 @@ info:
   length: 15.708
 name: bend_circular_heater_RN_4b4fbbb3
 settings:
-  allow_min_radius_violation: false
+  allow_min_radius_violation: 0
   angle: 90
   cross_section: strip
   heater_to_wg_distance: 1.2

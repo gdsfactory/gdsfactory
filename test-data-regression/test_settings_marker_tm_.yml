@@ -1,7 +1,7 @@
 info: {}
 name: rectangle_S10p4_10p4_LT_f9268553
 settings:
-  centered: true
+  centered: 1
   layer: TM
   port_orientations:
   - 180

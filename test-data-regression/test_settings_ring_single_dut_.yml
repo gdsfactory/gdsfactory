@@ -9,4 +9,4 @@ settings:
   length_y: 0
   port_name: o1
   radius: 5.0
-  with_component: true
+  with_component: 1

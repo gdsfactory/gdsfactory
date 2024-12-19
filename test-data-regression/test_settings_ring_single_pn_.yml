@@ -2,7 +2,7 @@ info: {}
 name: ring_single_pn_G0p3_R5__bb34a99e
 settings:
   cross_section: rib
-  doped_heater: true
+  doped_heater: 1
   doped_heater_angle_buffer: 10
   doped_heater_layer: NPP
   doped_heater_waveguide_offset: 2.175

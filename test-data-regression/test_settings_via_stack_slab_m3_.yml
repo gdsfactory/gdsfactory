@@ -3,7 +3,7 @@ info:
   ysize: 11.0
 name: via_stack_S11_11_LSLAB9_a891ac05
 settings:
-  correct_size: true
+  correct_size: 1
   layers:
   - SLAB90
   - M1
@@ -17,8 +17,8 @@ settings:
   size:
   - 11.0
   - 11.0
-  slot_horizontal: false
-  slot_vertical: false
+  slot_horizontal: 0
+  slot_vertical: 0
   vias:
   - viac
   - via1
