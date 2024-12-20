@@ -1,6 +1,8 @@
 # Installation
 
-We support Python 3.10, 3.11 and 3.12, and recommend [VSCode](https://code.visualstudio.com/) IDE and UV.
+We support Python 3.10, 3.11, 3.12 and 3.13, and recommend [VSCode](https://code.visualstudio.com/) IDE and UV.
+
+However we recommend python3.11 or 3.12 as some extensions may not work on python3.13 yet.
 
 ## Installation for users
 
@@ -34,7 +36,7 @@ powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | ie
 Then you can install gdsfactory with:
 
 ```bash
-uv venv --python 3.11
+uv venv --python 3.12
 uv sync --extra docs --extra dev
 ```
 
@@ -53,7 +55,7 @@ The following lines will:
 git clone git@github.com:YourUserName/gdsfactory.git
 cd gdsfactory
 git clone https://github.com/gdsfactory/gdsfactory-test-data.git -b test_klayout test-data-gds
-uv venv --python 3.11
+uv venv --python 3.12
 uv sync --extra docs --extra dev
 uv run pre-commit install
 ```
