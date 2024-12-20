@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.26.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.26.2) - 2024-12-19
+
+No significant changes.
+
+
 ## [8.26.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.26.1) - 2024-12-16
 
 - Add via circular pitch [#3508](https://github.com/gdsfactory/gdsfactory/pull/3508)
