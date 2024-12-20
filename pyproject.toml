@@ -42,7 +42,7 @@ dependencies = [
   "ipykernel",
   "attrs",
   "graphviz",
-  "pyglet<3",
+  "pyglet<2",
   "pytest-only>=2.1.2",
   "typing-extensions"
 ]
