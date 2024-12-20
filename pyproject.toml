@@ -10,6 +10,7 @@ classifiers = [
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
   "Operating System :: OS Independent"
 ]
 dependencies = [
@@ -41,7 +42,7 @@ dependencies = [
   "ipykernel",
   "attrs",
   "graphviz",
-  "pyglet<3",
+  "pyglet<2",
   "pytest-only>=2.1.2",
   "typing-extensions"
 ]
@@ -50,7 +51,7 @@ keywords = ["eda", "photonics", "python"]
 license = {file = "LICENSE"}
 name = "gdsfactory"
 readme = "README.md"
-requires-python = ">=3.10,<3.13"
+requires-python = ">=3.10,<3.14"
 version = "8.26.1"
 
 [project.optional-dependencies]
