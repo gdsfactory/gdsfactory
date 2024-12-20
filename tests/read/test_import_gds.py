@@ -9,6 +9,7 @@ from pytest_regressions.data_regression import DataRegressionFixture
 import gdsfactory as gf
 from gdsfactory.generic_tech.layer_map import LAYER
 from gdsfactory.read.import_gds import import_gds
+from gdsfactory.serialization import clean_value_json
 
 
 def test_import_gds_info() -> None:
@@ -43,6 +44,7 @@ def test_import_json_label(data_regression: DataRegressionFixture) -> None:
     df = pd.read_csv(csvpath)
     settings = json.loads(df.iloc[0].text)
     if data_regression:
+        settings = clean_value_json(settings)
         data_regression.check(settings)
 
 
