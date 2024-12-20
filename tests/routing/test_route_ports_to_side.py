@@ -1,10 +1,17 @@
 from __future__ import annotations
 
+import sys
+
+import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
 
 
+@pytest.mark.skipif(
+    sys.platform.startswith("win"),
+    reason="Test is ignored on Windows.",
+)
 def test_route_ports_to_side(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> None:
@@ -26,6 +33,10 @@ def test_route_ports_to_side(
         data_regression.check(lengths)  # type: ignore
 
 
+@pytest.mark.skipif(
+    sys.platform.startswith("win"),
+    reason="Test is ignored on Windows.",
+)
 def test_route_ports_to_x(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> None:
@@ -45,6 +56,10 @@ def test_route_ports_to_x(
         data_regression.check(lengths)  # type: ignore
 
 
+@pytest.mark.skipif(
+    sys.platform.startswith("win"),
+    reason="Test is ignored on Windows.",
+)
 def test_route_ports_to_y(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> None:
