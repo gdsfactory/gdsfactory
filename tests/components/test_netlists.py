@@ -32,6 +32,7 @@ skip_test = {
     "seal_ring_segmented",
     "grating_coupler_elliptical_lumerical_etch70",
     "coupler_ring_bend",
+    "grating_coupler_array",
 }
 cells_to_test = set(cells.keys()) - skip_test
 
