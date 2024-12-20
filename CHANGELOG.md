@@ -1,12 +1,18 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.26.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.26.2...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.26.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.26.2) - 2024-12-19
 
-No significant changes.
-
+- fix tests [#3515](https://github.com/gdsfactory/gdsfactory/pull/3515)
+- Fix grating coupler array ports [#3513](https://github.com/gdsfactory/gdsfactory/pull/3513)
+- Remove terminated ports from gc array [#3510](https://github.com/gdsfactory/gdsfactory/pull/3510)
+- faster uv setup [#3516](https://github.com/gdsfactory/gdsfactory/pull/3516)
+- allow python3.13 [#3517](https://github.com/gdsfactory/gdsfactory/pull/3517)
+- improve routing docs [#3509](https://github.com/gdsfactory/gdsfactory/pull/3509)
+- pass pad pitch as float [#3511](https://github.com/gdsfactory/gdsfactory/pull/3511)
+- update kfactory to 0.22.0 [#3514](https://github.com/gdsfactory/gdsfactory/pull/3514)
 
 ## [8.26.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.26.1) - 2024-12-16
 
