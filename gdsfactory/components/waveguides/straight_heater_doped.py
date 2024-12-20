@@ -48,11 +48,12 @@ def straight_heater_doped_rib(
 
     .. code::
 
+
                               length
         |<--------------------------------------------->|
         |              length_section                   |
         |    <--------------------------->              |
-        |  length_via_stack                               |
+        |  length_via_stack                             |
         |    <------->                             taper|
         |    __________                   _________     |
         |   |          |                  |        |    |

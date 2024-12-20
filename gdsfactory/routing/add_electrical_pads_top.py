@@ -11,7 +11,7 @@ from gdsfactory.typings import ComponentSpec, Float2, LayerSpec, SelectPorts, St
 
 
 def add_electrical_pads_top(
-    component: ComponentSpec = "wire",
+    component: ComponentSpec,
     direction: Literal["top", "right"] = "top",
     spacing: Float2 = (0.0, 100.0),
     pad_array: ComponentSpec = "pad_array",

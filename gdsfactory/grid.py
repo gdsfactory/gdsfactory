@@ -169,7 +169,7 @@ def grid_with_text(
 
             if text:
                 for text_offset, text_anchor in zip_longest(text_offsets, text_anchors):
-                    t = c << text(text_string)
+                    t = c << gf.get_component(text, text=text_string)
                     size_info = instance.dsize_info
                     text_offset = text_offset or (0, 0)
                     text_anchor = text_anchor or "center"

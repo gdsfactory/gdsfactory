@@ -1005,7 +1005,7 @@ wheels = [
 
 [[package]]
 name = "gdsfactory"
-version = "8.26.0"
+version = "8.26.1"
 source = { editable = "." }
 dependencies = [
     { name = "attrs" },
@@ -1103,7 +1103,7 @@ requires-dist = [
     { name = "jupyter-book", marker = "extra == 'docs'", specifier = ">=0.15.1,<1.1" },
     { name = "jupyterlab", marker = "extra == 'dev'" },
     { name = "jupytext", marker = "extra == 'docs'" },
-    { name = "kfactory", extras = ["ipy"], specifier = "==0.21.11" },
+    { name = "kfactory", extras = ["ipy"], specifier = "==0.22.0" },
     { name = "kweb", marker = "extra == 'cad'", specifier = ">=1.1.9,<2.1" },
     { name = "loguru", specifier = "<1" },
     { name = "mapbox-earcut" },
@@ -2019,7 +2019,7 @@ wheels = [
 
 [[package]]
 name = "kfactory"
-version = "0.21.11"
+version = "0.22.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aenum" },
@@ -2037,9 +2037,9 @@ dependencies = [
     { name = "toolz" },
     { name = "typer" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/95/20/0ad17c739e054a22e2566f9edc69ce66cf6d8a93c931d5638f1e7aaeaa19/kfactory-0.21.11.tar.gz", hash = "sha256:012a8387cbf1ffdd0c58eeabab34710ba98d83382b2a8448a3a56140513c55e9", size = 1255384 }
+sdist = { url = "https://files.pythonhosted.org/packages/58/2e/aae61319b1a0aa87e0ec87fbf5cf0a721f58b5c7145994b36538a0c99ab6/kfactory-0.22.0.tar.gz", hash = "sha256:30181414ba045e99b929be131fcadf9252a5e37c990fca942d2cf40c19b12d64", size = 1256769 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/cf/55/a726ca3608cc1c02a488135f7a19c1a07c0789ff853018498eee09abf8c6/kfactory-0.21.11-py3-none-any.whl", hash = "sha256:ea2dc21d924a0ff802d000f9fbc9eb66853fdd9f4ca48ae99d4093d37ffac230", size = 167635 },
+    { url = "https://files.pythonhosted.org/packages/f4/ce/4bee09fd0763cb87f0e4fa7d2aafbad601dcdd5ab987b63403333cca83b9/kfactory-0.22.0-py3-none-any.whl", hash = "sha256:89b2f73bb89a29a185e0a470873882571ebdba32bd53936768db795d843495fa", size = 168810 },
 ]
 
 [package.optional-dependencies]

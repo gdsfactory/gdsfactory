@@ -36,13 +36,16 @@ def grating_coupler_array(
     """
     c = Component()
     grating_coupler = gf.get_component(grating_coupler)
+    ports = {}
 
     for i in range(n):
         gc = c << grating_coupler
         gc.drotate(rotation)
         gc.dx = (i - (n - 1) / 2) * pitch if centered else i * pitch
         port_name_new = f"o{i}"
-        c.add_port(port=gc.ports[port_name], name=port_name_new)
+        ports[port_name_new] = gc.ports[port_name]
+        if not with_loopback or i not in [0, n - 1]:
+            c.add_port(port=gc.ports[port_name], name=port_name_new)
 
     if with_loopback:
         if rotation != -90:
@@ -52,8 +55,8 @@ def grating_coupler_array(
         routing_xs = gf.get_cross_section(cross_section)
         radius = radius or routing_xs.radius
 
-        port0 = c.ports["o0"]
-        port1 = c.ports[f"o{n - 1}"]
+        port0 = ports["o0"]
+        port1 = ports[f"o{n - 1}"]
         radius = radius
         radius_dbu = round(radius / c.kcl.dbu)
         d_loop_um = straight_to_grating_spacing + max(
@@ -83,6 +86,7 @@ def grating_coupler_array(
 
 if __name__ == "__main__":
     c = grating_coupler_array(
-        with_loopback=True, centered=True, cross_section="rib_bbox"
+        with_loopback=False, centered=True, cross_section="rib_bbox", n=2
     )
+    c.pprint_ports()
     c.show()

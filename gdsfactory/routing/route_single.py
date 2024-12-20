@@ -94,11 +94,11 @@ def route_single(
 
         import gdsfactory as gf
 
-        c = gf.Component('sample_connect')
+        c = gf.Component()
         mmi1 = c << gf.components.mmi1x2()
         mmi2 = c << gf.components.mmi1x2()
         mmi2.dmove((40, 20))
-        gf.routing.route_single(c, mmi1.ports["o2"], mmi2.ports["o1"], radius=5)
+        gf.routing.route_single(c, mmi1.ports["o2"], mmi2.ports["o1"], radius=5, cross_section="strip")
         c.plot()
     """
     p1 = port1
@@ -177,17 +177,44 @@ def route_single(
         else:
             w = waypoints_list  # type: ignore
 
-        return place90(
-            component,
-            p1=p1,
-            p2=p2,
-            straight_factory=straight_dbu,
-            bend90_cell=bend90,
-            pts=w,
-            port_type=port_type,
-            allow_width_mismatch=allow_width_mismatch,
-            route_width=route_width,
-        )
+        try:
+            return place90(
+                component,
+                p1=p1,
+                p2=p2,
+                straight_factory=straight_dbu,
+                bend90_cell=bend90,
+                pts=w,
+                port_type=port_type,
+                allow_width_mismatch=allow_width_mismatch,
+                route_width=route_width,
+            )
+        except Exception as e:
+            # error_route((ps, pe, router.start.pts, router.width))
+            ps = p1
+            pe = p2
+            c = component
+            pts = w
+            db = kf.rdb.ReportDatabase("Route Placing Errors")
+            cell = db.create_cell(
+                c.kcl.future_cell_name or c.name
+                if c.name.startswith("Unnamed_")
+                else c.name
+            )
+            cat = db.create_category(f"{ps.name} - {pe.name}")
+            it = db.create_item(cell=cell, category=cat)
+            it.add_value(
+                f"Error while trying to place route from {ps.name} to {pe.name} at"
+                f" points (dbu): {pts}"
+            )
+            it.add_value(f"Exception: {e}")
+            path = kf.kdb.Path(pts, route_width or ps.width)
+            it.add_value(c.kcl.to_um(path.polygon()))
+            c.show(lyrdb=db)
+            raise kf.routing.generic.PlacerError(
+                f"Error while trying to place route from {ps.name} to {pe.name} at"
+                f" points (dbu): {pts}"
+            ) from e
 
     else:
         return route(
