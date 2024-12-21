@@ -55,6 +55,7 @@ def move_polar_rad_copy(
     return pos + length * np.array([c, s])
 
 
+@gf.cell
 def extend_ports(
     component: ComponentSpec = "mmi1x2",
     port_names: PortNames | None = None,
