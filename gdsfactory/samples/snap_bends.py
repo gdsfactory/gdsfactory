@@ -6,7 +6,7 @@ import gdsfactory as gf
 
 if __name__ == "__main__":
     # gf.CONF.enforce_ports_on_grid = False
-    c = gf.Component("snap_bends")
+    c = gf.Component()
     b1 = c << gf.c.bend_euler(angle=37)
     b2 = c << gf.c.bend_euler(angle=37)
     b2.connect("o1", b1.ports["o2"])

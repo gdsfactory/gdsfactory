@@ -36,12 +36,14 @@ def lidar(
 
     # phase Shifters
     phase_shifter = gf.components.straight_heater_meander()
+    phase_shifter_extended = gf.components.extend_ports(phase_shifter, length=20)
     phase_shifter_optical_ports: list[kfc.Port] = []
 
     for i, port in enumerate(
         splitter_tree.ports.filter(orientation=0, port_type="optical")
     ):
-        ref = c.add_ref(phase_shifter, name=f"ps{i}")
+        ref = c.add_ref(phase_shifter_extended, name=f"ps{i}")
+        ref.mirror()
         ref.connect("o1", port)
         c.add_ports(ref.ports.filter(port_type="electrical"), prefix=f"ps{i}")
         phase_shifter_optical_ports.append(ref.ports["o2"])
@@ -51,14 +53,17 @@ def lidar(
         gf.components.dbr(n=200), rows=noutputs, columns=1, spacing=(0, antenna_pitch)
     )
     antennas.dxmin = ref.dxmax + 50
-    antennas.dy = 10
+    antennas.dy = 0
+    ports1 = antennas.ports.filter(orientation=180)
+    ports2 = phase_shifter_optical_ports
 
     gf.routing.route_bundle(
         c,
-        ports1=antennas.ports.filter(orientation=180),
-        ports2=phase_shifter_optical_ports,
+        ports1=ports1,
+        ports2=ports2,
         radius=5,
         sort_ports=True,
+        cross_section="strip",
     )
 
     return c
