@@ -44,7 +44,7 @@ cov:
 	uv run pytest --cov=gdsfactory
 
 test-samples:
-	uv run pytest tests/tests_samples.py
+	uv run pytest tests/test_samples.py
 
 docker-debug:
 	docker run -it joamatab/gdsfactory sh
