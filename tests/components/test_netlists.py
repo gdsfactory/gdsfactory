@@ -10,7 +10,6 @@ from gdsfactory.get_factories import get_cells
 cells = get_cells([gf.components])
 
 skip_test = {
-    "awg",
     "add_fiber_array_optical_south_electrical_north",
     "bbox",
     "component_sequence",
@@ -96,6 +95,7 @@ if __name__ == "__main__":
     component_type = "bbox"
     component_type = "text_freetype"
     component_type = "pad_array"
+    component_type = "awg"
 
     connection_error_types = {
         "optical": ["width_mismatch", "shear_angle_mismatch", "orientation_mismatch"]
