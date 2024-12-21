@@ -1,5 +1,6 @@
 from gdsfactory.components.filters.awg import (
     awg,
+    free_propagation_region,
 )
 from gdsfactory.components.filters.dbr import (
     dbr,
@@ -34,6 +35,7 @@ __all__ = [
     "dbr_tapered",
     "fiber",
     "fiber_array",
+    "free_propagation_region",
     "loop_mirror",
     "mode_converter",
     "polarization_splitter_rotator",
