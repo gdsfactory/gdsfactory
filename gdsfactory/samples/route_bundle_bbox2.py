@@ -24,6 +24,7 @@ if __name__ == "__main__":
             ptop.bbox(),
         ],  # obstacles to avoid
         sort_ports=True,
+        cross_section=gf.cross_section.metal_routing,
     )
 
     c.show()
