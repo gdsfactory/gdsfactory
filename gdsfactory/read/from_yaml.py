@@ -51,6 +51,8 @@ from __future__ import annotations
 
 import itertools
 import pathlib
+import re
+import warnings
 from collections.abc import Callable
 from copy import deepcopy
 from functools import partial
@@ -965,16 +967,17 @@ def _add_routes(
         route_names: list[str] = []
 
         for ip1, ip2 in bundle.links.items():
-            i1, p1s = _split_route_link(ip1)
-            i2, p2s = _split_route_link(ip2)
-            if len(p1s) != len(p2s):
+            first1, middles1, last1 = _split_route_link(ip1)
+            first2, middles2, last2 = _split_route_link(ip2)
+            if len(middles1) != len(middles2):
                 raise ValueError(
                     f"length of array bundles don't match. Got {ip1} <-> {ip2}"
                 )
-            ports1 += _get_ports_from_portnames(refs, i1, p1s)
-            ports2 += _get_ports_from_portnames(refs, i2, p2s)
+            ports1 += _get_ports_from_portnames(refs, first1, middles1, last1)
+            ports2 += _get_ports_from_portnames(refs, first2, middles2, last2)
             route_names += [
-                f"{bundle_name}-{i1},{p1}-{i2},{p2}" for p1, p2 in zip(p1s, p2s)
+                f"{bundle_name}-{first1}{m1}{last1}-{first2}{m2}{last2}"
+                for m1, m2 in zip(middles1, middles2)
             ]
 
         routes_list = routing_strategy(  # type: ignore
@@ -1181,51 +1184,76 @@ def _get_directed_connections(
     return ret
 
 
-def _split_route_link(s: str) -> tuple[str, list[str]]:
-    if s.count(":") == 2:
-        ip, *jk = s.split(":")
-    elif s.count(":") == 0:
-        ip, jk = s, None
-    else:
-        raise ValueError(
-            f"The format for bundle routing is 'inst,port_base:i0:i1' or 'inst,port'. Got: {s!r}"
-        )
-    if ip.count(",") != 1:
-        raise ValueError(f"Exactly one ',' expected in a route bundle link. Got: {s!r}")
-    i, p = ip.split(",")
-    if jk is None:
-        return i, [f"{p}"]
-    j, k = jk
+def _split_route_link(s: str) -> tuple[str, list[str], str]:
+    error = ValueError(
+        f"Invalid instance port format: {s!r}."
+        "The format for a link instance port is 'inst,port',\n"
+        "Whereas the format for bundle routing instance ports are one of the following:\n"
+        "1. 'inst,port{i}-{j}' (enumerate port index)\n"
+        "2. 'inst{i}-{j},port' (enumerate instance index)\n"
+        "3. 'inst<{i}-{j}.{k}>,port (enumerate array instance index)"
+    )
+    warning = (
+        "Bundle format 'inst,port:{i}:{j}' (with two columns) has been "
+        "deprecated. Please use 'inst,port{i}-{j}' (with a single dash)"
+    )
 
     def _try_int(i: str) -> int:
         try:
             return int(i)
-        except ValueError:
-            raise ValueError(
-                f"The format for bundle routing is 'inst,port_base:i0:i1' with i0 and i1 integers. Got: {s!r}"
-            )
+        except ValueError as e:
+            raise error from e
 
-    j_int = _try_int(j)
-    k_int = _try_int(k)
-    return (
-        (i, [f"{p}{idx}" for idx in range(j_int, k_int + 1)])
-        if k_int > j_int
-        else (i, [f"{p}{idx}" for idx in range(j_int, k_int - 1, -1)])
-    )
+    def _first_index(ip: str) -> tuple[str, int]:
+        p = re.sub("[0-9][0-9]*$", "", ip)
+        idx = re.sub(f"^{p}", "", ip)
+        return p, _try_int(idx)
+
+    def _second_index(ip: str) -> tuple[str, int]:
+        p = re.sub("^[0-9][0-9]*", "", ip)
+        idx = re.sub(f"{p}$", "", ip)
+        return p, _try_int(idx)
+
+    if ":" in s:
+        if s.count(":") == 2:
+            s = s.replace(":", "", 1)
+            s = s.replace(":", "-", 1)
+            warnings.warn(warning, category=DeprecationWarning)
+        else:
+            raise error
+
+    if s.count(",") != 1:
+        raise ValueError(f"Exactly one ',' expected in a route bundle link. Got: {s!r}")
+
+    if s.count("-") > 1:
+        raise error
+    elif "-" not in s:
+        return s, [""], ""
+    else:
+        first, last = s.split("-")
+        first, j = _first_index(first)
+        last, k = _second_index(last)
+
+        if k >= j:
+            middles = [f"{i}" for i in range(j, k + 1, 1)]
+        else:
+            middles = [f"{i}" for i in range(j, k - 1, -1)]
+        return first, middles, last
 
 
 def _get_ports_from_portnames(
-    refs: dict[str, ComponentReference], i: str, ps: list[str]
+    refs: dict[str, ComponentReference], first: str, middles: list[str], last: str
 ) -> list[typings.Port]:
-    i, ia, ib = _parse_maybe_arrayed_instance(i)
-    ref = refs[i]
-    ports: list[typings.Port] = []
-    for p in ps:
+    ports = []
+    for middle in middles:
+        ip = first + middle + last
+        i, p = ip.split(",")
+        i, ia, ib = _parse_maybe_arrayed_instance(i)
+        ref = refs[i]
         if p not in ref.ports:
             raise ValueError(
                 f"{p!r} not in {i!r} available ports: {[p.name for p in ref.ports]}"
             )
-
         port = ref.ports[p] if (ia is None or ib is None) else ref.ports[p, ia, ib]
         ports.append(port)
     return ports
@@ -1883,7 +1911,7 @@ routes:
       allow_width_mismatch: True
       sort_ports: True
     links:
-      t,e:10:1: b,e:1:10
+      t,e10-1: b,e1-10
 """
 
 port_array_electrical2 = """
@@ -1895,8 +1923,9 @@ instances:
         - 270
       port_orientation: null
       port_type: electrical
-    columns: 3
-    column_pitch: 150
+    array:
+      columns: 3
+      column_pitch: 150
   b:
     component: pad
     settings:
@@ -1904,8 +1933,9 @@ instances:
         - 90
       port_orientation: null
       port_type: electrical
-    columns: 3
-    column_pitch: 150
+    array:
+      columns: 3
+      column_pitch: 150
 
 placements:
   t:
@@ -1921,8 +1951,7 @@ routes:
       allow_width_mismatch: True
       sort_ports: True
     links:
-      t<0.0>,e1: b<0.0>,e1
-      # t,e:3:1: b,e:1:3
+      t<0-2.0>,e1: b<2-0.0>,e1
 """
 
 port_array_optical = """
@@ -1945,7 +1974,7 @@ routes:
     settings:
         cross_section: strip
     links:
-      a,o:3:4: b,o:4:3
+      a,o3-4: b,o4-3
 """
 
 mirror = """
@@ -1962,7 +1991,7 @@ placements:
 
 if __name__ == "__main__":
     # c = from_yaml(sample_array)
-    c = from_yaml(port_array_electrical2)
+    c = from_yaml(port_array_electrical)
     # c = from_yaml(sample_yaml_xmin)
     # n = c.get_netlist()
     c.show()

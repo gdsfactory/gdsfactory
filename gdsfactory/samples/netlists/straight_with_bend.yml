@@ -1,5 +1,5 @@
 instances:
-  bend_euler_R10_A90_P0p5_2f1f5c6d_15125_-4875:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_15125_m4875:
     component: bend_euler
     info:
       dy: 10
@@ -34,10 +34,10 @@ instances:
       npoints: 2
 name: straight_with_bend_R10
 nets:
-  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_15125_-4875,o1
+  - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_15125_m4875,o1
     p2: straight_L10_N2_CSstrip_5000_0,o2
 placements:
-  bend_euler_R10_A90_P0p5_2f1f5c6d_15125_-4875:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_15125_m4875:
     mirror: true
     rotation: 0
     x: 10
@@ -49,4 +49,4 @@ placements:
     y: 0
 ports:
   o1: straight_L10_N2_CSstrip_5000_0,o1
-  o2: bend_euler_R10_A90_P0p5_2f1f5c6d_15125_-4875,o2
+  o2: bend_euler_R10_A90_P0p5_2f1f5c6d_15125_m4875,o2

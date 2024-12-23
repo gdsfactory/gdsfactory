@@ -183,6 +183,13 @@ class Netlist(BaseModel):
 
     model_config = {"extra": "forbid"}
 
+    @model_validator(mode="after")
+    def validate_instance_names(self) -> Self:
+        self.instances = {
+            _validate_instance_name(k): v for k, v in self.instances.items()
+        }
+        return self
+
 
 _route_counter = 0
 
@@ -433,6 +440,22 @@ def write_schema(
         json.dump(s, f, indent=2)
     with open(schema_path_yaml, "w") as f:
         yaml.dump(s, f)
+
+
+def _validate_instance_name(name: str) -> str:
+    if "," in name:
+        raise ValueError(
+            f"Having a ',' in an instance name is not supported. The ',' is used for port-delineation. Got: {name!r}."
+        )
+    if "-" in name:
+        raise ValueError(
+            f"Having a '-' in an instance name is not supported. The '-' is used for bundle routing. Got: {name!r}."
+        )
+    if ":" in name:
+        raise ValueError(
+            f"Having a ':' in an instance name is not supported. The ':' is used for bundle routing. Got: {name!r}."
+        )
+    return name
 
 
 if __name__ == "__main__":
