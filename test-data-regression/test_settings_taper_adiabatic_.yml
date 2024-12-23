@@ -1,9 +1,10 @@
 info: {}
-name: taper_adiabatic_W0p5_W5_c4618eba
+name: taper_adiabatic_W0p5_W5_ef25f05a
 settings:
   alpha: 1
   cross_section: strip
   length: 0
+  max_length: 200
   neff_w: neff_TE1550SOI_220nm
   npoints: 200
   wavelength: 1.55

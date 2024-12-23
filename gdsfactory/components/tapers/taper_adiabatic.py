@@ -52,6 +52,7 @@ def taper_adiabatic(
     wavelength: float = 1.55,
     npoints: int = 200,
     cross_section: CrossSectionSpec = "strip",
+    max_length: float = 200,
 ) -> gf.Component:
     """Returns a straight adiabatic_taper from an effective index callable.
 
@@ -68,6 +69,7 @@ def taper_adiabatic(
         wavelength: wavelength in um.
         npoints: number of points for sampling.
         cross_section: cross_section specification.
+        max_length: maximum length for the taper.
 
     References:
         [1] Burns, W. K., et al. "Optical waveguide parabolic coupling horns." Appl. Phys. Lett., vol. 30, no. 1, 1 Jan. 1977, pp. 28-30, doi:10.1063/1.89199.
@@ -80,7 +82,12 @@ def taper_adiabatic(
 
     # Obtain optimal curve
     x_opt, w_opt = transition_adiabatic(
-        width1, width2, neff_w=neff_w, wavelength=wavelength, alpha=alpha
+        width1,
+        width2,
+        neff_w=neff_w,
+        wavelength=wavelength,
+        alpha=alpha,
+        max_length=max_length,
     )
 
     # Resample the points
