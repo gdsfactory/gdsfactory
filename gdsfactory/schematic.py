@@ -183,12 +183,12 @@ class Netlist(BaseModel):
 
     model_config = {"extra": "forbid"}
 
-    # @model_validator(mode="after")
-    # def validate_instance_names(self) -> Self:
-    #    self.instances = {
-    #        _validate_instance_name(k): v for k, v in self.instances.items()
-    #    }
-    #    return self
+    @model_validator(mode="after")
+    def validate_instance_names(self) -> Self:
+        self.instances = {
+            _validate_instance_name(k): v for k, v in self.instances.items()
+        }
+        return self
 
 
 _route_counter = 0
