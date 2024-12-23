@@ -69,6 +69,7 @@ def taper_adiabatic(
         wavelength: wavelength in um.
         npoints: number of points for sampling.
         cross_section: cross_section specification.
+        max_length: maximum length for the taper.
 
     References:
         [1] Burns, W. K., et al. "Optical waveguide parabolic coupling horns." Appl. Phys. Lett., vol. 30, no. 1, 1 Jan. 1977, pp. 28-30, doi:10.1063/1.89199.

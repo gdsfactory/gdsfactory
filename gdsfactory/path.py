@@ -666,7 +666,7 @@ def transition_adiabatic(
                 By default, use a compact model of neff(y) for fundamental 1550 nm TE \
                 mode of 220nm-thick core with 3.45 index, fully clad with 1.44 index.\
                 Many coefficients are needed to capture the behaviour.
-        wavelength: wavelength, in same units as widths
+        wavelength: wavelength, in same units as widths.
         alpha: parameter that scales the rate of width change
             - closer to 0 means longer and more adiabatic;
             - 1 is the intuitive limit beyond which higher order modes are excited;
