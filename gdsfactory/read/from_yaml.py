@@ -51,6 +51,7 @@ from __future__ import annotations
 
 import itertools
 import pathlib
+import re
 from collections.abc import Callable
 from copy import deepcopy
 from functools import partial
@@ -1182,36 +1183,44 @@ def _get_directed_connections(
 
 
 def _split_route_link(s: str) -> tuple[str, list[str]]:
-    if s.count(":") == 2:
-        ip, *jk = s.split(":")
-    elif s.count(":") == 0:
-        ip, jk = s, None
-    else:
-        raise ValueError(
-            f"The format for bundle routing is 'inst,port_base:i0:i1' or 'inst,port'. Got: {s!r}"
-        )
-    if ip.count(",") != 1:
-        raise ValueError(f"Exactly one ',' expected in a route bundle link. Got: {s!r}")
-    i, p = ip.split(",")
-    if jk is None:
-        return i, [f"{p}"]
-    j, k = jk
+    error = ValueError(
+        "The format for bundle routing is 'inst,port{i}-{j}' "
+        f"or 'inst,port'. Got: {s!r}"
+    )
 
     def _try_int(i: str) -> int:
         try:
             return int(i)
-        except ValueError:
-            raise ValueError(
-                f"The format for bundle routing is 'inst,port_base:i0:i1' with i0 and i1 integers. Got: {s!r}"
-            )
+        except ValueError as e:
+            raise error from e
 
+    if ":" in s:
+        raise error
+
+    if s.count("-") > 1:
+        raise error
+    elif "-" in s:
+        ip, k = s.split("-")
+        ip, j = _split_index(ip)
+        jk = [j, k]
+    else:
+        ip, jk = s, []
+    if ip.count(",") != 1:
+        raise ValueError(f"Exactly one ',' expected in a route bundle link. Got: {s!r}")
+    i, p = ip.split(",")
+    if not jk:
+        return i, [f"{p}"]
+    j, k = jk
     j_int = _try_int(j)
     k_int = _try_int(k)
-    return (
-        (i, [f"{p}{idx}" for idx in range(j_int, k_int + 1)])
-        if k_int > j_int
-        else (i, [f"{p}{idx}" for idx in range(j_int, k_int - 1, -1)])
-    )
+    j_int, k_int = min(j_int, k_int), max(j_int, k_int)
+    return (i, [f"{p}{i}" for i in range(j_int, k_int + 1)])
+
+
+def _split_index(p: str) -> tuple[str, str]:
+    port_name = re.sub("[0-9][0-9]*$", "", p)
+    idx = re.sub(f"^{port_name}", "", p)
+    return port_name, idx
 
 
 def _get_ports_from_portnames(
@@ -1883,7 +1892,7 @@ routes:
       allow_width_mismatch: True
       sort_ports: True
     links:
-      t,e:10:1: b,e:1:10
+      t,e10-1: b,e1-10
 """
 
 port_array_electrical2 = """
@@ -1962,7 +1971,7 @@ placements:
 
 if __name__ == "__main__":
     # c = from_yaml(sample_array)
-    c = from_yaml(port_array_electrical2)
+    c = from_yaml(port_array_electrical)
     # c = from_yaml(sample_yaml_xmin)
     # n = c.get_netlist()
     c.show()
