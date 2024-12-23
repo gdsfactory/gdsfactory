@@ -1,12 +1,15 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.26.2...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.27.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.27.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.27.0) - 2024-12-23
 
-No significant changes.
-
+- Update bundle syntax within from_yaml parser [#3526](https://github.com/gdsfactory/gdsfactory/pull/3526)
+- add print for different packages [#3522](https://github.com/gdsfactory/gdsfactory/pull/3522)
+- Update taper_adiabatic.py [#3524](https://github.com/gdsfactory/gdsfactory/pull/3524)
+- fix awg [#3521](https://github.com/gdsfactory/gdsfactory/pull/3521)
+- fix samples and add tests for samples [#3519](https://github.com/gdsfactory/gdsfactory/pull/3519)
 
 ## [8.26.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.26.2) - 2024-12-19
 
