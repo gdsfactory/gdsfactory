@@ -52,6 +52,7 @@ def taper_adiabatic(
     wavelength: float = 1.55,
     npoints: int = 200,
     cross_section: CrossSectionSpec = "strip",
+    max_length: float = 200,
 ) -> gf.Component:
     """Returns a straight adiabatic_taper from an effective index callable.
 
@@ -80,7 +81,7 @@ def taper_adiabatic(
 
     # Obtain optimal curve
     x_opt, w_opt = transition_adiabatic(
-        width1, width2, neff_w=neff_w, wavelength=wavelength, alpha=alpha
+        width1, width2, neff_w=neff_w, wavelength=wavelength, alpha=alpha, max_length=max_length
     )
 
     # Resample the points
