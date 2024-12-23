@@ -52,8 +52,12 @@ class ErrorType(Enum):
     IGNORE = auto()
 
 
-def print_version_plugins() -> None:
-    """Print gdsfactory plugin versions and paths."""
+def print_version_plugins(packages: list[str] | None) -> None:
+    """Print gdsfactory plugin versions and paths.
+
+    Args:
+        packages: list of packages to print versions for.
+    """
     table = Table(title="Modules")
     table.add_column("Package", justify="right", style="cyan", no_wrap=True)
     table.add_column("version", style="magenta")
@@ -62,7 +66,9 @@ def print_version_plugins() -> None:
     table.add_row("python", sys.version, str(sys.executable))
     table.add_row("gdsfactory", __version__, str(module_path))
 
-    for plugin in plugins:
+    packages = packages or []
+
+    for plugin in plugins + packages:
         try:
             m = importlib.import_module(plugin)
             try:
