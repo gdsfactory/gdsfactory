@@ -951,7 +951,7 @@ def _add_routes(
     """Add routes to component."""
     from gdsfactory.pdk import get_routing_strategies
 
-    routes_dict: dict[str, dict[str, Route]] = {}
+    routes_dict: dict[str, Route] = {}
     routing_strategies = routing_strategies or get_routing_strategies()
     for bundle_name, bundle in routes.items():
         try:
@@ -976,7 +976,7 @@ def _add_routes(
             ports1 += _get_ports_from_portnames(refs, first1, middles1, last1)
             ports2 += _get_ports_from_portnames(refs, first2, middles2, last2)
             route_names += [
-                f"{first1}{m1}{last1}:{first2}{m2}{last2}"
+                f"{bundle_name}-{first1}{m1}{last1}-{first2}{m2}{last2}"
                 for m1, m2 in zip(middles1, middles2)
             ]
 
@@ -986,7 +986,7 @@ def _add_routes(
             ports2=ports2,
             **bundle.settings,
         )
-        routes_dict[bundle_name] = dict(zip(route_names, routes_list))
+        routes_dict.update(dict(zip(route_names, routes_list)))
         c.routes = routes_dict  # type: ignore
     return c
 
@@ -1228,9 +1228,7 @@ def _split_route_link(s: str) -> tuple[str, list[str], str]:
     if s.count("-") > 1:
         raise error
     elif "-" not in s:
-        first, last = s.split(",")
-        middles = [""]
-        return first, middles, last
+        return s, [""], ""
     else:
         first, last = s.split("-")
         first, j = _first_index(first)
