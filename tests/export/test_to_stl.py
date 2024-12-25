@@ -7,8 +7,8 @@ from gdsfactory.export.to_stl import to_stl
 from gdsfactory.generic_tech.layer_map import LAYER
 
 
-# Tests that a Component is exported into STL with a specified filepath prefix.
 def test_export_filepath() -> None:
+    """Tests that a Component is exported into STL with a specified filepath prefix."""
     component = gf.c.pad()
     filepath = "test.stl"
     to_stl(component, filepath)
