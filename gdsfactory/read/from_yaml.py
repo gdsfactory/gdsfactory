@@ -938,23 +938,29 @@ def _place_and_connect(
                 i2name, i2a, i2b = _parse_maybe_arrayed_instance(i2)
                 i1name, i1a, i1b = _parse_maybe_arrayed_instance(i1)
 
-                if i1a is not None or i1b is not None:
-                    if i1name not in refs:
-                        raise ValueError(f"{i1name!r} not in {list(refs)}")
+                for i in [i1name, i2name]:
+                    if i not in refs:
+                        raise ValueError(f"{i!r} not in {list(refs)}")
 
+                if i1a is not None or i1b is not None:
                     p1 = refs[i1name].ports[p1, i1a, i1b]
                     if i2a is not None and i2b is not None:
                         refs[i1name].connect(p1, refs[i2name].ports[p2, i2a, i2b])
                     else:
+                        if i2 not in refs:
+                            raise ValueError(f"{i2!r} not in {list(refs)}")
                         refs[i1name].connect(p1, refs[i2].ports[p2])
 
                 else:
-                    if i1 not in refs:
-                        raise ValueError(f"{i1!r} not in {list(refs)}")
-
                     if i2a is not None and i2b is not None:
+                        if i1 not in refs:
+                            raise ValueError(f"{i1!r} not in {list(refs)}")
                         refs[i1].connect(p1, refs[i2name].ports[p2, i2a, i2b])
                     else:
+                        if i1 not in refs:
+                            raise ValueError(f"{i1!r} not in {list(refs)}")
+                        if i2 not in refs:
+                            raise ValueError(f"{i2!r} not in {list(refs)}")
                         refs[i1].connect(p1, refs[i2].ports[p2])
 
 
@@ -2005,9 +2011,31 @@ placements:
     # mirror: False
 """
 
+sample_array_connect_error = """
+name: sample_array_connect_error
+
+instances:
+  b1:
+    component: bend_euler
+    settings:
+      radius: 20
+  s1:
+    component: straight
+    settings:
+      length: 10
+    array:
+      columns: 3
+      rows: 1
+      column_pitch: 100.0
+      row_pitch: 0.0
+connections:
+  #s1<2.0>,o2: b1,o1
+  b1,o1: s2<2.0>,o2
+"""
+
 if __name__ == "__main__":
     # c = from_yaml(sample_array)
-    c = from_yaml(port_array_electrical)
+    c = from_yaml(sample_array_connect_error)
     # c = from_yaml(sample_yaml_xmin)
     # n = c.get_netlist()
     c.show()
