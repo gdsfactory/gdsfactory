@@ -610,6 +610,8 @@ connections:
 """
 
 sample_array_connect_reverse = """
+name: sample_array_connect_reverse
+
 instances:
   b1:
     component: bend_euler
