@@ -939,6 +939,9 @@ def _place_and_connect(
                 i1name, i1a, i1b = _parse_maybe_arrayed_instance(i1)
 
                 if i1a is not None or i1b is not None:
+                    if i1name not in refs:
+                        raise ValueError(f"{i1name!r} not in {list(refs)}")
+
                     p1 = refs[i1name].ports[p1, i1a, i1b]
                     if i2a is not None and i2b is not None:
                         refs[i1name].connect(p1, refs[i2name].ports[p2, i2a, i2b])
@@ -946,6 +949,9 @@ def _place_and_connect(
                         refs[i1name].connect(p1, refs[i2].ports[p2])
 
                 else:
+                    if i1 not in refs:
+                        raise ValueError(f"{i1!r} not in {list(refs)}")
+
                     if i2a is not None and i2b is not None:
                         refs[i1].connect(p1, refs[i2name].ports[p2, i2a, i2b])
                     else:
