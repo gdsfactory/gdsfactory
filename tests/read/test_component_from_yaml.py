@@ -609,6 +609,25 @@ connections:
 
 """
 
+sample_array_connect_reverse = """
+instances:
+  b1:
+    component: bend_euler
+    settings:
+      radius: 20
+  s1:
+    component: straight
+    settings:
+      length: 10
+    array:
+      columns: 3
+      rows: 1
+      column_pitch: 100.0
+      row_pitch: 0.0
+connections:
+  s1<2.0>,o2: b1,o1
+"""
+
 
 # FIXME: Fix both uncommented cases
 # yaml_fail should actually fail
@@ -634,6 +653,7 @@ yaml_strings = dict(
     sample_array=sample_array,
     sample_array2=sample_array2,
     sample_array_connect=sample_array_connect,
+    sample_array_connect_reverse=sample_array_connect_reverse,
 )
 
 

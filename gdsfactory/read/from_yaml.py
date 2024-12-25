@@ -936,10 +936,20 @@ def _place_and_connect(
             if ports is not None:  # no elif!
                 p1, p2 = ports
                 i2name, i2a, i2b = _parse_maybe_arrayed_instance(i2)
-                if i2a is not None and i2b is not None:
-                    refs[i1].connect(p1, refs[i2name].ports[p2, i2a, i2b])
+                i1name, i1a, i1b = _parse_maybe_arrayed_instance(i1)
+
+                if i1a is not None or i1b is not None:
+                    p1 = refs[i1name].ports[p1, i1a, i1b]
+                    if i2a is not None and i2b is not None:
+                        refs[i1name].connect(p1, refs[i2name].ports[p2, i2a, i2b])
+                    else:
+                        refs[i1name].connect(p1, refs[i2].ports[p2])
+
                 else:
-                    refs[i1].connect(p1, refs[i2].ports[p2])
+                    if i2a is not None and i2b is not None:
+                        refs[i1].connect(p1, refs[i2name].ports[p2, i2a, i2b])
+                    else:
+                        refs[i1].connect(p1, refs[i2].ports[p2])
 
 
 def _add_routes(
