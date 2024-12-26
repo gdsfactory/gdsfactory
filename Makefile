@@ -38,7 +38,7 @@ test-force:
 	pytest -n auto --force-regen
 
 uv-test: test-data-gds
-	uv run pytest -s -n auto
+	uv run pytest -s -n logical
 
 cov:
 	uv run pytest --cov=gdsfactory

@@ -13,6 +13,7 @@ from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component
 from gdsfactory.config import PATH
 from gdsfactory.typings import Anchor, Delta
+from gdsfactory.utils import is_component_spec
 
 
 class OrthogonalGridArray(BaseModel):
@@ -71,6 +72,8 @@ class Instance(BaseModel):
         component = values.get("component")
         settings = values.get("settings", {})
         info = values.get("info", {})
+
+        assert is_component_spec(component)
 
         import gdsfactory as gf
 
@@ -241,14 +244,16 @@ def to_graphviz(
     # Retrieve all the ports in the component
     for name, instance in instances.items():
         if hasattr(instance, "component"):
-            instance = instance.component
+            instance_component = instance.component
         else:
-            instance = instance["component"]
-        ports = gdsfactory.get_component(instance).ports
+            instance_component = instance["component"]  # type: ignore
+        ports = gdsfactory.get_component(instance_component).ports
         all_ports.append((name, ports))
 
     for node, placement in placements.items():
-        ports = dict(all_ports).get(node)
+        _ports = dict(all_ports).get(node)
+        assert _ports is not None
+        ports = _ports
 
         if not ports or not show_ports:
             label = node
@@ -306,8 +311,8 @@ def to_graphviz(
         dot.node(node, label=label, pos=pos, shape="record")
 
     for net in nets:
-        p1 = net.p1 if hasattr(net, "p1") else net["p1"]
-        p2 = net.p2 if hasattr(net, "p2") else net["p2"]
+        p1 = net.p1 if hasattr(net, "p1") else net["p1"]  # type: ignore
+        p2 = net.p2 if hasattr(net, "p2") else net["p2"]  # type: ignore
 
         p1_instance = p1.split(",")[0]
         p1_port = p1.split(",")[1]
@@ -366,6 +371,7 @@ class Schematic(BaseModel):
         self.netlist.placements[instance_name] = placement
 
     def from_component(self, component: Component) -> None:
+        raise NotImplementedError
         n = component.to_yaml()
         self.netlist = Netlist.model_validate(n)
 
@@ -373,6 +379,7 @@ class Schematic(BaseModel):
         """Add a net between two ports."""
         self.nets.append(net)
         if net.name not in self.netlist.routes:
+            assert net.name is not None
             self.netlist.routes[net.name] = Bundle(
                 links={net.p1: net.p2}, settings=net.settings
             )
@@ -427,11 +434,11 @@ def plot_graphviz(
         graph.view()
     else:
         png_data = graph.pipe(format="png")
-        display(Image(data=png_data))
+        display(Image(data=png_data))  # type: ignore
 
 
 def write_schema(
-    model: BaseModel = Netlist, schema_path_json: Path = PATH.schema_netlist
+    model: type[BaseModel] = Netlist, schema_path_json: Path = PATH.schema_netlist
 ) -> None:
     s = model.model_json_schema()
     schema_path_yaml = schema_path_json.with_suffix(".yaml")
@@ -464,9 +471,9 @@ if __name__ == "__main__":
     import gdsfactory.schematic as gt
 
     s = Schematic()
-    s.add_instance("mzi1", gt.Instance(component=gf.c.mzi(delta_length=10)))
-    s.add_instance("mzi2", gt.Instance(component=gf.c.mzi(delta_length=100)))
-    s.add_instance("mzi3", gt.Instance(component=gf.c.mzi(delta_length=200)))
+    s.add_instance("mzi1", gt.Instance(component=gf.c.mzi(delta_length=10)))  # type: ignore
+    s.add_instance("mzi2", gt.Instance(component=gf.c.mzi(delta_length=100)))  # type: ignore
+    s.add_instance("mzi3", gt.Instance(component=gf.c.mzi(delta_length=200)))  # type: ignore
     s.add_placement("mzi1", gt.Placement(x=000, y=0))
     s.add_placement("mzi2", gt.Placement(x=100, y=100))
     s.add_placement("mzi3", gt.Placement(x=200, y=0))

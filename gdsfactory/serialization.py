@@ -24,13 +24,11 @@ DEFAULT_SERIALIZATION_MAX_DIGITS = 3
 
 def convert_tuples_to_lists(
     data: dict[str, Any] | list[Any] | tuple[Any, ...] | Any,
-) -> dict[str, Any] | list[Any]:
+) -> dict[str, Any] | list[Any] | Any:
     if isinstance(data, dict):
         return {key: convert_tuples_to_lists(value) for key, value in data.items()}
-    elif isinstance(data, list):
+    elif isinstance(data, list | tuple):
         return [convert_tuples_to_lists(item) for item in data]
-    elif isinstance(data, tuple):
-        return list(data)
     return data
 
 
@@ -50,7 +48,7 @@ def clean_dict(dictionary: dict[str, Any]) -> dict[str, Any]:
 
 
 def complex_encoder(
-    obj: complex, digits: int = DEFAULT_SERIALIZATION_MAX_DIGITS
+    obj: complex | np.complexfloating, digits: int = DEFAULT_SERIALIZATION_MAX_DIGITS
 ) -> dict[str, Any]:
     real_part = np.round(obj.real, digits)
     imag_part = np.round(obj.imag, digits)
@@ -73,9 +71,17 @@ def clean_value_json(
 ) -> str: ...
 
 
+@overload
+def clean_value_json(
+    value: Any,
+    include_module: bool = True,
+    serialize_function_as_dict: bool = True,
+) -> str | int | float | dict[str, Any] | list[Any] | bool | Any | None: ...
+
+
 def clean_value_json(
     value: Any, include_module: bool = True, serialize_function_as_dict: bool = True
-) -> str | int | float | dict[str, Any] | list[Any] | bool | None:
+) -> str | int | float | dict[str, Any] | list[Any] | bool | Any | None:
     """Return JSON serializable object.
 
     Args:
@@ -89,7 +95,7 @@ def clean_value_json(
         return clean_dict(value.model_dump(exclude_none=True))
 
     elif hasattr(value, "get_component_spec"):
-        return value.get_component_spec()
+        return value.get_component_spec()  # type: ignore[no-any-return]
 
     elif isinstance(value, bool):
         return value
@@ -100,12 +106,12 @@ def clean_value_json(
     elif isinstance(value, np.integer | int):
         return int(value)
 
-    elif isinstance(value, float | np.inexact | np.float64):
+    elif isinstance(value, float | np.complexfloating | np.floating):
         if value == round(value):
             return int(value)
         return float(np.round(value, DEFAULT_SERIALIZATION_MAX_DIGITS))
 
-    elif isinstance(value, complex | np.complex64 | np.complex128):
+    elif isinstance(value, complex | np.complexfloating):
         return complex_encoder(value)
 
     elif isinstance(value, np.ndarray):
@@ -149,7 +155,7 @@ def clean_value_json(
         return tuple([clean_value_json(i) for i in value])
 
     elif attrs.has(value):
-        return attrs.asdict(value)
+        return attrs.asdict(value)  # type: ignore[arg-type]
 
     else:
         try:
@@ -182,7 +188,7 @@ def clean_value_partial(
     if include_module:
         v.update(module=func.__module__)
     if not serialize_function_as_dict:
-        v = func.__name__
+        return func.__name__
     return v
 
 
@@ -210,9 +216,9 @@ def get_hash(value: Any) -> str:
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
+    from gdsfactory.components import straight
 
-    s = clean_value_json(gf.c.straight)
+    s = clean_value_json(straight)
     print(s)
 
     # f = partial(gf.c.straight, length=3)

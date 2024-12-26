@@ -558,7 +558,9 @@ def get_netlist_recursive(
 
             if child_references:
                 inst_name = get_instance_name(ref)
-                netlist_dict = {"component": f"{rcell.name}{component_suffix}"}
+                netlist_dict: dict[str, Any] = {
+                    "component": f"{rcell.name}{component_suffix}"
+                }
                 if hasattr(rcell, "settings"):
                     netlist_dict.update(settings=rcell.settings.model_dump())
                 if hasattr(rcell, "info"):

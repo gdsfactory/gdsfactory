@@ -210,10 +210,11 @@ class FileWatcher(FileSystemEventHandler):
     def get_component_yaml(self, filepath: PathType, dirpath: PathType) -> Component:
         """Parses a YAML file to a cell function and registers into active pdk."""
         cell_func = self.update_cell(filepath, update=True)
+        filepath_path = pathlib.Path(filepath)
         c = cell_func()
-        gdspath = pathlib.Path(dirpath) / str(filepath.relative_to(self.path)).replace(
-            ".pic.yml", ".gds"
-        )
+        gdspath = pathlib.Path(dirpath) / str(
+            filepath_path.relative_to(self.path)
+        ).replace(".pic.yml", ".gds")
         c.write_gds(gdspath)
         kf.show(gdspath)
         return c
