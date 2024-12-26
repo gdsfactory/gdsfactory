@@ -34,7 +34,6 @@ import functools
 import warnings
 from collections.abc import Callable, Sequence
 from functools import partial
-from pprint import pprint
 from typing import TYPE_CHECKING, Any, Literal, TypeVar
 
 import kfactory as kf
@@ -798,7 +797,6 @@ def map_ports_to_orientation_cw(
             direction_ports["W"].append(p)
         else:
             direction_ports["S"].append(p)
-    pprint(direction_ports)
     function(direction_ports)
     return {p.name: p.name_original for p in ports_on_layer}  # type: ignore
 
