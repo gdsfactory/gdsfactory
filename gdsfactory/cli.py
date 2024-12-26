@@ -125,7 +125,7 @@ def install_git_diff() -> None:
 
 
 @app.command()
-def print_plugins() -> None:
+def version() -> None:
     """Show installed plugin versions."""
     print_version_plugins()
 
