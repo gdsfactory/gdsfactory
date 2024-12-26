@@ -197,7 +197,10 @@ class Path(GeometryHelper):
 
         return self
 
-    def offset(self, offset: float | Callable[[float], float] = 0) -> Path:
+    def offset(
+        self,
+        offset: float | Callable[[float], float] = 0,
+    ) -> Path:
         """Offsets Path so that it follows the Path centerline plus an offset.
 
         The offset can either be a fixed value, or a function
@@ -208,8 +211,8 @@ class Path(GeometryHelper):
         """
         if offset == 0:
             points = self.points
-            start_angle = self.start_angle
-            end_angle = self.end_angle
+            start_angle: float = self.start_angle
+            end_angle: float = self.end_angle
         elif callable(offset):
             # Compute lengths
             dx = np.diff(self.points[:, 0])
@@ -306,7 +309,7 @@ class Path(GeometryHelper):
     def centerpoint_offset_curve(
         self,
         points: npt.NDArray[np.floating[Any]],
-        offset_distance: float,
+        offset_distance: float | npt.NDArray[np.floating[Any]],
         start_angle: float | None,
         end_angle: float | None,
     ) -> npt.NDArray[np.floating[Any]]:
@@ -596,20 +599,21 @@ def _sinusoidal_transition(
     dy = y2 - y1
 
     def sine(t: float) -> npt.NDArray[np.floating[Any]]:
-        res = y1 + (1 - np.cos(np.pi * t)) / 2 * dy
-        print(f"sine: {res}")
-        return res
+        return np.array(y1 + (1 - np.cos(np.pi * t)) / 2 * dy)
 
     return sine
 
 
-def _parabolic_transition(y1: float, y2: float) -> Callable[[float], float]:
+def _parabolic_transition(
+    y1: float, y2: float
+) -> Callable[[float], npt.NDArray[np.floating[Any]] | float]:
     dy = y2 - y1
 
-    def parabolic(t: float) -> float:
+    def parabolic(t: float) -> npt.NDArray[np.floating[Any]] | float:
         res = y1 + np.sqrt(t) * dy
-        print(f"parabolic: {res}")
-        return res
+        if np.isscalar(t):
+            return float(res)
+        return np.array(res)
 
     return parabolic
 
@@ -922,7 +926,7 @@ def extrude(
         )
         cross_section = CrossSection(sections=(s,))
 
-    xsection_points: list[list[float]] = []
+    xsection_points: list[list[float | npt.NDArray[np.floating[Any]]]] = []
     c = ComponentAllAngle() if all_angle else Component()
 
     if isinstance(cross_section, Transition):
@@ -942,13 +946,13 @@ def extrude(
         port_types = section.port_types
         hidden = section.hidden
 
-        offset = section.offset
-        width: float | npt.NDArray[np.floating[Any]] = section.width
+        offset_value: float | npt.NDArray[np.floating[Any]] = section.offset
+        width_value: float | npt.NDArray[np.floating[Any]] = section.width
         width_function = section.width_function
         offset_function = section.offset_function
         layer = section.layer
 
-        xsection_points.append([width, offset])
+        xsection_points.append([width_value, offset_value])
 
         if section.insets and section.insets != (0, 0):
             p_pts = p_sec.points
@@ -1067,21 +1071,21 @@ def extrude(
 
         if callable(offset_function):
             p_sec.offset(offset_function)
-            offset = 0
+            offset_value = 0
         end_angle = p_sec.end_angle
         start_angle = p_sec.start_angle
         points = p_sec.points
         if callable(width_function):
             # Compute lengths
-            dx = np.diff(p_sec.points[:, 0])
-            dy = np.diff(p_sec.points[:, 1])
+            dx: npt.NDArray[np.floating[Any]] | float = np.diff(p_sec.points[:, 0])
+            dy: npt.NDArray[np.floating[Any]] | float = np.diff(p_sec.points[:, 1])
             lengths = np.cumsum(np.sqrt(dx**2 + dy**2))
             lengths = np.concatenate([[0], lengths])
-            width = width_function(lengths / lengths[-1])
+            width_value = width_function(lengths / lengths[-1])
 
-        assert width is not None
+        assert width_value is not None
 
-        dy = offset + width / 2
+        dy = offset_value + width_value / 2
 
         points1 = p_sec.centerpoint_offset_curve(
             points,
@@ -1089,7 +1093,7 @@ def extrude(
             start_angle=start_angle,
             end_angle=end_angle,
         )
-        dy = offset - width / 2
+        dy = offset_value - width_value / 2
 
         points2 = p_sec.centerpoint_offset_curve(
             points,
@@ -1114,7 +1118,9 @@ def extrude(
 
         # Add port_names if they were specified
         if port_names[0] is not None:
-            port_width = width if isinstance(width, float) else width[0]
+            port_width = (
+                width_value if isinstance(width_value, float) else width_value[0]
+            )
             port_orientation = (p_sec.start_angle + 180) % 360
             center = np.average([points1[0], points2[0]], axis=0)
             face = [points1[0], points2[0]]
@@ -1130,7 +1136,9 @@ def extrude(
                 cross_section=x,
             )
         if port_names[1] is not None:
-            port_width = width if isinstance(width, float) else width[-1]
+            port_width = (
+                width_value if isinstance(width_value, float) else width_value[-1]
+            )
             port_orientation = (p_sec.end_angle) % 360
             center = np.average([points1[-1], points2[-1]], axis=0)
             face = [points1[-1], points2[-1]]
@@ -1212,7 +1220,9 @@ def extrude_transition(p: Path, transition: Transition) -> Component:
         width2 = section2.width
 
         if offset_type == "linear":
-            offset = _linear_transition(offset1, offset2)
+            offset: Callable[[float], float | npt.NDArray[np.floating[Any]]] = (
+                _linear_transition(offset1, offset2)
+            )
         elif offset_type == "sine":
             offset = _sinusoidal_transition(offset1, offset2)
         elif offset_type == "parabolic":
@@ -1227,7 +1237,9 @@ def extrude_transition(p: Path, transition: Transition) -> Component:
             raise NotImplementedError()
 
         if width_type == "linear":
-            width = _linear_transition(width1, width2)
+            width: Callable[[float], float | npt.NDArray[np.floating[Any]]] = (
+                _linear_transition(width1, width2)
+            )
         elif width_type == "sine":
             width = _sinusoidal_transition(width1, width2)
         elif width_type == "parabolic":

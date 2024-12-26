@@ -118,7 +118,7 @@ MaterialSpec: TypeAlias = (
 )
 
 WidthFunction: TypeAlias = Callable[..., npt.NDArray[np.floating[Any]]]
-OffsetFunction: TypeAlias = Callable[..., npt.NDArray[np.floating[Any]]]
+OffsetFunction: TypeAlias = Callable[[float], float]
 
 PathType: TypeAlias = str | pathlib.Path
 PathTypes: TypeAlias = Sequence[PathType]
