@@ -151,7 +151,7 @@ class Pdk(BaseModel):
     cells: dict[str, ComponentFactory] = Field(default_factory=dict, exclude=True)
     models: dict[str, Callable[..., Any]] = Field(default_factory=dict, exclude=True)
     symbols: dict[str, ComponentFactory] = Field(default_factory=dict)
-    default_symbol_factory: Callable[..., ComponentFactory] = Field(
+    default_symbol_factory: ComponentFactory = Field(
         default=floorplan_with_block_letters, exclude=True
     )
     base_pdks: list[Pdk] = Field(default_factory=list)
@@ -191,13 +191,13 @@ class Pdk(BaseModel):
                 return gf.cross_section.cross_section(width=width, radius=radius)
         """
         default_xs = func()
-        self._cross_section_default_names[default_xs.name] = func.__name__
+        self.cross_section_default_names[default_xs.name] = func.__name__
 
         @wraps(func)
         def newfunc(**kwargs: Any) -> CrossSection:
             xs = func(**kwargs)
-            if xs.name in self._cross_section_default_names:
-                xs._name = self._cross_section_default_names[xs.name]
+            if xs.name in self.cross_section_default_names:
+                xs._name = self.cross_section_default_names[xs.name]
             return xs
 
         self.cross_sections[func.__name__] = newfunc
@@ -302,7 +302,7 @@ class Pdk(BaseModel):
                     f"{cell!r} from PDK {self.name!r} not in cells: Did you mean {matching_cells}?"
                 )
             return self.cells[cell]
-        elif isinstance(cell, dict):
+        else:
             for key in cell.keys():
                 if key not in component_settings:
                     raise ValueError(
@@ -320,11 +320,6 @@ class Pdk(BaseModel):
                 )
             cell = self.cells[cell_name]
             return partial(cell, **settings)
-        else:
-            raise ValueError(
-                "get_cell expects a CellSpec (ComponentFactory, string or dict),"
-                f"got {type(cell)}"
-            )
 
     def get_component(
         self,
@@ -495,28 +490,27 @@ class Pdk(BaseModel):
         """Export to uPDK YAML definition."""
         from gdsfactory.components import bbox_to_points
 
-        blocks = {cell_name: cell() for cell_name, cell in self.cells.items()}
-        blocks = {
-            name: dict(
+        _blocks = {cell_name: cell() for cell_name, cell in self.cells.items()}
+        blocks: dict[str, dict[str, Any]] = {}
+        for name, c in _blocks.items():
+            if c.__doc__ is None:
+                continue
+            extra_args = extract_args_from_docstring(c.__doc__)
+            if extra_args is None:
+                continue
+
+            blocks[name] = dict(
                 bbox=bbox_to_points(c.dbbox()),
                 doc=c.__doc__.split("\n")[0],
-                settings=extract_args_from_docstring(c.__doc__),
+                settings=extra_args,
                 parameters={
                     sname: {
                         "value": svalue,
                         "type": str(svalue.__class__.__name__),
-                        "doc": extract_args_from_docstring(c.__doc__)
-                        .get(sname, {})
-                        .get("doc", None),
-                        "min": extract_args_from_docstring(c.__doc__)
-                        .get(sname, {})
-                        .get("min", 0),
-                        "max": extract_args_from_docstring(c.__doc__)
-                        .get(sname, {})
-                        .get("max", 0),
-                        "unit": extract_args_from_docstring(c.__doc__)
-                        .get(sname, {})
-                        .get("unit", None),
+                        "doc": extra_args.get(sname, {}).get("doc", None),
+                        "min": extra_args.get(sname, {}).get("min", 0),
+                        "max": extra_args.get(sname, {}).get("max", 0),
+                        "unit": extra_args.get(sname, {}).get("unit", None),
                     }
                     for sname, svalue in c.settings
                     if isinstance(svalue, str | float | int)
@@ -538,8 +532,6 @@ class Pdk(BaseModel):
                     for port in c.ports
                 },
             )
-            for name, c in blocks.items()
-        }
         xsections = {
             xs_name: self.get_cross_section(xs_name)
             for xs_name in self.cross_sections.keys()
@@ -560,7 +552,7 @@ class Pdk(BaseModel):
             (
                 key
                 for key, value in self.cross_sections.items()
-                if value == cross_section
+                if value() == cross_section
             ),
             None,
         )
@@ -578,7 +570,7 @@ class Pdk(BaseModel):
                 name=self.name,
                 layer_views=self.layer_views,
                 connectivity=self.connectivity,
-                layer_map=self.layers,
+                layer_map=self.layers,  # type: ignore
                 layer_stack=self.layer_stack,
             )
         except AttributeError as e:
@@ -669,7 +661,7 @@ def get_constant(constant_name: Any) -> Any:
 
 def _set_active_pdk(pdk: Pdk) -> None:
     global _ACTIVE_PDK
-    _ACTIVE_PDK = pdk
+    _ACTIVE_PDK = pdk  # type: ignore
 
 
 def get_routing_strategies() -> RoutingStrategies:
