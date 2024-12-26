@@ -19,7 +19,6 @@ from trimesh.scene.scene import Scene
 from gdsfactory._deprecation import deprecate
 from gdsfactory.config import CONF, GDSDIR_TEMP
 from gdsfactory.functions import get_polygons, get_polygons_points
-from gdsfactory.port import pprint_ports, select_ports, to_dict
 from gdsfactory.serialization import clean_value_json, convert_tuples_to_lists
 
 if TYPE_CHECKING:
@@ -551,6 +550,8 @@ class ComponentBase:
             port_type: select ports with port_type (optical, electrical, vertical_te).
             clockwise: if True, sort ports clockwise, False: counter-clockwise.
         """
+        from gdsfactory.port import select_ports
+
         return select_ports(ports=self.ports, **kwargs)
 
     def add_route_info(
@@ -949,6 +950,8 @@ class ComponentBase:
             clockwise: if True, sort ports clockwise, False: counter-clockwise.
         """
         ports = self.get_ports_list(**kwargs)
+        from gdsfactory.port import pprint_ports
+
         pprint_ports(ports)
 
     def to_3d(
@@ -1159,6 +1162,8 @@ class ComponentBase:
             "settings": self.settings.model_dump(exclude_none=True),
         }
         if with_ports:
+            from gdsfactory.port import to_dict
+
             d["ports"] = {port.name: to_dict(port) for port in self.ports}
         return clean_value_json(d)
 
