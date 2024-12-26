@@ -1,12 +1,18 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.27.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.27.1...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.27.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.27.1) - 2024-12-25
 
-No significant changes.
-
+- fix gf version [#3541](https://github.com/gdsfactory/gdsfactory/pull/3541)
+- Fix to svg [#3534](https://github.com/gdsfactory/gdsfactory/pull/3534)
+- fix array_connect in YAML [#3533](https://github.com/gdsfactory/gdsfactory/pull/3533)
+- fix duplicate ports in documentation plots [#3532](https://github.com/gdsfactory/gdsfactory/pull/3532)
+- Fix mypy errors [#3540](https://github.com/gdsfactory/gdsfactory/pull/3540)
+- Feature/fix mypy errors [#3538](https://github.com/gdsfactory/gdsfactory/pull/3538)
+- remove pytest_only dep [#3539](https://github.com/gdsfactory/gdsfactory/pull/3539)
+- update dependabot [#3530](https://github.com/gdsfactory/gdsfactory/pull/3530)
 
 ## [8.27.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.27.0) - 2024-12-23
 
