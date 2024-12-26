@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.27.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.27.1) - 2024-12-25
+
+No significant changes.
+
+
 ## [8.27.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.27.0) - 2024-12-23
 
 - Update bundle syntax within from_yaml parser [#3526](https://github.com/gdsfactory/gdsfactory/pull/3526)
