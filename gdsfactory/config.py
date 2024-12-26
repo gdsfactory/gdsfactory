@@ -34,15 +34,17 @@ get_number_of_cores = get_affinity
 GDSDIR_TEMP = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
 
 plugins = [
-    "gplugins",
-    "ray",
-    "femwell",
     "devsim",
-    "tidy3d",
+    "femwell",
+    "gdsfactoryplus",
+    "gplugins",
+    "lumapi",
     "meep",
     "meow",
-    "lumapi",
+    "ray",
     "sax",
+    "tidy3d",
+    "vlsir",
 ]
 
 
@@ -52,7 +54,7 @@ class ErrorType(Enum):
     IGNORE = auto()
 
 
-def print_version_plugins(packages: list[str] | None) -> None:
+def print_version_plugins(packages: list[str] | None = None) -> None:
     """Print gdsfactory plugin versions and paths.
 
     Args:
