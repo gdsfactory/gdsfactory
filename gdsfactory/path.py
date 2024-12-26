@@ -12,7 +12,7 @@ import hashlib
 import math
 import warnings
 from collections.abc import Callable, Iterator
-from typing import Any, Literal, TypeVar, overload
+from typing import Any, Literal, overload
 
 import numpy as np
 import numpy.typing as npt
@@ -45,8 +45,8 @@ from gdsfactory.typings import (
 
 
 def _simplify(
-    points: npt.NDArray[np.float64], tolerance: float
-) -> npt.NDArray[np.float64]:
+    points: npt.NDArray[np.floating[Any]], tolerance: float
+) -> npt.NDArray[np.floating[Any]]:
     import shapely.geometry as sg  # type: ignore[import-untyped]
 
     ls = sg.LineString(points)
@@ -62,11 +62,15 @@ class Path(GeometryHelper):
 
     """
 
-    def __init__(self, path: npt.NDArray[np.float64] | Path | None = None) -> None:
+    def __init__(
+        self, path: npt.NDArray[np.floating[Any]] | Path | None = None
+    ) -> None:
         """Creates an empty path."""
-        self.points: npt.NDArray[np.float64] = np.array([[0, 0]], dtype=np.float64)
-        self.start_angle = 0
-        self.end_angle = 0
+        self.points: npt.NDArray[np.floating[Any]] = np.array(
+            [[0, 0]], dtype=np.float64
+        )
+        self.start_angle: float = 0
+        self.end_angle: float = 0
         self.info: dict[str, Any] = {}
         if path is not None:
             # If array[N][2]
@@ -127,17 +131,17 @@ class Path(GeometryHelper):
         """Returns path points."""
         return len(self.points)
 
-    def __iadd__(self, path_or_points: npt.NDArray[np.float64] | Path) -> Path:
+    def __iadd__(self, path_or_points: npt.NDArray[np.floating[Any]] | Path) -> Path:
         """Adds points to current path."""
         return self.append(path_or_points)
 
-    def __add__(self, path: npt.NDArray[np.float64] | Path) -> Path:
+    def __add__(self, path: npt.NDArray[np.floating[Any]] | Path) -> Path:
         """Returns new path concatenating current and new path."""
         new = self.copy()
         return new.append(path)
 
     @property
-    def bbox(self) -> npt.NDArray[np.float64]:
+    def bbox(self) -> npt.NDArray[np.floating[Any]]:
         """Returns the bounding box of the Path."""
         bbox = [
             (np.min(self.points[:, 0]), np.min(self.points[:, 1])),
@@ -145,7 +149,7 @@ class Path(GeometryHelper):
         ]
         return np.array(bbox)
 
-    def append(self, path: npt.NDArray[np.float64] | Path | list[Path]) -> Path:
+    def append(self, path: npt.NDArray[np.floating[Any]] | Path | list[Path]) -> Path:
         """Attach Path to the end of this Path.
 
         The input path automatically rotates and translates such that it continues
@@ -166,7 +170,7 @@ class Path(GeometryHelper):
             and np.issubdtype(np.array(path).dtype, np.number)
             and (np.shape(path)[1] == 2)
         ):
-            points = np.asarray(path, dtype=float)
+            points = np.asarray(path, dtype=np.float64)
             nx1, ny1 = points[1] - points[0]
             start_angle = np.arctan2(ny1, nx1) / np.pi * 180
             nx2, ny2 = points[-1] - points[-2]
@@ -213,7 +217,7 @@ class Path(GeometryHelper):
             lengths = np.cumsum(np.sqrt((dx) ** 2 + (dy) ** 2))
             lengths = np.concatenate([[0], lengths])
             # Create list of offset points and perform offset
-            points = self._centerpoint_offset_curve(
+            points = self.centerpoint_offset_curve(
                 self.points,
                 offset_distance=offset(lengths / lengths[-1]),  # type: ignore[unused-ignore]
                 start_angle=self.start_angle,
@@ -229,7 +233,7 @@ class Path(GeometryHelper):
             end_angle = np.arctan2(-ny2, tol) / np.pi * 180 + self.end_angle
             # end_angle = np.round(end_angle, decimals=6)
         else:  # Offset is just a number
-            points = self._centerpoint_offset_curve(
+            points = self.centerpoint_offset_curve(
                 self.points,
                 offset_distance=offset,  # type: ignore[unused-ignore]
                 start_angle=self.start_angle,
@@ -245,7 +249,7 @@ class Path(GeometryHelper):
 
     def move(
         self,
-        origin: Coordinate,
+        origin: Coordinate | npt.NDArray[np.floating[Any]],
         destination: Coordinate | None = None,
         axis: Axis | None = None,
     ) -> Self:
@@ -299,13 +303,13 @@ class Path(GeometryHelper):
             self.end_angle = mod(2 * angle - self.end_angle, 360)
         return self
 
-    def _centerpoint_offset_curve(
+    def centerpoint_offset_curve(
         self,
-        points: npt.NDArray[np.float64],
+        points: npt.NDArray[np.floating[Any]],
         offset_distance: float,
         start_angle: float | None,
         end_angle: float | None,
-    ) -> npt.NDArray[np.float64]:
+    ) -> npt.NDArray[np.floating[Any]]:
         """Creates a offset curve computing the centerpoint offset of x and y points.
 
         Args:
@@ -349,11 +353,11 @@ class Path(GeometryHelper):
 
     def _parametric_offset_curve(
         self,
-        points: npt.NDArray[np.float64],
-        offset_distance: npt.NDArray[np.float64],
+        points: npt.NDArray[np.floating[Any]],
+        offset_distance: npt.NDArray[np.floating[Any]],
         start_angle: float | None,
         end_angle: float | None,
-    ) -> npt.NDArray[np.float64]:
+    ) -> npt.NDArray[np.floating[Any]]:
         """Creates a parametric offset by using gradient of the supplied x and y points.
 
         Args:
@@ -382,11 +386,13 @@ class Path(GeometryHelper):
         """Return cumulative length."""
         x = self.points[:, 0]
         y = self.points[:, 1]
-        dx: npt.NDArray[np.float64] = np.diff(x)
-        dy: npt.NDArray[np.float64] = np.diff(y)
+        dx: npt.NDArray[np.floating[Any]] = np.diff(x)
+        dy: npt.NDArray[np.floating[Any]] = np.diff(y)
         return float(np.round(np.sum(np.sqrt((dx) ** 2 + (dy) ** 2)), 3))  # type: ignore[unused-ignore]
 
-    def curvature(self) -> tuple[npt.NDArray[np.float64], npt.NDArray[np.float64]]:
+    def curvature(
+        self,
+    ) -> tuple[npt.NDArray[np.floating[Any]], npt.NDArray[np.floating[Any]]]:
         """Calculates Path curvature.
 
         The curvature is numerically computed so areas where the curvature
@@ -584,37 +590,42 @@ class Path(GeometryHelper):
 PathFactory = Callable[..., Path]
 
 
-def _sinusoidal_transition(y1: float, y2: float) -> Callable[[float], Any]:
+def _sinusoidal_transition(
+    y1: float, y2: float
+) -> Callable[[float], npt.NDArray[np.floating[Any]]]:
     dy = y2 - y1
 
-    def sine(t: float) -> Any:
-        return y1 + (1 - np.cos(np.pi * t)) / 2 * dy
+    def sine(t: float) -> npt.NDArray[np.floating[Any]]:
+        res = y1 + (1 - np.cos(np.pi * t)) / 2 * dy
+        print(f"sine: {res}")
+        return res
 
     return sine
 
 
-def _parabolic_transition(y1: float, y2: float) -> Callable[[float], Any]:
+def _parabolic_transition(y1: float, y2: float) -> Callable[[float], float]:
     dy = y2 - y1
 
-    def parabolic(t: float) -> Any:
-        return y1 + np.sqrt(t) * dy
+    def parabolic(t: float) -> float:
+        res = y1 + np.sqrt(t) * dy
+        print(f"parabolic: {res}")
+        return res
 
     return parabolic
 
 
-def _linear_transition(y1: float, y2: float) -> Callable[[float], Any]:
+def _linear_transition(y1: float, y2: float) -> Callable[[float], float]:
     dy = y2 - y1
 
-    def linear(t: float) -> Any:
+    def linear(t: float) -> float:
         return y1 + t * dy
 
     return linear
 
 
-T = TypeVar("T", float, npt.NDArray[np.float64])
-
-
-def transition_exponential(y1: float, y2: float, exp: float = 0.5) -> Callable[[T], T]:
+def transition_exponential(
+    y1: float, y2: float, exp: float = 0.5
+) -> Callable[[npt.NDArray[np.floating[Any]]], npt.NDArray[np.floating[Any]]]:
     """Returns the function for an exponential transition.
 
     Args:
@@ -656,7 +667,7 @@ def transition_adiabatic(
     alpha: float = 1,
     max_length: float = 200,
     num_points_ODE: int = 2000,
-) -> tuple[npt.NDArray[np.float64], npt.NDArray[np.float64]]:
+) -> tuple[npt.NDArray[np.floating[Any]], npt.NDArray[np.floating[Any]]]:
     """Returns the points for an optimal adiabatic transition for well-guided modes.
 
     Args:
@@ -717,8 +728,8 @@ def transition_adiabatic(
 def transition(
     cross_section1: CrossSectionSpec,
     cross_section2: CrossSectionSpec,
-    width_type: WidthTypes | Callable[[float], float] = "sine",
-    offset_type: WidthTypes | Callable[[float], float] = "sine",
+    width_type: WidthTypes | Callable[[float, float, float], float] = "sine",
+    offset_type: WidthTypes | Callable[[float, float, float], float] = "sine",
 ) -> Transition:
     """Returns a smoothly-transitioning between two CrossSections.
 
@@ -787,7 +798,7 @@ def along_path(
 
     c = Component()
 
-    cum_dist = 0
+    cum_dist = 0.0
     next_component = (length - (number - 1) * spacing) / 2
     stop = length - next_component
 
@@ -804,7 +815,7 @@ def along_path(
     for i, start_pt in enumerate(p.points[:-1]):
         end_pt = p.points[i + 1]
         segment_vector = end_pt - start_pt
-        segment_length = np.linalg.norm(segment_vector)
+        segment_length = float(np.linalg.norm(segment_vector))
         unit_vector = segment_vector / segment_length
 
         # Get the pre-calculated angle for this segment
@@ -857,6 +868,17 @@ def extrude(
 ) -> ComponentAllAngle: ...
 
 
+@overload
+def extrude(
+    p: Path,
+    cross_section: CrossSectionSpec | None = None,
+    layer: LayerSpec | None = None,
+    width: float | None = None,
+    simplify: float | None = None,
+    all_angle: bool = ...,
+) -> AnyComponent: ...
+
+
 def extrude(
     p: Path,
     cross_section: CrossSectionSpec | None = None,
@@ -864,7 +886,7 @@ def extrude(
     width: float | None = None,
     simplify: float | None = None,
     all_angle: bool = False,
-) -> Component | ComponentAllAngle:
+) -> AnyComponent:
     """Returns Component extruding a Path with a cross_section.
 
     A path can be extruded using any CrossSection returning a Component
@@ -891,6 +913,7 @@ def extrude(
     if layer is not None and width is None:
         raise ValueError("Need to define layer width")
     elif width:
+        assert layer is not None
         s = Section(
             width=width,
             layer=layer,
@@ -899,12 +922,14 @@ def extrude(
         )
         cross_section = CrossSection(sections=(s,))
 
-    xsection_points = []
+    xsection_points: list[list[float]] = []
     c = ComponentAllAngle() if all_angle else Component()
 
     if isinstance(cross_section, Transition):
         deprecate("extrude", "extrude_transition")
         return extrude_transition(p, transition=cross_section)
+
+    assert cross_section is not None
 
     x = get_cross_section(cross_section)
 
@@ -918,13 +943,12 @@ def extrude(
         hidden = section.hidden
 
         offset = section.offset
-        width = section.width
+        width: float | npt.NDArray[np.floating[Any]] = section.width
         width_function = section.width_function
         offset_function = section.offset_function
         layer = section.layer
 
-        if isinstance(width, int | float) and isinstance(offset, int | float):
-            xsection_points.append([width, offset])
+        xsection_points.append([width, offset])
 
         if section.insets and section.insets != (0, 0):
             p_pts = p_sec.points
@@ -1035,13 +1059,11 @@ def extrude(
             new_start_point = v_start_inset + p_pts[start_diff_idx + 1, :]
             new_stop_point = v_stop_inset + p_pts[stop_diff_idx, :]
 
-            p_sec = Path(
-                [
-                    new_start_point,
-                    *p_pts[start_diff_idx + 1 : stop_diff_idx],
-                    new_stop_point,
-                ]
-            )
+            _path_points = [new_start_point]
+            _path_points.extend(p_pts[start_diff_idx + 1 : stop_diff_idx])
+            _path_points.append(new_stop_point)
+
+            p_sec = Path(np.array(_path_points, dtype=np.float64))
 
         if callable(offset_function):
             p_sec.offset(offset_function)
@@ -1056,9 +1078,12 @@ def extrude(
             lengths = np.cumsum(np.sqrt(dx**2 + dy**2))
             lengths = np.concatenate([[0], lengths])
             width = width_function(lengths / lengths[-1])
+
+        assert width is not None
+
         dy = offset + width / 2
 
-        points1 = p_sec._centerpoint_offset_curve(
+        points1 = p_sec.centerpoint_offset_curve(
             points,
             offset_distance=dy,
             start_angle=start_angle,
@@ -1066,7 +1091,7 @@ def extrude(
         )
         dy = offset - width / 2
 
-        points2 = p_sec._centerpoint_offset_curve(
+        points2 = p_sec.centerpoint_offset_curve(
             points,
             offset_distance=dy,
             start_angle=start_angle,
@@ -1089,7 +1114,7 @@ def extrude(
 
         # Add port_names if they were specified
         if port_names[0] is not None:
-            port_width = width if np.isscalar(width) else width[0]
+            port_width = width if isinstance(width, float) else width[0]
             port_orientation = (p_sec.start_angle + 180) % 360
             center = np.average([points1[0], points2[0]], axis=0)
             face = [points1[0], points2[0]]
@@ -1105,7 +1130,7 @@ def extrude(
                 cross_section=x,
             )
         if port_names[1] is not None:
-            port_width = width if np.isscalar(width) else width[-1]
+            port_width = width if isinstance(width, float) else width[-1]
             port_orientation = (p_sec.end_angle) % 360
             center = np.average([points1[-1], points2[-1]], axis=0)
             face = [points1[-1], points2[-1]]
@@ -1125,7 +1150,7 @@ def extrude(
 
     for via in x.components_along_path:
         if via.offset:
-            points_offset = p._centerpoint_offset_curve(
+            points_offset = p.centerpoint_offset_curve(
                 points,
                 offset_distance=via.offset,
                 start_angle=start_angle,
@@ -1186,15 +1211,6 @@ def extrude_transition(p: Path, transition: Transition) -> Component:
         width1 = section1.width
         width2 = section2.width
 
-        if callable(offset1):
-            offset1 = offset1(1)
-        if callable(offset2):
-            offset2 = offset2(0)
-        if callable(width1):
-            width1 = width1(1)
-        if callable(width2):
-            width2 = width2(0)
-
         if offset_type == "linear":
             offset = _linear_transition(offset1, offset2)
         elif offset_type == "sine":
@@ -1237,26 +1253,24 @@ def extrude_transition(p: Path, transition: Transition) -> Component:
         end_angle = p.end_angle
         start_angle = p.start_angle
         points = p.points
-        width = width(lengths)
-        offset = offset(lengths)
+        width_value = width(lengths)
+        offset_value = offset(lengths)
 
-        points1 = p._centerpoint_offset_curve(
+        points1 = p.centerpoint_offset_curve(
             points,
-            offset_distance=offset + width / 2,
+            offset_distance=offset_value + width_value / 2,
             start_angle=start_angle,
             end_angle=end_angle,
         )
 
-        points2 = p._centerpoint_offset_curve(
+        points2 = p.centerpoint_offset_curve(
             points,
-            offset_distance=offset - width / 2,
+            offset_distance=offset_value - width_value / 2,
             start_angle=start_angle,
             end_angle=end_angle,
         )
 
-        with_simplify = section1.simplify and section2.simplify
-
-        if with_simplify:
+        if section1.simplify is not None and section2.simplify is not None:
             tolerance = min([section1.simplify, section2.simplify])
             points1 = _simplify(points1, tolerance=tolerance)
             points2 = _simplify(points2, tolerance=tolerance)
@@ -1272,9 +1286,10 @@ def extrude_transition(p: Path, transition: Transition) -> Component:
         if port_names[0] is not None:
             port_width = width1
             port_orientation = (p.start_angle + 180) % 360
-            center = p._centerpoint_offset_curve(
+            assert not isinstance(offset_value, float)
+            center = p.centerpoint_offset_curve(
                 points[:2],
-                offset_distance=offset[:2],
+                offset_distance=offset_value[:2],
                 start_angle=start_angle,
                 end_angle=None,
             )[0]
@@ -1291,9 +1306,10 @@ def extrude_transition(p: Path, transition: Transition) -> Component:
         if port_names[1] is not None:
             port_width = width2
             port_orientation = (p.end_angle) % 360
-            center = p._centerpoint_offset_curve(
+            assert not isinstance(offset_value, float)
+            center = p.centerpoint_offset_curve(
                 points[-2:],
-                offset_distance=offset[-2:],
+                offset_distance=offset_value[-2:],
                 start_angle=None,
                 end_angle=end_angle,
             )[-1]
@@ -1313,10 +1329,10 @@ def extrude_transition(p: Path, transition: Transition) -> Component:
 
 
 def _rotated_delta(
-    point: npt.NDArray[np.float64],
-    center: npt.NDArray[np.float64],
+    point: npt.NDArray[np.floating[Any]],
+    center: npt.NDArray[np.floating[Any]],
     orientation: AngleInDegrees,
-) -> npt.NDArray[np.float64]:
+) -> npt.NDArray[np.floating[Any]]:
     """Gets the rotated distance of a point from a center.
 
     Args:
@@ -1330,17 +1346,17 @@ def _rotated_delta(
     sa = np.sin(orientation * np.pi / 180)
     rot_mat = np.array([[ca, -sa], [sa, ca]])
     delta = point - center
-    return np.dot(delta, rot_mat)
+    return np.array(np.dot(delta, rot_mat))
 
 
 def _cut_path_with_ray(  # type: ignore
-    start_point: npt.NDArray[np.float64],
+    start_point: npt.NDArray[np.floating[Any]],
     start_angle: float | None,
-    end_point: npt.NDArray[np.float64],
+    end_point: npt.NDArray[np.floating[Any]],
     end_angle: float | None,
-    path: npt.NDArray[np.float64],
+    path: npt.NDArray[np.floating[Any]],
 ) -> npt.NDArray[np.float64]:
-    """Cuts or extends a path given a point and angle to project."""
+    """Cuts or extends floating[Any] path given a point and angle to project."""
     import shapely.geometry as sg
     import shapely.ops
 
@@ -1688,8 +1704,9 @@ def smooth(
     points, normals, ds, theta, dtheta = _compute_segments(points)
     colinear_elements = np.concatenate([[False], np.abs(dtheta) < 1e-6, [False]])
     if np.any(colinear_elements):
-        new_points = points[~colinear_elements, :]
-        points, normals, ds, theta, dtheta = _compute_segments(new_points)
+        points, normals, ds, theta, dtheta = _compute_segments(
+            points[~colinear_elements, :]
+        )
 
     if np.any(np.abs(np.abs(dtheta) - 180) < 1e-6):
         raise ValueError(
@@ -1699,8 +1716,8 @@ def smooth(
 
     # FIXME add caching
     # Create arcs
-    paths = []
-    radii = []
+    paths: list[Path] = []
+    radii: list[float] = []
     for dt in dtheta:
         P = bend(radius=radius, angle=dt, **kwargs)
         chord = np.linalg.norm(P.points[-1, :] - P.points[0, :])
@@ -1719,21 +1736,21 @@ def smooth(
     p1 = points[1:-1, :] - normals[:-1, :] * d[:, np.newaxis]
 
     # Move arcs into position
-    new_points = []
-    new_points.append([points[0, :]])
+    new_points: list[npt.NDArray[np.floating[Any]]] = []
+    new_points.append(np.array([points[0, :]]))
     for n in range(len(dtheta)):
-        P = paths[n]
-        P.rotate(theta[n] - 0)
-        P.move(p1[n])
-        new_points.append(P.points)
-    new_points.append([points[-1, :]])
-    new_points = np.concatenate(new_points)
+        p = paths[n]
+        p.rotate(theta[n] - 0)
+        p.move(p1[n])
+        new_points.append(p.points)
+    new_points.append(np.array([points[-1, :]]))
+    new_points_np = np.concatenate(new_points)
 
-    P = Path()
-    P.rotate(theta[0])
-    P.append(new_points)
-    P.move(points[0, :])
-    return P
+    path = Path()
+    path.rotate(float(theta[0]))
+    path.append(new_points_np)
+    path.move(points[0, :])
+    return path
 
 
 __all__ = [
@@ -1788,7 +1805,7 @@ if __name__ == "__main__":
     s = gf.Section(
         width=0.5, offset=0, layer=(1, 0), port_names=("in", "out"), name="core"
     )
-    x = gf.CrossSection(sections=[s], components_along_path=[via])
+    x = gf.CrossSection(sections=(s,), components_along_path=(via,))
 
     # Combine the path with the cross-section
     # c = gf.path.extrude(p, cross_section=x)
@@ -1797,7 +1814,7 @@ if __name__ == "__main__":
     s = gf.Section(
         width=2, offset=0, layer=(1, 0), port_names=("in", "out"), name="core"
     )
-    x2 = gf.CrossSection(sections=[s], components_along_path=[via])
+    x2 = gf.CrossSection(sections=(s,), components_along_path=(via,))
     t = gf.path.transition(x, x2, width_type="linear")
     c = gf.path.extrude_transition(p, t)
 

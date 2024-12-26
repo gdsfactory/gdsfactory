@@ -24,6 +24,7 @@ from pprint import pprint
 from typing import Any, Protocol
 from warnings import warn
 
+import kfactory as kf
 import numpy as np
 
 from gdsfactory import Port, typings
@@ -119,16 +120,16 @@ def get_instance_name_from_label(
     return text
 
 
-def _is_array_reference(ref: ComponentReference) -> bool:
+def _is_array_reference(ref: kf.Instance) -> bool:
     return ref.na > 1 or ref.nb > 1
 
 
-def _is_orthogonal_array_reference(ref: ComponentReference) -> bool:
+def _is_orthogonal_array_reference(ref: kf.Instance) -> bool:
     return abs(ref.a.y) == 0 and abs(ref.b.x) == 0
 
 
 def get_netlist(
-    component: Component,
+    component: kf.KCell,
     exclude_port_types: Sequence[str] | None = (
         "placement",
         "pad",
@@ -175,7 +176,7 @@ def get_netlist(
     top_ports: dict[str, str] = {}
 
     # store where ports are located
-    name2port = {}
+    name2port: dict[str, kf.Port] = {}
 
     # TOP level ports
     ports = component.ports
@@ -326,7 +327,7 @@ def _extract_connections(
     raise_error_for_warnings: list[str] | None = None,
     allow_multiple: bool = True,
     connection_error_types: dict[str, list[str]] | None = None,
-) -> tuple[list[list[str]], dict[str, list[dict[str, Any]]]]:
+) -> tuple[list[list[str]], dict[str, list[Any]]]:
     """Extracts connections between ports.
 
     Args:
@@ -342,7 +343,7 @@ def _extract_connections(
     if connection_error_types is None:
         connection_error_types = DEFAULT_CRITICAL_CONNECTION_ERROR_TYPES
 
-    warnings: defaultdict[str, list[list[str]]] = defaultdict(list)
+    warnings: defaultdict[str, list[Any]] = defaultdict(list)
     if raise_error_for_warnings is None:
         raise_error_for_warnings = connection_error_types.get(port_type, [])
 
@@ -500,18 +501,18 @@ def difference_between_angles(angle2: float, angle1: float) -> float:
     return diff
 
 
-def _get_references_to_netlist(component: Component) -> list[ComponentReference]:
+def _get_references_to_netlist(component: kf.KCell) -> kf.kcell.Instances:
     return component.insts
 
 
 class GetNetlistFunc(Protocol):
-    def __call__(self, component: Component, **kwargs: Any) -> dict[str, Any]: ...
+    def __call__(self, component: kf.KCell, **kwargs: Any) -> dict[str, Any]: ...
 
 
 def get_netlist_recursive(
-    component: Component,
+    component: kf.KCell,
     component_suffix: str = "",
-    get_netlist_func: GetNetlistFunc = get_netlist,
+    get_netlist_func: GetNetlistFunc = get_netlist,  # type: ignore
     get_instance_name: Callable[..., str] = get_instance_name_from_alias,
     **kwargs: Any,
 ) -> dict[str, Any]:
@@ -534,7 +535,7 @@ def get_netlist_recursive(
         Dictionary of netlists, keyed by the name of each component.
 
     """
-    all_netlists = {}
+    all_netlists: dict[str, Any] = {}
 
     # only components with references (subcomponents) warrant a netlist
     references = _get_references_to_netlist(component)

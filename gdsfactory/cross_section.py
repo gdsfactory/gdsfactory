@@ -14,7 +14,6 @@ from types import ModuleType
 from typing import Any, TypeAlias
 
 import numpy as np
-import numpy.typing as npt
 from kfactory import logger
 from kfactory.cross_section import SymmetricalCrossSection
 from pydantic import (
@@ -27,6 +26,7 @@ from pydantic import (
 )
 
 from gdsfactory import typings
+from gdsfactory.component import Component
 from gdsfactory.config import CONF, ErrorType
 
 nm = 1e-3
@@ -120,8 +120,8 @@ class Section(BaseModel):
     hidden: bool = False
     simplify: float | None = None
 
-    width_function: typings.WidthFunction | None = Field(default=None)
-    offset_function: typings.OffsetFunction | None = Field(default=None)
+    width_function: typings.WidthFunction | None = None
+    offset_function: typings.OffsetFunction | None = None
 
     model_config = ConfigDict(extra="forbid", frozen=True)
 
@@ -154,12 +154,12 @@ class ComponentAlongPath(BaseModel):
         y_offset: offset in y direction (um).
     """
 
-    component: object
+    component: Component
     spacing: float
     padding: float = 0.0
     offset: float = 0.0
 
-    model_config = ConfigDict(extra="forbid", frozen=True)
+    model_config = ConfigDict(extra="forbid", frozen=True, arbitrary_types_allowed=True)
 
 
 Sections = tuple[Section, ...]
@@ -430,8 +430,7 @@ class Transition(BaseModel):
     @field_serializer("width_type")
     def serialize_width(
         self,
-        width_type: typings.WidthTypes
-        | Callable[[npt.NDArray[np.float_], float, float], npt.NDArray[np.float_]],
+        width_type: typings.WidthTypes | Callable[[float, float, float], float],
     ) -> str:
         if isinstance(width_type, str):
             return width_type

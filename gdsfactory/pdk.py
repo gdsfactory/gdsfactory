@@ -61,7 +61,7 @@ def evanescent_coupler_sample() -> None:
     pass
 
 
-def extract_args_from_docstring(docstring: str) -> dict[str, Any] | None:
+def extract_args_from_docstring(docstring: str) -> dict[str, Any]:
     """This function extracts settings from a function's docstring for uPDK format.
 
     Args:
@@ -70,7 +70,7 @@ def extract_args_from_docstring(docstring: str) -> dict[str, Any] | None:
     Returns:
         settings (dict): The extracted YAML data as a dictionary.
     """
-    args_dict = {}
+    args_dict: dict[str, Any] = {}
 
     docstring_lines = docstring.split("\n")
     for line in docstring_lines:
@@ -197,7 +197,7 @@ class Pdk(BaseModel):
         def newfunc(**kwargs: Any) -> CrossSection:
             xs = func(**kwargs)
             if xs.name in self.cross_section_default_names:
-                xs._name = self.cross_section_default_names[xs.name]
+                xs._name = self.cross_section_default_names[xs.name]  # type: ignore
             return xs
 
         self.cross_sections[func.__name__] = newfunc
@@ -313,8 +313,7 @@ class Pdk(BaseModel):
 
             cell_name = cell.get("function")
             if not isinstance(cell_name, str) or cell_name not in cells:
-                cell_name = cell
-                matching_cells = [cell for cell in cells if cell_name in cell]
+                matching_cells = [c for c in cells if c in cell.keys()]
                 raise ValueError(
                     f"{cell!r} from PDK {self.name!r} not in cells: Did you mean {matching_cells}?"
                 )
@@ -496,8 +495,6 @@ class Pdk(BaseModel):
             if c.__doc__ is None:
                 continue
             extra_args = extract_args_from_docstring(c.__doc__)
-            if extra_args is None:
-                continue
 
             blocks[name] = dict(
                 bbox=bbox_to_points(c.dbbox()),
@@ -536,16 +533,15 @@ class Pdk(BaseModel):
             xs_name: self.get_cross_section(xs_name)
             for xs_name in self.cross_sections.keys()
         }
-        xsections = {
+        xsections_widths = {
             xs_name: dict(width=xsection.width)
             for xs_name, xsection in xsections.items()
         }
 
         header = dict(description=self.name)
 
-        d = {"blocks": blocks, "xsections": xsections, "header": header}
-        d = convert_tuples_to_lists(d)
-        return yaml.dump(d)
+        d = {"blocks": blocks, "xsections": xsections_widths, "header": header}
+        return yaml.dump(convert_tuples_to_lists(d))
 
     def get_cross_section_name(self, cross_section: CrossSection) -> str:
         xs_name = next(
