@@ -396,7 +396,6 @@ class ComponentBase:
 
     def copy(self) -> Component:
         """Copy the full cell."""
-        deprecate("copy", "dup")
         return self.dup()
 
     def dup(self) -> Component:
