@@ -115,7 +115,7 @@ def get_instance_name_from_label(
         yl = label.dposition[1]
         if x == xl and y == yl and label.layer == layer_label[0]:
             # print(label.text, xl, yl, x, y)
-            return label.text
+            return str(label.text)
 
     return text
 

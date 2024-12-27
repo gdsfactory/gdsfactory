@@ -27,7 +27,7 @@ def xor(
     ignore_cell_name_differences: bool | None = None,
     ignore_label_differences: bool | None = None,
     stagger: bool = True,
-) -> gf.Component:
+) -> KCell:
     """Returns XOR of two layouts.
 
     Args:
@@ -125,88 +125,86 @@ def xor(
     if not ignore_label_differences and (a_texts or b_texts):
         equivalent = False
     if equal:
-        c = gf.Component("xor_empty")
-    else:
-        c = KCell(f"{test_name}_difftest")
-        ref = old
-        run = new
+        return gf.Component("xor_empty")
+    c = KCell(f"{test_name}_difftest")
+    ref = old
+    run = new
 
-        old = KCell(f"{test_name}_old")
-        new = KCell(f"{test_name}_new")
+    old_kcell = KCell(f"{test_name}_old")
+    new_kcell = KCell(f"{test_name}_new")
 
-        old.copy_tree(ref._kdb_cell)
-        new.copy_tree(run._kdb_cell)
+    old_kcell.copy_tree(ref._kdb_cell)
+    new_kcell.copy_tree(run._kdb_cell)
 
-        old.name = f"{test_name}_old"
-        new.name = f"{test_name}_new"
+    old_kcell.name = f"{test_name}_old"
+    new_kcell.name = f"{test_name}_new"
 
-        old_ref = c << old
-        new_ref = c << new
+    old_ref = c << old_kcell
+    new_ref = c << new_kcell
 
-        dy = 10
-        if stagger:
-            old_ref.dmovey(+old.dysize + dy)
-            new_ref.dmovey(-old.dysize - dy)
+    dy = 10
+    if stagger:
+        old_ref.dmovey(+old_kcell.dysize + dy)
+        new_ref.dmovey(-old_kcell.dysize - dy)
 
-        layer_label = (1, 0)
-        layer_label = kf.kcl.layer(*layer_label)
-        c.shapes(layer_label).insert(kf.kdb.DText("old", old_ref.dtrans))
-        c.shapes(layer_label).insert(kf.kdb.DText("new", new_ref.dtrans))
-        c.shapes(layer_label).insert(
-            kf.kdb.DText(
-                "xor", kf.kdb.DTrans(new_ref.dxmin, old_ref.dymax - old_ref.dysize - dy)
-            )
+    layer_label = (1, 0)
+    layer_label = kf.kcl.layer(*layer_label)
+    c.shapes(layer_label).insert(kf.kdb.DText("old", old_ref.dtrans))
+    c.shapes(layer_label).insert(kf.kdb.DText("new", new_ref.dtrans))
+    c.shapes(layer_label).insert(
+        kf.kdb.DText(
+            "xor", kf.kdb.DTrans(new_ref.dxmin, old_ref.dymax - old_ref.dysize - dy)
         )
+    )
 
-        if xor:
-            print("Running XOR on differences...")
-            # assume equivalence until we find XOR differences, determined significant by the settings
-            diff = KCell(f"{test_name}_xor")
+    print("Running XOR on differences...")
+    # assume equivalence until we find XOR differences, determined significant by the settings
+    diff = KCell(f"{test_name}_xor")
 
-            for layer in c.kcl.layer_infos():
-                # exists in both
-                if (
-                    new.kcl.layout.find_layer(layer) is not None
-                    and old.kcl.layout.find_layer(layer) is not None
-                ):
-                    layer_ref = old.layer(layer)
-                    layer_run = new.layer(layer)
+    for layer in c.kcl.layer_infos():
+        # exists in both
+        if (
+            new_kcell.kcl.layout.find_layer(layer) is not None
+            and old_kcell.kcl.layout.find_layer(layer) is not None
+        ):
+            layer_ref = old_kcell.layer(layer)
+            layer_run = new_kcell.layer(layer)
 
-                    region_run = kdb.Region(new.begin_shapes_rec(layer_run))
-                    region_ref = kdb.Region(old.begin_shapes_rec(layer_ref))
-                    region_diff = region_run ^ region_ref
+            region_run = kdb.Region(new_kcell.begin_shapes_rec(layer_run))
+            region_ref = kdb.Region(old_kcell.begin_shapes_rec(layer_ref))
+            region_diff = region_run ^ region_ref
 
-                    if not region_diff.is_empty():
-                        layer_id = c.layer(layer)
-                        region_xor = region_ref ^ region_run
-                        diff.shapes(layer_id).insert(region_xor)
-                        xor_w_tolerance = region_xor.sized(-1)
-                        is_sliver = xor_w_tolerance.is_empty()
-                        message = f"{test_name}: XOR difference on layer {layer}"
-                        if is_sliver:
-                            message += " (sliver)"
-                            if not ignore_sliver_differences:
-                                equivalent = False
-                        else:
-                            equivalent = False
-                        print(message)
-                # only in new
-                elif new.kcl.layout.find_layer(layer) is not None:
-                    layer_id = new.layer(layer)
-                    region = kdb.Region(new.begin_shapes_rec(layer_id))
-                    diff.shapes(c.kcl.layer(layer)).insert(region)
-                    print(f"{test_name}: layer {layer} only exists in updated cell")
+            if not region_diff.is_empty():
+                layer_id = c.layer(layer)
+                region_xor = region_ref ^ region_run
+                diff.shapes(layer_id).insert(region_xor)
+                xor_w_tolerance = region_xor.sized(-1)
+                is_sliver = xor_w_tolerance.is_empty()
+                message = f"{test_name}: XOR difference on layer {layer}"
+                if is_sliver:
+                    message += " (sliver)"
+                    if not ignore_sliver_differences:
+                        equivalent = False
+                else:
                     equivalent = False
+                print(message)
+        # only in new
+        elif new_kcell.kcl.layout.find_layer(layer) is not None:
+            layer_id = new_kcell.layer(layer)
+            region = kdb.Region(new_kcell.begin_shapes_rec(layer_id))
+            diff.shapes(c.kcl.layer(layer)).insert(region)
+            print(f"{test_name}: layer {layer} only exists in updated cell")
+            equivalent = False
 
-                # only in old
-                elif old.kcl.layout.find_layer(layer) is not None:
-                    layer_id = old.layer(layer)
-                    region = kdb.Region(old.begin_shapes_rec(layer_id))
-                    diff.shapes(c.kcl.layer(layer)).insert(region)
-                    print(f"{test_name}: layer {layer} missing from updated cell")
-                    equivalent = False
+        # only in old
+        elif old_kcell.kcl.layout.find_layer(layer) is not None:
+            layer_id = old_kcell.layer(layer)
+            region = kdb.Region(old_kcell.begin_shapes_rec(layer_id))
+            diff.shapes(c.kcl.layer(layer)).insert(region)
+            print(f"{test_name}: layer {layer} missing from updated cell")
+            equivalent = False
 
-            _ = c << diff
+        _ = c << diff
     return c
 
 
@@ -234,8 +232,8 @@ def diff(
         show: shows diff in klayout.
         stagger: if True, staggers the old/new/xor views. If False, all three are overlaid.
     """
-    old = read_top_cell(ref_file)
-    new = read_top_cell(run_file)
+    old = read_top_cell(pathlib.Path(ref_file))
+    new = read_top_cell(pathlib.Path(run_file))
 
     if ignore_sliver_differences is None:
         ignore_sliver_differences = CONF.difftest_ignore_sliver_differences
@@ -301,16 +299,16 @@ def diff(
         print("Text only in new")
         get_texts(ld.layer_index_b(), b_texts).insert(bnota)
 
-    ld.on_cell_in_a_only = lambda anotb: cell_diff_a(anotb)
-    ld.on_cell_in_b_only = lambda anotb: cell_diff_b(anotb)
-    ld.on_text_in_a_only = lambda anotb, prop_id: text_diff_a(anotb, prop_id)
-    ld.on_text_in_b_only = lambda anotb, prop_id: text_diff_b(anotb, prop_id)
+    ld.on_cell_in_a_only = cell_diff_a  # type: ignore[assignment]
+    ld.on_cell_in_b_only = cell_diff_b  # type: ignore[assignment]
+    ld.on_text_in_a_only = text_diff_a  # type: ignore[assignment]
+    ld.on_text_in_b_only = text_diff_b  # type: ignore[assignment]
 
-    ld.on_polygon_in_a_only = lambda anotb, prop_id: polygon_diff_a(anotb, prop_id)
-    ld.on_polygon_in_b_only = lambda anotb, prop_id: polygon_diff_b(anotb, prop_id)
+    ld.on_polygon_in_a_only = polygon_diff_a  # type: ignore[assignment]
+    ld.on_polygon_in_b_only = polygon_diff_b  # type: ignore[assignment]
 
     if ignore_cell_name_differences:
-        ld.on_cell_name_differs = lambda anotb: print(f"cell name differs {anotb.name}")
+        ld.on_cell_name_differs = lambda anotb: print(f"cell name differs {anotb.name}")  # type: ignore[assignment]
         equal = ld.compare(
             old._kdb_cell,
             new._kdb_cell,
@@ -515,10 +513,12 @@ def read_top_cell(arg0: pathlib.Path) -> kf.KCell:
 
 
 if __name__ == "__main__":
+    from gdsfactory.components.waveguides.straight import straight
+
     # print([i.name for i in c.get_dependencies()])
     # c.show()
     # c.name = "mzi"
-    c = gf.components.straight(length=10, layer=(2, 0))
+    c = straight(length=10)
     difftest(c, test_name="straight", dirpath=PATH.cwd)
     c.show()
     # c.write_gds()

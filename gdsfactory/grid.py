@@ -89,8 +89,8 @@ def grid(
 def grid_with_text(
     components: Sequence[ComponentSpec] = ("rectangle", "triangle"),
     text_prefix: str = "",
-    text_offsets: tuple[Float2, ...] | None = None,
-    text_anchors: tuple[Anchor, ...] | None = None,
+    text_offsets: Sequence[Float2] | None = None,
+    text_anchors: Sequence[Anchor] | None = None,
     text_mirror: bool = False,
     text_rotation: int = 0,
     text: ComponentSpec | None = "text_rectangular",
@@ -100,7 +100,7 @@ def grid_with_text(
     align_y: Literal["origin", "ymin", "ymax", "center"] = "center",
     rotation: int = 0,
     mirror: bool = False,
-    labels: tuple[str, ...] | None = None,
+    labels: Sequence[str] | None = None,
 ) -> Component:
     """Returns Component with 1D or 2D grid of components with text labels.
 
@@ -140,15 +140,17 @@ def grid_with_text(
         c.plot()
 
     """
-    components = [gf.get_component(component) for component in components]
-    text_offsets = text_offsets or [(0, 0)]
-    text_anchors = text_anchors or ["center"]
-    labels = labels or [None] * len(components)
+    component_list = [gf.get_component(component) for component in components]
+    text_offsets = text_offsets or ((0, 0),)
+    text_anchors = text_anchors or ("center",)
+    labels_not_none: list[str | None] = (
+        list(labels) if labels else [None] * len(component_list)
+    )
 
     c = gf.Component()
     instances = kf.grid(
         c,
-        kcells=components,
+        kcells=component_list,
         shape=shape,
         spacing=(
             (float(spacing[0]), float(spacing[1]))
@@ -157,7 +159,7 @@ def grid_with_text(
         ),
         align_x=align_x,
         align_y=align_y,
-        rotation=round(rotation // 90),
+        rotation=round(rotation // 90),  # type: ignore[arg-type]
         mirror=mirror,
     )
     for i, instances_list in enumerate(instances):
@@ -165,7 +167,7 @@ def grid_with_text(
             if instance is None:
                 continue
             c.add_ports(instance.ports, prefix=f"{j}_{i}_")
-            text_string = labels[i] or f"{text_prefix}{j}_{i}"
+            text_string = labels_not_none[i] or f"{text_prefix}{j}_{i}"
 
             if text:
                 for text_offset, text_anchor in zip_longest(text_offsets, text_anchors):
@@ -175,7 +177,7 @@ def grid_with_text(
                     text_anchor = text_anchor or "center"
                     o = np.array(text_offset)
                     d = np.array(getattr(size_info, text_anchor))
-                    t.dmove(o + d)
+                    t.dmove(tuple(o + d))
                     if text_mirror:
                         t.dmirror()
                     if text_rotation:
@@ -190,11 +192,11 @@ if __name__ == "__main__":
     # components = [gf.components.rectangle(size=(i, i)) for i in range(40, 66, 5)]
     # c = tuple(gf.components.rectangle(size=(i, i)) for i in range(40, 66, 10))
     # c = tuple([gf.components.triangle(x=i) for i in range(1, 10)])
-    c = tuple(gf.components.rectangle(size=(i, i)) for i in range(1, 3))
+    components = tuple(gf.components.rectangle(size=(i, i)) for i in range(1, 3))
     # print(len(c))
 
     c = grid_with_text(
-        c,
+        components,
         shape=(3, 3),
         # rotation=90,
         mirror=False,

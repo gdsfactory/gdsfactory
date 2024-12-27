@@ -450,7 +450,7 @@ class Pdk(BaseModel):
         elif isinstance(layer, tuple | list):
             if len(layer) != 2:
                 raise ValueError(f"{layer!r} needs two integer numbers.")
-            return kf.kcl.layer(*layer)
+            return kf.kcl.layout.layer(*layer)
         elif isinstance(layer, str):
             if not hasattr(self.layers, layer):
                 raise ValueError(f"{layer!r} not in {self.layers}")
