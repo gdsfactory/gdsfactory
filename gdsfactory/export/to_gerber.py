@@ -78,7 +78,7 @@ def to_gerber(
     component: Component,
     dirpath: Path,
     layermap_to_gerber_layer: dict[tuple[int, int], GerberLayer],
-    options: GerberOptions = Field(default_factory=dict),
+    options: GerberOptions = Field(default_factory=GerberOptions),
 ) -> None:
     """Writes each layer to a different Gerber file.
 

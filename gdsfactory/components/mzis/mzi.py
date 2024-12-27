@@ -269,7 +269,7 @@ mzm = partial(
 )
 
 if __name__ == "__main__":
-    c = mzi1x2(combiner=partial(gf.c.mmi1x2, gap_mmi=0))
+    c = mzi1x2(combiner=partial(gf.components.mmi1x2, gap_mmi=0))
     # c = mzi_coupler()
     # c = mzi_pin()
     # c = mzm()
@@ -287,8 +287,6 @@ if __name__ == "__main__":
     # gdspath = c.write_gds(flatten_invalid_refs=True)
     # gf.show(gdspath)
     # c.plot_netlist()
-    n = c.get_graphviz()
-    gf.schematic.plot_graphviz(n)
     c.show()
 
     # c1.write_gds("a.gds")

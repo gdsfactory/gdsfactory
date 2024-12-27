@@ -86,7 +86,7 @@ def route_ports_to_side(
     if not ports:
         return [], []
 
-    if side in ["north", "south"]:
+    if side == "north" or side == "south":
         xy_ns = y if y is not None else side
         return route_ports_to_y(
             component=component,
@@ -193,10 +193,6 @@ def route_ports_to_x(
         x = max(p.dx for p in ports) + bx
     elif x == "west":
         x = min(p.dx for p in ports) - bx
-    elif isinstance(x, float | int):
-        pass
-    else:
-        raise ValueError(f"x={x!r} should be a float or east or west")
 
     if x < min(xs):
         sort_key_north = sort_key_west_to_east
