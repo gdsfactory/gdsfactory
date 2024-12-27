@@ -4,7 +4,7 @@ import warnings
 from typing import Any
 
 import numpy as np
-from numpy.typing import NDArray
+import numpy.typing as npt
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -20,7 +20,10 @@ def line(
     p_end: Port | Coordinate,
     width: float | None = None,
 ) -> tuple[
-    NDArray[np.float64], NDArray[np.float64], NDArray[np.float64], NDArray[np.float64]
+    npt.NDArray[np.floating[Any]],
+    npt.NDArray[np.floating[Any]],
+    npt.NDArray[np.floating[Any]],
+    npt.NDArray[np.floating[Any]],
 ]:
     if isinstance(p_start, gf.Port):
         width = p_start.width
@@ -42,7 +45,7 @@ def line(
 
 def move_polar_rad_copy(
     pos: Coordinate, angle: float, length: float
-) -> NDArray[np.float64]:
+) -> npt.NDArray[np.floating[Any]]:
     """Returns the points of a position (pos) with angle, shifted by length.
 
     Args:
@@ -141,9 +144,6 @@ def extend_ports(
                     layer=gf.get_layer_tuple(port.layer),  # type: ignore
                     width=port.dwidth,
                 )
-
-                if cross_section_extension is None:
-                    raise ValueError("cross_section=None for extend_ports")
 
                 extension_component = gf.components.straight(
                     length=length,

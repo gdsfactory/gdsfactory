@@ -69,7 +69,7 @@ def free_propagation_region(
         for i, yi in enumerate(y):
             c.add_port(
                 f"W{i}",
-                center=(0, yi),
+                center=(0, float(yi)),
                 width=wg_width,
                 orientation=180,
                 layer=layer,
@@ -80,7 +80,7 @@ def free_propagation_region(
     for i, yi in enumerate(y):
         c.add_port(
             f"E{i}",
-            center=(length, yi),
+            center=(length, float(yi)),
             width=wg_width,
             orientation=0,
             layer=layer,

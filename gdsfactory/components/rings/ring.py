@@ -32,10 +32,10 @@ def ring(
     n = int(np.round(360 / angle_resolution))
     t: npt.NDArray[np.float64] = np.linspace(0, angle, n + 1) * pi / 180  # type: ignore
     assert isinstance(t, np.ndarray)
-    inner_points_x = (inner_radius * cos(t)).tolist()
-    inner_points_y = (inner_radius * sin(t)).tolist()
-    outer_points_x = (outer_radius * cos(t)).tolist()
-    outer_points_y = (outer_radius * sin(t)).tolist()
+    inner_points_x = list(inner_radius * cos(t))
+    inner_points_y = list(inner_radius * sin(t))
+    outer_points_x = list(outer_radius * cos(t))
+    outer_points_y = list(outer_radius * sin(t))
     xpts = inner_points_x + outer_points_x[::-1]
     ypts = inner_points_y + outer_points_y[::-1]
     D.add_polygon(points=list(zip(xpts, ypts)), layer=layer)

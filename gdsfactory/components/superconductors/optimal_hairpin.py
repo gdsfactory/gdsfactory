@@ -95,7 +95,7 @@ def optimal_hairpin(
     c.add_polygon(list(zip(xpts_np, -ypts_np)), layer=layer)
     port_type = "electrical"
 
-    xports = min(xpts_np)
+    xports = float(np.min(xpts_np))
     yports = -a + width / 2
     c.add_port(
         name="e1",

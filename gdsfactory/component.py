@@ -447,7 +447,7 @@ class ComponentBase:
     def add_polygon(
         self,
         points: (
-            "np.ndarray[Any, np.dtype[np.float64]] | kdb.DPolygon | kdb.Polygon | kdb.Region | Coordinates"
+            "np.ndarray[Any, np.dtype[np.floating[Any]]] | kdb.DPolygon | kdb.Polygon | kdb.Region | Coordinates"
         ),
         layer: "LayerSpec",
     ) -> kdb.Shape:

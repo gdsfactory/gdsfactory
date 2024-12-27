@@ -2,13 +2,12 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bends import bend_s
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Delta
 
 
 @gf.cell
 def coupler_symmetric(
-    bend: ComponentSpec = bend_s,
+    bend: ComponentSpec = "bend_s",
     gap: float = 0.234,
     dy: Delta = 4.0,
     dx: Delta = 10.0,

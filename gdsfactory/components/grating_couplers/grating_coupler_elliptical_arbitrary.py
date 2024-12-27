@@ -106,7 +106,7 @@ def grating_coupler_elliptical_arbitrary(
     # grating teeth
     for a1, b1, x1, p, width in zip(a1s, b1s, x1s, ps, widths_array):
         pts = grating_tooth_points(
-            p * a1, p * b1, p * x1, width, taper_angle, spiked=spiked
+            p * a1, p * b1, p * x1, float(width), taper_angle, spiked=spiked
         )
         c.add_polygon(pts, layer_grating)
 

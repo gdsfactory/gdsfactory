@@ -132,10 +132,10 @@ def optimal_step(
         # gentler transition, so there's less chance of current crowding if
         # the fabrication isn't perfect but as a result, the wire isn't as
         # short as it could be
-        xpts = (np.array(xpts) * anticrowding_factor).tolist()
+        xpts = [x * anticrowding_factor for x in xpts]
 
         if reverse:
-            xpts = (-np.array(xpts)).tolist()
+            xpts = [-x for x in xpts]
             start_width, end_width = end_width, start_width
 
         D.info["num_squares"] = float(

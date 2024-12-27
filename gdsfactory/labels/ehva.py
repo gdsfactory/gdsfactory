@@ -4,6 +4,7 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.name import clean_name
+from gdsfactory.routing.add_fiber_array import add_fiber_array
 from gdsfactory.snap import snap_to_grid as snap
 from gdsfactory.typings import Layer
 
@@ -100,13 +101,11 @@ if __name__ == "__main__":
         die="demo_die",
         metadata_include_parent=["grating_coupler:settings:polarization"],
     )
-    from gdsfactory.components.mmi2x2 import mmi2x2
+    from gdsfactory.components import mmi2x2
 
     c = gf.c.straight(length=11)
     c = mmi2x2(length_mmi=2.2)
-    c = gf.routing.add_fiber_array(
-        c,
-    )
+    c = add_fiber_array(c)
     c = add_label_ehva(c)
 
     # add_label_ehva(c, die="demo_die", metadata_include_child=["width_mmi"])
