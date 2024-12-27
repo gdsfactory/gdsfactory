@@ -1,12 +1,12 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.27.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.27.2...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.27.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.27.2) - 2024-12-27
 
-No significant changes.
-
+- remove import_gds cache [#3543](https://github.com/gdsfactory/gdsfactory/pull/3543)
+- Fix mypy errors [#3542](https://github.com/gdsfactory/gdsfactory/pull/3542)
 
 ## [8.27.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.27.1) - 2024-12-25
 
