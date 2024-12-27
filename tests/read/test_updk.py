@@ -9,6 +9,7 @@ def test_updk() -> None:
     PDK.activate()
     yaml_pdk_decription = PDK.to_updk()
     filepath = GDSDIR_TEMP / "pdk.yaml"
+    GDSDIR_TEMP.mkdir(exist_ok=True)
     filepath.write_text(yaml_pdk_decription)
     gdsfactory_script = from_updk(filepath)
     assert gdsfactory_script
