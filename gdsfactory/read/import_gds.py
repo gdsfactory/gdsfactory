@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from functools import cache
 from pathlib import Path
 from typing import Any
 
@@ -12,7 +11,6 @@ from gdsfactory.component import Component
 from gdsfactory.typings import PostProcesses
 
 
-@cache
 def import_gds(
     gdspath: str | Path,
     cellname: str | None = None,
