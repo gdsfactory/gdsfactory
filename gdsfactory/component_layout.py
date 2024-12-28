@@ -300,7 +300,7 @@ def parse_coordinate(
     if hasattr(c, "center"):
         return c.dcenter  # type: ignore[union-attr]
     elif np.array(c).size == 2:
-        return c  # type: ignore[unused-ignore]
+        return c  # type: ignore[unused-ignore, return-value]
     raise ValueError(
         "Could not parse coordinate, input should be array-like (e.g. [1.5,2.3] or a Port"
     )

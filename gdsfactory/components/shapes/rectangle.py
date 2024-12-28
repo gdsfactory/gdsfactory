@@ -87,8 +87,12 @@ def rectangles(
     if len(offsets) != len(layers):
         raise ValueError(f"len(offsets) != len(layers) {len(offsets)} != {len(layers)}")
     for layer, offset in zip(layers, offsets):
+        current_size = size_np + 2 * offset
         ref = c << rectangle(
-            size=tuple(size_np + 2 * offset), layer=layer, centered=centered, **kwargs
+            size=(current_size[0], current_size[1]),
+            layer=layer,
+            centered=centered,
+            **kwargs,
         )
         if ref0:
             ref.dcenter = ref0.dcenter

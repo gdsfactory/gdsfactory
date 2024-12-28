@@ -69,7 +69,7 @@ def get_list_ports_angle(list_ports: Sequence[Port]) -> float | None:
 
 
 if __name__ == "__main__":
-    from gdsfactory.components.mmi1x2 import mmi1x2
+    from gdsfactory.components import mmi1x2
 
     c = mmi1x2()
     d = direction_ports_from_list_ports(c.get_ports_list())

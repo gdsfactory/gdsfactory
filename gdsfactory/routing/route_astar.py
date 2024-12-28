@@ -3,6 +3,7 @@ from __future__ import annotations
 from collections.abc import Sequence
 from typing import Any
 
+import klayout.dbcore as kdb
 import networkx as nx
 import numpy as np
 import numpy.typing as npt
@@ -37,7 +38,7 @@ class Node:
 
 def _extract_all_bbox(
     c: Component, avoid_layers: Sequence[LayerSpec] | None = None
-) -> list[dict[tuple[int, int] | str | int, list[gf.kdb.Polygon]]]:
+) -> list[dict[tuple[int, int] | str | int, list[kdb.Polygon]]]:
     """Extract all polygons whose layer is in `avoid_layers`.
 
     Args:
@@ -48,7 +49,7 @@ def _extract_all_bbox(
     return [c.get_polygons(by="name", layers=avoid_layers)]
 
 
-def _parse_bbox_to_array(bbox: tuple[float, float]) -> npt.NDArray[np.integer[Any]]:
+def _parse_bbox_to_array(bbox: kdb.Polygon) -> npt.NDArray[np.integer[Any]]:
     """Parses bbox in the form of (a,b;c,d) to [[a, b], [c, d]].
 
     Args:
@@ -67,9 +68,9 @@ def _generate_grid(
     avoid_layers: Sequence[LayerSpec] | None = None,
     distance: float = 1,
 ) -> tuple[
+    npt.NDArray[np.floating[Any]],
     npt.NDArray[np.integer[Any]],
-    npt.NDArray[np.integer[Any]],
-    npt.NDArray[np.integer[Any]],
+    npt.NDArray[np.floating[Any]],
 ]:
     """Generate discretization grid that the algorithm will step through.
 
@@ -93,6 +94,8 @@ def _generate_grid(
 
     x, y = np.meshgrid(_a, _b)  # discretize component space
     x, y = x[0], y[:, 0]  # weed out copies
+    assert isinstance(x, np.ndarray)
+    assert isinstance(y, np.ndarray)
     grid = np.zeros(
         (len(x), len(y))
     )  # mapping from gdsfactory's x-, y- coordinate to grid vertex
@@ -100,27 +103,26 @@ def _generate_grid(
     # assign 1 for obstacles
     if avoid_layers is None:
         for inst in c.insts:
-            bbox = _parse_bbox_to_array(inst.bbox()) / 1000
-            xmin = np.abs(x - bbox[0][0] + distance).argmin()
-            xmax = np.abs(x - bbox[1][0] - distance).argmin()
-            ymin = np.abs(y - bbox[0][1] + distance).argmin()
-            ymax = np.abs(y - bbox[1][1] - distance).argmin()
+            bbox_array = _parse_bbox_to_array(inst.bbox())
+            xmin = np.abs(x - bbox_array[0][0] + distance).argmin()
+            xmax = np.abs(x - bbox_array[1][0] - distance).argmin()
+            ymin = np.abs(y - bbox_array[0][1] + distance).argmin()
+            ymax = np.abs(y - bbox_array[1][1] - distance).argmin()
             grid[xmin:xmax, ymin:ymax] = 1
     else:
         all_refs = _extract_all_bbox(c, avoid_layers)
         for layer in all_refs:
-            for bbox_array in layer.values():
-                for bbox in bbox_array:
-                    bbox = _parse_bbox_to_array(bbox)
-                    bbox = bbox / 1000
-                    # Determine min/max for the bounding box
-                    xmin = np.abs(x - bbox[0][0] + distance).argmin()
-                    xmax = np.abs(x - bbox[2][0] - distance).argmin()
-                    ymin = np.abs(y - bbox[0][1] + distance).argmin()
-                    ymax = np.abs(y - bbox[2][1] - distance).argmin()
+            for polygons in layer.values():
+                for polygon in polygons:
+                    bbox_array = _parse_bbox_to_array(polygon)
+                    bbox_array_float = bbox_array / 1000
+                    xmin = np.abs(x - bbox_array_float[0][0] + distance).argmin()
+                    xmax = np.abs(x - bbox_array_float[2][0] - distance).argmin()
+                    ymin = np.abs(y - bbox_array_float[0][1] + distance).argmin()
+                    ymax = np.abs(y - bbox_array_float[2][1] - distance).argmin()
                     grid[xmin:xmax, ymin:ymax] = 1
 
-    return np.ndarray.round(grid, 3), np.ndarray.round(x, 3), np.ndarray.round(y, 3)
+    return np.round(grid, 3), np.round(x, 3), np.round(y, 3)
 
 
 def simplify_path(waypoints: Coordinates, tolerance: float) -> list[Coordinate]:
@@ -190,10 +192,12 @@ def route_astar(
 
     # Find the closest valid nodes
     start_node = min(
-        G.nodes, key=lambda node: np.linalg.norm(np.array(node) - np.array(start_node))
+        G.nodes,  # type: ignore[arg-type]
+        key=lambda node: np.linalg.norm(np.array(node) - np.array(start_node)),  # type: ignore[return-value,arg-type]
     )
     end_node = min(
-        G.nodes, key=lambda node: np.linalg.norm(np.array(node) - np.array(end_node))
+        G.nodes,  # type: ignore[arg-type]
+        key=lambda node: np.linalg.norm(np.array(node) - np.array(end_node)),  # type: ignore[return-value,arg-type]
     )
 
     path = nx.astar_path(G, start_node, end_node)  # Find shortest path

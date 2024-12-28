@@ -942,14 +942,14 @@ def _place_and_connect(
                     if i not in refs:
                         raise ValueError(f"{i!r} not in {list(refs)}")
 
-                if i1a is not None or i1b is not None:
-                    p1 = refs[i1name].ports[p1, i1a, i1b]
+                if i1a is not None and i1b is not None:
+                    port1 = refs[i1name].ports[p1, i1a, i1b]
                     if i2a is not None and i2b is not None:
-                        refs[i1name].connect(p1, refs[i2name].ports[p2, i2a, i2b])
+                        refs[i1name].connect(port1, refs[i2name].ports[p2, i2a, i2b])
                     else:
                         if i2 not in refs:
                             raise ValueError(f"{i2!r} not in {list(refs)}")
-                        refs[i1name].connect(p1, refs[i2].ports[p2])
+                        refs[i1name].connect(port1, refs[i2].ports[p2])
 
                 else:
                     if i2a is not None and i2b is not None:

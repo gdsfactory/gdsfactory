@@ -32,6 +32,7 @@ from gdsfactory.cross_section import (  # type: ignore[attr-defined]
     Section,
     Transition,
 )
+from gdsfactory.pdk import get_layer_name
 from gdsfactory.typings import (
     AngleInDegrees,
     AnyComponent,
@@ -837,11 +838,9 @@ def along_path(
 
 
 def _get_named_sections(sections: tuple[Section, ...]) -> dict[str, Section]:
-    from gdsfactory.pdk import get_layer
-
-    named_sections = {}
+    named_sections: dict[str, Section] = {}
     for section in sections:
-        name = section.name or get_layer(section.layer)
+        name = section.name or get_layer_name(section.layer)
         if name in named_sections:
             raise ValueError(
                 f"Duplicate name or layer '{name}' of section used for cross-section in transition. Cross-sections with multiple Sections for a single layer must have unique names for each section"
@@ -1257,10 +1256,11 @@ def extrude_transition(p: Path, transition: Transition) -> Component:
             hidden = True
             layer1 = get_layer(section1.layer)
             layer2 = get_layer(section2.layer)
-            layer = (layer1, layer2)
+            layers = [layer1, layer2]
         else:
             hidden = False
             layer = get_layer(section1.layer)
+            layers = [layer, layer]
 
         end_angle = p.end_angle
         start_angle = p.start_angle
@@ -1290,7 +1290,6 @@ def extrude_transition(p: Path, transition: Transition) -> Component:
         # Join points together
         points_poly = np.concatenate([points1, points2[::-1, :]])
 
-        layers = layer if hidden else [layer, layer]
         if not hidden and p.length() > 1e-3:
             c.add_polygon(points_poly, layer=layer)
 

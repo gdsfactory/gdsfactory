@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections import defaultdict
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from typing import Any, Literal, TypeAlias, TypeVar
 
 import kfactory as kf
@@ -391,7 +391,7 @@ class LayerStack(BaseModel):
     )
 
     def model_copy(
-        self, *, update: dict[str, Any] | None = None, deep: bool = False
+        self, *, update: Mapping[str, Any] | None = None, deep: bool = False
     ) -> LayerStack:
         """Returns a copy of the LayerStack."""
         return super().model_copy(update=update, deep=True)

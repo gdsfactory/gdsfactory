@@ -15,6 +15,7 @@ import yaml
 from kfactory import Instance, kdb
 from kfactory.kcell import PROPID, cell, save_layout_options
 from trimesh.scene.scene import Scene
+from typing_extensions import Self
 
 from gdsfactory._deprecation import deprecate
 from gdsfactory.config import CONF, GDSDIR_TEMP
@@ -38,14 +39,13 @@ if TYPE_CHECKING:
         LayerSpecs,
         PathType,
         Port,
-        Ports,
         Spacing,
     )
 
 cell_without_validator = cell
 
 
-def ensure_tuple_of_tuples(points: Any) -> tuple[tuple[float, float]]:
+def ensure_tuple_of_tuples(points: Any) -> tuple[tuple[float, float], ...]:
     # Convert a single NumPy array to a tuple of tuples
     if isinstance(points, np.ndarray):
         points = tuple(map(tuple, points.tolist()))
@@ -367,7 +367,7 @@ class ComponentBase:
             y = float(center[1])
             trans = kdb.DCplxTrans(1, float(orientation), False, x, y)
 
-        return self.create_port(
+        return self.create_port(  # type: ignore[no-any-return]
             name=name,
             dwidth=round(width / self.kcl.dbu) * self.kcl.dbu,
             layer=layer,
@@ -447,7 +447,7 @@ class ComponentBase:
     def add_polygon(
         self,
         points: (
-            "np.ndarray[Any, np.dtype[np.floating[Any]]] | kdb.DPolygon | kdb.Polygon | kdb.Region | Coordinates"
+            "npt.NDArray[np.floating[Any]] | kdb.DPolygon | kdb.Polygon | kdb.DSimplePolygon | kdb.Region | Coordinates"
         ),
         layer: "LayerSpec",
     ) -> kdb.Shape:
@@ -463,17 +463,18 @@ class ComponentBase:
 
         if isinstance(points, tuple | list | np.ndarray):
             points = ensure_tuple_of_tuples(points)
-            polygon = kf.kdb.DPolygon()
-            polygon.assign_hull(points)
-
+            polygon: kdb.Polygon | kdb.DPolygon | kdb.DSimplePolygon | kdb.Region = (
+                kdb.DPolygon()
+            )
+            polygon.assign_hull(points)  # type: ignore[arg-type,union-attr]
         elif isinstance(
             points, kdb.Polygon | kdb.DPolygon | kdb.DSimplePolygon | kdb.Region
         ):
             polygon = points
         else:
-            polygon = kf.kdb.DPolygon(points)
+            polygon = kdb.DPolygon(points)  # type: ignore[arg-type]
 
-        return self.shapes(_layer).insert(polygon)
+        return self.shapes(_layer).insert(polygon)  # type: ignore[no-any-return]
 
     def add_label(
         self,
@@ -493,14 +494,11 @@ class ComponentBase:
         layer = get_layer(layer)
         if isinstance(position, kf.kdb.DPoint):
             x, y = position.x, position.y
-
-        elif isinstance(position, Iterable):
+        else:
             x, y = position
 
-        else:
-            raise ValueError(f"position {position} not supported")
         trans = kdb.DTrans(0, False, x, y)
-        return self.shapes(layer).insert(kf.kdb.DText(text, trans))
+        return self.shapes(layer).insert(kf.kdb.DText(text, trans))  # type: ignore[no-any-return]
 
     def add_array(
         self,
@@ -593,7 +591,7 @@ class ComponentBase:
         for key, value in kwargs.items():
             info[f"route_info_{key}"] = value
 
-    def absorb(self, reference: Instance) -> Component:
+    def absorb(self, reference: Instance) -> Self:
         """Absorbs polygons from ComponentReference into Component.
 
         Destroys the reference in the process but keeping the polygon geometry.
@@ -667,10 +665,12 @@ class ComponentBase:
         return ComponentReference(inst)
 
     def add(self, instances: list[Instance] | Instance) -> None:
-        if not hasattr(instances, "__iter__"):
-            instances = [instances]
+        if not isinstance(instances, Iterable):
+            instance_list = [instances]
+        else:
+            instance_list = list(instances)
 
-        for instance in instances:
+        for instance in instance_list:
             self._kdb_cell.insert(instance._instance)
 
     def get_polygons(
@@ -694,7 +694,7 @@ class ComponentBase:
         scale: float | None = None,
         by: Literal["index"] | Literal["name"] | Literal["tuple"] = "index",
         layers: "LayerSpecs | None" = None,
-    ) -> dict[int | str | tuple[int, int], list[npt.NDArray[np.float64]]]:
+    ) -> dict[int | str | tuple[int, int], list[npt.NDArray[np.floating[Any]]]]:
         """Returns a dict with list of points per layer.
 
         Args:
@@ -769,7 +769,7 @@ class ComponentBase:
         """
         from gdsfactory import get_layer
 
-        boxes = []
+        boxes: list[kf.kdb.DBox] = []
 
         layer = get_layer(layer)
 
@@ -783,7 +783,8 @@ class ComponentBase:
                     boxes.append(shape.dbox.transformed(iterator.dtrans()))
         else:
             boxes.extend(
-                shape.dbox for shape in self.shapes(layer).each(kdb.Shapes.Boxes)
+                shape.dbox
+                for shape in self.shapes(layer).each(kdb.Shapes.Boxes)  # type: ignore[attr-defined]
             )
         return boxes
 
@@ -794,7 +795,7 @@ class ComponentBase:
         layer_index = get_layer(layer)
         r = kdb.Region(self.begin_shapes_rec(layer_index))
         r.merge()
-        return sum(p.area2() / 2 * self.kcl.dbu**2 for p in r.each())
+        return float(sum(p.area2() / 2 * self.kcl.dbu**2 for p in r.each()))
 
     def copy_child_info(self, component: Component) -> None:
         """Copy and settings info from child component into parent.
@@ -864,13 +865,13 @@ class ComponentBase:
         """
         from gdsfactory.functions import extract
 
-        return extract(self, layers=layers, recursive=recursive)
+        return extract(self, layers=layers, recursive=recursive)  # type: ignore[arg-type]
 
     def remove_layers(
         self,
         layers: "LayerSpecs",
         recursive: bool = True,
-    ) -> Component:
+    ) -> Self:
         """Removes a list of layers and returns the same Component.
 
         Args:
@@ -892,7 +893,7 @@ class ComponentBase:
 
     def remap_layers(
         self, layer_map: "dict[LayerSpec, LayerSpec]", recursive: bool = False
-    ) -> Component:
+    ) -> Self:
         """Remaps a list of layers and returns the same Component.
 
         Args:
@@ -913,7 +914,7 @@ class ComponentBase:
 
     def copy_layers(
         self, layer_map: "dict[LayerSpec, LayerSpec]", recursive: bool = False
-    ) -> Component:
+    ) -> Self:
         """Remaps a list of layers and returns the same Component.
 
         Args:
@@ -956,9 +957,9 @@ class ComponentBase:
 
     def to_3d(
         self,
-        layer_views: "LayerViews" | None = None,
-        layer_stack: "LayerStack" | None = None,
-        exclude_layers: "Sequence[Layer]" | None = None,
+        layer_views: "LayerViews | None" = None,
+        layer_stack: "LayerStack | None" = None,
+        exclude_layers: "Sequence[Layer] | None " = None,
     ) -> Scene:
         """Return Component 3D trimesh Scene.
 
@@ -974,7 +975,7 @@ class ComponentBase:
         from gdsfactory.export.to_3d import to_3d
 
         return to_3d(
-            self,
+            self,  # type: ignore[arg-type]
             layer_views=layer_views,
             layer_stack=layer_stack,
             exclude_layers=exclude_layers,
@@ -992,9 +993,9 @@ class ComponentBase:
         from gdsfactory.get_netlist import get_netlist, get_netlist_recursive
 
         if recursive:
-            return get_netlist_recursive(self, **kwargs)
+            return get_netlist_recursive(self, **kwargs)  # type: ignore[arg-type]
 
-        return get_netlist(self, **kwargs)
+        return get_netlist(self, **kwargs)  # type: ignore[arg-type]
 
     def write_netlist(
         self, netlist: dict[str, Any], filepath: str | pathlib.Path | None = None
@@ -1005,8 +1006,8 @@ class ComponentBase:
             netlist: netlist to write.
             filepath: Optional file path to write to.
         """
-        netlist = convert_tuples_to_lists(netlist)
-        yaml_string = yaml.dump(netlist)
+        netlist_converted = convert_tuples_to_lists(netlist)
+        yaml_string = yaml.dump(netlist_converted)
         if filepath:
             filepath = pathlib.Path(filepath)
             filepath.write_text(yaml_string)
@@ -1044,8 +1045,8 @@ class ComponentBase:
         G = nx.Graph()
 
         if recursive:
-            pos = {}
-            labels = {}
+            pos: dict[str, tuple[float, float]] = {}
+            labels: dict[str, str] = {}
             for net in netlist.values():
                 nets = net.get("nets", [])
                 connections = net.get("connections", {})
@@ -1165,7 +1166,9 @@ class ComponentBase:
             from gdsfactory.port import to_dict
 
             d["ports"] = {port.name: to_dict(port) for port in self.ports}
-        return clean_value_json(d)
+        res = clean_value_json(d)
+        assert isinstance(res, dict)
+        return res
 
     @overload
     def plot(
@@ -1243,7 +1246,7 @@ class ComponentBase:
         # Remove margins and display the image
         ax.imshow(img_array)
         ax.axis("off")  # Hide axes
-        ax.set_position([0, 0, 1, 1])  # Set axes to occupy the full figure space
+        ax.set_position((0, 0, 1, 1))  # Set axes to occupy the full figure space
 
         plt.subplots_adjust(
             left=0, right=1, top=1, bottom=0, wspace=0, hspace=0
@@ -1256,7 +1259,7 @@ class ComponentBase:
     def named_references(self) -> list[ComponentReference]:
         """Returns a dictionary of named references."""
         deprecate("named_references", "insts")
-        return self.insts
+        return self.insts  # type: ignore[no-any-return]
 
     @property
     def references(self) -> list[ComponentReference]:
@@ -1289,7 +1292,7 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
         name: str | None = None,
         kcl: kf.KCLayout | None = None,
         kdb_cell: kdb.Cell | None = None,
-        ports: "Ports | None" = None,
+        ports: kf.Ports | None = None,
     ) -> None:
         """Initializes a Component."""
         self.insts = ComponentReferences()

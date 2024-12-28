@@ -5,7 +5,7 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 
 from __future__ import annotations
 
-import freetype  # type: ignore
+import freetype
 import numpy as np
 import numpy.typing as npt
 from matplotlib import font_manager
@@ -17,7 +17,7 @@ from gdsfactory.component import Component
 _cached_fonts: dict[str, freetype.Face] = {}
 
 try:
-    import freetype  # type: ignore
+    import freetype
 except ImportError:
     print(
         "gdsfactory requires freetype to use real fonts. "

@@ -26,6 +26,7 @@ from warnings import warn
 
 import kfactory as kf
 import numpy as np
+from kfactory.kcell import LayerEnum
 
 from gdsfactory import Port, typings
 from gdsfactory.component import Component, ComponentReference
@@ -101,6 +102,7 @@ def get_instance_name_from_label(
     from gdsfactory.pdk import get_layer
 
     layer_label = get_layer(layer_label)
+    layer = layer_label[0] if isinstance(layer_label, LayerEnum) else layer_label
 
     x = reference.dx
     y = reference.dy
@@ -113,7 +115,7 @@ def get_instance_name_from_label(
     for label in labels:
         xl = label.dposition[0]
         yl = label.dposition[1]
-        if x == xl and y == yl and label.layer == layer_label[0]:
+        if x == xl and y == yl and label.layer == layer:
             # print(label.text, xl, yl, x, y)
             return str(label.text)
 
