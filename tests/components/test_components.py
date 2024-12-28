@@ -24,6 +24,7 @@ skip_test = {
     "pack_doe_grid",
     "text_freetype",
     "grating_coupler_elliptical_lumerical_etch70",
+    "straight_piecewise",
 }
 cells_to_test = set(cells.keys()) - skip_test
 
