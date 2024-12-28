@@ -1,11 +1,9 @@
 from __future__ import annotations
 
-from collections.abc import Iterable
-
 import gdsfactory as gf
 from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component
-from gdsfactory.typings import AnyComponentPostProcess, ComponentSpec, Size, Spacing
+from gdsfactory.typings import ComponentSpec, PostProcesses, Size, Spacing
 
 
 @gf.cell
@@ -19,7 +17,7 @@ def array(
     add_ports: bool = True,
     size: Size | None = None,
     centered: bool = False,
-    post_process: Iterable[AnyComponentPostProcess] | None = None,
+    post_process: PostProcesses | None = None,
     auto_rename_ports: bool = False,
 ) -> Component:
     """Returns an array of components.

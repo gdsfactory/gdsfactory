@@ -293,14 +293,12 @@ class HatchPattern(BaseModel):
 
     @field_validator("custom_pattern")
     @classmethod
-    def check_pattern_klayout(cls, pattern: str | None, **kwargs: Any) -> str | None:
+    def check_pattern_klayout(cls, pattern: str | None) -> str | None:
         if pattern is None:
             return None
         lines = pattern.splitlines()
         if any(len(list(line)) > 32 for line in lines):
-            raise ValueError(
-                f"Custom pattern {kwargs['values']['name']} has more than 32 characters."
-            )
+            raise ValueError(f"Custom pattern {pattern} has more than 32 characters.")
         return pattern
 
     def to_klayout_xml(self) -> ET.Element:

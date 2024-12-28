@@ -1,6 +1,5 @@
-from functools import partial
+import pytest
 
-import gdsfactory as gf
 from gdsfactory.technology import LayerStack, LayerView, LayerViews
 from gdsfactory.technology.layer_map import LayerMap
 from gdsfactory.technology.layer_stack import LayerLevel
@@ -61,38 +60,25 @@ def test_preview_layerset() -> None:
     assert c
 
 
+def test_hatch_pattern_custom_pattern() -> None:
+    from gdsfactory.technology.layer_views import HatchPattern
+
+    hatch_pattern = HatchPattern(name="test", custom_pattern="**\n**\n")
+    assert hatch_pattern.custom_pattern == "**\n**\n"
+    hatch_pattern = HatchPattern(name="test", custom_pattern=None)
+    assert hatch_pattern.custom_pattern is None
+
+    with pytest.raises(ValueError):
+        HatchPattern(name="test", custom_pattern="*" * 33 + "\n")
+
+
+def test_hatch_pattern_to_klayout_xml() -> None:
+    from gdsfactory.technology.layer_views import HatchPattern
+
+    hatch_pattern = HatchPattern(name="test", custom_pattern="**\n**\n")
+    assert hatch_pattern.to_klayout_xml()
+
+
 if __name__ == "__main__":
-    LAYER_STACK = get_layer_stack_faba()
-    WIDTH = 2
-
-    # Specify a cross_section to use
-    strip = partial(gf.cross_section.cross_section, width=WIDTH, layer=LAYER.WG)
-
-    mmi1x2 = partial(
-        gf.components.mmi1x2,
-        width=WIDTH,
-        width_taper=WIDTH,
-        width_mmi=3 * WIDTH,
-        cross_section=strip,
-    )
-
-    PDK = gf.Pdk(
-        name="Fab_A",
-        cells=dict(mmi1x2=mmi1x2),
-        cross_sections=dict(strip=strip),
-        layers=LAYER,
-        layer_views=LAYER_VIEWS,
-        layer_stack=LAYER_STACK,
-    )
-    PDK.activate()
-    PDK_A = PDK
-
-    # gc = partial(
-    #     gf.components.grating_coupler_elliptical_te, layer=LAYER.WG, cross_section=strip
-    # )
-
-    # c = gf.components.mzi()
-    # c_gc = gf.routing.add_fiber_array(
-    #     component=c, grating_coupler=gc, with_loopback=False
-    # )
-    # c_gc.show()
+    test_hatch_pattern_to_klayout_xml()
+    test_hatch_pattern_custom_pattern()
