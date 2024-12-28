@@ -26,13 +26,5 @@ def to_kdb_dpoints(
     ]
 
 
-def to_kdb_points(
-    points: "Sequence[Coordinate | kdb.Point | kdb.DPoint]",
-) -> list[kdb.Point]:
-    return [
-        point if isinstance(point, kdb.Point) else kdb.Point(*point) for point in points
-    ]
-
-
 def is_component_spec(obj: Any) -> "TypeGuard[ComponentSpec]":
     return isinstance(obj, str | Callable | dict | kf.KCell)

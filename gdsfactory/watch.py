@@ -43,7 +43,11 @@ class FileWatcher(FileSystemEventHandler):
     """Captures *.py or *.pic.yml file change events."""
 
     def __init__(
-        self, path: str, run_main: bool = False, run_cells: bool = True
+        self,
+        path: str,
+        run_main: bool = False,
+        run_cells: bool = True,
+        logger: logging.Logger | None = None,
     ) -> None:
         """Initialize the YAML event handler.
 
@@ -51,10 +55,11 @@ class FileWatcher(FileSystemEventHandler):
             path: the path to the directory to watch.
             run_main: if True, will execute the main function of the file.
             run_cells: if True, will execute the cells of the file.
+            logger: the logger to use.
         """
         super().__init__()
 
-        self.logger = logging.root
+        self.logger = logger or logging.root
         self.run_cells = run_cells
         self.run_main = run_main
 
@@ -142,7 +147,6 @@ class FileWatcher(FileSystemEventHandler):
             pdk.remove_cell(cell_name)
 
     def on_modified(self, event: _ModifiedEvent) -> None:
-        """Handle modified file events."""
         super().on_modified(event)
 
         # Determine file type
