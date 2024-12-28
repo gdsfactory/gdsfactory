@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Literal
+from typing import Any, Literal, cast
 
 import kfactory as kf
 import numpy as np
@@ -35,8 +35,8 @@ def route_ports_to_side(
     cross_section: CrossSectionSpec,
     ports: Ports | None = None,
     side: Literal["north", "east", "south", "west"] = "north",
-    x: float | None = None,
-    y: float | None = None,
+    x: float | None | Literal["east", "west"] = None,
+    y: float | None | Literal["north", "south"] = None,
     **kwargs: Any,
 ) -> tuple[list[ManhattanRoute], list[kf.Port]]:
     """Routes ports to a given side.
@@ -87,8 +87,9 @@ def route_ports_to_side(
     if not ports:
         return [], []
 
-    if side in ["north", "south"]:
+    if side in {"north", "south"}:
         xy_ns = y if y is not None else side
+        side = cast(Literal["north", "south"], side)
         return route_ports_to_y(
             component=component,
             ports=ports,
@@ -97,15 +98,19 @@ def route_ports_to_side(
             cross_section=cross_section,
             **kwargs,
         )
-    xy_ew = x if x is not None else side
-    return route_ports_to_x(
-        component=component,
-        ports=ports,
-        x=xy_ew,
-        side=side,
-        cross_section=cross_section,
-        **kwargs,
-    )
+    elif side in {"east", "west"}:
+        xy_ew = x if x is not None else side
+        side = cast(Literal["west", "east"], side)
+        return route_ports_to_x(
+            component=component,
+            ports=ports,
+            x=xy_ew,
+            side=side,
+            cross_section=cross_section,
+            **kwargs,
+        )
+    else:
+        raise ValueError(f"side={side} must be 'north', 'south', 'east' or 'west'")
 
 
 def route_ports_to_x(
@@ -239,6 +244,9 @@ def route_ports_to_x(
 
         elif side == "east":
             angle = 180
+
+        else:
+            raise ValueError(f"{side=} should be either 'west' or 'east'")
 
         new_port = port.copy()
         new_port.orientation = angle
