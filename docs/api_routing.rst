@@ -52,6 +52,8 @@ use `route_ports_to_side` before calling `route_bundle`
    :toctree: _autosummary/
 
    route_ports_to_side
+   route_ports_to_x
+   route_ports_to_y
    route_south
 
 
