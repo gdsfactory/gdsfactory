@@ -14,7 +14,7 @@ import gdsfactory as gf
 from gdsfactory._deprecation import deprecate
 
 if TYPE_CHECKING:
-    from gdsfactory.component import Component
+    from gdsfactory.component import Component, ComponentBase
     from gdsfactory.typings import LayerSpec, LayerSpecs
 
 RAD2DEG = 180.0 / np.pi
@@ -130,7 +130,7 @@ def move_port(
 
 
 def get_polygons(
-    component_or_instance: Component | kf.Instance,
+    component_or_instance: "Component | kf.Instance | ComponentBase",
     merge: bool = False,
     by: Literal["index", "name", "tuple"] = "index",
     layers: LayerSpecs | None = None,
@@ -184,7 +184,7 @@ def get_polygons(
 
 
 def get_polygons_points(
-    component_or_instance: Component | kf.Instance,
+    component_or_instance: "Component | kf.Instance | ComponentBase",
     merge: bool = False,
     scale: float | None = None,
     by: Literal["index"] | Literal["name"] | Literal["tuple"] = "index",

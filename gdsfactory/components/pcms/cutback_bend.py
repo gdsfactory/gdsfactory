@@ -147,7 +147,11 @@ def staircase(
         cols: number of cols.
         kwargs: cross_section settings.
     """
-    bend90 = component(**kwargs) if callable(component) else component
+    bend90 = (
+        component
+        if isinstance(component, Component)
+        else gf.get_component(component, **kwargs)
+    )
 
     wgh = gf.get_component(straight, length=length_h, **kwargs)
     wgv = gf.get_component(straight, length=length_v, **kwargs)

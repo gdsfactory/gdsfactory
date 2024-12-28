@@ -48,17 +48,13 @@ def cutback_loss(
         rows_list = loss_array / loss_dB / cols
         rows_list = rows_list // 2 * 2 + 1
         return [
-            gf.get_component(
-                cutback, component=component, rows=int(rows), cols=cols, **kwargs
-            )
+            gf.get_component(cutback, rows=int(rows), cols=cols, **kwargs)
             for rows in rows_list
         ]
     elif cols is None and rows is not None:
         cols_list = loss_array / loss_dB / rows
         return [
-            gf.get_component(
-                cutback, component=component, rows=rows, cols=int(cols), **kwargs
-            )
+            gf.get_component(cutback, rows=rows, cols=int(cols), **kwargs)
             for cols in cols_list
         ]
     else:

@@ -269,7 +269,7 @@ def route_bundle(
             c.kcl.to_dbu(separation),
             starts=start_straight,
             ends=end_straight,
-            collision_check_layers=collision_check_layer_enums,
+            collision_check_layers=collision_check_layer_enums,  # type: ignore[arg-type]
             on_collision=on_collision,
             bboxes=to_kdb_boxes(bboxes or []),
             route_width=width_dbu,
@@ -291,7 +291,7 @@ def route_bundle(
         ends=end_straight,
         min_straight_taper=c.kcl.to_dbu(min_straight_taper),
         place_port_type=port_type,
-        collision_check_layers=collision_check_layer_enums,
+        collision_check_layers=collision_check_layer_enums,  # type: ignore[arg-type]
         on_collision=on_collision,
         allow_width_mismatch=allow_width_mismatch,
         bboxes=to_kdb_boxes(bboxes or []),

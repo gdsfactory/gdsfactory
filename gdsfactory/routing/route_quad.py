@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Any
+
 import numpy as np
 import numpy.typing as npt
 
@@ -62,7 +64,7 @@ def route_quad(
 
     def get_port_edges(
         port: Port, width: float
-    ) -> tuple[npt.NDArray[np.float64], npt.NDArray[np.float64]]:
+    ) -> tuple[npt.NDArray[np.floating[Any]], npt.NDArray[np.floating[Any]]]:
         _, e1 = _get_rotated_basis(port.orientation)
         pt1 = port.dcenter + e1 * width / 2
         pt2 = port.dcenter - e1 * width / 2
@@ -77,9 +79,10 @@ def route_quad(
     displacements = vertices - center
     # sort vertices by angle from center of quadrilateral to make convex polygon
     angles = np.array([np.arctan2(disp[0], disp[1]) for disp in displacements])
-    sorted_vertices = [
-        vert for _, vert in sorted(zip(angles, vertices), key=lambda x: x[0])
-    ]
+    sorted_vertices: npt.NDArray[np.floating[Any]] = np.array(
+        [vert for _, vert in sorted(zip(angles, vertices), key=lambda x: x[0])],
+        dtype=np.float64,
+    )
 
     if manhattan_target_step:
         component.add_polygon(

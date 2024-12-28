@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable
+from typing import Any
 
 import numpy as np
 import numpy.typing as npt
@@ -98,15 +99,21 @@ def taper_adiabatic(
     if not length:
         length = x_opt[-1]
     x = np.linspace(0, length, npoints)
-    w: npt.NDArray[np.float64] = w_opt_interp(x)
+    w: npt.NDArray[np.floating[Any]] = w_opt_interp(x)
+
+    assert isinstance(w, np.ndarray)
 
     # Stretch/compress x
-    x_array = np.linspace(0, length, npoints) * (1 + length - x_opt[-1])
+    x_array: npt.NDArray[np.floating[Any]] = np.linspace(0, length, npoints) * (
+        1 + length - x_opt[-1]
+    )
+    assert isinstance(x_array, np.ndarray)
     y_array = w / 2
 
     c = gf.Component()
     c.add_polygon(
-        list(zip(x_array, y_array)) + list(zip(x_array, -y_array))[::-1], layer=layer
+        list(zip(x_array, y_array)) + list(zip(x_array, -y_array))[::-1],  # type: ignore[assignment, arg-type]
+        layer=layer,
     )
 
     # Define ports

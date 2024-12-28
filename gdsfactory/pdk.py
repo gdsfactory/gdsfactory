@@ -10,7 +10,6 @@ from functools import cached_property, partial, wraps
 from typing import Any
 
 import kfactory as kf
-import numpy as np
 import yaml
 from kfactory.kcell import LayerEnum
 from pydantic import BaseModel, ConfigDict, Field
@@ -443,31 +442,29 @@ class Pdk(BaseModel):
                 f"CrossSectionFactory, Transition, string or dict), got {type(cross_section)}"
             )
 
-    def get_layer(self, layer: LayerSpec) -> LayerEnum:
+    def get_layer(self, layer: LayerSpec) -> LayerEnum | int:
         """Returns layer from a layer spec."""
-        if isinstance(layer, LayerEnum):
+        if isinstance(layer, LayerEnum | int):
             return layer
         elif isinstance(layer, tuple | list):
             if len(layer) != 2:
                 raise ValueError(f"{layer!r} needs two integer numbers.")
             return kf.kcl.layout.layer(*layer)
-        elif isinstance(layer, str):
+        else:
             if not hasattr(self.layers, layer):
                 raise ValueError(f"{layer!r} not in {self.layers}")
-            return getattr(self.layers, layer)
-        elif isinstance(layer, int):
-            return layer
-        elif layer is np.nan:
-            return np.nan
-        else:
-            raise ValueError(
-                f"{layer!r} needs to be a LayerSpec (string, int or (int, int) or LayerEnum), got {type(layer)}"
-            )
+            return getattr(self.layers, layer)  # type: ignore[no-any-return]
 
     def get_layer_name(self, layer: LayerSpec) -> str:
         layer_index = self.get_layer(layer)
         assert self.layers is not None
-        return self.layers[layer_index]
+        try:
+            return str(self.layers[layer_index])  # type: ignore[index]
+        except Exception:
+            try:
+                return str(self.layers(layer_index))  # type: ignore[call-arg]
+            except Exception:
+                raise ValueError(f"Could not find name for layer {layer_index}")
 
     def get_layer_views(self) -> LayerViews:
         if self.layer_views is None:
@@ -622,13 +619,12 @@ def get_cross_section(cross_section: CrossSectionSpec, **kwargs: Any) -> CrossSe
     return get_active_pdk().get_cross_section(cross_section, **kwargs_clean)
 
 
-def get_layer(layer: LayerSpec) -> LayerEnum:
+def get_layer(layer: LayerSpec) -> LayerEnum | int:
     return get_active_pdk().get_layer(layer)
 
 
 def get_layer_name(layer: LayerSpec) -> str:
-    layer_index = get_layer(layer)
-    return str(get_active_pdk().layers(layer_index))  # type: ignore
+    return get_active_pdk().get_layer_name(layer)
 
 
 def get_layer_tuple(layer: LayerSpec) -> tuple[int, int]:

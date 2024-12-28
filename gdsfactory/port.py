@@ -122,7 +122,7 @@ class Port(kf.Port):
         self,
         name: str | None,
         orientation: AngleInDegrees | None,
-        center: tuple[float, float] | kf.kdb.Point | kf.kdb.DPoint,
+        center: tuple[float, ...] | kf.kdb.Point | kf.kdb.DPoint,
         width: float | None = None,
         layer: LayerSpec | None = None,
         port_type: str = "optical",
@@ -167,7 +167,7 @@ class Port(kf.Port):
             raise ValueError(f"Port width must be >=0. Got {width}")
 
         if isinstance(center, tuple):
-            _center = center
+            _center = (center[0], center[1])
         else:
             _center = (center.x, center.y)
 

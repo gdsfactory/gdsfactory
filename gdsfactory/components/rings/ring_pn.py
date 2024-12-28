@@ -8,7 +8,7 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.components.vias.via import via
 from gdsfactory.components.vias.via_stack import via_stack
-from gdsfactory.cross_section import Section, rib
+from gdsfactory.cross_section import CrossSectionSpec, Section, rib
 from gdsfactory.typings import ComponentSpec, CrossSectionFactory, LayerSpec
 
 cross_section_rib = partial(
@@ -216,8 +216,8 @@ def ring_single_pn(
     gap: float = 0.3,
     radius: float = 5.0,
     doping_angle: float = 250,
-    cross_section: CrossSectionFactory = rib,
-    pn_cross_section: CrossSectionFactory = cross_section_pn,
+    cross_section: CrossSectionSpec = rib,
+    pn_cross_section: CrossSectionSpec = cross_section_pn,
     doped_heater: bool = True,
     doped_heater_angle_buffer: float = 10,
     doped_heater_layer: LayerSpec = "NPP",
@@ -247,7 +247,7 @@ def ring_single_pn(
 
     undoping_angle = 360 - doping_angle
 
-    pn_cross_section = gf.get_cross_section(pn_cross_section)
+    pn_xs = gf.get_cross_section(pn_cross_section)
     bus_waveguide_path = gf.Path()
     bus_waveguide_path.append(
         gf.path.straight(length=2 * radius * np.sin(np.pi / 360 * undoping_angle))
@@ -258,7 +258,7 @@ def ring_single_pn(
         -radius
         - gap
         - bus_waveguide.ports["o1"].dwidth / 2
-        - pn_cross_section.width / 2
+        - pn_xs.width / 2
         + 0.576  # adjust gap # TODO: remove this
     )
 
@@ -268,9 +268,7 @@ def ring_single_pn(
     undoped_path = gf.Path()
     undoped_path.append(gf.path.arc(radius=radius, angle=undoping_angle))
 
-    doped_ring_ref = r << doped_path.extrude(
-        cross_section=pn_cross_section, all_angle=True
-    )
+    doped_ring_ref = r << doped_path.extrude(cross_section=pn_xs, all_angle=True)
     undoped_ring_ref = r << undoped_path.extrude(
         cross_section=cross_section, all_angle=True
     )
