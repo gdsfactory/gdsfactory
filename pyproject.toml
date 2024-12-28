@@ -43,7 +43,8 @@ dependencies = [
   "attrs",
   "graphviz",
   "pyglet<2",
-  "typing-extensions"
+  "typing-extensions",
+  "hypothesis[test]>=6.123.2"
 ]
 description = "python library to generate GDS layouts"
 keywords = ["eda", "photonics", "python"]

@@ -6,7 +6,7 @@ from kfactory import Instance
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentAllAngle, container
-from gdsfactory.typings import ComponentSpec, Coordinate, LayerSpec
+from gdsfactory.typings import ComponentSpec, Coordinate, LayerSpecs
 
 
 def get_padding_points(
@@ -42,7 +42,7 @@ def get_padding_points(
 
 def add_padding(
     component: ComponentSpec = "mmi2x2",
-    layers: tuple[LayerSpec, ...] = ("PADDING",),
+    layers: LayerSpecs = ("PADDING",),
     default: float = 50.0,
     top: float | None = None,
     bottom: float | None = None,
@@ -77,7 +77,7 @@ def add_padding(
 
 def add_padding_to_size(
     component: ComponentSpec,
-    layers: tuple[LayerSpec, ...] = ("PADDING",),
+    layers: LayerSpecs = ("PADDING",),
     xsize: float | None = None,
     ysize: float | None = None,
     left: float = 0,
@@ -97,14 +97,13 @@ def add_padding_to_size(
     """
     component = gf.get_component(component)
 
-    c = component
     top = abs(ysize - component.dysize) if ysize else 0
     right = abs(xsize - component.dxsize) if xsize else 0
     points = [
-        (c.dxmin - left, c.dymin - bottom),
-        (c.dxmax + right, c.dymin - bottom),
-        (c.dxmax + right, c.dymax + top),
-        (c.dxmin - left, c.dymax + top),
+        (component.dxmin - left, component.dymin - bottom),
+        (component.dxmax + right, component.dymin - bottom),
+        (component.dxmax + right, component.dymax + top),
+        (component.dxmin - left, component.dymax + top),
     ]
 
     for layer in layers:

@@ -3,7 +3,7 @@ from __future__ import annotations
 import warnings
 from collections.abc import Callable
 from functools import partial
-from typing import TYPE_CHECKING, Any, Literal
+from typing import TYPE_CHECKING, Any, Literal, TypeAlias
 
 import kfactory as kf
 import numpy as np
@@ -129,12 +129,15 @@ def move_port(
     return c
 
 
+GetPolygonsResult: TypeAlias = "dict[LayerSpec, list[kf.kdb.Polygon]]"
+
+
 def get_polygons(
     component_or_instance: "Component | kf.Instance | ComponentBase",
     merge: bool = False,
     by: Literal["index", "name", "tuple"] = "index",
     layers: LayerSpecs | None = None,
-) -> dict[tuple[int, int] | str | int, list[kf.kdb.Polygon]]:
+) -> GetPolygonsResult:
     """Returns a dict of Polygons per layer.
 
     Args:
@@ -146,7 +149,7 @@ def get_polygons(
     from gdsfactory.pdk import get_layer, get_layer_name, get_layer_tuple
 
     if by == "index":
-        get_key: Callable[[LayerSpec], Any] = get_layer
+        get_key: "Callable[[LayerSpec], LayerSpec]" = get_layer
     elif by == "name":
         get_key = get_layer_name
     elif by == "tuple":
@@ -154,7 +157,7 @@ def get_polygons(
     else:
         raise ValueError("argument 'by' should be 'index' | 'name' | 'tuple'")
 
-    polygons: dict[tuple[int, int] | str | int, list[kf.kdb.Polygon]] = {}
+    polygons: GetPolygonsResult = {}
 
     c = component_or_instance
     if layers is None:
@@ -164,7 +167,7 @@ def get_polygons(
             if not c.bbox(c.kcl.layer(info)).empty()
         ]
 
-    layer_indexes = [gf.get_layer(layer) for layer in layers]
+    layer_indexes = [get_layer(layer) for layer in layers]
 
     for layer_index in layer_indexes:
         layer_key = get_key(layer_index)
