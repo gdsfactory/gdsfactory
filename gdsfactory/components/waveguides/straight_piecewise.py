@@ -14,29 +14,29 @@ from gdsfactory.typings import LayerSpec
 @gf.cell
 def straight_piecewise(
     x: Sequence[float] | Path,
-    y: Sequence[float],
+    widths: Sequence[float],
     layer: LayerSpec,
     sections: Sequence[Section] | None = None,
     port_names: tuple[str | None, str | None] = ("o1", "o2"),
     name: str = "core",
     **kwargs: Any,
 ) -> Component:
-    """Create a component with a piecewise waveguide.
+    """Create a component with a piecewise-defined straight waveguide.
 
     Args:
-        x (Union[Sequence[float], gf.Path]): x coordinates of the piecewise function or a custom path.
-        y (Sequence[float]): y coordinates of the piecewise function.
-        layer (LayerSpec): layer to extrude.
-        sections (Sequence[Section] | None): sections to extrude.
-        port_names (tuple[str | None, str | None]): port names.
-        name (str, optional): name of the component.
-        **kwargs: additional keyword arguments for the Section.
+        x: X coordinates or a custom Path object.
+        widths: Waveguide widths at each corresponding x.
+        layer: Layer to extrude.
+        sections: Additional cross-section sections to extrude.
+        port_names: Port names for the waveguide.
+        name: Name for the core (main) Section.
+        **kwargs: Additional keyword arguments for the Section.
     """
-    if isinstance(x, Sequence) and len(x) != len(y):
-        raise ValueError("x and y must have the same length")
+    if isinstance(x, Sequence) and len(x) != len(widths):
+        raise ValueError("x and widths must have the same length.")
 
-    def width_function(_: float) -> npt.NDArray[np.floating[Any]]:
-        return np.array(y)
+    def width_function(_: float) -> npt.NDArray[np.float64]:
+        return np.array(widths)
 
     if isinstance(x, gf.Path):
         p = x
@@ -62,6 +62,6 @@ def straight_piecewise(
 
 
 if __name__ == "__main__":
-    x, y = [0, 4.0, 20, 40], [1, 2, 0.15, 0.4]
-    c = straight_piecewise(x, y, "WG")
+    x, widths = [0, 4.0, 20, 40], [1, 2, 0.15, 0.4]
+    c = straight_piecewise(x, widths, "WG")
     c.show()
