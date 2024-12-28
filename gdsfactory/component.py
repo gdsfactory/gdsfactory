@@ -5,7 +5,7 @@ from __future__ import annotations
 import pathlib
 import warnings
 from collections.abc import Callable, Iterable, Iterator, Sequence
-from typing import TYPE_CHECKING, Any, Literal, Self, overload
+from typing import TYPE_CHECKING, Any, Literal, overload
 
 import kfactory as kf
 import klayout.lay as lay
@@ -15,6 +15,7 @@ import yaml
 from kfactory import Instance, kdb
 from kfactory.kcell import PROPID, cell, save_layout_options
 from trimesh.scene.scene import Scene
+from typing_extensions import Self
 
 from gdsfactory._deprecation import deprecate
 from gdsfactory.config import CONF, GDSDIR_TEMP
