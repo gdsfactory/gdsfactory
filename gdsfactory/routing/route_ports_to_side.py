@@ -88,23 +88,27 @@ def route_ports_to_side(
         return [], []
 
     if side in {"north", "south"}:
-        xy_ns = y if y is not None else side
+        y_value = y if y is not None else side
+        if isinstance(y_value, str):
+            y_value = cast(Literal["north", "south"], y_value)
         side = cast(Literal["north", "south"], side)
         return route_ports_to_y(
             component=component,
             ports=ports,
-            y=xy_ns,
+            y=y_value,
             side=side,
             cross_section=cross_section,
             **kwargs,
         )
     elif side in {"east", "west"}:
-        xy_ew = x if x is not None else side
+        x_value = x if x is not None else side
+        if isinstance(x_value, str):
+            x_value = cast(Literal["east", "west"], x_value)
         side = cast(Literal["west", "east"], side)
         return route_ports_to_x(
             component=component,
             ports=ports,
-            x=xy_ew,
+            x=x_value,
             side=side,
             cross_section=cross_section,
             **kwargs,
