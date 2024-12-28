@@ -6,9 +6,10 @@ import tempfile
 import time
 from unittest.mock import MagicMock
 
+import gdsfactory as gf
 from gdsfactory.watch import FileWatcher
 
-wait_time = 0.2
+wait_time = 1.1
 
 
 def test_file_watcher() -> None:
@@ -50,11 +51,12 @@ instances:
         time.sleep(wait_time)
         mock_logger.info.assert_called()
 
-        yaml_path.write_text(yaml_content + "\n# Modified")
+        new_yaml_path = pathlib.Path(tmp_dir) / "new_test.pic.yml"
+        yaml_path.rename(new_yaml_path)
         time.sleep(wait_time)
         mock_logger.info.assert_called()
 
-        yaml_path.unlink()
+        new_yaml_path.unlink()
         time.sleep(wait_time)
         mock_logger.info.assert_called()
 
@@ -79,6 +81,26 @@ def test_file_watcher_ignored_files() -> None:
         watcher.stop()
 
 
+def test_update_cell_invalid_yaml() -> None:
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        watcher = FileWatcher(path=tmp_dir)
+
+        pdk = gf.get_active_pdk()
+        cells_before = list(pdk.cells.keys())
+        yaml_path = pathlib.Path(tmp_dir) / f"{cells_before[0]}.pic.yml"
+        yaml_content = """
+invalid:
+  - yaml: content
+    indentation
+"""
+        yaml_path.write_text(yaml_content)
+
+        watcher.update_cell(yaml_path)
+        cells_after = list(pdk.cells.keys())
+        assert set(cells_before) == set(cells_after)
+
+
 if __name__ == "__main__":
+    test_update_cell_invalid_yaml()
     test_file_watcher()
     test_file_watcher_ignored_files()

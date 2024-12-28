@@ -5,7 +5,7 @@ from collections.abc import Iterable
 import gdsfactory as gf
 from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component
-from gdsfactory.typings import AnyComponentPostProcess, ComponentSpec, Float2, Spacing
+from gdsfactory.typings import AnyComponentPostProcess, ComponentSpec, Size, Spacing
 
 
 @gf.cell
@@ -17,7 +17,7 @@ def array(
     column_pitch: float = 150,
     row_pitch: float = 150,
     add_ports: bool = True,
-    size: Float2 | None = None,
+    size: Size | None = None,
     centered: bool = False,
     post_process: Iterable[AnyComponentPostProcess] | None = None,
     auto_rename_ports: bool = False,
