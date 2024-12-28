@@ -41,5 +41,6 @@ def test_get_import_gds_script_no_dir() -> None:
 
 def test_get_import_gds_script_empty_dir() -> None:
     dirpath = GDSDIR_TEMP / "empty_dir"
-    with pytest.raises(ValueError, match="No GDS files found"):
+    dirpath.mkdir(exist_ok=True)
+    with pytest.raises(ValueError, match=r"No GDS files found at .*"):
         get_import_gds_script(dirpath)
