@@ -55,8 +55,8 @@ def test_area() -> None:
 
 def test_extract() -> None:
     c = gf.Component()
-    r1 = c << gf.c.rectangle(size=(10, 10), layer=(1, 0), centered=True)
-    r2 = c << gf.c.rectangle(size=(10, 10), layer=(2, 0), centered=True)
+    r1 = c << gf.c.compass(size=(10, 10), layer=(1, 0))
+    r2 = c << gf.c.compass(size=(10, 10), layer=(2, 0))
     r2.xmin = r1.xmax
 
     c1 = c.extract(layers=[(1, 0)])

@@ -99,18 +99,17 @@ def mzi_gc(length_x: float = 10, **kwargs: Any) -> gf.Component:
 
 def sample_reticle_with_labels(grid: bool = False) -> gf.Component:
     """Returns MZI with TE grating couplers."""
-    from gdsfactory.generic_tech.cells import (
-        add_fiber_array_optical_south_electrical_north,
-    )
-
     mzis = [mzi_gc(length_x=lengths) for lengths in [100, 200, 300]]
     spirals = [spiral_gc(length=length) for length in [0, 100, 200]]
     rings: list[gf.Component] = []
     for length_x in [10, 20, 30]:
         ring = gf.components.ring_single_heater(length_x=length_x)
-        c = add_fiber_array_optical_south_electrical_north(
+        c = gf.c.add_fiber_array_optical_south_electrical_north(
             component=ring,
             electrical_port_names=["l_e2", "r_e2"],
+            pad=gf.c.pad,
+            grating_coupler=gf.c.grating_coupler_te,
+            cross_section_metal="metal3",
         )
         c.name = f"ring_{length_x}"
         c.info["doe"] = "ring_length_x"

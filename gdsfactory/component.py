@@ -45,6 +45,33 @@ if TYPE_CHECKING:
 cell_without_validator = cell
 
 
+class LockedError(AttributeError):
+    """Raised when an attempt is made to modify a locked cell.
+
+    Locked cells are those already stored in cache and associated
+    with a function decorated with the `cell` decorator.
+    Modifications to such cells are disabled to ensure consistency.
+    """
+
+    def __init__(
+        self, component: kf.KCell | kf.VKCell | Component | ComponentBase
+    ) -> None:
+        """Initialize the LockedError.
+
+        Args:
+            component (kf.KCell | kf.VKCell | Component):
+                The component that is locked and cannot be modified.
+
+        Raises:
+            LockedError: Indicates the component is locked and modification is prohibited.
+        """
+        super().__init__(
+            f"Component {component.name!r} is locked and stored in cache. "
+            "Modifications are disabled as its associated function is decorated with `cell`. "
+            "To modify, update the code in the function or create a copy of the component."
+        )
+
+
 def ensure_tuple_of_tuples(points: Any) -> tuple[tuple[float, float], ...]:
     # Convert a single NumPy array to a tuple of tuples
     if isinstance(points, np.ndarray):
@@ -325,6 +352,9 @@ class ComponentBase:
             keep_mirror: if True, keeps the mirror of the port.
             cross_section: cross_section of the port.
         """
+        if self._locked:
+            raise LockedError(self)
+
         if port:
             return kf.KCell.add_port(
                 self,  # type: ignore
@@ -432,6 +462,9 @@ class ComponentBase:
             top: top coordinate of the bounding box.
             flatten: if True, flattens the Component.
         """
+        if self._locked:
+            raise LockedError(self)
+
         c = self
 
         domain_box = kdb.DBox(left, bottom, right, top)
@@ -458,6 +491,9 @@ class ComponentBase:
             layer: layer spec to add polygon on.
         """
         from gdsfactory.pdk import get_layer
+
+        if self._locked:
+            raise LockedError(self)
 
         _layer = get_layer(layer)
 
@@ -490,6 +526,9 @@ class ComponentBase:
             layer: Specific layer(s) to put Label on.
         """
         from gdsfactory.pdk import get_layer
+
+        if self._locked:
+            raise LockedError(self)
 
         layer = get_layer(layer)
         if isinstance(position, kf.kdb.DPoint):
@@ -571,6 +610,9 @@ class ComponentBase:
         """
         from gdsfactory.pdk import get_active_pdk
 
+        if self._locked:
+            raise LockedError(self)
+
         pdk = get_active_pdk()
 
         length_eff = length_eff or length
@@ -600,6 +642,9 @@ class ComponentBase:
             reference: Instance to be absorbed into the Component.
 
         """
+        if self._locked:
+            raise LockedError(self)
+
         if reference._kfinst not in self.insts:
             raise ValueError(
                 "The reference you asked to absorb does not exist in this Component."
@@ -630,6 +675,9 @@ class ComponentBase:
             column_pitch: column pitch.
             row_pitch: row pitch.
         """
+        if self._locked:
+            raise LockedError(self)
+
         if spacing is not None:
             deprecate("spacing", "column_pitch and row_pitch")
             column_pitch, row_pitch = spacing
@@ -665,6 +713,9 @@ class ComponentBase:
         return ComponentReference(inst)
 
     def add(self, instances: list[Instance] | Instance) -> None:
+        if self._locked:
+            raise LockedError(self)
+
         if not isinstance(instances, Iterable):
             instance_list = [instances]
         else:
@@ -686,6 +737,8 @@ class ComponentBase:
             by: the format of the resulting keys in the dictionary ('index', 'name', 'tuple')
             layers: list of layers to get polygons from. Defaults to all layers.
         """
+        if merge and self._locked:
+            raise LockedError(self)
         return get_polygons(self, merge=merge, by=by, layers=layers)
 
     def get_polygons_points(
@@ -703,6 +756,9 @@ class ComponentBase:
             by: the format of the resulting keys in the dictionary ('index', 'name', 'tuple')
             layers: list of layers to get polygons from. Defaults to all layers.
         """
+        if merge and self._locked:
+            raise LockedError(self)
+
         return get_polygons_points(self, merge=merge, scale=scale, by=by, layers=layers)
 
     def get_labels(
@@ -802,6 +858,8 @@ class ComponentBase:
 
         Parent components can access child cells settings.
         """
+        if self._locked:
+            raise LockedError(self)
         info = dict(component.info)
 
         for k, v in info.items():
@@ -880,6 +938,9 @@ class ComponentBase:
         """
         from gdsfactory import get_layer
 
+        if self._locked:
+            raise LockedError(self)
+
         layers = [get_layer(layer) for layer in layers]
         for layer_index in layers:
             self.shapes(layer_index).clear()
@@ -902,6 +963,9 @@ class ComponentBase:
         """
         from gdsfactory import get_layer
 
+        if self._locked:
+            raise LockedError(self)
+
         for layer, new_layer in layer_map.items():
             src_layer_index = get_layer(layer)
             dst_layer_index = get_layer(new_layer)
@@ -922,6 +986,9 @@ class ComponentBase:
             recursive: if True, remaps layers recursively.
         """
         from gdsfactory import get_layer
+
+        if self._locked:
+            raise LockedError(self)
 
         for layer, new_layer in layer_map.items():
             src_layer_index = get_layer(layer)
@@ -1130,6 +1197,9 @@ class ComponentBase:
         """
         from gdsfactory import get_layer
 
+        if self._locked:
+            raise LockedError(self)
+
         distance_dbu = self.kcl.to_dbu(distance)
 
         layer_index = get_layer(layer)
@@ -1146,6 +1216,9 @@ class ComponentBase:
             distance: distance to offset the Component in um.
         """
         from gdsfactory import get_layer
+
+        if self._locked:
+            raise LockedError(self)
 
         distance_dbu = self.kcl.to_dbu(distance)
 
@@ -1318,7 +1391,9 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):  # type: ignore
 
 
 def container(
-    component: "ComponentSpec", function: Callable[..., None], **kwargs: Any
+    component: "ComponentSpec",
+    function: Callable[..., None] | None = None,
+    **kwargs: Any,
 ) -> Component:
     """Returns new component with a component reference.
 
@@ -1333,7 +1408,8 @@ def container(
     c = Component()
     cref = c << component
     c.add_ports(cref.ports)
-    function(component=c, **kwargs)
+    if function:
+        function(component=c, **kwargs)
     c.copy_child_info(component)
     return c
 
