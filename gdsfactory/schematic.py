@@ -5,7 +5,7 @@ from typing import Any
 import networkx as nx
 import yaml
 from graphviz import Digraph
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 from typing_extensions import Self
 
 import gdsfactory
@@ -63,7 +63,7 @@ class Instance(BaseModel):
     info: dict[str, Any] = Field(default_factory=dict, exclude=True)
     array: OrthogonalGridArray | GridArray | None = None
 
-    model_config = {"extra": "forbid"}
+    model_config = ConfigDict(extra="forbid")
 
     @model_validator(mode="before")
     @classmethod
@@ -121,7 +121,7 @@ class Placement(BaseModel):
         """Allows to access the placement attributes as a dictionary."""
         return getattr(self, key, 0)
 
-    model_config = {"extra": "forbid"}
+    model_config = ConfigDict(extra="forbid")
 
 
 class Bundle(BaseModel):
@@ -129,7 +129,7 @@ class Bundle(BaseModel):
     settings: dict[str, Any] = Field(default_factory=dict)
     routing_strategy: str = "route_bundle"
 
-    model_config = {"extra": "forbid"}
+    model_config = ConfigDict(extra="forbid")
 
 
 class Net(BaseModel):
@@ -184,7 +184,7 @@ class Netlist(BaseModel):
     nets: list[Net] = Field(default_factory=list)
     warnings: dict[str, Any] = Field(default_factory=dict)
 
-    model_config = {"extra": "forbid"}
+    model_config = ConfigDict(extra="forbid")
 
     @model_validator(mode="after")
     def validate_instance_names(self) -> Self:
