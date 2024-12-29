@@ -71,13 +71,15 @@ def cell_from_yaml_template(
     filename: _YamlDefinition,
     name: str,
     routing_strategy: RoutingStrategies | None = None,
+    routing_strategies: RoutingStrategies | None = None,
 ) -> ComponentFactory:
     """Gets a PIC factory function from a yaml definition, which can optionally be a jinja template.
 
     Args:
         filename: the filepath of the pic yaml template.
         name: the name of the component to create.
-        routing_strategy: a dictionary of routing functions.
+        routing_strategy: a dictionary of routing functions (deprecated).
+        routing_strategies: a dictionary of routing functions.
 
     Returns:
          a factory function for the component.
@@ -85,9 +87,15 @@ def cell_from_yaml_template(
     from gdsfactory.pdk import get_routing_strategies
 
     if routing_strategy is None:
-        routing_strategy = get_routing_strategies()
+        routing_strategies = routing_strategies or get_routing_strategies()
+    else:
+        deprecate("routing_strategy")
+        routing_strategies = routing_strategy
+
     return yaml_cell(
-        yaml_definition=filename, name=name, routing_strategy=routing_strategy
+        yaml_definition=filename,
+        name=name,
+        routing_strategies=routing_strategies,
     )
 
 
@@ -113,24 +121,34 @@ def get_default_settings_dict(
 
 
 def yaml_cell(
-    yaml_definition: _YamlDefinition, name: str, routing_strategy: RoutingStrategies
+    yaml_definition: _YamlDefinition,
+    name: str,
+    routing_strategy: RoutingStrategies | None = None,
+    routing_strategies: RoutingStrategies | None = None,
 ) -> ComponentFactory:
     """The "cell" decorator equivalent for yaml files. Generates a proper cell function for yaml-defined circuits.
 
     Args:
         yaml_definition: the filename to the pic yaml definition.
         name: the name of the pic to create.
-        routing_strategy: a dictionary of routing strategies to use for pic generation.
+        routing_strategy: a dictionary of routing strategies to use for pic generation (deprecated).
+        routing_strategies: a dictionary of routing strategies to use for pic generation.
 
     Returns:
         a dynamically-generated function for the yaml file.
     """
+    if routing_strategy is not None:
+        deprecate("routing_strategy")
+        routing_strategies = routing_strategy
+
     yaml_body, default_settings_def = _split_yaml_definition(yaml_definition)
     default_settings = get_default_settings_dict(default_settings_def)
 
     def _yaml_func(**kwargs: Any) -> Component:
         evaluated_text = _evaluate_yaml_template(yaml_body, default_settings, kwargs)
-        return _pic_from_templated_yaml(evaluated_text, name, routing_strategy)
+        return _pic_from_templated_yaml(
+            evaluated_text, name, routing_strategies=routing_strategies
+        )
 
     sig = signature(_yaml_func)
     params = []
