@@ -45,6 +45,31 @@ if TYPE_CHECKING:
 cell_without_validator = cell
 
 
+class LockedError(AttributeError):
+    """Raised when an attempt is made to modify a locked cell.
+
+    Locked cells are those already stored in cache and associated
+    with a function decorated with the `cell` decorator.
+    Modifications to such cells are disabled to ensure consistency.
+    """
+
+    def __init__(self, component: kf.KCell | kf.VKCell | Component) -> None:
+        """Initialize the LockedError.
+
+        Args:
+            component (kf.KCell | kf.VKCell | Component):
+                The component that is locked and cannot be modified.
+
+        Raises:
+            LockedError: Indicates the component is locked and modification is prohibited.
+        """
+        super().__init__(
+            f"Component {component.name!r} is locked and stored in cache. "
+            "Modifications are disabled as its associated function is decorated with `cell`. "
+            "To modify, update the code in the function or create a copy of the component."
+        )
+
+
 def ensure_tuple_of_tuples(points: Any) -> tuple[tuple[float, float], ...]:
     # Convert a single NumPy array to a tuple of tuples
     if isinstance(points, np.ndarray):
@@ -325,6 +350,9 @@ class ComponentBase:
             keep_mirror: if True, keeps the mirror of the port.
             cross_section: cross_section of the port.
         """
+        if self._locked:
+            raise LockedError(self)
+
         if port:
             return kf.KCell.add_port(
                 self,  # type: ignore
@@ -459,6 +487,9 @@ class ComponentBase:
         """
         from gdsfactory.pdk import get_layer
 
+        if self._locked:
+            raise LockedError(self)
+
         _layer = get_layer(layer)
 
         if isinstance(points, tuple | list | np.ndarray):
@@ -490,6 +521,9 @@ class ComponentBase:
             layer: Specific layer(s) to put Label on.
         """
         from gdsfactory.pdk import get_layer
+
+        if self._locked:
+            raise LockedError(self)
 
         layer = get_layer(layer)
         if isinstance(position, kf.kdb.DPoint):
@@ -630,6 +664,9 @@ class ComponentBase:
             column_pitch: column pitch.
             row_pitch: row pitch.
         """
+        if self._locked:
+            raise LockedError(self)
+
         if spacing is not None:
             deprecate("spacing", "column_pitch and row_pitch")
             column_pitch, row_pitch = spacing
@@ -880,6 +917,9 @@ class ComponentBase:
         """
         from gdsfactory import get_layer
 
+        if self._locked:
+            raise LockedError(self)
+
         layers = [get_layer(layer) for layer in layers]
         for layer_index in layers:
             self.shapes(layer_index).clear()
@@ -902,6 +942,9 @@ class ComponentBase:
         """
         from gdsfactory import get_layer
 
+        if self._locked:
+            raise LockedError(self)
+
         for layer, new_layer in layer_map.items():
             src_layer_index = get_layer(layer)
             dst_layer_index = get_layer(new_layer)
@@ -922,6 +965,9 @@ class ComponentBase:
             recursive: if True, remaps layers recursively.
         """
         from gdsfactory import get_layer
+
+        if self._locked:
+            raise LockedError(self)
 
         for layer, new_layer in layer_map.items():
             src_layer_index = get_layer(layer)

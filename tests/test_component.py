@@ -1,6 +1,8 @@
 import kfactory as kf
+import pytest
 
 import gdsfactory as gf
+from gdsfactory.component import LockedError
 from gdsfactory.generic_tech import LAYER
 
 
@@ -84,3 +86,28 @@ def test_remove_layers_flat() -> None:
     empty.remove_layers(layers=[(2, 0)])
     assert c.area((2, 0)) == 100, f"{c.area((2, 0))}"
     assert empty.area((2, 0)) == 0, f"{empty.area((2, 0))}"
+
+
+def test_locked_cell() -> None:
+    c = gf.components.straight()
+
+    with pytest.raises(LockedError):
+        c.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(2, 0))
+
+    with pytest.raises(LockedError):
+        c.remove_layers(layers=["WG"])
+
+    with pytest.raises(LockedError):
+        c.remap_layers({"WG": "SLAB90"})
+
+    with pytest.raises(LockedError):
+        c.copy_layers({"WG": "SLAB90"})
+
+    with pytest.raises(LockedError):
+        c.over_under("WG")
+
+    with pytest.raises(LockedError):
+        c.offset("WG", distance=0.1)
+
+    with pytest.raises(LockedError):
+        c.add_port(name="o1", center=(0, 0), width=0.5, orientation=0, layer="WG")
