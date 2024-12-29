@@ -77,7 +77,7 @@ def mzi_pads_center(
 
     m = c << mzi_ps
     pads = c << gf.components.array(
-        component=pad, columns=3, rows=1, spacing=(pad_pitch, pad_pitch)
+        component=pad, columns=3, rows=1, column_pitch=pad_pitch
     )
     pads.dx = m.dx
     pads.dy = m.dy
