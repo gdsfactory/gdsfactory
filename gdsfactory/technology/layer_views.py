@@ -490,7 +490,6 @@ class LayerView(BaseModel):
             exclude_defaults=exclude_defaults,
             exclude_none=exclude_none,
         )
-        print(_dict)
 
         if simplify:
             replace_keys = ["color", "brightness"]
@@ -1095,7 +1094,6 @@ class LayerViews(BaseModel):
             )
         line_styles: dict[str, LineStyle] = {}
         for line_block in root.iter("custom-line-style"):
-            print(line_block, type(line_block))
             name = line_block.find("name").text  # type: ignore[union-attr]
             order = line_block.find("order").text  # type: ignore[union-attr]
 
