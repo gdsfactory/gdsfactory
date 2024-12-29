@@ -726,7 +726,7 @@ def from_yaml(
 
     Args:
         yaml_str: YAML string or file.
-        routing_strategy: for each route. (deprecated)
+        routing_strategy: for each route (deprecated).
         routing_strategies: for each route.
         label_instance_function: to label each instance.
         name: Optional name.

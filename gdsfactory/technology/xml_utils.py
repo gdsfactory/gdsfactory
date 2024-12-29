@@ -20,14 +20,14 @@ def strip_xml(node: Node) -> None:
             if x.nodeValue:
                 x.nodeValue = x.nodeValue.strip()
         elif x.nodeType == Node.ELEMENT_NODE:
-            _strip_xml(x)
+            strip_xml(x)
 
 
 def make_pretty_xml(root: ET.Element) -> bytes:
     """Make XML pretty."""
     xml_doc = xml.dom.minidom.parseString(ET.tostring(root))
 
-    _strip_xml(xml_doc)
+    strip_xml(xml_doc)
     xml_doc.normalize()
 
     return xml_doc.toprettyxml(indent=" ", newl="\n", encoding="utf-8")

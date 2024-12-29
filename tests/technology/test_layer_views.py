@@ -74,14 +74,16 @@ def test_hatch_pattern_custom_pattern() -> None:
 
 def test_hatch_pattern_to_klayout_xml() -> None:
     hatch_pattern = HatchPattern(name="test", custom_pattern="**\n**\n")
-    assert hatch_pattern.to_klayout_xml()
+    res = hatch_pattern.to_klayout_xml()
+    assert len(res) > 0
 
     hatch_pattern = HatchPattern(name="test", custom_pattern=None)
     with pytest.raises(KeyError):
         hatch_pattern.to_klayout_xml()
 
     hatch_pattern = HatchPattern(name="test", custom_pattern="**")
-    assert hatch_pattern.to_klayout_xml()
+    res = hatch_pattern.to_klayout_xml()
+    assert len(res) > 0
 
 
 def test_line_style_custom_style() -> None:
@@ -99,7 +101,8 @@ def test_line_style_custom_style() -> None:
 
 def test_line_style_to_klayout_xml() -> None:
     line_style = LineStyle(name="test", custom_style="**")
-    assert line_style.to_klayout_xml()
+    res = line_style.to_klayout_xml()
+    assert len(res) > 0
 
     line_style = LineStyle(name="test", custom_style=None)
     with pytest.raises(KeyError):
