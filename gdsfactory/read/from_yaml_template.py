@@ -7,6 +7,7 @@ import jinja2
 import yaml
 from kfactory import cell
 
+from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component
 from gdsfactory.read.from_yaml import from_yaml
 from gdsfactory.typings import ComponentFactory, RoutingStrategies
@@ -169,7 +170,10 @@ def _evaluate_yaml_template(
 
 
 def _pic_from_templated_yaml(
-    evaluated_text: str, name: str, routing_strategy: RoutingStrategies
+    evaluated_text: str,
+    name: str,
+    routing_strategy: RoutingStrategies | None = None,
+    routing_strategies: RoutingStrategies | None = None,
 ) -> Component:
     """Creates a component from a  *.pic.yml file.
 
@@ -178,13 +182,19 @@ def _pic_from_templated_yaml(
     Args:
         evaluated_text: the text of the yaml file, with all jinja templating evaluated.
         name: the pic name.
-        routing_strategy: a dictionary of route factories.
+        routing_strategy: a dictionary of route factories (deprecated).
+        routing_strategies: a dictionary of route factories.
 
     Returns: the component.
     """
+    if routing_strategy is not None:
+        deprecate("routing_strategy")
+
+    routing_strategies = (routing_strategies or {}) | (routing_strategy or {})
+
     c = from_yaml(
         evaluated_text,
-        routing_strategy=routing_strategy,
+        routing_strategies=routing_strategies,
     ).dup()
     c.name = name
     return c
