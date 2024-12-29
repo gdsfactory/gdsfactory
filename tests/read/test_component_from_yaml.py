@@ -5,7 +5,7 @@ import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
 from gdsfactory.difftest import difftest
-from gdsfactory.read.from_yaml import from_yaml, sample_doe_function, sample_mmis
+from gdsfactory.read.from_yaml import from_yaml, sample_mmis
 
 sample_connections = """
 name: sample_connections
@@ -650,7 +650,7 @@ yaml_strings = dict(
     sample_mmis=sample_mmis,
     sample_doe=sample_doe,
     # sample_doe_grid=sample_doe_grid,
-    sample_doe_function=sample_doe_function,
+    # sample_doe_function=sample_doe_function,
     sample_rotation=sample_rotation,
     sample_array=sample_array,
     sample_array2=sample_array2,

@@ -35,7 +35,7 @@ test: test-data-gds
 	pytest -s
 
 test-force:
-	pytest -n auto --force-regen
+	pytest -n logical --force-regen -s
 
 uv-test: test-data-gds
 	uv run pytest -s -n logical

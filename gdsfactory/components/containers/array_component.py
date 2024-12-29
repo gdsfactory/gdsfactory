@@ -93,32 +93,3 @@ def array(
     if auto_rename_ports:
         c.auto_rename_ports()
     return c
-
-
-if __name__ == "__main__":
-    from gdsfactory.generic_tech import get_generic_pdk
-
-    PDK = get_generic_pdk()
-    PDK.activate()
-
-    # c = gf.components.array(
-    #     partial(gf.components.straight, layer=(2, 0)),
-    #     rows=3,
-    #     columns=1,
-    #     # spacing=(0, 50),
-    #     centered=False,
-    # )
-    c = array()
-    c.show()
-
-    # c2 = array(rows=2, columns=2, spacing=(100, 100))
-    # c2 = array(pad, rows=2, spacing=(200, 200), columns=1)
-    # c3 = c2.copy()
-
-    # c2 = array(pad, spacing=(200, 200), size=(700, 300), centered=False)
-
-    # nports = len(c2.get_ports_list(orientation=0))
-    # assert nports == 2, nports
-    # c2.show( )
-    # c2.show(show_subports=True)
-    # c2.show()

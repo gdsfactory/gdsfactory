@@ -482,11 +482,17 @@ class Pdk(BaseModel):
             raise ValueError(f"{key!r} not in {constants}")
         return self.constants[key]
 
-    def to_updk(self) -> str:
+    def to_updk(self, exclude: Sequence[str] | None = None) -> str:
         """Export to uPDK YAML definition."""
         from gdsfactory.components import bbox_to_points
 
-        _blocks = {cell_name: cell() for cell_name, cell in self.cells.items()}
+        exclude = exclude or []
+
+        _blocks = {
+            cell_name: cell()
+            for cell_name, cell in self.cells.items()
+            if cell_name not in exclude
+        }
         blocks: dict[str, dict[str, Any]] = {}
         for name, c in _blocks.items():
             if c.__doc__ is None:

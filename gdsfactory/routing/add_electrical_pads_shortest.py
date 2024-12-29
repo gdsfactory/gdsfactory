@@ -14,9 +14,8 @@ from gdsfactory.typings import (
 )
 
 
-@gf.cell
 def add_electrical_pads_shortest(
-    component: ComponentSpec = "wire",
+    component: ComponentSpec = "wire_straight",
     pad: ComponentSpec = "pad",
     pad_port_spacing: float = 50.0,
     pad_size: Size = (100.0, 100.0),

@@ -21,6 +21,8 @@ def test_add_ports() -> None:
 def test_add_ports_from_pins() -> None:
     x = 1.235
     c = gf.components.straight(length=x)
+    c = c.copy()
+    c.flatten()
     c = gf.add_pins.add_pins_container(c)
 
     gdspath = c.write_gds(with_metadata=False)
@@ -46,7 +48,7 @@ def test_add_ports_from_pins_path() -> None:
 
 
 def test_add_ports_from_labels() -> None:
-    x = 1.235
+    x = 1.238
     c = gf.components.straight(length=x)
     c = gf.add_pins.add_pins_container(c)
     port_width = c.ports["o1"].dwidth
