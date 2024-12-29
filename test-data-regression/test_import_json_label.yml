@@ -10,7 +10,7 @@ measurement_settings: {}
 name: straight__test_import_json_label
 xelec: []
 xopt:
-- 0
+- -1
 yelec: []
 yopt:
-- 0
+- -1

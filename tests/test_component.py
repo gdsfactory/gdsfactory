@@ -52,6 +52,7 @@ def test_get_polygons() -> None:
 def test_trim() -> None:
     layer = (1, 0)
     c1 = gf.c.rectangle(size=(9, 9), centered=True, layer=layer).dup()
+    c1.flatten()
     c1_area = c1.area(layer=layer)
 
     c1.trim(left=-5, right=5, top=5, bottom=-5)
@@ -65,9 +66,9 @@ def test_from_kcell() -> None:
 
 def test_remove_layers_recursive() -> None:
     comp = gf.Component()
-    r1 = gf.components.rectangle(size=(1, 15), layer=(1, 0), centered=True)
+    r1 = gf.components.compass(size=(1, 15), layer=(1, 0))
     _ = comp << r1
-    r2 = gf.components.rectangle(size=(2, 30), layer=(2, 0), centered=True)
+    r2 = gf.components.compass(size=(2, 30), layer=(2, 0))
     _ = comp << r2
     comp.flatten()
 

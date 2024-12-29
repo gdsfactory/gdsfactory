@@ -725,6 +725,8 @@ class ComponentBase:
             by: the format of the resulting keys in the dictionary ('index', 'name', 'tuple')
             layers: list of layers to get polygons from. Defaults to all layers.
         """
+        if merge and self._locked:
+            raise LockedError(self)
         return get_polygons(self, merge=merge, by=by, layers=layers)
 
     def get_polygons_points(
@@ -742,6 +744,9 @@ class ComponentBase:
             by: the format of the resulting keys in the dictionary ('index', 'name', 'tuple')
             layers: list of layers to get polygons from. Defaults to all layers.
         """
+        if merge and self._locked:
+            raise LockedError(self)
+
         return get_polygons_points(self, merge=merge, scale=scale, by=by, layers=layers)
 
     def get_labels(
