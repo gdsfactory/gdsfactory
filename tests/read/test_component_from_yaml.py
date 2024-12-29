@@ -299,7 +299,7 @@ routes:
         settings:
             cross_section: strip
         links:
-            left,o:1:3: right,o:3:1
+            left,o1-3: right,o3-1
 """
 
 sample_regex_connections_backwards = """
@@ -327,7 +327,7 @@ routes:
         settings:
             cross_section: strip
         links:
-            left,o:3:1: right,o:1:3
+            left,o3-1: right,o1-3
 """
 
 
@@ -713,5 +713,5 @@ if __name__ == "__main__":
 
     import gdsfactory as gf
 
-    c = gf.read.from_yaml(sample_array_connect)
+    c = gf.read.from_yaml(sample_regex_connections_backwards)
     c.show()
