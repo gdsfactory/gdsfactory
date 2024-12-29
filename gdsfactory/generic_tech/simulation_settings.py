@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 import numpy.typing as npt
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from scipy import interpolate  # type: ignore
 
 if TYPE_CHECKING:
@@ -53,11 +53,7 @@ class SimulationSettingsLumericalFdtd(BaseModel):
     field_profile_samples: int = 15
     distance_monitors_to_pml: float = 0.5
     material_name_to_lumerical: dict[str, str] = material_name_to_lumerical_default
-
-    class Config:
-        """pydantic basemodel config."""
-
-        arbitrary_types_allowed = True
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
 
 SIMULATION_SETTINGS_LUMERICAL_FDTD = SimulationSettingsLumericalFdtd()

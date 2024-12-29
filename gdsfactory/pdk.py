@@ -20,7 +20,7 @@ from gdsfactory.config import CONF
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
-from gdsfactory.serialization import convert_tuples_to_lists
+from gdsfactory.serialization import clean_value_json, convert_tuples_to_lists
 from gdsfactory.symbols import floorplan_with_block_letters
 from gdsfactory.technology import LayerStack, LayerViews, klayout_tech
 from gdsfactory.typings import (
@@ -505,7 +505,7 @@ class Pdk(BaseModel):
                 settings=extra_args,
                 parameters={
                     sname: {
-                        "value": svalue,
+                        "value": clean_value_json(svalue),
                         "type": str(svalue.__class__.__name__),
                         "doc": extra_args.get(sname, {}).get("doc", None),
                         "min": extra_args.get(sname, {}).get("min", 0),

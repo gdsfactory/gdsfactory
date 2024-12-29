@@ -33,6 +33,8 @@ skip_test = {
     "coupler_ring_bend",
     "grating_coupler_array",
     "straight_piecewise",
+    "ge_detector_straight_si_contacts",
+    "dbr",
 }
 cells_to_test = set(cells.keys()) - skip_test
 

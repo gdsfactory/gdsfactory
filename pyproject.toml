@@ -126,7 +126,6 @@ reportUnusedExpression = false
 [tool.pytest.ini_options]
 # addopts = --tb=no
 addopts = '--tb=short --ignore=gdsfactory/schematic_editor.py --ignore=gdsfactory/klayout_tech.py --ignore=gdsfactory/geometry/maskprep_flat.py --ignore=gdsfactory/fill_klayout.py --ignore=tests/test_samples.py'
-datadir = "test-data-regression"
 norecursedirs = [
   "gdsfactory/geometry",
   "gdsfactory/plugins",

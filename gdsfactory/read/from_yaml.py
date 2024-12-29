@@ -726,7 +726,7 @@ def from_yaml(
 
     Args:
         yaml_str: YAML string or file.
-        routing_strategy: for each route. (deprecated)
+        routing_strategy: for each route (deprecated).
         routing_strategies: for each route.
         label_instance_function: to label each instance.
         name: Optional name.
@@ -1240,7 +1240,7 @@ def _split_route_link(s: str) -> tuple[str, list[str], str]:
         if s.count(":") == 2:
             s = s.replace(":", "", 1)
             s = s.replace(":", "-", 1)
-            warnings.warn(warning, category=DeprecationWarning)
+            warnings.warn(warning)
         else:
             raise error
 

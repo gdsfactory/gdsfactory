@@ -27,7 +27,7 @@ def test_array_size() -> None:
         row_pitch=row_pitch,
     )
 
-    assert len(c1.references) == len(c2.references)
+    assert len(c1.insts) == len(c2.insts)
 
 
 def test_array_post_process() -> None:
