@@ -57,6 +57,7 @@ from gdsfactory.add_padding import (
     add_padding,
     add_padding_container,
     get_padding_points,
+    add_padding_to_size,
 )
 from gdsfactory.pack import pack
 from gdsfactory.pdk import (
@@ -99,6 +100,7 @@ __all__ = (
     "__version__",
     "add_padding",
     "add_padding_container",
+    "add_padding_to_size",
     "add_pins",
     "add_ports",
     "boolean",

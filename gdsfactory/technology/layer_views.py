@@ -12,7 +12,8 @@ import pathlib
 import re
 import warnings
 import xml.etree.ElementTree as ET
-from typing import TYPE_CHECKING, Any
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeAlias
 
 import numpy as np
 import yaml
@@ -28,12 +29,13 @@ from gdsfactory.technology.xml_utils import make_pretty_xml
 from gdsfactory.technology.yaml_utils import TechnologyDumper
 
 if TYPE_CHECKING:
-    from pydantic.typing import AbstractSetIntStr, DictStrAny, MappingIntStrAny
-
     from gdsfactory.component import Component
 
 PathLike = pathlib.Path | str
 Layer = tuple[int, int]
+IncEx: TypeAlias = (
+    set[int] | set[str] | Mapping[int, "IncEx | bool"] | Mapping[str, "IncEx | bool"]
+)
 
 _klayout_line_styles = {
     "solid": "",
@@ -293,14 +295,12 @@ class HatchPattern(BaseModel):
 
     @field_validator("custom_pattern")
     @classmethod
-    def check_pattern_klayout(cls, pattern: str | None, **kwargs: Any) -> str | None:
+    def check_pattern_klayout(cls, pattern: str | None) -> str | None:
         if pattern is None:
             return None
         lines = pattern.splitlines()
         if any(len(list(line)) > 32 for line in lines):
-            raise ValueError(
-                f"Custom pattern {kwargs['values']['name']} has more than 32 characters."
-            )
+            raise ValueError(f"Custom pattern {pattern} has more than 32 characters.")
         return pattern
 
     def to_klayout_xml(self) -> ET.Element:
@@ -339,7 +339,7 @@ class LineStyle(BaseModel):
 
     @field_validator("custom_style")
     @classmethod
-    def check_pattern(cls, pattern: str | None, **kwargs: Any) -> str | None:
+    def check_pattern(cls, pattern: str | None) -> str | None:
         if pattern is None:
             return None
 
@@ -348,7 +348,7 @@ class LineStyle(BaseModel):
         valid_length = len(pattern_list) <= 32
         if (not valid_chars) or (not valid_length):
             raise ValueError(
-                f"Custom line pattern {kwargs['values']['name']} must consist of '*' and '.' characters and be no more than 32 characters long."
+                f"Custom line pattern {pattern} must consist of '*' and '.' characters and be no more than 32 characters long."
             )
 
         return pattern
@@ -451,23 +451,17 @@ class LayerView(BaseModel):
 
         super().__init__(**data)
 
-        # Iterate through all items, adding group members as needed
-        for name, field in self.model_fields.items():
-            default = field.get_default()
-            if isinstance(default, LayerView):
-                self.group_members[name] = default
-
     def dict(
         self,
         *,
-        include: AbstractSetIntStr | MappingIntStrAny | None = None,
-        exclude: AbstractSetIntStr | MappingIntStrAny | None = None,
+        include: IncEx | None = None,
+        exclude: IncEx | None = None,
         by_alias: bool = False,
         exclude_unset: bool = False,
         exclude_defaults: bool = False,
         exclude_none: bool = False,
         simplify: bool = True,
-    ) -> DictStrAny:
+    ) -> dict[str, Any]:
         """Generate a dictionary representation of the model, optionally specifying which fields to include or exclude.
 
         Specify "simplify" to consolidate fill and frame color/brightness if they are the same.
@@ -496,6 +490,7 @@ class LayerView(BaseModel):
             exclude_defaults=exclude_defaults,
             exclude_none=exclude_none,
         )
+        print(_dict)
 
         if simplify:
             replace_keys = ["color", "brightness"]

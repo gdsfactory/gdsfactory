@@ -1,6 +1,10 @@
+import pytest
+from pydantic_extra_types.color import Color
+
 from gdsfactory.technology import LayerStack, LayerView, LayerViews
 from gdsfactory.technology.layer_map import LayerMap
 from gdsfactory.technology.layer_stack import LayerLevel
+from gdsfactory.technology.layer_views import HatchPattern, LineStyle
 from gdsfactory.typings import Layer
 
 nm = 1e-3
@@ -56,3 +60,83 @@ def test_preview_layerset() -> None:
     LAYER_VIEWS = PDK.layer_views
     c = LAYER_VIEWS.preview_layerset()
     assert c
+
+
+def test_hatch_pattern_custom_pattern() -> None:
+    hatch_pattern = HatchPattern(name="test", custom_pattern="**\n**\n")
+    assert hatch_pattern.custom_pattern == "**\n**\n"
+    hatch_pattern = HatchPattern(name="test", custom_pattern=None)
+    assert hatch_pattern.custom_pattern is None
+
+    with pytest.raises(ValueError):
+        HatchPattern(name="test", custom_pattern="*" * 33 + "\n")
+
+
+def test_hatch_pattern_to_klayout_xml() -> None:
+    hatch_pattern = HatchPattern(name="test", custom_pattern="**\n**\n")
+    assert hatch_pattern.to_klayout_xml()
+
+    hatch_pattern = HatchPattern(name="test", custom_pattern=None)
+    with pytest.raises(KeyError):
+        hatch_pattern.to_klayout_xml()
+
+    hatch_pattern = HatchPattern(name="test", custom_pattern="**")
+    assert hatch_pattern.to_klayout_xml()
+
+
+def test_line_style_custom_style() -> None:
+    line_style = LineStyle(name="test", custom_style="**")
+    assert line_style.custom_style == "**"
+    line_style = LineStyle(name="test", custom_style=None)
+    assert line_style.custom_style is None
+
+    with pytest.raises(ValueError):
+        LineStyle(name="test", custom_style="invalid$chars")
+
+    with pytest.raises(ValueError):
+        LineStyle(name="test", custom_style="*" * 33)
+
+
+def test_line_style_to_klayout_xml() -> None:
+    line_style = LineStyle(name="test", custom_style="**")
+    assert line_style.to_klayout_xml()
+
+    line_style = LineStyle(name="test", custom_style=None)
+    with pytest.raises(KeyError):
+        line_style.to_klayout_xml()
+
+
+def test_layer_view_init() -> None:
+    lv = LayerView(gds_layer=1, gds_datatype=0)
+    assert lv.layer == (1, 0)
+
+    lv = LayerView(color="#FF0000")
+    assert lv.fill_color == Color("#FF0000")
+    assert lv.frame_color == Color("#FF0000")
+
+    lv = LayerView(brightness=50)
+    assert lv.fill_brightness == 50
+    assert lv.frame_brightness == 50
+
+    with pytest.raises(KeyError):
+        LayerView(layer=(1, 0), gds_layer=1, gds_datatype=0)
+
+    with pytest.raises(KeyError):
+        LayerView(color="#FF0000", fill_color="#00FF00")
+
+    with pytest.raises(KeyError):
+        LayerView(brightness=50, fill_brightness=60)
+
+
+def test_layer_view_dict() -> None:
+    lv = LayerView(color="#FF0000")
+    assert lv.dict()
+
+
+if __name__ == "__main__":
+    test_hatch_pattern_to_klayout_xml()
+    test_hatch_pattern_custom_pattern()
+    test_line_style_custom_style()
+    test_line_style_to_klayout_xml()
+    test_layer_view_init()
+    test_layer_view_dict()

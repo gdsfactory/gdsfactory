@@ -29,6 +29,19 @@ exclude_lines =
     # Don't complain about abstract methods, they aren't run:
     @(abc\.)?abstractmethod
 
+    @(typing\.)?overload
+
+    if TYPE_CHECKING:
+
+    # Don't complain about deprecate calls
+    deprecate\(.*\)
+
+    # Don't complain about functions with ellipsis body
+    def .*:[\s]*\.\.\.$
+
+    # Don't complain about Protocol inheritance or generic inheritance
+    class .*\(Protocol(\[.*\])?(,.*)?.*\):
+
 
 [html]
 directory = coverage_html_report
