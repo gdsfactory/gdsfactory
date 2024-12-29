@@ -512,6 +512,7 @@ instances:
     component: array
     settings:
       component: dbr
+      column_pitch: 0
       row_pitch: 3
       columns: 1
       rows: 8
@@ -711,5 +712,5 @@ if __name__ == "__main__":
 
     import gdsfactory as gf
 
-    c = gf.read.from_yaml(sample_array2)
+    c = gf.read.from_yaml(sample_regex_connections_backwards)
     c.show()

@@ -54,8 +54,8 @@ def test_import_gds_array() -> None:
         gf.components.compass(layer="WG"),
         rows=2,
         columns=2,
-        row_pitch=10,
         column_pitch=10,
+        row_pitch=10,
     )
     gdspath = c0.write_gds()
 
