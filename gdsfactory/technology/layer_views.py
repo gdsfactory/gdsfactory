@@ -724,7 +724,11 @@ class LayerView(BaseModel):
 
         # Translate KLayout index to line style name
         line_style = element.find("line-style")
-        if line_style and re.match(r"I\d+", line_style.text):  # type: ignore
+        if (
+            line_style is not None
+            and line_style.text is not None
+            and re.match(r"I\d+", line_style.text)
+        ):
             line_style = list(_klayout_line_styles.keys())[int(line_style.text[1:])]  # type: ignore
 
         lv = LayerView(
@@ -735,7 +739,9 @@ class LayerView(BaseModel):
             fill_brightness=element.find("fill-brightness").text or 0,  # type: ignore
             frame_brightness=element.find("frame-brightness").text or 0,  # type: ignore
             hatch_pattern=hatch_pattern or None,
-            line_style=line_style or None,
+            line_style=line_style
+            if line_style is not None and len(line_style) > 0
+            else None,
             valid=getattr(element.find("valid"), "text", True),
             visible=getattr(element.find("visible"), "text", True),
             transparent=getattr(element.find("transparent"), "text", False),
