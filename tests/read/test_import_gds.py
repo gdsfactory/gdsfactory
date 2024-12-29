@@ -51,7 +51,11 @@ def test_import_json_label(data_regression: DataRegressionFixture) -> None:
 def test_import_gds_array() -> None:
     """Import a GDS with InstanceArray."""
     c0 = gf.components.array(
-        gf.components.compass(layer="WG"), rows=2, columns=2, spacing=(10, 10)
+        gf.components.compass(layer="WG"),
+        rows=2,
+        columns=2,
+        column_pitch=10,
+        row_pitch=10,
     )
     gdspath = c0.write_gds()
 

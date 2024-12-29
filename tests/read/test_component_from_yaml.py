@@ -512,9 +512,8 @@ instances:
     component: array
     settings:
       component: dbr
-      spacing:
-      - 0
-      - 3
+      column_pitch: 0
+      row_pitch: 3
       columns: 1
       rows: 8
       add_ports: true
