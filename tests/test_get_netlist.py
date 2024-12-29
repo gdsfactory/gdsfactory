@@ -38,7 +38,7 @@ def test_get_netlist_cell_array() -> None:
     component_to_array = gf.components.straight(length=10)
     c = gf.components.array(
         component_to_array,
-        spacing=(0, 100),
+        column_pitch=100,
         columns=1,
         rows=rows,
         add_ports=True,
@@ -74,8 +74,8 @@ def test_get_netlist_cell_array_no_ports() -> None:
     rows = 3
     c = gf.components.array(
         gf.components.straight(length=10),
-        spacing=(0, 100),
         columns=1,
+        column_pitch=100,
         rows=rows,
         add_ports=False,
     )
@@ -95,7 +95,7 @@ def test_get_netlist_cell_array_no_ports() -> None:
 
 def test_get_netlist_cell_array_connecting() -> None:
     c = gf.components.array(
-        gf.components.straight(length=100), spacing=(100, 0), columns=5, rows=1
+        gf.components.straight(length=100), columns=5, rows=1, column_pitch=100
     )
     with pytest.warns(UserWarning):
         # because the component-array has automatic external ports, we assume no internal self-connections
