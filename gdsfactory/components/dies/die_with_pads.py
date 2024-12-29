@@ -1,6 +1,5 @@
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.generic_tech.layer_map import LAYER
 from gdsfactory.typings import (
     ComponentSpec,
     CrossSectionSpec,
@@ -19,7 +18,7 @@ def die_with_pads(
     grating_coupler: ComponentSpec = "grating_coupler_te",
     cross_section: CrossSectionSpec = "strip",
     pad: ComponentSpec = "pad",
-    layer_floorplan: LayerSpec = LAYER.FLOORPLAN,
+    layer_floorplan: LayerSpec = "FLOORPLAN",
     edge_to_pad_distance: float = 150.0,
     edge_to_grating_distance: float = 150.0,
     with_loopback: bool = True,

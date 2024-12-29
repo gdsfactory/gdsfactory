@@ -1,6 +1,3 @@
-from functools import partial
-
-import gdsfactory as gf
 from gdsfactory.technology import LayerStack, LayerView, LayerViews
 from gdsfactory.technology.layer_map import LayerMap
 from gdsfactory.technology.layer_stack import LayerLevel
@@ -59,40 +56,3 @@ def test_preview_layerset() -> None:
     LAYER_VIEWS = PDK.layer_views
     c = LAYER_VIEWS.preview_layerset()
     assert c
-
-
-if __name__ == "__main__":
-    LAYER_STACK = get_layer_stack_faba()
-    WIDTH = 2
-
-    # Specify a cross_section to use
-    strip = partial(gf.cross_section.cross_section, width=WIDTH, layer=LAYER.WG)
-
-    mmi1x2 = partial(
-        gf.components.mmi1x2,
-        width=WIDTH,
-        width_taper=WIDTH,
-        width_mmi=3 * WIDTH,
-        cross_section=strip,
-    )
-
-    PDK = gf.Pdk(
-        name="Fab_A",
-        cells=dict(mmi1x2=mmi1x2),
-        cross_sections=dict(strip=strip),
-        layers=LAYER,
-        layer_views=LAYER_VIEWS,
-        layer_stack=LAYER_STACK,
-    )
-    PDK.activate()
-    PDK_A = PDK
-
-    # gc = partial(
-    #     gf.components.grating_coupler_elliptical_te, layer=LAYER.WG, cross_section=strip
-    # )
-
-    # c = gf.components.mzi()
-    # c_gc = gf.routing.add_fiber_array(
-    #     component=c, grating_coupler=gc, with_loopback=False
-    # )
-    # c_gc.show()
