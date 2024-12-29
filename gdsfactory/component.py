@@ -53,7 +53,9 @@ class LockedError(AttributeError):
     Modifications to such cells are disabled to ensure consistency.
     """
 
-    def __init__(self, component: kf.KCell | kf.VKCell | Component) -> None:
+    def __init__(
+        self, component: kf.KCell | kf.VKCell | Component | ComponentBase
+    ) -> None:
         """Initialize the LockedError.
 
         Args:
@@ -1364,7 +1366,9 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):  # type: ignore
 
 
 def container(
-    component: "ComponentSpec", function: Callable[..., None], **kwargs: Any
+    component: "ComponentSpec",
+    function: Callable[..., None] | None = None,
+    **kwargs: Any,
 ) -> Component:
     """Returns new component with a component reference.
 
@@ -1379,7 +1383,8 @@ def container(
     c = Component()
     cref = c << component
     c.add_ports(cref.ports)
-    function(component=c, **kwargs)
+    if function:
+        function(component=c, **kwargs)
     c.copy_child_info(component)
     return c
 
