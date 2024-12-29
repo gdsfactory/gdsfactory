@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.28.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.28.0) - 2024-12-29
+
+No significant changes.
+
+
 ## [8.27.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.27.2) - 2024-12-27
 
 - remove import_gds cache [#3543](https://github.com/gdsfactory/gdsfactory/pull/3543)
