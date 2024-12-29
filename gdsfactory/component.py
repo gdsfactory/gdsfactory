@@ -462,6 +462,9 @@ class ComponentBase:
             top: top coordinate of the bounding box.
             flatten: if True, flattens the Component.
         """
+        if self._locked:
+            raise LockedError(self)
+
         c = self
 
         domain_box = kdb.DBox(left, bottom, right, top)
@@ -607,6 +610,9 @@ class ComponentBase:
         """
         from gdsfactory.pdk import get_active_pdk
 
+        if self._locked:
+            raise LockedError(self)
+
         pdk = get_active_pdk()
 
         length_eff = length_eff or length
@@ -636,6 +642,9 @@ class ComponentBase:
             reference: Instance to be absorbed into the Component.
 
         """
+        if self._locked:
+            raise LockedError(self)
+
         if reference._kfinst not in self.insts:
             raise ValueError(
                 "The reference you asked to absorb does not exist in this Component."
@@ -704,6 +713,9 @@ class ComponentBase:
         return ComponentReference(inst)
 
     def add(self, instances: list[Instance] | Instance) -> None:
+        if self._locked:
+            raise LockedError(self)
+
         if not isinstance(instances, Iterable):
             instance_list = [instances]
         else:
@@ -846,6 +858,8 @@ class ComponentBase:
 
         Parent components can access child cells settings.
         """
+        if self._locked:
+            raise LockedError(self)
         info = dict(component.info)
 
         for k, v in info.items():
@@ -1183,6 +1197,9 @@ class ComponentBase:
         """
         from gdsfactory import get_layer
 
+        if self._locked:
+            raise LockedError(self)
+
         distance_dbu = self.kcl.to_dbu(distance)
 
         layer_index = get_layer(layer)
@@ -1199,6 +1216,9 @@ class ComponentBase:
             distance: distance to offset the Component in um.
         """
         from gdsfactory import get_layer
+
+        if self._locked:
+            raise LockedError(self)
 
         distance_dbu = self.kcl.to_dbu(distance)
 
