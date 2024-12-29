@@ -11,7 +11,6 @@ import numpy.typing as npt
 from numpy import cos, float64, sin
 
 import gdsfactory as gf
-from gdsfactory._deprecation import deprecate
 
 if TYPE_CHECKING:
     from gdsfactory.component import Component, ComponentBase
@@ -375,7 +374,6 @@ def extrude_path(
     Returns:
         numpy 2D array of shape (2*N, 2).
     """
-    deprecate("extrude_path", "gdsfactory.path.Path.extrude()")
     grid = grid or gf.kcl.dbu
 
     assert grid is not None

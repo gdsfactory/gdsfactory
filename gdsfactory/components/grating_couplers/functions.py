@@ -74,6 +74,17 @@ def grating_taper_points(
     wg_width: float,
     angle_step: float = 1.0,
 ) -> npt.NDArray[np.floating[Any]]:
+    """Returns a taper for a grating coupler.
+
+    Args:
+        a: ellipse semi-major axis.
+        b: semi-minor axis.
+        x0: in um.
+        taper_length: in um.
+        taper_angle: in degrees.
+        wg_width: in um.
+        angle_step: in degrees.
+    """
     taper_arc = ellipse_arc(
         a=a,
         b=b,
