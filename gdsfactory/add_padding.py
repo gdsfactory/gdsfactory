@@ -95,21 +95,21 @@ def add_padding_to_size(
         left: left padding in um to fill up in um.
         bottom: bottom padding in um to fill up in um.
     """
-    component = gf.get_component(component)
+    c = gf.get_component(component)
 
-    top = abs(ysize - component.dysize) if ysize else 0
-    right = abs(xsize - component.dxsize) if xsize else 0
+    top = abs(ysize - c.dysize) if ysize else 0
+    right = abs(xsize - c.dxsize) if xsize else 0
     points = [
-        (component.dxmin - left, component.dymin - bottom),
-        (component.dxmax + right, component.dymin - bottom),
-        (component.dxmax + right, component.dymax + top),
-        (component.dxmin - left, component.dymax + top),
+        (c.dxmin - left, c.dymin - bottom),
+        (c.dxmax + right, c.dymin - bottom),
+        (c.dxmax + right, c.dymax + top),
+        (c.dxmin - left, c.dymax + top),
     ]
 
     for layer in layers:
-        component.add_polygon(points, layer=layer)
+        c.add_polygon(points, layer=layer)
 
-    return component
+    return c
 
 
 add_padding_container = partial(container, function=add_padding)  # type: ignore

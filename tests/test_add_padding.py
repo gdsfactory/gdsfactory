@@ -1,22 +1,19 @@
 import math
 
+import pytest
 from hypothesis import given, settings
 from hypothesis import strategies as st
 
 import gdsfactory as gf
-from gdsfactory.get_factories import get_cells
-from gdsfactory.typings import ComponentFactory
-
-cells = get_cells([gf.components.bends])
 
 
+@pytest.mark.parametrize("component_type", ["bend_circular", "bend_euler"])
 @given(
     padding=st.decimals(min_value=5, max_value=100, places=4).map(float),
-    cf=st.sampled_from(list(cells.values())),
 )
 @settings(deadline=None)
-def test_add_padding_size(padding: float, cf: ComponentFactory) -> None:
-    c = cf()
+def test_add_padding_size(padding: float, component_type: str) -> None:
+    c = gf.get_component(component_type)
     xsize_before = c.xsize
     dxsize_before = c.dxsize
     ysize_before = c.ysize
@@ -37,14 +34,14 @@ def test_add_padding_size(padding: float, cf: ComponentFactory) -> None:
     assert math.isclose(c.dysize - dysize_before, 2 * padding, abs_tol=0.01)
 
 
+@pytest.mark.parametrize("component_type", ["bend_circular", "bend_euler"])
 @given(
     xsize=st.decimals(min_value=5, max_value=100, places=4).map(float),
     ysize=st.decimals(min_value=5, max_value=100, places=4).map(float),
-    cf=st.sampled_from(list(cells.values())),
 )
 @settings(deadline=None)
-def test_add_padding_to_size(xsize: float, ysize: float, cf: ComponentFactory) -> None:
-    c = cf()
+def test_add_padding_to_size(xsize: float, ysize: float, component_type: str) -> None:
+    c = gf.get_component(component_type)
     xsize += c.xsize
     ysize += c.ysize
 
