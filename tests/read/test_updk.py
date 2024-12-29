@@ -10,6 +10,7 @@ exclude = [
     "pack_doe",
     "pack_doe_grid",
     "straight_piecewise",
+    "text_freetype",
 ]
 
 
