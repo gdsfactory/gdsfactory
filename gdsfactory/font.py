@@ -161,11 +161,9 @@ def _get_glyph(font: freetype.Face, letter: str) -> tuple[Component, float, floa
     if orientation == 0:
         # TrueType specification, fill the clockwise contour
         component = boolean(c1, c2, operation="not")
-    elif orientation == 1:
+    else:
         # PostScript specification, fill the counterclockwise contour
         component = boolean(c2, c1, operation="not")
-    else:
-        raise ValueError(f"Unknown orientation {orientation} for letter {letter}")
 
     component.name = block_name
 
@@ -191,5 +189,5 @@ def _polygon_orientation(vertices: npt.NDArray[np.float64]) -> int:
 if __name__ == "__main__":
     from gdsfactory.components import text_freetype
 
-    c = text_freetype("hello")
+    c = text_freetype("abcd")
     c.show()
