@@ -1,12 +1,19 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.27.2...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.28.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.28.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.28.0) - 2024-12-29
 
-No significant changes.
-
+- Add more tests [#3550](https://github.com/gdsfactory/gdsfactory/pull/3550)
+- raise error when modifying locked components that use cell decorator [#3556](https://github.com/gdsfactory/gdsfactory/pull/3556)
+- add straight_piecewise [#3551](https://github.com/gdsfactory/gdsfactory/pull/3551)
+- fix freetype [#3557](https://github.com/gdsfactory/gdsfactory/pull/3557)
+- raise error when modifying locked components that use cell decorator [#3556](https://github.com/gdsfactory/gdsfactory/pull/3556)
+- Fix is_cell [#3549](https://github.com/gdsfactory/gdsfactory/pull/3549)
+- Fix route ports to side kwargs [#3547](https://github.com/gdsfactory/gdsfactory/pull/3547)
+- Remove deprecated methods from tests [#3558](https://github.com/gdsfactory/gdsfactory/pull/3558)
+- Fix ALL mypy errors! [#3544](https://github.com/gdsfactory/gdsfactory/pull/3544)
 
 ## [8.27.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.27.2) - 2024-12-27
 
