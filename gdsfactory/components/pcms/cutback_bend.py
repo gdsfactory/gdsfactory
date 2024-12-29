@@ -4,7 +4,6 @@ from functools import partial
 from typing import Any
 
 import gdsfactory as gf
-from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec
 
@@ -25,9 +24,7 @@ def cutback_bend(
     cols: int = 5,
     **kwargs: Any,
 ) -> Component:
-    """Deprecated.
-
-    Use cutback_bend90 instead with smaller footprint.
+    """We recommend using cutback_bend90 instead for a smaller footprint.
 
     Args:
         component: bend spec.
@@ -46,7 +43,6 @@ def cutback_bend(
 
         _ this is a row
     """
-    deprecate("cutback_bend", "cutback_bend90")
     from gdsfactory.pdk import get_component
 
     bend90 = get_component(component, **kwargs)
@@ -239,8 +235,8 @@ cutback_bend90circular = partial(cutback_bend90, component="bend_circular")
 
 if __name__ == "__main__":
     # c = cutback_bend()
-    # c = cutback_bend90()
-    c = cutback_bend90circular(rows=7, cols=4)
+    c = cutback_bend90()
+    # c = cutback_bend90circular(rows=7, cols=4)
     # c = cutback_bend_circular(rows=14, cols=4)
     # c = cutback_bend90()
     # c = cutback_bend180(rows=3, cols=1)

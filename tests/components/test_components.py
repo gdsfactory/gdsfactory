@@ -14,17 +14,17 @@ from gdsfactory.serialization import clean_value_json
 cells = get_cells([gf.components])
 
 skip_test = {
-    "version_stamp",
+    "add_fiber_array_optical_south_electrical_north",
     "bbox",
     "component_sequence",
     "extend_ports_list",
-    "add_fiber_array_optical_south_electrical_north",
-    "ring_double_pn",
+    "grating_coupler_elliptical_lumerical_etch70",
     "pack_doe",
     "pack_doe_grid",
-    "text_freetype",
-    "grating_coupler_elliptical_lumerical_etch70",
+    "ring_double_pn",
     "straight_piecewise",
+    "text_freetype",
+    "version_stamp",
 }
 cells_to_test = set(cells.keys()) - skip_test
 
