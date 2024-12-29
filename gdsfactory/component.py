@@ -201,8 +201,6 @@ class ComponentReference(kf.Instance):
         super().__setattr__(__k, __v)
 
     def flatten(self, levels: int | None = None) -> None:
-        if self._locked:
-            raise LockedError(self)
         self._kfinst.flatten(levels)
 
     @property
