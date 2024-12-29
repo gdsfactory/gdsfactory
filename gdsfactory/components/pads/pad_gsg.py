@@ -44,7 +44,7 @@ def pad_gsg_short(
     gnd_bot.dmovex(-metal_spacing)
 
     pads = c << gf.components.array(
-        pad, columns=1, rows=3, spacing=(0, pad_pitch), centered=True
+        pad, columns=1, rows=3, row_pitch=pad_pitch, centered=True
     )
     pads.dxmin = via.dxmax + route_xsize
     pads.dy = 0
