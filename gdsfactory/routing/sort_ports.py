@@ -41,6 +41,7 @@ def sort_ports(
             If False, the two lists will be sorted independently.
 
     """
+    original_ports1 = list(ports1)
     ports1_list = list(ports1)
     ports2_list = list(ports2)
 
@@ -50,8 +51,6 @@ def sort_ports(
         )
     if not ports1_list:
         raise ValueError("ports1 is an empty list")
-    if not ports2_list:
-        raise ValueError("ports2 is an empty list")
 
     if ports1_list[0].orientation in [0, 180] and ports2_list[0].orientation in [
         0,
@@ -65,13 +64,13 @@ def sort_ports(
         _sort(get_port_x, ports1_list, enforce_port_ordering, ports2_list)
     else:
         axis = "X" if ports1_list[0].orientation in [0, 180] else "Y"
-        f_key1 = get_port_y if axis in {"X", "x"} else get_port_x
+        f_key1 = get_port_y if axis == "X" else get_port_x
         ports1_list.sort(key=f_key1)
         if not enforce_port_ordering:
             ports2_list.sort(key=f_key1)
 
     if enforce_port_ordering:
-        ports2_list = [ports2_list[ports1_list.index(p1)] for p1 in ports1_list]
+        ports2_list = [ports2_list[original_ports1.index(p1)] for p1 in ports1_list]
 
     return ports1_list, ports2_list
 

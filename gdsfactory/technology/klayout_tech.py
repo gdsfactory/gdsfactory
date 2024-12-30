@@ -66,7 +66,7 @@ class KLayoutTechnology(BaseModel):
     @classmethod
     def check_layer_map(cls, data: Any) -> Any:
         layer_map = data.get("layer_map")
-        if isinstance(layer_map, aenum._enum.EnumType):
+        if isinstance(layer_map, aenum.EnumType):
             layer_map = {
                 name: (layer_enum.layer, layer_enum.datatype)
                 for name, layer_enum in layer_map.__members__.items()

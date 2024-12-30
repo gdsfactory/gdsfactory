@@ -121,7 +121,7 @@ class Port(kf.Port):
     def __init__(
         self,
         name: str | None,
-        orientation: AngleInDegrees | None,
+        orientation: AngleInDegrees,
         center: tuple[float, ...] | kf.kdb.Point | kf.kdb.DPoint,
         width: float | None = None,
         layer: LayerSpec | None = None,

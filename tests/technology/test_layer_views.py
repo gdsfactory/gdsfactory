@@ -133,13 +133,25 @@ def test_layer_view_init() -> None:
 
 def test_layer_view_dict() -> None:
     lv = LayerView(color="#FF0000")
-    assert lv.dict()
+
+    d = lv.dict(simplify=False)
+    assert "fill_color" in d
+    assert "frame_color" in d
+    assert "color" not in d
+    assert d["fill_color"] == d["frame_color"] == Color("#FF0000")
+
+    d = lv.dict(simplify=True)
+    assert "fill_color" not in d
+    assert "frame_color" not in d
+    assert "color" in d
+    assert d["color"] == Color("#FF0000")
+
+
+def test_layer_view_str() -> None:
+    lv = LayerView(color="#00FF00")
+    assert str(lv)
 
 
 if __name__ == "__main__":
-    test_hatch_pattern_to_klayout_xml()
-    test_hatch_pattern_custom_pattern()
-    test_line_style_custom_style()
-    test_line_style_to_klayout_xml()
-    test_layer_view_init()
-    test_layer_view_dict()
+    lv = LayerView(color="#00FF00")
+    print(repr(lv))

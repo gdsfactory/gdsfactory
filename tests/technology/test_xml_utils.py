@@ -1,5 +1,5 @@
 import xml.etree.ElementTree as ET
-from xml.dom.minidom import parseString
+from xml.dom.minidom import Node, parseString
 
 from gdsfactory.technology.xml_utils import make_pretty_xml, strip_xml
 
@@ -28,6 +28,15 @@ def test_make_pretty_xml() -> None:
 def test_strip_xml() -> None:
     xml_str = "<root>  <child>  text  </child>  </root>"
     doc = parseString(xml_str)
+
+    text_node = doc.createTextNode("  text with spaces  ")
+    assert text_node.nodeType == Node.TEXT_NODE
+    strip_xml(text_node)
+    assert "text with spaces" in text_node.nodeValue
+
+    element = doc.createElement("test")
+    assert element.nodeType == Node.ELEMENT_NODE
+    strip_xml(element)
 
     strip_xml(doc)
 
