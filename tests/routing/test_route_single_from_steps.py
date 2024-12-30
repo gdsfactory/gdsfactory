@@ -100,5 +100,6 @@ def test_route_waypoints_numpy() -> None:
 
 
 if __name__ == "__main__":
-    # test_route_from_steps()
+    test_route_from_steps()
     test_route_waypoints()
+    test_route_waypoints_numpy()

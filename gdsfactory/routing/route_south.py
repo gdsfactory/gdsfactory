@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections.abc import Sequence
 from functools import partial
 
 import numpy as np
@@ -26,7 +27,7 @@ def route_south(
     component: Component,
     component_to_route: Component | ComponentReference,
     optical_routing_type: int = 1,
-    excluded_ports: tuple[str, ...] | None = None,
+    excluded_ports: Sequence[str] | None = None,
     straight_separation: float = 4.0,
     io_gratings_lines: list[list[ComponentReference]] | None = None,
     gc_port_name: str = "o1",
@@ -83,7 +84,7 @@ def route_south(
     xs = gf.get_cross_section(cross_section)
     excluded_ports = excluded_ports or ()
     start_straight_length0 = start_straight_length
-    routes = []
+    routes: list[ManhattanRoute] = []
 
     if optical_routing_type not in {1, 2}:
         raise ValueError(
@@ -102,14 +103,15 @@ def route_south(
     if auto_taper:
         optical_ports = add_auto_tapers(component, optical_ports, cross_section)
 
+    if not optical_ports:
+        return []
+
     port_type = port_type or optical_ports[0].port_type
     bend90 = bend(cross_section=cross_section) if callable(bend) else bend
     bend90 = gf.get_component(bend90)
     dy = abs(bend90.info["dy"])
 
     # Handle empty list gracefully
-    if not optical_ports:
-        return []
 
     route_single_with_conn_params = partial(
         route_single,
@@ -162,7 +164,7 @@ def route_south(
 
     west_ports.reverse()
     y0 = min(p.dy for p in ordered_ports) - dy - 0.5
-    ports_to_route = []
+    ports_to_route: list[Port] = []
 
     optical_xs_tmp = [p.dx for p in ordered_ports]
     x_optical_min = min(optical_xs_tmp)
@@ -176,13 +178,9 @@ def route_south(
     if optical_routing_type == 1:
         # use component size to know how far to route
         x = component_to_route.dxmin - dy - 1
-    elif optical_routing_type == 2:
+    else:
         # use optical port to know how far to route
         x = x_optical_min - dy - 1
-    else:
-        raise ValueError(
-            f"Invalid optical routing type {optical_routing_type!r} not in [1, 2]"
-        )
 
     # First route the ports facing west
     # In case we have to connect these ports to a line of gratings,
@@ -230,10 +228,6 @@ def route_south(
     elif optical_routing_type == 2:
         # use optical port to know how far to route
         x = x_optical_max + dy + 1
-    else:
-        raise ValueError(
-            f"Invalid optical routing type. Got {optical_routing_type}, only (1, 2 supported) "
-        )
 
     # Route the east ports
     # In case we have to connect these ports to a line of gratings,

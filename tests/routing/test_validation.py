@@ -20,7 +20,7 @@ def test_make_error_traces() -> None:
     with pytest.warns(RouteWarning, match="test message"):
         make_error_traces(c, ports1, ports2, "test message")
 
-    assert len(c.references) == 2  # Two error traces created
+    assert len(c.insts) == 2
 
 
 def test_is_invalid_bundle_topology() -> None:
