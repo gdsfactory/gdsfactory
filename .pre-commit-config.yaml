@@ -42,7 +42,7 @@ repos:
       - id: yamlfmt
         exclude: ".*.tests*|.*.pic.yml"
   - repo: https://github.com/rhysd/actionlint
-    rev: v1.7.4
+    rev: v1.7.5
     hooks:
       - id: actionlint
   - repo: https://github.com/astral-sh/uv-pre-commit
@@ -54,7 +54,7 @@ repos:
     #       args: [--strict, --ignore-missing-imports, --config-file=pyproject.toml]
 
     # uv version.
-    rev: 0.5.11
+    rev: 0.5.13
     hooks:
       # Update the uv lockfile
       - id: uv-lock
