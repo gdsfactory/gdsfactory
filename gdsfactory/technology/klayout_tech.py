@@ -66,10 +66,11 @@ class KLayoutTechnology(BaseModel):
     @classmethod
     def check_layer_map(cls, layer_map: Any) -> Any:
         if isinstance(layer_map, enum.EnumType):
-            layer_map: dict[str, tuple[int, int]] = {
+            _layer_map: dict[str, tuple[int, int]] = {
                 name: (layer_enum.layer, layer_enum.datatype)
                 for name, layer_enum in layer_map.__members__.items()
             }
+            return _layer_map
         return layer_map
 
     def write_tech(
