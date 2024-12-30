@@ -3,12 +3,12 @@
 This module enables conversion between gdsfactory settings and KLayout technology.
 """
 
-import enum
 import pathlib
 import xml.etree.ElementTree as ET
 from collections.abc import Sequence
 from typing import Any
 
+import aenum
 import klayout.db as db
 from pydantic import BaseModel, ConfigDict, field_validator
 
@@ -65,7 +65,7 @@ class KLayoutTechnology(BaseModel):
     @field_validator("layer_map", mode="before")
     @classmethod
     def check_layer_map(cls, layer_map: Any) -> Any:
-        if isinstance(layer_map, enum.EnumType):
+        if isinstance(layer_map, aenum.EnumType):
             _layer_map: dict[str, tuple[int, int]] = {
                 name: (layer_enum.layer, layer_enum.datatype)
                 for name, layer_enum in layer_map.__members__.items()
