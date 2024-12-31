@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from functools import partial
 
+import numpy as np
+
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats, LayerSpec, Port
@@ -21,7 +23,7 @@ def straight_heater_meander(
     port_orientation2: float | None = None,
     heater_taper_length: float = 10.0,
     straight_widths: Floats | None = None,
-    taper_length: float = 10,
+    taper_length: float = 10.0,
     n: int | None = 3,
 ) -> Component:
     """Returns a meander based heater.
@@ -53,6 +55,7 @@ def straight_heater_meander(
     if n is None and straight_widths is None:
         raise ValueError("Either n or straight_widths should be provided")
 
+    straight_widths = straight_widths or []
     rows = n or len(straight_widths)
     c = gf.Component()
     cross_section2 = cross_section
@@ -73,6 +76,7 @@ def straight_heater_meander(
     ##############
     # Straights
     ##############
+    total_length = 0
 
     for row, straight_width in enumerate(straight_widths):
         cross_section1 = gf.get_cross_section(cross_section, width=straight_width)
@@ -81,6 +85,7 @@ def straight_heater_meander(
             cross_section=cross_section,
             width=straight_width,
         )
+        total_length += straight_length
 
         taper = gf.c.taper_cross_section_linear(
             cross_section1=cross_section1,
@@ -88,7 +93,6 @@ def straight_heater_meander(
             length=taper_length,
         )
         straight_with_tapers = gf.c.extend_ports(component=_straight, extension=taper)
-
         straight_ref = c << straight_with_tapers
         straight_ref.dy = row * spacing
         ports[f"o1_{row + 1}"] = straight_ref.ports["o1"]
@@ -108,13 +112,17 @@ def straight_heater_meander(
         )
         extra_straight2.connect("o1", ports[f"o1_{row + 2}"])
 
-        gf.routing.route_single(
+        total_length += 2 * extra_length
+
+        route = gf.routing.route_single(
             c,
             extra_straight2.ports["o2"],
             extra_straight1.ports["o2"],
             radius=radius,
             cross_section=cross_section,
         )
+        total_length += route.length * c.kcl.dbu
+        total_length += 4 * (np.pi / 2 * radius)
 
         extra_length = 3 * (row - 1) / 2 * radius
         extra_straight1 = c << gf.c.straight(
@@ -125,25 +133,30 @@ def straight_heater_meander(
             length=extra_length, cross_section=cross_section
         )
         extra_straight2.connect("o1", ports[f"o2_{row}"])
+        total_length += 2 * extra_length
 
-        gf.routing.route_single(
+        route = gf.routing.route_single(
             c,
             extra_straight2.ports["o2"],
             extra_straight1.ports["o2"],
             radius=radius,
             cross_section=cross_section,
         )
+        total_length += route.length * c.kcl.dbu
+        total_length += 4 * (np.pi / 2 * radius)
 
     straight1 = c << gf.c.straight(length=extension_length, cross_section=cross_section)
     straight2 = c << gf.c.straight(length=extension_length, cross_section=cross_section)
     straight1.connect("o2", ports["o1_1"])
     straight2.connect("o1", ports[f"o2_{rows}"])
+    total_length += 2 * extension_length
 
     c.add_port("o1", port=straight1.ports["o1"])
     c.add_port("o2", port=straight2.ports["o2"])
 
     heater: ComponentReference | None = None
     heater_cross_section: CrossSectionSpec | None = None
+
     if layer_heater:
         heater_cross_section = partial(
             gf.cross_section.cross_section, width=heater_width, layer=layer_heater
@@ -208,12 +221,14 @@ def straight_heater_meander(
                 allow_layer_mismatch=True,
                 allow_type_mismatch=True,
             )
+    c.info["length"] = total_length
     c.flatten()
     return c
 
 
 if __name__ == "__main__":
     c = straight_heater_meander(
+        radius=5
         # heater_taper_length=0,
         # straight_widths=(0.5,) * 7,
         # taper_length=10,
@@ -222,4 +237,6 @@ if __name__ == "__main__":
         # port_orientation1=0
         # cross_section=partial(gf.cross_section.strip, width=0.8),
     )
+    print("area from length", c.info["length"] * 0.5)
+    print(c.area((1, 0)))
     c.show()

@@ -234,6 +234,7 @@ instances:
   sxt:
     component: straight_heater_metal_undercut
     info:
+      length: 200
       resistance: 0
     settings:
       cross_section: strip

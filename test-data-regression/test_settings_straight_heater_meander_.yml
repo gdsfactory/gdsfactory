@@ -1,4 +1,5 @@
-info: {}
+info:
+  length: 529.664
 name: straight_heater_meander_4b36cd9b
 settings:
   cross_section: strip
