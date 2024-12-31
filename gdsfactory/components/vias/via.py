@@ -3,6 +3,8 @@ from __future__ import annotations
 from collections.abc import Sequence
 from functools import partial
 
+import numpy as np
+
 import gdsfactory as gf
 from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component
@@ -98,6 +100,7 @@ def via_circular(
     pitch: float | None = 2,
     column_pitch: float | None = None,
     row_pitch: float | None = None,
+    angle_resolution: float = 2.5,
 ) -> Component:
     """Circular via.
 
@@ -108,9 +111,15 @@ def via_circular(
         pitch: pitch between vias.
         column_pitch: Optional pitch between columns of vias. Default is pitch.
         row_pitch: Optional pitch between rows of vias. Default is pitch.
+        angle_resolution: number of degrees per point.
     """
+    if radius <= 0:
+        raise ValueError(f"radius={radius} must be > 0")
     c = Component()
-    _ = c << gf.c.circle(radius=radius, layer=layer)
+    t = np.linspace(0, 360, int(360 / angle_resolution) + 1) * np.pi / 180
+    xpts = (radius * np.cos(t)).tolist()
+    ypts = (radius * np.sin(t)).tolist()
+    c.add_polygon(points=list(zip(xpts, ypts)), layer=layer)
     row_pitch = row_pitch or pitch
     column_pitch = column_pitch or pitch
 
