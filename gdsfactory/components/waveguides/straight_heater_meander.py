@@ -76,7 +76,7 @@ def straight_heater_meander(
     ##############
     # Straights
     ##############
-    total_length = 0
+    total_length = 0.0
 
     for row, straight_width in enumerate(straight_widths):
         cross_section1 = gf.get_cross_section(cross_section, width=straight_width)
@@ -228,7 +228,7 @@ def straight_heater_meander(
 
 if __name__ == "__main__":
     c = straight_heater_meander(
-        radius=5
+        radius=5.0
         # heater_taper_length=0,
         # straight_widths=(0.5,) * 7,
         # taper_length=10,
