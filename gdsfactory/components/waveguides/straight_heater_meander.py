@@ -20,9 +20,9 @@ def straight_heater_meander(
     port_orientation1: float | None = None,
     port_orientation2: float | None = None,
     heater_taper_length: float = 10.0,
-    straight_widths: Floats = (0.8, 0.9, 0.8),
+    straight_widths: Floats | None = None,
     taper_length: float = 10,
-    n: int | None = None,
+    n: int | None = 3,
 ) -> Component:
     """Returns a meander based heater.
 
@@ -49,6 +49,9 @@ def straight_heater_meander(
     """
     if n and straight_widths:
         raise ValueError("n and straight_widths are mutually exclusive")
+
+    if n is None and straight_widths is None:
+        raise ValueError("Either n or straight_widths should be provided")
 
     rows = n or len(straight_widths)
     c = gf.Component()
