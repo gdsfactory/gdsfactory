@@ -158,7 +158,7 @@ def test_on_moved() -> None:
         )
         watcher.on_moved(event)
 
-        mock_logger.info.assert_called_with("Moved %s: %s", "file", str(new_path))
+        mock_logger.info.assert_called_with("Moved")
 
         watcher.stop()
 

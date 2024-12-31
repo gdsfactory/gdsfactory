@@ -1,7 +1,8 @@
-import enum
 import pathlib
 import tempfile
 import xml.etree.ElementTree as ET
+
+import aenum
 
 from gdsfactory.technology import LayerViews
 from gdsfactory.technology.klayout_tech import KLayoutTechnology
@@ -83,7 +84,7 @@ def test_klayout_tech_layer_views(tmp_path: pathlib.Path) -> None:
 def test_klayout_tech_enum_layer_map() -> None:
     """Test using enum for layer map."""
 
-    class TestLayers(enum.Enum):
+    class TestLayers(aenum.Enum):
         M1 = (1, 0)
         M2 = (2, 0)
 

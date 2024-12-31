@@ -452,7 +452,11 @@ def add_settings_label(
     layer_label = get_layer(layer_label)
 
     reference_or_component = reference or component
-    info = reference_or_component.cell.info
+    info = (
+        reference_or_component.cell.info
+        if hasattr(reference_or_component, "cell")
+        else reference_or_component.info
+    )
     settings_dict = dict(info)
     settings_string = (
         yaml.dump(convert_tuples_to_lists(settings_dict))
