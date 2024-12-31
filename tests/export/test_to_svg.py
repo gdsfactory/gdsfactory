@@ -16,6 +16,7 @@ def test_to_svg() -> None:
     component = gf.c.grating_coupler_elliptical_trenches()
 
     # Step 2: Define the SVG filename within the temporary directory
+    GDSDIR_TEMP.mkdir(exist_ok=True, parents=True)
     svg_filename: Path = GDSDIR_TEMP / "test_component.svg"
 
     # Step 3: Call the to_svg function
