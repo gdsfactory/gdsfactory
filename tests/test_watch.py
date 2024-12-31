@@ -158,7 +158,7 @@ def test_on_moved() -> None:
         )
         watcher.on_moved(event)
 
-        mock_logger.info.assert_called_with("Moved")
+        assert _wait_for_log_message(mock_logger, "Moved")
 
         watcher.stop()
 
