@@ -7,7 +7,6 @@ You can maintain LayerViews in YAML (.yaml) or Klayout XML file (.lyp)
 from __future__ import annotations
 
 import builtins
-import os
 import pathlib
 import re
 import warnings
@@ -1068,8 +1067,10 @@ class LayerViews(BaseModel):
 
         filepath = pathlib.Path(filepath)
 
-        if not os.path.exists(filepath):
-            raise OSError(f"File {str(filepath)!r} does not exist, cannot read.")
+        if not filepath.exists():
+            raise FileNotFoundError(
+                f"File {str(filepath)!r} does not exist, cannot read."
+            )
 
         tree = ET.parse(filepath)
         root = tree.getroot()
