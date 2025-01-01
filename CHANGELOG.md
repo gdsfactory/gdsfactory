@@ -1,7 +1,16 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.28.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.28.1...main)
 
 <!-- towncrier release notes start -->
+
+## [8.28.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.28.1) - 2024-12-31
+
+- Simpler straight heater meander default args [#3563](https://github.com/gdsfactory/gdsfactory/pull/3563)
+- add angle resolution to via_circular [#3562](https://github.com/gdsfactory/gdsfactory/pull/3562)
+- Add more tests [#3559](https://github.com/gdsfactory/gdsfactory/pull/3559)
+- [pre-commit.ci] pre-commit autoupdate [#3561](https://github.com/gdsfactory/gdsfactory/pull/3561)
+- deps: bump astral-sh/setup-uv from 4 to 5 [#3560](https://github.com/gdsfactory/gdsfactory/pull/3560)
+
 
 ## [8.28.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.28.0) - 2024-12-29
 
