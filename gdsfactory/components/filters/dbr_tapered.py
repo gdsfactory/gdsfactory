@@ -47,7 +47,7 @@ def _generate_fins(
             ),
         )
 
-        rectangle_output = c << rectangle_input.parent.copy()
+        rectangle_output = c << rectangle_input.cell.copy()
         rectangle_output.dmove(
             origin=(x0, y0),
             destination=(

@@ -148,14 +148,12 @@ def test_on_moved() -> None:
         yaml_path = pathlib.Path(tmp_dir) / "file.pic.yml"
         yaml_path.write_text("name: test\ninstances: {}")
 
-        create_event = FileCreatedEvent(src_path=str(yaml_path).encode())
+        create_event = FileCreatedEvent(src_path=str(yaml_path))
         watcher.on_created(create_event)
 
         new_path = pathlib.Path(tmp_dir) / "moved_file.pic.yml"
         yaml_path.rename(new_path)
-        event = FileMovedEvent(
-            src_path=str(yaml_path).encode(), dest_path=str(new_path).encode()
-        )
+        event = FileMovedEvent(src_path=str(yaml_path), dest_path=str(new_path))
         watcher.on_moved(event)
 
         assert _wait_for_log_message(mock_logger, "Moved")
@@ -170,21 +168,19 @@ def test_on_created() -> None:
         watcher.start()
         time.sleep(0.1)
 
-        yaml_path = b"/path/to/file.pic.yml"
-        event = FileCreatedEvent(src_path=yaml_path)
+        yaml_path = pathlib.Path(tmp_dir) / "file.pic.yml"
+        yaml_path.write_text("name: test\ninstances: {}")
+        event = FileCreatedEvent(src_path=str(yaml_path))
         watcher.on_created(event)
-        mock_logger.info.assert_called_with(
-            "Created %s: %s", "file", "/path/to/file.pic.yml"
-        )
+        mock_logger.info.assert_called_with("Created %s: %s", "file", str(yaml_path))
 
-        py_path = b"/path/to/file.py"
-        event = FileCreatedEvent(src_path=py_path)
+        py_path = pathlib.Path(tmp_dir) / "file.py"
+        py_path.write_text("# test file")
+        event = FileCreatedEvent(src_path=str(py_path))
         watcher.on_created(event)
-        mock_logger.info.assert_called_with(
-            "Created %s: %s", "file", "/path/to/file.py"
-        )
+        mock_logger.info.assert_called_with("Created %s: %s", "file", str(py_path))
 
-        other_path = b"/path/to/file.txt"
+        other_path = pathlib.Path(tmp_dir) / "file.txt"
         event = FileCreatedEvent(src_path=other_path)
         watcher.on_created(event)
         assert mock_logger.info.call_count == 2
@@ -208,13 +204,13 @@ name: yaml_component
 """
         yaml_path.write_text(yaml_content)
 
-        create_event_yaml = FileCreatedEvent(src_path=str(yaml_path).encode())
+        create_event_yaml = FileCreatedEvent(src_path=str(yaml_path))
         watcher.on_created(create_event_yaml)
         time.sleep(0.5)
 
         print(list(pdk.cells.keys()))
 
-        event = FileDeletedEvent(src_path=str(yaml_path).encode())
+        event = FileDeletedEvent(src_path=str(yaml_path))
         watcher.on_deleted(event)
         assert _wait_for_log_message(mock_logger, "Deleted")
         assert _wait_for_log_message(mock_logger, "yaml_component")
@@ -229,26 +225,24 @@ def test_on_modified() -> None:
         watcher.start()
         time.sleep(0.1)
 
-        yaml_path = b"/path/to/file.pic.yml"
-        event = FileModifiedEvent(src_path=yaml_path)
+        yaml_path = pathlib.Path(tmp_dir) / "file.pic.yml"
+        yaml_path.write_text("name: test\ninstances: {}")
+        event = FileModifiedEvent(src_path=str(yaml_path))
         watcher.on_modified(event)
-        mock_logger.info.assert_called_with(
-            "Modified %s: %s", "file", "/path/to/file.pic.yml"
-        )
+        mock_logger.info.assert_called_with("Modified %s: %s", "file", str(yaml_path))
 
-        py_path = b"/path/to/file.py"
-        event = FileModifiedEvent(src_path=py_path)
+        py_path = pathlib.Path(tmp_dir) / "file.py"
+        py_path.write_text("# test file")
+        event = FileModifiedEvent(src_path=str(py_path))
         watcher.on_modified(event)
-        mock_logger.info.assert_called_with(
-            "Modified %s: %s", "file", "/path/to/file.py"
-        )
+        mock_logger.info.assert_called_with("Modified %s: %s", "file", str(py_path))
 
-        other_path = b"/path/to/file.txt"
-        event = FileModifiedEvent(src_path=other_path)
+        other_path = pathlib.Path(tmp_dir) / "file.txt"
+        event = FileModifiedEvent(src_path=str(other_path))
         watcher.on_modified(event)
         assert mock_logger.info.call_count == 2
 
-        str_path = "/path/to/file.py"
+        str_path = str(pathlib.Path(tmp_dir) / "file.py")
         event = FileModifiedEvent(src_path=str_path)
         watcher.on_modified(event)
         mock_logger.info.assert_called_with("Modified %s: %s", "file", str_path)
