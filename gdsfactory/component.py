@@ -19,7 +19,7 @@ from typing_extensions import Self
 
 from gdsfactory._deprecation import deprecate
 from gdsfactory.config import CONF, GDSDIR_TEMP
-from gdsfactory.functions import get_polygons, get_polygons_points
+from gdsfactory.functions import get_polygon_list, get_polygons, get_polygons_points
 from gdsfactory.serialization import clean_value_json, convert_tuples_to_lists
 
 if TYPE_CHECKING:
@@ -274,7 +274,7 @@ class ComponentReference(kf.Instance):
     @property
     def parent(self) -> kf.KCell | Component:
         """Returns the parent Component."""
-        deprecate("parent", "ref.cell")
+        deprecate("parent", "cell")
         return self.cell
 
 
@@ -740,6 +740,14 @@ class ComponentBase:
         if merge and self._locked:
             raise LockedError(self)
         return get_polygons(self, merge=merge, by=by, layers=layers)
+
+    def get_polygon_list(
+        self,
+        merge: bool = False,
+        by: Literal["index"] | Literal["name"] | Literal["tuple"] = "index",
+        layers: "LayerSpecs | None" = None,
+    ) -> list[kf.kdb.Polygon]:
+        return get_polygon_list(self, merge=merge, by=by, layers=layers)
 
     def get_polygons_points(
         self,

@@ -165,8 +165,6 @@ def test_on_created() -> None:
     with tempfile.TemporaryDirectory() as tmp_dir:
         mock_logger = MagicMock(spec=logging.Logger)
         watcher = FileWatcher(path=tmp_dir, logger=mock_logger)
-        watcher.start()
-        time.sleep(0.1)
 
         yaml_path = pathlib.Path(tmp_dir) / "file.pic.yml"
         yaml_path.write_text("name: test\ninstances: {}")
@@ -181,19 +179,15 @@ def test_on_created() -> None:
         mock_logger.info.assert_called_with("Created %s: %s", "file", str(py_path))
 
         other_path = pathlib.Path(tmp_dir) / "file.txt"
-        event = FileCreatedEvent(src_path=other_path)
+        event = FileCreatedEvent(src_path=str(other_path))
         watcher.on_created(event)
         assert mock_logger.info.call_count == 2
-
-        watcher.stop()
 
 
 def test_on_deleted() -> None:
     with tempfile.TemporaryDirectory() as tmp_dir:
         mock_logger = MagicMock(spec=logging.Logger)
         watcher = FileWatcher(path=tmp_dir, logger=mock_logger)
-        watcher.start()
-        time.sleep(0.1)
 
         pdk = get_active_pdk().model_copy(deep=True)
         pdk.activate()
@@ -215,15 +209,11 @@ name: yaml_component
         assert _wait_for_log_message(mock_logger, "Deleted")
         assert _wait_for_log_message(mock_logger, "yaml_component")
 
-        watcher.stop()
-
 
 def test_on_modified() -> None:
     with tempfile.TemporaryDirectory() as tmp_dir:
         mock_logger = MagicMock(spec=logging.Logger)
         watcher = FileWatcher(path=tmp_dir, logger=mock_logger)
-        watcher.start()
-        time.sleep(0.1)
 
         yaml_path = pathlib.Path(tmp_dir) / "file.pic.yml"
         yaml_path.write_text("name: test\ninstances: {}")
@@ -237,25 +227,22 @@ def test_on_modified() -> None:
         watcher.on_modified(event)
         mock_logger.info.assert_called_with("Modified %s: %s", "file", str(py_path))
 
+        mock_logger.info.reset_mock()
         other_path = pathlib.Path(tmp_dir) / "file.txt"
         event = FileModifiedEvent(src_path=str(other_path))
         watcher.on_modified(event)
-        assert mock_logger.info.call_count == 2
+        assert mock_logger.info.call_count == 0
 
         str_path = str(pathlib.Path(tmp_dir) / "file.py")
         event = FileModifiedEvent(src_path=str_path)
         watcher.on_modified(event)
         mock_logger.info.assert_called_with("Modified %s: %s", "file", str_path)
 
-        watcher.stop()
-
 
 def test_get_component() -> None:
     with tempfile.TemporaryDirectory() as tmp_dir:
         mock_logger = MagicMock(spec=logging.Logger)
         watcher = FileWatcher(path=tmp_dir, logger=mock_logger)
-        watcher.start()
-        time.sleep(0.1)
 
         yaml_path = pathlib.Path(tmp_dir) / "test.pic.yml"
         yaml_content = """
@@ -298,8 +285,6 @@ def straight():
         other_path.write_text("some content")
         component = watcher.get_component(other_path)
         assert component is None
-
-        watcher.stop()
 
 
 def test_watch() -> None:

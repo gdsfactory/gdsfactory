@@ -93,7 +93,7 @@ def add_bbox_siepic(
     component = component.remove_layers(layers=remove_layers, recursive=False)
 
     if bbox_layer:
-        component.add_padding(default=0, layers=(bbox_layer,))
+        component = gf.add_padding(component, default=0, layers=(bbox_layer,))
     return component
 
 
@@ -160,7 +160,7 @@ def add_pin_rectangle_inside(
     component: Component,
     port: typings.Port,
     pin_length: float = 0.1,
-    layer: typings.LayerSpec = "PORT",
+    layer: typings.LayerSpec | None = "PORT",
     layer_label: typings.LayerSpec | None = "TEXT",
 ) -> None:
     """Add square pin towards the inside of the port.
@@ -239,8 +239,9 @@ def add_pin_rectangle(
         component.shapes(gf.get_layer(layer)).insert(poly)
 
     if layer_label:
+        assert port.name is not None
         component.add_label(
-            text=str(port.name),
+            text=port.name,
             position=port.dcenter,
             layer=layer_label,
         )
@@ -339,8 +340,6 @@ def add_outline(
     from gdsfactory.add_padding import get_padding_points
 
     c = reference or component
-    if hasattr(component, "parent"):
-        component = component.parent
     points = get_padding_points(component=c, default=0, **kwargs)
     component.add_polygon(points, layer=layer)
 
@@ -492,7 +491,7 @@ def add_instance_label(
         layer = (1, 0)
     instance_name = (
         instance_name
-        or f"{reference.parent.name},{int(reference.dx)},{int(reference.dy)}"
+        or f"{reference.cell.name},{int(reference.dx)},{int(reference.dy)}"
     )
 
     layer = layer or CONF.layer_label

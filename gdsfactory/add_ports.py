@@ -21,7 +21,7 @@ def add_ports_from_markers_square(
     port_layer: LayerSpec | None = None,
     orientation: AngleInDegrees | None = 90,
     min_pin_area_um2: float = 0,
-    max_pin_area_um2: float | None = 150 * 150,
+    max_pin_area_um2: float = 150 * 150,
     pin_extra_width: float = 0.0,
     port_names: Sequence[str] | None = None,
     port_name_prefix: str | None = None,
@@ -46,13 +46,21 @@ def add_ports_from_markers_square(
     port_markers = read_port_markers(component, (pin_layer,))
     port_names = list(
         port_names
-        or [f"{port_name_prefix}{i + 1}" for i in range(len(port_markers.polygons))]
+        or [
+            f"{port_name_prefix}{i + 1}"
+            for i in range(
+                sum(len(polygons) for polygons in port_markers.get_polygons().values())
+            )
+        ]
     )
     layer = port_layer or pin_layer
 
-    for port_name, p in zip(port_names, port_markers.polygons):
-        (xmin, ymin), (xmax, ymax) = p.bounding_box()
-        x, y = np.sum(p.bounding_box(), 0) / 2
+    for port_name, p in zip(port_names, port_markers.get_polygon_list()):
+        bbox = p.bbox()
+        xmin, ymin, xmax, ymax = bbox.left, bbox.bottom, bbox.right, bbox.top
+        x, y = np.sum(((xmin, ymin), (xmax, ymax)), 0) / 4
+        assert isinstance(x, float)
+        assert isinstance(y, float)
 
         dy = snap_to_grid(ymax - ymin)
         dx = snap_to_grid(xmax - xmin)
@@ -60,6 +68,8 @@ def add_ports_from_markers_square(
 
         # Snap to the nearest 2 nm (0.002 µm)
         width = np.round((width - pin_extra_width) / 0.002) * 0.002
+
+        print(dx, dy, max_pin_area_um2, dx * dy, min_pin_area_um2)
 
         if dx == dy and max_pin_area_um2 > dx * dy > min_pin_area_um2:
             x = x

@@ -44,7 +44,7 @@ cov:
 	uv run pytest --cov=gdsfactory --cov-report=term-missing:skip-covered
 
 dev-cov:
-	uv run pytest -s -n logical --cov=gdsfactory --cov-report=term-missing:skip-covered
+	uv run pytest -s -n 10 --cov=gdsfactory --cov-report=term-missing:skip-covered
 
 test-samples:
 	uv run pytest tests/test_samples.py

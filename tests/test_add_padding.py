@@ -4,7 +4,7 @@ import gdsfactory as gf
 from gdsfactory.components.bends.bend_circular import bend_circular
 
 
-def test_add_padding_size() -> None:
+def test_add_padding() -> None:
     padding = 10
     c = bend_circular().copy()
     xsize_before = c.xsize

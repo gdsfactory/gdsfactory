@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import warnings
+from collections import defaultdict
 from collections.abc import Callable
 from functools import partial
 from typing import TYPE_CHECKING, Any, Literal, TypeAlias
@@ -156,7 +157,7 @@ def get_polygons(
     else:
         raise ValueError("argument 'by' should be 'index' | 'name' | 'tuple'")
 
-    polygons: GetPolygonsResult = {}
+    polygons: GetPolygonsResult = defaultdict(list)
 
     c = component_or_instance
     if layers is None:
@@ -176,13 +177,11 @@ def get_polygons(
             r = kf.kdb.Region(c.cell.begin_shapes_rec(layer_index)).transformed(
                 c.cplx_trans
             )
-        if layer_key not in polygons:
-            polygons[layer_key] = []
         if merge:
             r.merge()
         for p in r.each():
             polygons[layer_key].append(p)
-    return polygons
+    return dict(polygons)
 
 
 def get_polygons_points(
@@ -231,6 +230,17 @@ def get_polygons_points(
             all_points.append(points)
         polygons_points[layer] = all_points
     return polygons_points
+
+
+def get_polygon_list(
+    component_or_instance: "Component | kf.Instance | ComponentBase",
+    merge: bool = False,
+    by: Literal["index"] | Literal["name"] | Literal["tuple"] = "index",
+    layers: LayerSpecs | None = None,
+) -> list[kf.kdb.Polygon]:
+    return list(
+        *get_polygons(component_or_instance, merge=merge, by=by, layers=layers).values()
+    )
 
 
 def get_point_inside(

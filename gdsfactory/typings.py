@@ -183,7 +183,7 @@ ComponentSpecOrComponent: TypeAlias = ComponentSpec | component.Component
 ComponentSpecs: TypeAlias = Sequence[ComponentSpec]
 ComponentSpecsOrComponents: TypeAlias = Sequence[ComponentSpecOrComponent]
 
-PostProcess: TypeAlias = Callable[[component.Component], None]
+PostProcess: TypeAlias = Callable[[component.Component], Any]
 PostProcesses: TypeAlias = Sequence[PostProcess]
 
 Instance: TypeAlias = component.ComponentReference

@@ -127,9 +127,7 @@ class FileWatcher(FileSystemEventHandler):
 
         what = "directory" if event.is_directory else "file"
         src_path = self._get_path(event.src_path)
-        if (what == "file" and src_path.endswith(".pic.yml")) or src_path.endswith(
-            ".py"
-        ):
+        if what == "file" and src_path.endswith((".pic.yml", ".py")):
             self.logger.info("Created %s: %s", what, src_path)
             self.get_component(src_path)
 
