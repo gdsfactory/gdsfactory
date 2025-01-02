@@ -32,6 +32,7 @@ logpath = home_path / "log.log"
 get_number_of_cores = get_affinity
 
 GDSDIR_TEMP = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
+GDSDIR_TEMP.mkdir(parents=True, exist_ok=True)
 
 plugins = [
     "devsim",
