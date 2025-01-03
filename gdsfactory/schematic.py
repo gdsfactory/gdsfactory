@@ -33,13 +33,13 @@ class OrthogonalGridArray(BaseModel):
 
 
 class GridArray(BaseModel):
-    """Orthogonal grid array config.
+    """Non-orthogonal grid array config.
 
     Parameters:
-        columns: number of columns.
-        rows: number of rows.
-        column_pitch: column pitch.
-        row_pitch: row pitch.
+        num_a: number of elements in the a-dimension.
+        num_b: number of elements in the b-dimension.
+        pitch_a: x-y pitch in the a-dimension.
+        pitch_b: x-y pitch in the b-dimension.
     """
 
     num_a: int = 1
