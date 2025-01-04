@@ -27,7 +27,7 @@ cross_section_pn = partial(
 heater_vias = partial(
     via_stack,
     size=(0.5, 0.5),
-    layers=("M1", "M2"),
+    layers=("M1", "M2", "M3"),
     vias=(
         partial(via, layer="VIAC", size=(0.1, 0.1), enclosure=0.1, pitch=0.2),
         partial(
@@ -37,6 +37,7 @@ heater_vias = partial(
             enclosure=0.1,
             pitch=0.2,
         ),
+        None,
     ),
 )
 
@@ -303,18 +304,14 @@ def ring_single_pn(
 
         bottom_l_heater_via = c << heater_vias
         bottom_r_heater_via = c << heater_vias
-        bottom_l_heater_via.connect(
-            "e3",
-            bottom_heater_ref.ports["o1"],
-            allow_layer_mismatch=True,
-            allow_type_mismatch=True,
-        )
-        bottom_r_heater_via.connect(
-            "e3",
-            bottom_heater_ref.ports["o2"],
-            allow_layer_mismatch=True,
-            allow_type_mismatch=True,
-        )
+        bottom_l_heater_via.xmin = bottom_heater_ref.ports["o1"].dx
+        bottom_l_heater_via.ymax = bottom_heater_ref.ports["o1"].dy
+
+        bottom_r_heater_via.xmax = bottom_heater_ref.ports["o2"].dx
+        bottom_r_heater_via.ymax = bottom_heater_ref.ports["o2"].dy
+
+        c.add_port(name="heater_sig", port=bottom_l_heater_via["e4"])
+        c.add_port(name="heater_gnd", port=bottom_r_heater_via["e4"])
 
     c.add_port("o1", port=bus_waveguide.ports["o1"])
     c.add_port("o2", port=bus_waveguide.ports["o2"])
@@ -324,4 +321,5 @@ def ring_single_pn(
 
 if __name__ == "__main__":
     c = ring_single_pn(radius=5)
+    c.pprint_ports()
     c.show()
