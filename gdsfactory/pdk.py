@@ -115,6 +115,7 @@ class Pdk(BaseModel):
         version: PDK version.
         cross_sections: dict of cross_sections factories.
         cells: dict of parametric cells that return Components.
+        containers: dict of containers that return Components. A container is a cell that contains other cells.
         models: dict of models names to functions.
         symbols: dict of symbols names to functions.
         default_symbol_factory:
@@ -148,6 +149,7 @@ class Pdk(BaseModel):
         default_factory=dict, exclude=True
     )
     cells: dict[str, ComponentFactory] = Field(default_factory=dict, exclude=True)
+    containers: dict[str, ComponentFactory] = Field(default_factory=dict, exclude=True)
     models: dict[str, Callable[..., Any]] = Field(default_factory=dict, exclude=True)
     symbols: dict[str, ComponentFactory] = Field(default_factory=dict)
     default_symbol_factory: ComponentFactory = Field(
@@ -290,7 +292,8 @@ class Pdk(BaseModel):
 
     def get_cell(self, cell: CellSpec, **kwargs: Any) -> ComponentFactory:
         """Returns ComponentFactory from a cell spec."""
-        cells = set(self.cells.keys())
+        cells_and_containers = {**self.cells, **self.containers}
+        cells = set(cells_and_containers.keys())
 
         if callable(cell):
             return cell
@@ -300,7 +303,7 @@ class Pdk(BaseModel):
                 raise ValueError(
                     f"{cell!r} from PDK {self.name!r} not in cells: Did you mean {matching_cells}?"
                 )
-            return self.cells[cell]
+            return cells_and_containers[cell]
         else:
             for key in cell.keys():
                 if key not in component_settings:
@@ -316,7 +319,7 @@ class Pdk(BaseModel):
                 raise ValueError(
                     f"{cell!r} from PDK {self.name!r} not in cells: Did you mean {matching_cells}?"
                 )
-            cell = self.cells[cell_name]
+            cell = cells_and_containers[cell_name]
             return partial(cell, **settings)
 
     def get_component(
