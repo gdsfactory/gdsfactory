@@ -34,7 +34,6 @@ def delay_snake_sbend(
     sbend: ComponentSpec = "bend_s",
     sbend_xsize: float = 100.0,
     cross_section: CrossSectionSpec = "strip",
-    width: float | None = None,
 ) -> Component:
     r"""Returns compact Snake with sbend in the middle.
 
@@ -50,7 +49,6 @@ def delay_snake_sbend(
         sbend: sbend spec.
         sbend_xsize: sbend size.
         cross_section: cross_section spec.
-        width: width of the waveguide. If None, it will use the width of the cross_section.
 
     .. code::
 
@@ -74,10 +72,15 @@ def delay_snake_sbend(
 
     bend180_radius = (radius + waveguide_spacing) / 2
     bend = gf.get_component(
-        bend, radius=bend180_radius, angle=180, cross_section=cross_section, width=width
+        bend,
+        radius=bend180_radius,
+        angle=180,
+        cross_section=cross_section,
     )
     sbend = gf.get_component(
-        sbend, size=(sbend_xsize, radius), cross_section=cross_section, width=width
+        sbend,
+        size=(sbend_xsize, radius),
+        cross_section=cross_section,
     )
 
     b1 = c << bend
@@ -97,10 +100,10 @@ def delay_snake_sbend(
             f"or length3 = {length3} or increase length = {length}\n" + diagram
         )
 
-    straight1 = straight(length=length1, cross_section=cross_section, width=width)
-    straight2 = straight(length=length2, cross_section=cross_section, width=width)
-    straight3 = straight(length=length3, cross_section=cross_section, width=width)
-    straight4 = straight(length=length4, cross_section=cross_section, width=width)
+    straight1 = straight(length=length1, cross_section=cross_section)
+    straight2 = straight(length=length2, cross_section=cross_section)
+    straight3 = straight(length=length3, cross_section=cross_section)
+    straight4 = straight(length=length4, cross_section=cross_section)
 
     # sequence = ["s1", "b1", "bs", "s2", "b2", "s3", "s4"]
     # for i_straight, component in enumerate(straight1, straight2, straight3, straight4):

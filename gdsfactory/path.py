@@ -1116,7 +1116,7 @@ def extrude(
             c.add_polygon(points_poly, layer=layer)
 
         # Add port_names if they were specified
-        if port_names[0] is not None:
+        if port_names[0]:
             port_width = (
                 width_value if isinstance(width_value, float) else width_value[0]
             )
@@ -1134,7 +1134,7 @@ def extrude(
                 center=center,
                 cross_section=x,
             )
-        if port_names[1] is not None:
+        if port_names[1]:
             port_width = (
                 width_value if isinstance(width_value, float) else width_value[-1]
             )
