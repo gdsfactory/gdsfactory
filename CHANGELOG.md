@@ -1,11 +1,17 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.28.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.29.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.29.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.29.0) - 2025-01-05
 
-No significant changes.
+- register containers in pdk [#3572](https://github.com/gdsfactory/gdsfactory/pull/3572)
+- add filepath to yaml cell [#3569](https://github.com/gdsfactory/gdsfactory/pull/3569)
+- Clean connectivity for some components [#3575](https://github.com/gdsfactory/gdsfactory/pull/3575)
+- Expose electrical ports in ring_pn [#3573](https://github.com/gdsfactory/gdsfactory/pull/3573)
+- fixing docs for non-orthogonal grid array [#3566](https://github.com/gdsfactory/gdsfactory/pull/3566)
+- fix cutbacks [#3567](https://github.com/gdsfactory/gdsfactory/pull/3567)
+- ensure GDSDIR_TEMP exists [#3565](https://github.com/gdsfactory/gdsfactory/pull/3565)
 
 
 ## [8.28.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.28.1) - 2024-12-31
