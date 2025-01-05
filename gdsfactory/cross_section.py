@@ -402,6 +402,8 @@ class CrossSection(BaseModel):
         return xmin, xmax
 
 
+CrossSection.model_rebuild()
+
 CrossSectionSpec: TypeAlias = (
     CrossSection
     | str

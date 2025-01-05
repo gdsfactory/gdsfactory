@@ -13,7 +13,7 @@ import numpy as np
 import numpy.typing as npt
 import yaml
 from kfactory import Instance, kdb
-from kfactory.kcell import PROPID, cell, save_layout_options
+from kfactory.kcell import PROPID, BaseKCell, cell, save_layout_options
 from trimesh.scene.scene import Scene
 from typing_extensions import Self
 
@@ -301,7 +301,7 @@ class ComponentReferences(kf.kcell.Instances):
             self._insts.remove(item)
 
 
-class ComponentBase:
+class ComponentBase(BaseKCell):
     """Canvas where you add polygons, instances and ports.
 
     - stores settings that you use to build the component
@@ -1346,7 +1346,7 @@ class ComponentBase:
         return self.add_ref(*args, **kwargs)
 
 
-class Component(ComponentBase, kf.KCell):  # type: ignore
+class Component(ComponentBase):  # type: ignore
     """Canvas where you add polygons, instances and ports.
 
     - stores settings that you use to build the component
