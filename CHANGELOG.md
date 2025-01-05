@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.29.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.29.0) - 2025-01-05
+
+No significant changes.
+
+
 ## [8.28.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.28.1) - 2024-12-31
 
 - Simpler straight heater meander default args [#3563](https://github.com/gdsfactory/gdsfactory/pull/3563)
