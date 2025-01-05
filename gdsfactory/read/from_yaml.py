@@ -1433,6 +1433,7 @@ instances:
              width_mmi: [4, 10]
          do_permutations: True
          spacing: 100
+         function: add_fiber_array
 
     mzi_sweep:
        component: pack_doe
@@ -1442,6 +1443,7 @@ instances:
             delta_length: [10, 100]
          do_permutations: True
          spacing: 100
+         function: add_fiber_array
 
 placements:
     mmi1x2_sweep_pack:
@@ -2035,8 +2037,9 @@ connections:
 
 if __name__ == "__main__":
     # c = from_yaml(sample_array)
-    c = from_yaml(sample_array_connect_error)
+    # c = from_yaml(sample_array_connect_error)
     # c = from_yaml(sample_yaml_xmin)
+    c = from_yaml(sample_doe_function)
     # n = c.get_netlist()
     c.show()
     # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
