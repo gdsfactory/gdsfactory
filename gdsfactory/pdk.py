@@ -326,11 +326,13 @@ class Pdk(BaseModel):
         self,
         component: ComponentSpec,
         settings: dict[str, Any] | None = None,
+        include_containers: bool = True,
         **kwargs: Any,
     ) -> Component:
         """Returns component from a component spec."""
+        cells = {**self.cells, **self.containers} if include_containers else self.cells
         return self._get_component(
-            component=component, cells=self.cells, settings=settings, **kwargs
+            component=component, cells=cells, settings=settings, **kwargs
         )
 
     def get_symbol(self, component: ComponentSpec, **kwargs: Any) -> Component:
@@ -358,9 +360,8 @@ class Pdk(BaseModel):
             cells: dict of cells.
             settings: settings to override.
             kwargs: settings to override.
-
         """
-        cells = sorted(cells)  # type: ignore
+        cell_names = sorted(cells)
 
         settings = settings or {}
         kwargs = kwargs or {}
@@ -373,7 +374,7 @@ class Pdk(BaseModel):
         elif callable(component):
             return component(**kwargs)
         elif isinstance(component, str):
-            if component not in cells:
+            if component not in cell_names:
                 substring = component
                 matching_cells: list[str] = []
 
@@ -386,7 +387,7 @@ class Pdk(BaseModel):
                 raise ValueError(
                     f"{component!r} not in PDK {self.name!r}. Did you mean {matching_cells}?"
                 )
-            return self.cells[component](**kwargs)
+            return cells[component](**kwargs)
         elif isinstance(component, dict):  # type: ignore
             for key in component.keys():
                 if key not in component_settings:
@@ -405,7 +406,7 @@ class Pdk(BaseModel):
                 raise ValueError(
                     f"{cell_name!r} from PDK {self.name!r} not in cells: Did you mean {matching_cells}?"
                 )
-            return self.cells[cell_name](**settings)
+            return cells[cell_name](**settings)
         else:
             raise ValueError(
                 "get_component expects a ComponentSpec (Component, ComponentFactory, "
