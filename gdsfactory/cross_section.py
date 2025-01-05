@@ -16,6 +16,7 @@ from typing import Any, TypeAlias
 import numpy as np
 from kfactory import logger
 from kfactory.cross_section import SymmetricalCrossSection
+from kfactory.kcell import KCLayout, VInstance  # noqa
 from pydantic import (
     BaseModel,
     ConfigDict,
@@ -410,6 +411,8 @@ CrossSectionSpec: TypeAlias = (
     | SymmetricalCrossSection
 )
 CrossSectionFactory: TypeAlias = Callable[..., CrossSection]
+
+CrossSection.model_rebuild()
 
 
 class Transition(BaseModel):
