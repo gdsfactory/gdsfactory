@@ -2038,7 +2038,8 @@ connections:
 if __name__ == "__main__":
     # c = from_yaml(sample_array)
     # c = from_yaml(sample_array_connect_error)
-    c = from_yaml(sample_yaml_xmin)
+    # c = from_yaml(sample_yaml_xmin)
+    c = from_yaml(sample_doe_function)
     # n = c.get_netlist()
     c.show()
     # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
