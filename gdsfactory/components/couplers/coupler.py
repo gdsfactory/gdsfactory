@@ -90,21 +90,23 @@ def coupler_straight(
         o1──────▼─────────o4
     """
     c = Component()
+    x = gf.get_cross_section(cross_section)
     _straight = gf.c.straight(length=length, cross_section=cross_section)
 
     top = c << _straight
     bot = c << _straight
 
-    w = _straight.ports[0].dwidth
+    w = x.width
     y = w + gap
 
     top.dmovey(+y)
 
-    c.add_port("o1", port=bot.ports[0])
-    c.add_port("o2", port=top.ports[0])
-    c.add_port("o3", port=bot.ports[1])
-    c.add_port("o4", port=top.ports[1])
-    c.auto_rename_ports()
+    if bot.ports and top.ports:
+        c.add_port("o1", port=bot.ports[0])
+        c.add_port("o2", port=top.ports[0])
+        c.add_port("o3", port=bot.ports[1])
+        c.add_port("o4", port=top.ports[1])
+        c.auto_rename_ports()
     return c
 
 

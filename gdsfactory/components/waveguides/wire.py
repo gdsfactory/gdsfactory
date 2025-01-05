@@ -16,6 +16,7 @@ def wire_corner(
     port_names: "PortNames" = port_names_electrical,
     port_types: "PortTypes" = port_types_electrical,
     width: float | None = None,
+    radius: None | float = None,
 ) -> Component:
     """Returns 45 degrees electrical corner wire.
 
@@ -24,6 +25,7 @@ def wire_corner(
         port_names: port names.
         port_types: port types.
         width: optional width. Defaults to cross_section width.
+        radius: ignored.
     """
     if width:
         x = gf.get_cross_section(cross_section, width=width)

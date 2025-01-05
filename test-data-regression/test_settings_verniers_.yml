@@ -1,6 +1,7 @@
 info: {}
-name: verniers_W0p1_0p2_0p3_0_af977b0b
+name: verniers_W0p1_0p2_0p3_0_69d73631
 settings:
+  cross_section: strip_no_ports
   gap: 0.1
   layer_label: TEXT
   straight: straight

@@ -33,7 +33,10 @@ def cdsem_coupler(
         text_size: size of the text.
     """
     c = Component()
-    xs = gf.get_cross_section(cross_section, width=width)
+    if width:
+        xs = gf.get_cross_section(cross_section, width=width)
+    else:
+        xs = gf.get_cross_section(cross_section)
     p = 0
 
     if positions is not None:
@@ -55,5 +58,6 @@ def cdsem_coupler(
 
 if __name__ == "__main__":
     # c = cdsem_coupler(cross_section="rib_with_trenches")
-    c = cdsem_coupler(cross_section="strip", width=1)
+    # c = cdsem_coupler(cross_section="strip", width=1)
+    c = cdsem_coupler()
     c.show()
