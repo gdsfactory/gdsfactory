@@ -128,7 +128,7 @@ def dbr_tapered(
 
     size: tuple[float, float] = tuple(snap_to_grid2x((period * dc, w2)))  # type: ignore
     assert xs.layer is not None
-    teeth = gf.components.rectangle(size=size, layer=xs.layer)
+    teeth = gf.components.rectangle(size=size, layer=xs.layer, port_type=None)
 
     periodic_structures = c << gf.components.array(
         component=teeth, columns=int(num), column_pitch=period
