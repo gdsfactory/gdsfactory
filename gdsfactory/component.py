@@ -12,7 +12,7 @@ import klayout.lay as lay
 import numpy as np
 import numpy.typing as npt
 import yaml
-from kfactory import Instance, kdb, BaseKCell
+from kfactory import BaseKCell, Instance, kdb
 from kfactory.kcell import PROPID, cell, save_layout_options
 from trimesh.scene.scene import Scene
 from typing_extensions import Self
