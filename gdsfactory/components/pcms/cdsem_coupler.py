@@ -13,7 +13,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 def cdsem_coupler(
     length: float = 420.0,
     gaps: Sequence[float] = (0.15, 0.2, 0.25),
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "strip_no_ports",
     text: ComponentSpec | None = "text_rectangular",
     spacing: float = 7.0,
     positions: Sequence[float | None] | None = None,
