@@ -32,8 +32,8 @@ def litho_calipers(
     D = gf.Component()
     num_notches_total = num_notches * 2 + 1
     centre_notch = num_notches
-    R1 = gf.c.rectangle(size=notch_size, layer=layer1)
-    R2 = gf.c.rectangle(size=notch_size, layer=layer2)
+    R1 = gf.c.rectangle(size=notch_size, layer=layer1, port_type=None)
+    R2 = gf.c.rectangle(size=notch_size, layer=layer2, port_type=None)
 
     for i in range(num_notches_total):
         if i == centre_notch:
