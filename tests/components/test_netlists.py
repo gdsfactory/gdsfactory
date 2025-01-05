@@ -62,6 +62,9 @@ def test_netlists(
     if check:
         data_regression.check(n)
 
+    if "warnings" in n:
+        raise ValueError(n["warnings"])
+
     n.pop("warnings", None)
     yaml_str = c.write_netlist(n)
     c2 = gf.read.from_yaml(yaml_str)
