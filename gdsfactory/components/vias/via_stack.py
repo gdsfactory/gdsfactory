@@ -398,15 +398,6 @@ via_stack_slab_m1_horizontal = partial(via_stack_slab_m1, slot_horizontal=True)
 
 
 if __name__ == "__main__":
-    from functools import partial
-
-    # c = via_stack(vias=(partial(gf.c.via1, column_pitch=2, row_pitch=1), "via2", None))
-    # c = via_stack_corner45()
-    # c = via_stack_slab_m3(size=(100, 10), slot_vertical=True)
-    # c = via_stack_npp_m1()
-    # c = via_stack_m1_mtop(port_orientations=(0, 90))
-    # c = via_stack_m1_m3(layer_to_port_orientations={"M1": [0], "MTOP": [90]})
-    c = via_stack_m1_mtop(port_orientations=None)
+    c = via_stack_corner45_extended()
     c.pprint_ports()
-    # n = c.get_netlist()
     c.show()
