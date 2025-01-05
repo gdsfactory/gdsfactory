@@ -32,13 +32,14 @@ def _generate_fins(
     assert xs.layer is not None
     for i in range(int(num_fins)):
         y = y0 + i * 2 * fin_size[1]
-        rectangle_input = c << gf.components.rectangle(
+        rectangle = gf.components.rectangle(
             size=(fin_size[0], fin_size[1]),
             layer=xs.layer,
             centered=True,
             port_type=None,
             port_orientations=None,
         )
+        rectangle_input = c << rectangle
         rectangle_input.dmove(
             origin=(x0, y0),
             destination=(
@@ -47,7 +48,7 @@ def _generate_fins(
             ),
         )
 
-        rectangle_output = c << rectangle_input.parent.copy()
+        rectangle_output = c << rectangle
         rectangle_output.dmove(
             origin=(x0, y0),
             destination=(

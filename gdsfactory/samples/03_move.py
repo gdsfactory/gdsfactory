@@ -20,5 +20,5 @@ if __name__ == "__main__":
     # wg2.dmove([10, 1])  # Shift the second straight we created over by dx = 10, dy = 4
     # wg2.drotate(45)  # Rotate straight by 45 degrees around (0,0)
     # wg2.drotate(45, center=[5, 0])  # Rotate straight by 45 degrees around (5, 0)
-    # wg2.dmirror(p1=gf.kdb.DPoint(1, 0), p2=gf.kdb.DPoint(1, 1))  # Reflects wg across the line formed by p1 and p2
+    # wg2.dmirror(p1=(1, 0), p2=(1, 1))  # Reflects wg across the line formed by p1 and p2
     c.show()
