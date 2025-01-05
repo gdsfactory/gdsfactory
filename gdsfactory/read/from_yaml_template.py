@@ -1,3 +1,4 @@
+import os
 import pathlib
 from inspect import Parameter, Signature, signature
 from io import IOBase
@@ -92,11 +93,14 @@ def cell_from_yaml_template(
         deprecate("routing_strategy")
         routing_strategies = routing_strategy
 
-    return yaml_cell(
+    cell = yaml_cell(
         yaml_definition=filename,
         name=name,
         routing_strategies=routing_strategies,
     )
+    if os.path.exists(str(filename)):
+        cell.__file__ = os.path.abspath(str(filename))  # type: ignore
+    return cell
 
 
 def get_default_settings_dict(
