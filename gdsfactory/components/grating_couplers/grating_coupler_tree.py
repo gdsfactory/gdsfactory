@@ -1,8 +1,10 @@
 from __future__ import annotations
 
+from typing import Any
+
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.typings import ComponentSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -13,6 +15,8 @@ def grating_coupler_tree(
     with_loopback: bool = False,
     bend: ComponentSpec = "bend_euler",
     fanout_length: float = 0.0,
+    cross_section: CrossSectionSpec = "strip",
+    **kwargs: Any,
 ) -> Component:
     """Array of straights connected with grating couplers.
 
@@ -25,6 +29,8 @@ def grating_coupler_tree(
         with_loopback: adds loopback.
         bend: bend spec.
         fanout_length: in um.
+        cross_section: cross_section function.
+        kwargs: additional arguments.
     """
     c = gf.c.straight_array(
         n=n,
@@ -37,6 +43,8 @@ def grating_coupler_tree(
         grating_coupler=grating_coupler,
         fanout_length=fanout_length,
         bend=bend,
+        cross_section=cross_section,
+        **kwargs,
     )
 
 
