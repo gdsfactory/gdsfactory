@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.29.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.29.1) - 2025-01-08
+
+No significant changes.
+
+
 ## [8.29.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.29.0) - 2025-01-05
 
 - register containers in pdk [#3572](https://github.com/gdsfactory/gdsfactory/pull/3572)
