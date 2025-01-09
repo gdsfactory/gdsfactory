@@ -1,12 +1,17 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.29.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.29.1...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.29.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.29.1) - 2025-01-08
 
-No significant changes.
-
+- Fix loss deembed [#3583](https://github.com/gdsfactory/gdsfactory/pull/3583)
+- fix grating_coupler_tree [#3582](https://github.com/gdsfactory/gdsfactory/pull/3582)
+- only define straight and bend in route_bundle if necessary [#3581](https://github.com/gdsfactory/gdsfactory/pull/3581)
+- fix grating_coupler_tree [#3582](https://github.com/gdsfactory/gdsfactory/pull/3582)
+- improve_add_electrical_pads_shortest [#3578](https://github.com/gdsfactory/gdsfactory/pull/3578)
+- [pre-commit.ci] pre-commit autoupdate [#3577](https://github.com/gdsfactory/gdsfactory/pull/3577)
+- Correct doc example in 11_best_practices.ipynb [#3580](https://github.com/gdsfactory/gdsfactory/pull/3580)
 
 ## [8.29.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.29.0) - 2025-01-05
 
