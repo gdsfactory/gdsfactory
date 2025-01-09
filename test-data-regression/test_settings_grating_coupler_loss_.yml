@@ -1,0 +1,9 @@
+info: {}
+name: grating_coupler_loss_P1_47240408
+settings:
+  cross_section: strip
+  grating_coupler: grating_coupler_elliptical_trenches
+  nfibers: 10
+  pitch: 127
+  port_name: o1
+  rotation: -90
