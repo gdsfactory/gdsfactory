@@ -1,11 +1,12 @@
 instances:
-  coupler_G0p2_L0p1_D4_D1_250a8812_0_0:
+  coupler_G0p2_L0p1_D4_D1_7603bdbf_0_0:
     component: coupler
     info:
       length: 10.19
       min_bend_radius: 11.744
     settings:
       allow_min_radius_violation: false
+      bend: bend_s
       cross_section: strip
       dx: 10
       dy: 4
@@ -35,12 +36,12 @@ instances:
       w2: 0.55
 name: cavity_Cdbr_Ccoupler_L0p1_G0p2
 nets:
-- p1: coupler_G0p2_L0p1_D4_D1_250a8812_0_0,o2
+- p1: coupler_G0p2_L0p1_D4_D1_7603bdbf_0_0,o2
   p2: dbr_W0p45_W0p55_L0p159__efcfb70c_m10010_2350,o1
-- p1: coupler_G0p2_L0p1_D4_D1_250a8812_0_0,o3
+- p1: coupler_G0p2_L0p1_D4_D1_7603bdbf_0_0,o3
   p2: dbr_W0p45_W0p55_L0p159__efcfb70c_10110_2350,o1
 placements:
-  coupler_G0p2_L0p1_D4_D1_250a8812_0_0:
+  coupler_G0p2_L0p1_D4_D1_7603bdbf_0_0:
     mirror: false
     rotation: 0
     x: 0
@@ -56,5 +57,5 @@ placements:
     x: -10.01
     y: 2.35
 ports:
-  o1: coupler_G0p2_L0p1_D4_D1_250a8812_0_0,o1
-  o2: coupler_G0p2_L0p1_D4_D1_250a8812_0_0,o4
+  o1: coupler_G0p2_L0p1_D4_D1_7603bdbf_0_0,o1
+  o2: coupler_G0p2_L0p1_D4_D1_7603bdbf_0_0,o4
