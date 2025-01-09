@@ -1,12 +1,11 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.29.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.29.2...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.29.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.29.2) - 2025-01-09
 
-No significant changes.
-
+- expose sbend in coupler [#3585](https://github.com/gdsfactory/gdsfactory/pull/3585)
 
 ## [8.29.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.29.1) - 2025-01-08
 
