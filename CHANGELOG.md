@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.29.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.29.2) - 2025-01-09
+
+No significant changes.
+
+
 ## [8.29.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.29.1) - 2025-01-08
 
 - Fix loss deembed [#3583](https://github.com/gdsfactory/gdsfactory/pull/3583)
