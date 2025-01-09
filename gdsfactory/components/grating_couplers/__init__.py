@@ -23,11 +23,7 @@ from gdsfactory.components.grating_couplers.grating_coupler_elliptical_trenches 
     grating_coupler_tm,
 )
 from gdsfactory.components.grating_couplers.grating_coupler_loss import (
-    grating_coupler_loss_fiber_array,
-    grating_coupler_loss_fiber_array4,
-    loss_deembedding_ch12_34,
-    loss_deembedding_ch13_24,
-    loss_deembedding_ch14_23,
+    grating_coupler_loss,
 )
 from gdsfactory.components.grating_couplers.grating_coupler_rectangular import (
     grating_coupler_rectangular,
@@ -50,14 +46,10 @@ __all__ = [
     "grating_coupler_elliptical_tm",
     "grating_coupler_elliptical_trenches",
     "grating_coupler_elliptical_uniform",
-    "grating_coupler_loss_fiber_array",
-    "grating_coupler_loss_fiber_array4",
+    "grating_coupler_loss",
     "grating_coupler_rectangular",
     "grating_coupler_rectangular_arbitrary",
     "grating_coupler_te",
     "grating_coupler_tm",
     "grating_coupler_tree",
-    "loss_deembedding_ch12_34",
-    "loss_deembedding_ch13_24",
-    "loss_deembedding_ch14_23",
 ]
