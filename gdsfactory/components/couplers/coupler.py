@@ -118,6 +118,7 @@ def coupler(
     dx: Delta = 10.0,
     cross_section: CrossSectionSpec = "strip",
     allow_min_radius_violation: bool = False,
+    bend: ComponentSpec = "bend_s",
 ) -> Component:
     r"""Symmetric coupler.
 
@@ -128,6 +129,7 @@ def coupler(
         dx: length of bend in x direction in um.
         cross_section: spec (CrossSection, string or dict).
         allow_min_radius_violation: if True does not check for min bend radius.
+        bend: bend spec.
 
     .. code::
 
@@ -144,7 +146,9 @@ def coupler(
                         coupler_straight  coupler_symmetric
     """
     c = Component()
-    sbend = coupler_symmetric(gap=gap, dy=dy, dx=dx, cross_section=cross_section)
+    sbend = coupler_symmetric(
+        bend=bend, gap=gap, dy=dy, dx=dx, cross_section=cross_section
+    )
 
     sr = c << sbend
     sl = c << sbend
