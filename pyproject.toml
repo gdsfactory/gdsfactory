@@ -42,7 +42,7 @@ dependencies = [
   "ipykernel",
   "attrs",
   "graphviz",
-  "pyglet<2",
+  "pyglet<3",
   "typing-extensions"
 ]
 description = "python library to generate GDS layouts"
