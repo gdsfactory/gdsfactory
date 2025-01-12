@@ -91,8 +91,8 @@ def pack_doe(
             f"failed to pack in one Component, it created {len(components)} Components"
         )
     component = components[0]
-    component.doe_names = [component.name for component in component_list]  # type: ignore
-    component.doe_settings = settings_list  # type: ignore
+    component.info["doe_names"] = [component.name for component in component_list]  # type: ignore
+    component.info["doe_settings"] = settings_list  # type: ignore
     return component
 
 
