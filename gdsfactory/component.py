@@ -9,12 +9,11 @@ from collections.abc import Callable, Iterable, Iterator, Sequence
 from typing import TYPE_CHECKING, Any, Literal, TypeAlias, overload
 
 import kfactory as kf
-import klayout.db as kdb
 import klayout.lay as lay
 import numpy as np
 import numpy.typing as npt
 import yaml
-from kfactory import Instance
+from kfactory import Instance, kdb
 from kfactory.kcell import PROPID, BaseKCell, cell, save_layout_options
 from pydantic import Field
 from trimesh.scene.scene import Scene
