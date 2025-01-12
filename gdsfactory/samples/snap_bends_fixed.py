@@ -20,4 +20,4 @@ def snap_bends_sample() -> gf.ComponentAllAngle:
 
 if __name__ == "__main__":
     c = snap_bends_sample()
-    c.plot()
+    c.show()
