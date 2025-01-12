@@ -388,15 +388,13 @@ add_pins_siepic_electrical = partial(
 
 
 class AddPinFunction(Protocol):
-    def __call__(
-        self, component: Component, port: typings.Port, **kwargs: Any
-    ) -> None: ...
+    def __call__(self, component: Component, port: typings.Port) -> None: ...
 
 
 def add_pins(
     component: Component,
     port_type: str | None = None,
-    function: AddPinFunction = add_pin_rectangle_inside,  # type: ignore[assignment]
+    function: AddPinFunction = add_pin_rectangle_inside,
     **kwargs: Any,
 ) -> None:
     """Add Pin port markers.
@@ -503,25 +501,23 @@ def add_instance_label(
     )
 
 
-class AddInstanceLabelFunction(Protocol):
+class AddPinOrOutlineFunction(Protocol):
     def __call__(
         self, component: Component, reference: Instance | None = None
     ) -> None: ...
 
 
 class AddPinsFunction(Protocol):
-    def __call__(
-        self, component: Component, reference: Instance | None = None
-    ) -> None: ...
+    def __call__(self, component: Component) -> None: ...
 
 
 def add_pins_and_outline(
     component: Component,
     reference: Instance | None = None,
-    add_outline_function: AddInstanceLabelFunction | None = add_outline,
-    add_pins_function: AddPinsFunction | None = add_pins,  # type: ignore[assignment]
-    add_settings_function: AddInstanceLabelFunction | None = add_settings_label,
-    add_instance_label_function: AddInstanceLabelFunction | None = add_settings_label,
+    add_outline_function: AddPinOrOutlineFunction | None = add_outline,
+    add_pins_function: AddPinsFunction | None = add_pins,
+    add_settings_function: AddPinOrOutlineFunction | None = add_settings_label,
+    add_instance_label_function: AddPinOrOutlineFunction | None = add_settings_label,
 ) -> None:
     """Add pins component outline.
 
@@ -536,7 +532,7 @@ def add_pins_and_outline(
     if add_outline_function:
         add_outline_function(component=component, reference=reference)
     if add_pins_function:
-        add_pins_function(component, reference)
+        add_pins_function(component)
     if add_settings_function:
         add_settings_function(component=component, reference=reference)
     if add_instance_label_function:
@@ -565,9 +561,9 @@ if __name__ == "__main__":
     # c.show(show_subports=True)
     # c.show( )
 
-    c = gf.Component()
-    ref = c << gf.components.straight()
-    c.add_ports(ref.ports)
-
-    add_pin_rectangle(c, port=c.ports[0], port_margin=1)
+    c = gf.components.mzi().copy()
+    mzi = gf.components.mzi()
+    ref = c << mzi
+    print(select_ports(ref.ports))
+    add_pins_and_outline(c, reference=ref)
     c.show()
