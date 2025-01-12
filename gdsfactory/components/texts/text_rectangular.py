@@ -57,8 +57,6 @@ def text_rectangular(
             else:
                 pixels = characters[character.upper()]
                 for layer in layer_list:
-                    print(len(list(component.insts)))
-
                     ref = component.add_ref(
                         pixel_array(pixels=pixels, pixel_size=pixel_size, layer=layer)
                     )
