@@ -55,6 +55,7 @@ def get_generic_pdk() -> Pdk:
     LAYER_VIEWS = LayerViews(filepath=PATH.klayout_yaml)
 
     cells = get_cells([gf.components])
+    containers_dict = get_cells([gf.containers])
 
     layer_transitions = {
         LAYER.WG: partial(gf.c.taper, cross_section="strip", length=10),
@@ -67,6 +68,7 @@ def get_generic_pdk() -> Pdk:
         name="generic",
         version=__version__,
         cells=cells,
+        containers=containers_dict,
         cross_sections=cross_sections,
         layers=LAYER,
         layer_stack=LAYER_STACK,

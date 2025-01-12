@@ -158,6 +158,7 @@ def ring_double_heater(
             f"No ports found for port_orientation {port_orientation} in {valid_orientations}"
         )
 
+    c.flatten()
     c.add_ports(p1, prefix="l_")
     c.add_ports(p2, prefix="r_")
     return c
@@ -167,6 +168,6 @@ ring_single_heater = partial(ring_double_heater, with_drop=False)
 
 
 if __name__ == "__main__":
-    c = ring_single_heater()
+    c = ring_double_heater()
     c.pprint_ports()
     c.show()

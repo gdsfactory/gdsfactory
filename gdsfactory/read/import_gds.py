@@ -70,7 +70,6 @@ def kcell_to_component(kcell: kf.KCell) -> Component:
 def import_gds_with_conflicts(
     gdspath: str | Path,
     cellname: str | None = None,
-    name: str | None = None,
     **kwargs: Any,
 ) -> Component:
     """Reads a GDS file and returns a Component.
@@ -78,7 +77,6 @@ def import_gds_with_conflicts(
     Args:
         gdspath: path to GDS file.
         cellname: name of the cell to return. Defaults to top cell.
-        name: optional name.
         kwargs: (deprecated and ignored).
 
     Modes:

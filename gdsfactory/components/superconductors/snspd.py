@@ -99,6 +99,7 @@ def snspd(
     D.info["area"] = xsize * ysize
     D.info["xsize"] = xsize
     D.info["ysize"] = ysize
+    D.flatten()
     return D
 
 

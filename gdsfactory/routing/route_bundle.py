@@ -206,20 +206,6 @@ def route_bundle(
     width_dbu = c.kcl.to_dbu(width)
     radius = radius or xs.radius
     taper_cell = gf.get_component(taper) if taper else None
-    bend90 = (
-        bend
-        if isinstance(bend, gf.Component)
-        else gf.get_component(
-            bend, cross_section=cross_section, radius=radius, width=width
-        )
-    )
-
-    def straight_dbu(width: int, length: int) -> gf.Component:
-        return gf.get_component(
-            straight,
-            length=c.kcl.to_um(length),
-            cross_section=xs,
-        )
 
     end_straight = c.kcl.to_dbu(end_straight_length)
     start_straight = c.kcl.to_dbu(start_straight_length)
@@ -277,6 +263,21 @@ def route_bundle(
             waypoints=_waypoints,
             end_angles=end_angles,
             start_angles=start_angles,
+        )
+
+    bend90 = (
+        bend
+        if isinstance(bend, gf.Component)
+        else gf.get_component(
+            bend, cross_section=cross_section, radius=radius, width=width
+        )
+    )
+
+    def straight_dbu(width: int, length: int) -> gf.Component:
+        return gf.get_component(
+            straight,
+            length=c.kcl.to_um(length),
+            cross_section=xs,
         )
 
     return kf.routing.optical.route_bundle(

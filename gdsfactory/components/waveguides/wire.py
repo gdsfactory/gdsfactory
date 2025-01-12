@@ -16,6 +16,7 @@ def wire_corner(
     port_names: "PortNames" = port_names_electrical,
     port_types: "PortTypes" = port_types_electrical,
     width: float | None = None,
+    radius: None | float = None,
 ) -> Component:
     """Returns 45 degrees electrical corner wire.
 
@@ -24,8 +25,12 @@ def wire_corner(
         port_names: port names.
         port_types: port types.
         width: optional width. Defaults to cross_section width.
+        radius: ignored.
     """
-    x = gf.get_cross_section(cross_section, width=width)
+    if width:
+        x = gf.get_cross_section(cross_section, width=width)
+    else:
+        x = gf.get_cross_section(cross_section)
     layer = x.layer
     assert layer is not None
     width = x.width
@@ -74,7 +79,10 @@ def wire_corner45(
         layer: optional layer.
         with_corner90_ports: if True adds ports at 90 degrees.
     """
-    x = gf.get_cross_section(cross_section)
+    if width:
+        x = gf.get_cross_section(cross_section, width=width)
+    else:
+        x = gf.get_cross_section(cross_section)
     layer = layer or x.layer
     assert layer is not None
     width = width or x.width

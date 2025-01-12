@@ -270,10 +270,10 @@ straight_heater_metal_undercut_90_90 = partial(
 
 
 if __name__ == "__main__":
-    c = straight_heater_metal_simple(length=50.0)
+    # c = straight_heater_metal_simple(length=50.0)
+    c = straight_heater_metal_undercut()
     c.pprint_ports()
     c.show()
-    # c = straight_heater_metal_undercut()
     # print(c.ports['o2'].dcenter[0])
     # c.pprint_ports()
     # c = straight_heater_metal(heater_width=5, length=50.0)

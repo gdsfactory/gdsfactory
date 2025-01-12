@@ -1,7 +1,7 @@
 info: {}
-name: cdsem_coupler_L420_G0p1_295ecaee
+name: cdsem_coupler_L420_G0p1_8b024562
 settings:
-  cross_section: strip
+  cross_section: strip_no_ports
   gaps:
   - 0.15
   - 0.2

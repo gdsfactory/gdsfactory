@@ -646,6 +646,26 @@ def strip(
 
 
 @xsection
+def strip_no_ports(
+    width: float = 0.5,
+    layer: typings.LayerSpec = "WG",
+    radius: float = 10.0,
+    radius_min: float = 5,
+    port_names: typings.IOPorts = ("", ""),
+    **kwargs: Any,
+) -> CrossSection:
+    """Return Strip cross_section."""
+    return cross_section(
+        width=width,
+        layer=layer,
+        radius=radius,
+        radius_min=radius_min,
+        port_names=port_names,
+        **kwargs,
+    )
+
+
+@xsection
 def rib(
     width: float = 0.5,
     layer: typings.LayerSpec = "WG",

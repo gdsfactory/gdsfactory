@@ -53,22 +53,26 @@ def seal_ring(
     size_east_west = (width, sy + 2 * padding)
 
     if with_north:
-        north = c << gf.get_component(seal, size=size_north_south)
+        north = c << gf.get_component(
+            seal, size=size_north_south, port_orientations=None
+        )
         north.dymin = ymin_north
         north.dx = x
 
     if with_east:
-        east = c << gf.get_component(seal, size=size_east_west)
+        east = c << gf.get_component(seal, size=size_east_west, port_orientations=None)
         east.dxmin = xmax + padding
         east.dymax = ymin_north
 
     if with_west:
-        west = c << gf.get_component(seal, size=size_east_west)
+        west = c << gf.get_component(seal, size=size_east_west, port_orientations=None)
         west.dxmax = xmin - padding
         west.dymax = ymin_north
 
     if with_south:
-        south = c << gf.get_component(seal, size=size_north_south)
+        south = c << gf.get_component(
+            seal, size=size_north_south, port_orientations=None
+        )
         south.dymax = ymax_south
         south.dx = x
 
@@ -135,9 +139,8 @@ def seal_ring_segmented(
     # horizontal
     dx = abs(tl.dxmax - tr.dxmin)
     segment_horizontal = gf.get_component(
-        via_stack, size=(length_segment, width_segment)
+        via_stack, size=(length_segment, width_segment), port_orientations=None
     )
-
     horizontal = gf.c.array(
         component=segment_horizontal, columns=int(dx / pitch), column_pitch=pitch
     )
@@ -162,7 +165,9 @@ def seal_ring_segmented(
         boti.dxmin = bot.dxmin + spacing_segment
 
     # vertical
-    segment_vertical = gf.get_component(via_stack, size=(width_segment, length_segment))
+    segment_vertical = gf.get_component(
+        via_stack, size=(width_segment, length_segment), port_orientations=None
+    )
     dy = abs(tl.dymin - bl.dymax)
 
     vertical = gf.c.array(

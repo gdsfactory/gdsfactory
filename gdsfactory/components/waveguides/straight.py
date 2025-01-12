@@ -27,7 +27,10 @@ def straight(
         o1 -------------- o2
                 length
     """
-    x = gf.get_cross_section(cross_section, width=width)
+    if width is not None:
+        x = gf.get_cross_section(cross_section, width=width)
+    else:
+        x = gf.get_cross_section(cross_section)
     p = gf.path.straight(length=length, npoints=npoints)
     c = p.extrude(x)
     x.add_bbox(c)
@@ -58,7 +61,10 @@ def straight_all_angle(
         o1 -------------- o2
                 length
     """
-    x = gf.get_cross_section(cross_section, width=width)
+    if width is not None:
+        x = gf.get_cross_section(cross_section, width=width)
+    else:
+        x = gf.get_cross_section(cross_section)
     p = gf.path.straight(length=length, npoints=npoints)
     c = p.extrude(x, all_angle=True)
     x.add_bbox(c)
@@ -118,7 +124,10 @@ def wire_straight(
         o1 -------------- o2
                 length
     """
-    x = gf.get_cross_section(cross_section, width=width)
+    if width is not None:
+        x = gf.get_cross_section(cross_section, width=width)
+    else:
+        x = gf.get_cross_section(cross_section)
     p = gf.path.straight(length=length, npoints=npoints)
     c = p.extrude(x)
     x.add_bbox(c)
