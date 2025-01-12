@@ -1309,7 +1309,7 @@ Route: TypeAlias = (
 )
 
 
-class Component(kf.KCell, ComponentBase):  # type: ignore
+class Component(ComponentBase, kf.KCell):  # type: ignore
     """Canvas where you add polygons, instances and ports.
 
     - stores settings that you use to build the component
@@ -1522,7 +1522,6 @@ if __name__ == "__main__":
     # n = c.get_netlist()
     # c.plot_netlist_networkx(recursive=True)
     # plt.show()
-    c.show()
     # import matplotlib.pyplot as plt
 
     # import gdsfactory as gf
