@@ -288,6 +288,10 @@ class ComponentReference(kf.Instance):
             return self._kfinst == other
         return False
 
+    def __hash__(self) -> int:
+        """Hash of the ComponentReference."""
+        return hash(self._kfinst)
+
 
 class ComponentReferences(kf.kcell.Instances):
     def __getitem__(self, key: str | int) -> ComponentReference:
