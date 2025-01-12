@@ -713,5 +713,5 @@ if __name__ == "__main__":
 
     import gdsfactory as gf
 
-    c = gf.read.from_yaml(sample_different_factory)
+    c = gf.read.from_yaml(sample_doe)
     c.show()
