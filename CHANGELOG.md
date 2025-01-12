@@ -1,12 +1,13 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.29.2...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.30.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.30.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.30.0) - 2025-01-12
 
-No significant changes.
-
+- update to kfactory 0.23.0 [#3574](https://github.com/gdsfactory/gdsfactory/pull/3574)
+- remove unused param [#3586](https://github.com/gdsfactory/gdsfactory/pull/3586)
+- update kfactory to 0.23.1 [#3589](https://github.com/gdsfactory/gdsfactory/pull/3589)
 
 ## [8.29.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.29.2) - 2025-01-09
 
