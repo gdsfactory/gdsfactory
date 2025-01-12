@@ -4,16 +4,19 @@ from __future__ import annotations
 
 import pathlib
 import warnings
+from abc import ABC, abstractmethod
 from collections.abc import Callable, Iterable, Iterator, Sequence
-from typing import TYPE_CHECKING, Any, Literal, overload
+from typing import TYPE_CHECKING, Any, Literal, TypeAlias, overload
 
 import kfactory as kf
+import klayout.db as kdb
 import klayout.lay as lay
 import numpy as np
 import numpy.typing as npt
 import yaml
-from kfactory import BaseKCell, Instance, kdb
-from kfactory.kcell import PROPID, cell, save_layout_options
+from kfactory import Instance
+from kfactory.kcell import PROPID, BaseKCell, cell, save_layout_options
+from pydantic import Field
 from trimesh.scene.scene import Scene
 from typing_extensions import Self
 
@@ -277,6 +280,14 @@ class ComponentReference(kf.Instance):
         deprecate("parent", "ref.cell")
         return self.cell
 
+    def __eq__(self, other: Any) -> bool:
+        """Check if two ComponentReferences are equal."""
+        if isinstance(other, ComponentReference):
+            return self._kfinst == other._kfinst
+        if isinstance(other, Instance):
+            return self._kfinst == other
+        return False
+
 
 class ComponentReferences(kf.kcell.Instances):
     def __getitem__(self, key: str | int) -> ComponentReference:
@@ -301,7 +312,7 @@ class ComponentReferences(kf.kcell.Instances):
             self._insts.remove(item)
 
 
-class ComponentBase(BaseKCell):
+class ComponentBase(BaseKCell, ABC):
     """Canvas where you add polygons, instances and ports.
 
     - stores settings that you use to build the component
@@ -327,11 +338,11 @@ class ComponentBase(BaseKCell):
         """Returns the bounding box of the Component as a numpy array."""
         return np.array([[self.dxmin, self.dymin], [self.dxmax, self.dymax]])
 
-    def add_port(
+    def add_port(  # type: ignore
         self,
         name: str | None = None,
         port: "Port | None" = None,
-        center: tuple[float, float] | kf.kdb.DPoint | None = None,
+        center: tuple[float, float] | kdb.DPoint | None = None,
         width: float | None = None,
         orientation: "AngleInDegrees | None" = None,
         layer: LayerSpec | None = None,
@@ -356,12 +367,8 @@ class ComponentBase(BaseKCell):
             raise LockedError(self)
 
         if port:
-            return kf.KCell.add_port(
-                self,  # type: ignore
-                port=port,
-                name=name,
-                keep_mirror=keep_mirror,
-            )
+            return super().add_port(port=port, name=name, keep_mirror=keep_mirror)
+
         from gdsfactory.config import CONF
         from gdsfactory.pdk import get_cross_section, get_layer
 
@@ -411,39 +418,12 @@ class ComponentBase(BaseKCell):
             return getattr(self, f"d{__k}")
         return super().__getattribute__(__k)
 
-    @staticmethod
-    def from_kcell(kcell: kf.KCell) -> Component:
-        """Returns a Component from a KCell."""
-        kdb_copy = kcell._kdb_copy()
-
-        c = Component(kcl=kcell.kcl, kdb_cell=kdb_copy)
-        c.ports = kcell.ports.copy()
-
-        c._settings = kcell.settings.model_copy()
-        c.info = kcell.info.model_copy()
-        return c
-
-    def copy(self) -> Component:
+    def copy(self) -> Self:  # type: ignore
         """Copy the full cell."""
         return self.dup()
 
-    def dup(self) -> Component:
-        """Copy the full cell.
-
-        Sets `_locked` to `False`
-
-        Returns:
-            cell: Exact copy of the current cell.
-                The name will have `$1` as duplicate names are not allowed
-        """
-        kdb_copy = self._kdb_copy()
-
-        c = Component(kcl=self.kcl, kdb_cell=kdb_copy)
-        c.ports = self.ports.copy()
-
-        c._settings = self.settings.model_copy()
-        c.info = self.info.model_copy()
-        return c
+    @abstractmethod
+    def dup(self) -> Self: ...
 
     def trim(
         self,
@@ -633,25 +613,6 @@ class ComponentBase(BaseKCell):
         for key, value in kwargs.items():
             info[f"route_info_{key}"] = value
 
-    def absorb(self, reference: Instance) -> Self:
-        """Absorbs polygons from ComponentReference into Component.
-
-        Destroys the reference in the process but keeping the polygon geometry.
-
-        Args:
-            reference: Instance to be absorbed into the Component.
-
-        """
-        if self._locked:
-            raise LockedError(self)
-
-        if reference._kfinst not in self.insts:
-            raise ValueError(
-                "The reference you asked to absorb does not exist in this Component."
-            )
-        reference.flatten()
-        return self
-
     def add_ref(
         self,
         component: Component,
@@ -711,18 +672,6 @@ class ComponentBase(BaseKCell):
         elif name:
             inst.name = name
         return ComponentReference(inst)
-
-    def add(self, instances: list[Instance] | Instance) -> None:
-        if self._locked:
-            raise LockedError(self)
-
-        if not isinstance(instances, Iterable):
-            instance_list = [instances]
-        else:
-            instance_list = list(instances)
-
-        for instance in instance_list:
-            self._kdb_cell.insert(instance._instance)
 
     def get_polygons(
         self,
@@ -1346,7 +1295,12 @@ class ComponentBase(BaseKCell):
         return self.add_ref(*args, **kwargs)
 
 
-class Component(ComponentBase, kf.KCell):  # type: ignore
+Route: TypeAlias = (
+    kf.routing.generic.ManhattanRoute | kf.routing.aa.optical.OpticalAllAngleRoute
+)
+
+
+class Component(kf.KCell, ComponentBase):  # type: ignore
     """Canvas where you add polygons, instances and ports.
 
     - stores settings that you use to build the component
@@ -1360,6 +1314,8 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
         info: dictionary that includes derived properties, simulation_settings, settings (test_protocol, docs, ...)
     """
 
+    routes: "dict[str, Route]" = Field(default_factory=dict)
+
     def __init__(
         self,
         name: str | None = None,
@@ -1368,15 +1324,76 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
         ports: kf.Ports | None = None,
     ) -> None:
         """Initializes a Component."""
+        kf.KCell.__init__(self, name=name, kcl=kcl, kdb_cell=kdb_cell, ports=ports)
         self.insts = ComponentReferences()
-        super().__init__(name=name, kcl=kcl, kdb_cell=kdb_cell, ports=ports)
 
     def __lshift__(self, component: Component) -> ComponentReference:  # type: ignore[override]
         """Creates a ComponentReference to a Component."""
         return ComponentReference(kf.KCell.create_inst(self, component))
 
+    def dup(self) -> Component:
+        """Copy the full cell.
 
-class ComponentAllAngle(ComponentBase, kf.VKCell):  # type: ignore
+        Sets `_locked` to `False`
+
+        Returns:
+            cell: Exact copy of the current cell.
+                The name will have `$1` as duplicate names are not allowed
+        """
+        kdb_copy = self._kdb_copy()
+
+        c = Component(kcl=self.kcl, kdb_cell=kdb_copy)
+        c.ports = self.ports.copy()
+
+        c._settings = self.settings.model_copy()
+        c.info = self.info.model_copy()
+        return c
+
+    @staticmethod
+    def from_kcell(kcell: kf.KCell) -> Component:
+        """Returns a Component from a KCell."""
+        kdb_copy = kcell._kdb_copy()
+
+        c = Component(kcl=kcell.kcl, kdb_cell=kdb_copy)
+        c.ports = kcell.ports.copy()
+
+        c._settings = kcell.settings.model_copy()
+        c.info = kcell.info.model_copy()
+        return c
+
+    def add(self, instances: list[Instance] | Instance) -> None:
+        if self._locked:
+            raise LockedError(self)
+
+        if not isinstance(instances, Iterable):
+            instance_list = [instances]
+        else:
+            instance_list = list(instances)
+
+        for instance in instance_list:
+            self._kdb_cell.insert(instance._instance)
+
+    def absorb(self, reference: ComponentReference) -> Self:
+        """Absorbs polygons from ComponentReference into Component.
+
+        Destroys the reference in the process but keeping the polygon geometry.
+
+        Args:
+            reference: Instance to be absorbed into the Component.
+
+        """
+        if self._locked:
+            raise LockedError(self)
+
+        if reference not in self.insts:
+            raise ValueError(
+                "The reference you asked to absorb does not exist in this Component."
+            )
+        reference.flatten()
+        return self
+
+
+class ComponentAllAngle(kf.VKCell, ComponentBase):  # type: ignore
     def plot(self, **kwargs: Any) -> None:  # type: ignore
         """Plots the Component using klayout."""
         c = Component()
@@ -1386,8 +1403,27 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):  # type: ignore
         kf.VInstance(self).insert_into_flat(c, levels=0)
         c.plot(**kwargs)
 
-    def __init__(self, *args: Any, **kwargs: Any) -> None:  # noqa: D107
-        super().__init__(*args, **kwargs)
+    def __init__(
+        self,
+        name: str | None = None,
+        kcl: kf.KCLayout | None = None,
+        info: dict[str, int | float | str] | None = None,
+    ) -> None:
+        """Initializes a ComponentAllAngle."""
+        super().__init__(name=name, kcl=kcl, info=info)
+
+    def dup(self) -> ComponentAllAngle:
+        """Copy the full cell."""
+        c = ComponentAllAngle(
+            kcl=self.kcl, name=self.name + "$1" if self.name else None
+        )
+        c.ports = self.ports.copy()
+
+        c._settings = self.settings.model_copy()
+        c._settings_units = self.settings_units.model_copy()
+        c.info = self.info.model_copy()
+
+        return c
 
 
 def container(
@@ -1442,7 +1478,7 @@ def component_with_function(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.c.mzi()
+    c = gf.c.mzi().dup()
     c.offset("WG", -0.2)
     # c.over_under("WG", 0.2)
     # n = c.to_graphviz()
