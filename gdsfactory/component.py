@@ -841,7 +841,8 @@ class ComponentBase(BaseKCell, ABC):
         gdsdir = gdsdir or GDSDIR_TEMP
         gdsdir = pathlib.Path(gdsdir)
         gdsdir.mkdir(parents=True, exist_ok=True)
-        gdspath = gdspath or gdsdir / f"{self.name[: CONF.max_cellname_length]}.gds"
+        name = self.name or ""
+        gdspath = gdspath or gdsdir / f"{name[: CONF.max_cellname_length]}.gds"
         gdspath = pathlib.Path(gdspath)
 
         if not gdspath.parent.is_dir():
@@ -1187,7 +1188,9 @@ class ComponentBase(BaseKCell, ABC):
         if with_ports:
             from gdsfactory.port import to_dict
 
-            d["ports"] = {port.name: to_dict(port) for port in self.ports}
+            d["ports"] = {
+                port.name: to_dict(port) for port in self.ports if port.name is not None
+            }
         res = clean_value_json(d)
         assert isinstance(res, dict)
         return res
@@ -1239,6 +1242,8 @@ class ComponentBase(BaseKCell, ABC):
         cell_view = layout_view.cellview(cell_view_index)
         layout = cell_view.layout()
         layout.assign(kf.kcl.layout)
+
+        assert self.name is not None, "Component name is None"
 
         cell_view.cell = layout.cell(self.name)
 
