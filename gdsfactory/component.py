@@ -1332,7 +1332,7 @@ class Component(kf.KCell, ComponentBase):  # type: ignore
         kf.KCell.__init__(self, name=name, kcl=kcl, kdb_cell=kdb_cell, ports=ports)
         self.insts = ComponentReferences()
 
-    def __lshift__(self, component: Component) -> ComponentReference:  # type: ignore[override]
+    def __lshift__(self, component: kf.KCell) -> ComponentReference:
         """Creates a ComponentReference to a Component."""
         return ComponentReference(kf.KCell.create_inst(self, component))
 
