@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.30.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.30.0) - 2025-01-12
+
+No significant changes.
+
+
 ## [8.29.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.29.2) - 2025-01-09
 
 - expose sbend in coupler [#3585](https://github.com/gdsfactory/gdsfactory/pull/3585)
