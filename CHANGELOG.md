@@ -1,7 +1,32 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.28.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.29.2...main)
 
 <!-- towncrier release notes start -->
+
+## [8.29.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.29.2) - 2025-01-09
+
+- expose sbend in coupler [#3585](https://github.com/gdsfactory/gdsfactory/pull/3585)
+
+## [8.29.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.29.1) - 2025-01-08
+
+- Fix loss deembed [#3583](https://github.com/gdsfactory/gdsfactory/pull/3583)
+- fix grating_coupler_tree [#3582](https://github.com/gdsfactory/gdsfactory/pull/3582)
+- only define straight and bend in route_bundle if necessary [#3581](https://github.com/gdsfactory/gdsfactory/pull/3581)
+- fix grating_coupler_tree [#3582](https://github.com/gdsfactory/gdsfactory/pull/3582)
+- improve_add_electrical_pads_shortest [#3578](https://github.com/gdsfactory/gdsfactory/pull/3578)
+- [pre-commit.ci] pre-commit autoupdate [#3577](https://github.com/gdsfactory/gdsfactory/pull/3577)
+- Correct doc example in 11_best_practices.ipynb [#3580](https://github.com/gdsfactory/gdsfactory/pull/3580)
+
+## [8.29.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.29.0) - 2025-01-05
+
+- register containers in pdk [#3572](https://github.com/gdsfactory/gdsfactory/pull/3572)
+- add filepath to yaml cell [#3569](https://github.com/gdsfactory/gdsfactory/pull/3569)
+- Clean connectivity for some components [#3575](https://github.com/gdsfactory/gdsfactory/pull/3575)
+- Expose electrical ports in ring_pn [#3573](https://github.com/gdsfactory/gdsfactory/pull/3573)
+- fixing docs for non-orthogonal grid array [#3566](https://github.com/gdsfactory/gdsfactory/pull/3566)
+- fix cutbacks [#3567](https://github.com/gdsfactory/gdsfactory/pull/3567)
+- ensure GDSDIR_TEMP exists [#3565](https://github.com/gdsfactory/gdsfactory/pull/3565)
+
 
 ## [8.28.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.28.1) - 2024-12-31
 

@@ -1,5 +1,5 @@
 instances:
-  via_stack_S10_520_LM1_M_a97a51b5_515000_250000:
+  via_stack_S10_520_LM1_M_9c230a00_515000_250000:
     component: via_stack
     info:
       xsize: 10
@@ -13,11 +13,7 @@ instances:
       - M1
       - M2
       - MTOP
-      port_orientations:
-      - 180
-      - 90
-      - 0
-      - -90
+      port_orientations: null
       size:
       - 10
       - 520
@@ -27,7 +23,7 @@ instances:
       - via1
       - via2
       - null
-  via_stack_S10_520_LM1_M_a97a51b5_m15000_250000:
+  via_stack_S10_520_LM1_M_9c230a00_m15000_250000:
     component: via_stack
     info:
       xsize: 10
@@ -41,11 +37,7 @@ instances:
       - M1
       - M2
       - MTOP
-      port_orientations:
-      - 180
-      - 90
-      - 0
-      - -90
+      port_orientations: null
       size:
       - 10
       - 520
@@ -55,7 +47,7 @@ instances:
       - via1
       - via2
       - null
-  via_stack_S540_10_LM1_M_ebd1600b_250000_515000:
+  via_stack_S540_10_LM1_M_31e31eda_250000_515000:
     component: via_stack
     info:
       xsize: 540
@@ -69,11 +61,7 @@ instances:
       - M1
       - M2
       - MTOP
-      port_orientations:
-      - 180
-      - 90
-      - 0
-      - -90
+      port_orientations: null
       size:
       - 540
       - 10
@@ -83,7 +71,7 @@ instances:
       - via1
       - via2
       - null
-  via_stack_S540_10_LM1_M_ebd1600b_250000_m15000:
+  via_stack_S540_10_LM1_M_31e31eda_250000_m15000:
     component: via_stack
     info:
       xsize: 540
@@ -97,11 +85,7 @@ instances:
       - M1
       - M2
       - MTOP
-      port_orientations:
-      - 180
-      - 90
-      - 0
-      - -90
+      port_orientations: null
       size:
       - 540
       - 10
@@ -114,78 +98,24 @@ instances:
 name: seal_ring_S500_500_Svia_d370abe4
 nets: []
 placements:
-  via_stack_S10_520_LM1_M_a97a51b5_515000_250000:
+  via_stack_S10_520_LM1_M_9c230a00_515000_250000:
     mirror: false
     rotation: 0
     x: 515
     y: 250
-  via_stack_S10_520_LM1_M_a97a51b5_m15000_250000:
+  via_stack_S10_520_LM1_M_9c230a00_m15000_250000:
     mirror: false
     rotation: 0
     x: -15
     y: 250
-  via_stack_S540_10_LM1_M_ebd1600b_250000_515000:
+  via_stack_S540_10_LM1_M_31e31eda_250000_515000:
     mirror: false
     rotation: 0
     x: 250
     y: 515
-  via_stack_S540_10_LM1_M_ebd1600b_250000_m15000:
+  via_stack_S540_10_LM1_M_31e31eda_250000_m15000:
     mirror: false
     rotation: 0
     x: 250
     y: -15
 ports: {}
-warnings:
-  electrical:
-    unconnected_ports:
-    - message: 16 unconnected electrical ports!
-      ports:
-      - via_stack_S540_10_LM1_M_ebd1600b_250000_515000,e1
-      - via_stack_S540_10_LM1_M_ebd1600b_250000_515000,e2
-      - via_stack_S540_10_LM1_M_ebd1600b_250000_515000,e3
-      - via_stack_S540_10_LM1_M_ebd1600b_250000_515000,e4
-      - via_stack_S10_520_LM1_M_a97a51b5_515000_250000,e1
-      - via_stack_S10_520_LM1_M_a97a51b5_515000_250000,e2
-      - via_stack_S10_520_LM1_M_a97a51b5_515000_250000,e3
-      - via_stack_S10_520_LM1_M_a97a51b5_515000_250000,e4
-      - via_stack_S10_520_LM1_M_a97a51b5_m15000_250000,e1
-      - via_stack_S10_520_LM1_M_a97a51b5_m15000_250000,e2
-      - via_stack_S10_520_LM1_M_a97a51b5_m15000_250000,e3
-      - via_stack_S10_520_LM1_M_a97a51b5_m15000_250000,e4
-      - via_stack_S540_10_LM1_M_ebd1600b_250000_m15000,e1
-      - via_stack_S540_10_LM1_M_ebd1600b_250000_m15000,e2
-      - via_stack_S540_10_LM1_M_ebd1600b_250000_m15000,e3
-      - via_stack_S540_10_LM1_M_ebd1600b_250000_m15000,e4
-      values:
-      - - -20000
-        - 515000
-      - - 250000
-        - 520000
-      - - 520000
-        - 515000
-      - - 250000
-        - 510000
-      - - 510000
-        - 250000
-      - - 515000
-        - 510000
-      - - 520000
-        - 250000
-      - - 515000
-        - -10000
-      - - -20000
-        - 250000
-      - - -15000
-        - 510000
-      - - -10000
-        - 250000
-      - - -15000
-        - -10000
-      - - -20000
-        - -15000
-      - - 250000
-        - -10000
-      - - 520000
-        - -15000
-      - - 250000
-        - -20000

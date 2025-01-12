@@ -16,7 +16,7 @@ from rich.table import Table
 if TYPE_CHECKING:
     pass
 
-__version__ = "8.28.1"
+__version__ = "8.29.2"
 __next_major_version__ = "9.0.0"
 
 PathType = str | pathlib.Path
@@ -32,6 +32,7 @@ logpath = home_path / "log.log"
 get_number_of_cores = get_affinity
 
 GDSDIR_TEMP = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
+GDSDIR_TEMP.mkdir(parents=True, exist_ok=True)
 
 plugins = [
     "devsim",

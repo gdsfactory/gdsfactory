@@ -1,7 +1,7 @@
 info: {}
-name: cdsem_straight_W0p4_0p4_ac74fcb4
+name: cdsem_straight_W0p4_0p4_8c7b12fe
 settings:
-  cross_section: strip
+  cross_section: strip_no_ports
   length: 420
   spacing: 7
   text: text_rectangular

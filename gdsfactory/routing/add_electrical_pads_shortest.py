@@ -18,7 +18,7 @@ def add_electrical_pads_shortest(
     component: ComponentSpec = "wire_straight",
     pad: ComponentSpec = "pad",
     pad_port_spacing: float = 50.0,
-    pad_size: Size = (100.0, 100.0),
+    pad_size: Size | None = None,
     select_ports: PortsFactory = select_ports_electrical,
     port_names: Strs | None = None,
     port_orientation: AngleInDegrees = 90,
@@ -47,7 +47,11 @@ def add_electrical_pads_shortest(
     """
     c = Component()
     component = gf.get_component(component)
-    pad = gf.get_component(pad, size=pad_size)
+
+    if pad_size is not None:
+        pad = gf.get_component(pad, size=pad_size)
+    else:
+        pad = gf.get_component(pad)
 
     ref = c << component
     ports = (

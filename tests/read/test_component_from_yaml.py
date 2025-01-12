@@ -466,6 +466,7 @@ instances:
          do_permutations: True
          spacing: [100, 100]
          shape: [2, 2]
+         function: add_fiber_array
          settings:
            length_mmi: [2, 100]
            width_mmi: [4, 10]
@@ -712,5 +713,5 @@ if __name__ == "__main__":
 
     import gdsfactory as gf
 
-    c = gf.read.from_yaml(sample_regex_connections_backwards)
+    c = gf.read.from_yaml(sample_different_factory)
     c.show()

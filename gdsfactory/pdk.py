@@ -115,6 +115,7 @@ class Pdk(BaseModel):
         version: PDK version.
         cross_sections: dict of cross_sections factories.
         cells: dict of parametric cells that return Components.
+        containers: dict of containers that return Components. A container is a cell that contains other cells.
         models: dict of models names to functions.
         symbols: dict of symbols names to functions.
         default_symbol_factory:
@@ -148,6 +149,7 @@ class Pdk(BaseModel):
         default_factory=dict, exclude=True
     )
     cells: dict[str, ComponentFactory] = Field(default_factory=dict, exclude=True)
+    containers: dict[str, ComponentFactory] = Field(default_factory=dict, exclude=True)
     models: dict[str, Callable[..., Any]] = Field(default_factory=dict, exclude=True)
     symbols: dict[str, ComponentFactory] = Field(default_factory=dict)
     default_symbol_factory: ComponentFactory = Field(
@@ -290,7 +292,8 @@ class Pdk(BaseModel):
 
     def get_cell(self, cell: CellSpec, **kwargs: Any) -> ComponentFactory:
         """Returns ComponentFactory from a cell spec."""
-        cells = set(self.cells.keys())
+        cells_and_containers = {**self.cells, **self.containers}
+        cells = set(cells_and_containers.keys())
 
         if callable(cell):
             return cell
@@ -300,7 +303,7 @@ class Pdk(BaseModel):
                 raise ValueError(
                     f"{cell!r} from PDK {self.name!r} not in cells: Did you mean {matching_cells}?"
                 )
-            return self.cells[cell]
+            return cells_and_containers[cell]
         else:
             for key in cell.keys():
                 if key not in component_settings:
@@ -316,18 +319,20 @@ class Pdk(BaseModel):
                 raise ValueError(
                     f"{cell!r} from PDK {self.name!r} not in cells: Did you mean {matching_cells}?"
                 )
-            cell = self.cells[cell_name]
+            cell = cells_and_containers[cell_name]
             return partial(cell, **settings)
 
     def get_component(
         self,
         component: ComponentSpec,
         settings: dict[str, Any] | None = None,
+        include_containers: bool = True,
         **kwargs: Any,
     ) -> Component:
         """Returns component from a component spec."""
+        cells = {**self.cells, **self.containers} if include_containers else self.cells
         return self._get_component(
-            component=component, cells=self.cells, settings=settings, **kwargs
+            component=component, cells=cells, settings=settings, **kwargs
         )
 
     def get_symbol(self, component: ComponentSpec, **kwargs: Any) -> Component:
@@ -355,9 +360,8 @@ class Pdk(BaseModel):
             cells: dict of cells.
             settings: settings to override.
             kwargs: settings to override.
-
         """
-        cells = sorted(cells)  # type: ignore
+        cell_names = sorted(cells)
 
         settings = settings or {}
         kwargs = kwargs or {}
@@ -370,7 +374,7 @@ class Pdk(BaseModel):
         elif callable(component):
             return component(**kwargs)
         elif isinstance(component, str):
-            if component not in cells:
+            if component not in cell_names:
                 substring = component
                 matching_cells: list[str] = []
 
@@ -383,7 +387,7 @@ class Pdk(BaseModel):
                 raise ValueError(
                     f"{component!r} not in PDK {self.name!r}. Did you mean {matching_cells}?"
                 )
-            return self.cells[component](**kwargs)
+            return cells[component](**kwargs)
         elif isinstance(component, dict):  # type: ignore
             for key in component.keys():
                 if key not in component_settings:
@@ -402,7 +406,7 @@ class Pdk(BaseModel):
                 raise ValueError(
                     f"{cell_name!r} from PDK {self.name!r} not in cells: Did you mean {matching_cells}?"
                 )
-            return self.cells[cell_name](**settings)
+            return cells[cell_name](**settings)
         else:
             raise ValueError(
                 "get_component expects a ComponentSpec (Component, ComponentFactory, "
@@ -612,8 +616,7 @@ def get_material_index(material: MaterialSpec, *args: Any, **kwargs: Any) -> Com
 def get_component(
     component: ComponentSpec, settings: dict[str, Any] | None = None, **kwargs: Any
 ) -> Component:
-    kwargs_clean = {k: v for k, v in kwargs.items() if v is not None}
-    return get_active_pdk().get_component(component, settings=settings, **kwargs_clean)
+    return get_active_pdk().get_component(component, settings=settings, **kwargs)
 
 
 def get_cell(cell: CellSpec, **kwargs: Any) -> ComponentFactory:
@@ -621,8 +624,7 @@ def get_cell(cell: CellSpec, **kwargs: Any) -> ComponentFactory:
 
 
 def get_cross_section(cross_section: CrossSectionSpec, **kwargs: Any) -> CrossSection:
-    kwargs_clean = {k: v for k, v in kwargs.items() if v is not None}
-    return get_active_pdk().get_cross_section(cross_section, **kwargs_clean)
+    return get_active_pdk().get_cross_section(cross_section, **kwargs)
 
 
 def get_layer(layer: LayerSpec) -> LayerEnum | int:

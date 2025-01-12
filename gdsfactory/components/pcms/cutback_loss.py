@@ -42,23 +42,39 @@ def cutback_loss(
     """
     loss_array = np.array(loss)
 
-    if rows and cols:
-        raise ValueError("Specify either cols or rows")
-    elif rows is None and cols is not None:
-        rows_list = loss_array / loss_dB / cols
-        rows_list = rows_list // 2 * 2 + 1
+    if rows is not None and cols is not None:
+        raise ValueError("Specify either 'cols' or 'rows', but not both.")
+
+    if cols is not None:
+        # Calculate rows for each target loss
+        rows_array = (loss_array / loss_dB) / cols
+        rows_list = [int(np.ceil(rows) // 2 * 2 + 1) for rows in rows_array]
+        settings = dict(
+            component=component,
+            cutback=cutback,
+            cols=cols,
+            **kwargs,
+        )
         return [
-            gf.get_component(cutback, rows=int(rows), cols=cols, **kwargs)
+            gf.get_component(cutback, settings=settings, rows=rows)
             for rows in rows_list
         ]
-    elif cols is None and rows is not None:
-        cols_list = loss_array / loss_dB / rows
+    elif rows is not None:
+        # Calculate cols for each target loss
+        cols_array = (loss_array / loss_dB) / rows
+        cols_list = [int(np.ceil(cols)) for cols in cols_array]
+        settings = dict(
+            component=component,
+            cutback=cutback,
+            rows=rows,
+            **kwargs,
+        )
         return [
-            gf.get_component(cutback, rows=rows, cols=int(cols), **kwargs)
+            gf.get_component(cutback, settings=settings, cols=cols)
             for cols in cols_list
         ]
     else:
-        raise ValueError("Specify either cols or rows")
+        raise ValueError("You must specify either 'cols' or 'rows'.")
 
 
 _loss_default = tuple(4 + 3 * i for i in range(3))
