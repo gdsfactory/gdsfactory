@@ -21,7 +21,7 @@ def to_kdb_dpoints(
     points: "Sequence[Coordinate | kdb.Point | kdb.DPoint]",
 ) -> list[kdb.DPoint]:
     return [
-        point if isinstance(point, kdb.DPoint) else kdb.DPoint(*point)
+        point if isinstance(point, kdb.DPoint) else kdb.DPoint(*point)  # type: ignore
         for point in points
     ]
 
