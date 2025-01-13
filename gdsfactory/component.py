@@ -1303,12 +1303,14 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
 
         layers = [get_layer(layer) for layer in layers]
         for layer_index in layers:
+            assert isinstance(layer_index, int)
             self._kdb_cell.shapes(layer_index).clear()
             if recursive:
                 [
                     self.kcl[ci]._kdb_cell.shapes(layer).clear()
                     for ci in self._kdb_cell.called_cells()
                     for layer in layers
+                    if isinstance(layer, int)
                 ]
         return self
 
