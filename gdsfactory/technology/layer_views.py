@@ -49,9 +49,9 @@ _klayout_line_styles = {
 _klayout_dither_patterns = {
     "solid": "*",
     "hollow": ".",
-    "dotted": "*.\n" ".*",
-    "coarsely dotted": "*...\n" "....\n" "..*.\n" "....",
-    "left-hatched": "*...\n" ".*..\n" "..*.\n" "...*",
+    "dotted": "*.\n.*",
+    "coarsely dotted": "*...\n....\n..*.\n....",
+    "left-hatched": "*...\n.*..\n..*.\n...*",
     "lightly left-hatched": "*.......\n"
     ".*......\n"
     "..*.....\n"
@@ -60,7 +60,7 @@ _klayout_dither_patterns = {
     ".....*..\n"
     "......*.\n"
     ".......*",
-    "strongly left-hatched dense": "**..\n" ".**.\n" "..**\n" "*..*",
+    "strongly left-hatched dense": "**..\n.**.\n..**\n*..*",
     "strongly left-hatched sparse": "**......\n"
     ".**.....\n"
     "..**....\n"
@@ -69,7 +69,7 @@ _klayout_dither_patterns = {
     ".....**.\n"
     "......**\n"
     "*......*",
-    "right-hatched": "*...\n" "...*\n" "..*.\n" ".*..",
+    "right-hatched": "*...\n...*\n..*.\n.*..",
     "lightly right-hatched": "*.......\n"
     ".......*\n"
     "......*.\n"
@@ -78,7 +78,7 @@ _klayout_dither_patterns = {
     "...*....\n"
     "..*.....\n"
     ".*......",
-    "strongly right-hatched dense": "**..\n" "*..*\n" "..**\n" ".**.",
+    "strongly right-hatched dense": "**..\n*..*\n..**\n.**.",
     "strongly right-hatched sparse": "**......\n"
     "*......*\n"
     "......**\n"
@@ -87,7 +87,7 @@ _klayout_dither_patterns = {
     "...**...\n"
     "..**....\n"
     ".**.....",
-    "cross-hatched": "*...\n" ".*.*\n" "..*.\n" ".*.*",
+    "cross-hatched": "*...\n.*.*\n..*.\n.*.*",
     "lightly cross-hatched": "*.......\n"
     ".*.....*\n"
     "..*...*.\n"
@@ -96,7 +96,7 @@ _klayout_dither_patterns = {
     "...*.*..\n"
     "..*...*.\n"
     ".*.....*",
-    "checkerboard 2px": "**..\n" "**..\n" "..**\n" "..**",
+    "checkerboard 2px": "**..\n**..\n..**\n..**",
     "strongly cross-hatched sparse": "**......\n"
     "***....*\n"
     "..**..**\n"
@@ -233,14 +233,14 @@ _klayout_dither_patterns = {
     "..*...*.\n"
     "*....*..\n"
     ".*.*....",
-    "vertical dense": "*.\n" "*.\n",
-    "vertical": ".*..\n" ".*..\n" ".*..\n" ".*..\n",
-    "vertical thick": ".**.\n" ".**.\n" ".**.\n" ".**.\n",
-    "vertical sparse": "...*....\n" "...*....\n" "...*....\n" "...*....\n",
-    "vertical sparse, thick": "...**...\n" "...**...\n" "...**...\n" "...**...\n",
-    "horizontal dense": "**\n" "..\n",
-    "horizontal": "....\n" "****\n" "....\n" "....\n",
-    "horizontal thick": "....\n" "****\n" "****\n" "....\n",
+    "vertical dense": "*.\n*.\n",
+    "vertical": ".*..\n.*..\n.*..\n.*..\n",
+    "vertical thick": ".**.\n.**.\n.**.\n.**.\n",
+    "vertical sparse": "...*....\n...*....\n...*....\n...*....\n",
+    "vertical sparse, thick": "...**...\n...**...\n...**...\n...**...\n",
+    "horizontal dense": "**\n..\n",
+    "horizontal": "....\n****\n....\n....\n",
+    "horizontal thick": "....\n****\n****\n....\n",
     "horizontal sparse": "........\n"
     "........\n"
     "........\n"
@@ -257,9 +257,9 @@ _klayout_dither_patterns = {
     "........\n"
     "........\n"
     "........\n",
-    "grid dense": "**\n" "*.\n",
-    "grid": ".*..\n" "****\n" ".*..\n" ".*..\n",
-    "grid thick": ".**.\n" "****\n" "****\n" ".**.\n",
+    "grid dense": "**\n*.\n",
+    "grid": ".*..\n****\n.*..\n.*..\n",
+    "grid thick": ".**.\n****\n****\n.**.\n",
     "grid sparse": "...*....\n"
     "...*....\n"
     "...*....\n"

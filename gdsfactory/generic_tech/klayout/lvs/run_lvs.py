@@ -189,7 +189,7 @@ def run_check(lvs_file: str, path: str, run_dir: str, sws: dict[str, str]) -> st
 
     """
     logging.info(
-        f'Running GENERIC TECH {lvs_file} checks on design {path} on cell {sws["topcell"]}'
+        f"Running GENERIC TECH {lvs_file} checks on design {path} on cell {sws['topcell']}"
     )
 
     layout_base_name = os.path.basename(path).split(".")[0]

@@ -38,9 +38,9 @@ def test_to_svg() -> None:
         svg_content = f.read()
 
     # Step 7: Verify SVG header
-    assert (
-        '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' in svg_content
-    ), "SVG header is missing."
+    assert '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' in svg_content, (
+        "SVG header is missing."
+    )
 
     # Step 8: Verify SVG root element
     assert "<svg" in svg_content, "SVG does not contain <svg> tag."
@@ -48,9 +48,9 @@ def test_to_svg() -> None:
 
     # Step 9: Verify layer group
     layer_id = f'id="layer{test_layer[0]:03d}_datatype{test_layer[1]:03d}"'
-    assert (
-        layer_id in svg_content
-    ), f"SVG does not contain expected layer group {layer_id}."
+    assert layer_id in svg_content, (
+        f"SVG does not contain expected layer group {layer_id}."
+    )
 
     # Step 10: Verify path element within the layer group
     assert "<path" in svg_content, "SVG does not contain any <path> elements."
