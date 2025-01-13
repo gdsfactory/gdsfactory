@@ -1401,7 +1401,7 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
         return self
 
 
-class ComponentAllAngle(kf.VKCell, ComponentBase):  # type: ignore
+class ComponentAllAngle(ComponentBase, kf.VKCell):  # type: ignore
     def plot(self, **kwargs: Any) -> None:  # type: ignore
         """Plots the Component using klayout."""
         c = Component()
