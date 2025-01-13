@@ -1418,7 +1418,7 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):  # type: ignore
         info: dict[str, int | float | str] | None = None,
     ) -> None:
         """Initializes a ComponentAllAngle."""
-        super().__init__(name=name, kcl=kcl, info=info)
+        kf.VKCell.__init__(self, name=name, kcl=kcl, info=info)
 
     def dup(self) -> ComponentAllAngle:
         """Copy the full cell."""
