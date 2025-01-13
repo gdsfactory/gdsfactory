@@ -133,9 +133,9 @@ def mzit(
     t2.connect("o1", cp2.ports["o4"])
 
     dx = (delta_length - 2 * dy) / 2
-    assert (
-        delta_length >= 4 * dy
-    ), f"`delta_length`={delta_length} needs to be at least {4 * dy}"
+    assert delta_length >= 4 * dy, (
+        f"`delta_length`={delta_length} needs to be at least {4 * dy}"
+    )
 
     wg2b = c << gf.get_component(
         straight, length=dx, cross_section=cross_section, width=w2

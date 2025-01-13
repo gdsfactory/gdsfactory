@@ -211,7 +211,7 @@ def run_check(
     """
     # Using print because of the multiprocessing
     logging.info(
-        f'Running GENERIC TECH DRC-malformed {path} checks on design {drc_name} on cell {sws["topcell"]}:'
+        f"Running GENERIC TECH DRC-malformed {path} checks on design {drc_name} on cell {sws['topcell']}:"
     )
 
     layout_base_name = os.path.basename(path).split(".")[0]

@@ -32,7 +32,7 @@ def wafer(
     i = 1
     for col in range(len(cols)):
         for row in range(cols[col]):
-            die_name = f"{col+1}_{row+1}" if die_name_col_row else str(i)
+            die_name = f"{col + 1}_{row + 1}" if die_name_col_row else str(i)
             die = gf.get_component(reticle, die_name=die_name)
             ref = c.add_ref(die)
             ref.dmovex((row - cols[col] / 2) * xspacing)
