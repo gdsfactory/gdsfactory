@@ -13,7 +13,7 @@ def test_route_single_sbend() -> None:
     mmi2.movey(5)
 
     gf.routing.route_single_sbend(c, mmi1.ports["o2"], mmi2.ports["o1"])
-    assert len(c.references) == 3
+    assert len(c.insts) == 3
 
 
 def test_route_single_sbend_non_orthogonal() -> None:
