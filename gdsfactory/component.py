@@ -435,38 +435,6 @@ class ComponentBase(BaseKCell, ABC):
     @abstractmethod
     def dup(self) -> Self: ...
 
-    def trim(
-        self,
-        left: float,
-        bottom: float,
-        right: float,
-        top: float,
-        flatten: bool = False,
-    ) -> None:
-        """Trims the Component to a bounding box.
-
-        Args:
-            left: left coordinate of the bounding box.
-            bottom: bottom coordinate of the bounding box.
-            right: right coordinate of the bounding box.
-            top: top coordinate of the bounding box.
-            flatten: if True, flattens the Component.
-        """
-        if self._locked:
-            raise LockedError(self)
-
-        c = self
-
-        domain_box = kdb.DBox(left, bottom, right, top)
-        if not c.dbbox().inside(domain_box):
-            _kdb_cell = c.kcl.clip(c._kdb_cell, kdb.DBox(left, bottom, right, top))
-            c._kdb_cell.clear()
-            c.copy_tree(_kdb_cell)
-            c.rebuild()
-            _kdb_cell.delete()
-            if flatten:
-                c.flatten()
-
     def add_polygon(
         self,
         points: (
@@ -528,37 +496,6 @@ class ComponentBase(BaseKCell, ABC):
 
         trans = kdb.DTrans(0, False, x, y)
         return self.shapes(layer).insert(kf.kdb.DText(text, trans))  # type: ignore[no-any-return]
-
-    def add_array(
-        self,
-        component: Component,
-        columns: int = 2,
-        rows: int = 2,
-        spacing: "Spacing" = (100, 100),
-        name: str | None = None,
-    ) -> ComponentReference:
-        """Creates a ComponentReference reference to a Component.
-
-        Args:
-            component: The referenced component.
-            columns: Number of columns in the array.
-            rows: Number of rows in the array.
-            spacing: x, y distance between adjacent columns and adjacent rows.
-            name: Name of the reference.
-
-        """
-        deprecate("add_array", "add_ref")
-
-        inst = self.create_inst(
-            component,
-            na=columns,
-            nb=rows,
-            a=kf.kdb.Vector(spacing[0] / self.kcl.dbu, 0),
-            b=kf.kdb.Vector(0, spacing[1] / self.kcl.dbu),
-        )
-        if name:
-            inst.name = name
-        return ComponentReference(inst)
 
     def get_ports_list(self, **kwargs: Any) -> "list[Port]":
         """Returns list of ports.
@@ -623,195 +560,6 @@ class ComponentBase(BaseKCell, ABC):
         for key, value in kwargs.items():
             info[f"route_info_{key}"] = value
 
-    def add_ref(
-        self,
-        component: Component,
-        name: str | None = None,
-        columns: int = 1,
-        rows: int = 1,
-        spacing: "Spacing | None" = None,
-        alias: str | None = None,
-        column_pitch: float = 0.0,
-        row_pitch: float = 0.0,
-    ) -> ComponentReference:
-        """Adds a component instance reference to a Component.
-
-        Args:
-            component: The referenced component.
-            name: Name of the reference.
-            columns: Number of columns in the array.
-            rows: Number of rows in the array.
-            spacing: pitch between adjacent columns and adjacent rows. (deprecated).
-            alias: (deprecated).
-            column_pitch: column pitch.
-            row_pitch: row pitch.
-        """
-        if self._locked:
-            raise LockedError(self)
-
-        if spacing is not None:
-            deprecate("spacing", "column_pitch and row_pitch")
-            column_pitch, row_pitch = spacing
-
-        if rows > 1 or columns > 1:
-            if rows > 1 and row_pitch == 0:
-                raise ValueError(f"rows = {rows} > 1 require {row_pitch=} > 0")
-
-            if columns > 1 and column_pitch == 0:
-                raise ValueError(f"columns = {columns} > 1 require {column_pitch} > 0")
-
-            column_pitch_dbu = self.kcl.to_dbu(column_pitch)
-            row_pitch_dbu = self.kcl.to_dbu(row_pitch)
-
-            a = kf.kdb.Vector(column_pitch_dbu, 0)
-            b = kf.kdb.Vector(0, row_pitch_dbu)
-
-            inst = self.create_inst(
-                component,
-                na=columns,
-                nb=rows,
-                a=a,
-                b=b,
-            )
-        else:
-            inst = self.create_inst(component)
-
-        if alias:
-            deprecate("alias", "name")
-            inst.name = alias
-        elif name:
-            inst.name = name
-        return ComponentReference(inst)
-
-    def get_polygons(
-        self,
-        merge: bool = False,
-        by: Literal["index"] | Literal["name"] | Literal["tuple"] = "index",
-        layers: "LayerSpecs | None" = None,
-    ) -> dict[tuple[int, int] | str | int, list[kf.kdb.Polygon]]:
-        """Returns a dict of Polygons per layer.
-
-        Args:
-            merge: if True, merges the polygons.
-            by: the format of the resulting keys in the dictionary ('index', 'name', 'tuple')
-            layers: list of layers to get polygons from. Defaults to all layers.
-        """
-        if merge and self._locked:
-            raise LockedError(self)
-        return get_polygons(self, merge=merge, by=by, layers=layers)
-
-    def get_polygons_points(
-        self,
-        merge: bool = False,
-        scale: float | None = None,
-        by: Literal["index"] | Literal["name"] | Literal["tuple"] = "index",
-        layers: "LayerSpecs | None" = None,
-    ) -> dict[int | str | tuple[int, int], list[npt.NDArray[np.floating[Any]]]]:
-        """Returns a dict with list of points per layer.
-
-        Args:
-            merge: if True, merges the polygons.
-            scale: if True, scales the points.
-            by: the format of the resulting keys in the dictionary ('index', 'name', 'tuple')
-            layers: list of layers to get polygons from. Defaults to all layers.
-        """
-        if merge and self._locked:
-            raise LockedError(self)
-
-        return get_polygons_points(self, merge=merge, scale=scale, by=by, layers=layers)
-
-    def get_labels(
-        self, layer: "LayerSpec", recursive: bool = True
-    ) -> list[kf.kdb.DText]:
-        """Returns a list of labels from the Component.
-
-        Args:
-            layer: layer to get labels from.
-            recursive: if True, gets labels recursively.
-        """
-        from gdsfactory import get_layer
-
-        layer_enum = get_layer(layer)
-
-        if recursive:
-            return [
-                shape.dtext.transformed(iterator.dtrans())
-                for iterator in self.begin_shapes_rec(layer_enum)
-                if (shape := iterator.shape()).is_text()
-            ]
-        else:
-            return [
-                shape.dtext for shape in self.shapes(layer_enum).each(kdb.Shapes.STexts)
-            ]
-
-    def get_paths(
-        self, layer: "LayerSpec", recursive: bool = True
-    ) -> list[kf.kdb.DPath]:
-        """Returns a list of paths.
-
-        Args:
-            layer: layer to get paths from.
-            recursive: if True, gets paths recursively.
-        """
-        from gdsfactory import get_layer
-
-        paths = []
-
-        layer = get_layer(layer)
-
-        if recursive:
-            iterator = self.begin_shapes_rec(layer)
-
-            while not (iterator.at_end()):
-                shape = iterator.shape()
-                iterator.next()
-                if shape.is_path():
-                    paths.append(shape.dpath.transformed(iterator.dtrans()))
-        else:
-            paths.extend(
-                shape.dpath for shape in self.shapes(layer).each(kdb.Shapes.SPaths)
-            )
-        return paths
-
-    def get_boxes(
-        self, layer: "LayerSpec", recursive: bool = True
-    ) -> list[kf.kdb.DBox]:
-        """Returns a list of boxes.
-
-        Args:
-            layer: layer to get boxes from.
-            recursive: if True, gets boxes recursively.
-        """
-        from gdsfactory import get_layer
-
-        boxes: list[kf.kdb.DBox] = []
-
-        layer = get_layer(layer)
-
-        if recursive:
-            iterator = self.begin_shapes_rec(layer)
-
-            while not (iterator.at_end()):
-                shape = iterator.shape()
-                iterator.next()
-                if shape.is_box():
-                    boxes.append(shape.dbox.transformed(iterator.dtrans()))
-        else:
-            boxes.extend(
-                shape.dbox
-                for shape in self.shapes(layer).each(kdb.Shapes.Boxes)  # type: ignore[attr-defined]
-            )
-        return boxes
-
-    def area(self, layer: "LayerSpec") -> float:
-        """Returns the area of the Component in um2."""
-        from gdsfactory import get_layer
-
-        layer_index = get_layer(layer)
-        r = kdb.Region(self.begin_shapes_rec(layer_index))
-        r.merge()
-        return float(sum(p.area2() / 2 * self.kcl.dbu**2 for p in r.each()))
-
     def copy_child_info(self, component: Component) -> None:
         """Copy and settings info from child component into parent.
 
@@ -870,96 +618,6 @@ class ComponentBase(BaseKCell, ABC):
         self.write(filename=gdspath, save_options=save_options)
         return pathlib.Path(gdspath)
 
-    def extract(
-        self,
-        layers: "LayerSpecs",
-        recursive: bool = True,
-    ) -> Component:
-        """Extracts a list of layers and adds them to a new Component.
-
-        Args:
-            layers: list of layers to extract.
-            recursive: if True, extracts layers recursively and returns a flattened Component.
-        """
-        from gdsfactory.functions import extract
-
-        return extract(self, layers=layers, recursive=recursive)  # type: ignore[arg-type]
-
-    def remove_layers(
-        self,
-        layers: "LayerSpecs",
-        recursive: bool = True,
-    ) -> Self:
-        """Removes a list of layers and returns the same Component.
-
-        Args:
-            layers: list of layers to remove.
-            recursive: if True, removes layers recursively.
-        """
-        from gdsfactory import get_layer
-
-        if self._locked:
-            raise LockedError(self)
-
-        layers = [get_layer(layer) for layer in layers]
-        for layer_index in layers:
-            self.shapes(layer_index).clear()
-            if recursive:
-                [
-                    self.kcl[ci].shapes(layer).clear()
-                    for ci in self.called_cells()
-                    for layer in layers
-                ]
-        return self
-
-    def remap_layers(
-        self, layer_map: "dict[LayerSpec, LayerSpec]", recursive: bool = False
-    ) -> Self:
-        """Remaps a list of layers and returns the same Component.
-
-        Args:
-            layer_map: dictionary of layers to remap.
-            recursive: if True, remaps layers recursively.
-        """
-        from gdsfactory import get_layer
-
-        if self._locked:
-            raise LockedError(self)
-
-        for layer, new_layer in layer_map.items():
-            src_layer_index = get_layer(layer)
-            dst_layer_index = get_layer(new_layer)
-            self.move(src_layer_index, dst_layer_index)
-
-            if recursive:
-                for ci in self.called_cells():
-                    self.kcl[ci].move(src_layer_index, dst_layer_index)
-        return self
-
-    def copy_layers(
-        self, layer_map: "dict[LayerSpec, LayerSpec]", recursive: bool = False
-    ) -> Self:
-        """Remaps a list of layers and returns the same Component.
-
-        Args:
-            layer_map: dictionary of layers to copy.
-            recursive: if True, remaps layers recursively.
-        """
-        from gdsfactory import get_layer
-
-        if self._locked:
-            raise LockedError(self)
-
-        for layer, new_layer in layer_map.items():
-            src_layer_index = get_layer(layer)
-            dst_layer_index = get_layer(new_layer)
-            self._kdb_cell.copy(src_layer_index, dst_layer_index)
-
-            if recursive:
-                for ci in self.called_cells():
-                    self.kcl[ci]._kdb_cell.copy(src_layer_index, dst_layer_index)
-        return self
-
     def pprint_ports(self, **kwargs: Any) -> None:
         """Pretty prints ports.
 
@@ -981,32 +639,6 @@ class ComponentBase(BaseKCell, ABC):
         from gdsfactory.port import pprint_ports
 
         pprint_ports(ports)
-
-    def to_3d(
-        self,
-        layer_views: "LayerViews | None" = None,
-        layer_stack: "LayerStack | None" = None,
-        exclude_layers: "Sequence[Layer] | None " = None,
-    ) -> Scene:
-        """Return Component 3D trimesh Scene.
-
-        Args:
-            component: to extrude in 3D.
-            layer_views: layer colors from Klayout Layer Properties file.
-                Defaults to active PDK.layer_views.
-            layer_stack: contains thickness and zmin for each layer.
-                Defaults to active PDK.layer_stack.
-            exclude_layers: layers to exclude.
-
-        """
-        from gdsfactory.export.to_3d import to_3d
-
-        return to_3d(
-            self,  # type: ignore[arg-type]
-            layer_views=layer_views,
-            layer_stack=layer_stack,
-            exclude_layers=exclude_layers,
-        )
 
     def get_netlist(self, recursive: bool = False, **kwargs: Any) -> dict[str, Any]:
         """Returns a place-aware netlist for circuit simulation.
@@ -1146,48 +778,6 @@ class ComponentBase(BaseKCell, ABC):
             nets=netlist["nets"],
         )
 
-    def over_under(self, layer: "LayerSpec", distance: float = 0.001) -> None:
-        """Returns a Component over-under on a layer in the Component.
-
-        For big components use tiled version.
-
-        Args:
-            layer: layer to perform over-under on.
-            distance: distance to perform over-under in um.
-        """
-        from gdsfactory import get_layer
-
-        if self._locked:
-            raise LockedError(self)
-
-        distance_dbu = self.kcl.to_dbu(distance)
-
-        layer_index = get_layer(layer)
-        region = kdb.Region(self.begin_shapes_rec(layer_index))
-        region.size(+distance_dbu).size(-distance_dbu)
-        self.remove_layers([layer])
-        self.shapes(layer_index).insert(region)
-
-    def offset(self, layer: "LayerSpec", distance: float) -> None:
-        """Offsets a Component layer by a distance in um.
-
-        Args:
-            layer: layer to offset the Component on.
-            distance: distance to offset the Component in um.
-        """
-        from gdsfactory import get_layer
-
-        if self._locked:
-            raise LockedError(self)
-
-        distance_dbu = self.kcl.to_dbu(distance)
-
-        layer_index = get_layer(layer)
-        region = kdb.Region(self.begin_shapes_rec(layer_index))
-        region.size(+distance_dbu)
-        self.remove_layers([layer])
-        self.shapes(layer_index).insert(region)
-
     def to_dict(self, with_ports: bool = False) -> dict[str, Any]:
         """Returns a dictionary representation of the Component."""
         d = {
@@ -1304,11 +894,6 @@ class ComponentBase(BaseKCell, ABC):
         deprecate("references", "insts")
         return list(self.insts)
 
-    def ref(self, *args: Any, **kwargs: Any) -> ComponentReference:
-        """Returns a Component Instance."""
-        deprecate("ref", "add_ref")
-        return self.add_ref(*args, **kwargs)
-
 
 Route: TypeAlias = (
     kf.routing.generic.ManhattanRoute | kf.routing.aa.optical.OpticalAllAngleRoute
@@ -1406,6 +991,425 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
             )
         reference.flatten()
         return self
+
+    def trim(
+        self,
+        left: float,
+        bottom: float,
+        right: float,
+        top: float,
+        flatten: bool = False,
+    ) -> None:
+        """Trims the Component to a bounding box.
+
+        Args:
+            left: left coordinate of the bounding box.
+            bottom: bottom coordinate of the bounding box.
+            right: right coordinate of the bounding box.
+            top: top coordinate of the bounding box.
+            flatten: if True, flattens the Component.
+        """
+        if self._locked:
+            raise LockedError(self)
+
+        c = self
+
+        domain_box = kdb.DBox(left, bottom, right, top)
+        if not c.dbbox().inside(domain_box):
+            _kdb_cell = c.kcl.clip(c._kdb_cell, kdb.DBox(left, bottom, right, top))
+            c._kdb_cell.clear()
+            c.copy_tree(_kdb_cell)
+            c.rebuild()
+            _kdb_cell.delete()
+            if flatten:
+                c.flatten()
+
+    def add_array(
+        self,
+        component: Component,
+        columns: int = 2,
+        rows: int = 2,
+        spacing: "Spacing" = (100, 100),
+        name: str | None = None,
+    ) -> ComponentReference:
+        """Creates a ComponentReference reference to a Component.
+
+        Args:
+            component: The referenced component.
+            columns: Number of columns in the array.
+            rows: Number of rows in the array.
+            spacing: x, y distance between adjacent columns and adjacent rows.
+            name: Name of the reference.
+
+        """
+        deprecate("add_array", "add_ref")
+
+        inst = self.create_inst(
+            component,
+            na=columns,
+            nb=rows,
+            a=kf.kdb.Vector(spacing[0] / self.kcl.dbu, 0),
+            b=kf.kdb.Vector(0, spacing[1] / self.kcl.dbu),
+        )
+        if name:
+            inst.name = name
+        return ComponentReference(inst)
+
+    def add_ref(
+        self,
+        component: Component,
+        name: str | None = None,
+        columns: int = 1,
+        rows: int = 1,
+        spacing: "Spacing | None" = None,
+        alias: str | None = None,
+        column_pitch: float = 0.0,
+        row_pitch: float = 0.0,
+    ) -> ComponentReference:
+        """Adds a component instance reference to a Component.
+
+        Args:
+            component: The referenced component.
+            name: Name of the reference.
+            columns: Number of columns in the array.
+            rows: Number of rows in the array.
+            spacing: pitch between adjacent columns and adjacent rows. (deprecated).
+            alias: (deprecated).
+            column_pitch: column pitch.
+            row_pitch: row pitch.
+        """
+        if self._locked:
+            raise LockedError(self)
+
+        if spacing is not None:
+            deprecate("spacing", "column_pitch and row_pitch")
+            column_pitch, row_pitch = spacing
+
+        if rows > 1 or columns > 1:
+            if rows > 1 and row_pitch == 0:
+                raise ValueError(f"rows = {rows} > 1 require {row_pitch=} > 0")
+
+            if columns > 1 and column_pitch == 0:
+                raise ValueError(f"columns = {columns} > 1 require {column_pitch} > 0")
+
+            column_pitch_dbu = self.kcl.to_dbu(column_pitch)
+            row_pitch_dbu = self.kcl.to_dbu(row_pitch)
+
+            a = kf.kdb.Vector(column_pitch_dbu, 0)
+            b = kf.kdb.Vector(0, row_pitch_dbu)
+
+            inst = self.create_inst(
+                component,
+                na=columns,
+                nb=rows,
+                a=a,
+                b=b,
+            )
+        else:
+            inst = self.create_inst(component)
+
+        if alias:
+            deprecate("alias", "name")
+            inst.name = alias
+        elif name:
+            inst.name = name
+        return ComponentReference(inst)
+
+    def get_paths(
+        self, layer: "LayerSpec", recursive: bool = True
+    ) -> list[kf.kdb.DPath]:
+        """Returns a list of paths.
+
+        Args:
+            layer: layer to get paths from.
+            recursive: if True, gets paths recursively.
+        """
+        from gdsfactory import get_layer
+
+        paths: list[kf.kdb.DPath] = []
+
+        layer = get_layer(layer)
+
+        if recursive:
+            iterator = self._kdb_cell.begin_shapes_rec(layer)
+
+            while not (iterator.at_end()):
+                shape = iterator.shape()
+                iterator.next()
+                if shape.is_path():
+                    paths.append(shape.dpath.transformed(iterator.dtrans()))
+        else:
+            paths.extend(
+                shape.dpath
+                for shape in self._kdb_cell.shapes(layer).each(kdb.Shapes.SPaths)
+            )
+        return paths
+
+    def get_boxes(
+        self, layer: "LayerSpec", recursive: bool = True
+    ) -> list[kf.kdb.DBox]:
+        """Returns a list of boxes.
+
+        Args:
+            layer: layer to get boxes from.
+            recursive: if True, gets boxes recursively.
+        """
+        from gdsfactory import get_layer
+
+        boxes: list[kf.kdb.DBox] = []
+
+        layer = get_layer(layer)
+
+        if recursive:
+            iterator = self._kdb_cell.begin_shapes_rec(layer)
+
+            while not (iterator.at_end()):
+                shape = iterator.shape()
+                iterator.next()
+                if shape.is_box():
+                    boxes.append(shape.dbox.transformed(iterator.dtrans()))
+        else:
+            boxes.extend(
+                shape.dbox
+                for shape in self._kdb_cell.shapes(layer).each(kdb.Shapes.SBoxes)  # type: ignore[attr-defined]
+            )
+        return boxes
+
+    def get_labels(
+        self, layer: "LayerSpec", recursive: bool = True
+    ) -> list[kf.kdb.DText]:
+        """Returns a list of labels from the Component.
+
+        Args:
+            layer: layer to get labels from.
+            recursive: if True, gets labels recursively.
+        """
+        from gdsfactory import get_layer
+
+        layer_enum = get_layer(layer)
+
+        if recursive:
+            return [
+                shape.dtext.transformed(iterator.dtrans())
+                for iterator in self._kdb_cell.begin_shapes_rec(layer_enum)
+                if (shape := iterator.shape()).is_text()
+            ]
+        else:
+            return [
+                shape.dtext
+                for shape in self._kdb_cell.shapes(layer_enum).each(kdb.Shapes.STexts)
+            ]
+
+    def area(self, layer: "LayerSpec") -> float:
+        """Returns the area of the Component in um2."""
+        from gdsfactory import get_layer
+
+        layer_index = get_layer(layer)
+        r = kdb.Region(self._kdb_cell.begin_shapes_rec(layer_index))
+        r.merge()
+        return float(sum(p.area2() / 2 * self.kcl.dbu**2 for p in r.each()))
+
+    def get_polygons(
+        self,
+        merge: bool = False,
+        by: Literal["index"] | Literal["name"] | Literal["tuple"] = "index",
+        layers: "LayerSpecs | None" = None,
+    ) -> dict[tuple[int, int] | str | int, list[kf.kdb.Polygon]]:
+        """Returns a dict of Polygons per layer.
+
+        Args:
+            merge: if True, merges the polygons.
+            by: the format of the resulting keys in the dictionary ('index', 'name', 'tuple')
+            layers: list of layers to get polygons from. Defaults to all layers.
+        """
+        if merge and self._locked:
+            raise LockedError(self)
+        return get_polygons(self, merge=merge, by=by, layers=layers)
+
+    def get_polygons_points(
+        self,
+        merge: bool = False,
+        scale: float | None = None,
+        by: Literal["index"] | Literal["name"] | Literal["tuple"] = "index",
+        layers: "LayerSpecs | None" = None,
+    ) -> dict[int | str | tuple[int, int], list[npt.NDArray[np.floating[Any]]]]:
+        """Returns a dict with list of points per layer.
+
+        Args:
+            merge: if True, merges the polygons.
+            scale: if True, scales the points.
+            by: the format of the resulting keys in the dictionary ('index', 'name', 'tuple')
+            layers: list of layers to get polygons from. Defaults to all layers.
+        """
+        if merge and self._locked:
+            raise LockedError(self)
+
+        return get_polygons_points(self, merge=merge, scale=scale, by=by, layers=layers)
+
+    def extract(
+        self,
+        layers: "LayerSpecs",
+        recursive: bool = True,
+    ) -> Component:
+        """Extracts a list of layers and adds them to a new Component.
+
+        Args:
+            layers: list of layers to extract.
+            recursive: if True, extracts layers recursively and returns a flattened Component.
+        """
+        from gdsfactory.functions import extract
+
+        return extract(self, layers=layers, recursive=recursive)
+
+    def copy_layers(
+        self, layer_map: "dict[LayerSpec, LayerSpec]", recursive: bool = False
+    ) -> Self:
+        """Remaps a list of layers and returns the same Component.
+
+        Args:
+            layer_map: dictionary of layers to copy.
+            recursive: if True, remaps layers recursively.
+        """
+        from gdsfactory import get_layer
+
+        if self._locked:
+            raise LockedError(self)
+
+        for layer, new_layer in layer_map.items():
+            src_layer_index = get_layer(layer)
+            dst_layer_index = get_layer(new_layer)
+            self._kdb_cell.copy(src_layer_index, dst_layer_index)
+
+            if recursive:
+                for ci in self._kdb_cell.called_cells():
+                    self.kcl[ci]._kdb_cell.copy(src_layer_index, dst_layer_index)
+        return self
+
+    def remove_layers(
+        self,
+        layers: "LayerSpecs",
+        recursive: bool = True,
+    ) -> Self:
+        """Removes a list of layers and returns the same Component.
+
+        Args:
+            layers: list of layers to remove.
+            recursive: if True, removes layers recursively.
+        """
+        from gdsfactory import get_layer
+
+        if self._locked:
+            raise LockedError(self)
+
+        layers = [get_layer(layer) for layer in layers]
+        for layer_index in layers:
+            assert isinstance(layer_index, int)
+            self._kdb_cell.shapes(layer_index).clear()
+            if recursive:
+                [
+                    self.kcl[ci]._kdb_cell.shapes(layer).clear()
+                    for ci in self._kdb_cell.called_cells()
+                    for layer in layers
+                    if isinstance(layer, int)
+                ]
+        return self
+
+    def remap_layers(
+        self, layer_map: "dict[LayerSpec, LayerSpec]", recursive: bool = False
+    ) -> Self:
+        """Remaps a list of layers and returns the same Component.
+
+        Args:
+            layer_map: dictionary of layers to remap.
+            recursive: if True, remaps layers recursively.
+        """
+        from gdsfactory import get_layer
+
+        if self._locked:
+            raise LockedError(self)
+
+        for layer, new_layer in layer_map.items():
+            src_layer_index = get_layer(layer)
+            dst_layer_index = get_layer(new_layer)
+            self._kdb_cell.move(src_layer_index, dst_layer_index)
+
+            if recursive:
+                for ci in self._kdb_cell.called_cells():
+                    self.kcl[ci]._kdb_cell.move(src_layer_index, dst_layer_index)
+        return self
+
+    def to_3d(
+        self,
+        layer_views: "LayerViews | None" = None,
+        layer_stack: "LayerStack | None" = None,
+        exclude_layers: "Sequence[Layer] | None " = None,
+    ) -> Scene:
+        """Return Component 3D trimesh Scene.
+
+        Args:
+            component: to extrude in 3D.
+            layer_views: layer colors from Klayout Layer Properties file.
+                Defaults to active PDK.layer_views.
+            layer_stack: contains thickness and zmin for each layer.
+                Defaults to active PDK.layer_stack.
+            exclude_layers: layers to exclude.
+
+        """
+        from gdsfactory.export.to_3d import to_3d
+
+        return to_3d(
+            self,
+            layer_views=layer_views,
+            layer_stack=layer_stack,
+            exclude_layers=exclude_layers,
+        )
+
+    def over_under(self, layer: "LayerSpec", distance: float = 0.001) -> None:
+        """Returns a Component over-under on a layer in the Component.
+
+        For big components use tiled version.
+
+        Args:
+            layer: layer to perform over-under on.
+            distance: distance to perform over-under in um.
+        """
+        from gdsfactory import get_layer
+
+        if self._locked:
+            raise LockedError(self)
+
+        distance_dbu = self.kcl.to_dbu(distance)
+
+        layer_index = get_layer(layer)
+        region = kdb.Region(self._kdb_cell.begin_shapes_rec(layer_index))
+        region.size(+distance_dbu).size(-distance_dbu)
+        self.remove_layers([layer])
+        self._kdb_cell.shapes(layer_index).insert(region)
+
+    def offset(self, layer: "LayerSpec", distance: float) -> None:
+        """Offsets a Component layer by a distance in um.
+
+        Args:
+            layer: layer to offset the Component on.
+            distance: distance to offset the Component in um.
+        """
+        from gdsfactory import get_layer
+
+        if self._locked:
+            raise LockedError(self)
+
+        distance_dbu = self.kcl.to_dbu(distance)
+
+        layer_index = get_layer(layer)
+        region = kdb.Region(self._kdb_cell.begin_shapes_rec(layer_index))
+        region.size(+distance_dbu)
+        self.remove_layers([layer])
+        self._kdb_cell.shapes(layer_index).insert(region)
+
+    def ref(self, *args: Any, **kwargs: Any) -> ComponentReference:
+        """Returns a Component Instance."""
+        deprecate("ref", "add_ref")
+        return self.add_ref(*args, **kwargs)
 
 
 class ComponentAllAngle(ComponentBase, kf.VKCell):  # type: ignore
