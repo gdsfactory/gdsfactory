@@ -492,7 +492,7 @@ def add_instance_label(
         layer = (1, 0)
     instance_name = (
         instance_name
-        or f"{reference.parent.name},{int(reference.dx)},{int(reference.dy)}"
+        or f"{reference.cell.name},{int(reference.dx)},{int(reference.dy)}"
     )
 
     layer = layer or CONF.layer_label

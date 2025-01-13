@@ -14,7 +14,14 @@ import numpy as np
 import numpy.typing as npt
 import yaml
 from kfactory import Instance, kdb
-from kfactory.kcell import PROPID, BaseKCell, cell, save_layout_options
+from kfactory.kcell import (
+    PROPID,
+    BaseKCell,
+    KCLayout,
+    VInstance,
+    cell,
+    save_layout_options,
+)
 from pydantic import Field
 from trimesh.scene.scene import Scene
 from typing_extensions import Self
@@ -1327,7 +1334,7 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
     def __init__(
         self,
         name: str | None = None,
-        kcl: kf.KCLayout | None = None,
+        kcl: KCLayout | None = None,
         kdb_cell: kdb.Cell | None = None,
         ports: kf.Ports | None = None,
     ) -> None:
@@ -1408,13 +1415,13 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):  # type: ignore
         if self.name is not None:
             c.name = self.name
 
-        kf.VInstance(self).insert_into_flat(c, levels=0)
+        VInstance(self).insert_into_flat(c, levels=0)
         c.plot(**kwargs)
 
     def __init__(
         self,
         name: str | None = None,
-        kcl: kf.KCLayout | None = None,
+        kcl: KCLayout | None = None,
         info: dict[str, int | float | str] | None = None,
     ) -> None:
         """Initializes a ComponentAllAngle."""
