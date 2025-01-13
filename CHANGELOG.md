@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.30.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.30.1) - 2025-01-13
+
+No significant changes.
+
+
 ## [8.30.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.30.0) - 2025-01-12
 
 - update to kfactory 0.23.0 [#3574](https://github.com/gdsfactory/gdsfactory/pull/3574)
