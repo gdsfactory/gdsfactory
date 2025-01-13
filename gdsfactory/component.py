@@ -1430,6 +1430,9 @@ class ComponentAllAngle(kf.VKCell, ComponentBase):  # type: ignore
         c._settings = self.settings.model_copy()
         c._settings_units = self.settings_units.model_copy()
         c.info = self.info.model_copy()
+        for layer, shapes in self._shapes.items():
+            for shape in shapes:
+                c.shapes(layer).insert(shape)
 
         return c
 
