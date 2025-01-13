@@ -143,8 +143,7 @@ def component_sequence(
     except KeyError as exc:
         port_names = [port.name for port in prev_device.ports]
         raise KeyError(
-            f"{prev_device.parent.name!r} input_port {input_port!r} "
-            f"not in {port_names}"
+            f"{prev_device.parent.name!r} input_port {input_port!r} not in {port_names}"
         ) from exc
 
     while index < len(sequence):
@@ -178,8 +177,7 @@ def component_sequence(
         except KeyError as exc:
             port_names = [port.name for port in prev_device.ports]
             raise KeyError(
-                f"{prev_device.parent.name!r} port {prev_port!r} "
-                f"not in {port_names}"
+                f"{prev_device.parent.name!r} port {prev_port!r} not in {port_names}"
             ) from exc
 
         prev_device = ref

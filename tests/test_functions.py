@@ -38,9 +38,9 @@ def test_trim_no_clipping() -> None:
         c1,
         domain=((-5, -5), (-5, +5), (+5, +5), (+5, -5)),
     )
-    assert c1.area(layer=layer) == c2.area(
-        layer=layer
-    ), f"{c1.area(layer=layer)} != {c2.area(layer=layer)}"
+    assert c1.area(layer=layer) == c2.area(layer=layer), (
+        f"{c1.area(layer=layer)} != {c2.area(layer=layer)}"
+    )
 
     assert len(c2.ports) == len(c1.ports), f"{len(c2.ports)} != {len(c1.ports)}"
 
