@@ -317,6 +317,12 @@ class ComponentReference(kf.Instance):
 
 
 class ComponentReferences(kf.kcell.Instances):
+    def __init__(self, insts: list[kf.Instance] | None = None) -> None:
+        """Initialize the ComponentReferences."""
+        super().__init__()
+        if insts:
+            self._insts = insts
+
     def __getitem__(self, key: str | int) -> ComponentReference:
         """Retrieve instance by index or by name."""
         if isinstance(key, int):
@@ -911,7 +917,7 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
     ) -> None:
         """Initializes a Component."""
         kf.KCell.__init__(self, name=name, kcl=kcl, kdb_cell=kdb_cell, ports=ports)
-        self.insts = ComponentReferences()
+        self.insts = ComponentReferences(list(self.insts))
 
     def __lshift__(self, component: kf.KCell) -> ComponentReference:
         """Creates a ComponentReference to a Component."""

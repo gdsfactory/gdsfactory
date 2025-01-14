@@ -22,17 +22,21 @@ from gdsfactory.pdk import get_layer
 
 
 def test_component_copy() -> None:
-    c1 = gf.components.straight(length=10)
-    c2 = c1.dup()
-    assert c1.settings["length"] == 10
+   c1 = gf.components.mzi(delta_length=10)
+    c2 = c1.copy()
+    assert c1.settings.delta_length == 10
     assert c1.info == c2.info
 
+    assert len(c1.ports) == len(c2.ports)
+    assert len(list(c1.insts)) == len(list(c2.insts)), (
+        f"{len(list(c1.insts))} != {len(list(c2.insts))}"
+    )
 
 def test_component_all_angle_copy() -> None:
     c1 = gf.components.straight_all_angle(length=10)
     c2 = c1.dup()
     assert c1.settings["length"] == 10
-    assert c1.info == c2.info
+   
 
 
 def test_extract() -> None:

@@ -1,7 +1,18 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.30.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.30.2...main)
 
 <!-- towncrier release notes start -->
+
+## [8.30.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.30.2) - 2025-01-14
+
+- Fix wrong Component.copy [#3602](https://github.com/gdsfactory/gdsfactory/pull/3602)
+- fix extend ports [#3600](https://github.com/gdsfactory/gdsfactory/pull/3600)
+- Move Component only functions to Component class [#3596](https://github.com/gdsfactory/gdsfactory/pull/3596)
+- swap_inheritance_order [#3590](https://github.com/gdsfactory/gdsfactory/pull/3590)
+- regenerate uv.lock [#3594](https://github.com/gdsfactory/gdsfactory/pull/3594)
+- [pre-commit.ci] pre-commit autoupdate [#3593](https://github.com/gdsfactory/gdsfactory/pull/3593)
+- update pydantic min version [#3601](https://github.com/gdsfactory/gdsfactory/pull/3601)
+- regenerate uv.lock [#3594](https://github.com/gdsfactory/gdsfactory/pull/3594)
 
 ## [8.30.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.30.1) - 2025-01-13
 
