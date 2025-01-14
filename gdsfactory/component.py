@@ -54,7 +54,7 @@ if TYPE_CHECKING:
 
 cell_without_validator = cell
 
-_PolygonPoints: TypeAlias = "npt.NDArray[np.floating[Any]] | kdb.DPolygon | kdb.Polygon | kdb.DSimplePolygon | Coordinates"
+_PolygonPoints: TypeAlias = "npt.NDArray[np.floating[Any]] | kdb.DPolygon | kdb.Polygon | kdb.DSimplePolygon | kdb.Region | Coordinates"
 
 
 class LockedError(AttributeError):
@@ -97,12 +97,14 @@ def ensure_tuple_of_tuples(points: Any) -> tuple[tuple[float, float], ...]:
 
 def points_to_polygon(
     points: _PolygonPoints,
-) -> kdb.Polygon | kdb.DPolygon | kdb.DSimplePolygon:
+) -> kdb.Polygon | kdb.DPolygon | kdb.DSimplePolygon | kdb.Region:
     if isinstance(points, tuple | list | np.ndarray):
         points = ensure_tuple_of_tuples(points)
         polygon = kdb.DPolygon()
         polygon.assign_hull(to_kdb_dpoints(points))
-    elif isinstance(points, kdb.Polygon | kdb.DPolygon | kdb.DSimplePolygon):
+    elif isinstance(
+        points, kdb.Polygon | kdb.DPolygon | kdb.DSimplePolygon | kdb.Region
+    ):
         return points
     return kdb.DPolygon(to_kdb_dpoints(points))
 
@@ -1390,7 +1392,19 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
         deprecate("ref", "add_ref")
         return self.add_ref(*args, **kwargs)
 
-    def add_polygon(self, points: _PolygonPoints, layer: "LayerSpec") -> kdb.Shape:
+    @overload
+    def add_polygon(self, points: kdb.Region, layer: "LayerSpec") -> None: ...
+
+    @overload
+    def add_polygon(
+        self,
+        points: "npt.NDArray[np.floating[Any]] | kdb.DPolygon | kdb.Polygon | kdb.DSimplePolygon | Coordinates",
+        layer: "LayerSpec",
+    ) -> kdb.Shape: ...
+
+    def add_polygon(
+        self, points: _PolygonPoints, layer: "LayerSpec"
+    ) -> kdb.Shape | None:
         """Adds a Polygon to the Component and returns a klayout Shape.
 
         Args:
