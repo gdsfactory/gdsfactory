@@ -140,7 +140,11 @@ def extend_ports(
             if extension:
                 extension_component = gf.get_component(extension)
             else:
-                if port.info.get("cross_section"):
+                pdk = gf.get_active_pdk()
+                cross_section_names = list(pdk.cross_sections)
+                port_xs_name = port.info.get("cross_section", None)
+
+                if port_xs_name and port_xs_name in cross_section_names:
                     cross_section_extension = gf.get_cross_section(
                         port.info["cross_section"]
                     )
