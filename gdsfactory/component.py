@@ -423,8 +423,8 @@ class ComponentBase(BaseKCell, ABC):
         )
         if cross_section:
             xs = get_cross_section(cross_section)
-            port.info["cross_section"] = xs.name
-        return port
+            port.info["cross_section"] = xs.name  # type: ignore[no-any-return]
+        return port  # type: ignore[no-any-return]
 
     def __getattribute__(self, __k: str) -> Any:
         """Shadow dbu based attributes with um based ones."""
