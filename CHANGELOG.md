@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.30.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.30.2) - 2025-01-14
+
+No significant changes.
+
+
 ## [8.30.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.30.1) - 2025-01-13
 
 - fixes ComponentAllAngle copy [#3591](https://github.com/gdsfactory/gdsfactory/pull/3591)
