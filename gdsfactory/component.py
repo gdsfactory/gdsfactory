@@ -431,13 +431,18 @@ class ComponentBase(BaseKCell, ABC):
             y = float(center[1])
             trans = kdb.DCplxTrans(1, float(orientation), False, x, y)
 
-        return self.create_port(  # type: ignore[no-any-return]
+        _port = self.create_port(
             name=name,
             dwidth=round(width / self.kcl.dbu) * self.kcl.dbu,
             layer=layer,
             port_type=port_type,
             dcplx_trans=trans,
         )
+        assert isinstance(_port, kf.Port)
+        if cross_section:
+            xs = get_cross_section(cross_section)
+            _port.info["cross_section"] = xs.name
+        return _port
 
     def __getattribute__(self, __k: str) -> Any:
         """Shadow dbu based attributes with um based ones."""
