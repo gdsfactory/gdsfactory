@@ -140,10 +140,16 @@ def extend_ports(
             if extension:
                 extension_component = gf.get_component(extension)
             else:
-                cross_section_extension = cross_section or cross_section_function(
-                    layer=gf.get_layer_tuple(port.layer),  # type: ignore
-                    width=port.dwidth,
-                )
+                if port.info.get("cross_section"):
+                    cross_section_extension = gf.get_cross_section(
+                        port.info["cross_section"]
+                    )
+
+                else:
+                    cross_section_extension = cross_section or cross_section_function(
+                        layer=gf.get_layer_tuple(port.layer),  # type: ignore
+                        width=port.dwidth,
+                    )
 
                 extension_component = gf.components.straight(
                     length=length,
@@ -178,6 +184,8 @@ if __name__ == "__main__":
     # t = gf.components.taper(length=10, width1=5, width2=0.5)
     # p0 = c0["o1"]
     # c = extend_ports(c0, extension=t)
-    c = extend_ports()
+    # c = extend_ports()
+    c = gf.c.mmi1x2(cross_section="rib")
+    c = extend_ports(component=c)
     c.pprint_ports()
     c.show()
