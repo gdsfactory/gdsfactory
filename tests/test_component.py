@@ -1,3 +1,5 @@
+from typing import Any
+
 import kfactory as kf
 import klayout.db as kdb
 import numpy as np
@@ -7,8 +9,11 @@ import gdsfactory as gf
 from gdsfactory.component import (
     ComponentReference,
     LockedError,
+    component_with_function,
+    container,
     copy,
     ensure_tuple_of_tuples,
+    points_to_polygon,
     size,
 )
 from gdsfactory.config import GDSDIR_TEMP
@@ -161,6 +166,32 @@ def test_ensure_tuple_of_tuples() -> None:
     points_tuple = ((1.0, 2.0), (3.0, 4.0))
     result_tuple = ensure_tuple_of_tuples(points_tuple)
     assert result_tuple == points_tuple
+
+
+def test_points_to_polygon() -> None:
+    import klayout.db as kdb
+    import numpy as np
+
+    points_np = np.array([[1.0, 2.0], [3.0, 4.0], [5.0, 6.0]])
+    result_np = points_to_polygon(points_np)
+    assert isinstance(result_np, kdb.DPolygon)
+
+    points_tuple = ((1.0, 2.0), (3.0, 4.0), (5.0, 6.0))
+    result_tuple = points_to_polygon(points_tuple)
+    assert isinstance(result_tuple, kdb.DPolygon)
+
+    kdb_polygon = kdb.DPolygon(kdb.DBox(0, 0, 10, 10))
+    result_kdb = points_to_polygon(kdb_polygon)
+    assert result_kdb == kdb_polygon
+
+    kdb_simple = kdb.DSimplePolygon(kdb.DBox(0, 0, 10, 10))
+    result_simple = points_to_polygon(kdb_simple)
+    assert isinstance(result_simple, kdb.DPolygon | kdb.DSimplePolygon)
+
+    region = kdb.Region()
+    region.insert(kdb.Box(0, 0, 1000, 1000))
+    result_region = points_to_polygon(region)
+    assert isinstance(result_region, kdb.Region | kdb.DPolygon)
 
 
 def test_size() -> None:
@@ -444,12 +475,84 @@ def test_component_all_angle_add_label() -> None:
 
 def test_component_write_gds() -> None:
     c = gf.Component("test_component_all_angle_write_gds")
+
     with pytest.warns(UserWarning, match="gdspath and gdsdir have both been specified"):
         c.write_gds(
             gdspath=GDSDIR_TEMP / "test_component_write_gds.gds",
             gdsdir=GDSDIR_TEMP,
         )
 
+    path = c.write_gds(with_metadata=False)
+    assert path.exists()
+
+    save_options = kdb.SaveLayoutOptions()
+    save_options.write_context_info = False
+    path = c.write_gds(save_options=save_options)
+    assert path.exists()
+
+    path = c.write_gds(gdsdir=GDSDIR_TEMP)
+    assert path.exists()
+    assert path.parent == GDSDIR_TEMP
+
+    path = c.write_gds(gdspath=GDSDIR_TEMP / "custom_name.gds")
+    assert path.exists()
+    assert path.name == "custom_name.gds"
+
+
+def test_component_copy_child_info() -> None:
+    c1 = gf.Component()
+    c2 = gf.Component()
+    c2.info["test_info"] = "test_value"
+    c1.copy_child_info(c2)
+    assert c1.info["test_info"] == "test_value"
+
+
+def test_container() -> None:
+    c = gf.Component("test_component")
+    c.info["test_info"] = "test_value"
+
+    def test_function(component: gf.Component, **kwargs: Any) -> None:
+        component.info["new_info"] = kwargs.get("value", "new_value")
+
+    result = container(c, function=test_function, value="custom_value")
+
+    assert result.info["test_info"] == "test_value"
+    assert result.info["new_info"] == "custom_value"
+    assert len(result.insts) == 1
+
+
+def test_component_with_function() -> None:
+    c = gf.Component("test_component")
+    c.info["test_info"] = "test_value"
+
+    def test_function(component: gf.Component) -> None:
+        component.info["new_info"] = "new_value"
+
+    result = component_with_function(c, function=test_function)
+
+    assert result.info["test_info"] == "test_value"
+    assert result.info["new_info"] == "new_value"
+    assert len(result.insts) == 1
+
+
+def test_plot() -> None:
+    c = gf.Component()
+    c.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(1, 0))
+    c.plot()
+
+
+def test_ref_deprecation() -> None:
+    c = gf.Component()
+    with pytest.warns(DeprecationWarning):
+        c.ref(gf.components.straight())
+
+
+# def test_offset() -> None:
+#     c = gf.Component()
+#     c.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(1, 0))
+#     c.offset(layer=(1, 0), distance=10)
+#     print(c.dbbox(get_layer((1, 0))))
+
 
 if __name__ == "__main__":
-    test_component_all_angle_add_polygon()
+    test_ref_deprecation()

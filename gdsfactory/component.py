@@ -1508,7 +1508,7 @@ def container(
 
 def component_with_function(
     component: "ComponentSpec",
-    function: Callable[..., None] | None = None,
+    function: Callable[[Component], None] | None = None,
     **kwargs: Any,
 ) -> gf.Component:
     """Returns new component with a component reference.
