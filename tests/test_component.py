@@ -518,7 +518,7 @@ def test_component_copy_child_info() -> None:
 
 
 def test_container() -> None:
-    c = gf.Component("test_component")
+    c = gf.Component()
     c.info["test_info"] = "test_value"
 
     def test_function(component: gf.Component, **kwargs: Any) -> None:
@@ -532,7 +532,7 @@ def test_container() -> None:
 
 
 def test_component_with_function() -> None:
-    c = gf.Component("test_component")
+    c = gf.Component()
     c.info["test_info"] = "test_value"
 
     def test_function(component: gf.Component) -> None:
