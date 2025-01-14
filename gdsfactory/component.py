@@ -30,6 +30,7 @@ from gdsfactory._deprecation import deprecate
 from gdsfactory.config import CONF, GDSDIR_TEMP
 from gdsfactory.functions import get_polygons, get_polygons_points
 from gdsfactory.serialization import clean_value_json, convert_tuples_to_lists
+from gdsfactory.utils import to_kdb_dpoints
 
 if TYPE_CHECKING:
     import networkx as nx  # type: ignore[import-untyped]
@@ -52,6 +53,8 @@ if TYPE_CHECKING:
     )
 
 cell_without_validator = cell
+
+_PolygonPoints: TypeAlias = "npt.NDArray[np.floating[Any]] | kdb.DPolygon | kdb.Polygon | kdb.DSimplePolygon | Coordinates"
 
 
 class LockedError(AttributeError):
@@ -90,6 +93,18 @@ def ensure_tuple_of_tuples(points: Any) -> tuple[tuple[float, float], ...]:
         if len(points) > 0 and isinstance(points[0], np.ndarray | list):  # type: ignore
             points = tuple(tuple(point) for point in points)  # type: ignore
     return points  # type: ignore
+
+
+def points_to_polygon(
+    points: _PolygonPoints,
+) -> kdb.Polygon | kdb.DPolygon | kdb.DSimplePolygon:
+    if isinstance(points, tuple | list | np.ndarray):
+        points = ensure_tuple_of_tuples(points)
+        polygon = kdb.DPolygon()
+        polygon.assign_hull(to_kdb_dpoints(points))
+    elif isinstance(points, kdb.Polygon | kdb.DPolygon | kdb.DSimplePolygon):
+        return points
+    return kdb.DPolygon(to_kdb_dpoints(points))
 
 
 def size(region: kdb.Region, offset: float, dbu: float = 1e3) -> kdb.Region:
@@ -435,41 +450,6 @@ class ComponentBase(BaseKCell, ABC):
     @abstractmethod
     def dup(self) -> Self: ...
 
-    def add_polygon(
-        self,
-        points: (
-            "npt.NDArray[np.floating[Any]] | kdb.DPolygon | kdb.Polygon | kdb.DSimplePolygon | kdb.Region | Coordinates"
-        ),
-        layer: "LayerSpec",
-    ) -> kdb.Shape:
-        """Adds a Polygon to the Component and returns a klayout Shape.
-
-        Args:
-            points: Coordinates of the vertices of the Polygon.
-            layer: layer spec to add polygon on.
-        """
-        from gdsfactory.pdk import get_layer
-
-        if self._locked:
-            raise LockedError(self)
-
-        _layer = get_layer(layer)
-
-        if isinstance(points, tuple | list | np.ndarray):
-            points = ensure_tuple_of_tuples(points)
-            polygon: kdb.Polygon | kdb.DPolygon | kdb.DSimplePolygon | kdb.Region = (
-                kdb.DPolygon()
-            )
-            polygon.assign_hull(points)  # type: ignore[arg-type,union-attr]
-        elif isinstance(
-            points, kdb.Polygon | kdb.DPolygon | kdb.DSimplePolygon | kdb.Region
-        ):
-            polygon = points
-        else:
-            polygon = kdb.DPolygon(points)  # type: ignore[arg-type]
-
-        return self.shapes(_layer).insert(polygon)  # type: ignore[no-any-return]
-
     def add_label(
         self,
         text: str = "hello",
@@ -603,8 +583,7 @@ class ComponentBase(BaseKCell, ABC):
         gdspath = gdspath or gdsdir / f"{name[: CONF.max_cellname_length]}.gds"
         gdspath = pathlib.Path(gdspath)
 
-        if not gdspath.parent.is_dir():
-            gdspath.parent.mkdir(parents=True, exist_ok=True)
+        gdspath.parent.mkdir(parents=True, exist_ok=True)
 
         if save_options is None:
             save_options = save_layout_options()
@@ -1411,6 +1390,24 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
         deprecate("ref", "add_ref")
         return self.add_ref(*args, **kwargs)
 
+    def add_polygon(self, points: _PolygonPoints, layer: "LayerSpec") -> kdb.Shape:
+        """Adds a Polygon to the Component and returns a klayout Shape.
+
+        Args:
+            points: Coordinates of the vertices of the Polygon.
+            layer: layer spec to add polygon on.
+        """
+        from gdsfactory.pdk import get_layer
+
+        if self._locked:
+            raise LockedError(self)
+
+        _layer = get_layer(layer)
+
+        polygon = points_to_polygon(points)
+
+        return self._kdb_cell.shapes(_layer).insert(polygon)
+
 
 class ComponentAllAngle(ComponentBase, kf.VKCell):  # type: ignore
     def plot(self, **kwargs: Any) -> None:  # type: ignore
@@ -1446,6 +1443,24 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):  # type: ignore
                 c.shapes(layer).insert(shape)
 
         return c
+
+    def add_polygon(self, points: _PolygonPoints, layer: "LayerSpec") -> None:
+        """Adds a Polygon to the Component and returns a klayout Shape.
+
+        Args:
+            points: Coordinates of the vertices of the Polygon.
+            layer: layer spec to add polygon on.
+        """
+        from gdsfactory.pdk import get_layer
+
+        if self._locked:
+            raise LockedError(self)
+
+        _layer = get_layer(layer)
+
+        polygon = points_to_polygon(points)
+
+        return self.shapes(_layer).insert(polygon)
 
 
 def container(
