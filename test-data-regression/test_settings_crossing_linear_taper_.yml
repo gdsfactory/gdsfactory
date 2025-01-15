@@ -1,0 +1,8 @@
+info: {}
+name: crossing_linear_taper_W_65ead638
+settings:
+  cross_section: strip
+  length: 3
+  taper: taper
+  width1: 2.5
+  width2: 0.5
