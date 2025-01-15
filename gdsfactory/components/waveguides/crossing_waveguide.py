@@ -86,7 +86,7 @@ def crossing_arm(
 
 @gf.cell
 def crossing(
-    arm: ComponentSpec = "taper",
+    arm: ComponentSpec = crossing_arm,
 ) -> gf.Component:
     """Waveguide crossing.
 
@@ -306,5 +306,5 @@ __all__ = [
 ]
 
 if __name__ == "__main__":
-    c = crossing_linear_taper()
+    c = crossing()
     c.show()
