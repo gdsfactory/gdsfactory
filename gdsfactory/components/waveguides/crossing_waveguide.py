@@ -238,9 +238,7 @@ def crossing45(
         ---    ----
 
     """
-    crossing = gf.get_component(
-        crossing, cross_section=cross_section_bends or cross_section
-    )
+    crossing = gf.get_component(crossing)
 
     c = Component()
     x = c << crossing
@@ -306,5 +304,5 @@ __all__ = [
 ]
 
 if __name__ == "__main__":
-    c = crossing()
+    c = crossing45()
     c.show()
