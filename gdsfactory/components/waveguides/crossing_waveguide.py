@@ -86,38 +86,31 @@ def crossing_arm(
 
 @gf.cell
 def crossing(
-    arm: ComponentSpec = crossing_arm,
-    cross_section: CrossSectionSpec = "strip",
-) -> Component:
+    arm: ComponentSpec = "taper",
+) -> gf.Component:
     """Waveguide crossing.
 
     Args:
         arm: arm spec.
-        cross_section: spec.
     """
-    x = gf.get_cross_section(cross_section)
-    c = Component()
+    c = gf.Component()
     arm = gf.get_component(arm)
-    port_id = 0
-    for rotation in [0, 90]:
+    for rotation in [0, 90, 180, 270]:
         ref = c << arm
         ref.drotate(rotation)
-        for p in ref.ports:
-            c.add_port(name=str(port_id), port=p)
-            port_id += 1
-
+        c.add_port(port=ref["o2"])
     c.auto_rename_ports()
-    x.add_bbox(c)
     c.flatten()
     return c
 
 
 @gf.cell
-def crossing_from_taper(
-    width1: float = 0.5,
-    width2: float = 2.5,
+def crossing_linear_taper(
+    width1: float = 2.5,
+    width2: float = 0.5,
     length: float = 3,
     cross_section: CrossSectionSpec = "strip",
+    taper: ComponentSpec = "taper",
 ) -> Component:
     """Returns Crossing based on a taper.
 
@@ -128,23 +121,12 @@ def crossing_from_taper(
         width2: output width.
         length: taper length.
         cross_section: cross_section spec.
-
+        taper: taper spec.
     """
-    taper_component = gf.c.taper(
-        width1=width1, width2=width2, length=length, cross_section=cross_section
+    arm = gf.get_component(
+        taper, width1=width1, width2=width2, length=length, cross_section=cross_section
     )
-
-    c = Component()
-    for i, a in enumerate([0, 90, 180, 270]):
-        # _taper = taper.ref(position=(0, 0), port_id="o2", rotation=a)
-        # c.add(_taper)
-        _taper = c << taper_component
-        _taper.drotate(a, center=gf.kdb.DPoint(*_taper["o2"].dcenter))
-        c.add_port(name=str(i), port=_taper.ports["o1"])
-
-    c.auto_rename_ports()
-    c.flatten()
-    return c
+    return crossing(arm=arm)
 
 
 @gf.cell
@@ -320,9 +302,9 @@ __all__ = [
     "crossing",
     "crossing45",
     "crossing_etched",
-    "crossing_from_taper",
+    "crossing_linear_taper",
 ]
 
 if __name__ == "__main__":
-    c = crossing()
+    c = crossing_linear_taper()
     c.show()

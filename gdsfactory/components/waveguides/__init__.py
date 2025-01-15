@@ -2,7 +2,7 @@ from gdsfactory.components.waveguides.crossing_waveguide import (
     crossing,
     crossing45,
     crossing_etched,
-    crossing_from_taper,
+    crossing_linear_taper,
 )
 from gdsfactory.components.waveguides.straight import (
     straight,
@@ -46,7 +46,7 @@ __all__ = [
     "crossing",
     "crossing45",
     "crossing_etched",
-    "crossing_from_taper",
+    "crossing_linear_taper",
     "straight",
     "straight_all_angle",
     "straight_array",
