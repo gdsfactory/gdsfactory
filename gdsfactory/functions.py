@@ -189,7 +189,7 @@ def get_polygons_points(
     component_or_instance: "Component | kf.Instance",
     merge: bool = False,
     scale: float | None = None,
-    by: Literal["index"] | Literal["name"] | Literal["tuple"] = "index",
+    by: Literal["index", "name", "tuple"] = "index",
     layers: LayerSpecs | None = None,
 ) -> dict[int | str | tuple[int, int], list[npt.NDArray[np.floating[Any]]]]:
     """Returns a dict with list of points per layer.

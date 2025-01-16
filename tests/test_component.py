@@ -90,6 +90,13 @@ def test_trim() -> None:
     c1.trim(left=-5, right=5, top=5, bottom=-5)
     assert c1_area == c1.area(layer=layer), f"{c1_area} != {c1.area(layer=layer)}"
 
+    c2 = gf.c.rectangle(size=(9, 9), centered=True, layer=layer).copy()
+    c2.flatten()
+    c2_area = c2.area(layer=layer)
+
+    c2.trim(left=-5, right=5, top=5, bottom=-5, flatten=True)
+    assert c2_area == c2.area(layer=layer), f"{c2_area} != {c2.area(layer=layer)}"
+
 
 def test_from_kcell() -> None:
     kf.kcl.infos = kf.LayerInfos(WG=kf.kdb.LayerInfo(1, 0))
@@ -136,6 +143,94 @@ def test_locked_cell() -> None:
 
     with pytest.raises(LockedError):
         c.get_polygons(merge=True)
+
+    with pytest.raises(LockedError):
+        c.add_ref(gf.Component())
+
+    with pytest.raises(LockedError):
+        c.trim(left=-5, right=5, top=5, bottom=-5)
+
+    with pytest.raises(LockedError):
+        c.absorb(c.add_ref(gf.Component()))
+
+    with pytest.raises(LockedError):
+        c.absorb(c.add_ref(gf.Component()))
+
+    with pytest.raises(LockedError):
+        c.add(gf.Instance(gf.Component().kcl, kdb.Instance()))
+
+
+def test_deprecated_methods() -> None:
+    c = gf.Component()
+
+    with pytest.warns(DeprecationWarning):
+        _ = c.named_references
+
+    with pytest.warns(DeprecationWarning):
+        _ = c.references
+
+    with pytest.warns(DeprecationWarning):
+        c = gf.Component()
+        c2 = gf.Component()
+        c2.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(1, 0))
+        ref = c.add_array(c2, columns=2, rows=3, spacing=(20, 30))
+        assert len(list(c.insts)) == 1
+        assert ref.na == 2
+        assert ref.nb == 3
+        assert ref.a.x == 20 / c.kcl.layout.dbu
+        assert ref.b.y == 30 / c.kcl.layout.dbu
+
+    with pytest.warns(DeprecationWarning):
+        c = gf.Component()
+        c2 = gf.Component()
+        ref = c.add_ref(c2, spacing=(20, 30), columns=2, rows=3)
+        assert len(list(c.insts)) == 1
+        assert ref.na == 2
+        assert ref.nb == 3
+        assert ref.a.x == 20 / c.kcl.layout.dbu
+        assert ref.b.y == 30 / c.kcl.layout.dbu
+
+    with pytest.warns(DeprecationWarning):
+        c = gf.Component()
+        c2 = gf.Component()
+        ref = c.add_ref(c2, alias="test_alias")
+        assert len(list(c.insts)) == 1
+        assert ref.name == "test_alias"
+
+    with pytest.warns(DeprecationWarning):
+        c.ref(gf.components.straight())
+
+    with pytest.warns(DeprecationWarning):
+        c = gf.Component()
+        c2 = gf.Component()
+        ref = c.add_ref(c2)
+        _ = ref.info
+        assert ref.cell.info.model_dump() == ref.info
+
+    with pytest.warns(DeprecationWarning):
+        c = gf.Component()
+        c2 = gf.Component()
+        ref = c.add_ref(c2)
+        ref.connect(
+            "o1", other=gf.Port("o1", 0.5, (0, 0), 0, "WG"), preserve_orientation=True
+        )
+
+    with pytest.warns(DeprecationWarning):
+        c = gf.Component()
+        c2 = gf.Component()
+        ref = c.add_ref(c2)
+        ref.connect("o1", other=gf.Port("o1", 0.5, (0, 0), 0, "WG"), overlap=1.0)
+
+    with pytest.warns(DeprecationWarning):
+        c = gf.Component()
+        c2 = gf.Component()
+        ref = c.add_ref(c2)
+        _ = ref.parent
+        assert ref.cell == ref.parent
+
+    with pytest.warns(DeprecationWarning):
+        c = gf.Component()
+        c.write_gds(gdspath="test_deprecated_write_gds.gds", random_var=1)
 
 
 def test_locked_cell_all_angle() -> None:
@@ -555,12 +650,9 @@ def test_plot() -> None:
     c = gf.Component()
     c.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(1, 0))
     c.plot()
-
-
-def test_ref_deprecation() -> None:
-    c = gf.Component()
-    with pytest.warns(DeprecationWarning):
-        c.ref(gf.components.straight())
+    c.pprint_ports()
+    c.to_graphviz()
+    c.to_dict(True)
 
 
 def test_offset() -> None:
@@ -712,5 +804,70 @@ def test_get_paths() -> None:
     assert points[1].y == 110
 
 
+def test_component_all_angle_flatten() -> None:
+    c = gf.ComponentAllAngle()
+    c.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(1, 0))
+
+    c2 = gf.ComponentAllAngle()
+    c2.add_polygon([(0, 0), (0, 5), (5, 5), (5, 0)], layer=(2, 0))
+
+    c3 = gf.ComponentAllAngle()
+    c3 << c
+    c3 << c2
+
+    c3.flatten()
+
+    assert len(list(c.shapes(get_layer((1, 0))))) == 1
+    assert len(list(c2.shapes(get_layer((2, 0))))) == 1
+
+    assert len(list(c3.shapes(get_layer((1, 0))))) == 1
+    assert len(list(c3.shapes(get_layer((2, 0))))) == 1
+
+    poly1 = next(iter(c3.shapes(get_layer((1, 0)))))
+    poly2 = next(iter(c3.shapes(get_layer((2, 0)))))
+
+    assert poly1.bbox().left == 0
+    assert poly1.bbox().right == 10
+    assert poly2.bbox().left == 0
+    assert poly2.bbox().right == 5
+
+
+def test_component_all_angle_add_polygon_get_polygon() -> None:
+    c = gf.ComponentAllAngle()
+    c.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(1, 0))
+    c.add_polygon([(5, 5), (5, 15), (15, 15), (15, 5)], layer=(2, 0))
+
+    polygons = c.get_polygons(layer=(1, 0))
+    assert len(polygons) == 1
+    assert polygons[0].bbox() == kdb.DBox(0, 0, 10, 10)
+
+    polygons = c.get_polygons(layer=(2, 0))
+    assert len(polygons) == 1
+    assert polygons[0].bbox() == kdb.DBox(5, 5, 15, 15)
+
+
+def test_component_add_ref_raises() -> None:
+    c = gf.Component()
+    c2 = gf.Component()
+
+    with pytest.raises(ValueError):
+        c.add_ref(c2, rows=2, row_pitch=0)
+
+    with pytest.raises(ValueError):
+        c.add_ref(c2, columns=2, column_pitch=0)
+
+
+def test_component_absorb() -> None:
+    c = gf.Component()
+    c2 = gf.Component()
+    c2.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(1, 0))
+
+    ref = c.add_ref(c2)
+
+    c.absorb(ref)
+    assert len(list(c.insts)) == 0
+    assert len(list(c.shapes(get_layer((1, 0))))) == 1
+
+
 if __name__ == "__main__":
-    test_copy_layers()
+    test_locked_cell()

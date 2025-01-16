@@ -231,7 +231,7 @@ class ComponentReference(kf.Instance):
 
     @property
     def info(self) -> dict[str, Any]:
-        deprecate("info", "ref.cell.info", stacklevel=3)
+        deprecate("info", "cell.info", stacklevel=3)
         return self.cell.info.model_dump()
 
     def connect(  # type: ignore[override]
@@ -607,6 +607,7 @@ class ComponentBase(BaseKCell, ABC):
         if kwargs:
             for k in kwargs:
                 deprecate(k)
+
         self.write(filename=gdspath, save_options=save_options)
         return pathlib.Path(gdspath)
 
@@ -1202,7 +1203,7 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
     def get_polygons(
         self,
         merge: bool = False,
-        by: Literal["index"] | Literal["name"] | Literal["tuple"] = "index",
+        by: Literal["index", "name", "tuple"] = "index",
         layers: "LayerSpecs | None" = None,
     ) -> dict[tuple[int, int] | str | int, list[kf.kdb.Polygon]]:
         """Returns a dict of Polygons per layer.
@@ -1221,7 +1222,7 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
         self,
         merge: bool = False,
         scale: float | None = None,
-        by: Literal["index"] | Literal["name"] | Literal["tuple"] = "index",
+        by: Literal["index", "name", "tuple"] = "index",
         layers: "LayerSpecs | None" = None,
     ) -> dict[int | str | tuple[int, int], list[npt.NDArray[np.floating[Any]]]]:
         """Returns a dict with list of points per layer.
@@ -1489,6 +1490,12 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):  # type: ignore
         polygon = points_to_polygon(points)
 
         return self.shapes(_layer).insert(polygon)
+
+    def get_polygons(self, layer: "LayerSpec") -> list[kf.kdb.DPolygon]:
+        """Returns a list of polygons from the Component."""
+        from gdsfactory import get_layer
+
+        return [x for x in self.shapes(get_layer(layer)) if isinstance(x, kdb.DPolygon)]
 
 
 def container(
