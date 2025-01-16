@@ -131,6 +131,12 @@ def test_locked_cell() -> None:
     with pytest.raises(LockedError):
         c.add_port(name="o1", center=(0, 0), width=0.5, orientation=0, layer="WG")
 
+    with pytest.raises(LockedError):
+        c.get_polygons_points(merge=True)
+
+    with pytest.raises(LockedError):
+        c.get_polygons(merge=True)
+
 
 def test_locked_cell_all_angle() -> None:
     c = gf.ComponentAllAngle()
@@ -557,12 +563,154 @@ def test_ref_deprecation() -> None:
         c.ref(gf.components.straight())
 
 
-# def test_offset() -> None:
-#     c = gf.Component()
-#     c.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(1, 0))
-#     c.offset(layer=(1, 0), distance=10)
-#     print(c.dbbox(get_layer((1, 0))))
+def test_offset() -> None:
+    c = gf.Component()
+    c.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(1, 0))
+    c.offset(layer=(1, 0), distance=10)
+
+    c.kcl.layout.end_changes()
+
+    assert c.dbbox(get_layer((1, 0))) == kdb.Box(-10, -10, 20, 20)
+
+
+def test_over_under() -> None:
+    c = gf.Component()
+
+    c.add_polygon([(0, 0), (0, 5), (5, 5), (5, 0)], layer=(1, 0))
+    c.add_polygon([(5.001, 0), (5.001, 5), (10, 5), (10, 0)], layer=(1, 0))
+
+    c.add_polygon([(0, 0), (0, 0.0005), (0, 0.0005), (0.0005, 0)], layer=(1, 0))
+
+    c.over_under(layer=(1, 0), distance=1)
+
+    assert len(c.shapes(get_layer((1, 0)))) == 1
+    assert c.dbbox(get_layer((1, 0))) == kdb.Box(0, 0, 10, 5)
+
+
+def test_component_all_angle_plot() -> None:
+    c = gf.ComponentAllAngle()
+    c.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(1, 0))
+    c.plot()
+
+
+def test_component_to_3d() -> None:
+    c = gf.Component()
+    c.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(1, 0))
+    c.to_3d()
+
+
+def test_remap_layers() -> None:
+    c = gf.Component()
+    c.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(1, 0))
+    c.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(2, 0))
+
+    c.remap_layers({(1, 0): (3, 0)})
+    assert c.area((1, 0)) == 0, f"{c.area((1, 0))}"
+    assert c.area((2, 0)) == 100, f"{c.area((2, 0))}"
+    assert c.area((3, 0)) == 100, f"{c.area((3, 0))}"
+
+
+def test_copy_layers() -> None:
+    c = gf.Component()
+    c.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(1, 0))
+
+    c2 = gf.Component()
+    c2.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(5, 0))
+    ref = c.add_ref(c2)
+    c.copy_layers({(1, 0): (3, 0), (5, 0): (6, 0)}, recursive=False)
+    assert c.area((1, 0)) == 100, f"{c.area((1, 0))}"
+    assert c.area((3, 0)) == 100, f"{c.area((3, 0))}"
+    assert ref.cell.area((5, 0)) == 100, f"{ref.cell.area((5, 0))}"
+    assert ref.cell.area((6, 0)) == 0, f"{ref.cell.area((6, 0))}"
+
+    c3 = gf.Component()
+    ref2 = c3.add_ref(c)
+    c3.copy_layers({(1, 0): (3, 0)}, recursive=True)
+    assert c3.area((1, 0)) == 100, f"{c3.area((1, 0))}"
+    assert c3.area((3, 0)) == 100, f"{c3.area((3, 0))}"
+    assert ref2.cell.area((1, 0)) == 100, f"{ref2.cell.area((1, 0))}"
+    assert ref2.cell.area((3, 0)) == 100, f"{ref2.cell.area((3, 0))}"
+
+
+def test_get_labels() -> None:
+    c = gf.Component()
+    c.add_label(text="test1", position=(10, 20), layer="WG")
+    c.add_label(text="test2", position=(30, 40), layer="WG")
+
+    labels = c.get_labels(layer="WG", recursive=False)
+    assert len(labels) == 2
+    assert labels[0].string == "test1"
+    assert labels[0].x == 10
+    assert labels[0].y == 20
+    assert labels[1].string == "test2"
+    assert labels[1].x == 30
+    assert labels[1].y == 40
+
+    c2 = gf.Component()
+    ref = c2 << c
+    ref.move((100, 100))
+
+    labels = c2.get_labels(layer="WG", recursive=True)
+    assert len(labels) == 2
+    assert labels[0].string == "test1"
+    assert labels[0].x == 110
+    assert labels[0].y == 120
+    assert labels[1].string == "test2"
+    assert labels[1].x == 130
+    assert labels[1].y == 140
+
+
+def test_get_boxes() -> None:
+    c = gf.Component()
+    box = kf.kdb.DBox(0, 0, 10, 10)
+    c.shapes(get_layer((1, 0))).insert(box)
+
+    boxes = c.get_boxes(layer=(1, 0), recursive=False)
+    assert len(boxes) == 1
+    assert boxes[0].left == 0
+    assert boxes[0].right == 10
+    assert boxes[0].top == 10
+    assert boxes[0].bottom == 0
+
+    c2 = gf.Component()
+    ref = c2 << c
+    ref.move((100, 100))
+
+    c2.show()
+
+    boxes = c2.get_boxes(layer=(1, 0), recursive=True)
+    assert len(boxes) == 1
+    assert boxes[0].left == 100
+    assert boxes[0].right == 110
+    assert boxes[0].top == 110
+    assert boxes[0].bottom == 100
+
+
+def test_get_paths() -> None:
+    c = gf.Component()
+    path = kf.kdb.DPath([kf.kdb.DPoint(0, 0), kf.kdb.DPoint(10, 10)], 1)
+    c.shapes(get_layer((1, 0))).insert(path)
+
+    paths = c.get_paths(layer=(1, 0), recursive=False)
+    assert len(paths) == 1
+    points = list(paths[0].each_point())
+    assert points[0].x == 0
+    assert points[0].y == 0
+    assert points[1].x == 10
+    assert points[1].y == 10
+
+    c2 = gf.Component()
+    ref = c2 << c
+    ref.move((100, 100))
+
+    paths = c2.get_paths(layer=(1, 0), recursive=True)
+    assert len(paths) == 1
+    points = list(paths[0].each_point())
+    assert points[0].x == 100
+    assert points[0].y == 100
+    assert points[1].x == 110
+    assert points[1].y == 110
 
 
 if __name__ == "__main__":
-    test_ref_deprecation()
+    test_copy_layers()

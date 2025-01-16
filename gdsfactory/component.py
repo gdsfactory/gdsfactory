@@ -298,9 +298,9 @@ class ComponentReference(kf.Instance):
         self.set_property(PROPID.NAME, value)
 
     @property
-    def parent(self) -> kf.KCell | Component:
+    def parent(self) -> kf.KCell:
         """Returns the parent Component."""
-        deprecate("parent", "ref.cell")
+        deprecate("parent", "cell")
         return self.cell
 
     def __eq__(self, other: Any) -> bool:
@@ -1124,12 +1124,10 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
 
         if recursive:
             iterator = self._kdb_cell.begin_shapes_rec(layer)
-
-            while not (iterator.at_end()):
-                shape = iterator.shape()
-                iterator.next()
-                if shape.is_path():
-                    paths.append(shape.dpath.transformed(iterator.dtrans()))
+            iterator.shape_flags = kdb.Shapes.SPaths
+            paths.extend(
+                it.shape().dpath.transformed(it.dtrans()) for it in iterator.each()
+            )
         else:
             paths.extend(
                 shape.dpath
@@ -1154,12 +1152,10 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
 
         if recursive:
             iterator = self._kdb_cell.begin_shapes_rec(layer)
-
-            while not (iterator.at_end()):
-                shape = iterator.shape()
-                iterator.next()
-                if shape.is_box():
-                    boxes.append(shape.dbox.transformed(iterator.dtrans()))
+            iterator.shape_flags = kdb.Shapes.SBoxes
+            boxes.extend(
+                it.shape().dbox.transformed(it.dtrans()) for it in iterator.each()
+            )
         else:
             boxes.extend(
                 shape.dbox
@@ -1178,19 +1174,21 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
         """
         from gdsfactory import get_layer
 
+        texts: list[kf.kdb.DText] = []
         layer_enum = get_layer(layer)
 
         if recursive:
-            return [
-                shape.dtext.transformed(iterator.dtrans())
-                for iterator in self._kdb_cell.begin_shapes_rec(layer_enum)
-                if (shape := iterator.shape()).is_text()
-            ]
+            iterator = self._kdb_cell.begin_shapes_rec(layer_enum)
+            iterator.shape_flags = kdb.Shapes.STexts
+            texts.extend(
+                it.shape().dtext.transformed(it.dtrans()) for it in iterator.each()
+            )
         else:
-            return [
+            texts.extend(
                 shape.dtext
                 for shape in self._kdb_cell.shapes(layer_enum).each(kdb.Shapes.STexts)
-            ]
+            )
+        return texts
 
     def area(self, layer: "LayerSpec") -> float:
         """Returns the area of the Component in um2."""
@@ -1216,6 +1214,7 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
         """
         if merge and self._locked:
             raise LockedError(self)
+
         return get_polygons(self, merge=merge, by=by, layers=layers)
 
     def get_polygons_points(
@@ -1378,6 +1377,8 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
         self.remove_layers([layer])
         self._kdb_cell.shapes(layer_index).insert(region)
 
+        self.kcl.layout.end_changes()
+
     def offset(self, layer: "LayerSpec", distance: float) -> None:
         """Offsets a Component layer by a distance in um.
 
@@ -1394,9 +1395,11 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
 
         layer_index = get_layer(layer)
         region = kdb.Region(self._kdb_cell.begin_shapes_rec(layer_index))
-        region.size(+distance_dbu)
+        region.size(distance_dbu)
         self.remove_layers([layer])
         self._kdb_cell.shapes(layer_index).insert(region)
+
+        self.kcl.layout.end_changes()
 
     def ref(self, *args: Any, **kwargs: Any) -> ComponentReference:
         """Returns a Component Instance."""
