@@ -211,20 +211,6 @@ def test_deprecated_methods() -> None:
         c = gf.Component()
         c2 = gf.Component()
         ref = c.add_ref(c2)
-        ref.connect(
-            "o1", other=gf.Port("o1", 0.5, (0, 0), 0, "WG"), preserve_orientation=True
-        )
-
-    with pytest.warns(DeprecationWarning):
-        c = gf.Component()
-        c2 = gf.Component()
-        ref = c.add_ref(c2)
-        ref.connect("o1", other=gf.Port("o1", 0.5, (0, 0), 0, "WG"), overlap=1.0)
-
-    with pytest.warns(DeprecationWarning):
-        c = gf.Component()
-        c2 = gf.Component()
-        ref = c.add_ref(c2)
         _ = ref.parent
         assert ref.cell == ref.parent
 
