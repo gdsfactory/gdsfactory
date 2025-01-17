@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import warnings
 from functools import partial
 from typing import Literal, overload
 
@@ -87,7 +88,7 @@ def _bend_circular(
     c.info["width"] = width or x.width
     top = None if int(angle) in {180, -180, -90} else 0
     bottom = 0 if int(angle) in {-90} else None
-    x.add_bbox(c, top=top, bottom=bottom)  # type: ignore
+    x.add_bbox(c, top=top, bottom=bottom)
     if not allow_min_radius_violation:
         x.validate_radius(radius)
     c.add_route_info(
@@ -121,8 +122,10 @@ def bend_circular(
         allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
     """
     if angle not in {90, 180}:
-        gf.logger.warning(
-            f"bend_euler angle should be 90 or 180. Got {angle}. Use bend_euler_all_angle instead."
+        warnings.warn(
+            f"bend_euler angle should be 90 or 180. Got {angle}. Use bend_euler_all_angle instead.",
+            UserWarning,
+            stacklevel=2,
         )
     return _bend_circular(
         radius=radius,

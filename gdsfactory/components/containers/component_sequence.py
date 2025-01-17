@@ -127,11 +127,10 @@ def component_sequence(
     symbol = sequence[0] if "!" not in sequence[0] else sequence[:2]
     index = 2 if "!" in sequence[0] else 1
     name_start_device, do_flip = parse_component_name(symbol)
+    print(name_start_device)
     component_input, input_port, prev_port = symbol_to_component[name_start_device]
     prev_device = component.add_ref(component_input, name=f"{symbol}{index}")
-    named_references_counter.update(
-        {name_start_device: 1}
-    )  # sourcery skip:simplify-dictionary-update
+    named_references_counter.update({name_start_device: 1})
 
     if do_flip:
         prev_device = _flip_ref(prev_device, input_port)
@@ -163,9 +162,7 @@ def component_sequence(
         index += 1
         component_i, input_port, next_port = symbol_to_component[s]
         component_i = gf.get_component(component_i)
-        named_references_counter.update(
-            {s: 1}
-        )  # sourcery skip:simplify-dictionary-update
+        named_references_counter.update({s: 1})
         alias = f"{s}{named_references_counter[s]}"
         ref = component.add_ref(component_i, name=alias)
 
@@ -188,11 +185,7 @@ def component_sequence(
         ref = prev_device
         next_port = prev_port
 
-    try:
-        component.add_port(name=port_name2, port=ref.ports[next_port])  # type: ignore
-    except BaseException:
-        print(sequence)
-        raise
+    component.add_port(name=port_name2, port=ref.ports[next_port])  # type: ignore
 
     # Add any extra port specified in ports_map
     for name, (ref_name, alias_port_name) in ports_map.items():
