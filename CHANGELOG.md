@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.30.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.30.3) - 2025-01-17
+
+No significant changes.
+
+
 ## [8.30.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.30.2) - 2025-01-14
 
 - Fix wrong Component.copy [#3602](https://github.com/gdsfactory/gdsfactory/pull/3602)
