@@ -1,12 +1,14 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.30.2...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.30.3...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.30.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.30.3) - 2025-01-17
 
-No significant changes.
-
+- fix grid rotation [#3612](https://github.com/gdsfactory/gdsfactory/pull/3612)
+- Update taper_cross_section.py [#3604](https://github.com/gdsfactory/gdsfactory/pull/3604)
+- Add more ComponentAllAngle tests [#3598](https://github.com/gdsfactory/gdsfactory/pull/3598)
+- Simpler crossing [#3607](https://github.com/gdsfactory/gdsfactory/pull/3607)
 
 ## [8.30.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.30.2) - 2025-01-14
 
