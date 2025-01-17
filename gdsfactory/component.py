@@ -30,6 +30,7 @@ from gdsfactory._deprecation import deprecate
 from gdsfactory.config import CONF, GDSDIR_TEMP
 from gdsfactory.functions import get_polygons, get_polygons_points
 from gdsfactory.serialization import clean_value_json, convert_tuples_to_lists
+from gdsfactory.utils import to_kdb_dpoints
 
 if TYPE_CHECKING:
     import networkx as nx  # type: ignore[import-untyped]
@@ -52,6 +53,8 @@ if TYPE_CHECKING:
     )
 
 cell_without_validator = cell
+
+_PolygonPoints: TypeAlias = "npt.NDArray[np.floating[Any]] | kdb.DPolygon | kdb.Polygon | kdb.DSimplePolygon | kdb.Region | Coordinates"
 
 
 class LockedError(AttributeError):
@@ -90,6 +93,20 @@ def ensure_tuple_of_tuples(points: Any) -> tuple[tuple[float, float], ...]:
         if len(points) > 0 and isinstance(points[0], np.ndarray | list):  # type: ignore
             points = tuple(tuple(point) for point in points)  # type: ignore
     return points  # type: ignore
+
+
+def points_to_polygon(
+    points: _PolygonPoints,
+) -> kdb.Polygon | kdb.DPolygon | kdb.DSimplePolygon | kdb.Region:
+    if isinstance(points, tuple | list | np.ndarray):
+        points = ensure_tuple_of_tuples(points)
+        polygon = kdb.DPolygon()
+        polygon.assign_hull(to_kdb_dpoints(points))
+    elif isinstance(
+        points, kdb.Polygon | kdb.DPolygon | kdb.DSimplePolygon | kdb.Region
+    ):
+        return points
+    return kdb.DPolygon(to_kdb_dpoints(points))
 
 
 def size(region: kdb.Region, offset: float, dbu: float = 1e3) -> kdb.Region:
@@ -214,7 +231,7 @@ class ComponentReference(kf.Instance):
 
     @property
     def info(self) -> dict[str, Any]:
-        deprecate("info", "ref.cell.info", stacklevel=3)
+        deprecate("info", "cell.info", stacklevel=3)
         return self.cell.info.model_dump()
 
     def connect(  # type: ignore[override]
@@ -281,9 +298,9 @@ class ComponentReference(kf.Instance):
         self.set_property(PROPID.NAME, value)
 
     @property
-    def parent(self) -> kf.KCell | Component:
+    def parent(self) -> kf.KCell:
         """Returns the parent Component."""
-        deprecate("parent", "ref.cell")
+        deprecate("parent", "cell")
         return self.cell
 
     def __eq__(self, other: Any) -> bool:
@@ -446,41 +463,6 @@ class ComponentBase(BaseKCell, ABC):
     @abstractmethod
     def dup(self) -> Self: ...
 
-    def add_polygon(
-        self,
-        points: (
-            "npt.NDArray[np.floating[Any]] | kdb.DPolygon | kdb.Polygon | kdb.DSimplePolygon | kdb.Region | Coordinates"
-        ),
-        layer: "LayerSpec",
-    ) -> kdb.Shape:
-        """Adds a Polygon to the Component and returns a klayout Shape.
-
-        Args:
-            points: Coordinates of the vertices of the Polygon.
-            layer: layer spec to add polygon on.
-        """
-        from gdsfactory.pdk import get_layer
-
-        if self._locked:
-            raise LockedError(self)
-
-        _layer = get_layer(layer)
-
-        if isinstance(points, tuple | list | np.ndarray):
-            points = ensure_tuple_of_tuples(points)
-            polygon: kdb.Polygon | kdb.DPolygon | kdb.DSimplePolygon | kdb.Region = (
-                kdb.DPolygon()
-            )
-            polygon.assign_hull(points)  # type: ignore[arg-type,union-attr]
-        elif isinstance(
-            points, kdb.Polygon | kdb.DPolygon | kdb.DSimplePolygon | kdb.Region
-        ):
-            polygon = points
-        else:
-            polygon = kdb.DPolygon(points)  # type: ignore[arg-type]
-
-        return self.shapes(_layer).insert(polygon)  # type: ignore[no-any-return]
-
     def add_label(
         self,
         text: str = "hello",
@@ -614,8 +596,7 @@ class ComponentBase(BaseKCell, ABC):
         gdspath = gdspath or gdsdir / f"{name[: CONF.max_cellname_length]}.gds"
         gdspath = pathlib.Path(gdspath)
 
-        if not gdspath.parent.is_dir():
-            gdspath.parent.mkdir(parents=True, exist_ok=True)
+        gdspath.parent.mkdir(parents=True, exist_ok=True)
 
         if save_options is None:
             save_options = save_layout_options()
@@ -626,6 +607,7 @@ class ComponentBase(BaseKCell, ABC):
         if kwargs:
             for k in kwargs:
                 deprecate(k)
+
         self.write(filename=gdspath, save_options=save_options)
         return pathlib.Path(gdspath)
 
@@ -1143,12 +1125,10 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
 
         if recursive:
             iterator = self._kdb_cell.begin_shapes_rec(layer)
-
-            while not (iterator.at_end()):
-                shape = iterator.shape()
-                iterator.next()
-                if shape.is_path():
-                    paths.append(shape.dpath.transformed(iterator.dtrans()))
+            iterator.shape_flags = kdb.Shapes.SPaths
+            paths.extend(
+                it.shape().dpath.transformed(it.dtrans()) for it in iterator.each()
+            )
         else:
             paths.extend(
                 shape.dpath
@@ -1173,12 +1153,10 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
 
         if recursive:
             iterator = self._kdb_cell.begin_shapes_rec(layer)
-
-            while not (iterator.at_end()):
-                shape = iterator.shape()
-                iterator.next()
-                if shape.is_box():
-                    boxes.append(shape.dbox.transformed(iterator.dtrans()))
+            iterator.shape_flags = kdb.Shapes.SBoxes
+            boxes.extend(
+                it.shape().dbox.transformed(it.dtrans()) for it in iterator.each()
+            )
         else:
             boxes.extend(
                 shape.dbox
@@ -1197,19 +1175,21 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
         """
         from gdsfactory import get_layer
 
+        texts: list[kf.kdb.DText] = []
         layer_enum = get_layer(layer)
 
         if recursive:
-            return [
-                shape.dtext.transformed(iterator.dtrans())
-                for iterator in self._kdb_cell.begin_shapes_rec(layer_enum)
-                if (shape := iterator.shape()).is_text()
-            ]
+            iterator = self._kdb_cell.begin_shapes_rec(layer_enum)
+            iterator.shape_flags = kdb.Shapes.STexts
+            texts.extend(
+                it.shape().dtext.transformed(it.dtrans()) for it in iterator.each()
+            )
         else:
-            return [
+            texts.extend(
                 shape.dtext
                 for shape in self._kdb_cell.shapes(layer_enum).each(kdb.Shapes.STexts)
-            ]
+            )
+        return texts
 
     def area(self, layer: "LayerSpec") -> float:
         """Returns the area of the Component in um2."""
@@ -1223,7 +1203,7 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
     def get_polygons(
         self,
         merge: bool = False,
-        by: Literal["index"] | Literal["name"] | Literal["tuple"] = "index",
+        by: Literal["index", "name", "tuple"] = "index",
         layers: "LayerSpecs | None" = None,
     ) -> dict[tuple[int, int] | str | int, list[kf.kdb.Polygon]]:
         """Returns a dict of Polygons per layer.
@@ -1235,13 +1215,14 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
         """
         if merge and self._locked:
             raise LockedError(self)
+
         return get_polygons(self, merge=merge, by=by, layers=layers)
 
     def get_polygons_points(
         self,
         merge: bool = False,
         scale: float | None = None,
-        by: Literal["index"] | Literal["name"] | Literal["tuple"] = "index",
+        by: Literal["index", "name", "tuple"] = "index",
         layers: "LayerSpecs | None" = None,
     ) -> dict[int | str | tuple[int, int], list[npt.NDArray[np.floating[Any]]]]:
         """Returns a dict with list of points per layer.
@@ -1397,6 +1378,8 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
         self.remove_layers([layer])
         self._kdb_cell.shapes(layer_index).insert(region)
 
+        self.kcl.layout.end_changes()
+
     def offset(self, layer: "LayerSpec", distance: float) -> None:
         """Offsets a Component layer by a distance in um.
 
@@ -1413,14 +1396,46 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
 
         layer_index = get_layer(layer)
         region = kdb.Region(self._kdb_cell.begin_shapes_rec(layer_index))
-        region.size(+distance_dbu)
+        region.size(distance_dbu)
         self.remove_layers([layer])
         self._kdb_cell.shapes(layer_index).insert(region)
+
+        self.kcl.layout.end_changes()
 
     def ref(self, *args: Any, **kwargs: Any) -> ComponentReference:
         """Returns a Component Instance."""
         deprecate("ref", "add_ref")
         return self.add_ref(*args, **kwargs)
+
+    @overload
+    def add_polygon(self, points: kdb.Region, layer: "LayerSpec") -> None: ...
+
+    @overload
+    def add_polygon(
+        self,
+        points: "npt.NDArray[np.floating[Any]] | kdb.DPolygon | kdb.Polygon | kdb.DSimplePolygon | Coordinates",
+        layer: "LayerSpec",
+    ) -> kdb.Shape: ...
+
+    def add_polygon(
+        self, points: _PolygonPoints, layer: "LayerSpec"
+    ) -> kdb.Shape | None:
+        """Adds a Polygon to the Component and returns a klayout Shape.
+
+        Args:
+            points: Coordinates of the vertices of the Polygon.
+            layer: layer spec to add polygon on.
+        """
+        from gdsfactory.pdk import get_layer
+
+        if self._locked:
+            raise LockedError(self)
+
+        _layer = get_layer(layer)
+
+        polygon = points_to_polygon(points)
+
+        return self._kdb_cell.shapes(_layer).insert(polygon)
 
 
 class ComponentAllAngle(ComponentBase, kf.VKCell):  # type: ignore
@@ -1458,6 +1473,30 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):  # type: ignore
 
         return c
 
+    def add_polygon(self, points: _PolygonPoints, layer: "LayerSpec") -> None:
+        """Adds a Polygon to the Component and returns a klayout Shape.
+
+        Args:
+            points: Coordinates of the vertices of the Polygon.
+            layer: layer spec to add polygon on.
+        """
+        from gdsfactory.pdk import get_layer
+
+        if self._locked:
+            raise LockedError(self)
+
+        _layer = get_layer(layer)
+
+        polygon = points_to_polygon(points)
+
+        return self.shapes(_layer).insert(polygon)
+
+    def get_polygons(self, layer: "LayerSpec") -> list[kf.kdb.DPolygon]:
+        """Returns a list of polygons from the Component."""
+        from gdsfactory import get_layer
+
+        return [x for x in self.shapes(get_layer(layer)) if isinstance(x, kdb.DPolygon)]
+
 
 def container(
     component: "ComponentSpec",
@@ -1485,7 +1524,7 @@ def container(
 
 def component_with_function(
     component: "ComponentSpec",
-    function: Callable[..., None] | None = None,
+    function: Callable[[Component], None] | None = None,
     **kwargs: Any,
 ) -> gf.Component:
     """Returns new component with a component reference.
