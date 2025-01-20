@@ -127,7 +127,6 @@ def component_sequence(
     symbol = sequence[0] if "!" not in sequence[0] else sequence[:2]
     index = 2 if "!" in sequence[0] else 1
     name_start_device, do_flip = parse_component_name(symbol)
-    print(name_start_device)
     component_input, input_port, prev_port = symbol_to_component[name_start_device]
     prev_device = component.add_ref(component_input, name=f"{symbol}{index}")
     named_references_counter.update({name_start_device: 1})
