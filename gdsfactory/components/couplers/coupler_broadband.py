@@ -141,5 +141,5 @@ def coupler_broadband(
 
 
 if __name__ == "__main__":
-    c = coupler_broadband(cross_section="rib")
+    c = coupler_broadband(cross_section="rib", radius=20)
     c.show()
