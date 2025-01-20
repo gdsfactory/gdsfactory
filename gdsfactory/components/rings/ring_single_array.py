@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+from typing import Any
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
-_list_of_dicts = (
+_list_of_dicts: tuple[dict[str, Any], ...] = (
     dict(length_x=10.0, radius=5.0),
     dict(length_x=20.0, radius=10.0),
 )
@@ -14,7 +16,7 @@ _list_of_dicts = (
 def ring_single_array(
     ring: ComponentSpec = "ring_single",
     spacing: float = 5.0,
-    list_of_dicts: tuple[dict[str, float], ...] | None = None,
+    list_of_dicts: tuple[dict[str, Any], ...] | None = None,
     cross_section: CrossSectionSpec = "strip",
 ) -> Component:
     """Ring of single bus connected with straights.

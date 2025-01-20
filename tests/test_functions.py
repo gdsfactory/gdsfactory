@@ -38,9 +38,9 @@ def test_trim_no_clipping() -> None:
         c1,
         domain=((-5, -5), (-5, +5), (+5, +5), (+5, -5)),
     )
-    assert c1.area(layer=layer) == c2.area(
-        layer=layer
-    ), f"{c1.area(layer=layer)} != {c2.area(layer=layer)}"
+    assert c1.area(layer=layer) == c2.area(layer=layer), (
+        f"{c1.area(layer=layer)} != {c2.area(layer=layer)}"
+    )
 
     assert len(c2.ports) == len(c1.ports), f"{len(c2.ports)} != {len(c1.ports)}"
 
@@ -55,8 +55,8 @@ def test_area() -> None:
 
 def test_extract() -> None:
     c = gf.Component()
-    r1 = c << gf.c.rectangle(size=(10, 10), layer=(1, 0), centered=True)
-    r2 = c << gf.c.rectangle(size=(10, 10), layer=(2, 0), centered=True)
+    r1 = c << gf.c.compass(size=(10, 10), layer=(1, 0))
+    r2 = c << gf.c.compass(size=(10, 10), layer=(2, 0))
     r2.xmin = r1.xmax
 
     c1 = c.extract(layers=[(1, 0)])

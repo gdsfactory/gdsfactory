@@ -29,14 +29,19 @@ def label_farthest_right_port(
     return component
 
 
-def resistance_sheet(width: float = 5, **kwargs: Any) -> gf.Component:
+@gf.cell
+def resistance(width: float = 5, **kwargs: Any) -> gf.Component:
     """Returns a resistance sheet.
 
     Args:
         width: width of the resistance sheet.
         kwargs: additional settings.
     """
-    c = gf.components.resistance_sheet(width=width, **kwargs)
+    r = gf.components.resistance_sheet(width=width, **kwargs)
+    c = gf.container(r)
+
+    c.copy_child_info(r)
+
     c.info["doe"] = "resistance_sheet"
     c.info["measurement"] = "iv"
     c.info["measurement_parameters"] = (
@@ -90,7 +95,7 @@ def via_chain(
 
 def sample_reticle_with_labels(grid: bool = False) -> gf.Component:
     """Returns electrical test structures."""
-    res = [resistance_sheet(width=width) for width in [5, 10, 15]]
+    res = [resistance(width=width) for width in [5, 10, 15]]
     via_chains_ = [via_chain(num_vias=num_vias) for num_vias in [100, 200, 500]]
 
     copies = 3  # number of copies of each component

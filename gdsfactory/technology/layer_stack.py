@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections import defaultdict
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from typing import Any, Literal, TypeAlias, TypeVar
 
 import kfactory as kf
@@ -391,7 +391,7 @@ class LayerStack(BaseModel):
     )
 
     def model_copy(
-        self, *, update: dict[str, Any] | None = None, deep: bool = False
+        self, *, update: Mapping[str, Any] | None = None, deep: bool = False
     ) -> LayerStack:
         """Returns a copy of the LayerStack."""
         return super().model_copy(update=update, deep=True)
@@ -520,7 +520,7 @@ class LayerStack(BaseModel):
         # Define input layers
         out = "\n".join(
             [
-                f"{layer_name} = input({(__layer:=get_layer_tuple(level.derived_layer.layer))[0]}, {__layer[1]})"
+                f"{layer_name} = input({(__layer := get_layer_tuple(level.derived_layer.layer))[0]}, {__layer[1]})"
                 for layer_name, level in layers.items()
                 if level.derived_layer
             ]
@@ -605,13 +605,7 @@ class LayerStack(BaseModel):
                 name = (
                     f"{layer_name}: {level.material} {layer_tuple[0]}/{layer_tuple[1]}"
                 )
-                txt = (
-                    f"z("
-                    f"{layer_name}, "
-                    f"zstart: {zmin}, "
-                    f"zstop: {zmax}, "
-                    f"name: '{name}'"
-                )
+                txt = f"z({layer_name}, zstart: {zmin}, zstop: {zmax}, name: '{name}'"
                 if layer_views:
                     txt += ", "
                     props = layer_views.get_from_tuple(get_layer_tuple(layer_tuple))

@@ -10,6 +10,7 @@ import yaml
 
 import gdsfactory as gf
 from gdsfactory.read.from_yaml import valid_anchor_point_keywords
+from gdsfactory.routing.add_fiber_array import add_fiber_array
 from gdsfactory.serialization import convert_tuples_to_lists
 from gdsfactory.typings import LayerSpec
 
@@ -102,10 +103,7 @@ if __name__ == "__main__":
 
     c = gf.c.straight(length=11)
     c = gf.c.mmi2x2(length_mmi=2.2)
-    c = gf.routing.add_fiber_array(
-        c,
-        grating_coupler=gf.components.grating_coupler_te,
-    )
+    c = add_fiber_array(c, grating_coupler=gf.components.grating_coupler_te)
     decorator(c)
 
     # c = gf.components.spiral()

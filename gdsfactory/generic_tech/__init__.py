@@ -48,14 +48,14 @@ def get_generic_pdk() -> Pdk:
     import gdsfactory as gf
     from gdsfactory.config import PATH, __version__
     from gdsfactory.cross_section import cross_sections
-    from gdsfactory.generic_tech import containers
     from gdsfactory.generic_tech.simulation_settings import materials_index
     from gdsfactory.get_factories import get_cells
     from gdsfactory.pdk import Pdk, constants
 
     LAYER_VIEWS = LayerViews(filepath=PATH.klayout_yaml)
 
-    cells = get_cells([containers, gf.components])
+    cells = get_cells([gf.components])
+    containers_dict = get_cells([gf.containers])
 
     layer_transitions = {
         LAYER.WG: partial(gf.c.taper, cross_section="strip", length=10),
@@ -68,6 +68,7 @@ def get_generic_pdk() -> Pdk:
         name="generic",
         version=__version__,
         cells=cells,
+        containers=containers_dict,
         cross_sections=cross_sections,
         layers=LAYER,
         layer_stack=LAYER_STACK,

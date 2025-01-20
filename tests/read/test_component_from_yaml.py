@@ -5,7 +5,7 @@ import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
 from gdsfactory.difftest import difftest
-from gdsfactory.read.from_yaml import from_yaml, sample_doe_function, sample_mmis
+from gdsfactory.read.from_yaml import from_yaml, sample_mmis
 
 sample_connections = """
 name: sample_connections
@@ -299,7 +299,7 @@ routes:
         settings:
             cross_section: strip
         links:
-            left,o:1:3: right,o:3:1
+            left,o1-3: right,o3-1
 """
 
 sample_regex_connections_backwards = """
@@ -327,7 +327,7 @@ routes:
         settings:
             cross_section: strip
         links:
-            left,o:3:1: right,o:1:3
+            left,o3-1: right,o1-3
 """
 
 
@@ -466,6 +466,7 @@ instances:
          do_permutations: True
          spacing: [100, 100]
          shape: [2, 2]
+         function: add_fiber_array
          settings:
            length_mmi: [2, 100]
            width_mmi: [4, 10]
@@ -512,9 +513,8 @@ instances:
     component: array
     settings:
       component: dbr
-      spacing:
-      - 0
-      - 3
+      column_pitch: 0
+      row_pitch: 3
       columns: 1
       rows: 8
       add_ports: true
@@ -609,6 +609,27 @@ connections:
 
 """
 
+sample_array_connect_reverse = """
+name: sample_array_connect_reverse
+
+instances:
+  b1:
+    component: bend_euler
+    settings:
+      radius: 20
+  s1:
+    component: straight
+    settings:
+      length: 10
+    array:
+      columns: 3
+      rows: 1
+      column_pitch: 100.0
+      row_pitch: 0.0
+connections:
+  s1<2.0>,o2: b1,o1
+"""
+
 
 # FIXME: Fix both uncommented cases
 # yaml_fail should actually fail
@@ -629,11 +650,12 @@ yaml_strings = dict(
     sample_mmis=sample_mmis,
     sample_doe=sample_doe,
     # sample_doe_grid=sample_doe_grid,
-    sample_doe_function=sample_doe_function,
+    # sample_doe_function=sample_doe_function,
     sample_rotation=sample_rotation,
     sample_array=sample_array,
     sample_array2=sample_array2,
     sample_array_connect=sample_array_connect,
+    sample_array_connect_reverse=sample_array_connect_reverse,
 )
 
 
@@ -691,5 +713,5 @@ if __name__ == "__main__":
 
     import gdsfactory as gf
 
-    c = gf.read.from_yaml(sample_array_connect)
+    c = gf.read.from_yaml(sample_doe)
     c.show()

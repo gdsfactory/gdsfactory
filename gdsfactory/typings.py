@@ -117,8 +117,8 @@ MaterialSpec: TypeAlias = (
     str | float | tuple[float, float] | Callable[..., Any] | npt.NDArray[np.float64]
 )
 
-WidthFunction: TypeAlias = Callable[..., npt.NDArray[np.float64]]
-OffsetFunction: TypeAlias = Callable[..., npt.NDArray[np.float64]]
+WidthFunction: TypeAlias = Callable[..., npt.NDArray[np.floating[Any]]]
+OffsetFunction: TypeAlias = Callable[[float], float]
 
 PathType: TypeAlias = str | pathlib.Path
 PathTypes: TypeAlias = Sequence[PathType]
@@ -166,7 +166,10 @@ from gdsfactory import component  # noqa: E402
 AnyComponent: TypeAlias = component.Component | component.ComponentAllAngle
 AnyComponentT = TypeVar("AnyComponentT", bound=AnyComponent)
 AnyComponentFactory: TypeAlias = Callable[..., AnyComponent]
-AnyComponentPostProcess: TypeAlias = Callable[[AnyComponent], None]
+AnyComponentPostProcess: TypeAlias = (
+    Callable[[component.Component], None]
+    | Callable[[component.ComponentAllAngle], None]
+)
 
 ComponentParams = ParamSpec("ComponentParams")
 ComponentFactory: TypeAlias = Callable[..., component.Component]
@@ -203,20 +206,19 @@ class TypedArray(np.ndarray[Any, np.dtype[Any]]):
     def __get_validators__(
         cls,
     ) -> Generator[Callable[[Any, Any], npt.NDArray[np.float64]], Any, None]:
-        yield cls.validate_type
+        yield cls.validate_type  # pragma: no cover
 
     @classmethod
     def validate_type(cls, val: Any, _info: Any) -> npt.NDArray[np.float64]:
-        return np.array(val, dtype=cls.inner_type)  # type: ignore
+        return np.array(val, dtype=cls.inner_type)  # type: ignore # pragma: no cover
 
 
 class ArrayMeta(type):
     def __getitem__(cls, t: np.dtype[Any]) -> type[npt.NDArray[Any]]:
-        return type("Array", (TypedArray,), {"inner_type": t})
+        return type("Array", (TypedArray,), {"inner_type": t})  # pragma: no cover
 
 
-class Array(np.ndarray[Any, np.dtype[Any]], metaclass=ArrayMeta):
-    pass
+class Array(np.ndarray[Any, np.dtype[Any]], metaclass=ArrayMeta): ...
 
 
 __all__ = (

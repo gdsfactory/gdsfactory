@@ -18,7 +18,7 @@ repos:
         additional_dependencies:
           - tomli
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: "v0.8.3"
+    rev: "v0.9.1"
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix, --config=pyproject.toml]
@@ -37,12 +37,12 @@ repos:
         exclude: .github/.*
         # args: [--extensions, "j2,yml,yaml", --ignore, jinja-statements-delimiter, jinja-statements-indentation]
   - repo: https://github.com/google/yamlfmt
-    rev: v0.14.0
+    rev: v0.15.0
     hooks:
       - id: yamlfmt
         exclude: ".*.tests*|.*.pic.yml"
   - repo: https://github.com/rhysd/actionlint
-    rev: v1.7.4
+    rev: v1.7.6
     hooks:
       - id: actionlint
   - repo: https://github.com/astral-sh/uv-pre-commit
@@ -54,7 +54,7 @@ repos:
     #       args: [--strict, --ignore-missing-imports, --config-file=pyproject.toml]
 
     # uv version.
-    rev: 0.5.9
+    rev: 0.5.18
     hooks:
       # Update the uv lockfile
       - id: uv-lock

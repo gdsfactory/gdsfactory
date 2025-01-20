@@ -124,7 +124,7 @@ def get_pin_triangle_polygon_tip(
     p1 = p.dcenter + _rotate(dtop, rot_mat)
     port_face = [p0, p1]
 
-    ptip = tuple(p.dcenter + _rotate(dtip, rot_mat))
+    ptip: tuple[float, float] = tuple(map(float, p.dcenter + _rotate(dtip, rot_mat)))  # type: ignore[assignment]
 
     polygon = list(port_face) + [ptip]
     polygon_stacked = np.stack(polygon)
@@ -452,7 +452,11 @@ def add_settings_label(
     layer_label = get_layer(layer_label)
 
     reference_or_component = reference or component
-    info = reference_or_component.cell.info
+    info = (
+        reference_or_component.cell.info
+        if hasattr(reference_or_component, "cell")
+        else reference_or_component.info
+    )
     settings_dict = dict(info)
     settings_string = (
         yaml.dump(convert_tuples_to_lists(settings_dict))
@@ -488,7 +492,7 @@ def add_instance_label(
         layer = (1, 0)
     instance_name = (
         instance_name
-        or f"{reference.parent.name},{int(reference.dx)},{int(reference.dy)}"
+        or f"{reference.cell.name},{int(reference.dx)},{int(reference.dy)}"
     )
 
     layer = layer or CONF.layer_label

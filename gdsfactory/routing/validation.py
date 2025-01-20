@@ -59,7 +59,7 @@ def is_invalid_bundle_topology(ports1: list[Port], ports2: list[Port]) -> bool:
     if len(ports1) < 2:
         # if there's only one route, the bundle topology is always valid
         return False
-    if any(p.orientation is None for p in ports1 + ports2):
+    if any(not p.orientation for p in ports1 + ports2):
         # don't check if the ports do not have orientation
         return False
 

@@ -4,7 +4,7 @@ import warnings
 from typing import Any
 
 import numpy as np
-from numpy.typing import NDArray
+import numpy.typing as npt
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -20,7 +20,10 @@ def line(
     p_end: Port | Coordinate,
     width: float | None = None,
 ) -> tuple[
-    NDArray[np.float64], NDArray[np.float64], NDArray[np.float64], NDArray[np.float64]
+    npt.NDArray[np.floating[Any]],
+    npt.NDArray[np.floating[Any]],
+    npt.NDArray[np.floating[Any]],
+    npt.NDArray[np.floating[Any]],
 ]:
     if isinstance(p_start, gf.Port):
         width = p_start.width
@@ -42,7 +45,7 @@ def line(
 
 def move_polar_rad_copy(
     pos: Coordinate, angle: float, length: float
-) -> NDArray[np.float64]:
+) -> npt.NDArray[np.floating[Any]]:
     """Returns the points of a position (pos) with angle, shifted by length.
 
     Args:
@@ -137,13 +140,20 @@ def extend_ports(
             if extension:
                 extension_component = gf.get_component(extension)
             else:
-                cross_section_extension = cross_section or cross_section_function(
-                    layer=gf.get_layer_tuple(port.layer),  # type: ignore
-                    width=port.dwidth,
-                )
+                pdk = gf.get_active_pdk()
+                cross_section_names = list(pdk.cross_sections)
+                port_xs_name = port.info.get("cross_section", None)
 
-                if cross_section_extension is None:
-                    raise ValueError("cross_section=None for extend_ports")
+                if port_xs_name and port_xs_name in cross_section_names:
+                    cross_section_extension = gf.get_cross_section(
+                        port.info["cross_section"]
+                    )
+
+                else:
+                    cross_section_extension = cross_section or cross_section_function(
+                        layer=gf.get_layer_tuple(port.layer),  # type: ignore
+                        width=port.dwidth,
+                    )
 
                 extension_component = gf.components.straight(
                     length=length,
@@ -178,6 +188,8 @@ if __name__ == "__main__":
     # t = gf.components.taper(length=10, width1=5, width2=0.5)
     # p0 = c0["o1"]
     # c = extend_ports(c0, extension=t)
-    c = extend_ports()
+    # c = extend_ports()
+    c = gf.c.mmi1x2(cross_section="rib")
+    c = extend_ports(component=c)
     c.pprint_ports()
     c.show()

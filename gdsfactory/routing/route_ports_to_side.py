@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Literal
+from typing import Any, Literal, cast
 
 import kfactory as kf
 import numpy as np
@@ -35,8 +35,9 @@ def route_ports_to_side(
     cross_section: CrossSectionSpec,
     ports: Ports | None = None,
     side: Literal["north", "east", "south", "west"] = "north",
-    x: float | None = None,
-    y: float | None = None,
+    x: float | None | Literal["east", "west"] = None,
+    y: float | None | Literal["north", "south"] = None,
+    **kwargs: Any,
 ) -> tuple[list[ManhattanRoute], list[kf.Port]]:
     """Routes ports to a given side.
 
@@ -86,23 +87,34 @@ def route_ports_to_side(
     if not ports:
         return [], []
 
-    if side in ["north", "south"]:
-        xy_ns = y if y is not None else side
+    if side in {"north", "south"}:
+        y_value = y if y is not None else side
+        if isinstance(y_value, str):
+            y_value = cast(Literal["north", "south"], y_value)
+        side = cast(Literal["north", "south"], side)
         return route_ports_to_y(
             component=component,
             ports=ports,
-            y=xy_ns,
+            y=y_value,
             side=side,
             cross_section=cross_section,
+            **kwargs,
         )
-    xy_ew = x if x is not None else side
-    return route_ports_to_x(
-        component=component,
-        ports=ports,
-        x=xy_ew,
-        side=side,
-        cross_section=cross_section,
-    )
+    elif side in {"east", "west"}:
+        x_value = x if x is not None else side
+        if isinstance(x_value, str):
+            x_value = cast(Literal["east", "west"], x_value)
+        side = cast(Literal["west", "east"], side)
+        return route_ports_to_x(
+            component=component,
+            ports=ports,
+            x=x_value,
+            side=side,
+            cross_section=cross_section,
+            **kwargs,
+        )
+    else:
+        raise ValueError(f"side={side} must be 'north', 'south', 'east' or 'west'")
 
 
 def route_ports_to_x(
@@ -193,10 +205,6 @@ def route_ports_to_x(
         x = max(p.dx for p in ports) + bx
     elif x == "west":
         x = min(p.dx for p in ports) - bx
-    elif isinstance(x, float | int):
-        pass
-    else:
-        raise ValueError(f"x={x!r} should be a float or east or west")
 
     if x < min(xs):
         sort_key_north = sort_key_west_to_east
@@ -240,6 +248,9 @@ def route_ports_to_x(
 
         elif side == "east":
             angle = 180
+
+        else:
+            raise ValueError(f"{side=} should be either 'west' or 'east'")
 
         new_port = port.copy()
         new_port.orientation = angle

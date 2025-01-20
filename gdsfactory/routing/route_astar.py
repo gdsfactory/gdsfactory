@@ -1,21 +1,31 @@
 from __future__ import annotations
 
+from collections.abc import Sequence
 from typing import Any
 
+import klayout.dbcore as kdb
 import networkx as nx
 import numpy as np
+import numpy.typing as npt
 from klayout.dbcore import Point
 from shapely.geometry import LineString
 
 import gdsfactory as gf
-from gdsfactory import Port
 from gdsfactory.component import Component
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec, Route
+from gdsfactory.typings import (
+    ComponentSpec,
+    Coordinate,
+    Coordinates,
+    CrossSectionSpec,
+    LayerSpec,
+    Port,
+    Route,
+)
 
 
 class Node:
     def __init__(
-        self, parent: Node | None = None, position: tuple[int, int] = ()
+        self, parent: Node | None = None, position: tuple[int, int] = (0, 0)
     ) -> None:
         """Initializes a node. A node is a point on the grid."""
         self.parent = parent  # parent node of current node
@@ -27,8 +37,8 @@ class Node:
 
 
 def _extract_all_bbox(
-    c: Component, avoid_layers: list[LayerSpec] | None = None
-) -> list[dict[tuple[int, int] | str | int, list[gf.kdb.Polygon]]]:
+    c: Component, avoid_layers: Sequence[LayerSpec] | None = None
+) -> list[dict[tuple[int, int] | str | int, list[kdb.Polygon]]]:
     """Extract all polygons whose layer is in `avoid_layers`.
 
     Args:
@@ -39,25 +49,29 @@ def _extract_all_bbox(
     return [c.get_polygons(by="name", layers=avoid_layers)]
 
 
-def _parse_bbox_to_array(bbox: tuple[float, float]) -> np.ndarray:
+def _parse_bbox_to_array(bbox: kdb.Polygon) -> npt.NDArray[np.integer[Any]]:
     """Parses bbox in the form of (a,b;c,d) to [[a, b], [c, d]].
 
     Args:
         bbox: Parses bbox in the form of (a,b;c,d).
 
     """
-    bbox = str(bbox).strip("()")
-    rows = bbox.split(";")
-    bbox = [list(map(int, row.split(","))) for row in rows]
-    return np.array(bbox)
+    bbox_str = str(bbox).strip("()")
+    rows = bbox_str.split(";")
+    bbox_values = [list(map(int, row.split(","))) for row in rows]
+    return np.array(bbox_values, dtype=np.int64)
 
 
 def _generate_grid(
     c: Component,
     resolution: float = 0.5,
-    avoid_layers: list[LayerSpec] | None = None,
+    avoid_layers: Sequence[LayerSpec] | None = None,
     distance: float = 1,
-) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+) -> tuple[
+    npt.NDArray[np.floating[Any]],
+    npt.NDArray[np.integer[Any]],
+    npt.NDArray[np.floating[Any]],
+]:
     """Generate discretization grid that the algorithm will step through.
 
     Args:
@@ -66,24 +80,22 @@ def _generate_grid(
         avoid_layers: List of layers to avoid.
         distance: Distance from obstacles in um.
     """
-    bbox = _parse_bbox_to_array(c.bbox())
-    bbox = bbox / 1000  # Change units
+    bbox_int = _parse_bbox_to_array(c.bbox())
+    bbox = bbox_int / 1000  # Change units
 
-    x, y = np.meshgrid(
-        np.linspace(
-            bbox[0][0] - resolution,
-            bbox[1][0] + resolution,
-            int((bbox[1][0] - bbox[0][0] + 2 * resolution) / resolution),
-            endpoint=True,
-        ),
-        np.linspace(
-            bbox[0][1] - resolution,
-            bbox[1][1] + resolution,
-            int((bbox[1][1] - bbox[0][1] + 2 * resolution) / resolution),
-            endpoint=True,
-        ),
-    )  # discretize component space
+    _a1 = float(bbox[0][0]) - resolution
+    _a2 = float(bbox[1][0]) + resolution
+    _b1 = float(bbox[0][1]) - resolution
+    _b2 = float(bbox[1][1]) + resolution
+
+    _a = np.linspace(_a1, _a2, int((_a2 - _a1) / resolution), endpoint=True)
+
+    _b = np.linspace(_b1, _b2, int((_b2 - _b1) / resolution), endpoint=True)
+
+    x, y = np.meshgrid(_a, _b)  # discretize component space
     x, y = x[0], y[:, 0]  # weed out copies
+    assert isinstance(x, np.ndarray)
+    assert isinstance(y, np.ndarray)
     grid = np.zeros(
         (len(x), len(y))
     )  # mapping from gdsfactory's x-, y- coordinate to grid vertex
@@ -91,32 +103,29 @@ def _generate_grid(
     # assign 1 for obstacles
     if avoid_layers is None:
         for inst in c.insts:
-            bbox = _parse_bbox_to_array(inst.bbox()) / 1000
-            xmin = np.abs(x - bbox[0][0] + distance).argmin()
-            xmax = np.abs(x - bbox[1][0] - distance).argmin()
-            ymin = np.abs(y - bbox[0][1] + distance).argmin()
-            ymax = np.abs(y - bbox[1][1] - distance).argmin()
+            bbox_array = _parse_bbox_to_array(inst.bbox())
+            xmin = np.abs(x - bbox_array[0][0] + distance).argmin()
+            xmax = np.abs(x - bbox_array[1][0] - distance).argmin()
+            ymin = np.abs(y - bbox_array[0][1] + distance).argmin()
+            ymax = np.abs(y - bbox_array[1][1] - distance).argmin()
             grid[xmin:xmax, ymin:ymax] = 1
     else:
         all_refs = _extract_all_bbox(c, avoid_layers)
         for layer in all_refs:
-            for bbox_array in layer.values():
-                for bbox in bbox_array:
-                    bbox = _parse_bbox_to_array(bbox)
-                    bbox = bbox / 1000
-                    # Determine min/max for the bounding box
-                    xmin = np.abs(x - bbox[0][0] + distance).argmin()
-                    xmax = np.abs(x - bbox[2][0] - distance).argmin()
-                    ymin = np.abs(y - bbox[0][1] + distance).argmin()
-                    ymax = np.abs(y - bbox[2][1] - distance).argmin()
+            for polygons in layer.values():
+                for polygon in polygons:
+                    bbox_array = _parse_bbox_to_array(polygon)
+                    bbox_array_float = bbox_array / 1000
+                    xmin = np.abs(x - bbox_array_float[0][0] + distance).argmin()
+                    xmax = np.abs(x - bbox_array_float[2][0] - distance).argmin()
+                    ymin = np.abs(y - bbox_array_float[0][1] + distance).argmin()
+                    ymax = np.abs(y - bbox_array_float[2][1] - distance).argmin()
                     grid[xmin:xmax, ymin:ymax] = 1
 
-    return np.ndarray.round(grid, 3), np.ndarray.round(x, 3), np.ndarray.round(y, 3)
+    return np.round(grid, 3), np.round(x, 3), np.round(y, 3)
 
 
-def simplify_path(
-    waypoints: list[tuple[float, float]], tolerance: float
-) -> list[tuple[float, float]]:
+def simplify_path(waypoints: Coordinates, tolerance: float) -> list[Coordinate]:
     """Simplifies a list of waypoints using the Douglas-Peucker algorithm.
 
     Args:
@@ -126,13 +135,9 @@ def simplify_path(
     Returns:
         List of simplified waypoints.
     """
-    line = LineString(waypoints)  # Create a line from waypoints
-    simplified_line = line.simplify(
-        tolerance, preserve_topology=False
-    )  # Simplify the line
-    return list(
-        simplified_line.coords
-    )  # Convert simplified line back to a list of waypoints
+    line = LineString(waypoints)
+    simplified_line = line.simplify(tolerance, preserve_topology=False)
+    return list(simplified_line.coords)
 
 
 def route_astar(
@@ -140,7 +145,7 @@ def route_astar(
     port1: Port,
     port2: Port,
     resolution: float = 1,
-    avoid_layers: list[LayerSpec] | None = None,
+    avoid_layers: Sequence[LayerSpec] | None = None,
     distance: float = 8,
     cross_section: CrossSectionSpec = "strip",
     bend: ComponentSpec = "wire_corner",
@@ -161,7 +166,7 @@ def route_astar(
     """
     cross_section = gf.get_cross_section(cross_section, **kwargs)
     grid, x, y = _generate_grid(component, resolution, avoid_layers, distance)
-    G = nx.grid_2d_graph(len(x), len(y))  # Create graph
+    G = nx.grid_2d_graph(len(x), len(y))
 
     # Remove nodes representing obstacles
     for i in range(len(x)):
@@ -187,10 +192,12 @@ def route_astar(
 
     # Find the closest valid nodes
     start_node = min(
-        G.nodes, key=lambda node: np.linalg.norm(np.array(node) - np.array(start_node))
+        G.nodes,  # type: ignore[arg-type]
+        key=lambda node: np.linalg.norm(np.array(node) - np.array(start_node)),  # type: ignore[return-value,arg-type]
     )
     end_node = min(
-        G.nodes, key=lambda node: np.linalg.norm(np.array(node) - np.array(end_node))
+        G.nodes,  # type: ignore[arg-type]
+        key=lambda node: np.linalg.norm(np.array(node) - np.array(end_node)),  # type: ignore[return-value,arg-type]
     )
 
     path = nx.astar_path(G, start_node, end_node)  # Find shortest path
@@ -215,9 +222,7 @@ def route_astar(
     my_waypoints += [[port2x, port2y]]
 
     # Convert to native floats or Point instances
-    cleaned_waypoints = [
-        Point(float(x) * 1000, float(y) * 1000) for x, y in my_waypoints
-    ]
+    cleaned_waypoints = [Point(int(x * 1000), int(y * 1000)) for x, y in my_waypoints]
 
     return gf.routing.route_single(
         component=component,
@@ -235,15 +240,15 @@ if __name__ == "__main__":
     # bend = gf.components.wire_corner
 
     c = gf.Component()
-    cross_section = "strip"
+    cross_section_name = "strip"
     port_prefix = "o"
     bend = gf.components.bend_euler
 
-    cross_section = gf.get_cross_section(cross_section, radius=5)
+    cross_section = gf.get_cross_section(cross_section_name, radius=5)
     w = gf.components.straight(cross_section=cross_section)
     left = c << w
     right = c << w
-    right.rotate(90)
+    right.rotate(90)  # type: ignore[arg-type]
     right.move((168, 63))
 
     obstacle = gf.components.rectangle(size=(250, 3), layer="M2")
@@ -251,12 +256,12 @@ if __name__ == "__main__":
     obstacle2 = c << obstacle
     obstacle3 = c << obstacle
     obstacle4 = c << obstacle
-    obstacle4.rotate(90)
+    obstacle4.rotate(90)  # type: ignore[arg-type]
     obstacle1.ymin = 50
     obstacle1.xmin = -10
     obstacle2.xmin = 35
     obstacle3.ymin = 42
-    obstacle3.xmin = 72.23
+    obstacle3.xmin = 72.23  # type: ignore
     obstacle4.xmin = 200
     obstacle4.ymin = 55
     port1 = left.ports[f"{port_prefix}1"]

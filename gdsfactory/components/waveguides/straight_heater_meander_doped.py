@@ -5,7 +5,8 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.components.vias import via, via_stack
+from gdsfactory.components.vias.via import via
+from gdsfactory.components.vias.via_stack import via_stack
 from gdsfactory.cross_section import Section
 from gdsfactory.typings import ComponentSpec, Floats, LayerSpecs, Port
 
@@ -18,14 +19,14 @@ _via_stack = partial(
             via,
             layer="VIAC",
             size=(0.1, 0.1),
-            spacing=(0.2, 0.2),
+            pitch=0.2,
             enclosure=0.1,
         ),
         partial(
             via,
             layer="VIA1",
             size=(0.1, 0.1),
-            spacing=(0.2, 0.2),
+            pitch=0.2,
             enclosure=0.1,
         ),
     ),

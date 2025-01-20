@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable
+from typing import Any
 
 import numpy as np
 import numpy.typing as npt
@@ -52,6 +53,7 @@ def taper_adiabatic(
     wavelength: float = 1.55,
     npoints: int = 200,
     cross_section: CrossSectionSpec = "strip",
+    max_length: float = 200,
 ) -> gf.Component:
     """Returns a straight adiabatic_taper from an effective index callable.
 
@@ -68,6 +70,7 @@ def taper_adiabatic(
         wavelength: wavelength in um.
         npoints: number of points for sampling.
         cross_section: cross_section specification.
+        max_length: maximum length for the taper.
 
     References:
         [1] Burns, W. K., et al. "Optical waveguide parabolic coupling horns." Appl. Phys. Lett., vol. 30, no. 1, 1 Jan. 1977, pp. 28-30, doi:10.1063/1.89199.
@@ -80,7 +83,12 @@ def taper_adiabatic(
 
     # Obtain optimal curve
     x_opt, w_opt = transition_adiabatic(
-        width1, width2, neff_w=neff_w, wavelength=wavelength, alpha=alpha
+        width1,
+        width2,
+        neff_w=neff_w,
+        wavelength=wavelength,
+        alpha=alpha,
+        max_length=max_length,
     )
 
     # Resample the points
@@ -91,15 +99,21 @@ def taper_adiabatic(
     if not length:
         length = x_opt[-1]
     x = np.linspace(0, length, npoints)
-    w: npt.NDArray[np.float64] = w_opt_interp(x)
+    w: npt.NDArray[np.floating[Any]] = w_opt_interp(x)
+
+    assert isinstance(w, np.ndarray)
 
     # Stretch/compress x
-    x_array = np.linspace(0, length, npoints) * (1 + length - x_opt[-1])
+    x_array: npt.NDArray[np.floating[Any]] = np.linspace(0, length, npoints) * (
+        1 + length - x_opt[-1]
+    )
+    assert isinstance(x_array, np.ndarray)
     y_array = w / 2
 
     c = gf.Component()
     c.add_polygon(
-        list(zip(x_array, y_array)) + list(zip(x_array, -y_array))[::-1], layer=layer
+        list(zip(x_array, y_array)) + list(zip(x_array, -y_array))[::-1],  # type: ignore[assignment, arg-type]
+        layer=layer,
     )
 
     # Define ports

@@ -206,20 +206,6 @@ def route_bundle(
     width_dbu = c.kcl.to_dbu(width)
     radius = radius or xs.radius
     taper_cell = gf.get_component(taper) if taper else None
-    bend90 = (
-        bend
-        if isinstance(bend, gf.Component)
-        else gf.get_component(
-            bend, cross_section=cross_section, radius=radius, width=width
-        )
-    )
-
-    def straight_dbu(width: int, length: int) -> gf.Component:
-        return gf.get_component(
-            straight,
-            length=c.kcl.to_um(length),
-            cross_section=xs,
-        )
 
     end_straight = c.kcl.to_dbu(end_straight_length)
     start_straight = c.kcl.to_dbu(start_straight_length)
@@ -269,7 +255,7 @@ def route_bundle(
             c.kcl.to_dbu(separation),
             starts=start_straight,
             ends=end_straight,
-            collision_check_layers=collision_check_layer_enums,
+            collision_check_layers=collision_check_layer_enums,  # type: ignore[arg-type]
             on_collision=on_collision,
             bboxes=to_kdb_boxes(bboxes or []),
             route_width=width_dbu,
@@ -277,6 +263,21 @@ def route_bundle(
             waypoints=_waypoints,
             end_angles=end_angles,
             start_angles=start_angles,
+        )
+
+    bend90 = (
+        bend
+        if isinstance(bend, gf.Component)
+        else gf.get_component(
+            bend, cross_section=cross_section, radius=radius, width=width
+        )
+    )
+
+    def straight_dbu(width: int, length: int) -> gf.Component:
+        return gf.get_component(
+            straight,
+            length=c.kcl.to_um(length),
+            cross_section=xs,
         )
 
     return kf.routing.optical.route_bundle(
@@ -291,7 +292,7 @@ def route_bundle(
         ends=end_straight,
         min_straight_taper=c.kcl.to_dbu(min_straight_taper),
         place_port_type=port_type,
-        collision_check_layers=collision_check_layer_enums,
+        collision_check_layers=collision_check_layer_enums,  # type: ignore[arg-type]
         on_collision=on_collision,
         allow_width_mismatch=allow_width_mismatch,
         bboxes=to_kdb_boxes(bboxes or []),

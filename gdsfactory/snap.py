@@ -52,13 +52,10 @@ def assert_on_2x_grid(x: float) -> None:
 
 @overload
 def snap_to_grid(
-    x: tuple[float, ...]
-    | npt.NDArray[np.float64]
-    | npt.NDArray[np.floating[Any]]
-    | list[float],
+    x: tuple[float, ...] | npt.NDArray[np.floating[Any]] | list[float],
     nm: int | None = None,
     grid_factor: int = 1,
-) -> npt.NDArray[np.float64]: ...
+) -> npt.NDArray[np.floating[Any]]: ...
 @overload
 def snap_to_grid(
     x: float,
@@ -69,7 +66,7 @@ def snap_to_grid(
     x: Value | list[float],
     nm: int | None = None,
     grid_factor: int = 1,
-) -> npt.NDArray[np.float64] | float:
+) -> npt.NDArray[np.floating[Any]] | float:
     """Snap x to grid.
 
     Args:
@@ -87,12 +84,9 @@ def snap_to_grid(
 
 @overload
 def snap_to_grid2x(
-    x: tuple[float, ...]
-    | npt.NDArray[np.float64]
-    | npt.NDArray[np.floating[Any]]
-    | list[float],
+    x: tuple[float, ...] | npt.NDArray[np.floating[Any]] | list[float],
     nm: int | None = None,
-) -> npt.NDArray[np.float64]: ...
+) -> npt.NDArray[np.floating[Any]]: ...
 @overload
 def snap_to_grid2x(
     x: float,
@@ -101,7 +95,7 @@ def snap_to_grid2x(
 def snap_to_grid2x(
     x: Value | list[float],
     nm: int | None = None,
-) -> npt.NDArray[np.float64] | float:
+) -> npt.NDArray[np.floating[Any]] | float:
     return snap_to_grid(x, nm, grid_factor=2)
 
 

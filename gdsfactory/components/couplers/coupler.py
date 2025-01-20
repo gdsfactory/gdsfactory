@@ -2,13 +2,12 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bends import bend_s
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Delta
 
 
 @gf.cell
 def coupler_symmetric(
-    bend: ComponentSpec = bend_s,
+    bend: ComponentSpec = "bend_s",
     gap: float = 0.234,
     dy: Delta = 4.0,
     dx: Delta = 10.0,
@@ -91,21 +90,23 @@ def coupler_straight(
         o1──────▼─────────o4
     """
     c = Component()
+    x = gf.get_cross_section(cross_section)
     _straight = gf.c.straight(length=length, cross_section=cross_section)
 
     top = c << _straight
     bot = c << _straight
 
-    w = _straight.ports[0].dwidth
+    w = x.width
     y = w + gap
 
     top.dmovey(+y)
 
-    c.add_port("o1", port=bot.ports[0])
-    c.add_port("o2", port=top.ports[0])
-    c.add_port("o3", port=bot.ports[1])
-    c.add_port("o4", port=top.ports[1])
-    c.auto_rename_ports()
+    if bot.ports and top.ports:
+        c.add_port("o1", port=bot.ports[0])
+        c.add_port("o2", port=top.ports[0])
+        c.add_port("o3", port=bot.ports[1])
+        c.add_port("o4", port=top.ports[1])
+        c.auto_rename_ports()
     return c
 
 
@@ -117,6 +118,7 @@ def coupler(
     dx: Delta = 10.0,
     cross_section: CrossSectionSpec = "strip",
     allow_min_radius_violation: bool = False,
+    bend: ComponentSpec = "bend_s",
 ) -> Component:
     r"""Symmetric coupler.
 
@@ -127,6 +129,7 @@ def coupler(
         dx: length of bend in x direction in um.
         cross_section: spec (CrossSection, string or dict).
         allow_min_radius_violation: if True does not check for min bend radius.
+        bend: input and output sbend components.
 
     .. code::
 
@@ -143,7 +146,9 @@ def coupler(
                         coupler_straight  coupler_symmetric
     """
     c = Component()
-    sbend = coupler_symmetric(gap=gap, dy=dy, dx=dx, cross_section=cross_section)
+    sbend = coupler_symmetric(
+        gap=gap, dy=dy, dx=dx, cross_section=cross_section, bend=bend
+    )
 
     sr = c << sbend
     sl = c << sbend

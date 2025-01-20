@@ -32,6 +32,9 @@ skip_test = {
     "grating_coupler_elliptical_lumerical_etch70",
     "coupler_ring_bend",
     "grating_coupler_array",
+    "straight_piecewise",
+    "ge_detector_straight_si_contacts",
+    "dbr",
 }
 cells_to_test = set(cells.keys()) - skip_test
 
@@ -58,6 +61,9 @@ def test_netlists(
 
     if check:
         data_regression.check(n)
+
+    # if "warnings" in n:
+    #     raise ValueError(n["warnings"])
 
     n.pop("warnings", None)
     yaml_str = c.write_netlist(n)

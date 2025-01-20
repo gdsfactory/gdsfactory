@@ -1,5 +1,4 @@
 info: {}
-name: crossing_Acrossing_arm_CSstrip
+name: crossing_Acrossing_arm
 settings:
   arm: crossing_arm
-  cross_section: strip

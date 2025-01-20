@@ -2,7 +2,7 @@ from gdsfactory.components.waveguides.crossing_waveguide import (
     crossing,
     crossing45,
     crossing_etched,
-    crossing_from_taper,
+    crossing_linear_taper,
 )
 from gdsfactory.components.waveguides.straight import (
     straight,
@@ -27,6 +27,7 @@ from gdsfactory.components.waveguides.straight_heater_metal import (
     straight_heater_metal_undercut,
     straight_heater_metal_undercut_90_90,
 )
+from gdsfactory.components.waveguides.straight_piecewise import straight_piecewise
 from gdsfactory.components.waveguides.straight_pin import (
     straight_pin,
     straight_pn,
@@ -45,7 +46,7 @@ __all__ = [
     "crossing",
     "crossing45",
     "crossing_etched",
-    "crossing_from_taper",
+    "crossing_linear_taper",
     "straight",
     "straight_all_angle",
     "straight_array",
@@ -58,6 +59,7 @@ __all__ = [
     "straight_heater_metal_simple",
     "straight_heater_metal_undercut",
     "straight_heater_metal_undercut_90_90",
+    "straight_piecewise",
     "straight_pin",
     "straight_pin_slot",
     "straight_pn",

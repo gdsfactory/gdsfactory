@@ -16,7 +16,7 @@ from rich.table import Table
 if TYPE_CHECKING:
     pass
 
-__version__ = "8.26.2"
+__version__ = "8.30.3"
 __next_major_version__ = "9.0.0"
 
 PathType = str | pathlib.Path
@@ -32,17 +32,20 @@ logpath = home_path / "log.log"
 get_number_of_cores = get_affinity
 
 GDSDIR_TEMP = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
+GDSDIR_TEMP.mkdir(parents=True, exist_ok=True)
 
 plugins = [
-    "gplugins",
-    "ray",
-    "femwell",
     "devsim",
-    "tidy3d",
+    "femwell",
+    "gdsfactoryplus",
+    "gplugins",
+    "lumapi",
     "meep",
     "meow",
-    "lumapi",
+    "ray",
     "sax",
+    "tidy3d",
+    "vlsir",
 ]
 
 
@@ -52,7 +55,7 @@ class ErrorType(Enum):
     IGNORE = auto()
 
 
-def print_version_plugins(packages: list[str] | None) -> None:
+def print_version_plugins(packages: list[str] | None = None) -> None:
     """Print gdsfactory plugin versions and paths.
 
     Args:

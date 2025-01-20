@@ -44,7 +44,10 @@ def coupler_full(
     """
     c = gf.Component()
 
-    x = gf.get_cross_section(cross_section=cross_section, width=width)
+    if width:
+        x = gf.get_cross_section(cross_section=cross_section, width=width)
+    else:
+        x = gf.get_cross_section(cross_section=cross_section)
     x_top = x.copy(width=x.width + dw)
     x_bottom = x.copy(width=x.width - dw)
 

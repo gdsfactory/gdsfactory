@@ -49,7 +49,10 @@ def taper(
     width1 = x1.width
     width2 = x2.width
     width_max = max([width1, width2])
-    x = gf.get_cross_section(cross_section, width=width_max, layer=layer)
+    if layer:
+        x = gf.get_cross_section(cross_section, width=width_max, layer=layer)
+    else:
+        x = gf.get_cross_section(cross_section, width=width_max)
     layer = layer or x.layer
     assert layer is not None
 

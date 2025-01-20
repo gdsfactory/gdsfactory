@@ -10,7 +10,7 @@ from typing import Any
 
 import aenum
 import klayout.db as db
-from pydantic import BaseModel, ConfigDict, model_validator
+from pydantic import BaseModel, ConfigDict, field_validator
 
 from gdsfactory.config import PATH
 from gdsfactory.technology import LayerStack, LayerViews
@@ -62,17 +62,16 @@ class KLayoutTechnology(BaseModel):
     layer_stack: LayerStack | None = None
     connectivity: Sequence[ConnectivitySpec] | None = None
 
-    @model_validator(mode="before")
+    @field_validator("layer_map", mode="before")
     @classmethod
-    def check_layer_map(cls, data: Any) -> Any:
-        layer_map = data.get("layer_map")
-        if isinstance(layer_map, aenum._enum.EnumType):
-            layer_map = {
+    def check_layer_map(cls, layer_map: Any) -> Any:
+        if isinstance(layer_map, aenum.EnumType):
+            _layer_map: dict[str, tuple[int, int]] = {
                 name: (layer_enum.layer, layer_enum.datatype)
                 for name, layer_enum in layer_map.__members__.items()
             }
-            data["layer_map"] = layer_map
-        return data
+            return _layer_map
+        return layer_map
 
     def write_tech(
         self,

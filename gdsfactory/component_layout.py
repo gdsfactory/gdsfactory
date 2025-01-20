@@ -60,7 +60,7 @@ class GeometryHelper(ABC):
 
     @property
     @abstractmethod
-    def bbox(self) -> npt.NDArray[np.float64]: ...
+    def bbox(self) -> npt.NDArray[np.floating[Any]]: ...
 
     @abstractmethod
     def move(
@@ -210,7 +210,9 @@ class GeometryHelper(ABC):
 
 
 def rotate_points(
-    points: npt.NDArray[np.float64], angle: float = 45, center: Coordinate = (0, 0)
+    points: npt.NDArray[np.floating[Any]],
+    angle: float = 45,
+    center: Coordinate = (0, 0),
 ) -> npt.NDArray[np.floating[Any]]:
     """Rotates points around a centerpoint defined by ``center``.
 
@@ -243,8 +245,10 @@ def rotate_points(
 
 
 def reflect_points(
-    points: npt.NDArray[np.float64], p1: Coordinate = (0, 0), p2: Coordinate = (1, 0)
-) -> npt.NDArray[np.float64]:
+    points: npt.NDArray[np.floating[Any]],
+    p1: Coordinate = (0, 0),
+    p2: Coordinate = (1, 0),
+) -> npt.NDArray[np.floating[Any]]:
     """Reflects points across the line formed by p1 and p2.
 
     from https://github.com/amccaugh/phidl/pull/181
@@ -280,7 +284,9 @@ def reflect_points(
     return reflected_points if original_shape[0] > 1 else reflected_points[0]  # type: ignore[no-any-return]
 
 
-def parse_coordinate(c: Coordinate | Port) -> Coordinate:
+def parse_coordinate(
+    c: Coordinate | Port | npt.NDArray[np.floating[Any]],
+) -> Coordinate:
     """Translates various inputs (lists, tuples, Ports) to an (x,y) coordinate.
 
     Args:
@@ -294,14 +300,16 @@ def parse_coordinate(c: Coordinate | Port) -> Coordinate:
     if hasattr(c, "center"):
         return c.dcenter  # type: ignore[union-attr]
     elif np.array(c).size == 2:
-        return c  # type: ignore[unused-ignore]
+        return c  # type: ignore[unused-ignore, return-value]
     raise ValueError(
         "Could not parse coordinate, input should be array-like (e.g. [1.5,2.3] or a Port"
     )
 
 
 def parse_move(
-    origin: Coordinate, destination: Coordinate | None, axis: Axis | None = None
+    origin: Coordinate | npt.NDArray[np.floating[Any]],
+    destination: Coordinate | npt.NDArray[np.floating[Any]] | None,
+    axis: Axis | None = None,
 ) -> tuple[float, float]:
     """Translates input coordinates to changes in position in the x and y directions.
 

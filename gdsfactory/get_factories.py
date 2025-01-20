@@ -51,8 +51,6 @@ def is_cell(
     name: str = "",
 ) -> bool:
     try:
-        if not name:
-            name = func.__name__
         if not callable(func):
             return False
         if not ignore_partials and isinstance(func, partial):
@@ -63,6 +61,8 @@ def is_cell(
                 ignore_partials=ignore_partials,
                 name=name,
             )
+        if not name:
+            name = func.__name__
         if ignore_underscored and name.startswith("_"):
             return False
         if getattr(func, "is_gf_cell", False):

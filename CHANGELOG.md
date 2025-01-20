@@ -1,7 +1,105 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.26.2...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.30.3...main)
 
 <!-- towncrier release notes start -->
+
+## [8.30.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.30.3) - 2025-01-17
+
+- fix grid rotation [#3612](https://github.com/gdsfactory/gdsfactory/pull/3612)
+- Update taper_cross_section.py [#3604](https://github.com/gdsfactory/gdsfactory/pull/3604)
+- Add more ComponentAllAngle tests [#3598](https://github.com/gdsfactory/gdsfactory/pull/3598)
+- Simpler crossing [#3607](https://github.com/gdsfactory/gdsfactory/pull/3607)
+
+## [8.30.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.30.2) - 2025-01-14
+
+- Fix wrong Component.copy [#3602](https://github.com/gdsfactory/gdsfactory/pull/3602)
+- fix extend ports [#3600](https://github.com/gdsfactory/gdsfactory/pull/3600)
+- Move Component only functions to Component class [#3596](https://github.com/gdsfactory/gdsfactory/pull/3596)
+- swap_inheritance_order [#3590](https://github.com/gdsfactory/gdsfactory/pull/3590)
+- regenerate uv.lock [#3594](https://github.com/gdsfactory/gdsfactory/pull/3594)
+- [pre-commit.ci] pre-commit autoupdate [#3593](https://github.com/gdsfactory/gdsfactory/pull/3593)
+- update pydantic min version [#3601](https://github.com/gdsfactory/gdsfactory/pull/3601)
+- regenerate uv.lock [#3594](https://github.com/gdsfactory/gdsfactory/pull/3594)
+
+## [8.30.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.30.1) - 2025-01-13
+
+- fixes ComponentAllAngle copy [#3591](https://github.com/gdsfactory/gdsfactory/pull/3591)
+
+## [8.30.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.30.0) - 2025-01-12
+
+- update to kfactory 0.23.0 [#3574](https://github.com/gdsfactory/gdsfactory/pull/3574)
+- remove unused param [#3586](https://github.com/gdsfactory/gdsfactory/pull/3586)
+- update kfactory to 0.23.1 [#3589](https://github.com/gdsfactory/gdsfactory/pull/3589)
+
+## [8.29.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.29.2) - 2025-01-09
+
+- expose sbend in coupler [#3585](https://github.com/gdsfactory/gdsfactory/pull/3585)
+
+## [8.29.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.29.1) - 2025-01-08
+
+- Fix loss deembed [#3583](https://github.com/gdsfactory/gdsfactory/pull/3583)
+- fix grating_coupler_tree [#3582](https://github.com/gdsfactory/gdsfactory/pull/3582)
+- only define straight and bend in route_bundle if necessary [#3581](https://github.com/gdsfactory/gdsfactory/pull/3581)
+- fix grating_coupler_tree [#3582](https://github.com/gdsfactory/gdsfactory/pull/3582)
+- improve_add_electrical_pads_shortest [#3578](https://github.com/gdsfactory/gdsfactory/pull/3578)
+- [pre-commit.ci] pre-commit autoupdate [#3577](https://github.com/gdsfactory/gdsfactory/pull/3577)
+- Correct doc example in 11_best_practices.ipynb [#3580](https://github.com/gdsfactory/gdsfactory/pull/3580)
+
+## [8.29.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.29.0) - 2025-01-05
+
+- register containers in pdk [#3572](https://github.com/gdsfactory/gdsfactory/pull/3572)
+- add filepath to yaml cell [#3569](https://github.com/gdsfactory/gdsfactory/pull/3569)
+- Clean connectivity for some components [#3575](https://github.com/gdsfactory/gdsfactory/pull/3575)
+- Expose electrical ports in ring_pn [#3573](https://github.com/gdsfactory/gdsfactory/pull/3573)
+- fixing docs for non-orthogonal grid array [#3566](https://github.com/gdsfactory/gdsfactory/pull/3566)
+- fix cutbacks [#3567](https://github.com/gdsfactory/gdsfactory/pull/3567)
+- ensure GDSDIR_TEMP exists [#3565](https://github.com/gdsfactory/gdsfactory/pull/3565)
+
+
+## [8.28.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.28.1) - 2024-12-31
+
+- Simpler straight heater meander default args [#3563](https://github.com/gdsfactory/gdsfactory/pull/3563)
+- add angle resolution to via_circular [#3562](https://github.com/gdsfactory/gdsfactory/pull/3562)
+- Add more tests [#3559](https://github.com/gdsfactory/gdsfactory/pull/3559)
+- [pre-commit.ci] pre-commit autoupdate [#3561](https://github.com/gdsfactory/gdsfactory/pull/3561)
+- deps: bump astral-sh/setup-uv from 4 to 5 [#3560](https://github.com/gdsfactory/gdsfactory/pull/3560)
+
+
+## [8.28.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.28.0) - 2024-12-29
+
+- Add more tests [#3550](https://github.com/gdsfactory/gdsfactory/pull/3550)
+- raise error when modifying locked components that use cell decorator [#3556](https://github.com/gdsfactory/gdsfactory/pull/3556)
+- add straight_piecewise [#3551](https://github.com/gdsfactory/gdsfactory/pull/3551)
+- fix freetype [#3557](https://github.com/gdsfactory/gdsfactory/pull/3557)
+- raise error when modifying locked components that use cell decorator [#3556](https://github.com/gdsfactory/gdsfactory/pull/3556)
+- Fix is_cell [#3549](https://github.com/gdsfactory/gdsfactory/pull/3549)
+- Fix route ports to side kwargs [#3547](https://github.com/gdsfactory/gdsfactory/pull/3547)
+- Remove deprecated methods from tests [#3558](https://github.com/gdsfactory/gdsfactory/pull/3558)
+- Fix ALL mypy errors! [#3544](https://github.com/gdsfactory/gdsfactory/pull/3544)
+
+## [8.27.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.27.2) - 2024-12-27
+
+- remove import_gds cache [#3543](https://github.com/gdsfactory/gdsfactory/pull/3543)
+- Fix mypy errors [#3542](https://github.com/gdsfactory/gdsfactory/pull/3542)
+
+## [8.27.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.27.1) - 2024-12-25
+
+- fix gf version [#3541](https://github.com/gdsfactory/gdsfactory/pull/3541)
+- Fix to svg [#3534](https://github.com/gdsfactory/gdsfactory/pull/3534)
+- fix array_connect in YAML [#3533](https://github.com/gdsfactory/gdsfactory/pull/3533)
+- fix duplicate ports in documentation plots [#3532](https://github.com/gdsfactory/gdsfactory/pull/3532)
+- Fix mypy errors [#3540](https://github.com/gdsfactory/gdsfactory/pull/3540)
+- Feature/fix mypy errors [#3538](https://github.com/gdsfactory/gdsfactory/pull/3538)
+- remove pytest_only dep [#3539](https://github.com/gdsfactory/gdsfactory/pull/3539)
+- update dependabot [#3530](https://github.com/gdsfactory/gdsfactory/pull/3530)
+
+## [8.27.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.27.0) - 2024-12-23
+
+- Update bundle syntax within from_yaml parser [#3526](https://github.com/gdsfactory/gdsfactory/pull/3526)
+- add print for different packages [#3522](https://github.com/gdsfactory/gdsfactory/pull/3522)
+- Update taper_adiabatic.py [#3524](https://github.com/gdsfactory/gdsfactory/pull/3524)
+- fix awg [#3521](https://github.com/gdsfactory/gdsfactory/pull/3521)
+- fix samples and add tests for samples [#3519](https://github.com/gdsfactory/gdsfactory/pull/3519)
 
 ## [8.26.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.26.2) - 2024-12-19
 

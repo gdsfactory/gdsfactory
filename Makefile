@@ -13,11 +13,12 @@ install310:
 	uv sync --extra docs --extra dev
 
 dev:
+	uv venv -p 3.12
 	uv sync --all-extras
 	uv pip install -e .
 	uv run pre-commit install
-	gf install-klayout-genericpdk
-	gf install-git-diff
+	uv run gf install-klayout-genericpdk
+	uv run gf install-git-diff
 
 install-kfactory-dev:
 	uv pip install git+https://github.com/gdsfactory/kfactory --force-reinstall
@@ -35,13 +36,16 @@ test: test-data-gds
 	pytest -s
 
 test-force:
-	pytest -n auto --force-regen
+	uv run pytest -n logical --force-regen -s
 
 uv-test: test-data-gds
-	uv run pytest -s -n auto
+	uv run pytest -s -n logical
 
 cov:
-	uv run pytest --cov=gdsfactory
+	uv run pytest --cov=gdsfactory --cov-report=term-missing:skip-covered
+
+dev-cov:
+	uv run pytest -s -n logical --cov=gdsfactory --cov-report=term-missing:skip-covered
 
 test-samples:
 	uv run pytest tests/test_samples.py

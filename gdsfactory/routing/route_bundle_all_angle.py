@@ -1,4 +1,3 @@
-from collections.abc import Sequence
 from functools import partial
 
 from kfactory.routing.aa.optical import OpticalAllAngleRoute, route_bundle
@@ -11,17 +10,17 @@ from gdsfactory.typings import (
     ComponentSpec,
     Coordinates,
     CrossSectionSpec,
-    Ports,
+    Port,
 )
 from gdsfactory.utils import to_kdb_dpoints
 
 
 def route_bundle_all_angle(
     component: ComponentSpec,
-    ports1: Ports,
-    ports2: Ports,
+    ports1: list[Port],
+    ports2: list[Port],
     backbone: Coordinates | None = None,
-    separation: Sequence[float] | float = 3.0,
+    separation: list[float] | float = 3.0,
     straight: ComponentAllAngleFactory = straight_all_angle,
     bend: ComponentAllAngleFactory = partial(bend_euler_all_angle, radius=5),
     bend_ports: tuple[str, str] = ("o1", "o2"),

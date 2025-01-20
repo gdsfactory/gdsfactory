@@ -23,8 +23,7 @@ class ComponentFunc(Protocol[ComponentParams]):
 
 @overload
 def cell(
-    _func: ComponentFunc[ComponentParams],
-    /,
+    _func: ComponentFunc[ComponentParams], /
 ) -> ComponentFunc[ComponentParams]: ...
 
 
@@ -100,8 +99,7 @@ class ComponentAllAngleFunc(Protocol[ComponentParams]):
 
 @overload
 def vcell(
-    _func: ComponentAllAngleFunc[ComponentParams],
-    /,
+    _func: ComponentAllAngleFunc[ComponentParams], /
 ) -> ComponentAllAngleFunc[ComponentParams]: ...
 
 

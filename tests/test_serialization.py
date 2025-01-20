@@ -20,6 +20,7 @@ def test_convert_tuples_to_lists() -> None:
     assert convert_tuples_to_lists({"a": (1, 2)}) == {"a": [1, 2]}
     assert convert_tuples_to_lists([1, (2, 3)]) == [1, [2, 3]]
     assert convert_tuples_to_lists((1, 2)) == [1, 2]
+    assert convert_tuples_to_lists(([1, 2], 3)) == [[1, 2], 3]
 
 
 def test_clean_dict() -> None:

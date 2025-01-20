@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
+from typing import Any
 
 import numpy as np
 import numpy.typing as npt
@@ -13,8 +14,8 @@ from gdsfactory.typings import Coordinate, Coordinates, CrossSectionSpec, Size
 
 
 def bezier_curve(
-    t: npt.NDArray[np.float64], control_points: Coordinates
-) -> npt.NDArray[np.float64]:
+    t: npt.NDArray[np.floating[Any]], control_points: Coordinates
+) -> npt.NDArray[np.floating[Any]]:
     """Returns bezier coordinates.
 
     Args:
@@ -72,7 +73,7 @@ def bezier(
     if max(np.abs(curv)) == 0:
         min_bend_radius = np.inf
     else:
-        min_bend_radius = float(gf.snap.snap_to_grid(1 / max(np.abs(curv))))
+        min_bend_radius = float(gf.snap.snap_to_grid(float(1 / np.max(np.abs(curv)))))
 
     c.info["length"] = length
     c.info["min_bend_radius"] = min_bend_radius

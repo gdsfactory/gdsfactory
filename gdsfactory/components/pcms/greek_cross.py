@@ -152,7 +152,7 @@ def greek_cross_with_pads(
             end_straight_length=5,
         )
         c.add_port(
-            name=f"e{index+1}",
+            name=f"e{index + 1}",
             port=pad_ref.ports[pad_port_name],
         )
 

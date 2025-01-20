@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections.abc import Sequence
 from typing import Any
 
 import gdsfactory as gf
@@ -8,9 +9,9 @@ from gdsfactory.component import Component, ComponentReference
 
 @gf.cell
 def mzi_lattice(
-    coupler_lengths: tuple[float, ...] = (10.0, 20.0),
-    coupler_gaps: tuple[float, ...] = (0.2, 0.3),
-    delta_lengths: tuple[float, ...] = (10.0,),
+    coupler_lengths: Sequence[float] = (10.0, 20.0),
+    coupler_gaps: Sequence[float] = (0.2, 0.3),
+    delta_lengths: Sequence[float] = (10.0,),
     mzi: str = "mzi_coupler",
     splitter: str = "coupler",
     **kwargs: Any,

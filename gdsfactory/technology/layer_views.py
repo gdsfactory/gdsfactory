@@ -7,12 +7,12 @@ You can maintain LayerViews in YAML (.yaml) or Klayout XML file (.lyp)
 from __future__ import annotations
 
 import builtins
-import os
 import pathlib
 import re
 import warnings
 import xml.etree.ElementTree as ET
-from typing import TYPE_CHECKING, Any
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeAlias
 
 import numpy as np
 import yaml
@@ -28,12 +28,13 @@ from gdsfactory.technology.xml_utils import make_pretty_xml
 from gdsfactory.technology.yaml_utils import TechnologyDumper
 
 if TYPE_CHECKING:
-    from pydantic.typing import AbstractSetIntStr, DictStrAny, MappingIntStrAny
-
     from gdsfactory.component import Component
 
 PathLike = pathlib.Path | str
 Layer = tuple[int, int]
+IncEx: TypeAlias = (
+    set[int] | set[str] | Mapping[int, "IncEx | bool"] | Mapping[str, "IncEx | bool"]
+)
 
 _klayout_line_styles = {
     "solid": "",
@@ -48,9 +49,9 @@ _klayout_line_styles = {
 _klayout_dither_patterns = {
     "solid": "*",
     "hollow": ".",
-    "dotted": "*.\n" ".*",
-    "coarsely dotted": "*...\n" "....\n" "..*.\n" "....",
-    "left-hatched": "*...\n" ".*..\n" "..*.\n" "...*",
+    "dotted": "*.\n.*",
+    "coarsely dotted": "*...\n....\n..*.\n....",
+    "left-hatched": "*...\n.*..\n..*.\n...*",
     "lightly left-hatched": "*.......\n"
     ".*......\n"
     "..*.....\n"
@@ -59,7 +60,7 @@ _klayout_dither_patterns = {
     ".....*..\n"
     "......*.\n"
     ".......*",
-    "strongly left-hatched dense": "**..\n" ".**.\n" "..**\n" "*..*",
+    "strongly left-hatched dense": "**..\n.**.\n..**\n*..*",
     "strongly left-hatched sparse": "**......\n"
     ".**.....\n"
     "..**....\n"
@@ -68,7 +69,7 @@ _klayout_dither_patterns = {
     ".....**.\n"
     "......**\n"
     "*......*",
-    "right-hatched": "*...\n" "...*\n" "..*.\n" ".*..",
+    "right-hatched": "*...\n...*\n..*.\n.*..",
     "lightly right-hatched": "*.......\n"
     ".......*\n"
     "......*.\n"
@@ -77,7 +78,7 @@ _klayout_dither_patterns = {
     "...*....\n"
     "..*.....\n"
     ".*......",
-    "strongly right-hatched dense": "**..\n" "*..*\n" "..**\n" ".**.",
+    "strongly right-hatched dense": "**..\n*..*\n..**\n.**.",
     "strongly right-hatched sparse": "**......\n"
     "*......*\n"
     "......**\n"
@@ -86,7 +87,7 @@ _klayout_dither_patterns = {
     "...**...\n"
     "..**....\n"
     ".**.....",
-    "cross-hatched": "*...\n" ".*.*\n" "..*.\n" ".*.*",
+    "cross-hatched": "*...\n.*.*\n..*.\n.*.*",
     "lightly cross-hatched": "*.......\n"
     ".*.....*\n"
     "..*...*.\n"
@@ -95,7 +96,7 @@ _klayout_dither_patterns = {
     "...*.*..\n"
     "..*...*.\n"
     ".*.....*",
-    "checkerboard 2px": "**..\n" "**..\n" "..**\n" "..**",
+    "checkerboard 2px": "**..\n**..\n..**\n..**",
     "strongly cross-hatched sparse": "**......\n"
     "***....*\n"
     "..**..**\n"
@@ -232,14 +233,14 @@ _klayout_dither_patterns = {
     "..*...*.\n"
     "*....*..\n"
     ".*.*....",
-    "vertical dense": "*.\n" "*.\n",
-    "vertical": ".*..\n" ".*..\n" ".*..\n" ".*..\n",
-    "vertical thick": ".**.\n" ".**.\n" ".**.\n" ".**.\n",
-    "vertical sparse": "...*....\n" "...*....\n" "...*....\n" "...*....\n",
-    "vertical sparse, thick": "...**...\n" "...**...\n" "...**...\n" "...**...\n",
-    "horizontal dense": "**\n" "..\n",
-    "horizontal": "....\n" "****\n" "....\n" "....\n",
-    "horizontal thick": "....\n" "****\n" "****\n" "....\n",
+    "vertical dense": "*.\n*.\n",
+    "vertical": ".*..\n.*..\n.*..\n.*..\n",
+    "vertical thick": ".**.\n.**.\n.**.\n.**.\n",
+    "vertical sparse": "...*....\n...*....\n...*....\n...*....\n",
+    "vertical sparse, thick": "...**...\n...**...\n...**...\n...**...\n",
+    "horizontal dense": "**\n..\n",
+    "horizontal": "....\n****\n....\n....\n",
+    "horizontal thick": "....\n****\n****\n....\n",
     "horizontal sparse": "........\n"
     "........\n"
     "........\n"
@@ -256,9 +257,9 @@ _klayout_dither_patterns = {
     "........\n"
     "........\n"
     "........\n",
-    "grid dense": "**\n" "*.\n",
-    "grid": ".*..\n" "****\n" ".*..\n" ".*..\n",
-    "grid thick": ".**.\n" "****\n" "****\n" ".**.\n",
+    "grid dense": "**\n*.\n",
+    "grid": ".*..\n****\n.*..\n.*..\n",
+    "grid thick": ".**.\n****\n****\n.**.\n",
     "grid sparse": "...*....\n"
     "...*....\n"
     "...*....\n"
@@ -293,14 +294,12 @@ class HatchPattern(BaseModel):
 
     @field_validator("custom_pattern")
     @classmethod
-    def check_pattern_klayout(cls, pattern: str | None, **kwargs: Any) -> str | None:
+    def check_pattern_klayout(cls, pattern: str | None) -> str | None:
         if pattern is None:
             return None
         lines = pattern.splitlines()
         if any(len(list(line)) > 32 for line in lines):
-            raise ValueError(
-                f"Custom pattern {kwargs['values']['name']} has more than 32 characters."
-            )
+            raise ValueError(f"Custom pattern {pattern} has more than 32 characters.")
         return pattern
 
     def to_klayout_xml(self) -> ET.Element:
@@ -339,7 +338,7 @@ class LineStyle(BaseModel):
 
     @field_validator("custom_style")
     @classmethod
-    def check_pattern(cls, pattern: str | None, **kwargs: Any) -> str | None:
+    def check_pattern(cls, pattern: str | None) -> str | None:
         if pattern is None:
             return None
 
@@ -348,7 +347,7 @@ class LineStyle(BaseModel):
         valid_length = len(pattern_list) <= 32
         if (not valid_chars) or (not valid_length):
             raise ValueError(
-                f"Custom line pattern {kwargs['values']['name']} must consist of '*' and '.' characters and be no more than 32 characters long."
+                f"Custom line pattern {pattern} must consist of '*' and '.' characters and be no more than 32 characters long."
             )
 
         return pattern
@@ -451,23 +450,17 @@ class LayerView(BaseModel):
 
         super().__init__(**data)
 
-        # Iterate through all items, adding group members as needed
-        for name, field in self.model_fields.items():
-            default = field.get_default()
-            if isinstance(default, LayerView):
-                self.group_members[name] = default
-
     def dict(
         self,
         *,
-        include: AbstractSetIntStr | MappingIntStrAny | None = None,
-        exclude: AbstractSetIntStr | MappingIntStrAny | None = None,
+        include: IncEx | None = None,
+        exclude: IncEx | None = None,
         by_alias: bool = False,
         exclude_unset: bool = False,
         exclude_defaults: bool = False,
         exclude_none: bool = False,
         simplify: bool = True,
-    ) -> DictStrAny:
+    ) -> dict[str, Any]:
         """Generate a dictionary representation of the model, optionally specifying which fields to include or exclude.
 
         Specify "simplify" to consolidate fill and frame color/brightness if they are the same.
@@ -730,7 +723,11 @@ class LayerView(BaseModel):
 
         # Translate KLayout index to line style name
         line_style = element.find("line-style")
-        if line_style and re.match(r"I\d+", line_style.text):  # type: ignore
+        if (
+            line_style is not None
+            and line_style.text is not None
+            and re.match(r"I\d+", line_style.text)
+        ):
             line_style = list(_klayout_line_styles.keys())[int(line_style.text[1:])]  # type: ignore
 
         lv = LayerView(
@@ -741,7 +738,9 @@ class LayerView(BaseModel):
             fill_brightness=element.find("fill-brightness").text or 0,  # type: ignore
             frame_brightness=element.find("frame-brightness").text or 0,  # type: ignore
             hatch_pattern=hatch_pattern or None,
-            line_style=line_style or None,
+            line_style=line_style
+            if line_style is not None and len(line_style) > 0
+            else None,
             valid=getattr(element.find("valid"), "text", True),
             visible=getattr(element.find("visible"), "text", True),
             transparent=getattr(element.find("transparent"), "text", False),
@@ -1068,8 +1067,10 @@ class LayerViews(BaseModel):
 
         filepath = pathlib.Path(filepath)
 
-        if not os.path.exists(filepath):
-            raise OSError(f"File {str(filepath)!r} does not exist, cannot read.")
+        if not filepath.exists():
+            raise FileNotFoundError(
+                f"File {str(filepath)!r} does not exist, cannot read."
+            )
 
         tree = ET.parse(filepath)
         root = tree.getroot()
@@ -1100,7 +1101,6 @@ class LayerViews(BaseModel):
             )
         line_styles: dict[str, LineStyle] = {}
         for line_block in root.iter("custom-line-style"):
-            print(line_block, type(line_block))
             name = line_block.find("name").text  # type: ignore[union-attr]
             order = line_block.find("order").text  # type: ignore[union-attr]
 

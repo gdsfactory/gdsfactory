@@ -2,8 +2,15 @@ import xml.dom.minidom
 import xml.etree.ElementTree as ET
 from xml.dom.minidom import Node
 
+from gdsfactory._deprecation import deprecate
+
 
 def _strip_xml(node: Node) -> None:
+    deprecate("_strip_xml", "strip_xml")
+    strip_xml(node)
+
+
+def strip_xml(node: Node) -> None:
     """Strip XML of excess whitespace.
 
     Source: https://stackoverflow.com/a/16919069
@@ -13,14 +20,14 @@ def _strip_xml(node: Node) -> None:
             if x.nodeValue:
                 x.nodeValue = x.nodeValue.strip()
         elif x.nodeType == Node.ELEMENT_NODE:
-            _strip_xml(x)
+            strip_xml(x)
 
 
 def make_pretty_xml(root: ET.Element) -> bytes:
     """Make XML pretty."""
     xml_doc = xml.dom.minidom.parseString(ET.tostring(root))
 
-    _strip_xml(xml_doc)
+    strip_xml(xml_doc)
     xml_doc.normalize()
 
     return xml_doc.toprettyxml(indent=" ", newl="\n", encoding="utf-8")

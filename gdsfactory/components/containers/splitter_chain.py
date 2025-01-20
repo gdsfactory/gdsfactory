@@ -47,9 +47,9 @@ def splitter_chain(
         bref.connect(port="o1", other=cref.ports[e1_port_name])
         cref = c.add_ref(splitter_component)
         cref.connect(port="o1", other=bref.ports["o2"])
-        c.add_port(name=f"o{i+2}", port=cref.ports[e0_port_name])
+        c.add_port(name=f"o{i + 2}", port=cref.ports[e0_port_name])
 
-    c.add_port(name=f"o{i+3}", port=cref.ports[e1_port_name])
+    c.add_port(name=f"o{i + 3}", port=cref.ports[e1_port_name])
     c.copy_child_info(splitter_component)
     return c
 

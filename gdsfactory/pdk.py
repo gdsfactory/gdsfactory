@@ -10,7 +10,6 @@ from functools import cached_property, partial, wraps
 from typing import Any
 
 import kfactory as kf
-import numpy as np
 import yaml
 from kfactory.kcell import LayerEnum
 from pydantic import BaseModel, ConfigDict, Field
@@ -21,7 +20,7 @@ from gdsfactory.config import CONF
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
-from gdsfactory.serialization import convert_tuples_to_lists
+from gdsfactory.serialization import clean_value_json, convert_tuples_to_lists
 from gdsfactory.symbols import floorplan_with_block_letters
 from gdsfactory.technology import LayerStack, LayerViews, klayout_tech
 from gdsfactory.typings import (
@@ -61,7 +60,7 @@ def evanescent_coupler_sample() -> None:
     pass
 
 
-def extract_args_from_docstring(docstring: str) -> dict[str, Any] | None:
+def extract_args_from_docstring(docstring: str) -> dict[str, Any]:
     """This function extracts settings from a function's docstring for uPDK format.
 
     Args:
@@ -70,7 +69,7 @@ def extract_args_from_docstring(docstring: str) -> dict[str, Any] | None:
     Returns:
         settings (dict): The extracted YAML data as a dictionary.
     """
-    args_dict = {}
+    args_dict: dict[str, Any] = {}
 
     docstring_lines = docstring.split("\n")
     for line in docstring_lines:
@@ -116,6 +115,7 @@ class Pdk(BaseModel):
         version: PDK version.
         cross_sections: dict of cross_sections factories.
         cells: dict of parametric cells that return Components.
+        containers: dict of containers that return Components. A container is a cell that contains other cells.
         models: dict of models names to functions.
         symbols: dict of symbols names to functions.
         default_symbol_factory:
@@ -149,9 +149,10 @@ class Pdk(BaseModel):
         default_factory=dict, exclude=True
     )
     cells: dict[str, ComponentFactory] = Field(default_factory=dict, exclude=True)
+    containers: dict[str, ComponentFactory] = Field(default_factory=dict, exclude=True)
     models: dict[str, Callable[..., Any]] = Field(default_factory=dict, exclude=True)
     symbols: dict[str, ComponentFactory] = Field(default_factory=dict)
-    default_symbol_factory: Callable[..., ComponentFactory] = Field(
+    default_symbol_factory: ComponentFactory = Field(
         default=floorplan_with_block_letters, exclude=True
     )
     base_pdks: list[Pdk] = Field(default_factory=list)
@@ -191,13 +192,13 @@ class Pdk(BaseModel):
                 return gf.cross_section.cross_section(width=width, radius=radius)
         """
         default_xs = func()
-        self._cross_section_default_names[default_xs.name] = func.__name__
+        self.cross_section_default_names[default_xs.name] = func.__name__
 
         @wraps(func)
         def newfunc(**kwargs: Any) -> CrossSection:
             xs = func(**kwargs)
-            if xs.name in self._cross_section_default_names:
-                xs._name = self._cross_section_default_names[xs.name]
+            if xs.name in self.cross_section_default_names:
+                xs._name = self.cross_section_default_names[xs.name]  # type: ignore
             return xs
 
         self.cross_sections[func.__name__] = newfunc
@@ -291,7 +292,8 @@ class Pdk(BaseModel):
 
     def get_cell(self, cell: CellSpec, **kwargs: Any) -> ComponentFactory:
         """Returns ComponentFactory from a cell spec."""
-        cells = set(self.cells.keys())
+        cells_and_containers = {**self.cells, **self.containers}
+        cells = set(cells_and_containers.keys())
 
         if callable(cell):
             return cell
@@ -301,8 +303,8 @@ class Pdk(BaseModel):
                 raise ValueError(
                     f"{cell!r} from PDK {self.name!r} not in cells: Did you mean {matching_cells}?"
                 )
-            return self.cells[cell]
-        elif isinstance(cell, dict):
+            return cells_and_containers[cell]
+        else:
             for key in cell.keys():
                 if key not in component_settings:
                     raise ValueError(
@@ -313,28 +315,24 @@ class Pdk(BaseModel):
 
             cell_name = cell.get("function")
             if not isinstance(cell_name, str) or cell_name not in cells:
-                cell_name = cell
-                matching_cells = [cell for cell in cells if cell_name in cell]
+                matching_cells = [c for c in cells if c in cell.keys()]
                 raise ValueError(
                     f"{cell!r} from PDK {self.name!r} not in cells: Did you mean {matching_cells}?"
                 )
-            cell = self.cells[cell_name]
+            cell = cells_and_containers[cell_name]
             return partial(cell, **settings)
-        else:
-            raise ValueError(
-                "get_cell expects a CellSpec (ComponentFactory, string or dict),"
-                f"got {type(cell)}"
-            )
 
     def get_component(
         self,
         component: ComponentSpec,
         settings: dict[str, Any] | None = None,
+        include_containers: bool = True,
         **kwargs: Any,
     ) -> Component:
         """Returns component from a component spec."""
+        cells = {**self.cells, **self.containers} if include_containers else self.cells
         return self._get_component(
-            component=component, cells=self.cells, settings=settings, **kwargs
+            component=component, cells=cells, settings=settings, **kwargs
         )
 
     def get_symbol(self, component: ComponentSpec, **kwargs: Any) -> Component:
@@ -362,9 +360,8 @@ class Pdk(BaseModel):
             cells: dict of cells.
             settings: settings to override.
             kwargs: settings to override.
-
         """
-        cells = sorted(cells)  # type: ignore
+        cell_names = sorted(cells)
 
         settings = settings or {}
         kwargs = kwargs or {}
@@ -377,7 +374,7 @@ class Pdk(BaseModel):
         elif callable(component):
             return component(**kwargs)
         elif isinstance(component, str):
-            if component not in cells:
+            if component not in cell_names:
                 substring = component
                 matching_cells: list[str] = []
 
@@ -390,7 +387,7 @@ class Pdk(BaseModel):
                 raise ValueError(
                     f"{component!r} not in PDK {self.name!r}. Did you mean {matching_cells}?"
                 )
-            return self.cells[component](**kwargs)
+            return cells[component](**kwargs)
         elif isinstance(component, dict):  # type: ignore
             for key in component.keys():
                 if key not in component_settings:
@@ -409,7 +406,7 @@ class Pdk(BaseModel):
                 raise ValueError(
                     f"{cell_name!r} from PDK {self.name!r} not in cells: Did you mean {matching_cells}?"
                 )
-            return self.cells[cell_name](**settings)
+            return cells[cell_name](**settings)
         else:
             raise ValueError(
                 "get_component expects a ComponentSpec (Component, ComponentFactory, "
@@ -449,31 +446,29 @@ class Pdk(BaseModel):
                 f"CrossSectionFactory, Transition, string or dict), got {type(cross_section)}"
             )
 
-    def get_layer(self, layer: LayerSpec) -> LayerEnum:
+    def get_layer(self, layer: LayerSpec) -> LayerEnum | int:
         """Returns layer from a layer spec."""
-        if isinstance(layer, LayerEnum):
+        if isinstance(layer, LayerEnum | int):
             return layer
         elif isinstance(layer, tuple | list):
             if len(layer) != 2:
                 raise ValueError(f"{layer!r} needs two integer numbers.")
-            return kf.kcl.layer(*layer)
-        elif isinstance(layer, str):
+            return kf.kcl.layout.layer(*layer)
+        else:
             if not hasattr(self.layers, layer):
                 raise ValueError(f"{layer!r} not in {self.layers}")
-            return getattr(self.layers, layer)
-        elif isinstance(layer, int):
-            return layer
-        elif layer is np.nan:
-            return np.nan
-        else:
-            raise ValueError(
-                f"{layer!r} needs to be a LayerSpec (string, int or (int, int) or LayerEnum), got {type(layer)}"
-            )
+            return getattr(self.layers, layer)  # type: ignore[no-any-return]
 
     def get_layer_name(self, layer: LayerSpec) -> str:
         layer_index = self.get_layer(layer)
         assert self.layers is not None
-        return self.layers[layer_index]
+        try:
+            return str(self.layers[layer_index])  # type: ignore[index]
+        except Exception:
+            try:
+                return str(self.layers(layer_index))  # type: ignore[call-arg]
+            except Exception:
+                raise ValueError(f"Could not find name for layer {layer_index}")
 
     def get_layer_views(self) -> LayerViews:
         if self.layer_views is None:
@@ -491,32 +486,35 @@ class Pdk(BaseModel):
             raise ValueError(f"{key!r} not in {constants}")
         return self.constants[key]
 
-    def to_updk(self) -> str:
+    def to_updk(self, exclude: Sequence[str] | None = None) -> str:
         """Export to uPDK YAML definition."""
         from gdsfactory.components import bbox_to_points
 
-        blocks = {cell_name: cell() for cell_name, cell in self.cells.items()}
-        blocks = {
-            name: dict(
+        exclude = exclude or []
+
+        _blocks = {
+            cell_name: cell()
+            for cell_name, cell in self.cells.items()
+            if cell_name not in exclude
+        }
+        blocks: dict[str, dict[str, Any]] = {}
+        for name, c in _blocks.items():
+            if c.__doc__ is None:
+                continue
+            extra_args = extract_args_from_docstring(c.__doc__)
+
+            blocks[name] = dict(
                 bbox=bbox_to_points(c.dbbox()),
                 doc=c.__doc__.split("\n")[0],
-                settings=extract_args_from_docstring(c.__doc__),
+                settings=extra_args,
                 parameters={
                     sname: {
-                        "value": svalue,
+                        "value": clean_value_json(svalue),
                         "type": str(svalue.__class__.__name__),
-                        "doc": extract_args_from_docstring(c.__doc__)
-                        .get(sname, {})
-                        .get("doc", None),
-                        "min": extract_args_from_docstring(c.__doc__)
-                        .get(sname, {})
-                        .get("min", 0),
-                        "max": extract_args_from_docstring(c.__doc__)
-                        .get(sname, {})
-                        .get("max", 0),
-                        "unit": extract_args_from_docstring(c.__doc__)
-                        .get(sname, {})
-                        .get("unit", None),
+                        "doc": extra_args.get(sname, {}).get("doc", None),
+                        "min": extra_args.get(sname, {}).get("min", 0),
+                        "max": extra_args.get(sname, {}).get("max", 0),
+                        "unit": extra_args.get(sname, {}).get("unit", None),
                     }
                     for sname, svalue in c.settings
                     if isinstance(svalue, str | float | int)
@@ -538,29 +536,26 @@ class Pdk(BaseModel):
                     for port in c.ports
                 },
             )
-            for name, c in blocks.items()
-        }
         xsections = {
             xs_name: self.get_cross_section(xs_name)
             for xs_name in self.cross_sections.keys()
         }
-        xsections = {
+        xsections_widths = {
             xs_name: dict(width=xsection.width)
             for xs_name, xsection in xsections.items()
         }
 
         header = dict(description=self.name)
 
-        d = {"blocks": blocks, "xsections": xsections, "header": header}
-        d = convert_tuples_to_lists(d)
-        return yaml.dump(d)
+        d = {"blocks": blocks, "xsections": xsections_widths, "header": header}
+        return yaml.dump(convert_tuples_to_lists(d))
 
     def get_cross_section_name(self, cross_section: CrossSection) -> str:
         xs_name = next(
             (
                 key
                 for key, value in self.cross_sections.items()
-                if value == cross_section
+                if value() == cross_section
             ),
             None,
         )
@@ -578,7 +573,7 @@ class Pdk(BaseModel):
                 name=self.name,
                 layer_views=self.layer_views,
                 connectivity=self.connectivity,
-                layer_map=self.layers,
+                layer_map=self.layers,  # type: ignore
                 layer_stack=self.layer_stack,
             )
         except AttributeError as e:
@@ -621,8 +616,7 @@ def get_material_index(material: MaterialSpec, *args: Any, **kwargs: Any) -> Com
 def get_component(
     component: ComponentSpec, settings: dict[str, Any] | None = None, **kwargs: Any
 ) -> Component:
-    kwargs_clean = {k: v for k, v in kwargs.items() if v is not None}
-    return get_active_pdk().get_component(component, settings=settings, **kwargs_clean)
+    return get_active_pdk().get_component(component, settings=settings, **kwargs)
 
 
 def get_cell(cell: CellSpec, **kwargs: Any) -> ComponentFactory:
@@ -630,17 +624,15 @@ def get_cell(cell: CellSpec, **kwargs: Any) -> ComponentFactory:
 
 
 def get_cross_section(cross_section: CrossSectionSpec, **kwargs: Any) -> CrossSection:
-    kwargs_clean = {k: v for k, v in kwargs.items() if v is not None}
-    return get_active_pdk().get_cross_section(cross_section, **kwargs_clean)
+    return get_active_pdk().get_cross_section(cross_section, **kwargs)
 
 
-def get_layer(layer: LayerSpec) -> LayerEnum:
+def get_layer(layer: LayerSpec) -> LayerEnum | int:
     return get_active_pdk().get_layer(layer)
 
 
 def get_layer_name(layer: LayerSpec) -> str:
-    layer_index = get_layer(layer)
-    return str(get_active_pdk().layers(layer_index))  # type: ignore
+    return get_active_pdk().get_layer_name(layer)
 
 
 def get_layer_tuple(layer: LayerSpec) -> tuple[int, int]:
@@ -669,7 +661,7 @@ def get_constant(constant_name: Any) -> Any:
 
 def _set_active_pdk(pdk: Pdk) -> None:
     global _ACTIVE_PDK
-    _ACTIVE_PDK = pdk
+    _ACTIVE_PDK = pdk  # type: ignore
 
 
 def get_routing_strategies() -> RoutingStrategies:
