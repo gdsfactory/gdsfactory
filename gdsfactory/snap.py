@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import warnings
+from collections.abc import Sequence
 from functools import partial
 from typing import Any, overload
 
@@ -10,9 +11,7 @@ import kfactory as kf
 import numpy as np
 import numpy.typing as npt
 
-Value = (
-    float | tuple[float, ...] | npt.NDArray[np.float64] | npt.NDArray[np.floating[Any]]
-)
+Value = float | Sequence[float] | npt.NDArray[np.floating[Any]]
 
 
 def is_on_grid(
@@ -52,7 +51,7 @@ def assert_on_2x_grid(x: float) -> None:
 
 @overload
 def snap_to_grid(
-    x: tuple[float, ...] | npt.NDArray[np.floating[Any]] | list[float],
+    x: Sequence[float] | npt.NDArray[np.floating[Any]],
     nm: int | None = None,
     grid_factor: int = 1,
 ) -> npt.NDArray[np.floating[Any]]: ...
@@ -63,7 +62,7 @@ def snap_to_grid(
     grid_factor: int = 1,
 ) -> float: ...
 def snap_to_grid(
-    x: Value | list[float],
+    x: Value,
     nm: int | None = None,
     grid_factor: int = 1,
 ) -> npt.NDArray[np.floating[Any]] | float:
@@ -84,7 +83,7 @@ def snap_to_grid(
 
 @overload
 def snap_to_grid2x(
-    x: tuple[float, ...] | npt.NDArray[np.floating[Any]] | list[float],
+    x: Sequence[float] | npt.NDArray[np.floating[Any]],
     nm: int | None = None,
 ) -> npt.NDArray[np.floating[Any]]: ...
 @overload
@@ -93,7 +92,7 @@ def snap_to_grid2x(
     nm: int | None = None,
 ) -> float: ...
 def snap_to_grid2x(
-    x: Value | list[float],
+    x: Value,
     nm: int | None = None,
 ) -> npt.NDArray[np.floating[Any]] | float:
     return snap_to_grid(x, nm, grid_factor=2)

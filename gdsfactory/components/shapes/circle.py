@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import cast
+
 import numpy as np
 from numpy import cos, pi, sin
 
@@ -27,6 +29,8 @@ def circle(
     t = np.linspace(0, 360, int(360 / angle_resolution) + 1) * pi / 180
     xpts = (radius * cos(t)).tolist()
     ypts = (radius * sin(t)).tolist()
+    xpts = cast(list[float], xpts)
+    ypts = cast(list[float], ypts)
     c.add_polygon(points=list(zip(xpts, ypts)), layer=layer)
     return c
 

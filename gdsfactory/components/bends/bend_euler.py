@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import warnings
 from functools import partial
 from typing import Literal, overload
 
@@ -219,8 +220,10 @@ def bend_euler(
         allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
     """
     if abs(angle) not in {90, 180}:
-        gf.logger.warning(
-            f"bend_euler angle should be 90 or 180. Got {angle}. Use bend_euler_all_angle instead."
+        warnings.warn(
+            f"bend_euler angle should be 90 or 180. Got {angle}. Use bend_euler_all_angle instead.",
+            UserWarning,
+            stacklevel=2,
         )
 
     return _bend_euler(
@@ -278,39 +281,6 @@ def bend_euler_all_angle(
 
 
 bend_euler180 = partial(bend_euler, angle=180)
-
-
-def _compare_bend_euler180() -> None:  # type: ignore
-    """Compare 180 bend euler with 2 90deg euler bends."""
-    import gdsfactory as gf
-
-    p1 = gf.Path()
-    p1.append([gf.path.euler(angle=90), gf.path.euler(angle=90)])
-    p2 = gf.path.euler(angle=180)
-    x = gf.cross_section.strip()  # type: ignore[attr-defined]
-
-    c1 = gf.path.extrude(p1, x)
-    c1.name = "two_90_euler"
-    c2 = gf.path.extrude(p2, x)
-    c2.name = "one_180_euler"
-    c1.add_ref(c2)
-    c1.show()
-
-
-def _compare_bend_euler90() -> Component:  # type: ignore
-    """Compare bend euler with 90deg circular bend."""
-    import gdsfactory as gf
-
-    c = gf.Component()
-    radius = 10
-    b1 = bend_euler(radius=radius)
-    b2 = gf.components.bend_circular(radius=radius)
-
-    print(b1.info["length"])
-    print(b2.info["length"])
-    _ = c << b1
-    _ = c << b2
-    return c
 
 
 if __name__ == "__main__":
