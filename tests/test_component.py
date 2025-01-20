@@ -636,7 +636,6 @@ def test_plot() -> None:
     c = gf.Component()
     c.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(1, 0))
     c.plot()
-    c.pprint_ports()
     c.to_graphviz()
     c.to_dict(True)
 

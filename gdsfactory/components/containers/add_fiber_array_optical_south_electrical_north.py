@@ -5,6 +5,7 @@ from gdsfactory._deprecation import deprecate
 from gdsfactory.typings import AngleInDegrees, ComponentSpec, CrossSectionSpec
 
 
+@gf.cell
 def add_fiber_array_optical_south_electrical_north(
     component: ComponentSpec,
     pad: ComponentSpec,

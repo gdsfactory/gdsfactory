@@ -1,29 +1,12 @@
-function: add_fiber_array_optical_south_electrical_north
 info: {}
-module: gdsfactory.components.add_fiber_array_optical_south_electrical_north
-name: mzi_add_fiber_array_optical_south_electrical_north
+name: add_fiber_array_optical_e4327793
 settings:
-  component:
-    function: mzi
-    module: gdsfactory.components.mzi
-    settings:
-      length_x: 200
-      straight_x_top: straight_heater_metal
-  electrical_port_names: null
+  component: Fstraight_heater_metal_undercut_Mgdsfactorypcomponentspwaveguidespstraight_heater_metal_SWUFalse_LSI0p1_LU5_LUS0
+  cross_section_metal: metal_routing
   electrical_port_orientation: 90
-  pitch: 127.0
-  grating_coupler:
-    function: grating_coupler_elliptical
-  npads: null
-  pad:
-    function: pad
-    module: gdsfactory.components.pad
-    settings:
-      size:
-        - 80
-        - 80
-  pad_assigments: null
-  pad_gc_spacing: 250.0
-  pad_pitch: 100.0
+  grating_coupler: Fgrating_coupler_elliptical_trenches_Mgdsfactorypcomponentspgrating_couplerspgrating_coupler_elliptical_trenches_SPte_TA35
+  pad: pad
+  pad_gc_spacing: 250
+  pad_pitch: 100
+  pitch: 127
   with_loopback: true
-  xs_metal: metal_routing

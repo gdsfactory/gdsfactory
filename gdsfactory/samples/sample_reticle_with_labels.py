@@ -110,7 +110,7 @@ def sample_reticle_with_labels(grid: bool = False) -> gf.Component:
             pad=gf.c.pad,
             grating_coupler=gf.c.grating_coupler_te,
             cross_section_metal="metal3",
-        )
+        ).copy()
         c.name = f"ring_{length_x}"
         c.info["doe"] = "ring_length_x"
         c.info["measurement"] = "optical_spectrum"
