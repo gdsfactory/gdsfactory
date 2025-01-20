@@ -54,6 +54,9 @@ def bbox(
         right: east offset.
     """
     c = gf.Component()
+    if not isinstance(component, gf.Instance):
+        component = gf.get_component(component)
+
     bbox = component.dbbox()
     xmin, ymin, xmax, ymax = bbox.left, bbox.bottom, bbox.right, bbox.top
     points = [

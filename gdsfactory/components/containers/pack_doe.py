@@ -47,6 +47,7 @@ def generate_doe(
     return component_list, settings_list
 
 
+@gf.cell
 def pack_doe(
     doe: ComponentSpec,
     settings: dict[str, Sequence[Any]],
@@ -96,6 +97,7 @@ def pack_doe(
     return component
 
 
+@gf.cell
 def pack_doe_grid(
     doe: ComponentSpec,
     settings: dict[str, Sequence[Any]],
