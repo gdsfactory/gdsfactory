@@ -12,10 +12,4 @@ def test_coupler_min_radius() -> None:
 
 
 if __name__ == "__main__":
-    pytest.main(
-        [
-            __file__,
-            "--cov=gdsfactory.components.couplers.coupler",
-            "--cov-report=term-missing:skip-covered",
-        ]
-    )
+    test_coupler_min_radius()

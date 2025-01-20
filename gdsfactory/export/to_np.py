@@ -28,9 +28,8 @@ def to_np(
 
     pixels_per_um = (1 / nm_per_pixel) * 1e3
 
-    dbbox = component._kdb_cell.dbbox()
-
-    xmin, ymin, xmax, ymax = dbbox.bottom, dbbox.left, dbbox.top, dbbox.right
+    xmin, ymin = component.bbox[0]
+    xmax, ymax = component.bbox[1]
 
     shape = (
         int(np.ceil(xmax - xmin) * pixels_per_um),
