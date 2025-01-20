@@ -51,7 +51,6 @@ def cutback_loss(
         rows_list = [int(np.ceil(rows) // 2 * 2 + 1) for rows in rows_array]
         settings = dict(
             component=component,
-            cutback=cutback,
             cols=cols,
             **kwargs,
         )

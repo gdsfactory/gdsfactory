@@ -51,7 +51,7 @@ test-samples:
 	uv run pytest tests/test_samples.py
 
 test-components:
-	uv run pytest tests/test_components_run.py
+	uv run pytest -n logical tests/test_components_run.py
 
 docker-debug:
 	docker run -it joamatab/gdsfactory sh

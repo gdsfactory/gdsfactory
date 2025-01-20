@@ -1,4 +1,4 @@
-"""Tests for sample scripts."""
+"""Tests for components."""
 
 import subprocess
 
