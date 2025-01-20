@@ -24,7 +24,7 @@ cross_section_pn = partial(
     layer_metal="M1",
     width_metal=0.5,
 )
-heater_vias = partial(
+_heater_vias = partial(
     via_stack,
     size=(0.5, 0.5),
     layers=("M1", "M2", "M3"),
@@ -55,7 +55,7 @@ def ring_double_pn(
     doped_heater_layer: LayerSpec = "NPP",
     doped_heater_width: float = 0.5,
     doped_heater_waveguide_offset: float = 2.175,
-    heater_vias: ComponentSpec = heater_vias,
+    heater_vias: ComponentSpec = _heater_vias,
     with_drop: bool = True,
     **kwargs: Any,
 ) -> gf.Component:
@@ -213,7 +213,7 @@ def ring_single_pn(
     doped_heater_layer: LayerSpec = "NPP",
     doped_heater_width: float = 0.5,
     doped_heater_waveguide_offset: float = 1.175,
-    heater_vias: ComponentSpec = heater_vias,
+    heater_vias: ComponentSpec = _heater_vias,
     pn_vias: ComponentSpec = "via_stack_slab_m3",
     pn_vias_width: float = 3,
 ) -> gf.Component:
