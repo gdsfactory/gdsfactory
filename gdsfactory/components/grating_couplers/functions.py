@@ -37,10 +37,10 @@ def ellipse_arc(
     """
     theta = np.arange(theta_min, theta_max + angle_step, angle_step) * DEG2RAD
     xs = a * np.cos(theta) + x0
-    xs = gf.snap.snap_to_grid(xs)
+    xs_floating_any = gf.snap.snap_to_grid(xs)
     ys = b * np.sin(theta)
-    ys = gf.snap.snap_to_grid(ys)
-    return np.column_stack([xs, ys])
+    ys_floating_any = gf.snap.snap_to_grid(ys)
+    return np.column_stack([xs_floating_any, ys_floating_any])
 
 
 def grating_tooth_points(

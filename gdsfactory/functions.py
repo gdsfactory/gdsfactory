@@ -301,7 +301,9 @@ def curvature(
     dx2 = dp2[:, 0] / dt**2
     dy2 = dp2[:, 1] / dt**2
 
-    return (dx * dy2 - dx2 * dy) / (dx**2 + dy**2) ** (3 / 2)
+    res = (dx * dy2 - dx2 * dy) / (dx**2 + dy**2) ** (3 / 2)
+    assert isinstance(res, np.ndarray)
+    return res
 
 
 def radius_of_curvature(
