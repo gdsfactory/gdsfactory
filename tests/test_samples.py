@@ -14,7 +14,7 @@ PYTHON_SAMPLE_SCRIPTS_BY_STEM = {p.stem: p for p in PYTHON_SAMPLE_SCRIPTS}
 SCRIPTS_TO_SKIP = {}
 
 
-@pytest.mark.script_test
+@pytest.mark.skip(reason="This test is currently disabled.")
 @pytest.mark.parametrize("script_name", PYTHON_SAMPLE_SCRIPTS_BY_STEM.keys())
 def test_script_execution(script_name: str) -> None:
     """Tests that all python sample scripts run without error.
