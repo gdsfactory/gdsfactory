@@ -14,9 +14,9 @@ def boolean(
     A: ComponentOrReference,
     B: ComponentOrReference,
     operation: str,
+    layer: LayerSpec,
     layer1: LayerSpec | None = None,
     layer2: LayerSpec | None = None,
-    layer: LayerSpec = (1, 0),
 ) -> Component:
     """Performs boolean operations between 2 Component or Instance objects.
 
@@ -31,9 +31,9 @@ def boolean(
         A: Component(/Reference) or list of Component(/References).
         B: Component(/Reference) or list of Component(/References).
         operation: {'not', 'and', 'or', 'xor', '-', '&', '|', '^'}.
+        layer: Specific layer to put polygon geometry on.
         layer1: Specific layer to get polygons.
         layer2: Specific layer to get polygons.
-        layer: Specific layer to put polygon geometry on.
 
     Returns: Component with polygon(s) of the boolean operations between
       the 2 input Components performed.
