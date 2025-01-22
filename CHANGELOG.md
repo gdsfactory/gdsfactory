@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.31.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.31.0) - 2025-01-22
+
+No significant changes.
+
+
 ## [8.30.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.30.3) - 2025-01-17
 
 - fix grid rotation [#3612](https://github.com/gdsfactory/gdsfactory/pull/3612)
