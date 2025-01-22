@@ -1,12 +1,19 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.30.3...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.31.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.31.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.31.0) - 2025-01-22
 
-No significant changes.
-
+- add tests for containers [#3620](https://github.com/gdsfactory/gdsfactory/pull/3620)
+- Add more tests [#3614](https://github.com/gdsfactory/gdsfactory/pull/3614)
+- fix gf.boolean for arrays [#3622](https://github.com/gdsfactory/gdsfactory/pull/3622)
+- remove default 1,0 boolean layer [#3624](https://github.com/gdsfactory/gdsfactory/pull/3624)
+- Underscore intermediate functions [#3623](https://github.com/gdsfactory/gdsfactory/pull/3623)
+- add tests for containers [#3620](https://github.com/gdsfactory/gdsfactory/pull/3620)
+- update kfactory [#3625](https://github.com/gdsfactory/gdsfactory/pull/3625)
+- [pre-commit.ci] pre-commit autoupdate [#3619](https://github.com/gdsfactory/gdsfactory/pull/3619)
+- deps: update pyglet requirement from <2 to <3 [#3615](https://github.com/gdsfactory/gdsfactory/pull/3615)
 
 ## [8.30.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.30.3) - 2025-01-17
 
