@@ -43,3 +43,19 @@ def test_boolean_xor(c1: gf.Component, c2: gf.Component) -> None:
 def test_boolean_and(c1: gf.Component, c2: gf.Component) -> None:
     c4 = gf.boolean(c1, c2, operation="and", layer=layer)
     assert int(c4.area(layer=layer)) == 113
+
+
+def test_boolean_array(c1: gf.Component, c2: gf.Component) -> None:
+    a = gf.Component()
+    a.shapes(a.kcl.layer(1, 0)).insert(gf.kdb.DBox(0, 0, 500, 500))
+
+    b = gf.Component()
+    b.shapes(b.kcl.layer(1, 0)).insert(gf.kdb.DBox(0, 0, 100, 100))
+
+    c = gf.Component()
+    ref_a = c << a
+    ref_b = c.add_ref(b, columns=3, rows=3, spacing=(200, 200))
+
+    d = gf.boolean(ref_a, ref_b, "not")
+
+    assert d.area((1, 0)) == 500 * 500 - 90_000

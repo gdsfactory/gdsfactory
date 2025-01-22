@@ -70,15 +70,39 @@ def boolean(
     if isinstance(A, kf.KCell):
         ar = kf.kdb.Region(A.begin_shapes_rec(layer_index1))
     else:
-        ar = kf.kdb.Region(A.cell.begin_shapes_rec(layer_index1)).transformed(
-            A.cplx_trans
-        )
+        if A.is_regular_array():
+            base_inst_region = kf.kdb.Region(A.cell.begin_shapes_rec(layer_index1))
+
+            ar = kf.kdb.Region()
+            for ia in range(A.na):
+                for ib in range(A.nb):
+                    ar.insert(
+                        base_inst_region.transformed(
+                            A.cplx_trans * kf.kdb.ICplxTrans(ia * A.a + ib * A.b)
+                        )
+                    )
+        else:
+            ar = kf.kdb.Region(A.cell.begin_shapes_rec(layer_index1)).transformed(
+                A.cplx_trans
+            )
     if isinstance(B, kf.KCell):
         br = kf.kdb.Region(B.begin_shapes_rec(layer_index2))
     else:
-        br = kf.kdb.Region(B.cell.begin_shapes_rec(layer_index2)).transformed(
-            B.cplx_trans
-        )
+        if B.is_regular_array():
+            base_inst_region = kf.kdb.Region(B.cell.begin_shapes_rec(layer_index1))
+
+            br = kf.kdb.Region()
+            for ia in range(B.na):
+                for ib in range(B.nb):
+                    br.insert(
+                        base_inst_region.transformed(
+                            B.cplx_trans * kf.kdb.ICplxTrans(ia * B.a + ib * B.b)
+                        )
+                    )
+        else:
+            br = kf.kdb.Region(B.cell.begin_shapes_rec(layer_index2)).transformed(
+                B.cplx_trans
+            )
 
     c.shapes(layer_index).insert(boolean_operations[operation](ar, br))
 
