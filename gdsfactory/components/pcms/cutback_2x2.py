@@ -6,7 +6,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
-def bendu_double(
+def _bendu_double(
     component: Component,
     cross_section: CrossSectionSpec = "strip",
     bend180: ComponentSpec = "bend_circular180",
@@ -46,7 +46,7 @@ def bendu_double(
 
 
 @gf.cell
-def straight_double(
+def _straight_double(
     component: Component,
     cross_section: CrossSectionSpec = "strip",
     port1: str = "o1",
@@ -122,7 +122,7 @@ def cutback_2x2(
     """
     component = gf.get_component(component)
 
-    bendu = bendu_double(
+    bendu = _bendu_double(
         component=component,
         cross_section=cross_section,
         bend180=bend180,
@@ -130,7 +130,7 @@ def cutback_2x2(
         port2=port2,
     )
 
-    straight_component = straight_double(
+    straight_component = _straight_double(
         component=component,
         cross_section=cross_section,
         straight_length=straight_length,
