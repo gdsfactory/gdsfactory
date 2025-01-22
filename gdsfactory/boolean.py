@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 
 import kfactory as kf
 
-from gdsfactory.component import Component, boolean_operations
+from gdsfactory.component import Component, ComponentReference, boolean_operations
 
 if TYPE_CHECKING:
     from gdsfactory.typings import ComponentOrReference, LayerSpec
@@ -70,43 +70,33 @@ def boolean(
     if isinstance(A, kf.KCell):
         ar = kf.kdb.Region(A.begin_shapes_rec(layer_index1))
     else:
-        if A.is_regular_array():
-            base_inst_region = kf.kdb.Region(A.cell.begin_shapes_rec(layer_index1))
-
-            ar = kf.kdb.Region()
-            for ia in range(A.na):
-                for ib in range(A.nb):
-                    ar.insert(
-                        base_inst_region.transformed(
-                            A.cplx_trans * kf.kdb.ICplxTrans(ia * A.a + ib * A.b)
-                        )
-                    )
-        else:
-            ar = kf.kdb.Region(A.cell.begin_shapes_rec(layer_index1)).transformed(
-                A.cplx_trans
-            )
+        ar = get_ref_shapes(A, layer_index1)
     if isinstance(B, kf.KCell):
         br = kf.kdb.Region(B.begin_shapes_rec(layer_index2))
     else:
-        if B.is_regular_array():
-            base_inst_region = kf.kdb.Region(B.cell.begin_shapes_rec(layer_index1))
-
-            br = kf.kdb.Region()
-            for ia in range(B.na):
-                for ib in range(B.nb):
-                    br.insert(
-                        base_inst_region.transformed(
-                            B.cplx_trans * kf.kdb.ICplxTrans(ia * B.a + ib * B.b)
-                        )
-                    )
-        else:
-            br = kf.kdb.Region(B.cell.begin_shapes_rec(layer_index2)).transformed(
-                B.cplx_trans
-            )
-
+        br = get_ref_shapes(B, layer_index2)
     c.shapes(layer_index).insert(boolean_operations[operation](ar, br))
 
     return c
+
+
+def get_ref_shapes(ref: ComponentReference, layer_index: int) -> kf.kdb.Region:
+    if ref.is_regular_array():
+        base_inst_region = kf.kdb.Region(ref.cell.begin_shapes_rec(layer_index))
+
+        br = kf.kdb.Region()
+        for ia in range(ref.na):
+            for ib in range(ref.nb):
+                br.insert(
+                    base_inst_region.transformed(
+                        ref.cplx_trans * kf.kdb.ICplxTrans(ia * ref.a + ib * ref.b)
+                    )
+                )
+    else:
+        br = kf.kdb.Region(ref.cell.begin_shapes_rec(layer_index)).transformed(
+            ref.cplx_trans
+        )
+    return br
 
 
 if __name__ == "__main__":
