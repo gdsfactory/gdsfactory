@@ -160,10 +160,10 @@ def _get_glyph(font: freetype.Face, letter: str) -> tuple[Component, float, floa
         c2.add_polygon(np.array(p), layer=(1, 0))
     if orientation == 0:
         # TrueType specification, fill the clockwise contour
-        component = boolean(c1, c2, operation="not")
+        component = boolean(c1, c2, operation="not", layer=(1, 0))
     else:
         # PostScript specification, fill the counterclockwise contour
-        component = boolean(c2, c1, operation="not")
+        component = boolean(c2, c1, operation="not", layer=(1, 0))
 
     component.name = block_name
 

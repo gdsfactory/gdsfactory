@@ -56,6 +56,6 @@ def test_boolean_array(c1: gf.Component, c2: gf.Component) -> None:
     ref_a = c << a
     ref_b = c.add_ref(b, columns=3, rows=3, spacing=(200, 200))
 
-    d = gf.boolean(ref_a, ref_b, "not", layer1=(1, 0), layer2=(2, 0))
+    d = gf.boolean(ref_a, ref_b, "not", layer1=(1, 0), layer2=(2, 0), layer=(1, 0))
 
     assert d.area((1, 0)) == 500 * 500 - 90_000
