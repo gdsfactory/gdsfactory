@@ -179,13 +179,19 @@ def pack(
     rect_dict: dict[int, tuple[Number, Number]] = {}
     for n, D in enumerate(components):
         size = np.array([D.dxsize, D.dysize])
-        w, h = (size + spacing) / precision
-        w, h = int(w), int(h)
-        if (w > max_size_tuple[0]) or (h > max_size_tuple[1]):
+        w = int((size[0] + spacing) / precision)
+        h = int((size[1] + spacing) / precision)
+        if w > max_size_tuple[0]:
             raise ValueError(
-                f"pack() failed because Component {D.name!r} has x or y "
-                "dimension larger than `max_size` and cannot be packed.\n"
-                f"size = {(w * precision, h * precision)}, max_size = {max_size_array}"
+                f"pack() failed because Component {D.name!r} has x dimension "
+                "larger than `max_size` and cannot be packed.\n"
+                f"xsize = {size[0]}, max_xsize = {int(precision * w)}"
+            )
+        elif h > max_size_tuple[1]:
+            raise ValueError(
+                f"pack() failed because Component {D.name!r} has y dimension "
+                "larger than `max_size` and cannot be packed.\n"
+                f"ysize = {size[1]}, max_ysize = {int(precision * h)}"
             )
         rect_dict[n] = (w, h)
 
@@ -268,7 +274,8 @@ if __name__ == "__main__":
         component_list,  # Must be a list or tuple of Components
         spacing=1.25,  # Minimum distance between adjacent shapes
         aspect_ratio=(2, 1),  # (width, height) ratio of the rectangular bin
-        max_size=(None, None),  # Limits the size into which the shapes will be packed
+        # max_size=(None, None),  # Limits the size into which the shapes will be packed
+        max_size=(30, 30),  # Limits the size into which the shapes will be packed
         density=1.05,  # Values closer to 1 pack tighter but require more computation
         sort_by_area=True,  # Pre-sorts the shapes by area
     )
