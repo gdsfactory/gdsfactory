@@ -179,8 +179,8 @@ def pack(
     rect_dict: dict[int, tuple[Number, Number]] = {}
     for n, D in enumerate(components):
         size = np.array([D.dxsize, D.dysize])
-        w: Number = int(size[0] + spacing) / precision
-        h: Number = int(size[1] + spacing) / precision
+        w: Number = int((size[0] + spacing) / precision)
+        h: Number = int((size[1] + spacing) / precision)
         if w > max_size_tuple[0]:
             raise ValueError(
                 f"pack() failed because Component {D.name!r} has x dimension "
