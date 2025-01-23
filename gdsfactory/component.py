@@ -1356,7 +1356,9 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
             exclude_layers=exclude_layers,
         )
 
-    def over_under(self, layer: "LayerSpec", distance: float = 0.001) -> None:
+    def over_under(
+        self, layer: "LayerSpec", distance: float = 0.001, remove_old_layer: bool = True
+    ) -> None:
         """Returns a Component over-under on a layer in the Component.
 
         For big components use tiled version.
@@ -1364,6 +1366,7 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
         Args:
             layer: layer to perform over-under on.
             distance: distance to perform over-under in um.
+            remove_old_layer: if True, removes the old layer.
         """
         from gdsfactory import get_layer
 
@@ -1375,7 +1378,8 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
         layer_index = get_layer(layer)
         region = kdb.Region(self._kdb_cell.begin_shapes_rec(layer_index))
         region.size(+distance_dbu).size(-distance_dbu)
-        self.remove_layers([layer])
+        if remove_old_layer:
+            self.remove_layers([layer])
         self._kdb_cell.shapes(layer_index).insert(region)
 
         self.kcl.layout.end_changes()
