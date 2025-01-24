@@ -113,7 +113,7 @@ def get_default_settings_dict(
             if isinstance(v, list):
                 v = tuple(v)
             settings[k] = v
-        except TypeError as te:  # noqa: PERF203
+        except TypeError as te:
             raise TypeError(
                 f'Default setting "{k}" should be a dictionary with "value" defined.'
             ) from te

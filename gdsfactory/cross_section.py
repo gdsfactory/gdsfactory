@@ -11,7 +11,7 @@ from collections.abc import Callable, Sequence
 from functools import partial, wraps
 from inspect import getmembers, signature
 from types import ModuleType
-from typing import Any, TypeAlias
+from typing import Any, Self, TypeAlias
 
 import numpy as np
 from kfactory import logger
@@ -25,7 +25,6 @@ from pydantic import (
     field_serializer,
     model_validator,
 )
-from typing_extensions import Self
 
 from gdsfactory import typings
 from gdsfactory.component import Component

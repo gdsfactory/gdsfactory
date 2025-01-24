@@ -6,7 +6,7 @@ import pathlib
 import warnings
 from abc import ABC, abstractmethod
 from collections.abc import Callable, Iterable, Iterator, Sequence
-from typing import TYPE_CHECKING, Any, Literal, TypeAlias, overload
+from typing import TYPE_CHECKING, Any, Literal, Self, TypeAlias, overload
 
 import kfactory as kf
 import klayout.lay as lay
@@ -24,7 +24,6 @@ from kfactory.kcell import (
 )
 from pydantic import Field
 from trimesh.scene.scene import Scene
-from typing_extensions import Self
 
 from gdsfactory._deprecation import deprecate
 from gdsfactory.config import CONF, GDSDIR_TEMP
