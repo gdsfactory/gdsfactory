@@ -7,7 +7,6 @@ requires = ["flit_core >=3.2,<4"]
 [project]
 authors = [{name = "gdsfactory community", email = "contact@gdsfactory.com"}]
 classifiers = [
-  "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
@@ -32,7 +31,7 @@ dependencies = [
   "toolz<2",
   "types-PyYAML",
   "typer<1",
-  "kfactory[ipy]==0.23.2",
+  "kfactory[ipy]==1.0.0",
   "watchdog<7",
   "freetype-py",
   "mapbox_earcut",
@@ -50,13 +49,11 @@ keywords = ["eda", "photonics", "python"]
 license = {file = "LICENSE"}
 name = "gdsfactory"
 readme = "README.md"
-requires-python = ">=3.10,<3.14"
+requires-python = ">=3.11,<3.14"
 version = "8.31.0"
 
 [project.optional-dependencies]
-cad = [
-  "kweb>=1.1.9,<2.1"
-]
+cad = ["kweb>=1.1.9,<2.1"]
 dev = [
   "ipykernel",
   "jupyterlab",
