@@ -20,7 +20,7 @@ def cutback_component(
     mirror1: bool = False,
     mirror2: bool = False,
     straight_length: float | None = None,
-    straight_length_pair: float = 0.0,
+    straight_length_pair: float | None = None,
     straight: ComponentSpec = "straight",
     cross_section: CrossSectionSpec = "strip",
     **kwargs: Any,
@@ -56,7 +56,7 @@ def cutback_component(
     )
 
     straight_pair = gf.get_component(
-        straight, length=straight_length_pair, cross_section=xs
+        straight, length=straight_length_pair or 0, cross_section=xs
     )
 
     # Define a map between symbols and (component, input port, output port)
@@ -76,7 +76,11 @@ def cutback_component(
         a = "!A" if mirror1 else "A"
         b = "!B" if mirror2 else "B"
 
-        s += f"{a}.{b}" * cols if straight_length_pair else (a + b) * cols
+        if straight_length_pair:
+            s += f"{a}.{b}" * cols if straight_length_pair else (a + b) * cols
+        else:
+            s += f"{a}{b}" * cols if straight_length_pair else (a + b) * cols
+
         if mirror:
             s += "C" if i % 2 == 0 else "D"
         else:
@@ -86,7 +90,10 @@ def cutback_component(
     s += "-_"
 
     for i in range(rows):
-        s += f"{a}.{b}" * cols if straight_length_pair else (a + b) * cols
+        if straight_length_pair:
+            s += f"{a}.{b}" * cols if straight_length_pair else (a + b) * cols
+        else:
+            s += f"{a}{b}" * cols if straight_length_pair else (a + b) * cols
         s += "D" if (i + rows) % 2 == 0 else "C"
 
     s = s[:-1]
