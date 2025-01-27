@@ -68,7 +68,7 @@ def cutback_component(
         straight_pair = gf.get_component(
             straight, length=straight_length_pair, cross_section=xs
         )
-        symbol_to_component["."] = (straight_pair, "o1", "o2")
+        symbol_to_component["."] = (straight_pair, "o2", "o1")
 
     # Generate the sequence of staircases
     s = ""
