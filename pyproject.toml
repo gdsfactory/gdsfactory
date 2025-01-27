@@ -38,7 +38,7 @@ dependencies = [
   "mapbox_earcut",
   "networkx",
   "scikit-image",
-  "trimesh>=4.4.1,<4.6",
+  "trimesh>=4.4.1",
   "ipykernel",
   "attrs",
   "graphviz",
