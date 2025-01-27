@@ -20,7 +20,7 @@ def cutback_component(
     mirror1: bool = False,
     mirror2: bool = False,
     straight_length: float | None = None,
-    straight_length_pair: float = 0.010,
+    straight_length_pair: float = 0.0,
     straight: ComponentSpec = "straight",
     cross_section: CrossSectionSpec = "strip",
     **kwargs: Any,
@@ -100,7 +100,7 @@ def cutback_component(
 cutback_component_mirror = partial(cutback_component, mirror=True)
 
 if __name__ == "__main__":
-    c = cutback_component()
+    c = cutback_component_mirror()
     # c = cutback_component_mirror(component=component_flipped)
     # c = gf.routing.add_fiber_single(c)
     c.show()
