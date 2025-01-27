@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.31.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.31.1) - 2025-01-27
+
+No significant changes.
+
+
 ## [8.31.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.31.0) - 2025-01-22
 
 - add tests for containers [#3620](https://github.com/gdsfactory/gdsfactory/pull/3620)
