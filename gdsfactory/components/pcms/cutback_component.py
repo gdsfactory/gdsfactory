@@ -55,10 +55,6 @@ def cutback_component(
         straight, length=straight_length, cross_section=xs
     )
 
-    straight_pair = gf.get_component(
-        straight, length=straight_length_pair or 0, cross_section=xs
-    )
-
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
         "A": (component, port1, port2),
@@ -67,8 +63,12 @@ def cutback_component(
         "C": (bendu, "o2", "o1"),
         "-": (straight_component, "o1", "o2"),
         "_": (straight_component, "o2", "o1"),
-        ".": (straight_pair, "o2", "o1"),
     }
+    if straight_length_pair:
+        straight_pair = gf.get_component(
+            straight, length=straight_length_pair, cross_section=xs
+        )
+        symbol_to_component["."] = (straight_pair, "o2", "o1")
 
     # Generate the sequence of staircases
     s = ""
