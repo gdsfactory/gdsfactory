@@ -20,7 +20,7 @@ def cutback_component(
     mirror1: bool = False,
     mirror2: bool = False,
     straight_length: float | None = None,
-    straight_length_pair: float | None = None,
+    straight_length_pair: float = 0.010,
     straight: ComponentSpec = "straight",
     cross_section: CrossSectionSpec = "strip",
     **kwargs: Any,
@@ -56,7 +56,7 @@ def cutback_component(
     )
 
     straight_pair = gf.get_component(
-        straight, length=straight_length_pair or 0, cross_section=xs
+        straight, length=straight_length_pair, cross_section=xs
     )
 
     # Define a map between symbols and (component, input port, output port)
@@ -71,7 +71,6 @@ def cutback_component(
     }
 
     # Generate the sequence of staircases
-
     s = ""
     for i in range(rows):
         a = "!A" if mirror1 else "A"
