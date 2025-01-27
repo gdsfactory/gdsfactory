@@ -5,8 +5,8 @@ from typing import TYPE_CHECKING, Any, ParamSpec, Protocol, overload
 
 from cachetools import Cache
 from kfactory.conf import CHECK_INSTANCES
-from kfactory.kcell import KCell, MetaData
-from kfactory.kcell import cell as _cell
+from kfactory.kcell import MetaData, TKCell
+from kfactory.kcell import dcell as _cell
 from kfactory.kcell import vcell as _vcell
 
 if TYPE_CHECKING:
@@ -41,7 +41,7 @@ def cell(
     overwrite_existing: bool | None = None,
     layout_cache: bool | None = None,
     info: dict[str, MetaData] | None = None,
-    post_process: Iterable[Callable[[KCell], None]] | None = None,
+    post_process: Iterable[Callable[[TKCell], None]] | None = None,
 ) -> Callable[[ComponentFunc[ComponentParams]], ComponentFunc[ComponentParams]]: ...
 
 
@@ -62,7 +62,7 @@ def cell(
     overwrite_existing: bool | None = None,
     layout_cache: bool | None = None,
     info: dict[str, MetaData] | None = None,
-    post_process: Iterable[Callable[[KCell], None]] | None = None,
+    post_process: Iterable[Callable[[TKCell], None]] | None = None,
 ) -> (
     ComponentFunc[ComponentParams]
     | Callable[[ComponentFunc[ComponentParams]], ComponentFunc[ComponentParams]]

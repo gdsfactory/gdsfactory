@@ -114,13 +114,13 @@ def xor(
     if ignore_cell_name_differences:
         ld.on_cell_name_differs = lambda anotb: print(f"cell name differs {anotb.name}")  # type: ignore
         equal = ld.compare(
-            old._kdb_cell,
-            new._kdb_cell,
+            old.kdb_cell,
+            new.kdb_cell,
             kdb.LayoutDiff.SmartCellMapping | kdb.LayoutDiff.Verbose,
             1,
         )
     else:
-        equal = ld.compare(old._kdb_cell, new._kdb_cell, kdb.LayoutDiff.Verbose, 1)
+        equal = ld.compare(old.kdb_cell, new.kdb_cell, kdb.LayoutDiff.Verbose, 1)
 
     if not ignore_label_differences and (a_texts or b_texts):
         equivalent = False
@@ -133,8 +133,8 @@ def xor(
     old_kcell = KCell(f"{test_name}_old")
     new_kcell = KCell(f"{test_name}_new")
 
-    old_kcell.copy_tree(ref._kdb_cell)
-    new_kcell.copy_tree(run._kdb_cell)
+    old_kcell.copy_tree(ref.kdb_cell)
+    new_kcell.copy_tree(run.kdb_cell)
 
     old_kcell.name = f"{test_name}_old"
     new_kcell.name = f"{test_name}_new"
@@ -310,13 +310,13 @@ def diff(
     if ignore_cell_name_differences:
         ld.on_cell_name_differs = lambda anotb: print(f"cell name differs {anotb.name}")  # type: ignore[assignment]
         equal = ld.compare(
-            old._kdb_cell,
-            new._kdb_cell,
+            old.kdb_cell,
+            new.kdb_cell,
             kdb.LayoutDiff.SmartCellMapping | kdb.LayoutDiff.Verbose,
             1,
         )
     else:
-        equal = ld.compare(old._kdb_cell, new._kdb_cell, kdb.LayoutDiff.Verbose, 1)
+        equal = ld.compare(old.kdb_cell, new.kdb_cell, kdb.LayoutDiff.Verbose, 1)
 
     if not ignore_label_differences and (a_texts or b_texts):
         equivalent = False
@@ -329,8 +329,8 @@ def diff(
         old = KCell(f"{test_name}_old")
         new = KCell(f"{test_name}_new")
 
-        old.copy_tree(ref._kdb_cell)
-        new.copy_tree(run._kdb_cell)
+        old.copy_tree(ref.kdb_cell)
+        new.copy_tree(run.kdb_cell)
 
         old.name = f"{test_name}_old"
         new.name = f"{test_name}_new"
@@ -501,7 +501,7 @@ def overwrite(ref_file: pathlib.Path, run_file: pathlib.Path) -> None:
     raise GeometryDifference
 
 
-def read_top_cell(arg0: pathlib.Path) -> kf.KCell:
+def read_top_cell(arg0: pathlib.Path) -> kf.DKCell:
     kcl = KCLayout(name=str(arg0))
     kcl.read(arg0)
     kcell = kcl[kcl.top_cell().name]
@@ -544,4 +544,4 @@ if __name__ == "__main__":
     # ref = read_top_cell(ref_file)
     # run = read_top_cell(run_file)
     # ld = kdb.LayoutDiff()
-    # print(ld.compare(ref._kdb_cell, run._kdb_cell))
+    # print(ld.compare(ref.kdb_cell, run.kdb_cell))

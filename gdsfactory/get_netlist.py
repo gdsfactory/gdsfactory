@@ -131,7 +131,7 @@ def _is_orthogonal_array_reference(ref: kf.Instance) -> bool:
 
 
 def get_netlist(
-    component: kf.KCell,
+    component: kf.DKCell,
     exclude_port_types: Sequence[str] | None = (
         "placement",
         "pad",
@@ -503,16 +503,16 @@ def difference_between_angles(angle2: float, angle1: float) -> float:
     return diff
 
 
-def _get_references_to_netlist(component: kf.KCell) -> kf.kcell.Instances:
+def _get_references_to_netlist(component: kf.DKCell) -> kf.kcell.Instances:
     return component.insts
 
 
 class GetNetlistFunc(Protocol):
-    def __call__(self, component: kf.KCell, **kwargs: Any) -> dict[str, Any]: ...
+    def __call__(self, component: kf.DKCell, **kwargs: Any) -> dict[str, Any]: ...
 
 
 def get_netlist_recursive(
-    component: kf.KCell,
+    component: kf.DKCell,
     component_suffix: str = "",
     get_netlist_func: GetNetlistFunc = get_netlist,  # type: ignore
     get_instance_name: Callable[..., str] = get_instance_name_from_alias,

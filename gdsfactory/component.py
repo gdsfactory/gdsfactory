@@ -5,7 +5,7 @@ from __future__ import annotations
 import pathlib
 import warnings
 from abc import ABC, abstractmethod
-from collections.abc import Callable, Iterable, Iterator, Sequence
+from collections.abc import Callable, Iterable, Sequence
 from typing import TYPE_CHECKING, Any, Literal, Self, TypeAlias, overload
 
 import kfactory as kf
@@ -15,9 +15,13 @@ import numpy.typing as npt
 import yaml
 from kfactory import Instance, kdb
 from kfactory.kcell import (
-    PROPID,
-    BaseKCell,
-    KCLayout,
+    DInstance,
+    DInstances,
+    DPort,
+    DPorts,
+    LockedError,
+    ProtoKCell,
+    ProtoPort,
     VInstance,
     cell,
     save_layout_options,
@@ -54,33 +58,6 @@ if TYPE_CHECKING:
 cell_without_validator = cell
 
 _PolygonPoints: TypeAlias = "npt.NDArray[np.floating[Any]] | kdb.DPolygon | kdb.Polygon | kdb.DSimplePolygon | kdb.Region | Coordinates"
-
-
-class LockedError(AttributeError):
-    """Raised when an attempt is made to modify a locked cell.
-
-    Locked cells are those already stored in cache and associated
-    with a function decorated with the `cell` decorator.
-    Modifications to such cells are disabled to ensure consistency.
-    """
-
-    def __init__(
-        self, component: kf.KCell | kf.VKCell | Component | ComponentBase
-    ) -> None:
-        """Initialize the LockedError.
-
-        Args:
-            component (kf.KCell | kf.VKCell | Component):
-                The component that is locked and cannot be modified.
-
-        Raises:
-            LockedError: Indicates the component is locked and modification is prohibited.
-        """
-        super().__init__(
-            f"Component {component.name!r} is locked and stored in cache. "
-            "Modifications are disabled as its associated function is decorated with `cell`. "
-            "To modify, update the code in the function or create a copy of the component."
-        )
 
 
 def ensure_tuple_of_tuples(points: Any) -> tuple[tuple[float, float], ...]:
@@ -145,206 +122,11 @@ def copy(region: kdb.Region) -> kdb.Region:
     return region.dup()
 
 
-_deprecated_attributes = {
-    "center",
-    "mirror",
-    "move",
-    "movex",
-    "movey",
-    "rotate",
-    "size_info",
-    "x",
-    "xmin",
-    "xmax",
-    "xsize",
-    "y",
-    "ymin",
-    "ymax",
-    "ysize",
-}
-
-_deprecated_attributes_instance_settr = _deprecated_attributes - {"size_info"}
-_deprecated_attributes_component_gettr = _deprecated_attributes - {"move"}
+ComponentReference: TypeAlias = DInstance
+ComponentReferences: TypeAlias = DInstances
 
 
-class ComponentReference(kf.Instance):
-    """Shadows dbu attributes of Instance for backward compatibility.
-
-    DO NOT USE THIS AND PASS IT TO ANY FUNCTION REQUIRING kf.Instance.
-    """
-
-    _kfinst: kf.Instance
-
-    def __init__(self, inst: kf.Instance) -> None:
-        """Initializes a ComponentReference."""
-        object.__setattr__(self, "_kfinst", inst)
-        super().__init__(kcl=inst.kcl, instance=inst._instance)
-
-    def __getattribute__(self, __k: str) -> Any:
-        """Shadow dbu based attributes with um based ones."""
-        if __k == "_kfinst":
-            return object.__getattribute__(self, "_kfinst")
-        if __k in _deprecated_attributes:
-            match __k:  # type: ignore
-                case "center":
-                    return super().dcenter
-                case "mirror":
-                    return super().dmirror
-                case "move":
-                    return super().dmove
-                case "movex":
-                    return super().dmovex
-                case "movey":
-                    return super().dmovey
-                case "rotate":
-                    return super().drotate
-                case "size_info":
-                    return super().__getattribute__("dsize_info")
-                case "x":
-                    return super().dx
-                case "xmin":
-                    return super().dxmin
-                case "xmax":
-                    return super().dxmax
-                case "xsize":
-                    return super().dxsize
-                case "y":
-                    return super().dy
-                case "ymin":
-                    return super().dymin
-                case "ymax":
-                    return super().dymax
-                case "ysize":
-                    return super().dysize
-
-        return super().__getattribute__(__k)
-
-    def __setattr__(self, __k: str, __v: Any) -> None:
-        """Set attribute with deprecation warning for dbu based attributes."""
-        if __k in _deprecated_attributes_instance_settr:
-            return super().__setattr__(f"d{__k}", __v)
-        super().__setattr__(__k, __v)
-
-    def flatten(self, levels: int | None = None) -> None:
-        self._kfinst.flatten(levels)
-
-    @property
-    def info(self) -> dict[str, Any]:
-        deprecate("info", "cell.info", stacklevel=3)
-        return self.cell.info.model_dump()
-
-    def connect(  # type: ignore[override]
-        self,
-        port: "str | Port",
-        other: "Instance | Port",
-        other_port_name: str | None = None,
-        allow_width_mismatch: bool = False,
-        allow_layer_mismatch: bool = False,
-        allow_type_mismatch: bool = False,
-        overlap: float | None = None,
-        destination: "Port | None" = None,
-        preserve_orientation: bool | None = None,
-        **kwargs: Any,
-    ) -> None:
-        """Return ComponentReference where port connects to a destination.
-
-        Args:
-            port: origin (port, or port name) to connect.
-            other: other component to connect to.
-            other_port_name: port name to connect to.
-            destination: (deprecated).
-            preserve_orientation: (deprecated).
-            allow_width_mismatch: if True, does not check if port width matches destination.
-            allow_layer_mismatch: if True, does not check if port layer matches destination.
-            allow_type_mismatch: if True, does not check if port type matches destination.
-            overlap: (deprecated)
-            kwargs: additional arguments to pass to connect.
-
-        Returns:
-            ComponentReference: with correct rotation to connect to destination.
-        """
-        if destination:
-            deprecate("destination", "other")
-            other = destination  # type: ignore
-        if overlap:
-            deprecate("overlap")
-
-        if preserve_orientation:
-            deprecate("preserve_orientation")
-
-        return super().connect(
-            port,
-            other=other,  # type: ignore
-            other_port_name=other_port_name,
-            allow_width_mismatch=allow_width_mismatch,
-            allow_layer_mismatch=allow_layer_mismatch,
-            allow_type_mismatch=allow_type_mismatch,
-            **kwargs,
-        )
-
-    @property
-    def name(self) -> str:
-        """Name of instance in GDS."""
-        prop = self.property(PROPID.NAME)
-        return (
-            str(prop)
-            if prop is not None
-            else f"{self.cell.name}_{self.trans.disp.x}_{self.trans.disp.y}"
-        )
-
-    @name.setter
-    def name(self, value: str) -> None:
-        self.set_property(PROPID.NAME, value)
-
-    @property
-    def parent(self) -> kf.KCell:
-        """Returns the parent Component."""
-        deprecate("parent", "cell")
-        return self.cell
-
-    def __eq__(self, other: Any) -> bool:
-        """Check if two ComponentReferences are equal."""
-        if isinstance(other, ComponentReference):
-            return self._kfinst == other._kfinst
-        if isinstance(other, Instance):
-            return self._kfinst == other
-        return False
-
-    def __hash__(self) -> int:
-        """Hash of the ComponentReference."""
-        return hash(self._kfinst)
-
-
-class ComponentReferences(kf.kcell.Instances):
-    def __init__(self, insts: list[kf.Instance] | None = None) -> None:
-        """Initialize the ComponentReferences."""
-        super().__init__()
-        if insts:
-            self._insts = insts
-
-    def __getitem__(self, key: str | int) -> ComponentReference:
-        """Retrieve instance by index or by name."""
-        if isinstance(key, int):
-            return ComponentReference(self._insts[key])
-
-        else:
-            return ComponentReference(
-                next(filter(lambda inst: inst.name == key, self._insts))
-            )
-
-    def __iter__(self) -> Iterator[ComponentReference]:
-        """Get instance iterator."""
-        return iter(ComponentReference(inst) for inst in self._insts)
-
-    def __delitem__(self, item: ComponentReference | int) -> None:  # type: ignore[override]
-        """Delete a reference."""
-        if isinstance(item, int):
-            del self._insts[item]
-        else:
-            self._insts.remove(item)
-
-
-class ComponentBase(BaseKCell, ABC):
+class ComponentBase(ProtoKCell[float], ABC):
     """Canvas where you add polygons, instances and ports.
 
     - stores settings that you use to build the component
@@ -359,21 +141,20 @@ class ComponentBase(BaseKCell, ABC):
     """
 
     @property
-    def layers(self) -> list[Layer]:
-        return [
-            (info.layer, info.datatype)
-            for info in self.kcl.layer_infos()
-            if not self.bbox(self.kcl.layer(info)).empty()
-        ]
+    @abstractmethod
+    def layers(self) -> list[Layer]: ...
 
-    def bbox_np(self) -> np.ndarray[tuple[int, int], np.dtype[np.float64]]:
+    def bbox_np(self) -> npt.NDArray[np.float64]:
         """Returns the bounding box of the Component as a numpy array."""
-        return np.array([[self.dxmin, self.dymin], [self.dxmax, self.dymax]])
+        return np.array(
+            [[self.xmin, self.ymin], [self.xmax, self.ymax]], dtype=np.float64
+        )
 
-    def add_port(  # type: ignore
+    def add_port(
         self,
+        *,
         name: str | None = None,
-        port: "Port | None" = None,
+        port: ProtoPort[Any] | None = None,
         center: tuple[float, float] | kdb.DPoint | None = None,
         width: float | None = None,
         orientation: "AngleInDegrees | None" = None,
@@ -381,7 +162,7 @@ class ComponentBase(BaseKCell, ABC):
         port_type: str = "optical",
         keep_mirror: bool = False,
         cross_section: "CrossSectionSpec | None" = None,
-    ) -> "Port":
+    ) -> DPort:
         """Adds a Port to the Component.
 
         Args:
@@ -395,11 +176,15 @@ class ComponentBase(BaseKCell, ABC):
             keep_mirror: if True, keeps the mirror of the port.
             cross_section: cross_section of the port.
         """
-        if self._locked:
+        if self.locked:
             raise LockedError(self)
 
         if port:
-            return super().add_port(port=port, name=name, keep_mirror=keep_mirror)
+            return DPort(
+                base=super()
+                .add_port(port=port, name=name, keep_mirror=keep_mirror)
+                .base
+            )
 
         from gdsfactory.config import CONF
         from gdsfactory.pdk import get_cross_section, get_layer
@@ -436,31 +221,18 @@ class ComponentBase(BaseKCell, ABC):
             y = float(center[1])
             trans = kdb.DCplxTrans(1, float(orientation), False, x, y)
 
-        _port = self.create_port(
-            name=name,
-            dwidth=round(width / self.kcl.dbu) * self.kcl.dbu,
-            layer=layer,
-            port_type=port_type,
-            dcplx_trans=trans,
+        _port = DPorts(kcl=self.kcl, bases=self.ports.bases).create_port(
+            name=name, width=width, layer=layer, port_type=port_type, dcplx_trans=trans
         )
-        assert isinstance(_port, kf.Port)
         if cross_section:
             xs = get_cross_section(cross_section)
             _port.info["cross_section"] = xs.name
+
         return _port
 
-    def __getattribute__(self, __k: str) -> Any:
-        """Shadow dbu based attributes with um based ones."""
-        if __k in _deprecated_attributes_component_gettr:
-            return getattr(self, f"d{__k}")
-        return super().__getattribute__(__k)
-
-    def copy(self) -> Self:  # type: ignore
+    def copy(self) -> Self:
         """Copy the full cell."""
         return self.dup()
-
-    @abstractmethod
-    def dup(self) -> Self: ...
 
     def add_label(
         self,
@@ -477,7 +249,7 @@ class ComponentBase(BaseKCell, ABC):
         """
         from gdsfactory.pdk import get_layer
 
-        if self._locked:
+        if self.locked:
             raise LockedError(self)
 
         layer = get_layer(layer)
@@ -529,7 +301,7 @@ class ComponentBase(BaseKCell, ABC):
         """
         from gdsfactory.pdk import get_active_pdk
 
-        if self._locked:
+        if self.locked:
             raise LockedError(self)
 
         pdk = get_active_pdk()
@@ -557,7 +329,7 @@ class ComponentBase(BaseKCell, ABC):
 
         Parent components can access child cells settings.
         """
-        if self._locked:
+        if self.locked:
             raise LockedError(self)
         info = dict(component.info)
 
@@ -892,7 +664,7 @@ Route: TypeAlias = (
 )
 
 
-class Component(ComponentBase, kf.KCell):  # type: ignore
+class Component(ComponentBase, kf.DKCell):
     """Canvas where you add polygons, instances and ports.
 
     - stores settings that you use to build the component
@@ -908,53 +680,16 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
 
     routes: "dict[str, Route]" = Field(default_factory=dict)
 
-    def __init__(
-        self,
-        name: str | None = None,
-        kcl: KCLayout | None = None,
-        kdb_cell: kdb.Cell | None = None,
-        ports: kf.Ports | None = None,
-    ) -> None:
-        """Initializes a Component."""
-        kf.KCell.__init__(self, name=name, kcl=kcl, kdb_cell=kdb_cell, ports=ports)
-        self.insts = ComponentReferences(list(self.insts))
-
-    def __lshift__(self, component: kf.KCell) -> ComponentReference:
-        """Creates a ComponentReference to a Component."""
-        return ComponentReference(kf.KCell.create_inst(self, component))
-
-    def dup(self) -> Component:
-        """Copy the full cell.
-
-        Sets `_locked` to `False`
-
-        Returns:
-            cell: Exact copy of the current cell.
-                The name will have `$1` as duplicate names are not allowed
-        """
-        kdb_copy = self._kdb_copy()
-
-        c = Component(kcl=self.kcl, kdb_cell=kdb_copy)
-        c.ports = self.ports.copy()
-
-        c._settings = self.settings.model_copy()
-        c.info = self.info.model_copy()
-        return c
-
-    @staticmethod
-    def from_kcell(kcell: kf.KCell) -> Component:
-        """Returns a Component from a KCell."""
-        kdb_copy = kcell._kdb_copy()
-
-        c = Component(kcl=kcell.kcl, kdb_cell=kdb_copy)
-        c.ports = kcell.ports.copy()
-
-        c._settings = kcell.settings.model_copy()
-        c.info = kcell.info.model_copy()
-        return c
+    @property
+    def layers(self) -> list[Layer]:
+        return [
+            (info.layer, info.datatype)
+            for info in self.kcl.layout.layer_infos()
+            if not self.bbox(self.kcl.layout.layer(info)).empty()
+        ]
 
     def add(self, instances: list[Instance] | Instance) -> None:
-        if self._locked:
+        if self.locked:
             raise LockedError(self)
 
         if not isinstance(instances, Iterable):
@@ -963,7 +698,7 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
             instance_list = list(instances)
 
         for instance in instance_list:
-            self._kdb_cell.insert(instance._instance)
+            self.kdb_cell.insert(instance.instance)
 
     def absorb(self, reference: ComponentReference) -> Self:
         """Absorbs polygons from ComponentReference into Component.
@@ -974,7 +709,7 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
             reference: Instance to be absorbed into the Component.
 
         """
-        if self._locked:
+        if self.locked:
             raise LockedError(self)
 
         if reference not in self.insts:
@@ -1001,18 +736,18 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
             top: top coordinate of the bounding box.
             flatten: if True, flattens the Component.
         """
-        if self._locked:
+        if self.locked:
             raise LockedError(self)
 
         c = self
 
         domain_box = kdb.DBox(left, bottom, right, top)
         if not c.dbbox().inside(domain_box):
-            _kdb_cell = c.kcl.clip(c._kdb_cell, kdb.DBox(left, bottom, right, top))
-            c._kdb_cell.clear()
-            c.copy_tree(_kdb_cell)
+            kdb_cell = c.kcl.clip(c.kdb_cell, kdb.DBox(left, bottom, right, top))
+            c.kdb_cell.clear()
+            c.kdb_cell.copy_tree(kdb_cell)
             c.rebuild()
-            _kdb_cell.delete()
+            kdb_cell.delete()
             if flatten:
                 c.flatten()
 
@@ -1023,7 +758,7 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
         rows: int = 2,
         spacing: "Spacing" = (100, 100),
         name: str | None = None,
-    ) -> ComponentReference:
+    ) -> DInstance:
         """Creates a ComponentReference reference to a Component.
 
         Args:
@@ -1040,12 +775,12 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
             component,
             na=columns,
             nb=rows,
-            a=kf.kdb.Vector(spacing[0] / self.kcl.dbu, 0),
-            b=kf.kdb.Vector(0, spacing[1] / self.kcl.dbu),
+            a=kf.kdb.Vector(int(spacing[0] / self.kcl.dbu), 0),
+            b=kf.kdb.Vector(0, int(spacing[1] / self.kcl.dbu)),
         )
         if name:
             inst.name = name
-        return ComponentReference(inst)
+        return DInstance(kcl=self.kcl, instance=inst.instance)
 
     def add_ref(
         self,
@@ -1057,7 +792,7 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
         alias: str | None = None,
         column_pitch: float = 0.0,
         row_pitch: float = 0.0,
-    ) -> ComponentReference:
+    ) -> DInstance:
         """Adds a component instance reference to a Component.
 
         Args:
@@ -1070,7 +805,7 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
             column_pitch: column pitch.
             row_pitch: row pitch.
         """
-        if self._locked:
+        if self.locked:
             raise LockedError(self)
 
         if spacing is not None:
@@ -1105,7 +840,7 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
             inst.name = alias
         elif name:
             inst.name = name
-        return ComponentReference(inst)
+        return DInstance(kcl=self.kcl, instance=inst.instance)
 
     def get_paths(
         self, layer: "LayerSpec", recursive: bool = True
@@ -1123,7 +858,7 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
         layer = get_layer(layer)
 
         if recursive:
-            iterator = self._kdb_cell.begin_shapes_rec(layer)
+            iterator = self.kdb_cell.begin_shapes_rec(layer)
             iterator.shape_flags = kdb.Shapes.SPaths
             paths.extend(
                 it.shape().dpath.transformed(it.dtrans()) for it in iterator.each()
@@ -1131,7 +866,7 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
         else:
             paths.extend(
                 shape.dpath
-                for shape in self._kdb_cell.shapes(layer).each(kdb.Shapes.SPaths)
+                for shape in self.kdb_cell.shapes(layer).each(kdb.Shapes.SPaths)
             )
         return paths
 
@@ -1151,7 +886,7 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
         layer = get_layer(layer)
 
         if recursive:
-            iterator = self._kdb_cell.begin_shapes_rec(layer)
+            iterator = self.kdb_cell.begin_shapes_rec(layer)
             iterator.shape_flags = kdb.Shapes.SBoxes
             boxes.extend(
                 it.shape().dbox.transformed(it.dtrans()) for it in iterator.each()
@@ -1159,7 +894,7 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
         else:
             boxes.extend(
                 shape.dbox
-                for shape in self._kdb_cell.shapes(layer).each(kdb.Shapes.SBoxes)  # type: ignore[attr-defined]
+                for shape in self.kdb_cell.shapes(layer).each(kdb.Shapes.SBoxes)
             )
         return boxes
 
@@ -1178,7 +913,7 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
         layer_enum = get_layer(layer)
 
         if recursive:
-            iterator = self._kdb_cell.begin_shapes_rec(layer_enum)
+            iterator = self.kdb_cell.begin_shapes_rec(layer_enum)
             iterator.shape_flags = kdb.Shapes.STexts
             texts.extend(
                 it.shape().dtext.transformed(it.dtrans()) for it in iterator.each()
@@ -1186,7 +921,7 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
         else:
             texts.extend(
                 shape.dtext
-                for shape in self._kdb_cell.shapes(layer_enum).each(kdb.Shapes.STexts)
+                for shape in self.kdb_cell.shapes(layer_enum).each(kdb.Shapes.STexts)
             )
         return texts
 
@@ -1195,7 +930,7 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
         from gdsfactory import get_layer
 
         layer_index = get_layer(layer)
-        r = kdb.Region(self._kdb_cell.begin_shapes_rec(layer_index))
+        r = kdb.Region(self.kdb_cell.begin_shapes_rec(layer_index))
         r.merge()
         return float(sum(p.area2() / 2 * self.kcl.dbu**2 for p in r.each()))
 
@@ -1212,7 +947,7 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
             by: the format of the resulting keys in the dictionary ('index', 'name', 'tuple')
             layers: list of layers to get polygons from. Defaults to all layers.
         """
-        if merge and self._locked:
+        if merge and self.locked:
             raise LockedError(self)
 
         return get_polygons(self, merge=merge, by=by, layers=layers)
@@ -1232,7 +967,7 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
             by: the format of the resulting keys in the dictionary ('index', 'name', 'tuple')
             layers: list of layers to get polygons from. Defaults to all layers.
         """
-        if merge and self._locked:
+        if merge and self.locked:
             raise LockedError(self)
 
         return get_polygons_points(self, merge=merge, scale=scale, by=by, layers=layers)
@@ -1263,17 +998,17 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
         """
         from gdsfactory import get_layer
 
-        if self._locked:
+        if self.locked:
             raise LockedError(self)
 
         for layer, new_layer in layer_map.items():
             src_layer_index = get_layer(layer)
             dst_layer_index = get_layer(new_layer)
-            self._kdb_cell.copy(src_layer_index, dst_layer_index)
+            self.kdb_cell.copy(src_layer_index, dst_layer_index)
 
             if recursive:
-                for ci in self._kdb_cell.called_cells():
-                    self.kcl[ci]._kdb_cell.copy(src_layer_index, dst_layer_index)
+                for ci in self.kdb_cell.called_cells():
+                    self.kcl[ci].kdb_cell.copy(src_layer_index, dst_layer_index)
         return self
 
     def remove_layers(
@@ -1289,17 +1024,17 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
         """
         from gdsfactory import get_layer
 
-        if self._locked:
+        if self.locked:
             raise LockedError(self)
 
         layers = [get_layer(layer) for layer in layers]
         for layer_index in layers:
             assert isinstance(layer_index, int)
-            self._kdb_cell.shapes(layer_index).clear()
+            self.kdb_cell.shapes(layer_index).clear()
             if recursive:
                 [
-                    self.kcl[ci]._kdb_cell.shapes(layer).clear()
-                    for ci in self._kdb_cell.called_cells()
+                    self.kcl[ci].kdb_cell.shapes(layer).clear()
+                    for ci in self.kdb_cell.called_cells()
                     for layer in layers
                     if isinstance(layer, int)
                 ]
@@ -1316,17 +1051,17 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
         """
         from gdsfactory import get_layer
 
-        if self._locked:
+        if self.locked:
             raise LockedError(self)
 
         for layer, new_layer in layer_map.items():
             src_layer_index = get_layer(layer)
             dst_layer_index = get_layer(new_layer)
-            self._kdb_cell.move(src_layer_index, dst_layer_index)
+            self.kdb_cell.move(src_layer_index, dst_layer_index)
 
             if recursive:
-                for ci in self._kdb_cell.called_cells():
-                    self.kcl[ci]._kdb_cell.move(src_layer_index, dst_layer_index)
+                for ci in self.kdb_cell.called_cells():
+                    self.kcl[ci].kdb_cell.move(src_layer_index, dst_layer_index)
         return self
 
     def to_3d(
@@ -1369,17 +1104,17 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
         """
         from gdsfactory import get_layer
 
-        if self._locked:
+        if self.locked:
             raise LockedError(self)
 
         distance_dbu = self.kcl.to_dbu(distance)
 
         layer_index = get_layer(layer)
-        region = kdb.Region(self._kdb_cell.begin_shapes_rec(layer_index))
+        region = kdb.Region(self.kdb_cell.begin_shapes_rec(layer_index))
         region.size(+distance_dbu).size(-distance_dbu)
         if remove_old_layer:
             self.remove_layers([layer])
-        self._kdb_cell.shapes(layer_index).insert(region)
+        self.kdb_cell.shapes(layer_index).insert(region)
 
         self.kcl.layout.end_changes()
 
@@ -1392,16 +1127,16 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
         """
         from gdsfactory import get_layer
 
-        if self._locked:
+        if self.locked:
             raise LockedError(self)
 
         distance_dbu = self.kcl.to_dbu(distance)
 
         layer_index = get_layer(layer)
-        region = kdb.Region(self._kdb_cell.begin_shapes_rec(layer_index))
+        region = kdb.Region(self.kdb_cell.begin_shapes_rec(layer_index))
         region.size(distance_dbu)
         self.remove_layers([layer])
-        self._kdb_cell.shapes(layer_index).insert(region)
+        self.kdb_cell.shapes(layer_index).insert(region)
 
         self.kcl.layout.end_changes()
 
@@ -1431,14 +1166,14 @@ class Component(ComponentBase, kf.KCell):  # type: ignore
         """
         from gdsfactory.pdk import get_layer
 
-        if self._locked:
+        if self.locked:
             raise LockedError(self)
 
         _layer = get_layer(layer)
 
         polygon = points_to_polygon(points)
 
-        return self._kdb_cell.shapes(_layer).insert(polygon)
+        return self.kdb_cell.shapes(_layer).insert(polygon)
 
 
 class ComponentAllAngle(ComponentBase, kf.VKCell):  # type: ignore
@@ -1451,14 +1186,9 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):  # type: ignore
         VInstance(self).insert_into_flat(c, levels=0)
         c.plot(**kwargs)
 
-    def __init__(
-        self,
-        name: str | None = None,
-        kcl: KCLayout | None = None,
-        info: dict[str, int | float | str] | None = None,
-    ) -> None:
-        """Initializes a ComponentAllAngle."""
-        kf.VKCell.__init__(self, name=name, kcl=kcl, info=info)
+    @property
+    def layers(self) -> list[int]:
+        return list(self._shapes.keys())
 
     def dup(self) -> ComponentAllAngle:
         """Copy the full cell."""
@@ -1467,8 +1197,8 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):  # type: ignore
         )
         c.ports = self.ports.copy()
 
-        c._settings = self.settings.model_copy()
-        c._settings_units = self.settings_units.model_copy()
+        c.settings = self.settings.model_copy()
+        c.settings_units = self.settings_units.model_copy()
         c.info = self.info.model_copy()
         for layer, shapes in self._shapes.items():
             for shape in shapes:
@@ -1485,7 +1215,7 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):  # type: ignore
         """
         from gdsfactory.pdk import get_layer
 
-        if self._locked:
+        if self.locked:
             raise LockedError(self)
 
         _layer = get_layer(layer)

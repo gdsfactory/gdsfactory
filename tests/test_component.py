@@ -115,7 +115,7 @@ def test_remove_layers() -> None:
 
 def test_locked_cell() -> None:
     c = gf.Component()
-    c._locked = True
+    c.locked = True
 
     with pytest.raises(LockedError):
         c.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(2, 0))
@@ -221,7 +221,7 @@ def test_deprecated_methods() -> None:
 
 def test_locked_cell_all_angle() -> None:
     c = gf.ComponentAllAngle()
-    c._locked = True
+    c.locked = True
 
     with pytest.raises(LockedError):
         c.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(2, 0))
@@ -556,7 +556,7 @@ def test_component_all_angle_add_polygon() -> None:
     c.add_polygon(dsimpoly, layer="WG")
     assert len(list(c.shapes(get_layer(LAYER.WG)).each())) == 5
 
-    c._locked = True
+    c.locked = True
     with pytest.raises(LockedError):
         c.add_polygon(points1, layer="WG")
 

@@ -369,7 +369,7 @@ class Pdk(BaseModel):
 
         if isinstance(component, ComponentBase):
             return component  # type: ignore
-        elif isinstance(component, kf.KCell):
+        elif isinstance(component, kf.DKCell):
             return Component.from_kcell(component)
         elif callable(component):
             return component(**kwargs)

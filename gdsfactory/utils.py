@@ -33,4 +33,4 @@ def to_kdb_dpoints(
 
 
 def is_component_spec(obj: Any) -> "TypeGuard[ComponentSpec]":
-    return isinstance(obj, str | Callable | dict | kf.KCell)
+    return isinstance(obj, str | Callable | dict | kf.DKCell)

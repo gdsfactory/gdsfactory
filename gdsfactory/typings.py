@@ -30,7 +30,7 @@ import kfactory as kf
 import klayout.db as kdb
 import numpy as np
 import numpy.typing as npt
-from kfactory.kcell import InstancePorts, LayerEnum
+from kfactory.kcell import LayerEnum
 
 STEP_DIRECTIVES = {
     "x",
@@ -124,14 +124,14 @@ PathType: TypeAlias = str | pathlib.Path
 PathTypes: TypeAlias = Sequence[PathType]
 Metadata: TypeAlias = dict[str, int | float | str]
 
-Port: TypeAlias = kf.Port
+Port: TypeAlias = kf.kcell.DPort
 TPort = TypeVar("TPort", bound=Port)
 IOPorts: TypeAlias = tuple[str, str]
 PortFactory: TypeAlias = Callable[..., Port]
 PortsFactory: TypeAlias = Callable[..., Sequence[Port]]
 PortSymmetries: TypeAlias = dict[str, Sequence[str]]
 PortDict: TypeAlias = dict[str, Port]
-Ports: TypeAlias = kf.Ports | Sequence[Port] | InstancePorts
+Ports: TypeAlias = kf.DPorts | Sequence[Port] | kf.kcell.DInstancePorts
 SelectPorts: TypeAlias = Callable[..., Sequence[Port]]
 
 PortType: TypeAlias = str
@@ -163,22 +163,19 @@ MultiCrossSectionAngleSpec: TypeAlias = Sequence[
 
 from gdsfactory import component  # noqa: E402
 
-AnyComponent: TypeAlias = component.Component | component.ComponentAllAngle
+AnyComponent: TypeAlias = kf.kcell.ProtoKCell[float]
 AnyComponentT = TypeVar("AnyComponentT", bound=AnyComponent)
 AnyComponentFactory: TypeAlias = Callable[..., AnyComponent]
-AnyComponentPostProcess: TypeAlias = (
-    Callable[[component.Component], None]
-    | Callable[[component.ComponentAllAngle], None]
-)
+AnyComponentPostProcess: TypeAlias = Callable[[AnyComponent], None]
 
 ComponentParams = ParamSpec("ComponentParams")
-ComponentFactory: TypeAlias = Callable[..., component.Component]
+ComponentFactory: TypeAlias = Callable[..., kf.DKCell]
 ComponentAllAngleFactory: TypeAlias = Callable[..., component.ComponentAllAngle]
 ComponentBaseFactory: TypeAlias = Callable[..., component.ComponentBase]
 ComponentFactoryDict: TypeAlias = dict[str, ComponentFactory]
 ComponentFactories: TypeAlias = Sequence[ComponentFactory]
 
-ComponentSpec: TypeAlias = str | ComponentFactory | dict[str, Any] | kf.KCell
+ComponentSpec: TypeAlias = str | ComponentFactory | dict[str, Any] | kf.DKCell
 ComponentSpecOrComponent: TypeAlias = ComponentSpec | component.Component
 ComponentSpecs: TypeAlias = Sequence[ComponentSpec]
 ComponentSpecsOrComponents: TypeAlias = Sequence[ComponentSpecOrComponent]

@@ -298,7 +298,7 @@ def sort_ports_clockwise(ports: Sequence[TPort]) -> list[TPort]:
     south_ports.sort(key=lambda p: -p.dx)  # sort east to west
 
     ports = west_ports + north_ports + east_ports + south_ports
-    return list(ports)
+    return ports
 
 
 def sort_ports_counter_clockwise(ports: Sequence[TPort]) -> list[TPort]:
@@ -345,7 +345,7 @@ def sort_ports_counter_clockwise(ports: Sequence[TPort]) -> list[TPort]:
 
 
 def select_ports(
-    ports: Ports | kf.Instance | kf.kcell.InstancePorts,
+    ports: Ports | kf.kcell.DInstance,
     layer: LayerSpec | None = None,
     prefix: str | None = None,
     suffix: str | None = None,
@@ -376,39 +376,41 @@ def select_ports(
         List containing the selected ports.
 
     """
-    if isinstance(ports, kf.Instance):
-        ports = ports.ports
+    if isinstance(ports, kf.kcell.DInstance):
+        ports_ = ports.ports
+    else:
+        ports_ = ports
 
     if layer:
         from gdsfactory.pdk import get_layer
 
         layer = get_layer(layer)
-        ports = [p for p in ports if get_layer(p.layer) == layer]
+        ports_ = [p for p in ports_ if get_layer(p.layer) == layer]
     else:
-        ports = list(ports)
+        ports_ = list(ports_)
 
     if prefix:
-        ports = [p for p in ports if p.name and p.name.startswith(prefix)]
+        ports_ = [p for p in ports_ if p.name and p.name.startswith(prefix)]
     if suffix:
-        ports = [p for p in ports if p.name and p.name.endswith(suffix)]
+        ports_ = [p for p in ports_ if p.name and p.name.endswith(suffix)]
     if orientation is not None:
-        ports = [p for p in ports if np.isclose(p.dangle, orientation)]
+        ports_ = [p for p in ports_ if np.isclose(p.dangle, orientation)]
 
     if layers_excluded:
-        ports = [p for p in ports if p.layer not in layers_excluded]  # type: ignore
+        ports_ = [p for p in ports_ if p.layer not in layers_excluded]  # type: ignore
     if width:
-        ports = [p for p in ports if p.width == width]
+        ports_ = [p for p in ports_ if p.width == width]
     if port_type:
-        ports = [p for p in ports if p.port_type == port_type]
+        ports_ = [p for p in ports_ if p.port_type == port_type]
     if names:
-        ports = [p for p in ports if p.name in names]
+        ports_ = [p for p in ports_ if p.name in names]
 
     if sort_ports:
         if clockwise:
-            ports = sort_ports_clockwise(ports)
+            ports_ = list(sort_ports_clockwise(ports_))
         else:
-            ports = sort_ports_counter_clockwise(ports)
-    return ports
+            ports_ = list(sort_ports_counter_clockwise(ports_))
+    return ports_
 
 
 select_ports_optical = partial(select_ports, port_type="optical")

@@ -345,7 +345,7 @@ class CrossSection(BaseModel):
     #         enclosure_map=dict(enclosure_rc=enclosure_rc)
     #     )
 
-    #     kf.kcl.enclosure = kf.KCellEnclosure(
+    #     kf.kcl.enclosure = kf.DKCellEnclosure(
     #         enclosures=[enclosure_rc],
     #     )
     #     component.kcl.enclosure.apply_minkowski_y(component)
