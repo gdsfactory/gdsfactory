@@ -71,13 +71,16 @@ def cutback_component(
     }
 
     # Generate the sequence of staircases
-
     s = ""
     for i in range(rows):
         a = "!A" if mirror1 else "A"
         b = "!B" if mirror2 else "B"
 
-        s += f"{a}.{b}" * cols if straight_length_pair else (a + b) * cols
+        if straight_length_pair:
+            s += f"{a}.{b}" * cols if straight_length_pair else (a + b) * cols
+        else:
+            s += f"{a}{b}" * cols if straight_length_pair else (a + b) * cols
+
         if mirror:
             s += "C" if i % 2 == 0 else "D"
         else:
@@ -87,7 +90,10 @@ def cutback_component(
     s += "-_"
 
     for i in range(rows):
-        s += f"{a}.{b}" * cols if straight_length_pair else (a + b) * cols
+        if straight_length_pair:
+            s += f"{a}.{b}" * cols if straight_length_pair else (a + b) * cols
+        else:
+            s += f"{a}{b}" * cols if straight_length_pair else (a + b) * cols
         s += "D" if (i + rows) % 2 == 0 else "C"
 
     s = s[:-1]
@@ -101,7 +107,7 @@ def cutback_component(
 cutback_component_mirror = partial(cutback_component, mirror=True)
 
 if __name__ == "__main__":
-    c = cutback_component()
+    c = cutback_component_mirror()
     # c = cutback_component_mirror(component=component_flipped)
     # c = gf.routing.add_fiber_single(c)
     c.show()
