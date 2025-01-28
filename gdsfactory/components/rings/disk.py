@@ -4,14 +4,9 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory import Component
-from gdsfactory.component import ComponentReference
-from gdsfactory.cross_section import CrossSection
-from gdsfactory.typings import (
-    AngleInDegrees,
-    ComponentSpec,
-    CrossSectionSpec,
-    LayerSpec,
-)
+from gdsfactory.component import ComponentReference, ComponentSpec
+from gdsfactory.cross_section import CrossSection, CrossSectionSpec
+from gdsfactory.typings import AngleInDegrees, LayerSpec
 
 
 def _compute_parameters(

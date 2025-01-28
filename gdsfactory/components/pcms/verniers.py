@@ -3,8 +3,9 @@ from __future__ import annotations
 from typing import Any
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentSpec, Floats, LayerSpec
+from gdsfactory.component import Component, ComponentSpec, LayerSpec
 from gdsfactory.cross_section import CrossSectionSpec
+from gdsfactory.typings import Floats
 
 
 @gf.cell

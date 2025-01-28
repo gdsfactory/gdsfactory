@@ -6,10 +6,11 @@ from typing import Any
 import numpy as np
 
 import gdsfactory as gf
+from gdsfactory.component import ComponentSpec
 from gdsfactory.components.vias.via import via
 from gdsfactory.components.vias.via_stack import via_stack
-from gdsfactory.cross_section import CrossSectionSpec, Section, rib
-from gdsfactory.typings import ComponentSpec, CrossSectionFactory, LayerSpec
+from gdsfactory.cross_section import CrossSectionFactory, CrossSectionSpec, Section, rib
+from gdsfactory.typings import LayerSpec
 
 cross_section_rib = partial(
     gf.cross_section.strip,

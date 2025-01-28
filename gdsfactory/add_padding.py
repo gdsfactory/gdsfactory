@@ -5,8 +5,8 @@ from functools import partial
 from kfactory import Instance
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentAllAngle, container
-from gdsfactory.typings import ComponentSpec, Coordinate, LayerSpecs
+from gdsfactory.component import Component, ComponentAllAngle, ComponentSpec, container
+from gdsfactory.typings import Coordinate, LayerSpecs
 
 
 def get_padding_points(

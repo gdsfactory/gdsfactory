@@ -3,9 +3,10 @@ from __future__ import annotations
 from typing import Any
 
 import gdsfactory as gf
-from gdsfactory.component import Component
+from gdsfactory.component import Component, ComponentSpec
 from gdsfactory.components.bends.bend_circular import bend_circular_all_angle
-from gdsfactory.typings import AnyComponentFactory, ComponentSpec, CrossSectionSpec
+from gdsfactory.cross_section import CrossSectionSpec
+from gdsfactory.typings import AnyComponentFactory
 
 
 @gf.cell
