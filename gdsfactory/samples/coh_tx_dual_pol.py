@@ -1,10 +1,10 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentReference
+from gdsfactory.component import Component, ComponentReference, ComponentSpec
+from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.routing.route_single import route_single
 from gdsfactory.samples.coh_tx_single_pol import coh_tx_single_pol
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell

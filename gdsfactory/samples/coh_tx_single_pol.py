@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.component import Component
+from gdsfactory.component import Component, ComponentSpec
+from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.routing.route_single import route_single
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell

@@ -2,8 +2,9 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory import Component
+from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.snap import snap_to_grid2x
-from gdsfactory.typings import CrossSectionSpec, Size
+from gdsfactory.typings import Size
 
 
 def _generate_fins(

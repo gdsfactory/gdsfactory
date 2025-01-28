@@ -4,10 +4,11 @@ from collections.abc import Callable, Iterable
 from typing import TYPE_CHECKING, Any, ParamSpec, Protocol, overload
 
 from cachetools import Cache
+from kfactory import cell as _cell
+from kfactory import vcell as _vcell
 from kfactory.conf import CHECK_INSTANCES
-from kfactory.kcell import MetaData, TKCell
-from kfactory.kcell import dcell as _cell
-from kfactory.kcell import vcell as _vcell
+from kfactory.kcell import TKCell
+from kfactory.typings import MetaData
 
 if TYPE_CHECKING:
     from gdsfactory.component import Component, ComponentAllAngle
@@ -35,13 +36,17 @@ def cell(
     check_ports: bool = True,
     check_instances: CHECK_INSTANCES | None = None,
     snap_ports: bool = True,
+    add_port_layers: bool = True,
+    cache: Cache[int, Any] | dict[int, Any] | None = None,
     basename: str | None = None,
-    drop_params: tuple[str, ...] = ("self", "cls"),
+    drop_params: list[str] | None = None,
     register_factory: bool = True,
     overwrite_existing: bool | None = None,
     layout_cache: bool | None = None,
     info: dict[str, MetaData] | None = None,
     post_process: Iterable[Callable[[TKCell], None]] | None = None,
+    debug_names: bool | None = None,
+    tags: list[str] | None = None,
 ) -> Callable[[ComponentFunc[ComponentParams]], ComponentFunc[ComponentParams]]: ...
 
 
@@ -57,21 +62,28 @@ def cell(
     add_port_layers: bool = True,
     cache: Cache[int, Any] | dict[int, Any] | None = None,
     basename: str | None = None,
-    drop_params: tuple[str, ...] = ("self", "cls"),
+    drop_params: list[str] | None = None,
     register_factory: bool = True,
     overwrite_existing: bool | None = None,
     layout_cache: bool | None = None,
     info: dict[str, MetaData] | None = None,
     post_process: Iterable[Callable[[TKCell], None]] | None = None,
+    debug_names: bool | None = None,
+    tags: list[str] | None = None,
 ) -> (
     ComponentFunc[ComponentParams]
     | Callable[[ComponentFunc[ComponentParams]], ComponentFunc[ComponentParams]]
 ):
     """Decorator to convert a function into a Component."""
+    from gdsfactory import component
+
+    if drop_params is None:
+        drop_params = ["self", "cls"]
     if post_process is None:
         post_process = []
-    c = _cell(  # type: ignore
+    c = _cell(
         _func,
+        output_type=component.Component,
         set_settings=set_settings,
         set_name=set_name,
         check_ports=check_ports,
@@ -80,13 +92,15 @@ def cell(
         add_port_layers=add_port_layers,
         cache=cache,
         basename=basename,
-        drop_params=list(drop_params),
+        drop_params=drop_params,
         register_factory=register_factory,
         overwrite_existing=overwrite_existing,
         layout_cache=layout_cache,
         info=info,
         post_process=post_process,
-    )
+        debug_names=debug_names,
+        tags=tags,
+    )  # type: ignore
     c.is_gf_cell = True
     return c  # type: ignore
 

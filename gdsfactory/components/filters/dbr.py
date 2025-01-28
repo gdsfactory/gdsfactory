@@ -13,8 +13,8 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.typings import CrossSectionSpec
 
 period = 318e-3
 w0 = 0.5

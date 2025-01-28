@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentAllAngle
-from gdsfactory.typings import CrossSectionSpec
+from gdsfactory.cross_section import CrossSectionSpec
 
 
 @gf.cell

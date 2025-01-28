@@ -1,8 +1,7 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.component import Component
-from gdsfactory.typings import ComponentSpec
+from gdsfactory.component import Component, ComponentSpec
 
 
 @gf.cell

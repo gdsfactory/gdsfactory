@@ -9,7 +9,8 @@ from toolz import compose  # type: ignore
 from aenum import constant  # type: ignore[import-untyped]
 
 import kfactory as kf
-from kfactory.kcell import LayerEnum, kcl, show, Instance
+from kfactory import LayerEnum, show, Instance
+from kfactory.layout import kcl
 from kfactory import logger
 import klayout.db as kdb
 

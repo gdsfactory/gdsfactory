@@ -4,11 +4,11 @@ from collections.abc import Iterable
 from functools import partial
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentReference
+from gdsfactory.component import Component, ComponentReference, ComponentSpec
 from gdsfactory.components.vias.via import via
 from gdsfactory.components.vias.via_stack import via_stack
-from gdsfactory.cross_section import Section
-from gdsfactory.typings import ComponentSpec, Floats, LayerSpecs, Port
+from gdsfactory.cross_section import CrossSectionSpec, Section
+from gdsfactory.typings import Floats, LayerSpecs, Port
 
 _via_stack = partial(
     via_stack,
@@ -37,7 +37,7 @@ _via_stack = partial(
 def straight_heater_meander_doped(
     length: float = 300.0,
     spacing: float = 2.0,
-    cross_section: gf.typings.CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "strip",
     heater_width: float = 1.5,
     extension_length: float = 15.0,
     layers_doping: LayerSpecs = ("P", "PP", "PPP"),

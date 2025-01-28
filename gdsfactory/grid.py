@@ -13,18 +13,12 @@ import kfactory as kf
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.component import Component
-from gdsfactory.typings import (
-    Anchor,
-    ComponentSpec,
-    ComponentSpecsOrComponents,
-    Float2,
-    Spacing,
-)
+from gdsfactory.component import Component, ComponentSpec, ComponentSpecs
+from gdsfactory.typings import Anchor, Float2, Spacing
 
 
 def grid(
-    components: ComponentSpecsOrComponents = ("rectangle", "triangle"),
+    components: ComponentSpecs = ("rectangle", "triangle"),
     spacing: Spacing | float = (5.0, 5.0),
     shape: tuple[int, int] | None = None,
     align_x: Literal["origin", "xmin", "xmax", "center"] = "center",
@@ -66,7 +60,7 @@ def grid(
     """
     c = gf.Component()
     instances = kf.grid(
-        c,
+        c.to_kcell(),
         kcells=[gf.get_component(component) for component in components],
         shape=shape,
         spacing=(

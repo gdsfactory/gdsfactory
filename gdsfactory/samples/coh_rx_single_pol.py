@@ -3,8 +3,14 @@ from __future__ import annotations
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentReference
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Port, Spacing
+from gdsfactory.component import (
+    Component,
+    ComponentReference,
+    ComponentSpec,
+    Port,
+    Spacing,
+)
+from gdsfactory.cross_section import CrossSectionSpec
 
 
 @gf.cell

@@ -7,20 +7,18 @@ import kfactory as kf
 
 import gdsfactory as gf
 from gdsfactory._deprecation import deprecate
-from gdsfactory.component import Component, ComponentReference
+from gdsfactory.component import (
+    Component,
+    ComponentReference,
+    ComponentSpec,
+    ComponentSpecOrList,
+)
+from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.route_bundle import get_min_spacing, route_bundle
 from gdsfactory.routing.route_single import route_single
 from gdsfactory.routing.utils import direction_ports_from_list_ports
-from gdsfactory.typings import (
-    BoundingBoxes,
-    ComponentSpec,
-    ComponentSpecOrList,
-    Coordinates,
-    CrossSectionSpec,
-    PortsFactory,
-    Strs,
-)
+from gdsfactory.typings import BoundingBoxes, Coordinates, PortsFactory, Strs
 from gdsfactory.utils import to_kdb_boxes
 
 

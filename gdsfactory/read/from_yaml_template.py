@@ -2,7 +2,7 @@ import os
 import pathlib
 from inspect import Parameter, Signature, signature
 from io import IOBase
-from typing import IO, Any
+from typing import IO, TYPE_CHECKING, Any
 
 import jinja2
 import yaml
@@ -11,7 +11,10 @@ from kfactory import cell
 from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component
 from gdsfactory.read.from_yaml import from_yaml
-from gdsfactory.typings import ComponentFactory, RoutingStrategies
+from gdsfactory.typings import RoutingStrategies
+
+if TYPE_CHECKING:
+    from gdsfactory.component import ComponentFactory
 
 __all__ = ["cell_from_yaml_template"]
 
@@ -73,7 +76,7 @@ def cell_from_yaml_template(
     name: str,
     routing_strategy: RoutingStrategies | None = None,
     routing_strategies: RoutingStrategies | None = None,
-) -> ComponentFactory:
+) -> "ComponentFactory":
     """Gets a PIC factory function from a yaml definition, which can optionally be a jinja template.
 
     Args:
@@ -129,7 +132,7 @@ def yaml_cell(
     name: str,
     routing_strategy: RoutingStrategies | None = None,
     routing_strategies: RoutingStrategies | None = None,
-) -> ComponentFactory:
+) -> "ComponentFactory":
     """The "cell" decorator equivalent for yaml files. Generates a proper cell function for yaml-defined circuits.
 
     Args:

@@ -5,10 +5,10 @@ from functools import partial
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.component import Component
+from gdsfactory.component import Component, ComponentSpec, LayerSpec
 from gdsfactory.components.grating_couplers.functions import grating_tooth_points
+from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.functions import DEG2RAD
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 
 
 @gf.cell

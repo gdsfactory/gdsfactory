@@ -7,8 +7,8 @@ import numpy as np
 import numpy.typing as npt
 
 import gdsfactory as gf
+from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.path import transition_adiabatic
-from gdsfactory.typings import CrossSectionSpec
 
 
 def neff_TE1550SOI_220nm(w: float) -> float:

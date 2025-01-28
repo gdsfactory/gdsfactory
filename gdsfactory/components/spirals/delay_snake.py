@@ -3,10 +3,10 @@ from __future__ import annotations
 import warnings
 
 import gdsfactory as gf
-from gdsfactory.component import Component
+from gdsfactory.component import Component, ComponentSpec
 from gdsfactory.components.bends.bend_euler import bend_euler180
 from gdsfactory.components.waveguides.straight import straight
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.cross_section import CrossSectionSpec
 
 _diagram = r"""
                  | length0   |

@@ -30,7 +30,7 @@ import kfactory as kf
 import klayout.db as kdb
 import numpy as np
 import numpy.typing as npt
-from kfactory.kcell import LayerEnum
+from kfactory.layer import LayerEnum
 
 STEP_DIRECTIVES = {
     "x",
@@ -98,6 +98,7 @@ BoundingBox: TypeAlias = tuple[float, float, float, float]
 BoundingBoxes: TypeAlias = Sequence[BoundingBox]
 Size: TypeAlias = tuple[float, float]
 Spacing: TypeAlias = tuple[float, float]
+Position: TypeAlias = tuple[float, float]
 Radius: TypeAlias = float
 
 Delta: TypeAlias = float
@@ -124,14 +125,16 @@ PathType: TypeAlias = str | pathlib.Path
 PathTypes: TypeAlias = Sequence[PathType]
 Metadata: TypeAlias = dict[str, int | float | str]
 
-Port: TypeAlias = kf.kcell.DPort
+Port: TypeAlias = kf.DPort
 TPort = TypeVar("TPort", bound=Port)
 IOPorts: TypeAlias = tuple[str, str]
 PortFactory: TypeAlias = Callable[..., Port]
 PortsFactory: TypeAlias = Callable[..., Sequence[Port]]
 PortSymmetries: TypeAlias = dict[str, Sequence[str]]
 PortDict: TypeAlias = dict[str, Port]
-Ports: TypeAlias = kf.DPorts | Sequence[Port] | kf.kcell.DInstancePorts
+Ports: TypeAlias = (
+    kf.DPorts | Sequence[Port] | kf.DInstancePorts | kf.ports.ProtoPorts[float]
+)
 SelectPorts: TypeAlias = Callable[..., Sequence[Port]]
 
 PortType: TypeAlias = str
@@ -155,13 +158,6 @@ Route: TypeAlias = (
 RoutingStrategy: TypeAlias = Callable[..., Sequence[Route]]
 RoutingStrategies: TypeAlias = dict[str, RoutingStrategy]
 
-from gdsfactory.cross_section import CrossSectionFactory, CrossSectionSpec  # noqa: E402
-
-MultiCrossSectionAngleSpec: TypeAlias = Sequence[
-    tuple[CrossSectionSpec, tuple[int, ...]]
-]
-
-from gdsfactory import component  # noqa: E402
 
 AnyComponent: TypeAlias = kf.kcell.ProtoKCell[float]
 AnyComponentT = TypeVar("AnyComponentT", bound=AnyComponent)
@@ -169,31 +165,13 @@ AnyComponentFactory: TypeAlias = Callable[..., AnyComponent]
 AnyComponentPostProcess: TypeAlias = Callable[[AnyComponent], None]
 
 ComponentParams = ParamSpec("ComponentParams")
-ComponentFactory: TypeAlias = Callable[..., kf.DKCell]
-ComponentAllAngleFactory: TypeAlias = Callable[..., component.ComponentAllAngle]
-ComponentBaseFactory: TypeAlias = Callable[..., component.ComponentBase]
-ComponentFactoryDict: TypeAlias = dict[str, ComponentFactory]
-ComponentFactories: TypeAlias = Sequence[ComponentFactory]
 
-ComponentSpec: TypeAlias = str | ComponentFactory | dict[str, Any] | kf.DKCell
-ComponentSpecOrComponent: TypeAlias = ComponentSpec | component.Component
-ComponentSpecs: TypeAlias = Sequence[ComponentSpec]
-ComponentSpecsOrComponents: TypeAlias = Sequence[ComponentSpecOrComponent]
-
-PostProcess: TypeAlias = Callable[[component.Component], None]
+PostProcess: TypeAlias = Callable[[kf.DKCell], None]
 PostProcesses: TypeAlias = Sequence[PostProcess]
 
-Instance: TypeAlias = component.ComponentReference
-ComponentOrPath: TypeAlias = PathType | component.Component
-ComponentOrReference: TypeAlias = component.Component | component.ComponentReference
-NameToFunctionDict: TypeAlias = dict[str, ComponentFactory]
-
-
-ComponentSpecOrList: TypeAlias = ComponentSpec | list[ComponentSpec]
-CellSpec: TypeAlias = (
-    str | ComponentFactory | dict[str, Any]  # PCell function, function name or dict
-)
-ComponentSpecDict: TypeAlias = dict[str, ComponentSpec]
+Instance: TypeAlias = kf.DInstance
+ComponentOrPath: TypeAlias = PathType | kf.DKCell
+ComponentOrReference: TypeAlias = kf.DKCell | kf.DInstance
 
 
 class TypedArray(np.ndarray[Any, np.dtype[Any]]):
@@ -223,15 +201,8 @@ __all__ = (
     "AnyComponent",
     "AnyComponentFactory",
     "AnyComponentT",
-    "ComponentFactory",
-    "ComponentFactoryDict",
-    "ComponentOrPath",
-    "ComponentOrReference",
-    "ComponentSpec",
     "Coordinate",
     "Coordinates",
-    "CrossSectionFactory",
-    "CrossSectionSpec",
     "Delta",
     "Float2",
     "Float3",
@@ -244,8 +215,6 @@ __all__ = (
     "LayerSpec",
     "LayerSpecs",
     "Layers",
-    "MultiCrossSectionAngleSpec",
-    "NameToFunctionDict",
     "Number",
     "PathType",
     "PathTypes",
@@ -258,6 +227,7 @@ __all__ = (
     "Ports",
     "PortsDict",
     "PortsDictGeneric",
+    "Position",
     "PostProcesses",
     "Radius",
     "RoutingStrategies",

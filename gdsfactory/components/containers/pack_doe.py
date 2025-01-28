@@ -5,10 +5,9 @@ from collections.abc import Sequence
 from typing import Any
 
 import gdsfactory as gf
-from gdsfactory.component import Component
+from gdsfactory.component import CellSpec, Component, ComponentSpec
 from gdsfactory.grid import grid, grid_with_text
 from gdsfactory.pack import pack
-from gdsfactory.typings import CellSpec, ComponentSpec
 
 
 def generate_doe(

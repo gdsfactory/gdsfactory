@@ -5,11 +5,14 @@ from __future__ import annotations
 import warnings
 
 import gdsfactory as gf
-from gdsfactory.typings import CrossSectionSpec, Port, Ports
+from gdsfactory.component import Component
+from gdsfactory.cross_section import CrossSectionSpec
+from gdsfactory.port import Port
+from gdsfactory.typings import Ports
 
 
 def add_auto_tapers(
-    component: gf.Component,
+    component: Component,
     ports: Ports,
     cross_section: CrossSectionSpec,
 ) -> list[Port]:
@@ -27,7 +30,7 @@ def add_auto_tapers(
 
 
 def auto_taper_to_cross_section(
-    component: gf.Component, port: Port, cross_section: CrossSectionSpec
+    component: Component, port: Port, cross_section: CrossSectionSpec
 ) -> Port:
     """Creates a taper from a port to a given cross section and places it in the component. The opposite port of the taper will be returned.
 

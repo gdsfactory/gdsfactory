@@ -10,50 +10,48 @@ from typing import TYPE_CHECKING, Any, Literal, Self, TypeAlias, overload
 
 import kfactory as kf
 import klayout.lay as lay
+import networkx as nx  # type: ignore[import-untyped]
 import numpy as np
 import numpy.typing as npt
 import yaml
-from kfactory import Instance, kdb
-from kfactory.kcell import (
+from kfactory import (
     DInstance,
     DInstances,
     DPort,
     DPorts,
-    LockedError,
-    ProtoKCell,
-    ProtoPort,
+    Instance,
     VInstance,
     cell,
+    kdb,
     save_layout_options,
 )
+from kfactory.exceptions import LockedError
+from kfactory.kcell import ProtoKCell
+from kfactory.port import ProtoPort
+from matplotlib.figure import Figure
 from pydantic import Field
 from trimesh.scene.scene import Scene
 
 from gdsfactory._deprecation import deprecate
 from gdsfactory.config import CONF, GDSDIR_TEMP
-from gdsfactory.functions import get_polygons, get_polygons_points
 from gdsfactory.serialization import clean_value_json, convert_tuples_to_lists
+from gdsfactory.technology.layer_stack import LayerStack
+from gdsfactory.technology.layer_views import LayerViews
+from gdsfactory.typings import (
+    AngleInDegrees,
+    Coordinates,
+    Layer,
+    LayerSpec,
+    LayerSpecs,
+    PathType,
+    Port,
+    Position,
+    Spacing,
+)
 from gdsfactory.utils import to_kdb_dpoints
 
 if TYPE_CHECKING:
-    import networkx as nx  # type: ignore[import-untyped]
-    from matplotlib.figure import Figure
-
-    from gdsfactory.cross_section import CrossSection
-    from gdsfactory.technology.layer_stack import LayerStack
-    from gdsfactory.technology.layer_views import LayerViews
-    from gdsfactory.typings import (
-        AngleInDegrees,
-        ComponentSpec,
-        Coordinates,
-        CrossSectionSpec,
-        Layer,
-        LayerSpec,
-        LayerSpecs,
-        PathType,
-        Port,
-        Spacing,
-    )
+    from gdsfactory.cross_section import CrossSection, CrossSectionSpec
 
 cell_without_validator = cell
 
@@ -144,6 +142,9 @@ class ComponentBase(ProtoKCell[float], ABC):
     @abstractmethod
     def layers(self) -> list[Layer]: ...
 
+    @abstractmethod
+    def add_polygon(self, points: _PolygonPoints, layer: LayerSpec) -> None: ...
+
     def bbox_np(self) -> npt.NDArray[np.float64]:
         """Returns the bounding box of the Component as a numpy array."""
         return np.array(
@@ -152,12 +153,12 @@ class ComponentBase(ProtoKCell[float], ABC):
 
     def add_port(
         self,
-        *,
         name: str | None = None,
+        *,
         port: ProtoPort[Any] | None = None,
-        center: tuple[float, float] | kdb.DPoint | None = None,
+        center: Position | kdb.DPoint | None = None,
         width: float | None = None,
-        orientation: "AngleInDegrees | None" = None,
+        orientation: AngleInDegrees | None = None,
         layer: LayerSpec | None = None,
         port_type: str = "optical",
         keep_mirror: bool = False,
@@ -237,9 +238,9 @@ class ComponentBase(ProtoKCell[float], ABC):
     def add_label(
         self,
         text: str = "hello",
-        position: tuple[float, float] | kf.kdb.DPoint = (0.0, 0.0),
-        layer: "LayerSpec" = "TEXT",
-    ) -> kdb.Shape:
+        position: Position | kf.kdb.DPoint = (0.0, 0.0),
+        layer: LayerSpec = "TEXT",
+    ) -> None:
         """Adds Label to the Component.
 
         Args:
@@ -259,7 +260,7 @@ class ComponentBase(ProtoKCell[float], ABC):
             x, y = position
 
         trans = kdb.DTrans(0, False, x, y)
-        return self.shapes(layer).insert(kf.kdb.DText(text, trans))  # type: ignore[no-any-return]
+        self.shapes(layer).insert(kf.kdb.DText(text, trans))
 
     def get_ports_list(self, **kwargs: Any) -> "list[Port]":
         """Returns list of ports.
@@ -950,6 +951,8 @@ class Component(ComponentBase, kf.DKCell):
         if merge and self.locked:
             raise LockedError(self)
 
+        from gdsfactory.functions import get_polygons
+
         return get_polygons(self, merge=merge, by=by, layers=layers)
 
     def get_polygons_points(
@@ -969,6 +972,8 @@ class Component(ComponentBase, kf.DKCell):
         """
         if merge and self.locked:
             raise LockedError(self)
+
+        from gdsfactory.functions import get_polygons_points
 
         return get_polygons_points(self, merge=merge, scale=scale, by=by, layers=layers)
 
@@ -1229,6 +1234,18 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):  # type: ignore
         from gdsfactory import get_layer
 
         return [x for x in self.shapes(get_layer(layer)) if isinstance(x, kdb.DPolygon)]
+
+
+ComponentFactory: TypeAlias = Callable[..., Component]
+ComponentAllAngleFactory: TypeAlias = Callable[..., ComponentAllAngle]
+ComponentFactoryDict: TypeAlias = dict[str, ComponentFactory]
+ComponentFactories: TypeAlias = Sequence[ComponentFactory]
+ComponentSpec: TypeAlias = str | ComponentFactory | dict[str, Any] | Component
+
+ComponentSpecOrList: TypeAlias = ComponentSpec | list[ComponentSpec]
+CellSpec: TypeAlias = str | ComponentFactory | dict[str, Any]
+ComponentSpecDict: TypeAlias = dict[str, ComponentSpec]
+ComponentSpecs: TypeAlias = Sequence[ComponentSpec]
 
 
 def container(

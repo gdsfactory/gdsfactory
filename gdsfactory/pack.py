@@ -13,18 +13,18 @@ import numpy as np
 import numpy.typing as npt
 
 import gdsfactory as gf
-from gdsfactory.component import Component
+from gdsfactory.component import Component, ComponentSpec
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.typings import Anchor, ComponentSpec, Float2, Number, Size
+from gdsfactory.typings import Anchor, Float2, Size
 
 
 def _pack_single_bin(
-    rect_dict: dict[int, tuple[Number, Number]],
-    aspect_ratio: tuple[Number, Number],
+    rect_dict: dict[int, tuple[float, float]],
+    aspect_ratio: tuple[float, float],
     max_size: Size,
     sort_by_area: bool,
     density: float,
-) -> tuple[dict[int, tuple[Number, Number, Number, Number]], dict[Any, Any]]:
+) -> tuple[dict[int, tuple[float, float, float, float]], dict[Any, Any]]:
     """Packs a dict of rectangles {id:(w,h)} and tries to.
 
     Pack it into a bin as small as possible with aspect ratio `aspect_ratio`
@@ -176,11 +176,11 @@ def pack(
     components = [gf.get_component(component) for component in component_list]
 
     # Convert Components to rectangles
-    rect_dict: dict[int, tuple[Number, Number]] = {}
+    rect_dict: dict[int, tuple[float, float]] = {}
     for n, D in enumerate(components):
         size = np.array([D.dxsize, D.dysize])
-        w: Number = int((size[0] + spacing) / precision)
-        h: Number = int((size[1] + spacing) / precision)
+        w: float = int((size[0] + spacing) / precision)
+        h: float = int((size[1] + spacing) / precision)
         if w > max_size_tuple[0]:
             raise ValueError(
                 f"pack() failed because Component {D.name!r} has x dimension "
@@ -195,7 +195,7 @@ def pack(
             )
         rect_dict[n] = (w, h)
 
-    packed_list: list[dict[int, tuple[Number, Number, Number, Number]]] = []
+    packed_list: list[dict[int, tuple[float, float, float, float]]] = []
     while rect_dict:
         (packed_rect_dict, rect_dict) = _pack_single_bin(
             rect_dict,

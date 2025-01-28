@@ -16,7 +16,6 @@ from typing import Any, Self, TypeAlias
 import numpy as np
 from kfactory import logger
 from kfactory.cross_section import SymmetricalCrossSection
-from kfactory.kcell import KCLayout, VInstance  # noqa
 from pydantic import (
     BaseModel,
     ConfigDict,
@@ -402,14 +401,13 @@ class CrossSection(BaseModel):
         return xmin, xmax
 
 
-CrossSectionSpec: TypeAlias = (
-    CrossSection
-    | str
-    | dict[str, Any]
-    | Callable[..., CrossSection]
-    | SymmetricalCrossSection
-)
 CrossSectionFactory: TypeAlias = Callable[..., CrossSection]
+CrossSectionSpec: TypeAlias = (
+    CrossSection | str | dict[str, Any] | CrossSectionFactory | SymmetricalCrossSection
+)
+MultiCrossSectionAngleSpec: TypeAlias = Sequence[
+    tuple[CrossSectionSpec, tuple[int, ...]]
+]
 
 CrossSection.model_rebuild()
 

@@ -13,7 +13,8 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bends import bend_circular_all_angle
 from gdsfactory.components.waveguides import straight_all_angle
-from gdsfactory.typings import CrossSectionSpec, Port
+from gdsfactory.cross_section import CrossSectionSpec
+from gdsfactory.typings import Port
 
 
 def route_dubin(

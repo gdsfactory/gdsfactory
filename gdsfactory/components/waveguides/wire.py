@@ -6,8 +6,12 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.cross_section import port_names_electrical, port_types_electrical
-from gdsfactory.typings import CrossSectionSpec, LayerSpec, PortNames, PortTypes
+from gdsfactory.cross_section import (
+    CrossSectionSpec,
+    port_names_electrical,
+    port_types_electrical,
+)
+from gdsfactory.typings import LayerSpec, PortNames, PortTypes
 
 
 @gf.cell

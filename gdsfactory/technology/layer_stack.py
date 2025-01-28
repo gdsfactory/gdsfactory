@@ -2,18 +2,20 @@ from __future__ import annotations
 
 from collections import defaultdict
 from collections.abc import Mapping, Sequence
-from typing import Any, Literal, TypeAlias, TypeVar
+from typing import TYPE_CHECKING, Any, Literal, TypeAlias, TypeVar
 
 import kfactory as kf
-from kfactory.kcell import LayerEnum
+from kfactory.layer import LayerEnum
 from pydantic import BaseModel, Field, field_validator
 from rich.console import Console
 from rich.table import Table
 
 import gdsfactory as gf
-from gdsfactory.component import Component, boolean_operations
 from gdsfactory.technology.layer_views import LayerViews
 from gdsfactory.typings import LayerSpec
+
+if TYPE_CHECKING:
+    from gdsfactory.component import Component
 
 T = TypeVar("T", bound="AbstractLayer")
 
@@ -190,7 +192,7 @@ class LogicalLayer(AbstractLayer):
         """
         return hash(self.layer)
 
-    def get_shapes(self, component: Component) -> kf.kdb.Region:
+    def get_shapes(self, component: "Component") -> kf.kdb.Region:
         """Return the shapes of the component argument corresponding to this layer.
 
         Arguments:
@@ -273,7 +275,7 @@ class DerivedLayer(AbstractLayer):
         else:
             return self.operation
 
-    def get_shapes(self, component: Component) -> kf.kdb.Region:
+    def get_shapes(self, component: "Component") -> kf.kdb.Region:
         """Return the shapes of the component argument corresponding to this layer.
 
         Arguments:
@@ -282,6 +284,8 @@ class DerivedLayer(AbstractLayer):
         Returns:
             kf.kdb.Region: A region of polygons on this layer.
         """
+        from gdsfactory.component import boolean_operations
+
         r1 = self.layer1.get_shapes(component)
         r2 = self.layer2.get_shapes(component)
         region = boolean_operations[self.operation](r1, r2)
@@ -433,8 +437,8 @@ class LayerStack(BaseModel):
         return layer_to_thickness
 
     def get_component_with_derived_layers(
-        self, component: Component, **kwargs: Any
-    ) -> Component:
+        self, component: "Component", **kwargs: Any
+    ) -> "Component":
         """Returns component with derived layers."""
         return get_component_with_derived_layers(
             component=component, layer_stack=self, **kwargs
@@ -647,14 +651,15 @@ class LayerStack(BaseModel):
 
 
 def get_component_with_derived_layers(
-    component: Component, layer_stack: LayerStack
-) -> Component:
+    component: "Component", layer_stack: LayerStack
+) -> "Component":
     """Returns a component with derived layers.
 
     Args:
         component: Component to get derived layers for.
         layer_stack: Layer stack to get derived layers from.
     """
+    from gdsfactory.component import Component
     from gdsfactory.pdk import get_layer
 
     component_derived = Component()

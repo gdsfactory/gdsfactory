@@ -7,16 +7,11 @@ import kfactory as kf
 
 import gdsfactory as gf
 from gdsfactory._deprecation import deprecate
-from gdsfactory.component import Component
+from gdsfactory.component import Component, ComponentSpec
+from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_fiber_array import route_fiber_array
-from gdsfactory.typings import (
-    BoundingBoxes,
-    ComponentSpec,
-    CrossSectionSpec,
-    SelectPorts,
-    Strs,
-)
+from gdsfactory.typings import BoundingBoxes, SelectPorts, Strs
 
 
 def add_pads_bot(

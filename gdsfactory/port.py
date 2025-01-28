@@ -34,7 +34,7 @@ import functools
 import warnings
 from collections.abc import Callable, Sequence
 from functools import partial
-from typing import TYPE_CHECKING, Any, Literal, TypeVar
+from typing import TYPE_CHECKING, Any, Literal, TypeAlias, TypeVar
 
 import kfactory as kf
 import numpy as np
@@ -44,8 +44,6 @@ from rich.table import Table
 from gdsfactory import typings
 from gdsfactory.typings import (
     AngleInDegrees,
-    ComponentFactory,
-    CrossSectionSpec,
     LayerSpec,
     LayerSpecs,
     PathType,
@@ -58,7 +56,7 @@ from gdsfactory.typings import (
 )
 
 if TYPE_CHECKING:
-    from gdsfactory.component import Component
+    from gdsfactory.component import Component, ComponentFactory
 
 valid_error_types = ["error", "warn", "ignore"]
 
@@ -104,98 +102,7 @@ def pprint_ports(ports: Ports) -> None:
     console.print(table)
 
 
-class Port(kf.Port):
-    """Ports are useful to connect Components with each other.
-
-    Args:
-        name: we name ports clock-wise starting from bottom left.
-        orientation: in degrees (0: east, 90: north, 180: west, 270: south).
-        center: (x, y) port center coordinate.
-        width: of the port in um (uses the cross section width if not provided).
-        layer: layer tuple.
-        port_type: str (optical, electrical, vertical_te, vertical_tm).
-        cross_section: cross_section spec.
-        info: additional information.
-    """
-
-    def __init__(
-        self,
-        name: str | None,
-        orientation: AngleInDegrees,
-        center: tuple[float, ...] | kf.kdb.Point | kf.kdb.DPoint,
-        width: float | None = None,
-        layer: LayerSpec | None = None,
-        port_type: str = "optical",
-        cross_section: CrossSectionSpec | None = None,
-        info: dict[str, int | float | str] | None = None,
-    ) -> None:
-        """Initializes Port."""
-        from gdsfactory.pdk import get_layer
-
-        orientation = np.mod(orientation, 360) if orientation else orientation
-
-        assert orientation is not None
-
-        if cross_section is None and layer is None:
-            raise ValueError("You need to define Port cross_section or layer")
-
-        if cross_section is None and width is None:
-            raise ValueError("You need Port to define cross_section or width")
-
-        if layer is None or width is None:
-            from gdsfactory.pdk import get_cross_section
-
-            assert cross_section is not None
-
-            xs = get_cross_section(cross_section)
-        else:
-            xs = None
-
-        if xs and layer is None:
-            layer = xs.layer
-
-        if isinstance(layer, list):
-            layer = (layer[0], layer[1])
-
-        if xs and width is None:
-            width = xs.width
-
-        assert width is not None
-        assert layer is not None
-
-        if width < 0:
-            raise ValueError(f"Port width must be >=0. Got {width}")
-
-        if isinstance(center, tuple):
-            _center = (center[0], center[1])
-        else:
-            _center = (center.x, center.y)
-
-        dcplx_trans = kf.kdb.DCplxTrans(1.0, float(orientation), False, *_center)
-        info = info or {}
-        super().__init__(
-            name=name,
-            layer=get_layer(layer),
-            dwidth=width,
-            port_type=port_type,
-            dcplx_trans=dcplx_trans,
-            info=info,
-        )
-
-    def to_dict(self) -> dict[str, Any]:
-        return to_dict(self)
-
-
-def to_dict(port: typings.Port) -> dict[str, Any]:
-    """Returns dict."""
-    return {
-        "name": port.name,
-        "center": port.dcenter,
-        "width": port.width,
-        "orientation": port.orientation,
-        "layer": port.layer,
-        "port_type": port.port_type,
-    }
+Port: TypeAlias = kf.DPort
 
 
 def port_array(
@@ -345,7 +252,7 @@ def sort_ports_counter_clockwise(ports: Sequence[TPort]) -> list[TPort]:
 
 
 def select_ports(
-    ports: Ports | kf.kcell.DInstance,
+    ports: Ports | kf.Instance,
     layer: LayerSpec | None = None,
     prefix: str | None = None,
     suffix: str | None = None,
@@ -475,7 +382,7 @@ def get_ports_facing(
     return direction_ports[direction]
 
 
-def deco_rename_ports(component_factory: ComponentFactory) -> ComponentFactory:
+def deco_rename_ports(component_factory: "ComponentFactory") -> "ComponentFactory":
     @functools.wraps(component_factory)
     def auto_named_component_factory(*args: Any, **kwargs: Any) -> Component:
         component = component_factory(*args, **kwargs)

@@ -11,25 +11,26 @@ from typing import Any
 
 import kfactory as kf
 import yaml
-from kfactory.kcell import LayerEnum
+from kfactory.layer import LayerEnum
 from pydantic import BaseModel, ConfigDict, Field
 
 from gdsfactory import logger
-from gdsfactory.component import Component, ComponentBase
+from gdsfactory.component import (
+    CellSpec,
+    Component,
+    ComponentBase,
+    ComponentFactory,
+    ComponentSpec,
+)
 from gdsfactory.config import CONF
-from gdsfactory.cross_section import CrossSection
+from gdsfactory.cross_section import CrossSection, CrossSectionFactory, CrossSectionSpec
 from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
 from gdsfactory.serialization import clean_value_json, convert_tuples_to_lists
 from gdsfactory.symbols import floorplan_with_block_letters
 from gdsfactory.technology import LayerStack, LayerViews, klayout_tech
 from gdsfactory.typings import (
-    CellSpec,
-    ComponentFactory,
-    ComponentSpec,
     ConnectivitySpec,
-    CrossSectionFactory,
-    CrossSectionSpec,
     Layer,
     LayerSpec,
     MaterialSpec,
@@ -331,6 +332,8 @@ class Pdk(BaseModel):
     ) -> Component:
         """Returns component from a component spec."""
         cells = {**self.cells, **self.containers} if include_containers else self.cells
+        for cell in cells.items():
+            print(cell)
         return self._get_component(
             component=component, cells=cells, settings=settings, **kwargs
         )

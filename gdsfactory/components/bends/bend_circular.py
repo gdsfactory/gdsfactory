@@ -6,9 +6,10 @@ from typing import Literal, overload
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentAllAngle
+from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.path import arc
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.typings import CrossSectionSpec, LayerSpec
+from gdsfactory.typings import LayerSpec
 
 
 @overload

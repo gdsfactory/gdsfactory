@@ -13,6 +13,7 @@ if TYPE_CHECKING:
     from typing import Any, Self
 
 
+import kfactory as kf
 import numpy as np
 import numpy.typing as npt
 from numpy import cos, pi, sin
@@ -24,6 +25,18 @@ import gdsfactory as gf
 from gdsfactory.typings import Axis, Coordinate, Port
 
 
+def to_dict(port: kf.port.ProtoPort[Any]) -> dict[str, Any]:
+    """Returns dict."""
+    return {
+        "name": port.name,
+        "center": port.dcenter,
+        "width": port.width,
+        "orientation": port.orientation,
+        "layer": port.layer,
+        "port_type": port.port_type,
+    }
+
+
 def pprint_ports(ports: Sequence[gf.Port]) -> None:
     """Prints ports in a rich table."""
     console = Console()
@@ -33,7 +46,7 @@ def pprint_ports(ports: Sequence[gf.Port]) -> None:
         return
     p0 = ports_list[0]
     filtered_dict = {
-        key: value for key, value in p0.to_dict().items() if value is not None
+        key: value for key, value in to_dict(p0).items() if value is not None
     }
     keys = filtered_dict.keys()
 
@@ -41,7 +54,7 @@ def pprint_ports(ports: Sequence[gf.Port]) -> None:
         table.add_column(key)
 
     for port in ports_list:
-        port_dict = port.to_dict()
+        port_dict = to_dict(port)
         row = [str(port_dict.get(key, "")) for key in keys]
         table.add_row(*row)
 
