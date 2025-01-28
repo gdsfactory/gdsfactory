@@ -3,7 +3,8 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory import Port
 from gdsfactory.component import Component
-from gdsfactory.typings import CrossSectionSpec, Size
+from gdsfactory.cross_section import CrossSectionSpec
+from gdsfactory.typings import Size
 
 
 @gf.cell

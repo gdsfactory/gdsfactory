@@ -5,7 +5,7 @@ import pathlib
 import shutil
 
 import kfactory as kf
-from kfactory import KCell, KCLayout, kdb, logger
+from kfactory import DKCell, KCLayout, kdb, logger
 
 import gdsfactory as gf
 from gdsfactory.config import CONF, PATH
@@ -27,7 +27,7 @@ def xor(
     ignore_cell_name_differences: bool | None = None,
     ignore_label_differences: bool | None = None,
     stagger: bool = True,
-) -> KCell:
+) -> DKCell:
     """Returns XOR of two layouts.
 
     Args:
@@ -125,13 +125,13 @@ def xor(
     if not ignore_label_differences and (a_texts or b_texts):
         equivalent = False
     if equal:
-        return gf.Component("xor_empty")
-    c = KCell(f"{test_name}_difftest")
+        return gf.Component(name="xor_empty")
+    c = DKCell(name=f"{test_name}_difftest")
     ref = old
     run = new
 
-    old_kcell = KCell(f"{test_name}_old")
-    new_kcell = KCell(f"{test_name}_new")
+    old_kcell = DKCell(name=f"{test_name}_old")
+    new_kcell = DKCell(name=f"{test_name}_new")
 
     old_kcell.copy_tree(ref.kdb_cell)
     new_kcell.copy_tree(run.kdb_cell)
@@ -159,7 +159,7 @@ def xor(
 
     print("Running XOR on differences...")
     # assume equivalence until we find XOR differences, determined significant by the settings
-    diff = KCell(f"{test_name}_xor")
+    diff = DKCell(name=f"{test_name}_xor")
 
     for layer in c.kcl.layer_infos():
         # exists in both
@@ -322,12 +322,12 @@ def diff(
         equivalent = False
 
     if not equal:
-        c = KCell(f"{test_name}_difftest")
+        c = DKCell(name=f"{test_name}_difftest")
         ref = old
         run = new
 
-        old = KCell(f"{test_name}_old")
-        new = KCell(f"{test_name}_new")
+        old = DKCell(name=f"{test_name}_old")
+        new = DKCell(name=f"{test_name}_new")
 
         old.copy_tree(ref.kdb_cell)
         new.copy_tree(run.kdb_cell)
@@ -356,7 +356,7 @@ def diff(
         if xor:
             print("Running XOR on differences...")
             # assume equivalence until we find XOR differences, determined significant by the settings
-            diff = KCell(f"{test_name}_xor")
+            diff = DKCell(name=f"{test_name}_xor")
 
             for layer in c.kcl.layer_infos():
                 # exists in both
@@ -504,7 +504,7 @@ def overwrite(ref_file: pathlib.Path, run_file: pathlib.Path) -> None:
 def read_top_cell(arg0: pathlib.Path) -> kf.DKCell:
     kcl = KCLayout(name=str(arg0))
     kcl.read(arg0)
-    kcell = kcl[kcl.top_cell().name]
+    kcell = kcl.dkcells[kcl.top_cell().name]
 
     if hasattr(kcl, "cross_sections"):
         for cross_section in kcl.cross_sections.cross_sections.values():

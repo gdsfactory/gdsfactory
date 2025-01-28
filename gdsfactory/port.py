@@ -105,6 +105,18 @@ def pprint_ports(ports: Ports) -> None:
 Port: TypeAlias = kf.DPort
 
 
+def to_dict(port: kf.port.ProtoPort[Any]) -> dict[str, Any]:
+    """Returns dict."""
+    return {
+        "name": port.name,
+        "center": port.dcenter,
+        "width": port.width,
+        "orientation": port.orientation,
+        "layer": port.layer,
+        "port_type": port.port_type,
+    }
+
+
 def port_array(
     center: tuple[float, float] = (0.0, 0.0),
     width: float = 0.5,
@@ -132,7 +144,7 @@ def port_array(
             center=tuple(
                 np.array(center) + i * pitch_array - (n - 1) / 2 * pitch_array
             ),
-            orientation=orientation,
+            angle=orientation,
             **kwargs,
         )
         for i in range(n)

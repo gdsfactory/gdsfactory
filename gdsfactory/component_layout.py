@@ -9,11 +9,12 @@ from abc import ABC, abstractmethod
 from collections.abc import Sequence
 from typing import TYPE_CHECKING
 
+from gdsfactory.port import to_dict
+
 if TYPE_CHECKING:
     from typing import Any, Self
 
 
-import kfactory as kf
 import numpy as np
 import numpy.typing as npt
 from numpy import cos, pi, sin
@@ -23,18 +24,6 @@ from rich.table import Table
 
 import gdsfactory as gf
 from gdsfactory.typings import Axis, Coordinate, Port
-
-
-def to_dict(port: kf.port.ProtoPort[Any]) -> dict[str, Any]:
-    """Returns dict."""
-    return {
-        "name": port.name,
-        "center": port.dcenter,
-        "width": port.width,
-        "orientation": port.orientation,
-        "layer": port.layer,
-        "port_type": port.port_type,
-    }
 
 
 def pprint_ports(ports: Sequence[gf.Port]) -> None:

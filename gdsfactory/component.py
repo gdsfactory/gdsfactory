@@ -34,6 +34,7 @@ from trimesh.scene.scene import Scene
 
 from gdsfactory._deprecation import deprecate
 from gdsfactory.config import CONF, GDSDIR_TEMP
+from gdsfactory.port import to_dict
 from gdsfactory.serialization import clean_value_json, convert_tuples_to_lists
 from gdsfactory.technology.layer_stack import LayerStack
 from gdsfactory.technology.layer_views import LayerViews
@@ -551,8 +552,6 @@ class ComponentBase(ProtoKCell[float], ABC):
             "settings": self.settings.model_dump(exclude_none=True),
         }
         if with_ports:
-            from gdsfactory.port import to_dict
-
             d["ports"] = {
                 port.name: to_dict(port) for port in self.ports if port.name is not None
             }
@@ -712,7 +711,6 @@ class Component(ComponentBase, kf.DKCell):
         """
         if self.locked:
             raise LockedError(self)
-
         if reference not in self.insts:
             raise ValueError(
                 "The reference you asked to absorb does not exist in this Component."

@@ -137,8 +137,8 @@ def mmi_tapered(
 
     in_ports = [
         gf.Port(
-            f"in_{i}",
-            orientation=180,
+            name=f"in_{i}",
+            angle=180,
             center=(0, y),
             width=width_taper_in,
             layer=x.layer,
@@ -149,8 +149,8 @@ def mmi_tapered(
 
     out_ports = [
         gf.Port(
-            f"out_{i}",
-            orientation=0,
+            name=f"out_{i}",
+            angle=0,
             center=(+length_mmi, y),
             width=width_taper_out,
             layer=x.layer,

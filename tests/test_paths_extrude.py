@@ -42,8 +42,8 @@ def test_extrude_transition() -> None:
     p = gf.path.straight(length)
     c = gf.path.extrude_transition(p, transition)
 
-    assert c.ports["o1"].width == w1 / c.kcl.dbu
-    assert c.ports["o2"].width == w2 / c.kcl.dbu
+    assert c.ports["o1"].width == w1
+    assert c.ports["o2"].width == w2
 
     expected_area = (w1 + w2) / 2 * length
     actual_area = c.area((1, 0))
@@ -60,8 +60,6 @@ def test_transition_cross_section() -> None:
 
     p = gf.path.straight(length=length)
     c = gf.path.extrude_transition(p=p, transition=transition)
-    w1 = round(w1 / c.kcl.dbu)
-    w2 = round(w2 / c.kcl.dbu)
 
     assert c.ports["o1"].width == w1
     assert c.ports["o2"].width == w2

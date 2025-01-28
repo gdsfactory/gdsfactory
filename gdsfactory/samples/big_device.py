@@ -7,7 +7,8 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory import Port
 from gdsfactory.component import Component
-from gdsfactory.typings import CrossSectionSpec, Size
+from gdsfactory.cross_section import CrossSectionSpec
+from gdsfactory.typings import Size
 
 
 @gf.cell
@@ -52,7 +53,7 @@ def big_device(
         port = create_port_with_port_settings(
             name=f"W{i}",
             center=tuple(p0 + (-dx, (i - n / 2) * spacing)),
-            orientation=180,
+            angle=180,
         )
         ports.append(port)
 
@@ -60,7 +61,7 @@ def big_device(
         port = create_port_with_port_settings(
             name=f"E{i}",
             center=tuple(p0 + (dx, (i - n / 2) * spacing)),
-            orientation=0,
+            angle=0,
         )
         ports.append(port)
 
@@ -68,7 +69,7 @@ def big_device(
         port = create_port_with_port_settings(
             name=f"N{i}",
             center=tuple(p0 + ((i - n / 2) * spacing, dy)),
-            orientation=90,
+            angle=90,
         )
         ports.append(port)
 
@@ -76,7 +77,7 @@ def big_device(
         port = create_port_with_port_settings(
             name=f"S{i}",
             center=tuple(p0 + ((i - n / 2) * spacing, -dy)),
-            orientation=-90,
+            angle=-90,
         )
         ports.append(port)
 
