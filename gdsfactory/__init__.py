@@ -21,6 +21,7 @@ from gdsfactory.component import (
     ComponentAllAngle,
     ComponentReference,
     container,
+    component_with_function,
 )
 from gdsfactory.config import CONF, PATH, __version__
 from gdsfactory.port import Port
@@ -106,6 +107,7 @@ __all__ = (
     "c",
     "cell",
     "clear_cache",
+    "component_with_function",
     "components",
     "compose",
     "constant",
