@@ -60,7 +60,7 @@ def grid(
     """
     c = gf.Component()
     instances = kf.grid(
-        c.to_kcell(),
+        c,
         kcells=[gf.get_component(component) for component in components],
         shape=shape,
         spacing=(
@@ -73,10 +73,8 @@ def grid(
         rotation=rotation,  # type: ignore
         mirror=mirror,
     )
-    for i, instances_list in enumerate(instances):
-        for j, instance in enumerate(instances_list):
-            if instance is not None:
-                c.add_ports(instance.ports, prefix=f"{j}_{i}_")
+    for i, instance in enumerate(instances):
+        c.add_ports(instance.ports, prefix=f"{i}_")
     return c
 
 
@@ -161,26 +159,23 @@ def grid_with_text(
         rotation=rotation,  # type: ignore[arg-type]
         mirror=mirror,
     )
-    for i, instances_list in enumerate(instances):
-        for j, instance in enumerate(instances_list):
-            if instance is None:
-                continue
-            c.add_ports(instance.ports, prefix=f"{j}_{i}_")
-            text_string = labels_not_none[i] or f"{text_prefix}{j}_{i}"
+    for i, instance in enumerate(instances):
+        c.add_ports(instance.ports, prefix=f"{i}_")
+        text_string = labels_not_none[i] or f"{text_prefix}_{i}"
 
-            if text:
-                for text_offset, text_anchor in zip_longest(text_offsets, text_anchors):
-                    t = c << gf.get_component(text, text=text_string)
-                    size_info = instance.dsize_info
-                    text_offset = text_offset or (0, 0)
-                    text_anchor = text_anchor or "center"
-                    o = np.array(text_offset)
-                    d = np.array(getattr(size_info, text_anchor))
-                    t.dmove(tuple(o + d))
-                    if text_mirror:
-                        t.dmirror()
-                    if text_rotation:
-                        t.drotate(text_rotation)
+        if text:
+            for text_offset, text_anchor in zip_longest(text_offsets, text_anchors):
+                t = c << gf.get_component(text, text=text_string)
+                size_info = instance.dsize_info
+                text_offset = text_offset or (0, 0)
+                text_anchor = text_anchor or "center"
+                o = np.array(text_offset)
+                d = np.array(getattr(size_info, text_anchor))
+                t.dmove(tuple(o + d))
+                if text_mirror:
+                    t.dmirror()
+                if text_rotation:
+                    t.drotate(text_rotation)
     return c
 
 

@@ -60,7 +60,7 @@ def add_electrical_pads_top_dc(
     ports_component = [port.copy() for port in ports]
 
     for port in ports_component:
-        port.dangle = 90
+        port.orientation = 90
 
     pad_array_component = gf.get_component(pad_array, columns=len(ports))
     pads = c << pad_array_component

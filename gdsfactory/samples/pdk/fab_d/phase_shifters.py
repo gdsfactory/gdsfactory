@@ -6,8 +6,9 @@ from pathlib import Path
 import pydantic
 
 import gdsfactory as gf
+from gdsfactory.component import ComponentFactory
 from gdsfactory.cross_section import strip_heater_metal
-from gdsfactory.typings import ComponentFactory, Layer
+from gdsfactory.typings import Layer
 
 
 @pydantic.dataclasses.dataclass

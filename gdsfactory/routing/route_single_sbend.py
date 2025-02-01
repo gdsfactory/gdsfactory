@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentSpec, Port
+from gdsfactory.component import Component, ComponentSpec
 from gdsfactory.cross_section import CrossSectionSpec
+from gdsfactory.typings import Port
 
 
 def route_single_sbend(
@@ -63,7 +64,7 @@ def route_single_sbend(
 
 
 if __name__ == "__main__":
-    c = gf.Component("demo_route_sbend")
+    c = gf.Component(name="demo_route_sbend")
     mmi1 = c << gf.components.mmi1x2()
     mmi2 = c << gf.components.mmi1x2()
     mmi2.dmovex(50)

@@ -147,8 +147,7 @@ def xor(
         old_ref.dmovey(+old_kcell.dysize + dy)
         new_ref.dmovey(-old_kcell.dysize - dy)
 
-    layer_label = (1, 0)
-    layer_label = kf.kcl.layer(*layer_label)
+    layer_label = kf.kcl.layout.layer(1, 0)
     c.shapes(layer_label).insert(kf.kdb.DText("old", old_ref.dtrans))
     c.shapes(layer_label).insert(kf.kdb.DText("new", new_ref.dtrans))
     c.shapes(layer_label).insert(
@@ -343,8 +342,7 @@ def diff(
             old_ref.dmovey(+old.dysize + dy)
             new_ref.dmovey(-old.dysize - dy)
 
-        layer_label = (1, 0)
-        layer_label = kf.kcl.layer(*layer_label)
+        layer_label = kf.kcl.layout.layer(1, 0)
         c.shapes(layer_label).insert(kf.kdb.DText("old", old_ref.dtrans))
         c.shapes(layer_label).insert(kf.kdb.DText("new", new_ref.dtrans))
         c.shapes(layer_label).insert(

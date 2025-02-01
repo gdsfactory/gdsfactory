@@ -26,10 +26,10 @@ from warnings import warn
 
 import kfactory as kf
 import numpy as np
-from kfactory.kcell import LayerEnum
+from kfactory import LayerEnum
 
 from gdsfactory import Port, typings
-from gdsfactory.component import Component, ComponentReference
+from gdsfactory.component import Component, ComponentReference, ComponentReferences
 from gdsfactory.name import clean_name
 from gdsfactory.serialization import clean_dict, clean_value_json
 from gdsfactory.typings import LayerSpec
@@ -82,7 +82,7 @@ def get_instance_name_from_alias(reference: ComponentReference) -> str:
     Args:
         reference: reference that needs naming.
     """
-    return clean_name(reference.name)
+    return clean_name(reference.name or "")
 
 
 def get_instance_name_from_label(
@@ -122,11 +122,11 @@ def get_instance_name_from_label(
     return text
 
 
-def _is_array_reference(ref: kf.Instance) -> bool:
+def _is_array_reference(ref: ComponentReference) -> bool:
     return ref.na > 1 or ref.nb > 1
 
 
-def _is_orthogonal_array_reference(ref: kf.Instance) -> bool:
+def _is_orthogonal_array_reference(ref: ComponentReference) -> bool:
     return abs(ref.a.y) == 0 and abs(ref.b.x) == 0
 
 
@@ -178,7 +178,7 @@ def get_netlist(
     top_ports: dict[str, str] = {}
 
     # store where ports are located
-    name2port: dict[str, kf.Port] = {}
+    name2port: dict[str, typings.Port] = {}
 
     # TOP level ports
     ports = component.ports
@@ -244,11 +244,11 @@ def get_netlist(
                         ports_by_type[port.port_type].append(src)
         else:
             # lower level ports
-            for port in reference.ports:
+            for port_ in reference.ports:
                 reference_name = get_instance_name(reference)
-                src = f"{reference_name},{port.name}"
-                name2port[src] = port
-                ports_by_type[port.port_type].append(src)
+                src = f"{reference_name},{port_.name}"
+                name2port[src] = port_
+                ports_by_type[port_.port_type].append(src)
 
     for port in ports:
         port_name = port.name
@@ -503,7 +503,7 @@ def difference_between_angles(angle2: float, angle1: float) -> float:
     return diff
 
 
-def _get_references_to_netlist(component: kf.DKCell) -> kf.kcell.Instances:
+def _get_references_to_netlist(component: kf.DKCell) -> ComponentReferences:
     return component.insts
 
 

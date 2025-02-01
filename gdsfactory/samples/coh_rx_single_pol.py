@@ -7,10 +7,9 @@ from gdsfactory.component import (
     Component,
     ComponentReference,
     ComponentSpec,
-    Port,
-    Spacing,
 )
 from gdsfactory.cross_section import CrossSectionSpec
+from gdsfactory.typings import Port, Spacing
 
 
 @gf.cell

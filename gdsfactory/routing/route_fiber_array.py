@@ -26,7 +26,7 @@ from gdsfactory.typings import (
     PortsFactory,
     Strs,
 )
-from gdsfactory.utils import to_kdb_boxes
+from gdsfactory.utils import to_kdb_dboxes
 
 
 def route_fiber_array(
@@ -341,7 +341,7 @@ def route_fiber_array(
         sort_ports=True,
         allow_width_mismatch=allow_width_mismatch,
         route_width=route_width,
-        bboxes=to_kdb_boxes(_bboxes),
+        bboxes=to_kdb_dboxes(_bboxes),
         start_straight_length=start_straight_length,
         end_straight_length=end_straight_length,
         auto_taper=auto_taper,
@@ -360,7 +360,7 @@ def route_fiber_array(
 
     fiber_ports = [gc.ports[gc_port_name_fiber] for gc in io_gratings]
 
-    component.ports = kf.Ports(kcl=component.kcl)
+    component.ports = kf.DPorts(kcl=component.kcl)
 
     for component_port, port in zip(port_names, fiber_ports):
         component.add_port(name=component_port, port=port)
@@ -389,8 +389,8 @@ def route_fiber_array(
         d_loop_dbu = component.kcl.to_dbu(d_loop)
 
         waypoints_loopback = kf.routing.optical.route_loopback(
-            port0.to_port(),
-            port1.to_port(),
+            port0.to_itype(),
+            port1.to_itype(),
             bend90_radius=radius_dbu,
             inside=with_loopback_inside,
             d_loop=d_loop_dbu,

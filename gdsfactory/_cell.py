@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Any, ParamSpec, Protocol, overload
 from cachetools import Cache
 from kfactory import cell as _cell
 from kfactory import vcell as _vcell
-from kfactory.conf import CHECK_INSTANCES
+from kfactory.conf import CheckInstances
 from kfactory.kcell import TKCell
 from kfactory.typings import MetaData
 
@@ -34,7 +34,7 @@ def cell(
     set_settings: bool = True,
     set_name: bool = True,
     check_ports: bool = True,
-    check_instances: CHECK_INSTANCES | None = None,
+    check_instances: CheckInstances | None = None,
     snap_ports: bool = True,
     add_port_layers: bool = True,
     cache: Cache[int, Any] | dict[int, Any] | None = None,
@@ -57,7 +57,7 @@ def cell(
     set_settings: bool = True,
     set_name: bool = True,
     check_ports: bool = True,
-    check_instances: CHECK_INSTANCES | None = None,
+    check_instances: CheckInstances | None = None,
     snap_ports: bool = True,
     add_port_layers: bool = True,
     cache: Cache[int, Any] | dict[int, Any] | None = None,

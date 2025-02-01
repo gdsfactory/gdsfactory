@@ -34,9 +34,9 @@ nm = 1e-3
 
 port_names_electrical: typings.IOPorts = ("e1", "e2")
 port_types_electrical: typings.IOPorts = ("electrical", "electrical")
-cladding_layers_optical = None
-cladding_offsets_optical = None
-cladding_simplify_optical = None
+cladding_layers_optical: typings.Layers | None = None
+cladding_offsets_optical: typings.Floats | None = None
+cladding_simplify_optical: typings.Floats | None = None
 
 deprecated = {
     "info",
@@ -351,12 +351,12 @@ class CrossSection(BaseModel):
 
     def add_bbox(
         self,
-        component: typings.AnyComponentT,
+        component: typings.ComponentT,
         top: float | None = None,
         bottom: float | None = None,
         right: float | None = None,
         left: float | None = None,
-    ) -> typings.AnyComponentT:
+    ) -> typings.ComponentT:
         """Add bounding box layers to a component.
 
         Args:
@@ -446,7 +446,7 @@ class Transition(BaseModel):
 
 
 cross_sections: dict[str, CrossSectionFactory] = {}
-_cross_section_default_names = {}
+_cross_section_default_names: dict[str, str] = {}
 
 
 def xsection(func: Callable[..., CrossSection]) -> Callable[..., CrossSection]:

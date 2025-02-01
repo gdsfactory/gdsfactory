@@ -390,7 +390,7 @@ def route_sharp(
 
 
 if __name__ == "__main__":
-    c = gf.Component("pads")
+    c = gf.Component(name="pads")
     c1 = c << gf.components.pad()
     c2 = c << gf.components.pad()
 

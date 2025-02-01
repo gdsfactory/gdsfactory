@@ -122,7 +122,7 @@ route_single_from_steps_electrical = partial(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.Component("route_single_from_steps_sample")
+    c = gf.Component(name="route_single_from_steps_sample")
     w = gf.components.straight()
     left = c << w
     right = c << w

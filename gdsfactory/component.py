@@ -26,7 +26,7 @@ from kfactory import (
     save_layout_options,
 )
 from kfactory.exceptions import LockedError
-from kfactory.kcell import ProtoKCell
+from kfactory.kcell import BaseKCell, ProtoKCell
 from kfactory.port import ProtoPort
 from matplotlib.figure import Figure
 from pydantic import Field
@@ -125,7 +125,7 @@ ComponentReference: TypeAlias = DInstance
 ComponentReferences: TypeAlias = DInstances
 
 
-class ComponentBase(ProtoKCell[float], ABC):
+class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
     """Canvas where you add polygons, instances and ports.
 
     - stores settings that you use to build the component
@@ -282,7 +282,7 @@ class ComponentBase(ProtoKCell[float], ABC):
         """
         from gdsfactory.port import select_ports
 
-        return select_ports(ports=self.ports, **kwargs)
+        return select_ports(ports=self.ports.to_dtype(), **kwargs)
 
     def add_route_info(
         self,
@@ -559,104 +559,18 @@ class ComponentBase(ProtoKCell[float], ABC):
         assert isinstance(res, dict)
         return res
 
-    @overload
-    def plot(
-        self,
-        show_labels: bool = True,
-        show_ruler: bool = True,
-        return_fig: Literal[True] = True,
-    ) -> Figure: ...
-
-    @overload
-    def plot(
-        self,
-        show_labels: bool = True,
-        show_ruler: bool = True,
-        return_fig: Literal[False] = False,
-    ) -> None: ...
-
-    def plot(
-        self,
-        show_labels: bool = True,
-        show_ruler: bool = True,
-        return_fig: bool = False,
-    ) -> Figure | None:
-        """Plots the Component using klayout.
-
-        Args:
-            show_labels: if True, shows labels.
-            show_ruler: if True, shows ruler.
-            return_fig: if True, returns the figure.
-        """
-        from io import BytesIO
-
-        import matplotlib.pyplot as plt
-
-        from gdsfactory.pdk import get_layer_views
-
-        self.insert_vinsts()
-
-        lyp_path = GDSDIR_TEMP / "layer_properties.lyp"
-        layer_views = get_layer_views()
-        layer_views.to_lyp(filepath=lyp_path)
-
-        layout_view = lay.LayoutView()
-        cell_view_index = layout_view.create_layout(True)
-        layout_view.active_cellview_index = cell_view_index
-        cell_view = layout_view.cellview(cell_view_index)
-        layout = cell_view.layout()
-        layout.assign(kf.kcl.layout)
-
-        assert self.name is not None, "Component name is None"
-
-        cell_view.cell = layout.cell(self.name)
-
-        layout_view.max_hier()
-        layout_view.load_layer_props(str(lyp_path))
-
-        layout_view.add_missing_layers()
-        layout_view.zoom_fit()
-
-        layout_view.set_config("text-visible", "true" if show_labels else "false")
-        layout_view.set_config("grid-show-ruler", "true" if show_ruler else "false")
-
-        pixel_buffer = layout_view.get_pixels_with_options(800, 600)
-        png_data = pixel_buffer.to_png_data()
-
-        # Convert PNG data to NumPy array and display with matplotlib
-        with BytesIO(png_data) as f:
-            img_array = plt.imread(f)
-
-        # Compute the figure dimensions based on the image size and desired DPI
-        dpi = 80
-        fig_width = img_array.shape[1] / dpi
-        fig_height = img_array.shape[0] / dpi
-
-        fig, ax = plt.subplots(figsize=(fig_width, fig_height), dpi=dpi)
-
-        # Remove margins and display the image
-        ax.imshow(img_array)
-        ax.axis("off")  # Hide axes
-        ax.set_position((0, 0, 1, 1))  # Set axes to occupy the full figure space
-
-        plt.subplots_adjust(
-            left=0, right=1, top=1, bottom=0, wspace=0, hspace=0
-        )  # Remove any padding
-        plt.tight_layout(pad=0)  # Ensure no space is wasted
-        return fig if return_fig else None
-
     # Deprecated methods
     @property
-    def named_references(self) -> list[ComponentReference]:
+    def named_references(self) -> ComponentReferences:
         """Returns a dictionary of named references."""
         deprecate("named_references", "insts")
-        return self.insts  # type: ignore[no-any-return]
+        return self.insts  # type: ignore
 
     @property
-    def references(self) -> list[ComponentReference]:
+    def references(self) -> ComponentReferences:
         """Returns a list of references."""
         deprecate("references", "insts")
-        return list(self.insts)
+        return self.insts  # type: ignore
 
 
 Route: TypeAlias = (
@@ -774,8 +688,8 @@ class Component(ComponentBase, kf.DKCell):
             component,
             na=columns,
             nb=rows,
-            a=kf.kdb.Vector(int(spacing[0] / self.kcl.dbu), 0),
-            b=kf.kdb.Vector(0, int(spacing[1] / self.kcl.dbu)),
+            a=kf.kdb.DVector(spacing[0], 0),
+            b=kf.kdb.DVector(0, spacing[1]),
         )
         if name:
             inst.name = name
@@ -1148,19 +1062,7 @@ class Component(ComponentBase, kf.DKCell):
         deprecate("ref", "add_ref")
         return self.add_ref(*args, **kwargs)
 
-    @overload
-    def add_polygon(self, points: kdb.Region, layer: "LayerSpec") -> None: ...
-
-    @overload
-    def add_polygon(
-        self,
-        points: "npt.NDArray[np.floating[Any]] | kdb.DPolygon | kdb.Polygon | kdb.DSimplePolygon | Coordinates",
-        layer: "LayerSpec",
-    ) -> kdb.Shape: ...
-
-    def add_polygon(
-        self, points: _PolygonPoints, layer: "LayerSpec"
-    ) -> kdb.Shape | None:
+    def add_polygon(self, points: _PolygonPoints, layer: "LayerSpec") -> None:
         """Adds a Polygon to the Component and returns a klayout Shape.
 
         Args:
@@ -1176,7 +1078,93 @@ class Component(ComponentBase, kf.DKCell):
 
         polygon = points_to_polygon(points)
 
-        return self.kdb_cell.shapes(_layer).insert(polygon)
+        self.kdb_cell.shapes(_layer).insert(polygon)
+
+    @overload
+    def plot(
+        self,
+        show_labels: bool = True,
+        show_ruler: bool = True,
+        return_fig: Literal[True] = True,
+    ) -> Figure: ...
+
+    @overload
+    def plot(
+        self,
+        show_labels: bool = True,
+        show_ruler: bool = True,
+        return_fig: Literal[False] = False,
+    ) -> None: ...
+
+    def plot(
+        self,
+        show_labels: bool = True,
+        show_ruler: bool = True,
+        return_fig: bool = False,
+    ) -> Figure | None:
+        """Plots the Component using klayout.
+
+        Args:
+            show_labels: if True, shows labels.
+            show_ruler: if True, shows ruler.
+            return_fig: if True, returns the figure.
+        """
+        from io import BytesIO
+
+        import matplotlib.pyplot as plt
+
+        from gdsfactory.pdk import get_layer_views
+
+        self.insert_vinsts()
+
+        lyp_path = GDSDIR_TEMP / "layer_properties.lyp"
+        layer_views = get_layer_views()
+        layer_views.to_lyp(filepath=lyp_path)
+
+        layout_view = lay.LayoutView()
+        cell_view_index = layout_view.create_layout(True)
+        layout_view.active_cellview_index = cell_view_index
+        cell_view = layout_view.cellview(cell_view_index)
+        layout = cell_view.layout()
+        layout.assign(kf.kcl.layout)
+
+        assert self.name is not None, "Component name is None"
+
+        cell_view.cell = layout.cell(self.name)
+
+        layout_view.max_hier()
+        layout_view.load_layer_props(str(lyp_path))
+
+        layout_view.add_missing_layers()
+        layout_view.zoom_fit()
+
+        layout_view.set_config("text-visible", "true" if show_labels else "false")
+        layout_view.set_config("grid-show-ruler", "true" if show_ruler else "false")
+
+        pixel_buffer = layout_view.get_pixels_with_options(800, 600)
+        png_data = pixel_buffer.to_png_data()
+
+        # Convert PNG data to NumPy array and display with matplotlib
+        with BytesIO(png_data) as f:
+            img_array = plt.imread(f)
+
+        # Compute the figure dimensions based on the image size and desired DPI
+        dpi = 80
+        fig_width = img_array.shape[1] / dpi
+        fig_height = img_array.shape[0] / dpi
+
+        fig, ax = plt.subplots(figsize=(fig_width, fig_height), dpi=dpi)
+
+        # Remove margins and display the image
+        ax.imshow(img_array)
+        ax.axis("off")  # Hide axes
+        ax.set_position((0, 0, 1, 1))  # Set axes to occupy the full figure space
+
+        plt.subplots_adjust(
+            left=0, right=1, top=1, bottom=0, wspace=0, hspace=0
+        )  # Remove any padding
+        plt.tight_layout(pad=0)  # Ensure no space is wasted
+        return fig if return_fig else None
 
 
 class ComponentAllAngle(ComponentBase, kf.VKCell):  # type: ignore

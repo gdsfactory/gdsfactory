@@ -3,15 +3,13 @@ from __future__ import annotations
 from collections.abc import Sequence
 from typing import Any
 
-import kfactory as kf
-
 import gdsfactory as gf
 from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component, ComponentSpec
 from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_fiber_array import route_fiber_array
-from gdsfactory.typings import BoundingBoxes, SelectPorts, Strs
+from gdsfactory.typings import BoundingBoxes, Port, SelectPorts, Strs
 
 
 def add_pads_bot(
@@ -101,7 +99,7 @@ def add_pads_bot(
 
     cref = component_new << component
     ports = [cref[port_name] for port_name in port_names] if port_names else None
-    ports_list: Sequence[kf.Port] = ports or select_ports(cref.ports)
+    ports_list: Sequence[Port] = ports or select_ports(cref.ports)
 
     pad_component = gf.get_component(pad)
     if pad_port_name not in pad_component.ports:

@@ -39,7 +39,7 @@ def route_ports_to_side(
     x: float | None | Literal["east", "west"] = None,
     y: float | None | Literal["north", "south"] = None,
     **kwargs: Any,
-) -> tuple[list[ManhattanRoute], list[kf.Port]]:
+) -> tuple[list[ManhattanRoute], list[kf.DPort]]:
     """Routes ports to a given side.
 
     Args:

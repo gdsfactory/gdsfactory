@@ -42,6 +42,7 @@ from rich.console import Console
 from rich.table import Table
 
 from gdsfactory import typings
+from gdsfactory.component import ComponentReference
 from gdsfactory.typings import (
     AngleInDegrees,
     LayerSpec,
@@ -91,7 +92,7 @@ def pprint_ports(ports: Ports) -> None:
             for i in [
                 port.name,
                 np.round(port.dwidth, 3),
-                port.dangle,
+                port.orientation,
                 port.layer_info,
                 port.dcenter,
                 port.port_type,
@@ -144,7 +145,7 @@ def port_array(
             center=tuple(
                 np.array(center) + i * pitch_array - (n - 1) / 2 * pitch_array
             ),
-            angle=orientation,
+            orientation=orientation,
             **kwargs,
         )
         for i in range(n)
@@ -264,7 +265,7 @@ def sort_ports_counter_clockwise(ports: Sequence[TPort]) -> list[TPort]:
 
 
 def select_ports(
-    ports: Ports | kf.Instance,
+    ports: Ports | ComponentReference,
     layer: LayerSpec | None = None,
     prefix: str | None = None,
     suffix: str | None = None,
@@ -295,10 +296,10 @@ def select_ports(
         List containing the selected ports.
 
     """
-    if isinstance(ports, kf.kcell.DInstance):
-        ports_ = ports.ports
+    if isinstance(ports, ComponentReference):
+        ports_ = list(ports.ports)
     else:
-        ports_ = ports
+        ports_ = list(ports)
 
     if layer:
         from gdsfactory.pdk import get_layer
@@ -313,7 +314,7 @@ def select_ports(
     if suffix:
         ports_ = [p for p in ports_ if p.name and p.name.endswith(suffix)]
     if orientation is not None:
-        ports_ = [p for p in ports_ if np.isclose(p.dangle, orientation)]
+        ports_ = [p for p in ports_ if np.isclose(p.orientation, orientation)]
 
     if layers_excluded:
         ports_ = [p for p in ports_ if p.layer not in layers_excluded]  # type: ignore
@@ -338,7 +339,7 @@ select_ports_placement = partial(select_ports, port_type="placement")
 
 
 def select_ports_list(
-    ports: Ports | kf.Instance | kf.kcell.InstancePorts, **kwargs: Any
+    ports: Ports | Ports | ComponentReference, **kwargs: Any
 ) -> Ports:
     return select_ports(ports=ports, **kwargs)
 

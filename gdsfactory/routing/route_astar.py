@@ -42,7 +42,7 @@ def _extract_all_bbox(
     return [c.get_polygons(by="name", layers=avoid_layers)]
 
 
-def _parse_bbox_to_array(bbox: kdb.Polygon) -> npt.NDArray[np.integer[Any]]:
+def _parse_bbox_to_array(bbox: kdb.DBox | kdb.Polygon) -> npt.NDArray[np.floating[Any]]:
     """Parses bbox in the form of (a,b;c,d) to [[a, b], [c, d]].
 
     Args:
@@ -51,8 +51,8 @@ def _parse_bbox_to_array(bbox: kdb.Polygon) -> npt.NDArray[np.integer[Any]]:
     """
     bbox_str = str(bbox).strip("()")
     rows = bbox_str.split(";")
-    bbox_values = [list(map(int, row.split(","))) for row in rows]
-    return np.array(bbox_values, dtype=np.int64)
+    bbox_values = [list(map(float, row.split(","))) for row in rows]
+    return np.array(bbox_values, dtype=np.float64)
 
 
 def _generate_grid(

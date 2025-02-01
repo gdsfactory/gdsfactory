@@ -6,9 +6,9 @@ from functools import partial
 
 import gdsfactory as gf
 import gdsfactory.components as pc
-from gdsfactory.component import Component
+from gdsfactory.component import Component, ComponentFactory
 from gdsfactory.generic_tech.layer_map import LAYER
-from gdsfactory.typings import ComponentFactory, Size
+from gdsfactory.typings import Size
 
 
 @gf.cell

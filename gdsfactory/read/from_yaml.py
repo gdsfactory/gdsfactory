@@ -61,7 +61,6 @@ from typing import IO, TYPE_CHECKING, Any, Literal, Protocol
 import kfactory as kf
 import networkx as nx
 import yaml
-from kfactory.kcell import Instance
 
 from gdsfactory import typings
 from gdsfactory._deprecation import deprecate
@@ -85,7 +84,7 @@ class LabelInstanceFunction(Protocol):
     def __call__(
         self,
         component: Component,
-        reference: Instance,
+        reference: ComponentReference,
         layer: LayerSpec | None = None,
         instance_name: str | None = None,
     ) -> None: ...
@@ -159,7 +158,7 @@ valid_route_keys = [
 
 
 def _get_anchor_point_from_name(
-    ref: Instance, anchor_name: str
+    ref: ComponentReference, anchor_name: str
 ) -> tuple[float, float] | None:
     if anchor_name in valid_anchor_point_keywords:
         return getattr(ref.dsize_info, anchor_name)  # type: ignore[no-any-return]
@@ -169,7 +168,7 @@ def _get_anchor_point_from_name(
 
 
 def _get_anchor_value_from_name(
-    ref: Instance, anchor_name: str, return_value: str
+    ref: ComponentReference, anchor_name: str, return_value: str
 ) -> float | None:
     """Return the x or y value of an anchor point or port on a reference."""
     if anchor_name in valid_anchor_value_keywords:
@@ -190,7 +189,7 @@ def _move_ref(
     x_or_y: Literal["x", "y"],
     placements_conf: PlacementConf,
     connections_by_transformed_inst: ConnectionsByTransformedInst,
-    instances: dict[str, Instance],
+    instances: dict[str, ComponentReference],
     encountered_insts: list[str],
     all_remaining_insts: list[str],
 ) -> float | None:
@@ -269,7 +268,7 @@ def _parse_maybe_arrayed_instance(inst_spec: str) -> tuple[str, int | None, int 
 def place(
     placements_conf: dict[str, dict[str, int | float | str]],
     connections_by_transformed_inst: dict[str, dict[str, str]],
-    instances: dict[str, Instance],
+    instances: dict[str, ComponentReference],
     encountered_insts: list[str],
     instance_name: str | None = None,
     all_remaining_insts: list[str] | None = None,
@@ -510,7 +509,7 @@ def make_connection(
     port_src_name: str,
     instance_dst_name: str,
     port_dst_name: str,
-    instances: dict[str, Instance],
+    instances: dict[str, ComponentReference],
     src_ia: int | None = None,
     src_ib: int | None = None,
     dst_ia: int | None = None,

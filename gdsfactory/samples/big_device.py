@@ -53,7 +53,7 @@ def big_device(
         port = create_port_with_port_settings(
             name=f"W{i}",
             center=tuple(p0 + (-dx, (i - n / 2) * spacing)),
-            angle=180,
+            orientation=180,
         )
         ports.append(port)
 
@@ -61,7 +61,7 @@ def big_device(
         port = create_port_with_port_settings(
             name=f"E{i}",
             center=tuple(p0 + (dx, (i - n / 2) * spacing)),
-            angle=0,
+            orientation=0,
         )
         ports.append(port)
 
@@ -69,7 +69,7 @@ def big_device(
         port = create_port_with_port_settings(
             name=f"N{i}",
             center=tuple(p0 + ((i - n / 2) * spacing, dy)),
-            angle=90,
+            orientation=90,
         )
         ports.append(port)
 
@@ -77,7 +77,7 @@ def big_device(
         port = create_port_with_port_settings(
             name=f"S{i}",
             center=tuple(p0 + ((i - n / 2) * spacing, -dy)),
-            angle=-90,
+            orientation=-90,
         )
         ports.append(port)
 

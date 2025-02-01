@@ -11,11 +11,15 @@ if TYPE_CHECKING:
     from gdsfactory.typings import BoundingBox, Coordinate
 
 
-def to_kdb_boxes(
-    bounding_boxes: "Sequence[BoundingBox | kdb.Box | kdb.Box]",
-) -> list[kdb.Box]:
+def to_kdb_dboxes(
+    bounding_boxes: "Sequence[BoundingBox | kdb.DBox | kdb.Box]",
+) -> list[kdb.DBox]:
     return [
-        box if isinstance(box, kdb.Box) else kdb.Box(*map(int, box))
+        box
+        if isinstance(box, kdb.DBox)
+        else box.to_dtype()
+        if isinstance(box, kdb.Box)
+        else kdb.DBox(*map(int, box))
         for box in bounding_boxes
     ]
 

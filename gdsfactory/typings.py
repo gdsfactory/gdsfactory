@@ -132,9 +132,7 @@ PortFactory: TypeAlias = Callable[..., Port]
 PortsFactory: TypeAlias = Callable[..., Sequence[Port]]
 PortSymmetries: TypeAlias = dict[str, Sequence[str]]
 PortDict: TypeAlias = dict[str, Port]
-Ports: TypeAlias = (
-    kf.DPorts | Sequence[Port] | kf.DInstancePorts | kf.ports.ProtoPorts[float]
-)
+Ports: TypeAlias = kf.DPorts | Sequence[Port] | kf.DInstancePorts
 SelectPorts: TypeAlias = Callable[..., Sequence[Port]]
 
 PortType: TypeAlias = str
@@ -159,8 +157,9 @@ RoutingStrategy: TypeAlias = Callable[..., Sequence[Route]]
 RoutingStrategies: TypeAlias = dict[str, RoutingStrategy]
 
 
-AnyComponent: TypeAlias = kf.kcell.ProtoKCell[float]
+AnyComponent: TypeAlias = kf.kcell.ProtoKCell[float, Any]
 AnyComponentT = TypeVar("AnyComponentT", bound=AnyComponent)
+ComponentT = TypeVar("ComponentT", bound=kf.kcell.DKCell)
 AnyComponentFactory: TypeAlias = Callable[..., AnyComponent]
 AnyComponentPostProcess: TypeAlias = Callable[[AnyComponent], None]
 
