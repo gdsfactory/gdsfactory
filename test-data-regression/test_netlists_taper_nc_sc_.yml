@@ -1,5 +1,25 @@
-instances: {}
-name: taper_sc_nc_W0p5_W1_L20_c1d76730
+instances:
+  taper_sc_nc_W1_W0p5_L20_64dae2e4_0_0:
+    component: taper_sc_nc
+    info:
+      length: 20
+    settings:
+      cross_section: strip
+      layer_nitride: WG
+      layer_wg: WGN
+      length: 20
+      width1: 1
+      width2: 0.5
+      width_tip_nitride: 0.15
+      width_tip_silicon: 0.15
+name: taper_nc_sc_W1_W0p5_L20_9d57d02c
 nets: []
-placements: {}
-ports: {}
+placements:
+  taper_sc_nc_W1_W0p5_L20_64dae2e4_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+ports:
+  o1: taper_sc_nc_W1_W0p5_L20_64dae2e4_0_0,o1
+  o2: taper_sc_nc_W1_W0p5_L20_64dae2e4_0_0,o2
