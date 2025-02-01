@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.31.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.31.3) - 2025-02-01
+
+No significant changes.
+
+
 ## [8.31.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.31.2) - 2025-01-27
 
 - fix cutback_component [#3638](https://github.com/gdsfactory/gdsfactory/pull/3638)
