@@ -1521,32 +1521,10 @@ def container(
     cref = c << component
     c.add_ports(cref.ports)
     if function:
-        function(component=c, **kwargs)
-    c.copy_child_info(component)
-    return c
+        b = function(component=c, **kwargs)
+        if b:
+            c = b.dup()
 
-
-def component_with_function(
-    component: "ComponentSpec",
-    function: Callable[[Component], None] | None = None,
-    **kwargs: Any,
-) -> gf.Component:
-    """Returns new component with a component reference.
-
-    Args:
-        component: to add to container.
-        function: function to apply to component.
-        kwargs: keyword arguments to pass to component.
-    """
-    import gdsfactory as gf
-
-    component = gf.get_component(component, **kwargs)
-    c = Component()
-    cref = c << component
-    c.add_ports(cref.ports)
-
-    if function:
-        function(c)
     c.copy_child_info(component)
     return c
 

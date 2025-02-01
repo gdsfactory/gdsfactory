@@ -266,11 +266,11 @@ def taper_sc_nc(
 
 @gf.cell
 def taper_nc_sc(
-    width1: float = 1,
-    width2: float = 0.5,
+    width1: float = 0.5,
+    width2: float = 1,
     length: float = 20,
-    layer_wg: LayerSpec = "WGN",
-    layer_nitride: LayerSpec = "WG",
+    layer_wg: LayerSpec = "WG",
+    layer_nitride: LayerSpec = "WGN",
     width_tip_nitride: float = 0.15,
     width_tip_silicon: float = 0.15,
     cross_section: CrossSectionSpec = "strip",
@@ -278,8 +278,8 @@ def taper_nc_sc(
     """Taper from nitride to strip.
 
     Args:
-        width1: nitride width.
-        width2: strip width.
+        width1: silicon width.
+        width2: nitride width.
         length: taper length.
         layer_wg: nitride layer.
         layer_nitride: strip layer.
@@ -287,7 +287,8 @@ def taper_nc_sc(
         width_tip_silicon: tip width for strip.
         cross_section: cross_section specification.
     """
-    c = taper_sc_nc(
+    c = gf.Component()
+    taper = taper_sc_nc(
         width1=width1,
         width2=width2,
         length=length,
@@ -297,7 +298,11 @@ def taper_nc_sc(
         width_tip_silicon=width_tip_silicon,
         cross_section=cross_section,
     )
-    return gf.container(c, function=gf.functions.mirror)
+    c.copy_child_info(taper)
+    ref = c << taper
+    ref.mirror_x()
+    c.add_ports(ref.ports)
+    return c
 
 
 taper_electrical = partial(

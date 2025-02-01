@@ -503,14 +503,13 @@ def mirror(component: Component, x_mirror: bool = True) -> gf.Component:
 
 
 if __name__ == "__main__":
-    from gdsfactory.components.mzis import mzi_phase_shifter
-
-    c = mzi_phase_shifter()
+    c = gf.c.bend_circular()
     # c = rotate(c, -90)
     # c = gf.components.straight_pin(length=11, taper=None)
     # c.trim(left=0, right=10, bottom=0, top=10)
     # c = trim(c, domain=[[0, 0], [0, 10], [10, 10], [10, 0]])
-    c = c.extract(layers=[(1, 0)], recursive=True)
+    # c = c.extract(layers=[(1, 0)], recursive=True)
+    c = gf.container(c, function=mirror)
     c.show()
 
     # c = gf.c.rectangle(size=(10, 10), centered=True)
