@@ -1504,7 +1504,7 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):  # type: ignore
 
 def container(
     component: "ComponentSpec",
-    function: Callable[..., None] | None = None,
+    function: Callable[..., None] | Callable[..., Component] | None = None,
     **kwargs: Any,
 ) -> Component:
     """Returns new component with a component reference.
