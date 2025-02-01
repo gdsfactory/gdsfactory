@@ -504,24 +504,5 @@ def mirror(component: Component, x_mirror: bool = True) -> gf.Component:
 
 if __name__ == "__main__":
     c = gf.c.bend_circular()
-    # c = rotate(c, -90)
-    # c = gf.components.straight_pin(length=11, taper=None)
-    # c.trim(left=0, right=10, bottom=0, top=10)
-    # c = trim(c, domain=[[0, 0], [0, 10], [10, 10], [10, 0]])
-    # c = c.extract(layers=[(1, 0)], recursive=True)
-    c = gf.container(c, function=mirror)
+    c = mirror(c)
     c.show()
-
-    # c = gf.c.rectangle(size=(10, 10), centered=True)
-    # p = c.get_polygons(layers=("WG",), by="tuple")
-    # print(list(p.keys())[0])
-
-    # c = gf.Component()
-    # ref = c << gf.components.mzi_lattice()
-    # ref.dmovey(15)
-    # p = get_polygons_points(ref)
-    # p = get_point_inside(ref, layer=(1, 0))
-    # c.add_label(text="hello", position=p)
-    # c.show()
-    # c = move_port_to_zero(c, port_name="e4")
-    # c.show()
