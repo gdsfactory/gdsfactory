@@ -617,6 +617,12 @@ def test_container() -> None:
     assert len(result.insts) == 1
 
 
+def test_container_new_function() -> None:
+    c = gf.container(gf.c.bend_euler, function=gf.functions.mirror)
+    assert len(c.insts) == 1
+    assert c["o1"].orientation == 0
+
+
 def test_plot() -> None:
     c = gf.Component()
     c.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(1, 0))
@@ -837,7 +843,3 @@ def test_component_absorb() -> None:
     c.absorb(ref)
     assert len(list(c.insts)) == 0
     assert len(list(c.shapes(get_layer((1, 0))))) == 1
-
-
-if __name__ == "__main__":
-    test_locked_cell()
