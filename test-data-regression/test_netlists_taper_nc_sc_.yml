@@ -12,7 +12,7 @@ instances:
       width2: 1
       width_tip_nitride: 0.15
       width_tip_silicon: 0.15
-name: taper_nc_sc_W0p5_W1_L20_42ba58e7
+name: taper_nc_sc_W1_W0p5_L20_9adc884b
 nets: []
 placements:
   taper_sc_nc_W0p5_W1_L20_c1d76730_0_0:
@@ -21,5 +21,5 @@ placements:
     x: 0
     y: 0
 ports:
-  o1: taper_sc_nc_W0p5_W1_L20_c1d76730_0_0,o1
-  o2: taper_sc_nc_W0p5_W1_L20_c1d76730_0_0,o2
+  o1: taper_sc_nc_W0p5_W1_L20_c1d76730_0_0,o2
+  o2: taper_sc_nc_W0p5_W1_L20_c1d76730_0_0,o1
