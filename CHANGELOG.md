@@ -1,7 +1,28 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.31.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.31.2...main)
 
 <!-- towncrier release notes start -->
+
+## [8.31.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.31.3) - 2025-02-01
+
+No significant changes.
+
+
+## [8.31.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.31.2) - 2025-01-27
+
+- fix cutback_component [#3638](https://github.com/gdsfactory/gdsfactory/pull/3638)
+- Unclamp trimesh dependency [#3637](https://github.com/gdsfactory/gdsfactory/pull/3637)
+
+
+## [8.31.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.31.1) - 2025-01-27
+
+- remove zero length waveguides from cutback_component [#3635](https://github.com/gdsfactory/gdsfactory/pull/3635)
+- Fix mypy issue [#3629](https://github.com/gdsfactory/gdsfactory/pull/3629)
+- cleanup_precommit [#3636](https://github.com/gdsfactory/gdsfactory/pull/3636)
+- [pre-commit.ci] pre-commit autoupdate [#3634](https://github.com/gdsfactory/gdsfactory/pull/3634)
+- add remove_old_layer_flag to over_under [#3627](https://github.com/gdsfactory/gdsfactory/pull/3627)
+- improve pack error message [#3626](https://github.com/gdsfactory/gdsfactory/pull/3626)
+
 
 ## [8.31.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.31.0) - 2025-01-22
 

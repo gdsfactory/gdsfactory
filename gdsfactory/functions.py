@@ -474,27 +474,29 @@ rotate180 = partial(rotate, angle=180)
 rotate270 = partial(rotate, angle=270)
 
 
+@gf.cell
+def mirror(component: Component, x_mirror: bool = True) -> gf.Component:
+    """Rotate a component by an angle in degrees.
+
+    Args:
+        component: to rotate.
+        x_mirror: if True, mirrors the component along the x-axis.
+
+    Returns: Rotated component.
+    """
+    c = gf.Component()
+    component = gf.get_component(component)
+    ref = c.add_ref(component)
+    if x_mirror:
+        ref.mirror_x()
+    else:
+        ref.mirror_y()
+    c.add_ports(ref.ports)
+    c.copy_child_info(component)
+    return c
+
+
 if __name__ == "__main__":
-    from gdsfactory.components.mzis import mzi_phase_shifter
-
-    c = mzi_phase_shifter()
-    # c = rotate(c, -90)
-    # c = gf.components.straight_pin(length=11, taper=None)
-    # c.trim(left=0, right=10, bottom=0, top=10)
-    # c = trim(c, domain=[[0, 0], [0, 10], [10, 10], [10, 0]])
-    c = c.extract(layers=[(1, 0)], recursive=True)
+    c = gf.c.bend_circular()
+    c = mirror(c)
     c.show()
-
-    # c = gf.c.rectangle(size=(10, 10), centered=True)
-    # p = c.get_polygons(layers=("WG",), by="tuple")
-    # print(list(p.keys())[0])
-
-    # c = gf.Component()
-    # ref = c << gf.components.mzi_lattice()
-    # ref.dmovey(15)
-    # p = get_polygons_points(ref)
-    # p = get_point_inside(ref, layer=(1, 0))
-    # c.add_label(text="hello", position=p)
-    # c.show()
-    # c = move_port_to_zero(c, port_name="e4")
-    # c.show()

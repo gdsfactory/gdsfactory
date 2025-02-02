@@ -55,10 +55,6 @@ def cutback_component(
         straight, length=straight_length, cross_section=xs
     )
 
-    straight_pair = gf.get_component(
-        straight, length=straight_length_pair or 0, cross_section=xs
-    )
-
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
         "A": (component, port1, port2),
@@ -67,17 +63,24 @@ def cutback_component(
         "C": (bendu, "o2", "o1"),
         "-": (straight_component, "o1", "o2"),
         "_": (straight_component, "o2", "o1"),
-        ".": (straight_pair, "o2", "o1"),
     }
+    if straight_length_pair:
+        straight_pair = gf.get_component(
+            straight, length=straight_length_pair, cross_section=xs
+        )
+        symbol_to_component["."] = (straight_pair, "o2", "o1")
 
     # Generate the sequence of staircases
-
     s = ""
     for i in range(rows):
         a = "!A" if mirror1 else "A"
         b = "!B" if mirror2 else "B"
 
-        s += f"{a}.{b}" * cols if straight_length_pair else (a + b) * cols
+        if straight_length_pair:
+            s += f"{a}.{b}" * cols if straight_length_pair else (a + b) * cols
+        else:
+            s += f"{a}{b}" * cols if straight_length_pair else (a + b) * cols
+
         if mirror:
             s += "C" if i % 2 == 0 else "D"
         else:
@@ -87,7 +90,10 @@ def cutback_component(
     s += "-_"
 
     for i in range(rows):
-        s += f"{a}.{b}" * cols if straight_length_pair else (a + b) * cols
+        if straight_length_pair:
+            s += f"{a}.{b}" * cols if straight_length_pair else (a + b) * cols
+        else:
+            s += f"{a}{b}" * cols if straight_length_pair else (a + b) * cols
         s += "D" if (i + rows) % 2 == 0 else "C"
 
     s = s[:-1]
@@ -101,7 +107,7 @@ def cutback_component(
 cutback_component_mirror = partial(cutback_component, mirror=True)
 
 if __name__ == "__main__":
-    c = cutback_component()
+    c = cutback_component_mirror()
     # c = cutback_component_mirror(component=component_flipped)
     # c = gf.routing.add_fiber_single(c)
     c.show()

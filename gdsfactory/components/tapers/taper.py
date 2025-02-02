@@ -257,20 +257,21 @@ def taper_sc_nc(
         layer_slab=layer_nitride,
         length=length,
         width1=width1,
-        width2=width_tip_nitride,
-        w_slab1=width_tip_silicon,
+        width2=width_tip_silicon,
+        w_slab1=width_tip_nitride,
         w_slab2=width2,
         use_slab_port=True,
         cross_section=cross_section,
     )
 
 
+@gf.cell
 def taper_nc_sc(
     width1: float = 1,
     width2: float = 0.5,
     length: float = 20,
-    layer_wg: LayerSpec = "WGN",
-    layer_nitride: LayerSpec = "WG",
+    layer_wg: LayerSpec = "WG",
+    layer_nitride: LayerSpec = "WGN",
     width_tip_nitride: float = 0.15,
     width_tip_silicon: float = 0.15,
     cross_section: CrossSectionSpec = "strip",
@@ -279,7 +280,7 @@ def taper_nc_sc(
 
     Args:
         width1: nitride width.
-        width2: strip width.
+        width2: silicon width.
         length: taper length.
         layer_wg: nitride layer.
         layer_nitride: strip layer.
@@ -287,16 +288,23 @@ def taper_nc_sc(
         width_tip_silicon: tip width for strip.
         cross_section: cross_section specification.
     """
-    return taper_sc_nc(
-        width2=width1,
+    c = gf.Component()
+    taper = taper_sc_nc(
         width1=width2,
+        width2=width1,
         length=length,
-        layer_wg=layer_nitride,
-        layer_nitride=layer_wg,
-        width_tip_nitride=width_tip_silicon,
-        width_tip_silicon=width_tip_nitride,
+        layer_wg=layer_wg,
+        layer_nitride=layer_nitride,
+        width_tip_nitride=width_tip_nitride,
+        width_tip_silicon=width_tip_silicon,
         cross_section=cross_section,
     )
+    c.copy_child_info(taper)
+    ref = c << taper
+    ref.mirror_x()
+    c.add_ports(ref.ports)
+    c.auto_rename_ports()
+    return c
 
 
 taper_electrical = partial(
@@ -308,7 +316,12 @@ taper_electrical = partial(
 
 
 if __name__ == "__main__":
-    c = taper_electrical(width1=2, width2=1)
+    c = gf.components.straight(cross_section="nitride")
+    c = gf.routing.add_fiber_array(c)
+    # c1 = taper_sc_nc(width_tip_nitride=0.4)
+    # c = taper_nc_sc(width_tip_nitride=0.4)
+    # c = gf.grid([c1, c2])
+    # c = taper_electrical(width1=2, width2=1)
     # c = gf.grid([taper_nc_sc(), taper_sc_nc()])
     # c = taper(cross_section="rib", width2=5, port_types="optical")
     # c = taper_strip_to_ridge_trenches()

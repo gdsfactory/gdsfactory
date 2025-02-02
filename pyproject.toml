@@ -37,7 +37,7 @@ dependencies = [
   "mapbox_earcut",
   "networkx",
   "scikit-image",
-  "trimesh>=4.4.1,<4.6",
+  "trimesh>=4.4.1",
   "ipykernel",
   "attrs",
   "graphviz",
@@ -50,7 +50,7 @@ license = {file = "LICENSE"}
 name = "gdsfactory"
 readme = "README.md"
 requires-python = ">=3.11,<3.14"
-version = "8.31.0"
+version = "8.31.3"
 
 [project.optional-dependencies]
 cad = ["kweb>=1.1.9,<2.1"]
@@ -244,7 +244,7 @@ message_template = "Bump to {new_version}"
 tag_template = "v{new_version}"
 
 [tool.tbump.version]
-current = "8.31.0"
+current = "8.31.3"
 regex = '''
   (?P<major>\d+)
   \.

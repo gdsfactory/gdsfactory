@@ -9,7 +9,6 @@ import gdsfactory as gf
 from gdsfactory.component import (
     ComponentReference,
     LockedError,
-    component_with_function,
     container,
     copy,
     ensure_tuple_of_tuples,
@@ -600,20 +599,6 @@ def test_container() -> None:
     assert len(result.insts) == 1
 
 
-def test_component_with_function() -> None:
-    c = gf.Component()
-    c.info["test_info"] = "test_value"
-
-    def test_function(component: gf.Component) -> None:
-        component.info["new_info"] = "new_value"
-
-    result = component_with_function(c, function=test_function)
-
-    assert result.info["test_info"] == "test_value"
-    assert result.info["new_info"] == "new_value"
-    assert len(result.insts) == 1
-
-
 def test_plot() -> None:
     c = gf.Component()
     c.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(1, 0))
@@ -834,7 +819,3 @@ def test_component_absorb() -> None:
     c.absorb(ref)
     assert len(list(c.insts)) == 0
     assert len(list(c.shapes(get_layer((1, 0))))) == 1
-
-
-if __name__ == "__main__":
-    test_locked_cell()
