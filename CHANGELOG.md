@@ -1,17 +1,15 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.31.2...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.31.4...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.31.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.31.4) - 2025-02-02
 
-No significant changes.
-
+- flatten_nitride_transition [#3644](https://github.com/gdsfactory/gdsfactory/pull/3644)
 
 ## [8.31.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.31.3) - 2025-02-01
 
-No significant changes.
-
+- Fix nitride transition [#3643](https://github.com/gdsfactory/gdsfactory/pull/3643)
 
 ## [8.31.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.31.2) - 2025-01-27
 
