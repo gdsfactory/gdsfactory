@@ -1,11 +1,7 @@
 import gdsfactory as gf
-from gdsfactory.component import Component
-from gdsfactory.typings import (
-    ComponentSpec,
-    CrossSectionSpec,
-    LayerSpec,
-    Size,
-)
+from gdsfactory.component import Component, ComponentSpec
+from gdsfactory.cross_section import CrossSectionSpec
+from gdsfactory.typings import LayerSpec, Size
 
 
 @gf.cell

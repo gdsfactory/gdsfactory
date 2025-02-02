@@ -23,9 +23,9 @@ if __name__ == "__main__":
     phase_shifter = gf.components.straight_heater_meander()
     phase_shifter_extended = gf.components.extend_ports(phase_shifter, length=20)
 
-    phase_shifter_optical_ports = []
-    phase_shifter_electrical_ports_west = []
-    phase_shifter_electrical_ports_east = []
+    phase_shifter_optical_ports: list[gf.Port] = []
+    phase_shifter_electrical_ports_west: list[gf.Port] = []
+    phase_shifter_electrical_ports_east: list[gf.Port] = []
 
     for i, port in enumerate(
         splitter_tree.ports.filter(orientation=0, port_type="optical")

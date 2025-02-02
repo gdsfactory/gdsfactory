@@ -1,11 +1,9 @@
 from __future__ import annotations
 
 import gdsfactory as gf
+from gdsfactory.component import ComponentSpec
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.typings import ComponentSpec
-
-Float2 = tuple[float, float]
-Coordinate = tuple[Float2, Float2]
+from gdsfactory.typings import Float2
 
 
 @gf.cell

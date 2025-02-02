@@ -8,15 +8,10 @@ from kfactory.routing.generic import ManhattanRoute
 
 import gdsfactory as gf
 from gdsfactory._deprecation import deprecate
-from gdsfactory.component import Component
+from gdsfactory.component import Component, ComponentSpec
+from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.routing.route_single import route_single
-from gdsfactory.typings import (
-    STEP_DIRECTIVES,
-    ComponentSpec,
-    Coordinate,
-    CrossSectionSpec,
-    Port,
-)
+from gdsfactory.typings import STEP_DIRECTIVES, Coordinate, Port
 
 
 def route_single_from_steps(
@@ -127,7 +122,7 @@ route_single_from_steps_electrical = partial(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.Component("route_single_from_steps_sample")
+    c = gf.Component(name="route_single_from_steps_sample")
     w = gf.components.straight()
     left = c << w
     right = c << w

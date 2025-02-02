@@ -21,16 +21,17 @@ from functools import partial
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.component import Component
+from gdsfactory.component import Component, ComponentSpec
 from gdsfactory.components.mzis import mzi1x2_2x2
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Float2
+from gdsfactory.cross_section import CrossSectionSpec
+from gdsfactory.typings import Spacing
 
 
 @gf.cell
 def splitter_tree(
     coupler: ComponentSpec = "mmi1x2",
     noutputs: int = 4,
-    spacing: Float2 = (90.0, 50.0),
+    spacing: Spacing = (90.0, 50.0),
     bend_s: ComponentSpec | None = "bend_s",
     bend_s_xsize: float | None = None,
     cross_section: CrossSectionSpec = "strip",

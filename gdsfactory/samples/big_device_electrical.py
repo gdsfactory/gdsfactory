@@ -3,7 +3,8 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory import Port
 from gdsfactory.component import Component
-from gdsfactory.typings import CrossSectionSpec, Size
+from gdsfactory.cross_section import CrossSectionSpec
+from gdsfactory.typings import Size
 
 
 @gf.cell
@@ -47,7 +48,7 @@ def big_device(
             orientation=180,
             port_type=port_type,
             cross_section=xs,
-            layer=layer,
+            layer=gf.get_layer(layer),
             width=width,
         )
         ports.append(port)
@@ -59,7 +60,7 @@ def big_device(
             orientation=0,
             port_type=port_type,
             cross_section=xs,
-            layer=layer,
+            layer=gf.get_layer(layer),
             width=width,
         )
         ports.append(port)
@@ -71,7 +72,7 @@ def big_device(
             orientation=90,
             port_type=port_type,
             cross_section=xs,
-            layer=layer,
+            layer=gf.get_layer(layer),
             width=width,
         )
         ports.append(port)
@@ -83,7 +84,7 @@ def big_device(
             orientation=-90,
             port_type=port_type,
             cross_section=xs,
-            layer=layer,
+            layer=gf.get_layer(layer),
             width=width,
         )
         ports.append(port)

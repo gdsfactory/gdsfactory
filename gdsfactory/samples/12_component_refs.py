@@ -9,8 +9,8 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.component import Component
-from gdsfactory.typings import ComponentFactory, Layer
+from gdsfactory.component import Component, ComponentFactory
+from gdsfactory.typings import Layer
 
 
 @gf.cell

@@ -6,8 +6,7 @@ from functools import partial
 from inspect import getmembers, isfunction, signature
 from typing import Any
 
-from gdsfactory.component import Component
-from gdsfactory.typings import ComponentFactory
+from gdsfactory.component import Component, ComponentFactory
 
 
 def get_cells(

@@ -8,7 +8,8 @@ from gdsfactory.component import Component
 from gdsfactory.components.grating_couplers.grating_coupler_elliptical_arbitrary import (
     grating_coupler_elliptical_arbitrary,
 )
-from gdsfactory.typings import CrossSectionSpec, Floats, LayerSpec
+from gdsfactory.cross_section import CrossSectionSpec
+from gdsfactory.typings import Floats, LayerSpec
 
 parameters = (
     -2.4298362615732447,

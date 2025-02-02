@@ -1,10 +1,10 @@
-from kfactory.conf import CHECK_INSTANCES
+from kfactory.conf import CheckInstances
 
 import gdsfactory as gf
 from gdsfactory.component import Component
 
 
-@gf.cell(check_instances=CHECK_INSTANCES.IGNORE)
+@gf.cell(check_instances=CheckInstances.IGNORE)
 def sample_route_dubin_basic() -> gf.Component:
     """Basic test showing Dubins path routing between two straight waveguides."""
     c = gf.Component()
@@ -27,7 +27,7 @@ def sample_route_dubin_basic() -> gf.Component:
     return c
 
 
-@gf.cell(check_instances=CHECK_INSTANCES.IGNORE)
+@gf.cell(check_instances=CheckInstances.IGNORE)
 def sample_route_dubin_array() -> gf.Component:
     """Test showing Dubins path routing between arrays of ports."""
     c = Component()

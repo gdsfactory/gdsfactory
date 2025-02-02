@@ -5,7 +5,8 @@ from __future__ import annotations
 from functools import partial
 
 import gdsfactory as gf
-from gdsfactory.typings import ComponentSpec, Float2, LayerSpec
+from gdsfactory.component import ComponentSpec
+from gdsfactory.typings import Float2, LayerSpec
 
 
 @gf.cell

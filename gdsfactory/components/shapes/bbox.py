@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import gdsfactory as gf
+from gdsfactory.component import ComponentReference
 from gdsfactory.typings import LayerSpec
 
 
@@ -36,7 +37,7 @@ def bbox_to_points(
 
 @gf.cell
 def bbox(
-    component: gf.Component | gf.Instance,
+    component: gf.Component | ComponentReference,
     layer: LayerSpec,
     top: float = 0,
     bottom: float = 0,
@@ -54,7 +55,7 @@ def bbox(
         right: east offset.
     """
     c = gf.Component()
-    if not isinstance(component, gf.Instance):
+    if not isinstance(component, ComponentReference):
         component = gf.get_component(component)
 
     bbox = component.dbbox()

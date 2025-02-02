@@ -2,7 +2,9 @@ from typing import Any
 
 import gdsfactory as gf
 from gdsfactory._deprecation import deprecate
-from gdsfactory.typings import AngleInDegrees, ComponentSpec, CrossSectionSpec
+from gdsfactory.component import Component, ComponentSpec
+from gdsfactory.cross_section import CrossSectionSpec
+from gdsfactory.typings import AngleInDegrees
 
 
 @gf.cell
@@ -21,7 +23,7 @@ def add_fiber_array_optical_south_electrical_north(
     port_types_grating_couplers: list[str] | None = None,
     pad_spacing: float | None = None,
     **kwargs: Any,
-) -> gf.Component:
+) -> Component:
     """Returns a fiber array with Optical gratings on South and Electrical pads on North.
 
     This a test configuration for DC pads.
@@ -82,7 +84,7 @@ def add_fiber_array_optical_south_electrical_north(
         deprecate("pad_spacing", "pad_pitch")
         pad_pitch = pad_spacing
 
-    c = gf.Component()
+    c = Component()
     component = gf.get_component(component)
     r = c << gf.routing.add_fiber_array(
         component=component,

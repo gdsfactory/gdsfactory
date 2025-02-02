@@ -3,8 +3,8 @@ from __future__ import annotations
 import warnings
 
 import gdsfactory as gf
-from gdsfactory.component import Component
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.component import Component, ComponentSpec
+from gdsfactory.cross_section import CrossSectionSpec
 
 diagram = """
        | length0 | length1 |

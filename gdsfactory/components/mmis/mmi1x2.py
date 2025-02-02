@@ -1,10 +1,11 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.component import Component
+from gdsfactory.component import Component, ComponentSpec
 from gdsfactory.components.tapers.taper import taper as taper_function
 from gdsfactory.components.waveguides.straight import straight as straight_function
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.cross_section import CrossSectionSpec
+from gdsfactory.port import Port
 
 
 @gf.cell
@@ -70,28 +71,28 @@ def mmi1x2(
     _ = c << gf.get_component(straight, length=length_mmi, cross_section=xs_mmi)
 
     ports = [
-        gf.Port(
-            "o1",
+        Port(
+            name="o1",
             orientation=180,
             center=(0, 0),
             width=width_taper,
-            layer=x.layer,
+            layer=gf.get_layer(x.layer),
             cross_section=x,
         ),
-        gf.Port(
-            "o2",
+        Port(
+            name="o2",
             orientation=0,
             center=(+length_mmi, +a),
             width=width_taper,
-            layer=x.layer,
+            layer=gf.get_layer(x.layer),
             cross_section=x,
         ),
-        gf.Port(
-            "o3",
+        Port(
+            name="o3",
             orientation=0,
             center=(+length_mmi, -a),
             width=width_taper,
-            layer=x.layer,
+            layer=gf.get_layer(x.layer),
             cross_section=x,
         ),
     ]

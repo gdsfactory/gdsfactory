@@ -114,7 +114,7 @@ def test_remove_layers() -> None:
 
 def test_locked_cell() -> None:
     c = gf.Component()
-    c._locked = True
+    c.locked = True
 
     with pytest.raises(LockedError):
         c.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(2, 0))
@@ -220,7 +220,7 @@ def test_deprecated_methods() -> None:
 
 def test_locked_cell_all_angle() -> None:
     c = gf.ComponentAllAngle()
-    c._locked = True
+    c.locked = True
 
     with pytest.raises(LockedError):
         c.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(2, 0))
@@ -381,24 +381,6 @@ def test_component_reference_flatten() -> None:
     ref.flatten()
 
 
-def test_component_reference_connect() -> None:
-    c = gf.Component()
-    straight = gf.components.straight(length=10).copy()
-    c2 = gf.components.straight(length=10).copy()
-    inst2 = c << c2
-    port = straight.add_port(
-        name="o1", center=(0, 0), width=0.5, orientation=0, layer=(1, 0)
-    )
-    ref = c << straight
-
-    with pytest.warns(DeprecationWarning):
-        ref.connect("o1", other=inst2, destination=port, other_port_name="o1")
-    with pytest.warns(DeprecationWarning):
-        ref.connect("o1", port, overlap=1.0)
-    with pytest.warns(DeprecationWarning):
-        ref.connect("o1", port, preserve_orientation=True)
-
-
 def test_component_reference_deprecated_attributes() -> None:
     c = gf.Component()
     straight = gf.components.straight(length=10).copy()
@@ -555,7 +537,7 @@ def test_component_all_angle_add_polygon() -> None:
     c.add_polygon(dsimpoly, layer="WG")
     assert len(list(c.shapes(get_layer(LAYER.WG)).each())) == 5
 
-    c._locked = True
+    c.locked = True
     with pytest.raises(LockedError):
         c.add_polygon(points1, layer="WG")
 

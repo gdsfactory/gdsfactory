@@ -19,11 +19,10 @@ import kfactory as kf
 import numpy as np
 import numpy.typing as npt
 import yaml
-from kfactory import Instance
 
 import gdsfactory as gf
 from gdsfactory import typings
-from gdsfactory.component import Component, container
+from gdsfactory.component import Component, ComponentReference, container
 from gdsfactory.config import CONF
 from gdsfactory.port import select_ports
 from gdsfactory.serialization import convert_tuples_to_lists
@@ -317,7 +316,7 @@ def add_pin_path(
 
 def add_outline(
     component: Component,
-    reference: Instance | None = None,
+    reference: ComponentReference | None = None,
     layer: typings.LayerSpec = "DEVREC",
     **kwargs: Any,
 ) -> None:
@@ -435,7 +434,7 @@ add_pins_inside2um = partial(add_pins, function=add_pin_inside2um)  # type: igno
 
 def add_settings_label(
     component: Component,
-    reference: Instance | None = None,
+    reference: ComponentReference | None = None,
     layer_label: typings.LayerSpec = "LABEL_SETTINGS",
     with_yaml_format: bool = False,
 ) -> None:
@@ -443,7 +442,7 @@ def add_settings_label(
 
     Args:
         component: to add pins.
-        reference: Instance.
+        reference: ComponentReference.
         layer_label: layer spec.
         with_yaml_format: add yaml format, False uses json.
     """
@@ -472,7 +471,7 @@ def add_settings_label(
 
 def add_instance_label(
     component: Component,
-    reference: Instance,
+    reference: ComponentReference,
     layer: typings.LayerSpec | None = None,
     instance_name: str | None = None,
 ) -> None:
@@ -506,19 +505,19 @@ def add_instance_label(
 
 class AddInstanceLabelFunction(Protocol):
     def __call__(
-        self, component: Component, reference: Instance | None = None
+        self, component: Component, reference: ComponentReference | None = None
     ) -> None: ...
 
 
 class AddPinsFunction(Protocol):
     def __call__(
-        self, component: Component, reference: Instance | None = None
+        self, component: Component, reference: ComponentReference | None = None
     ) -> None: ...
 
 
 def add_pins_and_outline(
     component: Component,
-    reference: Instance | None = None,
+    reference: ComponentReference | None = None,
     add_outline_function: AddInstanceLabelFunction | None = add_outline,
     add_pins_function: AddPinsFunction | None = add_pins,  # type: ignore[assignment]
     add_settings_function: AddInstanceLabelFunction | None = add_settings_label,

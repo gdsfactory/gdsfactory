@@ -67,11 +67,11 @@ def boolean(
     layer_index2 = get_layer(layer2)
     layer_index = get_layer(layer)
 
-    if isinstance(A, kf.KCell):
+    if isinstance(A, kf.DKCell):
         ar = kf.kdb.Region(A.begin_shapes_rec(layer_index1))
     else:
         ar = get_ref_shapes(A, layer_index1)
-    if isinstance(B, kf.KCell):
+    if isinstance(B, kf.DKCell):
         br = kf.kdb.Region(B.begin_shapes_rec(layer_index2))
     else:
         br = get_ref_shapes(B, layer_index2)

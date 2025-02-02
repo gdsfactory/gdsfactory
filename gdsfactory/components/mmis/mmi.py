@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.component import Component
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.component import Component, ComponentSpec
+from gdsfactory.cross_section import CrossSectionSpec
 
 
 @gf.cell
@@ -90,11 +90,11 @@ def mmi(
 
     ports = [
         gf.Port(
-            f"in_{i}",
+            name=f"in_{i}",
             orientation=180,
             center=(0, y),
             width=w_taper,
-            layer=x.layer,
+            layer=gf.get_layer(x.layer),
             cross_section=x,
         )
         for i, y in enumerate(input_positions)
@@ -102,11 +102,11 @@ def mmi(
 
     ports += [
         gf.Port(
-            f"out_{i}",
+            name=f"out_{i}",
             orientation=0,
             center=(+length_mmi, y),
             width=w_taper,
-            layer=x.layer,
+            layer=gf.get_layer(x.layer),
             cross_section=x,
         )
         for i, y in enumerate(output_positions)

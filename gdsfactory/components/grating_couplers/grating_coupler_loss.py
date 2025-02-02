@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.component import Component
+from gdsfactory.component import Component, ComponentSpec
+from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.routing.route_single import route_single
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -33,7 +33,7 @@ def grating_coupler_loss(
     c = gf.Component()
     dx = pitch
 
-    xmin = 0
+    xmin = 0.0
 
     for i in range(3, nfibers, 2):
         g1 = c << gc

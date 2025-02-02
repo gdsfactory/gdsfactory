@@ -13,7 +13,8 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bends import bend_circular_all_angle
 from gdsfactory.components.waveguides import straight_all_angle
-from gdsfactory.typings import CrossSectionSpec, Port
+from gdsfactory.cross_section import CrossSectionSpec
+from gdsfactory.typings import Port
 
 
 def route_dubin(
@@ -50,8 +51,8 @@ def route_dubin(
     backbone = [gf.kdb.DPoint(x1, y1), gf.kdb.DPoint(x2, y2)]  # TODO: fix this
     return OpticalAllAngleRoute(
         backbone=backbone,
-        start_port=port1,
-        end_port=port2,
+        start_port=port1.to_itype(),
+        end_port=port2.to_itype(),
         length=length,
         instances=instances,
     )

@@ -25,7 +25,7 @@ How could we fix the bug? As an open-source project, we welcome your suggestions
 
 - [ ] I have reviewed the documentation, discussions and issues and found no relevant solution.
 - [ ] I understand that this is an open-source project, and maintainers may not have the resources to address every issue. I am prepared to contribute by fixing the issue myself or hiring someone to do so, if needed, and accept that the issue may not be resolved otherwise.
-- [ ] I am using the latest version of GDSFactory, with Python 3.10, 3.11, or 3.12.
+- [ ] I am using the latest version of GDSFactory, with Python 3.11, 3.12, or 3.13.
 
 Please provide the output for the following code:
 

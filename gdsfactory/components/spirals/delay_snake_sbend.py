@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.component import Component
+from gdsfactory.component import Component, ComponentSpec
 from gdsfactory.components.waveguides.straight import straight
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.cross_section import CrossSectionSpec
 
 diagram = r"""
 

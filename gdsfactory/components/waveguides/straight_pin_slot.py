@@ -5,9 +5,8 @@ from __future__ import annotations
 from functools import partial
 
 import gdsfactory as gf
-from gdsfactory.component import Component
-from gdsfactory.cross_section import pn
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.component import Component, ComponentSpec
+from gdsfactory.cross_section import CrossSectionSpec, pn
 
 
 @gf.cell

@@ -3,9 +3,8 @@ from __future__ import annotations
 from functools import partial
 
 import gdsfactory as gf
-from gdsfactory.component import Component
+from gdsfactory.component import Component, ComponentSpec
 from gdsfactory.components.tapers import taper
-from gdsfactory.typings import ComponentSpec
 
 _terminator_function = partial(taper, width2=0.1)
 

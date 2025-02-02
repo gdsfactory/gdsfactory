@@ -100,10 +100,7 @@ def extract(
 def move_to_center(component: Component, dx: float = 0, dy: float = 0) -> gf.Component:
     """Moves the component to the center of the bounding box."""
     c = component
-    c.transform(
-        gf.kdb.DTrans(-c.dbbox().center().x + dx, -c.dbbox().center().y + dy),
-        no_warn=True,
-    )
+    c.transform(gf.kdb.DTrans(-c.dbbox().center().x + dx, -c.dbbox().center().y + dy))
     return c
 
 
@@ -121,10 +118,7 @@ def move_port(
         dy: to move the port.
     """
     c = component
-    c.transform(
-        gf.kdb.DTrans(-c.ports[port_name].dx + dx, -c.ports[port_name].dy + dy),
-        no_warn=True,
-    )
+    c.transform(gf.kdb.DTrans(-c.ports[port_name].dx + dx, -c.ports[port_name].dy + dy))
     return c
 
 

@@ -34,7 +34,7 @@ import functools
 import warnings
 from collections.abc import Callable, Sequence
 from functools import partial
-from typing import TYPE_CHECKING, Any, Literal, TypeVar
+from typing import TYPE_CHECKING, Any, Literal, TypeAlias, TypeVar
 
 import kfactory as kf
 import numpy as np
@@ -44,8 +44,6 @@ from rich.table import Table
 from gdsfactory import typings
 from gdsfactory.typings import (
     AngleInDegrees,
-    ComponentFactory,
-    CrossSectionSpec,
     LayerSpec,
     LayerSpecs,
     PathType,
@@ -58,7 +56,7 @@ from gdsfactory.typings import (
 )
 
 if TYPE_CHECKING:
-    from gdsfactory.component import Component
+    from gdsfactory.component import Component, ComponentFactory, ComponentReference
 
 valid_error_types = ["error", "warn", "ignore"]
 
@@ -93,7 +91,7 @@ def pprint_ports(ports: Ports) -> None:
             for i in [
                 port.name,
                 np.round(port.dwidth, 3),
-                port.dangle,
+                port.orientation,
                 port.layer_info,
                 port.dcenter,
                 port.port_type,
@@ -104,89 +102,10 @@ def pprint_ports(ports: Ports) -> None:
     console.print(table)
 
 
-class Port(kf.Port):
-    """Ports are useful to connect Components with each other.
-
-    Args:
-        name: we name ports clock-wise starting from bottom left.
-        orientation: in degrees (0: east, 90: north, 180: west, 270: south).
-        center: (x, y) port center coordinate.
-        width: of the port in um (uses the cross section width if not provided).
-        layer: layer tuple.
-        port_type: str (optical, electrical, vertical_te, vertical_tm).
-        cross_section: cross_section spec.
-        info: additional information.
-    """
-
-    def __init__(
-        self,
-        name: str | None,
-        orientation: AngleInDegrees,
-        center: tuple[float, ...] | kf.kdb.Point | kf.kdb.DPoint,
-        width: float | None = None,
-        layer: LayerSpec | None = None,
-        port_type: str = "optical",
-        cross_section: CrossSectionSpec | None = None,
-        info: dict[str, int | float | str] | None = None,
-    ) -> None:
-        """Initializes Port."""
-        from gdsfactory.pdk import get_layer
-
-        orientation = np.mod(orientation, 360) if orientation else orientation
-
-        assert orientation is not None
-
-        if cross_section is None and layer is None:
-            raise ValueError("You need to define Port cross_section or layer")
-
-        if cross_section is None and width is None:
-            raise ValueError("You need Port to define cross_section or width")
-
-        if layer is None or width is None:
-            from gdsfactory.pdk import get_cross_section
-
-            assert cross_section is not None
-
-            xs = get_cross_section(cross_section)
-        else:
-            xs = None
-
-        if xs and layer is None:
-            layer = xs.layer
-
-        if isinstance(layer, list):
-            layer = (layer[0], layer[1])
-
-        if xs and width is None:
-            width = xs.width
-
-        assert width is not None
-        assert layer is not None
-
-        if width < 0:
-            raise ValueError(f"Port width must be >=0. Got {width}")
-
-        if isinstance(center, tuple):
-            _center = (center[0], center[1])
-        else:
-            _center = (center.x, center.y)
-
-        dcplx_trans = kf.kdb.DCplxTrans(1.0, float(orientation), False, *_center)
-        info = info or {}
-        super().__init__(
-            name=name,
-            layer=get_layer(layer),
-            dwidth=width,
-            port_type=port_type,
-            dcplx_trans=dcplx_trans,
-            info=info,
-        )
-
-    def to_dict(self) -> dict[str, Any]:
-        return to_dict(self)
+Port: TypeAlias = kf.DPort
 
 
-def to_dict(port: typings.Port) -> dict[str, Any]:
+def to_dict(port: kf.port.ProtoPort[Any]) -> dict[str, Any]:
     """Returns dict."""
     return {
         "name": port.name,
@@ -298,7 +217,7 @@ def sort_ports_clockwise(ports: Sequence[TPort]) -> list[TPort]:
     south_ports.sort(key=lambda p: -p.dx)  # sort east to west
 
     ports = west_ports + north_ports + east_ports + south_ports
-    return list(ports)
+    return ports
 
 
 def sort_ports_counter_clockwise(ports: Sequence[TPort]) -> list[TPort]:
@@ -345,7 +264,7 @@ def sort_ports_counter_clockwise(ports: Sequence[TPort]) -> list[TPort]:
 
 
 def select_ports(
-    ports: Ports | kf.Instance | kf.kcell.InstancePorts,
+    ports: Ports | ComponentReference,
     layer: LayerSpec | None = None,
     prefix: str | None = None,
     suffix: str | None = None,
@@ -376,39 +295,43 @@ def select_ports(
         List containing the selected ports.
 
     """
-    if isinstance(ports, kf.Instance):
-        ports = ports.ports
+    from gdsfactory.component import ComponentReference
+
+    if isinstance(ports, ComponentReference):
+        ports_ = list(ports.ports)
+    else:
+        ports_ = list(ports)
 
     if layer:
         from gdsfactory.pdk import get_layer
 
         layer = get_layer(layer)
-        ports = [p for p in ports if get_layer(p.layer) == layer]
+        ports_ = [p for p in ports_ if get_layer(p.layer) == layer]
     else:
-        ports = list(ports)
+        ports_ = list(ports_)
 
     if prefix:
-        ports = [p for p in ports if p.name and p.name.startswith(prefix)]
+        ports_ = [p for p in ports_ if p.name and p.name.startswith(prefix)]
     if suffix:
-        ports = [p for p in ports if p.name and p.name.endswith(suffix)]
+        ports_ = [p for p in ports_ if p.name and p.name.endswith(suffix)]
     if orientation is not None:
-        ports = [p for p in ports if np.isclose(p.dangle, orientation)]
+        ports_ = [p for p in ports_ if np.isclose(p.orientation, orientation)]
 
     if layers_excluded:
-        ports = [p for p in ports if p.layer not in layers_excluded]  # type: ignore
+        ports_ = [p for p in ports_ if p.layer not in layers_excluded]  # type: ignore
     if width:
-        ports = [p for p in ports if p.width == width]
+        ports_ = [p for p in ports_ if p.width == width]
     if port_type:
-        ports = [p for p in ports if p.port_type == port_type]
+        ports_ = [p for p in ports_ if p.port_type == port_type]
     if names:
-        ports = [p for p in ports if p.name in names]
+        ports_ = [p for p in ports_ if p.name in names]
 
     if sort_ports:
         if clockwise:
-            ports = sort_ports_clockwise(ports)
+            ports_ = list(sort_ports_clockwise(ports_))
         else:
-            ports = sort_ports_counter_clockwise(ports)
-    return ports
+            ports_ = list(sort_ports_counter_clockwise(ports_))
+    return ports_
 
 
 select_ports_optical = partial(select_ports, port_type="optical")
@@ -417,7 +340,7 @@ select_ports_placement = partial(select_ports, port_type="placement")
 
 
 def select_ports_list(
-    ports: Ports | kf.Instance | kf.kcell.InstancePorts, **kwargs: Any
+    ports: Ports | Ports | ComponentReference, **kwargs: Any
 ) -> Ports:
     return select_ports(ports=ports, **kwargs)
 
@@ -473,7 +396,7 @@ def get_ports_facing(
     return direction_ports[direction]
 
 
-def deco_rename_ports(component_factory: ComponentFactory) -> ComponentFactory:
+def deco_rename_ports(component_factory: "ComponentFactory") -> "ComponentFactory":
     @functools.wraps(component_factory)
     def auto_named_component_factory(*args: Any, **kwargs: Any) -> Component:
         component = component_factory(*args, **kwargs)

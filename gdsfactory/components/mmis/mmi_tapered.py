@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.component import Component
+from gdsfactory.component import Component, ComponentFactory
 from gdsfactory.components.tapers.taper import taper as taper_function
-from gdsfactory.typings import ComponentFactory, CrossSectionSpec
+from gdsfactory.cross_section import CrossSectionSpec
 
 
 @gf.cell
@@ -137,11 +137,11 @@ def mmi_tapered(
 
     in_ports = [
         gf.Port(
-            f"in_{i}",
+            name=f"in_{i}",
             orientation=180,
             center=(0, y),
             width=width_taper_in,
-            layer=x.layer,
+            layer=gf.get_layer(x.layer),
             cross_section=x,
         )
         for i, y in enumerate(input_positions)
@@ -149,11 +149,11 @@ def mmi_tapered(
 
     out_ports = [
         gf.Port(
-            f"out_{i}",
+            name=f"out_{i}",
             orientation=0,
             center=(+length_mmi, y),
             width=width_taper_out,
-            layer=x.layer,
+            layer=gf.get_layer(x.layer),
             cross_section=x,
         )
         for i, y in enumerate(output_positions)

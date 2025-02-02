@@ -36,16 +36,10 @@ from kfactory.routing.generic import ManhattanRoute
 from kfactory.routing.optical import place90, route
 
 import gdsfactory as gf
-from gdsfactory.component import Component
+from gdsfactory.component import Component, ComponentSpec
+from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.routing.auto_taper import add_auto_tapers
-from gdsfactory.typings import (
-    STEP_DIRECTIVES,
-    ComponentSpec,
-    CrossSectionSpec,
-    LayerSpec,
-    Port,
-    WayPoints,
-)
+from gdsfactory.typings import STEP_DIRECTIVES, LayerSpec, Port, WayPoints
 
 
 def route_single(
@@ -133,12 +127,12 @@ def route_single(
         p1 = add_auto_tapers(component, [p1], cross_section)[0]
         p2 = add_auto_tapers(component, [p2], cross_section)[0]
 
-    def straight_dbu(width: int, length: int) -> Component:
+    def straight_dbu(width: int, length: int) -> kf.KCell:
         return gf.get_component(
             straight,
             length=c.kcl.to_um(length),
             cross_section=cross_section,
-        )
+        ).to_itype()
 
     end_straight = c.kcl.to_dbu(end_straight_length)
     start_straight = c.kcl.to_dbu(start_straight_length)
@@ -167,23 +161,23 @@ def route_single(
     if waypoints_list:
         w: list[kf.kdb.Point] = []
         if not isinstance(waypoints_list[0], kf.kdb.Point):
-            w.append(kf.kdb.Point(*p1.center))
+            w.append(c.kcl.to_dbu(kf.kdb.DPoint(*p1.center)))
             for p in waypoints_list:
                 if isinstance(p, tuple):
                     w.append(c.kcl.to_dbu(kf.kdb.DPoint(p[0], p[1])))
                 else:
                     w.append(p)
-            w.append(kf.kdb.Point(*p2.center))
+            w.append(c.kcl.to_dbu(kf.kdb.DPoint(*p2.center)))
         else:
             w = waypoints_list  # type: ignore
 
         try:
             return place90(
-                component,
-                p1=p1,
-                p2=p2,
+                component.to_itype(),
+                p1=p1.to_itype(),
+                p2=p2.to_itype(),
                 straight_factory=straight_dbu,
-                bend90_cell=bend90,
+                bend90_cell=bend90.to_itype(),
                 pts=w,
                 port_type=port_type,
                 allow_width_mismatch=allow_width_mismatch,
@@ -208,7 +202,7 @@ def route_single(
                 f" points (dbu): {pts}"
             )
             it.add_value(f"Exception: {e}")
-            path = kf.kdb.Path(pts, route_width or ps.width)
+            path = kf.kdb.Path(pts, route_width or c.kcl.to_dbu(ps.width))
             it.add_value(c.kcl.to_um(path.polygon()))
             c.show(lyrdb=db)
             raise kf.routing.generic.PlacerError(
@@ -218,11 +212,11 @@ def route_single(
 
     else:
         return route(
-            component,
-            p1=p1,
-            p2=p2,
+            component.to_itype(),
+            p1=p1.to_itype(),
+            p2=p2.to_itype(),
             straight_factory=straight_dbu,
-            bend90_cell=bend90,
+            bend90_cell=bend90.to_itype(),
             start_straight=start_straight,
             end_straight=end_straight,
             port_type=port_type,
@@ -277,9 +271,9 @@ def route_single_electrical(
         c.kcl.to_dbu(end_straight_length) if end_straight_length else None
     )
     route_elec(
-        c=component,
-        p1=port1,
-        p2=port2,
+        c=component.to_itype(),
+        p1=port1.to_itype(),
+        p2=port2.to_itype(),
         layer=layer,
         width=c.kcl.to_dbu(width),
         start_straight=start_straight_length,

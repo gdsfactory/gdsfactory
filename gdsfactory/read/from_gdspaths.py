@@ -19,7 +19,7 @@ def from_gdspaths(cells: "Sequence[ComponentOrPath]") -> Component:
         cells: List of gdspaths or Components.
 
     """
-    component = Component("merged")
+    component = Component(name="merged")
 
     for c in cells:
         if isinstance(c, str | pathlib.Path):

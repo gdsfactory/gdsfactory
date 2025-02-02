@@ -3,17 +3,12 @@ from __future__ import annotations
 from typing import Any
 
 import gdsfactory as gf
-from gdsfactory.component import Component
+from gdsfactory.component import Component, ComponentSpec
+from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_bundle import route_bundle_electrical
 from gdsfactory.routing.sort_ports import sort_ports_x
-from gdsfactory.typings import (
-    ComponentSpec,
-    CrossSectionSpec,
-    Float2,
-    SelectPorts,
-    Strs,
-)
+from gdsfactory.typings import Float2, SelectPorts, Strs
 
 
 def add_electrical_pads_top_dc(
@@ -65,7 +60,7 @@ def add_electrical_pads_top_dc(
     ports_component = [port.copy() for port in ports]
 
     for port in ports_component:
-        port.dangle = 90
+        port.orientation = 90
 
     pad_array_component = gf.get_component(pad_array, columns=len(ports))
     pads = c << pad_array_component

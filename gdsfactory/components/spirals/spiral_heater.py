@@ -3,18 +3,18 @@ from __future__ import annotations
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentReference
+from gdsfactory.component import (
+    Component,
+    ComponentFactory,
+    ComponentReference,
+    ComponentSpec,
+)
 from gdsfactory.components.bends.bend_euler import bend_euler
 from gdsfactory.components.bends.bend_s import bend_s, get_min_sbend_size
 from gdsfactory.components.waveguides.straight import straight
+from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.routing.route_single import route_single
-from gdsfactory.typings import (
-    ComponentFactory,
-    ComponentSpec,
-    CrossSectionSpec,
-    Floats,
-    Port,
-)
+from gdsfactory.typings import Floats, Port
 
 
 @gf.cell
@@ -211,7 +211,7 @@ def spiral_racetrack_fixed_length(
 
     c.info["length"] += spiral.ports["o1"].dx - spiral.dxmin
     o2_temp = gf.Port(
-        "o2_temp",
+        name="o2_temp",
         center=(spiral.ports["o1"].dx + in_out_port_spacing, spiral.ports["o1"].dy),
         orientation=180,
         cross_section=gf.get_cross_section(xs_s_bend),
