@@ -26,7 +26,7 @@ from pydantic import (
 )
 
 from gdsfactory import typings
-from gdsfactory.component import Component
+from gdsfactory.component import Component, ComponentBaseT
 from gdsfactory.config import CONF, ErrorType
 
 nm = 1e-3
@@ -351,12 +351,12 @@ class CrossSection(BaseModel):
 
     def add_bbox(
         self,
-        component: typings.ComponentT,
+        component: ComponentBaseT,
         top: float | None = None,
         bottom: float | None = None,
         right: float | None = None,
         left: float | None = None,
-    ) -> typings.ComponentT:
+    ) -> ComponentBaseT:
         """Add bounding box layers to a component.
 
         Args:

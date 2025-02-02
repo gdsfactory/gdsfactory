@@ -42,7 +42,6 @@ from rich.console import Console
 from rich.table import Table
 
 from gdsfactory import typings
-from gdsfactory.component import ComponentReference
 from gdsfactory.typings import (
     AngleInDegrees,
     LayerSpec,
@@ -57,7 +56,7 @@ from gdsfactory.typings import (
 )
 
 if TYPE_CHECKING:
-    from gdsfactory.component import Component, ComponentFactory
+    from gdsfactory.component import Component, ComponentFactory, ComponentReference
 
 valid_error_types = ["error", "warn", "ignore"]
 
@@ -296,6 +295,8 @@ def select_ports(
         List containing the selected ports.
 
     """
+    from gdsfactory.component import ComponentReference
+
     if isinstance(ports, ComponentReference):
         ports_ = list(ports.ports)
     else:

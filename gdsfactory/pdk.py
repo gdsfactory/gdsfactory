@@ -332,8 +332,6 @@ class Pdk(BaseModel):
     ) -> Component:
         """Returns component from a component spec."""
         cells = {**self.cells, **self.containers} if include_containers else self.cells
-        for cell in cells.items():
-            print(cell)
         return self._get_component(
             component=component, cells=cells, settings=settings, **kwargs
         )

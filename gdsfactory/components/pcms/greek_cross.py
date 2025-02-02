@@ -1,18 +1,15 @@
 """Greek cross test structure."""
 
 import gdsfactory as gf
-from gdsfactory.component import ComponentSpec, LayerSpecs
+from gdsfactory.component import ComponentSpec
 from gdsfactory.cross_section import CrossSectionSpec, metal1
-from gdsfactory.typings import Floats
+from gdsfactory.typings import Floats, LayerSpecs
 
 
 @gf.cell
 def greek_cross(
     length: float = 30,
-    layers: LayerSpecs = (
-        "WG",
-        "N",
-    ),
+    layers: LayerSpecs = ("WG", "N"),
     widths: Floats = (2.0, 3.0),
     offsets: Floats | None = None,
     via_stack: ComponentSpec = "via_stack_npp_m1",

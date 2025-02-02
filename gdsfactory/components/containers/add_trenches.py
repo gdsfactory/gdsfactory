@@ -4,8 +4,9 @@ from functools import partial
 from typing import Any
 
 import gdsfactory as gf
-from gdsfactory.component import ComponentSpec, LayerSpec
+from gdsfactory.component import ComponentSpec
 from gdsfactory.cross_section import CrossSectionSpec
+from gdsfactory.typings import LayerSpec
 
 
 @gf.cell

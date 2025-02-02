@@ -19,7 +19,12 @@ import numpy.typing as npt
 from numpy import mod, pi
 
 from gdsfactory._deprecation import deprecate
-from gdsfactory.component import Component, ComponentAllAngle, ComponentSpec
+from gdsfactory.component import (
+    AnyComponent,
+    Component,
+    ComponentAllAngle,
+    ComponentSpec,
+)
 from gdsfactory.component_layout import (
     GeometryHelper,
     parse_move,
@@ -35,7 +40,6 @@ from gdsfactory.cross_section import (
 from gdsfactory.pdk import get_layer_name
 from gdsfactory.typings import (
     AngleInDegrees,
-    AnyComponent,
     Axis,
     Coordinate,
     LayerSpec,

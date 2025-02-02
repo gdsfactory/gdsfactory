@@ -66,7 +66,7 @@ def resistance_meander(
     col.dmove((length_row - width, -width))
 
     # Creating entire straight net
-    N = Component("net")
+    N = Component(name="net")
     n = 1
     for i in range(num_rows):
         d = N.add_ref(T) if i != num_rows - 1 else N.add_ref(Row)

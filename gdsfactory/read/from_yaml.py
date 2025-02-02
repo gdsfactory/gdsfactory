@@ -894,20 +894,18 @@ def _get_references(
                 row_pitch=inst.array.row_pitch,
             )
         elif isinstance(inst.array, GridArray):
-            ref = ComponentReference(
-                c.create_inst(
-                    comp,
-                    na=inst.array.num_a,
-                    nb=inst.array.num_b,
-                    a=kf.kdb.Vector(
-                        c.kcl.to_dbu(inst.array.pitch_a[0]),
-                        c.kcl.to_dbu(inst.array.pitch_a[1]),
-                    ),
-                    b=kf.kdb.Vector(
-                        c.kcl.to_dbu(inst.array.pitch_b[0]),
-                        c.kcl.to_dbu(inst.array.pitch_b[1]),
-                    ),
-                )
+            ref = c.create_inst(
+                comp,
+                na=inst.array.num_a,
+                nb=inst.array.num_b,
+                a=kf.kdb.DVector(
+                    inst.array.pitch_a[0],
+                    inst.array.pitch_a[1],
+                ),
+                b=kf.kdb.DVector(
+                    inst.array.pitch_b[0],
+                    inst.array.pitch_b[1],
+                ),
             )
         else:
             ref = c.add_ref(comp, name=name)

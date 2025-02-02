@@ -273,7 +273,7 @@ def route_bundle(
             cross_section=xs,
         )
 
-    return kf.routing.optical.route_bundle(
+    return kf.routing.optical.route_bundle(  # type: ignore[call-overload, misc, no-any-return]
         component,
         ports1_,
         ports2_,
@@ -285,7 +285,7 @@ def route_bundle(
         ends=c.kcl.to_dbu(end_straight_length),
         min_straight_taper=c.kcl.to_dbu(min_straight_taper),
         place_port_type=port_type,
-        collision_check_layers=collision_check_layer_enums,  # type: ignore[arg-type]
+        collision_check_layers=collision_check_layer_enums,
         on_collision=on_collision,
         allow_width_mismatch=allow_width_mismatch,
         bboxes=list(bboxes or []),
@@ -315,47 +315,52 @@ if __name__ == "__main__":
     pdk.layer_transitions[LAYER.WG, LAYER.WGN] = gf.c.taper_sc_nc
     pdk.layer_transitions[LAYER.WGN, LAYER.WG] = gf.c.taper_nc_sc
 
-    c = gf.Component()
-    columns = 2
-    ptop = c << gf.components.pad_array(columns=columns, port_orientation=270)
-    pbot = c << gf.components.pad_array(port_orientation=270, columns=columns)
-    # pbot = c << gf.components.pad_array(port_orientation=90, columns=columns)
+    # c = gf.Component()
+    # columns = 2
+    # ptop = c << gf.components.pad_array(columns=columns, port_orientation=270)
+    # pbot = c << gf.components.pad_array(port_orientation=270, columns=columns)
+    # # pbot = c << gf.components.pad_array(port_orientation=90, columns=columns)
 
-    ptop.dmovex(300)
-    ptop.dmovey(300)
-    routes = gf.routing.route_bundle_electrical(
-        c,
-        list(reversed(pbot.ports)),
-        ptop.ports,
-        # end_straight_length=50,
-        start_straight_length=100,
-        separation=20,
-        bboxes=[ptop.bbox(), pbot.bbox()],
-        cross_section="metal_routing",
-        start_angles=None,
-        end_angles=None,
-    )
+    # ptop.dmovex(300)
+    # ptop.dmovey(300)
+    # routes = gf.routing.route_bundle_electrical(
+    #     c,
+    #     list(reversed(pbot.ports)),
+    #     ptop.ports,
+    #     # end_straight_length=50,
+    #     start_straight_length=100,
+    #     separation=20,
+    #     bboxes=[ptop.bbox(), pbot.bbox()],
+    #     cross_section="metal_routing",
+    #     start_angles=None,
+    #     end_angles=None,
+    #     route_width=2,
+    #     steps=[
+    #         {"dy": 1, "dx": 1},
+    #         {"dy": 2, "dx": 1},
+    #     ],
+    # )
 
-    c.show()
+    # c.show()
     # pbot.ports.print()
 
-    # c = gf.Component("demo")
-    # c1 = c << gf.components.mmi2x2()
-    # c2 = c << gf.components.mmi2x2()
-    # c2.dmove((100, 70))
-    # routes = route_bundle(
-    #     c,
-    #     [c1.ports["o2"], c1.ports["o1"]],
-    #     [c2.ports["o2"], c2.ports["o1"]],
-    #     separation=5,
-    #     cross_section="strip",
-    #     # end_straight_length=0,
-    #     # collision_check_layers=[(1, 0)],
-    #     # bboxes=[c1.bbox(), c2.bbox()],
-    #     # layer=(2, 0),
-    #     # straight=partial(gf.components.straight, layer=(2, 0), width=1),
-    # )
-    # c.show()
+    c = gf.Component(name="demo")
+    c1 = c << gf.components.mmi2x2()
+    c2 = c << gf.components.mmi2x2()
+    c2.dmove((100, 70))
+    routes = route_bundle(
+        c,
+        [c1.ports["o2"], c1.ports["o1"]],
+        [c2.ports["o2"], c2.ports["o1"]],
+        separation=5,
+        cross_section="strip",
+        # end_straight_length=0,
+        # collision_check_layers=[(1, 0)],
+        # bboxes=[c1.bbox(), c2.bbox()],
+        # layer=(2, 0),
+        # straight=partial(gf.components.straight, layer=(2, 0), width=1),
+    )
+    c.show()
 
     # dy = 200.0
     # xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]

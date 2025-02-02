@@ -157,12 +157,6 @@ RoutingStrategy: TypeAlias = Callable[..., Sequence[Route]]
 RoutingStrategies: TypeAlias = dict[str, RoutingStrategy]
 
 
-AnyComponent: TypeAlias = kf.kcell.ProtoKCell[float, Any]
-AnyComponentT = TypeVar("AnyComponentT", bound=AnyComponent)
-ComponentT = TypeVar("ComponentT", bound=kf.kcell.DKCell)
-AnyComponentFactory: TypeAlias = Callable[..., AnyComponent]
-AnyComponentPostProcess: TypeAlias = Callable[[AnyComponent], None]
-
 ComponentParams = ParamSpec("ComponentParams")
 
 PostProcess: TypeAlias = Callable[[kf.DKCell], None]
@@ -197,9 +191,6 @@ class Array(np.ndarray[Any, np.dtype[Any]], metaclass=ArrayMeta): ...
 
 __all__ = (
     "AngleInDegrees",
-    "AnyComponent",
-    "AnyComponentFactory",
-    "AnyComponentT",
     "Coordinate",
     "Coordinates",
     "Delta",

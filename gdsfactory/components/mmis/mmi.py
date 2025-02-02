@@ -90,11 +90,11 @@ def mmi(
 
     ports = [
         gf.Port(
-            f"in_{i}",
+            name=f"in_{i}",
             orientation=180,
             center=(0, y),
             width=w_taper,
-            layer=x.layer,
+            layer=gf.get_layer(x.layer),
             cross_section=x,
         )
         for i, y in enumerate(input_positions)
@@ -102,11 +102,11 @@ def mmi(
 
     ports += [
         gf.Port(
-            f"out_{i}",
+            name=f"out_{i}",
             orientation=0,
             center=(+length_mmi, y),
             width=w_taper,
-            layer=x.layer,
+            layer=gf.get_layer(x.layer),
             cross_section=x,
         )
         for i, y in enumerate(output_positions)

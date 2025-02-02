@@ -6,7 +6,7 @@ import pathlib
 import warnings
 from abc import ABC, abstractmethod
 from collections.abc import Callable, Iterable, Sequence
-from typing import TYPE_CHECKING, Any, Literal, Self, TypeAlias, overload
+from typing import TYPE_CHECKING, Any, Literal, Self, TypeAlias, TypeVar, overload
 
 import kfactory as kf
 import klayout.lay as lay
@@ -140,8 +140,12 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
     """
 
     @property
-    @abstractmethod
-    def layers(self) -> list[Layer]: ...
+    def layers(self) -> list[Layer]:
+        return [
+            (info.layer, info.datatype)
+            for info in self.kcl.layout.layer_infos()
+            if not self.bbox(self.kcl.layout.layer(info)).empty()
+        ]
 
     @abstractmethod
     def add_polygon(self, points: _PolygonPoints, layer: LayerSpec) -> None: ...
@@ -735,8 +739,8 @@ class Component(ComponentBase, kf.DKCell):
             column_pitch_dbu = self.kcl.to_dbu(column_pitch)
             row_pitch_dbu = self.kcl.to_dbu(row_pitch)
 
-            a = kf.kdb.Vector(column_pitch_dbu, 0)
-            b = kf.kdb.Vector(0, row_pitch_dbu)
+            a = kf.kdb.DVector(column_pitch_dbu, 0)
+            b = kf.kdb.DVector(0, row_pitch_dbu)
 
             inst = self.create_inst(
                 component,
@@ -1083,6 +1087,9 @@ class Component(ComponentBase, kf.DKCell):
     @overload
     def plot(
         self,
+        lyrdb: pathlib.Path | str | None = None,
+        display_type: Literal["image", "widget"] | None = None,
+        *,
         show_labels: bool = True,
         show_ruler: bool = True,
         return_fig: Literal[True] = True,
@@ -1091,6 +1098,9 @@ class Component(ComponentBase, kf.DKCell):
     @overload
     def plot(
         self,
+        lyrdb: pathlib.Path | str | None = None,
+        display_type: Literal["image", "widget"] | None = None,
+        *,
         show_labels: bool = True,
         show_ruler: bool = True,
         return_fig: Literal[False] = False,
@@ -1098,6 +1108,9 @@ class Component(ComponentBase, kf.DKCell):
 
     def plot(
         self,
+        lyrdb: pathlib.Path | str | None = None,
+        display_type: Literal["image", "widget"] | None = None,
+        *,
         show_labels: bool = True,
         show_ruler: bool = True,
         return_fig: bool = False,
@@ -1105,6 +1118,8 @@ class Component(ComponentBase, kf.DKCell):
         """Plots the Component using klayout.
 
         Args:
+            lyrdb: path to layer properties file.
+            display_type: if "image", displays the image.
             show_labels: if True, shows labels.
             show_ruler: if True, shows ruler.
             return_fig: if True, returns the figure.
@@ -1177,10 +1192,6 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):  # type: ignore
         VInstance(self).insert_into_flat(c, levels=0)
         c.plot(**kwargs)
 
-    @property
-    def layers(self) -> list[int]:
-        return list(self._shapes.keys())
-
     def dup(self) -> ComponentAllAngle:
         """Copy the full cell."""
         c = ComponentAllAngle(
@@ -1227,11 +1238,17 @@ ComponentAllAngleFactory: TypeAlias = Callable[..., ComponentAllAngle]
 ComponentFactoryDict: TypeAlias = dict[str, ComponentFactory]
 ComponentFactories: TypeAlias = Sequence[ComponentFactory]
 ComponentSpec: TypeAlias = str | ComponentFactory | dict[str, Any] | Component
+ComponentBaseT = TypeVar("ComponentBaseT", bound=ComponentBase)
 
 ComponentSpecOrList: TypeAlias = ComponentSpec | list[ComponentSpec]
 CellSpec: TypeAlias = str | ComponentFactory | dict[str, Any]
 ComponentSpecDict: TypeAlias = dict[str, ComponentSpec]
 ComponentSpecs: TypeAlias = Sequence[ComponentSpec]
+
+AnyComponent: TypeAlias = Component | ComponentAllAngle
+AnyComponentT = TypeVar("AnyComponentT", bound=AnyComponent)
+AnyComponentFactory: TypeAlias = Callable[..., AnyComponent]
+AnyComponentPostProcess: TypeAlias = Callable[[AnyComponent], None]
 
 
 def container(

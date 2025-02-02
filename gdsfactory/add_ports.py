@@ -151,6 +151,8 @@ def add_ports_from_markers_center(
         dx > xc: east
         dx < xc: west
     """
+    from gdsfactory.pdk import get_layer
+
     xc = xcenter or component.dx
     yc = ycenter or component.dy
     dxmax = component.dxmax
@@ -276,7 +278,7 @@ def add_ports_from_markers_center(
                 center=(x, y),
                 width=width,
                 orientation=orientation,
-                layer=layer,
+                layer=get_layer(layer),
                 port_type=port_type,
             )
             ports.append(port)

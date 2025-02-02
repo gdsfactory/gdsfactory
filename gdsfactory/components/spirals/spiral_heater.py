@@ -211,7 +211,7 @@ def spiral_racetrack_fixed_length(
 
     c.info["length"] += spiral.ports["o1"].dx - spiral.dxmin
     o2_temp = gf.Port(
-        "o2_temp",
+        name="o2_temp",
         center=(spiral.ports["o1"].dx + in_out_port_spacing, spiral.ports["o1"].dy),
         orientation=180,
         cross_section=gf.get_cross_section(xs_s_bend),

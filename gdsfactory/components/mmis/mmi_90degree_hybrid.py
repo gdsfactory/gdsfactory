@@ -95,14 +95,14 @@ def mmi_90degree_hybrid(
     ports = [
         # Inputs
         gf.Port(
-            "signal_in",
+            name="signal_in",
             orientation=180,
             center=(0, y_signal_in),
             width=w_taper,
             cross_section=x,
         ),
         gf.Port(
-            "LO_in",
+            name="LO_in",
             orientation=180,
             center=(0, y_lo_in),
             width=w_taper,
@@ -110,28 +110,28 @@ def mmi_90degree_hybrid(
         ),
         # Outputs
         gf.Port(
-            "I_out1",
+            name="I_out1",
             orientation=0,
             center=(length_mmi, y_signal_in),
             width=w_taper,
             cross_section=x,
         ),
         gf.Port(
-            "Q_out1",
+            name="Q_out1",
             orientation=0,
             center=(length_mmi, y_signal_in - gap_mmi - w_taper),
             width=w_taper,
             cross_section=x,
         ),
         gf.Port(
-            "Q_out2",
+            name="Q_out2",
             orientation=0,
             center=(length_mmi, y_lo_in),
             width=w_taper,
             cross_section=x,
         ),
         gf.Port(
-            "I_out2",
+            name="I_out2",
             orientation=0,
             center=(length_mmi, y_lo_in - gap_mmi - w_taper),
             width=w_taper,

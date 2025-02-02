@@ -33,7 +33,7 @@ def grating_coupler_loss(
     c = gf.Component()
     dx = pitch
 
-    xmin = 0
+    xmin = 0.0
 
     for i in range(3, nfibers, 2):
         g1 = c << gc

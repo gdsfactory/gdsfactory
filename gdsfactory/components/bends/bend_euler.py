@@ -7,10 +7,10 @@ from typing import Literal, overload
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentAllAngle
+from gdsfactory.component import AnyComponent, Component, ComponentAllAngle
 from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.path import euler
-from gdsfactory.typings import AnyComponent, LayerSpec
+from gdsfactory.typings import LayerSpec
 
 
 @overload

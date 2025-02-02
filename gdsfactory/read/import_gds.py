@@ -32,13 +32,13 @@ def import_gds(
             deprecate(f"kwargs {k!r}")
 
     temp_kcl = KCLayout(name=str(gdspath))
-    options = kf.kcell.load_layout_options()
+    options = kf.utilities.load_layout_options()
     options.warn_level = 0
     temp_kcl.read(gdspath, options=options)
-    cellname = cellname or temp_kcl.top_cell().name
+    cellname = cellname or temp_kcl.layout.top_cell().name
     kcell = temp_kcl[cellname]
     if rename_duplicated_cells:
-        read_options = kf.kcell.load_layout_options()
+        read_options = kf.utilities.load_layout_options()
         read_options.cell_conflict_resolution = (
             kf.kdb.LoadLayoutOptions.CellConflictResolution.RenameCell
         )
@@ -52,16 +52,15 @@ def import_gds(
         pp(c)
 
     temp_kcl.library.delete()
-    del kf.kcell.kcls[temp_kcl.name]
+    del kf.layout.kcls[temp_kcl.name]
     return c
 
 
-def kcell_to_component(kcell: kf.DKCell) -> Component:
+def kcell_to_component(kcell: kf.kcell.ProtoTKCell[Any]) -> Component:
     c = Component()
     c.kdb_cell.copy_tree(kcell.kdb_cell)
-    c.rebuild()
     c.add_ports(kcell.ports)
-    c._settings = kcell.settings.model_copy()
+    c.settings = kcell.settings.model_copy()
     c.info = kcell.info.model_copy()
     c.name = kcell.name
     return c

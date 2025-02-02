@@ -45,7 +45,7 @@ def extend_ports_list(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.Component("taper_extended")
+    c = gf.Component(name="taper_extended")
     c0 = gf.components.taper()
     e = extend_ports_list(c0.ports, extension="straight")
     c << c0

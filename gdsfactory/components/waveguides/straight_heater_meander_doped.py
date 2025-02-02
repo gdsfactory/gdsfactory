@@ -69,15 +69,18 @@ def straight_heater_meander_doped(
         straight_widths: width of the straight sections.
         taper_length: from the cross_section.
     """
+    from gdsfactory.pdk import get_layer
+
     rows = len(straight_widths)
     c = gf.Component()
     x = gf.get_cross_section(cross_section)
+    layer = get_layer(x.layer)
     p1 = gf.Port(
         name="p1",
         center=(0, 0),
         orientation=0,
         cross_section=x,
-        layer=x.layer,
+        layer=layer,
         width=x.width,
     )
     p2 = gf.Port(
@@ -85,7 +88,7 @@ def straight_heater_meander_doped(
         center=(0, spacing),
         orientation=0,
         cross_section=x,
-        layer=x.layer,
+        layer=layer,
         width=x.width,
     )
 

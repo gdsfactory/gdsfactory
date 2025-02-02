@@ -73,26 +73,26 @@ def mmi1x2(
     ports = [
         Port(
             name="o1",
-            angle=180,
+            orientation=180,
             center=(0, 0),
             width=width_taper,
-            layer=x.layer,
+            layer=gf.get_layer(x.layer),
             cross_section=x,
         ),
         Port(
             name="o2",
-            angle=0,
+            orientation=0,
             center=(+length_mmi, +a),
             width=width_taper,
-            layer=x.layer,
+            layer=gf.get_layer(x.layer),
             cross_section=x,
         ),
         Port(
             name="o3",
-            angle=0,
+            orientation=0,
             center=(+length_mmi, -a),
             width=width_taper,
-            layer=x.layer,
+            layer=gf.get_layer(x.layer),
             cross_section=x,
         ),
     ]
