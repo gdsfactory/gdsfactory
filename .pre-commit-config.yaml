@@ -12,13 +12,13 @@ repos:
       - id: nbstripout
         files: ".ipynb"
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.4.0
+    rev: v2.4.1
     hooks:
       - id: codespell
         additional_dependencies:
           - tomli
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: "v0.9.3"
+    rev: "v0.9.4"
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix, --config=pyproject.toml]
@@ -46,6 +46,6 @@ repos:
     hooks:
       - id: actionlint
   - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.5.24
+    rev: 0.5.26
     hooks:
       - id: uv-lock
