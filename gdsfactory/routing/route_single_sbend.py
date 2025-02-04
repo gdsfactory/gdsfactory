@@ -60,6 +60,7 @@ def route_single_sbend(
             f"Ports need to have orthogonal orientation {orthogonality_error}\n"
             f"port1 = {port1.orientation} deg and port2 = {port2.orientation}"
         )
+    return bend_ref
 
 
 if __name__ == "__main__":
