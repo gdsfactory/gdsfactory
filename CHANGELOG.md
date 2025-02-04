@@ -1,12 +1,11 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.31.4...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.32.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.32.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.32.0) - 2025-02-04
 
-No significant changes.
-
+- making auto tapering reflexive [#3647](https://github.com/gdsfactory/gdsfactory/pull/3647)
 
 ## [8.31.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.31.4) - 2025-02-02
 
