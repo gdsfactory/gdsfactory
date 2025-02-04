@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.32.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.32.0) - 2025-02-04
+
+No significant changes.
+
+
 ## [8.31.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.31.4) - 2025-02-02
 
 - flatten_nitride_transition [#3644](https://github.com/gdsfactory/gdsfactory/pull/3644)
