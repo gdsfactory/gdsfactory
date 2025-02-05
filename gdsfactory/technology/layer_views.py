@@ -572,9 +572,9 @@ class LayerView(BaseModel):
             dither_pattern = f"C{list(custom_hatch_patterns).index(str(hatch_name))}"
         else:
             warnings.warn(
-                f"Dither pattern {hatch_name!r} does not correspond to any KLayout built-in or custom pattern! Using 'solid' instead."
+                f"Dither pattern {hatch_name!r} does not correspond to any KLayout built-in or custom pattern! Using 'I3' instead."
             )
-            dither_pattern = "solid"
+            dither_pattern = "I3"
 
         # If line style name matches a named (built-in) KLayout pattern, use 'I<idx>' notation
         ls_name = getattr(self.line_style, "name", self.line_style)
@@ -586,9 +586,9 @@ class LayerView(BaseModel):
             line_style = f"C{list(custom_line_styles).index(str(ls_name))}"
         else:
             warnings.warn(
-                f"Line style {ls_name!r} does not correspond to any KLayout built-in or custom pattern! Using 'solid' instead."
+                f"Line style {ls_name!r} does not correspond to any KLayout built-in or custom pattern! Using 'I3' instead."
             )
-            line_style = "solid"
+            line_style = "I3"
 
         frame_color = (
             ensure_six_digit_hex_color(self.frame_color.as_hex())
