@@ -8,12 +8,7 @@ import klayout.db as kdb
 
 import gdsfactory as gf
 from gdsfactory._deprecation import deprecate
-from gdsfactory.component import (
-    Component,
-    ComponentReference,
-    ComponentSpec,
-    ComponentSpecOrList,
-)
+from gdsfactory.component import Component, ComponentReference
 from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.route_bundle import get_min_spacing, route_bundle
@@ -22,6 +17,8 @@ from gdsfactory.routing.utils import direction_ports_from_list_ports
 from gdsfactory.typings import (
     BoundingBox,
     BoundingBoxes,
+    ComponentSpec,
+    ComponentSpecOrList,
     Coordinates,
     PortsFactory,
     Strs,

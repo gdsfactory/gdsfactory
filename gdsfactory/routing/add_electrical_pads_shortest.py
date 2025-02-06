@@ -1,10 +1,17 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentSpec
+from gdsfactory.component import Component
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_quad import route_quad
-from gdsfactory.typings import AngleInDegrees, LayerSpec, PortsFactory, Size, Strs
+from gdsfactory.typings import (
+    AngleInDegrees,
+    ComponentSpec,
+    LayerSpec,
+    PortsFactory,
+    Size,
+    Strs,
+)
 
 
 def add_electrical_pads_shortest(

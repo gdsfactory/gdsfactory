@@ -8,8 +8,8 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory._deprecation import deprecate
-from gdsfactory.component import Component, ComponentReference, ComponentSpec
-from gdsfactory.typings import Floats, Ints, LayerSpec, LayerSpecs, Size
+from gdsfactory.component import Component, ComponentReference
+from gdsfactory.typings import ComponentSpec, Floats, Ints, LayerSpec, LayerSpecs, Size
 
 
 @gf.cell

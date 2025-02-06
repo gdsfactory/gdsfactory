@@ -4,10 +4,11 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory._deprecation import deprecate
-from gdsfactory.component import Component, ComponentSpec
+from gdsfactory.component import Component
 from gdsfactory.config import valid_port_orientations
 from gdsfactory.typings import (
     AngleInDegrees,
+    ComponentSpec,
     Float2,
     Ints,
     LayerSpec,

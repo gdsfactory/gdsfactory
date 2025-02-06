@@ -4,11 +4,11 @@ from collections.abc import Sequence
 from typing import Any
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentSpec, ComponentSpecOrList
+from gdsfactory.component import Component
 from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.route_fiber_array import route_fiber_array
-from gdsfactory.typings import SelectPorts
+from gdsfactory.typings import ComponentSpec, ComponentSpecOrList, SelectPorts
 
 
 def add_fiber_single(

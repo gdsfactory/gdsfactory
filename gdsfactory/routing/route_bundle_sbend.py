@@ -3,9 +3,9 @@ from __future__ import annotations
 from typing import Any
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentSpec
+from gdsfactory.component import Component
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
-from gdsfactory.typings import Ports
+from gdsfactory.typings import ComponentSpec, Ports
 
 
 def route_bundle_sbend(

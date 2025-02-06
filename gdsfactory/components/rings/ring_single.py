@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.component import ComponentSpec
 from gdsfactory.cross_section import CrossSectionSpec
+from gdsfactory.typings import ComponentSpec
 
 
 @gf.cell

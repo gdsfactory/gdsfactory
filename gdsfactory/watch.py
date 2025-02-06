@@ -27,11 +27,11 @@ from watchdog.events import (
 )
 from watchdog.observers import Observer
 
-from gdsfactory.component import Component, ComponentFactory, ComponentSpec
+from gdsfactory.component import Component, ComponentFactory
 from gdsfactory.config import cwd
 from gdsfactory.pdk import Pdk, get_active_pdk
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
-from gdsfactory.typings import PathType
+from gdsfactory.typings import ComponentSpec, PathType
 
 _MovedEvent: TypeAlias = DirMovedEvent | FileMovedEvent
 _CreatedEvent: TypeAlias = DirCreatedEvent | FileCreatedEvent

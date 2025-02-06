@@ -40,6 +40,7 @@ from gdsfactory.technology.layer_stack import LayerStack
 from gdsfactory.technology.layer_views import LayerViews
 from gdsfactory.typings import (
     AngleInDegrees,
+    ComponentSpec,
     Coordinates,
     Layer,
     LayerSpec,
@@ -660,10 +661,9 @@ class Component(ComponentBase, kf.DKCell):
 
         domain_box = kdb.DBox(left, bottom, right, top)
         if not c.dbbox().inside(domain_box):
-            kdb_cell = c.kcl.clip(c.kdb_cell, kdb.DBox(left, bottom, right, top))
+            kdb_cell = c.kcl.layout.clip(c.kdb_cell, kdb.DBox(left, bottom, right, top))
             c.kdb_cell.clear()
             c.kdb_cell.copy_tree(kdb_cell)
-            c.rebuild()
             kdb_cell.delete()
             if flatten:
                 c.flatten()
@@ -1237,13 +1237,9 @@ ComponentFactory: TypeAlias = Callable[..., Component]
 ComponentAllAngleFactory: TypeAlias = Callable[..., ComponentAllAngle]
 ComponentFactoryDict: TypeAlias = dict[str, ComponentFactory]
 ComponentFactories: TypeAlias = Sequence[ComponentFactory]
-ComponentSpec: TypeAlias = str | ComponentFactory | dict[str, Any] | Component
 ComponentBaseT = TypeVar("ComponentBaseT", bound=ComponentBase)
 
-ComponentSpecOrList: TypeAlias = ComponentSpec | list[ComponentSpec]
 CellSpec: TypeAlias = str | ComponentFactory | dict[str, Any]
-ComponentSpecDict: TypeAlias = dict[str, ComponentSpec]
-ComponentSpecs: TypeAlias = Sequence[ComponentSpec]
 
 AnyComponent: TypeAlias = Component | ComponentAllAngle
 AnyComponentT = TypeVar("AnyComponentT", bound=AnyComponent)
@@ -1252,7 +1248,7 @@ AnyComponentPostProcess: TypeAlias = Callable[[AnyComponent], None]
 
 
 def container(
-    component: "ComponentSpec",
+    component: ComponentSpec,
     function: Callable[..., None] | None = None,
     **kwargs: Any,
 ) -> Component:

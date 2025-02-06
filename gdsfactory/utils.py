@@ -7,8 +7,7 @@ import kfactory as kf
 import klayout.db as kdb
 
 if TYPE_CHECKING:
-    from gdsfactory.component import ComponentSpec
-    from gdsfactory.typings import BoundingBox, Coordinate
+    from gdsfactory.typings import BoundingBox, ComponentSpec, Coordinate
 
 
 def to_kdb_dboxes(

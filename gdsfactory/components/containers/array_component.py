@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory._deprecation import deprecate
-from gdsfactory.component import Component, ComponentSpec
-from gdsfactory.typings import PostProcesses, Size, Spacing
+from gdsfactory.component import Component
+from gdsfactory.typings import ComponentSpec, PostProcesses, Size, Spacing
 
 
 @gf.cell

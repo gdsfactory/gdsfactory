@@ -6,14 +6,8 @@ from typing import Any
 import kfactory as kf
 
 import gdsfactory as gf
-from gdsfactory.component import (
-    Component,
-    ComponentBase,
-    ComponentReference,
-    ComponentSpec,
-    container,
-)
-from gdsfactory.typings import Coordinate, LayerSpecs
+from gdsfactory.component import Component, ComponentBase, ComponentReference, container
+from gdsfactory.typings import ComponentSpec, Coordinate, LayerSpecs
 
 
 def get_padding_points(

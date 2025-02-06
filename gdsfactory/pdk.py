@@ -15,13 +15,7 @@ from kfactory.layer import LayerEnum
 from pydantic import BaseModel, ConfigDict, Field
 
 from gdsfactory import logger
-from gdsfactory.component import (
-    CellSpec,
-    Component,
-    ComponentBase,
-    ComponentFactory,
-    ComponentSpec,
-)
+from gdsfactory.component import CellSpec, Component, ComponentFactory
 from gdsfactory.config import CONF
 from gdsfactory.cross_section import CrossSection, CrossSectionFactory, CrossSectionSpec
 from gdsfactory.generic_tech import get_generic_pdk
@@ -30,6 +24,7 @@ from gdsfactory.serialization import clean_value_json, convert_tuples_to_lists
 from gdsfactory.symbols import floorplan_with_block_letters
 from gdsfactory.technology import LayerStack, LayerViews, klayout_tech
 from gdsfactory.typings import (
+    ComponentSpec,
     ConnectivitySpec,
     Layer,
     LayerSpec,
@@ -368,12 +363,10 @@ class Pdk(BaseModel):
         kwargs = kwargs or {}
         kwargs.update(settings)
 
-        if isinstance(component, ComponentBase):
-            return component  # type: ignore
-        elif isinstance(component, kf.DKCell):
-            return Component.from_kcell(component)
+        if isinstance(component, kf.DKCell):
+            return Component(base_kcell=component.base_kcell)
         elif callable(component):
-            return component(**kwargs)
+            return Component(base_kcell=component(**kwargs).base_kcell)
         elif isinstance(component, str):
             if component not in cell_names:
                 substring = component

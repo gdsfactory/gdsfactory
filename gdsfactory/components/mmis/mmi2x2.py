@@ -1,10 +1,11 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentSpec
+from gdsfactory.component import Component
 from gdsfactory.components.tapers.taper import taper as taper_function
 from gdsfactory.components.waveguides.straight import straight as straight_function
 from gdsfactory.cross_section import CrossSectionSpec
+from gdsfactory.typings import ComponentSpec
 
 
 @gf.cell

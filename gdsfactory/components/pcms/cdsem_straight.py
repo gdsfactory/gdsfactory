@@ -5,8 +5,9 @@ from __future__ import annotations
 from collections.abc import Sequence
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentSpec
+from gdsfactory.component import Component
 from gdsfactory.cross_section import CrossSectionSpec
+from gdsfactory.typings import ComponentSpec
 
 LINE_LENGTH = 420.0
 

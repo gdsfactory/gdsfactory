@@ -5,12 +5,12 @@ from functools import partial
 from typing import Any
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentSpec
+from gdsfactory.component import Component
 from gdsfactory.components.texts.text_rectangular_font import (
     pixel_array,
     rectangular_font,
 )
-from gdsfactory.typings import LayerSpec, LayerSpecs
+from gdsfactory.typings import ComponentSpec, LayerSpec, LayerSpecs
 
 
 @gf.cell

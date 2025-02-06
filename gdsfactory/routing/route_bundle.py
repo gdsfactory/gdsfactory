@@ -20,12 +20,12 @@ import kfactory as kf
 from kfactory.routing.generic import ManhattanRoute
 
 import gdsfactory as gf
-from gdsfactory.component import ComponentSpec
 from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
 from gdsfactory.typings import (
     STEP_DIRECTIVES,
+    ComponentSpec,
     Coordinates,
     LayerSpec,
     LayerSpecs,

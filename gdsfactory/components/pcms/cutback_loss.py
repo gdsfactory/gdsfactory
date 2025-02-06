@@ -5,8 +5,8 @@ from typing import Any
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.component import ComponentSpec
 from gdsfactory.cross_section import CrossSectionSpec
+from gdsfactory.typings import ComponentSpec
 
 
 def cutback_loss(

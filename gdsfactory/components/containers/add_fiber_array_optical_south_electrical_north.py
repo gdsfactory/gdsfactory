@@ -2,9 +2,9 @@ from typing import Any
 
 import gdsfactory as gf
 from gdsfactory._deprecation import deprecate
-from gdsfactory.component import Component, ComponentSpec
+from gdsfactory.component import Component
 from gdsfactory.cross_section import CrossSectionSpec
-from gdsfactory.typings import AngleInDegrees
+from gdsfactory.typings import AngleInDegrees, ComponentSpec
 
 
 @gf.cell

@@ -36,10 +36,16 @@ from kfactory.routing.generic import ManhattanRoute
 from kfactory.routing.optical import place90, route
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentSpec
+from gdsfactory.component import Component
 from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.routing.auto_taper import add_auto_tapers
-from gdsfactory.typings import STEP_DIRECTIVES, LayerSpec, Port, WayPoints
+from gdsfactory.typings import (
+    STEP_DIRECTIVES,
+    ComponentSpec,
+    LayerSpec,
+    Port,
+    WayPoints,
+)
 
 
 def route_single(

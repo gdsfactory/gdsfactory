@@ -6,13 +6,13 @@ import numpy as np
 from kfactory.conf import CheckInstances
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentSpec
+from gdsfactory.component import Component
 from gdsfactory.components.bends.bend_s import (
     bezier,
     find_min_curv_bezier_control_points,
 )
 from gdsfactory.cross_section import CrossSectionSpec
-from gdsfactory.typings import Delta, LayerSpec
+from gdsfactory.typings import ComponentSpec, Delta, LayerSpec
 
 
 @gf.cell

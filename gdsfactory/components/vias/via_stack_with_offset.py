@@ -7,8 +7,8 @@ from functools import partial
 from numpy import floor
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentSpec
-from gdsfactory.typings import LayerSpec, LayerSpecs, Size
+from gdsfactory.component import Component
+from gdsfactory.typings import ComponentSpec, LayerSpec, LayerSpecs, Size
 
 
 @gf.cell

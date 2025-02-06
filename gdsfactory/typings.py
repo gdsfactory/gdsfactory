@@ -166,6 +166,11 @@ Instance: TypeAlias = kf.DInstance
 ComponentOrPath: TypeAlias = PathType | kf.DKCell
 ComponentOrReference: TypeAlias = kf.DKCell | kf.DInstance
 
+ComponentSpec: TypeAlias = str | Callable[..., kf.DKCell] | dict[str, Any] | kf.DKCell
+ComponentSpecOrList: TypeAlias = ComponentSpec | list[ComponentSpec]
+ComponentSpecDict: TypeAlias = dict[str, ComponentSpec]
+ComponentSpecs: TypeAlias = Sequence[ComponentSpec]
+
 
 class TypedArray(np.ndarray[Any, np.dtype[Any]]):
     """based on https://github.com/samuelcolvin/pydantic/issues/380."""
@@ -191,6 +196,7 @@ class Array(np.ndarray[Any, np.dtype[Any]], metaclass=ArrayMeta): ...
 
 __all__ = (
     "AngleInDegrees",
+    "ComponentSpec",
     "Coordinate",
     "Coordinates",
     "Delta",

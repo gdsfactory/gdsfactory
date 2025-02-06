@@ -13,8 +13,8 @@ import kfactory as kf
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentSpec, ComponentSpecs
-from gdsfactory.typings import Anchor, Float2, Spacing
+from gdsfactory.component import Component
+from gdsfactory.typings import Anchor, ComponentSpec, ComponentSpecs, Float2, Spacing
 
 
 def grid(

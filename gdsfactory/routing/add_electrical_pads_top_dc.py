@@ -3,12 +3,12 @@ from __future__ import annotations
 from typing import Any
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentSpec
+from gdsfactory.component import Component
 from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_bundle import route_bundle_electrical
 from gdsfactory.routing.sort_ports import sort_ports_x
-from gdsfactory.typings import Float2, SelectPorts, Strs
+from gdsfactory.typings import ComponentSpec, Float2, SelectPorts, Strs
 
 
 def add_electrical_pads_top_dc(

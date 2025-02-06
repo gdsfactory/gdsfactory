@@ -3,8 +3,8 @@ from __future__ import annotations
 from collections.abc import Sequence
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentSpec
-from gdsfactory.typings import Delta
+from gdsfactory.component import Component
+from gdsfactory.typings import ComponentSpec, Delta
 
 
 @gf.cell

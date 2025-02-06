@@ -1,9 +1,8 @@
 """Greek cross test structure."""
 
 import gdsfactory as gf
-from gdsfactory.component import ComponentSpec
 from gdsfactory.cross_section import CrossSectionSpec, metal1
-from gdsfactory.typings import Floats, LayerSpecs
+from gdsfactory.typings import ComponentSpec, Floats, LayerSpecs
 
 
 @gf.cell

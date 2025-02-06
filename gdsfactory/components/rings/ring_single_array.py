@@ -3,8 +3,9 @@ from __future__ import annotations
 from typing import Any
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentSpec
+from gdsfactory.component import Component
 from gdsfactory.cross_section import CrossSectionSpec
+from gdsfactory.typings import ComponentSpec
 
 _list_of_dicts: tuple[dict[str, Any], ...] = (
     dict(length_x=10.0, radius=5.0),

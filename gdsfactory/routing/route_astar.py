@@ -11,9 +11,16 @@ from klayout.dbcore import Point
 from shapely.geometry import LineString
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentSpec
+from gdsfactory.component import Component
 from gdsfactory.cross_section import CrossSectionSpec
-from gdsfactory.typings import Coordinate, Coordinates, LayerSpec, Port, Route
+from gdsfactory.typings import (
+    ComponentSpec,
+    Coordinate,
+    Coordinates,
+    LayerSpec,
+    Port,
+    Route,
+)
 
 
 class Node:

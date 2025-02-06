@@ -3,11 +3,11 @@ from __future__ import annotations
 from typing import Any, Literal
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentSpec
+from gdsfactory.component import Component
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_quad import route_quad
 from gdsfactory.routing.sort_ports import sort_ports_x
-from gdsfactory.typings import Float2, LayerSpec, SelectPorts, Strs
+from gdsfactory.typings import ComponentSpec, Float2, LayerSpec, SelectPorts, Strs
 
 
 def add_electrical_pads_top(

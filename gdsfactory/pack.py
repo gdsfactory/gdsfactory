@@ -13,9 +13,9 @@ import numpy as np
 import numpy.typing as npt
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentSpec
+from gdsfactory.component import Component
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.typings import Anchor, Float2, Size
+from gdsfactory.typings import Anchor, ComponentSpec, Float2, Size
 
 
 def _pack_single_bin(
