@@ -61,9 +61,7 @@ Numerous foundries offer GDSFactory PDKs that are accessible under an NDA. To ga
 - AIM photonics PDK
 - AMF photonics PDK
 - Compoundtek photonics PDK
-- GlobalFoundries 45SPCLO Photonics PDK
 - Fraunhofer HHI Photonics PDK
-- IMEC photonics PDK
 - Smart Photonics Photonics PDK
 - TowerSemi PH18 photonics PDK
 - TowerSemi PH18DA photonics PDK by OpenLight
