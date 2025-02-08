@@ -304,6 +304,7 @@ def taper_nc_sc(
     ref.mirror_x()
     c.add_ports(ref.ports)
     c.auto_rename_ports()
+    c.flatten()
     return c
 
 

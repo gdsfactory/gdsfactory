@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.component import Component
+from gdsfactory.component import Component, ComponentReference
 from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.typings import ComponentSpec, Port
 
@@ -14,7 +14,7 @@ def route_single_sbend(
     cross_section: CrossSectionSpec = "strip",
     allow_layer_mismatch: bool = False,
     allow_width_mismatch: bool = False,
-) -> None:
+) -> ComponentReference:
     """Returns an Sbend to connect two ports.
 
     Args:
@@ -61,6 +61,7 @@ def route_single_sbend(
             f"Ports need to have orthogonal orientation {orthogonality_error}\n"
             f"port1 = {port1.orientation} deg and port2 = {port2.orientation}"
         )
+    return bend_ref
 
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-# GDSFactory 8.31.3
+# GDSFactory 8.32.0
 
 [![docs](https://github.com/gdsfactory/gdsfactory/actions/workflows/pages.yml/badge.svg)](https://gdsfactory.github.io/gdsfactory/)
 [![PyPI](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
@@ -61,9 +61,7 @@ Numerous foundries offer GDSFactory PDKs that are accessible under an NDA. To ga
 - AIM photonics PDK
 - AMF photonics PDK
 - Compoundtek photonics PDK
-- GlobalFoundries 45SPCLO Photonics PDK
 - Fraunhofer HHI Photonics PDK
-- IMEC photonics PDK
 - Smart Photonics Photonics PDK
 - TowerSemi PH18 photonics PDK
 - TowerSemi PH18DA photonics PDK by OpenLight

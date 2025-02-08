@@ -320,6 +320,7 @@ class LayerLevel(BaseModel):
         derived_layer: if the layer is derived, LogicalLayer to assign to the derived layer.
         thickness: layer thickness in um.
         thickness_tolerance: layer thickness tolerance in um.
+        width_tolerance: layer width tolerance in um.
         zmin: height position where material starts in um.
         zmin_tolerance: layer height tolerance in um.
         sidewall_angle: in degrees with respect to normal.
@@ -344,6 +345,7 @@ class LayerLevel(BaseModel):
     # Extrusion rules
     thickness: float
     thickness_tolerance: float | None = None
+    width_tolerance: float | None = None
     zmin: float
     zmin_tolerance: float | None = None
     sidewall_angle: float = 0.0

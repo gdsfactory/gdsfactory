@@ -5,10 +5,10 @@ from __future__ import annotations
 import warnings
 
 import gdsfactory as gf
-from gdsfactory.component import Component
+from gdsfactory.component import Component, ComponentSpec
 from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.port import Port
-from gdsfactory.typings import Ports
+from gdsfactory.typings import Layer, LayerSpec, Ports
 
 
 def add_auto_tapers(
@@ -30,7 +30,11 @@ def add_auto_tapers(
 
 
 def auto_taper_to_cross_section(
-    component: Component, port: Port, cross_section: CrossSectionSpec
+    component: gf.Component,
+    port: Port,
+    cross_section: CrossSectionSpec,
+    layer_transitions: dict[LayerSpec | tuple[Layer, Layer], ComponentSpec]
+    | None = None,
 ) -> Port:
     """Creates a taper from a port to a given cross section and places it in the component. The opposite port of the taper will be returned.
 
@@ -38,6 +42,7 @@ def auto_taper_to_cross_section(
         component: the component to place into
         port: a port to connect to, usually from a ComponentReference
         cross_section: a cross section to transition to
+        layer_transitions: the layer transitions dictionary to use (use the pdk default if None)
 
     Returns:
         The port at the opposite (unconnected end) of the taper.
@@ -47,18 +52,23 @@ def auto_taper_to_cross_section(
     cross_section = gf.get_cross_section(cross_section)
     cs_layer = gf.get_layer(cross_section.layer)
     cs_width = cross_section.width
-    pdk = gf.get_active_pdk()
-
+    if layer_transitions is None:
+        pdk = gf.get_active_pdk()
+        layer_transitions = pdk.layer_transitions
+    reverse = False
     if port_layer != cs_layer:
         try:
-            taper = pdk.layer_transitions[port_layer, cs_layer]
+            taper = layer_transitions.get((port_layer, cs_layer))
+            if taper is None:
+                taper = layer_transitions[cs_layer, port_layer]
+                reverse = True
         except KeyError as e:
             raise KeyError(
                 f"No registered tapers between routing layers {gf.get_layer_name(port_layer)!r} and {gf.get_layer_name(cs_layer)!r}!"
             ) from e
     elif port_width != cs_width:
         try:
-            taper = pdk.layer_transitions[port_layer]
+            taper = layer_transitions[port_layer]
         except KeyError:
             warnings.warn(
                 f"No registered width taper for layer {port_layer}. Skipping."
@@ -66,7 +76,12 @@ def auto_taper_to_cross_section(
             return port
     else:
         return port
-    taper_component = gf.get_component(taper, width1=port_width, width2=cs_width)
+    if reverse:
+        taper_component = gf.get_component(taper, width2=port_width, width1=cs_width)
+    else:
+        taper_component = gf.get_component(taper, width1=port_width, width2=cs_width)
+
+    # ensure we filter out i.e. extra electrical ports if we should be looking at optical ones
     taper_ports = [p for p in taper_component.ports if p.port_type == port.port_type]
 
     if len(taper_ports) != 2:
@@ -81,7 +96,7 @@ def auto_taper_to_cross_section(
         width = port.width
         layer = port.layer
         raise ValueError(
-            f"Taper component ports do not match the port's layer and width! Got {taper_ports}. and {layer}, {width}"
+            f"Taper component ports do not match the port's layer and width!\nTaper name: {taper_component.name}\nPorts: {taper_ports}\nCross-section: {layer=}, {width=}"
         )
     taper_ref = component.add_ref(taper_component)
     assert p0.name is not None
