@@ -426,6 +426,7 @@ def test_route_bundle_u_indirect(
         radius=5,
         cross_section="strip",
     )
+    c.show()
     lengths = {i: route.length for i, route in enumerate(routes)}
     if check:
         data_regression.check(lengths)  # type: ignore
@@ -511,7 +512,8 @@ def test_route_bundle_width() -> None:
 
 
 if __name__ == "__main__":
-    test_route_bundle_width()
+    pytest.main([__file__])
+    # test_route_bundle_width()
     # test_route_bundle_small()
     # test_route_bundle_udirect(None, check=False)
     # test_route_bundle(None)

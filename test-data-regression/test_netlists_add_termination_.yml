@@ -86,7 +86,7 @@ warnings:
       - taper_L10_W0p5_W0p1_LNo_81147eb0_0_0,o2
       - taper_L10_W0p5_W0p1_LNo_81147eb0_10000_0,o2
       values:
-      - - -10000
+      - - -10
         - 0
-      - - 20000
+      - - 20
         - 0

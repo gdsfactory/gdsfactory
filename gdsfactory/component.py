@@ -736,19 +736,10 @@ class Component(ComponentBase, kf.DKCell):
             if columns > 1 and column_pitch == 0:
                 raise ValueError(f"columns = {columns} > 1 require {column_pitch} > 0")
 
-            column_pitch_dbu = self.kcl.to_dbu(column_pitch)
-            row_pitch_dbu = self.kcl.to_dbu(row_pitch)
+            a = kf.kdb.DVector(column_pitch, 0)
+            b = kf.kdb.DVector(0, row_pitch)
 
-            a = kf.kdb.DVector(column_pitch_dbu, 0)
-            b = kf.kdb.DVector(0, row_pitch_dbu)
-
-            inst = self.create_inst(
-                component,
-                na=columns,
-                nb=rows,
-                a=a,
-                b=b,
-            )
+            inst = self.create_inst(component, na=columns, nb=rows, a=a, b=b)
         else:
             inst = self.create_inst(component)
 

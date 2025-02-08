@@ -18,13 +18,21 @@ def test_route_bundle_sort_ports(
 
     right_ports = [
         gf.Port(
-            f"R_{i}", center=(0, ys_right[i]), width=0.5, orientation=180, layer=layer
+            name=f"R_{i}",
+            center=(0, ys_right[i]),
+            width=0.5,
+            orientation=180,
+            layer=gf.kcl.layout.layer(*layer),
         )
         for i in range(N)
     ]
     left_ports = [
         gf.Port(
-            f"L_{i}", center=(-400, ys_left[i]), width=0.5, orientation=0, layer=layer
+            name=f"L_{i}",
+            center=(-400, ys_left[i]),
+            width=0.5,
+            orientation=0,
+            layer=gf.kcl.layout.layer(*layer),
         )
         for i in range(N)
     ]
@@ -52,13 +60,21 @@ if __name__ == "__main__":
 
     right_ports = [
         gf.Port(
-            f"R_{i}", center=(0, ys_right[i]), width=0.5, orientation=180, layer=layer
+            name=f"R_{i}",
+            center=(0, ys_right[i]),
+            width=0.5,
+            orientation=180,
+            layer=gf.kcl.layout.layer(*layer),
         )
         for i in range(N)
     ]
     left_ports = [
         gf.Port(
-            f"L_{i}", center=(-400, ys_left[i]), width=0.5, orientation=0, layer=layer
+            name=f"L_{i}",
+            center=(-400, ys_left[i]),
+            width=0.5,
+            orientation=0,
+            layer=gf.kcl.layout.layer(*layer),
         )
         for i in range(N)
     ]

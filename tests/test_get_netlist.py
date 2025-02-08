@@ -291,4 +291,4 @@ def test_get_netlist_transformed() -> None:
 
 
 if __name__ == "__main__":
-    test_netlist_complex()
+    test_get_netlist_rotated()

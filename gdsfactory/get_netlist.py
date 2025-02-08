@@ -224,15 +224,15 @@ def get_netlist(
                 instances[reference_name]["array"] = {
                     "columns": reference.na,
                     "rows": reference.nb,
-                    "column_pitch": reference.da.x,
-                    "row_pitch": reference.db.y,
+                    "column_pitch": reference.instance.da.x,
+                    "row_pitch": reference.instance.db.y,
                 }
             else:
                 instances[reference_name]["array"] = {
                     "num_a": reference.na,
                     "num_b": reference.nb,
-                    "pitch_a": (reference.da.x, reference.da.y),
-                    "pitch_b": (reference.db.x, reference.db.y),
+                    "pitch_a": (reference.instance.da.x, reference.instance.da.y),
+                    "pitch_b": (reference.instance.db.x, reference.instance.db.y),
                 }
             reference_name = get_instance_name(reference)
             for ia in range(reference.na):
@@ -270,7 +270,6 @@ def get_netlist(
         )
         if warnings_t:
             warnings[port_type] = warnings_t
-
         for connection in connections_t:
             if len(connection) == 2:
                 src, dst = connection
@@ -356,7 +355,7 @@ def _extract_connections(
 
     for port_name in unconnected_port_names:
         port = ports[port_name]
-        by_xy[port.center].append(port_name)
+        by_xy[port.to_itype().center].append(port_name)
 
     unconnected_port_names = []
 

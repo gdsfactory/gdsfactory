@@ -165,7 +165,6 @@ def via_stack(
 
             nb_vias_x = int(np.floor(nb_vias_x)) or 1
             nb_vias_y = int(np.floor(nb_vias_y)) or 1
-
             ref = c.add_ref(
                 via,
                 columns=nb_vias_x,
@@ -398,6 +397,6 @@ via_stack_slab_m1_horizontal = partial(via_stack_slab_m1, slot_horizontal=True)
 
 
 if __name__ == "__main__":
-    c = via_stack_corner45_extended()
+    c = via_stack_slab_m1_horizontal()
     c.pprint_ports()
     c.show()
