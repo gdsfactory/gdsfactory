@@ -440,7 +440,7 @@ class Pdk(BaseModel):
                 f"CrossSectionFactory, Transition, string or dict), got {type(cross_section)}"
             )
 
-    def get_layer(self, layer: LayerSpec) -> LayerEnum | int:
+    def get_layer(self, layer: LayerSpec | kf.kdb.LayerInfo) -> LayerEnum | int:
         """Returns layer from a layer spec."""
         if isinstance(layer, LayerEnum | int):
             return layer
@@ -448,6 +448,8 @@ class Pdk(BaseModel):
             if len(layer) != 2:
                 raise ValueError(f"{layer!r} needs two integer numbers.")
             return kf.kcl.layout.layer(*layer)
+        elif isinstance(layer, kf.kdb.LayerInfo):
+            return layer.layer
         else:
             if not hasattr(self.layers, layer):
                 raise ValueError(f"{layer!r} not in {self.layers}")
@@ -621,7 +623,7 @@ def get_cross_section(cross_section: CrossSectionSpec, **kwargs: Any) -> CrossSe
     return get_active_pdk().get_cross_section(cross_section, **kwargs)
 
 
-def get_layer(layer: LayerSpec) -> LayerEnum | int:
+def get_layer(layer: LayerSpec | kf.kdb.LayerInfo) -> LayerEnum | int:
     return get_active_pdk().get_layer(layer)
 
 

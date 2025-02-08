@@ -72,7 +72,7 @@ def test_connect_corner(
         a = 100.0
         ports_A_TR = [
             Port(
-                f"A_TR_{i}",
+                name=f"A_TR_{i}",
                 center=(d, a / 2 + i * sep),
                 width=0.5,
                 orientation=0,
