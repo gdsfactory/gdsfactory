@@ -105,7 +105,7 @@ exclude = [
   "gdsfactory/export/to_svg.py",
   "test-data-gds/.",
   "gdsfactory/samples/demo/layers_sky130.py",
-  "tests/*",
+  # "tests/*",
   "notebooks/*"
 ]
 python_version = "3.11"

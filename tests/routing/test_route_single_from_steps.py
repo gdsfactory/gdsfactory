@@ -33,7 +33,7 @@ def test_route_from_steps() -> None:
 
 def test_route_waypoints() -> None:
     """Test route_single with waypoints."""
-    c = gf.Component("electrical")
+    c = gf.Component(name="electrical")
     w = gf.components.wire_straight()
     left = c << w
     right = c << w
@@ -46,8 +46,8 @@ def test_route_waypoints() -> None:
 
     p0 = left.ports["e2"]
     p1 = right.ports["e2"]
-    p0x, p0y = left.ports["e2"].dcenter
-    p1x, p1y = right.ports["e2"].dcenter
+    p0x, p0y = left.ports["e2"].center
+    p1x, p1y = right.ports["e2"].center
     o = 10  # vertical offset to overcome bottom obstacle
     ytop = 20
 
@@ -80,8 +80,8 @@ def test_route_waypoints_numpy() -> None:
 
     p0 = left.ports["e2"]
     p1 = right.ports["e2"]
-    p0x, p0y = left.ports["e2"].dcenter
-    p1x, p1y = right.ports["e2"].dcenter
+    p0x, p0y = left.ports["e2"].center
+    p1x, p1y = right.ports["e2"].center
     o = 10  # vertical offset to overcome bottom obstacle
     ytop = 20
 

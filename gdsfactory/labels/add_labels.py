@@ -23,7 +23,7 @@ def add_port_labels(
     for text, port in zip(texts, ports):
         component.add_label(
             text=text,
-            position=port.dcenter,
+            position=port.center,
             layer=layer,
         )
     return component

@@ -53,7 +53,7 @@ def coupler_symmetric(
     bend_port1_name = bend_ports[0].name
     bend_port2_name = bend_ports[1].name
 
-    w = bend_component[bend_port1_name].dwidth
+    w = bend_component[bend_port1_name].width
     y = w + gap
     y /= 2
 

@@ -65,7 +65,7 @@ def _flip_ref(c_ref: ComponentReference, port_name: str) -> ComponentReference:
         raise ValueError(f"{port_name=} not in {c_ref.cell.name!r} {port_names}")
     a = c_ref.ports[port_name].orientation
     if a in [0, 180]:
-        y = c_ref.ports[port_name].dcenter[1]
+        y = c_ref.ports[port_name].center[1]
         c_ref.dmirror_y(y)
     else:
         c_ref.dmirror_x(port_name)  # type: ignore

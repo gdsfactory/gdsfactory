@@ -5,7 +5,6 @@ from gdsfactory.component import Component
 from gdsfactory.components.tapers.taper import taper as taper_function
 from gdsfactory.components.waveguides.straight import straight as straight_function
 from gdsfactory.cross_section import CrossSectionSpec
-from gdsfactory.port import Port
 from gdsfactory.typings import ComponentSpec
 
 
@@ -71,8 +70,10 @@ def mmi1x2(
     a = gap_mmi / 2 + width_taper / 2
     _ = c << gf.get_component(straight, length=length_mmi, cross_section=xs_mmi)
 
+    temp_component = Component()
+
     ports = [
-        Port(
+        temp_component.add_port(
             name="o1",
             orientation=180,
             center=(0, 0),
@@ -80,7 +81,7 @@ def mmi1x2(
             layer=gf.get_layer(x.layer),
             cross_section=x,
         ),
-        Port(
+        temp_component.add_port(
             name="o2",
             orientation=0,
             center=(+length_mmi, +a),
@@ -88,7 +89,7 @@ def mmi1x2(
             layer=gf.get_layer(x.layer),
             cross_section=x,
         ),
-        Port(
+        temp_component.add_port(
             name="o3",
             orientation=0,
             center=(+length_mmi, -a),

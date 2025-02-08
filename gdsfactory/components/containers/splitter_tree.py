@@ -73,8 +73,8 @@ def splitter_tree(
 
     if bend_s:
         dy_coupler_ports = abs(
-            coupler.ports[e0_port_name].dcenter[1]
-            - coupler.ports[e1_port_name].dcenter[1]
+            coupler.ports[e0_port_name].center[1]
+            - coupler.ports[e1_port_name].center[1]
         )
         bend_s_ysize = dy / 4 - dy_coupler_ports / 2
         bend_s_xsize = bend_s_xsize or dx

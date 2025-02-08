@@ -90,10 +90,10 @@ def pprint_ports(ports: Ports) -> None:
             str(i)
             for i in [
                 port.name,
-                np.round(port.dwidth, 3),
+                np.round(port.width, 3),
                 port.orientation,
                 port.layer_info,
-                port.dcenter,
+                port.center,
                 port.port_type,
             ]
         ]
@@ -109,7 +109,7 @@ def to_dict(port: kf.port.ProtoPort[Any]) -> dict[str, Any]:
     """Returns dict."""
     return {
         "name": port.name,
-        "center": port.dcenter,
+        "center": port.center,
         "width": port.width,
         "orientation": port.orientation,
         "layer": port.layer,
@@ -359,7 +359,7 @@ def move_copy(port: typings.Port, x: int = 0, y: int = 0) -> typings.Port:
         "Port.move_copy(...) should be used instead of move_copy(Port, ...).",
     )
     _port = port.copy()
-    _port.dcenter = (port.dcenter[0] + x, port.dcenter[1] + y)
+    _port.center = (port.center[0] + x, port.center[1] + y)
     return _port
 
 

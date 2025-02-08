@@ -134,13 +134,13 @@ def test_extrude_port_centers() -> None:
     xs = gf.CrossSection(sections=(s0, s1))
     s = gf.components.straight(cross_section=xs)
 
-    assert s.ports["e1"].dcenter[0] == s.ports["o1"].dcenter[0]
-    assert s.ports["e1"].dcenter[1] == s.ports["o1"].dcenter[1] - s1_offset, s.ports[
+    assert s.ports["e1"].center[0] == s.ports["o1"].center[0]
+    assert s.ports["e1"].center[1] == s.ports["o1"].center[1] - s1_offset, s.ports[
         "e1"
-    ].dcenter[1]
+    ].center[1]
 
-    assert s.ports["e2"].dcenter[0] == s.ports["o2"].dcenter[0]
-    assert s.ports["e2"].dcenter[1] == s.ports["o2"].dcenter[1] - s1_offset
+    assert s.ports["e2"].center[0] == s.ports["o2"].center[0]
+    assert s.ports["e2"].center[1] == s.ports["o2"].center[1] - s1_offset
 
 
 def test_extrude_component_along_path() -> None:

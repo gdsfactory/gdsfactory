@@ -14,7 +14,7 @@ from types import ModuleType
 from typing import Any, Self, TypeAlias
 
 import numpy as np
-from kfactory import SymmetricalCrossSection, logger
+from kfactory import DCrossSection, SymmetricalCrossSection, logger
 from pydantic import (
     BaseModel,
     ConfigDict,
@@ -412,7 +412,12 @@ class CrossSection(BaseModel):
 
 CrossSectionFactory: TypeAlias = Callable[..., CrossSection]
 CrossSectionSpec: TypeAlias = (
-    CrossSection | str | dict[str, Any] | CrossSectionFactory | SymmetricalCrossSection
+    CrossSection
+    | str
+    | dict[str, Any]
+    | CrossSectionFactory
+    | SymmetricalCrossSection
+    | DCrossSection
 )
 MultiCrossSectionAngleSpec: TypeAlias = Sequence[
     tuple[CrossSectionSpec, tuple[int, ...]]
@@ -421,7 +426,7 @@ MultiCrossSectionAngleSpec: TypeAlias = Sequence[
 CrossSection.model_rebuild()
 
 
-class Transition(BaseModel):
+class Transition(BaseModel, arbitrary_types_allowed=True):
     """Waveguide information to extrude a path between two CrossSection.
 
     cladding_layers follow path shape
@@ -621,7 +626,7 @@ def cross_section(
             )
         ]
     return CrossSection(
-        sections=s,
+        sections=tuple(s),
         radius=radius,
         radius_min=radius_min,
         bbox_layers=bbox_layers,

@@ -481,7 +481,7 @@ def route_ports_to_y(
 
         new_port = port.copy()
         new_port.orientation = angle
-        new_port.dcenter = (x, y_float + extension_length)
+        new_port.center = (x, y_float + extension_length)
 
         if np.sum(np.abs((np.array(new_port.center) - port.center) ** 2)) < 1:
             l_ports += [flipped(new_port)]
@@ -566,7 +566,7 @@ if __name__ == "__main__":
     #     x=50,
     #     side="east",
     # )
-    routes, _ = gf.routing.route_ports_to_side(
+    routes, _ = route_ports_to_side(
         c,
         ports=dummy_ref.ports,
         cross_section=cross_section,
@@ -579,7 +579,7 @@ if __name__ == "__main__":
 
     # for pos, side in zip(positions, sides):
     #     dummy_ref = c << dummy
-    #     dummy_ref.dcenter = pos
+    #     dummy_ref.center = pos
     #     routes = route_ports_to_side(c, dummy_ref.ports, side, layer=(1, 0))
 
     c.show()

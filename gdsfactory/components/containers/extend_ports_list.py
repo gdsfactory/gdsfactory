@@ -52,7 +52,7 @@ if __name__ == "__main__":
     c << e
     c.show()
 
-    # c = gf.Component("mmi_extended")
+    # c = gf.Component(name="mmi_extended")
     # m = gf.components.mmi1x2()
     # t = partial(gf.components.taper, width2=0.1)
     # e = extend_ports_list(

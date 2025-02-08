@@ -41,7 +41,7 @@ def move_port_to_zero(
     if mirror:
         ref.dmirror()
 
-    movement = np.array(ref.ports[port_name].dcenter)
+    movement = np.array(ref.ports[port_name].center)
     ref.dmove(tuple(-movement))
     c.add_ports(ref.ports)
     c.copy_child_info(component)

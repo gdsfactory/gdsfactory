@@ -31,35 +31,35 @@ def test_add_ports_from_pins() -> None:
     )
 
     c2 = gf.import_gds(gdspath, post_process=(add_ports,))
-    assert c2.ports["o1"].dcenter[0] == 0, c2.ports["o1"].dcenter[0]
-    assert c2.ports["o2"].dcenter[0] == x, c2.ports["o2"].dcenter[0]
+    assert c2.ports["o1"].center[0] == 0, c2.ports["o1"].center[0]
+    assert c2.ports["o2"].center[0] == x, c2.ports["o2"].center[0]
 
 
 def test_add_ports_from_pins_path() -> None:
     x = 1.239
     c = gf.components.straight(length=x)
     c = gf.add_pins.add_pins_siepic_container(c)
-    assert c.ports["o1"].dcenter[0] == 0
-    assert c.ports["o2"].dcenter[0] == x, c.ports["o2"].dcenter[0]
+    assert c.ports["o1"].center[0] == 0
+    assert c.ports["o2"].center[0] == x, c.ports["o2"].center[0]
     gdspath = c.write_gds(with_metadata=False)
     c2 = gf.import_gds(gdspath, post_process=(add_ports_from_siepic_pins,))
-    assert c2.ports["o1"].dcenter[0] == 0, c2.ports["o1"].dcenter[0]
-    assert c2.ports["o2"].dcenter[0] == x, c2.ports["o2"].dcenter[0]
+    assert c2.ports["o1"].center[0] == 0, c2.ports["o1"].center[0]
+    assert c2.ports["o2"].center[0] == x, c2.ports["o2"].center[0]
 
 
 def test_add_ports_from_labels() -> None:
     x = 1.238
     c = gf.components.straight(length=x)
     c = gf.add_pins.add_pins_container(c)
-    port_width = c.ports["o1"].dwidth
+    port_width = c.ports["o1"].width
     gdspath = c.write_gds(with_metadata=False)
     add_ports = partial(
         add_ports_from_labels, port_layer=LAYER.TEXT, port_width=port_width
     )
 
     c2 = gf.import_gds(gdspath, post_process=(add_ports,))
-    assert c2.ports["o1"].dcenter[0] == 0
-    assert c2.ports["o2"].dcenter[0] == x, c2.ports["o2"].dcenter[0]
+    assert c2.ports["o1"].center[0] == 0
+    assert c2.ports["o2"].center[0] == x, c2.ports["o2"].center[0]
 
 
 if __name__ == "__main__":

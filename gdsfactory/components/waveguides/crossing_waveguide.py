@@ -240,7 +240,7 @@ def crossing45(
     x = c << crossing
     x.drotate(45)
 
-    p_e = x.ports["o3"].dcenter
+    p_e = x.ports["o3"].center
     dx = dx or port_spacing
     dy = port_spacing / 2
 

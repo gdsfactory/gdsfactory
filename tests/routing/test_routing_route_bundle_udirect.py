@@ -58,7 +58,7 @@ def test_route_connect_bundle_udirect(
     if axis == "X":
         ports1 = [
             Port(
-                f"top_{i}",
+                name=f"top_{i}",
                 center=(0, xs1[i]),
                 width=0.5,
                 orientation=orientation,
@@ -69,7 +69,7 @@ def test_route_connect_bundle_udirect(
 
         ports2 = [
             Port(
-                f"bottom_{i}",
+                name=f"bottom_{i}",
                 center=(dy, xs2[i]),
                 width=0.5,
                 orientation=orientation,
@@ -81,7 +81,7 @@ def test_route_connect_bundle_udirect(
     else:
         ports1 = [
             Port(
-                f"top_{i}",
+                name=f"top_{i}",
                 center=(xs1[i], 0),
                 width=0.5,
                 orientation=orientation,
@@ -92,7 +92,7 @@ def test_route_connect_bundle_udirect(
 
         ports2 = [
             Port(
-                f"bottom_{i}",
+                name=f"bottom_{i}",
                 center=(xs2[i], dy),
                 width=0.5,
                 orientation=orientation,

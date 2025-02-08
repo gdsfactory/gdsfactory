@@ -56,7 +56,7 @@ def fanout2x2(
     p_e1 = ref.ports["o3"]
     p_e0 = ref.ports["o4"]
 
-    y0 = p_e1.dcenter[1]
+    y0 = p_e1.center[1]
     dy = y - y0
 
     x = gf.get_cross_section(cross_section, **kwargs)

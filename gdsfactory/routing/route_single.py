@@ -152,7 +152,7 @@ def route_single(
         steps = []
 
     if steps:
-        x, y = port1.dcenter
+        x, y = port1.center
         for d in steps:
             if not STEP_DIRECTIVES.issuperset(d):
                 invalid_step_directives = list(set[str](d.keys()) - STEP_DIRECTIVES)
@@ -288,7 +288,7 @@ def route_single_electrical(
 
 
 if __name__ == "__main__":
-    # c = gf.Component("demo")
+    # c = gf.Component(name="demo")
     # s = gf.c.wire_straight()
     # pt = c << s
     # pb = c << s
@@ -303,7 +303,7 @@ if __name__ == "__main__":
     # )
     # c.show()
 
-    # c = gf.Component("waypoints_sample")
+    # c = gf.Component(name="waypoints_sample")
     # w = gf.components.straight()
     # left = c << w
     # right = c << w
@@ -317,8 +317,8 @@ if __name__ == "__main__":
 
     # p0 = left.ports["o2"]
     # p1 = right.ports["o2"]
-    # p0x, p0y = left.ports["o2"].dcenter
-    # p1x, p1y = right.ports["o2"].dcenter
+    # p0x, p0y = left.ports["o2"].center
+    # p1x, p1y = right.ports["o2"].center
     # o = 10  # vertical offset to overcome bottom obstacle
     # ytop = 20
 
@@ -336,7 +336,7 @@ if __name__ == "__main__":
     # )
     # c.show()
 
-    # c = gf.Component("electrical")
+    # c = gf.Component(name="electrical")
     # w = gf.components.wire_straight()
     # left = c << w
     # right = c << w
@@ -349,8 +349,8 @@ if __name__ == "__main__":
 
     # p0 = left.ports["e2"]
     # p1 = right.ports["e2"]
-    # p0x, p0y = left.ports["e2"].dcenter
-    # p1x, p1y = right.ports["e2"].dcenter
+    # p0x, p0y = left.ports["e2"].center
+    # p1x, p1y = right.ports["e2"].center
     # o = 10  # vertical offset to overcome bottom obstacle
     # ytop = 20
 
@@ -384,7 +384,7 @@ if __name__ == "__main__":
     # c.show()
     # import gdsfactory as gf
 
-    # c = gf.Component("route_single_from_steps_sample")
+    # c = gf.Component(name="route_single_from_steps_sample")
     # w = gf.components.straight()
     # left = c << w
     # right = c << w

@@ -135,8 +135,10 @@ def mmi_tapered(
         yo + i * wg_spacing_output for i in range(outputs)
     ]
 
+    temp_component = Component()
+
     in_ports = [
-        gf.Port(
+        temp_component.add_port(
             name=f"in_{i}",
             orientation=180,
             center=(0, y),
@@ -148,7 +150,7 @@ def mmi_tapered(
     ]
 
     out_ports = [
-        gf.Port(
+        temp_component.add_port(
             name=f"out_{i}",
             orientation=0,
             center=(+length_mmi, y),

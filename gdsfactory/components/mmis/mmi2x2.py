@@ -72,21 +72,23 @@ def mmi2x2(
         straight, length=length_mmi, width=width_mmi, cross_section=cross_section
     )
 
+    temp_component = Component()
+
     ports = [
-        gf.Port(
+        temp_component.add_port(
             name="o1", orientation=180, center=(0, -a), width=w_taper, cross_section=x
         ),
-        gf.Port(
+        temp_component.add_port(
             name="o2", orientation=180, center=(0, +a), width=w_taper, cross_section=x
         ),
-        gf.Port(
+        temp_component.add_port(
             name="o3",
             orientation=0,
             center=(length_mmi, +a),
             width=w_taper,
             cross_section=x,
         ),
-        gf.Port(
+        temp_component.add_port(
             name="o4",
             orientation=0,
             center=(length_mmi, -a),

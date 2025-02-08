@@ -43,7 +43,7 @@ def auto_taper_to_cross_section(
         The port at the opposite (unconnected end) of the taper.
     """
     port_layer = gf.get_layer(port.layer)
-    port_width = port.dwidth
+    port_width = port.width
     cross_section = gf.get_cross_section(cross_section)
     cs_layer = gf.get_layer(cross_section.layer)
     cs_width = cross_section.width
@@ -78,7 +78,7 @@ def auto_taper_to_cross_section(
     elif taper_ports[1].layer == port.layer and taper_ports[1].width == port.width:
         p1, p0 = taper_ports
     else:
-        width = port.dwidth
+        width = port.width
         layer = port.layer
         raise ValueError(
             f"Taper component ports do not match the port's layer and width! Got {taper_ports}. and {layer}, {width}"

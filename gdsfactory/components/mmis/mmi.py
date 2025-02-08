@@ -89,8 +89,10 @@ def mmi(
         yo + i * wg_spacing_output for i in range(outputs)
     ]
 
+    temp_component = Component()
+
     ports = [
-        gf.Port(
+        temp_component.add_port(
             name=f"in_{i}",
             orientation=180,
             center=(0, y),
@@ -102,7 +104,7 @@ def mmi(
     ]
 
     ports += [
-        gf.Port(
+        temp_component.add_port(
             name=f"out_{i}",
             orientation=0,
             center=(+length_mmi, y),

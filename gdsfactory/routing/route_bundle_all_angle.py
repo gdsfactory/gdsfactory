@@ -71,9 +71,9 @@ if __name__ == "__main__":
     # p2 = list(w2.ports.filter(orientation=150))
     # p1.reverse()
     # p2.reverse()
-    # c1 = np.array(p2[0].dcenter)
-    # c2 = np.array(p1[0].dcenter)
-    # d = (np.array(p2[0].dcenter) + np.array(p1[0].dcenter)) / 2
+    # c1 = np.array(p2[0].center)
+    # c2 = np.array(p1[0].center)
+    # d = (np.array(p2[0].center) + np.array(p1[0].center)) / 2
     # backbone = [
     #     d - (10.0, 0),
     #     d + (10.0, 0),

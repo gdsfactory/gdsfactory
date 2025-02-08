@@ -66,14 +66,14 @@ def route_quad(
         port: Port, width: float
     ) -> tuple[npt.NDArray[np.floating[Any]], npt.NDArray[np.floating[Any]]]:
         _, e1 = _get_rotated_basis(port.orientation)
-        pt1 = port.dcenter + e1 * width / 2
-        pt2 = port.dcenter - e1 * width / 2
+        pt1 = port.center + e1 * width / 2
+        pt2 = port.center - e1 * width / 2
         return pt1, pt2
 
     if width1 is None:
-        width1 = port1.dwidth
+        width1 = port1.width
     if width2 is None:
-        width2 = port2.dwidth
+        width2 = port2.width
     vertices = np.array(get_port_edges(port1, width1) + get_port_edges(port2, width2))
     center = np.mean(vertices, axis=0)
     displacements = vertices - center
@@ -110,7 +110,7 @@ if __name__ == "__main__":
         manhattan_target_step=0.1,
     )
 
-    # c = gf.Component("route")
+    # c = gf.Component(name="route")
     # pad1 = c << gf.components.pad(size=(50, 50))
     # pad2 = c << gf.components.pad(size=(10, 10))
     # pad2.dmovex(100)

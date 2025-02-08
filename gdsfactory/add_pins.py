@@ -108,7 +108,7 @@ def get_pin_triangle_polygon_tip(
     ca = np.cos(orientation * np.pi / 180)
     sa = np.sin(orientation * np.pi / 180)
     rot_mat = np.array([[ca, -sa], [sa, ca]])
-    d = p.dwidth / 2
+    d = p.width / 2
 
     dtip = np.array([d, 0])
 
@@ -119,11 +119,11 @@ def get_pin_triangle_polygon_tip(
         dbot = np.array([0, -d])
         dtop = np.array([0, d])
 
-    p0 = p.dcenter + _rotate(dbot, rot_mat)
-    p1 = p.dcenter + _rotate(dtop, rot_mat)
+    p0 = p.center + _rotate(dbot, rot_mat)
+    p1 = p.center + _rotate(dtop, rot_mat)
     port_face = [p0, p1]
 
-    ptip: tuple[float, float] = tuple(map(float, p.dcenter + _rotate(dtip, rot_mat)))  # type: ignore[assignment]
+    ptip: tuple[float, float] = tuple(map(float, p.center + _rotate(dtip, rot_mat)))  # type: ignore[assignment]
 
     polygon = list(port_face) + [ptip]
     polygon_stacked = np.stack(polygon)
@@ -186,7 +186,7 @@ def add_pin_rectangle_inside(
     if layer:
         p = port
         poly = gf.kdb.DPolygon(
-            gf.kdb.DBox(-pin_length, -p.dwidth / 2, 0, p.dwidth / 2)
+            gf.kdb.DBox(-pin_length, -p.width / 2, 0, p.width / 2)
         ).transform(p.dcplx_trans)
         component.shapes(gf.get_layer(layer)).insert(poly)
 
@@ -194,7 +194,7 @@ def add_pin_rectangle_inside(
         assert port.name is not None
         component.add_label(
             text=port.name,
-            position=port.dcenter,
+            position=port.center,
             layer=layer_label,
         )
 
@@ -231,7 +231,7 @@ def add_pin_rectangle(
                  __
     """
     if layer:
-        width = port.dwidth + port_margin
+        width = port.width + port_margin
         poly = gf.kdb.DPolygon(
             gf.kdb.DBox(-pin_length / 2, -width / 2, +pin_length / 2, width / 2)
         ).transform(port.dcplx_trans)
@@ -240,7 +240,7 @@ def add_pin_rectangle(
     if layer_label:
         component.add_label(
             text=str(port.name),
-            position=port.dcenter,
+            position=port.center,
             layer=layer_label,
         )
 
@@ -299,8 +299,8 @@ def add_pin_path(
     d0 = np.array([-pin_length / 2, 0])
     d1 = np.array([+pin_length / 2, 0])
 
-    p0 = p.dcenter + _rotate(d0, rot_mat)
-    p1 = p.dcenter + _rotate(d1, rot_mat)
+    p0 = p.center + _rotate(d0, rot_mat)
+    p1 = p.center + _rotate(d1, rot_mat)
 
     points = [p0, p1]
     dpoints = [kf.kdb.DPoint(p[0], p[1]) for p in points]
@@ -308,9 +308,9 @@ def add_pin_path(
 
     dpath = kf.kdb.DPath(
         dpoints,
-        p.dwidth,
+        p.width,
     )
-    component.add_label(text=str(p.name), position=p.dcenter, layer=layer_label)
+    component.add_label(text=str(p.name), position=p.center, layer=layer_label)
     component.shapes(layer).insert(dpath)
 
 
@@ -465,7 +465,7 @@ def add_settings_label(
     if len(settings_string) > 1024:
         raise ValueError(f"label > 1024 characters: {settings_string}")
     component.add_label(
-        position=reference_or_component.dcenter, text=settings_string, layer=layer_label
+        position=reference_or_component.center, text=settings_string, layer=layer_label
     )
 
 
@@ -498,7 +498,7 @@ def add_instance_label(
 
     component.add_label(
         text=instance_name,
-        position=reference.dcenter,
+        position=reference.center,
         layer=layer,
     )
 

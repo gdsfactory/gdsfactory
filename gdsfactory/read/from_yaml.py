@@ -163,7 +163,7 @@ def _get_anchor_point_from_name(
     if anchor_name in valid_anchor_point_keywords:
         return getattr(ref.dsize_info, anchor_name)  # type: ignore[no-any-return]
     elif anchor_name in ref.ports:
-        return ref.ports[anchor_name].dcenter
+        return ref.ports[anchor_name].center
     return None
 
 

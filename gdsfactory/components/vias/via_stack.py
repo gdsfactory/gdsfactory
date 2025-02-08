@@ -318,7 +318,7 @@ def via_stack_corner45(
                     # Place the vias at the given x, y
                     for i in range(int(vias_per_row)):
                         ref = c << via
-                        ref.dcenter = (xpos0 + pitch_x * i + w / 2, y)  # type: ignore
+                        ref.center = (xpos0 + pitch_x * i + w / 2, y)  # type: ignore
 
                 y_covered = y_covered + h + pitch_y
 

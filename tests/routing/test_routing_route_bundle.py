@@ -20,11 +20,11 @@ def test_route_bundle(
         xs_top = [-100, -90, -80, 0, 10, 20, 40, 50, 80, 90, 100, 105, 110, 115]
         N = len(xs_top)
         xs_bottom = [(i - N / 2) * pitch for i in range(N)]
-        layer = (1, 0)
+        layer = 1
 
         top_ports = [
             Port(
-                f"top_{i}",
+                name=f"top_{i}",
                 center=(xs_top[i], 0),
                 width=0.5,
                 orientation=270,
@@ -35,7 +35,7 @@ def test_route_bundle(
 
         bot_ports = [
             Port(
-                f"bot_{i}",
+                name=f"bot_{i}",
                 center=(xs_bottom[i], -400),
                 width=0.5,
                 orientation=90,
@@ -44,7 +44,7 @@ def test_route_bundle(
             for i in range(N)
         ]
 
-        c = gf.Component("test_route_bundle")
+        c = gf.Component(name="test_route_bundle")
         routes = route_bundle(
             c,
             top_ports,
@@ -65,7 +65,7 @@ def test_connect_corner(
 ) -> None:
     d = 10.0
     sep = 5.0
-    layer = (1, 0)
+    layer = 1
     c = Component(name=f"test_connect_corner_{config}")
 
     if config in {"A", "B"}:
@@ -83,7 +83,7 @@ def test_connect_corner(
 
         ports_A_TL = [
             Port(
-                f"A_TL_{i}",
+                name=f"A_TL_{i}",
                 center=(-d, a / 2 + i * sep),
                 width=0.5,
                 orientation=180,
@@ -94,7 +94,7 @@ def test_connect_corner(
 
         ports_A_BR = [
             Port(
-                f"A_BR_{i}",
+                name=f"A_BR_{i}",
                 center=(d, -a / 2 - i * sep),
                 width=0.5,
                 orientation=0,
@@ -105,7 +105,7 @@ def test_connect_corner(
 
         ports_A_BL = [
             Port(
-                f"A_BL_{i}",
+                name=f"A_BL_{i}",
                 center=(-d, -a / 2 - i * sep),
                 width=0.5,
                 orientation=180,
@@ -118,7 +118,7 @@ def test_connect_corner(
 
         ports_B_TR = [
             Port(
-                f"B_TR_{i}",
+                name=f"B_TR_{i}",
                 center=(a / 2 + i * sep, d),
                 width=0.5,
                 orientation=90,
@@ -129,7 +129,7 @@ def test_connect_corner(
 
         ports_B_TL = [
             Port(
-                f"B_TL_{i}",
+                name=f"B_TL_{i}",
                 center=(-a / 2 - i * sep, d),
                 width=0.5,
                 orientation=90,
@@ -140,7 +140,7 @@ def test_connect_corner(
 
         ports_B_BR = [
             Port(
-                f"B_BR_{i}",
+                name=f"B_BR_{i}",
                 center=(a / 2 + i * sep, -d),
                 width=0.5,
                 orientation=270,
@@ -151,7 +151,7 @@ def test_connect_corner(
 
         ports_B_BL = [
             Port(
-                f"B_BL_{i}",
+                name=f"B_BL_{i}",
                 center=(-a / 2 - i * sep, -d),
                 width=0.5,
                 orientation=270,
@@ -166,7 +166,7 @@ def test_connect_corner(
         a = n * sep + 2 * d
         ports_A_TR = [
             Port(
-                f"A_TR_{i}",
+                name=f"A_TR_{i}",
                 center=(a, d + i * sep),
                 width=0.5,
                 orientation=0,
@@ -177,7 +177,7 @@ def test_connect_corner(
 
         ports_A_TL = [
             Port(
-                f"A_TL_{i}",
+                name=f"A_TL_{i}",
                 center=(-a, d + i * sep),
                 width=0.5,
                 orientation=180,
@@ -188,7 +188,7 @@ def test_connect_corner(
 
         ports_A_BR = [
             Port(
-                f"A_BR_{i}",
+                name=f"A_BR_{i}",
                 center=(a, -d - i * sep),
                 width=0.5,
                 orientation=0,
@@ -199,7 +199,7 @@ def test_connect_corner(
 
         ports_A_BL = [
             Port(
-                f"A_BL_{i}",
+                name=f"A_BL_{i}",
                 center=(-a, -d - i * sep),
                 width=0.5,
                 orientation=180,
@@ -212,7 +212,7 @@ def test_connect_corner(
 
         ports_B_TR = [
             Port(
-                f"B_TR_{i}",
+                name=f"B_TR_{i}",
                 center=(d + i * sep, a),
                 width=0.5,
                 orientation=90,
@@ -223,7 +223,7 @@ def test_connect_corner(
 
         ports_B_TL = [
             Port(
-                f"B_TL_{i}",
+                name=f"B_TL_{i}",
                 center=(-d - i * sep, a),
                 width=0.5,
                 orientation=90,
@@ -234,7 +234,7 @@ def test_connect_corner(
 
         ports_B_BR = [
             Port(
-                f"B_BR_{i}",
+                name=f"B_BR_{i}",
                 center=(d + i * sep, -a),
                 width=0.5,
                 orientation=270,
@@ -245,7 +245,7 @@ def test_connect_corner(
 
         ports_B_BL = [
             Port(
-                f"B_BL_{i}",
+                name=f"B_BL_{i}",
                 center=(-d - i * sep, -a),
                 width=0.5,
                 orientation=270,
@@ -288,12 +288,12 @@ def test_route_bundle_udirect(
     pitch = 10.0
     N = len(xs1)
     xs2 = [70 + i * pitch for i in range(N)]
-    layer = (1, 0)
+    layer = 1
 
     if axis == "X":
         ports1 = [
             Port(
-                f"top_{i}",
+                name=f"top_{i}",
                 center=(0, xs1[i]),
                 width=0.5,
                 orientation=angle,
@@ -303,7 +303,7 @@ def test_route_bundle_udirect(
         ]
         ports2 = [
             Port(
-                f"bot_{i}",
+                name=f"bot_{i}",
                 center=(dy, xs2[i]),
                 width=0.5,
                 orientation=angle,
@@ -315,7 +315,7 @@ def test_route_bundle_udirect(
     else:
         ports1 = [
             Port(
-                f"top_{i}",
+                name=f"top_{i}",
                 center=(xs1[i], 0),
                 width=0.5,
                 orientation=angle,
@@ -325,7 +325,7 @@ def test_route_bundle_udirect(
         ]
         ports2 = [
             Port(
-                f"bot_{i}",
+                name=f"bot_{i}",
                 center=(xs2[i], dy),
                 width=0.5,
                 orientation=angle,
@@ -334,7 +334,7 @@ def test_route_bundle_udirect(
             for i in range(N)
         ]
 
-    c = gf.Component("test_route_bundle_udirect")
+    c = gf.Component(name="test_route_bundle_udirect")
     routes = route_bundle(
         c,
         ports1,
@@ -362,7 +362,7 @@ def test_route_bundle_u_indirect(
 
     axis = "X" if angle in {0, 180} else "Y"
 
-    layer = (1, 0)
+    layer = 1
     pitch = 10.0
     N = len(xs1)
     xs2 = [50 + i * pitch for i in range(N)]
@@ -372,12 +372,18 @@ def test_route_bundle_u_indirect(
 
     if axis == "X":
         ports1 = [
-            Port(f"top_{i}", center=(0, xs1[i]), width=0.5, orientation=a1, layer=layer)
+            Port(
+                name=f"top_{i}",
+                center=(0, xs1[i]),
+                width=0.5,
+                orientation=a1,
+                layer=layer,
+            )
             for i in range(N)
         ]
         ports2 = [
             Port(
-                f"bot_{i}",
+                name=f"bot_{i}",
                 center=(dy, xs2[i]),
                 width=0.5,
                 orientation=a2,
@@ -388,12 +394,18 @@ def test_route_bundle_u_indirect(
 
     else:
         ports1 = [
-            Port(f"top_{i}", center=(xs1[i], 0), width=0.5, orientation=a1, layer=layer)
+            Port(
+                name=f"top_{i}",
+                center=(xs1[i], 0),
+                width=0.5,
+                orientation=a1,
+                layer=layer,
+            )
             for i in range(N)
         ]
         ports2 = [
             Port(
-                f"bot_{i}",
+                name=f"bot_{i}",
                 center=(xs2[i], dy),
                 width=0.5,
                 orientation=a2,
@@ -402,7 +414,7 @@ def test_route_bundle_u_indirect(
             for i in range(N)
         ]
 
-    c = gf.Component(f"test_route_bundle_u_indirect_{angle}_{dy}")
+    c = gf.Component(name=f"test_route_bundle_u_indirect_{angle}_{dy}")
 
     routes = route_bundle(
         c,
@@ -433,18 +445,26 @@ def test_facing_ports(
 
     a1 = 90
     a2 = a1 + 180
-    layer = (1, 0)
+    layer = 1
 
     ports1 = [
-        Port(f"top_{i}", center=(xs1[i], +0), width=0.5, orientation=a1, layer=layer)
+        Port(
+            name=f"top_{i}", center=(xs1[i], +0), width=0.5, orientation=a1, layer=layer
+        )
         for i in range(N)
     ]
     ports2 = [
-        Port(f"bot_{i}", center=(xs2[i], 200), width=0.5, orientation=a2, layer=layer)
+        Port(
+            name=f"bot_{i}",
+            center=(xs2[i], 200),
+            width=0.5,
+            orientation=a2,
+            layer=layer,
+        )
         for i in range(N)
     ]
 
-    c = gf.Component("test_facing_ports")
+    c = gf.Component(name="test_facing_ports")
     routes = route_bundle(c, ports1, ports2, cross_section="strip")
 
     lengths = {i: route.length for i, route in enumerate(routes)}

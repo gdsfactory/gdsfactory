@@ -17,7 +17,12 @@ from pydantic import BaseModel, ConfigDict, Field
 from gdsfactory import logger
 from gdsfactory.component import CellSpec, Component, ComponentFactory
 from gdsfactory.config import CONF
-from gdsfactory.cross_section import CrossSection, CrossSectionFactory, CrossSectionSpec
+from gdsfactory.cross_section import (
+    CrossSection,
+    CrossSectionFactory,
+    CrossSectionSpec,
+    Section,
+)
 from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
 from gdsfactory.serialization import clean_value_json, convert_tuples_to_lists
@@ -364,9 +369,10 @@ class Pdk(BaseModel):
         kwargs.update(settings)
 
         if isinstance(component, kf.DKCell):
-            return Component(base_kcell=component.base_kcell)
+            return Component(base=component.base)
         elif callable(component):
-            return Component(base_kcell=component(**kwargs).base_kcell)
+            _component = component(**kwargs)
+            return type(_component)(base=_component.base)
         elif isinstance(component, str):
             if component not in cell_names:
                 substring = component
@@ -434,6 +440,22 @@ class Pdk(BaseModel):
                     f"{kwargs} are ignored for cross_section {cross_section.name!r}"
                 )
             return cross_section
+        elif isinstance(cross_section, kf.DCrossSection | kf.SymmetricalCrossSection):
+            if isinstance(cross_section, kf.DCrossSection):
+                cross_section_ = cross_section.base
+            else:
+                cross_section_ = cross_section
+            section_ = Section(
+                width=gf.kcl.to_um(cross_section_.width),
+                layer=gf.kcl.layout.layer(cross_section_.main_layer),
+            )
+            xs_ = CrossSection(
+                sections=(section_,),
+                radius=kf.kcl.to_um(cross_section_.radius),
+                radius_min=kf.kcl.to_um(cross_section_.radius_min),
+            )
+            xs_._name = cross_section_.name
+            return xs_
         else:
             raise ValueError(
                 "get_cross_section expects a CrossSectionSpec (CrossSection, "
@@ -522,8 +544,8 @@ class Pdk(BaseModel):
                         if hasattr(port, "cross_section")
                         else "",
                         "xya": [
-                            float(port.dcenter[0]),
-                            float(port.dcenter[1]),
+                            float(port.center[0]),
+                            float(port.center[1]),
                             float(port.orientation),
                         ],
                         "alias": port.info.get("alias"),

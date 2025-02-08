@@ -87,7 +87,7 @@ def grating_coupler_elliptical_lumerical(
         n_bg=1.44401 #Refractive index of the background material (cladding)
         wg=3.47668   # Refractive index of the waveguide material (core)
         lambda0=1550e-9
-        bandwidth = 0e-9
+        banwidth = 0e-9
         polarization = 'TE'
         wg_width=500e-9 # Waveguide width
         wg_height=220e-9 # Waveguide height

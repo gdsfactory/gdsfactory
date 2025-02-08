@@ -151,7 +151,7 @@ def route_south(
             name=p.name,
             center=(x, y),
             orientation=90.0,
-            width=p.dwidth,
+            width=p.width,
             layer=gf.get_layer(cross_section.layer),
             port_type=p.port_type,
         )

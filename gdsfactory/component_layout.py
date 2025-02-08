@@ -298,7 +298,7 @@ def parse_coordinate(
             Parsed coordinate.
     """
     if hasattr(c, "center"):
-        return c.dcenter  # type: ignore[union-attr]
+        return c.center  # type: ignore[union-attr]
     elif np.array(c).size == 2:
         return c  # type: ignore[unused-ignore, return-value]
     raise ValueError(

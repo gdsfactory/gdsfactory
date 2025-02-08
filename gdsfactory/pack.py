@@ -222,7 +222,7 @@ def pack(
                 d.mirror_x()
             if v_mirror:
                 d.mirror_y()
-            d.dcenter = tuple(snap_to_grid((xcenter * precision, ycenter * precision)))  # type: ignore[assignment]
+            d.center = tuple(snap_to_grid((xcenter * precision, ycenter * precision)))  # type: ignore[assignment]
             if add_ports_prefix:
                 packed.add_ports(d.ports, prefix=f"{index}_")
             elif add_ports_suffix:

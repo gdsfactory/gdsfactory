@@ -25,7 +25,7 @@ def test_partial() -> None:
     x2 = partial(gf.cross_section.cross_section, layer=(2, 0), width=0.6)
     b1 = gf.components.bend_euler(cross_section=x1)
     b2 = gf.components.bend_euler(cross_section=x2)
-    assert id(b1) == id(b2)
+    assert b1 is b2
 
 
 if __name__ == "__main__":

@@ -29,4 +29,4 @@ def test_length_spiral_racetrack() -> None:
 
 def test_ports() -> None:
     c = gf.c.straight_heater_metal(length=50.0)
-    assert c.ports["o2"].dcenter[0] == 50.0, c.ports["o2"].dcenter[0]
+    assert c.ports["o2"].center[0] == 50.0, c.ports["o2"].center[0]

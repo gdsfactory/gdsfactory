@@ -28,10 +28,10 @@ def line(
 ]:
     if isinstance(p_start, gf.Port):
         width = p_start.width
-        p_start = p_start.dcenter
+        p_start = p_start.center
 
     if isinstance(p_end, gf.Port):
-        p_end = p_end.dcenter
+        p_end = p_end.center
 
     w = width
     assert w is not None
@@ -155,7 +155,7 @@ def extend_ports(
                 else:
                     cross_section_extension = cross_section or cross_section_function(
                         layer=gf.get_layer_tuple(port.layer),  # type: ignore
-                        width=port.dwidth,
+                        width=port.width,
                     )
 
                 extension_component = gf.components.straight(

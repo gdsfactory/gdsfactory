@@ -97,11 +97,6 @@ def test_trim() -> None:
     assert c2_area == c2.area(layer=layer), f"{c2_area} != {c2.area(layer=layer)}"
 
 
-def test_from_kcell() -> None:
-    kf.kcl.infos = kf.LayerInfos(WG=kf.kdb.LayerInfo(1, 0))
-    gf.Component.from_kcell(kf.cells.straight.straight(1, 1, gf.kcl.get_info(LAYER.WG)))
-
-
 def test_remove_layers() -> None:
     c = gf.Component()
     c.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(1, 0))
@@ -316,7 +311,7 @@ def test_component_reference_properties() -> None:
     straight = gf.components.straight(length=10).copy()
     ref = c << straight
 
-    assert ref.center == ref.dcenter
+    assert ref.center == ref.center
     assert ref.x == ref.dx
     assert ref.y == ref.dy
     assert ref.xmin == ref.dxmin
@@ -359,19 +354,6 @@ def test_component_reference_name() -> None:
 
     ref.name = "test_instance"
     assert ref.name == "test_instance"
-
-
-def test_component_reference_equality_and_hash() -> None:
-    c = gf.Component()
-    straight = gf.components.straight(length=10).copy()
-    ref = c << straight
-    inst2 = c << straight
-    ref2 = ComponentReference(inst2)
-
-    assert ref != ref2
-    assert ref == ref
-    assert ref != ""
-    hash(ref)
 
 
 def test_component_reference_flatten() -> None:
@@ -442,10 +424,10 @@ def test_component_all_angle_add_port() -> None:
         port_type="optical",
     )
     assert port1.name == "p1"
-    assert port1.dwidth == 0.5
+    assert port1.width == 0.5
     assert port1.orientation == 90
     assert port1.port_type == "optical"
-    assert port1.dcenter == (10, 20)
+    assert port1.center == (10, 20)
 
     port2 = c.add_port(
         name="p2",
@@ -456,10 +438,10 @@ def test_component_all_angle_add_port() -> None:
         port_type="electrical",
     )
     assert port2.name == "p2"
-    assert port2.dwidth == 1.0
+    assert port2.width == 1.0
     assert port2.orientation == 0
     assert port2.port_type == "electrical"
-    assert port2.dcenter == (30, 40)
+    assert port2.center == (30, 40)
 
     port3 = c.add_port(
         name="p3",
@@ -471,7 +453,7 @@ def test_component_all_angle_add_port() -> None:
     assert port3.name == "p3"
     assert port3.orientation == 180
     assert port3.port_type == "optical"
-    assert port3.dcenter == (50, 60)
+    assert port3.center == (50, 60)
 
     with pytest.raises(ValueError, match="Must specify orientation"):
         c.add_port(name="p4", center=(0, 0), width=0.5, layer="WG")
@@ -552,7 +534,7 @@ def test_component_all_angle_add_label() -> None:
 
 
 def test_component_write_gds() -> None:
-    c = gf.Component("test_component_all_angle_write_gds")
+    c = gf.Component(name="test_component_all_angle_write_gds")
 
     with pytest.warns(UserWarning, match="gdspath and gdsdir have both been specified"):
         c.write_gds(

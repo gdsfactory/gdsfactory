@@ -75,7 +75,9 @@ def straight_heater_meander_doped(
     c = gf.Component()
     x = gf.get_cross_section(cross_section)
     layer = get_layer(x.layer)
-    p1 = gf.Port(
+
+    temp_component = Component()
+    p1 = temp_component.add_port(
         name="p1",
         center=(0, 0),
         orientation=0,
@@ -83,7 +85,7 @@ def straight_heater_meander_doped(
         layer=layer,
         width=x.width,
     )
-    p2 = gf.Port(
+    p2 = temp_component.add_port(
         name="p2",
         center=(0, spacing),
         orientation=0,

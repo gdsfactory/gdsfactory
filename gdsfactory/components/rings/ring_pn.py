@@ -100,7 +100,7 @@ def ring_double_pn(
     th_waveguide.dy = (
         -radius
         - add_gap
-        - th_waveguide.ports["o1"].dwidth / 2
+        - th_waveguide.ports["o1"].width / 2
         - pn_cross_section_.width / 2
     )
 
@@ -131,12 +131,12 @@ def ring_double_pn(
     top_undoped_ring_ref.connect("o2", left_doped_ring_ref.ports["o2"])
 
     ring = c.create_vinst(r)
-    ring.dcenter = (0, 0)  # type: ignore
+    ring.center = (0, 0)  # type: ignore
 
     drop_waveguide_dy = (
         radius
         + drop_gap
-        + th_waveguide.ports["o1"].dwidth / 2
+        + th_waveguide.ports["o1"].width / 2
         + pn_cross_section_.width / 2
     )
 
@@ -251,7 +251,7 @@ def ring_single_pn(
     bus_waveguide.dy = (
         -radius
         - gap
-        - bus_waveguide.ports["o1"].dwidth / 2
+        - bus_waveguide.ports["o1"].width / 2
         - pn_xs.width / 2
         + 0.576  # adjust gap # TODO: remove this
     )
@@ -267,7 +267,7 @@ def ring_single_pn(
         cross_section=cross_section, all_angle=False
     )
     undoped_ring_ref.drotate(-undoping_angle / 2)
-    undoped_ring_ref.dcenter = (0, 0)  # type: ignore[assignment]
+    undoped_ring_ref.center = (0, 0)  # type: ignore[assignment]
     doped_ring_ref.connect("o1", undoped_ring_ref.ports["o1"])
 
     via = gf.get_component(pn_vias, size=(pn_vias_width, pn_vias_width))
@@ -282,7 +282,7 @@ def ring_single_pn(
     r.add_port("gnd", port=gnd["e2"])
 
     ring = c << r
-    ring.dcenter = (0, 0)  # type: ignore[assignment]
+    ring.center = (0, 0)  # type: ignore[assignment]
 
     if doped_heater:
         heater_radius = radius - doped_heater_waveguide_offset

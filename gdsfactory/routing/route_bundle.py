@@ -164,8 +164,8 @@ def route_bundle(
         a1 = 90
         a2 = a1 + 180
 
-        ports1 = [gf.Port(f"top_{i}", center=(xs1[i], +0), width=0.5, orientation=a1, layer=(1,0)) for i in range(N)]
-        ports2 = [gf.Port(f"bot_{i}", center=(xs2[i], dy), width=0.5, orientation=a2, layer=(1,0)) for i in range(N)]
+        ports1 = [gf.Port(name=f"top_{i}", center=(xs1[i], +0), width=0.5, orientation=a1, layer=(1,0)) for i in range(N)]
+        ports2 = [gf.Port(name=f"bot_{i}", center=(xs2[i], dy), width=0.5, orientation=a2, layer=(1,0)) for i in range(N)]
 
         c = gf.Component()
         gf.routing.route_bundle(component=c, ports1=ports1, ports2=ports2, cross_section='strip', separation=5)
@@ -219,7 +219,7 @@ def route_bundle(
 
     if steps:
         waypoints = []
-        x, y = ports1_[0].dcenter
+        x, y = ports1_[0].center
         for d in steps:
             if not STEP_DIRECTIVES.issuperset(d):
                 invalid_step_directives = list(set(d.keys()) - STEP_DIRECTIVES)
