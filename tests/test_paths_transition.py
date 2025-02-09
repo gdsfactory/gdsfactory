@@ -35,9 +35,6 @@ def test_transition_ports() -> None:
     path = gf.path.straight(length=5)
     c = gf.path.extrude_transition(path, xt)
 
-    width1 = round(width1 / c.kcl.dbu)
-    width2 = round(width2 / c.kcl.dbu)
-
     assert c.ports["o1"].width == width1, c.ports["o1"].width
     assert c.ports["o2"].width == width2, c.ports["o2"].width
 

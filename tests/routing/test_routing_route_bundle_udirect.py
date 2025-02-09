@@ -62,7 +62,7 @@ def test_route_connect_bundle_udirect(
                 center=(0, xs1[i]),
                 width=0.5,
                 orientation=orientation,
-                layer=layer,
+                layer=gf.kcl.layout.layer(*layer),
             )
             for i in range(N)
         ]
@@ -73,7 +73,7 @@ def test_route_connect_bundle_udirect(
                 center=(dy, xs2[i]),
                 width=0.5,
                 orientation=orientation,
-                layer=layer,
+                layer=gf.kcl.layout.layer(*layer),
             )
             for i in range(N)
         ]
@@ -85,7 +85,7 @@ def test_route_connect_bundle_udirect(
                 center=(xs1[i], 0),
                 width=0.5,
                 orientation=orientation,
-                layer=layer,
+                layer=gf.kcl.layout.layer(*layer),
             )
             for i in range(N)
         ]
@@ -96,7 +96,7 @@ def test_route_connect_bundle_udirect(
                 center=(xs2[i], dy),
                 width=0.5,
                 orientation=orientation,
-                layer=layer,
+                layer=gf.kcl.layout.layer(*layer),
             )
             for i in range(N)
         ]

@@ -111,7 +111,7 @@ def test_transition_cross_section_different_layers() -> None:
     p = gf.path.straight(length=length)
     c = gf.path.extrude_transition(p=p, transition=transition)
 
-    core_width = round(core_width / c.kcl.dbu)
+    core_width = core_width
     intent_layer_1 = gf.get_layer(intent_layer_1)
     intent_layer_2 = gf.get_layer(intent_layer_2)
 

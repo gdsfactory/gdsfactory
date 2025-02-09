@@ -190,7 +190,7 @@ def route_bundle(
     c = component
     ports1_ = list(ports1)
     ports2_ = list(ports2)
-    port_type = port_type or ports1[0].port_type
+    port_type = port_type or ports1_[0].port_type
 
     if len(ports1_) != len(ports2_):
         raise ValueError(
@@ -269,13 +269,9 @@ def route_bundle(
     )
 
     def straight_um(width: float, length: float) -> gf.Component:
-        return gf.get_component(
-            straight,
-            length=length,
-            cross_section=xs,
-        )
+        return gf.get_component(straight, length=length, cross_section=xs)
 
-    return kf.routing.optical.route_bundle(  # type: ignore[call-overload, misc, no-any-return]
+    return kf.routing.optical.route_bundle(
         component,
         ports1_,
         ports2_,

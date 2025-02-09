@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 from functools import partial
 
 import gdsfactory as gf
@@ -44,7 +45,7 @@ def test_add_ports_from_pins_path() -> None:
     gdspath = c.write_gds(with_metadata=False)
     c2 = gf.import_gds(gdspath, post_process=(add_ports_from_siepic_pins,))
     assert c2.ports["o1"].center[0] == 0, c2.ports["o1"].center[0]
-    assert c2.ports["o2"].center[0] == x, c2.ports["o2"].center[0]
+    assert math.isclose(c2.ports["o2"].center[0], x), c2.ports["o2"].center[0]
 
 
 def test_add_ports_from_labels() -> None:

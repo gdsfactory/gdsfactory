@@ -196,20 +196,6 @@ def test_deprecated_methods() -> None:
 
     with pytest.warns(DeprecationWarning):
         c = gf.Component()
-        c2 = gf.Component()
-        ref = c.add_ref(c2)
-        _ = ref.info
-        assert ref.cell.info.model_dump() == ref.info
-
-    with pytest.warns(DeprecationWarning):
-        c = gf.Component()
-        c2 = gf.Component()
-        ref = c.add_ref(c2)
-        _ = ref.parent
-        assert ref.cell == ref.parent
-
-    with pytest.warns(DeprecationWarning):
-        c = gf.Component()
         c.write_gds(gdspath="test_deprecated_write_gds.gds", random_var=1)
 
 
@@ -320,7 +306,7 @@ def test_component_reference_properties() -> None:
     assert ref.ymax == ref.dymax
     assert ref.xsize == ref.dxsize
     assert ref.ysize == ref.dysize
-    assert ref.size_info == ref.dsize_info
+    assert ref.size_info._bf() == ref.dsize_info._bf()
 
 
 def test_component_reference_setters() -> None:
@@ -363,20 +349,6 @@ def test_component_reference_flatten() -> None:
     ref.flatten()
 
 
-def test_component_reference_deprecated_attributes() -> None:
-    c = gf.Component()
-    straight = gf.components.straight(length=10).copy()
-    ref = c << straight
-
-    with pytest.warns(DeprecationWarning):
-        info = ref.info
-        assert isinstance(info, dict)
-
-    with pytest.warns(DeprecationWarning):
-        parent = ref.parent
-        assert parent == ref.cell
-
-
 def test_component_references_getitem() -> None:
     c = gf.Component()
     straight = gf.components.straight(length=10).copy()
@@ -384,10 +356,10 @@ def test_component_references_getitem() -> None:
     ref2 = c << straight
     ref2.name = "test_ref"
 
-    assert c.insts[0] == ref
-    assert c.insts[1] == ref2
+    assert c.insts[0].instance == ref.instance
+    assert c.insts[1].instance == ref2.instance
 
-    assert c.insts["test_ref"] == ref2
+    assert c.insts["test_ref"].instance == ref2.instance
 
 
 def test_component_references_iter() -> None:
@@ -398,8 +370,8 @@ def test_component_references_iter() -> None:
 
     refs = list(c.insts)
     assert len(refs) == 2
-    assert refs[0] == ref
-    assert refs[1] == ref2
+    assert refs[0].instance == ref.instance
+    assert refs[1].instance == ref2.instance
     assert all(isinstance(r, ComponentReference) for r in refs)
 
 
@@ -646,16 +618,18 @@ def test_copy_layers() -> None:
     c.copy_layers({(1, 0): (3, 0), (5, 0): (6, 0)}, recursive=False)
     assert c.area((1, 0)) == 100, f"{c.area((1, 0))}"
     assert c.area((3, 0)) == 100, f"{c.area((3, 0))}"
-    assert ref.cell.area((5, 0)) == 100, f"{ref.cell.area((5, 0))}"
-    assert ref.cell.area((6, 0)) == 0, f"{ref.cell.area((6, 0))}"
+    component_ref_cell = gf.Component(base=ref.cell.base)
+    assert component_ref_cell.area((5, 0)) == 100, f"{component_ref_cell.area((5, 0))}"
+    assert component_ref_cell.area((6, 0)) == 0, f"{component_ref_cell.area((6, 0))}"
 
     c3 = gf.Component()
     ref2 = c3.add_ref(c)
     c3.copy_layers({(1, 0): (3, 0)}, recursive=True)
     assert c3.area((1, 0)) == 100, f"{c3.area((1, 0))}"
     assert c3.area((3, 0)) == 100, f"{c3.area((3, 0))}"
-    assert ref2.cell.area((1, 0)) == 100, f"{ref2.cell.area((1, 0))}"
-    assert ref2.cell.area((3, 0)) == 100, f"{ref2.cell.area((3, 0))}"
+    component_ref_cell = gf.Component(base=ref2.cell.base)
+    assert component_ref_cell.area((1, 0)) == 100, f"{component_ref_cell.area((1, 0))}"
+    assert component_ref_cell.area((3, 0)) == 100, f"{component_ref_cell.area((3, 0))}"
 
 
 def test_get_labels() -> None:
