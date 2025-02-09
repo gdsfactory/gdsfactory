@@ -110,8 +110,8 @@ def route_bundle(
     auto_taper: bool = True,
     waypoints: Coordinates | None = None,
     steps: Sequence[Mapping[str, int | float]] | None = None,
-    start_angles: int | list[int] | None = None,
-    end_angles: int | list[int] | None = None,
+    start_angles: float | list[float] | None = None,
+    end_angles: float | list[float] | None = None,
     router: Literal["optical", "electrical"] | None = None,
 ) -> list[ManhattanRoute]:
     """Places a bundle of routes to connect two groups of ports.
@@ -234,28 +234,32 @@ def route_bundle(
             waypoints += [(x, y)]
 
     if waypoints is not None and not isinstance(waypoints[0], kf.kdb.DPoint):
-        _waypoints: list[kf.kdb.DPoint] | None = [
+        waypoints_: list[kf.kdb.DPoint] | None = [
             kf.kdb.DPoint(p[0], p[1]) for p in waypoints
         ]
     else:
-        _waypoints = waypoints
+        waypoints_ = waypoints
 
     router = router or "electrical" if port_type == "electrical" else "optical"
 
     if router == "electrical":
         return kf.routing.electrical.route_bundle(
-            component.to_itype(),
-            [p.to_itype() for p in ports1_],
-            [p.to_itype() for p in ports2_],
-            c.kcl.to_dbu(separation),
-            starts=c.kcl.to_dbu(start_straight_length),
-            ends=c.kcl.to_dbu(end_straight_length),
-            collision_check_layers=collision_check_layer_enums,  # type: ignore[arg-type]
+            component,
+            ports1_,
+            ports2_,
+            separation=separation,
+            starts=start_straight_length,
+            ends=end_straight_length,
+            collision_check_layers=[
+                c.kcl.layout.get_info(layer) for layer in collision_check_layer_enums
+            ]
+            if collision_check_layer_enums is not None
+            else None,
             on_collision=on_collision,
-            bboxes=[b.to_itype() for b in bboxes or []],
+            bboxes=bboxes,
             route_width=c.kcl.to_dbu(width),
             sort_ports=sort_ports,
-            waypoints=[p.to_itype() for p in _waypoints or []],
+            waypoints=waypoints_ if waypoints_ is not None else None,
             end_angles=end_angles,
             start_angles=start_angles,
         )
@@ -275,21 +279,25 @@ def route_bundle(
         component,
         ports1_,
         ports2_,
-        separation,
+        separation=separation,
         straight_factory=straight_um,
         bend90_cell=bend90,
         taper_cell=taper_cell,
-        starts=c.kcl.to_dbu(start_straight_length),
-        ends=c.kcl.to_dbu(end_straight_length),
-        min_straight_taper=c.kcl.to_dbu(min_straight_taper),
+        starts=start_straight_length,
+        ends=end_straight_length,
+        min_straight_taper=min_straight_taper,
         place_port_type=port_type,
-        collision_check_layers=collision_check_layer_enums,
+        collision_check_layers=[
+            c.kcl.layout.get_info(layer) for layer in collision_check_layer_enums
+        ]
+        if collision_check_layer_enums
+        else None,
         on_collision=on_collision,
         allow_width_mismatch=allow_width_mismatch,
         bboxes=list(bboxes or []),
         route_width=width,
         sort_ports=sort_ports,
-        waypoints=_waypoints,
+        waypoints=waypoints_,
         end_angles=end_angles,
         start_angles=start_angles,
     )
