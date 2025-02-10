@@ -3,8 +3,8 @@ import warnings
 import pytest
 
 import gdsfactory as gf
+from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.routing.utils import RouteWarning
-from gdsfactory.typings import CrossSectionSpec
 
 MANHATTAN_ANGLES = [0, 90, 180, 270]
 
