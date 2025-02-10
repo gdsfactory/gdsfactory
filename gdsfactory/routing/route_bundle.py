@@ -196,7 +196,7 @@ def route_bundle(
         raise ValueError(
             f"ports1={len(ports1_)} and ports2={len(ports2_)} must be equal"
         )
-    if route_width is None:
+    if route_width is None or route_width == 0:
         xs = gf.get_cross_section(cross_section)
     else:
         xs = gf.get_cross_section(cross_section, width=route_width)
@@ -241,7 +241,6 @@ def route_bundle(
         waypoints_ = waypoints
 
     router = router or "electrical" if port_type == "electrical" else "optical"
-
     if router == "electrical":
         return kf.routing.electrical.route_bundle(
             component,
@@ -257,7 +256,7 @@ def route_bundle(
             else None,
             on_collision=on_collision,
             bboxes=bboxes,
-            route_width=c.kcl.to_dbu(width),
+            route_width=width,
             sort_ports=sort_ports,
             waypoints=waypoints_ if waypoints_ is not None else None,
             end_angles=end_angles,
