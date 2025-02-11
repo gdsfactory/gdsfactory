@@ -53,7 +53,7 @@ def route_fiber_array(
     cross_section: CrossSectionSpec = "strip",
     allow_width_mismatch: bool = False,
     port_type: str = "optical",
-    route_width: float | None = 0,
+    route_width: float | None = None,
     start_straight_length: float = 0,
     end_straight_length: float = 0,
     auto_taper: bool = True,
