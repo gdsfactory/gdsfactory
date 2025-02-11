@@ -144,9 +144,11 @@ def port_array(
         kwargs: additional arguments.
 
     """
-    from gdsfactory.pdk import get_cross_section
+    from gdsfactory.pdk import get_cross_section, get_layer
 
     pitch_array = np.array(pitch)
+    if "layer" in kwargs:
+        kwargs["layer"] = get_layer(kwargs["layer"])
     if "cross_section" in kwargs:
         cross_section = kwargs.pop("cross_section")
         xs = get_cross_section(cross_section)
@@ -184,6 +186,7 @@ def port_array(
                     np.array(center) + i * pitch_array - (n - 1) / 2 * pitch_array
                 ),
                 orientation=orientation,
+                width=width,
                 **kwargs,  # type: ignore[arg-type]
             )
             for i in range(n)

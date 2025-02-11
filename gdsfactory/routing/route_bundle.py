@@ -257,7 +257,7 @@ def route_bundle(
             else None,
             on_collision=on_collision,
             bboxes=bboxes,
-            route_width=c.kcl.to_dbu(width),
+            route_width=width,
             sort_ports=sort_ports,
             waypoints=waypoints_ if waypoints_ is not None else None,
             end_angles=end_angles,

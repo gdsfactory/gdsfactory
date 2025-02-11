@@ -25,7 +25,7 @@ def add_pads_bot(
     port_type: str = "electrical",
     allow_width_mismatch: bool = True,
     fanout_length: float | None = 0,
-    route_width: float | None = 0,
+    route_width: float | None = None,
     bboxes: BoundingBoxes | None = None,
     avoid_component_bbox: bool = False,
     pad_spacing: float | None = None,
