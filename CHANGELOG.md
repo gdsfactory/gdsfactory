@@ -1,7 +1,16 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.32.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.32.1...main)
 
 <!-- towncrier release notes start -->
+
+## [8.32.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.32.1) - 2025-02-10
+
+- solid dither pattern does not exist [#3650](https://github.com/gdsfactory/gdsfactory/pull/3650)
+- fix type annotations [#3649](https://github.com/gdsfactory/gdsfactory/pull/3649)
+- Support via stack different xy offsets [#3657](https://github.com/gdsfactory/gdsfactory/pull/3657)
+- better instance validation errors [#3652](https://github.com/gdsfactory/gdsfactory/pull/3652)
+- fix type annotations [#3649](https://github.com/gdsfactory/gdsfactory/pull/3649)
+- Small improvements [#3648](https://github.com/gdsfactory/gdsfactory/pull/3648)
 
 ## [8.32.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.32.0) - 2025-02-04
 
