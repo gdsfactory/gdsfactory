@@ -474,7 +474,7 @@ name = "click"
 version = "8.1.8"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "colorama", marker = "platform_system == 'Windows'" },
+    { name = "colorama", marker = "sys_platform == 'win32'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/b9/2e/0090cbf739cee7d23781ad4b89a9894a41538e4fcf4c31dcdd705b78eb8b/click-8.1.8.tar.gz", hash = "sha256:ed53c9d8990d83c2a27deae68e4ee337473f6330c040a31d4225c9574d16096a", size = 226593 }
 wheels = [
@@ -1077,7 +1077,7 @@ requires-dist = [
     { name = "jupyter-book", marker = "extra == 'docs'", specifier = ">=0.15.1,<1.1" },
     { name = "jupyterlab", marker = "extra == 'dev'" },
     { name = "jupytext", marker = "extra == 'docs'" },
-    { name = "kfactory", extras = ["ipy"], specifier = "==1.0.3" },
+    { name = "kfactory", extras = ["ipy"], specifier = "==1.1.0" },
     { name = "kweb", marker = "extra == 'cad'", specifier = ">=1.1.9,<2.1" },
     { name = "loguru", specifier = "<1" },
     { name = "mapbox-earcut" },
@@ -1510,7 +1510,7 @@ name = "ipykernel"
 version = "6.29.5"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "appnope", marker = "platform_system == 'Darwin'" },
+    { name = "appnope", marker = "sys_platform == 'darwin'" },
     { name = "comm" },
     { name = "debugpy" },
     { name = "ipython" },
@@ -1991,7 +1991,7 @@ wheels = [
 
 [[package]]
 name = "kfactory"
-version = "1.0.3"
+version = "1.1.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aenum" },
@@ -2009,9 +2009,9 @@ dependencies = [
     { name = "toolz" },
     { name = "typer" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/31/fd/1360b87d368eabbf38eacfc7af0e069203c03e7c64b011ce8d59abf2685d/kfactory-1.0.3.tar.gz", hash = "sha256:136d5900df88d48912c4220defc0600956d19c70f9e4777059d0e137ae4c831b", size = 1374726 }
+sdist = { url = "https://files.pythonhosted.org/packages/c2/2c/ef4571c8f45a8433e5dd8d8bdfd0b846ce8fda7eea0fcf3af53e3b2b7ce1/kfactory-1.1.0.tar.gz", hash = "sha256:3ff00bb94f987e90ed7fcfcdaf2cc8f8296125f4581853c433a894283f14b784", size = 1384180 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/1d/45/750a1056f067c3cdda4eec500400d89d15000f158c7d44f146ca77ced6eb/kfactory-1.0.3-py3-none-any.whl", hash = "sha256:0c87563d87628dc59d18cec41197eb9679c34986112766e56298b168bc62c4eb", size = 181187 },
+    { url = "https://files.pythonhosted.org/packages/0c/5b/b669671d974fb6bc8d80e44e6729a3bf63cc90f27478563337947acf6dd7/kfactory-1.1.0-py3-none-any.whl", hash = "sha256:5eb652e3c3d4a7d7590608c4075c0c4e43387e2c1f7bf7f4842b24d2ef6d0327", size = 186087 },
 ]
 
 [package.optional-dependencies]
@@ -4985,7 +4985,7 @@ name = "tqdm"
 version = "4.67.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "colorama", marker = "platform_system == 'Windows'" },
+    { name = "colorama", marker = "sys_platform == 'win32'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/a8/4b/29b4ef32e036bb34e4ab51796dd745cdba7ed47ad142a9f4a1eb8e0c744d/tqdm-4.67.1.tar.gz", hash = "sha256:f8aef9c52c08c13a65f30ea34f4e5aac3fd1a34959879d7e59e63027286627f2", size = 169737 }
 wheels = [
