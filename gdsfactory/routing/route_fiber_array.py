@@ -15,7 +15,6 @@ from gdsfactory.routing.route_bundle import get_min_spacing, route_bundle
 from gdsfactory.routing.route_single import route_single
 from gdsfactory.routing.utils import direction_ports_from_list_ports
 from gdsfactory.typings import (
-    BoundingBox,
     BoundingBoxes,
     ComponentSpec,
     ComponentSpecOrList,
@@ -23,7 +22,6 @@ from gdsfactory.typings import (
     PortsFactory,
     Strs,
 )
-from gdsfactory.utils import to_kdb_dboxes
 
 
 def route_fiber_array(
@@ -320,11 +318,11 @@ def route_fiber_array(
     gc_ports = [gc.ports[gc_port_name] for gc in io_gratings]
     # c.shapes(c.kcl.layer(1, 10)).insert(component_to_route.bbox())
 
-    _bboxes: list[kdb.Box | BoundingBox] = list(bboxes or [])
+    _bboxes: list[kdb.DBox] = [kdb.DBox(*bbox) for bbox in bboxes or []]
 
     if avoid_component_bbox:
         bbox = component_to_route.bbox()
-        _bboxes.append((bbox.left, bbox.bottom, bbox.right, bbox.top))
+        _bboxes.append(kdb.DBox(bbox.left, bbox.bottom, bbox.right, bbox.top))
 
     route_bundle(
         component,
@@ -338,7 +336,7 @@ def route_fiber_array(
         sort_ports=True,
         allow_width_mismatch=allow_width_mismatch,
         route_width=route_width,
-        bboxes=to_kdb_dboxes(_bboxes),
+        bboxes=_bboxes,
         start_straight_length=start_straight_length,
         end_straight_length=end_straight_length,
         auto_taper=auto_taper,
