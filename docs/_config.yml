@@ -1,6 +1,5 @@
 # Book settings
 # Learn more at https://jupyterbook.org/customize/config.html
-
 title: "GDSFactory"
 author: GDSFactory
 # Force re-execution of notebooks on each build.
