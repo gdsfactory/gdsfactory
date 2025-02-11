@@ -16,7 +16,7 @@ from gdsfactory.typings import ComponentSpec, Floats, Ints, LayerSpec, LayerSpec
 def via_stack(
     size: Size = (11.0, 11.0),
     layers: LayerSpecs = ("M1", "M2", "MTOP"),
-    layer_offsets: Floats | None = None,
+    layer_offsets: Floats | tuple[float | tuple[float, float], ...] | None = None,
     vias: Sequence[ComponentSpec | None] = ("via1", "via2", None),
     layer_port: LayerSpec | None = None,
     layer_to_port_orientations: dict[LayerSpec, list[int]] | None = None,
@@ -38,7 +38,7 @@ def via_stack(
         size: of the layers.
         layers: layers on which to draw rectangles.
         layer_offsets: Optional offsets for each layer with respect to size.
-            positive grows, negative shrinks the size.
+            positive grows, negative shrinks the size. If a tuple, it is the offset in x and y.
         vias: vias to use to fill the rectangles.
         layer_port: if None assumes port is on the last layer. (deprecated).
         layer_to_port_orientations: dictionary of layer to port_orientations.
