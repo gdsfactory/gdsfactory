@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import warnings
-from collections.abc import Sequence, Iterable
+from collections.abc import Iterable, Sequence
 from functools import partial
 
 import numpy as np
