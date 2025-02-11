@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import warnings
-from collections.abc import Sequence
+from collections.abc import Sequence, Iterable
 from functools import partial
 
 import numpy as np
@@ -78,7 +78,13 @@ def via_stack(
     c.info["xsize"], c.info["ysize"] = size
 
     for layer, offset in zip(layers, layer_offsets):
-        size_m = (width_m + 2 * offset, height_m + 2 * offset)
+        if isinstance(offset, Iterable):
+            offset_x = offset[0]
+            offset_y = offset[1]
+        else:
+            offset_x = offset_y = offset
+
+        size_m = (width_m + 2 * offset_x, height_m + 2 * offset_y)
 
         if layer in layer_to_port_orientations_list:
             ref = c << gf.c.compass(
@@ -102,8 +108,13 @@ def via_stack(
     for via, offset in zip(vias_list, layer_offsets):
         if via is not None:
             width, height = size
-            width += 2 * offset
-            height += 2 * offset
+            if isinstance(offset, Iterable):
+                offset_x = offset[0]
+                offset_y = offset[1]
+            else:
+                offset_x = offset_y = offset
+            width += 2 * offset_x
+            height += 2 * offset_y
             _via = gf.get_component(via)
 
             if "xsize" not in _via.info:
