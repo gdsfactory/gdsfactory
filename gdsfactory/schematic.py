@@ -69,7 +69,16 @@ class Instance(BaseModel):
     @classmethod
     def update_settings_and_info(cls, values: dict[str, Any]) -> dict[str, Any]:
         """Validator to update component, settings and info based on the component."""
-        component = values.get("component")
+        if not isinstance(values, dict):
+            raise ValueError(
+                f"Expected a dictionary of the format {{'component': 'mycomponent', 'settings': {{...}}}}. Got a {type(values)} ({values})"
+            )
+        try:
+            component = values.get("component")
+        except KeyError:
+            raise KeyError(
+                f"'component' must be defined in instance definition. Got keys: {list(values.keys())}"
+            )
         settings = values.get("settings", {})
         info = values.get("info", {})
 
