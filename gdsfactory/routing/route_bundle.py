@@ -273,7 +273,7 @@ def route_bundle(
     )
 
     def straight_um(width: float, length: float) -> gf.Component:
-        return gf.get_component(straight, length=length, cross_section=xs)
+        return gf.get_component(straight, length=length, cross_section=xs, width=width)
 
     return kf.routing.optical.route_bundle(
         component,

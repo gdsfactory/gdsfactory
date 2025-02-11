@@ -224,6 +224,7 @@ class CrossSection(BaseModel):
 
     model_config = ConfigDict(extra="forbid", frozen=True)
     _name: str = PrivateAttr("")
+    _dcross_section: DCrossSection | None = PrivateAttr()
 
     def validate_radius(
         self, radius: float, error_type: ErrorType | None = None
