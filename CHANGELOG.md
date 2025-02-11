@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [8.32.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.32.1) - 2025-02-10
+
+No significant changes.
+
+
 ## [8.32.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.32.0) - 2025-02-04
 
 - making auto tapering reflexive [#3647](https://github.com/gdsfactory/gdsfactory/pull/3647)
