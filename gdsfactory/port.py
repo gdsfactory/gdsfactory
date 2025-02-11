@@ -34,7 +34,7 @@ import functools
 import warnings
 from collections.abc import Callable, Sequence
 from functools import partial
-from typing import TYPE_CHECKING, Any, Literal, TypeAlias, TypeVar
+from typing import TYPE_CHECKING, Any, Literal, TypeAlias, TypedDict, TypeVar, Unpack
 
 import kfactory as kf
 import numpy as np
@@ -57,6 +57,7 @@ from gdsfactory.typings import (
 
 if TYPE_CHECKING:
     from gdsfactory.component import Component, ComponentFactory, ComponentReference
+    from gdsfactory.cross_section import CrossSectionSpec
 
 valid_error_types = ["error", "warn", "ignore"]
 
@@ -117,13 +118,20 @@ def to_dict(port: kf.port.ProtoPort[Any]) -> dict[str, Any]:
     }
 
 
+class PortKwargs(TypedDict, total=False):
+    layer: LayerSpec
+    port_type: str
+    cross_section: CrossSectionSpec
+    info: dict[str, int | float | str]
+
+
 def port_array(
     center: tuple[float, float] = (0.0, 0.0),
     width: float = 0.5,
     orientation: AngleInDegrees = 0,
     pitch: tuple[float, float] = (10.0, 0.0),
     n: int = 2,
-    **kwargs: Any,
+    **kwargs: Unpack[PortKwargs],
 ) -> list[Port]:
     """Returns a list of ports placed in an array.
 
@@ -136,19 +144,53 @@ def port_array(
         kwargs: additional arguments.
 
     """
+    from gdsfactory.pdk import get_cross_section, get_layer
+
     pitch_array = np.array(pitch)
-    return [
-        Port(
-            name=str(i),
-            width=width,
-            center=tuple(
-                np.array(center) + i * pitch_array - (n - 1) / 2 * pitch_array
-            ),
-            orientation=orientation,
-            **kwargs,
-        )
-        for i in range(n)
-    ]
+    if "layer" in kwargs:
+        kwargs["layer"] = get_layer(kwargs["layer"])
+    if "cross_section" in kwargs:
+        cross_section = kwargs.pop("cross_section")
+        xs = get_cross_section(cross_section)
+        if width != xs.width:
+            xs = get_cross_section(xs.copy(width=width))
+        try:
+            sym_xs: kf.SymmetricalCrossSection | None = (
+                gf.kcl.get_symmetrical_cross_section(xs.name)
+            )
+        except KeyError:
+            sym_xs = None
+
+        kwargs.pop("cross_section", None)
+        info = kwargs.get("info", {})
+        info["cross_section"] = xs.name
+        kwargs["info"] = info
+
+        return [
+            Port(
+                name=str(i),
+                center=tuple(
+                    np.array(center) + i * pitch_array - (n - 1) / 2 * pitch_array
+                ),
+                orientation=orientation,
+                cross_section=sym_xs,
+                **kwargs,  # type: ignore[arg-type]
+            )  # type: ignore[misc]
+            for i in range(n)
+        ]
+    else:
+        return [
+            Port(
+                name=str(i),
+                center=tuple(
+                    np.array(center) + i * pitch_array - (n - 1) / 2 * pitch_array
+                ),
+                orientation=orientation,
+                width=width,
+                **kwargs,  # type: ignore[arg-type]
+            )
+            for i in range(n)
+        ]
 
 
 def read_port_markers(
