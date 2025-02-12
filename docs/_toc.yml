@@ -42,6 +42,7 @@ parts:
       - file: migration
         sections:
           - file: notebooks/21_migration_guide_7_8
+          - file: notebooks/22_migration_8
   - caption: Plugins
     chapters:
       - url: https://gdsfactory.github.io/gplugins/
