@@ -390,6 +390,9 @@ def route_fiber_array(
             inside=with_loopback_inside,
             d_loop=d_loop_dbu,
         )
+        waypoints_loopback_ = [
+            p.to_dtype(component.kcl.dbu) for p in waypoints_loopback
+        ]
         bend90 = gf.get_component(
             bend, cross_section=cross_section, radius=radius_loopback
         )
@@ -398,7 +401,7 @@ def route_fiber_array(
             component,
             port1=port0,
             port2=port1,
-            waypoints=waypoints_loopback,
+            waypoints=waypoints_loopback_,
             straight=straight,
             bend=bend90,
             cross_section=cross_section,
