@@ -94,7 +94,7 @@ class Path(GeometryHelper):
     def __getattribute__(self, __k: str) -> Any:
         """Deprecate dbu prefixed attributes."""
         if __k in {
-            "center",
+            "dcenter",
             "dmirror",
             "dmove",
             "dmovex",
