@@ -34,26 +34,25 @@ from trimesh.scene.scene import Scene
 
 from gdsfactory._deprecation import deprecate
 from gdsfactory.config import CONF, GDSDIR_TEMP
-from gdsfactory.port import to_dict
 from gdsfactory.serialization import clean_value_json, convert_tuples_to_lists
-from gdsfactory.technology.layer_stack import LayerStack
-from gdsfactory.technology.layer_views import LayerViews
-from gdsfactory.typings import (
-    AngleInDegrees,
-    ComponentSpec,
-    Coordinates,
-    Layer,
-    LayerSpec,
-    LayerSpecs,
-    PathType,
-    Port,
-    Position,
-    Spacing,
-)
 from gdsfactory.utils import to_kdb_dpoints
 
 if TYPE_CHECKING:
     from gdsfactory.cross_section import CrossSection, CrossSectionSpec
+    from gdsfactory.technology.layer_stack import LayerStack
+    from gdsfactory.technology.layer_views import LayerViews
+    from gdsfactory.typings import (
+        AngleInDegrees,
+        ComponentSpec,
+        Coordinates,
+        Layer,
+        LayerSpec,
+        LayerSpecs,
+        PathType,
+        Port,
+        Position,
+        Spacing,
+    )
 
 cell_without_validator = cell
 
@@ -553,11 +552,14 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
 
     def to_dict(self, with_ports: bool = False) -> dict[str, Any]:
         """Returns a dictionary representation of the Component."""
+        from gdsfactory.port import to_dict
+
         d = {
             "name": self.name,
             "info": self.info.model_dump(exclude_none=True),
             "settings": self.settings.model_dump(exclude_none=True),
         }
+
         if with_ports:
             d["ports"] = {
                 port.name: to_dict(port) for port in self.ports if port.name is not None

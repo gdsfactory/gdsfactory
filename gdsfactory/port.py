@@ -34,7 +34,7 @@ import functools
 import warnings
 from collections.abc import Callable, Sequence
 from functools import partial
-from typing import TYPE_CHECKING, Any, Literal, TypeAlias, TypedDict, TypeVar, Unpack
+from typing import TYPE_CHECKING, Any, Literal, TypeAlias, TypedDict, Unpack
 
 import kfactory as kf
 import numpy as np
@@ -44,6 +44,8 @@ from rich.table import Table
 from gdsfactory import typings
 from gdsfactory.typings import (
     AngleInDegrees,
+    ComponentFactory,
+    CrossSectionSpec,
     LayerSpec,
     LayerSpecs,
     PathType,
@@ -56,12 +58,9 @@ from gdsfactory.typings import (
 )
 
 if TYPE_CHECKING:
-    from gdsfactory.component import Component, ComponentFactory, ComponentReference
-    from gdsfactory.typings import CrossSectionSpec
+    from gdsfactory.component import Component, ComponentReference
 
 valid_error_types = ["error", "warn", "ignore"]
-
-_PortT = TypeVar("_PortT", bound="Port")
 
 
 class PortNotOnGridError(ValueError):

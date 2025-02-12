@@ -73,11 +73,13 @@ def grating_coupler_array(
             d_loop=d_loop,
         )
 
+        waypoints_ = [point.to_dtype(c.kcl.dbu) for point in waypoints]
+
         gf.routing.route_single(
             c,
             port1=port0,
             port2=port1,
-            waypoints=waypoints,  # type: ignore
+            waypoints=waypoints_,  # type: ignore
             cross_section=cross_section,
         )
 
