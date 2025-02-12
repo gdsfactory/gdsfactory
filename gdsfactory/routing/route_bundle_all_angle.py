@@ -1,13 +1,19 @@
+from __future__ import annotations
+
 from functools import partial
 
 from kfactory.routing.aa.optical import OpticalAllAngleRoute, route_bundle
 
 import gdsfactory as gf
-from gdsfactory.component import ComponentAllAngleFactory
 from gdsfactory.components.bends import bend_euler_all_angle
 from gdsfactory.components.waveguides import straight_all_angle
-from gdsfactory.cross_section import CrossSectionSpec
-from gdsfactory.typings import ComponentSpec, Coordinates, Port
+from gdsfactory.typings import (
+    ComponentAllAngleFactory,
+    ComponentSpec,
+    Coordinates,
+    CrossSectionSpec,
+    Port,
+)
 from gdsfactory.utils import to_kdb_dpoints
 
 

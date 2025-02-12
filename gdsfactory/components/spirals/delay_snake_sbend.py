@@ -3,8 +3,7 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.waveguides.straight import straight
-from gdsfactory.cross_section import CrossSectionSpec
-from gdsfactory.typings import ComponentSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 diagram = r"""
 

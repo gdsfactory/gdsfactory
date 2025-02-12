@@ -24,13 +24,18 @@ from __future__ import annotations
 import dataclasses
 import pathlib
 from collections.abc import Callable, Generator, Sequence
-from typing import Any, Literal, ParamSpec, TypeAlias, TypeVar
+from typing import TYPE_CHECKING, Any, Literal, ParamSpec, TypeAlias, TypeVar
 
 import kfactory as kf
 import klayout.db as kdb
 import numpy as np
 import numpy.typing as npt
+from kfactory import DCrossSection, SymmetricalCrossSection
 from kfactory.layer import LayerEnum
+
+if TYPE_CHECKING:
+    from gdsfactory.component import Component, ComponentAllAngle, ComponentBase
+    from gdsfactory.cross_section import CrossSection
 
 STEP_DIRECTIVES = {
     "x",
@@ -112,7 +117,7 @@ LayerSpecs: TypeAlias = Sequence[LayerSpec]
 Number: TypeAlias = float | int
 Coordinate: TypeAlias = tuple[float, float]
 Coordinates: TypeAlias = Sequence[Coordinate]
-WayPoints: TypeAlias = Sequence[Coordinate | kdb.Point]
+WayPoints: TypeAlias = Sequence[Coordinate | kdb.DPoint]
 
 MaterialSpec: TypeAlias = (
     str | float | tuple[float, float] | Callable[..., Any] | npt.NDArray[np.float64]
@@ -166,10 +171,34 @@ Instance: TypeAlias = kf.DInstance
 ComponentOrPath: TypeAlias = PathType | kf.DKCell
 ComponentOrReference: TypeAlias = kf.DKCell | kf.DInstance
 
+ComponentFactory: TypeAlias = Callable[..., "Component"]
+ComponentAllAngleFactory: TypeAlias = Callable[..., "ComponentAllAngle"]
+ComponentFactoryDict: TypeAlias = dict[str, ComponentFactory]
+ComponentFactories: TypeAlias = Sequence[ComponentFactory]
+ComponentBaseT = TypeVar("ComponentBaseT", bound="ComponentBase")
+
+
+AnyComponent: TypeAlias = "Component | ComponentAllAngle"
+AnyComponentT = TypeVar("AnyComponentT", bound=AnyComponent)
+AnyComponentFactory: TypeAlias = Callable[..., AnyComponent]
+AnyComponentPostProcess: TypeAlias = Callable[[AnyComponent], None]
+CellSpec: TypeAlias = str | ComponentFactory | dict[str, Any]
 ComponentSpec: TypeAlias = str | Callable[..., kf.DKCell] | dict[str, Any] | kf.DKCell
 ComponentSpecOrList: TypeAlias = ComponentSpec | list[ComponentSpec]
 ComponentSpecDict: TypeAlias = dict[str, ComponentSpec]
 ComponentSpecs: TypeAlias = Sequence[ComponentSpec]
+
+
+CrossSectionFactory: TypeAlias = Callable[..., "CrossSection"]
+CrossSectionSpec: TypeAlias = """CrossSection
+    | str
+    | dict[str, Any]
+    | CrossSectionFactory
+    | SymmetricalCrossSection
+    | DCrossSection"""
+MultiCrossSectionAngleSpec: TypeAlias = Sequence[
+    tuple[CrossSectionSpec, tuple[int, ...]]
+]
 
 
 class TypedArray(np.ndarray[Any, np.dtype[Any]]):

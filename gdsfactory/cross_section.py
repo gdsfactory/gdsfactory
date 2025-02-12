@@ -11,10 +11,10 @@ from collections.abc import Callable, Sequence
 from functools import partial, wraps
 from inspect import getmembers, signature
 from types import ModuleType
-from typing import Any, Self, TypeAlias
+from typing import TYPE_CHECKING, Any, Self
 
 import numpy as np
-from kfactory import DCrossSection, SymmetricalCrossSection, logger
+from kfactory import DCrossSection, logger
 from pydantic import (
     BaseModel,
     ConfigDict,
@@ -24,9 +24,10 @@ from pydantic import (
     model_validator,
 )
 
-from gdsfactory.component import Component, ComponentBaseT
+from gdsfactory.component import Component
 from gdsfactory.config import CONF, ErrorType
 from gdsfactory.typings import (
+    ComponentBaseT,
     Coordinate,
     Floats,
     IOPorts,
@@ -37,6 +38,9 @@ from gdsfactory.typings import (
     WidthFunction,
     WidthTypes,
 )
+
+if TYPE_CHECKING:
+    from gdsfactory.typings import CrossSectionFactory, CrossSectionSpec
 
 nm = 1e-3
 
@@ -410,19 +414,6 @@ class CrossSection(BaseModel):
 
         return xmin, xmax
 
-
-CrossSectionFactory: TypeAlias = Callable[..., CrossSection]
-CrossSectionSpec: TypeAlias = (
-    CrossSection
-    | str
-    | dict[str, Any]
-    | CrossSectionFactory
-    | SymmetricalCrossSection
-    | DCrossSection
-)
-MultiCrossSectionAngleSpec: TypeAlias = Sequence[
-    tuple[CrossSectionSpec, tuple[int, ...]]
-]
 
 CrossSection.model_rebuild()
 
@@ -2692,9 +2683,9 @@ def get_cross_sections(
         modules: module or iterable of modules.
         verbose: prints in case any errors occur.
     """
-    _modules = modules if isinstance(modules, Sequence) else [modules]
+    modules_ = modules if isinstance(modules, Sequence) else [modules]
     xs: dict[str, CrossSectionFactory] = {}
-    for module in _modules:
+    for module in modules_:
         for t in getmembers(module):
             if callable(t[1]) and not t[0].startswith("_"):
                 try:

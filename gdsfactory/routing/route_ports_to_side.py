@@ -9,10 +9,9 @@ from kfactory.routing.generic import ManhattanRoute
 import gdsfactory as gf
 from gdsfactory import typings
 from gdsfactory.component import Component
-from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.port import flipped
 from gdsfactory.routing.route_single import route_single
-from gdsfactory.typings import Ports
+from gdsfactory.typings import CrossSectionSpec, Ports
 
 
 def sort_key_west_to_east(port: typings.Port) -> float:

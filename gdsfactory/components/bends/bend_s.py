@@ -9,9 +9,8 @@ import numpy.typing as npt
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import ErrorType
-from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.functions import angles_deg, curvature, snap_angle
-from gdsfactory.typings import Coordinate, Coordinates, Size
+from gdsfactory.typings import Coordinate, Coordinates, CrossSectionSpec, Size
 
 
 def bezier_curve(

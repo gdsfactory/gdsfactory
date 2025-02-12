@@ -3,13 +3,18 @@ from __future__ import annotations
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentFactory, ComponentReference
+from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.bends.bend_euler import bend_euler
 from gdsfactory.components.bends.bend_s import bend_s, get_min_sbend_size
 from gdsfactory.components.waveguides.straight import straight
-from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.routing.route_single import route_single
-from gdsfactory.typings import ComponentSpec, Floats, Port
+from gdsfactory.typings import (
+    ComponentFactory,
+    ComponentSpec,
+    CrossSectionSpec,
+    Floats,
+    Port,
+)
 
 
 @gf.cell

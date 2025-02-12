@@ -5,8 +5,7 @@ from functools import partial
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bends.bend_s import bend_s
-from gdsfactory.cross_section import CrossSectionSpec
-from gdsfactory.typings import ComponentSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell

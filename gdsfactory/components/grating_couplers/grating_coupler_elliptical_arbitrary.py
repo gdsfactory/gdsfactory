@@ -10,9 +10,8 @@ from gdsfactory.components.grating_couplers.functions import (
     grating_taper_points,
     grating_tooth_points,
 )
-from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.functions import DEG2RAD
-from gdsfactory.typings import Floats, LayerSpec
+from gdsfactory.typings import CrossSectionSpec, Floats, LayerSpec
 
 _gaps = (0.1,) * 10
 _widths = (0.5,) * 10

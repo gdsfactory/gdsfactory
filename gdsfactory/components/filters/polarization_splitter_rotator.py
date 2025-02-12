@@ -8,8 +8,7 @@ import numpy.typing as npt
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bends.bend_s import bezier
-from gdsfactory.cross_section import CrossSectionSpec
-from gdsfactory.typings import Delta, Float2, Float3
+from gdsfactory.typings import CrossSectionSpec, Delta, Float2, Float3
 
 
 @gf.cell

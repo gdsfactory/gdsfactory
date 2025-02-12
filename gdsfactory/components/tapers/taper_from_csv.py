@@ -11,7 +11,7 @@ import numpy.typing as npt
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.cross_section import CrossSectionSpec
+from gdsfactory.typings import CrossSectionSpec
 
 data = pathlib.Path(__file__).parent / "csv_data"
 

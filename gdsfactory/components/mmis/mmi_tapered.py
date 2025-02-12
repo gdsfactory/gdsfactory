@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentFactory
+from gdsfactory.component import Component
 from gdsfactory.components.tapers.taper import taper as taper_function
-from gdsfactory.cross_section import CrossSectionSpec
+from gdsfactory.typings import ComponentFactory, CrossSectionSpec
 
 
 @gf.cell

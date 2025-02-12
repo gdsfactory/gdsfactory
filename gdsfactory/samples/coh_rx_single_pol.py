@@ -4,8 +4,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.cross_section import CrossSectionSpec
-from gdsfactory.typings import ComponentSpec, Port, Spacing
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Port, Spacing
 
 
 @gf.cell

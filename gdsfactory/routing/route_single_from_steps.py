@@ -9,9 +9,14 @@ from kfactory.routing.generic import ManhattanRoute
 import gdsfactory as gf
 from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component
-from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.routing.route_single import route_single
-from gdsfactory.typings import STEP_DIRECTIVES, ComponentSpec, Coordinate, Port
+from gdsfactory.typings import (
+    STEP_DIRECTIVES,
+    ComponentSpec,
+    Coordinate,
+    CrossSectionSpec,
+    Port,
+)
 
 
 def route_single_from_steps(

@@ -2,8 +2,7 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.cross_section import CrossSectionSpec
-from gdsfactory.typings import ComponentSpec, Port
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Port
 
 
 def route_single_sbend(

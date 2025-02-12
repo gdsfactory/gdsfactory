@@ -57,7 +57,7 @@ from gdsfactory.typings import (
 
 if TYPE_CHECKING:
     from gdsfactory.component import Component, ComponentFactory, ComponentReference
-    from gdsfactory.cross_section import CrossSectionSpec
+    from gdsfactory.typings import CrossSectionSpec
 
 valid_error_types = ["error", "warn", "ignore"]
 

@@ -2,9 +2,9 @@ import numpy as np
 import numpy.typing as npt
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentFactory
+from gdsfactory.component import Component
 from gdsfactory.components.bends.bend_s import bend_s
-from gdsfactory.cross_section import CrossSectionSpec
+from gdsfactory.typings import ComponentFactory, CrossSectionSpec
 
 
 def mmi_widths(t: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:

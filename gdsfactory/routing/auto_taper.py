@@ -6,9 +6,8 @@ import warnings
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentSpec
-from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.port import Port
-from gdsfactory.typings import Layer, LayerSpec, Ports
+from gdsfactory.typings import CrossSectionSpec, Layer, LayerSpec, Ports
 
 
 def add_auto_tapers(
