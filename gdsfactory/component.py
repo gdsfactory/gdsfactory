@@ -711,7 +711,7 @@ class Component(ComponentBase, kf.DKCell):
         alias: str | None = None,
         column_pitch: float = 0.0,
         row_pitch: float = 0.0,
-    ) -> DInstance:
+    ) -> ComponentReference:
         """Adds a component instance reference to a Component.
 
         Args:
@@ -750,7 +750,7 @@ class Component(ComponentBase, kf.DKCell):
             inst.name = alias
         elif name:
             inst.name = name
-        return DInstance(kcl=self.kcl, instance=inst.instance)
+        return ComponentReference(kcl=self.kcl, instance=inst.instance)
 
     def get_paths(
         self, layer: "LayerSpec", recursive: bool = True
