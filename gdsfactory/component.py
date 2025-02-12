@@ -149,7 +149,9 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         ]
 
     @abstractmethod
-    def add_polygon(self, points: _PolygonPoints, layer: LayerSpec) -> None: ...
+    def add_polygon(
+        self, points: _PolygonPoints, layer: LayerSpec
+    ) -> kdb.Shape | None: ...
 
     def bbox_np(self) -> npt.NDArray[np.float64]:
         """Returns the bounding box of the Component as a numpy array."""
@@ -1057,7 +1059,21 @@ class Component(ComponentBase, kf.DKCell):
         deprecate("ref", "add_ref")
         return self.add_ref(*args, **kwargs)
 
-    def add_polygon(self, points: _PolygonPoints, layer: "LayerSpec") -> None:
+    @overload
+    def add_polygon(self, points: kdb.Region, layer: "LayerSpec") -> None: ...
+    @overload
+    def add_polygon(
+        self,
+        points: npt.NDArray[np.floating[Any]]
+        | kdb.DPolygon
+        | kdb.Polygon
+        | kdb.DSimplePolygon
+        | Coordinates,
+        layer: "LayerSpec",
+    ) -> kdb.Shape: ...
+    def add_polygon(
+        self, points: _PolygonPoints, layer: "LayerSpec"
+    ) -> kdb.Shape | None:
         """Adds a Polygon to the Component and returns a klayout Shape.
 
         Args:
@@ -1073,7 +1089,7 @@ class Component(ComponentBase, kf.DKCell):
 
         polygon = points_to_polygon(points)
 
-        self.kdb_cell.shapes(_layer).insert(polygon)
+        return self.kdb_cell.shapes(_layer).insert(polygon)
 
     @overload
     def plot(
