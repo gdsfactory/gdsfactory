@@ -3,8 +3,8 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
-from gdsfactory.cross_section import CrossSectionSpec, strip
-from gdsfactory.typings import LayerSpecs
+from gdsfactory.cross_section import strip
+from gdsfactory.typings import CrossSectionSpec, LayerSpecs
 
 
 @gf.cell

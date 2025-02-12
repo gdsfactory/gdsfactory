@@ -10,9 +10,8 @@ from gdsfactory.components.grating_couplers.functions import (
     grating_taper_points,
     grating_tooth_points,
 )
-from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.functions import DEG2RAD
-from gdsfactory.typings import LayerSpec
+from gdsfactory.typings import CrossSectionSpec, LayerSpec
 
 
 @gf.cell

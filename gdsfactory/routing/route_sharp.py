@@ -9,10 +9,10 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory import typings
 from gdsfactory.component import Component
-from gdsfactory.cross_section import CrossSection, CrossSectionSpec, Section
+from gdsfactory.cross_section import CrossSection, Section
 from gdsfactory.path import Path, transition
 from gdsfactory.routing.route_quad import _get_rotated_basis
-from gdsfactory.typings import LayerSpec
+from gdsfactory.typings import CrossSectionSpec, LayerSpec
 
 
 def path_straight(port1: typings.Port, port2: typings.Port) -> Path:

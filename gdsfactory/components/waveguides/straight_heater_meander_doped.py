@@ -7,8 +7,8 @@ import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.vias.via import via
 from gdsfactory.components.vias.via_stack import via_stack
-from gdsfactory.cross_section import CrossSectionSpec, Section
-from gdsfactory.typings import ComponentSpec, Floats, LayerSpecs, Port
+from gdsfactory.cross_section import Section
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats, LayerSpecs, Port
 
 _via_stack = partial(
     via_stack,

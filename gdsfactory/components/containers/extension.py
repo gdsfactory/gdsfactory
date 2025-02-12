@@ -8,10 +8,9 @@ import numpy.typing as npt
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.cross_section import cross_section as cross_section_function
 from gdsfactory.port import Port
-from gdsfactory.typings import ComponentSpec, Coordinate, PortNames
+from gdsfactory.typings import ComponentSpec, Coordinate, CrossSectionSpec, PortNames
 
 DEG2RAD = np.pi / 180
 

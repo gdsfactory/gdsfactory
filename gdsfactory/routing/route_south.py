@@ -9,12 +9,18 @@ from kfactory.routing.generic import ManhattanRoute
 import gdsfactory as gf
 from gdsfactory import typings
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.cross_section import CrossSection, CrossSectionSpec
+from gdsfactory.cross_section import CrossSection
 from gdsfactory.port import Port, select_ports_optical
 from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.routing.route_single import route_single
 from gdsfactory.routing.utils import direction_ports_from_list_ports
-from gdsfactory.typings import ComponentSpec, Radius, SelectPorts, Strs
+from gdsfactory.typings import (
+    ComponentSpec,
+    CrossSectionSpec,
+    Radius,
+    SelectPorts,
+    Strs,
+)
 
 
 def route_south(

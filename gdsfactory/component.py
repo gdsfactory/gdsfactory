@@ -6,7 +6,7 @@ import pathlib
 import warnings
 from abc import ABC, abstractmethod
 from collections.abc import Callable, Iterable, Sequence
-from typing import TYPE_CHECKING, Any, Literal, Self, TypeAlias, TypeVar, overload
+from typing import TYPE_CHECKING, Any, Literal, Self, TypeAlias, overload
 
 import kfactory as kf
 import klayout.lay as lay
@@ -1238,20 +1238,6 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):  # type: ignore
         from gdsfactory import get_layer
 
         return [x for x in self.shapes(get_layer(layer)) if isinstance(x, kdb.DPolygon)]
-
-
-ComponentFactory: TypeAlias = Callable[..., Component]
-ComponentAllAngleFactory: TypeAlias = Callable[..., ComponentAllAngle]
-ComponentFactoryDict: TypeAlias = dict[str, ComponentFactory]
-ComponentFactories: TypeAlias = Sequence[ComponentFactory]
-ComponentBaseT = TypeVar("ComponentBaseT", bound=ComponentBase)
-
-CellSpec: TypeAlias = str | ComponentFactory | dict[str, Any]
-
-AnyComponent: TypeAlias = Component | ComponentAllAngle
-AnyComponentT = TypeVar("AnyComponentT", bound=AnyComponent)
-AnyComponentFactory: TypeAlias = Callable[..., AnyComponent]
-AnyComponentPostProcess: TypeAlias = Callable[[AnyComponent], None]
 
 
 def container(

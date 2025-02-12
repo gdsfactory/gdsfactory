@@ -11,8 +11,7 @@ from gdsfactory.components.bends.bend_s import (
     bezier,
     find_min_curv_bezier_control_points,
 )
-from gdsfactory.cross_section import CrossSectionSpec
-from gdsfactory.typings import ComponentSpec, Delta, LayerSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Delta, LayerSpec
 
 
 @gf.cell

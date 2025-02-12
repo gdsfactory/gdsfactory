@@ -7,16 +7,16 @@ import klayout.dbcore as kdb
 import networkx as nx
 import numpy as np
 import numpy.typing as npt
-from klayout.dbcore import Point
+from klayout.dbcore import DPoint
 from shapely.geometry import LineString
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.typings import (
     ComponentSpec,
     Coordinate,
     Coordinates,
+    CrossSectionSpec,
     LayerSpec,
     Port,
     Route,
@@ -80,8 +80,8 @@ def _generate_grid(
         avoid_layers: List of layers to avoid.
         distance: Distance from obstacles in um.
     """
-    bbox_int = _parse_bbox_to_array(c.bbox())
-    bbox = bbox_int / 1000  # Change units
+    bbox_int = _parse_bbox_to_array(c.dbbox())
+    bbox = bbox_int
 
     _a1 = float(bbox[0][0]) - resolution
     _a2 = float(bbox[1][0]) + resolution
@@ -175,19 +175,19 @@ def route_astar(
                 G.remove_node((i, j))
 
     # Unit conversion
-    port1x = port1.x / 1000
-    port1y = port1.y / 1000
-    port2x = port2.x / 1000
-    port2y = port2.y / 1000
+    port1x = port1.x
+    port1y = port1.y
+    port2x = port2.x
+    port2y = port2.y
 
     # Define start and end nodes
     start_node = (
-        int(round((port1x - x.min()) / resolution)),
-        int(round((port1y - y.min()) / resolution)),
+        round((port1x - x.min()) / resolution),
+        (round((port1y - y.min()) / resolution)),
     )
     end_node = (
-        int(round((port2x - x.min()) / resolution)),
-        int(round((port2y - y.min()) / resolution)),
+        (round((port2x - x.min()) / resolution)),
+        (round((port2y - y.min()) / resolution)),
     )
 
     # Find the closest valid nodes
@@ -206,7 +206,7 @@ def route_astar(
     waypoints = [(x[i] + resolution / 2, y[j] + resolution / 2) for i, j in path]
 
     # Simplify the route
-    simplified_path = simplify_path(waypoints, tolerance=5)
+    simplified_path = simplify_path(waypoints, tolerance=0.05)
 
     # Prepare waypoints
     my_waypoints = [[port1x, port1y]] + [
@@ -222,7 +222,66 @@ def route_astar(
     my_waypoints += [[port2x, port2y]]
 
     # Convert to native floats or Point instances
-    cleaned_waypoints = [Point(int(x * 1000), int(y * 1000)) for x, y in my_waypoints]
+    waypoints_ = [DPoint(x, y) for x, y in my_waypoints]
+    l_wp = len(waypoints_)
+    cleaned_waypoints: list[DPoint] = [waypoints_[0]]
+    for i in range(l_wp - 2):
+        p1, p2, p3 = waypoints_[i : i + 3]
+        e1 = gf.kdb.DEdge(p1, p2)
+        e2 = gf.kdb.DEdge(p2, p3)
+        e1_a: int = 0
+        e2_a: int = 0
+        match e1.dx(), e1.dy():
+            case 0, 0:
+                continue
+            case x_, 0 if x_ > 0:
+                e1_a = 0
+            case x_, 0 if x_ < 0:
+                e1_a = 2
+            case 0, y_ if y_ < 0:
+                e1_a = 1
+            case 0, y_ if y_ > 0:
+                e1_a = 3
+            case x_, y_:
+                if abs(x_) > abs(y_):
+                    if x_ > 0:
+                        e1_a = 0
+                    else:
+                        e1_a = 2
+                else:
+                    if y_ > 0:
+                        e1_a = 1
+                    else:
+                        e1_a = 3
+
+        match e2.dx(), e2.dy():
+            case 0, 0:
+                continue
+            case x_, 0 if x_ > 0:
+                e2_a = 0
+            case x_, 0 if x_ < 0:
+                e2_a = 2
+            case 0, y_ if y_ < 0:
+                e2_a = 1
+            case 0, y_ if y_ > 0:
+                e2_a = 3
+            case x_, y_:
+                if abs(x_) > abs(y_):
+                    if x_ > 0:
+                        e2_a = 0
+                    else:
+                        e2_a = 2
+                else:
+                    if y_ > 0:
+                        e2_a = 1
+                    else:
+                        e2_a = 3
+        if e1_a != e2_a:
+            if e1_a in [0, 2]:
+                cleaned_waypoints.append(kdb.DPoint(e1.p1.x, e2.p2.y))
+            else:
+                cleaned_waypoints.append(kdb.DPoint(e1.p2.x, e2.p1.y))
+    cleaned_waypoints.append(p3)
 
     return gf.routing.route_single(
         component=component,

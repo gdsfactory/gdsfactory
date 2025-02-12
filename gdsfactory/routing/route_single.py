@@ -28,7 +28,7 @@ To generate a route:
 from __future__ import annotations
 
 from collections.abc import Mapping, Sequence
-from typing import Literal
+from typing import Literal, cast
 
 import kfactory as kf
 from kfactory.routing.electrical import route_elec
@@ -37,11 +37,11 @@ from kfactory.routing.optical import place90, route
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.typings import (
     STEP_DIRECTIVES,
     ComponentSpec,
+    CrossSectionSpec,
     LayerSpec,
     Port,
     WayPoints,
@@ -166,16 +166,19 @@ def route_single(
 
     if waypoints_list:
         w: list[kf.kdb.Point] = []
-        if not isinstance(waypoints_list[0], kf.kdb.Point):
+        if not isinstance(waypoints_list[0], kf.kdb.DPoint):
             w.append(c.kcl.to_dbu(kf.kdb.DPoint(*p1.center)))
             for p in waypoints_list:
                 if isinstance(p, tuple):
                     w.append(c.kcl.to_dbu(kf.kdb.DPoint(p[0], p[1])))
                 else:
-                    w.append(p)
+                    w.append(p.to_itype(c.kcl.dbu))
             w.append(c.kcl.to_dbu(kf.kdb.DPoint(*p2.center)))
         else:
-            w = waypoints_list  # type: ignore
+            w = [
+                p.to_itype(c.kcl.dbu)
+                for p in cast(Sequence[gf.kdb.DPoint], waypoints_list)
+            ]
 
         try:
             return place90(

@@ -23,8 +23,7 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.mzis import mzi1x2_2x2
-from gdsfactory.cross_section import CrossSectionSpec
-from gdsfactory.typings import ComponentSpec, Spacing
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Spacing
 
 
 @gf.cell

@@ -5,9 +5,9 @@ from typing import Any
 from numpy import floor
 
 import gdsfactory as gf
-from gdsfactory.cross_section import MultiCrossSectionAngleSpec, metal2, metal3
+from gdsfactory.cross_section import metal2, metal3
 from gdsfactory.port import select_ports
-from gdsfactory.typings import ComponentSpec
+from gdsfactory.typings import ComponentSpec, MultiCrossSectionAngleSpec
 
 
 @gf.cell

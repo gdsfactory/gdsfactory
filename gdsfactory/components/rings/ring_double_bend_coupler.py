@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentAllAngleFactory
+from gdsfactory.component import Component
 from gdsfactory.components.bends.bend_circular import bend_circular_all_angle
-from gdsfactory.cross_section import CrossSectionSpec
+from gdsfactory.typings import ComponentAllAngleFactory, CrossSectionSpec
 
 
 @gf.cell
