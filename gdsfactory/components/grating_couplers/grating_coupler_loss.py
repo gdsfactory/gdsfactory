@@ -14,6 +14,7 @@ def grating_coupler_loss(
     port_name: str = "o1",
     rotation: float = -90,
     nfibers: int = 10,
+    grating_coupler_spacing: float = 5.0,
 ) -> Component:
     """Grating coupler test structure for de-embeding fiber array.
 
@@ -28,23 +29,20 @@ def grating_coupler_loss(
         port_name: for the grating_coupler port.
         rotation: degrees.
         nfibers: number of fibers to connect.
+        grating_coupler_spacing: um.
     """
     gc = gf.get_component(grating_coupler)
     c = gf.Component()
-    dx = pitch
-
     xmin = 0
 
     for i in range(3, nfibers, 2):
         g1 = c << gc
         g1.drotate(rotation)
-        g1.dxmin = xmin
+        g1.dx = xmin
 
         g2 = c << gc
         g2.drotate(rotation)
-        g2.dmovex(xmin + i * dx)
-
-        xmin = g2.xmax + 5
+        g2.x = xmin + i * pitch
 
         route_single(
             c,
@@ -53,6 +51,8 @@ def grating_coupler_loss(
             start_straight_length=40.0,
             cross_section=cross_section,
         )
+
+        xmin = g2.xmax + grating_coupler_spacing + gc.xsize / 2
 
     return c
 
