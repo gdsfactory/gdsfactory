@@ -33,7 +33,7 @@ def grating_coupler_loss(
     """
     gc = gf.get_component(grating_coupler)
     c = gf.Component()
-    xmin = 0
+    xmin = 0.0
 
     for i in range(3, nfibers, 2):
         g1 = c << gc
@@ -42,7 +42,7 @@ def grating_coupler_loss(
 
         g2 = c << gc
         g2.drotate(rotation)
-        g2.x = xmin + i * pitch
+        g2.dx = xmin + i * pitch
 
         route_single(
             c,
@@ -52,7 +52,7 @@ def grating_coupler_loss(
             cross_section=cross_section,
         )
 
-        xmin = g2.xmax + grating_coupler_spacing + gc.xsize / 2
+        xmin = g2.dxmax + grating_coupler_spacing + gc.dxsize / 2
 
     return c
 
