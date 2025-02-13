@@ -234,7 +234,7 @@ def route_astar(
         component=component,
         port1=port1,
         port2=port2,
-        waypoints=gf.kf.enclosure.clean_points(waypoints_),
+        waypoints=gf.kf.routing.manhattan.clean_points(waypoints_),
         cross_section=cross_section,
         bend=bend,
     )
