@@ -27,7 +27,7 @@ instances:
       size:
       - 100
       - 100
-name: array_Cpad_SNone_C6_R1__8512fb90
+name: array_Cpad_C6_R1_CP150__7124f07c
 nets: []
 placements:
   pad_S100_100_LMTOP_BLNo_163fd346_0_0:

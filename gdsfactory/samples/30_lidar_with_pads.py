@@ -39,7 +39,11 @@ if __name__ == "__main__":
         phase_shifter_electrical_ports_east.append(ref["r_e1"])
 
     antennas = c << gf.components.array(
-        gf.components.dbr(n=200), rows=elements, columns=1, spacing=(0, antenna_pitch)
+        gf.components.dbr(n=200),
+        rows=elements,
+        columns=1,
+        column_pitch=0,
+        row_pitch=antenna_pitch,
     )
     antennas.dxmin = ref.dxmax + 50
     antennas.mirror_y()

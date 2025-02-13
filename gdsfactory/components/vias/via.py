@@ -7,16 +7,13 @@ from typing import cast
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component
-from gdsfactory.typings import LayerSpec, Size, Spacing
+from gdsfactory.typings import LayerSpec, Size
 
 
 @gf.cell
 def via(
     size: Size = (0.7, 0.7),
-    spacing: Spacing | None = None,
-    gap: float | None = None,
     enclosure: float = 1.0,
     layer: LayerSpec = "VIAC",
     bbox_layers: Sequence[LayerSpec] | None = None,
@@ -30,8 +27,6 @@ def via(
 
     Args:
         size: in x and y direction.
-        spacing: pitch_x, pitch_y. (deprecated).
-        gap: edge to edge via gap in x, y. (deprecated).
         enclosure: inclusion of via.
         layer: via layer.
         bbox_layers: layers for the bounding box.
@@ -56,13 +51,6 @@ def via(
         |           pitch                       |
         |_______________________________________|
     """
-    if spacing is not None:
-        deprecate("spacing", "pitch, row_pitch or column_pitch")
-        pitch = spacing[0]
-
-    if gap is not None:
-        deprecate("gap", "pitch, row_pitch or column_pitch")
-
     row_pitch = row_pitch or pitch
     column_pitch = column_pitch or pitch
 

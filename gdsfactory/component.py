@@ -32,7 +32,6 @@ from matplotlib.figure import Figure
 from pydantic import Field
 from trimesh.scene.scene import Scene
 
-from gdsfactory._deprecation import deprecate
 from gdsfactory.config import CONF, GDSDIR_TEMP
 from gdsfactory.serialization import clean_value_json, convert_tuples_to_lists
 from gdsfactory.utils import to_kdb_dpoints
@@ -51,7 +50,6 @@ if TYPE_CHECKING:
         PathType,
         Port,
         Position,
-        Spacing,
     )
 
 cell_without_validator = cell
@@ -351,7 +349,6 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         gdsdir: "PathType | None" = None,
         save_options: "kdb.SaveLayoutOptions | None" = None,
         with_metadata: bool = True,
-        **kwargs: Any,
     ) -> pathlib.Path:
         """Write component to GDS and returns gdspath.
 
@@ -360,7 +357,6 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             gdsdir: directory for the GDS file. Defaults to /tmp/randomFile/gdsfactory.
             save_options: klayout save options.
             with_metadata: if True, writes metadata (ports, settings) to the GDS file.
-            kwargs: (deprecated).
         """
         if gdspath and gdsdir:
             warnings.warn(
@@ -382,10 +378,6 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
 
         if not with_metadata:
             save_options.write_context_info = False
-
-        if kwargs:
-            for k in kwargs:
-                deprecate(k)
 
         self.write(filename=gdspath, save_options=save_options)
         return pathlib.Path(gdspath)
@@ -568,19 +560,6 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         assert isinstance(res, dict)
         return res
 
-    # Deprecated methods
-    @property
-    def named_references(self) -> ComponentReferences:
-        """Returns a dictionary of named references."""
-        deprecate("named_references", "insts")
-        return self.insts  # type: ignore
-
-    @property
-    def references(self) -> ComponentReferences:
-        """Returns a list of references."""
-        deprecate("references", "insts")
-        return self.insts  # type: ignore
-
 
 Route: TypeAlias = (
     kf.routing.generic.ManhattanRoute | kf.routing.aa.optical.OpticalAllAngleRoute
@@ -672,45 +651,12 @@ class Component(ComponentBase, kf.DKCell):
             if flatten:
                 c.flatten()
 
-    def add_array(
-        self,
-        component: Component,
-        columns: int = 2,
-        rows: int = 2,
-        spacing: "Spacing" = (100, 100),
-        name: str | None = None,
-    ) -> DInstance:
-        """Creates a ComponentReference reference to a Component.
-
-        Args:
-            component: The referenced component.
-            columns: Number of columns in the array.
-            rows: Number of rows in the array.
-            spacing: x, y distance between adjacent columns and adjacent rows.
-            name: Name of the reference.
-
-        """
-        deprecate("add_array", "add_ref")
-
-        inst = self.create_inst(
-            component,
-            na=columns,
-            nb=rows,
-            a=kf.kdb.DVector(spacing[0], 0),
-            b=kf.kdb.DVector(0, spacing[1]),
-        )
-        if name:
-            inst.name = name
-        return DInstance(kcl=self.kcl, instance=inst.instance)
-
     def add_ref(
         self,
         component: Component,
         name: str | None = None,
         columns: int = 1,
         rows: int = 1,
-        spacing: "Spacing | None" = None,
-        alias: str | None = None,
         column_pitch: float = 0.0,
         row_pitch: float = 0.0,
     ) -> ComponentReference:
@@ -721,17 +667,11 @@ class Component(ComponentBase, kf.DKCell):
             name: Name of the reference.
             columns: Number of columns in the array.
             rows: Number of rows in the array.
-            spacing: pitch between adjacent columns and adjacent rows. (deprecated).
-            alias: (deprecated).
             column_pitch: column pitch.
             row_pitch: row pitch.
         """
         if self.locked:
             raise LockedError(self)
-
-        if spacing is not None:
-            deprecate("spacing", "column_pitch and row_pitch")
-            column_pitch, row_pitch = spacing
 
         if rows > 1 or columns > 1:
             if rows > 1 and row_pitch == 0:
@@ -746,11 +686,7 @@ class Component(ComponentBase, kf.DKCell):
             inst = self.create_inst(component, na=columns, nb=rows, a=a, b=b)
         else:
             inst = self.create_inst(component)
-
-        if alias:
-            deprecate("alias", "name")
-            inst.name = alias
-        elif name:
+        if name is not None:
             inst.name = name
         return ComponentReference(kcl=self.kcl, instance=inst.instance)
 
@@ -1056,11 +992,6 @@ class Component(ComponentBase, kf.DKCell):
 
         self.kcl.layout.end_changes()
 
-    def ref(self, *args: Any, **kwargs: Any) -> ComponentReference:
-        """Returns a Component Instance."""
-        deprecate("ref", "add_ref")
-        return self.add_ref(*args, **kwargs)
-
     def add_polygon(
         self, points: _PolygonPoints, layer: "LayerSpec"
     ) -> kdb.Shape | None:
@@ -1251,32 +1182,5 @@ def container(
     if function:
         function(component=c, **kwargs)
 
-    c.copy_child_info(component)
-    return c
-
-
-def component_with_function(
-    component: "ComponentSpec",
-    function: Callable[[Component], None] | None = None,
-    **kwargs: Any,
-) -> Component:
-    """Returns new component with a component reference.
-
-    Args:
-        component: to add to container.
-        function: function to apply to component.
-        kwargs: keyword arguments to pass to component.
-    """
-    import gdsfactory as gf
-
-    deprecate("component_with_function", "container")
-
-    component = gf.get_component(component, **kwargs)
-    c = Component()
-    cref = c << component
-    c.add_ports(cref.ports)
-
-    if function:
-        function(c)
     c.copy_child_info(component)
     return c

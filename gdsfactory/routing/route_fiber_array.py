@@ -7,7 +7,6 @@ import kfactory as kf
 import klayout.db as kdb
 
 import gdsfactory as gf
-from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.route_bundle import get_min_spacing, route_bundle
@@ -61,7 +60,6 @@ def route_fiber_array(
     steps: Sequence[Mapping[str, int | float]] | None = None,
     bboxes: BoundingBoxes | None = None,
     avoid_component_bbox: bool = True,
-    fiber_spacing: None | float = None,
     **kwargs: Any,
 ) -> Component:
     """Returns new component with fiber array.
@@ -113,16 +111,9 @@ def route_fiber_array(
         steps: steps for the route.
         bboxes: list bounding boxes to avoid for routing.
         avoid_component_bbox: avoid component bbox for routing.
-        fiber_spacing: (deprecated).
         kwargs: route_bundle settings.
     """
-    # c = component
-    # component = component_to_route
     x = gf.get_cross_section(cross_section)
-
-    if fiber_spacing is not None:
-        deprecate("fiber_spacing", "pitch")
-        pitch = fiber_spacing
 
     component_name = component_name or component_to_route.name
     excluded_ports = excluded_ports or []

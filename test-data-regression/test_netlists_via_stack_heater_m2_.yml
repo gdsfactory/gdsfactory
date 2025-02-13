@@ -31,7 +31,7 @@ instances:
       size:
       - 11
       - 11
-  via_S0p7_0p7_SNone_GNon_d0c93b95_m3000_m3000:
+  via_S0p7_0p7_E2_LVIA1_B_053047f5_m3000_m3000:
     array:
       column_pitch: 2
       columns: 4
@@ -50,15 +50,13 @@ instances:
       bbox_offsets: null
       column_pitch: null
       enclosure: 2
-      gap: null
       layer: VIA1
       pitch: 2
       row_pitch: null
       size:
       - 0.7
       - 0.7
-      spacing: null
-name: via_stack_S11_11_LHEATE_5c72def9
+name: via_stack_S11_11_LHEATE_1a895180
 nets: []
 placements:
   compass_S11_11_LHEATER__a0235df0_0_0:
@@ -71,7 +69,7 @@ placements:
     rotation: 0
     x: 0
     y: 0
-  via_S0p7_0p7_SNone_GNon_d0c93b95_m3000_m3000:
+  via_S0p7_0p7_E2_LVIA1_B_053047f5_m3000_m3000:
     mirror: false
     rotation: 0
     x: -3

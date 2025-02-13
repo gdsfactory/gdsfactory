@@ -23,10 +23,6 @@ from gdsfactory.routing.route_ports_to_side import (
 from gdsfactory.routing.route_quad import route_quad
 from gdsfactory.routing.route_sharp import route_sharp
 from gdsfactory.routing.route_single import route_single, route_single_electrical
-from gdsfactory.routing.route_single_from_steps import (
-    route_single_from_steps,
-    route_single_from_steps_electrical,
-)
 from gdsfactory.routing.route_single_sbend import route_single_sbend
 from gdsfactory.routing.route_south import route_south
 
@@ -52,8 +48,6 @@ __all__ = [
     "route_sharp",
     "route_single",
     "route_single_electrical",
-    "route_single_from_steps",
-    "route_single_from_steps_electrical",
     "route_single_sbend",
     "route_south",
     "sort_ports",

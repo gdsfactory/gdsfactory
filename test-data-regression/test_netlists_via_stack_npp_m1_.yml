@@ -47,7 +47,7 @@ instances:
       size:
       - 11
       - 11
-  via_S0p7_0p7_SNone_GNon_9f66867f_m4000_m4000:
+  via_S0p7_0p7_E1_LVIAC_B_05406d7f_m4000_m4000:
     array:
       column_pitch: 2
       columns: 5
@@ -66,15 +66,13 @@ instances:
       bbox_offsets: null
       column_pitch: null
       enclosure: 1
-      gap: null
       layer: VIAC
       pitch: 2
       row_pitch: null
       size:
       - 0.7
       - 0.7
-      spacing: null
-name: via_stack_S11_11_LWG_NP_2419ac71
+name: via_stack_S11_11_LWG_NP_008a56e9
 nets: []
 placements:
   compass_S11_11_LM1_PTel_8e08c327_0_0:
@@ -92,7 +90,7 @@ placements:
     rotation: 0
     x: 0
     y: 0
-  via_S0p7_0p7_SNone_GNon_9f66867f_m4000_m4000:
+  via_S0p7_0p7_E1_LVIAC_B_05406d7f_m4000_m4000:
     mirror: false
     rotation: 0
     x: -4

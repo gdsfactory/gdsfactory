@@ -73,7 +73,7 @@ instances:
       size:
       - 6.4
       - 2.7
-  via_S0p7_0p7_SNone_GNon_d0c93b95_4050_350:
+  via_S0p7_0p7_E2_LVIA1_B_053047f5_4050_350:
     array:
       column_pitch: 3.7
       columns: 10
@@ -92,15 +92,13 @@ instances:
       bbox_offsets: null
       column_pitch: null
       enclosure: 2
-      gap: null
       layer: VIA1
       pitch: 2
       row_pitch: null
       size:
       - 0.7
       - 0.7
-      spacing: null
-  via_stack_S11_11_LM2_MT_ff6eecb9_m6500_37800:
+  via_stack_S11_11_LM2_MT_0b0d0698_m6500_37800:
     component: via_stack
     info:
       xsize: 11
@@ -108,7 +106,6 @@ instances:
     settings:
       correct_size: true
       layer_offsets: null
-      layer_port: null
       layer_to_port_orientations: null
       layers:
       - M2
@@ -126,7 +123,7 @@ instances:
       vias:
       - via2
       - null
-  via_stack_S11_11_LM2_MT_ff6eecb9_m6500_m3800:
+  via_stack_S11_11_LM2_MT_0b0d0698_m6500_m3800:
     component: via_stack
     info:
       xsize: 11
@@ -134,7 +131,6 @@ instances:
     settings:
       correct_size: true
       layer_offsets: null
-      layer_port: null
       layer_to_port_orientations: null
       layers:
       - M2
@@ -175,29 +171,35 @@ placements:
     rotation: 0
     x: 2.2
     y: 0.35
-  via_S0p7_0p7_SNone_GNon_d0c93b95_4050_350:
+  via_S0p7_0p7_E2_LVIA1_B_053047f5_4050_350:
     mirror: false
     rotation: 0
     x: 4.05
     y: 0.35
-  via_stack_S11_11_LM2_MT_ff6eecb9_m6500_37800:
+  via_stack_S11_11_LM2_MT_0b0d0698_m6500_37800:
     mirror: false
     rotation: 0
     x: -6.5
     y: 37.8
-  via_stack_S11_11_LM2_MT_ff6eecb9_m6500_m3800:
+  via_stack_S11_11_LM2_MT_0b0d0698_m6500_m3800:
     mirror: false
     rotation: 0
     x: -6.5
     y: -3.8
 ports:
-  e1: via_stack_S11_11_LM2_MT_ff6eecb9_m6500_m3800,e1
-  e2: via_stack_S11_11_LM2_MT_ff6eecb9_m6500_37800,e1
+  e1: via_stack_S11_11_LM2_MT_0b0d0698_m6500_m3800,e1
+  e2: via_stack_S11_11_LM2_MT_0b0d0698_m6500_37800,e1
 warnings:
   electrical:
     unconnected_ports:
     - message: 42 unconnected electrical ports!
       ports:
+      - via_stack_S11_11_LM2_MT_0b0d0698_m6500_m3800,e2
+      - via_stack_S11_11_LM2_MT_0b0d0698_m6500_m3800,e3
+      - via_stack_S11_11_LM2_MT_0b0d0698_m6500_m3800,e4
+      - via_stack_S11_11_LM2_MT_0b0d0698_m6500_37800,e2
+      - via_stack_S11_11_LM2_MT_0b0d0698_m6500_37800,e3
+      - via_stack_S11_11_LM2_MT_0b0d0698_m6500_37800,e4
       - rectangle_S2p7_6p4_LM2__c8f1a350_36000_m1000<0.0>,e1
       - rectangle_S2p7_6p4_LM2__c8f1a350_36000_m1000<0.0>,e2
       - rectangle_S2p7_6p4_LM2__c8f1a350_36000_m1000<0.0>,e3
@@ -234,13 +236,19 @@ warnings:
       - rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700<0.3>,e2
       - rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700<0.3>,e3
       - rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700<0.3>,e4
-      - via_stack_S11_11_LM2_MT_ff6eecb9_m6500_m3800,e2
-      - via_stack_S11_11_LM2_MT_ff6eecb9_m6500_m3800,e3
-      - via_stack_S11_11_LM2_MT_ff6eecb9_m6500_m3800,e4
-      - via_stack_S11_11_LM2_MT_ff6eecb9_m6500_37800,e2
-      - via_stack_S11_11_LM2_MT_ff6eecb9_m6500_37800,e3
-      - via_stack_S11_11_LM2_MT_ff6eecb9_m6500_37800,e4
       values:
+      - - -6.5
+        - 1.7
+      - - -1
+        - -3.8
+      - - -6.5
+        - -9.3
+      - - -6.5
+        - 43.3
+      - - -1
+        - 37.8
+      - - -6.5
+        - 32.3
       - - 36
         - 2.2
       - - 37.35
@@ -313,15 +321,3 @@ warnings:
         - 28.1
       - - 0.35
         - 24.9
-      - - -6.5
-        - 1.7
-      - - -1
-        - -3.8
-      - - -6.5
-        - -9.3
-      - - -6.5
-        - 43.3
-      - - -1
-        - 37.8
-      - - -6.5
-        - 32.3

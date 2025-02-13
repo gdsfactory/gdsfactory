@@ -1,9 +1,0 @@
-info: {}
-name: crossing_arm_R3_R1p1_W1_3f3657a5
-settings:
-  L: 3.4
-  cross_section: strip
-  layer_slab: SLAB150
-  r1: 3
-  r2: 1.1
-  w: 1.2

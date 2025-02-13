@@ -47,7 +47,7 @@ instances:
       size:
       - 11
       - 11
-  via_S0p7_0p7_SNone_GNon_a794b952_m4000_m4000:
+  via_S0p7_0p7_E1_LVIA2_B_bcce49d9_m4000_m4000:
     array:
       column_pitch: 2
       columns: 5
@@ -66,15 +66,13 @@ instances:
       bbox_offsets: null
       column_pitch: null
       enclosure: 1
-      gap: null
       layer: VIA2
       pitch: 2
       row_pitch: null
       size:
       - 0.7
       - 0.7
-      spacing: null
-  via_S0p7_0p7_SNone_GNon_d0c93b95_m3000_m3000:
+  via_S0p7_0p7_E2_LVIA1_B_053047f5_m3000_m3000:
     array:
       column_pitch: 2
       columns: 4
@@ -93,15 +91,13 @@ instances:
       bbox_offsets: null
       column_pitch: null
       enclosure: 2
-      gap: null
       layer: VIA1
       pitch: 2
       row_pitch: null
       size:
       - 0.7
       - 0.7
-      spacing: null
-name: via_stack_S11_11_LM1_M2_e0ab0502
+name: via_stack_S11_11_LM1_M2_c8c84c49
 nets: []
 placements:
   compass_S11_11_LM1_PTNo_32b23b4d_0_0:
@@ -119,12 +115,12 @@ placements:
     rotation: 0
     x: 0
     y: 0
-  via_S0p7_0p7_SNone_GNon_a794b952_m4000_m4000:
+  via_S0p7_0p7_E1_LVIA2_B_bcce49d9_m4000_m4000:
     mirror: false
     rotation: 0
     x: -4
     y: -4
-  via_S0p7_0p7_SNone_GNon_d0c93b95_m3000_m3000:
+  via_S0p7_0p7_E2_LVIA1_B_053047f5_m3000_m3000:
     mirror: false
     rotation: 0
     x: -3

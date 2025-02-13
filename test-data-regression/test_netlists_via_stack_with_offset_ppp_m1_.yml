@@ -59,7 +59,7 @@ instances:
       size:
       - 10
       - 10
-  via_S0p7_0p7_SNone_GNon_9f66867f_m3000_2000:
+  via_S0p7_0p7_E1_LVIAC_B_05406d7f_m3000_2000:
     array:
       column_pitch: 2
       columns: 4
@@ -78,14 +78,12 @@ instances:
       bbox_offsets: null
       column_pitch: null
       enclosure: 1
-      gap: null
       layer: VIAC
       pitch: 2
       row_pitch: null
       size:
       - 0.7
       - 0.7
-      spacing: null
 name: via_stack_with_offset_L_bf109d5b
 nets: []
 placements:
@@ -109,7 +107,7 @@ placements:
     rotation: 0
     x: 0
     y: 5
-  via_S0p7_0p7_SNone_GNon_9f66867f_m3000_2000:
+  via_S0p7_0p7_E1_LVIAC_B_05406d7f_m3000_2000:
     mirror: false
     rotation: 0
     x: -3

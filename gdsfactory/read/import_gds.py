@@ -6,7 +6,6 @@ from typing import Any
 import kfactory as kf
 from kfactory import KCLayout
 
-from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component
 from gdsfactory.typings import PostProcesses
 
@@ -16,7 +15,6 @@ def import_gds(
     cellname: str | None = None,
     post_process: PostProcesses | None = None,
     rename_duplicated_cells: bool = False,
-    **kwargs: Any,
 ) -> Component:
     """Reads a GDS file and returns a Component.
 
@@ -25,12 +23,7 @@ def import_gds(
         cellname: name of the cell to return. Defaults to top cell.
         post_process: function to run after reading the GDS file.
         rename_duplicated_cells: if True, rename duplicated cells.
-        kwargs: (deprecated and ignored).
     """
-    if kwargs:
-        for k in kwargs:
-            deprecate(f"kwargs {k!r}")
-
     temp_kcl = KCLayout(name=str(gdspath))
     options = kf.utilities.load_layout_options()
     options.warn_level = 0
@@ -69,14 +62,12 @@ def kcell_to_component(kcell: kf.kcell.ProtoTKCell[Any]) -> Component:
 def import_gds_with_conflicts(
     gdspath: str | Path,
     cellname: str | None = None,
-    **kwargs: Any,
 ) -> Component:
     """Reads a GDS file and returns a Component.
 
     Args:
         gdspath: path to GDS file.
         cellname: name of the cell to return. Defaults to top cell.
-        kwargs: (deprecated and ignored).
 
     Modes:
         AddToCell: Add content to existing cell. Content of new cells is simply added to existing cells with the same name.
@@ -84,13 +75,7 @@ def import_gds_with_conflicts(
         RenameCell: The new cell will be renamed to become unique
         SkipNewCell: The new cell is skipped entirely (including child cells which are not used otherwise)
     """
-    if kwargs:
-        for k in kwargs:
-            deprecate(f"kwargs {k!r}")
-
-    return import_gds(
-        gdspath, cellname=cellname, rename_duplicated_cells=True, **kwargs
-    )
+    return import_gds(gdspath, cellname=cellname, rename_duplicated_cells=True)
 
 
 if __name__ == "__main__":

@@ -1,7 +1,0 @@
-function: wire_sbend
-info: {}
-module: gdsfactory.components.wire_sbend
-name: wire_sbend
-settings:
-  dx: 20.0
-  dy: 10.0

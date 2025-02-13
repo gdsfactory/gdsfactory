@@ -4,7 +4,6 @@ from collections.abc import Sequence
 from typing import Any
 
 import gdsfactory as gf
-from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_fiber_array import route_fiber_array
@@ -34,7 +33,6 @@ def add_pads_bot(
     route_width: float | None = None,
     bboxes: BoundingBoxes | None = None,
     avoid_component_bbox: bool = False,
-    pad_spacing: float | None = None,
     **kwargs: Any,
 ) -> Component:
     """Returns new component with ports connected bottom pads.
@@ -58,7 +56,6 @@ def add_pads_bot(
         route_width: width of the route. If None, defaults to cross_section.width.
         bboxes: list bounding boxes to avoid for routing.
         avoid_component_bbox: avoid component bbox for routing.
-        pad_spacing: (deprecated).
         kwargs: additional arguments.
 
     Keyword Args:
@@ -96,10 +93,6 @@ def add_pads_bot(
         cc.plot()
 
     """
-    if pad_spacing is not None:
-        deprecate("pad_spacing", "pad_pitch")
-        pad_pitch = pad_spacing
-
     component_new = Component()
     component = gf.get_component(component)
 

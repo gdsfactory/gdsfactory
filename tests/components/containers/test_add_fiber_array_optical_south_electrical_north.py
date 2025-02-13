@@ -69,20 +69,5 @@ def test_add_fiber_array_optical_south_electrical_north_custom_electrical_ports(
     assert len(c.ports) > 0
 
 
-def test_add_fiber_array_optical_south_electrical_north_deprecated_pad_spacing() -> (
-    None
-):
-    with pytest.warns(DeprecationWarning, match="pad_spacing is deprecated"):
-        c = gf.c.add_fiber_array_optical_south_electrical_north(
-            component=gf.c.straight_heater_metal,
-            pad=gf.c.pad,
-            grating_coupler=gf.c.grating_coupler_te,
-            cross_section_metal=xs.metal_routing,
-            pad_spacing=100,
-        )
-    assert c is not None
-    assert len(c.ports) > 0
-
-
 if __name__ == "__main__":
     pytest.main([__file__])

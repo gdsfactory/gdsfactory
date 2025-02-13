@@ -69,7 +69,6 @@ def route_single(
     """Returns a Manhattan Route between 2 ports.
 
     The references are straights, bends and tapers.
-    `route_single` is an automatic version of `route_single_from_steps`.
 
     Args:
         component: to place the route into.
@@ -392,7 +391,6 @@ if __name__ == "__main__":
     # c.show()
     # import gdsfactory as gf
 
-    # c = gf.Component(name="route_single_from_steps_sample")
     # w = gf.components.straight()
     # left = c << w
     # right = c << w
