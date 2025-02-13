@@ -1,8 +1,9 @@
 info: {}
-name: grating_coupler_loss_P1_47240408
+name: grating_coupler_loss_P1_491a83ca
 settings:
   cross_section: strip
   grating_coupler: grating_coupler_elliptical_trenches
+  grating_coupler_spacing: 5
   nfibers: 10
   pitch: 127
   port_name: o1
