@@ -29,10 +29,8 @@ from gdsfactory.typings import (
     CrossSectionSpec,
     LayerSpec,
     LayerSpecs,
-    Port,
     Ports,
 )
-from gdsfactory.utils import to_kdb_boxes
 
 OpticalManhattanRoute = ManhattanRoute
 
@@ -104,7 +102,7 @@ def route_bundle(
     port_type: str | None = None,
     collision_check_layers: LayerSpecs | None = None,
     on_collision: Literal["error", "show_error"] | None = "show_error",
-    bboxes: list[kf.kdb.Box] | None = None,
+    bboxes: Sequence[kf.kdb.DBox] | None = None,
     allow_width_mismatch: bool = False,
     radius: float | None = None,
     route_width: float | None = None,
@@ -112,8 +110,8 @@ def route_bundle(
     auto_taper: bool = True,
     waypoints: Coordinates | None = None,
     steps: Sequence[Mapping[str, int | float]] | None = None,
-    start_angles: int | list[int] | None = None,
-    end_angles: int | list[int] | None = None,
+    start_angles: float | list[float] | None = None,
+    end_angles: float | list[float] | None = None,
     router: Literal["optical", "electrical"] | None = None,
 ) -> list[ManhattanRoute]:
     """Places a bundle of routes to connect two groups of ports.
@@ -166,8 +164,8 @@ def route_bundle(
         a1 = 90
         a2 = a1 + 180
 
-        ports1 = [gf.Port(f"top_{i}", center=(xs1[i], +0), width=0.5, orientation=a1, layer=(1,0)) for i in range(N)]
-        ports2 = [gf.Port(f"bot_{i}", center=(xs2[i], dy), width=0.5, orientation=a2, layer=(1,0)) for i in range(N)]
+        ports1 = [gf.Port(name=f"top_{i}", center=(xs1[i], +0), width=0.5, orientation=a1, layer=(1,0)) for i in range(N)]
+        ports2 = [gf.Port(name=f"bot_{i}", center=(xs2[i], dy), width=0.5, orientation=a2, layer=(1,0)) for i in range(N)]
 
         c = gf.Component()
         gf.routing.route_bundle(component=c, ports1=ports1, ports2=ports2, cross_section='strip', separation=5)
@@ -190,25 +188,22 @@ def route_bundle(
             )
 
     c = component
-    ports1 = [ports1] if isinstance(ports1, Port) else list(ports1)
-    ports2 = [ports2] if isinstance(ports2, Port) else list(ports2)
-    port_type = port_type or ports1[0].port_type
+    ports1_ = list(ports1)
+    ports2_ = list(ports2)
+    port_type = port_type or ports1_[0].port_type
 
-    if len(ports1) != len(ports2):
-        raise ValueError(f"ports1={len(ports1)} and ports2={len(ports2)} must be equal")
-
-    xs = (
-        gf.get_cross_section(cross_section, width=route_width)
-        if route_width and not isinstance(route_width, list | tuple)
-        else gf.get_cross_section(cross_section)
-    )
+    if len(ports1_) != len(ports2_):
+        raise ValueError(
+            f"ports1={len(ports1_)} and ports2={len(ports2_)} must be equal"
+        )
+    if route_width is None or route_width == 0:
+        xs = gf.get_cross_section(cross_section)
+    else:
+        xs = gf.get_cross_section(cross_section, width=route_width)
     width = route_width or xs.width
-    width_dbu = c.kcl.to_dbu(width)
+
     radius = radius or xs.radius
     taper_cell = gf.get_component(taper) if taper else None
-
-    end_straight = c.kcl.to_dbu(end_straight_length)
-    start_straight = c.kcl.to_dbu(start_straight_length)
 
     if collision_check_layers:
         collision_check_layer_enums = [
@@ -218,15 +213,15 @@ def route_bundle(
         collision_check_layer_enums = None
 
     if auto_taper:
-        ports1 = add_auto_tapers(component, ports1, cross_section)
-        ports2 = add_auto_tapers(component, ports2, cross_section)
+        ports1_ = add_auto_tapers(component, ports1_, cross_section)
+        ports2_ = add_auto_tapers(component, ports2_, cross_section)
 
     if steps and waypoints:
         raise ValueError("Cannot have both steps and waypoints")
 
     if steps:
         waypoints = []
-        x, y = ports1[0].dcenter
+        x, y = ports1_[0].center
         for d in steps:
             if not STEP_DIRECTIVES.issuperset(d):
                 invalid_step_directives = list(set(d.keys()) - STEP_DIRECTIVES)
@@ -238,29 +233,32 @@ def route_bundle(
             y = d.get("y", y) + d.get("dy", 0)
             waypoints += [(x, y)]
 
-    if waypoints is not None and not isinstance(waypoints[0], kf.kdb.Point):
-        _waypoints: list[kf.kdb.Point] | None = [
-            c.kcl.to_dbu(kf.kdb.DPoint(p[0], p[1])) for p in waypoints
+    if waypoints is not None and not isinstance(waypoints[0], kf.kdb.DPoint):
+        waypoints_: list[kf.kdb.DPoint] | None = [
+            kf.kdb.DPoint(p[0], p[1]) for p in waypoints
         ]
     else:
-        _waypoints = waypoints
+        waypoints_ = waypoints
 
     router = router or "electrical" if port_type == "electrical" else "optical"
-
     if router == "electrical":
         return kf.routing.electrical.route_bundle(
             component,
-            ports1,
-            ports2,
-            c.kcl.to_dbu(separation),
-            starts=start_straight,
-            ends=end_straight,
-            collision_check_layers=collision_check_layer_enums,  # type: ignore[arg-type]
+            ports1_,
+            ports2_,
+            separation=separation,
+            starts=start_straight_length,
+            ends=end_straight_length,
+            collision_check_layers=[
+                c.kcl.layout.get_info(layer) for layer in collision_check_layer_enums
+            ]
+            if collision_check_layer_enums is not None
+            else None,
             on_collision=on_collision,
-            bboxes=to_kdb_boxes(bboxes or []),
-            route_width=width_dbu,
+            bboxes=bboxes,
+            route_width=width,
             sort_ports=sort_ports,
-            waypoints=_waypoints,
+            waypoints=waypoints_ if waypoints_ is not None else None,
             end_angles=end_angles,
             start_angles=start_angles,
         )
@@ -273,32 +271,32 @@ def route_bundle(
         )
     )
 
-    def straight_dbu(width: int, length: int) -> gf.Component:
-        return gf.get_component(
-            straight,
-            length=c.kcl.to_um(length),
-            cross_section=xs,
-        )
+    def straight_um(width: float, length: float) -> gf.Component:
+        return gf.get_component(straight, length=length, cross_section=xs, width=width)
 
     return kf.routing.optical.route_bundle(
         component,
-        ports1,
-        ports2,
-        c.kcl.to_dbu(separation),
-        straight_factory=straight_dbu,
+        ports1_,
+        ports2_,
+        separation=separation,
+        straight_factory=straight_um,
         bend90_cell=bend90,
         taper_cell=taper_cell,
-        starts=start_straight,
-        ends=end_straight,
-        min_straight_taper=c.kcl.to_dbu(min_straight_taper),
+        starts=start_straight_length,
+        ends=end_straight_length,
+        min_straight_taper=min_straight_taper,
         place_port_type=port_type,
-        collision_check_layers=collision_check_layer_enums,  # type: ignore[arg-type]
+        collision_check_layers=[
+            c.kcl.layout.get_info(layer) for layer in collision_check_layer_enums
+        ]
+        if collision_check_layer_enums
+        else None,
         on_collision=on_collision,
         allow_width_mismatch=allow_width_mismatch,
-        bboxes=to_kdb_boxes(bboxes or []),
-        route_width=width_dbu,
+        bboxes=list(bboxes or []),
+        route_width=width,
         sort_ports=sort_ports,
-        waypoints=_waypoints,
+        waypoints=waypoints_,
         end_angles=end_angles,
         start_angles=start_angles,
     )
@@ -322,47 +320,52 @@ if __name__ == "__main__":
     pdk.layer_transitions[LAYER.WG, LAYER.WGN] = gf.c.taper_sc_nc
     pdk.layer_transitions[LAYER.WGN, LAYER.WG] = gf.c.taper_nc_sc
 
-    c = gf.Component()
-    columns = 2
-    ptop = c << gf.components.pad_array(columns=columns, port_orientation=270)
-    pbot = c << gf.components.pad_array(port_orientation=270, columns=columns)
-    # pbot = c << gf.components.pad_array(port_orientation=90, columns=columns)
+    # c = gf.Component()
+    # columns = 2
+    # ptop = c << gf.components.pad_array(columns=columns, port_orientation=270)
+    # pbot = c << gf.components.pad_array(port_orientation=270, columns=columns)
+    # # pbot = c << gf.components.pad_array(port_orientation=90, columns=columns)
 
-    ptop.dmovex(300)
-    ptop.dmovey(300)
-    routes = gf.routing.route_bundle_electrical(
-        c,
-        list(reversed(pbot.ports)),
-        ptop.ports,
-        # end_straight_length=50,
-        start_straight_length=100,
-        separation=20,
-        bboxes=[ptop.bbox(), pbot.bbox()],
-        cross_section="metal_routing",
-        start_angles=None,
-        end_angles=None,
-    )
+    # ptop.dmovex(300)
+    # ptop.dmovey(300)
+    # routes = gf.routing.route_bundle_electrical(
+    #     c,
+    #     list(reversed(pbot.ports)),
+    #     ptop.ports,
+    #     # end_straight_length=50,
+    #     start_straight_length=100,
+    #     separation=20,
+    #     bboxes=[ptop.bbox(), pbot.bbox()],
+    #     cross_section="metal_routing",
+    #     start_angles=None,
+    #     end_angles=None,
+    #     route_width=2,
+    #     steps=[
+    #         {"dy": 1, "dx": 1},
+    #         {"dy": 2, "dx": 1},
+    #     ],
+    # )
 
-    c.show()
+    # c.show()
     # pbot.ports.print()
 
-    # c = gf.Component("demo")
-    # c1 = c << gf.components.mmi2x2()
-    # c2 = c << gf.components.mmi2x2()
-    # c2.dmove((100, 70))
-    # routes = route_bundle(
-    #     c,
-    #     [c1.ports["o2"], c1.ports["o1"]],
-    #     [c2.ports["o2"], c2.ports["o1"]],
-    #     separation=5,
-    #     cross_section="strip",
-    #     # end_straight_length=0,
-    #     # collision_check_layers=[(1, 0)],
-    #     # bboxes=[c1.bbox(), c2.bbox()],
-    #     # layer=(2, 0),
-    #     # straight=partial(gf.components.straight, layer=(2, 0), width=1),
-    # )
-    # c.show()
+    c = gf.Component(name="demo")
+    c1 = c << gf.components.mmi2x2()
+    c2 = c << gf.components.mmi2x2()
+    c2.dmove((100, 70))
+    routes = route_bundle(
+        c,
+        [c1.ports["o2"], c1.ports["o1"]],
+        [c2.ports["o2"], c2.ports["o1"]],
+        separation=5,
+        cross_section="strip",
+        # end_straight_length=0,
+        # collision_check_layers=[(1, 0)],
+        # bboxes=[c1.bbox(), c2.bbox()],
+        # layer=(2, 0),
+        # straight=partial(gf.components.straight, layer=(2, 0), width=1),
+    )
+    c.show()
 
     # dy = 200.0
     # xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]

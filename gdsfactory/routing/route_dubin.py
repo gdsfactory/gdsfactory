@@ -31,12 +31,12 @@ def route_dubin(
         cross_section: cross-section.
     """
     # Get start position and orientation
-    x1, y1 = port1.dcenter
+    x1, y1 = port1.center
     angle1 = float(port1.orientation)
     START = (x1, y1, angle1)  # Convert to um
 
     # Get end position and orientation
-    x2, y2 = port2.dcenter
+    x2, y2 = port2.center
     angle2 = float(port2.orientation)
     angle2 = (angle2 + 180) % 360  # Adjust for input connection
     END = (x2, y2, angle2)  # Convert to um
@@ -50,8 +50,8 @@ def route_dubin(
     backbone = [gf.kdb.DPoint(x1, y1), gf.kdb.DPoint(x2, y2)]  # TODO: fix this
     return OpticalAllAngleRoute(
         backbone=backbone,
-        start_port=port1,
-        end_port=port2,
+        start_port=port1.to_itype(),
+        end_port=port2.to_itype(),
         length=length,
         instances=instances,
     )
@@ -322,7 +322,7 @@ if __name__ == "__main__":
     wg2.rotate(45)  # type: ignore
 
     # Route between the output of wg1 and input of wg2
-    route = gf.routing.route_dubin(
+    route = route_dubin(
         c,
         port1=wg1.ports["o2"],
         port2=wg2.ports["o1"],

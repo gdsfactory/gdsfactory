@@ -5,7 +5,6 @@ from functools import partial
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory import Port
 from gdsfactory.component import Component
 from gdsfactory.typings import CrossSectionSpec, Size
 
@@ -27,8 +26,10 @@ def big_device(
         port_type: optical, electrical, rf, etc.
         cross_section: spec.
     """
+    from gdsfactory.pdk import get_layer
+
     component = gf.Component()
-    p0 = np.array((0, 0))
+    p0 = np.array((0, 0), dtype=np.float64)
 
     w, h = size
     dx = w / 2
@@ -42,45 +43,47 @@ def big_device(
 
     points = [(dx, dy), (dx, -dy), (-dx, -dy), (-dx, dy)]
     component.add_polygon(points, layer=layer)
-    ports: list[Port] = []
 
     create_port_with_port_settings = partial(
-        Port, port_type=port_type, cross_section=xs, layer=layer, width=width
+        component.add_port,
+        port_type=port_type,
+        cross_section=xs,
+        layer=get_layer(layer),
+        width=width,
     )
 
     for i in range(n):
-        port = create_port_with_port_settings(
+        center = tuple(p0 + (-dx, (i - n / 2) * spacing))
+        create_port_with_port_settings(
             name=f"W{i}",
-            center=tuple(p0 + (-dx, (i - n / 2) * spacing)),
+            center=(center[0], center[1]),
             orientation=180,
         )
-        ports.append(port)
 
     for i in range(n):
-        port = create_port_with_port_settings(
+        center = tuple(p0 + (dx, (i - n / 2) * spacing))
+        create_port_with_port_settings(
             name=f"E{i}",
-            center=tuple(p0 + (dx, (i - n / 2) * spacing)),
+            center=(center[0], center[1]),
             orientation=0,
         )
-        ports.append(port)
 
     for i in range(n):
-        port = create_port_with_port_settings(
+        center = tuple(p0 + ((i - n / 2) * spacing, dy))
+        create_port_with_port_settings(
             name=f"N{i}",
-            center=tuple(p0 + ((i - n / 2) * spacing, dy)),
+            center=(center[0], center[1]),
             orientation=90,
         )
-        ports.append(port)
 
     for i in range(n):
-        port = create_port_with_port_settings(
+        center = tuple(p0 + ((i - n / 2) * spacing, -dy))
+        create_port_with_port_settings(
             name=f"S{i}",
-            center=tuple(p0 + ((i - n / 2) * spacing, -dy)),
+            center=(center[0], center[1]),
             orientation=-90,
         )
-        ports.append(port)
 
-    component.add_ports(ports)
     component.auto_rename_ports()
     return component
 

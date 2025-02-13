@@ -95,7 +95,7 @@ def rectangles(
             **kwargs,
         )
         if ref0:
-            ref.dcenter = ref0.dcenter
+            ref.center = ref0.center
         ref0 = ref
 
     return c

@@ -55,10 +55,18 @@ def test_route_bundle_west_to_north2(
     lengths = {}
     c = gf.Component()
     pbottom_facing_north = port_array(
-        center=(0, 0), orientation=90, pitch=(30, 0), layer=layer, width=width
+        center=(0, 0),
+        orientation=90,
+        pitch=(30, 0),
+        layer=gf.get_layer(layer),
+        width=width,
     )
     ptop_facing_west = port_array(
-        center=(100, 100), orientation=180, pitch=(0, -30), layer=layer, width=width
+        center=(100, 100),
+        orientation=180,
+        pitch=(0, -30),
+        layer=gf.get_layer(layer),
+        width=width,
     )
 
     routes = gf.routing.route_bundle(

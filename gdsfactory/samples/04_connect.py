@@ -11,7 +11,7 @@ from __future__ import annotations
 import gdsfactory as gf
 
 if __name__ == "__main__":
-    c = gf.Component("straights_sample")
+    c = gf.Component(name="straights_sample")
 
     wg1 = c << gf.components.straight(length=10, width=1)
     wg2 = c << gf.components.straight(length=10, width=2)

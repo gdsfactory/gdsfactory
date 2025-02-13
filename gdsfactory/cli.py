@@ -186,7 +186,7 @@ def migrate(
     """
     if migration in [Migration.upgrade7to8, Migration.upgrade7to8unsafe]:
         to_be_replaced = {
-            "dcenter",
+            "center",
             "dmirror",
             "dmove",
             "dmovex",

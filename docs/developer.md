@@ -1,6 +1,6 @@
 # Installation
 
-We support Python 3.10, 3.11, 3.12 and 3.13, and recommend [VSCode](https://code.visualstudio.com/) IDE and UV.
+We support Python 3.11, 3.12 and 3.13, and recommend [VSCode](https://code.visualstudio.com/) IDE and UV.
 
 However we recommend python3.11 or 3.12 as some extensions may not work on python3.13 yet.
 

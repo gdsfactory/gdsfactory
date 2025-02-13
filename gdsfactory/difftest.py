@@ -5,7 +5,7 @@ import pathlib
 import shutil
 
 import kfactory as kf
-from kfactory import KCell, KCLayout, kdb, logger
+from kfactory import DKCell, KCLayout, kdb, logger
 
 import gdsfactory as gf
 from gdsfactory.config import CONF, PATH
@@ -27,7 +27,7 @@ def xor(
     ignore_cell_name_differences: bool | None = None,
     ignore_label_differences: bool | None = None,
     stagger: bool = True,
-) -> KCell:
+) -> DKCell:
     """Returns XOR of two layouts.
 
     Args:
@@ -114,27 +114,27 @@ def xor(
     if ignore_cell_name_differences:
         ld.on_cell_name_differs = lambda anotb: print(f"cell name differs {anotb.name}")  # type: ignore
         equal = ld.compare(
-            old._kdb_cell,
-            new._kdb_cell,
+            old.kdb_cell,
+            new.kdb_cell,
             kdb.LayoutDiff.SmartCellMapping | kdb.LayoutDiff.Verbose,
             1,
         )
     else:
-        equal = ld.compare(old._kdb_cell, new._kdb_cell, kdb.LayoutDiff.Verbose, 1)
+        equal = ld.compare(old.kdb_cell, new.kdb_cell, kdb.LayoutDiff.Verbose, 1)
 
     if not ignore_label_differences and (a_texts or b_texts):
         equivalent = False
     if equal:
-        return gf.Component("xor_empty")
-    c = KCell(f"{test_name}_difftest")
+        return gf.Component(name="xor_empty")
+    c = DKCell(name=f"{test_name}_difftest")
     ref = old
     run = new
 
-    old_kcell = KCell(f"{test_name}_old")
-    new_kcell = KCell(f"{test_name}_new")
+    old_kcell = DKCell(name=f"{test_name}_old")
+    new_kcell = DKCell(name=f"{test_name}_new")
 
-    old_kcell.copy_tree(ref._kdb_cell)
-    new_kcell.copy_tree(run._kdb_cell)
+    old_kcell.copy_tree(ref.kdb_cell)
+    new_kcell.copy_tree(run.kdb_cell)
 
     old_kcell.name = f"{test_name}_old"
     new_kcell.name = f"{test_name}_new"
@@ -147,8 +147,7 @@ def xor(
         old_ref.dmovey(+old_kcell.dysize + dy)
         new_ref.dmovey(-old_kcell.dysize - dy)
 
-    layer_label = (1, 0)
-    layer_label = kf.kcl.layer(*layer_label)
+    layer_label = kf.kcl.layout.layer(1, 0)
     c.shapes(layer_label).insert(kf.kdb.DText("old", old_ref.dtrans))
     c.shapes(layer_label).insert(kf.kdb.DText("new", new_ref.dtrans))
     c.shapes(layer_label).insert(
@@ -159,7 +158,7 @@ def xor(
 
     print("Running XOR on differences...")
     # assume equivalence until we find XOR differences, determined significant by the settings
-    diff = KCell(f"{test_name}_xor")
+    diff = DKCell(name=f"{test_name}_xor")
 
     for layer in c.kcl.layer_infos():
         # exists in both
@@ -310,27 +309,27 @@ def diff(
     if ignore_cell_name_differences:
         ld.on_cell_name_differs = lambda anotb: print(f"cell name differs {anotb.name}")  # type: ignore[assignment]
         equal = ld.compare(
-            old._kdb_cell,
-            new._kdb_cell,
+            old.kdb_cell,
+            new.kdb_cell,
             kdb.LayoutDiff.SmartCellMapping | kdb.LayoutDiff.Verbose,
             1,
         )
     else:
-        equal = ld.compare(old._kdb_cell, new._kdb_cell, kdb.LayoutDiff.Verbose, 1)
+        equal = ld.compare(old.kdb_cell, new.kdb_cell, kdb.LayoutDiff.Verbose, 1)
 
     if not ignore_label_differences and (a_texts or b_texts):
         equivalent = False
 
     if not equal:
-        c = KCell(f"{test_name}_difftest")
+        c = DKCell(name=f"{test_name}_difftest")
         ref = old
         run = new
 
-        old = KCell(f"{test_name}_old")
-        new = KCell(f"{test_name}_new")
+        old = DKCell(name=f"{test_name}_old")
+        new = DKCell(name=f"{test_name}_new")
 
-        old.copy_tree(ref._kdb_cell)
-        new.copy_tree(run._kdb_cell)
+        old.copy_tree(ref.kdb_cell)
+        new.copy_tree(run.kdb_cell)
 
         old.name = f"{test_name}_old"
         new.name = f"{test_name}_new"
@@ -343,8 +342,7 @@ def diff(
             old_ref.dmovey(+old.dysize + dy)
             new_ref.dmovey(-old.dysize - dy)
 
-        layer_label = (1, 0)
-        layer_label = kf.kcl.layer(*layer_label)
+        layer_label = kf.kcl.layout.layer(1, 0)
         c.shapes(layer_label).insert(kf.kdb.DText("old", old_ref.dtrans))
         c.shapes(layer_label).insert(kf.kdb.DText("new", new_ref.dtrans))
         c.shapes(layer_label).insert(
@@ -356,7 +354,7 @@ def diff(
         if xor:
             print("Running XOR on differences...")
             # assume equivalence until we find XOR differences, determined significant by the settings
-            diff = KCell(f"{test_name}_xor")
+            diff = DKCell(name=f"{test_name}_xor")
 
             for layer in c.kcl.layer_infos():
                 # exists in both
@@ -501,14 +499,14 @@ def overwrite(ref_file: pathlib.Path, run_file: pathlib.Path) -> None:
     raise GeometryDifference
 
 
-def read_top_cell(arg0: pathlib.Path) -> kf.KCell:
+def read_top_cell(arg0: pathlib.Path) -> kf.DKCell:
     kcl = KCLayout(name=str(arg0))
     kcl.read(arg0)
-    kcell = kcl[kcl.top_cell().name]
+    kcell = kcl.dkcells[kcl.top_cell().name]
 
     if hasattr(kcl, "cross_sections"):
         for cross_section in kcl.cross_sections.cross_sections.values():
-            kf.kcl.get_cross_section(cross_section)
+            kf.kcl.get_symmetrical_cross_section(cross_section)
     return kcell
 
 
@@ -544,4 +542,4 @@ if __name__ == "__main__":
     # ref = read_top_cell(ref_file)
     # run = read_top_cell(run_file)
     # ld = kdb.LayoutDiff()
-    # print(ld.compare(ref._kdb_cell, run._kdb_cell))
+    # print(ld.compare(ref.kdb_cell, run.kdb_cell))

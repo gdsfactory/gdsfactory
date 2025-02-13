@@ -9,11 +9,11 @@ from gdsfactory.component import Component
 @gf.cell
 def remap_layers() -> Component:
     c = gf.Component()
-    straight = gf.components.straight
+    straight = gf.components.straight(length=11, width=1).dup()
 
-    wg1 = c << straight(length=11, width=1)
-    wg2 = c << straight(length=11, width=1)
-    wg3 = c << straight(length=11, width=1)
+    wg1 = c << straight
+    wg2 = c << straight
+    wg3 = c << straight
 
     wg2.connect("o1", wg1.ports["o2"])
     wg3.connect("o1", wg2.ports["o2"])

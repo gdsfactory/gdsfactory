@@ -34,34 +34,46 @@ def test_connect_bundle_u_indirect(
 
     if axis == "X":
         ports1 = [
-            Port(f"top_{i}", center=(0, xs1[i]), width=0.5, orientation=a1, layer=layer)
+            Port(
+                name=f"top_{i}",
+                center=(0, xs1[i]),
+                width=0.5,
+                orientation=a1,
+                layer=gf.kcl.layout.layer(*layer),
+            )
             for i in range(N)
         ]
 
         ports2 = [
             Port(
-                f"bot_{i}",
+                name=f"bot_{i}",
                 center=(dy, xs2[i]),
                 width=0.5,
                 orientation=a2,
-                layer=layer,
+                layer=gf.kcl.layout.layer(*layer),
             )
             for i in range(N)
         ]
 
     else:
         ports1 = [
-            Port(f"top_{i}", center=(xs1[i], 0), width=0.5, orientation=a1, layer=layer)
+            Port(
+                name=f"top_{i}",
+                center=(xs1[i], 0),
+                width=0.5,
+                orientation=a1,
+                layer=gf.kcl.layout.layer(*layer),
+            )
             for i in range(N)
         ]
 
         ports2 = [
             Port(
-                f"bot_{i}",
+                name=f"bot_{i}",
                 center=(xs2[i], dy),
                 width=0.5,
                 orientation=a2,
-                layer=layer,
+                layer=gf.kcl.layout.layer(*layer),
             )
             for i in range(N)
         ]

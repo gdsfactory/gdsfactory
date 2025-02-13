@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import numpy as np
-from kfactory.conf import CHECK_INSTANCES
+from kfactory.conf import CheckInstances
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -11,12 +11,7 @@ from gdsfactory.components.bends.bend_s import (
     bezier,
     find_min_curv_bezier_control_points,
 )
-from gdsfactory.typings import (
-    ComponentSpec,
-    CrossSectionSpec,
-    Delta,
-    LayerSpec,
-)
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Delta, LayerSpec
 
 
 @gf.cell
@@ -203,7 +198,7 @@ def crossing_etched(
     return c
 
 
-@gf.cell(check_instances=CHECK_INSTANCES.IGNORE)
+@gf.cell(check_instances=CheckInstances.IGNORE)
 def crossing45(
     crossing: ComponentSpec = crossing,
     port_spacing: float = 40.0,
@@ -244,7 +239,7 @@ def crossing45(
     x = c << crossing
     x.drotate(45)
 
-    p_e = x.ports["o3"].dcenter
+    p_e = x.ports["o3"].center
     dx = dx or port_spacing
     dy = port_spacing / 2
 

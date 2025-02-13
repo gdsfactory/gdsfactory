@@ -1,16 +1,17 @@
 from __future__ import annotations
 
 from functools import partial
+from typing import Any
 
-from kfactory import Instance
+import kfactory as kf
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentAllAngle, container
+from gdsfactory.component import Component, ComponentBase, ComponentReference, container
 from gdsfactory.typings import ComponentSpec, Coordinate, LayerSpecs
 
 
 def get_padding_points(
-    component: Component | Instance | ComponentAllAngle,
+    component: ComponentBase | ComponentReference | kf.kcell.ProtoKCell[float, Any],
     default: float = 50.0,
     top: float | None = None,
     bottom: float | None = None,

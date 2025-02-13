@@ -17,7 +17,7 @@ from typing import TYPE_CHECKING, Any, TypeAlias
 import numpy as np
 import yaml
 from kfactory import logger
-from kfactory.kcell import LayerEnum
+from kfactory.layer import LayerEnum
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 from pydantic.color import ColorType
 from pydantic_extra_types.color import Color

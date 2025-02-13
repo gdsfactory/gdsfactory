@@ -142,7 +142,7 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     # c = gf.Component()
-    c = straight(
+    c = straight_all_angle(
         length=10,
         # width=2,
         # cross_section="rib_bbox",

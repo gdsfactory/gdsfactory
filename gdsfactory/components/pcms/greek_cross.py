@@ -8,10 +8,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats, LayerSpe
 @gf.cell
 def greek_cross(
     length: float = 30,
-    layers: LayerSpecs = (
-        "WG",
-        "N",
-    ),
+    layers: LayerSpecs = ("WG", "N"),
     widths: Floats = (2.0, 3.0),
     offsets: Floats | None = None,
     via_stack: ComponentSpec = "via_stack_npp_m1",

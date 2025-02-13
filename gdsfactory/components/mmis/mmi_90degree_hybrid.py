@@ -92,46 +92,48 @@ def mmi_90degree_hybrid(
     y_signal_in = gap_mmi * 3 / 2 + width_taper * 3 / 2
     y_lo_in = -gap_mmi / 2 - width_taper / 2
 
+    temp_component = Component()
+
     ports = [
         # Inputs
-        gf.Port(
-            "signal_in",
+        temp_component.add_port(
+            name="signal_in",
             orientation=180,
             center=(0, y_signal_in),
             width=w_taper,
             cross_section=x,
         ),
-        gf.Port(
-            "LO_in",
+        temp_component.add_port(
+            name="LO_in",
             orientation=180,
             center=(0, y_lo_in),
             width=w_taper,
             cross_section=x,
         ),
         # Outputs
-        gf.Port(
-            "I_out1",
+        temp_component.add_port(
+            name="I_out1",
             orientation=0,
             center=(length_mmi, y_signal_in),
             width=w_taper,
             cross_section=x,
         ),
-        gf.Port(
-            "Q_out1",
+        temp_component.add_port(
+            name="Q_out1",
             orientation=0,
             center=(length_mmi, y_signal_in - gap_mmi - w_taper),
             width=w_taper,
             cross_section=x,
         ),
-        gf.Port(
-            "Q_out2",
+        temp_component.add_port(
+            name="Q_out2",
             orientation=0,
             center=(length_mmi, y_lo_in),
             width=w_taper,
             cross_section=x,
         ),
-        gf.Port(
-            "I_out2",
+        temp_component.add_port(
+            name="I_out2",
             orientation=0,
             center=(length_mmi, y_lo_in - gap_mmi - w_taper),
             width=w_taper,

@@ -23,7 +23,7 @@ def label_farthest_right_port(
 
     component.add_label(
         text=text,
-        position=rightmost_port.dcenter,
+        position=rightmost_port.center,
         layer=layer,
     )
     return component

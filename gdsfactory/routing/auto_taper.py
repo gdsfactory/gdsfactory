@@ -5,18 +5,13 @@ from __future__ import annotations
 import warnings
 
 import gdsfactory as gf
-from gdsfactory.typings import (
-    ComponentSpec,
-    CrossSectionSpec,
-    Layer,
-    LayerSpec,
-    Port,
-    Ports,
-)
+from gdsfactory.component import Component
+from gdsfactory.port import Port
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Layer, LayerSpec, Ports
 
 
 def add_auto_tapers(
-    component: gf.Component,
+    component: Component,
     ports: Ports,
     cross_section: CrossSectionSpec,
 ) -> list[Port]:
@@ -52,7 +47,7 @@ def auto_taper_to_cross_section(
         The port at the opposite (unconnected end) of the taper.
     """
     port_layer = gf.get_layer(port.layer)
-    port_width = port.dwidth
+    port_width = port.width
     cross_section = gf.get_cross_section(cross_section)
     cs_layer = gf.get_layer(cross_section.layer)
     cs_width = cross_section.width
@@ -97,7 +92,7 @@ def auto_taper_to_cross_section(
     elif taper_ports[1].layer == port.layer and taper_ports[1].width == port.width:
         p1, p0 = taper_ports
     else:
-        width = port.dwidth
+        width = port.width
         layer = port.layer
         raise ValueError(
             f"Taper component ports do not match the port's layer and width!\nTaper name: {taper_component.name}\nPorts: {taper_ports}\nCross-section: {layer=}, {width=}"

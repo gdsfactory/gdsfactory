@@ -6,7 +6,7 @@ import gdsfactory as gf
 
 
 def test_route_single_sbend() -> None:
-    c = gf.Component("test_route_single_sbend")
+    c = gf.Component(name="test_route_single_sbend")
     mmi1 = c << gf.components.mmi1x2()
     mmi2 = c << gf.components.mmi1x2()
     mmi2.movex(50)
@@ -17,7 +17,7 @@ def test_route_single_sbend() -> None:
 
 
 def test_route_single_sbend_non_orthogonal() -> None:
-    c = gf.Component("test_route_single_sbend_non_orthogonal")
+    c = gf.Component(name="test_route_single_sbend_non_orthogonal")
     mmi1 = c << gf.components.mmi1x2()
     mmi2 = c << gf.components.mmi1x2()
     mmi2.rotate(45)  # type: ignore

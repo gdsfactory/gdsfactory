@@ -83,5 +83,5 @@ def test_rename_ports(port_type: str, data_regression: DataRegressionFixture) ->
 
 
 def test_port() -> None:
-    p = gf.Port(name="foo", orientation=359, center=(0, 0), width=5, layer=(1, 1))
+    p = gf.Port(name="foo", orientation=359, center=(0, 0), width=5, layer=0)
     assert p.orientation == 359

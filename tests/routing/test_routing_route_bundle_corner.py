@@ -17,13 +17,13 @@ def test_connect_corner(
     d = 10.0
     sep = 5.0
     c = gf.Component()
-    layer = (1, 0)
+    layer = 1
 
     if config in ["A", "B"]:
         a = 100.0
         ports_A_TR = [
             Port(
-                f"A_TR_{i}",
+                name=f"A_TR_{i}",
                 center=(d, a / 2 + i * sep),
                 width=0.5,
                 orientation=0,
@@ -34,7 +34,7 @@ def test_connect_corner(
 
         ports_A_TL = [
             Port(
-                f"A_TL_{i}",
+                name=f"A_TL_{i}",
                 center=(-d, a / 2 + i * sep),
                 width=0.5,
                 orientation=180,
@@ -45,7 +45,7 @@ def test_connect_corner(
 
         ports_A_BR = [
             Port(
-                f"A_BR_{i}",
+                name=f"A_BR_{i}",
                 center=(d, -a / 2 - i * sep),
                 width=0.5,
                 orientation=0,
@@ -56,7 +56,7 @@ def test_connect_corner(
 
         ports_A_BL = [
             Port(
-                f"A_BL_{i}",
+                name=f"A_BL_{i}",
                 center=(-d, -a / 2 - i * sep),
                 width=0.5,
                 orientation=180,
@@ -69,7 +69,7 @@ def test_connect_corner(
 
         ports_B_TR = [
             Port(
-                f"B_TR_{i}",
+                name=f"B_TR_{i}",
                 center=(a / 2 + i * sep, d),
                 width=0.5,
                 orientation=90,
@@ -80,7 +80,7 @@ def test_connect_corner(
 
         ports_B_TL = [
             Port(
-                f"B_TL_{i}",
+                name=f"B_TL_{i}",
                 center=(-a / 2 - i * sep, d),
                 width=0.5,
                 orientation=90,
@@ -91,7 +91,7 @@ def test_connect_corner(
 
         ports_B_BR = [
             Port(
-                f"B_BR_{i}",
+                name=f"B_BR_{i}",
                 center=(a / 2 + i * sep, -d),
                 width=0.5,
                 orientation=270,
@@ -102,7 +102,7 @@ def test_connect_corner(
 
         ports_B_BL = [
             Port(
-                f"B_BL_{i}",
+                name=f"B_BL_{i}",
                 center=(-a / 2 - i * sep, -d),
                 width=0.5,
                 orientation=270,
@@ -117,7 +117,7 @@ def test_connect_corner(
         a = n * sep + 2 * d
         ports_A_TR = [
             Port(
-                f"A_TR_{i}",
+                name=f"A_TR_{i}",
                 center=(a, d + i * sep),
                 width=0.5,
                 orientation=0,
@@ -128,7 +128,7 @@ def test_connect_corner(
 
         ports_A_TL = [
             Port(
-                f"A_TL_{i}",
+                name=f"A_TL_{i}",
                 center=(-a, d + i * sep),
                 width=0.5,
                 orientation=180,
@@ -139,7 +139,7 @@ def test_connect_corner(
 
         ports_A_BR = [
             Port(
-                f"A_BR_{i}",
+                name=f"A_BR_{i}",
                 center=(a, -d - i * sep),
                 width=0.5,
                 orientation=0,
@@ -150,7 +150,7 @@ def test_connect_corner(
 
         ports_A_BL = [
             Port(
-                f"A_BL_{i}",
+                name=f"A_BL_{i}",
                 center=(-a, -d - i * sep),
                 width=0.5,
                 orientation=180,
@@ -163,7 +163,7 @@ def test_connect_corner(
 
         ports_B_TR = [
             Port(
-                f"B_TR_{i}",
+                name=f"B_TR_{i}",
                 center=(d + i * sep, a),
                 width=0.5,
                 orientation=90,
@@ -174,7 +174,7 @@ def test_connect_corner(
 
         ports_B_TL = [
             Port(
-                f"B_TL_{i}",
+                name=f"B_TL_{i}",
                 center=(-d - i * sep, a),
                 width=0.5,
                 orientation=90,
@@ -185,7 +185,7 @@ def test_connect_corner(
 
         ports_B_BR = [
             Port(
-                f"B_BR_{i}",
+                name=f"B_BR_{i}",
                 center=(d + i * sep, -a),
                 width=0.5,
                 orientation=270,
@@ -196,7 +196,7 @@ def test_connect_corner(
 
         ports_B_BL = [
             Port(
-                f"B_BL_{i}",
+                name=f"B_BL_{i}",
                 center=(-d - i * sep, -a),
                 width=0.5,
                 orientation=270,

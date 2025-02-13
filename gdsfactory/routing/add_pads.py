@@ -3,8 +3,6 @@ from __future__ import annotations
 from collections.abc import Sequence
 from typing import Any
 
-import kfactory as kf
-
 import gdsfactory as gf
 from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component
@@ -14,6 +12,7 @@ from gdsfactory.typings import (
     BoundingBoxes,
     ComponentSpec,
     CrossSectionSpec,
+    Port,
     SelectPorts,
     Strs,
 )
@@ -32,7 +31,7 @@ def add_pads_bot(
     port_type: str = "electrical",
     allow_width_mismatch: bool = True,
     fanout_length: float | None = 0,
-    route_width: float | None = 0,
+    route_width: float | None = None,
     bboxes: BoundingBoxes | None = None,
     avoid_component_bbox: bool = False,
     pad_spacing: float | None = None,
@@ -106,7 +105,7 @@ def add_pads_bot(
 
     cref = component_new << component
     ports = [cref[port_name] for port_name in port_names] if port_names else None
-    ports_list: Sequence[kf.Port] = ports or select_ports(cref.ports)
+    ports_list: Sequence[Port] = ports or select_ports(cref.ports)
 
     pad_component = gf.get_component(pad)
     if pad_port_name not in pad_component.ports:

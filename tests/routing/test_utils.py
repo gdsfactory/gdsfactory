@@ -12,51 +12,51 @@ def test_direction_ports_from_list_ports() -> None:
     ports = [
         Port(
             name="p1",
-            dwidth=0.5,
+            width=0.5,
             layer=1,
             port_type="optical",
-            dangle=0,
-            dcenter=(0, 0),
+            orientation=0,
+            center=(0, 0),
         ),
         Port(
             name="p2",
-            dwidth=0.5,
+            width=0.5,
             layer=1,
             port_type="optical",
-            dangle=90,
-            dcenter=(0, 0),
+            orientation=90,
+            center=(0, 0),
         ),
         Port(
             name="p3",
-            dwidth=0.5,
+            width=0.5,
             layer=1,
             port_type="optical",
-            dangle=180,
-            dcenter=(0, 0),
+            orientation=180,
+            center=(0, 0),
         ),
         Port(
             name="p4",
-            dwidth=0.5,
+            width=0.5,
             layer=1,
             port_type="optical",
-            dangle=270,
-            dcenter=(0, 0),
+            orientation=270,
+            center=(0, 0),
         ),
         Port(
             name="p5",
-            dwidth=0.5,
+            width=0.5,
             layer=1,
             port_type="optical",
-            dangle=0,
-            dcenter=(0, 1),
+            orientation=0,
+            center=(0, 1),
         ),
         Port(
             name="p6",
-            dwidth=0.5,
+            width=0.5,
             layer=1,
             port_type="optical",
-            dangle=90,
-            dcenter=(1, 0),
+            orientation=90,
+            center=(1, 0),
         ),
     ]
 
@@ -75,27 +75,27 @@ def test_check_ports_have_equal_spacing() -> None:
     ports_h = [
         Port(
             name="p1",
-            dwidth=0.5,
+            width=0.5,
             layer=1,
             port_type="optical",
-            dangle=0,
-            dcenter=(0, 0),
+            orientation=0,
+            center=(0, 0),
         ),
         Port(
             name="p2",
-            dwidth=0.5,
+            width=0.5,
             layer=1,
             port_type="optical",
-            dangle=0,
-            dcenter=(0, 1),
+            orientation=0,
+            center=(0, 1),
         ),
         Port(
             name="p3",
-            dwidth=0.5,
+            width=0.5,
             layer=1,
             port_type="optical",
-            dangle=0,
-            dcenter=(0, 2),
+            orientation=0,
+            center=(0, 2),
         ),
     ]
     assert check_ports_have_equal_spacing(ports_h) == 1.0
@@ -103,27 +103,27 @@ def test_check_ports_have_equal_spacing() -> None:
     ports_v = [
         Port(
             name="p1",
-            dwidth=0.5,
+            width=0.5,
             layer=1,
             port_type="optical",
-            dangle=90,
-            dcenter=(0, 0),
+            orientation=90,
+            center=(0, 0),
         ),
         Port(
             name="p2",
-            dwidth=0.5,
+            width=0.5,
             layer=1,
             port_type="optical",
-            dangle=90,
-            dcenter=(1, 0),
+            orientation=90,
+            center=(1, 0),
         ),
         Port(
             name="p3",
-            dwidth=0.5,
+            width=0.5,
             layer=1,
             port_type="optical",
-            dangle=90,
-            dcenter=(2, 0),
+            orientation=90,
+            center=(2, 0),
         ),
     ]
     assert check_ports_have_equal_spacing(ports_v) == 1.0
@@ -131,27 +131,27 @@ def test_check_ports_have_equal_spacing() -> None:
     ports_unequal = [
         Port(
             name="p1",
-            dwidth=0.5,
+            width=0.5,
             layer=1,
             port_type="optical",
-            dangle=0,
-            dcenter=(0, 0),
+            orientation=0,
+            center=(0, 0),
         ),
         Port(
             name="p2",
-            dwidth=0.5,
+            width=0.5,
             layer=1,
             port_type="optical",
-            dangle=0,
-            dcenter=(0, 1),
+            orientation=0,
+            center=(0, 1),
         ),
         Port(
             name="p3",
-            dwidth=0.5,
+            width=0.5,
             layer=1,
             port_type="optical",
-            dangle=0,
-            dcenter=(0, 2.5),
+            orientation=0,
+            center=(0, 2.5),
         ),
     ]
     with pytest.raises(ValueError, match="Ports should have the same separation"):
@@ -168,11 +168,11 @@ def test_get_list_ports_angle() -> None:
     ports_single = [
         Port(
             name="p1",
-            dwidth=0.5,
+            width=0.5,
             layer=1,
             port_type="optical",
-            dangle=90,
-            dcenter=(0, 0),
+            orientation=90,
+            center=(0, 0),
         )
     ]
     assert get_list_ports_angle(ports_single) == 90
@@ -180,19 +180,19 @@ def test_get_list_ports_angle() -> None:
     ports_same = [
         Port(
             name="p1",
-            dwidth=0.5,
+            width=0.5,
             layer=1,
             port_type="optical",
-            dangle=90,
-            dcenter=(0, 0),
+            orientation=90,
+            center=(0, 0),
         ),
         Port(
             name="p2",
-            dwidth=0.5,
+            width=0.5,
             layer=1,
             port_type="optical",
-            dangle=90,
-            dcenter=(1, 0),
+            orientation=90,
+            center=(1, 0),
         ),
     ]
     assert get_list_ports_angle(ports_same) == 90
@@ -202,19 +202,19 @@ def test_get_list_ports_angle() -> None:
     ports_different = [
         Port(
             name="p1",
-            dwidth=0.5,
+            width=0.5,
             layer=1,
             port_type="optical",
-            dangle=90,
-            dcenter=(0, 0),
+            orientation=90,
+            center=(0, 0),
         ),
         Port(
             name="p2",
-            dwidth=0.5,
+            width=0.5,
             layer=1,
             port_type="optical",
-            dangle=0,
-            dcenter=(1, 0),
+            orientation=0,
+            center=(1, 0),
         ),
     ]
     with pytest.raises(ValueError, match="All port angles should be the same"):

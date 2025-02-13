@@ -57,7 +57,7 @@ def route_single_from_steps(
 
         import gdsfactory as gf
 
-        c = gf.Component("route_single_from_steps_sample")
+        c = gf.Component(name="route_single_from_steps_sample")
         w = gf.components.straight()
         left = c << w
         right = c << w
@@ -86,7 +86,7 @@ def route_single_from_steps(
 
     """
     deprecate("route_single_from_steps", "route_single")
-    x, y = port1.dcenter
+    x, y = port1.center
     waypoints: list[Coordinate] = []
     steps = list(steps or [])
 
@@ -127,7 +127,7 @@ route_single_from_steps_electrical = partial(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.Component("route_single_from_steps_sample")
+    c = gf.Component(name="route_single_from_steps_sample")
     w = gf.components.straight()
     left = c << w
     right = c << w
@@ -154,7 +154,7 @@ if __name__ == "__main__":
     )
     c.show()
 
-    # c = gf.Component("pads_route_from_steps")
+    # c = gf.Component(name="pads_route_from_steps")
     # pt = c << gf.components.pad_array(orientation=270, columns=3)
     # pb = c << gf.components.pad_array(orientation=90, columns=3)
     # pt.dmove((100, 200))

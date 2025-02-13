@@ -17,7 +17,7 @@ def straight_narrow(
         width: in um.
         layer: layer spec.
     """
-    wg = gf.Component("straight_sample")
+    wg = gf.Component(name="straight_sample")
     wg.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
     wg.add_port(
         name="o1", center=(0, width / 2), width=width, orientation=180, layer=layer

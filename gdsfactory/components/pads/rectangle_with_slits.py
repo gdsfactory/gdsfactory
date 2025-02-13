@@ -82,7 +82,7 @@ def rectangle_with_slits(
         column_pitch=slit_column_pitch,
         row_pitch=slit_row_pitch,
     )
-    slits.dcenter = r.dcenter
+    slits.center = r.center
     return c
 
 

@@ -42,8 +42,8 @@ def test_extrude_transition() -> None:
     p = gf.path.straight(length)
     c = gf.path.extrude_transition(p, transition)
 
-    assert c.ports["o1"].width == w1 / c.kcl.dbu
-    assert c.ports["o2"].width == w2 / c.kcl.dbu
+    assert c.ports["o1"].width == w1
+    assert c.ports["o2"].width == w2
 
     expected_area = (w1 + w2) / 2 * length
     actual_area = c.area((1, 0))
@@ -60,8 +60,6 @@ def test_transition_cross_section() -> None:
 
     p = gf.path.straight(length=length)
     c = gf.path.extrude_transition(p=p, transition=transition)
-    w1 = round(w1 / c.kcl.dbu)
-    w2 = round(w2 / c.kcl.dbu)
 
     assert c.ports["o1"].width == w1
     assert c.ports["o2"].width == w2
@@ -113,7 +111,7 @@ def test_transition_cross_section_different_layers() -> None:
     p = gf.path.straight(length=length)
     c = gf.path.extrude_transition(p=p, transition=transition)
 
-    core_width = round(core_width / c.kcl.dbu)
+    core_width = core_width
     intent_layer_1 = gf.get_layer(intent_layer_1)
     intent_layer_2 = gf.get_layer(intent_layer_2)
 
@@ -136,13 +134,13 @@ def test_extrude_port_centers() -> None:
     xs = gf.CrossSection(sections=(s0, s1))
     s = gf.components.straight(cross_section=xs)
 
-    assert s.ports["e1"].dcenter[0] == s.ports["o1"].dcenter[0]
-    assert s.ports["e1"].dcenter[1] == s.ports["o1"].dcenter[1] - s1_offset, s.ports[
+    assert s.ports["e1"].center[0] == s.ports["o1"].center[0]
+    assert s.ports["e1"].center[1] == s.ports["o1"].center[1] - s1_offset, s.ports[
         "e1"
-    ].dcenter[1]
+    ].center[1]
 
-    assert s.ports["e2"].dcenter[0] == s.ports["o2"].dcenter[0]
-    assert s.ports["e2"].dcenter[1] == s.ports["o2"].dcenter[1] - s1_offset
+    assert s.ports["e2"].center[0] == s.ports["o2"].center[0]
+    assert s.ports["e2"].center[1] == s.ports["o2"].center[1] - s1_offset
 
 
 def test_extrude_component_along_path() -> None:

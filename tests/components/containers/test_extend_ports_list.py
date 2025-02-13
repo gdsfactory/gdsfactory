@@ -6,7 +6,9 @@ import gdsfactory as gf
 def test_extend_ports_list() -> None:
     """Test extend_ports_list with a taper and straight extension."""
     c0 = gf.components.taper()
-    e = gf.components.containers.extend_ports_list(c0.ports, extension="straight")
+    e = gf.components.containers.extend_ports_list(
+        component_spec=c0, extension="straight"
+    )
     assert len(e.ports) == len(c0.ports) + len(gf.components.straight().ports)
 
     port_names = {p.name for p in e.ports}
@@ -18,7 +20,7 @@ def test_extend_ports_list_with_ignore() -> None:
     m = gf.components.mmi1x2()
     t = partial(gf.components.taper, width2=0.1)
     e = gf.components.containers.extend_ports_list(
-        ports=m.ports, extension=t, ignore_ports=ignore_ports
+        component_spec=m, extension=t, ignore_ports=ignore_ports
     )
 
     port_names = {p.name for p in e.ports}

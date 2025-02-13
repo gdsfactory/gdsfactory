@@ -31,5 +31,5 @@ warnings:
       ports:
       - taper_cross_section_CSs_d7986ffc_0_0,o2
       values:
-      - - 50000
+      - - 50
         - 0

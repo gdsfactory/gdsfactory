@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory import Port
 from gdsfactory.component import Component
 from gdsfactory.typings import CrossSectionSpec, Size
 
@@ -38,57 +37,51 @@ def big_device(
 
     points = [(dx, dy), (dx, -dy), (-dx, -dy), (-dx, dy)]
     component.add_polygon(points, layer=layer)
-    ports: list[Port] = []
 
     for i in range(n):
-        port = Port(
+        component.add_port(
             name=f"W{i}",
             center=(-dx, (i - n / 2) * spacing),
             orientation=180,
             port_type=port_type,
             cross_section=xs,
-            layer=layer,
+            layer=gf.get_layer(layer),
             width=width,
         )
-        ports.append(port)
 
     for i in range(n):
-        port = Port(
+        component.add_port(
             name=f"E{i}",
             center=(dx, (i - n / 2) * spacing),
             orientation=0,
             port_type=port_type,
             cross_section=xs,
-            layer=layer,
+            layer=gf.get_layer(layer),
             width=width,
         )
-        ports.append(port)
 
     for i in range(n):
-        port = Port(
+        component.add_port(
             name=f"N{i}",
             center=((i - n / 2) * spacing, dy),
             orientation=90,
             port_type=port_type,
             cross_section=xs,
-            layer=layer,
+            layer=gf.get_layer(layer),
             width=width,
         )
-        ports.append(port)
 
     for i in range(n):
-        port = Port(
+        component.add_port(
             name=f"S{i}",
             center=((i - n / 2) * spacing, -dy),
             orientation=-90,
             port_type=port_type,
             cross_section=xs,
-            layer=layer,
+            layer=gf.get_layer(layer),
             width=width,
         )
-        ports.append(port)
 
-    component.add_ports(ports)
     component.auto_rename_ports()
     return component
 

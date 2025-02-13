@@ -76,8 +76,8 @@ def array(
         column_pitch=column_pitch,
         row_pitch=row_pitch,
     )
-    old_center = ref.dcenter
-    ref.dcenter = (0, 0) if centered else old_center  # type: ignore
+    old_center = ref.center
+    ref.center = (0, 0) if centered else old_center  # type: ignore
 
     if add_ports and component.ports:
         for ix in range(ref.na):
