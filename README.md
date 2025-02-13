@@ -38,8 +38,8 @@ c.show()
 Highlights:
 
 - +2M downloads
-- +70 Contributors
-- +15 PDKs available
+- +79 Contributors
+- +25 PDKs available
 
 ![workflow](https://i.imgur.com/KyavbHh.png)
 
