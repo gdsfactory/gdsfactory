@@ -213,6 +213,11 @@ def route_single(
             it.add_value(f"Exception: {e}")
             path = kf.kdb.Path(pts, route_width or c.kcl.to_dbu(ps.width))
             it.add_value(c.kcl.to_um(path.polygon()))
+            c.name = (
+                c.kcl.future_cell_name or c.name
+                if c.name.startswith("Unnamed_")
+                else c.name
+            )
             c.show(lyrdb=db)
             raise kf.routing.generic.PlacerError(
                 f"Error while trying to place route from {ps.name} to {pe.name} at"

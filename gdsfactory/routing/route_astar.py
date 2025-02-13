@@ -206,88 +206,35 @@ def route_astar(
     waypoints = [(x[i] + resolution / 2, y[j] + resolution / 2) for i, j in path]
 
     # Simplify the route
-    simplified_path = simplify_path(waypoints, tolerance=0.05)
+    simplified_path = simplify_path([[port1x, port1y]] + waypoints, tolerance=0.05)
 
     # Prepare waypoints
-    my_waypoints = [[port1x, port1y]] + [
-        list(np.round(pt, 1)) for pt in simplified_path
-    ]
+    my_waypoints = [list(np.round(pt, 1)) for pt in simplified_path]
     if port2.orientation in [0, 180]:
         my_waypoints += [[my_waypoints[-1][0], port2y]]
     else:
         my_waypoints += [[port2x, my_waypoints[-1][1]]]
 
     # Align second waypoint y with first waypoint y
-    my_waypoints[1][1] = my_waypoints[0][1]
+    # my_waypoints[1][1] = my_waypoints[0][1]
+
+    if port1.orientation in [0, 180]:
+        my_waypoints[0:1] = [my_waypoints[0], [my_waypoints[0][0], my_waypoints[1][1]]]
+    else:
+        my_waypoints[0:1] = [my_waypoints[0], [my_waypoints[1][0], my_waypoints[0][1]]]
+    if port2.orientation in [0, 180]:
+        my_waypoints.append([port2x, my_waypoints[-1][1]])
+    else:
+        my_waypoints.append([my_waypoints[-1][0], port2y])
     my_waypoints += [[port2x, port2y]]
 
     # Convert to native floats or Point instances
     waypoints_ = [DPoint(x, y) for x, y in my_waypoints]
-    l_wp = len(waypoints_)
-    cleaned_waypoints: list[DPoint] = [waypoints_[0]]
-    for i in range(l_wp - 2):
-        p1, p2, p3 = waypoints_[i : i + 3]
-        e1 = gf.kdb.DEdge(p1, p2)
-        e2 = gf.kdb.DEdge(p2, p3)
-        e1_a: int = 0
-        e2_a: int = 0
-        match e1.dx(), e1.dy():
-            case 0, 0:
-                continue
-            case x_, 0 if x_ > 0:
-                e1_a = 0
-            case x_, 0 if x_ < 0:
-                e1_a = 2
-            case 0, y_ if y_ < 0:
-                e1_a = 1
-            case 0, y_ if y_ > 0:
-                e1_a = 3
-            case x_, y_:
-                if abs(x_) > abs(y_):
-                    if x_ > 0:
-                        e1_a = 0
-                    else:
-                        e1_a = 2
-                else:
-                    if y_ > 0:
-                        e1_a = 1
-                    else:
-                        e1_a = 3
-
-        match e2.dx(), e2.dy():
-            case 0, 0:
-                continue
-            case x_, 0 if x_ > 0:
-                e2_a = 0
-            case x_, 0 if x_ < 0:
-                e2_a = 2
-            case 0, y_ if y_ < 0:
-                e2_a = 1
-            case 0, y_ if y_ > 0:
-                e2_a = 3
-            case x_, y_:
-                if abs(x_) > abs(y_):
-                    if x_ > 0:
-                        e2_a = 0
-                    else:
-                        e2_a = 2
-                else:
-                    if y_ > 0:
-                        e2_a = 1
-                    else:
-                        e2_a = 3
-        if e1_a != e2_a:
-            if e1_a in [0, 2]:
-                cleaned_waypoints.append(kdb.DPoint(e1.p1.x, e2.p2.y))
-            else:
-                cleaned_waypoints.append(kdb.DPoint(e1.p2.x, e2.p1.y))
-    cleaned_waypoints.append(p3)
-
     return gf.routing.route_single(
         component=component,
         port1=port1,
         port2=port2,
-        waypoints=cleaned_waypoints,
+        waypoints=gf.kf.enclosure.clean_points(waypoints_),
         cross_section=cross_section,
         bend=bend,
     )
