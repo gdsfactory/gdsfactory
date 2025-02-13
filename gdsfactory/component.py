@@ -1061,18 +1061,6 @@ class Component(ComponentBase, kf.DKCell):
         deprecate("ref", "add_ref")
         return self.add_ref(*args, **kwargs)
 
-    @overload
-    def add_polygon(self, points: kdb.Region, layer: "LayerSpec") -> None: ...
-    @overload
-    def add_polygon(
-        self,
-        points: npt.NDArray[np.floating[Any]]
-        | kdb.DPolygon
-        | kdb.Polygon
-        | kdb.DSimplePolygon
-        | Coordinates,
-        layer: "LayerSpec",
-    ) -> kdb.Shape: ...
     def add_polygon(
         self, points: _PolygonPoints, layer: "LayerSpec"
     ) -> kdb.Shape | None:

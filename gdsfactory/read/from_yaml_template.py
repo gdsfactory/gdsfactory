@@ -14,7 +14,7 @@ from gdsfactory.read.from_yaml import from_yaml
 from gdsfactory.typings import RoutingStrategies
 
 if TYPE_CHECKING:
-    from gdsfactory.component import ComponentFactory
+    from gdsfactory.typings import ComponentFactory
 
 __all__ = ["cell_from_yaml_template"]
 

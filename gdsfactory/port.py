@@ -34,7 +34,7 @@ import functools
 import warnings
 from collections.abc import Callable, Sequence
 from functools import partial
-from typing import TYPE_CHECKING, Any, Literal, TypeAlias, TypedDict, Unpack
+from typing import TYPE_CHECKING, Any, Literal, TypeAlias, TypedDict, Unpack, cast
 
 import kfactory as kf
 import numpy as np
@@ -118,7 +118,7 @@ def to_dict(port: kf.port.ProtoPort[Any]) -> dict[str, Any]:
 
 
 class PortKwargs(TypedDict, total=False):
-    layer: LayerSpec
+    layer: int
     port_type: str
     cross_section: CrossSectionSpec
     info: dict[str, int | float | str]
@@ -168,26 +168,32 @@ def port_array(
         return [
             Port(
                 name=str(i),
-                center=tuple(
-                    np.array(center) + i * pitch_array - (n - 1) / 2 * pitch_array
+                center=cast(
+                    tuple[float, float],
+                    tuple(
+                        np.array(center) + i * pitch_array - (n - 1) / 2 * pitch_array
+                    ),
                 ),
                 orientation=orientation,
                 cross_section=sym_xs,
-                **kwargs,  # type: ignore[arg-type]
-            )  # type: ignore[misc]
+                **kwargs,
+            )  # type: ignore[call-overload]
             for i in range(n)
         ]
     else:
         return [
             Port(
                 name=str(i),
-                center=tuple(
-                    np.array(center) + i * pitch_array - (n - 1) / 2 * pitch_array
+                center=cast(
+                    tuple[float, float],
+                    tuple(
+                        np.array(center) + i * pitch_array - (n - 1) / 2 * pitch_array
+                    ),
                 ),
                 orientation=orientation,
                 width=width,
-                **kwargs,  # type: ignore[arg-type]
-            )
+                **kwargs,
+            )  # type: ignore[call-overload]
             for i in range(n)
         ]
 

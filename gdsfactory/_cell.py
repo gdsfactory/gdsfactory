@@ -7,7 +7,6 @@ from cachetools import Cache
 from kfactory import cell as _cell
 from kfactory import vcell as _vcell
 from kfactory.conf import CheckInstances
-from kfactory.kcell import TKCell
 from kfactory.typings import MetaData
 
 if TYPE_CHECKING:
@@ -44,7 +43,7 @@ def cell(
     overwrite_existing: bool | None = None,
     layout_cache: bool | None = None,
     info: dict[str, MetaData] | None = None,
-    post_process: Iterable[Callable[[TKCell], None]] | None = None,
+    post_process: Iterable[Callable[[Component], None]] | None = None,
     debug_names: bool | None = None,
     tags: list[str] | None = None,
 ) -> Callable[[ComponentFunc[ComponentParams]], ComponentFunc[ComponentParams]]: ...
@@ -67,7 +66,7 @@ def cell(
     overwrite_existing: bool | None = None,
     layout_cache: bool | None = None,
     info: dict[str, MetaData] | None = None,
-    post_process: Iterable[Callable[[TKCell], None]] | None = None,
+    post_process: Iterable[Callable[[Component], None]] | None = None,
     debug_names: bool | None = None,
     tags: list[str] | None = None,
 ) -> (

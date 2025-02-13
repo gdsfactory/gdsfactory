@@ -206,7 +206,7 @@ def route_astar(
     waypoints = [(x[i] + resolution / 2, y[j] + resolution / 2) for i, j in path]
 
     # Simplify the route
-    simplified_path = simplify_path([[port1x, port1y]] + waypoints, tolerance=0.05)
+    simplified_path = simplify_path([(port1x, port1y)] + waypoints, tolerance=0.05)
 
     # Prepare waypoints
     my_waypoints = [list(np.round(pt, 1)) for pt in simplified_path]
