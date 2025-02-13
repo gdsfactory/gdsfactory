@@ -22,7 +22,6 @@ from gdsfactory.component import (
     ComponentAllAngle,
     ComponentReference,
     container,
-    component_with_function,
 )
 from gdsfactory.config import CONF, PATH, __version__
 from gdsfactory.port import Port

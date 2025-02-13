@@ -30,7 +30,7 @@ def add_electrical_pads_top_dc(
     Args:
         component: component spec to connect to.
         spacing: component to pad spacing.
-        pad_array: component factor for pad_array. (deprecated)
+        pad_array: component factor for pad_array
         select_ports: function to select_ports.
         route_bundle_function: function to route bundle of ports.
         port_names: optional port names. Overrides select_ports.

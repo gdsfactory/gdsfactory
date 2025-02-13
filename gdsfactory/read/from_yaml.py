@@ -63,7 +63,6 @@ import networkx as nx
 import yaml
 
 from gdsfactory import typings
-from gdsfactory._deprecation import deprecate
 from gdsfactory.add_pins import add_instance_label
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.schematic import (
@@ -609,11 +608,9 @@ ports:
 
 def cell_from_yaml(
     yaml_str: str | pathlib.Path | IO[Any] | dict[str, Any],
-    routing_strategy: RoutingStrategies | None = None,
     routing_strategies: RoutingStrategies | None = None,
     label_instance_function: LabelInstanceFunction = add_instance_label,
     name: str | None = None,
-    prefix: str | None = None,
 ) -> Callable[[], Component]:
     """Returns Component factory from YAML string or file.
 
@@ -621,11 +618,9 @@ def cell_from_yaml(
 
     Args:
         yaml_str: YAML string or file.
-        routing_strategy: for each route. (deprecated)
         routing_strategies: for each route.
         label_instance_function: to label each instance.
         name: Optional name.
-        prefix: name prefix.
         kwargs: function settings for creating YAML PCells.
 
     .. code::
@@ -695,18 +690,12 @@ def cell_from_yaml(
                     mmi_top,o3: mmi_bot,o1
 
     """
-    if prefix is not None:
-        deprecate("prefix")
-
-    if routing_strategy is not None:
-        deprecate("routing_strategy")
-
-    routing_strategies = (routing_strategies or {}) | (routing_strategy or {})
+    routing_strategies = routing_strategies or {}
 
     return partial(
         from_yaml,
         yaml_str=yaml_str,
-        routing_strategy=routing_strategies,
+        routing_strategies=routing_strategies,
         label_instance_function=label_instance_function,
         name=name,
     )
@@ -714,7 +703,6 @@ def cell_from_yaml(
 
 def from_yaml(
     yaml_str: str | pathlib.Path | IO[Any] | dict[str, Any],
-    routing_strategy: RoutingStrategies | None = None,
     routing_strategies: RoutingStrategies | None = None,
     label_instance_function: LabelInstanceFunction = add_instance_label,
     name: str | None = None,
@@ -725,7 +713,6 @@ def from_yaml(
 
     Args:
         yaml_str: YAML string or file.
-        routing_strategy: for each route (deprecated).
         routing_strategies: for each route.
         label_instance_function: to label each instance.
         name: Optional name.
@@ -799,10 +786,7 @@ def from_yaml(
     """
     from gdsfactory.pdk import get_active_pdk
 
-    if routing_strategy is not None:
-        deprecate("routing_strategy")
-
-    routing_strategies = (routing_strategies or {}) | (routing_strategy or {})
+    routing_strategies = routing_strategies or {}
 
     c = Component()
     dct = _load_yaml_str(yaml_str)
@@ -811,7 +795,7 @@ def from_yaml(
     g = _get_dependency_graph(net)
     refs = _get_references(c, pdk, net.instances)
     _place_and_connect(g, refs, net.connections, net.placements)
-    c = _add_routes(c, refs, net.routes, routing_strategy)
+    c = _add_routes(c, refs, net.routes, routing_strategies)
     c = _add_ports(c, refs, net.ports)
     c = _add_labels(c, refs, label_instance_function)
     c.name = name or net.name or c.name

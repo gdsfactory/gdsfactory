@@ -1,5 +1,5 @@
 instances:
-  array_Crectangle_S0p424_00a76b14_m24437_m500:
+  array_Crectangle_S0p424_b734671d_m24437_m500:
     component: array
     info: {}
     settings:
@@ -13,7 +13,6 @@ instances:
       row_pitch: 150
       rows: 1
       size: null
-      spacing: null
   straight_L10_N2_CSstrip_W0p4_m5000_0:
     component: straight
     info:
@@ -77,7 +76,7 @@ nets:
 - p1: straight_L10_N2_CSstrip_W0p4_m5000_0,o2
   p2: taper_L20_W0p4_W1_LNone_1073290e_5000_0,o1
 placements:
-  array_Crectangle_S0p424_00a76b14_m24437_m500:
+  array_Crectangle_S0p424_b734671d_m24437_m500:
     mirror: false
     rotation: 0
     x: -24.437

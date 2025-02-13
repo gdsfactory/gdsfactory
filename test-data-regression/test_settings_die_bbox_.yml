@@ -1,9 +1,0 @@
-info: {}
-name: die_bbox_CFrectangle_Mg_b676ef51
-settings:
-  component: Frectangle_Mgdsfactorypcomponentsprectangle_SS1300_2600_CFalse
-  layer: MTOP
-  padding: 10
-  street_width: 100
-  text_anchor: sw
-  text_size: 100

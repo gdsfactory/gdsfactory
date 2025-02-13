@@ -154,51 +154,6 @@ def test_locked_cell() -> None:
         c.add(gf.Instance(gf.Component().kcl, kdb.Instance()))
 
 
-def test_deprecated_methods() -> None:
-    c = gf.Component()
-
-    with pytest.warns(DeprecationWarning):
-        _ = c.named_references
-
-    with pytest.warns(DeprecationWarning):
-        _ = c.references
-
-    with pytest.warns(DeprecationWarning):
-        c = gf.Component()
-        c2 = gf.Component()
-        c2.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(1, 0))
-        ref = c.add_array(c2, columns=2, rows=3, spacing=(20, 30))
-        assert len(list(c.insts)) == 1
-        assert ref.na == 2
-        assert ref.nb == 3
-        assert ref.a.x == 20 / c.kcl.layout.dbu
-        assert ref.b.y == 30 / c.kcl.layout.dbu
-
-    with pytest.warns(DeprecationWarning):
-        c = gf.Component()
-        c2 = gf.Component()
-        ref = c.add_ref(c2, spacing=(20, 30), columns=2, rows=3)
-        assert len(list(c.insts)) == 1
-        assert ref.na == 2
-        assert ref.nb == 3
-        assert ref.a.x == 20 / c.kcl.layout.dbu
-        assert ref.b.y == 30 / c.kcl.layout.dbu
-
-    with pytest.warns(DeprecationWarning):
-        c = gf.Component()
-        c2 = gf.Component()
-        ref = c.add_ref(c2, alias="test_alias")
-        assert len(list(c.insts)) == 1
-        assert ref.name == "test_alias"
-
-    with pytest.warns(DeprecationWarning):
-        c.ref(gf.components.straight())
-
-    with pytest.warns(DeprecationWarning):
-        c = gf.Component()
-        c.write_gds(gdspath="test_deprecated_write_gds.gds", random_var=1)
-
-
 def test_locked_cell_all_angle() -> None:
     c = gf.ComponentAllAngle()
     c.locked = True

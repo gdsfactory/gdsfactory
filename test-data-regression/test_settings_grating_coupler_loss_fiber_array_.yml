@@ -1,8 +1,0 @@
-info: {}
-name: grating_coupler_loss_fi_8f6fc89a
-settings:
-  cross_section: strip
-  grating_coupler: grating_coupler_elliptical_trenches
-  pitch: 127
-  port_name: o1
-  rotation: -90
