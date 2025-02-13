@@ -686,8 +686,8 @@ class Component(ComponentBase, kf.DKCell):
             inst = self.create_inst(component, na=columns, nb=rows, a=a, b=b)
         else:
             inst = self.create_inst(component)
-
-        inst.name = name
+        if name is not None:
+            inst.name = name
         return ComponentReference(kcl=self.kcl, instance=inst.instance)
 
     def get_paths(
