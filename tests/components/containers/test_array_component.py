@@ -12,9 +12,6 @@ def test_array_errors() -> None:
     with pytest.raises(ValueError, match="columns = 2 > 1 require 0 > 0"):
         gf.components.array(columns=2, column_pitch=0)
 
-    with pytest.warns(DeprecationWarning, match="spacing is deprecated"):
-        gf.components.array(spacing=(150, 150))
-
 
 def test_array_size() -> None:
     column_pitch = 150.0

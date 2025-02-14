@@ -1,5 +1,5 @@
 instances:
-  array_Cpad_small_SNone__23183ef2_185500_m10000:
+  array_Cpad_small_C3_R1__425dcc3e_185500_m10000:
     component: array
     info: {}
     settings:
@@ -13,7 +13,6 @@ instances:
       row_pitch: 150
       rows: 1
       size: null
-      spacing: null
   mzi_DL40_LY40_LX500_Bbe_2a7d538d_0_0:
     component: mzi
     info: {}
@@ -46,7 +45,7 @@ instances:
 name: mzi_pads_center_PTstrai_10e9fd66
 nets: []
 placements:
-  array_Cpad_small_SNone__23183ef2_185500_m10000:
+  array_Cpad_small_C3_R1__425dcc3e_185500_m10000:
     mirror: false
     rotation: 0
     x: 185.5
@@ -80,18 +79,18 @@ warnings:
     unconnected_ports:
     - message: 12 unconnected electrical ports!
       ports:
-      - array_Cpad_small_SNone__23183ef2_185500_m10000,e1_1_1
-      - array_Cpad_small_SNone__23183ef2_185500_m10000,e2_1_1
-      - array_Cpad_small_SNone__23183ef2_185500_m10000,e3_1_1
-      - array_Cpad_small_SNone__23183ef2_185500_m10000,e4_1_1
-      - array_Cpad_small_SNone__23183ef2_185500_m10000,e1_1_2
-      - array_Cpad_small_SNone__23183ef2_185500_m10000,e2_1_2
-      - array_Cpad_small_SNone__23183ef2_185500_m10000,e3_1_2
-      - array_Cpad_small_SNone__23183ef2_185500_m10000,e4_1_2
-      - array_Cpad_small_SNone__23183ef2_185500_m10000,e1_1_3
-      - array_Cpad_small_SNone__23183ef2_185500_m10000,e2_1_3
-      - array_Cpad_small_SNone__23183ef2_185500_m10000,e3_1_3
-      - array_Cpad_small_SNone__23183ef2_185500_m10000,e4_1_3
+      - array_Cpad_small_C3_R1__425dcc3e_185500_m10000,e1_1_1
+      - array_Cpad_small_C3_R1__425dcc3e_185500_m10000,e2_1_1
+      - array_Cpad_small_C3_R1__425dcc3e_185500_m10000,e3_1_1
+      - array_Cpad_small_C3_R1__425dcc3e_185500_m10000,e4_1_1
+      - array_Cpad_small_C3_R1__425dcc3e_185500_m10000,e1_1_2
+      - array_Cpad_small_C3_R1__425dcc3e_185500_m10000,e2_1_2
+      - array_Cpad_small_C3_R1__425dcc3e_185500_m10000,e3_1_2
+      - array_Cpad_small_C3_R1__425dcc3e_185500_m10000,e4_1_2
+      - array_Cpad_small_C3_R1__425dcc3e_185500_m10000,e1_1_3
+      - array_Cpad_small_C3_R1__425dcc3e_185500_m10000,e2_1_3
+      - array_Cpad_small_C3_R1__425dcc3e_185500_m10000,e3_1_3
+      - array_Cpad_small_C3_R1__425dcc3e_185500_m10000,e4_1_3
       values:
       - - 145.5
         - -10

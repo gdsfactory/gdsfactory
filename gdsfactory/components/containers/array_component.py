@@ -1,15 +1,13 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component
-from gdsfactory.typings import ComponentSpec, PostProcesses, Size, Spacing
+from gdsfactory.typings import ComponentSpec, PostProcesses, Size
 
 
 @gf.cell
 def array(
     component: ComponentSpec = "pad",
-    spacing: Spacing | None = None,
     columns: int = 6,
     rows: int = 1,
     column_pitch: float = 150,
@@ -24,7 +22,6 @@ def array(
 
     Args:
         component: to replicate.
-        spacing: x, y spacing (deprecated).
         columns: in x.
         rows: in y.
         column_pitch: pitch between columns.
@@ -53,10 +50,6 @@ def array(
         |   |      |   |     |   |      |   |
         |___|      |___|     |___|      |___|
     """
-    if spacing:
-        deprecate("spacing", "column_pitch and row_pitch")
-        column_pitch, row_pitch = spacing
-
     if size:
         columns = int(size[0] / column_pitch)
         rows = int(size[1] / row_pitch)

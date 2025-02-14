@@ -1,5 +1,5 @@
 instances:
-  array_Crectangle_S1_1_L_7e7c6d07_19500_19500:
+  array_Crectangle_S1_1_L_42b7674f_19500_19500:
     component: array
     info: {}
     settings:
@@ -13,7 +13,6 @@ instances:
       row_pitch: 20
       rows: 9
       size: null
-      spacing: null
   rectangle_S100_200_LWG__6de38f9c_0_0:
     component: rectangle
     info: {}
@@ -29,10 +28,10 @@ instances:
       size:
       - 100
       - 200
-name: rectangle_with_slits_S1_4aa9e4fe
+name: rectangle_with_slits_S1_663463b8
 nets: []
 placements:
-  array_Crectangle_S1_1_L_7e7c6d07_19500_19500:
+  array_Crectangle_S1_1_L_42b7674f_19500_19500:
     mirror: false
     rotation: 0
     x: 19.5

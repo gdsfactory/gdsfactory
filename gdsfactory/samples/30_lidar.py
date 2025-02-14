@@ -40,7 +40,8 @@ if __name__ == "__main__":
         gf.components.dbr(n=200),
         rows=noutputs,
         columns=1,
-        spacing=(0, antenna_pitch),
+        column_pitch=0,
+        row_pitch=antenna_pitch,
         centered=True,
     )
     antennas.dxmin = ref.dxmax + 100

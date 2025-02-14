@@ -58,7 +58,6 @@ Classes and functions for construction and manipulation of geometric objects.
    rib_heater_doped_via_stack
    CrossSectionFactory
    CrossSectionSpec
-   MultiCrossSectionAngleSpec
 
 .. currentmodule:: gdsfactory.path
 
@@ -104,6 +103,7 @@ Classes and functions for construction and manipulation of geometric objects.
    MaterialSpec
    PathType
    Step
+   MultiCrossSectionAngleSpec
 
 .. currentmodule:: gdsfactory.technology
 .. rubric:: technology

@@ -69,7 +69,6 @@ class Path(GeometryHelper):
         self.end_angle: float = 0
         self.info: dict[str, Any] = {}
         if path is not None:
-            # If array[N][2]
             if isinstance(path, Path):
                 self.points = np.array(path.points, dtype=np.float64)
                 self.start_angle = path.start_angle
@@ -922,10 +921,6 @@ def extrude(
 
     xsection_points: list[list[float | npt.NDArray[np.floating[Any]]]] = []
     c = ComponentAllAngle() if all_angle else Component()
-
-    if isinstance(cross_section, Transition):
-        deprecate("extrude", "extrude_transition")
-        return extrude_transition(p, transition=cross_section)
 
     assert cross_section is not None
 

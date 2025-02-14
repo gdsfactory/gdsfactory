@@ -1,8 +1,0 @@
-info: {}
-name: loss_deembedding_ch13_2_d640f63c
-settings:
-  cross_section: strip
-  grating_coupler: grating_coupler_elliptical_trenches
-  pitch: 127
-  port_name: o1
-  rotation: -90

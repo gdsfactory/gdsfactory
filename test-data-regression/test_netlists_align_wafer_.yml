@@ -121,6 +121,10 @@ warnings:
     unconnected_ports:
     - message: 20 unconnected electrical ports!
       ports:
+      - rectangle_S25_25_LWG_CT_b4cc56e5_m27500_m27500,e1
+      - rectangle_S25_25_LWG_CT_b4cc56e5_m27500_m27500,e2
+      - rectangle_S25_25_LWG_CT_b4cc56e5_m27500_m27500,e3
+      - rectangle_S25_25_LWG_CT_b4cc56e5_m27500_m27500,e4
       - rectangle_S120_10_LWG_C_6331a70d_0_55000,e1
       - rectangle_S120_10_LWG_C_6331a70d_0_55000,e2
       - rectangle_S120_10_LWG_C_6331a70d_0_55000,e3
@@ -137,11 +141,15 @@ warnings:
       - rectangle_S10_110_LWG_C_804deee6_55000_0,e2
       - rectangle_S10_110_LWG_C_804deee6_55000_0,e3
       - rectangle_S10_110_LWG_C_804deee6_55000_0,e4
-      - rectangle_S25_25_LWG_CT_b4cc56e5_m27500_m27500,e1
-      - rectangle_S25_25_LWG_CT_b4cc56e5_m27500_m27500,e2
-      - rectangle_S25_25_LWG_CT_b4cc56e5_m27500_m27500,e3
-      - rectangle_S25_25_LWG_CT_b4cc56e5_m27500_m27500,e4
       values:
+      - - -40
+        - -27.5
+      - - -27.5
+        - -15
+      - - -15
+        - -27.5
+      - - -27.5
+        - -40
       - - -60
         - 55
       - - 0
@@ -174,11 +182,3 @@ warnings:
         - 0
       - - 55
         - -55
-      - - -40
-        - -27.5
-      - - -27.5
-        - -15
-      - - -15
-        - -27.5
-      - - -27.5
-        - -40

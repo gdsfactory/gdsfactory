@@ -3,7 +3,6 @@ from __future__ import annotations
 from functools import partial
 
 import gdsfactory as gf
-from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component
 from gdsfactory.config import valid_port_orientations
 from gdsfactory.typings import (
@@ -13,7 +12,6 @@ from gdsfactory.typings import (
     Ints,
     LayerSpec,
     Size,
-    Spacing,
 )
 
 
@@ -96,13 +94,11 @@ pad_small = partial(pad, size=(80, 80))
 @gf.cell
 def pad_array(
     pad: ComponentSpec = "pad",
-    spacing: Spacing | None = None,
     columns: int = 6,
     rows: int = 1,
     column_pitch: float = 150.0,
     row_pitch: float = 150.0,
     port_orientation: AngleInDegrees = 0,
-    orientation: AngleInDegrees | None = None,
     size: Float2 = (100.0, 100.0),
     layer: LayerSpec = "MTOP",
     centered_ports: bool = False,
@@ -112,26 +108,16 @@ def pad_array(
 
     Args:
         pad: pad element.
-        spacing: x, y pitch.
         columns: number of columns.
         rows: number of rows.
         column_pitch: x pitch.
         row_pitch: y pitch.
         port_orientation: port orientation in deg. None for low speed DC ports.
-        orientation: (deprecated).
         size: pad size.
         layer: pad layer.
         centered_ports: True add ports to center. False add ports to the edge.
         auto_rename_ports: True to auto rename ports.
     """
-    if orientation is not None:
-        deprecate("orientation", "port_orientation")
-        port_orientation = orientation
-
-    if spacing is not None:
-        deprecate("spacing", "column_pitch and row_pitch")
-        column_pitch, row_pitch = spacing
-
     c = Component()
     pad_component = gf.get_component(
         pad, size=size, layer=layer, port_orientations=None, port_orientation=None
