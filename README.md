@@ -8,14 +8,6 @@
 [![codecov](https://img.shields.io/codecov/c/github/gdsfactory/gdsfactory)](https://codecov.io/gh/gdsfactory/gdsfactory/tree/main/gdsfactory)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/gdsfactory/binder-sandbox/HEAD)
 
-> 🚀 **Notice: Major Release**
->
-> We are excited to announce that GDSFactory has upgraded its backend from gdstk to KLayout. This change brings enhanced routing functions and additional features from KLayout, including DRC, dummy fill, and connectivity checks.
->
-> Notice that the routing and some advanced functions have changed. For a complete list of changes, please refer to our [migration guide](https://gdsfactory.github.io/gdsfactory/notebooks/21_migration_guide_7_8.html) or review the updated layout tutorial.
-
-GDSFactory is a powerful Python library for designing a wide range of complex systems, including photonic circuits, analog devices, quantum components, MEMs, 3D printed objects, and PCBs. With GDSFactory, you can create and refine your designs using Python or YAML, perform rigorous verification through Design Rule Checking (DRC), Layout Versus Schematic (LVS) checks, and simulations. Additionally, it facilitates automated lab testing to ensure that your fabricated devices meet precise specifications, streamlining the entire design-to-fabrication workflow.
-
 
 As input you write python code, as an output GDSFactory creates CAD files (GDS, OASIS, STL, GERBER).
 
