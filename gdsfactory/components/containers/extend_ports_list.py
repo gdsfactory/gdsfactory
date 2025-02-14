@@ -2,12 +2,12 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.typings import ComponentSpec, Ports, Strs
+from gdsfactory.typings import ComponentSpec, Strs
 
 
 @gf.cell(set_name=False)
 def extend_ports_list(
-    ports: Ports,
+    component_spec: ComponentSpec,
     extension: ComponentSpec,
     extension_port_name: str | None = None,
     ignore_ports: Strs | None = None,
@@ -15,12 +15,14 @@ def extend_ports_list(
     """Returns a component with an extension attached to a list of ports.
 
     Args:
-        ports: list of ports.
+        component_spec: component from which to get ports.
         extension: function for extension.
         extension_port_name: to connect extension.
         ignore_ports: list of port names to ignore.
     """
     from gdsfactory.pdk import get_component
+
+    ports = get_component(component_spec).ports
 
     c = Component()
     extension = get_component(extension)
@@ -45,14 +47,14 @@ def extend_ports_list(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.Component("taper_extended")
+    c = gf.Component(name="taper_extended")
     c0 = gf.components.taper()
-    e = extend_ports_list(c0.ports, extension="straight")
+    e = extend_ports_list(c0, extension="straight")
     c << c0
     c << e
     c.show()
 
-    # c = gf.Component("mmi_extended")
+    # c = gf.Component(name="mmi_extended")
     # m = gf.components.mmi1x2()
     # t = partial(gf.components.taper, width2=0.1)
     # e = extend_ports_list(

@@ -23,14 +23,14 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.mzis import mzi1x2_2x2
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Float2
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Spacing
 
 
 @gf.cell
 def splitter_tree(
     coupler: ComponentSpec = "mmi1x2",
     noutputs: int = 4,
-    spacing: Float2 = (90.0, 50.0),
+    spacing: Spacing = (90.0, 50.0),
     bend_s: ComponentSpec | None = "bend_s",
     bend_s_xsize: float | None = None,
     cross_section: CrossSectionSpec = "strip",
@@ -72,8 +72,8 @@ def splitter_tree(
 
     if bend_s:
         dy_coupler_ports = abs(
-            coupler.ports[e0_port_name].dcenter[1]
-            - coupler.ports[e1_port_name].dcenter[1]
+            coupler.ports[e0_port_name].center[1]
+            - coupler.ports[e1_port_name].center[1]
         )
         bend_s_ysize = dy / 4 - dy_coupler_ports / 2
         bend_s_xsize = bend_s_xsize or dx

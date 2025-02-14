@@ -3,9 +3,8 @@ from __future__ import annotations
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component
-from gdsfactory.typings import Float2, LayerSpec, Size
+from gdsfactory.typings import LayerSpec, Size
 
 
 @gf.cell
@@ -16,7 +15,6 @@ def rectangle_with_slits(
     centered: bool = False,
     port_type: str | None = None,
     slit_size: Size = (1.0, 1.0),
-    slit_spacing: Float2 | None = None,
     slit_column_pitch: float = 20,
     slit_row_pitch: float = 20,
     slit_enclosure: float = 10,
@@ -32,7 +30,6 @@ def rectangle_with_slits(
         centered: True sets center to (0, 0), False sets south-west to (0, 0)
         port_type: for the rectangle.
         slit_size: x, y slit size.
-        slit_spacing: pitch_x, pitch_y for slits.
         slit_column_pitch: pitch for columns of slits.
         slit_row_pitch: pitch for rows of slits.
         slit_enclosure: from slit to rectangle edge.
@@ -62,11 +59,6 @@ def rectangle_with_slits(
     c = Component()
     layer = gf.get_layer(layer)
 
-    if slit_spacing:
-        deprecate("slit_spacing", "slit_column_pitch and slit_row_pitch")
-        slit_column_pitch = slit_spacing[0]
-        slit_row_pitch = slit_spacing[1]
-
     r = c << gf.c.rectangle(
         size=size, layer=layer, port_type=port_type, centered=centered
     )
@@ -78,11 +70,10 @@ def rectangle_with_slits(
         slit,
         columns=columns,
         rows=rows,
-        spacing=slit_spacing,
         column_pitch=slit_column_pitch,
         row_pitch=slit_row_pitch,
     )
-    slits.dcenter = r.dcenter
+    slits.center = r.center
     return c
 
 

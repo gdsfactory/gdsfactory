@@ -27,7 +27,7 @@ def add_ports_from_markers_square(
     port_name_prefix: str | None = None,
     port_type: str = "optical",
 ) -> Component:
-    """Add ports from square markers at the port dcenter in port_layer.
+    """Add ports from square markers at the port center in port_layer.
 
     Args:
         component: to read polygons from and to write ports to.
@@ -98,7 +98,7 @@ def add_ports_from_markers_center(
         component: to read polygons from and to write ports to.
         pin_layer: layer for pin maker.
         port_layer: for the new created port. Defaults to pin_layer.
-        inside: True-> markers  inside. False-> markers at dcenter.
+        inside: True-> markers  inside. False-> markers at center.
         tol: tolerance area to search ports at component boundaries dxmin, dymin, dxmax, dxmax.
         pin_extra_width: 2*offset from pin to straight.
         min_pin_area_um2: ignores pins with area smaller than min_pin_area_um2.
@@ -151,6 +151,8 @@ def add_ports_from_markers_center(
         dx > xc: east
         dx < xc: west
     """
+    from gdsfactory.pdk import get_layer
+
     xc = xcenter or component.dx
     yc = ycenter or component.dy
     dxmax = component.dxmax
@@ -276,7 +278,7 @@ def add_ports_from_markers_center(
                 center=(x, y),
                 width=width,
                 orientation=orientation,
-                layer=layer,
+                layer=get_layer(layer),
                 port_type=port_type,
             )
             ports.append(port)
@@ -323,7 +325,7 @@ def add_ports_from_boxes(
         component: to read polygons from and to write ports to.
         pin_layer: layer for pin maker.
         port_layer: for the new created port. Defaults to pin_layer.
-        inside: True-> markers  inside. False-> markers at dcenter.
+        inside: True-> markers  inside. False-> markers at center.
         tol: tolerance area to search ports at component boundaries dxmin, dymin, dxmax, dxmax.
         pin_extra_width: 2*offset from pin to straight.
         min_pin_area_um2: ignores pins with area smaller than min_pin_area_um2.
@@ -523,14 +525,14 @@ def add_ports_from_labels(
 ) -> Component:
     """Add ports from labels.
 
-    Assumes that all ports have a label at the port dcenter.
+    Assumes that all ports have a label at the port center.
     because labels do not have width, you have to manually specify the ports width
 
     Args:
         component: to read polygons from and to write ports to.
         port_width: for ports.
         port_layer: for the new created port.
-        xcenter: dcenter of the component, for guessing port orientation.
+        xcenter: center of the component, for guessing port orientation.
         port_name_prefix: defaults to 'o' for optical and 'e' for electrical.
         port_type: optical, electrical.
         get_name_from_label: uses the label text as port name.
@@ -639,7 +641,7 @@ def add_ports_from_siepic_pins(
 
         c.create_port(
             name=f"{port_prefix}{i + 1}",
-            dwidth=round(path.width / c.kcl.dbu) * c.kcl.dbu,
+            width=round(path.width / c.kcl.dbu) * c.kcl.dbu,
             dcplx_trans=gf.kdb.DCplxTrans(
                 1, orientation, False, path.bbox().center().to_v()
             ),

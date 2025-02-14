@@ -29,7 +29,7 @@ def path_straight(port1: typings.Port, port2: typings.Port) -> Path:
         np.abs(np.mod(port1.orientation - port2.orientation, 360)), 3
     )
     e1, e2 = _get_rotated_basis(port1.orientation)
-    displacement = np.array(port2.dcenter) - np.array(port1.dcenter)
+    displacement = np.array(port2.center) - np.array(port1.center)
     xrel = np.round(
         np.dot(displacement, e1), 3
     )  # relative position of port 2, forward/backward
@@ -38,7 +38,7 @@ def path_straight(port1: typings.Port, port2: typings.Port) -> Path:
     )  # relative position of port 2, left/right
     if (delta_orientation not in (0, 180, 360)) or (yrel != 0) or (xrel <= 0):
         raise ValueError("path_straight(): ports must point directly at each other.")
-    return Path(np.array([port1.dcenter, port2.dcenter]))
+    return Path(np.array([port1.center, port2.center]))
 
 
 def path_L(port1: typings.Port, port2: typings.Port) -> Path:
@@ -59,8 +59,8 @@ def path_L(port1: typings.Port, port2: typings.Port) -> Path:
     e1, e2 = _get_rotated_basis(port1.orientation)
 
     # assemble waypoints
-    pt1 = np.array(port1.dcenter)
-    pt3 = port2.dcenter
+    pt1 = np.array(port1.center)
+    pt3 = port2.center
     delta_vec = pt3 - pt1
     pt2 = pt1 + np.dot(delta_vec, e1) * e1
     return Path(np.array([pt1, pt2, pt3]))
@@ -86,8 +86,8 @@ def path_U(port1: typings.Port, port2: typings.Port, length1: float = 200) -> Pa
     e1 = np.array([np.cos(theta), np.sin(theta)])
     e2 = np.array([-1 * np.sin(theta), np.cos(theta)])
     # assemble waypoints
-    pt1 = port1.dcenter
-    pt4 = port2.dcenter
+    pt1 = port1.center
+    pt4 = port2.center
     pt2 = pt1 + length1 * e1  # outward by length1 distance
     delta_vec = pt4 - pt2
     pt3 = pt2 + np.dot(delta_vec, e2) * e2
@@ -115,9 +115,9 @@ def path_J(
     e1, _ = _get_rotated_basis(port1.orientation)
     e2, _ = _get_rotated_basis(port2.orientation)
     # assemble waypoints
-    pt1 = port1.dcenter
+    pt1 = port1.center
     pt2 = pt1 + length1 * e1  # outward from port1 by length1
-    pt5 = port2.dcenter
+    pt5 = port2.center
     pt4 = pt5 + length2 * e2  # outward from port2 by length2
     delta_vec = pt4 - pt2
     pt3 = pt2 + np.dot(delta_vec, e2) * e2  # move orthogonally in e2 direction
@@ -149,10 +149,10 @@ def path_C(
     e1, e_left = _get_rotated_basis(port1.orientation)
     e2, _ = _get_rotated_basis(port2.orientation)
     # assemble route points
-    pt1 = port1.dcenter
+    pt1 = port1.center
     pt2 = pt1 + length1 * e1  # outward from port1 by length1
     pt3 = pt2 + left1 * e_left  # leftward by left1
-    pt6 = port2.dcenter
+    pt6 = port2.center
     pt5 = pt6 + length2 * e2  # outward from port2 by length2
     delta_vec = pt5 - pt3
     pt4 = pt3 + np.dot(delta_vec, e1) * e1  # move orthogonally in e1 direction
@@ -172,7 +172,7 @@ def path_manhattan(port1: typings.Port, port2: typings.Port, radius: float) -> P
     """
     radius += 0.1
     e1, e2 = _get_rotated_basis(port1.orientation)
-    displacement = np.array(port2.dcenter) - np.array(port1.dcenter)
+    displacement = np.array(port2.center) - np.array(port1.center)
     xrel = np.round(
         np.dot(displacement, e1), 3
     )  # port2 position, forward(+)/backward(-) from port 1
@@ -246,9 +246,9 @@ def path_Z(
     e1, _ = _get_rotated_basis(port1.orientation)
     e2, _ = _get_rotated_basis(port2.orientation)
     # assemble route  points
-    pt1 = port1.dcenter
+    pt1 = port1.center
     pt2 = pt1 + length1 * e1  # outward from port1 by length1
-    pt4 = port2.dcenter
+    pt4 = port2.center
     pt3 = pt4 + length2 * e2  # outward from port2 by length2
     return Path(np.array([pt1, pt2, pt3, pt4]))
 
@@ -267,8 +267,8 @@ def path_V(port1: typings.Port, port2: typings.Port) -> Path:
     e2, _ = _get_rotated_basis(port2.orientation)
 
     # Assemble route points
-    pt1 = port1.dcenter
-    pt3 = port2.dcenter
+    pt1 = port1.center
+    pt3 = port2.center
 
     # Solve for intersection
     e = np.column_stack((e1, -1 * e2))
@@ -348,7 +348,7 @@ def route_sharp(
     elif path_type == "Z":
         p = path_Z(port1, port2, **kwargs)
     elif path_type == "manhattan":
-        radius = max(port1.dwidth, port2.dwidth)
+        radius = max(port1.width, port2.width)
         p = path_manhattan(port1, port2, radius=radius)
     elif path_type == "manual":
         p = manual_path if isinstance(manual_path, Path) else Path(manual_path)
@@ -366,12 +366,12 @@ def route_sharp(
     elif width is None:
         layer = layer or port1.layer
         s1 = Section(
-            width=port1.dwidth,
+            width=port1.width,
             port_names=port_names,
             layer=layer,
         )
         s2 = Section(
-            width=port2.dwidth,
+            width=port2.width,
             port_names=port_names,
             layer=layer,
         )
@@ -390,7 +390,7 @@ def route_sharp(
 
 
 if __name__ == "__main__":
-    c = gf.Component("pads")
+    c = gf.Component(name="pads")
     c1 = c << gf.components.pad()
     c2 = c << gf.components.pad()
 

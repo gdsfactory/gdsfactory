@@ -69,29 +69,31 @@ def mmi1x2(
     a = gap_mmi / 2 + width_taper / 2
     _ = c << gf.get_component(straight, length=length_mmi, cross_section=xs_mmi)
 
+    temp_component = Component()
+
     ports = [
-        gf.Port(
-            "o1",
+        temp_component.add_port(
+            name="o1",
             orientation=180,
             center=(0, 0),
             width=width_taper,
-            layer=x.layer,
+            layer=gf.get_layer(x.layer),
             cross_section=x,
         ),
-        gf.Port(
-            "o2",
+        temp_component.add_port(
+            name="o2",
             orientation=0,
             center=(+length_mmi, +a),
             width=width_taper,
-            layer=x.layer,
+            layer=gf.get_layer(x.layer),
             cross_section=x,
         ),
-        gf.Port(
-            "o3",
+        temp_component.add_port(
+            name="o3",
             orientation=0,
             center=(+length_mmi, -a),
             width=width_taper,
-            layer=x.layer,
+            layer=gf.get_layer(x.layer),
             cross_section=x,
         ),
     ]

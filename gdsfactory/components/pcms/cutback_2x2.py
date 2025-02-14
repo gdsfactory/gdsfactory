@@ -168,7 +168,7 @@ def cutback_2x2(
     s = s[:-1]
     n = cols * rows * 2
     c = gf.c.component_sequence(sequence=s, symbol_to_component=symbol_to_component)
-    c.ports._ports = []  # type: ignore
+    c.ports.clear()
     c.add_port("o1", port=c.insts["A1"].ports["o1"])
     c.add_port("o2", port=c.insts["A1"].ports["o2"])
 

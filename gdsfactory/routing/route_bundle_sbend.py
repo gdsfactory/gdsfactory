@@ -35,8 +35,8 @@ def route_bundle_sbend(
         )
 
     for p1, p2 in zip(list(ports1), list(ports2)):
-        ysize = p2.dcenter[1] - p1.dcenter[1]
-        xsize = p2.dcenter[0] - p1.dcenter[0]
+        ysize = p2.center[1] - p1.center[1]
+        xsize = p2.center[0] - p1.center[0]
         bend = gf.get_component(bend_s, size=(xsize, ysize), **kwargs)
         sbend = component << bend
         sbend.connect("o1", p1)
@@ -45,7 +45,7 @@ def route_bundle_sbend(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    # c = gf.Component("test_route_single_sbend")
+    # c = gf.Component(name="test_route_single_sbend")
     # pitch = 2.0
     # ys_left = [0, 10, 20]
     # N = len(ys_left)
@@ -73,7 +73,7 @@ if __name__ == "__main__":
     c1 = c << gf.components.nxn(east=3, ysize=20)
     c2 = c << gf.components.nxn(west=3)
     c2.dmove((80, 0))
-    gf.routing.route_bundle_sbend(
+    route_bundle_sbend(
         c,
         c1.ports.filter(orientation=0),
         c2.ports.filter(orientation=180),

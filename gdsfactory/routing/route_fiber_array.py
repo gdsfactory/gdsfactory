@@ -4,9 +4,9 @@ from collections.abc import Mapping, Sequence
 from typing import Any
 
 import kfactory as kf
+import klayout.db as kdb
 
 import gdsfactory as gf
-from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.route_bundle import get_min_spacing, route_bundle
@@ -21,7 +21,6 @@ from gdsfactory.typings import (
     PortsFactory,
     Strs,
 )
-from gdsfactory.utils import to_kdb_boxes
 
 
 def route_fiber_array(
@@ -53,7 +52,7 @@ def route_fiber_array(
     cross_section: CrossSectionSpec = "strip",
     allow_width_mismatch: bool = False,
     port_type: str = "optical",
-    route_width: float | None = 0,
+    route_width: float | None = None,
     start_straight_length: float = 0,
     end_straight_length: float = 0,
     auto_taper: bool = True,
@@ -61,7 +60,6 @@ def route_fiber_array(
     steps: Sequence[Mapping[str, int | float]] | None = None,
     bboxes: BoundingBoxes | None = None,
     avoid_component_bbox: bool = True,
-    fiber_spacing: None | float = None,
     **kwargs: Any,
 ) -> Component:
     """Returns new component with fiber array.
@@ -113,16 +111,9 @@ def route_fiber_array(
         steps: steps for the route.
         bboxes: list bounding boxes to avoid for routing.
         avoid_component_bbox: avoid component bbox for routing.
-        fiber_spacing: (deprecated).
         kwargs: route_bundle settings.
     """
-    # c = component
-    # component = component_to_route
     x = gf.get_cross_section(cross_section)
-
-    if fiber_spacing is not None:
-        deprecate("fiber_spacing", "pitch")
-        pitch = fiber_spacing
 
     component_name = component_name or component_to_route.name
     excluded_ports = excluded_ports or []
@@ -242,7 +233,7 @@ def route_fiber_array(
     # - then connect south ports (left to right)
     # - then east ports (bottom to top)
     # - then second half of the north ports (right to left)
-    ports = []
+    ports: list[gf.Port] = []
     north_ports = direction_ports["N"]
     north_start = north_ports[: len(north_ports) // 2]
     north_finish = north_ports[len(north_ports) // 2 :]
@@ -259,7 +250,9 @@ def route_fiber_array(
     y_gr_gap = (k / nb_optical_ports_lines + 1) * separation
     gr_coupler_y_sep = grating_coupler.dysize + y_gr_gap + dy
     offset = (nb_ports_per_line - 1) * pitch / 2 - x_grating_offset
-    io_gratings_lines = []  # [[gr11, gr12, gr13...], [gr21, gr22, gr23...] ...]
+    io_gratings_lines: list[
+        list[Component | kf.DInstance]
+    ] = []  # [[gr11, gr12, gr13...], [gr21, gr22, gr23...] ...]
 
     grating_coupler_port_names = [p.name for p in grating_coupler.ports]
     with_fiber_port = gc_port_name_fiber in grating_coupler_port_names
@@ -270,8 +263,8 @@ def route_fiber_array(
         assert len(grating_indices) == nb_ports_per_line
 
     # add grating couplers
-    io_gratings = []
-    gc_ports = []
+    io_gratings: list[Component | kf.DInstance] = []
+    gc_ports: list[gf.Port] = []
     for j in range(nb_optical_ports_lines):
         for i, gc in zip(grating_indices, grating_couplers):
             gc_ref = component << gc
@@ -300,7 +293,7 @@ def route_fiber_array(
                     gr.dmovex(-min_dist)
 
     # If the array of gratings is too close, adjust its location
-    gc_ports_tmp = []
+    gc_ports_tmp: list[gf.Port] = []
     for io_gratings in io_gratings_lines:
         gc_ports_tmp += [gc.ports[gc_port_name] for gc in io_gratings]
     min_y = get_min_spacing(to_route, gc_ports_tmp, separation=separation, radius=dy)
@@ -316,10 +309,11 @@ def route_fiber_array(
     gc_ports = [gc.ports[gc_port_name] for gc in io_gratings]
     # c.shapes(c.kcl.layer(1, 10)).insert(component_to_route.bbox())
 
-    bboxes = list(bboxes or [])
+    _bboxes: list[kdb.DBox] = [kdb.DBox(*bbox) for bbox in bboxes or []]
 
     if avoid_component_bbox:
-        bboxes.append(component_to_route.bbox())
+        bbox = component_to_route.bbox()
+        _bboxes.append(kdb.DBox(bbox.left, bbox.bottom, bbox.right, bbox.top))
 
     route_bundle(
         component,
@@ -333,7 +327,7 @@ def route_fiber_array(
         sort_ports=True,
         allow_width_mismatch=allow_width_mismatch,
         route_width=route_width,
-        bboxes=to_kdb_boxes(bboxes),
+        bboxes=_bboxes,
         start_straight_length=start_straight_length,
         end_straight_length=end_straight_length,
         auto_taper=auto_taper,
@@ -352,7 +346,7 @@ def route_fiber_array(
 
     fiber_ports = [gc.ports[gc_port_name_fiber] for gc in io_gratings]
 
-    component.ports = kf.Ports(kcl=component.kcl)
+    component.ports = kf.DPorts(kcl=component.kcl)
 
     for component_port, port in zip(port_names, fiber_ports):
         component.add_port(name=component_port, port=port)
@@ -381,12 +375,15 @@ def route_fiber_array(
         d_loop_dbu = component.kcl.to_dbu(d_loop)
 
         waypoints_loopback = kf.routing.optical.route_loopback(
-            port0,
-            port1,
+            port0.to_itype(),
+            port1.to_itype(),
             bend90_radius=radius_dbu,
             inside=with_loopback_inside,
             d_loop=d_loop_dbu,
         )
+        waypoints_loopback_ = [
+            p.to_dtype(component.kcl.dbu) for p in waypoints_loopback
+        ]
         bend90 = gf.get_component(
             bend, cross_section=cross_section, radius=radius_loopback
         )
@@ -395,7 +392,7 @@ def route_fiber_array(
             component,
             port1=port0,
             port2=port1,
-            waypoints=waypoints_loopback,
+            waypoints=waypoints_loopback_,
             straight=straight,
             bend=bend90,
             cross_section=cross_section,

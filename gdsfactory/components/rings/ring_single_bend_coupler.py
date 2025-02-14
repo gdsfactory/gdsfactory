@@ -74,7 +74,7 @@ def coupler_bend(
     output_ref.connect("o1", bend_output_ref.ports["o2"], mirror=True)
 
     pbw = bend_inner_ref.ports["o1"]
-    bend_inner_ref.dmovey(pbw.dcenter[1] + spacing)
+    bend_inner_ref.dmovey(pbw.center[1] + spacing)
 
     c.add_port("o1", port=bend_output_ref.ports["o1"])
     c.add_port("o2", port=bend_inner_ref.ports["o1"])

@@ -78,7 +78,7 @@ def print_version_plugins(packages: list[str] | None = None) -> None:
                 table.add_row(plugin, str(m.__version__), str(m.__path__))
             except AttributeError:
                 table.add_row(plugin, "", "")
-        except ImportError:  # noqa: PERF203
+        except ImportError:
             table.add_row(plugin, "not installed", "")
 
     console = Console()
@@ -97,7 +97,7 @@ def print_version_plugins_raw() -> None:
                 print(plugin, m.__version__)
             except AttributeError:
                 print(plugin)
-        except ImportError:  # noqa: PERF203
+        except ImportError:
             print(plugin, "not installed", "")
 
 

@@ -12,12 +12,11 @@ import hashlib
 import math
 import warnings
 from collections.abc import Callable, Iterator
-from typing import Any, Literal, overload
+from typing import Any, Literal, Self, overload
 
 import numpy as np
 import numpy.typing as npt
 from numpy import mod, pi
-from typing_extensions import Self
 
 from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component, ComponentAllAngle
@@ -27,11 +26,7 @@ from gdsfactory.component_layout import (
     reflect_points,
     rotate_points,
 )
-from gdsfactory.cross_section import (  # type: ignore[attr-defined]
-    CrossSection,
-    Section,
-    Transition,
-)
+from gdsfactory.cross_section import CrossSection, Section, Transition
 from gdsfactory.pdk import get_layer_name
 from gdsfactory.typings import (
     AngleInDegrees,
@@ -74,7 +69,6 @@ class Path(GeometryHelper):
         self.end_angle: float = 0
         self.info: dict[str, Any] = {}
         if path is not None:
-            # If array[N][2]
             if isinstance(path, Path):
                 self.points = np.array(path.points, dtype=np.float64)
                 self.start_angle = path.start_angle
@@ -927,10 +921,6 @@ def extrude(
 
     xsection_points: list[list[float | npt.NDArray[np.floating[Any]]]] = []
     c = ComponentAllAngle() if all_angle else Component()
-
-    if isinstance(cross_section, Transition):
-        deprecate("extrude", "extrude_transition")
-        return extrude_transition(p, transition=cross_section)
 
     assert cross_section is not None
 

@@ -26,10 +26,10 @@ from warnings import warn
 
 import kfactory as kf
 import numpy as np
-from kfactory.kcell import LayerEnum
+from kfactory import LayerEnum
 
 from gdsfactory import Port, typings
-from gdsfactory.component import Component, ComponentReference
+from gdsfactory.component import Component, ComponentReference, ComponentReferences
 from gdsfactory.name import clean_name
 from gdsfactory.serialization import clean_dict, clean_value_json
 from gdsfactory.typings import LayerSpec
@@ -82,7 +82,7 @@ def get_instance_name_from_alias(reference: ComponentReference) -> str:
     Args:
         reference: reference that needs naming.
     """
-    return clean_name(reference.name)
+    return clean_name(reference.name or "")
 
 
 def get_instance_name_from_label(
@@ -122,16 +122,16 @@ def get_instance_name_from_label(
     return text
 
 
-def _is_array_reference(ref: kf.Instance) -> bool:
+def _is_array_reference(ref: ComponentReference) -> bool:
     return ref.na > 1 or ref.nb > 1
 
 
-def _is_orthogonal_array_reference(ref: kf.Instance) -> bool:
+def _is_orthogonal_array_reference(ref: ComponentReference) -> bool:
     return abs(ref.a.y) == 0 and abs(ref.b.x) == 0
 
 
 def get_netlist(
-    component: kf.KCell,
+    component: kf.DKCell,
     exclude_port_types: Sequence[str] | None = (
         "placement",
         "pad",
@@ -178,7 +178,7 @@ def get_netlist(
     top_ports: dict[str, str] = {}
 
     # store where ports are located
-    name2port: dict[str, kf.Port] = {}
+    name2port: dict[str, typings.Port] = {}
 
     # TOP level ports
     ports = component.ports
@@ -224,15 +224,15 @@ def get_netlist(
                 instances[reference_name]["array"] = {
                     "columns": reference.na,
                     "rows": reference.nb,
-                    "column_pitch": reference.da.x,
-                    "row_pitch": reference.db.y,
+                    "column_pitch": reference.instance.da.x,
+                    "row_pitch": reference.instance.db.y,
                 }
             else:
                 instances[reference_name]["array"] = {
                     "num_a": reference.na,
                     "num_b": reference.nb,
-                    "pitch_a": (reference.da.x, reference.da.y),
-                    "pitch_b": (reference.db.x, reference.db.y),
+                    "pitch_a": (reference.instance.da.x, reference.instance.da.y),
+                    "pitch_b": (reference.instance.db.x, reference.instance.db.y),
                 }
             reference_name = get_instance_name(reference)
             for ia in range(reference.na):
@@ -244,11 +244,11 @@ def get_netlist(
                         ports_by_type[port.port_type].append(src)
         else:
             # lower level ports
-            for port in reference.ports:
+            for port_ in reference.ports:
                 reference_name = get_instance_name(reference)
-                src = f"{reference_name},{port.name}"
-                name2port[src] = port
-                ports_by_type[port.port_type].append(src)
+                src = f"{reference_name},{port_.name}"
+                name2port[src] = port_
+                ports_by_type[port_.port_type].append(src)
 
     for port in ports:
         port_name = port.name
@@ -270,7 +270,6 @@ def get_netlist(
         )
         if warnings_t:
             warnings[port_type] = warnings_t
-
         for connection in connections_t:
             if len(connection) == 2:
                 src, dst = connection
@@ -356,7 +355,7 @@ def _extract_connections(
 
     for port_name in unconnected_port_names:
         port = ports[port_name]
-        by_xy[port.center].append(port_name)
+        by_xy[port.to_itype().center].append(port_name)
 
     unconnected_port_names = []
 
@@ -503,16 +502,16 @@ def difference_between_angles(angle2: float, angle1: float) -> float:
     return diff
 
 
-def _get_references_to_netlist(component: kf.KCell) -> kf.kcell.Instances:
+def _get_references_to_netlist(component: kf.DKCell) -> ComponentReferences:
     return component.insts
 
 
 class GetNetlistFunc(Protocol):
-    def __call__(self, component: kf.KCell, **kwargs: Any) -> dict[str, Any]: ...
+    def __call__(self, component: kf.DKCell, **kwargs: Any) -> dict[str, Any]: ...
 
 
 def get_netlist_recursive(
-    component: kf.KCell,
+    component: kf.DKCell,
     component_suffix: str = "",
     get_netlist_func: GetNetlistFunc = get_netlist,  # type: ignore
     get_instance_name: Callable[..., str] = get_instance_name_from_alias,

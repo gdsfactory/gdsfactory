@@ -1,15 +1,13 @@
 import json
 from pathlib import Path
-from typing import Any
+from typing import Any, Self
 
 import networkx as nx
 import yaml
 from graphviz import Digraph
 from pydantic import BaseModel, ConfigDict, Field, model_validator
-from typing_extensions import Self
 
 import gdsfactory
-from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component
 from gdsfactory.config import PATH
 from gdsfactory.typings import Anchor, Delta
@@ -420,11 +418,6 @@ class Schematic(BaseModel):
         """
         dot = self.to_graphviz()
         plot_graphviz(dot, interactive=interactive, splines=splines)
-
-    def plot_schematic_networkx(self) -> None:
-        """Plots the netlist graph (Automatic fallback to networkx)."""
-        deprecate("plot_schematic_networkx", "plot_graphviz")
-        self.plot_graphviz()
 
 
 def plot_graphviz(

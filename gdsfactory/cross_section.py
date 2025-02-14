@@ -11,12 +11,10 @@ from collections.abc import Callable, Sequence
 from functools import partial, wraps
 from inspect import getmembers, signature
 from types import ModuleType
-from typing import Any, TypeAlias
+from typing import Any, Self, TypeAlias
 
 import numpy as np
-from kfactory import logger
-from kfactory.cross_section import SymmetricalCrossSection
-from kfactory.kcell import KCLayout, VInstance  # noqa
+from kfactory import DCrossSection, SymmetricalCrossSection, logger
 from pydantic import (
     BaseModel,
     ConfigDict,
@@ -25,7 +23,6 @@ from pydantic import (
     field_serializer,
     model_validator,
 )
-from typing_extensions import Self
 
 from gdsfactory import typings
 from gdsfactory.component import Component
@@ -36,9 +33,9 @@ nm = 1e-3
 
 port_names_electrical: typings.IOPorts = ("e1", "e2")
 port_types_electrical: typings.IOPorts = ("electrical", "electrical")
-cladding_layers_optical = None
-cladding_offsets_optical = None
-cladding_simplify_optical = None
+cladding_layers_optical: typings.Layers | None = None
+cladding_offsets_optical: typings.Floats | None = None
+cladding_simplify_optical: typings.Floats | None = None
 
 deprecated = {
     "info",
@@ -217,6 +214,7 @@ class CrossSection(BaseModel):
 
     model_config = ConfigDict(extra="forbid", frozen=True)
     _name: str = PrivateAttr("")
+    _dcross_section: DCrossSection | None = PrivateAttr()
 
     def validate_radius(
         self, radius: float, error_type: ErrorType | None = None
@@ -346,7 +344,7 @@ class CrossSection(BaseModel):
     #         enclosure_map=dict(enclosure_rc=enclosure_rc)
     #     )
 
-    #     kf.kcl.enclosure = kf.KCellEnclosure(
+    #     kf.kcl.enclosure = kf.DKCellEnclosure(
     #         enclosures=[enclosure_rc],
     #     )
     #     component.kcl.enclosure.apply_minkowski_y(component)
@@ -403,19 +401,10 @@ class CrossSection(BaseModel):
         return xmin, xmax
 
 
-CrossSectionSpec: TypeAlias = (
-    CrossSection
-    | str
-    | dict[str, Any]
-    | Callable[..., CrossSection]
-    | SymmetricalCrossSection
-)
-CrossSectionFactory: TypeAlias = Callable[..., CrossSection]
-
 CrossSection.model_rebuild()
 
 
-class Transition(BaseModel):
+class Transition(BaseModel, arbitrary_types_allowed=True):
     """Waveguide information to extrude a path between two CrossSection.
 
     cladding_layers follow path shape
@@ -448,8 +437,17 @@ class Transition(BaseModel):
         )
 
 
+CrossSectionFactory: TypeAlias = Callable[..., "CrossSection"]
+CrossSectionSpec: TypeAlias = (
+    CrossSection
+    | str
+    | dict[str, Any]
+    | CrossSectionFactory
+    | SymmetricalCrossSection
+    | DCrossSection
+)
 cross_sections: dict[str, CrossSectionFactory] = {}
-_cross_section_default_names = {}
+_cross_section_default_names: dict[str, str] = {}
 
 
 def xsection(func: Callable[..., CrossSection]) -> Callable[..., CrossSection]:
@@ -2680,9 +2678,9 @@ def get_cross_sections(
         modules: module or iterable of modules.
         verbose: prints in case any errors occur.
     """
-    _modules = modules if isinstance(modules, Sequence) else [modules]
+    modules_ = modules if isinstance(modules, Sequence) else [modules]
     xs: dict[str, CrossSectionFactory] = {}
-    for module in _modules:
+    for module in modules_:
         for t in getmembers(module):
             if callable(t[1]) and not t[0].startswith("_"):
                 try:

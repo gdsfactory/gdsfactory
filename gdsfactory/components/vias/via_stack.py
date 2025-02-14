@@ -7,7 +7,6 @@ from functools import partial
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.typings import ComponentSpec, Floats, Ints, LayerSpec, LayerSpecs, Size
 
@@ -18,7 +17,6 @@ def via_stack(
     layers: LayerSpecs = ("M1", "M2", "MTOP"),
     layer_offsets: Floats | tuple[float | tuple[float, float], ...] | None = None,
     vias: Sequence[ComponentSpec | None] = ("via1", "via2", None),
-    layer_port: LayerSpec | None = None,
     layer_to_port_orientations: dict[LayerSpec, list[int]] | None = None,
     correct_size: bool = True,
     slot_horizontal: bool = False,
@@ -40,7 +38,6 @@ def via_stack(
         layer_offsets: Optional offsets for each layer with respect to size.
             positive grows, negative shrinks the size. If a tuple, it is the offset in x and y.
         vias: vias to use to fill the rectangles.
-        layer_port: if None assumes port is on the last layer. (deprecated).
         layer_to_port_orientations: dictionary of layer to port_orientations.
         correct_size: if True, if the specified dimensions are too small it increases
             them to the minimum possible to fit a via.
@@ -70,9 +67,6 @@ def via_stack(
             f"Got {len(layers)} layers, {len(layer_offsets)} layer_offsets, {len(vias)} vias",
             stacklevel=3,
         )
-
-    if layer_port:
-        deprecate("layer_port", "layer_to_ports")
 
     c = Component()
     c.info["xsize"], c.info["ysize"] = size
@@ -176,7 +170,6 @@ def via_stack(
 
             nb_vias_x = int(np.floor(nb_vias_x)) or 1
             nb_vias_y = int(np.floor(nb_vias_y)) or 1
-
             ref = c.add_ref(
                 via,
                 columns=nb_vias_x,
@@ -329,7 +322,7 @@ def via_stack_corner45(
                     # Place the vias at the given x, y
                     for i in range(int(vias_per_row)):
                         ref = c << via
-                        ref.dcenter = (xpos0 + pitch_x * i + w / 2, y)  # type: ignore
+                        ref.center = (xpos0 + pitch_x * i + w / 2, y)  # type: ignore
 
                 y_covered = y_covered + h + pitch_y
 
@@ -409,6 +402,6 @@ via_stack_slab_m1_horizontal = partial(via_stack_slab_m1, slot_horizontal=True)
 
 
 if __name__ == "__main__":
-    c = via_stack_corner45_extended()
+    c = via_stack_slab_m1_horizontal()
     c.pprint_ports()
     c.show()

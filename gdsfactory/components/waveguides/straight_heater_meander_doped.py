@@ -8,7 +8,7 @@ from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.vias.via import via
 from gdsfactory.components.vias.via_stack import via_stack
 from gdsfactory.cross_section import Section
-from gdsfactory.typings import ComponentSpec, Floats, LayerSpecs, Port
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats, LayerSpecs, Port
 
 _via_stack = partial(
     via_stack,
@@ -37,7 +37,7 @@ _via_stack = partial(
 def straight_heater_meander_doped(
     length: float = 300.0,
     spacing: float = 2.0,
-    cross_section: gf.typings.CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "strip",
     heater_width: float = 1.5,
     extension_length: float = 15.0,
     layers_doping: LayerSpecs = ("P", "PP", "PPP"),
@@ -69,23 +69,28 @@ def straight_heater_meander_doped(
         straight_widths: width of the straight sections.
         taper_length: from the cross_section.
     """
+    from gdsfactory.pdk import get_layer
+
     rows = len(straight_widths)
     c = gf.Component()
     x = gf.get_cross_section(cross_section)
-    p1 = gf.Port(
+    layer = get_layer(x.layer)
+
+    temp_component = Component()
+    p1 = temp_component.add_port(
         name="p1",
         center=(0, 0),
         orientation=0,
         cross_section=x,
-        layer=x.layer,
+        layer=layer,
         width=x.width,
     )
-    p2 = gf.Port(
+    p2 = temp_component.add_port(
         name="p2",
         center=(0, spacing),
         orientation=0,
         cross_section=x,
-        layer=x.layer,
+        layer=layer,
         width=x.width,
     )
 

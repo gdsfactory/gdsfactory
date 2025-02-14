@@ -36,7 +36,7 @@ def coupler_asymmetric(
     bend = gf.c.bend_s(size=(dx, dy - gap - width), cross_section=cross_section)
     wg = gf.c.straight(cross_section=cross_section)
 
-    w = bend.ports[0].dwidth
+    w = bend.ports[0].width
     y = (w + gap) / 2
 
     wg_ref = c << wg

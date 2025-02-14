@@ -56,7 +56,8 @@ Classes and functions for construction and manipulation of geometric objects.
    strip_heater_doped
    rib_heater_doped
    rib_heater_doped_via_stack
-
+   CrossSectionFactory
+   CrossSectionSpec
 
 .. currentmodule:: gdsfactory.path
 
@@ -95,18 +96,14 @@ Classes and functions for construction and manipulation of geometric objects.
    :toctree: _autosummary/
 
    Anchor
-   CellSpec
-   ComponentFactory
    ComponentSpec
-   CrossSectionFactory
-   CrossSectionSpec
    Layer
    LayerSpec
    LayerSpecs
    MaterialSpec
-   MultiCrossSectionAngleSpec
    PathType
    Step
+   MultiCrossSectionAngleSpec
 
 .. currentmodule:: gdsfactory.technology
 .. rubric:: technology

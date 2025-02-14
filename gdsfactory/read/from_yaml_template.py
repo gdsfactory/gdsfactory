@@ -2,16 +2,18 @@ import os
 import pathlib
 from inspect import Parameter, Signature, signature
 from io import IOBase
-from typing import IO, Any
+from typing import IO, TYPE_CHECKING, Any
 
 import jinja2
 import yaml
 from kfactory import cell
 
-from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component
 from gdsfactory.read.from_yaml import from_yaml
-from gdsfactory.typings import ComponentFactory, RoutingStrategies
+from gdsfactory.typings import RoutingStrategies
+
+if TYPE_CHECKING:
+    from gdsfactory.typings import ComponentFactory
 
 __all__ = ["cell_from_yaml_template"]
 
@@ -71,15 +73,13 @@ def _split_yaml_definition(subpic_yaml: _YamlDefinition) -> tuple[str, dict[str,
 def cell_from_yaml_template(
     filename: _YamlDefinition,
     name: str,
-    routing_strategy: RoutingStrategies | None = None,
     routing_strategies: RoutingStrategies | None = None,
-) -> ComponentFactory:
+) -> "ComponentFactory":
     """Gets a PIC factory function from a yaml definition, which can optionally be a jinja template.
 
     Args:
         filename: the filepath of the pic yaml template.
         name: the name of the component to create.
-        routing_strategy: a dictionary of routing functions (deprecated).
         routing_strategies: a dictionary of routing functions.
 
     Returns:
@@ -87,11 +87,7 @@ def cell_from_yaml_template(
     """
     from gdsfactory.pdk import get_routing_strategies
 
-    if routing_strategy is None:
-        routing_strategies = routing_strategies or get_routing_strategies()
-    else:
-        deprecate("routing_strategy")
-        routing_strategies = routing_strategy
+    routing_strategies = routing_strategies or get_routing_strategies()
 
     cell = yaml_cell(
         yaml_definition=filename,
@@ -113,7 +109,7 @@ def get_default_settings_dict(
             if isinstance(v, list):
                 v = tuple(v)
             settings[k] = v
-        except TypeError as te:  # noqa: PERF203
+        except TypeError as te:
             raise TypeError(
                 f'Default setting "{k}" should be a dictionary with "value" defined.'
             ) from te
@@ -127,24 +123,18 @@ def get_default_settings_dict(
 def yaml_cell(
     yaml_definition: _YamlDefinition,
     name: str,
-    routing_strategy: RoutingStrategies | None = None,
     routing_strategies: RoutingStrategies | None = None,
-) -> ComponentFactory:
+) -> "ComponentFactory":
     """The "cell" decorator equivalent for yaml files. Generates a proper cell function for yaml-defined circuits.
 
     Args:
         yaml_definition: the filename to the pic yaml definition.
         name: the name of the pic to create.
-        routing_strategy: a dictionary of routing strategies to use for pic generation (deprecated).
         routing_strategies: a dictionary of routing strategies to use for pic generation.
 
     Returns:
         a dynamically-generated function for the yaml file.
     """
-    if routing_strategy is not None:
-        deprecate("routing_strategy")
-        routing_strategies = routing_strategy
-
     yaml_body, default_settings_def = _split_yaml_definition(yaml_definition)
     default_settings = get_default_settings_dict(default_settings_def)
 
@@ -194,7 +184,6 @@ def _evaluate_yaml_template(
 def _pic_from_templated_yaml(
     evaluated_text: str,
     name: str,
-    routing_strategy: RoutingStrategies | None = None,
     routing_strategies: RoutingStrategies | None = None,
 ) -> Component:
     """Creates a component from a  *.pic.yml file.
@@ -204,15 +193,11 @@ def _pic_from_templated_yaml(
     Args:
         evaluated_text: the text of the yaml file, with all jinja templating evaluated.
         name: the pic name.
-        routing_strategy: a dictionary of route factories (deprecated).
         routing_strategies: a dictionary of route factories.
 
     Returns: the component.
     """
-    if routing_strategy is not None:
-        deprecate("routing_strategy")
-
-    routing_strategies = (routing_strategies or {}) | (routing_strategy or {})
+    routing_strategies = routing_strategies or {}
 
     c = from_yaml(
         evaluated_text,

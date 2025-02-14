@@ -88,25 +88,27 @@ def mmi(
         yo + i * wg_spacing_output for i in range(outputs)
     ]
 
+    temp_component = Component()
+
     ports = [
-        gf.Port(
-            f"in_{i}",
+        temp_component.add_port(
+            name=f"in_{i}",
             orientation=180,
             center=(0, y),
             width=w_taper,
-            layer=x.layer,
+            layer=gf.get_layer(x.layer),
             cross_section=x,
         )
         for i, y in enumerate(input_positions)
     ]
 
     ports += [
-        gf.Port(
-            f"out_{i}",
+        temp_component.add_port(
+            name=f"out_{i}",
             orientation=0,
             center=(+length_mmi, y),
             width=w_taper,
-            layer=x.layer,
+            layer=gf.get_layer(x.layer),
             cross_section=x,
         )
         for i, y in enumerate(output_positions)

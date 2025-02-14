@@ -9,10 +9,10 @@ from abc import ABC, abstractmethod
 from collections.abc import Sequence
 from typing import TYPE_CHECKING
 
-if TYPE_CHECKING:
-    from typing import Any
+from gdsfactory.port import to_dict
 
-    from typing_extensions import Self
+if TYPE_CHECKING:
+    from typing import Any, Self
 
 
 import numpy as np
@@ -35,7 +35,7 @@ def pprint_ports(ports: Sequence[gf.Port]) -> None:
         return
     p0 = ports_list[0]
     filtered_dict = {
-        key: value for key, value in p0.to_dict().items() if value is not None
+        key: value for key, value in to_dict(p0).items() if value is not None
     }
     keys = filtered_dict.keys()
 
@@ -43,7 +43,7 @@ def pprint_ports(ports: Sequence[gf.Port]) -> None:
         table.add_column(key)
 
     for port in ports_list:
-        port_dict = port.to_dict()
+        port_dict = to_dict(port)
         row = [str(port_dict.get(key, "")) for key in keys]
         table.add_row(*row)
 
@@ -298,7 +298,7 @@ def parse_coordinate(
             Parsed coordinate.
     """
     if hasattr(c, "center"):
-        return c.dcenter  # type: ignore[union-attr]
+        return c.center  # type: ignore[union-attr]
     elif np.array(c).size == 2:
         return c  # type: ignore[unused-ignore, return-value]
     raise ValueError(

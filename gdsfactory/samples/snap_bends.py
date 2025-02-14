@@ -10,7 +10,7 @@ if __name__ == "__main__":
     b1 = c << gf.c.bend_euler(angle=37)
     b2 = c << gf.c.bend_euler(angle=37)
     b2.connect("o1", b1.ports["o2"])
-    # print(b1["o2"].dcenter)
+    # print(b1["o2"].center)
     # c.flatten()
     # c.over_under(layer=(1, 0))
     c.show()

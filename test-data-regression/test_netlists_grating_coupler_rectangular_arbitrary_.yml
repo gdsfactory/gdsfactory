@@ -37,5 +37,5 @@ warnings:
       ports:
       - taper_L150_W0p5_W11_LNo_935c804f_0_0,o2
       values:
-      - - 150000
+      - - 150
         - 0

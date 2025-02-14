@@ -36,7 +36,7 @@ def grating_coupler_array(
     """
     c = Component()
     grating_coupler = gf.get_component(grating_coupler)
-    ports = {}
+    ports: dict[str, kf.DPort] = {}
 
     for i in range(n):
         gc = c << grating_coupler
@@ -57,7 +57,7 @@ def grating_coupler_array(
 
         port0 = ports["o0"]
         port1 = ports[f"o{n - 1}"]
-        radius = radius
+        assert radius is not None
         radius_dbu = round(radius / c.kcl.dbu)
         d_loop_um = straight_to_grating_spacing + max(
             [
@@ -67,17 +67,19 @@ def grating_coupler_array(
         )
         d_loop = round(d_loop_um / c.kcl.dbu) + radius_dbu
         waypoints = kf.routing.optical.route_loopback(
-            port0,
-            port1,
+            port0.to_itype(),
+            port1.to_itype(),
             bend90_radius=radius_dbu,
             d_loop=d_loop,
         )
+
+        waypoints_ = [point.to_dtype(c.kcl.dbu) for point in waypoints]
 
         gf.routing.route_single(
             c,
             port1=port0,
             port2=port1,
-            waypoints=waypoints,  # type: ignore
+            waypoints=waypoints_,  # type: ignore
             cross_section=cross_section,
         )
 

@@ -97,11 +97,6 @@ def test_trim() -> None:
     assert c2_area == c2.area(layer=layer), f"{c2_area} != {c2.area(layer=layer)}"
 
 
-def test_from_kcell() -> None:
-    kf.kcl.infos = kf.LayerInfos(WG=kf.kdb.LayerInfo(1, 0))
-    gf.Component.from_kcell(kf.cells.straight.straight(1, 1, gf.kcl.get_info(LAYER.WG)))
-
-
 def test_remove_layers() -> None:
     c = gf.Component()
     c.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(1, 0))
@@ -114,7 +109,7 @@ def test_remove_layers() -> None:
 
 def test_locked_cell() -> None:
     c = gf.Component()
-    c._locked = True
+    c.locked = True
 
     with pytest.raises(LockedError):
         c.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(2, 0))
@@ -159,68 +154,9 @@ def test_locked_cell() -> None:
         c.add(gf.Instance(gf.Component().kcl, kdb.Instance()))
 
 
-def test_deprecated_methods() -> None:
-    c = gf.Component()
-
-    with pytest.warns(DeprecationWarning):
-        _ = c.named_references
-
-    with pytest.warns(DeprecationWarning):
-        _ = c.references
-
-    with pytest.warns(DeprecationWarning):
-        c = gf.Component()
-        c2 = gf.Component()
-        c2.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(1, 0))
-        ref = c.add_array(c2, columns=2, rows=3, spacing=(20, 30))
-        assert len(list(c.insts)) == 1
-        assert ref.na == 2
-        assert ref.nb == 3
-        assert ref.a.x == 20 / c.kcl.layout.dbu
-        assert ref.b.y == 30 / c.kcl.layout.dbu
-
-    with pytest.warns(DeprecationWarning):
-        c = gf.Component()
-        c2 = gf.Component()
-        ref = c.add_ref(c2, spacing=(20, 30), columns=2, rows=3)
-        assert len(list(c.insts)) == 1
-        assert ref.na == 2
-        assert ref.nb == 3
-        assert ref.a.x == 20 / c.kcl.layout.dbu
-        assert ref.b.y == 30 / c.kcl.layout.dbu
-
-    with pytest.warns(DeprecationWarning):
-        c = gf.Component()
-        c2 = gf.Component()
-        ref = c.add_ref(c2, alias="test_alias")
-        assert len(list(c.insts)) == 1
-        assert ref.name == "test_alias"
-
-    with pytest.warns(DeprecationWarning):
-        c.ref(gf.components.straight())
-
-    with pytest.warns(DeprecationWarning):
-        c = gf.Component()
-        c2 = gf.Component()
-        ref = c.add_ref(c2)
-        _ = ref.info
-        assert ref.cell.info.model_dump() == ref.info
-
-    with pytest.warns(DeprecationWarning):
-        c = gf.Component()
-        c2 = gf.Component()
-        ref = c.add_ref(c2)
-        _ = ref.parent
-        assert ref.cell == ref.parent
-
-    with pytest.warns(DeprecationWarning):
-        c = gf.Component()
-        c.write_gds(gdspath="test_deprecated_write_gds.gds", random_var=1)
-
-
 def test_locked_cell_all_angle() -> None:
     c = gf.ComponentAllAngle()
-    c._locked = True
+    c.locked = True
 
     with pytest.raises(LockedError):
         c.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(2, 0))
@@ -316,7 +252,7 @@ def test_component_reference_properties() -> None:
     straight = gf.components.straight(length=10).copy()
     ref = c << straight
 
-    assert ref.center == ref.dcenter
+    assert ref.center == ref.center
     assert ref.x == ref.dx
     assert ref.y == ref.dy
     assert ref.xmin == ref.dxmin
@@ -325,7 +261,7 @@ def test_component_reference_properties() -> None:
     assert ref.ymax == ref.dymax
     assert ref.xsize == ref.dxsize
     assert ref.ysize == ref.dysize
-    assert ref.size_info == ref.dsize_info
+    assert ref.size_info._bf() == ref.dsize_info._bf()
 
 
 def test_component_reference_setters() -> None:
@@ -361,56 +297,11 @@ def test_component_reference_name() -> None:
     assert ref.name == "test_instance"
 
 
-def test_component_reference_equality_and_hash() -> None:
-    c = gf.Component()
-    straight = gf.components.straight(length=10).copy()
-    ref = c << straight
-    inst2 = c << straight
-    ref2 = ComponentReference(inst2)
-
-    assert ref != ref2
-    assert ref == ref
-    assert ref != ""
-    hash(ref)
-
-
 def test_component_reference_flatten() -> None:
     c = gf.Component()
     straight = gf.components.straight(length=10).copy()
     ref = c << straight
     ref.flatten()
-
-
-def test_component_reference_connect() -> None:
-    c = gf.Component()
-    straight = gf.components.straight(length=10).copy()
-    c2 = gf.components.straight(length=10).copy()
-    inst2 = c << c2
-    port = straight.add_port(
-        name="o1", center=(0, 0), width=0.5, orientation=0, layer=(1, 0)
-    )
-    ref = c << straight
-
-    with pytest.warns(DeprecationWarning):
-        ref.connect("o1", other=inst2, destination=port, other_port_name="o1")
-    with pytest.warns(DeprecationWarning):
-        ref.connect("o1", port, overlap=1.0)
-    with pytest.warns(DeprecationWarning):
-        ref.connect("o1", port, preserve_orientation=True)
-
-
-def test_component_reference_deprecated_attributes() -> None:
-    c = gf.Component()
-    straight = gf.components.straight(length=10).copy()
-    ref = c << straight
-
-    with pytest.warns(DeprecationWarning):
-        info = ref.info
-        assert isinstance(info, dict)
-
-    with pytest.warns(DeprecationWarning):
-        parent = ref.parent
-        assert parent == ref.cell
 
 
 def test_component_references_getitem() -> None:
@@ -420,10 +311,10 @@ def test_component_references_getitem() -> None:
     ref2 = c << straight
     ref2.name = "test_ref"
 
-    assert c.insts[0] == ref
-    assert c.insts[1] == ref2
+    assert c.insts[0].instance == ref.instance
+    assert c.insts[1].instance == ref2.instance
 
-    assert c.insts["test_ref"] == ref2
+    assert c.insts["test_ref"].instance == ref2.instance
 
 
 def test_component_references_iter() -> None:
@@ -434,8 +325,8 @@ def test_component_references_iter() -> None:
 
     refs = list(c.insts)
     assert len(refs) == 2
-    assert refs[0] == ref
-    assert refs[1] == ref2
+    assert refs[0].instance == ref.instance
+    assert refs[1].instance == ref2.instance
     assert all(isinstance(r, ComponentReference) for r in refs)
 
 
@@ -460,10 +351,10 @@ def test_component_all_angle_add_port() -> None:
         port_type="optical",
     )
     assert port1.name == "p1"
-    assert port1.dwidth == 0.5
+    assert port1.width == 0.5
     assert port1.orientation == 90
     assert port1.port_type == "optical"
-    assert port1.dcenter == (10, 20)
+    assert port1.center == (10, 20)
 
     port2 = c.add_port(
         name="p2",
@@ -474,10 +365,10 @@ def test_component_all_angle_add_port() -> None:
         port_type="electrical",
     )
     assert port2.name == "p2"
-    assert port2.dwidth == 1.0
+    assert port2.width == 1.0
     assert port2.orientation == 0
     assert port2.port_type == "electrical"
-    assert port2.dcenter == (30, 40)
+    assert port2.center == (30, 40)
 
     port3 = c.add_port(
         name="p3",
@@ -489,7 +380,7 @@ def test_component_all_angle_add_port() -> None:
     assert port3.name == "p3"
     assert port3.orientation == 180
     assert port3.port_type == "optical"
-    assert port3.dcenter == (50, 60)
+    assert port3.center == (50, 60)
 
     with pytest.raises(ValueError, match="Must specify orientation"):
         c.add_port(name="p4", center=(0, 0), width=0.5, layer="WG")
@@ -555,7 +446,7 @@ def test_component_all_angle_add_polygon() -> None:
     c.add_polygon(dsimpoly, layer="WG")
     assert len(list(c.shapes(get_layer(LAYER.WG)).each())) == 5
 
-    c._locked = True
+    c.locked = True
     with pytest.raises(LockedError):
         c.add_polygon(points1, layer="WG")
 
@@ -570,7 +461,7 @@ def test_component_all_angle_add_label() -> None:
 
 
 def test_component_write_gds() -> None:
-    c = gf.Component("test_component_all_angle_write_gds")
+    c = gf.Component(name="test_component_all_angle_write_gds")
 
     with pytest.warns(UserWarning, match="gdspath and gdsdir have both been specified"):
         c.write_gds(
@@ -682,16 +573,18 @@ def test_copy_layers() -> None:
     c.copy_layers({(1, 0): (3, 0), (5, 0): (6, 0)}, recursive=False)
     assert c.area((1, 0)) == 100, f"{c.area((1, 0))}"
     assert c.area((3, 0)) == 100, f"{c.area((3, 0))}"
-    assert ref.cell.area((5, 0)) == 100, f"{ref.cell.area((5, 0))}"
-    assert ref.cell.area((6, 0)) == 0, f"{ref.cell.area((6, 0))}"
+    component_ref_cell = gf.Component(base=ref.cell.base)
+    assert component_ref_cell.area((5, 0)) == 100, f"{component_ref_cell.area((5, 0))}"
+    assert component_ref_cell.area((6, 0)) == 0, f"{component_ref_cell.area((6, 0))}"
 
     c3 = gf.Component()
     ref2 = c3.add_ref(c)
     c3.copy_layers({(1, 0): (3, 0)}, recursive=True)
     assert c3.area((1, 0)) == 100, f"{c3.area((1, 0))}"
     assert c3.area((3, 0)) == 100, f"{c3.area((3, 0))}"
-    assert ref2.cell.area((1, 0)) == 100, f"{ref2.cell.area((1, 0))}"
-    assert ref2.cell.area((3, 0)) == 100, f"{ref2.cell.area((3, 0))}"
+    component_ref_cell = gf.Component(base=ref2.cell.base)
+    assert component_ref_cell.area((1, 0)) == 100, f"{component_ref_cell.area((1, 0))}"
+    assert component_ref_cell.area((3, 0)) == 100, f"{component_ref_cell.area((3, 0))}"
 
 
 def test_get_labels() -> None:

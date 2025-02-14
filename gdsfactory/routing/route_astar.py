@@ -7,7 +7,7 @@ import klayout.dbcore as kdb
 import networkx as nx
 import numpy as np
 import numpy.typing as npt
-from klayout.dbcore import Point
+from klayout.dbcore import DPoint
 from shapely.geometry import LineString
 
 import gdsfactory as gf
@@ -49,7 +49,7 @@ def _extract_all_bbox(
     return [c.get_polygons(by="name", layers=avoid_layers)]
 
 
-def _parse_bbox_to_array(bbox: kdb.Polygon) -> npt.NDArray[np.integer[Any]]:
+def _parse_bbox_to_array(bbox: kdb.DBox | kdb.Polygon) -> npt.NDArray[np.floating[Any]]:
     """Parses bbox in the form of (a,b;c,d) to [[a, b], [c, d]].
 
     Args:
@@ -58,8 +58,8 @@ def _parse_bbox_to_array(bbox: kdb.Polygon) -> npt.NDArray[np.integer[Any]]:
     """
     bbox_str = str(bbox).strip("()")
     rows = bbox_str.split(";")
-    bbox_values = [list(map(int, row.split(","))) for row in rows]
-    return np.array(bbox_values, dtype=np.int64)
+    bbox_values = [list(map(float, row.split(","))) for row in rows]
+    return np.array(bbox_values, dtype=np.float64)
 
 
 def _generate_grid(
@@ -80,8 +80,8 @@ def _generate_grid(
         avoid_layers: List of layers to avoid.
         distance: Distance from obstacles in um.
     """
-    bbox_int = _parse_bbox_to_array(c.bbox())
-    bbox = bbox_int / 1000  # Change units
+    bbox_int = _parse_bbox_to_array(c.dbbox())
+    bbox = bbox_int
 
     _a1 = float(bbox[0][0]) - resolution
     _a2 = float(bbox[1][0]) + resolution
@@ -175,19 +175,19 @@ def route_astar(
                 G.remove_node((i, j))
 
     # Unit conversion
-    port1x = port1.x / 1000
-    port1y = port1.y / 1000
-    port2x = port2.x / 1000
-    port2y = port2.y / 1000
+    port1x = port1.x
+    port1y = port1.y
+    port2x = port2.x
+    port2y = port2.y
 
     # Define start and end nodes
     start_node = (
-        int(round((port1x - x.min()) / resolution)),
-        int(round((port1y - y.min()) / resolution)),
+        round((port1x - x.min()) / resolution),
+        (round((port1y - y.min()) / resolution)),
     )
     end_node = (
-        int(round((port2x - x.min()) / resolution)),
-        int(round((port2y - y.min()) / resolution)),
+        (round((port2x - x.min()) / resolution)),
+        (round((port2y - y.min()) / resolution)),
     )
 
     # Find the closest valid nodes
@@ -206,29 +206,35 @@ def route_astar(
     waypoints = [(x[i] + resolution / 2, y[j] + resolution / 2) for i, j in path]
 
     # Simplify the route
-    simplified_path = simplify_path(waypoints, tolerance=5)
+    simplified_path = simplify_path([(port1x, port1y)] + waypoints, tolerance=0.05)
 
     # Prepare waypoints
-    my_waypoints = [[port1x, port1y]] + [
-        list(np.round(pt, 1)) for pt in simplified_path
-    ]
+    my_waypoints = [list(np.round(pt, 1)) for pt in simplified_path]
     if port2.orientation in [0, 180]:
         my_waypoints += [[my_waypoints[-1][0], port2y]]
     else:
         my_waypoints += [[port2x, my_waypoints[-1][1]]]
 
     # Align second waypoint y with first waypoint y
-    my_waypoints[1][1] = my_waypoints[0][1]
+    # my_waypoints[1][1] = my_waypoints[0][1]
+
+    if port1.orientation in [0, 180]:
+        my_waypoints[0:1] = [my_waypoints[0], [my_waypoints[0][0], my_waypoints[1][1]]]
+    else:
+        my_waypoints[0:1] = [my_waypoints[0], [my_waypoints[1][0], my_waypoints[0][1]]]
+    if port2.orientation in [0, 180]:
+        my_waypoints.append([port2x, my_waypoints[-1][1]])
+    else:
+        my_waypoints.append([my_waypoints[-1][0], port2y])
     my_waypoints += [[port2x, port2y]]
 
     # Convert to native floats or Point instances
-    cleaned_waypoints = [Point(int(x * 1000), int(y * 1000)) for x, y in my_waypoints]
-
+    waypoints_ = [DPoint(x, y) for x, y in my_waypoints]
     return gf.routing.route_single(
         component=component,
         port1=port1,
         port2=port2,
-        waypoints=cleaned_waypoints,
+        waypoints=gf.kf.routing.manhattan.clean_points(waypoints_),
         cross_section=cross_section,
         bend=bend,
     )

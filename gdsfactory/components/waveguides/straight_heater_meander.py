@@ -197,7 +197,7 @@ def straight_heater_meander(
         if heater_taper_length and heater_cross_section:
             taper = gf.c.taper(
                 cross_section=heater_cross_section,
-                width1=via.ports["e1"].dwidth,
+                width1=via.ports["e1"].width,
                 width2=heater_width,
                 length=heater_taper_length,
             )

@@ -30,7 +30,7 @@ def add_electrical_pads_top_dc(
     Args:
         component: component spec to connect to.
         spacing: component to pad spacing.
-        pad_array: component factor for pad_array. (deprecated)
+        pad_array: component factor for pad_array
         select_ports: function to select_ports.
         route_bundle_function: function to route bundle of ports.
         port_names: optional port names. Overrides select_ports.
@@ -65,7 +65,7 @@ def add_electrical_pads_top_dc(
     ports_component = [port.copy() for port in ports]
 
     for port in ports_component:
-        port.dangle = 90
+        port.orientation = 90
 
     pad_array_component = gf.get_component(pad_array, columns=len(ports))
     pads = c << pad_array_component

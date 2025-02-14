@@ -50,7 +50,7 @@ def coupler90(
     straight_component = gf.get_component(
         straight,
         cross_section=cross_section,
-        length=bend90_ports[1].dcenter[0] - bend90_ports[0].dcenter[0],
+        length=bend90_ports[1].center[0] - bend90_ports[0].center[0],
     )
     wg_ref = c << straight_component
     width = x.width

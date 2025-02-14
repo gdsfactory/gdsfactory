@@ -1,5 +1,5 @@
 instances:
-  array_Cpad_SNone_C1_R3__680922e3_122000_0:
+  array_Cpad_C1_R3_CP0_RP_a3f78175_122000_0:
     component: array
     info: {}
     settings:
@@ -13,7 +13,6 @@ instances:
       row_pitch: 150
       rows: 3
       size: null
-      spacing: null
   rectangle_S22_7_LMTOP_C_53d534b7_0_0:
     component: rectangle
     info: {}
@@ -62,7 +61,7 @@ instances:
 name: pad_gsg_short_S22_7_LMM_25bed785
 nets: []
 placements:
-  array_Cpad_SNone_C1_R3__680922e3_122000_0:
+  array_Cpad_C1_R3_CP0_RP_a3f78175_122000_0:
     mirror: false
     rotation: 0
     x: 122
@@ -100,64 +99,64 @@ warnings:
       - rectangle_S22_7_LMTOP_C_53d534b7_m5000_m7000,e2
       - rectangle_S22_7_LMTOP_C_53d534b7_m5000_m7000,e3
       - rectangle_S22_7_LMTOP_C_53d534b7_m5000_m7000,e4
-      - array_Cpad_SNone_C1_R3__680922e3_122000_0,e1_1_1
-      - array_Cpad_SNone_C1_R3__680922e3_122000_0,e2_1_1
-      - array_Cpad_SNone_C1_R3__680922e3_122000_0,e3_1_1
-      - array_Cpad_SNone_C1_R3__680922e3_122000_0,e4_1_1
-      - array_Cpad_SNone_C1_R3__680922e3_122000_0,e1_2_1
-      - array_Cpad_SNone_C1_R3__680922e3_122000_0,e2_2_1
-      - array_Cpad_SNone_C1_R3__680922e3_122000_0,e3_2_1
-      - array_Cpad_SNone_C1_R3__680922e3_122000_0,e4_2_1
-      - array_Cpad_SNone_C1_R3__680922e3_122000_0,e1_3_1
-      - array_Cpad_SNone_C1_R3__680922e3_122000_0,e2_3_1
-      - array_Cpad_SNone_C1_R3__680922e3_122000_0,e3_3_1
-      - array_Cpad_SNone_C1_R3__680922e3_122000_0,e4_3_1
+      - array_Cpad_C1_R3_CP0_RP_a3f78175_122000_0,e1_1_1
+      - array_Cpad_C1_R3_CP0_RP_a3f78175_122000_0,e2_1_1
+      - array_Cpad_C1_R3_CP0_RP_a3f78175_122000_0,e3_1_1
+      - array_Cpad_C1_R3_CP0_RP_a3f78175_122000_0,e4_1_1
+      - array_Cpad_C1_R3_CP0_RP_a3f78175_122000_0,e1_2_1
+      - array_Cpad_C1_R3_CP0_RP_a3f78175_122000_0,e2_2_1
+      - array_Cpad_C1_R3_CP0_RP_a3f78175_122000_0,e3_2_1
+      - array_Cpad_C1_R3_CP0_RP_a3f78175_122000_0,e4_2_1
+      - array_Cpad_C1_R3_CP0_RP_a3f78175_122000_0,e1_3_1
+      - array_Cpad_C1_R3_CP0_RP_a3f78175_122000_0,e2_3_1
+      - array_Cpad_C1_R3_CP0_RP_a3f78175_122000_0,e3_3_1
+      - array_Cpad_C1_R3_CP0_RP_a3f78175_122000_0,e4_3_1
       values:
-      - - -5000
-        - 10500
-      - - 6000
-        - 14000
-      - - 17000
-        - 10500
-      - - 6000
-        - 7000
+      - - -5
+        - 10.5
+      - - 6
+        - 14
+      - - 17
+        - 10.5
+      - - 6
+        - 7
       - - 0
-        - 3500
-      - - 11000
-        - 7000
-      - - 22000
-        - 3500
-      - - 11000
+        - 3.5
+      - - 11
+        - 7
+      - - 22
+        - 3.5
+      - - 11
         - 0
-      - - -5000
-        - -3500
-      - - 6000
+      - - -5
+        - -3.5
+      - - 6
         - 0
-      - - 17000
-        - -3500
-      - - 6000
-        - -7000
-      - - 72000
-        - -150000
-      - - 122000
-        - -100000
-      - - 172000
-        - -150000
-      - - 122000
-        - -200000
-      - - 72000
+      - - 17
+        - -3.5
+      - - 6
+        - -7
+      - - 72
+        - -150
+      - - 122
+        - -100
+      - - 172
+        - -150
+      - - 122
+        - -200
+      - - 72
         - 0
-      - - 122000
-        - 50000
-      - - 172000
+      - - 122
+        - 50
+      - - 172
         - 0
-      - - 122000
-        - -50000
-      - - 72000
-        - 150000
-      - - 122000
-        - 200000
-      - - 172000
-        - 150000
-      - - 122000
-        - 100000
+      - - 122
+        - -50
+      - - 72
+        - 150
+      - - 122
+        - 200
+      - - 172
+        - 150
+      - - 122
+        - 100

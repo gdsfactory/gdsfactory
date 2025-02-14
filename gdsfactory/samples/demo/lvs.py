@@ -28,10 +28,10 @@ def pads_correct(
     br.dmove((500, 0))
     tr.dmove((500, 500))
 
-    c.add_label("tl", position=tl.dcenter, layer=layer)
-    c.add_label("tr", position=tr.dcenter, layer=layer)
-    c.add_label("br", position=br.dcenter, layer=layer)
-    c.add_label("bl", position=bl.dcenter, layer=layer)
+    c.add_label("tl", position=tl.center, layer=layer)
+    c.add_label("tr", position=tr.center, layer=layer)
+    c.add_label("br", position=br.center, layer=layer)
+    c.add_label("bl", position=bl.center, layer=layer)
 
     ports1 = [bl.ports["e3"], tl.ports["e3"]]
     ports2 = [br.ports["e1"], tr.ports["e1"]]
@@ -60,10 +60,10 @@ def pads_shorted(
     br.dmove((500, 0))
     tr.dmove((500, 500))
 
-    c.add_label("tl", position=tl.dcenter, layer=layer)
-    c.add_label("tr", position=tr.dcenter, layer=layer)
-    c.add_label("br", position=br.dcenter, layer=layer)
-    c.add_label("bl", position=bl.dcenter, layer=layer)
+    c.add_label("tl", position=tl.center, layer=layer)
+    c.add_label("tr", position=tr.center, layer=layer)
+    c.add_label("br", position=br.center, layer=layer)
+    c.add_label("bl", position=bl.center, layer=layer)
 
     ports1 = [bl.ports["e3"], tl.ports["e3"]]
     ports2 = [br.ports["e1"], tr.ports["e1"]]

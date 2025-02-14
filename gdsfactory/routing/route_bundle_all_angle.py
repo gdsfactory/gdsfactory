@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from functools import partial
 
 from kfactory.routing.aa.optical import OpticalAllAngleRoute, route_bundle
@@ -75,9 +77,9 @@ if __name__ == "__main__":
     # p2 = list(w2.ports.filter(orientation=150))
     # p1.reverse()
     # p2.reverse()
-    # c1 = np.array(p2[0].dcenter)
-    # c2 = np.array(p1[0].dcenter)
-    # d = (np.array(p2[0].dcenter) + np.array(p1[0].dcenter)) / 2
+    # c1 = np.array(p2[0].center)
+    # c2 = np.array(p1[0].center)
+    # d = (np.array(p2[0].center) + np.array(p1[0].center)) / 2
     # backbone = [
     #     d - (10.0, 0),
     #     d + (10.0, 0),
@@ -99,7 +101,7 @@ if __name__ == "__main__":
     mmi2.dmove((100, 10))
     mmi2.drotate(30)
 
-    routes = gf.routing.route_bundle_all_angle(
+    routes = route_bundle_all_angle(
         c,
         mmi1.ports.filter(orientation=0),
         [mmi2.ports["o2"], mmi2.ports["o1"]],

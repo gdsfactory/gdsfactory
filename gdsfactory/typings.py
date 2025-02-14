@@ -30,7 +30,7 @@ import kfactory as kf
 import klayout.db as kdb
 import numpy as np
 import numpy.typing as npt
-from kfactory.kcell import InstancePorts, LayerEnum
+from kfactory.layer import LayerEnum
 
 STEP_DIRECTIVES = {
     "x",
@@ -98,6 +98,7 @@ BoundingBox: TypeAlias = tuple[float, float, float, float]
 BoundingBoxes: TypeAlias = Sequence[BoundingBox]
 Size: TypeAlias = tuple[float, float]
 Spacing: TypeAlias = tuple[float, float]
+Position: TypeAlias = tuple[float, float]
 Radius: TypeAlias = float
 
 Delta: TypeAlias = float
@@ -111,7 +112,7 @@ LayerSpecs: TypeAlias = Sequence[LayerSpec]
 Number: TypeAlias = float | int
 Coordinate: TypeAlias = tuple[float, float]
 Coordinates: TypeAlias = Sequence[Coordinate]
-WayPoints: TypeAlias = Sequence[Coordinate | kdb.Point]
+WayPoints: TypeAlias = Sequence[Coordinate | kdb.DPoint]
 
 MaterialSpec: TypeAlias = (
     str | float | tuple[float, float] | Callable[..., Any] | npt.NDArray[np.float64]
@@ -124,14 +125,14 @@ PathType: TypeAlias = str | pathlib.Path
 PathTypes: TypeAlias = Sequence[PathType]
 Metadata: TypeAlias = dict[str, int | float | str]
 
-Port: TypeAlias = kf.Port
+Port: TypeAlias = kf.DPort
 TPort = TypeVar("TPort", bound=Port)
 IOPorts: TypeAlias = tuple[str, str]
 PortFactory: TypeAlias = Callable[..., Port]
 PortsFactory: TypeAlias = Callable[..., Sequence[Port]]
 PortSymmetries: TypeAlias = dict[str, Sequence[str]]
 PortDict: TypeAlias = dict[str, Port]
-Ports: TypeAlias = kf.Ports | Sequence[Port] | InstancePorts
+Ports: TypeAlias = kf.DPorts | Sequence[Port] | kf.DInstancePorts
 SelectPorts: TypeAlias = Callable[..., Sequence[Port]]
 
 PortType: TypeAlias = str
@@ -154,6 +155,7 @@ Route: TypeAlias = (
 )
 RoutingStrategy: TypeAlias = Callable[..., Sequence[Route]]
 RoutingStrategies: TypeAlias = dict[str, RoutingStrategy]
+
 
 from gdsfactory.cross_section import CrossSectionFactory, CrossSectionSpec  # noqa: E402
 
@@ -178,7 +180,7 @@ ComponentBaseFactory: TypeAlias = Callable[..., component.ComponentBase]
 ComponentFactoryDict: TypeAlias = dict[str, ComponentFactory]
 ComponentFactories: TypeAlias = Sequence[ComponentFactory]
 
-ComponentSpec: TypeAlias = str | ComponentFactory | dict[str, Any] | kf.KCell
+ComponentSpec: TypeAlias = str | ComponentFactory | dict[str, Any] | kf.DKCell
 ComponentSpecOrComponent: TypeAlias = ComponentSpec | component.Component
 ComponentSpecs: TypeAlias = Sequence[ComponentSpec]
 ComponentSpecsOrComponents: TypeAlias = Sequence[ComponentSpecOrComponent]
@@ -223,13 +225,6 @@ class Array(np.ndarray[Any, np.dtype[Any]], metaclass=ArrayMeta): ...
 
 __all__ = (
     "AngleInDegrees",
-    "AnyComponent",
-    "AnyComponentFactory",
-    "AnyComponentT",
-    "ComponentFactory",
-    "ComponentFactoryDict",
-    "ComponentOrPath",
-    "ComponentOrReference",
     "ComponentSpec",
     "Coordinate",
     "Coordinates",
@@ -247,8 +242,6 @@ __all__ = (
     "LayerSpec",
     "LayerSpecs",
     "Layers",
-    "MultiCrossSectionAngleSpec",
-    "NameToFunctionDict",
     "Number",
     "PathType",
     "PathTypes",
@@ -261,6 +254,7 @@ __all__ = (
     "Ports",
     "PortsDict",
     "PortsDictGeneric",
+    "Position",
     "PostProcesses",
     "Radius",
     "RoutingStrategies",

@@ -134,7 +134,7 @@ def delay_snake_sbend(
     # delete any straights with zero length
     for inst in s1, s2, s3, s4:
         if inst.cell.settings["length"] == 0:
-            del c.insts[inst._kfinst]
+            del c.insts[inst]
 
     return c
 

@@ -8,8 +8,6 @@ Exercise2. Make a PCell.
 
 from __future__ import annotations
 
-import kfactory.kcell as kfc
-
 import gdsfactory as gf
 from gdsfactory.typings import Spacing
 
@@ -27,7 +25,7 @@ def lidar(
         antenna_pitch: pitch of the antennas.
         splitter_tree_spacing: spacing of the splitter tree.
     """
-    c = gf.Component("lidar")
+    c = gf.Component(name="lidar")
 
     # power Splitter
     splitter_tree = c << gf.components.splitter_tree(
@@ -37,7 +35,7 @@ def lidar(
     # phase Shifters
     phase_shifter = gf.components.straight_heater_meander()
     phase_shifter_extended = gf.components.extend_ports(phase_shifter, length=20)
-    phase_shifter_optical_ports: list[kfc.Port] = []
+    phase_shifter_optical_ports: list[gf.Port] = []
 
     for i, port in enumerate(
         splitter_tree.ports.filter(orientation=0, port_type="optical")
@@ -50,7 +48,11 @@ def lidar(
 
     # antennas
     antennas = c << gf.components.array(
-        gf.components.dbr(n=200), rows=noutputs, columns=1, spacing=(0, antenna_pitch)
+        gf.components.dbr(n=200),
+        rows=noutputs,
+        columns=1,
+        column_pitch=0,
+        row_pitch=antenna_pitch,
     )
     antennas.dxmin = ref.dxmax + 50
     antennas.dy = 0

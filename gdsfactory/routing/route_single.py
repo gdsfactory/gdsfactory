@@ -28,7 +28,7 @@ To generate a route:
 from __future__ import annotations
 
 from collections.abc import Mapping, Sequence
-from typing import Literal
+from typing import Literal, cast
 
 import kfactory as kf
 from kfactory.routing.electrical import route_elec
@@ -69,7 +69,6 @@ def route_single(
     """Returns a Manhattan Route between 2 ports.
 
     The references are straights, bends and tapers.
-    `route_single` is an automatic version of `route_single_from_steps`.
 
     Args:
         component: to place the route into.
@@ -133,12 +132,12 @@ def route_single(
         p1 = add_auto_tapers(component, [p1], cross_section)[0]
         p2 = add_auto_tapers(component, [p2], cross_section)[0]
 
-    def straight_dbu(width: int, length: int) -> Component:
+    def straight_dbu(width: int, length: int) -> kf.KCell:
         return gf.get_component(
             straight,
             length=c.kcl.to_um(length),
             cross_section=cross_section,
-        )
+        ).to_itype()
 
     end_straight = c.kcl.to_dbu(end_straight_length)
     start_straight = c.kcl.to_dbu(start_straight_length)
@@ -152,7 +151,7 @@ def route_single(
         steps = []
 
     if steps:
-        x, y = port1.dcenter
+        x, y = port1.center
         for d in steps:
             if not STEP_DIRECTIVES.issuperset(d):
                 invalid_step_directives = list(set[str](d.keys()) - STEP_DIRECTIVES)
@@ -166,24 +165,27 @@ def route_single(
 
     if waypoints_list:
         w: list[kf.kdb.Point] = []
-        if not isinstance(waypoints_list[0], kf.kdb.Point):
-            w.append(kf.kdb.Point(*p1.center))
+        if not isinstance(waypoints_list[0], kf.kdb.DPoint):
+            w.append(c.kcl.to_dbu(kf.kdb.DPoint(*p1.center)))
             for p in waypoints_list:
                 if isinstance(p, tuple):
                     w.append(c.kcl.to_dbu(kf.kdb.DPoint(p[0], p[1])))
                 else:
-                    w.append(p)
-            w.append(kf.kdb.Point(*p2.center))
+                    w.append(p.to_itype(c.kcl.dbu))
+            w.append(c.kcl.to_dbu(kf.kdb.DPoint(*p2.center)))
         else:
-            w = waypoints_list  # type: ignore
+            w = [
+                p.to_itype(c.kcl.dbu)
+                for p in cast(Sequence[gf.kdb.DPoint], waypoints_list)
+            ]
 
         try:
             return place90(
-                component,
-                p1=p1,
-                p2=p2,
+                component.to_itype(),
+                p1=p1.to_itype(),
+                p2=p2.to_itype(),
                 straight_factory=straight_dbu,
-                bend90_cell=bend90,
+                bend90_cell=bend90.to_itype(),
                 pts=w,
                 port_type=port_type,
                 allow_width_mismatch=allow_width_mismatch,
@@ -208,8 +210,13 @@ def route_single(
                 f" points (dbu): {pts}"
             )
             it.add_value(f"Exception: {e}")
-            path = kf.kdb.Path(pts, route_width or ps.width)
+            path = kf.kdb.Path(pts, route_width or c.kcl.to_dbu(ps.width))
             it.add_value(c.kcl.to_um(path.polygon()))
+            c.name = (
+                c.kcl.future_cell_name or c.name
+                if c.name.startswith("Unnamed_")
+                else c.name
+            )
             c.show(lyrdb=db)
             raise kf.routing.generic.PlacerError(
                 f"Error while trying to place route from {ps.name} to {pe.name} at"
@@ -218,11 +225,11 @@ def route_single(
 
     else:
         return route(
-            component,
-            p1=p1,
-            p2=p2,
+            component.to_itype(),
+            p1=p1.to_itype(),
+            p2=p2.to_itype(),
             straight_factory=straight_dbu,
-            bend90_cell=bend90,
+            bend90_cell=bend90.to_itype(),
             start_straight=start_straight,
             end_straight=end_straight,
             port_type=port_type,
@@ -277,9 +284,9 @@ def route_single_electrical(
         c.kcl.to_dbu(end_straight_length) if end_straight_length else None
     )
     route_elec(
-        c=component,
-        p1=port1,
-        p2=port2,
+        c=component.to_itype(),
+        p1=port1.to_itype(),
+        p2=port2.to_itype(),
         layer=layer,
         width=c.kcl.to_dbu(width),
         start_straight=start_straight_length,
@@ -288,7 +295,7 @@ def route_single_electrical(
 
 
 if __name__ == "__main__":
-    # c = gf.Component("demo")
+    # c = gf.Component(name="demo")
     # s = gf.c.wire_straight()
     # pt = c << s
     # pb = c << s
@@ -303,7 +310,7 @@ if __name__ == "__main__":
     # )
     # c.show()
 
-    # c = gf.Component("waypoints_sample")
+    # c = gf.Component(name="waypoints_sample")
     # w = gf.components.straight()
     # left = c << w
     # right = c << w
@@ -317,8 +324,8 @@ if __name__ == "__main__":
 
     # p0 = left.ports["o2"]
     # p1 = right.ports["o2"]
-    # p0x, p0y = left.ports["o2"].dcenter
-    # p1x, p1y = right.ports["o2"].dcenter
+    # p0x, p0y = left.ports["o2"].center
+    # p1x, p1y = right.ports["o2"].center
     # o = 10  # vertical offset to overcome bottom obstacle
     # ytop = 20
 
@@ -336,7 +343,7 @@ if __name__ == "__main__":
     # )
     # c.show()
 
-    # c = gf.Component("electrical")
+    # c = gf.Component(name="electrical")
     # w = gf.components.wire_straight()
     # left = c << w
     # right = c << w
@@ -349,8 +356,8 @@ if __name__ == "__main__":
 
     # p0 = left.ports["e2"]
     # p1 = right.ports["e2"]
-    # p0x, p0y = left.ports["e2"].dcenter
-    # p1x, p1y = right.ports["e2"].dcenter
+    # p0x, p0y = left.ports["e2"].center
+    # p1x, p1y = right.ports["e2"].center
     # o = 10  # vertical offset to overcome bottom obstacle
     # ytop = 20
 
@@ -384,7 +391,6 @@ if __name__ == "__main__":
     # c.show()
     # import gdsfactory as gf
 
-    # c = gf.Component("route_single_from_steps_sample")
     # w = gf.components.straight()
     # left = c << w
     # right = c << w

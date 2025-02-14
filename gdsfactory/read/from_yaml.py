@@ -61,10 +61,8 @@ from typing import IO, TYPE_CHECKING, Any, Literal, Protocol
 import kfactory as kf
 import networkx as nx
 import yaml
-from kfactory.kcell import Instance
 
 from gdsfactory import typings
-from gdsfactory._deprecation import deprecate
 from gdsfactory.add_pins import add_instance_label
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.schematic import (
@@ -85,7 +83,7 @@ class LabelInstanceFunction(Protocol):
     def __call__(
         self,
         component: Component,
-        reference: Instance,
+        reference: ComponentReference,
         layer: LayerSpec | None = None,
         instance_name: str | None = None,
     ) -> None: ...
@@ -159,17 +157,17 @@ valid_route_keys = [
 
 
 def _get_anchor_point_from_name(
-    ref: Instance, anchor_name: str
+    ref: ComponentReference, anchor_name: str
 ) -> tuple[float, float] | None:
     if anchor_name in valid_anchor_point_keywords:
         return getattr(ref.dsize_info, anchor_name)  # type: ignore[no-any-return]
     elif anchor_name in ref.ports:
-        return ref.ports[anchor_name].dcenter
+        return ref.ports[anchor_name].center
     return None
 
 
 def _get_anchor_value_from_name(
-    ref: Instance, anchor_name: str, return_value: str
+    ref: ComponentReference, anchor_name: str, return_value: str
 ) -> float | None:
     """Return the x or y value of an anchor point or port on a reference."""
     if anchor_name in valid_anchor_value_keywords:
@@ -190,7 +188,7 @@ def _move_ref(
     x_or_y: Literal["x", "y"],
     placements_conf: PlacementConf,
     connections_by_transformed_inst: ConnectionsByTransformedInst,
-    instances: dict[str, Instance],
+    instances: dict[str, ComponentReference],
     encountered_insts: list[str],
     all_remaining_insts: list[str],
 ) -> float | None:
@@ -269,7 +267,7 @@ def _parse_maybe_arrayed_instance(inst_spec: str) -> tuple[str, int | None, int 
 def place(
     placements_conf: dict[str, dict[str, int | float | str]],
     connections_by_transformed_inst: dict[str, dict[str, str]],
-    instances: dict[str, Instance],
+    instances: dict[str, ComponentReference],
     encountered_insts: list[str],
     instance_name: str | None = None,
     all_remaining_insts: list[str] | None = None,
@@ -510,7 +508,7 @@ def make_connection(
     port_src_name: str,
     instance_dst_name: str,
     port_dst_name: str,
-    instances: dict[str, Instance],
+    instances: dict[str, ComponentReference],
     src_ia: int | None = None,
     src_ib: int | None = None,
     dst_ia: int | None = None,
@@ -610,11 +608,9 @@ ports:
 
 def cell_from_yaml(
     yaml_str: str | pathlib.Path | IO[Any] | dict[str, Any],
-    routing_strategy: RoutingStrategies | None = None,
     routing_strategies: RoutingStrategies | None = None,
     label_instance_function: LabelInstanceFunction = add_instance_label,
     name: str | None = None,
-    prefix: str | None = None,
 ) -> Callable[[], Component]:
     """Returns Component factory from YAML string or file.
 
@@ -622,11 +618,9 @@ def cell_from_yaml(
 
     Args:
         yaml_str: YAML string or file.
-        routing_strategy: for each route. (deprecated)
         routing_strategies: for each route.
         label_instance_function: to label each instance.
         name: Optional name.
-        prefix: name prefix.
         kwargs: function settings for creating YAML PCells.
 
     .. code::
@@ -696,18 +690,12 @@ def cell_from_yaml(
                     mmi_top,o3: mmi_bot,o1
 
     """
-    if prefix is not None:
-        deprecate("prefix")
-
-    if routing_strategy is not None:
-        deprecate("routing_strategy")
-
-    routing_strategies = (routing_strategies or {}) | (routing_strategy or {})
+    routing_strategies = routing_strategies or {}
 
     return partial(
         from_yaml,
         yaml_str=yaml_str,
-        routing_strategy=routing_strategies,
+        routing_strategies=routing_strategies,
         label_instance_function=label_instance_function,
         name=name,
     )
@@ -715,7 +703,6 @@ def cell_from_yaml(
 
 def from_yaml(
     yaml_str: str | pathlib.Path | IO[Any] | dict[str, Any],
-    routing_strategy: RoutingStrategies | None = None,
     routing_strategies: RoutingStrategies | None = None,
     label_instance_function: LabelInstanceFunction = add_instance_label,
     name: str | None = None,
@@ -726,7 +713,6 @@ def from_yaml(
 
     Args:
         yaml_str: YAML string or file.
-        routing_strategy: for each route (deprecated).
         routing_strategies: for each route.
         label_instance_function: to label each instance.
         name: Optional name.
@@ -800,10 +786,7 @@ def from_yaml(
     """
     from gdsfactory.pdk import get_active_pdk
 
-    if routing_strategy is not None:
-        deprecate("routing_strategy")
-
-    routing_strategies = (routing_strategies or {}) | (routing_strategy or {})
+    routing_strategies = routing_strategies or {}
 
     c = Component()
     dct = _load_yaml_str(yaml_str)
@@ -812,7 +795,7 @@ def from_yaml(
     g = _get_dependency_graph(net)
     refs = _get_references(c, pdk, net.instances)
     _place_and_connect(g, refs, net.connections, net.placements)
-    c = _add_routes(c, refs, net.routes, routing_strategy)
+    c = _add_routes(c, refs, net.routes, routing_strategies)
     c = _add_ports(c, refs, net.ports)
     c = _add_labels(c, refs, label_instance_function)
     c.name = name or net.name or c.name
@@ -895,20 +878,18 @@ def _get_references(
                 row_pitch=inst.array.row_pitch,
             )
         elif isinstance(inst.array, GridArray):
-            ref = ComponentReference(
-                c.create_inst(
-                    comp,
-                    na=inst.array.num_a,
-                    nb=inst.array.num_b,
-                    a=kf.kdb.Vector(
-                        c.kcl.to_dbu(inst.array.pitch_a[0]),
-                        c.kcl.to_dbu(inst.array.pitch_a[1]),
-                    ),
-                    b=kf.kdb.Vector(
-                        c.kcl.to_dbu(inst.array.pitch_b[0]),
-                        c.kcl.to_dbu(inst.array.pitch_b[1]),
-                    ),
-                )
+            ref = c.create_inst(
+                comp,
+                na=inst.array.num_a,
+                nb=inst.array.num_b,
+                a=kf.kdb.DVector(
+                    inst.array.pitch_a[0],
+                    inst.array.pitch_a[1],
+                ),
+                b=kf.kdb.DVector(
+                    inst.array.pitch_b[0],
+                    inst.array.pitch_b[1],
+                ),
             )
         else:
             ref = c.add_ref(comp, name=name)

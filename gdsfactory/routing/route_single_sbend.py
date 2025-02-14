@@ -38,8 +38,8 @@ def route_single_sbend(
         route = gf.routing.route_single_sbend(c, mmi1.ports['o2'], mmi2.ports['o1'])
         c.plot()
     """
-    ysize = port2.dcenter[1] - port1.dcenter[1]
-    xsize = port2.dcenter[0] - port1.dcenter[0]
+    ysize = port2.center[1] - port1.center[1]
+    xsize = port2.center[0] - port1.center[0]
 
     # We need to act differently if the route is orthogonal in x
     # or orthogonal in y
@@ -64,7 +64,7 @@ def route_single_sbend(
 
 
 if __name__ == "__main__":
-    c = gf.Component("demo_route_sbend")
+    c = gf.Component(name="demo_route_sbend")
     mmi1 = c << gf.components.mmi1x2()
     mmi2 = c << gf.components.mmi1x2()
     mmi2.dmovex(50)

@@ -87,7 +87,7 @@ instances:
       size:
       - 10
       - 10
-  via_S0p7_0p7_SNone_GNon_a794b952_m3000_12000:
+  via_S0p7_0p7_E1_LVIA2_B_bcce49d9_m3000_12000:
     array:
       column_pitch: 2
       columns: 4
@@ -106,15 +106,13 @@ instances:
       bbox_offsets: null
       column_pitch: null
       enclosure: 1
-      gap: null
       layer: VIA2
       pitch: 2
       row_pitch: null
       size:
       - 0.7
       - 0.7
-      spacing: null
-  via_S0p7_0p7_SNone_GNon_d0c93b95_m2000_3000:
+  via_S0p7_0p7_E2_LVIA1_B_053047f5_m2000_3000:
     array:
       column_pitch: 2
       columns: 3
@@ -133,14 +131,12 @@ instances:
       bbox_offsets: null
       column_pitch: null
       enclosure: 2
-      gap: null
       layer: VIA1
       pitch: 2
       row_pitch: null
       size:
       - 0.7
       - 0.7
-      spacing: null
 name: via_stack_with_offset_L_7cc77680
 nets: []
 placements:
@@ -174,12 +170,12 @@ placements:
     rotation: 0
     x: 0
     y: 15
-  via_S0p7_0p7_SNone_GNon_a794b952_m3000_12000:
+  via_S0p7_0p7_E1_LVIA2_B_bcce49d9_m3000_12000:
     mirror: false
     rotation: 0
     x: -3
     y: 12
-  via_S0p7_0p7_SNone_GNon_d0c93b95_m2000_3000:
+  via_S0p7_0p7_E2_LVIA1_B_053047f5_m2000_3000:
     mirror: false
     rotation: 0
     x: -2

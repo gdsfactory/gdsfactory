@@ -11,13 +11,16 @@ from typing import Any
 
 import kfactory as kf
 import yaml
-from kfactory.kcell import LayerEnum
+from kfactory.layer import LayerEnum
 from pydantic import BaseModel, ConfigDict, Field
 
 from gdsfactory import logger
-from gdsfactory.component import Component, ComponentBase
+from gdsfactory.component import Component
 from gdsfactory.config import CONF
-from gdsfactory.cross_section import CrossSection
+from gdsfactory.cross_section import (
+    CrossSection,
+    Section,
+)
 from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
 from gdsfactory.serialization import clean_value_json, convert_tuples_to_lists
@@ -367,12 +370,11 @@ class Pdk(BaseModel):
         kwargs = kwargs or {}
         kwargs.update(settings)
 
-        if isinstance(component, ComponentBase):
-            return component  # type: ignore
-        elif isinstance(component, kf.KCell):
-            return Component.from_kcell(component)
+        if isinstance(component, kf.DKCell):
+            return Component(base=component.base)
         elif callable(component):
-            return component(**kwargs)
+            _component = component(**kwargs)
+            return type(_component)(base=_component.base)  # type: ignore[no-any-return, call-overload]
         elif isinstance(component, str):
             if component not in cell_names:
                 substring = component
@@ -440,13 +442,29 @@ class Pdk(BaseModel):
                     f"{kwargs} are ignored for cross_section {cross_section.name!r}"
                 )
             return cross_section
+        elif isinstance(cross_section, kf.DCrossSection | kf.SymmetricalCrossSection):
+            if isinstance(cross_section, kf.DCrossSection):
+                cross_section_ = cross_section.base
+            else:
+                cross_section_ = cross_section
+            section_ = Section(
+                width=gf.kcl.to_um(cross_section_.width),
+                layer=gf.kcl.layout.layer(cross_section_.main_layer),
+            )
+            xs_ = CrossSection(
+                sections=(section_,),
+                radius=kf.kcl.to_um(cross_section_.radius),
+                radius_min=kf.kcl.to_um(cross_section_.radius_min),
+            )
+            xs_._name = cross_section_.name
+            return xs_
         else:
             raise ValueError(
                 "get_cross_section expects a CrossSectionSpec (CrossSection, "
                 f"CrossSectionFactory, Transition, string or dict), got {type(cross_section)}"
             )
 
-    def get_layer(self, layer: LayerSpec) -> LayerEnum | int:
+    def get_layer(self, layer: LayerSpec | kf.kdb.LayerInfo) -> LayerEnum | int:
         """Returns layer from a layer spec."""
         if isinstance(layer, LayerEnum | int):
             return layer
@@ -454,6 +472,8 @@ class Pdk(BaseModel):
             if len(layer) != 2:
                 raise ValueError(f"{layer!r} needs two integer numbers.")
             return kf.kcl.layout.layer(*layer)
+        elif isinstance(layer, kf.kdb.LayerInfo):
+            return layer.layer
         else:
             if not hasattr(self.layers, layer):
                 raise ValueError(f"{layer!r} not in {self.layers}")
@@ -491,7 +511,10 @@ class Pdk(BaseModel):
         from gdsfactory.components import bbox_to_points
 
         exclude = exclude or []
-
+        for cell_name, cell in self.cells.items():
+            if cell_name not in exclude:
+                print(cell_name)
+                print(cell())
         _blocks = {
             cell_name: cell()
             for cell_name, cell in self.cells.items()
@@ -526,8 +549,8 @@ class Pdk(BaseModel):
                         if hasattr(port, "cross_section")
                         else "",
                         "xya": [
-                            float(port.dcenter[0]),
-                            float(port.dcenter[1]),
+                            float(port.center[0]),
+                            float(port.center[1]),
                             float(port.orientation),
                         ],
                         "alias": port.info.get("alias"),
@@ -627,7 +650,7 @@ def get_cross_section(cross_section: CrossSectionSpec, **kwargs: Any) -> CrossSe
     return get_active_pdk().get_cross_section(cross_section, **kwargs)
 
 
-def get_layer(layer: LayerSpec) -> LayerEnum | int:
+def get_layer(layer: LayerSpec | kf.kdb.LayerInfo) -> LayerEnum | int:
     return get_active_pdk().get_layer(layer)
 
 
