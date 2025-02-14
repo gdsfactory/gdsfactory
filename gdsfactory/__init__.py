@@ -4,6 +4,8 @@
 # isort: skip_file
 
 from __future__ import annotations
+import sys
+import warnings
 from functools import partial
 from toolz import compose  # type: ignore
 from aenum import constant  # type: ignore[import-untyped]
@@ -75,6 +77,16 @@ from gdsfactory.get_factories import get_cells
 from gdsfactory.grid import grid, grid_with_text
 
 c = components
+
+
+# Check Python version and issue a warning if using Python 3.10
+if sys.version_info[:2] == (3, 10):
+    warnings.warn(
+        "Support for Python 3.10 has been dropped. Please upgrade to Python 3.11 or later "
+        "to continue using the latest features and improvements. "
+        "To get the latest gdsfactory, upgrading your Python version is required.",
+        DeprecationWarning,
+    )
 
 
 def clear_cache(kcl: kf.KCLayout = kf.kcl) -> None:
