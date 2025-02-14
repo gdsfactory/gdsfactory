@@ -1,12 +1,12 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.32.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.32.2...main)
 
 <!-- towncrier release notes start -->
 
 ## [8.32.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.32.2) - 2025-02-14
 
-No significant changes.
-
+- Fix grating coupler loss [#3666](https://github.com/gdsfactory/gdsfactory/pull/3666)
+- add warning for python3.10 [#3673](https://github.com/gdsfactory/gdsfactory/pull/3673)
 
 ## [8.32.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.32.1) - 2025-02-10
 
