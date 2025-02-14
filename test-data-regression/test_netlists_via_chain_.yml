@@ -194,12 +194,6 @@ warnings:
     unconnected_ports:
     - message: 42 unconnected electrical ports!
       ports:
-      - via_stack_S11_11_LM2_MT_0b0d0698_m6500_m3800,e2
-      - via_stack_S11_11_LM2_MT_0b0d0698_m6500_m3800,e3
-      - via_stack_S11_11_LM2_MT_0b0d0698_m6500_m3800,e4
-      - via_stack_S11_11_LM2_MT_0b0d0698_m6500_37800,e2
-      - via_stack_S11_11_LM2_MT_0b0d0698_m6500_37800,e3
-      - via_stack_S11_11_LM2_MT_0b0d0698_m6500_37800,e4
       - rectangle_S2p7_6p4_LM2__c8f1a350_36000_m1000<0.0>,e1
       - rectangle_S2p7_6p4_LM2__c8f1a350_36000_m1000<0.0>,e2
       - rectangle_S2p7_6p4_LM2__c8f1a350_36000_m1000<0.0>,e3
@@ -236,19 +230,13 @@ warnings:
       - rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700<0.3>,e2
       - rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700<0.3>,e3
       - rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700<0.3>,e4
+      - via_stack_S11_11_LM2_MT_0b0d0698_m6500_m3800,e2
+      - via_stack_S11_11_LM2_MT_0b0d0698_m6500_m3800,e3
+      - via_stack_S11_11_LM2_MT_0b0d0698_m6500_m3800,e4
+      - via_stack_S11_11_LM2_MT_0b0d0698_m6500_37800,e2
+      - via_stack_S11_11_LM2_MT_0b0d0698_m6500_37800,e3
+      - via_stack_S11_11_LM2_MT_0b0d0698_m6500_37800,e4
       values:
-      - - -6.5
-        - 1.7
-      - - -1
-        - -3.8
-      - - -6.5
-        - -9.3
-      - - -6.5
-        - 43.3
-      - - -1
-        - 37.8
-      - - -6.5
-        - 32.3
       - - 36
         - 2.2
       - - 37.35
@@ -321,3 +309,15 @@ warnings:
         - 28.1
       - - 0.35
         - 24.9
+      - - -6.5
+        - 1.7
+      - - -1
+        - -3.8
+      - - -6.5
+        - -9.3
+      - - -6.5
+        - 43.3
+      - - -1
+        - 37.8
+      - - -6.5
+        - 32.3
