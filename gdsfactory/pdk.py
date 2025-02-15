@@ -511,10 +511,6 @@ class Pdk(BaseModel):
         from gdsfactory.components import bbox_to_points
 
         exclude = exclude or []
-        for cell_name, cell in self.cells.items():
-            if cell_name not in exclude:
-                print(cell_name)
-                print(cell())
         _blocks = {
             cell_name: cell()
             for cell_name, cell in self.cells.items()
