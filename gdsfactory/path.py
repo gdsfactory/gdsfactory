@@ -128,8 +128,8 @@ class Path(UMGeometricObject):
         else:
             trans_ = trans.to_itrans(gf.kcl.dbu)
 
-        for i, (x, y) in enumerate(self.points):
-            new_point = trans_ * kdb.DPoint(x, y)
+        for i, point in enumerate(self.points):
+            new_point = trans_ * kdb.DPoint(point[0], point[1])
             self.points[i] = (new_point.x, new_point.y)
 
     def dbbox(self, layer: int | None = None) -> kdb.DBox:
@@ -1671,6 +1671,7 @@ def smooth(
     # Move arcs into position
     new_points: list[npt.NDArray[np.floating[Any]]] = []
     new_points.append(np.array([points[0, :]]))
+    print(len(dtheta))
     for n in range(len(dtheta)):
         p = paths[n]
         p.rotate(theta[n] - 0)
