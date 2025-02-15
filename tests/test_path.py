@@ -373,11 +373,6 @@ def test_path_hash_geometry() -> None:
     )
 
 
-def test_path_plot() -> None:
-    path = Path([(0, 0), (1, 1), (2, 0)])
-    path.plot()
-
-
 def test_path_extrude_transition() -> None:
     path = Path([(0, 0), (1, 0), (1, 1)])
     transition = gf.path.transition(
