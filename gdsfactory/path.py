@@ -12,7 +12,7 @@ import hashlib
 import math
 import warnings
 from collections.abc import Callable, Sequence
-from typing import Any, Literal, overload
+from typing import Any, Literal, cast, overload
 
 import kfactory as kf
 import klayout.db as kdb
@@ -32,7 +32,6 @@ from gdsfactory.typings import (
     AngleInDegrees,
     AnyComponent,
     ComponentSpec,
-    Coordinates,
     CrossSectionSpec,
     LayerSpec,
     WidthTypes,
@@ -58,7 +57,7 @@ class Path(UMGeometricObject):
     """
 
     def __init__(
-        self, path: npt.NDArray[np.floating[Any]] | Path | Coordinates | None = None
+        self, path: npt.NDArray[np.floating[Any]] | Path | None = None
     ) -> None:
         """Creates an empty path."""
         self.points: npt.NDArray[np.floating[Any]] = np.array(
@@ -129,7 +128,8 @@ class Path(UMGeometricObject):
             trans_ = trans.to_itrans(gf.kcl.dbu)
 
         for i, point in enumerate(self.points):
-            new_point = trans_ * kdb.DPoint(point[0], point[1])
+            point_ = cast(tuple[float, float], point)
+            new_point = trans_ * kdb.DPoint(point_[0], point_[1])
             self.points[i] = (new_point.x, new_point.y)
 
     def dbbox(self, layer: int | None = None) -> kdb.DBox:
@@ -148,9 +148,7 @@ class Path(UMGeometricObject):
             dtype=np.float64,
         )
 
-    def append(
-        self, path: npt.NDArray[np.floating[Any]] | Path | list[Path] | Coordinates
-    ) -> Path:
+    def append(self, path: npt.NDArray[np.floating[Any]] | Path | list[Path]) -> Path:
         """Attach Path to the end of this Path.
 
         The input path automatically rotates and translates such that it continues
@@ -169,7 +167,7 @@ class Path(UMGeometricObject):
             (np.asarray(path, dtype=object).ndim == 2)
             and not isinstance(path[0], Path)
             and np.issubdtype(np.array(path).dtype, np.number)
-            and (np.shape(path)[1] == 2)
+            and (np.shape(path)[1] == 2)  # type: ignore[arg-type]
         ):
             points = np.asarray(path, dtype=np.float64)
             nx1, ny1 = points[1] - points[0]
@@ -249,7 +247,7 @@ class Path(UMGeometricObject):
     def centerpoint_offset_curve(
         self,
         points: npt.NDArray[np.floating[Any]],
-        offset_distance: float | Sequence[float],
+        offset_distance: float | Sequence[float] | npt.NDArray[np.floating[Any]],
         start_angle: float | None = None,
         end_angle: float | None = None,
     ) -> npt.NDArray[np.floating[Any]]:
@@ -1671,7 +1669,6 @@ def smooth(
     # Move arcs into position
     new_points: list[npt.NDArray[np.floating[Any]]] = []
     new_points.append(np.array([points[0, :]]))
-    print(len(dtheta))
     for n in range(len(dtheta)):
         p = paths[n]
         p.rotate(theta[n] - 0)
@@ -1683,7 +1680,7 @@ def smooth(
     path = Path()
     path.rotate(float(theta[0]))
     path.append(new_points_np)
-    path.move(points[0, :])
+    path.move(cast(tuple[float, float], points[0, :]))
     return path
 
 
