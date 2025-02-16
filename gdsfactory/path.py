@@ -120,17 +120,26 @@ class Path(UMGeometricObject):
         trans: kdb.Trans | kdb.DTrans | kdb.ICplxTrans | kdb.DCplxTrans,
         /,
     ) -> Any:
-        if isinstance(trans, kdb.DTrans | kdb.DCplxTrans):
+        if isinstance(trans, kdb.DCplxTrans):
             trans_ = trans
+        elif isinstance(trans, kdb.DTrans):
+            trans_ = kdb.DCplxTrans(trans)
         elif isinstance(trans, kdb.Trans):
-            trans_ = trans.to_dtype(gf.kcl.dbu)
+            trans_ = kdb.DCplxTrans(trans.to_dtype(gf.kcl.dbu))
         else:
             trans_ = trans.to_itrans(gf.kcl.dbu)
+        angle_rad = np.radians(trans_.angle)
+        cos_angle = np.cos(angle_rad)
+        sin_angle = np.sin(angle_rad)
 
-        for i, point in enumerate(self.points):
-            point_ = cast(tuple[float, float], point)
-            new_point = trans_ * kdb.DPoint(point_[0], point_[1])
-            self.points[i] = (new_point.x, new_point.y)
+        rotation_matrix = np.array([[cos_angle, sin_angle], [-sin_angle, cos_angle]])
+
+        self.points = np.dot(self.points, rotation_matrix) + np.array(
+            [trans_.disp.x, trans_.disp.y]
+        )
+
+        if trans_.mirror:
+            self.points[:, 1] = -self.points[:, 1]
 
     def dbbox(self, layer: int | None = None) -> kdb.DBox:
         return kdb.DBox(*self.bbox_np().flatten())

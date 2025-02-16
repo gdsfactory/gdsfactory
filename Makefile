@@ -39,7 +39,7 @@ test-force:
 	uv run pytest -n logical --force-regen -s
 
 uv-test: test-data-gds
-	uv run pytest -s -v -n logical
+	uv run pytest -s -n logical
 
 cov:
 	uv run pytest --cov=gdsfactory --cov-report=term-missing:skip-covered
