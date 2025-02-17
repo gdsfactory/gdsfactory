@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from collections.abc import Iterable
 from typing import Any
 
 import numpy as np
@@ -219,10 +218,8 @@ def get_min_sbend_size(
 
     # Guess sizes, iterate over them until we cannot achieve the min radius
     # the max size corresponds to an ellipsoid
-    max_size = 2.5 * np.sqrt(np.abs(min_radius * known_s))
-    sizes: Iterable[float] = np.linspace(max_size, 0.1 * max_size, num_points)  # type: ignore
-
-    assert isinstance(sizes, Iterable)
+    max_size = float(np.sqrt(np.abs(min_radius * known_s)) * 2.5)
+    sizes = np.linspace(max_size, 0.1 * max_size, num_points)
 
     for s in sizes:
         sz = size_list

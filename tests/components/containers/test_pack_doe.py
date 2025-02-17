@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import pytest
 
+import gdsfactory as gf
 from gdsfactory.components.containers.pack_doe import (
     generate_doe,
     pack_doe,
@@ -17,6 +18,30 @@ def test_generate_doe() -> None:
     )
     assert len(component_list) == 4
     assert len(settings_list) == 4
+
+
+def test_generate_doe_with_function() -> None:
+    doe = "mmi1x2"
+    settings = dict(length_mmi=(2.5, 100), width_mmi=(4, 10))
+
+    def i(c: gf.Component) -> gf.Component:
+        return c
+
+    component_list, settings_list = generate_doe(
+        doe=doe, settings=settings, do_permutations=True, function=i
+    )
+    assert len(component_list) == 4
+    assert len(settings_list) == 4
+
+
+def test_pack_doe_grid_with_function() -> None:
+    doe = "mmi1x2"
+    settings = dict(length_mmi=(2.5, 100), width_mmi=(4, 10))
+
+    def i(c: gf.Component) -> gf.Component:
+        return c
+
+    pack_doe_grid(doe=doe, settings=settings, do_permutations=True, function=i)
 
 
 def test_pack_doe() -> None:
@@ -60,5 +85,18 @@ def test_pack_doe_grid_without_text() -> None:
     assert len(component.info["doe_settings"]) == 4
 
 
+def test_pack_doe_error() -> None:
+    doe = "mmi1x2"
+    settings = dict(length_mmi=(2.5, 100), width_mmi=(4, 10))
+    with pytest.raises(ValueError):
+        pack_doe(
+            doe=doe,
+            settings=settings,
+            do_permutations=True,
+            max_size=(135, 135),
+            precision=1,
+        )
+
+
 if __name__ == "__main__":
-    pytest.main([__file__])
+    pytest.main([__file__, "-s"])

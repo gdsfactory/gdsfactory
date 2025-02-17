@@ -4,11 +4,11 @@ import kfactory as kf
 import klayout.db as kdb
 import numpy as np
 import pytest
+from kfactory.exceptions import LockedError
 
 import gdsfactory as gf
 from gdsfactory.component import (
     ComponentReference,
-    LockedError,
     container,
     copy,
     ensure_tuple_of_tuples,
@@ -382,9 +382,6 @@ def test_component_all_angle_add_port() -> None:
     assert port3.port_type == "optical"
     assert port3.center == (50, 60)
 
-    with pytest.raises(ValueError, match="Must specify orientation"):
-        c.add_port(name="p4", center=(0, 0), width=0.5, layer="WG")
-
     with pytest.raises(ValueError, match="Must specify center"):
         c.add_port(name="p5", width=0.5, orientation=90, layer="WG")
 
@@ -490,8 +487,10 @@ def test_component_copy_child_info() -> None:
     c1 = gf.Component()
     c2 = gf.Component()
     c2.info["test_info"] = "test_value"
+    c2.info["test_info2"] = "test_value2"
     c1.copy_child_info(c2)
     assert c1.info["test_info"] == "test_value"
+    assert c1.info["test_info2"] == "test_value2"
 
 
 def test_container() -> None:
@@ -730,3 +729,27 @@ def test_component_absorb() -> None:
     c.absorb(ref)
     assert len(list(c.insts)) == 0
     assert len(list(c.shapes(get_layer((1, 0))))) == 1
+
+
+def test_layers() -> None:
+    c = gf.Component()
+    c.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(1, 0))
+    assert c.layers == [(1, 0)]
+
+
+def test_component_pprint_ports() -> None:
+    c = gf.Component()
+    c.add_port(name="port1", layer=(1, 0), center=(0, 0), width=10)
+    c.add_port(name="port2", layer=(2, 0), center=(10, 0), width=10)
+    c.pprint_ports()
+
+
+def test_get_netlist_recursive() -> None:
+    c = gf.Component()
+    child = gf.Component()
+    c << child
+    assert c.name in c.get_netlist(recursive=True)
+
+
+if __name__ == "__main__":
+    pytest.main([__file__])

@@ -68,7 +68,8 @@ def _flip_ref(c_ref: ComponentReference, port_name: str) -> ComponentReference:
         y = c_ref.ports[port_name].center[1]
         c_ref.dmirror_y(y)
     else:
-        c_ref.dmirror_x(port_name)  # type: ignore
+        x = c_ref.ports[port_name].center[0]
+        c_ref.dmirror_x(x)
     return c_ref
 
 
@@ -141,8 +142,11 @@ def component_sequence(
     except KeyError as exc:
         port_names = [port.name for port in prev_device.ports]
         raise KeyError(
-            f"{prev_device.parent.name!r} input_port {input_port!r} not in {port_names}"
+            f"{prev_device.parent_cell.name!r} input_port {input_port!r} not in {port_names}"
         ) from exc
+
+    ref: ComponentReference | None = None
+    next_port: str | None = None
 
     while index < len(sequence):
         s = sequence[index]
@@ -173,7 +177,7 @@ def component_sequence(
         except KeyError as exc:
             port_names = [port.name for port in prev_device.ports]
             raise KeyError(
-                f"{prev_device.parent.name!r} port {prev_port!r} not in {port_names}"
+                f"{prev_device.parent_cell.name!r} port {prev_port!r} not in {port_names}"
             ) from exc
 
         prev_device = ref
@@ -184,7 +188,10 @@ def component_sequence(
         ref = prev_device
         next_port = prev_port
 
-    component.add_port(name=port_name2, port=ref.ports[next_port])  # type: ignore
+    assert ref is not None
+    assert next_port is not None
+
+    component.add_port(name=port_name2, port=ref.ports[next_port])
 
     # Add any extra port specified in ports_map
     for name, (ref_name, alias_port_name) in ports_map.items():
@@ -198,8 +205,8 @@ def component_sequence(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    bend180 = gf.components.bend_circular180()  # type: ignore
-    wg_pin = gf.components.straight_pin(length=40)  # type: ignore
+    bend180 = gf.components.bend_circular180()
+    wg_pin = gf.components.straight_pin(length=40)
     wg = gf.components.straight()
 
     # Define a map between symbols and (component, input port, output port)
