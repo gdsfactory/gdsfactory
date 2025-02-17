@@ -25,12 +25,11 @@ from typing import Any, Protocol
 from warnings import warn
 
 import numpy as np
-from kfactory import LayerEnum
+from kfactory import DKCell, LayerEnum
 
 from gdsfactory import Port, typings
 from gdsfactory.component import (
     Component,
-    ComponentBase,
     ComponentReference,
     ComponentReferences,
 )
@@ -135,7 +134,7 @@ def _is_orthogonal_array_reference(ref: ComponentReference) -> bool:
 
 
 def get_netlist(
-    component: ComponentBase,
+    component: Component,
     exclude_port_types: Sequence[str] | None = (
         "placement",
         "pad",
@@ -506,16 +505,16 @@ def difference_between_angles(angle2: float, angle1: float) -> float:
     return diff
 
 
-def _get_references_to_netlist(component: Component) -> ComponentReferences:
+def _get_references_to_netlist(component: DKCell) -> ComponentReferences:
     return component.insts
 
 
 class GetNetlistFunc(Protocol):
-    def __call__(self, component: Component, **kwargs: Any) -> dict[str, Any]: ...
+    def __call__(self, component: DKCell, **kwargs: Any) -> dict[str, Any]: ...
 
 
 def get_netlist_recursive(
-    component: Component,
+    component: DKCell,
     component_suffix: str = "",
     get_netlist_func: GetNetlistFunc = get_netlist,  # type: ignore
     get_instance_name: Callable[..., str] = get_instance_name_from_alias,
