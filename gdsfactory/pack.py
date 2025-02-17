@@ -5,7 +5,6 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 
 from __future__ import annotations
 
-import warnings
 from collections.abc import Sequence
 from typing import Any, Protocol
 
@@ -247,10 +246,6 @@ def pack(
                     )
 
         components_packed_list.append(packed)
-
-    if len(components_packed_list) > 1:
-        groups = len(components_packed_list)
-        warnings.warn(f"unable to pack in one component, creating {groups} components")
 
     return components_packed_list
 

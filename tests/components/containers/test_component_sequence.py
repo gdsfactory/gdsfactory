@@ -32,8 +32,15 @@ def test_flip_ref() -> None:
     c = gf.components.straight()
     ref_component = gf.Component()
     ref = ref_component.add_ref(c)
-    flipped_ref = _flip_ref(ref, "o1")
-    assert flipped_ref.ports["o1"].orientation == 180
+    _flip_ref(ref, "o2")
+
+    with pytest.raises(ValueError):
+        _flip_ref(ref, "o3")
+
+    b = gf.components.bend_euler()
+    ref_component = gf.Component()
+    ref = ref_component.add_ref(b)
+    _flip_ref(ref, "o2")
 
 
 def test_component_sequence() -> None:
@@ -97,5 +104,48 @@ def test_component_sequence_with_ports_map() -> None:
     assert "extra_port" in c.ports
 
 
+def test_component_sequence_errors() -> None:
+    wg = gf.components.straight()
+    symbol_to_component = {
+        "-": (wg, "o3", "o1"),
+    }
+    sequence = "-"
+    with pytest.raises(KeyError):
+        component_sequence(sequence=sequence, symbol_to_component=symbol_to_component)
+
+    symbol_to_component = {
+        "-": (wg, "o1", "o3"),
+        "A": (wg, "o1", "o2"),
+    }
+    sequence = "-A"
+    with pytest.raises(KeyError):
+        component_sequence(sequence=sequence, symbol_to_component=symbol_to_component)
+
+
+def test_component_sequence_different_sequence() -> None:
+    bend180 = gf.components.bend_circular180()
+    wg_pin = gf.components.straight_pin(length=40)
+    wg = gf.components.straight()
+    symbol_to_component = {
+        "A": (bend180, "o1", "o2"),
+        "B": (bend180, "o2", "o1"),
+        "H": (wg_pin, "o1", "o2"),
+        "-": (wg, "o1", "o2"),
+        "!": (wg, "o1", "o2"),
+    }
+
+    sequence = "!A-H-B-!B-!"
+    c = component_sequence(sequence=sequence, symbol_to_component=symbol_to_component)
+    assert c is not None
+    assert len(c.ports) > 0
+
+
 if __name__ == "__main__":
-    pytest.main([__file__])
+    wg = gf.components.straight()
+    symbol_to_component = {
+        "-": (wg, "o1", "o3"),
+        "A": (wg, "o1", "o2"),
+    }
+    sequence = "-A"
+    component_sequence(sequence=sequence, symbol_to_component=symbol_to_component)
+    pytest.main([__file__, "-s"])

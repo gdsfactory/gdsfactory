@@ -24,12 +24,15 @@ from pprint import pprint
 from typing import Any, Protocol
 from warnings import warn
 
-import kfactory as kf
 import numpy as np
-from kfactory import LayerEnum
+from kfactory import DKCell, LayerEnum
 
 from gdsfactory import Port, typings
-from gdsfactory.component import Component, ComponentReference, ComponentReferences
+from gdsfactory.component import (
+    Component,
+    ComponentReference,
+    ComponentReferences,
+)
 from gdsfactory.name import clean_name
 from gdsfactory.serialization import clean_dict, clean_value_json
 from gdsfactory.typings import LayerSpec
@@ -131,7 +134,7 @@ def _is_orthogonal_array_reference(ref: ComponentReference) -> bool:
 
 
 def get_netlist(
-    component: kf.DKCell,
+    component: Component,
     exclude_port_types: Sequence[str] | None = (
         "placement",
         "pad",
@@ -502,16 +505,16 @@ def difference_between_angles(angle2: float, angle1: float) -> float:
     return diff
 
 
-def _get_references_to_netlist(component: kf.DKCell) -> ComponentReferences:
+def _get_references_to_netlist(component: DKCell) -> ComponentReferences:
     return component.insts
 
 
 class GetNetlistFunc(Protocol):
-    def __call__(self, component: kf.DKCell, **kwargs: Any) -> dict[str, Any]: ...
+    def __call__(self, component: DKCell, **kwargs: Any) -> dict[str, Any]: ...
 
 
 def get_netlist_recursive(
-    component: kf.DKCell,
+    component: DKCell,
     component_suffix: str = "",
     get_netlist_func: GetNetlistFunc = get_netlist,  # type: ignore
     get_instance_name: Callable[..., str] = get_instance_name_from_alias,

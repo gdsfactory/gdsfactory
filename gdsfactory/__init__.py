@@ -119,7 +119,6 @@ __all__ = (
     "c",
     "cell",
     "clear_cache",
-    "component_with_function",
     "components",
     "compose",
     "constant",

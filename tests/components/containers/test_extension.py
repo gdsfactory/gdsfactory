@@ -74,6 +74,14 @@ def test_line_function() -> None:
     assert p3 is not None
 
 
+def test_line_function_coordinates() -> None:
+    p0, p1, p2, p3 = extension.line((0, 0), (10, 0), width=0.5)
+    assert p0 is not None
+    assert p1 is not None
+    assert p2 is not None
+    assert p3 is not None
+
+
 def test_move_polar_rad_copy_function() -> None:
     pos = (0, 0)
     angle = np.pi / 4
