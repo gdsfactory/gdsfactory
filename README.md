@@ -48,7 +48,21 @@ We provide a common syntax for design (Ansys, Lumerical, Tidy3d, MEEP, DEVSIM, S
 
 ![tool interfaces](https://i.imgur.com/j5qlFWj.png)
 
-Numerous foundries offer GDSFactory PDKs that are accessible under an NDA. To gain access to these PDKs, please send proof of your NDA to contact@gdsfactory.com
+## GDSFactory+
+
+**GDSFactory+** is an industry-grade library for chip design, built on top of GDSFactory.
+GDSFactory provides **high scalability** and **unified APIs** for a wide range of industry and research applications, including:
+
+- **Foundry PDKs**
+- **Simulations**
+- **Verification** (DRC, LVS)
+- **Data analytics**
+
+### Accessing Foundry PDKs
+
+To sign up, visit [GDSFactory.com](https://gdsfactory.com/). Once registered, you can request access to foundry PDKs that require an NDA with the respective foundry.
+
+Available Foundry PDKs under foundry NDA:
 
 - AIM photonics PDK
 - AMF photonics PDK
@@ -63,7 +77,7 @@ Numerous foundries offer GDSFactory PDKs that are accessible under an NDA. To ga
 - Lightium PDK
 - QCI (Quantum Computing Inc)
 
-There are also open source PDKs available without an NDA:
+There are also **open-source PDKs** available that do not require an NDA:
 
 - [GlobalFoundries 180nm MCU CMOS PDK](https://gdsfactory.github.io/gf180/)
 - [ANT / SiEPIC Ebeam UBC PDK](https://gdsfactory.github.io/ubc)
