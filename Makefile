@@ -89,4 +89,20 @@ git-rm-merged:
 notebooks:
 	jupytext docs/notebooks/*.py --to ipynb
 
+clean:
+	rm -rf .venv
+	find src -name "*.c" | xargs rm -rf
+	find src -name "*.pyc" | xargs rm -rf
+	find src -name "*.so" | xargs rm -rf
+	find src -name "*.pyd" | xargs rm -rf
+	find . -name "*.egg_info" | xargs rm -rf
+	find . -name ".ipynb_checkpoints" | xargs rm -rf
+	find . -name ".mypy_cache" | xargs rm -rf
+	find . -name ".pytest_cache" | xargs rm -rf
+	find . -name ".ruff_cache" | xargs rm -rf
+	find . -name "__pycache__" | xargs rm -rf
+	find . -name "build" | xargs rm -rf
+	find . -name "builds" | xargs rm -rf
+	find . -name "dist" -not -path "*node_modules*" | xargs rm -rf
+
 .PHONY: gdsdiff build conda gdslib docs doc install

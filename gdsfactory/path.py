@@ -11,19 +11,19 @@ from __future__ import annotations
 import hashlib
 import math
 import warnings
-from collections.abc import Callable, Iterator
-from typing import Any, Literal, Self, overload
+from collections.abc import Callable, Sequence
+from typing import Any, Literal, cast, overload
 
+import kfactory as kf
+import klayout.db as kdb
 import numpy as np
 import numpy.typing as npt
-from numpy import mod, pi
+from kfactory.geometry import UMGeometricObject
+from numpy import mod
 
-from gdsfactory._deprecation import deprecate
+import gdsfactory as gf
 from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.component_layout import (
-    GeometryHelper,
-    parse_move,
-    reflect_points,
     rotate_points,
 )
 from gdsfactory.cross_section import CrossSection, Section, Transition
@@ -31,9 +31,7 @@ from gdsfactory.pdk import get_layer_name
 from gdsfactory.typings import (
     AngleInDegrees,
     AnyComponent,
-    Axis,
     ComponentSpec,
-    Coordinate,
     CrossSectionSpec,
     LayerSpec,
     WidthTypes,
@@ -50,7 +48,7 @@ def _simplify(
     return np.asarray(ls_simple.coords)
 
 
-class Path(GeometryHelper):
+class Path(UMGeometricObject):
     """You can extrude a Path with a CrossSection to create a Component.
 
     Parameters:
@@ -92,28 +90,6 @@ class Path(GeometryHelper):
                     "an array-like[N][2] list of points, or a list of these"
                 )
 
-    def __getattribute__(self, __k: str) -> Any:
-        """Deprecate dbu prefixed attributes."""
-        if __k in {
-            "dcenter",
-            "dmirror",
-            "dmove",
-            "dmovex",
-            "dmovey",
-            "drotate",
-            "dx",
-            "dxmin",
-            "dxmax",
-            "dxsize",
-            "dy",
-            "dymin",
-            "dymax",
-            "dysize",
-        }:
-            deprecate(__k, f"{__k[1:]}")
-            return getattr(self, f"{__k[1:]}")
-        return super().__getattribute__(__k)
-
     def __repr__(self) -> str:
         """Returns path points."""
         return (
@@ -136,13 +112,57 @@ class Path(GeometryHelper):
         return new.append(path)
 
     @property
-    def bbox(self) -> npt.NDArray[np.floating[Any]]:
-        """Returns the bounding box of the Path."""
-        bbox = [
-            (np.min(self.points[:, 0]), np.min(self.points[:, 1])),
-            (np.max(self.points[:, 0]), np.max(self.points[:, 1])),
-        ]
-        return np.array(bbox)
+    def kcl(self) -> kf.KCLayout:
+        return gf.kcl
+
+    def transform(
+        self,
+        trans: kdb.Trans | kdb.DTrans | kdb.ICplxTrans | kdb.DCplxTrans,
+        /,
+    ) -> Any:
+        if isinstance(trans, kdb.DCplxTrans):
+            trans_ = trans
+        elif isinstance(trans, kdb.DTrans):
+            trans_ = kdb.DCplxTrans(trans)
+        elif isinstance(trans, kdb.Trans):
+            trans_ = kdb.DCplxTrans(trans.to_dtype(gf.kcl.dbu))
+        else:
+            trans_ = trans.to_itrans(gf.kcl.dbu)
+
+        new_points = self.points
+
+        if trans_.angle != 0:
+            angle_rad = np.radians(trans_.angle)
+            cos_angle = np.cos(angle_rad)
+            sin_angle = np.sin(angle_rad)
+
+            rotation_matrix = np.array(
+                [[cos_angle, sin_angle], [-sin_angle, cos_angle]]
+            )
+            new_points = np.dot(self.points, rotation_matrix)
+
+        new_points = new_points + np.array([trans_.disp.x, trans_.disp.y])
+
+        if trans_.mirror:
+            new_points[:, 1] = -new_points[:, 1]
+
+        self.points = new_points
+
+    def dbbox(self, layer: int | None = None) -> kdb.DBox:
+        return kdb.DBox(*self.bbox_np().flatten())
+
+    def ibbox(self, layer: int | None = None) -> kdb.Box:
+        return kdb.Box(*map(gf.kcl.to_dbu, self.bbox_np().flatten()))
+
+    def bbox_np(self) -> npt.NDArray[np.float64]:
+        """Returns the bounding box of the Path as a numpy array."""
+        return np.array(
+            [
+                (np.min(self.points[:, 0]), np.min(self.points[:, 1])),
+                (np.max(self.points[:, 0]), np.max(self.points[:, 1])),
+            ],
+            dtype=np.float64,
+        )
 
     def append(self, path: npt.NDArray[np.floating[Any]] | Path | list[Path]) -> Path:
         """Attach Path to the end of this Path.
@@ -163,7 +183,7 @@ class Path(GeometryHelper):
             (np.asarray(path, dtype=object).ndim == 2)
             and not isinstance(path[0], Path)
             and np.issubdtype(np.array(path).dtype, np.number)
-            and (np.shape(path)[1] == 2)
+            and (np.shape(path)[1] == 2)  # type: ignore[arg-type]
         ):
             points = np.asarray(path, dtype=np.float64)
             nx1, ny1 = points[1] - points[0]
@@ -192,10 +212,7 @@ class Path(GeometryHelper):
 
         return self
 
-    def offset(
-        self,
-        offset: float | Callable[[float], float] = 0,
-    ) -> Path:
+    def offset(self, offset: float | Callable[[float], float] = 0) -> Path:
         """Offsets Path so that it follows the Path centerline plus an offset.
 
         The offset can either be a fixed value, or a function
@@ -206,8 +223,8 @@ class Path(GeometryHelper):
         """
         if offset == 0:
             points = self.points
-            start_angle: float = self.start_angle
-            end_angle: float = self.end_angle
+            start_angle = self.start_angle
+            end_angle = self.end_angle
         elif callable(offset):
             # Compute lengths
             dx = np.diff(self.points[:, 0])
@@ -217,7 +234,7 @@ class Path(GeometryHelper):
             # Create list of offset points and perform offset
             points = self.centerpoint_offset_curve(
                 self.points,
-                offset_distance=offset(lengths / lengths[-1]),  # type: ignore[unused-ignore]
+                offset_distance=offset(lengths / lengths[-1]),
                 start_angle=self.start_angle,
                 end_angle=self.end_angle,
             )
@@ -226,14 +243,12 @@ class Path(GeometryHelper):
             ds = tol / lengths[-1]
             ny1 = offset(ds) - offset(0)
             start_angle = np.arctan2(-ny1, tol) / np.pi * 180 + self.start_angle
-            # start_angle = np.round(start_angle, decimals=6)
             ny2 = offset(1) - offset(1 - ds)
             end_angle = np.arctan2(-ny2, tol) / np.pi * 180 + self.end_angle
-            # end_angle = np.round(end_angle, decimals=6)
-        else:  # Offset is just a number
+        else:
             points = self.centerpoint_offset_curve(
                 self.points,
-                offset_distance=offset,  # type: ignore[unused-ignore]
+                offset_distance=offset,
                 start_angle=self.start_angle,
                 end_angle=self.end_angle,
             )
@@ -245,68 +260,12 @@ class Path(GeometryHelper):
         self.end_angle = end_angle
         return self
 
-    def move(
-        self,
-        origin: Coordinate | npt.NDArray[np.floating[Any]],
-        destination: Coordinate | None = None,
-        axis: Axis | None = None,
-    ) -> Self:
-        """Moves the Path from the origin point to the destination.
-
-        Both origin and destination can be 1x2 array-like or a Port.
-
-        Args:
-            origin : array-like[2], Port Origin point of the move.
-            destination : array-like[2], Port Destination point of the move.
-            axis : {'x', 'y'} Direction of move.
-
-        """
-        dx, dy = parse_move(origin, destination, axis)
-        self.points += np.array([dx, dy])
-        return self
-
-    def rotate(self, angle: float = 45, center: Coordinate = (0, 0)) -> Self:
-        """Rotates all Polygons in the Component around the specified center point.
-
-        If no center point specified will rotate around (0,0).
-
-        Args:
-            angle: Angle to rotate the Component in degrees.
-            center: array-like[2] or None. component of the Component.
-        """
-        if angle == 0:
-            return self
-        self.points = rotate_points(self.points, angle, center)
-        if self.start_angle is not None:
-            self.start_angle = mod(self.start_angle + angle, 360)
-        if self.end_angle is not None:
-            self.end_angle = mod(self.end_angle + angle, 360)
-        return self
-
-    def mirror(self, p1: Coordinate = (0, 1), p2: Coordinate = (0, 0)) -> Path:
-        """Mirrors the Path across the line formed between the two specified points.
-
-        ``points`` may be input as either single points [1,2]
-        or array-like[N][2], and will return in kind.
-
-        Args:
-            p1: First point of the line.
-            p2: Second point of the line.
-        """
-        self.points = reflect_points(self.points, p1, p2)
-        angle = np.arctan2((p2[1] - p1[1]), (p2[0] - p1[0])) * 180 / pi
-        if self.start_angle is not None:
-            self.start_angle = mod(2 * angle - self.start_angle, 360)
-        if self.end_angle is not None:
-            self.end_angle = mod(2 * angle - self.end_angle, 360)
-        return self
-
     def centerpoint_offset_curve(
         self,
         points: npt.NDArray[np.floating[Any]],
-        offset_distance: float | npt.NDArray[np.floating[Any]],
-        start_angle: float | None,
-        end_angle: float | None,
+        offset_distance: float | Sequence[float] | npt.NDArray[np.floating[Any]],
+        start_angle: float | None = None,
+        end_angle: float | None = None,
     ) -> npt.NDArray[np.floating[Any]]:
         """Creates a offset curve computing the centerpoint offset of x and y points.
 
@@ -325,12 +284,6 @@ class Path(GeometryHelper):
         theta_mid = (np.pi + theta[1:] + theta[:-1]) / 2  # Mean angle between segments
         dtheta_int = np.pi + theta[:-1] - theta[1:]  # Internal angle between segments
         offset_distance_array = np.array(offset_distance) / np.sin(dtheta_int / 2)
-
-        # Ensure offset_distance has the correct shape
-        if offset_distance_array.ndim == 0:
-            offset_distance_array = np.full(points.shape[0], offset_distance_array)
-        elif offset_distance_array.ndim == 1 and offset_distance_array.size == 1:
-            offset_distance_array = np.full(points.shape[0], offset_distance_array[0])
 
         new_points[:, 0] -= offset_distance_array * np.cos(theta_mid)
         new_points[:, 1] -= offset_distance_array * np.sin(theta_mid)
@@ -353,8 +306,8 @@ class Path(GeometryHelper):
         self,
         points: npt.NDArray[np.floating[Any]],
         offset_distance: npt.NDArray[np.floating[Any]],
-        start_angle: float | None,
-        end_angle: float | None,
+        start_angle: float | None = None,
+        end_angle: float | None = None,
     ) -> npt.NDArray[np.floating[Any]]:
         """Creates a parametric offset by using gradient of the supplied x and y points.
 
@@ -471,17 +424,6 @@ class Path(GeometryHelper):
         final_hash.update(adjusted_angles.tobytes())
         hash_bytes = final_hash.digest()
         return int.from_bytes(hash_bytes, byteorder="big")
-
-    @classmethod
-    def __get_validators__(cls) -> Iterator[Callable[[Any, Any], Path]]:
-        """For pydantic."""
-        yield cls._validate
-
-    @classmethod
-    def _validate(cls, v: Any, validation_info: Any) -> Path:
-        """Pydantic Path validator."""
-        assert isinstance(v, Path), f"TypeError, Got {type(v)}, expecting Path"
-        return v
 
     def plot(self) -> None:
         """Plot path in matplotlib.
@@ -601,10 +543,14 @@ def _sinusoidal_transition(
 
 def _parabolic_transition(
     y1: float, y2: float
-) -> Callable[[float], npt.NDArray[np.floating[Any]] | float]:
+) -> Callable[
+    [float | npt.NDArray[np.floating[Any]]], npt.NDArray[np.floating[Any]] | float
+]:
     dy = y2 - y1
 
-    def parabolic(t: float) -> npt.NDArray[np.floating[Any]] | float:
+    def parabolic(
+        t: float | npt.NDArray[np.floating[Any]],
+    ) -> npt.NDArray[np.floating[Any]] | float:
         res = y1 + np.sqrt(t) * dy
         if np.isscalar(t):
             return float(res)
@@ -1677,7 +1623,7 @@ def _compute_segments(
 
 
 def smooth(
-    points: npt.NDArray[np.floating[Any]],
+    points: npt.NDArray[np.floating[Any]] | Path,
     radius: float = 4.0,
     bend: PathFactory = euler,
     **kwargs: Any,
@@ -1750,7 +1696,7 @@ def smooth(
     path = Path()
     path.rotate(float(theta[0]))
     path.append(new_points_np)
-    path.move(points[0, :])
+    path.move(cast(tuple[float, float], points[0, :]))
     return path
 
 
