@@ -50,25 +50,27 @@ We provide a common syntax for design (Ansys, Lumerical, Tidy3d, MEEP, DEVSIM, S
 
 ## GDSFactory+
 
-**GDSFactory+** is an industry-grade library for chip design, built on top of GDSFactory.
-GDSFactory provides **high scalability** and **unified APIs** for a wide range of industry and research applications, including:
+**GDSFactory+** offers Graphical User Interface for chip design, built on top of GDSFactory and VSCode. It provides you:
 
-- **Foundry PDKs**
-- **Simulations**
-- **Verification** (DRC, LVS)
-- **Data analytics**
+- Foundry PDK access
+- Schematic capture
+- Simulations
+- Design verification (DRC, LVS)
+- Data analytics
 
-### Accessing Foundry PDKs
+## Accessing Foundry PDKs
+
+Access to GDSFactory PDKs under NDA requires a GDSFactory+ subscription.
 
 To sign up, visit [GDSFactory.com](https://gdsfactory.com/). Once registered, you can request access to foundry PDKs that require an NDA with the respective foundry.
 
-Available Foundry PDKs under foundry NDA:
+Available Foundry PDKs under NDA:
 
 - AIM photonics PDK
 - AMF photonics PDK
 - Compoundtek photonics PDK
 - Fraunhofer HHI Photonics PDK
-- Smart Photonics Photonics PDK
+- Smart Photonics PDK
 - TowerSemi PH18 photonics PDK
 - TowerSemi PH18DA photonics PDK by OpenLight
 - III-V Labs PDK
@@ -96,6 +98,7 @@ There are also **open-source PDKs** available that do not require an NDA:
 - [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=250169028)
 - [PIC training](https://gdsfactory.github.io/gdsfactory-photonics-training/)
 - Online course [UBCx: Silicon Photonics Design, Fabrication and Data Analysis](https://www.edx.org/learn/engineering/university-of-british-columbia-silicon-photonics-design-fabrication-and-data-ana), where students can use GDSFactory to create a design, have it fabricated, and tested.
+- [Visit website](https://gdsfactory.com)
 
 ## Who is using GDSFactory?
 
@@ -131,13 +134,14 @@ Hundreds of organisations are using GDSFactory. Some companies and organizations
 
 <div style="text-align: right; margin-right: 10%;">Thomas Dorch - <strong>Freedom Photonics</strong></div>
 
-## Why use GDSFactory?
+## Why Use GDSFactory?
 
-- It's fast, extensible and easy to use.
-- It's free, as in freedom and in cost.
-- It's the most popular EDA tool with a growing community of users, developers, and extensions to other tools.
+- **Fast, extensible, and easy to use** – designed for efficiency and flexibility.
+- **Free and open-source** – no licensing fees, giving you the freedom to modify and extend it.
+- **A thriving ecosystem** – the most popular EDA tool with a growing community of users, developers, and integrations with other tools.
+- **Built on the open-source advantage** – just like the best machine learning libraries, GDSFactory benefits from continuous contributions, transparency, and innovation.
 
-GDSFactory is really fast thanks to KLayout C++ library for manipulating GDSII objects. You will notice this when reading/writing big GDS files or doing large boolean operations.
+GDSFactory is really fast thanks to KLayout C++ library for manipulating GDS objects. You will notice this when reading/writing big GDS files or doing large boolean operations.
 
 | Benchmark      |  gdspy  | GDSFactory | Gain |
 | :------------- | :-----: | :--------: | :--: |
@@ -149,6 +153,10 @@ GDSFactory is really fast thanks to KLayout C++ library for manipulating GDSII o
 
 ## Contributors
 
-Thanks to all the contributors that make this awesome project possible!
+A huge thanks to all the contributors who make this project possible!
+
+We welcome all contributions—whether you're adding new features, improving documentation, or even fixing a small typo. Every contribution helps make GDSFactory better!
+
+Join us and be part of the community. 🚀
 
 ![contributors](https://i.imgur.com/0AuMHZE.png)
