@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.0.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.0.0) - 2025-02-18
+
+No significant changes.
+
+
 ## [8.32.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.32.2) - 2025-02-14
 
 - Fix grating coupler loss [#3666](https://github.com/gdsfactory/gdsfactory/pull/3666)
