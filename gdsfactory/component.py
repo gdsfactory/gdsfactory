@@ -10,16 +10,16 @@ from typing import TYPE_CHECKING, Any, Literal, Self, TypeAlias, overload
 
 import kfactory as kf
 import klayout.lay as lay
-import networkx as nx  # type: ignore[import-untyped]
+import networkx as nx
 import numpy as np
 import numpy.typing as npt
 import yaml
+from graphviz import Digraph
 from kfactory import (
     DInstance,
     DInstances,
     DPort,
     DPorts,
-    Instance,
     VInstance,
     cell,
     kdb,
@@ -163,7 +163,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         port: ProtoPort[Any] | None = None,
         center: Position | kdb.DPoint | None = None,
         width: float | None = None,
-        orientation: AngleInDegrees | None = None,
+        orientation: AngleInDegrees = 0,
         layer: LayerSpec | None = None,
         port_type: str = "optical",
         keep_mirror: bool = False,
@@ -213,11 +213,9 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             xs = get_cross_section(cross_section)
             width = xs.width
 
-        if orientation is None:
-            raise ValueError("Must specify orientation")
-
         if center is None:
             raise ValueError("Must specify center")
+
         elif isinstance(center, kdb.DPoint):
             layer = get_layer(layer)
             trans = kdb.DCplxTrans(1, orientation, False, center.to_v())
@@ -337,6 +335,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         """
         if self.locked:
             raise LockedError(self)
+
         info = dict(component.info)
 
         for k, v in info.items():
@@ -404,22 +403,6 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
 
         pprint_ports(ports)
 
-    def get_netlist(self, recursive: bool = False, **kwargs: Any) -> dict[str, Any]:
-        """Returns a place-aware netlist for circuit simulation.
-
-        It includes not only the connectivity information (nodes and connections) but also the specific placement coordinates for each component or cell in the layout.
-
-        Args:
-            recursive: if True, returns a recursive netlist.
-            kwargs: keyword arguments to get_netlist.
-        """
-        from gdsfactory.get_netlist import get_netlist, get_netlist_recursive
-
-        if recursive:
-            return get_netlist_recursive(self, **kwargs)  # type: ignore[arg-type]
-
-        return get_netlist(self, **kwargs)  # type: ignore[arg-type]
-
     def write_netlist(
         self, netlist: dict[str, Any], filepath: str | pathlib.Path | None = None
     ) -> str:
@@ -435,112 +418,6 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             filepath = pathlib.Path(filepath)
             filepath.write_text(yaml_string)
         return yaml_string
-
-    def plot_netlist(
-        self,
-        recursive: bool = False,
-        with_labels: bool = True,
-        font_weight: str = "normal",
-        **kwargs: Any,
-    ) -> nx.Graph:
-        """Plots a netlist graph with networkx.
-
-        Args:
-            recursive: if True, returns a recursive netlist.
-            with_labels: add label to each node.
-            font_weight: normal, bold.
-            kwargs: keyword arguments to get_netlist.
-
-        Keyword Args:
-            tolerance: tolerance in grid_factor to consider two ports connected.
-            exclude_port_types: optional list of port types to exclude from netlisting.
-            get_instance_name: function to get instance name.
-            allow_multiple: False to raise an error if more than two ports share the same connection. \
-                    if True, will return key: [value] pairs with [value] a list of all connected instances.
-        """
-        import matplotlib.pyplot as plt
-        import networkx as nx
-
-        from gdsfactory.get_netlist import nets_to_connections
-
-        plt.figure()
-        netlist = self.get_netlist(recursive=recursive, **kwargs)
-        G = nx.Graph()
-
-        if recursive:
-            pos: dict[str, tuple[float, float]] = {}
-            labels: dict[str, str] = {}
-            for net in netlist.values():
-                nets = net.get("nets", [])
-                connections = net.get("connections", {})
-                connections = nets_to_connections(nets, connections)
-                placements = net["placements"]
-                G.add_edges_from(
-                    [
-                        (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
-                        for k, v in connections.items()
-                    ]
-                )
-                pos |= {k: (v["x"], v["y"]) for k, v in placements.items()}
-                labels |= {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
-
-        else:
-            nets = netlist.get("nets", [])
-            connections = netlist.get("connections", {})
-            connections = nets_to_connections(nets, connections)
-            placements = netlist["placements"]
-            G.add_edges_from(
-                [
-                    (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
-                    for k, v in connections.items()
-                ]
-            )
-            pos = {k: (v["x"], v["y"]) for k, v in placements.items()}
-            labels = {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
-
-        nx.draw(
-            G,
-            with_labels=with_labels,
-            font_weight=font_weight,
-            labels=labels,
-            pos=pos,
-        )
-        return G
-
-    def plot_netlist_graphviz(
-        self, recursive: bool = False, interactive: bool = False, splines: str = "ortho"
-    ) -> None:
-        """Plots a netlist graph with graphviz.
-
-        Args:
-            recursive: if True, returns a recursive netlist.
-            interactive: if True, opens the graph in a browser.
-            splines: ortho, spline, polyline, line, curved.
-        """
-        from gdsfactory.schematic import plot_graphviz
-
-        n = self.to_graphviz(
-            recursive=recursive,
-        )
-        plot_graphviz(n, splines=splines, interactive=interactive)
-
-    def to_graphviz(
-        self,
-        recursive: bool = False,
-    ) -> nx.DiGraph:
-        """Returns a netlist graph with graphviz.
-
-        Args:
-            recursive: if True, returns a recursive netlist.
-        """
-        from gdsfactory.schematic import to_graphviz
-
-        netlist = self.get_netlist(recursive=recursive)
-        return to_graphviz(
-            netlist["instances"],
-            placements=netlist["placements"],
-            nets=netlist["nets"],
-        )
 
     def to_dict(self, with_ports: bool = False) -> dict[str, Any]:
         """Returns a dictionary representation of the Component."""
@@ -590,7 +467,7 @@ class Component(ComponentBase, kf.DKCell):
             if not self.bbox(self.kcl.layout.layer(info)).empty()
         ]
 
-    def add(self, instances: list[Instance] | Instance) -> None:
+    def add(self, instances: Iterable[ComponentReference] | ComponentReference) -> None:
         if self.locked:
             raise LockedError(self)
 
@@ -1108,6 +985,125 @@ class Component(ComponentBase, kf.DKCell):
         )  # Remove any padding
         plt.tight_layout(pad=0)  # Ensure no space is wasted
         return fig if return_fig else None
+
+    def get_netlist(self, recursive: bool = False, **kwargs: Any) -> dict[str, Any]:
+        """Returns a place-aware netlist for circuit simulation.
+
+        It includes not only the connectivity information (nodes and connections) but also the specific placement coordinates for each component or cell in the layout.
+
+        Args:
+            recursive: if True, returns a recursive netlist.
+            kwargs: keyword arguments to get_netlist.
+        """
+        from gdsfactory.get_netlist import get_netlist, get_netlist_recursive
+
+        if recursive:
+            return get_netlist_recursive(self, **kwargs)
+
+        return get_netlist(self, **kwargs)
+
+    def plot_netlist(
+        self,
+        recursive: bool = False,
+        with_labels: bool = True,
+        font_weight: str = "normal",
+        **kwargs: Any,
+    ) -> nx.Graph:
+        """Plots a netlist graph with networkx.
+
+        Args:
+            recursive: if True, returns a recursive netlist.
+            with_labels: add label to each node.
+            font_weight: normal, bold.
+            kwargs: keyword arguments to get_netlist.
+
+        Keyword Args:
+            tolerance: tolerance in grid_factor to consider two ports connected.
+            exclude_port_types: optional list of port types to exclude from netlisting.
+            get_instance_name: function to get instance name.
+            allow_multiple: False to raise an error if more than two ports share the same connection. \
+                    if True, will return key: [value] pairs with [value] a list of all connected instances.
+        """
+        import matplotlib.pyplot as plt
+        import networkx as nx
+
+        from gdsfactory.get_netlist import nets_to_connections
+
+        plt.figure()
+        netlist = self.get_netlist(recursive=recursive, **kwargs)
+        G = nx.Graph()
+
+        if recursive:
+            pos: dict[str, tuple[float, float]] = {}
+            labels: dict[str, str] = {}
+            for net in netlist.values():
+                nets = net.get("nets", [])
+                connections = net.get("connections", {})
+                connections = nets_to_connections(nets, connections)
+                placements = net["placements"]
+                G.add_edges_from(
+                    [
+                        (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
+                        for k, v in connections.items()
+                    ]
+                )
+                pos |= {k: (v["x"], v["y"]) for k, v in placements.items()}
+                labels |= {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
+
+        else:
+            nets = netlist.get("nets", [])
+            connections = netlist.get("connections", {})
+            connections = nets_to_connections(nets, connections)
+            placements = netlist["placements"]
+            G.add_edges_from(
+                [
+                    (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
+                    for k, v in connections.items()
+                ]
+            )
+            pos = {k: (v["x"], v["y"]) for k, v in placements.items()}
+            labels = {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
+
+        nx.draw(
+            G,
+            with_labels=with_labels,
+            font_weight=font_weight,
+            labels=labels,
+            pos=pos,
+        )
+        return G
+
+    def plot_netlist_graphviz(
+        self, recursive: bool = False, interactive: bool = False, splines: str = "ortho"
+    ) -> None:
+        """Plots a netlist graph with graphviz.
+
+        Args:
+            recursive: if True, returns a recursive netlist.
+            interactive: if True, opens the graph in a browser.
+            splines: ortho, spline, polyline, line, curved.
+        """
+        from gdsfactory.schematic import plot_graphviz
+
+        n = self.to_graphviz(
+            recursive=recursive,
+        )
+        plot_graphviz(n, splines=splines, interactive=interactive)
+
+    def to_graphviz(self, recursive: bool = False) -> Digraph:
+        """Returns a netlist graph with graphviz.
+
+        Args:
+            recursive: if True, returns a recursive netlist.
+        """
+        from gdsfactory.schematic import to_graphviz
+
+        netlist = self.get_netlist(recursive=recursive)
+        return to_graphviz(
+            netlist["instances"],
+            placements=netlist["placements"],
+            nets=netlist["nets"],
+        )
 
 
 class ComponentAllAngle(ComponentBase, kf.VKCell):  # type: ignore

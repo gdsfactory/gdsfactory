@@ -59,3 +59,14 @@ def test_boolean_array(c1: gf.Component, c2: gf.Component) -> None:
     d = gf.boolean(ref_a, ref_b, "not", layer1=(1, 0), layer2=(2, 0), layer=(1, 0))
 
     assert d.area((1, 0)) == 500 * 500 - 90_000
+
+
+def test_invalid_operation() -> None:
+    a = gf.Component()
+    a.shapes(a.kcl.layer(1, 0)).insert(gf.kdb.DBox(0, 0, 500, 500))
+
+    b = gf.Component()
+    b.shapes(b.kcl.layer(2, 0)).insert(gf.kdb.DBox(0, 0, 100, 100))
+
+    with pytest.raises(ValueError):
+        gf.boolean(a, b, "invalid", layer=(1, 0))

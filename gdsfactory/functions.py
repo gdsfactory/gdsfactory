@@ -13,7 +13,7 @@ from numpy import cos, float64, sin
 import gdsfactory as gf
 
 if TYPE_CHECKING:
-    from gdsfactory.component import Component
+    from gdsfactory.component import Component, ComponentReference
     from gdsfactory.typings import LayerSpec, LayerSpecs
 
 RAD2DEG = 180.0 / np.pi
@@ -126,7 +126,7 @@ GetPolygonsResult: TypeAlias = "dict[LayerSpec, list[kf.kdb.Polygon]]"
 
 
 def get_polygons(
-    component_or_instance: "Component | kf.Instance",
+    component_or_instance: "Component | ComponentReference",
     merge: bool = False,
     by: Literal["index", "name", "tuple"] = "index",
     layers: LayerSpecs | None = None,
@@ -180,7 +180,7 @@ def get_polygons(
 
 
 def get_polygons_points(
-    component_or_instance: "Component | kf.Instance",
+    component_or_instance: "Component | ComponentReference",
     merge: bool = False,
     scale: float | None = None,
     by: Literal["index", "name", "tuple"] = "index",
@@ -228,7 +228,7 @@ def get_polygons_points(
 
 
 def get_point_inside(
-    component_or_instance: Component | kf.Instance, layer: LayerSpec
+    component_or_instance: "Component | ComponentReference", layer: LayerSpec
 ) -> npt.NDArray[np.floating[Any]]:
     """Returns a point inside the component or instance.
 

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import itertools as it
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from typing import Any
 
 import gdsfactory as gf
@@ -13,7 +13,7 @@ from gdsfactory.typings import CellSpec, ComponentSpec
 
 def generate_doe(
     doe: ComponentSpec,
-    settings: dict[str, Sequence[Any]],
+    settings: Mapping[str, Sequence[Any]],
     do_permutations: bool = False,
     function: CellSpec | None = None,
 ) -> tuple[list[Component], list[dict[str, Any]]]:
@@ -34,8 +34,6 @@ def generate_doe(
 
     if function:
         function = gf.get_cell(function)
-        if not callable(function):
-            raise ValueError(f"Error {function!r} needs to be callable.")
         component_list = [
             function(gf.get_component(doe, **settings)) for settings in settings_list
         ]
@@ -50,7 +48,7 @@ def generate_doe(
 @gf.cell
 def pack_doe(
     doe: ComponentSpec,
-    settings: dict[str, Sequence[Any]],
+    settings: Mapping[str, Sequence[Any]],
     do_permutations: bool = False,
     function: CellSpec | None = None,
     **kwargs: Any,
@@ -91,6 +89,7 @@ def pack_doe(
         raise ValueError(
             f"failed to pack in one Component, it created {len(components)} Components"
         )
+
     component = components[0]
     component.info["doe_names"] = [component.name for component in component_list]
     component.info["doe_settings"] = settings_list  # type: ignore
@@ -100,7 +99,7 @@ def pack_doe(
 @gf.cell
 def pack_doe_grid(
     doe: ComponentSpec,
-    settings: dict[str, Sequence[Any]],
+    settings: Mapping[str, Sequence[Any]],
     do_permutations: bool = False,
     function: CellSpec | None = None,
     with_text: bool = False,
@@ -138,8 +137,6 @@ def pack_doe_grid(
 
     if function:
         function = gf.get_cell(function)
-        if not callable(function):
-            raise ValueError(f"Error {function!r} needs to be callable.")
         component_list = [
             function(gf.get_component(doe, **settings)) for settings in settings_list
         ]
@@ -170,5 +167,4 @@ if __name__ == "__main__":
     )
 
     c = pack_doe(doe="mmi1x2", settings=dict(length_mmi=(2, 100), width_mmi=(4, 10)))
-    # c = pack_doe()
     c.show()
