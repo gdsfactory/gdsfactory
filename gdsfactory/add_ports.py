@@ -19,7 +19,7 @@ def add_ports_from_markers_square(
     component: Component,
     pin_layer: LayerSpec = "DEVREC",
     port_layer: LayerSpec | None = None,
-    orientation: AngleInDegrees | None = 90,
+    orientation: AngleInDegrees = 90,
     min_pin_area_um2: float = 0,
     max_pin_area_um2: float | None = 150 * 150,
     pin_extra_width: float = 0.0,
@@ -519,7 +519,7 @@ def add_ports_from_labels(
     get_name_from_label: bool = False,
     layer_label: LayerSpec | None = None,
     fail_on_duplicates: bool = False,
-    port_orientation: AngleInDegrees | None = None,
+    port_orientation: AngleInDegrees = 0,
     guess_port_orientation: bool = True,
     port_filter_prefix: str | None = None,
 ) -> Component:
