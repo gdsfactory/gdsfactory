@@ -151,7 +151,7 @@ def test_locked_cell() -> None:
         c.absorb(c.add_ref(gf.Component()))
 
     with pytest.raises(LockedError):
-        c.add(gf.Instance(gf.Component().kcl, kdb.Instance()))
+        c.add(kf.DInstance(gf.Component().kcl, kdb.Instance()))
 
 
 def test_locked_cell_all_angle() -> None:

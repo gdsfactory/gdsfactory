@@ -163,7 +163,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         port: ProtoPort[Any] | None = None,
         center: Position | kdb.DPoint | None = None,
         width: float | None = None,
-        orientation: AngleInDegrees | None = None,
+        orientation: AngleInDegrees = 0,
         layer: LayerSpec | None = None,
         port_type: str = "optical",
         keep_mirror: bool = False,
@@ -213,11 +213,9 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             xs = get_cross_section(cross_section)
             width = xs.width
 
-        if orientation is None:
-            orientation = 0
-
         if center is None:
             raise ValueError("Must specify center")
+
         elif isinstance(center, kdb.DPoint):
             layer = get_layer(layer)
             trans = kdb.DCplxTrans(1, orientation, False, center.to_v())
