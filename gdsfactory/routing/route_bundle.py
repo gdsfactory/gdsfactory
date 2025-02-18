@@ -352,13 +352,14 @@ if __name__ == "__main__":
     c = gf.Component(name="demo")
     c1 = c << gf.components.mmi2x2()
     c2 = c << gf.components.mmi2x2()
-    c2.dmove((100, 70))
+    c2.move((100, 70))
     routes = route_bundle(
         c,
         [c1.ports["o2"], c1.ports["o1"]],
         [c2.ports["o2"], c2.ports["o1"]],
         separation=5,
         cross_section="strip",
+        sort_ports=True,
         # end_straight_length=0,
         # collision_check_layers=[(1, 0)],
         # bboxes=[c1.bbox(), c2.bbox()],
