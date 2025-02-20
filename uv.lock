@@ -1078,7 +1078,7 @@ requires-dist = [
     { name = "jupyter-book", marker = "extra == 'docs'", specifier = ">=0.15.1,<1.1" },
     { name = "jupyterlab", marker = "extra == 'dev'" },
     { name = "jupytext", marker = "extra == 'docs'" },
-    { name = "kfactory", extras = ["ipy"], specifier = ">=1.1.4" },
+    { name = "kfactory", extras = ["ipy"], specifier = ">=1.1.4,<1.2" },
     { name = "kweb", marker = "extra == 'cad'", specifier = ">=1.1.9,<2.1" },
     { name = "loguru", specifier = "<1" },
     { name = "mapbox-earcut" },
