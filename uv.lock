@@ -1,4 +1,5 @@
 version = 1
+revision = 1
 requires-python = ">=3.11, <3.14"
 resolution-markers = [
     "python_full_version < '3.12'",
@@ -1077,7 +1078,7 @@ requires-dist = [
     { name = "jupyter-book", marker = "extra == 'docs'", specifier = ">=0.15.1,<1.1" },
     { name = "jupyterlab", marker = "extra == 'dev'" },
     { name = "jupytext", marker = "extra == 'docs'" },
-    { name = "kfactory", extras = ["ipy"], specifier = "==1.1.3" },
+    { name = "kfactory", extras = ["ipy"], specifier = ">=1.1.4,<1.2" },
     { name = "kweb", marker = "extra == 'cad'", specifier = ">=1.1.9,<2.1" },
     { name = "loguru", specifier = "<1" },
     { name = "mapbox-earcut" },
@@ -1123,6 +1124,7 @@ requires-dist = [
     { name = "watchdog", specifier = "<7" },
     { name = "xdoctest", marker = "extra == 'maintainer'" },
 ]
+provides-extras = ["cad", "dev", "docs", "full", "maintainer"]
 
 [[package]]
 name = "gdstk"
@@ -1991,7 +1993,7 @@ wheels = [
 
 [[package]]
 name = "kfactory"
-version = "1.1.3"
+version = "1.1.4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aenum" },
@@ -2009,9 +2011,9 @@ dependencies = [
     { name = "toolz" },
     { name = "typer" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/84/06/5322cd3dd77587c186290f20083f47b38c77d3d968086070c31d6fbef6a8/kfactory-1.1.3.tar.gz", hash = "sha256:f2da10ec36d3accd6c8886fd0518fd77d01870422f50283a7661247739492b2e", size = 1384872 }
+sdist = { url = "https://files.pythonhosted.org/packages/b4/de/aa26691012e593954c57d7cd29565854812ad637f855a83ecd306a2f5c02/kfactory-1.1.4.tar.gz", hash = "sha256:2cdd377364b578e5ae4eb11e02be6895cfd5b7fadc72ef4f768def945a799f23", size = 1385097 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ab/f4/b8b5d36788fa7ccde439faf942de6eb4fc311cf89edf0edc12802111494b/kfactory-1.1.3-py3-none-any.whl", hash = "sha256:3a4f2c66e122997d30be1ed5b8fe6d29b49392f2a20d84e41d1ae4b6cf56a120", size = 186216 },
+    { url = "https://files.pythonhosted.org/packages/ed/20/809b5e033c670c1d1eed1ae3e5d37c396ae86a7df4f0606ad7a92886da3c/kfactory-1.1.4-py3-none-any.whl", hash = "sha256:5e8a21a04f1498985a0b557712a2fc022ce32f6ec5997b1eb4f1d803d6b672eb", size = 186279 },
 ]
 
 [package.optional-dependencies]
