@@ -39,6 +39,7 @@ plugins = [
     "femwell",
     "gdsfactoryplus",
     "gplugins",
+    "kfactory",
     "lumapi",
     "meep",
     "meow",
