@@ -603,13 +603,19 @@ def cross_section(
     ):
         s += [
             Section(
-                width=width + 2 * offset, layer=layer, simplify=simplify, offset=center
+                width=width + 2 * offset,
+                layer=layer,
+                simplify=simplify,
+                offset=center,
+                name=f"cladding_{i}",
             )
-            for layer, offset, simplify, center in zip(
-                cladding_layers,
-                cladding_offsets_not_none,
-                cladding_simplify_not_none,
-                cladding_centers_not_none,
+            for i, (layer, offset, simplify, center) in enumerate(
+                zip(
+                    cladding_layers,
+                    cladding_offsets_not_none,
+                    cladding_simplify_not_none,
+                    cladding_centers_not_none,
+                )
             )
         ]
     return CrossSection(
