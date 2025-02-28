@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.0.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.0.2) - 2025-02-27
+
+No significant changes.
+
+
 ## [9.0.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.0.1) - 2025-02-20
 
 No significant changes.
