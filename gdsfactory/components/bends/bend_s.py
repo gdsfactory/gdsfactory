@@ -44,6 +44,7 @@ def bezier(
     cross_section: CrossSectionSpec = "strip",
     bend_radius_error_type: ErrorType | None = None,
     allow_min_radius_violation: bool = False,
+    width: float | None = None,
 ) -> Component:
     """Returns Bezier bend.
 
@@ -56,8 +57,13 @@ def bezier(
         cross_section: spec.
         bend_radius_error_type: error type.
         allow_min_radius_violation: bool.
+        width: width to use. Defaults to cross_section.width.
     """
-    xs = gf.get_cross_section(cross_section)
+    if width:
+        xs = gf.get_cross_section(cross_section, width=width)
+    else:
+        xs = gf.get_cross_section(cross_section)
+
     t = np.linspace(0, 1, npoints)
     path_points = bezier_curve(t, control_points)
     path = gf.Path(path_points)
@@ -157,6 +163,7 @@ def bend_s(
     npoints: int = 99,
     cross_section: CrossSectionSpec = "strip",
     allow_min_radius_violation: bool = False,
+    width: float | None = None,
 ) -> Component:
     """Return S bend with bezier curve.
 
@@ -168,18 +175,22 @@ def bend_s(
         npoints: number of points.
         cross_section: spec.
         allow_min_radius_violation: bool.
+        width: width to use. Defaults to cross_section.width.
 
     """
     dx, dy = size
 
     if dy == 0:
-        return gf.components.straight(length=dx, cross_section=cross_section)
+        return gf.components.straight(
+            length=dx, cross_section=cross_section, width=width
+        )
 
     return bezier(
         control_points=((0, 0), (dx / 2, 0), (dx / 2, dy), (dx, dy)),
         npoints=npoints,
         cross_section=cross_section,
         allow_min_radius_violation=allow_min_radius_violation,
+        width=width,
     )
 
 
