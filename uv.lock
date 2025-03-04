@@ -1078,7 +1078,7 @@ requires-dist = [
     { name = "jupyter-book", marker = "extra == 'docs'", specifier = ">=0.15.1,<1.1" },
     { name = "jupyterlab", marker = "extra == 'dev'" },
     { name = "jupytext", marker = "extra == 'docs'" },
-    { name = "kfactory", extras = ["ipy"], specifier = ">=1.1.4,<1.2" },
+    { name = "kfactory", extras = ["ipy"], specifier = ">=1.2.1,<1.3" },
     { name = "kweb", marker = "extra == 'cad'", specifier = ">=1.1.9,<2.1" },
     { name = "loguru", specifier = "<1" },
     { name = "mapbox-earcut" },
@@ -1993,7 +1993,7 @@ wheels = [
 
 [[package]]
 name = "kfactory"
-version = "1.1.4"
+version = "1.2.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aenum" },
@@ -2011,9 +2011,9 @@ dependencies = [
     { name = "toolz" },
     { name = "typer" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/b4/de/aa26691012e593954c57d7cd29565854812ad637f855a83ecd306a2f5c02/kfactory-1.1.4.tar.gz", hash = "sha256:2cdd377364b578e5ae4eb11e02be6895cfd5b7fadc72ef4f768def945a799f23", size = 1385097 }
+sdist = { url = "https://files.pythonhosted.org/packages/d7/7c/a6cec1f502df1fe926e781292a46473661407787c32fa73a5b3bff51c1a3/kfactory-1.2.1.tar.gz", hash = "sha256:9a615593d1cfeafc087cebbdbe100674e2a5cdbc9abb4416844f07609028d5c3", size = 1383542 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ed/20/809b5e033c670c1d1eed1ae3e5d37c396ae86a7df4f0606ad7a92886da3c/kfactory-1.1.4-py3-none-any.whl", hash = "sha256:5e8a21a04f1498985a0b557712a2fc022ce32f6ec5997b1eb4f1d803d6b672eb", size = 186279 },
+    { url = "https://files.pythonhosted.org/packages/f9/84/21ebd77e17042cfbaac377c214f5322d89dba6afd2acb472a63e959d3dda/kfactory-1.2.1-py3-none-any.whl", hash = "sha256:9f008e017d81a72ae19ae499c6b34c54aed1a1380e6e8036e2605c61eb9d340a", size = 187015 },
 ]
 
 [package.optional-dependencies]
