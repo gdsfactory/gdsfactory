@@ -232,7 +232,7 @@ def bend_s_offset(
     with_arc_floorplan: bool = False,
     width: float | None = None,
 ) -> gf.Component:
-    """Return S bend with bezier curve.
+    """Return S bend made of two euler bends with a straight section.
 
     stores min_bend_radius property in self.info['min_bend_radius']
     min_bend_radius depends on height and length
