@@ -42,9 +42,11 @@ def cutback_splitter(
 
     component = gf.get_component(component)
     bendu = gf.get_component(bend180, cross_section=xs)
+    radius = xs.radius
+    assert radius is not None
     straight_component = gf.get_component(
         straight,
-        length=straight_length or xs.radius * 2,
+        length=straight_length or radius * 2,
         cross_section=xs,
     )
 

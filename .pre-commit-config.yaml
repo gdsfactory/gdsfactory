@@ -54,7 +54,7 @@ repos:
     hooks:
       - id: mypy
         args: [--strict, --ignore-missing-imports, --config-file=pyproject.toml]
-        exclude: "tests/*"
+        exclude: "tests/"
         additional_dependencies:
           - typer
           - watchdog

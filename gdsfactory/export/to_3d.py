@@ -59,12 +59,14 @@ def to_3d(
 
         if isinstance(layer, LogicalLayer):
             layer_index = layer.layer
-            layer_tuple = cast(tuple[int, int], layer_index)
+            assert not isinstance(layer_index, int | str)
+            layer_tuple = cast(tuple[int, int], tuple(layer_index))
 
         elif isinstance(layer, DerivedLayer):
             assert level.derived_layer is not None
             layer_index = level.derived_layer.layer
-            layer_tuple = cast(tuple[int, int], layer_index)
+            assert not isinstance(layer_index, int | str)
+            layer_tuple = cast(tuple[int, int], tuple(layer_index))
         else:
             raise ValueError(f"Layer {layer!r} is not a DerivedLayer or LogicalLayer")
 

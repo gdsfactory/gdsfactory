@@ -13,7 +13,7 @@ from __future__ import annotations
 import json
 import warnings
 from functools import partial
-from typing import Any, Protocol
+from typing import Any, Protocol, cast
 
 import kfactory as kf
 import numpy as np
@@ -123,7 +123,9 @@ def get_pin_triangle_polygon_tip(
     p1 = p.center + _rotate(dtop, rot_mat)
     port_face = [p0, p1]
 
-    ptip: tuple[float, float] = tuple(map(float, p.center + _rotate(dtip, rot_mat)))
+    ptip = cast(
+        tuple[float, float], tuple(map(float, p.center + _rotate(dtip, rot_mat)))
+    )
 
     polygon = list(port_face) + [ptip]
     polygon_stacked = np.stack(polygon)
@@ -389,14 +391,17 @@ add_pins_siepic_electrical = partial(
 
 class AddPinFunction(Protocol):
     def __call__(
-        self, component: Component, port: typings.Port, **kwargs: Any
-    ) -> None: ...
+        self,
+        component: Component,
+        port: typings.Port,
+        **kwargs: Any,
+    ) -> Any: ...
 
 
 def add_pins(
     component: Component,
     port_type: str | None = None,
-    function: AddPinFunction = add_pin_rectangle_inside,
+    function: AddPinFunction = add_pin_rectangle_inside,  # type: ignore[assignment]
     **kwargs: Any,
 ) -> None:
     """Add Pin port markers.
@@ -422,8 +427,8 @@ def add_pins(
         function(component, port, **kwargs)
 
 
-add_pins_triangle = partial(add_pins, function=add_pin_triangle)
-add_pins_center = partial(add_pins, function=add_pin_rectangle)
+add_pins_triangle = partial(add_pins, function=add_pin_triangle)  # type: ignore[arg-type]
+add_pins_center = partial(add_pins, function=add_pin_rectangle)  # type: ignore[arg-type]
 add_pin_inside1nm = partial(
     add_pin_rectangle_inside, pin_length=1 * nm, layer_label=None
 )
@@ -519,7 +524,7 @@ def add_pins_and_outline(
     component: Component,
     reference: ComponentReference | None = None,
     add_outline_function: AddInstanceLabelFunction | None = add_outline,
-    add_pins_function: AddPinsFunction | None = add_pins,
+    add_pins_function: AddPinsFunction | None = add_pins,  # type: ignore[assignment]
     add_settings_function: AddInstanceLabelFunction | None = add_settings_label,
     add_instance_label_function: AddInstanceLabelFunction | None = add_settings_label,
 ) -> None:

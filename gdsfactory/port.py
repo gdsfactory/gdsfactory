@@ -593,9 +593,6 @@ def rename_ports_by_orientation(
     ports_on_layer = [p for p in ports if p.layer not in layers_excluded]
 
     for p in ports_on_layer:
-        # Make sure we can backtrack the parent component from the port
-        p.parent = component
-
         angle = p.orientation % 360
         if angle <= 45 or angle >= 315:
             direction_ports["E"].append(p)

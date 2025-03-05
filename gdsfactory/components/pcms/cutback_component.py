@@ -50,11 +50,12 @@ def cutback_component(
     component = gf.get_component(component, **kwargs)
     bendu = gf.get_component(bend180, cross_section=xs)
 
-    straight_length = xs.radius * 2 if straight_length is None else straight_length
+    radius = xs.radius
+    assert radius is not None
+    straight_length = radius * 2 if straight_length is None else straight_length
     straight_component = gf.get_component(
         straight, length=straight_length, cross_section=xs
     )
-
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
         "A": (component, port1, port2),

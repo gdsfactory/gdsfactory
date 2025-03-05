@@ -317,7 +317,7 @@ def path_length(points: npt.NDArray[np.floating[Any]]) -> float:
     return float(np.sum(np.sqrt(_d[:, 0] + _d[:, 1])))
 
 
-def snap_angle(a: npt.NDArray[np.floating[Any]]) -> float:
+def snap_angle(a: float) -> float:
     """Returns angle snapped along manhattan angle (0, 90, 180, 270).
 
     a: angle in deg
