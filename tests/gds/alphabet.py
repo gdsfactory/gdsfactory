@@ -9,13 +9,14 @@ characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!#()
 @gf.cell
 def alphabet(dx: Delta = 10) -> gf.Component:
     c = gf.Component()
-    x = 0
+    x = 0.0
     for s in characters:
         ci = gf.components.text(text=s)
         ci.name = s
-        char = c << ci.flatten()  # type: ignore
+        ci.flatten()
+        char = c << ci
         char.dx = x
-        x += dx  # type: ignore
+        x += dx
 
     return c
 

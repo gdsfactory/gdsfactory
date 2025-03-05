@@ -7,8 +7,8 @@ from __future__ import annotations
 import sys
 import warnings
 from functools import partial
-from toolz import compose  # type: ignore
-from aenum import constant  # type: ignore[import-untyped]
+from toolz import compose
+from aenum import constant
 
 import kfactory as kf
 from kfactory import LayerEnum, show, Instance

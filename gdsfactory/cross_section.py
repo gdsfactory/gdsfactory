@@ -139,7 +139,7 @@ class Section(BaseModel):
         if func is None:
             return None
         t_values = np.linspace(0, 1, 11)
-        return ",".join([str(round(width, 3)) for width in func(t_values)])  # type: ignore[union-attr, arg-type]
+        return ",".join([str(round(width, 3)) for width in func(t_values)])
 
 
 class ComponentAlongPath(BaseModel):

@@ -95,7 +95,7 @@ def clean_value_json(
         return clean_dict(value.model_dump(exclude_none=True))
 
     elif hasattr(value, "get_component_spec"):
-        return value.get_component_spec()  # type: ignore[no-any-return]
+        return value.get_component_spec()
 
     elif isinstance(value, bool):
         return value
@@ -155,7 +155,7 @@ def clean_value_json(
         return tuple([clean_value_json(i) for i in value])
 
     elif attrs.has(value):
-        return attrs.asdict(value)  # type: ignore[arg-type]
+        return attrs.asdict(value)
 
     else:
         try:
@@ -180,7 +180,7 @@ def clean_value_partial(
 
     func = value.func
     while hasattr(func, "func"):
-        func = func.func  # type: ignore
+        func = func.func
     v = {
         "function": func.__name__,
         "settings": args_as_kwargs,

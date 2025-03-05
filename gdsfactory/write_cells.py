@@ -156,7 +156,7 @@ def write_cells(
 
 
 if __name__ == "__main__":
-    c = gf.c.mzi()  # type: ignore
+    c = gf.c.mzi()
     gdspath = c.write_gds()
     gf.clear_cache()
     write_cells_recursively(gdspath)

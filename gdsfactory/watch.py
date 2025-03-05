@@ -13,7 +13,7 @@ from types import SimpleNamespace
 from typing import TypeAlias
 
 import kfactory as kf
-from IPython.terminal.embed import embed  # type: ignore
+from IPython.terminal.embed import embed
 from watchdog.events import (
     DirCreatedEvent,
     DirDeletedEvent,
@@ -103,7 +103,7 @@ class FileWatcher(FileSystemEventHandler):
         cell_name = filepath.stem.split(".")[0]
         function = cell_from_yaml_template(filepath, name=cell_name)
         try:
-            pdk.register_cells_yaml(**{cell_name: function}, update=update)  # type: ignore
+            pdk.register_cells_yaml(update=update, **{cell_name: function})  # type: ignore[arg-type]
         except ValueError as e:
             print(e)
         return function
@@ -275,7 +275,7 @@ def watch(
         f"File watcher looking for changes in *.py and *.pic.yml files in {path!r}. Stop with Ctrl+C"
     )
     if run_embed:
-        embed()  # type: ignore
+        embed()
     watcher.stop()
 
 

@@ -1,6 +1,8 @@
 from __future__ import annotations
 
-import shapely  # type: ignore
+from typing import cast
+
+import shapely
 from trimesh.scene.scene import Scene
 
 from gdsfactory.component import Component
@@ -33,7 +35,7 @@ def to_3d(
     )
 
     try:
-        from trimesh.creation import extrude_polygon  # type: ignore
+        from trimesh.creation import extrude_polygon
         from trimesh.scene import Scene
     except ImportError as e:
         print("you need to `pip install trimesh`")
@@ -57,16 +59,16 @@ def to_3d(
 
         if isinstance(layer, LogicalLayer):
             layer_index = layer.layer
-            layer_tuple: tuple[int, int] = tuple(layer_index)  # type: ignore
+            layer_tuple = cast(tuple[int, int], layer_index)
 
         elif isinstance(layer, DerivedLayer):
             assert level.derived_layer is not None
             layer_index = level.derived_layer.layer
-            layer_tuple = tuple(layer_index)  # type: ignore
+            layer_tuple = cast(tuple[int, int], layer_index)
         else:
             raise ValueError(f"Layer {layer!r} is not a DerivedLayer or LogicalLayer")
 
-        layer_index = int(get_layer(layer_index))  # type: ignore
+        layer_index = int(get_layer(layer_index))
 
         if layer_index in exclude_layers:
             continue
@@ -112,4 +114,4 @@ if __name__ == "__main__":
 
     c.show()
     s = c.to_3d()
-    s.show()  # type: ignore
+    s.show()

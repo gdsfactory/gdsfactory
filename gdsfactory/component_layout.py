@@ -78,9 +78,9 @@ def rotate_points(
     sa_array = np.array((-sa, sa))
     c0 = np.array(center)
     if np.asarray(points).ndim == 2:
-        return (points - c0) * ca + (points - c0)[:, ::-1] * sa_array + c0  # type: ignore[no-any-return]
+        return (points - c0) * ca + (points - c0)[:, ::-1] * sa_array + c0
     if np.asarray(points).ndim == 1:
-        return (points - c0) * ca + (points - c0)[::-1] * sa_array + c0  # type: ignore[no-any-return]
+        return (points - c0) * ca + (points - c0)[::-1] * sa_array + c0
     raise ValueError("Input points must be array-like[N][2] or array-like[2]")
 
 
@@ -121,7 +121,7 @@ def reflect_points(
         2 * (p1_array + (p2_array - p1_array) * proj / line_vec_norm) - points
     )
 
-    return reflected_points if original_shape[0] > 1 else reflected_points[0]  # type: ignore[no-any-return]
+    return reflected_points if original_shape[0] > 1 else reflected_points[0]
 
 
 def parse_coordinate(
@@ -138,9 +138,9 @@ def parse_coordinate(
             Parsed coordinate.
     """
     if hasattr(c, "center"):
-        return c.center  # type: ignore[union-attr]
+        return c.center
     elif np.array(c).size == 2:
-        return c  # type: ignore[unused-ignore, return-value]
+        return c
     raise ValueError(
         "Could not parse coordinate, input should be array-like (e.g. [1.5,2.3] or a Port"
     )
@@ -187,4 +187,4 @@ if __name__ == "__main__":
 
     # c = gf.c.straight()
 
-    c = gf.grid(tuple(gf.components.straight(length=i) for i in range(1, 5)))  # type: ignore
+    c = gf.grid(tuple(gf.components.straight(length=i) for i in range(1, 5)))

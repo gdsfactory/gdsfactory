@@ -5,13 +5,13 @@ from __future__ import annotations
 import warnings
 from collections.abc import Sequence
 from functools import partial
-from typing import Any, overload
+from typing import Any, TypeAlias, overload
 
 import kfactory as kf
 import numpy as np
 import numpy.typing as npt
 
-Value = float | Sequence[float] | npt.NDArray[np.floating[Any]]
+Value: TypeAlias = float | Sequence[float] | npt.NDArray[np.floating[Any]]
 
 
 def is_on_grid(
@@ -75,7 +75,7 @@ def snap_to_grid(
     """
     grid_size = kf.kcl.dbu
     nm = nm or round(grid_size * 1000 * grid_factor)
-    res = nm * np.round(np.asarray(x, dtype=float) * 1e3 / nm) / 1e3  # type: ignore
+    res = nm * np.round(np.asarray(x, dtype=float) * 1e3 / nm) / 1e3
     if isinstance(res, np.floating):
         return float(res)
     return res

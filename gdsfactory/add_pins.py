@@ -123,7 +123,7 @@ def get_pin_triangle_polygon_tip(
     p1 = p.center + _rotate(dtop, rot_mat)
     port_face = [p0, p1]
 
-    ptip: tuple[float, float] = tuple(map(float, p.center + _rotate(dtip, rot_mat)))  # type: ignore[assignment]
+    ptip: tuple[float, float] = tuple(map(float, p.center + _rotate(dtip, rot_mat)))
 
     polygon = list(port_face) + [ptip]
     polygon_stacked = np.stack(polygon)
@@ -396,7 +396,7 @@ class AddPinFunction(Protocol):
 def add_pins(
     component: Component,
     port_type: str | None = None,
-    function: AddPinFunction = add_pin_rectangle_inside,  # type: ignore[assignment]
+    function: AddPinFunction = add_pin_rectangle_inside,
     **kwargs: Any,
 ) -> None:
     """Add Pin port markers.
@@ -422,14 +422,14 @@ def add_pins(
         function(component, port, **kwargs)
 
 
-add_pins_triangle = partial(add_pins, function=add_pin_triangle)  # type: ignore[arg-type]
-add_pins_center = partial(add_pins, function=add_pin_rectangle)  # type: ignore[arg-type]
+add_pins_triangle = partial(add_pins, function=add_pin_triangle)
+add_pins_center = partial(add_pins, function=add_pin_rectangle)
 add_pin_inside1nm = partial(
     add_pin_rectangle_inside, pin_length=1 * nm, layer_label=None
 )
 add_pin_inside2um = partial(add_pin_rectangle_inside, pin_length=2, layer_label=None)
-add_pins_inside1nm = partial(add_pins, function=add_pin_inside1nm)  # type: ignore[arg-type]
-add_pins_inside2um = partial(add_pins, function=add_pin_inside2um)  # type: ignore[arg-type]
+add_pins_inside1nm = partial(add_pins, function=add_pin_inside1nm)
+add_pins_inside2um = partial(add_pins, function=add_pin_inside2um)
 
 
 def add_settings_label(
@@ -519,7 +519,7 @@ def add_pins_and_outline(
     component: Component,
     reference: ComponentReference | None = None,
     add_outline_function: AddInstanceLabelFunction | None = add_outline,
-    add_pins_function: AddPinsFunction | None = add_pins,  # type: ignore[assignment]
+    add_pins_function: AddPinsFunction | None = add_pins,
     add_settings_function: AddInstanceLabelFunction | None = add_settings_label,
     add_instance_label_function: AddInstanceLabelFunction | None = add_settings_label,
 ) -> None:
@@ -544,7 +544,7 @@ def add_pins_and_outline(
 
 
 add_pins_container = partial(container, function=add_pins)
-add_pins_siepic_container = partial(container, function=add_pins_siepic)  # type: ignore[arg-type]
+add_pins_siepic_container = partial(container, function=add_pins_siepic)
 
 if __name__ == "__main__":
     import gdsfactory as gf

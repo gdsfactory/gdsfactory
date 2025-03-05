@@ -107,7 +107,7 @@ def _bend_euler(
         radius=radius, angle=angle, p=p, use_eff=with_arc_floorplan, npoints=npoints
     )
     c = path.extrude(x, all_angle=all_angle)
-    min_bend_radius = float(np.round(path.info["Rmin"], 3))  # type: ignore
+    min_bend_radius = float(np.round(path.info["Rmin"], 3))
     c.info["length"] = float(np.round(path.length(), 3))
     c.info["dy"] = float(
         np.round(abs(float(path.points[0][0] - path.points[-1][0])), 3)

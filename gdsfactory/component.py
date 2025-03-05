@@ -63,9 +63,9 @@ def ensure_tuple_of_tuples(points: Any) -> tuple[tuple[float, float], ...]:
         points = tuple(map(tuple, points.tolist()))
     elif isinstance(points, list):
         # If it's a list, check if the first element is an np.ndarray or a list to decide on conversion
-        if len(points) > 0 and isinstance(points[0], np.ndarray | list):  # type: ignore
-            points = tuple(tuple(point) for point in points)  # type: ignore
-    return points  # type: ignore
+        if len(points) > 0 and isinstance(points[0], np.ndarray | list):
+            points = tuple(tuple(point) for point in points)
+    return points
 
 
 def points_to_polygon(
@@ -1106,8 +1106,8 @@ class Component(ComponentBase, kf.DKCell):
         )
 
 
-class ComponentAllAngle(ComponentBase, kf.VKCell):  # type: ignore
-    def plot(self, **kwargs: Any) -> None:  # type: ignore
+class ComponentAllAngle(ComponentBase, kf.VKCell):
+    def plot(self, **kwargs: Any) -> None:
         """Plots the Component using klayout."""
         c = Component()
         if self.name is not None:

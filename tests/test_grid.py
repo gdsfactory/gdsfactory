@@ -12,8 +12,8 @@ def test_grid_with_None_ports(rows: int = 3, columns: int = 4) -> None:
         components=swatches,
         spacing=(1, 1),
         shape=(rows, columns),
-        align_x="x",
-        align_y="y",
+        align_x="xmin",
+        align_y="ymin",
     )
     assert c
 

@@ -70,7 +70,7 @@ def grid(
         ),
         align_x=align_x,
         align_y=align_y,
-        rotation=rotation,  # type: ignore
+        rotation=rotation,
         mirror=mirror,
     )
     for i, instance in enumerate(instances):
@@ -156,7 +156,7 @@ def grid_with_text(
         ),
         align_x=align_x,
         align_y=align_y,
-        rotation=rotation,  # type: ignore[arg-type]
+        rotation=rotation,
         mirror=mirror,
     )
     for i, instance in enumerate(instances):

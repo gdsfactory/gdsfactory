@@ -43,7 +43,7 @@ def cdsem_straight(
         line = c << gf.c.straight(
             length=length, cross_section=cross_section, width=width
         )
-        p = position or p  # type: ignore
+        p = position or p
         line.dymin = p
         if text:
             t = c << gf.get_component(text, text=str(int(width * 1e3)), size=text_size)

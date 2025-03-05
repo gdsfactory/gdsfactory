@@ -99,9 +99,9 @@ def cell(
         post_process=post_process,
         debug_names=debug_names,
         tags=tags,
-    )  # type: ignore
+    )
     c.is_gf_cell = True
-    return c  # type: ignore
+    return c
 
 
 class ComponentAllAngleFunc(Protocol[ComponentParams]):
@@ -148,7 +148,7 @@ def vcell(
         [ComponentAllAngleFunc[ComponentParams]], ComponentAllAngleFunc[ComponentParams]
     ]
 ):
-    vc = _vcell(  # type: ignore
+    vc = _vcell(
         _func,
         set_settings=set_settings,
         set_name=set_name,
@@ -158,4 +158,4 @@ def vcell(
         register_factory=register_factory,
     )
     vc.is_gf_vcell = True
-    return vc  # type: ignore
+    return vc

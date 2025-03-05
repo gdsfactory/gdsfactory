@@ -113,15 +113,15 @@ def add_padding_to_size(
     return c
 
 
-add_padding_container = partial(container, function=add_padding)  # type: ignore
-add_padding_to_size_container = partial(container, function=add_padding_to_size)  # type: ignore
+add_padding_container = partial(container, function=add_padding)
+add_padding_to_size_container = partial(container, function=add_padding_to_size)
 
 
 if __name__ == "__main__":
     # test_container()
 
     # p = partial(add_padding, layers=((1, 0)))
-    c = gf.components.straight(length=10)  # type: ignore
+    c = gf.components.straight(length=10)
     c1 = add_padding_to_size_container(c, xsize=100, ysize=100)
     c2 = add_padding_to_size_container(c, xsize=100, ysize=100)
     print(c1.name)

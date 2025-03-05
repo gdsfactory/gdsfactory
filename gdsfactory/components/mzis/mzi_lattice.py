@@ -88,8 +88,8 @@ def mzi_lattice(
     ):
         splitter_settings = dict(gap=coupler_gaps[1], length=coupler_lengths[1])
         combiner_settings = dict(length=length, gap=gap)
-        splitter1 = gf.get_component(splitter, **splitter_settings)  # type: ignore
-        combiner1 = gf.get_component(splitter, **combiner_settings)  # type: ignore
+        splitter1 = gf.get_component(splitter, settings=None, **splitter_settings)
+        combiner1 = gf.get_component(splitter, settings=None, **combiner_settings)
 
         stage = c << gf.get_component(
             mzi,
@@ -241,8 +241,8 @@ def mzi_lattice_mmi(
         cross_section=cross_sections_mmis[1],
     )
 
-    cp1 = splitter1 = gf.get_component(splitter, **splitter_settings)  # type: ignore
-    combiner1 = gf.get_component(splitter, **combiner_settings)  # type: ignore
+    cp1 = splitter1 = gf.get_component(splitter, settings=None, **splitter_settings)
+    combiner1 = gf.get_component(splitter, settings=None, **combiner_settings)
 
     sprevious = c << gf.get_component(
         mzi,
@@ -301,8 +301,8 @@ def mzi_lattice_mmi(
             straight=straight,
             cross_section=cross_section,
         )
-        splitter1 = gf.get_component(splitter, **splitter_settings)  # type: ignore
-        combiner1 = gf.get_component(splitter, **combiner_settings)  # type: ignore
+        splitter1 = gf.get_component(splitter, settings=None, **splitter_settings)
+        combiner1 = gf.get_component(splitter, settings=None, **combiner_settings)
 
         stage = c << gf.get_component(
             mzi,

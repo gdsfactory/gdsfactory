@@ -117,7 +117,7 @@ def extend_ports(
 
     ports_to_extend = gf.port.get_ports_list(cref.ports, port_type=port_type, **kwargs)
     ports_to_extend_names = [p.name for p in ports_to_extend]
-    ports_to_extend_names = port_names or ports_to_extend_names  # type: ignore
+    ports_to_extend_names = port_names or ports_to_extend_names
 
     if auto_taper and cross_section:
         from gdsfactory.routing.auto_taper import add_auto_tapers
@@ -153,7 +153,7 @@ def extend_ports(
 
                 else:
                     cross_section_extension = cross_section or cross_section_function(
-                        layer=gf.get_layer_tuple(port.layer),  # type: ignore
+                        layer=gf.get_layer_tuple(port.layer),
                         width=port.width,
                     )
 

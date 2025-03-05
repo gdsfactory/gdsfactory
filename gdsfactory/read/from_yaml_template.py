@@ -60,7 +60,7 @@ def _split_yaml_definition(subpic_yaml: _YamlDefinition) -> tuple[str, dict[str,
         f = subpic_yaml
         subpic_text = f.readlines()
     else:
-        with pathlib.Path(subpic_yaml).open() as f:  # type: ignore[arg-type]
+        with pathlib.Path(subpic_yaml).open() as f:
             subpic_text = f.readlines()
     main_file, default_settings_string = split_default_settings_from_yaml(subpic_text)
     if default_settings_string:
@@ -95,7 +95,7 @@ def cell_from_yaml_template(
         routing_strategies=routing_strategies,
     )
     if os.path.exists(str(filename)):
-        cell.__file__ = os.path.abspath(str(filename))  # type: ignore
+        cell.__file__ = os.path.abspath(str(filename))
     return cell
 
 
@@ -167,7 +167,7 @@ def yaml_cell(
 
     _yaml_func.__name__ = name
     _yaml_func.__module__ = "yaml_jinja"
-    _yaml_func.__signature__ = new_sig  # type: ignore[attr-defined]
+    _yaml_func.__signature__ = new_sig
     _yaml_func.__doc__ = docstring
     return cell(_yaml_func)
 

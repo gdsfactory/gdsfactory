@@ -50,7 +50,7 @@ def cutback_component(
     component = gf.get_component(component, **kwargs)
     bendu = gf.get_component(bend180, cross_section=xs)
 
-    straight_length = xs.radius * 2 if straight_length is None else straight_length  # type: ignore
+    straight_length = xs.radius * 2 if straight_length is None else straight_length
     straight_component = gf.get_component(
         straight, length=straight_length, cross_section=xs
     )

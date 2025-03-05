@@ -365,7 +365,7 @@ def select_ports(
         ports_ = [p for p in ports_ if np.isclose(p.orientation, orientation)]
 
     if layers_excluded:
-        ports_ = [p for p in ports_ if p.layer not in layers_excluded]  # type: ignore
+        ports_ = [p for p in ports_ if p.layer not in layers_excluded]
     if width:
         ports_ = [p for p in ports_ if p.width == width]
     if port_type:
@@ -594,7 +594,7 @@ def rename_ports_by_orientation(
 
     for p in ports_on_layer:
         # Make sure we can backtrack the parent component from the port
-        p.parent = component  # type: ignore
+        p.parent = component
 
         angle = p.orientation % 360
         if angle <= 45 or angle >= 315:
@@ -728,7 +728,7 @@ def map_ports_layer_to_orientation(
         ports_on_layer = [p.copy() for p in selected_ports if p.layer == layer]
 
         for p in ports_on_layer:
-            p.name_original = p.name  # type: ignore
+            p.name_original = p.name
             angle = p.orientation % 360
             if angle <= 45 or angle >= 315:
                 direction_ports["E"].append(p)
@@ -740,7 +740,7 @@ def map_ports_layer_to_orientation(
                 direction_ports["S"].append(p)
         layer_tuple = layer if isinstance(layer, kf.LayerEnum) else (layer, 0)
         function(direction_ports, prefix=f"{layer_tuple[0]}_{layer_tuple[1]}_")
-        m |= {p.name: p.name_original for p in ports_on_layer}  # type: ignore
+        m |= {p.name: p.name_original for p in ports_on_layer}
     return m
 
 
@@ -774,7 +774,7 @@ def map_ports_to_orientation_cw(
     ports_on_layer = [p.copy() for p in selected_ports]
 
     for p in ports_on_layer:
-        p.name_original = p.name  # type: ignore
+        p.name_original = p.name
         angle = p.orientation % 360
         if angle <= 45 or angle >= 315:
             direction_ports["E"].append(p)
@@ -785,7 +785,7 @@ def map_ports_to_orientation_cw(
         else:
             direction_ports["S"].append(p)
     function(direction_ports)
-    return {p.name: p.name_original for p in ports_on_layer}  # type: ignore
+    return {p.name: p.name_original for p in ports_on_layer}
 
 
 map_ports_to_orientation_ccw = partial(
@@ -821,7 +821,7 @@ def auto_rename_ports_layer_orientation(
         ports_on_layer = [p for p in ports if p.layer == layer]
 
         for p in ports_on_layer:
-            p.name_original = p.name  # type: ignore[attr-defined]
+            p.name_original = p.name
             angle = p.orientation % 360
             if angle <= 45 or angle >= 315:
                 direction_ports["E"].append(p)

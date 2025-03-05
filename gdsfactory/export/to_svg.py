@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+from typing import cast
+
+from kfactory import LayerEnum
+
 from gdsfactory.component import Component
 from gdsfactory.technology import DerivedLayer, LayerStack, LayerViews, LogicalLayer
 from gdsfactory.typings import LayerSpecs
@@ -72,10 +76,12 @@ def to_svg(
 
             # Determine the layer tuple based on its type
             if isinstance(layer, LogicalLayer):
-                layer_tuple: tuple[int, int] = tuple(layer.layer)
+                assert isinstance(layer.layer, tuple | LayerEnum)
+                layer_tuple = cast(tuple[int, int], layer.layer)
             elif isinstance(layer, DerivedLayer):
                 assert level.derived_layer is not None
-                layer_tuple = tuple(level.derived_layer.layer)
+                assert isinstance(level.derived_layer.layer, tuple | LayerEnum)
+                layer_tuple = cast(tuple[int, int], level.derived_layer.layer)
             else:
                 raise ValueError(
                     f"Layer {layer!r} is not a DerivedLayer or LogicalLayer"

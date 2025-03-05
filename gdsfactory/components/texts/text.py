@@ -55,10 +55,10 @@ def text(
         if justify == "left":
             pass
         elif justify == "right":
-            instance.dxmax = position[0]  # type: ignore
+            instance.dxmax = position[0]
         elif justify == "center":
             xmin = position[0] - instance.dxsize / 2
-            instance.dxmin = xmin  # type: ignore
+            instance.dxmin = xmin
         else:
             raise ValueError(
                 f"justify = {justify!r} not in ('center', 'right', 'left')"

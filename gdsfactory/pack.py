@@ -170,7 +170,7 @@ def pack(
         max_size_filtered, dtype=np.float64
     )  # In case it's integers
     max_size_array = max_size_array / precision
-    max_size_tuple: tuple[float, float] = tuple(max_size_array)  # type: ignore[assignment]
+    max_size_tuple: tuple[float, float] = tuple(max_size_array)
 
     components = [gf.get_component(component) for component in component_list]
 
@@ -221,7 +221,7 @@ def pack(
                 d.mirror_x()
             if v_mirror:
                 d.mirror_y()
-            d.center = tuple(snap_to_grid((xcenter * precision, ycenter * precision)))  # type: ignore[assignment]
+            d.center = tuple(snap_to_grid((xcenter * precision, ycenter * precision)))
             if add_ports_prefix:
                 packed.add_ports(d.ports, prefix=f"{index}_")
             elif add_ports_suffix:

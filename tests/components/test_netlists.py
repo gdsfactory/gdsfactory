@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import jsondiff  # type: ignore
+import jsondiff
 import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import numpy as np
+
 import gdsfactory as gf
 from gdsfactory import Section
 from gdsfactory.cross_section import CrossSection
@@ -8,19 +10,19 @@ from gdsfactory.typings import LayerSpec
 
 
 def test_path_near_collinear() -> None:
-    p = gf.path.smooth(points=[(0, 0), (0, 1000), (1, 10000)])
+    p = gf.path.smooth(points=np.array([(0, 0), (0, 1000), (1, 10000)]))
     c = p.extrude(cross_section="strip")
     assert c
 
 
 def test_path_port_types() -> None:
     """Test path with different port types."""
-    s0 = gf.Section(width=0.5, offset=0, layer=LAYER.SLAB90, port_names=["o1", "o2"])
+    s0 = gf.Section(width=0.5, offset=0, layer=LAYER.SLAB90, port_names=("o1", "o2"))
     s1 = gf.Section(
         width=2.0,
         offset=-4,
         layer=LAYER.HEATER,
-        port_names=["e1", "e2"],
+        port_names=("e1", "e2"),
         port_types=("electrical", "electrical"),
     )
     X = gf.CrossSection(sections=(s0, s1))
@@ -112,14 +114,14 @@ def test_transition_cross_section_different_layers() -> None:
     c = gf.path.extrude_transition(p=p, transition=transition)
 
     core_width = core_width
-    intent_layer_1 = gf.get_layer(intent_layer_1)
-    intent_layer_2 = gf.get_layer(intent_layer_2)
+    intent_layer_1_ = gf.get_layer(intent_layer_1)
+    intent_layer_2_ = gf.get_layer(intent_layer_2)
 
     assert c.ports["o1"].width == core_width
     assert c.ports["o2"].width == core_width
 
-    assert c.ports["o1"].layer == intent_layer_1
-    assert c.ports["o2"].layer == intent_layer_2
+    assert c.ports["o1"].layer == intent_layer_1_
+    assert c.ports["o2"].layer == intent_layer_2_
 
     # area of a trapezoid
     expected_area = (w1 + w2) / 2 * length
@@ -162,7 +164,7 @@ def test_extrude_component_along_path() -> None:
 
 def test_extrude_cross_section_list_of_sections() -> None:
     s = gf.Section(width=0.5, offset=0.5, layer="WG")
-    xs = gf.CrossSection(sections=[s])  # type: ignore
+    xs = gf.CrossSection(sections=(s,))
     c = gf.c.straight(cross_section=xs)
     assert c
 

@@ -133,8 +133,8 @@ if __name__ == "__main__":
 
     c = gf.c.add_fiber_array_optical_south_electrical_north(
         component=gf.c.straight_heater_metal,
-        pad=gf.c.pad,  # type: ignore
-        grating_coupler=gf.c.grating_coupler_te,  # type: ignore
+        pad=gf.c.pad,
+        grating_coupler=gf.c.grating_coupler_te,
         cross_section_metal=xs.metal_routing,
         pad_pitch=100,
     )

@@ -55,7 +55,7 @@ def write_test_manifest(
 
         ci = c.kdb_cell.begin_instances_rec()
         if search_strings:
-            ci.targets = "{" + ",".join(search_strings) + "}"  # type: ignore[assignment]
+            ci.targets = "{" + ",".join(search_strings) + "}"
         else:
             ci.targets = c.called_cells()
 
