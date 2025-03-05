@@ -250,6 +250,7 @@ def bend_s_offset(
     else:
         xs = gf.get_cross_section(cross_section)
 
+    xs.validate_radius(radius)
     angle, middle_length = _get_euler_sbend_angle_middle_length_from_jog(
         jog=offset, radius=radius, p=p, use_eff=with_arc_floorplan
     )
@@ -317,14 +318,8 @@ def get_min_sbend_size(
 
 
 if __name__ == "__main__":
-    # min_size = get_min_sbend_size()
-    # print(min_size)
-    # c = bend_s(size=(10, 0))
-    # c = bend_s(bbox_offsets=[0.5], bbox_layers=[(111, 0)], width=2)
-    # c = bend_s(size=[10, 2.5])  # 10um bend radius
-    # c = bend_s(size=[20, 3], cross_section="rib")  # 10um bend radius
-    # c.pprint()
-    xs = gf.cross_section.strip(width=2)
-    c = bend_s_offset(offset=40, with_arc_floorplan=False, cross_section=xs, width=1)
+    # xs = gf.cross_section.strip(width=2)
+    # c = bend_s_offset(offset=40, with_arc_floorplan=False, cross_section=xs, width=1)
     # print(c.info["min_bend_radius"])
+    c = bend_s_offset(offset=40, radius=40)
     c.show()

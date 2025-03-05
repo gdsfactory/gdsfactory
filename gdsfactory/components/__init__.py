@@ -29,6 +29,7 @@ from gdsfactory.components.bends import (
     bend_euler_all_angle,
     bend_euler_s,
     bend_s,
+    bend_s_offset,
     bezier,
 )
 from gdsfactory.components.containers import (
@@ -375,6 +376,7 @@ __all__ = [
     "bend_euler_all_angle",
     "bend_euler_s",
     "bend_s",
+    "bend_s_offset",
     "bends",
     "bezier",
     "cavity",
