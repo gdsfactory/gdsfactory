@@ -23,10 +23,12 @@ def _bendu_double(
         port2: name of second optical port.
     """
     xs = gf.get_cross_section(cross_section)
+    radius = xs.radius
+    assert radius is not None
 
     xs_r2 = gf.get_cross_section(
         cross_section,
-        radius=xs.radius - (component.ports[port1].dy - component.ports[port2].dy),  # type: ignore
+        radius=radius - (component.ports[port1].dy - component.ports[port2].dy),
     )
 
     bendu = Component()
@@ -65,16 +67,18 @@ def _straight_double(
         straight: straight spec.
     """
     xs = gf.get_cross_section(cross_section)
+    radius = xs.radius
+    assert radius is not None
 
     c = gf.Component()
     straight_component = gf.get_component(
         straight,
-        length=straight_length or xs.radius * 2,  # type: ignore
+        length=straight_length or radius * 2,
         cross_section=xs,
     )
     straight_component2 = gf.get_component(
         straight,
-        length=straight_length or xs.radius * 2,  # type: ignore
+        length=straight_length or radius * 2,
         cross_section=xs,
     )
     straight_r = c << straight_component

@@ -17,7 +17,7 @@ def test_route_south(
     for i, route in enumerate(routes):
         lengths[i] = route.length
     if check:
-        data_regression.check(lengths)  # type: ignore
+        data_regression.check(lengths)
 
 
 def test_route_south_nxn() -> None:
@@ -88,7 +88,7 @@ def test_route_south_with_io_gratings() -> None:
 
 
 if __name__ == "__main__":
-    test_route_south(None, check=False)  # type: ignore
+    test_route_south(None, check=False)
     test_route_south_nxn()
     test_route_south_mzi_with_bend()
     test_route_south_with_auto_taper()

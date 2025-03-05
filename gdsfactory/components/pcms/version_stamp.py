@@ -26,18 +26,18 @@ def qrcode(data: str = "mask01", psize: int = 1, layer: LayerSpec = "WG") -> Com
         psize: pixel size.
         layer: layer to use.
     """
-    import qrcode  # type: ignore[import-untyped]
+    import qrcode
 
     pix = pixel(size=psize, layer=layer)
-    q = qrcode.QRCode()  # type: ignore
-    q.add_data(data)  # type: ignore
-    matrix = q.get_matrix()  # type: ignore
+    q = qrcode.QRCode()
+    q.add_data(data)
+    matrix = q.get_matrix()
     c = gf.Component()
-    for i, row in enumerate(matrix):  # type: ignore
-        for j, value in enumerate(row):  # type: ignore
+    for i, row in enumerate(matrix):
+        for j, value in enumerate(row):
             if value:
                 ref = c << pix
-                ref.center = (i * psize, j * psize)  # type: ignore
+                ref.center = (i * psize, j * psize)
     c.flatten()
     return c
 
@@ -70,7 +70,7 @@ def version_stamp(
     if with_qr_code:
         data = f"{timestamp}/{platform.node()}"
         q = c << qrcode(layer=layer, data=data, psize=pixel_size)
-        q.center = (0, 0)  # type: ignore
+        q.center = (0, 0)
         x = q.dxsize * 0.5 + 10
 
     else:

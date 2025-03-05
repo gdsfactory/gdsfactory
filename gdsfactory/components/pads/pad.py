@@ -87,7 +87,7 @@ def pad(
     return c
 
 
-pad_rectangular = partial(pad, size="pad_size")  # type: ignore
+pad_rectangular = partial(pad, size="pad_size")
 pad_small = partial(pad, size=(80, 80))
 
 

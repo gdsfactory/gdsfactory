@@ -2,8 +2,9 @@ from gdsfactory.component import Component
 from gdsfactory.components import straight, taper_sc_nc
 from gdsfactory.generic_tech.layer_map import LAYER
 from gdsfactory.routing.auto_taper import auto_taper_to_cross_section
+from gdsfactory.typings import LayerTransitions
 
-LAYER_TRANSITIONS = {(LAYER.WG, LAYER.WGN): taper_sc_nc}
+LAYER_TRANSITIONS: LayerTransitions = {(LAYER.WG, LAYER.WGN): taper_sc_nc}
 
 
 def test_auto_taper() -> None:

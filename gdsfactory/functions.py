@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import warnings
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 from functools import partial
 from typing import TYPE_CHECKING, Any, Literal, TypeAlias
 
@@ -317,7 +317,7 @@ def path_length(points: npt.NDArray[np.floating[Any]]) -> float:
     return float(np.sum(np.sqrt(_d[:, 0] + _d[:, 1])))
 
 
-def snap_angle(a: npt.NDArray[np.floating[Any]]) -> float:
+def snap_angle(a: float) -> float:
     """Returns angle snapped along manhattan angle (0, 90, 180, 270).
 
     a: angle in deg
@@ -420,7 +420,7 @@ def extrude_path(
 
 def trim(
     component: Component,
-    domain: list[tuple[float, float]],
+    domain: Sequence[tuple[float, float]],
     flatten: bool = False,
 ) -> gf.Component:
     """Trim a component by another geometry, preserving the component's layers and ports.
@@ -463,7 +463,7 @@ def rotate(component: Component, angle: float) -> gf.Component:
     c = gf.Component()
     component = gf.get_component(component)
     ref = c.add_ref(component)
-    ref.rotate(angle=angle)  # type: ignore[arg-type]
+    ref.rotate(angle=angle)
     c.add_ports(ref.ports)
     c.copy_child_info(component)
     return c

@@ -264,7 +264,7 @@ def _req_straight_len(
         cross_section: cross-section of the waveguides.
         cross_section_s_bend: s bend cross section
     """
-    from scipy.interpolate import interp1d  # type: ignore
+    from scipy.interpolate import interp1d
 
     # "Brute force" approach - sweep length and save total length
 
@@ -328,7 +328,7 @@ def _req_straight_len(
 
     # get the required spacing to achieve the required length (interpolate)
     f = interp1d(lens, straight_lengths)
-    return float(f(length))  # type: ignore
+    return float(f(length))
 
 
 @gf.cell

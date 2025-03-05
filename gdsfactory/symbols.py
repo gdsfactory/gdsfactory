@@ -36,7 +36,7 @@ def symbol_from_cell(func: _F, to_symbol: ToSymbol) -> _F:
         c_symbol = to_symbol(component, prefix=f"SYMBOL_{func.__name__}")
         return c_symbol
 
-    _symbol._symbol = True  # type: ignore
+    _symbol._symbol = True
     return _symbol
 
 
@@ -118,6 +118,6 @@ def floorplan_with_block_letters(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.c.mmi1x2()  # type: ignore
+    c = gf.c.mmi1x2()
     s = floorplan_with_block_letters(c)
     s.show()

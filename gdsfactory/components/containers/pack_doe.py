@@ -92,7 +92,7 @@ def pack_doe(
 
     component = components[0]
     component.info["doe_names"] = [component.name for component in component_list]
-    component.info["doe_settings"] = settings_list  # type: ignore
+    component.info["doe_settings"] = settings_list
     return component
 
 
@@ -152,7 +152,7 @@ def pack_doe_grid(
         c = grid(component_list, **kwargs)
 
     c.info["doe_names"] = [component.name for component in component_list]
-    c.info["doe_settings"] = settings_list  # type: ignore
+    c.info["doe_settings"] = settings_list
     return c
 
 

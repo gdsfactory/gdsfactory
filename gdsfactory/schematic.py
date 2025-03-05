@@ -253,7 +253,7 @@ def to_graphviz(
         if hasattr(instance, "component"):
             instance_component = instance.component
         else:
-            instance_component = instance["component"]  # type: ignore
+            instance_component = instance["component"]
         ports = gdsfactory.get_component(instance_component).ports
         all_ports.append((name, ports))
 
@@ -318,8 +318,8 @@ def to_graphviz(
         dot.node(node, label=label, pos=pos, shape="record")
 
     for net in nets:
-        p1 = net.p1 if hasattr(net, "p1") else net["p1"]  # type: ignore
-        p2 = net.p2 if hasattr(net, "p2") else net["p2"]  # type: ignore
+        p1 = net.p1 if hasattr(net, "p1") else net["p1"]
+        p2 = net.p2 if hasattr(net, "p2") else net["p2"]
 
         p1_instance = p1.split(",")[0]
         p1_port = p1.split(",")[1]
@@ -436,7 +436,7 @@ def plot_graphviz(
         graph.view()
     else:
         png_data = graph.pipe(format="png")
-        display(Image(data=png_data))  # type: ignore
+        display(Image(data=png_data))
 
 
 def write_schema(
@@ -473,9 +473,9 @@ if __name__ == "__main__":
     import gdsfactory.schematic as gt
 
     s = Schematic()
-    s.add_instance("mzi1", gt.Instance(component=gf.c.mzi(delta_length=10)))  # type: ignore
-    s.add_instance("mzi2", gt.Instance(component=gf.c.mzi(delta_length=100)))  # type: ignore
-    s.add_instance("mzi3", gt.Instance(component=gf.c.mzi(delta_length=200)))  # type: ignore
+    s.add_instance("mzi1", gt.Instance(component=gf.c.mzi(delta_length=10)))
+    s.add_instance("mzi2", gt.Instance(component=gf.c.mzi(delta_length=100)))
+    s.add_instance("mzi3", gt.Instance(component=gf.c.mzi(delta_length=200)))
     s.add_placement("mzi1", gt.Placement(x=000, y=0))
     s.add_placement("mzi2", gt.Placement(x=100, y=100))
     s.add_placement("mzi3", gt.Placement(x=200, y=0))

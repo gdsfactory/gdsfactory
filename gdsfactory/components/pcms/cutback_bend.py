@@ -166,7 +166,7 @@ def staircase(
     c = gf.c.component_sequence(
         sequence=s,
         symbol_to_component=symbol_to_component,
-        start_orientation=0,  # type: ignore
+        start_orientation=0,
     )
     c.info["components"] = 2 * rows
     return c

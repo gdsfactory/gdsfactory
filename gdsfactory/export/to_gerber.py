@@ -131,8 +131,8 @@ def to_gerber(
 
             # Only supports polygons for now
             if layer_tup in layer_to_polygons.keys():
-                for poly in layer_to_polygons[layer_tup.layer]:  # type: ignore
-                    f.write(polygon(poly))  # type: ignore
+                for poly in layer_to_polygons[layer_tup]:
+                    f.write(polygon(poly))  # type: ignore[arg-type]
 
             # File end
             f.write("M02*\n")

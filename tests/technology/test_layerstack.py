@@ -3,6 +3,7 @@ import pytest
 import gdsfactory as gf
 from gdsfactory.generic_tech import LAYER, LAYER_STACK
 from gdsfactory.technology import LayerLevel
+from gdsfactory.technology.layer_stack import LogicalLayer
 
 nm = 1e-3
 
@@ -41,4 +42,8 @@ def test_layer_level() -> None:
             sidewall_angle=10,
             sidewall_angle_tolerance=2,
         )
-        assert int(gf.get_layer(level.layer.layer)) == 1, int(level.layer)
+        level_layer = level.layer
+        assert isinstance(level_layer, LogicalLayer)
+        layer_ = gf.get_layer(level_layer.layer)
+        assert isinstance(layer_, int)
+        assert int(layer_) == 1, int(layer_)

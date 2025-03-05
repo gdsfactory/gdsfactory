@@ -232,7 +232,6 @@ def route_bundle(
             x = d.get("x", x) + d.get("dx", 0)
             y = d.get("y", y) + d.get("dy", 0)
             waypoints += [(x, y)]
-
     if waypoints is not None and not isinstance(waypoints[0], kf.kdb.DPoint):
         waypoints_: list[kf.kdb.DPoint] | None = [
             kf.kdb.DPoint(p[0], p[1]) for p in waypoints
@@ -258,7 +257,7 @@ def route_bundle(
             bboxes=bboxes,
             route_width=width,
             sort_ports=sort_ports,
-            waypoints=waypoints_ if waypoints_ is not None else None,
+            waypoints=waypoints_,
             end_angles=end_angles,
             start_angles=start_angles,
         )
@@ -272,6 +271,7 @@ def route_bundle(
     )
 
     def straight_um(width: float, length: float) -> gf.Component:
+        print(width, length)
         return gf.get_component(
             straight, length=length, cross_section=cross_section, width=width
         )

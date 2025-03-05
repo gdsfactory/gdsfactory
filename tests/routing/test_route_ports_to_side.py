@@ -30,7 +30,7 @@ def test_route_ports_to_side(
 
     if check:
         lengths = {i: route.length for i, route in enumerate(routes)}
-        data_regression.check(lengths)  # type: ignore
+        data_regression.check(lengths)
 
 
 @pytest.mark.skipif(
@@ -53,7 +53,7 @@ def test_route_ports_to_x(
     )
     if check:
         lengths = {i: route.length for i, route in enumerate(routes)}
-        data_regression.check(lengths)  # type: ignore
+        data_regression.check(lengths)
 
 
 @pytest.mark.skipif(
@@ -76,4 +76,4 @@ def test_route_ports_to_y(
     )
     if check:
         lengths = {i: route.length for i, route in enumerate(routes)}
-        data_regression.check(lengths)  # type: ignore
+        data_regression.check(lengths)

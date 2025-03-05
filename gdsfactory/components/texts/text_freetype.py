@@ -8,7 +8,7 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import PATH
-from gdsfactory.constants import _glyph, _indent, _width  # type: ignore
+from gdsfactory.constants import _glyph, _indent, _width
 from gdsfactory.typings import LayerSpec, LayerSpecs, PathType
 
 
@@ -66,9 +66,9 @@ def text_freetype(
             xoffset = 0
     else:
         from gdsfactory.font import (
-            _get_font_by_file,  # type: ignore
-            _get_font_by_name,  # type: ignore
-            _get_glyph,  # type: ignore
+            _get_font_by_file,
+            _get_font_by_name,
+            _get_glyph,
         )
 
         font_path = pathlib.Path(font)
@@ -94,7 +94,7 @@ def text_freetype(
                 ).values():
                     for layer in layers:
                         for points_ in polygon_points:
-                            letter_dev.add_polygon(points_, layer=layer)  # type: ignore
+                            letter_dev.add_polygon(points_, layer=layer)
                 ref = char.add_ref(letter_dev)
                 ref.dmove((xoffset, 0))
                 xoffset += scale_factor * advance_x
