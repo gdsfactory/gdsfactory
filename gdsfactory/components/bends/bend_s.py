@@ -321,5 +321,5 @@ if __name__ == "__main__":
     # xs = gf.cross_section.strip(width=2)
     # c = bend_s_offset(offset=40, with_arc_floorplan=False, cross_section=xs, width=1)
     # print(c.info["min_bend_radius"])
-    c = bend_s_offset(offset=40, radius=40)
+    c = bend_s_offset(offset=40, radius=10, with_arc_floorplan=True)
     c.show()
