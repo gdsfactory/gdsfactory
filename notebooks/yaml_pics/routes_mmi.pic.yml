@@ -16,3 +16,5 @@ routes:
     links:
       mmi_bottom,o4: mmi_top,o1
       mmi_bottom,o3: mmi_top,o2
+    settings:
+        cross_section: strip

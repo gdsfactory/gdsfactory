@@ -1,12 +1,13 @@
 analysis: null
 analysis_settings:
   cross_section: strip
-  length: 10.0
+  length: 10
   npoints: 2
+  width: null
 doe: null
 measurement: null
 measurement_settings: {}
-name: straight_L10_N2_CSstrip
+name: straight__test_import_json_label
 xelec: []
 xopt:
 - 0

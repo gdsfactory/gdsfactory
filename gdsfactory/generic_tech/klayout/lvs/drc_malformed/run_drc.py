@@ -22,10 +22,10 @@ from datetime import UTC, datetime
 from subprocess import check_call
 
 import klayout.db
-from docopt import docopt
+from docopt import docopt  # type: ignore
 
 
-def get_rules_with_violations(results_database):
+def get_rules_with_violations(results_database: str) -> set[str]:
     """This function will find all the rules that has violated in a database.
 
     Parameters
@@ -44,7 +44,7 @@ def get_rules_with_violations(results_database):
     return {f"{z[1].text}".replace("'", "") for z in myroot[7]}
 
 
-def check_drc_results(results_db_files: list) -> None:
+def check_drc_results(results_db_files: list[str]) -> None:
     """check_drc_results Checks the results db generated from run and report at the end if the DRC run failed or passed.
 
     This function will exit with 1 if there are violations.
@@ -56,7 +56,7 @@ def check_drc_results(results_db_files: list) -> None:
         logging.error("Klayout did not generate any rdb results. Please check run logs")
         exit(1)
 
-    full_violating_rules = set()
+    full_violating_rules: set[str] = set()
 
     for f in results_db_files:
         violating_rules = get_rules_with_violations(f)
@@ -70,7 +70,7 @@ def check_drc_results(results_db_files: list) -> None:
         logging.info("Klayout DRC run is clean. GDS has no DRC violations.")
 
 
-def get_top_cell_names(gds_path):
+def get_top_cell_names(gds_path: str) -> list[str]:
     """get_top_cell_names get the top cell names from the GDS file.
 
     Parameters
@@ -88,7 +88,7 @@ def get_top_cell_names(gds_path):
     return [t.name for t in layout.top_cells()]
 
 
-def get_run_top_cell_name(arguments, layout_path):
+def get_run_top_cell_name(arguments: dict[str, str], layout_path: str) -> str:
     """get_run_top_cell_name Get the top cell name to use for running. If it's provided by the user, we use the user input.
 
     If not, we get it from the GDS file.
@@ -105,7 +105,7 @@ def get_run_top_cell_name(arguments, layout_path):
         layout_topcells = get_top_cell_names(layout_path)
         if len(layout_topcells) > 1:
             logging.error(
-                "## Layout has multiple topcells. Please determine which topcell you want to run on."
+                "# Layout has multiple topcells. Please determine which topcell you want to run on."
             )
             exit(1)
         else:
@@ -114,10 +114,12 @@ def get_run_top_cell_name(arguments, layout_path):
     return topcell
 
 
-def generate_klayout_switches(arguments, layout_path):
+def generate_klayout_switches(
+    arguments: dict[str, str], layout_path: str
+) -> dict[str, str]:
     """parse_switches Function that parse all the args from input to prepare switches for DRC run."""
     # No. of threads
-    thrCount = 2 if arguments["--thr"] is None else int(arguments["--thr"])
+    thrCount = 2 if arguments.get("--thr") is None else int(arguments["--thr"])
     switches = {"thr": str(thrCount)}
     if arguments["--run_mode"] in ["flat", "deep", "tiling"]:
         switches["run_mode"] = arguments["--run_mode"]
@@ -163,7 +165,7 @@ def check_klayout_version() -> None:
     logging.info(f"Your Klayout version is: {klayout_v_}")
 
 
-def check_layout_path(layout_path):
+def check_layout_path(layout_path: str) -> str:
     """check_layout_type checks if the layout provided is GDS or OAS. Otherwise, kill the process. We only support GDS or OAS now.
 
     Parameters
@@ -177,24 +179,26 @@ def check_layout_path(layout_path):
         string that represent full absolute layout path.
     """
     if not os.path.isfile(layout_path):
-        logging.error("## GDS file path provided doesn't exist or not a file.")
+        logging.error("# GDS file path provided doesn't exist or not a file.")
         exit(1)
 
     if ".gds" not in layout_path and ".oas" not in layout_path:
         logging.error(
-            "## Layout is not in GDSII or OASIS format. Please use gds format."
+            "# Layout is not in GDSII or OASIS format. Please use gds format."
         )
         exit(1)
 
     return os.path.abspath(layout_path)
 
 
-def build_switches_string(sws: dict):
+def build_switches_string(sws: dict[str, str]) -> str:
     """build_switches_string Build switches string from dictionary."""
     return "".join(f"-rd {k}={v} " for k, v in sws.items())
 
 
-def run_check(drc_file: str, drc_name: str, path: str, run_dir: str, sws: dict):
+def run_check(
+    drc_file: str, drc_name: str, path: str, run_dir: str, sws: dict[str, str]
+) -> str:
     """run_antenna_check run DRC check based on DRC file provided.
 
     Args:
@@ -205,9 +209,9 @@ def run_check(drc_file: str, drc_name: str, path: str, run_dir: str, sws: dict):
         sws: Dictionary that holds all switches that needs to be passed to the antenna checks.
 
     """
-    ## Using print because of the multiprocessing
+    # Using print because of the multiprocessing
     logging.info(
-        f'Running GENERIC TECH DRC-malformed {path} checks on design {drc_name} on cell {sws["topcell"]}:'
+        f"Running GENERIC TECH DRC-malformed {path} checks on design {drc_name} on cell {sws['topcell']}:"
     )
 
     layout_base_name = os.path.basename(path).split(".")[0]
@@ -225,10 +229,10 @@ def run_check(drc_file: str, drc_name: str, path: str, run_dir: str, sws: dict):
 
 
 def run_single_processor(
-    arguments: dict,
+    arguments: dict[str, str],
     rule_deck_full_path: str,
     layout_path: str,
-    switches: dict,
+    switches: dict[str, str],
     drc_run_dir: str,
 ) -> None:
     """run_single_processor run the drc checks as single run.
@@ -241,18 +245,18 @@ def run_single_processor(
         drc_run_dir: String that holds the full path of the run location.
 
     """
-    ## Generate run rule deck from template.
+    # Generate run rule deck from template.
     drc_file = os.path.join(rule_deck_full_path, "generic_tech_malformed.drc")
     table_name = "main"
 
     list_res_db_files = [
         run_check(drc_file, table_name, layout_path, drc_run_dir, switches)
     ]
-    ## Check run
+    # Check run
     check_drc_results(list_res_db_files)
 
 
-def main(drc_run_dir: str, now_str: str, arguments: dict) -> None:
+def main(drc_run_dir: str, now_str: str, arguments: dict[str, str]) -> None:
     """Main function to run the DRC.
 
     Args:
@@ -268,19 +272,19 @@ def main(drc_run_dir: str, now_str: str, arguments: dict) -> None:
 
     rule_deck_full_path = os.path.dirname(os.path.abspath(__file__))
 
-    ## Check Klayout version
+    # Check Klayout version
     check_klayout_version()
 
-    ## Check if there was a layout provided.
+    # Check if there was a layout provided.
     if not arguments["--path"]:
         logging.error("No provided gds file, please add one")
         exit(1)
 
-    ## Check layout type
+    # Check layout type
     layout_path = arguments["--path"]
     layout_path = check_layout_path(layout_path)
 
-    ## Get run switches
+    # Get run switches
     switches = generate_klayout_switches(arguments, layout_path)
 
     run_single_processor(
@@ -294,7 +298,7 @@ def main(drc_run_dir: str, now_str: str, arguments: dict) -> None:
 
 if __name__ == "__main__":
     # arguments
-    arguments = docopt(__doc__, version="RUN DRC-malformed: 1.0")
+    arguments = docopt(__doc__, version="RUN DRC-malformed: 1.0")  # type: ignore
 
     # logs format
     now_str = datetime.now(UTC).strftime("drc_run_%Y_%m_%d_%H_%M_%S")

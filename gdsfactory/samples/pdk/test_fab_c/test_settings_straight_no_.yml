@@ -1,0 +1,11 @@
+info:
+  length: 10
+  pdk: fab_c
+  route_info_length: 10
+  route_info_type: xs_0d742c37
+  route_info_weight: 10
+  route_info_xs_0d742c37_length: 10
+  width: 0.9
+name: straight_no_CSstrip_no
+settings:
+  cross_section: strip_no

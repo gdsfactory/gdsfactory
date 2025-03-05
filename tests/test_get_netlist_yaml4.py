@@ -11,7 +11,7 @@ def test_netlist_read_translated_rotated() -> None:
 
 
 def regenerate_regression_test() -> None:
-    c = gf.Component("test_netlist_yaml4")
+    c = gf.Component(name="test_netlist_yaml4")
     ref = c.add_ref(gf.components.bend_circular())
     ref.name = "b1"
     ref = c.add_ref(gf.components.bend_circular())

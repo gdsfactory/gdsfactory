@@ -23,13 +23,15 @@ instances:
       size:
       - 45.8
       - 5
-  via_stack_S10_10_LHEATE_f5424049_17450_351:
+  via_stack_S10_10_LHEATE_88e10102_17450_351:
     component: via_stack
     info:
       xsize: 10
       ysize: 10
     settings:
       correct_size: true
+      layer_offsets: null
+      layer_to_port_orientations: null
       layers:
       - HEATER
       - M2
@@ -48,13 +50,15 @@ instances:
       - null
       - via1
       - via2
-  via_stack_S10_10_LHEATE_f5424049_m38350_351:
+  via_stack_S10_10_LHEATE_88e10102_m38350_351:
     component: via_stack
     info:
       xsize: 10
       ysize: 10
     settings:
       correct_size: true
+      layer_offsets: null
+      layer_to_port_orientations: null
       layers:
       - HEATER
       - M2
@@ -76,9 +80,9 @@ instances:
 name: disk_heater_R10_G0p2_WA_14c266ed
 nets:
 - p1: rectangle_S45p800000000_a6949a61_m33350_m2149,e1
-  p2: via_stack_S10_10_LHEATE_f5424049_m38350_351,e3
+  p2: via_stack_S10_10_LHEATE_88e10102_m38350_351,e3
 - p1: rectangle_S45p800000000_a6949a61_m33350_m2149,e3
-  p2: via_stack_S10_10_LHEATE_f5424049_17450_351,e1
+  p2: via_stack_S10_10_LHEATE_88e10102_17450_351,e1
 placements:
   disk_R10_G0p2_WAD180_P1_CSstrip_0_0:
     mirror: false
@@ -90,19 +94,19 @@ placements:
     rotation: 0
     x: -33.35
     y: -2.149
-  via_stack_S10_10_LHEATE_f5424049_17450_351:
+  via_stack_S10_10_LHEATE_88e10102_17450_351:
     mirror: false
     rotation: 0
     x: 17.45
     y: 0.351
-  via_stack_S10_10_LHEATE_f5424049_m38350_351:
+  via_stack_S10_10_LHEATE_88e10102_m38350_351:
     mirror: false
     rotation: 0
     x: -38.35
     y: 0.351
 ports:
-  e1: via_stack_S10_10_LHEATE_f5424049_m38350_351,e2
-  e2: via_stack_S10_10_LHEATE_f5424049_17450_351,e2
+  e1: via_stack_S10_10_LHEATE_88e10102_m38350_351,e2
+  e2: via_stack_S10_10_LHEATE_88e10102_17450_351,e2
   o1: disk_R10_G0p2_WAD180_P1_CSstrip_0_0,o1
   o2: disk_R10_G0p2_WAD180_P1_CSstrip_0_0,o2
 warnings:
@@ -112,20 +116,20 @@ warnings:
       ports:
       - rectangle_S45p800000000_a6949a61_m33350_m2149,e2
       - rectangle_S45p800000000_a6949a61_m33350_m2149,e4
-      - via_stack_S10_10_LHEATE_f5424049_m38350_351,e1
-      - via_stack_S10_10_LHEATE_f5424049_m38350_351,e4
-      - via_stack_S10_10_LHEATE_f5424049_17450_351,e3
-      - via_stack_S10_10_LHEATE_f5424049_17450_351,e4
+      - via_stack_S10_10_LHEATE_88e10102_m38350_351,e1
+      - via_stack_S10_10_LHEATE_88e10102_m38350_351,e4
+      - via_stack_S10_10_LHEATE_88e10102_17450_351,e3
+      - via_stack_S10_10_LHEATE_88e10102_17450_351,e4
       values:
-      - - -10450
-        - 2851
-      - - -10450
-        - -2149
-      - - -43350
-        - 351
-      - - -38350
-        - -4649
-      - - 22450
-        - 351
-      - - 17450
-        - -4649
+      - - -10.45
+        - 2.851
+      - - -10.45
+        - -2.149
+      - - -43.35
+        - 0.351
+      - - -38.35
+        - -4.649
+      - - 22.45
+        - 0.351
+      - - 17.45
+        - -4.649

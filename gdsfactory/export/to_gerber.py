@@ -13,6 +13,7 @@ from typing import Literal
 from pydantic import BaseModel, Field
 
 from gdsfactory import Component
+from gdsfactory.typings import Size
 
 
 class GerberLayer(BaseModel):
@@ -30,19 +31,29 @@ class GerberOptions(BaseModel):
 
 # For generating a gerber job json file
 class BoardOptions(BaseModel):
-    size: tuple | None = (None,)
-    n_layers: int = (2,)
+    size: Size | None = None
+    n_layers: int = 2
 
 
 resolutions = {1e-3: 3, 1e-4: 4, 1e-5: 5, 1e-6: 6}
 
 
-def number(n) -> str:
-    i = int(round(n * 10000))
-    return "%07d" % i
+def number(n: float) -> str:
+    """Formats a floating-point number by scaling it to an integer (multiplied by 10,000).
+
+    Rounding to the nearest integer, and zero-padding it to 7 characters.
+
+    Args:
+        n (float): The input floating-point number.
+
+    Returns:
+        str: The formatted string.
+    """
+    scaled_value = int(round(n * 10000))
+    return f"{scaled_value:07d}"
 
 
-def points(pp: list):
+def points(pp: list[tuple[float, float]]) -> str:
     out = ""
     d = "D02"
     for x, y in pp:
@@ -51,15 +62,15 @@ def points(pp: list):
     return out
 
 
-def rect(x0, y0, x1, y1):
+def rect(x0: float, y0: float, x1: float, y1: float) -> str:
     return "D10*\n" + points([(x0, y0), (x1, y0), (x1, y1), (x0, y1), (x0, y0)])
 
 
-def linestring(pp):
+def linestring(pp: list[tuple[float, float]]) -> str:
     return "D10*\n" + points(pp)
 
 
-def polygon(pp):
+def polygon(pp: list[tuple[float, float]]) -> str:
     return "G36*\n" + points(pp) + "G37*\n" + "\n"
 
 
@@ -67,7 +78,7 @@ def to_gerber(
     component: Component,
     dirpath: Path,
     layermap_to_gerber_layer: dict[tuple[int, int], GerberLayer],
-    options: GerberOptions = Field(default_factory=dict),
+    options: GerberOptions = Field(default_factory=GerberOptions),
 ) -> None:
     """Writes each layer to a different Gerber file.
 
@@ -120,8 +131,8 @@ def to_gerber(
 
             # Only supports polygons for now
             if layer_tup in layer_to_polygons.keys():
-                for poly in layer_to_polygons[layer_tup.layer]:
-                    f.write(polygon(poly))
+                for poly in layer_to_polygons[layer_tup.layer]:  # type: ignore
+                    f.write(polygon(poly))  # type: ignore
 
             # File end
             f.write("M02*\n")
@@ -130,11 +141,7 @@ def to_gerber(
 if __name__ == "__main__":
     import gdsfactory as gf
     from gdsfactory.config import PATH
-    from gdsfactory.technology import (
-        LayerMap,
-        LayerView,
-        LayerViews,
-    )
+    from gdsfactory.technology import LayerMap, LayerView, LayerViews
     from gdsfactory.typings import Layer
 
     class LayerMapPCB(LayerMap):

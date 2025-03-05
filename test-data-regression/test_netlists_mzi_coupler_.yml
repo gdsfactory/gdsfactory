@@ -1,5 +1,5 @@
 instances:
-  bend_euler_RNone_A90_P0_d7c3a5a9_30000_2368:
+  b1:
     component: bend_euler
     info:
       dy: 10
@@ -12,13 +12,18 @@ instances:
       route_info_strip_length: 16.637
       route_info_type: strip
       route_info_weight: 16.637
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
+      radius: null
+      width: null
       with_arc_floorplan: true
-  bend_euler_RNone_A90_P0_d7c3a5a9_30000_m1632:
+  b2:
     component: bend_euler
     info:
       dy: 10
@@ -31,13 +36,18 @@ instances:
       route_info_strip_length: 16.637
       route_info_type: strip
       route_info_weight: 16.637
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
+      radius: null
+      width: null
       with_arc_floorplan: true
-  bend_euler_RNone_A90_P0_d7c3a5a9_40000_m18632:
+  b3:
     component: bend_euler
     info:
       dy: 10
@@ -50,13 +60,18 @@ instances:
       route_info_strip_length: 16.637
       route_info_type: strip
       route_info_weight: 16.637
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
+      radius: null
+      width: null
       with_arc_floorplan: true
-  bend_euler_RNone_A90_P0_d7c3a5a9_50000_24368:
+  b4:
     component: bend_euler
     info:
       dy: 10
@@ -69,13 +84,18 @@ instances:
       route_info_strip_length: 16.637
       route_info_type: strip
       route_info_weight: 16.637
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
+      radius: null
+      width: null
       with_arc_floorplan: true
-  bend_euler_RNone_A90_P0_d7c3a5a9_60000_m28632:
+  b5:
     component: bend_euler
     info:
       dy: 10
@@ -88,13 +108,18 @@ instances:
       route_info_strip_length: 16.637
       route_info_type: strip
       route_info_weight: 16.637
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
+      radius: null
+      width: null
       with_arc_floorplan: true
-  bend_euler_RNone_A90_P0_d7c3a5a9_70000_12368:
+  b6:
     component: bend_euler
     info:
       dy: 10
@@ -107,13 +132,18 @@ instances:
       route_info_strip_length: 16.637
       route_info_type: strip
       route_info_weight: 16.637
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
+      radius: null
+      width: null
       with_arc_floorplan: true
-  bend_euler_RNone_A90_P0_d7c3a5a9_70000_14368:
+  b7:
     component: bend_euler
     info:
       dy: 10
@@ -126,13 +156,18 @@ instances:
       route_info_strip_length: 16.637
       route_info_type: strip
       route_info_weight: 16.637
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
+      radius: null
+      width: null
       with_arc_floorplan: true
-  bend_euler_RNone_A90_P0_d7c3a5a9_80000_m1632:
+  b8:
     component: bend_euler
     info:
       dy: 10
@@ -145,11 +180,16 @@ instances:
       route_info_strip_length: 16.637
       route_info_type: strip
       route_info_weight: 16.637
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
+      radius: null
+      width: null
       with_arc_floorplan: true
   cp1:
     component: coupler
@@ -157,6 +197,8 @@ instances:
       length: 10.186
       min_bend_radius: 11.857
     settings:
+      allow_min_radius_violation: false
+      bend: bend_s
       cross_section: strip
       dx: 10
       dy: 4
@@ -168,37 +210,13 @@ instances:
       length: 10.186
       min_bend_radius: 11.857
     settings:
+      allow_min_radius_violation: false
+      bend: bend_s
       cross_section: strip
       dx: 10
       dy: 4
       gap: 0.236
       length: 20
-  straight_L2_N2_CSstrip_70000_12368:
-    component: straight
-    info:
-      length: 2
-      route_info_length: 2
-      route_info_strip_length: 2
-      route_info_type: strip
-      route_info_weight: 2
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 2
-      npoints: 2
-  straight_L7_N2_CSstrip_70000_m18632:
-    component: straight
-    info:
-      length: 7
-      route_info_length: 7
-      route_info_strip_length: 7
-      route_info_type: strip
-      route_info_weight: 7
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 7
-      npoints: 2
   sxb:
     component: straight
     info:
@@ -212,6 +230,7 @@ instances:
       cross_section: strip
       length: 10
       npoints: 2
+      width: null
   sxt:
     component: straight
     info:
@@ -225,6 +244,21 @@ instances:
       cross_section: strip
       length: 10
       npoints: 2
+      width: null
+  sybr:
+    component: straight
+    info:
+      length: 7
+      route_info_length: 7
+      route_info_strip_length: 7
+      route_info_type: strip
+      route_info_weight: 7
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 7
+      npoints: 2
+      width: null
   syl:
     component: straight
     info:
@@ -238,6 +272,7 @@ instances:
       cross_section: strip
       length: 7
       npoints: 2
+      width: null
   sytl:
     component: straight
     info:
@@ -251,77 +286,92 @@ instances:
       cross_section: strip
       length: 2
       npoints: 2
+      width: null
+  sytr:
+    component: straight
+    info:
+      length: 2
+      route_info_length: 2
+      route_info_strip_length: 2
+      route_info_type: strip
+      route_info_weight: 2
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 2
+      npoints: 2
+      width: null
 name: mzi_DL10_LY2_LXNone_Bbe_2f449048
 nets:
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_30000_2368,o1
+- p1: b1,o1
   p2: cp1,o3
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_30000_2368,o2
+- p1: b1,o2
   p2: sytl,o1
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_30000_m1632,o1
-  p2: cp1,o4
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_30000_m1632,o2
-  p2: syl,o1
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_40000_m18632,o1
-  p2: syl,o2
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_40000_m18632,o2
-  p2: sxb,o1
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_50000_24368,o1
+- p1: b2,o1
   p2: sxt,o1
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_50000_24368,o2
+- p1: b2,o2
   p2: sytl,o2
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_60000_m28632,o1
-  p2: sxb,o2
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_60000_m28632,o2
-  p2: straight_L7_N2_CSstrip_70000_m18632,o1
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_70000_12368,o1
-  p2: straight_L2_N2_CSstrip_70000_12368,o1
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_70000_12368,o2
-  p2: cp2,o3
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_70000_14368,o1
-  p2: straight_L2_N2_CSstrip_70000_12368,o2
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_70000_14368,o2
+- p1: b3,o1
+  p2: sytr,o2
+- p1: b3,o2
   p2: sxt,o2
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_80000_m1632,o1
+- p1: b4,o1
+  p2: sytr,o1
+- p1: b4,o2
+  p2: cp2,o3
+- p1: b5,o1
+  p2: cp1,o4
+- p1: b5,o2
+  p2: syl,o1
+- p1: b6,o1
+  p2: syl,o2
+- p1: b6,o2
+  p2: sxb,o1
+- p1: b7,o1
+  p2: sxb,o2
+- p1: b7,o2
+  p2: sybr,o1
+- p1: b8,o1
   p2: cp2,o4
-- p1: bend_euler_RNone_A90_P0_d7c3a5a9_80000_m1632,o2
-  p2: straight_L7_N2_CSstrip_70000_m18632,o2
+- p1: b8,o2
+  p2: sybr,o2
 placements:
-  bend_euler_RNone_A90_P0_d7c3a5a9_30000_2368:
+  b1:
     mirror: false
     rotation: 0
     x: 30
     y: 2.368
-  bend_euler_RNone_A90_P0_d7c3a5a9_30000_m1632:
-    mirror: true
-    rotation: 0
-    x: 30
-    y: -1.632
-  bend_euler_RNone_A90_P0_d7c3a5a9_40000_m18632:
-    mirror: false
-    rotation: 270
-    x: 40
-    y: -18.632
-  bend_euler_RNone_A90_P0_d7c3a5a9_50000_24368:
+  b2:
     mirror: false
     rotation: 180
     x: 50
     y: 24.368
-  bend_euler_RNone_A90_P0_d7c3a5a9_60000_m28632:
-    mirror: false
-    rotation: 0
-    x: 60
-    y: -28.632
-  bend_euler_RNone_A90_P0_d7c3a5a9_70000_12368:
-    mirror: false
-    rotation: 270
-    x: 70
-    y: 12.368
-  bend_euler_RNone_A90_P0_d7c3a5a9_70000_14368:
+  b3:
     mirror: false
     rotation: 90
     x: 70
     y: 14.368
-  bend_euler_RNone_A90_P0_d7c3a5a9_80000_m1632:
+  b4:
+    mirror: false
+    rotation: 270
+    x: 70
+    y: 12.368
+  b5:
+    mirror: true
+    rotation: 0
+    x: 30
+    y: -1.632
+  b6:
+    mirror: false
+    rotation: 270
+    x: 40
+    y: -18.632
+  b7:
+    mirror: false
+    rotation: 0
+    x: 60
+    y: -28.632
+  b8:
     mirror: false
     rotation: 180
     x: 80
@@ -336,16 +386,6 @@ placements:
     rotation: 180
     x: 110
     y: 0
-  straight_L2_N2_CSstrip_70000_12368:
-    mirror: false
-    rotation: 90
-    x: 70
-    y: 12.368
-  straight_L7_N2_CSstrip_70000_m18632:
-    mirror: false
-    rotation: 90
-    x: 70
-    y: -18.632
   sxb:
     mirror: false
     rotation: 0
@@ -356,6 +396,11 @@ placements:
     rotation: 0
     x: 50
     y: 24.368
+  sybr:
+    mirror: false
+    rotation: 90
+    x: 70
+    y: -18.632
   syl:
     mirror: false
     rotation: 270
@@ -365,6 +410,11 @@ placements:
     mirror: false
     rotation: 90
     x: 40
+    y: 12.368
+  sytr:
+    mirror: false
+    rotation: 90
+    x: 70
     y: 12.368
 ports:
   o1: cp1,o1

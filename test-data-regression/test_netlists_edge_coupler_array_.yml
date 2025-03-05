@@ -1,6 +1,6 @@
 instances:
   ec_0:
-    component: taper
+    component: edge_coupler_silicon
     info:
       length: 100
       width1: 0.5
@@ -13,13 +13,12 @@ instances:
       - o2
       port_types:
       - optical
-      - optical
+      - edge_coupler
       width1: 0.5
       width2: 0.2
-      with_bbox: true
       with_two_ports: true
   ec_1:
-    component: taper
+    component: edge_coupler_silicon
     info:
       length: 100
       width1: 0.5
@@ -32,13 +31,12 @@ instances:
       - o2
       port_types:
       - optical
-      - optical
+      - edge_coupler
       width1: 0.5
       width2: 0.2
-      with_bbox: true
       with_two_ports: true
   ec_2:
-    component: taper
+    component: edge_coupler_silicon
     info:
       length: 100
       width1: 0.5
@@ -51,13 +49,12 @@ instances:
       - o2
       port_types:
       - optical
-      - optical
+      - edge_coupler
       width1: 0.5
       width2: 0.2
-      with_bbox: true
       with_two_ports: true
   ec_3:
-    component: taper
+    component: edge_coupler_silicon
     info:
       length: 100
       width1: 0.5
@@ -70,13 +67,12 @@ instances:
       - o2
       port_types:
       - optical
-      - optical
+      - edge_coupler
       width1: 0.5
       width2: 0.2
-      with_bbox: true
       with_two_ports: true
   ec_4:
-    component: taper
+    component: edge_coupler_silicon
     info:
       length: 100
       width1: 0.5
@@ -89,10 +85,9 @@ instances:
       - o2
       port_types:
       - optical
-      - optical
+      - edge_coupler
       width1: 0.5
       width2: 0.2
-      with_bbox: true
       with_two_ports: true
   text_rectangular_T1_S10_49b23f95_10000_20000:
     component: text_rectangular
@@ -101,6 +96,7 @@ instances:
       font: rectangular_font
       justify: left
       layer: WG
+      layers: null
       position:
       - 0
       - 0
@@ -113,6 +109,7 @@ instances:
       font: rectangular_font
       justify: left
       layer: WG
+      layers: null
       position:
       - 0
       - 0
@@ -125,6 +122,7 @@ instances:
       font: rectangular_font
       justify: left
       layer: WG
+      layers: null
       position:
       - 0
       - 0
@@ -137,6 +135,7 @@ instances:
       font: rectangular_font
       justify: left
       layer: WG
+      layers: null
       position:
       - 0
       - 0
@@ -149,6 +148,7 @@ instances:
       font: rectangular_font
       justify: left
       layer: WG
+      layers: null
       position:
       - 0
       - 0
@@ -209,12 +209,7 @@ placements:
     y: 528
 ports:
   o1: ec_0,o1
-  o10: ec_0,o2
   o2: ec_1,o1
   o3: ec_2,o1
   o4: ec_3,o1
   o5: ec_4,o1
-  o6: ec_4,o2
-  o7: ec_3,o2
-  o8: ec_2,o2
-  o9: ec_1,o2

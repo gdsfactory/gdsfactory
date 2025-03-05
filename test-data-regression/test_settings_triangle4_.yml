@@ -1,5 +1,3 @@
-function: triangle4
 info: {}
-module: gdsfactory.components.triangles
 name: triangle4
 settings: {}

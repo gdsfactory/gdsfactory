@@ -1,27 +1,30 @@
-from collections.abc import Sequence
+from __future__ import annotations
+
 from functools import partial
 
-import kfactory as kf
-from kfactory.routing.aa.optical import (
-    BendFactory,
-    OpticalAllAngleRoute,
-    StraightFactory,
-    route_bundle,
-)
+from kfactory.routing.aa.optical import OpticalAllAngleRoute, route_bundle
 
-from gdsfactory.components.bend_euler import bend_euler_all_angle
-from gdsfactory.components.straight import straight_all_angle
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Port
+import gdsfactory as gf
+from gdsfactory.components.bends import bend_euler_all_angle
+from gdsfactory.components.waveguides import straight_all_angle
+from gdsfactory.typings import (
+    ComponentAllAngleFactory,
+    ComponentSpec,
+    Coordinates,
+    CrossSectionSpec,
+    Port,
+)
+from gdsfactory.utils import to_kdb_dpoints
 
 
 def route_bundle_all_angle(
     component: ComponentSpec,
     ports1: list[Port],
     ports2: list[Port],
-    backbone: Sequence[tuple[float, float]] | None = None,
+    backbone: Coordinates | None = None,
     separation: list[float] | float = 3.0,
-    straight: StraightFactory = straight_all_angle,
-    bend: BendFactory = partial(bend_euler_all_angle, radius=5),
+    straight: ComponentAllAngleFactory = straight_all_angle,
+    bend: ComponentAllAngleFactory = partial(bend_euler_all_angle, radius=5),
     bend_ports: tuple[str, str] = ("o1", "o2"),
     straight_ports: tuple[str, str] = ("o1", "o2"),
     cross_section: CrossSectionSpec | None = None,
@@ -45,14 +48,14 @@ def route_bundle_all_angle(
         bend = partial(bend, cross_section=cross_section)
 
     backbone = backbone or []
-    if backbone:
-        backbone = [kf.kdb.DPoint(*p) for p in backbone]
+
+    c = gf.get_component(component)
 
     return route_bundle(
-        c=component,
+        c=c,
         start_ports=ports1,
         end_ports=ports2,
-        backbone=backbone,
+        backbone=to_kdb_dpoints(backbone),
         separation=separation,
         straight_factory=straight,
         bend_factory=bend,
@@ -74,15 +77,13 @@ if __name__ == "__main__":
     # p2 = list(w2.ports.filter(orientation=150))
     # p1.reverse()
     # p2.reverse()
-
-    # c1 = np.array(p2[0].dcenter)
-    # c2 = np.array(p1[0].dcenter)
-    # d = (np.array(p2[0].dcenter) + np.array(p1[0].dcenter)) / 2
+    # c1 = np.array(p2[0].center)
+    # c2 = np.array(p1[0].center)
+    # d = (np.array(p2[0].center) + np.array(p1[0].center)) / 2
     # backbone = [
     #     d - (10.0, 0),
     #     d + (10.0, 0),
     # ]
-
     # route_bundle_all_angle(
     #     c,
     #     p1,
@@ -100,7 +101,7 @@ if __name__ == "__main__":
     mmi2.dmove((100, 10))
     mmi2.drotate(30)
 
-    routes = gf.routing.route_bundle_all_angle(
+    routes = route_bundle_all_angle(
         c,
         mmi1.ports.filter(orientation=0),
         [mmi2.ports["o2"], mmi2.ports["o1"]],

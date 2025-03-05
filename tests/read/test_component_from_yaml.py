@@ -5,7 +5,7 @@ import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
 from gdsfactory.difftest import difftest
-from gdsfactory.read.from_yaml import from_yaml, sample_doe_function, sample_mmis
+from gdsfactory.read.from_yaml import from_yaml, sample_mmis
 
 sample_connections = """
 name: sample_connections
@@ -100,9 +100,7 @@ routes:
             mmi_bottom,o3: mmi_top,o2
 
         settings:
-            cross_section:
-                cross_section: strip
-
+            cross_section: strip
 """
 
 
@@ -154,34 +152,21 @@ routes:
         links:
             tl,e3: tr,e1
             bl,e3: br,e1
-    optical:
-        settings:
-            port_type: optical
-            cross_section:
-                cross_section: strip
-                settings:
-                    radius: 100
-        links:
-            bl,e4: br,e3
-
 """
 
 
 def test_connections_different_factory() -> None:
     c = from_yaml(sample_different_factory)
-    lengths = [680000] * 2 + [700000]
+    lengths = [914043, 947026, 947026]
     assert c.routes["electrical-tl,e3-tr,e1"].length == lengths[0], c.routes[
         "electrical-tl,e3-tr,e1"
     ].length
     assert c.routes["electrical-bl,e3-br,e1"].length == lengths[1], c.routes[
         "electrical-bl,e3-br,e1"
     ].length
-    assert np.isclose(c.routes["optical-bl,e4-br,e3"].length, lengths[2]), c.routes[
-        "optical-bl,e4-br,e3"
-    ].length
 
 
-sample_different_link_factory = """
+sample_path_length_matching = """
 name: sample_path_length_matching
 
 instances:
@@ -209,8 +194,8 @@ placements:
 
 routes:
     route1:
-        routing_strategy: route_bundle_path_length_match
         settings:
+            cross_section: metal_routing
             radius: 10
             extra_length: 500
         links:
@@ -241,6 +226,7 @@ routes:
     route1:
         routing_strategy: route_bundle_from_waypoints
         settings:
+            cross_section: strip
             waypoints:
                 - [0, 300]
                 - [400, 300]
@@ -281,6 +267,8 @@ placements:
         dy: -40
 routes:
     optical:
+        settings:
+            cross_section: strip
         links:
             mmi_top,o3: mmi_bot,o1
 """
@@ -308,8 +296,10 @@ placements:
         x: 20
 routes:
     optical:
+        settings:
+            cross_section: strip
         links:
-            left,o:1:3: right,o:3:1
+            left,o1-3: right,o3-1
 """
 
 sample_regex_connections_backwards = """
@@ -334,8 +324,10 @@ placements:
         x: 20
 routes:
     optical:
+        settings:
+            cross_section: strip
         links:
-            left,o:3:1: right,o:1:3
+            left,o3-1: right,o1-3
 """
 
 
@@ -474,6 +466,7 @@ instances:
          do_permutations: True
          spacing: [100, 100]
          shape: [2, 2]
+         function: add_fiber_array
          settings:
            length_mmi: [2, 100]
            width_mmi: [4, 10]
@@ -516,29 +509,16 @@ instances:
       - 50
       bend_s: bend_s
       cross_section: strip
-    na: 1
-    nb: 1
-    dax: 0
-    day: 0
-    dbx: 0
-    dby: 0
   dbr:
     component: array
     settings:
       component: dbr
-      spacing:
-      - 0
-      - 3
+      column_pitch: 0
+      row_pitch: 3
       columns: 1
       rows: 8
       add_ports: true
       centered: true
-    na: 1
-    nb: 1
-    dax: 0
-    day: 0
-    dbx: 0
-    dby: 0
 placements:
   s:
     x: 0.0
@@ -567,6 +547,7 @@ routes:
       s,o2_2_7: dbr,o1_7_1
       s,o2_2_8: dbr,o1_8_1
     settings:
+      cross_section: strip
       radius: 5
       sort_ports: true
     routing_strategy: route_bundle
@@ -578,10 +559,11 @@ name: sample_array
 instances:
   sa1:
     component: straight
-    na: 5
-    dax: 50
-    nb: 4
-    dby: 10
+    array:
+      columns: 5
+      column_pitch: 50
+      rows: 4
+      row_pitch: 10
   s2:
     component: straight
 
@@ -590,6 +572,8 @@ connections:
 
 routes:
     b1:
+        settings:
+            cross_section: strip
         links:
             sa1<3.0>,o2: sa1<4.0>,o1
             sa1<3.1>,o2: sa1<4.1>,o1
@@ -598,6 +582,54 @@ ports:
     o1: s2,o1
     o2: sa1<0.0>,o1
 """
+
+sample_array_connect = """
+name: sample_array_connect
+
+instances:
+  sa:
+    component: straight
+    array:
+      columns: 1
+      column_pitch: 20
+      rows: 3
+      row_pitch: 20
+
+  b1:
+    component: bend_euler
+  b2:
+    component: bend_euler
+  b3:
+    component: bend_euler
+
+connections:
+    b1,o1: sa<0.0>,o2
+    b2,o1: sa<0.1>,o2
+    b3,o1: sa<0.2>,o2
+
+"""
+
+sample_array_connect_reverse = """
+name: sample_array_connect_reverse
+
+instances:
+  b1:
+    component: bend_euler
+    settings:
+      radius: 20
+  s1:
+    component: straight
+    settings:
+      length: 10
+    array:
+      columns: 3
+      rows: 1
+      column_pitch: 100.0
+      row_pitch: 0.0
+connections:
+  s1<2.0>,o2: b1,o1
+"""
+
 
 # FIXME: Fix both uncommented cases
 # yaml_fail should actually fail
@@ -611,17 +643,19 @@ yaml_strings = dict(
     # sample_regex_connections=sample_regex_connections,
     sample_docstring=sample_docstring,
     # sample_waypoints=sample_waypoints,
-    # sample_different_link_factory=sample_different_link_factory,
+    # sample_path_length_matching=sample_path_length_matching,
     # sample_different_factory=sample_different_factory,
     sample_mirror_simple=sample_mirror_simple,
     sample_connections=sample_connections,
     sample_mmis=sample_mmis,
     sample_doe=sample_doe,
     # sample_doe_grid=sample_doe_grid,
-    sample_doe_function=sample_doe_function,
+    # sample_doe_function=sample_doe_function,
     sample_rotation=sample_rotation,
     sample_array=sample_array,
     sample_array2=sample_array2,
+    sample_array_connect=sample_array_connect,
+    sample_array_connect_reverse=sample_array_connect_reverse,
 )
 
 
@@ -671,10 +705,13 @@ def test_gds_and_settings(
 
 
 if __name__ == "__main__":
+    # test_sample()
     # test_connections_2x2()
     # test_connections_regex_backwards()
-    test_connections_different_factory()
+    # test_connections_different_factory()
     # import gdsfactory as gf
 
-    # c = gf.read.from_yaml(sample_array2)
-    # c.show()
+    import gdsfactory as gf
+
+    c = gf.read.from_yaml(sample_mmis)
+    c.show()

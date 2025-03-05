@@ -1,9 +1,9 @@
 info:
-  n_bends: 82
-name: cutback_bend180_CFbend__5a8124e5
+  components: 82
+name: cutback_bend180_Cbend_e_ea441d2d
 settings:
   cols: 6
-  component: Fbend_euler_Mgdsfactorypcomponentspbend_euler_SA180
+  component: bend_euler180
   rows: 6
   spacing: 3
   straight: straight

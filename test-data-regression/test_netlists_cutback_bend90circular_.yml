@@ -12,6 +12,7 @@ instances:
       cross_section: strip
       length: 30
       npoints: 2
+      width: null
   '2':
     component: straight
     info:
@@ -25,6 +26,7 @@ instances:
       cross_section: strip
       length: 30
       npoints: 2
+      width: null
   '3':
     component: straight
     info:
@@ -38,6 +40,7 @@ instances:
       cross_section: strip
       length: 30
       npoints: 2
+      width: null
   '4':
     component: straight
     info:
@@ -51,6 +54,7 @@ instances:
       cross_section: strip
       length: 30
       npoints: 2
+      width: null
   '5':
     component: straight
     info:
@@ -64,6 +68,7 @@ instances:
       cross_section: strip
       length: 30
       npoints: 2
+      width: null
   A1:
     component: bend_circular
     info:
@@ -76,10 +81,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A10:
     component: bend_circular
     info:
@@ -92,10 +102,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A11:
     component: bend_circular
     info:
@@ -108,10 +123,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A12:
     component: bend_circular
     info:
@@ -124,10 +144,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A13:
     component: bend_circular
     info:
@@ -140,10 +165,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A14:
     component: bend_circular
     info:
@@ -156,10 +186,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A15:
     component: bend_circular
     info:
@@ -172,10 +207,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A16:
     component: bend_circular
     info:
@@ -188,10 +228,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A17:
     component: bend_circular
     info:
@@ -204,10 +249,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A18:
     component: bend_circular
     info:
@@ -220,10 +270,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A19:
     component: bend_circular
     info:
@@ -236,10 +291,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A2:
     component: bend_circular
     info:
@@ -252,10 +312,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A20:
     component: bend_circular
     info:
@@ -268,10 +333,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A21:
     component: bend_circular
     info:
@@ -284,10 +354,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A22:
     component: bend_circular
     info:
@@ -300,10 +375,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A23:
     component: bend_circular
     info:
@@ -316,10 +396,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A24:
     component: bend_circular
     info:
@@ -332,10 +417,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A25:
     component: bend_circular
     info:
@@ -348,10 +438,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A26:
     component: bend_circular
     info:
@@ -364,10 +459,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A27:
     component: bend_circular
     info:
@@ -380,10 +480,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A28:
     component: bend_circular
     info:
@@ -396,10 +501,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A29:
     component: bend_circular
     info:
@@ -412,10 +522,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A3:
     component: bend_circular
     info:
@@ -428,10 +543,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A30:
     component: bend_circular
     info:
@@ -444,10 +564,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A31:
     component: bend_circular
     info:
@@ -460,10 +585,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A32:
     component: bend_circular
     info:
@@ -476,10 +606,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A33:
     component: bend_circular
     info:
@@ -492,10 +627,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A34:
     component: bend_circular
     info:
@@ -508,10 +648,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A35:
     component: bend_circular
     info:
@@ -524,10 +669,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A36:
     component: bend_circular
     info:
@@ -540,10 +690,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A37:
     component: bend_circular
     info:
@@ -556,10 +711,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A38:
     component: bend_circular
     info:
@@ -572,10 +732,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A39:
     component: bend_circular
     info:
@@ -588,10 +753,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A4:
     component: bend_circular
     info:
@@ -604,10 +774,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A40:
     component: bend_circular
     info:
@@ -620,10 +795,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A41:
     component: bend_circular
     info:
@@ -636,10 +816,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A42:
     component: bend_circular
     info:
@@ -652,10 +837,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A43:
     component: bend_circular
     info:
@@ -668,10 +858,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A44:
     component: bend_circular
     info:
@@ -684,10 +879,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A45:
     component: bend_circular
     info:
@@ -700,10 +900,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A46:
     component: bend_circular
     info:
@@ -716,10 +921,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A47:
     component: bend_circular
     info:
@@ -732,10 +942,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A48:
     component: bend_circular
     info:
@@ -748,10 +963,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A49:
     component: bend_circular
     info:
@@ -764,10 +984,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A5:
     component: bend_circular
     info:
@@ -780,10 +1005,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A50:
     component: bend_circular
     info:
@@ -796,10 +1026,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A51:
     component: bend_circular
     info:
@@ -812,10 +1047,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A52:
     component: bend_circular
     info:
@@ -828,10 +1068,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A53:
     component: bend_circular
     info:
@@ -844,10 +1089,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A54:
     component: bend_circular
     info:
@@ -860,10 +1110,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A55:
     component: bend_circular
     info:
@@ -876,10 +1131,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A56:
     component: bend_circular
     info:
@@ -892,10 +1152,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A57:
     component: bend_circular
     info:
@@ -908,10 +1173,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A58:
     component: bend_circular
     info:
@@ -924,10 +1194,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A59:
     component: bend_circular
     info:
@@ -940,10 +1215,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A6:
     component: bend_circular
     info:
@@ -956,10 +1236,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A60:
     component: bend_circular
     info:
@@ -972,10 +1257,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A61:
     component: bend_circular
     info:
@@ -988,10 +1278,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A62:
     component: bend_circular
     info:
@@ -1004,10 +1299,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A63:
     component: bend_circular
     info:
@@ -1020,10 +1320,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A64:
     component: bend_circular
     info:
@@ -1036,10 +1341,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A65:
     component: bend_circular
     info:
@@ -1052,10 +1362,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A66:
     component: bend_circular
     info:
@@ -1068,10 +1383,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A67:
     component: bend_circular
     info:
@@ -1084,10 +1404,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A68:
     component: bend_circular
     info:
@@ -1100,10 +1425,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A69:
     component: bend_circular
     info:
@@ -1116,10 +1446,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A7:
     component: bend_circular
     info:
@@ -1132,10 +1467,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A70:
     component: bend_circular
     info:
@@ -1148,10 +1488,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A71:
     component: bend_circular
     info:
@@ -1164,10 +1509,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A72:
     component: bend_circular
     info:
@@ -1180,10 +1530,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A8:
     component: bend_circular
     info:
@@ -1196,10 +1551,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   A9:
     component: bend_circular
     info:
@@ -1212,10 +1572,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B1:
     component: bend_circular
     info:
@@ -1228,10 +1593,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B10:
     component: bend_circular
     info:
@@ -1244,10 +1614,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B11:
     component: bend_circular
     info:
@@ -1260,10 +1635,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B12:
     component: bend_circular
     info:
@@ -1276,10 +1656,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B13:
     component: bend_circular
     info:
@@ -1292,10 +1677,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B14:
     component: bend_circular
     info:
@@ -1308,10 +1698,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B15:
     component: bend_circular
     info:
@@ -1324,10 +1719,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B16:
     component: bend_circular
     info:
@@ -1340,10 +1740,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B17:
     component: bend_circular
     info:
@@ -1356,10 +1761,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B18:
     component: bend_circular
     info:
@@ -1372,10 +1782,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B19:
     component: bend_circular
     info:
@@ -1388,10 +1803,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B2:
     component: bend_circular
     info:
@@ -1404,10 +1824,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B20:
     component: bend_circular
     info:
@@ -1420,10 +1845,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B21:
     component: bend_circular
     info:
@@ -1436,10 +1866,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B22:
     component: bend_circular
     info:
@@ -1452,10 +1887,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B23:
     component: bend_circular
     info:
@@ -1468,10 +1908,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B24:
     component: bend_circular
     info:
@@ -1484,10 +1929,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B25:
     component: bend_circular
     info:
@@ -1500,10 +1950,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B26:
     component: bend_circular
     info:
@@ -1516,10 +1971,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B27:
     component: bend_circular
     info:
@@ -1532,10 +1992,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B28:
     component: bend_circular
     info:
@@ -1548,10 +2013,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B29:
     component: bend_circular
     info:
@@ -1564,10 +2034,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B3:
     component: bend_circular
     info:
@@ -1580,10 +2055,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B30:
     component: bend_circular
     info:
@@ -1596,10 +2076,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B31:
     component: bend_circular
     info:
@@ -1612,10 +2097,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B32:
     component: bend_circular
     info:
@@ -1628,10 +2118,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B33:
     component: bend_circular
     info:
@@ -1644,10 +2139,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B34:
     component: bend_circular
     info:
@@ -1660,10 +2160,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B35:
     component: bend_circular
     info:
@@ -1676,10 +2181,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B36:
     component: bend_circular
     info:
@@ -1692,10 +2202,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B37:
     component: bend_circular
     info:
@@ -1708,10 +2223,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B38:
     component: bend_circular
     info:
@@ -1724,10 +2244,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B39:
     component: bend_circular
     info:
@@ -1740,10 +2265,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B4:
     component: bend_circular
     info:
@@ -1756,10 +2286,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B40:
     component: bend_circular
     info:
@@ -1772,10 +2307,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B41:
     component: bend_circular
     info:
@@ -1788,10 +2328,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B42:
     component: bend_circular
     info:
@@ -1804,10 +2349,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B43:
     component: bend_circular
     info:
@@ -1820,10 +2370,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B44:
     component: bend_circular
     info:
@@ -1836,10 +2391,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B45:
     component: bend_circular
     info:
@@ -1852,10 +2412,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B46:
     component: bend_circular
     info:
@@ -1868,10 +2433,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B47:
     component: bend_circular
     info:
@@ -1884,10 +2454,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B48:
     component: bend_circular
     info:
@@ -1900,10 +2475,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B49:
     component: bend_circular
     info:
@@ -1916,10 +2496,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B5:
     component: bend_circular
     info:
@@ -1932,10 +2517,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B50:
     component: bend_circular
     info:
@@ -1948,10 +2538,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B51:
     component: bend_circular
     info:
@@ -1964,10 +2559,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B52:
     component: bend_circular
     info:
@@ -1980,10 +2580,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B53:
     component: bend_circular
     info:
@@ -1996,10 +2601,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B54:
     component: bend_circular
     info:
@@ -2012,10 +2622,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B55:
     component: bend_circular
     info:
@@ -2028,10 +2643,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B56:
     component: bend_circular
     info:
@@ -2044,10 +2664,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B57:
     component: bend_circular
     info:
@@ -2060,10 +2685,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B58:
     component: bend_circular
     info:
@@ -2076,10 +2706,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B59:
     component: bend_circular
     info:
@@ -2092,10 +2727,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B6:
     component: bend_circular
     info:
@@ -2108,10 +2748,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B60:
     component: bend_circular
     info:
@@ -2124,10 +2769,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B61:
     component: bend_circular
     info:
@@ -2140,10 +2790,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B62:
     component: bend_circular
     info:
@@ -2156,10 +2811,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B63:
     component: bend_circular
     info:
@@ -2172,10 +2832,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B64:
     component: bend_circular
     info:
@@ -2188,10 +2853,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B65:
     component: bend_circular
     info:
@@ -2204,10 +2874,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B66:
     component: bend_circular
     info:
@@ -2220,10 +2895,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B67:
     component: bend_circular
     info:
@@ -2236,10 +2916,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B68:
     component: bend_circular
     info:
@@ -2252,10 +2937,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B69:
     component: bend_circular
     info:
@@ -2268,10 +2958,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B7:
     component: bend_circular
     info:
@@ -2284,10 +2979,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B70:
     component: bend_circular
     info:
@@ -2300,10 +3000,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B71:
     component: bend_circular
     info:
@@ -2316,10 +3021,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B72:
     component: bend_circular
     info:
@@ -2332,10 +3042,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B8:
     component: bend_circular
     info:
@@ -2348,10 +3063,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   B9:
     component: bend_circular
     info:
@@ -2364,10 +3084,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   m1:
     component: straight
     info:
@@ -2381,6 +3106,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m10:
     component: straight
     info:
@@ -2394,6 +3120,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m100:
     component: straight
     info:
@@ -2407,6 +3134,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m101:
     component: straight
     info:
@@ -2420,6 +3148,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m102:
     component: straight
     info:
@@ -2433,6 +3162,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m103:
     component: straight
     info:
@@ -2446,6 +3176,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m104:
     component: straight
     info:
@@ -2459,6 +3190,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m105:
     component: straight
     info:
@@ -2472,6 +3204,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m106:
     component: straight
     info:
@@ -2485,6 +3218,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m107:
     component: straight
     info:
@@ -2498,6 +3232,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m108:
     component: straight
     info:
@@ -2511,6 +3246,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m109:
     component: straight
     info:
@@ -2524,6 +3260,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m11:
     component: straight
     info:
@@ -2537,6 +3274,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m110:
     component: straight
     info:
@@ -2550,6 +3288,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m111:
     component: straight
     info:
@@ -2563,6 +3302,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m112:
     component: straight
     info:
@@ -2576,6 +3316,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m113:
     component: straight
     info:
@@ -2589,6 +3330,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m114:
     component: straight
     info:
@@ -2602,6 +3344,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m115:
     component: straight
     info:
@@ -2615,6 +3358,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m116:
     component: straight
     info:
@@ -2628,6 +3372,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m117:
     component: straight
     info:
@@ -2641,6 +3386,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m118:
     component: straight
     info:
@@ -2654,6 +3400,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m119:
     component: straight
     info:
@@ -2667,6 +3414,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m12:
     component: straight
     info:
@@ -2680,6 +3428,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m120:
     component: straight
     info:
@@ -2693,6 +3442,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m121:
     component: straight
     info:
@@ -2706,6 +3456,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m122:
     component: straight
     info:
@@ -2719,6 +3470,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m123:
     component: straight
     info:
@@ -2732,6 +3484,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m124:
     component: straight
     info:
@@ -2745,6 +3498,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m125:
     component: straight
     info:
@@ -2758,6 +3512,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m126:
     component: straight
     info:
@@ -2771,6 +3526,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m127:
     component: straight
     info:
@@ -2784,6 +3540,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m128:
     component: straight
     info:
@@ -2797,6 +3554,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m129:
     component: straight
     info:
@@ -2810,6 +3568,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m13:
     component: straight
     info:
@@ -2823,6 +3582,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m130:
     component: straight
     info:
@@ -2836,6 +3596,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m131:
     component: straight
     info:
@@ -2849,6 +3610,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m132:
     component: straight
     info:
@@ -2862,6 +3624,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m133:
     component: straight
     info:
@@ -2875,6 +3638,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m134:
     component: straight
     info:
@@ -2888,6 +3652,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m135:
     component: straight
     info:
@@ -2901,6 +3666,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m136:
     component: straight
     info:
@@ -2914,6 +3680,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m137:
     component: straight
     info:
@@ -2927,6 +3694,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m138:
     component: straight
     info:
@@ -2940,6 +3708,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m139:
     component: straight
     info:
@@ -2953,6 +3722,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m14:
     component: straight
     info:
@@ -2966,6 +3736,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m140:
     component: straight
     info:
@@ -2979,6 +3750,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m141:
     component: straight
     info:
@@ -2992,6 +3764,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m142:
     component: straight
     info:
@@ -3005,6 +3778,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m143:
     component: straight
     info:
@@ -3018,6 +3792,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m144:
     component: straight
     info:
@@ -3031,6 +3806,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m15:
     component: straight
     info:
@@ -3044,6 +3820,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m16:
     component: straight
     info:
@@ -3057,6 +3834,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m17:
     component: straight
     info:
@@ -3070,6 +3848,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m18:
     component: straight
     info:
@@ -3083,6 +3862,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m19:
     component: straight
     info:
@@ -3096,6 +3876,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m2:
     component: straight
     info:
@@ -3109,6 +3890,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m20:
     component: straight
     info:
@@ -3122,6 +3904,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m21:
     component: straight
     info:
@@ -3135,6 +3918,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m22:
     component: straight
     info:
@@ -3148,6 +3932,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m23:
     component: straight
     info:
@@ -3161,6 +3946,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m24:
     component: straight
     info:
@@ -3174,6 +3960,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m25:
     component: straight
     info:
@@ -3187,6 +3974,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m26:
     component: straight
     info:
@@ -3200,6 +3988,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m27:
     component: straight
     info:
@@ -3213,6 +4002,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m28:
     component: straight
     info:
@@ -3226,6 +4016,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m29:
     component: straight
     info:
@@ -3239,6 +4030,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m3:
     component: straight
     info:
@@ -3252,6 +4044,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m30:
     component: straight
     info:
@@ -3265,6 +4058,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m31:
     component: straight
     info:
@@ -3278,6 +4072,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m32:
     component: straight
     info:
@@ -3291,6 +4086,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m33:
     component: straight
     info:
@@ -3304,6 +4100,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m34:
     component: straight
     info:
@@ -3317,6 +4114,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m35:
     component: straight
     info:
@@ -3330,6 +4128,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m36:
     component: straight
     info:
@@ -3343,6 +4142,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m37:
     component: straight
     info:
@@ -3356,6 +4156,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m38:
     component: straight
     info:
@@ -3369,6 +4170,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m39:
     component: straight
     info:
@@ -3382,6 +4184,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m4:
     component: straight
     info:
@@ -3395,6 +4198,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m40:
     component: straight
     info:
@@ -3408,6 +4212,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m41:
     component: straight
     info:
@@ -3421,6 +4226,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m42:
     component: straight
     info:
@@ -3434,6 +4240,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m43:
     component: straight
     info:
@@ -3447,6 +4254,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m44:
     component: straight
     info:
@@ -3460,6 +4268,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m45:
     component: straight
     info:
@@ -3473,6 +4282,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m46:
     component: straight
     info:
@@ -3486,6 +4296,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m47:
     component: straight
     info:
@@ -3499,6 +4310,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m48:
     component: straight
     info:
@@ -3512,6 +4324,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m49:
     component: straight
     info:
@@ -3525,6 +4338,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m5:
     component: straight
     info:
@@ -3538,6 +4352,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m50:
     component: straight
     info:
@@ -3551,6 +4366,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m51:
     component: straight
     info:
@@ -3564,6 +4380,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m52:
     component: straight
     info:
@@ -3577,6 +4394,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m53:
     component: straight
     info:
@@ -3590,6 +4408,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m54:
     component: straight
     info:
@@ -3603,6 +4422,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m55:
     component: straight
     info:
@@ -3616,6 +4436,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m56:
     component: straight
     info:
@@ -3629,6 +4450,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m57:
     component: straight
     info:
@@ -3642,6 +4464,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m58:
     component: straight
     info:
@@ -3655,6 +4478,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m59:
     component: straight
     info:
@@ -3668,6 +4492,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m6:
     component: straight
     info:
@@ -3681,6 +4506,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m60:
     component: straight
     info:
@@ -3694,6 +4520,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m61:
     component: straight
     info:
@@ -3707,6 +4534,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m62:
     component: straight
     info:
@@ -3720,6 +4548,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m63:
     component: straight
     info:
@@ -3733,6 +4562,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m64:
     component: straight
     info:
@@ -3746,6 +4576,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m65:
     component: straight
     info:
@@ -3759,6 +4590,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m66:
     component: straight
     info:
@@ -3772,6 +4604,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m67:
     component: straight
     info:
@@ -3785,6 +4618,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m68:
     component: straight
     info:
@@ -3798,6 +4632,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m69:
     component: straight
     info:
@@ -3811,6 +4646,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m7:
     component: straight
     info:
@@ -3824,6 +4660,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m70:
     component: straight
     info:
@@ -3837,6 +4674,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m71:
     component: straight
     info:
@@ -3850,6 +4688,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m72:
     component: straight
     info:
@@ -3863,6 +4702,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m73:
     component: straight
     info:
@@ -3876,6 +4716,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m74:
     component: straight
     info:
@@ -3889,6 +4730,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m75:
     component: straight
     info:
@@ -3902,6 +4744,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m76:
     component: straight
     info:
@@ -3915,6 +4758,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m77:
     component: straight
     info:
@@ -3928,6 +4772,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m78:
     component: straight
     info:
@@ -3941,6 +4786,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m79:
     component: straight
     info:
@@ -3954,6 +4800,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m8:
     component: straight
     info:
@@ -3967,6 +4814,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m80:
     component: straight
     info:
@@ -3980,6 +4828,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m81:
     component: straight
     info:
@@ -3993,6 +4842,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m82:
     component: straight
     info:
@@ -4006,6 +4856,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m83:
     component: straight
     info:
@@ -4019,6 +4870,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m84:
     component: straight
     info:
@@ -4032,6 +4884,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m85:
     component: straight
     info:
@@ -4045,6 +4898,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m86:
     component: straight
     info:
@@ -4058,6 +4912,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m87:
     component: straight
     info:
@@ -4071,6 +4926,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m88:
     component: straight
     info:
@@ -4084,6 +4940,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m89:
     component: straight
     info:
@@ -4097,6 +4954,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m9:
     component: straight
     info:
@@ -4110,6 +4968,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m90:
     component: straight
     info:
@@ -4123,6 +4982,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m91:
     component: straight
     info:
@@ -4136,6 +4996,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m92:
     component: straight
     info:
@@ -4149,6 +5010,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m93:
     component: straight
     info:
@@ -4162,6 +5024,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m94:
     component: straight
     info:
@@ -4175,6 +5038,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m95:
     component: straight
     info:
@@ -4188,6 +5052,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m96:
     component: straight
     info:
@@ -4201,6 +5066,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m97:
     component: straight
     info:
@@ -4214,6 +5080,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m98:
     component: straight
     info:
@@ -4227,6 +5094,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m99:
     component: straight
     info:
@@ -4240,6 +5108,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
 name: cutback_bend90_Cbend_ci_790928a7
 nets:
 - p1: 1,o1

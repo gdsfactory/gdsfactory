@@ -1,6 +1,5 @@
 # Table of contents
 # Learn more at https://jupyterbook.org/customize/toc.html
-
 format: jb-book
 root: index
 parts:
@@ -9,7 +8,6 @@ parts:
       - file: getting_started
         sections:
           - file: developer
-          - file: notebooks/_3_vscode
           - file: notebooks/_2_klayout
           - file: notebooks/_0_python
           - file: notebooks/_1_git
@@ -42,6 +40,7 @@ parts:
       - file: migration
         sections:
           - file: notebooks/21_migration_guide_7_8
+          - file: notebooks/22_migration_8
   - caption: Plugins
     chapters:
       - url: https://gdsfactory.github.io/gplugins/
@@ -55,3 +54,5 @@ parts:
       - file: changelog
       - url: https://gdsfactory.github.io/gdsfactory-photonics-training/index.html
         title: gdsfactory-training
+      - url: https://gdsfactory.com
+        title: gdsfactory

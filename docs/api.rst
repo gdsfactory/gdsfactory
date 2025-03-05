@@ -44,6 +44,7 @@ Classes and functions for construction and manipulation of geometric objects.
 
    CrossSection
    Transition
+   Section
    cross_section
    strip
    heater_metal
@@ -55,7 +56,8 @@ Classes and functions for construction and manipulation of geometric objects.
    strip_heater_doped
    rib_heater_doped
    rib_heater_doped_via_stack
-
+   CrossSectionFactory
+   CrossSectionSpec
 
 .. currentmodule:: gdsfactory.path
 
@@ -94,23 +96,30 @@ Classes and functions for construction and manipulation of geometric objects.
    :toctree: _autosummary/
 
    Anchor
-   CellSpec
-   ComponentFactory
    ComponentSpec
-   Component
-   CrossSection
-   CrossSectionFactory
-   CrossSectionSpec
    Layer
    LayerSpec
    LayerSpecs
-   LayerLevel
    MaterialSpec
-   MultiCrossSectionAngleSpec
    PathType
-   Section
    Step
+   MultiCrossSectionAngleSpec
 
+.. currentmodule:: gdsfactory.technology
+.. rubric:: technology
+
+.. autosummary::
+   :toctree: _autosummary/
+
+   AbstractLayer
+   DerivedLayer
+   LayerLevel
+   LayerMap
+   LayerStack
+   LayerView
+   LayerViews
+   LogicalLayer
+   lyp_to_dataclass
 
 *********************
 Pack

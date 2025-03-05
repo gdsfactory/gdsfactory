@@ -1,5 +1,5 @@
 instances:
-  straight_L480_N2_CSpin_0_0:
+  straight_L480_N2_CSpin_WNone_0_0:
     component: straight
     info:
       length: 480
@@ -12,6 +12,7 @@ instances:
       cross_section: pin
       length: 480
       npoints: 2
+      width: null
   taper_strip_to_ridge_L1_3a86af41_490000_0:
     component: taper_strip_to_ridge
     info:
@@ -40,13 +41,15 @@ instances:
       w_slab2: 6
       width1: 0.5
       width2: 0.5
-  via_stack_S480_10_LSLAB_6c6f006e_240000_6000:
+  via_stack_S480_10_LSLAB_4c0c24f2_240000_6000:
     component: via_stack
     info:
       xsize: 480
       ysize: 10
     settings:
       correct_size: true
+      layer_offsets: null
+      layer_to_port_orientations: null
       layers:
       - SLAB90
       - M1
@@ -67,13 +70,15 @@ instances:
       - via1
       - via2
       - null
-  via_stack_S480_10_LSLAB_6c6f006e_240000_m6000:
+  via_stack_S480_10_LSLAB_4c0c24f2_240000_m6000:
     component: via_stack
     info:
       xsize: 480
       ysize: 10
     settings:
       correct_size: true
+      layer_offsets: null
+      layer_to_port_orientations: null
       layers:
       - SLAB90
       - M1
@@ -94,14 +99,14 @@ instances:
       - via1
       - via2
       - null
-name: straight_pin_L500_CSpin_15abe242
+name: straight_pin_L500_CSpin_120c3472
 nets:
-- p1: straight_L480_N2_CSpin_0_0,o1
+- p1: straight_L480_N2_CSpin_WNone_0_0,o1
   p2: taper_strip_to_ridge_L1_3a86af41_m10000_0,o2
-- p1: straight_L480_N2_CSpin_0_0,o2
+- p1: straight_L480_N2_CSpin_WNone_0_0,o2
   p2: taper_strip_to_ridge_L1_3a86af41_490000_0,o2
 placements:
-  straight_L480_N2_CSpin_0_0:
+  straight_L480_N2_CSpin_WNone_0_0:
     mirror: false
     rotation: 0
     x: 0
@@ -116,24 +121,24 @@ placements:
     rotation: 0
     x: -10
     y: 0
-  via_stack_S480_10_LSLAB_6c6f006e_240000_6000:
+  via_stack_S480_10_LSLAB_4c0c24f2_240000_6000:
     mirror: false
     rotation: 0
     x: 240
     y: 6
-  via_stack_S480_10_LSLAB_6c6f006e_240000_m6000:
+  via_stack_S480_10_LSLAB_4c0c24f2_240000_m6000:
     mirror: false
     rotation: 0
     x: 240
     y: -6
 ports:
-  bot_e1: via_stack_S480_10_LSLAB_6c6f006e_240000_m6000,e1
-  bot_e2: via_stack_S480_10_LSLAB_6c6f006e_240000_m6000,e2
-  bot_e3: via_stack_S480_10_LSLAB_6c6f006e_240000_m6000,e3
-  bot_e4: via_stack_S480_10_LSLAB_6c6f006e_240000_m6000,e4
+  bot_e1: via_stack_S480_10_LSLAB_4c0c24f2_240000_m6000,e1
+  bot_e2: via_stack_S480_10_LSLAB_4c0c24f2_240000_m6000,e2
+  bot_e3: via_stack_S480_10_LSLAB_4c0c24f2_240000_m6000,e3
+  bot_e4: via_stack_S480_10_LSLAB_4c0c24f2_240000_m6000,e4
   o1: taper_strip_to_ridge_L1_3a86af41_m10000_0,o1
   o2: taper_strip_to_ridge_L1_3a86af41_490000_0,o1
-  top_e1: via_stack_S480_10_LSLAB_6c6f006e_240000_6000,e1
-  top_e2: via_stack_S480_10_LSLAB_6c6f006e_240000_6000,e2
-  top_e3: via_stack_S480_10_LSLAB_6c6f006e_240000_6000,e3
-  top_e4: via_stack_S480_10_LSLAB_6c6f006e_240000_6000,e4
+  top_e1: via_stack_S480_10_LSLAB_4c0c24f2_240000_6000,e1
+  top_e2: via_stack_S480_10_LSLAB_4c0c24f2_240000_6000,e2
+  top_e3: via_stack_S480_10_LSLAB_4c0c24f2_240000_6000,e3
+  top_e4: via_stack_S480_10_LSLAB_4c0c24f2_240000_6000,e4

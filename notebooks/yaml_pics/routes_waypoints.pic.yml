@@ -2,28 +2,28 @@ instances:
   t:
     component: pad_array
     settings:
-      orientation: 270
+      port_orientation: 270
       columns: 3
   b:
     component: pad_array
     settings:
-      orientation: 90
+      port_orientation: 90
       columns: 3
 
 placements:
   t:
     x: -250
-    y: 1000
+    y: 600
 routes:
   route1:
-    routing_strategy: route_bundle_waypoints
+    routing_strategy: route_bundle
     settings:
+      cross_section: metal_routing
       waypoints:
         - [0, 300]
         - [400, 300]
         - [400, 400]
         - [-250, 400]
-      auto_widen: False
     links:
       b,e11: t,e11
       b,e12: t,e12

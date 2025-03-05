@@ -1,8 +1,8 @@
 info: {}
-name: pads_shorted_Ppad_C8_PS_1c817ac8
+name: pads_shorted_Ppad_C8_PP_7b031a21
 settings:
   columns: 8
   layer_metal: MTOP
   metal_width: 10
   pad: pad
-  pad_spacing: 150
+  pad_pitch: 150

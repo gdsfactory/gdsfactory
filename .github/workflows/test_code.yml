@@ -11,55 +11,71 @@ jobs:
   pre-commit:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+    - uses: pre-commit/action@v3.0.1
+
+  type_consistency:
+    runs-on: ubuntu-latest
+    steps:
       - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.10"
-      - name: Test pre-commit hooks
-        run: |
-          python -m pip install --upgrade pip
-          pip install pre-commit
-          pre-commit run -a
+      - uses: astral-sh/setup-uv@v5
+      - run: make install
+      - run: uv run mypy gdsfactory/
+
   test_code:
     runs-on: ${{ matrix.os }}
     strategy:
       max-parallel: 12
       matrix:
-        python-version: ["3.12"]
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ["3.11", "3.13"]
+        os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cache/pip
-          key: ${{ hashFiles('pyproject.toml') }}
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+      - uses: astral-sh/setup-uv@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install dependencies
-        run: |
-          make install
-          make test-data
-      - name: Test with pytest
-        run: |
-          pip install pytest
-          pytest
-  test_code_coverage:
-    runs-on: ubuntu-latest
-    container: ghcr.io/gdsfactory/gdsfactory:main
-    steps:
-      - uses: actions/checkout@v4
       - name: Install dependencies
         run: |
           make install test-data
       - name: Test with pytest
         run: |
-          pytest --cov=gdsfactory
+          make uv-test
+
+  test_code_coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+      - name: Install dependencies
+        run: |
+          make install test-data
+      - name: Test with pytest
+        run: |
+           make cov
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: false
+  test_samples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+      - name: Install dependencies
+        run: |
+          make install test-data
+      - name: Test with pytest
+        run: |
+           make test-samples

@@ -1,10 +1,11 @@
 info: {}
-name: seal_ring_segmented_CFr_696cbea0
+name: seal_ring_segmented_S50_1db576ee
 settings:
-  component: Frectangle_Mgdsfactorypcomponentsprectangle_SS500_500
   corner: via_stack_corner45_extended
   length_segment: 10
-  padding: 10
+  size:
+  - 500
+  - 500
   spacing_segment: 2
   via_stack: via_stack_m1_mtop
   width_segment: 3

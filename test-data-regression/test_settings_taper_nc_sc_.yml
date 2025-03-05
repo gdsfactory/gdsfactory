@@ -1,0 +1,12 @@
+info:
+  length: 20
+name: taper_nc_sc_W1_W0p5_L20_9adc884b
+settings:
+  cross_section: strip
+  layer_nitride: WGN
+  layer_wg: WG
+  length: 20
+  width1: 1
+  width2: 0.5
+  width_tip_nitride: 0.15
+  width_tip_silicon: 0.15

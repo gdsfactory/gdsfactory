@@ -5,6 +5,7 @@ instances:
     settings:
       bend: bend_euler
       cross_section: strip
+      cross_section_bend: null
       gap: 0.2
       length_extension: 3
       length_x: 0.01
@@ -16,12 +17,13 @@ instances:
     settings:
       bend: bend_euler
       cross_section: strip
+      cross_section_bend: null
       gap: 0.2
       length_extension: 3
       length_x: 0.01
       radius: 10
       straight: straight
-  straight_L0p01_N2_CSstrip_10000_10710:
+  straight_L0p01_N2_CSstrip_WNone_10000_10710:
     component: straight
     info:
       length: 0.01
@@ -34,7 +36,8 @@ instances:
       cross_section: strip
       length: 0.01
       npoints: 2
-  straight_L0p01_N2_CSstrip_m10010_10700:
+      width: null
+  straight_L0p01_N2_CSstrip_WNone_m10010_10700:
     component: straight
     info:
       length: 0.01
@@ -47,16 +50,17 @@ instances:
       cross_section: strip
       length: 0.01
       npoints: 2
+      width: null
 name: ring_double_G0p2_R10_LX_07be0fa3
 nets:
 - p1: coupler_ring_G0p2_R10_L_f700a51f_0_0,o2
-  p2: straight_L0p01_N2_CSstrip_m10010_10700,o1
+  p2: straight_L0p01_N2_CSstrip_WNone_m10010_10700,o1
 - p1: coupler_ring_G0p2_R10_L_f700a51f_0_0,o3
-  p2: straight_L0p01_N2_CSstrip_10000_10710,o2
+  p2: straight_L0p01_N2_CSstrip_WNone_10000_10710,o2
 - p1: coupler_ring_G0p2_R10_L_f700a51f_m10_21410,o2
-  p2: straight_L0p01_N2_CSstrip_10000_10710,o1
+  p2: straight_L0p01_N2_CSstrip_WNone_10000_10710,o1
 - p1: coupler_ring_G0p2_R10_L_f700a51f_m10_21410,o3
-  p2: straight_L0p01_N2_CSstrip_m10010_10700,o2
+  p2: straight_L0p01_N2_CSstrip_WNone_m10010_10700,o2
 placements:
   coupler_ring_G0p2_R10_L_f700a51f_0_0:
     mirror: false
@@ -68,12 +72,12 @@ placements:
     rotation: 180
     x: -0.01
     y: 21.41
-  straight_L0p01_N2_CSstrip_10000_10710:
+  straight_L0p01_N2_CSstrip_WNone_10000_10710:
     mirror: false
     rotation: 270
     x: 10
     y: 10.71
-  straight_L0p01_N2_CSstrip_m10010_10700:
+  straight_L0p01_N2_CSstrip_WNone_m10010_10700:
     mirror: false
     rotation: 90
     x: -10.01

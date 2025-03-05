@@ -17,6 +17,7 @@ notebooks/schematic.yaml
 
 # C extensions
 *.so
+*.gv
 *.l2n
 test_manifest.csv
 gdsfactory/plugins/kweb/gds_files/

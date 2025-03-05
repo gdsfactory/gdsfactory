@@ -3,31 +3,35 @@
 from __future__ import annotations
 
 import gdsfactory as gf
+from gdsfactory.typings import ComponentFactory
 
 
 @gf.cell
-def pads_correct(pad=gf.components.pad, cross_section="metal3") -> gf.Component:
+def pads_correct(
+    pad: ComponentFactory = gf.components.pad, cross_section: str = "metal3"
+) -> gf.Component:
     """Returns 2 pads connected with metal wires."""
     c = gf.Component()
 
     xs = gf.get_cross_section(cross_section)
+    assert xs.layer is not None
     layer = gf.get_layer(xs.layer)
 
-    pad = gf.get_component(pad)
-    tl = c << pad
-    bl = c << pad
+    pad_c = gf.get_component(pad)
+    tl = c << pad_c
+    bl = c << pad_c
 
-    tr = c << pad
-    br = c << pad
+    tr = c << pad_c
+    br = c << pad_c
 
     tl.dmove((0, 300))
     br.dmove((500, 0))
     tr.dmove((500, 500))
 
-    c.add_label("tl", position=tl.dcenter, layer=layer)
-    c.add_label("tr", position=tr.dcenter, layer=layer)
-    c.add_label("br", position=br.dcenter, layer=layer)
-    c.add_label("bl", position=bl.dcenter, layer=layer)
+    c.add_label("tl", position=tl.center, layer=layer)
+    c.add_label("tr", position=tr.center, layer=layer)
+    c.add_label("br", position=br.center, layer=layer)
+    c.add_label("bl", position=bl.center, layer=layer)
 
     ports1 = [bl.ports["e3"], tl.ports["e3"]]
     ports2 = [br.ports["e1"], tr.ports["e1"]]
@@ -36,27 +40,30 @@ def pads_correct(pad=gf.components.pad, cross_section="metal3") -> gf.Component:
 
 
 @gf.cell
-def pads_shorted(pad=gf.components.pad, cross_section="metal3") -> gf.Component:
+def pads_shorted(
+    pad: ComponentFactory = gf.components.pad, cross_section: str = "metal3"
+) -> gf.Component:
     """Returns 2 pads connected with metal wires."""
     c = gf.Component()
-    pad = gf.components.pad()
+    pad_c = gf.components.pad()
     xs = gf.get_cross_section(cross_section)
+    assert xs.layer is not None
     layer = gf.get_layer(xs.layer)
 
-    tl = c << pad
-    bl = c << pad
+    tl = c << pad_c
+    bl = c << pad_c
 
-    tr = c << pad
-    br = c << pad
+    tr = c << pad_c
+    br = c << pad_c
 
     tl.dmove((0, 300))
     br.dmove((500, 0))
     tr.dmove((500, 500))
 
-    c.add_label("tl", position=tl.dcenter, layer=layer)
-    c.add_label("tr", position=tr.dcenter, layer=layer)
-    c.add_label("br", position=br.dcenter, layer=layer)
-    c.add_label("bl", position=bl.dcenter, layer=layer)
+    c.add_label("tl", position=tl.center, layer=layer)
+    c.add_label("tr", position=tr.center, layer=layer)
+    c.add_label("br", position=br.center, layer=layer)
+    c.add_label("bl", position=bl.center, layer=layer)
 
     ports1 = [bl.ports["e3"], tl.ports["e3"]]
     ports2 = [br.ports["e1"], tr.ports["e1"]]

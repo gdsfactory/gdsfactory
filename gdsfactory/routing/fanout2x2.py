@@ -1,24 +1,21 @@
 from __future__ import annotations
 
-from collections.abc import Callable
+from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bend_s import bend_s
-from gdsfactory.components.straight import straight
 from gdsfactory.port import select_ports_optical
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, PortsFactory
 
 
-@gf.cell
 def fanout2x2(
-    component: ComponentSpec = straight,
+    component: ComponentSpec = "straight",
     port_spacing: float = 20.0,
     bend_length: float | None = None,
     npoints: int = 101,
-    select_ports: Callable = select_ports_optical,
+    select_ports: PortsFactory = select_ports_optical,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Returns component with Sbend fanout routes.
 
@@ -44,7 +41,6 @@ def fanout2x2(
     c = gf.Component()
 
     component = gf.get_component(component)
-    component.component = component
     ref = c << component
     ref.dmovey(-ref.dy)
 
@@ -59,11 +55,11 @@ def fanout2x2(
     p_e1 = ref.ports["o3"]
     p_e0 = ref.ports["o4"]
 
-    y0 = p_e1.dcenter[1]
+    y0 = p_e1.center[1]
     dy = y - y0
 
     x = gf.get_cross_section(cross_section, **kwargs)
-    bend = bend_s(size=(dx, dy), npoints=npoints, cross_section=x)
+    bend = gf.c.bend_s(size=(dx, dy), npoints=npoints, cross_section=x)
 
     b_tr = c << bend
     b_br = c << bend
@@ -83,9 +79,10 @@ def fanout2x2(
     c.info["min_bend_radius"] = bend.info["min_bend_radius"]
 
     optical_ports = select_ports(ref.ports)
+    optical_port_names = [port.name for port in optical_ports]
     for port in ref.ports:
         port_name = port.name
-        if port_name not in optical_ports:
+        if port_name not in optical_port_names:
             c.add_port(port_name, port=ref.ports[port_name])
     c.copy_child_info(component)
     return c

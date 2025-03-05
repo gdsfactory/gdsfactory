@@ -15,10 +15,10 @@ def test_route_bundle_west_to_north(
     pad = gf.components.pad
     c = gf.Component()
     pad_south = gf.components.pad_array(
-        port_orientation=270, spacing=(15.0, 0.0), pad=pad, size=(10, 10)
+        port_orientation=270, pad=pad, size=(10, 10), column_pitch=15
     )
     pad_north = gf.components.pad_array(
-        port_orientation=90, spacing=(15.0, 0.0), pad=pad, size=(10, 10)
+        port_orientation=90, pad=pad, size=(10, 10), column_pitch=15
     )
     pl = c << pad_south
     pb = c << pad_north
@@ -55,10 +55,18 @@ def test_route_bundle_west_to_north2(
     lengths = {}
     c = gf.Component()
     pbottom_facing_north = port_array(
-        center=(0, 0), orientation=90, pitch=(30, 0), layer=layer, width=width
+        center=(0, 0),
+        orientation=90,
+        pitch=(30, 0),
+        layer=gf.get_layer(layer),
+        width=width,
     )
     ptop_facing_west = port_array(
-        center=(100, 100), orientation=180, pitch=(0, -30), layer=layer, width=width
+        center=(100, 100),
+        orientation=180,
+        pitch=(0, -30),
+        layer=gf.get_layer(layer),
+        width=width,
     )
 
     routes = gf.routing.route_bundle(

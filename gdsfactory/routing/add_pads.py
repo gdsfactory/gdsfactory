@@ -1,37 +1,39 @@
 from __future__ import annotations
 
-from collections.abc import Callable
+from collections.abc import Sequence
+from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.pad import pad_rectangular
-from gdsfactory.components.straight_heater_metal import straight_heater_metal
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_fiber_array import route_fiber_array
 from gdsfactory.typings import (
+    BoundingBoxes,
     ComponentSpec,
     CrossSectionSpec,
+    Port,
+    SelectPorts,
     Strs,
 )
 
 
 def add_pads_bot(
-    component: ComponentSpec = straight_heater_metal,
-    select_ports: Callable = select_ports_electrical,
+    component: ComponentSpec = "straight_heater_metal",
+    select_ports: SelectPorts = select_ports_electrical,
     port_names: Strs | None = None,
     cross_section: CrossSectionSpec = "metal_routing",
     pad_port_name: str = "e1",
-    pad: ComponentSpec = pad_rectangular,
+    pad: ComponentSpec = "pad_rectangular",
     bend: ComponentSpec = "wire_corner",
     straight_separation: float = 15.0,
-    pad_spacing: float | str = "pad_spacing",
-    optical_routing_type: int | None = 1,
-    taper: ComponentSpec | None = None,
+    pad_pitch: float = 100.0,
     port_type: str = "electrical",
     allow_width_mismatch: bool = True,
-    fanout_length: float | None = 80,
-    route_width: float | list[float] | None = 0,
-    **kwargs,
+    fanout_length: float | None = 0,
+    route_width: float | None = None,
+    bboxes: BoundingBoxes | None = None,
+    avoid_component_bbox: bool = False,
+    **kwargs: Any,
 ) -> Component:
     """Returns new component with ports connected bottom pads.
 
@@ -47,13 +49,13 @@ def add_pads_bot(
         pad: spec for route terminations.
         bend: bend spec.
         straight_separation: from wire edge to edge. Defaults to xs.width+xs.gap
-        pad_spacing: in um. Defaults to pad_spacing constant from the PDK.
-        optical_routing_type: None: auto, 0: no extension, 1: standard, 2: check.
-        taper: taper spec.
+        pad_pitch: in um. Defaults to pad_pitch constant from the PDK.
         port_type: port type.
         allow_width_mismatch: True
         fanout_length: if None, automatic calculation of fanout length.
         route_width: width of the route. If None, defaults to cross_section.width.
+        bboxes: list bounding boxes to avoid for routing.
+        avoid_component_bbox: avoid component bbox for routing.
         kwargs: additional arguments.
 
     Keyword Args:
@@ -94,10 +96,9 @@ def add_pads_bot(
     component_new = Component()
     component = gf.get_component(component)
 
-    pad_spacing = gf.get_constant(pad_spacing)
     cref = component_new << component
     ports = [cref[port_name] for port_name in port_names] if port_names else None
-    ports = ports or select_ports(cref.ports)
+    ports_list: Sequence[Port] = ports or select_ports(cref.ports)
 
     pad_component = gf.get_component(pad)
     if pad_port_name not in pad_component.ports:
@@ -112,7 +113,7 @@ def add_pads_bot(
             f"port.orientation={pad_orientation} for port {pad_port_name!r} needs to be 180 degrees."
         )
 
-    if not ports:
+    if not ports_list:
         raise ValueError(
             f"select_ports or port_names did not match any ports in {list(component.ports)}"
         )
@@ -128,14 +129,14 @@ def add_pads_bot(
         bend=bend,
         straight_separation=straight_separation,
         port_names=port_names,
-        fiber_spacing=pad_spacing,
-        optical_routing_type=optical_routing_type,
-        taper=taper,
+        pitch=pad_pitch,
         port_type=port_type,
         gc_port_name_fiber=pad_port_name,
         allow_width_mismatch=allow_width_mismatch,
         fanout_length=fanout_length,
         route_width=route_width,
+        bboxes=bboxes,
+        avoid_component_bbox=avoid_component_bbox,
         **kwargs,
     )
     component_new.add_ref(component)
@@ -144,30 +145,50 @@ def add_pads_bot(
 
 
 def add_pads_top(
-    component: ComponentSpec = straight_heater_metal, **kwargs
+    component: ComponentSpec = "straight_heater_metal",
+    select_ports: SelectPorts = select_ports_electrical,
+    port_names: Strs | None = None,
+    cross_section: CrossSectionSpec = "metal_routing",
+    pad_port_name: str = "e1",
+    pad: ComponentSpec = "pad_rectangular",
+    bend: ComponentSpec = "wire_corner",
+    straight_separation: float = 15.0,
+    pad_pitch: float = 100.0,
+    port_type: str = "electrical",
+    allow_width_mismatch: bool = True,
+    fanout_length: float | None = 0,
+    route_width: float | None = 0,
+    bboxes: BoundingBoxes | None = None,
+    avoid_component_bbox: bool = False,
+    **kwargs: Any,
 ) -> Component:
     """Returns new component with ports connected top pads.
 
     Args:
         component: component spec to connect to.
-        kwargs: additional arguments.
-
-    Keyword Args:
         select_ports: function to select_ports.
         port_names: optional port names. Overrides select_ports.
-        cross_section: cross_section function.
+        cross_section: cross_section spec.
         get_input_labels_function: function to get input labels. None skips labels.
         layer_label: optional layer for grating coupler label.
         pad_port_name: pad input port name.
         pad_port_labels: pad list of labels.
         pad: spec for route terminations.
         bend: bend spec.
-        straight_separation: from edge to edge.
+        straight_separation: from wire edge to edge. Defaults to xs.width+xs.gap
+        pad_pitch: in um. Defaults to pad_pitch constant from the PDK.
+        port_type: port type.
+        allow_width_mismatch: True
+        fanout_length: if None, automatic calculation of fanout length.
+        route_width: width of the route. If None, defaults to cross_section.width.
+        bboxes: list of bounding boxes to avoid.
+        avoid_component_bbox: True
+        kwargs: additional arguments.
+
+    Keyword Args:
         straight: straight spec.
-        taper: taper spec.
         get_input_label_text_loopback_function: function to get input label test.
         get_input_label_text_function: for labels.
-        fanout_length: if None, automatic calculation of fanout length.
         max_y0_optical: in um.
         with_loopback: True, adds loopback structures.
         list_port_labels: None, adds TM labels to port indices in this list.
@@ -178,9 +199,9 @@ def add_pads_top(
         grating_indices: list of grating coupler indices.
         routing_straight: function to route.
         routing_method: route_single.
-        optical_routing_type: None: auto, 0: no extension, 1: standard, 2: check.
         gc_rotation: fiber coupler rotation in degrees. Defaults to -90.
         input_port_indexes: to connect.
+        allow_width_mismatch: True
 
     .. plot::
         :include-source:
@@ -200,7 +221,24 @@ def add_pads_top(
 
     """
     c = Component()
-    _c = add_pads_bot(component=component, **kwargs)
+    _c = add_pads_bot(
+        component=component,
+        select_ports=select_ports,
+        port_names=port_names,
+        cross_section=cross_section,
+        pad_port_name=pad_port_name,
+        pad=pad,
+        bend=bend,
+        straight_separation=straight_separation,
+        pad_pitch=pad_pitch,
+        port_type=port_type,
+        allow_width_mismatch=allow_width_mismatch,
+        fanout_length=fanout_length,
+        route_width=route_width,
+        bboxes=bboxes,
+        avoid_component_bbox=avoid_component_bbox,
+        **kwargs,
+    )
     ref = c << _c
     ref.mirror_y()
     c.add_ports(ref.ports)
@@ -212,8 +250,10 @@ if __name__ == "__main__":
     # c = gf.components.pad()
     c = gf.components.straight_heater_metal(length=100.0)
     # c = gf.components.straight(length=100.0)
+    # c.pprint_ports()
     c = gf.routing.add_pads_top(component=c, port_names=("l_e1",))
-    c = gf.routing.add_fiber_array(c)
+    # c = gf.routing.add_pads_bot(component=c, port_names=("l_e4", "r_e4"), fanout_length=80)
+    # c = gf.routing.add_fiber_array(c)
     c.show()
     # c.show()
 

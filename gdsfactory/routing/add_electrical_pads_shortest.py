@@ -1,27 +1,28 @@
 from __future__ import annotations
 
-from functools import partial
-
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.wire import wire_straight
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_quad import route_quad
-from gdsfactory.typings import Callable, ComponentSpec, Strs
+from gdsfactory.typings import (
+    AngleInDegrees,
+    ComponentSpec,
+    LayerSpec,
+    PortsFactory,
+    Size,
+    Strs,
+)
 
-_wire_long = partial(wire_straight, length=200.0)
 
-
-@gf.cell
 def add_electrical_pads_shortest(
-    component: ComponentSpec = _wire_long,
+    component: ComponentSpec = "wire_straight",
     pad: ComponentSpec = "pad",
     pad_port_spacing: float = 50.0,
-    pad_size: tuple[float, float] = (100.0, 100.0),
-    select_ports: Callable = select_ports_electrical,
+    pad_size: Size | None = None,
+    select_ports: PortsFactory = select_ports_electrical,
     port_names: Strs | None = None,
-    port_orientation: float = 90,
-    layer: gf.typings.LayerSpec = "M3",
+    port_orientation: AngleInDegrees = 90,
+    layer: LayerSpec = "M3",
 ) -> Component:
     """Returns new Component with a pad by each electrical port.
 
@@ -39,17 +40,19 @@ def add_electrical_pads_shortest(
         :include-source:
 
         import gdsfactory as gf
-        c = gf.components.straight_heater_metal(length=100)
-        wire_long = gf.components.wire_straight(length=200.)
-        c = gf.routing.add_electrical_pads_shortest(wire_long)
+        c = gf.components.cross(length=100, layer=(49, 0), port_type="electrical")
+        c = gf.routing.add_electrical_pads_shortest(c, pad_port_spacing=200)
         c.plot()
 
     """
     c = Component()
     component = gf.get_component(component)
-    pad = gf.get_component(pad, size=pad_size)
 
-    c.component = component
+    if pad_size is not None:
+        pad = gf.get_component(pad, size=pad_size)
+    else:
+        pad = gf.get_component(pad)
+
     ref = c << component
     ports = (
         [ref[port_name] for port_name in port_names]
@@ -78,7 +81,7 @@ def add_electrical_pads_shortest(
             p.dx = port.dx
             route_quad(c, port, p.ports["e2"], layer=layer)
 
-        c.add_port(port=p.ports["pad"], name=f"elec-{component.name}-{i+1}")
+        c.add_port(port=p.ports["pad"], name=f"elec-{component.name}-{i + 1}")
 
     c.add_ports(ref.ports)
 

@@ -2,14 +2,18 @@
 
 from __future__ import annotations
 
-import numpy as np
+from typing import Any
 
-from gdsfactory import cell
+import numpy as np
+import numpy.typing as npt
+
+import gdsfactory as gf
 from gdsfactory.boolean import boolean
 from gdsfactory.component import Component
+from gdsfactory.typings import PathType
 
 
-def compute_area_signed(pr) -> float:
+def compute_area_signed(pr: npt.NDArray[np.floating[Any]]) -> float:
     """Return the signed area enclosed by a ring using the linear time.
 
     algorithm at http://www.cgafaq.info/wiki/Polygon_Area. A value >= 0
@@ -19,11 +23,11 @@ def compute_area_signed(pr) -> float:
     xs, ys = map(list, zip(*pr))
     xs.append(xs[1])
     ys.append(ys[1])
-    return sum(xs[i] * (ys[i + 1] - ys[i - 1]) for i in range(1, len(pr))) / 2.0
+    return sum(xs[i] * (ys[i + 1] - ys[i - 1]) for i in range(1, len(pr))) / 2.0  # type: ignore[no-any-return]
 
 
 def from_np(
-    ndarray,
+    ndarray: npt.NDArray[np.floating[Any]],
     nm_per_pixel: int = 20,
     layer: tuple[int, int] = (1, 0),
     threshold: float = 0.99,
@@ -45,7 +49,7 @@ def from_np(
     c = Component()
     d = Component()
     ndarray = np.pad(ndarray, 2)
-    contours = measure.find_contours(ndarray, threshold)
+    contours = measure.find_contours(ndarray, threshold)  # type: ignore[no-untyped-call]
     assert len(contours) > 0, (
         f"no contours found for threshold = {threshold}, maybe you can reduce the"
         " threshold"
@@ -62,8 +66,8 @@ def from_np(
     return boolean(c, d, operation="not", layer=layer) if invert else d
 
 
-@cell
-def from_image(image_path: str, **kwargs) -> Component:
+@gf.cell
+def from_image(image_path: PathType, **kwargs: Any) -> Component:
     """Returns Component from a png image.
 
     Args:

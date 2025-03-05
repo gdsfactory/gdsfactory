@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.typings import Layer
+from gdsfactory.typings import ComponentFactory, Layer
 
 
 @gf.cell
@@ -64,8 +64,8 @@ def crossing_arm(
 
 @gf.cell
 def crossing(
-    arm=crossing_arm,
-    cross_section="strip",
+    arm: ComponentFactory = crossing_arm,
+    cross_section: str = "strip",
 ) -> Component:
     """Waveguide crossing.
 
@@ -75,13 +75,13 @@ def crossing(
     """
     x = gf.get_cross_section(cross_section)
     c = Component()
-    arm = gf.get_component(arm)
+    arm_c = gf.get_component(arm)
     port_id = 0
     for rotation in [0, 90]:
-        ref = c << arm
+        ref = c << arm_c
         ref.drotate(rotation)
         for p in ref.ports:
-            c.add_port(name=port_id, port=p)
+            c.add_port(name=str(port_id), port=p)
             port_id += 1
 
     c.auto_rename_ports()

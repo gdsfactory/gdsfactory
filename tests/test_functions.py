@@ -2,7 +2,7 @@ import gdsfactory as gf
 from gdsfactory.generic_tech import LAYER
 
 
-def test_get_polygons():
+def test_get_polygons() -> None:
     c = gf.c.rectangle(size=(10, 10), centered=True)
 
     p = c.get_polygons(layers=("WG",), by="tuple")
@@ -21,7 +21,7 @@ def test_get_polygons():
 
 def test_trim() -> None:
     layer = (1, 0)
-    c1 = gf.c.rectangle(size=(11, 11), centered=True, layer=layer)
+    c1 = gf.c.rectangle(size=(11, 11), centered=True, layer=layer).dup()
     c2 = gf.functions.trim(
         c1,
         domain=((-5, -5), (-5, +5), (+5, +5), (+5, -5)),
@@ -33,17 +33,42 @@ def test_trim() -> None:
 
 def test_trim_no_clipping() -> None:
     layer = (1, 0)
-    c1 = gf.c.rectangle(size=(10, 10), centered=True, layer=layer)
+    c1 = gf.c.rectangle(size=(10, 10), centered=True, layer=layer).dup()
     c2 = gf.functions.trim(
         c1,
         domain=((-5, -5), (-5, +5), (+5, +5), (+5, -5)),
     )
-    assert c1.area(layer=layer) == c2.area(
-        layer=layer
-    ), f"{c1.area(layer=layer)} != {c2.area(layer=layer)}"
+    assert c1.area(layer=layer) == c2.area(layer=layer), (
+        f"{c1.area(layer=layer)} != {c2.area(layer=layer)}"
+    )
 
     assert len(c2.ports) == len(c1.ports), f"{len(c2.ports)} != {len(c1.ports)}"
 
 
+def test_area() -> None:
+    c = gf.Component()
+    _ = c << gf.c.rectangle(size=(10, 10), layer=(1, 0), centered=True)
+    _ = c << gf.c.rectangle(size=(10, 10), layer=(1, 0), centered=True)
+    area = c.area(layer=(1, 0))
+    assert area == 100.0, f"{area} != 100"
+
+
+def test_extract() -> None:
+    c = gf.Component()
+    r1 = c << gf.c.compass(size=(10, 10), layer=(1, 0))
+    r2 = c << gf.c.compass(size=(10, 10), layer=(2, 0))
+    r2.xmin = r1.xmax
+
+    c1 = c.extract(layers=[(1, 0)])
+    c2 = c.extract(layers=["WG"])
+    area1 = c1.area(layer=(1, 0))
+    area2 = c2.area(layer=(1, 0))
+
+    area3 = c1.area(layer=(2, 0))
+    assert area1 == 100.0, f"{area1} != 100"
+    assert area2 == 100.0, f"{area2} != 100"
+    assert area3 == 0.0, f"{area3} != 0"
+
+
 if __name__ == "__main__":
-    test_trim_no_clipping()
+    test_extract()

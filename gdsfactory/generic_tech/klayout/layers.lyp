@@ -447,7 +447,7 @@
   <fill-color>#cc4c00</fill-color>
   <frame-brightness>0</frame-brightness>
   <fill-brightness>0</fill-brightness>
-  <dither-pattern>I1</dither-pattern>
+  <dither-pattern>I0</dither-pattern>
   <line-style/>
   <valid>true</valid>
   <visible>true</visible>
@@ -464,7 +464,7 @@
   <fill-color>#808080</fill-color>
   <frame-brightness>0</frame-brightness>
   <fill-brightness>0</fill-brightness>
-  <dither-pattern>I1</dither-pattern>
+  <dither-pattern>I0</dither-pattern>
   <line-style/>
   <valid>true</valid>
   <visible>true</visible>
@@ -481,7 +481,7 @@
   <fill-color>#805000</fill-color>
   <frame-brightness>0</frame-brightness>
   <fill-brightness>0</fill-brightness>
-  <dither-pattern>I1</dither-pattern>
+  <dither-pattern>I0</dither-pattern>
   <line-style/>
   <valid>true</valid>
   <visible>true</visible>
@@ -868,8 +868,8 @@
   <source>81/0@1</source>
  </properties>
  <properties>
-  <frame-color>#0000ff</frame-color>
-  <fill-color>#0000ff</fill-color>
+  <frame-color>#808080</frame-color>
+  <fill-color>#808080</fill-color>
   <frame-brightness>0</frame-brightness>
   <fill-brightness>0</fill-brightness>
   <dither-pattern>I1</dither-pattern>
@@ -885,8 +885,8 @@
   <source>66/0@1</source>
  </properties>
  <properties>
-  <frame-color>#0000ff</frame-color>
-  <fill-color>#0000ff</fill-color>
+  <frame-color>#808080</frame-color>
+  <fill-color>#808080</fill-color>
   <frame-brightness>0</frame-brightness>
   <fill-brightness>0</fill-brightness>
   <dither-pattern>I1</dither-pattern>
@@ -1476,7 +1476,7 @@
    <xfill>false</xfill>
    <animation>0</animation>
    <name>WAFER</name>
-   <source>99999/0@1</source>
+   <source>999/0@1</source>
   </group-members>
  </properties>
 </layer-properties>

@@ -4,20 +4,20 @@ from functools import partial
 import gdsfactory as gf
 
 straight_heater_metal_mk = (47, 1)
-metal3 = gf.cross_section.metal3
+metal3 = gf.cross_section.metal3  # type: ignore[attr-defined]
 
 
 @gf.cell
 def straight_heater_metal_lvs() -> gf.Component:
     c = gf.Component()
 
-    strip_hm10 = gf.cross_section.strip_heater_metal(heater_width=10)
-    strip_hm35 = gf.cross_section.strip_heater_metal(heater_width=10)
-    strip_hm100 = gf.cross_section.strip_heater_metal(heater_width=10)
-    strip_hm50 = gf.cross_section.strip_heater_metal(heater_width=10)
-    strip_hm30 = gf.cross_section.strip_heater_metal(heater_width=10)
-    strip_hm40 = gf.cross_section.strip_heater_metal(heater_width=10)
-    strip_hm500 = gf.cross_section.strip_heater_metal(heater_width=500)
+    strip_hm10 = gf.cross_section.strip_heater_metal(heater_width=10)  # type: ignore[attr-defined]
+    strip_hm35 = gf.cross_section.strip_heater_metal(heater_width=10)  # type: ignore[attr-defined]
+    strip_hm100 = gf.cross_section.strip_heater_metal(heater_width=10)  # type: ignore[attr-defined]
+    strip_hm50 = gf.cross_section.strip_heater_metal(heater_width=10)  # type: ignore[attr-defined]
+    strip_hm30 = gf.cross_section.strip_heater_metal(heater_width=10)  # type: ignore[attr-defined]
+    strip_hm40 = gf.cross_section.strip_heater_metal(heater_width=10)  # type: ignore[attr-defined]
+    strip_hm500 = gf.cross_section.strip_heater_metal(heater_width=500)  # type: ignore[attr-defined]
 
     c1 = c << gf.components.straight_heater_metal(length=50, cross_section=strip_hm10)
     c1_mk = c << gf.components.rectangle(size=(50, 10), layer=straight_heater_metal_mk)
@@ -77,16 +77,16 @@ def straight_heater_metal_lvs() -> gf.Component:
     c9.dymin = c8.dymax + 50
     c10.dymin = c9.dymax + 50
 
-    c1_mk.dcenter = c1.dcenter
-    c2_mk.dcenter = c2.dcenter
-    c3_mk.dcenter = c3.dcenter
-    c4_mk.dcenter = c4.dcenter
-    c5_mk.dcenter = c5.dcenter
-    c6_mk.dcenter = c6.dcenter
-    c7_mk.dcenter = c7.dcenter
-    c8_mk.dcenter = c8.dcenter
-    c9_mk.dcenter = c9.dcenter
-    c10_mk.dcenter = c10.dcenter
+    c1_mk.center = c1.center
+    c2_mk.center = c2.center
+    c3_mk.center = c3.center
+    c4_mk.center = c4.center
+    c5_mk.center = c5.center
+    c6_mk.center = c6.center
+    c7_mk.center = c7.center
+    c8_mk.center = c8.center
+    c9_mk.center = c9.center
+    c10_mk.center = c10.center
 
     route_single = partial(gf.routing.route_single, port_type="electrical")
 

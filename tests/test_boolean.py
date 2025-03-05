@@ -25,21 +25,48 @@ def c2() -> gf.Component:
     )
 
 
-def test_boolean_not(c1, c2) -> None:
+def test_boolean_not(c1: gf.Component, c2: gf.Component) -> None:
     c4 = gf.boolean(c1, c2, operation="not", layer=layer)
     assert int(c4.area(layer=layer)) == 87
 
 
-def test_boolean_or(c1, c2) -> None:
+def test_boolean_or(c1: gf.Component, c2: gf.Component) -> None:
     c4 = gf.boolean(c1, c2, operation="or", layer=layer)
     assert int(c4.area(layer=layer)) == 225
 
 
-def test_boolean_xor(c1, c2) -> None:
+def test_boolean_xor(c1: gf.Component, c2: gf.Component) -> None:
     c4 = gf.boolean(c1, c2, operation="xor", layer=layer)
     assert int(c4.area(layer=layer)) == 111
 
 
-def test_boolean_and(c1, c2) -> None:
+def test_boolean_and(c1: gf.Component, c2: gf.Component) -> None:
     c4 = gf.boolean(c1, c2, operation="and", layer=layer)
     assert int(c4.area(layer=layer)) == 113
+
+
+def test_boolean_array(c1: gf.Component, c2: gf.Component) -> None:
+    a = gf.Component()
+    a.shapes(a.kcl.layer(1, 0)).insert(gf.kdb.DBox(0, 0, 500, 500))
+
+    b = gf.Component()
+    b.shapes(b.kcl.layer(2, 0)).insert(gf.kdb.DBox(0, 0, 100, 100))
+
+    c = gf.Component()
+    ref_a = c << a
+    ref_b = c.add_ref(b, columns=3, rows=3, column_pitch=200, row_pitch=200)
+
+    d = gf.boolean(ref_a, ref_b, "not", layer1=(1, 0), layer2=(2, 0), layer=(1, 0))
+
+    assert d.area((1, 0)) == 500 * 500 - 90_000
+
+
+def test_invalid_operation() -> None:
+    a = gf.Component()
+    a.shapes(a.kcl.layer(1, 0)).insert(gf.kdb.DBox(0, 0, 500, 500))
+
+    b = gf.Component()
+    b.shapes(b.kcl.layer(2, 0)).insert(gf.kdb.DBox(0, 0, 100, 100))
+
+    with pytest.raises(ValueError):
+        gf.boolean(a, b, "invalid", layer=(1, 0))

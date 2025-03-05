@@ -1,0 +1,16 @@
+info:
+  dy: 10
+  length: 16.637
+  min_bend_radius: 7.061
+  pdk: fab_c
+  radius: 10
+  route_info_length: 16.637
+  route_info_min_bend_radius: 7.061
+  route_info_n_bend_90: 1
+  route_info_type: xs_6c16190b
+  route_info_weight: 16.637
+  route_info_xs_6c16190b_length: 16.637
+  width: 0.5
+name: bend_euler_sc_CSstrip_sc
+settings:
+  cross_section: strip_sc

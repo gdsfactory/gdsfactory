@@ -1,17 +1,19 @@
 instances:
-  greek_cross_L30_LWG_N_W_d7395c88_275000_0:
+  greek_cross_L30_LWG_N_W_0e8f7afb_275000_0:
     component: greek_cross
     info: {}
     settings:
+      layer_index: 0
       layers:
       - WG
       - N
       length: 30
+      offsets: null
       via_stack: via_stack_npp_m1
       widths:
       - 2
       - 3
-  pad_S100_100_LMTOP_BLNo_8d51f10c_200000_0:
+  pad_S100_100_LMTOP_BLNo_163fd346_200000_0:
     component: pad
     info:
       size:
@@ -20,6 +22,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -28,10 +32,11 @@ instances:
       - 90
       - 0
       - -90
+      port_type: pad
       size:
       - 100
       - 100
-  pad_S100_100_LMTOP_BLNo_8d51f10c_350000_0:
+  pad_S100_100_LMTOP_BLNo_163fd346_350000_0:
     component: pad
     info:
       size:
@@ -40,6 +45,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -48,10 +55,11 @@ instances:
       - 90
       - 0
       - -90
+      port_type: pad
       size:
       - 100
       - 100
-  pad_S100_100_LMTOP_BLNo_8d51f10c_500000_0:
+  pad_S100_100_LMTOP_BLNo_163fd346_500000_0:
     component: pad
     info:
       size:
@@ -60,6 +68,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -68,10 +78,11 @@ instances:
       - 90
       - 0
       - -90
+      port_type: pad
       size:
       - 100
       - 100
-  pad_S100_100_LMTOP_BLNo_8d51f10c_50000_0:
+  pad_S100_100_LMTOP_BLNo_163fd346_50000_0:
     component: pad
     info:
       size:
@@ -80,6 +91,8 @@ instances:
       xsize: 100
       ysize: 100
     settings:
+      bbox_layers: null
+      bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: 0
@@ -88,16 +101,19 @@ instances:
       - 90
       - 0
       - -90
+      port_type: pad
       size:
       - 100
       - 100
-  via_stack_S11_11_LM1_M2_70ad5a55_200000_m55500:
+  via_stack_S11_11_LM1_M2_c8c84c49_200000_m55500:
     component: via_stack
     info:
       xsize: 11
       ysize: 11
     settings:
       correct_size: true
+      layer_offsets: null
+      layer_to_port_orientations: null
       layers:
       - M1
       - M2
@@ -116,13 +132,15 @@ instances:
       - via1
       - via2
       - null
-  via_stack_S11_11_LM1_M2_70ad5a55_350000_55500:
+  via_stack_S11_11_LM1_M2_c8c84c49_350000_55500:
     component: via_stack
     info:
       xsize: 11
       ysize: 11
     settings:
       correct_size: true
+      layer_offsets: null
+      layer_to_port_orientations: null
       layers:
       - M1
       - M2
@@ -141,13 +159,15 @@ instances:
       - via1
       - via2
       - null
-  via_stack_S11_11_LM1_M2_70ad5a55_500000_55500:
+  via_stack_S11_11_LM1_M2_c8c84c49_500000_55500:
     component: via_stack
     info:
       xsize: 11
       ysize: 11
     settings:
       correct_size: true
+      layer_offsets: null
+      layer_to_port_orientations: null
       layers:
       - M1
       - M2
@@ -166,13 +186,15 @@ instances:
       - via1
       - via2
       - null
-  via_stack_S11_11_LM1_M2_70ad5a55_50000_m55500:
+  via_stack_S11_11_LM1_M2_c8c84c49_50000_m55500:
     component: via_stack
     info:
       xsize: 11
       ysize: 11
     settings:
       correct_size: true
+      layer_offsets: null
+      layer_to_port_orientations: null
       layers:
       - M1
       - M2
@@ -191,167 +213,148 @@ instances:
       - via1
       - via2
       - null
-name: greek_cross_with_pads_P_d48c0f08
+name: greek_cross_with_pads_P_f660b0c5
 nets:
-- p1: pad_S100_100_LMTOP_BLNo_8d51f10c_200000_0,e4
-  p2: via_stack_S11_11_LM1_M2_70ad5a55_200000_m55500,e2
-- p1: pad_S100_100_LMTOP_BLNo_8d51f10c_350000_0,e2
-  p2: via_stack_S11_11_LM1_M2_70ad5a55_350000_55500,e4
-- p1: pad_S100_100_LMTOP_BLNo_8d51f10c_500000_0,e2
-  p2: via_stack_S11_11_LM1_M2_70ad5a55_500000_55500,e4
-- p1: pad_S100_100_LMTOP_BLNo_8d51f10c_50000_0,e4
-  p2: via_stack_S11_11_LM1_M2_70ad5a55_50000_m55500,e2
+- p1: pad_S100_100_LMTOP_BLNo_163fd346_200000_0,e4
+  p2: via_stack_S11_11_LM1_M2_c8c84c49_200000_m55500,e2
+- p1: pad_S100_100_LMTOP_BLNo_163fd346_350000_0,e2
+  p2: via_stack_S11_11_LM1_M2_c8c84c49_350000_55500,e4
+- p1: pad_S100_100_LMTOP_BLNo_163fd346_500000_0,e2
+  p2: via_stack_S11_11_LM1_M2_c8c84c49_500000_55500,e4
+- p1: pad_S100_100_LMTOP_BLNo_163fd346_50000_0,e4
+  p2: via_stack_S11_11_LM1_M2_c8c84c49_50000_m55500,e2
 placements:
-  greek_cross_L30_LWG_N_W_d7395c88_275000_0:
+  greek_cross_L30_LWG_N_W_0e8f7afb_275000_0:
     mirror: false
     rotation: 0
     x: 275
     y: 0
-  pad_S100_100_LMTOP_BLNo_8d51f10c_200000_0:
+  pad_S100_100_LMTOP_BLNo_163fd346_200000_0:
     mirror: false
     rotation: 0
     x: 200
     y: 0
-  pad_S100_100_LMTOP_BLNo_8d51f10c_350000_0:
+  pad_S100_100_LMTOP_BLNo_163fd346_350000_0:
     mirror: false
     rotation: 0
     x: 350
     y: 0
-  pad_S100_100_LMTOP_BLNo_8d51f10c_500000_0:
+  pad_S100_100_LMTOP_BLNo_163fd346_500000_0:
     mirror: false
     rotation: 0
     x: 500
     y: 0
-  pad_S100_100_LMTOP_BLNo_8d51f10c_50000_0:
+  pad_S100_100_LMTOP_BLNo_163fd346_50000_0:
     mirror: false
     rotation: 0
     x: 50
     y: 0
-  via_stack_S11_11_LM1_M2_70ad5a55_200000_m55500:
+  via_stack_S11_11_LM1_M2_c8c84c49_200000_m55500:
     mirror: false
     rotation: 0
     x: 200
     y: -55.5
-  via_stack_S11_11_LM1_M2_70ad5a55_350000_55500:
+  via_stack_S11_11_LM1_M2_c8c84c49_350000_55500:
     mirror: false
     rotation: 0
     x: 350
     y: 55.5
-  via_stack_S11_11_LM1_M2_70ad5a55_500000_55500:
+  via_stack_S11_11_LM1_M2_c8c84c49_500000_55500:
     mirror: false
     rotation: 0
     x: 500
     y: 55.5
-  via_stack_S11_11_LM1_M2_70ad5a55_50000_m55500:
+  via_stack_S11_11_LM1_M2_c8c84c49_50000_m55500:
     mirror: false
     rotation: 0
     x: 50
     y: -55.5
-ports: {}
+ports:
+  e1: via_stack_S11_11_LM1_M2_c8c84c49_50000_m55500,e2
+  e2: via_stack_S11_11_LM1_M2_c8c84c49_200000_m55500,e2
+  e3: pad_S100_100_LMTOP_BLNo_163fd346_350000_0,e4
+  e4: pad_S100_100_LMTOP_BLNo_163fd346_500000_0,e4
 warnings:
   electrical:
     unconnected_ports:
-    - message: 28 unconnected electrical ports!
+    - message: 26 unconnected electrical ports!
       ports:
-      - greek_cross_L30_LWG_N_W_d7395c88_275000_0,e3
-      - greek_cross_L30_LWG_N_W_d7395c88_275000_0,e1
-      - greek_cross_L30_LWG_N_W_d7395c88_275000_0,e2
-      - greek_cross_L30_LWG_N_W_d7395c88_275000_0,e4
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_50000_0,e1
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_50000_0,e2
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_50000_0,e3
-      - via_stack_S11_11_LM1_M2_70ad5a55_50000_m55500,e1
-      - via_stack_S11_11_LM1_M2_70ad5a55_50000_m55500,e3
-      - via_stack_S11_11_LM1_M2_70ad5a55_50000_m55500,e4
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_200000_0,e1
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_200000_0,e2
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_200000_0,e3
-      - via_stack_S11_11_LM1_M2_70ad5a55_200000_m55500,e1
-      - via_stack_S11_11_LM1_M2_70ad5a55_200000_m55500,e3
-      - via_stack_S11_11_LM1_M2_70ad5a55_200000_m55500,e4
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_350000_0,e1
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_350000_0,e3
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_350000_0,e4
-      - via_stack_S11_11_LM1_M2_70ad5a55_350000_55500,e1
-      - via_stack_S11_11_LM1_M2_70ad5a55_350000_55500,e2
-      - via_stack_S11_11_LM1_M2_70ad5a55_350000_55500,e3
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_500000_0,e1
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_500000_0,e3
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_500000_0,e4
-      - via_stack_S11_11_LM1_M2_70ad5a55_500000_55500,e1
-      - via_stack_S11_11_LM1_M2_70ad5a55_500000_55500,e2
-      - via_stack_S11_11_LM1_M2_70ad5a55_500000_55500,e3
+      - greek_cross_L30_LWG_N_W_0e8f7afb_275000_0,e3
+      - greek_cross_L30_LWG_N_W_0e8f7afb_275000_0,e1
+      - greek_cross_L30_LWG_N_W_0e8f7afb_275000_0,e2
+      - greek_cross_L30_LWG_N_W_0e8f7afb_275000_0,e4
+      - pad_S100_100_LMTOP_BLNo_163fd346_50000_0,e1
+      - pad_S100_100_LMTOP_BLNo_163fd346_50000_0,e2
+      - pad_S100_100_LMTOP_BLNo_163fd346_50000_0,e3
+      - via_stack_S11_11_LM1_M2_c8c84c49_50000_m55500,e1
+      - via_stack_S11_11_LM1_M2_c8c84c49_50000_m55500,e3
+      - via_stack_S11_11_LM1_M2_c8c84c49_50000_m55500,e4
+      - pad_S100_100_LMTOP_BLNo_163fd346_200000_0,e1
+      - pad_S100_100_LMTOP_BLNo_163fd346_200000_0,e2
+      - pad_S100_100_LMTOP_BLNo_163fd346_200000_0,e3
+      - via_stack_S11_11_LM1_M2_c8c84c49_200000_m55500,e1
+      - via_stack_S11_11_LM1_M2_c8c84c49_200000_m55500,e3
+      - via_stack_S11_11_LM1_M2_c8c84c49_200000_m55500,e4
+      - pad_S100_100_LMTOP_BLNo_163fd346_350000_0,e1
+      - pad_S100_100_LMTOP_BLNo_163fd346_350000_0,e3
+      - via_stack_S11_11_LM1_M2_c8c84c49_350000_55500,e1
+      - via_stack_S11_11_LM1_M2_c8c84c49_350000_55500,e2
+      - via_stack_S11_11_LM1_M2_c8c84c49_350000_55500,e3
+      - pad_S100_100_LMTOP_BLNo_163fd346_500000_0,e1
+      - pad_S100_100_LMTOP_BLNo_163fd346_500000_0,e3
+      - via_stack_S11_11_LM1_M2_c8c84c49_500000_55500,e1
+      - via_stack_S11_11_LM1_M2_c8c84c49_500000_55500,e2
+      - via_stack_S11_11_LM1_M2_c8c84c49_500000_55500,e3
       values:
-      - - 301000
+      - - 301
         - 0
-      - - 249000
+      - - 249
         - 0
-      - - 275000
-        - 26000
-      - - 275000
-        - -26000
+      - - 275
+        - 26
+      - - 275
+        - -26
       - - 0
         - 0
-      - - 50000
-        - 50000
-      - - 100000
+      - - 50
+        - 50
+      - - 100
         - 0
-      - - 44500
-        - -55500
-      - - 55500
-        - -55500
-      - - 50000
-        - -61000
-      - - 150000
+      - - 44.5
+        - -55.5
+      - - 55.5
+        - -55.5
+      - - 50
+        - -61
+      - - 150
         - 0
-      - - 200000
-        - 50000
-      - - 250000
+      - - 200
+        - 50
+      - - 250
         - 0
-      - - 194500
-        - -55500
-      - - 205500
-        - -55500
-      - - 200000
-        - -61000
-      - - 300000
+      - - 194.5
+        - -55.5
+      - - 205.5
+        - -55.5
+      - - 200
+        - -61
+      - - 300
         - 0
-      - - 400000
+      - - 400
         - 0
-      - - 350000
-        - -50000
-      - - 344500
-        - 55500
-      - - 350000
-        - 61000
-      - - 355500
-        - 55500
-      - - 450000
+      - - 344.5
+        - 55.5
+      - - 350
+        - 61
+      - - 355.5
+        - 55.5
+      - - 450
         - 0
-      - - 550000
+      - - 550
         - 0
-      - - 500000
-        - -50000
-      - - 494500
-        - 55500
-      - - 500000
-        - 61000
-      - - 505500
-        - 55500
-  vertical_dc:
-    unconnected_ports:
-    - message: 4 unconnected vertical_dc ports!
-      ports:
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_50000_0,pad
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_200000_0,pad
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_350000_0,pad
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_500000_0,pad
-      values:
-      - - 50000
-        - 0
-      - - 200000
-        - 0
-      - - 350000
-        - 0
-      - - 500000
-        - 0
+      - - 494.5
+        - 55.5
+      - - 500
+        - 61
+      - - 505.5
+        - 55.5

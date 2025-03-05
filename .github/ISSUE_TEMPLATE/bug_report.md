@@ -12,8 +12,7 @@ What's the bug?
 
 **To Reproduce**
 What's the code to reproduce the behavior? What commands or code did you write to get the error?
-You can add screenshots to help explain your problem.
-Make sure you include the code for others to reproduce your issue.
+Make sure you include the all code needed for others to reproduce your issue.
 
 **Expected behavior**
 What would you like to happen?
@@ -24,9 +23,12 @@ How could we fix the bug? As an open-source project, we welcome your suggestions
 
 **Environment (please complete the following information):**
 
-- [ ] I have checked the documentation and found no answer
-- [ ] I have checked the issues and found no answer
-- [ ] Im using the latest GDSFactory version and python 3.10, 3.11 or 3.12. Please copy below the output for this code:
+- [ ] I have reviewed the documentation, discussions and issues and found no relevant solution.
+- [ ] I understand that this is an open-source project, and maintainers may not have the resources to address every issue. I am prepared to contribute by fixing the issue myself or hiring someone to do so, if needed, and accept that the issue may not be resolved otherwise.
+- [ ] I am using the latest version of GDSFactory, with Python 3.11, 3.12, or 3.13.
+
+Please provide the output for the following code:
+
 
 ```python
 import sys

@@ -1,16 +1,18 @@
 instances:
-  array_Crectangle_S1_1_L_54e31c4e_19500_19500:
+  array_Crectangle_S1_1_L_42b7674f_19500_19500:
     component: array
     info: {}
     settings:
       add_ports: true
+      auto_rename_ports: false
       centered: false
+      column_pitch: 20
       columns: 4
       component: rectangle_S1_1_LSLAB150_3f9c5a4c
+      post_process: null
+      row_pitch: 20
       rows: 9
-      spacing:
-      - 20
-      - 20
+      size: null
   rectangle_S100_200_LWG__6de38f9c_0_0:
     component: rectangle
     info: {}
@@ -22,13 +24,14 @@ instances:
       - 90
       - 0
       - -90
+      port_type: null
       size:
       - 100
       - 200
-name: rectangle_with_slits_S1_6987a1f5
+name: rectangle_with_slits_S1_663463b8
 nets: []
 placements:
-  array_Crectangle_S1_1_L_54e31c4e_19500_19500:
+  array_Crectangle_S1_1_L_42b7674f_19500_19500:
     mirror: false
     rotation: 0
     x: 19.5

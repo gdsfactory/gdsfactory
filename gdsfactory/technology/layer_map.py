@@ -27,7 +27,10 @@ class LayerMapFab(LayerMap):
 """
     lys = LayerViews.from_lyp(filepathin)
     for layer_name, layer in sorted(lys.get_layer_views().items()):
-        script += f"    {layer_name}: Layer = ({layer.layer[0]}, {layer.layer[1]})\n"
+        if layer.layer is not None:
+            script += (
+                f"    {layer_name}: Layer = ({layer.layer[0]}, {layer.layer[1]})\n"
+            )
 
     script += """
 

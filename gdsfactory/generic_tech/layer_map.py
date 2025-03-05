@@ -26,6 +26,7 @@ class LAYER(gf.LayerEnum):
     UNDERCUT: Layer = (6, 0)
     WGN: Layer = (34, 0)
     WGN_CLAD: Layer = (36, 0)
+    WG_ABSTRACT: Layer = (1, 5)
 
     N: Layer = (20, 0)
     NP: Layer = (22, 0)

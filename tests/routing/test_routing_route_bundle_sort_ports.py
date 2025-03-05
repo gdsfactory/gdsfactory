@@ -18,18 +18,28 @@ def test_route_bundle_sort_ports(
 
     right_ports = [
         gf.Port(
-            f"R_{i}", center=(0, ys_right[i]), width=0.5, orientation=180, layer=layer
+            name=f"R_{i}",
+            center=(0, ys_right[i]),
+            width=0.5,
+            orientation=180,
+            layer=gf.kcl.layout.layer(*layer),
         )
         for i in range(N)
     ]
     left_ports = [
         gf.Port(
-            f"L_{i}", center=(-400, ys_left[i]), width=0.5, orientation=0, layer=layer
+            name=f"L_{i}",
+            center=(-400, ys_left[i]),
+            width=0.5,
+            orientation=0,
+            layer=gf.kcl.layout.layer(*layer),
         )
         for i in range(N)
     ]
     left_ports.reverse()
-    routes = gf.routing.route_bundle(c, right_ports, left_ports, sort_ports=True)
+    routes = gf.routing.route_bundle(
+        c, right_ports, left_ports, sort_ports=True, cross_section="strip"
+    )
 
     for i, route in enumerate(routes):
         lengths[i] = route.length
@@ -50,18 +60,28 @@ if __name__ == "__main__":
 
     right_ports = [
         gf.Port(
-            f"R_{i}", center=(0, ys_right[i]), width=0.5, orientation=180, layer=layer
+            name=f"R_{i}",
+            center=(0, ys_right[i]),
+            width=0.5,
+            orientation=180,
+            layer=gf.kcl.layout.layer(*layer),
         )
         for i in range(N)
     ]
     left_ports = [
         gf.Port(
-            f"L_{i}", center=(-400, ys_left[i]), width=0.5, orientation=0, layer=layer
+            name=f"L_{i}",
+            center=(-400, ys_left[i]),
+            width=0.5,
+            orientation=0,
+            layer=gf.kcl.layout.layer(*layer),
         )
         for i in range(N)
     ]
     left_ports.reverse()
-    routes = gf.routing.route_bundle(c, right_ports, left_ports, sort_ports=True)
+    routes = gf.routing.route_bundle(
+        c, right_ports, left_ports, sort_ports=True, cross_section="strip"
+    )
 
     for i, route in enumerate(routes):
         lengths[i] = route.length

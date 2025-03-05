@@ -1,5 +1,5 @@
 info:
-  n_bends: 8
+  components: 8
 name: staircase_Cbend_euler_S_c2f7854d
 settings:
   component: bend_euler

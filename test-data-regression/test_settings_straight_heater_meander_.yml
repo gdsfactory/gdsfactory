@@ -1,5 +1,6 @@
-info: {}
-name: straight_heater_meander_2df29628
+info:
+  length: 529.664
+name: straight_heater_meander_4b36cd9b
 settings:
   cross_section: strip
   extension_length: 15
@@ -7,10 +8,7 @@ settings:
   heater_width: 2.5
   layer_heater: HEATER
   length: 300
+  n: 3
   spacing: 2
-  straight_widths:
-  - 0.8
-  - 0.9
-  - 0.8
   taper_length: 10
   via_stack: via_stack_heater_mtop

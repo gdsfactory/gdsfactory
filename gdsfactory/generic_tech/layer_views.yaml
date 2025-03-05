@@ -162,19 +162,19 @@ LayerViews:
   VIAC:
     layer: [40, 0]
     layer_in_name: true
-    hatch_pattern: hollow
+    hatch_pattern: solid
     width: 1
     color: "#cc4c00"
   VIA1:
     layer: [44, 0]
     layer_in_name: true
-    hatch_pattern: hollow
+    hatch_pattern: solid
     width: 1
     color: "grey"
   VIA2:
     layer: [43, 0]
     layer_in_name: true
-    hatch_pattern: hollow
+    hatch_pattern: solid
     width: 1
     color: "#805000"
   CAPACITOR:
@@ -302,12 +302,12 @@ LayerViews:
     layer: [66, 0]
     hatch_pattern: hollow
     width: 1
-    color: "blue"
+    color: "gray"
   Errors:
     layer: [69, 0]
     hatch_pattern: hollow
     width: 1
-    color: "blue"
+    color: "gray"
   PinRecM:
     layer: [1, 11]
     hatch_pattern: hollow

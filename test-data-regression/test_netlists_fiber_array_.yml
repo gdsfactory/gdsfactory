@@ -1,0 +1,197 @@
+instances:
+  circle_R5_AR2p5_LWG_0_0:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 5
+  circle_R5_AR2p5_LWG_127000_0:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 5
+  circle_R5_AR2p5_LWG_254000_0:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 5
+  circle_R5_AR2p5_LWG_381000_0:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 5
+  circle_R5_AR2p5_LWG_508000_0:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 5
+  circle_R5_AR2p5_LWG_635000_0:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 5
+  circle_R5_AR2p5_LWG_762000_0:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 5
+  circle_R5_AR2p5_LWG_889000_0:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 5
+  circle_R62p5_AR2p5_LWGCLAD_0_0:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WGCLAD
+      radius: 62.5
+  circle_R62p5_AR2p5_LWGCLAD_127000_0:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WGCLAD
+      radius: 62.5
+  circle_R62p5_AR2p5_LWGCLAD_254000_0:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WGCLAD
+      radius: 62.5
+  circle_R62p5_AR2p5_LWGCLAD_381000_0:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WGCLAD
+      radius: 62.5
+  circle_R62p5_AR2p5_LWGCLAD_508000_0:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WGCLAD
+      radius: 62.5
+  circle_R62p5_AR2p5_LWGCLAD_635000_0:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WGCLAD
+      radius: 62.5
+  circle_R62p5_AR2p5_LWGCLAD_762000_0:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WGCLAD
+      radius: 62.5
+  circle_R62p5_AR2p5_LWGCLAD_889000_0:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WGCLAD
+      radius: 62.5
+name: fiber_array_N8_P127_CD1_76bfba66
+nets: []
+placements:
+  circle_R5_AR2p5_LWG_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  circle_R5_AR2p5_LWG_127000_0:
+    mirror: false
+    rotation: 0
+    x: 127
+    y: 0
+  circle_R5_AR2p5_LWG_254000_0:
+    mirror: false
+    rotation: 0
+    x: 254
+    y: 0
+  circle_R5_AR2p5_LWG_381000_0:
+    mirror: false
+    rotation: 0
+    x: 381
+    y: 0
+  circle_R5_AR2p5_LWG_508000_0:
+    mirror: false
+    rotation: 0
+    x: 508
+    y: 0
+  circle_R5_AR2p5_LWG_635000_0:
+    mirror: false
+    rotation: 0
+    x: 635
+    y: 0
+  circle_R5_AR2p5_LWG_762000_0:
+    mirror: false
+    rotation: 0
+    x: 762
+    y: 0
+  circle_R5_AR2p5_LWG_889000_0:
+    mirror: false
+    rotation: 0
+    x: 889
+    y: 0
+  circle_R62p5_AR2p5_LWGCLAD_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  circle_R62p5_AR2p5_LWGCLAD_127000_0:
+    mirror: false
+    rotation: 0
+    x: 127
+    y: 0
+  circle_R62p5_AR2p5_LWGCLAD_254000_0:
+    mirror: false
+    rotation: 0
+    x: 254
+    y: 0
+  circle_R62p5_AR2p5_LWGCLAD_381000_0:
+    mirror: false
+    rotation: 0
+    x: 381
+    y: 0
+  circle_R62p5_AR2p5_LWGCLAD_508000_0:
+    mirror: false
+    rotation: 0
+    x: 508
+    y: 0
+  circle_R62p5_AR2p5_LWGCLAD_635000_0:
+    mirror: false
+    rotation: 0
+    x: 635
+    y: 0
+  circle_R62p5_AR2p5_LWGCLAD_762000_0:
+    mirror: false
+    rotation: 0
+    x: 762
+    y: 0
+  circle_R62p5_AR2p5_LWGCLAD_889000_0:
+    mirror: false
+    rotation: 0
+    x: 889
+    y: 0
+ports: {}

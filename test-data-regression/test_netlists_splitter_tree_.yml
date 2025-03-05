@@ -1,5 +1,5 @@
 instances:
-  bend_euler_R10_A90_P0p5_f9fcb00b_25500_10625:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_25500_10625:
     component: bend_euler
     info:
       dy: 10
@@ -12,15 +12,18 @@ instances:
       route_info_strip_length: 16.637
       route_info_type: strip
       route_info_weight: 16.637
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 10
-      width: 0.5
+      width: null
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_f9fcb00b_25500_m10625:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_25500_m10625:
     component: bend_euler
     info:
       dy: 10
@@ -33,15 +36,18 @@ instances:
       route_info_strip_length: 16.637
       route_info_type: strip
       route_info_weight: 16.637
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 10
-      width: 0.5
+      width: null
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_f9fcb00b_35500_25000:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_35500_25000:
     component: bend_euler
     info:
       dy: 10
@@ -54,15 +60,18 @@ instances:
       route_info_strip_length: 16.637
       route_info_type: strip
       route_info_weight: 16.637
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 10
-      width: 0.5
+      width: null
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_f9fcb00b_35500_m25000:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_35500_m25000:
     component: bend_euler
     info:
       dy: 10
@@ -75,13 +84,16 @@ instances:
       route_info_strip_length: 16.637
       route_info_type: strip
       route_info_weight: 16.637
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       p: 0.5
       radius: 10
-      width: 0.5
+      width: null
       with_arc_floorplan: true
   bend_s_S90_11p875_N99_C_62bc90bd_105500_24375:
     component: bend_s
@@ -173,6 +185,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   coupler_1_0:
@@ -185,6 +198,7 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
   coupler_1_1:
@@ -197,9 +211,10 @@ instances:
       length_taper: 10
       straight: straight
       taper: taper
+      width: null
       width_mmi: 2.5
       width_taper: 1
-  straight_L44p5_N2_CSstrip_W0p5_35500_25000:
+  straight_L44p5_N2_CSstrip_WNone_35500_25000:
     component: straight
     info:
       length: 44.5
@@ -212,8 +227,8 @@ instances:
       cross_section: strip
       length: 44.5
       npoints: 2
-      width: 0.5
-  straight_L44p5_N2_CSstrip_W0p5_35500_m25000:
+      width: null
+  straight_L44p5_N2_CSstrip_WNone_35500_m25000:
     component: straight
     info:
       length: 44.5
@@ -226,8 +241,8 @@ instances:
       cross_section: strip
       length: 44.5
       npoints: 2
-      width: 0.5
-  straight_L4p375_N2_CSstrip_W0p5_25500_15000:
+      width: null
+  straight_L4p375_N2_CSstrip_WNone_25500_15000:
     component: straight
     info:
       length: 4.375
@@ -240,8 +255,8 @@ instances:
       cross_section: strip
       length: 4.375
       npoints: 2
-      width: 0.5
-  straight_L4p375_N2_CSstrip_W0p5_25500_m15000:
+      width: null
+  straight_L4p375_N2_CSstrip_WNone_25500_m15000:
     component: straight
     info:
       length: 4.375
@@ -254,25 +269,25 @@ instances:
       cross_section: strip
       length: 4.375
       npoints: 2
-      width: 0.5
+      width: null
 name: splitter_tree_Cmmi1x2_N_4888501b
 nets:
-- p1: bend_euler_R10_A90_P0p5_f9fcb00b_25500_10625,o1
-  p2: straight_L4p375_N2_CSstrip_W0p5_25500_15000,o2
-- p1: bend_euler_R10_A90_P0p5_f9fcb00b_25500_10625,o2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_25500_10625,o1
+  p2: straight_L4p375_N2_CSstrip_WNone_25500_15000,o2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_25500_10625,o2
   p2: coupler_0_0,o2
-- p1: bend_euler_R10_A90_P0p5_f9fcb00b_25500_m10625,o1
-  p2: straight_L4p375_N2_CSstrip_W0p5_25500_m15000,o2
-- p1: bend_euler_R10_A90_P0p5_f9fcb00b_25500_m10625,o2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_25500_m10625,o1
+  p2: straight_L4p375_N2_CSstrip_WNone_25500_m15000,o2
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_25500_m10625,o2
   p2: coupler_0_0,o3
-- p1: bend_euler_R10_A90_P0p5_f9fcb00b_35500_25000,o1
-  p2: straight_L44p5_N2_CSstrip_W0p5_35500_25000,o1
-- p1: bend_euler_R10_A90_P0p5_f9fcb00b_35500_25000,o2
-  p2: straight_L4p375_N2_CSstrip_W0p5_25500_15000,o1
-- p1: bend_euler_R10_A90_P0p5_f9fcb00b_35500_m25000,o1
-  p2: straight_L44p5_N2_CSstrip_W0p5_35500_m25000,o1
-- p1: bend_euler_R10_A90_P0p5_f9fcb00b_35500_m25000,o2
-  p2: straight_L4p375_N2_CSstrip_W0p5_25500_m15000,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_35500_25000,o1
+  p2: straight_L44p5_N2_CSstrip_WNone_35500_25000,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_35500_25000,o2
+  p2: straight_L4p375_N2_CSstrip_WNone_25500_15000,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_35500_m25000,o1
+  p2: straight_L44p5_N2_CSstrip_WNone_35500_m25000,o1
+- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_35500_m25000,o2
+  p2: straight_L4p375_N2_CSstrip_WNone_25500_m15000,o1
 - p1: bend_s_S90_11p875_N99_C_62bc90bd_105500_24375,o1
   p2: coupler_1_1,o3
 - p1: bend_s_S90_11p875_N99_C_62bc90bd_105500_25625,o1
@@ -282,26 +297,26 @@ nets:
 - p1: bend_s_S90_11p875_N99_C_62bc90bd_105500_m25625,o1
   p2: coupler_1_0,o3
 - p1: coupler_1_0,o1
-  p2: straight_L44p5_N2_CSstrip_W0p5_35500_m25000,o2
+  p2: straight_L44p5_N2_CSstrip_WNone_35500_m25000,o2
 - p1: coupler_1_1,o1
-  p2: straight_L44p5_N2_CSstrip_W0p5_35500_25000,o2
+  p2: straight_L44p5_N2_CSstrip_WNone_35500_25000,o2
 placements:
-  bend_euler_R10_A90_P0p5_f9fcb00b_25500_10625:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_25500_10625:
     mirror: true
     rotation: 270
     x: 25.5
     y: 10.625
-  bend_euler_R10_A90_P0p5_f9fcb00b_25500_m10625:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_25500_m10625:
     mirror: false
     rotation: 90
     x: 25.5
     y: -10.625
-  bend_euler_R10_A90_P0p5_f9fcb00b_35500_25000:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_35500_25000:
     mirror: false
     rotation: 180
     x: 35.5
     y: 25
-  bend_euler_R10_A90_P0p5_f9fcb00b_35500_m25000:
+  bend_euler_R10_A90_P0p5_2f1f5c6d_35500_m25000:
     mirror: true
     rotation: 180
     x: 35.5
@@ -341,22 +356,22 @@ placements:
     rotation: 0
     x: 90
     y: 25
-  straight_L44p5_N2_CSstrip_W0p5_35500_25000:
+  straight_L44p5_N2_CSstrip_WNone_35500_25000:
     mirror: false
     rotation: 0
     x: 35.5
     y: 25
-  straight_L44p5_N2_CSstrip_W0p5_35500_m25000:
+  straight_L44p5_N2_CSstrip_WNone_35500_m25000:
     mirror: false
     rotation: 0
     x: 35.5
     y: -25
-  straight_L4p375_N2_CSstrip_W0p5_25500_15000:
+  straight_L4p375_N2_CSstrip_WNone_25500_15000:
     mirror: false
     rotation: 270
     x: 25.5
     y: 15
-  straight_L4p375_N2_CSstrip_W0p5_25500_m15000:
+  straight_L4p375_N2_CSstrip_WNone_25500_m15000:
     mirror: false
     rotation: 90
     x: 25.5

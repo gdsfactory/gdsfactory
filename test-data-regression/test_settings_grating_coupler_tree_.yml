@@ -1,9 +1,10 @@
 info: {}
-name: grating_coupler_tree_N4_2a7d2c50
+name: grating_coupler_tree_N4_ba9ff4d7
 settings:
   bend: bend_euler
+  cross_section: strip
   fanout_length: 0
-  grating_coupler: grating_coupler_elliptical
+  grating_coupler: grating_coupler_elliptical_te
   n: 4
   straight_spacing: 4
   with_loopback: false

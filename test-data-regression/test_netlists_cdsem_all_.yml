@@ -1,5 +1,5 @@
 instances:
-  cdsem_bend180_W0p45_R10_d7247ec5_430000_80625:
+  cdsem_bend180_W0p45_R10_50870081_430000_80625:
     component: cdsem_bend180
     info: {}
     settings:
@@ -7,10 +7,11 @@ instances:
       cross_section: strip
       radius: 10
       straight: straight
-      text: text_rectangular_mini
+      text: text_rectangular
+      text_size: 1
       wg_length: 420
       width: 0.45
-  cdsem_bend180_W0p4_R10__a09b5474_430000_55200:
+  cdsem_bend180_W0p4_R10__dae541e1_430000_55200:
     component: cdsem_bend180
     info: {}
     settings:
@@ -18,10 +19,11 @@ instances:
       cross_section: strip
       radius: 10
       straight: straight
-      text: text_rectangular_mini
+      text: text_rectangular
+      text_size: 1
       wg_length: 420
       width: 0.4
-  cdsem_bend180_W0p5_R10__39c637df_430000_106100:
+  cdsem_bend180_W0p5_R10__c02eb94b_430000_106100:
     component: cdsem_bend180
     info: {}
     settings:
@@ -29,10 +31,11 @@ instances:
       cross_section: strip
       radius: 10
       straight: straight
-      text: text_rectangular_mini
+      text: text_rectangular
+      text_size: 1
       wg_length: 420
       width: 0.5
-  cdsem_bend180_W0p6_R10__bcec4b1e_430000_131650:
+  cdsem_bend180_W0p6_R10__a9bb6f05_430000_131650:
     component: cdsem_bend180
     info: {}
     settings:
@@ -40,10 +43,11 @@ instances:
       cross_section: strip
       radius: 10
       straight: straight
-      text: text_rectangular_mini
+      text: text_rectangular
+      text_size: 1
       wg_length: 420
       width: 0.6
-  cdsem_bend180_W0p8_R10__6df87fd7_430000_157350:
+  cdsem_bend180_W0p8_R10__5dd3798f_430000_157350:
     component: cdsem_bend180
     info: {}
     settings:
@@ -51,10 +55,11 @@ instances:
       cross_section: strip
       radius: 10
       straight: straight
-      text: text_rectangular_mini
+      text: text_rectangular
+      text_size: 1
       wg_length: 420
       width: 0.8
-  cdsem_bend180_W1_R10_WL_869f609e_430000_183750:
+  cdsem_bend180_W1_R10_WL_874dfe81_430000_183750:
     component: cdsem_bend180
     info: {}
     settings:
@@ -62,17 +67,20 @@ instances:
       cross_section: strip
       radius: 10
       straight: straight
-      text: text_rectangular_mini
+      text: text_rectangular
+      text_size: 1
       wg_length: 420
       width: 1
-  cdsem_straight_W0p4_0p4_e37085c4_0_0:
+  cdsem_straight_W0p4_0p4_ac74fcb4_0_0:
     component: cdsem_straight
     info: {}
     settings:
       cross_section: strip
       length: 420
+      positions: null
       spacing: 7
-      text: text_rectangular_mini
+      text: text_rectangular
+      text_size: 1
       widths:
       - 0.4
       - 0.45
@@ -80,37 +88,7 @@ instances:
       - 0.6
       - 0.8
       - 1
-  cdsem_straight_density__9510600a_0_199750:
-    component: cdsem_straight_density
-    info: {}
-    settings:
-      cross_section: strip
-      gaps:
-      - 0.28
-      - 0.28
-      - 0.28
-      - 0.28
-      - 0.28
-      - 0.28
-      - 0.28
-      - 0.28
-      - 0.28
-      - 0.28
-      label: DL
-      length: 420
-      text: text_rectangular_mini
-      widths:
-      - 0.28
-      - 0.28
-      - 0.28
-      - 0.28
-      - 0.28
-      - 0.28
-      - 0.28
-      - 0.28
-      - 0.28
-      - 0.28
-  cdsem_straight_density__ce49f716_0_210070:
+  cdsem_straight_density__2ef96579_0_210070:
     component: cdsem_straight_density
     info: {}
     settings:
@@ -128,7 +106,8 @@ instances:
       - 0.3
       label: DM
       length: 420
-      text: text_rectangular_mini
+      text: text_rectangular
+      text_size: 1
       widths:
       - 0.3
       - 0.3
@@ -140,7 +119,38 @@ instances:
       - 0.3
       - 0.3
       - 0.3
-  cdsem_straight_density__d7699534_0_220770:
+  cdsem_straight_density__368d0b99_0_199750:
+    component: cdsem_straight_density
+    info: {}
+    settings:
+      cross_section: strip
+      gaps:
+      - 0.28
+      - 0.28
+      - 0.28
+      - 0.28
+      - 0.28
+      - 0.28
+      - 0.28
+      - 0.28
+      - 0.28
+      - 0.28
+      label: DL
+      length: 420
+      text: text_rectangular
+      text_size: 1
+      widths:
+      - 0.28
+      - 0.28
+      - 0.28
+      - 0.28
+      - 0.28
+      - 0.28
+      - 0.28
+      - 0.28
+      - 0.28
+      - 0.28
+  cdsem_straight_density__5fc459ed_0_220770:
     component: cdsem_straight_density
     info: {}
     settings:
@@ -158,7 +168,8 @@ instances:
       - 0.32
       label: DH
       length: 420
-      text: text_rectangular_mini
+      text: text_rectangular
+      text_size: 1
       widths:
       - 0.32
       - 0.32
@@ -170,55 +181,55 @@ instances:
       - 0.32
       - 0.32
       - 0.32
-name: cdsem_all_W0p4_0p45_0p5_ba26fb18
+name: cdsem_all_W0p4_0p45_0p5_101b8d01
 nets: []
 placements:
-  cdsem_bend180_W0p45_R10_d7247ec5_430000_80625:
+  cdsem_bend180_W0p45_R10_50870081_430000_80625:
     mirror: false
     rotation: 0
     x: 430
     y: 80.625
-  cdsem_bend180_W0p4_R10__a09b5474_430000_55200:
+  cdsem_bend180_W0p4_R10__dae541e1_430000_55200:
     mirror: false
     rotation: 0
     x: 430
     y: 55.2
-  cdsem_bend180_W0p5_R10__39c637df_430000_106100:
+  cdsem_bend180_W0p5_R10__c02eb94b_430000_106100:
     mirror: false
     rotation: 0
     x: 430
     y: 106.1
-  cdsem_bend180_W0p6_R10__bcec4b1e_430000_131650:
+  cdsem_bend180_W0p6_R10__a9bb6f05_430000_131650:
     mirror: false
     rotation: 0
     x: 430
     y: 131.65
-  cdsem_bend180_W0p8_R10__6df87fd7_430000_157350:
+  cdsem_bend180_W0p8_R10__5dd3798f_430000_157350:
     mirror: false
     rotation: 0
     x: 430
     y: 157.35
-  cdsem_bend180_W1_R10_WL_869f609e_430000_183750:
+  cdsem_bend180_W1_R10_WL_874dfe81_430000_183750:
     mirror: false
     rotation: 0
     x: 430
     y: 183.75
-  cdsem_straight_W0p4_0p4_e37085c4_0_0:
+  cdsem_straight_W0p4_0p4_ac74fcb4_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  cdsem_straight_density__9510600a_0_199750:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 199.75
-  cdsem_straight_density__ce49f716_0_210070:
+  cdsem_straight_density__2ef96579_0_210070:
     mirror: false
     rotation: 0
     x: 0
     y: 210.07
-  cdsem_straight_density__d7699534_0_220770:
+  cdsem_straight_density__368d0b99_0_199750:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 199.75
+  cdsem_straight_density__5fc459ed_0_220770:
     mirror: false
     rotation: 0
     x: 0

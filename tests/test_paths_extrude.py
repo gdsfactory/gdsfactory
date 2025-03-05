@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory import Section
+from gdsfactory.cross_section import CrossSection
 from gdsfactory.generic_tech import LAYER
+from gdsfactory.typings import LayerSpec
 
 
 def test_path_near_collinear() -> None:
@@ -38,10 +40,10 @@ def test_extrude_transition() -> None:
     cs2 = gf.get_cross_section("strip", width=w2)
     transition = gf.path.transition(cs1, cs2)
     p = gf.path.straight(length)
-    c = gf.path.extrude(p, transition)
+    c = gf.path.extrude_transition(p, transition)
 
-    assert c.ports["o1"].width == w1 / c.kcl.dbu
-    assert c.ports["o2"].width == w2 / c.kcl.dbu
+    assert c.ports["o1"].width == w1
+    assert c.ports["o2"].width == w2
 
     expected_area = (w1 + w2) / 2 * length
     actual_area = c.area((1, 0))
@@ -58,14 +60,18 @@ def test_transition_cross_section() -> None:
 
     p = gf.path.straight(length=length)
     c = gf.path.extrude_transition(p=p, transition=transition)
-    w1 = round(w1 / c.kcl.dbu)
-    w2 = round(w2 / c.kcl.dbu)
 
     assert c.ports["o1"].width == w1
     assert c.ports["o2"].width == w2
 
 
-def dummy_cladded_wg_cs(intent_layer, core_layer, core_width, clad_layer, clad_width):
+def dummy_cladded_wg_cs(
+    intent_layer: LayerSpec,
+    core_layer: LayerSpec,
+    core_width: float,
+    clad_layer: LayerSpec,
+    clad_width: float,
+) -> CrossSection:
     sections = (
         Section(width=core_width, offset=0, layer=core_layer, name="core"),
         Section(width=clad_width, offset=0, layer=clad_layer, name="clad"),
@@ -105,7 +111,7 @@ def test_transition_cross_section_different_layers() -> None:
     p = gf.path.straight(length=length)
     c = gf.path.extrude_transition(p=p, transition=transition)
 
-    core_width = round(core_width / c.kcl.dbu)
+    core_width = core_width
     intent_layer_1 = gf.get_layer(intent_layer_1)
     intent_layer_2 = gf.get_layer(intent_layer_2)
 
@@ -128,16 +134,16 @@ def test_extrude_port_centers() -> None:
     xs = gf.CrossSection(sections=(s0, s1))
     s = gf.components.straight(cross_section=xs)
 
-    assert s.ports["e1"].dcenter[0] == s.ports["o1"].dcenter[0]
-    assert s.ports["e1"].dcenter[1] == s.ports["o1"].dcenter[1] - s1_offset, s.ports[
+    assert s.ports["e1"].center[0] == s.ports["o1"].center[0]
+    assert s.ports["e1"].center[1] == s.ports["o1"].center[1] - s1_offset, s.ports[
         "e1"
-    ].dcenter[1]
+    ].center[1]
 
-    assert s.ports["e2"].dcenter[0] == s.ports["o2"].dcenter[0]
-    assert s.ports["e2"].dcenter[1] == s.ports["o2"].dcenter[1] - s1_offset
+    assert s.ports["e2"].center[0] == s.ports["o2"].center[0]
+    assert s.ports["e2"].center[1] == s.ports["o2"].center[1] - s1_offset
 
 
-def test_extrude_component_along_path():
+def test_extrude_component_along_path() -> None:
     p = gf.path.straight()
     p += gf.path.arc(10)
     p += gf.path.straight()
@@ -147,10 +153,17 @@ def test_extrude_component_along_path():
         component=gf.c.rectangle(size=(1, 1), centered=True), spacing=5, padding=2
     )
     s = gf.Section(width=0.5, offset=0, layer=(1, 0), port_names=("in", "out"))
-    x = gf.CrossSection(sections=[s], components_along_path=[via])
+    x = gf.CrossSection(sections=(s,), components_along_path=(via,))
 
     # Combine the path with the cross-section
     c = gf.path.extrude(p, cross_section=x)
+    assert c
+
+
+def test_extrude_cross_section_list_of_sections() -> None:
+    s = gf.Section(width=0.5, offset=0.5, layer="WG")
+    xs = gf.CrossSection(sections=[s])  # type: ignore
+    c = gf.c.straight(cross_section=xs)
     assert c
 
 

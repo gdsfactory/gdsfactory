@@ -28,10 +28,9 @@ def test_netlist_simple_width_mismatch_throws_error() -> None:
 
 
 def test_netlist_complex() -> None:
-    c = gf.components.mzi_arms()
+    c = gf.components.ring_single()
     netlist = c.get_netlist()
-    # print(netlist.pretty())
-    assert len(netlist["instances"]) == 4, len(netlist["instances"])
+    assert len(netlist["instances"]) == 6, len(netlist["instances"])
 
 
 def test_get_netlist_cell_array() -> None:
@@ -39,65 +38,69 @@ def test_get_netlist_cell_array() -> None:
     component_to_array = gf.components.straight(length=10)
     c = gf.components.array(
         component_to_array,
-        spacing=(0, 100),
+        column_pitch=100,
         columns=1,
         rows=rows,
         add_ports=True,
     )
     n = c.get_netlist(allow_multiple=True)
     n_ports_expected = 2 * rows
-    assert (
-        len(c.ports) == n_ports_expected
-    ), f"Expected {n_ports_expected} ports on component. Got {len(c.ports)}"
-    assert (
-        len(n["instances"]) == 1
-    ), f"Expected only one instance for array. Got {len(n['instances'])}"
+    assert len(c.ports) == n_ports_expected, (
+        f"Expected {n_ports_expected} ports on component. Got {len(c.ports)}"
+    )
+    assert len(n["instances"]) == 1, (
+        f"Expected only one instance for array. Got {len(n['instances'])}"
+    )
     inst_name = c.insts[0].name
-    assert (
-        len(n["ports"]) == n_ports_expected
-    ), f"Expected {n_ports_expected} ports in netlist. Got {len(n['ports'])}"
+    assert len(n["ports"]) == n_ports_expected, (
+        f"Expected {n_ports_expected} ports in netlist. Got {len(n['ports'])}"
+    )
     for ib in range(rows):
         for port in component_to_array.ports:
-            expected_port_name = f"{port.name}_{ib+1}_1"
+            expected_port_name = f"{port.name}_{ib + 1}_1"
             expected_lower_port_name = f"{inst_name}<0.{ib}>,{port.name}"
             assert expected_port_name in n["ports"]
             assert n["ports"][expected_port_name] == expected_lower_port_name
 
     inst = list(n["instances"].values())[0]
-    assert inst["na"] == 1 and inst["nb"] == rows
+    n_rows = inst["array"]["rows"]
+    n_columns = inst["array"]["columns"]
+    assert n_rows == rows and n_columns == 1, (
+        f"Expected {n_rows=}={rows} and {n_columns=}=1"
+    )
 
 
 def test_get_netlist_cell_array_no_ports() -> None:
     rows = 3
     c = gf.components.array(
         gf.components.straight(length=10),
-        spacing=(0, 100),
         columns=1,
+        column_pitch=100,
         rows=rows,
         add_ports=False,
     )
     n = c.get_netlist(allow_multiple=True)
-    assert (
-        len(c.ports) == 0
-    ), f"Expected no ports on component with add_ports=False. Got {len(c.ports)}"
-    assert (
-        len(n["ports"]) == 0
-    ), f"Expected no ports in netlist with add_ports=False. Got {len(n['ports'])}"
-    assert (
-        len(n["instances"]) == 1
-    ), f"Expected only one instance for array. Got {len(n['instances'])}"
+    assert len(c.ports) == 0, (
+        f"Expected no ports on component with add_ports=False. Got {len(c.ports)}"
+    )
+    assert len(n["ports"]) == 0, (
+        f"Expected no ports in netlist with add_ports=False. Got {len(n['ports'])}"
+    )
+    assert len(n["instances"]) == 1, (
+        f"Expected only one instance for array. Got {len(n['instances'])}"
+    )
     inst = list(n["instances"].values())[0]
-    assert inst["na"] == 1 and inst["nb"] == rows
+    assert inst["array"]["columns"] == 1 and inst["array"]["rows"] == rows
 
 
 def test_get_netlist_cell_array_connecting() -> None:
     c = gf.components.array(
-        gf.components.straight(length=100), spacing=(100, 0), columns=5, rows=1
+        gf.components.straight(length=100), columns=5, rows=1, column_pitch=100
     )
     with pytest.warns(UserWarning):
         # because the component-array has automatic external ports, we assume no internal self-connections
         # we expect a ValueError to be thrown where the serendipitous connections are
-        c.get_netlist()
+        c.get_netlist(allow_multiple=False)
 
 
 def test_get_netlist_simple() -> None:
@@ -288,4 +291,4 @@ def test_get_netlist_transformed() -> None:
 
 
 if __name__ == "__main__":
-    test_get_netlist_cell_array()
+    test_get_netlist_rotated()

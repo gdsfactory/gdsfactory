@@ -1,46 +1,83 @@
 from __future__ import annotations
 
 import contextlib
-from collections.abc import Iterable
+from collections.abc import Callable, Iterable
 from functools import partial
 from inspect import getmembers, isfunction, signature
+from typing import Any
 
-from kfactory import logger
+from gdsfactory.component import Component
+from gdsfactory.typings import ComponentFactory
 
-from gdsfactory.typings import Any, Callable, Component
 
-
-def get_cells(modules: Any, verbose: bool = False) -> dict[str, Callable]:
+def get_cells(
+    modules: Any,
+    ignore_non_decorated: bool = False,
+    ignore_underscored: bool = True,
+    ignore_partials: bool = False,
+) -> dict[str, ComponentFactory]:
     """Returns PCells (component functions) from a module or list of modules.
 
     Args:
         modules: A module or an iterable of modules.
-        verbose: If true, prints in case any errors occur.
+        ignore_non_decorated: only include functions that are decorated with gf.cell
+        ignore_underscored: only include functions that do not start with '_'
+        ignore_partials: only include functions, not partials
     """
-    # Ensure modules is iterable
     modules = modules if isinstance(modules, Iterable) else [modules]
-
-    cells = {}
+    cells: dict[str, ComponentFactory] = {}
     for module in modules:
-        for name, member in getmembers(module):
-            if not name.startswith("_") and (
-                callable(member) and (isfunction(member) or isinstance(member, partial))
-            ):
-                try:
-                    r = signature(
-                        member.func if isinstance(member, partial) else member
-                    ).return_annotation
-                    if r == Component or (
-                        isinstance(r, str) and r.endswith("Component")
-                    ):
-                        cells[name] = member
-                except ValueError as e:
-                    if verbose:
-                        logger.warn(f"error in {name}: {e}")
+        cells.update(
+            {
+                name: member
+                for name, member in getmembers(module)
+                if is_cell(
+                    member,
+                    ignore_non_decorated=ignore_non_decorated,
+                    ignore_underscored=ignore_underscored,
+                    ignore_partials=ignore_partials,
+                    name=name,
+                )
+            }
+        )
     return cells
 
 
-def get_cells_from_dict(cells: dict[str, Callable]) -> dict[str, Callable]:
+def is_cell(
+    func: Any,
+    ignore_non_decorated: bool = False,
+    ignore_underscored: bool = True,
+    ignore_partials: bool = False,
+    name: str = "",
+) -> bool:
+    try:
+        if not callable(func):
+            return False
+        if not ignore_partials and isinstance(func, partial):
+            return is_cell(
+                func.func,
+                ignore_non_decorated=ignore_non_decorated,
+                ignore_underscored=ignore_underscored,
+                ignore_partials=ignore_partials,
+                name=name,
+            )
+        if not name:
+            name = func.__name__
+        if ignore_underscored and name.startswith("_"):
+            return False
+        if getattr(func, "is_gf_cell", False):
+            return True
+        if not ignore_non_decorated:
+            r = signature(func).return_annotation
+            return r == Component or (isinstance(r, str) and r.endswith("Component"))
+    except Exception:
+        pass
+    return False
+
+
+def get_cells_from_dict(
+    cells: dict[str, Callable[..., Any]],
+) -> dict[str, Callable[..., Component]]:
     """Returns PCells (component functions) from a dictionary.
 
     Args:
@@ -49,7 +86,7 @@ def get_cells_from_dict(cells: dict[str, Callable]) -> dict[str, Callable]:
     Returns:
         A dictionary of valid component functions.
     """
-    valid_cells = {}
+    valid_cells: dict[str, Callable[..., Component]] = {}
 
     for name, member in cells.items():
         if not name.startswith("_") and (
@@ -57,7 +94,7 @@ def get_cells_from_dict(cells: dict[str, Callable]) -> dict[str, Callable]:
         ):
             with contextlib.suppress(ValueError):
                 func = member.func if isinstance(member, partial) else member
-                r = signature(func).return_annotation
+                r = signature(func).return_annotation  # type: ignore
                 if r == Component or (isinstance(r, str) and r.endswith("Component")):
                     valid_cells[name] = member
     return valid_cells

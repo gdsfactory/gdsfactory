@@ -5,11 +5,12 @@ This module enables conversion between gdsfactory settings and KLayout technolog
 
 import pathlib
 import xml.etree.ElementTree as ET
+from collections.abc import Sequence
 from typing import Any
 
 import aenum
 import klayout.db as db
-from pydantic import BaseModel, ConfigDict, model_validator
+from pydantic import BaseModel, ConfigDict, field_validator
 
 from gdsfactory.config import PATH
 from gdsfactory.technology import LayerStack, LayerViews
@@ -59,19 +60,18 @@ class KLayoutTechnology(BaseModel):
     layer_map: dict[str, tuple[int, int]]
     layer_views: LayerViews | None = None
     layer_stack: LayerStack | None = None
-    connectivity: list[ConnectivitySpec] | None = None
+    connectivity: Sequence[ConnectivitySpec] | None = None
 
-    @model_validator(mode="before")
+    @field_validator("layer_map", mode="before")
     @classmethod
-    def check_layer_map(cls, data: Any) -> Any:
-        layer_map = data.get("layer_map")
-        if isinstance(layer_map, aenum._enum.EnumType):
-            layer_map = {
+    def check_layer_map(cls, layer_map: Any) -> Any:
+        if isinstance(layer_map, aenum.EnumType):
+            _layer_map: dict[str, tuple[int, int]] = {
                 name: (layer_enum.layer, layer_enum.datatype)
                 for name, layer_enum in layer_map.__members__.items()
             }
-            data["layer_map"] = layer_map
-        return data
+            return _layer_map
+        return layer_map
 
     def write_tech(
         self,
@@ -79,7 +79,7 @@ class KLayoutTechnology(BaseModel):
         lyp_filename: str = "layers.lyp",
         lyt_filename: str = "tech.lyt",
         d25_filename: str | None = None,
-        mebes_config: dict | None = None,
+        mebes_config: dict[str, Any] | None = None,
     ) -> None:
         """Write technology files into 'tech_dir'.
 
@@ -134,8 +134,9 @@ class KLayoutTechnology(BaseModel):
             ET.SubElement(mebes, k).text = v
 
         reader_opts = root.find("reader-options")
-        lefdef_idx = list(reader_opts).index(reader_opts.find("lefdef"))
-        reader_opts.insert(lefdef_idx + 1, mebes)
+        if reader_opts is not None:
+            lefdef_idx = list(reader_opts).index(reader_opts.find("lefdef"))  # type: ignore
+            reader_opts.insert(lefdef_idx + 1, mebes)
 
         # FIXME
         if self.layer_stack:
@@ -157,18 +158,18 @@ class KLayoutTechnology(BaseModel):
         lyt_path.write_bytes(make_pretty_xml(root))
         print(f"Wrote {str(lyt_path)!r}")
 
-    def _define_connections(self, root) -> None:
+    def _define_connections(self, root: ET.Element) -> None:
         if not self.connectivity:
             return
-        src_element = [e for e in list(root) if e.tag == "connectivity"]
-        if len(src_element) != 1:
+        src_elements = [e for e in list(root) if e.tag == "connectivity"]
+        if len(src_elements) != 1:
             raise KeyError("Could not get a single index for the src element.")
-        src_element = src_element[0]
-        layers = set()
+        src_element = src_elements[0]
+        layers: set[str] = set()
         for first_layer_name, *layer_names in self.connectivity:
             connection = ",".join(
                 [first_layer_name]
-                + (layer_names if len(layer_names) == 2 else [""] + layer_names)
+                + (layer_names if len(layer_names) == 2 else ["", *layer_names])
             )
 
             for layer_name in layer_names:
@@ -212,7 +213,7 @@ if __name__ == "__main__":
         name="generic_tech",
         layer_views=lyp,
         connectivity=connectivity,
-        layer_map=LAYER,
+        layer_map=LAYER,  # type: ignore
         layer_stack=LAYER_STACK,
     )
     tech_dir = PATH.klayout_tech

@@ -1,0 +1,11 @@
+info:
+  length: 10
+  pdk: fab_c
+  route_info_length: 10
+  route_info_type: xs_29b56862
+  route_info_weight: 10
+  route_info_xs_29b56862_length: 10
+  width: 0.4
+name: straight_so_CSstrip_so
+settings:
+  cross_section: strip_so

@@ -1,0 +1,230 @@
+instances:
+  straight_L480_N2_CSpn_WNone_0_0:
+    component: straight
+    info:
+      length: 480
+      route_info_length: 480
+      route_info_pn_length: 480
+      route_info_type: pn
+      route_info_weight: 480
+      width: 0.5
+    settings:
+      cross_section: pn
+      length: 480
+      npoints: 2
+      width: null
+  taper_strip_to_ridge_L1_3a86af41_490000_0:
+    component: taper_strip_to_ridge
+    info:
+      length: 10
+    settings:
+      cross_section: strip
+      layer_slab: SLAB90
+      layer_wg: WG
+      length: 10
+      use_slab_port: false
+      w_slab1: 0.15
+      w_slab2: 6
+      width1: 0.5
+      width2: 0.5
+  taper_strip_to_ridge_L1_3a86af41_m10000_0:
+    component: taper_strip_to_ridge
+    info:
+      length: 10
+    settings:
+      cross_section: strip
+      layer_slab: SLAB90
+      layer_wg: WG
+      length: 10
+      use_slab_port: false
+      w_slab1: 0.15
+      w_slab2: 6
+      width1: 0.5
+      width2: 0.5
+  via_stack_S480_10_LM1_M_4d81c3f2_240000_6500:
+    component: via_stack
+    info:
+      xsize: 480
+      ysize: 10
+    settings:
+      correct_size: true
+      layer_offsets: null
+      layer_to_port_orientations: null
+      layers:
+      - M1
+      - M2
+      - MTOP
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      size:
+      - 480
+      - 10
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - via1
+      - via2
+      - null
+  via_stack_S480_10_LM1_M_4d81c3f2_240000_m6500:
+    component: via_stack
+    info:
+      xsize: 480
+      ysize: 10
+    settings:
+      correct_size: true
+      layer_offsets: null
+      layer_to_port_orientations: null
+      layers:
+      - M1
+      - M2
+      - MTOP
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      size:
+      - 480
+      - 10
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - via1
+      - via2
+      - null
+  via_stack_S480_10_LSLAB_25eaba72_240000_6000:
+    component: via_stack
+    info:
+      xsize: 480
+      ysize: 10
+    settings:
+      correct_size: true
+      layer_offsets: null
+      layer_to_port_orientations: null
+      layers:
+      - SLAB90
+      - M1
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      size:
+      - 480
+      - 10
+      slot_horizontal: true
+      slot_vertical: false
+      vias:
+      - viac
+      - via1
+  via_stack_S480_10_LSLAB_25eaba72_240000_m6000:
+    component: via_stack
+    info:
+      xsize: 480
+      ysize: 10
+    settings:
+      correct_size: true
+      layer_offsets: null
+      layer_to_port_orientations: null
+      layers:
+      - SLAB90
+      - M1
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      size:
+      - 480
+      - 10
+      slot_horizontal: true
+      slot_vertical: false
+      vias:
+      - viac
+      - via1
+name: straight_pin_slot_L500__0d93df0e
+nets:
+- p1: straight_L480_N2_CSpn_WNone_0_0,o1
+  p2: taper_strip_to_ridge_L1_3a86af41_m10000_0,o2
+- p1: straight_L480_N2_CSpn_WNone_0_0,o2
+  p2: taper_strip_to_ridge_L1_3a86af41_490000_0,o2
+placements:
+  straight_L480_N2_CSpn_WNone_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  taper_strip_to_ridge_L1_3a86af41_490000_0:
+    mirror: false
+    rotation: 180
+    x: 490
+    y: 0
+  taper_strip_to_ridge_L1_3a86af41_m10000_0:
+    mirror: false
+    rotation: 0
+    x: -10
+    y: 0
+  via_stack_S480_10_LM1_M_4d81c3f2_240000_6500:
+    mirror: false
+    rotation: 0
+    x: 240
+    y: 6.5
+  via_stack_S480_10_LM1_M_4d81c3f2_240000_m6500:
+    mirror: false
+    rotation: 0
+    x: 240
+    y: -6.5
+  via_stack_S480_10_LSLAB_25eaba72_240000_6000:
+    mirror: false
+    rotation: 0
+    x: 240
+    y: 6
+  via_stack_S480_10_LSLAB_25eaba72_240000_m6000:
+    mirror: false
+    rotation: 0
+    x: 240
+    y: -6
+ports:
+  bot_e1: via_stack_S480_10_LM1_M_4d81c3f2_240000_m6500,e1
+  bot_e2: via_stack_S480_10_LM1_M_4d81c3f2_240000_m6500,e2
+  bot_e3: via_stack_S480_10_LM1_M_4d81c3f2_240000_m6500,e3
+  bot_e4: via_stack_S480_10_LM1_M_4d81c3f2_240000_m6500,e4
+  o1: taper_strip_to_ridge_L1_3a86af41_m10000_0,o1
+  o2: taper_strip_to_ridge_L1_3a86af41_490000_0,o1
+  top_e1: via_stack_S480_10_LM1_M_4d81c3f2_240000_6500,e1
+  top_e2: via_stack_S480_10_LM1_M_4d81c3f2_240000_6500,e2
+  top_e3: via_stack_S480_10_LM1_M_4d81c3f2_240000_6500,e3
+  top_e4: via_stack_S480_10_LM1_M_4d81c3f2_240000_6500,e4
+warnings:
+  electrical:
+    unconnected_ports:
+    - message: 8 unconnected electrical ports!
+      ports:
+      - via_stack_S480_10_LSLAB_25eaba72_240000_6000,e1
+      - via_stack_S480_10_LSLAB_25eaba72_240000_6000,e2
+      - via_stack_S480_10_LSLAB_25eaba72_240000_6000,e3
+      - via_stack_S480_10_LSLAB_25eaba72_240000_6000,e4
+      - via_stack_S480_10_LSLAB_25eaba72_240000_m6000,e1
+      - via_stack_S480_10_LSLAB_25eaba72_240000_m6000,e2
+      - via_stack_S480_10_LSLAB_25eaba72_240000_m6000,e3
+      - via_stack_S480_10_LSLAB_25eaba72_240000_m6000,e4
+      values:
+      - - 0
+        - 6
+      - - 240
+        - 11
+      - - 480
+        - 6
+      - - 240
+        - 1
+      - - 0
+        - -6
+      - - 240
+        - -1
+      - - 480
+        - -6
+      - - 240
+        - -11

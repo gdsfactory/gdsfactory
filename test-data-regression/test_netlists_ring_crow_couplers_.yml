@@ -11,11 +11,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       radius: 10
+      width: null
   bot_left_bend_ring_1:
     component: bend_circular
     info:
@@ -28,11 +32,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       radius: 10
+      width: null
   bot_left_bend_ring_2:
     component: bend_circular
     info:
@@ -45,11 +53,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       radius: 10
+      width: null
   bot_right_bend_ring_0:
     component: bend_circular
     info:
@@ -62,11 +74,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       radius: 10
+      width: null
   bot_right_bend_ring_1:
     component: bend_circular
     info:
@@ -79,11 +95,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       radius: 10
+      width: null
   bot_right_bend_ring_2:
     component: bend_circular
     info:
@@ -96,50 +116,62 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       radius: 10
-  coupler_G0p236_L20_D4_D_e8f9c7a8_0_0:
+      width: null
+  coupler_G0p236_L20_D4_D_b138340a_0_0:
     component: coupler
     info:
       length: 10.186
       min_bend_radius: 11.857
     settings:
+      allow_min_radius_violation: false
+      bend: bend_s
       cross_section: strip
       dx: 10
       dy: 4
       gap: 0.236
       length: 20
-  coupler_G0p236_L20_D4_D_e8f9c7a8_0_24000:
+  coupler_G0p236_L20_D4_D_b138340a_0_24000:
     component: coupler
     info:
       length: 10.186
       min_bend_radius: 11.857
     settings:
+      allow_min_radius_violation: false
+      bend: bend_s
       cross_section: strip
       dx: 10
       dy: 4
       gap: 0.236
       length: 20
-  coupler_G0p236_L20_D4_D_e8f9c7a8_0_48000:
+  coupler_G0p236_L20_D4_D_b138340a_0_48000:
     component: coupler
     info:
       length: 10.186
       min_bend_radius: 11.857
     settings:
+      allow_min_radius_violation: false
+      bend: bend_s
       cross_section: strip
       dx: 10
       dy: 4
       gap: 0.236
       length: 20
-  coupler_G0p236_L20_D4_D_e8f9c7a8_0_72000:
+  coupler_G0p236_L20_D4_D_b138340a_0_72000:
     component: coupler
     info:
       length: 10.186
       min_bend_radius: 11.857
     settings:
+      allow_min_radius_violation: false
+      bend: bend_s
       cross_section: strip
       dx: 10
       dy: 4
@@ -157,11 +189,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       radius: 10
+      width: null
   top_left_bend_ring_1:
     component: bend_circular
     info:
@@ -174,11 +210,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       radius: 10
+      width: null
   top_left_bend_ring_2:
     component: bend_circular
     info:
@@ -191,11 +231,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       radius: 10
+      width: null
   top_right_bend_ring_0:
     component: bend_circular
     info:
@@ -208,11 +252,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       radius: 10
+      width: null
   top_right_bend_ring_1:
     component: bend_circular
     info:
@@ -225,11 +273,15 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       radius: 10
+      width: null
   top_right_bend_ring_2:
     component: bend_circular
     info:
@@ -242,48 +294,52 @@ instances:
       route_info_strip_length: 15.708
       route_info_type: strip
       route_info_weight: 15.708
+      width: 0.5
     settings:
       allow_min_radius_violation: false
       angle: 90
       cross_section: strip
+      layer: null
+      npoints: null
       radius: 10
+      width: null
 name: ring_crow_couplers_R10__afe24872
 nets:
 - p1: bot_left_bend_ring_0,o1
   p2: top_left_bend_ring_0,o2
 - p1: bot_left_bend_ring_0,o2
-  p2: coupler_G0p236_L20_D4_D_e8f9c7a8_0_0,o2
+  p2: coupler_G0p236_L20_D4_D_b138340a_0_0,o2
 - p1: bot_left_bend_ring_1,o1
   p2: top_left_bend_ring_1,o2
 - p1: bot_left_bend_ring_1,o2
-  p2: coupler_G0p236_L20_D4_D_e8f9c7a8_0_24000,o2
+  p2: coupler_G0p236_L20_D4_D_b138340a_0_24000,o2
 - p1: bot_left_bend_ring_2,o1
   p2: top_left_bend_ring_2,o2
 - p1: bot_left_bend_ring_2,o2
-  p2: coupler_G0p236_L20_D4_D_e8f9c7a8_0_48000,o2
+  p2: coupler_G0p236_L20_D4_D_b138340a_0_48000,o2
 - p1: bot_right_bend_ring_0,o1
-  p2: coupler_G0p236_L20_D4_D_e8f9c7a8_0_0,o3
+  p2: coupler_G0p236_L20_D4_D_b138340a_0_0,o3
 - p1: bot_right_bend_ring_0,o2
   p2: top_right_bend_ring_0,o1
 - p1: bot_right_bend_ring_1,o1
-  p2: coupler_G0p236_L20_D4_D_e8f9c7a8_0_24000,o3
+  p2: coupler_G0p236_L20_D4_D_b138340a_0_24000,o3
 - p1: bot_right_bend_ring_1,o2
   p2: top_right_bend_ring_1,o1
 - p1: bot_right_bend_ring_2,o1
-  p2: coupler_G0p236_L20_D4_D_e8f9c7a8_0_48000,o3
+  p2: coupler_G0p236_L20_D4_D_b138340a_0_48000,o3
 - p1: bot_right_bend_ring_2,o2
   p2: top_right_bend_ring_2,o1
-- p1: coupler_G0p236_L20_D4_D_e8f9c7a8_0_24000,o1
+- p1: coupler_G0p236_L20_D4_D_b138340a_0_24000,o1
   p2: top_left_bend_ring_0,o1
-- p1: coupler_G0p236_L20_D4_D_e8f9c7a8_0_24000,o4
+- p1: coupler_G0p236_L20_D4_D_b138340a_0_24000,o4
   p2: top_right_bend_ring_0,o2
-- p1: coupler_G0p236_L20_D4_D_e8f9c7a8_0_48000,o1
+- p1: coupler_G0p236_L20_D4_D_b138340a_0_48000,o1
   p2: top_left_bend_ring_1,o1
-- p1: coupler_G0p236_L20_D4_D_e8f9c7a8_0_48000,o4
+- p1: coupler_G0p236_L20_D4_D_b138340a_0_48000,o4
   p2: top_right_bend_ring_1,o2
-- p1: coupler_G0p236_L20_D4_D_e8f9c7a8_0_72000,o1
+- p1: coupler_G0p236_L20_D4_D_b138340a_0_72000,o1
   p2: top_left_bend_ring_2,o1
-- p1: coupler_G0p236_L20_D4_D_e8f9c7a8_0_72000,o4
+- p1: coupler_G0p236_L20_D4_D_b138340a_0_72000,o4
   p2: top_right_bend_ring_2,o2
 placements:
   bot_left_bend_ring_0:
@@ -316,22 +372,22 @@ placements:
     rotation: 0
     x: 30
     y: 50.368
-  coupler_G0p236_L20_D4_D_e8f9c7a8_0_0:
+  coupler_G0p236_L20_D4_D_b138340a_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  coupler_G0p236_L20_D4_D_e8f9c7a8_0_24000:
+  coupler_G0p236_L20_D4_D_b138340a_0_24000:
     mirror: false
     rotation: 0
     x: 0
     y: 24
-  coupler_G0p236_L20_D4_D_e8f9c7a8_0_48000:
+  coupler_G0p236_L20_D4_D_b138340a_0_48000:
     mirror: false
     rotation: 0
     x: 0
     y: 48
-  coupler_G0p236_L20_D4_D_e8f9c7a8_0_72000:
+  coupler_G0p236_L20_D4_D_b138340a_0_72000:
     mirror: false
     rotation: 0
     x: 0
@@ -367,7 +423,7 @@ placements:
     x: 40
     y: 60.368
 ports:
-  o1: coupler_G0p236_L20_D4_D_e8f9c7a8_0_0,o1
-  o2: coupler_G0p236_L20_D4_D_e8f9c7a8_0_0,o4
-  o3: coupler_G0p236_L20_D4_D_e8f9c7a8_0_72000,o2
-  o4: coupler_G0p236_L20_D4_D_e8f9c7a8_0_72000,o3
+  o1: coupler_G0p236_L20_D4_D_b138340a_0_0,o1
+  o2: coupler_G0p236_L20_D4_D_b138340a_0_0,o4
+  o3: coupler_G0p236_L20_D4_D_b138340a_0_72000,o2
+  o4: coupler_G0p236_L20_D4_D_b138340a_0_72000,o3

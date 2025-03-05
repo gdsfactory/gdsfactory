@@ -10,6 +10,7 @@ instances:
       settings:
         width_mmi: 4.5
         length_mmi: 5
+
 placements:
     mmi_long:
         x: 100
@@ -19,5 +20,4 @@ routes:
         links:
             mmi_short,o2: mmi_long,o1
         settings:
-            cross_section:
-                cross_section: strip
+            cross_section: strip

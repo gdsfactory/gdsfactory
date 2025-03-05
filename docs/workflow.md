@@ -33,8 +33,4 @@ or YAML
 
 ## 3. Schematic driven layout
 
-1. You can use any Schematic capture tool. Lumerical interconnect, QUCS or Xschem. Save the netlist into SPICE format.
-2. Convert SPICE to YAML. As the schematic didn't have placements you can infer the rought initial placements from the relative position of the schematic blocks.
-3. Modify YAML with file watcher until you are happy with the placements.
-
-![SDL](https://i.imgur.com/1VnCsPt.png)
+For Schematic-Driven Layout, we highly recommend using [GDSFactory+](https://gdsfactory.com/) for a seamless and efficient design experience.

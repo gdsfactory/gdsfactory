@@ -2,11 +2,11 @@ info:
   polarization: te
   wavelength: 1.554
   xinput: -2.43
-name: grating_coupler_ellipti_b2b21f8a
+name: grating_coupler_ellipti_4c46b398
 settings:
   bias_gap: 0
+  cross_section: strip
   fiber_angle: 5
-  layer: WG
   layer_slab: SLAB150
   parameters:
   - -2.43

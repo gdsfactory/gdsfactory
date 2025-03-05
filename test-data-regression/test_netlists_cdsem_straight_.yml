@@ -1,95 +1,96 @@
 instances:
-  straight_L420_N2_CSstrip_W0p45_0_7225:
+  straight_L420_N2_CSstri_2ce8d994_0_35500:
     component: straight
     info:
       length: 420
       route_info_length: 420
-      route_info_type: xs_a202615a
+      route_info_type: xs_86790892
       route_info_weight: 420
-      route_info_xs_a202615a_length: 420
-      width: 0.45
-    settings:
-      cross_section: strip
-      length: 420
-      npoints: 2
-      width: 0.45
-  straight_L420_N2_CSstrip_W0p4_0_200:
-    component: straight
-    info:
-      length: 420
-      route_info_length: 420
-      route_info_type: xs_d9e914be
-      route_info_weight: 420
-      route_info_xs_d9e914be_length: 420
-      width: 0.4
-    settings:
-      cross_section: strip
-      length: 420
-      npoints: 2
-      width: 0.4
-  straight_L420_N2_CSstrip_W0p5_0_14250:
-    component: straight
-    info:
-      length: 420
-      route_info_length: 420
-      route_info_strip_length: 420
-      route_info_type: strip
-      route_info_weight: 420
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 420
-      npoints: 2
-      width: 0.5
-  straight_L420_N2_CSstrip_W0p6_0_21300:
-    component: straight
-    info:
-      length: 420
-      route_info_length: 420
-      route_info_type: xs_4ec6b2c0
-      route_info_weight: 420
-      route_info_xs_4ec6b2c0_length: 420
-      width: 0.6
-    settings:
-      cross_section: strip
-      length: 420
-      npoints: 2
-      width: 0.6
-  straight_L420_N2_CSstrip_W0p8_0_28400:
-    component: straight
-    info:
-      length: 420
-      route_info_length: 420
-      route_info_type: xs_580e4910
-      route_info_weight: 420
-      route_info_xs_580e4910_length: 420
-      width: 0.8
-    settings:
-      cross_section: strip
-      length: 420
-      npoints: 2
-      width: 0.8
-  straight_L420_N2_CSstrip_W1_0_35500:
-    component: straight
-    info:
-      length: 420
-      route_info_length: 420
-      route_info_type: xs_4e2dbb0b
-      route_info_weight: 420
-      route_info_xs_4e2dbb0b_length: 420
+      route_info_xs_86790892_length: 420
       width: 1
     settings:
-      cross_section: strip
+      cross_section: strip_no_ports
       length: 420
       npoints: 2
       width: 1
-  text_rectangular_T1000__a50ed910_424000_35000:
+  straight_L420_N2_CSstri_3d4337a3_0_200:
+    component: straight
+    info:
+      length: 420
+      route_info_length: 420
+      route_info_type: xs_83e87d78
+      route_info_weight: 420
+      route_info_xs_83e87d78_length: 420
+      width: 0.4
+    settings:
+      cross_section: strip_no_ports
+      length: 420
+      npoints: 2
+      width: 0.4
+  straight_L420_N2_CSstri_44f863bc_0_28400:
+    component: straight
+    info:
+      length: 420
+      route_info_length: 420
+      route_info_type: xs_876c1755
+      route_info_weight: 420
+      route_info_xs_876c1755_length: 420
+      width: 0.8
+    settings:
+      cross_section: strip_no_ports
+      length: 420
+      npoints: 2
+      width: 0.8
+  straight_L420_N2_CSstri_718dd552_0_21300:
+    component: straight
+    info:
+      length: 420
+      route_info_length: 420
+      route_info_type: xs_8c55ac53
+      route_info_weight: 420
+      route_info_xs_8c55ac53_length: 420
+      width: 0.6
+    settings:
+      cross_section: strip_no_ports
+      length: 420
+      npoints: 2
+      width: 0.6
+  straight_L420_N2_CSstri_86dc4664_0_7225:
+    component: straight
+    info:
+      length: 420
+      route_info_length: 420
+      route_info_type: xs_adaa3144
+      route_info_weight: 420
+      route_info_xs_adaa3144_length: 420
+      width: 0.45
+    settings:
+      cross_section: strip_no_ports
+      length: 420
+      npoints: 2
+      width: 0.45
+  straight_L420_N2_CSstri_eca36d75_0_14250:
+    component: straight
+    info:
+      length: 420
+      route_info_length: 420
+      route_info_strip_no_ports_length: 420
+      route_info_type: strip_no_ports
+      route_info_weight: 420
+      width: 0.5
+    settings:
+      cross_section: strip_no_ports
+      length: 420
+      npoints: 2
+      width: 0.5
+  text_rectangular_T1000__a50ed910_425000_35000:
     component: text_rectangular
     info: {}
     settings:
       font: rectangular_font
       justify: left
       layer: WG
+      layers: null
       position:
       - 0
       - 0
@@ -102,6 +103,7 @@ instances:
       font: rectangular_font
       justify: left
       layer: WG
+      layers: null
       position:
       - 0
       - 0
@@ -114,6 +116,7 @@ instances:
       font: rectangular_font
       justify: left
       layer: WG
+      layers: null
       position:
       - 0
       - 0
@@ -126,6 +129,7 @@ instances:
       font: rectangular_font
       justify: left
       layer: WG
+      layers: null
       position:
       - 0
       - 0
@@ -138,6 +142,7 @@ instances:
       font: rectangular_font
       justify: left
       layer: WG
+      layers: null
       position:
       - 0
       - 0
@@ -150,48 +155,49 @@ instances:
       font: rectangular_font
       justify: left
       layer: WG
+      layers: null
       position:
       - 0
       - 0
       size: 1
       text: '800'
-name: cdsem_straight_W0p4_0p4_e37085c4
+name: cdsem_straight_W0p4_0p4_8c7b12fe
 nets: []
 placements:
-  straight_L420_N2_CSstrip_W0p45_0_7225:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 7.225
-  straight_L420_N2_CSstrip_W0p4_0_200:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 0.2
-  straight_L420_N2_CSstrip_W0p5_0_14250:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 14.25
-  straight_L420_N2_CSstrip_W0p6_0_21300:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 21.3
-  straight_L420_N2_CSstrip_W0p8_0_28400:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 28.4
-  straight_L420_N2_CSstrip_W1_0_35500:
+  straight_L420_N2_CSstri_2ce8d994_0_35500:
     mirror: false
     rotation: 0
     x: 0
     y: 35.5
-  text_rectangular_T1000__a50ed910_424000_35000:
+  straight_L420_N2_CSstri_3d4337a3_0_200:
     mirror: false
     rotation: 0
-    x: 424
+    x: 0
+    y: 0.2
+  straight_L420_N2_CSstri_44f863bc_0_28400:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 28.4
+  straight_L420_N2_CSstri_718dd552_0_21300:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 21.3
+  straight_L420_N2_CSstri_86dc4664_0_7225:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 7.225
+  straight_L420_N2_CSstri_eca36d75_0_14250:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 14.25
+  text_rectangular_T1000__a50ed910_425000_35000:
+    mirror: false
+    rotation: 0
+    x: 425
     y: 35
   text_rectangular_T400_S_68c27dd7_425000_0:
     mirror: false
@@ -219,45 +225,3 @@ placements:
     x: 425
     y: 28
 ports: {}
-warnings:
-  optical:
-    unconnected_ports:
-    - message: 12 unconnected optical ports!
-      ports:
-      - straight_L420_N2_CSstrip_W0p4_0_200,o1
-      - straight_L420_N2_CSstrip_W0p4_0_200,o2
-      - straight_L420_N2_CSstrip_W0p45_0_7225,o1
-      - straight_L420_N2_CSstrip_W0p45_0_7225,o2
-      - straight_L420_N2_CSstrip_W0p5_0_14250,o1
-      - straight_L420_N2_CSstrip_W0p5_0_14250,o2
-      - straight_L420_N2_CSstrip_W0p6_0_21300,o1
-      - straight_L420_N2_CSstrip_W0p6_0_21300,o2
-      - straight_L420_N2_CSstrip_W0p8_0_28400,o1
-      - straight_L420_N2_CSstrip_W0p8_0_28400,o2
-      - straight_L420_N2_CSstrip_W1_0_35500,o1
-      - straight_L420_N2_CSstrip_W1_0_35500,o2
-      values:
-      - - 0
-        - 200
-      - - 420000
-        - 200
-      - - 0
-        - 7225
-      - - 420000
-        - 7225
-      - - 0
-        - 14250
-      - - 420000
-        - 14250
-      - - 0
-        - 21300
-      - - 420000
-        - 21300
-      - - 0
-        - 28400
-      - - 420000
-        - 28400
-      - - 0
-        - 35500
-      - - 420000
-        - 35500

@@ -1,0 +1,33 @@
+instances:
+  triangle_X10_X0_Y20_Y0_LWG_0_0:
+    component: triangle
+    info: {}
+    settings:
+      layer: WG
+      x: 10
+      xtop: 0
+      y: 20
+      ybot: 0
+  triangle_X10_X0_Y20_Y0_LWG_0_m3000:
+    component: triangle
+    info: {}
+    settings:
+      layer: WG
+      x: 10
+      xtop: 0
+      y: 20
+      ybot: 0
+name: triangle2_S3
+nets: []
+placements:
+  triangle_X10_X0_Y20_Y0_LWG_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  triangle_X10_X0_Y20_Y0_LWG_0_m3000:
+    mirror: true
+    rotation: 0
+    x: 0
+    y: -3
+ports: {}

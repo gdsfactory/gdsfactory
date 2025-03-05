@@ -4,8 +4,9 @@ from functools import partial
 from typing import TYPE_CHECKING
 
 import numpy as np
-from pydantic import BaseModel
-from scipy import interpolate
+import numpy.typing as npt
+from pydantic import BaseModel, ConfigDict
+from scipy import interpolate  # type: ignore
 
 if TYPE_CHECKING:
     pass
@@ -52,11 +53,7 @@ class SimulationSettingsLumericalFdtd(BaseModel):
     field_profile_samples: int = 15
     distance_monitors_to_pml: float = 0.5
     material_name_to_lumerical: dict[str, str] = material_name_to_lumerical_default
-
-    class Config:
-        """pydantic basemodel config."""
-
-        arbitrary_types_allowed = True
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
 
 SIMULATION_SETTINGS_LUMERICAL_FDTD = SimulationSettingsLumericalFdtd()
@@ -133,7 +130,11 @@ refractive_indices_oxide = [
 ]
 
 
-def _interpolate_material(wav: np.ndarray, wavelengths, refractive_index) -> np.ndarray:
+def _interpolate_material(
+    wav: npt.NDArray[np.float64],
+    wavelengths: list[float],
+    refractive_index: list[float],
+) -> npt.NDArray[np.float64]:
     """Returns Interpolated refractive index of material for given wavelength.
 
     Args:
@@ -142,7 +143,7 @@ def _interpolate_material(wav: np.ndarray, wavelengths, refractive_index) -> np.
         refractive_index: list of reference refractive indices.
     """
     f = interpolate.interp1d(wavelengths, refractive_index)
-    return f(wav)
+    return f(wav)  # type: ignore
 
 
 si = partial(
@@ -165,4 +166,4 @@ sin = partial(
 materials_index = {"si": si, "sio2": sio2, "sin": sin}
 
 if __name__ == "__main__":
-    print(sio2(1.55))
+    print(sio2(1.55))  # type: ignore

@@ -1,0 +1,8 @@
+info: {}
+name: dbr_cell_W0p45_W0p55_L0_81fd17cb
+settings:
+  cross_section: strip
+  l1: 0.159
+  l2: 0.159
+  w1: 0.45
+  w2: 0.55
