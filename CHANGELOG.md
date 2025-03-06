@@ -1,27 +1,29 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.32.2...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.0.3...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.0.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.0.3) - 2025-03-04
 
-No significant changes.
-
+- Remove typing changes from migration docs [#3698](https://github.com/gdsfactory/gdsfactory/pull/3698)
+- update kfactory [#3703](https://github.com/gdsfactory/gdsfactory/pull/3703)
 
 ## [9.0.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.0.2) - 2025-02-27
 
-No significant changes.
-
+- automatic_name_cladding_layer_sections [#3694](https://github.com/gdsfactory/gdsfactory/pull/3694)
 
 ## [9.0.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.0.1) - 2025-02-20
 
-No significant changes.
-
+- Unpin kfactory version [#3686](https://github.com/gdsfactory/gdsfactory/pull/3686)
 
 ## [9.0.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.0.0) - 2025-02-18
 
-No significant changes.
-
+- Add more tests [#3680](https://github.com/gdsfactory/gdsfactory/pull/3680)
+- Add more tests and change inheritance of Path [#3676](https://github.com/gdsfactory/gdsfactory/pull/3676)
+- allow zero length coupling rings [#3678](https://github.com/gdsfactory/gdsfactory/pull/3678)
+- Improve docs [#3682](https://github.com/gdsfactory/gdsfactory/pull/3682)
+- improve migration guides [#3674](https://github.com/gdsfactory/gdsfactory/pull/3674)
+- GDSFactory v9 [#3630](https://github.com/gdsfactory/gdsfactory/pull/3630)
 
 ## [8.32.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.32.2) - 2025-02-14
 
