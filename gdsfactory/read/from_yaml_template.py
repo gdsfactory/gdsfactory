@@ -1,7 +1,6 @@
 import os
 import pathlib
 from inspect import Parameter, Signature, signature
-from io import IOBase
 from typing import IO, TYPE_CHECKING, Any
 
 import jinja2
@@ -17,7 +16,7 @@ if TYPE_CHECKING:
 
 __all__ = ["cell_from_yaml_template"]
 
-_YamlDefinition = str | IO[Any] | pathlib.Path
+_YamlDefinition = str | IO[str] | pathlib.Path
 
 
 def split_default_settings_from_yaml(yaml_lines: list[str]) -> tuple[str, str]:
@@ -56,7 +55,7 @@ def split_default_settings_from_yaml(yaml_lines: list[str]) -> tuple[str, str]:
 
 
 def _split_yaml_definition(subpic_yaml: _YamlDefinition) -> tuple[str, dict[str, Any]]:
-    if isinstance(subpic_yaml, IOBase):
+    if isinstance(subpic_yaml, IO):
         f = subpic_yaml
         subpic_text = f.readlines()
     else:
