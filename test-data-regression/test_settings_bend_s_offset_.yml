@@ -1,0 +1,9 @@
+info:
+  length: 65.429
+name: bend_s_offset_O40_R10_P_5e6d39c2
+settings:
+  cross_section: strip
+  offset: 40
+  p: 1
+  radius: 10
+  with_arc_floorplan: false
