@@ -1,16 +1,15 @@
 info:
-  length: 1000.001
+  length: 1000
   straight_length: 66.292
-name: spiral_racetrack_fixed__e95fe6cc
+name: spiral_racetrack_fixed__e6b03613
 settings:
-  bend_factory: bend_euler
-  bend_s_factory: bend_s
+  bend: bend_circular
+  bend_s: bend_s
   cross_section: strip
   in_out_port_spacing: 150
   length: 1000
   min_radius: 5
   min_spacing: 5
-  n_bend_points: 99
   n_straight_sections: 8
-  straight_factory: straight
+  straight: straight
   with_inner_ports: false
