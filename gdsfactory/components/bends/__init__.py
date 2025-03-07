@@ -12,7 +12,7 @@ from gdsfactory.components.bends.bend_euler import (
     bend_euler_all_angle,
     bend_euler_s,
 )
-from gdsfactory.components.bends.bend_s import bend_s, bezier
+from gdsfactory.components.bends.bend_s import bend_s, bend_s_offset, bezier
 
 __all__ = [
     "bend_circular",
@@ -24,5 +24,6 @@ __all__ = [
     "bend_euler_all_angle",
     "bend_euler_s",
     "bend_s",
+    "bend_s_offset",
     "bezier",
 ]

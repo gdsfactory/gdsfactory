@@ -48,6 +48,42 @@ def _simplify(
     return np.asarray(ls_simple.coords)
 
 
+def reflect_points(
+    points: npt.NDArray[np.float64],
+    p1: tuple[float, float] = (0, 0),
+    p2: tuple[float, float] = (1, 0),
+) -> npt.NDArray[np.float64]:
+    """Reflects points across the line formed by p1 and p2.
+
+    from https://github.com/amccaugh/phidl/pull/181
+
+    ``points`` may be input as either single points [1,2] or array-like[N][2],
+    and will return in kind.
+
+    Args:
+        points: array-like[N][2]
+        p1: Coordinates of the start of the reflecting line.
+        p2: Coordinates of the end of the reflecting line.
+
+    Returns:
+        A new set of points that are reflected across ``p1`` and ``p2``.
+    """
+    original_shape = np.shape(points)
+    points = np.atleast_2d(points)
+    p1_array = np.asarray(p1)
+    p2_array = np.asarray(p2)
+
+    line_vec = p2_array - p1_array
+    line_vec_norm = np.linalg.norm(line_vec) ** 2
+
+    # Compute reflection
+    proj = np.sum(line_vec * (points - p1_array), axis=-1, keepdims=True)
+    reflected_points = (
+        2 * (p1_array + (p2_array - p1_array) * proj / line_vec_norm) - points
+    )
+    return reflected_points if original_shape[0] > 1 else reflected_points[0]  # type: ignore[no-any-return]
+
+
 class Path(UMGeometricObject):
     """You can extrude a Path with a CrossSection to create a Component.
 
@@ -525,6 +561,26 @@ class Path(UMGeometricObject):
         p.start_angle = self.start_angle
         p.end_angle = self.end_angle
         return p
+
+    def mirror(
+        self, p1: tuple[float, float] = (0, 1), p2: tuple[float, float] = (0, 0)
+    ) -> Path:
+        """Mirrors the Path across the line formed between the two specified points.
+
+        ``points`` may be input as either single points [1,2]
+        or array-like[N][2], and will return in kind.
+
+        Args:
+            p1: First point of the line.
+            p2: Second point of the line.
+        """
+        self.points = reflect_points(self.points, p1, p2)
+        angle = np.arctan2((p2[1] - p1[1]), (p2[0] - p1[0])) * 180 / np.pi
+        if self.start_angle is not None:
+            self.start_angle = mod(2 * angle - self.start_angle, 360)
+        if self.end_angle is not None:
+            self.end_angle = mod(2 * angle - self.end_angle, 360)
+        return self
 
 
 PathFactory = Callable[..., Path]
@@ -1717,65 +1773,6 @@ __all__ = [
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    # P = gf.path.arc(angle=30)
-    # P.dmovey(10)
-    # s0 = gf.Section(
-    #     width=1, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2")
-    # )
-    # s1 = gf.Section(width=3, offset=0, layer=(3, 0), name="slab")
-    # x1 = gf.CrossSection(sections=(s0, s1))
-    # x1 = gf.cross_section.rib
-    # layer = (1, 0)
-    # s1 = gf.Section(width=5, layer=layer, port_names=("o1", "o2"), name="core")
-    # s2 = gf.Section(width=50, layer=layer, port_names=("o1", "o2"), name="core")
-    # xs1 = gf.CrossSection(sections=(s1,))
-    # xs2 = gf.CrossSection(sections=(s2,))
-    # trans12 = gf.path.transition(
-    #     cross_section1=xs1, cross_section2=xs2, width_type="linear"
-    # )
-    # trans21 = gf.path.transition(
-    #     cross_section1=xs2, cross_section2=xs1, width_type="linear"
-    # )
-    # WG4Path = gf.Path()
-    # WG4Path.append(gf.path.straight(length=100, npoints=2))
-    # c1 = gf.path.extrude_transition(WG4Path, trans12)
-
-    p = gf.path.straight()
-    p += gf.path.arc(10)
-    p += gf.path.straight()
-    p.movey(10)
-
-    # Define a cross-section with a via
-    via = gf.cross_section.ComponentAlongPath(
-        component=gf.c.rectangle(size=(1, 1), centered=True), spacing=5, padding=2
-    )
-    s = gf.Section(
-        width=0.5, offset=0, layer=(1, 0), port_names=("in", "out"), name="core"
-    )
-    x = gf.CrossSection(sections=(s,), components_along_path=(via,))
-
-    # Combine the path with the cross-section
-    # c = gf.path.extrude(p, cross_section=x)
-    # assert c
-
-    s = gf.Section(
-        width=2, offset=0, layer=(1, 0), port_names=("in", "out"), name="core"
-    )
-    x2 = gf.CrossSection(sections=(s,), components_along_path=(via,))
-    t = gf.path.transition(x, x2, width_type="linear")
-    c = gf.path.extrude_transition(p, t)
-
-    # c = gf.path.extrude(P, x1)
-    # print(hash(P))
-    # P.plot()
-
-    # ref = c.ref()
-    # print(ref)
-    # s2 = gf.Section(
-    #     width=0.5, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2")
-    # )
-    # s3 = gf.Section(width=2.0, offset=0, layer=(3, 0), name="slab")
-    # x2 = gf.CrossSection(sections=(s2, s3))
-    # t = gf.path.transition(x1, x2, width_type="linear")
-    # c = gf.path.extrude(P, t)
+    p = gf.path.euler(angle=-30)
+    c = p.extrude(cross_section=gf.cross_section.strip)
     c.show()
