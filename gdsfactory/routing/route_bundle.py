@@ -101,7 +101,7 @@ def route_bundle(
     taper: ComponentSpec | None = None,
     port_type: str | None = None,
     collision_check_layers: LayerSpecs | None = None,
-    on_collision: Literal["error", "show_error", "ignore"] | None = "ignore",
+    on_collision: Literal["error", "show_error"] | None = None,
     bboxes: Sequence[kf.kdb.DBox] | None = None,
     allow_width_mismatch: bool = False,
     radius: float | None = None,
@@ -134,7 +134,7 @@ def route_bundle(
         taper: function for the taper. Defaults to None.
         port_type: type of port to place. Defaults to optical.
         collision_check_layers: list of layers to check for collisions.
-        on_collision: action to take on collision. Defaults to show_error.
+        on_collision: action to take on collision. Defaults to None (ignore).
         bboxes: list of bounding boxes to avoid collisions.
         allow_width_mismatch: allow different port widths.
         radius: bend radius. If None, defaults to cross_section.radius.
