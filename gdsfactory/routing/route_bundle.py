@@ -101,7 +101,7 @@ def route_bundle(
     taper: ComponentSpec | None = None,
     port_type: str | None = None,
     collision_check_layers: LayerSpecs | None = None,
-    on_collision: Literal["error", "show_error"] | None = "show_error",
+    on_collision: Literal["error", "show_error", "ignore"] | None = "ignore",
     bboxes: Sequence[kf.kdb.DBox] | None = None,
     allow_width_mismatch: bool = False,
     radius: float | None = None,
