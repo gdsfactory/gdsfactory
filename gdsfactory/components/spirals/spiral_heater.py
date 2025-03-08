@@ -3,7 +3,7 @@ from __future__ import annotations
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentReference
+from gdsfactory.component import Component
 from gdsfactory.components.bends.bend_euler import bend_euler
 from gdsfactory.components.bends.bend_s import get_min_sbend_size
 from gdsfactory.components.waveguides.straight import straight
@@ -49,7 +49,7 @@ def spiral_racetrack(
     c = gf.Component()
 
     if with_inner_ports:
-        bend_s: ComponentReference | Component = gf.get_component(
+        bend_s = gf.get_component(
             bend_s,
             size=(straight_length, -min_radius * 2 + 1 * spacings[0]),
             cross_section=cross_section_s or cross_section,
@@ -124,8 +124,8 @@ def spiral_racetrack_fixed_length(
     n_straight_sections: int = 8,
     min_radius: float = 5,
     min_spacing: float = 5.0,
-    straight: ComponentFactory = straight,
-    bend: ComponentFactory = "bend_circular",
+    straight: ComponentSpec = straight,
+    bend: ComponentSpec = "bend_circular",
     bend_s: ComponentSpec = "bend_s",
     cross_section: CrossSectionSpec = "strip",
     cross_section_s: CrossSectionSpec | None = None,
