@@ -9,7 +9,6 @@ from gdsfactory.components.bends.bend_s import get_min_sbend_size
 from gdsfactory.components.waveguides.straight import straight
 from gdsfactory.routing.route_single import route_single
 from gdsfactory.typings import (
-    ComponentFactory,
     ComponentSpec,
     CrossSectionSpec,
     Floats,
@@ -22,12 +21,11 @@ def spiral_racetrack(
     min_radius: float = 5,
     straight_length: float = 20.0,
     spacings: Floats = (2, 2, 3, 3, 2, 2),
-    straight: ComponentFactory = straight,
-    bend: ComponentFactory = bend_euler,
+    straight: ComponentSpec = straight,
+    bend: ComponentSpec = bend_euler,
     bend_s: ComponentSpec = "bend_s",
     cross_section: CrossSectionSpec = "strip",
     cross_section_s: CrossSectionSpec | None = None,
-    with_inner_ports: bool = False,
     extra_90_deg_bend: bool = False,
     allow_min_radius_violation: bool = False,
 ) -> Component:
@@ -42,44 +40,22 @@ def spiral_racetrack(
         bend_s: factory to generate the s-bend segments.
         cross_section: cross-section of the waveguides.
         cross_section_s: cross-section of the s bend waveguide (optional).
-        with_inner_ports: if True, will build the spiral, but expose the inner ports where the S-bend would be.
         extra_90_deg_bend: if True, we add an additional straight + 90 degree bent at the output, so the output port is looking down.
         allow_min_radius_violation: if True, will allow the s-bend to have a smaller radius than the minimum radius.
     """
     c = gf.Component()
 
-    if with_inner_ports:
-        bend_s = gf.get_component(
-            bend_s,
-            size=(straight_length, -min_radius * 2 + 1 * spacings[0]),
-            cross_section=cross_section_s or cross_section,
-        )
-        c.info["length"] = 0
-
-        c.add_port(
-            "o3",
-            center=bend_s.ports["o1"].center,
-            orientation=0,
-            cross_section=bend_s.ports["o1"].cross_section,
-        )
-        c.add_port(
-            "o4",
-            center=bend_s.ports["o2"].center,
-            orientation=180,
-            cross_section=bend_s.ports["o2"].cross_section,
-        )
-    else:
-        _bend_s = gf.get_component(
-            bend_s,
-            size=(straight_length, -min_radius * 2 + 1 * spacings[0]),
-            cross_section=cross_section_s or cross_section,
-            allow_min_radius_violation=allow_min_radius_violation,
-        )
-        bend_s = c << _bend_s
-        c.info["length"] = _bend_s.info["length"]
+    _bend_s = gf.get_component(
+        bend_s,
+        size=(straight_length, -min_radius * 2 + 1 * spacings[0]),
+        cross_section=cross_section_s or cross_section,
+        allow_min_radius_violation=allow_min_radius_violation,
+    )
+    bend_s_ref = c << _bend_s
+    c.info["length"] = _bend_s.info["length"]
 
     ports: list[Port] = []
-    for port in bend_s.ports:
+    for port in bend_s_ref.ports:
         for i in range(len(spacings)):
             _bend = gf.get_component(
                 bend,
@@ -129,7 +105,6 @@ def spiral_racetrack_fixed_length(
     bend_s: ComponentSpec = "bend_s",
     cross_section: CrossSectionSpec = "strip",
     cross_section_s: CrossSectionSpec | None = None,
-    with_inner_ports: bool = False,
 ) -> Component:
     """Returns Racetrack-Spiral with a specified total length.
 
@@ -148,7 +123,6 @@ def spiral_racetrack_fixed_length(
         bend_s: factory to generate the s-bend segments.
         cross_section: cross-section of the waveguides.
         cross_section_s: cross-section of the s bend waveguide (optional).
-        with_inner_ports: if True, will build the spiral, but expose the inner ports where the S-bend would be.
     """
     c = gf.Component()
 
@@ -180,7 +154,6 @@ def spiral_racetrack_fixed_length(
         bend_s=bend_s,
         cross_section=cross_section,
         cross_section_s=cross_section_s,
-        with_inner_ports=with_inner_ports,
         extra_90_deg_bend=True,
     )
 
@@ -192,8 +165,10 @@ def spiral_racetrack_fixed_length(
         spiral.mirror_x()
 
     # add a bit more to the spiral racetrack to make the in and out ports be aligned in y
-    in_wg = c << straight(
-        spiral.ports["o1"].dx - spiral.dxmin, cross_section=cross_section
+    in_wg = c << gf.get_component(
+        straight,
+        length=spiral.ports["o1"].dx - spiral.dxmin,
+        cross_section=cross_section,
     )
     if np.mod(n_straight_sections // 2, 2) == 1:
         in_wg.mirror_y()
@@ -236,7 +211,7 @@ def _req_straight_len(
     in_out_port_spacing: float = 100,
     min_radius: float = 5,
     spacings: Floats = (1.0, 1.0),
-    bend: ComponentFactory = bend_euler,
+    bend: ComponentSpec = bend_euler,
     bend_s: ComponentSpec = "bend_s",
     cross_section: CrossSectionSpec = "strip",
     cross_section_s_bend: CrossSectionSpec = "strip",
@@ -326,8 +301,8 @@ def spiral_racetrack_heater_metal(
     straight_length: float = 30,
     spacing: float = 2,
     num: int = 8,
-    straight: ComponentFactory = straight,
-    bend: ComponentFactory = bend_euler,
+    straight: ComponentSpec = straight,
+    bend: ComponentSpec = bend_euler,
     bend_s: ComponentSpec = "bend_s",
     waveguide_cross_section: CrossSectionSpec = "strip",
     heater_cross_section: CrossSectionSpec = "heater_metal",
@@ -433,7 +408,7 @@ def spiral_racetrack_heater_doped(
     straight_length: float = 30,
     spacing: float = 2,
     num: int = 8,
-    straight: ComponentFactory = straight,
+    straight: ComponentSpec = straight,
     bend: ComponentSpec = bend_euler,
     bend_s: ComponentSpec = "bend_s",
     waveguide_cross_section: CrossSectionSpec = "strip",
@@ -505,9 +480,9 @@ if __name__ == "__main__":
     # test_length_spiral_racetrack()
 
     # c = spiral_racetrack(cross_section="rib")
-    # c = spiral_racetrack()
+    c = spiral_racetrack(cross_section="nitride")
     # c = spiral_racetrack()
     # c = spiral_racetrack_fixed_length()
-    c = spiral_racetrack_heater_metal()
+    # c = spiral_racetrack_heater_metal()
     # c = spiral_racetrack_heater_doped()
     c.show()
