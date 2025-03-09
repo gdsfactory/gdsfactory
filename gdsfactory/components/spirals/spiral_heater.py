@@ -47,6 +47,7 @@ def spiral_racetrack(
 
     xs = gf.get_cross_section(cross_section)
     min_radius = min_radius or xs.radius
+    assert min_radius
 
     _bend_s = gf.get_component(
         bend_s,
@@ -237,6 +238,7 @@ def _req_straight_len(
 
     xs = gf.get_cross_section(cross_section)
     min_radius = min_radius or xs.radius
+    assert min_radius
 
     # "Brute force" approach - sweep length and save total length
     lens: list[float] = []
