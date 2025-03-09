@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import gdsfactory as gf
+from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.typings import ComponentSpec
 
 
@@ -9,7 +10,7 @@ def spiral(
     length: float = 100,
     bend: ComponentSpec = "bend_euler",
     straight: ComponentSpec = "straight",
-    cross_section: ComponentSpec = "strip",
+    cross_section: CrossSectionSpec = "strip",
     spacing: float = 3.0,
     n_loops: int = 6,
 ) -> gf.Component:
