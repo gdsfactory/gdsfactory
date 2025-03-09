@@ -1,5 +1,5 @@
 instances:
-  spiral_racetrack_MR10_S_b35ed17b_0_0:
+  spiral_racetrack_MR10_S_2a52360f_0_0:
     component: spiral_racetrack
     info:
       length: 1723.876
@@ -22,7 +22,6 @@ instances:
       - 2
       straight: straight
       straight_length: 30
-      with_inner_ports: false
   straight_L30_N2_CSnpp_WNone_0_12000:
     component: straight
     info:
@@ -54,7 +53,7 @@ instances:
 name: spiral_racetrack_heater_c5c52dbc
 nets: []
 placements:
-  spiral_racetrack_MR10_S_b35ed17b_0_0:
+  spiral_racetrack_MR10_S_2a52360f_0_0:
     mirror: false
     rotation: 0
     x: 0
@@ -72,7 +71,7 @@ placements:
 ports:
   bot_e1: straight_L30_N2_CSnpp_WNone_0_12000,e1
   bot_e2: straight_L30_N2_CSnpp_WNone_0_12000,e2
-  o1: spiral_racetrack_MR10_S_b35ed17b_0_0,o1
-  o2: spiral_racetrack_MR10_S_b35ed17b_0_0,o2
+  o1: spiral_racetrack_MR10_S_2a52360f_0_0,o1
+  o2: spiral_racetrack_MR10_S_2a52360f_0_0,o2
   top_e1: straight_L30_N2_CSnpp_WNone_30000_m30000,e1
   top_e2: straight_L30_N2_CSnpp_WNone_30000_m30000,e2
