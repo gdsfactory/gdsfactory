@@ -8,6 +8,8 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 @gf.cell
 def ring_double(
     gap: float = 0.2,
+    gap_top: float | None = None,
+    gap_bot: float | None = None,
     radius: float = 10.0,
     length_x: float = 0.01,
     length_y: float = 0.01,
@@ -23,6 +25,8 @@ def ring_double(
 
     Args:
         gap: gap between for coupler.
+        gap_top: gap for the top coupler. Defaults to gap.
+        gap_bot: gap for the bottom coupler. Defaults to gap.
         radius: for the bend and coupler.
         length_x: ring coupler length.
         length_y: vertical straight length.
@@ -52,9 +56,20 @@ def ring_double(
                      │gap
              o1──────▼─────────o4
     """
-    coupler_component = gf.get_component(
+    gap_top = gap_top or gap
+    gap_bot = gap_bot or gap
+    coupler_component_bot = gf.get_component(
         coupler_ring,
-        gap=gap,
+        gap=gap_bot,
+        radius=radius,
+        length_x=length_x,
+        cross_section=cross_section,
+        straight=straight,
+        bend=bend,
+    )
+    coupler_component_top = gf.get_component(
+        coupler_ring,
+        gap=gap_top,
         radius=radius,
         length_x=length_x,
         cross_section=cross_section,
@@ -68,8 +83,8 @@ def ring_double(
     )
 
     c = Component()
-    cb = c.add_ref(coupler_component)
-    ct = c.add_ref(coupler_component)
+    cb = c.add_ref(coupler_component_bot)
+    ct = c.add_ref(coupler_component_top)
 
     length_y = length_y or 0.001
 
@@ -88,5 +103,5 @@ def ring_double(
 
 
 if __name__ == "__main__":
-    c = ring_double(length_y=2, bend="bend_circular")
+    c = ring_double(length_y=2, bend="bend_circular", gap_top=0.4)
     c.show()

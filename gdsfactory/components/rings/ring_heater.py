@@ -10,6 +10,8 @@ from gdsfactory.typings import AngleInDegrees, ComponentSpec, CrossSectionSpec, 
 @gf.cell
 def ring_double_heater(
     gap: float = 0.2,
+    gap_top: float | None = None,
+    gap_bot: float | None = None,
     radius: float = 10.0,
     length_x: float = 1.0,
     length_y: float = 0.01,
@@ -32,6 +34,8 @@ def ring_double_heater(
 
     Args:
         gap: gap between for coupler.
+        gap_top: gap for the top coupler. Defaults to gap.
+        gap_bot: gap for the bottom coupler. Defaults to gap.
         radius: for the bend and coupler.
         length_x: ring coupler length.
         length_y: vertical straight length.
@@ -68,13 +72,18 @@ def ring_double_heater(
                      │gap
              o1──────▼─────────o4
     """
+    gap_top = gap_top or gap
+    gap_bot = gap_bot or gap
+
     gap = gf.snap.snap_to_grid(gap, grid_factor=2)
+    gap_top = gf.snap.snap_to_grid(gap_top, grid_factor=2)
+    gap_bot = gf.snap.snap_to_grid(gap_bot, grid_factor=2)
 
     coupler_ring_top = coupler_ring_top or coupler_ring
 
     coupler_component = gf.get_component(
         coupler_ring,
-        gap=gap,
+        gap=gap_bot,
         radius=radius,
         length_x=length_x,
         bend=bend,
@@ -83,7 +92,7 @@ def ring_double_heater(
     )
     coupler_component_top = gf.get_component(
         coupler_ring_top,
-        gap=gap,
+        gap=gap_top,
         radius=radius,
         length_x=length_x,
         bend=bend,
@@ -168,6 +177,6 @@ ring_single_heater = partial(ring_double_heater, with_drop=False)
 
 
 if __name__ == "__main__":
-    c = ring_double_heater()
+    c = ring_double_heater(gap_top=0.4, length_y=2)
     c.pprint_ports()
     c.show()
