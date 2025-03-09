@@ -49,7 +49,7 @@ def _simplify(
 
 
 def reflect_points(
-    points: npt.NDArray[np.float64],
+    points: npt.NDArray[np.floating[Any]],
     p1: tuple[float, float] = (0, 0),
     p2: tuple[float, float] = (1, 0),
 ) -> npt.NDArray[np.float64]:

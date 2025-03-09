@@ -1,14 +1,12 @@
 info:
-  length: 670.464
-name: spiral_racetrack_MR5_SL_dd5880dc
+  length: 1081.925
+name: spiral_racetrack_MRNone_05d4c3d3
 settings:
-  allow_min_radius_violation: true
-  bend_factory: bend_euler
-  bend_s_factory: bend_s
+  allow_min_radius_violation: false
+  bend: bend_euler
+  bend_s: bend_s
   cross_section: strip
   extra_90_deg_bend: false
-  min_radius: 5
-  n_bend_points: 99
   spacings:
   - 2
   - 2
@@ -16,6 +14,5 @@ settings:
   - 3
   - 2
   - 2
-  straight_factory: straight
+  straight: straight
   straight_length: 20
-  with_inner_ports: false
