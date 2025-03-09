@@ -18,7 +18,7 @@ from gdsfactory.typings import (
 
 @gf.cell
 def spiral_racetrack(
-    min_radius: float = 5,
+    min_radius: float | None = None,
     straight_length: float = 20.0,
     spacings: Floats = (2, 2, 3, 3, 2, 2),
     straight: ComponentSpec = straight,
@@ -44,6 +44,9 @@ def spiral_racetrack(
         allow_min_radius_violation: if True, will allow the s-bend to have a smaller radius than the minimum radius.
     """
     c = gf.Component()
+
+    xs = gf.get_cross_section(cross_section)
+    min_radius = min_radius or xs.radius
 
     _bend_s = gf.get_component(
         bend_s,
@@ -98,7 +101,7 @@ def spiral_racetrack_fixed_length(
     length: float = 1000,
     in_out_port_spacing: float = 150,
     n_straight_sections: int = 8,
-    min_radius: float = 5,
+    min_radius: float | None = None,
     min_spacing: float = 5.0,
     straight: ComponentSpec = straight,
     bend: ComponentSpec = "bend_circular",
@@ -127,6 +130,8 @@ def spiral_racetrack_fixed_length(
     c = gf.Component()
 
     xs_s_bend = cross_section_s or cross_section
+    xs = gf.get_cross_section(xs_s_bend)
+    min_radius = min_radius or xs.radius
 
     if np.mod(n_straight_sections, 2) != 0:
         raise ValueError("The number of straight sections has to be even!")
@@ -209,7 +214,7 @@ def spiral_racetrack_fixed_length(
 def _req_straight_len(
     length: float = 1000,
     in_out_port_spacing: float = 100,
-    min_radius: float = 5,
+    min_radius: float | None = None,
     spacings: Floats = (1.0, 1.0),
     bend: ComponentSpec = bend_euler,
     bend_s: ComponentSpec = "bend_s",
@@ -221,7 +226,7 @@ def _req_straight_len(
     Args:
         length: total length of the spiral from input to output ports in um.
         in_out_port_spacing: spacing between input and output ports of the spiral in um.
-        min_radius: smallest radius in um.
+        min_radius: smallest radius in um. Defaults to the radius of the cross-section.
         spacings: spacings between adjacent waveguides.
         bend: factory to generate the bend segments.
         bend_s: factory to generate the s-bend segments.
@@ -230,8 +235,10 @@ def _req_straight_len(
     """
     from scipy.interpolate import interp1d  # type: ignore
 
-    # "Brute force" approach - sweep length and save total length
+    xs = gf.get_cross_section(cross_section)
+    min_radius = min_radius or xs.radius
 
+    # "Brute force" approach - sweep length and save total length
     lens: list[float] = []
 
     # Figure out the min straight for the spiral so that the inner
@@ -313,7 +320,7 @@ def spiral_racetrack_heater_metal(
     based on https://doi.org/10.1364/OL.400230 .
 
     Args:
-        min_radius: smallest radius.
+        min_radius: smallest radius. Defaults to the radius of the cross-section.
         straight_length: length of the straight segments.
         spacing: space between the center of neighboring waveguides.
         num: number of loops.
@@ -419,7 +426,7 @@ def spiral_racetrack_heater_doped(
     based on https://doi.org/10.1364/OL.400230 but with the heater between the loops.
 
     Args:
-        min_radius: smallest radius in um.
+        min_radius: smallest radius in um. Defaults to the radius of the cross-section.
         straight_length: length of the straight segments in um.
         spacing: space between the center of neighboring waveguides in um.
         num: number.
@@ -480,7 +487,7 @@ if __name__ == "__main__":
     # test_length_spiral_racetrack()
 
     # c = spiral_racetrack(cross_section="rib")
-    c = spiral_racetrack(cross_section="nitride")
+    c = spiral_racetrack(cross_section="nitride", straight_length=54)
     # c = spiral_racetrack()
     # c = spiral_racetrack_fixed_length()
     # c = spiral_racetrack_heater_metal()
