@@ -1,12 +1,16 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.0.3...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.1.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.1.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.1.0) - 2025-03-09
 
-No significant changes.
-
+- customize ring_double to accept gap_top and gap_top [#3715](https://github.com/gdsfactory/gdsfactory/pull/3715)
+- Simpler spiral definition [#3713](https://github.com/gdsfactory/gdsfactory/pull/3713)
+- Allow explicit return of ComponentAllAngle in get_component [#3709](https://github.com/gdsfactory/gdsfactory/pull/3709)
+- improve straight_heater [#3714](https://github.com/gdsfactory/gdsfactory/pull/3714)
+- ignore on route collision [#3710](https://github.com/gdsfactory/gdsfactory/pull/3710)
+- Improve bend s [#3705](https://github.com/gdsfactory/gdsfactory/pull/3705)
 
 ## [9.0.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.0.3) - 2025-03-04
 
