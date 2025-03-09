@@ -27,19 +27,19 @@ def terminator_spiral(
         npoints: points for the spiral.
         min_bend_radius: minimum bend radius for the spiral.
     """
-    cross_section = gf.get_cross_section(cross_section)
+    cross_section_main = gf.get_cross_section(cross_section)
 
     cross_section_tip = cross_section_tip or gf.get_cross_section(
         cross_section, width=width_tip
     )
 
     xs = transition(
-        cross_section1=cross_section,
-        cross_section2=cross_section_tip,
+        cross_section2=cross_section_main,
+        cross_section1=cross_section_tip,
         width_type="linear",
     )
 
-    min_bend_radius = min_bend_radius or cross_section.radius_min
+    min_bend_radius = min_bend_radius or cross_section_main.radius_min
     assert min_bend_radius
 
     path = spiral_archimedean(
@@ -51,7 +51,11 @@ def terminator_spiral(
     path.start_angle = 0
     path.end_angle = 0
 
-    return extrude_transition(path, transition=xs)
+    spiral = extrude_transition(path, transition=xs)
+    c = gf.Component()
+    ref = c << spiral
+    c.add_port("o1", port=ref["o1"])
+    return c
 
 
 if __name__ == "__main__":
