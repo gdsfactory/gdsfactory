@@ -95,6 +95,7 @@ from gdsfactory.components.filters import (
     mode_converter,
     polarization_splitter_rotator,
     terminator,
+    terminator_spiral,
 )
 from gdsfactory.components.grating_couplers import (
     grating_coupler_array,
@@ -614,6 +615,7 @@ __all__ = [
     "taper_w12_l200",
     "tapers",
     "terminator",
+    "terminator_spiral",
     "text",
     "text_freetype",
     "text_klayout",

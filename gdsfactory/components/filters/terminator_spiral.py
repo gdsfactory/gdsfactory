@@ -8,30 +8,25 @@ from gdsfactory.typings import CrossSectionSpec
 @gf.cell
 def terminator_spiral(
     separation: float = 2.0,
-    cross_section: CrossSectionSpec = "strip",
-    cross_section_tip: CrossSectionSpec | None = None,
     width_tip: float = 0.2,
     number_of_loops: float = 1,
     npoints: int = 1000,
     min_bend_radius: float | None = None,
+    cross_section: CrossSectionSpec = "strip",
 ) -> gf.Component:
     """Returns doped taper to terminate waveguides.
 
     Args:
         separation: separation between the loops.
-        cross_section: input cross-section.
-        cross_section_tip: cross-section at the end of the termination.
         width_tip: width of the default cross-section at the end of the termination.
             Only used if cross_section_tip is not None.
         number_of_loops: number of loops in the spiral.
         npoints: points for the spiral.
         min_bend_radius: minimum bend radius for the spiral.
+        cross_section: input cross-section.
     """
     cross_section_main = gf.get_cross_section(cross_section)
-
-    cross_section_tip = cross_section_tip or gf.get_cross_section(
-        cross_section, width=width_tip
-    )
+    cross_section_tip = gf.get_cross_section(cross_section, width=width_tip)
 
     xs = transition(
         cross_section2=cross_section_main,
@@ -59,5 +54,5 @@ def terminator_spiral(
 
 
 if __name__ == "__main__":
-    c = terminator_spiral()
+    c = terminator_spiral(number_of_loops=3)
     c.show()

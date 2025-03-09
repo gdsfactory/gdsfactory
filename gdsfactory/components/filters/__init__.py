@@ -27,6 +27,9 @@ from gdsfactory.components.filters.polarization_splitter_rotator import (
 from gdsfactory.components.filters.terminator import (
     terminator,
 )
+from gdsfactory.components.filters.terminator_spiral import (
+    terminator_spiral,
+)
 
 __all__ = [
     "awg",
@@ -40,4 +43,5 @@ __all__ = [
     "mode_converter",
     "polarization_splitter_rotator",
     "terminator",
+    "terminator_spiral",
 ]
