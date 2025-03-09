@@ -441,8 +441,10 @@ class Pdk(BaseModel):
         elif isinstance(cross_section, CrossSection):
             if kwargs:
                 warnings.warn(
-                    f"{kwargs} are ignored for cross_section {cross_section.name!r}"
+                    f"{kwargs} ignored for cross_section {cross_section.name!r}",
+                    stacklevel=3,
                 )
+
             return cross_section
         elif isinstance(cross_section, kf.DCrossSection | kf.SymmetricalCrossSection):
             if isinstance(cross_section, kf.DCrossSection):

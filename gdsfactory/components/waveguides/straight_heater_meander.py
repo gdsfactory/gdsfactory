@@ -65,38 +65,55 @@ def straight_heater_meander(
 
     x = gf.get_cross_section(cross_section)
     radius = radius or x.radius
+    n = n or len(straight_widths)
 
     assert radius is not None
+    assert n
 
     if n and not straight_widths:
         if n % 2 == 0:
             raise ValueError(f"n={n} should be odd")
-        straight_widths = [x.width] * n
 
     ##############
     # Straights
     ##############
     total_length = 0.0
 
-    for row, straight_width in enumerate(straight_widths):
-        cross_section1 = gf.get_cross_section(cross_section, width=straight_width)
-        _straight = gf.c.straight(
-            length=straight_length - 2 * taper_length,
-            cross_section=cross_section,
-            width=straight_width,
-        )
-        total_length += straight_length
+    if straight_widths:
+        for row, straight_width in enumerate(straight_widths):
+            cross_section1 = gf.get_cross_section(cross_section, width=straight_width)
 
-        taper = gf.c.taper_cross_section_linear(
-            cross_section1=cross_section1,
-            cross_section2=cross_section2,
-            length=taper_length,
-        )
-        straight_with_tapers = gf.c.extend_ports(component=_straight, extension=taper)
-        straight_ref = c << straight_with_tapers
-        straight_ref.dy = row * spacing
-        ports[f"o1_{row + 1}"] = straight_ref.ports["o1"]
-        ports[f"o2_{row + 1}"] = straight_ref.ports["o2"]
+            _straight = gf.c.straight(
+                length=straight_length - 2 * taper_length,
+                cross_section=cross_section,
+                width=straight_width,
+            )
+            total_length += straight_length
+
+            taper = gf.c.taper_cross_section_linear(
+                cross_section1=cross_section1,
+                cross_section2=cross_section2,
+                length=taper_length,
+            )
+            straight_with_tapers = gf.c.extend_ports(
+                component=_straight, extension=taper
+            )
+            straight_ref = c << straight_with_tapers
+            straight_ref.dy = row * spacing
+            ports[f"o1_{row + 1}"] = straight_ref.ports["o1"]
+            ports[f"o2_{row + 1}"] = straight_ref.ports["o2"]
+
+    else:
+        for row in range(n):
+            _straight = gf.c.straight(
+                length=straight_length,
+                cross_section=cross_section,
+            )
+            total_length += straight_length
+            straight_ref = c << _straight
+            straight_ref.dy = row * spacing
+            ports[f"o1_{row + 1}"] = straight_ref.ports["o1"]
+            ports[f"o2_{row + 1}"] = straight_ref.ports["o2"]
 
     ##############
     # loopbacks
