@@ -7,7 +7,7 @@ from gdsfactory.typings import CrossSectionSpec
 
 @gf.cell
 def terminator_spiral(
-    separation: float = 2.0,
+    separation: float = 3.0,
     width_tip: float = 0.2,
     number_of_loops: float = 1,
     npoints: int = 1000,
@@ -39,7 +39,7 @@ def terminator_spiral(
 
     path = spiral_archimedean(
         min_bend_radius=min_bend_radius,
-        separation=separation,
+        separation=separation / 2,
         number_of_loops=number_of_loops,
         npoints=npoints,
     )

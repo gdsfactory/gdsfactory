@@ -1,0 +1,8 @@
+info: {}
+name: terminator_spiral_S3_WT_e07764dc
+settings:
+  cross_section: strip
+  npoints: 1000
+  number_of_loops: 1
+  separation: 3
+  width_tip: 0.2
