@@ -19,7 +19,7 @@ dependencies = [
   "numpy",
   "orjson<4",
   "pandas",
-  "klayout==0.29.11",
+  "klayout==0.29.12",
   "pydantic>=2.10,<2.11",
   "pydantic-settings<3",
   "pydantic-extra-types<3",
