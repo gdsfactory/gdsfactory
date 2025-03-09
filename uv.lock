@@ -964,7 +964,7 @@ wheels = [
 
 [[package]]
 name = "gdsfactory"
-version = "9.0.3"
+version = "9.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "attrs" },
