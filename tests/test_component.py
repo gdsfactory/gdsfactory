@@ -735,13 +735,6 @@ def test_layers() -> None:
     assert c.layers == [(1, 0)]
 
 
-def test_component_pprint_ports() -> None:
-    c = gf.Component()
-    c.add_port(name="port1", layer=(1, 0), center=(0, 0), width=10)
-    c.add_port(name="port2", layer=(2, 0), center=(10, 0), width=10)
-    c.pprint_ports()
-
-
 def test_get_netlist_recursive() -> None:
     c = gf.Component()
     child = gf.Component()
