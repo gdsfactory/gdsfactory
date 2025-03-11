@@ -630,8 +630,6 @@ def test_get_boxes() -> None:
     ref = c2 << c
     ref.move((100, 100))
 
-    c2.show()
-
     boxes = c2.get_boxes(layer=(1, 0), recursive=True)
     assert len(boxes) == 1
     assert boxes[0].left == 100
