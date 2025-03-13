@@ -35,7 +35,7 @@ def grating_coupler_loss(
     c = gf.Component()
     xmin = 0.0
 
-    for i in range(3, nfibers, 2):
+    for i in range(2, nfibers - 1, 2):
         g1 = c << gc
         g1.drotate(rotation)
         g1.dx = xmin
