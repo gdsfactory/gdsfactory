@@ -16,6 +16,8 @@ ComponentParams = ParamSpec("ComponentParams")
 
 
 class ComponentFunc(Protocol[ComponentParams]):
+    __name__: str
+
     def __call__(
         self, *args: ComponentParams.args, **kwargs: ComponentParams.kwargs
     ) -> Component: ...
@@ -105,6 +107,8 @@ def cell(
 
 
 class ComponentAllAngleFunc(Protocol[ComponentParams]):
+    __name__: str
+
     def __call__(
         self, *args: ComponentParams.args, **kwargs: ComponentParams.kwargs
     ) -> ComponentAllAngle: ...
