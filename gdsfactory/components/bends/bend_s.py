@@ -194,43 +194,73 @@ def bend_s(
     )
 
 
-def _get_euler_sbend_angle_middle_length_from_jog(
-    jog: float, radius: float, p: float, use_eff: bool
+def _get_arc_sbend_angle_middle_length_from_jog(
+    jog: float, radius: float
 ) -> tuple[float, float]:
-    """Compute the Euler bend angle and middle straight length for an S-bend.
-
-    based on the required offset (“jog”) and the bend parameters.
-
-    This version uses the effective Euler bend endpoint. In a 90° Euler bend
-    the vertical displacement is not exactly equal to the radius. We compute
-    that displacement and then use it to decide whether the Euler curves alone
-    are enough (jog < 2 * dy90) or whether an extra straight section is needed.
-    """
-    # Generate a 90° Euler bend to get its vertical displacement.
-    bend90 = gf.path.euler(radius=radius, angle=90, p=p, use_eff=use_eff)
-    # Assume the path points array gives [x, y] coordinates; use the last points y.
-    dy90 = bend90.points[-1][1]
-
-    if jog < 2 * dy90:
-        # For offsets that do not require a straight section, solve for the needed Euler bend angle.
-        # (Here we use a linear scaling as an approximation. For more accuracy one could
-        #  numerically solve for the angle that gives an Euler bend with vertical displacement = jog/2.)
-        angle = 90 * (jog / (2 * dy90))
+    """Compute the Euler bend angle and middle straight length for an S-bend."""
+    if jog < 2 * radius:
+        angle = np.rad2deg(2 * np.arcsin(np.sqrt(jog / (4 * radius))))
         middle_length = 0.0
     else:
         angle = 90.0
-        middle_length = jog - 2 * dy90
-    return angle, middle_length
+        middle_length = jog - 2 * radius
+    return (angle, middle_length)
+
+
+def _get_euler_sbend_angle_middle_length_from_jog(
+    jog: float, radius: float
+) -> tuple[float, float]:
+    """Compute the Euler bend angle (in degrees) and middle straight length for an S-bend.
+
+    using SciPy to numerically solve for the bend angle required to achieve half the jog.
+
+    The vertical displacement for an Euler bend of angle θ (in radians) is given by:
+      displacement(θ) = radius * sqrt(pi * θ) * S( sqrt(2θ/pi) )
+    where S() is the Fresnel sine integral.
+
+    The S-bend consists of two symmetric Euler bends. If the jog is less than twice the displacement
+    of a full 90° Euler bend, the angle is computed such that one Euler bend gives a displacement of jog/2.
+    Otherwise, a full 90° Euler bend is used and the extra required offset is added as a straight section.
+
+    Args:
+        jog: The vertical displacement of the S-bend.
+        radius: The radius of the Euler bend.
+
+    Returns:
+      tuple: (angle_deg, middle_length) where:
+          - angle_deg is the Euler bend angle in degrees.
+          - middle_length is the length of the straight segment between the Euler bends.
+    """
+    from scipy import optimize
+
+    def euler_displacement(theta: float) -> float:
+        curve = gf.path.euler(radius=radius, angle=theta, use_eff=False, p=1)
+        return curve.ysize
+
+    dy_full = euler_displacement(theta=90)
+
+    if jog < 2 * dy_full:
+        # Define the objective function: squared error between computed displacement and jog
+        def objective(theta: float) -> float:
+            return (euler_displacement(theta) - jog) ** 2
+
+        result = optimize.minimize_scalar(objective, bounds=(1, 90), method="bounded")
+        angle_deg = result.x
+        middle_length = 0.0
+    else:
+        angle_deg = 90.0
+        middle_length = jog - 2 * dy_full
+
+    return angle_deg, middle_length
 
 
 @gf.cell
 def bend_s_offset(
     offset: float = 40.0,
     radius: float = 10.0,
-    p: float = 1.0,
     cross_section: CrossSectionSpec = "strip",
-    with_arc_floorplan: bool = False,
     width: float | None = None,
+    with_euler: bool = True,
 ) -> gf.Component:
     """Return S bend made of two euler bends with a straight section.
 
@@ -240,10 +270,9 @@ def bend_s_offset(
     Args:
         offset: in um.
         radius: in um.
-        p: proportion of the curve that is an Euler curve.
         cross_section: spec.
-        with_arc_floorplan: reduces the size of the Euler bend to match the arc floorplan.
         width: width to use. Defaults to cross_section.width.
+        with_euler: use euler bend instead of arc bend.
     """
     if width:
         xs = gf.get_cross_section(cross_section, width=width)
@@ -251,13 +280,22 @@ def bend_s_offset(
         xs = gf.get_cross_section(cross_section)
 
     xs.validate_radius(radius)
-    angle, middle_length = _get_euler_sbend_angle_middle_length_from_jog(
-        jog=offset, radius=radius, p=p, use_eff=with_arc_floorplan
-    )
+    if with_euler:
+        angle, middle_length = _get_euler_sbend_angle_middle_length_from_jog(
+            jog=offset / 2, radius=radius
+        )
+        path = gf.path.euler(radius=radius, angle=+angle, p=1, use_eff=False)
+        path += gf.path.straight(length=middle_length)
+        path += gf.path.euler(radius=radius, angle=-angle, p=1, use_eff=False)
+    else:
+        angle, middle_length = _get_arc_sbend_angle_middle_length_from_jog(
+            jog=offset,
+            radius=radius,
+        )
+        path = gf.path.arc(radius=radius, angle=+angle)
+        path += gf.path.straight(length=middle_length)
+        path += gf.path.arc(radius=radius, angle=-angle)
 
-    path = gf.path.euler(radius=radius, angle=+angle, p=p, use_eff=with_arc_floorplan)
-    path += gf.path.straight(length=middle_length)
-    path += gf.path.euler(radius=radius, angle=-angle, p=p, use_eff=with_arc_floorplan)
     return gf.path.extrude(path, cross_section=xs)
 
 
@@ -321,5 +359,5 @@ if __name__ == "__main__":
     # xs = gf.cross_section.strip(width=2)
     # c = bend_s_offset(offset=40, with_arc_floorplan=False, cross_section=xs, width=1)
     # print(c.info["min_bend_radius"])
-    c = bend_s_offset(offset=40, radius=10, with_arc_floorplan=True)
+    c = bend_s_offset(offset=1, radius=10, with_euler=True)
     c.show()
