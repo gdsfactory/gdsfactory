@@ -426,7 +426,6 @@ def test_route_bundle_u_indirect(
         radius=5,
         cross_section="strip",
     )
-    c.show()
     lengths = {i: route.length for i, route in enumerate(routes)}
     if check:
         data_regression.check(lengths)

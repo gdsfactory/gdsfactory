@@ -44,6 +44,7 @@ def bezier(
     cross_section: CrossSectionSpec = "strip",
     bend_radius_error_type: ErrorType | None = None,
     allow_min_radius_violation: bool = False,
+    width: float | None = None,
 ) -> Component:
     """Returns Bezier bend.
 
@@ -56,8 +57,13 @@ def bezier(
         cross_section: spec.
         bend_radius_error_type: error type.
         allow_min_radius_violation: bool.
+        width: width to use. Defaults to cross_section.width.
     """
-    xs = gf.get_cross_section(cross_section)
+    if width:
+        xs = gf.get_cross_section(cross_section, width=width)
+    else:
+        xs = gf.get_cross_section(cross_section)
+
     t = np.linspace(0, 1, npoints)
     path_points = bezier_curve(t, control_points)
     path = gf.Path(path_points)
@@ -157,6 +163,7 @@ def bend_s(
     npoints: int = 99,
     cross_section: CrossSectionSpec = "strip",
     allow_min_radius_violation: bool = False,
+    width: float | None = None,
 ) -> Component:
     """Return S bend with bezier curve.
 
@@ -168,19 +175,128 @@ def bend_s(
         npoints: number of points.
         cross_section: spec.
         allow_min_radius_violation: bool.
+        width: width to use. Defaults to cross_section.width.
 
     """
     dx, dy = size
 
     if dy == 0:
-        return gf.components.straight(length=dx, cross_section=cross_section)
+        return gf.components.straight(
+            length=dx, cross_section=cross_section, width=width
+        )
 
     return bezier(
         control_points=((0, 0), (dx / 2, 0), (dx / 2, dy), (dx, dy)),
         npoints=npoints,
         cross_section=cross_section,
         allow_min_radius_violation=allow_min_radius_violation,
+        width=width,
     )
+
+
+def _get_arc_sbend_angle_middle_length_from_jog(
+    jog: float, radius: float
+) -> tuple[float, float]:
+    """Compute the Euler bend angle and middle straight length for an S-bend."""
+    if jog < 2 * radius:
+        angle = np.rad2deg(2 * np.arcsin(np.sqrt(jog / (4 * radius))))
+        middle_length = 0.0
+    else:
+        angle = 90.0
+        middle_length = jog - 2 * radius
+    return (angle, middle_length)
+
+
+def _get_euler_sbend_angle_middle_length_from_jog(
+    jog: float, radius: float
+) -> tuple[float, float]:
+    """Compute the Euler bend angle (in degrees) and middle straight length for an S-bend.
+
+    using SciPy to numerically solve for the bend angle required to achieve half the jog.
+
+    The vertical displacement for an Euler bend of angle θ (in radians) is given by:
+      displacement(θ) = radius * sqrt(pi * θ) * S( sqrt(2θ/pi) )
+    where S() is the Fresnel sine integral.
+
+    The S-bend consists of two symmetric Euler bends. If the jog is less than twice the displacement
+    of a full 90° Euler bend, the angle is computed such that one Euler bend gives a displacement of jog/2.
+    Otherwise, a full 90° Euler bend is used and the extra required offset is added as a straight section.
+
+    Args:
+        jog: The vertical displacement of the S-bend.
+        radius: The radius of the Euler bend.
+
+    Returns:
+      tuple: (angle_deg, middle_length) where:
+          - angle_deg is the Euler bend angle in degrees.
+          - middle_length is the length of the straight segment between the Euler bends.
+    """
+    from scipy import optimize
+
+    def euler_displacement(theta: float) -> float:
+        curve = gf.path.euler(radius=radius, angle=theta, use_eff=False, p=1)
+        return curve.ysize
+
+    dy_full = euler_displacement(theta=90)
+
+    if jog < 2 * dy_full:
+        # Define the objective function: squared error between computed displacement and jog
+        def objective(theta: float) -> float:
+            return (euler_displacement(theta) - jog) ** 2
+
+        result = optimize.minimize_scalar(objective, bounds=(1, 90), method="bounded")
+        angle_deg = result.x
+        middle_length = 0.0
+    else:
+        angle_deg = 90.0
+        middle_length = jog - 2 * dy_full
+
+    return angle_deg, middle_length
+
+
+@gf.cell
+def bend_s_offset(
+    offset: float = 40.0,
+    radius: float = 10.0,
+    cross_section: CrossSectionSpec = "strip",
+    width: float | None = None,
+    with_euler: bool = True,
+) -> gf.Component:
+    """Return S bend made of two euler bends with a straight section.
+
+    stores min_bend_radius property in self.info['min_bend_radius']
+    min_bend_radius depends on height and length
+
+    Args:
+        offset: in um.
+        radius: in um.
+        cross_section: spec.
+        width: width to use. Defaults to cross_section.width.
+        with_euler: use euler bend instead of arc bend.
+    """
+    if width:
+        xs = gf.get_cross_section(cross_section, width=width)
+    else:
+        xs = gf.get_cross_section(cross_section)
+
+    xs.validate_radius(radius)
+    if with_euler:
+        angle, middle_length = _get_euler_sbend_angle_middle_length_from_jog(
+            jog=offset / 2, radius=radius
+        )
+        path = gf.path.euler(radius=radius, angle=+angle, p=1, use_eff=False)
+        path += gf.path.straight(length=middle_length)
+        path += gf.path.euler(radius=radius, angle=-angle, p=1, use_eff=False)
+    else:
+        angle, middle_length = _get_arc_sbend_angle_middle_length_from_jog(
+            jog=offset,
+            radius=radius,
+        )
+        path = gf.path.arc(radius=radius, angle=+angle)
+        path += gf.path.straight(length=middle_length)
+        path += gf.path.arc(radius=radius, angle=-angle)
+
+    return gf.path.extrude(path, cross_section=xs)
 
 
 def get_min_sbend_size(
@@ -240,13 +356,8 @@ def get_min_sbend_size(
 
 
 if __name__ == "__main__":
-    min_size = get_min_sbend_size()
-    print(min_size)
-    # c = bend_s(size=(10, 0))
-    # c = bend_s(bbox_offsets=[0.5], bbox_layers=[(111, 0)], width=2)
-    # c = bend_s(size=[10, 2.5])  # 10um bend radius
-    # c = bend_s(size=[20, 3], cross_section="rib")  # 10um bend radius
-    # c.pprint()
-    # c = bend_s_biased()
+    # xs = gf.cross_section.strip(width=2)
+    # c = bend_s_offset(offset=40, with_arc_floorplan=False, cross_section=xs, width=1)
     # print(c.info["min_bend_radius"])
-    # c.show()
+    c = bend_s_offset(offset=1, radius=10, with_euler=True)
+    c.show()

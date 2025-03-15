@@ -15,7 +15,7 @@ from kfactory.layer import LayerEnum
 from pydantic import BaseModel, ConfigDict, Field
 
 from gdsfactory import logger
-from gdsfactory.component import Component
+from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.config import CONF
 from gdsfactory.cross_section import (
     CrossSection,
@@ -368,8 +368,10 @@ class Pdk(BaseModel):
         kwargs = kwargs or {}
         kwargs.update(settings)
 
-        if isinstance(component, kf.DKCell):
+        if isinstance(component, kf.ProtoTKCell):
             return Component(base=component.base)
+        elif isinstance(component, kf.VKCell):
+            return ComponentAllAngle(base=component.base)
         elif callable(component):
             _component = component(**kwargs)
             return type(_component)(base=_component.base)  # type: ignore[call-overload,no-any-return]
@@ -437,8 +439,10 @@ class Pdk(BaseModel):
         elif isinstance(cross_section, CrossSection):
             if kwargs:
                 warnings.warn(
-                    f"{kwargs} are ignored for cross_section {cross_section.name!r}"
+                    f"{kwargs} ignored for cross_section {cross_section.name!r}",
+                    stacklevel=3,
                 )
+
             return cross_section
         elif isinstance(cross_section, kf.DCrossSection | kf.SymmetricalCrossSection):
             if isinstance(cross_section, kf.DCrossSection):

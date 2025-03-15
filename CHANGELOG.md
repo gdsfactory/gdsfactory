@@ -1,27 +1,45 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v8.32.2...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.2.0...main)
 
 <!-- towncrier release notes start -->
 
+## [9.2.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.2.0) - 2025-03-15
+
+- Add __name__ to ComponentFunc [#3720](https://github.com/gdsfactory/gdsfactory/pull/3720)
+- add terminator_spiral [#3718](https://github.com/gdsfactory/gdsfactory/pull/3718)
+- Fix deembed [#3722](https://github.com/gdsfactory/gdsfactory/pull/3722)
+- unpin klayout [#3723](https://github.com/gdsfactory/gdsfactory/pull/3723)
+
+## [9.1.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.1.0) - 2025-03-09
+
+- customize ring_double to accept gap_top and gap_top [#3715](https://github.com/gdsfactory/gdsfactory/pull/3715)
+- Simpler spiral definition [#3713](https://github.com/gdsfactory/gdsfactory/pull/3713)
+- Allow explicit return of ComponentAllAngle in get_component [#3709](https://github.com/gdsfactory/gdsfactory/pull/3709)
+- improve straight_heater [#3714](https://github.com/gdsfactory/gdsfactory/pull/3714)
+- ignore on route collision [#3710](https://github.com/gdsfactory/gdsfactory/pull/3710)
+- Improve bend s [#3705](https://github.com/gdsfactory/gdsfactory/pull/3705)
+
 ## [9.0.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.0.3) - 2025-03-04
 
-No significant changes.
-
+- Remove typing changes from migration docs [#3698](https://github.com/gdsfactory/gdsfactory/pull/3698)
+- update kfactory [#3703](https://github.com/gdsfactory/gdsfactory/pull/3703)
 
 ## [9.0.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.0.2) - 2025-02-27
 
-No significant changes.
-
+- automatic_name_cladding_layer_sections [#3694](https://github.com/gdsfactory/gdsfactory/pull/3694)
 
 ## [9.0.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.0.1) - 2025-02-20
 
-No significant changes.
-
+- Unpin kfactory version [#3686](https://github.com/gdsfactory/gdsfactory/pull/3686)
 
 ## [9.0.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.0.0) - 2025-02-18
 
-No significant changes.
-
+- Add more tests [#3680](https://github.com/gdsfactory/gdsfactory/pull/3680)
+- Add more tests and change inheritance of Path [#3676](https://github.com/gdsfactory/gdsfactory/pull/3676)
+- allow zero length coupling rings [#3678](https://github.com/gdsfactory/gdsfactory/pull/3678)
+- Improve docs [#3682](https://github.com/gdsfactory/gdsfactory/pull/3682)
+- improve migration guides [#3674](https://github.com/gdsfactory/gdsfactory/pull/3674)
+- GDSFactory v9 [#3630](https://github.com/gdsfactory/gdsfactory/pull/3630)
 
 ## [8.32.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v8.32.2) - 2025-02-14
 

@@ -474,9 +474,9 @@ if __name__ == "__main__":
     import gdsfactory.schematic as gt
 
     s = Schematic()
-    s.add_instance("mzi1", gt.Instance(component=gf.c.mzi(delta_length=10)))
-    s.add_instance("mzi2", gt.Instance(component=gf.c.mzi(delta_length=100)))
-    s.add_instance("mzi3", gt.Instance(component=gf.c.mzi(delta_length=200)))
+    s.add_instance("mzi1", gt.Instance(component=gf.c.mzi(delta_length=10)))  # type: ignore[arg-type]
+    s.add_instance("mzi2", gt.Instance(component=gf.c.mzi(delta_length=100)))  # type: ignore[arg-type]
+    s.add_instance("mzi3", gt.Instance(component=gf.c.mzi(delta_length=200)))  # type: ignore[arg-type]
     s.add_placement("mzi1", gt.Placement(x=000, y=0))
     s.add_placement("mzi2", gt.Placement(x=100, y=100))
     s.add_placement("mzi3", gt.Placement(x=200, y=0))

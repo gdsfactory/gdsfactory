@@ -95,7 +95,7 @@ instances:
       radius: 10
       width: null
       with_arc_floorplan: true
-  bend_s_S500_24p375_N99__7434ea4c_901000_49375:
+  bend_s_S500_24p375_N99__0776e2fe_901000_49375:
     component: bend_s
     info:
       end_angle: 0
@@ -115,7 +115,8 @@ instances:
       size:
       - 500
       - 24.375
-  bend_s_S500_24p375_N99__7434ea4c_901000_50625:
+      width: null
+  bend_s_S500_24p375_N99__0776e2fe_901000_50625:
     component: bend_s
     info:
       end_angle: 0
@@ -135,7 +136,8 @@ instances:
       size:
       - 500
       - 24.375
-  bend_s_S500_24p375_N99__7434ea4c_901000_m49375:
+      width: null
+  bend_s_S500_24p375_N99__0776e2fe_901000_m49375:
     component: bend_s
     info:
       end_angle: 0
@@ -155,7 +157,8 @@ instances:
       size:
       - 500
       - 24.375
-  bend_s_S500_24p375_N99__7434ea4c_901000_m50625:
+      width: null
+  bend_s_S500_24p375_N99__0776e2fe_901000_m50625:
     component: bend_s
     info:
       end_angle: 0
@@ -175,6 +178,7 @@ instances:
       size:
       - 500
       - 24.375
+      width: null
   coupler_0_0:
     component: mzi
     info: {}
@@ -336,13 +340,13 @@ nets:
   p2: straight_L69_N2_CSstrip_WNone_421000_m50000,o1
 - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_421000_m50000,o2
   p2: straight_L29p375_N2_CSs_6ed2bfdd_411000_m40000,o1
-- p1: bend_s_S500_24p375_N99__7434ea4c_901000_49375,o1
+- p1: bend_s_S500_24p375_N99__0776e2fe_901000_49375,o1
   p2: coupler_1_1,o3
-- p1: bend_s_S500_24p375_N99__7434ea4c_901000_50625,o1
+- p1: bend_s_S500_24p375_N99__0776e2fe_901000_50625,o1
   p2: coupler_1_1,o2
-- p1: bend_s_S500_24p375_N99__7434ea4c_901000_m49375,o1
+- p1: bend_s_S500_24p375_N99__0776e2fe_901000_m49375,o1
   p2: coupler_1_0,o2
-- p1: bend_s_S500_24p375_N99__7434ea4c_901000_m50625,o1
+- p1: bend_s_S500_24p375_N99__0776e2fe_901000_m50625,o1
   p2: coupler_1_0,o3
 - p1: coupler_1_0,o1
   p2: straight_L69_N2_CSstrip_WNone_421000_m50000,o2
@@ -369,22 +373,22 @@ placements:
     rotation: 180
     x: 421
     y: -50
-  bend_s_S500_24p375_N99__7434ea4c_901000_49375:
+  bend_s_S500_24p375_N99__0776e2fe_901000_49375:
     mirror: true
     rotation: 0
     x: 901
     y: 49.375
-  bend_s_S500_24p375_N99__7434ea4c_901000_50625:
+  bend_s_S500_24p375_N99__0776e2fe_901000_50625:
     mirror: false
     rotation: 0
     x: 901
     y: 50.625
-  bend_s_S500_24p375_N99__7434ea4c_901000_m49375:
+  bend_s_S500_24p375_N99__0776e2fe_901000_m49375:
     mirror: false
     rotation: 0
     x: 901
     y: -49.375
-  bend_s_S500_24p375_N99__7434ea4c_901000_m50625:
+  bend_s_S500_24p375_N99__0776e2fe_901000_m50625:
     mirror: true
     rotation: 0
     x: 901
@@ -450,7 +454,7 @@ ports:
   e8_1_12: coupler_1_0,e8
   e8_1_22: coupler_1_1,e8
   o1_0_0: coupler_0_0,o1
-  o2_1_17: bend_s_S500_24p375_N99__7434ea4c_901000_m49375,o2
-  o2_1_18: bend_s_S500_24p375_N99__7434ea4c_901000_m50625,o2
-  o2_1_27: bend_s_S500_24p375_N99__7434ea4c_901000_50625,o2
-  o2_1_28: bend_s_S500_24p375_N99__7434ea4c_901000_49375,o2
+  o2_1_17: bend_s_S500_24p375_N99__0776e2fe_901000_m49375,o2
+  o2_1_18: bend_s_S500_24p375_N99__0776e2fe_901000_m50625,o2
+  o2_1_27: bend_s_S500_24p375_N99__0776e2fe_901000_50625,o2
+  o2_1_28: bend_s_S500_24p375_N99__0776e2fe_901000_49375,o2

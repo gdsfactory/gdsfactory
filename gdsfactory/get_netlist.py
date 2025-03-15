@@ -576,9 +576,9 @@ def get_netlist_recursive(
 
 
 def _demo_ring_single_array() -> None:
-    import gdsfactory as gf
+    from gdsfactory.components.rings.ring_single_array import ring_single_array
 
-    c = gf.components.ring_single_array()
+    c = ring_single_array()
     c.get_netlist()
 
 

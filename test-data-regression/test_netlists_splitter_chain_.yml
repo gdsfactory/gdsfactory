@@ -1,5 +1,5 @@
 instances:
-  bend_s_S11_1p8_N99_CSst_71d8cbbd_15500_625:
+  bend_s_S11_1p8_N99_CSst_65c79658_15500_625:
     component: bend_s
     info:
       end_angle: 0
@@ -19,7 +19,8 @@ instances:
       size:
       - 11
       - 1.8
-  bend_s_S11_1p8_N99_CSst_71d8cbbd_52000_3050:
+      width: null
+  bend_s_S11_1p8_N99_CSst_65c79658_52000_3050:
     component: bend_s
     info:
       end_angle: 0
@@ -39,6 +40,7 @@ instances:
       size:
       - 11
       - 1.8
+      width: null
   mmi1x2_WNone_WT1_LT10_L_4e0f7121_0_0:
     component: mmi1x2
     info: {}
@@ -80,21 +82,21 @@ instances:
       width_taper: 1
 name: splitter_chain_Smmi1x2__10cafd81
 nets:
-- p1: bend_s_S11_1p8_N99_CSst_71d8cbbd_15500_625,o1
+- p1: bend_s_S11_1p8_N99_CSst_65c79658_15500_625,o1
   p2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_0_0,o2
-- p1: bend_s_S11_1p8_N99_CSst_71d8cbbd_15500_625,o2
+- p1: bend_s_S11_1p8_N99_CSst_65c79658_15500_625,o2
   p2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_36500_2425,o1
-- p1: bend_s_S11_1p8_N99_CSst_71d8cbbd_52000_3050,o1
+- p1: bend_s_S11_1p8_N99_CSst_65c79658_52000_3050,o1
   p2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_36500_2425,o2
-- p1: bend_s_S11_1p8_N99_CSst_71d8cbbd_52000_3050,o2
+- p1: bend_s_S11_1p8_N99_CSst_65c79658_52000_3050,o2
   p2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_73000_4850,o1
 placements:
-  bend_s_S11_1p8_N99_CSst_71d8cbbd_15500_625:
+  bend_s_S11_1p8_N99_CSst_65c79658_15500_625:
     mirror: false
     rotation: 0
     x: 15.5
     y: 0.625
-  bend_s_S11_1p8_N99_CSst_71d8cbbd_52000_3050:
+  bend_s_S11_1p8_N99_CSst_65c79658_52000_3050:
     mirror: false
     rotation: 0
     x: 52

@@ -6,6 +6,7 @@ import gdsfactory as gf
 from gdsfactory.components.containers.add_fiber_array_optical_south_electrical_north import (
     add_fiber_array_optical_south_electrical_north,
 )
+from gdsfactory.components.spirals.spiral import spiral
 
 
 @gf.cell
@@ -23,7 +24,7 @@ def spiral_gc(**kwargs: Any) -> gf.Component:
         spacing: spacing between the spiral loops.
         n_loops: number of loops.
     """
-    c = gf.c.spiral(**kwargs)
+    c = spiral(**kwargs)
     c = gf.routing.add_fiber_array(c)
     c.info["doe"] = "spirals_sc"
     c.info["measurement"] = "optical_spectrum"

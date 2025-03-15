@@ -29,6 +29,7 @@ from gdsfactory.components.bends import (
     bend_euler_all_angle,
     bend_euler_s,
     bend_s,
+    bend_s_offset,
     bezier,
 )
 from gdsfactory.components.containers import (
@@ -94,6 +95,7 @@ from gdsfactory.components.filters import (
     mode_converter,
     polarization_splitter_rotator,
     terminator,
+    terminator_spiral,
 )
 from gdsfactory.components.grating_couplers import (
     grating_coupler_array,
@@ -375,6 +377,7 @@ __all__ = [
     "bend_euler_all_angle",
     "bend_euler_s",
     "bend_s",
+    "bend_s_offset",
     "bends",
     "bezier",
     "cavity",
@@ -612,6 +615,7 @@ __all__ = [
     "taper_w12_l200",
     "tapers",
     "terminator",
+    "terminator_spiral",
     "text",
     "text_freetype",
     "text_klayout",

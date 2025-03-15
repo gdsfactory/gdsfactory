@@ -629,8 +629,6 @@ def test_get_boxes() -> None:
     ref = c2 << c
     ref.move((100, 100))
 
-    c2.show()
-
     boxes = c2.get_boxes(layer=(1, 0), recursive=True)
     assert len(boxes) == 1
     assert boxes[0].left == 100
@@ -734,13 +732,6 @@ def test_layers() -> None:
     c = gf.Component()
     c.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(1, 0))
     assert c.layers == [(1, 0)]
-
-
-def test_component_pprint_ports() -> None:
-    c = gf.Component()
-    c.add_port(name="port1", layer=(1, 0), center=(0, 0), width=10)
-    c.add_port(name="port2", layer=(2, 0), center=(10, 0), width=10)
-    c.pprint_ports()
 
 
 def test_get_netlist_recursive() -> None:

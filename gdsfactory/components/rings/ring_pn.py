@@ -67,8 +67,8 @@ def ring_double_pn(
     """Returns add-drop pn ring with optional doped heater.
 
     Args:
-        add_gap: gap to add waveguide.
-        drop_gap: gap to drop waveguide.
+        add_gap: gap to add waveguide. Bottom gap.
+        drop_gap: gap to drop waveguide. Top gap.
         radius: for the bend and coupler.
         doping_angle: angle in degrees representing portion of ring that is doped.
         length_x: ring coupler length.

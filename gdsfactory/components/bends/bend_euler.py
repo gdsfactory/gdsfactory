@@ -212,7 +212,7 @@ def bend_euler(
         radius: in um. Defaults to cross_section_radius.
         angle: total angle of the curve.
         p: Proportion of the curve that is an Euler curve.
-        with_arc_floorplan: If False: `radius` is the minimum radius of curvature.
+        with_arc_floorplan: if True the size of the bend will be adjusted to match an arc bend with the specified radius. If False: `radius` is the minimum radius of curvature.
         npoints: Number of points used per 360 degrees.
         layer: layer to use. Defaults to cross_section.layer.
         width: width to use. Defaults to cross_section.width.
@@ -286,5 +286,11 @@ bend_euler180 = partial(bend_euler, angle=180)
 if __name__ == "__main__":
     # c = bend_euler(cross_section="rib", angle=90, radius=5)
     # c = bend_euler(cross_section="rib", angle=90, radius=20, clockwise=True)
-    c = bend_euler(angle=-90)
+    c = bend_euler(angle=90)
+    c = gf.grid(
+        [
+            bend_euler(p=0, with_arc_floorplan=False),
+            bend_euler(p=1, with_arc_floorplan=True),
+        ]
+    )
     c.show()
