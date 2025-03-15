@@ -75,6 +75,8 @@ def coupler_straight(
     length: float = 10.0,
     gap: float = 0.27,
     cross_section: CrossSectionSpec = "strip",
+    top_width: float | None = None,
+    bot_width: float | None = None,
 ) -> Component:
     """Coupler_straight with two parallel straights.
 
@@ -82,6 +84,8 @@ def coupler_straight(
         length: of straight.
         gap: between straights.
         cross_section: specification (CrossSection, string or dict).
+        top_width: of top straight.
+        bot_width: of bottom straight.
 
     .. code::
 
@@ -90,13 +94,24 @@ def coupler_straight(
         o1──────▼─────────o4
     """
     c = Component()
-    x = gf.get_cross_section(cross_section)
-    _straight = gf.c.straight(length=length, cross_section=cross_section)
+    if top_width:
+        _straight_top = gf.c.straight(
+            length=length, width=top_width, cross_section=cross_section
+        )
+    else:
+        _straight_top = gf.c.straight(length=length, cross_section=cross_section)
 
-    top = c << _straight
-    bot = c << _straight
+    if bot_width:
+        _straight_bot = gf.c.straight(
+            length=length, width=bot_width, cross_section=cross_section
+        )
+    else:
+        _straight_bot = gf.c.straight(length=length, cross_section=cross_section)
 
-    w = x.width
+    top = c << _straight_top
+    bot = c << _straight_bot
+
+    w = _straight_top.info["width"] / 2 + _straight_bot.info["width"] / 2
     y = w + gap
 
     top.dmovey(+y)
@@ -174,6 +189,6 @@ def coupler(
 
 
 if __name__ == "__main__":
-    c = coupler(gap=0.2, dy=100)
+    c = coupler_straight(gap=0.2, top_width=1)
     n = c.get_netlist()
     c.show()

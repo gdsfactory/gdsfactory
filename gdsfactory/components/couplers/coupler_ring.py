@@ -17,6 +17,7 @@ def coupler_ring(
     cross_section: CrossSectionSpec = "strip",
     cross_section_bend: CrossSectionSpec | None = None,
     length_extension: float = 3,
+    bus_width: float | None = None,
 ) -> Component:
     r"""Coupler for ring.
 
@@ -29,6 +30,7 @@ def coupler_ring(
         cross_section: cross_section spec.
         cross_section_bend: optional bend cross_section spec.
         length_extension: for the ports.
+        bus_width: width of the bus waveguide.
 
     .. code::
 
@@ -44,6 +46,11 @@ def coupler_ring(
     gap = gf.snap.snap_to_grid(gap, grid_factor=2)
     cross_section_bend = cross_section_bend or cross_section
 
+    if bus_width:
+        cross_section_bus = gf.get_cross_section(cross_section, width=bus_width)
+    else:
+        cross_section_bus = gf.get_cross_section(cross_section)
+
     # define subcells
     coupler90_component = gf.get_component(
         coupler90,
@@ -51,7 +58,7 @@ def coupler_ring(
         radius=radius,
         bend=bend,
         straight=straight,
-        cross_section=cross_section,
+        cross_section=cross_section_bus,
         cross_section_bend=cross_section_bend,
     )
     coupler_straight_component = gf.get_component(
@@ -59,6 +66,7 @@ def coupler_ring(
         gap=gap,
         length=length_x,
         cross_section=cross_section,
+        bot_width=bus_width,
     )
 
     # add references to subcells
@@ -70,7 +78,18 @@ def coupler_ring(
     cs.connect(port="o4", other=cbr.ports["o1"])
     cbl.connect(port="o2", other=cs.ports["o2"], mirror=True)
 
-    s = gf.get_component(straight, length=length_extension, cross_section=cross_section)
+    if bus_width:
+        s = gf.get_component(
+            straight,
+            length=length_extension,
+            cross_section=cross_section,
+            width=bus_width,
+        )
+    else:
+        s = gf.get_component(
+            straight, length=length_extension, cross_section=cross_section
+        )
+
     s1 = c << s
     s2 = c << s
 
@@ -89,10 +108,10 @@ def coupler_ring(
         gf.port.select_ports_list(ports=cbr.ports, port_type="electrical"), prefix="cbr"
     )
     c.auto_rename_ports()
-    c.flatten()
+    # c.flatten()
     return c
 
 
 if __name__ == "__main__":
-    c = coupler_ring()
+    c = coupler_ring(bus_width=1)
     c.show()

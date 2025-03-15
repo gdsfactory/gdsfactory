@@ -53,7 +53,7 @@ def coupler90(
         length=bend90_ports[1].center[0] - bend90_ports[0].center[0],
     )
     wg_ref = c << straight_component
-    width = x.width
+    width = x.width / 2 + gf.get_cross_section(xs_bend).width / 2
 
     pbw = bend90_ports[0]
     bend_ref.dmovey(pbw.dy + gap + width)
