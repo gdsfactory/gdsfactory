@@ -6,7 +6,7 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 from __future__ import annotations
 
 from collections.abc import Sequence
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 from gdsfactory.port import to_dict
 
@@ -120,7 +120,6 @@ def reflect_points(
     reflected_points = (
         2 * (p1_array + (p2_array - p1_array) * proj / line_vec_norm) - points
     )
-
     return reflected_points if original_shape[0] > 1 else reflected_points[0]  # type: ignore[no-any-return]
 
 
@@ -137,10 +136,10 @@ def parse_coordinate(
         c : array-like[2]
             Parsed coordinate.
     """
-    if hasattr(c, "center"):
-        return c.center  # type: ignore[union-attr]
+    if isinstance(c, Port):
+        return c.center
     elif np.array(c).size == 2:
-        return c  # type: ignore[unused-ignore, return-value]
+        return cast(tuple[float, float], tuple(c))
     raise ValueError(
         "Could not parse coordinate, input should be array-like (e.g. [1.5,2.3] or a Port"
     )
@@ -180,11 +179,3 @@ def parse_move(
     dx, dy = np.array(d) - o
 
     return dx, dy
-
-
-if __name__ == "__main__":
-    import gdsfactory as gf
-
-    # c = gf.c.straight()
-
-    c = gf.grid(tuple(gf.components.straight(length=i) for i in range(1, 5)))  # type: ignore

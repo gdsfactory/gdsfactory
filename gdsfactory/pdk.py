@@ -5,9 +5,9 @@ from __future__ import annotations
 import importlib
 import pathlib
 import warnings
-from collections.abc import Callable, Sequence
+from collections.abc import Callable, Mapping, Sequence
 from functools import cached_property, partial, wraps
-from typing import Any
+from typing import Any, cast
 
 import kfactory as kf
 import yaml
@@ -33,8 +33,8 @@ from gdsfactory.typings import (
     ConnectivitySpec,
     CrossSectionFactory,
     CrossSectionSpec,
-    Layer,
     LayerSpec,
+    LayerTransitions,
     MaterialSpec,
     PathType,
     RoutingStrategies,
@@ -165,9 +165,7 @@ class Pdk(BaseModel):
     layers: type[LayerEnum] | None = None
     layer_stack: LayerStack | None = None
     layer_views: LayerViews | None = None
-    layer_transitions: dict[LayerSpec | tuple[Layer, Layer], ComponentSpec] = Field(
-        default_factory=dict
-    )
+    layer_transitions: LayerTransitions = Field(default_factory=dict)
     constants: dict[str, Any] = constants
     materials_index: dict[str, MaterialSpec] = Field(default_factory=dict)
     routing_strategies: RoutingStrategies | None = None
@@ -201,7 +199,7 @@ class Pdk(BaseModel):
         def newfunc(**kwargs: Any) -> CrossSection:
             xs = func(**kwargs)
             if xs.name in self.cross_section_default_names:
-                xs._name = self.cross_section_default_names[xs.name]  # type: ignore
+                xs._name = self.cross_section_default_names[xs.name]
             return xs
 
         self.cross_sections[func.__name__] = newfunc
@@ -328,7 +326,7 @@ class Pdk(BaseModel):
     def get_component(
         self,
         component: ComponentSpec,
-        settings: dict[str, Any] | None = None,
+        settings: Mapping[str, Any] | None = None,
         include_containers: bool = True,
         **kwargs: Any,
     ) -> Component:
@@ -353,7 +351,7 @@ class Pdk(BaseModel):
         self,
         component: ComponentSpec,
         cells: dict[str, ComponentFactory],
-        settings: dict[str, Any] | None = None,
+        settings: Mapping[str, Any] | None = None,
         **kwargs: Any,
     ) -> Component:
         """Returns component from a component spec.
@@ -373,10 +371,10 @@ class Pdk(BaseModel):
         if isinstance(component, kf.ProtoTKCell):
             return Component(base=component.base)
         elif isinstance(component, kf.VKCell):
-            return ComponentAllAngle(base=component.base)  # type: ignore
+            return ComponentAllAngle(base=component.base)
         elif callable(component):
             _component = component(**kwargs)
-            return type(_component)(base=_component.base)  # type: ignore[no-any-return, call-overload]
+            return type(_component)(base=_component.base)  # type: ignore[call-overload,no-any-return]
         elif isinstance(component, str):
             if component not in cell_names:
                 substring = component
@@ -392,7 +390,7 @@ class Pdk(BaseModel):
                     f"{component!r} not in PDK {self.name!r}. Did you mean {matching_cells}?"
                 )
             return cells[component](**kwargs)
-        elif isinstance(component, dict):  # type: ignore
+        elif isinstance(component, dict):
             for key in component.keys():
                 if key not in component_settings:
                     raise ValueError(
@@ -403,7 +401,7 @@ class Pdk(BaseModel):
 
             cell_name = component.get("component", None)
             cell_name = cell_name or component.get("function")
-            cell_name = cell_name.split(".")[-1]  # type: ignore
+            cell_name = cell_name.split(".")[-1]
 
             if not isinstance(cell_name, str) or cell_name not in cells:
                 matching_cells = [c for c in cells if cell_name in c]
@@ -481,7 +479,7 @@ class Pdk(BaseModel):
         else:
             if not hasattr(self.layers, layer):
                 raise ValueError(f"{layer!r} not in {self.layers}")
-            return getattr(self.layers, layer)  # type: ignore[no-any-return]
+            return cast(LayerEnum, getattr(self.layers, layer))
 
     def get_layer_name(self, layer: LayerSpec) -> str:
         layer_index = self.get_layer(layer)
@@ -571,7 +569,7 @@ class Pdk(BaseModel):
         header = dict(description=self.name)
 
         d = {"blocks": blocks, "xsections": xsections_widths, "header": header}
-        return yaml.dump(convert_tuples_to_lists(d))
+        return yaml.dump(convert_tuples_to_lists(d))  # type: ignore[no-any-return]
 
     def get_cross_section_name(self, cross_section: CrossSection) -> str:
         xs_name = next(
@@ -596,7 +594,7 @@ class Pdk(BaseModel):
                 name=self.name,
                 layer_views=self.layer_views,
                 connectivity=self.connectivity,
-                layer_map=self.layers,  # type: ignore
+                layer_map=self.layers,  # type: ignore[arg-type]
                 layer_stack=self.layer_stack,
             )
         except AttributeError as e:
@@ -624,7 +622,8 @@ def get_active_pdk(name: str | None = None) -> Pdk:
 
         else:
             raise ValueError("no active pdk")
-    return _ACTIVE_PDK  # type: ignore
+    assert _ACTIVE_PDK is not None, "Could not find active PDK"
+    return _ACTIVE_PDK
 
 
 def get_material_index(material: MaterialSpec, *args: Any, **kwargs: Any) -> Component:
@@ -633,11 +632,11 @@ def get_material_index(material: MaterialSpec, *args: Any, **kwargs: Any) -> Com
         raise NotImplementedError(
             "The active PDK does not implement 'get_material_index'"
         )
-    return active_pdk.get_material_index(material, *args, **kwargs)  # type: ignore
+    return active_pdk.get_material_index(material, *args, **kwargs)  # type: ignore[no-any-return]
 
 
 def get_component(
-    component: ComponentSpec, settings: dict[str, Any] | None = None, **kwargs: Any
+    component: ComponentSpec, settings: Mapping[str, Any] | None = None, **kwargs: Any
 ) -> Component:
     return get_active_pdk().get_component(component, settings=settings, **kwargs)
 
@@ -684,7 +683,7 @@ def get_constant(constant_name: Any) -> Any:
 
 def _set_active_pdk(pdk: Pdk) -> None:
     global _ACTIVE_PDK
-    _ACTIVE_PDK = pdk  # type: ignore
+    _ACTIVE_PDK = pdk
 
 
 def get_routing_strategies() -> RoutingStrategies:

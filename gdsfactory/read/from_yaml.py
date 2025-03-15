@@ -56,7 +56,7 @@ import warnings
 from collections.abc import Callable
 from copy import deepcopy
 from functools import partial
-from typing import IO, TYPE_CHECKING, Any, Literal, Protocol
+from typing import IO, TYPE_CHECKING, Any, Literal, Protocol, cast
 
 import kfactory as kf
 import networkx as nx
@@ -160,7 +160,7 @@ def _get_anchor_point_from_name(
     ref: ComponentReference, anchor_name: str
 ) -> tuple[float, float] | None:
     if anchor_name in valid_anchor_point_keywords:
-        return getattr(ref.dsize_info, anchor_name)  # type: ignore[no-any-return]
+        return cast(tuple[float, float], getattr(ref.dsize_info, anchor_name))
     elif anchor_name in ref.ports:
         return ref.ports[anchor_name].center
     return None
@@ -171,7 +171,7 @@ def _get_anchor_value_from_name(
 ) -> float | None:
     """Return the x or y value of an anchor point or port on a reference."""
     if anchor_name in valid_anchor_value_keywords:
-        return getattr(ref.dsize_info, anchor_name)  # type: ignore[no-any-return]
+        return float(getattr(ref.dsize_info, anchor_name))
     anchor_point = _get_anchor_point_from_name(ref, anchor_name)
     if anchor_point is None:
         return None
@@ -305,7 +305,7 @@ def place(
 
     if instance_name in placements_conf:
         placement_settings = placements_conf[instance_name] or {}
-        if not isinstance(placement_settings, dict):  # type: ignore
+        if not isinstance(placement_settings, dict):
             raise ValueError(
                 f"Invalid placement {placement_settings} from {valid_placement_keys}"
             )
@@ -346,7 +346,7 @@ def place(
             elif isinstance(mirror, str):
                 x_mirror = ref.ports[mirror].dx
                 ref.dmirror_x(x_mirror)
-            elif isinstance(mirror, int | float):  # type: ignore
+            elif isinstance(mirror, int | float):
                 ref.dmirror_x(x=ref.dx)
             else:
                 port_names = [port.name for port in ref.ports]
@@ -958,7 +958,7 @@ def _add_routes(
     routing_strategies = routing_strategies or get_routing_strategies()
     for bundle_name, bundle in routes.items():
         try:
-            routing_strategy = routing_strategies[bundle.routing_strategy]  # type: ignore
+            routing_strategy = routing_strategies[bundle.routing_strategy]
         except KeyError as e:
             raise ValueError(
                 f"Unknown routing strategy.\nvalid strategies: {list(routing_strategies)}\n"
@@ -982,15 +982,15 @@ def _add_routes(
                 f"{bundle_name}-{first1}{m1}{last1}-{first2}{m2}{last2}"
                 for m1, m2 in zip(middles1, middles2)
             ]
-
-        routes_list = routing_strategy(  # type: ignore
+        routes_list = routing_strategy(
             c,
             ports1=ports1,
             ports2=ports2,
             **bundle.settings,
         )
+        c.plot()
         routes_dict.update(dict(zip(route_names, routes_list)))
-        c.routes = routes_dict  # type: ignore
+        c.routes = routes_dict
     return c
 
 
@@ -1006,7 +1006,7 @@ def _add_ports(
         ps = [p.name for p in ref.ports]
         if p not in ps:
             raise ValueError(f"{p!r} not in {ps} for {i!r}.")
-        inst_port = ref.ports[p] if ia is None else ref.ports[p, ia, ib]  # type: ignore
+        inst_port = ref.ports[p] if ia is None else ref.ports[p, ia, ib]  # type: ignore[index]
         c.add_port(name, port=inst_port)
     return c
 
@@ -1022,11 +1022,11 @@ def _add_labels(
 
 
 def _graph_roots(g: nx.DiGraph) -> list[str]:
-    return [node for node in g.nodes if g.in_degree(node) == 0]  # type: ignore
+    return [node for node in g.nodes if g.in_degree(node) == 0]
 
 
 def _graph_connect(g: nx.DiGraph, i1: str, i2: str) -> None:
-    g.add_edge(i2, i1)  # type: ignore
+    g.add_edge(i2, i1)
 
 
 def _two_out_of_three_none(one: Any, two: Any, three: Any) -> bool:
@@ -1064,7 +1064,9 @@ def _update_reference_by_placement(
     if mirror:
         if mirror is True:
             if isinstance(port, str):
-                ref.dmirror_x(x=_get_anchor_value_from_name(ref, port, "x"))  # type: ignore
+                anchor_x = _get_anchor_value_from_name(ref, port, "x")
+                assert anchor_x is not None, f"anchor_x is None for {port!r}"
+                ref.dmirror_x(x=anchor_x)
             else:
                 ref.dcplx_trans *= kf.kdb.DCplxTrans(1, 0, True, 0, 0)
         elif isinstance(mirror, str) and mirror in port_names:

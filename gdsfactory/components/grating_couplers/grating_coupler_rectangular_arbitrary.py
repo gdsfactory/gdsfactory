@@ -4,7 +4,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.tapers import taper
+from gdsfactory.components.tapers.taper import taper
 from gdsfactory.typings import CrossSectionSpec, Floats, LayerSpec
 
 _gaps = (0.2,) * 10

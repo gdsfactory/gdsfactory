@@ -78,7 +78,7 @@ def _get_glyph(font: freetype.Face, letter: str) -> tuple[Component, float, floa
         font.gds_glyphs = {}
 
     if letter in font.gds_glyphs:
-        return font.gds_glyphs[letter]  # type: ignore
+        return font.gds_glyphs[letter]  # type: ignore[no-any-return]
 
     # Get the font name
     font_name = font.family_name.decode().replace(" ", "_")
@@ -169,7 +169,7 @@ def _get_glyph(font: freetype.Face, letter: str) -> tuple[Component, float, floa
 
     # Cache the return value and return it
     font.gds_glyphs[letter] = (component, glyph.advance.x, font.size.ascender)
-    return font.gds_glyphs[letter]  # type: ignore
+    return font.gds_glyphs[letter]  # type: ignore[no-any-return]
 
 
 def _polygon_orientation(vertices: npt.NDArray[np.float64]) -> int:

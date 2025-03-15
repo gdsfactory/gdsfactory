@@ -5,6 +5,7 @@ import warnings
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bends.bend_euler import bend_euler180
+from gdsfactory.components.containers.component_sequence import component_sequence
 from gdsfactory.components.waveguides.straight import straight
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
@@ -86,7 +87,7 @@ def delay_snake(
 
     sequence = "_)" + n // 2 * "-(-)"
     sequence = f"{sequence[:-1]}."
-    return gf.components.component_sequence(
+    return component_sequence(
         sequence=sequence, symbol_to_component=symbol_to_component
     )
 

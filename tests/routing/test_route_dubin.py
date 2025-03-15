@@ -15,7 +15,7 @@ def sample_route_dubin_basic() -> gf.Component:
 
     # Move and rotate the second waveguide
     wg2.move((300, 50))
-    wg2.rotate(45)  # type: ignore
+    wg2.rotate(45)
 
     # Route between the output of wg1 and input of wg2
     gf.routing.route_dubin(

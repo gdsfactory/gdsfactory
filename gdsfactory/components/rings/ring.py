@@ -15,7 +15,7 @@ def ring(
     width: float = 0.5,
     angle_resolution: float = 2.5,
     layer: LayerSpec = "WG",
-    angle: float | None = 360,
+    angle: float = 360,
 ) -> Component:
     """Returns a ring.
 
@@ -30,7 +30,7 @@ def ring(
     inner_radius = radius - width / 2
     outer_radius = radius + width / 2
     n = int(np.round(360 / angle_resolution))
-    t: npt.NDArray[np.float64] = np.linspace(0, angle, n + 1) * pi / 180  # type: ignore
+    t: npt.NDArray[np.float64] = np.linspace(0, angle, n + 1) * pi / 180
     assert isinstance(t, np.ndarray)
     inner_points_x = inner_radius * cos(t)
     inner_points_y = inner_radius * sin(t)

@@ -49,7 +49,7 @@ def number(n: float) -> str:
     Returns:
         str: The formatted string.
     """
-    scaled_value = int(round(n * 10000))
+    scaled_value = round(n * 10000)
     return f"{scaled_value:07d}"
 
 
@@ -131,8 +131,8 @@ def to_gerber(
 
             # Only supports polygons for now
             if layer_tup in layer_to_polygons.keys():
-                for poly in layer_to_polygons[layer_tup.layer]:  # type: ignore
-                    f.write(polygon(poly))  # type: ignore
+                for poly in layer_to_polygons[layer_tup]:
+                    f.write(polygon(poly))  # type: ignore[arg-type]
 
             # File end
             f.write("M02*\n")

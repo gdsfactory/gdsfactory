@@ -24,7 +24,8 @@ from __future__ import annotations
 import dataclasses
 import pathlib
 from collections.abc import Callable, Generator, Sequence
-from typing import Any, Literal, ParamSpec, TypeAlias, TypeVar
+from functools import partial
+from typing import Any, Literal, ParamSpec, Protocol, TypeAlias, TypeVar
 
 import kfactory as kf
 import klayout.db as kdb
@@ -185,7 +186,14 @@ ComponentSpecOrComponent: TypeAlias = ComponentSpec | component.Component
 ComponentSpecs: TypeAlias = Sequence[ComponentSpec]
 ComponentSpecsOrComponents: TypeAlias = Sequence[ComponentSpecOrComponent]
 
-PostProcess: TypeAlias = Callable[[component.Component], None]
+
+class _PostProcess(Protocol):
+    def __call__(self, component: component.Component, **kwargs: Any) -> Any: ...
+
+
+PostProcess: TypeAlias = (
+    _PostProcess | Callable[[component.Component], None] | partial[component.Component]
+)
 PostProcesses: TypeAlias = Sequence[PostProcess]
 
 Instance: TypeAlias = component.ComponentReference
@@ -200,6 +208,8 @@ CellSpec: TypeAlias = (
 )
 ComponentSpecDict: TypeAlias = dict[str, ComponentSpec]
 
+LayerTransitions: TypeAlias = dict[LayerSpec | tuple[Layer, Layer], ComponentSpec]
+
 
 class TypedArray(np.ndarray[Any, np.dtype[Any]]):
     """based on https://github.com/samuelcolvin/pydantic/issues/380."""
@@ -212,7 +222,7 @@ class TypedArray(np.ndarray[Any, np.dtype[Any]]):
 
     @classmethod
     def validate_type(cls, val: Any, _info: Any) -> npt.NDArray[np.float64]:
-        return np.array(val, dtype=cls.inner_type)  # type: ignore # pragma: no cover
+        return np.array(val, dtype=cls.inner_type)  # type: ignore[attr-defined]
 
 
 class ArrayMeta(type):
@@ -241,6 +251,7 @@ __all__ = (
     "Layer",
     "LayerSpec",
     "LayerSpecs",
+    "LayerTransitions",
     "Layers",
     "Number",
     "PathType",

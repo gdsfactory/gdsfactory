@@ -94,8 +94,8 @@ def coupler_broadband(
 
     for section in xs.sections[1:]:
         w = section.width / 2
-        layer = section.layer  # type: ignore
-        assert layer is not None
+        layer_ = section.layer
+        assert layer_ is not None
         vertices_top = [
             (L_2 / 2 + L_t, -w),
             (L_2 / 2 + L_t, w),
@@ -107,7 +107,7 @@ def coupler_broadband(
             (-L_2 / 2 - L_t, -w),
         ]
 
-        c.add_polygon(vertices_top, layer=layer)
+        c.add_polygon(vertices_top, layer=layer_)
 
         # define vertices of the bottom waveguide
         vertices_bot = [
@@ -120,7 +120,7 @@ def coupler_broadband(
             (-L_2 / 2 - L_t, -gap_sc + w),
             (-L_2 / 2 - L_t, -gap_sc - w),
         ]
-        c.add_polygon(vertices_bot, layer=layer)
+        c.add_polygon(vertices_bot, layer=layer_)
 
     coupler2 = c << coupler
     coupler2.dxmax = L_2 / 2 + L_t + L_1

@@ -53,13 +53,13 @@ def coupler_bend(
     spacing = gap + width
 
     bend90_inner_right = gf.get_component(
-        bend,  # type: ignore
+        bend,  # type: ignore[arg-type]
         radius=radius,
         cross_section=cross_section_inner,
         angle=angle_inner,
     )
     bend_output_right = gf.get_component(
-        bend,  # type: ignore
+        bend,  # type: ignore[arg-type]
         radius=radius + spacing,
         cross_section=cross_section_outer,
         angle=angle_outer,

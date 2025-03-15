@@ -67,10 +67,10 @@ def via_stack_with_offset(
     offsets = list(offsets or [0] * len(layers))
     layer_offsets = list(layer_offsets or [0] * len(layers))
     if sizes:
-        sizes_list = list(sizes)  # type: ignore
+        sizes_list = list(sizes)
     else:
         assert size is not None
-        sizes_list = [size] * len(layers)  # type: ignore
+        sizes_list = [size] * len(layers)
 
     elements = {len(layers), len(layer_offsets), len(vias), len(sizes_list)}
     if len(elements) > 1:

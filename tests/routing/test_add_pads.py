@@ -16,7 +16,7 @@ def add_pads0() -> Component:
     c = gf.routing.add_pads_bot(
         component=c, port_names=("l_e4", "r_e4"), fanout_length=80
     )
-    return c  # type: ignore[no-any-return]
+    return c
 
 
 components = [add_pads0]

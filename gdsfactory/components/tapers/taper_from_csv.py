@@ -27,23 +27,23 @@ def taper_from_csv(
         filepath: for CSV file.
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
     """
-    import pandas as pd  # type: ignore
+    import pandas as pd
 
-    taper_data = pd.read_csv(filepath)  # type: ignore
-    xs: list[float] = taper_data["x"].values * 1e6  # type: ignore
-    ys: npt.NDArray[np.float64] = np.round(taper_data["width"].values * 1e6 / 2.0, 3)  # type: ignore
+    taper_data = pd.read_csv(filepath)
+    xs: list[float] = taper_data["x"].values * 1e6
+    ys: npt.NDArray[np.float64] = np.round(taper_data["width"].values * 1e6 / 2.0, 3)
 
     x = gf.get_cross_section(cross_section)
     layer = x.layer
 
     c = gf.Component()
-    c.add_polygon(list(zip(xs, ys)) + list(zip(xs, -ys))[::-1], layer=layer)  # type: ignore
+    c.add_polygon(list(zip(xs, ys)) + list(zip(xs, -ys))[::-1], layer=layer)
 
     for section in x.sections[1:]:
         ys_trench = ys + section.width
         c.add_polygon(
-            list(zip(xs, ys_trench)) + list(zip(xs, -ys_trench))[::-1],  # type: ignore
-            layer=section.layer,  # type: ignore
+            list(zip(xs, ys_trench)) + list(zip(xs, -ys_trench))[::-1],
+            layer=section.layer,
         )
 
     c.add_port(

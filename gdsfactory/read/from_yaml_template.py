@@ -30,8 +30,8 @@ def split_default_settings_from_yaml(yaml_lines: list[str]) -> tuple[str, str]:
     Returns:
         a tuple of (main file contents), (setting block), both as multi-line strings.
     """
-    settings_lines = []
-    other_lines = []
+    settings_lines: list[str] = []
+    other_lines: list[str] = []
     # start reading all lines
     while yaml_lines:
         # pop lines until we find the default_settings block
@@ -59,7 +59,7 @@ def _split_yaml_definition(subpic_yaml: _YamlDefinition) -> tuple[str, dict[str,
         f = subpic_yaml
         subpic_text = f.readlines()
     else:
-        with pathlib.Path(subpic_yaml).open() as f:  # type: ignore[arg-type]
+        with pathlib.Path(subpic_yaml).open() as f:
             subpic_text = f.readlines()
     main_file, default_settings_string = split_default_settings_from_yaml(subpic_text)
     if default_settings_string:
@@ -94,7 +94,7 @@ def cell_from_yaml_template(
         routing_strategies=routing_strategies,
     )
     if os.path.exists(str(filename)):
-        cell.__file__ = os.path.abspath(str(filename))  # type: ignore
+        cell.__file__ = os.path.abspath(str(filename))  # type: ignore[attr-defined]
     return cell
 
 

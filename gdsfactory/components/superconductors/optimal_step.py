@@ -55,7 +55,7 @@ def optimal_step(
                 + a * np.arctan(np.sqrt((gamma - 1) / (w - gamma)))
             )
         )
-        return np.real(zeta), np.imag(zeta)  # type: ignore
+        return np.real(zeta), np.imag(zeta)
 
     def invert_step_point(
         x_desired: float = -10,
@@ -71,11 +71,11 @@ def optimal_step(
                 return (guessed_x - x_desired) ** 2  # Error relative to x_desired
             return (guessed_y - y_desired) ** 2  # Error relative to y_desired
 
-        from scipy.optimize import fminbound  # type: ignore
+        from scipy.optimize import fminbound
 
         # Minimize error to find optimal eta
-        found_eta = fminbound(fh, 0, np.pi)  # type: ignore
-        return step_points(found_eta, W=W + 0j, a=a + 0j)  # type: ignore
+        found_eta = fminbound(fh, 0, np.pi)
+        return step_points(found_eta, W=W + 0j, a=a + 0j)
 
     if start_width > end_width:
         reverse = True

@@ -3,6 +3,10 @@ from __future__ import annotations
 from typing import Any
 
 import gdsfactory as gf
+from gdsfactory.components.containers.add_fiber_array_optical_south_electrical_north import (
+    add_fiber_array_optical_south_electrical_north,
+)
+from gdsfactory.components.spirals.spiral import spiral
 
 
 @gf.cell
@@ -20,7 +24,7 @@ def spiral_gc(**kwargs: Any) -> gf.Component:
         spacing: spacing between the spiral loops.
         n_loops: number of loops.
     """
-    c = gf.c.spiral(**kwargs)
+    c = spiral(**kwargs)
     c = gf.routing.add_fiber_array(c)
     c.info["doe"] = "spirals_sc"
     c.info["measurement"] = "optical_spectrum"
@@ -70,7 +74,7 @@ def sample_reticle(grid: bool = False) -> gf.Component:
     rings: list[gf.Component] = []
     for length_x in [10, 20, 30]:
         ring = gf.components.ring_single_heater(length_x=length_x)
-        c = gf.c.add_fiber_array_optical_south_electrical_north(
+        c = add_fiber_array_optical_south_electrical_north(
             component=ring,
             pad=gf.c.pad,
             grating_coupler=gf.c.grating_coupler_te,

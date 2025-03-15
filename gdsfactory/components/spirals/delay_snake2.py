@@ -4,6 +4,7 @@ import warnings
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.components.containers.component_sequence import component_sequence
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 diagram = """
@@ -90,7 +91,7 @@ def delay_snake2(
     sequence = "_)" + n // 2 * "-(-)"
     sequence = sequence[:-1]
     sequence += "."
-    return gf.components.component_sequence(
+    return component_sequence(
         sequence=sequence, symbol_to_component=symbol_to_component
     )
 

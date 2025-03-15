@@ -52,7 +52,7 @@ def via_stack(
     layers = layers or []
     layer_offsets = layer_offsets or [0] * len(layers)
     layer_to_port_orientations_list = layer_to_port_orientations or {
-        layers[-1]: port_orientations  # type: ignore
+        layers[-1]: list(port_orientations or [])
     }
 
     for layer in layer_to_port_orientations_list:
@@ -322,7 +322,7 @@ def via_stack_corner45(
                     # Place the vias at the given x, y
                     for i in range(int(vias_per_row)):
                         ref = c << via
-                        ref.center = (xpos0 + pitch_x * i + w / 2, y)  # type: ignore
+                        ref.center = (xpos0 + pitch_x * i + w / 2, y)
 
                 y_covered = y_covered + h + pitch_y
 

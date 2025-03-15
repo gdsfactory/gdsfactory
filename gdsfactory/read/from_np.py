@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, cast
 
 import numpy as np
 import numpy.typing as npt
@@ -23,7 +23,9 @@ def compute_area_signed(pr: npt.NDArray[np.floating[Any]]) -> float:
     xs, ys = map(list, zip(*pr))
     xs.append(xs[1])
     ys.append(ys[1])
-    return sum(xs[i] * (ys[i + 1] - ys[i - 1]) for i in range(1, len(pr))) / 2.0  # type: ignore[no-any-return]
+    xs_ = cast(list[float], xs)
+    ys_ = cast(list[float], ys)
+    return sum(xs_[i] * (ys_[i + 1] - ys_[i - 1]) for i in range(1, len(pr))) / 2.0
 
 
 def from_np(
@@ -49,7 +51,7 @@ def from_np(
     c = Component()
     d = Component()
     ndarray = np.pad(ndarray, 2)
-    contours = measure.find_contours(ndarray, threshold)  # type: ignore[no-untyped-call]
+    contours = measure.find_contours(ndarray, threshold)
     assert len(contours) > 0, (
         f"no contours found for threshold = {threshold}, maybe you can reduce the"
         " threshold"

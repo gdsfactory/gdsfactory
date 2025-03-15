@@ -4,6 +4,7 @@ from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.components.containers.component_sequence import component_sequence
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
@@ -42,9 +43,11 @@ def cutback_splitter(
 
     component = gf.get_component(component)
     bendu = gf.get_component(bend180, cross_section=xs)
+    radius = xs.radius
+    assert radius is not None
     straight_component = gf.get_component(
         straight,
-        length=straight_length or xs.radius * 2,  # type: ignore
+        length=straight_length or radius * 2,
         cross_section=xs,
     )
 
@@ -75,7 +78,7 @@ def cutback_splitter(
 
     s = s[:-1]
 
-    c = gf.c.component_sequence(sequence=s, symbol_to_component=symbol_to_component)
+    c = component_sequence(sequence=s, symbol_to_component=symbol_to_component)
     n = len(s) - 2
     c.info["components"] = n
     return c

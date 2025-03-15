@@ -134,7 +134,7 @@ def _is_orthogonal_array_reference(ref: ComponentReference) -> bool:
 
 
 def get_netlist(
-    component: Component,
+    component: DKCell,
     exclude_port_types: Sequence[str] | None = (
         "placement",
         "pad",
@@ -260,7 +260,7 @@ def get_netlist(
             top_ports_list.add(port_name)
             ports_by_type[port.port_type].append(port_name)
 
-    warnings = {}
+    warnings: dict[str, Any] = {}
     for port_type, port_names in ports_by_type.items():
         if exclude_port_types and port_type in exclude_port_types:
             continue
@@ -289,7 +289,7 @@ def get_netlist(
     nets_sorted = sorted(nets, key=lambda net: f"{net['p1']},{net['p2']}")
     placements_sorted = {k: placements[k] for k in sorted(placements.keys())}
     instances_sorted = {k: instances[k] for k in sorted(instances.keys())}
-    netlist = {
+    netlist: dict[str, Any] = {
         "nets": nets_sorted,
         "instances": instances_sorted,
         "placements": placements_sorted,
@@ -298,7 +298,7 @@ def get_netlist(
     }
     if warnings:
         netlist["warnings"] = warnings
-    return clean_value_json(netlist)
+    return clean_value_json(netlist)  # type: ignore[no-any-return]
 
 
 def extract_connections(
@@ -516,7 +516,7 @@ class GetNetlistFunc(Protocol):
 def get_netlist_recursive(
     component: DKCell,
     component_suffix: str = "",
-    get_netlist_func: GetNetlistFunc = get_netlist,  # type: ignore
+    get_netlist_func: GetNetlistFunc = get_netlist,  # type: ignore[assignment]
     get_instance_name: Callable[..., str] = get_instance_name_from_alias,
     **kwargs: Any,
 ) -> dict[str, Any]:
@@ -576,9 +576,9 @@ def get_netlist_recursive(
 
 
 def _demo_ring_single_array() -> None:
-    import gdsfactory as gf
+    from gdsfactory.components.rings.ring_single_array import ring_single_array
 
-    c = gf.components.ring_single_array()
+    c = ring_single_array()
     c.get_netlist()
 
 

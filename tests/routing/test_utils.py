@@ -158,7 +158,7 @@ def test_check_ports_have_equal_spacing() -> None:
         check_ports_have_equal_spacing(ports_unequal)
 
     with pytest.raises(ValueError, match="list_ports should be a list of ports"):
-        check_ports_have_equal_spacing(tuple())  # type: ignore
+        check_ports_have_equal_spacing(tuple())
 
     with pytest.raises(ValueError, match="list_ports should not be empty"):
         check_ports_have_equal_spacing([])

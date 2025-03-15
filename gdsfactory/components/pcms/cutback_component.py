@@ -5,6 +5,7 @@ from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.components.containers.component_sequence import component_sequence
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
@@ -50,11 +51,12 @@ def cutback_component(
     component = gf.get_component(component, **kwargs)
     bendu = gf.get_component(bend180, cross_section=xs)
 
-    straight_length = xs.radius * 2 if straight_length is None else straight_length  # type: ignore
+    radius = xs.radius
+    assert radius is not None
+    straight_length = radius * 2 if straight_length is None else straight_length
     straight_component = gf.get_component(
         straight, length=straight_length, cross_section=xs
     )
-
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
         "A": (component, port1, port2),
@@ -98,7 +100,7 @@ def cutback_component(
 
     s = s[:-1]
 
-    c = gf.c.component_sequence(sequence=s, symbol_to_component=symbol_to_component)
+    c = component_sequence(sequence=s, symbol_to_component=symbol_to_component)
     n = 2 * s.count("A")
     c.info["components"] = n
     return c

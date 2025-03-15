@@ -21,7 +21,7 @@ def bezier_curve(
         t: 1D array of points varying between 0 and 1.
         control_points: for the bezier curve.
     """
-    from scipy.special import binom  # type: ignore
+    from scipy.special import binom
 
     xs = 0.0
     ys = 0.0
@@ -69,8 +69,8 @@ def bezier(
     path = gf.Path(path_points)
 
     if with_manhattan_facing_angles:
-        path.start_angle = start_angle or snap_angle(path.start_angle)  # type: ignore
-        path.end_angle = end_angle or snap_angle(path.end_angle)  # type: ignore
+        path.start_angle = start_angle or snap_angle(path.start_angle)
+        path.end_angle = end_angle or snap_angle(path.end_angle)
 
     c = path.extrude(xs)
     curv = curvature(path_points, t)
@@ -118,7 +118,7 @@ def find_min_curv_bezier_control_points(
         alpha: weight for angle mismatch.
         nb_pts: number of control points.
     """
-    from scipy.optimize import minimize  # type: ignore
+    from scipy.optimize import minimize
 
     t = np.linspace(0, 1, npoints)
 
@@ -139,7 +139,7 @@ def find_min_curv_bezier_control_points(
         dstart_angle = abs(angles[0] - start_angle)
         dend_angle = abs(angles[-2] - end_angle)
         angle_mismatch = dstart_angle + dend_angle
-        return angle_mismatch * alpha + max_curv  # type: ignore
+        return float(angle_mismatch * alpha + max_curv)
 
     x0, y0 = start_point[0], start_point[1]
     xn, yn = end_point[0], end_point[1]
@@ -151,10 +151,10 @@ def find_min_curv_bezier_control_points(
         initial_guess += [x, y]
 
     # initial_guess = [(x0 + xn) / 2, y0, (x0 + xn) / 2, yn]
-    res = minimize(objective_func, initial_guess, method="Nelder-Mead")  # type: ignore
-    p = res.x  # type: ignore
-    points = [tuple(start_point)] + array_1d_to_cpts(p) + [tuple(end_point)]  # type: ignore
-    return tuple(points)  # type: ignore
+    res = minimize(objective_func, initial_guess, method="Nelder-Mead")
+    p = res.x
+    points = [start_point] + array_1d_to_cpts(p) + [end_point]
+    return tuple(points)
 
 
 @gf.cell

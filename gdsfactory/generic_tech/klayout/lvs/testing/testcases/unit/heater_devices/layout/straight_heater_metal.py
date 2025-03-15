@@ -4,20 +4,20 @@ from functools import partial
 import gdsfactory as gf
 
 straight_heater_metal_mk = (47, 1)
-metal3 = gf.cross_section.metal3  # type: ignore[attr-defined]
+metal3 = gf.cross_section.metal3
 
 
 @gf.cell
 def straight_heater_metal_lvs() -> gf.Component:
     c = gf.Component()
 
-    strip_hm10 = gf.cross_section.strip_heater_metal(heater_width=10)  # type: ignore[attr-defined]
-    strip_hm35 = gf.cross_section.strip_heater_metal(heater_width=10)  # type: ignore[attr-defined]
-    strip_hm100 = gf.cross_section.strip_heater_metal(heater_width=10)  # type: ignore[attr-defined]
-    strip_hm50 = gf.cross_section.strip_heater_metal(heater_width=10)  # type: ignore[attr-defined]
-    strip_hm30 = gf.cross_section.strip_heater_metal(heater_width=10)  # type: ignore[attr-defined]
-    strip_hm40 = gf.cross_section.strip_heater_metal(heater_width=10)  # type: ignore[attr-defined]
-    strip_hm500 = gf.cross_section.strip_heater_metal(heater_width=500)  # type: ignore[attr-defined]
+    strip_hm10 = gf.cross_section.strip_heater_metal(heater_width=10)
+    strip_hm35 = gf.cross_section.strip_heater_metal(heater_width=10)
+    strip_hm100 = gf.cross_section.strip_heater_metal(heater_width=10)
+    strip_hm50 = gf.cross_section.strip_heater_metal(heater_width=10)
+    strip_hm30 = gf.cross_section.strip_heater_metal(heater_width=10)
+    strip_hm40 = gf.cross_section.strip_heater_metal(heater_width=10)
+    strip_hm500 = gf.cross_section.strip_heater_metal(heater_width=500)
 
     c1 = c << gf.components.straight_heater_metal(length=50, cross_section=strip_hm10)
     c1_mk = c << gf.components.rectangle(size=(50, 10), layer=straight_heater_metal_mk)

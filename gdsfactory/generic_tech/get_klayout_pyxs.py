@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import pathlib
 
-from gdsfactory.generic_tech import LAYER  # type: ignore
+from gdsfactory.generic_tech import LAYER
 
 nm = 1e-3
 
