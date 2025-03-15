@@ -7,6 +7,7 @@ import yaml
 from graphviz import Digraph
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import PATH
 from gdsfactory.typings import Anchor, Delta, Port, Ports
@@ -466,21 +467,3 @@ def _validate_instance_name(name: str) -> str:
             f"Having a ':' in an instance name is not supported. The ':' is used for bundle routing. Got: {name!r}."
         )
     return name
-
-
-if __name__ == "__main__":
-    # write_schema()
-    import gdsfactory as gf
-    import gdsfactory.schematic as gt
-
-    s = Schematic()
-    s.add_instance("mzi1", gt.Instance(component=gf.c.mzi(delta_length=10)))  # type: ignore[arg-type]
-    s.add_instance("mzi2", gt.Instance(component=gf.c.mzi(delta_length=100)))  # type: ignore[arg-type]
-    s.add_instance("mzi3", gt.Instance(component=gf.c.mzi(delta_length=200)))  # type: ignore[arg-type]
-    s.add_placement("mzi1", gt.Placement(x=000, y=0))
-    s.add_placement("mzi2", gt.Placement(x=100, y=100))
-    s.add_placement("mzi3", gt.Placement(x=200, y=0))
-    s.add_net(gt.Net(p1="mzi1,o2", p2="mzi2,o2"))
-    s.add_net(gt.Net(p1="mzi2,o2", p2="mzi3,o1"))
-    dot = s.to_graphviz()
-    s.plot_graphviz()

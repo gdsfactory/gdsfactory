@@ -1006,8 +1006,7 @@ def _add_ports(
         ps = [p.name for p in ref.ports]
         if p not in ps:
             raise ValueError(f"{p!r} not in {ps} for {i!r}.")
-        assert ib is not None, f"ib is None for {p!r} on {i!r}"
-        inst_port = ref.ports[p] if ia is None else ref.ports[p, ia, ib]
+        inst_port = ref.ports[p] if ia is None else ref.ports[p, ia, ib]  # type: ignore[index]
         c.add_port(name, port=inst_port)
     return c
 
