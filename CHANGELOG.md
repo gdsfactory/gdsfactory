@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.2.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.2.0) - 2025-03-15
+
+No significant changes.
+
+
 ## [9.1.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.1.0) - 2025-03-09
 
 - customize ring_double to accept gap_top and gap_top [#3715](https://github.com/gdsfactory/gdsfactory/pull/3715)
