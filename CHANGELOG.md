@@ -1,12 +1,14 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.1.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.2.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.2.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.2.0) - 2025-03-15
 
-No significant changes.
-
+- Add __name__ to ComponentFunc [#3720](https://github.com/gdsfactory/gdsfactory/pull/3720)
+- add terminator_spiral [#3718](https://github.com/gdsfactory/gdsfactory/pull/3718)
+- Fix deembed [#3722](https://github.com/gdsfactory/gdsfactory/pull/3722)
+- unpin klayout [#3723](https://github.com/gdsfactory/gdsfactory/pull/3723)
 
 ## [9.1.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.1.0) - 2025-03-09
 
