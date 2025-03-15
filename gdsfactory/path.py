@@ -137,7 +137,10 @@ class Path(UMGeometricObject):
             sin_angle = np.sin(angle_rad)
 
             rotation_matrix = np.array(
-                [[cos_angle, sin_angle], [-sin_angle, cos_angle]]
+                [
+                    [cos_angle, sin_angle],
+                    [-sin_angle, cos_angle],
+                ]
             )
             new_points = np.dot(self.points, rotation_matrix)
 
@@ -183,7 +186,7 @@ class Path(UMGeometricObject):
             (np.asarray(path, dtype=object).ndim == 2)
             and not isinstance(path[0], Path)
             and np.issubdtype(np.array(path).dtype, np.number)
-            and (np.shape(path)[1] == 2)
+            and (np.shape(path)[1] == 2)  # type: ignore[arg-type]
         ):
             points = np.asarray(path, dtype=np.float64)
             nx1, ny1 = points[1] - points[0]

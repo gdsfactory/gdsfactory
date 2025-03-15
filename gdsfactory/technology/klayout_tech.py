@@ -135,7 +135,7 @@ class KLayoutTechnology(BaseModel):
 
         reader_opts = root.find("reader-options")
         if reader_opts is not None:
-            lefdef_idx = list(reader_opts).index(reader_opts.find("lefdef"))
+            lefdef_idx = list(reader_opts).index(reader_opts.find("lefdef"))  # type: ignore[arg-type]
             reader_opts.insert(lefdef_idx + 1, mebes)
 
         # FIXME
@@ -213,7 +213,7 @@ if __name__ == "__main__":
         name="generic_tech",
         layer_views=lyp,
         connectivity=connectivity,
-        layer_map=LAYER,
+        layer_map=LAYER,  # type: ignore[arg-type]
         layer_stack=LAYER_STACK,
     )
     tech_dir = PATH.klayout_tech

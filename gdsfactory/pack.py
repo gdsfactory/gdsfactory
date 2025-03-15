@@ -6,7 +6,7 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 from __future__ import annotations
 
 from collections.abc import Sequence
-from typing import Any, Protocol
+from typing import Any, Protocol, cast
 
 import numpy as np
 import numpy.typing as npt
@@ -170,7 +170,7 @@ def pack(
         max_size_filtered, dtype=np.float64
     )  # In case it's integers
     max_size_array = max_size_array / precision
-    max_size_tuple: tuple[float, float] = tuple(max_size_array)
+    max_size_tuple = cast(tuple[float, float], tuple(max_size_array))
 
     components = [gf.get_component(component) for component in component_list]
 
@@ -221,7 +221,10 @@ def pack(
                 d.mirror_x()
             if v_mirror:
                 d.mirror_y()
-            d.center = tuple(snap_to_grid((xcenter * precision, ycenter * precision)))
+            d.center = cast(
+                tuple[float, float],
+                tuple(snap_to_grid((xcenter * precision, ycenter * precision))),
+            )
             if add_ports_prefix:
                 packed.add_ports(d.ports, prefix=f"{index}_")
             elif add_ports_suffix:

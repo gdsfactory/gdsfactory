@@ -222,7 +222,7 @@ class TypedArray(np.ndarray[Any, np.dtype[Any]]):
 
     @classmethod
     def validate_type(cls, val: Any, _info: Any) -> npt.NDArray[np.float64]:
-        return np.array(val, dtype=cls.inner_type)
+        return np.array(val, dtype=cls.inner_type)  # type: ignore[attr-defined]
 
 
 class ArrayMeta(type):

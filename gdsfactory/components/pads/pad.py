@@ -17,7 +17,7 @@ from gdsfactory.typings import (
 
 @gf.cell
 def pad(
-    size: Size = (100.0, 100.0),
+    size: Size | str = (100.0, 100.0),
     layer: LayerSpec = "MTOP",
     bbox_layers: tuple[LayerSpec, ...] | None = None,
     bbox_offsets: tuple[float, ...] | None = None,
@@ -41,9 +41,9 @@ def pad(
     """
     c = Component()
     layer = gf.get_layer(layer)
-    size = gf.get_constant(size)
+    size_ = gf.get_constant(size)
     rect = gf.c.compass(
-        size=size,
+        size=size_,
         layer=layer,
         port_inclusion=port_inclusion,
         port_type="electrical",
@@ -51,20 +51,20 @@ def pad(
     )
     c_ref = c.add_ref(rect)
     c.add_ports(c_ref.ports)
-    c.info["size"] = size
-    c.info["xsize"] = size[0]
-    c.info["ysize"] = size[1]
+    c.info["size"] = size_
+    c.info["xsize"] = size_[0]
+    c.info["ysize"] = size_[1]
 
     if bbox_layers and bbox_offsets:
         sizes: list[Size] = []
         for cladding_offset in bbox_offsets:
-            size = (size[0] + 2 * cladding_offset, size[1] + 2 * cladding_offset)
-            sizes.append(size)
+            size_ = (size_[0] + 2 * cladding_offset, size_[1] + 2 * cladding_offset)
+            sizes.append(size_)
 
-        for layer, size in zip(bbox_layers, sizes):
+        for layer, size_ in zip(bbox_layers, sizes):
             c.add_ref(
                 gf.c.compass(
-                    size=size,
+                    size=size_,
                     layer=layer,
                 )
             )
@@ -72,7 +72,7 @@ def pad(
     if port_orientation is not None and port_orientation not in valid_port_orientations:
         raise ValueError(f"{port_orientation=} must be in {valid_port_orientations}")
 
-    width = size[1] if port_orientation in {0, 180} else size[0]
+    width = size_[1] if port_orientation in {0, 180} else size_[0]
 
     if port_orientation is not None:
         c.add_port(

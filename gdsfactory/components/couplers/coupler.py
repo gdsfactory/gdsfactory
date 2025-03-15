@@ -168,6 +168,7 @@ def coupler(
     x = gf.get_cross_section(cross_section)
     x.add_bbox(c)
     c.flatten()
+    assert x.radius is not None
     if not allow_min_radius_violation:
         x.validate_radius(x.radius)
     return c

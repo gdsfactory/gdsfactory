@@ -52,7 +52,7 @@ def via_stack(
     layers = layers or []
     layer_offsets = layer_offsets or [0] * len(layers)
     layer_to_port_orientations_list = layer_to_port_orientations or {
-        layers[-1]: port_orientations
+        layers[-1]: list(port_orientations or [])
     }
 
     for layer in layer_to_port_orientations_list:

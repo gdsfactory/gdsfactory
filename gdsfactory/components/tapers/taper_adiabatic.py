@@ -40,7 +40,7 @@ def neff_TE1550SOI_220nm(w: float) -> float:
             -1.12666286e00,
         ]
     )
-    return np.poly1d(adiabatic_polyfit_TE1550SOI_220nm)(w)
+    return float(np.poly1d(adiabatic_polyfit_TE1550SOI_220nm)(w))
 
 
 @gf.cell
@@ -104,7 +104,7 @@ def taper_adiabatic(
     assert isinstance(w, np.ndarray)
 
     # Stretch/compress x
-    x_array: npt.NDArray[np.floating[Any]] = np.linspace(0, length, npoints) * (
+    x_array: npt.NDArray[np.float64] = np.linspace(0, length, npoints) * (
         1 + length - x_opt[-1]
     )
     assert isinstance(x_array, np.ndarray)

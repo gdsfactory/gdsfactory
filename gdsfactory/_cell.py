@@ -80,7 +80,7 @@ def cell(
         drop_params = ["self", "cls"]
     if post_process is None:
         post_process = []
-    c = _cell(
+    c = _cell(  # type: ignore[call-overload,misc]
         _func,
         output_type=component.Component,
         set_settings=set_settings,
@@ -101,7 +101,7 @@ def cell(
         tags=tags,
     )
     c.is_gf_cell = True
-    return c
+    return c  # type: ignore[no-any-return]
 
 
 class ComponentAllAngleFunc(Protocol[ComponentParams]):
@@ -148,7 +148,7 @@ def vcell(
         [ComponentAllAngleFunc[ComponentParams]], ComponentAllAngleFunc[ComponentParams]
     ]
 ):
-    vc = _vcell(
+    vc = _vcell(  # type: ignore[call-overload]
         _func,
         set_settings=set_settings,
         set_name=set_name,
@@ -158,4 +158,4 @@ def vcell(
         register_factory=register_factory,
     )
     vc.is_gf_vcell = True
-    return vc
+    return vc  # type: ignore[no-any-return]

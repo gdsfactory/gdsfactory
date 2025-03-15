@@ -646,7 +646,7 @@ class LayerView(BaseModel):
         """Return an XML representation of the LayerView."""
         props = self._build_klayout_xml_element(
             "properties",
-            name=self.name,
+            name=self.name or "",
             custom_hatch_patterns=custom_hatch_patterns,
             custom_line_styles=custom_line_styles,
         )
@@ -707,14 +707,15 @@ class LayerView(BaseModel):
             element: XML Element to iterate over.
             layer_pattern: Regex pattern to match layers with.
         """
+        element_name = element.find("name")
         name, layer_in_name = cls._process_name(
-            element.find("name").text,
+            element_name.text or "" if element_name is not None else "",
             layer_pattern,
         )
         if name is None:
             return None
 
-        hatch_pattern = element.find("dither-pattern").text
+        hatch_pattern = element.find("dither-pattern").text  # type: ignore[union-attr]
         # Translate KLayout index to hatch name
         if hatch_pattern and re.match(r"I\d+", hatch_pattern):
             hatch_pattern = list(_klayout_dither_patterns.keys())[
@@ -728,15 +729,15 @@ class LayerView(BaseModel):
             and line_style.text is not None
             and re.match(r"I\d+", line_style.text)
         ):
-            line_style = list(_klayout_line_styles.keys())[int(line_style.text[1:])]
+            line_style = list(_klayout_line_styles.keys())[int(line_style.text[1:])]  # type: ignore[assignment]
 
         lv = LayerView(
             name=name,
-            layer=cls._process_layer(element.find("source").text, layer_pattern),
+            layer=cls._process_layer(element.find("source").text, layer_pattern),  # type: ignore[union-attr,arg-type]
             fill_color=getattr(element.find("fill-color"), "text", None),
             frame_color=getattr(element.find("frame-color"), "text", None),
-            fill_brightness=element.find("fill-brightness").text or 0,
-            frame_brightness=element.find("frame-brightness").text or 0,
+            fill_brightness=element.find("fill-brightness").text or 0,  # type: ignore[union-attr]
+            frame_brightness=element.find("frame-brightness").text or 0,  # type: ignore[union-attr]
             hatch_pattern=hatch_pattern or None,
             line_style=line_style
             if line_style is not None and len(line_style) > 0
@@ -812,7 +813,7 @@ class LayerViews(BaseModel):
             data["custom_dither_patterns"] = lvs.custom_dither_patterns
         layer_names: builtins.dict[str, LayerEnum] | None = None
         if layers:
-            layer_names = {layer.name: layer for layer in layers if layer is not None}
+            layer_names = {layer.name: layer for layer in layers if layer is not None}  # type: ignore[attr-defined]
         else:
             layer_names = None
 
@@ -983,7 +984,7 @@ class LayerViews(BaseModel):
 
         sorted_layers = sorted(
             non_empty_layers,
-            key=lambda x: (x.layer[0], x.layer[1]),
+            key=lambda x: (x.layer[0], x.layer[1]),  # type: ignore[index]
         )
 
         for n, layer in enumerate(sorted_layers):
@@ -1075,13 +1076,13 @@ class LayerViews(BaseModel):
 
         dither_patterns: dict[str, HatchPattern] = {}
         for dither_block in root.iter("custom-dither-pattern"):
-            name = dither_block.find("name").text
-            order = dither_block.find("order").text
+            name = dither_block.find("name").text  # type: ignore[union-attr]
+            order = dither_block.find("order").text  # type: ignore[union-attr]
 
             if name is None or order is None:
                 continue
             pattern = "\n".join(
-                [line.text for line in dither_block.find("pattern").iter()]
+                [line.text for line in dither_block.find("pattern").iter()]  # type: ignore[misc,union-attr]
             )
 
             if name in dither_patterns:
@@ -1097,8 +1098,8 @@ class LayerViews(BaseModel):
             )
         line_styles: dict[str, LineStyle] = {}
         for line_block in root.iter("custom-line-style"):
-            name = line_block.find("name").text
-            order = line_block.find("order").text
+            name = line_block.find("name").text  # type: ignore[union-attr]
+            order = line_block.find("order").text  # type: ignore[union-attr]
 
             if name is None or order is None:
                 continue
@@ -1112,7 +1113,7 @@ class LayerViews(BaseModel):
             line_styles[name] = LineStyle(
                 name=name,
                 order=int(order),
-                custom_style=line_block.find("pattern").text,
+                custom_style=line_block.find("pattern").text,  # type: ignore[union-attr]
             )
 
         layer_views = {}

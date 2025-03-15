@@ -1,7 +1,6 @@
 import os
 import pathlib
 from inspect import Parameter, Signature, signature
-from io import IOBase
 from typing import IO, TYPE_CHECKING, Any
 
 import jinja2
@@ -17,7 +16,7 @@ if TYPE_CHECKING:
 
 __all__ = ["cell_from_yaml_template"]
 
-_YamlDefinition = str | IO[Any] | pathlib.Path
+_YamlDefinition = str | IO[str] | pathlib.Path
 
 
 def split_default_settings_from_yaml(yaml_lines: list[str]) -> tuple[str, str]:
@@ -31,8 +30,8 @@ def split_default_settings_from_yaml(yaml_lines: list[str]) -> tuple[str, str]:
     Returns:
         a tuple of (main file contents), (setting block), both as multi-line strings.
     """
-    settings_lines = []
-    other_lines = []
+    settings_lines: list[str] = []
+    other_lines: list[str] = []
     # start reading all lines
     while yaml_lines:
         # pop lines until we find the default_settings block
@@ -56,7 +55,7 @@ def split_default_settings_from_yaml(yaml_lines: list[str]) -> tuple[str, str]:
 
 
 def _split_yaml_definition(subpic_yaml: _YamlDefinition) -> tuple[str, dict[str, Any]]:
-    if isinstance(subpic_yaml, IOBase):
+    if isinstance(subpic_yaml, IO):
         f = subpic_yaml
         subpic_text = f.readlines()
     else:
@@ -95,7 +94,7 @@ def cell_from_yaml_template(
         routing_strategies=routing_strategies,
     )
     if os.path.exists(str(filename)):
-        cell.__file__ = os.path.abspath(str(filename))
+        cell.__file__ = os.path.abspath(str(filename))  # type: ignore[attr-defined]
     return cell
 
 
@@ -167,7 +166,7 @@ def yaml_cell(
 
     _yaml_func.__name__ = name
     _yaml_func.__module__ = "yaml_jinja"
-    _yaml_func.__signature__ = new_sig
+    _yaml_func.__signature__ = new_sig  # type: ignore[attr-defined]
     _yaml_func.__doc__ = docstring
     return cell(_yaml_func)
 

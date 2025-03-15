@@ -15,7 +15,7 @@ def ring(
     width: float = 0.5,
     angle_resolution: float = 2.5,
     layer: LayerSpec = "WG",
-    angle: float | None = 360,
+    angle: float = 360,
 ) -> Component:
     """Returns a ring.
 

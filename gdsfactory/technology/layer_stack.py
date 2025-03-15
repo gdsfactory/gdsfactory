@@ -540,12 +540,12 @@ class LayerStack(BaseModel):
             if level.derived_layer:
                 unetched_layers_dict[level.derived_layer.layer].append(layer_name)
                 if level.derived_layer.layer in unetched_layers:
-                    unetched_layers.remove(level.derived_layer.layer)
+                    unetched_layers.remove(level.derived_layer.layer)  # type: ignore[arg-type]
 
         # Define layers
         out += "\n".join(
             [
-                f"{layer_name} = input({level.layer.layer[0]}, {level.layer.layer[1]})"
+                f"{layer_name} = input({level.layer.layer[0]}, {level.layer.layer[1]})"  # type: ignore[index,union-attr]
                 for layer_name, level in layers.items()
                 if hasattr(level.layer, "layer")
             ]
@@ -592,8 +592,8 @@ class LayerStack(BaseModel):
                 )
                 if layer_views:
                     txt += ", "
-                    if layer in layer_views:
-                        props = layer_views.get_from_tuple(layer)
+                    if layer in layer_views:  # type: ignore[operator]
+                        props = layer_views.get_from_tuple(layer)  # type: ignore[arg-type]
                         if hasattr(props, "color"):
                             if props.color.fill == props.color.frame:
                                 txt += f"color: {props.color.fill}"
@@ -607,7 +607,7 @@ class LayerStack(BaseModel):
 
             elif layer_name in unetched_layers:
                 # TODO: Reimplement this
-                layer_tuple = get_layer_tuple(layer.layer)
+                layer_tuple = get_layer_tuple(layer.layer)  # type: ignore[union-attr]
                 name = (
                     f"{layer_name}: {level.material} {layer_tuple[0]}/{layer_tuple[1]}"
                 )

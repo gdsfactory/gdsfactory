@@ -131,7 +131,7 @@ if __name__ == "__main__":
     import gdsfactory as gf
     from gdsfactory import cross_section as xs
 
-    c = gf.c.add_fiber_array_optical_south_electrical_north(
+    c = add_fiber_array_optical_south_electrical_north(
         component=gf.c.straight_heater_metal,
         pad=gf.c.pad,
         grating_coupler=gf.c.grating_coupler_te,

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.components.containers.component_sequence import component_sequence
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
@@ -171,7 +172,7 @@ def cutback_2x2(
 
     s = s[:-1]
     n = cols * rows * 2
-    c = gf.c.component_sequence(sequence=s, symbol_to_component=symbol_to_component)
+    c = component_sequence(sequence=s, symbol_to_component=symbol_to_component)
     c.ports.clear()
     c.add_port("o1", port=c.insts["A1"].ports["o1"])
     c.add_port("o2", port=c.insts["A1"].ports["o2"])

@@ -1,3 +1,5 @@
+from typing import cast
+
 import numpy as np
 import numpy.typing as npt
 
@@ -30,7 +32,7 @@ def mmi_widths(t: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
     xold = np.linspace(0, 1, num=len(widths))
     xnew = np.linspace(0, 1, num=100)
     f = interp1d(xold, widths, kind="cubic")
-    return f(xnew)
+    return cast(npt.NDArray[np.float64], f(xnew))
 
 
 @gf.cell

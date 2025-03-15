@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import warnings
-from typing import Any
+from typing import Any, cast
 
 import numpy as np
 import numpy.typing as npt
@@ -113,11 +113,13 @@ def extend_ports(
         cref.dy = 0
 
     ports_all = cref.ports
-    port_names_all = [p.name for p in ports_all]
+    port_names_all = [p.name for p in ports_all if p.name is not None]
 
-    ports_to_extend = gf.port.get_ports_list(cref.ports, port_type=port_type, **kwargs)
-    ports_to_extend_names = [p.name for p in ports_to_extend]
-    ports_to_extend_names = port_names or ports_to_extend_names
+    ports_to_extend = list(
+        gf.port.get_ports_list(cref.ports, port_type=port_type, **kwargs)
+    )
+    ports_to_extend_names = [p.name for p in ports_to_extend if p.name is not None]
+    ports_to_extend_names = cast(list[str], port_names or ports_to_extend_names)
 
     if auto_taper and cross_section:
         from gdsfactory.routing.auto_taper import add_auto_tapers
@@ -126,10 +128,10 @@ def extend_ports(
             component=c, ports=ports_to_extend, cross_section=cross_section
         )
 
-    for port_name in ports_to_extend_names:
-        if port_name not in port_names_all:
+    for port_name_to_extend in ports_to_extend_names:
+        if port_name_to_extend not in port_names_all:
             warnings.warn(
-                f"Port Name {port_name!r} not in {port_names_all}",
+                f"Port Name {port_name_to_extend!r} not in {port_names_all}",
                 stacklevel=3,
                 category=UserWarning,
             )
@@ -147,7 +149,7 @@ def extend_ports(
                 port_xs_name = port.info.get("cross_section", None)
 
                 if port_xs_name and port_xs_name in cross_section_names:
-                    cross_section_extension = gf.get_cross_section(
+                    cross_section_extension: CrossSectionSpec = gf.get_cross_section(
                         port.info["cross_section"]
                     )
 

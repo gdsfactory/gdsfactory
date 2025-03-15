@@ -33,7 +33,7 @@ def cdsem_straight(
         text_size: in um.
     """
     c = Component()
-    p = 0
+    p = 0.0
     if positions is not None:
         positions = positions or [None] * len(widths)
     else:

@@ -5,6 +5,7 @@ from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.components.containers.component_sequence import component_sequence
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
@@ -99,7 +100,7 @@ def cutback_component(
 
     s = s[:-1]
 
-    c = gf.c.component_sequence(sequence=s, symbol_to_component=symbol_to_component)
+    c = component_sequence(sequence=s, symbol_to_component=symbol_to_component)
     n = 2 * s.count("A")
     c.info["components"] = n
     return c

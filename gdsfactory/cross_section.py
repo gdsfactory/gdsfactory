@@ -11,7 +11,7 @@ from collections.abc import Callable, Sequence
 from functools import partial, wraps
 from inspect import getmembers, signature
 from types import ModuleType
-from typing import Any, Self, TypeAlias
+from typing import Any, ParamSpec, Protocol, Self, TypeAlias
 
 import numpy as np
 from kfactory import DCrossSection, SymmetricalCrossSection, logger
@@ -132,14 +132,23 @@ class Section(BaseModel):
             data["name"] = f"s_{h}"
         return data
 
-    @field_serializer("width_function", "offset_function")
-    def serialize_functions(
-        self, func: typings.WidthFunction | typings.OffsetFunction | None
+    @field_serializer("width_function")
+    def serialize_width_function(
+        self, func: typings.WidthFunction | None
     ) -> str | None:
         if func is None:
             return None
         t_values = np.linspace(0, 1, 11)
         return ",".join([str(round(width, 3)) for width in func(t_values)])
+
+    @field_serializer("offset_function")
+    def serialize_offset_function(
+        self, func: typings.OffsetFunction | None
+    ) -> str | None:
+        if func is None:
+            return None
+        t_values = np.linspace(0, 1, 11)
+        return ",".join([str(round(func(offset), 3)) for offset in t_values])
 
 
 class ComponentAlongPath(BaseModel):
@@ -449,8 +458,16 @@ CrossSectionSpec: TypeAlias = (
 cross_sections: dict[str, CrossSectionFactory] = {}
 _cross_section_default_names: dict[str, str] = {}
 
+P = ParamSpec("P")
 
-def xsection(func: Callable[..., CrossSection]) -> Callable[..., CrossSection]:
+
+class CrossSectionCallable(Protocol[P]):
+    __name__: str
+
+    def __call__(self, *args: P.args, **kwargs: P.kwargs) -> CrossSection: ...
+
+
+def xsection(func: CrossSectionCallable[P]) -> CrossSectionCallable[P]:
     """Decorator to register a cross section function.
 
     Ensures that the cross-section name matches the name of the function that generated it when created using default parameters
@@ -461,12 +478,12 @@ def xsection(func: Callable[..., CrossSection]) -> Callable[..., CrossSection]:
         def xs_sc(width=TECH.width_sc, radius=TECH.radius_sc):
             return gf.cross_section.cross_section(width=width, radius=radius)
     """
-    default_xs = func()
+    default_xs = func()  # type: ignore[call-arg]
     _cross_section_default_names[default_xs.name] = func.__name__
 
     @wraps(func)
-    def newfunc(**kwargs: Any) -> CrossSection:
-        xs = func(**kwargs)
+    def newfunc(*args: P.args, **kwargs: P.kwargs) -> CrossSection:
+        xs = func(*args, **kwargs)
         if xs.name in _cross_section_default_names:
             xs._name = _cross_section_default_names[xs.name]
         return xs

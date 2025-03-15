@@ -37,7 +37,7 @@ def cdsem_coupler(
         xs = gf.get_cross_section(cross_section, width=width)
     else:
         xs = gf.get_cross_section(cross_section)
-    p = 0
+    p = 0.0
 
     if positions is not None:
         positions = positions or [None] * len(gaps)

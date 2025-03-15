@@ -49,7 +49,7 @@ def number(n: float) -> str:
     Returns:
         str: The formatted string.
     """
-    scaled_value = int(round(n * 10000))
+    scaled_value = round(n * 10000)
     return f"{scaled_value:07d}"
 
 

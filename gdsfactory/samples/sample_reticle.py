@@ -3,6 +3,9 @@ from __future__ import annotations
 from typing import Any
 
 import gdsfactory as gf
+from gdsfactory.components.containers.add_fiber_array_optical_south_electrical_north import (
+    add_fiber_array_optical_south_electrical_north,
+)
 
 
 @gf.cell
@@ -70,7 +73,7 @@ def sample_reticle(grid: bool = False) -> gf.Component:
     rings: list[gf.Component] = []
     for length_x in [10, 20, 30]:
         ring = gf.components.ring_single_heater(length_x=length_x)
-        c = gf.c.add_fiber_array_optical_south_electrical_north(
+        c = add_fiber_array_optical_south_electrical_north(
             component=ring,
             pad=gf.c.pad,
             grating_coupler=gf.c.grating_coupler_te,

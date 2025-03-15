@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import cast
 
 import shapely
+from kfactory import LayerEnum
 from trimesh.scene.scene import Scene
 
 from gdsfactory.component import Component
@@ -58,17 +59,16 @@ def to_3d(
         layer = level.layer
 
         if isinstance(layer, LogicalLayer):
-            layer_index = layer.layer
-            layer_tuple = cast(tuple[int, int], tuple(layer_index))
-
+            assert isinstance(layer.layer, tuple | LayerEnum)
+            layer_tuple = cast(tuple[int, int], tuple(layer.layer))
         elif isinstance(layer, DerivedLayer):
             assert level.derived_layer is not None
-            layer_index = level.derived_layer.layer
-            layer_tuple = cast(tuple[int, int], tuple(layer_index))
+            assert isinstance(level.derived_layer.layer, tuple | LayerEnum)
+            layer_tuple = cast(tuple[int, int], tuple(level.derived_layer.layer))
         else:
             raise ValueError(f"Layer {layer!r} is not a DerivedLayer or LogicalLayer")
 
-        layer_index = int(get_layer(layer_index))
+        layer_index = int(get_layer(layer_tuple))
 
         if layer_index in exclude_layers:
             continue

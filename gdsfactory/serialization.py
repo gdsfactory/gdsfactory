@@ -40,7 +40,7 @@ def get_string(value: Any) -> str:
     except TypeError as e:
         print(f"Error serializing {value!r}")
         raise e
-    return s
+    return str(s)
 
 
 def clean_dict(dictionary: dict[str, Any]) -> dict[str, Any]:

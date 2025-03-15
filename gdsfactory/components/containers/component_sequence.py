@@ -223,7 +223,7 @@ if __name__ == "__main__":
     sequence = "!HH"
     sequence = "H"
     sequence = "AB-H-H-H-H-BA"
-    c = gf.components.component_sequence(
+    c = component_sequence(
         sequence=sequence, symbol_to_component=symbol_to_component_map
     )
     c.show()

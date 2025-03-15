@@ -7,10 +7,9 @@ import yaml
 from graphviz import Digraph
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-import gdsfactory
 from gdsfactory.component import Component
 from gdsfactory.config import PATH
-from gdsfactory.typings import Anchor, Delta
+from gdsfactory.typings import Anchor, Delta, Port, Ports
 from gdsfactory.utils import is_component_spec
 
 
@@ -246,26 +245,28 @@ def to_graphviz(
     dot = Digraph(comment="Netlist Diagram")
     dot.attr(dpi="300", layout="neato", overlap="false")
 
-    all_ports = []
+    all_ports: list[tuple[str, Ports]] = []
 
     # Retrieve all the ports in the component
     for name, instance in instances.items():
         if hasattr(instance, "component"):
             instance_component = instance.component
         else:
-            instance_component = instance["component"]
-        ports = gdsfactory.get_component(instance_component).ports
-        all_ports.append((name, ports))
+            instance_component = instance["component"]  # type: ignore[index]
+        ports_ = gf.get_component(instance_component).ports
+        all_ports.append((name, ports_))
 
     for node, placement in placements.items():
-        _ports = dict(all_ports).get(node)
-        assert _ports is not None
-        ports = _ports
+        ports = dict(all_ports).get(node)
+        assert ports is not None
 
         if not ports or not show_ports:
             label = node
         else:
-            top_ports, right_ports, bottom_ports, left_ports = [], [], [], []
+            top_ports: list[Port] = []
+            right_ports: list[Port] = []
+            bottom_ports: list[Port] = []
+            left_ports: list[Port] = []
 
             for port in ports:
                 if 0 <= port.orientation < 45 or 315 <= port.orientation < 360:
@@ -278,7 +279,7 @@ def to_graphviz(
                     top_ports.append(port)
 
             # Format ports for Graphviz record structure in anticlockwise order
-            port_labels = []
+            port_labels: list[str] = []
 
             if left_ports:
                 left_ports_label = " | ".join(
@@ -286,7 +287,7 @@ def to_graphviz(
                 )
                 port_labels.append(f"{{ {left_ports_label} }}")
 
-            middle_row = []
+            middle_row: list[str] = []
 
             if top_ports:
                 top_ports_label = " | ".join(
@@ -318,8 +319,8 @@ def to_graphviz(
         dot.node(node, label=label, pos=pos, shape="record")
 
     for net in nets:
-        p1 = net.p1 if hasattr(net, "p1") else net["p1"]
-        p2 = net.p2 if hasattr(net, "p2") else net["p2"]
+        p1 = net.p1 if hasattr(net, "p1") else net["p1"]  # type: ignore[index]
+        p2 = net.p2 if hasattr(net, "p2") else net["p2"]  # type: ignore[index]
 
         p1_instance = p1.split(",")[0]
         p1_port = p1.split(",")[1]

@@ -36,7 +36,7 @@ def symbol_from_cell(func: _F, to_symbol: ToSymbol) -> _F:
         c_symbol = to_symbol(component, prefix=f"SYMBOL_{func.__name__}")
         return c_symbol
 
-    _symbol._symbol = True
+    _symbol._symbol = True  # type: ignore[attr-defined]
     return _symbol
 
 
