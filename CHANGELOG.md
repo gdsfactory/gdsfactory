@@ -1,12 +1,14 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.2.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.2.1...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.2.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.2.1) - 2025-03-16
 
-No significant changes.
-
+- Fix mypy and pre-commit [#3728](https://github.com/gdsfactory/gdsfactory/pull/3728)
+- Add mypy to pre-commit and fix mypy issues [#3708](https://github.com/gdsfactory/gdsfactory/pull/3708)
+- improve docstrings for heaters [#3727](https://github.com/gdsfactory/gdsfactory/pull/3727)
+- Unbound pydantic dependency [#3726](https://github.com/gdsfactory/gdsfactory/pull/3726)
 
 ## [9.2.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.2.0) - 2025-03-15
 
