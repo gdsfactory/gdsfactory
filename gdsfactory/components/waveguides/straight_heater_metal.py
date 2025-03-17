@@ -42,8 +42,8 @@ def straight_heater_metal_undercut(
         cross_section_heater_undercut: for heated sections with undercut.
         with_undercut: isolation trenches for higher efficiency.
         via_stack: via stack.
-        port_orientation1: left via stack port orientation.
-        port_orientation2: right via stack port orientation.
+        port_orientation1: left via stack port orientation. None adds all orientations.
+        port_orientation2: right via stack port orientation. None adds all orientations.
         heater_taper_length: minimizes current concentrations from heater to via_stack.
         ohms_per_square: to calculate resistance.
     """
@@ -180,8 +180,8 @@ def straight_heater_metal_simple(
         cross_section_heater: for heated sections. heater metal only.
         cross_section_waveguide_heater: for heated sections.
         via_stack: via stack.
-        port_orientation1: left via stack port orientation.
-        port_orientation2: right via stack port orientation.
+        port_orientation1: left via stack port orientation. None adds all orientations.
+        port_orientation2: right via stack port orientation. None adds all orientations.
         heater_taper_length: minimizes current concentrations from heater to via_stack.
         ohms_per_square: to calculate resistance.
     """
@@ -270,7 +270,7 @@ straight_heater_metal_undercut_90_90 = partial(
 
 if __name__ == "__main__":
     # c = straight_heater_metal_simple(length=50.0)
-    c = straight_heater_metal_undercut()
+    c = straight_heater_metal_undercut(port_orientation1=90, port_orientation2=90)
     c.pprint_ports()
     c.show()
     # print(c.ports['o2'].center[0])
