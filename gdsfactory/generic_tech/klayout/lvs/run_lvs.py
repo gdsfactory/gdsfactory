@@ -26,7 +26,7 @@ from datetime import UTC, datetime
 from subprocess import check_call
 
 import klayout.db
-from docopt import docopt  # type: ignore
+from docopt import docopt
 
 
 def check_klayout_version() -> None:
@@ -255,7 +255,7 @@ def main(lvs_run_dir: str, arguments: dict[str, str]) -> None:
 
 if __name__ == "__main__":
     # arguments
-    arguments = docopt(__doc__, version="RUN LVS: 1.0")  # type: ignore
+    arguments = docopt(__doc__, version="RUN LVS: 1.0")
 
     # logs format
     now_str = datetime.now(UTC).strftime("lvs_run_%Y_%m_%d_%H_%M_%S")

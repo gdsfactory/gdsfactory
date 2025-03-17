@@ -11,7 +11,7 @@ PYTHON_SAMPLE_SCRIPTS = list(scripts_dir.glob("*.py"))
 
 # parameterize the tests by stem to get better test names
 PYTHON_SAMPLE_SCRIPTS_BY_STEM = {p.stem: p for p in PYTHON_SAMPLE_SCRIPTS}
-SCRIPTS_TO_SKIP = {}
+SCRIPTS_TO_SKIP: set[str] = set()
 
 
 @pytest.mark.skip(reason="This test is currently disabled.")

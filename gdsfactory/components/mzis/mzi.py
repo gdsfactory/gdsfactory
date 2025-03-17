@@ -97,7 +97,7 @@ def mzi(
     cp2 = gf.get_component(combiner) if combiner else cp1
 
     if with_splitter:
-        cp1 = c << cp1  # type: ignore
+        cp1 = c << cp1  # type: ignore[assignment]
         cp1.name = "cp1"
 
     cp2_reference = c << cp2

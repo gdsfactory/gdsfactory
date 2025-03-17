@@ -94,7 +94,7 @@ def get_cells_from_dict(
         ):
             with contextlib.suppress(ValueError):
                 func = member.func if isinstance(member, partial) else member
-                r = signature(func).return_annotation  # type: ignore
+                r = signature(func).return_annotation
                 if r == Component or (isinstance(r, str) and r.endswith("Component")):
                     valid_cells[name] = member
     return valid_cells

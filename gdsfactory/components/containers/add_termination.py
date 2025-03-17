@@ -4,7 +4,7 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.tapers import taper
+from gdsfactory.components.tapers.taper import taper
 from gdsfactory.typings import ComponentSpec
 
 _terminator_function = partial(taper, width2=0.1)

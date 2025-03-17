@@ -2,10 +2,8 @@ import re
 from pathlib import Path
 
 import gdsfactory as gf
-from gdsfactory.component import GDSDIR_TEMP
-from gdsfactory.export.to_svg import (
-    to_svg,
-)
+from gdsfactory.config import GDSDIR_TEMP
+from gdsfactory.export.to_svg import to_svg
 from gdsfactory.typings import Layer
 
 

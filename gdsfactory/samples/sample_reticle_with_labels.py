@@ -143,7 +143,7 @@ def sample_reticle_with_labels(grid: bool = False) -> gf.Component:
 
 
 if __name__ == "__main__":
-    import pandas as pd  # type: ignore
+    import pandas as pd
 
     c = sample_reticle_with_labels()
     # c.name = "sample_reticle_with_labels"

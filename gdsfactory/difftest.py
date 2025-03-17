@@ -103,16 +103,16 @@ def xor(
         print("Text only in new")
         get_texts(ld.layer_index_b(), b_texts).insert(bnota)
 
-    ld.on_cell_in_a_only = lambda anotb: cell_diff_a(anotb)  # type: ignore
-    ld.on_cell_in_b_only = lambda anotb: cell_diff_b(anotb)  # type: ignore
-    ld.on_text_in_a_only = lambda anotb, prop_id: text_diff_a(anotb, prop_id)  # type: ignore
-    ld.on_text_in_b_only = lambda anotb, prop_id: text_diff_b(anotb, prop_id)  # type: ignore
+    ld.on_cell_in_a_only = lambda anotb: cell_diff_a(anotb)  # type: ignore[assignment]
+    ld.on_cell_in_b_only = lambda anotb: cell_diff_b(anotb)  # type: ignore[assignment]
+    ld.on_text_in_a_only = lambda anotb, prop_id: text_diff_a(anotb, prop_id)  # type: ignore[assignment]
+    ld.on_text_in_b_only = lambda anotb, prop_id: text_diff_b(anotb, prop_id)  # type: ignore[assignment]
 
-    ld.on_polygon_in_a_only = lambda anotb, prop_id: polygon_diff_a(anotb, prop_id)  # type: ignore
-    ld.on_polygon_in_b_only = lambda anotb, prop_id: polygon_diff_b(anotb, prop_id)  # type: ignore
+    ld.on_polygon_in_a_only = lambda anotb, prop_id: polygon_diff_a(anotb, prop_id)  # type: ignore[assignment]
+    ld.on_polygon_in_b_only = lambda anotb, prop_id: polygon_diff_b(anotb, prop_id)  # type: ignore[assignment]
 
     if ignore_cell_name_differences:
-        ld.on_cell_name_differs = lambda anotb: print(f"cell name differs {anotb.name}")  # type: ignore
+        ld.on_cell_name_differs = lambda anotb: print(f"cell name differs {anotb.name}")  # type: ignore[assignment]
         equal = ld.compare(
             old.kdb_cell,
             new.kdb_cell,

@@ -18,7 +18,7 @@ repos:
         additional_dependencies:
           - tomli
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: "v0.9.10"
+    rev: "v0.11.0"
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix, --config=pyproject.toml]
@@ -49,3 +49,17 @@ repos:
     rev: 0.6.5
     hooks:
       - id: uv-lock
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.15.0
+    hooks:
+      - id: mypy
+        args: [--strict, --ignore-missing-imports, --config-file=pyproject.toml]
+        exclude: "tests/"
+        additional_dependencies:
+          - typer
+          - watchdog
+          - aenum
+          - pydantic
+          - kfactory
+          - klayout
+          - jinja2

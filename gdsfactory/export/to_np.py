@@ -47,7 +47,7 @@ def to_np(
             for polygon in polygons:
                 r = polygon[:, 0] - xmin
                 c = polygon[:, 1] - ymin
-                rr, cc = skdraw.polygon(  # type: ignore
+                rr, cc = skdraw.polygon(
                     r * pixels_per_um, c * pixels_per_um, shape=shape
                 )
                 img[rr, cc] = value
@@ -65,6 +65,6 @@ if __name__ == "__main__":
     # i = to_np(c, nm_per_pixel=250)
     i = to_np(c, nm_per_pixel=20)
     c.show()
-    plt.imshow(i.transpose(), origin="lower")  # type: ignore
-    plt.colorbar()  # type: ignore
-    plt.show()  # type: ignore
+    plt.imshow(i.transpose(), origin="lower")
+    plt.colorbar()
+    plt.show()

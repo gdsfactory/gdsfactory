@@ -41,7 +41,7 @@ from gdsfactory.typings import (
 def _simplify(
     points: npt.NDArray[np.floating[Any]], tolerance: float
 ) -> npt.NDArray[np.floating[Any]]:
-    import shapely.geometry as sg  # type: ignore[import-untyped]
+    import shapely.geometry as sg
 
     ls = sg.LineString(points)
     ls_simple = ls.simplify(tolerance=tolerance)
@@ -173,7 +173,10 @@ class Path(UMGeometricObject):
             sin_angle = np.sin(angle_rad)
 
             rotation_matrix = np.array(
-                [[cos_angle, sin_angle], [-sin_angle, cos_angle]]
+                [
+                    [cos_angle, sin_angle],
+                    [-sin_angle, cos_angle],
+                ]
             )
             new_points = np.dot(self.points, rotation_matrix)
 
@@ -375,7 +378,7 @@ class Path(UMGeometricObject):
         y = self.points[:, 1]
         dx: npt.NDArray[np.floating[Any]] = np.diff(x)
         dy: npt.NDArray[np.floating[Any]] = np.diff(y)
-        return float(np.round(np.sum(np.sqrt((dx) ** 2 + (dy) ** 2)), 3))  # type: ignore[unused-ignore]
+        return float(np.round(np.sum(np.sqrt((dx) ** 2 + (dy) ** 2)), 3))
 
     def curvature(
         self,
@@ -474,10 +477,10 @@ class Path(UMGeometricObject):
         """
         import matplotlib.pyplot as plt
 
-        plt.plot(self.points[:, 0], self.points[:, 1])  # type: ignore
-        plt.axis("equal")  # type: ignore
-        plt.grid(True)  # type: ignore
-        plt.show()  # type: ignore
+        plt.plot(self.points[:, 0], self.points[:, 1])
+        plt.axis("equal")
+        plt.grid(True)
+        plt.show()
 
     @overload
     def extrude(
@@ -635,7 +638,7 @@ def transition_exponential(
         exp: exponent.
 
     """
-    return lambda t: y1 + (y2 - y1) * t**exp  # type: ignore
+    return lambda t: y1 + (y2 - y1) * t**exp
 
 
 adiabatic_polyfit_TE1550SOI_220nm = np.array(
@@ -692,7 +695,7 @@ def transition_adiabatic(
         [2] Fu, Yunfei, et al. "Efficient adiabatic silicon-on-insulator waveguide taper."
             Photonics Res., vol. 2, no. 3, 1 June 2014, pp. A41-A44, doi:10.1364/PRJ.2.000A41.
     """
-    from scipy.integrate import odeint  # type: ignore
+    from scipy.integrate import odeint
 
     # Define ODE
     def dWdx(
@@ -1352,7 +1355,7 @@ def _rotated_delta(
     return np.array(np.dot(delta, rot_mat))
 
 
-def _cut_path_with_ray(  # type: ignore
+def _cut_path_with_ray(
     start_point: npt.NDArray[np.floating[Any]],
     start_angle: float | None,
     end_point: npt.NDArray[np.floating[Any]],

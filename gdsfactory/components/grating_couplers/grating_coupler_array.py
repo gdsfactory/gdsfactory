@@ -79,7 +79,7 @@ def grating_coupler_array(
             c,
             port1=port0,
             port2=port1,
-            waypoints=waypoints_,  # type: ignore
+            waypoints=waypoints_,
             cross_section=cross_section,
         )
 

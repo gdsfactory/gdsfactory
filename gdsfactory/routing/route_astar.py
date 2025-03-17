@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Sequence
-from typing import Any
+from typing import Any, cast
 
 import klayout.dbcore as kdb
 import networkx as nx
@@ -166,7 +166,8 @@ def route_astar(
     """
     cross_section = gf.get_cross_section(cross_section, **kwargs)
     grid, x, y = _generate_grid(component, resolution, avoid_layers, distance)
-    G = nx.grid_2d_graph(len(x), len(y))
+    G_ = nx.grid_2d_graph(len(x), len(y))
+    G = cast(nx.Graph, G_)
 
     # Remove nodes representing obstacles
     for i in range(len(x)):
@@ -192,12 +193,12 @@ def route_astar(
 
     # Find the closest valid nodes
     start_node = min(
-        G.nodes,  # type: ignore[arg-type]
-        key=lambda node: np.linalg.norm(np.array(node) - np.array(start_node)),  # type: ignore[return-value,arg-type]
+        G.nodes,
+        key=lambda node: np.linalg.norm(np.array(node) - np.array(start_node)),  # type: ignore[arg-type, return-value]
     )
     end_node = min(
-        G.nodes,  # type: ignore[arg-type]
-        key=lambda node: np.linalg.norm(np.array(node) - np.array(end_node)),  # type: ignore[return-value,arg-type]
+        G.nodes,
+        key=lambda node: np.linalg.norm(np.array(node) - np.array(end_node)),  # type: ignore[arg-type, return-value]
     )
 
     path = nx.astar_path(G, start_node, end_node)  # Find shortest path
@@ -254,7 +255,7 @@ if __name__ == "__main__":
     w = gf.components.straight(cross_section=cross_section)
     left = c << w
     right = c << w
-    right.rotate(90)  # type: ignore[arg-type]
+    right.rotate(90)
     right.move((168, 63))
 
     obstacle = gf.components.rectangle(size=(250, 3), layer="M2")
@@ -262,12 +263,12 @@ if __name__ == "__main__":
     obstacle2 = c << obstacle
     obstacle3 = c << obstacle
     obstacle4 = c << obstacle
-    obstacle4.rotate(90)  # type: ignore[arg-type]
+    obstacle4.rotate(90)
     obstacle1.ymin = 50
     obstacle1.xmin = -10
     obstacle2.xmin = 35
     obstacle3.ymin = 42
-    obstacle3.xmin = 72.23  # type: ignore
+    obstacle3.xmin = 72.23
     obstacle4.xmin = 200
     obstacle4.ymin = 55
     port1 = left.ports[f"{port_prefix}1"]

@@ -186,7 +186,7 @@ if __name__ == "__main__":
     # c = gf.components.straight(polarization="TMeraer")
     # print(c.settings["polarization"])
     # print(clean_value(11.001))
-    c = gf.components.straight(length=10)  # type: ignore
+    c = gf.components.straight(length=10)
 
     # print(c.name)
     # print(c)

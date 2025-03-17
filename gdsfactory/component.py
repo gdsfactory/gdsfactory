@@ -6,7 +6,7 @@ import pathlib
 import warnings
 from abc import ABC, abstractmethod
 from collections.abc import Callable, Iterable, Sequence
-from typing import TYPE_CHECKING, Any, Literal, Self, TypeAlias, overload
+from typing import TYPE_CHECKING, Any, Literal, Self, TypeAlias, cast, overload
 
 import kfactory as kf
 import klayout.lay as lay
@@ -63,9 +63,9 @@ def ensure_tuple_of_tuples(points: Any) -> tuple[tuple[float, float], ...]:
         points = tuple(map(tuple, points.tolist()))
     elif isinstance(points, list):
         # If it's a list, check if the first element is an np.ndarray or a list to decide on conversion
-        if len(points) > 0 and isinstance(points[0], np.ndarray | list):  # type: ignore
-            points = tuple(tuple(point) for point in points)  # type: ignore
-    return points  # type: ignore
+        if len(points) > 0 and isinstance(points[0], np.ndarray | list):
+            points = tuple(tuple(point) for point in points)
+    return cast(tuple[tuple[float, float], ...], points)
 
 
 def points_to_polygon(
@@ -417,7 +417,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         if filepath:
             filepath = pathlib.Path(filepath)
             filepath.write_text(yaml_string)
-        return yaml_string
+        return str(yaml_string)
 
     def to_dict(self, with_ports: bool = False) -> dict[str, Any]:
         """Returns a dictionary representation of the Component."""
@@ -1106,8 +1106,8 @@ class Component(ComponentBase, kf.DKCell):
         )
 
 
-class ComponentAllAngle(ComponentBase, kf.VKCell):  # type: ignore
-    def plot(self, **kwargs: Any) -> None:  # type: ignore
+class ComponentAllAngle(ComponentBase, kf.VKCell):
+    def plot(self, **kwargs: Any) -> None:
         """Plots the Component using klayout."""
         c = Component()
         if self.name is not None:
@@ -1159,7 +1159,7 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):  # type: ignore
 
 def container(
     component: ComponentSpec,
-    function: Callable[..., None] | None = None,
+    function: Callable[..., Any] | None = None,
     **kwargs: Any,
 ) -> Component:
     """Returns new component with a component reference.

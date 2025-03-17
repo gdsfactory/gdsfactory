@@ -4,6 +4,7 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.components.containers.component_sequence import component_sequence
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
@@ -96,9 +97,7 @@ def straight_heater_metal_undercut(
         if component.settings.get("length") == 0:
             sequence = sequence.replace(symbol, "")
 
-    c = gf.components.component_sequence(
-        sequence=sequence, symbol_to_component=symbol_to_component
-    )
+    c = component_sequence(sequence=sequence, symbol_to_component=symbol_to_component)
     x = gf.get_cross_section(cross_section_heater)
     heater_width = x.width
 
