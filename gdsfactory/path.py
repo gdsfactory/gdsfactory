@@ -12,7 +12,7 @@ import hashlib
 import math
 import warnings
 from collections.abc import Callable, Sequence
-from typing import Any, Literal, cast, overload
+from typing import Any, Literal, TypeVar, cast, overload
 
 import kfactory as kf
 import klayout.db as kdb
@@ -587,6 +587,7 @@ class Path(UMGeometricObject):
 
 
 PathFactory = Callable[..., Path]
+T = TypeVar("T", float, npt.NDArray[np.floating[Any]])
 
 
 def _sinusoidal_transition(
@@ -600,28 +601,19 @@ def _sinusoidal_transition(
     return sine
 
 
-def _parabolic_transition(
-    y1: float, y2: float
-) -> Callable[
-    [float | npt.NDArray[np.floating[Any]]], npt.NDArray[np.floating[Any]] | float
-]:
+def _parabolic_transition(y1: float, y2: float) -> Callable[[T], T]:
     dy = y2 - y1
 
-    def parabolic(
-        t: float | npt.NDArray[np.floating[Any]],
-    ) -> npt.NDArray[np.floating[Any]] | float:
-        res = y1 + np.sqrt(t) * dy
-        if np.isscalar(t):
-            return float(res)
-        return np.array(res)
+    def parabolic(t: T) -> T:
+        return cast(T, y1 + np.sqrt(t) * dy)
 
     return parabolic
 
 
-def _linear_transition(y1: float, y2: float) -> Callable[[float], float]:
+def _linear_transition(y1: float, y2: float) -> Callable[[T], T]:
     dy = y2 - y1
 
-    def linear(t: float) -> float:
+    def linear(t: T) -> T:
         return y1 + t * dy
 
     return linear
@@ -1214,11 +1206,9 @@ def extrude_transition(p: Path, transition: Transition) -> Component:
         width2 = section2.width
 
         if offset_type == "linear":
-            offset: Callable[[float], float | npt.NDArray[np.floating[Any]]] = (
-                _linear_transition(offset1, offset2)
-            )
+            offset = _linear_transition(offset1, offset2)
         elif offset_type == "sine":
-            offset = _sinusoidal_transition(offset1, offset2)
+            offset = _sinusoidal_transition(offset1, offset2)  # type: ignore[assignment]
         elif offset_type == "parabolic":
             offset = _parabolic_transition(offset1, offset2)
         elif callable(offset_type):
@@ -1226,16 +1216,13 @@ def extrude_transition(p: Path, transition: Transition) -> Component:
             def offset_func(t: float) -> float:
                 return offset_type(t, offset1, offset2)  # noqa: B023
 
-            offset = offset_func
+            offset = offset_func  # type: ignore[assignment]
         else:
             raise NotImplementedError()
-
         if width_type == "linear":
-            width: Callable[[float], float | npt.NDArray[np.floating[Any]]] = (
-                _linear_transition(width1, width2)
-            )
+            width = _linear_transition(width1, width2)
         elif width_type == "sine":
-            width = _sinusoidal_transition(width1, width2)
+            width = _sinusoidal_transition(width1, width2)  # type: ignore[assignment]
         elif width_type == "parabolic":
             width = _parabolic_transition(width1, width2)
         elif callable(width_type):
@@ -1243,7 +1230,7 @@ def extrude_transition(p: Path, transition: Transition) -> Component:
             def width_func(t: float) -> float:
                 return width_type(t, width1, width2)  # noqa: B023
 
-            width = width_func
+            width = width_func  # type: ignore[assignment]
         else:
             raise NotImplementedError()
 

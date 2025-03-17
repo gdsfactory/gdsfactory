@@ -58,8 +58,5 @@ repos:
         additional_dependencies:
           - typer
           - watchdog
-          - aenum
           - pydantic
           - kfactory
-          - klayout
-          - jinja2

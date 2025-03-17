@@ -177,7 +177,7 @@ def _evaluate_yaml_template(
     template = jinja2.Template(main_file)
     complete_settings = dict(default_settings)
     complete_settings.update(settings)
-    return template.render(**complete_settings)
+    return str(template.render(**complete_settings))
 
 
 def _pic_from_templated_yaml(
