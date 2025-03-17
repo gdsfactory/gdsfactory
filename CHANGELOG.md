@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.2.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.2.1) - 2025-03-16
+
+No significant changes.
+
+
 ## [9.2.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.2.0) - 2025-03-15
 
 - Add __name__ to ComponentFunc [#3720](https://github.com/gdsfactory/gdsfactory/pull/3720)
