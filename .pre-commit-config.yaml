@@ -61,5 +61,4 @@ repos:
           - aenum
           - pydantic
           - kfactory
-          - klayout
           - jinja2
