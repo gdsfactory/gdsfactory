@@ -34,7 +34,7 @@ def ring_double(
         bend: 90 degrees bend spec.
         straight: straight spec.
         coupler_ring: ring coupler spec.
-        coupler_ring_top: top ring coupler spec.
+        coupler_ring_top: top ring coupler spec. Defaults to coupler_ring.
         cross_section: cross_section spec.
 
     .. code::
