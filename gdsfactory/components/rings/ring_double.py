@@ -16,6 +16,7 @@ def ring_double(
     bend: ComponentSpec = "bend_euler",
     straight: ComponentSpec = "straight",
     coupler_ring: ComponentSpec = "coupler_ring",
+    coupler_ring_top: ComponentSpec | None = None,
     cross_section: CrossSectionSpec = "strip",
 ) -> Component:
     """Returns a double bus ring.
@@ -33,6 +34,7 @@ def ring_double(
         bend: 90 degrees bend spec.
         straight: straight spec.
         coupler_ring: ring coupler spec.
+        coupler_ring_top: top ring coupler spec.
         cross_section: cross_section spec.
 
     .. code::
@@ -68,7 +70,7 @@ def ring_double(
         bend=bend,
     )
     coupler_component_top = gf.get_component(
-        coupler_ring,
+        coupler_ring_top or coupler_ring,
         gap=gap_top,
         radius=radius,
         length_x=length_x,
