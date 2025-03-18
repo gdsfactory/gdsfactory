@@ -1,12 +1,13 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.2.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.2.2...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.2.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.2.2) - 2025-03-17
 
-No significant changes.
-
+- add length_taper_start for mmi_tapered [#3731](https://github.com/gdsfactory/gdsfactory/pull/3731)
+- Improve ring double coupler [#3730](https://github.com/gdsfactory/gdsfactory/pull/3730)
+- better ascii docs [#3729](https://github.com/gdsfactory/gdsfactory/pull/3729)
 
 ## [9.2.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.2.1) - 2025-03-16
 
