@@ -104,8 +104,8 @@ def mmi_tapered(
 
     _taper_end = taper(
         length=length_taper_end or length_taper,
-        width1=width_taper,
-        width2=width,
+        width2=width_taper,
+        width1=width,
         cross_section=cross_section,
     )
 
