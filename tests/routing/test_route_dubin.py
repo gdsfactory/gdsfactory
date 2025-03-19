@@ -41,7 +41,7 @@ def sample_route_dubin_array() -> gf.Component:
     )
 
     # Position second component
-    comp2.drotate(30)
+    comp2.rotate(30)
     comp2.move((500, -100))
 
     # Route between corresponding ports

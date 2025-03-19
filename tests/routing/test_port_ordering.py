@@ -55,7 +55,7 @@ def make_bundle(
     b = port_bank()
     r1 = c.add_ref(b, "r1")
     r2 = c.add_ref(b, "r2")
-    r2.drotate(angle)
+    r2.rotate(angle)
     r2.dmove((40, 60))
     ports1_names = ["o1", "o2", "o3", "o4"]
     ports2_names = ["o1", "o2", "o3", "o4"]

@@ -18,7 +18,7 @@ def regenerate_regression_test() -> None:
     ref.name = "b2"
     ref.dmovex(10)
     ref.dmirror()
-    ref.drotate(180)
+    ref.rotate(180)
     filepath = PATH.netlists / "bend_translated_rotated.yml"
     n = c.get_netlist()
     c.write_netlist(n, filepath)
