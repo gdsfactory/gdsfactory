@@ -1048,8 +1048,8 @@ def _update_reference_by_placement(
     ymin = p.ymin
     xmax = p.xmax
     ymax = p.ymax
-    dx = p.x
-    dy = p.y
+    dx = p.dx
+    dy = p.dy
     port = p.port
     rotation = p.rotation
     mirror = p.mirror
