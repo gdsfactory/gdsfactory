@@ -114,8 +114,8 @@ def dbr_tapered(
     straight = c << gf.components.straight(
         length=length, cross_section=cross_section, width=w1
     )
-    straight.dx = 0
-    straight.dy = 0
+    straight.x = 0
+    straight.y = 0
 
     output_taper = c << gf.components.taper(
         length=taper_length,
@@ -135,8 +135,8 @@ def dbr_tapered(
     periodic_structures = c << gf.components.array(
         component=teeth, columns=int(num), column_pitch=period
     )
-    periodic_structures.dx = 0
-    periodic_structures.dy = 0
+    periodic_structures.x = 0
+    periodic_structures.y = 0
 
     if fins:
         _generate_fins(

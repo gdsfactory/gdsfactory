@@ -42,7 +42,7 @@ def fanout2x2(
 
     component = gf.get_component(component)
     ref = c << component
-    ref.movey(-ref.dy)
+    ref.movey(-ref.y)
 
     if bend_length is None:
         bend_length = port_spacing
@@ -93,6 +93,6 @@ if __name__ == "__main__":
     c = gf.components.nxn(west=2, east=2)
 
     cc = fanout2x2(component=c, port_spacing=20)
-    # print(cc.ports["o3"].dy - cc.ports["o4"].dy)
+    # print(cc.ports["o3"].y - cc.ports["o4"].y)
     # print(cc.ports)
     cc.show()

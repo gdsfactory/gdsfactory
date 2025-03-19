@@ -79,7 +79,7 @@ def via_chain(
 
     via = gf.get_component(via)
     contact = gf.get_component(contact)
-    via_width = via.dxsize
+    via_width = via.xsize
     wire_length = 2 * (2 * via_min_enclosure + via_width) + min_metal_spacing
     wire_width = via_width + 2 * via_min_enclosure
 
@@ -109,12 +109,12 @@ def via_chain(
         column_pitch=wire_length + min_metal_spacing,
         row_pitch=wire_width + min_metal_spacing,
     )
-    top_wires.dxmin = -via_min_enclosure
-    bot_wires.dxmin = top_wires.dxmin + wire_length / 2 + min_metal_spacing / 2
-    bot_wires.dymin = -via_min_enclosure
-    top_wires.dymin = -via_min_enclosure
-    vias.dxmin = top_wires.dxmin + via_min_enclosure + column_pitch
-    vias.dymin = top_wires.dymin + via_min_enclosure
+    top_wires.xmin = -via_min_enclosure
+    bot_wires.xmin = top_wires.xmin + wire_length / 2 + min_metal_spacing / 2
+    bot_wires.ymin = -via_min_enclosure
+    top_wires.ymin = -via_min_enclosure
+    vias.xmin = top_wires.xmin + via_min_enclosure + column_pitch
+    vias.ymin = top_wires.ymin + via_min_enclosure
 
     vertical_wire_left = gf.c.rectangle(
         size=(2 * via_min_enclosure + via_width, 2 * wire_width + min_metal_spacing),
@@ -129,8 +129,8 @@ def via_chain(
         row_pitch=2 * (wire_width + min_metal_spacing),
     )
 
-    right_wires.dxmax = bot_wires.dxmax
-    right_wires.dymin = bot_wires.dymin
+    right_wires.xmax = bot_wires.xmax
+    right_wires.ymin = bot_wires.ymin
 
     left_wires = c.add_ref(
         component=vertical_wire_left,
@@ -140,17 +140,17 @@ def via_chain(
         row_pitch=2 * (wire_width + min_metal_spacing),
     )
 
-    left_wires.dxmin = top_wires.dxmin
-    left_wires.dymin = bot_wires.dymin + wire_width + min_metal_spacing
+    left_wires.xmin = top_wires.xmin
+    left_wires.ymin = bot_wires.ymin + wire_width + min_metal_spacing
 
     contact1 = c << contact
     contact2 = c << contact
 
-    contact1.dxmax = top_wires.dxmin
-    contact2.dxmax = top_wires.dxmin
+    contact1.xmax = top_wires.xmin
+    contact2.xmax = top_wires.xmin
 
-    contact1.dymax = top_wires.dymin + wire_width
-    contact2.dymin = top_wires.dymax - wire_width
+    contact1.ymax = top_wires.ymin + wire_width
+    contact2.ymin = top_wires.ymax - wire_width
     c.add_port(name="e1", port=contact1.ports["e1"])
     c.add_port(name="e2", port=contact2.ports["e1"])
     return c

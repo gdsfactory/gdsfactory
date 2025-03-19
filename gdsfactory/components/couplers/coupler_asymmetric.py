@@ -42,8 +42,8 @@ def coupler_asymmetric(
     wg_ref = c << wg
     bend_ref = c << bend
     bend_ref.dmirror_y()
-    bend_ref.dxmin = 0
-    wg_ref.dxmin = 0
+    bend_ref.xmin = 0
+    wg_ref.xmin = 0
 
     bend_ref.movey(-y)
     wg_ref.movey(+y)

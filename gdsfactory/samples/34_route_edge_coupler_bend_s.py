@@ -28,13 +28,13 @@ def sample_reticle(
     copies = 3  # number of copies of each component
     components = mzis * copies
 
-    xsizes = [component.dxsize for component in components]
+    xsizes = [component.xsize for component in components]
     xsize_max = max(xsizes)
     ec_c = gf.get_component(ec)
     taper = pc.taper(width2=0.5)
     components_ec: list[Component] = []
 
-    if xsize_max + 2 * taper.dxsize + 2 * ec_c.dxsize > size[0]:
+    if xsize_max + 2 * taper.xsize + 2 * ec_c.xsize > size[0]:
         raise ValueError(
             f"Component xsize_max={xsize_max} is larger than reticle size[0]={size[0]}"
         )
@@ -50,14 +50,14 @@ def sample_reticle(
             )
             extension_length = (
                 size[0]
-                - 2 * taper.dxsize
-                - 2 * ec_c.dxsize
-                - component.dxsize
-                - 2 * bend_s_c.dxsize
+                - 2 * taper.xsize
+                - 2 * ec_c.xsize
+                - component.xsize
+                - 2 * bend_s_c.xsize
             ) / 2
         else:
             extension_length = (
-                size[0] - 2 * taper.dxsize - 2 * ec_c.dxsize - component.dxsize
+                size[0] - 2 * taper.xsize - 2 * ec_c.xsize - component.xsize
             ) / 2
 
         component_extended = gf.components.extend_ports(
@@ -90,7 +90,7 @@ def sample_reticle(
             (+size[0] / 2 - text_offset_x - 160, text_offset_y),
         ),
     )
-    fp.dx = grid.dx
+    fp.x = grid.x
     return c
 
 

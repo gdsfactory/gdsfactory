@@ -153,12 +153,12 @@ def add_ports_from_markers_center(
     """
     from gdsfactory.pdk import get_layer
 
-    xc = xcenter or component.dx
-    yc = ycenter or component.dy
-    dxmax = component.dxmax
-    dxmin = component.dxmin
-    dymax = component.dymax
-    dymin = component.dymin
+    xc = xcenter or component.x
+    yc = ycenter or component.y
+    dxmax = component.xmax
+    dxmin = component.xmin
+    dymax = component.ymax
+    dymin = component.ymin
     dbu = float(component.kcl.dbu)
 
     layer = port_layer or pin_layer
@@ -378,12 +378,12 @@ def add_ports_from_boxes(
         dx > xc: east
         dx < xc: west
     """
-    xc = xcenter or component.dx
-    yc = ycenter or component.dy
-    dxmax = component.dxmax
-    dxmin = component.dxmin
-    dymax = component.dymax
-    dymin = component.dymin
+    xc = xcenter or component.x
+    yc = ycenter or component.y
+    dxmax = component.xmax
+    dxmin = component.xmin
+    dymax = component.ymax
+    dymin = component.ymin
 
     layer = port_layer or pin_layer
     port_locations: list[tuple[float, float]] = []
@@ -545,12 +545,12 @@ def add_ports_from_labels(
     """
     port_name_prefix_default = "o" if port_type == "optical" else "e"
     port_name_prefix = port_name_prefix or port_name_prefix_default
-    yc = component.dy
+    yc = component.y
 
     port_name_to_index: dict[str, int] = {}
     layer_label = layer_label or port_layer
 
-    xc = xcenter or component.dx
+    xc = xcenter or component.x
     for i, label in enumerate(component.get_labels(layer=layer_label)):
         dx = label.x
         dy = label.y

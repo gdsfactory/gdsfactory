@@ -452,8 +452,8 @@ if __name__ == "__main__":
     # obstacle = gf.components.rectangle(size=(100, 10))
     # obstacle1 = c << obstacle
     # obstacle2 = c << obstacle
-    # obstacle1.dymin = 40
-    # obstacle2.dxmin = 35
+    # obstacle1.ymin = 40
+    # obstacle2.xmin = 35
 
     # ports1 = left.ports.filter(orientation=0)
     # ports2 = right.ports.filter(orientation=180)

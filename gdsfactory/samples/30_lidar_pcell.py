@@ -54,8 +54,8 @@ def lidar(
         column_pitch=0,
         row_pitch=antenna_pitch,
     )
-    antennas.dxmin = ref.dxmax + 50
-    antennas.dy = 0
+    antennas.xmin = ref.xmax + 50
+    antennas.y = 0
     ports1 = antennas.ports.filter(orientation=180)
     ports2 = phase_shifter_optical_ports
 

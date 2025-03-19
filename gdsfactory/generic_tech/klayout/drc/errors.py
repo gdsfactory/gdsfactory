@@ -24,8 +24,8 @@ def gap_min(gap: float = 0.1) -> Component:
     c = gf.Component()
     r1 = c << gf.components.rectangle(size=(1, 1), layer=layer)
     r2 = c << gf.components.rectangle(size=(1, 1), layer=layer)
-    r1.dxmax = 0
-    r2.dxmin = gap
+    r1.xmax = 0
+    r2.xmin = gap
     return c
 
 
@@ -36,8 +36,8 @@ def separation(
     c = gf.Component()
     r1 = c << gf.components.rectangle(size=(1, 1), layer=layer1)
     r2 = c << gf.components.rectangle(size=(1, 1), layer=layer2)
-    r1.dxmax = 0
-    r2.dxmin = gap
+    r1.xmax = 0
+    r2.xmin = gap
     return c
 
 
@@ -63,8 +63,8 @@ def snapping_error(gap: float = 1e-3) -> Component:
     c = gf.Component()
     r1 = c << gf.components.rectangle(size=(1, 1), layer=layer)
     r2 = c << gf.components.rectangle(size=(1, 1), layer=layer)
-    r1.dxmax = 0
-    r2.dxmin = gap
+    r1.xmax = 0
+    r2.xmin = gap
     return c
 
 

@@ -55,27 +55,27 @@ def straight_heater_metal_lvs() -> gf.Component:
         size=(500, 500), layer=straight_heater_metal_mk
     )
 
-    c1.dxmin = 0
-    c2.dxmin = 0
-    c3.dxmin = 0
-    c4.dxmin = 0
-    c5.dxmin = 0
-    c6.dxmin = 0
-    c7.dxmin = 0
-    c8.dxmin = 0
-    c9.dxmin = 0
-    c10.dxmin = 0
+    c1.xmin = 0
+    c2.xmin = 0
+    c3.xmin = 0
+    c4.xmin = 0
+    c5.xmin = 0
+    c6.xmin = 0
+    c7.xmin = 0
+    c8.xmin = 0
+    c9.xmin = 0
+    c10.xmin = 0
 
-    c1.dymin = 0
-    c2.dymin = c1.dymax + 50
-    c3.dymin = c2.dymax + 50
-    c4.dymin = c3.dymax + 50
-    c5.dymin = c4.dymax + 50
-    c6.dymin = c5.dymax + 50
-    c7.dymin = c6.dymax + 50
-    c8.dymin = c7.dymax + 50
-    c9.dymin = c8.dymax + 50
-    c10.dymin = c9.dymax + 50
+    c1.ymin = 0
+    c2.ymin = c1.ymax + 50
+    c3.ymin = c2.ymax + 50
+    c4.ymin = c3.ymax + 50
+    c5.ymin = c4.ymax + 50
+    c6.ymin = c5.ymax + 50
+    c7.ymin = c6.ymax + 50
+    c8.ymin = c7.ymax + 50
+    c9.ymin = c8.ymax + 50
+    c10.ymin = c9.ymax + 50
 
     c1_mk.center = c1.center
     c2_mk.center = c2.center

@@ -29,7 +29,7 @@ def _bendu_double(
 
     xs_r2 = gf.get_cross_section(
         cross_section,
-        radius=radius - (component.ports[port1].dy - component.ports[port2].dy),
+        radius=radius - (component.ports[port1].y - component.ports[port2].y),
     )
 
     bendu = Component()
@@ -39,7 +39,7 @@ def _bendu_double(
         cross_section=xs_r2,
     )
     bend_r2_instance = bend_r2.move(
-        (0, component.ports[port1].dy - component.ports[port2].dy),
+        (0, component.ports[port1].y - component.ports[port2].y),
     )
     bendu.add_port("o1", port=bend_r.ports["o1"])
     bendu.add_port("o2", port=bend_r2_instance.ports["o1"])
@@ -85,7 +85,7 @@ def _straight_double(
     straight_r = c << straight_component
     straight_r2 = c << straight_component2
     straight_r2_instance = straight_r2.move(
-        (0, -component.ports[port1].dy + component.ports[port2].dy),
+        (0, -component.ports[port1].y + component.ports[port2].y),
     )
     c.add_port("o1", port=straight_r.ports["o1"])
     c.add_port("o2", port=straight_r2_instance.ports["o1"])

@@ -85,7 +85,7 @@ CIRCUIT NAME:{component.name}
         for prefix, port_type_ehva in prefix_to_type.items():
             info += [
                 f"{port_type_ehva} NAME: {port.name} TYPE: {port_type_ehva}, "
-                f"POSITION RELATIVE:({snap(port.dx)}, {snap(port.dy)}),"
+                f"POSITION RELATIVE:({snap(port.x)}, {snap(port.y)}),"
                 f" ORIENTATION: {port.orientation}"
                 for port in component.get_ports_list(prefix=prefix)
             ]

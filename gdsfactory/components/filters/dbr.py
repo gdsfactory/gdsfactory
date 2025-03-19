@@ -111,7 +111,7 @@ def dbr(
 
     s1.connect(port="o1", other=cell.ports["o1"], allow_width_mismatch=True)
     s2.connect(port="o1", other=cell.ports["o2"], allow_width_mismatch=True)
-    s2.dxmin = ref.dxmax
+    s2.xmin = ref.xmax
 
     c.add_port("o1", port=s1.ports["o2"])
     return c

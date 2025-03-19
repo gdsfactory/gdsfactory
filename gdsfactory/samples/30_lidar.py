@@ -44,8 +44,8 @@ if __name__ == "__main__":
         row_pitch=antenna_pitch,
         centered=True,
     )
-    antennas.dxmin = ref.dxmax + 100
-    antennas.dy = 0
+    antennas.xmin = ref.xmax + 100
+    antennas.y = 0
 
     routes = gf.routing.route_bundle(
         c,

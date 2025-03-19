@@ -107,8 +107,8 @@ def get_instance_name_from_label(
     layer_label = get_layer(layer_label)
     layer = layer_label[0] if isinstance(layer_label, LayerEnum) else layer_label
 
-    x = reference.dx
-    y = reference.dy
+    x = reference.x
+    y = reference.y
     labels = component.labels
 
     # default instance name follows component.aliases
@@ -611,7 +611,7 @@ if __name__ == "__main__":
 
     # c = gf.Component()
     # mzi = c << gf.c.mzi()
-    # mzi.dxmin = 10
+    # mzi.xmin = 10
     # mzi.name = "mzi"
     # bend = c << gf.c.bend_euler()
     # bend.connect("o1", mzi.ports["o2"])

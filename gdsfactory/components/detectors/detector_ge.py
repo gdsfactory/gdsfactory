@@ -66,11 +66,11 @@ def ge_detector_straight_si_contacts(
     via_stack_top = c << via_stack
     via_stack_bot = c << via_stack
 
-    via_stack_bot.dxmin = wg.dxmin
-    via_stack_top.dxmin = wg.dxmin
+    via_stack_bot.xmin = wg.xmin
+    via_stack_top.xmin = wg.xmin
 
-    via_stack_top.dymin = +via_stack_spacing / 2 + via_stack_offset
-    via_stack_bot.dymax = -via_stack_spacing / 2 + via_stack_offset
+    via_stack_top.ymin = +via_stack_spacing / 2 + via_stack_offset
+    via_stack_bot.ymax = -via_stack_spacing / 2 + via_stack_offset
 
     c.add_ports(via_stack_bot.ports, prefix="bot_")
     c.add_ports(via_stack_top.ports, prefix="top_")

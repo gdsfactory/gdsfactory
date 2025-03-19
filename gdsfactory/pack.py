@@ -177,7 +177,7 @@ def pack(
     # Convert Components to rectangles
     rect_dict: dict[int, tuple[float, float]] = {}
     for n, D in enumerate(components):
-        size = np.array([D.dxsize, D.dysize])
+        size = np.array([D.xsize, D.ysize])
         w: float = int((size[0] + spacing) / precision)
         h: float = int((size[1] + spacing) / precision)
         if w > max_size_tuple[0]:

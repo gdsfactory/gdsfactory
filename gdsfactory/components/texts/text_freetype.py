@@ -109,7 +109,7 @@ def text_freetype(
             inst.move((0, 0))
 
         elif justify == "right":
-            inst.dxmax = 0
+            inst.xmax = 0
     t.flatten()
     return t
 

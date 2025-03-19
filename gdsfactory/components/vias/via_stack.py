@@ -129,7 +129,7 @@ def via_stack(
                     f"Component {_via.name!r} does not have a 'row_pitch' key in info"
                 )
 
-            w, h = _via.dxsize, _via.dysize
+            w, h = _via.xsize, _via.ysize
             enclosure = _via.info["enclosure"]
             pitch_y = _via.info["row_pitch"]
             pitch_x = _via.info["column_pitch"]
@@ -241,10 +241,10 @@ def via_stack_corner45(
     assert ref is not None
 
     width_corner = width
-    width = ref.dxsize
-    height = ref.dysize
-    xmin = ref.dxmin
-    ymin = ref.dymin
+    width = ref.xsize
+    height = ref.ysize
+    xmin = ref.xmin
+    ymin = ref.ymin
 
     vias_list = vias or []
     for via, offset in zip(vias_list, layer_offsets_list):

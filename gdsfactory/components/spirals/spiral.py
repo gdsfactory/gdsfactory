@@ -29,8 +29,8 @@ def spiral(
 
     o1 = b["o1"]
     o2 = b["o2"]
-    dx = abs(o2.dx - o1.dx)
-    dy = abs(o2.dy - o1.dy)
+    dx = abs(o2.x - o1.x)
+    dy = abs(o2.y - o1.y)
 
     if dx != dy:
         raise ValueError(f"bend component {b} must have dx == dy")

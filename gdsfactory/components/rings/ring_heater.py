@@ -153,8 +153,8 @@ def ring_double_heater(
     via = gf.get_component(via_stack)
     c1 = c << via
     c2 = c << via
-    c1.dxmax = -length_x / 2 + cb.dx - via_stack_offset[0]
-    c2.dxmin = +length_x / 2 + cb.dx + via_stack_offset[0]
+    c1.xmax = -length_x / 2 + cb.x - via_stack_offset[0]
+    c2.xmin = +length_x / 2 + cb.x + via_stack_offset[0]
     c1.movey(via_stack_offset[1])
     c2.movey(via_stack_offset[1])
 

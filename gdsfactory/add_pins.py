@@ -495,8 +495,7 @@ def add_instance_label(
         warnings.warn("Layer LABEL_INSTANCE not found in PDK.layers, using (1, 0)")
         layer = (1, 0)
     instance_name = (
-        instance_name
-        or f"{reference.cell.name},{int(reference.dx)},{int(reference.dy)}"
+        instance_name or f"{reference.cell.name},{int(reference.x)},{int(reference.y)}"
     )
 
     layer = layer or CONF.layer_label

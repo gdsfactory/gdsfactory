@@ -74,8 +74,8 @@ def ring_crow_couplers(
 
         # We need to account for the chance that the top and bottom couplers
         # have a different length --> In this case we need to add straights
-        coup1_extent = couplers_refs[index].dxmax - couplers_refs[index].dxmin
-        coup2_extent = couplers_refs[index + 1].dxmax - couplers_refs[index + 1].dxmin
+        coup1_extent = couplers_refs[index].xmax - couplers_refs[index].xmin
+        coup2_extent = couplers_refs[index + 1].xmax - couplers_refs[index + 1].xmin
 
         if coup1_extent == coup2_extent:
             # Length of the couplers is the same -- we are good

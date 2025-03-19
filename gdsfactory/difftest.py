@@ -144,15 +144,15 @@ def xor(
 
     dy = 10
     if stagger:
-        old_ref.movey(+old_kcell.dysize + dy)
-        new_ref.movey(-old_kcell.dysize - dy)
+        old_ref.movey(+old_kcell.ysize + dy)
+        new_ref.movey(-old_kcell.ysize - dy)
 
     layer_label = kf.kcl.layout.layer(1, 0)
     c.shapes(layer_label).insert(kf.kdb.DText("old", old_ref.dtrans))
     c.shapes(layer_label).insert(kf.kdb.DText("new", new_ref.dtrans))
     c.shapes(layer_label).insert(
         kf.kdb.DText(
-            "xor", kf.kdb.DTrans(new_ref.dxmin, old_ref.dymax - old_ref.dysize - dy)
+            "xor", kf.kdb.DTrans(new_ref.xmin, old_ref.ymax - old_ref.ysize - dy)
         )
     )
 
@@ -339,15 +339,15 @@ def diff(
 
         dy = 10
         if stagger:
-            old_ref.movey(+old.dysize + dy)
-            new_ref.movey(-old.dysize - dy)
+            old_ref.movey(+old.ysize + dy)
+            new_ref.movey(-old.ysize - dy)
 
         layer_label = kf.kcl.layout.layer(1, 0)
         c.shapes(layer_label).insert(kf.kdb.DText("old", old_ref.dtrans))
         c.shapes(layer_label).insert(kf.kdb.DText("new", new_ref.dtrans))
         c.shapes(layer_label).insert(
             kf.kdb.DText(
-                "xor", kf.kdb.DTrans(new_ref.dxmin, old_ref.dymax - old_ref.dysize - dy)
+                "xor", kf.kdb.DTrans(new_ref.xmin, old_ref.ymax - old_ref.ysize - dy)
             )
         )
 

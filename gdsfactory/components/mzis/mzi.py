@@ -122,7 +122,7 @@ def mzi(
     )
     sxt = c << straight_x_top
 
-    length_x = length_x or abs(sxt.ports[port1].dx - sxt.ports[port2].dx)
+    length_x = length_x or abs(sxt.ports[port1].x - sxt.ports[port2].x)
 
     straight_x_bot = (
         gf.get_component(
@@ -149,14 +149,14 @@ def mzi(
 
     sxt.connect(port1, b2.ports[port1])
     cp2_reference.mirror_x()
-    cp2_reference.dxmin = (
-        sxt.ports[port2].dx + bend.info["radius"] * nbends + 2 * min_length
+    cp2_reference.xmin = (
+        sxt.ports[port2].x + bend.info["radius"] * nbends + 2 * min_length
     )
 
-    gap_ports_combiner = cp1.ports[port_e0_splitter].dy - cp1.ports[port_e1_splitter].dy
+    gap_ports_combiner = cp1.ports[port_e0_splitter].y - cp1.ports[port_e1_splitter].y
     gap_ports_splitter = (
-        cp2_reference.ports[port_e0_combiner].dy
-        - cp2_reference.ports[port_e1_combiner].dy
+        cp2_reference.ports[port_e0_combiner].y
+        - cp2_reference.ports[port_e1_combiner].y
     )
     delta_gap_ports = gap_ports_combiner - gap_ports_splitter
 

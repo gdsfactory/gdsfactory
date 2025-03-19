@@ -149,7 +149,7 @@ def grating_coupler_elliptical(
     if layer_slab:
         slab_xmin += x_output + taper_length
         slab_length = total_length + slab_offset
-        slab_width = (c.dysize + 2 * slab_offset) / 2
+        slab_width = (c.ysize + 2 * slab_offset) / 2
         c.add_polygon(
             [
                 (slab_xmin, slab_width),

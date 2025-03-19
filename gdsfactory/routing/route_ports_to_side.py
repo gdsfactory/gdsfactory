@@ -15,19 +15,19 @@ from gdsfactory.typings import CrossSectionSpec, Ports
 
 
 def sort_key_west_to_east(port: typings.Port) -> float:
-    return port.dx
+    return port.x
 
 
 def sort_key_east_to_west(port: typings.Port) -> float:
-    return -port.dx
+    return -port.x
 
 
 def sort_key_south_to_north(port: typings.Port) -> float:
-    return port.dy
+    return port.y
 
 
 def sort_key_north_to_south(port: typings.Port) -> float:
-    return -port.dy
+    return -port.y
 
 
 def route_ports_to_side(
@@ -186,8 +186,8 @@ def route_ports_to_x(
     bx = epsilon + max(radius, dx_start) if dx_start else a
     by = epsilon + max(radius, dy_start) if dy_start else a
 
-    xs = [p.dx for p in ports]
-    ys = [p.dy for p in ports]
+    xs = [p.x for p in ports]
+    ys = [p.y for p in ports]
 
     if y0_bottom is None:
         y0_bottom = min(ys) - by
@@ -202,9 +202,9 @@ def route_ports_to_x(
         extension_length = -extension_length
 
     if x == "east":
-        x = max(p.dx for p in ports) + bx
+        x = max(p.x for p in ports) + bx
     elif x == "west":
-        x = min(p.dx for p in ports) - bx
+        x = min(p.x for p in ports) - bx
 
     if x < min(xs):
         sort_key_north = sort_key_west_to_east
@@ -254,8 +254,8 @@ def route_ports_to_x(
 
         new_port = port.copy()
         new_port.orientation = angle
-        new_port.dx = x + extension_length
-        new_port.dy = y
+        new_port.x = x + extension_length
+        new_port.y = y
 
         new_port2 = new_port.copy()
         new_port2.trans *= gf.kdb.Trans.R180
@@ -279,7 +279,7 @@ def route_ports_to_x(
         y_optical_bot -= separation
 
     for p in forward_ports:
-        add_port(p, p.dy, routes, new_ports)
+        add_port(p, p.y, routes, new_ports)
 
     y_optical_top = y0_top
     for p in north_ports:
@@ -292,10 +292,10 @@ def route_ports_to_x(
 
     for p in backward_ports_thru_north:
         # Extend new_ports if necessary
-        if angle == 0 and p.dx < max_x:
-            start_straight_length_section = max_x - p.dx
-        elif angle == 180 and p.dx > min_x:
-            start_straight_length_section = p.dx - min_x
+        if angle == 0 and p.x < max_x:
+            start_straight_length_section = max_x - p.x
+        elif angle == 180 and p.x > min_x:
+            start_straight_length_section = p.x - min_x
         else:
             start_straight_length_section = 0
 
@@ -312,10 +312,10 @@ def route_ports_to_x(
     start_straight_length_section = start_straight_length
     for p in backward_ports_thru_south:
         # Extend new_ports if necessary
-        if angle == 0 and p.dx < max_x:
-            start_straight_length_section = max_x - p.dx
-        elif angle == 180 and p.dx > min_x:
-            start_straight_length_section = p.dx - min_x
+        if angle == 0 and p.x < max_x:
+            start_straight_length_section = max_x - p.x
+        elif angle == 180 and p.x > min_x:
+            start_straight_length_section = p.x - min_x
         else:
             start_straight_length_section = 0
 
@@ -413,8 +413,8 @@ def route_ports_to_y(
     bx = epsilon + max(radius, dx_start) if dx_start else a
     by = epsilon + max(radius, dy_start) if dy_start else a
 
-    xs = [p.dx for p in ports]
-    ys = [p.dy for p in ports]
+    xs = [p.x for p in ports]
+    ys = [p.y for p in ports]
 
     if x0_left is None:
         x0_left = min(xs) - bx
@@ -426,12 +426,12 @@ def route_ports_to_y(
 
     if y == "north":
         y_float = (
-            max(p.dy + a * np.abs(np.cos(p.orientation * np.pi / 180)) for p in ports)
+            max(p.y + a * np.abs(np.cos(p.orientation * np.pi / 180)) for p in ports)
             + by
         )
     elif y == "south":
         y_float = (
-            min(p.dy - a * np.abs(np.cos(p.orientation * np.pi / 180)) for p in ports)
+            min(p.y - a * np.abs(np.cos(p.orientation * np.pi / 180)) for p in ports)
             - by
         )
     elif isinstance(y, float | int):
@@ -511,7 +511,7 @@ def route_ports_to_y(
         x_optical_left -= separation
 
     for p in forward_ports:
-        add_port(p, p.dx, routes, new_ports)
+        add_port(p, p.x, routes, new_ports)
 
     x_optical_right = x0_right
     for p in east_ports:
