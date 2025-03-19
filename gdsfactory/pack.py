@@ -216,7 +216,7 @@ def pack(
             component = components[n]
             d = packed << component
             if rotation:
-                d.drotate(rotation)
+                d.rotate(rotation)
             if h_mirror:
                 d.mirror_x()
             if v_mirror:
@@ -243,7 +243,7 @@ def pack(
                     if text_mirror:
                         label.dmirror()
                     if text_rotation:
-                        label.drotate(text_rotation)
+                        label.rotate(text_rotation)
                     label.move(
                         np.array(text_offset) + getattr(d.dsize_info, text_anchor)
                     )

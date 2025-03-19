@@ -62,7 +62,7 @@ def cdsem_bend180(
 
     c2 = gf.Component()
     ref = c2 << c
-    ref.drotate(90)
+    ref.rotate(90)
     c2.flatten()
     return c2
 

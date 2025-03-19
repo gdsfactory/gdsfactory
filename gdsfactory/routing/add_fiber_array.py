@@ -176,7 +176,7 @@ if __name__ == "__main__":
     #     # route_single_factory=route_fiber_array,
     #     grating_coupler=gctm,
     #     # grating_coupler=[gcte, gctm, gcte, gctm],
-    #     # grating_coupler=gf.functions.drotate(gcte, angle=180),
+    #     # grating_coupler=gf.functions.rotate(gcte, angle=180),
     #     auto_widen=True,
     #     # layer=(2, 0),
     #     # gc_port_labels=["loop_in", "in", "out", "loop_out"],

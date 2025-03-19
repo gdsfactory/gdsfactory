@@ -135,7 +135,7 @@ def component_sequence(
     if do_flip:
         prev_device = _flip_ref(prev_device, input_port)
 
-    prev_device.drotate(angle=start_orientation)
+    prev_device.rotate(angle=start_orientation)
 
     try:
         component.add_port(name=port_name1, port=prev_device.ports[input_port])

@@ -54,13 +54,13 @@ def die_with_pads(
         radius=loopback_radius,
     )
     left = c << gca
-    left.drotate(-90)
+    left.rotate(-90)
     left.dxmin = -xs / 2 + edge_to_grating_distance
     left.dy = fp.dy
     c.add_ports(left.ports, prefix="W")
 
     right = c << gca
-    right.drotate(+90)
+    right.rotate(+90)
     right.dxmax = xs / 2 - edge_to_grating_distance
     right.dy = fp.dy
     c.add_ports(right.ports, prefix="E")

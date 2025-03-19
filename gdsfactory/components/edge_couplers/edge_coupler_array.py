@@ -81,7 +81,7 @@ def edge_coupler_array(
 
         if text:
             t = c << gf.get_component(text, text=str(i + 1))
-            t.drotate(text_rotation)
+            t.rotate(text_rotation)
             t.movex(text_offset[0])
             t.movey(i * pitch + text_offset[1])
 

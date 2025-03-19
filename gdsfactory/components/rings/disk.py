@@ -47,7 +47,7 @@ def _generate_bends(
 
         bend_input = c << bend_input_output
         bend_middle = c << bend_middle_arc.extrude(cross_section=cross_section)
-        bend_middle.drotate(180 + wrap_angle_deg / 2.0)
+        bend_middle.rotate(180 + wrap_angle_deg / 2.0)
 
         bend_input.connect("o2", bend_middle.ports["o2"])
 
@@ -149,7 +149,7 @@ def disk(
     c.add_port("o2", port=straight_right.ports["o2"])
     xs.add_bbox(c)
     if parity == -1:
-        c = c.drotate(180)
+        c = c.rotate(180)
 
     c.flatten()
     return c

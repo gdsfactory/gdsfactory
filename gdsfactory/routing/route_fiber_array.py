@@ -268,7 +268,7 @@ def route_fiber_array(
     for j in range(nb_optical_ports_lines):
         for i, gc in zip(grating_indices, grating_couplers):
             gc_ref = component << gc
-            gc_ref.drotate(gc_rotation)
+            gc_ref.rotate(gc_rotation)
             gc_ref.dx = x_c - offset + i * pitch
             gc_ref.dymax = y0_optical - j * gr_coupler_y_sep
             io_gratings += [gc_ref]
@@ -356,8 +356,8 @@ def route_fiber_array(
         ii = [grating_indices[0] - 1, grating_indices[-1] + 1]
         gca1 = component << grating_coupler
         gca2 = component << grating_coupler
-        gca1.drotate(gc_rotation)
-        gca2.drotate(gc_rotation)
+        gca1.rotate(gc_rotation)
+        gca2.rotate(gc_rotation)
 
         gca1.dx = x_c - offset + ii[0] * pitch
         gca2.dx = x_c - offset + ii[1] * pitch

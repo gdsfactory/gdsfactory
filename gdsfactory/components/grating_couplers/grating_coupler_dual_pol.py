@@ -129,7 +129,7 @@ def grating_coupler_dual_pol(
     c.add_port(port=taper1.ports["o1"], name="o1")
 
     taper2 = c << taper
-    taper2.drotate(90)
+    taper2.rotate(90)
     taper2.dx = 0
     taper2.dymax = -y_span / 2
     c.add_port(port=taper2.ports["o1"], name="o2")

@@ -175,7 +175,7 @@ def grid_with_text(
                 if text_mirror:
                     t.dmirror()
                 if text_rotation:
-                    t.drotate(text_rotation)
+                    t.rotate(text_rotation)
     return c
 
 
