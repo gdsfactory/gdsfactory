@@ -93,7 +93,7 @@ def splitter_tree(
             x = col * dx
             y = y0 + (row + 0.5) * dy * 2 ** (cols - col - 1)
             coupler_ref = c.add_ref(coupler, name=f"coupler_{col}_{row}")
-            coupler_ref.dmove((x, y))
+            coupler_ref.move((x, y))
             if col == 0:
                 for port in coupler_ref.ports:
                     if port.name not in [e0_port_name, e1_port_name]:

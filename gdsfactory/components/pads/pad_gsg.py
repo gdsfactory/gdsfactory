@@ -40,8 +40,8 @@ def pad_gsg_short(
     gnd_bot.dymax = via.dymin
     gnd_top.dymin = via.dymax
 
-    gnd_top.dmovex(-metal_spacing)
-    gnd_bot.dmovex(-metal_spacing)
+    gnd_top.movex(-metal_spacing)
+    gnd_bot.movex(-metal_spacing)
 
     pads = c << gf.components.array(
         pad, columns=1, rows=3, column_pitch=0, row_pitch=pad_pitch, centered=True

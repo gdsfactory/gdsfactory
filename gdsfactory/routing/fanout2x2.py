@@ -42,7 +42,7 @@ def fanout2x2(
 
     component = gf.get_component(component)
     ref = c << component
-    ref.dmovey(-ref.dy)
+    ref.movey(-ref.dy)
 
     if bend_length is None:
         bend_length = port_spacing

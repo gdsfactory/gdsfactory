@@ -33,7 +33,7 @@ def rectangle(
         size=size, layer=layer, port_type=port_type, port_orientations=port_orientations
     )
     if not centered:
-        ref.dmove((size[0] / 2, size[1] / 2))
+        ref.move((size[0] / 2, size[1] / 2))
     if port_type:
         c.add_ports(ref.ports)
     c.flatten()

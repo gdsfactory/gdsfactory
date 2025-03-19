@@ -136,7 +136,7 @@ def add_fiber_single(
         if port.name not in input_port_names
         if port.name is not None
     ]
-    ref.drotate(+90)
+    ref.rotate(+90)
 
     route_fiber_array(
         c1,
@@ -153,7 +153,7 @@ def add_fiber_single(
 
     c2 = Component()
     ref = c2 << c1
-    ref.drotate(-180)
+    ref.rotate(-180)
     route_fiber_array(
         c2,
         ref,
@@ -175,7 +175,7 @@ def add_fiber_single(
         gc1 = c2 << gc
         gc2 = c2 << gc
 
-        straight_component.drotate(90)
+        straight_component.rotate(90)
         straight_component.dxmin = c2.dxmax + loopback_spacing
         straight_component.dymin = c2.dymin + gc1.dxsize
 

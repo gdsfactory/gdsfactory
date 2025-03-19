@@ -821,7 +821,7 @@ def along_path(
             added_dist = next_component - cum_dist
             offset = added_dist * unit_vector
             component_ref = c << component
-            component_ref.drotate(angle).dmove(start_pt + offset)
+            component_ref.rotate(angle).move(start_pt + offset)
             next_component += spacing
         cum_dist += segment_length
 

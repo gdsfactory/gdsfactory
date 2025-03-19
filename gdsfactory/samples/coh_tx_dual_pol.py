@@ -51,7 +51,7 @@ def coh_tx_dual_pol(
     single_tx_2 = c << spol_coh_tx
 
     # Separate the two receivers
-    single_tx_2.dmovey(single_tx_1.dymin - yspacing - single_tx_2.dymax)
+    single_tx_2.movey(single_tx_1.dymin - yspacing - single_tx_2.dymax)
 
     # ------------ Splitters and combiners ---------------
     splitter = gf.get_component(splitter)

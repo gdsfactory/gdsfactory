@@ -57,8 +57,8 @@ def coupler_symmetric(
     y /= 2
 
     bot_bend.dmirror_y()
-    top_bend.dmovey(+y)
-    bot_bend.dmovey(-y)
+    top_bend.movey(+y)
+    bot_bend.movey(-y)
 
     c.add_port("o1", port=bot_bend[bend_port1_name])
     c.add_port("o2", port=top_bend[bend_port1_name])
@@ -99,7 +99,7 @@ def coupler_straight(
     w = x.width
     y = w + gap
 
-    top.dmovey(+y)
+    top.movey(+y)
 
     if bot.ports and top.ports:
         c.add_port("o1", port=bot.ports[0])

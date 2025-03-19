@@ -51,7 +51,7 @@ def coupler90bend(
     bend_outer_ref = c << bend90_outer
 
     pbw = bend_inner_ref["o1"]
-    bend_inner_ref.dmovey(pbw.center[1] + spacing)
+    bend_inner_ref.movey(pbw.center[1] + spacing)
 
     c.add_port("o1", port=bend_outer_ref["o1"])
     c.add_port("o2", port=bend_inner_ref["o1"])

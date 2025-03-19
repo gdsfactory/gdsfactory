@@ -38,19 +38,19 @@ def litho_calipers(
     for i in range(num_notches_total):
         if i == centre_notch:
             ref = D.add_ref(R1)
-            ref.dmovex(i * (notch_size[0] + notch_spacing)).dmovey(notch_size[1])
+            ref.movex(i * (notch_size[0] + notch_spacing)).movey(notch_size[1])
             ref = D.add_ref(R2)
-            ref.dmovex(
+            ref.movex(
                 i * (notch_size[0] + notch_spacing)
                 + offset_per_notch * (centre_notch - i)
-            ).dmovey(-2 * notch_size[1] - row_spacing)
+            ).movey(-2 * notch_size[1] - row_spacing)
         ref = D.add_ref(R1)
-        ref.dmovex(i * (notch_size[0] + notch_spacing))
+        ref.movex(i * (notch_size[0] + notch_spacing))
         ref = D.add_ref(R2)
-        ref.dmovex(
+        ref.movex(
             i * (notch_size[0] + notch_spacing) + offset_per_notch * (centre_notch - i)
         )
-        ref.dmovey(-notch_size[1] - row_spacing)
+        ref.movey(-notch_size[1] - row_spacing)
     return D
 
 

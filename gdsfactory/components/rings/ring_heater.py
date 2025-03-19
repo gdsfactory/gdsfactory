@@ -155,8 +155,8 @@ def ring_double_heater(
     c2 = c << via
     c1.dxmax = -length_x / 2 + cb.dx - via_stack_offset[0]
     c2.dxmin = +length_x / 2 + cb.dx + via_stack_offset[0]
-    c1.dmovey(via_stack_offset[1])
-    c2.dmovey(via_stack_offset[1])
+    c1.movey(via_stack_offset[1])
+    c2.movey(via_stack_offset[1])
 
     p1 = c1.ports.filter(orientation=port_orientation)
     p2 = c2.ports.filter(orientation=port_orientation)

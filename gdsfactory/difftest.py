@@ -144,8 +144,8 @@ def xor(
 
     dy = 10
     if stagger:
-        old_ref.dmovey(+old_kcell.dysize + dy)
-        new_ref.dmovey(-old_kcell.dysize - dy)
+        old_ref.movey(+old_kcell.dysize + dy)
+        new_ref.movey(-old_kcell.dysize - dy)
 
     layer_label = kf.kcl.layout.layer(1, 0)
     c.shapes(layer_label).insert(kf.kdb.DText("old", old_ref.dtrans))
@@ -339,8 +339,8 @@ def diff(
 
         dy = 10
         if stagger:
-            old_ref.dmovey(+old.dysize + dy)
-            new_ref.dmovey(-old.dysize - dy)
+            old_ref.movey(+old.dysize + dy)
+            new_ref.movey(-old.dysize - dy)
 
         layer_label = kf.kcl.layout.layer(1, 0)
         c.shapes(layer_label).insert(kf.kdb.DText("old", old_ref.dtrans))

@@ -38,7 +38,7 @@ def _bendu_double(
         bend180,
         cross_section=xs_r2,
     )
-    bend_r2_instance = bend_r2.dmove(
+    bend_r2_instance = bend_r2.move(
         (0, component.ports[port1].dy - component.ports[port2].dy),
     )
     bendu.add_port("o1", port=bend_r.ports["o1"])
@@ -84,7 +84,7 @@ def _straight_double(
     )
     straight_r = c << straight_component
     straight_r2 = c << straight_component2
-    straight_r2_instance = straight_r2.dmove(
+    straight_r2_instance = straight_r2.move(
         (0, -component.ports[port1].dy + component.ports[port2].dy),
     )
     c.add_port("o1", port=straight_r.ports["o1"])

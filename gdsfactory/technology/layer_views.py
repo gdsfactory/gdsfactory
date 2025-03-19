@@ -1007,11 +1007,11 @@ class LayerViews(BaseModel):
             xloc = n % matrix_size
             yloc = int(n // matrix_size)
             ref = component.add_ref(rectangle)
-            ref.dmovex((100 + spacing) * xloc * scale)
-            ref.dmovey(-(100 + spacing) * yloc * scale)
+            ref.movex((100 + spacing) * xloc * scale)
+            ref.movey(-(100 + spacing) * yloc * scale)
             ref = component.add_ref(text)
-            ref.dmovex((100 + spacing) * xloc * scale)
-            ref.dmovey(-(100 + spacing) * yloc * scale)
+            ref.movex((100 + spacing) * xloc * scale)
+            ref.movey(-(100 + spacing) * yloc * scale)
         return component
 
     def to_lyp(

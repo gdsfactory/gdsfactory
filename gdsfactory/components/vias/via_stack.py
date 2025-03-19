@@ -184,7 +184,7 @@ def via_stack(
             ch = (height - (nb_vias_y - 1) * pitch_y - h) / 2
             x0 = -a + cw + w / 2
             y0 = -b + ch + h / 2
-            ref.dmove((x0, y0))
+            ref.move((x0, y0))
     return c
 
 

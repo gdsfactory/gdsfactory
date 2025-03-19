@@ -738,7 +738,7 @@ if __name__ == "__main__":
 
     rect1 = c << gf.components.rectangle(size=(10, 10), layer=(1, 0))
     rect2 = c << gf.components.rectangle(size=(10, 10), layer=(3, 0))
-    rect2.dmove((30, 30))
+    rect2.move((30, 30))
     # c.show()
 
     # import gdsfactory as gf
@@ -747,7 +747,7 @@ if __name__ == "__main__":
 
     # rect1 = c << gf.components.rectangle(size=(10, 10), layer=(1, 0))
     # rect2 = c << gf.components.rectangle(size=(10, 10), layer=(2, 0))
-    # rect2.dmove((5, 5))
+    # rect2.move((5, 5))
     # c.show()
 
     c = get_component_with_derived_layers(c, ls)

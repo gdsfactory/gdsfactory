@@ -23,7 +23,7 @@ def fiducial_squares(
 
     for layer in layers:
         r = c << gf.c.rectangle(size=size, layer=layer)
-        r.dmove(-np.array(size) - np.array([offset, offset]))
+        r.move(-np.array(size) - np.array([offset, offset]))
 
     return c
 

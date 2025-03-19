@@ -128,7 +128,7 @@ def ring_double_pn(
         undoped_path.extrude(cross_section=cross_section_, all_angle=True)
     )
 
-    bottom_undoped_ring_ref.drotate(-undoping_angle / 2)
+    bottom_undoped_ring_ref.rotate(-undoping_angle / 2)
     bottom_undoped_ring_ref.dx = th_waveguide.dx
 
     left_doped_ring_ref.connect("o1", bottom_undoped_ring_ref.ports["o1"])
@@ -157,7 +157,7 @@ def ring_double_pn(
         heater = heater_path.extrude(width=0.5, layer=doped_heater_layer)
 
         bottom_heater_ref = c << heater
-        bottom_heater_ref.drotate(-(undoping_angle - doped_heater_angle_buffer) / 2)
+        bottom_heater_ref.rotate(-(undoping_angle - doped_heater_angle_buffer) / 2)
         bottom_heater_ref.dx = th_waveguide.dx
         bottom_heater_ref.dy = th_waveguide.dy + (
             doped_heater_waveguide_offset + doped_heater_width / 2 + add_gap
@@ -171,7 +171,7 @@ def ring_double_pn(
         bottom_r_heater_via.dy = bottom_heater_ref.ports["o2"].dy
 
         top_heater_ref = c << heater
-        top_heater_ref.drotate(180 - (undoping_angle - doped_heater_angle_buffer) / 2)
+        top_heater_ref.rotate(180 - (undoping_angle - doped_heater_angle_buffer) / 2)
         top_heater_ref.dx = th_waveguide.dx
         top_heater_ref.dy = drop_waveguide_dy - (
             doped_heater_waveguide_offset + doped_heater_width / 2 + drop_gap
@@ -271,7 +271,7 @@ def ring_single_pn(
     undoped_ring_ref = r << undoped_path.extrude(
         cross_section=cross_section, all_angle=False
     )
-    undoped_ring_ref.drotate(-undoping_angle / 2)
+    undoped_ring_ref.rotate(-undoping_angle / 2)
     undoped_ring_ref.center = (0, 0)
     doped_ring_ref.connect("o1", undoped_ring_ref.ports["o1"])
 
@@ -301,7 +301,7 @@ def ring_single_pn(
         bottom_heater_ref = c << heater_path.extrude(
             width=0.5, layer=doped_heater_layer
         )
-        bottom_heater_ref.drotate(-(undoping_angle - doped_heater_angle_buffer) / 2)
+        bottom_heater_ref.rotate(-(undoping_angle - doped_heater_angle_buffer) / 2)
         bottom_heater_ref.dx = bus_waveguide.dx
         bottom_heater_ref.dy = (
             bus_waveguide.dy

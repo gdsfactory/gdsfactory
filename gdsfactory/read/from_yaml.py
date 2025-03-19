@@ -332,9 +332,9 @@ def place(
 
         if rotation:
             if port:
-                ref.drotate(rotation, center=_get_anchor_point_from_name(ref, port))
+                ref.rotate(rotation, center=_get_anchor_point_from_name(ref, port))
             else:
-                ref.drotate(rotation)
+                ref.rotate(rotation)
 
         if mirror:
             if mirror is True and port:
@@ -1057,9 +1057,9 @@ def _update_reference_by_placement(
 
     if rotation:
         if isinstance(port, str):
-            ref.drotate(rotation, center=_get_anchor_point_from_name(ref, port))
+            ref.rotate(rotation, center=_get_anchor_point_from_name(ref, port))
         else:
-            ref.drotate(rotation)
+            ref.rotate(rotation)
 
     if mirror:
         if mirror is True:

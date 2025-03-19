@@ -63,7 +63,7 @@ def resistance_meander(
 
     T.add_ref(Row)
     col = T.add_ref(Col)
-    col.dmove((length_row - width, -width))
+    col.move((length_row - width, -width))
 
     # Creating entire straight net
     N = Component(name="net")
@@ -72,22 +72,22 @@ def resistance_meander(
         d = N.add_ref(T) if i != num_rows - 1 else N.add_ref(Row)
         if n % 2 == 0:
             d.dmirror_x(d.dx)
-        d.dmovey(-(n - 1) * T.dysize)
+        d.movey(-(n - 1) * T.dysize)
         n += 1
     ref = N.add_ref(Col)
-    ref.dmovex(-width)
+    ref.movex(-width)
 
     end = N.add_ref(Col)
-    end.dmovey(-(n - 2) * T.dysize)
-    end.dmovex(length_row)
+    end.movey(-(n - 2) * T.dysize)
+    end.movex(length_row)
 
     # Creating pads
     P = Component()
     pad = gf.c.rectangle(size=(x, z), layer=pad_layer)
     pad1 = P.add_ref(pad)
-    pad1.dmovex(-x - width)
+    pad1.movex(-x - width)
     pad2 = P.add_ref(pad)
-    pad2.dmovex(length_row + width)
+    pad2.movex(length_row + width)
     net = P.add_ref(N)
     net.dymin = pad1.dymin
     P.flatten()

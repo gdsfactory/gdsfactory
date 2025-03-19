@@ -74,7 +74,7 @@ def coupler_bend(
     output_ref.connect("o1", bend_output_ref.ports["o2"], mirror=True)
 
     pbw = bend_inner_ref.ports["o1"]
-    bend_inner_ref.dmovey(pbw.center[1] + spacing)
+    bend_inner_ref.movey(pbw.center[1] + spacing)
 
     c.add_port("o1", port=bend_output_ref.ports["o1"])
     c.add_port("o2", port=bend_inner_ref.ports["o1"])
@@ -128,9 +128,9 @@ def coupler_ring_bend(
     coupler_right = c << cp
     coupler_left = c << cp
     straight_inner = c << sin
-    straight_inner.dmovex(-length_x / 2)
+    straight_inner.movex(-length_x / 2)
     straight_outer = c << sout
-    straight_outer.dmovex(-length_x / 2)
+    straight_outer.movex(-length_x / 2)
 
     coupler_left.connect("o1", straight_outer.ports["o1"])
     straight_inner.connect("o1", coupler_left.ports["o2"])

@@ -42,7 +42,7 @@ def _generate_fins(
             port_orientations=None,
         )
         rectangle_input = c << rectangle
-        rectangle_input.dmove(
+        rectangle_input.move(
             origin=(x0, y0),
             destination=(
                 x0 + fin_size[0] / 2.0 - (2 * taper_length) / 2.0,
@@ -51,7 +51,7 @@ def _generate_fins(
         )
 
         rectangle_output = c << rectangle
-        rectangle_output.dmove(
+        rectangle_output.move(
             origin=(x0, y0),
             destination=(
                 xend - fin_size[0] / 2.0 - (2 * taper_length) / 2.0,

@@ -61,7 +61,7 @@ def text_rectangular(
                     ref = component.add_ref(
                         pixel_array(pixels=pixels, pixel_size=pixel_size, layer=layer)
                     )
-                    ref.dmove((xoffset, yoffset))
+                    ref.move((xoffset, yoffset))
                     component.absorb(ref)
                 xoffset += pixel_size * xoffset_factor
 
