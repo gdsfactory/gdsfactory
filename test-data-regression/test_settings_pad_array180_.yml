@@ -1,5 +1,5 @@
 info: {}
-name: pad_array_Ppad_C1_R3_CP_a8428924
+name: pad_array_Ppad_C1_R3_CP_707f34aa
 settings:
   auto_rename_ports: false
   centered_ports: false
@@ -10,6 +10,3 @@ settings:
   port_orientation: 180
   row_pitch: 150
   rows: 3
-  size:
-  - 100
-  - 100

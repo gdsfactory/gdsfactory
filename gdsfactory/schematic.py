@@ -1,4 +1,5 @@
 import json
+import pathlib
 from pathlib import Path
 from typing import Any, Self
 
@@ -10,6 +11,7 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import PATH
+from gdsfactory.serialization import convert_tuples_to_lists
 from gdsfactory.typings import Anchor, Delta, Port, Ports
 from gdsfactory.utils import is_component_spec
 
@@ -420,6 +422,22 @@ class Schematic(BaseModel):
         """
         dot = self.to_graphviz()
         plot_graphviz(dot, interactive=interactive, splines=splines)
+
+    def write_netlist(
+        self, netlist: dict[str, Any], filepath: str | pathlib.Path | None = None
+    ) -> str:
+        """Returns netlist as YAML string.
+
+        Args:
+            netlist: netlist to write.
+            filepath: Optional file path to write to.
+        """
+        netlist_converted = convert_tuples_to_lists(netlist)
+        yaml_string = yaml.dump(netlist_converted)
+        if filepath:
+            filepath = pathlib.Path(filepath)
+            filepath.write_text(yaml_string)
+        return str(yaml_string)
 
 
 def plot_graphviz(
