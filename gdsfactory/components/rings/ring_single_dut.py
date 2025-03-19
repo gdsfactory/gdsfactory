@@ -58,7 +58,7 @@ def ring_single_dut(
         coupler, gap=gap, length_x=length_x, radius=radius, **kwargs
     )
 
-    component_xsize = component.dxsize
+    component_xsize = component.xsize
     straight_side = gf.c.straight(length=length_y + component_xsize, **kwargs)
     straight_top = gf.c.straight(length=length_x, **kwargs)
     bend = gf.get_component(bend, radius=radius, **kwargs)

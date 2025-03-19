@@ -65,20 +65,20 @@ def add_electrical_pads_shortest(
         port_orientation = port.orientation
 
         if port_orientation == 0:
-            p.dx = port.dx + pad_port_spacing
-            p.dy = port.dy
+            p.x = port.x + pad_port_spacing
+            p.y = port.y
             route_quad(component=c, port1=port, port2=p.ports["e1"], layer=layer)
         elif port_orientation == 180:
-            p.dx = port.dx - pad_port_spacing
-            p.dy = port.dy
+            p.x = port.x - pad_port_spacing
+            p.y = port.y
             route_quad(c, port, p.ports["e3"], layer=layer)
         elif port_orientation == 90:
-            p.dy = port.dy + pad_port_spacing
-            p.dx = port.dx
+            p.y = port.y + pad_port_spacing
+            p.x = port.x
             route_quad(c, port, p.ports["e4"], layer=layer)
         elif port_orientation == 270:
-            p.dy = port.dy - pad_port_spacing
-            p.dx = port.dx
+            p.y = port.y - pad_port_spacing
+            p.x = port.x
             route_quad(c, port, p.ports["e2"], layer=layer)
 
         c.add_port(port=p.ports["pad"], name=f"elec-{component.name}-{i + 1}")

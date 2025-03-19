@@ -54,8 +54,8 @@ def to_svg(
     polygons_per_layer = component_with_booleans.get_polygons_points(merge=True)
 
     # Initialize SVG parameters
-    xsize = component_with_booleans.dxsize
-    ysize = component_with_booleans.dysize
+    xsize = component_with_booleans.xsize
+    ysize = component_with_booleans.ysize
     dcx = component_with_booleans.center[0]
     dcy = component_with_booleans.center[1]
     dx, dy = dcx - xsize / 2, dcy - ysize / 2

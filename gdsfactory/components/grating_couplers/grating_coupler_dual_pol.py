@@ -101,8 +101,8 @@ def grating_coupler_dual_pol(
         column_pitch=period_x,
         row_pitch=period_y,
     )
-    g.dxmin = x_start
-    g.dymin = y_start
+    g.xmin = x_start
+    g.ymin = y_start
 
     port_type = f"vertical_{polarization.lower()}"
     c.add_port(
@@ -124,14 +124,14 @@ def grating_coupler_dual_pol(
     )
 
     taper1 = c << taper
-    taper1.dxmax = -x_span / 2
-    taper1.dy = 0
+    taper1.xmax = -x_span / 2
+    taper1.y = 0
     c.add_port(port=taper1.ports["o1"], name="o1")
 
     taper2 = c << taper
     taper2.rotate(90)
-    taper2.dx = 0
-    taper2.dymax = -y_span / 2
+    taper2.x = 0
+    taper2.ymax = -y_span / 2
     c.add_port(port=taper2.ports["o1"], name="o2")
 
     xs.add_bbox(c)

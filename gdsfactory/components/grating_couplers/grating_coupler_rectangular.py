@@ -93,8 +93,8 @@ def grating_coupler_rectangular(
         cgrating = c.add_ref(
             gf.c.rectangle(size=(xsize, width_grating), layer=layer, port_type=None)
         )
-        cgrating.dxmin = gf.snap.snap_to_grid(x0 + i * period)
-        cgrating.dy = 0
+        cgrating.xmin = gf.snap.snap_to_grid(x0 + i * period)
+        cgrating.y = 0
 
     c.info["polarization"] = polarization
     c.info["wavelength"] = wavelength
@@ -115,7 +115,7 @@ def grating_coupler_rectangular(
             layer_slab,
         )
     xs.add_bbox(c)
-    xport = np.round((x0 + cgrating.dx) / 2, 3)
+    xport = np.round((x0 + cgrating.x) / 2, 3)
     c.add_port(
         name="o2",
         port_type=f"vertical_{polarization}",

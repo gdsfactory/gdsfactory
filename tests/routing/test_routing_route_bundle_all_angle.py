@@ -15,7 +15,7 @@ def test_route_bundle_all_angle(
     mmi2 = c << mmi
 
     mmi2.dmove((100, 10))
-    mmi2.drotate(30)
+    mmi2.rotate(30)
 
     routes = gf.routing.route_bundle_all_angle(
         c,
@@ -35,7 +35,7 @@ if __name__ == "__main__":
     mmi2 = c << mmi
 
     mmi2.dmove((100, 10))
-    mmi2.drotate(30)
+    mmi2.rotate(30)
 
     routes = gf.routing.route_bundle_all_angle(
         c,

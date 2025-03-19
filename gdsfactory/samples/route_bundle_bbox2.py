@@ -9,8 +9,8 @@ if __name__ == "__main__":
     ptop.movey(300)
 
     obstacle = c << gf.c.rectangle(size=(300, 100), layer="M3")
-    obstacle.dymin = pbot.dymax - 10
-    obstacle.dxmin = pbot.dxmax - 10
+    obstacle.ymin = pbot.ymax - 10
+    obstacle.xmin = pbot.xmax - 10
 
     routes = gf.routing.route_bundle_electrical(
         c,

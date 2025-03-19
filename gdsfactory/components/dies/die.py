@@ -79,23 +79,23 @@ def die(
         if isinstance(text_location, str):
             text_location = text_location.upper()
             if text_location == "N":
-                t.dx, t.dymax = [0, sy - d]
+                t.x, t.ymax = [0, sy - d]
             elif text_location == "NE":
-                t.dxmax, t.dymax = [sx - d, sy - d]
+                t.xmax, t.ymax = [sx - d, sy - d]
             elif text_location == "NW":
-                t.dxmin, t.dymax = [-sx + d, sy - d]
+                t.xmin, t.ymax = [-sx + d, sy - d]
             elif text_location == "S":
-                t.dx, t.dymin = [0, -sy + d]
+                t.x, t.ymin = [0, -sy + d]
             elif text_location == "SE":
-                t.dxmax, t.dymin = [sx - d, -sy + d]
+                t.xmax, t.ymin = [sx - d, -sy + d]
             elif text_location == "SW":
-                t.dxmin, t.dymin = [-sx + d, -sy + d]
+                t.xmin, t.ymin = [-sx + d, -sy + d]
             else:
                 raise ValueError(
                     f"Invalid text_location: {text_location} not in N, NE, NW, S, SE, SW"
                 )
         else:
-            t.dx, t.dy = text_location
+            t.x, t.y = text_location
 
     return c
 

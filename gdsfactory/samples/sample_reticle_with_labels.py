@@ -19,7 +19,7 @@ def label_farthest_right_port(
         layer: The layer on which the label will be added.
         text: The text to display in the label.
     """
-    rightmost_port = max(ports, key=lambda port: port.dx)
+    rightmost_port = max(ports, key=lambda port: port.x)
 
     component.add_label(
         text=text,

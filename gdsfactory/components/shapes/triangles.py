@@ -84,7 +84,7 @@ def triangle2(spacing: float = 3, **kwargs: Any) -> Component:
     tb = c << t
     tb.dmirror()
     tb.rotate(180)
-    tb.dymax = tt.dymin - spacing
+    tb.ymax = tt.ymin - spacing
     return c
 
 
@@ -125,7 +125,7 @@ def triangle4(**kwargs: Any) -> Component:
     t1 = c << t
     t2 = c << t
     t2.dmirror()
-    t2.dxmax = t1.dxmin
+    t2.xmax = t1.xmin
     return c
 
 

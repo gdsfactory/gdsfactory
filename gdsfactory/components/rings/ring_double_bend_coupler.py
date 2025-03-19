@@ -45,7 +45,7 @@ def ring_double_bend_coupler(
     xo = gf.get_cross_section(cross_section_outer)
     half_height = radius + xi.width / 2 + gap + xo.width + length_y / 2
 
-    if c_halfring.dysize > half_height:
+    if c_halfring.ysize > half_height:
         raise ValueError(
             "The coupling_angle_coverage is too large for the given bend radius: "
             + "the coupling waveguides will overlap."

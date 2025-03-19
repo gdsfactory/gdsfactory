@@ -118,7 +118,7 @@ def move_port(
         dy: to move the port.
     """
     c = component
-    c.transform(gf.kdb.DTrans(-c.ports[port_name].dx + dx, -c.ports[port_name].dy + dy))
+    c.transform(gf.kdb.DTrans(-c.ports[port_name].x + dx, -c.ports[port_name].y + dy))
     return c
 
 

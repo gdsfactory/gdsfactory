@@ -135,8 +135,8 @@ def disk(
 
     circle_cladding = None
     if bend_middle is not None:
-        dx = (bend_middle.ports["o1"].dx + bend_middle.ports["o2"].dx) / 2.0
-        dy = straight_left.ports["o2"].dy - 2 * dy + r_bend
+        dx = (bend_middle.ports["o1"].x + bend_middle.ports["o2"].x) / 2.0
+        dy = straight_left.ports["o2"].y - 2 * dy + r_bend
         circle.move((dx, dy))
     else:
         center = straight_left.ports["o2"].center
@@ -198,23 +198,23 @@ def disk_heater(
         cross_section=cross_section,
     )
 
-    dx = disk_instance.dxmax - disk_instance.dxmin
-    dy = disk_instance.dymax - disk_instance.dymin
+    dx = disk_instance.xmax - disk_instance.xmin
+    dy = disk_instance.ymax - disk_instance.ymin
     heater = c << gf.get_component(
         gf.components.rectangle,
         size=(dx + 2 * heater_extent, heater_width),
         layer=heater_layer,
     )
-    heater.dx = disk_instance.dx
-    heater.dy = dy / 2 + disk_instance.dymin + (xs.width + gap) / 2
+    heater.x = disk_instance.x
+    heater.y = dy / 2 + disk_instance.ymin + (xs.width + gap) / 2
 
     via = gf.get_component(via_stack, size=(via_width, via_width))
     c1 = c << via
     c2 = c << via
-    c1.dxmax = heater.dxmin
-    c1.dy = heater.dy
-    c2.dxmin = heater.dxmax
-    c2.dy = heater.dy
+    c1.xmax = heater.xmin
+    c1.y = heater.y
+    c2.xmin = heater.xmax
+    c2.y = heater.y
     c.add_ports(disk_instance.ports)
     c.add_ports(c1.ports.filter(orientation=port_orientation), prefix="e1")
     c.add_ports(c2.ports.filter(orientation=port_orientation), prefix="e2")

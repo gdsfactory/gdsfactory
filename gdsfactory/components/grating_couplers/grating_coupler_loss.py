@@ -38,11 +38,11 @@ def grating_coupler_loss(
     for i in range(2, nfibers - 1, 2):
         g1 = c << gc
         g1.rotate(rotation)
-        g1.dx = xmin
+        g1.x = xmin
 
         g2 = c << gc
         g2.rotate(rotation)
-        g2.dx = xmin + i * pitch
+        g2.x = xmin + i * pitch
 
         route_single(
             c,
@@ -52,7 +52,7 @@ def grating_coupler_loss(
             cross_section=cross_section,
         )
 
-        xmin = g2.dxmax + grating_coupler_spacing + gc.dxsize / 2
+        xmin = g2.xmax + grating_coupler_spacing + gc.xsize / 2
 
     return c
 

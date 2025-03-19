@@ -51,13 +51,13 @@ def coh_tx_dual_pol(
     single_tx_2 = c << spol_coh_tx
 
     # Separate the two receivers
-    single_tx_2.movey(single_tx_1.dymin - yspacing - single_tx_2.dymax)
+    single_tx_2.movey(single_tx_1.ymin - yspacing - single_tx_2.ymax)
 
     # ------------ Splitters and combiners ---------------
     splitter = gf.get_component(splitter)
     sp = c << splitter
-    sp.dx = single_tx_1.dxmin - xspacing
-    sp.dy = (single_tx_1.ports["o1"].dy + single_tx_2.ports["o1"].dy) / 2
+    sp.x = single_tx_1.xmin - xspacing
+    sp.y = (single_tx_1.ports["o1"].y + single_tx_2.ports["o1"].y) / 2
 
     route_single(
         c,
@@ -78,8 +78,8 @@ def coh_tx_dual_pol(
         comb = c << combiner
         comb.dmirror()
 
-        comb.dx = single_tx_1.dxmax + xspacing
-        comb.dy = (single_tx_1.ports["o2"].dy + single_tx_2.ports["o2"].dy) / 2
+        comb.x = single_tx_1.xmax + xspacing
+        comb.y = (single_tx_1.ports["o2"].y + single_tx_2.ports["o2"].y) / 2
 
         route_single(
             c,
@@ -111,8 +111,8 @@ def coh_tx_dual_pol(
         else:
             # Directly connect the output coupler to the branches.
             # Assumes the output couplers has ports "o1" and "o2"
-            out_coup.dy = (single_tx_1.dy + single_tx_2.dy) / 2
-            out_coup.dxmin = single_tx_1.dxmax + 40.0
+            out_coup.y = (single_tx_1.y + single_tx_2.y) / 2
+            out_coup.xmin = single_tx_1.xmax + 40.0
 
             route_single(
                 c,

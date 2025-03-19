@@ -72,11 +72,11 @@ def text_rectangular(
     ref = c << component
     justify = justify.lower()
     if justify == "left":
-        ref.dxmin = position[0]
+        ref.xmin = position[0]
     elif justify == "right":
-        ref.dxmax = position[0]
+        ref.xmax = position[0]
     elif justify == "center":
-        ref.dx = 0
+        ref.x = 0
     else:
         raise ValueError(f"{justify=} not valid (left, center, right)")
     c.flatten()

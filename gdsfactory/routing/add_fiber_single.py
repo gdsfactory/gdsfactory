@@ -170,14 +170,14 @@ def add_fiber_single(
 
     if with_loopback:
         straight_component = c2 << gf.get_component(
-            straight, cross_section=cross_section, length=c2.dysize - 2 * gc.dxsize
+            straight, cross_section=cross_section, length=c2.ysize - 2 * gc.xsize
         )
         gc1 = c2 << gc
         gc2 = c2 << gc
 
         straight_component.rotate(90)
-        straight_component.dxmin = c2.dxmax + loopback_spacing
-        straight_component.dymin = c2.dymin + gc1.dxsize
+        straight_component.xmin = c2.xmax + loopback_spacing
+        straight_component.ymin = c2.ymin + gc1.xsize
 
         gc1.connect(gc_port_name, straight_component.ports[0])
         gc2.connect(gc_port_name, straight_component.ports[1])

@@ -109,8 +109,8 @@ def extend_ports(
 
     cref = c << component
     if centered:
-        cref.dx = 0
-        cref.dy = 0
+        cref.x = 0
+        cref.y = 0
 
     ports_all = cref.ports
     port_names_all = [p.name for p in ports_all if p.name is not None]

@@ -145,8 +145,8 @@ def grating_coupler_elliptical_arbitrary(
 
     if layer_slab:
         slab_xmin = taper_length + taper_to_slab_offset
-        slab_xmax = c.dxmax + 0.5
-        slab_ysize = c.dysize + 2.0
+        slab_xmax = c.xmax + 0.5
+        slab_ysize = c.ysize + 2.0
         yslab = slab_ysize / 2
         c.add_polygon(
             [

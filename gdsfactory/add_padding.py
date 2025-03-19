@@ -34,10 +34,10 @@ def get_padding_points(
     right = right if right is not None else default
     left = left if left is not None else default
     return [
-        (c.dxmin - left, c.dymin - bottom),
-        (c.dxmax + right, c.dymin - bottom),
-        (c.dxmax + right, c.dymax + top),
-        (c.dxmin - left, c.dymax + top),
+        (c.xmin - left, c.ymin - bottom),
+        (c.xmax + right, c.ymin - bottom),
+        (c.xmax + right, c.ymax + top),
+        (c.xmin - left, c.ymax + top),
     ]
 
 
@@ -98,13 +98,13 @@ def add_padding_to_size(
     """
     c = gf.get_component(component)
 
-    top = abs(ysize - c.dysize) if ysize else 0
-    right = abs(xsize - c.dxsize) if xsize else 0
+    top = abs(ysize - c.ysize) if ysize else 0
+    right = abs(xsize - c.xsize) if xsize else 0
     points = [
-        (c.dxmin - left, c.dymin - bottom),
-        (c.dxmax + right, c.dymin - bottom),
-        (c.dxmax + right, c.dymax + top),
-        (c.dxmin - left, c.dymax + top),
+        (c.xmin - left, c.ymin - bottom),
+        (c.xmax + right, c.ymin - bottom),
+        (c.xmax + right, c.ymax + top),
+        (c.xmin - left, c.ymax + top),
     ]
 
     for layer in layers:

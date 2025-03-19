@@ -89,9 +89,9 @@ def add_frame(
     layer = gf.get_layer(layer)
     component = gf.get_component(component)
     cref = c.add_ref(component)
-    cref.dx = 0
-    cref.dy = 0
-    y = max([component.dxsize, component.dysize]) / 2 + spacing + width / 2
+    cref.x = 0
+    cref.y = 0
+    y = max([component.xsize, component.ysize]) / 2 + spacing + width / 2
     x = y
     w = width
 

@@ -45,9 +45,9 @@ if __name__ == "__main__":
         column_pitch=0,
         row_pitch=antenna_pitch,
     )
-    antennas.dxmin = ref.dxmax + 50
+    antennas.xmin = ref.xmax + 50
     antennas.mirror_y()
-    antennas.dy = 0
+    antennas.y = 0
 
     routes = gf.routing.route_bundle(
         c,
@@ -61,8 +61,8 @@ if __name__ == "__main__":
     pads1 = c << gf.components.array(
         gf.components.pad, rows=len(phase_shifter_electrical_ports_west), columns=1
     )
-    pads1.dxmax = splitter_tree.dxmin - 10
-    pads1.dy = 0
+    pads1.xmax = splitter_tree.xmin - 10
+    pads1.y = 0
     ports1 = pads1.ports.filter(orientation=0, port_type="electrical")
     routes = gf.routing.route_bundle_electrical(
         c,

@@ -127,9 +127,9 @@ def straight_heater_meander_doped(
         straight_with_tapers = gf.c.extend_ports(straight, extension=taper)
         straight_ref = c << straight_with_tapers
         if row < len(straight_widths) // 2:
-            straight_ref.dy = row * spacing
+            straight_ref.y = row * spacing
         else:
-            straight_ref.dy = (row + 1) * spacing
+            straight_ref.y = (row + 1) * spacing
         ports[f"o1_{row + 1}"] = straight_ref["o1"]
         ports[f"o2_{row + 1}"] = straight_ref["o2"]
 

@@ -11,8 +11,8 @@ from gdsfactory.typings import ComponentSpec
 
 def _get_bend_size(bend90: Component) -> float:
     p1, p2 = list(bend90.ports)[:2]
-    bsx = abs(p2.dx - p1.dx)
-    bsy = abs(p2.dy - p1.dy)
+    bsx = abs(p2.x - p1.x)
+    bsy = abs(p2.y - p1.y)
     return max(bsx, bsy)
 
 
@@ -205,7 +205,7 @@ def cutback_bend180(
     straightx = gf.get_component(straight, length=straight_length, **kwargs)
     wg_vertical = gf.get_component(
         straight,
-        length=2 * bend180.dxsize + straight_length + spacing,
+        length=2 * bend180.xsize + straight_length + spacing,
         **kwargs,
     )
 

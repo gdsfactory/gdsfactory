@@ -104,7 +104,7 @@ def straight_heater_metal_undercut(
     if via_stack:
         via_stack = gf.get_component(via_stack)
 
-        dx = via_stack.dxsize / 2 + heater_taper_length
+        dx = via_stack.xsize / 2 + heater_taper_length
         dx -= length_straight
 
         via_stack_west = c << via_stack
@@ -198,14 +198,14 @@ def straight_heater_metal_simple(
 
     if via_stack:
         via = via_stackw = via_stacke = gf.get_component(via_stack)
-        dx = via_stackw.dxsize / 2 + heater_taper_length
+        dx = via_stackw.xsize / 2 + heater_taper_length
         via_stack_west_center = (
-            straight_heater_section.dxmin - dx,
-            straight_heater_section.dy,
+            straight_heater_section.xmin - dx,
+            straight_heater_section.y,
         )
         via_stack_east_center = (
-            straight_heater_section.dxmax + dx,
-            straight_heater_section.dy,
+            straight_heater_section.xmax + dx,
+            straight_heater_section.y,
         )
 
         via_stack_west = c << via_stackw

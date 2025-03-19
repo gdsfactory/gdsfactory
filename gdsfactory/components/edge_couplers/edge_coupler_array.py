@@ -69,7 +69,7 @@ def edge_coupler_array(
     for i in range(n):
         ref = c.add_ref(edge_coupler)
         ref.name = f"ec_{i}"
-        ref.dy = i * pitch
+        ref.y = i * pitch
 
         if x_reflection:
             ref.dmirror()

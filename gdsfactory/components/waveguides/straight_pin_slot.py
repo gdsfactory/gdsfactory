@@ -53,7 +53,7 @@ def straight_pin_slot(
     taper_component: Component | None = None
     if taper:
         taper_component = gf.get_component(taper)
-        length -= 2 * taper_component.dxsize
+        length -= 2 * taper_component.xsize
 
     wg = c << gf.components.straight(
         cross_section=cross_section, length=length, width=width
@@ -85,11 +85,11 @@ def straight_pin_slot(
             size=(via_stack_length, via_stack_width),
         )
 
-        via_stack_bot.dx = wg.dx
-        via_stack_top.dx = wg.dx
+        via_stack_bot.x = wg.x
+        via_stack_top.x = wg.x
 
-        via_stack_top.dymin = +via_stack_spacing / 2
-        via_stack_bot.dymax = -via_stack_spacing / 2
+        via_stack_top.ymin = +via_stack_spacing / 2
+        via_stack_bot.ymax = -via_stack_spacing / 2
         c.add_ports(via_stack_bot.ports, prefix="bot_")
         c.add_ports(via_stack_top.ports, prefix="top_")
 
@@ -101,16 +101,16 @@ def straight_pin_slot(
             via_stack_slab_top,
             size=(via_stack_length, via_stack_slab_width),
         )
-        slot_top.dx = wg.dx
-        slot_top.dymin = +via_stack_slab_spacing / 2
+        slot_top.x = wg.x
+        slot_top.ymin = +via_stack_slab_spacing / 2
 
     if via_stack_slab_bot:
         slot_bot = c << gf.get_component(
             via_stack_slab_bot,
             size=(via_stack_length, via_stack_slab_width),
         )
-        slot_bot.dx = wg.dx
-        slot_bot.dymax = -via_stack_slab_spacing / 2
+        slot_bot.x = wg.x
+        slot_bot.ymax = -via_stack_slab_spacing / 2
 
     return c
 

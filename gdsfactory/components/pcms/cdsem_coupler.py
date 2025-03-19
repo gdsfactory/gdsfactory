@@ -47,11 +47,11 @@ def cdsem_coupler(
     for gap, position in zip(gaps, positions):
         line = c << gf.c.coupler_straight(length=length, cross_section=xs, gap=gap)
         p = position or p
-        line.dymin = p
+        line.ymin = p
         if text:
             t = c << gf.get_component(text, text=str(int(gap * 1e3)), size=text_size)
-            t.dxmin = line.dxmax + 5
-            t.dymin = p
+            t.xmin = line.xmax + 5
+            t.ymin = p
 
     return c
 
