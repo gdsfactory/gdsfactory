@@ -328,8 +328,8 @@ def route_sharp(
         c1 = c << gf.components.pad(port_orientation=None)
         c2 = c << gf.components.pad(port_orientation=None)
 
-        c2.dmovex(400)
-        c2.dmovey(-200)
+        c2.movex(400)
+        c2.movey(-200)
 
         gf.routing.route_sharp(c, c1.ports["e4"], c2.ports["e1"], path_type="L")
         c.plot()
@@ -394,8 +394,8 @@ if __name__ == "__main__":
     c1 = c << gf.components.pad()
     c2 = c << gf.components.pad()
 
-    # c2.dmovex(400)
-    # c2.dmovey(-200)
+    # c2.movex(400)
+    # c2.movey(-200)
 
     route_sharp(c, c1.ports["e4"], c2.ports["e1"], path_type="L", layer=(1, 0))
     c.show()

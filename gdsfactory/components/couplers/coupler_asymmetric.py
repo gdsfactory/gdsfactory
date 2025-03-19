@@ -45,8 +45,8 @@ def coupler_asymmetric(
     bend_ref.dxmin = 0
     wg_ref.dxmin = 0
 
-    bend_ref.dmovey(-y)
-    wg_ref.dmovey(+y)
+    bend_ref.movey(-y)
+    wg_ref.movey(+y)
 
     port_width = 2 * w + gap
     c.add_port(

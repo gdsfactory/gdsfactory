@@ -290,7 +290,7 @@ def route_fiber_array(
                         min_dist = dist
             if abs(min_dist) < min_dist_threshold:
                 for gr in io_gratings:
-                    gr.dmovex(-min_dist)
+                    gr.movex(-min_dist)
 
     # If the array of gratings is too close, adjust its location
     gc_ports_tmp: list[gf.Port] = []

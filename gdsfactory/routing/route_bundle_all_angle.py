@@ -72,7 +72,7 @@ if __name__ == "__main__":
     # w1 = c << gf.c.array("straight", spacing=(0, 10), rows=rows, columns=1)
     # w2 = c << gf.c.array("straight", spacing=(0, 10), rows=rows, columns=1)
     # w2.drotate(-30)
-    # w2.dmovex(140)
+    # w2.movex(140)
     # p1 = list(w1.ports.filter(orientation=0))
     # p2 = list(w2.ports.filter(orientation=150))
     # p1.reverse()
@@ -98,7 +98,7 @@ if __name__ == "__main__":
     mmi1 = c.create_vinst(mmi)  # create a virtual instance
     mmi2 = c.create_vinst(mmi)  # create a virtual instance
 
-    mmi2.dmove((100, 10))
+    mmi2.move((100, 10))
     mmi2.drotate(30)
 
     routes = route_bundle_all_angle(

@@ -110,8 +110,8 @@ def straight_heater_metal_undercut(
         via_stack_west = c << via_stack
         via_stack_east = c << via_stack
 
-        via_stack_west.dmovex(-dx)
-        via_stack_east.dmovex(+dx + length)
+        via_stack_west.movex(-dx)
+        via_stack_east.movex(+dx + length)
 
         valid_orientations = {p.orientation for p in via_stack.ports}
         p1 = list(via_stack_west.ports.filter(orientation=port_orientation1))
@@ -210,8 +210,8 @@ def straight_heater_metal_simple(
 
         via_stack_west = c << via_stackw
         via_stack_east = c << via_stacke
-        via_stack_west.dmove(via_stack_west_center)
-        via_stack_east.dmove(via_stack_east_center)
+        via_stack_west.move(via_stack_west_center)
+        via_stack_east.move(via_stack_east_center)
 
         valid_orientations = {p.orientation for p in via.ports}
         p1 = via_stack_west.ports.filter(orientation=port_orientation1)

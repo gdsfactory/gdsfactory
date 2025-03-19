@@ -137,13 +137,13 @@ def disk(
     if bend_middle is not None:
         dx = (bend_middle.ports["o1"].dx + bend_middle.ports["o2"].dx) / 2.0
         dy = straight_left.ports["o2"].dy - 2 * dy + r_bend
-        circle.dmove((dx, dy))
+        circle.move((dx, dy))
     else:
         center = straight_left.ports["o2"].center
-        circle.dmove((center[0], center[1] + r_bend))
+        circle.move((center[0], center[1] + r_bend))
 
     if circle_cladding:
-        circle_cladding.dmove(circle.center)
+        circle_cladding.move(circle.center)
 
     c.add_port("o1", port=straight_left.ports["o1"])
     c.add_port("o2", port=straight_right.ports["o2"])

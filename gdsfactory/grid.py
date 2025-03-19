@@ -171,7 +171,7 @@ def grid_with_text(
                 text_anchor = text_anchor or "center"
                 o = np.array(text_offset)
                 d = np.array(getattr(size_info, text_anchor))
-                t.dmove(tuple(o + d))
+                t.move(tuple(o + d))
                 if text_mirror:
                     t.dmirror()
                 if text_rotation:

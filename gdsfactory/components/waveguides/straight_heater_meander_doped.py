@@ -198,7 +198,7 @@ def straight_heater_meander_doped(
             length=straight_length,
             cross_section=heater_cross_section,
         )
-        heater.dmovey(spacing * (rows // 2))
+        heater.movey(spacing * (rows // 2))
 
     if layers_doping and via_stack and heater is not None:
         via = via_stacke = via_stackw = gf.get_component(via_stack)

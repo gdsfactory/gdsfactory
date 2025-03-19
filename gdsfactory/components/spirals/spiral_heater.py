@@ -357,7 +357,7 @@ def spiral_racetrack_heater_metal(
         allow_layer_mismatch=True,
         allow_type_mismatch=True,
     )
-    heater_top.dmovey(spacing * num // 2)
+    heater_top.movey(spacing * num // 2)
     heater_bot = c << gf.components.straight(
         straight_length, cross_section=heater_cross_section
     )
@@ -368,7 +368,7 @@ def spiral_racetrack_heater_metal(
         allow_layer_mismatch=True,
         allow_type_mismatch=True,
     )
-    heater_bot.dmovey(-spacing * num // 2)
+    heater_bot.movey(-spacing * num // 2)
 
     heater_bend = c << gf.get_component(
         bend,
@@ -469,7 +469,7 @@ def spiral_racetrack_heater_doped(
         allow_layer_mismatch=True,
         allow_type_mismatch=True,
     )
-    heater_bot.dmovey(-spacing * (num // 2 - 1))
+    heater_bot.movey(-spacing * (num // 2 - 1))
     heater_top.connect(
         "e1",
         spiral.ports["o2"].copy_polar(),
@@ -477,7 +477,7 @@ def spiral_racetrack_heater_doped(
         allow_layer_mismatch=True,
         allow_type_mismatch=True,
     )
-    heater_top.dmovey(spacing * (num // 2 - 1))
+    heater_top.movey(spacing * (num // 2 - 1))
 
     c.add_ports(spiral.ports)
     c.add_ports(prefix="top_", ports=heater_top.ports)

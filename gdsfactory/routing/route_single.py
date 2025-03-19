@@ -96,7 +96,7 @@ def route_single(
         c = gf.Component()
         mmi1 = c << gf.components.mmi1x2()
         mmi2 = c << gf.components.mmi1x2()
-        mmi2.dmove((40, 20))
+        mmi2.move((40, 20))
         gf.routing.route_single(c, mmi1.ports["o2"], mmi2.ports["o1"], radius=5, cross_section="strip")
         c.plot()
     """
@@ -299,7 +299,7 @@ if __name__ == "__main__":
     # s = gf.c.wire_straight()
     # pt = c << s
     # pb = c << s
-    # pt.dmove((50, 50))
+    # pt.move((50, 50))
     # gf.routing.route_single_electrical(
     #     c,
     #     pb.ports["e2"],
@@ -314,7 +314,7 @@ if __name__ == "__main__":
     # w = gf.components.straight()
     # left = c << w
     # right = c << w
-    # right.dmove((100, 80))
+    # right.move((100, 80))
 
     # obstacle = gf.components.rectangle(size=(100, 10))
     # obstacle1 = c << obstacle
@@ -347,7 +347,7 @@ if __name__ == "__main__":
     # w = gf.components.wire_straight()
     # left = c << w
     # right = c << w
-    # right.dmove((100, 80))
+    # right.move((100, 80))
     # obstacle = gf.components.rectangle(size=(100, 10))
     # obstacle1 = c << obstacle
     # obstacle2 = c << obstacle
@@ -383,7 +383,7 @@ if __name__ == "__main__":
     #     length=0.1, cross_section="metal_routing", width=20
     # )
     # d = 200
-    # bot.dmove((d, d))
+    # bot.move((d, d))
 
     # p0 = top.ports["e2"]
     # p1 = bot.ports["e1"]
@@ -394,7 +394,7 @@ if __name__ == "__main__":
     # w = gf.components.straight()
     # left = c << w
     # right = c << w
-    # right.dmove((500, 80))
+    # right.move((500, 80))
 
     # obstacle = gf.components.rectangle(size=(100, 10), port_type=None)
     # obstacle1 = c << obstacle
@@ -422,7 +422,7 @@ if __name__ == "__main__":
     # c = gf.Component()
     # mmi1 = c << gf.components.mmi1x2()
     # mmi2 = c << gf.components.mmi1x2()
-    # mmi2.dmove((100, 50))
+    # mmi2.move((100, 50))
     # route = gf.routing.route_single(
     #     c,
     #     port1=mmi1.ports["o2"],
@@ -434,7 +434,7 @@ if __name__ == "__main__":
     c = gf.Component()
     s1 = c << gf.components.straight()
     s2 = c << gf.components.straight(width=2)
-    s2.dmove((100, 50))
+    s2.move((100, 50))
     route_ = gf.routing.route_single(
         c,
         port1=s1.ports["o2"],

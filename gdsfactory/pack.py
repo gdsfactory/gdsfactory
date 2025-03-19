@@ -244,7 +244,7 @@ def pack(
                         label.dmirror()
                     if text_rotation:
                         label.drotate(text_rotation)
-                    label.dmove(
+                    label.move(
                         np.array(text_offset) + getattr(d.dsize_info, text_anchor)
                     )
 

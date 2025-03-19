@@ -154,8 +154,8 @@ def straight_heater_doped_rib(
             via_stack_bot.dymax = -(heater_gap + width / 2 + via_stack_gap)
 
     if via_stack and via_stack_top and via_stack_bot:
-        via_stack_top.dmovex(xoffset_tip2)
-        via_stack_bot.dmovex(xoffset_tip2)
+        via_stack_top.movex(xoffset_tip2)
+        via_stack_bot.movex(xoffset_tip2)
 
     if via_stack_metal and via_stack and via_stack_section:
         via_stack_length = length + via_stack_metal_size[0]

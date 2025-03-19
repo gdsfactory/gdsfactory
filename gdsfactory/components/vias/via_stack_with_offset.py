@@ -162,7 +162,7 @@ def via_stack_with_offset(
                 column_pitch=pitch_x,
                 row_pitch=pitch_y,
             )
-            ref.dmove((x00, y00))
+            ref.move((x00, y00))
             y0 += height
             if ref.dxsize + enclosure > width or ref.dysize + enclosure > height:
                 warnings.warn(

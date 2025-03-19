@@ -35,8 +35,8 @@ def wafer(
             die_name = f"{col + 1}_{row + 1}" if die_name_col_row else str(i)
             die = gf.get_component(reticle, die_name=die_name)
             ref = c.add_ref(die)
-            ref.dmovex((row - cols[col] / 2) * xspacing)
-            ref.dmovey(col * yspacing)
+            ref.movex((row - cols[col] / 2) * xspacing)
+            ref.movey(col * yspacing)
             i += 1
 
     return c

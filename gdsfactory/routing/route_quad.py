@@ -49,8 +49,8 @@ def route_quad(
         c = gf.Component()
         pad1 = c << gf.components.pad(size=(50, 50))
         pad2 = c << gf.components.pad(size=(10, 10))
-        pad2.dmovex(100)
-        pad2.dmovey(50)
+        pad2.movex(100)
+        pad2.movey(50)
         gf.routing.route_quad(
             c,
             pad1.ports["e2"],
@@ -113,8 +113,8 @@ if __name__ == "__main__":
     # c = gf.Component(name="route")
     # pad1 = c << gf.components.pad(size=(50, 50))
     # pad2 = c << gf.components.pad(size=(10, 10))
-    # pad2.dmovex(100)
-    # pad2.dmovey(50)
+    # pad2.movex(100)
+    # pad2.movey(50)
     # route_gnd = c << route_quad(
     #     pad1.ports["e2"],
     #     pad2.ports["e4"],

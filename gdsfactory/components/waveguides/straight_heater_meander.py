@@ -183,7 +183,7 @@ def straight_heater_meander(
             length=straight_length,
             cross_section=heater_cross_section,
         )
-        heater.dmovey(spacing * (rows // 2))
+        heater.movey(spacing * (rows // 2))
 
     if layer_heater and via_stack and heater:
         via = gf.get_component(via_stack)
@@ -193,8 +193,8 @@ def straight_heater_meander(
 
         via_stack_west = c << via
         via_stack_east = c << via
-        via_stack_west.dmove(via_stack_west_center)
-        via_stack_east.dmove(via_stack_east_center)
+        via_stack_west.move(via_stack_west_center)
+        via_stack_east.move(via_stack_east_center)
 
         valid_orientations = {p.orientation for p in via.ports}
         p1 = via_stack_west.ports.filter(orientation=port_orientation1)

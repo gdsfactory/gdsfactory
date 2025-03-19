@@ -85,7 +85,7 @@ def text_lines(
     for i, texti in enumerate(text):
         t = gf.c.text_rectangular(text=texti, size=size, layer=layer)
         tref = c.add_ref(t)
-        tref.dmovey(-6 * size * (i + 1))
+        tref.movey(-6 * size * (i + 1))
     return c
 
 
