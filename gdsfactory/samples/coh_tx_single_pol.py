@@ -64,7 +64,7 @@ def coh_tx_single_pol(
     mzm_q = c << mzm_mod_p
 
     # Separate the two mzms so they don't overlap
-    mzm_q.dmovey(mzm_i.dymin - mzm_y_spacing - mzm_q.dymax)
+    mzm_q.movey(mzm_i.dymin - mzm_y_spacing - mzm_q.dymax)
     phase_shifter = gf.get_component(phase_shifter, length=phase_shifter_length)
 
     if balanced_phase_shifters:

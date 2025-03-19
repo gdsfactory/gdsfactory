@@ -57,7 +57,7 @@ def enclosing(
     c = gf.Component()
     c << gf.components.rectangle(size=(w1, w1), layer=layer1, centered=True)
     r2 = c << gf.components.rectangle(size=(w2, w2), layer=layer2, centered=True)
-    r2.dmovex(0.5)
+    r2.movex(0.5)
     return c
 
 
