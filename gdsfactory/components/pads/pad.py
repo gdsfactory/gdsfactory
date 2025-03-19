@@ -100,7 +100,7 @@ def pad_array(
     row_pitch: float = 150.0,
     port_orientation: AngleInDegrees = 0,
     size: Float2 | None = None,
-    layer: LayerSpec | None = None,
+    layer: LayerSpec | None = "MTOP",
     centered_ports: bool = False,
     auto_rename_ports: bool = False,
 ) -> Component:
@@ -145,7 +145,7 @@ def pad_array(
         column_pitch=column_pitch,
         row_pitch=row_pitch,
     )
-    width = size[0] if port_orientation in {90, 270} else size[1]
+    width = size[0] if int(port_orientation) in {90, 270} else size[1]
 
     for col in range(columns):
         for row in range(rows):
@@ -185,8 +185,14 @@ pad_array180 = partial(pad_array, port_orientation=180, columns=1, rows=3)
 
 
 if __name__ == "__main__":
-    c = pad_array()
+    # c = pad_array(port_orientation=270.)
     # c = pad_array(columns=3, centered_ports=True, port_orientation=90)
     # c = pad(port_orientations=[270])
-    c.pprint_ports()
+    pad = gf.components.pad
+    # c = gf.get_component(pad)
+
+    c = gf.components.pad_array(
+        port_orientation=270, pad=pad, size=(10, 10), column_pitch=15
+    )
+    # c.pprint_ports()
     c.show()

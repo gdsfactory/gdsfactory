@@ -1,5 +1,5 @@
 info: {}
-name: pad_array_Ppad_C6_R1_CP_935e7f93
+name: pad_array_Ppad_C6_R1_CP_686e97b5
 settings:
   auto_rename_ports: false
   centered_ports: false
@@ -10,6 +10,3 @@ settings:
   port_orientation: 0
   row_pitch: 150
   rows: 1
-  size:
-  - 100
-  - 100
