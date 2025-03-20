@@ -13,7 +13,7 @@ notebooks/demo.png
 notebooks/demo.yml
 notebooks/demo_jinja_loops.pic.yml
 notebooks/schematic.yaml
-
+uv.lock
 
 # C extensions
 *.so
