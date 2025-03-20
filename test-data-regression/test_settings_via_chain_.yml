@@ -1,8 +1,9 @@
 info: {}
-name: via_chain_NV100_C10_Vvi_a44e7637
+name: via_chain_NV100_C10_Vvi_2518d565
 settings:
   cols: 10
   contact: via_stack_m2_m3
+  contact_offset: 0
   layers_bot:
   - M1
   layers_top:
