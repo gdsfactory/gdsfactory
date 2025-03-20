@@ -724,7 +724,7 @@ def test_component_absorb() -> None:
     ref = c.add_ref(c2)
 
     c.absorb(ref)
-    assert len(list(c.insts)) == 0
+    assert not list(c.insts)
     assert len(list(c.shapes(get_layer((1, 0))))) == 1
 
 

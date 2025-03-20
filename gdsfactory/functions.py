@@ -175,6 +175,7 @@ def get_polygons(
         if layer_key not in polygons:
             polygons[layer_key] = []
         if smooth:
+            print("smooth")
             r.smooth(round(smooth / c.kcl.dbu))
         if merge:
             r.merge()
