@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.3.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.3.0) - 2025-03-20
+
+No significant changes.
+
+
 ## [9.2.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.2.2) - 2025-03-17
 
 - add length_taper_start for mmi_tapered [#3731](https://github.com/gdsfactory/gdsfactory/pull/3731)
