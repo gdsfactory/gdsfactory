@@ -130,6 +130,7 @@ def get_polygons(
     merge: bool = False,
     by: Literal["index", "name", "tuple"] = "index",
     layers: LayerSpecs | None = None,
+    smooth: float | None = None,
 ) -> GetPolygonsResult:
     """Returns a dict of Polygons per layer.
 
@@ -138,6 +139,7 @@ def get_polygons(
         merge: if True, merges the polygons.
         by: the format of the resulting keys in the dictionary ('index', 'name', 'tuple').
         layers: list of layer specs to extract the polygons from. If None, extracts all layers.
+        smooth: if True, smooths the polygons.
     """
     from gdsfactory.pdk import get_layer, get_layer_name, get_layer_tuple
 
@@ -172,6 +174,8 @@ def get_polygons(
             )
         if layer_key not in polygons:
             polygons[layer_key] = []
+        if smooth:
+            r.smooth(round(smooth / c.kcl.dbu))
         if merge:
             r.merge()
         for p in r.each():

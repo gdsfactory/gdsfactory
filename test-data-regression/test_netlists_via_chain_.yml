@@ -148,7 +148,7 @@ instances:
       vias:
       - via2
       - null
-name: via_chain_NV100_C10_Vvi_a44e7637
+name: via_chain_NV100_C10_Vvi_2518d565
 nets: []
 placements:
   rectangle_S2p7_6p4_LM2__c8f1a350_36000_m1000:

@@ -664,6 +664,7 @@ class Component(ComponentBase, kf.DKCell):
         merge: bool = False,
         by: Literal["index", "name", "tuple"] = "index",
         layers: "LayerSpecs | None" = None,
+        smooth: float | None = None,
     ) -> dict[tuple[int, int] | str | int, list[kf.kdb.Polygon]]:
         """Returns a dict of Polygons per layer.
 
@@ -671,13 +672,14 @@ class Component(ComponentBase, kf.DKCell):
             merge: if True, merges the polygons.
             by: the format of the resulting keys in the dictionary ('index', 'name', 'tuple')
             layers: list of layers to get polygons from. Defaults to all layers.
+            smooth: if True, smooths the polygons.
         """
         if merge and self.locked:
             raise LockedError(self)
 
         from gdsfactory.functions import get_polygons
 
-        return get_polygons(self, merge=merge, by=by, layers=layers)
+        return get_polygons(self, merge=merge, by=by, layers=layers, smooth=smooth)
 
     def get_polygons_points(
         self,

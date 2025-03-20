@@ -19,6 +19,7 @@ def via_chain(
     offsets_bot: tuple[float, ...] = (0,),
     via_min_enclosure: float = 1.0,
     min_metal_spacing: float = 1.0,
+    contact_offset: float = 0.0,
 ) -> Component:
     """Via chain to extract via resistance.
 
@@ -33,6 +34,7 @@ def via_chain(
         offsets_bot: list of bottom layer offsets.
         via_min_enclosure: via_min_enclosure.
         min_metal_spacing: min_metal_spacing.
+        contact_offset: contact offset.
 
     .. code::
 
@@ -146,16 +148,20 @@ def via_chain(
     contact1 = c << contact
     contact2 = c << contact
 
-    contact1.xmax = top_wires.xmin
-    contact2.xmax = top_wires.xmin
+    contact1.xmax = top_wires.xmin + contact_offset
+    contact2.xmax = top_wires.xmin + contact_offset
 
-    contact1.ymax = top_wires.ymin + wire_width
-    contact2.ymin = top_wires.ymax - wire_width
+    contact1.ymax = top_wires.ymin + wire_width + contact_offset
+    contact2.ymin = top_wires.ymax - wire_width - contact_offset
     c.add_port(name="e1", port=contact1.ports["e1"])
     c.add_port(name="e2", port=contact2.ports["e1"])
     return c
 
 
 if __name__ == "__main__":
-    c = via_chain(num_vias=40)
+    contact = gf.c.via_stack(
+        layers=("M1", "M2", "MTOP"),
+        layer_offsets=(-2, -2, 0),
+    )
+    c = via_chain(num_vias=40, contact=contact, contact_offset=2)
     c.show()
