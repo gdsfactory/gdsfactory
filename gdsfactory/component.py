@@ -700,7 +700,7 @@ class Component(ComponentBase, kf.DKCell):
         layer_index = get_layer(layer)
         r = kdb.Region(self.kdb_cell.begin_shapes_rec(layer_index))
         if smooth:
-            r.smooth(round(smooth / self.kcl.dbu))
+            r.smooth(self.kcl.to_dbu(smooth))
         if merge:
             r.merge()
         return r
