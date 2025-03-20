@@ -24,9 +24,9 @@ def pads_correct(
     tr = c << pad_c
     br = c << pad_c
 
-    tl.dmove((0, 300))
-    br.dmove((500, 0))
-    tr.dmove((500, 500))
+    tl.move((0, 300))
+    br.move((500, 0))
+    tr.move((500, 500))
 
     c.add_label("tl", position=tl.center, layer=layer)
     c.add_label("tr", position=tr.center, layer=layer)
@@ -56,9 +56,9 @@ def pads_shorted(
     tr = c << pad_c
     br = c << pad_c
 
-    tl.dmove((0, 300))
-    br.dmove((500, 0))
-    tr.dmove((500, 500))
+    tl.move((0, 300))
+    br.move((500, 0))
+    tr.move((500, 500))
 
     c.add_label("tl", position=tl.center, layer=layer)
     c.add_label("tr", position=tr.center, layer=layer)

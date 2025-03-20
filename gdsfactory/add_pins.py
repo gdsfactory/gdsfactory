@@ -13,7 +13,7 @@ from __future__ import annotations
 import json
 import warnings
 from functools import partial
-from typing import Any, Protocol
+from typing import Any, Protocol, cast
 
 import kfactory as kf
 import numpy as np
@@ -123,7 +123,9 @@ def get_pin_triangle_polygon_tip(
     p1 = p.center + _rotate(dtop, rot_mat)
     port_face = [p0, p1]
 
-    ptip: tuple[float, float] = tuple(map(float, p.center + _rotate(dtip, rot_mat)))  # type: ignore[assignment]
+    ptip = cast(
+        tuple[float, float], tuple(map(float, p.center + _rotate(dtip, rot_mat)))
+    )
 
     polygon = list(port_face) + [ptip]
     polygon_stacked = np.stack(polygon)
@@ -389,8 +391,11 @@ add_pins_siepic_electrical = partial(
 
 class AddPinFunction(Protocol):
     def __call__(
-        self, component: Component, port: typings.Port, **kwargs: Any
-    ) -> None: ...
+        self,
+        component: Component,
+        port: typings.Port,
+        **kwargs: Any,
+    ) -> Any: ...
 
 
 def add_pins(
@@ -428,8 +433,8 @@ add_pin_inside1nm = partial(
     add_pin_rectangle_inside, pin_length=1 * nm, layer_label=None
 )
 add_pin_inside2um = partial(add_pin_rectangle_inside, pin_length=2, layer_label=None)
-add_pins_inside1nm = partial(add_pins, function=add_pin_inside1nm)  # type: ignore[arg-type]
-add_pins_inside2um = partial(add_pins, function=add_pin_inside2um)  # type: ignore[arg-type]
+add_pins_inside1nm = partial(add_pins, function=add_pin_inside1nm)
+add_pins_inside2um = partial(add_pins, function=add_pin_inside2um)
 
 
 def add_settings_label(
@@ -490,8 +495,7 @@ def add_instance_label(
         warnings.warn("Layer LABEL_INSTANCE not found in PDK.layers, using (1, 0)")
         layer = (1, 0)
     instance_name = (
-        instance_name
-        or f"{reference.cell.name},{int(reference.dx)},{int(reference.dy)}"
+        instance_name or f"{reference.cell.name},{int(reference.x)},{int(reference.y)}"
     )
 
     layer = layer or CONF.layer_label
@@ -544,7 +548,7 @@ def add_pins_and_outline(
 
 
 add_pins_container = partial(container, function=add_pins)
-add_pins_siepic_container = partial(container, function=add_pins_siepic)  # type: ignore[arg-type]
+add_pins_siepic_container = partial(container, function=add_pins_siepic)
 
 if __name__ == "__main__":
     import gdsfactory as gf

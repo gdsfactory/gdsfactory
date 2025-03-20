@@ -8,7 +8,6 @@ from kfactory.exceptions import LockedError
 
 import gdsfactory as gf
 from gdsfactory.component import (
-    ComponentReference,
     container,
     copy,
     ensure_tuple_of_tuples,
@@ -269,9 +268,9 @@ def test_component_reference_setters() -> None:
     straight = gf.components.straight(length=10).copy()
     ref = c << straight
 
-    ref.x = 5.0  # type: ignore
+    ref.x = 5.0
     assert ref.dx == 5.0
-    ref.y = 10.0  # type: ignore
+    ref.y = 10.0
     assert ref.dy == 10.0
 
 
@@ -281,10 +280,10 @@ def test_component_reference_transformations() -> None:
     ref = c << straight
 
     original_pos = ref.center
-    ref.move((1.0, 2.0))  # type: ignore
+    ref.move((1.0, 2.0))
     assert ref.center != original_pos
 
-    ref.rotate(90)  # type: ignore
+    ref.rotate(90)
     ref.mirror()
 
 
@@ -327,7 +326,7 @@ def test_component_references_iter() -> None:
     assert len(refs) == 2
     assert refs[0].instance == ref.instance
     assert refs[1].instance == ref2.instance
-    assert all(isinstance(r, ComponentReference) for r in refs)
+    assert all(isinstance(r, kf.DInstance) for r in refs)
 
 
 def test_component_references_delitem() -> None:
@@ -630,8 +629,6 @@ def test_get_boxes() -> None:
     ref = c2 << c
     ref.move((100, 100))
 
-    c2.show()
-
     boxes = c2.get_boxes(layer=(1, 0), recursive=True)
     assert len(boxes) == 1
     assert boxes[0].left == 100
@@ -735,13 +732,6 @@ def test_layers() -> None:
     c = gf.Component()
     c.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(1, 0))
     assert c.layers == [(1, 0)]
-
-
-def test_component_pprint_ports() -> None:
-    c = gf.Component()
-    c.add_port(name="port1", layer=(1, 0), center=(0, 0), width=10)
-    c.add_port(name="port2", layer=(2, 0), center=(10, 0), width=10)
-    c.pprint_ports()
 
 
 def test_get_netlist_recursive() -> None:

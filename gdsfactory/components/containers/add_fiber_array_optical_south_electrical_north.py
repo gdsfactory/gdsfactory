@@ -106,8 +106,8 @@ def add_fiber_array_optical_south_electrical_north(
         columns=npads,
         column_pitch=pad_pitch,
     )
-    pads.dx = r.dx
-    pads.dymin = r.dymin + pad_gc_spacing
+    pads.x = r.x
+    pads.ymin = r.ymin + pad_gc_spacing
 
     electrical_ports = [r[por_name] for por_name in electrical_port_names_list]
     nroutes = min(len(electrical_ports), npads)
@@ -131,10 +131,10 @@ if __name__ == "__main__":
     import gdsfactory as gf
     from gdsfactory import cross_section as xs
 
-    c = gf.c.add_fiber_array_optical_south_electrical_north(
+    c = add_fiber_array_optical_south_electrical_north(
         component=gf.c.straight_heater_metal,
-        pad=gf.c.pad,  # type: ignore
-        grating_coupler=gf.c.grating_coupler_te,  # type: ignore
+        pad=gf.c.pad,
+        grating_coupler=gf.c.grating_coupler_te,
         cross_section_metal=xs.metal_routing,
         pad_pitch=100,
     )

@@ -54,15 +54,15 @@ def die_with_pads(
         radius=loopback_radius,
     )
     left = c << gca
-    left.drotate(-90)
-    left.dxmin = -xs / 2 + edge_to_grating_distance
-    left.dy = fp.dy
+    left.rotate(-90)
+    left.xmin = -xs / 2 + edge_to_grating_distance
+    left.y = fp.y
     c.add_ports(left.ports, prefix="W")
 
     right = c << gca
-    right.drotate(+90)
-    right.dxmax = xs / 2 - edge_to_grating_distance
-    right.dy = fp.dy
+    right.rotate(+90)
+    right.xmax = xs / 2 - edge_to_grating_distance
+    right.y = fp.y
     c.add_ports(right.ports, prefix="E")
 
     # Add electrical ports
@@ -72,8 +72,8 @@ def die_with_pads(
     # north pads
     for i in range(npads):
         pad_ref = c << pad
-        pad_ref.dxmin = x0 + i * pad_pitch
-        pad_ref.dymax = ys / 2 - edge_to_pad_distance
+        pad_ref.xmin = x0 + i * pad_pitch
+        pad_ref.ymax = ys / 2 - edge_to_pad_distance
         c.add_port(
             name=f"N{i}",
             port=pad_ref.ports["e4"],
@@ -84,8 +84,8 @@ def die_with_pads(
     # south pads
     for i in range(npads):
         pad_ref = c << pad
-        pad_ref.dxmin = x0 + i * pad_pitch
-        pad_ref.dymin = -ys / 2 + edge_to_pad_distance
+        pad_ref.xmin = x0 + i * pad_pitch
+        pad_ref.ymin = -ys / 2 + edge_to_pad_distance
         c.add_port(
             name=f"S{i}",
             port=pad_ref.ports["e2"],

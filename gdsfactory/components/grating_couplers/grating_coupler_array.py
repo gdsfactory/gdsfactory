@@ -40,8 +40,8 @@ def grating_coupler_array(
 
     for i in range(n):
         gc = c << grating_coupler
-        gc.drotate(rotation)
-        gc.dx = (i - (n - 1) / 2) * pitch if centered else i * pitch
+        gc.rotate(rotation)
+        gc.x = (i - (n - 1) / 2) * pitch if centered else i * pitch
         port_name_new = f"o{i}"
         ports[port_name_new] = gc.ports[port_name]
         if not with_loopback or i not in [0, n - 1]:
@@ -61,8 +61,8 @@ def grating_coupler_array(
         radius_dbu = round(radius / c.kcl.dbu)
         d_loop_um = straight_to_grating_spacing + max(
             [
-                grating_coupler.dysize,
-                grating_coupler.dxsize,
+                grating_coupler.ysize,
+                grating_coupler.xsize,
             ]
         )
         d_loop = round(d_loop_um / c.kcl.dbu) + radius_dbu
@@ -79,7 +79,7 @@ def grating_coupler_array(
             c,
             port1=port0,
             port2=port1,
-            waypoints=waypoints_,  # type: ignore
+            waypoints=waypoints_,
             cross_section=cross_section,
         )
 

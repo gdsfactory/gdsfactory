@@ -16,8 +16,8 @@ from rich.table import Table
 if TYPE_CHECKING:
     pass
 
-__version__ = "9.1.0"
-__next_major_version__ = "9.1.0"
+__version__ = "9.2.2"
+__next_major_version__ = "9.2.2"
 
 PathType = str | pathlib.Path
 
@@ -114,7 +114,7 @@ class Config(Settings):
     port_types_grating_couplers: list[str]
 
 
-CONF: Config = config  # type: ignore
+CONF: Config = config  # type: ignore[assignment]
 CONF.difftest_ignore_label_differences = False
 CONF.difftest_ignore_sliver_differences = False
 CONF.difftest_ignore_cell_name_differences = True

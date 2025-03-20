@@ -22,7 +22,7 @@ def test_route_bundle_west_to_north(
     )
     pl = c << pad_south
     pb = c << pad_north
-    pl.drotate(90)
+    pl.rotate(90)
     pb.dmove((100, -100))
 
     pbports = pb.ports
@@ -87,5 +87,5 @@ def test_route_bundle_west_to_north2(
 
 
 if __name__ == "__main__":
-    # test_route_bundle_west_to_north(None, check=False)
-    test_route_bundle_west_to_north2(None, check=False)
+    test_route_bundle_west_to_north(None, check=False)
+    # test_route_bundle_west_to_north2(None, check=False)

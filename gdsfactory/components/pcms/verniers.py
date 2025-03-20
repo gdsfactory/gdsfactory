@@ -36,7 +36,7 @@ def verniers(
             straight, width=width, length=xsize, cross_section=cross_section, **kwargs
         )
         y += width / 2
-        w.dy = y
+        w.y = y
         c.add_label(text=str(int(width * 1e3)), position=(0, y), layer=layer_label)
         y += width / 2 + gap
 

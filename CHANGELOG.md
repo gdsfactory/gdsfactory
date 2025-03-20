@@ -1,7 +1,27 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.1.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.2.2...main)
 
 <!-- towncrier release notes start -->
+
+## [9.2.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.2.2) - 2025-03-17
+
+- add length_taper_start for mmi_tapered [#3731](https://github.com/gdsfactory/gdsfactory/pull/3731)
+- Improve ring double coupler [#3730](https://github.com/gdsfactory/gdsfactory/pull/3730)
+- better ascii docs [#3729](https://github.com/gdsfactory/gdsfactory/pull/3729)
+
+## [9.2.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.2.1) - 2025-03-16
+
+- Fix mypy and pre-commit [#3728](https://github.com/gdsfactory/gdsfactory/pull/3728)
+- Add mypy to pre-commit and fix mypy issues [#3708](https://github.com/gdsfactory/gdsfactory/pull/3708)
+- improve docstrings for heaters [#3727](https://github.com/gdsfactory/gdsfactory/pull/3727)
+- Unbound pydantic dependency [#3726](https://github.com/gdsfactory/gdsfactory/pull/3726)
+
+## [9.2.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.2.0) - 2025-03-15
+
+- Add __name__ to ComponentFunc [#3720](https://github.com/gdsfactory/gdsfactory/pull/3720)
+- add terminator_spiral [#3718](https://github.com/gdsfactory/gdsfactory/pull/3718)
+- Fix deembed [#3722](https://github.com/gdsfactory/gdsfactory/pull/3722)
+- unpin klayout [#3723](https://github.com/gdsfactory/gdsfactory/pull/3723)
 
 ## [9.1.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.1.0) - 2025-03-09
 

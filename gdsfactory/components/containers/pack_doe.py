@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import itertools as it
 from collections.abc import Mapping, Sequence
-from typing import Any
+from typing import Any, cast
+
+import kfactory as kf
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -48,7 +50,7 @@ def generate_doe(
 @gf.cell
 def pack_doe(
     doe: ComponentSpec,
-    settings: Mapping[str, Sequence[Any]],
+    settings: Mapping[str, Sequence[kf.typings.MetaData]],
     do_permutations: bool = False,
     function: CellSpec | None = None,
     **kwargs: Any,
@@ -92,14 +94,14 @@ def pack_doe(
 
     component = components[0]
     component.info["doe_names"] = [component.name for component in component_list]
-    component.info["doe_settings"] = settings_list  # type: ignore
+    component.info["doe_settings"] = cast(kf.typings.MetaData, settings_list)
     return component
 
 
 @gf.cell
 def pack_doe_grid(
     doe: ComponentSpec,
-    settings: Mapping[str, Sequence[Any]],
+    settings: Mapping[str, Sequence[kf.typings.MetaData]],
     do_permutations: bool = False,
     function: CellSpec | None = None,
     with_text: bool = False,
@@ -138,11 +140,13 @@ def pack_doe_grid(
     if function:
         function = gf.get_cell(function)
         component_list = [
-            function(gf.get_component(doe, **settings)) for settings in settings_list
+            function(gf.get_component(doe, settings=None, **settings))
+            for settings in settings_list
         ]
     else:
         component_list = [
-            gf.get_component(doe, **settings) for settings in settings_list
+            gf.get_component(doe, settings=None, **settings)
+            for settings in settings_list
         ]
 
     if with_text:
@@ -152,7 +156,7 @@ def pack_doe_grid(
         c = grid(component_list, **kwargs)
 
     c.info["doe_names"] = [component.name for component in component_list]
-    c.info["doe_settings"] = settings_list  # type: ignore
+    c.info["doe_settings"] = cast(kf.typings.MetaData, settings_list)
     return c
 
 

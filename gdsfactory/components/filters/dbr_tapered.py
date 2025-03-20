@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import cast
+
 import gdsfactory as gf
 from gdsfactory import Component
 from gdsfactory.snap import snap_to_grid2x
@@ -40,7 +42,7 @@ def _generate_fins(
             port_orientations=None,
         )
         rectangle_input = c << rectangle
-        rectangle_input.dmove(
+        rectangle_input.move(
             origin=(x0, y0),
             destination=(
                 x0 + fin_size[0] / 2.0 - (2 * taper_length) / 2.0,
@@ -49,7 +51,7 @@ def _generate_fins(
         )
 
         rectangle_output = c << rectangle
-        rectangle_output.dmove(
+        rectangle_output.move(
             origin=(x0, y0),
             destination=(
                 xend - fin_size[0] / 2.0 - (2 * taper_length) / 2.0,
@@ -112,8 +114,8 @@ def dbr_tapered(
     straight = c << gf.components.straight(
         length=length, cross_section=cross_section, width=w1
     )
-    straight.dx = 0
-    straight.dy = 0
+    straight.x = 0
+    straight.y = 0
 
     output_taper = c << gf.components.taper(
         length=taper_length,
@@ -126,15 +128,15 @@ def dbr_tapered(
     output_taper.connect("o1", straight.ports["o2"])
     num = (2 * taper_length + length) // period
 
-    size: tuple[float, float] = tuple(snap_to_grid2x((period * dc, w2)))  # type: ignore
+    size = cast(tuple[float, float], tuple(snap_to_grid2x((period * dc, w2))))
     assert xs.layer is not None
     teeth = gf.components.rectangle(size=size, layer=xs.layer, port_type=None)
 
     periodic_structures = c << gf.components.array(
         component=teeth, columns=int(num), column_pitch=period
     )
-    periodic_structures.dx = 0
-    periodic_structures.dy = 0
+    periodic_structures.x = 0
+    periodic_structures.y = 0
 
     if fins:
         _generate_fins(

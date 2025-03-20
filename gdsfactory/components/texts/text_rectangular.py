@@ -6,6 +6,7 @@ from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.components.containers.copy_layers import copy_layers
 from gdsfactory.components.texts.text_rectangular_font import (
     pixel_array,
     rectangular_font,
@@ -60,7 +61,7 @@ def text_rectangular(
                     ref = component.add_ref(
                         pixel_array(pixels=pixels, pixel_size=pixel_size, layer=layer)
                     )
-                    ref.dmove((xoffset, yoffset))
+                    ref.move((xoffset, yoffset))
                     component.absorb(ref)
                 xoffset += pixel_size * xoffset_factor
 
@@ -71,11 +72,11 @@ def text_rectangular(
     ref = c << component
     justify = justify.lower()
     if justify == "left":
-        ref.dxmin = position[0]
+        ref.xmin = position[0]
     elif justify == "right":
-        ref.dxmax = position[0]
+        ref.xmax = position[0]
     elif justify == "center":
-        ref.dx = 0
+        ref.x = 0
     else:
         raise ValueError(f"{justify=} not valid (left, center, right)")
     c.flatten()
@@ -103,7 +104,7 @@ def text_rectangular_multi_layer(
         justify: left, right or center.
         font: function that returns dictionary of characters.
     """
-    return gf.c.copy_layers(factory=text_factory, text=text, layers=layers, **kwargs)
+    return copy_layers(factory=text_factory, text=text, layers=layers, **kwargs)
 
 
 text_rectangular_mini = partial(text_rectangular, size=1)

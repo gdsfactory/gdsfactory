@@ -37,17 +37,17 @@ def pad_gsg_short(
         c << via
     gnd_bot = c << via
 
-    gnd_bot.dymax = via.dymin
-    gnd_top.dymin = via.dymax
+    gnd_bot.ymax = via.ymin
+    gnd_top.ymin = via.ymax
 
-    gnd_top.dmovex(-metal_spacing)
-    gnd_bot.dmovex(-metal_spacing)
+    gnd_top.movex(-metal_spacing)
+    gnd_bot.movex(-metal_spacing)
 
     pads = c << gf.components.array(
         pad, columns=1, rows=3, column_pitch=0, row_pitch=pad_pitch, centered=True
     )
-    pads.dxmin = via.dxmax + route_xsize
-    pads.dy = 0
+    pads.xmin = via.xmax + route_xsize
+    pads.y = 0
 
     gf.routing.route_quad(
         c, gnd_bot.ports["e4"], pads.ports["e1_1_1"], layer=layer_metal

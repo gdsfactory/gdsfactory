@@ -51,7 +51,7 @@ instances:
       length: 0.01
       npoints: 2
       width: null
-name: ring_double_G0p2_GTNone_9ee873d5
+name: ring_double_G0p2_GTNone_e188e55d
 nets:
 - p1: coupler_ring_G0p2_R10_L_f700a51f_0_0,o2
   p2: straight_L0p01_N2_CSstrip_WNone_m10010_10700,o1

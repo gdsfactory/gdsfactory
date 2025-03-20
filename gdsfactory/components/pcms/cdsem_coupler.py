@@ -37,7 +37,7 @@ def cdsem_coupler(
         xs = gf.get_cross_section(cross_section, width=width)
     else:
         xs = gf.get_cross_section(cross_section)
-    p = 0
+    p = 0.0
 
     if positions is not None:
         positions = positions or [None] * len(gaps)
@@ -46,12 +46,12 @@ def cdsem_coupler(
 
     for gap, position in zip(gaps, positions):
         line = c << gf.c.coupler_straight(length=length, cross_section=xs, gap=gap)
-        p = position or p  # type: ignore
-        line.dymin = p
+        p = position or p
+        line.ymin = p
         if text:
             t = c << gf.get_component(text, text=str(int(gap * 1e3)), size=text_size)
-            t.dxmin = line.dxmax + 5
-            t.dymin = p
+            t.xmin = line.xmax + 5
+            t.ymin = p
 
     return c
 

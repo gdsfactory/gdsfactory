@@ -57,7 +57,7 @@ def test_preview_layerset() -> None:
     from gdsfactory.generic_tech import get_generic_pdk
 
     PDK = get_generic_pdk()
-    LAYER_VIEWS = PDK.layer_views
+    LAYER_VIEWS = PDK.get_layer_views()
     c = LAYER_VIEWS.preview_layerset()
     assert c
 

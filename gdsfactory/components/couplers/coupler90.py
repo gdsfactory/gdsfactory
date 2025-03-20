@@ -56,7 +56,7 @@ def coupler90(
     width = x.width
 
     pbw = bend90_ports[0]
-    bend_ref.dmovey(pbw.dy + gap + width)
+    bend_ref.movey(pbw.y + gap + width)
     c.add_ports(wg_ref.ports, prefix="wg")
     c.add_ports(bend_ref.ports, prefix="bend")
     c.auto_rename_ports()

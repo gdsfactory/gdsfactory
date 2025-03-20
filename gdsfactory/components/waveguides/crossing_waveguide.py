@@ -92,7 +92,7 @@ def crossing(
     arm = gf.get_component(arm)
     for rotation in [0, 90, 180, 270]:
         ref = c << arm
-        ref.drotate(rotation)
+        ref.rotate(rotation)
         c.add_port(port=ref["o2"])
     c.auto_rename_ports()
     c.flatten()
@@ -237,7 +237,7 @@ def crossing45(
 
     c = Component()
     x = c << crossing
-    x.drotate(45)
+    x.rotate(45)
 
     p_e = x.ports["o3"].center
     dx = dx or port_spacing

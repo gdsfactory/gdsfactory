@@ -92,9 +92,9 @@ def cdsem_all(
     ymin = 0.0
     for d in all_devices:
         ref = c.add_ref(d)
-        ref.dxmin = 0
-        ref.dymin = ymin
-        ymin += ref.dysize + spacing
+        ref.xmin = 0
+        ref.ymin = ymin
+        ymin += ref.ysize + spacing
 
     return c
 

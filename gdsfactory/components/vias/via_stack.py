@@ -52,7 +52,7 @@ def via_stack(
     layers = layers or []
     layer_offsets = layer_offsets or [0] * len(layers)
     layer_to_port_orientations_list = layer_to_port_orientations or {
-        layers[-1]: port_orientations  # type: ignore
+        layers[-1]: list(port_orientations or [])
     }
 
     for layer in layer_to_port_orientations_list:
@@ -129,7 +129,7 @@ def via_stack(
                     f"Component {_via.name!r} does not have a 'row_pitch' key in info"
                 )
 
-            w, h = _via.dxsize, _via.dysize
+            w, h = _via.xsize, _via.ysize
             enclosure = _via.info["enclosure"]
             pitch_y = _via.info["row_pitch"]
             pitch_x = _via.info["column_pitch"]
@@ -184,7 +184,7 @@ def via_stack(
             ch = (height - (nb_vias_y - 1) * pitch_y - h) / 2
             x0 = -a + cw + w / 2
             y0 = -b + ch + h / 2
-            ref.dmove((x0, y0))
+            ref.move((x0, y0))
     return c
 
 
@@ -241,10 +241,10 @@ def via_stack_corner45(
     assert ref is not None
 
     width_corner = width
-    width = ref.dxsize
-    height = ref.dysize
-    xmin = ref.dxmin
-    ymin = ref.dymin
+    width = ref.xsize
+    height = ref.ysize
+    xmin = ref.xmin
+    ymin = ref.ymin
 
     vias_list = vias or []
     for via, offset in zip(vias_list, layer_offsets_list):
@@ -322,7 +322,7 @@ def via_stack_corner45(
                     # Place the vias at the given x, y
                     for i in range(int(vias_per_row)):
                         ref = c << via
-                        ref.center = (xpos0 + pitch_x * i + w / 2, y)  # type: ignore
+                        ref.center = (xpos0 + pitch_x * i + w / 2, y)
 
                 y_covered = y_covered + h + pitch_y
 

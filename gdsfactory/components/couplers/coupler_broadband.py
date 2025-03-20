@@ -56,8 +56,8 @@ def coupler_broadband(
         coupler_straight, length=L_1, cross_section=cross_section, gap=gap_sc
     )
     coupler1 = c << coupler
-    coupler1.dxmin = -L_2 / 2 - L_t - L_1
-    coupler1.dy = y_coupler
+    coupler1.xmin = -L_2 / 2 - L_t - L_1
+    coupler1.y = y_coupler
 
     _bend = gf.get_component(bend, radius=radius, cross_section=cross_section)
     bend_lt = c << _bend
@@ -94,8 +94,8 @@ def coupler_broadband(
 
     for section in xs.sections[1:]:
         w = section.width / 2
-        layer = section.layer  # type: ignore
-        assert layer is not None
+        layer_ = section.layer
+        assert layer_ is not None
         vertices_top = [
             (L_2 / 2 + L_t, -w),
             (L_2 / 2 + L_t, w),
@@ -107,7 +107,7 @@ def coupler_broadband(
             (-L_2 / 2 - L_t, -w),
         ]
 
-        c.add_polygon(vertices_top, layer=layer)
+        c.add_polygon(vertices_top, layer=layer_)
 
         # define vertices of the bottom waveguide
         vertices_bot = [
@@ -120,11 +120,11 @@ def coupler_broadband(
             (-L_2 / 2 - L_t, -gap_sc + w),
             (-L_2 / 2 - L_t, -gap_sc - w),
         ]
-        c.add_polygon(vertices_bot, layer=layer)
+        c.add_polygon(vertices_bot, layer=layer_)
 
     coupler2 = c << coupler
-    coupler2.dxmax = L_2 / 2 + L_t + L_1
-    coupler2.dy = y_coupler
+    coupler2.xmax = L_2 / 2 + L_t + L_1
+    coupler2.y = y_coupler
 
     _bend = gf.get_component(bend, radius=radius, cross_section=cross_section)
     bend_rt = c << _bend

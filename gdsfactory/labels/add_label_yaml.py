@@ -70,10 +70,10 @@ def add_label_yaml(
         analysis=analysis,
         measurement_settings=measurement_settings,
         analysis_settings=analysis_settings,
-        xopt=[int(optical_ports[0].dx - xc)] if optical_ports else [],
-        yopt=[int(optical_ports[0].dy - yc)] if optical_ports else [],
-        xelec=[int(electrical_ports[0].dx - xc)] if electrical_ports else [],
-        yelec=[int(electrical_ports[0].dy - yc)] if electrical_ports else [],
+        xopt=[int(optical_ports[0].x - xc)] if optical_ports else [],
+        yopt=[int(optical_ports[0].y - yc)] if optical_ports else [],
+        xelec=[int(electrical_ports[0].x - xc)] if electrical_ports else [],
+        yelec=[int(electrical_ports[0].y - yc)] if electrical_ports else [],
     )
     text = yaml.dump(convert_tuples_to_lists(d)) if with_yaml_format else json.dumps(d)
     component.add_label(

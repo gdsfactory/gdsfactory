@@ -7,7 +7,7 @@ import warnings
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.port import Port
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Layer, LayerSpec, Ports
+from gdsfactory.typings import CrossSectionSpec, LayerTransitions, Ports
 
 
 def add_auto_tapers(
@@ -32,8 +32,7 @@ def auto_taper_to_cross_section(
     component: gf.Component,
     port: Port,
     cross_section: CrossSectionSpec,
-    layer_transitions: dict[LayerSpec | tuple[Layer, Layer], ComponentSpec]
-    | None = None,
+    layer_transitions: LayerTransitions | None = None,
 ) -> Port:
     """Creates a taper from a port to a given cross section and places it in the component. The opposite port of the taper will be returned.
 

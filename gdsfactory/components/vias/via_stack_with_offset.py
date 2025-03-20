@@ -67,10 +67,10 @@ def via_stack_with_offset(
     offsets = list(offsets or [0] * len(layers))
     layer_offsets = list(layer_offsets or [0] * len(layers))
     if sizes:
-        sizes_list = list(sizes)  # type: ignore
+        sizes_list = list(sizes)
     else:
         assert size is not None
-        sizes_list = [size] * len(layers)  # type: ignore
+        sizes_list = [size] * len(layers)
 
     elements = {len(layers), len(layer_offsets), len(vias), len(sizes_list)}
     if len(elements) > 1:
@@ -100,7 +100,7 @@ def via_stack_with_offset(
         height += 2 * size_offset
         x0 = -width / 2
         ref_layer = c << gf.c.compass(size=(width, height), layer=layer, port_type=None)
-        ref_layer.dymin = y0
+        ref_layer.ymin = y0
 
         if layer in layer_to_port_orientations_dict:
             ref_layer = c << gf.c.compass(
@@ -162,9 +162,9 @@ def via_stack_with_offset(
                 column_pitch=pitch_x,
                 row_pitch=pitch_y,
             )
-            ref.dmove((x00, y00))
+            ref.move((x00, y00))
             y0 += height
-            if ref.dxsize + enclosure > width or ref.dysize + enclosure > height:
+            if ref.xsize + enclosure > width or ref.ysize + enclosure > height:
                 warnings.warn(
                     f"size = {size} for layer {layer} violates min enclosure"
                     f" {enclosure} for via {via.name!r}",
@@ -180,7 +180,7 @@ def via_stack_with_offset(
         port_type=None,
         port_orientations=None,
     )
-    ref.dymin = ref_layer.dymin
+    ref.ymin = ref_layer.ymin
     return c
 
 

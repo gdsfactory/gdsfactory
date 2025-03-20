@@ -108,24 +108,24 @@ def coh_rx_single_pol(
 
     # x placement
     for pd in pds:
-        pd.dxmin = hybrid.dxmax + det_spacing[0]
+        pd.xmin = hybrid.xmax + det_spacing[0]
 
     # y placement - we will place them in the same order as the outputs
     # of the 90 degree hybrid to avoid crossings
     hybrid_ports = {"I_out1": pd_i1, "I_out2": pd_i2, "Q_out1": pd_q1, "Q_out2": pd_q2}
 
     port_names = list(hybrid_ports.keys())
-    ports_y_pos = [hybrid.ports[port_name].dy for port_name in port_names]
+    ports_y_pos = [hybrid.ports[port_name].y for port_name in port_names]
     inds = np.argsort(ports_y_pos)
     port_names = [port_names[int(i)] for i in inds]
 
-    y_pos = hybrid.dy - 1.5 * det_spacing[1]
+    y_pos = hybrid.y - 1.5 * det_spacing[1]
 
     det_ports: list[Port] = []
     ports_hybrid: list[Port] = []
     for port_name in port_names:
         det = hybrid_ports[port_name]
-        det.dy = y_pos
+        det.y = y_pos
         y_pos = y_pos + det_spacing[1]
         det_ports.append(det.ports["o1"])
         ports_hybrid.append(hybrid.ports[port_name])
@@ -141,12 +141,12 @@ def coh_rx_single_pol(
     )
 
     # Add a port at the center
-    x_max = c.dxmax
+    x_max = c.xmax
     c.add_port(
         name="i_out",
         port_type="placement",
         layer="MTOP",
-        center=(x_max, (pd_i1.ports["bot_e3"].dy + pd_i2.ports["top_e3"].dy) / 2),
+        center=(x_max, (pd_i1.ports["bot_e3"].y + pd_i2.ports["top_e3"].y) / 2),
         orientation=0,
         width=2.0,
     )
@@ -159,14 +159,14 @@ def coh_rx_single_pol(
     )
 
     # Add a port
-    x_max = c.dxmax
+    x_max = c.xmax
     c.add_port(
         name="q_out",
         port_type="placement",
         layer="M2",
         center=(
             x_max,
-            (pd_q1.ports["bot_e3"].dy + pd_q2.ports["top_e3"].dy) / 2 - 15.0,
+            (pd_q1.ports["bot_e3"].y + pd_q2.ports["top_e3"].y) / 2 - 15.0,
         ),  # - 20.0 so that the traces for I and Q do not overlap
         orientation=0,
         width=2.0,

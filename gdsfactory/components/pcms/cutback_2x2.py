@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.components.containers.component_sequence import component_sequence
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
@@ -23,10 +24,12 @@ def _bendu_double(
         port2: name of second optical port.
     """
     xs = gf.get_cross_section(cross_section)
+    radius = xs.radius
+    assert radius is not None
 
     xs_r2 = gf.get_cross_section(
         cross_section,
-        radius=xs.radius - (component.ports[port1].dy - component.ports[port2].dy),  # type: ignore
+        radius=radius - (component.ports[port1].y - component.ports[port2].y),
     )
 
     bendu = Component()
@@ -35,8 +38,8 @@ def _bendu_double(
         bend180,
         cross_section=xs_r2,
     )
-    bend_r2_instance = bend_r2.dmove(
-        (0, component.ports[port1].dy - component.ports[port2].dy),
+    bend_r2_instance = bend_r2.move(
+        (0, component.ports[port1].y - component.ports[port2].y),
     )
     bendu.add_port("o1", port=bend_r.ports["o1"])
     bendu.add_port("o2", port=bend_r2_instance.ports["o1"])
@@ -65,22 +68,24 @@ def _straight_double(
         straight: straight spec.
     """
     xs = gf.get_cross_section(cross_section)
+    radius = xs.radius
+    assert radius is not None
 
     c = gf.Component()
     straight_component = gf.get_component(
         straight,
-        length=straight_length or xs.radius * 2,  # type: ignore
+        length=straight_length or radius * 2,
         cross_section=xs,
     )
     straight_component2 = gf.get_component(
         straight,
-        length=straight_length or xs.radius * 2,  # type: ignore
+        length=straight_length or radius * 2,
         cross_section=xs,
     )
     straight_r = c << straight_component
     straight_r2 = c << straight_component2
-    straight_r2_instance = straight_r2.dmove(
-        (0, -component.ports[port1].dy + component.ports[port2].dy),
+    straight_r2_instance = straight_r2.move(
+        (0, -component.ports[port1].y + component.ports[port2].y),
     )
     c.add_port("o1", port=straight_r.ports["o1"])
     c.add_port("o2", port=straight_r2_instance.ports["o1"])
@@ -167,7 +172,7 @@ def cutback_2x2(
 
     s = s[:-1]
     n = cols * rows * 2
-    c = gf.c.component_sequence(sequence=s, symbol_to_component=symbol_to_component)
+    c = component_sequence(sequence=s, symbol_to_component=symbol_to_component)
     c.ports.clear()
     c.add_port("o1", port=c.insts["A1"].ports["o1"])
     c.add_port("o2", port=c.insts["A1"].ports["o2"])

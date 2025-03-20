@@ -26,7 +26,7 @@ def pads_shorted(
     pad = gf.get_component(pad)
     for i in range(columns):
         pad_ref = c.add_ref(pad)
-        pad_ref.dmovex(i * pad_pitch - columns / 2 * pad_pitch + pad_pitch / 2)
+        pad_ref.movex(i * pad_pitch - columns / 2 * pad_pitch + pad_pitch / 2)
 
     short = gf.c.rectangle(
         size=(pad_pitch * (columns - 1), metal_width),

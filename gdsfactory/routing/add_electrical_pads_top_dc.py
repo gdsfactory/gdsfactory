@@ -69,8 +69,8 @@ def add_electrical_pads_top_dc(
 
     pad_array_component = gf.get_component(pad_array, columns=len(ports))
     pads = c << pad_array_component
-    pads.dx = cref.dx + spacing[0]
-    pads.dymin = cref.dymax + spacing[1]
+    pads.x = cref.x + spacing[0]
+    pads.ymin = cref.ymax + spacing[1]
 
     ports_pads = pads.ports.filter(orientation=270)
     ports_component = sort_ports_x(ports_component)

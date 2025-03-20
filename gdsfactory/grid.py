@@ -70,7 +70,7 @@ def grid(
         ),
         align_x=align_x,
         align_y=align_y,
-        rotation=rotation,  # type: ignore
+        rotation=rotation,
         mirror=mirror,
     )
     for i, instance in enumerate(instances):
@@ -156,7 +156,7 @@ def grid_with_text(
         ),
         align_x=align_x,
         align_y=align_y,
-        rotation=rotation,  # type: ignore[arg-type]
+        rotation=rotation,
         mirror=mirror,
     )
     for i, instance in enumerate(instances):
@@ -171,11 +171,11 @@ def grid_with_text(
                 text_anchor = text_anchor or "center"
                 o = np.array(text_offset)
                 d = np.array(getattr(size_info, text_anchor))
-                t.dmove(tuple(o + d))
+                t.move(tuple(o + d))
                 if text_mirror:
                     t.dmirror()
                 if text_rotation:
-                    t.drotate(text_rotation)
+                    t.rotate(text_rotation)
     return c
 
 

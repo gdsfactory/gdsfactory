@@ -127,9 +127,9 @@ def straight_heater_meander_doped(
         straight_with_tapers = gf.c.extend_ports(straight, extension=taper)
         straight_ref = c << straight_with_tapers
         if row < len(straight_widths) // 2:
-            straight_ref.dy = row * spacing
+            straight_ref.y = row * spacing
         else:
-            straight_ref.dy = (row + 1) * spacing
+            straight_ref.y = (row + 1) * spacing
         ports[f"o1_{row + 1}"] = straight_ref["o1"]
         ports[f"o2_{row + 1}"] = straight_ref["o2"]
 
@@ -198,7 +198,7 @@ def straight_heater_meander_doped(
             length=straight_length,
             cross_section=heater_cross_section,
         )
-        heater.dmovey(spacing * (rows // 2))
+        heater.movey(spacing * (rows // 2))
 
     if layers_doping and via_stack and heater is not None:
         via = via_stacke = via_stackw = gf.get_component(via_stack)

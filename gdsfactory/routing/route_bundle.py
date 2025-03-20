@@ -232,7 +232,6 @@ def route_bundle(
             x = d.get("x", x) + d.get("dx", 0)
             y = d.get("y", y) + d.get("dy", 0)
             waypoints += [(x, y)]
-
     if waypoints is not None and not isinstance(waypoints[0], kf.kdb.DPoint):
         waypoints_: list[kf.kdb.DPoint] | None = [
             kf.kdb.DPoint(p[0], p[1]) for p in waypoints
@@ -258,7 +257,7 @@ def route_bundle(
             bboxes=bboxes,
             route_width=width,
             sort_ports=sort_ports,
-            waypoints=waypoints_ if waypoints_ is not None else None,
+            waypoints=waypoints_,
             end_angles=end_angles,
             start_angles=start_angles,
         )
@@ -272,6 +271,7 @@ def route_bundle(
     )
 
     def straight_um(width: float, length: float) -> gf.Component:
+        print(width, length)
         return gf.get_component(
             straight, length=length, cross_section=cross_section, width=width
         )
@@ -328,8 +328,8 @@ if __name__ == "__main__":
     # pbot = c << gf.components.pad_array(port_orientation=270, columns=columns)
     # # pbot = c << gf.components.pad_array(port_orientation=90, columns=columns)
 
-    # ptop.dmovex(300)
-    # ptop.dmovey(300)
+    # ptop.movex(300)
+    # ptop.movey(300)
     # routes = gf.routing.route_bundle_electrical(
     #     c,
     #     list(reversed(pbot.ports)),
@@ -408,7 +408,7 @@ if __name__ == "__main__":
     # c = gf.Component()
     # c1 = c << gf.components.straight(width=0.5, cross_section="strip")
     # c2 = c << gf.components.straight(cross_section="strip", width=0.5)
-    # c2.dmove((150, 50))
+    # c2.move((150, 50))
     # routes = route_bundle(
     #     c,
     #     [c1.ports["o2"]],
@@ -426,7 +426,7 @@ if __name__ == "__main__":
     # # c2 = c << gf.components.straight(cross_section="rib", width=1)
     # c1 = c << gf.components.straight(cross_section="rib", width=2)
     # c2 = c << gf.components.straight(cross_section="rib", width=4)
-    # c2.dmove((300, 70))
+    # c2.move((300, 70))
     # routes = route_bundle(
     #     c,
     #     [c1.ports["o2"]],
@@ -447,13 +447,13 @@ if __name__ == "__main__":
     # w = gf.components.array(gf.c.straight, columns=1, rows=3, spacing=(3, 3))
     # left = c << w
     # right = c << w
-    # right.dmove((100, 80))
+    # right.move((100, 80))
 
     # obstacle = gf.components.rectangle(size=(100, 10))
     # obstacle1 = c << obstacle
     # obstacle2 = c << obstacle
-    # obstacle1.dymin = 40
-    # obstacle2.dxmin = 35
+    # obstacle1.ymin = 40
+    # obstacle2.xmin = 35
 
     # ports1 = left.ports.filter(orientation=0)
     # ports2 = right.ports.filter(orientation=180)

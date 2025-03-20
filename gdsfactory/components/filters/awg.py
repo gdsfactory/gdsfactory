@@ -142,10 +142,10 @@ def awg(
     fpr_in_ref = c.add_ref(fpr_in)
     fpr_out_ref = c.add_ref(fpr_out)
 
-    fpr_in_ref.drotate(90)
-    fpr_out_ref.drotate(90)
+    fpr_in_ref.rotate(90)
+    fpr_out_ref.rotate(90)
 
-    fpr_out_ref.dx += fpr_spacing
+    fpr_out_ref.x += fpr_spacing
     _ = gf.routing.route_bundle(
         c,
         gf.port.get_ports_list(fpr_out_ref, prefix="E"),

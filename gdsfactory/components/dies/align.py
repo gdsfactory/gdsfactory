@@ -38,13 +38,13 @@ def align_wafer(
     rtop = c.add_ref(rh)
     rbot = c.add_ref(rh)
 
-    rtop.dmovey(+b)
-    rbot.dmovey(-b)
+    rtop.movey(+b)
+    rbot.movey(-b)
 
     rl = c.add_ref(rv)
     rr = c.add_ref(rv)
-    rl.dmovex(-b)
-    rr.dmovex(+b)
+    rl.movex(-b)
+    rr.movex(+b)
 
     wsq = (cross_length + 2 * spacing) / 4
     square_mark = c << gf.c.rectangle(size=(wsq, wsq), layer=layer, centered=True)
@@ -57,7 +57,7 @@ def align_wafer(
         "top_left": (-a, a),
     }
 
-    square_mark.dmove(corner_to_position[square_corner])
+    square_mark.move(corner_to_position[square_corner])
 
     if layer_cladding:
         rc_tile_excl = gf.c.rectangle(
@@ -89,23 +89,23 @@ def add_frame(
     layer = gf.get_layer(layer)
     component = gf.get_component(component)
     cref = c.add_ref(component)
-    cref.dx = 0
-    cref.dy = 0
-    y = max([component.dxsize, component.dysize]) / 2 + spacing + width / 2
+    cref.x = 0
+    cref.y = 0
+    y = max([component.xsize, component.ysize]) / 2 + spacing + width / 2
     x = y
     w = width
 
     rh = gf.c.rectangle(size=(2 * y + w, w), layer=layer, centered=True)
     rtop = c.add_ref(rh)
     rbot = c.add_ref(rh)
-    rtop.dmovey(+y)
-    rbot.dmovey(-y)
+    rtop.movey(+y)
+    rbot.movey(-y)
 
     rv = gf.c.rectangle(size=(w, 2 * y), layer=layer, centered=True)
     rl = c.add_ref(rv)
     rr = c.add_ref(rv)
-    rl.dmovex(-x)
-    rr.dmovex(+x)
+    rl.movex(-x)
+    rr.movex(+x)
     c.flatten()
     return c
 

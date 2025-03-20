@@ -116,7 +116,7 @@ def wire_corner45(
         )
 
     else:
-        w = float(np.round(width * np.sqrt(2), 3))  # type: ignore
+        w = float(np.round(width * np.sqrt(2), 3))
 
         c.add_port(
             name="e1",

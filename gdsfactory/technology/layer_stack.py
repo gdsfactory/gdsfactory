@@ -540,12 +540,12 @@ class LayerStack(BaseModel):
             if level.derived_layer:
                 unetched_layers_dict[level.derived_layer.layer].append(layer_name)
                 if level.derived_layer.layer in unetched_layers:
-                    unetched_layers.remove(level.derived_layer.layer)  # type: ignore
+                    unetched_layers.remove(level.derived_layer.layer)  # type: ignore[arg-type]
 
         # Define layers
         out += "\n".join(
             [
-                f"{layer_name} = input({level.layer.layer[0]}, {level.layer.layer[1]})"  # type: ignore
+                f"{layer_name} = input({level.layer.layer[0]}, {level.layer.layer[1]})"  # type: ignore[index,union-attr]
                 for layer_name, level in layers.items()
                 if hasattr(level.layer, "layer")
             ]
@@ -592,22 +592,22 @@ class LayerStack(BaseModel):
                 )
                 if layer_views:
                     txt += ", "
-                    if layer in layer_views:  # type: ignore
-                        props = layer_views.get_from_tuple(layer)  # type: ignore
+                    if layer in layer_views:  # type: ignore[operator]
+                        props = layer_views.get_from_tuple(layer)  # type: ignore[arg-type]
                         if hasattr(props, "color"):
-                            if props.color.fill == props.color.frame:  # type: ignore
-                                txt += f"color: {props.color.fill}"  # type: ignore
+                            if props.color.fill == props.color.frame:
+                                txt += f"color: {props.color.fill}"
                             else:
                                 txt += (
-                                    f"fill: {props.color.fill}, "  # type: ignore
-                                    f"frame: {props.color.frame}"  # type: ignore
+                                    f"fill: {props.color.fill}, "
+                                    f"frame: {props.color.frame}"
                                 )
                 txt += ")"
                 out += f"{txt}\n"
 
             elif layer_name in unetched_layers:
                 # TODO: Reimplement this
-                layer_tuple = get_layer_tuple(layer.layer)  # type: ignore
+                layer_tuple = get_layer_tuple(layer.layer)  # type: ignore[union-attr]
                 name = (
                     f"{layer_name}: {level.material} {layer_tuple[0]}/{layer_tuple[1]}"
                 )
@@ -616,12 +616,11 @@ class LayerStack(BaseModel):
                     txt += ", "
                     props = layer_views.get_from_tuple(get_layer_tuple(layer_tuple))
                     if hasattr(props, "color"):
-                        if props.color.fill == props.color.frame:  # type: ignore
-                            txt += f"color: {props.color.fill}"  # type: ignore
+                        if props.color.fill == props.color.frame:
+                            txt += f"color: {props.color.fill}"
                         else:
                             txt += (
-                                f"fill: {props.color.fill}, "  # type: ignore
-                                f"frame: {props.color.frame}"  # type: ignore
+                                f"fill: {props.color.fill}, frame: {props.color.frame}"
                             )
 
                 txt += ")"
@@ -737,9 +736,9 @@ if __name__ == "__main__":
 
     c = gf.Component()
 
-    rect1 = c << gf.components.rectangle(size=(10, 10), layer=(1, 0))  # type: ignore
-    rect2 = c << gf.components.rectangle(size=(10, 10), layer=(3, 0))  # type: ignore
-    rect2.dmove((30, 30))
+    rect1 = c << gf.components.rectangle(size=(10, 10), layer=(1, 0))
+    rect2 = c << gf.components.rectangle(size=(10, 10), layer=(3, 0))
+    rect2.move((30, 30))
     # c.show()
 
     # import gdsfactory as gf
@@ -748,7 +747,7 @@ if __name__ == "__main__":
 
     # rect1 = c << gf.components.rectangle(size=(10, 10), layer=(1, 0))
     # rect2 = c << gf.components.rectangle(size=(10, 10), layer=(2, 0))
-    # rect2.dmove((5, 5))
+    # rect2.move((5, 5))
     # c.show()
 
     c = get_component_with_derived_layers(c, ls)

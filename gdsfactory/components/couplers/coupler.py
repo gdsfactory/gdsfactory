@@ -57,8 +57,8 @@ def coupler_symmetric(
     y /= 2
 
     bot_bend.dmirror_y()
-    top_bend.dmovey(+y)
-    bot_bend.dmovey(-y)
+    top_bend.movey(+y)
+    bot_bend.movey(-y)
 
     c.add_port("o1", port=bot_bend[bend_port1_name])
     c.add_port("o2", port=top_bend[bend_port1_name])
@@ -99,7 +99,7 @@ def coupler_straight(
     w = x.width
     y = w + gap
 
-    top.dmovey(+y)
+    top.movey(+y)
 
     if bot.ports and top.ports:
         c.add_port("o1", port=bot.ports[0])
@@ -168,8 +168,9 @@ def coupler(
     x = gf.get_cross_section(cross_section)
     x.add_bbox(c)
     c.flatten()
+    assert x.radius is not None
     if not allow_min_radius_violation:
-        x.validate_radius(x.radius)  # type: ignore
+        x.validate_radius(x.radius)
     return c
 
 

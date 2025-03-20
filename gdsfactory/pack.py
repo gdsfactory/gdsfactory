@@ -6,7 +6,7 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 from __future__ import annotations
 
 from collections.abc import Sequence
-from typing import Any, Protocol
+from typing import Any, Protocol, cast
 
 import numpy as np
 import numpy.typing as npt
@@ -170,14 +170,14 @@ def pack(
         max_size_filtered, dtype=np.float64
     )  # In case it's integers
     max_size_array = max_size_array / precision
-    max_size_tuple: tuple[float, float] = tuple(max_size_array)  # type: ignore[assignment]
+    max_size_tuple = cast(tuple[float, float], tuple(max_size_array))
 
     components = [gf.get_component(component) for component in component_list]
 
     # Convert Components to rectangles
     rect_dict: dict[int, tuple[float, float]] = {}
     for n, D in enumerate(components):
-        size = np.array([D.dxsize, D.dysize])
+        size = np.array([D.xsize, D.ysize])
         w: float = int((size[0] + spacing) / precision)
         h: float = int((size[1] + spacing) / precision)
         if w > max_size_tuple[0]:
@@ -216,12 +216,15 @@ def pack(
             component = components[n]
             d = packed << component
             if rotation:
-                d.drotate(rotation)
+                d.rotate(rotation)
             if h_mirror:
                 d.mirror_x()
             if v_mirror:
                 d.mirror_y()
-            d.center = tuple(snap_to_grid((xcenter * precision, ycenter * precision)))  # type: ignore[assignment]
+            d.center = cast(
+                tuple[float, float],
+                tuple(snap_to_grid((xcenter * precision, ycenter * precision))),
+            )
             if add_ports_prefix:
                 packed.add_ports(d.ports, prefix=f"{index}_")
             elif add_ports_suffix:
@@ -240,8 +243,8 @@ def pack(
                     if text_mirror:
                         label.dmirror()
                     if text_rotation:
-                        label.drotate(text_rotation)
-                    label.dmove(
+                        label.rotate(text_rotation)
+                    label.move(
                         np.array(text_offset) + getattr(d.dsize_info, text_anchor)
                     )
 

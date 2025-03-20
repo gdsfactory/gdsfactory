@@ -1,4 +1,3 @@
-# type: ignore
 from __future__ import annotations
 
 from functools import partial
@@ -21,8 +20,8 @@ def test_route_bundle_udirect_pads(
     )
     pt = c << pad_south
     pb = c << pad_south
-    pb.drotate(90)
-    pt.drotate(90)
+    pb.rotate(90)
+    pt.rotate(90)
     pb.dmove((0, -100))
 
     pbports = list(pb.ports)

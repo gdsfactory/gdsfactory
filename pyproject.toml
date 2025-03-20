@@ -19,8 +19,7 @@ dependencies = [
   "numpy",
   "orjson<4",
   "pandas",
-  "klayout==0.29.11",
-  "pydantic>=2.10,<2.11",
+  "pydantic>=2",
   "pydantic-settings<3",
   "pydantic-extra-types<3",
   "pyyaml",
@@ -51,7 +50,7 @@ license = {file = "LICENSE"}
 name = "gdsfactory"
 readme = "README.md"
 requires-python = ">=3.11,<3.14"
-version = "9.1.0"
+version = "9.2.2"
 
 [project.optional-dependencies]
 cad = ["kweb>=1.1.9,<2.1"]
@@ -101,7 +100,7 @@ gf = "gdsfactory.cli:app"
 ignore-words-list = "te, te/tm, te, ba, fpr, fpr_spacing, ro, nd, donot, schem"
 
 [tool.mypy]
-disable_error_code = ["import-untyped", "has-type"]
+disable_error_code = ["import-untyped", "has-type", "no-redef"]
 exclude = [
   "gdsfactory/export/to_svg.py",
   "test-data-gds/.",
@@ -245,7 +244,7 @@ message_template = "Bump to {new_version}"
 tag_template = "v{new_version}"
 
 [tool.tbump.version]
-current = "9.1.0"
+current = "9.2.2"
 regex = '''
   (?P<major>\d+)
   \.

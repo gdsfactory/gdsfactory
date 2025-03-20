@@ -60,9 +60,15 @@ def test_klayout_tech_mebes_config(tmp_path: pathlib.Path) -> None:
 
     mebes = root.find(".//mebes")
     assert mebes is not None
-    assert mebes.find("invert").text == "true"
-    assert mebes.find("data-layer").text == "5"
-    assert mebes.find("boundary-name").text == "TEST"
+    invert = mebes.find("invert")
+    assert invert is not None
+    assert invert.text == "true"
+    data_layer = mebes.find("data-layer")
+    assert data_layer is not None
+    assert data_layer.text == "5"
+    boundary_name = mebes.find("boundary-name")
+    assert boundary_name is not None
+    assert boundary_name.text == "TEST"
 
 
 def test_klayout_tech_layer_views(tmp_path: pathlib.Path) -> None:
@@ -84,7 +90,7 @@ def test_klayout_tech_layer_views(tmp_path: pathlib.Path) -> None:
 def test_klayout_tech_enum_layer_map() -> None:
     """Test using enum for layer map."""
 
-    class TestLayers(aenum.Enum):
+    class TestLayers(aenum.Enum):  # type: ignore[misc]
         M1 = (1, 0)
         M2 = (2, 0)
 
@@ -95,7 +101,7 @@ def test_klayout_tech_enum_layer_map() -> None:
             obj.datatype = datatype
             return obj
 
-    tech = KLayoutTechnology(name="test_tech", layer_map=TestLayers)
+    tech = KLayoutTechnology(name="test_tech", layer_map=TestLayers)  # type: ignore[arg-type]
 
     assert tech.layer_map["M1"] == (1, 0)
     assert tech.layer_map["M2"] == (2, 0)

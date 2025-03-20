@@ -175,7 +175,7 @@ def test_get_netlist_close_enough_rotated() -> None:
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
     i2.connect("o2", i1.ports["o1"])
-    i2.drotate(angle=0.01)
+    i2.rotate(angle=0.01)
     netlist = c.get_netlist()
     links = netlist["nets"]
     assert len(links) == 1
@@ -189,7 +189,7 @@ def test_get_netlist_throws_error_bad_rotation() -> None:
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
     i2.connect("o2", i1.ports["o1"])
-    i2.drotate(90)
+    i2.rotate(90)
     with pytest.warns(UserWarning):
         c.get_netlist()
 
@@ -219,7 +219,7 @@ def test_get_netlist_rotated() -> None:
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
-    i1.drotate(35)
+    i1.rotate(35)
     i2.connect("o2", i1.ports["o1"])
 
     netlist = c.get_netlist()
@@ -250,7 +250,7 @@ def test_get_netlist_electrical_rotated_joint() -> None:
     i1 = c.add_ref(gf.components.wire_straight(), "i1")
     i2 = c.add_ref(gf.components.wire_straight(), "i2")
     i2.connect("e2", i1.ports["e1"])
-    i2.drotate(45)
+    i2.rotate(45)
     netlist = c.get_netlist()
     links = netlist["nets"]
     assert len(links) == 1
@@ -278,7 +278,7 @@ def test_get_netlist_transformed() -> None:
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
-    i1.drotate(rotation_value)
+    i1.rotate(rotation_value)
     i2.connect("o2", i1.ports["o1"])
 
     # perform the initial sanity checks on the netlist

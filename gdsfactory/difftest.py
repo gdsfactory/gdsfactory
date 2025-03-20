@@ -103,16 +103,16 @@ def xor(
         print("Text only in new")
         get_texts(ld.layer_index_b(), b_texts).insert(bnota)
 
-    ld.on_cell_in_a_only = lambda anotb: cell_diff_a(anotb)  # type: ignore
-    ld.on_cell_in_b_only = lambda anotb: cell_diff_b(anotb)  # type: ignore
-    ld.on_text_in_a_only = lambda anotb, prop_id: text_diff_a(anotb, prop_id)  # type: ignore
-    ld.on_text_in_b_only = lambda anotb, prop_id: text_diff_b(anotb, prop_id)  # type: ignore
+    ld.on_cell_in_a_only = lambda anotb: cell_diff_a(anotb)  # type: ignore[assignment]
+    ld.on_cell_in_b_only = lambda anotb: cell_diff_b(anotb)  # type: ignore[assignment]
+    ld.on_text_in_a_only = lambda anotb, prop_id: text_diff_a(anotb, prop_id)  # type: ignore[assignment]
+    ld.on_text_in_b_only = lambda anotb, prop_id: text_diff_b(anotb, prop_id)  # type: ignore[assignment]
 
-    ld.on_polygon_in_a_only = lambda anotb, prop_id: polygon_diff_a(anotb, prop_id)  # type: ignore
-    ld.on_polygon_in_b_only = lambda anotb, prop_id: polygon_diff_b(anotb, prop_id)  # type: ignore
+    ld.on_polygon_in_a_only = lambda anotb, prop_id: polygon_diff_a(anotb, prop_id)  # type: ignore[assignment]
+    ld.on_polygon_in_b_only = lambda anotb, prop_id: polygon_diff_b(anotb, prop_id)  # type: ignore[assignment]
 
     if ignore_cell_name_differences:
-        ld.on_cell_name_differs = lambda anotb: print(f"cell name differs {anotb.name}")  # type: ignore
+        ld.on_cell_name_differs = lambda anotb: print(f"cell name differs {anotb.name}")  # type: ignore[assignment]
         equal = ld.compare(
             old.kdb_cell,
             new.kdb_cell,
@@ -144,15 +144,15 @@ def xor(
 
     dy = 10
     if stagger:
-        old_ref.dmovey(+old_kcell.dysize + dy)
-        new_ref.dmovey(-old_kcell.dysize - dy)
+        old_ref.movey(+old_kcell.ysize + dy)
+        new_ref.movey(-old_kcell.ysize - dy)
 
     layer_label = kf.kcl.layout.layer(1, 0)
     c.shapes(layer_label).insert(kf.kdb.DText("old", old_ref.dtrans))
     c.shapes(layer_label).insert(kf.kdb.DText("new", new_ref.dtrans))
     c.shapes(layer_label).insert(
         kf.kdb.DText(
-            "xor", kf.kdb.DTrans(new_ref.dxmin, old_ref.dymax - old_ref.dysize - dy)
+            "xor", kf.kdb.DTrans(new_ref.xmin, old_ref.ymax - old_ref.ysize - dy)
         )
     )
 
@@ -339,15 +339,15 @@ def diff(
 
         dy = 10
         if stagger:
-            old_ref.dmovey(+old.dysize + dy)
-            new_ref.dmovey(-old.dysize - dy)
+            old_ref.movey(+old.ysize + dy)
+            new_ref.movey(-old.ysize - dy)
 
         layer_label = kf.kcl.layout.layer(1, 0)
         c.shapes(layer_label).insert(kf.kdb.DText("old", old_ref.dtrans))
         c.shapes(layer_label).insert(kf.kdb.DText("new", new_ref.dtrans))
         c.shapes(layer_label).insert(
             kf.kdb.DText(
-                "xor", kf.kdb.DTrans(new_ref.dxmin, old_ref.dymax - old_ref.dysize - dy)
+                "xor", kf.kdb.DTrans(new_ref.xmin, old_ref.ymax - old_ref.ysize - dy)
             )
         )
 

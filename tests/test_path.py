@@ -55,10 +55,10 @@ def double_loop() -> Component:
     P.append(gf.path.straight())
     P.append(gf.path.arc(radius=5, angle=-90))
     P.append(looploop(num_pts=1000))
-    P.drotate(-45)
+    P.rotate(-45)
 
     # Create the crosssection
-    s0 = gf.Section(width=1.5, offset=0, layer=(2, 0), ports=("in", "out"))
+    s0 = gf.Section(width=1.5, offset=0, layer=(2, 0), port_names=("in", "out"))
     s1 = gf.Section(width=0.5, offset=2, layer=(0, 0))
     s2 = gf.Section(width=0.5, offset=4, layer=(1, 0))
     s3 = gf.Section(width=1, offset=0, layer=(3, 0))

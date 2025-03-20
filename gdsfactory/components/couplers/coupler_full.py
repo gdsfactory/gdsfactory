@@ -68,12 +68,12 @@ def coupler_full(
     bend_input_top = c << gf.c.bend_s(
         size=(dx, (dy - gap - x_top.width) / 2.0), cross_section=x_top
     )
-    bend_input_top.dmovey((x_top.width + gap) / 2.0)
+    bend_input_top.movey((x_top.width + gap) / 2.0)
 
     bend_input_bottom = c << gf.c.bend_s(
         size=(dx, (-dy + gap + x_bottom.width) / 2.0), cross_section=x_bottom
     )
-    bend_input_bottom.dmovey(-(x_bottom.width + gap) / 2.0)
+    bend_input_bottom.movey(-(x_bottom.width + gap) / 2.0)
 
     taper_top.connect("o1", bend_input_top.ports["o1"])
     taper_bottom.connect("o1", bend_input_bottom.ports["o1"])

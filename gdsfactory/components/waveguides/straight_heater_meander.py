@@ -99,7 +99,7 @@ def straight_heater_meander(
                 component=_straight, extension=taper
             )
             straight_ref = c << straight_with_tapers
-            straight_ref.dy = row * spacing
+            straight_ref.y = row * spacing
             ports[f"o1_{row + 1}"] = straight_ref.ports["o1"]
             ports[f"o2_{row + 1}"] = straight_ref.ports["o2"]
 
@@ -111,7 +111,7 @@ def straight_heater_meander(
             )
             total_length += straight_length
             straight_ref = c << _straight
-            straight_ref.dy = row * spacing
+            straight_ref.y = row * spacing
             ports[f"o1_{row + 1}"] = straight_ref.ports["o1"]
             ports[f"o2_{row + 1}"] = straight_ref.ports["o2"]
 
@@ -183,18 +183,18 @@ def straight_heater_meander(
             length=straight_length,
             cross_section=heater_cross_section,
         )
-        heater.dmovey(spacing * (rows // 2))
+        heater.movey(spacing * (rows // 2))
 
     if layer_heater and via_stack and heater:
         via = gf.get_component(via_stack)
-        dx = via.dxsize / 2 + heater_taper_length or 0
+        dx = via.xsize / 2 + heater_taper_length or 0
         via_stack_west_center = (heater.dbbox().left - dx, 0)
         via_stack_east_center = (heater.dbbox().right + dx, 0)
 
         via_stack_west = c << via
         via_stack_east = c << via
-        via_stack_west.dmove(via_stack_west_center)
-        via_stack_east.dmove(via_stack_east_center)
+        via_stack_west.move(via_stack_west_center)
+        via_stack_east.move(via_stack_east_center)
 
         valid_orientations = {p.orientation for p in via.ports}
         p1 = via_stack_west.ports.filter(orientation=port_orientation1)

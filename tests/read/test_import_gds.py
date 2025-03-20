@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import json
 
-import jsondiff  # type: ignore
-import pandas as pd  # type: ignore
+import jsondiff
+import pandas as pd
 from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf

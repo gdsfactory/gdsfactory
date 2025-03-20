@@ -109,7 +109,7 @@ def greek_cross_with_pads(
 
     # Cross
     cross_ref = c << gf.get_component(greek_cross_component)
-    cross_ref.dx = (
+    cross_ref.x = (
         2 * pad_pitch - (pad_pitch - gf.get_component(pad).info["size"][0]) / 2
     )
 
@@ -123,7 +123,7 @@ def greek_cross_with_pads(
     # Vias to pads
     for index in range(4):
         pad_ref = c << gf.get_component(pad)
-        pad_ref.dx = index * pad_pitch + pad_ref.dxsize / 2
+        pad_ref.x = index * pad_pitch + pad_ref.xsize / 2
         via_ref = c << gf.get_component(pad_via)
         if index < 2:
             via_ref.connect(

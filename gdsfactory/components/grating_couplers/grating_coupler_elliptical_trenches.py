@@ -112,7 +112,7 @@ def grating_coupler_elliptical_trenches(
         length=taper_length2,
         cross_section=cross_section,
     )
-    taper_component.dxmin = x_output
+    taper_component.xmin = x_output
 
     c.add_port(
         name="o1",

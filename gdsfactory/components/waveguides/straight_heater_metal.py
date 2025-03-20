@@ -4,6 +4,7 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.components.containers.component_sequence import component_sequence
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
@@ -41,8 +42,8 @@ def straight_heater_metal_undercut(
         cross_section_heater_undercut: for heated sections with undercut.
         with_undercut: isolation trenches for higher efficiency.
         via_stack: via stack.
-        port_orientation1: left via stack port orientation.
-        port_orientation2: right via stack port orientation.
+        port_orientation1: left via stack port orientation. None adds all orientations.
+        port_orientation2: right via stack port orientation. None adds all orientations.
         heater_taper_length: minimizes current concentrations from heater to via_stack.
         ohms_per_square: to calculate resistance.
     """
@@ -96,23 +97,21 @@ def straight_heater_metal_undercut(
         if component.settings.get("length") == 0:
             sequence = sequence.replace(symbol, "")
 
-    c = gf.components.component_sequence(
-        sequence=sequence, symbol_to_component=symbol_to_component
-    )
+    c = component_sequence(sequence=sequence, symbol_to_component=symbol_to_component)
     x = gf.get_cross_section(cross_section_heater)
     heater_width = x.width
 
     if via_stack:
         via_stack = gf.get_component(via_stack)
 
-        dx = via_stack.dxsize / 2 + heater_taper_length
+        dx = via_stack.xsize / 2 + heater_taper_length
         dx -= length_straight
 
         via_stack_west = c << via_stack
         via_stack_east = c << via_stack
 
-        via_stack_west.dmovex(-dx)
-        via_stack_east.dmovex(+dx + length)
+        via_stack_west.movex(-dx)
+        via_stack_east.movex(+dx + length)
 
         valid_orientations = {p.orientation for p in via_stack.ports}
         p1 = list(via_stack_west.ports.filter(orientation=port_orientation1))
@@ -181,8 +180,8 @@ def straight_heater_metal_simple(
         cross_section_heater: for heated sections. heater metal only.
         cross_section_waveguide_heater: for heated sections.
         via_stack: via stack.
-        port_orientation1: left via stack port orientation.
-        port_orientation2: right via stack port orientation.
+        port_orientation1: left via stack port orientation. None adds all orientations.
+        port_orientation2: right via stack port orientation. None adds all orientations.
         heater_taper_length: minimizes current concentrations from heater to via_stack.
         ohms_per_square: to calculate resistance.
     """
@@ -199,20 +198,20 @@ def straight_heater_metal_simple(
 
     if via_stack:
         via = via_stackw = via_stacke = gf.get_component(via_stack)
-        dx = via_stackw.dxsize / 2 + heater_taper_length
+        dx = via_stackw.xsize / 2 + heater_taper_length
         via_stack_west_center = (
-            straight_heater_section.dxmin - dx,
-            straight_heater_section.dy,
+            straight_heater_section.xmin - dx,
+            straight_heater_section.y,
         )
         via_stack_east_center = (
-            straight_heater_section.dxmax + dx,
-            straight_heater_section.dy,
+            straight_heater_section.xmax + dx,
+            straight_heater_section.y,
         )
 
         via_stack_west = c << via_stackw
         via_stack_east = c << via_stacke
-        via_stack_west.dmove(via_stack_west_center)
-        via_stack_east.dmove(via_stack_east_center)
+        via_stack_west.move(via_stack_west_center)
+        via_stack_east.move(via_stack_east_center)
 
         valid_orientations = {p.orientation for p in via.ports}
         p1 = via_stack_west.ports.filter(orientation=port_orientation1)
@@ -271,7 +270,7 @@ straight_heater_metal_undercut_90_90 = partial(
 
 if __name__ == "__main__":
     # c = straight_heater_metal_simple(length=50.0)
-    c = straight_heater_metal_undercut()
+    c = straight_heater_metal_undercut(port_orientation1=90, port_orientation2=90)
     c.pprint_ports()
     c.show()
     # print(c.ports['o2'].center[0])

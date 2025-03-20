@@ -167,26 +167,26 @@ def spiral_racetrack_fixed_length(
     c.info["length"] = _spiral.info["length"]
     c.info["straight_length"] = straight_length
 
-    if spiral.ports["o1"].dx > spiral.ports["o2"].dx:
+    if spiral.ports["o1"].x > spiral.ports["o2"].x:
         spiral.mirror_x()
 
     # add a bit more to the spiral racetrack to make the in and out ports be aligned in y
     in_wg = c << gf.get_component(
         straight,
-        length=spiral.ports["o1"].dx - spiral.dxmin,
+        length=spiral.ports["o1"].x - spiral.xmin,
         cross_section=cross_section,
     )
     if np.mod(n_straight_sections // 2, 2) == 1:
         in_wg.mirror_y()
     in_wg.connect("o1", spiral.ports["o1"])
 
-    c.info["length"] += spiral.ports["o1"].dx - spiral.dxmin
+    c.info["length"] += spiral.ports["o1"].x - spiral.xmin
 
     temp_component = Component()
 
     o2_temp = temp_component.add_port(
         name="o2_temp",
-        center=(spiral.ports["o1"].dx + in_out_port_spacing, spiral.ports["o1"].dy),
+        center=(spiral.ports["o1"].x + in_out_port_spacing, spiral.ports["o1"].y),
         orientation=180,
         cross_section=gf.get_cross_section(xs_s_bend),
     )
@@ -203,7 +203,7 @@ def spiral_racetrack_fixed_length(
 
     c.add_port(
         "o2",
-        center=(spiral.ports["o1"].dx + in_out_port_spacing, spiral.ports["o1"].dy),
+        center=(spiral.ports["o1"].x + in_out_port_spacing, spiral.ports["o1"].y),
         orientation=0,
         cross_section=gf.get_cross_section(xs_s_bend),
     )
@@ -234,7 +234,7 @@ def _req_straight_len(
         cross_section: cross-section of the waveguides.
         cross_section_s_bend: s bend cross section
     """
-    from scipy.interpolate import interp1d  # type: ignore
+    from scipy.interpolate import interp1d
 
     xs = gf.get_cross_section(cross_section)
     min_radius = min_radius or xs.radius
@@ -273,16 +273,16 @@ def _req_straight_len(
         spiral = c << _spiral
         c.info["length"] = _spiral.info["length"]
 
-        if spiral.ports["o1"].dx > spiral.ports["o2"].dx:
+        if spiral.ports["o1"].x > spiral.ports["o2"].x:
             spiral.mirror_x()
 
-        c.info["length"] += spiral.ports["o1"].dx - spiral.dxmin
+        c.info["length"] += spiral.ports["o1"].x - spiral.xmin
 
         c.add_port(
             "o2",
             center=(
-                spiral.ports["o1"].dx + in_out_port_spacing,
-                spiral.ports["o1"].dy,
+                spiral.ports["o1"].x + in_out_port_spacing,
+                spiral.ports["o1"].y,
             ),
             orientation=180,
             cross_section=gf.get_cross_section(cross_section_s_bend),
@@ -301,7 +301,7 @@ def _req_straight_len(
 
     # get the required spacing to achieve the required length (interpolate)
     f = interp1d(lens, straight_lengths)
-    return float(f(length))  # type: ignore
+    return float(f(length))
 
 
 @gf.cell
@@ -357,7 +357,7 @@ def spiral_racetrack_heater_metal(
         allow_layer_mismatch=True,
         allow_type_mismatch=True,
     )
-    heater_top.dmovey(spacing * num // 2)
+    heater_top.movey(spacing * num // 2)
     heater_bot = c << gf.components.straight(
         straight_length, cross_section=heater_cross_section
     )
@@ -368,7 +368,7 @@ def spiral_racetrack_heater_metal(
         allow_layer_mismatch=True,
         allow_type_mismatch=True,
     )
-    heater_bot.dmovey(-spacing * num // 2)
+    heater_bot.movey(-spacing * num // 2)
 
     heater_bend = c << gf.get_component(
         bend,
@@ -376,8 +376,8 @@ def spiral_racetrack_heater_metal(
         radius=min_radius + spacing * (num // 2 + 1),
         cross_section=heater_cross_section,
     )
-    heater_bend.dy = spiral.dy
-    heater_bend.dx = spiral.dx + min_radius + spacing * (num // 2 + 1)
+    heater_bend.y = spiral.y
+    heater_bend.x = spiral.x + min_radius + spacing * (num // 2 + 1)
     heater_top.connect("e1", heater_bend.ports["e1"])
     heater_bot.connect("e1", heater_bend.ports["e2"])
 
@@ -469,7 +469,7 @@ def spiral_racetrack_heater_doped(
         allow_layer_mismatch=True,
         allow_type_mismatch=True,
     )
-    heater_bot.dmovey(-spacing * (num // 2 - 1))
+    heater_bot.movey(-spacing * (num // 2 - 1))
     heater_top.connect(
         "e1",
         spiral.ports["o2"].copy_polar(),
@@ -477,7 +477,7 @@ def spiral_racetrack_heater_doped(
         allow_layer_mismatch=True,
         allow_type_mismatch=True,
     )
-    heater_top.dmovey(spacing * (num // 2 - 1))
+    heater_top.movey(spacing * (num // 2 - 1))
 
     c.add_ports(spiral.ports)
     c.add_ports(prefix="top_", ports=heater_top.ports)

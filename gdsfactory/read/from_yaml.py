@@ -56,7 +56,7 @@ import warnings
 from collections.abc import Callable
 from copy import deepcopy
 from functools import partial
-from typing import IO, TYPE_CHECKING, Any, Literal, Protocol
+from typing import IO, TYPE_CHECKING, Any, Literal, Protocol, cast
 
 import kfactory as kf
 import networkx as nx
@@ -160,7 +160,7 @@ def _get_anchor_point_from_name(
     ref: ComponentReference, anchor_name: str
 ) -> tuple[float, float] | None:
     if anchor_name in valid_anchor_point_keywords:
-        return getattr(ref.dsize_info, anchor_name)  # type: ignore[no-any-return]
+        return cast(tuple[float, float], getattr(ref.dsize_info, anchor_name))
     elif anchor_name in ref.ports:
         return ref.ports[anchor_name].center
     return None
@@ -171,7 +171,7 @@ def _get_anchor_value_from_name(
 ) -> float | None:
     """Return the x or y value of an anchor point or port on a reference."""
     if anchor_name in valid_anchor_value_keywords:
-        return getattr(ref.dsize_info, anchor_name)  # type: ignore[no-any-return]
+        return float(getattr(ref.dsize_info, anchor_name))
     anchor_point = _get_anchor_point_from_name(ref, anchor_name)
     if anchor_point is None:
         return None
@@ -305,7 +305,7 @@ def place(
 
     if instance_name in placements_conf:
         placement_settings = placements_conf[instance_name] or {}
-        if not isinstance(placement_settings, dict):  # type: ignore
+        if not isinstance(placement_settings, dict):
             raise ValueError(
                 f"Invalid placement {placement_settings} from {valid_placement_keys}"
             )
@@ -332,9 +332,9 @@ def place(
 
         if rotation:
             if port:
-                ref.drotate(rotation, center=_get_anchor_point_from_name(ref, port))
+                ref.rotate(rotation, center=_get_anchor_point_from_name(ref, port))
             else:
-                ref.drotate(rotation)
+                ref.rotate(rotation)
 
         if mirror:
             if mirror is True and port:
@@ -344,10 +344,10 @@ def place(
             elif mirror is False:
                 pass
             elif isinstance(mirror, str):
-                x_mirror = ref.ports[mirror].dx
+                x_mirror = ref.ports[mirror].x
                 ref.dmirror_x(x_mirror)
-            elif isinstance(mirror, int | float):  # type: ignore
-                ref.dmirror_x(x=ref.dx)
+            elif isinstance(mirror, int | float):
+                ref.dmirror_x(x=ref.x)
             else:
                 port_names = [port.name for port in ref.ports]
                 raise ValueError(
@@ -367,8 +367,8 @@ def place(
                     "Valid keywords: \n"
                     f"{valid_anchor_point_keywords}",
                 )
-            ref.dx -= a[0]
-            ref.dy -= a[1]
+            ref.x -= a[0]
+            ref.y -= a[1]
 
         if x is not None:
             _dx = _move_ref(
@@ -381,7 +381,7 @@ def place(
                 all_remaining_insts=all_remaining_insts,
             )
             assert _dx is not None
-            ref.dx += _dx
+            ref.x += _dx
 
         if y is not None:
             _dy = _move_ref(
@@ -394,7 +394,7 @@ def place(
                 all_remaining_insts=all_remaining_insts,
             )
             assert _dy is not None
-            ref.dy += _dy
+            ref.y += _dy
 
         if ymin is not None and ymax is not None:
             raise ValueError("You cannot set ymin and ymax")
@@ -409,7 +409,7 @@ def place(
                 all_remaining_insts=all_remaining_insts,
             )
             assert dymax is not None
-            ref.dymax = dymax
+            ref.ymax = dymax
         elif ymin is not None:
             dymin = _move_ref(
                 ymin,
@@ -421,7 +421,7 @@ def place(
                 all_remaining_insts=all_remaining_insts,
             )
             assert dymin is not None
-            ref.dymin = dymin
+            ref.ymin = dymin
 
         if xmin is not None and xmax is not None:
             raise ValueError("You cannot set xmin and xmax")
@@ -436,7 +436,7 @@ def place(
                 all_remaining_insts=all_remaining_insts,
             )
             assert dxmin is not None
-            ref.dxmin = dxmin
+            ref.xmin = dxmin
         elif xmax is not None:
             dxmax = _move_ref(
                 xmax,
@@ -448,12 +448,12 @@ def place(
                 all_remaining_insts=all_remaining_insts,
             )
             assert dxmax is not None
-            ref.dxmax = dxmax
+            ref.xmax = dxmax
         if dx:
-            ref.dx += float(dx)
+            ref.x += float(dx)
 
         if dy:
-            ref.dy += float(dy)
+            ref.y += float(dy)
 
     if instance_name in connections_by_transformed_inst:
         conn_info = connections_by_transformed_inst[instance_name]
@@ -958,7 +958,7 @@ def _add_routes(
     routing_strategies = routing_strategies or get_routing_strategies()
     for bundle_name, bundle in routes.items():
         try:
-            routing_strategy = routing_strategies[bundle.routing_strategy]  # type: ignore
+            routing_strategy = routing_strategies[bundle.routing_strategy]
         except KeyError as e:
             raise ValueError(
                 f"Unknown routing strategy.\nvalid strategies: {list(routing_strategies)}\n"
@@ -982,15 +982,15 @@ def _add_routes(
                 f"{bundle_name}-{first1}{m1}{last1}-{first2}{m2}{last2}"
                 for m1, m2 in zip(middles1, middles2)
             ]
-
-        routes_list = routing_strategy(  # type: ignore
+        routes_list = routing_strategy(
             c,
             ports1=ports1,
             ports2=ports2,
             **bundle.settings,
         )
+        c.plot()
         routes_dict.update(dict(zip(route_names, routes_list)))
-        c.routes = routes_dict  # type: ignore
+        c.routes = routes_dict
     return c
 
 
@@ -1006,7 +1006,7 @@ def _add_ports(
         ps = [p.name for p in ref.ports]
         if p not in ps:
             raise ValueError(f"{p!r} not in {ps} for {i!r}.")
-        inst_port = ref.ports[p] if ia is None else ref.ports[p, ia, ib]  # type: ignore
+        inst_port = ref.ports[p] if ia is None else ref.ports[p, ia, ib]  # type: ignore[index]
         c.add_port(name, port=inst_port)
     return c
 
@@ -1022,11 +1022,11 @@ def _add_labels(
 
 
 def _graph_roots(g: nx.DiGraph) -> list[str]:
-    return [node for node in g.nodes if g.in_degree(node) == 0]  # type: ignore
+    return [node for node in g.nodes if g.in_degree(node) == 0]
 
 
 def _graph_connect(g: nx.DiGraph, i1: str, i2: str) -> None:
-    g.add_edge(i2, i1)  # type: ignore
+    g.add_edge(i2, i1)
 
 
 def _two_out_of_three_none(one: Any, two: Any, three: Any) -> bool:
@@ -1057,23 +1057,25 @@ def _update_reference_by_placement(
 
     if rotation:
         if isinstance(port, str):
-            ref.drotate(rotation, center=_get_anchor_point_from_name(ref, port))
+            ref.rotate(rotation, center=_get_anchor_point_from_name(ref, port))
         else:
-            ref.drotate(rotation)
+            ref.rotate(rotation)
 
     if mirror:
         if mirror is True:
             if isinstance(port, str):
-                ref.dmirror_x(x=_get_anchor_value_from_name(ref, port, "x"))  # type: ignore
+                anchor_x = _get_anchor_value_from_name(ref, port, "x")
+                assert anchor_x is not None, f"anchor_x is None for {port!r}"
+                ref.dmirror_x(x=anchor_x)
             else:
                 ref.dcplx_trans *= kf.kdb.DCplxTrans(1, 0, True, 0, 0)
         elif isinstance(mirror, str) and mirror in port_names:
-            x_mirror = ref.ports[mirror].dx
+            x_mirror = ref.ports[mirror].x
             ref.dmirror_x(x_mirror)
         else:
             try:
                 mirror = float(mirror)
-                ref.dmirror_x(x=ref.dx)
+                ref.dmirror_x(x=ref.x)
             except Exception as e:
                 raise ValueError(
                     f"{mirror!r} should be bool | float | str in {port_names}. Got: {mirror}."
@@ -1094,8 +1096,8 @@ def _update_reference_by_placement(
                 f"Valid keywords: {valid_anchor_point_keywords}.\n"
                 f"Got: {port}",
             )
-        ref.dx -= a[0]
-        ref.dy -= a[1]
+        ref.x -= a[0]
+        ref.y -= a[1]
 
     if not _two_out_of_three_none(x, xmin, xmax):
         raise ValueError(
@@ -1106,31 +1108,31 @@ def _update_reference_by_placement(
         if q in valid_anchor_value_keywords:
             _dx = _get_anchor_value_from_name(refs[i], q, "x")
             assert _dx is not None, f"dx is None for {i!r}, {q!r}"
-            ref.dx += _dx
+            ref.x += _dx
         else:
-            ref.dx += float(refs[i].ports[q].dx)
+            ref.x += float(refs[i].ports[q].x)
     elif x is not None:
-        ref.dx += float(x)
+        ref.x += float(x)
     elif isinstance(xmin, str):
         i, q = xmin.split(",")
         if q in valid_anchor_value_keywords:
             dxmin = _get_anchor_value_from_name(refs[i], q, "x")
             assert dxmin is not None, f"dxmin is None for {i!r}, {q!r}"
-            ref.dxmin = dxmin
+            ref.xmin = dxmin
         else:
-            ref.dxmin = float(refs[i].ports[q].dx)
+            ref.xmin = float(refs[i].ports[q].x)
     elif xmin is not None:
-        ref.dxmin = float(xmin)
+        ref.xmin = float(xmin)
     elif isinstance(xmax, str):
         i, q = xmax.split(",")
         if q in valid_anchor_value_keywords:
             dxmax = _get_anchor_value_from_name(refs[i], q, "x")
             assert dxmax is not None, f"dxmax is None for {i!r}, {q!r}"
-            ref.dxmax = dxmax
+            ref.xmax = dxmax
         else:
-            ref.dxmax = float(refs[i].ports[q].dx)
+            ref.xmax = float(refs[i].ports[q].x)
     elif xmax is not None:
-        ref.dxmax = float(xmax)
+        ref.xmax = float(xmax)
 
     if not _two_out_of_three_none(y, ymin, ymax):
         raise ValueError(
@@ -1141,37 +1143,37 @@ def _update_reference_by_placement(
         if q in valid_anchor_value_keywords:
             _dy = _get_anchor_value_from_name(refs[i], q, "y")
             assert _dy is not None, f"dy is None for {i!r}, {q!r}"
-            ref.dy += _dy
+            ref.y += _dy
         else:
-            ref.dy += float(refs[i].ports[q].dy)
+            ref.y += float(refs[i].ports[q].y)
     elif y is not None:
-        ref.dy += float(y)
+        ref.y += float(y)
     elif isinstance(ymin, str):
         i, q = ymin.split(",")
         if q in valid_anchor_value_keywords:
             dymin = _get_anchor_value_from_name(refs[i], q, "y")
             assert dymin is not None, f"dymin is None for {i!r}, {q!r}"
-            ref.dymin = dymin
+            ref.ymin = dymin
         else:
-            ref.dymin = float(refs[i].ports[q].dy)
+            ref.ymin = float(refs[i].ports[q].y)
     elif ymin is not None:
-        ref.dymin = float(ymin)
+        ref.ymin = float(ymin)
     elif isinstance(ymax, str):
         i, q = ymax.split(",")
         if q in valid_anchor_value_keywords:
             dymax = _get_anchor_value_from_name(refs[i], q, "y")
             assert dymax is not None, f"dymax is None for {i!r}, {q!r}"
-            ref.dymax = dymax
+            ref.ymax = dymax
         else:
-            ref.dymax = float(refs[i].ports[q].dy)
+            ref.ymax = float(refs[i].ports[q].y)
     elif ymax is not None:
-        ref.dymax = float(ymax)
+        ref.ymax = float(ymax)
 
     if dx is not None:
-        ref.dx += float(dx)
+        ref.x += float(dx)
 
     if dy is not None:
-        ref.dy += float(dy)
+        ref.y += float(dy)
 
 
 def _get_directed_connections(
@@ -1377,7 +1379,7 @@ routes:
             yl,opt3: yr,opt2
         routing_strategy: route_bundle
         settings:
-          steps: [dx: 30, dy: '${settings.dy}', dx: 20]
+          steps: [dx: 30, dy: '${settings.y}', dx: 20]
           cross_section: strip
 
 

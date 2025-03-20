@@ -10,7 +10,7 @@ if __name__ == "__main__":
     top = c << gf.components.nxn(north=8, south=0, east=0, west=0)
     bot = c << gf.components.nxn(north=2, south=2, east=2, west=2, xsize=10, ysize=10)
 
-    top.dmovey(100)
+    top.movey(100)
 
     routes = gf.routing.route_bundle(
         c,

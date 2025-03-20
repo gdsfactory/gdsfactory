@@ -55,10 +55,10 @@ def text(
         if justify == "left":
             pass
         elif justify == "right":
-            instance.dxmax = position[0]  # type: ignore
+            instance.xmax = position[0]
         elif justify == "center":
-            xmin = position[0] - instance.dxsize / 2
-            instance.dxmin = xmin  # type: ignore
+            xmin = position[0] - instance.xsize / 2
+            instance.xmin = xmin
         else:
             raise ValueError(
                 f"justify = {justify!r} not in ('center', 'right', 'left')"
@@ -85,7 +85,7 @@ def text_lines(
     for i, texti in enumerate(text):
         t = gf.c.text_rectangular(text=texti, size=size, layer=layer)
         tref = c.add_ref(t)
-        tref.dmovey(-6 * size * (i + 1))
+        tref.movey(-6 * size * (i + 1))
     return c
 
 

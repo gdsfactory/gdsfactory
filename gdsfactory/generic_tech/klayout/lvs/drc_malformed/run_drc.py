@@ -22,7 +22,7 @@ from datetime import UTC, datetime
 from subprocess import check_call
 
 import klayout.db
-from docopt import docopt  # type: ignore
+from docopt import docopt
 
 
 def get_rules_with_violations(results_database: str) -> set[str]:
@@ -298,7 +298,7 @@ def main(drc_run_dir: str, now_str: str, arguments: dict[str, str]) -> None:
 
 if __name__ == "__main__":
     # arguments
-    arguments = docopt(__doc__, version="RUN DRC-malformed: 1.0")  # type: ignore
+    arguments = docopt(__doc__, version="RUN DRC-malformed: 1.0")
 
     # logs format
     now_str = datetime.now(UTC).strftime("drc_run_%Y_%m_%d_%H_%M_%S")

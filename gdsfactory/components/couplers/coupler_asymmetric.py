@@ -42,11 +42,11 @@ def coupler_asymmetric(
     wg_ref = c << wg
     bend_ref = c << bend
     bend_ref.dmirror_y()
-    bend_ref.dxmin = 0  # type: ignore
-    wg_ref.dxmin = 0  # type: ignore
+    bend_ref.xmin = 0
+    wg_ref.xmin = 0
 
-    bend_ref.dmovey(-y)
-    wg_ref.dmovey(+y)
+    bend_ref.movey(-y)
+    wg_ref.movey(+y)
 
     port_width = 2 * w + gap
     c.add_port(

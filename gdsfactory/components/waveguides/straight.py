@@ -97,7 +97,7 @@ def straight_array(
 
     for i in range(n):
         wref = c.add_ref(wg)
-        wref.dy += i * (spacing + wg.info["width"])
+        wref.y += i * (spacing + wg.info["width"])
         c.add_ports(wref.ports, prefix=str(i))
 
     c.auto_rename_ports()
@@ -148,7 +148,7 @@ if __name__ == "__main__":
         # cross_section="rib_bbox",
     )
     # ref = c << w
-    # ref.dxmin = 10
+    # ref.xmin = 10
     # p = c.get_polygons_points()
     # p = list(p.values())
     # print(p[0][0])

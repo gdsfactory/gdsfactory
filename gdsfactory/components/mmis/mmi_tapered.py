@@ -17,6 +17,8 @@ def mmi_tapered(
     length_taper_out: float | None = None,
     width_taper: float = 1.0,
     length_taper: float = 10.0,
+    length_taper_start: float | None = None,
+    length_taper_end: float | None = None,
     length_mmi: float = 5.5,
     width_mmi: float = 5,
     width_mmi_inner: float | None = None,
@@ -42,6 +44,8 @@ def mmi_tapered(
         length_taper_out: into the mmi region.
         width_taper: interface between mmi region and output straights.
         length_taper: into the mmi region.
+        length_taper_start: length of the taper at the start. Defaults to length_taper.
+        length_taper_end: length of the taper at the end. Defaults to length_taper.
         length_mmi: in x direction.
         width_mmi: in y direction.
         width_mmi_inner: allows adding a different width for the inner mmi region.
@@ -54,30 +58,23 @@ def mmi_tapered(
 
     .. code::
 
-
-                                                                                    ◄──────────────────►
-                                       ┌───────────────────────────────────────────┐
-                                       │                                           ├───────────────────┐
-                                       │                                           │                   ├─────────────┐
-                                       │                                           │                   │             │
-                                       │                                           │                   │             │
-               width_taper             │                                           │                   │             │
-                    ▲ ┌────────────────┤                                           │                   ├─────────────┘
-                    │ │                │                                           ├───────────────────┘
-        ┌───────────┼─┤                │                                           │
-        │           │ │◄──────────────►│                                           │
-        ◄───────────┼─►                │                                           ├───────────────────┐
-        └───────────┼─┐                │                                           │                   ├──────────────┐
-        length_taper│ │                │                                           │                   │              │
-                    ▼ └────────────────┤                                           │                   │              │
-                                       │                                           │                   │              │
-                      ◄───────────────►│                                           │                   ├──────────────┘
-                        length_taper_in│                                           ├───────────────────┘
-                                       └───────────────────────────────────────────┘
-                                                                                     length_taper_out   length_taper
-                                       ◄───────────────────────────────────────────►
-                                                     length_mmi
-
+                                       ┌───────────┐
+                                       │           ├───────────────┐
+                                       │           │               ├────────────┐
+               width_taper             │           │               │            │
+                    ▲ ┌────────────────┤           │               ├────────────┘
+                    │ │                │           ├───────────────┘
+        ┌───────────┼─┤                │           │
+        │           │ │                │           │
+        ◄───────────┼─►                │           ├───────────────┐
+        └───────────┼─┐                │           │               ├─────────────┐
+                    ▼ └────────────────┤           │               │             │
+                      ◄───────────────►│           │               ├─────────────┘
+        length_taper    length_taper_in│           ├───────────────┘ length_taper
+        ◄────────────►                 └───────────┘◄────────────►  ◄────────────►
+            start                                  length_taper_out      end
+                                       ◄───────────►
+                                        length_mmi
     """
     c = Component()
     gap_input_tapers = gf.snap.snap_to_grid(gap_input_tapers, grid_factor=2)
@@ -98,10 +95,17 @@ def mmi_tapered(
         width1=width_taper,
         cross_section=cross_section,
     )
-    _taper = taper(
-        length=length_taper,
+    _taper_start = taper(
+        length=length_taper_start or length_taper,
         width1=width,
         width2=width_taper,
+        cross_section=cross_section,
+    )
+
+    _taper_end = taper(
+        length=length_taper_end or length_taper,
+        width2=width_taper,
+        width1=width,
         cross_section=cross_section,
     )
 
@@ -164,14 +168,14 @@ def mmi_tapered(
     for port in in_ports:
         taper_ref = c << _taper_in
         taper_ref.connect("o2", port, allow_width_mismatch=True)
-        taper_outer_ref = c << _taper
+        taper_outer_ref = c << _taper_start
         taper_outer_ref.connect("o2", taper_ref["o1"], allow_width_mismatch=True)
         c.add_port(name=port.name, port=taper_outer_ref.ports["o1"])
 
     for port in out_ports:
         taper_ref = c << _taper_out
         taper_ref.connect("o2", port, allow_width_mismatch=True)
-        taper_outer_ref = c << _taper
+        taper_outer_ref = c << _taper_end
         taper_outer_ref.connect("o2", taper_ref["o1"], allow_width_mismatch=True)
         c.add_port(name=port.name, port=taper_outer_ref.ports["o1"])
 

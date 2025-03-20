@@ -5,13 +5,14 @@ from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.components.containers.component_sequence import component_sequence
 from gdsfactory.typings import ComponentSpec
 
 
 def _get_bend_size(bend90: Component) -> float:
     p1, p2 = list(bend90.ports)[:2]
-    bsx = abs(p2.dx - p1.dx)
-    bsy = abs(p2.dy - p1.dy)
+    bsx = abs(p2.x - p1.x)
+    bsy = abs(p2.y - p1.y)
     return max(bsx, bsy)
 
 
@@ -62,7 +63,7 @@ def cutback_bend(
         s += "ASAS" if i % 2 == 0 else "BSBS"
     s = s[:-4]
 
-    c = gf.c.component_sequence(
+    c = component_sequence(
         sequence=s, symbol_to_component=symbol_to_component, start_orientation=90
     )
     c.info["components"] = rows * cols * 2 + cols * 2 - 2
@@ -116,7 +117,7 @@ def cutback_bend90(
     s = s[:-1]
 
     # Create the component from the sequence
-    c = gf.c.component_sequence(
+    c = component_sequence(
         sequence=s, symbol_to_component=symbol_to_component, start_orientation=0
     )
     c.info["components"] = rows * cols * 4
@@ -163,10 +164,10 @@ def staircase(
     # Generate the sequence of staircases
     s = "-A|B" * rows + "-"
 
-    c = gf.c.component_sequence(
+    c = component_sequence(
         sequence=s,
         symbol_to_component=symbol_to_component,
-        start_orientation=0,  # type: ignore
+        start_orientation=0,
     )
     c.info["components"] = 2 * rows
     return c
@@ -204,7 +205,7 @@ def cutback_bend180(
     straightx = gf.get_component(straight, length=straight_length, **kwargs)
     wg_vertical = gf.get_component(
         straight,
-        length=2 * bend180.dxsize + straight_length + spacing,
+        length=2 * bend180.xsize + straight_length + spacing,
         **kwargs,
     )
 
@@ -223,7 +224,7 @@ def cutback_bend180(
 
     s = s[:-1]
 
-    c = gf.c.component_sequence(
+    c = component_sequence(
         sequence=s, symbol_to_component=symbol_to_component, start_orientation=0
     )
     c.info["components"] = rows * cols * 2 + cols * 2 - 2

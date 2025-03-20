@@ -27,10 +27,10 @@ def direction_ports_from_list_ports(
 
     for direction, list_ports in list(direction_ports.items()):
         if direction in ["E", "W"]:
-            list_ports.sort(key=lambda p: p.dy)
+            list_ports.sort(key=lambda p: p.y)
 
         if direction in ["S", "N"]:
-            list_ports.sort(key=lambda p: p.dx)
+            list_ports.sort(key=lambda p: p.x)
 
     return direction_ports
 
@@ -48,9 +48,9 @@ def check_ports_have_equal_spacing(list_ports: Sequence[Port]) -> float:
 
     orientation = get_list_ports_angle(list_ports)
     if orientation in [0, 180]:
-        xys = [p.dy for p in list_ports]
+        xys = [p.y for p in list_ports]
     else:
-        xys = [p.dx for p in list_ports]
+        xys = [p.x for p in list_ports]
 
     seps = [round(abs(c2 - c1), 5) for c1, c2 in zip(xys[1:], xys[:-1])]
     different_seps = set(seps)

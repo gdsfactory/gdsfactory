@@ -79,8 +79,8 @@ def mzi_pads_center(
     pads = c << gf.components.array(
         component=pad, columns=3, rows=1, column_pitch=pad_pitch
     )
-    pads.dx = m.dx
-    pads.dy = m.dy
+    pads.x = m.x
+    pads.y = m.y
 
     if mzi_sig_top is not None:
         gf.routing.route_single_electrical(

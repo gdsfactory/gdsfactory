@@ -40,12 +40,12 @@ def cdsem_straight_density(
         tooth_ref = c << gf.c.straight(
             length=length, cross_section=cross_section, width=width
         )
-        tooth_ref.dymin = ymin
+        tooth_ref.ymin = ymin
         ymin += width + gap
 
     if text and tooth_ref is not None:
         marker_label = c << gf.get_component(text, text=f"{label}", size=text_size)
-        marker_label.dxmin = tooth_ref.dxmax + 5
+        marker_label.xmin = tooth_ref.xmax + 5
     return c
 
 

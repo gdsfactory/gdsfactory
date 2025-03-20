@@ -25,14 +25,14 @@ skip_test = {
 cells_to_test = set(cells.keys()) - skip_test
 
 
-default_container_arguments = dict(
+default_container_arguments: dict[str, dict[str, Any]] = dict(
     bbox=dict(component="mmi1x2", layer="SLAB90"),
     pack_doe=dict(doe="mmi1x2", settings=dict(length_mmi=(100, 200))),
     pack_doe_grid=dict(doe="mmi1x2", settings=dict(length_mmi=(100, 200))),
     add_fiber_array_optical_south_electrical_north=dict(
         component=gf.c.straight_heater_metal,
         pad=gf.c.pad,
-        grating_coupler=gf.c.grating_coupler_te,  # type: ignore
+        grating_coupler=gf.c.grating_coupler_te,
         cross_section_metal="metal_routing",
         pad_pitch=100,
     ),

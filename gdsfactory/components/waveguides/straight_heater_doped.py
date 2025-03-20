@@ -98,7 +98,7 @@ def straight_heater_doped_rib(
         taper_component = gf.get_component(
             taper, cross_section1=cross_section, cross_section2=cross_section_heater
         )
-        length -= taper_component.dxsize * 2
+        length -= taper_component.xsize * 2
 
     wg = c << gf.c.straight(
         cross_section=cross_section_heater,
@@ -135,10 +135,10 @@ def straight_heater_doped_rib(
 
         if via_stack_metal and via_stack and via_stack_section:
             via_stack_center = c.add_ref(via_stack_section)
-            via_stack_center.dx = xi
+            via_stack_center.x = xi
             via_stack_ref = c << via_stack_section
-            via_stack_ref.dx = xi
-            via_stack_ref.dy = (
+            via_stack_ref.x = xi
+            via_stack_ref.y = (
                 +via_stack_metal_size[1] if i % 2 == 0 else -via_stack_metal_size[1]
             )
             via_stacks.append(via_stack_ref)
@@ -146,16 +146,16 @@ def straight_heater_doped_rib(
         if via_stack:
             _via_stack = gf.get_component(via_stack, size=via_stack_size)
             via_stack_top = c << _via_stack
-            via_stack_top.dx = xi
-            via_stack_top.dymin = +(heater_gap + width / 2 + via_stack_gap)
+            via_stack_top.x = xi
+            via_stack_top.ymin = +(heater_gap + width / 2 + via_stack_gap)
 
             via_stack_bot = c << _via_stack
-            via_stack_bot.dx = xi
-            via_stack_bot.dymax = -(heater_gap + width / 2 + via_stack_gap)
+            via_stack_bot.x = xi
+            via_stack_bot.ymax = -(heater_gap + width / 2 + via_stack_gap)
 
     if via_stack and via_stack_top and via_stack_bot:
-        via_stack_top.dmovex(xoffset_tip2)
-        via_stack_bot.dmovex(xoffset_tip2)
+        via_stack_top.movex(xoffset_tip2)
+        via_stack_bot.movex(xoffset_tip2)
 
     if via_stack_metal and via_stack and via_stack_section:
         via_stack_length = length + via_stack_metal_size[0]
@@ -168,11 +168,11 @@ def straight_heater_doped_rib(
             size=(via_stack_length, via_stack_metal_size[0]),
         )
 
-        via_stack_bot_component.dxmin = via_stacks[0].dxmin
-        via_stack_top_component.dxmin = via_stacks[0].dxmin
+        via_stack_bot_component.xmin = via_stacks[0].xmin
+        via_stack_top_component.xmin = via_stacks[0].xmin
 
-        via_stack_top_component.dymin = via_stacks[0].dymax
-        via_stack_bot_component.dymax = via_stacks[1].dymin
+        via_stack_top_component.ymin = via_stacks[0].ymax
+        via_stack_bot_component.ymax = via_stacks[1].ymin
 
         c.add_ports(via_stack_top_component.ports, prefix="top_")
         c.add_ports(via_stack_bot_component.ports, prefix="bot_")

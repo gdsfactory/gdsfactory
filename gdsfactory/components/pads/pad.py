@@ -17,7 +17,7 @@ from gdsfactory.typings import (
 
 @gf.cell
 def pad(
-    size: Size = (100.0, 100.0),
+    size: Size | str = (100.0, 100.0),
     layer: LayerSpec = "MTOP",
     bbox_layers: tuple[LayerSpec, ...] | None = None,
     bbox_offsets: tuple[float, ...] | None = None,
@@ -41,9 +41,9 @@ def pad(
     """
     c = Component()
     layer = gf.get_layer(layer)
-    size = gf.get_constant(size)
+    size_ = gf.get_constant(size)
     rect = gf.c.compass(
-        size=size,
+        size=size_,
         layer=layer,
         port_inclusion=port_inclusion,
         port_type="electrical",
@@ -51,20 +51,20 @@ def pad(
     )
     c_ref = c.add_ref(rect)
     c.add_ports(c_ref.ports)
-    c.info["size"] = size
-    c.info["xsize"] = size[0]
-    c.info["ysize"] = size[1]
+    c.info["size"] = size_
+    c.info["xsize"] = size_[0]
+    c.info["ysize"] = size_[1]
 
     if bbox_layers and bbox_offsets:
         sizes: list[Size] = []
         for cladding_offset in bbox_offsets:
-            size = (size[0] + 2 * cladding_offset, size[1] + 2 * cladding_offset)
-            sizes.append(size)
+            size_ = (size_[0] + 2 * cladding_offset, size_[1] + 2 * cladding_offset)
+            sizes.append(size_)
 
-        for layer, size in zip(bbox_layers, sizes):
+        for layer, size_ in zip(bbox_layers, sizes):
             c.add_ref(
                 gf.c.compass(
-                    size=size,
+                    size=size_,
                     layer=layer,
                 )
             )
@@ -72,7 +72,7 @@ def pad(
     if port_orientation is not None and port_orientation not in valid_port_orientations:
         raise ValueError(f"{port_orientation=} must be in {valid_port_orientations}")
 
-    width = size[1] if port_orientation in {0, 180} else size[0]
+    width = size_[1] if port_orientation in {0, 180} else size_[0]
 
     if port_orientation is not None:
         c.add_port(
@@ -87,7 +87,7 @@ def pad(
     return c
 
 
-pad_rectangular = partial(pad, size="pad_size")  # type: ignore
+pad_rectangular = partial(pad, size="pad_size")
 pad_small = partial(pad, size=(80, 80))
 
 
@@ -99,8 +99,8 @@ def pad_array(
     column_pitch: float = 150.0,
     row_pitch: float = 150.0,
     port_orientation: AngleInDegrees = 0,
-    size: Float2 = (100.0, 100.0),
-    layer: LayerSpec = "MTOP",
+    size: Float2 | None = None,
+    layer: LayerSpec | None = "MTOP",
     centered_ports: bool = False,
     auto_rename_ports: bool = False,
 ) -> Component:
@@ -119,9 +119,24 @@ def pad_array(
         auto_rename_ports: True to auto rename ports.
     """
     c = Component()
-    pad_component = gf.get_component(
-        pad, size=size, layer=layer, port_orientations=None, port_orientation=None
-    )
+
+    if layer and size:
+        pad_component = gf.get_component(
+            pad, size=size, layer=layer, port_orientations=None, port_orientation=None
+        )
+    elif layer:
+        pad_component = gf.get_component(
+            pad, layer=layer, port_orientations=None, port_orientation=None
+        )
+    elif size:
+        pad_component = gf.get_component(
+            pad, size=size, port_orientations=None, port_orientation=None
+        )
+    else:
+        pad_component = gf.get_component(pad)
+
+    size = size or pad_component.info["size"]
+    layer = layer or pad_component.ports[0].layer
 
     c.add_ref(
         pad_component,
@@ -130,7 +145,7 @@ def pad_array(
         column_pitch=column_pitch,
         row_pitch=row_pitch,
     )
-    width = size[0] if port_orientation in {90, 270} else size[1]
+    width = size[0] if int(port_orientation) in {90, 270} else size[1]
 
     for col in range(columns):
         for row in range(rows):
@@ -170,8 +185,14 @@ pad_array180 = partial(pad_array, port_orientation=180, columns=1, rows=3)
 
 
 if __name__ == "__main__":
-    c = pad_rectangular()
+    # c = pad_array(port_orientation=270.)
     # c = pad_array(columns=3, centered_ports=True, port_orientation=90)
     # c = pad(port_orientations=[270])
+    pad = gf.components.pad
+    # c = gf.get_component(pad)
+
+    c = gf.components.pad_array(
+        port_orientation=270, pad=pad, size=(10, 10), column_pitch=15
+    )
     # c.pprint_ports()
     c.show()
