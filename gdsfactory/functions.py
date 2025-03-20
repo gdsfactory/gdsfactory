@@ -167,7 +167,7 @@ def get_polygons(
     for layer_index in layer_indexes:
         layer_key = get_key(layer_index)
         if isinstance(component_or_instance, gf.Component):
-            r = gf.kdb.Region(c.begin_shapes_rec(layer_index))
+            r = gf.Region(c.begin_shapes_rec(layer_index))
         else:
             r = kf.kdb.Region(c.cell.begin_shapes_rec(layer_index)).transformed(
                 c.cplx_trans

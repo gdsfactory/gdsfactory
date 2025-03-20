@@ -681,6 +681,30 @@ class Component(ComponentBase, kf.DKCell):
 
         return get_polygons(self, merge=merge, by=by, layers=layers, smooth=smooth)
 
+    def get_region(
+        self, layer: "LayerSpec", merge: bool = False, smooth: float | None = None
+    ) -> kdb.Region:
+        """Returns a Region of the Component.
+
+        Note that all operations that you do with the Region will be done in the database units.
+
+        Where for most processes 1 dbu = 1 nm.
+
+        Args:
+            layer: layer to get region from.
+            merge: if True, merges the region.
+            smooth: if True, smooths the region by the specified amount (in um).
+        """
+        from gdsfactory import get_layer
+
+        layer_index = get_layer(layer)
+        r = kdb.Region(self.kdb_cell.begin_shapes_rec(layer_index))
+        if smooth:
+            r.smooth(self.kcl.to_dbu(smooth))
+        if merge:
+            r.merge()
+        return r
+
     def get_polygons_points(
         self,
         merge: bool = False,
@@ -1182,3 +1206,21 @@ def container(
 
     c.copy_child_info(component)
     return c
+
+
+if __name__ == "__main__":
+    import gdsfactory as gf
+    from gdsfactory.generic_tech import LAYER
+
+    c = gf.components.circle()
+    c2 = gf.Component()
+    region = c.get_region(layer=LAYER.WG, smooth=1)
+    region2 = region.sized(100)
+    region3 = region2 - region
+
+    c2.add_polygon(region3, layer=LAYER.WG)
+    c2.show()
+
+    # polygons = c.get_polygons(smooth=1)[LAYER.WG]
+    # c2.add_polygon(region, layer=LAYER.WG)
+    # c2

@@ -77,7 +77,7 @@ from gdsfactory.get_factories import get_cells
 from gdsfactory.grid import grid, grid_with_text
 
 c = components
-
+Region = kdb.Region
 
 # Check Python version and issue a warning if using Python 3.10
 if sys.version_info[:2] == (3, 10):
@@ -108,6 +108,7 @@ __all__ = (
     "Path",
     "Pdk",
     "Port",
+    "Region",
     "Section",
     "__version__",
     "add_padding",
