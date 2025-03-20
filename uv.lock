@@ -1992,7 +1992,8 @@ wheels = [
 
 [[package]]
 name = "kfactory"
-version = "1.2.3"
+
+version = "1.2.4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aenum" },
@@ -2010,9 +2011,10 @@ dependencies = [
     { name = "toolz" },
     { name = "typer" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/cc/96/3dfae8b0796bfad7e80c4221a24ab2e132dbbf926059e927c4c0b25b5011/kfactory-1.2.3.tar.gz", hash = "sha256:ea3c89f6f0361e9d68a337c1bbbb0ffd9868a1304da405e809a9609c09d016d3", size = 1383933 }
+
+sdist = { url = "https://files.pythonhosted.org/packages/8c/77/cb81633728320f78671091c164a6947a26b00c16ee52b3450727ecc67e8e/kfactory-1.2.4.tar.gz", hash = "sha256:6c034ae1945767a4693ac10e409acbb2ca9e8cbc0f28838b76b1d8a4a520ead2", size = 1384537 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/b2/93/89e6d392e5b919e9c551f9d3f5da0547dd0779248b2ecda610a6516a2742/kfactory-1.2.3-py3-none-any.whl", hash = "sha256:f169ba07f436f5f9b7957180553d7ed35c3c26ab3fd901bcb32ff95055962635", size = 187794 },
+    { url = "https://files.pythonhosted.org/packages/96/42/eb799ed1ea6cc377223ce9bc4f97c57829597509866210c2f46605a1e559/kfactory-1.2.4-py3-none-any.whl", hash = "sha256:9b238c74ea8d0c8b063b65bbdfdf94f5f6fe4f5a9cd1c01244f75e3f40cb36e9", size = 188334 },
 ]
 
 [package.optional-dependencies]
