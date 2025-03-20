@@ -14,7 +14,7 @@ from gdsfactory.routing.route_astar import route_astar
 from gdsfactory.routing.route_bundle import route_bundle, route_bundle_electrical
 from gdsfactory.routing.route_bundle_all_angle import route_bundle_all_angle
 from gdsfactory.routing.route_bundle_sbend import route_bundle_sbend
-from gdsfactory.routing.route_dubin import route_dubin as route_dubin
+from gdsfactory.routing.route_dubins import route_dubins as route_dubins
 from gdsfactory.routing.route_ports_to_side import (
     route_ports_to_side,
     route_ports_to_x,
@@ -40,7 +40,7 @@ __all__ = [
     "route_bundle_all_angle",
     "route_bundle_electrical",
     "route_bundle_sbend",
-    "route_dubin",
+    "route_dubins",
     "route_ports_to_side",
     "route_ports_to_x",
     "route_ports_to_y",
