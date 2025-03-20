@@ -3,15 +3,22 @@ help:
 	@echo 'make test:             Run tests with pytest'
 	@echo 'make test-force:       Rebuilds regression test'
 
-install:
+uv:
 	curl -LsSf https://astral.sh/uv/0.4.30/install.sh | sh
-	uv venv
-	uv pip install -e .[dev,docs] pre-commit
+
+install:
+	uv sync --extra docs --extra dev
+
+install310:
+	uv sync --extra docs --extra dev
 
 dev:
-	pip install -e .[dev,docs] pre-commit
-	gf install-klayout-genericpdk
-	gf install-git-diff
+	uv venv -p 3.12
+	uv sync --all-extras
+	uv pip install -e .
+	uv run pre-commit install
+	uv run gf install-klayout-genericpdk
+	uv run gf install-git-diff
 
 install-kfactory-dev:
 	uv pip install git+https://github.com/gdsfactory/kfactory --force-reinstall
@@ -29,13 +36,19 @@ test: test-data-gds
 	pytest -s
 
 test-force:
-	run pytest --force-regen -s
+	uv run pytest -n logical --force-regen -s
 
 uv-test: test-data-gds
-	uv run pytest -s
+	uv run pytest -s -n logical
 
 cov:
-	uv run pytest --cov=gdsfactory
+	uv run pytest --cov=gdsfactory --cov-report=term-missing:skip-covered
+
+dev-cov:
+	uv run pytest -s -n logical --cov=gdsfactory --cov-report=term-missing:skip-covered --durations=10
+
+test-samples:
+	uv run pytest tests/test_samples.py
 
 docker-debug:
 	docker run -it joamatab/gdsfactory sh
@@ -75,5 +88,21 @@ git-rm-merged:
 
 notebooks:
 	jupytext docs/notebooks/*.py --to ipynb
+
+clean:
+	rm -rf .venv
+	find src -name "*.c" | xargs rm -rf
+	find src -name "*.pyc" | xargs rm -rf
+	find src -name "*.so" | xargs rm -rf
+	find src -name "*.pyd" | xargs rm -rf
+	find . -name "*.egg_info" | xargs rm -rf
+	find . -name ".ipynb_checkpoints" | xargs rm -rf
+	find . -name ".mypy_cache" | xargs rm -rf
+	find . -name ".pytest_cache" | xargs rm -rf
+	find . -name ".ruff_cache" | xargs rm -rf
+	find . -name "__pycache__" | xargs rm -rf
+	find . -name "build" | xargs rm -rf
+	find . -name "builds" | xargs rm -rf
+	find . -name "dist" -not -path "*node_modules*" | xargs rm -rf
 
 .PHONY: gdsdiff build conda gdslib docs doc install

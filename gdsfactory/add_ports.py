@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import warnings
+from collections.abc import Sequence
 from functools import partial
 
 import numpy as np
@@ -11,22 +12,22 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.port import Port, read_port_markers, sort_ports_clockwise
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.typings import LayerSpec
+from gdsfactory.typings import AngleInDegrees, LayerSpec
 
 
 def add_ports_from_markers_square(
     component: Component,
     pin_layer: LayerSpec = "DEVREC",
     port_layer: LayerSpec | None = None,
-    orientation: int | None = 90,
+    orientation: AngleInDegrees = 90,
     min_pin_area_um2: float = 0,
     max_pin_area_um2: float | None = 150 * 150,
     pin_extra_width: float = 0.0,
-    port_names: tuple[str, ...] | None = None,
+    port_names: Sequence[str] | None = None,
     port_name_prefix: str | None = None,
     port_type: str = "optical",
 ) -> Component:
-    """Add ports from square markers at the port dcenter in port_layer.
+    """Add ports from square markers at the port center in port_layer.
 
     Args:
         component: to read polygons from and to write ports to.
@@ -43,9 +44,10 @@ def add_ports_from_markers_square(
     port_name_prefix_default = "o" if port_type == "optical" else "e"
     port_name_prefix = port_name_prefix or port_name_prefix_default
     port_markers = read_port_markers(component, (pin_layer,))
-    port_names = port_names or [
-        f"{port_name_prefix}{i+1}" for i in range(len(port_markers.polygons))
-    ]
+    port_names = list(
+        port_names
+        or [f"{port_name_prefix}{i + 1}" for i in range(len(port_markers.polygons))]
+    )
     layer = port_layer or pin_layer
 
     for port_name, p in zip(port_names, port_markers.polygons):
@@ -96,7 +98,7 @@ def add_ports_from_markers_center(
         component: to read polygons from and to write ports to.
         pin_layer: layer for pin maker.
         port_layer: for the new created port. Defaults to pin_layer.
-        inside: True-> markers  inside. False-> markers at dcenter.
+        inside: True-> markers  inside. False-> markers at center.
         tol: tolerance area to search ports at component boundaries dxmin, dymin, dxmax, dxmax.
         pin_extra_width: 2*offset from pin to straight.
         min_pin_area_um2: ignores pins with area smaller than min_pin_area_um2.
@@ -149,18 +151,19 @@ def add_ports_from_markers_center(
         dx > xc: east
         dx < xc: west
     """
-    xc = xcenter or component.dx
-    yc = ycenter or component.dy
-    dxmax = component.dxmax
-    dxmin = component.dxmin
-    dymax = component.dymax
-    dymin = component.dymin
-    dbu = component.kcl.dbu
+    from gdsfactory.pdk import get_layer
+
+    xc = xcenter or component.x
+    yc = ycenter or component.y
+    dxmax = component.xmax
+    dxmin = component.xmin
+    dymax = component.ymax
+    dymin = component.ymin
+    dbu = float(component.kcl.dbu)
 
     layer = port_layer or pin_layer
-    port_locations = []
+    port_locations: list[tuple[float, float]] = []
 
-    ports = {}
     port_name_prefix_default = "o" if port_type == "optical" else "e"
     port_name_prefix = port_name_prefix or port_name_prefix_default
 
@@ -172,12 +175,20 @@ def add_ports_from_markers_center(
         return component
 
     port_markers = polygons[pin_layer]
-    ports = []
+    ports: list[Port] = []
 
     for i, p in enumerate(port_markers):
-        port_name = f"{port_name_prefix}{i+1}" if port_name_prefix else str(i)
+        port_name = f"{port_name_prefix}{i + 1}" if port_name_prefix else str(i)
         bbox = p.bbox()
-        pxmin, pymin, pxmax, pymax = bbox.left, bbox.bottom, bbox.right, bbox.top
+        pxmin, pymin, pxmax, pymax = map(
+            float,
+            (
+                (bbox.left),
+                (bbox.bottom),
+                (bbox.right),
+                (bbox.top),
+            ),
+        )
 
         x = (pxmax + pxmin) / 2
         y = (pymin + pymax) / 2
@@ -267,7 +278,7 @@ def add_ports_from_markers_center(
                 center=(x, y),
                 width=width,
                 orientation=orientation,
-                layer=layer,
+                layer=get_layer(layer),
                 port_type=port_type,
             )
             ports.append(port)
@@ -275,11 +286,11 @@ def add_ports_from_markers_center(
     ports = sort_ports_clockwise(ports)
 
     for port in ports:
-        port_name = port.name
-        if port_name in component.ports:
+        _port_name_or_none = port.name
+        if port in component.ports:
             component_ports = [p.name for p in component.ports]
             raise ValueError(
-                f"port {port_name!r} already in {component_ports}. "
+                f"port {_port_name_or_none!r} already in {component_ports}. "
                 "You can pass a port_name_prefix to add it with a different name."
             )
 
@@ -314,7 +325,7 @@ def add_ports_from_boxes(
         component: to read polygons from and to write ports to.
         pin_layer: layer for pin maker.
         port_layer: for the new created port. Defaults to pin_layer.
-        inside: True-> markers  inside. False-> markers at dcenter.
+        inside: True-> markers  inside. False-> markers at center.
         tol: tolerance area to search ports at component boundaries dxmin, dymin, dxmax, dxmax.
         pin_extra_width: 2*offset from pin to straight.
         min_pin_area_um2: ignores pins with area smaller than min_pin_area_um2.
@@ -367,17 +378,17 @@ def add_ports_from_boxes(
         dx > xc: east
         dx < xc: west
     """
-    xc = xcenter or component.dx
-    yc = ycenter or component.dy
-    dxmax = component.dxmax
-    dxmin = component.dxmin
-    dymax = component.dymax
-    dymin = component.dymin
+    xc = xcenter or component.x
+    yc = ycenter or component.y
+    dxmax = component.xmax
+    dxmin = component.xmin
+    dymax = component.ymax
+    dymin = component.ymin
 
     layer = port_layer or pin_layer
-    port_locations = []
+    port_locations: list[tuple[float, float]] = []
 
-    ports = []
+    ports: list[Port] = []
     port_name_prefix_default = "o" if port_type == "optical" else "e"
     port_name_prefix = port_name_prefix or port_name_prefix_default
 
@@ -386,7 +397,7 @@ def add_ports_from_boxes(
 
     port_markers = component.get_boxes(layer=pin_layer)
     for i, p in enumerate(port_markers):
-        port_name = f"{port_name_prefix}{i+1}" if port_name_prefix else str(i)
+        port_name = f"{port_name_prefix}{i + 1}" if port_name_prefix else str(i)
         bbox = p.bbox()
         pxmin, pymin, pxmax, pymax = bbox.left, bbox.bottom, bbox.right, bbox.top
 
@@ -478,16 +489,18 @@ def add_ports_from_boxes(
     ports = sort_ports_clockwise(ports)
 
     for port in ports:
-        port_name = port.name
-        if port_name in component.ports:
+        _port_name_or_none = port.name
+        if _port_name_or_none is None:
+            continue
+        if _port_name_or_none in component.ports:
             component_ports = [p.name for p in component.ports]
             raise ValueError(
-                f"port {port_name!r} already in {component_ports}. "
+                f"port {_port_name_or_none!r} already in {component_ports}. "
                 "You can pass a port_name_prefix to add it with a different name."
             )
 
         else:
-            component.add_port(name=port_name, port=port)
+            component.add_port(name=_port_name_or_none, port=port)
     if auto_rename_ports:
         component.auto_rename_ports()
     return component
@@ -506,20 +519,20 @@ def add_ports_from_labels(
     get_name_from_label: bool = False,
     layer_label: LayerSpec | None = None,
     fail_on_duplicates: bool = False,
-    port_orientation: float | None = None,
+    port_orientation: AngleInDegrees = 0,
     guess_port_orientation: bool = True,
     port_filter_prefix: str | None = None,
 ) -> Component:
     """Add ports from labels.
 
-    Assumes that all ports have a label at the port dcenter.
+    Assumes that all ports have a label at the port center.
     because labels do not have width, you have to manually specify the ports width
 
     Args:
         component: to read polygons from and to write ports to.
         port_width: for ports.
         port_layer: for the new created port.
-        xcenter: dcenter of the component, for guessing port orientation.
+        xcenter: center of the component, for guessing port orientation.
         port_name_prefix: defaults to 'o' for optical and 'e' for electrical.
         port_type: optical, electrical.
         get_name_from_label: uses the label text as port name.
@@ -532,12 +545,12 @@ def add_ports_from_labels(
     """
     port_name_prefix_default = "o" if port_type == "optical" else "e"
     port_name_prefix = port_name_prefix or port_name_prefix_default
-    yc = component.dy
+    yc = component.y
 
-    port_name_to_index = {}
+    port_name_to_index: dict[str, int] = {}
     layer_label = layer_label or port_layer
 
-    xc = xcenter or component.dx
+    xc = xcenter or component.x
     for i, label in enumerate(component.get_labels(layer=layer_label)):
         dx = label.x
         dy = label.y
@@ -548,7 +561,7 @@ def add_ports_from_labels(
         if get_name_from_label:
             port_name = label.string
         else:
-            port_name = f"{port_name_prefix}{i+1}" if port_name_prefix else i
+            port_name = f"{port_name_prefix}{i + 1}" if port_name_prefix else str(i)
 
         orientation = port_orientation
 
@@ -621,14 +634,14 @@ def add_ports_from_siepic_pins(
             orientation = 2
         elif v.x > 0:
             orientation = 0
-        elif v.dy > 0:
+        elif v.y > 0:
             orientation = 1
         else:
             orientation = 3
 
         c.create_port(
-            name=f"{port_prefix}{i+1}",
-            dwidth=round(path.width / c.kcl.dbu) * c.kcl.dbu,
+            name=f"{port_prefix}{i + 1}",
+            width=round(path.width / c.kcl.dbu) * c.kcl.dbu,
             dcplx_trans=gf.kdb.DCplxTrans(
                 1, orientation, False, path.bbox().center().to_v()
             ),

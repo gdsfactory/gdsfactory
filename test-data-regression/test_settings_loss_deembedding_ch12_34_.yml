@@ -1,8 +1,0 @@
-info: {}
-name: loss_deembedding_ch12_3_0220c4ef
-settings:
-  cross_section: strip
-  grating_coupler: grating_coupler_te
-  pitch: 127
-  port_name: o1
-  rotation: -90

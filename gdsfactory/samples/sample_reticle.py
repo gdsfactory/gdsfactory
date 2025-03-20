@@ -1,10 +1,16 @@
 from __future__ import annotations
 
+from typing import Any
+
 import gdsfactory as gf
+from gdsfactory.components.containers.add_fiber_array_optical_south_electrical_north import (
+    add_fiber_array_optical_south_electrical_north,
+)
+from gdsfactory.components.spirals.spiral import spiral
 
 
 @gf.cell
-def spiral_gc(**kwargs) -> gf.Component:
+def spiral_gc(**kwargs: Any) -> gf.Component:
     """Returns a spiral double with Grating Couplers.
 
     Args:
@@ -18,7 +24,7 @@ def spiral_gc(**kwargs) -> gf.Component:
         spacing: spacing between the spiral loops.
         n_loops: number of loops.
     """
-    c = gf.c.spiral(**kwargs)
+    c = spiral(**kwargs)
     c = gf.routing.add_fiber_array(c)
     c.info["doe"] = "spirals_sc"
     c.info["measurement"] = "optical_spectrum"
@@ -34,7 +40,7 @@ def spiral_gc(**kwargs) -> gf.Component:
 
 
 @gf.cell
-def mzi_gc(length_x=10, **kwargs) -> gf.Component:
+def mzi_gc(length_x: float = 10, **kwargs: Any) -> gf.Component:
     """Returns a MZI with Grating Couplers.
 
     Args:
@@ -63,19 +69,19 @@ def mzi_gc(length_x=10, **kwargs) -> gf.Component:
 @gf.cell
 def sample_reticle(grid: bool = False) -> gf.Component:
     """Returns MZI with TE grating couplers."""
-    from gdsfactory.generic_tech.cells import (
-        add_fiber_array_optical_south_electrical_north,
-    )
-
     mzis = [mzi_gc(length_x=lengths) for lengths in [100, 200, 300]]
     spirals = [spiral_gc(length=length) for length in [0, 100, 200]]
-    rings = []
+    rings: list[gf.Component] = []
     for length_x in [10, 20, 30]:
         ring = gf.components.ring_single_heater(length_x=length_x)
         c = add_fiber_array_optical_south_electrical_north(
             component=ring,
+            pad=gf.c.pad,
+            grating_coupler=gf.c.grating_coupler_te,
             electrical_port_names=["l_e2", "r_e2"],
-        )
+            cross_section_metal="metal3",
+        ).copy()
+
         c.name = f"ring_{length_x}"
         c.info["doe"] = "ring_length_x"
         c.info["measurement"] = "optical_spectrum"
@@ -92,10 +98,10 @@ def sample_reticle(grid: bool = False) -> gf.Component:
     components = mzis * copies + rings * copies + spirals * copies
     if grid:
         return gf.grid(components)
-    c = gf.pack(components)
-    if len(c) > 1:
-        c = gf.pack(c)
-    return c[0]
+    components = gf.pack(components)
+    if len(components) > 1:
+        components = gf.pack(components)
+    return components[0]
 
 
 if __name__ == "__main__":

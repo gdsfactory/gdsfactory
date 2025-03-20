@@ -1,6 +1,7 @@
 info: {}
-name: compass_S4_2_LWG_PTelec_4f423dbd
+name: compass_S4_2_LWG_PTelec_2b3a60dd
 settings:
+  auto_rename_ports: true
   layer: WG
   port_inclusion: 0
   port_orientations:

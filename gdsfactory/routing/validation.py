@@ -2,13 +2,14 @@ from warnings import warn
 
 import numpy as np
 
+import gdsfactory as gf
 from gdsfactory.config import CONF
 from gdsfactory.port import Port
 from gdsfactory.routing.utils import RouteWarning
 
 
 def make_error_traces(
-    component, ports1: list[Port], ports2: list[Port], message: str
+    component: gf.Component, ports1: list[Port], ports2: list[Port], message: str
 ) -> None:
     """Creates a set of error traces showing the intended connectivity between ports1 and ports2.
 
@@ -27,7 +28,7 @@ def make_error_traces(
 
     warn(message, RouteWarning)
     for port1, port2 in zip(ports1, ports2):
-        path = gf.path.Path([port1.dcenter, port2.dcenter])
+        path = gf.path.Path(np.array([port1.center, port2.center]))
         error_component = gf.path.extrude(path, layer=CONF.layer_error_path, width=1)
         _ = component << error_component
 
@@ -53,24 +54,24 @@ def is_invalid_bundle_topology(ports1: list[Port], ports2: list[Port]) -> bool:
     from shapely import intersection_all
 
     # this is not really quite angle, but a threshold to check if dot products are effectively above/below zero, excluding numerical errors
-    ANGLE_TOLERANCE = 1e-10
+    angle_tolerance = 1e-10
 
     if len(ports1) < 2:
         # if there's only one route, the bundle topology is always valid
         return False
-    if any(p.orientation is None for p in ports1 + ports2):
+    if any(not p.orientation for p in ports1 + ports2):
         # don't check if the ports do not have orientation
         return False
 
-    lines = [sg.LineString([p1.dcenter, p2.dcenter]) for p1, p2 in zip(ports1, ports2)]
+    lines = [sg.LineString([p1.center, p2.center]) for p1, p2 in zip(ports1, ports2)]
 
     # Positive if BOTH ports are EITHER facing towards OR away from the vector of the outgoing line between them
     # Zero if either is orthogonal
     # Negative if one is facing and the other not
     ports_facing = []
     for p1, p2 in zip(ports1, ports2):
-        dy_line = p2.dcenter[1] - p1.dcenter[1]
-        dx_line = p2.dcenter[0] - p1.dcenter[0]
+        dy_line = p2.center[1] - p1.center[1]
+        dx_line = p2.center[0] - p1.center[0]
 
         dy_p1 = np.sin(np.deg2rad(p1.orientation))
         dx_p1 = np.cos(np.deg2rad(p1.orientation))
@@ -85,9 +86,9 @@ def is_invalid_bundle_topology(ports1: list[Port], ports2: list[Port]) -> bool:
 
     intersections = intersection_all(lines)
     # print(intersections)
-    if intersections.is_empty and all(s < -ANGLE_TOLERANCE for s in ports_facing):
+    if intersections.is_empty and all(s < -angle_tolerance for s in ports_facing):
         return True
-    elif not intersections.is_empty and all(s > ANGLE_TOLERANCE for s in ports_facing):
+    elif not intersections.is_empty and all(s > angle_tolerance for s in ports_facing):
         return True
 
     # NOTE: there are more complicated cases we are ignoring for now and giving "the benefit of the doubt"

@@ -1,0 +1,8 @@
+info:
+  length: 62.831
+name: bend_s_offset_O40_R10_C_aebeb0d7
+settings:
+  cross_section: strip
+  offset: 40
+  radius: 10
+  with_euler: true

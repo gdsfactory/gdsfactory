@@ -1,5 +1,5 @@
 instances:
-  via_stack_S10_3_LM1_M2__6dbbf459_16061_11500:
+  via_stack_S10_3_LM1_M2__28a086ef_16061_11500:
     component: via_stack
     info:
       xsize: 10
@@ -7,7 +7,7 @@ instances:
     settings:
       correct_size: true
       layer_offsets: null
-      layer_port: null
+      layer_to_port_orientations: null
       layers:
       - M1
       - M2
@@ -26,7 +26,7 @@ instances:
       - via1
       - via2
       - null
-  via_stack_S10_3_LM1_M2__6dbbf459_m1500_m6061:
+  via_stack_S10_3_LM1_M2__28a086ef_m1500_m6061:
     component: via_stack
     info:
       xsize: 10
@@ -34,7 +34,7 @@ instances:
     settings:
       correct_size: true
       layer_offsets: null
-      layer_port: null
+      layer_to_port_orientations: null
       layers:
       - M1
       - M2
@@ -72,17 +72,17 @@ instances:
       width: 2.121
 name: via_stack_corner45_exte_dddb75cc
 nets:
-- p1: via_stack_S10_3_LM1_M2__6dbbf459_16061_11500,e1
+- p1: via_stack_S10_3_LM1_M2__28a086ef_16061_11500,e1
   p2: via_stack_corner45_W2p1_2f36860f_0_0,e2
-- p1: via_stack_S10_3_LM1_M2__6dbbf459_m1500_m6061,e1
+- p1: via_stack_S10_3_LM1_M2__28a086ef_m1500_m6061,e1
   p2: via_stack_corner45_W2p1_2f36860f_0_0,e1
 placements:
-  via_stack_S10_3_LM1_M2__6dbbf459_16061_11500:
+  via_stack_S10_3_LM1_M2__28a086ef_16061_11500:
     mirror: false
     rotation: 0
     x: 16.061
     y: 11.5
-  via_stack_S10_3_LM1_M2__6dbbf459_m1500_m6061:
+  via_stack_S10_3_LM1_M2__28a086ef_m1500_m6061:
     mirror: false
     rotation: 270
     x: -1.5
@@ -98,22 +98,22 @@ warnings:
     unconnected_ports:
     - message: 6 unconnected electrical ports!
       ports:
-      - via_stack_S10_3_LM1_M2__6dbbf459_m1500_m6061,e2
-      - via_stack_S10_3_LM1_M2__6dbbf459_m1500_m6061,e3
-      - via_stack_S10_3_LM1_M2__6dbbf459_m1500_m6061,e4
-      - via_stack_S10_3_LM1_M2__6dbbf459_16061_11500,e2
-      - via_stack_S10_3_LM1_M2__6dbbf459_16061_11500,e3
-      - via_stack_S10_3_LM1_M2__6dbbf459_16061_11500,e4
+      - via_stack_S10_3_LM1_M2__28a086ef_m1500_m6061,e2
+      - via_stack_S10_3_LM1_M2__28a086ef_m1500_m6061,e3
+      - via_stack_S10_3_LM1_M2__28a086ef_m1500_m6061,e4
+      - via_stack_S10_3_LM1_M2__28a086ef_16061_11500,e2
+      - via_stack_S10_3_LM1_M2__28a086ef_16061_11500,e3
+      - via_stack_S10_3_LM1_M2__28a086ef_16061_11500,e4
       values:
       - - 0
-        - -6061
-      - - -1500
-        - -11061
-      - - -3000
-        - -6061
-      - - 16061
-        - 13000
-      - - 21061
-        - 11500
-      - - 16061
-        - 10000
+        - -6.061
+      - - -1.5
+        - -11.061
+      - - -3
+        - -6.061
+      - - 16.061
+        - 13
+      - - 21.061
+        - 11.5
+      - - 16.061
+        - 10

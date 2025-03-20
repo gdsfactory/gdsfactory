@@ -1,29 +1,28 @@
 from __future__ import annotations
 
-from collections.abc import Callable
+from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
-from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.route_fiber_array import route_fiber_array
 from gdsfactory.typings import (
     ComponentSpec,
     ComponentSpecOrList,
     CrossSectionSpec,
+    PortsFactory,
 )
 
 
 def add_fiber_array(
-    component: ComponentSpec = straight_function,
-    grating_coupler: ComponentSpecOrList = grating_coupler_te,
+    component: ComponentSpec = "straight",
+    grating_coupler: ComponentSpecOrList = "grating_coupler_te",
     gc_port_name: str = "o1",
-    select_ports: Callable = select_ports_optical,
+    select_ports: PortsFactory = select_ports_optical,
     cross_section: CrossSectionSpec = "strip",
     start_straight_length: float = 0,
     end_straight_length: float = 0,
-    **kwargs,
+    **kwargs: Any,
 ) -> Component:
     """Returns component with south routes and grating_couplers.
 
@@ -54,7 +53,7 @@ def add_fiber_array(
         routing_method: route_single.
         gc_rotation: fiber coupler rotation in degrees. Defaults to -90.
         input_port_indexes: to connect.
-        fiber_spacing: in um.
+        pitch: in um.
         radius: optional radius of the bend. Defaults to the cross_section.
         radius_loopback: optional radius of the loopback bend. Defaults to the cross_section.
         start_straight_length: length of the start straight.
@@ -102,7 +101,7 @@ def add_fiber_array(
         )
 
     if gc_port_name not in gc.ports:
-        raise ValueError(f"gc_port_name={gc_port_name!r} not in {gc.ports.keys()}")
+        raise ValueError(f"gc_port_name={gc_port_name!r} not in {list(gc.ports)}")
 
     component_new = Component()
 
@@ -177,7 +176,7 @@ if __name__ == "__main__":
     #     # route_single_factory=route_fiber_array,
     #     grating_coupler=gctm,
     #     # grating_coupler=[gcte, gctm, gcte, gctm],
-    #     # grating_coupler=gf.functions.drotate(gcte, angle=180),
+    #     # grating_coupler=gf.functions.rotate(gcte, angle=180),
     #     auto_widen=True,
     #     # layer=(2, 0),
     #     # gc_port_labels=["loop_in", "in", "out", "loop_out"],

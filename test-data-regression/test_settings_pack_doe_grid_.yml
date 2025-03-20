@@ -1,3 +1,16 @@
-info: {}
-name: Unnamed_20
-settings: {}
+info:
+  doe_names:
+  - mmi1x2_WNone_WT1_LT10_L_1498a399
+  - mmi1x2_WNone_WT1_LT10_L_4377a4d9
+  doe_settings:
+  - length_mmi: 100
+  - length_mmi: 200
+name: pack_doe_grid_Dmmi1x2_S_7ffdb8c2
+settings:
+  do_permutations: false
+  doe: mmi1x2
+  settings:
+    length_mmi:
+    - 100
+    - 200
+  with_text: false

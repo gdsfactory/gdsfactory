@@ -1,11 +1,11 @@
 info: {}
-name: array_Cpad_S150_150_C6__b45683c8
+name: array_Cpad_C6_R1_CP150__7124f07c
 settings:
   add_ports: true
+  auto_rename_ports: false
   centered: false
+  column_pitch: 150
   columns: 6
   component: pad
+  row_pitch: 150
   rows: 1
-  spacing:
-  - 150
-  - 150

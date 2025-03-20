@@ -11,14 +11,14 @@ def test_netlist_read_translated_rotated() -> None:
 
 
 def regenerate_regression_test() -> None:
-    c = gf.Component("test_netlist_yaml4")
+    c = gf.Component(name="test_netlist_yaml4")
     ref = c.add_ref(gf.components.bend_circular())
     ref.name = "b1"
     ref = c.add_ref(gf.components.bend_circular())
     ref.name = "b2"
     ref.dmovex(10)
     ref.dmirror()
-    ref.drotate(180)
+    ref.rotate(180)
     filepath = PATH.netlists / "bend_translated_rotated.yml"
     n = c.get_netlist()
     c.write_netlist(n, filepath)

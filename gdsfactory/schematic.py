@@ -1,36 +1,88 @@
 import json
-import warnings
-from typing import Any
+import pathlib
+from pathlib import Path
+from typing import Any, Self
 
 import networkx as nx
 import yaml
-from pydantic import BaseModel, Field, model_validator
+from graphviz import Digraph
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-import gdsfactory
+import gdsfactory as gf
+from gdsfactory.component import Component
 from gdsfactory.config import PATH
-from gdsfactory.typings import Anchor, Component
+from gdsfactory.serialization import convert_tuples_to_lists
+from gdsfactory.typings import Anchor, Delta, Port, Ports
+from gdsfactory.utils import is_component_spec
+
+
+class OrthogonalGridArray(BaseModel):
+    """Orthogonal grid array config.
+
+    Parameters:
+        columns: number of columns.
+        rows: number of rows.
+        column_pitch: column pitch.
+        row_pitch: row pitch.
+    """
+
+    columns: int = 1
+    rows: int = 1
+    column_pitch: float = 0
+    row_pitch: float = 0
+
+
+class GridArray(BaseModel):
+    """Non-orthogonal grid array config.
+
+    Parameters:
+        num_a: number of elements in the a-dimension.
+        num_b: number of elements in the b-dimension.
+        pitch_a: x-y pitch in the a-dimension.
+        pitch_b: x-y pitch in the b-dimension.
+    """
+
+    num_a: int = 1
+    num_b: int = 1
+    pitch_a: tuple[float, float] = (1.0, 0.0)
+    pitch_b: tuple[float, float] = (0.0, 1.0)
 
 
 class Instance(BaseModel):
+    """Instance of a component.
+
+    Parameters:
+        component: component name.
+        settings: input variables.
+        info: information (polarization, wavelength ...).
+        array: array config to make create an array reference for this instance
+    """
+
     component: str
     settings: dict[str, Any] = Field(default_factory=dict)
     info: dict[str, Any] = Field(default_factory=dict, exclude=True)
-    na: int = 1
-    nb: int = 1
-    dax: float = 0
-    day: float = 0
-    dbx: float = 0
-    dby: float = 0
+    array: OrthogonalGridArray | GridArray | None = None
 
-    model_config = {"extra": "forbid"}
+    model_config = ConfigDict(extra="forbid")
 
     @model_validator(mode="before")
     @classmethod
-    def update_settings_and_info(cls, values):
+    def update_settings_and_info(cls, values: dict[str, Any]) -> dict[str, Any]:
         """Validator to update component, settings and info based on the component."""
-        component = values.get("component")
+        if not isinstance(values, dict):
+            raise ValueError(
+                f"Expected a dictionary of the format {{'component': 'mycomponent', 'settings': {{...}}}}. Got a {type(values)} ({values})"
+            )
+        try:
+            component = values.get("component")
+        except KeyError:
+            raise KeyError(
+                f"'component' must be defined in instance definition. Got keys: {list(values.keys())}"
+            )
         settings = values.get("settings", {})
         info = values.get("info", {})
+
+        assert is_component_spec(component)
 
         import gdsfactory as gf
 
@@ -42,6 +94,24 @@ class Instance(BaseModel):
         values["component"] = c.function_name or component
         return values
 
+    @model_validator(mode="after")
+    def validate_array(self) -> Self:
+        if isinstance(self.array, OrthogonalGridArray):
+            if self.array.columns < 2:
+                self.array.columns = 1
+            if self.array.rows < 2:
+                self.array.rows = 1
+            if self.array.columns == 1 and self.array.rows == 1:
+                self.array = None
+        elif isinstance(self.array, GridArray):
+            if self.array.num_a < 2:
+                self.array.num_a = 1
+            if self.array.num_b < 2:
+                self.array.num_b = 1
+            if self.array.num_a == 1 and self.array.num_b == 1:
+                self.array = None
+        return self
+
 
 class Placement(BaseModel):
     x: str | float | None = None
@@ -50,8 +120,8 @@ class Placement(BaseModel):
     ymin: str | float | None = None
     xmax: str | float | None = None
     ymax: str | float | None = None
-    dx: float = 0
-    dy: float = 0
+    dx: Delta = 0
+    dy: Delta = 0
     port: str | Anchor | None = None
     rotation: float = 0
     mirror: bool | str | float = False
@@ -60,7 +130,7 @@ class Placement(BaseModel):
         """Allows to access the placement attributes as a dictionary."""
         return getattr(self, key, 0)
 
-    model_config = {"extra": "forbid"}
+    model_config = ConfigDict(extra="forbid")
 
 
 class Bundle(BaseModel):
@@ -68,7 +138,7 @@ class Bundle(BaseModel):
     settings: dict[str, Any] = Field(default_factory=dict)
     routing_strategy: str = "route_bundle"
 
-    model_config = {"extra": "forbid"}
+    model_config = ConfigDict(extra="forbid")
 
 
 class Net(BaseModel):
@@ -85,7 +155,7 @@ class Net(BaseModel):
     settings: dict[str, Any] = Field(default_factory=dict)
     name: str | None = None
 
-    def __init__(self, **data):
+    def __init__(self, **data: Any) -> None:
         """Initialize the net."""
         global _route_counter
         super().__init__(**data)
@@ -123,18 +193,27 @@ class Netlist(BaseModel):
     nets: list[Net] = Field(default_factory=list)
     warnings: dict[str, Any] = Field(default_factory=dict)
 
-    model_config = {"extra": "forbid"}
+    model_config = ConfigDict(extra="forbid")
+
+    @model_validator(mode="after")
+    def validate_instance_names(self) -> Self:
+        self.instances = {
+            _validate_instance_name(k): v for k, v in self.instances.items()
+        }
+        return self
 
 
 _route_counter = 0
 
 
-def to_yaml_graph_networkx(netlist: Netlist, nets):
+def to_yaml_graph_networkx(
+    netlist: Netlist, nets: list[Net]
+) -> tuple[nx.Graph, dict[str, str], dict[str, tuple[float, float]]]:
     """Generates a netlist graph using NetworkX."""
     connections = netlist.connections
     placements = netlist.placements
-    G = nx.Graph()
-    G.add_edges_from(
+    graph = nx.Graph()
+    graph.add_edges_from(
         [
             (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
             for k, v in connections.items()
@@ -144,19 +223,24 @@ def to_yaml_graph_networkx(netlist: Netlist, nets):
     labels = {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
 
     for node, placement in placements.items():
-        if not G.has_node(
+        if not graph.has_node(
             node
         ):  # Check if the node is already in the graph (from connections), to avoid duplication.
-            G.add_node(node)
+            graph.add_node(node)
             pos[node] = (placement.x, placement.y)
 
     for net in nets:
-        G.add_edge(net.p1.split(",")[0], net.p2.split(",")[0])
+        graph.add_edge(net.p1.split(",")[0], net.p2.split(",")[0])
 
-    return G, labels, pos
+    return graph, labels, pos
 
 
-def to_graphviz(instances, placements, nets, show_ports=True):
+def to_graphviz(
+    instances: dict[str, Instance],
+    placements: dict[str, Placement],
+    nets: list[Net],
+    show_ports: bool = True,
+) -> Digraph:
     """Generates a netlist graph using Graphviz."""
     from graphviz import Digraph
 
@@ -164,24 +248,28 @@ def to_graphviz(instances, placements, nets, show_ports=True):
     dot = Digraph(comment="Netlist Diagram")
     dot.attr(dpi="300", layout="neato", overlap="false")
 
-    all_ports = []
+    all_ports: list[tuple[str, Ports]] = []
 
     # Retrieve all the ports in the component
     for name, instance in instances.items():
         if hasattr(instance, "component"):
-            instance = instance.component
+            instance_component = instance.component
         else:
-            instance = instance["component"]
-        ports = gdsfactory.get_component(instance).ports
-        all_ports.append((name, ports))
+            instance_component = instance["component"]  # type: ignore[index]
+        ports_ = gf.get_component(instance_component).ports
+        all_ports.append((name, ports_))
 
     for node, placement in placements.items():
         ports = dict(all_ports).get(node)
+        assert ports is not None
 
         if not ports or not show_ports:
             label = node
         else:
-            top_ports, right_ports, bottom_ports, left_ports = [], [], [], []
+            top_ports: list[Port] = []
+            right_ports: list[Port] = []
+            bottom_ports: list[Port] = []
+            left_ports: list[Port] = []
 
             for port in ports:
                 if 0 <= port.orientation < 45 or 315 <= port.orientation < 360:
@@ -194,7 +282,7 @@ def to_graphviz(instances, placements, nets, show_ports=True):
                     top_ports.append(port)
 
             # Format ports for Graphviz record structure in anticlockwise order
-            port_labels = []
+            port_labels: list[str] = []
 
             if left_ports:
                 left_ports_label = " | ".join(
@@ -202,7 +290,7 @@ def to_graphviz(instances, placements, nets, show_ports=True):
                 )
                 port_labels.append(f"{{ {left_ports_label} }}")
 
-            middle_row = []
+            middle_row: list[str] = []
 
             if top_ports:
                 top_ports_label = " | ".join(
@@ -234,8 +322,8 @@ def to_graphviz(instances, placements, nets, show_ports=True):
         dot.node(node, label=label, pos=pos, shape="record")
 
     for net in nets:
-        p1 = net.p1 if hasattr(net, "p1") else net["p1"]
-        p2 = net.p2 if hasattr(net, "p2") else net["p2"]
+        p1 = net.p1 if hasattr(net, "p1") else net["p1"]  # type: ignore[index]
+        p2 = net.p2 if hasattr(net, "p2") else net["p2"]  # type: ignore[index]
 
         p1_instance = p1.split(",")[0]
         p1_port = p1.split(",")[1]
@@ -294,6 +382,7 @@ class Schematic(BaseModel):
         self.netlist.placements[instance_name] = placement
 
     def from_component(self, component: Component) -> None:
+        raise NotImplementedError
         n = component.to_yaml()
         self.netlist = Netlist.model_validate(n)
 
@@ -301,13 +390,14 @@ class Schematic(BaseModel):
         """Add a net between two ports."""
         self.nets.append(net)
         if net.name not in self.netlist.routes:
+            assert net.name is not None
             self.netlist.routes[net.name] = Bundle(
                 links={net.p1: net.p2}, settings=net.settings
             )
         else:
             self.netlist.routes[net.name].links[net.p1] = net.p2
 
-    def to_graphviz(self, show_ports=True):
+    def to_graphviz(self, show_ports: bool = True) -> Digraph:
         """Generates a netlist graph using Graphviz.
 
         Args:
@@ -317,24 +407,42 @@ class Schematic(BaseModel):
             self.netlist.instances, self.placements, self.nets, show_ports
         )
 
-    def to_yaml_graph_networkx(self):
+    def to_yaml_graph_networkx(
+        self,
+    ) -> tuple[nx.Graph, dict[str, str], dict[str, tuple[float, float]]]:
         return to_yaml_graph_networkx(self.netlist, self.nets)
 
-    def plot_graphviz(self):
-        """Plots the netlist graph (Automatic fallback to networkx)."""
+    def plot_graphviz(self, interactive: bool = False, splines: str = "ortho") -> None:
+        """Plots the netlist graph (Automatic fallback to networkx).
+
+        Args:
+            interactive: whether to plot the graph interactively or not.
+            splines: type of splines to use for the graph.
+
+        """
         dot = self.to_graphviz()
-        plot_graphviz(dot)
+        plot_graphviz(dot, interactive=interactive, splines=splines)
 
-    def plot_schematic_networkx(self):
-        """Plots the netlist graph (Automatic fallback to networkx)."""
-        warnings.warn(
-            "plot_schematic_networkx is deprecated. Use plot_graphviz instead",
-            DeprecationWarning,
-        )
-        self.plot_graphviz()
+    def write_netlist(
+        self, netlist: dict[str, Any], filepath: str | pathlib.Path | None = None
+    ) -> str:
+        """Returns netlist as YAML string.
+
+        Args:
+            netlist: netlist to write.
+            filepath: Optional file path to write to.
+        """
+        netlist_converted = convert_tuples_to_lists(netlist)
+        yaml_string = yaml.dump(netlist_converted)
+        if filepath:
+            filepath = pathlib.Path(filepath)
+            filepath.write_text(yaml_string)
+        return str(yaml_string)
 
 
-def plot_graphviz(graph, interactive=False, splines: str = "ortho") -> None:
+def plot_graphviz(
+    graph: Digraph, interactive: bool = False, splines: str = "ortho"
+) -> None:
     """Plots the netlist graph (Automatic fallback to networkx)."""
     from IPython.display import Image, display
 
@@ -352,7 +460,7 @@ def plot_graphviz(graph, interactive=False, splines: str = "ortho") -> None:
 
 
 def write_schema(
-    model: BaseModel = Netlist, schema_path_json=PATH.schema_netlist
+    model: type[BaseModel] = Netlist, schema_path_json: Path = PATH.schema_netlist
 ) -> None:
     s = model.model_json_schema()
     schema_path_yaml = schema_path_json.with_suffix(".yaml")
@@ -363,19 +471,17 @@ def write_schema(
         yaml.dump(s, f)
 
 
-if __name__ == "__main__":
-    # write_schema()
-    import gdsfactory as gf
-    import gdsfactory.schematic as gt
-
-    s = Schematic()
-    s.add_instance("mzi1", gt.Instance(component=gf.c.mzi(delta_length=10)))
-    s.add_instance("mzi2", gt.Instance(component=gf.c.mzi(delta_length=100)))
-    s.add_instance("mzi3", gt.Instance(component=gf.c.mzi(delta_length=200)))
-    s.add_placement("mzi1", gt.Placement(x=000, y=0))
-    s.add_placement("mzi2", gt.Placement(x=100, y=100))
-    s.add_placement("mzi3", gt.Placement(x=200, y=0))
-    s.add_net(gt.Net(p1="mzi1,o2", p2="mzi2,o2"))
-    s.add_net(gt.Net(p1="mzi2,o2", p2="mzi3,o1"))
-    dot = s.to_graphviz()
-    s.plot_graphviz()
+def _validate_instance_name(name: str) -> str:
+    if "," in name:
+        raise ValueError(
+            f"Having a ',' in an instance name is not supported. The ',' is used for port-delineation. Got: {name!r}."
+        )
+    if "-" in name:
+        raise ValueError(
+            f"Having a '-' in an instance name is not supported. The '-' is used for bundle routing. Got: {name!r}."
+        )
+    if ":" in name:
+        raise ValueError(
+            f"Having a ':' in an instance name is not supported. The ':' is used for bundle routing. Got: {name!r}."
+        )
+    return name

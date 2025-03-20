@@ -4,6 +4,7 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.name import clean_name
+from gdsfactory.routing.add_fiber_array import add_fiber_array
 from gdsfactory.snap import snap_to_grid as snap
 from gdsfactory.typings import Layer
 
@@ -84,7 +85,7 @@ CIRCUIT NAME:{component.name}
         for prefix, port_type_ehva in prefix_to_type.items():
             info += [
                 f"{port_type_ehva} NAME: {port.name} TYPE: {port_type_ehva}, "
-                f"POSITION RELATIVE:({snap(port.dx)}, {snap(port.dy)}),"
+                f"POSITION RELATIVE:({snap(port.x)}, {snap(port.y)}),"
                 f" ORIENTATION: {port.orientation}"
                 for port in component.get_ports_list(prefix=prefix)
             ]
@@ -100,13 +101,11 @@ if __name__ == "__main__":
         die="demo_die",
         metadata_include_parent=["grating_coupler:settings:polarization"],
     )
+    from gdsfactory.components import mmi2x2
 
     c = gf.c.straight(length=11)
-    c = gf.c.mmi2x2(length_mmi=2.2)
-    c = gf.routing.add_fiber_array(
-        c,
-        grating_coupler=gf.c.grating_coupler_te,
-    )
+    c = mmi2x2(length_mmi=2.2)
+    c = add_fiber_array(c)
     c = add_label_ehva(c)
 
     # add_label_ehva(c, die="demo_die", metadata_include_child=["width_mmi"])

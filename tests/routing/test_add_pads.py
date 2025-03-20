@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Any
+
 import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
@@ -21,7 +23,7 @@ components = [add_pads0]
 
 
 @pytest.fixture(params=components, scope="function")
-def component(request) -> Component:
+def component(request: pytest.FixtureRequest) -> Any:
     return request.param()
 
 

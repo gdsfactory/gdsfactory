@@ -1,26 +1,26 @@
 from __future__ import annotations
 
-import kfactory as kf
+from collections.abc import Callable
 
-from gdsfactory.port import Port
+from gdsfactory.typings import Port, Ports
 
 
 def get_port_x(port: Port) -> float:
-    return port.dcenter[0]
+    return port.center[0]
 
 
 def get_port_y(port: Port) -> float:
-    return port.dcenter[1]
+    return port.center[1]
 
 
-def sort_ports_x(ports: list[Port]) -> list[Port]:
+def sort_ports_x(ports: Ports) -> list[Port]:
     ports = list(ports)
     f_key = get_port_x
     ports.sort(key=f_key)
     return ports
 
 
-def sort_ports_y(ports: list[Port]) -> list[Port]:
+def sort_ports_y(ports: Ports) -> list[Port]:
     ports = list(ports)
     f_key = get_port_y
     ports.sort(key=f_key)
@@ -28,8 +28,8 @@ def sort_ports_y(ports: list[Port]) -> list[Port]:
 
 
 def sort_ports(
-    ports1: list[Port] | kf.Ports,
-    ports2: list[Port] | kf.Ports,
+    ports1: Ports,
+    ports2: Ports,
     enforce_port_ordering: bool,
 ) -> tuple[list[Port], list[Port]]:
     """Returns two lists of sorted ports.
@@ -41,34 +41,46 @@ def sort_ports(
             If False, the two lists will be sorted independently.
 
     """
-    ports1 = list(ports1)
-    ports2 = list(ports2)
+    original_ports1 = list(ports1)
+    ports1_list = list(ports1)
+    ports2_list = list(ports2)
 
-    if len(ports1) != len(ports2):
-        raise ValueError(f"ports1={len(ports1)} and ports2={len(ports2)} must be equal")
-    if not ports1:
+    if len(ports1_list) != len(ports2_list):
+        raise ValueError(
+            f"ports1={len(ports1_list)} and ports2={len(ports2_list)} must be equal"
+        )
+    if not ports1_list:
         raise ValueError("ports1 is an empty list")
-    if not ports2:
-        raise ValueError("ports2 is an empty list")
 
-    if ports1[0].orientation in [0, 180] and ports2[0].orientation in [0, 180]:
-        _sort(get_port_y, ports1, enforce_port_ordering, ports2)
-    elif ports1[0].orientation in [90, 270] and ports2[0].orientation in [90, 270]:
-        _sort(get_port_x, ports1, enforce_port_ordering, ports2)
+    if ports1_list[0].orientation in [0, 180] and ports2_list[0].orientation in [
+        0,
+        180,
+    ]:
+        _sort(get_port_y, ports1_list, enforce_port_ordering, ports2_list)
+    elif ports1_list[0].orientation in [90, 270] and ports2_list[0].orientation in [
+        90,
+        270,
+    ]:
+        _sort(get_port_x, ports1_list, enforce_port_ordering, ports2_list)
     else:
-        axis = "X" if ports1[0].orientation in [0, 180] else "Y"
-        f_key1 = get_port_y if axis in {"X", "x"} else get_port_x
-        ports1.sort(key=f_key1)
+        axis = "X" if ports1_list[0].orientation in [0, 180] else "Y"
+        f_key1 = get_port_y if axis == "X" else get_port_x
+        ports1_list.sort(key=f_key1)
         if not enforce_port_ordering:
-            ports2.sort(key=f_key1)
+            ports2_list.sort(key=f_key1)
 
     if enforce_port_ordering:
-        ports2 = [ports2[ports1.index(p1)] for p1 in ports1]
+        ports2_list = [ports2_list[original_ports1.index(p1)] for p1 in ports1_list]
 
-    return ports1, ports2
+    return ports1_list, ports2_list
 
 
-def _sort(key_func, ports1, enforce_port_ordering, ports2):
+def _sort(
+    key_func: Callable[[Port], float],
+    ports1: list[Port],
+    enforce_port_ordering: bool,
+    ports2: list[Port],
+) -> None:
     ports1.sort(key=key_func)
     if not enforce_port_ordering:
         ports2.sort(key=key_func)

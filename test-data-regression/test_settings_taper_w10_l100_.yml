@@ -1,41 +1,5 @@
-name: taper_from_csv_d4e8fdfb
-ports:
-  o1:
-    center:
-      - 0.0
-      - 0.0
-    layer:
-      - 1
-      - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-      - 100.0
-      - 0.0
-    layer:
-      - 1
-      - 0
-    name: o2
-    orientation: 0
-    port_type: optical
-    shear_angle: null
-    width: 10.0
+info: {}
+name: taper_from_csv_Ftaper_s_c73bfed2
 settings:
-  changed:
-    filepath: taper_strip_0p5_10_100
-  child: null
-  default:
-    cross_section: strip
-    filepath: taper_strip_0p5_3_36
-  full:
-    cross_section: strip
-    filepath: taper_strip_0p5_10_100
-  function_name: taper_from_csv
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.taper_from_csv
-  name: taper_from_csv_d4e8fdfb
+  cross_section: strip
+  filepath: taper_strip_0p5_10_100pcsv

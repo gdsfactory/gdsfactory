@@ -9,14 +9,16 @@ import tempfile
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
-from kfactory.conf import config, get_affinity
+from kfactory.conf import Settings, config, get_affinity
 from rich.console import Console
 from rich.table import Table
 
 if TYPE_CHECKING:
     pass
 
-__version__ = "8.18.0"
+__version__ = "9.3.0"
+__next_major_version__ = "9.3.0"
+
 PathType = str | pathlib.Path
 
 home = pathlib.Path.home()
@@ -30,17 +32,21 @@ logpath = home_path / "log.log"
 get_number_of_cores = get_affinity
 
 GDSDIR_TEMP = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
+GDSDIR_TEMP.mkdir(parents=True, exist_ok=True)
 
 plugins = [
-    "gplugins",
-    "ray",
-    "femwell",
     "devsim",
-    "tidy3d",
+    "femwell",
+    "gdsfactoryplus",
+    "gplugins",
+    "kfactory",
+    "lumapi",
     "meep",
     "meow",
-    "lumapi",
+    "ray",
     "sax",
+    "tidy3d",
+    "vlsir",
 ]
 
 
@@ -50,8 +56,12 @@ class ErrorType(Enum):
     IGNORE = auto()
 
 
-def print_version_plugins() -> None:
-    """Print gdsfactory plugin versions and paths."""
+def print_version_plugins(packages: list[str] | None = None) -> None:
+    """Print gdsfactory plugin versions and paths.
+
+    Args:
+        packages: list of packages to print versions for.
+    """
     table = Table(title="Modules")
     table.add_column("Package", justify="right", style="cyan", no_wrap=True)
     table.add_column("version", style="magenta")
@@ -60,7 +70,9 @@ def print_version_plugins() -> None:
     table.add_row("python", sys.version, str(sys.executable))
     table.add_row("gdsfactory", __version__, str(module_path))
 
-    for plugin in plugins:
+    packages = packages or []
+
+    for plugin in plugins + packages:
         try:
             m = importlib.import_module(plugin)
             try:
@@ -90,7 +102,19 @@ def print_version_plugins_raw() -> None:
             print(plugin, "not installed", "")
 
 
-CONF = config
+class Config(Settings):
+    difftest_ignore_label_differences: bool
+    difftest_ignore_sliver_differences: bool
+    difftest_ignore_cell_name_differences: bool
+    bend_radius_error_type: ErrorType
+    layer_error_path: tuple[int, int]
+    pdk: str
+    layer_label: tuple[int, int]
+    port_types: list[str]
+    port_types_grating_couplers: list[str]
+
+
+CONF: Config = config  # type: ignore[assignment]
 CONF.difftest_ignore_label_differences = False
 CONF.difftest_ignore_sliver_differences = False
 CONF.difftest_ignore_cell_name_differences = True
@@ -109,7 +133,7 @@ CONF.port_types = [
     "vertical_tm",  # for grating couplers with TM polarization
     "vertical_dual",  # for grating couplers with TE and TM polarization
     "electrical_rf",  # electrical ports for RF (high frequency)
-    "pad",  # for pads
+    "pad",  # for DC pads
     "pad_rf",  # for RF pads
     "bump",  # for bumps
     "edge_coupler",  # for edge couplers
@@ -143,12 +167,14 @@ class Paths:
     gds_diff = GDSDIR_TEMP / "gds_diff"
     cwd = cwd
     sparameters_repo = test_data / "sp"  # repo with some demo sparameters
-    fonts = module / "components" / "fonts"
+    fonts = module / "components" / "texts" / "fonts"
     font_ocr = fonts / "OCR-A.ttf"
 
 
 PATH = Paths()
 sparameters_path = PATH.sparameters
+
+valid_port_orientations = {0, 90, 180, -90, 270}
 
 
 def rich_output() -> None:

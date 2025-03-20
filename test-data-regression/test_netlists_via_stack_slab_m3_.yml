@@ -1,101 +1,183 @@
 instances:
-  via_S0p7_0p7_S2_2_GNone_8696e860_m4000_m4000:
-    component: via
-    dax: 2
-    day: 0
-    dbx: 0
-    dby: 2
-    info:
-      enclosure: 1
-      xsize: 0.7
-      xspacing: 2
-      ysize: 0.7
-      yspacing: 2
-    na: 5
-    nb: 5
+  compass_S11_11_LM1_PTNo_32b23b4d_0_0:
+    component: compass
+    info: {}
     settings:
-      bbox_layers: null
-      bbox_offset: 0
-      bbox_offsets: null
-      enclosure: 1
-      gap: null
-      layer: VIAC
+      auto_rename_ports: true
+      layer: M1
+      port_inclusion: 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: null
       size:
-      - 0.7
-      - 0.7
-      spacing:
-      - 2
-      - 2
-  via_S0p7_0p7_S2_2_GNone_bcb63a01_m3000_m3000:
-    component: via
-    dax: 2
-    day: 0
-    dbx: 0
-    dby: 2
-    info:
-      enclosure: 2
-      xsize: 0.7
-      xspacing: 2
-      ysize: 0.7
-      yspacing: 2
-    na: 4
-    nb: 4
+      - 11
+      - 11
+  compass_S11_11_LM2_PTNo_202f22aa_0_0:
+    component: compass
+    info: {}
     settings:
-      bbox_layers: null
-      bbox_offset: 0
-      bbox_offsets: null
-      enclosure: 2
-      gap: null
-      layer: VIA1
+      auto_rename_ports: true
+      layer: M2
+      port_inclusion: 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: null
       size:
-      - 0.7
-      - 0.7
-      spacing:
-      - 2
-      - 2
-  via_S0p7_0p7_S2_2_GNone_c1ab00a8_m4000_m4000:
+      - 11
+      - 11
+  compass_S11_11_LMTOP_PT_02b5965b_0_0:
+    component: compass
+    info: {}
+    settings:
+      auto_rename_ports: false
+      layer: MTOP
+      port_inclusion: 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 11
+      - 11
+  compass_S11_11_LSLAB90__a8eca2c4_0_0:
+    component: compass
+    info: {}
+    settings:
+      auto_rename_ports: true
+      layer: SLAB90
+      port_inclusion: 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: null
+      size:
+      - 11
+      - 11
+  via_S0p7_0p7_E1_LVIA2_B_bcce49d9_m4000_m4000:
+    array:
+      column_pitch: 2
+      columns: 5
+      row_pitch: 2
+      rows: 5
     component: via
-    dax: 2
-    day: 0
-    dbx: 0
-    dby: 2
     info:
+      column_pitch: 2
       enclosure: 1
+      row_pitch: 2
       xsize: 0.7
-      xspacing: 2
       ysize: 0.7
-      yspacing: 2
-    na: 5
-    nb: 5
     settings:
       bbox_layers: null
       bbox_offset: 0
       bbox_offsets: null
+      column_pitch: null
       enclosure: 1
-      gap: null
       layer: VIA2
+      pitch: 2
+      row_pitch: null
       size:
       - 0.7
       - 0.7
-      spacing:
-      - 2
-      - 2
-name: via_stack_S11_11_LSLAB9_d3decdcf
+  via_S0p7_0p7_E1_LVIAC_B_05406d7f_m4000_m4000:
+    array:
+      column_pitch: 2
+      columns: 5
+      row_pitch: 2
+      rows: 5
+    component: via
+    info:
+      column_pitch: 2
+      enclosure: 1
+      row_pitch: 2
+      xsize: 0.7
+      ysize: 0.7
+    settings:
+      bbox_layers: null
+      bbox_offset: 0
+      bbox_offsets: null
+      column_pitch: null
+      enclosure: 1
+      layer: VIAC
+      pitch: 2
+      row_pitch: null
+      size:
+      - 0.7
+      - 0.7
+  via_S0p7_0p7_E2_LVIA1_B_053047f5_m3000_m3000:
+    array:
+      column_pitch: 2
+      columns: 4
+      row_pitch: 2
+      rows: 4
+    component: via
+    info:
+      column_pitch: 2
+      enclosure: 2
+      row_pitch: 2
+      xsize: 0.7
+      ysize: 0.7
+    settings:
+      bbox_layers: null
+      bbox_offset: 0
+      bbox_offsets: null
+      column_pitch: null
+      enclosure: 2
+      layer: VIA1
+      pitch: 2
+      row_pitch: null
+      size:
+      - 0.7
+      - 0.7
+name: via_stack_S11_11_LSLAB9_8884de8a
 nets: []
 placements:
-  via_S0p7_0p7_S2_2_GNone_8696e860_m4000_m4000:
+  compass_S11_11_LM1_PTNo_32b23b4d_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  compass_S11_11_LM2_PTNo_202f22aa_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  compass_S11_11_LMTOP_PT_02b5965b_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  compass_S11_11_LSLAB90__a8eca2c4_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  via_S0p7_0p7_E1_LVIA2_B_bcce49d9_m4000_m4000:
     mirror: false
     rotation: 0
     x: -4
     y: -4
-  via_S0p7_0p7_S2_2_GNone_bcb63a01_m3000_m3000:
+  via_S0p7_0p7_E1_LVIAC_B_05406d7f_m4000_m4000:
+    mirror: false
+    rotation: 0
+    x: -4
+    y: -4
+  via_S0p7_0p7_E2_LVIA1_B_053047f5_m3000_m3000:
     mirror: false
     rotation: 0
     x: -3
     y: -3
-  via_S0p7_0p7_S2_2_GNone_c1ab00a8_m4000_m4000:
-    mirror: false
-    rotation: 0
-    x: -4
-    y: -4
-ports: {}
+ports:
+  e1: compass_S11_11_LMTOP_PT_02b5965b_0_0,e1
+  e2: compass_S11_11_LMTOP_PT_02b5965b_0_0,e2
+  e3: compass_S11_11_LMTOP_PT_02b5965b_0_0,e3
+  e4: compass_S11_11_LMTOP_PT_02b5965b_0_0,e4

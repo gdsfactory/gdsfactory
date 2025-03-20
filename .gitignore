@@ -13,7 +13,7 @@ notebooks/demo.png
 notebooks/demo.yml
 notebooks/demo_jinja_loops.pic.yml
 notebooks/schematic.yaml
-
+uv.lock
 
 # C extensions
 *.so
@@ -37,7 +37,6 @@ docs/components.rst
 *.tar
 .conda
 .devcontainer
-uv.lock
 
 gfconfig.yml
 sim_ref.yaml

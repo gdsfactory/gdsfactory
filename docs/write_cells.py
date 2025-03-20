@@ -1,22 +1,20 @@
 import functools
 import inspect
+import os
 
-import gdsfactory as gf
 from gdsfactory.config import PATH
 from gdsfactory.get_factories import get_cells
 from gdsfactory.serialization import clean_value_json
 
+components = PATH.module / "components"
 filepath = PATH.repo / "docs" / "components.rst"
 
-
-cells = get_cells([gf.components])
-
 skip = {
+    "bbox",
     "grating_coupler_elliptical_te",
     "grating_coupler_elliptical_tm",
     "grating_coupler_te",
     "grating_coupler_tm",
-    "mzi_arms",
     "mzi1x2",
     "mzi2x2_2x2",
     "mzi_coupler",
@@ -45,7 +43,6 @@ skip_plot = [
 skip_settings = {"vias"}
 skip_partials = False
 
-
 with open(filepath, "w+") as f:
     f.write(
         """
@@ -62,56 +59,74 @@ By doing so, you'll possess a versatile, retargetable PDK, empowering you to des
 """
     )
 
-    for name in sorted(cells.keys()):
-        # Skip if the name is in the skip list or starts with "_"
-        if name in skip or name.startswith("_"):
+    for root, _dirs, files in sorted(os.walk(components)):
+        if "__init__.py" not in files:
             continue
 
-        # Get the cell function or object
-        cell = cells[name]
+        folder_name = os.path.basename(root)
+        f.write(f"\n\n{folder_name}\n=============================\n")
 
-        # Skip if it's an instance of functools.partial
-        if skip_partials and isinstance(cell, functools.partial):
+        # Dynamically import cells from each folder
+        folder_path = root.replace(str(PATH.module), "gdsfactory")
+        module_path = folder_path.replace(os.sep, ".")
+
+        if module_path == "gdsfactory.components":
             continue
 
-        print(name)
-        sig = inspect.signature(cell)
+        try:
+            module = __import__(module_path, fromlist=["__init__"])
+            cells = get_cells([module])
+            print(f"Imported module {module_path}, with {len(cells)} cells")
+        except Exception as e:
+            print(f"Error importing module {module_path}: {e}")
+            continue
 
-        kwargs = ", ".join(
-            [
-                f"{p}={repr(clean_value_json(sig.parameters[p].default))}"
-                for p in sig.parameters
-                if isinstance(sig.parameters[p].default, int | float | str | tuple)
-                and p not in skip_settings
-            ]
-        )
-        if name in skip_plot:
-            f.write(
-                f"""
+        for name in sorted(cells.keys()):
+            # Skip if the name is in the skip list or starts with "_"
+            if name in skip or name.startswith("_"):
+                continue
 
-{name}
-----------------------------------------------------
+            # Get the cell function or object
+            cell = cells[name]
 
-.. autofunction:: gdsfactory.components.{name}
+            # Skip if it's an instance of functools.partial
+            if skip_partials and isinstance(cell, functools.partial):
+                continue
+
+            sig = inspect.signature(cell)
+
+            kwargs = ", ".join(
+                [
+                    f"{p}={clean_value_json(sig.parameters[p].default)!r}"
+                    for p in sig.parameters
+                    if isinstance(sig.parameters[p].default, int | float | str | tuple)
+                    and p not in skip_settings
+                ]
+            )
+            if name in skip_plot:
+                f.write(
+                    f"""
+
+
+.. autofunction:: {module_path}.{name}
 
 """
-            )
-        else:
-            f.write(
-                f"""
+                )
+            else:
+                f.write(
+                    f"""
 
-{name}
-----------------------------------------------------
 
-.. autofunction:: gdsfactory.components.{name}
+.. autofunction:: {module_path}.{name}
 
 .. plot::
   :include-source:
 
   import gdsfactory as gf
 
-  c = gf.components.{name}({kwargs})
+  c = gf.components.{name}({kwargs}).copy()
+  c.draw_ports()
   c.plot()
 
 """
-            )
+                )

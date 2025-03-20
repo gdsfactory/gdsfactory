@@ -1,6 +1,6 @@
 instances:
   ec_0:
-    component: taper
+    component: edge_coupler_silicon
     info:
       length: 100
       width1: 0.5
@@ -8,7 +8,6 @@ instances:
     settings:
       cross_section: strip
       length: 100
-      port: null
       port_names:
       - o1
       - o2
@@ -17,10 +16,9 @@ instances:
       - edge_coupler
       width1: 0.5
       width2: 0.2
-      with_bbox: true
       with_two_ports: true
   ec_1:
-    component: taper
+    component: edge_coupler_silicon
     info:
       length: 100
       width1: 0.5
@@ -28,7 +26,6 @@ instances:
     settings:
       cross_section: strip
       length: 100
-      port: null
       port_names:
       - o1
       - o2
@@ -37,10 +34,9 @@ instances:
       - edge_coupler
       width1: 0.5
       width2: 0.2
-      with_bbox: true
       with_two_ports: true
   ec_2:
-    component: taper
+    component: edge_coupler_silicon
     info:
       length: 100
       width1: 0.5
@@ -48,7 +44,6 @@ instances:
     settings:
       cross_section: strip
       length: 100
-      port: null
       port_names:
       - o1
       - o2
@@ -57,10 +52,9 @@ instances:
       - edge_coupler
       width1: 0.5
       width2: 0.2
-      with_bbox: true
       with_two_ports: true
   ec_3:
-    component: taper
+    component: edge_coupler_silicon
     info:
       length: 100
       width1: 0.5
@@ -68,7 +62,6 @@ instances:
     settings:
       cross_section: strip
       length: 100
-      port: null
       port_names:
       - o1
       - o2
@@ -77,10 +70,9 @@ instances:
       - edge_coupler
       width1: 0.5
       width2: 0.2
-      with_bbox: true
       with_two_ports: true
   ec_4:
-    component: taper
+    component: edge_coupler_silicon
     info:
       length: 100
       width1: 0.5
@@ -88,7 +80,6 @@ instances:
     settings:
       cross_section: strip
       length: 100
-      port: null
       port_names:
       - o1
       - o2
@@ -97,7 +88,6 @@ instances:
       - edge_coupler
       width1: 0.5
       width2: 0.2
-      with_bbox: true
       with_two_ports: true
   text_rectangular_T1_S10_49b23f95_10000_20000:
     component: text_rectangular

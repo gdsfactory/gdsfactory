@@ -1,5 +1,5 @@
 info: {}
-name: rectangle_with_slits_S1_6987a1f5
+name: rectangle_with_slits_S1_663463b8
 settings:
   centered: false
   layer: WG
@@ -7,10 +7,9 @@ settings:
   size:
   - 100
   - 200
+  slit_column_pitch: 20
   slit_enclosure: 10
+  slit_row_pitch: 20
   slit_size:
   - 1
   - 1
-  slit_spacing:
-  - 20
-  - 20

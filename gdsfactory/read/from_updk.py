@@ -7,16 +7,20 @@ from __future__ import annotations
 
 import pathlib
 import warnings
+from collections.abc import Sequence
+from typing import TYPE_CHECKING
 
 import yaml
 
-from gdsfactory.serialization import convert_tuples_to_lists
-from gdsfactory.typings import LayerSpec, PathType
+from gdsfactory.serialization import clean_value_name, convert_tuples_to_lists
+
+if TYPE_CHECKING:
+    from gdsfactory.typings import LayerSpec, PathType
 
 
 def from_updk(
-    filepath: PathType,
-    filepath_out: PathType | None = None,
+    filepath: "PathType",
+    filepath_out: "PathType | None" = None,
     layer_bbox: tuple[int, int] = (68, 0),
     layer_bbmetal: tuple[int, int] | None = None,
     layer_label: tuple[int, int] | None = None,
@@ -24,15 +28,17 @@ def from_updk(
     layer_pin: tuple[int, int] | None = None,
     layer_pin_optical: tuple[int, int] | None = None,
     layer_pin_electrical: tuple[int, int] | None = None,
-    optical_xsections: list[str] | None = None,
-    electrical_xsections: list[str] | None = None,
-    layer_text: LayerSpec | None = None,
+    optical_xsections: Sequence[str] | None = None,
+    electrical_xsections: Sequence[str] | None = None,
+    layer_text: "LayerSpec | None" = None,
     text_size: float = 2.0,
     activate_pdk: bool = False,
     read_xsections: bool = True,
     use_port_layer: bool = False,
     prefix: str = "",
     suffix: str = "",
+    add_plot_to_docstring: bool = True,
+    pdk_name: str = "pdk",
 ) -> str:
     """Read uPDK YAML file and returns a gdsfactory script.
 
@@ -55,6 +61,8 @@ def from_updk(
         use_port_layer: if True, use the xsection layer for the port.
         prefix: optional prefix to add to the script.
         suffix: optional suffix to add to the script.
+        add_plot_to_docstring: if True, add a plot to the docstring.
+        pdk_name: name of the pdk.
     """
     optical_xsections = optical_xsections or []
     electrical_xsections = electrical_xsections or []
@@ -110,19 +118,21 @@ add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_
         parameters_string = (
             ", ".join(
                 [
-                    f"{p_name}:{p['type']}={p['value']}"
+                    f"{clean_value_name(p_name)}:{p['type']}={p['value']}"
                     for p_name, p in parameters.items()
                 ]
             )
             if parameters
             else ""
         )
+
         parameters_doc = (
             "\n    ".join(
                 [
                     f"  {p_name}: {p['doc']} (min: {p['min']}, max: {p['max']}, {p['unit']})."
+                    if "min" in p
+                    else f"  {p_name}: {p['doc']}."
                     for p_name, p in parameters.items()
-                    if hasattr(p, "min")
                 ]
             )
             if parameters
@@ -130,10 +140,20 @@ add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_
         )
 
         parameters_colon = (
-            [f"{p_name}:{{{p_name}}}" for p_name in parameters] if parameters else []
+            [
+                f"{clean_value_name(p_name)}:{{{clean_value_name(p_name)}}}"
+                for p_name in parameters
+            ]
+            if parameters
+            else []
         )
         parameters_equal = (
-            [f"{p_name}={{{p_name}}}" for p_name in parameters] if parameters else []
+            [
+                f"{clean_value_name(p_name)}={{{clean_value_name(p_name)}}}"
+                for p_name in parameters
+            ]
+            if parameters
+            else []
         )
 
         parameters_labels = (
@@ -151,10 +171,25 @@ add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_
 
         docstring = block.get("doc", "")
 
+        plot_docstring = (
+            f"""
+    .. plot::
+      :include-source:
+
+      from {pdk_name} import cells
+
+      c = cells.{block_name}()
+      c.draw_ports()
+      c.plot()
+    """
+            if add_plot_to_docstring
+            else ""
+        )
+
         if parameters:
-            doc = f'"""{docstring}\n\n    Args:\n    {parameters_doc}\n    """'
+            doc = f'"""{docstring}\n\n    Args:\n    {parameters_doc}\n    {plot_docstring}"""'
         else:
-            doc = f'"""{docstring}"""'
+            doc = f'"""{docstring}    {plot_docstring}"""'
 
         cell_name = (
             f"{block_name}:{','.join(parameters_equal)}"
@@ -164,13 +199,13 @@ add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_
 
         points = str(block["bbox"]).replace("'", "")
         script += f"""
-@cell
+@gf.cell
 def {block_name}({parameters_string})->gf.Component:
     {doc}
     c = gf.Component()
     c.add_polygon({points}, layer=layer_bbox)
-    xc = c.dx
-    yc = c.dy
+    xc = c.x
+    yc = c.y
     name = f{cell_name!r}
 """
         if "ysize" in parameters_labels:
@@ -211,8 +246,8 @@ def {block_name}({parameters_string})->gf.Component:
         if layer_text:
             script += "    text = c << text_function(text=name)\n"
 
-            script += "    text.dx = xc\n"
-            script += "    text.dy = yc\n"
+            script += "    text.x = xc\n"
+            script += "    text.y = yc\n"
 
         script += """
     c.name = name
@@ -236,7 +271,7 @@ if __name__ == "__main__":
     c.show()
 """
     if filepath_out:
-        dirpath = filepath_out.parent
+        dirpath = pathlib.Path(filepath_out).parent
         dirpath.mkdir(parents=True, exist_ok=True)
         filepath_out = pathlib.Path(filepath_out)
         filepath_out.write_text(script)
@@ -244,10 +279,13 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
+    from gdsfactory.config import GDSDIR_TEMP
     from gdsfactory.samples.pdk.fab_c import PDK
 
     PDK.activate()
 
     yaml_pdk_decription = PDK.to_updk()
-    gdsfactory_script = from_updk(yaml_pdk_decription)
     print(yaml_pdk_decription)
+    filepath = GDSDIR_TEMP / "pdk.yaml"
+    gdsfactory_script = from_updk(filepath, pdk_name="demo")
+    print(gdsfactory_script)

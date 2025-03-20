@@ -1,5 +1,5 @@
 instances:
-  pad_S100_100_LMTOP_BLNo_8d51f10c_225000_0:
+  pad_S100_100_LMTOP_BLNo_163fd346_225000_0:
     component: pad
     info:
       size:
@@ -18,10 +18,11 @@ instances:
       - 90
       - 0
       - -90
+      port_type: pad
       size:
       - 100
       - 100
-  pad_S100_100_LMTOP_BLNo_8d51f10c_375000_0:
+  pad_S100_100_LMTOP_BLNo_163fd346_375000_0:
     component: pad
     info:
       size:
@@ -40,10 +41,11 @@ instances:
       - 90
       - 0
       - -90
+      port_type: pad
       size:
       - 100
       - 100
-  pad_S100_100_LMTOP_BLNo_8d51f10c_525000_0:
+  pad_S100_100_LMTOP_BLNo_163fd346_525000_0:
     component: pad
     info:
       size:
@@ -62,10 +64,11 @@ instances:
       - 90
       - 0
       - -90
+      port_type: pad
       size:
       - 100
       - 100
-  pad_S100_100_LMTOP_BLNo_8d51f10c_75000_0:
+  pad_S100_100_LMTOP_BLNo_163fd346_75000_0:
     component: pad
     info:
       size:
@@ -84,10 +87,11 @@ instances:
       - 90
       - 0
       - -90
+      port_type: pad
       size:
       - 100
       - 100
-  pad_S100_100_LMTOP_BLNo_8d51f10c_m225000_0:
+  pad_S100_100_LMTOP_BLNo_163fd346_m225000_0:
     component: pad
     info:
       size:
@@ -106,10 +110,11 @@ instances:
       - 90
       - 0
       - -90
+      port_type: pad
       size:
       - 100
       - 100
-  pad_S100_100_LMTOP_BLNo_8d51f10c_m375000_0:
+  pad_S100_100_LMTOP_BLNo_163fd346_m375000_0:
     component: pad
     info:
       size:
@@ -128,10 +133,11 @@ instances:
       - 90
       - 0
       - -90
+      port_type: pad
       size:
       - 100
       - 100
-  pad_S100_100_LMTOP_BLNo_8d51f10c_m525000_0:
+  pad_S100_100_LMTOP_BLNo_163fd346_m525000_0:
     component: pad
     info:
       size:
@@ -150,10 +156,11 @@ instances:
       - 90
       - 0
       - -90
+      port_type: pad
       size:
       - 100
       - 100
-  pad_S100_100_LMTOP_BLNo_8d51f10c_m75000_0:
+  pad_S100_100_LMTOP_BLNo_163fd346_m75000_0:
     component: pad
     info:
       size:
@@ -172,6 +179,7 @@ instances:
       - 90
       - 0
       - -90
+      port_type: pad
       size:
       - 100
       - 100
@@ -190,45 +198,45 @@ instances:
       size:
       - 1050
       - 10
-name: pads_shorted_Ppad_C8_PS_1c817ac8
+name: pads_shorted_Ppad_C8_PP_7b031a21
 nets: []
 placements:
-  pad_S100_100_LMTOP_BLNo_8d51f10c_225000_0:
+  pad_S100_100_LMTOP_BLNo_163fd346_225000_0:
     mirror: false
     rotation: 0
     x: 225
     y: 0
-  pad_S100_100_LMTOP_BLNo_8d51f10c_375000_0:
+  pad_S100_100_LMTOP_BLNo_163fd346_375000_0:
     mirror: false
     rotation: 0
     x: 375
     y: 0
-  pad_S100_100_LMTOP_BLNo_8d51f10c_525000_0:
+  pad_S100_100_LMTOP_BLNo_163fd346_525000_0:
     mirror: false
     rotation: 0
     x: 525
     y: 0
-  pad_S100_100_LMTOP_BLNo_8d51f10c_75000_0:
+  pad_S100_100_LMTOP_BLNo_163fd346_75000_0:
     mirror: false
     rotation: 0
     x: 75
     y: 0
-  pad_S100_100_LMTOP_BLNo_8d51f10c_m225000_0:
+  pad_S100_100_LMTOP_BLNo_163fd346_m225000_0:
     mirror: false
     rotation: 0
     x: -225
     y: 0
-  pad_S100_100_LMTOP_BLNo_8d51f10c_m375000_0:
+  pad_S100_100_LMTOP_BLNo_163fd346_m375000_0:
     mirror: false
     rotation: 0
     x: -375
     y: 0
-  pad_S100_100_LMTOP_BLNo_8d51f10c_m525000_0:
+  pad_S100_100_LMTOP_BLNo_163fd346_m525000_0:
     mirror: false
     rotation: 0
     x: -525
     y: 0
-  pad_S100_100_LMTOP_BLNo_8d51f10c_m75000_0:
+  pad_S100_100_LMTOP_BLNo_163fd346_m75000_0:
     mirror: false
     rotation: 0
     x: -75
@@ -244,112 +252,112 @@ warnings:
     unconnected_ports:
     - message: 36 unconnected electrical ports!
       ports:
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_m525000_0,e1
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_m525000_0,e2
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_m525000_0,e3
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_m525000_0,e4
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_m375000_0,e1
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_m375000_0,e2
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_m375000_0,e3
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_m375000_0,e4
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_m225000_0,e1
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_m225000_0,e2
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_m225000_0,e3
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_m225000_0,e4
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_m75000_0,e1
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_m75000_0,e2
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_m75000_0,e3
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_m75000_0,e4
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_75000_0,e1
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_75000_0,e2
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_75000_0,e3
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_75000_0,e4
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_225000_0,e1
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_225000_0,e2
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_225000_0,e3
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_225000_0,e4
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_375000_0,e1
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_375000_0,e2
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_375000_0,e3
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_375000_0,e4
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_525000_0,e1
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_525000_0,e2
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_525000_0,e3
-      - pad_S100_100_LMTOP_BLNo_8d51f10c_525000_0,e4
+      - pad_S100_100_LMTOP_BLNo_163fd346_m525000_0,e1
+      - pad_S100_100_LMTOP_BLNo_163fd346_m525000_0,e2
+      - pad_S100_100_LMTOP_BLNo_163fd346_m525000_0,e3
+      - pad_S100_100_LMTOP_BLNo_163fd346_m525000_0,e4
+      - pad_S100_100_LMTOP_BLNo_163fd346_m375000_0,e1
+      - pad_S100_100_LMTOP_BLNo_163fd346_m375000_0,e2
+      - pad_S100_100_LMTOP_BLNo_163fd346_m375000_0,e3
+      - pad_S100_100_LMTOP_BLNo_163fd346_m375000_0,e4
+      - pad_S100_100_LMTOP_BLNo_163fd346_m225000_0,e1
+      - pad_S100_100_LMTOP_BLNo_163fd346_m225000_0,e2
+      - pad_S100_100_LMTOP_BLNo_163fd346_m225000_0,e3
+      - pad_S100_100_LMTOP_BLNo_163fd346_m225000_0,e4
+      - pad_S100_100_LMTOP_BLNo_163fd346_m75000_0,e1
+      - pad_S100_100_LMTOP_BLNo_163fd346_m75000_0,e2
+      - pad_S100_100_LMTOP_BLNo_163fd346_m75000_0,e3
+      - pad_S100_100_LMTOP_BLNo_163fd346_m75000_0,e4
+      - pad_S100_100_LMTOP_BLNo_163fd346_75000_0,e1
+      - pad_S100_100_LMTOP_BLNo_163fd346_75000_0,e2
+      - pad_S100_100_LMTOP_BLNo_163fd346_75000_0,e3
+      - pad_S100_100_LMTOP_BLNo_163fd346_75000_0,e4
+      - pad_S100_100_LMTOP_BLNo_163fd346_225000_0,e1
+      - pad_S100_100_LMTOP_BLNo_163fd346_225000_0,e2
+      - pad_S100_100_LMTOP_BLNo_163fd346_225000_0,e3
+      - pad_S100_100_LMTOP_BLNo_163fd346_225000_0,e4
+      - pad_S100_100_LMTOP_BLNo_163fd346_375000_0,e1
+      - pad_S100_100_LMTOP_BLNo_163fd346_375000_0,e2
+      - pad_S100_100_LMTOP_BLNo_163fd346_375000_0,e3
+      - pad_S100_100_LMTOP_BLNo_163fd346_375000_0,e4
+      - pad_S100_100_LMTOP_BLNo_163fd346_525000_0,e1
+      - pad_S100_100_LMTOP_BLNo_163fd346_525000_0,e2
+      - pad_S100_100_LMTOP_BLNo_163fd346_525000_0,e3
+      - pad_S100_100_LMTOP_BLNo_163fd346_525000_0,e4
       - rectangle_S1050_10_LMTO_73abeb10_0_0,e1
       - rectangle_S1050_10_LMTO_73abeb10_0_0,e2
       - rectangle_S1050_10_LMTO_73abeb10_0_0,e3
       - rectangle_S1050_10_LMTO_73abeb10_0_0,e4
       values:
-      - - -575000
+      - - -575
         - 0
-      - - -525000
-        - 50000
-      - - -475000
+      - - -525
+        - 50
+      - - -475
         - 0
-      - - -525000
-        - -50000
-      - - -425000
+      - - -525
+        - -50
+      - - -425
         - 0
-      - - -375000
-        - 50000
-      - - -325000
+      - - -375
+        - 50
+      - - -325
         - 0
-      - - -375000
-        - -50000
-      - - -275000
+      - - -375
+        - -50
+      - - -275
         - 0
-      - - -225000
-        - 50000
-      - - -175000
+      - - -225
+        - 50
+      - - -175
         - 0
-      - - -225000
-        - -50000
-      - - -125000
+      - - -225
+        - -50
+      - - -125
         - 0
-      - - -75000
-        - 50000
-      - - -25000
+      - - -75
+        - 50
+      - - -25
         - 0
-      - - -75000
-        - -50000
-      - - 25000
+      - - -75
+        - -50
+      - - 25
         - 0
-      - - 75000
-        - 50000
-      - - 125000
+      - - 75
+        - 50
+      - - 125
         - 0
-      - - 75000
-        - -50000
-      - - 175000
+      - - 75
+        - -50
+      - - 175
         - 0
-      - - 225000
-        - 50000
-      - - 275000
+      - - 225
+        - 50
+      - - 275
         - 0
-      - - 225000
-        - -50000
-      - - 325000
+      - - 225
+        - -50
+      - - 325
         - 0
-      - - 375000
-        - 50000
-      - - 425000
+      - - 375
+        - 50
+      - - 425
         - 0
-      - - 375000
-        - -50000
-      - - 475000
+      - - 375
+        - -50
+      - - 475
         - 0
-      - - 525000
-        - 50000
-      - - 575000
+      - - 525
+        - 50
+      - - 575
         - 0
-      - - 525000
-        - -50000
-      - - -525000
-        - 0
-      - - 0
-        - 5000
-      - - 525000
+      - - 525
+        - -50
+      - - -525
         - 0
       - - 0
-        - -5000
+        - 5
+      - - 525
+        - 0
+      - - 0
+        - -5

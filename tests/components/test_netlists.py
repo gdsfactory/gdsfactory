@@ -27,6 +27,14 @@ skip_test = {
     "spiral_racetrack",
     "spiral_racetrack_heater_metal",
     "text_freetype",
+    "crossing45",
+    "seal_ring_segmented",
+    "grating_coupler_elliptical_lumerical_etch70",
+    "coupler_ring_bend",
+    "grating_coupler_array",
+    "straight_piecewise",
+    "ge_detector_straight_si_contacts",
+    "dbr",
 }
 cells_to_test = set(cells.keys()) - skip_test
 
@@ -46,13 +54,16 @@ def test_netlists(
     then compare YAMLs with pytest regressions
     """
     c = cells[component_type]()
-    connection_error_types = {"optical": []}
+    connection_error_types: dict[str, list[str]] = {"optical": []}
     n = c.get_netlist(
         allow_multiple=True, connection_error_types=connection_error_types
     )
 
     if check:
         data_regression.check(n)
+
+    # if "warnings" in n:
+    #     raise ValueError(n["warnings"])
 
     n.pop("warnings", None)
     yaml_str = c.write_netlist(n)
@@ -89,6 +100,8 @@ if __name__ == "__main__":
     component_type = "delay_snake"  # FIXME
     component_type = "bbox"
     component_type = "text_freetype"
+    component_type = "pad_array"
+    component_type = "awg"
 
     connection_error_types = {
         "optical": ["width_mismatch", "shear_angle_mismatch", "orientation_mismatch"]

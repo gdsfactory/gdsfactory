@@ -1,8 +1,11 @@
-from functools import partial
+import pytest
+from pydantic_extra_types.color import Color
 
-import gdsfactory as gf
 from gdsfactory.technology import LayerStack, LayerView, LayerViews
-from gdsfactory.typings import Layer, LayerLevel, LayerMap
+from gdsfactory.technology.layer_map import LayerMap
+from gdsfactory.technology.layer_stack import LayerLevel
+from gdsfactory.technology.layer_views import HatchPattern, LineStyle
+from gdsfactory.typings import Layer
 
 nm = 1e-3
 
@@ -50,38 +53,105 @@ def get_layer_stack_faba(
     )
 
 
+def test_preview_layerset() -> None:
+    from gdsfactory.generic_tech import get_generic_pdk
+
+    PDK = get_generic_pdk()
+    LAYER_VIEWS = PDK.get_layer_views()
+    c = LAYER_VIEWS.preview_layerset()
+    assert c
+
+
+def test_hatch_pattern_custom_pattern() -> None:
+    hatch_pattern = HatchPattern(name="test", custom_pattern="**\n**\n")
+    assert hatch_pattern.custom_pattern == "**\n**\n"
+    hatch_pattern = HatchPattern(name="test", custom_pattern=None)
+    assert hatch_pattern.custom_pattern is None
+
+    with pytest.raises(ValueError):
+        HatchPattern(name="test", custom_pattern="*" * 33 + "\n")
+
+
+def test_hatch_pattern_to_klayout_xml() -> None:
+    hatch_pattern = HatchPattern(name="test", custom_pattern="**\n**\n")
+    res = hatch_pattern.to_klayout_xml()
+    assert len(res) > 0
+
+    hatch_pattern = HatchPattern(name="test", custom_pattern=None)
+    with pytest.raises(KeyError):
+        hatch_pattern.to_klayout_xml()
+
+    hatch_pattern = HatchPattern(name="test", custom_pattern="**")
+    res = hatch_pattern.to_klayout_xml()
+    assert len(res) > 0
+
+
+def test_line_style_custom_style() -> None:
+    line_style = LineStyle(name="test", custom_style="**")
+    assert line_style.custom_style == "**"
+    line_style = LineStyle(name="test", custom_style=None)
+    assert line_style.custom_style is None
+
+    with pytest.raises(ValueError):
+        LineStyle(name="test", custom_style="invalid$chars")
+
+    with pytest.raises(ValueError):
+        LineStyle(name="test", custom_style="*" * 33)
+
+
+def test_line_style_to_klayout_xml() -> None:
+    line_style = LineStyle(name="test", custom_style="**")
+    res = line_style.to_klayout_xml()
+    assert len(res) > 0
+
+    line_style = LineStyle(name="test", custom_style=None)
+    with pytest.raises(KeyError):
+        line_style.to_klayout_xml()
+
+
+def test_layer_view_init() -> None:
+    lv = LayerView(gds_layer=1, gds_datatype=0)
+    assert lv.layer == (1, 0)
+
+    lv = LayerView(color="#FF0000")
+    assert lv.fill_color == Color("#FF0000")
+    assert lv.frame_color == Color("#FF0000")
+
+    lv = LayerView(brightness=50)
+    assert lv.fill_brightness == 50
+    assert lv.frame_brightness == 50
+
+    with pytest.raises(KeyError):
+        LayerView(layer=(1, 0), gds_layer=1, gds_datatype=0)
+
+    with pytest.raises(KeyError):
+        LayerView(color="#FF0000", fill_color="#00FF00")
+
+    with pytest.raises(KeyError):
+        LayerView(brightness=50, fill_brightness=60)
+
+
+def test_layer_view_dict() -> None:
+    lv = LayerView(color="#FF0000")
+
+    d = lv.dict(simplify=False)
+    assert "fill_color" in d
+    assert "frame_color" in d
+    assert "color" not in d
+    assert d["fill_color"] == d["frame_color"] == Color("#FF0000")
+
+    d = lv.dict(simplify=True)
+    assert "fill_color" not in d
+    assert "frame_color" not in d
+    assert "color" in d
+    assert d["color"] == Color("#FF0000")
+
+
+def test_layer_view_str() -> None:
+    lv = LayerView(color="#00FF00")
+    assert str(lv)
+
+
 if __name__ == "__main__":
-    LAYER_STACK = get_layer_stack_faba()
-    WIDTH = 2
-
-    # Specify a cross_section to use
-    strip = partial(gf.cross_section.cross_section, width=WIDTH, layer=LAYER.WG)
-
-    mmi1x2 = partial(
-        gf.components.mmi1x2,
-        width=WIDTH,
-        width_taper=WIDTH,
-        width_mmi=3 * WIDTH,
-        cross_section=strip,
-    )
-
-    PDK = gf.Pdk(
-        name="Fab_A",
-        cells=dict(mmi1x2=mmi1x2),
-        cross_sections=dict(strip=strip),
-        layers=LAYER,
-        layer_views=LAYER_VIEWS,
-        layer_stack=LAYER_STACK,
-    )
-    PDK.activate()
-    PDK_A = PDK
-
-    # gc = partial(
-    #     gf.components.grating_coupler_elliptical_te, layer=LAYER.WG, cross_section=strip
-    # )
-
-    # c = gf.components.mzi()
-    # c_gc = gf.routing.add_fiber_array(
-    #     component=c, grating_coupler=gc, with_loopback=False
-    # )
-    # c_gc.show()
+    lv = LayerView(color="#00FF00")
+    print(repr(lv))

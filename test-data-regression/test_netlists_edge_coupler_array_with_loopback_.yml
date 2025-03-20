@@ -95,7 +95,7 @@ instances:
       radius: 30
       width: null
       with_arc_floorplan: true
-  extend_ports_Cedge_coup_a17a8c07_0_0:
+  extend_ports_Cedge_coup_a73a73b4_0_0:
     component: extend_ports
     info: {}
     settings:
@@ -104,7 +104,7 @@ instances:
       centered: false
       component: edge_coupler_array_ECed_0d245d68
       cross_section: null
-      extension: Fstraight_Mgdsfactorypcomponentspstraight_SCSstrip_L1
+      extension: Fstraight_Mgdsfactorypcomponentspwaveguidespstraight_SCSstrip_L1
       extension_port_names: null
       length: 1
       port1: null
@@ -113,7 +113,7 @@ instances:
       - o1
       - o2
       port_type: optical
-  straight_L67_N2_CSstrip_m30000_859000:
+  straight_L67_N2_CSstrip_WNone_m30000_859000:
     component: straight
     info:
       length: 67
@@ -126,7 +126,8 @@ instances:
       cross_section: strip
       length: 67
       npoints: 2
-  straight_L67_N2_CSstrip_m31000_97000:
+      width: null
+  straight_L67_N2_CSstrip_WNone_m31000_97000:
     component: straight
     info:
       length: 67
@@ -139,24 +140,25 @@ instances:
       cross_section: strip
       length: 67
       npoints: 2
+      width: null
 name: edge_coupler_array_with_0e29eb5f
 nets:
 - p1: bend_euler_R30_A90_P0p5_6f642382_0_889000,o1
-  p2: extend_ports_Cedge_coup_a17a8c07_0_0,o8
+  p2: extend_ports_Cedge_coup_a73a73b4_0_0,o8
 - p1: bend_euler_R30_A90_P0p5_6f642382_0_889000,o2
-  p2: straight_L67_N2_CSstrip_m30000_859000,o1
+  p2: straight_L67_N2_CSstrip_WNone_m30000_859000,o1
 - p1: bend_euler_R30_A90_P0p5_6f642382_m1000_127000,o1
-  p2: extend_ports_Cedge_coup_a17a8c07_0_0,o2
+  p2: extend_ports_Cedge_coup_a73a73b4_0_0,o2
 - p1: bend_euler_R30_A90_P0p5_6f642382_m1000_127000,o2
-  p2: straight_L67_N2_CSstrip_m31000_97000,o1
+  p2: straight_L67_N2_CSstrip_WNone_m31000_97000,o1
 - p1: bend_euler_R30_A90_P0p5_6f642382_m30000_792000,o1
-  p2: straight_L67_N2_CSstrip_m30000_859000,o2
+  p2: straight_L67_N2_CSstrip_WNone_m30000_859000,o2
 - p1: bend_euler_R30_A90_P0p5_6f642382_m30000_792000,o2
-  p2: extend_ports_Cedge_coup_a17a8c07_0_0,o7
+  p2: extend_ports_Cedge_coup_a73a73b4_0_0,o7
 - p1: bend_euler_R30_A90_P0p5_6f642382_m31000_30000,o1
-  p2: straight_L67_N2_CSstrip_m31000_97000,o2
+  p2: straight_L67_N2_CSstrip_WNone_m31000_97000,o2
 - p1: bend_euler_R30_A90_P0p5_6f642382_m31000_30000,o2
-  p2: extend_ports_Cedge_coup_a17a8c07_0_0,o1
+  p2: extend_ports_Cedge_coup_a73a73b4_0_0,o1
 placements:
   bend_euler_R30_A90_P0p5_6f642382_0_889000:
     mirror: false
@@ -178,23 +180,23 @@ placements:
     rotation: 270
     x: -31
     y: 30
-  extend_ports_Cedge_coup_a17a8c07_0_0:
+  extend_ports_Cedge_coup_a73a73b4_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  straight_L67_N2_CSstrip_m30000_859000:
+  straight_L67_N2_CSstrip_WNone_m30000_859000:
     mirror: false
     rotation: 270
     x: -30
     y: 859
-  straight_L67_N2_CSstrip_m31000_97000:
+  straight_L67_N2_CSstrip_WNone_m31000_97000:
     mirror: false
     rotation: 270
     x: -31
     y: 97
 ports:
-  o1: extend_ports_Cedge_coup_a17a8c07_0_0,o3
-  o2: extend_ports_Cedge_coup_a17a8c07_0_0,o4
-  o3: extend_ports_Cedge_coup_a17a8c07_0_0,o5
-  o4: extend_ports_Cedge_coup_a17a8c07_0_0,o6
+  o1: extend_ports_Cedge_coup_a73a73b4_0_0,o3
+  o2: extend_ports_Cedge_coup_a73a73b4_0_0,o4
+  o3: extend_ports_Cedge_coup_a73a73b4_0_0,o5
+  o4: extend_ports_Cedge_coup_a73a73b4_0_0,o6

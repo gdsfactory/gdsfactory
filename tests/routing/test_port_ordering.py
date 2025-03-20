@@ -32,12 +32,12 @@ def port_bank(
             str(i + 1), position=(x, y - 2), size=1.5, layer=(2, 0), justify="center"
         )
 
-    c.add_polygon([[xs[0], 0], [xs[-1], 0], [(xs[0] + xs[-1]) * 0.5, -2]], layer=(1, 0))
+    c.add_polygon([(xs[0], 0), (xs[-1], 0), ((xs[0] + xs[-1]) * 0.5, -2)], layer=(1, 0))
     return c
 
 
-def connection_tuple(port1: gf.Port, port2: gf.Port) -> tuple:
-    return (tuple(port1.dcenter), tuple(port2.dcenter))
+def connection_tuple(port1: gf.Port, port2: gf.Port) -> tuple[tuple[float, float], ...]:
+    return (port1.center, port2.center)
 
 
 def make_bundle(
@@ -55,7 +55,7 @@ def make_bundle(
     b = port_bank()
     r1 = c.add_ref(b, "r1")
     r2 = c.add_ref(b, "r2")
-    r2.drotate(angle)
+    r2.rotate(angle)
     r2.dmove((40, 60))
     ports1_names = ["o1", "o2", "o3", "o4"]
     ports2_names = ["o1", "o2", "o3", "o4"]

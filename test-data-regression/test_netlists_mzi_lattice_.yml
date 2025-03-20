@@ -1,12 +1,12 @@
 instances:
-  mzi_DL10_LY2_LXNone_Bbe_0085e214_0_0:
+  mzi_DL10_LY2_LXNone_Bbe_5ea98e8e_0_0:
     component: mzi
     info: {}
     settings:
       add_optical_ports_arms: false
       auto_rename_ports: true
       bend: bend_euler
-      combiner: coupler_G0p3_L20_D4_D10_c2ceaa55
+      combiner: coupler_G0p3_L20_D4_D10_55e1ee37
       cross_section: strip
       cross_section_x_bot: null
       cross_section_x_top: null
@@ -22,7 +22,7 @@ instances:
       port_e0_splitter: o4
       port_e1_combiner: o3
       port_e1_splitter: o3
-      splitter: coupler_G0p2_L10_D4_D10_369dc87b
+      splitter: coupler_G0p2_L10_D4_D10_5ac6992b
       straight: straight
       straight_x_bot: null
       straight_x_top: null
@@ -31,13 +31,13 @@ instances:
 name: mzi_lattice_CL10_20_CG0_bf9216d8
 nets: []
 placements:
-  mzi_DL10_LY2_LXNone_Bbe_0085e214_0_0:
+  mzi_DL10_LY2_LXNone_Bbe_5ea98e8e_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
 ports:
-  o1: mzi_DL10_LY2_LXNone_Bbe_0085e214_0_0,o1
-  o2: mzi_DL10_LY2_LXNone_Bbe_0085e214_0_0,o2
-  o3: mzi_DL10_LY2_LXNone_Bbe_0085e214_0_0,o3
-  o4: mzi_DL10_LY2_LXNone_Bbe_0085e214_0_0,o4
+  o1: mzi_DL10_LY2_LXNone_Bbe_5ea98e8e_0_0,o1
+  o2: mzi_DL10_LY2_LXNone_Bbe_5ea98e8e_0_0,o2
+  o3: mzi_DL10_LY2_LXNone_Bbe_5ea98e8e_0_0,o3
+  o4: mzi_DL10_LY2_LXNone_Bbe_5ea98e8e_0_0,o4

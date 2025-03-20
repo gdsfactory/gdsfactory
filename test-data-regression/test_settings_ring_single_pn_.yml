@@ -1,14 +1,16 @@
 info: {}
-name: ring_single_pn_G0p3_R5__9a9277c3
+name: ring_single_pn_G0p3_R5__eaa68a0b
 settings:
-  cross_section: Fstrip_Mgdsfactorypcross_section_SSslab
+  cross_section: rib
   doped_heater: true
   doped_heater_angle_buffer: 10
   doped_heater_layer: NPP
-  doped_heater_waveguide_offset: 2.175
+  doped_heater_waveguide_offset: 1.175
   doped_heater_width: 0.5
   doping_angle: 250
   gap: 0.3
-  heater_vias: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SS0p5_0p5_LM1_M2_VFvia_Mgdsfactorypcomponentspvia_SLVIAC_S0p1_0p1_S0p2_0p2_E0p1_Fvia_Mgdsfactorypcomponentspvia_SLVIA1_S0p1_0p1_S0p2_0p2_E0p1
+  heater_vias: Fvia_stack_Mgdsfactorypcomponentspviaspvia_stack_SS0p5_0p5_LM1_M2_M3_VFvia_Mgdsfactorypcomponentspviaspvia_SLVIAC_S0p1_0p1_E0p1_P0p2_Fvia_Mgdsfactorypcomponentspviaspvia_SLVIA1_S0p1_0p1_E0p1_P0p2_None
   pn_cross_section: Fpn_Mgdsfactorypcross_section_SWD2p425_WS4p85_LVVIAC_WV0p5_LMM1_WM0p5
+  pn_vias: via_stack_slab_m3
+  pn_vias_width: 3
   radius: 5

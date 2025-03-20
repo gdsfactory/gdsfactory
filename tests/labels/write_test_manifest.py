@@ -4,7 +4,7 @@ import gdsfactory as gf
 from gdsfactory.samples.sample_reticle import sample_reticle
 
 
-def test_write_test_manifest():
+def test_write_test_manifest() -> None:
     c = sample_reticle()
     gdspath = c.write_gds()
     csvpath = gdspath.with_suffix(".csv")

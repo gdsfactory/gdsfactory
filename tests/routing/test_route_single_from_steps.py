@@ -1,5 +1,3 @@
-import numpy as np
-
 import gdsfactory as gf
 
 
@@ -35,7 +33,7 @@ def test_route_from_steps() -> None:
 
 def test_route_waypoints() -> None:
     """Test route_single with waypoints."""
-    c = gf.Component("electrical")
+    c = gf.Component(name="electrical")
     w = gf.components.wire_straight()
     left = c << w
     right = c << w
@@ -48,8 +46,8 @@ def test_route_waypoints() -> None:
 
     p0 = left.ports["e2"]
     p1 = right.ports["e2"]
-    p0x, p0y = left.ports["e2"].dcenter
-    p1x, p1y = right.ports["e2"].dcenter
+    p0x, p0y = left.ports["e2"].center
+    p1x, p1y = right.ports["e2"].center
     o = 10  # vertical offset to overcome bottom obstacle
     ytop = 20
 
@@ -82,8 +80,8 @@ def test_route_waypoints_numpy() -> None:
 
     p0 = left.ports["e2"]
     p1 = right.ports["e2"]
-    p0x, p0y = left.ports["e2"].dcenter
-    p1x, p1y = right.ports["e2"].dcenter
+    p0x, p0y = left.ports["e2"].center
+    p1x, p1y = right.ports["e2"].center
     o = 10  # vertical offset to overcome bottom obstacle
     ytop = 20
 
@@ -92,17 +90,16 @@ def test_route_waypoints_numpy() -> None:
         p0,
         p1,
         cross_section="metal_routing",
-        waypoints=np.array(
-            [
-                (p0x + o, p0y),
-                (p0x + o, ytop),
-                (p1x + o, ytop),
-                (p1x + o, p1y),
-            ]
-        ),
+        waypoints=[
+            (p0x + o, p0y),
+            (p0x + o, ytop),
+            (p1x + o, ytop),
+            (p1x + o, p1y),
+        ],
     )
 
 
 if __name__ == "__main__":
-    # test_route_from_steps()
+    test_route_from_steps()
     test_route_waypoints()
+    test_route_waypoints_numpy()

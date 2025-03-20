@@ -73,14 +73,13 @@ xc_sin_ec = partial(xc_sin, width=0.2)
 
 
 @gf.cell
-def demo_taper_cladding_offsets():
+def demo_taper_cladding_offsets() -> gf.Component:
     taper_length = 10
 
     in_stub_length = 10
     out_stub_length = 10
 
     c = gf.Component()
-
     wg_in = c << gf.components.straight(length=in_stub_length, cross_section=xc_sin_ec)
 
     taper = c << gf.components.taper_cross_section_linear(
@@ -97,7 +96,7 @@ def demo_taper_cladding_offsets():
     return c
 
 
-def test_taper_cladding_offets():
+def test_taper_cladding_offets() -> None:
     c = demo_taper_cladding_offsets()
     n = len(c.get_polygons()[LAYER.WG])
     assert n == 3, n

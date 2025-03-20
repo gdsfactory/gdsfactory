@@ -4,9 +4,9 @@
 # toolbox https://github.com/ulfgri/gdsii-toolbox/ and are used with permission
 
 
-_glyph = {}
-_width = {}
-_indent = {}
+_glyph: dict[int, list[list[list[float]]]] = {}
+_width: dict[int, int] = {}
+_indent: dict[int, int] = {}
 
 _glyph[33] = [
     [[100, -100], [100, 100], [300, 100], [300, -100], [100, -100]],

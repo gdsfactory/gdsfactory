@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.generic_tech import LAYER
+from gdsfactory.generic_tech.layer_map import LAYER
 
 
 def test_write_labels() -> None:

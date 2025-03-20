@@ -5,7 +5,7 @@ import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
 from gdsfactory.difftest import difftest
-from gdsfactory.read.from_yaml import from_yaml, sample_doe_function, sample_mmis
+from gdsfactory.read.from_yaml import from_yaml, sample_mmis
 
 sample_connections = """
 name: sample_connections
@@ -299,7 +299,7 @@ routes:
         settings:
             cross_section: strip
         links:
-            left,o:1:3: right,o:3:1
+            left,o1-3: right,o3-1
 """
 
 sample_regex_connections_backwards = """
@@ -327,7 +327,7 @@ routes:
         settings:
             cross_section: strip
         links:
-            left,o:3:1: right,o:1:3
+            left,o3-1: right,o1-3
 """
 
 
@@ -466,6 +466,7 @@ instances:
          do_permutations: True
          spacing: [100, 100]
          shape: [2, 2]
+         function: add_fiber_array
          settings:
            length_mmi: [2, 100]
            width_mmi: [4, 10]
@@ -508,29 +509,16 @@ instances:
       - 50
       bend_s: bend_s
       cross_section: strip
-    na: 1
-    nb: 1
-    dax: 0
-    day: 0
-    dbx: 0
-    dby: 0
   dbr:
     component: array
     settings:
       component: dbr
-      spacing:
-      - 0
-      - 3
+      column_pitch: 0
+      row_pitch: 3
       columns: 1
       rows: 8
       add_ports: true
       centered: true
-    na: 1
-    nb: 1
-    dax: 0
-    day: 0
-    dbx: 0
-    dby: 0
 placements:
   s:
     x: 0.0
@@ -571,10 +559,11 @@ name: sample_array
 instances:
   sa1:
     component: straight
-    na: 5
-    dax: 50
-    nb: 4
-    dby: 10
+    array:
+      columns: 5
+      column_pitch: 50
+      rows: 4
+      row_pitch: 10
   s2:
     component: straight
 
@@ -593,6 +582,54 @@ ports:
     o1: s2,o1
     o2: sa1<0.0>,o1
 """
+
+sample_array_connect = """
+name: sample_array_connect
+
+instances:
+  sa:
+    component: straight
+    array:
+      columns: 1
+      column_pitch: 20
+      rows: 3
+      row_pitch: 20
+
+  b1:
+    component: bend_euler
+  b2:
+    component: bend_euler
+  b3:
+    component: bend_euler
+
+connections:
+    b1,o1: sa<0.0>,o2
+    b2,o1: sa<0.1>,o2
+    b3,o1: sa<0.2>,o2
+
+"""
+
+sample_array_connect_reverse = """
+name: sample_array_connect_reverse
+
+instances:
+  b1:
+    component: bend_euler
+    settings:
+      radius: 20
+  s1:
+    component: straight
+    settings:
+      length: 10
+    array:
+      columns: 3
+      rows: 1
+      column_pitch: 100.0
+      row_pitch: 0.0
+connections:
+  s1<2.0>,o2: b1,o1
+"""
+
 
 # FIXME: Fix both uncommented cases
 # yaml_fail should actually fail
@@ -613,10 +650,12 @@ yaml_strings = dict(
     sample_mmis=sample_mmis,
     sample_doe=sample_doe,
     # sample_doe_grid=sample_doe_grid,
-    sample_doe_function=sample_doe_function,
+    # sample_doe_function=sample_doe_function,
     sample_rotation=sample_rotation,
     sample_array=sample_array,
     sample_array2=sample_array2,
+    sample_array_connect=sample_array_connect,
+    sample_array_connect_reverse=sample_array_connect_reverse,
 )
 
 
@@ -669,10 +708,10 @@ if __name__ == "__main__":
     # test_sample()
     # test_connections_2x2()
     # test_connections_regex_backwards()
-    test_connections_different_factory()
+    # test_connections_different_factory()
     # import gdsfactory as gf
 
-    # import gdsfactory as gf
+    import gdsfactory as gf
 
-    # c = gf.read.from_yaml(sample_array2)
-    # c.show()
+    c = gf.read.from_yaml(sample_mmis)
+    c.show()

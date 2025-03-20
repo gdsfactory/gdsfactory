@@ -1,17 +1,9 @@
-function: bbox
 info: {}
-module: gdsfactory.components.bbox
-name: bbox
+name: bbox_Cmmi1x2_LSLAB90_T0_B0_L0_R0
 settings:
-  bbox:
-    - - -1.0
-      - -1.0
-    - - 3.0
-      - 4.0
   bottom: 0
-  layer:
-    - 1
-    - 0
+  component: mmi1x2
+  layer: SLAB90
   left: 0
   right: 0
   top: 0

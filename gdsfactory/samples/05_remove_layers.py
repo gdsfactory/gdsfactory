@@ -13,6 +13,7 @@ def remove_layers() -> Component:
     c.add_ref(gf.components.rectangle(size=(10, 1), layer=(1, 0)))
     c.add_ref(gf.components.rectangle(size=(10, 2), layer=(3, 0)))
     c.add_ref(gf.components.rectangle(size=(10, 3), layer=(2, 0)))
+    c.flatten()
 
     assert len(c.layers) == 3
 

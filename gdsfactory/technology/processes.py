@@ -108,13 +108,13 @@ class Lithography(ProcessStep):
     """
 
     layer: Layer | None = None
-    layers_or: list | None = None
-    layers_diff: list | None = None
-    layers_and: list | None = None
-    layers_xor: list | None = None
+    layers_or: list[Layer] | None = None
+    layers_diff: list[Layer] | None = None
+    layers_and: list[Layer] | None = None
+    layers_xor: list[Layer] | None = None
     resist_thickness: float | None = 0
     positive_tone: bool = True
-    planarization_height: float = None
+    planarization_height: float | None = None
 
 
 @dataclass(kw_only=True)
@@ -190,9 +190,9 @@ class ImplantPhysical(Lithography):
     ion: str
     energy: float
     dose: float
-    tilt: float = None
-    twist: float = None
-    rotation: float = None
+    tilt: float | None = None
+    twist: float | None = None
+    rotation: float | None = None
 
 
 @dataclass(kw_only=True)

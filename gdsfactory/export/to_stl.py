@@ -1,17 +1,20 @@
 from __future__ import annotations
 
 import pathlib
+from typing import cast
+
+from kfactory import LayerEnum
 
 from gdsfactory.component import Component
 from gdsfactory.technology import DerivedLayer, LayerStack, LogicalLayer
-from gdsfactory.typings import LayerSpec
+from gdsfactory.typings import LayerSpecs, PathType
 
 
 def to_stl(
     component: Component,
-    filepath: str,
+    filepath: PathType,
     layer_stack: LayerStack | None = None,
-    exclude_layers: tuple[LayerSpec, ...] | None = None,
+    exclude_layers: LayerSpecs | None = None,
     hull_invalid_polygons: bool = False,
     scale: float | None = None,
 ) -> None:
@@ -46,14 +49,16 @@ def to_stl(
         layer = level.layer
 
         if isinstance(layer, LogicalLayer):
-            layer_index = layer.layer
-
+            assert isinstance(layer.layer, tuple | LayerEnum)
+            layer_tuple = cast(tuple[int, int], layer.layer)
         elif isinstance(layer, DerivedLayer):
-            layer_index = level.derived_layer.layer
+            assert level.derived_layer is not None
+            assert isinstance(level.derived_layer.layer, tuple | LayerEnum)
+            layer_tuple = cast(tuple[int, int], level.derived_layer.layer)
         else:
             raise ValueError(f"Layer {layer!r} is not a DerivedLayer or LogicalLayer")
 
-        layer_tuple = tuple(layer_index)
+        layer_index = get_layer(layer_tuple)
 
         if layer_index in exclude_layers:
             continue
@@ -73,7 +78,7 @@ def to_stl(
             print(
                 f"Write {filepath_layer.absolute()!r} zmin = {zmin:.3f}, height = {height:.3f}"
             )
-            meshes = []
+            meshes: list[trimesh.Trimesh] = []
             for polygon in polygons:
                 p = shapely.geometry.Polygon(polygon)
 

@@ -1,13 +1,15 @@
 from __future__ import annotations
 
+from typing import Any
+
 import gdsfactory as gf
-from gdsfactory.typings import LayerSpec, PortsOrList
+from gdsfactory.typings import LayerSpec, Ports
 
 layer_label = "TEXT"
 
 
 def label_farthest_right_port(
-    component: gf.Component, ports: PortsOrList, layer: LayerSpec, text: str
+    component: gf.Component, ports: Ports, layer: LayerSpec, text: str
 ) -> gf.Component:
     """Adds a label to the right of the farthest right port in a given component.
 
@@ -17,24 +19,29 @@ def label_farthest_right_port(
         layer: The layer on which the label will be added.
         text: The text to display in the label.
     """
-    rightmost_port = max(ports, key=lambda port: port.dx)
+    rightmost_port = max(ports, key=lambda port: port.x)
 
     component.add_label(
         text=text,
-        position=rightmost_port.dcenter,
+        position=rightmost_port.center,
         layer=layer,
     )
     return component
 
 
-def resistance_sheet(width: float = 5, **kwargs) -> gf.Component:
+@gf.cell
+def resistance(width: float = 5, **kwargs: Any) -> gf.Component:
     """Returns a resistance sheet.
 
     Args:
         width: width of the resistance sheet.
         kwargs: additional settings.
     """
-    c = gf.components.resistance_sheet(width=width, **kwargs)
+    r = gf.components.resistance_sheet(width=width, **kwargs)
+    c = gf.container(r)
+
+    c.copy_child_info(r)
+
     c.info["doe"] = "resistance_sheet"
     c.info["measurement"] = "iv"
     c.info["measurement_parameters"] = (
@@ -50,7 +57,7 @@ def resistance_sheet(width: float = 5, **kwargs) -> gf.Component:
 
 
 def via_chain(
-    num_vias: float = 100, component_name="via_chain", **kwargs
+    num_vias: int = 100, component_name: str = "via_chain", **kwargs: Any
 ) -> gf.Component:
     """Returns a chain of vias.
 
@@ -88,7 +95,7 @@ def via_chain(
 
 def sample_reticle_with_labels(grid: bool = False) -> gf.Component:
     """Returns electrical test structures."""
-    res = [resistance_sheet(width=width) for width in [5, 10, 15]]
+    res = [resistance(width=width) for width in [5, 10, 15]]
     via_chains_ = [via_chain(num_vias=num_vias) for num_vias in [100, 200, 500]]
 
     copies = 3  # number of copies of each component

@@ -1,4 +1,5 @@
 import gdsfactory as gf
+from gdsfactory.config import home
 
 if __name__ == "__main__":
     c = gf.Component()
@@ -17,7 +18,7 @@ if __name__ == "__main__":
     gc1.connect("o1", b1.ports["o2"])
     gc2.connect("o1", b2.ports["o2"])
 
-    lyrdb = c.connectivity_check(port_types=("optical", "electrical"))
-    filepath = gf.config.home / "errors.lyrdb"
-    lyrdb.save(filepath)
+    lyrdb = c.connectivity_check(port_types=["optical", "electrical"])
+    filepath = home / "errors.lyrdb"
+    lyrdb.save(str(filepath))
     gf.show(c, lyrdb=filepath)

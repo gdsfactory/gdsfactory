@@ -5,24 +5,25 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 
 from __future__ import annotations
 
-import warnings
-from typing import Any
+from collections.abc import Sequence
+from typing import Any, Protocol, cast
 
 import numpy as np
+import numpy.typing as npt
 
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.typings import Anchor, ComponentSpec, Float2, Number
+from gdsfactory.typings import Anchor, ComponentSpec, Float2, Size
 
 
 def _pack_single_bin(
-    rect_dict: dict[int, tuple[Number, Number]],
-    aspect_ratio: tuple[Number, Number],
-    max_size: tuple[float, float],
+    rect_dict: dict[int, tuple[float, float]],
+    aspect_ratio: tuple[float, float],
+    max_size: Size,
     sort_by_area: bool,
     density: float,
-) -> tuple[dict[int, tuple[Number, Number, Number, Number]], dict[Any, Any]]:
+) -> tuple[dict[int, tuple[float, float, float, float]], dict[Any, Any]]:
     """Packs a dict of rectangles {id:(w,h)} and tries to.
 
     Pack it into a bin as small as possible with aspect ratio `aspect_ratio`
@@ -87,15 +88,19 @@ def _pack_single_bin(
     return packed_rect_dict, unpacked_rect_dict
 
 
+class TextFunction(Protocol):
+    def __call__(self, text: str) -> Component: ...
+
+
 def pack(
-    component_list: list[ComponentSpec],
+    component_list: Sequence[ComponentSpec],
     spacing: float = 10.0,
     aspect_ratio: Float2 = (1.0, 1.0),
     max_size: tuple[float | None, float | None] = (None, None),
     sort_by_area: bool = True,
     density: float = 1.1,
     precision: float = 1e-2,
-    text: ComponentSpec | None = None,
+    text: TextFunction | None = None,
     text_prefix: str = "",
     text_mirror: bool = False,
     text_rotation: int = 0,
@@ -160,56 +165,66 @@ def pack(
         )
 
     # Sanitize max_size variable
-    max_size = [np.inf if v is None else v for v in max_size]
-    max_size = np.asarray(max_size, dtype=np.float64)  # In case it's integers
-    max_size = max_size / precision
+    max_size_filtered = tuple(np.inf if v is None else v for v in max_size)
+    max_size_array: npt.NDArray[np.floating[Any]] = np.asarray(
+        max_size_filtered, dtype=np.float64
+    )  # In case it's integers
+    max_size_array = max_size_array / precision
+    max_size_tuple = cast(tuple[float, float], tuple(max_size_array))
 
-    component_list = [gf.get_component(component) for component in component_list]
+    components = [gf.get_component(component) for component in component_list]
 
     # Convert Components to rectangles
-    rect_dict = {}
-    for n, D in enumerate(component_list):
-        size = np.array([D.dxsize, D.dysize])
-        w, h = (size + spacing) / precision
-        w, h = int(w), int(h)
-        if (w > max_size[0]) or (h > max_size[1]):
+    rect_dict: dict[int, tuple[float, float]] = {}
+    for n, D in enumerate(components):
+        size = np.array([D.xsize, D.ysize])
+        w: float = int((size[0] + spacing) / precision)
+        h: float = int((size[1] + spacing) / precision)
+        if w > max_size_tuple[0]:
             raise ValueError(
-                f"pack() failed because Component {D.name!r} has x or y "
-                "dimension larger than `max_size` and cannot be packed.\n"
-                f"size = {w*precision, h*precision}, max_size = {max_size*precision}"
+                f"pack() failed because Component {D.name!r} has x dimension "
+                "larger than `max_size` and cannot be packed.\n"
+                f"xsize = {size[0]}, max_xsize = {int(precision * w)}"
+            )
+        elif h > max_size_tuple[1]:
+            raise ValueError(
+                f"pack() failed because Component {D.name!r} has y dimension "
+                "larger than `max_size` and cannot be packed.\n"
+                f"ysize = {size[1]}, max_ysize = {int(precision * h)}"
             )
         rect_dict[n] = (w, h)
 
-    packed_list = []
+    packed_list: list[dict[int, tuple[float, float, float, float]]] = []
     while rect_dict:
         (packed_rect_dict, rect_dict) = _pack_single_bin(
             rect_dict,
             aspect_ratio=aspect_ratio,
-            max_size=max_size,
+            max_size=max_size_tuple,
             sort_by_area=sort_by_area,
             density=density,
         )
         packed_list.append(packed_rect_dict)
 
-    components_packed_list = []
+    components_packed_list: list[Component] = []
     index = 0
-    for rect_dict in packed_list:
+    for rect_dict_ in packed_list:
         packed = Component()
-        for n, rect in rect_dict.items():
+        for n, rect in rect_dict_.items():
             x, y, w, h = rect
             xcenter = x + w / 2 + spacing / 2
             ycenter = y + h / 2 + spacing / 2
-            component = component_list[n]
-            d = (
-                packed << component
-            )  # ref(rotation=rotation, h_mirror=h_mirror, v_mirror=v_mirror)
+            component = components[n]
+            d = packed << component
             if rotation:
-                d.drotate(rotation)
+                d.rotate(rotation)
             if h_mirror:
                 d.mirror_x()
             if v_mirror:
                 d.mirror_y()
-            d.dcenter = tuple(snap_to_grid((xcenter * precision, ycenter * precision)))
+            d.center = cast(
+                tuple[float, float],
+                tuple(snap_to_grid((xcenter * precision, ycenter * precision))),
+            )
             if add_ports_prefix:
                 packed.add_ports(d.ports, prefix=f"{index}_")
             elif add_ports_suffix:
@@ -228,16 +243,12 @@ def pack(
                     if text_mirror:
                         label.dmirror()
                     if text_rotation:
-                        label.drotate(text_rotation)
-                    label.dmove(
+                        label.rotate(text_rotation)
+                    label.move(
                         np.array(text_offset) + getattr(d.dsize_info, text_anchor)
                     )
 
         components_packed_list.append(packed)
-
-    if len(components_packed_list) > 1:
-        groups = len(components_packed_list)
-        warnings.warn(f"unable to pack in one component, creating {groups} components")
 
     return components_packed_list
 
@@ -245,10 +256,15 @@ def pack(
 if __name__ == "__main__":
     # test_pack()
     component_list = [
-        gf.components.ellipse(radii=tuple(np.random.rand(2) * n + 2)) for n in range(10)
+        gf.components.ellipse(
+            radii=(np.random.rand() * n + 2, np.random.rand() * n + 2)
+        )
+        for n in range(10)
     ]
     component_list += [
-        gf.components.rectangle(size=tuple(np.random.rand(2) * n + 2))
+        gf.components.rectangle(
+            size=(np.random.rand() * n + 2, np.random.rand() * n + 2)
+        )
         for n in range(10)
     ]
 
@@ -256,7 +272,8 @@ if __name__ == "__main__":
         component_list,  # Must be a list or tuple of Components
         spacing=1.25,  # Minimum distance between adjacent shapes
         aspect_ratio=(2, 1),  # (width, height) ratio of the rectangular bin
-        max_size=(None, None),  # Limits the size into which the shapes will be packed
+        # max_size=(None, None),  # Limits the size into which the shapes will be packed
+        max_size=(30, 30),  # Limits the size into which the shapes will be packed
         density=1.05,  # Values closer to 1 pack tighter but require more computation
         sort_by_area=True,  # Pre-sorts the shapes by area
     )

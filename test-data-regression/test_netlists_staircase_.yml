@@ -12,6 +12,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   '2':
     component: straight
     info:
@@ -25,6 +26,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   '3':
     component: straight
     info:
@@ -38,6 +40,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   '4':
     component: straight
     info:
@@ -51,6 +54,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   A1:
     component: bend_euler
     info:
@@ -256,6 +260,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m2:
     component: straight
     info:
@@ -269,6 +274,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m3:
     component: straight
     info:
@@ -282,6 +288,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m4:
     component: straight
     info:
@@ -295,6 +302,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
   m5:
     component: straight
     info:
@@ -308,6 +316,7 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      width: null
 name: staircase_Cbend_euler_S_c2f7854d
 nets:
 - p1: 1,o1

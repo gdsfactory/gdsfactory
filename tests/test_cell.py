@@ -3,14 +3,14 @@ from gdsfactory import partial
 
 
 @gf.cell
-def inner(a=1) -> gf.Component:
+def inner(a: int = 1) -> gf.Component:
     c = gf.Component()
     c.add_ref(gf.components.rectangle(size=(a, a)))
     return c
 
 
 @gf.cell
-def outer(b=1) -> gf.Component:
+def outer(b: int = 1) -> gf.Component:
     return inner(b)
 
 
@@ -25,7 +25,7 @@ def test_partial() -> None:
     x2 = partial(gf.cross_section.cross_section, layer=(2, 0), width=0.6)
     b1 = gf.components.bend_euler(cross_section=x1)
     b2 = gf.components.bend_euler(cross_section=x2)
-    assert id(b1) == id(b2)
+    assert b1.base is b2.base
 
 
 if __name__ == "__main__":

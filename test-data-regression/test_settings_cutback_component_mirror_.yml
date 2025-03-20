@@ -1,10 +1,10 @@
 info:
   components: 80
-name: cutback_component_CFtap_4bce6c9a
+name: cutback_component_Ctape_13a5b25d
 settings:
-  bend180: Fbend_euler_Mgdsfactorypcomponentspbend_euler_SA180
+  bend180: bend_euler180
   cols: 4
-  component: Ftaper_from_csv_Mgdsfactorypcomponentsptaper_from_csv_SFtaper_strip_0p5_3_36pcsv
+  component: taper_0p5_to_3_l36
   cross_section: strip
   mirror: true
   mirror1: false

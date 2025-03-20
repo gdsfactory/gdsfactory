@@ -20,6 +20,7 @@ def test_convert_tuples_to_lists() -> None:
     assert convert_tuples_to_lists({"a": (1, 2)}) == {"a": [1, 2]}
     assert convert_tuples_to_lists([1, (2, 3)]) == [1, [2, 3]]
     assert convert_tuples_to_lists((1, 2)) == [1, 2]
+    assert convert_tuples_to_lists(([1, 2], 3)) == [[1, 2], 3]
 
 
 def test_clean_dict() -> None:
@@ -44,7 +45,7 @@ def test_clean_value_json() -> None:
 
 
 def test_clean_value_partial() -> None:
-    def sample_func(a, b=2) -> None:
+    def sample_func(a: float, b: float = 2) -> float:
         return a + b
 
     partial_func = functools.partial(sample_func, 1)
@@ -53,6 +54,17 @@ def test_clean_value_partial() -> None:
 
 
 def test_clean_value_name() -> None:
-    assert clean_value_name(1) == "1"
-    assert clean_value_name(1.23456) == "1.235"
-    assert clean_value_name([1, 2, 3]) == "(1, 2, 3)"
+    assert clean_value_name("with space") == "with_space"
+    assert clean_value_name("with-dash") == "withdash", clean_value_name("with-dash")
+    assert clean_value_name("with_underscore") == "with_underscore"
+    assert clean_value_name("with.dot") == "withdot"
+    assert clean_value_name("with:colon") == "withcolon"
+    assert clean_value_name("with/forwardslash") == "withforwardslash"
+    assert clean_value_name("with\\backslash") == "withbackslash"
+    assert clean_value_name("with*asterisk") == "withasterisk"
+    assert clean_value_name("with?questionmark") == "withquestionmark"
+    assert clean_value_name("with!exclamationmark") == "withexclamationmark"
+
+
+if __name__ == "__main__":
+    test_clean_value_name()

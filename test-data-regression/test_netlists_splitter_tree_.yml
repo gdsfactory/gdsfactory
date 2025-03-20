@@ -95,7 +95,7 @@ instances:
       radius: 10
       width: null
       with_arc_floorplan: true
-  bend_s_S90_11p875_N99_C_62bc90bd_105500_24375:
+  bend_s_S90_11p875_N99_C_af059dbc_105500_24375:
     component: bend_s
     info:
       end_angle: 0
@@ -115,7 +115,8 @@ instances:
       size:
       - 90
       - 11.875
-  bend_s_S90_11p875_N99_C_62bc90bd_105500_25625:
+      width: null
+  bend_s_S90_11p875_N99_C_af059dbc_105500_25625:
     component: bend_s
     info:
       end_angle: 0
@@ -135,7 +136,8 @@ instances:
       size:
       - 90
       - 11.875
-  bend_s_S90_11p875_N99_C_62bc90bd_105500_m24375:
+      width: null
+  bend_s_S90_11p875_N99_C_af059dbc_105500_m24375:
     component: bend_s
     info:
       end_angle: 0
@@ -155,7 +157,8 @@ instances:
       size:
       - 90
       - 11.875
-  bend_s_S90_11p875_N99_C_62bc90bd_105500_m25625:
+      width: null
+  bend_s_S90_11p875_N99_C_af059dbc_105500_m25625:
     component: bend_s
     info:
       end_angle: 0
@@ -175,6 +178,7 @@ instances:
       size:
       - 90
       - 11.875
+      width: null
   coupler_0_0:
     component: mmi1x2
     info: {}
@@ -214,7 +218,7 @@ instances:
       width: null
       width_mmi: 2.5
       width_taper: 1
-  straight_L44p5_N2_CSstrip_35500_25000:
+  straight_L44p5_N2_CSstrip_WNone_35500_25000:
     component: straight
     info:
       length: 44.5
@@ -227,7 +231,8 @@ instances:
       cross_section: strip
       length: 44.5
       npoints: 2
-  straight_L44p5_N2_CSstrip_35500_m25000:
+      width: null
+  straight_L44p5_N2_CSstrip_WNone_35500_m25000:
     component: straight
     info:
       length: 44.5
@@ -240,7 +245,8 @@ instances:
       cross_section: strip
       length: 44.5
       npoints: 2
-  straight_L4p375_N2_CSstrip_25500_15000:
+      width: null
+  straight_L4p375_N2_CSstrip_WNone_25500_15000:
     component: straight
     info:
       length: 4.375
@@ -253,7 +259,8 @@ instances:
       cross_section: strip
       length: 4.375
       npoints: 2
-  straight_L4p375_N2_CSstrip_25500_m15000:
+      width: null
+  straight_L4p375_N2_CSstrip_WNone_25500_m15000:
     component: straight
     info:
       length: 4.375
@@ -266,36 +273,37 @@ instances:
       cross_section: strip
       length: 4.375
       npoints: 2
+      width: null
 name: splitter_tree_Cmmi1x2_N_4888501b
 nets:
 - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_25500_10625,o1
-  p2: straight_L4p375_N2_CSstrip_25500_15000,o2
+  p2: straight_L4p375_N2_CSstrip_WNone_25500_15000,o2
 - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_25500_10625,o2
   p2: coupler_0_0,o2
 - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_25500_m10625,o1
-  p2: straight_L4p375_N2_CSstrip_25500_m15000,o2
+  p2: straight_L4p375_N2_CSstrip_WNone_25500_m15000,o2
 - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_25500_m10625,o2
   p2: coupler_0_0,o3
 - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_35500_25000,o1
-  p2: straight_L44p5_N2_CSstrip_35500_25000,o1
+  p2: straight_L44p5_N2_CSstrip_WNone_35500_25000,o1
 - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_35500_25000,o2
-  p2: straight_L4p375_N2_CSstrip_25500_15000,o1
+  p2: straight_L4p375_N2_CSstrip_WNone_25500_15000,o1
 - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_35500_m25000,o1
-  p2: straight_L44p5_N2_CSstrip_35500_m25000,o1
+  p2: straight_L44p5_N2_CSstrip_WNone_35500_m25000,o1
 - p1: bend_euler_R10_A90_P0p5_2f1f5c6d_35500_m25000,o2
-  p2: straight_L4p375_N2_CSstrip_25500_m15000,o1
-- p1: bend_s_S90_11p875_N99_C_62bc90bd_105500_24375,o1
+  p2: straight_L4p375_N2_CSstrip_WNone_25500_m15000,o1
+- p1: bend_s_S90_11p875_N99_C_af059dbc_105500_24375,o1
   p2: coupler_1_1,o3
-- p1: bend_s_S90_11p875_N99_C_62bc90bd_105500_25625,o1
+- p1: bend_s_S90_11p875_N99_C_af059dbc_105500_25625,o1
   p2: coupler_1_1,o2
-- p1: bend_s_S90_11p875_N99_C_62bc90bd_105500_m24375,o1
+- p1: bend_s_S90_11p875_N99_C_af059dbc_105500_m24375,o1
   p2: coupler_1_0,o2
-- p1: bend_s_S90_11p875_N99_C_62bc90bd_105500_m25625,o1
+- p1: bend_s_S90_11p875_N99_C_af059dbc_105500_m25625,o1
   p2: coupler_1_0,o3
 - p1: coupler_1_0,o1
-  p2: straight_L44p5_N2_CSstrip_35500_m25000,o2
+  p2: straight_L44p5_N2_CSstrip_WNone_35500_m25000,o2
 - p1: coupler_1_1,o1
-  p2: straight_L44p5_N2_CSstrip_35500_25000,o2
+  p2: straight_L44p5_N2_CSstrip_WNone_35500_25000,o2
 placements:
   bend_euler_R10_A90_P0p5_2f1f5c6d_25500_10625:
     mirror: true
@@ -317,22 +325,22 @@ placements:
     rotation: 180
     x: 35.5
     y: -25
-  bend_s_S90_11p875_N99_C_62bc90bd_105500_24375:
+  bend_s_S90_11p875_N99_C_af059dbc_105500_24375:
     mirror: true
     rotation: 0
     x: 105.5
     y: 24.375
-  bend_s_S90_11p875_N99_C_62bc90bd_105500_25625:
+  bend_s_S90_11p875_N99_C_af059dbc_105500_25625:
     mirror: false
     rotation: 0
     x: 105.5
     y: 25.625
-  bend_s_S90_11p875_N99_C_62bc90bd_105500_m24375:
+  bend_s_S90_11p875_N99_C_af059dbc_105500_m24375:
     mirror: false
     rotation: 0
     x: 105.5
     y: -24.375
-  bend_s_S90_11p875_N99_C_62bc90bd_105500_m25625:
+  bend_s_S90_11p875_N99_C_af059dbc_105500_m25625:
     mirror: true
     rotation: 0
     x: 105.5
@@ -352,29 +360,29 @@ placements:
     rotation: 0
     x: 90
     y: 25
-  straight_L44p5_N2_CSstrip_35500_25000:
+  straight_L44p5_N2_CSstrip_WNone_35500_25000:
     mirror: false
     rotation: 0
     x: 35.5
     y: 25
-  straight_L44p5_N2_CSstrip_35500_m25000:
+  straight_L44p5_N2_CSstrip_WNone_35500_m25000:
     mirror: false
     rotation: 0
     x: 35.5
     y: -25
-  straight_L4p375_N2_CSstrip_25500_15000:
+  straight_L4p375_N2_CSstrip_WNone_25500_15000:
     mirror: false
     rotation: 270
     x: 25.5
     y: 15
-  straight_L4p375_N2_CSstrip_25500_m15000:
+  straight_L4p375_N2_CSstrip_WNone_25500_m15000:
     mirror: false
     rotation: 90
     x: 25.5
     y: -15
 ports:
   o1_0_0: coupler_0_0,o1
-  o2_1_1: bend_s_S90_11p875_N99_C_62bc90bd_105500_m24375,o2
-  o2_1_2: bend_s_S90_11p875_N99_C_62bc90bd_105500_m25625,o2
-  o2_1_3: bend_s_S90_11p875_N99_C_62bc90bd_105500_25625,o2
-  o2_1_4: bend_s_S90_11p875_N99_C_62bc90bd_105500_24375,o2
+  o2_1_1: bend_s_S90_11p875_N99_C_af059dbc_105500_m24375,o2
+  o2_1_2: bend_s_S90_11p875_N99_C_af059dbc_105500_m25625,o2
+  o2_1_3: bend_s_S90_11p875_N99_C_af059dbc_105500_25625,o2
+  o2_1_4: bend_s_S90_11p875_N99_C_af059dbc_105500_24375,o2

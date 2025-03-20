@@ -1,18 +1,18 @@
 instances:
-  array_Cpad_small_S100_1_f794bc0e_185500_m10000:
+  array_Cpad_small_C3_R1__425dcc3e_185500_m10000:
     component: array
     info: {}
     settings:
       add_ports: true
+      auto_rename_ports: false
       centered: false
+      column_pitch: 100
       columns: 3
       component: pad_small
       post_process: null
+      row_pitch: 150
       rows: 1
       size: null
-      spacing:
-      - 100
-      - 100
   mzi_DL40_LY40_LX500_Bbe_2a7d538d_0_0:
     component: mzi
     info: {}
@@ -42,10 +42,10 @@ instances:
       straight_x_top: straight_heater_metal
       straight_y: null
       with_splitter: true
-name: mzi_pads_center_PTstrai_c97b64ce
+name: mzi_pads_center_PTstrai_10e9fd66
 nets: []
 placements:
-  array_Cpad_small_S100_1_f794bc0e_185500_m10000:
+  array_Cpad_small_C3_R1__425dcc3e_185500_m10000:
     mirror: false
     rotation: 0
     x: 185.5
@@ -79,40 +79,40 @@ warnings:
     unconnected_ports:
     - message: 12 unconnected electrical ports!
       ports:
-      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,e1_1_1
-      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,e2_1_1
-      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,e3_1_1
-      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,e4_1_1
-      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,e1_1_2
-      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,e2_1_2
-      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,e3_1_2
-      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,e4_1_2
-      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,e1_1_3
-      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,e2_1_3
-      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,e3_1_3
-      - array_Cpad_small_S100_1_f794bc0e_185500_m10000,e4_1_3
+      - array_Cpad_small_C3_R1__425dcc3e_185500_m10000,e1_1_1
+      - array_Cpad_small_C3_R1__425dcc3e_185500_m10000,e2_1_1
+      - array_Cpad_small_C3_R1__425dcc3e_185500_m10000,e3_1_1
+      - array_Cpad_small_C3_R1__425dcc3e_185500_m10000,e4_1_1
+      - array_Cpad_small_C3_R1__425dcc3e_185500_m10000,e1_1_2
+      - array_Cpad_small_C3_R1__425dcc3e_185500_m10000,e2_1_2
+      - array_Cpad_small_C3_R1__425dcc3e_185500_m10000,e3_1_2
+      - array_Cpad_small_C3_R1__425dcc3e_185500_m10000,e4_1_2
+      - array_Cpad_small_C3_R1__425dcc3e_185500_m10000,e1_1_3
+      - array_Cpad_small_C3_R1__425dcc3e_185500_m10000,e2_1_3
+      - array_Cpad_small_C3_R1__425dcc3e_185500_m10000,e3_1_3
+      - array_Cpad_small_C3_R1__425dcc3e_185500_m10000,e4_1_3
       values:
-      - - 145500
-        - -10000
-      - - 185500
-        - 30000
-      - - 225500
-        - -10000
-      - - 185500
-        - -50000
-      - - 245500
-        - -10000
-      - - 285500
-        - 30000
-      - - 325500
-        - -10000
-      - - 285500
-        - -50000
-      - - 345500
-        - -10000
-      - - 385500
-        - 30000
-      - - 425500
-        - -10000
-      - - 385500
-        - -50000
+      - - 145.5
+        - -10
+      - - 185.5
+        - 30
+      - - 225.5
+        - -10
+      - - 185.5
+        - -50
+      - - 245.5
+        - -10
+      - - 285.5
+        - 30
+      - - 325.5
+        - -10
+      - - 285.5
+        - -50
+      - - 345.5
+        - -10
+      - - 385.5
+        - 30
+      - - 425.5
+        - -10
+      - - 385.5
+        - -50

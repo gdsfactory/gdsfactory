@@ -1,4 +1,3 @@
-# type: ignore
 from __future__ import annotations
 
 from functools import partial
@@ -7,6 +6,7 @@ from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
 from gdsfactory import Component, Port
+from gdsfactory.typings import AngleInDegrees, Delta, Layer
 
 
 def test_route_bundle_udirect_pads(
@@ -16,12 +16,12 @@ def test_route_bundle_udirect_pads(
 
     pad = partial(gf.components.pad, size=(10, 10))
     pad_south = gf.components.pad_array(
-        port_orientation=270, spacing=(15.0, 0), pad=pad
+        port_orientation=270, column_pitch=15.0, row_pitch=0, pad=pad
     )
     pt = c << pad_south
     pb = c << pad_south
-    pb.drotate(90)
-    pt.drotate(90)
+    pb.rotate(90)
+    pt.rotate(90)
     pb.dmove((0, -100))
 
     pbports = list(pb.ports)
@@ -30,7 +30,7 @@ def test_route_bundle_udirect_pads(
     pbports.reverse()
 
     routes = gf.routing.route_bundle_electrical(
-        c, pbports, ptports, radius=5, cross_section="metal_routing"
+        c, pbports, ptports, cross_section="metal_routing"
     )
 
     lengths = {}
@@ -44,9 +44,9 @@ def test_route_bundle_udirect_pads(
 def test_route_connect_bundle_udirect(
     data_regression: DataRegressionFixture,
     check: bool = True,
-    dy=200,
-    orientation=270,
-    layer=(1, 0),
+    dy: Delta = 200,
+    orientation: AngleInDegrees = 270,
+    layer: Layer = (1, 0),
 ) -> None:
     xs1 = [-100, -90, -80, -55, -35, 24, 0] + [200, 210, 240]
     axis = "X" if orientation in [0, 180] else "Y"
@@ -57,22 +57,22 @@ def test_route_connect_bundle_udirect(
     if axis == "X":
         ports1 = [
             Port(
-                f"top_{i}",
+                name=f"top_{i}",
                 center=(0, xs1[i]),
                 width=0.5,
                 orientation=orientation,
-                layer=layer,
+                layer=gf.kcl.layout.layer(*layer),
             )
             for i in range(N)
         ]
 
         ports2 = [
             Port(
-                f"bottom_{i}",
+                name=f"bottom_{i}",
                 center=(dy, xs2[i]),
                 width=0.5,
                 orientation=orientation,
-                layer=layer,
+                layer=gf.kcl.layout.layer(*layer),
             )
             for i in range(N)
         ]
@@ -80,22 +80,22 @@ def test_route_connect_bundle_udirect(
     else:
         ports1 = [
             Port(
-                f"top_{i}",
+                name=f"top_{i}",
                 center=(xs1[i], 0),
                 width=0.5,
                 orientation=orientation,
-                layer=layer,
+                layer=gf.kcl.layout.layer(*layer),
             )
             for i in range(N)
         ]
 
         ports2 = [
             Port(
-                f"bottom_{i}",
+                name=f"bottom_{i}",
                 center=(xs2[i], dy),
                 width=0.5,
                 orientation=orientation,
-                layer=layer,
+                layer=gf.kcl.layout.layer(*layer),
             )
             for i in range(N)
         ]

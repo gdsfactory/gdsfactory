@@ -9,25 +9,45 @@ import sys
 import threading
 import time
 import traceback
-from collections.abc import Callable
 from types import SimpleNamespace
+from typing import TypeAlias
 
 import kfactory as kf
 from IPython.terminal.embed import embed
-from watchdog.events import FileSystemEventHandler
+from watchdog.events import (
+    DirCreatedEvent,
+    DirDeletedEvent,
+    DirModifiedEvent,
+    DirMovedEvent,
+    FileCreatedEvent,
+    FileDeletedEvent,
+    FileModifiedEvent,
+    FileMovedEvent,
+    FileSystemEventHandler,
+)
 from watchdog.observers import Observer
 
+from gdsfactory.component import Component
 from gdsfactory.config import cwd
-from gdsfactory.pdk import get_active_pdk
+from gdsfactory.pdk import Pdk, get_active_pdk
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
-from gdsfactory.typings import ComponentSpec, PathType
+from gdsfactory.typings import ComponentFactory, ComponentSpec, PathType
+
+_MovedEvent: TypeAlias = DirMovedEvent | FileMovedEvent
+_CreatedEvent: TypeAlias = DirCreatedEvent | FileCreatedEvent
+_DeletedEvent: TypeAlias = DirDeletedEvent | FileDeletedEvent
+_ModifiedEvent: TypeAlias = DirModifiedEvent | FileModifiedEvent
 
 
 class FileWatcher(FileSystemEventHandler):
     """Captures *.py or *.pic.yml file change events."""
 
     def __init__(
-        self, path: str | None = None, run_main: bool = False, run_cells: bool = True
+        self,
+        path: str,
+        run_main: bool = False,
+        run_cells: bool = True,
+        logger: logging.Logger | None = None,
     ) -> None:
         """Initialize the YAML event handler.
 
@@ -35,10 +55,11 @@ class FileWatcher(FileSystemEventHandler):
             path: the path to the directory to watch.
             run_main: if True, will execute the main function of the file.
             run_cells: if True, will execute the cells of the file.
+            logger: the logger to use.
         """
         super().__init__()
 
-        self.logger = logging.root
+        self.logger = logger or logging.root
         self.run_cells = run_cells
         self.run_main = run_main
 
@@ -66,7 +87,7 @@ class FileWatcher(FileSystemEventHandler):
         self.stopping.set()
         self.thread.join()
 
-    def update_cell(self, src_path, update: bool = False) -> Callable:
+    def update_cell(self, src_path: PathType, update: bool = False) -> ComponentFactory:
         """Parses a YAML file to a cell function and registers into active pdk.
 
         Args:
@@ -80,74 +101,82 @@ class FileWatcher(FileSystemEventHandler):
         print(f"Active PDK: {pdk.name!r}")
         filepath = pathlib.Path(src_path)
         cell_name = filepath.stem.split(".")[0]
-        # FIXME: This is a temporary fix to avoid caching issues
-        # if cell_name in CACHE:
-        #     CACHE.pop(cell_name)
         function = cell_from_yaml_template(filepath, name=cell_name)
         try:
-            pdk.register_cells_yaml(**{cell_name: function}, update=update)
+            pdk.register_cells_yaml(update=update, **{cell_name: function})  # type: ignore[arg-type]
         except ValueError as e:
             print(e)
         return function
 
-    def on_moved(self, event) -> None:
+    def _get_path(self, path: str | bytes) -> str:
+        return path.decode("utf-8") if isinstance(path, bytes) else path
+
+    def on_moved(self, event: _MovedEvent) -> None:
         super().on_moved(event)
 
         what = "directory" if event.is_directory else "file"
-        if what == "file" and event.dest_path.endswith(".pic.yml"):
-            self.logger.info("Moved %s: %s", what, event.src_path)
-            self.update_cell(event.dest_path)
-            self.get_component(event.src_path)
+        dest_path = self._get_path(event.dest_path)
 
-    def on_created(self, event) -> None:
+        if what == "file" and dest_path.endswith(".pic.yml"):
+            self.logger.info("Moved %s: %s", what, dest_path)
+            self.update_cell(dest_path)
+            self.get_component(dest_path)
+
+    def on_created(self, event: _CreatedEvent) -> None:
         super().on_created(event)
 
         what = "directory" if event.is_directory else "file"
-        if (
-            what == "file"
-            and event.src_path.endswith(".pic.yml")
-            or event.src_path.endswith(".py")
+        src_path = self._get_path(event.src_path)
+        if (what == "file" and src_path.endswith(".pic.yml")) or src_path.endswith(
+            ".py"
         ):
-            self.logger.info("Created %s: %s", what, event.src_path)
-            self.get_component(event.src_path)
+            self.logger.info("Created %s: %s", what, src_path)
+            self.get_component(src_path)
 
-    def on_deleted(self, event) -> None:
+    def on_deleted(self, event: _DeletedEvent) -> None:
         super().on_deleted(event)
 
         what = "directory" if event.is_directory else "file"
+        src_path = self._get_path(event.src_path)
 
-        if what == "file" and event.src_path.endswith(".pic.yml"):
+        if what == "file" and src_path.endswith(".pic.yml"):
             self.logger.info("Deleted %s: %s", what, event.src_path)
             pdk = get_active_pdk()
-            filepath = pathlib.Path(event.src_path)
+            filepath = pathlib.Path(src_path)
             cell_name = filepath.stem.split(".")[0]
             pdk.remove_cell(cell_name)
 
-    def on_modified(self, event) -> None:
+    def on_modified(self, event: _ModifiedEvent) -> None:
         super().on_modified(event)
 
+        # Determine file type
         what = "directory" if event.is_directory else "file"
-        if (
-            what == "file"
-            and event.src_path.endswith(".pic.yml")
-            or event.src_path.endswith(".py")
+        if not isinstance(event.src_path, str):
+            src_path = event.src_path.decode("utf-8")
+        else:
+            src_path = event.src_path
+
+        # Check if the file matches the extensions we care about
+        if what == "file" and (
+            src_path.endswith(".pic.yml") or src_path.endswith(".py")
         ):
-            self.logger.info("Modified %s: %s", what, event.src_path)
-            self.get_component(event.src_path)
+            self.logger.info("Modified %s: %s", what, src_path)
+            self.get_component(src_path)
+        else:
+            print(f"Ignored {what}: {src_path}")
 
-    def update(self):
-        pass
-
-    def get_component(self, filepath):
-        self.update()
+    def get_component(self, filepath: PathType) -> Component | None:
         import git
+        import git.repo as gr
 
         from gdsfactory.get_factories import get_cells_from_dict
 
         try:
-            repo = git.repo.Repo(".", search_parent_directories=True)
+            repo = gr.Repo(".", search_parent_directories=True)
             dirpath = repo.working_tree_dir
         except git.InvalidGitRepositoryError:
+            dirpath = cwd
+        if dirpath is None:
             dirpath = cwd
         try:
             filepath = pathlib.Path(filepath)
@@ -156,14 +185,7 @@ class FileWatcher(FileSystemEventHandler):
 
             if filepath.exists():
                 if str(filepath).endswith(".pic.yml"):
-                    cell_func = self.update_cell(filepath, update=True)
-                    c = cell_func()
-                    gdspath = dirpath / str(filepath.relative_to(self.path)).replace(
-                        ".pic.yml", ".gds"
-                    )
-                    c.write_gds(gdspath)
-                    kf.show(gdspath)
-                    return c
+                    return self.get_component_yaml(filepath, dirpath)
                 elif str(filepath).endswith(".py"):
                     context = dict(locals(), **globals())
                     if self.run_main:
@@ -182,19 +204,34 @@ class FileWatcher(FileSystemEventHandler):
                             kf.show(gdspath)
 
                 else:
-                    print("Changed file {filepath} ignored (not .pic.yml or .py)")
+                    print(f"Changed file {filepath} ignored (not .pic.yml or .py)")
 
         except Exception as e:
             traceback.print_exc(file=sys.stdout)
             print(e)
+        return None
+
+    def get_component_yaml(self, filepath: PathType, dirpath: PathType) -> Component:
+        """Parses a YAML file to a cell function and registers into active pdk."""
+        cell_func = self.update_cell(filepath, update=True)
+        filepath_path = pathlib.Path(filepath)
+        c = cell_func()
+        gdspath = pathlib.Path(dirpath) / str(
+            filepath_path.relative_to(self.path)
+        ).replace(".pic.yml", ".gds")
+        c.write_gds(gdspath)
+        kf.show(gdspath)
+        return c
 
 
 def watch(
     path: PathType | None = cwd,
-    pdk: str | None = None,
-    run_main: bool = False,
-    run_cells=True,
-    pre_run=False,
+    pdk: Pdk | str | None = None,
+    run_main: bool = True,
+    run_cells: bool = True,
+    pre_run: bool = False,
+    logger: logging.Logger | None = None,
+    run_embed: bool = True,
 ) -> None:
     """Starts the file watcher.
 
@@ -203,18 +240,28 @@ def watch(
         pdk: the name of the PDK to use.
         run_main: if True, will execute the main function of the file.
         run_cells: if True, will execute the cells of the file.
-        run_cells: if True, will execute the cells of the file.
         pre_run: build all cells on startup
+        logger: the logger to use.
+        run_embed: if True, will run the embed function.
     """
     path = str(path)
+    logger = logger or logging.root
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s - %(message)s",
         datefmt="%Y-%m-%d %H:%M:%S",
     )
     if pdk:
-        get_active_pdk(name=pdk)
-    watcher = FileWatcher(path=path, run_main=run_main, run_cells=run_cells)
+        if isinstance(pdk, str):
+            get_active_pdk(name=pdk)
+        else:
+            pdk.activate()
+    pdk_name = get_active_pdk().name if pdk else None
+
+    print(f"Watching {path=}, {pdk_name=} {run_main=}, {run_cells=}, {pre_run=}")
+    watcher = FileWatcher(
+        path=path, run_main=run_main, run_cells=run_cells, logger=logger
+    )
     watcher.start()
     if pre_run:
         for root, _, fns in os.walk(path):
@@ -224,10 +271,11 @@ def watch(
                     event = SimpleNamespace(is_directory=False, src_path=path)
                     watcher.on_created(event)  # type: ignore
 
-    logging.info(
+    logger.info(
         f"File watcher looking for changes in *.py and *.pic.yml files in {path!r}. Stop with Ctrl+C"
     )
-    embed()
+    if run_embed:
+        embed()
     watcher.stop()
 
 

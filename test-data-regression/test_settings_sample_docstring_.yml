@@ -1,6 +1,0 @@
-info: {}
-name: sample_docstring
-settings:
-  label_instance_function: add_instance_label
-  name: Unnamed
-  yaml_str: "\nname: sample_docstring\n\ninstances:\n    mmi_bot:\n      component: mmi1x2\n      settings:\n        width_mmi: 5\n        length_mmi: 11\n    mmi_top:\n      component: mmi1x2\n      settings:\n        width_mmi: 6\n        length_mmi: 22\n\nplacements:\n    mmi_top:\n        port: o1\n        x: 0\n        y: 0\n    mmi_bot:\n        port: o1\n        x: mmi_top,o2\n        y: mmi_top,o2\n        dx: 40\n        dy: -40\nroutes:\n    optical:\n        links:\n            mmi_top,o3: mmi_bot,o1\n"

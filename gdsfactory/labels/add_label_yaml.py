@@ -10,6 +10,7 @@ import yaml
 
 import gdsfactory as gf
 from gdsfactory.read.from_yaml import valid_anchor_point_keywords
+from gdsfactory.routing.add_fiber_array import add_fiber_array
 from gdsfactory.serialization import convert_tuples_to_lists
 from gdsfactory.typings import LayerSpec
 
@@ -69,10 +70,10 @@ def add_label_yaml(
         analysis=analysis,
         measurement_settings=measurement_settings,
         analysis_settings=analysis_settings,
-        xopt=[int(optical_ports[0].dx - xc)] if optical_ports else [],
-        yopt=[int(optical_ports[0].dy - yc)] if optical_ports else [],
-        xelec=[int(electrical_ports[0].dx - xc)] if electrical_ports else [],
-        yelec=[int(electrical_ports[0].dy - yc)] if electrical_ports else [],
+        xopt=[int(optical_ports[0].x - xc)] if optical_ports else [],
+        yopt=[int(optical_ports[0].y - yc)] if optical_ports else [],
+        xelec=[int(electrical_ports[0].x - xc)] if electrical_ports else [],
+        yelec=[int(electrical_ports[0].y - yc)] if electrical_ports else [],
     )
     text = yaml.dump(convert_tuples_to_lists(d)) if with_yaml_format else json.dumps(d)
     component.add_label(
@@ -102,10 +103,7 @@ if __name__ == "__main__":
 
     c = gf.c.straight(length=11)
     c = gf.c.mmi2x2(length_mmi=2.2)
-    c = gf.routing.add_fiber_array(
-        c,
-        grating_coupler=gf.components.grating_coupler_te,
-    )
+    c = add_fiber_array(c, grating_coupler=gf.components.grating_coupler_te)
     decorator(c)
 
     # c = gf.components.spiral()

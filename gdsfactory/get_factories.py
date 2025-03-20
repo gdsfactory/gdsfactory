@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 import contextlib
-from collections.abc import Iterable
+from collections.abc import Callable, Iterable
 from functools import partial
 from inspect import getmembers, isfunction, signature
+from typing import Any
 
-from gdsfactory.typings import Any, Callable, Component
+from gdsfactory.component import Component
+from gdsfactory.typings import ComponentFactory
 
 
 def get_cells(
@@ -13,7 +15,7 @@ def get_cells(
     ignore_non_decorated: bool = False,
     ignore_underscored: bool = True,
     ignore_partials: bool = False,
-) -> dict[str, Callable]:
+) -> dict[str, ComponentFactory]:
     """Returns PCells (component functions) from a module or list of modules.
 
     Args:
@@ -23,17 +25,21 @@ def get_cells(
         ignore_partials: only include functions, not partials
     """
     modules = modules if isinstance(modules, Iterable) else [modules]
-    cells = {}
+    cells: dict[str, ComponentFactory] = {}
     for module in modules:
-        for name, member in getmembers(module):
-            if is_cell(
-                member,
-                ignore_non_decorated=ignore_non_decorated,
-                ignore_underscored=ignore_underscored,
-                ignore_partials=ignore_partials,
-                name=name,
-            ):
-                cells[name] = member
+        cells.update(
+            {
+                name: member
+                for name, member in getmembers(module)
+                if is_cell(
+                    member,
+                    ignore_non_decorated=ignore_non_decorated,
+                    ignore_underscored=ignore_underscored,
+                    ignore_partials=ignore_partials,
+                    name=name,
+                )
+            }
+        )
     return cells
 
 
@@ -45,8 +51,6 @@ def is_cell(
     name: str = "",
 ) -> bool:
     try:
-        if not name:
-            name = func.__name__
         if not callable(func):
             return False
         if not ignore_partials and isinstance(func, partial):
@@ -57,6 +61,8 @@ def is_cell(
                 ignore_partials=ignore_partials,
                 name=name,
             )
+        if not name:
+            name = func.__name__
         if ignore_underscored and name.startswith("_"):
             return False
         if getattr(func, "is_gf_cell", False):
@@ -69,7 +75,9 @@ def is_cell(
     return False
 
 
-def get_cells_from_dict(cells: dict[str, Callable]) -> dict[str, Callable]:
+def get_cells_from_dict(
+    cells: dict[str, Callable[..., Any]],
+) -> dict[str, Callable[..., Component]]:
     """Returns PCells (component functions) from a dictionary.
 
     Args:
@@ -78,7 +86,7 @@ def get_cells_from_dict(cells: dict[str, Callable]) -> dict[str, Callable]:
     Returns:
         A dictionary of valid component functions.
     """
-    valid_cells = {}
+    valid_cells: dict[str, Callable[..., Component]] = {}
 
     for name, member in cells.items():
         if not name.startswith("_") and (

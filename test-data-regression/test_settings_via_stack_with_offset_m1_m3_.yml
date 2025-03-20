@@ -1,0 +1,14 @@
+info: {}
+name: via_stack_with_offset_L_7cc77680
+settings:
+  layers:
+  - M1
+  - M2
+  - MTOP
+  size:
+  - 10
+  - 10
+  vias:
+  - null
+  - via1
+  - via2

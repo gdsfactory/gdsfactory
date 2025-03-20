@@ -3,16 +3,16 @@
 import csv
 import json
 import pathlib
+from collections.abc import Iterable, Sequence
 
 import gdsfactory as gf
-from gdsfactory.typings import Iterable
 
 
 def write_test_manifest(
     component: gf.Component,
     csvpath: str | pathlib.Path,
     search_strings: Iterable[str] | None = None,
-    parameters: tuple[str, ...] = (
+    parameters: Sequence[str] = (
         "doe",
         "analysis",
         "analysis_parameters",
@@ -53,9 +53,9 @@ def write_test_manifest(
             + list(parameters)
         )
 
-        ci = c._kdb_cell.begin_instances_rec()
+        ci = c.kdb_cell.begin_instances_rec()
         if search_strings:
-            ci.targets = "{" + ",".join(search_strings) + "}"
+            ci.targets = "{" + ",".join(search_strings) + "}"  # type: ignore[assignment]
         else:
             ci.targets = c.called_cells()
 
@@ -80,7 +80,7 @@ def write_test_manifest(
                         cell.name,
                         disp.x * c.kcl.dbu,
                         disp.y * c.kcl.dbu,
-                        json.dumps(cell.info.model_dump(exclude=parameters)),
+                        json.dumps(cell.info.model_dump(exclude=set(parameters))),
                         json.dumps(ports),
                         cell.settings.model_dump_json(),
                     ]
@@ -120,7 +120,7 @@ if __name__ == "__main__":
 
     gdspath = c.write_gds()
     csvpath = gdspath.with_suffix(".csv")
-    write_test_manifest(c, csvpath)
+    write_test_manifest(c, csvpath, search_strings=["ring_10"])
     df = pd.read_csv(csvpath)
     print(df.columns)
     c.show()

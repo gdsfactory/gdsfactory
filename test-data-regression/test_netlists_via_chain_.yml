@@ -1,13 +1,12 @@
 instances:
   rectangle_S2p7_6p4_LM2__c8f1a350_36000_m1000:
+    array:
+      column_pitch: 7.4
+      columns: 1
+      row_pitch: 7.4
+      rows: 5
     component: rectangle
-    dax: 3.7
-    day: 0
-    dbx: 0
-    dby: 7.4
     info: {}
-    na: 1
-    nb: 5
     settings:
       centered: false
       layer: M2
@@ -21,14 +20,13 @@ instances:
       - 2.7
       - 6.4
   rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700:
+    array:
+      column_pitch: 7.4
+      columns: 1
+      row_pitch: 7.4
+      rows: 4
     component: rectangle
-    dax: 3.7
-    day: 0
-    dbx: 0
-    dby: 7.4
     info: {}
-    na: 1
-    nb: 4
     settings:
       centered: false
       layer: M2
@@ -42,14 +40,13 @@ instances:
       - 2.7
       - 6.4
   rectangles_S6p4_2p7_O0_LM1_CTrue_5900_350:
+    array:
+      column_pitch: 7.4
+      columns: 5
+      row_pitch: 3.7
+      rows: 10
     component: rectangles
-    dax: 7.4
-    day: 0
-    dbx: 0
-    dby: 3.7
     info: {}
-    na: 5
-    nb: 10
     settings:
       centered: true
       layers:
@@ -60,14 +57,13 @@ instances:
       - 6.4
       - 2.7
   rectangles_S6p4_2p7_O0_LM2_CTrue_2200_350:
+    array:
+      column_pitch: 7.4
+      columns: 5
+      row_pitch: 3.7
+      rows: 10
     component: rectangles
-    dax: 7.4
-    day: 0
-    dbx: 0
-    dby: 3.7
     info: {}
-    na: 5
-    nb: 10
     settings:
       centered: true
       layers:
@@ -77,34 +73,32 @@ instances:
       size:
       - 6.4
       - 2.7
-  via_S0p7_0p7_S2_2_GNone_bcb63a01_4050_350:
+  via_S0p7_0p7_E2_LVIA1_B_053047f5_4050_350:
+    array:
+      column_pitch: 3.7
+      columns: 10
+      row_pitch: 3.7
+      rows: 10
     component: via
-    dax: 3.7
-    day: 0
-    dbx: 0
-    dby: 3.7
     info:
+      column_pitch: 2
       enclosure: 2
+      row_pitch: 2
       xsize: 0.7
-      xspacing: 2
       ysize: 0.7
-      yspacing: 2
-    na: 10
-    nb: 10
     settings:
       bbox_layers: null
       bbox_offset: 0
       bbox_offsets: null
+      column_pitch: null
       enclosure: 2
-      gap: null
       layer: VIA1
+      pitch: 2
+      row_pitch: null
       size:
       - 0.7
       - 0.7
-      spacing:
-      - 2
-      - 2
-  via_stack_S11_11_LM2_MT_c93e8c69_m6500_37800:
+  via_stack_S11_11_LM2_MT_0b0d0698_m6500_37800:
     component: via_stack
     info:
       xsize: 11
@@ -112,7 +106,7 @@ instances:
     settings:
       correct_size: true
       layer_offsets: null
-      layer_port: null
+      layer_to_port_orientations: null
       layers:
       - M2
       - MTOP
@@ -129,7 +123,7 @@ instances:
       vias:
       - via2
       - null
-  via_stack_S11_11_LM2_MT_c93e8c69_m6500_m3800:
+  via_stack_S11_11_LM2_MT_0b0d0698_m6500_m3800:
     component: via_stack
     info:
       xsize: 11
@@ -137,7 +131,7 @@ instances:
     settings:
       correct_size: true
       layer_offsets: null
-      layer_port: null
+      layer_to_port_orientations: null
       layers:
       - M2
       - MTOP
@@ -154,7 +148,7 @@ instances:
       vias:
       - via2
       - null
-name: via_chain_NV100_C10_VFv_7bb40f3e
+name: via_chain_NV100_C10_Vvi_2518d565
 nets: []
 placements:
   rectangle_S2p7_6p4_LM2__c8f1a350_36000_m1000:
@@ -177,24 +171,24 @@ placements:
     rotation: 0
     x: 2.2
     y: 0.35
-  via_S0p7_0p7_S2_2_GNone_bcb63a01_4050_350:
+  via_S0p7_0p7_E2_LVIA1_B_053047f5_4050_350:
     mirror: false
     rotation: 0
     x: 4.05
     y: 0.35
-  via_stack_S11_11_LM2_MT_c93e8c69_m6500_37800:
+  via_stack_S11_11_LM2_MT_0b0d0698_m6500_37800:
     mirror: false
     rotation: 0
     x: -6.5
     y: 37.8
-  via_stack_S11_11_LM2_MT_c93e8c69_m6500_m3800:
+  via_stack_S11_11_LM2_MT_0b0d0698_m6500_m3800:
     mirror: false
     rotation: 0
     x: -6.5
     y: -3.8
 ports:
-  e1: via_stack_S11_11_LM2_MT_c93e8c69_m6500_m3800,e1
-  e2: via_stack_S11_11_LM2_MT_c93e8c69_m6500_37800,e1
+  e1: via_stack_S11_11_LM2_MT_0b0d0698_m6500_m3800,e1
+  e2: via_stack_S11_11_LM2_MT_0b0d0698_m6500_37800,e1
 warnings:
   electrical:
     unconnected_ports:
@@ -236,94 +230,94 @@ warnings:
       - rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700<0.3>,e2
       - rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700<0.3>,e3
       - rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700<0.3>,e4
-      - via_stack_S11_11_LM2_MT_c93e8c69_m6500_m3800,e2
-      - via_stack_S11_11_LM2_MT_c93e8c69_m6500_m3800,e3
-      - via_stack_S11_11_LM2_MT_c93e8c69_m6500_m3800,e4
-      - via_stack_S11_11_LM2_MT_c93e8c69_m6500_37800,e2
-      - via_stack_S11_11_LM2_MT_c93e8c69_m6500_37800,e3
-      - via_stack_S11_11_LM2_MT_c93e8c69_m6500_37800,e4
+      - via_stack_S11_11_LM2_MT_0b0d0698_m6500_m3800,e2
+      - via_stack_S11_11_LM2_MT_0b0d0698_m6500_m3800,e3
+      - via_stack_S11_11_LM2_MT_0b0d0698_m6500_m3800,e4
+      - via_stack_S11_11_LM2_MT_0b0d0698_m6500_37800,e2
+      - via_stack_S11_11_LM2_MT_0b0d0698_m6500_37800,e3
+      - via_stack_S11_11_LM2_MT_0b0d0698_m6500_37800,e4
       values:
-      - - 36000
-        - 2200
-      - - 37350
-        - 5400
-      - - 38700
-        - 2200
-      - - 37350
-        - -1000
-      - - 36000
-        - 9600
-      - - 37350
-        - 12800
-      - - 38700
-        - 9600
-      - - 37350
-        - 6400
-      - - 36000
-        - 17000
-      - - 37350
-        - 20200
-      - - 38700
-        - 17000
-      - - 37350
-        - 13800
-      - - 36000
-        - 24400
-      - - 37350
-        - 27600
-      - - 38700
-        - 24400
-      - - 37350
-        - 21200
-      - - 36000
-        - 31800
-      - - 37350
-        - 35000
-      - - 38700
-        - 31800
-      - - 37350
-        - 28600
-      - - -1000
-        - 5900
-      - - 350
-        - 9100
-      - - 1700
-        - 5900
-      - - 350
-        - 2700
-      - - -1000
-        - 13300
-      - - 350
-        - 16500
-      - - 1700
-        - 13300
-      - - 350
-        - 10100
-      - - -1000
-        - 20700
-      - - 350
-        - 23900
-      - - 1700
-        - 20700
-      - - 350
-        - 17500
-      - - -1000
-        - 28100
-      - - 350
-        - 31300
-      - - 1700
-        - 28100
-      - - 350
-        - 24900
-      - - -6500
-        - 1700
-      - - -1000
-        - -3800
-      - - -6500
-        - -9300
-      - - -6500
-        - 43300
-      - - -1000
-        - 37800
-      - - -6500
-        - 32300
+      - - 36
+        - 2.2
+      - - 37.35
+        - 5.4
+      - - 38.7
+        - 2.2
+      - - 37.35
+        - -1
+      - - 36
+        - 9.6
+      - - 37.35
+        - 12.8
+      - - 38.7
+        - 9.6
+      - - 37.35
+        - 6.4
+      - - 36
+        - 17
+      - - 37.35
+        - 20.2
+      - - 38.7
+        - 17
+      - - 37.35
+        - 13.8
+      - - 36
+        - 24.4
+      - - 37.35
+        - 27.6
+      - - 38.7
+        - 24.4
+      - - 37.35
+        - 21.2
+      - - 36
+        - 31.8
+      - - 37.35
+        - 35
+      - - 38.7
+        - 31.8
+      - - 37.35
+        - 28.6
+      - - -1
+        - 5.9
+      - - 0.35
+        - 9.1
+      - - 1.7
+        - 5.9
+      - - 0.35
+        - 2.7
+      - - -1
+        - 13.3
+      - - 0.35
+        - 16.5
+      - - 1.7
+        - 13.3
+      - - 0.35
+        - 10.1
+      - - -1
+        - 20.7
+      - - 0.35
+        - 23.9
+      - - 1.7
+        - 20.7
+      - - 0.35
+        - 17.5
+      - - -1
+        - 28.1
+      - - 0.35
+        - 31.3
+      - - 1.7
+        - 28.1
+      - - 0.35
+        - 24.9
+      - - -6.5
+        - 1.7
+      - - -1
+        - -3.8
+      - - -6.5
+        - -9.3
+      - - -6.5
+        - 43.3
+      - - -1
+        - 37.8
+      - - -6.5
+        - 32.3

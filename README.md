@@ -1,4 +1,4 @@
-# GDSFactory 8.18.0
+# GDSFactory 9.3.0
 
 [![docs](https://github.com/gdsfactory/gdsfactory/actions/workflows/pages.yml/badge.svg)](https://gdsfactory.github.io/gdsfactory/)
 [![PyPI](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
@@ -7,14 +7,6 @@
 [![MIT](https://img.shields.io/github/license/gdsfactory/gdsfactory)](https://choosealicense.com/licenses/mit/)
 [![codecov](https://img.shields.io/codecov/c/github/gdsfactory/gdsfactory)](https://codecov.io/gh/gdsfactory/gdsfactory/tree/main/gdsfactory)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/gdsfactory/binder-sandbox/HEAD)
-
-> 🚀 **Notice: Major Release**
->
-> We are excited to announce that GDSFactory has upgraded its backend from gdstk to KLayout. This change brings enhanced routing functions and additional features from KLayout, including DRC, dummy fill, and connectivity checks.
->
-> Notice that the routing and some advanced functions have changed. For a complete list of changes, please refer to our [migration guide](https://gdsfactory.github.io/gdsfactory/notebooks/21_migration_guide_7_8.html) or review the updated layout tutorial.
-
-GDSFactory is a powerful Python library for designing a wide range of complex systems, including photonic circuits, analog devices, quantum components, MEMs, 3D printed objects, and PCBs. With GDSFactory, you can create and refine your designs using Python or YAML, perform rigorous verification through Design Rule Checking (DRC), Layout Versus Schematic (LVS) checks, and simulations. Additionally, it facilitates automated lab testing to ensure that your fabricated devices meet precise specifications, streamlining the entire design-to-fabrication workflow.
 
 
 As input you write python code, as an output GDSFactory creates CAD files (GDS, OASIS, STL, GERBER).
@@ -38,8 +30,8 @@ c.show()
 Highlights:
 
 - +2M downloads
-- +70 Contributors
-- +15 PDKs available
+- +79 Contributors
+- +25 PDKs available
 
 ![workflow](https://i.imgur.com/KyavbHh.png)
 
@@ -56,25 +48,38 @@ We provide a common syntax for design (Ansys, Lumerical, Tidy3d, MEEP, DEVSIM, S
 
 ![tool interfaces](https://i.imgur.com/j5qlFWj.png)
 
-Numerous foundries offer GDSFactory PDKs that are accessible under an NDA. To gain access to these PDKs, please send proof of your NDA to contact@gdsfactory.com
+## GDSFactory+
+
+**GDSFactory+** offers Graphical User Interface for chip design, built on top of GDSFactory and VSCode. It provides you:
+
+- Foundry PDK access
+- Schematic capture
+- Simulations
+- Design verification (DRC, LVS)
+- Data analytics
+
+## Accessing Foundry PDKs
+
+Access to GDSFactory PDKs under NDA requires a GDSFactory+ subscription.
+
+To sign up, visit [GDSFactory.com](https://gdsfactory.com/). Once registered, you can request access to foundry PDKs that require an NDA with the respective foundry.
+
+Available Foundry PDKs under NDA:
 
 - AIM photonics PDK
 - AMF photonics PDK
 - Compoundtek photonics PDK
-- GlobalFoundries 45SPCLO Photonics PDK
-- HHI Photonics PDK
-- IMEC photonics PDK
-- Smart Photonics Photonics PDK
+- Fraunhofer HHI Photonics PDK
+- Smart Photonics PDK
 - TowerSemi PH18 photonics PDK
+- TowerSemi PH18DA photonics PDK by OpenLight
 - III-V Labs PDK
 - Lionix PDK
-
-Coming soon:
-
 - Ligentec PDK
 - Lightium PDK
+- QCI (Quantum Computing Inc)
 
-There are also open source PDKs available without an NDA:
+There are also **open-source PDKs** available that do not require an NDA:
 
 - [GlobalFoundries 180nm MCU CMOS PDK](https://gdsfactory.github.io/gf180/)
 - [ANT / SiEPIC Ebeam UBC PDK](https://gdsfactory.github.io/ubc)
@@ -93,6 +98,7 @@ There are also open source PDKs available without an NDA:
 - [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=250169028)
 - [PIC training](https://gdsfactory.github.io/gdsfactory-photonics-training/)
 - Online course [UBCx: Silicon Photonics Design, Fabrication and Data Analysis](https://www.edx.org/learn/engineering/university-of-british-columbia-silicon-photonics-design-fabrication-and-data-ana), where students can use GDSFactory to create a design, have it fabricated, and tested.
+- [Visit website](https://gdsfactory.com)
 
 ## Who is using GDSFactory?
 
@@ -128,13 +134,14 @@ Hundreds of organisations are using GDSFactory. Some companies and organizations
 
 <div style="text-align: right; margin-right: 10%;">Thomas Dorch - <strong>Freedom Photonics</strong></div>
 
-## Why use GDSFactory?
+## Why Use GDSFactory?
 
-- It's fast, extensible and easy to use.
-- It's free, as in freedom and in cost.
-- It's the most popular EDA tool with a growing community of users, developers, and extensions to other tools.
+- **Fast, extensible, and easy to use** – designed for efficiency and flexibility.
+- **Free and open-source** – no licensing fees, giving you the freedom to modify and extend it.
+- **A thriving ecosystem** – the most popular EDA tool with a growing community of users, developers, and integrations with other tools.
+- **Built on the open-source advantage** – just like the best machine learning libraries, GDSFactory benefits from continuous contributions, transparency, and innovation.
 
-GDSFactory is really fast thanks to KLayout C++ library for manipulating GDSII objects. You will notice this when reading/writing big GDS files or doing large boolean operations.
+GDSFactory is really fast thanks to KLayout C++ library for manipulating GDS objects. You will notice this when reading/writing big GDS files or doing large boolean operations.
 
 | Benchmark      |  gdspy  | GDSFactory | Gain |
 | :------------- | :-----: | :--------: | :--: |
@@ -146,6 +153,10 @@ GDSFactory is really fast thanks to KLayout C++ library for manipulating GDSII o
 
 ## Contributors
 
-Thanks to all the contributors that make this awesome project possible!
+A huge thanks to all the contributors who make this project possible!
+
+We welcome all contributions—whether you're adding new features, improving documentation, or even fixing a small typo. Every contribution helps make GDSFactory better!
+
+Join us and be part of the community. 🚀
 
 ![contributors](https://i.imgur.com/0AuMHZE.png)

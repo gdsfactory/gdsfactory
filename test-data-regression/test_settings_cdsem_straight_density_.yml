@@ -1,7 +1,7 @@
 info: {}
-name: cdsem_straight_density__211dadfd
+name: cdsem_straight_density__f4d5e4c9
 settings:
-  cross_section: strip
+  cross_section: strip_no_ports
   gaps:
   - 0.3
   - 0.3
@@ -15,7 +15,8 @@ settings:
   - 0.3
   label: ''
   length: 420
-  text: Ftext_rectangular_Mgdsfactorypcomponentsptext_rectangular_SS1
+  text: text_rectangular
+  text_size: 1
   widths:
   - 0.3
   - 0.3

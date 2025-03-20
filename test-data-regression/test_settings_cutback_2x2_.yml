@@ -1,8 +1,8 @@
 info:
   components: 80
-name: cutback_2x2_Cmmi2x2_C4__120d9c11
+name: cutback_2x2_Cmmi2x2_C4__fbd61f9a
 settings:
-  bend180: Fbend_circular_Mgdsfactorypcomponentspbend_circular_SA180
+  bend180: bend_circular180
   cols: 4
   component: mmi2x2
   cross_section: strip
