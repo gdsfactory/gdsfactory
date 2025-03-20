@@ -1061,7 +1061,7 @@ requires-dist = [
     { name = "jupyter-book", marker = "extra == 'docs'", specifier = ">=0.15.1,<1.1" },
     { name = "jupyterlab", marker = "extra == 'dev'" },
     { name = "jupytext", marker = "extra == 'docs'" },
-    { name = "kfactory", extras = ["ipy"], specifier = ">=1.2.2,<1.3" },
+    { name = "kfactory", extras = ["ipy"], specifier = ">=1.2.4,<1.3" },
     { name = "klayout", specifier = "==0.29.11" },
     { name = "kweb", marker = "extra == 'cad'", specifier = ">=1.1.9,<2.1" },
     { name = "loguru", specifier = "<1" },
@@ -1992,7 +1992,7 @@ wheels = [
 
 [[package]]
 name = "kfactory"
-version = "1.2.2"
+version = "1.2.4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aenum" },
@@ -2010,9 +2010,9 @@ dependencies = [
     { name = "toolz" },
     { name = "typer" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/79/1b/69a5463f2e9b93ecc4c958975f7d9f9e98a0fbacfb457ad4d5cd39a68f01/kfactory-1.2.2.tar.gz", hash = "sha256:09420e5e2e5fa4f8fd7c676b24a123a40d66877b4803feded7b18f831a81d50e", size = 1383615 }
+sdist = { url = "https://files.pythonhosted.org/packages/8c/77/cb81633728320f78671091c164a6947a26b00c16ee52b3450727ecc67e8e/kfactory-1.2.4.tar.gz", hash = "sha256:6c034ae1945767a4693ac10e409acbb2ca9e8cbc0f28838b76b1d8a4a520ead2", size = 1384537 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/e3/e4/e9f89ac05a280dad32a7b35d3461c5eb40fead35f41cc179bb74b4eb2eab/kfactory-1.2.2-py3-none-any.whl", hash = "sha256:4ad71f30b3e22440511fcd1690d574690bff700ef65f36b684553760ae0d7a14", size = 187018 },
+    { url = "https://files.pythonhosted.org/packages/96/42/eb799ed1ea6cc377223ce9bc4f97c57829597509866210c2f46605a1e559/kfactory-1.2.4-py3-none-any.whl", hash = "sha256:9b238c74ea8d0c8b063b65bbdfdf94f5f6fe4f5a9cd1c01244f75e3f40cb36e9", size = 188334 },
 ]
 
 [package.optional-dependencies]
