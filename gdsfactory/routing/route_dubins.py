@@ -16,7 +16,7 @@ from gdsfactory.components.waveguides import straight_all_angle
 from gdsfactory.typings import CrossSectionSpec, Port
 
 
-def route_dubin(
+def route_dubins(
     component: Component,
     port1: Port,
     port2: Port,
@@ -42,9 +42,9 @@ def route_dubin(
     END = (x2, y2, angle2)  # Convert to um
 
     xs = gf.get_cross_section(cross_section)
-    # Find the Dubin's path between ports using radius from cross-section
+    # Find the Dubins path between ports using radius from cross-section
     path = dubins_path(start=START, end=END, cross_section=xs)  # Convert radius to um
-    instances = place_dubin_path(component, xs, port1, solution=path)
+    instances = place_dubins_path(component, xs, port1, solution=path)
     length = dubins_path_length(START, END, xs)
 
     backbone = [gf.kdb.DPoint(x1, y1), gf.kdb.DPoint(x2, y2)]  # TODO: fix this
@@ -257,7 +257,7 @@ def arrow_orientation(angle: float) -> tuple[float, float]:
     return alpha_x, alpha_y
 
 
-def place_dubin_path(
+def place_dubins_path(
     component: Component,
     xs: CrossSectionSpec,
     port1: Port,
@@ -322,7 +322,7 @@ if __name__ == "__main__":
     wg2.rotate(45)
 
     # Route between the output of wg1 and input of wg2
-    route = route_dubin(
+    route = route_dubins(
         c,
         port1=wg1.ports["o2"],
         port2=wg2.ports["o1"],
