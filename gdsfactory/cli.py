@@ -4,6 +4,7 @@ import pathlib
 from enum import Enum
 
 import typer
+from kfactory.cli.build import build
 
 from gdsfactory import show as _show
 from gdsfactory.config import print_version_plugins
@@ -13,6 +14,7 @@ from gdsfactory.read.from_updk import from_updk
 from gdsfactory.watch import watch as _watch
 
 app = typer.Typer()
+app.command()(build)
 
 
 class Migration(str, Enum):
