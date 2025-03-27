@@ -66,6 +66,7 @@ from gdsfactory.components.couplers import (
     coupler_ring,
     coupler_straight,
     coupler_straight_asymmetric,
+    coupler_symmetric,
 )
 from gdsfactory.components.detectors import ge_detector_straight_si_contacts
 from gdsfactory.components.dies import (
@@ -406,6 +407,7 @@ __all__ = [
     "coupler_ring_bend",
     "coupler_straight",
     "coupler_straight_asymmetric",
+    "coupler_symmetric",
     "couplers",
     "cross",
     "crossing",
