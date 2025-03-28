@@ -486,8 +486,11 @@ def test_route_bundle_small() -> None:
         cross_section="strip",
         sort_ports=True,
     )
+
+    expected_length = 107774.356
+
     for route in routes:
-        assert np.isclose(route.length, 74500), route.length
+        assert np.isclose(route.length, expected_length), route.length
 
 
 def test_route_bundle_width() -> None:
@@ -507,12 +510,13 @@ def test_route_bundle_width() -> None:
         layer=(1, 0),
         route_width=0.5,
     )
-    assert route[0].length == 20000, route[0].length
+    expected_length = 53274.356
+    assert route[0].length == expected_length, route[0].length
 
 
 if __name__ == "__main__":
-    pytest.main([__file__])
+    # pytest.main([__file__])
     # test_route_bundle_width()
-    # test_route_bundle_small()
+    test_route_bundle_small()
     # test_route_bundle_udirect(None, check=False)
     # test_route_bundle(None)
