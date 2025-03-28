@@ -1,17 +1,23 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.2.2...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.3.1...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.3.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.3.1) - 2025-03-24
 
-No significant changes.
+- Fix Naming Error: It's "Dubins" Not "Dubin". [#3740](https://github.com/gdsfactory/gdsfactory/pull/3740)
+- bump kfactory [#3743](https://github.com/gdsfactory/gdsfactory/pull/3743)
+- add kfactory cli build command [#3742](https://github.com/gdsfactory/gdsfactory/pull/3742)
 
 
 ## [9.3.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.3.0) - 2025-03-20
 
-No significant changes.
-
+- Add get region [#3739](https://github.com/gdsfactory/gdsfactory/pull/3739)
+- fix via and add smooth to get_polygons [#3738](https://github.com/gdsfactory/gdsfactory/pull/3738)
+- require kfactory 1.2.4 for bug fixes [#3737](https://github.com/gdsfactory/gdsfactory/pull/3737)
+- rename .dx to .x and .dy to y [#3736](https://github.com/gdsfactory/gdsfactory/pull/3736)
+- Fix samples [#3735](https://github.com/gdsfactory/gdsfactory/pull/3735)
+- improve pads [#3734](https://github.com/gdsfactory/gdsfactory/pull/3734)
 
 ## [9.2.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.2.2) - 2025-03-17
 
