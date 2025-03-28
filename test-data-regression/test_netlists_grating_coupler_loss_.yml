@@ -727,3 +727,33 @@ placements:
     x: 2638.306
     y: 49.529
 ports: {}
+warnings:
+  vertical_te:
+    unconnected_ports:
+    - message: 8 unconnected vertical_te ports!
+      ports:
+      - grating_coupler_ellipti_ea10bcf6_0_0,o2
+      - grating_coupler_ellipti_ea10bcf6_254000_0,o2
+      - grating_coupler_ellipti_ea10bcf6_290102_0,o2
+      - grating_coupler_ellipti_ea10bcf6_798102_0,o2
+      - grating_coupler_ellipti_ea10bcf6_834204_0,o2
+      - grating_coupler_ellipti_ea10bcf6_1596204_0,o2
+      - grating_coupler_ellipti_ea10bcf6_1632306_0,o2
+      - grating_coupler_ellipti_ea10bcf6_2648306_0,o2
+      values:
+      - - 0
+        - -26.74
+      - - 254
+        - -26.74
+      - - 290.102
+        - -26.74
+      - - 798.102
+        - -26.74
+      - - 834.204
+        - -26.74
+      - - 1596.204
+        - -26.74
+      - - 1632.306
+        - -26.74
+      - - 2648.306
+        - -26.74

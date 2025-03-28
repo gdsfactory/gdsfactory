@@ -135,14 +135,7 @@ def _is_orthogonal_array_reference(ref: ComponentReference) -> bool:
 
 def get_netlist(
     component: DKCell,
-    exclude_port_types: Sequence[str] | None = (
-        "placement",
-        "pad",
-        "bump",
-        "vertical_te",
-        "vertical_tm",
-        "edge_coupler",
-    ),
+    exclude_port_types: Sequence[str] | None = ("placement", "pad", "bump"),
     get_instance_name: Callable[..., str] = get_instance_name_from_alias,
     allow_multiple: bool = True,
     connection_error_types: dict[str, list[str]] | None = None,

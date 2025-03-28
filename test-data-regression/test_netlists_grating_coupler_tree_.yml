@@ -823,4 +823,12 @@ placements:
     rotation: 0
     x: 0
     y: 0
-ports: {}
+ports:
+  o1: grating_coupler_ellipti_07e69d9a_m439500_m69500,o2
+  o2: grating_coupler_ellipti_07e69d9a_m185500_m69500,o2
+  o3: grating_coupler_ellipti_07e69d9a_68500_m69500,o2
+  o4: grating_coupler_ellipti_07e69d9a_322500_m69500,o2
+  o5: grating_coupler_ellipti_07e69d9a_449500_m69500,o2
+  o6: grating_coupler_ellipti_07e69d9a_195500_m69500,o2
+  o7: grating_coupler_ellipti_07e69d9a_m58500_m69500,o2
+  o8: grating_coupler_ellipti_07e69d9a_m312500_m69500,o2
