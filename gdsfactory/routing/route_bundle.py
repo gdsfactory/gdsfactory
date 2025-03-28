@@ -271,7 +271,6 @@ def route_bundle(
     )
 
     def straight_um(width: float, length: float) -> gf.Component:
-        print(width, length)
         return gf.get_component(
             straight, length=length, cross_section=cross_section, width=width
         )

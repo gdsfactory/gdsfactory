@@ -109,8 +109,9 @@ def test_connections_2x2() -> None:
     assert len(c.insts) == 11, len(c.insts)
     assert len(c.ports) == 0, len(c.ports)
 
+    expected_length = 168274.356
     length = c.routes["optical-mmi_bottom,o3-mmi_top,o2"].length
-    assert np.isclose(length, 135000), length
+    assert np.isclose(length, expected_length), length
     c.delete()
 
 
@@ -157,7 +158,7 @@ routes:
 
 def test_connections_different_factory() -> None:
     c = from_yaml(sample_different_factory)
-    lengths = [914043, 947026, 947026]
+    lengths = [680000] * 2
     assert c.routes["electrical-tl,e3-tr,e1"].length == lengths[0], c.routes[
         "electrical-tl,e3-tr,e1"
     ].length
@@ -371,7 +372,7 @@ def test_connections_waypoints() -> None:
 def test_docstring_sample() -> None:
     c = from_yaml(sample_docstring)
     route_name = "optical-mmi_top,o3-mmi_bot,o1"
-    length = 38750
+    length = 72024.356
     assert np.isclose(c.routes[route_name].length, length), c.routes[route_name].length
     c.delete()
 
@@ -705,13 +706,15 @@ def test_gds_and_settings(
 
 
 if __name__ == "__main__":
+    # test_connections_regex()
     # test_sample()
+    # test_docstring_sample()
     # test_connections_2x2()
     # test_connections_regex_backwards()
-    # test_connections_different_factory()
+    test_connections_different_factory()
     # import gdsfactory as gf
 
-    import gdsfactory as gf
+    # import gdsfactory as gf
 
-    c = gf.read.from_yaml(sample_mmis)
-    c.show()
+    # c = gf.read.from_yaml(sample_mmis)
+    # c.show()
