@@ -1,12 +1,13 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.3.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.3.2...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.3.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.3.2) - 2025-03-27
 
-No significant changes.
-
+- Add coupler symmetric [#3747](https://github.com/gdsfactory/gdsfactory/pull/3747)
+- change_get_netlist_defaults [#3749](https://github.com/gdsfactory/gdsfactory/pull/3749)
+- bump kfactory to 1.3 [#3750](https://github.com/gdsfactory/gdsfactory/pull/3750)
 
 ## [9.3.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.3.1) - 2025-03-24
 
