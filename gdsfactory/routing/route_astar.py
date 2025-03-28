@@ -49,16 +49,14 @@ def _extract_all_bbox(
     return [c.get_polygons(by="name", layers=avoid_layers)]
 
 
-def _parse_bbox_to_array(bbox: kdb.DBox | kdb.Polygon) -> npt.NDArray[np.floating[Any]]:
+def _parse_bbox_to_array(bbox: kdb.DBox | kdb.Box) -> npt.NDArray[np.floating[Any]]:
     """Parses bbox in the form of (a,b;c,d) to [[a, b], [c, d]].
 
     Args:
         bbox: Parses bbox in the form of (a,b;c,d).
 
     """
-    bbox_str = str(bbox).strip("()")
-    rows = bbox_str.split(";")
-    bbox_values = [list(map(float, row.split(","))) for row in rows]
+    bbox_values = ((bbox.p1.x, bbox.p1.y), (bbox.p2.x, bbox.p2.y))
     return np.array(bbox_values, dtype=np.float64)
 
 
@@ -103,7 +101,7 @@ def _generate_grid(
     # assign 1 for obstacles
     if avoid_layers is None:
         for inst in c.insts:
-            bbox_array = _parse_bbox_to_array(inst.bbox())
+            bbox_array = _parse_bbox_to_array(inst.dbbox())
             xmin = np.abs(x - bbox_array[0][0] + distance).argmin()
             xmax = np.abs(x - bbox_array[1][0] - distance).argmin()
             ymin = np.abs(y - bbox_array[0][1] + distance).argmin()
@@ -114,12 +112,12 @@ def _generate_grid(
         for layer in all_refs:
             for polygons in layer.values():
                 for polygon in polygons:
-                    bbox_array = _parse_bbox_to_array(polygon)
+                    bbox_array = _parse_bbox_to_array(polygon.bbox())
                     bbox_array_float = bbox_array / 1000
                     xmin = np.abs(x - bbox_array_float[0][0] + distance).argmin()
-                    xmax = np.abs(x - bbox_array_float[2][0] - distance).argmin()
+                    xmax = np.abs(x - bbox_array_float[1][0] - distance).argmin()
                     ymin = np.abs(y - bbox_array_float[0][1] + distance).argmin()
-                    ymax = np.abs(y - bbox_array_float[2][1] - distance).argmin()
+                    ymax = np.abs(y - bbox_array_float[1][1] - distance).argmin()
                     grid[xmin:xmax, ymin:ymax] = 1
 
     return np.round(grid, 3), np.round(x, 3), np.round(y, 3)
@@ -276,8 +274,8 @@ if __name__ == "__main__":
 
     route = route_astar(
         component=c,
-        port1=port1,
         port2=port2,
+        port1=port1,
         cross_section=cross_section,
         resolution=15,
         distance=12,
