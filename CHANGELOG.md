@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.3.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.3.2) - 2025-03-27
+
+No significant changes.
+
+
 ## [9.3.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.3.1) - 2025-03-24
 
 - Fix Naming Error: It's "Dubins" Not "Dubin". [#3740](https://github.com/gdsfactory/gdsfactory/pull/3740)
