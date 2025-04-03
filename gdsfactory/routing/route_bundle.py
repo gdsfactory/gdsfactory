@@ -188,8 +188,19 @@ def route_bundle(
             )
 
     c = component
-    ports1_ = list(ports1)
-    ports2_ = list(ports2)
+    try:
+        ports1_ = list(ports1)
+    except TypeError:
+        if type(ports1) is not kf.DPort:
+            raise ValueError(f"ports1={ports1} must be a port or a list of ports")
+        ports1_ = [ports1]
+    try:
+        ports2_ = list(ports2)
+    except TypeError:
+        if type(ports2) is not kf.DPort:
+            raise ValueError(f"ports2={ports2} must be a port or a list of ports")
+        ports2_ = [ports2]
+
     port_type = port_type or ports1_[0].port_type
 
     if len(ports1_) != len(ports2_):
@@ -357,7 +368,8 @@ if __name__ == "__main__":
     routes = route_bundle(
         c,
         [c1.ports["o2"], c1.ports["o1"]],
-        [c2.ports["o2"], c2.ports["o1"]],
+        c2.ports["o2"],
+        # c2.ports["o2"], c2.ports["o1"]],
         separation=5,
         cross_section="strip",
         sort_ports=True,
