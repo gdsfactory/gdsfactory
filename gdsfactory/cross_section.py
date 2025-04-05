@@ -2188,6 +2188,7 @@ def strip_heater_metal(
     heater_width: float = 2.5,
     layer_heater: typings.LayerSpec = "HEATER",
     sections: Sections | None = None,
+    insets: tuple[float, float] | None = None,
     **kwargs: Any,
 ) -> CrossSection:
     """Returns strip cross_section with top heater metal.
@@ -2200,6 +2201,7 @@ def strip_heater_metal(
         heater_width: of metal heater.
         layer_heater: for the metal.
         sections: cross_section sections.
+        insets: for the heater.
         kwargs: cross_section settings.
 
     .. plot::
@@ -2219,6 +2221,7 @@ def strip_heater_metal(
             width=heater_width,
             port_names=port_names_electrical,
             port_types=port_types_electrical,
+            insets=insets,
         )
     ]
 
