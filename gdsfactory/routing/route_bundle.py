@@ -88,8 +88,8 @@ def get_min_spacing(
 
 def route_bundle(
     component: gf.Component,
-    ports1: Ports,
-    ports2: Ports,
+    ports1: Ports | kf.DPort,
+    ports2: Ports | kf.DPort,
     cross_section: CrossSectionSpec | None = None,
     layer: LayerSpec | None = None,
     separation: float = 3.0,
