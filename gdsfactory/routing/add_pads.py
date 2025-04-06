@@ -33,6 +33,7 @@ def add_pads_bot(
     route_width: float | None = None,
     bboxes: BoundingBoxes | None = None,
     avoid_component_bbox: bool = False,
+    auto_taper: bool = True,
     **kwargs: Any,
 ) -> Component:
     """Returns new component with ports connected bottom pads.
@@ -56,6 +57,7 @@ def add_pads_bot(
         route_width: width of the route. If None, defaults to cross_section.width.
         bboxes: list bounding boxes to avoid for routing.
         avoid_component_bbox: avoid component bbox for routing.
+        auto_taper: adds tapers to the routing.
         kwargs: additional arguments.
 
     Keyword Args:
@@ -137,6 +139,7 @@ def add_pads_bot(
         route_width=route_width,
         bboxes=bboxes,
         avoid_component_bbox=avoid_component_bbox,
+        auto_taper=auto_taper,
         **kwargs,
     )
     component_new.add_ref(component)
@@ -160,6 +163,7 @@ def add_pads_top(
     route_width: float | None = 0,
     bboxes: BoundingBoxes | None = None,
     avoid_component_bbox: bool = False,
+    auto_taper: bool = True,
     **kwargs: Any,
 ) -> Component:
     """Returns new component with ports connected top pads.
@@ -183,6 +187,7 @@ def add_pads_top(
         route_width: width of the route. If None, defaults to cross_section.width.
         bboxes: list of bounding boxes to avoid.
         avoid_component_bbox: True
+        auto_taper: adds tapers to the routing.
         kwargs: additional arguments.
 
     Keyword Args:
@@ -237,6 +242,7 @@ def add_pads_top(
         route_width=route_width,
         bboxes=bboxes,
         avoid_component_bbox=avoid_component_bbox,
+        auto_taper=auto_taper,
         **kwargs,
     )
     ref = c << _c
@@ -251,7 +257,7 @@ if __name__ == "__main__":
     c = gf.components.straight_heater_metal(length=100.0)
     # c = gf.components.straight(length=100.0)
     # c.pprint_ports()
-    c = gf.routing.add_pads_top(component=c, port_names=("l_e1",))
+    c = gf.routing.add_pads_top(component=c, port_names=("l_e1",), auto_taper=False)
     # c = gf.routing.add_pads_bot(component=c, port_names=("l_e4", "r_e4"), fanout_length=80)
     # c = gf.routing.add_fiber_array(c)
     c.show()
