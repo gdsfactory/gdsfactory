@@ -280,6 +280,7 @@ def bend_s_offset(
         xs = gf.get_cross_section(cross_section)
 
     radius = radius or xs.radius
+    assert radius is not None, "radius cannot be None"
 
     xs.validate_radius(radius)
     if with_euler:
