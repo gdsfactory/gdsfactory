@@ -1142,10 +1142,10 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):
         VInstance(self).insert_into_flat(c, levels=0)
         c.plot(**kwargs)
 
-    def dup(self) -> ComponentAllAngle:
+    def dup(self, new_name: str | None = None) -> Self:
         """Copy the full cell."""
         c = ComponentAllAngle(
-            kcl=self.kcl, name=self.name + "$1" if self.name else None
+            kcl=self.kcl, name=new_name or self.name + "$1" if self.name else None
         )
         c.ports = self.ports.copy()
 
