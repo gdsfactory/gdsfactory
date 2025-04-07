@@ -257,7 +257,7 @@ def _get_euler_sbend_angle_middle_length_from_jog(
 @gf.cell
 def bend_s_offset(
     offset: float = 40.0,
-    radius: float = 10.0,
+    radius: float | None = 10.0,
     cross_section: CrossSectionSpec = "strip",
     width: float | None = None,
     with_euler: bool = True,
@@ -269,7 +269,7 @@ def bend_s_offset(
 
     Args:
         offset: in um.
-        radius: in um.
+        radius: in um. if None, uses cross_section_radius.
         cross_section: spec.
         width: width to use. Defaults to cross_section.width.
         with_euler: use euler bend instead of arc bend.
@@ -278,6 +278,8 @@ def bend_s_offset(
         xs = gf.get_cross_section(cross_section, width=width)
     else:
         xs = gf.get_cross_section(cross_section)
+
+    radius = radius or xs.radius
 
     xs.validate_radius(radius)
     if with_euler:
