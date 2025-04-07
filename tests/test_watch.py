@@ -199,7 +199,7 @@ def test_on_deleted() -> None:
         watcher.start()
         time.sleep(0.1)
 
-        pdk = get_active_pdk().model_copy(deep=True)
+        pdk = get_active_pdk().model_copy()
         pdk.activate()
 
         yaml_path = pathlib.Path(tmp_dir) / "yaml_component.pic.yml"
@@ -324,7 +324,7 @@ def test_watch() -> None:
 
         mock_logger.info.assert_called()
 
-        pdk = get_active_pdk().model_copy(deep=True)
+        pdk = get_active_pdk().model_copy()
 
         watch(
             path=tmp_dir,
