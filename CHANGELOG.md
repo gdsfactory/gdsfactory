@@ -1,12 +1,14 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.3.2...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.3.3...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.3.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.3.3) - 2025-04-07
 
-No significant changes.
-
+- fix mypy [#3759](https://github.com/gdsfactory/gdsfactory/pull/3759)
+- allow_none_radius [#3756](https://github.com/gdsfactory/gdsfactory/pull/3756)
+- Expose insets and add_ports_top [#3755](https://github.com/gdsfactory/gdsfactory/pull/3755)
+- deps: update rich requirement from <14 to <15 [#3752](https://github.com/gdsfactory/gdsfactory/pull/3752)
 
 ## [9.3.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.3.2) - 2025-03-27
 
