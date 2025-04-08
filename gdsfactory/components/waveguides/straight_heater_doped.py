@@ -144,12 +144,12 @@ def straight_heater_doped_rib(
             via_stacks.append(via_stack_ref)
 
         if via_stack:
-            _via_stack = gf.get_component(via_stack, size=via_stack_size)
-            via_stack_top = c << _via_stack
+            via_stack_component = gf.get_component(via_stack, size=via_stack_size)
+            via_stack_top = c << via_stack_component
             via_stack_top.x = xi
             via_stack_top.ymin = +(heater_gap + width / 2 + via_stack_gap)
 
-            via_stack_bot = c << _via_stack
+            via_stack_bot = c << via_stack_component
             via_stack_bot.x = xi
             via_stack_bot.ymax = -(heater_gap + width / 2 + via_stack_gap)
 
@@ -242,7 +242,7 @@ def straight_heater_doped_strip(
          |layer_heater|           |  intrinsic region |<----------->| layer_heater |
          |____________|           |___________________|             |______________|
                                                                      <------------>
-                                                        heater_gap     heater_width.
+                                                        heater_gap     heater_width
     """
     return straight_heater_doped_rib(
         length=length,
@@ -260,9 +260,13 @@ def straight_heater_doped_strip(
         width=width,
         xoffset_tip1=xoffset_tip1,
         xoffset_tip2=xoffset_tip2,
-    )
+    ).copy()
 
 
 if __name__ == "__main__":
-    c = straight_heater_doped_rib(length=200)
-    c.show()
+    c1 = straight_heater_doped_strip()
+    c2 = straight_heater_doped_rib()
+    print(c1.cell_index())
+    print(c2.cell_index())
+    # c = gf.
+    # c.show()
