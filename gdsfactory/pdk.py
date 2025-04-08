@@ -205,10 +205,10 @@ class Pdk(BaseModel):
         self.cross_sections[func.__name__] = newfunc
         return newfunc
 
-    def activate(self) -> None:
+    def activate(self, force: bool = False) -> None:
         """Set current pdk to the active pdk (if not already active)."""
         global _ACTIVE_PDK
-        if _ACTIVE_PDK and _ACTIVE_PDK.name is self.name:
+        if not force and _ACTIVE_PDK and _ACTIVE_PDK.name is self.name:
             return
 
         logger.debug(f"{self.name!r} PDK {self.version} is now active")
