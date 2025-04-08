@@ -435,7 +435,7 @@ if __name__ == "__main__":
     s1 = c << gf.components.straight()
     s2 = c << gf.components.straight(width=2)
     s2.move((100, 50))
-    route_ = gf.routing.route_single(
+    r = gf.routing.route_single(
         c,
         port1=s1.ports["o2"],
         port2=s2.ports["o1"],
