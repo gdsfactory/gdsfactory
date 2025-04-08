@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.3.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.3.3) - 2025-04-07
+
+No significant changes.
+
+
 ## [9.3.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.3.2) - 2025-03-27
 
 - Add coupler symmetric [#3747](https://github.com/gdsfactory/gdsfactory/pull/3747)

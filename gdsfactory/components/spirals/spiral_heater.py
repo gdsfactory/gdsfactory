@@ -208,7 +208,7 @@ def spiral_racetrack_fixed_length(
         cross_section=gf.get_cross_section(xs_s_bend),
     )
     c.add_port("o1", port=in_wg.ports["o2"])
-    c.info["length"] += c.kcl.to_um(route.length)
+    c.info["length"] += c.kcl.to_um(int(route.length))
     return c
 
 
@@ -296,7 +296,7 @@ def _req_straight_len(
             cross_section=cross_section_s_bend,
             radius=min_radius,
         )
-        c.info["length"] += c.kcl.to_um(route.length)
+        c.info["length"] += c.kcl.to_um(int(route.length))
         lens.append(c.info["length"])
 
     # get the required spacing to achieve the required length (interpolate)
