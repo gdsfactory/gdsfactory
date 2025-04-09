@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.components.tapers.taper_cross_section import taper_cross_section
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Size
 
@@ -17,7 +16,7 @@ def straight_heater_doped_rib(
     via_stack_metal: ComponentSpec | None = "via_stack_m1_mtop",
     via_stack_metal_size: Size = (10.0, 10.0),
     via_stack_size: Size = (10.0, 10.0),
-    taper: ComponentSpec | None = taper_cross_section,
+    taper: ComponentSpec | None = "taper_cross_section",
     heater_width: float = 2.0,
     heater_gap: float = 0.8,
     via_stack_gap: float = 0.0,
@@ -190,7 +189,7 @@ def straight_heater_doped_strip(
     via_stack_metal: ComponentSpec | None = "via_stack_m1_mtop",
     via_stack_metal_size: Size = (10.0, 10.0),
     via_stack_size: Size = (10.0, 10.0),
-    taper: ComponentSpec | None = taper_cross_section,
+    taper: ComponentSpec | None = "taper_cross_section",
     heater_width: float = 2.0,
     heater_gap: float = 0.8,
     via_stack_gap: float = 0.0,
@@ -264,9 +263,5 @@ def straight_heater_doped_strip(
 
 
 if __name__ == "__main__":
-    c1 = straight_heater_doped_strip()
-    c2 = straight_heater_doped_rib()
-    print(c1.cell_index())
-    print(c2.cell_index())
-    # c = gf.
-    # c.show()
+    c = straight_heater_doped_strip()
+    c.show()
