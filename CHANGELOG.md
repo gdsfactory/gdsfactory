@@ -1,11 +1,14 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.3.3...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.3.4...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.3.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.3.4) - 2025-04-09
 
-No significant changes.
+- fix tests [#3766](https://github.com/gdsfactory/gdsfactory/pull/3766)
+- fix path smooth [#3765](https://github.com/gdsfactory/gdsfactory/pull/3765)
+- avoid double pdk activation [#3762](https://github.com/gdsfactory/gdsfactory/pull/3762)
+- Update kfactory 1.4.1 [#3761](https://github.com/gdsfactory/gdsfactory/pull/3761)
 
 
 ## [9.3.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.3.3) - 2025-04-07
