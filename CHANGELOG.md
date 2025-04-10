@@ -1,12 +1,11 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.3.4...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.3.5...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.3.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.3.5) - 2025-04-09
 
-No significant changes.
-
+- fix self-intersecting path [#3768](https://github.com/gdsfactory/gdsfactory/pull/3768)
 
 ## [9.3.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.3.4) - 2025-04-09
 
