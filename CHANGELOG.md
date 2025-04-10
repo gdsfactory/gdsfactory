@@ -14,7 +14,6 @@
 - avoid double pdk activation [#3762](https://github.com/gdsfactory/gdsfactory/pull/3762)
 - Update kfactory 1.4.1 [#3761](https://github.com/gdsfactory/gdsfactory/pull/3761)
 
-
 ## [9.3.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.3.3) - 2025-04-07
 
 - fix mypy [#3759](https://github.com/gdsfactory/gdsfactory/pull/3759)
@@ -33,7 +32,6 @@
 - Fix Naming Error: It's "Dubins" Not "Dubin". [#3740](https://github.com/gdsfactory/gdsfactory/pull/3740)
 - bump kfactory [#3743](https://github.com/gdsfactory/gdsfactory/pull/3743)
 - add kfactory cli build command [#3742](https://github.com/gdsfactory/gdsfactory/pull/3742)
-
 
 ## [9.3.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.3.0) - 2025-03-20
 
