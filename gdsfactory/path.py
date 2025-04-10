@@ -1743,6 +1743,8 @@ def smooth(
     path.append(new_points_np)
     path.rotate(float(theta[0]))
     path.move(cast(tuple[float, float], points[0, :]))
+    path.start_angle = theta[0]
+    path.end_angle = theta[-1]
     return path
 
 

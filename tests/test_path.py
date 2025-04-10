@@ -440,5 +440,16 @@ def test_path_transform_icplx() -> None:
     assert gf.path.Path().kcl is gf.kcl
 
 
+def test_path_smooth() -> None:
+    points = np.array([(-50, 50), (-100, 100), (-100, 200)])
+
+    P = gf.path.smooth(points=points, radius=10, bend=gf.path.euler)
+    section = gf.Section(width=20.0, layer=(1, 0))
+    X = gf.CrossSection(sections=(section,))
+
+    c = P.extrude(cross_section=X)
+    assert np.isclose(c.area((1, 0)), 3404.6317885)
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-s"])
