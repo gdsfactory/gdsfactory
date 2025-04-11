@@ -451,5 +451,18 @@ def test_path_smooth() -> None:
     assert np.isclose(c.area((1, 0)), 3404.6317885)
 
 
+def test_path_angle() -> None:
+    p = gf.path.euler(
+        radius=5,
+        angle=180,
+        p=1,
+        use_eff=True,
+    )
+    p.drotate(-90)
+    c = p.extrude(cross_section=gf.cross_section.strip)
+    assert np.isclose(c.area("WG"), 11.409315999999999)
+
+
 if __name__ == "__main__":
-    pytest.main([__file__, "-s"])
+    test_path_angle()
+    # pytest.main([__file__, "-s"])

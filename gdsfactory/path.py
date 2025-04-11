@@ -186,6 +186,10 @@ class Path(UMGeometricObject):
             new_points[:, 1] = -new_points[:, 1]
 
         self.points = new_points
+        nx1, ny1 = self.points[1] - self.points[0]
+        self.start_angle = np.arctan2(ny1, nx1) / np.pi * 180
+        nx2, ny2 = self.points[-1] - self.points[-2]
+        self.end_angle = np.arctan2(ny2, nx2) / np.pi * 180
 
     def dbbox(self, layer: int | None = None) -> kdb.DBox:
         return kdb.DBox(*self.bbox_np().flatten())
@@ -1763,8 +1767,22 @@ __all__ = [
 ]
 
 if __name__ == "__main__":
-    import gdsfactory as gf
+    # import gdsfactory as gf
+    # p = gf.path.euler(angle=-30)
+    # c = p.extrude(cross_section=gf.cross_section.strip)
+    # c.show()
 
-    p = gf.path.euler(angle=-30)
+    p = gf.path.euler(
+        radius=5,
+        angle=180,
+        p=1,
+        use_eff=True,
+    )
+
+    print(p.start_angle, p.end_angle)  # 0, 180
+    p.drotate(-90)
+    print(p.start_angle, p.end_angle)  # Still 0, 180
+
     c = p.extrude(cross_section=gf.cross_section.strip)
+    print(c.area("WG"))
     c.show()
