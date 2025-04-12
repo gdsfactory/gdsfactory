@@ -160,3 +160,8 @@ We welcome all contributions—whether you're adding new features, improving doc
 Join us and be part of the community. 🚀
 
 ![contributors](https://i.imgur.com/0AuMHZE.png)
+
+
+## Stargazers
+
+[![Stargazers over time](https://starchart.cc/gdsfactory/gdsfactory.svg)](https://starchart.cc/gdsfactory/gdsfactory)
