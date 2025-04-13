@@ -136,21 +136,6 @@ def from_updk_command(filepath: str, filepath_out: str = "") -> None:
     from_updk(filepath, filepath_out=filepath_out_path)
 
 
-@app.command()
-def text_from_pdf(filepath: str) -> None:
-    """Converts a PDF to text."""
-    import pdftotext
-
-    with open(filepath, "rb") as f:
-        pdf = pdftotext.PDF(f)
-
-    # Read all the text into one string
-    text = "\n".join(pdf)
-    filepath_path = pathlib.Path(filepath)
-    filepath_path_with_suffix = filepath_path.with_suffix(".md")
-    filepath_path_with_suffix.write_text(text)
-
-
 if __name__ == "__main__":
     import sys
 

@@ -2,11 +2,12 @@ name: Test code
 on:
   pull_request:
   push:
-    branches:
-      - main
+      branches:
+        - main
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
+
 jobs:
   pre-commit:
     runs-on: ubuntu-latest
@@ -49,7 +50,7 @@ jobs:
           make install test-data
       - name: Test with pytest
         run: |
-           make cov
+          make cov
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
@@ -70,4 +71,11 @@ jobs:
           make install test-data
       - name: Test with pytest
         run: |
-           make test-samples
+          make test-samples
+  type_consistency:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: make install
+      - run: uv run mypy gdsfactory/

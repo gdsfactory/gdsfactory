@@ -114,4 +114,3 @@ if __name__ == "__main__":
 
     c.show()
     s = c.to_3d()
-    s.show()

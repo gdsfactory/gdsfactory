@@ -7,7 +7,7 @@ from pydantic_extra_types.color import Color
 from gdsfactory.technology.color_utils import ensure_six_digit_hex_color
 
 
-class TechnologyDumper(yaml.SafeDumper):  # type: ignore[misc]
+class TechnologyDumper(yaml.SafeDumper):
     pass
 
 
