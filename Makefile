@@ -7,14 +7,14 @@ uv:
 	curl -LsSf https://astral.sh/uv/0.4.30/install.sh | sh
 
 install:
-	uv sync --all-extras
+	uv sync --all-extras --no-extra full
 
 install310:
-	uv sync --all-extras
+	uv sync --all-extras --no-extra full
 
 dev:
 	uv venv -p 3.12
-	uv sync --all-extras
+	uv sync --all-extras --no-extra full
 	uv pip install -e .
 	uv run pre-commit install
 	uv run gf install-klayout-genericpdk
