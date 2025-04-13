@@ -7,6 +7,7 @@ from cachetools import Cache
 from kfactory import cell as _cell
 from kfactory import vcell as _vcell
 from kfactory.conf import CheckInstances
+from kfactory.serialization import clean_name
 from kfactory.typings import MetaData
 
 if TYPE_CHECKING:
@@ -77,6 +78,12 @@ def cell(
 ):
     """Decorator to convert a function into a Component."""
     from gdsfactory import component
+
+    if _func is not None:
+        mod = _func.__module__
+        basename = basename or clean_name(
+            _func.__name__ if mod == "__main" else f"{mod}_{_func.__name__}"
+        )
 
     if drop_params is None:
         drop_params = ["self", "cls"]
