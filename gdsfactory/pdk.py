@@ -573,7 +573,7 @@ class Pdk(BaseModel):
         header = dict(description=self.name)
 
         d = {"blocks": blocks, "xsections": xsections_widths, "header": header}
-        return yaml.dump(convert_tuples_to_lists(d))  # type: ignore[no-any-return]
+        return yaml.dump(convert_tuples_to_lists(d))
 
     def get_cross_section_name(self, cross_section: CrossSection) -> str:
         xs_name = next(

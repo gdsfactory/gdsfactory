@@ -154,7 +154,7 @@ def clean_value_json(
     elif isinstance(value, list | tuple | set | KeysView):
         return tuple([clean_value_json(i) for i in value])
 
-    elif attrs.has(value):
+    elif attrs.has(type(value)):
         return attrs.asdict(value)
 
     else:
