@@ -26,7 +26,7 @@ from datetime import UTC, datetime
 from subprocess import check_call
 
 import klayout.db
-from docopt import docopt  # type: ignore[import-not-found]
+from docopt import docopt
 
 
 def check_klayout_version() -> None:

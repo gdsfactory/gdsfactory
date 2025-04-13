@@ -7,10 +7,10 @@ uv:
 	curl -LsSf https://astral.sh/uv/0.4.30/install.sh | sh
 
 install:
-	uv sync --extra docs --extra dev
+	uv sync --all-extras
 
 install310:
-	uv sync --extra docs --extra dev
+	uv sync --all-extras
 
 dev:
 	uv venv -p 3.12
