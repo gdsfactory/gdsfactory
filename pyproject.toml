@@ -100,17 +100,15 @@ gf = "gdsfactory.cli:app"
 ignore-words-list = "te, te/tm, te, ba, fpr, fpr_spacing, ro, nd, donot, schem"
 
 [tool.mypy]
-disable_error_code = ["import-untyped", "has-type", "no-redef"]
+disable_error_code = ["import-untyped", "has-type", "no-untyped-call"]
 exclude = [
   "gdsfactory/export/to_svg.py",
   "test-data-gds/.",
   "gdsfactory/samples/demo/layers_sky130.py",
-  # "tests/*",
   "notebooks/*"
 ]
 python_version = "3.11"
 strict = true
-warn_unused_ignores = false
 
 [tool.pylsp-mypy]
 enabled = true
