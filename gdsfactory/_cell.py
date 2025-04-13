@@ -82,7 +82,7 @@ def cell(
     if _func is not None:
         mod = _func.__module__
         basename = basename or clean_name(
-            _func.__name__ if mod == "__main" else f"{mod}_{_func.__name__}"
+            _func.__name__ if mod == "__main" else f"{_func.__name__}_{mod}"
         )
 
     if drop_params is None:
