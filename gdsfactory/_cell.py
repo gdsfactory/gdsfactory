@@ -7,6 +7,7 @@ from cachetools import Cache
 from kfactory import cell as _cell
 from kfactory import vcell as _vcell
 from kfactory.conf import CheckInstances
+from kfactory.decorators import _module_cell
 from kfactory.typings import MetaData
 
 if TYPE_CHECKING:
@@ -82,8 +83,8 @@ def cell(
         drop_params = ["self", "cls"]
     if post_process is None:
         post_process = []
-    c = _cell(  # type: ignore[call-overload,misc]
-        _func,
+    decorator = _module_cell(  # type: ignore[call-overload,misc]
+        _cell,
         output_type=component.Component,
         set_settings=set_settings,
         set_name=set_name,
@@ -92,7 +93,6 @@ def cell(
         snap_ports=snap_ports,
         add_port_layers=add_port_layers,
         cache=cache,
-        basename=basename,
         drop_params=drop_params,
         register_factory=register_factory,
         overwrite_existing=overwrite_existing,
@@ -102,6 +102,8 @@ def cell(
         debug_names=debug_names,
         tags=tags,
     )
+
+    c = decorator(_func) if _func else decorator
     c.is_gf_cell = True
     return c  # type: ignore[no-any-return]
 
