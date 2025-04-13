@@ -40,7 +40,7 @@ def text_rectangular(
     yoffset = position[1]
     component = gf.Component()
     characters = font()
-    layer_list = layers or [layer] if layer else []
+    layer_list = layers or [layer]
 
     # Extract pixel width count from font definition.
     # Example below is 5, and 7 for FONT_LITHO.
