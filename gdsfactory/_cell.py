@@ -50,6 +50,7 @@ def cell(
     post_process: Iterable[Callable[[Component], None]] | None = None,
     debug_names: bool | None = None,
     tags: list[str] | None = None,
+    with_module_name: bool = False,
 ) -> Callable[[ComponentFunc[ComponentParams]], ComponentFunc[ComponentParams]]: ...
 
 
@@ -73,7 +74,7 @@ def cell(
     post_process: Iterable[Callable[[Component], None]] | None = None,
     debug_names: bool | None = None,
     tags: list[str] | None = None,
-    include_module: bool = False,
+    with_module_name: bool = False,
 ) -> (
     ComponentFunc[ComponentParams]
     | Callable[[ComponentFunc[ComponentParams]], ComponentFunc[ComponentParams]]
@@ -81,7 +82,7 @@ def cell(
     """Decorator to convert a function into a Component."""
     from gdsfactory import component
 
-    if include_module and _func is not None:
+    if with_module_name and _func is not None:
         mod = _func.__module__
         basename = basename or clean_name(
             _func.__name__ if mod == "__main" else f"{_func.__name__}_{mod}"
@@ -174,4 +175,4 @@ def vcell(
     return vc  # type: ignore[no-any-return]
 
 
-cell_with_module_name = partial(cell, include_module=True)
+cell_with_module_name = partial(cell, with_module_name=True)
