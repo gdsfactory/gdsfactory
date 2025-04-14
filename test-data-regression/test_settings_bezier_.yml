@@ -9,7 +9,7 @@ info:
   route_info_type: strip
   route_info_weight: 10.226
   start_angle: 0
-name: bezier_CP0_0_5_0_5_1p8__effd5b6d
+name: bezier_gdsfactorypcompo_e143db17
 settings:
   allow_min_radius_violation: false
   control_points:

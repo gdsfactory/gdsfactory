@@ -1,7 +1,7 @@
 info:
   bend180_radius: 5
   min_bend_radius: 364.774
-name: delay_snake_sbend_L100__a249e5b3
+name: delay_snake_sbend_gdsfa_7f61a21a
 settings:
   bend: bend_euler
   cross_section: strip

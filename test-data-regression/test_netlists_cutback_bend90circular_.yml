@@ -5109,7 +5109,7 @@ instances:
       length: 5
       npoints: 2
       width: null
-name: cutback_bend90_Cbend_ci_790928a7
+name: cutback_bend90_gdsfacto_3a512cfc
 nets:
 - p1: 1,o1
   p2: m24,o2

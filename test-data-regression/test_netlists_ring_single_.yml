@@ -1,5 +1,5 @@
 instances:
-  bend_euler_R10_A90_P0p5_2f1f5c6d_10000_11300:
+  bend_euler_gdsfactorypc_e95a7a4d_10000_11300:
     component: bend_euler
     info:
       dy: 10
@@ -23,7 +23,7 @@ instances:
       radius: 10
       width: null
       with_arc_floorplan: true
-  bend_euler_R10_A90_P0p5_2f1f5c6d_m4000_21300:
+  bend_euler_gdsfactorypc_e95a7a4d_m4000_21300:
     component: bend_euler
     info:
       dy: 10
@@ -47,7 +47,7 @@ instances:
       radius: 10
       width: null
       with_arc_floorplan: true
-  coupler_ring_G0p2_R10_L_9871ac59_0_0:
+  coupler_ring_gdsfactory_7a1e2f00_0_0:
     component: coupler_ring
     info: {}
     settings:
@@ -59,7 +59,7 @@ instances:
       length_x: 4
       radius: 10
       straight: straight
-  straight_L0p6_N2_CSstrip_WNone_10000_11300:
+  straight_gdsfactorypcom_058e2168_10000_11300:
     component: straight
     info:
       length: 0.6
@@ -73,7 +73,7 @@ instances:
       length: 0.6
       npoints: 2
       width: null
-  straight_L0p6_N2_CSstrip_WNone_m14000_10700:
+  straight_gdsfactorypcom_058e2168_m14000_10700:
     component: straight
     info:
       length: 0.6
@@ -87,7 +87,7 @@ instances:
       length: 0.6
       npoints: 2
       width: null
-  straight_L4_N2_CSstrip_WNone_0_21300:
+  straight_gdsfactorypcom_a6eac62c_0_21300:
     component: straight
     info:
       length: 4
@@ -101,51 +101,51 @@ instances:
       length: 4
       npoints: 2
       width: null
-name: ring_single_G0p2_R10_LX_1ab45a89
+name: ring_single_gdsfactoryp_0384f741
 nets:
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_10000_11300,o1
-  p2: straight_L0p6_N2_CSstrip_WNone_10000_11300,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_10000_11300,o2
-  p2: straight_L4_N2_CSstrip_WNone_0_21300,o1
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m4000_21300,o1
-  p2: straight_L4_N2_CSstrip_WNone_0_21300,o2
-- p1: bend_euler_R10_A90_P0p5_2f1f5c6d_m4000_21300,o2
-  p2: straight_L0p6_N2_CSstrip_WNone_m14000_10700,o2
-- p1: coupler_ring_G0p2_R10_L_9871ac59_0_0,o2
-  p2: straight_L0p6_N2_CSstrip_WNone_m14000_10700,o1
-- p1: coupler_ring_G0p2_R10_L_9871ac59_0_0,o3
-  p2: straight_L0p6_N2_CSstrip_WNone_10000_11300,o2
+- p1: bend_euler_gdsfactorypc_e95a7a4d_10000_11300,o1
+  p2: straight_gdsfactorypcom_058e2168_10000_11300,o1
+- p1: bend_euler_gdsfactorypc_e95a7a4d_10000_11300,o2
+  p2: straight_gdsfactorypcom_a6eac62c_0_21300,o1
+- p1: bend_euler_gdsfactorypc_e95a7a4d_m4000_21300,o1
+  p2: straight_gdsfactorypcom_a6eac62c_0_21300,o2
+- p1: bend_euler_gdsfactorypc_e95a7a4d_m4000_21300,o2
+  p2: straight_gdsfactorypcom_058e2168_m14000_10700,o2
+- p1: coupler_ring_gdsfactory_7a1e2f00_0_0,o2
+  p2: straight_gdsfactorypcom_058e2168_m14000_10700,o1
+- p1: coupler_ring_gdsfactory_7a1e2f00_0_0,o3
+  p2: straight_gdsfactorypcom_058e2168_10000_11300,o2
 placements:
-  bend_euler_R10_A90_P0p5_2f1f5c6d_10000_11300:
+  bend_euler_gdsfactorypc_e95a7a4d_10000_11300:
     mirror: false
     rotation: 90
     x: 10
     y: 11.3
-  bend_euler_R10_A90_P0p5_2f1f5c6d_m4000_21300:
+  bend_euler_gdsfactorypc_e95a7a4d_m4000_21300:
     mirror: false
     rotation: 180
     x: -4
     y: 21.3
-  coupler_ring_G0p2_R10_L_9871ac59_0_0:
+  coupler_ring_gdsfactory_7a1e2f00_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  straight_L0p6_N2_CSstrip_WNone_10000_11300:
+  straight_gdsfactorypcom_058e2168_10000_11300:
     mirror: false
     rotation: 270
     x: 10
     y: 11.3
-  straight_L0p6_N2_CSstrip_WNone_m14000_10700:
+  straight_gdsfactorypcom_058e2168_m14000_10700:
     mirror: false
     rotation: 90
     x: -14
     y: 10.7
-  straight_L4_N2_CSstrip_WNone_0_21300:
+  straight_gdsfactorypcom_a6eac62c_0_21300:
     mirror: false
     rotation: 180
     x: 0
     y: 21.3
 ports:
-  o1: coupler_ring_G0p2_R10_L_9871ac59_0_0,o1
-  o2: coupler_ring_G0p2_R10_L_9871ac59_0_0,o4
+  o1: coupler_ring_gdsfactory_7a1e2f00_0_0,o1
+  o2: coupler_ring_gdsfactory_7a1e2f00_0_0,o4

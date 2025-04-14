@@ -1,5 +1,5 @@
 instances:
-  bend_s_S11_1p8_N99_CSst_65c79658_15500_625:
+  bend_s_gdsfactorypcompo_42908c8c_15500_625:
     component: bend_s
     info:
       end_angle: 0
@@ -20,7 +20,7 @@ instances:
       - 11
       - 1.8
       width: null
-  bend_s_S11_1p8_N99_CSst_65c79658_52000_3050:
+  bend_s_gdsfactorypcompo_42908c8c_52000_3050:
     component: bend_s
     info:
       end_angle: 0
@@ -41,7 +41,7 @@ instances:
       - 11
       - 1.8
       width: null
-  mmi1x2_WNone_WT1_LT10_L_4e0f7121_0_0:
+  mmi1x2_gdsfactorypcompo_1f097353_0_0:
     component: mmi1x2
     info: {}
     settings:
@@ -54,7 +54,7 @@ instances:
       width: null
       width_mmi: 2.5
       width_taper: 1
-  mmi1x2_WNone_WT1_LT10_L_4e0f7121_36500_2425:
+  mmi1x2_gdsfactorypcompo_1f097353_36500_2425:
     component: mmi1x2
     info: {}
     settings:
@@ -67,7 +67,7 @@ instances:
       width: null
       width_mmi: 2.5
       width_taper: 1
-  mmi1x2_WNone_WT1_LT10_L_4e0f7121_73000_4850:
+  mmi1x2_gdsfactorypcompo_1f097353_73000_4850:
     component: mmi1x2
     info: {}
     settings:
@@ -80,45 +80,45 @@ instances:
       width: null
       width_mmi: 2.5
       width_taper: 1
-name: splitter_chain_Smmi1x2__10cafd81
+name: splitter_chain_gdsfacto_b35759ef
 nets:
-- p1: bend_s_S11_1p8_N99_CSst_65c79658_15500_625,o1
-  p2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_0_0,o2
-- p1: bend_s_S11_1p8_N99_CSst_65c79658_15500_625,o2
-  p2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_36500_2425,o1
-- p1: bend_s_S11_1p8_N99_CSst_65c79658_52000_3050,o1
-  p2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_36500_2425,o2
-- p1: bend_s_S11_1p8_N99_CSst_65c79658_52000_3050,o2
-  p2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_73000_4850,o1
+- p1: bend_s_gdsfactorypcompo_42908c8c_15500_625,o1
+  p2: mmi1x2_gdsfactorypcompo_1f097353_0_0,o2
+- p1: bend_s_gdsfactorypcompo_42908c8c_15500_625,o2
+  p2: mmi1x2_gdsfactorypcompo_1f097353_36500_2425,o1
+- p1: bend_s_gdsfactorypcompo_42908c8c_52000_3050,o1
+  p2: mmi1x2_gdsfactorypcompo_1f097353_36500_2425,o2
+- p1: bend_s_gdsfactorypcompo_42908c8c_52000_3050,o2
+  p2: mmi1x2_gdsfactorypcompo_1f097353_73000_4850,o1
 placements:
-  bend_s_S11_1p8_N99_CSst_65c79658_15500_625:
+  bend_s_gdsfactorypcompo_42908c8c_15500_625:
     mirror: false
     rotation: 0
     x: 15.5
     y: 0.625
-  bend_s_S11_1p8_N99_CSst_65c79658_52000_3050:
+  bend_s_gdsfactorypcompo_42908c8c_52000_3050:
     mirror: false
     rotation: 0
     x: 52
     y: 3.05
-  mmi1x2_WNone_WT1_LT10_L_4e0f7121_0_0:
+  mmi1x2_gdsfactorypcompo_1f097353_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  mmi1x2_WNone_WT1_LT10_L_4e0f7121_36500_2425:
+  mmi1x2_gdsfactorypcompo_1f097353_36500_2425:
     mirror: false
     rotation: 0
     x: 36.5
     y: 2.425
-  mmi1x2_WNone_WT1_LT10_L_4e0f7121_73000_4850:
+  mmi1x2_gdsfactorypcompo_1f097353_73000_4850:
     mirror: false
     rotation: 0
     x: 73
     y: 4.85
 ports:
-  o1: mmi1x2_WNone_WT1_LT10_L_4e0f7121_0_0,o1
-  o2: mmi1x2_WNone_WT1_LT10_L_4e0f7121_0_0,o3
-  o3: mmi1x2_WNone_WT1_LT10_L_4e0f7121_36500_2425,o3
-  o4: mmi1x2_WNone_WT1_LT10_L_4e0f7121_73000_4850,o3
-  o5: mmi1x2_WNone_WT1_LT10_L_4e0f7121_73000_4850,o2
+  o1: mmi1x2_gdsfactorypcompo_1f097353_0_0,o1
+  o2: mmi1x2_gdsfactorypcompo_1f097353_0_0,o3
+  o3: mmi1x2_gdsfactorypcompo_1f097353_36500_2425,o3
+  o4: mmi1x2_gdsfactorypcompo_1f097353_73000_4850,o3
+  o5: mmi1x2_gdsfactorypcompo_1f097353_73000_4850,o2

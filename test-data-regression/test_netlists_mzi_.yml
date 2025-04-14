@@ -301,7 +301,7 @@ instances:
       length: 2
       npoints: 2
       width: null
-name: mzi_DL10_LY2_LX0p1_Bben_4daac747
+name: mzi_gdsfactorypcomponen_1e16e3c9
 nets:
 - p1: b1,o1
   p2: cp1,o2

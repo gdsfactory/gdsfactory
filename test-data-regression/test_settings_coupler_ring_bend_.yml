@@ -1,5 +1,5 @@
 info: {}
-name: coupler_ring_bend_R10_C_3794c480
+name: coupler_ring_bend_gdsfa_7e4f244b
 settings:
   bend: bend_circular_all_angle
   bend_output: bend_euler

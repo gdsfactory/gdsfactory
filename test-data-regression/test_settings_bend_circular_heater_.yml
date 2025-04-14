@@ -2,7 +2,7 @@ info:
   dx: 10
   dy: 10
   length: 15.708
-name: bend_circular_heater_RN_4b4fbbb3
+name: bend_circular_heater_gd_a7034330
 settings:
   allow_min_radius_violation: false
   angle: 90

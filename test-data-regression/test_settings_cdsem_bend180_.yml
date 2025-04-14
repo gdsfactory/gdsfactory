@@ -1,5 +1,5 @@
 info: {}
-name: cdsem_bend180_W0p5_R10__c02eb94b
+name: cdsem_bend180_gdsfactor_16eb1146
 settings:
   bend90: bend_circular
   cross_section: strip

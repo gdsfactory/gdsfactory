@@ -1,5 +1,5 @@
 info: {}
-name: coupler_bend_R10_CG0p2__a8c01f99
+name: coupler_bend_gdsfactory_147f47be
 settings:
   bend: bend_circular_all_angle
   bend_output: bend_euler
