@@ -9,7 +9,7 @@ from gdsfactory.constants import _glyph, _indent, _width
 from gdsfactory.typings import Coordinate, LayerSpec, LayerSpecs
 
 
-@gf.cell
+@gf.cell_with_module
 def text(
     text: str = "abcd",
     size: float = 10.0,
@@ -67,7 +67,7 @@ def text(
     return t
 
 
-@gf.cell
+@gf.cell_with_module
 def text_lines(
     text: tuple[str, ...] = ("Chip", "01"),
     size: float = 0.4,
@@ -89,7 +89,7 @@ def text_lines(
     return c
 
 
-@gf.cell
+@gf.cell_with_module
 def text_klayout(
     text: str = "a",
     layer: LayerSpec = "WG",

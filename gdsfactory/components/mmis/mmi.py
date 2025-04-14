@@ -5,7 +5,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell
+@gf.cell_with_module
 def mmi(
     inputs: int = 1,
     outputs: int = 4,

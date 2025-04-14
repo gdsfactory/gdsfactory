@@ -11,7 +11,7 @@ from gdsfactory.component import Component, ComponentReference
 from gdsfactory.typings import ComponentSpec, Floats, Ints, LayerSpec, LayerSpecs, Size
 
 
-@gf.cell
+@gf.cell_with_module
 def via_stack(
     size: Size = (11.0, 11.0),
     layers: LayerSpecs = ("M1", "M2", "MTOP"),
@@ -188,7 +188,7 @@ def via_stack(
     return c
 
 
-@gf.cell
+@gf.cell_with_module
 def via_stack_corner45(
     width: float = 10,
     layers: Sequence[LayerSpec | None] = ("M1", "M2", "MTOP"),
@@ -330,7 +330,7 @@ def via_stack_corner45(
     return c
 
 
-@gf.cell
+@gf.cell_with_module
 def via_stack_corner45_extended(
     corner: ComponentSpec = "via_stack_corner45",
     via_stack: ComponentSpec = "via_stack",

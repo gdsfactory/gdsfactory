@@ -6,7 +6,7 @@ from gdsfactory.components.shapes import circle
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell
+@gf.cell_with_module
 def fiber(
     core_diameter: float = 10,
     cladding_diameter: float = 125,

@@ -12,7 +12,7 @@ from gdsfactory.constants import _glyph, _indent, _width
 from gdsfactory.typings import LayerSpec, LayerSpecs, PathType
 
 
-@gf.cell
+@gf.cell_with_module
 def text_freetype(
     text: str = "a",
     size: int = 10,

@@ -4,7 +4,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 
 
-@gf.cell
+@gf.cell_with_module
 def spiral_inductor(
     width: float = 3.0,
     pitch: float = 3.0,

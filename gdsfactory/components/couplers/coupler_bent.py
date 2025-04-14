@@ -3,7 +3,7 @@ import numpy as np
 import gdsfactory as gf
 
 
-@gf.cell
+@gf.cell_with_module
 def coupler_bent_half(
     gap: float = 0.200,
     radius: float = 26,
@@ -78,7 +78,7 @@ def coupler_bent_half(
     return c
 
 
-@gf.cell
+@gf.cell_with_module
 def coupler_bent(
     gap: float = 0.200,
     radius: float = 26,

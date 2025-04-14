@@ -5,7 +5,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell
+@gf.cell_with_module
 def coupler_broadband(
     w_sc: float = 0.5,  # width of waveguides in the symmetric coupler section
     gap_sc: float = 0.2,  # gap size between the waveguides in the symmetric coupler section

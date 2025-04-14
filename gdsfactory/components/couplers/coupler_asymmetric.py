@@ -5,7 +5,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import CrossSectionSpec, Delta
 
 
-@gf.cell
+@gf.cell_with_module
 def coupler_asymmetric(
     gap: float = 0.234,
     dy: Delta = 2.5,

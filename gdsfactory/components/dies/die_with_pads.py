@@ -3,7 +3,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec, Size
 
 
-@gf.cell
+@gf.cell_with_module
 def die_with_pads(
     size: Size = (11470.0, 4900.0),
     ngratings: int = 14,

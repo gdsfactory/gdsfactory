@@ -16,7 +16,7 @@ from gdsfactory.typings import CrossSectionSpec
 data = pathlib.Path(__file__).parent / "csv_data"
 
 
-@gf.cell
+@gf.cell_with_module
 def taper_from_csv(
     filepath: Path = data / "taper_strip_0p5_3_36.csv",
     cross_section: CrossSectionSpec = "strip",

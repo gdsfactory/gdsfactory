@@ -5,7 +5,7 @@ from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import ComponentSpec, Float2
 
 
-@gf.cell
+@gf.cell_with_module
 def seal_ring(
     size: Float2 = (500, 500),
     seal: ComponentSpec = "via_stack",
@@ -76,7 +76,7 @@ def seal_ring(
     return c
 
 
-@gf.cell
+@gf.cell_with_module
 def seal_ring_segmented(
     size: Float2 = (500, 500),
     length_segment: float = 10,

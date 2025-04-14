@@ -8,7 +8,7 @@ from gdsfactory.components.containers.component_sequence import component_sequen
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell
+@gf.cell_with_module
 def straight_heater_metal_undercut(
     length: float = 320.0,
     length_undercut_spacing: float = 6.0,
@@ -159,7 +159,7 @@ def straight_heater_metal_undercut(
     return c
 
 
-@gf.cell
+@gf.cell_with_module
 def straight_heater_metal_simple(
     length: float = 320.0,
     cross_section_heater: CrossSectionSpec = "heater_metal",

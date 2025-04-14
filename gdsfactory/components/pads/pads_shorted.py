@@ -5,7 +5,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, LayerSpec
 
 
-@gf.cell
+@gf.cell_with_module
 def pads_shorted(
     pad: ComponentSpec = "pad",
     columns: int = 8,

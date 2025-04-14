@@ -5,7 +5,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, PostProcesses, Size
 
 
-@gf.cell
+@gf.cell_with_module
 def array(
     component: ComponentSpec = "pad",
     columns: int = 6,

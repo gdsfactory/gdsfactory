@@ -20,7 +20,7 @@ diagram = """
 """
 
 
-@gf.cell
+@gf.cell_with_module
 def delay_snake2(
     length: float = 1600.0,
     length0: float = 0.0,

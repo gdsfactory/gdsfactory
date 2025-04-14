@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell
+@gf.cell_with_module
 def ge_detector_straight_si_contacts(
     length: float = 40.0,
     cross_section: CrossSectionSpec = "pn_ge_detector_si_contacts",

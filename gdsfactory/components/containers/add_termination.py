@@ -10,7 +10,7 @@ from gdsfactory.typings import ComponentSpec
 _terminator_function = partial(taper, width2=0.1)
 
 
-@gf.cell
+@gf.cell_with_module
 def add_termination(
     component: ComponentSpec = "straight",
     port_names: tuple[str, ...] | None = None,

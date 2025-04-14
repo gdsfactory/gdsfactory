@@ -5,7 +5,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, Strs
 
 
-@gf.cell(set_name=False)
+@gf.cell_with_module(set_name=False)
 def extend_ports_list(
     component_spec: ComponentSpec,
     extension: ComponentSpec,

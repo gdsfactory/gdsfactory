@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell
+@gf.cell_with_module
 def grating_coupler_array(
     grating_coupler: ComponentSpec = "grating_coupler_elliptical",
     pitch: float = 127.0,

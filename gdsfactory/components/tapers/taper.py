@@ -8,7 +8,7 @@ from gdsfactory.port import Port
 from gdsfactory.typings import CrossSectionSpec, LayerSpec
 
 
-@gf.cell
+@gf.cell_with_module
 def taper(
     length: float = 10.0,
     width1: float = 0.5,
@@ -119,7 +119,7 @@ def taper(
     return c
 
 
-@gf.cell
+@gf.cell_with_module
 def taper_strip_to_ridge(
     length: float = 10.0,
     width1: float = 0.5,
@@ -191,7 +191,7 @@ def taper_strip_to_ridge(
     return c
 
 
-@gf.cell
+@gf.cell_with_module
 def taper_strip_to_ridge_trenches(
     length: float = 10.0,
     width: float = 0.5,
@@ -242,7 +242,7 @@ def taper_strip_to_ridge_trenches(
 taper_strip_to_slab150 = partial(taper_strip_to_ridge, layer_slab="SLAB150")
 
 
-@gf.cell
+@gf.cell_with_module
 def taper_sc_nc(
     width1: float = 0.5,
     width2: float = 1,
@@ -278,7 +278,7 @@ def taper_sc_nc(
     )
 
 
-@gf.cell
+@gf.cell_with_module
 def taper_nc_sc(
     width1: float = 1,
     width2: float = 0.5,

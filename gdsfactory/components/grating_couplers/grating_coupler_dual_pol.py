@@ -13,7 +13,7 @@ def _unit_cell() -> gf.Component:
     )
 
 
-@gf.cell
+@gf.cell_with_module
 def grating_coupler_dual_pol(
     unit_cell: ComponentSpec = _unit_cell,
     period_x: float = 0.58,

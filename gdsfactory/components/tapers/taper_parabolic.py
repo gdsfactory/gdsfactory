@@ -7,7 +7,7 @@ from gdsfactory.path import transition_exponential
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell
+@gf.cell_with_module
 def taper_parabolic(
     length: float = 20,
     width1: float = 0.5,

@@ -4,7 +4,7 @@ import gdsfactory as gf
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell
+@gf.cell_with_module
 def litho_ruler(
     height: float = 2,
     width: float = 0.5,

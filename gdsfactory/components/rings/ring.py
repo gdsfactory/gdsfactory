@@ -9,7 +9,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell
+@gf.cell_with_module
 def ring(
     radius: float = 10.0,
     width: float = 0.5,

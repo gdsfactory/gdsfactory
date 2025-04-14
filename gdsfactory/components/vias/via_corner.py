@@ -10,7 +10,7 @@ from gdsfactory.port import select_ports
 from gdsfactory.typings import ComponentSpec, MultiCrossSectionAngleSpec
 
 
-@gf.cell
+@gf.cell_with_module
 def via_corner(
     cross_section: MultiCrossSectionAngleSpec = (
         (metal2, (0, 180)),

@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import CrossSectionSpec
 
 
-@gf.cell
+@gf.cell_with_module
 def taper_cross_section(
     cross_section1: CrossSectionSpec = "strip_rib_tip",
     cross_section2: CrossSectionSpec = "rib2",

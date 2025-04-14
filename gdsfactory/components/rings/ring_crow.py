@@ -5,7 +5,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell
+@gf.cell_with_module
 def ring_crow(
     gaps: tuple[float, ...] = (0.2, 0.2, 0.2, 0.2),
     radius: tuple[float, ...] = (10.0, 10.0, 10.0),

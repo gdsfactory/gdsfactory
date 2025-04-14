@@ -8,7 +8,7 @@ import gdsfactory as gf
 from gdsfactory.typings import ComponentSpec, Float2, LayerSpec, Size
 
 
-@gf.cell
+@gf.cell_with_module
 def die(
     size: Size = (10000.0, 10000.0),
     street_width: float = 100.0,

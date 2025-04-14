@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable, Iterable
+from functools import partial
 from typing import TYPE_CHECKING, Any, ParamSpec, Protocol, overload
 
 from cachetools import Cache
@@ -72,6 +73,7 @@ def cell(
     post_process: Iterable[Callable[[Component], None]] | None = None,
     debug_names: bool | None = None,
     tags: list[str] | None = None,
+    include_module: bool = False,
 ) -> (
     ComponentFunc[ComponentParams]
     | Callable[[ComponentFunc[ComponentParams]], ComponentFunc[ComponentParams]]
@@ -79,7 +81,7 @@ def cell(
     """Decorator to convert a function into a Component."""
     from gdsfactory import component
 
-    if _func is not None:
+    if include_module and _func is not None:
         mod = _func.__module__
         basename = basename or clean_name(
             _func.__name__ if mod == "__main" else f"{_func.__name__}_{mod}"
@@ -170,3 +172,6 @@ def vcell(
     )
     vc.is_gf_vcell = True
     return vc  # type: ignore[no-any-return]
+
+
+cell_with_module = partial(cell, include_module=True)

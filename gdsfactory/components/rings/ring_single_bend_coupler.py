@@ -8,7 +8,7 @@ from gdsfactory.components.bends.bend_circular import bend_circular_all_angle
 from gdsfactory.typings import AnyComponentFactory, ComponentSpec, CrossSectionSpec
 
 
-@gf.cell
+@gf.cell_with_module
 def coupler_bend(
     radius: float = 10.0,
     coupler_gap: float = 0.2,
@@ -83,7 +83,7 @@ def coupler_bend(
     return c
 
 
-@gf.cell
+@gf.cell_with_module
 def coupler_ring_bend(
     radius: float = 10.0,
     coupler_gap: float = 0.2,
@@ -145,7 +145,7 @@ def coupler_ring_bend(
     return c
 
 
-@gf.cell
+@gf.cell_with_module
 def ring_single_bend_coupler(
     radius: float = 5.0,
     gap: float = 0.2,

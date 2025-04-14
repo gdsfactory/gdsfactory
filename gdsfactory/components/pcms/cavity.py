@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec
 
 
-@gf.cell
+@gf.cell_with_module
 def cavity(
     component: ComponentSpec = "dbr",
     coupler: ComponentSpec = "coupler",

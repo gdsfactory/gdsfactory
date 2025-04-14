@@ -35,7 +35,7 @@ _via_stack = partial(
 )
 
 
-@gf.cell
+@gf.cell_with_module
 def straight_heater_meander_doped(
     length: float = 300.0,
     spacing: float = 2.0,

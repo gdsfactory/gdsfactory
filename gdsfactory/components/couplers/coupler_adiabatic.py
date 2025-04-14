@@ -6,7 +6,7 @@ from gdsfactory.components.bends.bend_s import bezier
 from gdsfactory.typings import CrossSectionSpec
 
 
-@gf.cell
+@gf.cell_with_module
 def coupler_adiabatic(
     length1: float = 20.0,
     length2: float = 50.0,

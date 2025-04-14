@@ -14,7 +14,7 @@ from gdsfactory.components.bends.bend_s import (
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Delta, LayerSpec
 
 
-@gf.cell
+@gf.cell_with_module
 def crossing_arm(
     r1: float = 3.0,
     r2: float = 1.1,
@@ -79,7 +79,7 @@ def crossing_arm(
     return c
 
 
-@gf.cell
+@gf.cell_with_module
 def crossing(
     arm: ComponentSpec = crossing_arm,
 ) -> gf.Component:
@@ -99,7 +99,7 @@ def crossing(
     return c
 
 
-@gf.cell
+@gf.cell_with_module
 def crossing_linear_taper(
     width1: float = 2.5,
     width2: float = 0.5,
@@ -124,7 +124,7 @@ def crossing_linear_taper(
     return crossing(arm=arm)
 
 
-@gf.cell
+@gf.cell_with_module
 def crossing_etched(
     width: float = 0.5,
     r1: float = 3.0,
@@ -198,7 +198,7 @@ def crossing_etched(
     return c
 
 
-@gf.cell(check_instances=CheckInstances.IGNORE)
+@gf.cell_with_module(check_instances=CheckInstances.IGNORE)
 def crossing45(
     crossing: ComponentSpec = crossing,
     port_spacing: float = 40.0,

@@ -10,7 +10,7 @@ widths = 10 * (0.3,)
 gaps = 10 * (0.3,)
 
 
-@gf.cell
+@gf.cell_with_module
 def cdsem_straight_density(
     widths: Floats = widths,
     gaps: Floats = gaps,

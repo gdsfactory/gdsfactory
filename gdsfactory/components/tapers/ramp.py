@@ -5,7 +5,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell
+@gf.cell_with_module
 def ramp(
     length: float = 10.0,
     width1: float = 5.0,

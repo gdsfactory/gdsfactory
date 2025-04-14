@@ -34,7 +34,7 @@ def bezier_curve(
     return np.column_stack([xs, ys])
 
 
-@gf.cell
+@gf.cell_with_module
 def bezier(
     control_points: Coordinates = ((0.0, 0.0), (5.0, 0.0), (5.0, 1.8), (10.0, 1.8)),
     npoints: int = 201,
@@ -157,7 +157,7 @@ def find_min_curv_bezier_control_points(
     return tuple(points)
 
 
-@gf.cell
+@gf.cell_with_module
 def bend_s(
     size: Size = (11.0, 1.8),
     npoints: int = 99,
@@ -254,7 +254,7 @@ def _get_euler_sbend_angle_middle_length_from_jog(
     return angle_deg, middle_length
 
 
-@gf.cell
+@gf.cell_with_module
 def bend_s_offset(
     offset: float = 40.0,
     radius: float | None = 10.0,

@@ -23,7 +23,7 @@ diagram = r"""
 """
 
 
-@gf.cell
+@gf.cell_with_module
 def delay_snake_sbend(
     length: float = 100.0,
     length1: float = 0.0,

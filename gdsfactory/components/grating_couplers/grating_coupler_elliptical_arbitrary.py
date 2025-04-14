@@ -17,7 +17,7 @@ _gaps = (0.1,) * 10
 _widths = (0.5,) * 10
 
 
-@gf.cell
+@gf.cell_with_module
 def grating_coupler_elliptical_arbitrary(
     gaps: Floats = _gaps,
     widths: Floats = _widths,
@@ -171,7 +171,7 @@ def grating_coupler_elliptical_arbitrary(
     return c
 
 
-@gf.cell
+@gf.cell_with_module
 def grating_coupler_elliptical_uniform(
     n_periods: int = 20,
     period: float = 0.75,

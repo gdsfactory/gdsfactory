@@ -12,7 +12,7 @@ _list_of_dicts: tuple[dict[str, Any], ...] = (
 )
 
 
-@gf.cell
+@gf.cell_with_module
 def ring_single_array(
     ring: ComponentSpec = "ring_single",
     spacing: float = 5.0,

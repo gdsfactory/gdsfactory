@@ -7,7 +7,7 @@ from gdsfactory.components.couplers.coupler90 import coupler90
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell
+@gf.cell_with_module
 def coupler_ring(
     gap: float = 0.2,
     radius: float = 5.0,

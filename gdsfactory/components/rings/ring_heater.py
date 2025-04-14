@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import AngleInDegrees, ComponentSpec, CrossSectionSpec, Float2
 
 
-@gf.cell
+@gf.cell_with_module
 def ring_double_heater(
     gap: float = 0.2,
     gap_top: float | None = None,

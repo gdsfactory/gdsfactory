@@ -11,7 +11,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell
+@gf.cell_with_module
 def free_propagation_region(
     width1: float = 2.0,
     width2: float = 20.0,
@@ -101,7 +101,7 @@ free_propagation_region_output = partial(
 )
 
 
-@gf.cell
+@gf.cell_with_module
 def awg(
     arms: int = 10,
     outputs: int = 3,

@@ -13,7 +13,7 @@ from gdsfactory.cross_section import (
 from gdsfactory.typings import CrossSectionSpec, LayerSpec, PortNames, PortTypes
 
 
-@gf.cell
+@gf.cell_with_module
 def wire_corner(
     cross_section: CrossSectionSpec = "metal_routing",
     port_names: "PortNames" = port_names_electrical,
@@ -65,7 +65,7 @@ def wire_corner(
     return c
 
 
-@gf.cell
+@gf.cell_with_module
 def wire_corner45(
     cross_section: CrossSectionSpec = "metal_routing",
     radius: float = 10,
@@ -138,7 +138,7 @@ def wire_corner45(
     return c
 
 
-@gf.cell
+@gf.cell_with_module
 def wire_corner_sections(
     cross_section: CrossSectionSpec = "metal_routing",
 ) -> Component:

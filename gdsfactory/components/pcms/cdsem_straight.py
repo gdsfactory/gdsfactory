@@ -11,7 +11,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 LINE_LENGTH = 420.0
 
 
-@gf.cell
+@gf.cell_with_module
 def cdsem_straight(
     widths: Sequence[float] = (0.4, 0.45, 0.5, 0.6, 0.8, 1.0),
     length: float = LINE_LENGTH,

@@ -6,7 +6,7 @@ from gdsfactory.components.tapers.taper import taper as taper_function
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell
+@gf.cell_with_module
 def mmi_90degree_hybrid(
     width: float = 0.5,
     width_taper: float = 1.7,
