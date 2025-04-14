@@ -40,7 +40,10 @@ def text_rectangular(
     yoffset = position[1]
     component = gf.Component()
     characters = font()
-    layer_list = layers or [layer] if layer else []
+
+    if layers is None:
+        assert layer is not None, "layer is None. Please provide a layer."
+        layers = [layer]
 
     # Extract pixel width count from font definition.
     # Example below is 5, and 7 for FONT_LITHO.
@@ -57,7 +60,7 @@ def text_rectangular(
                 print(f"skipping character {character!r} not in font")
             else:
                 pixels = characters[character.upper()]
-                for layer in layer_list:
+                for layer in layers:
                     ref = component.add_ref(
                         pixel_array(pixels=pixels, pixel_size=pixel_size, layer=layer)
                     )
