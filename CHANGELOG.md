@@ -1,12 +1,14 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.3.5...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.4.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.4.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.4.0) - 2025-04-13
 
-No significant changes.
-
+- add module name to generic pdk cell Decorator [#3778](https://github.com/gdsfactory/gdsfactory/pull/3778)
+- Fix text rectangular [#3777](https://github.com/gdsfactory/gdsfactory/pull/3777)
+- fix path rotate [#3772](https://github.com/gdsfactory/gdsfactory/pull/3772)
+- move mypy to cicd [#3773](https://github.com/gdsfactory/gdsfactory/pull/3773)
 
 ## [9.3.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.3.5) - 2025-04-09
 
