@@ -1,5 +1,5 @@
 instances:
-  rectangle_S2p7_6p4_LM2__c8f1a350_36000_m1000:
+  rectangle_gdsfactorypco_ddce550a_36000_m1000:
     array:
       column_pitch: 7.4
       columns: 1
@@ -19,7 +19,7 @@ instances:
       size:
       - 2.7
       - 6.4
-  rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700:
+  rectangle_gdsfactorypco_ddce550a_m1000_2700:
     array:
       column_pitch: 7.4
       columns: 1
@@ -39,7 +39,7 @@ instances:
       size:
       - 2.7
       - 6.4
-  rectangles_S6p4_2p7_O0_LM1_CTrue_5900_350:
+  rectangles_gdsfactorypc_6566a68c_5900_350:
     array:
       column_pitch: 7.4
       columns: 5
@@ -56,7 +56,7 @@ instances:
       size:
       - 6.4
       - 2.7
-  rectangles_S6p4_2p7_O0_LM2_CTrue_2200_350:
+  rectangles_gdsfactorypc_e4261359_2200_350:
     array:
       column_pitch: 7.4
       columns: 5
@@ -73,7 +73,7 @@ instances:
       size:
       - 6.4
       - 2.7
-  via_S0p7_0p7_E2_LVIA1_B_053047f5_4050_350:
+  via_gdsfactorypcomponen_efa29aa3_4050_350:
     array:
       column_pitch: 3.7
       columns: 10
@@ -98,7 +98,7 @@ instances:
       size:
       - 0.7
       - 0.7
-  via_stack_S11_11_LM2_MT_0b0d0698_m6500_37800:
+  via_stack_gdsfactorypco_fdb19589_m6500_37800:
     component: via_stack
     info:
       xsize: 11
@@ -123,7 +123,7 @@ instances:
       vias:
       - via2
       - null
-  via_stack_S11_11_LM2_MT_0b0d0698_m6500_m3800:
+  via_stack_gdsfactorypco_fdb19589_m6500_m3800:
     component: via_stack
     info:
       xsize: 11
@@ -148,94 +148,94 @@ instances:
       vias:
       - via2
       - null
-name: via_chain_NV100_C10_Vvi_2518d565
+name: via_chain_gdsfactorypco_b1f2c27f
 nets: []
 placements:
-  rectangle_S2p7_6p4_LM2__c8f1a350_36000_m1000:
+  rectangle_gdsfactorypco_ddce550a_36000_m1000:
     mirror: false
     rotation: 0
     x: 36
     y: -1
-  rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700:
+  rectangle_gdsfactorypco_ddce550a_m1000_2700:
     mirror: false
     rotation: 0
     x: -1
     y: 2.7
-  rectangles_S6p4_2p7_O0_LM1_CTrue_5900_350:
+  rectangles_gdsfactorypc_6566a68c_5900_350:
     mirror: false
     rotation: 0
     x: 5.9
     y: 0.35
-  rectangles_S6p4_2p7_O0_LM2_CTrue_2200_350:
+  rectangles_gdsfactorypc_e4261359_2200_350:
     mirror: false
     rotation: 0
     x: 2.2
     y: 0.35
-  via_S0p7_0p7_E2_LVIA1_B_053047f5_4050_350:
+  via_gdsfactorypcomponen_efa29aa3_4050_350:
     mirror: false
     rotation: 0
     x: 4.05
     y: 0.35
-  via_stack_S11_11_LM2_MT_0b0d0698_m6500_37800:
+  via_stack_gdsfactorypco_fdb19589_m6500_37800:
     mirror: false
     rotation: 0
     x: -6.5
     y: 37.8
-  via_stack_S11_11_LM2_MT_0b0d0698_m6500_m3800:
+  via_stack_gdsfactorypco_fdb19589_m6500_m3800:
     mirror: false
     rotation: 0
     x: -6.5
     y: -3.8
 ports:
-  e1: via_stack_S11_11_LM2_MT_0b0d0698_m6500_m3800,e1
-  e2: via_stack_S11_11_LM2_MT_0b0d0698_m6500_37800,e1
+  e1: via_stack_gdsfactorypco_fdb19589_m6500_m3800,e1
+  e2: via_stack_gdsfactorypco_fdb19589_m6500_37800,e1
 warnings:
   electrical:
     unconnected_ports:
     - message: 42 unconnected electrical ports!
       ports:
-      - rectangle_S2p7_6p4_LM2__c8f1a350_36000_m1000<0.0>,e1
-      - rectangle_S2p7_6p4_LM2__c8f1a350_36000_m1000<0.0>,e2
-      - rectangle_S2p7_6p4_LM2__c8f1a350_36000_m1000<0.0>,e3
-      - rectangle_S2p7_6p4_LM2__c8f1a350_36000_m1000<0.0>,e4
-      - rectangle_S2p7_6p4_LM2__c8f1a350_36000_m1000<0.1>,e1
-      - rectangle_S2p7_6p4_LM2__c8f1a350_36000_m1000<0.1>,e2
-      - rectangle_S2p7_6p4_LM2__c8f1a350_36000_m1000<0.1>,e3
-      - rectangle_S2p7_6p4_LM2__c8f1a350_36000_m1000<0.1>,e4
-      - rectangle_S2p7_6p4_LM2__c8f1a350_36000_m1000<0.2>,e1
-      - rectangle_S2p7_6p4_LM2__c8f1a350_36000_m1000<0.2>,e2
-      - rectangle_S2p7_6p4_LM2__c8f1a350_36000_m1000<0.2>,e3
-      - rectangle_S2p7_6p4_LM2__c8f1a350_36000_m1000<0.2>,e4
-      - rectangle_S2p7_6p4_LM2__c8f1a350_36000_m1000<0.3>,e1
-      - rectangle_S2p7_6p4_LM2__c8f1a350_36000_m1000<0.3>,e2
-      - rectangle_S2p7_6p4_LM2__c8f1a350_36000_m1000<0.3>,e3
-      - rectangle_S2p7_6p4_LM2__c8f1a350_36000_m1000<0.3>,e4
-      - rectangle_S2p7_6p4_LM2__c8f1a350_36000_m1000<0.4>,e1
-      - rectangle_S2p7_6p4_LM2__c8f1a350_36000_m1000<0.4>,e2
-      - rectangle_S2p7_6p4_LM2__c8f1a350_36000_m1000<0.4>,e3
-      - rectangle_S2p7_6p4_LM2__c8f1a350_36000_m1000<0.4>,e4
-      - rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700<0.0>,e1
-      - rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700<0.0>,e2
-      - rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700<0.0>,e3
-      - rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700<0.0>,e4
-      - rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700<0.1>,e1
-      - rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700<0.1>,e2
-      - rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700<0.1>,e3
-      - rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700<0.1>,e4
-      - rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700<0.2>,e1
-      - rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700<0.2>,e2
-      - rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700<0.2>,e3
-      - rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700<0.2>,e4
-      - rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700<0.3>,e1
-      - rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700<0.3>,e2
-      - rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700<0.3>,e3
-      - rectangle_S2p7_6p4_LM2__c8f1a350_m1000_2700<0.3>,e4
-      - via_stack_S11_11_LM2_MT_0b0d0698_m6500_m3800,e2
-      - via_stack_S11_11_LM2_MT_0b0d0698_m6500_m3800,e3
-      - via_stack_S11_11_LM2_MT_0b0d0698_m6500_m3800,e4
-      - via_stack_S11_11_LM2_MT_0b0d0698_m6500_37800,e2
-      - via_stack_S11_11_LM2_MT_0b0d0698_m6500_37800,e3
-      - via_stack_S11_11_LM2_MT_0b0d0698_m6500_37800,e4
+      - rectangle_gdsfactorypco_ddce550a_36000_m1000<0.0>,e1
+      - rectangle_gdsfactorypco_ddce550a_36000_m1000<0.0>,e2
+      - rectangle_gdsfactorypco_ddce550a_36000_m1000<0.0>,e3
+      - rectangle_gdsfactorypco_ddce550a_36000_m1000<0.0>,e4
+      - rectangle_gdsfactorypco_ddce550a_36000_m1000<0.1>,e1
+      - rectangle_gdsfactorypco_ddce550a_36000_m1000<0.1>,e2
+      - rectangle_gdsfactorypco_ddce550a_36000_m1000<0.1>,e3
+      - rectangle_gdsfactorypco_ddce550a_36000_m1000<0.1>,e4
+      - rectangle_gdsfactorypco_ddce550a_36000_m1000<0.2>,e1
+      - rectangle_gdsfactorypco_ddce550a_36000_m1000<0.2>,e2
+      - rectangle_gdsfactorypco_ddce550a_36000_m1000<0.2>,e3
+      - rectangle_gdsfactorypco_ddce550a_36000_m1000<0.2>,e4
+      - rectangle_gdsfactorypco_ddce550a_36000_m1000<0.3>,e1
+      - rectangle_gdsfactorypco_ddce550a_36000_m1000<0.3>,e2
+      - rectangle_gdsfactorypco_ddce550a_36000_m1000<0.3>,e3
+      - rectangle_gdsfactorypco_ddce550a_36000_m1000<0.3>,e4
+      - rectangle_gdsfactorypco_ddce550a_36000_m1000<0.4>,e1
+      - rectangle_gdsfactorypco_ddce550a_36000_m1000<0.4>,e2
+      - rectangle_gdsfactorypco_ddce550a_36000_m1000<0.4>,e3
+      - rectangle_gdsfactorypco_ddce550a_36000_m1000<0.4>,e4
+      - rectangle_gdsfactorypco_ddce550a_m1000_2700<0.0>,e1
+      - rectangle_gdsfactorypco_ddce550a_m1000_2700<0.0>,e2
+      - rectangle_gdsfactorypco_ddce550a_m1000_2700<0.0>,e3
+      - rectangle_gdsfactorypco_ddce550a_m1000_2700<0.0>,e4
+      - rectangle_gdsfactorypco_ddce550a_m1000_2700<0.1>,e1
+      - rectangle_gdsfactorypco_ddce550a_m1000_2700<0.1>,e2
+      - rectangle_gdsfactorypco_ddce550a_m1000_2700<0.1>,e3
+      - rectangle_gdsfactorypco_ddce550a_m1000_2700<0.1>,e4
+      - rectangle_gdsfactorypco_ddce550a_m1000_2700<0.2>,e1
+      - rectangle_gdsfactorypco_ddce550a_m1000_2700<0.2>,e2
+      - rectangle_gdsfactorypco_ddce550a_m1000_2700<0.2>,e3
+      - rectangle_gdsfactorypco_ddce550a_m1000_2700<0.2>,e4
+      - rectangle_gdsfactorypco_ddce550a_m1000_2700<0.3>,e1
+      - rectangle_gdsfactorypco_ddce550a_m1000_2700<0.3>,e2
+      - rectangle_gdsfactorypco_ddce550a_m1000_2700<0.3>,e3
+      - rectangle_gdsfactorypco_ddce550a_m1000_2700<0.3>,e4
+      - via_stack_gdsfactorypco_fdb19589_m6500_m3800,e2
+      - via_stack_gdsfactorypco_fdb19589_m6500_m3800,e3
+      - via_stack_gdsfactorypco_fdb19589_m6500_m3800,e4
+      - via_stack_gdsfactorypco_fdb19589_m6500_37800,e2
+      - via_stack_gdsfactorypco_fdb19589_m6500_37800,e3
+      - via_stack_gdsfactorypco_fdb19589_m6500_37800,e4
       values:
       - - 36
         - 2.2

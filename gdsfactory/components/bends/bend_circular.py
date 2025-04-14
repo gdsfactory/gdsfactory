@@ -100,7 +100,7 @@ def _bend_circular(
     return c
 
 
-@gf.cell
+@gf.cell_with_module_name
 def bend_circular(
     radius: float | None = None,
     angle: float = 90.0,

@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell
+@gf.cell_with_module_name
 def optimal_step(
     start_width: float = 10,
     end_width: float = 22,

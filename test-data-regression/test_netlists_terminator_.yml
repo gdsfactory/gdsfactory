@@ -1,5 +1,5 @@
 instances:
-  taper_cross_section_CSs_d7986ffc_0_0:
+  taper_cross_section_gds_fd386982_0_0:
     component: taper_cross_section
     info:
       route_info_length: 50
@@ -14,22 +14,22 @@ instances:
       linear: false
       npoints: 100
       width_type: sine
-name: terminator_L50_CSIstrip_a7ffecd8
+name: terminator_gdsfactorypc_a505b160
 nets: []
 placements:
-  taper_cross_section_CSs_d7986ffc_0_0:
+  taper_cross_section_gds_fd386982_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
 ports:
-  o1: taper_cross_section_CSs_d7986ffc_0_0,o1
+  o1: taper_cross_section_gds_fd386982_0_0,o1
 warnings:
   optical:
     unconnected_ports:
     - message: 1 unconnected optical ports!
       ports:
-      - taper_cross_section_CSs_d7986ffc_0_0,o2
+      - taper_cross_section_gds_fd386982_0_0,o2
       values:
       - - 50
         - 0

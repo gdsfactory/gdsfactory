@@ -1,12 +1,14 @@
 from __future__ import annotations
 
 from collections.abc import Callable, Iterable
+from functools import partial
 from typing import TYPE_CHECKING, Any, ParamSpec, Protocol, overload
 
 from cachetools import Cache
 from kfactory import cell as _cell
 from kfactory import vcell as _vcell
 from kfactory.conf import CheckInstances
+from kfactory.serialization import clean_name
 from kfactory.typings import MetaData
 
 if TYPE_CHECKING:
@@ -48,6 +50,7 @@ def cell(
     post_process: Iterable[Callable[[Component], None]] | None = None,
     debug_names: bool | None = None,
     tags: list[str] | None = None,
+    with_module_name: bool = False,
 ) -> Callable[[ComponentFunc[ComponentParams]], ComponentFunc[ComponentParams]]: ...
 
 
@@ -71,12 +74,19 @@ def cell(
     post_process: Iterable[Callable[[Component], None]] | None = None,
     debug_names: bool | None = None,
     tags: list[str] | None = None,
+    with_module_name: bool = False,
 ) -> (
     ComponentFunc[ComponentParams]
     | Callable[[ComponentFunc[ComponentParams]], ComponentFunc[ComponentParams]]
 ):
     """Decorator to convert a function into a Component."""
     from gdsfactory import component
+
+    if with_module_name and _func is not None:
+        mod = _func.__module__
+        basename = basename or clean_name(
+            _func.__name__ if mod == "__main" else f"{_func.__name__}_{mod}"
+        )
 
     if drop_params is None:
         drop_params = ["self", "cls"]
@@ -163,3 +173,6 @@ def vcell(
     )
     vc.is_gf_vcell = True
     return vc  # type: ignore[no-any-return]
+
+
+cell_with_module_name = partial(cell, with_module_name=True)  # type: ignore

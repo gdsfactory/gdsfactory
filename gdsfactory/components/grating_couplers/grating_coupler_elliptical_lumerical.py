@@ -64,7 +64,7 @@ parameters = (
 )
 
 
-@gf.cell
+@gf.cell_with_module_name
 def grating_coupler_elliptical_lumerical(
     parameters: Floats = parameters,
     layer_slab: LayerSpec | None = "SLAB150",

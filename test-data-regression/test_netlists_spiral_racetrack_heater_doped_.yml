@@ -1,5 +1,5 @@
 instances:
-  spiral_racetrack_MR10_S_2a52360f_0_0:
+  spiral_racetrack_gdsfac_7ac50a2e_0_0:
     component: spiral_racetrack
     info:
       length: 1723.876
@@ -22,7 +22,7 @@ instances:
       - 2
       straight: straight
       straight_length: 30
-  straight_L30_N2_CSnpp_WNone_0_12000:
+  straight_gdsfactorypcom_e3a8c66a_0_12000:
     component: straight
     info:
       length: 30
@@ -36,7 +36,7 @@ instances:
       length: 30
       npoints: 2
       width: null
-  straight_L30_N2_CSnpp_WNone_30000_m30000:
+  straight_gdsfactorypcom_e3a8c66a_30000_m30000:
     component: straight
     info:
       length: 30
@@ -50,28 +50,28 @@ instances:
       length: 30
       npoints: 2
       width: null
-name: spiral_racetrack_heater_c5c52dbc
+name: spiral_racetrack_heater_fbc193ed
 nets: []
 placements:
-  spiral_racetrack_MR10_S_2a52360f_0_0:
+  spiral_racetrack_gdsfac_7ac50a2e_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  straight_L30_N2_CSnpp_WNone_0_12000:
+  straight_gdsfactorypcom_e3a8c66a_0_12000:
     mirror: false
     rotation: 0
     x: 0
     y: 12
-  straight_L30_N2_CSnpp_WNone_30000_m30000:
+  straight_gdsfactorypcom_e3a8c66a_30000_m30000:
     mirror: false
     rotation: 180
     x: 30
     y: -30
 ports:
-  bot_e1: straight_L30_N2_CSnpp_WNone_0_12000,e1
-  bot_e2: straight_L30_N2_CSnpp_WNone_0_12000,e2
-  o1: spiral_racetrack_MR10_S_2a52360f_0_0,o1
-  o2: spiral_racetrack_MR10_S_2a52360f_0_0,o2
-  top_e1: straight_L30_N2_CSnpp_WNone_30000_m30000,e1
-  top_e2: straight_L30_N2_CSnpp_WNone_30000_m30000,e2
+  bot_e1: straight_gdsfactorypcom_e3a8c66a_0_12000,e1
+  bot_e2: straight_gdsfactorypcom_e3a8c66a_0_12000,e2
+  o1: spiral_racetrack_gdsfac_7ac50a2e_0_0,o1
+  o2: spiral_racetrack_gdsfac_7ac50a2e_0_0,o2
+  top_e1: straight_gdsfactorypcom_e3a8c66a_30000_m30000,e1
+  top_e2: straight_gdsfactorypcom_e3a8c66a_30000_m30000,e2

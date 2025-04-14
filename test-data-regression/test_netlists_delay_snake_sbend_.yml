@@ -1,5 +1,5 @@
 instances:
-  bend_euler_R5_A180_P0p5_7f7c6f20_0_m10000:
+  bend_euler_gdsfactorypc_9e46b9c5_0_m10000:
     component: bend_euler
     info:
       dy: 0
@@ -23,7 +23,7 @@ instances:
       radius: 5
       width: null
       with_arc_floorplan: true
-  bend_euler_R5_A180_P0p5_7f7c6f20_m178681_m5000:
+  bend_euler_gdsfactorypc_9e46b9c5_m178681_m5000:
     component: bend_euler
     info:
       dy: 0
@@ -47,7 +47,7 @@ instances:
       radius: 5
       width: null
       with_arc_floorplan: true
-  bend_s_S100_5_N99_CSstr_dcadf83a_m100000_m5000:
+  bend_s_gdsfactorypcompo_980b37fc_m100000_m5000:
     component: bend_s
     info:
       end_angle: 0
@@ -96,28 +96,28 @@ instances:
       length: 78.681
       npoints: 2
       width: null
-name: delay_snake_sbend_L100__a249e5b3
+name: delay_snake_sbend_gdsfa_7f61a21a
 nets:
-- p1: bend_euler_R5_A180_P0p5_7f7c6f20_0_m10000,o1
-  p2: bend_s_S100_5_N99_CSstr_dcadf83a_m100000_m5000,o2
-- p1: bend_euler_R5_A180_P0p5_7f7c6f20_m178681_m5000,o1
+- p1: bend_euler_gdsfactorypc_9e46b9c5_0_m10000,o1
+  p2: bend_s_gdsfactorypcompo_980b37fc_m100000_m5000,o2
+- p1: bend_euler_gdsfactorypc_9e46b9c5_m178681_m5000,o1
   p2: s2,o1
-- p1: bend_euler_R5_A180_P0p5_7f7c6f20_m178681_m5000,o2
+- p1: bend_euler_gdsfactorypc_9e46b9c5_m178681_m5000,o2
   p2: s3,o1
-- p1: bend_s_S100_5_N99_CSstr_dcadf83a_m100000_m5000,o1
+- p1: bend_s_gdsfactorypcompo_980b37fc_m100000_m5000,o1
   p2: s2,o2
 placements:
-  bend_euler_R5_A180_P0p5_7f7c6f20_0_m10000:
+  bend_euler_gdsfactorypc_9e46b9c5_0_m10000:
     mirror: false
     rotation: 0
     x: 0
     y: -10
-  bend_euler_R5_A180_P0p5_7f7c6f20_m178681_m5000:
+  bend_euler_gdsfactorypc_9e46b9c5_m178681_m5000:
     mirror: false
     rotation: 180
     x: -178.681
     y: -5
-  bend_s_S100_5_N99_CSstr_dcadf83a_m100000_m5000:
+  bend_s_gdsfactorypcompo_980b37fc_m100000_m5000:
     mirror: true
     rotation: 0
     x: -100
@@ -133,5 +133,5 @@ placements:
     x: -178.681
     y: -15
 ports:
-  o1: bend_euler_R5_A180_P0p5_7f7c6f20_0_m10000,o2
+  o1: bend_euler_gdsfactorypc_9e46b9c5_0_m10000,o2
   o2: s3,o2

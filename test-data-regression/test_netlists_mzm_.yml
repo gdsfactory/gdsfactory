@@ -293,7 +293,7 @@ instances:
       length: 2
       npoints: 2
       width: null
-name: mzi_DL10_LY2_LX200_Bben_ff43f7ce
+name: mzi_gdsfactorypcomponen_d03ef107
 nets:
 - p1: b1,o1
   p2: cp1,o2

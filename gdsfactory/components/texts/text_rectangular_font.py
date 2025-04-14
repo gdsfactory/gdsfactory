@@ -16,7 +16,7 @@ X   X
 """
 
 
-@gf.cell
+@gf.cell_with_module_name
 def pixel_array(
     pixels: str = character_a,
     pixel_size: float = 10.0,

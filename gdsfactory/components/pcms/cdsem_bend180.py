@@ -9,7 +9,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 LINE_LENGTH = 420.0
 
 
-@gf.cell
+@gf.cell_with_module_name
 def cdsem_bend180(
     width: float = 0.5,
     radius: float = 10.0,

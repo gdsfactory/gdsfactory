@@ -317,7 +317,7 @@ instances:
       length: 5
       npoints: 2
       width: null
-name: staircase_Cbend_euler_S_c2f7854d
+name: staircase_gdsfactorypco_02142e80
 nets:
 - p1: 1,o1
   p2: A1,o2

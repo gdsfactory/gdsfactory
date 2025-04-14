@@ -1,5 +1,5 @@
 instances:
-  pad_S100_100_LMTOP_BLNo_23f16118_0_0:
+  pad_gdsfactorypcomponen_6a189aa4_0_0:
     array:
       column_pitch: 150
       columns: 6
@@ -23,10 +23,10 @@ instances:
       size:
       - 100
       - 100
-name: pad_array_Ppad_C6_R1_CP_a9e1290d
+name: pad_array_gdsfactorypco_4ce3fbcf
 nets: []
 placements:
-  pad_S100_100_LMTOP_BLNo_23f16118_0_0:
+  pad_gdsfactorypcomponen_6a189aa4_0_0:
     mirror: false
     rotation: 0
     x: 0

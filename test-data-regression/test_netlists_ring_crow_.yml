@@ -1,5 +1,5 @@
 instances:
-  straight_L20_N2_CSstrip_WNone_m10000_0:
+  straight_gdsfactorypcom_31a8c163_m10000_0:
     component: straight
     info:
       length: 20
@@ -13,7 +13,7 @@ instances:
       length: 20
       npoints: 2
       width: null
-  straight_L20_N2_CSstrip_WNone_m10000_62800:
+  straight_gdsfactorypcom_31a8c163_m10000_62800:
     component: straight
     info:
       length: 20
@@ -27,21 +27,21 @@ instances:
       length: 20
       npoints: 2
       width: null
-name: ring_crow_G0p2_0p2_0p2__5abcdbba
+name: ring_crow_gdsfactorypco_d55005d8
 nets: []
 placements:
-  straight_L20_N2_CSstrip_WNone_m10000_0:
+  straight_gdsfactorypcom_31a8c163_m10000_0:
     mirror: false
     rotation: 0
     x: -10
     y: 0
-  straight_L20_N2_CSstrip_WNone_m10000_62800:
+  straight_gdsfactorypcom_31a8c163_m10000_62800:
     mirror: false
     rotation: 0
     x: -10
     y: 62.8
 ports:
-  o1: straight_L20_N2_CSstrip_WNone_m10000_0,o1
-  o2: straight_L20_N2_CSstrip_WNone_m10000_0,o2
-  o3: straight_L20_N2_CSstrip_WNone_m10000_62800,o1
-  o4: straight_L20_N2_CSstrip_WNone_m10000_62800,o2
+  o1: straight_gdsfactorypcom_31a8c163_m10000_0,o1
+  o2: straight_gdsfactorypcom_31a8c163_m10000_0,o2
+  o3: straight_gdsfactorypcom_31a8c163_m10000_62800,o1
+  o4: straight_gdsfactorypcom_31a8c163_m10000_62800,o2

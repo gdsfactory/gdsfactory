@@ -1,5 +1,5 @@
 info: {}
-name: coupler_full_CL40_D10_D_c54f6075
+name: coupler_full_gdsfactory_fe2f4d83
 settings:
   coupling_length: 40
   cross_section: strip

@@ -11,7 +11,7 @@ from gdsfactory.components.bends.bend_s import bezier
 from gdsfactory.typings import CrossSectionSpec, Delta, Float2, Float3
 
 
-@gf.cell
+@gf.cell_with_module_name
 def polarization_splitter_rotator(
     width_taper_in: Float3 = (0.54, 0.69, 0.83),
     length_taper_in: Float2 | Float3 = (4.0, 44.0),

@@ -1,7 +1,7 @@
 info:
   polarization: te
   wavelength: 1.554
-name: grating_coupler_ellipti_30151d1e
+name: grating_coupler_ellipti_98bf2b47
 settings:
   bias_gap: 0
   cross_section: strip

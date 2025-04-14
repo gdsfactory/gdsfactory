@@ -1,7 +1,7 @@
 info:
   polarization: tm
   wavelength: 1.554
-name: grating_coupler_ellipti_68e2db8b
+name: grating_coupler_ellipti_8f3b04a7
 settings:
   big_last_tooth: false
   cross_section: strip

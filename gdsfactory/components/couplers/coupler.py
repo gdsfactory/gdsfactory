@@ -5,7 +5,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Delta
 
 
-@gf.cell
+@gf.cell_with_module_name
 def coupler_symmetric(
     bend: ComponentSpec = "bend_s",
     gap: float = 0.234,
@@ -70,7 +70,7 @@ def coupler_symmetric(
     return c
 
 
-@gf.cell
+@gf.cell_with_module_name
 def coupler_straight(
     length: float = 10.0,
     gap: float = 0.27,
@@ -110,7 +110,7 @@ def coupler_straight(
     return c
 
 
-@gf.cell
+@gf.cell_with_module_name
 def coupler(
     gap: float = 0.236,
     length: float = 20.0,

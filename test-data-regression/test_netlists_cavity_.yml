@@ -1,5 +1,5 @@
 instances:
-  coupler_G0p2_L0p1_D4_D1_7603bdbf_0_0:
+  coupler_gdsfactorypcomp_38bb639b_0_0:
     component: coupler
     info:
       length: 10.19
@@ -12,7 +12,7 @@ instances:
       dy: 4
       gap: 0.2
       length: 0.1
-  dbr_W0p45_W0p55_L0p159__efcfb70c_10110_2350:
+  dbr_gdsfactorypcomponen_b5754d70_10110_2350:
     component: dbr
     info: {}
     settings:
@@ -23,7 +23,7 @@ instances:
       straight_length: 0.01
       w1: 0.45
       w2: 0.55
-  dbr_W0p45_W0p55_L0p159__efcfb70c_m10010_2350:
+  dbr_gdsfactorypcomponen_b5754d70_m10010_2350:
     component: dbr
     info: {}
     settings:
@@ -34,28 +34,28 @@ instances:
       straight_length: 0.01
       w1: 0.45
       w2: 0.55
-name: cavity_Cdbr_Ccoupler_L0p1_G0p2
+name: cavity_gdsfactorypcompo_1cb80d06
 nets:
-- p1: coupler_G0p2_L0p1_D4_D1_7603bdbf_0_0,o2
-  p2: dbr_W0p45_W0p55_L0p159__efcfb70c_m10010_2350,o1
-- p1: coupler_G0p2_L0p1_D4_D1_7603bdbf_0_0,o3
-  p2: dbr_W0p45_W0p55_L0p159__efcfb70c_10110_2350,o1
+- p1: coupler_gdsfactorypcomp_38bb639b_0_0,o2
+  p2: dbr_gdsfactorypcomponen_b5754d70_m10010_2350,o1
+- p1: coupler_gdsfactorypcomp_38bb639b_0_0,o3
+  p2: dbr_gdsfactorypcomponen_b5754d70_10110_2350,o1
 placements:
-  coupler_G0p2_L0p1_D4_D1_7603bdbf_0_0:
+  coupler_gdsfactorypcomp_38bb639b_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  dbr_W0p45_W0p55_L0p159__efcfb70c_10110_2350:
+  dbr_gdsfactorypcomponen_b5754d70_10110_2350:
     mirror: false
     rotation: 0
     x: 10.11
     y: 2.35
-  dbr_W0p45_W0p55_L0p159__efcfb70c_m10010_2350:
+  dbr_gdsfactorypcomponen_b5754d70_m10010_2350:
     mirror: false
     rotation: 180
     x: -10.01
     y: 2.35
 ports:
-  o1: coupler_G0p2_L0p1_D4_D1_7603bdbf_0_0,o1
-  o2: coupler_G0p2_L0p1_D4_D1_7603bdbf_0_0,o4
+  o1: coupler_gdsfactorypcomp_38bb639b_0_0,o1
+  o2: coupler_gdsfactorypcomp_38bb639b_0_0,o4

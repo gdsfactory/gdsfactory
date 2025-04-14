@@ -1,52 +1,26 @@
 instances:
-  coupler_straight_L420_G_015f115f_0_250:
+  coupler_straight_gdsfac_2ffcf9b0_0_250:
     component: coupler_straight
     info: {}
     settings:
       cross_section: strip_no_ports
       gap: 0.15
       length: 420
-  coupler_straight_L420_G_0c4da017_0_7250:
+  coupler_straight_gdsfac_731ab8ff_0_7250:
     component: coupler_straight
     info: {}
     settings:
       cross_section: strip_no_ports
       gap: 0.2
       length: 420
-  coupler_straight_L420_G_a5742848_0_14250:
+  coupler_straight_gdsfac_c386a235_0_14250:
     component: coupler_straight
     info: {}
     settings:
       cross_section: strip_no_ports
       gap: 0.25
       length: 420
-  text_rectangular_T150_S_cf4e8581_425000_0:
-    component: text_rectangular
-    info: {}
-    settings:
-      font: rectangular_font
-      justify: left
-      layer: WG
-      layers: null
-      position:
-      - 0
-      - 0
-      size: 1
-      text: '150'
-  text_rectangular_T200_S_769a3549_425000_7000:
-    component: text_rectangular
-    info: {}
-    settings:
-      font: rectangular_font
-      justify: left
-      layer: WG
-      layers: null
-      position:
-      - 0
-      - 0
-      size: 1
-      text: '200'
-  text_rectangular_T250_S_66ea053f_425000_14000:
+  text_rectangular_gdsfac_2496a904_425000_14000:
     component: text_rectangular
     info: {}
     settings:
@@ -59,37 +33,63 @@ instances:
       - 0
       size: 1
       text: '250'
-name: cdsem_coupler_L420_G0p1_8b024562
+  text_rectangular_gdsfac_5c334aca_425000_7000:
+    component: text_rectangular
+    info: {}
+    settings:
+      font: rectangular_font
+      justify: left
+      layer: WG
+      layers: null
+      position:
+      - 0
+      - 0
+      size: 1
+      text: '200'
+  text_rectangular_gdsfac_c5574207_425000_0:
+    component: text_rectangular
+    info: {}
+    settings:
+      font: rectangular_font
+      justify: left
+      layer: WG
+      layers: null
+      position:
+      - 0
+      - 0
+      size: 1
+      text: '150'
+name: cdsem_coupler_gdsfactor_3746d233
 nets: []
 placements:
-  coupler_straight_L420_G_015f115f_0_250:
+  coupler_straight_gdsfac_2ffcf9b0_0_250:
     mirror: false
     rotation: 0
     x: 0
     y: 0.25
-  coupler_straight_L420_G_0c4da017_0_7250:
+  coupler_straight_gdsfac_731ab8ff_0_7250:
     mirror: false
     rotation: 0
     x: 0
     y: 7.25
-  coupler_straight_L420_G_a5742848_0_14250:
+  coupler_straight_gdsfac_c386a235_0_14250:
     mirror: false
     rotation: 0
     x: 0
     y: 14.25
-  text_rectangular_T150_S_cf4e8581_425000_0:
-    mirror: false
-    rotation: 0
-    x: 425
-    y: 0
-  text_rectangular_T200_S_769a3549_425000_7000:
-    mirror: false
-    rotation: 0
-    x: 425
-    y: 7
-  text_rectangular_T250_S_66ea053f_425000_14000:
+  text_rectangular_gdsfac_2496a904_425000_14000:
     mirror: false
     rotation: 0
     x: 425
     y: 14
+  text_rectangular_gdsfac_5c334aca_425000_7000:
+    mirror: false
+    rotation: 0
+    x: 425
+    y: 7
+  text_rectangular_gdsfac_c5574207_425000_0:
+    mirror: false
+    rotation: 0
+    x: 425
+    y: 0
 ports: {}

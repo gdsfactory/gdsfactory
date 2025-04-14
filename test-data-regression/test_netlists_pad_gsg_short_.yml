@@ -1,5 +1,5 @@
 instances:
-  array_Cpad_C1_R3_CP0_RP_a3f78175_122000_0:
+  array_gdsfactorypcompon_febecbc6_122000_0:
     component: array
     info: {}
     settings:
@@ -13,7 +13,7 @@ instances:
       row_pitch: 150
       rows: 3
       size: null
-  rectangle_S22_7_LMTOP_C_53d534b7_0_0:
+  rectangle_gdsfactorypco_3bd5087d_0_0:
     component: rectangle
     info: {}
     settings:
@@ -28,7 +28,7 @@ instances:
       size:
       - 22
       - 7
-  rectangle_S22_7_LMTOP_C_53d534b7_m5000_7000:
+  rectangle_gdsfactorypco_3bd5087d_m5000_7000:
     component: rectangle
     info: {}
     settings:
@@ -43,7 +43,7 @@ instances:
       size:
       - 22
       - 7
-  rectangle_S22_7_LMTOP_C_53d534b7_m5000_m7000:
+  rectangle_gdsfactorypco_3bd5087d_m5000_m7000:
     component: rectangle
     info: {}
     settings:
@@ -58,25 +58,25 @@ instances:
       size:
       - 22
       - 7
-name: pad_gsg_short_S22_7_LMM_25bed785
+name: pad_gsg_short_gdsfactor_a1db99a4
 nets: []
 placements:
-  array_Cpad_C1_R3_CP0_RP_a3f78175_122000_0:
+  array_gdsfactorypcompon_febecbc6_122000_0:
     mirror: false
     rotation: 0
     x: 122
     y: 0
-  rectangle_S22_7_LMTOP_C_53d534b7_0_0:
+  rectangle_gdsfactorypco_3bd5087d_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  rectangle_S22_7_LMTOP_C_53d534b7_m5000_7000:
+  rectangle_gdsfactorypco_3bd5087d_m5000_7000:
     mirror: false
     rotation: 0
     x: -5
     y: 7
-  rectangle_S22_7_LMTOP_C_53d534b7_m5000_m7000:
+  rectangle_gdsfactorypco_3bd5087d_m5000_m7000:
     mirror: false
     rotation: 0
     x: -5
@@ -87,30 +87,30 @@ warnings:
     unconnected_ports:
     - message: 24 unconnected electrical ports!
       ports:
-      - rectangle_S22_7_LMTOP_C_53d534b7_m5000_7000,e1
-      - rectangle_S22_7_LMTOP_C_53d534b7_m5000_7000,e2
-      - rectangle_S22_7_LMTOP_C_53d534b7_m5000_7000,e3
-      - rectangle_S22_7_LMTOP_C_53d534b7_m5000_7000,e4
-      - rectangle_S22_7_LMTOP_C_53d534b7_0_0,e1
-      - rectangle_S22_7_LMTOP_C_53d534b7_0_0,e2
-      - rectangle_S22_7_LMTOP_C_53d534b7_0_0,e3
-      - rectangle_S22_7_LMTOP_C_53d534b7_0_0,e4
-      - rectangle_S22_7_LMTOP_C_53d534b7_m5000_m7000,e1
-      - rectangle_S22_7_LMTOP_C_53d534b7_m5000_m7000,e2
-      - rectangle_S22_7_LMTOP_C_53d534b7_m5000_m7000,e3
-      - rectangle_S22_7_LMTOP_C_53d534b7_m5000_m7000,e4
-      - array_Cpad_C1_R3_CP0_RP_a3f78175_122000_0,e1_1_1
-      - array_Cpad_C1_R3_CP0_RP_a3f78175_122000_0,e2_1_1
-      - array_Cpad_C1_R3_CP0_RP_a3f78175_122000_0,e3_1_1
-      - array_Cpad_C1_R3_CP0_RP_a3f78175_122000_0,e4_1_1
-      - array_Cpad_C1_R3_CP0_RP_a3f78175_122000_0,e1_2_1
-      - array_Cpad_C1_R3_CP0_RP_a3f78175_122000_0,e2_2_1
-      - array_Cpad_C1_R3_CP0_RP_a3f78175_122000_0,e3_2_1
-      - array_Cpad_C1_R3_CP0_RP_a3f78175_122000_0,e4_2_1
-      - array_Cpad_C1_R3_CP0_RP_a3f78175_122000_0,e1_3_1
-      - array_Cpad_C1_R3_CP0_RP_a3f78175_122000_0,e2_3_1
-      - array_Cpad_C1_R3_CP0_RP_a3f78175_122000_0,e3_3_1
-      - array_Cpad_C1_R3_CP0_RP_a3f78175_122000_0,e4_3_1
+      - rectangle_gdsfactorypco_3bd5087d_m5000_7000,e1
+      - rectangle_gdsfactorypco_3bd5087d_m5000_7000,e2
+      - rectangle_gdsfactorypco_3bd5087d_m5000_7000,e3
+      - rectangle_gdsfactorypco_3bd5087d_m5000_7000,e4
+      - rectangle_gdsfactorypco_3bd5087d_0_0,e1
+      - rectangle_gdsfactorypco_3bd5087d_0_0,e2
+      - rectangle_gdsfactorypco_3bd5087d_0_0,e3
+      - rectangle_gdsfactorypco_3bd5087d_0_0,e4
+      - rectangle_gdsfactorypco_3bd5087d_m5000_m7000,e1
+      - rectangle_gdsfactorypco_3bd5087d_m5000_m7000,e2
+      - rectangle_gdsfactorypco_3bd5087d_m5000_m7000,e3
+      - rectangle_gdsfactorypco_3bd5087d_m5000_m7000,e4
+      - array_gdsfactorypcompon_febecbc6_122000_0,e1_1_1
+      - array_gdsfactorypcompon_febecbc6_122000_0,e2_1_1
+      - array_gdsfactorypcompon_febecbc6_122000_0,e3_1_1
+      - array_gdsfactorypcompon_febecbc6_122000_0,e4_1_1
+      - array_gdsfactorypcompon_febecbc6_122000_0,e1_2_1
+      - array_gdsfactorypcompon_febecbc6_122000_0,e2_2_1
+      - array_gdsfactorypcompon_febecbc6_122000_0,e3_2_1
+      - array_gdsfactorypcompon_febecbc6_122000_0,e4_2_1
+      - array_gdsfactorypcompon_febecbc6_122000_0,e1_3_1
+      - array_gdsfactorypcompon_febecbc6_122000_0,e2_3_1
+      - array_gdsfactorypcompon_febecbc6_122000_0,e3_3_1
+      - array_gdsfactorypcompon_febecbc6_122000_0,e4_3_1
       values:
       - - -5
         - 10.5

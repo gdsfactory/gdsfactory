@@ -1,5 +1,5 @@
 instances:
-  bend_euler_R5_A90_P0p5__c7bd5c45_5000_15700:
+  bend_euler_gdsfactorypc_56602939_5000_15700:
     component: bend_euler
     info:
       dy: 5
@@ -23,7 +23,7 @@ instances:
       radius: 5
       width: null
       with_arc_floorplan: true
-  bend_euler_R5_A90_P0p5__c7bd5c45_m4000_20700:
+  bend_euler_gdsfactorypc_56602939_m4000_20700:
     component: bend_euler
     info:
       dy: 5
@@ -47,7 +47,7 @@ instances:
       radius: 5
       width: null
       with_arc_floorplan: true
-  coupler_ring_G0p2_R5_LX_ba10ec54_0_0:
+  coupler_ring_gdsfactory_8af83332_0_0:
     component: coupler_ring
     info: {}
     settings:
@@ -59,35 +59,7 @@ instances:
       length_x: 4
       radius: 5
       straight: straight
-  straight_L10_N2_CSstrip_WNone_5000_15700:
-    component: straight
-    info:
-      length: 10
-      route_info_length: 10
-      route_info_strip_length: 10
-      route_info_type: strip
-      route_info_weight: 10
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 10
-      npoints: 2
-      width: null
-  straight_L10_N2_CSstrip_WNone_m9000_15700:
-    component: straight
-    info:
-      length: 10
-      route_info_length: 10
-      route_info_strip_length: 10
-      route_info_type: strip
-      route_info_weight: 10
-      width: 0.5
-    settings:
-      cross_section: strip
-      length: 10
-      npoints: 2
-      width: null
-  straight_L4_N2_CSstrip_WNone_m4000_20700:
+  straight_gdsfactorypcom_a6eac62c_m4000_20700:
     component: straight
     info:
       length: 4
@@ -101,51 +73,79 @@ instances:
       length: 4
       npoints: 2
       width: null
-name: ring_single_dut_Cstraig_3023a85c
+  straight_gdsfactorypcom_f2286423_5000_15700:
+    component: straight
+    info:
+      length: 10
+      route_info_length: 10
+      route_info_strip_length: 10
+      route_info_type: strip
+      route_info_weight: 10
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 10
+      npoints: 2
+      width: null
+  straight_gdsfactorypcom_f2286423_m9000_15700:
+    component: straight
+    info:
+      length: 10
+      route_info_length: 10
+      route_info_strip_length: 10
+      route_info_type: strip
+      route_info_weight: 10
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 10
+      npoints: 2
+      width: null
+name: ring_single_dut_gdsfact_8e89b00d
 nets:
-- p1: bend_euler_R5_A90_P0p5__c7bd5c45_5000_15700,o1
-  p2: straight_L10_N2_CSstrip_WNone_5000_15700,o1
-- p1: bend_euler_R5_A90_P0p5__c7bd5c45_5000_15700,o2
-  p2: straight_L4_N2_CSstrip_WNone_m4000_20700,o2
-- p1: bend_euler_R5_A90_P0p5__c7bd5c45_m4000_20700,o1
-  p2: straight_L4_N2_CSstrip_WNone_m4000_20700,o1
-- p1: bend_euler_R5_A90_P0p5__c7bd5c45_m4000_20700,o2
-  p2: straight_L10_N2_CSstrip_WNone_m9000_15700,o1
-- p1: coupler_ring_G0p2_R5_LX_ba10ec54_0_0,o2
-  p2: straight_L10_N2_CSstrip_WNone_m9000_15700,o2
-- p1: coupler_ring_G0p2_R5_LX_ba10ec54_0_0,o3
-  p2: straight_L10_N2_CSstrip_WNone_5000_15700,o2
+- p1: bend_euler_gdsfactorypc_56602939_5000_15700,o1
+  p2: straight_gdsfactorypcom_f2286423_5000_15700,o1
+- p1: bend_euler_gdsfactorypc_56602939_5000_15700,o2
+  p2: straight_gdsfactorypcom_a6eac62c_m4000_20700,o2
+- p1: bend_euler_gdsfactorypc_56602939_m4000_20700,o1
+  p2: straight_gdsfactorypcom_a6eac62c_m4000_20700,o1
+- p1: bend_euler_gdsfactorypc_56602939_m4000_20700,o2
+  p2: straight_gdsfactorypcom_f2286423_m9000_15700,o1
+- p1: coupler_ring_gdsfactory_8af83332_0_0,o2
+  p2: straight_gdsfactorypcom_f2286423_m9000_15700,o2
+- p1: coupler_ring_gdsfactory_8af83332_0_0,o3
+  p2: straight_gdsfactorypcom_f2286423_5000_15700,o2
 placements:
-  bend_euler_R5_A90_P0p5__c7bd5c45_5000_15700:
+  bend_euler_gdsfactorypc_56602939_5000_15700:
     mirror: false
     rotation: 90
     x: 5
     y: 15.7
-  bend_euler_R5_A90_P0p5__c7bd5c45_m4000_20700:
+  bend_euler_gdsfactorypc_56602939_m4000_20700:
     mirror: false
     rotation: 180
     x: -4
     y: 20.7
-  coupler_ring_G0p2_R5_LX_ba10ec54_0_0:
+  coupler_ring_gdsfactory_8af83332_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  straight_L10_N2_CSstrip_WNone_5000_15700:
-    mirror: false
-    rotation: 270
-    x: 5
-    y: 15.7
-  straight_L10_N2_CSstrip_WNone_m9000_15700:
-    mirror: false
-    rotation: 270
-    x: -9
-    y: 15.7
-  straight_L4_N2_CSstrip_WNone_m4000_20700:
+  straight_gdsfactorypcom_a6eac62c_m4000_20700:
     mirror: false
     rotation: 0
     x: -4
     y: 20.7
+  straight_gdsfactorypcom_f2286423_5000_15700:
+    mirror: false
+    rotation: 270
+    x: 5
+    y: 15.7
+  straight_gdsfactorypcom_f2286423_m9000_15700:
+    mirror: false
+    rotation: 270
+    x: -9
+    y: 15.7
 ports:
-  o1: coupler_ring_G0p2_R5_LX_ba10ec54_0_0,o1
-  o2: coupler_ring_G0p2_R5_LX_ba10ec54_0_0,o4
+  o1: coupler_ring_gdsfactory_8af83332_0_0,o1
+  o2: coupler_ring_gdsfactory_8af83332_0_0,o4

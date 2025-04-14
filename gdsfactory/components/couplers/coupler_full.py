@@ -5,7 +5,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import CrossSectionSpec, Delta
 
 
-@gf.cell
+@gf.cell_with_module_name
 def coupler_full(
     coupling_length: float = 40.0,
     dx: Delta = 10.0,

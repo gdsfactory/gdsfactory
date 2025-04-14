@@ -16,7 +16,7 @@ def _get_bend_size(bend90: Component) -> float:
     return max(bsx, bsy)
 
 
-@gf.cell
+@gf.cell_with_module_name
 def cutback_bend(
     component: ComponentSpec = "bend_euler",
     straight: ComponentSpec = "straight",
@@ -70,7 +70,7 @@ def cutback_bend(
     return c
 
 
-@gf.cell
+@gf.cell_with_module_name
 def cutback_bend90(
     component: ComponentSpec = "bend_euler",
     straight: ComponentSpec = "straight",
@@ -124,7 +124,7 @@ def cutback_bend90(
     return c
 
 
-@gf.cell
+@gf.cell_with_module_name
 def staircase(
     component: ComponentSpec | Component = "bend_euler",
     straight: ComponentSpec = "straight",
@@ -173,7 +173,7 @@ def staircase(
     return c
 
 
-@gf.cell
+@gf.cell_with_module_name
 def cutback_bend180(
     component: ComponentSpec = "bend_euler180",
     straight: ComponentSpec = "straight",

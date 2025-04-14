@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Float2
 
 
-@gf.cell
+@gf.cell_with_module_name
 def edge_coupler_silicon(
     length: float = 100,
     width1: float = 0.5,
@@ -40,7 +40,7 @@ def edge_coupler_silicon(
     )
 
 
-@gf.cell
+@gf.cell_with_module_name
 def edge_coupler_array(
     edge_coupler: ComponentSpec = "edge_coupler_silicon",
     n: int = 5,
@@ -89,7 +89,7 @@ def edge_coupler_array(
     return c
 
 
-@gf.cell
+@gf.cell_with_module_name
 def edge_coupler_array_with_loopback(
     edge_coupler: ComponentSpec = "edge_coupler_silicon",
     cross_section: CrossSectionSpec = "strip",

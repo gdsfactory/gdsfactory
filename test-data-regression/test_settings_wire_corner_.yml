@@ -1,7 +1,7 @@
 info:
   dy: 10
   length: 10
-name: wire_corner_CSmetal_rou_83412a9d
+name: wire_corner_gdsfactoryp_4db3826e
 settings:
   cross_section: metal_routing
   port_names:

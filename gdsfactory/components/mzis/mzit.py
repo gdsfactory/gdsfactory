@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, Delta
 
 
-@gf.cell
+@gf.cell_with_module_name
 def mzit(
     w0: float = 0.5,
     w1: float = 0.45,
@@ -204,7 +204,7 @@ def mzit(
     return c
 
 
-@gf.cell
+@gf.cell_with_module_name
 def mzit_lattice(
     coupler_lengths: Sequence[float] = (10.0, 20.0),
     coupler_gaps: Sequence[float] = (0.2, 0.3),

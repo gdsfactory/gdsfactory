@@ -1,6 +1,6 @@
 info:
   length: 1200
-name: spiral_L100_Bbend_euler_16ec11d3
+name: spiral_gdsfactorypcompo_8868a9e3
 settings:
   bend: bend_euler
   cross_section: strip
