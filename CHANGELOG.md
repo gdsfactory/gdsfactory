@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.4.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.4.0) - 2025-04-13
+
+No significant changes.
+
+
 ## [9.3.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.3.5) - 2025-04-09
 
 - fix self-intersecting path [#3768](https://github.com/gdsfactory/gdsfactory/pull/3768)
