@@ -23,7 +23,7 @@ w1 = w0 - dw / 2
 w2 = w0 + dw / 2
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def dbr_cell(
     w1: float = w1,
     w2: float = w2,
@@ -69,7 +69,7 @@ def dbr_cell(
     return c
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def dbr(
     w1: float = w1,
     w2: float = w2,

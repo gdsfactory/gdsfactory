@@ -7,7 +7,7 @@ from gdsfactory.cross_section import strip
 from gdsfactory.typings import CrossSectionSpec, LayerSpecs
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def terminator(
     length: float | None = 50,
     cross_section_input: CrossSectionSpec = strip,

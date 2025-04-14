@@ -174,4 +174,4 @@ def vcell(
     return vc  # type: ignore[no-any-return]
 
 
-cell_with_module = partial(cell, include_module=True)
+cell_with_module_name = partial(cell, include_module=True)

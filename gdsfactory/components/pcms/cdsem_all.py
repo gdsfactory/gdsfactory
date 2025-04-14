@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def cdsem_all(
     widths: tuple[float, ...] = (0.4, 0.45, 0.5, 0.6, 0.8, 1.0),
     dense_lines_width: float | None = 0.3,

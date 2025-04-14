@@ -8,7 +8,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def interdigital_capacitor(
     fingers: int = 4,
     finger_length: float | int = 20.0,

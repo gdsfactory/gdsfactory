@@ -6,7 +6,7 @@ from gdsfactory.components.tapers.taper import taper as taper_function
 from gdsfactory.typings import ComponentFactory, CrossSectionSpec
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def mmi_tapered(
     inputs: int = 1,
     outputs: int = 2,

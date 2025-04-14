@@ -58,7 +58,7 @@ def complex_encoder(
 @overload
 def clean_value_json(
     value: dict[str, Any],
-    include_module: bool = True,
+    with_module_name: bool = True,
     serialize_function_as_dict: bool = True,
 ) -> dict[str, Any]: ...
 
@@ -66,7 +66,7 @@ def clean_value_json(
 @overload
 def clean_value_json(
     value: str,
-    include_module: bool = True,
+    with_module_name: bool = True,
     serialize_function_as_dict: bool = True,
 ) -> str: ...
 
@@ -74,7 +74,7 @@ def clean_value_json(
 @overload
 def clean_value_json(
     value: Any,
-    include_module: bool = True,
+    with_module_name: bool = True,
     serialize_function_as_dict: bool = True,
 ) -> str | int | float | dict[str, Any] | list[Any] | bool | Any | None: ...
 

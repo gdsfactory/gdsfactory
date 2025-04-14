@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats, LayerSpec
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def verniers(
     widths: Floats = (0.1, 0.2, 0.3, 0.4, 0.5),
     gap: float = 0.1,

@@ -5,7 +5,7 @@ from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.typings import ComponentSpec
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def spiral(
     length: float = 100,
     bend: ComponentSpec = "bend_euler",

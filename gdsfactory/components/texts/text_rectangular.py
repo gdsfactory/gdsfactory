@@ -14,7 +14,7 @@ from gdsfactory.components.texts.text_rectangular_font import (
 from gdsfactory.typings import ComponentSpec, LayerSpec, LayerSpecs
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def text_rectangular(
     text: str = "abcd",
     size: float = 10.0,
@@ -83,7 +83,7 @@ def text_rectangular(
     return c
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def text_rectangular_multi_layer(
     text: str = "abcd",
     layers: LayerSpecs = ("WG", "M1", "M2", "MTOP"),

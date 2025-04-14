@@ -5,7 +5,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import AngleInDegrees, ComponentSpec, CrossSectionSpec
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def add_fiber_array_optical_south_electrical_north(
     component: ComponentSpec,
     pad: ComponentSpec,

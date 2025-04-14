@@ -5,7 +5,7 @@ from gdsfactory.path import spiral_archimedean
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def spiral_double(
     min_bend_radius: float = 10.0,
     separation: float = 2.0,

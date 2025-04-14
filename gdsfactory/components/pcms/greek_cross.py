@@ -5,7 +5,7 @@ from gdsfactory.cross_section import metal1
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats, LayerSpecs
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def greek_cross(
     length: float = 30,
     layers: LayerSpecs = ("WG", "N"),
@@ -86,7 +86,7 @@ def greek_cross(
     return c
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def greek_cross_with_pads(
     pad: ComponentSpec = "pad",
     pad_pitch: float = 150.0,

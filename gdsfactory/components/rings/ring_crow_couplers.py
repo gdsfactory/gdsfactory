@@ -9,7 +9,7 @@ from gdsfactory.component import Component, ComponentReference
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def ring_crow_couplers(
     radius: Sequence[float] = (10.0,) * 3,
     bends: Sequence[ComponentSpec] = ("bend_circular",) * 3,

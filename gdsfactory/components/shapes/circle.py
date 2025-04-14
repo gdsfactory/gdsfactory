@@ -10,7 +10,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def circle(
     radius: float = 10.0,
     angle_resolution: float = 2.5,

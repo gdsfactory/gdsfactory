@@ -8,7 +8,7 @@ from gdsfactory.components.superconductors.optimal_hairpin import optimal_hairpi
 from gdsfactory.typings import LayerSpec, Port, Size
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def snspd(
     wire_width: float = 0.2,
     wire_pitch: float = 0.6,

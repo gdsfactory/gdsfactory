@@ -7,7 +7,7 @@ from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.typings import CrossSectionSpec
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def straight(
     length: float = 10.0,
     npoints: int = 2,
@@ -75,7 +75,7 @@ def straight_all_angle(
     return c
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def straight_array(
     n: int = 4,
     spacing: float = 4.0,
@@ -104,7 +104,7 @@ def straight_array(
     return c
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def wire_straight(
     length: float = 10.0,
     npoints: int = 2,

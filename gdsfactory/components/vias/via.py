@@ -11,7 +11,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec, Size
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def via(
     size: Size = (0.7, 0.7),
     enclosure: float = 1.0,
@@ -81,7 +81,7 @@ def via(
     return c
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def via_circular(
     radius: float = 0.35,
     enclosure: float = 1.0,

@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, LayerSpecs
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def via_chain(
     num_vias: int = 100,
     cols: int = 10,

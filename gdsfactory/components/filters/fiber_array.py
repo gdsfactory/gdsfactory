@@ -6,7 +6,7 @@ from gdsfactory.components.shapes import circle
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def fiber_array(
     n: int = 8,
     pitch: float = 127.0,

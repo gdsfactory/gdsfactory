@@ -16,7 +16,7 @@ from kfactory.layout import kcl
 from kfactory import logger
 import klayout.db as kdb
 
-from gdsfactory._cell import cell, vcell, cell_with_module
+from gdsfactory._cell import cell, vcell, cell_with_module_name
 from gdsfactory.path import Path
 from gdsfactory.component import (
     Component,
@@ -119,7 +119,7 @@ __all__ = (
     "boolean",
     "c",
     "cell",
-    "cell_with_module",
+    "cell_with_module_name",
     "clear_cache",
     "components",
     "compose",

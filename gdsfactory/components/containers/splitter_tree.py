@@ -26,7 +26,7 @@ from gdsfactory.components.mzis import mzi1x2_2x2
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Spacing
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def splitter_tree(
     coupler: ComponentSpec = "mmi1x2",
     noutputs: int = 4,

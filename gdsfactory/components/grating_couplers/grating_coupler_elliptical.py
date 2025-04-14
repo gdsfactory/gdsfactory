@@ -14,7 +14,7 @@ from gdsfactory.functions import DEG2RAD
 from gdsfactory.typings import CrossSectionSpec, LayerSpec
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def grating_coupler_elliptical(
     polarization: str = "te",
     taper_length: float = 16.6,

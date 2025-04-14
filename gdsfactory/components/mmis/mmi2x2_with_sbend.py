@@ -7,7 +7,7 @@ from gdsfactory.components.bends.bend_s import bend_s
 from gdsfactory.typings import ComponentFactory, CrossSectionSpec
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def mmi2x2_with_sbend(
     with_sbend: bool = True,
     s_bend: ComponentFactory = bend_s,

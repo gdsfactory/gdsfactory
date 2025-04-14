@@ -61,7 +61,7 @@ def _generate_fins(
     return c
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def dbr_tapered(
     length: float = 10.0,
     period: float = 0.85,

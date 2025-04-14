@@ -8,7 +8,7 @@ from gdsfactory.components.bends.bend_s import bend_s
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def mode_converter(
     gap: float = 0.3,
     length: float = 10,

@@ -9,7 +9,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def nxn(
     west: int = 1,
     east: int = 4,

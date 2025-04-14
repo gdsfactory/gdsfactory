@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def grating_coupler_rectangular(
     n_periods: int = 20,
     period: float = 0.75,

@@ -5,7 +5,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def L(
     width: int | float = 1,
     size: tuple[int, int] = (10, 20),

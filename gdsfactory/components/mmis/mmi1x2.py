@@ -7,7 +7,7 @@ from gdsfactory.components.waveguides.straight import straight as straight_funct
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def mmi1x2(
     width: float | None = None,
     width_taper: float = 1.0,

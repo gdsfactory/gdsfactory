@@ -6,7 +6,7 @@ import gdsfactory as gf
 from gdsfactory.typings import Float2, Layers
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def fiducial_squares(
     layers: Layers = ((1, 0),), size: Float2 = (5, 5), offset: float = 0.14
 ) -> gf.Component:

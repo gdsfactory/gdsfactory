@@ -16,7 +16,7 @@ from gdsfactory.typings import (
 )
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def spiral_racetrack(
     min_radius: float | None = None,
     straight_length: float = 20.0,
@@ -97,7 +97,7 @@ def spiral_racetrack(
     return c
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def spiral_racetrack_fixed_length(
     length: float = 1000,
     in_out_port_spacing: float = 150,
@@ -304,7 +304,7 @@ def _req_straight_len(
     return float(f(length))
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def spiral_racetrack_heater_metal(
     min_radius: float | None = None,
     straight_length: float = 30,
@@ -411,7 +411,7 @@ def spiral_racetrack_heater_metal(
     return c
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def spiral_racetrack_heater_doped(
     min_radius: float | None = None,
     straight_length: float = 30,

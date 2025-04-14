@@ -11,7 +11,7 @@ _gaps = (0.2,) * 10
 _widths = (0.5,) * 10
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def grating_coupler_rectangular_arbitrary(
     gaps: Floats = _gaps,
     widths: Floats = _widths,

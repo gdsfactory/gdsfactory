@@ -6,7 +6,7 @@ from gdsfactory.components.containers.component_sequence import component_sequen
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def _bendu_double(
     component: Component,
     cross_section: CrossSectionSpec = "strip",
@@ -48,7 +48,7 @@ def _bendu_double(
     return bendu
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def _straight_double(
     component: Component,
     cross_section: CrossSectionSpec = "strip",
@@ -94,7 +94,7 @@ def _straight_double(
     return c
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def cutback_2x2(
     component: ComponentSpec = "mmi2x2",
     cols: int = 4,

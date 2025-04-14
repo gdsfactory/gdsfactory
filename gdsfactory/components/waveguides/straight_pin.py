@@ -10,7 +10,7 @@ from gdsfactory.cross_section import pin
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell_with_module
+@gf.cell_with_module_name
 def straight_pin(
     length: float = 500.0,
     cross_section: CrossSectionSpec = pin,
