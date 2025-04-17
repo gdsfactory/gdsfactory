@@ -3,7 +3,6 @@ instances:
     component: straight
     info:
       length: 10
-      min_bend_radius: 10000
       route_info_length: 10
       route_info_strip_length: 10
       route_info_type: strip

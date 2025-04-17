@@ -50,7 +50,7 @@ def route_bundle_sbend(
             start_port=p1.to_itype(),
             end_port=p2.to_itype(),
             instances=[],
-            bend90_radius=round(bend.info["min_bend_radius"]),
+            bend90_radius=round(bend.info.get("min_bend_radius", 0)),
         )
         routes.append(route)
     return routes

@@ -181,9 +181,9 @@ def bend_s(
     dx, dy = size
 
     if dy == 0:
-        c = gf.components.straight(length=dx, cross_section=cross_section, width=width)
-        c.info["min_bend_radius"] = 10000  # infinity
-        return c
+        return gf.components.straight(
+            length=dx, cross_section=cross_section, width=width
+        )
 
     return bezier(
         control_points=((0, 0), (dx / 2, 0), (dx / 2, dy), (dx, dy)),
