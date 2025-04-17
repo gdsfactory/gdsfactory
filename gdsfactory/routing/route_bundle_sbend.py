@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import Any
 
+from kfactory.routing.generic import ManhattanRoute
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
@@ -16,7 +18,7 @@ def route_bundle_sbend(
     sort_ports: bool = True,
     enforce_port_ordering: bool = True,
     **kwargs: Any,
-) -> None:
+) -> list[ManhattanRoute]:
     """Places sbend routes from ports1 to ports2.
 
     Args:
@@ -34,12 +36,24 @@ def route_bundle_sbend(
             ports1, ports2, enforce_port_ordering=enforce_port_ordering
         )
 
+    routes = []
+
     for p1, p2 in zip(list(ports1), list(ports2)):
         ysize = p2.center[1] - p1.center[1]
         xsize = p2.center[0] - p1.center[0]
         bend = gf.get_component(bend_s, size=(xsize, ysize), **kwargs)
         sbend = component << bend
         sbend.connect("o1", p1)
+
+        route = ManhattanRoute(
+            backbone=[],
+            start_port=p1.to_itype(),
+            end_port=p2.to_itype(),
+            instances=[],
+            bend90_radius=round(bend.info["min_bend_radius"]),
+        )
+        routes.append(route)
+    return routes
 
 
 if __name__ == "__main__":
