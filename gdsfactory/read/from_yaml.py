@@ -558,11 +558,16 @@ def make_connection(
     else:
         src_port = instance_src.ports[port_src_name, src_ia, src_ib]
 
+    # if dst_ia is None or dst_ib is None:
+    #     instance_src.connect(port=src_port, other=instance_dst, other_port_name=port_dst_name, use_mirror=True, mirror=True)
+    # else:
+    #     print('here')
+    #     instance_src.connect(port=src_port, other=instance_dst, other_port_name=(port_dst_name, dst_ia, dst_ib), use_mirror=True, mirror=True)
+
     if dst_ia is None or dst_ib is None:
         dst_port = instance_dst.ports[port_dst_name]
     else:
         dst_port = instance_dst.ports[port_dst_name, dst_ia, dst_ib]
-
     instance_src.connect(port=src_port, other=dst_port, use_mirror=True, mirror=False)
 
 
@@ -930,19 +935,21 @@ def _place_and_connect(
                     else:
                         if i2 not in refs:
                             raise ValueError(f"{i2!r} not in {list(refs)}")
-                        refs[i1name].connect(port1, refs[i2].ports[p2])
+                        refs[i1name].connect(port1, other=refs[i2], other_port_name=p2)
 
                 else:
                     if i2a is not None and i2b is not None:
                         if i1 not in refs:
                             raise ValueError(f"{i1!r} not in {list(refs)}")
-                        refs[i1].connect(p1, refs[i2name].ports[p2, i2a, i2b])
+                        refs[i1].connect(
+                            p1, other=refs[i2name], other_port_name=(p2, i2a, i2b)
+                        )
                     else:
                         if i1 not in refs:
                             raise ValueError(f"{i1!r} not in {list(refs)}")
                         if i2 not in refs:
                             raise ValueError(f"{i2!r} not in {list(refs)}")
-                        refs[i1].connect(p1, refs[i2].ports[p2])
+                        refs[i1].connect(p1, other=refs[i2], other_port_name=p2)
 
 
 def _add_routes(
@@ -1766,10 +1773,13 @@ name: sample_array
 instances:
   sa1:
     component: straight
-    columns: 5
-    column_pitch: 50
-    rows: 4
-    row_pitch: 10
+    settings:
+      width: 2
+    array:
+        columns: 5
+        column_pitch: 50
+        rows: 4
+        row_pitch: 10
   s2:
     component: straight
 
@@ -2018,11 +2028,28 @@ connections:
   b1,o1: s2<2.0>,o2
 """
 
+
+sample_width_missmatch = """
+name: sample_width_missmatch
+
+instances:
+  b1:
+    component: bend_euler
+    settings:
+      width: 2
+  s1:
+    component: straight
+    settings:
+      length: 10
+connections:
+  b1,o1: s1,o2
+"""
+
 if __name__ == "__main__":
-    # c = from_yaml(sample_array)
-    # c = from_yaml(sample_array_connect_error)
+    c = from_yaml(sample_array)
+    # c = from_yaml(sample_width_missmatch)
     # c = from_yaml(sample_yaml_xmin)
-    c = from_yaml(sample_doe_function)
+    # c = from_yaml(sample_doe_function)
     # n = c.get_netlist()
     c.show()
     # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
