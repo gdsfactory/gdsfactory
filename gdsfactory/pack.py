@@ -5,7 +5,7 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 
 from __future__ import annotations
 
-import pathlib
+import os
 from collections.abc import Sequence
 from typing import Any, Protocol, cast
 
@@ -164,9 +164,7 @@ def pack(
     import pandas as pd
 
     if csvpath:
-        assert csvpath
-        csvpath = pathlib.Path(csvpath)
-        if csvpath.exists():
+        if os.path.exists(csvpath):
             df = pd.read_csv(csvpath)
         else:
             df = pd.DataFrame(columns=["name_x_y", "x", "y", "w", "h"])
