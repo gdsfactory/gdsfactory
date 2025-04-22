@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.5.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.5.1) - 2025-04-22
+
+No significant changes.
+
+
 ## [9.5.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.5.0) - 2025-04-17
 
 - enable sbend routing in schematic [#3782](https://github.com/gdsfactory/gdsfactory/pull/3782)
