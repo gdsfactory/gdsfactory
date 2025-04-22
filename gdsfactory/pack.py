@@ -167,11 +167,11 @@ def pack(
         if os.path.exists(csvpath):
             df = pd.read_csv(csvpath)
         else:
-            df = pd.DataFrame(columns=["name_x_y", "x", "y", "w", "h"])
+            df = pd.DataFrame(columns=["name", "x", "y", "w", "h"])
     else:
-        df = pd.DataFrame(columns=["name_x_y", "x", "y", "w", "h"])
+        df = pd.DataFrame(columns=["name", "x", "y", "w", "h"])
 
-    df.set_index("name_x_y", inplace=True)
+    df.set_index("name", inplace=True)
 
     if density < 1.01:
         raise ValueError(
@@ -224,18 +224,18 @@ def pack(
     index = 0
     for rect_dict_ in packed_list:
         packed = Component()
-        for n, rect in rect_dict_.items():
+        for i, (n, rect) in enumerate(rect_dict_.items()):
             component = components[n]
             x, y, w, h = rect
-            name_x_y = f"{component.name}_{x}_{y}"
+            name = f"{component.name}_{i}"
 
-            if name_x_y in df.index:
-                row = df.loc[name_x_y]
+            if name in df.index:
+                row = df.loc[name]
                 x, y, w, h = row["x"], row["y"], row["w"], row["h"]
             else:
-                # fallback values if name_x_y is not found
+                # fallback values if name is not found
                 x, y, w, h = rect
-                df.loc[name_x_y] = [x, y, w, h]
+                df.loc[name] = [x, y, w, h]
 
             xcenter = x + w / 2 + spacing / 2
             ycenter = y + h / 2 + spacing / 2
@@ -314,7 +314,7 @@ if __name__ == "__main__":
         max_size=(30, 30),  # Limits the size into which the shapes will be packed
         density=1.05,  # Values closer to 1 pack tighter but require more computation
         sort_by_area=True,  # Pre-sorts the shapes by area
-        csvpath="locations2.csv",  # Optional path to save the packed component positions as a CSV file
+        csvpath="locations3.csv",  # Optional path to save the packed component positions as a CSV file
     )
     c = components_packed_list[0]  # Only one bin was created, so we plot that
 
