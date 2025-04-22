@@ -164,6 +164,7 @@ def pack(
     import pandas as pd
 
     if csvpath:
+        assert csvpath
         csvpath = pathlib.Path(csvpath)
         if csvpath.exists():
             df = pd.read_csv(csvpath)
@@ -277,9 +278,7 @@ def pack(
         components_packed_list.append(packed)
 
     if csvpath:
-        # Save the packed component positions as a CSV file
         df.to_csv(csvpath, index=True)
-        print(f"Packed component positions saved to {csvpath.absolute()!r}")
 
     return components_packed_list
 
