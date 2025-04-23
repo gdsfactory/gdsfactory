@@ -47,8 +47,20 @@ def route_bundle_sbend(
     routes = []
 
     for p1, p2 in zip(list(ports1), list(ports2)):
-        ysize = p2.center[1] - p1.center[1]
-        xsize = p2.center[0] - p1.center[0]
+        ys = p2.center[1] - p1.center[1]
+        xs = p2.center[0] - p1.center[0]
+
+        if p1.orientation in [0, 180]:
+            xsize = xs
+            ysize = ys
+        elif p1.orientation == 90:
+            xsize = ys
+            ysize = -xs
+
+        elif p1.orientation == 270:
+            xsize = -ys
+            ysize = xs
+
         bend = gf.get_component(bend_s, size=(xsize, ysize), **kwargs)
         sbend = component << bend
         sbend.connect(
