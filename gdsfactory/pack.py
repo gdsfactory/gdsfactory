@@ -6,6 +6,7 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 from __future__ import annotations
 
 import os
+import pathlib
 from collections.abc import Sequence
 from typing import Any, Protocol, cast
 
@@ -276,6 +277,8 @@ def pack(
         components_packed_list.append(packed)
 
     if csvpath:
+        dirpath = pathlib.Path(csvpath).parent
+        dirpath.mkdir(parents=True, exist_ok=True)
         df.to_csv(csvpath, index=True)
 
     return components_packed_list
