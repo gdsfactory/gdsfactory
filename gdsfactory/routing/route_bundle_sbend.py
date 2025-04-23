@@ -21,6 +21,7 @@ def route_bundle_sbend(
     allow_layer_mismatch: bool | None = None,
     allow_type_mismatch: bool | None = None,
     port_name: str = "o1",
+    use_port_width: bool = True,
     **kwargs: Any,
 ) -> list[ManhattanRoute]:
     """Places sbend routes from ports1 to ports2.
@@ -36,6 +37,7 @@ def route_bundle_sbend(
         allow_layer_mismatch: allows layer mismatch.
         allow_type_mismatch: allows type mismatch.
         port_name: name of the port to connect to the sbend.
+        use_port_width: if True, use the width of the port to set the width of the sbend.
         kwargs: cross_section settings.
 
     """
@@ -61,7 +63,12 @@ def route_bundle_sbend(
             xsize = -ys
             ysize = xs
 
-        bend = gf.get_component(bend_s, size=(xsize, ysize), **kwargs)
+        if use_port_width:
+            bend = gf.get_component(
+                bend_s, size=(xsize, ysize), width=p1.width, **kwargs
+            )
+        else:
+            bend = gf.get_component(bend_s, size=(xsize, ysize), **kwargs)
         sbend = component << bend
         sbend.connect(
             port_name,
