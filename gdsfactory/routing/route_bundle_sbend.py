@@ -17,6 +17,9 @@ def route_bundle_sbend(
     bend_s: ComponentSpec = "bend_s",
     sort_ports: bool = True,
     enforce_port_ordering: bool = True,
+    allow_width_mismatch: bool | None = None,
+    allow_layer_mismatch: bool | None = None,
+    allow_type_mismatch: bool | None = None,
     **kwargs: Any,
 ) -> list[ManhattanRoute]:
     """Places sbend routes from ports1 to ports2.
@@ -28,6 +31,9 @@ def route_bundle_sbend(
         bend_s: Sbend component.
         sort_ports: sort ports.
         enforce_port_ordering: enforces port ordering.
+        allow_width_mismatch: allows width mismatch.
+        allow_layer_mismatch: allows layer mismatch.
+        allow_type_mismatch: allows type mismatch.
         kwargs: cross_section settings.
 
     """
@@ -43,7 +49,13 @@ def route_bundle_sbend(
         xsize = p2.center[0] - p1.center[0]
         bend = gf.get_component(bend_s, size=(xsize, ysize), **kwargs)
         sbend = component << bend
-        sbend.connect("o1", p1)
+        sbend.connect(
+            "o1",
+            p1,
+            allow_width_mismatch=allow_width_mismatch,
+            allow_layer_mismatch=allow_layer_mismatch,
+            allow_type_mismatch=allow_type_mismatch,
+        )
 
         route = ManhattanRoute(
             backbone=[],
