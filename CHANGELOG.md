@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.5.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.5.3) - 2025-04-27
+
+No significant changes.
+
+
 ## [9.5.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.5.2) - 2025-04-23
 
 - Improve sbend metal [#3788](https://github.com/gdsfactory/gdsfactory/pull/3788)
