@@ -25,7 +25,7 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
       - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v5
+      - uses: astral-sh/setup-uv@v6
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
@@ -44,7 +44,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install uv
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@v6
       - name: Install dependencies
         run: |
           make install test-data
@@ -65,7 +65,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install uv
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@v6
       - name: Install dependencies
         run: |
           make install test-data
@@ -76,6 +76,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v5
+      - uses: astral-sh/setup-uv@v6
       - run: make install
       - run: uv run mypy gdsfactory/
