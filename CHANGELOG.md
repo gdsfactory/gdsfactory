@@ -5,12 +5,12 @@
 
 ## [9.5.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.5.2) - 2025-04-23
 
-No significant changes.
+- Improve sbend metal [#3788](https://github.com/gdsfactory/gdsfactory/pull/3788)
 
 
 ## [9.5.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.5.1) - 2025-04-22
 
-No significant changes.
+- better error message [#3785](https://github.com/gdsfactory/gdsfactory/pull/3785)
 
 
 ## [9.5.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.5.0) - 2025-04-17
