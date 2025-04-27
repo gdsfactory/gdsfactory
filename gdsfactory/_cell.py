@@ -175,4 +175,11 @@ def vcell(
     return vc  # type: ignore[no-any-return]
 
 
-cell_with_module_name = partial(cell, with_module_name=True)  # type: ignore
+def override_defaults(
+    func: Callable[[ComponentFunc[ComponentParams]], ComponentFunc[ComponentParams]],
+    **kwargs: Any,
+) -> Callable[[ComponentFunc[ComponentParams]], ComponentFunc[ComponentParams]]:
+    return partial(func, **kwargs)
+
+
+cell_with_module_name = override_defaults(cell, with_module_name=True)
