@@ -11,7 +11,7 @@ from gdsfactory.path import Path
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell
+@gf.cell_with_module_name
 def straight_piecewise(
     x: Sequence[float] | Path,
     widths: Sequence[float],

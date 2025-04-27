@@ -8,7 +8,7 @@ from gdsfactory.components.containers.component_sequence import component_sequen
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell
+@gf.cell_with_module_name
 def cutback_splitter(
     component: ComponentSpec = "mmi1x2",
     cols: int = 4,

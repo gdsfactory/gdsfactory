@@ -705,26 +705,32 @@ def get_routing_strategies() -> RoutingStrategies:
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    sample_mirror = """
-name: sample_mirror
+    sample_routing_sbend = """
 instances:
-    mmi1:
-      component: mmi1x2
+    cp1:
+      component: coupler
 
-    mmi2:
-      component: mmi1x2
+    cp2:
+      component: coupler
 
 placements:
-    mmi1:
-        xmax: 0
+    cp1:
+        x: 0
 
-    mmi2:
-        xmin: mmi1,east
-        mirror: True
+    cp2:
+        x: 300
+        y: 300
+
+routes:
+    bundle1:
+        links:
+          cp1,o3: cp2,o2
+        routing_strategy: route_bundle_sbend
 
 """
 
-    c = gf.read.from_yaml(sample_mirror)
+    c = gf.read.from_yaml(sample_routing_sbend)
+    c.show()
 
     # l1 = get_layer((1, 0))
     # l2 = get_layer((3, 0))

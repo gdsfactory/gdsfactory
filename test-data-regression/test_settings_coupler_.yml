@@ -1,7 +1,7 @@
 info:
   length: 10.186
   min_bend_radius: 11.857
-name: coupler_G0p236_L20_D4_D_b138340a
+name: coupler_gdsfactorypcomp_75dd060a
 settings:
   allow_min_radius_violation: false
   bend: bend_s

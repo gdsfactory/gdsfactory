@@ -1,51 +1,5 @@
 instances:
-  via_stack_S10_520_LM1_M_b6457ec1_515000_250000:
-    component: via_stack
-    info:
-      xsize: 10
-      ysize: 520
-    settings:
-      correct_size: true
-      layer_offsets: null
-      layer_to_port_orientations: null
-      layers:
-      - M1
-      - M2
-      - MTOP
-      port_orientations: null
-      size:
-      - 10
-      - 520
-      slot_horizontal: false
-      slot_vertical: false
-      vias:
-      - via1
-      - via2
-      - null
-  via_stack_S10_520_LM1_M_b6457ec1_m15000_250000:
-    component: via_stack
-    info:
-      xsize: 10
-      ysize: 520
-    settings:
-      correct_size: true
-      layer_offsets: null
-      layer_to_port_orientations: null
-      layers:
-      - M1
-      - M2
-      - MTOP
-      port_orientations: null
-      size:
-      - 10
-      - 520
-      slot_horizontal: false
-      slot_vertical: false
-      vias:
-      - via1
-      - via2
-      - null
-  via_stack_S540_10_LM1_M_42717f51_250000_515000:
+  via_stack_gdsfactorypco_56b347d8_250000_515000:
     component: via_stack
     info:
       xsize: 540
@@ -68,7 +22,7 @@ instances:
       - via1
       - via2
       - null
-  via_stack_S540_10_LM1_M_42717f51_250000_m15000:
+  via_stack_gdsfactorypco_56b347d8_250000_m15000:
     component: via_stack
     info:
       xsize: 540
@@ -91,27 +45,73 @@ instances:
       - via1
       - via2
       - null
-name: seal_ring_S500_500_Svia_d370abe4
+  via_stack_gdsfactorypco_d79adfd9_515000_250000:
+    component: via_stack
+    info:
+      xsize: 10
+      ysize: 520
+    settings:
+      correct_size: true
+      layer_offsets: null
+      layer_to_port_orientations: null
+      layers:
+      - M1
+      - M2
+      - MTOP
+      port_orientations: null
+      size:
+      - 10
+      - 520
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - via1
+      - via2
+      - null
+  via_stack_gdsfactorypco_d79adfd9_m15000_250000:
+    component: via_stack
+    info:
+      xsize: 10
+      ysize: 520
+    settings:
+      correct_size: true
+      layer_offsets: null
+      layer_to_port_orientations: null
+      layers:
+      - M1
+      - M2
+      - MTOP
+      port_orientations: null
+      size:
+      - 10
+      - 520
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - via1
+      - via2
+      - null
+name: seal_ring_gdsfactorypco_540c1ebf
 nets: []
 placements:
-  via_stack_S10_520_LM1_M_b6457ec1_515000_250000:
-    mirror: false
-    rotation: 0
-    x: 515
-    y: 250
-  via_stack_S10_520_LM1_M_b6457ec1_m15000_250000:
-    mirror: false
-    rotation: 0
-    x: -15
-    y: 250
-  via_stack_S540_10_LM1_M_42717f51_250000_515000:
+  via_stack_gdsfactorypco_56b347d8_250000_515000:
     mirror: false
     rotation: 0
     x: 250
     y: 515
-  via_stack_S540_10_LM1_M_42717f51_250000_m15000:
+  via_stack_gdsfactorypco_56b347d8_250000_m15000:
     mirror: false
     rotation: 0
     x: 250
     y: -15
+  via_stack_gdsfactorypco_d79adfd9_515000_250000:
+    mirror: false
+    rotation: 0
+    x: 515
+    y: 250
+  via_stack_gdsfactorypco_d79adfd9_m15000_250000:
+    mirror: false
+    rotation: 0
+    x: -15
+    y: 250
 ports: {}

@@ -6,7 +6,7 @@ from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Size
 
 
-@gf.cell
+@gf.cell_with_module_name
 def straight_heater_doped_rib(
     length: float = 320.0,
     nsections: int = 3,
@@ -179,7 +179,7 @@ def straight_heater_doped_rib(
     return c
 
 
-@gf.cell
+@gf.cell_with_module_name
 def straight_heater_doped_strip(
     length: float = 320.0,
     nsections: int = 3,

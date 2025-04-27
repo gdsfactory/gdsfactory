@@ -5,7 +5,7 @@ from gdsfactory.path import extrude_transition, spiral_archimedean, transition
 from gdsfactory.typings import CrossSectionSpec
 
 
-@gf.cell
+@gf.cell_with_module_name
 def terminator_spiral(
     separation: float = 3.0,
     width_tip: float = 0.2,

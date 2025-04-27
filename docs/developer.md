@@ -2,24 +2,10 @@
 
 We support Python 3.11, 3.12 and 3.13, and recommend [VSCode](https://code.visualstudio.com/) IDE and UV.
 
-However we recommend python3.11 or 3.12 as some extensions may not work on python3.13 yet.
-
-## Installation for users
-
-You can install the latest released gdsfactory using the following command:
-
-```
-pip install gdsfactory --upgrade
-```
-
-If you want to install the latest pre-released version you can run:
-
-```
-pip install git+https://github.com/gdsfactory/gdsfactory --force-reinstall
-```
+However we recommend python 3.11 or 3.12 as some extensions may not work on 3.13 yet.
 
 
-## Installation for contributors
+## Installation for users in a new environment
 
 We recommend `uv` for installing GDSFactory:
 
@@ -37,8 +23,25 @@ Then you can install gdsfactory with:
 
 ```bash
 uv venv --python 3.12
-uv sync --extra docs --extra dev
+uv pip install gdsfactory
 ```
+
+
+## Installation for users in an existing environment
+
+You can install the latest released gdsfactory using the following command:
+
+```
+pip install gdsfactory --upgrade
+```
+
+If you want to install the latest pre-released version you can run:
+
+```
+pip install git+https://github.com/gdsfactory/gdsfactory --force-reinstall
+```
+
+## Installation for contributors
 
 As a contributor, if you are on windows you need to download [Git](https://git-scm.com/download/win) and optionally [GitHub Desktop](https://desktop.github.com/).
 

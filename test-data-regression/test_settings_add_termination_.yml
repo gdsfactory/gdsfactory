@@ -5,7 +5,7 @@ info:
   route_info_type: strip
   route_info_weight: 10
   width: 0.5
-name: add_termination_Cstraig_311ba3e0
+name: add_termination_gdsfact_c053bff2
 settings:
   component: straight
   terminator: Ftaper_Mgdsfactorypcomponentsptapersptaper_SW0p1

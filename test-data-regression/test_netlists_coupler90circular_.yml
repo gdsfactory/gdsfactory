@@ -1,5 +1,5 @@
 instances:
-  bend_circular_RNone_A90_35590aa7_0_700:
+  bend_circular_gdsfactor_9f5f0004_0_700:
     component: bend_circular
     info:
       dy: 10
@@ -20,7 +20,7 @@ instances:
       npoints: null
       radius: null
       width: null
-  straight_L10_N2_CSstrip_WNone_0_0:
+  straight_gdsfactorypcom_f2286423_0_0:
     component: straight
     info:
       length: 10
@@ -34,21 +34,21 @@ instances:
       length: 10
       npoints: 2
       width: null
-name: coupler90_G0p2_RNone_Bb_67b257dd
+name: coupler90_gdsfactorypco_7a423c76
 nets: []
 placements:
-  bend_circular_RNone_A90_35590aa7_0_700:
+  bend_circular_gdsfactor_9f5f0004_0_700:
     mirror: false
     rotation: 0
     x: 0
     y: 0.7
-  straight_L10_N2_CSstrip_WNone_0_0:
+  straight_gdsfactorypcom_f2286423_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
 ports:
-  o1: straight_L10_N2_CSstrip_WNone_0_0,o1
-  o2: bend_circular_RNone_A90_35590aa7_0_700,o1
-  o3: bend_circular_RNone_A90_35590aa7_0_700,o2
-  o4: straight_L10_N2_CSstrip_WNone_0_0,o2
+  o1: straight_gdsfactorypcom_f2286423_0_0,o1
+  o2: bend_circular_gdsfactor_9f5f0004_0_700,o1
+  o3: bend_circular_gdsfactor_9f5f0004_0_700,o2
+  o4: straight_gdsfactorypcom_f2286423_0_0,o2

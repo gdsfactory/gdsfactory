@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell
+@gf.cell_with_module_name
 def optimal_90deg(
     width: float = 100,
     num_pts: int = 15,

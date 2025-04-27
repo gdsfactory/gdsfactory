@@ -35,7 +35,7 @@ def bbox_to_points(
     ]
 
 
-@gf.cell
+@gf.cell_with_module_name
 def bbox(
     component: gf.Component | ComponentReference,
     layer: LayerSpec,

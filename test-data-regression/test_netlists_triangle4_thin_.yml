@@ -1,5 +1,5 @@
 instances:
-  triangle_X2_X0p2_Y5_Y0_LWG_0_0:
+  triangle_gdsfactorypcom_c0ce9f96_0_0:
     component: triangle
     info: {}
     settings:
@@ -8,7 +8,7 @@ instances:
       xtop: 0.2
       y: 5
       ybot: 0
-  triangle_X2_X0p2_Y5_Y0_LWG_0_m3000:
+  triangle_gdsfactorypcom_c0ce9f96_0_m3000:
     component: triangle
     info: {}
     settings:
@@ -17,15 +17,15 @@ instances:
       xtop: 0.2
       y: 5
       ybot: 0
-name: triangle2_S3_X0p2_X2_Y5
+name: triangle2_gdsfactorypco_d3603737
 nets: []
 placements:
-  triangle_X2_X0p2_Y5_Y0_LWG_0_0:
+  triangle_gdsfactorypcom_c0ce9f96_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  triangle_X2_X0p2_Y5_Y0_LWG_0_m3000:
+  triangle_gdsfactorypcom_c0ce9f96_0_m3000:
     mirror: true
     rotation: 0
     x: 0

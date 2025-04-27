@@ -6,7 +6,7 @@ from gdsfactory.components.bends.bend_circular import bend_circular_all_angle
 from gdsfactory.typings import ComponentAllAngleFactory, CrossSectionSpec
 
 
-@gf.cell
+@gf.cell_with_module_name
 def ring_double_bend_coupler(
     radius: float = 5.0,
     gap: float = 0.2,

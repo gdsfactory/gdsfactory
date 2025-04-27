@@ -5,7 +5,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell
+@gf.cell_with_module_name
 def coupler90bend(
     radius: float = 10.0,
     gap: float = 0.2,

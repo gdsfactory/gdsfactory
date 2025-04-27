@@ -5,6 +5,8 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 
 from __future__ import annotations
 
+import os
+import pathlib
 from collections.abc import Sequence
 from typing import Any, Protocol, cast
 
@@ -112,6 +114,7 @@ def pack(
     v_mirror: bool = False,
     add_ports_prefix: bool = True,
     add_ports_suffix: bool = False,
+    csvpath: str | None = None,
 ) -> list[Component]:
     """Pack a list of components into as few Components as possible.
 
@@ -136,6 +139,7 @@ def pack(
         v_mirror: vertical mirror using x axis (1, y) (0, y).
         add_ports_prefix: adds port names with prefix.
         add_ports_suffix: adds port names with suffix.
+        csvpath: optional path to save the packed component list as a CSV file.
 
     .. plot::
         :include-source:
@@ -158,6 +162,18 @@ def pack(
         c[0].plot()
 
     """
+    import pandas as pd
+
+    if csvpath:
+        if os.path.exists(csvpath):
+            df = pd.read_csv(csvpath)
+        else:
+            df = pd.DataFrame(columns=["name", "x", "y", "w", "h"])
+    else:
+        df = pd.DataFrame(columns=["name", "x", "y", "w", "h"])
+
+    df.set_index("name", inplace=True)
+
     if density < 1.01:
         raise ValueError(
             "pack() `density` argument is too small. "
@@ -209,11 +225,21 @@ def pack(
     index = 0
     for rect_dict_ in packed_list:
         packed = Component()
-        for n, rect in rect_dict_.items():
+        for i, (n, rect) in enumerate(rect_dict_.items()):
+            component = components[n]
             x, y, w, h = rect
+            name = f"{component.name}_{i}"
+
+            if name in df.index:
+                row = df.loc[name]
+                x, y, w, h = row["x"], row["y"], row["w"], row["h"]
+            else:
+                # fallback values if name is not found
+                x, y, w, h = rect
+                df.loc[name] = [x, y, w, h]
+
             xcenter = x + w / 2 + spacing / 2
             ycenter = y + h / 2 + spacing / 2
-            component = components[n]
             d = packed << component
             if rotation:
                 d.rotate(rotation)
@@ -250,7 +276,20 @@ def pack(
 
         components_packed_list.append(packed)
 
+    if csvpath:
+        dirpath = pathlib.Path(csvpath).parent
+        dirpath.mkdir(parents=True, exist_ok=True)
+        df.to_csv(csvpath, index=True)
+
     return components_packed_list
+
+
+@gf.cell
+def ellipse(number: int = 0) -> Component:
+    """Example component to pack."""
+    n = number
+    radii = (np.random.rand() * n + 2, np.random.rand() * n + 2)
+    return gf.components.ellipse(radii=radii)
 
 
 if __name__ == "__main__":
@@ -268,14 +307,17 @@ if __name__ == "__main__":
         for n in range(10)
     ]
 
+    component_list = [ellipse(i) for i in range(10)]
+
     components_packed_list = pack(
         component_list,  # Must be a list or tuple of Components
-        spacing=1.25,  # Minimum distance between adjacent shapes
+        spacing=1.5,  # Minimum distance between adjacent shapes
         aspect_ratio=(2, 1),  # (width, height) ratio of the rectangular bin
         # max_size=(None, None),  # Limits the size into which the shapes will be packed
         max_size=(30, 30),  # Limits the size into which the shapes will be packed
         density=1.05,  # Values closer to 1 pack tighter but require more computation
         sort_by_area=True,  # Pre-sorts the shapes by area
+        csvpath="locations3.csv",  # Optional path to save the packed component positions as a CSV file
     )
     c = components_packed_list[0]  # Only one bin was created, so we plot that
 

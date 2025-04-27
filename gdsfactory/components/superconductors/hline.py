@@ -5,7 +5,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell
+@gf.cell_with_module_name
 def hline(
     length: float = 10.0,
     width: float = 0.5,

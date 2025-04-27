@@ -6,7 +6,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell
+@gf.cell_with_module_name
 def litho_steps(
     line_widths: tuple[float, ...] = (1.0, 2.0, 4.0, 8.0, 16.0),
     line_spacing: float = 10.0,

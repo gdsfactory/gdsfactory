@@ -1,17 +1,5 @@
 instances:
-  ring_single_G0p2_R10_LX_756584a5_46000_0:
-    component: ring_single
-    info: {}
-    settings:
-      bend: bend_euler
-      coupler_ring: coupler_ring
-      cross_section: strip
-      gap: 0.2
-      length_x: 20
-      length_y: 0.6
-      radius: 10
-      straight: straight
-  ring_single_G0p2_R5_LX1_7dcbd653_0_0:
+  ring_single_gdsfactoryp_89ce1377_0_0:
     component: ring_single
     info: {}
     settings:
@@ -23,7 +11,19 @@ instances:
       length_y: 0.6
       radius: 5
       straight: straight
-  straight_L5_N2_CSstrip_WNone_8000_0:
+  ring_single_gdsfactoryp_c1dcd193_46000_0:
+    component: ring_single
+    info: {}
+    settings:
+      bend: bend_euler
+      coupler_ring: coupler_ring
+      cross_section: strip
+      gap: 0.2
+      length_x: 20
+      length_y: 0.6
+      radius: 10
+      straight: straight
+  straight_gdsfactorypcom_32b584f5_8000_0:
     component: straight
     info:
       length: 5
@@ -37,28 +37,28 @@ instances:
       length: 5
       npoints: 2
       width: null
-name: ring_single_array_Rring_c44178b9
+name: ring_single_array_gdsfa_616e5436
 nets:
-- p1: ring_single_G0p2_R10_LX_756584a5_46000_0,o1
-  p2: straight_L5_N2_CSstrip_WNone_8000_0,o2
-- p1: ring_single_G0p2_R5_LX1_7dcbd653_0_0,o2
-  p2: straight_L5_N2_CSstrip_WNone_8000_0,o1
+- p1: ring_single_gdsfactoryp_89ce1377_0_0,o2
+  p2: straight_gdsfactorypcom_32b584f5_8000_0,o1
+- p1: ring_single_gdsfactoryp_c1dcd193_46000_0,o1
+  p2: straight_gdsfactorypcom_32b584f5_8000_0,o2
 placements:
-  ring_single_G0p2_R10_LX_756584a5_46000_0:
-    mirror: false
-    rotation: 0
-    x: 46
-    y: 0
-  ring_single_G0p2_R5_LX1_7dcbd653_0_0:
+  ring_single_gdsfactoryp_89ce1377_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  straight_L5_N2_CSstrip_WNone_8000_0:
+  ring_single_gdsfactoryp_c1dcd193_46000_0:
+    mirror: false
+    rotation: 0
+    x: 46
+    y: 0
+  straight_gdsfactorypcom_32b584f5_8000_0:
     mirror: false
     rotation: 0
     x: 8
     y: 0
 ports:
-  o1: ring_single_G0p2_R5_LX1_7dcbd653_0_0,o1
-  o2: ring_single_G0p2_R10_LX_756584a5_46000_0,o2
+  o1: ring_single_gdsfactoryp_89ce1377_0_0,o1
+  o2: ring_single_gdsfactoryp_c1dcd193_46000_0,o2

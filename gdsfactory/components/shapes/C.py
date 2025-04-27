@@ -5,7 +5,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec, Size
 
 
-@gf.cell
+@gf.cell_with_module_name
 def C(
     width: float = 1.0,
     size: Size = (10.0, 20.0),

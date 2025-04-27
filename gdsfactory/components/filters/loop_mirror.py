@@ -8,7 +8,7 @@ from gdsfactory.routing.route_single import route_single
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell
+@gf.cell_with_module_name
 def loop_mirror(
     component: ComponentSpec = "mmi1x2",
     bend90: ComponentSpec = "bend_euler",

@@ -8,7 +8,7 @@ import gdsfactory as gf
 from gdsfactory.typings import ComponentSpec, Float2, LayerSpec
 
 
-@gf.cell
+@gf.cell_with_module_name
 def pad_gsg_short(
     size: Float2 = (22, 7),
     layer_metal: LayerSpec = "MTOP",

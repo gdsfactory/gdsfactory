@@ -9,7 +9,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell
+@gf.cell_with_module_name
 def regular_polygon(
     sides: int = 6,
     side_length: float = 10,

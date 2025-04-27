@@ -1,6 +1,6 @@
 info:
   components: 144
-name: cutback_bend90_Cbend_eu_378c1fb8
+name: cutback_bend90_gdsfacto_2e65ed36
 settings:
   cols: 6
   component: bend_euler

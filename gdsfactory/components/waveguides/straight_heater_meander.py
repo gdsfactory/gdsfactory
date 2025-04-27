@@ -9,7 +9,7 @@ from gdsfactory.component import Component, ComponentReference
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats, LayerSpec, Port
 
 
-@gf.cell
+@gf.cell_with_module_name
 def straight_heater_meander(
     length: float = 300.0,
     spacing: float = 2.0,
