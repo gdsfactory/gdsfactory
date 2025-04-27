@@ -1516,7 +1516,7 @@ def euler(
         raise ValueError("euler() requires a radius argument")
 
     if (p < 0) or (p > 1):
-        raise ValueError("euler requires argument `p` be between 0 and 1")
+        raise ValueError(f"euler requires argument `p` be between 0 and 1. Got {p}")
     if p == 0:
         path = arc(radius=radius, angle=angle, npoints=npoints)
         path.info["Reff"] = radius
