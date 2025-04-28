@@ -1,12 +1,11 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.5.3...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.5.4...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.5.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.5.4) - 2025-04-28
 
-No significant changes.
-
+- Fix get netlist [#3797](https://github.com/gdsfactory/gdsfactory/pull/3797)
 
 ## [9.5.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.5.3) - 2025-04-27
 
