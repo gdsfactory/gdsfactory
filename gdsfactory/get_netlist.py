@@ -436,7 +436,9 @@ def validate_optical_connection(
     is_top_level = [("," not in pname) for pname in port_names]
 
     if len(port_names) != 2:
-        raise ValueError(f"More than two connected optical ports: {port_names}")
+        raise ValueError(
+            f"More than two connected optical ports: {port_names} at {port1.center}"
+        )
 
     if all(is_top_level):
         raise ValueError(f"Two top-level ports appear to be connected: {port_names}")

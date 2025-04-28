@@ -71,8 +71,6 @@ def ring_double_pn(
         drop_gap: gap to drop waveguide. Top gap.
         radius: for the bend and coupler.
         doping_angle: angle in degrees representing portion of ring that is doped.
-        length_x: ring coupler length.
-        length_y: vertical straight length.
         cross_section: cross_section spec for non-PN doped rib waveguide sections.
         pn_cross_section: cross section of pn junction.
         doped_heater: boolean for if we include doped heater or not.
@@ -228,8 +226,6 @@ def ring_single_pn(
         gap: gap between for coupler.
         radius: for the bend and coupler.
         doping_angle: angle in degrees representing portion of ring that is doped.
-        length_x: ring coupler length.
-        length_y: vertical straight length.
         cross_section: cross_section spec for non-PN doped rib waveguide sections.
         pn_cross_section: cross section of pn junction.
         doped_heater: boolean for if we include doped heater or not.

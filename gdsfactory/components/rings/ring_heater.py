@@ -177,6 +177,7 @@ ring_single_heater = partial(ring_double_heater, with_drop=False)
 
 
 if __name__ == "__main__":
-    c = ring_double_heater(gap_top=0.4, length_y=2)
+    c = ring_single_heater(gap_top=0.4, length_x=0, length_y=0)
     c.pprint_ports()
     c.show()
+    c.get_netlist()
