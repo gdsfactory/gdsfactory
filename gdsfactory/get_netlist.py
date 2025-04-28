@@ -133,6 +133,37 @@ def _is_orthogonal_array_reference(ref: ComponentReference) -> bool:
     return abs(ref.a.y) == 0 and abs(ref.b.x) == 0
 
 
+def _has_ports_on_same_location(reference: ComponentReference) -> bool:
+    """Check if a reference has any ports on the same location.
+
+    Args:
+        reference: ComponentReference to check.
+
+    Returns:
+        True if any ports are on the same location, False otherwise.
+    """
+    if _is_array_reference(reference):
+        # For array references, check each instance
+        for ia in range(reference.na):
+            for ib in range(reference.nb):
+                port_locations = set()
+                for port in reference.cell.ports:
+                    ref_port = reference.ports[port.name, ia, ib]
+                    port_loc = ref_port.to_itype().center
+                    if port_loc in port_locations:
+                        return True
+                    port_locations.add(port_loc)
+    else:
+        # For single references, check all ports
+        port_locations = set()
+        for port in reference.ports:
+            port_loc = port.to_itype().center
+            if port_loc in port_locations:
+                return True
+            port_locations.add(port_loc)
+    return False
+
+
 def get_netlist(
     component: DKCell,
     exclude_port_types: Sequence[str] | None = ("placement", "pad", "bump"),
@@ -184,6 +215,10 @@ def get_netlist(
     references = _get_references_to_netlist(component)
 
     for reference in references:
+        # Skip references with ports on the same location
+        if _has_ports_on_same_location(reference):
+            continue
+
         c = reference.cell
         origin = reference.dtrans.disp
         x = origin.x
@@ -436,7 +471,9 @@ def validate_optical_connection(
     is_top_level = [("," not in pname) for pname in port_names]
 
     if len(port_names) != 2:
-        raise ValueError(f"More than two connected optical ports: {port_names}")
+        raise ValueError(
+            f"More than two connected optical ports: {port_names} at {port1.center}"
+        )
 
     if all(is_top_level):
         raise ValueError(f"Two top-level ports appear to be connected: {port_names}")

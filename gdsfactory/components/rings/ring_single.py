@@ -93,6 +93,7 @@ if __name__ == "__main__":
     # c = ring_single(layer=(2, 0), cross_section_factory=gf.cross_section.pin, width=1)
     # c = ring_single(width=2, gap=1, layer=(2, 0), radius=7, length_y=1)
     c = ring_single(radius=5, gap=0.111, bend="bend_circular", length_x=0, length_y=0)
+    n = c.get_netlist()
     # print(c.ports)
 
     # c = gf.routing.add_fiber_array(ring_single)
