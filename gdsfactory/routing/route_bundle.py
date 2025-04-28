@@ -212,7 +212,7 @@ def route_bundle(
     else:
         collision_check_layer_enums = None
 
-    bboxes = bboxes or []
+    bboxes = list(bboxes or [])
 
     if auto_taper:
         bbox1 = gf.kdb.DBox()
