@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.5.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.5.4) - 2025-04-28
+
+No significant changes.
+
+
 ## [9.5.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.5.3) - 2025-04-27
 
 - bump kfactory to 1.5 [#3791](https://github.com/gdsfactory/gdsfactory/pull/3791)
