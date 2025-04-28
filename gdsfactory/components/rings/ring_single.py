@@ -67,30 +67,22 @@ def ring_single(
         bend=bend,
         straight=straight,
     )
+    sy = gf.get_component(straight, length=length_y, cross_section=cross_section)
     b = gf.get_component(bend, cross_section=cross_section, radius=radius)
     sx = gf.get_component(straight, length=length_x, cross_section=cross_section)
 
+    sl = c << sy
+    sr = c << sy
     st = c << sx
     bl = c << b
     br = c << b
 
-    if length_y > 0:
-        sy = gf.get_component(straight, length=length_y, cross_section=cross_section)
-        sl = c << sy
-        sr = c << sy
-        sl.connect(port="o1", other=cb.ports["o2"])
-        bl.connect(port="o2", other=sl.ports["o2"])
-        st.connect(port="o2", other=bl.ports["o1"])
-        br.connect(port="o2", other=st.ports["o1"])
-        sr.connect(port="o1", other=br.ports["o1"])
-        sr.connect(port="o2", other=cb.ports["o3"])
-    else:
-        bl.connect(port="o1", other=cb.ports["o2"], mirror=True)
-        br.connect(port="o2", other=cb.ports["o3"], mirror=True)
-        st.connect(port="o2", other=bl.ports["o2"])
-
-    if length_x == 0:
-        c.absorb(st)
+    sl.connect(port="o1", other=cb.ports["o2"])
+    bl.connect(port="o2", other=sl.ports["o2"])
+    st.connect(port="o2", other=bl.ports["o1"])
+    br.connect(port="o2", other=st.ports["o1"])
+    sr.connect(port="o1", other=br.ports["o1"])
+    sr.connect(port="o2", other=cb.ports["o3"])
 
     c.add_port("o2", port=cb.ports["o4"])
     c.add_port("o1", port=cb.ports["o1"])
@@ -100,15 +92,15 @@ def ring_single(
 if __name__ == "__main__":
     # c = ring_single(layer=(2, 0), cross_section_factory=gf.cross_section.pin, width=1)
     # c = ring_single(width=2, gap=1, layer=(2, 0), radius=7, length_y=1)
-    c = ring_single(radius=5, gap=0.111, bend="bend_circular", length_x=0, length_y=0.0)
-    c.show()
-    c.get_netlist()
+    c = ring_single(radius=5, gap=0.111, bend="bend_circular", length_x=0, length_y=0)
+    n = c.get_netlist()
     # print(c.ports)
 
     # c = gf.routing.add_fiber_array(ring_single)
     # c = ring_single(cross_section="rib", width=2)
     # c = ring_single(length_y=0, length_x=0)
     # c.get_netlist()
+    c.show()
 
     # cc = gf.add_pins(c)
     # print(c.settings)
