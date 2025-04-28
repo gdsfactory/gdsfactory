@@ -212,9 +212,29 @@ def route_bundle(
     else:
         collision_check_layer_enums = None
 
+    bboxes = bboxes or []
+
     if auto_taper:
+        bbox1 = gf.kdb.DBox()
+        bbox2 = gf.kdb.DBox()
+        for port in ports1_:
+            bbox1 += port.dcplx_trans.disp.to_p()
+
+        for port in ports2_:
+            bbox2 += port.dcplx_trans.disp.to_p()
+
         ports1_ = add_auto_tapers(component, ports1_, cross_section)
         ports2_ = add_auto_tapers(component, ports2_, cross_section)
+
+        for port in ports1_:
+            bbox1 += port.dcplx_trans.disp.to_p()
+
+        for port in ports2_:
+            bbox2 += port.dcplx_trans.disp.to_p()
+
+        bboxes.append(bbox1)
+        bboxes.append(bbox2)
+        # component.shapes(component.kcl.layer(1,0)).insert(bbox)
 
     if steps and waypoints:
         raise ValueError("Cannot have both steps and waypoints")
