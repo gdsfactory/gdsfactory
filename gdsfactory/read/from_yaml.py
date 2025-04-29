@@ -794,12 +794,12 @@ def from_yaml(
     routing_strategies = routing_strategies or {}
 
     c = Component()
-    dct = _load_yaml_str(yaml_str)
+    dct, yaml_lines = _load_yaml_str(yaml_str)
     pdk = get_active_pdk()
     net = Netlist.model_validate(dct)
     g = _get_dependency_graph(net)
     refs = _get_references(c, pdk, net.instances)
-    _place_and_connect(g, refs, net.connections, net.placements)
+    _place_and_connect(g, refs, net.connections, net.placements, yaml_lines)
     c = _add_routes(c, refs, net.routes, routing_strategies)
     c = _add_ports(c, refs, net.ports)
     c = _add_labels(c, refs, label_instance_function)
@@ -807,21 +807,65 @@ def from_yaml(
     return c
 
 
-def _load_yaml_str(yaml_str: Any) -> dict[str, Any]:
+def _load_yaml_str(yaml_str: Any) -> tuple[dict[str, Any], list[str]]:
+    """Load YAML string and return both the parsed data and original lines."""
     dct: dict[str, Any] = {}
+    yaml_lines: list[str] = []
+
     if isinstance(yaml_str, dict):
         dct = deepcopy(yaml_str)
     elif isinstance(yaml_str, Netlist):
         dct = deepcopy(yaml_str.model_dump())
     elif (isinstance(yaml_str, str) and "\n" in yaml_str) or isinstance(yaml_str, IO):
+        # Store the original YAML string for line number tracking
+        if isinstance(yaml_str, str):
+            yaml_lines = yaml_str.splitlines()
+        else:
+            yaml_lines = yaml_str.read().splitlines()
+            yaml_str.seek(0)  # Reset file pointer
+
+        # Parse YAML data
         dct = yaml.load(yaml_str, Loader=yaml.FullLoader)
     elif isinstance(yaml_str, str):
-        dct = yaml.load(open(yaml_str), Loader=yaml.FullLoader)
+        with open(yaml_str) as f:
+            yaml_lines = f.readlines()
+            dct = yaml.load(open(yaml_str), Loader=yaml.FullLoader)
     elif isinstance(yaml_str, pathlib.Path):
-        dct = yaml.load(open(yaml_str), Loader=yaml.FullLoader)
+        with open(yaml_str) as f:
+            yaml_lines = f.readlines()
+            dct = yaml.load(open(yaml_str), Loader=yaml.FullLoader)
     else:
         raise ValueError("Invalid format for 'yaml_str'.")
-    return dct
+    return dct, yaml_lines
+
+
+def _get_yaml_context(yaml_lines: list[str], instance_name: str, port_name: str) -> str:
+    """Get the YAML context around where an error occurred."""
+    if not yaml_lines:
+        return ""
+
+    context = []
+
+    # Find the instance definition
+    instance_line = -1
+    for i, line in enumerate(yaml_lines):
+        if f"{instance_name}:" in line.strip():
+            instance_line = i
+            break
+
+    if instance_line == -1:
+        return ""
+
+    # Get context around the instance definition
+    start = max(0, instance_line - 2)
+    end = min(len(yaml_lines), instance_line + 5)
+
+    for i in range(start, end):
+        line_num = i + 1
+        line = yaml_lines[i]
+        context.append(f"{line_num:4d}: {line.rstrip()}")
+
+    return "\n".join(context)
 
 
 def _get_dependency_graph(net: Netlist) -> nx.DiGraph:
@@ -907,18 +951,19 @@ def _place_and_connect(
     refs: dict[str, ComponentReference],
     connections: dict[str, str],
     placements: dict[str, Placement],
+    yaml_lines: list[str],
 ) -> None:
     directed_connections = _get_directed_connections(connections)
 
     for root in _graph_roots(g):
         pl = placements.get(root)
         if pl is not None:
-            _update_reference_by_placement(refs, root, pl)
+            _update_reference_by_placement(refs, root, pl, yaml_lines)
         for i2, i1 in nx.dfs_edges(g, root):
             ports = directed_connections.get(i1, {}).get(i2, None)
             pl = placements.get(i1)
             if pl is not None:
-                _update_reference_by_placement(refs, i1, pl)
+                _update_reference_by_placement(refs, i1, pl, yaml_lines)
             if ports is not None:  # no elif!
                 p1, p2 = ports
                 i2name, i2a, i2b = _parse_maybe_arrayed_instance(i2)
@@ -929,27 +974,51 @@ def _place_and_connect(
                         raise ValueError(f"{i!r} not in {list(refs)}")
 
                 if i1a is not None and i1b is not None:
-                    port1 = refs[i1name].ports[p1, i1a, i1b]
-                    if i2a is not None and i2b is not None:
-                        refs[i1name].connect(port1, refs[i2name].ports[p2, i2a, i2b])
-                    else:
-                        if i2 not in refs:
-                            raise ValueError(f"{i2!r} not in {list(refs)}")
-                        refs[i1name].connect(port1, other=refs[i2], other_port_name=p2)
-
+                    try:
+                        port1 = refs[i1name].ports[p1, i1a, i1b]
+                        if i2a is not None and i2b is not None:
+                            refs[i1name].connect(
+                                port1, refs[i2name].ports[p2, i2a, i2b]
+                            )
+                        else:
+                            if i2 not in refs:
+                                raise ValueError(f"{i2!r} not in {list(refs)}")
+                            refs[i1name].connect(
+                                port1, other=refs[i2], other_port_name=p2
+                            )
+                    except KeyError as e:
+                        yaml_context = _get_yaml_context(yaml_lines, i1name, p1)
+                        raise ValueError(
+                            f"Port {p1!r} not found in instance {i1name!r}. Available ports: {[p.name for p in refs[i1name].ports]}.\n\n"
+                            f"YAML context:\n{yaml_context}"
+                        ) from e
                 else:
                     if i2a is not None and i2b is not None:
                         if i1 not in refs:
                             raise ValueError(f"{i1!r} not in {list(refs)}")
-                        refs[i1].connect(
-                            p1, other=refs[i2name], other_port_name=(p2, i2a, i2b)
-                        )
+                        try:
+                            refs[i1].connect(
+                                p1, other=refs[i2name], other_port_name=(p2, i2a, i2b)
+                            )
+                        except Exception as e:
+                            yaml_context = _get_yaml_context(yaml_lines, i1, p1)
+                            raise ValueError(
+                                f"Port {p1!r} not found in instance {i1!r}. Available ports: {[p.name for p in refs[i1].ports]}.\n\n"
+                                f"YAML context:\n{yaml_context}"
+                            ) from e
                     else:
                         if i1 not in refs:
                             raise ValueError(f"{i1!r} not in {list(refs)}")
                         if i2 not in refs:
                             raise ValueError(f"{i2!r} not in {list(refs)}")
-                        refs[i1].connect(p1, other=refs[i2], other_port_name=p2)
+                        try:
+                            refs[i1].connect(p1, other=refs[i2], other_port_name=p2)
+                        except KeyError as e:
+                            yaml_context = _get_yaml_context(yaml_lines, i1, p1)
+                            raise ValueError(
+                                f"Port {p1!r} not found in instance {i1!r}. Available ports: {[p.name for p in refs[i1].ports]}.\n\n"
+                                f"YAML context:\n{yaml_context}"
+                            ) from e
 
 
 def _add_routes(
@@ -1046,7 +1115,7 @@ def _two_out_of_three_none(one: Any, two: Any, three: Any) -> bool:
 
 
 def _update_reference_by_placement(
-    refs: dict[str, ComponentReference], name: str, p: Placement
+    refs: dict[str, ComponentReference], name: str, p: Placement, yaml_lines: list[str]
 ) -> None:
     ref = refs[name]
     x = p.x
@@ -1084,8 +1153,10 @@ def _update_reference_by_placement(
                 mirror = float(mirror)
                 ref.dmirror_x(x=ref.x)
             except Exception as e:
+                yaml_context = _get_yaml_context(yaml_lines, name, str(mirror))
                 raise ValueError(
-                    f"{mirror!r} should be bool | float | str in {port_names}. Got: {mirror}."
+                    f"{mirror!r} should be bool | float | str in {port_names}. Got: {mirror}.\n\n"
+                    f"YAML context:\n{yaml_context}"
                 ) from e
 
     if isinstance(port, str):
@@ -1096,12 +1167,14 @@ def _update_reference_by_placement(
             )
         a = _get_anchor_point_from_name(ref, port)
         if a is None:
+            yaml_context = _get_yaml_context(yaml_lines, name, port)
             raise ValueError(
                 f"Port {port!r} is neither a valid port on {ref.name!r} "
                 "nor a recognized anchor keyword.\n"
                 f"Valid ports: {port_names}. \n"
                 f"Valid keywords: {valid_anchor_point_keywords}.\n"
-                f"Got: {port}",
+                f"Got: {port}\n\n"
+                f"YAML context:\n{yaml_context}"
             )
         ref.x -= a[0]
         ref.y -= a[1]
@@ -1117,7 +1190,14 @@ def _update_reference_by_placement(
             assert _dx is not None, f"dx is None for {i!r}, {q!r}"
             ref.x += _dx
         else:
-            ref.x += float(refs[i].ports[q].x)
+            try:
+                ref.x += float(refs[i].ports[q].x)
+            except KeyError as e:
+                yaml_context = _get_yaml_context(yaml_lines, i, q)
+                raise ValueError(
+                    f"Port {q!r} not found in instance {i!r}. Available ports: {[p.name for p in refs[i].ports]}.\n\n"
+                    f"YAML context:\n{yaml_context}"
+                ) from e
     elif x is not None:
         ref.x += float(x)
     elif isinstance(xmin, str):
@@ -1127,7 +1207,14 @@ def _update_reference_by_placement(
             assert dxmin is not None, f"dxmin is None for {i!r}, {q!r}"
             ref.xmin = dxmin
         else:
-            ref.xmin = float(refs[i].ports[q].x)
+            try:
+                ref.xmin = float(refs[i].ports[q].x)
+            except KeyError as e:
+                yaml_context = _get_yaml_context(yaml_lines, i, q)
+                raise ValueError(
+                    f"Port {q!r} not found in instance {i!r}. Available ports: {[p.name for p in refs[i].ports]}.\n\n"
+                    f"YAML context:\n{yaml_context}"
+                ) from e
     elif xmin is not None:
         ref.xmin = float(xmin)
     elif isinstance(xmax, str):
@@ -1137,7 +1224,14 @@ def _update_reference_by_placement(
             assert dxmax is not None, f"dxmax is None for {i!r}, {q!r}"
             ref.xmax = dxmax
         else:
-            ref.xmax = float(refs[i].ports[q].x)
+            try:
+                ref.xmax = float(refs[i].ports[q].x)
+            except KeyError as e:
+                yaml_context = _get_yaml_context(yaml_lines, i, q)
+                raise ValueError(
+                    f"Port {q!r} not found in instance {i!r}. Available ports: {[p.name for p in refs[i].ports]}.\n\n"
+                    f"YAML context:\n{yaml_context}"
+                ) from e
     elif xmax is not None:
         ref.xmax = float(xmax)
 
@@ -1152,7 +1246,14 @@ def _update_reference_by_placement(
             assert _dy is not None, f"dy is None for {i!r}, {q!r}"
             ref.y += _dy
         else:
-            ref.y += float(refs[i].ports[q].y)
+            try:
+                ref.y += float(refs[i].ports[q].y)
+            except KeyError as e:
+                yaml_context = _get_yaml_context(yaml_lines, i, q)
+                raise ValueError(
+                    f"Port {q!r} not found in instance {i!r}. Available ports: {[p.name for p in refs[i].ports]}.\n\n"
+                    f"YAML context:\n{yaml_context}"
+                ) from e
     elif y is not None:
         ref.y += float(y)
     elif isinstance(ymin, str):
@@ -1162,7 +1263,14 @@ def _update_reference_by_placement(
             assert dymin is not None, f"dymin is None for {i!r}, {q!r}"
             ref.ymin = dymin
         else:
-            ref.ymin = float(refs[i].ports[q].y)
+            try:
+                ref.ymin = float(refs[i].ports[q].y)
+            except KeyError as e:
+                yaml_context = _get_yaml_context(yaml_lines, i, q)
+                raise ValueError(
+                    f"Port {q!r} not found in instance {i!r}. Available ports: {[p.name for p in refs[i].ports]}.\n\n"
+                    f"YAML context:\n{yaml_context}"
+                ) from e
     elif ymin is not None:
         ref.ymin = float(ymin)
     elif isinstance(ymax, str):
@@ -1172,7 +1280,14 @@ def _update_reference_by_placement(
             assert dymax is not None, f"dymax is None for {i!r}, {q!r}"
             ref.ymax = dymax
         else:
-            ref.ymax = float(refs[i].ports[q].y)
+            try:
+                ref.ymax = float(refs[i].ports[q].y)
+            except KeyError as e:
+                yaml_context = _get_yaml_context(yaml_lines, i, q)
+                raise ValueError(
+                    f"Port {q!r} not found in instance {i!r}. Available ports: {[p.name for p in refs[i].ports]}.\n\n"
+                    f"YAML context:\n{yaml_context}"
+                ) from e
     elif ymax is not None:
         ref.ymax = float(ymax)
 
