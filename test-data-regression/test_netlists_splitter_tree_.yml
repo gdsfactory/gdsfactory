@@ -381,8 +381,8 @@ placements:
     x: 35.5
     y: -25
 ports:
-  o1_0_0: coupler_0_0,o1
-  o2_1_1: bend_s_gdsfactorypcompo_bd3e5121_105500_m24375,o2
-  o2_1_2: bend_s_gdsfactorypcompo_bd3e5121_105500_m25625,o2
-  o2_1_3: bend_s_gdsfactorypcompo_bd3e5121_105500_25625,o2
-  o2_1_4: bend_s_gdsfactorypcompo_bd3e5121_105500_24375,o2
+  o1: coupler_0_0,o1
+  o2: bend_s_gdsfactorypcompo_bd3e5121_105500_25625,o2
+  o3: bend_s_gdsfactorypcompo_bd3e5121_105500_24375,o2
+  o4: bend_s_gdsfactorypcompo_bd3e5121_105500_m24375,o2
+  o5: bend_s_gdsfactorypcompo_bd3e5121_105500_m25625,o2
