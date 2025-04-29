@@ -136,6 +136,7 @@ def splitter_tree(
                 c.add_port(name=f"{port.name}_{col}_{i}", port=port)
                 i += 1
 
+    c.auto_rename_ports()
     return c
 
 
@@ -173,7 +174,8 @@ if __name__ == "__main__":
         # bend_s=None,
         # cross_section="rib2",
     )
-    c = switch_tree(noutputs=2**3)
+    # c = switch_tree(noutputs=2**3)
+    c.pprint_ports()
     # c = _mzi1x2_2x2()
     c.show()
     # print(len(c.ports))
