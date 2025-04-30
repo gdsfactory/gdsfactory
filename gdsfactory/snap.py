@@ -26,7 +26,7 @@ def is_on_grid(
 
 def warn_if_not_on_grid(x: Value) -> None:
     if not is_on_grid(x):
-        warnings.warn(f"{x} is not on grid", stacklevel=2)
+        warnings.warn(f"{x} is not on grid", stacklevel=3)
 
 
 def assert_on_grid(

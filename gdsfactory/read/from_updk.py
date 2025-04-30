@@ -112,7 +112,7 @@ add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_
         if "parameters" in block:
             parameters = block["parameters"]
         else:
-            warnings.warn(f"{block_name=} does not have parameters")
+            warnings.warn(f"{block_name=} does not have parameters", stacklevel=3)
             continue
 
         parameters_string = (

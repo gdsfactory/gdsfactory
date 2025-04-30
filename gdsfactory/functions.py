@@ -83,7 +83,8 @@ def extract(
     for layer_tuple in layer_tuples:
         if layer_tuple not in component_layers:
             warnings.warn(
-                f"Layer {layer_tuple} not found in component {component.name!r} layers. {component_layers}"
+                f"Layer {layer_tuple} not found in component {component.name!r} layers. {component_layers}",
+                stacklevel=3,
             )
 
     for layer_tuple in component_layers:

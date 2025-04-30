@@ -26,7 +26,7 @@ def make_error_traces(
     """
     import gdsfactory as gf
 
-    warn(message, RouteWarning)
+    warn(message, RouteWarning, stacklevel=3)
     for port1, port2 in zip(ports1, ports2):
         path = gf.path.Path(np.array([port1.center, port2.center]))
         error_component = gf.path.extrude(path, layer=CONF.layer_error_path, width=1)

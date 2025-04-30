@@ -232,7 +232,7 @@ class Pdk(BaseModel):
                     "cells functions that return a Component"
                 )
             if name in self.cells:
-                warnings.warn(f"Overwriting cell {name!r}")
+                warnings.warn(f"Overwriting cell {name!r}", stacklevel=3)
 
             self.cells[name] = cell
 
@@ -245,7 +245,7 @@ class Pdk(BaseModel):
                     "cross_section functions that return a CrossSection"
                 )
             if name in self.cross_sections:
-                warnings.warn(f"Overwriting cross_section {name!r}")
+                warnings.warn(f"Overwriting cross_section {name!r}", stacklevel=3)
             self.cross_sections[name] = cross_section
 
     def register_cells_yaml(

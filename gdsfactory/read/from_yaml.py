@@ -1229,7 +1229,7 @@ def _split_route_link(s: str) -> tuple[str, list[str], str]:
         if s.count(":") == 2:
             s = s.replace(":", "", 1)
             s = s.replace(":", "-", 1)
-            warnings.warn(warning)
+            warnings.warn(warning, stacklevel=3)
         else:
             raise error
 

@@ -402,7 +402,7 @@ def _extract_connections(
 
         elif not allow_multiple:
             warnings["multiple_connections"].append(ports_at_xy)
-            warn(f"Found multiple connections at {xy}:{ports_at_xy}")
+            warn(f"Found multiple connections at {xy}:{ports_at_xy}", stacklevel=3)
 
         else:
             # Iterates over the list of multiple ports to create related two-port connectivity
@@ -437,7 +437,7 @@ def _extract_connections(
 
     if critical_warnings and raise_error_for_warnings:
         pprint(critical_warnings)
-        warn("Found critical warnings while extracting netlist")
+        warn("Found critical warnings while extracting netlist", stacklevel=3)
     return connections, dict(warnings)
 
 

@@ -198,7 +198,8 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         if port_type not in CONF.port_types:
             warnings.warn(
                 f"Port type {port_type} not in {CONF.port_types}. "
-                "Please add it to the port_types list in the config gf.CONF.port_types."
+                "Please add it to the port_types list in the config gf.CONF.port_types.",
+                stacklevel=3,
             )
 
         if layer is None:

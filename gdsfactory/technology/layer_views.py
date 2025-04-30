@@ -572,7 +572,8 @@ class LayerView(BaseModel):
             dither_pattern = f"C{list(custom_hatch_patterns).index(str(hatch_name))}"
         else:
             warnings.warn(
-                f"Dither pattern {hatch_name!r} does not correspond to any KLayout built-in or custom pattern! Using 'I3' instead."
+                f"Dither pattern {hatch_name!r} does not correspond to any KLayout built-in or custom pattern! Using 'I3' instead.",
+                stacklevel=3,
             )
             dither_pattern = "I3"
 
@@ -586,7 +587,8 @@ class LayerView(BaseModel):
             line_style = f"C{list(custom_line_styles).index(str(ls_name))}"
         else:
             warnings.warn(
-                f"Line style {ls_name!r} does not correspond to any KLayout built-in or custom pattern! Using 'I3' instead."
+                f"Line style {ls_name!r} does not correspond to any KLayout built-in or custom pattern! Using 'I3' instead.",
+                stacklevel=3,
             )
             line_style = "I3"
 
@@ -1087,7 +1089,8 @@ class LayerViews(BaseModel):
 
             if name in dither_patterns:
                 warnings.warn(
-                    f"Dither pattern named {name!r} already exists. Keeping only the first defined."
+                    f"Dither pattern named {name!r} already exists. Keeping only the first defined.",
+                    stacklevel=3,
                 )
                 continue
 
@@ -1106,7 +1109,8 @@ class LayerViews(BaseModel):
 
             if name in line_styles:
                 warnings.warn(
-                    f"Line style named {name!r} already exists. Keeping only the first defined."
+                    f"Line style named {name!r} already exists. Keeping only the first defined.",
+                    stacklevel=3,
                 )
                 continue
 

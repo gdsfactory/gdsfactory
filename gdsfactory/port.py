@@ -404,6 +404,7 @@ def flipped(port: typings.Port) -> typings.Port:
 def move_copy(port: typings.Port, x: int = 0, y: int = 0) -> typings.Port:
     warnings.warn(
         "Port.move_copy(...) should be used instead of move_copy(Port, ...).",
+        stacklevel=3,
     )
     _port = port.copy()
     _port.center = (port.center[0] + x, port.center[1] + y)

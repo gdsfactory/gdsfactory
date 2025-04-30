@@ -69,7 +69,8 @@ def auto_taper_to_cross_section(
             taper = layer_transitions[port_layer]
         except KeyError:
             warnings.warn(
-                f"No registered width taper for layer {port_layer}. Skipping."
+                f"No registered width taper for layer {port_layer}. Skipping.",
+                stacklevel=4,
             )
             return port
     else:

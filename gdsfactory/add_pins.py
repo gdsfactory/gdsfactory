@@ -492,7 +492,9 @@ def add_instance_label(
     try:
         layer = layer or gf.get_layer("LABEL_INSTANCE")
     except ValueError:
-        warnings.warn("Layer LABEL_INSTANCE not found in PDK.layers, using (1, 0)")
+        warnings.warn(
+            "Layer LABEL_INSTANCE not found in PDK.layers, using (1, 0)", stacklevel=3
+        )
         layer = (1, 0)
     instance_name = (
         instance_name or f"{reference.cell.name},{int(reference.x)},{int(reference.y)}"
