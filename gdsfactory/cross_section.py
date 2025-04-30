@@ -241,7 +241,7 @@ class CrossSection(BaseModel):
                 raise ValueError(message)
 
             elif error_type == ErrorType.WARNING:
-                warnings.warn(message)
+                warnings.warn(message, stacklevel=2)
 
     @property
     def name(self) -> str:

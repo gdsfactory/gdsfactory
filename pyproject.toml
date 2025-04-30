@@ -141,7 +141,6 @@ fix = true
 [tool.ruff.lint]
 ignore = [
   "B008",  # do not perform function calls in argument defaults
-  "B028",  # stacklevel
   "B904",
   "B905",  # `zip()` without an explicit `strict=` parameter
   "C408",  # C408 Unnecessary `dict` call (rewrite as a literal)
