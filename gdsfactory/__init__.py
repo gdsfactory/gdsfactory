@@ -86,7 +86,7 @@ if sys.version_info[:2] == (3, 10):
         "to continue using the latest features and improvements. "
         "To get the latest gdsfactory, upgrading your Python version is required.",
         DeprecationWarning,
-        stacklevel=2,
+        stacklevel=3,
     )
 
 

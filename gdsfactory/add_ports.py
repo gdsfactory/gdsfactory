@@ -172,7 +172,7 @@ def add_ports_from_markers_center(
     polygons = component.get_polygons(by="index")
     if pin_layer not in polygons:
         warnings.warn(
-            f"no pin layer {pin_layer} found in {component.layers}", stacklevel=2
+            f"no pin layer {pin_layer} found in {component.layers}", stacklevel=3
         )
         return component
 

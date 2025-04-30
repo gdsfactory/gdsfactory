@@ -125,7 +125,7 @@ def bend_circular(
         warnings.warn(
             f"bend_euler angle should be 90 or 180. Got {angle}. Use bend_euler_all_angle instead.",
             UserWarning,
-            stacklevel=2,
+            stacklevel=3,
         )
     return _bend_circular(
         radius=radius,

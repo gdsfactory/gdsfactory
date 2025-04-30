@@ -60,7 +60,7 @@ def text_freetype(
                     valid_chars = "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~µ"
                     warnings.warn(
                         f'text(): Warning, some characters ignored, no geometry for character "{chr(ascii_val)}" with ascii value {ascii_val}. Valid characters: {valid_chars}',
-                        stacklevel=2,
+                        stacklevel=3,
                     )
             ref = t.add_ref(char)
             yoffset -= 1500 * scaling
