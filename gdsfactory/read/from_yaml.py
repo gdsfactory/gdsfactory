@@ -995,7 +995,6 @@ def _add_routes(
             ports2=ports2,
             **bundle.settings,
         )
-        c.plot()
         routes_dict.update(dict(zip(route_names, routes_list)))
         c.routes = routes_dict
     return c
