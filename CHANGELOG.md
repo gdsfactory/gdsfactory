@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.5.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.5.5) - 2025-04-30
+
+No significant changes.
+
+
 ## [9.5.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.5.4) - 2025-04-28
 
 - Fix get netlist [#3797](https://github.com/gdsfactory/gdsfactory/pull/3797)
