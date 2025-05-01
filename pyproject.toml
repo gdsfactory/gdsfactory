@@ -42,7 +42,7 @@ dependencies = [
   "attrs",
   "graphviz",
   "pyglet<3",
-  "klayout==0.30.0",
+  "klayout==0.30.1",
   "typing-extensions"
 ]
 description = "python library to generate GDS layouts"
