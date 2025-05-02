@@ -8,19 +8,6 @@
 [![codecov](https://img.shields.io/codecov/c/github/gdsfactory/gdsfactory)](https://codecov.io/gh/gdsfactory/gdsfactory/tree/main/gdsfactory)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/gdsfactory/binder-sandbox/HEAD)
 
-## Table of Contents
-- [Overview](#overview)
-- [Quick Start](#quick-start)
-- [Installation](#installation)
-- [Key Features](#key-features)
-- [GDSFactory+](#gdsfactory)
-- [Available PDKs](#available-pdks)
-- [Getting Started](#getting-started)
-- [Community](#community)
-- [Performance](#performance)
-- [Contributing](#contributing)
-
-## Overview
 
 GDSFactory is a Python library for designing chips (Photonics, Analog, Quantum, MEMS), PCBs, and 3D-printable objects. We aim to make hardware design accessible, intuitive, and fun—empowering everyone to build the future.
 
@@ -75,45 +62,50 @@ We provide a common syntax for design (Ansys, Lumerical, Tidy3d, MEEP, DEVSIM, S
 
 ![tool interfaces](https://i.imgur.com/j5qlFWj.png)
 
+
+## Open-Source PDKs (No NDA Required)
+
+These PDKs are publicly available and do not require an NDA:
+
+- [GlobalFoundries 180nm MCU CMOS PDK](https://gdsfactory.github.io/gf180/)
+- [ANT / SiEPIC Ebeam UBC PDK](https://gdsfactory.github.io/ubc)
+- [SkyWater 130nm CMOS PDK](https://gdsfactory.github.io/skywater130/)
+- [VTT PDK](https://github.com/gdsfactory/vtt)
+- [Cornerstone PDK](https://github.com/gdsfactory/cspdk)
+- [Luxtelligence GF PDK](https://github.com/Luxtelligence/lxt_pdk_gf)
+
+
+## Foundry PDKs (NDA Required)
+
+Access to the following PDKs requires a **GDSFactory+** subscription.
+To sign up, visit [GDSFactory.com](https://gdsfactory.com/).
+
+Available PDKs under NDA:
+
+- AIM Photonics
+- AMF Photonics
+- CompoundTek Photonics
+- Fraunhofer HHI Photonics
+- Smart Photonics
+- Tower Semiconductor PH18
+- Tower PH18DA by OpenLight
+- III-V Labs
+- LioniX
+- Ligentec
+- Lightium
+- Quantum Computing Inc. (QCI)
+
+
 ## GDSFactory+
 
 **GDSFactory+** offers Graphical User Interface for chip design, built on top of GDSFactory and VSCode. It provides you:
 
 - Foundry PDK access
 - Schematic capture
-- Simulations
+- Device and circuit Simulations
 - Design verification (DRC, LVS)
 - Data analytics
 
-## Accessing Foundry PDKs
-
-Access to GDSFactory PDKs under NDA requires a GDSFactory+ subscription.
-
-To sign up, visit [GDSFactory.com](https://gdsfactory.com/). Once registered, you can request access to foundry PDKs that require an NDA with the respective foundry.
-
-Available Foundry PDKs under NDA:
-
-- AIM photonics PDK
-- AMF photonics PDK
-- Compoundtek photonics PDK
-- Fraunhofer HHI Photonics PDK
-- Smart Photonics PDK
-- TowerSemi PH18 photonics PDK
-- TowerSemi PH18DA photonics PDK by OpenLight
-- III-V Labs PDK
-- Lionix PDK
-- Ligentec PDK
-- Lightium PDK
-- QCI (Quantum Computing Inc)
-
-There are also **open-source PDKs** available that do not require an NDA:
-
-- [GlobalFoundries 180nm MCU CMOS PDK](https://gdsfactory.github.io/gf180/)
-- [ANT / SiEPIC Ebeam UBC PDK](https://gdsfactory.github.io/ubc)
-- [Skywater130 CMOS PDK](https://gdsfactory.github.io/skywater130)
-- [VTT](https://github.com/gdsfactory/vtt)
-- [Cornerstone](https://github.com/gdsfactory/cspdk)
-- [Luxtelligence](https://github.com/Luxtelligence/lxt_pdk_gf)
 
 ## Getting Started
 
