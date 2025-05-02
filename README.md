@@ -200,4 +200,4 @@ Join our growing community:
 - [GitHub Discussions](https://github.com/gdsfactory/gdsfactory/discussions)
 - [Google Group](https://groups.google.com/g/gdsfactory)
 - [LinkedIn](https://www.linkedin.com/company/gdsfactory)
-- [Gitter Chat](https://gitter.im/gdsfactory-dev/community)
+- [Element Chat](https://gitter.im/gdsfactory-dev/community)
