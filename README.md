@@ -8,22 +8,49 @@
 [![codecov](https://img.shields.io/codecov/c/github/gdsfactory/gdsfactory)](https://codecov.io/gh/gdsfactory/gdsfactory/tree/main/gdsfactory)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/gdsfactory/binder-sandbox/HEAD)
 
+## Table of Contents
+- [Overview](#overview)
+- [Quick Start](#quick-start)
+- [Installation](#installation)
+- [Key Features](#key-features)
+- [GDSFactory+](#gdsfactory)
+- [Available PDKs](#available-pdks)
+- [Getting Started](#getting-started)
+- [Community](#community)
+- [Performance](#performance)
+- [Contributing](#contributing)
+
+## Overview
+
+GDSFactory is a Python library for designing chips (Photonics, Analog, Quantum, MEMS), PCBs, and 3D-printable objects. We aim to make hardware design accessible, intuitive, and fun—empowering everyone to build the future.
 
 As input you write python code, as an output GDSFactory creates CAD files (GDS, OASIS, STL, GERBER).
 
 ![cad](https://i.imgur.com/3cUa2GV.png)
 
+## Quick Start
+
+Here's a simple example to get you started:
+
 ```python
 import gdsfactory as gf
 
+# Create a new component
 c = gf.Component()
-ref1 = c.add_ref(gf.components.rectangle(size=(10, 10), layer=(1, 0)))
-ref2 = c.add_ref(gf.components.text("Hello", size=10, layer=(2, 0)))
-ref3 = c.add_ref(gf.components.text("world", size=10, layer=(2, 0)))
 
-ref1.xmax = ref2.xmin - 5
-ref3.xmin = ref2.xmax + 2
-ref3.rotate(30)
+# Add a rectangle
+rect = c.add_ref(gf.components.rectangle(size=(10, 10), layer=(1, 0)))
+
+# Add text elements
+text1 = c.add_ref(gf.components.text("Hello", size=10, layer=(2, 0)))
+text2 = c.add_ref(gf.components.text("world", size=10, layer=(2, 0)))
+
+# Position elements
+text1.xmin = rect.xmax + 5
+text2.xmin = text1.xmax + 2
+text2.rotate(30)
+
+# Show the result
 c.show()
 ```
 
@@ -88,7 +115,7 @@ There are also **open-source PDKs** available that do not require an NDA:
 - [Cornerstone](https://github.com/gdsfactory/cspdk)
 - [Luxtelligence](https://github.com/Luxtelligence/lxt_pdk_gf)
 
-## Getting started
+## Getting Started
 
 - [See slides](https://docs.google.com/presentation/d/1_ZmUxbaHWo_lQP17dlT1FWX-XD8D9w7-FcuEih48d_0/edit#slide=id.g11711f50935_0_5)
 - [Read docs](https://gdsfactory.github.io/gdsfactory/)
@@ -165,3 +192,20 @@ Join us and be part of the community. 🚀
 ## Stargazers
 
 [![Stargazers over time](https://starchart.cc/gdsfactory/gdsfactory.svg)](https://starchart.cc/gdsfactory/gdsfactory)
+
+## Key Features
+
+- **Design**: Create parametric components with Python
+- **Simulation**: Direct integration with major simulation tools
+- **Verification**: Built-in DRC, DFM, and LVS capabilities
+- **Validation**: Automated chip analysis and data pipelines
+- **Multi-format Output**: Generate GDSII, OASIS, STL, and GERBER files
+- **Extensible**: Easy to add new components and functionality
+
+## Community
+
+Join our growing community:
+- [GitHub Discussions](https://github.com/gdsfactory/gdsfactory/discussions)
+- [Google Group](https://groups.google.com/g/gdsfactory)
+- [LinkedIn](https://www.linkedin.com/company/gdsfactory)
+- [Gitter Chat](https://gitter.im/gdsfactory-dev/community)
