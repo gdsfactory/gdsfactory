@@ -261,6 +261,13 @@ def route_bundle(
 
     router = router or "electrical" if port_type == "electrical" else "optical"
     if router == "electrical":
+        if cross_section is not None:
+            xs = gf.get_cross_section(cross_section)
+            layer_: gf.kdb.LayerInfo | None = gf.kcl.get_info(
+                gf.get_layer(xs.sections[0].layer)
+            )
+        else:
+            layer_ = None
         return kf.routing.electrical.route_bundle(
             component,
             ports1_,
@@ -280,6 +287,7 @@ def route_bundle(
             waypoints=waypoints_,
             end_angles=end_angles,
             start_angles=start_angles,
+            place_layer=layer_,
         )
 
     bend90 = (
