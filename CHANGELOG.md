@@ -1,16 +1,20 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.5.4...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.5.6...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.5.6](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.5.6) - 2025-05-01
 
-No significant changes.
-
+- use cross_section in route_bundle for electrical cases [#3804](https://github.com/gdsfactory/gdsfactory/pull/3804)
+- better readme [#3805](https://github.com/gdsfactory/gdsfactory/pull/3805)
+- Remove klayout dependency [#3803](https://github.com/gdsfactory/gdsfactory/pull/3803)
 
 ## [9.5.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.5.5) - 2025-04-30
 
-No significant changes.
+- remove lost plot [#3799](https://github.com/gdsfactory/gdsfactory/pull/3799)
+- Add warning stacklevels [#3800](https://github.com/gdsfactory/gdsfactory/pull/3800)
+- pin klayout==0.30.0 [#3802](https://github.com/gdsfactory/gdsfactory/pull/3802)
+- bump kfactory to 1.5.2 at least [#3801](https://github.com/gdsfactory/gdsfactory/pull/3801)
 
 
 ## [9.5.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.5.4) - 2025-04-28
