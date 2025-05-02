@@ -261,26 +261,53 @@ def route_bundle(
 
     router = router or "electrical" if port_type == "electrical" else "optical"
     if router == "electrical":
-        return kf.routing.electrical.route_bundle(
-            component,
-            ports1_,
-            ports2_,
-            separation=separation,
-            starts=start_straight_length,
-            ends=end_straight_length,
-            collision_check_layers=[
-                c.kcl.layout.get_info(layer) for layer in collision_check_layer_enums
-            ]
-            if collision_check_layer_enums is not None
-            else None,
-            on_collision=on_collision,
-            bboxes=bboxes,
-            route_width=width,
-            sort_ports=sort_ports,
-            waypoints=waypoints_,
-            end_angles=end_angles,
-            start_angles=start_angles,
-        )
+        if cross_section is not None:
+            xs = gf.get_cross_section(cross_section)
+            print(xs.name)
+            return kf.routing.electrical.route_bundle(
+                component,
+                ports1_,
+                ports2_,
+                separation=separation,
+                starts=start_straight_length,
+                ends=end_straight_length,
+                collision_check_layers=[
+                    c.kcl.layout.get_info(layer)
+                    for layer in collision_check_layer_enums
+                ]
+                if collision_check_layer_enums is not None
+                else None,
+                on_collision=on_collision,
+                bboxes=bboxes,
+                route_width=width,
+                sort_ports=sort_ports,
+                waypoints=waypoints_,
+                end_angles=end_angles,
+                start_angles=start_angles,
+                place_layer=gf.kcl.get_info(gf.get_layer(xs.sections[0].layer)),
+            )
+        else:
+            return kf.routing.electrical.route_bundle(
+                component,
+                ports1_,
+                ports2_,
+                separation=separation,
+                starts=start_straight_length,
+                ends=end_straight_length,
+                collision_check_layers=[
+                    c.kcl.layout.get_info(layer)
+                    for layer in collision_check_layer_enums
+                ]
+                if collision_check_layer_enums is not None
+                else None,
+                on_collision=on_collision,
+                bboxes=bboxes,
+                route_width=width,
+                sort_ports=sort_ports,
+                waypoints=waypoints_,
+                end_angles=end_angles,
+                start_angles=start_angles,
+            )
 
     bend90 = (
         bend
