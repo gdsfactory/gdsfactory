@@ -50,7 +50,7 @@ Then you need to fork the [GitHub repository](https://github.com/gdsfactory/gdsf
 The following lines will:
 
 - clone your gdsfactory fork (make sure you change `YourUserName` with your GitHub user name)
-- download the GDS reference files for running GDS regressions from a separate repo.
+- download the GDS reference files for running GDS regressions from a separate [repo](https://github.com/gdsfactory/gdsfactory-test-data/tree/test-data)
 - install gdsfactory on your computer in `-e` edit mode.
 - install pre-commit hooks for making sure your code syntax and style matches some basic rules.
 
