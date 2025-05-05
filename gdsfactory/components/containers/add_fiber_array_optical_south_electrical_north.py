@@ -19,6 +19,7 @@ def add_fiber_array_optical_south_electrical_north(
     electrical_port_orientation: AngleInDegrees | None = 90,
     npads: int | None = None,
     port_types_grating_couplers: list[str] | None = None,
+    auto_taper_pads: bool = True,
     **kwargs: Any,
 ) -> Component:
     """Returns a fiber array with Optical gratings on South and Electrical pads on North.
@@ -38,6 +39,7 @@ def add_fiber_array_optical_south_electrical_north(
         electrical_port_orientation: orientation of electrical ports. Defaults to 90.
         npads: number of pads. Defaults to one per electrical_port_names.
         port_types_grating_couplers: port types for grating couplers. Defaults to vertical TE, TM, and dual.
+        auto_taper_pads: whether to add a taper to the pads.
         kwargs: additional arguments.
 
     Keyword Args:
@@ -121,6 +123,7 @@ def add_fiber_array_optical_south_electrical_north(
         ports2=ports2,
         cross_section=cross_section_metal,
         sort_ports=True,
+        auto_taper=auto_taper_pads,
     )
 
     c.add_ports(ports2)
