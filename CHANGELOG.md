@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.5.7](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.5.7) - 2025-05-04
+
+No significant changes.
+
+
 ## [9.5.6](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.5.6) - 2025-05-01
 
 - use cross_section in route_bundle for electrical cases [#3804](https://github.com/gdsfactory/gdsfactory/pull/3804)
