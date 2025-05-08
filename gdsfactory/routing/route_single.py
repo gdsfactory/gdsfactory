@@ -217,11 +217,6 @@ def route_single(
                 if c.name.startswith("Unnamed_")
                 else c.name
             )
-            c.show(lyrdb=db)
-            raise kf.routing.generic.PlacerError(
-                f"Error while trying to place route from {ps.name} to {pe.name} at"
-                f" points (dbu): {pts}"
-            ) from e
 
     else:
         return route(
