@@ -65,6 +65,7 @@ def route_single(
     radius: float | None = None,
     route_width: float | None = None,
     auto_taper: bool = True,
+    on_error: Literal["error"] | None = None,
 ) -> ManhattanRoute:
     """Returns a Manhattan Route between 2 ports.
 
@@ -87,6 +88,7 @@ def route_single(
         radius: bend radius. If None, defaults to cross_section.radius.
         route_width: width of the route in um. If None, defaults to cross_section.width.
         auto_taper: add auto tapers.
+        on_error: what to do on error. If error, raises an error. If None ignores the error.
 
     .. plot::
         :include-source:
@@ -216,6 +218,17 @@ def route_single(
                 c.kcl.future_cell_name or c.name
                 if c.name.startswith("Unnamed_")
                 else c.name
+            )
+            if on_error == "error":
+                c.show(lyrdb=db)
+                raise kf.routing.generic.PlacerError(
+                    f"Error while trying to place route from {ps.name} to {pe.name} at"
+                    f" points (dbu): {pts}"
+                ) from e
+            return ManhattanRoute(
+                backbone=pts,
+                start_port=p1.to_itype(),
+                end_port=p2.to_itype(),
             )
 
     else:
