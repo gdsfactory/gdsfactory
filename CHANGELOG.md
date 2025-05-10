@@ -1,17 +1,16 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.5.6...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.5.8...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.5.8](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.5.8) - 2025-05-10
 
-No significant changes.
+- fix route_single [#3815](https://github.com/gdsfactory/gdsfactory/pull/3815)
 
 
 ## [9.5.7](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.5.7) - 2025-05-04
 
-No significant changes.
-
+- Add `auto_taper_pads` flag to route_fiber_array_pads_north [#3807](https://github.com/gdsfactory/gdsfactory/pull/3807)
 
 ## [9.5.6](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.5.6) - 2025-05-01
 
