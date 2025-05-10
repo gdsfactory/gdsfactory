@@ -81,6 +81,7 @@ def grating_coupler_array(
             port2=port1,
             waypoints=waypoints_,
             cross_section=cross_section,
+            radius=radius,
         )
 
     return c
