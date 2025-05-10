@@ -226,7 +226,9 @@ def route_single(
                     f" points (dbu): {pts}"
                 ) from e
             else:
-                c.shapes((1, 0)).insert(path)
+                layer_error = (1, 0)
+                layer_index = c.kcl.layer(*layer_error)
+                c.shapes(layer_index).insert(path)
             return ManhattanRoute(
                 backbone=pts,
                 start_port=p1.to_itype(),
