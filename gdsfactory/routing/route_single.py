@@ -65,6 +65,7 @@ def route_single(
     radius: float | None = None,
     route_width: float | None = None,
     auto_taper: bool = True,
+    on_error: Literal["error"] | None = "error",
 ) -> ManhattanRoute:
     """Returns a Manhattan Route between 2 ports.
 
@@ -87,6 +88,7 @@ def route_single(
         radius: bend radius. If None, defaults to cross_section.radius.
         route_width: width of the route in um. If None, defaults to cross_section.width.
         auto_taper: add auto tapers.
+        on_error: what to do on error. If error, raises an error. If None ignores the error.
 
     .. plot::
         :include-source:
@@ -212,16 +214,26 @@ def route_single(
             it.add_value(f"Exception: {e}")
             path = kf.kdb.Path(pts, route_width or c.kcl.to_dbu(ps.width))
             it.add_value(c.kcl.to_um(path.polygon()))
-            c.name = (
-                c.kcl.future_cell_name or c.name
-                if c.name.startswith("Unnamed_")
-                else c.name
+            if on_error == "error":
+                c.name = (
+                    c.kcl.future_cell_name or c.name
+                    if c.name.startswith("Unnamed_")
+                    else c.name
+                )
+                c.show(lyrdb=db)
+                raise kf.routing.generic.PlacerError(
+                    f"Error while trying to place route from {ps.name} to {pe.name} at"
+                    f" points (dbu): {pts}"
+                ) from e
+            else:
+                layer_error = (1, 0)
+                layer_index = c.kcl.layer(*layer_error)
+                c.shapes(layer_index).insert(path)
+            return ManhattanRoute(
+                backbone=pts,
+                start_port=p1.to_itype(),
+                end_port=p2.to_itype(),
             )
-            c.show(lyrdb=db)
-            raise kf.routing.generic.PlacerError(
-                f"Error while trying to place route from {ps.name} to {pe.name} at"
-                f" points (dbu): {pts}"
-            ) from e
 
     else:
         return route(
