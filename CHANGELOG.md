@@ -1,12 +1,12 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.5.8...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.5.9...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.5.9](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.5.9) - 2025-05-11
 
-No significant changes.
-
+- Gc array [#3820](https://github.com/gdsfactory/gdsfactory/pull/3820)
+- make grating_coupler optional in die_with_pads [#3818](https://github.com/gdsfactory/gdsfactory/pull/3818)
 
 ## [9.5.8](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.5.8) - 2025-05-10
 
