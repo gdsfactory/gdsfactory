@@ -10,7 +10,7 @@ def die_with_pads(
     npads: int = 31,
     grating_pitch: float = 250.0,
     pad_pitch: float = 300.0,
-    grating_coupler: ComponentSpec = "grating_coupler_te",
+    grating_coupler: ComponentSpec | None = "grating_coupler_te",
     cross_section: CrossSectionSpec = "strip",
     pad: ComponentSpec = "pad",
     layer_floorplan: LayerSpec = "FLOORPLAN",
@@ -45,25 +45,26 @@ def die_with_pads(
     # Add optical ports
     x0 = xs / 2 + edge_to_grating_distance
 
-    gca = gf.c.grating_coupler_array(
-        n=ngratings,
-        pitch=grating_pitch,
-        with_loopback=with_loopback,
-        grating_coupler=grating_coupler,
-        cross_section=cross_section,
-        radius=loopback_radius,
-    )
-    left = c << gca
-    left.rotate(-90)
-    left.xmin = -xs / 2 + edge_to_grating_distance
-    left.y = fp.y
-    c.add_ports(left.ports, prefix="W")
+    if grating_coupler:
+        gca = gf.c.grating_coupler_array(
+            n=ngratings,
+            pitch=grating_pitch,
+            with_loopback=with_loopback,
+            grating_coupler=grating_coupler,
+            cross_section=cross_section,
+            radius=loopback_radius,
+        )
+        left = c << gca
+        left.rotate(-90)
+        left.xmin = -xs / 2 + edge_to_grating_distance
+        left.y = fp.y
+        c.add_ports(left.ports, prefix="W")
 
-    right = c << gca
-    right.rotate(+90)
-    right.xmax = xs / 2 - edge_to_grating_distance
-    right.y = fp.y
-    c.add_ports(right.ports, prefix="E")
+        right = c << gca
+        right.rotate(+90)
+        right.xmax = xs / 2 - edge_to_grating_distance
+        right.y = fp.y
+        c.add_ports(right.ports, prefix="E")
 
     # Add electrical ports
     pad = gf.get_component(pad)
@@ -96,5 +97,5 @@ def die_with_pads(
 
 
 if __name__ == "__main__":
-    c = die_with_pads()
+    c = die_with_pads(grating_coupler=None)
     c.show()
