@@ -34,6 +34,7 @@ def grating_coupler_array(
         straight_to_grating_spacing: spacing between the last grating coupler and the loopback.
         centered: if True, centers the array around the origin.
         radius: optional radius for routing the loopback.
+        bend: ComponentSpec for the bend used in the loopback.
     """
     c = Component()
     grating_coupler = gf.get_component(grating_coupler)
@@ -97,6 +98,7 @@ def grating_coupler_array(
 
     return c
 
+
 def _get_routing_radius(bend: Component, cross_section: CrossSectionSpec) -> float:
     """Get the routing radius from the bend component for ports on the given cross_section."""
     cs = gf.get_cross_section(cross_section)
@@ -107,7 +109,7 @@ def _get_routing_radius(bend: Component, cross_section: CrossSectionSpec) -> flo
         raise ValueError(
             f"Expected 2 ports in bend component with layer {cs_layer}, got {len(bend_ports)}"
         )
-    
+
     p1, p2 = bend_ports
     dx = abs(p1.center[0] - p2.center[0])
     dy = abs(p1.center[1] - p2.center[1])
@@ -116,6 +118,7 @@ def _get_routing_radius(bend: Component, cross_section: CrossSectionSpec) -> flo
             f"Expected ports to have equal spacing in x and y, got dx={dx} and dy={dy}"
         )
     return dx
+
 
 if __name__ == "__main__":
     c = grating_coupler_array(
