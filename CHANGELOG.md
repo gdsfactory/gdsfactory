@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.5.9](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.5.9) - 2025-05-11
+
+No significant changes.
+
+
 ## [9.5.8](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.5.8) - 2025-05-10
 
 - fix route_single [#3815](https://github.com/gdsfactory/gdsfactory/pull/3815)
