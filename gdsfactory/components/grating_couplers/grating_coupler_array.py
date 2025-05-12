@@ -19,6 +19,7 @@ def grating_coupler_array(
     straight_to_grating_spacing: float = 10.0,
     centered: bool = True,
     radius: float | None = None,
+    bend: ComponentSpec = "bend_euler",
 ) -> Component:
     """Array of grating couplers.
 
@@ -54,18 +55,27 @@ def grating_coupler_array(
             )
         routing_xs = gf.get_cross_section(cross_section)
         radius = radius or routing_xs.radius
+        if radius is None:
+            bend_component = gf.get_component(bend, cross_section=cross_section)
+            try:
+                radius = _get_routing_radius(bend_component, cross_section)
+                bend = bend_component
+            except KeyError:
+                raise ValueError(
+                    "Radius must be set in the cross_section or bend component if not provided explicitly."
+                )
 
         port0 = ports["o0"]
         port1 = ports[f"o{n - 1}"]
         assert radius is not None
-        radius_dbu = round(radius / c.kcl.dbu)
+        radius_dbu = c.kcl.to_dbu(radius)
         d_loop_um = straight_to_grating_spacing + max(
             [
                 grating_coupler.ysize,
                 grating_coupler.xsize,
             ]
         )
-        d_loop = round(d_loop_um / c.kcl.dbu) + radius_dbu
+        d_loop = c.kcl.to_dbu(d_loop_um) + radius_dbu
         waypoints = kf.routing.optical.route_loopback(
             port0.to_itype(),
             port1.to_itype(),
@@ -82,10 +92,30 @@ def grating_coupler_array(
             waypoints=waypoints_,
             cross_section=cross_section,
             radius=radius,
+            bend=bend,
         )
 
     return c
 
+def _get_routing_radius(bend: Component, cross_section: CrossSectionSpec) -> float:
+    """Get the routing radius from the bend component for ports on the given cross_section."""
+    cs = gf.get_cross_section(cross_section)
+    cs_layer = cs.layer
+    bend_ports = [p for p in bend.ports if p.layer == cs_layer]
+
+    if len(bend_ports) != 2:
+        raise ValueError(
+            f"Expected 2 ports in bend component with layer {cs_layer}, got {len(bend_ports)}"
+        )
+    
+    p1, p2 = bend_ports
+    dx = abs(p1.center[0] - p2.center[0])
+    dy = abs(p1.center[1] - p2.center[1])
+    if dx != dy:
+        raise ValueError(
+            f"Expected ports to have equal spacing in x and y, got dx={dx} and dy={dy}"
+        )
+    return dx
 
 if __name__ == "__main__":
     c = grating_coupler_array(
