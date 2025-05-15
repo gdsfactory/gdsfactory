@@ -335,7 +335,16 @@ class Pdk(BaseModel):
         **kwargs: Any,
     ) -> Component:
         """Returns component from a component spec."""
-        cells = {**self.cells, **self.containers} if include_containers else self.cells
+        if include_containers:
+            conflicting_names = set(self.cells.keys()).intersection(self.containers.keys())
+            if conflicting_names:
+                raise ValueError(
+                    f"PDK {self.name!r} has overlapping cell names between cells and containers: {list(conflicting_names)}. "
+                )
+            cells = {**self.cells, **self.containers}
+        else:
+            cells = self.cells
+            
         return self._get_component(
             component=component, cells=cells, settings=settings, **kwargs
         )
