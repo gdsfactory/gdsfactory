@@ -1,6 +1,8 @@
+import pytest
+
 import gdsfactory as gf
 from gdsfactory.generic_tech import LAYER
-import pytest
+
 
 def test_get_cross_section() -> None:
     assert gf.pdk.get_cross_section("strip") == gf.cross_section.strip()
@@ -24,8 +26,10 @@ def test_container_cell_conflict_raises_error() -> None:
         name="test",
         layers=LAYER,
         cross_sections={"strip": gf.cross_section.strip},
-        cells={"straight": gf.components.straight,
-                    "add_pads_top": gf.containers.add_pads_top},
+        cells={
+            "straight": gf.components.straight,
+            "add_pads_top": gf.containers.add_pads_top,
+        },
         containers={"add_pads_top": gf.containers.add_pads_top},
     )
 
