@@ -96,6 +96,15 @@ maintainer = [
 [project.scripts]
 gf = "gdsfactory.cli:app"
 
+[tool.codeflash]
+benchmarks-root = ""
+formatter-cmds = ["ruff check --exit-zero --fix $file", "ruff format $file"]
+ignore-paths = []
+# All paths are relative to this pyproject.toml's directory.
+module-root = "gdsfactory"
+test-framework = "pytest"
+tests-root = "tests"
+
 [tool.codespell]
 ignore-words-list = "te, te/tm, te, ba, fpr, fpr_spacing, ro, nd, donot, schem"
 
