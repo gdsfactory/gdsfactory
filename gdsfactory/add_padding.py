@@ -42,7 +42,7 @@ def get_padding_points(
 
 
 def add_padding(
-    component: ComponentSpec = "mmi2x2",
+    component: ComponentSpec,
     layers: LayerSpecs = ("PADDING",),
     default: float = 50.0,
     top: float | None = None,
