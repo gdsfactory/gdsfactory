@@ -35,7 +35,8 @@ def _rotate(
     rotation_matrix: npt.NDArray[np.floating[Any]],
 ) -> npt.NDArray[np.floating[Any]]:
     """Rotate a vector by a rotation matrix."""
-    return rotation_matrix @ vector
+    # np.dot is slightly faster than @ for 1D/2D vectors
+    return np.dot(rotation_matrix, vector)
 
 
 def add_bbox(
