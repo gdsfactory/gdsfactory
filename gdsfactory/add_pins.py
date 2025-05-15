@@ -35,11 +35,8 @@ def _rotate(
     rotation_matrix: npt.NDArray[np.floating[Any]],
 ) -> npt.NDArray[np.floating[Any]]:
     """Rotate a vector by a rotation matrix."""
-    # Ensure input arrays are contiguous for optimal BLAS use.
-    vec = np.ascontiguousarray(vector)
-    mat = np.ascontiguousarray(rotation_matrix)
-    # Use np.dot for 2D matrix * 1D vector or 2D matrix
-    return np.dot(mat, vec)
+    # np.dot is slightly faster than @ for 1D/2D vectors
+    return np.dot(rotation_matrix, vector)
 
 
 def add_bbox(
