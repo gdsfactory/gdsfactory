@@ -297,14 +297,13 @@ class Pdk(BaseModel):
 
     def get_cell(self, cell: CellSpec, **kwargs: Any) -> ComponentFactory:
         """Returns ComponentFactory from a cell spec."""
-        cells_and_containers = {**self.cells, **self.containers}
-        cells = set(cells_and_containers.keys())
+        cells_and_containers = self._get_cells_and_containers()
 
         if callable(cell):
             return cell
         elif isinstance(cell, str):
-            if cell not in cells:
-                matching_cells = [c for c in cells if cell in c]
+            if cell not in cells_and_containers:
+                matching_cells = [c for c in cells_and_containers if cell in c]
                 raise ValueError(
                     f"{cell!r} from PDK {self.name!r} not in cells: Did you mean {matching_cells}?"
                 )
@@ -319,8 +318,8 @@ class Pdk(BaseModel):
             settings.update(**kwargs)
 
             cell_name = cell.get("function")
-            if not isinstance(cell_name, str) or cell_name not in cells:
-                matching_cells = [c for c in cells if c in cell.keys()]
+            if not isinstance(cell_name, str) or cell_name not in cells_and_containers:
+                matching_cells = [c for c in cells_and_containers if c in cell.keys()]
                 raise ValueError(
                     f"{cell!r} from PDK {self.name!r} not in cells: Did you mean {matching_cells}?"
                 )
@@ -336,20 +335,23 @@ class Pdk(BaseModel):
     ) -> Component:
         """Returns component from a component spec."""
         if include_containers:
-            conflicting_names = set(self.cells.keys()).intersection(
-                self.containers.keys()
-            )
-            if conflicting_names:
-                raise ValueError(
-                    f"PDK {self.name!r} has overlapping cell names between cells and containers: {list(conflicting_names)}. "
-                )
-            cells = {**self.cells, **self.containers}
+            cells = self._get_cells_and_containers()
         else:
             cells = self.cells
 
         return self._get_component(
             component=component, cells=cells, settings=settings, **kwargs
         )
+
+    def _get_cells_and_containers(self) -> dict[str, ComponentFactory]:
+        """Returns a dictionary of cells and containers."""
+        cells_and_containers = {**self.cells, **self.containers}
+        conflicting_names = set(self.cells.keys()).intersection(self.containers.keys())
+        if conflicting_names:
+            raise ValueError(
+                f"PDK {self.name!r} has overlapping cell names between cells and containers: {list(conflicting_names)}. "
+            )
+        return cells_and_containers
 
     def get_symbol(self, component: ComponentSpec, **kwargs: Any) -> Component:
         """Returns a component's symbol from a component spec."""
