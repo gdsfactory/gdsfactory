@@ -25,21 +25,42 @@ def line(
     npt.NDArray[np.floating[Any]],
     npt.NDArray[np.floating[Any]],
 ]:
+    # Inline checking and extraction for better branch prediction
     if isinstance(p_start, gf.Port):
         width = p_start.width
         p_start = p_start.center
-
     if isinstance(p_end, gf.Port):
         p_end = p_end.center
-
     w = width
     assert w is not None
-    angle = np.arctan2(p_end[1] - p_start[1], p_end[0] - p_start[0])
-    a = np.pi / 2
-    p0 = move_polar_rad_copy(p_start, angle + a, w / 2)
-    p1 = move_polar_rad_copy(p_start, angle - a, w / 2)
-    p2 = move_polar_rad_copy(p_end, angle - a, w / 2)
-    p3 = move_polar_rad_copy(p_end, angle + a, w / 2)
+
+    # Fast low-level tuple -> np.array ONCE per corner at the end
+    x0, y0 = p_start
+    x1, y1 = p_end
+
+    dx = x1 - x0
+    dy = y1 - y0
+    ang = np.arctan2(dy, dx)
+    w2 = w / 2
+    ca = np.cos(ang)
+    sa = np.sin(ang)
+
+    # sin(angle+pi/2) = -ca, cos(angle+pi/2) = sa
+    # sin(angle-pi/2) = ca,  cos(angle-pi/2) = -sa
+
+    # Four corners:
+    # p0 = p_start offset by (w2 * [-sa,  ca])
+    # p1 = p_start offset by (w2 * [ sa, -ca])
+    # p2 = p_end   offset by (w2 * [ sa, -ca])
+    # p3 = p_end   offset by (w2 * [-sa,  ca])
+    wsac = w2 * sa
+    wcac = w2 * ca
+
+    # Avoid repeated calculations; compute four coordinates directly
+    p0 = np.array([x0 - wsac, y0 + wcac], dtype=float)
+    p1 = np.array([x0 + wsac, y0 - wcac], dtype=float)
+    p2 = np.array([x1 + wsac, y1 - wcac], dtype=float)
+    p3 = np.array([x1 - wsac, y1 + wcac], dtype=float)
     return p0, p1, p2, p3
 
 
