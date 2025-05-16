@@ -4,12 +4,10 @@
     "cpus": 2
   },
   "waitFor": "onCreateCommand",
-  "updateContentCommand": "make full",
-  "postCreateCommand": "",
+  "postCreateCommand": "make uv install",
   "customizations": {
     "vscode": {
       "extensions": [
-        "ms-toolsai.jupyter",
         "ms-python.python",
         "congyiwu.vscode-jupytext"
       ]

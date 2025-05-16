@@ -4,12 +4,9 @@ help:
 	@echo 'make test-force:       Rebuilds regression test'
 
 uv:
-	curl -LsSf https://astral.sh/uv/0.4.30/install.sh | sh
+	curl -LsSf https://astral.sh/uv/install.sh | sh
 
 install:
-	uv sync --all-extras --no-extra full
-
-install310:
 	uv sync --all-extras --no-extra full
 
 dev:
