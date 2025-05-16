@@ -20,7 +20,7 @@ jobs:
       CODEFLASH_PR_NUMBER: ${{ github.event.number }}
     steps:
       - name: 🛎️ Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: 🐍 Setup UV
