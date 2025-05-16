@@ -18,6 +18,7 @@ Assumes two ports are connected when they have same width, x, y
 
 from __future__ import annotations
 
+import re
 from collections import defaultdict
 from collections.abc import Callable, Sequence
 from pprint import pprint
@@ -627,6 +628,17 @@ def _demo_mzi_lattice() -> None:
     c.get_netlist()
 
 
+def _get_pattern(remove_dots: bool, allowed: str) -> re.Pattern:
+    key = (remove_dots, allowed)
+    if key not in _pattern_cache:
+        cur_allowed = allowed
+        # If removing dots, do not allow '.'
+        if remove_dots and "." in cur_allowed:
+            cur_allowed = cur_allowed.replace(".", "")
+        _pattern_cache[key] = re.compile(f"[^{cur_allowed}]")
+    return _pattern_cache[key]
+
+
 DEFAULT_CONNECTION_VALIDATORS = get_default_connection_validators()
 
 DEFAULT_CRITICAL_CONNECTION_ERROR_TYPES = {
@@ -638,6 +650,9 @@ if __name__ == "__main__":
     from pprint import pprint
 
     import gdsfactory as gf
+
+    # Precompile regex for speed
+    _pattern_cache: dict[tuple[bool, Optional[str]], re.Pattern] = {}
 
     # c = gf.Component()
     # mzi = c << gf.c.mzi()
@@ -662,3 +677,34 @@ if __name__ == "__main__":
     # n = c.get_netlist()
     # pprint(n["placements"])
     c.show()
+
+_BASE_ALLOWED = "a-zA-Z0-9_"
+
+_BASE_REPLACE_MAP = {
+    " ": "_",
+    "!": "",
+    "?": "",
+    "#": "_",
+    "%": "_",
+    "(": "",
+    ")": "",
+    "*": "_",
+    ",": "_",
+    "-": "m",
+    ".": "p",
+    "/": "_",
+    ":": "_",
+    "=": "",
+    "@": "_",
+    "[": "",
+    "]": "",
+    "{": "",
+    "}": "",
+    "$": "",
+}
+
+_SINGLE_CHAR_MAP = {
+    k: v for k, v in _BASE_REPLACE_MAP.items() if len(k) == 1 and len(v) <= 1
+}
+
+_TRANS_TABLE = str.maketrans(_SINGLE_CHAR_MAP)
