@@ -77,8 +77,8 @@ def move_polar_rad_copy(
     # Direct computation, no need to create intermediate arrays
     dx = length * np.cos(angle)
     dy = length * np.sin(angle)
-    # Use np.asarray for safe type/broadcasting in case pos is a list/tuple
-    return np.asarray(pos, dtype=float) + (dx, dy)
+    # Construct the new position as a proper NumPy array
+    return np.array([pos[0] + dx, pos[1] + dy], dtype=float)
 
 
 @gf.cell_with_module_name
