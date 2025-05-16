@@ -5,11 +5,10 @@
   },
   "waitFor": "onCreateCommand",
   "updateContentCommand": "make full",
-  "postCreateCommand": "",
+  "postCreateCommand": "uv sync",
   "customizations": {
     "vscode": {
       "extensions": [
-        "ms-toolsai.jupyter",
         "ms-python.python",
         "congyiwu.vscode-jupytext"
       ]
