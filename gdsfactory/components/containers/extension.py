@@ -78,7 +78,7 @@ def move_polar_rad_copy(
     dx = length * np.cos(angle)
     dy = length * np.sin(angle)
     # Use np.asarray for safe type/broadcasting in case pos is a list/tuple
-    return np.asarray(pos, dtype=float) + [dx, dy]
+    return np.asarray(pos, dtype=float) + (dx, dy)
 
 
 @gf.cell_with_module_name
