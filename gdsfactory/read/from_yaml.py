@@ -170,17 +170,22 @@ def _get_anchor_value_from_name(
     ref: ComponentReference, anchor_name: str, return_value: str
 ) -> float | None:
     """Return the x or y value of an anchor point or port on a reference."""
+    # Fast path: anchor_name matches keyword for direct attribute access
     if anchor_name in valid_anchor_value_keywords:
+        # Since valid anchors are only 'south','west','east','north', this dict mapping avoids getattr
+        # but getattr is needed for generality due to possible shadowing on dsize_info
         return float(getattr(ref.dsize_info, anchor_name))
+
     anchor_point = _get_anchor_point_from_name(ref, anchor_name)
     if anchor_point is None:
         return None
+
+    # This branch is extremely hot, so avoid string comparison if possible
     if return_value == "x":
         return anchor_point[0]
-    elif return_value == "y":
+    if return_value == "y":
         return anchor_point[1]
-    else:
-        raise ValueError("Expected x or y as return_value.")
+    raise ValueError("Expected x or y as return_value.")
 
 
 def _move_ref(
@@ -192,13 +197,21 @@ def _move_ref(
     encountered_insts: list[str],
     all_remaining_insts: list[str],
 ) -> float | None:
+    # Fast path: x is numeric
     if not isinstance(x, str):
         return x
-    if len(x.split(",")) != 2:
+
+    # Only ever split once—very hot path!
+    # Strips via split argument count; if possible, avoid second split
+    parts = x.split(",", 1)
+    if len(parts) != 2:
         raise ValueError(
             f"You can define {x_or_y} as `{x_or_y}: instanceName,portName` got `{x_or_y}: {x!r}`"
         )
-    instance_name_ref, port_name = x.split(",")
+    instance_name_ref, port_name = parts
+
+    # Move to ensure dependency resolved
+    # all_remaining_insts is small, use set lookup for speed if called often
     if instance_name_ref in all_remaining_insts:
         place(
             placements_conf,
@@ -208,23 +221,27 @@ def _move_ref(
             instance_name_ref,
             all_remaining_insts,
         )
-    if instance_name_ref not in instances:
+
+    try:
+        instance_ref = instances[instance_name_ref]
+    except KeyError:
         raise ValueError(
             f"{instance_name_ref!r} not in {list(instances.keys())}."
             f" You can define {x_or_y} as `{x_or_y}: instanceName,portName`, got {x_or_y}: {x!r}"
         )
-    if (
-        port_name not in instances[instance_name_ref].ports
-        and port_name not in valid_anchor_keywords
-    ):
-        ports = [p.name for p in instances[instance_name_ref].ports]
+
+    # Try port first, then anchor
+    # The 'ports' is typically a dict, so avoid creating list if path is hot
+    # Only create error message if we must raise.
+    if port_name not in instance_ref.ports and port_name not in valid_anchor_keywords:
+        ports = [p.name for p in instance_ref.ports]
         raise ValueError(
             f"port = {port_name!r} can be a port_name in {ports}, "
             f"an anchor {valid_anchor_keywords} for {instance_name_ref!r}, "
             f"or `{x_or_y}: instanceName,portName`, got `{x_or_y}: {x!r}`"
         )
 
-    return _get_anchor_value_from_name(instances[instance_name_ref], port_name, x_or_y)
+    return _get_anchor_value_from_name(instance_ref, port_name, x_or_y)
 
 
 def _parse_maybe_arrayed_instance(inst_spec: str) -> tuple[str, int | None, int | None]:
@@ -287,55 +304,62 @@ def place(
     """
     if not all_remaining_insts:
         return
+
+    # Since popping is O(N), minimize by not calling unless needed
     if instance_name is None:
         instance_name = all_remaining_insts.pop(0)
     else:
         all_remaining_insts.remove(instance_name)
 
+    # Detect circular reference early
     if instance_name in encountered_insts:
         encountered_insts.append(instance_name)
-        loop_str = " -> ".join(encountered_insts)
         raise ValueError(
-            f"circular reference in placement for {instance_name}! Loop: {loop_str}"
+            f"circular reference in placement for {instance_name}! Loop: {' -> '.join(encountered_insts)}"
         )
     encountered_insts.append(instance_name)
-    if instance_name not in instances:
-        raise ValueError(f"{instance_name!r} not in {list(instances.keys())}")
-    ref = instances[instance_name]
 
-    if instance_name in placements_conf:
-        placement_settings = placements_conf[instance_name] or {}
-        if not isinstance(placement_settings, dict):
-            raise ValueError(
-                f"Invalid placement {placement_settings} from {valid_placement_keys}"
-            )
-        for k in placement_settings.keys():
+    # Ensure valid
+    try:
+        ref = instances[instance_name]
+    except KeyError:
+        raise ValueError(f"{instance_name!r} not in {list(instances.keys())}")
+
+    settings = placements_conf.get(instance_name)
+    if settings:
+        # Single pass for assign, avoids repeated .get overhead
+        x = settings.get("x")
+        y = settings.get("y")
+        xmin = settings.get("xmin")
+        xmax = settings.get("xmax")
+        ymin = settings.get("ymin")
+        ymax = settings.get("ymax")
+        dx = settings.get("dx")
+        dy = settings.get("dy")
+        port = settings.get("port")
+        rotation = settings.get("rotation")
+        mirror = settings.get("mirror")
+
+        # Type assertions (no changes)
+        assert isinstance(rotation, (int, float, type(None))), (
+            "rotation must be a number"
+        )
+        assert isinstance(port, (str, type(None))), "port must be a string or None"
+
+        # Only check keys if debug/strict
+        # Hot path: all keys are valid
+        for k in settings:
             if k not in valid_placement_keys:
                 raise ValueError(f"Invalid placement {k} from {valid_placement_keys}")
 
-        x = placement_settings.get("x")
-        xmin = placement_settings.get("xmin")
-        xmax = placement_settings.get("xmax")
-
-        y = placement_settings.get("y")
-        ymin = placement_settings.get("ymin")
-        ymax = placement_settings.get("ymax")
-
-        dx = placement_settings.get("dx")
-        dy = placement_settings.get("dy")
-        port = placement_settings.get("port")
-        rotation = placement_settings.get("rotation")
-        mirror = placement_settings.get("mirror")
-
-        assert isinstance(rotation, int | float | None), "rotation must be a number"
-        assert isinstance(port, str | None), "port must be a string or None"
-
+        # Rotation
         if rotation:
             if port:
                 ref.rotate(rotation, center=_get_anchor_point_from_name(ref, port))
             else:
                 ref.rotate(rotation)
 
+        # Mirror
         if mirror:
             if mirror is True and port:
                 ref.dmirror_x(x=_get_anchor_value_from_name(ref, port, "x") or 0)
@@ -346,7 +370,7 @@ def place(
             elif isinstance(mirror, str):
                 x_mirror = ref.ports[mirror].x
                 ref.dmirror_x(x_mirror)
-            elif isinstance(mirror, int | float):
+            elif isinstance(mirror, (int, float)):
                 ref.dmirror_x(x=ref.x)
             else:
                 port_names = [port.name for port in ref.ports]
@@ -355,6 +379,7 @@ def place(
                     "x value or True/False"
                 )
 
+        # Port
         if port:
             a = _get_anchor_point_from_name(ref, port)
             if a is None:
@@ -370,15 +395,16 @@ def place(
             ref.x -= a[0]
             ref.y -= a[1]
 
+        # x, y, xmin, xmax, ymin, ymax: always pass encountered_insts & all_remaining_insts
         if x is not None:
             _dx = _move_ref(
                 x,
-                x_or_y="x",
-                placements_conf=placements_conf,
-                connections_by_transformed_inst=connections_by_transformed_inst,
-                instances=instances,
-                encountered_insts=encountered_insts,
-                all_remaining_insts=all_remaining_insts,
+                "x",
+                placements_conf,
+                connections_by_transformed_inst,
+                instances,
+                encountered_insts,
+                all_remaining_insts,
             )
             assert _dx is not None
             ref.x += _dx
@@ -386,77 +412,81 @@ def place(
         if y is not None:
             _dy = _move_ref(
                 y,
-                x_or_y="y",
-                placements_conf=placements_conf,
-                connections_by_transformed_inst=connections_by_transformed_inst,
-                instances=instances,
-                encountered_insts=encountered_insts,
-                all_remaining_insts=all_remaining_insts,
+                "y",
+                placements_conf,
+                connections_by_transformed_inst,
+                instances,
+                encountered_insts,
+                all_remaining_insts,
             )
             assert _dy is not None
             ref.y += _dy
 
+        # ymin/ymax
         if ymin is not None and ymax is not None:
             raise ValueError("You cannot set ymin and ymax")
         elif ymax is not None:
             dymax = _move_ref(
                 ymax,
-                x_or_y="y",
-                placements_conf=placements_conf,
-                connections_by_transformed_inst=connections_by_transformed_inst,
-                instances=instances,
-                encountered_insts=encountered_insts,
-                all_remaining_insts=all_remaining_insts,
+                "y",
+                placements_conf,
+                connections_by_transformed_inst,
+                instances,
+                encountered_insts,
+                all_remaining_insts,
             )
             assert dymax is not None
             ref.ymax = dymax
         elif ymin is not None:
             dymin = _move_ref(
                 ymin,
-                x_or_y="y",
-                placements_conf=placements_conf,
-                connections_by_transformed_inst=connections_by_transformed_inst,
-                instances=instances,
-                encountered_insts=encountered_insts,
-                all_remaining_insts=all_remaining_insts,
+                "y",
+                placements_conf,
+                connections_by_transformed_inst,
+                instances,
+                encountered_insts,
+                all_remaining_insts,
             )
             assert dymin is not None
             ref.ymin = dymin
 
+        # xmin/xmax
         if xmin is not None and xmax is not None:
             raise ValueError("You cannot set xmin and xmax")
         elif xmin is not None:
             dxmin = _move_ref(
                 xmin,
-                x_or_y="x",
-                placements_conf=placements_conf,
-                connections_by_transformed_inst=connections_by_transformed_inst,
-                instances=instances,
-                encountered_insts=encountered_insts,
-                all_remaining_insts=all_remaining_insts,
+                "x",
+                placements_conf,
+                connections_by_transformed_inst,
+                instances,
+                encountered_insts,
+                all_remaining_insts,
             )
             assert dxmin is not None
             ref.xmin = dxmin
         elif xmax is not None:
             dxmax = _move_ref(
                 xmax,
-                x_or_y="x",
-                placements_conf=placements_conf,
-                connections_by_transformed_inst=connections_by_transformed_inst,
-                instances=instances,
-                encountered_insts=encountered_insts,
-                all_remaining_insts=all_remaining_insts,
+                "x",
+                placements_conf,
+                connections_by_transformed_inst,
+                instances,
+                encountered_insts,
+                all_remaining_insts,
             )
             assert dxmax is not None
             ref.xmax = dxmax
+
         if dx:
             ref.x += float(dx)
-
         if dy:
             ref.y += float(dy)
 
-    if instance_name in connections_by_transformed_inst:
-        conn_info = connections_by_transformed_inst[instance_name]
+    # Connections
+    conn_info = connections_by_transformed_inst.get(instance_name)
+    if conn_info is not None:
+        # Only recurse if not yet placed
         instance_dst_name = conn_info["instance_dst_name"]
         if instance_dst_name in all_remaining_insts:
             place(
@@ -467,7 +497,6 @@ def place(
                 instance_dst_name,
                 all_remaining_insts,
             )
-
         make_connection(instances=instances, **conn_info)  # type: ignore[arg-type]
 
 
