@@ -4,8 +4,8 @@
     "cpus": 2
   },
   "waitFor": "onCreateCommand",
-  "updateContentCommand": "make full",
-  "postCreateCommand": "uv sync",
+  "updateContentCommand": "make install",
+  "postCreateCommand": "make install",
   "customizations": {
     "vscode": {
       "extensions": [
