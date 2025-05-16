@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from functools import partial
+from itertools import islice
 from typing import Any
 
 import gdsfactory as gf
@@ -10,10 +11,11 @@ from gdsfactory.typings import ComponentSpec
 
 
 def _get_bend_size(bend90: Component) -> float:
-    p1, p2 = list(bend90.ports)[:2]
-    bsx = abs(p2.x - p1.x)
-    bsy = abs(p2.y - p1.y)
-    return max(bsx, bsy)
+    # Use islice to efficiently fetch first 2 ports from bend90.ports, avoiding list creation
+    p1, p2 = islice(bend90.ports, 2)
+    dx = abs(p2.x - p1.x)
+    dy = abs(p2.y - p1.y)
+    return max(dx, dy)
 
 
 @gf.cell_with_module_name
