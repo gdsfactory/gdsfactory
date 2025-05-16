@@ -53,9 +53,11 @@ def move_polar_rad_copy(
         angle: in radians.
         length: extension length in um.
     """
-    c = np.cos(angle)
-    s = np.sin(angle)
-    return pos + length * np.array([c, s])
+    # Direct computation, no need to create intermediate arrays
+    dx = length * np.cos(angle)
+    dy = length * np.sin(angle)
+    # Use np.asarray for safe type/broadcasting in case pos is a list/tuple
+    return np.asarray(pos, dtype=float) + [dx, dy]
 
 
 @gf.cell_with_module_name
