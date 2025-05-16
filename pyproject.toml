@@ -55,6 +55,7 @@ version = "9.5.10"
 [project.optional-dependencies]
 cad = ["kweb>=1.1.9,<2.1"]
 dev = [
+  "codeflash",
   "ipykernel",
   "jupyterlab",
   "jsondiff",
