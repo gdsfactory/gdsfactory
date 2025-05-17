@@ -1,6 +1,6 @@
-name-template: 'v$RESOLVED_VERSION'
-tag-template: 'v$RESOLVED_VERSION'
-change-template: '- $TITLE [#$NUMBER](https://github.com/gdsfactory/gdsfactory/pull/$NUMBER)'
+name-template: "v$RESOLVED_VERSION"
+tag-template: "v$RESOLVED_VERSION"
+change-template: "- $TITLE [#$NUMBER](https://github.com/gdsfactory/gdsfactory/pull/$NUMBER)"
 template: |
   # What's Changed
 
@@ -8,60 +8,67 @@ template: |
 
   **Full Changelog**: https://github.com/$OWNER/$REPOSITORY/compare/$PREVIOUS_TAG...v$RESOLVED_VERSION
 categories:
-  - title: 'Breaking'
-    label: 'breaking'
-  - title: 'New'
+  - title: "Breaking"
+    label: "breaking"
+  - title: "New"
     labels:
-      - 'feature'
-      - 'enhancement'
-  - title: 'Bug Fixes'
-    label: 'bug'
-  - title: 'Maintenance'
+      - "feature"
+      - "enhancement"
+  - title: "Bug Fixes"
+    label: "bug"
+  - title: "Maintenance"
     labels:
-      - 'maintenance'
-      - 'github_actions'
-      - 'codeflash'
-  - title: 'Documentation'
-    label: 'documentation'
-  - title: 'Other changes'
-  - title: 'Dependency Updates'
-    label: 'dependencies'
+      - "maintenance"
+      - "github_actions"
+      - "codeflash"
+  - title: "Documentation"
+    label: "documentation"
+  - title: "Typing"
+    label: "typing"
+  - title: "Other changes"
+  - title: "Dependency Updates"
+    label: "dependencies"
     collapse-after: 5
 version-resolver:
   major:
     labels:
-      - 'breaking'
-      - 'major'
+      - "breaking"
+      - "major"
   minor:
     labels:
-      - 'feature'
-      - 'minor'
-      - 'enhancement'
+      - "feature"
+      - "minor"
+      - "enhancement"
   patch:
     labels:
-      - 'bug'
-      - 'maintenance'
-      - 'github_actions'
-      - 'documentation'
-      - 'dependencies'
-      - 'security'
+      - "bug"
+      - "maintenance"
+      - "github_actions"
+      - "documentation"
+      - "dependencies"
+      - "security"
   default: patch
 exclude-labels:
-  - 'skip-changelog'
+  - "skip-changelog"
 autolabeler:
-  - label: 'documentation'
+  - label: "documentation"
     files:
-      - '*.md'
+      - "*.md"
     branch:
-      - '/docs-.+/'
-  - label: 'bug'
+      - "/docs-.+/"
+  - label: "bug"
     branch:
-      - '/fix-.+/'
+      - "/fix-.+/"
     title:
-      - '/fix/i'
-  - label: 'enhancement'
+      - "/fix/i"
+  - label: "enhancement"
     branch:
-      - '/feature-.+/'
-      - '/add-.+/'
+      - "/feature-.+/"
+      - "/add-.+/"
     title:
       - '/^add\s/i'
+  - label: "typing"
+    branch:
+      - "/^typing-.+/"
+    title:
+      - "/^typing/i"
