@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import contextlib
 from collections.abc import Callable, Iterable
-from functools import partial
+from functools import lru_cache, partial
 from inspect import isfunction, signature
 from typing import Any
 
@@ -24,7 +24,8 @@ def get_cells(
         ignore_underscored: only include functions that do not start with '_'
         ignore_partials: only include functions, not partials
     """
-    if not isinstance(modules, Iterable) or isinstance(modules, str | bytes):
+    # Ensure modules is a list (avoid checking in each loop iteration)
+    if not isinstance(modules, Iterable) or isinstance(modules, (str, bytes)):
         modules = [modules]
 
     cells: dict[str, ComponentFactory] = {}
@@ -32,24 +33,24 @@ def get_cells(
     _is_cell = is_cell
 
     for module in modules:
-        # Faster than inspect.getmembers
+        # Prefer module.__dict__ for speed, else fallback to getattr walk
         module_dict = getattr(module, "__dict__", None)
         if module_dict is not None:
             items = module_dict.items()
         else:
+            # generator for (name, value) from dir/module
             items = ((name, getattr(module, name)) for name in dir(module))
 
-        cells = {
-            name: member
-            for name, member in items
+        # Incrementally add to cells (so multiple modules don't overwrite each other entirely)
+        for name, member in items:
             if _is_cell(
                 member,
                 ignore_non_decorated=ignore_non_decorated,
                 ignore_underscored=ignore_underscored,
                 ignore_partials=ignore_partials,
                 name=name,
-            )
-        }
+            ):
+                cells[name] = member
 
     return cells
 
@@ -65,7 +66,7 @@ def is_cell(
     if not callable(func):
         return False
 
-    # Handle functools.partial only if not skipping partials
+    # Fast partial check: skip recursion if needed
     if not ignore_partials and isinstance(func, partial):
         return is_cell(
             func.func,
@@ -77,30 +78,32 @@ def is_cell(
 
     # Use attribute if sent (avoid double lookup)
     if not name:
-        try:
-            name = func.__name__
-        except AttributeError:
+        name = getattr(func, "__name__", None)
+        if name is None:
             return False
+
     if ignore_underscored and name.startswith("_"):
         return False
 
-    # Fast attribute check (most common)
-    if getattr(func, "is_gf_cell", False):
+    # Fast attribute check for 'is_gf_cell'
+    is_Gf_cell = getattr(func, "is_gf_cell", False)
+    if is_Gf_cell:
         return True
 
+    # Only proceed to expensive checks if needed
     if not ignore_non_decorated:
-        # signature() is expensive, only do if not already matched above
+        ann = getattr(func, "__annotations__", None)
+        if ann:
+            ann_ret = ann.get("return", None)
+            if ann_ret is Component or (
+                isinstance(ann_ret, str) and ann_ret.endswith("Component")
+            ):
+                return True
+        # Use cached signature resolution
         try:
-            r = func.__annotations__.get("return", None)
-            if r is not None:
-                # __annotations__ may have actual class ref or string
-                if r is Component or (isinstance(r, str) and r.endswith("Component")):
-                    return True
-            # fallback if annotation isn't present/enough
-            from inspect import signature
-
-            r = signature(func).return_annotation
-            return r is Component or (isinstance(r, str) and r.endswith("Component"))
+            r = _get_signature(func).return_annotation
+            if r is Component or (isinstance(r, str) and r.endswith("Component")):
+                return True
         except Exception:
             return False
     return False
@@ -129,3 +132,16 @@ def get_cells_from_dict(
                 if r == Component or (isinstance(r, str) and r.endswith("Component")):
                     valid_cells[name] = member
     return valid_cells
+
+
+@lru_cache(maxsize=2048)
+def _cached_signature(func_id):
+    """Cache inspect.signature by function id."""
+    # 'func_id' is a tuple: (id(func), type(func))
+    return signature(_cached_signature._func_map[func_id])
+
+
+def _get_signature(func):
+    fid = (id(func), type(func))
+    _cached_signature._func_map[fid] = func
+    return _cached_signature(fid)
