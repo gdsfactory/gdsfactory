@@ -13,7 +13,7 @@ from __future__ import annotations
 import json
 import warnings
 from functools import partial
-from typing import Any, Protocol, cast
+from typing import Any, Protocol
 
 import kfactory as kf
 import numpy as np
@@ -103,32 +103,39 @@ def get_pin_triangle_polygon_tip(
     p = port
     port_face = p.info.get("face", None)
 
-    orientation = p.orientation
+    orientation_rad = p.orientation * (np.pi / 180)
+    ca = np.cos(orientation_rad)
+    sa = np.sin(orientation_rad)
+    rot00, rot01, rot10, rot11 = ca, -sa, sa, ca  # Precompute for single-use
 
-    ca = np.cos(orientation * np.pi / 180)
-    sa = np.sin(orientation * np.pi / 180)
-    rot_mat = np.array([[ca, -sa], [sa, ca]])
-    d = p.width / 2
-
-    dtip = np.array([d, 0])
+    d = float(p.width) * 0.5  # Always use float for NumPy math
+    cx, cy = p.center[0], p.center[1]  # p.center is typically sequence
 
     if port_face:
         dtop = port_face[0]
         dbot = port_face[-1]
+        dbotx, dboty = dbot[0], dbot[1]
+        dtopx, dtopy = dtop[0], dtop[1]
     else:
-        dbot = np.array([0, -d])
-        dtop = np.array([0, d])
+        dbotx, dboty = 0.0, -d
+        dtopx, dtopy = 0.0, d
 
-    p0 = p.center + _rotate(dbot, rot_mat)
-    p1 = p.center + _rotate(dtop, rot_mat)
-    port_face = [p0, p1]
+    # Apply the rotation and translation inline
+    p0x = cx + rot00 * dbotx + rot01 * dboty
+    p0y = cy + rot10 * dbotx + rot11 * dboty
+    p1x = cx + rot00 * dtopx + rot01 * dtopy
+    p1y = cy + rot10 * dtopx + rot11 * dtopy
 
-    ptip = cast(
-        tuple[float, float], tuple(map(float, p.center + _rotate(dtip, rot_mat)))
+    # Tip: dtip = (d,0)
+    ptipx = cx + rot00 * d
+    ptipy = cy + rot10 * d
+
+    # Stack all points into a single array, no object dtype, no extra function calls
+    polygon_stacked = np.array(
+        [[p0x, p0y], [p1x, p1y], [ptipx, ptipy]], dtype=np.float64
     )
 
-    polygon = list(port_face) + [ptip]
-    polygon_stacked = np.stack(polygon)
+    ptip: tuple[float, float] = (ptipx, ptipy)
     return polygon_stacked, ptip
 
 
