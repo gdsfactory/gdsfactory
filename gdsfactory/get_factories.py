@@ -24,7 +24,7 @@ def get_cells(
         ignore_underscored: only include functions that do not start with '_'
         ignore_partials: only include functions, not partials
     """
-    if not isinstance(modules, Iterable) or isinstance(modules, (str, bytes)):
+    if not isinstance(modules, Iterable) or isinstance(modules, str | bytes):
         modules = [modules]
 
     cells: dict[str, ComponentFactory] = {}
@@ -39,15 +39,17 @@ def get_cells(
         else:
             items = ((name, getattr(module, name)) for name in dir(module))
 
-        for name, member in items:
+        cells = {
+            name: member
+            for name, member in items
             if _is_cell(
                 member,
                 ignore_non_decorated=ignore_non_decorated,
                 ignore_underscored=ignore_underscored,
                 ignore_partials=ignore_partials,
                 name=name,
-            ):
-                cells[name] = member
+            )
+        }
 
     return cells
 
