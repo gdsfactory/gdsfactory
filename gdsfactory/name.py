@@ -115,50 +115,43 @@ def clean_name(
     Returns:
         str: The cleaned name.
     """
-    # Default allowed characters, including underscore
-    allowed = r"a-zA-Z0-9_"
+    allowed = _BASE_ALLOWED
 
-    allowed_characters = allowed_characters or []
+    if allowed_characters:
+        # Use ''.join rather than += in loop, and cache the full allowed set
+        allowed += "".join(re.escape(c) for c in allowed_characters)
 
-    # Add additional allowed characters
-    for char in allowed_characters:
-        allowed += re.escape(char)
-
-    # Pattern for characters to be replaced
-    pattern = f"[^{allowed}]"
-
-    # Replacements map
-    replace_map = {
-        " ": "_",
-        "!": "",
-        "?": "",
-        "#": "_",
-        "%": "_",
-        "(": "",
-        ")": "",
-        "*": "_",
-        ",": "_",
-        "-": "m",
-        ".": "p",
-        "/": "_",
-        ":": "_",
-        "=": "",
-        "@": "_",
-        "[": "",
-        "]": "",
-        "{": "",
-        "}": "",
-        "$": "",
-    }
-
+    replace_map = _BASE_REPLACE_MAP
     if remove_dots:
-        replace_map["."] = ""
+        # Only patch . to "" if not already in allowed chars
+        if "." not in allowed:
+            # Setting . to "" instead of "p"
+            replace_map = dict(_BASE_REPLACE_MAP)
+            replace_map["."] = ""
+            # We can't use the fast translation in this case
+            trans_table = str.maketrans(
+                {k: v for k, v in replace_map.items() if len(k) == 1 and len(v) <= 1}
+            )
+        else:
+            trans_table = _TRANS_TABLE
+    else:
+        trans_table = _TRANS_TABLE
 
-    # Replace characters using the replace_map
-    def replace_match(match: re.Match[str]) -> str:
-        return replace_map.get(match.group(0), "")
+    # Fast-path: all replacements are one-to-one or deletion, and allowed matches default and no extra allowed_chars
+    if allowed == _BASE_ALLOWED and not remove_dots:
+        # Fastest path: just translate
+        return name.translate(trans_table)
+    else:
+        # For patterns with additional allowed chars or remove_dots,
+        # must use regex & slower multi-step replace, keeping compatibility
+        pattern = _get_pattern(remove_dots, allowed)
 
-    return re.sub(pattern, replace_match, name)
+        # We fast-path single-char replacements, else use slower dict lookup
+        def replace_match(match: re.Match[str]) -> str:
+            c = match.group(0)
+            return replace_map.get(c, "")
+
+        return pattern.sub(replace_match, name)
 
 
 def clean_value(value: Any) -> str:
@@ -178,9 +171,23 @@ def test_clean_name() -> None:
     assert clean_name("wg(:_=_2852") == "wg___2852"
 
 
+def _get_pattern(remove_dots: bool, allowed: str) -> re.Pattern:
+    key = (remove_dots, allowed)
+    if key not in _pattern_cache:
+        cur_allowed = allowed
+        # If removing dots, do not allow '.'
+        if remove_dots and "." in cur_allowed:
+            cur_allowed = cur_allowed.replace(".", "")
+        _pattern_cache[key] = re.compile(f"[^{cur_allowed}]")
+    return _pattern_cache[key]
+
+
 if __name__ == "__main__":
     # testclean_value_json()
     import gdsfactory as gf
+
+    # Precompile regex for speed
+    _pattern_cache: dict[tuple[bool, Optional[str]], re.Pattern] = {}
 
     # print(clean_value(gf.components.straight))
     # c = gf.components.straight(polarization="TMeraer")
@@ -209,3 +216,34 @@ if __name__ == "__main__":
     # }
     # d2 = clean_value(d)
     # print(d2)
+
+_BASE_ALLOWED = "a-zA-Z0-9_"
+
+_BASE_REPLACE_MAP = {
+    " ": "_",
+    "!": "",
+    "?": "",
+    "#": "_",
+    "%": "_",
+    "(": "",
+    ")": "",
+    "*": "_",
+    ",": "_",
+    "-": "m",
+    ".": "p",
+    "/": "_",
+    ":": "_",
+    "=": "",
+    "@": "_",
+    "[": "",
+    "]": "",
+    "{": "",
+    "}": "",
+    "$": "",
+}
+
+_SINGLE_CHAR_MAP = {
+    k: v for k, v in _BASE_REPLACE_MAP.items() if len(k) == 1 and len(v) <= 1
+}
+
+_TRANS_TABLE = str.maketrans(_SINGLE_CHAR_MAP)
