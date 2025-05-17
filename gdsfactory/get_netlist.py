@@ -382,19 +382,27 @@ def _extract_connections(
     unconnected_port_names: list[str] = list(port_names)
     connections: list[list[str]] = []
 
+    # --- OPTIMIZATION BEGIN ---
+    # Cache 'center' for all relevant ports up front, as this dominates runtime.
+    port_center_cache: dict[str, tuple[float, float]] = {}
     by_xy: dict[tuple[float, float], list[str]] = defaultdict(list)
-
     for port_name in unconnected_port_names:
         port = ports[port_name]
-        by_xy[port.to_itype().center].append(port_name)
+        # Only call to_itype/center ONCE per port!
+        center = port.to_itype().center
+        port_center_cache[port_name] = center
+        by_xy[center].append(port_name)
+    # --- OPTIMIZATION END ---
 
+    # Prepare for next logic stage
     unconnected_port_names = []
 
     for xy, ports_at_xy in by_xy.items():
-        if len(ports_at_xy) == 1:
+        count = len(ports_at_xy)
+        if count == 1:
             unconnected_port_names.append(ports_at_xy[0])
 
-        elif len(ports_at_xy) == 2:
+        elif count == 2:
             port1 = ports[ports_at_xy[0]]
             port2 = ports[ports_at_xy[1]]
             connection_validator(port1, port2, ports_at_xy, warnings)
@@ -406,7 +414,7 @@ def _extract_connections(
 
         else:
             # Iterates over the list of multiple ports to create related two-port connectivity
-            num_ports = len(ports_at_xy)
+            num_ports = count
             for portindex1, portindex2 in zip(
                 range(-1, num_ports - 1), range(num_ports)
             ):
@@ -416,12 +424,15 @@ def _extract_connections(
                 connections.append([ports_at_xy[portindex1], ports_at_xy[portindex2]])
 
     if unconnected_port_names:
+        # Check only for names containing ","
+        # Use list comprehension - low cost here
         unconnected_non_top_level = [
-            pname for pname in unconnected_port_names if ("," in pname)
+            pname for pname in unconnected_port_names if "," in pname
         ]
         if unconnected_non_top_level:
+            # Use cached center result
             unconnected_xys = [
-                ports[pname].center for pname in unconnected_non_top_level
+                port_center_cache[pname] for pname in unconnected_non_top_level
             ]
             warnings["unconnected_ports"].append(
                 _make_warning(
