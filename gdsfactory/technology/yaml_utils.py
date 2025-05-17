@@ -1,6 +1,3 @@
-from collections.abc import Iterable
-from typing import Any
-
 import yaml
 import yaml.representer as yaml_representer
 from pydantic_extra_types.color import Color
@@ -28,13 +25,9 @@ def add_color_yaml_representer(prefer_named_color: bool = True) -> None:
 
 def add_tuple_yaml_representer() -> None:
     """Add a custom YAML presenter for tuple objects."""
-
-    def _tuple_presenter(
-        dumper: yaml_representer.SafeRepresenter, data: Iterable[Any]
-    ) -> yaml.Node:
-        return dumper.represent_sequence("tag:yaml.org,2002:seq", data, flow_style=True)
-
-    TechnologyDumper.add_representer(tuple, _tuple_presenter)
+    # Register the presenter only if not already present.
+    if tuple not in TechnologyDumper.yaml_representers:
+        TechnologyDumper.add_representer(tuple, _tuple_presenter)
 
 
 def add_multiline_str_yaml_representer() -> None:
@@ -48,6 +41,11 @@ def add_multiline_str_yaml_representer() -> None:
         return dumper.represent_scalar("tag:yaml.org,2002:str", data)
 
     TechnologyDumper.add_representer(str, _str_presenter)
+
+
+# Define the tuple presenter only once at module load time, not every call.
+def _tuple_presenter(dumper, data):
+    return dumper.represent_sequence("tag:yaml.org,2002:seq", data, flow_style=True)
 
 
 add_color_yaml_representer()
