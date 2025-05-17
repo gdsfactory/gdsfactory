@@ -1,5 +1,5 @@
 instances:
-  bend_euler_gdsfactorypc_56602939_5000_15700:
+  bend_euler_gdsfactorypc_56602939_5000_15700_A90:
     component: bend_euler
     info:
       dy: 5
@@ -23,7 +23,7 @@ instances:
       radius: 5
       width: null
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_56602939_m4000_20700:
+  bend_euler_gdsfactorypc_56602939_m4000_20700_A180:
     component: bend_euler
     info:
       dy: 5
@@ -73,7 +73,7 @@ instances:
       length: 4
       npoints: 2
       width: null
-  straight_gdsfactorypcom_f2286423_5000_15700:
+  straight_gdsfactorypcom_f2286423_5000_15700_A270:
     component: straight
     info:
       length: 10
@@ -87,7 +87,7 @@ instances:
       length: 10
       npoints: 2
       width: null
-  straight_gdsfactorypcom_f2286423_m9000_15700:
+  straight_gdsfactorypcom_f2286423_m9000_15700_A270:
     component: straight
     info:
       length: 10
@@ -103,25 +103,25 @@ instances:
       width: null
 name: ring_single_dut_gdsfact_8e89b00d
 nets:
-- p1: bend_euler_gdsfactorypc_56602939_5000_15700,o1
-  p2: straight_gdsfactorypcom_f2286423_5000_15700,o1
-- p1: bend_euler_gdsfactorypc_56602939_5000_15700,o2
+- p1: bend_euler_gdsfactorypc_56602939_5000_15700_A90,o1
+  p2: straight_gdsfactorypcom_f2286423_5000_15700_A270,o1
+- p1: bend_euler_gdsfactorypc_56602939_5000_15700_A90,o2
   p2: straight_gdsfactorypcom_a6eac62c_m4000_20700,o2
-- p1: bend_euler_gdsfactorypc_56602939_m4000_20700,o1
+- p1: bend_euler_gdsfactorypc_56602939_m4000_20700_A180,o1
   p2: straight_gdsfactorypcom_a6eac62c_m4000_20700,o1
-- p1: bend_euler_gdsfactorypc_56602939_m4000_20700,o2
-  p2: straight_gdsfactorypcom_f2286423_m9000_15700,o1
+- p1: bend_euler_gdsfactorypc_56602939_m4000_20700_A180,o2
+  p2: straight_gdsfactorypcom_f2286423_m9000_15700_A270,o1
 - p1: coupler_ring_gdsfactory_8af83332_0_0,o2
-  p2: straight_gdsfactorypcom_f2286423_m9000_15700,o2
+  p2: straight_gdsfactorypcom_f2286423_m9000_15700_A270,o2
 - p1: coupler_ring_gdsfactory_8af83332_0_0,o3
-  p2: straight_gdsfactorypcom_f2286423_5000_15700,o2
+  p2: straight_gdsfactorypcom_f2286423_5000_15700_A270,o2
 placements:
-  bend_euler_gdsfactorypc_56602939_5000_15700:
+  bend_euler_gdsfactorypc_56602939_5000_15700_A90:
     mirror: false
     rotation: 90
     x: 5
     y: 15.7
-  bend_euler_gdsfactorypc_56602939_m4000_20700:
+  bend_euler_gdsfactorypc_56602939_m4000_20700_A180:
     mirror: false
     rotation: 180
     x: -4
@@ -136,12 +136,12 @@ placements:
     rotation: 0
     x: -4
     y: 20.7
-  straight_gdsfactorypcom_f2286423_5000_15700:
+  straight_gdsfactorypcom_f2286423_5000_15700_A270:
     mirror: false
     rotation: 270
     x: 5
     y: 15.7
-  straight_gdsfactorypcom_f2286423_m9000_15700:
+  straight_gdsfactorypcom_f2286423_m9000_15700_A270:
     mirror: false
     rotation: 270
     x: -9

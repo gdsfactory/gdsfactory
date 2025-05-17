@@ -11,7 +11,7 @@ instances:
       length_x: 0.01
       radius: 10
       straight: straight
-  coupler_ring_gdsfactory_0dce5cf1_m10_21410:
+  coupler_ring_gdsfactory_0dce5cf1_m10_21410_A180:
     component: coupler_ring
     info: {}
     settings:
@@ -23,7 +23,7 @@ instances:
       length_x: 0.01
       radius: 10
       straight: straight
-  straight_gdsfactorypcom_05377f40_10000_10710:
+  straight_gdsfactorypcom_05377f40_10000_10710_A270:
     component: straight
     info:
       length: 0.01
@@ -37,7 +37,7 @@ instances:
       length: 0.01
       npoints: 2
       width: null
-  straight_gdsfactorypcom_05377f40_m10010_10700:
+  straight_gdsfactorypcom_05377f40_m10010_10700_A90:
     component: straight
     info:
       length: 0.01
@@ -54,30 +54,30 @@ instances:
 name: ring_double_gdsfactoryp_c961dbbf
 nets:
 - p1: coupler_ring_gdsfactory_0dce5cf1_0_0,o2
-  p2: straight_gdsfactorypcom_05377f40_m10010_10700,o1
+  p2: straight_gdsfactorypcom_05377f40_m10010_10700_A90,o1
 - p1: coupler_ring_gdsfactory_0dce5cf1_0_0,o3
-  p2: straight_gdsfactorypcom_05377f40_10000_10710,o2
-- p1: coupler_ring_gdsfactory_0dce5cf1_m10_21410,o2
-  p2: straight_gdsfactorypcom_05377f40_10000_10710,o1
-- p1: coupler_ring_gdsfactory_0dce5cf1_m10_21410,o3
-  p2: straight_gdsfactorypcom_05377f40_m10010_10700,o2
+  p2: straight_gdsfactorypcom_05377f40_10000_10710_A270,o2
+- p1: coupler_ring_gdsfactory_0dce5cf1_m10_21410_A180,o2
+  p2: straight_gdsfactorypcom_05377f40_10000_10710_A270,o1
+- p1: coupler_ring_gdsfactory_0dce5cf1_m10_21410_A180,o3
+  p2: straight_gdsfactorypcom_05377f40_m10010_10700_A90,o2
 placements:
   coupler_ring_gdsfactory_0dce5cf1_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  coupler_ring_gdsfactory_0dce5cf1_m10_21410:
+  coupler_ring_gdsfactory_0dce5cf1_m10_21410_A180:
     mirror: false
     rotation: 180
     x: -0.01
     y: 21.41
-  straight_gdsfactorypcom_05377f40_10000_10710:
+  straight_gdsfactorypcom_05377f40_10000_10710_A270:
     mirror: false
     rotation: 270
     x: 10
     y: 10.71
-  straight_gdsfactorypcom_05377f40_m10010_10700:
+  straight_gdsfactorypcom_05377f40_m10010_10700_A90:
     mirror: false
     rotation: 90
     x: -10.01
@@ -85,5 +85,5 @@ placements:
 ports:
   o1: coupler_ring_gdsfactory_0dce5cf1_0_0,o1
   o2: coupler_ring_gdsfactory_0dce5cf1_0_0,o4
-  o3: coupler_ring_gdsfactory_0dce5cf1_m10_21410,o4
-  o4: coupler_ring_gdsfactory_0dce5cf1_m10_21410,o1
+  o3: coupler_ring_gdsfactory_0dce5cf1_m10_21410_A180,o4
+  o4: coupler_ring_gdsfactory_0dce5cf1_m10_21410_A180,o1

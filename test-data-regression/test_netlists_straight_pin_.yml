@@ -13,7 +13,7 @@ instances:
       length: 480
       npoints: 2
       width: null
-  taper_strip_to_ridge_gd_947a0bf0_490000_0:
+  taper_strip_to_ridge_gd_947a0bf0_490000_0_A180:
     component: taper_strip_to_ridge
     info:
       length: 10
@@ -104,14 +104,14 @@ nets:
 - p1: straight_gdsfactorypcom_0775fb2d_0_0,o1
   p2: taper_strip_to_ridge_gd_947a0bf0_m10000_0,o2
 - p1: straight_gdsfactorypcom_0775fb2d_0_0,o2
-  p2: taper_strip_to_ridge_gd_947a0bf0_490000_0,o2
+  p2: taper_strip_to_ridge_gd_947a0bf0_490000_0_A180,o2
 placements:
   straight_gdsfactorypcom_0775fb2d_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  taper_strip_to_ridge_gd_947a0bf0_490000_0:
+  taper_strip_to_ridge_gd_947a0bf0_490000_0_A180:
     mirror: false
     rotation: 180
     x: 490
@@ -137,7 +137,7 @@ ports:
   bot_e3: via_stack_gdsfactorypco_4830cbb0_240000_m6000,e3
   bot_e4: via_stack_gdsfactorypco_4830cbb0_240000_m6000,e4
   o1: taper_strip_to_ridge_gd_947a0bf0_m10000_0,o1
-  o2: taper_strip_to_ridge_gd_947a0bf0_490000_0,o1
+  o2: taper_strip_to_ridge_gd_947a0bf0_490000_0_A180,o1
   top_e1: via_stack_gdsfactorypco_4830cbb0_240000_6000,e1
   top_e2: via_stack_gdsfactorypco_4830cbb0_240000_6000,e2
   top_e3: via_stack_gdsfactorypco_4830cbb0_240000_6000,e3

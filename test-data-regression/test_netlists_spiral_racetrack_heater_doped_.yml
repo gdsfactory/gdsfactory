@@ -36,7 +36,7 @@ instances:
       length: 30
       npoints: 2
       width: null
-  straight_gdsfactorypcom_e3a8c66a_30000_m30000:
+  straight_gdsfactorypcom_e3a8c66a_30000_m30000_A180:
     component: straight
     info:
       length: 30
@@ -63,7 +63,7 @@ placements:
     rotation: 0
     x: 0
     y: 12
-  straight_gdsfactorypcom_e3a8c66a_30000_m30000:
+  straight_gdsfactorypcom_e3a8c66a_30000_m30000_A180:
     mirror: false
     rotation: 180
     x: 30
@@ -73,5 +73,5 @@ ports:
   bot_e2: straight_gdsfactorypcom_e3a8c66a_0_12000,e2
   o1: spiral_racetrack_gdsfac_7ac50a2e_0_0,o1
   o2: spiral_racetrack_gdsfac_7ac50a2e_0_0,o2
-  top_e1: straight_gdsfactorypcom_e3a8c66a_30000_m30000,e1
-  top_e2: straight_gdsfactorypcom_e3a8c66a_30000_m30000,e2
+  top_e1: straight_gdsfactorypcom_e3a8c66a_30000_m30000_A180,e1
+  top_e2: straight_gdsfactorypcom_e3a8c66a_30000_m30000_A180,e2

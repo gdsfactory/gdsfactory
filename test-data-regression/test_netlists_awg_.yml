@@ -1,5 +1,5 @@
 instances:
-  bend_euler_gdsfactorypc_af2c9296_1083_26000:
+  bend_euler_gdsfactorypc_af2c9296_1083_26000_A90_M:
     component: bend_euler
     info:
       dy: 10
@@ -23,7 +23,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_30250_30000:
+  bend_euler_gdsfactorypc_af2c9296_30250_30000_M:
     component: bend_euler
     info:
       dy: 10
@@ -47,7 +47,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_32417_31500:
+  bend_euler_gdsfactorypc_af2c9296_32417_31500_M:
     component: bend_euler
     info:
       dy: 10
@@ -71,7 +71,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_3250_24500:
+  bend_euler_gdsfactorypc_af2c9296_3250_24500_A90_M:
     component: bend_euler
     info:
       dy: 10
@@ -95,7 +95,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_34583_33000:
+  bend_euler_gdsfactorypc_af2c9296_34583_33000_M:
     component: bend_euler
     info:
       dy: 10
@@ -119,7 +119,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_36750_34500:
+  bend_euler_gdsfactorypc_af2c9296_36750_34500_M:
     component: bend_euler
     info:
       dy: 10
@@ -143,7 +143,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_38917_36000:
+  bend_euler_gdsfactorypc_af2c9296_38917_36000_M:
     component: bend_euler
     info:
       dy: 10
@@ -167,7 +167,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_41083_37500:
+  bend_euler_gdsfactorypc_af2c9296_41083_37500_M:
     component: bend_euler
     info:
       dy: 10
@@ -191,7 +191,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_43250_39000:
+  bend_euler_gdsfactorypc_af2c9296_43250_39000_M:
     component: bend_euler
     info:
       dy: 10
@@ -215,7 +215,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_45417_40500:
+  bend_euler_gdsfactorypc_af2c9296_45417_40500_M:
     component: bend_euler
     info:
       dy: 10
@@ -239,7 +239,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_47583_42000:
+  bend_euler_gdsfactorypc_af2c9296_47583_42000_M:
     component: bend_euler
     info:
       dy: 10
@@ -263,7 +263,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_49750_43500:
+  bend_euler_gdsfactorypc_af2c9296_49750_43500_M:
     component: bend_euler
     info:
       dy: 10
@@ -287,7 +287,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_5417_23000:
+  bend_euler_gdsfactorypc_af2c9296_5417_23000_A90_M:
     component: bend_euler
     info:
       dy: 10
@@ -311,7 +311,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_7583_21500:
+  bend_euler_gdsfactorypc_af2c9296_7583_21500_A90_M:
     component: bend_euler
     info:
       dy: 10
@@ -335,7 +335,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_9750_20000:
+  bend_euler_gdsfactorypc_af2c9296_9750_20000_A90_M:
     component: bend_euler
     info:
       dy: 10
@@ -359,7 +359,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_m1083_27500:
+  bend_euler_gdsfactorypc_af2c9296_m1083_27500_A90_M:
     component: bend_euler
     info:
       dy: 10
@@ -383,7 +383,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_m3250_29000:
+  bend_euler_gdsfactorypc_af2c9296_m3250_29000_A90_M:
     component: bend_euler
     info:
       dy: 10
@@ -407,7 +407,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_m5417_30500:
+  bend_euler_gdsfactorypc_af2c9296_m5417_30500_A90_M:
     component: bend_euler
     info:
       dy: 10
@@ -431,7 +431,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_m7583_32000:
+  bend_euler_gdsfactorypc_af2c9296_m7583_32000_A90_M:
     component: bend_euler
     info:
       dy: 10
@@ -455,7 +455,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_m9750_33500:
+  bend_euler_gdsfactorypc_af2c9296_m9750_33500_A90_M:
     component: bend_euler
     info:
       dy: 10
@@ -479,7 +479,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  free_propagation_region_5ff2a5ce_0_0:
+  free_propagation_region_5ff2a5ce_0_0_A90:
     component: free_propagation_region
     info:
       length: 20
@@ -493,7 +493,7 @@ instances:
       wg_width: 0.5
       width1: 2
       width2: 20
-  free_propagation_region_e953b677_50000_0:
+  free_propagation_region_e953b677_50000_0_A90:
     component: free_propagation_region
     info:
       length: 20
@@ -507,7 +507,7 @@ instances:
       wg_width: 0.5
       width1: 10
       width2: 20
-  straight_gdsfactorypcom_09b87fdc_53250_29000:
+  straight_gdsfactorypcom_09b87fdc_53250_29000_A270:
     component: straight
     info:
       length: 9
@@ -521,7 +521,7 @@ instances:
       length: 9
       npoints: 2
       width: 0.5
-  straight_gdsfactorypcom_09b87fdc_m3250_29000:
+  straight_gdsfactorypcom_09b87fdc_m3250_29000_A270:
     component: straight
     info:
       length: 9
@@ -563,7 +563,7 @@ instances:
       length: 14.834
       npoints: 2
       width: 0.5
-  straight_gdsfactorypcom_27783c1e_42417_21500:
+  straight_gdsfactorypcom_27783c1e_42417_21500_A270:
     component: straight
     info:
       length: 1.5
@@ -577,7 +577,7 @@ instances:
       length: 1.5
       npoints: 2
       width: 0.5
-  straight_gdsfactorypcom_27783c1e_7583_21500:
+  straight_gdsfactorypcom_27783c1e_7583_21500_A270:
     component: straight
     info:
       length: 1.5
@@ -591,7 +591,7 @@ instances:
       length: 1.5
       npoints: 2
       width: 0.5
-  straight_gdsfactorypcom_3d0cd97c_51083_27500:
+  straight_gdsfactorypcom_3d0cd97c_51083_27500_A270:
     component: straight
     info:
       length: 7.5
@@ -605,7 +605,7 @@ instances:
       length: 7.5
       npoints: 2
       width: 0.5
-  straight_gdsfactorypcom_3d0cd97c_m1083_27500:
+  straight_gdsfactorypcom_3d0cd97c_m1083_27500_A270:
     component: straight
     info:
       length: 7.5
@@ -619,7 +619,7 @@ instances:
       length: 7.5
       npoints: 2
       width: 0.5
-  straight_gdsfactorypcom_5d7bad5d_59750_33500:
+  straight_gdsfactorypcom_5d7bad5d_59750_33500_A270:
     component: straight
     info:
       length: 13.5
@@ -633,7 +633,7 @@ instances:
       length: 13.5
       npoints: 2
       width: 0.5
-  straight_gdsfactorypcom_5d7bad5d_m9750_33500:
+  straight_gdsfactorypcom_5d7bad5d_m9750_33500_A270:
     component: straight
     info:
       length: 13.5
@@ -661,7 +661,7 @@ instances:
       length: 40.834
       npoints: 2
       width: 0.5
-  straight_gdsfactorypcom_702d0d58_1083_26000:
+  straight_gdsfactorypcom_702d0d58_1083_26000_A270:
     component: straight
     info:
       length: 6
@@ -675,7 +675,7 @@ instances:
       length: 6
       npoints: 2
       width: 0.5
-  straight_gdsfactorypcom_702d0d58_48917_26000:
+  straight_gdsfactorypcom_702d0d58_48917_26000_A270:
     component: straight
     info:
       length: 6
@@ -689,7 +689,7 @@ instances:
       length: 6
       npoints: 2
       width: 0.5
-  straight_gdsfactorypcom_76e47883_44583_23000:
+  straight_gdsfactorypcom_76e47883_44583_23000_A270:
     component: straight
     info:
       length: 3
@@ -703,7 +703,7 @@ instances:
       length: 3
       npoints: 2
       width: 0.5
-  straight_gdsfactorypcom_76e47883_5417_23000:
+  straight_gdsfactorypcom_76e47883_5417_23000_A270:
     component: straight
     info:
       length: 3
@@ -773,7 +773,7 @@ instances:
       length: 27.834
       npoints: 2
       width: 0.5
-  straight_gdsfactorypcom_99671446_3250_24500:
+  straight_gdsfactorypcom_99671446_3250_24500_A270:
     component: straight
     info:
       length: 4.5
@@ -787,7 +787,7 @@ instances:
       length: 4.5
       npoints: 2
       width: 0.5
-  straight_gdsfactorypcom_99671446_46750_24500:
+  straight_gdsfactorypcom_99671446_46750_24500_A270:
     component: straight
     info:
       length: 4.5
@@ -829,7 +829,7 @@ instances:
       length: 10.5
       npoints: 2
       width: 0.5
-  straight_gdsfactorypcom_da623fc9_55417_30500:
+  straight_gdsfactorypcom_da623fc9_55417_30500_A270:
     component: straight
     info:
       length: 10.5
@@ -843,7 +843,7 @@ instances:
       length: 10.5
       npoints: 2
       width: 0.5
-  straight_gdsfactorypcom_da623fc9_m5417_30500:
+  straight_gdsfactorypcom_da623fc9_m5417_30500_A270:
     component: straight
     info:
       length: 10.5
@@ -871,7 +871,7 @@ instances:
       length: 36.5
       npoints: 2
       width: 0.5
-  straight_gdsfactorypcom_f3e780f9_57583_32000:
+  straight_gdsfactorypcom_f3e780f9_57583_32000_A270:
     component: straight
     info:
       length: 12
@@ -885,7 +885,7 @@ instances:
       length: 12
       npoints: 2
       width: 0.5
-  straight_gdsfactorypcom_f3e780f9_m7583_32000:
+  straight_gdsfactorypcom_f3e780f9_m7583_32000_A270:
     component: straight
     info:
       length: 12
@@ -901,239 +901,239 @@ instances:
       width: 0.5
 name: awg_gdsfactorypcomponen_290103a6
 nets:
-- p1: bend_euler_gdsfactorypc_af2c9296_1083_26000,o1
-  p2: straight_gdsfactorypcom_702d0d58_1083_26000,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_1083_26000,o2
+- p1: bend_euler_gdsfactorypc_af2c9296_1083_26000_A90_M,o1
+  p2: straight_gdsfactorypcom_702d0d58_1083_26000_A270,o1
+- p1: bend_euler_gdsfactorypc_af2c9296_1083_26000_A90_M,o2
   p2: straight_gdsfactorypcom_9630dc72_11083_36000,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_30250_30000,o1
+- p1: bend_euler_gdsfactorypc_af2c9296_30250_30000_M,o1
   p2: straight_gdsfactorypcom_da623fc9_19750_30000,o2
-- p1: bend_euler_gdsfactorypc_af2c9296_30250_30000,o2
-  p2: free_propagation_region_e953b677_50000_0,E9
-- p1: bend_euler_gdsfactorypc_af2c9296_32417_31500,o1
+- p1: bend_euler_gdsfactorypc_af2c9296_30250_30000_M,o2
+  p2: free_propagation_region_e953b677_50000_0_A90,E9
+- p1: bend_euler_gdsfactorypc_af2c9296_32417_31500_M,o1
   p2: straight_gdsfactorypcom_193ce81f_17583_31500,o2
-- p1: bend_euler_gdsfactorypc_af2c9296_32417_31500,o2
-  p2: straight_gdsfactorypcom_27783c1e_42417_21500,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_3250_24500,o1
-  p2: straight_gdsfactorypcom_99671446_3250_24500,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_3250_24500,o2
+- p1: bend_euler_gdsfactorypc_af2c9296_32417_31500_M,o2
+  p2: straight_gdsfactorypcom_27783c1e_42417_21500_A270,o1
+- p1: bend_euler_gdsfactorypc_af2c9296_3250_24500_A90_M,o1
+  p2: straight_gdsfactorypcom_99671446_3250_24500_A270,o1
+- p1: bend_euler_gdsfactorypc_af2c9296_3250_24500_A90_M,o2
   p2: straight_gdsfactorypcom_827597b2_13250_34500,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_34583_33000,o1
+- p1: bend_euler_gdsfactorypc_af2c9296_34583_33000_M,o1
   p2: straight_gdsfactorypcom_1504ef4a_15417_33000,o2
-- p1: bend_euler_gdsfactorypc_af2c9296_34583_33000,o2
-  p2: straight_gdsfactorypcom_76e47883_44583_23000,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_36750_34500,o1
+- p1: bend_euler_gdsfactorypc_af2c9296_34583_33000_M,o2
+  p2: straight_gdsfactorypcom_76e47883_44583_23000_A270,o1
+- p1: bend_euler_gdsfactorypc_af2c9296_36750_34500_M,o1
   p2: straight_gdsfactorypcom_827597b2_13250_34500,o2
-- p1: bend_euler_gdsfactorypc_af2c9296_36750_34500,o2
-  p2: straight_gdsfactorypcom_99671446_46750_24500,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_38917_36000,o1
+- p1: bend_euler_gdsfactorypc_af2c9296_36750_34500_M,o2
+  p2: straight_gdsfactorypcom_99671446_46750_24500_A270,o1
+- p1: bend_euler_gdsfactorypc_af2c9296_38917_36000_M,o1
   p2: straight_gdsfactorypcom_9630dc72_11083_36000,o2
-- p1: bend_euler_gdsfactorypc_af2c9296_38917_36000,o2
-  p2: straight_gdsfactorypcom_702d0d58_48917_26000,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_41083_37500,o1
+- p1: bend_euler_gdsfactorypc_af2c9296_38917_36000_M,o2
+  p2: straight_gdsfactorypcom_702d0d58_48917_26000_A270,o1
+- p1: bend_euler_gdsfactorypc_af2c9296_41083_37500_M,o1
   p2: straight_gdsfactorypcom_807addbc_8917_37500,o2
-- p1: bend_euler_gdsfactorypc_af2c9296_41083_37500,o2
-  p2: straight_gdsfactorypcom_3d0cd97c_51083_27500,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_43250_39000,o1
+- p1: bend_euler_gdsfactorypc_af2c9296_41083_37500_M,o2
+  p2: straight_gdsfactorypcom_3d0cd97c_51083_27500_A270,o1
+- p1: bend_euler_gdsfactorypc_af2c9296_43250_39000_M,o1
   p2: straight_gdsfactorypcom_da8cfc5e_6750_39000,o2
-- p1: bend_euler_gdsfactorypc_af2c9296_43250_39000,o2
-  p2: straight_gdsfactorypcom_09b87fdc_53250_29000,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_45417_40500,o1
+- p1: bend_euler_gdsfactorypc_af2c9296_43250_39000_M,o2
+  p2: straight_gdsfactorypcom_09b87fdc_53250_29000_A270,o1
+- p1: bend_euler_gdsfactorypc_af2c9296_45417_40500_M,o1
   p2: straight_gdsfactorypcom_67f97490_4583_40500,o2
-- p1: bend_euler_gdsfactorypc_af2c9296_45417_40500,o2
-  p2: straight_gdsfactorypcom_da623fc9_55417_30500,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_47583_42000,o1
+- p1: bend_euler_gdsfactorypc_af2c9296_45417_40500_M,o2
+  p2: straight_gdsfactorypcom_da623fc9_55417_30500_A270,o1
+- p1: bend_euler_gdsfactorypc_af2c9296_47583_42000_M,o1
   p2: straight_gdsfactorypcom_bdf181a4_2417_42000,o2
-- p1: bend_euler_gdsfactorypc_af2c9296_47583_42000,o2
-  p2: straight_gdsfactorypcom_f3e780f9_57583_32000,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_49750_43500,o1
+- p1: bend_euler_gdsfactorypc_af2c9296_47583_42000_M,o2
+  p2: straight_gdsfactorypcom_f3e780f9_57583_32000_A270,o1
+- p1: bend_euler_gdsfactorypc_af2c9296_49750_43500_M,o1
   p2: straight_gdsfactorypcom_83262ea0_250_43500,o2
-- p1: bend_euler_gdsfactorypc_af2c9296_49750_43500,o2
-  p2: straight_gdsfactorypcom_5d7bad5d_59750_33500,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_5417_23000,o1
-  p2: straight_gdsfactorypcom_76e47883_5417_23000,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_5417_23000,o2
+- p1: bend_euler_gdsfactorypc_af2c9296_49750_43500_M,o2
+  p2: straight_gdsfactorypcom_5d7bad5d_59750_33500_A270,o1
+- p1: bend_euler_gdsfactorypc_af2c9296_5417_23000_A90_M,o1
+  p2: straight_gdsfactorypcom_76e47883_5417_23000_A270,o1
+- p1: bend_euler_gdsfactorypc_af2c9296_5417_23000_A90_M,o2
   p2: straight_gdsfactorypcom_1504ef4a_15417_33000,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_7583_21500,o1
-  p2: straight_gdsfactorypcom_27783c1e_7583_21500,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_7583_21500,o2
+- p1: bend_euler_gdsfactorypc_af2c9296_7583_21500_A90_M,o1
+  p2: straight_gdsfactorypcom_27783c1e_7583_21500_A270,o1
+- p1: bend_euler_gdsfactorypc_af2c9296_7583_21500_A90_M,o2
   p2: straight_gdsfactorypcom_193ce81f_17583_31500,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_9750_20000,o1
-  p2: free_propagation_region_5ff2a5ce_0_0,E0
-- p1: bend_euler_gdsfactorypc_af2c9296_9750_20000,o2
+- p1: bend_euler_gdsfactorypc_af2c9296_9750_20000_A90_M,o1
+  p2: free_propagation_region_5ff2a5ce_0_0_A90,E0
+- p1: bend_euler_gdsfactorypc_af2c9296_9750_20000_A90_M,o2
   p2: straight_gdsfactorypcom_da623fc9_19750_30000,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_m1083_27500,o1
-  p2: straight_gdsfactorypcom_3d0cd97c_m1083_27500,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_m1083_27500,o2
+- p1: bend_euler_gdsfactorypc_af2c9296_m1083_27500_A90_M,o1
+  p2: straight_gdsfactorypcom_3d0cd97c_m1083_27500_A270,o1
+- p1: bend_euler_gdsfactorypc_af2c9296_m1083_27500_A90_M,o2
   p2: straight_gdsfactorypcom_807addbc_8917_37500,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_m3250_29000,o1
-  p2: straight_gdsfactorypcom_09b87fdc_m3250_29000,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_m3250_29000,o2
+- p1: bend_euler_gdsfactorypc_af2c9296_m3250_29000_A90_M,o1
+  p2: straight_gdsfactorypcom_09b87fdc_m3250_29000_A270,o1
+- p1: bend_euler_gdsfactorypc_af2c9296_m3250_29000_A90_M,o2
   p2: straight_gdsfactorypcom_da8cfc5e_6750_39000,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_m5417_30500,o1
-  p2: straight_gdsfactorypcom_da623fc9_m5417_30500,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_m5417_30500,o2
+- p1: bend_euler_gdsfactorypc_af2c9296_m5417_30500_A90_M,o1
+  p2: straight_gdsfactorypcom_da623fc9_m5417_30500_A270,o1
+- p1: bend_euler_gdsfactorypc_af2c9296_m5417_30500_A90_M,o2
   p2: straight_gdsfactorypcom_67f97490_4583_40500,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_m7583_32000,o1
-  p2: straight_gdsfactorypcom_f3e780f9_m7583_32000,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_m7583_32000,o2
+- p1: bend_euler_gdsfactorypc_af2c9296_m7583_32000_A90_M,o1
+  p2: straight_gdsfactorypcom_f3e780f9_m7583_32000_A270,o1
+- p1: bend_euler_gdsfactorypc_af2c9296_m7583_32000_A90_M,o2
   p2: straight_gdsfactorypcom_bdf181a4_2417_42000,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_m9750_33500,o1
-  p2: straight_gdsfactorypcom_5d7bad5d_m9750_33500,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_m9750_33500,o2
+- p1: bend_euler_gdsfactorypc_af2c9296_m9750_33500_A90_M,o1
+  p2: straight_gdsfactorypcom_5d7bad5d_m9750_33500_A270,o1
+- p1: bend_euler_gdsfactorypc_af2c9296_m9750_33500_A90_M,o2
   p2: straight_gdsfactorypcom_83262ea0_250_43500,o1
-- p1: free_propagation_region_5ff2a5ce_0_0,E1
-  p2: straight_gdsfactorypcom_27783c1e_7583_21500,o2
-- p1: free_propagation_region_5ff2a5ce_0_0,E2
-  p2: straight_gdsfactorypcom_76e47883_5417_23000,o2
-- p1: free_propagation_region_5ff2a5ce_0_0,E3
-  p2: straight_gdsfactorypcom_99671446_3250_24500,o2
-- p1: free_propagation_region_5ff2a5ce_0_0,E4
-  p2: straight_gdsfactorypcom_702d0d58_1083_26000,o2
-- p1: free_propagation_region_5ff2a5ce_0_0,E5
-  p2: straight_gdsfactorypcom_3d0cd97c_m1083_27500,o2
-- p1: free_propagation_region_5ff2a5ce_0_0,E6
-  p2: straight_gdsfactorypcom_09b87fdc_m3250_29000,o2
-- p1: free_propagation_region_5ff2a5ce_0_0,E7
-  p2: straight_gdsfactorypcom_da623fc9_m5417_30500,o2
-- p1: free_propagation_region_5ff2a5ce_0_0,E8
-  p2: straight_gdsfactorypcom_f3e780f9_m7583_32000,o2
-- p1: free_propagation_region_5ff2a5ce_0_0,E9
-  p2: straight_gdsfactorypcom_5d7bad5d_m9750_33500,o2
-- p1: free_propagation_region_e953b677_50000_0,E0
-  p2: straight_gdsfactorypcom_5d7bad5d_59750_33500,o2
-- p1: free_propagation_region_e953b677_50000_0,E1
-  p2: straight_gdsfactorypcom_f3e780f9_57583_32000,o2
-- p1: free_propagation_region_e953b677_50000_0,E2
-  p2: straight_gdsfactorypcom_da623fc9_55417_30500,o2
-- p1: free_propagation_region_e953b677_50000_0,E3
-  p2: straight_gdsfactorypcom_09b87fdc_53250_29000,o2
-- p1: free_propagation_region_e953b677_50000_0,E4
-  p2: straight_gdsfactorypcom_3d0cd97c_51083_27500,o2
-- p1: free_propagation_region_e953b677_50000_0,E5
-  p2: straight_gdsfactorypcom_702d0d58_48917_26000,o2
-- p1: free_propagation_region_e953b677_50000_0,E6
-  p2: straight_gdsfactorypcom_99671446_46750_24500,o2
-- p1: free_propagation_region_e953b677_50000_0,E7
-  p2: straight_gdsfactorypcom_76e47883_44583_23000,o2
-- p1: free_propagation_region_e953b677_50000_0,E8
-  p2: straight_gdsfactorypcom_27783c1e_42417_21500,o2
+- p1: free_propagation_region_5ff2a5ce_0_0_A90,E1
+  p2: straight_gdsfactorypcom_27783c1e_7583_21500_A270,o2
+- p1: free_propagation_region_5ff2a5ce_0_0_A90,E2
+  p2: straight_gdsfactorypcom_76e47883_5417_23000_A270,o2
+- p1: free_propagation_region_5ff2a5ce_0_0_A90,E3
+  p2: straight_gdsfactorypcom_99671446_3250_24500_A270,o2
+- p1: free_propagation_region_5ff2a5ce_0_0_A90,E4
+  p2: straight_gdsfactorypcom_702d0d58_1083_26000_A270,o2
+- p1: free_propagation_region_5ff2a5ce_0_0_A90,E5
+  p2: straight_gdsfactorypcom_3d0cd97c_m1083_27500_A270,o2
+- p1: free_propagation_region_5ff2a5ce_0_0_A90,E6
+  p2: straight_gdsfactorypcom_09b87fdc_m3250_29000_A270,o2
+- p1: free_propagation_region_5ff2a5ce_0_0_A90,E7
+  p2: straight_gdsfactorypcom_da623fc9_m5417_30500_A270,o2
+- p1: free_propagation_region_5ff2a5ce_0_0_A90,E8
+  p2: straight_gdsfactorypcom_f3e780f9_m7583_32000_A270,o2
+- p1: free_propagation_region_5ff2a5ce_0_0_A90,E9
+  p2: straight_gdsfactorypcom_5d7bad5d_m9750_33500_A270,o2
+- p1: free_propagation_region_e953b677_50000_0_A90,E0
+  p2: straight_gdsfactorypcom_5d7bad5d_59750_33500_A270,o2
+- p1: free_propagation_region_e953b677_50000_0_A90,E1
+  p2: straight_gdsfactorypcom_f3e780f9_57583_32000_A270,o2
+- p1: free_propagation_region_e953b677_50000_0_A90,E2
+  p2: straight_gdsfactorypcom_da623fc9_55417_30500_A270,o2
+- p1: free_propagation_region_e953b677_50000_0_A90,E3
+  p2: straight_gdsfactorypcom_09b87fdc_53250_29000_A270,o2
+- p1: free_propagation_region_e953b677_50000_0_A90,E4
+  p2: straight_gdsfactorypcom_3d0cd97c_51083_27500_A270,o2
+- p1: free_propagation_region_e953b677_50000_0_A90,E5
+  p2: straight_gdsfactorypcom_702d0d58_48917_26000_A270,o2
+- p1: free_propagation_region_e953b677_50000_0_A90,E6
+  p2: straight_gdsfactorypcom_99671446_46750_24500_A270,o2
+- p1: free_propagation_region_e953b677_50000_0_A90,E7
+  p2: straight_gdsfactorypcom_76e47883_44583_23000_A270,o2
+- p1: free_propagation_region_e953b677_50000_0_A90,E8
+  p2: straight_gdsfactorypcom_27783c1e_42417_21500_A270,o2
 placements:
-  bend_euler_gdsfactorypc_af2c9296_1083_26000:
+  bend_euler_gdsfactorypc_af2c9296_1083_26000_A90_M:
     mirror: true
     rotation: 90
     x: 1.083
     y: 26
-  bend_euler_gdsfactorypc_af2c9296_30250_30000:
+  bend_euler_gdsfactorypc_af2c9296_30250_30000_M:
     mirror: true
     rotation: 0
     x: 30.25
     y: 30
-  bend_euler_gdsfactorypc_af2c9296_32417_31500:
+  bend_euler_gdsfactorypc_af2c9296_32417_31500_M:
     mirror: true
     rotation: 0
     x: 32.417
     y: 31.5
-  bend_euler_gdsfactorypc_af2c9296_3250_24500:
+  bend_euler_gdsfactorypc_af2c9296_3250_24500_A90_M:
     mirror: true
     rotation: 90
     x: 3.25
     y: 24.5
-  bend_euler_gdsfactorypc_af2c9296_34583_33000:
+  bend_euler_gdsfactorypc_af2c9296_34583_33000_M:
     mirror: true
     rotation: 0
     x: 34.583
     y: 33
-  bend_euler_gdsfactorypc_af2c9296_36750_34500:
+  bend_euler_gdsfactorypc_af2c9296_36750_34500_M:
     mirror: true
     rotation: 0
     x: 36.75
     y: 34.5
-  bend_euler_gdsfactorypc_af2c9296_38917_36000:
+  bend_euler_gdsfactorypc_af2c9296_38917_36000_M:
     mirror: true
     rotation: 0
     x: 38.917
     y: 36
-  bend_euler_gdsfactorypc_af2c9296_41083_37500:
+  bend_euler_gdsfactorypc_af2c9296_41083_37500_M:
     mirror: true
     rotation: 0
     x: 41.083
     y: 37.5
-  bend_euler_gdsfactorypc_af2c9296_43250_39000:
+  bend_euler_gdsfactorypc_af2c9296_43250_39000_M:
     mirror: true
     rotation: 0
     x: 43.25
     y: 39
-  bend_euler_gdsfactorypc_af2c9296_45417_40500:
+  bend_euler_gdsfactorypc_af2c9296_45417_40500_M:
     mirror: true
     rotation: 0
     x: 45.417
     y: 40.5
-  bend_euler_gdsfactorypc_af2c9296_47583_42000:
+  bend_euler_gdsfactorypc_af2c9296_47583_42000_M:
     mirror: true
     rotation: 0
     x: 47.583
     y: 42
-  bend_euler_gdsfactorypc_af2c9296_49750_43500:
+  bend_euler_gdsfactorypc_af2c9296_49750_43500_M:
     mirror: true
     rotation: 0
     x: 49.75
     y: 43.5
-  bend_euler_gdsfactorypc_af2c9296_5417_23000:
+  bend_euler_gdsfactorypc_af2c9296_5417_23000_A90_M:
     mirror: true
     rotation: 90
     x: 5.417
     y: 23
-  bend_euler_gdsfactorypc_af2c9296_7583_21500:
+  bend_euler_gdsfactorypc_af2c9296_7583_21500_A90_M:
     mirror: true
     rotation: 90
     x: 7.583
     y: 21.5
-  bend_euler_gdsfactorypc_af2c9296_9750_20000:
+  bend_euler_gdsfactorypc_af2c9296_9750_20000_A90_M:
     mirror: true
     rotation: 90
     x: 9.75
     y: 20
-  bend_euler_gdsfactorypc_af2c9296_m1083_27500:
+  bend_euler_gdsfactorypc_af2c9296_m1083_27500_A90_M:
     mirror: true
     rotation: 90
     x: -1.083
     y: 27.5
-  bend_euler_gdsfactorypc_af2c9296_m3250_29000:
+  bend_euler_gdsfactorypc_af2c9296_m3250_29000_A90_M:
     mirror: true
     rotation: 90
     x: -3.25
     y: 29
-  bend_euler_gdsfactorypc_af2c9296_m5417_30500:
+  bend_euler_gdsfactorypc_af2c9296_m5417_30500_A90_M:
     mirror: true
     rotation: 90
     x: -5.417
     y: 30.5
-  bend_euler_gdsfactorypc_af2c9296_m7583_32000:
+  bend_euler_gdsfactorypc_af2c9296_m7583_32000_A90_M:
     mirror: true
     rotation: 90
     x: -7.583
     y: 32
-  bend_euler_gdsfactorypc_af2c9296_m9750_33500:
+  bend_euler_gdsfactorypc_af2c9296_m9750_33500_A90_M:
     mirror: true
     rotation: 90
     x: -9.75
     y: 33.5
-  free_propagation_region_5ff2a5ce_0_0:
+  free_propagation_region_5ff2a5ce_0_0_A90:
     mirror: false
     rotation: 90
     x: 0
     y: 0
-  free_propagation_region_e953b677_50000_0:
+  free_propagation_region_e953b677_50000_0_A90:
     mirror: false
     rotation: 90
     x: 50
     y: 0
-  straight_gdsfactorypcom_09b87fdc_53250_29000:
+  straight_gdsfactorypcom_09b87fdc_53250_29000_A270:
     mirror: false
     rotation: 270
     x: 53.25
     y: 29
-  straight_gdsfactorypcom_09b87fdc_m3250_29000:
+  straight_gdsfactorypcom_09b87fdc_m3250_29000_A270:
     mirror: false
     rotation: 270
     x: -3.25
@@ -1148,32 +1148,32 @@ placements:
     rotation: 0
     x: 17.583
     y: 31.5
-  straight_gdsfactorypcom_27783c1e_42417_21500:
+  straight_gdsfactorypcom_27783c1e_42417_21500_A270:
     mirror: false
     rotation: 270
     x: 42.417
     y: 21.5
-  straight_gdsfactorypcom_27783c1e_7583_21500:
+  straight_gdsfactorypcom_27783c1e_7583_21500_A270:
     mirror: false
     rotation: 270
     x: 7.583
     y: 21.5
-  straight_gdsfactorypcom_3d0cd97c_51083_27500:
+  straight_gdsfactorypcom_3d0cd97c_51083_27500_A270:
     mirror: false
     rotation: 270
     x: 51.083
     y: 27.5
-  straight_gdsfactorypcom_3d0cd97c_m1083_27500:
+  straight_gdsfactorypcom_3d0cd97c_m1083_27500_A270:
     mirror: false
     rotation: 270
     x: -1.083
     y: 27.5
-  straight_gdsfactorypcom_5d7bad5d_59750_33500:
+  straight_gdsfactorypcom_5d7bad5d_59750_33500_A270:
     mirror: false
     rotation: 270
     x: 59.75
     y: 33.5
-  straight_gdsfactorypcom_5d7bad5d_m9750_33500:
+  straight_gdsfactorypcom_5d7bad5d_m9750_33500_A270:
     mirror: false
     rotation: 270
     x: -9.75
@@ -1183,22 +1183,22 @@ placements:
     rotation: 0
     x: 4.583
     y: 40.5
-  straight_gdsfactorypcom_702d0d58_1083_26000:
+  straight_gdsfactorypcom_702d0d58_1083_26000_A270:
     mirror: false
     rotation: 270
     x: 1.083
     y: 26
-  straight_gdsfactorypcom_702d0d58_48917_26000:
+  straight_gdsfactorypcom_702d0d58_48917_26000_A270:
     mirror: false
     rotation: 270
     x: 48.917
     y: 26
-  straight_gdsfactorypcom_76e47883_44583_23000:
+  straight_gdsfactorypcom_76e47883_44583_23000_A270:
     mirror: false
     rotation: 270
     x: 44.583
     y: 23
-  straight_gdsfactorypcom_76e47883_5417_23000:
+  straight_gdsfactorypcom_76e47883_5417_23000_A270:
     mirror: false
     rotation: 270
     x: 5.417
@@ -1223,12 +1223,12 @@ placements:
     rotation: 0
     x: 11.083
     y: 36
-  straight_gdsfactorypcom_99671446_3250_24500:
+  straight_gdsfactorypcom_99671446_3250_24500_A270:
     mirror: false
     rotation: 270
     x: 3.25
     y: 24.5
-  straight_gdsfactorypcom_99671446_46750_24500:
+  straight_gdsfactorypcom_99671446_46750_24500_A270:
     mirror: false
     rotation: 270
     x: 46.75
@@ -1243,12 +1243,12 @@ placements:
     rotation: 0
     x: 19.75
     y: 30
-  straight_gdsfactorypcom_da623fc9_55417_30500:
+  straight_gdsfactorypcom_da623fc9_55417_30500_A270:
     mirror: false
     rotation: 270
     x: 55.417
     y: 30.5
-  straight_gdsfactorypcom_da623fc9_m5417_30500:
+  straight_gdsfactorypcom_da623fc9_m5417_30500_A270:
     mirror: false
     rotation: 270
     x: -5.417
@@ -1258,18 +1258,18 @@ placements:
     rotation: 0
     x: 6.75
     y: 39
-  straight_gdsfactorypcom_f3e780f9_57583_32000:
+  straight_gdsfactorypcom_f3e780f9_57583_32000_A270:
     mirror: false
     rotation: 270
     x: 57.583
     y: 32
-  straight_gdsfactorypcom_f3e780f9_m7583_32000:
+  straight_gdsfactorypcom_f3e780f9_m7583_32000_A270:
     mirror: false
     rotation: 270
     x: -7.583
     y: 32
 ports:
-  E0: free_propagation_region_e953b677_50000_0,W0
-  E1: free_propagation_region_e953b677_50000_0,W1
-  E2: free_propagation_region_e953b677_50000_0,W2
-  o1: free_propagation_region_5ff2a5ce_0_0,o1
+  E0: free_propagation_region_e953b677_50000_0_A90,W0
+  E1: free_propagation_region_e953b677_50000_0_A90,W1
+  E2: free_propagation_region_e953b677_50000_0_A90,W2
+  o1: free_propagation_region_5ff2a5ce_0_0_A90,o1
