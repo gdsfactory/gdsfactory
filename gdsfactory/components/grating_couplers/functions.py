@@ -35,17 +35,24 @@ def ellipse_arc(
         theta_max: in rad.
         angle_step: in rad.
     """
-    # Compute theta in degrees, then convert to radians only once
-    theta = np.arange(theta_min, theta_max + angle_step, angle_step) * DEG2RAD
+    # Make use of STEP and limits consistent with inclusion at max; avoid repeated allocation in snap
+    theta = (
+        np.arange(theta_min, theta_max + angle_step, angle_step, dtype=np.float64)
+        * DEG2RAD
+    )
 
-    # Compute xs and ys in a vectorized way, no unnecessary temporaries
+    # Compute xs, ys as float64 and create result array in one step
     xs = a * np.cos(theta) + x0
     ys = b * np.sin(theta)
-    # Stack arrays first, then snap both columns at once for better cache locality and fewer function calls
-    arc = np.empty((xs.size, 2), dtype=float)
+
+    # Preallocate and fill in one pass, avoid extra temp arrays/object construction
+    # (stacking = 1 array allocation, 2 assignments)
+    arc = np.empty((xs.size, 2), dtype=np.float64)
     arc[:, 0] = xs
     arc[:, 1] = ys
-    arc = gf.snap.snap_to_grid(arc)
+
+    # Use internal fast snap_to_grid for 2d arrays
+    arc = _fast_snap_to_grid_2d(arc)
     return arc  # shape (N,2), as before
 
 
@@ -91,7 +98,7 @@ def grating_taper_points(
         wg_width: in um.
         angle_step: in degrees.
     """
-    # ellipse_arc is already optimized and returns snapped arc
+    # ellipse_arc returns already snapped, optimal points
     taper_arc = ellipse_arc(
         a=a,
         b=b,
@@ -101,13 +108,13 @@ def grating_taper_points(
         angle_step=angle_step,
     )
 
-    # Use np.array for all at once, no need for multiple arrays + addition
-    p0 = np.array([x0, wg_width / 2], dtype=float)
-    p1 = np.array([x0, -wg_width / 2], dtype=float)
-    # Allocate pre-sized array for output, which minimizes memory reallocations
-    out = np.empty((taper_arc.shape[0] + 2, 2), dtype=float)
-    out[0] = p0
-    out[1] = p1
+    # Create both "end" points and write directly to output array, with float64 precision
+    n_arc = taper_arc.shape[0]
+    out = np.empty((n_arc + 2, 2), dtype=np.float64)
+    out[0, 0] = x0
+    out[0, 1] = wg_width * 0.5
+    out[1, 0] = x0
+    out[1, 1] = -wg_width * 0.5
     out[2:] = taper_arc
     return out
 
@@ -160,6 +167,26 @@ def get_grating_period(
     DEG2RAD = pi / 180
     neff = (neff_high + neff_low) / 2
     return wavelength / (neff - float(sin(DEG2RAD * fiber_angle)) * n_clad)
+
+
+# Cythonize-compatible fast vectorized snapping for 2D arrays
+def _fast_snap_to_grid_2d(
+    arr: npt.NDArray[np.floating[Any]],
+) -> npt.NDArray[np.floating[Any]]:
+    """A faster 2D snap-to-grid specifically tuned for ellipse points (avoids input checks and asarray).
+    Assumes arr is float64 numpy array of shape (N,2).
+    """
+    # Equivalent to gf.snap.snap_to_grid(arr) but avoids repeated type-checking,
+    # conversion, and temporary allocations.
+    grid_size = gf.snap.kf.kcl.dbu
+    nm = round(grid_size * 1000)
+    # Direct NumPy math, no type coercions or dtype guessing
+    scale = 1e3 / nm
+    # Multiply by scale, round, multiply by nm, divide by 1e3 (single operation for both columns)
+    np.multiply(arr, scale, out=arr)
+    np.rint(arr, out=arr)
+    np.multiply(arr, nm / 1e3, out=arr)
+    return arr
 
 
 if __name__ == "__main__":
