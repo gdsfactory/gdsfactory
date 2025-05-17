@@ -1,9 +1,8 @@
 from __future__ import annotations
 
-import contextlib
 from collections.abc import Callable, Iterable
 from functools import partial
-from inspect import isfunction, signature
+from inspect import getmembers, isfunction, signature
 from typing import Any
 
 from gdsfactory.component import Component
@@ -24,33 +23,22 @@ def get_cells(
         ignore_underscored: only include functions that do not start with '_'
         ignore_partials: only include functions, not partials
     """
-    if not isinstance(modules, Iterable) or isinstance(modules, str | bytes):
-        modules = [modules]
-
+    modules = modules if isinstance(modules, Iterable) else [modules]
     cells: dict[str, ComponentFactory] = {}
-    # Cached names for built-in/fast lookups
-    _is_cell = is_cell
-
     for module in modules:
-        # Faster than inspect.getmembers
-        module_dict = getattr(module, "__dict__", None)
-        if module_dict is not None:
-            items = module_dict.items()
-        else:
-            items = ((name, getattr(module, name)) for name in dir(module))
-
-        cells = {
-            name: member
-            for name, member in items
-            if _is_cell(
-                member,
-                ignore_non_decorated=ignore_non_decorated,
-                ignore_underscored=ignore_underscored,
-                ignore_partials=ignore_partials,
-                name=name,
-            )
-        }
-
+        cells.update(
+            {
+                name: member
+                for name, member in getmembers(module)
+                if is_cell(
+                    member,
+                    ignore_non_decorated=ignore_non_decorated,
+                    ignore_underscored=ignore_underscored,
+                    ignore_partials=ignore_partials,
+                    name=name,
+                )
+            }
+        )
     return cells
 
 
@@ -61,48 +49,28 @@ def is_cell(
     ignore_partials: bool = False,
     name: str = "",
 ) -> bool:
-    # Fast unconditional check
-    if not callable(func):
-        return False
-
-    # Handle functools.partial only if not skipping partials
-    if not ignore_partials and isinstance(func, partial):
-        return is_cell(
-            func.func,
-            ignore_non_decorated=ignore_non_decorated,
-            ignore_underscored=ignore_underscored,
-            ignore_partials=ignore_partials,
-            name=name,
-        )
-
-    # Use attribute if sent (avoid double lookup)
-    if not name:
-        try:
+    try:
+        if not callable(func):
+            return False
+        if not ignore_partials and isinstance(func, partial):
+            return is_cell(
+                func.func,
+                ignore_non_decorated=ignore_non_decorated,
+                ignore_underscored=ignore_underscored,
+                ignore_partials=ignore_partials,
+                name=name,
+            )
+        if not name:
             name = func.__name__
-        except AttributeError:
+        if ignore_underscored and name.startswith("_"):
             return False
-    if ignore_underscored and name.startswith("_"):
-        return False
-
-    # Fast attribute check (most common)
-    if getattr(func, "is_gf_cell", False):
-        return True
-
-    if not ignore_non_decorated:
-        # signature() is expensive, only do if not already matched above
-        try:
-            r = func.__annotations__.get("return", None)
-            if r is not None:
-                # __annotations__ may have actual class ref or string
-                if r is Component or (isinstance(r, str) and r.endswith("Component")):
-                    return True
-            # fallback if annotation isn't present/enough
-            from inspect import signature
-
+        if getattr(func, "is_gf_cell", False):
+            return True
+        if not ignore_non_decorated:
             r = signature(func).return_annotation
-            return r is Component or (isinstance(r, str) and r.endswith("Component"))
-        except Exception:
-            return False
+            return r == Component or (isinstance(r, str) and r.endswith("Component"))
+    except Exception:
+        pass
     return False
 
 
@@ -118,14 +86,48 @@ def get_cells_from_dict(
         A dictionary of valid component functions.
     """
     valid_cells: dict[str, Callable[..., Component]] = {}
+    _Component = Component  # local lookup is slightly faster
 
     for name, member in cells.items():
-        if not name.startswith("_") and (
-            callable(member) and (isfunction(member) or isinstance(member, partial))
-        ):
-            with contextlib.suppress(ValueError):
-                func = member.func if isinstance(member, partial) else member
-                r = signature(func).return_annotation
-                if r == Component or (isinstance(r, str) and r.endswith("Component")):
-                    valid_cells[name] = member
+        # Fastpath: skip names starting with '_' early
+        if name and name[0] == "_":
+            continue
+
+        # Fastpath: skip non-callable objects early
+        if not callable(member):
+            continue
+
+        # isfunction/member check
+        is_func = isfunction(member)
+        is_partial = isinstance(member, partial)
+        if not (is_func or is_partial):
+            continue
+
+        # Get underlying function for partial, else the member itself
+        func = member.func if is_partial else member
+
+        # Try-block only around the annotation lookup
+        try:
+            r = _get_signature_return_annotation(func)
+        except ValueError:
+            continue
+
+        # Fastpath: check object identity (faster than isinstance)
+        if r is _Component or (isinstance(r, str) and r.endswith("Component")):
+            valid_cells[name] = member
+
     return valid_cells
+
+
+def _get_signature_return_annotation(func):
+    """Helper to cache and retrieve the return annotation for a function."""
+    try:
+        return _signature_cache[func]
+    except KeyError:
+        # Save in cache; inspect.signature is very expensive
+        r = signature(func).return_annotation
+        _signature_cache[func] = r
+        return r
+
+
+_signature_cache = {}
