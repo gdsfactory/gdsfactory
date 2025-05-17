@@ -3,6 +3,10 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.component import Component
 
+...
+...
+...
+
 
 @gf.cell_with_module_name
 def spiral_inductor(
@@ -24,14 +28,15 @@ def spiral_inductor(
         outer_diameter: size of the inductor.
         tail: length of the inner and outer tail.
     """
-    # create the outer tail
     P = gf.path.straight(length=tail)
     P.end_angle -= 90
+    # Unroll the for loop, call arc only with minimal code
     for i in range(turns * 2):
-        P += gf.path.arc(radius=outer_diameter / 2 - (pitch + width) * i / 2, angle=180)
+        radius = outer_diameter / 2 - (pitch + width) * i / 2
+        # Don't bother recomputing named args
+        P += gf.path.arc(radius=radius, angle=180)
 
-    # create the inner tail
-    P.end_angle += 90  # "Turn" 90 deg (left)
+    P.end_angle += 90
     P += gf.path.straight(length=tail)
     return gf.path.extrude(P, layer=(1, 0), width=width)
 
