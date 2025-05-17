@@ -56,7 +56,7 @@ import warnings
 from collections.abc import Callable
 from copy import deepcopy
 from functools import partial
-from typing import IO, TYPE_CHECKING, Any, Literal, Protocol, cast
+from typing import IO, TYPE_CHECKING, Any, Literal, Protocol
 
 import kfactory as kf
 import networkx as nx
@@ -159,8 +159,8 @@ valid_route_keys = [
 def _get_anchor_point_from_name(
     ref: ComponentReference, anchor_name: str
 ) -> tuple[float, float] | None:
-    if anchor_name in valid_anchor_point_keywords:
-        return cast(tuple[float, float], getattr(ref.dsize_info, anchor_name))
+    if anchor_name in VALID_ANCHOR_POINT_KEYWORDS:
+        return getattr(ref.dsize_info, anchor_name)
     elif anchor_name in ref.ports:
         return ref.ports[anchor_name].center
     return None
@@ -2055,3 +2055,16 @@ if __name__ == "__main__":
     # c2 = from_yaml(yaml_str)
     # n2 = c2.get_netlist()
     # c2.show()
+
+VALID_ANCHOR_POINT_KEYWORDS = {
+    "ce",
+    "cw",
+    "nc",
+    "ne",
+    "nw",
+    "sc",
+    "se",
+    "sw",
+    "center",
+    "cc",
+}
