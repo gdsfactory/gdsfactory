@@ -39,15 +39,17 @@ def add_tuple_yaml_representer() -> None:
 
 def add_multiline_str_yaml_representer() -> None:
     """Add a custom YAML presenter for multiline strings."""
+    # Only add the representer if not already added
+    if not hasattr(add_multiline_str_yaml_representer, "_added"):
+        TechnologyDumper.add_representer(str, _str_presenter)
+        add_multiline_str_yaml_representer._added = True
 
-    def _str_presenter(
-        dumper: yaml_representer.SafeRepresenter, data: str
-    ) -> yaml.Node:
-        if "\n" in data:  # check for multiline string
-            return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="|")
-        return dumper.represent_scalar("tag:yaml.org,2002:str", data)
 
-    TechnologyDumper.add_representer(str, _str_presenter)
+# Only define once at module level
+def _str_presenter(dumper: yaml_representer.SafeRepresenter, data: str) -> yaml.Node:
+    if "\n" in data:  # check for multiline string
+        return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="|")
+    return dumper.represent_scalar("tag:yaml.org,2002:str", data)
 
 
 add_color_yaml_representer()
