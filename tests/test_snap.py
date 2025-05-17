@@ -18,9 +18,9 @@ def test_is_on_1x_grid() -> None:
 
 
 def test_is_on_2x_grid() -> None:
-    assert not gf.snap.is_on_grid(1.1e-3, nm=2)
-    assert not gf.snap.is_on_grid(1e-3, nm=2)
-    assert gf.snap.is_on_grid(2e-3, nm=2)
+    assert not gf.snap.is_on_grid(1.1e-3, grid_factor=2)
+    assert not gf.snap.is_on_grid(1e-3, grid_factor=2)
+    assert gf.snap.is_on_grid(2e-3, grid_factor=2)
 
 
 def test_point_is_on_grid() -> None:
