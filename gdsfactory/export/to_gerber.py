@@ -50,16 +50,21 @@ def number(n: float) -> str:
         str: The formatted string.
     """
     scaled_value = round(n * 10000)
-    return f"{scaled_value:07d}"
+    # Use zfill for faster zero-padding
+    return str(scaled_value).zfill(7)
 
 
 def points(pp: list[tuple[float, float]]) -> str:
-    out = ""
+    # Build a list of all strings and join at once for better performance
+    lines = []
     d = "D02"
     for x, y in pp:
-        out += f"X{number(x)}Y{number(y)}{d}*\n"
+        # Inline number() here to reduce the function call overhead
+        sx = str(round(x * 10000)).zfill(7)
+        sy = str(round(y * 10000)).zfill(7)
+        lines.append(f"X{sx}Y{sy}{d}*\n")
         d = "D01"
-    return out
+    return "".join(lines)
 
 
 def rect(x0: float, y0: float, x1: float, y1: float) -> str:
