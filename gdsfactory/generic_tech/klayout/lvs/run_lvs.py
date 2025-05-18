@@ -152,7 +152,7 @@ def build_switches_string(sws: dict[str, str]) -> str:
     Args:
         sws: Dictionary that holds the Antenna switches.
     """
-    return " ".join(f"-rd {k}={v}" for k, v in sws.items())
+    return " ".join([f"-rd {k}={v}" for k, v in sws.items()])
 
 
 def check_lvs_results(results_db_files: Sequence[str]) -> None:
