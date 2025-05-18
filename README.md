@@ -20,8 +20,8 @@ As input you write python code, as an output GDSFactory creates CAD files (GDS, 
 Here's a simple example to get you started:
 
 ```bash
-pip install gdsfactory
-gdsfactory-install
+pip install gdsfactory_install
+gfi install
 ```
 
 ```python
