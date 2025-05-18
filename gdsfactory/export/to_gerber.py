@@ -54,12 +54,15 @@ def number(n: float) -> str:
 
 
 def points(pp: list[tuple[float, float]]) -> str:
-    out = ""
-    d = "D02"
-    for x, y in pp:
-        out += f"X{number(x)}Y{number(y)}{d}*\n"
-        d = "D01"
-    return out
+    # Use list append pattern for much faster string construction
+    if not pp:
+        return ""
+    out = []
+    x, y = pp[0]
+    out.append(f"X{number(x)}Y{number(y)}D02*\n")
+    for x, y in pp[1:]:
+        out.append(f"X{number(x)}Y{number(y)}D01*\n")
+    return "".join(out)
 
 
 def rect(x0: float, y0: float, x1: float, y1: float) -> str:
