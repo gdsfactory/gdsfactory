@@ -69,7 +69,8 @@ dev = [
   "types-cachetools",
   "pytest-github-actions-annotate-failures",
   "pytest-randomly",
-  "pytest-xdist"
+  "pytest-xdist",
+  "ty"
 ]
 docs = [
   "autodoc_pydantic>=2.0.1,<3",
