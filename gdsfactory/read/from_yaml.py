@@ -56,7 +56,7 @@ import warnings
 from collections.abc import Callable
 from copy import deepcopy
 from functools import partial
-from typing import IO, TYPE_CHECKING, Any, Literal, Protocol
+from typing import IO, TYPE_CHECKING, Any, Literal, Protocol, cast
 
 import kfactory as kf
 import networkx as nx
@@ -160,7 +160,7 @@ def _get_anchor_point_from_name(
     ref: ComponentReference, anchor_name: str
 ) -> tuple[float, float] | None:
     if anchor_name in VALID_ANCHOR_POINT_KEYWORDS:
-        return getattr(ref.dsize_info, anchor_name)
+        return cast("tuple[float, float] | None", getattr(ref.dsize_info, anchor_name))
     elif anchor_name in ref.ports:
         return ref.ports[anchor_name].center
     return None
