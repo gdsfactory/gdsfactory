@@ -50,7 +50,7 @@ def number(n: float) -> str:
         str: The formatted string.
     """
     scaled_value = round(n * 10000)
-    return f"{scaled_value:07d}"
+    return str(scaled_value).zfill(7)
 
 
 def points(pp: list[tuple[float, float]]) -> str:
