@@ -23,7 +23,7 @@ instances:
       radius: null
       width: null
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_c35a91db_10000_10000:
+  bend_euler_gdsfactorypc_c35a91db_10000_10000_A90_M:
     component: bend_euler
     info:
       dy: 10
@@ -50,18 +50,18 @@ instances:
 name: bend_euler_s_gdsfactory_361b3eaf
 nets:
 - p1: bend_euler_gdsfactorypc_c35a91db_0_0,o2
-  p2: bend_euler_gdsfactorypc_c35a91db_10000_10000,o1
+  p2: bend_euler_gdsfactorypc_c35a91db_10000_10000_A90_M,o1
 placements:
   bend_euler_gdsfactorypc_c35a91db_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  bend_euler_gdsfactorypc_c35a91db_10000_10000:
+  bend_euler_gdsfactorypc_c35a91db_10000_10000_A90_M:
     mirror: true
     rotation: 90
     x: 10
     y: 10
 ports:
   o1: bend_euler_gdsfactorypc_c35a91db_0_0,o1
-  o2: bend_euler_gdsfactorypc_c35a91db_10000_10000,o2
+  o2: bend_euler_gdsfactorypc_c35a91db_10000_10000_A90_M,o2

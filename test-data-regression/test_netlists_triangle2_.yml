@@ -8,7 +8,7 @@ instances:
       xtop: 0
       y: 20
       ybot: 0
-  triangle_gdsfactorypcom_336fc7f4_0_m3000:
+  triangle_gdsfactorypcom_336fc7f4_0_m3000_M:
     component: triangle
     info: {}
     settings:
@@ -25,7 +25,7 @@ placements:
     rotation: 0
     x: 0
     y: 0
-  triangle_gdsfactorypcom_336fc7f4_0_m3000:
+  triangle_gdsfactorypcom_336fc7f4_0_m3000_M:
     mirror: true
     rotation: 0
     x: 0

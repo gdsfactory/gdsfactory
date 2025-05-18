@@ -20,7 +20,7 @@ instances:
       - 10
       - 1.633
       width: null
-  bend_s_gdsfactorypcompo_77ca5fd8_0_m367:
+  bend_s_gdsfactorypcompo_77ca5fd8_0_m367_M:
     component: bend_s
     info:
       end_angle: 0
@@ -49,13 +49,13 @@ placements:
     rotation: 0
     x: 0
     y: 0.367
-  bend_s_gdsfactorypcompo_77ca5fd8_0_m367:
+  bend_s_gdsfactorypcompo_77ca5fd8_0_m367_M:
     mirror: true
     rotation: 0
     x: 0
     y: -0.367
 ports:
-  o1: bend_s_gdsfactorypcompo_77ca5fd8_0_m367,o1
+  o1: bend_s_gdsfactorypcompo_77ca5fd8_0_m367_M,o1
   o2: bend_s_gdsfactorypcompo_77ca5fd8_0_367,o1
   o3: bend_s_gdsfactorypcompo_77ca5fd8_0_367,o2
-  o4: bend_s_gdsfactorypcompo_77ca5fd8_0_m367,o2
+  o4: bend_s_gdsfactorypcompo_77ca5fd8_0_m367_M,o2

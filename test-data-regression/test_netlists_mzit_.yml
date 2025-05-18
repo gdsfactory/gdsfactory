@@ -23,7 +23,7 @@ instances:
       radius: null
       width: 0.55
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_57b8fb3c_38000_13400:
+  bend_euler_gdsfactorypc_57b8fb3c_38000_13400_A90:
     component: bend_euler
     info:
       dy: 10
@@ -71,7 +71,7 @@ instances:
       radius: null
       width: 0.45
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_a3e02a01_35000_11400:
+  bend_euler_gdsfactorypc_a3e02a01_35000_11400_A90:
     component: bend_euler
     info:
       dy: 10
@@ -121,7 +121,7 @@ instances:
       dy: 2
       gap: 0.3
       length: 10
-  straight_gdsfactorypcom_5fbfa602_20000_21400:
+  straight_gdsfactorypcom_5fbfa602_20000_21400_A180:
     component: straight
     info:
       length: 1
@@ -149,7 +149,7 @@ instances:
       length: 3
       npoints: 2
       width: 0.55
-  straight_gdsfactorypcom_7ef1834c_28000_23400:
+  straight_gdsfactorypcom_7ef1834c_28000_23400_A180:
     component: straight
     info:
       length: 3
@@ -163,7 +163,7 @@ instances:
       length: 3
       npoints: 2
       width: 0.55
-  straight_gdsfactorypcom_82fcb63a_38000_9400:
+  straight_gdsfactorypcom_82fcb63a_38000_9400_A90:
     component: straight
     info:
       length: 4
@@ -177,7 +177,7 @@ instances:
       length: 4
       npoints: 2
       width: 0.55
-  straight_gdsfactorypcom_8f87aff2_20000_23400:
+  straight_gdsfactorypcom_8f87aff2_20000_23400_A180:
     component: straight
     info:
       length: 1
@@ -191,7 +191,7 @@ instances:
       length: 1
       npoints: 2
       width: 0.45
-  taper_gdsfactorypcompon_0c13ccff_25000_21400:
+  taper_gdsfactorypcompon_0c13ccff_25000_21400_A180:
     component: taper
     info:
       length: 5
@@ -212,7 +212,7 @@ instances:
       width2: 0.55
       with_bbox: true
       with_two_ports: true
-  taper_gdsfactorypcompon_5c6a2317_25000_23400:
+  taper_gdsfactorypcompon_5c6a2317_25000_23400_A180:
     component: taper
     info:
       length: 5
@@ -275,7 +275,7 @@ instances:
       width2: 0.55
       with_bbox: true
       with_two_ports: true
-  taper_gdsfactorypcompon_c017326a_19000_23400:
+  taper_gdsfactorypcompon_c017326a_19000_23400_A180:
     component: taper
     info:
       length: 5
@@ -296,7 +296,7 @@ instances:
       width2: 0.5
       with_bbox: true
       with_two_ports: true
-  taper_gdsfactorypcompon_e1c8a87b_19000_21400:
+  taper_gdsfactorypcompon_e1c8a87b_19000_21400_A180:
     component: taper
     info:
       length: 5
@@ -322,44 +322,44 @@ nets:
 - p1: bend_euler_gdsfactorypc_57b8fb3c_28000_m600,o1
   p2: straight_gdsfactorypcom_7ef1834c_25000_m600,o2
 - p1: bend_euler_gdsfactorypc_57b8fb3c_28000_m600,o2
-  p2: straight_gdsfactorypcom_82fcb63a_38000_9400,o1
-- p1: bend_euler_gdsfactorypc_57b8fb3c_38000_13400,o1
-  p2: straight_gdsfactorypcom_82fcb63a_38000_9400,o2
-- p1: bend_euler_gdsfactorypc_57b8fb3c_38000_13400,o2
-  p2: straight_gdsfactorypcom_7ef1834c_28000_23400,o1
+  p2: straight_gdsfactorypcom_82fcb63a_38000_9400_A90,o1
+- p1: bend_euler_gdsfactorypc_57b8fb3c_38000_13400_A90,o1
+  p2: straight_gdsfactorypcom_82fcb63a_38000_9400_A90,o2
+- p1: bend_euler_gdsfactorypc_57b8fb3c_38000_13400_A90,o2
+  p2: straight_gdsfactorypcom_7ef1834c_28000_23400_A180,o1
 - p1: bend_euler_gdsfactorypc_a3e02a01_25000_1400,o1
   p2: taper_gdsfactorypcompon_69eccf19_20000_1400,o2
 - p1: bend_euler_gdsfactorypc_a3e02a01_25000_1400,o2
-  p2: bend_euler_gdsfactorypc_a3e02a01_35000_11400,o1
-- p1: bend_euler_gdsfactorypc_a3e02a01_35000_11400,o2
-  p2: taper_gdsfactorypcompon_0c13ccff_25000_21400,o1
+  p2: bend_euler_gdsfactorypc_a3e02a01_35000_11400_A90,o1
+- p1: bend_euler_gdsfactorypc_a3e02a01_35000_11400_A90,o2
+  p2: taper_gdsfactorypcompon_0c13ccff_25000_21400_A180,o1
 - p1: coupler_gdsfactorypcomp_7de5f5a9_m1000_22050,o3
-  p2: taper_gdsfactorypcompon_c017326a_19000_23400,o2
+  p2: taper_gdsfactorypcompon_c017326a_19000_23400_A180,o2
 - p1: coupler_gdsfactorypcomp_7de5f5a9_m1000_22050,o4
-  p2: taper_gdsfactorypcompon_e1c8a87b_19000_21400,o2
+  p2: taper_gdsfactorypcompon_e1c8a87b_19000_21400_A180,o2
 - p1: coupler_gdsfactorypcomp_de55e7a7_0_0,o3
   p2: taper_gdsfactorypcompon_69eccf19_20000_1400,o1
 - p1: coupler_gdsfactorypcomp_de55e7a7_0_0,o4
   p2: taper_gdsfactorypcompon_7fca8cd1_20000_m600,o1
-- p1: straight_gdsfactorypcom_5fbfa602_20000_21400,o1
-  p2: taper_gdsfactorypcompon_0c13ccff_25000_21400,o2
-- p1: straight_gdsfactorypcom_5fbfa602_20000_21400,o2
-  p2: taper_gdsfactorypcompon_e1c8a87b_19000_21400,o1
+- p1: straight_gdsfactorypcom_5fbfa602_20000_21400_A180,o1
+  p2: taper_gdsfactorypcompon_0c13ccff_25000_21400_A180,o2
+- p1: straight_gdsfactorypcom_5fbfa602_20000_21400_A180,o2
+  p2: taper_gdsfactorypcompon_e1c8a87b_19000_21400_A180,o1
 - p1: straight_gdsfactorypcom_7ef1834c_25000_m600,o1
   p2: taper_gdsfactorypcompon_7fca8cd1_20000_m600,o2
-- p1: straight_gdsfactorypcom_7ef1834c_28000_23400,o2
-  p2: taper_gdsfactorypcompon_5c6a2317_25000_23400,o1
-- p1: straight_gdsfactorypcom_8f87aff2_20000_23400,o1
-  p2: taper_gdsfactorypcompon_5c6a2317_25000_23400,o2
-- p1: straight_gdsfactorypcom_8f87aff2_20000_23400,o2
-  p2: taper_gdsfactorypcompon_c017326a_19000_23400,o1
+- p1: straight_gdsfactorypcom_7ef1834c_28000_23400_A180,o2
+  p2: taper_gdsfactorypcompon_5c6a2317_25000_23400_A180,o1
+- p1: straight_gdsfactorypcom_8f87aff2_20000_23400_A180,o1
+  p2: taper_gdsfactorypcompon_5c6a2317_25000_23400_A180,o2
+- p1: straight_gdsfactorypcom_8f87aff2_20000_23400_A180,o2
+  p2: taper_gdsfactorypcompon_c017326a_19000_23400_A180,o1
 placements:
   bend_euler_gdsfactorypc_57b8fb3c_28000_m600:
     mirror: false
     rotation: 0
     x: 28
     y: -0.6
-  bend_euler_gdsfactorypc_57b8fb3c_38000_13400:
+  bend_euler_gdsfactorypc_57b8fb3c_38000_13400_A90:
     mirror: false
     rotation: 90
     x: 38
@@ -369,7 +369,7 @@ placements:
     rotation: 0
     x: 25
     y: 1.4
-  bend_euler_gdsfactorypc_a3e02a01_35000_11400:
+  bend_euler_gdsfactorypc_a3e02a01_35000_11400_A90:
     mirror: false
     rotation: 90
     x: 35
@@ -384,7 +384,7 @@ placements:
     rotation: 0
     x: 0
     y: 0
-  straight_gdsfactorypcom_5fbfa602_20000_21400:
+  straight_gdsfactorypcom_5fbfa602_20000_21400_A180:
     mirror: false
     rotation: 180
     x: 20
@@ -394,27 +394,27 @@ placements:
     rotation: 0
     x: 25
     y: -0.6
-  straight_gdsfactorypcom_7ef1834c_28000_23400:
+  straight_gdsfactorypcom_7ef1834c_28000_23400_A180:
     mirror: false
     rotation: 180
     x: 28
     y: 23.4
-  straight_gdsfactorypcom_82fcb63a_38000_9400:
+  straight_gdsfactorypcom_82fcb63a_38000_9400_A90:
     mirror: false
     rotation: 90
     x: 38
     y: 9.4
-  straight_gdsfactorypcom_8f87aff2_20000_23400:
+  straight_gdsfactorypcom_8f87aff2_20000_23400_A180:
     mirror: false
     rotation: 180
     x: 20
     y: 23.4
-  taper_gdsfactorypcompon_0c13ccff_25000_21400:
+  taper_gdsfactorypcompon_0c13ccff_25000_21400_A180:
     mirror: false
     rotation: 180
     x: 25
     y: 21.4
-  taper_gdsfactorypcompon_5c6a2317_25000_23400:
+  taper_gdsfactorypcompon_5c6a2317_25000_23400_A180:
     mirror: false
     rotation: 180
     x: 25
@@ -429,12 +429,12 @@ placements:
     rotation: 0
     x: 20
     y: -0.6
-  taper_gdsfactorypcompon_c017326a_19000_23400:
+  taper_gdsfactorypcompon_c017326a_19000_23400_A180:
     mirror: false
     rotation: 180
     x: 19
     y: 23.4
-  taper_gdsfactorypcompon_e1c8a87b_19000_21400:
+  taper_gdsfactorypcompon_e1c8a87b_19000_21400_A180:
     mirror: false
     rotation: 180
     x: 19
