@@ -35,7 +35,7 @@ def add_auto_tapers(
     layer_transitions = None
     _pdk = None
 
-    def get_layer_transitions():
+    def get_layer_transitions() -> LayerTransitions:
         nonlocal layer_transitions, _pdk
         if layer_transitions is None:
             if _pdk is None:
