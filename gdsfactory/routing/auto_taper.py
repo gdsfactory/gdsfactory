@@ -25,13 +25,10 @@ def add_auto_tapers(
     Returns:
         The new list of ports, on the opposite end of the tapers
     """
-    # Optimize: resolve cross_section ONCE, as it is always the same for all ports
     cross_section_obj = gf.get_cross_section(cross_section)
     cs_layer = gf.get_layer(cross_section_obj.layer)
     cs_width = cross_section_obj.width
 
-    # Move layer_transitions lookup out of the inner function
-    # (All ports use same cross_section, so same layer_transitions logic)
     layer_transitions = None
     _pdk = None
 
@@ -43,9 +40,8 @@ def add_auto_tapers(
             layer_transitions = _pdk.layer_transitions
         return layer_transitions
 
-    # Since all ports likely use same port_type, avoid redundant .get_layer calls per port
     result = []
-    get_port_layer = gf.get_layer  # Local binding for speed
+    get_port_layer = gf.get_layer
 
     for p in ports:
         port_layer = get_port_layer(p.layer)
@@ -55,7 +51,6 @@ def add_auto_tapers(
             lt = get_layer_transitions()
         reverse = False
 
-        # The below logic mirrors the old auto_taper_to_cross_section, but kept inlined for less overhead
         if port_layer != cs_layer:
             try:
                 taper = lt.get((port_layer, cs_layer))
@@ -80,7 +75,6 @@ def add_auto_tapers(
             result.append(p)
             continue
 
-        # Taper construction, only lookup taper_component & ports as needed
         if reverse:
             taper_component = gf.get_component(
                 taper, width2=port_width, width1=cs_width
@@ -99,7 +93,6 @@ def add_auto_tapers(
             raise ValueError(
                 f"Taper component should have two ports of port_type={p.port_type!r}! Got {taper_component.ports}."
             )
-        # Choose the correct port orientation
         if taper_ports[0].layer == p.layer and taper_ports[0].width == p.width:
             p0, p1 = taper_ports
         elif taper_ports[1].layer == p.layer and taper_ports[1].width == p.width:
