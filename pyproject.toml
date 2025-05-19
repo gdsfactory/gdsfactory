@@ -31,7 +31,7 @@ dependencies = [
   "toolz<2",
   "types-PyYAML",
   "typer<1",
-  "kfactory[ipy]>=1.5.4,<1.6",
+  "kfactory[ipy]>=1.6,<1.7",
   "watchdog<7",
   "freetype-py",
   "mapbox_earcut",
@@ -69,7 +69,8 @@ dev = [
   "types-cachetools",
   "pytest-github-actions-annotate-failures",
   "pytest-randomly",
-  "pytest-xdist"
+  "pytest-xdist",
+  "ty"
 ]
 docs = [
   "autodoc_pydantic>=2.0.1,<3",

@@ -16,21 +16,31 @@ def interdigital_capacitor(
     thickness: float | int = 5.0,
     layer: LayerSpec = "WG",
 ) -> Component:
-    """Generates an interdigital capacitor with ports on both ends.
+    """Generate an interdigital capacitor component with ports on both ends.
+
+    An interdigital capacitor consists of interleaved metal fingers that create
+    a distributed capacitance. This component creates a planar capacitor with
+    two sets of interleaved fingers extending from opposite ends.
 
     See for example Zhu et al., `Accurate circuit model of interdigital
-    capacitor and its application to design of new uasi-lumped miniaturized
+    capacitor and its application to design of new quasi-lumped miniaturized
     filters with suppression of harmonic resonance`, doi: 10.1109/22.826833.
 
     Note:
-        ``finger_length=0`` effectively provides a plate capacitor.
+        ``finger_length=0`` effectively provides a parallel plate capacitor.
+        The capacitance scales approximately linearly with the number of fingers
+        and finger length.
 
     Args:
-        fingers: total fingers of the capacitor.
-        finger_length: length of the probing fingers.
-        finger_gap: length of gap between the fingers.
-        thickness: Thickness of fingers and section before the fingers.
-        layer: spec.
+        fingers: Total number of fingers of the capacitor (must be >= 1).
+        finger_length: Length of each finger in μm.
+        finger_gap: Gap between adjacent fingers in μm.
+        thickness: Thickness of fingers and the base section in μm.
+        layer: Layer specification for the capacitor geometry.
+
+    Returns:
+        Component: A gdsfactory component with the interdigital capacitor geometry
+        and two ports ('o1' and 'o2') on opposing sides.
     """
     c = Component()
 
