@@ -342,13 +342,18 @@ class LineStyle(BaseModel):
         if pattern is None:
             return None
 
-        pattern_list = list(pattern)
-        valid_chars = all(char in ["*", "."] for char in pattern_list)
-        valid_length = len(pattern_list) <= 32
-        if (not valid_chars) or (not valid_length):
+        # Check length first (it's faster)
+        if len(pattern) > 32:
             raise ValueError(
                 f"Custom line pattern {pattern} must consist of '*' and '.' characters and be no more than 32 characters long."
             )
+
+        valid_chars = {"*", "."}
+        for char in pattern:
+            if char not in valid_chars:
+                raise ValueError(
+                    f"Custom line pattern {pattern} must consist of '*' and '.' characters and be no more than 32 characters long."
+                )
 
         return pattern
 
