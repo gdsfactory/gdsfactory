@@ -827,9 +827,11 @@ def _load_yaml_str(yaml_str: Any) -> dict[str, Any]:
     elif (isinstance(yaml_str, str) and "\n" in yaml_str) or isinstance(yaml_str, IO):
         dct = yaml.load(yaml_str, Loader=yaml.FullLoader)
     elif isinstance(yaml_str, str):
-        dct = yaml.load(open(yaml_str), Loader=yaml.FullLoader)
+        with open(yaml_str) as f:
+            dct = yaml.load(f, Loader=yaml.FullLoader)
     elif isinstance(yaml_str, pathlib.Path):
-        dct = yaml.load(open(yaml_str), Loader=yaml.FullLoader)
+        with open(yaml_str) as f:
+            dct = yaml.load(f, Loader=yaml.FullLoader)
     else:
         raise ValueError("Invalid format for 'yaml_str'.")
     return dct

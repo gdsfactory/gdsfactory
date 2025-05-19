@@ -1184,7 +1184,7 @@ class LayerViews(BaseModel):
         """
         layer_file = pathlib.Path(layer_file)
 
-        properties = yaml.safe_load(layer_file.open())
+        properties = yaml.safe_load(layer_file.read_text())
         lvs = {}
         for name, lv in properties["LayerViews"].items():
             if "group_members" in lv:
