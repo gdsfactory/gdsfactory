@@ -4,7 +4,7 @@ from typing import Any
 
 import numpy as np
 import numpy.typing as npt
-from numpy import pi, sin, sqrt
+from numpy import sin, sqrt
 
 import gdsfactory as gf
 from gdsfactory.functions import DEG2RAD, extrude_path
@@ -160,7 +160,6 @@ def get_grating_period(
         neff_low: low index.
         n_clad: cladding index.
     """
-    DEG2RAD = pi / 180
     neff = (neff_high + neff_low) / 2
     return wavelength / (neff - float(sin(DEG2RAD * fiber_angle)) * n_clad)
 
@@ -170,5 +169,3 @@ if __name__ == "__main__":
     p = get_grating_period()
     print(pc)
     print(p)
-
-DEG2RAD = pi / 180
