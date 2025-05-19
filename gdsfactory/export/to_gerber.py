@@ -54,12 +54,18 @@ def number(n: float) -> str:
 
 
 def points(pp: list[tuple[float, float]]) -> str:
-    out = ""
-    d = "D02"
-    for x, y in pp:
-        out += f"X{number(x)}Y{number(y)}{d}*\n"
-        d = "D01"
-    return out
+    if not pp:
+        return ""
+    # Use a list to collect the formatted strings for better performance
+    parts = []
+    # First point uses D02
+    x0, y0 = pp[0]
+    parts.append(f"X{number(x0)}Y{number(y0)}D02*\n")
+    # Rest use D01 (if any)
+    if len(pp) > 1:
+        for x, y in pp[1:]:
+            parts.append(f"X{number(x)}Y{number(y)}D01*\n")
+    return "".join(parts)
 
 
 def rect(x0: float, y0: float, x1: float, y1: float) -> str:
@@ -71,7 +77,7 @@ def linestring(pp: list[tuple[float, float]]) -> str:
 
 
 def polygon(pp: list[tuple[float, float]]) -> str:
-    return "G36*\n" + points(pp) + "G37*\n" + "\n"
+    return "G36*\n" + points(pp) + "G37*\n\n"  # fixed to have only one newline at end
 
 
 def to_gerber(

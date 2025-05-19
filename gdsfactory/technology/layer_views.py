@@ -297,8 +297,8 @@ class HatchPattern(BaseModel):
     def check_pattern_klayout(cls, pattern: str | None) -> str | None:
         if pattern is None:
             return None
-        lines = pattern.splitlines()
-        if any(len(list(line)) > 32 for line in lines):
+        # Optimization: Use len(line) directly without converting to list
+        if any(len(line) > 32 for line in pattern.splitlines()):
             raise ValueError(f"Custom pattern {pattern} has more than 32 characters.")
         return pattern
 

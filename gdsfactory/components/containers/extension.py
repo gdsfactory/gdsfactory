@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 import warnings
 from typing import Any, cast
 
@@ -34,34 +35,34 @@ def line(
     w = width
     assert w is not None
 
-    # Fast low-level tuple -> np.array ONCE per corner at the end
+    # Fast tuple (float) usage
     x0, y0 = p_start
     x1, y1 = p_end
 
     dx = x1 - x0
     dy = y1 - y0
-    ang = np.arctan2(dy, dx)
-    w2 = w / 2
-    ca = np.cos(ang)
-    sa = np.sin(ang)
+    ang = math.atan2(dy, dx)  # much faster than np.arctan2 for a scalar
+    w2 = w * 0.5
+    ca = math.cos(ang)
+    sa = math.sin(ang)
 
-    # sin(angle+pi/2) = -ca, cos(angle+pi/2) = sa
-    # sin(angle-pi/2) = ca,  cos(angle-pi/2) = -sa
-
-    # Four corners:
-    # p0 = p_start offset by (w2 * [-sa,  ca])
-    # p1 = p_start offset by (w2 * [ sa, -ca])
-    # p2 = p_end   offset by (w2 * [ sa, -ca])
-    # p3 = p_end   offset by (w2 * [-sa,  ca])
+    # Precompute for offsets
     wsac = w2 * sa
     wcac = w2 * ca
 
-    # Avoid repeated calculations; compute four coordinates directly
-    p0 = np.array([x0 - wsac, y0 + wcac], dtype=float)
-    p1 = np.array([x0 + wsac, y0 - wcac], dtype=float)
-    p2 = np.array([x1 + wsac, y1 - wcac], dtype=float)
-    p3 = np.array([x1 - wsac, y1 + wcac], dtype=float)
-    return p0, p1, p2, p3
+    # Corners as tuples first; avoid repeated NumPy construction.
+    c0 = (x0 - wsac, y0 + wcac)
+    c1 = (x0 + wsac, y0 - wcac)
+    c2 = (x1 + wsac, y1 - wcac)
+    c3 = (x1 - wsac, y1 + wcac)
+
+    # Build np.arrays only at the end (what user expects for return type)
+    return (
+        np.array(c0, dtype=float),
+        np.array(c1, dtype=float),
+        np.array(c2, dtype=float),
+        np.array(c3, dtype=float),
+    )
 
 
 def move_polar_rad_copy(
@@ -77,8 +78,8 @@ def move_polar_rad_copy(
     # Direct computation, no need to create intermediate arrays
     dx = length * np.cos(angle)
     dy = length * np.sin(angle)
-    # Use np.asarray for safe type/broadcasting in case pos is a list/tuple
-    return np.asarray(pos, dtype=float) + [dx, dy]
+    # Construct the new position as a proper NumPy array
+    return np.array([pos[0] + dx, pos[1] + dy], dtype=float)
 
 
 @gf.cell_with_module_name

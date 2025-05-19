@@ -35,12 +35,18 @@ def ellipse_arc(
         theta_max: in rad.
         angle_step: in rad.
     """
+    # Compute theta in degrees, then convert to radians only once
     theta = np.arange(theta_min, theta_max + angle_step, angle_step) * DEG2RAD
+
+    # Compute xs and ys in a vectorized way, no unnecessary temporaries
     xs = a * np.cos(theta) + x0
-    xs_floating_any = gf.snap.snap_to_grid(xs)
     ys = b * np.sin(theta)
-    ys_floating_any = gf.snap.snap_to_grid(ys)
-    return np.column_stack([xs_floating_any, ys_floating_any])
+    # Stack arrays first, then snap both columns at once for better cache locality and fewer function calls
+    arc = np.empty((xs.size, 2), dtype=float)
+    arc[:, 0] = xs
+    arc[:, 1] = ys
+    arc = gf.snap.snap_to_grid(arc)
+    return arc  # shape (N,2), as before
 
 
 def grating_tooth_points(
@@ -85,6 +91,7 @@ def grating_taper_points(
         wg_width: in um.
         angle_step: in degrees.
     """
+    # ellipse_arc is already optimized and returns snapped arc
     taper_arc = ellipse_arc(
         a=a,
         b=b,
@@ -94,10 +101,15 @@ def grating_taper_points(
         angle_step=angle_step,
     )
 
-    port_position = np.array((x0, 0))
-    p0 = port_position + (0, wg_width / 2)
-    p1 = port_position + (0, -wg_width / 2)
-    return np.vstack([p0, p1, taper_arc])
+    # Use np.array for all at once, no need for multiple arrays + addition
+    p0 = np.array([x0, wg_width / 2], dtype=float)
+    p1 = np.array([x0, -wg_width / 2], dtype=float)
+    # Allocate pre-sized array for output, which minimizes memory reallocations
+    out = np.empty((taper_arc.shape[0] + 2, 2), dtype=float)
+    out[0] = p0
+    out[1] = p1
+    out[2:] = taper_arc
+    return out
 
 
 def get_grating_period_curved(
