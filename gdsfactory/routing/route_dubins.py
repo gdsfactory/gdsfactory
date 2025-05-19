@@ -239,15 +239,13 @@ def linear(
 
     start/end: [x, y, angle], the start/end point with given jaw angle.
     """
-    x: list[float] = []
-    y: list[float] = []
-    dx = end[0] - start[0]
-    dy = end[1] - start[1]
-    dx = dx / steps
-    dy = dy / steps
-    for step in range(steps + 1):
-        x.append(step * dx + start[0])
-        y.append(step * dy + start[1])
+    start_x, start_y = start[0], start[1]
+    dx = (end[0] - start_x) / steps
+    dy = (end[1] - start_y) / steps
+
+    # Preallocate output array
+    x = [start_x + i * dx for i in range(steps + 1)]
+    y = [start_y + i * dy for i in range(steps + 1)]
     return x, y
 
 
