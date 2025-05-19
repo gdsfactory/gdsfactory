@@ -159,8 +159,8 @@ valid_route_keys = [
 def _get_anchor_point_from_name(
     ref: ComponentReference, anchor_name: str
 ) -> tuple[float, float] | None:
-    if anchor_name in VALID_ANCHOR_POINT_KEYWORDS:
-        return cast("tuple[float, float] | None", getattr(ref.dsize_info, anchor_name))
+    if anchor_name in valid_anchor_point_keywords:
+        return cast(tuple[float, float], getattr(ref.dsize_info, anchor_name))
     elif anchor_name in ref.ports:
         return ref.ports[anchor_name].center
     return None
@@ -1022,8 +1022,10 @@ def _add_labels(
     refs: dict[str, ComponentReference],
     label_instance_function: LabelInstanceFunction,
 ) -> Component:
+    # Cache commonly-used variables into locals for faster access in the loop
+    lic = label_instance_function
     for name, ref in refs.items():
-        label_instance_function(component=c, instance_name=name, reference=ref)
+        lic(component=c, instance_name=name, reference=ref)
     return c
 
 
@@ -2055,16 +2057,3 @@ if __name__ == "__main__":
     # c2 = from_yaml(yaml_str)
     # n2 = c2.get_netlist()
     # c2.show()
-
-VALID_ANCHOR_POINT_KEYWORDS = {
-    "ce",
-    "cw",
-    "nc",
-    "ne",
-    "nw",
-    "sc",
-    "se",
-    "sw",
-    "center",
-    "cc",
-}
