@@ -3,7 +3,7 @@ from __future__ import annotations
 import contextlib
 from collections.abc import Callable, Iterable
 from functools import lru_cache, partial
-from inspect import getmembers, isfunction, ismethod, signature
+from inspect import Signature, getmembers, isfunction, ismethod, signature
 from typing import Any
 
 from gdsfactory.component import Component
@@ -143,6 +143,6 @@ def get_cells_from_dict(
 
 
 @lru_cache(maxsize=2048)
-def _get_signature(obj: Any) -> Any:
+def _get_signature(obj: Any) -> Signature:
     """Cache signatures to avoid repeated work."""
     return signature(obj)
