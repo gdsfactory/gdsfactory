@@ -12,14 +12,17 @@ def hline(
     layer: LayerSpec = "WG",
     port_type: str = "optical",
 ) -> Component:
-    """Horizontal line straight, with ports on east and west sides.
+    """Creates a horizontal straight line component with ports on east and west sides.
+
+    This component is commonly used in photonic and superconducting circuits as a basic
+    waveguide or transmission line element. It creates a rectangular polygon with ports
+    at both ends for easy connection to other components.
 
     Args:
-        length: of the line.
-        width: of the line.
-        layer: of the line.
-        port_type: of the line.
-
+        length: Length of the line in microns.
+        width: Width of the line in microns.
+        layer: Layer specification for the line (default: "WG").
+        port_type: Type of port to create (default: "optical").
     """
     c = gf.Component()
     if length > 0 and width > 0:
