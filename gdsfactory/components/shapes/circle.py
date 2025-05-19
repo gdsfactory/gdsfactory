@@ -23,9 +23,15 @@ def circle(
     if radius <= 0:
         raise ValueError(f"radius={radius} must be > 0")
     c = Component()
-    num_points = int(np.round(360.0 / angle_resolution)) + 1
-    theta = np.deg2rad(np.linspace(0, 360, num_points, endpoint=True))
-    points = np.stack((radius * np.cos(theta), radius * np.sin(theta)), axis=-1)
+    # Precompute constants and avoid extra assignment
+    num_points = int(360.0 / angle_resolution + 0.5) + 1  # faster than np.round
+    theta = np.linspace(0, 2 * np.pi, num_points, endpoint=True)
+    # Direct usage of numpy trigonometric methods, avoiding recomputation
+    rcos = np.cos(theta)
+    rsin = np.sin(theta)
+    points = np.empty((num_points, 2), dtype=float)
+    points[:, 0] = radius * rcos
+    points[:, 1] = radius * rsin
     c.add_polygon(points=points, layer=layer)
     return c
 
