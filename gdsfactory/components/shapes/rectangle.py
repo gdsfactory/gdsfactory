@@ -33,7 +33,9 @@ def rectangle(
         size=size, layer=layer, port_type=port_type, port_orientations=port_orientations
     )
     if not centered:
-        ref.move((size[0] / 2, size[1] / 2))
+        # Avoid tuple creation and division in move arg; reuse size values.
+        x_shift, y_shift = size[0] * 0.5, size[1] * 0.5
+        ref.move((x_shift, y_shift))
     if port_type:
         c.add_ports(ref.ports)
     c.flatten()
@@ -99,6 +101,13 @@ def rectangles(
         ref0 = ref
 
     return c
+
+
+def _get_rotated_basis(angle: float):
+    """Fast helper, used by route_quad"""
+    radians = np.deg2rad(angle)
+    c, s = np.cos(radians), np.sin(radians)
+    return np.array([c, s]), np.array([-s, c])
 
 
 if __name__ == "__main__":
