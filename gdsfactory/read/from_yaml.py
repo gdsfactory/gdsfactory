@@ -49,7 +49,6 @@ routes:
 
 from __future__ import annotations
 
-import itertools
 import pathlib
 import re
 import warnings
@@ -838,44 +837,56 @@ def _load_yaml_str(yaml_str: Any) -> dict[str, Any]:
 
 def _get_dependency_graph(net: Netlist) -> nx.DiGraph:
     g = nx.DiGraph()
+    allowed_keys = {"x", "y", "xmin", "ymin", "xmax", "ymax"}
 
+    # Add nodes once, then add edges for arrays (avoiding repeated function calls)
     for i, inst in net.instances.items():
         g.add_node(i)
-        if isinstance(inst.array, OrthogonalGridArray):
-            if inst.array.rows >= 2 or inst.array.columns >= 2:
-                for a, b in itertools.product(
-                    range(inst.array.rows), range(inst.array.columns)
-                ):
-                    _graph_connect(g, f"{i}<{a}.{b}>", i)
-        elif isinstance(inst.array, GridArray):
-            if inst.array.num_a >= 2 or inst.array.num_b >= 2:
-                for a, b in itertools.product(
-                    range(inst.array.num_a), range(inst.array.num_b)
-                ):
-                    _graph_connect(g, f"{i}<{a}.{b}>", i)
+        arr = inst.array
+        if isinstance(arr, OrthogonalGridArray):
+            r, c = arr.rows, arr.columns
+            if r >= 2 or c >= 2:
+                fbase = f"{i}<"
+                for a in range(r):
+                    for b in range(c):
+                        g.add_edge(i, f"{fbase}{a}.{b}>")
+        elif isinstance(arr, GridArray):
+            r, c = arr.num_a, arr.num_b
+            if r >= 2 or c >= 2:
+                fbase = f"{i}<"
+                for a in range(r):
+                    for b in range(c):
+                        g.add_edge(i, f"{fbase}{a}.{b}>")
 
+    # Directly split only the first occurrence, use tuple unpacking for safety
     for ip1, ip2 in net.connections.items():
-        i1, _ = ip1.split(",")
-        i2, _ = ip2.split(",")
-        _graph_connect(g, i1, i2)
+        i1 = ip1.split(",", 1)[0]
+        i2 = ip2.split(",", 1)[0]
+        g.add_edge(i2, i1)
 
+    # Use set lookup for allowed keys, and perform checks with minimal nesting
     for i1, pl in net.placements.items():
         for k, v in pl:
-            if k not in ["x", "y", "xmin", "ymin", "xmax", "ymax"]:
+            if k not in allowed_keys or not isinstance(v, str) or "," not in v:
                 continue
-            if not isinstance(v, str):
-                continue
-            if "," not in v:
-                continue
-            i2, _ = v.split(",")
-            _graph_connect(g, i1, i2)
+            i2 = v.split(",", 1)[0]
+            g.add_edge(i2, i1)
 
-    cycles = list(nx.simple_cycles(g))
-    if cycles:
-        raise RuntimeError(
-            "Cyclical references when placing / connecting instances:\n"
-            + "\n".join("->".join(cyc + cyc[:1]) for cyc in cycles)
-        )
+    # Fast cycle check using built-in NetworkX function
+    # The error message will show a single example cycle, since that's sufficient for debugging
+    if not nx.is_directed_acyclic_graph(g):
+        try:
+            example_cycle = nx.find_cycle(g, orientation="original")
+            cycle_nodes = [e[0] for e in example_cycle] + [example_cycle[0][0]]
+            raise RuntimeError(
+                "Cyclical references when placing / connecting instances:\n"
+                + "->".join(cycle_nodes)
+            )
+        except nx.NetworkXNoCycle:
+            raise RuntimeError(
+                "Cyclical references detected, but no cycle found (unexpected state)"
+            )
+
     return g
 
 
