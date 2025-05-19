@@ -159,8 +159,8 @@ valid_route_keys = [
 def _get_anchor_point_from_name(
     ref: ComponentReference, anchor_name: str
 ) -> tuple[float, float] | None:
-    if anchor_name in VALID_ANCHOR_POINT_KEYWORDS:
-        return cast("tuple[float, float] | None", getattr(ref.dsize_info, anchor_name))
+    if anchor_name in valid_anchor_point_keywords:
+        return cast(tuple[float, float], getattr(ref.dsize_info, anchor_name))
     elif anchor_name in ref.ports:
         return ref.ports[anchor_name].center
     return None
@@ -232,36 +232,52 @@ def _parse_maybe_arrayed_instance(inst_spec: str) -> tuple[str, int | None, int 
 
     Returns the instance name, and the a and b indices if they are present.
     """
-    if inst_spec.count("<") > 1:
+    # FAST SINGLE PASS: find "<" and check for match
+    lt_idx = inst_spec.find("<")
+    # Optimization: find returns -1 if not present (much faster than count/endswith chain on no-array case)
+    if lt_idx == -1:
+        return inst_spec, None, None
+
+    # Defensive: check for only one "<"
+    if inst_spec.find("<", lt_idx + 1) != -1:
         raise ValueError(
             f"Too many angle brackets (<) in instance specification '{inst_spec}'. Array ref indices should end with <ia.ib>, and otherwise this character should be avoided."
         )
-    if "<" in inst_spec and inst_spec.endswith(">"):
-        inst_name, array_spec = inst_spec.split("<")
-        array_spec = array_spec[:-1]
-        if "." not in array_spec:
-            raise ValueError(
-                f"Array specifier should contain a '.' and be of the format my_ref<ia.ib>. Got {inst_spec}"
-            )
-        if array_spec.count(".") > 1:
-            raise ValueError(
-                f"Too many periods (.) in array specifier. Array specifier should be of the format my_ref<ia.ib>. Got {inst_spec}"
-            )
-        ia, ib = array_spec.split(".")
-        try:
-            ia_int = int(ia)
-        except ValueError as e:
-            raise ValueError(
-                f"When parsing array reference specifier '{inst_spec}', got a non-integer index '{ia}'"
-            ) from e
-        try:
-            ib_int = int(ib)
-        except ValueError as exc:
-            raise ValueError(
-                f"When parsing array reference specifier '{inst_spec}', got a non-integer index '{ib}'"
-            ) from exc
-        return inst_name, ia_int, ib_int
-    return inst_spec, None, None
+
+    # Check that "<" is at a position where ">" ends the string
+    if inst_spec[-1] != ">" or lt_idx == len(inst_spec) - 1:
+        return inst_spec, None, None
+
+    inst_name = inst_spec[:lt_idx]
+    array_spec = inst_spec[lt_idx + 1 : -1]  # between < and >
+
+    # Only **one** fast scan for '.'
+    dot_idx = array_spec.find(".")
+    if dot_idx == -1:
+        raise ValueError(
+            f"Array specifier should contain a '.' and be of the format my_ref<ia.ib>. Got {inst_spec}"
+        )
+    if array_spec.find(".", dot_idx + 1) != -1:
+        raise ValueError(
+            f"Too many periods (.) in array specifier. Array specifier should be of the format my_ref<ia.ib>. Got {inst_spec}"
+        )
+
+    ia = array_spec[:dot_idx]
+    ib = array_spec[dot_idx + 1 :]
+    # use try/except as int() will be hot, but error is rare
+    try:
+        ia_int = int(ia)
+    except ValueError as e:
+        raise ValueError(
+            f"When parsing array reference specifier '{inst_spec}', got a non-integer index '{ia}'"
+        ) from e
+    try:
+        ib_int = int(ib)
+    except ValueError as exc:
+        raise ValueError(
+            f"When parsing array reference specifier '{inst_spec}', got a non-integer index '{ib}'"
+        ) from exc
+    return inst_name, ia_int, ib_int
 
 
 def place(
@@ -2055,16 +2071,3 @@ if __name__ == "__main__":
     # c2 = from_yaml(yaml_str)
     # n2 = c2.get_netlist()
     # c2.show()
-
-VALID_ANCHOR_POINT_KEYWORDS = {
-    "ce",
-    "cw",
-    "nc",
-    "ne",
-    "nw",
-    "sc",
-    "se",
-    "sw",
-    "center",
-    "cc",
-}
