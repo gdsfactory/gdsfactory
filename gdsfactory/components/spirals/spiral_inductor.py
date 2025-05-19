@@ -33,10 +33,10 @@ def spiral_inductor(
     Example:
         ```python
         import gdsfactory as gf
-        
+
         # Create a standard spiral inductor
         inductor = gf.components.spiral_inductor()
-        
+
         # Create a custom spiral inductor with specific parameters
         custom_inductor = gf.components.spiral_inductor(
             width=2.0,

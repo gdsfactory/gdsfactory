@@ -97,8 +97,8 @@ def ring_single(
     sl = c << sy  # Left vertical straight
     sr = c << sy  # Right vertical straight
     st = c << sx  # Top horizontal straight
-    bl = c << b   # Left bend
-    br = c << b   # Right bend
+    bl = c << b  # Left bend
+    br = c << b  # Right bend
 
     # Connect all components
     sl.connect(port="o1", other=cb.ports["o2"])

@@ -20,9 +20,9 @@ def get_cells(
 
     Args:
         modules: A module or an iterable of modules.
-        ignore_non_decorated: only include functions that are decorated with gf.cell
-        ignore_underscored: only include functions that do not start with '_'
-        ignore_partials: only include functions, not partials
+        ignore_non_decorated: only include functions that are decorated with gf.cell.
+        ignore_underscored: only include functions that do not start with '_'.
+        ignore_partials: only include functions, not partials.
     """
     modules = modules if isinstance(modules, Iterable) else [modules]
     cells: dict[str, ComponentFactory] = {}
@@ -50,6 +50,15 @@ def is_cell(
     ignore_partials: bool = False,
     name: str = "",
 ) -> bool:
+    """Checks if a function is a GDSFactory cell.
+
+    Args:
+        func: The function to check.
+        ignore_non_decorated: only include functions that are decorated with gf.cell.
+        ignore_underscored: only include functions that do not start with '_'.
+        ignore_partials: only include functions, not partials.
+        name: The name of the function.
+    """
     try:
         # Fast fail for non-callable
         if not callable(func):
@@ -133,7 +142,7 @@ def get_cells_from_dict(
     return valid_cells
 
 
-# Cache signatures to avoid repeated work.
 @lru_cache(maxsize=2048)
-def _get_signature(obj):
+def _get_signature(obj: Any) -> Any:
+    """Cache signatures to avoid repeated work."""
     return signature(obj)
