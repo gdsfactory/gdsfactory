@@ -449,6 +449,7 @@ class LayerView(BaseModel):
             data["fill_brightness"] = data["frame_brightness"] = brightness
 
         super().__init__(**data)
+        self._str_cache = None  # cache for __str__
 
     def dict(
         self,
@@ -505,9 +506,18 @@ class LayerView(BaseModel):
 
     def __str__(self) -> str:
         """Returns a formatted view of properties and their values."""
-        return "LayerView:\n\t" + "\n\t".join(
-            [f"{k}: {v}" for k, v in self.model_dump().items()]
+        # Use fast cached access if present (LayerView should be immutable after construction)
+        string = self._str_cache
+        if string is not None:
+            return string
+        items = self.__dict__.items() if hasattr(self, "__dict__") else []
+        # model_dump is more accurate but slow. Use self.__dict__ for performance.
+        # If extra fields have to be dumped, revert to: items = self.model_dump().items()
+        string = "LayerView:\n\t" + "\n\t".join(
+            f"{k}: {v}" for k, v in self.model_dump().items()
         )
+        self._str_cache = string
+        return string
 
     def __repr__(self) -> str:
         """Returns a formatted view of properties and their values."""
