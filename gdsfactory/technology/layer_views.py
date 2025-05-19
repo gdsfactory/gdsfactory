@@ -297,8 +297,8 @@ class HatchPattern(BaseModel):
     def check_pattern_klayout(cls, pattern: str | None) -> str | None:
         if pattern is None:
             return None
-        # Optimization: Use len(line) directly without converting to list
-        if any(len(line) > 32 for line in pattern.splitlines()):
+        lines = pattern.splitlines()
+        if any(len(list(line)) > 32 for line in lines):
             raise ValueError(f"Custom pattern {pattern} has more than 32 characters.")
         return pattern
 
@@ -813,22 +813,23 @@ class LayerViews(BaseModel):
             data["layer_views"] = lvs.layer_views
             data["custom_line_styles"] = lvs.custom_line_styles
             data["custom_dither_patterns"] = lvs.custom_dither_patterns
-        layer_names: builtins.dict[str, LayerEnum] | None = None
-        if layers:
-            layer_names = {layer.name: layer for layer in layers if layer is not None}  # type: ignore[attr-defined]
-        else:
-            layer_names = None
+
+        # Only build layer_names dict if layers provided
+        layer_names = (
+            {layer.name: layer for layer in layers if layer is not None}
+            if layers
+            else None
+        )
 
         super().__init__(**data)
+
+        # Precompute if we need to do name fixup
+        need_fixup = layers is not None and layer_names is not None
 
         for name in self.model_dump():
             lv = getattr(self, name)
             if isinstance(lv, LayerView):
-                if (
-                    layers is not None
-                    and layer_names is not None
-                    and name in layer_names
-                ):
+                if need_fixup and name in layer_names:
                     lv_dict = lv.dict(exclude={"layer", "name"})
                     lv = LayerView(layer=layer_names[name], name=name, **lv_dict)
                 self.add_layer_view(name=name, layer_view=lv)
@@ -885,12 +886,22 @@ class LayerViews(BaseModel):
         Args:
             exclude_groups: Whether to exclude LayerViews that contain other LayerViews.
         """
-        layers: dict[str, LayerView] = {}
-        for name, view in self.layer_views.items():
-            if view.group_members and not exclude_groups:
-                layers.update(view.group_members.items())
-            layers[name] = view
-        return layers
+        # Fast path for common use: do not update multiple times if exclude_groups
+        if not exclude_groups:
+            layers = {}
+            for name, view in self.layer_views.items():
+                # If it's actually a group, flatten its members into the result
+                if getattr(view, "group_members", None):
+                    layers.update(view.group_members)
+                layers[name] = view
+            return layers
+        else:
+            # Only add LayerViews which are not groups (no group_members)
+            return {
+                name: view
+                for name, view in self.layer_views.items()
+                if not getattr(view, "group_members", None)
+            }
 
     def get_layer_view_groups(self) -> dict[str, LayerView]:
         """Return the LayerViews that contain other LayerViews."""
@@ -954,11 +965,18 @@ class LayerViews(BaseModel):
 
     def get_layer_tuples(self) -> set[Layer]:
         """Returns a tuple for each layer."""
-        return {
-            layer.layer
-            for layer in self.get_layer_views().values()
-            if layer.layer is not None
-        }
+        # Combine all layers directly without redundant dict/intermediates.
+        result = set()
+        for view in self.layer_views.values():
+            if getattr(view, "group_members", None):
+                for member in view.group_members.values():
+                    layer = member.layer
+                    if layer is not None:
+                        result.add(layer)
+            layer = view.layer
+            if layer is not None:
+                result.add(layer)
+        return result
 
     def clear(self) -> None:
         """Deletes all layers in the LayerViews."""
