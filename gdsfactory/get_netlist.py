@@ -135,7 +135,13 @@ def _is_array_reference(ref: ComponentReference) -> bool:
 
 
 def _is_orthogonal_array_reference(ref: ComponentReference) -> bool:
-    return abs(ref.a.y) == 0 and abs(ref.b.x) == 0
+    # Store intermediate attributes to local variables for faster lookup
+    a, b = ref.a, ref.b
+    ay = a.y
+    if abs(ay) != 0:
+        return False
+    bx = b.x
+    return abs(bx) == 0
 
 
 def _has_ports_on_same_location(reference: ComponentReference) -> bool:
