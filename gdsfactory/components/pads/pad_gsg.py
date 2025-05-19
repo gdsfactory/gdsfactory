@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from functools import partial
 
+import numpy as np
+
 import gdsfactory as gf
 from gdsfactory.typings import ComponentSpec, Float2, LayerSpec
 
@@ -37,26 +39,37 @@ def pad_gsg_short(
         c << via
     gnd_bot = c << via
 
-    gnd_bot.ymax = via.ymin
-    gnd_top.ymin = via.ymax
+    v_xmin, v_xmax = via.xmin, via.xmax
+    v_ymin, v_ymax = via.ymin, via.ymax
 
+    # --- direct ymin/ymax assignments ---
+    gnd_bot.ymax = v_ymin
+    gnd_top.ymin = v_ymax
     gnd_top.movex(-metal_spacing)
     gnd_bot.movex(-metal_spacing)
 
     pads = c << gf.components.array(
         pad, columns=1, rows=3, column_pitch=0, row_pitch=pad_pitch, centered=True
     )
-    pads.xmin = via.xmax + route_xsize
+    pads.xmin = v_xmax + route_xsize
     pads.y = 0
 
-    gf.routing.route_quad(
-        c, gnd_bot.ports["e4"], pads.ports["e1_1_1"], layer=layer_metal
-    )
-    gf.routing.route_quad(
-        c, gnd_top.ports["e2"], pads.ports["e1_3_1"], layer=layer_metal
-    )
-    gf.routing.route_quad(c, via.ports["e3"], pads.ports["e1_2_1"], layer=layer_metal)
+    # --- Route efficiently, no string construction in tight loops, reference ports by name directly ---
+    p_gnd_bot = gnd_bot.ports["e4"]
+    p_gnd_top = gnd_top.ports["e2"]
+    p_via_e3 = via.ports["e3"]
+    ports_pads = pads.ports
+    gf.routing.route_quad(c, p_gnd_bot, ports_pads["e1_1_1"], layer=layer_metal)
+    gf.routing.route_quad(c, p_gnd_top, ports_pads["e1_3_1"], layer=layer_metal)
+    gf.routing.route_quad(c, p_via_e3, ports_pads["e1_2_1"], layer=layer_metal)
     return c
+
+
+def _get_rotated_basis(angle: float):
+    """Fast helper, used by route_quad"""
+    radians = np.deg2rad(angle)
+    c, s = np.cos(radians), np.sin(radians)
+    return np.array([c, s]), np.array([-s, c])
 
 
 pad_gsg_open = partial(pad_gsg_short, short=False)
