@@ -99,38 +99,40 @@ def get_run_top_cell_name(arguments: dict[str, str], layout_path: str) -> str:
 
     Returns: Name of the topcell to use in run.
     """
-    if arguments["--topcell"]:
-        topcell = arguments["--topcell"]
-    else:
-        layout_topcells = get_top_cell_names(layout_path)
-        if len(layout_topcells) > 1:
-            logging.error(
-                "# Layout has multiple topcells. Please determine which topcell you want to run on."
-            )
-            exit(1)
-        else:
-            topcell = layout_topcells[0]
+    topcell = arguments.get("--topcell")
+    if topcell:
+        return topcell
 
-    return topcell
+    # Only call get_top_cell_names if topcell is not provided.
+    layout_topcells = get_top_cell_names(layout_path)
+    if len(layout_topcells) != 1:
+        logging.error(
+            "# Layout has multiple topcells. Please determine which topcell you want to run on."
+        )
+        exit(1)
+    # No else needed; we checked len == 1 above.
+    return layout_topcells[0]
 
 
 def generate_klayout_switches(
     arguments: dict[str, str], layout_path: str
 ) -> dict[str, str]:
     """parse_switches Function that parse all the args from input to prepare switches for DRC run."""
-    # No. of threads
-    thrCount = 2 if arguments.get("--thr") is None else int(arguments["--thr"])
-    switches = {"thr": str(thrCount)}
-    if arguments["--run_mode"] in ["flat", "deep", "tiling"]:
-        switches["run_mode"] = arguments["--run_mode"]
-    else:
+    thr_val = arguments.get("--thr")
+    thrCount = int(thr_val) if thr_val is not None else 2
+
+    run_mode = arguments.get("--run_mode")
+    if run_mode not in {"flat", "deep", "tiling"}:
         logging.error("Allowed klayout modes are (flat , deep , tiling) only")
-        exit()
+        exit(1)
 
-    switches["verbose"] = "true" if arguments["--verbose"] else "false"
-    switches["topcell"] = get_run_top_cell_name(arguments, layout_path)
-    switches["input"] = layout_path
-
+    switches = {
+        "thr": str(thrCount),
+        "run_mode": run_mode,
+        "verbose": "true" if arguments.get("--verbose") else "false",
+        "topcell": get_run_top_cell_name(arguments, layout_path),
+        "input": layout_path,
+    }
     return switches
 
 
