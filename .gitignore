@@ -14,6 +14,9 @@ notebooks/demo.yml
 notebooks/demo_jinja_loops.pic.yml
 notebooks/schematic.yaml
 uv.lock
+openrouter/
+.aider.*
+
 
 # C extensions
 *.so
@@ -332,3 +335,4 @@ gdsfactory/plugins/pso/wrk_dir/
 
 # keep reference gds files
 !tests/gds/*.gds
+.vscode/

@@ -6,7 +6,7 @@ import importlib
 import pathlib
 import warnings
 from collections.abc import Callable, Mapping, Sequence
-from functools import cached_property, partial, wraps
+from functools import cached_property, partial
 from typing import Any, cast
 
 import kfactory as kf
@@ -17,10 +17,8 @@ from pydantic import BaseModel, ConfigDict, Field
 from gdsfactory import logger
 from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.config import CONF
-from gdsfactory.cross_section import (
-    CrossSection,
-    Section,
-)
+from gdsfactory.cross_section import CrossSection, Section
+from gdsfactory.cross_section import xsection as cross_section_xsection
 from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
 from gdsfactory.serialization import clean_value_json, convert_tuples_to_lists
@@ -186,24 +184,20 @@ class Pdk(BaseModel):
         Ensures that the cross-section name matches the name of the function
         that generated it when created using default parameters.
 
+        Reuses the core xsection decorator from cross_section.py while maintaining
+        PDK-specific storage of cross sections.
+
         .. code-block:: python
 
             @pdk.xsection
             def xs_sc(width=TECH.width_sc, radius=TECH.radius_sc):
                 return gf.cross_section.cross_section(width=width, radius=radius)
         """
-        default_xs = func()
-        self.cross_section_default_names[default_xs.name] = func.__name__
+        decorated_func = cross_section_xsection(func)
 
-        @wraps(func)
-        def newfunc(**kwargs: Any) -> CrossSection:
-            xs = func(**kwargs)
-            if xs.name in self.cross_section_default_names:
-                xs._name = self.cross_section_default_names[xs.name]
-            return xs
+        self.cross_sections[func.__name__] = decorated_func
 
-        self.cross_sections[func.__name__] = newfunc
-        return newfunc
+        return decorated_func
 
     def activate(self, force: bool = False) -> None:
         """Set current pdk to the active pdk (if not already active)."""
