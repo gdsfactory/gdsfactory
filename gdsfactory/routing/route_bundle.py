@@ -21,7 +21,6 @@ from kfactory.routing.generic import ManhattanRoute
 
 import gdsfactory as gf
 from gdsfactory.routing.auto_taper import add_auto_tapers
-from gdsfactory.routing.sort_ports import get_port_x, get_port_y
 from gdsfactory.typings import (
     STEP_DIRECTIVES,
     ComponentSpec,
@@ -54,34 +53,34 @@ def get_min_spacing(
         sort_ports: sort the ports according to the axis.
 
     """
-    axis = "X" if ports1[0].orientation in [0, 180] else "Y"
+    # Determine axis: True for X, False for Y
+    is_x_axis = ports1[0].orientation in (0, 180)
+    # Precompute attribute index
+    attr_idx = 1 if is_x_axis else 0  # 1 for get_port_y, 0 for get_port_x
+
+    if sort_ports:
+        # Sort ports1 and ports2 in-place based on appropriate coordinate
+        ports1.sort(key=lambda p: p.center[attr_idx])
+        ports2.sort(key=lambda p: p.center[attr_idx])
+
     j = 0
     min_j = 0
     max_j = 0
-    if sort_ports:
-        if axis in {"X", "x"}:
-            sorted(ports1, key=get_port_y)
-            sorted(ports2, key=get_port_y)
-        else:
-            sorted(ports1, key=get_port_x)
-            sorted(ports2, key=get_port_x)
 
+    # Local variables for speed: attribute index saves repeated axis checks
     for port1, port2 in zip(ports1, ports2):
-        if axis in {"X", "x"}:
-            x1 = get_port_y(port1)
-            x2 = get_port_y(port2)
-        else:
-            x1 = get_port_x(port1)
-            x2 = get_port_x(port2)
+        x1 = port1.center[attr_idx]
+        x2 = port2.center[attr_idx]
         if x2 >= x1:
             j += 1
         else:
             j -= 1
         if j < min_j:
             min_j = j
-        if j > max_j:
+        elif j > max_j:
             max_j = j
-    j = 0
+
+    # j = 0  # Not needed at return
 
     return (max_j - min_j) * separation + 2 * radius + 1.0
 
