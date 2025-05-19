@@ -30,7 +30,7 @@ test-data-gds:
 	git clone git@github.com:gdsfactory/gdsfactory-test-data.git -b test_klayout test-data-gds
 
 test: test-data-gds
-	pytest -s
+	uv run pytest -s
 
 test-force:
 	uv run pytest -n logical --force-regen -s
