@@ -33,8 +33,17 @@ def rectangle(
         size=size, layer=layer, port_type=port_type, port_orientations=port_orientations
     )
     if not centered:
-        ref.move((size[0] / 2, size[1] / 2))
-    if port_type:
+        sx, sy = size
+        # move can accept tuple, avoid recreating tuple multiple times
+        ref.move((sx * 0.5, sy * 0.5))
+    # Only add ports if the ref actually has ports and the port_type is not None or empty orientations
+    add_ports = (
+        port_type
+        and port_orientations
+        and getattr(ref, "ports", None)
+        and len(ref.ports) > 0
+    )
+    if add_ports:
         c.add_ports(ref.ports)
     c.flatten()
     return c

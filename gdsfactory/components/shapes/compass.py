@@ -28,64 +28,64 @@ def compass(
     """
     c = gf.Component()
     dx, dy = snap_to_grid2x(size)
-    port_orientations = port_orientations or []
+    ports = port_orientations if port_orientations else ()
 
     if dx <= 0 or dy <= 0:
         raise ValueError(f"dx={dx} and dy={dy} must be > 0")
 
+    half_dx, half_dy = dx * 0.5, dy * 0.5
     points = [
-        (-dx / 2.0, -dy / 2.0),
-        (-dx / 2.0, dy / 2),
-        (dx / 2, dy / 2),
-        (dx / 2, -dy / 2.0),
+        (-half_dx, -half_dy),
+        (-half_dx, half_dy),
+        (half_dx, half_dy),
+        (half_dx, -half_dy),
     ]
-
     c.add_polygon(points, layer=layer)
 
-    if port_type:
-        for port_orientation in port_orientations:
-            if port_orientation not in valid_port_orientations:
-                raise ValueError(
-                    f"{port_orientation=} must be in {valid_port_orientations}"
-                )
-
-        if 180 in port_orientations:
+    if port_type and ports:
+        port_set = set(ports)
+        not_valid = [po for po in port_set if po not in valid_port_orientations]
+        if not_valid:
+            raise ValueError(
+                f"port_orientations contain invalid entries: {not_valid}, must be in {valid_port_orientations}"
+            )
+        # Add at most one port per unique orientation:
+        if 180 in port_set:
             c.add_port(
                 name="e1",
-                center=(-dx / 2 + port_inclusion, 0),
+                center=(-half_dx + port_inclusion, 0),
                 width=dy,
                 orientation=180,
                 layer=layer,
                 port_type=port_type,
             )
-        if 90 in port_orientations:
+        if 90 in port_set:
             c.add_port(
                 name="e2",
-                center=(0, dy / 2 - port_inclusion),
+                center=(0, half_dy - port_inclusion),
                 width=dx,
                 orientation=90,
                 layer=layer,
                 port_type=port_type,
             )
-        if 0 in port_orientations:
+        if 0 in port_set:
             c.add_port(
                 name="e3",
-                center=(dx / 2 - port_inclusion, 0),
+                center=(half_dx - port_inclusion, 0),
                 width=dy,
                 orientation=0,
                 layer=layer,
                 port_type=port_type,
             )
-        if -90 in port_orientations or 270 in port_orientations:
+        if -90 in port_set or 270 in port_set:
             c.add_port(
                 name="e4",
-                center=(0, -dy / 2 + port_inclusion),
+                center=(0, -half_dy + port_inclusion),
                 width=dx,
                 orientation=-90,
                 layer=layer,
                 port_type=port_type,
             )
-
         if auto_rename_ports:
             c.auto_rename_ports()
     return c
