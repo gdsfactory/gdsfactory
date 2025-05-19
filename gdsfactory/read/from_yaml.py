@@ -159,8 +159,8 @@ valid_route_keys = [
 def _get_anchor_point_from_name(
     ref: ComponentReference, anchor_name: str
 ) -> tuple[float, float] | None:
-    if anchor_name in VALID_ANCHOR_POINT_KEYWORDS:
-        return cast("tuple[float, float] | None", getattr(ref.dsize_info, anchor_name))
+    if anchor_name in valid_anchor_point_keywords:
+        return cast(tuple[float, float], getattr(ref.dsize_info, anchor_name))
     elif anchor_name in ref.ports:
         return ref.ports[anchor_name].center
     return None
@@ -232,36 +232,48 @@ def _parse_maybe_arrayed_instance(inst_spec: str) -> tuple[str, int | None, int 
 
     Returns the instance name, and the a and b indices if they are present.
     """
-    if inst_spec.count("<") > 1:
+    # Fast path: not arrayed
+    left = inst_spec.find("<")
+    if left == -1 or not inst_spec.endswith(">"):
+        return inst_spec, None, None
+
+    # Check for multiple '<' early
+    if inst_spec.find("<", left + 1) != -1:
         raise ValueError(
-            f"Too many angle brackets (<) in instance specification '{inst_spec}'. Array ref indices should end with <ia.ib>, and otherwise this character should be avoided."
+            f"Too many angle brackets (<) in instance specification '{inst_spec}'. "
+            "Array ref indices should end with <ia.ib>, and otherwise this character should be avoided."
         )
-    if "<" in inst_spec and inst_spec.endswith(">"):
-        inst_name, array_spec = inst_spec.split("<")
-        array_spec = array_spec[:-1]
-        if "." not in array_spec:
-            raise ValueError(
-                f"Array specifier should contain a '.' and be of the format my_ref<ia.ib>. Got {inst_spec}"
-            )
-        if array_spec.count(".") > 1:
-            raise ValueError(
-                f"Too many periods (.) in array specifier. Array specifier should be of the format my_ref<ia.ib>. Got {inst_spec}"
-            )
-        ia, ib = array_spec.split(".")
-        try:
-            ia_int = int(ia)
-        except ValueError as e:
-            raise ValueError(
-                f"When parsing array reference specifier '{inst_spec}', got a non-integer index '{ia}'"
-            ) from e
-        try:
-            ib_int = int(ib)
-        except ValueError as exc:
-            raise ValueError(
-                f"When parsing array reference specifier '{inst_spec}', got a non-integer index '{ib}'"
-            ) from exc
-        return inst_name, ia_int, ib_int
-    return inst_spec, None, None
+
+    inst_name = inst_spec[:left]
+    array_spec = inst_spec[left + 1 : -1]  # between < and >, excluding >
+    dot = array_spec.find(".")
+    if dot == -1:
+        raise ValueError(
+            f"Array specifier should contain a '.' and be of the format my_ref<ia.ib>. Got {inst_spec}"
+        )
+    # Check for too many periods
+    if array_spec.find(".", dot + 1) != -1:
+        raise ValueError(
+            f"Too many periods (.) in array specifier. Array specifier should be of the format my_ref<ia.ib>. Got {inst_spec}"
+        )
+
+    ia = array_spec[:dot]
+    ib = array_spec[dot + 1 :]
+    try:
+        ia_int = int(ia)
+    except ValueError as e:
+        raise ValueError(
+            f"When parsing array reference specifier '{inst_spec}', got a non-integer index '{ia}'"
+        ) from e
+
+    try:
+        ib_int = int(ib)
+    except ValueError as e:
+        raise ValueError(
+            f"When parsing array reference specifier '{inst_spec}', got a non-integer index '{ib}'"
+        ) from e
+
+    return inst_name, ia_int, ib_int
 
 
 def place(
@@ -1003,15 +1015,25 @@ def _add_routes(
 def _add_ports(
     c: Component, refs: dict[str, ComponentReference], ports: dict[str, str]
 ) -> Component:
+    """Add ports to Component using references and mapping."""
     for name, ip in ports.items():
-        i, p = (x.strip() for x in ip.split(","))
+        split = ip.split(",", 1)
+        i = split[0].strip()
+        p = split[1].strip()
         i, ia, ib = _parse_maybe_arrayed_instance(i)
-        if i not in refs:
+        ref = refs.get(i)
+        if ref is None:
             raise ValueError(f"{i!r} not in {list(refs)}")
-        ref = refs[i]
-        ps = [p.name for p in ref.ports]
-        if p not in ps:
-            raise ValueError(f"{p!r} not in {ps} for {i!r}.")
+
+        # Optimize: Check port presence directly in mapping (faster than building list)
+        ports_keys = (
+            ref.ports._ports.keys()
+            if hasattr(ref.ports, "_ports")
+            else [p.name for p in ref.ports]
+        )
+        if p not in ports_keys:
+            raise ValueError(f"{p!r} not in {list(ports_keys)} for {i!r}.")
+
         inst_port = ref.ports[p] if ia is None else ref.ports[p, ia, ib]  # type: ignore[index]
         c.add_port(name, port=inst_port)
     return c
@@ -2055,16 +2077,3 @@ if __name__ == "__main__":
     # c2 = from_yaml(yaml_str)
     # n2 = c2.get_netlist()
     # c2.show()
-
-VALID_ANCHOR_POINT_KEYWORDS = {
-    "ce",
-    "cw",
-    "nc",
-    "ne",
-    "nw",
-    "sc",
-    "se",
-    "sw",
-    "center",
-    "cc",
-}
