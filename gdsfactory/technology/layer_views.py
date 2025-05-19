@@ -490,17 +490,22 @@ class LayerView(BaseModel):
             exclude_none=exclude_none,
         )
 
+        # Fast path for simplify
         if simplify:
-            replace_keys = ["color", "brightness"]
-            for key in replace_keys:
-                fill = f"fill_{key}"
-                frame = f"frame_{key}"
-
-                if (fill in _dict.keys() and frame in _dict.keys()) and (
-                    _dict[fill] == _dict[frame]
-                ):
-                    _dict[key] = _dict.pop(f"frame_{key}")
-                    _dict.pop(f"fill_{key}")
+            # Only loop over the keys we care about
+            for key in ("color", "brightness"):
+                fill = "fill_" + key
+                frame = "frame_" + key
+                # Only do dict lookups once, not multiple times
+                try:
+                    fill_val = _dict[fill]
+                    frame_val = _dict[frame]
+                except KeyError:
+                    continue
+                if fill_val == frame_val:
+                    _dict[key] = frame_val
+                    del _dict[frame]
+                    del _dict[fill]
         return _dict
 
     def __str__(self) -> str:
