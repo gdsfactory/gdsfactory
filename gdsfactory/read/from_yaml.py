@@ -159,10 +159,12 @@ valid_route_keys = [
 def _get_anchor_point_from_name(
     ref: ComponentReference, anchor_name: str
 ) -> tuple[float, float] | None:
-    if anchor_name in VALID_ANCHOR_POINT_KEYWORDS:
-        return cast("tuple[float, float] | None", getattr(ref.dsize_info, anchor_name))
-    elif anchor_name in ref.ports:
-        return ref.ports[anchor_name].center
+    # Use sets for O(1) lookup
+    if anchor_name in _VALID_ANCHOR_POINT_KEYWORDS:
+        return cast(tuple[float, float], getattr(ref.dsize_info, anchor_name))
+    port = ref.ports.get(anchor_name)
+    if port is not None:
+        return port.center
     return None
 
 
@@ -170,17 +172,18 @@ def _get_anchor_value_from_name(
     ref: ComponentReference, anchor_name: str, return_value: str
 ) -> float | None:
     """Return the x or y value of an anchor point or port on a reference."""
-    if anchor_name in valid_anchor_value_keywords:
+    # Check for most likely fast path first
+    if anchor_name in _VALID_ANCHOR_VALUE_KEYWORDS:
         return float(getattr(ref.dsize_info, anchor_name))
+    # Try to resolve an anchor point
     anchor_point = _get_anchor_point_from_name(ref, anchor_name)
     if anchor_point is None:
         return None
     if return_value == "x":
         return anchor_point[0]
-    elif return_value == "y":
+    if return_value == "y":
         return anchor_point[1]
-    else:
-        raise ValueError("Expected x or y as return_value.")
+    raise ValueError("Expected x or y as return_value.")
 
 
 def _move_ref(
@@ -2056,7 +2059,7 @@ if __name__ == "__main__":
     # n2 = c2.get_netlist()
     # c2.show()
 
-VALID_ANCHOR_POINT_KEYWORDS = {
+_VALID_ANCHOR_POINT_KEYWORDS = {
     "ce",
     "cw",
     "nc",
@@ -2068,3 +2071,5 @@ VALID_ANCHOR_POINT_KEYWORDS = {
     "center",
     "cc",
 }
+
+_VALID_ANCHOR_VALUE_KEYWORDS = {"south", "west", "east", "north"}
