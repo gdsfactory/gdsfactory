@@ -13,7 +13,7 @@ instances:
       length: 10
       npoints: 2
       width: null
-  taper_gdsfactorypcompon_ca999620_0_0:
+  taper_gdsfactorypcompon_ca999620_0_0_A180:
     component: taper
     info:
       length: 10
@@ -58,7 +58,7 @@ instances:
 name: add_termination_gdsfact_c053bff2
 nets:
 - p1: straight_gdsfactorypcom_f2286423_0_0,o1
-  p2: taper_gdsfactorypcompon_ca999620_0_0,o1
+  p2: taper_gdsfactorypcompon_ca999620_0_0_A180,o1
 - p1: straight_gdsfactorypcom_f2286423_0_0,o2
   p2: taper_gdsfactorypcompon_ca999620_10000_0,o1
 placements:
@@ -67,7 +67,7 @@ placements:
     rotation: 0
     x: 0
     y: 0
-  taper_gdsfactorypcompon_ca999620_0_0:
+  taper_gdsfactorypcompon_ca999620_0_0_A180:
     mirror: false
     rotation: 180
     x: 0
@@ -83,7 +83,7 @@ warnings:
     unconnected_ports:
     - message: 2 unconnected optical ports!
       ports:
-      - taper_gdsfactorypcompon_ca999620_0_0,o2
+      - taper_gdsfactorypcompon_ca999620_0_0_A180,o2
       - taper_gdsfactorypcompon_ca999620_10000_0,o2
       values:
       - - -10

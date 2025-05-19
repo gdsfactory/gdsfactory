@@ -23,7 +23,7 @@ instances:
       straight_length: 0.01
       w1: 0.45
       w2: 0.55
-  dbr_gdsfactorypcomponen_b5754d70_m10010_2350:
+  dbr_gdsfactorypcomponen_b5754d70_m10010_2350_A180:
     component: dbr
     info: {}
     settings:
@@ -37,7 +37,7 @@ instances:
 name: cavity_gdsfactorypcompo_1cb80d06
 nets:
 - p1: coupler_gdsfactorypcomp_38bb639b_0_0,o2
-  p2: dbr_gdsfactorypcomponen_b5754d70_m10010_2350,o1
+  p2: dbr_gdsfactorypcomponen_b5754d70_m10010_2350_A180,o1
 - p1: coupler_gdsfactorypcomp_38bb639b_0_0,o3
   p2: dbr_gdsfactorypcomponen_b5754d70_10110_2350,o1
 placements:
@@ -51,7 +51,7 @@ placements:
     rotation: 0
     x: 10.11
     y: 2.35
-  dbr_gdsfactorypcomponen_b5754d70_m10010_2350:
+  dbr_gdsfactorypcomponen_b5754d70_m10010_2350_A180:
     mirror: false
     rotation: 180
     x: -10.01

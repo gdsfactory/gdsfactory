@@ -4,6 +4,7 @@ https://quentinwach.com/blog/2024/02/15/dubins-paths-for-waveguide-routing.html
 """
 
 import math as m
+from math import cos, radians, sin
 from typing import Literal
 
 import kfactory as kf
@@ -252,8 +253,9 @@ def linear(
 
 def arrow_orientation(angle: float) -> tuple[float, float]:
     """Returns x, y setoffs for a given angle to orient the arrows marking the yaw of the start and end points."""
-    alpha_x = m.cos(m.radians(angle))
-    alpha_y = m.sin(m.radians(angle))
+    rad = radians(angle)
+    alpha_x = cos(rad)
+    alpha_y = sin(rad)
     return alpha_x, alpha_y
 
 

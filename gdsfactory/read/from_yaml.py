@@ -49,14 +49,13 @@ routes:
 
 from __future__ import annotations
 
-import itertools
 import pathlib
 import re
 import warnings
 from collections.abc import Callable
 from copy import deepcopy
 from functools import partial
-from typing import IO, TYPE_CHECKING, Any, Literal, Protocol
+from typing import IO, TYPE_CHECKING, Any, Literal, Protocol, cast
 
 import kfactory as kf
 import networkx as nx
@@ -159,8 +158,8 @@ valid_route_keys = [
 def _get_anchor_point_from_name(
     ref: ComponentReference, anchor_name: str
 ) -> tuple[float, float] | None:
-    if anchor_name in VALID_ANCHOR_POINT_KEYWORDS:
-        return getattr(ref.dsize_info, anchor_name)
+    if anchor_name in valid_anchor_point_keywords:
+        return cast(tuple[float, float], getattr(ref.dsize_info, anchor_name))
     elif anchor_name in ref.ports:
         return ref.ports[anchor_name].center
     return None
@@ -232,36 +231,48 @@ def _parse_maybe_arrayed_instance(inst_spec: str) -> tuple[str, int | None, int 
 
     Returns the instance name, and the a and b indices if they are present.
     """
-    if inst_spec.count("<") > 1:
+    # Fast path: not arrayed
+    left = inst_spec.find("<")
+    if left == -1 or not inst_spec.endswith(">"):
+        return inst_spec, None, None
+
+    # Check for multiple '<' early
+    if inst_spec.find("<", left + 1) != -1:
         raise ValueError(
-            f"Too many angle brackets (<) in instance specification '{inst_spec}'. Array ref indices should end with <ia.ib>, and otherwise this character should be avoided."
+            f"Too many angle brackets (<) in instance specification '{inst_spec}'. "
+            "Array ref indices should end with <ia.ib>, and otherwise this character should be avoided."
         )
-    if "<" in inst_spec and inst_spec.endswith(">"):
-        inst_name, array_spec = inst_spec.split("<")
-        array_spec = array_spec[:-1]
-        if "." not in array_spec:
-            raise ValueError(
-                f"Array specifier should contain a '.' and be of the format my_ref<ia.ib>. Got {inst_spec}"
-            )
-        if array_spec.count(".") > 1:
-            raise ValueError(
-                f"Too many periods (.) in array specifier. Array specifier should be of the format my_ref<ia.ib>. Got {inst_spec}"
-            )
-        ia, ib = array_spec.split(".")
-        try:
-            ia_int = int(ia)
-        except ValueError as e:
-            raise ValueError(
-                f"When parsing array reference specifier '{inst_spec}', got a non-integer index '{ia}'"
-            ) from e
-        try:
-            ib_int = int(ib)
-        except ValueError as exc:
-            raise ValueError(
-                f"When parsing array reference specifier '{inst_spec}', got a non-integer index '{ib}'"
-            ) from exc
-        return inst_name, ia_int, ib_int
-    return inst_spec, None, None
+
+    inst_name = inst_spec[:left]
+    array_spec = inst_spec[left + 1 : -1]  # between < and >, excluding >
+    dot = array_spec.find(".")
+    if dot == -1:
+        raise ValueError(
+            f"Array specifier should contain a '.' and be of the format my_ref<ia.ib>. Got {inst_spec}"
+        )
+    # Check for too many periods
+    if array_spec.find(".", dot + 1) != -1:
+        raise ValueError(
+            f"Too many periods (.) in array specifier. Array specifier should be of the format my_ref<ia.ib>. Got {inst_spec}"
+        )
+
+    ia = array_spec[:dot]
+    ib = array_spec[dot + 1 :]
+    try:
+        ia_int = int(ia)
+    except ValueError as e:
+        raise ValueError(
+            f"When parsing array reference specifier '{inst_spec}', got a non-integer index '{ia}'"
+        ) from e
+
+    try:
+        ib_int = int(ib)
+    except ValueError as e:
+        raise ValueError(
+            f"When parsing array reference specifier '{inst_spec}', got a non-integer index '{ib}'"
+        ) from e
+
+    return inst_name, ia_int, ib_int
 
 
 def place(
@@ -826,44 +837,56 @@ def _load_yaml_str(yaml_str: Any) -> dict[str, Any]:
 
 def _get_dependency_graph(net: Netlist) -> nx.DiGraph:
     g = nx.DiGraph()
+    allowed_keys = {"x", "y", "xmin", "ymin", "xmax", "ymax"}
 
+    # Add nodes once, then add edges for arrays (avoiding repeated function calls)
     for i, inst in net.instances.items():
         g.add_node(i)
-        if isinstance(inst.array, OrthogonalGridArray):
-            if inst.array.rows >= 2 or inst.array.columns >= 2:
-                for a, b in itertools.product(
-                    range(inst.array.rows), range(inst.array.columns)
-                ):
-                    _graph_connect(g, f"{i}<{a}.{b}>", i)
-        elif isinstance(inst.array, GridArray):
-            if inst.array.num_a >= 2 or inst.array.num_b >= 2:
-                for a, b in itertools.product(
-                    range(inst.array.num_a), range(inst.array.num_b)
-                ):
-                    _graph_connect(g, f"{i}<{a}.{b}>", i)
+        arr = inst.array
+        if isinstance(arr, OrthogonalGridArray):
+            r, c = arr.rows, arr.columns
+            if r >= 2 or c >= 2:
+                fbase = f"{i}<"
+                for a in range(r):
+                    for b in range(c):
+                        g.add_edge(i, f"{fbase}{a}.{b}>")
+        elif isinstance(arr, GridArray):
+            r, c = arr.num_a, arr.num_b
+            if r >= 2 or c >= 2:
+                fbase = f"{i}<"
+                for a in range(r):
+                    for b in range(c):
+                        g.add_edge(i, f"{fbase}{a}.{b}>")
 
+    # Directly split only the first occurrence, use tuple unpacking for safety
     for ip1, ip2 in net.connections.items():
-        i1, _ = ip1.split(",")
-        i2, _ = ip2.split(",")
-        _graph_connect(g, i1, i2)
+        i1 = ip1.split(",", 1)[0]
+        i2 = ip2.split(",", 1)[0]
+        g.add_edge(i2, i1)
 
+    # Use set lookup for allowed keys, and perform checks with minimal nesting
     for i1, pl in net.placements.items():
         for k, v in pl:
-            if k not in ["x", "y", "xmin", "ymin", "xmax", "ymax"]:
+            if k not in allowed_keys or not isinstance(v, str) or "," not in v:
                 continue
-            if not isinstance(v, str):
-                continue
-            if "," not in v:
-                continue
-            i2, _ = v.split(",")
-            _graph_connect(g, i1, i2)
+            i2 = v.split(",", 1)[0]
+            g.add_edge(i2, i1)
 
-    cycles = list(nx.simple_cycles(g))
-    if cycles:
-        raise RuntimeError(
-            "Cyclical references when placing / connecting instances:\n"
-            + "\n".join("->".join(cyc + cyc[:1]) for cyc in cycles)
-        )
+    # Fast cycle check using built-in NetworkX function
+    # The error message will show a single example cycle, since that's sufficient for debugging
+    if not nx.is_directed_acyclic_graph(g):
+        try:
+            example_cycle = nx.find_cycle(g, orientation="original")
+            cycle_nodes = [e[0] for e in example_cycle] + [example_cycle[0][0]]
+            raise RuntimeError(
+                "Cyclical references when placing / connecting instances:\n"
+                + "->".join(cycle_nodes)
+            )
+        except nx.NetworkXNoCycle:
+            raise RuntimeError(
+                "Cyclical references detected, but no cycle found (unexpected state)"
+            )
+
     return g
 
 
@@ -1003,15 +1026,25 @@ def _add_routes(
 def _add_ports(
     c: Component, refs: dict[str, ComponentReference], ports: dict[str, str]
 ) -> Component:
+    """Add ports to Component using references and mapping."""
     for name, ip in ports.items():
-        i, p = (x.strip() for x in ip.split(","))
+        split = ip.split(",", 1)
+        i = split[0].strip()
+        p = split[1].strip()
         i, ia, ib = _parse_maybe_arrayed_instance(i)
-        if i not in refs:
+        ref = refs.get(i)
+        if ref is None:
             raise ValueError(f"{i!r} not in {list(refs)}")
-        ref = refs[i]
-        ps = [p.name for p in ref.ports]
-        if p not in ps:
-            raise ValueError(f"{p!r} not in {ps} for {i!r}.")
+
+        # Optimize: Check port presence directly in mapping (faster than building list)
+        ports_keys = (
+            ref.ports._ports.keys()
+            if hasattr(ref.ports, "_ports")
+            else [p.name for p in ref.ports]
+        )
+        if p not in ports_keys:
+            raise ValueError(f"{p!r} not in {list(ports_keys)} for {i!r}.")
+
         inst_port = ref.ports[p] if ia is None else ref.ports[p, ia, ib]  # type: ignore[index]
         c.add_port(name, port=inst_port)
     return c
@@ -2055,16 +2088,3 @@ if __name__ == "__main__":
     # c2 = from_yaml(yaml_str)
     # n2 = c2.get_netlist()
     # c2.show()
-
-VALID_ANCHOR_POINT_KEYWORDS = {
-    "ce",
-    "cw",
-    "nc",
-    "ne",
-    "nw",
-    "sc",
-    "se",
-    "sw",
-    "center",
-    "cc",
-}
