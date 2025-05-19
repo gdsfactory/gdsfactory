@@ -8,7 +8,7 @@ The recommended place to ask a question is on [GitHub Discussions](https://githu
 
 ## Where to start?
 
-You can fork the repo, work on a feature, and then create a Pull Request to merge your feature into the `main` branch.
+You can fork the repo, work on a feature, and then [create a Pull Request](https://github.com/gdsfactory/gdsfactory/compare) to merge your feature into the `main` branch.
 This will benefit other project community members and make you famous :).
 
 Take a look at the [open issues](https://github.com/gdsfactory/gdsfactory/issues) to find issues that interest you. Some issues are particularly suited for new contributors by the [good first issue label](https://github.com/gdsfactory/gdsfactory/labels/good_first_issue) where you could start out. These are well documented issues, that do not require a deep understanding of the internals of gdsfactory.
