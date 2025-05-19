@@ -528,28 +528,16 @@ class LayerView(BaseModel):
             return 0.3
 
     def get_color_dict(self) -> builtins.dict[str, str | None]:
-        if self.fill_color is not None and self.frame_color is not None:
-            return {
-                "fill_color": ensure_six_digit_hex_color(self.fill_color.as_hex()),
-                "frame_color": ensure_six_digit_hex_color(self.frame_color.as_hex()),
-            }
-        # Colors generated from here: http://phrogz.net/css/distinct-colors.html
-        layer_colors = [
-            "#3dcc5c",
-            "#2b0fff",
-            "#cc3d3d",
-            "#e5dd45",
-            "#7b3dcc",
-            "#cc860c",
-            "#73ff0f",
-            "#2dccb4",
-            "#ff0fa3",
-            "#0ec2e6",
-            "#3d87cc",
-            "#e5520e",
-        ]
-        if self.layer is not None:
-            color = layer_colors[int(np.mod(self.layer[0], len(layer_colors)))]
+        fc = self.fill_color
+        frc = self.frame_color
+        if fc is not None and frc is not None:
+            # Avoid repeated hex and as_hex calls
+            fc_hex = ensure_six_digit_hex_color(fc.as_hex())
+            frc_hex = ensure_six_digit_hex_color(frc.as_hex())
+            return {"fill_color": fc_hex, "frame_color": frc_hex}
+        lyr = self.layer
+        if lyr is not None:
+            color = _LAYER_COLORS[lyr[0] % len(_LAYER_COLORS)]
         else:
             color = None
         return {"fill_color": color, "frame_color": color}
@@ -1245,3 +1233,18 @@ if __name__ == "__main__":
 
     # LAYER_VIEWS.to_yaml(PATH.generic_tech / "layer_views.yaml")
     # LAYER_VIEWS2 = LayerViews(filepath=PATH.generic_tech / "layer_views.yaml")
+
+_LAYER_COLORS = [
+    "#3dcc5c",
+    "#2b0fff",
+    "#cc3d3d",
+    "#e5dd45",
+    "#7b3dcc",
+    "#cc860c",
+    "#73ff0f",
+    "#2dccb4",
+    "#ff0fa3",
+    "#0ec2e6",
+    "#3d87cc",
+    "#e5520e",
+]
