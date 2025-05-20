@@ -86,17 +86,19 @@ def is_invalid_bundle_topology(ports1: list[Port], ports2: list[Port]) -> bool:
     return False
 
 
-def _segment_intersects_fast(a1, a2, b1, b2):
+def _segment_intersects_fast(a1: float, a2: float, b1: float, b2: float) -> bool:
     """Fast check if 2 segments intersect (excluding colinear whack)."""
 
-    def ccw(p1, p2, p3):
+    def ccw(
+        p1: tuple[float, float], p2: tuple[float, float], p3: tuple[float, float]
+    ) -> bool:
         # Counter-clockwise test
         return (p3[1] - p1[1]) * (p2[0] - p1[0]) > (p2[1] - p1[1]) * (p3[0] - p1[0])
 
     return (ccw(a1, b1, b2) != ccw(a2, b1, b2)) and (ccw(a1, a2, b1) != ccw(a1, a2, b2))
 
 
-def _any_intersection(center_pairs):
+def _any_intersection(center_pairs: list[tuple[float, float]]) -> bool:
     """Returns True if any of the lines intersect (O(n^2), fast for moderate n)."""
     n = len(center_pairs)
     for i in range(n):
