@@ -28,16 +28,41 @@ def get_padding_points(
         right: east padding in um.
         left: west padding in um.
     """
-    c = component
-    top = top if top is not None else default
-    bottom = bottom if bottom is not None else default
-    right = right if right is not None else default
-    left = left if left is not None else default
+    # Assign padding values to fast local variables, avoid repeated attribute lookups
+    if top is None:
+        top_val = default
+    else:
+        top_val = top
+    if bottom is None:
+        bottom_val = default
+    else:
+        bottom_val = bottom
+    if right is None:
+        right_val = default
+    else:
+        right_val = right
+    if left is None:
+        left_val = default
+    else:
+        left_val = left
+
+    # Pull all geometry into locals to avoid attribute lookups in each tuple construction
+    xmin = component.xmin
+    xmax = component.xmax
+    ymin = component.ymin
+    ymax = component.ymax
+
+    xmin_left = xmin - left_val
+    xmax_right = xmax + right_val
+    ymin_bottom = ymin - bottom_val
+    ymax_top = ymax + top_val
+
+    # Construct points using local variables
     return [
-        (c.xmin - left, c.ymin - bottom),
-        (c.xmax + right, c.ymin - bottom),
-        (c.xmax + right, c.ymax + top),
-        (c.xmin - left, c.ymax + top),
+        (xmin_left, ymin_bottom),
+        (xmax_right, ymin_bottom),
+        (xmax_right, ymax_top),
+        (xmin_left, ymax_top),
     ]
 
 
