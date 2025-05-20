@@ -522,9 +522,7 @@ def cross_section(
         bbox_offsets: list of offset from bounding box edge.
         cladding_layers: list of layers to extrude.
         cladding_offsets: list of offset from main Section edge.
-        cladding_simplify: Optional Tolerance value for the simplification algorithm. \
-                All points that can be removed without changing the resulting. \
-                polygon by more than the value listed here will be removed.
+        cladding_simplify: Optional Tolerance value for the simplification algorithm.                 All points that can be removed without changing the resulting.                 polygon by more than the value listed here will be removed.
         cladding_centers: center offset for each cladding layer. Defaults to 0.
         radius: routing bend radius (um).
         radius_min: min acceptable bend radius.
@@ -568,39 +566,48 @@ def cross_section(
            │                                                            │
            └────────────────────────────────────────────────────────────┘
     """
-    section_list: list[Section] = list(sections or [])
-    cladding_simplify_not_none: list[float | None] | None = None
-    cladding_offsets_not_none: list[float] | None = None
-    cladding_centers_not_none: list[float] | None = None
-    if cladding_layers:
-        cladding_simplify_not_none = list(
-            cladding_simplify or (None,) * len(cladding_layers)
-        )
-        cladding_offsets_not_none = list(
-            cladding_offsets or (0,) * len(cladding_layers)
-        )
-        cladding_centers_not_none = list(cladding_centers or [0] * len(cladding_layers))
+    # Use tuple() instead of list() for Sections and only cast once, at the end
+    if sections is not None:
+        section_list = list(sections)
+    else:
+        section_list = []
 
-        if (
-            len(
-                {
-                    len(x)
-                    for x in (
-                        cladding_layers,
-                        cladding_offsets_not_none,
-                        cladding_simplify_not_none,
-                        cladding_centers_not_none,
-                    )
-                }
-            )
-            > 1
-        ):
+    # Fast common path: usually cladding_* are None
+    if cladding_layers is not None:
+        n_clad = len(cladding_layers)
+        # Avoid repeatedly calling list/tuple on arguments, assign once
+        if cladding_simplify is not None:
+            cladding_simplify_not_none = list(cladding_simplify)
+        else:
+            cladding_simplify_not_none = [None] * n_clad
+        if cladding_offsets is not None:
+            cladding_offsets_not_none = list(cladding_offsets)
+        else:
+            cladding_offsets_not_none = [0] * n_clad
+        if cladding_centers is not None:
+            cladding_centers_not_none = list(cladding_centers)
+        else:
+            cladding_centers_not_none = [0] * n_clad
+
+        # Avoid building a set and then checking len on it by comparing lengths directly
+        l = [
+            n_clad,
+            len(cladding_offsets_not_none),
+            len(cladding_simplify_not_none),
+            len(cladding_centers_not_none),
+        ]
+        if not (l[0] == l[1] == l[2] == l[3]):
             raise ValueError(
                 f"{len(cladding_layers)=}, "
                 f"{len(cladding_offsets_not_none)=}, "
                 f"{len(cladding_simplify_not_none)=}, "
                 f"{len(cladding_centers_not_none)=} must have same length"
             )
+    else:
+        cladding_offsets_not_none = None
+        cladding_simplify_not_none = None
+        cladding_centers_not_none = None
+
     s = [
         Section(
             width=width,
@@ -610,31 +617,37 @@ def cross_section(
             port_types=port_types,
             name=main_section_name,
         )
-    ] + section_list
+    ]
+    s.extend(section_list)
 
+    # Compose cladding Sections only if needed
     if (
         cladding_layers
         and cladding_offsets_not_none
         and cladding_simplify_not_none
         and cladding_centers_not_none
     ):
-        s += [
-            Section(
-                width=width + 2 * offset,
-                layer=layer,
-                simplify=simplify,
-                offset=center,
-                name=f"cladding_{i}",
-            )
-            for i, (layer, offset, simplify, center) in enumerate(
-                zip(
-                    cladding_layers,
-                    cladding_offsets_not_none,
-                    cladding_simplify_not_none,
-                    cladding_centers_not_none,
+        # zip will be as long as cladding_layers
+        s.extend(
+            [
+                Section(
+                    width=width + 2 * offset,
+                    layer=clad_layer,
+                    simplify=simplify,
+                    offset=center,
+                    name=f"cladding_{i}",
                 )
-            )
-        ]
+                for i, (clad_layer, offset, simplify, center) in enumerate(
+                    zip(
+                        cladding_layers,
+                        cladding_offsets_not_none,
+                        cladding_simplify_not_none,
+                        cladding_centers_not_none,
+                    )
+                )
+            ]
+        )
+    # Only cast to tuple once at the end before CrossSection construction
     return CrossSection(
         sections=tuple(s),
         radius=radius,
@@ -887,19 +900,14 @@ def rib_with_trenches(
     """Return CrossSection of rib waveguide defined by trenches.
 
     Args:
-        width: main Section width (um) or function parameterized from 0 to 1. \
-                the width at t==0 is the width at the beginning of the Path. \
-                the width at t==1 is the width at the end.
+        width: main Section width (um) or function parameterized from 0 to 1.                 the width at t==0 is the width at the beginning of the Path.                 the width at t==1 is the width at the end.
         width_trench: in um.
         slab_offset: from the edge of the trench to the edge of the slab.
         width_slab: in um.
-        simplify_slab: Optional Tolerance value for the simplification algorithm. \
-                All points that can be removed without changing the resulting\
-                polygon by more than the value listed here will be removed.
+        simplify_slab: Optional Tolerance value for the simplification algorithm.                 All points that can be removed without changing the resulting                polygon by more than the value listed here will be removed.
         layer: slab layer.
         layer_trench: layer to etch trenches.
-        wg_marking_layer: layer to draw over the actual waveguide. \
-                This can be useful for booleans, routing, placement ...
+        wg_marking_layer: layer to draw over the actual waveguide.                 This can be useful for booleans, routing, placement ...
         sections: list of Sections(width, offset, layer, ports).
         kwargs: cross_section settings.
 
@@ -941,27 +949,34 @@ def rib_with_trenches(
         c = p.extrude(xs)
         c.plot()
     """
-    if slab_offset is None and width_slab is None:
-        raise ValueError("Must specify either slab_offset or width_slab")
-
-    elif slab_offset is not None and width_slab is not None:
+    # Single if-elif block, don't recalculate
+    if slab_offset is None:
+        if width_slab is None:
+            raise ValueError("Must specify either slab_offset or width_slab")
+    elif width_slab is not None:
         raise ValueError("Cannot specify both slab_offset and width_slab")
-
-    elif slab_offset is not None:
+    else:
         width_slab = width + 2 * width_trench + 2 * slab_offset
 
     trench_offset = width / 2 + width_trench / 2
-    section_list: list[Section] = list(sections or ())
+    if sections is not None:
+        section_list = list(sections)
+    else:
+        section_list = []
     assert width_slab is not None
     section_list.append(
         Section(width=width_slab, layer=layer, name="slab", simplify=simplify_slab)
     )
-    section_list += [
-        Section(
-            width=width_trench, offset=offset, layer=layer_trench, name=f"trench_{i}"
+    # Avoid creating intermediate list, extend section_list directly
+    for i, offset in enumerate((+trench_offset, -trench_offset)):
+        section_list.append(
+            Section(
+                width=width_trench,
+                offset=offset,
+                layer=layer_trench,
+                name=f"trench_{i}",
+            )
         )
-        for i, offset in enumerate([+trench_offset, -trench_offset])
-    ]
 
     return cross_section(
         layer=wg_marking_layer,
@@ -2752,5 +2767,3 @@ if __name__ == "__main__":
     xs2 = xs1.copy(width=10)
     assert xs2.name == xs1.name, f"{xs2.name} != {xs1.name}"
     print(xs2.name)
-
-_T_VALUES = tuple(np.linspace(0, 1, 11))
