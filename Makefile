@@ -1,13 +1,19 @@
+UV_INSTALLED := $(shell command -v uv)
+
 .PHONY: uv
 uv: ## install uv
+uv: ## install uv if not installed
+ifndef UV_INSTALLED
 	curl -LsSf https://astral.sh/uv/install.sh | sh
+endif
 
 .PHONY: install
-install: ## Install all dependencies using uv
+install: uv ## Install all dependencies using uv
 	uv sync --all-extras --no-extra full
 
 .PHONY: dev
-dev: ## Set up dev environment and install pre-commit
+
+dev: uv ## Set up dev environment and install pre-commit
 	uv venv -p 3.12
 	uv sync --all-extras --no-extra full
 	uv pip install -e .
@@ -23,11 +29,9 @@ install-kfactory-dev: ## Force-reinstall kfactory from GitHub
 update-pre: ## Update pre-commit hooks
 	pre-commit autoupdate
 
-.PHONY: test-data
 test-data: ## Clone test data from GitHub (HTTPS)
 	git clone https://github.com/gdsfactory/gdsfactory-test-data.git -b test_klayout test-data-gds
 
-.PHONY: test-data-gds
 test-data-gds: ## Clone test data from GitHub (SSH)
 	git clone git@github.com:gdsfactory/gdsfactory-test-data.git -b test_klayout test-data-gds
 
