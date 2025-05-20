@@ -6,7 +6,7 @@ import importlib
 import pathlib
 import warnings
 from collections.abc import Callable, Mapping, Sequence
-from functools import cached_property, partial
+from functools import cached_property, lru_cache, partial
 from typing import Any, cast
 
 import kfactory as kf
@@ -14,6 +14,7 @@ import yaml
 from kfactory.layer import LayerEnum
 from pydantic import BaseModel, ConfigDict, Field
 
+import gdsfactory as gf
 from gdsfactory import logger
 from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.config import CONF
@@ -24,19 +25,10 @@ from gdsfactory.read.from_yaml_template import cell_from_yaml_template
 from gdsfactory.serialization import clean_value_json, convert_tuples_to_lists
 from gdsfactory.symbols import floorplan_with_block_letters
 from gdsfactory.technology import LayerStack, LayerViews, klayout_tech
-from gdsfactory.typings import (
-    CellSpec,
-    ComponentFactory,
-    ComponentSpec,
-    ConnectivitySpec,
-    CrossSectionFactory,
-    CrossSectionSpec,
-    LayerSpec,
-    LayerTransitions,
-    MaterialSpec,
-    PathType,
-    RoutingStrategies,
-)
+from gdsfactory.typings import (CellSpec, ComponentFactory, ComponentSpec,
+                                ConnectivitySpec, CrossSectionFactory,
+                                CrossSectionSpec, LayerSpec, LayerTransitions,
+                                MaterialSpec, PathType, RoutingStrategies)
 
 _ACTIVE_PDK: Pdk | None = None
 component_settings = ["function", "component", "settings"]
@@ -649,7 +641,9 @@ def get_material_index(material: MaterialSpec, *args: Any, **kwargs: Any) -> Com
 def get_component(
     component: ComponentSpec, settings: Mapping[str, Any] | None = None, **kwargs: Any
 ) -> Component:
-    return get_active_pdk().get_component(component, settings=settings, **kwargs)
+    # Cache pdk access, as the registration is slow and does not usually change dynamically.
+    pdk = _get_active_pdk_cached()
+    return pdk.get_component(component, settings=settings, **kwargs)
 
 
 def get_cell(cell: CellSpec, **kwargs: Any) -> ComponentFactory:
@@ -699,14 +693,28 @@ def _set_active_pdk(pdk: Pdk) -> None:
 
 def get_routing_strategies() -> RoutingStrategies:
     """Gets a dictionary of named routing functions available to the PDK, if defined, or gdsfactory defaults otherwise."""
-    from gdsfactory.routing.factories import (
-        routing_strategies as default_routing_strategies,
-    )
+    from gdsfactory.routing.factories import \
+        routing_strategies as default_routing_strategies
 
     routing_strategies = get_active_pdk().routing_strategies
     if routing_strategies is None:
         routing_strategies = default_routing_strategies
     return routing_strategies
+
+
+def _get_active_pdk_cached():
+    global _active_pdk
+    if _active_pdk is None:
+        _active_pdk = gf.get_active_pdk()
+    return _active_pdk
+
+
+# LRU cache for bend_s, size, cross_section
+@lru_cache(maxsize=128)
+def _cached_bend_component(bend_s_hash, size, cross_section_hash):
+    # Note: bend_s and cross_section can be unhashable, thus pass their hashes
+    # bend_s and cross_section must be hashable spec or str or cache won't kick in.
+    return gf.get_component(bend_s_hash, size=size, cross_section=cross_section_hash)
 
 
 if __name__ == "__main__":
@@ -743,3 +751,5 @@ routes:
     # l2 = get_layer((3, 0))
     # print(l1)
     # print(l2)
+
+_active_pdk = None
