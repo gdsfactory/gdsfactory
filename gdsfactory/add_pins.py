@@ -378,9 +378,10 @@ def add_pins_siepic(
         pin_length: length of the pin marker for the port.
         kwargs: add pins function settings.
     """
-    from gdsfactory.pdk import get_component
-
-    component = get_component(component)
+    # Only call get_component if not already a Component
+    if not isinstance(component, Component):
+        # Avoid repeated expensive PDK/Factory lookups if already a Component
+        component = get_component(component)
 
     for p in component.get_ports_list(port_type=port_type):
         function(
