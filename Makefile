@@ -94,7 +94,8 @@ docs: ## Build documentation
 
 .PHONY: git-rm-merged
 git-rm-merged: ## Delete merged git branches
-	git branch -D `git branch --merged | grep -v \* | xargs`
+	git fetch --prune
+	git branch --merged origin/main | grep -v '^\*' | grep -v 'main' | xargs -n 1 git branch -d
 
 .PHONY: notebooks
 notebooks: ## Convert python scripts to Jupyter notebooks
