@@ -147,8 +147,8 @@ class Section(BaseModel):
     ) -> str | None:
         if func is None:
             return None
-        # Use generator expression and f-string rounding for speed and memory efficiency
-        return ",".join(f"{func(t):.3f}" for t in _T_VALUES)
+        t_values = np.linspace(0, 1, 11)
+        return ",".join([str(round(func(offset), 3)) for offset in t_values])
 
 
 class ComponentAlongPath(BaseModel):
@@ -522,9 +522,7 @@ def cross_section(
         bbox_offsets: list of offset from bounding box edge.
         cladding_layers: list of layers to extrude.
         cladding_offsets: list of offset from main Section edge.
-        cladding_simplify: Optional Tolerance value for the simplification algorithm. \
-                All points that can be removed without changing the resulting. \
-                polygon by more than the value listed here will be removed.
+        cladding_simplify: Optional Tolerance value for the simplification algorithm.                 All points that can be removed without changing the resulting.                 polygon by more than the value listed here will be removed.
         cladding_centers: center offset for each cladding layer. Defaults to 0.
         radius: routing bend radius (um).
         radius_min: min acceptable bend radius.
@@ -568,39 +566,8 @@ def cross_section(
            │                                                            │
            └────────────────────────────────────────────────────────────┘
     """
-    section_list: list[Section] = list(sections or [])
-    cladding_simplify_not_none: list[float | None] | None = None
-    cladding_offsets_not_none: list[float] | None = None
-    cladding_centers_not_none: list[float] | None = None
-    if cladding_layers:
-        cladding_simplify_not_none = list(
-            cladding_simplify or (None,) * len(cladding_layers)
-        )
-        cladding_offsets_not_none = list(
-            cladding_offsets or (0,) * len(cladding_layers)
-        )
-        cladding_centers_not_none = list(cladding_centers or [0] * len(cladding_layers))
-
-        if (
-            len(
-                {
-                    len(x)
-                    for x in (
-                        cladding_layers,
-                        cladding_offsets_not_none,
-                        cladding_simplify_not_none,
-                        cladding_centers_not_none,
-                    )
-                }
-            )
-            > 1
-        ):
-            raise ValueError(
-                f"{len(cladding_layers)=}, "
-                f"{len(cladding_offsets_not_none)=}, "
-                f"{len(cladding_simplify_not_none)=}, "
-                f"{len(cladding_centers_not_none)=} must have same length"
-            )
+    # Efficient initialization and reuse with tuple/None
+    section_list = list(sections) if sections is not None else []
     s = [
         Section(
             width=width,
@@ -610,15 +577,38 @@ def cross_section(
             port_types=port_types,
             name=main_section_name,
         )
-    ] + section_list
+    ]
+    s += section_list
 
-    if (
-        cladding_layers
-        and cladding_offsets_not_none
-        and cladding_simplify_not_none
-        and cladding_centers_not_none
-    ):
-        s += [
+    if cladding_layers:
+        n_claddings = len(cladding_layers)
+        cladding_simplify_f = (
+            cladding_simplify
+            if cladding_simplify is not None
+            else (None,) * n_claddings
+        )
+        cladding_offsets_f = (
+            cladding_offsets if cladding_offsets is not None else (0,) * n_claddings
+        )
+        cladding_centers_f = (
+            cladding_centers if cladding_centers is not None else (0,) * n_claddings
+        )
+
+        # Ensure all lists/tuples are of correct types and length for fast processing
+        if not (
+            len(cladding_layers)
+            == len(cladding_offsets_f)
+            == len(cladding_simplify_f)
+            == len(cladding_centers_f)
+        ):
+            raise ValueError(
+                f"{len(cladding_layers)=}, "
+                f"{len(cladding_offsets_f)=}, "
+                f"{len(cladding_simplify_f)=}, "
+                f"{len(cladding_centers_f)=} must have same length"
+            )
+        # Use generator for efficiency, direct extend on list
+        s.extend(
             Section(
                 width=width + 2 * offset,
                 layer=layer,
@@ -629,12 +619,13 @@ def cross_section(
             for i, (layer, offset, simplify, center) in enumerate(
                 zip(
                     cladding_layers,
-                    cladding_offsets_not_none,
-                    cladding_simplify_not_none,
-                    cladding_centers_not_none,
+                    cladding_offsets_f,
+                    cladding_simplify_f,
+                    cladding_centers_f,
                 )
             )
-        ]
+        )
+
     return CrossSection(
         sections=tuple(s),
         radius=radius,
@@ -2752,5 +2743,3 @@ if __name__ == "__main__":
     xs2 = xs1.copy(width=10)
     assert xs2.name == xs1.name, f"{xs2.name} != {xs1.name}"
     print(xs2.name)
-
-_T_VALUES = tuple(np.linspace(0, 1, 11))
