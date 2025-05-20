@@ -2,8 +2,6 @@ import math
 from warnings import warn
 
 import numpy as np
-import shapely.geometry as sg
-from shapely import intersection_all
 
 import gdsfactory as gf
 from gdsfactory.config import CONF
@@ -52,46 +50,59 @@ def is_invalid_bundle_topology(ports1: list[Port], ports2: list[Port]) -> bool:
     if len(ports1) < 2:
         return False
 
-    # Use generator to short-circuit the 'any' check on orientations
     if any(not getattr(p, "orientation", None) for p in ports1 + ports2):
         return False
 
     n = len(ports1)
-    # Prebuild all necessary data in single iteration and minimize attribute lookups
-    ports_facing = []
-    lines = []
+    ports_facing = [0.0] * n
+    center_pairs = [None] * n  # for intersection checking only
 
+    # Precompute all necessary quantities
     for i in range(n):
         p1 = ports1[i]
         p2 = ports2[i]
         c1 = p1.center
         c2 = p2.center
-        dx_line = c2[0] - c1[0]
-        dy_line = c2[1] - c1[1]
 
-        theta1 = math.radians(p1.orientation)
-        theta2 = math.radians(p2.orientation)
+        dx, dy = c2[0] - c1[0], c2[1] - c1[1]
+        o1 = math.radians(p1.orientation)
+        o2 = math.radians(p2.orientation)
+        dx_p1, dy_p1 = math.cos(o1), math.sin(o1)
+        dx_p2, dy_p2 = math.cos(o2), math.sin(o2)
 
-        dx_p1 = math.cos(theta1)
-        dy_p1 = math.sin(theta1)
-        dx_p2 = math.cos(theta2)
-        dy_p2 = math.sin(theta2)
+        dot1 = dx * dx_p1 + dy * dy_p1
+        dot2 = -(dx * dx_p2 + dy * dy_p2)
+        ports_facing[i] = dot1 * dot2
 
-        # Direct computation (vector dot products)
-        dot1 = dx_line * dx_p1 + dy_line * dy_p1
-        dot2 = -dx_line * dx_p2 + -dy_line * dy_p2
-        # ('both_facing' is positive if both ports face the line or away; negative if not)
-        both_facing = dot1 * dot2
-        ports_facing.append(both_facing)
+        center_pairs[i] = (c1, c2)
 
-        lines.append(sg.LineString([c1, c2]))
+    has_intersections = _any_intersection(center_pairs)
 
-    intersections = intersection_all(lines)
-
-    if intersections.is_empty and all(s < -angle_tolerance for s in ports_facing):
+    if not has_intersections and all(s < -angle_tolerance for s in ports_facing):
         return True
-    elif not intersections.is_empty and all(s > angle_tolerance for s in ports_facing):
+    elif has_intersections and all(s > angle_tolerance for s in ports_facing):
         return True
 
-    # Other cases are treated as potentially valid (return False)
+    return False
+
+
+def _segment_intersects_fast(a1, a2, b1, b2):
+    """Fast check if 2 segments intersect (excluding colinear whack)."""
+
+    def ccw(p1, p2, p3):
+        # Counter-clockwise test
+        return (p3[1] - p1[1]) * (p2[0] - p1[0]) > (p2[1] - p1[1]) * (p3[0] - p1[0])
+
+    return (ccw(a1, b1, b2) != ccw(a2, b1, b2)) and (ccw(a1, a2, b1) != ccw(a1, a2, b2))
+
+
+def _any_intersection(center_pairs):
+    """Returns True if any of the lines intersect (O(n^2), fast for moderate n)."""
+    n = len(center_pairs)
+    for i in range(n):
+        a1, a2 = center_pairs[i]
+        for j in range(i + 1, n):
+            b1, b2 = center_pairs[j]
+            if _segment_intersects_fast(a1, a2, b1, b2):
+                return True
     return False
