@@ -29,13 +29,33 @@ def rectangle(
         port_orientations: list of port_orientations to add. None adds no ports.
     """
     c = Component()
+    # Fast path: No ports needed, just a box polygon
+    no_ports = port_type is None or not port_orientations
+    w, h = size
+
+    if no_ports:
+        if centered:
+            x0, y0 = -w / 2, -h / 2
+        else:
+            x0, y0 = 0, 0
+        points = [
+            (x0, y0),
+            (x0 + w, y0),
+            (x0 + w, y0 + h),
+            (x0, y0 + h),
+        ]
+        c.add_polygon(points, layer=layer)
+        return c
+
+    # Ports required, use compass as before
     ref = c << gf.c.compass(
         size=size, layer=layer, port_type=port_type, port_orientations=port_orientations
     )
     if not centered:
-        ref.move((size[0] / 2, size[1] / 2))
+        ref.move((w / 2, h / 2))
     if port_type:
         c.add_ports(ref.ports)
+    # Only flatten if necessary (using compass)
     c.flatten()
     return c
 

@@ -29,11 +29,21 @@ def litho_ruler(
     """
     pitch = spacing + width
     D = gf.Component()
+    # Cache rectangles by their effective height
+    rect_cache = {}
+    scale_list = scale  # faster local lookup
+    n_scale = len(scale)
+    w = width
+    h0 = height
+    ly = layer
     for n in range(num_marks):
-        h = height * scale[n % len(scale)]
-        ref = D << gf.components.rectangle(size=(width, h), layer=layer)
+        s = scale_list[n % n_scale]
+        h = h0 * s
+        key = (w, h, ly)
+        if key not in rect_cache:
+            rect_cache[key] = gf.components.rectangle(size=(w, h), layer=ly)
+        ref = D << rect_cache[key]
         ref.movex((n - num_marks / 2) * pitch)
-
     return D
 
 
