@@ -17,6 +17,7 @@ Options:
 
 import logging
 import os
+import sys
 import xml.etree.ElementTree as ET
 from datetime import UTC, datetime
 from subprocess import check_call
@@ -109,8 +110,7 @@ def get_run_top_cell_name(arguments: dict[str, str], layout_path: str) -> str:
         logging.error(
             "# Layout has multiple topcells. Please determine which topcell you want to run on."
         )
-        exit(1)
-    # No else needed; we checked len == 1 above.
+        sys.exit(1)
     return layout_topcells[0]
 
 
@@ -122,9 +122,9 @@ def generate_klayout_switches(
     thrCount = int(thr_val) if thr_val is not None else 2
 
     run_mode = arguments.get("--run_mode")
-    if run_mode not in {"flat", "deep", "tiling"}:
+    if run_mode not in ("flat", "deep", "tiling"):
         logging.error("Allowed klayout modes are (flat , deep , tiling) only")
-        exit(1)
+        sys.exit(1)
 
     switches = {
         "thr": str(thrCount),
