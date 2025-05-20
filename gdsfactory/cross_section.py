@@ -522,9 +522,7 @@ def cross_section(
         bbox_offsets: list of offset from bounding box edge.
         cladding_layers: list of layers to extrude.
         cladding_offsets: list of offset from main Section edge.
-        cladding_simplify: Optional Tolerance value for the simplification algorithm. \
-                All points that can be removed without changing the resulting. \
-                polygon by more than the value listed here will be removed.
+        cladding_simplify: Optional Tolerance value for the simplification algorithm.                 All points that can be removed without changing the resulting.                 polygon by more than the value listed here will be removed.
         cladding_centers: center offset for each cladding layer. Defaults to 0.
         radius: routing bend radius (um).
         radius_min: min acceptable bend radius.
@@ -568,39 +566,8 @@ def cross_section(
            │                                                            │
            └────────────────────────────────────────────────────────────┘
     """
-    section_list: list[Section] = list(sections or [])
-    cladding_simplify_not_none: list[float | None] | None = None
-    cladding_offsets_not_none: list[float] | None = None
-    cladding_centers_not_none: list[float] | None = None
-    if cladding_layers:
-        cladding_simplify_not_none = list(
-            cladding_simplify or (None,) * len(cladding_layers)
-        )
-        cladding_offsets_not_none = list(
-            cladding_offsets or (0,) * len(cladding_layers)
-        )
-        cladding_centers_not_none = list(cladding_centers or [0] * len(cladding_layers))
-
-        if (
-            len(
-                {
-                    len(x)
-                    for x in (
-                        cladding_layers,
-                        cladding_offsets_not_none,
-                        cladding_simplify_not_none,
-                        cladding_centers_not_none,
-                    )
-                }
-            )
-            > 1
-        ):
-            raise ValueError(
-                f"{len(cladding_layers)=}, "
-                f"{len(cladding_offsets_not_none)=}, "
-                f"{len(cladding_simplify_not_none)=}, "
-                f"{len(cladding_centers_not_none)=} must have same length"
-            )
+    # Use a list for section_list only if necessary
+    section_list = list(sections) if sections else []
     s = [
         Section(
             width=width,
@@ -610,31 +577,50 @@ def cross_section(
             port_types=port_types,
             name=main_section_name,
         )
-    ] + section_list
+    ]
+    s += section_list
 
-    if (
-        cladding_layers
-        and cladding_offsets_not_none
-        and cladding_simplify_not_none
-        and cladding_centers_not_none
-    ):
+    # Fast path: no cladding_layers, skip all the extra building logic
+    if cladding_layers:
+        n = len(cladding_layers)
+
+        if cladding_simplify is not None:
+            csimp = list(cladding_simplify)
+        else:
+            csimp = [None] * n
+
+        if cladding_offsets is not None:
+            coffs = list(cladding_offsets)
+        else:
+            coffs = [0] * n
+
+        if cladding_centers is not None:
+            ccenter = list(cladding_centers)
+        else:
+            ccenter = [0] * n
+
+        # All cladding lists must have the same length, do not build a set
+        ln_offsets = len(coffs)
+        ln_simp = len(csimp)
+        ln_center = len(ccenter)
+        if not (n == ln_offsets == ln_simp == ln_center):
+            raise ValueError(
+                f"{n=}, {ln_offsets=}, {ln_simp=}, {ln_center=} must have same length"
+            )
+
         s += [
             Section(
                 width=width + 2 * offset,
-                layer=layer,
+                layer=cladding_layer,
                 simplify=simplify,
                 offset=center,
                 name=f"cladding_{i}",
             )
-            for i, (layer, offset, simplify, center) in enumerate(
-                zip(
-                    cladding_layers,
-                    cladding_offsets_not_none,
-                    cladding_simplify_not_none,
-                    cladding_centers_not_none,
-                )
+            for i, (cladding_layer, offset, simplify, center) in enumerate(
+                zip(cladding_layers, coffs, csimp, ccenter)
             )
         ]
+
     return CrossSection(
         sections=tuple(s),
         radius=radius,
@@ -2010,61 +1996,60 @@ def l_wg_doped_with_trenches(
         c = p.extrude(xs)
         c.plot()
     """
+    # Keep conditional guards as simple checks
     if slab_offset is None and width_slab is None:
         raise ValueError("Must specify either slab_offset or width_slab")
-
-    elif slab_offset is not None and width_slab is not None:
+    if slab_offset is not None and width_slab is not None:
         raise ValueError("Cannot specify both slab_offset and width_slab")
 
-    elif slab_offset is not None:
+    if slab_offset is not None:
         width_slab = width + 2 * width_trench + 2 * slab_offset
 
     trench_offset = -1 * (width / 2 + width_trench / 2)
-    section_list: list[Section] = list(sections or [])
+    section_list = list(sections) if sections else []
     assert width_slab is not None
     section_list.append(
         Section(width=width_slab, layer=layer, offset=-1 * (width_slab / 2 - width / 2))
     )
-    section_list += [
+    section_list.append(
         Section(width=width_trench, offset=trench_offset, layer=layer_trench)
-    ]
-
-    if wg_marking_layer is not None:
-        section_list += [Section(width=width, offset=0, layer=wg_marking_layer)]
-
-    offset_low_doping = width / 2 - gap_low_doping - width_doping / 2
-
-    low_doping = Section(
-        width=width_doping,
-        offset=offset_low_doping,
-        layer=layer_low,
     )
 
-    section_list.append(low_doping)
+    if wg_marking_layer is not None:
+        section_list.append(Section(width=width, offset=0, layer=wg_marking_layer))
+
+    offset_low_doping = width / 2 - gap_low_doping - width_doping / 2
+    section_list.append(
+        Section(
+            width=width_doping,
+            offset=offset_low_doping,
+            layer=layer_low,
+        )
+    )
 
     if gap_medium_doping is not None:
         width_medium_doping = width_doping - gap_medium_doping
         offset_medium_doping = width / 2 - gap_medium_doping - width_medium_doping / 2
-
-        mid_doping = Section(
-            width=width_medium_doping,
-            offset=offset_medium_doping,
-            layer=layer_mid,
+        section_list.append(
+            Section(
+                width=width_medium_doping,
+                offset=offset_medium_doping,
+                layer=layer_mid,
+            )
         )
-        section_list.append(mid_doping)
 
-    offset_high_doping: float | None = None
-    width_high_doping: float | None = None
-
+    offset_high_doping = None
+    width_high_doping = None
     if gap_high_doping is not None:
         width_high_doping = width_doping - gap_high_doping
         offset_high_doping = width / 2 - gap_high_doping - width_high_doping / 2
-
-        high_doping = Section(
-            width=width_high_doping, offset=+offset_high_doping, layer=layer_high
+        section_list.append(
+            Section(
+                width=width_high_doping,
+                offset=offset_high_doping,
+                layer=layer_high,
+            )
         )
-
-        section_list.append(high_doping)
 
     if (
         layer_via is not None
@@ -2072,8 +2057,7 @@ def l_wg_doped_with_trenches(
         and width_high_doping is not None
     ):
         offset = offset_high_doping - width_high_doping / 2 + width_via / 2
-        via = Section(width=width_via, offset=+offset, layer=layer_via)
-        section_list.append(via)
+        section_list.append(Section(width=width_via, offset=offset, layer=layer_via))
 
     if (
         layer_metal is not None
@@ -2081,12 +2065,11 @@ def l_wg_doped_with_trenches(
         and width_high_doping is not None
     ):
         offset = offset_high_doping - width_high_doping / 2 + width_metal / 2
-        port_types = ("electrical", "electrical")
         metal = Section(
             width=width_via,
-            offset=+offset,
+            offset=offset,
             layer=layer_metal,
-            port_types=port_types,
+            port_types=("electrical", "electrical"),
             port_names=("e1_top", "e2_top"),
         )
         section_list.append(metal)
@@ -2752,5 +2735,3 @@ if __name__ == "__main__":
     xs2 = xs1.copy(width=10)
     assert xs2.name == xs1.name, f"{xs2.name} != {xs1.name}"
     print(xs2.name)
-
-_T_VALUES = tuple(np.linspace(0, 1, 11))
