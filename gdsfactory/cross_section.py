@@ -147,8 +147,8 @@ class Section(BaseModel):
     ) -> str | None:
         if func is None:
             return None
-        t_values = np.linspace(0, 1, 11)
-        return ",".join([str(round(func(offset), 3)) for offset in t_values])
+        # Use generator expression and f-string rounding for speed and memory efficiency
+        return ",".join(f"{func(t):.3f}" for t in _T_VALUES)
 
 
 class ComponentAlongPath(BaseModel):
@@ -2752,3 +2752,5 @@ if __name__ == "__main__":
     xs2 = xs1.copy(width=10)
     assert xs2.name == xs1.name, f"{xs2.name} != {xs1.name}"
     print(xs2.name)
+
+_T_VALUES = tuple(np.linspace(0, 1, 11))
