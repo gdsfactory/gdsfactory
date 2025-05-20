@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import operator
 from typing import Any
 
 import gdsfactory as gf
@@ -19,7 +20,11 @@ def label_farthest_right_port(
         layer: The layer on which the label will be added.
         text: The text to display in the label.
     """
-    rightmost_port = max(ports, key=lambda port: port.x)
+    # Optimization: ensure a sequence for single-scan max, use attrgetter to minimize per-port overhead.
+    if not isinstance(ports, (list, tuple)):
+        ports = list(ports)
+
+    rightmost_port = max(ports, key=operator.attrgetter("x"))
 
     component.add_label(
         text=text,
