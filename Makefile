@@ -44,7 +44,7 @@ cov: ## Run tests with coverage
 	uv run pytest --cov=gdsfactory --cov-report=term-missing:skip-covered
 
 .PHONY: dev-cov
-dev-cov: ### Run tests in parallel with coverage
+dev-cov: ## Run tests in parallel with coverage
 	uv run pytest -s -n logical --cov=gdsfactory --cov-report=term-missing:skip-covered --durations=10
 
 .PHONY: test-samples
