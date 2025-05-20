@@ -21,7 +21,7 @@ def text(
 
     Args:
         text: string.
-        size: in um.
+        size: in um of each character.
         position: x, y position.
         justify: left, right, center.
         layer: for the text.

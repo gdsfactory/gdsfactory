@@ -147,8 +147,8 @@ class Section(BaseModel):
     ) -> str | None:
         if func is None:
             return None
-        # Use generator expression and f-string rounding for speed and memory efficiency
-        return ",".join(f"{func(t):.3f}" for t in _T_VALUES)
+        t_values = np.linspace(0, 1, 11)
+        return ",".join([str(round(func(offset), 3)) for offset in t_values])
 
 
 class ComponentAlongPath(BaseModel):

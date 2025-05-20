@@ -28,7 +28,7 @@ def text_rectangular(
 
     Args:
         text: string.
-        size: pixel size.
+        size: pixel size in um.
         position: coordinate.
         justify: left, right or center.
         layer: for text.

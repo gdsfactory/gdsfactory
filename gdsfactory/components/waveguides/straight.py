@@ -24,7 +24,7 @@ def straight(
 
     .. code::
 
-        o1 -------------- o2
+        o1  ──────────────── o2
                 length
     """
     if width is not None:
@@ -58,7 +58,7 @@ def straight_all_angle(
 
     .. code::
 
-        o1 -------------- o2
+        o1  ──────────────── o2
                 length
     """
     if width is not None:
@@ -121,7 +121,7 @@ def wire_straight(
 
     .. code::
 
-        o1 -------------- o2
+        o1  ──────────────── o2
                 length
     """
     if width is not None:
