@@ -11,6 +11,7 @@ They without modifying the cell name
 from __future__ import annotations
 
 import json
+import math
 import warnings
 from functools import partial
 from typing import Any, Protocol
@@ -102,41 +103,44 @@ def get_pin_triangle_polygon_tip(
     """Returns triangle polygon and tip position."""
     p = port
     port_face = p.info.get("face", None)
+    orientation_rad = p.orientation * (math.pi / 180.0)
+    ca = math.cos(orientation_rad)
+    sa = math.sin(orientation_rad)
+    d = float(p.width) * 0.5
 
-    orientation_rad = p.orientation * (np.pi / 180)
-    ca = np.cos(orientation_rad)
-    sa = np.sin(orientation_rad)
-    rot00, rot01, rot10, rot11 = ca, -sa, sa, ca  # Precompute for single-use
-
-    d = float(p.width) * 0.5  # Always use float for NumPy math
-    cx, cy = p.center[0], p.center[1]  # p.center is typically sequence
+    cx, cy = p.center
 
     if port_face:
-        dtop = port_face[0]
-        dbot = port_face[-1]
-        dbotx, dboty = dbot[0], dbot[1]
-        dtopx, dtopy = dtop[0], dtop[1]
+        dtopx, dtopy = port_face[0]
+        dbotx, dboty = port_face[-1]
     else:
-        dbotx, dboty = 0.0, -d
-        dtopx, dtopy = 0.0, d
+        # Avoid tuple assignment for speed
+        dtopx = 0.0
+        dtopy = d
+        dbotx = 0.0
+        dboty = -d
 
-    # Apply the rotation and translation inline
-    p0x = cx + rot00 * dbotx + rot01 * dboty
-    p0y = cy + rot10 * dbotx + rot11 * dboty
-    p1x = cx + rot00 * dtopx + rot01 * dtopy
-    p1y = cy + rot10 * dtopx + rot11 * dtopy
+    # Perform all polygon calculations in a tight loop: no temp var reuse, all inline
+    # Rotation and translation:
+    # [cos -sin] [x]
+    # [sin  cos] [y]
+    p0x = cx + ca * dbotx - sa * dboty
+    p0y = cy + sa * dbotx + ca * dboty
+    p1x = cx + ca * dtopx - sa * dtopy
+    p1y = cy + sa * dtopx + ca * dtopy
+    ptipx = cx + ca * d
+    ptipy = cy + sa * d
 
-    # Tip: dtip = (d,0)
-    ptipx = cx + rot00 * d
-    ptipy = cy + rot10 * d
+    # Use np.empty for construction for better performance, then fill
+    polygon = np.empty((3, 2), dtype=np.float64)
+    polygon[0, 0] = p0x
+    polygon[0, 1] = p0y
+    polygon[1, 0] = p1x
+    polygon[1, 1] = p1y
+    polygon[2, 0] = ptipx
+    polygon[2, 1] = ptipy
 
-    # Stack all points into a single array, no object dtype, no extra function calls
-    polygon_stacked = np.array(
-        [[p0x, p0y], [p1x, p1y], [ptipx, ptipy]], dtype=np.float64
-    )
-
-    ptip: tuple[float, float] = (ptipx, ptipy)
-    return polygon_stacked, ptip
+    return polygon, (ptipx, ptipy)
 
 
 def add_pin_triangle(
