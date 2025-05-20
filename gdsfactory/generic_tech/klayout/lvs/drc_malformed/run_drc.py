@@ -195,7 +195,11 @@ def check_layout_path(layout_path: str) -> str:
 
 def build_switches_string(sws: dict[str, str]) -> str:
     """build_switches_string Build switches string from dictionary."""
-    return "".join(f"-rd {k}={v} " for k, v in sws.items())
+    if not sws:
+        return ""
+    # Use list comprehension with f-string and join once at the end for efficiency
+    parts = [f"-rd {k}={v}" for k, v in sws.items()]
+    return " ".join(parts) + " "
 
 
 def run_check(
