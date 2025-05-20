@@ -64,14 +64,9 @@ import yaml
 from gdsfactory import typings
 from gdsfactory.add_pins import add_instance_label
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.schematic import (
-    Bundle,
-    GridArray,
-    Netlist,
-    OrthogonalGridArray,
-    Placement,
-)
+from gdsfactory.schematic import Bundle, GridArray
 from gdsfactory.schematic import Instance as NetlistInstance
+from gdsfactory.schematic import Netlist, OrthogonalGridArray, Placement
 from gdsfactory.typings import LayerSpec, Route, RoutingStrategies
 
 if TYPE_CHECKING:
@@ -800,20 +795,35 @@ def from_yaml(
                     mmi_top,o3: mmi_bot,o1
 
     """
+    # Importing here to avoid global scope hit if not used
     from gdsfactory.pdk import get_active_pdk
-
-    routing_strategies = routing_strategies or {}
+    from gdsfactory.read.from_yaml import (_add_labels, _add_ports,
+                                           _add_routes, _get_dependency_graph,
+                                           _get_references, _load_yaml_str,
+                                           _place_and_connect)
 
     c = Component()
     dct = _load_yaml_str(yaml_str)
     pdk = get_active_pdk()
+
     net = Netlist.model_validate(dct)
+
     g = _get_dependency_graph(net)
     refs = _get_references(c, pdk, net.instances)
     _place_and_connect(g, refs, net.connections, net.placements)
-    c = _add_routes(c, refs, net.routes, routing_strategies)
-    c = _add_ports(c, refs, net.ports)
-    c = _add_labels(c, refs, label_instance_function)
+
+    # Only call _add_routes if routes exist to avoid creating unnecessary dicts/computations
+    if net.routes:
+        c = _add_routes(
+            c, refs, net.routes, routing_strategies if routing_strategies else None
+        )
+    # Only call _add_ports if ports exist
+    if net.ports:
+        c = _add_ports(c, refs, net.ports)
+    # Only call _add_labels if label_instance_function provided and there are refs
+    if label_instance_function is not None and refs:
+        c = _add_labels(c, refs, label_instance_function)
+
     c.name = name or net.name or c.name
     return c
 

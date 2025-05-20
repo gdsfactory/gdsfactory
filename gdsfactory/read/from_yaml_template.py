@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import os
 import pathlib
 from inspect import Parameter, Signature, signature
@@ -196,11 +198,11 @@ def _pic_from_templated_yaml(
 
     Returns: the component.
     """
-    routing_strategies = routing_strategies or {}
-
+    # direct call, avoids unnecessary .dup() as from_yaml returns a new Component
     c = from_yaml(
         evaluated_text,
         routing_strategies=routing_strategies,
-    ).dup()
-    c.name = name
+    )
+    if c.name != name:
+        c.name = name
     return c
