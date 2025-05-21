@@ -1,16 +1,66 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.5.9...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.5.11...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.5.11](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.5.11) - 2025-05-21
 
-No significant changes.
+- rename length info coupler [#3941](https://github.com/gdsfactory/gdsfactory/pull/3941)
+- Update makefile documentation [#3918](https://github.com/gdsfactory/gdsfactory/pull/3918)
+- Fix pytest warnings [#3904](https://github.com/gdsfactory/gdsfactory/pull/3904)
+- lint(pre-commit-config): update ruff version to v0.11.10 [#3902](https://github.com/gdsfactory/gdsfactory/pull/3902)
+- draft: Improve contribution doc [#3899](https://github.com/gdsfactory/gdsfactory/pull/3899)
+- Improve function signatures [#3898](https://github.com/gdsfactory/gdsfactory/pull/3898)
+- Refactor PDK xsection decorator [#3900](https://github.com/gdsfactory/gdsfactory/pull/3900)
+- fix pre-commit [#3897](https://github.com/gdsfactory/gdsfactory/pull/3897)
+- better docstrings [#3921](https://github.com/gdsfactory/gdsfactory/pull/3921)
+- Update python intro docs [#3901](https://github.com/gdsfactory/gdsfactory/pull/3901)
+- Improve docs [#3874](https://github.com/gdsfactory/gdsfactory/pull/3874)
+- update contributors [#3845](https://github.com/gdsfactory/gdsfactory/pull/3845)
+- remove add_padding default [#3824](https://github.com/gdsfactory/gdsfactory/pull/3824)
+- Run ty in ci [#3861](https://github.com/gdsfactory/gdsfactory/pull/3861)
+- improve ring [#3894](https://github.com/gdsfactory/gdsfactory/pull/3894)
+- Make small change to clarify first use of PCell as "Parameterized Cell". [#3896](https://github.com/gdsfactory/gdsfactory/pull/3896)
+- update spiral_inductor doctring [#3892](https://github.com/gdsfactory/gdsfactory/pull/3892)
+- improve hline docs [#3891](https://github.com/gdsfactory/gdsfactory/pull/3891)
+- improve dev container [#3842](https://github.com/gdsfactory/gdsfactory/pull/3842)
+- bump kfactory [#3859](https://github.com/gdsfactory/gdsfactory/pull/3859)
 
+- add codeflash label [#3852](https://github.com/gdsfactory/gdsfactory/pull/3852)
+- add codeflash as a dev dep [#3844](https://github.com/gdsfactory/gdsfactory/pull/3844)
+- add codeflash [#3825](https://github.com/gdsfactory/gdsfactory/pull/3825)
+- try to fix codeflash github actions [#3827](https://github.com/gdsfactory/gdsfactory/pull/3827)
+- ⚡️ Speed up method `Section.serialize_offset_function` by 655% [#3920](https://github.com/gdsfactory/gdsfactory/pull/3920)
+- ⚡️ Speed up method `LineStyle.check_pattern` by 75% [#3886](https://github.com/gdsfactory/gdsfactory/pull/3886)
+- ⚡️ Speed up function `linear` by 27% [#3868](https://github.com/gdsfactory/gdsfactory/pull/3868)
+- ⚡️ Speed up function `_is_orthogonal_array_reference` by 36% [#3849](https://github.com/gdsfactory/gdsfactory/pull/3849)
+- ⚡️ Speed up function `_add_ports` by 2,202% [#3881](https://github.com/gdsfactory/gdsfactory/pull/3881)
+- ⚡️ Speed up function `add_auto_tapers` by 39% [#3875](https://github.com/gdsfactory/gdsfactory/pull/3875)
+- ⚡️ Speed up function `line` by 134% [#3873](https://github.com/gdsfactory/gdsfactory/pull/3873)
+- ⚡️ Speed up function `grating_taper_points` by 74% [#3837](https://github.com/gdsfactory/gdsfactory/pull/3837)
+- ⚡️ Speed up function `nets_to_connections` by 49% [#3847](https://github.com/gdsfactory/gdsfactory/pull/3847)
+- ⚡️ Speed up function `is_invalid_bundle_topology` by 158% [#3908](https://github.com/gdsfactory/gdsfactory/pull/3908)
+- ⚡️ Speed up function `get_grating_period_curved` by 56% [#3838](https://github.com/gdsfactory/gdsfactory/pull/3838)
+- ⚡️ Speed up function `generate_klayout_switches` by 36% [#3883](https://github.com/gdsfactory/gdsfactory/pull/3883)
+- ⚡️ Speed up method `HatchPattern.check_pattern_klayout` by 157% [#3885](https://github.com/gdsfactory/gdsfactory/pull/3885)
+- ⚡️ Speed up function `_get_dependency_graph` by 106% [#3880](https://github.com/gdsfactory/gdsfactory/pull/3880)
+- ⚡️ Speed up function `arrow_orientation` by 27% [#3869](https://github.com/gdsfactory/gdsfactory/pull/3869)
+- ⚡️ Speed up function `is_cell` by 449% [#3857](https://github.com/gdsfactory/gdsfactory/pull/3857)
+- ⚡️ Speed up function `bbox_to_points` by 32% [#3870](https://github.com/gdsfactory/gdsfactory/pull/3870)
+- ⚡️ Speed up function `polygon` by 25% [#3867](https://github.com/gdsfactory/gdsfactory/pull/3867)
+- ⚡️ Speed up function `_get_anchor_point_from_name` by 52% [#3839](https://github.com/gdsfactory/gdsfactory/pull/3839)
+- ⚡️ Speed up function `line` by 186% [#3835](https://github.com/gdsfactory/gdsfactory/pull/3835)
+- ⚡️ Speed up function `get_pin_triangle_polygon_tip` by 329% [#3833](https://github.com/gdsfactory/gdsfactory/pull/3833)
+- ⚡️ Speed up function `move_polar_rad_copy` by 28% [#3836](https://github.com/gdsfactory/gdsfactory/pull/3836)
+- ⚡️ Speed up function `is_invalid_bundle_topology` by 150% [#3831](https://github.com/gdsfactory/gdsfactory/pull/3831)
+- ⚡️ Speed up function `circle` by 36% [#3829](https://github.com/gdsfactory/gdsfactory/pull/3829)
+- ⚡️ Speed up function `_get_bend_size` by 23% [#3830](https://github.com/gdsfactory/gdsfactory/pull/3830)
+- ⚡️ Speed up function `get_cells` by 1,424% [#3851](https://github.com/gdsfactory/gdsfactory/pull/3851)
 
 ## [9.5.10](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.5.10) - 2025-05-15
 
-No significant changes.
+- prevent container conflicts [#3822](https://github.com/gdsfactory/gdsfactory/pull/3822)
+- improve docs [#3821](https://github.com/gdsfactory/gdsfactory/pull/3821)
 
 
 ## [9.5.9](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.5.9) - 2025-05-11
