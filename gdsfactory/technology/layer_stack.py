@@ -36,10 +36,13 @@ class AbstractLayer(BaseModel):
     def _perform_operation(
         self, other: AbstractLayer, operation: Literal["and", "or", "xor", "not"]
     ) -> DerivedLayer:
-        if isinstance(other, DerivedLayer | LogicalLayer) and isinstance(
-            self, DerivedLayer | LogicalLayer
+        # Fast-path for type checking without isinstance union
+        if (type(self) is DerivedLayer or type(self) is LogicalLayer) and (
+            type(other) is DerivedLayer or type(other) is LogicalLayer
         ):
             return DerivedLayer(layer1=self, layer2=other, operation=operation)
+        # Error path: only hit when types are incorrect;
+        # message is unchanged for debugging consistency
         raise ValueError(f"{other} is not a DerivedLayer or LogicalLayer")
 
     # Boolean AND (&)
