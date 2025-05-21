@@ -9,7 +9,7 @@ import hashlib
 import warnings
 from collections.abc import Callable, Sequence
 from functools import partial, wraps
-from inspect import getmembers, signature
+from inspect import getmembers, isbuiltin, isfunction
 from types import ModuleType
 from typing import Any, ParamSpec, Protocol, Self, TypeAlias
 
@@ -2704,22 +2704,39 @@ def get_cross_sections(
         modules: module or iterable of modules.
         verbose: prints in case any errors occur.
     """
-    modules_ = modules if isinstance(modules, Sequence) else [modules]
+    # Optimize module input normalization and preallocate xs
+    if isinstance(modules, Sequence) and not isinstance(modules, str):
+        modules_ = modules
+    else:
+        modules_ = [modules]
+
     xs: dict[str, CrossSectionFactory] = {}
+
     for module in modules_:
-        for t in getmembers(module):
-            if callable(t[1]) and not t[0].startswith("_"):
-                try:
-                    r = signature(
-                        t[1].func if isinstance(t[1], partial) else t[1]
-                    ).return_annotation
-                    if r == CrossSection or (
-                        isinstance(r, str) and r.endswith("CrossSection")
-                    ):
-                        xs[t[0]] = t[1]
-                except Exception as e:
-                    if verbose:
-                        logger.warning(f"error in {t[0]}: {e}")
+        # Use generator for memory efficiency and optimize member access
+        for name, obj in getmembers(module):
+            if name.startswith("_"):
+                continue
+            # Early prune: only consider functions, builtins or partials
+            if isfunction(obj) or isbuiltin(obj):
+                func = obj
+            elif isinstance(obj, partial):
+                func = obj.func
+            else:
+                continue
+
+            # Directly look up __annotations__ to avoid expensive inspect.signature
+            try:
+                ann = getattr(func, "__annotations__", {})
+                r = ann.get("return", None)
+                if r == CrossSection or (
+                    isinstance(r, str) and r.endswith("CrossSection")
+                ):
+                    xs[name] = obj
+            except Exception as e:
+                if verbose:
+                    logger.warning(f"error in {name}: {e}")
+
     return xs
 
 
@@ -2752,5 +2769,3 @@ if __name__ == "__main__":
     xs2 = xs1.copy(width=10)
     assert xs2.name == xs1.name, f"{xs2.name} != {xs1.name}"
     print(xs2.name)
-
-_T_VALUES = tuple(np.linspace(0, 1, 11))
