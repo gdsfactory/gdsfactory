@@ -19,7 +19,18 @@ def label_farthest_right_port(
         layer: The layer on which the label will be added.
         text: The text to display in the label.
     """
-    rightmost_port = max(ports, key=lambda port: port.x)
+    # Micro-optimized rightmost port selection (linear, but avoids lambda/attr overhead)
+    iter_ports = iter(ports)
+    try:
+        rightmost_port = next(iter_ports)
+        max_x = rightmost_port.x
+        for port in iter_ports:
+            px = port.x
+            if px > max_x:
+                rightmost_port = port
+                max_x = px
+    except StopIteration:
+        raise ValueError("No ports found for label placement.")
 
     component.add_label(
         text=text,
