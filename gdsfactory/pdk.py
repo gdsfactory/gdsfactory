@@ -504,9 +504,13 @@ class Pdk(BaseModel):
                 raise ValueError(f"Could not find name for layer {layer_index}")
 
     def get_layer_views(self) -> LayerViews:
-        if self.layer_views is None:
-            raise ValueError(f"layer_views for Pdk {self.name!r} is None")
-        return self.layer_views
+        # Cache attribute access to minimize lookups
+        layer_views = self.layer_views
+        if layer_views is None:
+            # Also cache name for faster error path
+            name = self.name
+            raise ValueError(f"layer_views for Pdk {name!r} is None")
+        return layer_views
 
     def get_layer_stack(self) -> LayerStack:
         if self.layer_stack is None:
