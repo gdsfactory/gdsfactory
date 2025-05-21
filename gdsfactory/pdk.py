@@ -207,13 +207,22 @@ class Pdk(BaseModel):
 
         logger.debug(f"{self.name!r} PDK {self.version} is now active")
 
+        # Efficiently flatten cross_sections and cells from base_pdks and self
+        cross_sections = {}
+        cells = {}
+
         for pdk in self.base_pdks:
-            cross_sections = pdk.cross_sections
-            cross_sections.update(self.cross_sections)
-            cells = pdk.cells
+            _merge_dicts(cross_sections, getattr(pdk, "cross_sections", {}))
+            _merge_dicts(cells, getattr(pdk, "cells", {}))
+
+        _merge_dicts(cross_sections, getattr(self, "cross_sections", {}))
+        _merge_dicts(cells, getattr(self, "cells", {}))
+
+        # Only assign if different, minimizes reference churn
+        if self.cross_sections != cross_sections:
             self.cross_sections = cross_sections
-            cells.update(self.cells)
-            self.cells.update(cells)
+        if self.cells != cells:
+            self.cells = cells
 
         _set_active_pdk(self)
 
@@ -707,6 +716,12 @@ def get_routing_strategies() -> RoutingStrategies:
     if routing_strategies is None:
         routing_strategies = default_routing_strategies
     return routing_strategies
+
+
+def _merge_dicts(target: dict, source: dict) -> None:
+    """In-place update target with source, avoids unnecessary copying."""
+    if source:
+        target.update(source)
 
 
 if __name__ == "__main__":
