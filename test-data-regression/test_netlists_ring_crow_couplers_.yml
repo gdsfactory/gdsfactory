@@ -128,8 +128,8 @@ instances:
   coupler_gdsfactorypcomp_75dd060a_0_0:
     component: coupler
     info:
-      length: 10.186
       min_bend_radius: 11.857
+      path_length: 40.372
     settings:
       allow_min_radius_violation: false
       bend: bend_s
@@ -141,8 +141,8 @@ instances:
   coupler_gdsfactorypcomp_75dd060a_0_24000:
     component: coupler
     info:
-      length: 10.186
       min_bend_radius: 11.857
+      path_length: 40.372
     settings:
       allow_min_radius_violation: false
       bend: bend_s
@@ -154,8 +154,8 @@ instances:
   coupler_gdsfactorypcomp_75dd060a_0_48000:
     component: coupler
     info:
-      length: 10.186
       min_bend_radius: 11.857
+      path_length: 40.372
     settings:
       allow_min_radius_violation: false
       bend: bend_s
@@ -167,8 +167,8 @@ instances:
   coupler_gdsfactorypcomp_75dd060a_0_72000:
     component: coupler
     info:
-      length: 10.186
       min_bend_radius: 11.857
+      path_length: 40.372
     settings:
       allow_min_radius_violation: false
       bend: bend_s
