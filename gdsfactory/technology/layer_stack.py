@@ -404,12 +404,24 @@ class LayerStack(BaseModel):
 
     def __init__(self, **data: Any) -> None:
         """Add LayerLevels automatically for subclassed LayerStacks."""
+        # Avoid repeated intensive getattr and dictionary insertion.
         super().__init__(**data)
-
-        for field in self.model_dump():
-            val = getattr(self, field)
-            if isinstance(val, LayerLevel):
-                self.layers[field] = val
+        # Use __dict__ for direct attribute access, which is faster than getattr in a loop.
+        dct = self.__dict__
+        # Try to minimize unnecessary work: only update self.layers if 'layers' exists.
+        layers = dct.get("layers")
+        if layers is None:
+            layers = {}
+            dct["layers"] = layers
+        # Use local variable for faster access.
+        _layers = layers
+        # Iterate only through instance variables, not model_dump(), as that recreates/validates the dict.
+        for field, val in dct.items():
+            if field == "layers":
+                continue
+            # Only add if not already present and is a LayerLevel.
+            if isinstance(val, LayerLevel) and field not in _layers:
+                _layers[field] = val
 
     def pprint(self) -> None:
         console = Console()
@@ -630,9 +642,12 @@ class LayerStack(BaseModel):
 
     def filtered(self, layers: list[str]) -> LayerStack:
         """Returns filtered layerstack, given layer specs."""
-        return LayerStack(
-            layers={k: self.layers[k] for k in layers if k in self.layers}
-        )
+        # Use local variable for faster access.
+        _layers = self.layers
+        # Build new dictionary only once, greedily.
+        filtered_layers = {k: _layers[k] for k in layers if k in _layers}
+        # Pass directly as argument for efficiency.
+        return LayerStack(layers=filtered_layers)
 
     def z_offset(self, dz: float) -> LayerStack:
         """Translates the z-coordinates of the layerstack."""
