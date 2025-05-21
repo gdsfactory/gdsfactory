@@ -405,11 +405,11 @@ class LayerStack(BaseModel):
     def __init__(self, **data: Any) -> None:
         """Add LayerLevels automatically for subclassed LayerStacks."""
         super().__init__(**data)
-
-        for field in self.model_dump():
-            val = getattr(self, field)
+        # Use local binding and avoid getattr in loop.
+        layers = self.__dict__.setdefault("layers", {})
+        for field, val in self.__dict__.items():
             if isinstance(val, LayerLevel):
-                self.layers[field] = val
+                layers[field] = val
 
     def pprint(self) -> None:
         console = Console()
@@ -481,7 +481,20 @@ class LayerStack(BaseModel):
         return d
 
     def to_dict(self) -> dict[str, dict[str, Any]]:
-        return {level_name: dict(level) for level_name, level in self.layers.items()}
+        # Fast path: use .model_dump() if available for each LayerLevel to avoid creating full new dict via dict(l).
+        layers = self.layers
+        out = {}
+        for level_name, level in layers.items():
+            # Attempt to use .model_dump() (pydantic v2), fallback to .dict(), fallback to __dict__.
+            if hasattr(level, "model_dump"):
+                out[level_name] = level.model_dump()
+            elif hasattr(level, "dict"):
+                out[level_name] = level.dict()
+            else:
+                out[level_name] = {
+                    k: v for k, v in vars(level).items() if not k.startswith("_")
+                }
+        return out
 
     def __getitem__(self, key: str) -> LayerLevel:
         """Access layer stack elements."""
