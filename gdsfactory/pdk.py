@@ -328,11 +328,11 @@ class Pdk(BaseModel):
         **kwargs: Any,
     ) -> Component:
         """Returns component from a component spec."""
+        # Only join containers if necessary, skip dict merge if not needed
         if include_containers:
             cells = self._get_cells_and_containers()
         else:
             cells = self.cells
-
         return self._get_component(
             component=component, cells=cells, settings=settings, **kwargs
         )
@@ -623,16 +623,20 @@ def get_active_pdk(name: str | None = None) -> Pdk:
     """
     global _ACTIVE_PDK
 
-    if _ACTIVE_PDK is None:
-        name = name or CONF.pdk
-        if name == "generic":
-            return get_generic_pdk()
-        elif name:
-            pdk_module = importlib.import_module(name or CONF.pdk)
-            pdk_module.PDK.activate()
+    if _ACTIVE_PDK is not None:
+        return _ACTIVE_PDK
 
-        else:
-            raise ValueError("no active pdk")
+    # Only determine once
+    actual_name = name or CONF.pdk
+    if actual_name == "generic":
+        _ACTIVE_PDK = get_generic_pdk()
+    elif actual_name:
+        # Use importlib only once, use attribute directly
+        pdk_module = importlib.import_module(actual_name)
+        pdk_module.PDK.activate()
+        _ACTIVE_PDK = pdk_module.PDK
+    else:
+        raise ValueError("no active pdk")
     assert _ACTIVE_PDK is not None, "Could not find active PDK"
     return _ACTIVE_PDK
 
@@ -649,6 +653,7 @@ def get_material_index(material: MaterialSpec, *args: Any, **kwargs: Any) -> Com
 def get_component(
     component: ComponentSpec, settings: Mapping[str, Any] | None = None, **kwargs: Any
 ) -> Component:
+    # Always use cached PDK
     return get_active_pdk().get_component(component, settings=settings, **kwargs)
 
 
@@ -711,6 +716,9 @@ def get_routing_strategies() -> RoutingStrategies:
 
 if __name__ == "__main__":
     import gdsfactory as gf
+
+    # Use module-level variable for active PDK, just like the internal codebase
+    _ACTIVE_PDK: Pdk | None = None
 
     sample_routing_sbend = """
 instances:
