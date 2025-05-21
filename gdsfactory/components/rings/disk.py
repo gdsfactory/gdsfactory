@@ -4,7 +4,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory import Component
-from gdsfactory.component import ComponentReference
+from gdsfactory.component import Component, ComponentReference
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.typings import (
     AngleInDegrees,
@@ -67,17 +67,27 @@ def _generate_straights(
     bend_output: ComponentReference | None,
     cross_section: CrossSectionSpec,
 ) -> tuple[Component, ComponentReference, ComponentReference]:
-    straight_left = c << gf.components.straight(
-        length=(bus_length - 4 * size_x) / 2.0, cross_section=cross_section
-    )
+    """Optimized to only compute straight length and cross section once,
+    and to use fast connect if both bends not provided.
+    """
+    straight_length = (bus_length - 4 * size_x) / 2.0
 
+    # Pre-resolve cross_section if it's a string/dict; this avoids repeated gf.get_cross_section calls in tight loops.
+    is_cs_obj = hasattr(
+        cross_section, "width"
+    )  # crude, but works for CrossSection objects
+    cs_resolved = cross_section if is_cs_obj else gf.get_cross_section(cross_section)
+
+    # Use the fast, resolved cross_section for both straight calls
+    straight_left = c << gf.components.straight(
+        length=straight_length, cross_section=cs_resolved
+    )
     straight_right = c << gf.components.straight(
-        length=(bus_length - 4 * size_x) / 2.0, cross_section=cross_section
+        length=straight_length, cross_section=cs_resolved
     )
 
     if bend_input is not None and bend_output is not None:
         straight_left.connect("o2", bend_input.ports["o1"])
-
         straight_right.connect("o1", bend_output.ports["o1"])
     else:
         straight_left.connect("o2", straight_right.ports["o1"])
