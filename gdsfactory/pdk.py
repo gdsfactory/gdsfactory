@@ -339,13 +339,16 @@ class Pdk(BaseModel):
 
     def _get_cells_and_containers(self) -> dict[str, ComponentFactory]:
         """Returns a dictionary of cells and containers."""
-        cells_and_containers = {**self.cells, **self.containers}
-        conflicting_names = set(self.cells.keys()).intersection(self.containers.keys())
+        cell_keys = self.cells.keys()
+        container_keys = self.containers.keys()
+        # Fast set operation on dict-views without extra list/set conversion
+        conflicting_names = cell_keys & container_keys
         if conflicting_names:
             raise ValueError(
                 f"PDK {self.name!r} has overlapping cell names between cells and containers: {list(conflicting_names)}. "
             )
-        return cells_and_containers
+        # Only merges dicts if there are no conflicts
+        return {**self.cells, **self.containers}
 
     def get_symbol(self, component: ComponentSpec, **kwargs: Any) -> Component:
         """Returns a component's symbol from a component spec."""
