@@ -406,10 +406,14 @@ class LayerStack(BaseModel):
         """Add LayerLevels automatically for subclassed LayerStacks."""
         super().__init__(**data)
 
-        for field in self.model_dump():
-            val = getattr(self, field)
+        # Use local variable for faster access, avoid repeated lookups
+        layers = self.__dict__.setdefault("layers", {})
+        # Direct dictionary access is (for speed) possible with pydantic v1 and v2 in most usual inheritance cases
+        values = self.__dict__
+        for field in self.model_fields:
+            val = values.get(field)
             if isinstance(val, LayerLevel):
-                self.layers[field] = val
+                layers[field] = val
 
     def pprint(self) -> None:
         console = Console()
@@ -644,10 +648,9 @@ class LayerStack(BaseModel):
 
     def invert_zaxis(self) -> LayerStack:
         """Flips the zmin values about the origin."""
-        layers = self.layers or {}
-        for layer in layers.values():
-            layer.zmin *= -1
-
+        if self.layers:
+            for layer in self.layers.values():
+                layer.zmin = -layer.zmin
         return self
 
 
