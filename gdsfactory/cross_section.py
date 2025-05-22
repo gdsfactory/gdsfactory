@@ -2721,7 +2721,7 @@ def get_cross_sections(
             if isfunction(obj) or isbuiltin(obj):
                 func = obj
             elif isinstance(obj, partial):
-                func = obj.func # type: ignore[assignment]
+                func = obj.func  # type: ignore[assignment]
             else:
                 continue
 
