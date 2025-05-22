@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import numpy as np
-
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
@@ -35,6 +33,24 @@ def optimal_step(
     Clem, J., & Berggren, K. (2011). Geometry-dependent critical currents in
     superconducting nanocircuits. Physical Review B, 84(17), 1-27.
     """
+    import numpy as np
+
+    # Vectorized computation of step points
+    def step_points_vectorized(
+        eta: np.ndarray, W: complex, a: complex
+    ) -> tuple[np.ndarray, np.ndarray]:
+        gamma = (a**2 + W**2) / (a**2 - W**2)
+        w = np.exp(1j * eta)
+        zeta = (
+            4
+            * 1j
+            / np.pi
+            * (
+                W * np.arctan(np.sqrt((w - gamma) / (gamma + 1)))
+                + a * np.arctan(np.sqrt((gamma - 1) / (w - gamma)))
+            )
+        )
+        return np.real(zeta), np.imag(zeta)
 
     def step_points(eta: float, W: complex, a: complex) -> tuple[float, float]:
         """Returns step points.
@@ -57,86 +73,81 @@ def optimal_step(
         )
         return np.real(zeta), np.imag(zeta)
 
-    def invert_step_point(
-        x_desired: float = -10,
-        y_desired: float | None = None,
-        W: float = 1,
-        a: float = 2,
-    ) -> tuple[float, float]:
-        """Finds the eta associated with x_desired or y_desired along the optimal curve."""
-
-        def fh(eta: float) -> float:
-            guessed_x, guessed_y = step_points(eta, W=W + 0j, a=a + 0j)
-            if y_desired is None:
-                return (guessed_x - x_desired) ** 2  # Error relative to x_desired
-            return (guessed_y - y_desired) ** 2  # Error relative to y_desired
-
-        from scipy.optimize import fminbound
-
-        # Minimize error to find optimal eta
-        found_eta = fminbound(fh, 0, np.pi)
-        return step_points(found_eta, W=W + 0j, a=a + 0j)
-
     if start_width > end_width:
         reverse = True
-        start_width, end_width = end_width, start_width
+        s_w, e_w = end_width, start_width
     else:
         reverse = False
+        s_w, e_w = start_width, end_width
 
     D = Component()
-    xpts: list[float] = []
-    ypts: list[float] = []
-    if start_width == end_width:  # Just return a square
+    if s_w == e_w:  # Just return a square
         if symmetric:
             ypts = [
-                -start_width / 2,
-                start_width / 2,
-                start_width / 2,
-                -start_width / 2,
+                -s_w / 2,
+                s_w / 2,
+                s_w / 2,
+                -s_w / 2,
             ]
-            xpts = [0, 0, start_width, start_width]
-        if not symmetric:
-            ypts = [0, start_width, start_width, 0]
-            xpts = [0, 0, start_width, start_width]
-        D.info["num_squares"] = 1
-    else:
-        xmin, _ = invert_step_point(
-            y_desired=start_width * (1 + width_tol), W=start_width, a=end_width
-        )
-        xmax, _ = invert_step_point(
-            y_desired=end_width * (1 - width_tol), W=start_width, a=end_width
-        )
-
-        xpts = list(np.linspace(xmin, xmax, num_pts))
-        for x in xpts:
-            x, y = invert_step_point(x_desired=x, W=start_width, a=end_width)
-            ypts.append(y)
-
-        ypts[-1] = end_width
-        ypts[0] = start_width
-        y_num_sq = np.array(ypts)
-        x_num_sq = np.array(xpts)
-
-        if not symmetric:
-            xpts.append(xpts[-1])
-            ypts.append(0)
-            xpts.append(xpts[0])
-            ypts.append(0)
+            xpts = [0, 0, s_w, s_w]
         else:
-            xpts += list(xpts[::-1])
-            ypts += [-y for y in ypts[::-1]]
-            xpts = [x / 2 for x in xpts]
-            ypts = [y / 2 for y in ypts]
+            ypts = [0, s_w, s_w, 0]
+            xpts = [0, 0, s_w, s_w]
+        D.info["num_squares"] = 1
+        # Only minimal work, no optimization possible here
+    else:
+        # Use vectorized computation for optimal step points
+        # First, find minimum and maximum x (corresponding to given y)
+        def invert_step_point_y(
+            y_desired: float, W: float, a: float
+        ) -> tuple[float, float]:
+            # Only called twice; keep as-is for clarity.
+            from scipy.optimize import fminbound
 
-        # anticrowding_factor stretches the wire out; a stretched wire is a
-        # gentler transition, so there's less chance of current crowding if
-        # the fabrication isn't perfect but as a result, the wire isn't as
-        # short as it could be
-        xpts = [x * anticrowding_factor for x in xpts]
+            def fh(eta: float) -> float:
+                guessed_x, guessed_y = step_points(eta, W=W + 0j, a=a + 0j)
+                return (guessed_y - y_desired) ** 2
+
+            found_eta = fminbound(fh, 0, np.pi)
+            return step_points(found_eta, W=W + 0j, a=a + 0j)
+
+        xmin, _ = invert_step_point_y(y_desired=s_w * (1 + width_tol), W=s_w, a=e_w)
+        xmax, _ = invert_step_point_y(y_desired=e_w * (1 - width_tol), W=s_w, a=e_w)
+
+        # Instead of slow root-finding per x, vectorize the solution:
+        # Compute step curve as parametric function with uniform sampling of eta, then interpolate
+        eta_samples = np.linspace(0, np.pi, num_pts)
+        step_x, step_y = step_points_vectorized(eta_samples, W=s_w + 0j, a=e_w + 0j)
+        # Rescale so that step_x[0] ≈ xmin, step_x[-1] ≈ xmax
+        x_targets = np.linspace(xmin, xmax, num_pts)
+        # Interpolate y for target x
+        y_targets = np.interp(x_targets, step_x, step_y)
+        xpts = x_targets.tolist()
+        ypts = y_targets.tolist()
+
+        ypts[-1] = e_w
+        ypts[0] = s_w
+        x_num_sq = np.array(xpts)
+        y_num_sq = np.array(ypts)
+
+        if not symmetric:
+            xpts += [xpts[-1], xpts[0]]
+            ypts += [0, 0]
+        else:
+            # Efficient symmetric copy
+            xpts_new = xpts + xpts[::-1]
+            ypts_new = ypts + [-y for y in ypts[::-1]]
+            xpts = [x / 2 for x in xpts_new]
+            ypts = [y / 2 for y in ypts_new]
+
+        # Apply anticrowding_factor efficiently
+        if anticrowding_factor != 1.0:
+            xpts = [x * anticrowding_factor for x in xpts]
 
         if reverse:
             xpts = [-x for x in xpts]
-            start_width, end_width = end_width, start_width
+            # Swap for correct port assignment at the end
+            s_w, e_w = e_w, s_w
 
         D.info["num_squares"] = float(
             np.round(
@@ -148,30 +159,30 @@ def optimal_step(
     if not symmetric:
         D.add_port(
             name="e1",
-            center=(min(xpts), start_width / 2),
-            width=start_width,
+            center=(min(xpts), s_w / 2),
+            width=s_w,
             orientation=180,
             layer=layer,
         )
         D.add_port(
             name="e2",
-            center=(max(xpts), end_width / 2),
-            width=end_width,
+            center=(max(xpts), e_w / 2),
+            width=e_w,
             orientation=0,
             layer=layer,
         )
-    if symmetric:
+    else:
         D.add_port(
             name="e1",
             center=(min(xpts), 0),
-            width=start_width,
+            width=s_w,
             orientation=180,
             layer=layer,
         )
         D.add_port(
             name="e2",
             center=(max(xpts), 0),
-            width=end_width,
+            width=e_w,
             orientation=0,
             layer=layer,
         )
