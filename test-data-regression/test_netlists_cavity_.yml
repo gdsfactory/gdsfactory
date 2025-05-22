@@ -2,8 +2,8 @@ instances:
   coupler_gdsfactorypcomp_38bb639b_0_0:
     component: coupler
     info:
-      length: 10.19
       min_bend_radius: 11.744
+      path_length: 20.48
     settings:
       allow_min_radius_violation: false
       bend: bend_s

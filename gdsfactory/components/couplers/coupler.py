@@ -161,7 +161,7 @@ def coupler(
     c.add_port("o3", port=sr.ports["o3"])
     c.add_port("o4", port=sr.ports["o4"])
 
-    c.info["length"] = sbend.info["length"]
+    c.info["path_length"] = 2 * sbend.info["length"] + length
     c.info["min_bend_radius"] = sbend.info["min_bend_radius"]
     c.auto_rename_ports()
 

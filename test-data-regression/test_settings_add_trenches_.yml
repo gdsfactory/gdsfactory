@@ -1,6 +1,6 @@
 info:
-  length: 10.186
   min_bend_radius: 11.857
+  path_length: 40.372
 name: add_trenches_gdsfactory_7f03f8c6
 settings:
   component: coupler

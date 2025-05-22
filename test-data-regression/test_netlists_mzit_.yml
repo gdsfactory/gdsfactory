@@ -98,8 +98,8 @@ instances:
   coupler_gdsfactorypcomp_7de5f5a9_m1000_22050:
     component: coupler
     info:
-      length: 10.03
       min_bend_radius: 28.187
+      path_length: 25.06
     settings:
       allow_min_radius_violation: false
       bend: bend_s
@@ -111,8 +111,8 @@ instances:
   coupler_gdsfactorypcomp_de55e7a7_0_0:
     component: coupler
     info:
-      length: 10.026
       min_bend_radius: 30.486
+      path_length: 30.052
     settings:
       allow_min_radius_violation: false
       bend: bend_s

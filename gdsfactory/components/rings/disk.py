@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import numpy as np
+import math
 
 import gdsfactory as gf
 from gdsfactory import Component
@@ -18,13 +18,18 @@ def _compute_parameters(
     xs_bend: CrossSection, wrap_angle_deg: float, radius: float
 ) -> tuple[float, float, float, float]:
     r_bend = xs_bend.radius
-    assert r_bend is not None
-    theta = wrap_angle_deg / 2.0
-    size_x, dy = (
-        float(r_bend * np.sin(theta * np.pi / 180)),
-        float(r_bend - r_bend * np.cos(theta * np.pi / 180)),
-    )
-    bus_length = max(4 * size_x, 2 * radius)
+    assert r_bend is not None  # Retain original safety check
+    theta = wrap_angle_deg * 0.5  # The angle in degrees
+
+    theta_rad = theta * (math.pi / 180.0)  # Convert once to radians
+
+    # Use math.sin and math.cos which are much faster for scalars
+    sin_theta = math.sin(theta_rad)
+    cos_theta = math.cos(theta_rad)
+    size_x = r_bend * sin_theta
+    dy = r_bend - r_bend * cos_theta
+
+    bus_length = max(4.0 * size_x, 2.0 * radius)
     return (r_bend, size_x, dy, bus_length)
 
 
