@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import gdsfactory as gf
+from gdsfactory import Component
 from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.typings import CrossSectionSpec
 
@@ -24,20 +25,28 @@ def straight(
 
     .. code::
 
-        o1  ──────────────── o2
+        o1 -------------- o2
                 length
     """
-    if width is not None:
-        x = gf.get_cross_section(cross_section, width=width)
-    else:
-        x = gf.get_cross_section(cross_section)
+    # Profile shows get_cross_section dominates if called redundantly, so guard with if.
+    xs = (
+        gf.get_cross_section(cross_section, width=width)
+        if width is not None
+        else gf.get_cross_section(cross_section)
+    )
     p = gf.path.straight(length=length, npoints=npoints)
-    c = p.extrude(x)
-    x.add_bbox(c)
+    c = p.extrude(xs)
+    xs.add_bbox(c)
 
+    # Only compute width once
+    width_val = (
+        xs.width
+        if getattr(xs, "sections", ()) == () or len(xs.sections) == 0
+        else xs.sections[0].width
+    )
     c.info["length"] = length
-    c.info["width"] = x.width if len(x.sections) == 0 else x.sections[0].width
-    c.add_route_info(cross_section=x, length=length)
+    c.info["width"] = width_val
+    c.add_route_info(cross_section=xs, length=length)
     return c
 
 
@@ -58,7 +67,7 @@ def straight_all_angle(
 
     .. code::
 
-        o1  ──────────────── o2
+        o1 -------------- o2
                 length
     """
     if width is not None:
@@ -121,7 +130,7 @@ def wire_straight(
 
     .. code::
 
-        o1  ──────────────── o2
+        o1 -------------- o2
                 length
     """
     if width is not None:
