@@ -24,19 +24,10 @@ from gdsfactory.read.from_yaml_template import cell_from_yaml_template
 from gdsfactory.serialization import clean_value_json, convert_tuples_to_lists
 from gdsfactory.symbols import floorplan_with_block_letters
 from gdsfactory.technology import LayerStack, LayerViews, klayout_tech
-from gdsfactory.typings import (
-    CellSpec,
-    ComponentFactory,
-    ComponentSpec,
-    ConnectivitySpec,
-    CrossSectionFactory,
-    CrossSectionSpec,
-    LayerSpec,
-    LayerTransitions,
-    MaterialSpec,
-    PathType,
-    RoutingStrategies,
-)
+from gdsfactory.typings import (CellSpec, ComponentFactory, ComponentSpec,
+                                ConnectivitySpec, CrossSectionFactory,
+                                CrossSectionSpec, LayerSpec, LayerTransitions,
+                                MaterialSpec, PathType, RoutingStrategies)
 
 _ACTIVE_PDK: Pdk | None = None
 component_settings = ["function", "component", "settings"]
@@ -699,9 +690,8 @@ def _set_active_pdk(pdk: Pdk) -> None:
 
 def get_routing_strategies() -> RoutingStrategies:
     """Gets a dictionary of named routing functions available to the PDK, if defined, or gdsfactory defaults otherwise."""
-    from gdsfactory.routing.factories import (
-        routing_strategies as default_routing_strategies,
-    )
+    from gdsfactory.routing.factories import \
+        routing_strategies as default_routing_strategies
 
     routing_strategies = get_active_pdk().routing_strategies
     if routing_strategies is None:
