@@ -583,15 +583,17 @@ class Pdk(BaseModel):
         return yaml.dump(convert_tuples_to_lists(d))
 
     def get_cross_section_name(self, cross_section: CrossSection) -> str:
-        xs_name = next(
-            (
-                key
-                for key, value in self.cross_sections.items()
-                if value() == cross_section
-            ),
-            None,
-        )
-        return xs_name or cross_section.name
+        # Try direct name match
+        if cross_section.name in self.cross_sections:
+            return cross_section.name
+
+        # Instantiate once and compare by identity/object equality
+        cross_section_instance = cross_section
+        for key, factory in self.cross_sections.items():
+            if factory() == cross_section_instance:
+                return key
+
+        return cross_section.name
 
     @cached_property
     def klayout_technology(self) -> klayout_tech.KLayoutTechnology:
