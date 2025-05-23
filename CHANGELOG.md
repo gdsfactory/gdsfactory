@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.6.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.6.0) - 2025-05-23
+
+No significant changes.
+
+
 ## [9.5.11](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.5.11) - 2025-05-21
 
 - rename length info coupler [#3941](https://github.com/gdsfactory/gdsfactory/pull/3941)
