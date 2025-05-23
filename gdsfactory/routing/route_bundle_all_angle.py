@@ -25,7 +25,7 @@ def route_bundle_all_angle(
     straight_ports: tuple[str, str] = ("o1", "o2"),
     cross_section: CrossSectionSpec | None = None,
 ) -> list[OpticalAllAngleRoute]:
-    """Route a bundle of ports to another bundle of ports with all angles.
+    """Route a bundle of ports to another bundle of ports with non manhattan ports.
 
     Args:
         component: to add the routing.
