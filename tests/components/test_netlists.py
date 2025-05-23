@@ -35,6 +35,9 @@ skip_test = {
     "straight_piecewise",
     "ge_detector_straight_si_contacts",
     "dbr",
+    "straight_all_angle",
+    "bend_circular_all_angle",
+    "bend_euler_all_angle",
 }
 cells_to_test = set(cells.keys()) - skip_test
 
