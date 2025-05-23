@@ -1,12 +1,14 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.5.11...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.6.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.6.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.6.0) - 2025-05-23
 
-No significant changes.
-
+- register all angle components in pdk [#3945](https://github.com/gdsfactory/gdsfactory/pull/3945)
+- ⚡️ Speed up function `get_cross_sections` by 588% [#3928](https://github.com/gdsfactory/gdsfactory/pull/3928)
+- ⚡️ Speed up function `_compute_parameters` by 242% [#3929](https://github.com/gdsfactory/gdsfactory/pull/3929)
+- deps: update kfactory[ipy] requirement from <1.7,>=1.6 to >=1.6,<1.8 [#3944](https://github.com/gdsfactory/gdsfactory/pull/3944)
 
 ## [9.5.11](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.5.11) - 2025-05-21
 
