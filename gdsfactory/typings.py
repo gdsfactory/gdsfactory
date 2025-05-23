@@ -182,6 +182,9 @@ ComponentFactoryDict: TypeAlias = dict[str, ComponentFactory]
 ComponentFactories: TypeAlias = Sequence[ComponentFactory]
 
 ComponentSpec: TypeAlias = str | ComponentFactory | dict[str, Any] | kf.DKCell
+ComponentAllAngleSpec: TypeAlias = (
+    str | ComponentAllAngleFactory | dict[str, Any] | component.ComponentAllAngle
+)
 ComponentSpecOrComponent: TypeAlias = ComponentSpec | component.Component
 ComponentSpecs: TypeAlias = Sequence[ComponentSpec]
 ComponentSpecsOrComponents: TypeAlias = Sequence[ComponentSpecOrComponent]

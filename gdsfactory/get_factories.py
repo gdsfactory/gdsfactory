@@ -6,7 +6,9 @@ from functools import lru_cache, partial
 from inspect import Signature, getmembers, isfunction, ismethod, signature
 from typing import Any
 
-from gdsfactory.component import Component
+import kfactory as kf
+
+from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.typings import ComponentFactory
 
 
@@ -88,6 +90,10 @@ def is_cell(
 
         # Fast attribute check
         is_cell_attr = getattr(func, "is_gf_cell", None)
+
+        if func in kf.kcl.virtual_factories.values():
+            return True
+
         if is_cell_attr:
             return True
 
@@ -110,6 +116,12 @@ def is_cell(
                     return True
                 if isinstance(return_annotation, str) and return_annotation.endswith(
                     "Component"
+                ):
+                    return True
+                if return_annotation == ComponentAllAngle:
+                    return True
+                if isinstance(return_annotation, str) and return_annotation.endswith(
+                    "ComponentAllAngle"
                 ):
                     return True
     except Exception:
