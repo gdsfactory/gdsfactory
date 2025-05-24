@@ -209,6 +209,7 @@ ComponentSpecOrList: TypeAlias = ComponentSpec | list[ComponentSpec]
 CellSpec: TypeAlias = (
     str | ComponentFactory | dict[str, Any]  # PCell function, function name or dict
 )
+CellAllAngleSpec: TypeAlias = str | ComponentAllAngleFactory | dict[str, Any]
 ComponentSpecDict: TypeAlias = dict[str, ComponentSpec]
 
 LayerTransitions: TypeAlias = dict[LayerSpec | tuple[Layer, Layer], ComponentSpec]

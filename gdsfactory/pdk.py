@@ -7,7 +7,7 @@ import pathlib
 import warnings
 from collections.abc import Callable, Mapping, Sequence
 from functools import cached_property, partial
-from typing import Any, cast
+from typing import Any, cast, overload
 
 import kfactory as kf
 import yaml
@@ -25,7 +25,9 @@ from gdsfactory.serialization import clean_value_json, convert_tuples_to_lists
 from gdsfactory.symbols import floorplan_with_block_letters
 from gdsfactory.technology import LayerStack, LayerViews, klayout_tech
 from gdsfactory.typings import (
+    CellAllAngleSpec,
     CellSpec,
+    ComponentAllAngleFactory,
     ComponentFactory,
     ComponentSpec,
     ConnectivitySpec,
@@ -289,7 +291,16 @@ class Pdk(BaseModel):
         self.cells.pop(name)
         logger.info(f"Removed cell {name!r}")
 
-    def get_cell(self, cell: CellSpec, **kwargs: Any) -> ComponentFactory:
+    @overload
+    def get_cell(self, cell: CellSpec, **kwargs: Any) -> ComponentFactory: ...
+    @overload
+    def get_cell(
+        self, cell: CellAllAngleSpec, **kwargs: Any
+    ) -> ComponentAllAngleFactory: ...
+
+    def get_cell(
+        self, cell: CellSpec | CellAllAngleSpec, **kwargs: Any
+    ) -> ComponentFactory | ComponentAllAngleFactory:
         """Returns ComponentFactory from a cell spec."""
         cells_and_containers = self._get_cells_and_containers()
 
@@ -652,7 +663,15 @@ def get_component(
     return get_active_pdk().get_component(component, settings=settings, **kwargs)
 
 
-def get_cell(cell: CellSpec, **kwargs: Any) -> ComponentFactory:
+@overload
+def get_cell(cell: CellSpec, **kwargs: Any) -> ComponentFactory: ...
+@overload
+def get_cell(cell: CellAllAngleSpec, **kwargs: Any) -> ComponentAllAngleFactory: ...
+
+
+def get_cell(
+    cell: CellSpec | CellAllAngleSpec, **kwargs: Any
+) -> ComponentFactory | ComponentAllAngleFactory:
     return get_active_pdk().get_cell(cell, **kwargs)
 
 
