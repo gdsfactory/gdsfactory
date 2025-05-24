@@ -4,7 +4,7 @@ from kfactory.routing.aa.optical import OpticalAllAngleRoute, route_bundle
 
 import gdsfactory as gf
 from gdsfactory.typings import (
-    ComponentAllAngleSpec,
+    CellAllAngleSpec,
     ComponentSpec,
     Coordinates,
     CrossSectionSpec,
@@ -19,8 +19,8 @@ def route_bundle_all_angle(
     ports2: list[Port],
     backbone: Coordinates | None = None,
     separation: list[float] | float = 3.0,
-    straight: ComponentAllAngleSpec = "straight_all_angle",
-    bend: ComponentAllAngleSpec = "bend_euler_all_angle",
+    straight: CellAllAngleSpec = "straight_all_angle",
+    bend: CellAllAngleSpec = "bend_euler_all_angle",
     bend_ports: tuple[str, str] = ("o1", "o2"),
     straight_ports: tuple[str, str] = ("o1", "o2"),
     cross_section: CrossSectionSpec | None = None,
