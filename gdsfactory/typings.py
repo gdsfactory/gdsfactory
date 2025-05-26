@@ -182,6 +182,9 @@ ComponentFactoryDict: TypeAlias = dict[str, ComponentFactory]
 ComponentFactories: TypeAlias = Sequence[ComponentFactory]
 
 ComponentSpec: TypeAlias = str | ComponentFactory | dict[str, Any] | kf.DKCell
+ComponentAllAngleSpec: TypeAlias = (
+    str | ComponentAllAngleFactory | dict[str, Any] | component.ComponentAllAngle
+)
 ComponentSpecOrComponent: TypeAlias = ComponentSpec | component.Component
 ComponentSpecs: TypeAlias = Sequence[ComponentSpec]
 ComponentSpecsOrComponents: TypeAlias = Sequence[ComponentSpecOrComponent]
@@ -206,6 +209,7 @@ ComponentSpecOrList: TypeAlias = ComponentSpec | list[ComponentSpec]
 CellSpec: TypeAlias = (
     str | ComponentFactory | dict[str, Any]  # PCell function, function name or dict
 )
+CellAllAngleSpec: TypeAlias = str | ComponentAllAngleFactory | dict[str, Any]
 ComponentSpecDict: TypeAlias = dict[str, ComponentSpec]
 
 LayerTransitions: TypeAlias = dict[LayerSpec | tuple[Layer, Layer], ComponentSpec]

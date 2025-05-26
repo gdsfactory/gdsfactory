@@ -1,0 +1,16 @@
+info:
+  dy: 10
+  length: 15.708
+  radius: 10
+  route_info_length: 15.708
+  route_info_min_bend_radius: 10
+  route_info_n_bend_90: 1
+  route_info_strip_length: 15.708
+  route_info_type: strip
+  route_info_weight: 15.708
+  width: 0.5
+name: bend_circular_all_angle_a1163899
+settings:
+  allow_min_radius_violation: false
+  angle: 90
+  cross_section: strip

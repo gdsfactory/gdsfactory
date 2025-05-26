@@ -4,7 +4,7 @@ from typing import Any
 
 import numpy as np
 import numpy.typing as npt
-from numpy import pi, sin, sqrt
+from numpy import sin, sqrt
 
 import gdsfactory as gf
 from gdsfactory.functions import DEG2RAD, extrude_path
@@ -132,11 +132,14 @@ def get_grating_period_curved(
         n_slab: slab refractive index.
         n_clad: cladding refractive index.
     """
-    DEG2RAD = pi / 180
-    cos_fib_angle = sin(DEG2RAD * fiber_angle)
-    n2_reduced = n_slab**2 - n_clad**2 * cos_fib_angle**2
+    sin_fiber_angle = sin(DEG2RAD * fiber_angle)
+    n_clad_cos = n_clad * sin_fiber_angle
+    n2_slab = n_slab * n_slab
+    n2_clad_cos2 = n_clad_cos * n_clad_cos
+    n2_reduced = n2_slab - n2_clad_cos2
     sqrt_n2_reduced = sqrt(n2_reduced)
-    h_period = wavelength * (n_slab + n_clad * cos_fib_angle) / n2_reduced
+    # The following arithmetic preserves the formulae as before, but uses the precalculated variables.
+    h_period = wavelength * (n_slab + n_clad_cos) / n2_reduced
     v_period = wavelength / sqrt_n2_reduced
     return h_period, v_period
 
@@ -157,7 +160,6 @@ def get_grating_period(
         neff_low: low index.
         n_clad: cladding index.
     """
-    DEG2RAD = pi / 180
     neff = (neff_high + neff_low) / 2
     return wavelength / (neff - float(sin(DEG2RAD * fiber_angle)) * n_clad)
 

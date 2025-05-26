@@ -335,3 +335,4 @@ gdsfactory/plugins/pso/wrk_dir/
 
 # keep reference gds files
 !tests/gds/*.gds
+.vscode/

@@ -1,14 +1,10 @@
 from __future__ import annotations
 
-from functools import partial
-
 from kfactory.routing.aa.optical import OpticalAllAngleRoute, route_bundle
 
 import gdsfactory as gf
-from gdsfactory.components.bends import bend_euler_all_angle
-from gdsfactory.components.waveguides import straight_all_angle
 from gdsfactory.typings import (
-    ComponentAllAngleFactory,
+    CellAllAngleSpec,
     ComponentSpec,
     Coordinates,
     CrossSectionSpec,
@@ -23,13 +19,13 @@ def route_bundle_all_angle(
     ports2: list[Port],
     backbone: Coordinates | None = None,
     separation: list[float] | float = 3.0,
-    straight: ComponentAllAngleFactory = straight_all_angle,
-    bend: ComponentAllAngleFactory = partial(bend_euler_all_angle, radius=5),
+    straight: CellAllAngleSpec = "straight_all_angle",
+    bend: CellAllAngleSpec = "bend_euler_all_angle",
     bend_ports: tuple[str, str] = ("o1", "o2"),
     straight_ports: tuple[str, str] = ("o1", "o2"),
     cross_section: CrossSectionSpec | None = None,
 ) -> list[OpticalAllAngleRoute]:
-    """Route a bundle of ports to another bundle of ports with all angles.
+    """Route a bundle of ports to another bundle of ports with non manhattan ports.
 
     Args:
         component: to add the routing.
@@ -44,8 +40,12 @@ def route_bundle_all_angle(
         cross_section: cross_section to use. Overrides the  cross_section.
     """
     if cross_section:
-        straight = partial(straight, cross_section=cross_section)
-        bend = partial(bend, cross_section=cross_section)
+        straight_func = gf.get_cell(straight, cross_section=cross_section)
+        bend_func = gf.get_cell(bend, cross_section=cross_section)
+
+    else:
+        straight_func = gf.get_cell(straight)
+        bend_func = gf.get_cell(bend)
 
     backbone = backbone or []
 
@@ -57,8 +57,8 @@ def route_bundle_all_angle(
         end_ports=ports2,
         backbone=to_kdb_dpoints(backbone),
         separation=separation,
-        straight_factory=straight,
-        bend_factory=bend,
+        straight_factory=straight_func,
+        bend_factory=bend_func,
         bend_ports=bend_ports,
         straight_ports=straight_ports,
     )

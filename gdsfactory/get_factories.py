@@ -2,11 +2,13 @@ from __future__ import annotations
 
 import contextlib
 from collections.abc import Callable, Iterable
-from functools import partial
-from inspect import isfunction, signature
+from functools import lru_cache, partial
+from inspect import Signature, getmembers, isfunction, ismethod, signature
 from typing import Any
 
-from gdsfactory.component import Component
+import kfactory as kf
+
+from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.typings import ComponentFactory
 
 
@@ -20,37 +22,26 @@ def get_cells(
 
     Args:
         modules: A module or an iterable of modules.
-        ignore_non_decorated: only include functions that are decorated with gf.cell
-        ignore_underscored: only include functions that do not start with '_'
-        ignore_partials: only include functions, not partials
+        ignore_non_decorated: only include functions that are decorated with gf.cell.
+        ignore_underscored: only include functions that do not start with '_'.
+        ignore_partials: only include functions, not partials.
     """
-    if not isinstance(modules, Iterable) or isinstance(modules, str | bytes):
-        modules = [modules]
-
+    modules = modules if isinstance(modules, Iterable) else [modules]
     cells: dict[str, ComponentFactory] = {}
-    # Cached names for built-in/fast lookups
-    _is_cell = is_cell
-
     for module in modules:
-        # Faster than inspect.getmembers
-        module_dict = getattr(module, "__dict__", None)
-        if module_dict is not None:
-            items = module_dict.items()
-        else:
-            items = ((name, getattr(module, name)) for name in dir(module))
-
-        cells = {
-            name: member
-            for name, member in items
-            if _is_cell(
-                member,
-                ignore_non_decorated=ignore_non_decorated,
-                ignore_underscored=ignore_underscored,
-                ignore_partials=ignore_partials,
-                name=name,
-            )
-        }
-
+        cells.update(
+            {
+                name: member
+                for name, member in getmembers(module)
+                if is_cell(
+                    member,
+                    ignore_non_decorated=ignore_non_decorated,
+                    ignore_underscored=ignore_underscored,
+                    ignore_partials=ignore_partials,
+                    name=name,
+                )
+            }
+        )
     return cells
 
 
@@ -61,48 +52,80 @@ def is_cell(
     ignore_partials: bool = False,
     name: str = "",
 ) -> bool:
-    # Fast unconditional check
-    if not callable(func):
-        return False
+    """Checks if a function is a GDSFactory cell.
 
-    # Handle functools.partial only if not skipping partials
-    if not ignore_partials and isinstance(func, partial):
-        return is_cell(
-            func.func,
-            ignore_non_decorated=ignore_non_decorated,
-            ignore_underscored=ignore_underscored,
-            ignore_partials=ignore_partials,
-            name=name,
-        )
-
-    # Use attribute if sent (avoid double lookup)
-    if not name:
-        try:
-            name = func.__name__
-        except AttributeError:
+    Args:
+        func: The function to check.
+        ignore_non_decorated: only include functions that are decorated with gf.cell.
+        ignore_underscored: only include functions that do not start with '_'.
+        ignore_partials: only include functions, not partials.
+        name: The name of the function.
+    """
+    try:
+        # Fast fail for non-callable
+        if not callable(func):
             return False
-    if ignore_underscored and name.startswith("_"):
-        return False
 
-    # Fast attribute check (most common)
-    if getattr(func, "is_gf_cell", False):
-        return True
+        # Handle functools.partial recursively
+        if not ignore_partials and isinstance(func, partial):
+            return is_cell(
+                func.func,
+                ignore_non_decorated=ignore_non_decorated,
+                ignore_underscored=ignore_underscored,
+                ignore_partials=ignore_partials,
+                name=name,
+            )
 
-    if not ignore_non_decorated:
-        # signature() is expensive, only do if not already matched above
-        try:
-            r = func.__annotations__.get("return", None)
-            if r is not None:
-                # __annotations__ may have actual class ref or string
-                if r is Component or (isinstance(r, str) and r.endswith("Component")):
+        # Delay __name__ resolution until needed
+        if not name:
+            # __name__ is only on functions/methods/partial
+            try:
+                name = func.__name__
+            except AttributeError:
+                # fallback, won't match underscored, continue
+                name = ""
+
+        if ignore_underscored and name.startswith("_"):
+            return False
+
+        # Fast attribute check
+        is_cell_attr = getattr(func, "is_gf_cell", None)
+
+        if func in kf.kcl.virtual_factories.values():
+            return True
+
+        if is_cell_attr:
+            return True
+
+        if not ignore_non_decorated:
+            # Use fast path for functions/methods with __annotations__
+            return_annotation = None
+            if isfunction(func) or ismethod(func):
+                return_annotation = func.__annotations__.get("return", None)
+            else:
+                # Not a plain python function, fallback to full signature
+                try:
+                    return_annotation = _get_signature(func).return_annotation
+                except Exception:
+                    pass  # leave as None
+
+            # Compare annotation to Component
+            if return_annotation is not None:
+                # Support both direct and string annotations
+                if return_annotation == Component:
                     return True
-            # fallback if annotation isn't present/enough
-            from inspect import signature
-
-            r = signature(func).return_annotation
-            return r is Component or (isinstance(r, str) and r.endswith("Component"))
-        except Exception:
-            return False
+                if isinstance(return_annotation, str) and return_annotation.endswith(
+                    "Component"
+                ):
+                    return True
+                if return_annotation == ComponentAllAngle:
+                    return True
+                if isinstance(return_annotation, str) and return_annotation.endswith(
+                    "ComponentAllAngle"
+                ):
+                    return True
+    except Exception:
+        pass
     return False
 
 
@@ -129,3 +152,9 @@ def get_cells_from_dict(
                 if r == Component or (isinstance(r, str) and r.endswith("Component")):
                     valid_cells[name] = member
     return valid_cells
+
+
+@lru_cache(maxsize=2048)
+def _get_signature(obj: Any) -> Signature:
+    """Cache signatures to avoid repeated work."""
+    return signature(obj)

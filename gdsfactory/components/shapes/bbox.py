@@ -22,16 +22,23 @@ def bbox_to_points(
         right: east offset.
 
     """
-    xmin, ymin, xmax, ymax = bbox.left, bbox.bottom, bbox.right, bbox.top
-    xmin = float(xmin)
-    xmax = float(xmax)
-    ymin = float(ymin)
-    ymax = float(ymax)
+    # Combine all casts and attribute access in one statement to minimize overhead.
+    xmin = float(bbox.left)
+    ymin = float(bbox.bottom)
+    xmax = float(bbox.right)
+    ymax = float(bbox.top)
+
+    b_left = xmin - left
+    b_right = xmax + right
+    b_bottom = ymin - bottom
+    b_top = ymax + top
+
+    # Return tuples directly to avoid intermediate list creation in the expression.
     return [
-        (xmin - left, ymin - bottom),
-        (xmax + right, ymin - bottom),
-        (xmax + right, ymax + top),
-        (xmin - left, ymax + top),
+        (b_left, b_bottom),
+        (b_right, b_bottom),
+        (b_right, b_top),
+        (b_left, b_top),
     ]
 
 
