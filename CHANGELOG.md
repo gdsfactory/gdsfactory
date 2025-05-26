@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.6.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.6.1) - 2025-05-26
+
+No significant changes.
+
+
 ## [9.6.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.6.0) - 2025-05-23
 
 - register all angle components in pdk [#3945](https://github.com/gdsfactory/gdsfactory/pull/3945)
