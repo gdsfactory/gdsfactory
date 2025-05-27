@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.7.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.7.0) - 2025-05-27
+
+No significant changes.
+
+
 ## [9.6.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.6.1) - 2025-05-26
 
 - Add get_cell overload [#3946](https://github.com/gdsfactory/gdsfactory/pull/3946)
