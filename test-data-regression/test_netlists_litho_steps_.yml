@@ -164,7 +164,7 @@ instances:
       size:
       - 16
       - 50
-  text_gdsfactorypcompone_563de933_m5000_0:
+  text_gdsfactorypcompone_563de933_m5000_0_A90:
     component: text
     info: {}
     settings:
@@ -233,7 +233,7 @@ placements:
     rotation: 0
     x: 10
     y: 0
-  text_gdsfactorypcompone_563de933_m5000_0:
+  text_gdsfactorypcompone_563de933_m5000_0_A90:
     mirror: false
     rotation: 90
     x: -5

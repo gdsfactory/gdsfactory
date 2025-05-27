@@ -6,8 +6,8 @@ import importlib
 import pathlib
 import warnings
 from collections.abc import Callable, Mapping, Sequence
-from functools import cached_property, partial, wraps
-from typing import Any, cast
+from functools import cached_property, partial
+from typing import Any, cast, overload
 
 import kfactory as kf
 import yaml
@@ -17,17 +17,17 @@ from pydantic import BaseModel, ConfigDict, Field
 from gdsfactory import logger
 from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.config import CONF
-from gdsfactory.cross_section import (
-    CrossSection,
-    Section,
-)
+from gdsfactory.cross_section import CrossSection, Section
+from gdsfactory.cross_section import xsection as cross_section_xsection
 from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
 from gdsfactory.serialization import clean_value_json, convert_tuples_to_lists
 from gdsfactory.symbols import floorplan_with_block_letters
 from gdsfactory.technology import LayerStack, LayerViews, klayout_tech
 from gdsfactory.typings import (
+    CellAllAngleSpec,
     CellSpec,
+    ComponentAllAngleFactory,
     ComponentFactory,
     ComponentSpec,
     ConnectivitySpec,
@@ -186,24 +186,20 @@ class Pdk(BaseModel):
         Ensures that the cross-section name matches the name of the function
         that generated it when created using default parameters.
 
+        Reuses the core xsection decorator from cross_section.py while maintaining
+        PDK-specific storage of cross sections.
+
         .. code-block:: python
 
             @pdk.xsection
             def xs_sc(width=TECH.width_sc, radius=TECH.radius_sc):
                 return gf.cross_section.cross_section(width=width, radius=radius)
         """
-        default_xs = func()
-        self.cross_section_default_names[default_xs.name] = func.__name__
+        decorated_func = cross_section_xsection(func)
 
-        @wraps(func)
-        def newfunc(**kwargs: Any) -> CrossSection:
-            xs = func(**kwargs)
-            if xs.name in self.cross_section_default_names:
-                xs._name = self.cross_section_default_names[xs.name]
-            return xs
+        self.cross_sections[func.__name__] = decorated_func
 
-        self.cross_sections[func.__name__] = newfunc
-        return newfunc
+        return decorated_func
 
     def activate(self, force: bool = False) -> None:
         """Set current pdk to the active pdk (if not already active)."""
@@ -295,7 +291,16 @@ class Pdk(BaseModel):
         self.cells.pop(name)
         logger.info(f"Removed cell {name!r}")
 
-    def get_cell(self, cell: CellSpec, **kwargs: Any) -> ComponentFactory:
+    @overload
+    def get_cell(self, cell: CellSpec, **kwargs: Any) -> ComponentFactory: ...
+    @overload
+    def get_cell(
+        self, cell: CellAllAngleSpec, **kwargs: Any
+    ) -> ComponentAllAngleFactory: ...
+
+    def get_cell(
+        self, cell: CellSpec | CellAllAngleSpec, **kwargs: Any
+    ) -> ComponentFactory | ComponentAllAngleFactory:
         """Returns ComponentFactory from a cell spec."""
         cells_and_containers = self._get_cells_and_containers()
 
@@ -658,7 +663,15 @@ def get_component(
     return get_active_pdk().get_component(component, settings=settings, **kwargs)
 
 
-def get_cell(cell: CellSpec, **kwargs: Any) -> ComponentFactory:
+@overload
+def get_cell(cell: CellSpec, **kwargs: Any) -> ComponentFactory: ...
+@overload
+def get_cell(cell: CellAllAngleSpec, **kwargs: Any) -> ComponentAllAngleFactory: ...
+
+
+def get_cell(
+    cell: CellSpec | CellAllAngleSpec, **kwargs: Any
+) -> ComponentFactory | ComponentAllAngleFactory:
     return get_active_pdk().get_cell(cell, **kwargs)
 
 

@@ -41,35 +41,40 @@ from gdsfactory.typings import LayerSpec
 def nets_to_connections(
     nets: list[dict[str, Any]], connections: dict[str, Any]
 ) -> dict[str, str]:
+    # Use the given connections; create a shallow copy to avoid mutating the input.
     connections = dict(connections)
-    inverse_connections = {v: k for k, v in connections.items()}
 
-    def _is_connected(p: str) -> bool:
-        return (p in connections) or (p in inverse_connections)
-
-    def _add_connection(p: str, q: str) -> None:
-        connections[p] = q
-        inverse_connections[q] = p
-
-    def _get_connected_port(p: str) -> Any:
-        return connections[p] if p in connections else inverse_connections[p]
+    # Flat set of all used ports for O(1) membership check.
+    used = set(connections.keys())
+    used.update(connections.values())
 
     for net in nets:
         p = net["p1"]
         q = net["p2"]
-        if _is_connected(p):
-            _q = _get_connected_port(p)
+        if p in used:
+            # Find the already connected q (if any)
+            _q = (
+                connections[p]
+                if p in connections
+                else next(k for k, v in connections.items() if v == p)
+            )
             raise ValueError(
                 "SAX currently does not support multiply connected ports. "
                 f"Got {p}<->{q} and {p}<->{_q}"
             )
-        if _is_connected(q):
-            _p = _get_connected_port(q)
+        if q in used:
+            _p = (
+                connections[q]
+                if q in connections
+                else next(k for k, v in connections.items() if v == q)
+            )
             raise ValueError(
                 "SAX currently does not support multiply connected ports. "
                 f"Got {p}<->{q} and {_p}<->{q}"
             )
-        _add_connection(p, q)
+        connections[p] = q
+        used.add(p)
+        used.add(q)
     return connections
 
 
@@ -130,7 +135,13 @@ def _is_array_reference(ref: ComponentReference) -> bool:
 
 
 def _is_orthogonal_array_reference(ref: ComponentReference) -> bool:
-    return abs(ref.a.y) == 0 and abs(ref.b.x) == 0
+    # Store intermediate attributes to local variables for faster lookup
+    a, b = ref.a, ref.b
+    ay = a.y
+    if abs(ay) != 0:
+        return False
+    bx = b.x
+    return abs(bx) == 0
 
 
 def _has_ports_on_same_location(reference: ComponentReference) -> bool:

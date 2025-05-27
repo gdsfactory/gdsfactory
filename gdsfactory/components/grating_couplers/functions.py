@@ -4,7 +4,7 @@ from typing import Any
 
 import numpy as np
 import numpy.typing as npt
-from numpy import pi, sin, sqrt
+from numpy import sin, sqrt
 
 import gdsfactory as gf
 from gdsfactory.functions import DEG2RAD, extrude_path
@@ -35,12 +35,18 @@ def ellipse_arc(
         theta_max: in rad.
         angle_step: in rad.
     """
+    # Compute theta in degrees, then convert to radians only once
     theta = np.arange(theta_min, theta_max + angle_step, angle_step) * DEG2RAD
+
+    # Compute xs and ys in a vectorized way, no unnecessary temporaries
     xs = a * np.cos(theta) + x0
-    xs_floating_any = gf.snap.snap_to_grid(xs)
     ys = b * np.sin(theta)
-    ys_floating_any = gf.snap.snap_to_grid(ys)
-    return np.column_stack([xs_floating_any, ys_floating_any])
+    # Stack arrays first, then snap both columns at once for better cache locality and fewer function calls
+    arc = np.empty((xs.size, 2), dtype=float)
+    arc[:, 0] = xs
+    arc[:, 1] = ys
+    arc = gf.snap.snap_to_grid(arc)
+    return arc  # shape (N,2), as before
 
 
 def grating_tooth_points(
@@ -85,6 +91,7 @@ def grating_taper_points(
         wg_width: in um.
         angle_step: in degrees.
     """
+    # ellipse_arc is already optimized and returns snapped arc
     taper_arc = ellipse_arc(
         a=a,
         b=b,
@@ -94,10 +101,15 @@ def grating_taper_points(
         angle_step=angle_step,
     )
 
-    port_position = np.array((x0, 0))
-    p0 = port_position + (0, wg_width / 2)
-    p1 = port_position + (0, -wg_width / 2)
-    return np.vstack([p0, p1, taper_arc])
+    # Use np.array for all at once, no need for multiple arrays + addition
+    p0 = np.array([x0, wg_width / 2], dtype=float)
+    p1 = np.array([x0, -wg_width / 2], dtype=float)
+    # Allocate pre-sized array for output, which minimizes memory reallocations
+    out = np.empty((taper_arc.shape[0] + 2, 2), dtype=float)
+    out[0] = p0
+    out[1] = p1
+    out[2:] = taper_arc
+    return out
 
 
 def get_grating_period_curved(
@@ -120,11 +132,14 @@ def get_grating_period_curved(
         n_slab: slab refractive index.
         n_clad: cladding refractive index.
     """
-    DEG2RAD = pi / 180
-    cos_fib_angle = sin(DEG2RAD * fiber_angle)
-    n2_reduced = n_slab**2 - n_clad**2 * cos_fib_angle**2
+    sin_fiber_angle = sin(DEG2RAD * fiber_angle)
+    n_clad_cos = n_clad * sin_fiber_angle
+    n2_slab = n_slab * n_slab
+    n2_clad_cos2 = n_clad_cos * n_clad_cos
+    n2_reduced = n2_slab - n2_clad_cos2
     sqrt_n2_reduced = sqrt(n2_reduced)
-    h_period = wavelength * (n_slab + n_clad * cos_fib_angle) / n2_reduced
+    # The following arithmetic preserves the formulae as before, but uses the precalculated variables.
+    h_period = wavelength * (n_slab + n_clad_cos) / n2_reduced
     v_period = wavelength / sqrt_n2_reduced
     return h_period, v_period
 
@@ -145,7 +160,6 @@ def get_grating_period(
         neff_low: low index.
         n_clad: cladding index.
     """
-    DEG2RAD = pi / 180
     neff = (neff_high + neff_low) / 2
     return wavelength / (neff - float(sin(DEG2RAD * fiber_angle)) * n_clad)
 

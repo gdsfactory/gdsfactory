@@ -1,3 +1,4 @@
+import math
 from warnings import warn
 
 import numpy as np
@@ -43,56 +44,76 @@ def is_invalid_bundle_topology(ports1: list[Port], ports2: list[Port]) -> bool:
     Returns:
         True if the bundle is unroutable. False otherwise.
     """
-    # draw lines between ports1 and ports2
-    # if no lines intersect and EITHER
-    # A. all are within 90 degrees of port angle (non-negative dot product) or
-    # B. all are further than 90 degrees of port angle (negative dot product)
-    # OR all lines intersect and all ports1 > 90, ports2 < 90, or vice versa
-    # the topology is valid
-    # (actually, the bundle can contain 2 groups-- one of each, and still maintain valid, as long as there are no crossings between them)
-    import shapely.geometry as sg
-    from shapely import intersection_all
+    angle_tolerance: float = 1e-10
 
-    # this is not really quite angle, but a threshold to check if dot products are effectively above/below zero, excluding numerical errors
-    angle_tolerance = 1e-10
-
+    # Early exit: only one route or missing orientation, always valid
     if len(ports1) < 2:
-        # if there's only one route, the bundle topology is always valid
-        return False
-    if any(not p.orientation for p in ports1 + ports2):
-        # don't check if the ports do not have orientation
         return False
 
-    lines = [sg.LineString([p1.center, p2.center]) for p1, p2 in zip(ports1, ports2)]
+    if any(getattr(p, "orientation", None) is None for p in ports1 + ports2):
+        return False
 
-    # Positive if BOTH ports are EITHER facing towards OR away from the vector of the outgoing line between them
-    # Zero if either is orthogonal
-    # Negative if one is facing and the other not
-    ports_facing = []
+    ports_facing: list[float] = []
+    center_pairs: list[
+        tuple[tuple[float, float], tuple[float, float]]
+    ] = []  # for intersection checking
+
+    # Precompute all necessary quantities
     for p1, p2 in zip(ports1, ports2):
-        dy_line = p2.center[1] - p1.center[1]
-        dx_line = p2.center[0] - p1.center[0]
+        c1: tuple[float, float] = p1.center
+        c2: tuple[float, float] = p2.center
 
-        dy_p1 = np.sin(np.deg2rad(p1.orientation))
-        dx_p1 = np.cos(np.deg2rad(p1.orientation))
+        dx: float = c2[0] - c1[0]
+        dy: float = c2[1] - c1[1]
+        o1: float = math.radians(p1.orientation)
+        o2: float = math.radians(p2.orientation)
+        dx_p1: float = math.cos(o1)
+        dy_p1: float = math.sin(o1)
+        dx_p2: float = math.cos(o2)
+        dy_p2: float = math.sin(o2)
 
-        dy_p2 = np.sin(np.deg2rad(p2.orientation))
-        dx_p2 = np.cos(np.deg2rad(p2.orientation))
-        dot1 = np.vdot([dx_line, dy_line], [dx_p1, dy_p1])
-        dot2 = np.vdot([-dx_line, -dy_line], [dx_p2, dy_p2])
-        both_facing = dot1 * dot2
-        # print(both_facing)
-        ports_facing.append(both_facing)
+        dot1: float = dx * dx_p1 + dy * dy_p1
+        dot2: float = -(dx * dx_p2 + dy * dy_p2)
+        ports_facing.append(dot1 * dot2)
 
-    intersections = intersection_all(lines)
-    # print(intersections)
-    if intersections.is_empty and all(s < -angle_tolerance for s in ports_facing):
+        center_pairs.append((c1, c2))
+
+    has_intersections: bool = _any_intersection(center_pairs)
+
+    if not has_intersections and all(s < -angle_tolerance for s in ports_facing):
         return True
-    elif not intersections.is_empty and all(s > angle_tolerance for s in ports_facing):
+    if has_intersections and all(s > angle_tolerance for s in ports_facing):
         return True
 
-    # NOTE: there are more complicated cases we are ignoring for now and giving "the benefit of the doubt"
-    # i.e. if ports2 is perpendicular to ports1 and located somewhere laterally in between ports1
-    # or some cases where ports are not properly ordered
-    # for now we call these cases potentially valid, but we could be stricter in the future
+    return False
+
+
+def _segment_intersects_fast(
+    a1: tuple[float, float],
+    a2: tuple[float, float],
+    b1: tuple[float, float],
+    b2: tuple[float, float],
+) -> bool:
+    """Fast check if 2 segments intersect (excluding colinear cases)."""
+
+    def ccw(
+        p1: tuple[float, float], p2: tuple[float, float], p3: tuple[float, float]
+    ) -> bool:
+        # Counter-clockwise test
+        return (p3[1] - p1[1]) * (p2[0] - p1[0]) > (p2[1] - p1[1]) * (p3[0] - p1[0])
+
+    return ccw(a1, b1, b2) != ccw(a2, b1, b2) and ccw(a1, a2, b1) != ccw(a1, a2, b2)
+
+
+def _any_intersection(
+    center_pairs: list[tuple[tuple[float, float], tuple[float, float]]],
+) -> bool:
+    """Returns True if any of the lines intersect (O(n^2), fast for moderate n)."""
+    n: int = len(center_pairs)
+    for i in range(n):
+        a1, a2 = center_pairs[i]
+        for j in range(i + 1, n):
+            b1, b2 = center_pairs[j]
+            if _segment_intersects_fast(a1, a2, b1, b2):
+                return True
     return False

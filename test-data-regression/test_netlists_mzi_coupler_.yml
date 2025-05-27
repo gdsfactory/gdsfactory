@@ -194,8 +194,8 @@ instances:
   cp1:
     component: coupler
     info:
-      length: 10.186
       min_bend_radius: 11.857
+      path_length: 40.372
     settings:
       allow_min_radius_violation: false
       bend: bend_s
@@ -207,8 +207,8 @@ instances:
   cp2:
     component: coupler
     info:
-      length: 10.186
       min_bend_radius: 11.857
+      path_length: 40.372
     settings:
       allow_min_radius_violation: false
       bend: bend_s

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 import warnings
 from typing import Any, cast
 
@@ -25,22 +26,43 @@ def line(
     npt.NDArray[np.floating[Any]],
     npt.NDArray[np.floating[Any]],
 ]:
+    # Inline checking and extraction for better branch prediction
     if isinstance(p_start, gf.Port):
         width = p_start.width
         p_start = p_start.center
-
     if isinstance(p_end, gf.Port):
         p_end = p_end.center
-
     w = width
     assert w is not None
-    angle = np.arctan2(p_end[1] - p_start[1], p_end[0] - p_start[0])
-    a = np.pi / 2
-    p0 = move_polar_rad_copy(p_start, angle + a, w / 2)
-    p1 = move_polar_rad_copy(p_start, angle - a, w / 2)
-    p2 = move_polar_rad_copy(p_end, angle - a, w / 2)
-    p3 = move_polar_rad_copy(p_end, angle + a, w / 2)
-    return p0, p1, p2, p3
+
+    # Fast tuple (float) usage
+    x0, y0 = p_start
+    x1, y1 = p_end
+
+    dx = x1 - x0
+    dy = y1 - y0
+    ang = math.atan2(dy, dx)  # much faster than np.arctan2 for a scalar
+    w2 = w * 0.5
+    ca = math.cos(ang)
+    sa = math.sin(ang)
+
+    # Precompute for offsets
+    wsac = w2 * sa
+    wcac = w2 * ca
+
+    # Corners as tuples first; avoid repeated NumPy construction.
+    c0 = (x0 - wsac, y0 + wcac)
+    c1 = (x0 + wsac, y0 - wcac)
+    c2 = (x1 + wsac, y1 - wcac)
+    c3 = (x1 - wsac, y1 + wcac)
+
+    # Build np.arrays only at the end (what user expects for return type)
+    return (
+        np.array(c0, dtype=float),
+        np.array(c1, dtype=float),
+        np.array(c2, dtype=float),
+        np.array(c3, dtype=float),
+    )
 
 
 def move_polar_rad_copy(
@@ -53,9 +75,11 @@ def move_polar_rad_copy(
         angle: in radians.
         length: extension length in um.
     """
-    c = np.cos(angle)
-    s = np.sin(angle)
-    return pos + length * np.array([c, s])
+    # Direct computation, no need to create intermediate arrays
+    dx = length * np.cos(angle)
+    dy = length * np.sin(angle)
+    # Construct the new position as a proper NumPy array
+    return np.array([pos[0] + dx, pos[1] + dy], dtype=float)
 
 
 @gf.cell_with_module_name

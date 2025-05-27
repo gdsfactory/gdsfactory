@@ -297,8 +297,8 @@ class HatchPattern(BaseModel):
     def check_pattern_klayout(cls, pattern: str | None) -> str | None:
         if pattern is None:
             return None
-        lines = pattern.splitlines()
-        if any(len(list(line)) > 32 for line in lines):
+        # Optimization: Use len(line) directly without converting to list
+        if any(len(line) > 32 for line in pattern.splitlines()):
             raise ValueError(f"Custom pattern {pattern} has more than 32 characters.")
         return pattern
 
@@ -342,13 +342,18 @@ class LineStyle(BaseModel):
         if pattern is None:
             return None
 
-        pattern_list = list(pattern)
-        valid_chars = all(char in ["*", "."] for char in pattern_list)
-        valid_length = len(pattern_list) <= 32
-        if (not valid_chars) or (not valid_length):
+        # Check length first (it's faster)
+        if len(pattern) > 32:
             raise ValueError(
                 f"Custom line pattern {pattern} must consist of '*' and '.' characters and be no more than 32 characters long."
             )
+
+        valid_chars = {"*", "."}
+        for char in pattern:
+            if char not in valid_chars:
+                raise ValueError(
+                    f"Custom line pattern {pattern} must consist of '*' and '.' characters and be no more than 32 characters long."
+                )
 
         return pattern
 
@@ -1184,7 +1189,7 @@ class LayerViews(BaseModel):
         """
         layer_file = pathlib.Path(layer_file)
 
-        properties = yaml.safe_load(layer_file.open())
+        properties = yaml.safe_load(layer_file.read_text())
         lvs = {}
         for name, lv in properties["LayerViews"].items():
             if "group_members" in lv:

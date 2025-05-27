@@ -40,7 +40,7 @@ def neff_TE1550SOI_220nm(w: float) -> float:
             -1.12666286e00,
         ]
     )
-    return float(np.poly1d(adiabatic_polyfit_TE1550SOI_220nm)(w))
+    return float(np.poly1d(adiabatic_polyfit_TE1550SOI_220nm)(w).item())
 
 
 @gf.cell_with_module_name

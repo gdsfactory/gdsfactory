@@ -34,7 +34,7 @@ instances:
       size:
       - 0.3
       - 0.3
-  taper_gdsfactorypcompon_0368f7eb_0_m155500:
+  taper_gdsfactorypcompon_0368f7eb_0_m155500_A90:
     component: taper
     info:
       length: 150
@@ -89,7 +89,7 @@ placements:
     rotation: 0
     x: -5.07
     y: -5.07
-  taper_gdsfactorypcompon_0368f7eb_0_m155500:
+  taper_gdsfactorypcompon_0368f7eb_0_m155500_A90:
     mirror: false
     rotation: 90
     x: 0
@@ -101,14 +101,14 @@ placements:
     y: 0
 ports:
   o1: taper_gdsfactorypcompon_0368f7eb_m155500_0,o1
-  o2: taper_gdsfactorypcompon_0368f7eb_0_m155500,o1
+  o2: taper_gdsfactorypcompon_0368f7eb_0_m155500_A90,o1
 warnings:
   optical:
     unconnected_ports:
     - message: 2 unconnected optical ports!
       ports:
       - taper_gdsfactorypcompon_0368f7eb_m155500_0,o2
-      - taper_gdsfactorypcompon_0368f7eb_0_m155500,o2
+      - taper_gdsfactorypcompon_0368f7eb_0_m155500_A90,o2
       values:
       - - -5.5
         - 0

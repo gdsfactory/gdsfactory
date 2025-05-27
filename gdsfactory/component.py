@@ -15,8 +15,16 @@ import numpy as np
 import numpy.typing as npt
 import yaml
 from graphviz import Digraph
-from kfactory import (DInstance, DInstances, DPort, DPorts, VInstance, cell,
-                      kdb, save_layout_options)
+from kfactory import (
+    DInstance,
+    DInstances,
+    DPort,
+    DPorts,
+    VInstance,
+    cell,
+    kdb,
+    save_layout_options,
+)
 from kfactory.exceptions import LockedError
 from kfactory.kcell import BaseKCell, ProtoKCell
 from kfactory.port import ProtoPort
@@ -32,9 +40,17 @@ if TYPE_CHECKING:
     from gdsfactory.cross_section import CrossSection, CrossSectionSpec
     from gdsfactory.technology.layer_stack import LayerStack
     from gdsfactory.technology.layer_views import LayerViews
-    from gdsfactory.typings import (AngleInDegrees, ComponentSpec, Coordinates,
-                                    Layer, LayerSpec, LayerSpecs, PathType,
-                                    Port, Position)
+    from gdsfactory.typings import (
+        AngleInDegrees,
+        ComponentSpec,
+        Coordinates,
+        Layer,
+        LayerSpec,
+        LayerSpecs,
+        PathType,
+        Port,
+        Position,
+    )
 
 cell_without_validator = cell
 
