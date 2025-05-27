@@ -51,6 +51,7 @@ def cell(
     debug_names: bool | None = None,
     tags: list[str] | None = None,
     with_module_name: bool = False,
+    lvs_equivalent_ports: list[list[str]] | None = None,
 ) -> Callable[[ComponentFunc[ComponentParams]], ComponentFunc[ComponentParams]]: ...
 
 
@@ -75,6 +76,7 @@ def cell(
     debug_names: bool | None = None,
     tags: list[str] | None = None,
     with_module_name: bool = False,
+    lvs_equivalent_ports: list[list[str]] | None = None,
 ) -> (
     ComponentFunc[ComponentParams]
     | Callable[[ComponentFunc[ComponentParams]], ComponentFunc[ComponentParams]]
@@ -111,6 +113,7 @@ def cell(
         post_process=post_process,
         debug_names=debug_names,
         tags=tags,
+        lvs_equivalent_ports=lvs_equivalent_ports,
     )
     c.is_gf_cell = True
     return c  # type: ignore[no-any-return]
