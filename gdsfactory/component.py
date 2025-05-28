@@ -329,7 +329,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         for key, value in kwargs.items():
             info[f"route_info_{key}"] = value
 
-    def copy_child_info(self, component: ProtoKCell[Any, Any]) -> None:
+    def copy_child_info(self, component: kf.ProtoTKCell[Any]) -> None:
         """Copy and settings info from child component into parent.
 
         Parent components can access child cells settings.
@@ -531,7 +531,7 @@ class Component(ComponentBase, kf.DKCell):
 
     def add_ref(
         self,
-        component: ProtoKCell[Any, Any],
+        component: kf.ProtoTKCell[Any],
         name: str | None = None,
         columns: int = 1,
         rows: int = 1,
