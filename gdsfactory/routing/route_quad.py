@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from typing import Any
-
 import numpy as np
 import numpy.typing as npt
 
@@ -62,35 +60,36 @@ def route_quad(
 
     """
 
-    def get_port_edges(
-        port: Port, width: float
-    ) -> tuple[npt.NDArray[np.floating[Any]], npt.NDArray[np.floating[Any]]]:
+    def get_port_edges(port: Port, width: float):
         _, e1 = _get_rotated_basis(port.orientation)
-        pt1 = port.center + e1 * width / 2
-        pt2 = port.center - e1 * width / 2
-        return pt1, pt2
+        off = e1 * (width * 0.5)
+        # np.add/np.subtract will use fast vectorized ops
+        return port.center + off, port.center - off
 
     if width1 is None:
         width1 = port1.width
     if width2 is None:
         width2 = port2.width
-    vertices = np.array(get_port_edges(port1, width1) + get_port_edges(port2, width2))
+
+    v1, v2 = get_port_edges(port1, width1)
+    v3, v4 = get_port_edges(port2, width2)
+    vertices = np.vstack([v1, v2, v3, v4])
     center = np.mean(vertices, axis=0)
     displacements = vertices - center
-    # sort vertices by angle from center of quadrilateral to make convex polygon
-    angles = np.array([np.arctan2(disp[0], disp[1]) for disp in displacements])
-    sorted_vertices: npt.NDArray[np.floating[Any]] = np.array(
-        [vert for _, vert in sorted(zip(angles, vertices), key=lambda x: x[0])],
-        dtype=np.float64,
-    )
+    # --- Optimize: Avoid Python sorted, use numpy for speed ---
+    # Angles now use arctan2(y, x)
+    angles = np.arctan2(displacements[:, 1], displacements[:, 0])
+    idx = np.argsort(angles)
+    sorted_vertices = vertices[idx]
 
-    if manhattan_target_step:
-        component.add_polygon(
-            sorted_vertices,
-            layer=layer,
-        )
-    else:
-        component.add_polygon(points=sorted_vertices, layer=layer)
+    component.add_polygon(sorted_vertices, layer=layer)  # always add sorted quad
+
+
+def _get_rotated_basis(angle: float):
+    """Fast helper, used by route_quad"""
+    radians = np.deg2rad(angle)
+    c, s = np.cos(radians), np.sin(radians)
+    return np.array([c, s]), np.array([-s, c])
 
 
 if __name__ == "__main__":
