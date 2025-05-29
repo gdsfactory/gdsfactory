@@ -1057,8 +1057,10 @@ def _add_labels(
     refs: dict[str, ComponentReference],
     label_instance_function: LabelInstanceFunction,
 ) -> Component:
+    # Cache commonly-used variables into locals for faster access in the loop
+    lic = label_instance_function
     for name, ref in refs.items():
-        label_instance_function(component=c, instance_name=name, reference=ref)
+        lic(component=c, instance_name=name, reference=ref)
     return c
 
 
