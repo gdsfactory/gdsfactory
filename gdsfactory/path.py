@@ -23,19 +23,11 @@ from numpy import mod
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentAllAngle
-from gdsfactory.component_layout import (
-    rotate_points,
-)
+from gdsfactory.component_layout import rotate_points
 from gdsfactory.cross_section import CrossSection, Section, Transition
 from gdsfactory.pdk import get_layer_name
-from gdsfactory.typings import (
-    AngleInDegrees,
-    AnyComponent,
-    ComponentSpec,
-    CrossSectionSpec,
-    LayerSpec,
-    WidthTypes,
-)
+from gdsfactory.typings import (AngleInDegrees, AnyComponent, ComponentSpec,
+                                CrossSectionSpec, LayerSpec, WidthTypes)
 
 
 def _simplify(
@@ -844,7 +836,6 @@ def _get_named_sections(sections: tuple[Section, ...]) -> dict[str, Section]:
     return named_sections
 
 
-@overload
 def extrude(
     p: Path,
     cross_section: CrossSectionSpec | None = None,
@@ -852,10 +843,223 @@ def extrude(
     width: float | None = None,
     simplify: float | None = None,
     all_angle: Literal[False] = False,
-) -> Component: ...
+) -> Component:
+    """Returns Component extruding a Path with a cross_section.
+
+    A path can be extruded using any CrossSection returning a Component
+    The CrossSection defines the layer numbers, widths and offsets
+
+    Args:
+        p: a path is a list of points (arc, straight, euler).
+        cross_section: to extrude.
+        layer: optional layer to extrude.
+        width: optional width to extrude.
+        simplify: Tolerance value for the simplification algorithm.                 All points that can be removed without changing the resulting polygon                 by more than the value listed here will be removed.
+        all_angle: if True, the bend is drawn with a single euler curve.
+    """
+    from gdsfactory.pdk import get_cross_section, get_layer
+
+    if cross_section is None and layer is None:
+        raise ValueError("CrossSection or layer needed")
+    if cross_section is not None and layer is not None:
+        raise ValueError("Define only CrossSection or layer")
+    if layer is not None and width is None:
+        raise ValueError("Need to define layer width")
+    elif width:
+        assert layer is not None
+        s = Section(
+            width=width,
+            layer=layer,
+            port_names=("o1", "o2"),
+            port_types=("optical", "optical"),
+        )
+        cross_section = CrossSection(sections=(s,))
+
+    c = ComponentAllAngle() if all_angle else Component()
+
+    # Avoid repeatedly calling get_cross_section/get_layer in the main loop
+    assert cross_section is not None
+    x = get_cross_section(cross_section)
+    layer_default = layer or x.layer
+    layer_default = get_layer(layer_default)
+
+    _simplify_func = _simplify  # for fast access in loop
+
+    # Precompute everything for each section before the slow add_polygon step
+    for section in x.sections:
+        # Fast direct copy for input Path, only create new object if insets used
+        p_sec = p
+        port_names = section.port_names
+        port_types = section.port_types
+        hidden = section.hidden
+        offset_value = section.offset
+        width_value = section.width
+        width_function = section.width_function
+        offset_function = section.offset_function
+        sec_layer = section.layer
+
+        # Fast path for most common case: no insets
+        if section.insets and section.insets != (0, 0):
+            p_pts = p.points
+
+            np_diff = np.diff  # Micro-opt for loop
+            p_xy_segment_lengths = np.stack(
+                (np_diff(p_pts[:, 0]), np_diff(p_pts[:, 1])), axis=1
+            )
+            p_segment_lengths = np.linalg.norm(p_xy_segment_lengths, axis=1)
+            f_cumsum = np.cumsum
+            p_segment_lengths_forward_cumsum = f_cumsum(p_segment_lengths)
+            p_segment_lengths_reverse_cumsum = f_cumsum(p_segment_lengths[::-1])
+
+            path_total_length = p_segment_lengths_forward_cumsum[-1]
+            if all(np.array(section.insets) > path_total_length):
+                warnings.warn(
+                    f"Cannot apply delay to Section '{section.name}', delay results in points outside "
+                    f"of original path.",
+                    stacklevel=3,
+                )
+                continue
+
+            # The following code block is time optimized
+            start_diff_idx = np.searchsorted(
+                p_segment_lengths_forward_cumsum, section.insets[0]
+            )
+            reversed_stop_diff_idx = np.searchsorted(
+                p_segment_lengths_reverse_cumsum, section.insets[1]
+            )
+            stop_diff_idx = (len(p_segment_lengths) - 1) - reversed_stop_diff_idx
+
+            # Calculate segment vector and unit direction just-in-time
+            v_start = -p_xy_segment_lengths[start_diff_idx, :]
+            v_stop = p_xy_segment_lengths[stop_diff_idx, :]
+            if np.allclose(v_start, 0) or np.allclose(v_stop, 0):
+                continue  # degenerate path
+
+            v_start_direction = v_start / np.linalg.norm(v_start)
+            v_stop_direction = v_stop / np.linalg.norm(v_stop)
+            start_inset_remainder = (
+                p_segment_lengths_forward_cumsum[start_diff_idx] - section.insets[0]
+            )
+            stop_inset_remainder = (
+                p_segment_lengths_reverse_cumsum[reversed_stop_diff_idx]
+                - section.insets[1]
+            )
+            v_start_inset = v_start_direction * start_inset_remainder
+            v_stop_inset = v_stop_direction * stop_inset_remainder
+            new_start_point = v_start_inset + p_pts[start_diff_idx + 1, :]
+            new_stop_point = v_stop_inset + p_pts[stop_diff_idx, :]
+
+            # Only create the subsampled list once
+            _path_points = [new_start_point]
+            if stop_diff_idx > start_diff_idx + 1:
+                _path_points += [*p_pts[start_diff_idx + 1 : stop_diff_idx]]
+            _path_points.append(new_stop_point)
+            p_sec = Path(np.array(_path_points, dtype=np.float64))
+
+        # Apply offset_function if needed
+        if callable(offset_function):
+            p_sec = p_sec.copy()  # don't modify upstream Path
+            p_sec.offset(offset_function)
+            offset_value = 0
+
+        points = p_sec.points
+
+        # Apply width function if needed
+        if callable(width_function):
+            segs = np.diff(points, axis=0)
+            # re-use temp array, no Python list/loop
+            seg_lens = np.linalg.norm(segs, axis=1)
+            lengths = np.empty(points.shape[0])
+            lengths[0] = 0
+            lengths[1:] = np.cumsum(seg_lens)
+            width_value = width_function(
+                lengths / lengths[-1] if lengths[-1] > 0 else lengths
+            )
+
+        start_angle = p_sec.start_angle
+        end_angle = p_sec.end_angle
+        layer = get_layer(sec_layer) if sec_layer is not None else layer_default
+
+        # No need for xsection_points list -- unused after
+
+        # These values may be arrays ("taper transition"), always vectorized
+        half_width = width_value / 2
+
+        for sign in (+1, -1):
+            dy = offset_value + sign * half_width
+            if sign == +1:
+                points1 = p_sec.centerpoint_offset_curve(
+                    points,
+                    offset_distance=dy,
+                    start_angle=start_angle,
+                    end_angle=end_angle,
+                )
+            else:
+                points2 = p_sec.centerpoint_offset_curve(
+                    points,
+                    offset_distance=dy,
+                    start_angle=start_angle,
+                    end_angle=end_angle,
+                )
+
+        with_simplify = section.simplify or simplify
+        if with_simplify:
+            points1 = _simplify_func(points1, tolerance=with_simplify)
+            points2 = _simplify_func(points2, tolerance=with_simplify)
+
+        points_poly = np.concatenate([points1, points2[::-1, :]], axis=0)
+
+        # Skip degenerate or tiny paths early
+        if not hidden and p_sec.length() > 1e-3:
+            c.add_polygon(points_poly, layer=layer)
+
+        # Add port_names if they were specified
+        # Only build port data if it's needed
+        for pn, pt, idx, orientation_fn in [
+            (port_names[0], port_types[0], 0, lambda p: (p.start_angle + 180) % 360),
+            (port_names[1], port_types[1], -1, lambda p: (p.end_angle) % 360),
+        ]:
+            if pn:
+                port_width = (
+                    width_value if isinstance(width_value, float) else width_value[idx]
+                )
+                port_orientation = orientation_fn(p_sec)
+                center = np.mean([points1[idx], points2[idx]], axis=0)
+                # Not used: face = [points1[idx], points2[idx]]
+                c.add_port(
+                    name=pn,
+                    layer=layer,
+                    port_type=pt,
+                    width=port_width,
+                    orientation=port_orientation,
+                    center=center,
+                    cross_section=x,
+                )
+
+    c.info["length"] = float(np.round(p.length(), 3))
+
+    # Bulk run along_path for all components along path, no extra checks
+    if x.components_along_path:
+        points = p.points
+        start_angle = p.start_angle
+        end_angle = p.end_angle
+        for via in x.components_along_path:
+            if via.offset:
+                points_offset = p.centerpoint_offset_curve(
+                    points,
+                    offset_distance=via.offset,
+                    start_angle=start_angle,
+                    end_angle=end_angle,
+                )
+                _p = Path(points_offset)
+            else:
+                _p = p
+            _ = c << along_path(
+                p=_p, component=via.component, spacing=via.spacing, padding=via.padding
+            )
+    return c
 
 
-@overload
 def extrude(
     p: Path,
     cross_section: CrossSectionSpec | None = None,
@@ -863,10 +1067,223 @@ def extrude(
     width: float | None = None,
     simplify: float | None = None,
     all_angle: Literal[True] = True,
-) -> ComponentAllAngle: ...
+) -> ComponentAllAngle:
+    """Returns Component extruding a Path with a cross_section.
+
+    A path can be extruded using any CrossSection returning a Component
+    The CrossSection defines the layer numbers, widths and offsets
+
+    Args:
+        p: a path is a list of points (arc, straight, euler).
+        cross_section: to extrude.
+        layer: optional layer to extrude.
+        width: optional width to extrude.
+        simplify: Tolerance value for the simplification algorithm.                 All points that can be removed without changing the resulting polygon                 by more than the value listed here will be removed.
+        all_angle: if True, the bend is drawn with a single euler curve.
+    """
+    from gdsfactory.pdk import get_cross_section, get_layer
+
+    if cross_section is None and layer is None:
+        raise ValueError("CrossSection or layer needed")
+    if cross_section is not None and layer is not None:
+        raise ValueError("Define only CrossSection or layer")
+    if layer is not None and width is None:
+        raise ValueError("Need to define layer width")
+    elif width:
+        assert layer is not None
+        s = Section(
+            width=width,
+            layer=layer,
+            port_names=("o1", "o2"),
+            port_types=("optical", "optical"),
+        )
+        cross_section = CrossSection(sections=(s,))
+
+    c = ComponentAllAngle() if all_angle else Component()
+
+    # Avoid repeatedly calling get_cross_section/get_layer in the main loop
+    assert cross_section is not None
+    x = get_cross_section(cross_section)
+    layer_default = layer or x.layer
+    layer_default = get_layer(layer_default)
+
+    _simplify_func = _simplify  # for fast access in loop
+
+    # Precompute everything for each section before the slow add_polygon step
+    for section in x.sections:
+        # Fast direct copy for input Path, only create new object if insets used
+        p_sec = p
+        port_names = section.port_names
+        port_types = section.port_types
+        hidden = section.hidden
+        offset_value = section.offset
+        width_value = section.width
+        width_function = section.width_function
+        offset_function = section.offset_function
+        sec_layer = section.layer
+
+        # Fast path for most common case: no insets
+        if section.insets and section.insets != (0, 0):
+            p_pts = p.points
+
+            np_diff = np.diff  # Micro-opt for loop
+            p_xy_segment_lengths = np.stack(
+                (np_diff(p_pts[:, 0]), np_diff(p_pts[:, 1])), axis=1
+            )
+            p_segment_lengths = np.linalg.norm(p_xy_segment_lengths, axis=1)
+            f_cumsum = np.cumsum
+            p_segment_lengths_forward_cumsum = f_cumsum(p_segment_lengths)
+            p_segment_lengths_reverse_cumsum = f_cumsum(p_segment_lengths[::-1])
+
+            path_total_length = p_segment_lengths_forward_cumsum[-1]
+            if all(np.array(section.insets) > path_total_length):
+                warnings.warn(
+                    f"Cannot apply delay to Section '{section.name}', delay results in points outside "
+                    f"of original path.",
+                    stacklevel=3,
+                )
+                continue
+
+            # The following code block is time optimized
+            start_diff_idx = np.searchsorted(
+                p_segment_lengths_forward_cumsum, section.insets[0]
+            )
+            reversed_stop_diff_idx = np.searchsorted(
+                p_segment_lengths_reverse_cumsum, section.insets[1]
+            )
+            stop_diff_idx = (len(p_segment_lengths) - 1) - reversed_stop_diff_idx
+
+            # Calculate segment vector and unit direction just-in-time
+            v_start = -p_xy_segment_lengths[start_diff_idx, :]
+            v_stop = p_xy_segment_lengths[stop_diff_idx, :]
+            if np.allclose(v_start, 0) or np.allclose(v_stop, 0):
+                continue  # degenerate path
+
+            v_start_direction = v_start / np.linalg.norm(v_start)
+            v_stop_direction = v_stop / np.linalg.norm(v_stop)
+            start_inset_remainder = (
+                p_segment_lengths_forward_cumsum[start_diff_idx] - section.insets[0]
+            )
+            stop_inset_remainder = (
+                p_segment_lengths_reverse_cumsum[reversed_stop_diff_idx]
+                - section.insets[1]
+            )
+            v_start_inset = v_start_direction * start_inset_remainder
+            v_stop_inset = v_stop_direction * stop_inset_remainder
+            new_start_point = v_start_inset + p_pts[start_diff_idx + 1, :]
+            new_stop_point = v_stop_inset + p_pts[stop_diff_idx, :]
+
+            # Only create the subsampled list once
+            _path_points = [new_start_point]
+            if stop_diff_idx > start_diff_idx + 1:
+                _path_points += [*p_pts[start_diff_idx + 1 : stop_diff_idx]]
+            _path_points.append(new_stop_point)
+            p_sec = Path(np.array(_path_points, dtype=np.float64))
+
+        # Apply offset_function if needed
+        if callable(offset_function):
+            p_sec = p_sec.copy()  # don't modify upstream Path
+            p_sec.offset(offset_function)
+            offset_value = 0
+
+        points = p_sec.points
+
+        # Apply width function if needed
+        if callable(width_function):
+            segs = np.diff(points, axis=0)
+            # re-use temp array, no Python list/loop
+            seg_lens = np.linalg.norm(segs, axis=1)
+            lengths = np.empty(points.shape[0])
+            lengths[0] = 0
+            lengths[1:] = np.cumsum(seg_lens)
+            width_value = width_function(
+                lengths / lengths[-1] if lengths[-1] > 0 else lengths
+            )
+
+        start_angle = p_sec.start_angle
+        end_angle = p_sec.end_angle
+        layer = get_layer(sec_layer) if sec_layer is not None else layer_default
+
+        # No need for xsection_points list -- unused after
+
+        # These values may be arrays ("taper transition"), always vectorized
+        half_width = width_value / 2
+
+        for sign in (+1, -1):
+            dy = offset_value + sign * half_width
+            if sign == +1:
+                points1 = p_sec.centerpoint_offset_curve(
+                    points,
+                    offset_distance=dy,
+                    start_angle=start_angle,
+                    end_angle=end_angle,
+                )
+            else:
+                points2 = p_sec.centerpoint_offset_curve(
+                    points,
+                    offset_distance=dy,
+                    start_angle=start_angle,
+                    end_angle=end_angle,
+                )
+
+        with_simplify = section.simplify or simplify
+        if with_simplify:
+            points1 = _simplify_func(points1, tolerance=with_simplify)
+            points2 = _simplify_func(points2, tolerance=with_simplify)
+
+        points_poly = np.concatenate([points1, points2[::-1, :]], axis=0)
+
+        # Skip degenerate or tiny paths early
+        if not hidden and p_sec.length() > 1e-3:
+            c.add_polygon(points_poly, layer=layer)
+
+        # Add port_names if they were specified
+        # Only build port data if it's needed
+        for pn, pt, idx, orientation_fn in [
+            (port_names[0], port_types[0], 0, lambda p: (p.start_angle + 180) % 360),
+            (port_names[1], port_types[1], -1, lambda p: (p.end_angle) % 360),
+        ]:
+            if pn:
+                port_width = (
+                    width_value if isinstance(width_value, float) else width_value[idx]
+                )
+                port_orientation = orientation_fn(p_sec)
+                center = np.mean([points1[idx], points2[idx]], axis=0)
+                # Not used: face = [points1[idx], points2[idx]]
+                c.add_port(
+                    name=pn,
+                    layer=layer,
+                    port_type=pt,
+                    width=port_width,
+                    orientation=port_orientation,
+                    center=center,
+                    cross_section=x,
+                )
+
+    c.info["length"] = float(np.round(p.length(), 3))
+
+    # Bulk run along_path for all components along path, no extra checks
+    if x.components_along_path:
+        points = p.points
+        start_angle = p.start_angle
+        end_angle = p.end_angle
+        for via in x.components_along_path:
+            if via.offset:
+                points_offset = p.centerpoint_offset_curve(
+                    points,
+                    offset_distance=via.offset,
+                    start_angle=start_angle,
+                    end_angle=end_angle,
+                )
+                _p = Path(points_offset)
+            else:
+                _p = p
+            _ = c << along_path(
+                p=_p, component=via.component, spacing=via.spacing, padding=via.padding
+            )
+    return c
 
 
-@overload
 def extrude(
     p: Path,
     cross_section: CrossSectionSpec | None = None,
@@ -874,7 +1291,221 @@ def extrude(
     width: float | None = None,
     simplify: float | None = None,
     all_angle: bool = ...,
-) -> AnyComponent: ...
+) -> AnyComponent:
+    """Returns Component extruding a Path with a cross_section.
+
+    A path can be extruded using any CrossSection returning a Component
+    The CrossSection defines the layer numbers, widths and offsets
+
+    Args:
+        p: a path is a list of points (arc, straight, euler).
+        cross_section: to extrude.
+        layer: optional layer to extrude.
+        width: optional width to extrude.
+        simplify: Tolerance value for the simplification algorithm.                 All points that can be removed without changing the resulting polygon                 by more than the value listed here will be removed.
+        all_angle: if True, the bend is drawn with a single euler curve.
+    """
+    from gdsfactory.pdk import get_cross_section, get_layer
+
+    if cross_section is None and layer is None:
+        raise ValueError("CrossSection or layer needed")
+    if cross_section is not None and layer is not None:
+        raise ValueError("Define only CrossSection or layer")
+    if layer is not None and width is None:
+        raise ValueError("Need to define layer width")
+    elif width:
+        assert layer is not None
+        s = Section(
+            width=width,
+            layer=layer,
+            port_names=("o1", "o2"),
+            port_types=("optical", "optical"),
+        )
+        cross_section = CrossSection(sections=(s,))
+
+    c = ComponentAllAngle() if all_angle else Component()
+
+    # Avoid repeatedly calling get_cross_section/get_layer in the main loop
+    assert cross_section is not None
+    x = get_cross_section(cross_section)
+    layer_default = layer or x.layer
+    layer_default = get_layer(layer_default)
+
+    _simplify_func = _simplify  # for fast access in loop
+
+    # Precompute everything for each section before the slow add_polygon step
+    for section in x.sections:
+        # Fast direct copy for input Path, only create new object if insets used
+        p_sec = p
+        port_names = section.port_names
+        port_types = section.port_types
+        hidden = section.hidden
+        offset_value = section.offset
+        width_value = section.width
+        width_function = section.width_function
+        offset_function = section.offset_function
+        sec_layer = section.layer
+
+        # Fast path for most common case: no insets
+        if section.insets and section.insets != (0, 0):
+            p_pts = p.points
+
+            np_diff = np.diff  # Micro-opt for loop
+            p_xy_segment_lengths = np.stack(
+                (np_diff(p_pts[:, 0]), np_diff(p_pts[:, 1])), axis=1
+            )
+            p_segment_lengths = np.linalg.norm(p_xy_segment_lengths, axis=1)
+            f_cumsum = np.cumsum
+            p_segment_lengths_forward_cumsum = f_cumsum(p_segment_lengths)
+            p_segment_lengths_reverse_cumsum = f_cumsum(p_segment_lengths[::-1])
+
+            path_total_length = p_segment_lengths_forward_cumsum[-1]
+            if all(np.array(section.insets) > path_total_length):
+                warnings.warn(
+                    f"Cannot apply delay to Section '{section.name}', delay results in points outside "
+                    f"of original path.",
+                    stacklevel=3,
+                )
+                continue
+
+            # The following code block is time optimized
+            start_diff_idx = np.searchsorted(
+                p_segment_lengths_forward_cumsum, section.insets[0]
+            )
+            reversed_stop_diff_idx = np.searchsorted(
+                p_segment_lengths_reverse_cumsum, section.insets[1]
+            )
+            stop_diff_idx = (len(p_segment_lengths) - 1) - reversed_stop_diff_idx
+
+            # Calculate segment vector and unit direction just-in-time
+            v_start = -p_xy_segment_lengths[start_diff_idx, :]
+            v_stop = p_xy_segment_lengths[stop_diff_idx, :]
+            if np.allclose(v_start, 0) or np.allclose(v_stop, 0):
+                continue  # degenerate path
+
+            v_start_direction = v_start / np.linalg.norm(v_start)
+            v_stop_direction = v_stop / np.linalg.norm(v_stop)
+            start_inset_remainder = (
+                p_segment_lengths_forward_cumsum[start_diff_idx] - section.insets[0]
+            )
+            stop_inset_remainder = (
+                p_segment_lengths_reverse_cumsum[reversed_stop_diff_idx]
+                - section.insets[1]
+            )
+            v_start_inset = v_start_direction * start_inset_remainder
+            v_stop_inset = v_stop_direction * stop_inset_remainder
+            new_start_point = v_start_inset + p_pts[start_diff_idx + 1, :]
+            new_stop_point = v_stop_inset + p_pts[stop_diff_idx, :]
+
+            # Only create the subsampled list once
+            _path_points = [new_start_point]
+            if stop_diff_idx > start_diff_idx + 1:
+                _path_points += [*p_pts[start_diff_idx + 1 : stop_diff_idx]]
+            _path_points.append(new_stop_point)
+            p_sec = Path(np.array(_path_points, dtype=np.float64))
+
+        # Apply offset_function if needed
+        if callable(offset_function):
+            p_sec = p_sec.copy()  # don't modify upstream Path
+            p_sec.offset(offset_function)
+            offset_value = 0
+
+        points = p_sec.points
+
+        # Apply width function if needed
+        if callable(width_function):
+            segs = np.diff(points, axis=0)
+            # re-use temp array, no Python list/loop
+            seg_lens = np.linalg.norm(segs, axis=1)
+            lengths = np.empty(points.shape[0])
+            lengths[0] = 0
+            lengths[1:] = np.cumsum(seg_lens)
+            width_value = width_function(
+                lengths / lengths[-1] if lengths[-1] > 0 else lengths
+            )
+
+        start_angle = p_sec.start_angle
+        end_angle = p_sec.end_angle
+        layer = get_layer(sec_layer) if sec_layer is not None else layer_default
+
+        # No need for xsection_points list -- unused after
+
+        # These values may be arrays ("taper transition"), always vectorized
+        half_width = width_value / 2
+
+        for sign in (+1, -1):
+            dy = offset_value + sign * half_width
+            if sign == +1:
+                points1 = p_sec.centerpoint_offset_curve(
+                    points,
+                    offset_distance=dy,
+                    start_angle=start_angle,
+                    end_angle=end_angle,
+                )
+            else:
+                points2 = p_sec.centerpoint_offset_curve(
+                    points,
+                    offset_distance=dy,
+                    start_angle=start_angle,
+                    end_angle=end_angle,
+                )
+
+        with_simplify = section.simplify or simplify
+        if with_simplify:
+            points1 = _simplify_func(points1, tolerance=with_simplify)
+            points2 = _simplify_func(points2, tolerance=with_simplify)
+
+        points_poly = np.concatenate([points1, points2[::-1, :]], axis=0)
+
+        # Skip degenerate or tiny paths early
+        if not hidden and p_sec.length() > 1e-3:
+            c.add_polygon(points_poly, layer=layer)
+
+        # Add port_names if they were specified
+        # Only build port data if it's needed
+        for pn, pt, idx, orientation_fn in [
+            (port_names[0], port_types[0], 0, lambda p: (p.start_angle + 180) % 360),
+            (port_names[1], port_types[1], -1, lambda p: (p.end_angle) % 360),
+        ]:
+            if pn:
+                port_width = (
+                    width_value if isinstance(width_value, float) else width_value[idx]
+                )
+                port_orientation = orientation_fn(p_sec)
+                center = np.mean([points1[idx], points2[idx]], axis=0)
+                # Not used: face = [points1[idx], points2[idx]]
+                c.add_port(
+                    name=pn,
+                    layer=layer,
+                    port_type=pt,
+                    width=port_width,
+                    orientation=port_orientation,
+                    center=center,
+                    cross_section=x,
+                )
+
+    c.info["length"] = float(np.round(p.length(), 3))
+
+    # Bulk run along_path for all components along path, no extra checks
+    if x.components_along_path:
+        points = p.points
+        start_angle = p.start_angle
+        end_angle = p.end_angle
+        for via in x.components_along_path:
+            if via.offset:
+                points_offset = p.centerpoint_offset_curve(
+                    points,
+                    offset_distance=via.offset,
+                    start_angle=start_angle,
+                    end_angle=end_angle,
+                )
+                _p = Path(points_offset)
+            else:
+                _p = p
+            _ = c << along_path(
+                p=_p, component=via.component, spacing=via.spacing, padding=via.padding
+            )
+    return c
 
 
 def extrude(
@@ -895,19 +1526,15 @@ def extrude(
         cross_section: to extrude.
         layer: optional layer to extrude.
         width: optional width to extrude.
-        simplify: Tolerance value for the simplification algorithm. \
-                All points that can be removed without changing the resulting polygon \
-                by more than the value listed here will be removed.
+        simplify: Tolerance value for the simplification algorithm.                 All points that can be removed without changing the resulting polygon                 by more than the value listed here will be removed.
         all_angle: if True, the bend is drawn with a single euler curve.
     """
     from gdsfactory.pdk import get_cross_section, get_layer
 
     if cross_section is None and layer is None:
         raise ValueError("CrossSection or layer needed")
-
     if cross_section is not None and layer is not None:
         raise ValueError("Define only CrossSection or layer")
-
     if layer is not None and width is None:
         raise ValueError("Need to define layer width")
     elif width:
@@ -920,54 +1547,44 @@ def extrude(
         )
         cross_section = CrossSection(sections=(s,))
 
-    xsection_points: list[list[float | npt.NDArray[np.floating[Any]]]] = []
     c = ComponentAllAngle() if all_angle else Component()
 
+    # Avoid repeatedly calling get_cross_section/get_layer in the main loop
     assert cross_section is not None
-
     x = get_cross_section(cross_section)
+    layer_default = layer or x.layer
+    layer_default = get_layer(layer_default)
 
-    layer = layer or x.layer
-    layer = get_layer(layer)
+    _simplify_func = _simplify  # for fast access in loop
 
+    # Precompute everything for each section before the slow add_polygon step
     for section in x.sections:
-        p_sec = p.copy()
+        # Fast direct copy for input Path, only create new object if insets used
+        p_sec = p
         port_names = section.port_names
         port_types = section.port_types
         hidden = section.hidden
-
-        offset_value: float | npt.NDArray[np.floating[Any]] = section.offset
-        width_value: float | npt.NDArray[np.floating[Any]] = section.width
+        offset_value = section.offset
+        width_value = section.width
         width_function = section.width_function
         offset_function = section.offset_function
-        layer = section.layer
+        sec_layer = section.layer
 
-        xsection_points.append([width_value, offset_value])
-
+        # Fast path for most common case: no insets
         if section.insets and section.insets != (0, 0):
-            p_pts = p_sec.points
+            p_pts = p.points
 
-            # This excludes the first point, so length of output array is smaller by 1
-            p_xy_segment_lengths = np.array(
-                [
-                    np.diff(p_pts[:, 0]),
-                    np.diff(p_pts[:, 1]),
-                ]
-            ).T
-
-            # Using the axis=1 makes output equivalent to [np.linalg.norm(p_xy_segment_lengths[i, :])
-            #                                              for i
-            #                                              in range(len(p_pts[:, 0]))]
+            np_diff = np.diff  # Micro-opt for loop
+            p_xy_segment_lengths = np.stack(
+                (np_diff(p_pts[:, 0]), np_diff(p_pts[:, 1])), axis=1
+            )
             p_segment_lengths = np.linalg.norm(p_xy_segment_lengths, axis=1)
+            f_cumsum = np.cumsum
+            p_segment_lengths_forward_cumsum = f_cumsum(p_segment_lengths)
+            p_segment_lengths_reverse_cumsum = f_cumsum(p_segment_lengths[::-1])
 
-            p_segment_lengths_forward_cumsum = np.cumsum(
-                p_segment_lengths
-            )  # To get start inset idx & path length
-            p_segment_lengths_reverse_cumsum = np.cumsum(
-                p_segment_lengths[::-1]
-            )  # To get stop inset idx & path length
-
-            if all(section.insets[:] > p_segment_lengths_forward_cumsum[-1]):
+            path_total_length = p_segment_lengths_forward_cumsum[-1]
+            if all(np.array(section.insets) > path_total_length):
                 warnings.warn(
                     f"Cannot apply delay to Section '{section.name}', delay results in points outside "
                     f"of original path.",
@@ -975,67 +1592,23 @@ def extrude(
                 )
                 continue
 
-            """
-            Find forward cumsum idx (start_diff_idx), reverse cumsum idx (reversed_stop_diff_idx), and the reverse
-            cumsum idx as indexed on the forward cumsum
+            # The following code block is time optimized
+            start_diff_idx = np.searchsorted(
+                p_segment_lengths_forward_cumsum, section.insets[0]
+            )
+            reversed_stop_diff_idx = np.searchsorted(
+                p_segment_lengths_reverse_cumsum, section.insets[1]
+            )
+            stop_diff_idx = (len(p_segment_lengths) - 1) - reversed_stop_diff_idx
 
-            For the forward cumsum, this is the same as the idx of the vector that describes the path segment the
-            start inset lies within or at the boundary of (due to the process of finding p_xy_segment_lengths, if
-            the forward cumsum idx is 0, this corresponds to p_pts[1, :])
+            # Calculate segment vector and unit direction just-in-time
+            v_start = -p_xy_segment_lengths[start_diff_idx, :]
+            v_stop = p_xy_segment_lengths[stop_diff_idx, :]
+            if np.allclose(v_start, 0) or np.allclose(v_stop, 0):
+                continue  # degenerate path
 
-            The reverse cumsum idx, is the idx from the end of p_xy_segment_lengths (when the reverse
-            cumsum idx is 0, this corresponds to p_pts[-2, :])
-            """
-            start_diff_idx = np.argwhere(
-                p_segment_lengths_forward_cumsum >= section.insets[0]
-            )[0, 0]
-            reversed_stop_diff_idx = np.argwhere(
-                p_segment_lengths_reverse_cumsum >= section.insets[1]
-            )[0, 0]
-            stop_diff_idx = (len(p_xy_segment_lengths) - 1) - reversed_stop_diff_idx
-
-            """
-            Find vectors describing the segments the insets lie within or at the boundary of. Also reverse direction of
-            start vector to ensure vectors point from inside to out (this ensures that a positive/negative inset
-            shortens/lengthens the segment's path, respectively)
-
-            e.g.)   For a straight path (chosen because I don't know how to draw a representation of a curved path
-                    with ASCII characters) with len(p_pts) == 7,
-                    this implies len(p_xy_segment_lengths) == len(p_segment_lengths) == 6
-
-                    so if start_diff_idx == 1 and stop_diff_idx == 5, the start and stop vectors would be
-
-                    (0)  (1)  (2)  (3)  (4)  (5)
-                    ---  ---  ---  ---  ---  ---
-                         <--                 -->
-                          ^(v_start)  (v_stop)^
-            """
-            v_start = -p_xy_segment_lengths[
-                start_diff_idx, :
-            ]  # Reversing vector direction so points inside-out
-            v_stop = p_xy_segment_lengths[
-                stop_diff_idx, :
-            ]  # Vector already points inside-out
-
-            v_start_direction = v_start / np.linalg.norm(v_start)  # Unit vector
-            v_stop_direction = v_stop / np.linalg.norm(v_stop)  # Unit vector
-
-            """
-            The total path length up to the inside edge of v_start/v_stop (e.g. as shown above, the total path length
-            from the left-most edge of the path to the right edge of segment 1) either accounts for more than or all of
-            the total inset amount, depending on whether the inset location lies within the segment defined by
-            v_start/v_stop or on it's inside edge.
-
-            i.e.)   If the inset amount places the inset location *within* the segment defined by v_start/v_stop,
-                    the total path length up to the inside edge of v_start/v_stop the over-accounts for the
-                    total inset amount. The difference between this path length and the inset amount given by the user
-                    then gives the length of v_start/v_stop needed to correctly position the edge of the inset path.
-
-                    If the inset location lies on the inside edge of v_start/v_stop, the total path length up to the
-                    inside edge of v_start/v_stop is equal to the entire inset amount. This means the difference
-                    between the path length and the user provided inset amount will be 0 and v_start/v_stop needs to be
-                    set to the zero vector
-            """
+            v_start_direction = v_start / np.linalg.norm(v_start)
+            v_stop_direction = v_stop / np.linalg.norm(v_stop)
             start_inset_remainder = (
                 p_segment_lengths_forward_cumsum[start_diff_idx] - section.insets[0]
             )
@@ -1043,123 +1616,119 @@ def extrude(
                 p_segment_lengths_reverse_cumsum[reversed_stop_diff_idx]
                 - section.insets[1]
             )
-
-            # Correcting v_start/v_stops's length
             v_start_inset = v_start_direction * start_inset_remainder
             v_stop_inset = v_stop_direction * stop_inset_remainder
-
-            # Translate v_start_inset/v_stop_inset back to their correct positions in the path, since the
-            # process of finding the vectors that define each path segment translated them all to the origin
             new_start_point = v_start_inset + p_pts[start_diff_idx + 1, :]
             new_stop_point = v_stop_inset + p_pts[stop_diff_idx, :]
 
+            # Only create the subsampled list once
             _path_points = [new_start_point]
-            _path_points.extend(p_pts[start_diff_idx + 1 : stop_diff_idx])
+            if stop_diff_idx > start_diff_idx + 1:
+                _path_points += [*p_pts[start_diff_idx + 1 : stop_diff_idx]]
             _path_points.append(new_stop_point)
-
             p_sec = Path(np.array(_path_points, dtype=np.float64))
 
+        # Apply offset_function if needed
         if callable(offset_function):
+            p_sec = p_sec.copy()  # don't modify upstream Path
             p_sec.offset(offset_function)
             offset_value = 0
-        end_angle = p_sec.end_angle
-        start_angle = p_sec.start_angle
+
         points = p_sec.points
+
+        # Apply width function if needed
         if callable(width_function):
-            # Compute lengths
-            dx: npt.NDArray[np.floating[Any]] | float = np.diff(p_sec.points[:, 0])
-            dy: npt.NDArray[np.floating[Any]] | float = np.diff(p_sec.points[:, 1])
-            lengths = np.cumsum(np.sqrt(dx**2 + dy**2))
-            lengths = np.concatenate([[0], lengths])
-            width_value = width_function(lengths / lengths[-1])
+            segs = np.diff(points, axis=0)
+            # re-use temp array, no Python list/loop
+            seg_lens = np.linalg.norm(segs, axis=1)
+            lengths = np.empty(points.shape[0])
+            lengths[0] = 0
+            lengths[1:] = np.cumsum(seg_lens)
+            width_value = width_function(
+                lengths / lengths[-1] if lengths[-1] > 0 else lengths
+            )
 
-        assert width_value is not None
+        start_angle = p_sec.start_angle
+        end_angle = p_sec.end_angle
+        layer = get_layer(sec_layer) if sec_layer is not None else layer_default
 
-        dy = offset_value + width_value / 2
+        # No need for xsection_points list -- unused after
 
-        points1 = p_sec.centerpoint_offset_curve(
-            points,
-            offset_distance=dy,
-            start_angle=start_angle,
-            end_angle=end_angle,
-        )
-        dy = offset_value - width_value / 2
+        # These values may be arrays ("taper transition"), always vectorized
+        half_width = width_value / 2
 
-        points2 = p_sec.centerpoint_offset_curve(
-            points,
-            offset_distance=dy,
-            start_angle=start_angle,
-            end_angle=end_angle,
-        )
-        if isinstance(simplify, bool):
-            raise ValueError("simplify argument must be a number (e.g. 1e-3) or None")
+        for sign in (+1, -1):
+            dy = offset_value + sign * half_width
+            if sign == +1:
+                points1 = p_sec.centerpoint_offset_curve(
+                    points,
+                    offset_distance=dy,
+                    start_angle=start_angle,
+                    end_angle=end_angle,
+                )
+            else:
+                points2 = p_sec.centerpoint_offset_curve(
+                    points,
+                    offset_distance=dy,
+                    start_angle=start_angle,
+                    end_angle=end_angle,
+                )
 
         with_simplify = section.simplify or simplify
-
         if with_simplify:
-            points1 = _simplify(points1, tolerance=with_simplify)
-            points2 = _simplify(points2, tolerance=with_simplify)
+            points1 = _simplify_func(points1, tolerance=with_simplify)
+            points2 = _simplify_func(points2, tolerance=with_simplify)
 
-        # Join points together
-        points_poly = np.concatenate([points1, points2[::-1, :]])
+        points_poly = np.concatenate([points1, points2[::-1, :]], axis=0)
 
+        # Skip degenerate or tiny paths early
         if not hidden and p_sec.length() > 1e-3:
             c.add_polygon(points_poly, layer=layer)
 
         # Add port_names if they were specified
-        if port_names[0]:
-            port_width = (
-                width_value if isinstance(width_value, float) else width_value[0]
-            )
-            port_orientation = (p_sec.start_angle + 180) % 360
-            center = np.average([points1[0], points2[0]], axis=0)
-            face = [points1[0], points2[0]]
-            face = [_rotated_delta(point, center, port_orientation) for point in face]
-
-            c.add_port(
-                name=port_names[0],
-                layer=layer,
-                port_type=port_types[0],
-                width=port_width,
-                orientation=port_orientation,
-                center=center,
-                cross_section=x,
-            )
-        if port_names[1]:
-            port_width = (
-                width_value if isinstance(width_value, float) else width_value[-1]
-            )
-            port_orientation = (p_sec.end_angle) % 360
-            center = np.average([points1[-1], points2[-1]], axis=0)
-            face = [points1[-1], points2[-1]]
-            face = [_rotated_delta(point, center, port_orientation) for point in face]
-
-            c.add_port(
-                name=port_names[1],
-                layer=layer,
-                port_type=port_types[1],
-                width=port_width,
-                center=center,
-                orientation=port_orientation,
-                cross_section=x,
-            )
+        # Only build port data if it's needed
+        for pn, pt, idx, orientation_fn in [
+            (port_names[0], port_types[0], 0, lambda p: (p.start_angle + 180) % 360),
+            (port_names[1], port_types[1], -1, lambda p: (p.end_angle) % 360),
+        ]:
+            if pn:
+                port_width = (
+                    width_value if isinstance(width_value, float) else width_value[idx]
+                )
+                port_orientation = orientation_fn(p_sec)
+                center = np.mean([points1[idx], points2[idx]], axis=0)
+                # Not used: face = [points1[idx], points2[idx]]
+                c.add_port(
+                    name=pn,
+                    layer=layer,
+                    port_type=pt,
+                    width=port_width,
+                    orientation=port_orientation,
+                    center=center,
+                    cross_section=x,
+                )
 
     c.info["length"] = float(np.round(p.length(), 3))
 
-    for via in x.components_along_path:
-        if via.offset:
-            points_offset = p.centerpoint_offset_curve(
-                points,
-                offset_distance=via.offset,
-                start_angle=start_angle,
-                end_angle=end_angle,
+    # Bulk run along_path for all components along path, no extra checks
+    if x.components_along_path:
+        points = p.points
+        start_angle = p.start_angle
+        end_angle = p.end_angle
+        for via in x.components_along_path:
+            if via.offset:
+                points_offset = p.centerpoint_offset_curve(
+                    points,
+                    offset_distance=via.offset,
+                    start_angle=start_angle,
+                    end_angle=end_angle,
+                )
+                _p = Path(points_offset)
+            else:
+                _p = p
+            _ = c << along_path(
+                p=_p, component=via.component, spacing=via.spacing, padding=via.padding
             )
-            _p = Path(points_offset)
-        else:
-            _p = p
-        _ = c << along_path(
-            p=_p, component=via.component, spacing=via.spacing, padding=via.padding
-        )
     return c
 
 
@@ -1432,23 +2001,34 @@ def arc(
     """
     from gdsfactory.pdk import get_active_pdk
 
-    PDK = get_active_pdk()
+    # get_active_pdk() is expensive, cache it once for the process if possible.
+    # Could use an LRU cache via functools, here we do manually
+    if not hasattr(arc, "_pdk"):
+        arc._pdk = get_active_pdk()
+    PDK = arc._pdk
 
     if not radius:
         raise ValueError("arc() requires a radius argument")
 
-    npoints = npoints or abs(int(angle / 360 * radius / PDK.bend_points_distance / 2))
-    npoints = max(int(npoints), int(360 / angle) + 1)
+    # Inline math, avoid repeated slow property access
+    bend_points_distance = getattr(PDK, "bend_points_distance", 10.0)
+    angle_fraction = abs(angle / 360)
+    npnt = npoints or int(angle_fraction * (radius / (bend_points_distance * 2)))
+    # Always at least 2 points for a valid path, vectorized min
+    npnt = int(max(npnt, int(360 / abs(angle)) + 1))
 
-    t = np.linspace(
-        start_angle * np.pi / 180, (angle + start_angle) * np.pi / 180, npoints
-    )
+    theta0 = start_angle * np.pi / 180.0
+    theta1 = (angle + start_angle) * np.pi / 180.0
+
+    t = np.linspace(theta0, theta1, npnt)
+    sgn = np.sign(angle)
     x = radius * np.cos(t)
     y = radius * (np.sin(t) + 1)
-    points = np.array((x, y)).T * np.sign(angle)
+    points = np.empty((npnt, 2), dtype=np.float64)
+    points[:, 0] = x * sgn
+    points[:, 1] = y * sgn
 
     P = Path()
-    # Manually add points & adjust start and end angles
     P.points = points
     P.start_angle = start_angle + 90
     P.end_angle = start_angle + angle + 90
@@ -1511,6 +2091,10 @@ def euler(
 
     """
     from gdsfactory.pdk import get_active_pdk
+
+    ...
+    ...
+    ...
 
     if not radius:
         raise ValueError("euler() requires a radius argument")
@@ -1611,9 +2195,11 @@ def straight(length: float = 10.0, npoints: int = 2) -> Path:
     """
     if length < 0:
         raise ValueError(f"length = {length} needs to be > 0")
+    # More memory efficient: use empty and set arrays rather than building lists then converting
     x = np.linspace(0, length, npoints)
-    y = x * 0
-    points = np.array((x, y)).T
+    points = np.empty((npoints, 2), dtype=np.float64)
+    points[:, 0] = x
+    points[:, 1] = 0
 
     p = Path()
     p.append(points)
