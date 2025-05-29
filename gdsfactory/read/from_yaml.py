@@ -102,6 +102,7 @@ valid_placement_keys = [
     "dy",
     "rotation",
     "mirror",
+    "mirror_x",
     "port",
 ]
 
@@ -1094,6 +1095,7 @@ def _update_reference_by_placement(
     port = p.port
     rotation = p.rotation
     mirror = p.mirror
+    mirror_x = getattr(p, "mirror_x", None)
     port_names = [port.name for port in ref.ports]
 
     if rotation:
@@ -1102,12 +1104,19 @@ def _update_reference_by_placement(
         else:
             ref.rotate(rotation)
 
-    if mirror:
-        if mirror is True:
+    if mirror or mirror_x:
+        if mirror_x is True:
             if isinstance(port, str):
                 anchor_x = _get_anchor_value_from_name(ref, port, "x")
                 assert anchor_x is not None, f"anchor_x is None for {port!r}"
                 ref.dmirror_x(x=anchor_x)
+            else:
+                ref.dcplx_trans *= kf.kdb.DCplxTrans(1, 0, True, 0, 0)
+        elif mirror is True:
+            if isinstance(port, str):
+                anchor = _get_anchor_value_from_name(ref, port, "y")
+                assert anchor is not None, f"anchor is None for {port!r}"
+                ref.dmirror_y(y=anchor)
             else:
                 ref.dcplx_trans *= kf.kdb.DCplxTrans(1, 0, True, 0, 0)
         elif isinstance(mirror, str) and mirror in port_names:
@@ -1115,7 +1124,7 @@ def _update_reference_by_placement(
             ref.dmirror_x(x_mirror)
         else:
             try:
-                mirror = float(mirror)
+                mirror_value = float(mirror)
                 ref.dmirror_x(x=ref.x)
             except Exception as e:
                 raise ValueError(
@@ -1650,16 +1659,16 @@ instances:
     mmi1:
       component: mmi1x2
 
-    mmi2:
-      component: mmi1x2
+    b:
+      component: bend_euler
 
 placements:
     mmi1:
         xmax: 0
 
-    mmi2:
+    b:
         xmin: mmi1,east
-        mirror: True
+        mirror: 5
 
 """
 
@@ -2080,7 +2089,7 @@ connections:
 """
 
 if __name__ == "__main__":
-    c = from_yaml(sample_array)
+    c = from_yaml(sample_mirror)
     # c = from_yaml(sample_width_missmatch)
     # c = from_yaml(sample_yaml_xmin)
     # c = from_yaml(sample_doe_function)
