@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import numpy as np
 
 import gdsfactory as gf
@@ -26,36 +28,37 @@ def coupler_bent_half(
         length_straight_exit: length straight exit.
         cross_section: cross_section.
     """
-    radius_outer = radius + (width1 + gap) / 2
-    radius_inner = radius - (width2 + gap) / 2
-    alpha = round(np.rad2deg(length / (2 * radius)), 4)
+    # Precompute values and avoid unnecessary recomputation
+    width1_gap_2 = (width1 + gap) / 2
+    width2_gap_2 = (width2 + gap) / 2
+    radius_outer = radius + width1_gap_2
+    radius_inner = radius - width2_gap_2
+    rad_ratio = length / (2 * radius)
+    alpha = round(np.rad2deg(rad_ratio), 4)
     beta = alpha
 
     c = gf.Component()
-
     xs = gf.get_cross_section(cross_section)
     xs1 = xs.copy(radius=radius_outer, width=width1)
     xs2 = xs.copy(radius=radius_inner, width=width2)
 
+    # Only use more points in bent regions, min required in straights for speed
     outer_bend = gf.path.arc(angle=-alpha, radius=radius_outer)
     inner_bend = gf.path.arc(angle=-alpha, radius=radius_inner)
 
-    outer_straight = gf.path.straight(length=length, npoints=100)
-    inner_straight = gf.path.straight(length=length, npoints=100)
+    # Use minimal points for straight: npoints=2 is enough for extrusion
+    outer_straight = gf.path.straight(length=length, npoints=2)
+    inner_straight = gf.path.straight(length=length, npoints=2)
 
     outer_exit_bend = gf.path.arc(angle=alpha, radius=radius_outer)
     inner_exit_bend_down = gf.path.arc(angle=-beta, radius=radius_inner)
     inner_exit_bend_up = gf.path.arc(angle=alpha + beta, radius=radius_inner)
 
-    inner_exit_straight = gf.path.straight(
-        length=length_straight,
-        npoints=100,
-    )
-    outer_exit_straight = gf.path.straight(
-        length=length_straight_exit,
-        npoints=100,
-    )
+    # Minimal points for straights here as well (user can override in API)
+    inner_exit_straight = gf.path.straight(length=length_straight, npoints=2)
+    outer_exit_straight = gf.path.straight(length=length_straight_exit, npoints=2)
 
+    # Assemble paths, avoid unnecessary copying
     outer = outer_bend + outer_straight + outer_exit_bend + outer_exit_straight
     inner = (
         inner_bend
@@ -65,11 +68,15 @@ def coupler_bent_half(
         + inner_exit_straight
     )
 
+    # Extrude
     inner_component = c << inner.extrude(xs2)
     outer_component = c << outer.extrude(xs1)
-    outer_component.movey(+(width1 + gap) / 2)
-    inner_component.movey(-(width2 + gap) / 2)
 
+    # Move only as much as absolutely necessary (precomputed above)
+    outer_component.movey(+width1_gap_2)
+    inner_component.movey(-width2_gap_2)
+
+    # Add ports
     c.add_port("o1", port=outer_component.ports["o1"])
     c.add_port("o2", port=inner_component.ports["o1"])
     c.add_port("o3", port=outer_component.ports["o2"])
@@ -103,6 +110,7 @@ def coupler_bent(
     """
     c = gf.Component()
 
+    # Only one cross_section instantiation per half
     right_half = c << coupler_bent_half(
         gap=gap,
         radius=radius,
@@ -128,7 +136,6 @@ def coupler_bent(
     c.add_port("o2", port=left_half.ports["o4"])
     c.add_port("o3", port=right_half.ports["o3"])
     c.add_port("o4", port=right_half.ports["o4"])
-
     c.flatten()
     return c
 
