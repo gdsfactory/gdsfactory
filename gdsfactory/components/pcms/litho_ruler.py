@@ -32,7 +32,7 @@ def litho_ruler(
     for n in range(num_marks):
         h = height * scale[n % len(scale)]
         ref = D << gf.components.rectangle(size=(width, h), layer=layer)
-        ref.movex((n - num_marks / 2) * pitch)
+        ref.movex((n - num_marks / 2) * pitch + spacing/2.0)
 
     return D
 
