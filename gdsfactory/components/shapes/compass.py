@@ -3,7 +3,6 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import valid_port_orientations
-from gdsfactory.snap import snap_to_grid2x
 from gdsfactory.typings import Ints, LayerSpec, Size
 
 
@@ -27,7 +26,7 @@ def compass(
         auto_rename_ports: auto rename ports.
     """
     c = gf.Component()
-    dx, dy = snap_to_grid2x(size)
+    dx, dy = size
     port_orientations = port_orientations or []
 
     if dx <= 0 or dy <= 0:
@@ -93,6 +92,6 @@ def compass(
 
 if __name__ == "__main__":
     # c = compass(size=(10, 4), port_type="electrical")
-    c = compass(port_orientations=[270])
+    c = compass(size=((0.101, 0.1)), port_orientations=[0])
     c.pprint_ports()
     c.show()
