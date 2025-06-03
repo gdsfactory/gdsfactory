@@ -4,7 +4,6 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import LayerSpec
 
 
@@ -84,8 +83,8 @@ def optimal_hairpin(
     xpts.append(xpts[0])
     ypts.append(ypts[0])
 
-    xpts_np = snap_to_grid(xpts)
-    ypts_np = snap_to_grid(ypts)
+    xpts_np = np.array(xpts)
+    ypts_np = np.array(ypts)
 
     # ==========================================================================
     #  Create a blank device, add the geometry, and define the ports
