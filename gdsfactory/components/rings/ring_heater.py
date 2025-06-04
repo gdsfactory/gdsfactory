@@ -26,6 +26,7 @@ def ring_double_heater(
     port_orientation: AngleInDegrees | None = None,
     via_stack_offset: Float2 = (1, 0),
     with_drop: bool = True,
+    length_extension: float = 3.0,
 ) -> Component:
     """Returns a double bus ring with heater on top.
 
@@ -50,6 +51,7 @@ def ring_double_heater(
         port_orientation: for electrical ports to promote from via_stack.
         via_stack_offset: x,y offset for via_stack.
         with_drop: adds drop ports.
+        length_extension: straight length extension at the end of the coupler bottom ports.
 
     .. code::
 
@@ -89,6 +91,7 @@ def ring_double_heater(
         bend=bend,
         cross_section=cross_section,
         cross_section_bend=cross_section_waveguide_heater,
+        length_extension=length_extension,
     )
     coupler_component_top = gf.get_component(
         coupler_ring_top,
@@ -98,6 +101,7 @@ def ring_double_heater(
         bend=bend,
         cross_section=cross_section,
         cross_section_bend=cross_section_waveguide_heater,
+        length_extension=length_extension,
     )
     straight_component = gf.get_component(
         straight,
@@ -177,6 +181,6 @@ ring_single_heater = partial(ring_double_heater, with_drop=False)
 
 
 if __name__ == "__main__":
-    c = ring_double_heater(gap_top=0.4, length_y=2)
+    c = ring_double_heater(gap_top=0.4, length_y=2, length_extension=10)
     c.pprint_ports()
     c.show()

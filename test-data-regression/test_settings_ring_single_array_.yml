@@ -1,6 +1,6 @@
 info: {}
-name: ring_single_array_gdsfa_616e5436
+name: ring_single_array_gdsfa_54fe30c4
 settings:
   cross_section: strip
   ring: ring_single
-  spacing: 5
+  spacing: 15

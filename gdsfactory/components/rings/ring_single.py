@@ -39,7 +39,7 @@ def ring_single(
         straight: Component spec for the straight waveguides. Default is "straight".
         coupler_ring: Component spec for the ring coupler. Default is "coupler_ring".
         cross_section: Cross section spec for all waveguides. Default is "strip".
-        length_extension: Optional length extension for the coupler ring (μm).
+        length_extension: straight length extension at the end of the coupler bottom ports.
 
     Returns:
         Component: A gdsfactory Component containing the ring resonator with:

@@ -19,6 +19,7 @@ def ring_single_dut(
     bend: ComponentSpec = "bend_euler",
     with_component: bool = True,
     port_name: str = "o1",
+    length_extension: float | None = None,
     **kwargs: Any,
 ) -> Component:
     """Single bus ring made of two couplers (ct: top, cb: bottom) connected.
@@ -36,6 +37,7 @@ def ring_single_dut(
         bend: bend function.
         with_component: True adds component. False adds waveguide.
         port_name: for component input.
+        length_extension: optional length extension for the coupler bottom ports.
         kwargs: cross_section settings.
 
     Args:
@@ -55,7 +57,12 @@ def ring_single_dut(
     assert_on_2x_grid(gap)
 
     coupler = gf.get_component(
-        coupler, gap=gap, length_x=length_x, radius=radius, **kwargs
+        coupler,
+        gap=gap,
+        length_x=length_x,
+        radius=radius,
+        length_extension=length_extension,
+        **kwargs,
     )
 
     component_xsize = component.xsize

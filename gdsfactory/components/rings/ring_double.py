@@ -37,7 +37,7 @@ def ring_double(
         coupler_ring: ring coupler spec.
         coupler_ring_top: top ring coupler spec. Defaults to coupler_ring.
         cross_section: cross_section spec.
-        length_extension: length extension for the coupler ring.
+        length_extension: straight length extension at the end of the coupler bottom ports.
 
     .. code::
 
@@ -58,7 +58,8 @@ def ring_double(
            xx                   xxx
             xxx──────▲─────────xxx
                      │gap
-             o1──────▼─────────o4
+             o1──────▼─────────◄──────────────► o4
+                                length_extension
     """
     gap_top = gap_top or gap
     gap_bot = gap_bot or gap

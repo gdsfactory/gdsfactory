@@ -16,7 +16,7 @@ def coupler_ring(
     straight: ComponentSpec = "straight",
     cross_section: CrossSectionSpec = "strip",
     cross_section_bend: CrossSectionSpec | None = None,
-    length_extension: float = 3,
+    length_extension: float = 3.0,
 ) -> Component:
     r"""Coupler for ring.
 
@@ -28,7 +28,7 @@ def coupler_ring(
         straight: straight spec.
         cross_section: cross_section spec.
         cross_section_bend: optional bend cross_section spec.
-        length_extension: for the ports.
+        length_extension: straight length extension at the end of the coupler bottom ports.
 
     .. code::
 
@@ -50,8 +50,10 @@ def coupler_ring(
                          │gap
                  o1──────▼─────────◄──────────────► o4
                                     length_extension
-
     """
+    if length_extension is None:
+        length_extension = 3 + radius
+
     c = Component()
     gap = gf.snap.snap_to_grid(gap, grid_factor=2)
     cross_section_bend = cross_section_bend or cross_section
@@ -100,5 +102,5 @@ def coupler_ring(
 
 
 if __name__ == "__main__":
-    c = coupler_ring(length_extension=3, length_x=0)
+    c = coupler_ring()
     c.show()

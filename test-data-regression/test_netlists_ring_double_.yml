@@ -51,7 +51,7 @@ instances:
       length: 0.01
       npoints: 2
       width: null
-name: ring_double_gdsfactoryp_c961dbbf
+name: ring_double_gdsfactoryp_0922feda
 nets:
 - p1: coupler_ring_gdsfactory_0dce5cf1_0_0,o2
   p2: straight_gdsfactorypcom_05377f40_m10010_10700_A90,o1
