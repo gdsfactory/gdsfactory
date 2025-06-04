@@ -14,6 +14,7 @@ def ring_single(
     straight: ComponentSpec = "straight",
     coupler_ring: ComponentSpec = "coupler_ring",
     cross_section: CrossSectionSpec = "strip",
+    length_extension: float = 3.0,
 ) -> gf.Component:
     """Returns a single ring resonator with a directional coupler.
 
@@ -38,6 +39,7 @@ def ring_single(
         straight: Component spec for the straight waveguides. Default is "straight".
         coupler_ring: Component spec for the ring coupler. Default is "coupler_ring".
         cross_section: Cross section spec for all waveguides. Default is "strip".
+        length_extension: Optional length extension for the coupler ring (μm).
 
     Returns:
         Component: A gdsfactory Component containing the ring resonator with:
@@ -47,6 +49,7 @@ def ring_single(
 
     Raises:
         ValueError: If length_x or length_y is negative.
+
 
     .. code::
 
@@ -66,7 +69,8 @@ def ring_single(
                xx                   xxx
                 xxx──────▲─────────xxx
                          │gap
-                 o1──────▼─────────o2
+                 o1──────▼─────────o2◄──────────────►
+                                     length_extension
     """
     if length_y < 0:
         raise ValueError(f"length_y={length_y} must be >= 0")
@@ -77,9 +81,7 @@ def ring_single(
     # Create main component
     c = gf.Component()
 
-    # Create and place the directional coupler
-    cb = c << gf.get_component(
-        coupler_ring,
+    settings = dict(
         gap=gap,
         radius=radius,
         length_x=length_x,
@@ -87,6 +89,12 @@ def ring_single(
         bend=bend,
         straight=straight,
     )
+
+    if length_extension is not None:
+        settings["length_extension"] = length_extension
+
+    # Create and place the coupler
+    cb = c << gf.get_component(coupler_ring, settings=settings)
 
     # Create waveguide components
     sy = gf.get_component(straight, length=length_y, cross_section=cross_section)
@@ -117,7 +125,14 @@ def ring_single(
 if __name__ == "__main__":
     # c = ring_single(layer=(2, 0), cross_section_factory=gf.cross_section.pin, width=1)
     # c = ring_single(width=2, gap=1, layer=(2, 0), radius=7, length_y=1)
-    c = ring_single(radius=5, gap=0.111, bend="bend_circular", length_x=0, length_y=0)
+    c = ring_single(
+        radius=5,
+        gap=0.111,
+        bend="bend_circular",
+        length_x=0,
+        length_y=0,
+        length_extension=0,
+    )
     n = c.get_netlist()
     # print(c.ports)
 
