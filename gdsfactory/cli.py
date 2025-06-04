@@ -42,7 +42,13 @@ def layermap_to_dataclass(
 
 
 @app.command()
-def write_cells(gdspath: str, dirpath: str = "", recursively: bool = True) -> None:
+def write_cells(
+    gdspath: str,
+    dirpath: str = typer.Option(
+        "", "--dirpath", help="Directory path to write GDS files to"
+    ),
+    recursively: bool = typer.Option(True, help="Write cells recursively"),
+) -> None:
     """Write each all level cells into separate GDS files."""
     from gdsfactory.write_cells import write_cells as write_cells_top_cells
     from gdsfactory.write_cells import write_cells_recursively
@@ -54,12 +60,19 @@ def write_cells(gdspath: str, dirpath: str = "", recursively: bool = True) -> No
 
 
 @app.command()
-def merge_gds(dirpath: str = "", gdspath: str = "") -> None:
+def merge_gds(
+    dirpath: str = typer.Option(
+        "", "--dirpath", help="Directory containing GDS files to merge"
+    ),
+    gdspath: str = typer.Option("", "--gdspath", help="Output GDS file path"),
+) -> None:
     """Merges GDS cells from a directory into a single GDS."""
     from gdsfactory.read.from_gdspaths import from_gdsdir
 
-    dirpath_path = pathlib.Path(dirpath) or pathlib.Path.cwd()
-    gdspath_path = pathlib.Path(gdspath) or pathlib.Path.cwd() / "merged.gds"
+    dirpath_path = pathlib.Path(dirpath) if dirpath else pathlib.Path.cwd()
+    gdspath_path = (
+        pathlib.Path(gdspath) if gdspath else pathlib.Path.cwd() / "merged.gds"
+    )
     c = from_gdsdir(dirpath=dirpath_path)
     c.write_gds(gdspath=gdspath_path)
     c.show()
@@ -67,7 +80,7 @@ def merge_gds(dirpath: str = "", gdspath: str = "") -> None:
 
 @app.command()
 def watch(
-    path: str = str(pathlib.Path.cwd()),
+    path: str = typer.Argument(str(pathlib.Path.cwd()), help="Folder to watch"),
     pdk: str = typer.Option(None, "--pdk", "-pdk", help="PDK name"),
     run_main: bool = typer.Option(False, "--run-main", "-rm", help="Run main"),
     run_cells: bool = typer.Option(False, "--run-cells", "-rc", help="Run cells"),
@@ -129,16 +142,19 @@ def version() -> None:
 
 
 @app.command(name="from-updk")
-def from_updk_command(filepath: str, filepath_out: str = "") -> None:
+def from_updk_command(
+    filepath: str,
+    filepath_out: str = typer.Option(
+        "", "--output", "-o", help="Output Python file path"
+    ),
+) -> None:
     """Writes a PDK in python from uPDK YAML spec."""
     filepath_path = pathlib.Path(filepath)
-    filepath_out_path = filepath_out or filepath_path.with_suffix(".py")
+    filepath_out_path = (
+        pathlib.Path(filepath_out) if filepath_out else filepath_path.with_suffix(".py")
+    )
     from_updk(filepath, filepath_out=filepath_out_path)
 
 
 if __name__ == "__main__":
-    import sys
-
-    if len(sys.argv) == 1:  # No arguments provided
-        sys.argv.append("--help")
     app()
