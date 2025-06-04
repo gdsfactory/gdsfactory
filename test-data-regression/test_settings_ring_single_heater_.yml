@@ -1,5 +1,5 @@
 info: {}
-name: ring_double_heater_gdsf_562492d7
+name: ring_double_heater_gdsf_6e5a093d
 settings:
   bend: bend_euler
   coupler_ring: coupler_ring
@@ -7,6 +7,7 @@ settings:
   cross_section_heater: heater_metal
   cross_section_waveguide_heater: strip_heater_metal
   gap: 0.2
+  length_extension: 3
   length_x: 1
   length_y: 0.01
   radius: 10

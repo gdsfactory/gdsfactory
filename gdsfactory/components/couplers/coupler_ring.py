@@ -16,7 +16,7 @@ def coupler_ring(
     straight: ComponentSpec = "straight",
     cross_section: CrossSectionSpec = "strip",
     cross_section_bend: CrossSectionSpec | None = None,
-    length_extension: float = 3,
+    length_extension: float = 3.0,
 ) -> Component:
     r"""Coupler for ring.
 
@@ -28,7 +28,7 @@ def coupler_ring(
         straight: straight spec.
         cross_section: cross_section spec.
         cross_section_bend: optional bend cross_section spec.
-        length_extension: for the ports.
+        length_extension: straight length extension at the end of the coupler bottom ports.
 
     .. code::
 
@@ -39,7 +39,21 @@ def coupler_ring(
            ---=========---
         o1    length_x   o4
 
+          o2                              o3
+          xx                              xx
+          xx                             xx
+           xx          length_x          x
+            xx     ◄───────────────►    x
+             xx                       xxx
+               xx                   xxx
+                xxx──────▲─────────xxx
+                         │gap
+                 o1──────▼─────────◄──────────────► o4
+                                    length_extension
     """
+    if length_extension is None:
+        length_extension = 3 + radius
+
     c = Component()
     gap = gf.snap.snap_to_grid(gap, grid_factor=2)
     cross_section_bend = cross_section_bend or cross_section
@@ -53,6 +67,7 @@ def coupler_ring(
         straight=straight,
         cross_section=cross_section,
         cross_section_bend=cross_section_bend,
+        length_straight=length_extension,
     )
     coupler_straight_component = gf.get_component(
         coupler_straight,
@@ -70,17 +85,10 @@ def coupler_ring(
     cs.connect(port="o4", other=cbr.ports["o1"])
     cbl.connect(port="o2", other=cs.ports["o2"], mirror=True)
 
-    s = gf.get_component(straight, length=length_extension, cross_section=cross_section)
-    s1 = c << s
-    s2 = c << s
-
-    s1.connect("o2", cbl.ports["o4"])
-    s2.connect("o1", cbr.ports["o4"])
-
-    c.add_port("o1", port=s1.ports["o1"])
+    c.add_port("o1", port=cbl.ports["o4"])
     c.add_port("o2", port=cbl.ports["o3"])
     c.add_port("o3", port=cbr.ports["o3"])
-    c.add_port("o4", port=s2.ports["o2"])
+    c.add_port("o4", port=cbr.ports["o4"])
 
     c.add_ports(
         gf.port.select_ports_list(ports=cbl.ports, port_type="electrical"), prefix="cbl"

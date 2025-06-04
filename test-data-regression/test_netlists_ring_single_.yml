@@ -101,7 +101,7 @@ instances:
       length: 4
       npoints: 2
       width: null
-name: ring_single_gdsfactoryp_0384f741
+name: ring_single_gdsfactoryp_d74ed1d8
 nets:
 - p1: bend_euler_gdsfactorypc_e95a7a4d_10000_11300_A90,o1
   p2: straight_gdsfactorypcom_058e2168_10000_11300_A270,o1

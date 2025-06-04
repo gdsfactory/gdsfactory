@@ -1,10 +1,11 @@
 info: {}
-name: ring_single_gdsfactoryp_0384f741
+name: ring_single_gdsfactoryp_d74ed1d8
 settings:
   bend: bend_euler
   coupler_ring: coupler_ring
   cross_section: strip
   gap: 0.2
+  length_extension: 3
   length_x: 4
   length_y: 0.6
   radius: 10

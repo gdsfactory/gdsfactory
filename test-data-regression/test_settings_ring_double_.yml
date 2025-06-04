@@ -1,10 +1,11 @@
 info: {}
-name: ring_double_gdsfactoryp_c961dbbf
+name: ring_double_gdsfactoryp_0922feda
 settings:
   bend: bend_euler
   coupler_ring: coupler_ring
   cross_section: strip
   gap: 0.2
+  length_extension: 3
   length_x: 0.01
   length_y: 0.01
   radius: 10

@@ -15,6 +15,7 @@ def coupler90(
     straight: ComponentSpec = "straight",
     cross_section: CrossSectionSpec = "strip",
     cross_section_bend: CrossSectionSpec | None = None,
+    length_straight: float | None = None,
 ) -> Component:
     r"""Straight coupled to a bend.
 
@@ -25,6 +26,7 @@ def coupler90(
         bend: bend spec.
         cross_section: cross_section spec.
         cross_section_bend: optional bend cross_section spec.
+        length_straight: optional length of the straight waveguide.
 
     .. code::
 
@@ -47,10 +49,14 @@ def coupler90(
     )
     bend_ref = c << bend90
     bend90_ports = bend_ref.ports.filter(port_type="optical")
+
+    if length_straight is None:
+        length_straight = bend90_ports[1].center[0] - bend90_ports[0].center[0]
+
     straight_component = gf.get_component(
         straight,
         cross_section=cross_section,
-        length=bend90_ports[1].center[0] - bend90_ports[0].center[0],
+        length=length_straight,
     )
     wg_ref = c << straight_component
     width = x.width
@@ -67,5 +73,5 @@ coupler90circular = partial(coupler90, bend="bend_circular")
 
 
 if __name__ == "__main__":
-    c = coupler90(cross_section_bend="strip_heater_metal")
+    c = coupler90(cross_section_bend="strip_heater_metal", length_straight=0)
     c.show()

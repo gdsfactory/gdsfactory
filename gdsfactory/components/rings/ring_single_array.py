@@ -15,14 +15,14 @@ _list_of_dicts: tuple[dict[str, Any], ...] = (
 @gf.cell_with_module_name
 def ring_single_array(
     ring: ComponentSpec = "ring_single",
-    spacing: float = 5.0,
+    spacing: float = 15.0,
     list_of_dicts: tuple[dict[str, Any], ...] | None = None,
     cross_section: CrossSectionSpec = "strip",
 ) -> Component:
     """Ring of single bus connected with straights.
 
     Args:
-        ring: ring function.
+        ring: ring spec.
         spacing: between rings.
         list_of_dicts: settings for each ring.
         cross_section: spec.
