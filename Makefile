@@ -1,7 +1,6 @@
 UV_INSTALLED := $(shell command -v uv)
 
 .PHONY: uv
-uv: ## install uv
 uv: ## install uv if not installed
 ifndef UV_INSTALLED
 	curl -LsSf https://astral.sh/uv/install.sh | sh
