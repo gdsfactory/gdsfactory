@@ -78,11 +78,7 @@ instances:
       - via1
       - via2
 name: disk_heater_gdsfactoryp_9f50c453
-nets:
-- p1: rectangle_gdsfactorypco_ae271b9b_m33350_m2149,e1
-  p2: via_stack_gdsfactorypco_e178153c_m38350_351,e3
-- p1: rectangle_gdsfactorypco_ae271b9b_m33350_m2149,e3
-  p2: via_stack_gdsfactorypco_e178153c_17450_351,e1
+nets: []
 placements:
   disk_gdsfactorypcompone_5cd43a8c_0_0:
     mirror: false
@@ -105,31 +101,23 @@ placements:
     x: -38.35
     y: 0.351
 ports:
-  e1: via_stack_gdsfactorypco_e178153c_m38350_351,e2
-  e2: via_stack_gdsfactorypco_e178153c_17450_351,e2
   o1: disk_gdsfactorypcompone_5cd43a8c_0_0,o1
   o2: disk_gdsfactorypcompone_5cd43a8c_0_0,o2
 warnings:
   electrical:
     unconnected_ports:
-    - message: 6 unconnected electrical ports!
+    - message: 4 unconnected electrical ports!
       ports:
+      - rectangle_gdsfactorypco_ae271b9b_m33350_m2149,e1
       - rectangle_gdsfactorypco_ae271b9b_m33350_m2149,e2
+      - rectangle_gdsfactorypco_ae271b9b_m33350_m2149,e3
       - rectangle_gdsfactorypco_ae271b9b_m33350_m2149,e4
-      - via_stack_gdsfactorypco_e178153c_m38350_351,e1
-      - via_stack_gdsfactorypco_e178153c_m38350_351,e4
-      - via_stack_gdsfactorypco_e178153c_17450_351,e3
-      - via_stack_gdsfactorypco_e178153c_17450_351,e4
       values:
+      - - -33.35
+        - 0.351
       - - -10.45
         - 2.851
+      - - 12.45
+        - 0.351
       - - -10.45
         - -2.149
-      - - -43.35
-        - 0.351
-      - - -38.35
-        - -4.649
-      - - 22.45
-        - 0.351
-      - - 17.45
-        - -4.649

@@ -1,9 +1,9 @@
 instances:
-  compass_gdsfactorypcomp_77bbf10d_0_0:
+  compass_gdsfactorypcomp_39d6d09f_0_0:
     component: compass
     info: {}
     settings:
-      auto_rename_ports: false
+      auto_rename_ports: true
       layer: MTOP
       port_inclusion: 0
       port_orientations:
@@ -11,7 +11,7 @@ instances:
       - 90
       - 0
       - -90
-      port_type: electrical
+      port_type: null
       size:
       - 11
       - 11
@@ -59,7 +59,7 @@ instances:
 name: via_stack_gdsfactorypco_fdb19589
 nets: []
 placements:
-  compass_gdsfactorypcomp_77bbf10d_0_0:
+  compass_gdsfactorypcomp_39d6d09f_0_0:
     mirror: false
     rotation: 0
     x: 0
@@ -74,8 +74,4 @@ placements:
     rotation: 0
     x: -4
     y: -4
-ports:
-  e1: compass_gdsfactorypcomp_77bbf10d_0_0,e1
-  e2: compass_gdsfactorypcomp_77bbf10d_0_0,e2
-  e3: compass_gdsfactorypcomp_77bbf10d_0_0,e3
-  e4: compass_gdsfactorypcomp_77bbf10d_0_0,e4
+ports: {}

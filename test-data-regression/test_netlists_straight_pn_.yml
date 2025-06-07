@@ -132,13 +132,5 @@ placements:
     x: 990
     y: -6
 ports:
-  bot_e1: via_stack_gdsfactorypco_e537270d_990000_m6000,e1
-  bot_e2: via_stack_gdsfactorypco_e537270d_990000_m6000,e2
-  bot_e3: via_stack_gdsfactorypco_e537270d_990000_m6000,e3
-  bot_e4: via_stack_gdsfactorypco_e537270d_990000_m6000,e4
   o1: taper_strip_to_ridge_gd_947a0bf0_m10000_0,o1
   o2: taper_strip_to_ridge_gd_947a0bf0_1990000_0_A180,o1
-  top_e1: via_stack_gdsfactorypco_e537270d_990000_6000,e1
-  top_e2: via_stack_gdsfactorypco_e537270d_990000_6000,e2
-  top_e3: via_stack_gdsfactorypco_e537270d_990000_6000,e3
-  top_e4: via_stack_gdsfactorypco_e537270d_990000_6000,e4

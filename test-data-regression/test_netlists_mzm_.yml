@@ -409,21 +409,5 @@ placements:
     x: 245.5
     y: 10.625
 ports:
-  e1: sxb,bot_e1
-  e10: sxt,bot_e3
-  e11: sxb,top_e3
-  e12: sxb,bot_e3
-  e13: sxb,bot_e4
-  e14: sxb,top_e4
-  e15: sxt,bot_e4
-  e16: sxt,top_e4
-  e2: sxb,top_e1
-  e3: sxt,bot_e1
-  e4: sxt,top_e1
-  e5: sxt,top_e2
-  e6: sxt,bot_e2
-  e7: sxb,top_e2
-  e8: sxb,bot_e2
-  e9: sxt,top_e3
   o1: cp1,o1
   o2: cp2,o1
