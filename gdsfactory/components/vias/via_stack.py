@@ -52,13 +52,16 @@ def via_stack(
     layers = layers or []
     layer_offsets = layer_offsets or [0] * len(layers)
     layer_to_port_orientations_list = layer_to_port_orientations or {
-        layers[-1]: list(port_orientations or [])
+        gf.get_layer(layers[-1]): list(port_orientations or [])
     }
 
-    for layer in layer_to_port_orientations_list:
-        if layer not in layers:
+    layer_indices = [gf.get_layer(layer) for layer in layers]
+
+    for ly in layer_to_port_orientations_list:
+        layer = gf.get_layer(ly)
+        if layer not in layer_indices:
             raise ValueError(
-                f"layer {layer} in layer_to_port_orientations not in layers {layers}"
+                f"layer {layer} in layer_to_port_orientations not in layers {layer_indices}"
             )
 
     elements = {len(layers), len(layer_offsets), len(vias)}

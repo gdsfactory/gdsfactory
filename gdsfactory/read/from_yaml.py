@@ -2079,6 +2079,22 @@ connections:
   b1,o1: s1,o2
 """
 
+sample_all_angle = """
+name: sample_all_angle
+
+instances:
+  b1:
+    component: bend_euler_all_angle
+    settings:
+      radius: 10
+  s1:
+    component: straight
+    settings:
+      length: 10
+connections:
+  b1,o1: s1,o2
+"""
+
 if __name__ == "__main__":
     c = from_yaml(sample_array)
     # c = from_yaml(sample_width_missmatch)
