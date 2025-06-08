@@ -397,6 +397,6 @@ via_stack_slab_m1_horizontal = partial(via_stack_slab_m1, slot_horizontal=True)
 
 
 if __name__ == "__main__":
-    c = via_stack()
+    c = via_stack_heater_mtop()
     c.pprint_ports()
     c.show()
