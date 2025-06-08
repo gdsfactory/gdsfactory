@@ -36,7 +36,7 @@ test-data-gds: ## Clone test data from GitHub (SSH)
 
 .PHONY: test
 test: test-data-gds ## Run tests
-	uv run pytest -s
+	uv run pytest -s -n logical
 
 .PHONY: test-force
 test-force: ## Run tests with force-regen
