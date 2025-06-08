@@ -50,16 +50,11 @@ def via_stack(
     b = height_m / 2
 
     layers = layers or []
+    layer_indices = [gf.get_layer(layer) for layer in layers]
     layer_offsets = layer_offsets or [0] * len(layers)
     layer_to_port_orientations_list = layer_to_port_orientations or {
-        layers[-1]: list(port_orientations or [])
+        gf.get_layer(layers[-1]): list(port_orientations or [])
     }
-
-    for layer in layer_to_port_orientations_list:
-        if layer not in layers:
-            raise ValueError(
-                f"layer {layer} in layer_to_port_orientations not in layers {layers}"
-            )
 
     elements = {len(layers), len(layer_offsets), len(vias)}
     if len(elements) > 1:
@@ -71,7 +66,7 @@ def via_stack(
     c = Component()
     c.info["xsize"], c.info["ysize"] = size
 
-    for layer, offset in zip(layers, layer_offsets):
+    for layer_index, offset in zip(layer_indices, layer_offsets):
         if isinstance(offset, Iterable):
             offset_x = offset[0]
             offset_y = offset[1]
@@ -80,19 +75,19 @@ def via_stack(
 
         size_m = (width_m + 2 * offset_x, height_m + 2 * offset_y)
 
-        if layer in layer_to_port_orientations_list:
+        if layer_index in layer_to_port_orientations_list:
             ref = c << gf.c.compass(
                 size=size_m,
-                layer=layer,
+                layer=layer_index,
                 port_type="electrical",
-                port_orientations=layer_to_port_orientations_list[layer],
+                port_orientations=layer_to_port_orientations_list[layer_index],
                 auto_rename_ports=False,
             )
             c.add_ports(ref.ports)
         else:
             ref = c << gf.c.compass(
                 size=size_m,
-                layer=layer,
+                layer=layer_index,
                 port_type=None,
                 port_orientations=port_orientations,
             )
@@ -402,6 +397,6 @@ via_stack_slab_m1_horizontal = partial(via_stack_slab_m1, slot_horizontal=True)
 
 
 if __name__ == "__main__":
-    c = via_stack_slab_m1_horizontal()
+    c = via_stack_heater_mtop()
     c.pprint_ports()
     c.show()

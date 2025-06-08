@@ -15,12 +15,12 @@ instances:
       size:
       - 11
       - 11
-  compass_gdsfactorypcomp_77bbf10d_0_0:
+  compass_gdsfactorypcomp_4637d102_0_0:
     component: compass
     info: {}
     settings:
       auto_rename_ports: false
-      layer: MTOP
+      layer: M3
       port_inclusion: 0
       port_orientations:
       - 180
@@ -105,7 +105,7 @@ placements:
     rotation: 0
     x: 0
     y: 0
-  compass_gdsfactorypcomp_77bbf10d_0_0:
+  compass_gdsfactorypcomp_4637d102_0_0:
     mirror: false
     rotation: 0
     x: 0
@@ -126,7 +126,7 @@ placements:
     x: -3
     y: -3
 ports:
-  e1: compass_gdsfactorypcomp_77bbf10d_0_0,e1
-  e2: compass_gdsfactorypcomp_77bbf10d_0_0,e2
-  e3: compass_gdsfactorypcomp_77bbf10d_0_0,e3
-  e4: compass_gdsfactorypcomp_77bbf10d_0_0,e4
+  e1: compass_gdsfactorypcomp_4637d102_0_0,e1
+  e2: compass_gdsfactorypcomp_4637d102_0_0,e2
+  e3: compass_gdsfactorypcomp_4637d102_0_0,e3
+  e4: compass_gdsfactorypcomp_4637d102_0_0,e4
