@@ -106,7 +106,7 @@ def clean_value_json(
     elif isinstance(value, np.integer | int):
         return int(value)
 
-    elif isinstance(value, float | np.complexfloating | np.floating):
+    elif isinstance(value, float | np.floating):
         if value == round(value):
             return int(value)
         return float(np.round(value, DEFAULT_SERIALIZATION_MAX_DIGITS))

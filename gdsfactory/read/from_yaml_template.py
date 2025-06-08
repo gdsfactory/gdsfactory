@@ -101,13 +101,14 @@ def cell_from_yaml_template(
 def get_default_settings_dict(
     default_settings: dict[str, dict[str, Any]],
 ) -> dict[str, Any]:
-    settings = {}
+    settings: dict[str, Any] = {}
     for k, v in default_settings.items():
         try:
             v = v["value"]
             if isinstance(v, list):
-                v = tuple(v)
-            settings[k] = v
+                settings[k] = tuple(v)
+            else:
+                settings[k] = v
         except TypeError as te:
             raise TypeError(
                 f'Default setting "{k}" should be a dictionary with "value" defined.'

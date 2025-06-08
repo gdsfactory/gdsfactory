@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Any
+
 import numpy as np
 
 import gdsfactory as gf
@@ -37,8 +39,8 @@ def optimal_90deg(
         / 2.0
         * ((1 + 2 / np.pi * np.arcsinh(1 / v)) + 1j * (1 + 2 / np.pi * np.arcsinh(v)))
     )
-    xpts = list(np.real(xi))
-    ypts = list(np.imag(xi))
+    xpts: list[float | np.floating[Any]] = list(np.real(xi))
+    ypts: list[float | np.floating[Any]] = list(np.imag(xi))
 
     # Add points for the rest of curve
     d = 2 * xpts[0]  # Farthest point out * 2, rounded to nearest 100
@@ -55,10 +57,22 @@ def optimal_90deg(
     xpts.append(xpts[0])
     ypts.append(ypts[0])
 
-    D.add_polygon(list(zip(xpts, ypts)), layer=layer)
+    D.add_polygon(list(zip(map(float, xpts), map(float, ypts))), layer=layer)
 
-    D.add_port(name="e1", center=(a / 4, d), width=a / 2, orientation=90, layer=layer)
-    D.add_port(name="e2", center=(d, a / 4), width=a / 2, orientation=0, layer=layer)
+    D.add_port(
+        name="e1",
+        center=(float(a / 4), float(d)),
+        width=a / 2,
+        orientation=90,
+        layer=layer,
+    )
+    D.add_port(
+        name="e2",
+        center=(float(d), float(a / 4)),
+        width=a / 2,
+        orientation=0,
+        layer=layer,
+    )
     return D
 
 

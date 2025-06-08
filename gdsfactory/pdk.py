@@ -423,9 +423,9 @@ class Pdk(BaseModel):
 
             cell_name = component.get("component", None)
             cell_name = cell_name or component.get("function")
-            cell_name = cell_name.split(".")[-1]
+            cell_name = str(cell_name).split(".")[-1]
 
-            if not isinstance(cell_name, str) or cell_name not in cells:
+            if cell_name not in cells:
                 matching_cells = [c for c in cells if cell_name in c]
                 raise ValueError(
                     f"{cell_name!r} from PDK {self.name!r} not in cells: Did you mean {matching_cells}?"
@@ -456,6 +456,8 @@ class Pdk(BaseModel):
             return xs(**kwargs)
         elif isinstance(cross_section, dict):
             xs_name = cross_section.get("cross_section", None)
+            if xs_name is None:
+                raise ValueError("cross_section name is required")
             settings = cross_section.get("settings", {})
             return self.get_cross_section(xs_name, **settings)
         elif isinstance(cross_section, CrossSection):
@@ -467,18 +469,20 @@ class Pdk(BaseModel):
 
             return cross_section
         elif isinstance(cross_section, kf.DCrossSection | kf.SymmetricalCrossSection):
+            from gdsfactory import kcl
+
             if isinstance(cross_section, kf.DCrossSection):
                 cross_section_ = cross_section.base
             else:
                 cross_section_ = cross_section
             section_ = Section(
-                width=gf.kcl.to_um(cross_section_.width),
-                layer=gf.kcl.layout.layer(cross_section_.main_layer),
+                width=kcl.to_um(cross_section_.width),
+                layer=kcl.layout.layer(cross_section_.main_layer),
             )
             xs_ = CrossSection(
                 sections=(section_,),
-                radius=kf.kcl.to_um(cross_section_.radius),
-                radius_min=kf.kcl.to_um(cross_section_.radius_min),
+                radius=kcl.to_um(cross_section_.radius),
+                radius_min=kcl.to_um(cross_section_.radius_min),
             )
             xs_._name = cross_section_.name
             return xs_

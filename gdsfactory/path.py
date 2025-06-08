@@ -1399,9 +1399,11 @@ def _cut_path_with_ray(
     # add all subsequent points
     points = [np.array(intersections[0].coords[0])]
     points.extend(
-        point
-        for point in path[1:-1]
-        if distances[0] < ls.project(sg.Point(point)) < distances[1]
+        [
+            np.array(point)
+            for point in path[1:-1]
+            if distances[0] < ls.project(sg.Point(point)) < distances[1]
+        ]
     )
     points.append(np.array(intersections[1].coords[0]))
     return np.array(points)
@@ -1548,7 +1550,9 @@ def euler(
         num_pts_arc = 2
 
     if num_pts_euler > 0:
-        xbend1, ybend1 = _fresnel(R0, sp, num_pts_euler)
+        xbend1: npt.NDArray[np.floating[Any]]
+        ybend1: npt.NDArray[np.floating[Any]]
+        xbend1, ybend1 = _fresnel(R0, sp, num_pts_euler)  # type: ignore
         xp, yp = xbend1[-1], ybend1[-1]
         dx = xp - Rp * np.sin(p * alpha / 2)
         dy = yp - Rp * (1 - np.cos(p * alpha / 2))

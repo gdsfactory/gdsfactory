@@ -5,7 +5,7 @@ from __future__ import annotations
 import warnings
 from collections.abc import Sequence
 from functools import partial
-from typing import Any, TypeAlias, overload
+from typing import Any, TypeAlias, TypeVar, cast, overload
 
 import kfactory as kf
 import numpy as np
@@ -49,9 +49,18 @@ def assert_on_2x_grid(x: float) -> None:
         raise ValueError(f"{x} needs to be on 2x grid and should be {x_grid}")
 
 
+_T = TypeVar("_T", bound=npt.NDArray[np.floating[Any]])
+
+
 @overload
 def snap_to_grid(
-    x: Sequence[float] | npt.NDArray[np.floating[Any]],
+    x: _T,
+    nm: int | None = None,
+    grid_factor: int = 1,
+) -> _T: ...
+@overload
+def snap_to_grid(
+    x: Sequence[float],
     nm: int | None = None,
     grid_factor: int = 1,
 ) -> npt.NDArray[np.floating[Any]]: ...
@@ -62,10 +71,10 @@ def snap_to_grid(
     grid_factor: int = 1,
 ) -> float: ...
 def snap_to_grid(
-    x: Value,
+    x: float | Sequence[float] | _T,
     nm: int | None = None,
     grid_factor: int = 1,
-) -> npt.NDArray[np.floating[Any]] | float:
+) -> _T | float:
     """Snap x to grid.
 
     Args:
@@ -78,7 +87,7 @@ def snap_to_grid(
     res = nm * np.round(np.asarray(x, dtype=float) * 1e3 / nm) / 1e3
     if isinstance(res, np.floating):
         return float(res)
-    return res
+    return cast(_T | float, res)
 
 
 @overload
