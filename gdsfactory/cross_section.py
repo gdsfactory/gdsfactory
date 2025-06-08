@@ -2729,9 +2729,7 @@ def get_cross_sections(
             try:
                 ann = getattr(func, "__annotations__", {})
                 r = ann.get("return", None)
-                if r == CrossSection or (
-                    isinstance(r, str) and r.endswith("CrossSection")
-                ):
+                if r == CrossSection or (isinstance(r, str) and "CrossSection" in r):
                     xs[name] = obj
             except Exception as e:
                 if verbose:
