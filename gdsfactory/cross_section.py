@@ -2695,6 +2695,40 @@ def pn_ge_detector_si_contacts(
     )
 
 
+def is_cross_section(name: str, obj: Any, verbose: bool = False) -> bool:
+    if name.startswith("_"):
+        return False
+    # Early prune: only consider functions, builtins or partials
+    if isfunction(obj) or isbuiltin(obj):
+        func = obj
+    elif isinstance(obj, partial):
+        func = obj.func  # type: ignore[assignment]
+    else:
+        return False
+
+    # Directly look up __annotations__ to avoid expensive inspect.signature
+    try:
+        ann = getattr(func, "__annotations__", {})
+        r = ann.get("return", None)
+        if (
+            r == CrossSection
+            or (
+                isinstance(r, str)
+                and (
+                    r.endswith("CrossSection")
+                    or r.startswith("CrossSection")
+                    or r.startswith("gf.CrossSection")
+                )
+            )
+            or (isinstance(r, type) and issubclass(r, CrossSection))
+        ):
+            return True
+    except Exception as e:
+        if verbose:
+            logger.warning(f"error in {name}: {e}")
+    return False
+
+
 def get_cross_sections(
     modules: Sequence[ModuleType] | ModuleType, verbose: bool = False
 ) -> dict[str, CrossSectionFactory]:
@@ -2710,30 +2744,12 @@ def get_cross_sections(
     else:
         modules_ = [modules]
 
-    xs: dict[str, CrossSectionFactory] = {}
-
-    for module in modules_:
-        # Use generator for memory efficiency and optimize member access
-        for name, obj in getmembers(module):
-            if name.startswith("_"):
-                continue
-            # Early prune: only consider functions, builtins or partials
-            if isfunction(obj) or isbuiltin(obj):
-                func = obj
-            elif isinstance(obj, partial):
-                func = obj.func  # type: ignore[assignment]
-            else:
-                continue
-
-            # Directly look up __annotations__ to avoid expensive inspect.signature
-            try:
-                ann = getattr(func, "__annotations__", {})
-                r = ann.get("return", None)
-                if r == CrossSection or (isinstance(r, str) and "CrossSection" in r):
-                    xs[name] = obj
-            except Exception as e:
-                if verbose:
-                    logger.warning(f"error in {name}: {e}")
+    xs: dict[str, CrossSectionFactory] = {
+        name: obj
+        for module in modules_
+        for name, obj in getmembers(module)
+        if is_cross_section(name, obj, verbose)
+    }
 
     return xs
 

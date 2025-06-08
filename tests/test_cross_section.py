@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from functools import partial
+from typing import Any
 
 import jsondiff
 
@@ -100,6 +101,53 @@ def test_taper_cladding_offets() -> None:
     c = demo_taper_cladding_offsets()
     n = len(c.get_polygons()[LAYER.WG])
     assert n == 3, n
+
+
+def test_is_cross_section_basic() -> None:
+    def basic_xs(width: float = 1.0) -> gf.CrossSection:
+        return gf.cross_section.cross_section(width=width, layer=(1, 0))
+
+    assert gf.cross_section.is_cross_section("basic_xs", basic_xs)
+
+
+def test_is_cross_section_subclass() -> None:
+    class OtherCrossSection(gf.CrossSection):
+        pass
+
+    def cross_section(**kwargs: Any) -> OtherCrossSection:
+        return OtherCrossSection(**kwargs)
+
+    assert gf.cross_section.is_cross_section("cross_section", cross_section)
+
+
+def test_is_cross_section_subclass_name_not_including_cross_section() -> None:
+    class SubclassCrossSection(gf.CrossSection):
+        pass
+
+    def cross_section(**kwargs: Any) -> SubclassCrossSection:
+        return SubclassCrossSection(**kwargs)
+
+    assert gf.cross_section.is_cross_section("cross_section", cross_section)
+
+
+def test_is_cross_section_partial() -> None:
+    xs_partial = partial(gf.cross_section.cross_section, width=1.0, layer=(1, 0))
+    assert gf.cross_section.is_cross_section("xs_partial", xs_partial)
+
+
+def test_is_cross_section_invalid() -> None:
+    def not_xs() -> None:
+        pass
+
+    assert not gf.cross_section.is_cross_section("not_xs", not_xs)
+    assert not gf.cross_section.is_cross_section("len", len)
+
+
+def test_is_cross_section_private() -> None:
+    def _private_xs() -> gf.CrossSection:
+        return gf.cross_section.cross_section(width=1.0, layer=(1, 0))
+
+    assert not gf.cross_section.is_cross_section("_private_xs", _private_xs)
 
 
 if __name__ == "__main__":
