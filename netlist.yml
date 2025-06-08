@@ -1,0 +1,35 @@
+instances:
+  cp1:
+    component: coupler
+    settings: {}
+  cp2:
+    component: coupler
+    settings: {}
+connections: {}
+routes:
+  bundle1:
+    links:
+      cp1,o4: cp2,o1
+    routing_strategy: route_bundle
+    settings:
+      steps:
+        - dx: 10
+        - dy: -20
+        - dx: 10
+nets: []
+ports: {}
+placements:
+  cp1:
+    x: 0
+    "y": 0
+    dx: -5.041
+    dy: 31.798
+    rotation: 0
+    mirror: false
+  cp2:
+    x: 0
+    "y": 0
+    dx: 93.377
+    dy: -52.512
+    rotation: 0
+    mirror: false

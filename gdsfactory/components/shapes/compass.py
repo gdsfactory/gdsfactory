@@ -27,7 +27,9 @@ def compass(
         auto_rename_ports: auto rename ports.
     """
     c = gf.Component()
-    dx, dy = snap_to_grid2x(size)
+    _temp = snap_to_grid2x(size)
+    dx = float(_temp[0])
+    dy = float(_temp[1])
     port_orientations = port_orientations or []
 
     if dx <= 0 or dy <= 0:
