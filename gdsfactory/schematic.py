@@ -56,12 +56,14 @@ class Instance(BaseModel):
         settings: input variables.
         info: information (polarization, wavelength ...).
         array: array config to make create an array reference for this instance
+        virtual: if True, creates a virtual instance without actual geometry
     """
 
     component: str
     settings: dict[str, Any] = Field(default_factory=dict)
     info: dict[str, Any] = Field(default_factory=dict, exclude=True)
     array: OrthogonalGridArray | GridArray | None = None
+    virtual: bool = False
 
     model_config = ConfigDict(extra="forbid")
 

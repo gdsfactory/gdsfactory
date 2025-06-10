@@ -922,7 +922,11 @@ def _get_references(
                 ),
             )
         else:
-            ref = c.add_ref(comp, name=name)
+            if inst.virtual:
+                ref = c.create_vinst(comp)
+                ref.name = name
+            else:
+                ref = c.add_ref(comp, name=name)
         refs[name] = ref
     return refs
 
@@ -2083,20 +2087,28 @@ sample_all_angle = """
 name: sample_all_angle
 
 instances:
+  s0:
+    component: straight
+    settings:
+        length: 10
   b1:
     component: bend_euler_all_angle
     settings:
       radius: 10
+      angle: 30
+    virtual: True
   s1:
     component: straight
     settings:
       length: 10
+    virtual: True
 connections:
-  b1,o1: s1,o2
+  s1,o1: b1,o2
+  s0,o2: b1,o1
 """
 
 if __name__ == "__main__":
-    c = from_yaml(sample_array)
+    c = from_yaml(sample_all_angle)
     # c = from_yaml(sample_width_missmatch)
     # c = from_yaml(sample_yaml_xmin)
     # c = from_yaml(sample_doe_function)
