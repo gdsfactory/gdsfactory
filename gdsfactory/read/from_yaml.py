@@ -63,7 +63,7 @@ import yaml
 
 from gdsfactory import typings
 from gdsfactory.add_pins import add_instance_label
-from gdsfactory.component import Component, ComponentReference
+from gdsfactory.component import Component, ComponentAllAngle, ComponentReference
 from gdsfactory.schematic import (
     Bundle,
     GridArray,
@@ -922,7 +922,7 @@ def _get_references(
                 ),
             )
         else:
-            if inst.virtual:
+            if inst.virtual or isinstance(comp, ComponentAllAngle):
                 ref = c.create_vinst(comp)
                 ref.name = name
             else:
@@ -2101,7 +2101,6 @@ instances:
     component: straight
     settings:
       length: 10
-    virtual: True
 connections:
   s1,o1: b1,o2
   s0,o2: b1,o1
