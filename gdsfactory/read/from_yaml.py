@@ -78,11 +78,14 @@ if TYPE_CHECKING:
     from gdsfactory.pdk import Pdk
 
 
+InstanceOrVInstance = ComponentReference | kf.VInstance
+
+
 class LabelInstanceFunction(Protocol):
     def __call__(
         self,
         component: Component,
-        reference: ComponentReference,
+        reference: InstanceOrVInstance,
         layer: LayerSpec | None = None,
         instance_name: str | None = None,
     ) -> None: ...
@@ -156,7 +159,7 @@ valid_route_keys = [
 
 
 def _get_anchor_point_from_name(
-    ref: ComponentReference, anchor_name: str
+    ref: InstanceOrVInstance, anchor_name: str
 ) -> tuple[float, float] | None:
     if anchor_name in valid_anchor_point_keywords:
         return cast(tuple[float, float], getattr(ref.dsize_info, anchor_name))
@@ -166,7 +169,7 @@ def _get_anchor_point_from_name(
 
 
 def _get_anchor_value_from_name(
-    ref: ComponentReference, anchor_name: str, return_value: str
+    ref: InstanceOrVInstance, anchor_name: str, return_value: str
 ) -> float | None:
     """Return the x or y value of an anchor point or port on a reference."""
     if anchor_name in valid_anchor_value_keywords:
@@ -187,7 +190,7 @@ def _move_ref(
     x_or_y: Literal["x", "y"],
     placements_conf: PlacementConf,
     connections_by_transformed_inst: ConnectionsByTransformedInst,
-    instances: dict[str, ComponentReference],
+    instances: dict[str, InstanceOrVInstance],
     encountered_insts: list[str],
     all_remaining_insts: list[str],
 ) -> float | None:
@@ -278,7 +281,7 @@ def _parse_maybe_arrayed_instance(inst_spec: str) -> tuple[str, int | None, int 
 def place(
     placements_conf: dict[str, dict[str, int | float | str]],
     connections_by_transformed_inst: dict[str, dict[str, str]],
-    instances: dict[str, ComponentReference],
+    instances: dict[str, InstanceOrVInstance],
     encountered_insts: list[str],
     instance_name: str | None = None,
     all_remaining_insts: list[str] | None = None,
@@ -371,7 +374,7 @@ def place(
             if a is None:
                 port_names = [port.name for port in ref.ports]
                 raise ValueError(
-                    f"Port {port!r} is neither a valid port on {ref.parent.name!r}"
+                    f"Port {port!r} is neither a valid port on {ref.cell.name!r}"
                     " nor a recognized anchor keyword.\n"
                     "Valid ports: \n"
                     f"{port_names}. \n"
@@ -519,7 +522,7 @@ def make_connection(
     port_src_name: str,
     instance_dst_name: str,
     port_dst_name: str,
-    instances: dict[str, ComponentReference],
+    instances: dict[str, InstanceOrVInstance],
     src_ia: int | None = None,
     src_ib: int | None = None,
     dst_ia: int | None = None,
@@ -894,12 +897,13 @@ def _get_dependency_graph(net: Netlist) -> nx.DiGraph:
 
 def _get_references(
     c: Component, pdk: "Pdk", instances: dict[str, NetlistInstance]
-) -> dict[str, ComponentReference]:
-    refs: dict[str, ComponentReference] = {}
+) -> dict[str, InstanceOrVInstance]:
+    refs: dict[str, InstanceOrVInstance] = {}
+
     for name, inst in instances.items():
         comp = pdk.get_component(component=inst.component, settings=inst.settings)
         if isinstance(inst.array, OrthogonalGridArray):
-            ref = c.add_ref(
+            ref: InstanceOrVInstance = c.add_ref(
                 comp,
                 rows=inst.array.rows,
                 columns=inst.array.columns,
@@ -933,7 +937,7 @@ def _get_references(
 
 def _place_and_connect(
     g: nx.DiGraph,
-    refs: dict[str, ComponentReference],
+    refs: dict[str, InstanceOrVInstance],
     connections: dict[str, str],
     placements: dict[str, Placement],
 ) -> None:
@@ -983,7 +987,7 @@ def _place_and_connect(
 
 def _add_routes(
     c: Component,
-    refs: dict[str, ComponentReference],
+    refs: dict[str, InstanceOrVInstance],
     routes: dict[str, Bundle],
     routing_strategies: RoutingStrategies | None = None,
 ) -> Component:
@@ -1030,7 +1034,7 @@ def _add_routes(
 
 
 def _add_ports(
-    c: Component, refs: dict[str, ComponentReference], ports: dict[str, str]
+    c: Component, refs: dict[str, InstanceOrVInstance], ports: dict[str, str]
 ) -> Component:
     """Add ports to Component using references and mapping."""
     for name, ip in ports.items():
@@ -1058,7 +1062,7 @@ def _add_ports(
 
 def _add_labels(
     c: Component,
-    refs: dict[str, ComponentReference],
+    refs: dict[str, InstanceOrVInstance],
     label_instance_function: LabelInstanceFunction,
 ) -> Component:
     for name, ref in refs.items():
@@ -1084,7 +1088,7 @@ def _two_out_of_three_none(one: Any, two: Any, three: Any) -> bool:
 
 
 def _update_reference_by_placement(
-    refs: dict[str, ComponentReference], name: str, p: Placement
+    refs: dict[str, InstanceOrVInstance], name: str, p: Placement
 ) -> None:
     ref = refs[name]
     x = p.x
@@ -1292,7 +1296,7 @@ def _split_route_link(s: str) -> tuple[str, list[str], str]:
 
 
 def _get_ports_from_portnames(
-    refs: dict[str, ComponentReference], first: str, middles: list[str], last: str
+    refs: dict[str, InstanceOrVInstance], first: str, middles: list[str], last: str
 ) -> list[typings.Port]:
     ports = []
     for middle in middles:
