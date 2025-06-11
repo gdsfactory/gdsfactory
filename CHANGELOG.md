@@ -1,27 +1,30 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.6.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.8.2...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.8.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.8.2) - 2025-06-11
 
-No significant changes.
-
+- add virtual_instance capabilities to schematic [#3972](https://github.com/gdsfactory/gdsfactory/pull/3972)
 
 ## [9.8.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.8.1) - 2025-06-09
 
-No significant changes.
-
+- Loosen return type check in get_cross_section [#3971](https://github.com/gdsfactory/gdsfactory/pull/3971)
+- improve via_stack [#3969](https://github.com/gdsfactory/gdsfactory/pull/3969)
+- Fix get_cross_section [#3970](https://github.com/gdsfactory/gdsfactory/pull/3970)
 
 ## [9.8.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.8.0) - 2025-06-04
 
-No significant changes.
-
+- add tests for cli [#3962](https://github.com/gdsfactory/gdsfactory/pull/3962)
+- fix tests [#3957](https://github.com/gdsfactory/gdsfactory/pull/3957)
+- add tests for cli [#3962](https://github.com/gdsfactory/gdsfactory/pull/3962)
+- Widen Component function arguments [#3950](https://github.com/gdsfactory/gdsfactory/pull/3950)
+- Expose coupler ring length extension [#3964](https://github.com/gdsfactory/gdsfactory/pull/3964)
+- Update litho_ruler.py [#3953](https://github.com/gdsfactory/gdsfactory/pull/3953)
 
 ## [9.7.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.7.0) - 2025-05-27
 
-No significant changes.
-
+- add lvs equivalent port option [#3949](https://github.com/gdsfactory/gdsfactory/pull/3949)
 
 ## [9.6.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.6.1) - 2025-05-26
 
