@@ -113,7 +113,7 @@ instances:
       - o1
       - o2
       port_type: optical
-  straight_gdsfactorypcom_602f5a09_m30000_859000_A270:
+  straight_gdsfactorypcom_602f5a09_m30000_792000_A90:
     component: straight
     info:
       length: 67
@@ -127,7 +127,7 @@ instances:
       length: 67
       npoints: 2
       width: null
-  straight_gdsfactorypcom_602f5a09_m31000_97000_A270:
+  straight_gdsfactorypcom_602f5a09_m31000_30000_A90:
     component: straight
     info:
       length: 67
@@ -146,17 +146,17 @@ nets:
 - p1: bend_euler_gdsfactorypc_ecb0ec9a_0_889000_A180,o1
   p2: extend_ports_gdsfactory_a22b19de_0_0,o8
 - p1: bend_euler_gdsfactorypc_ecb0ec9a_0_889000_A180,o2
-  p2: straight_gdsfactorypcom_602f5a09_m30000_859000_A270,o1
+  p2: straight_gdsfactorypcom_602f5a09_m30000_792000_A90,o2
 - p1: bend_euler_gdsfactorypc_ecb0ec9a_m1000_127000_A180,o1
   p2: extend_ports_gdsfactory_a22b19de_0_0,o2
 - p1: bend_euler_gdsfactorypc_ecb0ec9a_m1000_127000_A180,o2
-  p2: straight_gdsfactorypcom_602f5a09_m31000_97000_A270,o1
+  p2: straight_gdsfactorypcom_602f5a09_m31000_30000_A90,o2
 - p1: bend_euler_gdsfactorypc_ecb0ec9a_m30000_792000_A270,o1
-  p2: straight_gdsfactorypcom_602f5a09_m30000_859000_A270,o2
+  p2: straight_gdsfactorypcom_602f5a09_m30000_792000_A90,o1
 - p1: bend_euler_gdsfactorypc_ecb0ec9a_m30000_792000_A270,o2
   p2: extend_ports_gdsfactory_a22b19de_0_0,o7
 - p1: bend_euler_gdsfactorypc_ecb0ec9a_m31000_30000_A270,o1
-  p2: straight_gdsfactorypcom_602f5a09_m31000_97000_A270,o2
+  p2: straight_gdsfactorypcom_602f5a09_m31000_30000_A90,o1
 - p1: bend_euler_gdsfactorypc_ecb0ec9a_m31000_30000_A270,o2
   p2: extend_ports_gdsfactory_a22b19de_0_0,o1
 placements:
@@ -185,16 +185,16 @@ placements:
     rotation: 0
     x: 0
     y: 0
-  straight_gdsfactorypcom_602f5a09_m30000_859000_A270:
+  straight_gdsfactorypcom_602f5a09_m30000_792000_A90:
     mirror: false
-    rotation: 270
+    rotation: 90
     x: -30
-    y: 859
-  straight_gdsfactorypcom_602f5a09_m31000_97000_A270:
+    y: 792
+  straight_gdsfactorypcom_602f5a09_m31000_30000_A90:
     mirror: false
-    rotation: 270
+    rotation: 90
     x: -31
-    y: 97
+    y: 30
 ports:
   '1': extend_ports_gdsfactory_a22b19de_0_0,0o2
   '11': extend_ports_gdsfactory_a22b19de_0_0,5o2

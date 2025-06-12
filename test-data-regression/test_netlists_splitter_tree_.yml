@@ -218,7 +218,7 @@ instances:
       width: null
       width_mmi: 2.5
       width_taper: 1
-  straight_gdsfactorypcom_94881c7f_25500_15000_A270:
+  straight_gdsfactorypcom_94881c7f_25500_10625_A90:
     component: straight
     info:
       length: 4.375
@@ -232,7 +232,7 @@ instances:
       length: 4.375
       npoints: 2
       width: null
-  straight_gdsfactorypcom_94881c7f_25500_m15000_A90:
+  straight_gdsfactorypcom_94881c7f_25500_m10625_A270:
     component: straight
     info:
       length: 4.375
@@ -277,21 +277,21 @@ instances:
 name: splitter_tree_gdsfactor_b6d59c93
 nets:
 - p1: bend_euler_gdsfactorypc_e95a7a4d_25500_10625_A270_M,o1
-  p2: straight_gdsfactorypcom_94881c7f_25500_15000_A270,o2
+  p2: straight_gdsfactorypcom_94881c7f_25500_10625_A90,o1
 - p1: bend_euler_gdsfactorypc_e95a7a4d_25500_10625_A270_M,o2
   p2: coupler_0_0,o2
 - p1: bend_euler_gdsfactorypc_e95a7a4d_25500_m10625_A90,o1
-  p2: straight_gdsfactorypcom_94881c7f_25500_m15000_A90,o2
+  p2: straight_gdsfactorypcom_94881c7f_25500_m10625_A270,o1
 - p1: bend_euler_gdsfactorypc_e95a7a4d_25500_m10625_A90,o2
   p2: coupler_0_0,o3
 - p1: bend_euler_gdsfactorypc_e95a7a4d_35500_25000_A180,o1
   p2: straight_gdsfactorypcom_eefd19f7_35500_25000,o1
 - p1: bend_euler_gdsfactorypc_e95a7a4d_35500_25000_A180,o2
-  p2: straight_gdsfactorypcom_94881c7f_25500_15000_A270,o1
+  p2: straight_gdsfactorypcom_94881c7f_25500_10625_A90,o2
 - p1: bend_euler_gdsfactorypc_e95a7a4d_35500_m25000_A180_M,o1
   p2: straight_gdsfactorypcom_eefd19f7_35500_m25000,o1
 - p1: bend_euler_gdsfactorypc_e95a7a4d_35500_m25000_A180_M,o2
-  p2: straight_gdsfactorypcom_94881c7f_25500_m15000_A90,o1
+  p2: straight_gdsfactorypcom_94881c7f_25500_m10625_A270,o2
 - p1: bend_s_gdsfactorypcompo_bd3e5121_105500_24375_M,o1
   p2: coupler_1_1,o3
 - p1: bend_s_gdsfactorypcompo_bd3e5121_105500_25625,o1
@@ -360,16 +360,16 @@ placements:
     rotation: 0
     x: 90
     y: 25
-  straight_gdsfactorypcom_94881c7f_25500_15000_A270:
-    mirror: false
-    rotation: 270
-    x: 25.5
-    y: 15
-  straight_gdsfactorypcom_94881c7f_25500_m15000_A90:
+  straight_gdsfactorypcom_94881c7f_25500_10625_A90:
     mirror: false
     rotation: 90
     x: 25.5
-    y: -15
+    y: 10.625
+  straight_gdsfactorypcom_94881c7f_25500_m10625_A270:
+    mirror: false
+    rotation: 270
+    x: 25.5
+    y: -10.625
   straight_gdsfactorypcom_eefd19f7_35500_25000:
     mirror: false
     rotation: 0

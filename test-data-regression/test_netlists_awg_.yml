@@ -507,7 +507,7 @@ instances:
       wg_width: 0.5
       width1: 10
       width2: 20
-  straight_gdsfactorypcom_09b87fdc_53250_29000_A270:
+  straight_gdsfactorypcom_09b87fdc_53250_20000_A90:
     component: straight
     info:
       length: 9
@@ -535,7 +535,7 @@ instances:
       length: 9
       npoints: 2
       width: 0.5
-  straight_gdsfactorypcom_1504ef4a_15417_33000:
+  straight_gdsfactorypcom_1504ef4a_34583_33000_A180:
     component: straight
     info:
       length: 19.166
@@ -549,7 +549,7 @@ instances:
       length: 19.166
       npoints: 2
       width: 0.5
-  straight_gdsfactorypcom_193ce81f_17583_31500:
+  straight_gdsfactorypcom_193ce81f_32417_31500_A180:
     component: straight
     info:
       length: 14.834
@@ -563,7 +563,7 @@ instances:
       length: 14.834
       npoints: 2
       width: 0.5
-  straight_gdsfactorypcom_27783c1e_42417_21500_A270:
+  straight_gdsfactorypcom_27783c1e_42417_20000_A90:
     component: straight
     info:
       length: 1.5
@@ -591,7 +591,7 @@ instances:
       length: 1.5
       npoints: 2
       width: 0.5
-  straight_gdsfactorypcom_3d0cd97c_51083_27500_A270:
+  straight_gdsfactorypcom_3d0cd97c_51083_20000_A90:
     component: straight
     info:
       length: 7.5
@@ -619,7 +619,7 @@ instances:
       length: 7.5
       npoints: 2
       width: 0.5
-  straight_gdsfactorypcom_5d7bad5d_59750_33500_A270:
+  straight_gdsfactorypcom_5d7bad5d_59750_20000_A90:
     component: straight
     info:
       length: 13.5
@@ -647,7 +647,7 @@ instances:
       length: 13.5
       npoints: 2
       width: 0.5
-  straight_gdsfactorypcom_67f97490_4583_40500:
+  straight_gdsfactorypcom_67f97490_45417_40500_A180:
     component: straight
     info:
       length: 40.834
@@ -675,7 +675,7 @@ instances:
       length: 6
       npoints: 2
       width: 0.5
-  straight_gdsfactorypcom_702d0d58_48917_26000_A270:
+  straight_gdsfactorypcom_702d0d58_48917_20000_A90:
     component: straight
     info:
       length: 6
@@ -689,7 +689,7 @@ instances:
       length: 6
       npoints: 2
       width: 0.5
-  straight_gdsfactorypcom_76e47883_44583_23000_A270:
+  straight_gdsfactorypcom_76e47883_44583_20000_A90:
     component: straight
     info:
       length: 3
@@ -717,7 +717,7 @@ instances:
       length: 3
       npoints: 2
       width: 0.5
-  straight_gdsfactorypcom_807addbc_8917_37500:
+  straight_gdsfactorypcom_807addbc_41083_37500_A180:
     component: straight
     info:
       length: 32.166
@@ -731,7 +731,7 @@ instances:
       length: 32.166
       npoints: 2
       width: 0.5
-  straight_gdsfactorypcom_827597b2_13250_34500:
+  straight_gdsfactorypcom_827597b2_36750_34500_A180:
     component: straight
     info:
       length: 23.5
@@ -745,7 +745,7 @@ instances:
       length: 23.5
       npoints: 2
       width: 0.5
-  straight_gdsfactorypcom_83262ea0_250_43500:
+  straight_gdsfactorypcom_83262ea0_49750_43500_A180:
     component: straight
     info:
       length: 49.5
@@ -759,7 +759,7 @@ instances:
       length: 49.5
       npoints: 2
       width: 0.5
-  straight_gdsfactorypcom_9630dc72_11083_36000:
+  straight_gdsfactorypcom_9630dc72_38917_36000_A180:
     component: straight
     info:
       length: 27.834
@@ -787,7 +787,7 @@ instances:
       length: 4.5
       npoints: 2
       width: 0.5
-  straight_gdsfactorypcom_99671446_46750_24500_A270:
+  straight_gdsfactorypcom_99671446_46750_20000_A90:
     component: straight
     info:
       length: 4.5
@@ -801,7 +801,7 @@ instances:
       length: 4.5
       npoints: 2
       width: 0.5
-  straight_gdsfactorypcom_bdf181a4_2417_42000:
+  straight_gdsfactorypcom_bdf181a4_47583_42000_A180:
     component: straight
     info:
       length: 45.166
@@ -815,7 +815,7 @@ instances:
       length: 45.166
       npoints: 2
       width: 0.5
-  straight_gdsfactorypcom_da623fc9_19750_30000:
+  straight_gdsfactorypcom_da623fc9_30250_30000_A180:
     component: straight
     info:
       length: 10.5
@@ -829,7 +829,7 @@ instances:
       length: 10.5
       npoints: 2
       width: 0.5
-  straight_gdsfactorypcom_da623fc9_55417_30500_A270:
+  straight_gdsfactorypcom_da623fc9_55417_20000_A90:
     component: straight
     info:
       length: 10.5
@@ -857,7 +857,7 @@ instances:
       length: 10.5
       npoints: 2
       width: 0.5
-  straight_gdsfactorypcom_da8cfc5e_6750_39000:
+  straight_gdsfactorypcom_da8cfc5e_43250_39000_A180:
     component: straight
     info:
       length: 36.5
@@ -871,7 +871,7 @@ instances:
       length: 36.5
       npoints: 2
       width: 0.5
-  straight_gdsfactorypcom_f3e780f9_57583_32000_A270:
+  straight_gdsfactorypcom_f3e780f9_57583_20000_A90:
     component: straight
     info:
       length: 12
@@ -904,83 +904,83 @@ nets:
 - p1: bend_euler_gdsfactorypc_af2c9296_1083_26000_A90_M,o1
   p2: straight_gdsfactorypcom_702d0d58_1083_26000_A270,o1
 - p1: bend_euler_gdsfactorypc_af2c9296_1083_26000_A90_M,o2
-  p2: straight_gdsfactorypcom_9630dc72_11083_36000,o1
+  p2: straight_gdsfactorypcom_9630dc72_38917_36000_A180,o2
 - p1: bend_euler_gdsfactorypc_af2c9296_30250_30000_M,o1
-  p2: straight_gdsfactorypcom_da623fc9_19750_30000,o2
+  p2: straight_gdsfactorypcom_da623fc9_30250_30000_A180,o1
 - p1: bend_euler_gdsfactorypc_af2c9296_30250_30000_M,o2
   p2: free_propagation_region_e953b677_50000_0_A90,E9
 - p1: bend_euler_gdsfactorypc_af2c9296_32417_31500_M,o1
-  p2: straight_gdsfactorypcom_193ce81f_17583_31500,o2
+  p2: straight_gdsfactorypcom_193ce81f_32417_31500_A180,o1
 - p1: bend_euler_gdsfactorypc_af2c9296_32417_31500_M,o2
-  p2: straight_gdsfactorypcom_27783c1e_42417_21500_A270,o1
+  p2: straight_gdsfactorypcom_27783c1e_42417_20000_A90,o2
 - p1: bend_euler_gdsfactorypc_af2c9296_3250_24500_A90_M,o1
   p2: straight_gdsfactorypcom_99671446_3250_24500_A270,o1
 - p1: bend_euler_gdsfactorypc_af2c9296_3250_24500_A90_M,o2
-  p2: straight_gdsfactorypcom_827597b2_13250_34500,o1
+  p2: straight_gdsfactorypcom_827597b2_36750_34500_A180,o2
 - p1: bend_euler_gdsfactorypc_af2c9296_34583_33000_M,o1
-  p2: straight_gdsfactorypcom_1504ef4a_15417_33000,o2
+  p2: straight_gdsfactorypcom_1504ef4a_34583_33000_A180,o1
 - p1: bend_euler_gdsfactorypc_af2c9296_34583_33000_M,o2
-  p2: straight_gdsfactorypcom_76e47883_44583_23000_A270,o1
+  p2: straight_gdsfactorypcom_76e47883_44583_20000_A90,o2
 - p1: bend_euler_gdsfactorypc_af2c9296_36750_34500_M,o1
-  p2: straight_gdsfactorypcom_827597b2_13250_34500,o2
+  p2: straight_gdsfactorypcom_827597b2_36750_34500_A180,o1
 - p1: bend_euler_gdsfactorypc_af2c9296_36750_34500_M,o2
-  p2: straight_gdsfactorypcom_99671446_46750_24500_A270,o1
+  p2: straight_gdsfactorypcom_99671446_46750_20000_A90,o2
 - p1: bend_euler_gdsfactorypc_af2c9296_38917_36000_M,o1
-  p2: straight_gdsfactorypcom_9630dc72_11083_36000,o2
+  p2: straight_gdsfactorypcom_9630dc72_38917_36000_A180,o1
 - p1: bend_euler_gdsfactorypc_af2c9296_38917_36000_M,o2
-  p2: straight_gdsfactorypcom_702d0d58_48917_26000_A270,o1
+  p2: straight_gdsfactorypcom_702d0d58_48917_20000_A90,o2
 - p1: bend_euler_gdsfactorypc_af2c9296_41083_37500_M,o1
-  p2: straight_gdsfactorypcom_807addbc_8917_37500,o2
+  p2: straight_gdsfactorypcom_807addbc_41083_37500_A180,o1
 - p1: bend_euler_gdsfactorypc_af2c9296_41083_37500_M,o2
-  p2: straight_gdsfactorypcom_3d0cd97c_51083_27500_A270,o1
+  p2: straight_gdsfactorypcom_3d0cd97c_51083_20000_A90,o2
 - p1: bend_euler_gdsfactorypc_af2c9296_43250_39000_M,o1
-  p2: straight_gdsfactorypcom_da8cfc5e_6750_39000,o2
+  p2: straight_gdsfactorypcom_da8cfc5e_43250_39000_A180,o1
 - p1: bend_euler_gdsfactorypc_af2c9296_43250_39000_M,o2
-  p2: straight_gdsfactorypcom_09b87fdc_53250_29000_A270,o1
+  p2: straight_gdsfactorypcom_09b87fdc_53250_20000_A90,o2
 - p1: bend_euler_gdsfactorypc_af2c9296_45417_40500_M,o1
-  p2: straight_gdsfactorypcom_67f97490_4583_40500,o2
+  p2: straight_gdsfactorypcom_67f97490_45417_40500_A180,o1
 - p1: bend_euler_gdsfactorypc_af2c9296_45417_40500_M,o2
-  p2: straight_gdsfactorypcom_da623fc9_55417_30500_A270,o1
+  p2: straight_gdsfactorypcom_da623fc9_55417_20000_A90,o2
 - p1: bend_euler_gdsfactorypc_af2c9296_47583_42000_M,o1
-  p2: straight_gdsfactorypcom_bdf181a4_2417_42000,o2
+  p2: straight_gdsfactorypcom_bdf181a4_47583_42000_A180,o1
 - p1: bend_euler_gdsfactorypc_af2c9296_47583_42000_M,o2
-  p2: straight_gdsfactorypcom_f3e780f9_57583_32000_A270,o1
+  p2: straight_gdsfactorypcom_f3e780f9_57583_20000_A90,o2
 - p1: bend_euler_gdsfactorypc_af2c9296_49750_43500_M,o1
-  p2: straight_gdsfactorypcom_83262ea0_250_43500,o2
+  p2: straight_gdsfactorypcom_83262ea0_49750_43500_A180,o1
 - p1: bend_euler_gdsfactorypc_af2c9296_49750_43500_M,o2
-  p2: straight_gdsfactorypcom_5d7bad5d_59750_33500_A270,o1
+  p2: straight_gdsfactorypcom_5d7bad5d_59750_20000_A90,o2
 - p1: bend_euler_gdsfactorypc_af2c9296_5417_23000_A90_M,o1
   p2: straight_gdsfactorypcom_76e47883_5417_23000_A270,o1
 - p1: bend_euler_gdsfactorypc_af2c9296_5417_23000_A90_M,o2
-  p2: straight_gdsfactorypcom_1504ef4a_15417_33000,o1
+  p2: straight_gdsfactorypcom_1504ef4a_34583_33000_A180,o2
 - p1: bend_euler_gdsfactorypc_af2c9296_7583_21500_A90_M,o1
   p2: straight_gdsfactorypcom_27783c1e_7583_21500_A270,o1
 - p1: bend_euler_gdsfactorypc_af2c9296_7583_21500_A90_M,o2
-  p2: straight_gdsfactorypcom_193ce81f_17583_31500,o1
+  p2: straight_gdsfactorypcom_193ce81f_32417_31500_A180,o2
 - p1: bend_euler_gdsfactorypc_af2c9296_9750_20000_A90_M,o1
   p2: free_propagation_region_5ff2a5ce_0_0_A90,E0
 - p1: bend_euler_gdsfactorypc_af2c9296_9750_20000_A90_M,o2
-  p2: straight_gdsfactorypcom_da623fc9_19750_30000,o1
+  p2: straight_gdsfactorypcom_da623fc9_30250_30000_A180,o2
 - p1: bend_euler_gdsfactorypc_af2c9296_m1083_27500_A90_M,o1
   p2: straight_gdsfactorypcom_3d0cd97c_m1083_27500_A270,o1
 - p1: bend_euler_gdsfactorypc_af2c9296_m1083_27500_A90_M,o2
-  p2: straight_gdsfactorypcom_807addbc_8917_37500,o1
+  p2: straight_gdsfactorypcom_807addbc_41083_37500_A180,o2
 - p1: bend_euler_gdsfactorypc_af2c9296_m3250_29000_A90_M,o1
   p2: straight_gdsfactorypcom_09b87fdc_m3250_29000_A270,o1
 - p1: bend_euler_gdsfactorypc_af2c9296_m3250_29000_A90_M,o2
-  p2: straight_gdsfactorypcom_da8cfc5e_6750_39000,o1
+  p2: straight_gdsfactorypcom_da8cfc5e_43250_39000_A180,o2
 - p1: bend_euler_gdsfactorypc_af2c9296_m5417_30500_A90_M,o1
   p2: straight_gdsfactorypcom_da623fc9_m5417_30500_A270,o1
 - p1: bend_euler_gdsfactorypc_af2c9296_m5417_30500_A90_M,o2
-  p2: straight_gdsfactorypcom_67f97490_4583_40500,o1
+  p2: straight_gdsfactorypcom_67f97490_45417_40500_A180,o2
 - p1: bend_euler_gdsfactorypc_af2c9296_m7583_32000_A90_M,o1
   p2: straight_gdsfactorypcom_f3e780f9_m7583_32000_A270,o1
 - p1: bend_euler_gdsfactorypc_af2c9296_m7583_32000_A90_M,o2
-  p2: straight_gdsfactorypcom_bdf181a4_2417_42000,o1
+  p2: straight_gdsfactorypcom_bdf181a4_47583_42000_A180,o2
 - p1: bend_euler_gdsfactorypc_af2c9296_m9750_33500_A90_M,o1
   p2: straight_gdsfactorypcom_5d7bad5d_m9750_33500_A270,o1
 - p1: bend_euler_gdsfactorypc_af2c9296_m9750_33500_A90_M,o2
-  p2: straight_gdsfactorypcom_83262ea0_250_43500,o1
+  p2: straight_gdsfactorypcom_83262ea0_49750_43500_A180,o2
 - p1: free_propagation_region_5ff2a5ce_0_0_A90,E1
   p2: straight_gdsfactorypcom_27783c1e_7583_21500_A270,o2
 - p1: free_propagation_region_5ff2a5ce_0_0_A90,E2
@@ -1000,23 +1000,23 @@ nets:
 - p1: free_propagation_region_5ff2a5ce_0_0_A90,E9
   p2: straight_gdsfactorypcom_5d7bad5d_m9750_33500_A270,o2
 - p1: free_propagation_region_e953b677_50000_0_A90,E0
-  p2: straight_gdsfactorypcom_5d7bad5d_59750_33500_A270,o2
+  p2: straight_gdsfactorypcom_5d7bad5d_59750_20000_A90,o1
 - p1: free_propagation_region_e953b677_50000_0_A90,E1
-  p2: straight_gdsfactorypcom_f3e780f9_57583_32000_A270,o2
+  p2: straight_gdsfactorypcom_f3e780f9_57583_20000_A90,o1
 - p1: free_propagation_region_e953b677_50000_0_A90,E2
-  p2: straight_gdsfactorypcom_da623fc9_55417_30500_A270,o2
+  p2: straight_gdsfactorypcom_da623fc9_55417_20000_A90,o1
 - p1: free_propagation_region_e953b677_50000_0_A90,E3
-  p2: straight_gdsfactorypcom_09b87fdc_53250_29000_A270,o2
+  p2: straight_gdsfactorypcom_09b87fdc_53250_20000_A90,o1
 - p1: free_propagation_region_e953b677_50000_0_A90,E4
-  p2: straight_gdsfactorypcom_3d0cd97c_51083_27500_A270,o2
+  p2: straight_gdsfactorypcom_3d0cd97c_51083_20000_A90,o1
 - p1: free_propagation_region_e953b677_50000_0_A90,E5
-  p2: straight_gdsfactorypcom_702d0d58_48917_26000_A270,o2
+  p2: straight_gdsfactorypcom_702d0d58_48917_20000_A90,o1
 - p1: free_propagation_region_e953b677_50000_0_A90,E6
-  p2: straight_gdsfactorypcom_99671446_46750_24500_A270,o2
+  p2: straight_gdsfactorypcom_99671446_46750_20000_A90,o1
 - p1: free_propagation_region_e953b677_50000_0_A90,E7
-  p2: straight_gdsfactorypcom_76e47883_44583_23000_A270,o2
+  p2: straight_gdsfactorypcom_76e47883_44583_20000_A90,o1
 - p1: free_propagation_region_e953b677_50000_0_A90,E8
-  p2: straight_gdsfactorypcom_27783c1e_42417_21500_A270,o2
+  p2: straight_gdsfactorypcom_27783c1e_42417_20000_A90,o1
 placements:
   bend_euler_gdsfactorypc_af2c9296_1083_26000_A90_M:
     mirror: true
@@ -1128,141 +1128,141 @@ placements:
     rotation: 90
     x: 50
     y: 0
-  straight_gdsfactorypcom_09b87fdc_53250_29000_A270:
+  straight_gdsfactorypcom_09b87fdc_53250_20000_A90:
     mirror: false
-    rotation: 270
+    rotation: 90
     x: 53.25
-    y: 29
+    y: 20
   straight_gdsfactorypcom_09b87fdc_m3250_29000_A270:
     mirror: false
     rotation: 270
     x: -3.25
     y: 29
-  straight_gdsfactorypcom_1504ef4a_15417_33000:
+  straight_gdsfactorypcom_1504ef4a_34583_33000_A180:
     mirror: false
-    rotation: 0
-    x: 15.417
+    rotation: 180
+    x: 34.583
     y: 33
-  straight_gdsfactorypcom_193ce81f_17583_31500:
+  straight_gdsfactorypcom_193ce81f_32417_31500_A180:
     mirror: false
-    rotation: 0
-    x: 17.583
+    rotation: 180
+    x: 32.417
     y: 31.5
-  straight_gdsfactorypcom_27783c1e_42417_21500_A270:
+  straight_gdsfactorypcom_27783c1e_42417_20000_A90:
     mirror: false
-    rotation: 270
+    rotation: 90
     x: 42.417
-    y: 21.5
+    y: 20
   straight_gdsfactorypcom_27783c1e_7583_21500_A270:
     mirror: false
     rotation: 270
     x: 7.583
     y: 21.5
-  straight_gdsfactorypcom_3d0cd97c_51083_27500_A270:
+  straight_gdsfactorypcom_3d0cd97c_51083_20000_A90:
     mirror: false
-    rotation: 270
+    rotation: 90
     x: 51.083
-    y: 27.5
+    y: 20
   straight_gdsfactorypcom_3d0cd97c_m1083_27500_A270:
     mirror: false
     rotation: 270
     x: -1.083
     y: 27.5
-  straight_gdsfactorypcom_5d7bad5d_59750_33500_A270:
+  straight_gdsfactorypcom_5d7bad5d_59750_20000_A90:
     mirror: false
-    rotation: 270
+    rotation: 90
     x: 59.75
-    y: 33.5
+    y: 20
   straight_gdsfactorypcom_5d7bad5d_m9750_33500_A270:
     mirror: false
     rotation: 270
     x: -9.75
     y: 33.5
-  straight_gdsfactorypcom_67f97490_4583_40500:
+  straight_gdsfactorypcom_67f97490_45417_40500_A180:
     mirror: false
-    rotation: 0
-    x: 4.583
+    rotation: 180
+    x: 45.417
     y: 40.5
   straight_gdsfactorypcom_702d0d58_1083_26000_A270:
     mirror: false
     rotation: 270
     x: 1.083
     y: 26
-  straight_gdsfactorypcom_702d0d58_48917_26000_A270:
+  straight_gdsfactorypcom_702d0d58_48917_20000_A90:
     mirror: false
-    rotation: 270
+    rotation: 90
     x: 48.917
-    y: 26
-  straight_gdsfactorypcom_76e47883_44583_23000_A270:
+    y: 20
+  straight_gdsfactorypcom_76e47883_44583_20000_A90:
     mirror: false
-    rotation: 270
+    rotation: 90
     x: 44.583
-    y: 23
+    y: 20
   straight_gdsfactorypcom_76e47883_5417_23000_A270:
     mirror: false
     rotation: 270
     x: 5.417
     y: 23
-  straight_gdsfactorypcom_807addbc_8917_37500:
+  straight_gdsfactorypcom_807addbc_41083_37500_A180:
     mirror: false
-    rotation: 0
-    x: 8.917
+    rotation: 180
+    x: 41.083
     y: 37.5
-  straight_gdsfactorypcom_827597b2_13250_34500:
+  straight_gdsfactorypcom_827597b2_36750_34500_A180:
     mirror: false
-    rotation: 0
-    x: 13.25
+    rotation: 180
+    x: 36.75
     y: 34.5
-  straight_gdsfactorypcom_83262ea0_250_43500:
+  straight_gdsfactorypcom_83262ea0_49750_43500_A180:
     mirror: false
-    rotation: 0
-    x: 0.25
+    rotation: 180
+    x: 49.75
     y: 43.5
-  straight_gdsfactorypcom_9630dc72_11083_36000:
+  straight_gdsfactorypcom_9630dc72_38917_36000_A180:
     mirror: false
-    rotation: 0
-    x: 11.083
+    rotation: 180
+    x: 38.917
     y: 36
   straight_gdsfactorypcom_99671446_3250_24500_A270:
     mirror: false
     rotation: 270
     x: 3.25
     y: 24.5
-  straight_gdsfactorypcom_99671446_46750_24500_A270:
+  straight_gdsfactorypcom_99671446_46750_20000_A90:
     mirror: false
-    rotation: 270
+    rotation: 90
     x: 46.75
-    y: 24.5
-  straight_gdsfactorypcom_bdf181a4_2417_42000:
+    y: 20
+  straight_gdsfactorypcom_bdf181a4_47583_42000_A180:
     mirror: false
-    rotation: 0
-    x: 2.417
+    rotation: 180
+    x: 47.583
     y: 42
-  straight_gdsfactorypcom_da623fc9_19750_30000:
+  straight_gdsfactorypcom_da623fc9_30250_30000_A180:
     mirror: false
-    rotation: 0
-    x: 19.75
+    rotation: 180
+    x: 30.25
     y: 30
-  straight_gdsfactorypcom_da623fc9_55417_30500_A270:
+  straight_gdsfactorypcom_da623fc9_55417_20000_A90:
     mirror: false
-    rotation: 270
+    rotation: 90
     x: 55.417
-    y: 30.5
+    y: 20
   straight_gdsfactorypcom_da623fc9_m5417_30500_A270:
     mirror: false
     rotation: 270
     x: -5.417
     y: 30.5
-  straight_gdsfactorypcom_da8cfc5e_6750_39000:
+  straight_gdsfactorypcom_da8cfc5e_43250_39000_A180:
     mirror: false
-    rotation: 0
-    x: 6.75
+    rotation: 180
+    x: 43.25
     y: 39
-  straight_gdsfactorypcom_f3e780f9_57583_32000_A270:
+  straight_gdsfactorypcom_f3e780f9_57583_20000_A90:
     mirror: false
-    rotation: 270
+    rotation: 90
     x: 57.583
-    y: 32
+    y: 20
   straight_gdsfactorypcom_f3e780f9_m7583_32000_A270:
     mirror: false
     rotation: 270
