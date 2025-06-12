@@ -26,6 +26,7 @@ from warnings import warn
 
 import numpy as np
 from kfactory import DKCell, LayerEnum
+from kfactory.kcell import AnyKCell
 
 from gdsfactory import Port, typings
 from gdsfactory.component import (
@@ -131,7 +132,7 @@ def get_instance_name_from_label(
 
 
 def _is_array_reference(ref: ComponentReference) -> bool:
-    return ref.na > 1 or ref.nb > 1
+    return hasattr(ref, "na") and (ref.na > 1 or ref.nb > 1)
 
 
 def _is_orthogonal_array_reference(ref: ComponentReference) -> bool:
@@ -231,7 +232,10 @@ def get_netlist(
             continue
 
         c = reference.cell
-        origin = reference.dtrans.disp
+        if hasattr(reference, "dtrans"):
+            origin = reference.dtrans.disp
+        else:
+            origin = reference.trans.disp
         x = origin.x
         y = origin.y
         reference_name = get_instance_name(reference)
@@ -546,16 +550,16 @@ def difference_between_angles(angle2: float, angle1: float) -> float:
     return diff
 
 
-def _get_references_to_netlist(component: DKCell) -> ComponentReferences:
+def _get_references_to_netlist(component: AnyKCell) -> ComponentReferences:
     return component.insts
 
 
 class GetNetlistFunc(Protocol):
-    def __call__(self, component: DKCell, **kwargs: Any) -> dict[str, Any]: ...
+    def __call__(self, component: AnyKCell, **kwargs: Any) -> dict[str, Any]: ...
 
 
 def get_netlist_recursive(
-    component: DKCell,
+    component: AnyKCell,
     component_suffix: str = "",
     get_netlist_func: GetNetlistFunc = get_netlist,  # type: ignore[assignment]
     get_instance_name: Callable[..., str] = get_instance_name_from_alias,
