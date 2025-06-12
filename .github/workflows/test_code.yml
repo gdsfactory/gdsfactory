@@ -82,19 +82,19 @@ jobs:
       - run: make install
       - run: uv run mypy gdsfactory/
 
-  # run-ty:
-  #   runs-on: ${{ matrix.os }}
-  #   strategy:
-  #     matrix:
-  #       python-version:
-  #         - "3.11"
-  #         - "3.13"
-  #       os: [ubuntu-latest]
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - uses: astral-sh/setup-uv@v6
-  #     - name: Install dependencies
-  #       run: |
-  #         uv sync --extra dev
-  #     - name: Run ty check
-  #       run: uv run ty check gdsfactory || true
+  run-ty:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        python-version:
+          - "3.11"
+          - "3.13"
+        os: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - name: Install dependencies
+        run: |
+          uv sync --extra dev
+      - name: Run ty check
+        run: uv run ty check gdsfactory || true
