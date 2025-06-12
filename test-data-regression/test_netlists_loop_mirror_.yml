@@ -122,7 +122,7 @@ instances:
       length: 20
       npoints: 2
       width: null
-  straight_gdsfactorypcom_b215014a_45500_m9375_A270:
+  straight_gdsfactorypcom_b215014a_45500_m10625_A90:
     component: straight
     info:
       length: 1.25
@@ -145,11 +145,11 @@ nets:
 - p1: bend_euler_gdsfactorypc_c35a91db_35500_625_M,o1
   p2: straight_gdsfactorypcom_31a8c163_35500_625_A180,o1
 - p1: bend_euler_gdsfactorypc_c35a91db_35500_625_M,o2
-  p2: straight_gdsfactorypcom_b215014a_45500_m9375_A270,o1
+  p2: straight_gdsfactorypcom_b215014a_45500_m10625_A90,o2
 - p1: bend_euler_gdsfactorypc_c35a91db_35500_m20625_A180_M,o1
   p2: bend_euler_gdsfactorypc_c35a91db_45500_m10625_A270_M,o2
 - p1: bend_euler_gdsfactorypc_c35a91db_45500_m10625_A270_M,o1
-  p2: straight_gdsfactorypcom_b215014a_45500_m9375_A270,o2
+  p2: straight_gdsfactorypcom_b215014a_45500_m10625_A90,o1
 - p1: mmi1x2_gdsfactorypcompo_1f097353_0_0,o2
   p2: straight_gdsfactorypcom_31a8c163_35500_625_A180,o2
 placements:
@@ -183,10 +183,10 @@ placements:
     rotation: 180
     x: 35.5
     y: 0.625
-  straight_gdsfactorypcom_b215014a_45500_m9375_A270:
+  straight_gdsfactorypcom_b215014a_45500_m10625_A90:
     mirror: false
-    rotation: 270
+    rotation: 90
     x: 45.5
-    y: -9.375
+    y: -10.625
 ports:
   o1: mmi1x2_gdsfactorypcompo_1f097353_0_0,o1
