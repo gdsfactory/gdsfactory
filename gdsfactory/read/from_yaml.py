@@ -63,7 +63,7 @@ import yaml
 
 from gdsfactory import typings
 from gdsfactory.add_pins import add_instance_label
-from gdsfactory.component import Component, ComponentAllAngle, ComponentReference
+from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.schematic import (
     Bundle,
     GridArray,
@@ -72,13 +72,10 @@ from gdsfactory.schematic import (
     Placement,
 )
 from gdsfactory.schematic import Instance as NetlistInstance
-from gdsfactory.typings import LayerSpec, Route, RoutingStrategies
+from gdsfactory.typings import InstanceOrVInstance, LayerSpec, Route, RoutingStrategies
 
 if TYPE_CHECKING:
     from gdsfactory.pdk import Pdk
-
-
-InstanceOrVInstance = ComponentReference | kf.VInstance
 
 
 class LabelInstanceFunction(Protocol):
@@ -570,7 +567,7 @@ def make_connection(
     if src_ia is None or src_ib is None:
         src_port = instance_src.ports[port_src_name]
     else:
-        src_port = instance_src.ports[port_src_name, src_ia, src_ib]
+        src_port = instance_src.ports[port_src_name, src_ia, src_ib]  # type: ignore[index]
 
     # if dst_ia is None or dst_ib is None:
     #     instance_src.connect(port=src_port, other=instance_dst, other_port_name=port_dst_name, use_mirror=True, mirror=True)
@@ -581,7 +578,7 @@ def make_connection(
     if dst_ia is None or dst_ib is None:
         dst_port = instance_dst.ports[port_dst_name]
     else:
-        dst_port = instance_dst.ports[port_dst_name, dst_ia, dst_ib]
+        dst_port = instance_dst.ports[port_dst_name, dst_ia, dst_ib]  # type: ignore[index]
     instance_src.connect(port=src_port, other=dst_port, use_mirror=True, mirror=False)
 
 
@@ -962,9 +959,9 @@ def _place_and_connect(
                         raise ValueError(f"{i!r} not in {list(refs)}")
 
                 if i1a is not None and i1b is not None:
-                    port1 = refs[i1name].ports[p1, i1a, i1b]
+                    port1 = refs[i1name].ports[p1, i1a, i1b]  # type: ignore[index]
                     if i2a is not None and i2b is not None:
-                        refs[i1name].connect(port1, refs[i2name].ports[p2, i2a, i2b])
+                        refs[i1name].connect(port1, refs[i2name].ports[p2, i2a, i2b])  # type: ignore[index]
                     else:
                         if i2 not in refs:
                             raise ValueError(f"{i2!r} not in {list(refs)}")
@@ -975,7 +972,9 @@ def _place_and_connect(
                         if i1 not in refs:
                             raise ValueError(f"{i1!r} not in {list(refs)}")
                         refs[i1].connect(
-                            p1, other=refs[i2name], other_port_name=(p2, i2a, i2b)
+                            p1,
+                            other=refs[i2name],  # type: ignore[arg-type]
+                            other_port_name=(p2, i2a, i2b),
                         )
                     else:
                         if i1 not in refs:
@@ -1308,7 +1307,7 @@ def _get_ports_from_portnames(
             raise ValueError(
                 f"{p!r} not in {i!r} available ports: {[p.name for p in ref.ports]}"
             )
-        port = ref.ports[p] if (ia is None or ib is None) else ref.ports[p, ia, ib]
+        port = ref.ports[p] if (ia is None or ib is None) else ref.ports[p, ia, ib]  # type: ignore[index]
         ports.append(port)
     return ports
 
