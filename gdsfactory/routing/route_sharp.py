@@ -383,8 +383,6 @@ def route_sharp(
         if layer is None:
             raise ValueError("layer is required for width")
         d = p.extrude(width=width, layer=layer)
-        if not isinstance(width, CrossSection):
-            raise NotImplementedError("TODO")
 
     component << d
 
