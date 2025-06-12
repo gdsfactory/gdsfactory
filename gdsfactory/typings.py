@@ -200,6 +200,7 @@ PostProcess: TypeAlias = (
 PostProcesses: TypeAlias = Sequence[PostProcess]
 
 Instance: TypeAlias = component.ComponentReference
+InstanceOrVInstance: TypeAlias = component.ComponentReference | kf.VInstance
 ComponentOrPath: TypeAlias = PathType | component.Component
 ComponentOrReference: TypeAlias = component.Component | component.ComponentReference
 NameToFunctionDict: TypeAlias = dict[str, ComponentFactory]

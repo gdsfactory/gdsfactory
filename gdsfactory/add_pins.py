@@ -26,6 +26,7 @@ from gdsfactory.component import Component, ComponentReference, container
 from gdsfactory.config import CONF
 from gdsfactory.port import select_ports
 from gdsfactory.serialization import convert_tuples_to_lists
+from gdsfactory.typings import InstanceOrVInstance
 
 nm = 1e-3
 
@@ -483,7 +484,7 @@ def add_settings_label(
 
 def add_instance_label(
     component: Component,
-    reference: ComponentReference,
+    reference: InstanceOrVInstance,
     layer: typings.LayerSpec | None = None,
     instance_name: str | None = None,
 ) -> None:
