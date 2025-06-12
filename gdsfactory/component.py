@@ -438,6 +438,22 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         assert isinstance(res, dict)
         return res
 
+    def get_netlist(self, recursive: bool = False, **kwargs: Any) -> dict[str, Any]:
+        """Returns a place-aware netlist for circuit simulation.
+
+        It includes not only the connectivity information (nodes and connections) but also the specific placement coordinates for each component or cell in the layout.
+
+        Args:
+            recursive: if True, returns a recursive netlist.
+            kwargs: keyword arguments to get_netlist.
+        """
+        from gdsfactory.get_netlist import get_netlist, get_netlist_recursive
+
+        if recursive:
+            return get_netlist_recursive(self, **kwargs)
+
+        return get_netlist(self, **kwargs)
+
 
 Route: TypeAlias = (
     kf.routing.generic.ManhattanRoute | kf.routing.aa.optical.OpticalAllAngleRoute
@@ -1012,22 +1028,6 @@ class Component(ComponentBase, kf.DKCell):
         )  # Remove any padding
         plt.tight_layout(pad=0)  # Ensure no space is wasted
         return fig if return_fig else None
-
-    def get_netlist(self, recursive: bool = False, **kwargs: Any) -> dict[str, Any]:
-        """Returns a place-aware netlist for circuit simulation.
-
-        It includes not only the connectivity information (nodes and connections) but also the specific placement coordinates for each component or cell in the layout.
-
-        Args:
-            recursive: if True, returns a recursive netlist.
-            kwargs: keyword arguments to get_netlist.
-        """
-        from gdsfactory.get_netlist import get_netlist, get_netlist_recursive
-
-        if recursive:
-            return get_netlist_recursive(self, **kwargs)
-
-        return get_netlist(self, **kwargs)
 
     def plot_netlist(
         self,
