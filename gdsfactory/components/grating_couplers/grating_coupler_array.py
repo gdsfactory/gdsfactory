@@ -4,6 +4,7 @@ import kfactory as kf
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
@@ -77,6 +78,9 @@ def grating_coupler_array(
             ]
         )
         d_loop = c.kcl.to_dbu(d_loop_um) + radius_dbu
+
+        port0 = add_auto_tapers(c, [port0], cross_section)[0]
+        port1 = add_auto_tapers(c, [port1], cross_section)[0]
         waypoints = kf.routing.optical.route_loopback(
             port0.to_itype(),
             port1.to_itype(),
