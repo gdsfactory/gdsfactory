@@ -192,19 +192,19 @@ def pack(
 
     # Convert Components to rectangles
     rect_dict: dict[int, tuple[float, float]] = {}
-    for n, D in enumerate(components):
-        size = np.array([D.xsize, D.ysize])
+    for n, _component in enumerate(components):
+        size = np.array([_component.xsize, _component.ysize])
         w: float = int((size[0] + spacing) / precision)
         h: float = int((size[1] + spacing) / precision)
         if w > max_size_tuple[0]:
             raise ValueError(
-                f"pack() failed because Component {D.name!r} has x dimension "
+                f"pack() failed because Component {_component.name!r} has x dimension "
                 "larger than `max_size` and cannot be packed.\n"
                 f"xsize = {size[0]}, max_xsize = {int(precision * w)}"
             )
         elif h > max_size_tuple[1]:
             raise ValueError(
-                f"pack() failed because Component {D.name!r} has y dimension "
+                f"pack() failed because Component {_component.name!r} has y dimension "
                 "larger than `max_size` and cannot be packed.\n"
                 f"ysize = {size[1]}, max_ysize = {int(precision * h)}"
             )
@@ -240,7 +240,10 @@ def pack(
 
             xcenter = x + w / 2 + spacing / 2
             ycenter = y + h / 2 + spacing / 2
-            d = packed << component
+            if isinstance(component, gf.ComponentAllAngle):
+                d = packed.create_vinst(component)
+            else:
+                d = packed << component
             if rotation:
                 d.rotate(rotation)
             if h_mirror:
