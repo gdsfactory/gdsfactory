@@ -1,7 +1,21 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.8.2...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.8.4...main)
 
 <!-- towncrier release notes start -->
+
+## [9.8.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.8.4) - 2025-06-13
+
+- allow packing virtual cells [#3986](https://github.com/gdsfactory/gdsfactory/pull/3986)
+
+## [9.8.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.8.3) - 2025-06-12
+
+- fix netlist-tests [#3983](https://github.com/gdsfactory/gdsfactory/pull/3983)
+- Update kfactory and fix tests for kf 1.8 [#3982](https://github.com/gdsfactory/gdsfactory/pull/3982)
+- fix grating_coupler_array when the routing cross section does not match ports [#3977](https://github.com/gdsfactory/gdsfactory/pull/3977)
+- Remove notimplemented error [#3980](https://github.com/gdsfactory/gdsfactory/pull/3980)
+- update kfactory to 1.8 and fix types [#3974](https://github.com/gdsfactory/gdsfactory/pull/3974)
+- enable `get_netlist` for `ComponentAllAngle` [#3976](https://github.com/gdsfactory/gdsfactory/pull/3976)
+- update kfactory to 1.8 and fix types [#3974](https://github.com/gdsfactory/gdsfactory/pull/3974)
 
 ## [9.8.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.8.2) - 2025-06-11
 

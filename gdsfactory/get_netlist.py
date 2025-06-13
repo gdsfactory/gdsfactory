@@ -25,8 +25,8 @@ from typing import Any, Protocol
 from warnings import warn
 
 import numpy as np
-from kfactory import DKCell, LayerEnum
-from kfactory.kcell import AnyKCell
+from kfactory import LayerEnum
+from kfactory.kcell import AnyKCell, TKCell
 
 from gdsfactory import Port, typings
 from gdsfactory.component import (
@@ -182,7 +182,7 @@ def _has_ports_on_same_location(reference: ComponentReference) -> bool:
 
 
 def get_netlist(
-    component: DKCell,
+    component: AnyKCell | TKCell,
     exclude_port_types: Sequence[str] | None = ("placement", "pad", "bump"),
     get_instance_name: Callable[..., str] = get_instance_name_from_alias,
     allow_multiple: bool = True,
@@ -216,6 +216,11 @@ def get_netlist(
         warnings: warning messages (disconnected pins).
 
     """
+    if isinstance(component, TKCell):
+        component_ = Component(base=component)
+    else:
+        component_ = Component(base=component.base)
+
     placements: dict[str, dict[str, Any]] = {}
     instances: dict[str, dict[str, Any]] = {}
     nets: list[dict[str, Any]] = []
@@ -225,11 +230,11 @@ def get_netlist(
     name2port: dict[str, typings.Port] = {}
 
     # TOP level ports
-    ports = component.ports
+    ports = component_.ports
     ports_by_type: defaultdict[str, list[str]] = defaultdict(list)
     top_ports_list: set[str] = set()
 
-    references = _get_references_to_netlist(component)
+    references = _get_references_to_netlist(component_)
 
     for reference in references:
         # Skip references with ports on the same location
@@ -237,10 +242,7 @@ def get_netlist(
             continue
 
         c = reference.cell
-        if hasattr(reference, "dtrans"):
-            origin = reference.dtrans.disp
-        else:
-            origin = reference.trans.disp
+        origin = reference.dcplx_trans.disp
         x = origin.x
         y = origin.y
         reference_name = get_instance_name(reference)
@@ -342,7 +344,7 @@ def get_netlist(
         "instances": instances_sorted,
         "placements": placements_sorted,
         "ports": top_ports,
-        "name": component.name,
+        "name": component_.name,
     }
     if warnings:
         netlist["warnings"] = warnings
@@ -556,7 +558,7 @@ def difference_between_angles(angle2: float, angle1: float) -> float:
 
 
 def _get_references_to_netlist(component: AnyKCell) -> ComponentReferences:
-    return component.insts
+    return Component(base=component.base).insts
 
 
 class GetNetlistFunc(Protocol):
