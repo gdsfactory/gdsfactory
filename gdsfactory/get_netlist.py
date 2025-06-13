@@ -132,7 +132,12 @@ def get_instance_name_from_label(
 
 
 def _is_array_reference(ref: ComponentReference) -> bool:
-    return hasattr(ref, "na") and (ref.na > 1 or ref.nb > 1)
+    # Direct attribute access is much faster than hasattr(),
+    # and in the common case (attributes present) the try branch is very fast.
+    try:
+        return ref.na > 1 or ref.nb > 1
+    except AttributeError:
+        return False
 
 
 def _is_orthogonal_array_reference(ref: ComponentReference) -> bool:
