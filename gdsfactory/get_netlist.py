@@ -32,7 +32,6 @@ from gdsfactory import Port, typings
 from gdsfactory.component import (
     Component,
     ComponentReference,
-    ComponentReferences,
 )
 from gdsfactory.name import clean_name
 from gdsfactory.serialization import clean_dict, clean_value_json
@@ -265,11 +264,12 @@ def get_netlist(
             )
 
         instances[reference_name] = instance
+
         placements[reference_name] = {
             "x": x,
             "y": y,
             "rotation": reference.dcplx_trans.angle,
-            "mirror": reference.dtrans.mirror,
+            "mirror": reference.dcplx_trans.mirror,
         }
 
         if _is_array_reference(reference):
@@ -557,8 +557,12 @@ def difference_between_angles(angle2: float, angle1: float) -> float:
     return diff
 
 
-def _get_references_to_netlist(component: AnyKCell) -> ComponentReferences:
-    return Component(base=component.base).insts
+def _get_references_to_netlist(component: AnyKCell) -> list[Any]:
+    as_component = Component(base=component.base)
+    insts = as_component.insts
+    vinsts = as_component.vinsts
+    all_insts = list(insts) + list(vinsts)
+    return all_insts
 
 
 class GetNetlistFunc(Protocol):
