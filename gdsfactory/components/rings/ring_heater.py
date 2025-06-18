@@ -25,6 +25,7 @@ def ring_double_heater(
     via_stack: ComponentSpec = "via_stack_heater_mtop_mini",
     port_orientation: AngleInDegrees | None = None,
     via_stack_offset: Float2 = (1, 0),
+    via_stack_size: Float2 | None = None,
     with_drop: bool = True,
     length_extension: float = 3.0,
 ) -> Component:
@@ -49,6 +50,7 @@ def ring_double_heater(
         cross_section: for regular waveguide.
         via_stack: for heater to routing metal.
         port_orientation: for electrical ports to promote from via_stack.
+        via_stack_size: size of via_stack.
         via_stack_offset: x,y offset for via_stack.
         with_drop: adds drop ports.
         length_extension: straight length extension at the end of the coupler bottom ports.
@@ -154,7 +156,12 @@ def ring_double_heater(
         sr.connect(port="o1", other=br.ports["o1"])
         sr.connect(port="o2", other=cb.ports["o3"])
 
-    via = gf.get_component(via_stack)
+    if via_stack_size:
+        via = gf.get_component(via_stack, size=via_stack_size)
+
+    else:
+        via = gf.get_component(via_stack)
+
     c1 = c << via
     c2 = c << via
     c1.xmax = -length_x / 2 + cb.x - via_stack_offset[0]
