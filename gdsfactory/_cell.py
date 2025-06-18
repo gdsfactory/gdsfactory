@@ -115,7 +115,6 @@ def cell(
         tags=tags,
         lvs_equivalent_ports=lvs_equivalent_ports,
     )
-    c.is_gf_cell = True
     return c  # type: ignore[no-any-return]
 
 
@@ -174,7 +173,6 @@ def vcell(
         drop_params=list(drop_params),
         register_factory=register_factory,
     )
-    vc.is_gf_vcell = True
     return vc  # type: ignore[no-any-return]
 
 

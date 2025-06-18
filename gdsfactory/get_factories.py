@@ -88,13 +88,7 @@ def is_cell(
         if ignore_underscored and name.startswith("_"):
             return False
 
-        # Fast attribute check
-        is_cell_attr = getattr(func, "is_gf_cell", None)
-
         if func in kf.kcl.virtual_factories.values():
-            return True
-
-        if is_cell_attr:
             return True
 
         if not ignore_non_decorated:
