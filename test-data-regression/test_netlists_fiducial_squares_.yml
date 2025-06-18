@@ -1,12 +1,10 @@
 instances:
-  rectangle_gdsfactorypco_68f8d919_0_0:
+  rectangle_gdsfactorypco_8a1fdb9b_0_0:
     component: rectangle
     info: {}
     settings:
       centered: false
-      layer:
-      - 1
-      - 0
+      layer: WG
       port_orientations:
       - 180
       - 90
@@ -16,14 +14,12 @@ instances:
       size:
       - 5
       - 5
-  rectangle_gdsfactorypco_68f8d919_m5140_m5140:
+  rectangle_gdsfactorypco_8a1fdb9b_m5140_m5140:
     component: rectangle
     info: {}
     settings:
       centered: false
-      layer:
-      - 1
-      - 0
+      layer: WG
       port_orientations:
       - 180
       - 90
@@ -33,15 +29,15 @@ instances:
       size:
       - 5
       - 5
-name: fiducial_squares_gdsfac_8cf4f5ad
+name: fiducial_squares_gdsfac_9aab5a27
 nets: []
 placements:
-  rectangle_gdsfactorypco_68f8d919_0_0:
+  rectangle_gdsfactorypco_8a1fdb9b_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  rectangle_gdsfactorypco_68f8d919_m5140_m5140:
+  rectangle_gdsfactorypco_8a1fdb9b_m5140_m5140:
     mirror: false
     rotation: 0
     x: -5.14
@@ -52,14 +48,14 @@ warnings:
     unconnected_ports:
     - message: 8 unconnected electrical ports!
       ports:
-      - rectangle_gdsfactorypco_68f8d919_0_0,e1
-      - rectangle_gdsfactorypco_68f8d919_0_0,e2
-      - rectangle_gdsfactorypco_68f8d919_0_0,e3
-      - rectangle_gdsfactorypco_68f8d919_0_0,e4
-      - rectangle_gdsfactorypco_68f8d919_m5140_m5140,e1
-      - rectangle_gdsfactorypco_68f8d919_m5140_m5140,e2
-      - rectangle_gdsfactorypco_68f8d919_m5140_m5140,e3
-      - rectangle_gdsfactorypco_68f8d919_m5140_m5140,e4
+      - rectangle_gdsfactorypco_8a1fdb9b_0_0,e1
+      - rectangle_gdsfactorypco_8a1fdb9b_0_0,e2
+      - rectangle_gdsfactorypco_8a1fdb9b_0_0,e3
+      - rectangle_gdsfactorypco_8a1fdb9b_0_0,e4
+      - rectangle_gdsfactorypco_8a1fdb9b_m5140_m5140,e1
+      - rectangle_gdsfactorypco_8a1fdb9b_m5140_m5140,e2
+      - rectangle_gdsfactorypco_8a1fdb9b_m5140_m5140,e3
+      - rectangle_gdsfactorypco_8a1fdb9b_m5140_m5140,e4
       values:
       - - 0
         - 2.5

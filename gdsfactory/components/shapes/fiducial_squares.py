@@ -3,12 +3,12 @@ from __future__ import annotations
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.typings import Float2, Layers
+from gdsfactory.typings import Float2, LayerSpecs
 
 
 @gf.cell_with_module_name
 def fiducial_squares(
-    layers: Layers = ((1, 0),), size: Float2 = (5, 5), offset: float = 0.14
+    layers: LayerSpecs = ("WG",), size: Float2 = (5, 5), offset: float = 0.14
 ) -> gf.Component:
     """Returns fiducials with two squares.
 
