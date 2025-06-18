@@ -1,12 +1,16 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.8.4...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.9.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.9.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.9.0) - 2025-06-18
 
-No significant changes.
-
+- add via stack size to ring heater [#3995](https://github.com/gdsfactory/gdsfactory/pull/3995)
+- Center and fix fiducial squares when offset is an int [#3999](https://github.com/gdsfactory/gdsfactory/pull/3999)
+- fix hidden transition [#3994](https://github.com/gdsfactory/gdsfactory/pull/3994)
+- Expose show as an argument to gds-diff in CLI [#3989](https://github.com/gdsfactory/gdsfactory/pull/3989)
+- Replace usage of Layers by LayerSpecs in fiducial_squares [#3990](https://github.com/gdsfactory/gdsfactory/pull/3990)
+- ⚡️ Speed up function `_is_array_reference` by 25% in PR #3976 (`get-netlist-all-angle`) [#3984](https://github.com/gdsfactory/gdsfactory/pull/3984)
 
 ## [9.8.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.8.4) - 2025-06-13
 
