@@ -8,7 +8,7 @@ from gdsfactory.typings import Float2, LayerSpecs
 
 @gf.cell_with_module_name
 def fiducial_squares(
-    layers: LayerSpecs = ("WG",), size: Float2 = (5, 5), offset: float = 0.14
+    layers: LayerSpecs = ("WG",), size: Float2 = (5, 5), offset: float = 1
 ) -> gf.Component:
     """Returns fiducials with two squares.
 
@@ -18,12 +18,16 @@ def fiducial_squares(
         offset: in um.
     """
     c = gf.Component()
-    for layer in layers:
-        r = c << gf.c.rectangle(size=size, layer=layer)
+
+    dx, dy = (np.array(size) + np.array([offset, offset])) / 2
 
     for layer in layers:
-        r = c << gf.c.rectangle(size=size, layer=layer)
-        r.move(-np.array(size) - np.array([offset, offset]))
+        r = c << gf.c.rectangle(size=size, layer=layer, centered=True)
+        r.move((dx, dy))
+
+    for layer in layers:
+        r = c << gf.c.rectangle(size=size, layer=layer, centered=True)
+        r.move((-dx, -dy))
 
     return c
 
