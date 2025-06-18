@@ -13,17 +13,21 @@ def fiducial_squares(
     """Returns fiducials with two squares.
 
     Args:
-        layers: list of layers.
-        size: in um.
-        offset: in um.
+        layers: list of layers to draw the squares.
+        size: size of each square in um.
+        offset: space between squares in x and y.
     """
     c = gf.Component()
-    for layer in layers:
-        r = c << gf.c.rectangle(size=size, layer=layer)
+
+    dx, dy = (np.array(size) + np.array([offset, offset])) / 2
 
     for layer in layers:
-        r = c << gf.c.rectangle(size=size, layer=layer)
-        r.move(-np.array(size) - np.array([offset, offset]))
+        r = c << gf.c.rectangle(size=size, layer=layer, centered=True)
+        r.move((dx, dy))
+
+    for layer in layers:
+        r = c << gf.c.rectangle(size=size, layer=layer, centered=True)
+        r.move((-dx, -dy))
 
     return c
 
