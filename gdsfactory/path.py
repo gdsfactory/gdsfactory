@@ -1244,7 +1244,7 @@ def extrude_transition(p: Path, transition: Transition) -> Component:
             layer2 = get_layer(section2.layer)
             layers = [layer1, layer2]
         else:
-            hidden = False
+            hidden = section1.hidden
             layer = get_layer(section1.layer)
             layers = [layer, layer]
 
