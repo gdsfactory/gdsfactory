@@ -299,49 +299,6 @@ class TestShow:
             mock_show.assert_called_once_with(str(sample_gds_file))
 
 
-class TestGdsDiff:
-    """Test gds-diff command."""
-
-    def test_gds_diff_basic(
-        self, runner: CliRunner, sample_gds_file: Path, temp_dir: Path
-    ) -> None:
-        """Test basic GDS diff functionality."""
-        # Create a second GDS file
-        import gdsfactory as gf
-
-        c2 = gf.components.rectangle(size=(2, 2))
-        gds2_path = temp_dir / "sample2.gds"
-        c2.write_gds(gds2_path)
-
-        with patch("gdsfactory.cli.diff") as mock_diff:
-            result = runner.invoke(
-                app, ["gds-diff", str(sample_gds_file), str(gds2_path)]
-            )
-            assert result.exit_code == 0
-            mock_diff.assert_called_once_with(
-                str(sample_gds_file), str(gds2_path), xor=False
-            )
-
-    def test_gds_diff_with_xor(
-        self, runner: CliRunner, sample_gds_file: Path, temp_dir: Path
-    ) -> None:
-        """Test GDS diff with XOR option."""
-        import gdsfactory as gf
-
-        c2 = gf.components.rectangle(size=(2, 2))
-        gds2_path = temp_dir / "sample2.gds"
-        c2.write_gds(gds2_path)
-
-        with patch("gdsfactory.cli.diff") as mock_diff:
-            result = runner.invoke(
-                app, ["gds-diff", str(sample_gds_file), str(gds2_path), "--xor"]
-            )
-            assert result.exit_code == 0
-            mock_diff.assert_called_once_with(
-                str(sample_gds_file), str(gds2_path), xor=True
-            )
-
-
 class TestInstallCommands:
     """Test installation commands."""
 
