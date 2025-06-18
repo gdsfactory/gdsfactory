@@ -181,6 +181,7 @@ def extend_ports(
                     cross_section_extension = cross_section or cross_section_function(
                         layer=gf.get_layer_tuple(port.layer),
                         width=port.width,
+                        port_types=(port_type, port_type),
                     )
 
                 extension_component = gf.components.straight(
