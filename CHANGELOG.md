@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.9.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.9.0) - 2025-06-18
+
+No significant changes.
+
+
 ## [9.8.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.8.4) - 2025-06-13
 
 - allow packing virtual cells [#3986](https://github.com/gdsfactory/gdsfactory/pull/3986)
