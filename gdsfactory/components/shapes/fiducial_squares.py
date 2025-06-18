@@ -8,14 +8,14 @@ from gdsfactory.typings import Float2, LayerSpecs
 
 @gf.cell_with_module_name
 def fiducial_squares(
-    layers: LayerSpecs = ("WG",), size: Float2 = (5, 5), offset: float = 1
+    layers: LayerSpecs = ("WG",), size: Float2 = (5, 5), offset: float = 0.14
 ) -> gf.Component:
     """Returns fiducials with two squares.
 
     Args:
-        layers: list of layers.
-        size: in um.
-        offset: in um.
+        layers: list of layers to draw the squares.
+        size: size of each square in um.
+        offset: space between squares in x and y.
     """
     c = gf.Component()
 
