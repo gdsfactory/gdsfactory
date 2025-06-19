@@ -1,9 +1,8 @@
 info: {}
-name: fiducial_squares_gdsfac_8cf4f5ad
+name: fiducial_squares_gdsfac_9aab5a27
 settings:
   layers:
-  - - 1
-    - 0
+  - WG
   offset: 0.14
   size:
   - 5

@@ -82,7 +82,7 @@ def cell(
     | Callable[[ComponentFunc[ComponentParams]], ComponentFunc[ComponentParams]]
 ):
     """Decorator to convert a function into a Component."""
-    from gdsfactory import component
+    from gdsfactory.component import Component
 
     if with_module_name and _func is not None:
         mod = _func.__module__
@@ -96,7 +96,7 @@ def cell(
         post_process = []
     c = _cell(  # type: ignore[call-overload,misc]
         _func,
-        output_type=component.Component,
+        output_type=Component,
         set_settings=set_settings,
         set_name=set_name,
         check_ports=check_ports,
@@ -165,6 +165,8 @@ def vcell(
         [ComponentAllAngleFunc[ComponentParams]], ComponentAllAngleFunc[ComponentParams]
     ]
 ):
+    from gdsfactory.component import ComponentAllAngle
+
     vc = _vcell(  # type: ignore[call-overload]
         _func,
         set_settings=set_settings,
@@ -173,6 +175,7 @@ def vcell(
         basename=basename,
         drop_params=list(drop_params),
         register_factory=register_factory,
+        output_type=ComponentAllAngle,
     )
     vc.is_gf_vcell = True
     return vc  # type: ignore[no-any-return]
