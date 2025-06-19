@@ -25,12 +25,13 @@ from typing import Any, Protocol
 from warnings import warn
 
 import numpy as np
-from kfactory import LayerEnum
+from kfactory import DInstance, LayerEnum, ProtoTKCell, VInstance, VKCell
 from kfactory.kcell import AnyKCell, TKCell
 
 from gdsfactory import Port, typings
 from gdsfactory.component import (
     Component,
+    ComponentAllAngle,
     ComponentReference,
 )
 from gdsfactory.name import clean_name
@@ -130,11 +131,11 @@ def get_instance_name_from_label(
     return text
 
 
-def _is_array_reference(ref: ComponentReference) -> bool:
+def _is_array_reference(ref: DInstance | VInstance) -> bool:
     # Direct attribute access is much faster than hasattr(),
     # and in the common case (attributes present) the try branch is very fast.
     try:
-        return ref.na > 1 or ref.nb > 1
+        return ref.na > 1 or ref.nb > 1  # type: ignore[union-attr]
     except AttributeError:
         return False
 
@@ -149,7 +150,7 @@ def _is_orthogonal_array_reference(ref: ComponentReference) -> bool:
     return abs(bx) == 0
 
 
-def _has_ports_on_same_location(reference: ComponentReference) -> bool:
+def _has_ports_on_same_location(reference: VInstance | DInstance) -> bool:
     """Check if a reference has any ports on the same location.
 
     Args:
@@ -160,11 +161,11 @@ def _has_ports_on_same_location(reference: ComponentReference) -> bool:
     """
     if _is_array_reference(reference):
         # For array references, check each instance
-        for ia in range(reference.na):
-            for ib in range(reference.nb):
+        for ia in range(reference.na):  # type: ignore[union-attr]
+            for ib in range(reference.nb):  # type: ignore[union-attr]
                 port_locations = set()
                 for port in reference.cell.ports:
-                    ref_port = reference.ports[port.name, ia, ib]
+                    ref_port = reference.ports[port.name, ia, ib]  # type: ignore[index]
                     port_loc = ref_port.to_itype().center
                     if port_loc in port_locations:
                         return True
@@ -181,7 +182,7 @@ def _has_ports_on_same_location(reference: ComponentReference) -> bool:
 
 
 def get_netlist(
-    component: AnyKCell | TKCell,
+    component: ProtoTKCell[Any] | VKCell | TKCell,
     exclude_port_types: Sequence[str] | None = ("placement", "pad", "bump"),
     get_instance_name: Callable[..., str] = get_instance_name_from_alias,
     allow_multiple: bool = True,
@@ -215,10 +216,14 @@ def get_netlist(
         warnings: warning messages (disconnected pins).
 
     """
-    if isinstance(component, TKCell):
-        component_ = Component(base=component)
-    else:
+    if isinstance(component, VKCell):
+        component_: Component | ComponentAllAngle = ComponentAllAngle(
+            base=component.base
+        )
+    elif isinstance(component, ProtoTKCell):
         component_ = Component(base=component.base)
+    else:
+        component_ = Component(base=component)
 
     placements: dict[str, dict[str, Any]] = {}
     instances: dict[str, dict[str, Any]] = {}
@@ -233,7 +238,12 @@ def get_netlist(
     ports_by_type: defaultdict[str, list[str]] = defaultdict(list)
     top_ports_list: set[str] = set()
 
-    references = _get_references_to_netlist(component_)
+    if isinstance(component_, ProtoTKCell):
+        references: list[DInstance | VInstance] | list[VInstance] = (
+            _get_references_to_netlist(component_)
+        )
+    else:
+        references = _get_references_to_netlist_all_angle(component_)
 
     for reference in references:
         # Skip references with ports on the same location
@@ -273,25 +283,25 @@ def get_netlist(
         }
 
         if _is_array_reference(reference):
-            if _is_orthogonal_array_reference(reference):
+            if _is_orthogonal_array_reference(reference):  # type: ignore[arg-type]
                 instances[reference_name]["array"] = {
-                    "columns": reference.na,
-                    "rows": reference.nb,
-                    "column_pitch": reference.instance.da.x,
-                    "row_pitch": reference.instance.db.y,
+                    "columns": reference.na,  # type: ignore[union-attr]
+                    "rows": reference.nb,  # type: ignore[union-attr]
+                    "column_pitch": reference.instance.da.x,  # type: ignore[union-attr]
+                    "row_pitch": reference.instance.db.y,  # type: ignore[union-attr]
                 }
             else:
                 instances[reference_name]["array"] = {
-                    "num_a": reference.na,
-                    "num_b": reference.nb,
-                    "pitch_a": (reference.instance.da.x, reference.instance.da.y),
-                    "pitch_b": (reference.instance.db.x, reference.instance.db.y),
+                    "num_a": reference.na,  # type: ignore[union-attr]
+                    "num_b": reference.nb,  # type: ignore[union-attr]
+                    "pitch_a": (reference.instance.da.x, reference.instance.da.y),  # type: ignore[union-attr]
+                    "pitch_b": (reference.instance.db.x, reference.instance.db.y),  # type: ignore[union-attr]
                 }
             reference_name = get_instance_name(reference)
-            for ia in range(reference.na):
-                for ib in range(reference.nb):
+            for ia in range(reference.na):  # type: ignore[union-attr]
+                for ib in range(reference.nb):  # type: ignore[union-attr]
                     for port in reference.cell.ports:
-                        ref_port = reference.ports[port.name, ia, ib]
+                        ref_port = reference.ports[port.name, ia, ib]  # type: ignore[index]
                         src = f"{reference_name}<{ia}.{ib}>,{port.name}"
                         name2port[src] = ref_port
                         ports_by_type[port.port_type].append(src)
@@ -557,12 +567,18 @@ def difference_between_angles(angle2: float, angle1: float) -> float:
     return diff
 
 
-def _get_references_to_netlist(component: AnyKCell) -> list[Any]:
-    as_component = Component(base=component.base)
-    insts = as_component.insts
-    vinsts = as_component.vinsts
+def _get_references_to_netlist(component: Component) -> list[DInstance | VInstance]:
+    insts = component.insts
+    vinsts = component.vinsts
     all_insts = list(insts) + list(vinsts)
     return all_insts
+
+
+def _get_references_to_netlist_all_angle(
+    component: ComponentAllAngle,
+) -> list[VInstance]:
+    insts = list(component.insts)
+    return insts
 
 
 class GetNetlistFunc(Protocol):
@@ -598,7 +614,14 @@ def get_netlist_recursive(
     all_netlists: dict[str, Any] = {}
 
     # only components with references (subcomponents) warrant a netlist
-    references = _get_references_to_netlist(component)
+    if isinstance(component, ProtoTKCell):
+        component = Component(base=component.base)
+        references: list[DInstance | VInstance] | list[VInstance] = (
+            _get_references_to_netlist(component)
+        )
+    else:
+        component = ComponentAllAngle(base=component.base)
+        references = _get_references_to_netlist_all_angle(component)
 
     if references:
         netlist = get_netlist_func(component, **kwargs)
@@ -615,7 +638,14 @@ def get_netlist_recursive(
             )
             all_netlists |= grandchildren
 
-            child_references = _get_references_to_netlist(ref.cell)
+            if isinstance(ref.cell, ProtoTKCell):
+                child_references: list[VInstance | DInstance] | list[VInstance] = (
+                    _get_references_to_netlist(Component(base=ref.cell.base))
+                )
+            else:
+                child_references = _get_references_to_netlist_all_angle(
+                    ComponentAllAngle(base=ref.cell)  # type: ignore[call-overload]
+                )
 
             if child_references:
                 inst_name = get_instance_name(ref)
