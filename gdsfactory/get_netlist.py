@@ -92,9 +92,8 @@ def get_instance_name_from_alias(reference: ComponentReference) -> str:
     Args:
         reference: reference that needs naming.
     """
-    name = reference.name
-    if not name:
-        name = md5(str(reference).encode()).hexdigest()[:8]
+    name = reference.name or md5(str(reference).encode()).hexdigest()[:8]
+
     return clean_name(name)
 
 
