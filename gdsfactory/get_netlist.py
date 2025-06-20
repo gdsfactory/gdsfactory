@@ -573,8 +573,7 @@ def difference_between_angles(angle2: float, angle1: float) -> float:
 def _get_references_to_netlist(component: Component) -> list[DInstance | VInstance]:
     insts = component.insts
     vinsts = component.vinsts
-    all_insts = list(insts) + list(vinsts)
-    return all_insts
+    return list(insts) + list(vinsts)
 
 
 def _get_references_to_netlist_all_angle(
