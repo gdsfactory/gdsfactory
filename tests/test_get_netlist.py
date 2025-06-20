@@ -303,7 +303,6 @@ def test_get_netlist_virtual_insts() -> None:
     i2.connect("o1", bend.ports["o2"])
     c.add_port("o1", port=i1.ports["o1"])
     c.add_port("o2", port=i2.ports["o2"])
-    c.show()
     netlist = c.get_netlist()
     assert len(netlist["instances"]) == 3, (
         f"Expected 3 instances in netlist. Got {len(netlist['instances'])}"
@@ -329,6 +328,7 @@ def test_get_netlist_virtual_cell() -> None:
     i2.connect("o1", bend.ports["o2"])
     c.add_port("o1", port=i1.ports["o1"])
     c.add_port("o2", port=i2.ports["o2"])
+
     netlist = c.get_netlist()
     assert len(netlist["instances"]) == 3, (
         f"Expected 3 instances in netlist. Got {len(netlist['instances'])}"

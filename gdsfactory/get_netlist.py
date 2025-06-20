@@ -20,6 +20,7 @@ from __future__ import annotations
 
 from collections import defaultdict
 from collections.abc import Callable, Sequence
+from hashlib import md5
 from pprint import pprint
 from typing import Any, Protocol
 from warnings import warn
@@ -91,7 +92,10 @@ def get_instance_name_from_alias(reference: ComponentReference) -> str:
     Args:
         reference: reference that needs naming.
     """
-    return clean_name(reference.name or "")
+    name = reference.name
+    if not name:
+        name = md5(str(reference).encode()).hexdigest()[:8]
+    return clean_name(name)
 
 
 def get_instance_name_from_label(
