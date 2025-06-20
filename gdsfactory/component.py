@@ -452,7 +452,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         if recursive:
             return get_netlist_recursive(self, **kwargs)
 
-        return get_netlist(self, **kwargs)
+        return get_netlist(self, **kwargs)  # type: ignore[arg-type]
 
 
 Route: TypeAlias = (

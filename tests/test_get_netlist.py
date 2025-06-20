@@ -290,5 +290,56 @@ def test_get_netlist_transformed() -> None:
     assert extracted_port_pair == expected_port_pair
 
 
+def test_get_netlist_virtual_insts() -> None:
+    """Test that virtual instances are included in the netlist."""
+    c = gf.Component()
+    cross_section = "strip"
+    i1 = c.create_vinst(gf.components.straight(length=10, cross_section=cross_section))
+    i2 = c.create_vinst(gf.components.straight(length=9, cross_section=cross_section))
+    bend = c.create_vinst(
+        gf.components.bend_euler_all_angle(angle=90, cross_section=cross_section)
+    )
+    bend.connect("o1", i1.ports["o2"])
+    i2.connect("o1", bend.ports["o2"])
+    c.add_port("o1", port=i1.ports["o1"])
+    c.add_port("o2", port=i2.ports["o2"])
+    netlist = c.get_netlist()
+    assert len(netlist["instances"]) == 3, (
+        f"Expected 3 instances in netlist. Got {len(netlist['instances'])}"
+    )
+    assert len(netlist["nets"]) == 2, (
+        f"Expected 2 nets in netlist. Got {len(netlist['nets'])}"
+    )
+    assert len(netlist["ports"]) == 2, (
+        f"Expected 2 ports in netlist. Got {len(netlist['ports'])}"
+    )
+
+
+def test_get_netlist_virtual_cell() -> None:
+    """Test that get_netlist works with virtual cells."""
+    c = gf.ComponentAllAngle()
+    cross_section = "strip"
+    i1 = c.create_vinst(gf.components.straight(length=10, cross_section=cross_section))
+    i2 = c.create_vinst(gf.components.straight(length=9, cross_section=cross_section))
+    bend = c.create_vinst(
+        gf.components.bend_euler_all_angle(angle=33, cross_section=cross_section)
+    )
+    bend.connect("o1", i1.ports["o2"])
+    i2.connect("o1", bend.ports["o2"])
+    c.add_port("o1", port=i1.ports["o1"])
+    c.add_port("o2", port=i2.ports["o2"])
+
+    netlist = c.get_netlist()
+    assert len(netlist["instances"]) == 3, (
+        f"Expected 3 instances in netlist. Got {len(netlist['instances'])}"
+    )
+    assert len(netlist["nets"]) == 2, (
+        f"Expected 2 nets in netlist. Got {len(netlist['nets'])}"
+    )
+    assert len(netlist["ports"]) == 2, (
+        f"Expected 2 ports in netlist. Got {len(netlist['ports'])}"
+    )
+
+
 if __name__ == "__main__":
     test_get_netlist_rotated()

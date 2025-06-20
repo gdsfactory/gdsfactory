@@ -1,5 +1,69 @@
-instances: {}
+instances:
+  bend_circular_all_angle_dd57ca57_0_700:
+    component: bend_circular_all_angle
+    info:
+      dy: 10
+      length: 15.708
+      radius: 10
+      route_info_length: 15.708
+      route_info_min_bend_radius: 10
+      route_info_n_bend_90: 1
+      route_info_strip_length: 15.708
+      route_info_type: strip
+      route_info_weight: 15.708
+      width: 0.5
+    settings:
+      allow_min_radius_violation: false
+      angle: 90
+      cross_section: strip
+      layer: null
+      npoints: null
+      radius: 10
+      width: null
+  bend_circular_all_angle_de5faab3_0_0:
+    component: bend_circular_all_angle
+    info:
+      dy: 9.266
+      length: 11.205
+      radius: 10.7
+      route_info_length: 11.205
+      route_info_min_bend_radius: 10.7
+      route_info_n_bend_90: 0.667
+      route_info_strip_length: 11.205
+      route_info_type: strip
+      route_info_weight: 11.205
+      width: 0.5
+    settings:
+      allow_min_radius_violation: false
+      angle: 60
+      cross_section: strip
+      layer: null
+      npoints: null
+      radius: 10.7
+      width: null
 name: coupler_bend_gdsfactory_147f47be
 nets: []
-placements: {}
-ports: {}
+placements:
+  bend_circular_all_angle_dd57ca57_0_700:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0.7
+  bend_circular_all_angle_de5faab3_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+ports:
+  o1: bend_circular_all_angle_de5faab3_0_0,o1
+  o2: bend_circular_all_angle_dd57ca57_0_700,o1
+  o4: bend_circular_all_angle_dd57ca57_0_700,o2
+warnings:
+  optical:
+    unconnected_ports:
+    - message: 1 unconnected optical ports!
+      ports:
+      - bend_circular_all_angle_de5faab3_0_0,o2
+      values:
+      - - 9.266
+        - 5.35
