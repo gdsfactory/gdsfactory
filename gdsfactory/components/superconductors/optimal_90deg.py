@@ -59,12 +59,15 @@ def optimal_90deg(
 
     D.add_polygon(list(zip(map(float, xpts), map(float, ypts))), layer=layer)
 
+    port_type = "electrical"
+    
     D.add_port(
         name="e1",
         center=(float(a / 4), float(d)),
         width=a / 2,
         orientation=90,
         layer=layer,
+        port_type=port_type,
     )
     D.add_port(
         name="e2",
@@ -72,6 +75,7 @@ def optimal_90deg(
         width=a / 2,
         orientation=0,
         layer=layer,
+        port_type=port_type,
     )
     return D
 
