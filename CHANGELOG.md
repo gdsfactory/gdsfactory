@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.9.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.9.1) - 2025-06-20
+
+No significant changes.
+
+
 ## [9.9.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.9.0) - 2025-06-18
 
 - add via stack size to ring heater [#3995](https://github.com/gdsfactory/gdsfactory/pull/3995)
