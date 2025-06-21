@@ -118,9 +118,11 @@ def show(filename: str) -> None:
 
 
 @app.command()
-def gds_diff(gdspath1: str, gdspath2: str, xor: bool = False) -> None:
+def gds_diff(
+    gdspath1: str, gdspath2: str, xor: bool = False, show: bool = False
+) -> None:
     """Show boolean difference between two GDS files."""
-    diff(gdspath1, gdspath2, xor=xor)
+    diff(gdspath1, gdspath2, xor=xor, show=show)
 
 
 @app.command()

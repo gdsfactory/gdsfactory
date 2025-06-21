@@ -1,7 +1,37 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.8.2...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.9.1...main)
 
 <!-- towncrier release notes start -->
+
+## [9.9.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.9.1) - 2025-06-20
+
+- fix `get_netlist` with virtual cells/instances [#3987](https://github.com/gdsfactory/gdsfactory/pull/3987)
+- Update Superconductor Components to have "electrical" ports instead of "optical" ports [#4003](https://github.com/gdsfactory/gdsfactory/pull/4003)
+- Update extension.py to correctly allow for non-optical extensions [#4001](https://github.com/gdsfactory/gdsfactory/pull/4001)
+- update kfactory to 1.9 [#3996](https://github.com/gdsfactory/gdsfactory/pull/3996)
+
+## [9.9.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.9.0) - 2025-06-18
+
+- add via stack size to ring heater [#3995](https://github.com/gdsfactory/gdsfactory/pull/3995)
+- Center and fix fiducial squares when offset is an int [#3999](https://github.com/gdsfactory/gdsfactory/pull/3999)
+- fix hidden transition [#3994](https://github.com/gdsfactory/gdsfactory/pull/3994)
+- Expose show as an argument to gds-diff in CLI [#3989](https://github.com/gdsfactory/gdsfactory/pull/3989)
+- Replace usage of Layers by LayerSpecs in fiducial_squares [#3990](https://github.com/gdsfactory/gdsfactory/pull/3990)
+- ⚡️ Speed up function `_is_array_reference` by 25% in PR #3976 (`get-netlist-all-angle`) [#3984](https://github.com/gdsfactory/gdsfactory/pull/3984)
+
+## [9.8.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.8.4) - 2025-06-13
+
+- allow packing virtual cells [#3986](https://github.com/gdsfactory/gdsfactory/pull/3986)
+
+## [9.8.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.8.3) - 2025-06-12
+
+- fix netlist-tests [#3983](https://github.com/gdsfactory/gdsfactory/pull/3983)
+- Update kfactory and fix tests for kf 1.8 [#3982](https://github.com/gdsfactory/gdsfactory/pull/3982)
+- fix grating_coupler_array when the routing cross section does not match ports [#3977](https://github.com/gdsfactory/gdsfactory/pull/3977)
+- Remove notimplemented error [#3980](https://github.com/gdsfactory/gdsfactory/pull/3980)
+- update kfactory to 1.8 and fix types [#3974](https://github.com/gdsfactory/gdsfactory/pull/3974)
+- enable `get_netlist` for `ComponentAllAngle` [#3976](https://github.com/gdsfactory/gdsfactory/pull/3976)
+- update kfactory to 1.8 and fix types [#3974](https://github.com/gdsfactory/gdsfactory/pull/3974)
 
 ## [9.8.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.8.2) - 2025-06-11
 
