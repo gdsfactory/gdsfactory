@@ -1,12 +1,14 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.9.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.9.1...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.9.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.9.1) - 2025-06-20
 
-No significant changes.
-
+- fix `get_netlist` with virtual cells/instances [#3987](https://github.com/gdsfactory/gdsfactory/pull/3987)
+- Update Superconductor Components to have "electrical" ports instead of "optical" ports [#4003](https://github.com/gdsfactory/gdsfactory/pull/4003)
+- Update extension.py to correctly allow for non-optical extensions [#4001](https://github.com/gdsfactory/gdsfactory/pull/4001)
+- update kfactory to 1.9 [#3996](https://github.com/gdsfactory/gdsfactory/pull/3996)
 
 ## [9.9.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.9.0) - 2025-06-18
 
