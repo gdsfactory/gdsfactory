@@ -29,6 +29,8 @@ def straight(
     """
     if width is not None:
         x = gf.get_cross_section(cross_section, width=width)
+        print(f"x: {x.model_dump_json()}")
+
     else:
         x = gf.get_cross_section(cross_section)
     p = gf.path.straight(length=length, npoints=npoints)
@@ -139,17 +141,5 @@ def wire_straight(
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
-    # c = gf.Component()
-    c = straight_all_angle(
-        length=10,
-        # width=2,
-        # cross_section="rib_bbox",
-    )
-    # ref = c << w
-    # ref.xmin = 10
-    # p = c.get_polygons_points()
-    # p = list(p.values())
-    # print(p[0][0])
-    c.show()
+    c = straight(width=10)
+    print(c.ports)
