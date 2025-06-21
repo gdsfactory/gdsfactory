@@ -1459,7 +1459,7 @@ def arc(
 
 def _fresnel(
     R0: float, s: float, num_pts: int, n_iter: int = 8
-) -> npt.NDArray[np.floating[Any]]:
+) -> tuple[npt.NDArray[np.floating[Any]], npt.NDArray[np.floating[Any]]]:
     """Fresnel integral using a series expansion.
 
     Args:
@@ -1476,7 +1476,7 @@ def _fresnel(
         x += (-1) ** n * t ** (4 * n + 1) / (math.factorial(2 * n) * (4 * n + 1))
         y += (-1) ** n * t ** (4 * n + 3) / (math.factorial(2 * n + 1) * (4 * n + 3))
 
-    return np.array([np.sqrt(2) * R0 * x, np.sqrt(2) * R0 * y])
+    return np.sqrt(2) * R0 * x, np.sqrt(2) * R0 * y
 
 
 def euler(
@@ -1550,9 +1550,7 @@ def euler(
         num_pts_arc = 2
 
     if num_pts_euler > 0:
-        xbend1: npt.NDArray[np.floating[Any]]
-        ybend1: npt.NDArray[np.floating[Any]]
-        xbend1, ybend1 = _fresnel(R0, sp, num_pts_euler)  # type: ignore
+        xbend1, ybend1 = _fresnel(R0, sp, num_pts_euler)
         xp, yp = xbend1[-1], ybend1[-1]
         dx = xp - Rp * np.sin(p * alpha / 2)
         dy = yp - Rp * (1 - np.cos(p * alpha / 2))
