@@ -145,6 +145,7 @@ def optimal_step(
         )
 
     D.add_polygon(list(zip(xpts, ypts)), layer=layer)
+    port_type = "electrical"
     if not symmetric:
         D.add_port(
             name="e1",
@@ -152,6 +153,7 @@ def optimal_step(
             width=start_width,
             orientation=180,
             layer=layer,
+            port_type=port_type,
         )
         D.add_port(
             name="e2",
@@ -159,6 +161,7 @@ def optimal_step(
             width=end_width,
             orientation=0,
             layer=layer,
+            port_type=port_type,
         )
     if symmetric:
         D.add_port(
@@ -167,6 +170,7 @@ def optimal_step(
             width=start_width,
             orientation=180,
             layer=layer,
+            port_type=port_type,
         )
         D.add_port(
             name="e2",
@@ -174,6 +178,7 @@ def optimal_step(
             width=end_width,
             orientation=0,
             layer=layer,
+            port_type=port_type,
         )
 
     return D
