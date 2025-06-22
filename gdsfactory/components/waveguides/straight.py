@@ -29,7 +29,6 @@ def straight(
     """
     if width is not None:
         x = gf.get_cross_section(cross_section, width=width)
-
     else:
         x = gf.get_cross_section(cross_section)
     p = gf.path.straight(length=length, npoints=npoints)
