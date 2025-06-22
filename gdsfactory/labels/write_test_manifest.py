@@ -94,33 +94,9 @@ if __name__ == "__main__":
     from gdsfactory.samples.sample_reticle import sample_reticle
 
     c = sample_reticle()
-    # cit = c.begin_instances_rec()
-    # cit.min_depth = 1
-    # cit.max_depth = 1
-
-    # for i in cit.each():
-    #     cell_index = i.cell_index()
-    #     ci = c.kcl[cell_index]
-    #     print(ci.name)
-
-    # for cell_index in c.each_child_cell():
-    #     ci = c.kcl[cell_index]
-    #     print(ci.name)
-
-    # while not cit.at_end():
-    #     ci = c.kcl[cit.inst_cell().cell_index()]
-    #     print(ci.name)
-    # c.show()
-
-    # iter = c.begin_instances_rec()
-    # iter.min_depth=1
-    # iter.max_depth=1
-    # for _iter in iter.each():
-    #     cell_index = iter.cell_index()
 
     gdspath = c.write_gds()
     csvpath = gdspath.with_suffix(".csv")
     write_test_manifest(c, csvpath, search_strings=["ring_10"])
     df = pd.read_csv(csvpath)
-    print(df.columns)
     c.show()
