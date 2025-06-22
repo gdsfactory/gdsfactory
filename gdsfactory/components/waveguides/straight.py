@@ -29,7 +29,6 @@ def straight(
     """
     if width is not None:
         x = gf.get_cross_section(cross_section, width=width)
-        print(f"x: {x.model_dump_json()}")
 
     else:
         x = gf.get_cross_section(cross_section)
