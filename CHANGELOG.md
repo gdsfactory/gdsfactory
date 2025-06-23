@@ -1,12 +1,12 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.9.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.9.2...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.9.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.9.2) - 2025-06-23
 
-No significant changes.
-
+- update kfactory for fix of vinsts [#4005](https://github.com/gdsfactory/gdsfactory/pull/4005)
+- re-enable ty [#3985](https://github.com/gdsfactory/gdsfactory/pull/3985)
 
 ## [9.9.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.9.1) - 2025-06-20
 
