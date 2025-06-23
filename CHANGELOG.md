@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.9.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.9.2) - 2025-06-23
+
+No significant changes.
+
+
 ## [9.9.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.9.1) - 2025-06-20
 
 - fix `get_netlist` with virtual cells/instances [#3987](https://github.com/gdsfactory/gdsfactory/pull/3987)
