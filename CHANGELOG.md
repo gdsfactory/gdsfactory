@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.9.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.9.4) - 2025-06-25
+
+No significant changes.
+
+
 ## [9.9.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.9.3) - 2025-06-25
 
 - improve routing [#4010](https://github.com/gdsfactory/gdsfactory/pull/4010)
