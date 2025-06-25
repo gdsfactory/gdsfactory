@@ -108,6 +108,7 @@ def route_bundle(
     route_width: float | None = None,
     straight: ComponentSpec = "straight",
     auto_taper: bool = True,
+    auto_taper_taper: ComponentSpec | None = None,
     waypoints: Coordinates | None = None,
     steps: Sequence[Mapping[str, int | float]] | None = None,
     start_angles: float | list[float] | None = None,
@@ -131,7 +132,7 @@ def route_bundle(
         start_straight_length: straight length at the beginning of the route. If None, uses default value for the routing CrossSection.
         end_straight_length: end length at the beginning of the route. If None, uses default value for the routing CrossSection.
         min_straight_taper: minimum length for tapering the straight sections.
-        taper: function for the taper. Defaults to None.
+        taper: function for tapering long straight waveguides beyond min_straight_taper. Defaults to None.
         port_type: type of port to place. Defaults to optical.
         collision_check_layers: list of layers to check for collisions.
         on_collision: action to take on collision. Defaults to None (ignore).
@@ -141,6 +142,7 @@ def route_bundle(
         route_width: width of the route. If None, defaults to cross_section.width.
         straight: function for the straight. Defaults to straight.
         auto_taper: if True, auto-tapers ports to the cross-section of the route.
+        auto_taper_taper: taper to use for auto-tapering. If None, uses the default taper for the cross-section.
         waypoints: list of waypoints to add to the route.
         steps: list of steps to add to the route.
         start_angles: list of start angles for the routes. Only used for electrical ports.
@@ -214,7 +216,38 @@ def route_bundle(
 
     bboxes = list(bboxes or [])
 
-    if auto_taper:
+    if auto_taper and auto_taper_taper:
+        taper_ = gf.get_component(auto_taper_taper)
+        taper_o1 = taper_.ports[0].name
+        taper_o2 = taper_.ports[1].name
+        ports1_new = []
+        ports2_new = []
+
+        for p1, p2 in zip(ports1_, ports2_):
+            t1 = c << taper_
+            t2 = c << taper_
+            t1.connect(taper_o1, p1)
+            t2.connect(taper_o1, p2)
+
+            ports1_new.append(t1.ports[taper_o2])
+            ports2_new.append(t2.ports[taper_o2])
+
+        ports1_ = ports1_new
+        ports2_ = ports2_new
+
+        bbox1 = gf.kdb.DBox()
+        bbox2 = gf.kdb.DBox()
+
+        for port in ports1_:
+            bbox1 += port.dcplx_trans.disp.to_p()
+
+        for port in ports2_:
+            bbox2 += port.dcplx_trans.disp.to_p()
+
+        bboxes.append(bbox1)
+        bboxes.append(bbox2)
+
+    elif auto_taper:
         bbox1 = gf.kdb.DBox()
         bbox2 = gf.kdb.DBox()
         for port in ports1_:
@@ -448,27 +481,29 @@ if __name__ == "__main__":
 
     # rib
 
-    # c = gf.Component()
-    # # c1 = c << gf.components.straight(width=2, cross_section="rib")
-    # # c2 = c << gf.components.straight(cross_section="rib", width=1)
-    # c1 = c << gf.components.straight(cross_section="rib", width=2)
-    # c2 = c << gf.components.straight(cross_section="rib", width=4)
-    # c2.move((300, 70))
-    # routes = route_bundle(
-    #     c,
-    #     [c1.ports["o2"]],
-    #     [c2.ports["o1"]],
-    #     # waypoints=[(200, 40), (200, 50)],
-    #     # steps=[dict(dx=50, dy=100)],
-    #     steps=[dict(dx=50, dy=100), dict(dy=100)],
-    #     separation=5,
-    #     cross_section="rib",
-    #     auto_taper=True,
-    #     # taper=partial(gf.c.taper, cross_section="rib", length=20),
-    #     # taper=gf.c.taper_sc_nc,
-    #     # taper=gf.c.taper,
-    # )
-    # c.show()
+    c = gf.Component()
+    c1 = c << gf.components.straight(cross_section="rib", width=2)
+    c2 = c << gf.components.straight(cross_section="rib", width=2)
+    c2.move((300, 90))
+    routes = route_bundle(
+        c,
+        [c1.ports["o2"]],
+        [c2.ports["o1"]],
+        # waypoints=[(200, 40), (200, 50)],
+        # steps=[dict(dx=50, dy=100)],
+        # steps=[dict(dx=50, dy=100), dict(dy=100)],
+        separation=5,
+        cross_section="rib",
+        # auto_taper=True,
+        auto_taper_taper=partial(
+            gf.c.taper, cross_section="rib", length=10, width1=2, width2=1
+        ),
+        route_width=1,
+        # auto_taper=False,
+        # taper=gf.c.taper_sc_nc,
+        # taper=gf.c.taper,
+    )
+    c.show()
 
     # c = gf.Component()
     # w = gf.components.array(gf.c.straight, columns=1, rows=3, spacing=(3, 3))
