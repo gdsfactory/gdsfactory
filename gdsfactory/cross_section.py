@@ -2696,25 +2696,102 @@ def pn_ge_detector_si_contacts(
 
 
 def is_cross_section(name: str, obj: Any, verbose: bool = False) -> bool:
+    """Check if an object is a cross-section factory function.
+
+    Args:
+        name: Name of the object.
+        obj: Object to check.
+        verbose: Whether to print warnings for errors.
+
+    Returns:
+        True if the object is a cross-section factory function.
+    """
     if name.startswith("_"):
         return False
+
     # Early prune: only consider functions, builtins or partials
+    func = None
     if isfunction(obj) or isbuiltin(obj):
         func = obj
     elif isinstance(obj, partial):
-        func = obj.func  # type: ignore[assignment]
+        func = obj.func
     else:
         return False
 
-    # Directly look up __annotations__ to avoid expensive inspect.signature
+    # Check if function is registered in the cross_sections dictionary
+    # This happens when decorated with @xsection
+    if name in cross_sections and cross_sections[name] is obj:
+        return True
+
+    # Fallback: check return type annotation
     try:
         ann = getattr(func, "__annotations__", {})
-        r = ann.get("return", None)
-        if r == CrossSection or (isinstance(r, type) and issubclass(r, CrossSection)):
+        return_type = ann.get("return")
+
+        if return_type is None:
+            return False
+
+        # Handle string annotations and forward references
+        if isinstance(return_type, str):
+            # Handle simple string matches
+            if return_type in (
+                "CrossSection",
+                "gf.CrossSection",
+                "gdsfactory.CrossSection",
+            ):
+                return True
+
+            # For other string annotations, try to resolve them in the function's context
+            try:
+                # Try globals first
+                func_globals = getattr(func, "__globals__", {})
+                resolved_type = func_globals.get(return_type)
+
+                # If not in globals, try closure variables
+                if (
+                    resolved_type is None
+                    and hasattr(func, "__closure__")
+                    and func.__closure__
+                ):
+                    # Get the names of closure variables
+                    if hasattr(func, "__code__") and hasattr(
+                        func.__code__, "co_freevars"
+                    ):
+                        freevars = func.__code__.co_freevars
+                        closure_values = func.__closure__
+                        if len(freevars) == len(closure_values):
+                            closure_dict = dict(
+                                zip(
+                                    freevars,
+                                    [cell.cell_contents for cell in closure_values],
+                                )
+                            )
+                            resolved_type = closure_dict.get(return_type)
+
+                if resolved_type and isinstance(resolved_type, type):
+                    return issubclass(resolved_type, CrossSection)
+
+            except (TypeError, AttributeError, ValueError):
+                pass
+
+            return False
+
+        # Direct type comparison
+        if return_type is CrossSection:
             return True
+
+        # Check if it's a subclass of CrossSection
+        if isinstance(return_type, type):
+            try:
+                return issubclass(return_type, CrossSection)
+            except TypeError:
+                # Handle cases where return_type is not a class
+                return False
+
     except Exception as e:
         if verbose:
-            logger.warning(f"error in {name}: {e}")
+            logger.warning(f"Error checking cross-section for {name}: {e}")
+
     return False
 
 
