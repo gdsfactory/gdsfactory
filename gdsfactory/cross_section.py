@@ -10,7 +10,7 @@ import warnings
 from collections.abc import Callable, Sequence
 from functools import partial, wraps
 from inspect import getmembers, isbuiltin, isfunction
-from types import ModuleType
+from types import BuiltinFunctionType, FunctionType, ModuleType
 from typing import Any, ParamSpec, Protocol, Self, TypeAlias
 
 import numpy as np
@@ -2710,12 +2710,20 @@ def is_cross_section(name: str, obj: Any, verbose: bool = False) -> bool:
         return False
 
     # Early prune: only consider functions, builtins or partials
-    func = None
+    func: FunctionType | BuiltinFunctionType | None = None
     if isfunction(obj) or isbuiltin(obj):
         func = obj
     elif isinstance(obj, partial):
-        func = obj.func
+        # Check if the underlying function is a function or builtin
+        if isfunction(obj.func) or isbuiltin(obj.func):
+            func = obj.func
+        else:
+            return False
     else:
+        return False
+
+    # Ensure func is not None for type checker
+    if func is None:
         return False
 
     # Check if function is registered in the cross_sections dictionary
