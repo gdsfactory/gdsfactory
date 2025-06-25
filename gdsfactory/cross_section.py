@@ -2710,18 +2710,7 @@ def is_cross_section(name: str, obj: Any, verbose: bool = False) -> bool:
     try:
         ann = getattr(func, "__annotations__", {})
         r = ann.get("return", None)
-        if (
-            r == CrossSection
-            or (
-                isinstance(r, str)
-                and (
-                    r.endswith("CrossSection")
-                    or r.startswith("CrossSection")
-                    or r.startswith("gf.CrossSection")
-                )
-            )
-            or (isinstance(r, type) and issubclass(r, CrossSection))
-        ):
+        if r == CrossSection or (isinstance(r, type) and issubclass(r, CrossSection)):
             return True
     except Exception as e:
         if verbose:
