@@ -1,12 +1,11 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.9.3...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.9.4...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.9.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.9.4) - 2025-06-25
 
-No significant changes.
-
+- better xsection detection [#4011](https://github.com/gdsfactory/gdsfactory/pull/4011)
 
 ## [9.9.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.9.3) - 2025-06-25
 
