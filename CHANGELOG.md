@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.9.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.9.3) - 2025-06-25
+
+No significant changes.
+
+
 ## [9.9.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.9.2) - 2025-06-23
 
 - update kfactory for fix of vinsts [#4005](https://github.com/gdsfactory/gdsfactory/pull/4005)
