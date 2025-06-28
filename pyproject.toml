@@ -32,7 +32,6 @@ dependencies = [
   "types-PyYAML",
   "typer<1",
   "kfactory[ipy]>=1.9.4,<1.10",
-  "watchdog<7",
   "freetype-py",
   "mapbox_earcut",
   "networkx",
@@ -56,6 +55,7 @@ version = "9.9.4"
 cad = ["kweb>=1.1.9,<2.1"]
 dev = [
   "codeflash",
+  "watchdog<7",
   "ipykernel",
   "jupyterlab",
   "jsondiff",
@@ -94,6 +94,7 @@ maintainer = [
   "autotyping",
   "towncrier"
 ]
+watch = ["watchdog<7"]
 
 [project.scripts]
 gf = "gdsfactory.cli:app"
