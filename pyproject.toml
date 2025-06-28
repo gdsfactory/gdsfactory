@@ -32,7 +32,6 @@ dependencies = [
   "types-PyYAML",
   "typer<1",
   "kfactory[ipy]>=1.9.4,<1.10",
-  "watchdog<7",
   "freetype-py",
   "mapbox_earcut",
   "networkx",
@@ -94,6 +93,7 @@ maintainer = [
   "autotyping",
   "towncrier"
 ]
+watch = ["watchdog<7"]
 
 [project.scripts]
 gf = "gdsfactory.cli:app"
