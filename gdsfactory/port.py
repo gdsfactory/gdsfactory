@@ -143,6 +143,7 @@ def port_array(
         kwargs: additional arguments.
 
     """
+    from gdsfactory import kcl
     from gdsfactory.pdk import get_cross_section, get_layer
 
     pitch_array = np.array(pitch)
@@ -155,7 +156,7 @@ def port_array(
             xs = get_cross_section(xs.copy(width=width))
         try:
             sym_xs: kf.SymmetricalCrossSection | None = (
-                gf.kcl.get_symmetrical_cross_section(xs.name)
+                kcl.get_symmetrical_cross_section(xs.name)
             )
         except KeyError:
             sym_xs = None
