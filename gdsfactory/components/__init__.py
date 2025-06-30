@@ -9,6 +9,7 @@ from gdsfactory.components import (
     mzis,
     pads,
     pcms,
+    quantum,
     rings,
     shapes,
     spirals,
