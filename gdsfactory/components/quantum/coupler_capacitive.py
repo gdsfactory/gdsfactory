@@ -20,6 +20,14 @@ def coupler_capacitive(
     A capacitive coupler consists of two metal pads separated by a small gap,
     providing capacitive coupling between circuit elements like qubits and resonators.
 
+               ______                ______
+     _______  |      |              |      | _______
+    |       | |      |              |      ||       |
+    | feed1 | | pad1 | =====gap==== | pad2 || feed2 |
+    |       | |      |              |      ||       |
+    |_______| |      |              |      ||_______|
+              |______|              |______|
+
     Args:
         pad_width: Width of each coupling pad in μm.
         pad_height: Height of each coupling pad in μm.
@@ -98,7 +106,8 @@ def coupler_interdigital(
     fingers: int = 6,
     finger_length: float = 30.0,
     finger_width: float = 2.0,
-    finger_gap: float = 2.0,
+    finger_gap_vertical: float = 2.0,
+    finger_gap_horizontal: float = 3.0,
     feed_width: float = 10.0,
     feed_length: float = 30.0,
     layer_metal: LayerSpec = (1, 0),
@@ -106,14 +115,31 @@ def coupler_interdigital(
 ) -> Component:
     """Creates an interdigital capacitive coupler.
 
-    An interdigital coupler provides stronger capacitive coupling through
-    interleaved fingers, offering better control over coupling strength.
+    Each side includes a base column (a vertical metal block) to which the fingers are attached.
+    - The width of the base column is equal to the height of the fingers.
+    - The finger_length parameter refers only to the length of the fingers *extending from the base*,
+      and does NOT include the base column width
+
+               base columns
+               ↓                    ↓
+     ┌────────┐                      ┌────────┐
+     │        │█████████████        █│        │
+     │        │█        g1          █│        │
+     │        │█ <─g2─> █████████████│        │
+     │        │█                    █│        │
+     │ feed1  │█████████████        █│ feed2  │
+     │        │█                    █│        │
+     │        │█        █████████████│        │
+     │        │█                    █│        │
+     │        │█████████████        █│        │
+     └────────┘█                    █└────────┘
 
     Args:
         fingers: Number of fingers per side.
-        finger_length: Length of each finger in μm.
+        finger_length: Length of each finger in μm (see note above).
         finger_width: Width of each finger in μm.
-        finger_gap: Gap between fingers in μm.
+        finger_gap_vertical: Vertical gap between fingers in μm (g1).
+        finger_gap_horizontal: Horizontal gap between fingers in μm (g2).
         feed_width: Width of the feed lines in μm.
         feed_length: Length of the feed lines in μm.
         layer_metal: Layer for the metal structures.
@@ -125,49 +151,37 @@ def coupler_interdigital(
     c = Component()
 
     # Calculate total dimensions
-    total_width = (fingers * 2 - 1) * (finger_width + finger_gap) - finger_gap
-    total_height = finger_length + 2 * finger_width
+    total_width = finger_length + finger_gap_horizontal
+    total_height = fingers * finger_width + (fingers - 1) * finger_gap_vertical
 
-    # Create left side base
+    # Create left side base column
     left_base = gf.components.rectangle(
         size=(finger_width, total_height),
         layer=layer_metal,
     )
     left_base_ref = c.add_ref(left_base)
-    left_base_ref.move((-total_width / 2 - finger_width / 2, -total_height / 2))
+    left_base_ref.move((-total_width / 2 - finger_width, -total_height / 2))
 
-    # Create right side base
+    # Create right side base column
     right_base = gf.components.rectangle(
         size=(finger_width, total_height),
         layer=layer_metal,
     )
     right_base_ref = c.add_ref(right_base)
-    right_base_ref.move((total_width / 2 - finger_width / 2, -total_height / 2))
+    right_base_ref.move((total_width / 2, -total_height / 2))
 
     # Create interdigital fingers
     for i in range(fingers):
-        # Left side fingers (extending right)
         left_finger = gf.components.rectangle(
             size=(finger_length, finger_width),
             layer=layer_metal,
         )
         left_finger_ref = c.add_ref(left_finger)
-        y_pos = -total_height / 2 + finger_width + i * 2 * (finger_width + finger_gap)
-        left_finger_ref.move((-total_width / 2, y_pos))
 
-        # Right side fingers (extending left), offset by one finger spacing
-        if i < fingers - 1:
-            right_finger = gf.components.rectangle(
-                size=(finger_length, finger_width),
-                layer=layer_metal,
-            )
-            right_finger_ref = c.add_ref(right_finger)
-            y_pos_right = (
-                -total_height / 2
-                + finger_width
-                + (i + 1) * 2 * (finger_width + finger_gap)
-            )
-            right_finger_ref.move((total_width / 2 - finger_length, y_pos_right))
+        # We start from a left finger
+        x_pos = -finger_length / 2 + (-1) ** (i + 1) * finger_gap_horizontal / 2
+        y_pos = total_height / 2 - finger_width - i * (finger_width + finger_gap_vertical)
+        left_finger_ref.move((x_pos , y_pos))
 
     # Create feed lines
     left_feed = gf.components.rectangle(
@@ -206,7 +220,8 @@ def coupler_interdigital(
     c.info["fingers"] = fingers
     c.info["finger_length"] = finger_length
     c.info["finger_width"] = finger_width
-    c.info["finger_gap"] = finger_gap
+    c.info["finger_gap_horizontal"] = finger_gap_horizontal
+    c.info["finger_gap_vertical"] = finger_gap_vertical
 
     return c
 
@@ -229,6 +244,28 @@ def coupler_tunable(
 
     A tunable coupler includes additional electrodes that can be voltage-biased
     to change the coupling strength dynamically.
+
+                (connected to feed)
+                     _______
+                    |       |
+                    | tpad1 |
+                    |       |
+                    |_______|
+                    tuning gap
+               ______        ______
+     _______  |      |      |      | _______
+    |       | |      |      |      ||       |
+    | feed1 | | pad1 | gap  | pad2 || feed2 |
+    |       | |      |      |      ||       |
+    |_______| |      |      |      ||_______|
+              |______|      |______|
+                    tuning gap
+                     _______
+                    |       |
+                    | tpad2 |
+                    |       |
+                    |_______|
+                (connected to feed)
 
     Args:
         pad_width: Width of main coupling pads in μm.
@@ -363,11 +400,14 @@ def coupler_tunable(
 
 
 if __name__ == "__main__":
-    # c1 = coupler_capacitive()
-    # c1.show()
+    #c1 = coupler_capacitive()
+    #c1.draw_ports()
+    #c1.show()
 
-    # c2 = coupler_interdigital()
-    # c2.show()
+    #c2 = coupler_interdigital()
+    #c2.draw_ports()
+    #c2.show()
 
     c3 = coupler_tunable()
+    c3.draw_ports()
     c3.show()
