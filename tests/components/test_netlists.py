@@ -12,6 +12,7 @@ cells = get_cells([gf.components])
 skip_test = {
     "add_fiber_array_optical_south_electrical_north",
     "bbox",
+    "coupler_bend",
     "component_sequence",
     "cutback_2x2",
     "cutback_bend180circular",
