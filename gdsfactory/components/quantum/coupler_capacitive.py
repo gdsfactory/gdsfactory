@@ -81,6 +81,7 @@ def coupler_capacitive(
         width=feed_width,
         orientation=180,
         layer=layer_metal,
+        port_type=port_type,
     )
 
     c.add_port(
@@ -89,6 +90,7 @@ def coupler_capacitive(
         width=feed_width,
         orientation=0,
         layer=layer_metal,
+        port_type=port_type,
     )
 
     # Add metadata
@@ -180,8 +182,10 @@ def coupler_interdigital(
 
         # We start from a left finger
         x_pos = -finger_length / 2 + (-1) ** (i + 1) * finger_gap_horizontal / 2
-        y_pos = total_height / 2 - finger_width - i * (finger_width + finger_gap_vertical)
-        left_finger_ref.move((x_pos , y_pos))
+        y_pos = (
+            total_height / 2 - finger_width - i * (finger_width + finger_gap_vertical)
+        )
+        left_finger_ref.move((x_pos, y_pos))
 
     # Create feed lines
     left_feed = gf.components.rectangle(
@@ -205,6 +209,7 @@ def coupler_interdigital(
         width=feed_width,
         orientation=180,
         layer=layer_metal,
+        port_type=port_type,
     )
 
     c.add_port(
@@ -213,6 +218,7 @@ def coupler_interdigital(
         width=feed_width,
         orientation=0,
         layer=layer_metal,
+        port_type=port_type,
     )
 
     # Add metadata
@@ -361,6 +367,7 @@ def coupler_tunable(
         width=feed_width,
         orientation=180,
         layer=layer_metal,
+        port_type=port_type,
     )
 
     c.add_port(
@@ -369,6 +376,7 @@ def coupler_tunable(
         width=feed_width,
         orientation=0,
         layer=layer_metal,
+        port_type=port_type,
     )
 
     c.add_port(
@@ -377,6 +385,7 @@ def coupler_tunable(
         width=feed_width,
         orientation=90,
         layer=layer_tuning,
+        port_type=port_type,
     )
 
     c.add_port(
@@ -385,6 +394,7 @@ def coupler_tunable(
         width=feed_width,
         orientation=270,
         layer=layer_tuning,
+        port_type=port_type,
     )
 
     # Add metadata
@@ -400,13 +410,13 @@ def coupler_tunable(
 
 
 if __name__ == "__main__":
-    #c1 = coupler_capacitive()
-    #c1.draw_ports()
-    #c1.show()
+    # c1 = coupler_capacitive()
+    # c1.draw_ports()
+    # c1.show()
 
-    #c2 = coupler_interdigital()
-    #c2.draw_ports()
-    #c2.show()
+    # c2 = coupler_interdigital()
+    # c2.draw_ports()
+    # c2.show()
 
     c3 = coupler_tunable()
     c3.draw_ports()

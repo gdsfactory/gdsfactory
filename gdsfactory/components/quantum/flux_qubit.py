@@ -32,12 +32,12 @@ def flux_qubit(
         loop_height: Height of the superconducting loop in μm.
         junction_width: Width of the β Josephson junctions in μm.
         junction_height: Height of the β Josephson junctions in μm.
-        alpha_junction_width: Width of the α Josephson junction in μm.
-        alpha_junction_height: Height of the α Josephson junction in μm.
+        alpha_junction_width: Width of the a Josephson junction in μm.
+        alpha_junction_height: Height of the a Josephson junction in μm.
         wire_width: Width of the superconducting wires in μm.
         layer_metal: Layer for the metal wires.
         layer_junction: Layer for the β Josephson junctions.
-        layer_alpha_junction: Layer for the α Josephson junction.
+        layer_alpha_junction: Layer for the a Josephson junction.
         port_type: Type of port to add to the component.
 
     Returns:
@@ -156,6 +156,7 @@ def flux_qubit(
         width=2.0,
         orientation=180,
         layer=layer_metal,
+        port_type=port_type,
     )
 
     c.add_port(
@@ -164,6 +165,7 @@ def flux_qubit(
         width=2.0,
         orientation=0,
         layer=layer_metal,
+        port_type=port_type,
     )
 
     # Add readout connection
@@ -173,6 +175,7 @@ def flux_qubit(
         width=wire_width,
         orientation=90,
         layer=layer_metal,
+        port_type=port_type,
     )
 
     # Add metadata
@@ -319,6 +322,7 @@ def flux_qubit_asymmetric(
         width=wire_width,
         orientation=90,
         layer=layer_metal,
+        port_type=port_type,
     )
 
     c.add_port(
@@ -327,6 +331,7 @@ def flux_qubit_asymmetric(
         width=wire_width,
         orientation=0,
         layer=layer_metal,
+        port_type=port_type,
     )
 
     # Add metadata
