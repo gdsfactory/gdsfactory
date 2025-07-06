@@ -128,6 +128,7 @@ def resonator_cpw(
         width=coupling_length,
         orientation=270,
         layer=layer_metal,
+        port_type=port_type,
     )
 
     c.add_port(
@@ -136,6 +137,7 @@ def resonator_cpw(
         width=coupling_length,
         orientation=90,
         layer=layer_metal,
+        port_type=port_type,
     )
 
     # Add metadata
@@ -196,10 +198,14 @@ def resonator_lumped(
     c.add_ref(capacitor)
 
     # Create spiral inductor
-    inductor = gf.components.spiral(
-        n_loops=inductor_turns,
+    # Create a cross section with the specified width
+    inductor_cross_section = gf.cross_section.strip(
         width=inductor_width,
         layer=layer_metal,
+    )
+    inductor = gf.components.spiral(
+        n_loops=inductor_turns,
+        cross_section=inductor_cross_section,
     )
     ind_ref = c.add_ref(inductor)
 
@@ -255,6 +261,7 @@ def resonator_lumped(
         width=coupling_gap,
         orientation=180,
         layer=layer_metal,
+        port_type=port_type,
     )
 
     c.add_port(
@@ -266,6 +273,7 @@ def resonator_lumped(
         width=coupling_gap,
         orientation=0,
         layer=layer_metal,
+        port_type=port_type,
     )
 
     # Add metadata
@@ -355,6 +363,7 @@ def resonator_quarter_wave(
         width=coupling_gap,
         orientation=180,
         layer=layer_metal,
+        port_type=port_type,
     )
 
     # Add metadata

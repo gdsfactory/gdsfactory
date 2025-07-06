@@ -1,0 +1,25 @@
+info:
+  junction_area: 0.045
+  pad_gap: 6
+  pad_height: 100
+  pad_width: 200
+  qubit_type: transmon
+name: transmon_gdsfactorypcom_b8f72fdf
+settings:
+  island_height: 4
+  island_width: 10
+  junction_height: 0.3
+  junction_width: 0.15
+  layer_island:
+  - 1
+  - 0
+  layer_junction:
+  - 2
+  - 0
+  layer_metal:
+  - 1
+  - 0
+  pad_gap: 6
+  pad_height: 100
+  pad_width: 200
+  port_type: electrical

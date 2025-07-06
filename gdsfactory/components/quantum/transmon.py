@@ -77,19 +77,22 @@ def transmon(
     junction_ref.move((-junction_width / 2, -junction_height / 2))
 
     # Add connection lines from pads to island
-    left_connection = gf.components.rectangle(
-        size=(pad_gap / 2 - island_width / 2, junction_height / 2),
-        layer=layer_metal,
-    )
-    left_conn_ref = c.add_ref(left_connection)
-    left_conn_ref.move((-pad_gap / 2, -junction_height / 4))
+    # Only add connections if there is a gap between island and pads
+    connection_width = abs(pad_gap / 2 - island_width / 2)
+    if pad_gap / 2 > island_width / 2:
+        left_connection = gf.components.rectangle(
+            size=(connection_width, junction_height / 2),
+            layer=layer_metal,
+        )
+        left_conn_ref = c.add_ref(left_connection)
+        left_conn_ref.move((-pad_gap / 2, -junction_height / 4))
 
-    right_connection = gf.components.rectangle(
-        size=(pad_gap / 2 - island_width / 2, junction_height / 2),
-        layer=layer_metal,
-    )
-    right_conn_ref = c.add_ref(right_connection)
-    right_conn_ref.move((island_width / 2, -junction_height / 4))
+        right_connection = gf.components.rectangle(
+            size=(connection_width, junction_height / 2),
+            layer=layer_metal,
+        )
+        right_conn_ref = c.add_ref(right_connection)
+        right_conn_ref.move((island_width / 2, -junction_height / 4))
 
     # Add ports for connections
     c.add_port(
@@ -182,19 +185,22 @@ def transmon_circular(
     junction_ref.move((-junction_width / 2, -junction_height / 2))
 
     # Add connection lines from pads to island
-    left_connection = gf.components.rectangle(
-        size=(pad_gap / 2 - island_radius, junction_height / 2),
-        layer=layer_metal,
-    )
-    left_conn_ref = c.add_ref(left_connection)
-    left_conn_ref.move((-pad_gap / 2, -junction_height / 4))
+    # Only add connections if there is a gap between island and pads
+    connection_width = abs(pad_gap / 2 - island_radius)
+    if pad_gap / 2 > island_radius:
+        left_connection = gf.components.rectangle(
+            size=(connection_width, junction_height / 2),
+            layer=layer_metal,
+        )
+        left_conn_ref = c.add_ref(left_connection)
+        left_conn_ref.move((-pad_gap / 2, -junction_height / 4))
 
-    right_connection = gf.components.rectangle(
-        size=(pad_gap / 2 - island_radius, junction_height / 2),
-        layer=layer_metal,
-    )
-    right_conn_ref = c.add_ref(right_connection)
-    right_conn_ref.move((island_radius, -junction_height / 4))
+        right_connection = gf.components.rectangle(
+            size=(connection_width, junction_height / 2),
+            layer=layer_metal,
+        )
+        right_conn_ref = c.add_ref(right_connection)
+        right_conn_ref.move((island_radius, -junction_height / 4))
 
     # Add ports for connections
     c.add_port(
@@ -226,5 +232,5 @@ if __name__ == "__main__":
     c1 = transmon()
     c1.show()
 
-    c2 = transmon_circular()
-    c2.show()
+    # c2 = transmon_circular()
+    # c2.show()

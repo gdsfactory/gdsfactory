@@ -1,0 +1,283 @@
+instances:
+  rectangle_gdsfactorypco_12b34008_35000_m1000:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 20
+      - 2
+  rectangle_gdsfactorypco_12b34008_m55000_m1000:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 20
+      - 2
+  rectangle_gdsfactorypco_2f08cfe8_22950_m200:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 2.1
+      - 0.4
+  rectangle_gdsfactorypco_2f08cfe8_m25050_m200:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 2.1
+      - 0.4
+  rectangle_gdsfactorypco_997124b1_m110_m25050:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 0.22
+      - 2.1
+  rectangle_gdsfactorypco_9ca3d91a_m60_m24125:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer:
+      - 3
+      - 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 0.12
+      - 0.25
+  rectangle_gdsfactorypco_aa94d32a_23925_m150:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer:
+      - 2
+      - 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 0.15
+      - 0.3
+  rectangle_gdsfactorypco_aa94d32a_m24075_m150:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer:
+      - 2
+      - 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 0.15
+      - 0.3
+name: flux_qubit_gdsfactorypc_806ac625
+nets: []
+placements:
+  rectangle_gdsfactorypco_12b34008_35000_m1000:
+    mirror: false
+    rotation: 0
+    x: 35
+    y: -1
+  rectangle_gdsfactorypco_12b34008_m55000_m1000:
+    mirror: false
+    rotation: 0
+    x: -55
+    y: -1
+  rectangle_gdsfactorypco_2f08cfe8_22950_m200:
+    mirror: false
+    rotation: 0
+    x: 22.95
+    y: -0.2
+  rectangle_gdsfactorypco_2f08cfe8_m25050_m200:
+    mirror: false
+    rotation: 0
+    x: -25.05
+    y: -0.2
+  rectangle_gdsfactorypco_997124b1_m110_m25050:
+    mirror: false
+    rotation: 0
+    x: -0.11
+    y: -25.05
+  rectangle_gdsfactorypco_9ca3d91a_m60_m24125:
+    mirror: false
+    rotation: 0
+    x: -0.06
+    y: -24.125
+  rectangle_gdsfactorypco_aa94d32a_23925_m150:
+    mirror: false
+    rotation: 0
+    x: 23.925
+    y: -0.15
+  rectangle_gdsfactorypco_aa94d32a_m24075_m150:
+    mirror: false
+    rotation: 0
+    x: -24.075
+    y: -0.15
+ports: {}
+warnings:
+  electrical:
+    unconnected_ports:
+    - message: 32 unconnected electrical ports!
+      ports:
+      - rectangle_gdsfactorypco_997124b1_m110_m25050,e1
+      - rectangle_gdsfactorypco_997124b1_m110_m25050,e2
+      - rectangle_gdsfactorypco_997124b1_m110_m25050,e3
+      - rectangle_gdsfactorypco_997124b1_m110_m25050,e4
+      - rectangle_gdsfactorypco_2f08cfe8_m25050_m200,e1
+      - rectangle_gdsfactorypco_2f08cfe8_m25050_m200,e2
+      - rectangle_gdsfactorypco_2f08cfe8_m25050_m200,e3
+      - rectangle_gdsfactorypco_2f08cfe8_m25050_m200,e4
+      - rectangle_gdsfactorypco_2f08cfe8_22950_m200,e1
+      - rectangle_gdsfactorypco_2f08cfe8_22950_m200,e2
+      - rectangle_gdsfactorypco_2f08cfe8_22950_m200,e3
+      - rectangle_gdsfactorypco_2f08cfe8_22950_m200,e4
+      - rectangle_gdsfactorypco_9ca3d91a_m60_m24125,e1
+      - rectangle_gdsfactorypco_9ca3d91a_m60_m24125,e2
+      - rectangle_gdsfactorypco_9ca3d91a_m60_m24125,e3
+      - rectangle_gdsfactorypco_9ca3d91a_m60_m24125,e4
+      - rectangle_gdsfactorypco_aa94d32a_m24075_m150,e1
+      - rectangle_gdsfactorypco_aa94d32a_m24075_m150,e2
+      - rectangle_gdsfactorypco_aa94d32a_m24075_m150,e3
+      - rectangle_gdsfactorypco_aa94d32a_m24075_m150,e4
+      - rectangle_gdsfactorypco_aa94d32a_23925_m150,e1
+      - rectangle_gdsfactorypco_aa94d32a_23925_m150,e2
+      - rectangle_gdsfactorypco_aa94d32a_23925_m150,e3
+      - rectangle_gdsfactorypco_aa94d32a_23925_m150,e4
+      - rectangle_gdsfactorypco_12b34008_m55000_m1000,e1
+      - rectangle_gdsfactorypco_12b34008_m55000_m1000,e2
+      - rectangle_gdsfactorypco_12b34008_m55000_m1000,e3
+      - rectangle_gdsfactorypco_12b34008_m55000_m1000,e4
+      - rectangle_gdsfactorypco_12b34008_35000_m1000,e1
+      - rectangle_gdsfactorypco_12b34008_35000_m1000,e2
+      - rectangle_gdsfactorypco_12b34008_35000_m1000,e3
+      - rectangle_gdsfactorypco_12b34008_35000_m1000,e4
+      values:
+      - - -0.11
+        - -24
+      - - 0
+        - -22.95
+      - - 0.11
+        - -24
+      - - 0
+        - -25.05
+      - - -25.05
+        - 0
+      - - -24
+        - 0.2
+      - - -22.95
+        - 0
+      - - -24
+        - -0.2
+      - - 22.95
+        - 0
+      - - 24
+        - 0.2
+      - - 25.05
+        - 0
+      - - 24
+        - -0.2
+      - - -0.06
+        - -24
+      - - 0
+        - -23.875
+      - - 0.06
+        - -24
+      - - 0
+        - -24.125
+      - - -24.075
+        - 0
+      - - -24
+        - 0.15
+      - - -23.925
+        - 0
+      - - -24
+        - -0.15
+      - - 23.925
+        - 0
+      - - 24
+        - 0.15
+      - - 24.075
+        - 0
+      - - 24
+        - -0.15
+      - - -55
+        - 0
+      - - -45
+        - 1
+      - - -35
+        - 0
+      - - -45
+        - -1
+      - - 35
+        - 0
+      - - 45
+        - 1
+      - - 55
+        - 0
+      - - 45
+        - -1

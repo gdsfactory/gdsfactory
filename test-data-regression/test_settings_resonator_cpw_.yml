@@ -1,0 +1,22 @@
+info:
+  frequency_estimate: 150
+  gap: 6
+  length: 1000
+  resonator_type: cpw
+  width: 10
+name: resonator_cpw_gdsfactor_cafe5f4c
+settings:
+  coupling_gap: 5
+  coupling_length: 100
+  gap: 6
+  layer_gap:
+  - 2
+  - 0
+  layer_metal:
+  - 1
+  - 0
+  length: 1000
+  meander_pitch: 50
+  meander_width: 200
+  port_type: electrical
+  width: 10

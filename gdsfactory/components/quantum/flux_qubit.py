@@ -95,12 +95,26 @@ def flux_qubit(
     )
 
     # Remove gaps from the loop
-    gf.boolean(
+    # Need to perform boolean operations sequentially
+    loop_with_gaps = gf.boolean(
         loop_ref,
-        [alpha_gap_ref, beta_gap_left_ref, beta_gap_right_ref],
+        alpha_gap_ref,
         operation="not",
         layer=layer_metal,
     )
+    loop_with_gaps = gf.boolean(
+        loop_with_gaps,
+        beta_gap_left_ref,
+        operation="not",
+        layer=layer_metal,
+    )
+    loop_with_gaps = gf.boolean(
+        loop_with_gaps,
+        beta_gap_right_ref,
+        operation="not",
+        layer=layer_metal,
+    )
+    c.add_ref(loop_with_gaps)
 
     # Create the alpha junction (smaller)
     alpha_junction = gf.components.rectangle(
@@ -352,5 +366,5 @@ if __name__ == "__main__":
     c1 = flux_qubit()
     c1.show()
 
-    c2 = flux_qubit_asymmetric()
-    c2.show()
+    # c2 = flux_qubit_asymmetric()
+    # c2.show()
