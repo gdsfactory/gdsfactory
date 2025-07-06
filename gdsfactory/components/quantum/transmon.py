@@ -171,7 +171,7 @@ def transmon_circular(
         radius=island_radius,
         layer=layer_island,
     )
-    island_ref = c.add_ref(island)
+    c.add_ref(island)
 
     # Create Josephson junction
     junction = gf.components.rectangle(

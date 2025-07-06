@@ -72,7 +72,7 @@ def resonator_cpw(
 
     # Create the resonator structure
     resonator_path = gf.path.extrude(path, cpw_xs)
-    resonator_ref = c.add_ref(resonator_path)
+    c.add_ref(resonator_path)
 
     # Create ground plane with gaps
     total_width = meander_width + 2 * meander_pitch
@@ -95,7 +95,7 @@ def resonator_cpw(
     gap_structure = gf.path.extrude(gap_path, gap_xs)
 
     # Subtract gaps from ground plane
-    cpw_structure = gf.boolean(
+    gf.boolean(
         ground_ref,
         gap_structure,
         operation="not",
@@ -193,7 +193,7 @@ def resonator_lumped(
         thickness=capacitor_thickness,
         layer=layer_metal,
     )
-    cap_ref = c.add_ref(capacitor)
+    c.add_ref(capacitor)
 
     # Create spiral inductor
     inductor = gf.components.spiral(
@@ -315,7 +315,7 @@ def resonator_quarter_wave(
         size=(length, width),
         layer=layer_metal,
     )
-    main_ref = c.add_ref(main_line)
+    c.add_ref(main_line)
 
     # Create shorting stub at one end
     short_stub = gf.components.rectangle(

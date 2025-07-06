@@ -24,20 +24,20 @@ def flux_qubit(
     """Creates a flux qubit (persistent current qubit).
 
     A flux qubit consists of a superconducting loop interrupted by three Josephson junctions.
-    Two junctions are identical (β junctions) while the third is smaller (α junction)
+    Two junctions are identical (beta junctions) while the third is smaller (alpha junction)
     with roughly 0.5-0.8 times the critical current.
 
     Args:
         loop_width: Width of the superconducting loop in μm.
         loop_height: Height of the superconducting loop in μm.
-        junction_width: Width of the β Josephson junctions in μm.
-        junction_height: Height of the β Josephson junctions in μm.
-        alpha_junction_width: Width of the a Josephson junction in μm.
-        alpha_junction_height: Height of the a Josephson junction in μm.
+        junction_width: Width of the beta Josephson junctions in μm.
+        junction_height: Height of the beta Josephson junctions in μm.
+        alpha_junction_width: Width of the alpha Josephson junction in μm.
+        alpha_junction_height: Height of the alpha Josephson junction in μm.
         wire_width: Width of the superconducting wires in μm.
         layer_metal: Layer for the metal wires.
-        layer_junction: Layer for the β Josephson junctions.
-        layer_alpha_junction: Layer for the a Josephson junction.
+        layer_junction: Layer for the beta Josephson junctions.
+        layer_alpha_junction: Layer for the alpha Josephson junction.
         port_type: Type of port to add to the component.
 
     Returns:
@@ -68,7 +68,7 @@ def flux_qubit(
     loop_ref.move((-loop_width / 2, -loop_height / 2))
 
     # Create gaps for junctions
-    # Bottom gap for α junction
+    # Bottom gap for alpha junction
     alpha_gap = gf.components.rectangle(
         size=(alpha_junction_width + 0.1, wire_width + 0.1),
         layer=layer_metal,
@@ -76,7 +76,7 @@ def flux_qubit(
     alpha_gap_ref = c.add_ref(alpha_gap)
     alpha_gap_ref.move((-alpha_junction_width / 2 - 0.05, -loop_height / 2 - 0.05))
 
-    # Left gap for β junction
+    # Left gap for beta junction
     beta_gap_left = gf.components.rectangle(
         size=(wire_width + 0.1, junction_height + 0.1),
         layer=layer_metal,
@@ -84,7 +84,7 @@ def flux_qubit(
     beta_gap_left_ref = c.add_ref(beta_gap_left)
     beta_gap_left_ref.move((-loop_width / 2 - 0.05, -junction_height / 2 - 0.05))
 
-    # Right gap for β junction
+    # Right gap for beta junction
     beta_gap_right = gf.components.rectangle(
         size=(wire_width + 0.1, junction_height + 0.1),
         layer=layer_metal,
@@ -95,14 +95,14 @@ def flux_qubit(
     )
 
     # Remove gaps from the loop
-    loop_with_gaps = gf.boolean(
+    gf.boolean(
         loop_ref,
         [alpha_gap_ref, beta_gap_left_ref, beta_gap_right_ref],
         operation="not",
         layer=layer_metal,
     )
 
-    # Create the α junction (smaller)
+    # Create the alpha junction (smaller)
     alpha_junction = gf.components.rectangle(
         size=(alpha_junction_width, alpha_junction_height),
         layer=layer_alpha_junction,
@@ -115,7 +115,7 @@ def flux_qubit(
         )
     )
 
-    # Create the β junctions (larger, identical)
+    # Create the beta junctions (larger, identical)
     beta_junction_left = gf.components.rectangle(
         size=(junction_width, junction_height),
         layer=layer_junction,
@@ -214,15 +214,15 @@ def flux_qubit_asymmetric(
     Args:
         loop_width: Width of the superconducting loop in μm.
         loop_height: Height of the superconducting loop in μm.
-        junction_width: Width of the β Josephson junctions in μm.
-        junction_height: Height of the β Josephson junctions in μm.
-        alpha_junction_width: Width of the α Josephson junction in μm.
-        alpha_junction_height: Height of the α Josephson junction in μm.
+        junction_width: Width of the beta Josephson junctions in μm.
+        junction_height: Height of the beta Josephson junctions in μm.
+        alpha_junction_width: Width of the alpha Josephson junction in μm.
+        alpha_junction_height: Height of the alpha Josephson junction in μm.
         wire_width: Width of the superconducting wires in μm.
         asymmetry_angle: Angle of asymmetry in degrees.
         layer_metal: Layer for the metal wires.
-        layer_junction: Layer for the β Josephson junctions.
-        layer_alpha_junction: Layer for the α Josephson junction.
+        layer_junction: Layer for the beta Josephson junctions.
+        layer_alpha_junction: Layer for the alpha Josephson junction.
         port_type: Type of port to add to the component.
 
     Returns:
@@ -283,7 +283,7 @@ def flux_qubit_asymmetric(
     c.add_polygon(points, layer=layer_metal)
 
     # Create junctions in the gaps
-    # α junction at bottom
+    # alpha junction at bottom
     alpha_junction = gf.components.rectangle(
         size=(alpha_junction_width, alpha_junction_height),
         layer=layer_alpha_junction,
@@ -296,7 +296,7 @@ def flux_qubit_asymmetric(
         )
     )
 
-    # β junctions at sides
+    # beta junctions at sides
     beta_junction_left = gf.components.rectangle(
         size=(junction_width, junction_height),
         layer=layer_junction,
