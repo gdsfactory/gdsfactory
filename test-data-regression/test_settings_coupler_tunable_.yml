@@ -1,0 +1,25 @@
+info:
+  coupler_type: tunable
+  gap: 3
+  pad_height: 40
+  pad_width: 30
+  tuning_gap: 1
+  tuning_pad_height: 20
+  tuning_pad_width: 15
+name: coupler_tunable_gdsfact_ab73fca4
+settings:
+  feed_length: 30
+  feed_width: 10
+  gap: 3
+  layer_metal:
+  - 1
+  - 0
+  layer_tuning:
+  - 3
+  - 0
+  pad_height: 40
+  pad_width: 30
+  port_type: electrical
+  tuning_gap: 1
+  tuning_pad_height: 20
+  tuning_pad_width: 15

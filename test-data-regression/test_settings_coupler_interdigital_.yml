@@ -1,0 +1,20 @@
+info:
+  coupler_type: interdigital
+  finger_gap_horizontal: 3
+  finger_gap_vertical: 2
+  finger_length: 30
+  finger_width: 2
+  fingers: 6
+name: coupler_interdigital_gd_326b4c50
+settings:
+  feed_length: 30
+  feed_width: 10
+  finger_gap_horizontal: 3
+  finger_gap_vertical: 2
+  finger_length: 30
+  finger_width: 2
+  fingers: 6
+  layer_metal:
+  - 1
+  - 0
+  port_type: electrical

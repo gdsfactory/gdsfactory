@@ -1,0 +1,135 @@
+instances:
+  rectangle_gdsfactorypco_8bc7a35a_1000_m25000:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 20
+      - 50
+  rectangle_gdsfactorypco_8bc7a35a_m21000_m25000:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 20
+      - 50
+  rectangle_gdsfactorypco_8e0991d1_21000_m5000:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 30
+      - 10
+  rectangle_gdsfactorypco_8e0991d1_m51000_m5000:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 30
+      - 10
+name: coupler_capacitive_gdsf_c7c01997
+nets:
+- p1: rectangle_gdsfactorypco_8bc7a35a_1000_m25000,e3
+  p2: rectangle_gdsfactorypco_8e0991d1_21000_m5000,e1
+- p1: rectangle_gdsfactorypco_8bc7a35a_m21000_m25000,e1
+  p2: rectangle_gdsfactorypco_8e0991d1_m51000_m5000,e3
+placements:
+  rectangle_gdsfactorypco_8bc7a35a_1000_m25000:
+    mirror: false
+    rotation: 0
+    x: 1
+    y: -25
+  rectangle_gdsfactorypco_8bc7a35a_m21000_m25000:
+    mirror: false
+    rotation: 0
+    x: -21
+    y: -25
+  rectangle_gdsfactorypco_8e0991d1_21000_m5000:
+    mirror: false
+    rotation: 0
+    x: 21
+    y: -5
+  rectangle_gdsfactorypco_8e0991d1_m51000_m5000:
+    mirror: false
+    rotation: 0
+    x: -51
+    y: -5
+ports:
+  left: rectangle_gdsfactorypco_8e0991d1_m51000_m5000,e1
+  right: rectangle_gdsfactorypco_8e0991d1_21000_m5000,e3
+warnings:
+  electrical:
+    unconnected_ports:
+    - message: 10 unconnected electrical ports!
+      ports:
+      - rectangle_gdsfactorypco_8bc7a35a_m21000_m25000,e2
+      - rectangle_gdsfactorypco_8bc7a35a_m21000_m25000,e3
+      - rectangle_gdsfactorypco_8bc7a35a_m21000_m25000,e4
+      - rectangle_gdsfactorypco_8bc7a35a_1000_m25000,e1
+      - rectangle_gdsfactorypco_8bc7a35a_1000_m25000,e2
+      - rectangle_gdsfactorypco_8bc7a35a_1000_m25000,e4
+      - rectangle_gdsfactorypco_8e0991d1_m51000_m5000,e2
+      - rectangle_gdsfactorypco_8e0991d1_m51000_m5000,e4
+      - rectangle_gdsfactorypco_8e0991d1_21000_m5000,e2
+      - rectangle_gdsfactorypco_8e0991d1_21000_m5000,e4
+      values:
+      - - -11
+        - 25
+      - - -1
+        - 0
+      - - -11
+        - -25
+      - - 1
+        - 0
+      - - 11
+        - 25
+      - - 11
+        - -25
+      - - -36
+        - 5
+      - - -36
+        - -5
+      - - 36
+        - 5
+      - - 36
+        - -5

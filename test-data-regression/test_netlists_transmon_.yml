@@ -1,0 +1,147 @@
+instances:
+  rectangle_gdsfactorypco_20e6fee0_m5000_m2000:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 10
+      - 4
+  rectangle_gdsfactorypco_73612198_3000_m50000:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 200
+      - 100
+  rectangle_gdsfactorypco_73612198_m203000_m50000:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 200
+      - 100
+  rectangle_gdsfactorypco_aa94d32a_m75_m150:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer:
+      - 2
+      - 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 0.15
+      - 0.3
+name: transmon_gdsfactorypcom_b8f72fdf
+nets: []
+placements:
+  rectangle_gdsfactorypco_20e6fee0_m5000_m2000:
+    mirror: false
+    rotation: 0
+    x: -5
+    y: -2
+  rectangle_gdsfactorypco_73612198_3000_m50000:
+    mirror: false
+    rotation: 0
+    x: 3
+    y: -50
+  rectangle_gdsfactorypco_73612198_m203000_m50000:
+    mirror: false
+    rotation: 0
+    x: -203
+    y: -50
+  rectangle_gdsfactorypco_aa94d32a_m75_m150:
+    mirror: false
+    rotation: 0
+    x: -0.075
+    y: -0.15
+ports: {}
+warnings:
+  electrical:
+    unconnected_ports:
+    - message: 16 unconnected electrical ports!
+      ports:
+      - rectangle_gdsfactorypco_73612198_m203000_m50000,e1
+      - rectangle_gdsfactorypco_73612198_m203000_m50000,e2
+      - rectangle_gdsfactorypco_73612198_m203000_m50000,e3
+      - rectangle_gdsfactorypco_73612198_m203000_m50000,e4
+      - rectangle_gdsfactorypco_73612198_3000_m50000,e1
+      - rectangle_gdsfactorypco_73612198_3000_m50000,e2
+      - rectangle_gdsfactorypco_73612198_3000_m50000,e3
+      - rectangle_gdsfactorypco_73612198_3000_m50000,e4
+      - rectangle_gdsfactorypco_20e6fee0_m5000_m2000,e1
+      - rectangle_gdsfactorypco_20e6fee0_m5000_m2000,e2
+      - rectangle_gdsfactorypco_20e6fee0_m5000_m2000,e3
+      - rectangle_gdsfactorypco_20e6fee0_m5000_m2000,e4
+      - rectangle_gdsfactorypco_aa94d32a_m75_m150,e1
+      - rectangle_gdsfactorypco_aa94d32a_m75_m150,e2
+      - rectangle_gdsfactorypco_aa94d32a_m75_m150,e3
+      - rectangle_gdsfactorypco_aa94d32a_m75_m150,e4
+      values:
+      - - -203
+        - 0
+      - - -103
+        - 50
+      - - -3
+        - 0
+      - - -103
+        - -50
+      - - 3
+        - 0
+      - - 103
+        - 50
+      - - 203
+        - 0
+      - - 103
+        - -50
+      - - -5
+        - 0
+      - - 0
+        - 2
+      - - 5
+        - 0
+      - - 0
+        - -2
+      - - -0.075
+        - 0
+      - - 0
+        - 0.15
+      - - 0.075
+        - 0
+      - - 0
+        - -0.15
