@@ -1485,6 +1485,7 @@ def euler(
     p: float = 0.5,
     use_eff: bool = False,
     npoints: int | None = None,
+    angular_step: float | None = None,
 ) -> Path:
     """Returns an euler bend that adiabatically transitions from straight to curved.
 
@@ -1502,6 +1503,8 @@ def euler(
                 If True: The curve will be scaled such that the endpoints match an \
                 arc with parameters `radius` and `angle`.
         npoints: Number of points used per 360 degrees.
+        angular_step: If provided, determines the angular step (in degrees) between points. \
+                This overrides npoints calculation.
 
     .. plot::
         :include-source:
@@ -1520,6 +1523,8 @@ def euler(
     if (p < 0) or (p > 1):
         raise ValueError(f"euler requires argument `p` be between 0 and 1. Got {p}")
     if p == 0:
+        if angular_step is not None:
+            npoints = abs(int(angle / angular_step)) + 1
         path = arc(radius=radius, angle=angle, npoints=npoints)
         path.info["Reff"] = radius
         path.info["Rmin"] = radius
@@ -1538,7 +1543,12 @@ def euler(
     s0 = float(2 * sp + Rp * alpha * (1 - p))
 
     pdk = get_active_pdk()
-    npoints = npoints or abs(int(angle / 360 * radius / pdk.bend_points_distance / 2))
+    if angular_step is not None:
+        npoints = abs(int(angle / angular_step)) + 1
+    else:
+        npoints = npoints or abs(
+            int(angle / 360 * radius / pdk.bend_points_distance / 2)
+        )
     npoints = max(npoints, int(360 / angle) + 1)
 
     num_pts_euler = int(np.round(sp / (s0 / 2) * npoints))
