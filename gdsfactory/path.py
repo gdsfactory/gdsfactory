@@ -1479,6 +1479,36 @@ def _fresnel(
     return np.sqrt(2) * R0 * x, np.sqrt(2) * R0 * y
 
 
+def _fresnel_angular(
+    R0: float, s: float, num_pts: int, n_iter: int = 8
+) -> tuple[npt.NDArray[np.floating[Any]], npt.NDArray[np.floating[Any]]]:
+    """Fresnel integral with uniform angular sampling.
+
+    Args:
+        R0: Initial radius of curvature.
+        s: Length of the curve.
+        num_pts: Number of points to generate.
+        n_iter: Number of iterations to use in the series expansion.
+    """
+    # For Fresnel spiral, the angle theta = t^2/2
+    # So t = sqrt(2*theta), where theta is in radians
+    t_max = s / float(np.sqrt(2) * R0)
+    theta_max = t_max**2 / 2
+
+    # Generate uniform angles
+    thetas = np.linspace(0, theta_max, num_pts)
+    t = np.sqrt(2 * thetas)
+
+    x = np.zeros(num_pts)
+    y = np.zeros(num_pts)
+
+    for n in range(n_iter):
+        x += (-1) ** n * t ** (4 * n + 1) / (math.factorial(2 * n) * (4 * n + 1))
+        y += (-1) ** n * t ** (4 * n + 3) / (math.factorial(2 * n + 1) * (4 * n + 3))
+
+    return np.sqrt(2) * R0 * x, np.sqrt(2) * R0 * y
+
+
 def euler(
     radius: float = 10,
     angle: float = 90,
@@ -1545,14 +1575,21 @@ def euler(
     pdk = get_active_pdk()
     if angular_step is not None:
         npoints = abs(int(angle / angular_step)) + 1
+        # For angular discretization, distribute points based on angle proportion
+        euler_angle = p * angle / 2  # Angle covered by each Euler section
+        arc_angle = (1 - p) * angle  # Angle covered by arc section
+        num_pts_euler = max(1, int(euler_angle / angular_step))
+        num_pts_arc = max(1, int(arc_angle / angular_step)) + 1
+        npoints = (
+            2 * num_pts_euler + num_pts_arc - 2
+        )  # Total points (avoiding duplicates)
     else:
         npoints = npoints or abs(
             int(angle / 360 * radius / pdk.bend_points_distance / 2)
         )
-    npoints = max(npoints, int(360 / angle) + 1)
-
-    num_pts_euler = int(np.round(sp / (s0 / 2) * npoints))
-    num_pts_arc = npoints - num_pts_euler
+        npoints = max(npoints, int(360 / angle) + 1)
+        num_pts_euler = int(np.round(sp / (s0 / 2) * npoints))
+        num_pts_arc = npoints - num_pts_euler
 
     # Ensure a minimum of 2 points for each euler/arc section
     if npoints <= 2:
@@ -1560,7 +1597,10 @@ def euler(
         num_pts_arc = 2
 
     if num_pts_euler > 0:
-        xbend1, ybend1 = _fresnel(R0, sp, num_pts_euler)
+        if angular_step is not None:
+            xbend1, ybend1 = _fresnel_angular(R0, sp, num_pts_euler)
+        else:
+            xbend1, ybend1 = _fresnel(R0, sp, num_pts_euler)
         xp, yp = xbend1[-1], ybend1[-1]
         dx = xp - Rp * np.sin(p * alpha / 2)
         dy = yp - Rp * (1 - np.cos(p * alpha / 2))
@@ -1569,9 +1609,16 @@ def euler(
         dx = 0
         dy = 0
 
-    s = np.linspace(sp, s0 / 2, num_pts_arc)
-    xbend2 = Rp * np.sin((s - sp) / Rp + p * alpha / 2) + dx
-    ybend2 = Rp * (1 - np.cos((s - sp) / Rp + p * alpha / 2)) + dy
+    if angular_step is not None:
+        # For angular discretization in the arc section
+        arc_angle = alpha * (1 - p)  # angle covered by the arc section
+        theta = np.linspace(0, arc_angle, num_pts_arc)
+        xbend2 = Rp * np.sin(theta + p * alpha / 2) + dx
+        ybend2 = Rp * (1 - np.cos(theta + p * alpha / 2)) + dy
+    else:
+        s = np.linspace(sp, s0 / 2, num_pts_arc)
+        xbend2 = Rp * np.sin((s - sp) / Rp + p * alpha / 2) + dx
+        ybend2 = Rp * (1 - np.cos((s - sp) / Rp + p * alpha / 2)) + dy
 
     x = np.concatenate([xbend1, xbend2[1:]])
     y = np.concatenate([ybend1, ybend2[1:]])
