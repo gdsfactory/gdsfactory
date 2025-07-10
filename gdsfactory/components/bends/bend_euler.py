@@ -53,6 +53,7 @@ def _bend_euler(
     cross_section: CrossSectionSpec = "strip",
     allow_min_radius_violation: bool = False,
     all_angle: bool = False,
+    angular_step: float | None = None,
 ) -> AnyComponent:
     """Euler bend with changing bend radius.
 
@@ -78,6 +79,7 @@ def _bend_euler(
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
         allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
         all_angle: if True, the bend is drawn with a single euler curve.
+        angular_step: if not None, the angle step in degrees for the all_angle bend.
 
     .. code::
 
@@ -104,7 +106,12 @@ def _bend_euler(
         x = gf.get_cross_section(cross_section, width=width or x.width)
 
     path = euler(
-        radius=radius, angle=angle, p=p, use_eff=with_arc_floorplan, npoints=npoints
+        radius=radius,
+        angle=angle,
+        p=p,
+        use_eff=with_arc_floorplan,
+        npoints=npoints,
+        angular_step=angular_step,
     )
     c = path.extrude(x, all_angle=all_angle)
     min_bend_radius = float(np.round(path.info["Rmin"], 3))
@@ -137,6 +144,7 @@ def bend_euler_s(
     p: float = 0.5,
     with_arc_floorplan: bool = True,
     npoints: int | None = None,
+    angular_step: float | None = None,
     layer: LayerSpec | None = None,
     width: float | None = None,
     cross_section: CrossSectionSpec = "strip",
@@ -151,6 +159,7 @@ def bend_euler_s(
         p: Proportion of the curve that is an Euler curve.
         with_arc_floorplan: If False: `radius` is the minimum radius of curvature.
         npoints: Number of points used per 360 degrees.
+        angular_step: if not None, the angle step in degrees for the all_angle bend.
         layer: layer to use. Defaults to cross_section.layer.
         width: width to use. Defaults to cross_section.width.
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
@@ -183,6 +192,7 @@ def bend_euler_s(
         width=width,
         cross_section=cross_section,
         allow_min_radius_violation=allow_min_radius_violation,
+        angular_step=angular_step,
     )
     b1 = c.add_ref(b)
     b2 = c.add_ref(b)
@@ -201,6 +211,7 @@ def bend_euler(
     p: float = 0.5,
     with_arc_floorplan: bool = True,
     npoints: int | None = None,
+    angular_step: float | None = None,
     layer: LayerSpec | None = None,
     width: float | None = None,
     cross_section: CrossSectionSpec = "strip",
@@ -214,6 +225,7 @@ def bend_euler(
         p: Proportion of the curve that is an Euler curve.
         with_arc_floorplan: if True the size of the bend will be adjusted to match an arc bend with the specified radius. If False: `radius` is the minimum radius of curvature.
         npoints: Number of points used per 360 degrees.
+        angular_step: if not None, the angle step in degrees for the all_angle bend.
         layer: layer to use. Defaults to cross_section.layer.
         width: width to use. Defaults to cross_section.width.
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
@@ -247,6 +259,7 @@ def bend_euler_all_angle(
     p: float = 0.5,
     with_arc_floorplan: bool = True,
     npoints: int | None = None,
+    angular_step: float | None = None,
     layer: gf.typings.LayerSpec | None = None,
     width: float | None = None,
     cross_section: CrossSectionSpec = "strip",
@@ -260,6 +273,7 @@ def bend_euler_all_angle(
         p: Proportion of the curve that is an Euler curve.
         with_arc_floorplan: If False: `radius` is the minimum radius of curvature
         npoints: Number of points used per 360 degrees.
+        angular_step: if not None, the angle step in degrees for the all_angle bend.
         layer: layer to use. Defaults to cross_section.layer.
         width: width to use. Defaults to cross_section.width.
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
@@ -272,6 +286,7 @@ def bend_euler_all_angle(
         p=p,
         with_arc_floorplan=with_arc_floorplan,
         npoints=npoints,
+        angular_step=angular_step,
         layer=layer,
         width=width,
         cross_section=cross_section,
@@ -289,8 +304,8 @@ if __name__ == "__main__":
     c = bend_euler(angle=90)
     c = gf.grid(
         [
-            bend_euler(p=0, with_arc_floorplan=False),
-            bend_euler(p=1, with_arc_floorplan=True),
+            # bend_euler(p=0, with_arc_floorplan=False),
+            bend_euler(p=1, with_arc_floorplan=True, angular_step=10),
         ]
     )
     c.show()
