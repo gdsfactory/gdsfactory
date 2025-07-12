@@ -21,6 +21,7 @@ def resistance_meander(
     based on phidl.geometry
 
     Args:
+        name: Name of the component.
         pad_size: Size of the two matched impedance pads (microns).
         num_squares: Number of squares comprising the resonator wire.
         width: The width of the squares (microns).
