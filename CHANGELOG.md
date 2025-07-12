@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.9.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.9.5) - 2025-07-12
+
+No significant changes.
+
+
 ## [9.9.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.9.4) - 2025-06-25
 
 - better xsection detection [#4011](https://github.com/gdsfactory/gdsfactory/pull/4011)
