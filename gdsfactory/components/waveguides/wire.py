@@ -141,6 +141,7 @@ def wire_corner45(
 @gf.cell_with_module_name
 def wire_corner_sections(
     cross_section: CrossSectionSpec = "metal_routing",
+    port_type: str = "electrical",
 ) -> Component:
     """Returns 90 degrees electrical corner wire, where all cross_section sections properly represented.
 
@@ -148,6 +149,7 @@ def wire_corner_sections(
 
     Args:
         cross_section: spec.
+        port_type: "electrical" or "optical".
     """
     x = gf.get_cross_section(cross_section)
 
@@ -186,6 +188,7 @@ def wire_corner_sections(
         orientation=180,
         cross_section=x,
         layer=x.layer,
+        port_type=port_type,
     )
     c.add_port(
         name="e2",
@@ -193,6 +196,7 @@ def wire_corner_sections(
         orientation=90,
         cross_section=x,
         layer=x.layer,
+        port_type=port_type,
     )
     c.info["length"] = ymax - xmin
     c.info["dy"] = ymax - xmin
