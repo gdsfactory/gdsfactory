@@ -1,6 +1,6 @@
 instances:
-  _ring_crow_ring_gdsfact_bcf38796_0_21400:
-    component: _ring_crow_ring
+  ring_asymmetric_gdsfact_df3911fe_0_21400:
+    component: ring_asymmetric
     info: {}
     settings:
       bend: bend_circular
@@ -9,8 +9,8 @@ instances:
       length_y: 0
       radius: 10
       straight: straight
-  _ring_crow_ring_gdsfact_bcf38796_0_42100:
-    component: _ring_crow_ring
+  ring_asymmetric_gdsfact_df3911fe_0_42100:
+    component: ring_asymmetric
     info: {}
     settings:
       bend: bend_circular
@@ -19,8 +19,8 @@ instances:
       length_y: 0
       radius: 10
       straight: straight
-  _ring_crow_ring_gdsfact_bcf38796_0_700:
-    component: _ring_crow_ring
+  ring_asymmetric_gdsfact_df3911fe_0_700:
+    component: ring_asymmetric
     info: {}
     settings:
       bend: bend_circular
@@ -60,17 +60,17 @@ instances:
 name: ring_crow_gdsfactorypco_d55005d8
 nets: []
 placements:
-  _ring_crow_ring_gdsfact_bcf38796_0_21400:
+  ring_asymmetric_gdsfact_df3911fe_0_21400:
     mirror: false
     rotation: 0
     x: 0
     y: 21.4
-  _ring_crow_ring_gdsfact_bcf38796_0_42100:
+  ring_asymmetric_gdsfact_df3911fe_0_42100:
     mirror: false
     rotation: 0
     x: 0
     y: 42.1
-  _ring_crow_ring_gdsfact_bcf38796_0_700:
+  ring_asymmetric_gdsfact_df3911fe_0_700:
     mirror: false
     rotation: 0
     x: 0

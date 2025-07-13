@@ -87,7 +87,7 @@ def ring_crow(
         zip(gaps, radius, bends, ring_cross_sections, lengths_y)
     ):
         gap = gf.snap.snap_to_grid(gap, grid_factor=2)
-        ring = _ring_crow_ring(
+        ring = ring_asymmetric(
             radius=r,
             length_x=length_x,
             length_y=length_y,
@@ -119,15 +119,24 @@ def ring_crow(
 
 
 @gf.cell_with_module_name
-def _ring_crow_ring(
-    radius: float,
-    length_x: float,
-    length_y: float,
-    straight: ComponentSpec,
-    bend: ComponentSpec,
-    cross_section: CrossSectionSpec,
+def ring_asymmetric(
+    radius: float = 10.0,
+    length_x: float = 2.0,
+    length_y: float = 4.0,
+    straight: ComponentSpec = "straight",
+    bend: ComponentSpec = "bend_circular",
+    cross_section: CrossSectionSpec = "strip",
 ) -> Component:
-    """Returns a single ring for a crow filter."""
+    """An asymmetric ring with straight waveguides between the bends.
+
+    Args:
+        radius: of the ring.
+        length_x: horizontal straight length.
+        length_y: vertical straight length.
+        straight: straight component spec.
+        bend: bend component spec.
+        cross_section: cross_section spec.
+    """
     ring = Component()
 
     bend_c = gf.get_component(bend, radius=radius, cross_section=cross_section)
