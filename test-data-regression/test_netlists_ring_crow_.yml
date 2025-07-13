@@ -1,4 +1,34 @@
 instances:
+  _ring_crow_ring_gdsfact_bcf38796_0_21400:
+    component: _ring_crow_ring
+    info: {}
+    settings:
+      bend: bend_circular
+      cross_section: strip
+      length_x: 0
+      length_y: 0
+      radius: 10
+      straight: straight
+  _ring_crow_ring_gdsfact_bcf38796_0_42100:
+    component: _ring_crow_ring
+    info: {}
+    settings:
+      bend: bend_circular
+      cross_section: strip
+      length_x: 0
+      length_y: 0
+      radius: 10
+      straight: straight
+  _ring_crow_ring_gdsfact_bcf38796_0_700:
+    component: _ring_crow_ring
+    info: {}
+    settings:
+      bend: bend_circular
+      cross_section: strip
+      length_x: 0
+      length_y: 0
+      radius: 10
+      straight: straight
   straight_gdsfactorypcom_31a8c163_m10000_0:
     component: straight
     info:
@@ -30,6 +60,21 @@ instances:
 name: ring_crow_gdsfactorypco_d55005d8
 nets: []
 placements:
+  _ring_crow_ring_gdsfact_bcf38796_0_21400:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 21.4
+  _ring_crow_ring_gdsfact_bcf38796_0_42100:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 42.1
+  _ring_crow_ring_gdsfact_bcf38796_0_700:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0.7
   straight_gdsfactorypcom_31a8c163_m10000_0:
     mirror: false
     rotation: 0

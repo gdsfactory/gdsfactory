@@ -83,47 +83,20 @@ def ring_crow(
     # Cascade rings
     cum_y_dist = input_straight_width / 2
 
-    for index, (gap, r, bend, cross_section, length_y) in enumerate(
+    for _index, (gap, r, bend, cross_section, length_y) in enumerate(
         zip(gaps, radius, bends, ring_cross_sections, lengths_y)
     ):
         gap = gf.snap.snap_to_grid(gap, grid_factor=2)
-        ring = Component()
-
-        bend_c = gf.get_component(bend, radius=r, cross_section=cross_section)
+        ring = _ring_crow_ring(
+            radius=r,
+            length_x=length_x,
+            length_y=length_y,
+            straight=straight,
+            bend=bend,
+            cross_section=cross_section,
+        )
         xs = gf.get_cross_section(cross_section)
         bend_width = xs.width
-        bend1 = ring.add_ref(bend_c, name=f"bot_right_bend_ring_{index}")
-        bend2 = ring.add_ref(bend_c, name=f"top_right_bend_ring_{index}")
-        bend3 = ring.add_ref(bend_c, name=f"top_left_bend_ring_{index}")
-        bend4 = ring.add_ref(bend_c, name=f"bot_left_bend_ring_{index}")
-
-        straight_hor_c = gf.get_component(
-            straight, length=length_x, cross_section=cross_section
-        )
-        straight_ver_c = gf.get_component(
-            straight, length=length_y, cross_section=cross_section
-        )
-        straight_hor1 = ring.add_ref(
-            straight_hor_c, name=f"bot_hor_waveguide_ring_{index}"
-        )
-        straight_hor2 = ring.add_ref(
-            straight_hor_c, name=f"top_hor_waveguide_ring_{index}"
-        )
-        straight_ver1 = ring.add_ref(
-            straight_ver_c, name=f"right_ver_waveguide_ring_{index}"
-        )
-        straight_ver2 = ring.add_ref(
-            straight_ver_c, name=f"left_ver_waveguide_ring_{index}"
-        )
-
-        bend1.connect("o1", straight_hor1.ports["o2"])
-        straight_ver1.connect("o1", bend1.ports["o2"])
-        bend2.connect("o1", straight_ver1.ports["o2"])
-        straight_hor2.connect("o1", bend2.ports["o2"])
-        bend3.connect("o1", straight_hor2.ports["o2"])
-        straight_ver2.connect("o1", bend3.ports["o2"])
-        bend4.connect("o1", straight_ver2.ports["o2"])
-
         ring_ref = c.add_ref(ring)
         ring_ref.movey(cum_y_dist + gap + bend_width / 2)
         cum_y_dist += gap + bend_width + 2 * r + length_y
@@ -143,6 +116,47 @@ def ring_crow(
     c.add_port(name="o3", port=output_straight_waveguide.ports["o1"])
     c.add_port(name="o4", port=output_straight_waveguide.ports["o2"])
     return c
+
+
+@gf.cell_with_module_name
+def _ring_crow_ring(
+    radius: float,
+    length_x: float,
+    length_y: float,
+    straight: ComponentSpec,
+    bend: ComponentSpec,
+    cross_section: CrossSectionSpec,
+) -> Component:
+    """Returns a single ring for a crow filter."""
+    ring = Component()
+
+    bend_c = gf.get_component(bend, radius=radius, cross_section=cross_section)
+
+    bend1 = ring.add_ref(bend_c, name="bot_right_bend_ring")
+    bend2 = ring.add_ref(bend_c, name="top_right_bend_ring")
+    bend3 = ring.add_ref(bend_c, name="top_left_bend_ring")
+    bend4 = ring.add_ref(bend_c, name="bot_left_bend_ring")
+
+    straight_hor_c = gf.get_component(
+        straight, length=length_x, cross_section=cross_section
+    )
+    straight_ver_c = gf.get_component(
+        straight, length=length_y, cross_section=cross_section
+    )
+    straight_hor1 = ring.add_ref(straight_hor_c, name="bot_hor_waveguide_ring")
+    straight_hor2 = ring.add_ref(straight_hor_c, name="top_hor_waveguide_ring")
+    straight_ver1 = ring.add_ref(straight_ver_c, name="right_ver_waveguide_ring")
+    straight_ver2 = ring.add_ref(straight_ver_c, name="left_ver_waveguide_ring")
+
+    bend1.connect("o1", straight_hor1.ports["o2"])
+    straight_ver1.connect("o1", bend1.ports["o2"])
+    bend2.connect("o1", straight_ver1.ports["o2"])
+    straight_hor2.connect("o1", bend2.ports["o2"])
+    bend3.connect("o1", straight_hor2.ports["o2"])
+    straight_ver2.connect("o1", bend3.ports["o2"])
+    bend4.connect("o1", straight_ver2.ports["o2"])
+
+    return ring
 
 
 if __name__ == "__main__":
