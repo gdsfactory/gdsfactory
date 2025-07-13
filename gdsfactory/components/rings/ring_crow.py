@@ -83,8 +83,8 @@ def ring_crow(
     # Cascade rings
     cum_y_dist = input_straight_width / 2
 
-    for _index, (gap, r, bend, cross_section, length_y) in enumerate(
-        zip(gaps, radius, bends, ring_cross_sections, lengths_y)
+    for gap, r, bend, cross_section, length_y in zip(
+        gaps, radius, bends, ring_cross_sections, lengths_y
     ):
         gap = gf.snap.snap_to_grid(gap, grid_factor=2)
         ring = ring_asymmetric(
