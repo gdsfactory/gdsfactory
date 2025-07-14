@@ -1,12 +1,13 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.9.5...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.10.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.10.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.10.0) - 2025-07-14
 
-No significant changes.
-
+- Allow angular step [#4027](https://github.com/gdsfactory/gdsfactory/pull/4027)
+- Netlist undecorated insts [#4030](https://github.com/gdsfactory/gdsfactory/pull/4030)
+- enabling extruding with a cross section and a width [#4031](https://github.com/gdsfactory/gdsfactory/pull/4031)
 
 ## [9.9.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.9.5) - 2025-07-12
 
