@@ -1,5 +1,5 @@
 instances:
-  bend_euler_gdsfactorypc_e95a7a4d_10000_11300_A90:
+  bend_euler_gdsfactorypc_a86bc407_10000_11300_A90:
     component: bend_euler
     info:
       dy: 10
@@ -16,6 +16,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -23,7 +24,7 @@ instances:
       radius: 10
       width: null
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_e95a7a4d_m4000_21300_A180:
+  bend_euler_gdsfactorypc_a86bc407_m4000_21300_A180:
     component: bend_euler
     info:
       dy: 10
@@ -40,6 +41,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -103,25 +105,25 @@ instances:
       width: null
 name: ring_single_gdsfactoryp_d74ed1d8
 nets:
-- p1: bend_euler_gdsfactorypc_e95a7a4d_10000_11300_A90,o1
+- p1: bend_euler_gdsfactorypc_a86bc407_10000_11300_A90,o1
   p2: straight_gdsfactorypcom_058e2168_10000_11300_A270,o1
-- p1: bend_euler_gdsfactorypc_e95a7a4d_10000_11300_A90,o2
+- p1: bend_euler_gdsfactorypc_a86bc407_10000_11300_A90,o2
   p2: straight_gdsfactorypcom_a6eac62c_0_21300_A180,o1
-- p1: bend_euler_gdsfactorypc_e95a7a4d_m4000_21300_A180,o1
+- p1: bend_euler_gdsfactorypc_a86bc407_m4000_21300_A180,o1
   p2: straight_gdsfactorypcom_a6eac62c_0_21300_A180,o2
-- p1: bend_euler_gdsfactorypc_e95a7a4d_m4000_21300_A180,o2
+- p1: bend_euler_gdsfactorypc_a86bc407_m4000_21300_A180,o2
   p2: straight_gdsfactorypcom_058e2168_m14000_10700_A90,o2
 - p1: coupler_ring_gdsfactory_7a1e2f00_0_0,o2
   p2: straight_gdsfactorypcom_058e2168_m14000_10700_A90,o1
 - p1: coupler_ring_gdsfactory_7a1e2f00_0_0,o3
   p2: straight_gdsfactorypcom_058e2168_10000_11300_A270,o2
 placements:
-  bend_euler_gdsfactorypc_e95a7a4d_10000_11300_A90:
+  bend_euler_gdsfactorypc_a86bc407_10000_11300_A90:
     mirror: false
     rotation: 90
     x: 10
     y: 11.3
-  bend_euler_gdsfactorypc_e95a7a4d_m4000_21300_A180:
+  bend_euler_gdsfactorypc_a86bc407_m4000_21300_A180:
     mirror: false
     rotation: 180
     x: -4

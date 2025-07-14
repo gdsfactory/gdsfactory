@@ -1,5 +1,5 @@
 instances:
-  bend_euler_gdsfactorypc_c35a91db_195500_m5500_A90:
+  bend_euler_gdsfactorypc_387600b2_195500_m5500_A90:
     component: bend_euler
     info:
       dy: 10
@@ -16,6 +16,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -23,7 +24,7 @@ instances:
       radius: null
       width: null
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_c35a91db_322500_m1000_A90:
+  bend_euler_gdsfactorypc_387600b2_322500_m1000_A90:
     component: bend_euler
     info:
       dy: 10
@@ -40,6 +41,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -47,7 +49,7 @@ instances:
       radius: null
       width: null
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_c35a91db_449500_3500_A90:
+  bend_euler_gdsfactorypc_387600b2_449500_3500_A90:
     component: bend_euler
     info:
       dy: 10
@@ -64,6 +66,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -71,7 +74,7 @@ instances:
       radius: null
       width: null
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_c35a91db_68500_m10000_A90:
+  bend_euler_gdsfactorypc_387600b2_68500_m10000_A90:
     component: bend_euler
     info:
       dy: 10
@@ -88,6 +91,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -95,7 +99,7 @@ instances:
       radius: null
       width: null
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_c35a91db_m185500_m5500_A90_M:
+  bend_euler_gdsfactorypc_387600b2_m185500_m5500_A90_M:
     component: bend_euler
     info:
       dy: 10
@@ -112,6 +116,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -119,7 +124,7 @@ instances:
       radius: null
       width: null
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_c35a91db_m312500_m1000_A90_M:
+  bend_euler_gdsfactorypc_387600b2_m312500_m1000_A90_M:
     component: bend_euler
     info:
       dy: 10
@@ -136,6 +141,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -143,7 +149,7 @@ instances:
       radius: null
       width: null
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_c35a91db_m439500_3500_A90_M:
+  bend_euler_gdsfactorypc_387600b2_m439500_3500_A90_M:
     component: bend_euler
     info:
       dy: 10
@@ -160,6 +166,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -167,7 +174,7 @@ instances:
       radius: null
       width: null
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_c35a91db_m58500_m10000_A90_M:
+  bend_euler_gdsfactorypc_387600b2_m58500_m10000_A90_M:
     component: bend_euler
     info:
       dy: 10
@@ -184,6 +191,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -593,37 +601,37 @@ instances:
       width: 0.5
 name: grating_coupler_tree_gd_ef3cc62e
 nets:
-- p1: bend_euler_gdsfactorypc_c35a91db_195500_m5500_A90,o1
+- p1: bend_euler_gdsfactorypc_387600b2_195500_m5500_A90,o1
   p2: straight_gdsfactorypcom_1d439041_195500_m5500_A270,o1
-- p1: bend_euler_gdsfactorypc_c35a91db_195500_m5500_A90,o2
+- p1: bend_euler_gdsfactorypc_387600b2_195500_m5500_A90,o2
   p2: straight_gdsfactorypcom_32999c45_10000_4500,o2
-- p1: bend_euler_gdsfactorypc_c35a91db_322500_m1000_A90,o1
+- p1: bend_euler_gdsfactorypc_387600b2_322500_m1000_A90,o1
   p2: straight_gdsfactorypcom_aaf4282c_322500_m1000_A270,o1
-- p1: bend_euler_gdsfactorypc_c35a91db_322500_m1000_A90,o2
+- p1: bend_euler_gdsfactorypc_387600b2_322500_m1000_A90,o2
   p2: straight_gdsfactorypcom_91443128_10000_9000,o2
-- p1: bend_euler_gdsfactorypc_c35a91db_449500_3500_A90,o1
+- p1: bend_euler_gdsfactorypc_387600b2_449500_3500_A90,o1
   p2: straight_gdsfactorypcom_7e7d1e79_449500_3500_A270,o1
-- p1: bend_euler_gdsfactorypc_c35a91db_449500_3500_A90,o2
+- p1: bend_euler_gdsfactorypc_387600b2_449500_3500_A90,o2
   p2: straight_gdsfactorypcom_3f34bc4c_10000_13500,o2
-- p1: bend_euler_gdsfactorypc_c35a91db_68500_m10000_A90,o1
+- p1: bend_euler_gdsfactorypc_387600b2_68500_m10000_A90,o1
   p2: straight_gdsfactorypcom_5a080edd_68500_m10000_A270,o1
-- p1: bend_euler_gdsfactorypc_c35a91db_68500_m10000_A90,o2
+- p1: bend_euler_gdsfactorypc_387600b2_68500_m10000_A90,o2
   p2: straight_gdsfactorypcom_dbb2297b_10000_0,o2
-- p1: bend_euler_gdsfactorypc_c35a91db_m185500_m5500_A90_M,o1
+- p1: bend_euler_gdsfactorypc_387600b2_m185500_m5500_A90_M,o1
   p2: straight_gdsfactorypcom_1d439041_m185500_m5500_A270,o1
-- p1: bend_euler_gdsfactorypc_c35a91db_m185500_m5500_A90_M,o2
+- p1: bend_euler_gdsfactorypc_387600b2_m185500_m5500_A90_M,o2
   p2: straight_gdsfactorypcom_32999c45_0_4500_A180,o2
-- p1: bend_euler_gdsfactorypc_c35a91db_m312500_m1000_A90_M,o1
+- p1: bend_euler_gdsfactorypc_387600b2_m312500_m1000_A90_M,o1
   p2: straight_gdsfactorypcom_aaf4282c_m312500_m1000_A270,o1
-- p1: bend_euler_gdsfactorypc_c35a91db_m312500_m1000_A90_M,o2
+- p1: bend_euler_gdsfactorypc_387600b2_m312500_m1000_A90_M,o2
   p2: straight_gdsfactorypcom_91443128_0_9000_A180,o2
-- p1: bend_euler_gdsfactorypc_c35a91db_m439500_3500_A90_M,o1
+- p1: bend_euler_gdsfactorypc_387600b2_m439500_3500_A90_M,o1
   p2: straight_gdsfactorypcom_7e7d1e79_m439500_3500_A270,o1
-- p1: bend_euler_gdsfactorypc_c35a91db_m439500_3500_A90_M,o2
+- p1: bend_euler_gdsfactorypc_387600b2_m439500_3500_A90_M,o2
   p2: straight_gdsfactorypcom_3f34bc4c_0_13500_A180,o2
-- p1: bend_euler_gdsfactorypc_c35a91db_m58500_m10000_A90_M,o1
+- p1: bend_euler_gdsfactorypc_387600b2_m58500_m10000_A90_M,o1
   p2: straight_gdsfactorypcom_5a080edd_m58500_m10000_A270,o1
-- p1: bend_euler_gdsfactorypc_c35a91db_m58500_m10000_A90_M,o2
+- p1: bend_euler_gdsfactorypc_387600b2_m58500_m10000_A90_M,o2
   p2: straight_gdsfactorypcom_dbb2297b_0_0_A180,o2
 - p1: grating_coupler_ellipti_2f9b04be_195500_m69500_A270,o1
   p2: straight_gdsfactorypcom_1d439041_195500_m5500_A270,o2
@@ -658,42 +666,42 @@ nets:
 - p1: straight_array_gdsfacto_4d2a5b84_0_0,o8
   p2: straight_gdsfactorypcom_dbb2297b_10000_0,o1
 placements:
-  bend_euler_gdsfactorypc_c35a91db_195500_m5500_A90:
+  bend_euler_gdsfactorypc_387600b2_195500_m5500_A90:
     mirror: false
     rotation: 90
     x: 195.5
     y: -5.5
-  bend_euler_gdsfactorypc_c35a91db_322500_m1000_A90:
+  bend_euler_gdsfactorypc_387600b2_322500_m1000_A90:
     mirror: false
     rotation: 90
     x: 322.5
     y: -1
-  bend_euler_gdsfactorypc_c35a91db_449500_3500_A90:
+  bend_euler_gdsfactorypc_387600b2_449500_3500_A90:
     mirror: false
     rotation: 90
     x: 449.5
     y: 3.5
-  bend_euler_gdsfactorypc_c35a91db_68500_m10000_A90:
+  bend_euler_gdsfactorypc_387600b2_68500_m10000_A90:
     mirror: false
     rotation: 90
     x: 68.5
     y: -10
-  bend_euler_gdsfactorypc_c35a91db_m185500_m5500_A90_M:
+  bend_euler_gdsfactorypc_387600b2_m185500_m5500_A90_M:
     mirror: true
     rotation: 90
     x: -185.5
     y: -5.5
-  bend_euler_gdsfactorypc_c35a91db_m312500_m1000_A90_M:
+  bend_euler_gdsfactorypc_387600b2_m312500_m1000_A90_M:
     mirror: true
     rotation: 90
     x: -312.5
     y: -1
-  bend_euler_gdsfactorypc_c35a91db_m439500_3500_A90_M:
+  bend_euler_gdsfactorypc_387600b2_m439500_3500_A90_M:
     mirror: true
     rotation: 90
     x: -439.5
     y: 3.5
-  bend_euler_gdsfactorypc_c35a91db_m58500_m10000_A90_M:
+  bend_euler_gdsfactorypc_387600b2_m58500_m10000_A90_M:
     mirror: true
     rotation: 90
     x: -58.5
