@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.10.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.10.0) - 2025-07-14
+
+No significant changes.
+
+
 ## [9.9.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.9.5) - 2025-07-12
 
 - fix port type for wire_corner [#4029](https://github.com/gdsfactory/gdsfactory/pull/4029)
