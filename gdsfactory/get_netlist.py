@@ -264,6 +264,7 @@ def get_netlist(
             instance.update(component=c.name, info=c.info.model_dump())
 
         # Don't extract netlist for cells with no function_name (e.g. subcells imported from GDS)
+        component_name: str
         if c.function_name:
             component_name = c.function_name
         else:
