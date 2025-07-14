@@ -1547,6 +1547,12 @@ def euler(
     """
     from gdsfactory.pdk import get_active_pdk
 
+    if angular_step is not None and npoints is not None:
+        raise ValueError(
+            "euler() requires either npoints or angular_step, not both. "
+            "Use angular_step for angular discretization."
+        )
+
     if not radius:
         raise ValueError("euler() requires a radius argument")
 
@@ -1835,7 +1841,8 @@ if __name__ == "__main__":
         radius=5,
         angle=180,
         p=1,
-        use_eff=True,
+        use_eff=False,
+        # angular_step=1
     )
 
     print(p.start_angle, p.end_angle)  # 0, 180
