@@ -902,6 +902,7 @@ def extrude(
     """
     from gdsfactory.pdk import get_cross_section, get_layer
 
+    x = None
     if cross_section is None and layer is None:
         raise ValueError("CrossSection or layer needed")
 
@@ -910,7 +911,10 @@ def extrude(
 
     if layer is not None and width is None:
         raise ValueError("Need to define layer width")
-    elif width:
+    elif width and cross_section:
+        x = get_cross_section(cross_section, width=width)
+
+    elif width and layer:
         assert layer is not None
         s = Section(
             width=width,
@@ -925,7 +929,8 @@ def extrude(
 
     assert cross_section is not None
 
-    x = get_cross_section(cross_section)
+    if x is None:
+        x = get_cross_section(cross_section)
 
     layer = layer or x.layer
     layer = get_layer(layer)

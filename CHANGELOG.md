@@ -1,7 +1,16 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.9.4...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.9.5...main)
 
 <!-- towncrier release notes start -->
+
+## [9.9.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.9.5) - 2025-07-12
+
+- fix port type for wire_corner [#4029](https://github.com/gdsfactory/gdsfactory/pull/4029)
+- Import kcl within port_array [#4016](https://github.com/gdsfactory/gdsfactory/pull/4016)
+- fix port type for wire_corner [#4029](https://github.com/gdsfactory/gdsfactory/pull/4029)
+- Enable Codeflash in CI [#4025](https://github.com/gdsfactory/gdsfactory/pull/4025)
+- document cell [#4020](https://github.com/gdsfactory/gdsfactory/pull/4020)
+- Meander resistance: Fix name collision [#4026](https://github.com/gdsfactory/gdsfactory/pull/4026)
 
 ## [9.9.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.9.4) - 2025-06-25
 

@@ -6,6 +6,7 @@ from gdsfactory.components.rings.ring import (
     ring,
 )
 from gdsfactory.components.rings.ring_crow import (
+    ring_asymmetric,
     ring_crow,
 )
 from gdsfactory.components.rings.ring_crow_couplers import (
@@ -46,6 +47,7 @@ __all__ = [
     "disk",
     "disk_heater",
     "ring",
+    "ring_asymmetric",
     "ring_crow",
     "ring_crow_couplers",
     "ring_double",

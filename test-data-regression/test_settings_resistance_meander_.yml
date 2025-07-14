@@ -1,6 +1,7 @@
 info: {}
-name: resistance_meander_gdsf_c0ce6264
+name: resistance_meander_gdsf_a213d158
 settings:
+  name: net
   num_squares: 1000
   pad_layer: MTOP
   pad_size:

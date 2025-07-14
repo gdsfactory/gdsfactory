@@ -1,0 +1,9 @@
+info: {}
+name: ring_asymmetric_gdsfact_9ac0ce2c
+settings:
+  bend: bend_circular
+  cross_section: strip
+  length_x: 2
+  length_y: 4
+  radius: 10
+  straight: straight
