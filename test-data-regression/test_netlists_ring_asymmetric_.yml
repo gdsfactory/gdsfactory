@@ -1,0 +1,201 @@
+instances:
+  bot_hor_waveguide_ring:
+    component: straight
+    info:
+      length: 2
+      route_info_length: 2
+      route_info_strip_length: 2
+      route_info_type: strip
+      route_info_weight: 2
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 2
+      npoints: 2
+      width: null
+  bot_left_bend_ring:
+    component: bend_circular
+    info:
+      dy: 10
+      length: 15.708
+      radius: 10
+      route_info_length: 15.708
+      route_info_min_bend_radius: 10
+      route_info_n_bend_90: 1
+      route_info_strip_length: 15.708
+      route_info_type: strip
+      route_info_weight: 15.708
+      width: 0.5
+    settings:
+      allow_min_radius_violation: false
+      angle: 90
+      cross_section: strip
+      layer: null
+      npoints: null
+      radius: 10
+      width: null
+  bot_right_bend_ring:
+    component: bend_circular
+    info:
+      dy: 10
+      length: 15.708
+      radius: 10
+      route_info_length: 15.708
+      route_info_min_bend_radius: 10
+      route_info_n_bend_90: 1
+      route_info_strip_length: 15.708
+      route_info_type: strip
+      route_info_weight: 15.708
+      width: 0.5
+    settings:
+      allow_min_radius_violation: false
+      angle: 90
+      cross_section: strip
+      layer: null
+      npoints: null
+      radius: 10
+      width: null
+  left_ver_waveguide_ring:
+    component: straight
+    info:
+      length: 4
+      route_info_length: 4
+      route_info_strip_length: 4
+      route_info_type: strip
+      route_info_weight: 4
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 4
+      npoints: 2
+      width: null
+  right_ver_waveguide_ring:
+    component: straight
+    info:
+      length: 4
+      route_info_length: 4
+      route_info_strip_length: 4
+      route_info_type: strip
+      route_info_weight: 4
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 4
+      npoints: 2
+      width: null
+  top_hor_waveguide_ring:
+    component: straight
+    info:
+      length: 2
+      route_info_length: 2
+      route_info_strip_length: 2
+      route_info_type: strip
+      route_info_weight: 2
+      width: 0.5
+    settings:
+      cross_section: strip
+      length: 2
+      npoints: 2
+      width: null
+  top_left_bend_ring:
+    component: bend_circular
+    info:
+      dy: 10
+      length: 15.708
+      radius: 10
+      route_info_length: 15.708
+      route_info_min_bend_radius: 10
+      route_info_n_bend_90: 1
+      route_info_strip_length: 15.708
+      route_info_type: strip
+      route_info_weight: 15.708
+      width: 0.5
+    settings:
+      allow_min_radius_violation: false
+      angle: 90
+      cross_section: strip
+      layer: null
+      npoints: null
+      radius: 10
+      width: null
+  top_right_bend_ring:
+    component: bend_circular
+    info:
+      dy: 10
+      length: 15.708
+      radius: 10
+      route_info_length: 15.708
+      route_info_min_bend_radius: 10
+      route_info_n_bend_90: 1
+      route_info_strip_length: 15.708
+      route_info_type: strip
+      route_info_weight: 15.708
+      width: 0.5
+    settings:
+      allow_min_radius_violation: false
+      angle: 90
+      cross_section: strip
+      layer: null
+      npoints: null
+      radius: 10
+      width: null
+name: ring_asymmetric_gdsfact_9ac0ce2c
+nets:
+- p1: bot_hor_waveguide_ring,o1
+  p2: bot_left_bend_ring,o2
+- p1: bot_hor_waveguide_ring,o2
+  p2: bot_right_bend_ring,o1
+- p1: bot_left_bend_ring,o1
+  p2: left_ver_waveguide_ring,o2
+- p1: bot_right_bend_ring,o2
+  p2: right_ver_waveguide_ring,o1
+- p1: left_ver_waveguide_ring,o1
+  p2: top_left_bend_ring,o2
+- p1: right_ver_waveguide_ring,o2
+  p2: top_right_bend_ring,o1
+- p1: top_hor_waveguide_ring,o1
+  p2: top_right_bend_ring,o2
+- p1: top_hor_waveguide_ring,o2
+  p2: top_left_bend_ring,o1
+placements:
+  bot_hor_waveguide_ring:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  bot_left_bend_ring:
+    mirror: false
+    rotation: 270
+    x: -10
+    y: 10
+  bot_right_bend_ring:
+    mirror: false
+    rotation: 0
+    x: 2
+    y: 0
+  left_ver_waveguide_ring:
+    mirror: false
+    rotation: 270
+    x: -10
+    y: 14
+  right_ver_waveguide_ring:
+    mirror: false
+    rotation: 90
+    x: 12
+    y: 10
+  top_hor_waveguide_ring:
+    mirror: false
+    rotation: 180
+    x: 2
+    y: 24
+  top_left_bend_ring:
+    mirror: false
+    rotation: 180
+    x: 0
+    y: 24
+  top_right_bend_ring:
+    mirror: false
+    rotation: 90
+    x: 12
+    y: 14
+ports: {}
