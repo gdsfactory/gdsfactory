@@ -169,5 +169,10 @@ def test_extrude_cross_section_list_of_sections() -> None:
     assert c
 
 
+def test_extrude_cross_section_width() -> None:
+    c = gf.path.extrude(gf.path.straight(length=10), cross_section="strip", width=2.4)
+    assert c.ports["o1"].width == 2.4
+
+
 if __name__ == "__main__":
     test_transition_cross_section_different_layers()
