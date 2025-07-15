@@ -268,12 +268,20 @@ def get_netlist(
         if c.function_name:
             component_name = c.function_name
         else:
-            component_name = c.name
-            warn(
-                f"Component {c.name} has no function_name. "
-                "Using component.name instead.",
-                stacklevel=2,
-            )
+            if c.name is None:
+                component_name = "unnamed_component"
+                warn(
+                    "Component has no name or function_name. "
+                    "Using 'unnamed_component' as default.",
+                    stacklevel=2,
+                )
+            else:
+                component_name = c.name
+                warn(
+                    f"Component {c.name} has no function_name. "
+                    "Using component.name instead.",
+                    stacklevel=2,
+                )
 
         # Prefer name from settings over c.name
         if c.settings:
