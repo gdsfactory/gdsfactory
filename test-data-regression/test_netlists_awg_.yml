@@ -1,5 +1,5 @@
 instances:
-  bend_euler_gdsfactorypc_af2c9296_1083_26000_A90_M:
+  bend_euler_gdsfactorypc_335c8724_1083_26000_A90_M:
     component: bend_euler
     info:
       dy: 10
@@ -16,6 +16,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -23,7 +24,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_30250_30000_M:
+  bend_euler_gdsfactorypc_335c8724_30250_30000_M:
     component: bend_euler
     info:
       dy: 10
@@ -40,6 +41,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -47,7 +49,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_32417_31500_M:
+  bend_euler_gdsfactorypc_335c8724_32417_31500_M:
     component: bend_euler
     info:
       dy: 10
@@ -64,6 +66,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -71,7 +74,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_3250_24500_A90_M:
+  bend_euler_gdsfactorypc_335c8724_3250_24500_A90_M:
     component: bend_euler
     info:
       dy: 10
@@ -88,6 +91,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -95,7 +99,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_34583_33000_M:
+  bend_euler_gdsfactorypc_335c8724_34583_33000_M:
     component: bend_euler
     info:
       dy: 10
@@ -112,6 +116,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -119,7 +124,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_36750_34500_M:
+  bend_euler_gdsfactorypc_335c8724_36750_34500_M:
     component: bend_euler
     info:
       dy: 10
@@ -136,6 +141,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -143,7 +149,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_38917_36000_M:
+  bend_euler_gdsfactorypc_335c8724_38917_36000_M:
     component: bend_euler
     info:
       dy: 10
@@ -160,6 +166,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -167,7 +174,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_41083_37500_M:
+  bend_euler_gdsfactorypc_335c8724_41083_37500_M:
     component: bend_euler
     info:
       dy: 10
@@ -184,6 +191,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -191,7 +199,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_43250_39000_M:
+  bend_euler_gdsfactorypc_335c8724_43250_39000_M:
     component: bend_euler
     info:
       dy: 10
@@ -208,6 +216,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -215,7 +224,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_45417_40500_M:
+  bend_euler_gdsfactorypc_335c8724_45417_40500_M:
     component: bend_euler
     info:
       dy: 10
@@ -232,6 +241,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -239,7 +249,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_47583_42000_M:
+  bend_euler_gdsfactorypc_335c8724_47583_42000_M:
     component: bend_euler
     info:
       dy: 10
@@ -256,6 +266,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -263,7 +274,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_49750_43500_M:
+  bend_euler_gdsfactorypc_335c8724_49750_43500_M:
     component: bend_euler
     info:
       dy: 10
@@ -280,6 +291,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -287,7 +299,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_5417_23000_A90_M:
+  bend_euler_gdsfactorypc_335c8724_5417_23000_A90_M:
     component: bend_euler
     info:
       dy: 10
@@ -304,6 +316,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -311,7 +324,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_7583_21500_A90_M:
+  bend_euler_gdsfactorypc_335c8724_7583_21500_A90_M:
     component: bend_euler
     info:
       dy: 10
@@ -328,6 +341,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -335,7 +349,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_9750_20000_A90_M:
+  bend_euler_gdsfactorypc_335c8724_9750_20000_A90_M:
     component: bend_euler
     info:
       dy: 10
@@ -352,6 +366,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -359,7 +374,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_m1083_27500_A90_M:
+  bend_euler_gdsfactorypc_335c8724_m1083_27500_A90_M:
     component: bend_euler
     info:
       dy: 10
@@ -376,6 +391,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -383,7 +399,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_m3250_29000_A90_M:
+  bend_euler_gdsfactorypc_335c8724_m3250_29000_A90_M:
     component: bend_euler
     info:
       dy: 10
@@ -400,6 +416,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -407,7 +424,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_m5417_30500_A90_M:
+  bend_euler_gdsfactorypc_335c8724_m5417_30500_A90_M:
     component: bend_euler
     info:
       dy: 10
@@ -424,6 +441,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -431,7 +449,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_m7583_32000_A90_M:
+  bend_euler_gdsfactorypc_335c8724_m7583_32000_A90_M:
     component: bend_euler
     info:
       dy: 10
@@ -448,6 +466,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -455,7 +474,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_af2c9296_m9750_33500_A90_M:
+  bend_euler_gdsfactorypc_335c8724_m9750_33500_A90_M:
     component: bend_euler
     info:
       dy: 10
@@ -472,6 +491,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -901,85 +921,85 @@ instances:
       width: 0.5
 name: awg_gdsfactorypcomponen_290103a6
 nets:
-- p1: bend_euler_gdsfactorypc_af2c9296_1083_26000_A90_M,o1
+- p1: bend_euler_gdsfactorypc_335c8724_1083_26000_A90_M,o1
   p2: straight_gdsfactorypcom_702d0d58_1083_26000_A270,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_1083_26000_A90_M,o2
+- p1: bend_euler_gdsfactorypc_335c8724_1083_26000_A90_M,o2
   p2: straight_gdsfactorypcom_9630dc72_38917_36000_A180,o2
-- p1: bend_euler_gdsfactorypc_af2c9296_30250_30000_M,o1
+- p1: bend_euler_gdsfactorypc_335c8724_30250_30000_M,o1
   p2: straight_gdsfactorypcom_da623fc9_30250_30000_A180,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_30250_30000_M,o2
+- p1: bend_euler_gdsfactorypc_335c8724_30250_30000_M,o2
   p2: free_propagation_region_e953b677_50000_0_A90,E9
-- p1: bend_euler_gdsfactorypc_af2c9296_32417_31500_M,o1
+- p1: bend_euler_gdsfactorypc_335c8724_32417_31500_M,o1
   p2: straight_gdsfactorypcom_193ce81f_32417_31500_A180,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_32417_31500_M,o2
+- p1: bend_euler_gdsfactorypc_335c8724_32417_31500_M,o2
   p2: straight_gdsfactorypcom_27783c1e_42417_20000_A90,o2
-- p1: bend_euler_gdsfactorypc_af2c9296_3250_24500_A90_M,o1
+- p1: bend_euler_gdsfactorypc_335c8724_3250_24500_A90_M,o1
   p2: straight_gdsfactorypcom_99671446_3250_24500_A270,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_3250_24500_A90_M,o2
+- p1: bend_euler_gdsfactorypc_335c8724_3250_24500_A90_M,o2
   p2: straight_gdsfactorypcom_827597b2_36750_34500_A180,o2
-- p1: bend_euler_gdsfactorypc_af2c9296_34583_33000_M,o1
+- p1: bend_euler_gdsfactorypc_335c8724_34583_33000_M,o1
   p2: straight_gdsfactorypcom_1504ef4a_34583_33000_A180,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_34583_33000_M,o2
+- p1: bend_euler_gdsfactorypc_335c8724_34583_33000_M,o2
   p2: straight_gdsfactorypcom_76e47883_44583_20000_A90,o2
-- p1: bend_euler_gdsfactorypc_af2c9296_36750_34500_M,o1
+- p1: bend_euler_gdsfactorypc_335c8724_36750_34500_M,o1
   p2: straight_gdsfactorypcom_827597b2_36750_34500_A180,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_36750_34500_M,o2
+- p1: bend_euler_gdsfactorypc_335c8724_36750_34500_M,o2
   p2: straight_gdsfactorypcom_99671446_46750_20000_A90,o2
-- p1: bend_euler_gdsfactorypc_af2c9296_38917_36000_M,o1
+- p1: bend_euler_gdsfactorypc_335c8724_38917_36000_M,o1
   p2: straight_gdsfactorypcom_9630dc72_38917_36000_A180,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_38917_36000_M,o2
+- p1: bend_euler_gdsfactorypc_335c8724_38917_36000_M,o2
   p2: straight_gdsfactorypcom_702d0d58_48917_20000_A90,o2
-- p1: bend_euler_gdsfactorypc_af2c9296_41083_37500_M,o1
+- p1: bend_euler_gdsfactorypc_335c8724_41083_37500_M,o1
   p2: straight_gdsfactorypcom_807addbc_41083_37500_A180,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_41083_37500_M,o2
+- p1: bend_euler_gdsfactorypc_335c8724_41083_37500_M,o2
   p2: straight_gdsfactorypcom_3d0cd97c_51083_20000_A90,o2
-- p1: bend_euler_gdsfactorypc_af2c9296_43250_39000_M,o1
+- p1: bend_euler_gdsfactorypc_335c8724_43250_39000_M,o1
   p2: straight_gdsfactorypcom_da8cfc5e_43250_39000_A180,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_43250_39000_M,o2
+- p1: bend_euler_gdsfactorypc_335c8724_43250_39000_M,o2
   p2: straight_gdsfactorypcom_09b87fdc_53250_20000_A90,o2
-- p1: bend_euler_gdsfactorypc_af2c9296_45417_40500_M,o1
+- p1: bend_euler_gdsfactorypc_335c8724_45417_40500_M,o1
   p2: straight_gdsfactorypcom_67f97490_45417_40500_A180,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_45417_40500_M,o2
+- p1: bend_euler_gdsfactorypc_335c8724_45417_40500_M,o2
   p2: straight_gdsfactorypcom_da623fc9_55417_20000_A90,o2
-- p1: bend_euler_gdsfactorypc_af2c9296_47583_42000_M,o1
+- p1: bend_euler_gdsfactorypc_335c8724_47583_42000_M,o1
   p2: straight_gdsfactorypcom_bdf181a4_47583_42000_A180,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_47583_42000_M,o2
+- p1: bend_euler_gdsfactorypc_335c8724_47583_42000_M,o2
   p2: straight_gdsfactorypcom_f3e780f9_57583_20000_A90,o2
-- p1: bend_euler_gdsfactorypc_af2c9296_49750_43500_M,o1
+- p1: bend_euler_gdsfactorypc_335c8724_49750_43500_M,o1
   p2: straight_gdsfactorypcom_83262ea0_49750_43500_A180,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_49750_43500_M,o2
+- p1: bend_euler_gdsfactorypc_335c8724_49750_43500_M,o2
   p2: straight_gdsfactorypcom_5d7bad5d_59750_20000_A90,o2
-- p1: bend_euler_gdsfactorypc_af2c9296_5417_23000_A90_M,o1
+- p1: bend_euler_gdsfactorypc_335c8724_5417_23000_A90_M,o1
   p2: straight_gdsfactorypcom_76e47883_5417_23000_A270,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_5417_23000_A90_M,o2
+- p1: bend_euler_gdsfactorypc_335c8724_5417_23000_A90_M,o2
   p2: straight_gdsfactorypcom_1504ef4a_34583_33000_A180,o2
-- p1: bend_euler_gdsfactorypc_af2c9296_7583_21500_A90_M,o1
+- p1: bend_euler_gdsfactorypc_335c8724_7583_21500_A90_M,o1
   p2: straight_gdsfactorypcom_27783c1e_7583_21500_A270,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_7583_21500_A90_M,o2
+- p1: bend_euler_gdsfactorypc_335c8724_7583_21500_A90_M,o2
   p2: straight_gdsfactorypcom_193ce81f_32417_31500_A180,o2
-- p1: bend_euler_gdsfactorypc_af2c9296_9750_20000_A90_M,o1
+- p1: bend_euler_gdsfactorypc_335c8724_9750_20000_A90_M,o1
   p2: free_propagation_region_5ff2a5ce_0_0_A90,E0
-- p1: bend_euler_gdsfactorypc_af2c9296_9750_20000_A90_M,o2
+- p1: bend_euler_gdsfactorypc_335c8724_9750_20000_A90_M,o2
   p2: straight_gdsfactorypcom_da623fc9_30250_30000_A180,o2
-- p1: bend_euler_gdsfactorypc_af2c9296_m1083_27500_A90_M,o1
+- p1: bend_euler_gdsfactorypc_335c8724_m1083_27500_A90_M,o1
   p2: straight_gdsfactorypcom_3d0cd97c_m1083_27500_A270,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_m1083_27500_A90_M,o2
+- p1: bend_euler_gdsfactorypc_335c8724_m1083_27500_A90_M,o2
   p2: straight_gdsfactorypcom_807addbc_41083_37500_A180,o2
-- p1: bend_euler_gdsfactorypc_af2c9296_m3250_29000_A90_M,o1
+- p1: bend_euler_gdsfactorypc_335c8724_m3250_29000_A90_M,o1
   p2: straight_gdsfactorypcom_09b87fdc_m3250_29000_A270,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_m3250_29000_A90_M,o2
+- p1: bend_euler_gdsfactorypc_335c8724_m3250_29000_A90_M,o2
   p2: straight_gdsfactorypcom_da8cfc5e_43250_39000_A180,o2
-- p1: bend_euler_gdsfactorypc_af2c9296_m5417_30500_A90_M,o1
+- p1: bend_euler_gdsfactorypc_335c8724_m5417_30500_A90_M,o1
   p2: straight_gdsfactorypcom_da623fc9_m5417_30500_A270,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_m5417_30500_A90_M,o2
+- p1: bend_euler_gdsfactorypc_335c8724_m5417_30500_A90_M,o2
   p2: straight_gdsfactorypcom_67f97490_45417_40500_A180,o2
-- p1: bend_euler_gdsfactorypc_af2c9296_m7583_32000_A90_M,o1
+- p1: bend_euler_gdsfactorypc_335c8724_m7583_32000_A90_M,o1
   p2: straight_gdsfactorypcom_f3e780f9_m7583_32000_A270,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_m7583_32000_A90_M,o2
+- p1: bend_euler_gdsfactorypc_335c8724_m7583_32000_A90_M,o2
   p2: straight_gdsfactorypcom_bdf181a4_47583_42000_A180,o2
-- p1: bend_euler_gdsfactorypc_af2c9296_m9750_33500_A90_M,o1
+- p1: bend_euler_gdsfactorypc_335c8724_m9750_33500_A90_M,o1
   p2: straight_gdsfactorypcom_5d7bad5d_m9750_33500_A270,o1
-- p1: bend_euler_gdsfactorypc_af2c9296_m9750_33500_A90_M,o2
+- p1: bend_euler_gdsfactorypc_335c8724_m9750_33500_A90_M,o2
   p2: straight_gdsfactorypcom_83262ea0_49750_43500_A180,o2
 - p1: free_propagation_region_5ff2a5ce_0_0_A90,E1
   p2: straight_gdsfactorypcom_27783c1e_7583_21500_A270,o2
@@ -1018,102 +1038,102 @@ nets:
 - p1: free_propagation_region_e953b677_50000_0_A90,E8
   p2: straight_gdsfactorypcom_27783c1e_42417_20000_A90,o1
 placements:
-  bend_euler_gdsfactorypc_af2c9296_1083_26000_A90_M:
+  bend_euler_gdsfactorypc_335c8724_1083_26000_A90_M:
     mirror: true
     rotation: 90
     x: 1.083
     y: 26
-  bend_euler_gdsfactorypc_af2c9296_30250_30000_M:
+  bend_euler_gdsfactorypc_335c8724_30250_30000_M:
     mirror: true
     rotation: 0
     x: 30.25
     y: 30
-  bend_euler_gdsfactorypc_af2c9296_32417_31500_M:
+  bend_euler_gdsfactorypc_335c8724_32417_31500_M:
     mirror: true
     rotation: 0
     x: 32.417
     y: 31.5
-  bend_euler_gdsfactorypc_af2c9296_3250_24500_A90_M:
+  bend_euler_gdsfactorypc_335c8724_3250_24500_A90_M:
     mirror: true
     rotation: 90
     x: 3.25
     y: 24.5
-  bend_euler_gdsfactorypc_af2c9296_34583_33000_M:
+  bend_euler_gdsfactorypc_335c8724_34583_33000_M:
     mirror: true
     rotation: 0
     x: 34.583
     y: 33
-  bend_euler_gdsfactorypc_af2c9296_36750_34500_M:
+  bend_euler_gdsfactorypc_335c8724_36750_34500_M:
     mirror: true
     rotation: 0
     x: 36.75
     y: 34.5
-  bend_euler_gdsfactorypc_af2c9296_38917_36000_M:
+  bend_euler_gdsfactorypc_335c8724_38917_36000_M:
     mirror: true
     rotation: 0
     x: 38.917
     y: 36
-  bend_euler_gdsfactorypc_af2c9296_41083_37500_M:
+  bend_euler_gdsfactorypc_335c8724_41083_37500_M:
     mirror: true
     rotation: 0
     x: 41.083
     y: 37.5
-  bend_euler_gdsfactorypc_af2c9296_43250_39000_M:
+  bend_euler_gdsfactorypc_335c8724_43250_39000_M:
     mirror: true
     rotation: 0
     x: 43.25
     y: 39
-  bend_euler_gdsfactorypc_af2c9296_45417_40500_M:
+  bend_euler_gdsfactorypc_335c8724_45417_40500_M:
     mirror: true
     rotation: 0
     x: 45.417
     y: 40.5
-  bend_euler_gdsfactorypc_af2c9296_47583_42000_M:
+  bend_euler_gdsfactorypc_335c8724_47583_42000_M:
     mirror: true
     rotation: 0
     x: 47.583
     y: 42
-  bend_euler_gdsfactorypc_af2c9296_49750_43500_M:
+  bend_euler_gdsfactorypc_335c8724_49750_43500_M:
     mirror: true
     rotation: 0
     x: 49.75
     y: 43.5
-  bend_euler_gdsfactorypc_af2c9296_5417_23000_A90_M:
+  bend_euler_gdsfactorypc_335c8724_5417_23000_A90_M:
     mirror: true
     rotation: 90
     x: 5.417
     y: 23
-  bend_euler_gdsfactorypc_af2c9296_7583_21500_A90_M:
+  bend_euler_gdsfactorypc_335c8724_7583_21500_A90_M:
     mirror: true
     rotation: 90
     x: 7.583
     y: 21.5
-  bend_euler_gdsfactorypc_af2c9296_9750_20000_A90_M:
+  bend_euler_gdsfactorypc_335c8724_9750_20000_A90_M:
     mirror: true
     rotation: 90
     x: 9.75
     y: 20
-  bend_euler_gdsfactorypc_af2c9296_m1083_27500_A90_M:
+  bend_euler_gdsfactorypc_335c8724_m1083_27500_A90_M:
     mirror: true
     rotation: 90
     x: -1.083
     y: 27.5
-  bend_euler_gdsfactorypc_af2c9296_m3250_29000_A90_M:
+  bend_euler_gdsfactorypc_335c8724_m3250_29000_A90_M:
     mirror: true
     rotation: 90
     x: -3.25
     y: 29
-  bend_euler_gdsfactorypc_af2c9296_m5417_30500_A90_M:
+  bend_euler_gdsfactorypc_335c8724_m5417_30500_A90_M:
     mirror: true
     rotation: 90
     x: -5.417
     y: 30.5
-  bend_euler_gdsfactorypc_af2c9296_m7583_32000_A90_M:
+  bend_euler_gdsfactorypc_335c8724_m7583_32000_A90_M:
     mirror: true
     rotation: 90
     x: -7.583
     y: 32
-  bend_euler_gdsfactorypc_af2c9296_m9750_33500_A90_M:
+  bend_euler_gdsfactorypc_335c8724_m9750_33500_A90_M:
     mirror: true
     rotation: 90
     x: -9.75

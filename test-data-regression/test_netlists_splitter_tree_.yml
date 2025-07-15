@@ -1,5 +1,5 @@
 instances:
-  bend_euler_gdsfactorypc_e95a7a4d_25500_10625_A270_M:
+  bend_euler_gdsfactorypc_a86bc407_25500_10625_A270_M:
     component: bend_euler
     info:
       dy: 10
@@ -16,6 +16,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -23,7 +24,7 @@ instances:
       radius: 10
       width: null
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_e95a7a4d_25500_m10625_A90:
+  bend_euler_gdsfactorypc_a86bc407_25500_m10625_A90:
     component: bend_euler
     info:
       dy: 10
@@ -40,6 +41,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -47,7 +49,7 @@ instances:
       radius: 10
       width: null
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_e95a7a4d_35500_25000_A180:
+  bend_euler_gdsfactorypc_a86bc407_35500_25000_A180:
     component: bend_euler
     info:
       dy: 10
@@ -64,6 +66,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -71,7 +74,7 @@ instances:
       radius: 10
       width: null
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_e95a7a4d_35500_m25000_A180_M:
+  bend_euler_gdsfactorypc_a86bc407_35500_m25000_A180_M:
     component: bend_euler
     info:
       dy: 10
@@ -88,6 +91,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -276,21 +280,21 @@ instances:
       width: null
 name: splitter_tree_gdsfactor_b6d59c93
 nets:
-- p1: bend_euler_gdsfactorypc_e95a7a4d_25500_10625_A270_M,o1
+- p1: bend_euler_gdsfactorypc_a86bc407_25500_10625_A270_M,o1
   p2: straight_gdsfactorypcom_94881c7f_25500_10625_A90,o1
-- p1: bend_euler_gdsfactorypc_e95a7a4d_25500_10625_A270_M,o2
+- p1: bend_euler_gdsfactorypc_a86bc407_25500_10625_A270_M,o2
   p2: coupler_0_0,o2
-- p1: bend_euler_gdsfactorypc_e95a7a4d_25500_m10625_A90,o1
+- p1: bend_euler_gdsfactorypc_a86bc407_25500_m10625_A90,o1
   p2: straight_gdsfactorypcom_94881c7f_25500_m10625_A270,o1
-- p1: bend_euler_gdsfactorypc_e95a7a4d_25500_m10625_A90,o2
+- p1: bend_euler_gdsfactorypc_a86bc407_25500_m10625_A90,o2
   p2: coupler_0_0,o3
-- p1: bend_euler_gdsfactorypc_e95a7a4d_35500_25000_A180,o1
+- p1: bend_euler_gdsfactorypc_a86bc407_35500_25000_A180,o1
   p2: straight_gdsfactorypcom_eefd19f7_35500_25000,o1
-- p1: bend_euler_gdsfactorypc_e95a7a4d_35500_25000_A180,o2
+- p1: bend_euler_gdsfactorypc_a86bc407_35500_25000_A180,o2
   p2: straight_gdsfactorypcom_94881c7f_25500_10625_A90,o2
-- p1: bend_euler_gdsfactorypc_e95a7a4d_35500_m25000_A180_M,o1
+- p1: bend_euler_gdsfactorypc_a86bc407_35500_m25000_A180_M,o1
   p2: straight_gdsfactorypcom_eefd19f7_35500_m25000,o1
-- p1: bend_euler_gdsfactorypc_e95a7a4d_35500_m25000_A180_M,o2
+- p1: bend_euler_gdsfactorypc_a86bc407_35500_m25000_A180_M,o2
   p2: straight_gdsfactorypcom_94881c7f_25500_m10625_A270,o2
 - p1: bend_s_gdsfactorypcompo_bd3e5121_105500_24375_M,o1
   p2: coupler_1_1,o3
@@ -305,22 +309,22 @@ nets:
 - p1: coupler_1_1,o1
   p2: straight_gdsfactorypcom_eefd19f7_35500_25000,o2
 placements:
-  bend_euler_gdsfactorypc_e95a7a4d_25500_10625_A270_M:
+  bend_euler_gdsfactorypc_a86bc407_25500_10625_A270_M:
     mirror: true
     rotation: 270
     x: 25.5
     y: 10.625
-  bend_euler_gdsfactorypc_e95a7a4d_25500_m10625_A90:
+  bend_euler_gdsfactorypc_a86bc407_25500_m10625_A90:
     mirror: false
     rotation: 90
     x: 25.5
     y: -10.625
-  bend_euler_gdsfactorypc_e95a7a4d_35500_25000_A180:
+  bend_euler_gdsfactorypc_a86bc407_35500_25000_A180:
     mirror: false
     rotation: 180
     x: 35.5
     y: 25
-  bend_euler_gdsfactorypc_e95a7a4d_35500_m25000_A180_M:
+  bend_euler_gdsfactorypc_a86bc407_35500_m25000_A180_M:
     mirror: true
     rotation: 180
     x: 35.5

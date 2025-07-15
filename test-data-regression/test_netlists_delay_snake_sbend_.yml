@@ -1,5 +1,5 @@
 instances:
-  bend_euler_gdsfactorypc_9e46b9c5_0_m10000:
+  bend_euler_gdsfactorypc_2e206d34_0_m10000:
     component: bend_euler
     info:
       dy: 0
@@ -16,6 +16,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 180
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -23,7 +24,7 @@ instances:
       radius: 5
       width: null
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_9e46b9c5_m178681_m5000_A180:
+  bend_euler_gdsfactorypc_2e206d34_m178681_m5000_A180:
     component: bend_euler
     info:
       dy: 0
@@ -40,6 +41,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 180
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -98,21 +100,21 @@ instances:
       width: null
 name: delay_snake_sbend_gdsfa_7f61a21a
 nets:
-- p1: bend_euler_gdsfactorypc_9e46b9c5_0_m10000,o1
+- p1: bend_euler_gdsfactorypc_2e206d34_0_m10000,o1
   p2: bend_s_gdsfactorypcompo_980b37fc_m100000_m5000_M,o2
-- p1: bend_euler_gdsfactorypc_9e46b9c5_m178681_m5000_A180,o1
+- p1: bend_euler_gdsfactorypc_2e206d34_m178681_m5000_A180,o1
   p2: s2,o1
-- p1: bend_euler_gdsfactorypc_9e46b9c5_m178681_m5000_A180,o2
+- p1: bend_euler_gdsfactorypc_2e206d34_m178681_m5000_A180,o2
   p2: s3,o1
 - p1: bend_s_gdsfactorypcompo_980b37fc_m100000_m5000_M,o1
   p2: s2,o2
 placements:
-  bend_euler_gdsfactorypc_9e46b9c5_0_m10000:
+  bend_euler_gdsfactorypc_2e206d34_0_m10000:
     mirror: false
     rotation: 0
     x: 0
     y: -10
-  bend_euler_gdsfactorypc_9e46b9c5_m178681_m5000_A180:
+  bend_euler_gdsfactorypc_2e206d34_m178681_m5000_A180:
     mirror: false
     rotation: 180
     x: -178.681
@@ -133,5 +135,5 @@ placements:
     x: -178.681
     y: -15
 ports:
-  o1: bend_euler_gdsfactorypc_9e46b9c5_0_m10000,o2
+  o1: bend_euler_gdsfactorypc_2e206d34_0_m10000,o2
   o2: s3,o2

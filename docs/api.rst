@@ -16,10 +16,20 @@ Classes and functions for construction and manipulation of geometric objects.
    :toctree: _autosummary/
 
    Component
+   ComponentAllAngle
    ComponentReference
    read.import_gds
    read.from_yaml
    read.from_np
+
+
+.. rubric:: Cell decorators
+
+.. autosummary::
+   :toctree: _autosummary/
+
+   cell
+   vcell
 
 .. currentmodule:: gdsfactory.path
 
