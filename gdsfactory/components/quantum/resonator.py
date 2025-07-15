@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import numpy as np
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
@@ -46,7 +48,7 @@ def resonator_cpw(
 
     # Create meander path
     path_points = []
-    x, y = 0, 0
+    x, y = 0.0, 0.0
 
     for i in range(num_meanders):
         if i == 0:
@@ -65,7 +67,7 @@ def resonator_cpw(
                 x += meander_width
 
     # Create the CPW path
-    path = gf.Path(path_points)
+    path = gf.Path(np.array(path_points))
 
     # Create cross section for CPW
     cpw_xs = gf.cross_section.strip(width=width, layer=layer_metal)
@@ -90,7 +92,7 @@ def resonator_cpw(
     gap_width = width + 2 * gap
 
     # Create gap path along the resonator
-    gap_path = gf.Path(path_points)
+    gap_path = gf.Path(np.array(path_points))
     gap_xs = gf.cross_section.strip(width=gap_width, layer=layer_gap)
     gap_structure = gf.path.extrude(gap_path, gap_xs)
 
@@ -188,7 +190,8 @@ def resonator_lumped(
     c = Component()
 
     # Create interdigital capacitor
-    capacitor = gf.components.interdigital_capacitor(
+    capacitor = gf.get_component(
+        "interdigital_capacitor",
         fingers=capacitor_fingers,
         finger_length=capacitor_finger_length,
         finger_gap=capacitor_finger_gap,
