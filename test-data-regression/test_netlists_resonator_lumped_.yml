@@ -124,11 +124,13 @@ placements:
     rotation: 0
     x: 52
     y: 0
-ports: {}
+ports:
+  input: rectangle_gdsfactorypco_68f8d919_m10000_10000,e4
+  output: rectangle_gdsfactorypco_68f8d919_37000_10000,e4
 warnings:
   electrical:
     unconnected_ports:
-    - message: 14 unconnected electrical ports!
+    - message: 12 unconnected electrical ports!
       ports:
       - rectangle_gdsfactorypco_12b34008_32000_m1000,e1
       - rectangle_gdsfactorypco_12b34008_32000_m1000,e2
@@ -139,11 +141,9 @@ warnings:
       - rectangle_gdsfactorypco_68f8d919_m10000_10000,e1
       - rectangle_gdsfactorypco_68f8d919_m10000_10000,e2
       - rectangle_gdsfactorypco_68f8d919_m10000_10000,e3
-      - rectangle_gdsfactorypco_68f8d919_m10000_10000,e4
       - rectangle_gdsfactorypco_68f8d919_37000_10000,e1
       - rectangle_gdsfactorypco_68f8d919_37000_10000,e2
       - rectangle_gdsfactorypco_68f8d919_37000_10000,e3
-      - rectangle_gdsfactorypco_68f8d919_37000_10000,e4
       values:
       - - 32
         - 0
@@ -163,16 +163,12 @@ warnings:
         - 15
       - - -5
         - 12.5
-      - - -7.5
-        - 10
       - - 37
         - 12.5
       - - 39.5
         - 15
       - - 42
         - 12.5
-      - - 39.5
-        - 10
   optical:
     unconnected_ports:
     - message: 4 unconnected optical ports!

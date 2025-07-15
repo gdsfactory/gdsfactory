@@ -41,8 +41,34 @@ instances:
       npoints: null
       radius: 10.7
       width: null
+  bend_euler_gdsfactorypc_6fc332c8_A300p0_X0p00047182049349281385_Y8p881784197001252em16_9266_5350_M:
+    component: bend_euler
+    info:
+      dy: 8.66
+      length: 10.731
+      min_bend_radius: 6.831
+      radius: 10
+      route_info_length: 10.731
+      route_info_min_bend_radius: 6.831
+      route_info_n_bend_90: 0.667
+      route_info_strip_length: 10.731
+      route_info_type: strip
+      route_info_weight: 10.731
+      width: 0.5
+    settings:
+      allow_min_radius_violation: false
+      angle: 60
+      cross_section: strip
+      layer: null
+      npoints: null
+      p: 0.5
+      radius: null
+      width: null
+      with_arc_floorplan: true
 name: coupler_bend_gdsfactory_147f47be
-nets: []
+nets:
+- p1: bend_circular_all_angle_de5faab3_0_0,o2
+  p2: bend_euler_gdsfactorypc_6fc332c8_A300p0_X0p00047182049349281385_Y8p881784197001252em16_9266_5350_M,o1
 placements:
   bend_circular_all_angle_dd57ca57_0_700:
     mirror: false
@@ -54,16 +80,13 @@ placements:
     rotation: 0
     x: 0
     y: 0
+  bend_euler_gdsfactorypc_6fc332c8_A300p0_X0p00047182049349281385_Y8p881784197001252em16_9266_5350_M:
+    mirror: true
+    rotation: 0
+    x: 9.266
+    y: 5.35
 ports:
   o1: bend_circular_all_angle_de5faab3_0_0,o1
   o2: bend_circular_all_angle_dd57ca57_0_700,o1
+  o3: bend_euler_gdsfactorypc_6fc332c8_A300p0_X0p00047182049349281385_Y8p881784197001252em16_9266_5350_M,o2
   o4: bend_circular_all_angle_dd57ca57_0_700,o2
-warnings:
-  optical:
-    unconnected_ports:
-    - message: 1 unconnected optical ports!
-      ports:
-      - bend_circular_all_angle_de5faab3_0_0,o2
-      values:
-      - - 9.266
-        - 5.35
