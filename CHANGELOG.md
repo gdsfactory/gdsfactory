@@ -1,12 +1,14 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.10.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.11.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.11.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.11.0) - 2025-07-15
 
-No significant changes.
-
+- Add quantum RF pcells [#4024](https://github.com/gdsfactory/gdsfactory/pull/4024)
+- fix mypy [#4036](https://github.com/gdsfactory/gdsfactory/pull/4036)
+- fix overloads [#4035](https://github.com/gdsfactory/gdsfactory/pull/4035)
+- propagating route_width to auto_taper in route_bundle [#4034](https://github.com/gdsfactory/gdsfactory/pull/4034)
 
 ## [9.10.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.10.0) - 2025-07-14
 
