@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.11.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.11.0) - 2025-07-15
+
+No significant changes.
+
+
 ## [9.10.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.10.0) - 2025-07-14
 
 - Allow angular step [#4027](https://github.com/gdsfactory/gdsfactory/pull/4027)
