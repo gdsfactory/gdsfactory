@@ -410,14 +410,7 @@ def coupler_tunable(
 
 
 if __name__ == "__main__":
-    # c1 = coupler_capacitive()
-    # c1.draw_ports()
-    # c1.show()
-
-    # c2 = coupler_interdigital()
-    # c2.draw_ports()
-    # c2.show()
-
-    c3 = coupler_tunable()
-    c3.draw_ports()
-    c3.show()
+    c = coupler_capacitive()
+    # c = coupler_interdigital()
+    c.pprint_ports()
+    c.show()

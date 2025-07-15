@@ -229,8 +229,6 @@ def transmon_circular(
 
 
 if __name__ == "__main__":
-    c1 = transmon()
-    c1.show()
-
-    # c2 = transmon_circular()
-    # c2.show()
+    # c = transmon()
+    c = transmon_circular()
+    c.show()

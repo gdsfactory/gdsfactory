@@ -148,7 +148,7 @@ def resonator_cpw(
     c.info["frequency_estimate"] = (
         3e8 / (2 * actual_length * 1e-6) / 1e9
     )  # GHz, rough estimate
-
+    c.flatten()
     return c
 
 
@@ -379,11 +379,7 @@ def resonator_quarter_wave(
 
 
 if __name__ == "__main__":
-    c1 = resonator_cpw()
-    c1.show()
-
-    c2 = resonator_lumped()
-    c2.show()
-
-    c3 = resonator_quarter_wave()
-    c3.show()
+    c = resonator_cpw()
+    # c = resonator_lumped()
+    # c = resonator_quarter_wave()
+    c.show()

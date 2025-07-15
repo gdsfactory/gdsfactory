@@ -162,6 +162,7 @@ def flux_qubit(
     )
     control_line_right_ref = c.add_ref(control_line_right)
     control_line_right_ref.move((loop_width / 2 + 10.0, -1.0))
+    c.flatten()
 
     # Add ports for flux control
     c.add_port(
@@ -201,7 +202,6 @@ def flux_qubit(
     c.info["alpha_beta_ratio"] = (alpha_junction_width * alpha_junction_height) / (
         junction_width * junction_height
     )
-
     return c
 
 
@@ -363,8 +363,6 @@ def flux_qubit_asymmetric(
 
 
 if __name__ == "__main__":
-    c1 = flux_qubit()
-    c1.show()
-
-    # c2 = flux_qubit_asymmetric()
-    # c2.show()
+    c = flux_qubit()
+    # c = flux_qubit_asymmetric()
+    c.show()
