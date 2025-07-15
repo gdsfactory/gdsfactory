@@ -24,6 +24,7 @@ def _bend_euler(
     cross_section: CrossSectionSpec = "strip",
     allow_min_radius_violation: bool = False,
     all_angle: Literal[False] = False,
+    angular_step: float | None = None,
 ) -> Component: ...
 
 
@@ -39,6 +40,7 @@ def _bend_euler(
     cross_section: CrossSectionSpec = "strip",
     allow_min_radius_violation: bool = False,
     all_angle: Literal[True] = True,
+    angular_step: float | None = None,
 ) -> ComponentAllAngle: ...
 
 
