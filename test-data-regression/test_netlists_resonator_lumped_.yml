@@ -1,0 +1,188 @@
+instances:
+  interdigital_capacitor__412debcc_0_0:
+    component: interdigital_capacitor
+    info: {}
+    settings:
+      finger_gap: 2
+      finger_length: 20
+      fingers: 4
+      layer:
+      - 1
+      - 0
+      thickness: 5
+  rectangle_gdsfactorypco_12b34008_32000_m1000:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 20
+      - 2
+  rectangle_gdsfactorypco_68f8d919_37000_10000:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 5
+      - 5
+  rectangle_gdsfactorypco_68f8d919_m10000_10000:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 5
+      - 5
+  rectangle_gdsfactorypco_b572c0cd_51000_m20000:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 2
+      - 20
+  spiral_gdsfactorypcompo_47b7831b_52000_0:
+    component: spiral
+    info:
+      length: 600
+    settings:
+      bend: bend_euler
+      cross_section: xs_68038e28
+      length: 100
+      n_loops: 3
+      spacing: 3
+      straight: straight
+name: resonator_lumped_gdsfac_5db680c0
+nets:
+- p1: rectangle_gdsfactorypco_12b34008_32000_m1000,e3
+  p2: rectangle_gdsfactorypco_b572c0cd_51000_m20000,e2
+placements:
+  interdigital_capacitor__412debcc_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  rectangle_gdsfactorypco_12b34008_32000_m1000:
+    mirror: false
+    rotation: 0
+    x: 32
+    y: -1
+  rectangle_gdsfactorypco_68f8d919_37000_10000:
+    mirror: false
+    rotation: 0
+    x: 37
+    y: 10
+  rectangle_gdsfactorypco_68f8d919_m10000_10000:
+    mirror: false
+    rotation: 0
+    x: -10
+    y: 10
+  rectangle_gdsfactorypco_b572c0cd_51000_m20000:
+    mirror: false
+    rotation: 0
+    x: 51
+    y: -20
+  spiral_gdsfactorypcompo_47b7831b_52000_0:
+    mirror: false
+    rotation: 0
+    x: 52
+    y: 0
+ports:
+  input: rectangle_gdsfactorypco_68f8d919_m10000_10000,e4
+  output: rectangle_gdsfactorypco_68f8d919_37000_10000,e4
+warnings:
+  electrical:
+    unconnected_ports:
+    - message: 12 unconnected electrical ports!
+      ports:
+      - rectangle_gdsfactorypco_12b34008_32000_m1000,e1
+      - rectangle_gdsfactorypco_12b34008_32000_m1000,e2
+      - rectangle_gdsfactorypco_12b34008_32000_m1000,e4
+      - rectangle_gdsfactorypco_b572c0cd_51000_m20000,e1
+      - rectangle_gdsfactorypco_b572c0cd_51000_m20000,e3
+      - rectangle_gdsfactorypco_b572c0cd_51000_m20000,e4
+      - rectangle_gdsfactorypco_68f8d919_m10000_10000,e1
+      - rectangle_gdsfactorypco_68f8d919_m10000_10000,e2
+      - rectangle_gdsfactorypco_68f8d919_m10000_10000,e3
+      - rectangle_gdsfactorypco_68f8d919_37000_10000,e1
+      - rectangle_gdsfactorypco_68f8d919_37000_10000,e2
+      - rectangle_gdsfactorypco_68f8d919_37000_10000,e3
+      values:
+      - - 32
+        - 0
+      - - 42
+        - 1
+      - - 42
+        - -1
+      - - 51
+        - -10
+      - - 53
+        - -10
+      - - 52
+        - -20
+      - - -10
+        - 12.5
+      - - -7.5
+        - 15
+      - - -5
+        - 12.5
+      - - 37
+        - 12.5
+      - - 39.5
+        - 15
+      - - 42
+        - 12.5
+  optical:
+    unconnected_ports:
+    - message: 4 unconnected optical ports!
+      ports:
+      - interdigital_capacitor__412debcc_0_0,o1
+      - interdigital_capacitor__412debcc_0_0,o2
+      - spiral_gdsfactorypcompo_47b7831b_52000_0,o1
+      - spiral_gdsfactorypcompo_47b7831b_52000_0,o2
+      values:
+      - - 0
+        - 13
+      - - 32
+        - 13
+      - - 158
+        - -6
+      - - 161
+        - -9

@@ -1,0 +1,28 @@
+info:
+  alpha_beta_ratio: 0.667
+  alpha_junction_area: 0.03
+  asymmetry_angle: 15
+  beta_junction_area: 0.045
+  loop_height: 40
+  loop_width: 60
+  qubit_type: flux_qubit_asymmetric
+name: flux_qubit_asymmetric_g_71db343b
+settings:
+  alpha_junction_height: 0.25
+  alpha_junction_width: 0.12
+  asymmetry_angle: 15
+  junction_height: 0.3
+  junction_width: 0.15
+  layer_alpha_junction:
+  - 3
+  - 0
+  layer_junction:
+  - 2
+  - 0
+  layer_metal:
+  - 1
+  - 0
+  loop_height: 40
+  loop_width: 60
+  port_type: electrical
+  wire_width: 2
