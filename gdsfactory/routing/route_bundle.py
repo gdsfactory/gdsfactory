@@ -256,8 +256,8 @@ def route_bundle(
         for port in ports2_:
             bbox2 += port.dcplx_trans.disp.to_p()
 
-        ports1_ = add_auto_tapers(component, ports1_, cross_section)
-        ports2_ = add_auto_tapers(component, ports2_, cross_section)
+        ports1_ = add_auto_tapers(component, ports1_, cross_section=xs)
+        ports2_ = add_auto_tapers(component, ports2_, cross_section=xs)
 
         for port in ports1_:
             bbox1 += port.dcplx_trans.disp.to_p()
