@@ -1,12 +1,11 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.11.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.11.1...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.11.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.11.1) - 2025-07-17
 
-No significant changes.
-
+- fix pad array size [#4038](https://github.com/gdsfactory/gdsfactory/pull/4038)
 
 ## [9.11.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.11.0) - 2025-07-15
 
