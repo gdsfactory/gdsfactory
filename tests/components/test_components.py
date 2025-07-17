@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from functools import partial
 from typing import Any
 
 import pytest
@@ -12,6 +13,18 @@ from gdsfactory.get_factories import get_cells
 from gdsfactory.serialization import clean_value_json
 
 cells = get_cells([gf.components])
+
+pad_array_layer = partial(gf.c.pad_array, layer="M1")
+pad_array_size = partial(gf.c.pad_array, layer="M1", size=(100, 100))
+
+
+cells.update(
+    {
+        "pad_array_layer": pad_array_layer,
+        "pad_array_size": pad_array_size,
+    }
+)
+
 
 skip_test = {
     "component_sequence",

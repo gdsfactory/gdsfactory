@@ -122,15 +122,19 @@ def pad_array(
 
     if layer and size:
         pad_component = gf.get_component(
-            pad, size=size, layer=layer, port_orientations=None, port_orientation=None
+            pad,
+            size=size,
+            layer=layer,
+            port_orientations=None,
+            port_orientation=port_orientation,
         )
     elif layer:
         pad_component = gf.get_component(
-            pad, layer=layer, port_orientations=None, port_orientation=None
+            pad, layer=layer, port_orientations=None, port_orientation=port_orientation
         )
     elif size:
         pad_component = gf.get_component(
-            pad, size=size, port_orientations=None, port_orientation=None
+            pad, size=size, port_orientations=None, port_orientation=port_orientation
         )
     else:
         pad_component = gf.get_component(pad)

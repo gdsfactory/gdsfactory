@@ -1,5 +1,5 @@
 instances:
-  pad_gdsfactorypcomponen_6a189aa4_0_0:
+  pad_gdsfactorypcomponen_8da24944_0_0:
     array:
       column_pitch: 150
       columns: 1
@@ -17,7 +17,7 @@ instances:
       bbox_offsets: null
       layer: MTOP
       port_inclusion: 0
-      port_orientation: null
+      port_orientation: 0
       port_orientations: null
       port_type: pad
       size:
@@ -26,7 +26,7 @@ instances:
 name: pad_array_gdsfactorypco_70dcc787
 nets: []
 placements:
-  pad_gdsfactorypcomponen_6a189aa4_0_0:
+  pad_gdsfactorypcomponen_8da24944_0_0:
     mirror: false
     rotation: 0
     x: 0
