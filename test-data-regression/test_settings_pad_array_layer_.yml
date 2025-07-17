@@ -1,0 +1,12 @@
+info: {}
+name: pad_array_gdsfactorypco_66bf5d0b
+settings:
+  auto_rename_ports: false
+  centered_ports: false
+  column_pitch: 150
+  columns: 6
+  layer: M1
+  pad: pad
+  port_orientation: 0
+  row_pitch: 150
+  rows: 1
