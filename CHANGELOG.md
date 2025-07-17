@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.11.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.11.1) - 2025-07-17
+
+No significant changes.
+
+
 ## [9.11.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.11.0) - 2025-07-15
 
 - Add quantum RF pcells [#4024](https://github.com/gdsfactory/gdsfactory/pull/4024)
