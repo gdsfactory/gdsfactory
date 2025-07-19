@@ -76,6 +76,20 @@ def test_import_gds_ports(data_regression: DataRegressionFixture) -> None:
         data_regression.check(c1.to_dict())
 
 
+def test_import_gds_subcell(data_regression: DataRegressionFixture) -> None:
+    c0 = gf.Component()
+    c1 = gf.components.mzi()
+    c0.add_ref(c1, name="mzi")
+
+    gdspath = c0.write_gds()
+
+    l0 = gf.import_gds(gdspath)
+    l1 = l0.insts["mzi"].cell
+
+    assert len(l1.ports) == 2
+    assert l1.settings == c1.settings
+
+
 def import_same_file_twice() -> None:
     c1 = gf.c.straight()
     gdspath = c1.write_gds()
