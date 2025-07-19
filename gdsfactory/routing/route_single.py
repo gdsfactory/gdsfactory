@@ -33,7 +33,7 @@ from typing import Literal, cast
 import kfactory as kf
 from kfactory.routing.electrical import route_elec
 from kfactory.routing.generic import ManhattanRoute
-from kfactory.routing.optical import place90, route
+from kfactory.routing.optical import route, place_manhattan
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -182,7 +182,7 @@ def route_single(
             ]
 
         try:
-            return place90(
+            return place_manhattan(
                 component.to_itype(),
                 p1=p1.to_itype(),
                 p2=p2.to_itype(),
