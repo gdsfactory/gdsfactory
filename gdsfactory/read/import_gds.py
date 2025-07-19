@@ -57,8 +57,7 @@ def kcell_to_component(kcell: kf.kcell.ProtoTKCell[Any]) -> Component:
     c.get_meta_data()
 
     for ci in c.called_cells():
-        comp = Component(base=c.kcl[ci].base)
-        comp.get_meta_data()
+        c.kcl[ci].get_meta_data()
 
     return c
 
