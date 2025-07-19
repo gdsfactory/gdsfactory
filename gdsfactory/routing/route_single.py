@@ -33,7 +33,7 @@ from typing import Literal, cast
 import kfactory as kf
 from kfactory.routing.electrical import route_elec
 from kfactory.routing.generic import ManhattanRoute
-from kfactory.routing.optical import route, place_manhattan
+from kfactory.routing.optical import place_manhattan, route
 
 import gdsfactory as gf
 from gdsfactory.component import Component
