@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections import Counter
+from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
@@ -80,6 +81,7 @@ def component_sequence(
     port_name1: str = "o1",
     port_name2: str = "o2",
     start_orientation: AngleInDegrees = 0.0,
+    **kwargs: Any,
 ) -> Component:
     """Returns component from ASCII sequence.
 
@@ -93,6 +95,7 @@ def component_sequence(
         port_name1: input port_name.
         port_name2: output port_name.
         start_orientation: in degrees.
+        **kwargs: additional keyword arguments passed to the connect method.
 
     Returns:
         component: containing the sequence of sub-components
@@ -173,7 +176,7 @@ def component_sequence(
             ref = _flip_ref(ref, input_port)
 
         try:
-            ref.connect(input_port, prev_device.ports[prev_port])
+            ref.connect(input_port, prev_device.ports[prev_port], **kwargs)
         except KeyError as exc:
             port_names = [port.name for port in prev_device.ports]
             raise KeyError(
