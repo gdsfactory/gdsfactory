@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.11.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.11.2) - 2025-07-20
+
+No significant changes.
+
+
 ## [9.11.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.11.1) - 2025-07-17
 
 - fix pad array size [#4038](https://github.com/gdsfactory/gdsfactory/pull/4038)
