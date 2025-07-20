@@ -1,12 +1,13 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.11.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.11.2...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.11.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.11.2) - 2025-07-20
 
-No significant changes.
-
+- Passing kwargs to connect from component_sequence [#4040](https://github.com/gdsfactory/gdsfactory/pull/4040)
+- use place_manhattan instead of place90 [#4041](https://github.com/gdsfactory/gdsfactory/pull/4041)
+- fix import_gds to work with subcells as well [#4042](https://github.com/gdsfactory/gdsfactory/pull/4042)
 
 ## [9.11.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.11.1) - 2025-07-17
 
