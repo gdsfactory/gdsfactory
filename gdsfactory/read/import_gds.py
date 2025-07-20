@@ -51,11 +51,14 @@ def import_gds(
 
 def kcell_to_component(kcell: kf.kcell.ProtoTKCell[Any]) -> Component:
     c = Component()
-    c.kdb_cell.copy_tree(kcell.kdb_cell)
-    c.add_ports(kcell.ports)
-    c.settings = kcell.settings.model_copy()
-    c.info = kcell.info.model_copy()
     c.name = kcell.name
+    c.kdb_cell.copy_tree(kcell.kdb_cell)
+    c.copy_meta_info(kcell.kdb_cell)
+    c.get_meta_data()
+
+    for ci in c.called_cells():
+        c.kcl[ci].get_meta_data()
+
     return c
 
 
