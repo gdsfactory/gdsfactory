@@ -14,6 +14,7 @@ def add_auto_tapers(
     component: Component,
     ports: Ports,
     cross_section: CrossSectionSpec,
+    layer_transitions: LayerTransitions | None = None,
 ) -> list[Port]:
     """Adds tapers to the ports of a component (to be used for routing) and returns the new lists of ports.
 
@@ -21,6 +22,7 @@ def add_auto_tapers(
         component: the component to add tapers to
         ports: the list of ports
         cross_section: the cross section to route to
+        layer_transitions: the layer transitions dictionary to use (use the pdk default if None)
 
     Returns:
         The new list of ports, on the opposite end of the tapers
@@ -29,7 +31,6 @@ def add_auto_tapers(
     cs_layer = gf.get_layer(cross_section_obj.layer)
     cs_width = cross_section_obj.width
 
-    layer_transitions = None
     _pdk = None
 
     def get_layer_transitions() -> LayerTransitions:

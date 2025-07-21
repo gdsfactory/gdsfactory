@@ -15,6 +15,7 @@ from __future__ import annotations
 from collections.abc import Mapping, Sequence
 from functools import partial
 from typing import Literal
+from warnings import warn
 
 import kfactory as kf
 from kfactory.routing.generic import ManhattanRoute
@@ -29,6 +30,7 @@ from gdsfactory.typings import (
     CrossSectionSpec,
     LayerSpec,
     LayerSpecs,
+    LayerTransitions,
     Ports,
 )
 
@@ -114,6 +116,7 @@ def route_bundle(
     start_angles: float | list[float] | None = None,
     end_angles: float | list[float] | None = None,
     router: Literal["optical", "electrical"] | None = None,
+    layer_transitions: LayerTransitions | None = None,
 ) -> list[ManhattanRoute]:
     """Places a bundle of routes to connect two groups of ports.
 
@@ -149,6 +152,7 @@ def route_bundle(
         end_angles: list of end angles for the routes. Only used for electrical ports.
         router: Set the type of router to use, either the optical one or the electrical one.
             If None, the router is optical unless the port_type is "electrical".
+        layer_transitions: dictionary of layer transitions to use for the routing when auto_taper=True.
 
     .. plot::
         :include-source:
@@ -217,6 +221,11 @@ def route_bundle(
     bboxes = list(bboxes or [])
 
     if auto_taper and auto_taper_taper:
+        warn(
+            "Use of `auto_taper_taper` is deprecated. Please use `layer_transitions` instead.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         taper_ = gf.get_component(auto_taper_taper)
         taper_o1 = taper_.ports[0].name
         taper_o2 = taper_.ports[1].name
@@ -256,8 +265,12 @@ def route_bundle(
         for port in ports2_:
             bbox2 += port.dcplx_trans.disp.to_p()
 
-        ports1_ = add_auto_tapers(component, ports1_, cross_section=xs)
-        ports2_ = add_auto_tapers(component, ports2_, cross_section=xs)
+        ports1_ = add_auto_tapers(
+            component, ports1_, cross_section=xs, layer_transitions=layer_transitions
+        )
+        ports2_ = add_auto_tapers(
+            component, ports2_, cross_section=xs, layer_transitions=layer_transitions
+        )
 
         for port in ports1_:
             bbox1 += port.dcplx_trans.disp.to_p()
