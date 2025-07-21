@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.11.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.11.3) - 2025-07-21
+
+No significant changes.
+
+
 - replace `auto_taper_taper` with `layer_transitions` in `get_bundle` [#4043](https://github.com/gdsfactory/gdsfactory/pull/4043)
 
 ## [9.11.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.11.2) - 2025-07-20
