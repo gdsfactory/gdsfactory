@@ -178,6 +178,24 @@ class Pdk(BaseModel):
         extra="forbid",
     )
 
+    def model_post_init(self, context: Any) -> None:
+        super().model_post_init(context)
+
+        # update the cross sections and cells from base pdks
+        # precedence goes from first to last base PDK, and then finally to this PDK
+        # (duplicates in the last base PDK will overwrite the others, and this PDK will overwrite that)
+        cross_sections = {}
+        cells = {}
+        for pdk in self.base_pdks:
+            cross_sections.update(pdk.cross_sections)
+            cells.update(pdk.cells)
+
+        cross_sections.update(self.cross_sections)
+        cells.update(self.cells)
+
+        self.cross_sections = cross_sections
+        self.cells = cells
+
     def xsection(
         self, func: Callable[..., CrossSection]
     ) -> Callable[..., CrossSection]:
@@ -208,14 +226,6 @@ class Pdk(BaseModel):
             return
 
         logger.debug(f"{self.name!r} PDK {self.version} is now active")
-
-        for pdk in self.base_pdks:
-            cross_sections = pdk.cross_sections
-            cross_sections.update(self.cross_sections)
-            cells = pdk.cells
-            self.cross_sections = cross_sections
-            cells.update(self.cells)
-            self.cells.update(cells)
 
         _set_active_pdk(self)
 
