@@ -120,24 +120,14 @@ def pad_array(
     """
     c = Component()
 
-    if layer and size:
-        pad_component = gf.get_component(
-            pad,
-            size=size,
-            layer=layer,
-            port_orientations=None,
-            port_orientation=port_orientation,
-        )
-    elif layer:
-        pad_component = gf.get_component(
-            pad, layer=layer, port_orientations=None, port_orientation=port_orientation
-        )
-    elif size:
-        pad_component = gf.get_component(
-            pad, size=size, port_orientations=None, port_orientation=port_orientation
-        )
-    else:
-        pad_component = gf.get_component(pad)
+    pad_kwargs = {}
+    if layer is not None:
+        pad_kwargs["layer"] = layer
+    if size is not None:
+        pad_kwargs["size"] = size
+    pad_component = gf.get_component(
+        pad, port_orientations=None, port_orientation=port_orientation, **pad_kwargs
+    )
 
     size = size or pad_component.info["size"]
     layer = layer or pad_component.ports[0].layer
