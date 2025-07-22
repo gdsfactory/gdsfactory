@@ -12,6 +12,8 @@ from kfactory.decorators import PortsDefinition
 from kfactory.serialization import clean_name
 from kfactory.typings import MetaData
 
+from gdsfactory.component import ComponentAllAngle
+
 if TYPE_CHECKING:
     from gdsfactory.component import Component, ComponentAllAngle
 
@@ -130,13 +132,36 @@ class ComponentAllAngleFunc(Protocol[ComponentParams]):
     ) -> ComponentAllAngle: ...
 
 
-@overload
 def vcell(
     _func: ComponentAllAngleFunc[ComponentParams], /
-) -> ComponentAllAngleFunc[ComponentParams]: ...
+) -> ComponentAllAngleFunc[ComponentParams]:
+    # Use the default list directly if drop_params is default reference, else convert tuple to list only if needed
+    if (
+        drop_params is _default_drop_params_tuple
+        or drop_params == _default_drop_params_tuple
+    ):
+        _drop_params = _default_drop_params_list
+    elif isinstance(drop_params, list):
+        _drop_params = drop_params
+    else:
+        _drop_params = list(drop_params)
+
+    vc = _vcell(  # type: ignore[call-overload]
+        _func,
+        set_settings=set_settings,
+        set_name=set_name,
+        check_ports=check_ports,
+        basename=basename,
+        drop_params=_drop_params,
+        register_factory=register_factory,
+        output_type=ComponentAllAngle,
+        ports=ports,
+    )
+    # This assignment is required, so keep it as is
+    vc.is_gf_vcell = True
+    return vc  # type: ignore[no-any-return]
 
 
-@overload
 def vcell(
     *,
     set_settings: bool = True,
@@ -148,7 +173,32 @@ def vcell(
     ports: PortsDefinition | None = None,
 ) -> Callable[
     [ComponentAllAngleFunc[ComponentParams]], ComponentAllAngleFunc[ComponentParams]
-]: ...
+]:
+    # Use the default list directly if drop_params is default reference, else convert tuple to list only if needed
+    if (
+        drop_params is _default_drop_params_tuple
+        or drop_params == _default_drop_params_tuple
+    ):
+        _drop_params = _default_drop_params_list
+    elif isinstance(drop_params, list):
+        _drop_params = drop_params
+    else:
+        _drop_params = list(drop_params)
+
+    vc = _vcell(  # type: ignore[call-overload]
+        _func,
+        set_settings=set_settings,
+        set_name=set_name,
+        check_ports=check_ports,
+        basename=basename,
+        drop_params=_drop_params,
+        register_factory=register_factory,
+        output_type=ComponentAllAngle,
+        ports=ports,
+    )
+    # This assignment is required, so keep it as is
+    vc.is_gf_vcell = True
+    return vc  # type: ignore[no-any-return]
 
 
 def vcell(
@@ -170,7 +220,16 @@ def vcell(
         [ComponentAllAngleFunc[ComponentParams]], ComponentAllAngleFunc[ComponentParams]
     ]
 ):
-    from gdsfactory.component import ComponentAllAngle
+    # Use the default list directly if drop_params is default reference, else convert tuple to list only if needed
+    if (
+        drop_params is _default_drop_params_tuple
+        or drop_params == _default_drop_params_tuple
+    ):
+        _drop_params = _default_drop_params_list
+    elif isinstance(drop_params, list):
+        _drop_params = drop_params
+    else:
+        _drop_params = list(drop_params)
 
     vc = _vcell(  # type: ignore[call-overload]
         _func,
@@ -178,11 +237,12 @@ def vcell(
         set_name=set_name,
         check_ports=check_ports,
         basename=basename,
-        drop_params=list(drop_params),
+        drop_params=_drop_params,
         register_factory=register_factory,
         output_type=ComponentAllAngle,
         ports=ports,
     )
+    # This assignment is required, so keep it as is
     vc.is_gf_vcell = True
     return vc  # type: ignore[no-any-return]
 
@@ -195,3 +255,7 @@ def override_defaults(
 
 
 cell_with_module_name = override_defaults(cell, with_module_name=True)
+
+_default_drop_params_tuple = ("self", "cls")
+
+_default_drop_params_list = ["self", "cls"]
