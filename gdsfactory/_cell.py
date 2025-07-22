@@ -8,6 +8,7 @@ from cachetools import Cache
 from kfactory import cell as _cell
 from kfactory import vcell as _vcell
 from kfactory.conf import CheckInstances
+from kfactory.decorators import PortsDefinition
 from kfactory.serialization import clean_name
 from kfactory.typings import MetaData
 
@@ -77,6 +78,7 @@ def cell(
     tags: list[str] | None = None,
     with_module_name: bool = False,
     lvs_equivalent_ports: list[list[str]] | None = None,
+    ports: PortsDefinition | None = None,
 ) -> (
     ComponentFunc[ComponentParams]
     | Callable[[ComponentFunc[ComponentParams]], ComponentFunc[ComponentParams]]
@@ -114,6 +116,7 @@ def cell(
         debug_names=debug_names,
         tags=tags,
         lvs_equivalent_ports=lvs_equivalent_ports,
+        ports=ports,
     )
     c.is_gf_cell = True
     return c  # type: ignore[no-any-return]
@@ -142,6 +145,7 @@ def vcell(
     basename: str | None = None,
     drop_params: tuple[str, ...] = ("self", "cls"),
     register_factory: bool = True,
+    ports: PortsDefinition | None = None,
 ) -> Callable[
     [ComponentAllAngleFunc[ComponentParams]], ComponentAllAngleFunc[ComponentParams]
 ]: ...
@@ -159,6 +163,7 @@ def vcell(
     basename: str | None = None,
     drop_params: tuple[str, ...] = ("self", "cls"),
     register_factory: bool = True,
+    ports: PortsDefinition | None = None,
 ) -> (
     ComponentAllAngleFunc[ComponentParams]
     | Callable[
@@ -176,6 +181,7 @@ def vcell(
         drop_params=list(drop_params),
         register_factory=register_factory,
         output_type=ComponentAllAngle,
+        ports=ports,
     )
     vc.is_gf_vcell = True
     return vc  # type: ignore[no-any-return]
