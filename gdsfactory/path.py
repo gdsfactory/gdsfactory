@@ -93,7 +93,11 @@ class Path(UMGeometricObject):
     """
 
     def __init__(
-        self, path: npt.NDArray[np.floating[Any]] | Path | list[tuple[float, float]] | None = None
+        self,
+        path: npt.NDArray[np.floating[Any]]
+        | Path
+        | list[tuple[float, float]]
+        | None = None,
     ) -> None:
         """Creates an empty path."""
         self.points: npt.NDArray[np.floating[Any]] = np.array(
