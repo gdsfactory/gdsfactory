@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from functools import partial
+from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -120,7 +121,7 @@ def pad_array(
     """
     c = Component()
 
-    pad_kwargs = {}
+    pad_kwargs: dict[str, Any] = {}
     if layer is not None:
         pad_kwargs["layer"] = layer
     if size is not None:
@@ -129,8 +130,8 @@ def pad_array(
         pad, port_orientations=None, port_orientation=port_orientation, **pad_kwargs
     )
 
-    size = size or pad_component.info["size"]
-    layer = layer or pad_component.ports[0].layer
+    pad_size: Float2 = size or pad_component.info["size"]
+    pad_layer: LayerSpec = layer or pad_component.ports[0].layer
 
     c.add_ref(
         pad_component,
@@ -139,7 +140,7 @@ def pad_array(
         column_pitch=column_pitch,
         row_pitch=row_pitch,
     )
-    width = size[0] if int(port_orientation) in {90, 270} else size[1]
+    width = pad_size[0] if int(port_orientation) in {90, 270} else pad_size[1]
 
     for col in range(columns):
         for row in range(rows):
@@ -149,13 +150,13 @@ def pad_array(
 
             if not centered_ports:
                 if port_orientation == 0:
-                    center_list[0] += size[0] / 2
+                    center_list[0] += pad_size[0] / 2
                 elif port_orientation == 90:
-                    center_list[1] += size[1] / 2
+                    center_list[1] += pad_size[1] / 2
                 elif port_orientation == 180:
-                    center_list[0] -= size[0] / 2
+                    center_list[0] -= pad_size[0] / 2
                 elif port_orientation == 270:
-                    center_list[1] -= size[1] / 2
+                    center_list[1] -= pad_size[1] / 2
 
             center = (center_list[0], center_list[1])
             c.add_port(
@@ -164,7 +165,7 @@ def pad_array(
                 width=width,
                 orientation=port_orientation,
                 port_type="electrical",
-                layer=layer,
+                layer=pad_layer,
             )
     if auto_rename_ports:
         c.auto_rename_ports()
@@ -182,11 +183,8 @@ if __name__ == "__main__":
     # c = pad_array(port_orientation=270.)
     # c = pad_array(columns=3, centered_ports=True, port_orientation=90)
     # c = pad(port_orientations=[270])
-    pad = gf.components.pad
     # c = gf.get_component(pad)
 
-    c = gf.components.pad_array(
-        port_orientation=270, pad=pad, size=(10, 10), column_pitch=15
-    )
+    c = pad_array(port_orientation=270, pad=pad, size=(10, 10), column_pitch=15)
     # c.pprint_ports()
     c.show()
