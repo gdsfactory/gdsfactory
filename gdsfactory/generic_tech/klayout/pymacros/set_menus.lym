@@ -17,7 +17,7 @@
  <text>
 import pya
 
-__version__ = "9.11.3"
+__version__ = "9.11.4"
 
 
 def set_menu():
