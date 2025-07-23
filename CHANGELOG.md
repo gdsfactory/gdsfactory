@@ -1,12 +1,15 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.11.3...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.11.4...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.11.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.11.4) - 2025-07-23
 
-No significant changes.
-
+- fix mypy issues [#4051](https://github.com/gdsfactory/gdsfactory/pull/4051)
+- less branches inside pad_array function [#4048](https://github.com/gdsfactory/gdsfactory/pull/4048)
+- don't modify the PDK on activation [#4046](https://github.com/gdsfactory/gdsfactory/pull/4046)
+- Update the Path class's constructor to allow the path parameter to accept points of type list [#4052](https://github.com/gdsfactory/gdsfactory/pull/4052)
+- upgrade kfactory to 1.10 [#4049](https://github.com/gdsfactory/gdsfactory/pull/4049)
 
 ## [9.11.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.11.3) - 2025-07-21
 
