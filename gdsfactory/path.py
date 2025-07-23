@@ -93,7 +93,11 @@ class Path(UMGeometricObject):
     """
 
     def __init__(
-        self, path: npt.NDArray[np.floating[Any]] | Path | list[tuple[float, float]] | None = None
+        self,
+        path: npt.NDArray[np.floating[Any]]
+        | Path
+        | list[tuple[float, float]]
+        | None = None,
     ) -> None:
         """Creates an empty path."""
         self.points: npt.NDArray[np.floating[Any]] = np.array(
@@ -207,7 +211,13 @@ class Path(UMGeometricObject):
             dtype=np.float64,
         )
 
-    def append(self, path: npt.NDArray[np.floating[Any]] | Path | list[Path]) -> Path:
+    def append(
+        self,
+        path: npt.NDArray[np.floating[Any]]
+        | Path
+        | list[Path]
+        | list[tuple[float, float]],
+    ) -> Path:
         """Attach Path to the end of this Path.
 
         The input path automatically rotates and translates such that it continues
@@ -235,7 +245,7 @@ class Path(UMGeometricObject):
             end_angle = np.arctan2(ny2, nx2) / np.pi * 180
         elif isinstance(path, list):
             for p in path:
-                self.append(p)
+                self.append(p)  # type: ignore[arg-type]
             return self
         else:
             raise ValueError(
