@@ -20,13 +20,14 @@ def coupler_capacitive(
     A capacitive coupler consists of two metal pads separated by a small gap,
     providing capacitive coupling between circuit elements like qubits and resonators.
 
-               ______                ______
-     _______  |      |              |      | _______
-    |       | |      |              |      ||       |
-    | feed1 | | pad1 | =====gap==== | pad2 || feed2 |
-    |       | |      |              |      ||       |
-    |_______| |      |              |      ||_______|
-              |______|              |______|
+    .. code::
+                    ______               ______
+          _______  |      |             |      | _______
+         |       | |      |             |      ||       |
+         | feed1 | | pad1 | ====gap==== | pad2 || feed2 |
+         |       | |      |             |      ||       |
+         |_______| |      |             |      ||_______|
+                   |______|             |______|
 
     Args:
         pad_width: Width of each coupling pad in μm.
@@ -122,20 +123,6 @@ def coupler_interdigital(
     - The finger_length parameter refers only to the length of the fingers *extending from the base*,
       and does NOT include the base column width
 
-               base columns
-               ↓                    ↓
-     ┌────────┐                      ┌────────┐
-     │        │█████████████        █│        │
-     │        │█        g1          █│        │
-     │        │█ <─g2─> █████████████│        │
-     │        │█                    █│        │
-     │ feed1  │█████████████        █│ feed2  │
-     │        │█                    █│        │
-     │        │█        █████████████│        │
-     │        │█                    █│        │
-     │        │█████████████        █│        │
-     └────────┘█                    █└────────┘
-
     Args:
         fingers: Number of fingers per side.
         finger_length: Length of each finger in μm (see note above).
@@ -149,6 +136,23 @@ def coupler_interdigital(
 
     Returns:
         Component: A gdsfactory component with the interdigital coupler geometry.
+
+    .. code::
+                    ┌────────┐
+                   base columns
+                   ↓                    ↓
+         ┌────────┐                      ┌────────┐
+         │        │█████████████        █│        │
+         │        │█        g1          █│        │
+         │        │█ <─g2─> █████████████│        │
+         │        │█                    █│        │
+         │ feed1  │█████████████        █│ feed2  │
+         │        │█                    █│        │
+         │        │█        █████████████│        │
+         │        │█                    █│        │
+         │        │█████████████        █│        │
+         └────────┘█                    █└────────┘
+
     """
     c = Component()
 
@@ -251,27 +255,6 @@ def coupler_tunable(
     A tunable coupler includes additional electrodes that can be voltage-biased
     to change the coupling strength dynamically.
 
-                (connected to feed)
-                     _______
-                    |       |
-                    | tpad1 |
-                    |       |
-                    |_______|
-                    tuning gap
-               ______        ______
-     _______  |      |      |      | _______
-    |       | |      |      |      ||       |
-    | feed1 | | pad1 | gap  | pad2 || feed2 |
-    |       | |      |      |      ||       |
-    |_______| |      |      |      ||_______|
-              |______|      |______|
-                    tuning gap
-                     _______
-                    |       |
-                    | tpad2 |
-                    |       |
-                    |_______|
-                (connected to feed)
 
     Args:
         pad_width: Width of main coupling pads in μm.
@@ -288,6 +271,31 @@ def coupler_tunable(
 
     Returns:
         Component: A gdsfactory component with the tunable coupler geometry.
+
+
+    .. code::
+
+                    (connected to feed)
+                         _______
+                        |       |
+                        | tpad1 |
+                        |       |
+                        |_______|
+                        tuning gap
+                   ______        ______
+         _______  |      |      |      | _______
+        |       | |      |      |      ||       |
+        | feed1 | | pad1 | gap  | pad2 || feed2 |
+        |       | |      |      |      ||       |
+        |_______| |      |      |      ||_______|
+                  |______|      |______|
+                        tuning gap
+                         _______
+                        |       |
+                        | tpad2 |
+                        |       |
+                        |_______|
+                    (connected to feed)
     """
     c = Component()
 
