@@ -10,7 +10,6 @@ import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.route_bundle import get_min_spacing, route_bundle
-from gdsfactory.routing.route_single import route_single
 from gdsfactory.routing.utils import direction_ports_from_list_ports
 from gdsfactory.typings import (
     BoundingBoxes,
@@ -388,10 +387,20 @@ def route_fiber_array(
             bend, cross_section=cross_section, radius=radius_loopback
         )
 
-        route_single(
+        sign = 1 if with_loopback_inside else -1
+        wp_start = waypoints_loopback_[0]
+        wp_end = waypoints_loopback_[-1]
+        waypoints_loopback_[0:3] = [
+            gf.kdb.DPoint(wp_start.x - sign * radius * 2, wp_start.y)
+        ]
+        waypoints_loopback_[-3:] = [
+            gf.kdb.DPoint(wp_end.x + sign * radius * 2, wp_end.y)
+        ]
+
+        route_bundle(
             component,
-            port1=port0,
-            port2=port1,
+            [port0],
+            [port1],
             waypoints=waypoints_loopback_,
             straight=straight,
             bend=bend90,
