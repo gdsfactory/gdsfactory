@@ -390,7 +390,7 @@ def route_fiber_array(
         sign = 1 if with_loopback_inside else -1
         wp_start = waypoints_loopback_[0]
         wp_end = waypoints_loopback_[-1]
-        waypoints_loopback_[0:3] = [
+        waypoints_loopback_[:3] = [
             gf.kdb.DPoint(wp_start.x - sign * radius * 2, wp_start.y)
         ]
         waypoints_loopback_[-3:] = [
