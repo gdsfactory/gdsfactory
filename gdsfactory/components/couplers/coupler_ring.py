@@ -17,6 +17,7 @@ def coupler_ring(
     cross_section: CrossSectionSpec = "strip",
     cross_section_bend: CrossSectionSpec | None = None,
     length_extension: float = 3.0,
+    width: float | None = None,
 ) -> Component:
     r"""Coupler for ring.
 
@@ -29,6 +30,7 @@ def coupler_ring(
         cross_section: cross_section spec.
         cross_section_bend: optional bend cross_section spec.
         length_extension: straight length extension at the end of the coupler bottom ports.
+        width: width of the waveguide. If None, it will use the width of the cross_section.
 
     .. code::
 
@@ -68,12 +70,14 @@ def coupler_ring(
         cross_section=cross_section,
         cross_section_bend=cross_section_bend,
         length_straight=length_extension,
+        width=width,
     )
     coupler_straight_component = gf.get_component(
         coupler_straight,
         gap=gap,
         length=length_x,
         cross_section=cross_section,
+        width=width,
     )
 
     # add references to subcells

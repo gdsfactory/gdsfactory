@@ -34,6 +34,7 @@ def mzi(
     add_optical_ports_arms: bool = False,
     min_length: float = 10e-3,
     auto_rename_ports: bool = True,
+    width: float | None = None,
 ) -> Component:
     """Mzi.
 
@@ -64,6 +65,7 @@ def mzi(
             with top_ and bot_ prefix.
         min_length: minimum length for the straight.
         auto_rename_ports: if True, renames ports.
+        width: width of the waveguide. If None, it will use the width of the cross_section.
 
     .. code::
 
@@ -90,7 +92,7 @@ def mzi(
 
     cross_section_x_bot = cross_section_x_bot or cross_section
     cross_section_x_top = cross_section_x_top or cross_section
-    bend = gf.get_component(bend, cross_section=cross_section)
+    bend = gf.get_component(bend, cross_section=cross_section, width=width)
 
     c = Component()
     cp1 = gf.get_component(splitter)
@@ -106,7 +108,10 @@ def mzi(
     b5.name = "b5"
 
     syl = c << gf.get_component(
-        straight_y, length=delta_length / 2 + length_y, cross_section=cross_section
+        straight_y,
+        length=delta_length / 2 + length_y,
+        cross_section=cross_section,
+        width=width,
     )
     syl.connect(port1, b5.ports[port2])
     b6 = c << bend
@@ -115,10 +120,15 @@ def mzi(
 
     straight_x_top = (
         gf.get_component(
-            straight_x_top, length=length_x, cross_section=cross_section_x_top
+            straight_x_top,
+            length=length_x,
+            cross_section=cross_section_x_top,
+            width=width,
         )
         if length_x
-        else gf.get_component(straight_x_top, cross_section=cross_section_x_top)
+        else gf.get_component(
+            straight_x_top, cross_section=cross_section_x_top, width=width
+        )
     )
     sxt = c << straight_x_top
 
@@ -126,7 +136,10 @@ def mzi(
 
     straight_x_bot = (
         gf.get_component(
-            straight_x_bot, length=length_x, cross_section=cross_section_x_bot
+            straight_x_bot,
+            length=length_x,
+            cross_section=cross_section_x_bot,
+            width=width,
         )
         if length_x
         else gf.get_component(straight_x_bot, cross_section=cross_section_x_bot)
@@ -139,7 +152,7 @@ def mzi(
     b1.name = "b1"
 
     sytl = c << gf.get_component(
-        straight_y, length=length_y, cross_section=cross_section
+        straight_y, length=length_y, cross_section=cross_section, width=width
     )
     sytl.connect(port1, b1.ports[port2])
 
@@ -166,7 +179,10 @@ def mzi(
     b3.name = "b3"
 
     sytr = c << gf.get_component(
-        straight_y, length=length_y - delta_gap_ports / 2, cross_section=cross_section
+        straight_y,
+        length=length_y - delta_gap_ports / 2,
+        cross_section=cross_section,
+        width=width,
     )
     sytr.connect(port2, b3.ports[port1])
     b4 = c << bend
@@ -182,6 +198,7 @@ def mzi(
         straight_y,
         length=delta_length / 2 + length_y - delta_gap_ports / 2,
         cross_section=cross_section,
+        width=width,
     )
     sybr.connect(port1, b7.ports[port2])
     b8 = c << bend
@@ -269,7 +286,6 @@ mzm = partial(
 )
 
 if __name__ == "__main__":
-    c = mzi1x2(combiner=partial(gf.components.mmi1x2, gap_mmi=0))
     # c = mzi_coupler()
     # c = mzi_pin()
     # c = mzm()
@@ -287,6 +303,11 @@ if __name__ == "__main__":
     # gdspath = c.write_gds(flatten_invalid_refs=True)
     # gf.show(gdspath)
     # c.plot_netlist()
+
+    c = mzi(width=2, splitter=gf.get_component("coupler", width=2))
+    n = c.get_netlist(recursive=False)
+    n = c.get_netlist(recursive=True)
+    print(n)
     c.show()
 
     # c1.write_gds("a.gds")

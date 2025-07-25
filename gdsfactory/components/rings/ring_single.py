@@ -15,6 +15,7 @@ def ring_single(
     coupler_ring: ComponentSpec = "coupler_ring",
     cross_section: CrossSectionSpec = "strip",
     length_extension: float = 3.0,
+    width: float | None = None,
 ) -> gf.Component:
     """Returns a single ring resonator with a directional coupler.
 
@@ -40,6 +41,7 @@ def ring_single(
         coupler_ring: Component spec for the ring coupler. Default is "coupler_ring".
         cross_section: Cross section spec for all waveguides. Default is "strip".
         length_extension: straight length extension at the end of the coupler bottom ports.
+        width: width of the waveguide. If None, it will use the width of the cross_section.
 
     Returns:
         Component: A gdsfactory Component containing the ring resonator with:
@@ -88,6 +90,7 @@ def ring_single(
         cross_section=cross_section,
         bend=bend,
         straight=straight,
+        width=width,
     )
 
     if length_extension is not None:
@@ -97,9 +100,13 @@ def ring_single(
     cb = c << gf.get_component(coupler_ring, settings=settings)
 
     # Create waveguide components
-    sy = gf.get_component(straight, length=length_y, cross_section=cross_section)
-    b = gf.get_component(bend, cross_section=cross_section, radius=radius)
-    sx = gf.get_component(straight, length=length_x, cross_section=cross_section)
+    sy = gf.get_component(
+        straight, length=length_y, cross_section=cross_section, width=width
+    )
+    b = gf.get_component(bend, cross_section=cross_section, radius=radius, width=width)
+    sx = gf.get_component(
+        straight, length=length_x, cross_section=cross_section, width=width
+    )
 
     # Place waveguide components
     sl = c << sy  # Left vertical straight
@@ -127,11 +134,12 @@ if __name__ == "__main__":
     # c = ring_single(width=2, gap=1, layer=(2, 0), radius=7, length_y=1)
     c = ring_single(
         radius=5,
-        gap=0.111,
-        bend="bend_circular",
-        length_x=0,
-        length_y=0,
-        length_extension=0,
+        width=2,
+        # gap=0.111,
+        # bend="bend_circular",
+        # length_x=0,
+        # length_y=0,
+        # length_extension=0,
     )
     n = c.get_netlist()
     # print(c.ports)

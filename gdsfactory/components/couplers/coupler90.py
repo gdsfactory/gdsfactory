@@ -16,6 +16,7 @@ def coupler90(
     cross_section: CrossSectionSpec = "strip",
     cross_section_bend: CrossSectionSpec | None = None,
     length_straight: float | None = None,
+    width: float | None = None,
 ) -> Component:
     r"""Straight coupled to a bend.
 
@@ -27,6 +28,7 @@ def coupler90(
         cross_section: cross_section spec.
         cross_section_bend: optional bend cross_section spec.
         length_straight: optional length of the straight waveguide.
+        width: width of the waveguide. If None, it will use the width of the cross_section.
 
     .. code::
 
@@ -46,6 +48,7 @@ def coupler90(
         bend,
         radius=radius,
         cross_section=xs_bend,
+        width=width,
     )
     bend_ref = c << bend90
     bend90_ports = bend_ref.ports.filter(port_type="optical")
@@ -57,6 +60,7 @@ def coupler90(
         straight,
         cross_section=cross_section,
         length=length_straight,
+        width=width,
     )
     wg_ref = c << straight_component
     width = x.width

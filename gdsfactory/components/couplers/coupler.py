@@ -12,6 +12,7 @@ def coupler_symmetric(
     dy: Delta = 4.0,
     dx: Delta = 10.0,
     cross_section: CrossSectionSpec = "strip",
+    width: float | None = None,
 ) -> Component:
     r"""Two coupled straights with bends.
 
@@ -21,6 +22,7 @@ def coupler_symmetric(
         dy: port to port vertical spacing.
         dx: bend length in x direction.
         cross_section: section.
+        width: width of the waveguide. If None, it will use the width of the cross_section.
 
     .. code::
 
@@ -37,7 +39,10 @@ def coupler_symmetric(
 
     """
     c = Component()
-    x = gf.get_cross_section(cross_section)
+    if width is not None:
+        x = gf.get_cross_section(cross_section, width=width)
+    else:
+        x = gf.get_cross_section(cross_section)
     width = x.width
     dy = (dy - gap - width) / 2
 
@@ -45,7 +50,9 @@ def coupler_symmetric(
         bend,
         size=(dx, dy),
         cross_section=cross_section,
+        width=width,
     )
+
     top_bend = c << bend_component
     bot_bend = c << bend_component
     bend_ports = top_bend.ports.filter(port_type="optical")
@@ -75,6 +82,7 @@ def coupler_straight(
     length: float = 10.0,
     gap: float = 0.27,
     cross_section: CrossSectionSpec = "strip",
+    width: float | None = None,
 ) -> Component:
     """Coupler_straight with two parallel straights.
 
@@ -82,6 +90,7 @@ def coupler_straight(
         length: of straight.
         gap: between straights.
         cross_section: specification (CrossSection, string or dict).
+        width: width of the waveguide. If None, it will use the width of the cross_section.
 
     .. code::
 
@@ -91,7 +100,7 @@ def coupler_straight(
     """
     c = Component()
     x = gf.get_cross_section(cross_section)
-    _straight = gf.c.straight(length=length, cross_section=cross_section)
+    _straight = gf.c.straight(length=length, cross_section=cross_section, width=width)
 
     top = c << _straight
     bot = c << _straight
@@ -119,6 +128,7 @@ def coupler(
     cross_section: CrossSectionSpec = "strip",
     allow_min_radius_violation: bool = False,
     bend: ComponentSpec = "bend_s",
+    width: float | None = None,
 ) -> Component:
     r"""Symmetric coupler.
 
@@ -130,6 +140,7 @@ def coupler(
         cross_section: spec (CrossSection, string or dict).
         allow_min_radius_violation: if True does not check for min bend radius.
         bend: input and output sbend components.
+        width: width of the waveguide. If None, it will use the width of the cross_section.
 
     .. code::
 
@@ -147,12 +158,14 @@ def coupler(
     """
     c = Component()
     sbend = coupler_symmetric(
-        gap=gap, dy=dy, dx=dx, cross_section=cross_section, bend=bend
+        gap=gap, dy=dy, dx=dx, cross_section=cross_section, bend=bend, width=width
     )
 
     sr = c << sbend
     sl = c << sbend
-    cs = c << coupler_straight(length=length, gap=gap, cross_section=cross_section)
+    cs = c << coupler_straight(
+        length=length, gap=gap, cross_section=cross_section, width=width
+    )
     sl.connect("o2", other=cs.ports["o1"])
     sr.connect("o1", other=cs.ports["o4"])
 
@@ -175,6 +188,6 @@ def coupler(
 
 
 if __name__ == "__main__":
-    c = coupler(gap=0.2, dy=100)
+    c = coupler(gap=0.2, dy=100, width=1)
     n = c.get_netlist()
     c.show()

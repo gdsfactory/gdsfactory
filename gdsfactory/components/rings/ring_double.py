@@ -19,6 +19,7 @@ def ring_double(
     coupler_ring_top: ComponentSpec | None = None,
     cross_section: CrossSectionSpec = "strip",
     length_extension: float = 3.0,
+    width: float | None = None,
 ) -> Component:
     """Returns a double bus ring.
 
