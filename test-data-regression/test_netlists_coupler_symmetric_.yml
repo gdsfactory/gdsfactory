@@ -1,5 +1,5 @@
 instances:
-  bend_s_gdsfactorypcompo_77ca5fd8_0_367:
+  bend_s_gdsfactorypcompo_16493ab3_0_367:
     component: bend_s
     info:
       end_angle: 0
@@ -19,8 +19,8 @@ instances:
       size:
       - 10
       - 1.633
-      width: null
-  bend_s_gdsfactorypcompo_77ca5fd8_0_m367_M:
+      width: 0.5
+  bend_s_gdsfactorypcompo_16493ab3_0_m367_M:
     component: bend_s
     info:
       end_angle: 0
@@ -40,22 +40,22 @@ instances:
       size:
       - 10
       - 1.633
-      width: null
-name: coupler_symmetric_gdsfa_c947830c
+      width: 0.5
+name: coupler_symmetric_gdsfa_ed9d03fe
 nets: []
 placements:
-  bend_s_gdsfactorypcompo_77ca5fd8_0_367:
+  bend_s_gdsfactorypcompo_16493ab3_0_367:
     mirror: false
     rotation: 0
     x: 0
     y: 0.367
-  bend_s_gdsfactorypcompo_77ca5fd8_0_m367_M:
+  bend_s_gdsfactorypcompo_16493ab3_0_m367_M:
     mirror: true
     rotation: 0
     x: 0
     y: -0.367
 ports:
-  o1: bend_s_gdsfactorypcompo_77ca5fd8_0_m367_M,o1
-  o2: bend_s_gdsfactorypcompo_77ca5fd8_0_367,o1
-  o3: bend_s_gdsfactorypcompo_77ca5fd8_0_367,o2
-  o4: bend_s_gdsfactorypcompo_77ca5fd8_0_m367_M,o2
+  o1: bend_s_gdsfactorypcompo_16493ab3_0_m367_M,o1
+  o2: bend_s_gdsfactorypcompo_16493ab3_0_367,o1
+  o3: bend_s_gdsfactorypcompo_16493ab3_0_367,o2
+  o4: bend_s_gdsfactorypcompo_16493ab3_0_m367_M,o2

@@ -711,8 +711,6 @@ DEFAULT_CRITICAL_CONNECTION_ERROR_TYPES = {
 if __name__ == "__main__":
     from pprint import pprint
 
-    import gdsfactory as gf
-
     # c = gf.Component()
     # mzi = c << gf.c.mzi()
     # mzi.xmin = 10
@@ -722,13 +720,16 @@ if __name__ == "__main__":
     # bend.name = "bend"
     # c.add_port("o1", port=mzi.ports["o1"])
     # c.add_port("o2", port=bend.ports["o2"])
+    from amf.cband import cells
 
-    c = gf.c.pad_array()
-    # c = gf.components.array(
-    #     gf.components.straight(length=100), spacing=(100, 0), columns=5, rows=1
-    # )
-    c.show()
-    n0 = c.get_netlist()
+    import gdsfactory as gf
+
+    c = gf.Component()
+    _ = c << cells.ring_single(width=2)
+    n0 = c.get_netlist(recursive=False)
+    pprint(n0)
+
+    n0 = c.get_netlist(recursive=True)
     pprint(n0)
 
     # gdspath = c.write_gds("test.gds")

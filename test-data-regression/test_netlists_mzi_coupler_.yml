@@ -212,6 +212,7 @@ instances:
       dy: 4
       gap: 0.236
       length: 20
+      width: null
   cp2:
     component: coupler
     info:
@@ -225,6 +226,7 @@ instances:
       dy: 4
       gap: 0.236
       length: 20
+      width: null
   sxb:
     component: straight
     info:
@@ -309,7 +311,7 @@ instances:
       length: 2
       npoints: 2
       width: null
-name: mzi_gdsfactorypcomponen_a5cb50de
+name: mzi_gdsfactorypcomponen_8d670487
 nets:
 - p1: b1,o1
   p2: cp1,o3

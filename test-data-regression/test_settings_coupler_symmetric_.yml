@@ -1,7 +1,7 @@
 info:
   length: 10.187
   min_bend_radius: 11.851
-name: coupler_symmetric_gdsfa_c947830c
+name: coupler_symmetric_gdsfa_ed9d03fe
 settings:
   bend: bend_s
   cross_section: strip

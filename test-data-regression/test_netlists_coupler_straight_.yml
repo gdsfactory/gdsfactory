@@ -27,7 +27,7 @@ instances:
       length: 10
       npoints: 2
       width: null
-name: coupler_straight_gdsfac_a4c69b54
+name: coupler_straight_gdsfac_77c5937a
 nets: []
 placements:
   straight_gdsfactorypcom_f2286423_0_0:

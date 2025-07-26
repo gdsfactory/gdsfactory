@@ -99,30 +99,32 @@ instances:
       radius: 10
       width: null
       with_arc_floorplan: true
-  coupler_straight_gdsfac_18868fc8_3350_m450:
+  coupler_straight_gdsfac_fe12e796_3350_m450:
     component: coupler_straight
     info: {}
     settings:
       cross_section: strip
       gap: 0.2
       length: 12.4
-  coupler_straight_gdsfac_18868fc8_m15750_m450:
+      width: null
+  coupler_straight_gdsfac_fe12e796_m15750_m450:
     component: coupler_straight
     info: {}
     settings:
       cross_section: strip
       gap: 0.2
       length: 12.4
+      width: null
 name: coupler_broadband_gdsfa_ee79a992
 nets:
 - p1: bend_euler_gdsfactorypc_a86bc407_15750_250,o1
-  p2: coupler_straight_gdsfac_18868fc8_3350_m450,o3
+  p2: coupler_straight_gdsfac_fe12e796_3350_m450,o3
 - p1: bend_euler_gdsfactorypc_a86bc407_15750_m450_M,o1
-  p2: coupler_straight_gdsfac_18868fc8_3350_m450,o4
+  p2: coupler_straight_gdsfac_fe12e796_3350_m450,o4
 - p1: bend_euler_gdsfactorypc_a86bc407_m15750_250_A180_M,o1
-  p2: coupler_straight_gdsfac_18868fc8_m15750_m450,o2
+  p2: coupler_straight_gdsfac_fe12e796_m15750_m450,o2
 - p1: bend_euler_gdsfactorypc_a86bc407_m15750_m450_A180,o1
-  p2: coupler_straight_gdsfac_18868fc8_m15750_m450,o1
+  p2: coupler_straight_gdsfac_fe12e796_m15750_m450,o1
 placements:
   bend_euler_gdsfactorypc_a86bc407_15750_250:
     mirror: false
@@ -144,12 +146,12 @@ placements:
     rotation: 180
     x: -15.75
     y: -0.45
-  coupler_straight_gdsfac_18868fc8_3350_m450:
+  coupler_straight_gdsfac_fe12e796_3350_m450:
     mirror: false
     rotation: 0
     x: 3.35
     y: -0.45
-  coupler_straight_gdsfac_18868fc8_m15750_m450:
+  coupler_straight_gdsfac_fe12e796_m15750_m450:
     mirror: false
     rotation: 0
     x: -15.75
@@ -164,10 +166,10 @@ warnings:
     unconnected_ports:
     - message: 4 unconnected optical ports!
       ports:
-      - coupler_straight_gdsfac_18868fc8_m15750_m450,o4
-      - coupler_straight_gdsfac_18868fc8_m15750_m450,o3
-      - coupler_straight_gdsfac_18868fc8_3350_m450,o1
-      - coupler_straight_gdsfac_18868fc8_3350_m450,o2
+      - coupler_straight_gdsfac_fe12e796_m15750_m450,o4
+      - coupler_straight_gdsfac_fe12e796_m15750_m450,o3
+      - coupler_straight_gdsfac_fe12e796_3350_m450,o1
+      - coupler_straight_gdsfac_fe12e796_3350_m450,o2
       values:
       - - -3.35
         - -0.45
