@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.11.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.11.5) - 2025-07-26
+
+No significant changes.
+
+
 ## [9.11.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.11.4) - 2025-07-23
 
 - fix mypy issues [#4051](https://github.com/gdsfactory/gdsfactory/pull/4051)
