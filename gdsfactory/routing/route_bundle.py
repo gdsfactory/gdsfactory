@@ -111,7 +111,7 @@ def route_bundle(
     straight: ComponentSpec = "straight",
     auto_taper: bool = True,
     auto_taper_taper: ComponentSpec | None = None,
-    waypoints: Coordinates | None = None,
+    waypoints: Coordinates | Sequence[gf.kdb.DPoint] | None = None,
     steps: Sequence[Mapping[str, int | float]] | None = None,
     start_angles: float | list[float] | None = None,
     end_angles: float | list[float] | None = None,
@@ -297,13 +297,14 @@ def route_bundle(
                 )
             x = d.get("x", x) + d.get("dx", 0)
             y = d.get("y", y) + d.get("dy", 0)
-            waypoints += [(x, y)]
+            waypoints += [(x, y)]  # type: ignore[arg-type]
     if waypoints is not None and not isinstance(waypoints[0], kf.kdb.DPoint):
         waypoints_: list[kf.kdb.DPoint] | None = [
-            kf.kdb.DPoint(p[0], p[1]) for p in waypoints
+            kf.kdb.DPoint(p[0], p[1])  # type: ignore[index]
+            for p in waypoints
         ]
     else:
-        waypoints_ = waypoints
+        waypoints_ = waypoints  # type: ignore[assignment]
 
     router = router or "electrical" if port_type == "electrical" else "optical"
     if router == "electrical":
