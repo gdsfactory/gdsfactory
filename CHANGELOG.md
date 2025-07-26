@@ -1,11 +1,12 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.11.4...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.11.5...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.11.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.11.5) - 2025-07-26
 
-No significant changes.
+- fix autotaper in fiber array routing [#4057](https://github.com/gdsfactory/gdsfactory/pull/4057)
+- bump kfactory to 1.10.1 [#4055](https://github.com/gdsfactory/gdsfactory/pull/4055)
 
 
 ## [9.11.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.11.4) - 2025-07-23
