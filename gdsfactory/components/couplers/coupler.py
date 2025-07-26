@@ -99,7 +99,10 @@ def coupler_straight(
         o1──────▼─────────o4
     """
     c = Component()
-    x = gf.get_cross_section(cross_section)
+    if width is not None:
+        x = gf.get_cross_section(cross_section, width=width)
+    else:
+        x = gf.get_cross_section(cross_section)
     _straight = gf.c.straight(length=length, cross_section=cross_section, width=width)
 
     top = c << _straight
@@ -188,6 +191,6 @@ def coupler(
 
 
 if __name__ == "__main__":
-    c = coupler(gap=0.2, dy=100, width=1)
+    c = coupler(width=1)
     n = c.get_netlist()
     c.show()

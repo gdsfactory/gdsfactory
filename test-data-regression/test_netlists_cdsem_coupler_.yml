@@ -1,25 +1,28 @@
 instances:
-  coupler_straight_gdsfac_2ffcf9b0_0_250:
-    component: coupler_straight
-    info: {}
-    settings:
-      cross_section: strip_no_ports
-      gap: 0.15
-      length: 420
-  coupler_straight_gdsfac_731ab8ff_0_7250:
-    component: coupler_straight
-    info: {}
-    settings:
-      cross_section: strip_no_ports
-      gap: 0.2
-      length: 420
-  coupler_straight_gdsfac_c386a235_0_14250:
+  coupler_straight_gdsfac_2808b960_0_14250:
     component: coupler_straight
     info: {}
     settings:
       cross_section: strip_no_ports
       gap: 0.25
       length: 420
+      width: null
+  coupler_straight_gdsfac_7fbfaaf1_0_250:
+    component: coupler_straight
+    info: {}
+    settings:
+      cross_section: strip_no_ports
+      gap: 0.15
+      length: 420
+      width: null
+  coupler_straight_gdsfac_da089080_0_7250:
+    component: coupler_straight
+    info: {}
+    settings:
+      cross_section: strip_no_ports
+      gap: 0.2
+      length: 420
+      width: null
   text_rectangular_gdsfac_2496a904_425000_14000:
     component: text_rectangular
     info: {}
@@ -62,21 +65,21 @@ instances:
 name: cdsem_coupler_gdsfactor_3746d233
 nets: []
 placements:
-  coupler_straight_gdsfac_2ffcf9b0_0_250:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 0.25
-  coupler_straight_gdsfac_731ab8ff_0_7250:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 7.25
-  coupler_straight_gdsfac_c386a235_0_14250:
+  coupler_straight_gdsfac_2808b960_0_14250:
     mirror: false
     rotation: 0
     x: 0
     y: 14.25
+  coupler_straight_gdsfac_7fbfaaf1_0_250:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0.25
+  coupler_straight_gdsfac_da089080_0_7250:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 7.25
   text_rectangular_gdsfac_2496a904_425000_14000:
     mirror: false
     rotation: 0

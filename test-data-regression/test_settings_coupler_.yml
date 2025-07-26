@@ -1,7 +1,7 @@
 info:
   min_bend_radius: 11.857
   path_length: 40.372
-name: coupler_gdsfactorypcomp_75dd060a
+name: coupler_gdsfactorypcomp_3c7b1ef8
 settings:
   allow_min_radius_violation: false
   bend: bend_s

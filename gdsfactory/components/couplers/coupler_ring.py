@@ -106,5 +106,5 @@ def coupler_ring(
 
 
 if __name__ == "__main__":
-    c = coupler_ring()
+    c = coupler_ring(width=1)
     c.show()

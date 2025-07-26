@@ -41,7 +41,10 @@ def coupler90(
 
     """
     c = Component()
-    x = gf.get_cross_section(cross_section, radius=radius)
+    if width is not None:
+        x = gf.get_cross_section(cross_section, width=width)
+    else:
+        x = gf.get_cross_section(cross_section)
     xs_bend = cross_section_bend or cross_section
 
     bend90 = gf.get_component(
@@ -77,5 +80,5 @@ coupler90circular = partial(coupler90, bend="bend_circular")
 
 
 if __name__ == "__main__":
-    c = coupler90(cross_section_bend="strip_heater_metal", length_straight=0)
+    c = coupler90(width=1)
     c.show()

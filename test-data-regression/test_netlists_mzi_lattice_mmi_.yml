@@ -1,5 +1,5 @@
 instances:
-  mzi_gdsfactorypcomponen_4dbda469_0_0:
+  mzi_gdsfactorypcomponen_58492c5f_0_0:
     component: mzi
     info: {}
     settings:
@@ -27,17 +27,18 @@ instances:
       straight_x_bot: null
       straight_x_top: null
       straight_y: null
+      width: null
       with_splitter: true
 name: mzi_lattice_mmi_gdsfact_4fc84500
 nets: []
 placements:
-  mzi_gdsfactorypcomponen_4dbda469_0_0:
+  mzi_gdsfactorypcomponen_58492c5f_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
 ports:
-  o1: mzi_gdsfactorypcomponen_4dbda469_0_0,o1
-  o2: mzi_gdsfactorypcomponen_4dbda469_0_0,o2
-  o3: mzi_gdsfactorypcomponen_4dbda469_0_0,o3
-  o4: mzi_gdsfactorypcomponen_4dbda469_0_0,o4
+  o1: mzi_gdsfactorypcomponen_58492c5f_0_0,o1
+  o2: mzi_gdsfactorypcomponen_58492c5f_0_0,o2
+  o3: mzi_gdsfactorypcomponen_58492c5f_0_0,o3
+  o4: mzi_gdsfactorypcomponen_58492c5f_0_0,o4

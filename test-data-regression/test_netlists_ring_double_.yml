@@ -1,5 +1,5 @@
 instances:
-  coupler_ring_gdsfactory_0dce5cf1_0_0:
+  coupler_ring_gdsfactory_b2a98cf8_0_0:
     component: coupler_ring
     info: {}
     settings:
@@ -11,7 +11,8 @@ instances:
       length_x: 0.01
       radius: 10
       straight: straight
-  coupler_ring_gdsfactory_0dce5cf1_m10_21410_A180:
+      width: null
+  coupler_ring_gdsfactory_b2a98cf8_m10_21410_A180:
     component: coupler_ring
     info: {}
     settings:
@@ -23,6 +24,7 @@ instances:
       length_x: 0.01
       radius: 10
       straight: straight
+      width: null
   straight_gdsfactorypcom_05377f40_10000_10710_A270:
     component: straight
     info:
@@ -51,23 +53,23 @@ instances:
       length: 0.01
       npoints: 2
       width: null
-name: ring_double_gdsfactoryp_0922feda
+name: ring_double_gdsfactoryp_f1bf23bf
 nets:
-- p1: coupler_ring_gdsfactory_0dce5cf1_0_0,o2
+- p1: coupler_ring_gdsfactory_b2a98cf8_0_0,o2
   p2: straight_gdsfactorypcom_05377f40_m10010_10700_A90,o1
-- p1: coupler_ring_gdsfactory_0dce5cf1_0_0,o3
+- p1: coupler_ring_gdsfactory_b2a98cf8_0_0,o3
   p2: straight_gdsfactorypcom_05377f40_10000_10710_A270,o2
-- p1: coupler_ring_gdsfactory_0dce5cf1_m10_21410_A180,o2
+- p1: coupler_ring_gdsfactory_b2a98cf8_m10_21410_A180,o2
   p2: straight_gdsfactorypcom_05377f40_10000_10710_A270,o1
-- p1: coupler_ring_gdsfactory_0dce5cf1_m10_21410_A180,o3
+- p1: coupler_ring_gdsfactory_b2a98cf8_m10_21410_A180,o3
   p2: straight_gdsfactorypcom_05377f40_m10010_10700_A90,o2
 placements:
-  coupler_ring_gdsfactory_0dce5cf1_0_0:
+  coupler_ring_gdsfactory_b2a98cf8_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  coupler_ring_gdsfactory_0dce5cf1_m10_21410_A180:
+  coupler_ring_gdsfactory_b2a98cf8_m10_21410_A180:
     mirror: false
     rotation: 180
     x: -0.01
@@ -83,7 +85,7 @@ placements:
     x: -10.01
     y: 10.7
 ports:
-  o1: coupler_ring_gdsfactory_0dce5cf1_0_0,o1
-  o2: coupler_ring_gdsfactory_0dce5cf1_0_0,o4
-  o3: coupler_ring_gdsfactory_0dce5cf1_m10_21410_A180,o4
-  o4: coupler_ring_gdsfactory_0dce5cf1_m10_21410_A180,o1
+  o1: coupler_ring_gdsfactory_b2a98cf8_0_0,o1
+  o2: coupler_ring_gdsfactory_b2a98cf8_0_0,o4
+  o3: coupler_ring_gdsfactory_b2a98cf8_m10_21410_A180,o4
+  o4: coupler_ring_gdsfactory_b2a98cf8_m10_21410_A180,o1

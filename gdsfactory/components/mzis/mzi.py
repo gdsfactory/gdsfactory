@@ -304,7 +304,8 @@ if __name__ == "__main__":
     # gf.show(gdspath)
     # c.plot_netlist()
 
-    c = mzi(width=2, splitter=gf.get_component("coupler", width=2))
+    cp1 = splitter = gf.get_component("coupler", width=2)
+    c = mzi2x2_2x2(width=2, splitter=cp1, combiner=cp1)
     n = c.get_netlist(recursive=False)
     n = c.get_netlist(recursive=True)
     print(n)

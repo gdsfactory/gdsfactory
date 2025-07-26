@@ -1,18 +1,5 @@
 instances:
-  ring_single_gdsfactoryp_36f99320_41000_0:
-    component: ring_single
-    info: {}
-    settings:
-      bend: bend_euler
-      coupler_ring: coupler_ring
-      cross_section: strip
-      gap: 0.2
-      length_extension: 3
-      length_x: 20
-      length_y: 0.6
-      radius: 10
-      straight: straight
-  ring_single_gdsfactoryp_7576c664_0_0:
+  ring_single_gdsfactoryp_ca02d410_0_0:
     component: ring_single
     info: {}
     settings:
@@ -25,6 +12,21 @@ instances:
       length_y: 0.6
       radius: 5
       straight: straight
+      width: null
+  ring_single_gdsfactoryp_d59cce56_41000_0:
+    component: ring_single
+    info: {}
+    settings:
+      bend: bend_euler
+      coupler_ring: coupler_ring
+      cross_section: strip
+      gap: 0.2
+      length_extension: 3
+      length_x: 20
+      length_y: 0.6
+      radius: 10
+      straight: straight
+      width: null
   straight_gdsfactorypcom_aa481ca5_3000_0:
     component: straight
     info:
@@ -41,20 +43,20 @@ instances:
       width: null
 name: ring_single_array_gdsfa_54fe30c4
 nets:
-- p1: ring_single_gdsfactoryp_36f99320_41000_0,o1
-  p2: straight_gdsfactorypcom_aa481ca5_3000_0,o2
-- p1: ring_single_gdsfactoryp_7576c664_0_0,o2
+- p1: ring_single_gdsfactoryp_ca02d410_0_0,o2
   p2: straight_gdsfactorypcom_aa481ca5_3000_0,o1
+- p1: ring_single_gdsfactoryp_d59cce56_41000_0,o1
+  p2: straight_gdsfactorypcom_aa481ca5_3000_0,o2
 placements:
-  ring_single_gdsfactoryp_36f99320_41000_0:
-    mirror: false
-    rotation: 0
-    x: 41
-    y: 0
-  ring_single_gdsfactoryp_7576c664_0_0:
+  ring_single_gdsfactoryp_ca02d410_0_0:
     mirror: false
     rotation: 0
     x: 0
+    y: 0
+  ring_single_gdsfactoryp_d59cce56_41000_0:
+    mirror: false
+    rotation: 0
+    x: 41
     y: 0
   straight_gdsfactorypcom_aa481ca5_3000_0:
     mirror: false
@@ -62,5 +64,5 @@ placements:
     x: 3
     y: 0
 ports:
-  o1: ring_single_gdsfactoryp_7576c664_0_0,o1
-  o2: ring_single_gdsfactoryp_36f99320_41000_0,o2
+  o1: ring_single_gdsfactoryp_ca02d410_0_0,o1
+  o2: ring_single_gdsfactoryp_d59cce56_41000_0,o2

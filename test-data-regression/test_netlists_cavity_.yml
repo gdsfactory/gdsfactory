@@ -1,5 +1,5 @@
 instances:
-  coupler_gdsfactorypcomp_38bb639b_0_0:
+  coupler_gdsfactorypcomp_a81d72ac_0_0:
     component: coupler
     info:
       min_bend_radius: 11.744
@@ -12,6 +12,7 @@ instances:
       dy: 4
       gap: 0.2
       length: 0.1
+      width: null
   dbr_gdsfactorypcomponen_b5754d70_10110_2350:
     component: dbr
     info: {}
@@ -36,12 +37,12 @@ instances:
       w2: 0.55
 name: cavity_gdsfactorypcompo_1cb80d06
 nets:
-- p1: coupler_gdsfactorypcomp_38bb639b_0_0,o2
+- p1: coupler_gdsfactorypcomp_a81d72ac_0_0,o2
   p2: dbr_gdsfactorypcomponen_b5754d70_m10010_2350_A180,o1
-- p1: coupler_gdsfactorypcomp_38bb639b_0_0,o3
+- p1: coupler_gdsfactorypcomp_a81d72ac_0_0,o3
   p2: dbr_gdsfactorypcomponen_b5754d70_10110_2350,o1
 placements:
-  coupler_gdsfactorypcomp_38bb639b_0_0:
+  coupler_gdsfactorypcomp_a81d72ac_0_0:
     mirror: false
     rotation: 0
     x: 0
@@ -57,5 +58,5 @@ placements:
     x: -10.01
     y: 2.35
 ports:
-  o1: coupler_gdsfactorypcomp_38bb639b_0_0,o1
-  o2: coupler_gdsfactorypcomp_38bb639b_0_0,o4
+  o1: coupler_gdsfactorypcomp_a81d72ac_0_0,o1
+  o2: coupler_gdsfactorypcomp_a81d72ac_0_0,o4

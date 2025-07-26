@@ -49,7 +49,7 @@ instances:
       radius: 10
       width: null
       with_arc_floorplan: true
-  coupler_ring_gdsfactory_7a1e2f00_0_0:
+  coupler_ring_gdsfactory_e779faa8_0_0:
     component: coupler_ring
     info: {}
     settings:
@@ -61,6 +61,7 @@ instances:
       length_x: 4
       radius: 10
       straight: straight
+      width: null
   straight_gdsfactorypcom_058e2168_10000_11300_A270:
     component: straight
     info:
@@ -103,7 +104,7 @@ instances:
       length: 4
       npoints: 2
       width: null
-name: ring_single_gdsfactoryp_d74ed1d8
+name: ring_single_gdsfactoryp_f617b4d4
 nets:
 - p1: bend_euler_gdsfactorypc_a86bc407_10000_11300_A90,o1
   p2: straight_gdsfactorypcom_058e2168_10000_11300_A270,o1
@@ -113,9 +114,9 @@ nets:
   p2: straight_gdsfactorypcom_a6eac62c_0_21300_A180,o2
 - p1: bend_euler_gdsfactorypc_a86bc407_m4000_21300_A180,o2
   p2: straight_gdsfactorypcom_058e2168_m14000_10700_A90,o2
-- p1: coupler_ring_gdsfactory_7a1e2f00_0_0,o2
+- p1: coupler_ring_gdsfactory_e779faa8_0_0,o2
   p2: straight_gdsfactorypcom_058e2168_m14000_10700_A90,o1
-- p1: coupler_ring_gdsfactory_7a1e2f00_0_0,o3
+- p1: coupler_ring_gdsfactory_e779faa8_0_0,o3
   p2: straight_gdsfactorypcom_058e2168_10000_11300_A270,o2
 placements:
   bend_euler_gdsfactorypc_a86bc407_10000_11300_A90:
@@ -128,7 +129,7 @@ placements:
     rotation: 180
     x: -4
     y: 21.3
-  coupler_ring_gdsfactory_7a1e2f00_0_0:
+  coupler_ring_gdsfactory_e779faa8_0_0:
     mirror: false
     rotation: 0
     x: 0
@@ -149,5 +150,5 @@ placements:
     x: 0
     y: 21.3
 ports:
-  o1: coupler_ring_gdsfactory_7a1e2f00_0_0,o1
-  o2: coupler_ring_gdsfactory_7a1e2f00_0_0,o4
+  o1: coupler_ring_gdsfactory_e779faa8_0_0,o1
+  o2: coupler_ring_gdsfactory_e779faa8_0_0,o4

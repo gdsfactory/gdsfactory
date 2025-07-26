@@ -99,7 +99,7 @@ instances:
       radius: null
       width: 0.55
       with_arc_floorplan: true
-  coupler_gdsfactorypcomp_7de5f5a9_m1000_22050:
+  coupler_gdsfactorypcomp_6b8d1675_m1000_22050:
     component: coupler
     info:
       min_bend_radius: 28.187
@@ -112,7 +112,8 @@ instances:
       dy: 2
       gap: 0.2
       length: 5
-  coupler_gdsfactorypcomp_de55e7a7_0_0:
+      width: null
+  coupler_gdsfactorypcomp_7247445d_0_0:
     component: coupler
     info:
       min_bend_radius: 30.486
@@ -125,6 +126,7 @@ instances:
       dy: 2
       gap: 0.3
       length: 10
+      width: null
   straight_gdsfactorypcom_5fbfa602_20000_21400_A180:
     component: straight
     info:
@@ -337,13 +339,13 @@ nets:
   p2: straight_gdsfactorypcom_82fcb63a_38000_9400_A90,o2
 - p1: bend_euler_gdsfactorypc_d127dd23_38000_13400_A90,o2
   p2: straight_gdsfactorypcom_7ef1834c_28000_23400_A180,o1
-- p1: coupler_gdsfactorypcomp_7de5f5a9_m1000_22050,o3
+- p1: coupler_gdsfactorypcomp_6b8d1675_m1000_22050,o3
   p2: taper_gdsfactorypcompon_c017326a_19000_23400_A180,o2
-- p1: coupler_gdsfactorypcomp_7de5f5a9_m1000_22050,o4
+- p1: coupler_gdsfactorypcomp_6b8d1675_m1000_22050,o4
   p2: taper_gdsfactorypcompon_e1c8a87b_19000_21400_A180,o2
-- p1: coupler_gdsfactorypcomp_de55e7a7_0_0,o3
+- p1: coupler_gdsfactorypcomp_7247445d_0_0,o3
   p2: taper_gdsfactorypcompon_69eccf19_20000_1400,o1
-- p1: coupler_gdsfactorypcomp_de55e7a7_0_0,o4
+- p1: coupler_gdsfactorypcomp_7247445d_0_0,o4
   p2: taper_gdsfactorypcompon_7fca8cd1_20000_m600,o1
 - p1: straight_gdsfactorypcom_5fbfa602_20000_21400_A180,o1
   p2: taper_gdsfactorypcompon_0c13ccff_25000_21400_A180,o2
@@ -378,12 +380,12 @@ placements:
     rotation: 90
     x: 38
     y: 13.4
-  coupler_gdsfactorypcomp_7de5f5a9_m1000_22050:
+  coupler_gdsfactorypcomp_6b8d1675_m1000_22050:
     mirror: false
     rotation: 0
     x: -1
     y: 22.05
-  coupler_gdsfactorypcomp_de55e7a7_0_0:
+  coupler_gdsfactorypcomp_7247445d_0_0:
     mirror: false
     rotation: 0
     x: 0
@@ -444,7 +446,7 @@ placements:
     x: 19
     y: 21.4
 ports:
-  o1: coupler_gdsfactorypcomp_de55e7a7_0_0,o1
-  o2: coupler_gdsfactorypcomp_de55e7a7_0_0,o2
-  o3: coupler_gdsfactorypcomp_7de5f5a9_m1000_22050,o1
-  o4: coupler_gdsfactorypcomp_7de5f5a9_m1000_22050,o2
+  o1: coupler_gdsfactorypcomp_7247445d_0_0,o1
+  o2: coupler_gdsfactorypcomp_7247445d_0_0,o2
+  o3: coupler_gdsfactorypcomp_6b8d1675_m1000_22050,o1
+  o4: coupler_gdsfactorypcomp_6b8d1675_m1000_22050,o2
