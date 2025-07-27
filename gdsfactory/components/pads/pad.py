@@ -56,20 +56,6 @@ def pad(
     c.info["xsize"] = size_[0]
     c.info["ysize"] = size_[1]
 
-    if bbox_layers and bbox_offsets:
-        sizes: list[Size] = []
-        for cladding_offset in bbox_offsets:
-            size_ = (size_[0] + 2 * cladding_offset, size_[1] + 2 * cladding_offset)
-            sizes.append(size_)
-
-        for layer, size_ in zip(bbox_layers, sizes):
-            c.add_ref(
-                gf.c.compass(
-                    size=size_,
-                    layer=layer,
-                )
-            )
-
     if port_orientation is not None and port_orientation not in valid_port_orientations:
         raise ValueError(f"{port_orientation=} must be in {valid_port_orientations}")
 
@@ -84,6 +70,20 @@ def pad(
             orientation=port_orientation,
             width=width,
         )
+
+    if bbox_layers and bbox_offsets:
+        sizes: list[Size] = []
+        for cladding_offset in bbox_offsets:
+            size_ = (size_[0] + 2 * cladding_offset, size_[1] + 2 * cladding_offset)
+            sizes.append(size_)
+
+        for layer, size_ in zip(bbox_layers, sizes):
+            c.add_ref(
+                gf.c.compass(
+                    size=size_,
+                    layer=layer,
+                )
+            )
     c.flatten()
     return c
 
@@ -185,6 +185,8 @@ if __name__ == "__main__":
     # c = pad(port_orientations=[270])
     # c = gf.get_component(pad)
 
-    c = pad_array(port_orientation=270, pad=pad, size=(10, 10), column_pitch=15)
+    # c = pad_array(port_orientation=270, pad=pad, size=(10, 10), column_pitch=15)
     # c.pprint_ports()
+    c = pad(bbox_layers=("MTOP", "M1"), bbox_offsets=(10, 20))
+    c.pprint_ports()
     c.show()
