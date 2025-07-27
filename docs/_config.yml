@@ -1,5 +1,5 @@
 # Book settings
-# Learn more at https://jupyterbook.org/customize/config.html
+# Learn more at https:///jupyterbook.org/customize/config.html
 title: "GDSFactory"
 author: GDSFactory
 # Force re-execution of notebooks on each build.
@@ -32,9 +32,6 @@ html:
   use_edit_page_button: true
   use_repository_button: true
   use_issues_button: true
-  baseurl: https://gdsfactory.github.io/gdsfactory/
-  theme:
-  name: "sphinx_book_theme"
   options:
     logo:
       light: "_static/logo_black.png"
