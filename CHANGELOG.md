@@ -1,12 +1,11 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.11.5...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.11.6...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.11.6](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.11.6) - 2025-07-26
 
-No significant changes.
-
+- fix center port layer for pad with multiple bboxes [#4059](https://github.com/gdsfactory/gdsfactory/pull/4059)
 
 ## [9.11.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.11.5) - 2025-07-26
 
