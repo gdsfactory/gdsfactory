@@ -213,7 +213,9 @@ CellSpec: TypeAlias = (
 CellAllAngleSpec: TypeAlias = str | ComponentAllAngleFactory | dict[str, Any]
 ComponentSpecDict: TypeAlias = dict[str, ComponentSpec]
 
-LayerTransitions: TypeAlias = dict[LayerSpec | tuple[Layer, Layer], ComponentSpec]
+LayerTransitions: TypeAlias = dict[
+    LayerSpec | tuple[LayerEnum | Layer, LayerEnum | Layer], ComponentSpec
+]
 
 
 class TypedArray(np.ndarray[Any, np.dtype[Any]]):
