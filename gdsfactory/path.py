@@ -1454,8 +1454,8 @@ def arc(
     if not radius:
         raise ValueError("arc() requires a radius argument")
 
-    npoints = npoints or abs(int(angle / 360 * radius / PDK.bend_points_distance / 2))
-    npoints = max(int(npoints), int(360 / angle) + 1)
+    npoints = npoints or int(abs(angle) / 360 * radius / PDK.bend_points_distance / 2)
+    npoints = max(int(npoints), int(360 / abs(angle)) + 1)
 
     t = np.linspace(
         start_angle * np.pi / 180, (angle + start_angle) * np.pi / 180, npoints
