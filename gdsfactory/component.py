@@ -28,6 +28,7 @@ from kfactory import (
 from kfactory.exceptions import LockedError
 from kfactory.kcell import BaseKCell, ProtoKCell
 from kfactory.port import ProtoPort
+from kfactory.utils.violations import fix_spacing_tiled
 from matplotlib.figure import Figure
 from pydantic import Field
 from trimesh.scene.scene import Scene
@@ -887,8 +888,24 @@ class Component(ComponentBase, kf.DKCell):
         if remove_old_layer:
             self.remove_layers([layer])
         self.kdb_cell.shapes(layer_index).insert(region)
-
         self.kcl.layout.end_changes()
+
+    def fix_spacing_tiled(self, layer: "LayerSpec", min_space: float = 0.2) -> None:
+        """Fixes spacing on a tiled layer in the Component.
+
+        Args:
+            layer: layer to fix spacing on.
+            min_space: minimum space in um.
+        """
+        import gdsfactory as gf
+        from gdsfactory.pdk import get_layer
+
+        layer = get_layer(layer)
+        layer_info = gf.kcl.get_info(layer)
+        fix = fix_spacing_tiled(
+            self.to_itype(), min_space=self.kcl.to_dbu(min_space), layer=layer_info
+        )
+        self.shapes(layer).insert(fix)
 
     def offset(self, layer: "LayerSpec", distance: float) -> None:
         """Offsets a Component layer by a distance in um.
@@ -1213,14 +1230,18 @@ if __name__ == "__main__":
     import gdsfactory as gf
     from gdsfactory.generic_tech import LAYER
 
-    c = gf.components.circle()
-    c2 = gf.Component()
-    region = c.get_region(layer=LAYER.WG, smooth=1)
-    region2 = region.sized(100)
-    region3 = region2 - region
+    c = gf.components.coupler_ring(
+        cross_section="rib", radius=20.0, length_extension=20
+    )
+    c.fix_spacing_tiled(layer=LAYER.SLAB90, min_space=0.2)
+    c.show()
+    # c2 = gf.Component()
+    # region = c.get_region(layer=LAYER.WG, smooth=1)
+    # region2 = region.sized(100)
+    # region3 = region2 - region
 
-    c2.add_polygon(region3, layer=LAYER.WG)
-    c2.show()
+    # c2.add_polygon(region3, layer=LAYER.WG)
+    # c2.show()
 
     # polygons = c.get_polygons(smooth=1)[LAYER.WG]
     # c2.add_polygon(region, layer=LAYER.WG)
