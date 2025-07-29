@@ -28,7 +28,11 @@ from kfactory import (
 from kfactory.exceptions import LockedError
 from kfactory.kcell import BaseKCell, ProtoKCell
 from kfactory.port import ProtoPort
-from kfactory.utils.violations import fix_spacing_tiled
+from kfactory.utils.violations import (
+    fix_spacing_tiled,
+    fix_width_and_spacing_minkowski_tiled,
+    fix_width_minkowski_tiled,
+)
 from matplotlib.figure import Figure
 from pydantic import Field
 from trimesh.scene.scene import Scene
@@ -890,8 +894,8 @@ class Component(ComponentBase, kf.DKCell):
         self.kdb_cell.shapes(layer_index).insert(region)
         self.kcl.layout.end_changes()
 
-    def fix_spacing_tiled(self, layer: "LayerSpec", min_space: float = 0.2) -> None:
-        """Fixes spacing on a tiled layer in the Component.
+    def fix_spacing(self, layer: "LayerSpec", min_space: float = 0.2) -> None:
+        """Fixes layer spacing in the Component.
 
         Args:
             layer: layer to fix spacing on.
@@ -904,6 +908,81 @@ class Component(ComponentBase, kf.DKCell):
         layer_info = gf.kcl.get_info(layer)
         fix = fix_spacing_tiled(
             self.to_itype(), min_space=self.kcl.to_dbu(min_space), layer=layer_info
+        )
+        self.shapes(layer).insert(fix)
+
+    def fix_width(
+        self,
+        layer: "LayerSpec",
+        min_width: float = 0.2,
+        n_threads: int | None = None,
+        tile_size: tuple[float, float] | None = None,
+        overlap: int = 1,
+        smooth: int | None = None,
+    ) -> None:
+        """Fixes layer min width in the Component.
+
+        Args:
+            layer: layer to fix width on.
+            min_width: minimum width in um.
+            n_threads: number of threads to use for processing.
+            tile_size: size of the tiles to use for processing.
+            overlap: overlap between tiles.
+            smooth: smooth the polygons by this amount in um.
+        """
+        import gdsfactory as gf
+        from gdsfactory.pdk import get_layer
+
+        layer = get_layer(layer)
+        layer_info = gf.kcl.get_info(layer)
+
+        fix = fix_width_minkowski_tiled(
+            self.to_itype(),
+            min_width=self.kcl.to_dbu(min_width),
+            ref=layer_info,
+            n_threads=n_threads,
+            tile_size=tile_size,
+            overlap=overlap,
+            smooth=smooth,
+        )
+        self.shapes(layer).insert(fix)
+
+    def fix_width_and_spacing(
+        self,
+        layer: "LayerSpec",
+        min_space: float = 0.2,
+        min_width: float = 0.2,
+        n_threads: int | None = None,
+        tile_size: tuple[float, float] | None = None,
+        overlap: int = 1,
+        smooth: int | None = None,
+    ) -> None:
+        """Fixes layer min width in the Component.
+
+        Args:
+            layer: layer to fix width on.
+            min_space: minimum space in um.
+            min_width: minimum width in um.
+            n_threads: number of threads to use for processing.
+            tile_size: size of the tiles to use for processing.
+            overlap: overlap between tiles.
+            smooth: smooth the polygons by this amount in um.
+        """
+        import gdsfactory as gf
+        from gdsfactory.pdk import get_layer
+
+        layer = get_layer(layer)
+        layer_info = gf.kcl.get_info(layer)
+
+        fix = fix_width_and_spacing_minkowski_tiled(
+            self.to_itype(),
+            min_width=self.kcl.to_dbu(min_width),
+            min_space=self.kcl.to_dbu(min_space),
+            ref=layer_info,
+            n_threads=n_threads,
+            tile_size=tile_size,
+            overlap=overlap,
+            smooth=smooth,
         )
         self.shapes(layer).insert(fix)
 
