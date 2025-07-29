@@ -49,11 +49,13 @@ def terminator_spiral(
     spiral = extrude_transition(path, transition=xs)
     c = gf.Component()
     ref = c << spiral
-    c.add_port("o1", port=ref["o1"])
+    c.add_port("o1", port=ref["o2"])
+    c.add_port("o2", port=ref["o1"])
     c.flatten()
     return c
 
 
 if __name__ == "__main__":
     c = terminator_spiral(number_of_loops=3)
+    c.draw_ports()
     c.show()
