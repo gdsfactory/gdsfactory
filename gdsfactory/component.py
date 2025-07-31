@@ -30,7 +30,6 @@ from kfactory.kcell import BaseKCell, ProtoKCell
 from kfactory.port import ProtoPort
 from kfactory.utils.violations import (
     fix_spacing_tiled,
-    fix_width_and_spacing_minkowski_tiled,
     fix_width_minkowski_tiled,
 )
 from matplotlib.figure import Figure
@@ -940,54 +939,6 @@ class Component(ComponentBase, kf.DKCell):
         fix = fix_width_minkowski_tiled(
             self.to_itype(),
             min_width=self.kcl.to_dbu(min_width),
-            ref=layer_info,
-            n_threads=n_threads,
-            tile_size=tile_size,
-            overlap=overlap,
-            smooth=smooth,
-        )
-        self.shapes(layer).clear()
-        self.shapes(layer).insert(fix)
-
-    def fix_width_and_spacing(
-        self,
-        layer: "LayerSpec",
-        min_space: float = 0.2,
-        min_width: float = 0.2,
-        n_threads: int | None = None,
-        tile_size: tuple[float, float] | None = None,
-        overlap: float | None = None,
-        smooth: int | None = None,
-    ) -> None:
-        """Fixes layer min width in the Component.
-
-        Args:
-            layer: layer to fix width on.
-            min_space: minimum space in um.
-            min_width: minimum width in um.
-            n_threads: number of threads to use for processing.
-            tile_size: size of the tiles to use for processing.
-            overlap: overlap between tiles in nm.
-            smooth: smooth the polygons by this amount in um.
-        """
-        import gdsfactory as gf
-        from gdsfactory.pdk import get_layer
-
-        layer = get_layer(layer)
-        layer_info = gf.kcl.get_info(layer)
-        self.flatten()
-
-        if overlap is None:
-            overlap = max([min_width, min_space]) + 0.05
-
-        overlap = self.kcl.to_dbu(overlap)
-        min_width = self.kcl.to_dbu(min_width)
-        min_space = self.kcl.to_dbu(min_space)
-
-        fix = fix_width_and_spacing_minkowski_tiled(
-            self.to_itype(),
-            min_width=min_width,
-            min_space=min_space,
             ref=layer_info,
             n_threads=n_threads,
             tile_size=tile_size,
