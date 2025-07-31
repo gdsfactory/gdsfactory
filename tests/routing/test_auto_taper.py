@@ -1,5 +1,6 @@
 from gdsfactory.component import Component
-from gdsfactory.components import straight, taper_sc_nc
+from gdsfactory.components import straight, taper, taper_sc_nc
+from gdsfactory.cross_section import strip
 from gdsfactory.generic_tech.layer_map import LAYER
 from gdsfactory.routing.auto_taper import auto_taper_to_cross_section
 from gdsfactory.typings import LayerTransitions
@@ -26,4 +27,15 @@ def test_auto_taper_reversed() -> None:
         port=ref.ports["o2"],
         cross_section="strip",
         layer_transitions=LAYER_TRANSITIONS,
+    )
+
+
+def test_auto_taper_layer_transitions() -> None:
+    c = Component()
+    ref = c << straight(cross_section="strip")
+    auto_taper_to_cross_section(
+        c,
+        port=ref.ports["o2"],
+        cross_section=strip(width=0.75),
+        layer_transitions={"WG": taper},
     )
