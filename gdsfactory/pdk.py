@@ -514,7 +514,9 @@ class Pdk(BaseModel):
             return layer.layer
         else:
             if not hasattr(self.layers, layer):
-                raise ValueError(f"{layer!r} not in {self.layers}")
+                raise ValueError(
+                    f"{layer!r} not in PDK {self.name!r} {self.layers.__members__}"
+                )
             return cast(LayerEnum, getattr(self.layers, layer))
 
     def get_layer_name(self, layer: LayerSpec) -> str:

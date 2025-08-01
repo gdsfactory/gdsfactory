@@ -75,11 +75,22 @@ class PortOrientationError(ValueError):
     pass
 
 
+def get_port_definitions(ports: Ports) -> str:
+    """Returns port definition string."""
+    return "\n".join(
+        [
+            f"c.add_port(name='{port.name}', center={port.center}, "
+            f"width={port.width}, orientation={port.orientation}, "
+            f"layer={gf.get_layer_tuple(port.layer)}, port_type='{port.port_type}')"
+            for port in ports
+        ]
+    )
+
+
 def pprint_ports(ports: Ports) -> None:
     """Prints ports in a rich table."""
     console = Console()
     table = Table(show_header=True, header_style="bold")
-
     keys = ["name", "width", "orientation", "layer", "center", "port_type"]
 
     for key in keys:
