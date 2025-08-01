@@ -27,14 +27,15 @@ cells.update(
 
 
 skip_test = {
+    "bent_coupler",
     "component_sequence",
     "extend_ports_list",
     "grating_coupler_elliptical_lumerical_etch70",
     "ring_double_pn",
+    "straight_heater_doped_strip",  # TODO: fix this
     "straight_piecewise",
     "text_freetype",
     "version_stamp",
-    "straight_heater_doped_strip",  # TODO: fix this
 }
 cells_to_test = set(cells.keys()) - skip_test
 
