@@ -27,7 +27,7 @@ cells.update(
 
 
 skip_test = {
-    "bent_coupler",
+    "coupler_bent",
     "component_sequence",
     "extend_ports_list",
     "grating_coupler_elliptical_lumerical_etch70",
