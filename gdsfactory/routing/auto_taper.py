@@ -3,11 +3,30 @@
 from __future__ import annotations
 
 import warnings
+from typing import cast
 
 import gdsfactory as gf
+from gdsfactory import LayerEnum
 from gdsfactory.component import Component
 from gdsfactory.port import Port
-from gdsfactory.typings import CrossSectionSpec, LayerTransitions, Ports
+from gdsfactory.typings import CrossSectionSpec, LayerSpec, LayerTransitions, Ports
+
+
+def _normalize_layer_transitions(
+    layer_transitions: LayerTransitions,
+) -> LayerTransitions:
+    normalized: LayerTransitions = {}
+    for key, value in layer_transitions.items():
+        normalized_key: LayerSpec | tuple[LayerEnum | int, LayerEnum | int]
+        if isinstance(key, tuple) and len(key) == 2:
+            if all(isinstance(k, LayerEnum) for k in key):
+                normalized_key = gf.get_layer(key[0]), gf.get_layer(key[1])
+            else:
+                normalized_key = gf.get_layer(cast(LayerSpec, key))
+        else:
+            normalized_key = gf.get_layer(cast(LayerSpec, key))
+        normalized[normalized_key] = value
+    return normalized
 
 
 def add_auto_tapers(
@@ -27,36 +46,27 @@ def add_auto_tapers(
     Returns:
         The new list of ports, on the opposite end of the tapers
     """
-    cross_section_obj = gf.get_cross_section(cross_section)
-    cs_layer = gf.get_layer(cross_section_obj.layer)
-    cs_width = cross_section_obj.width
+    cross_section = gf.get_cross_section(cross_section)
+    cs_layer = gf.get_layer(cross_section.layer)
+    cs_width = cross_section.width
 
-    _pdk = None
+    if layer_transitions is None:
+        pdk = gf.get_active_pdk()
+        layer_transitions = pdk.layer_transitions
+    layer_transitions = _normalize_layer_transitions(layer_transitions)
 
-    def get_layer_transitions() -> LayerTransitions:
-        nonlocal layer_transitions, _pdk
-        if layer_transitions is None:
-            if _pdk is None:
-                _pdk = gf.get_active_pdk()
-            layer_transitions = _pdk.layer_transitions
-        return layer_transitions
-
-    result = []
-    get_port_layer = gf.get_layer
+    result: list[Port] = []
 
     for p in ports:
-        port_layer = get_port_layer(p.layer)
+        port_layer = gf.get_layer(p.layer)
         port_width = p.width
-        lt = layer_transitions
-        if lt is None:
-            lt = get_layer_transitions()
         reverse = False
 
         if port_layer != cs_layer:
             try:
-                taper = lt.get((port_layer, cs_layer))
+                taper = layer_transitions.get((port_layer, cs_layer))
                 if taper is None:
-                    taper = lt[cs_layer, port_layer]
+                    taper = layer_transitions[cs_layer, port_layer]
                     reverse = True
             except KeyError as e:
                 raise KeyError(
@@ -64,7 +74,7 @@ def add_auto_tapers(
                 ) from e
         elif port_width != cs_width:
             try:
-                taper = lt[port_layer]
+                taper = layer_transitions[port_layer]
             except KeyError:
                 warnings.warn(
                     f"No registered width taper for layer {port_layer}. Skipping.",
@@ -132,15 +142,19 @@ def auto_taper_to_cross_section(
     """
     # Reuse fast version above for legacy compatibility
     # (not used in new add_auto_tapers flow)
-    port_layer = gf.get_layer(port.layer)
-    port_width = port.width
-    cross_section_obj = gf.get_cross_section(cross_section)
-    cs_layer = gf.get_layer(cross_section_obj.layer)
-    cs_width = cross_section_obj.width
+    cross_section = gf.get_cross_section(cross_section)
+    cs_layer = gf.get_layer(cross_section.layer)
+    cs_width = cross_section.width
+
     if layer_transitions is None:
         pdk = gf.get_active_pdk()
         layer_transitions = pdk.layer_transitions
+    layer_transitions = _normalize_layer_transitions(layer_transitions)
+
+    port_layer = gf.get_layer(port.layer)
+    port_width = port.width
     reverse = False
+
     if port_layer != cs_layer:
         try:
             taper = layer_transitions.get((port_layer, cs_layer))
