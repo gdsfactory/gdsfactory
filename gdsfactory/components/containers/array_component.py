@@ -69,12 +69,12 @@ def array(
         column_pitch=column_pitch,
         row_pitch=row_pitch,
     )
-    old_center = ref.center
-    ref.center = (0, 0) if centered else old_center
+    if centered:
+        ref.center = (0, 0)
 
     if add_ports and component.ports:
-        for ix in range(ref.na):
-            for iy in range(ref.nb):
+        for ix in range(ref.na or 1):
+            for iy in range(ref.nb or 1):
                 for port in component.ports:
                     port = port.copy(ref.trans * gf.kdb.Trans(ix * ref.a + iy * ref.b))
                     name = f"{port.name}_{iy + 1}_{ix + 1}"
