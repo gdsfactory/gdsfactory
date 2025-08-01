@@ -43,6 +43,7 @@ from gdsfactory.typings import (
     ComponentSpec,
     CrossSectionSpec,
     LayerSpec,
+    LayerTransitions,
     Port,
     WayPoints,
 )
@@ -66,6 +67,7 @@ def route_single(
     route_width: float | None = None,
     auto_taper: bool = True,
     on_error: Literal["error"] | None = "error",
+    layer_transitions: LayerTransitions | None = None,
 ) -> ManhattanRoute:
     """Returns a Manhattan Route between 2 ports.
 
@@ -89,6 +91,7 @@ def route_single(
         route_width: width of the route in um. If None, defaults to cross_section.width.
         auto_taper: add auto tapers.
         on_error: what to do on error. If error, raises an error. If None ignores the error.
+        layer_transitions: dictionary of layer transitions to use for the routing when auto_taper=True.
 
     .. plot::
         :include-source:
@@ -131,8 +134,8 @@ def route_single(
 
     bend90 = gf.get_component(bend, cross_section=cross_section, radius=radius)
     if auto_taper:
-        p1 = add_auto_tapers(component, [p1], cross_section)[0]
-        p2 = add_auto_tapers(component, [p2], cross_section)[0]
+        p1 = add_auto_tapers(component, [p1], cross_section, layer_transitions)[0]
+        p2 = add_auto_tapers(component, [p2], cross_section, layer_transitions)[0]
 
     def straight_dbu(width: int, length: int) -> kf.KCell:
         return gf.get_component(
