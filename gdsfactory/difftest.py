@@ -231,8 +231,12 @@ def diff(
         show: shows diff in klayout.
         stagger: if True, staggers the old/new/xor views. If False, all three are overlaid.
     """
-    old = read_top_cell(pathlib.Path(ref_file))
-    new = read_top_cell(pathlib.Path(run_file))
+    ref_file, run_file = pathlib.Path(ref_file), pathlib.Path(run_file)
+    if ref_file == run_file:
+        return False
+
+    old = read_top_cell(ref_file)
+    new = read_top_cell(run_file)
 
     if ignore_sliver_differences is None:
         ignore_sliver_differences = CONF.difftest_ignore_sliver_differences
@@ -245,7 +249,7 @@ def diff(
 
     if old.kcl.dbu != new.kcl.dbu:
         raise ValueError(
-            f"dbu is different in old {old.kcl.dbu} {ref_file!r} and new {new.kcl.dbu} {run_file!r} files"
+            f"dbu is different in old {old.kcl.dbu} {ref_file} and new {new.kcl.dbu} {run_file} files"
         )
 
     equivalent = True
