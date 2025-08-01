@@ -47,5 +47,12 @@ def test_array_auto_rename_ports() -> None:
     assert {p.name for p in c1.ports} != {p.name for p in c2.ports}
 
 
+def test_array_ports() -> None:
+    for rows in range(1, 6):
+        for columns in range(1, 6):
+            c = gf.components.array("compass", rows=rows, columns=columns)
+            assert len(c.ports) == 4 * rows * columns
+
+
 if __name__ == "__main__":
     pytest.main([__file__])
