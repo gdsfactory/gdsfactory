@@ -10,7 +10,7 @@ from gdsfactory.typings import AnyComponentFactory, ComponentSpec, CrossSectionS
 
 @gf.cell_with_module_name
 def coupler_bend(
-    radius: float = 10.0,
+    radius: float | None = None,
     coupler_gap: float = 0.2,
     coupling_angle_coverage: float = 120.0,
     cross_section_inner: CrossSectionSpec = "strip",
@@ -52,6 +52,10 @@ def coupler_bend(
     width = xo.width / 2 + xi.width / 2
     spacing = gap + width
 
+    if radius is None:
+        radius = xi.radius or xo.radius
+        assert radius is not None, "cross_section must have a radius"
+
     bend90_inner_right = gf.get_component(
         bend,  # type: ignore[arg-type]
         radius=radius,
@@ -85,7 +89,7 @@ def coupler_bend(
 
 @gf.cell_with_module_name
 def coupler_ring_bend(
-    radius: float = 10.0,
+    radius: float | None = None,
     coupler_gap: float = 0.2,
     coupling_angle_coverage: float = 90.0,
     length_x: float = 0.0,
@@ -98,7 +102,7 @@ def coupler_ring_bend(
     r"""Two back-to-back coupler_bend.
 
     Args:
-        radius: um.
+        radius: um. Default is None, which uses the default radius of the cross_section.
         coupler_gap: um.
         angle_inner: of the inner bend, from beginning to end. Depending on the bend chosen, gap may not be preserved.
         angle_outer: of the outer bend, from beginning to end. Depending on the bend chosen, gap may not be preserved.
@@ -223,7 +227,7 @@ def ring_single_bend_coupler(
 if __name__ == "__main__":
     # c = coupler_bend()
     # n = c.get_netlist()
-    c = coupler_ring_bend()
+    c = coupler_ring_bend(cross_section_inner="rib", cross_section_outer="rib")
     # c = ring_single_bend_coupler()
     c.pprint_ports()
     c.show()

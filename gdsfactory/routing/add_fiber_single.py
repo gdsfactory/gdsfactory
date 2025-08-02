@@ -27,6 +27,7 @@ def add_fiber_single(
     with_loopback: bool = True,
     loopback_spacing: float = 100.0,
     straight: ComponentSpec = "straight",
+    mirror_grating_coupler: bool = False,
     **kwargs: Any,
 ) -> Component:
     """Returns component with south routes and grating_couplers.
@@ -45,6 +46,7 @@ def add_fiber_single(
         with_loopback: adds loopback structures.
         loopback_spacing: spacing between loopback and test structure.
         straight: straight spec.
+        mirror_grating_coupler: if True, mirrors the grating coupler.
         kwargs: additional arguments.
 
     Keyword Args:
@@ -89,6 +91,10 @@ def add_fiber_single(
     else:
         gc = grating_coupler
     gc = gf.get_component(gc)
+
+    if mirror_grating_coupler:
+        gc = gf.functions.mirror(gc)
+
     if gc_port_name not in gc.ports:
         raise ValueError(f"gc_port_name={gc_port_name!r} not in {list(gc.ports)}")
 

@@ -22,6 +22,7 @@ def add_fiber_array(
     cross_section: CrossSectionSpec = "strip",
     start_straight_length: float = 0,
     end_straight_length: float = 0,
+    mirror_grating_coupler: bool = False,
     **kwargs: Any,
 ) -> Component:
     """Returns component with south routes and grating_couplers.
@@ -34,6 +35,7 @@ def add_fiber_array(
         gc_port_name: grating coupler input port name.
         select_ports: function to select ports.
         cross_section: cross_section function.
+        mirror_grating_coupler: if True, mirrors the grating coupler.
         kwargs: additional arguments.
 
     Keyword Args:
@@ -80,6 +82,8 @@ def add_fiber_array(
     else:
         gc = grating_coupler
     gc = gf.get_component(gc)
+    if mirror_grating_coupler:
+        gc = gf.functions.mirror(gc)
 
     gc_port_names = [port.name for port in gc.ports]
     if gc_port_name not in gc_port_names:

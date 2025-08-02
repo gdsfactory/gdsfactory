@@ -3,6 +3,8 @@ from __future__ import annotations
 import typing
 from functools import cache, partial
 
+import kfactory as kf
+
 from gdsfactory.config import PATH
 from gdsfactory.generic_tech.layer_map import LAYER
 from gdsfactory.generic_tech.layer_stack import LAYER_STACK
@@ -63,6 +65,10 @@ def get_generic_pdk() -> Pdk:
         (LAYER.WGN, LAYER.WG): "taper_nc_sc",
         LAYER.M3: "taper_electrical",
     }
+    gf.kcl.layers = LAYER
+    gf.kcl.infos = kf.LayerInfos(
+        **{v.name: kf.kdb.LayerInfo(v.layer, v.datatype) for v in LAYER},  # type: ignore[attr-defined]
+    )
 
     return Pdk(
         name="generic",

@@ -7,14 +7,14 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 @gf.cell_with_module_name
 def ring_single(
     gap: float = 0.2,
-    radius: float = 10.0,
+    radius: float | None = None,
     length_x: float = 4.0,
     length_y: float = 0.6,
     bend: ComponentSpec = "bend_euler",
     straight: ComponentSpec = "straight",
     coupler_ring: ComponentSpec = "coupler_ring",
     cross_section: CrossSectionSpec = "strip",
-    length_extension: float = 3.0,
+    length_extension: float | None = None,
 ) -> gf.Component:
     """Returns a single ring resonator with a directional coupler.
 
@@ -32,7 +32,7 @@ def ring_single(
 
     Args:
         gap: Gap between the ring and the straight waveguide in the coupler (μm).
-        radius: Radius of the ring bends (μm).
+        radius: Radius of the ring bends (μm). If None, it will use the radius from the cross section.
         length_x: Length of the horizontal straight section (μm).
         length_y: Length of the vertical straight sections (μm).
         bend: Component spec for the 90-degree bends. Default is "bend_euler".
@@ -126,14 +126,13 @@ if __name__ == "__main__":
     # c = ring_single(layer=(2, 0), cross_section_factory=gf.cross_section.pin, width=1)
     # c = ring_single(width=2, gap=1, layer=(2, 0), radius=7, length_y=1)
     c = ring_single(
-        radius=5,
         gap=0.111,
         bend="bend_circular",
         length_x=0,
         length_y=0,
-        length_extension=0,
+        # length_extension=0,
     )
-    n = c.get_netlist()
+    # n = c.get_netlist()
     # print(c.ports)
 
     # c = gf.routing.add_fiber_array(ring_single)

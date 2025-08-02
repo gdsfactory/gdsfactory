@@ -12,7 +12,7 @@ def ring_double_heater(
     gap: float = 0.2,
     gap_top: float | None = None,
     gap_bot: float | None = None,
-    radius: float = 10.0,
+    radius: float | None = None,
     length_x: float = 1.0,
     length_y: float = 0.01,
     coupler_ring: ComponentSpec = "coupler_ring",
@@ -27,7 +27,7 @@ def ring_double_heater(
     via_stack_offset: Float2 = (1, 0),
     via_stack_size: Float2 | None = None,
     with_drop: bool = True,
-    length_extension: float = 3.0,
+    length_extension: float | None = None,
 ) -> Component:
     """Returns a double bus ring with heater on top.
 
@@ -188,6 +188,8 @@ ring_single_heater = partial(ring_double_heater, with_drop=False)
 
 
 if __name__ == "__main__":
-    c = ring_double_heater(gap_top=0.4, length_y=2, length_extension=10)
+    c = ring_double_heater(
+        gap_top=0.4, length_y=2, length_extension=10, cross_section="strip"
+    )
     c.pprint_ports()
     c.show()

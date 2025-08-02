@@ -10,7 +10,7 @@ def ring_double(
     gap: float = 0.2,
     gap_top: float | None = None,
     gap_bot: float | None = None,
-    radius: float = 10.0,
+    radius: float | None = None,
     length_x: float = 0.01,
     length_y: float = 0.01,
     bend: ComponentSpec = "bend_euler",
@@ -18,7 +18,7 @@ def ring_double(
     coupler_ring: ComponentSpec = "coupler_ring",
     coupler_ring_top: ComponentSpec | None = None,
     cross_section: CrossSectionSpec = "strip",
-    length_extension: float = 3.0,
+    length_extension: float | None = None,
 ) -> Component:
     """Returns a double bus ring.
 
@@ -110,5 +110,5 @@ def ring_double(
 
 
 if __name__ == "__main__":
-    c = ring_double(length_y=2, bend="bend_circular", gap_top=0.4, length_extension=0)
+    c = ring_double(length_y=2, bend="bend_circular", gap_top=0.4)
     c.show()

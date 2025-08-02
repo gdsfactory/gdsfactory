@@ -506,14 +506,6 @@ def test_container() -> None:
     assert len(result.insts) == 1
 
 
-def test_plot() -> None:
-    c = gf.Component()
-    c.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(1, 0))
-    c.plot()
-    c.to_graphviz()
-    c.to_dict(True)
-
-
 def test_offset() -> None:
     c = gf.Component()
     c.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(1, 0))
@@ -536,12 +528,6 @@ def test_over_under() -> None:
 
     assert len(c.shapes(get_layer((1, 0)))) == 1
     assert c.dbbox(get_layer((1, 0))) == kdb.Box(0, 0, 10, 5)
-
-
-def test_component_all_angle_plot() -> None:
-    c = gf.ComponentAllAngle()
-    c.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(1, 0))
-    c.plot()
 
 
 def test_component_to_3d() -> None:

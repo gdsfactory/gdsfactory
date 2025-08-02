@@ -1,10 +1,8 @@
 info: {}
-name: coupler_ring_gdsfactory_8af83332
+name: coupler_ring_gdsfactory_9cdfdde6
 settings:
   bend: bend_euler
   cross_section: strip
   gap: 0.2
-  length_extension: 3
   length_x: 4
-  radius: 5
   straight: straight

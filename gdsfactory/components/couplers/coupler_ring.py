@@ -10,19 +10,19 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 @gf.cell_with_module_name
 def coupler_ring(
     gap: float = 0.2,
-    radius: float = 5.0,
+    radius: float | None = None,
     length_x: float = 4.0,
     bend: ComponentSpec = "bend_euler",
     straight: ComponentSpec = "straight",
     cross_section: CrossSectionSpec = "strip",
     cross_section_bend: CrossSectionSpec | None = None,
-    length_extension: float = 3.0,
+    length_extension: float | None = None,
 ) -> Component:
     r"""Coupler for ring.
 
     Args:
         gap: spacing between parallel coupled straight waveguides.
-        radius: of the bends.
+        radius: of the bends. Default is None, which uses the default radius of the cross_section.
         length_x: length of the parallel coupled straight waveguides.
         bend: 90 degrees bend spec.
         straight: straight spec.
@@ -31,13 +31,6 @@ def coupler_ring(
         length_extension: straight length extension at the end of the coupler bottom ports.
 
     .. code::
-
-          o2            o3
-           |             |
-            \           /
-             \         /
-           ---=========---
-        o1    length_x   o4
 
           o2                              o3
           xx                              xx
@@ -51,8 +44,12 @@ def coupler_ring(
                  o1──────▼─────────◄──────────────► o4
                                     length_extension
     """
+    if radius is None:
+        radius = gf.get_cross_section(cross_section).radius
+        assert radius is not None, "cross_section must have a radius"
+
     if length_extension is None:
-        length_extension = 3 + radius
+        length_extension = 3.0 + radius
 
     c = Component()
     gap = gf.snap.snap_to_grid(gap, grid_factor=2)
