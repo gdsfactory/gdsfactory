@@ -1,12 +1,23 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.11.6...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.12.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.12.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.12.0) - 2025-08-02
 
-No significant changes.
-
+- Better message errors [#4072](https://github.com/gdsfactory/gdsfactory/pull/4072)
+    * better error message when layer not found in PDK
+    * add `mirror_grating_coupler` flag to add_fiber_array and add_fiber_single and grating_coupler_array
+    * document Component.fix_space and  Component.fix_width
+    * better defaults for rings
+- Fix missing ports when rows/columns=1 in array [#4071](https://github.com/gdsfactory/gdsfactory/pull/4071)
+- Fixed [Bug] wrong port in `gdsfactory.components.filters.terminator` [#4064](https://github.com/gdsfactory/gdsfactory/pull/4064)
+- Normalize layer transition keys using gf.get_layer [#4063](https://github.com/gdsfactory/gdsfactory/pull/4063)
+- Simpler fill [#4073](https://github.com/gdsfactory/gdsfactory/pull/4073)
+- Simpler fix width and space v2 [#4067](https://github.com/gdsfactory/gdsfactory/pull/4067)
+- Skip diffing on same file instead of crashing [#4070](https://github.com/gdsfactory/gdsfactory/pull/4070)
+- bend_circular_all_angle fails with angle small and negative [#4061](https://github.com/gdsfactory/gdsfactory/pull/4061)
+- fix tests [#4069](https://github.com/gdsfactory/gdsfactory/pull/4069)
 
 ## [9.11.6](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.11.6) - 2025-07-26
 
@@ -16,7 +27,6 @@ No significant changes.
 
 - fix autotaper in fiber array routing [#4057](https://github.com/gdsfactory/gdsfactory/pull/4057)
 - bump kfactory to 1.10.1 [#4055](https://github.com/gdsfactory/gdsfactory/pull/4055)
-
 
 ## [9.11.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.11.4) - 2025-07-23
 
