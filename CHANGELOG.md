@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.12.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.12.0) - 2025-08-02
+
+No significant changes.
+
+
 ## [9.11.6](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.11.6) - 2025-07-26
 
 - fix center port layer for pad with multiple bboxes [#4059](https://github.com/gdsfactory/gdsfactory/pull/4059)
