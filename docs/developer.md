@@ -7,38 +7,9 @@ However we recommend python 3.11 or 3.12 as some extensions may not work on 3.13
 
 ## Installation for users in a new environment
 
-We recommend `uv` for installing GDSFactory:
-
 ```bash
-# On macOS and Linux.
-curl -LsSf https://astral.sh/uv/install.sh | sh
-```
-
-```bash
-# On Windows open a PowerShell terminal and run:
-powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
-```
-
-Then you can install gdsfactory with:
-
-```bash
-uv venv --python 3.12
-uv pip install gdsfactory
-```
-
-
-## Installation for users in an existing environment
-
-You can install the latest released gdsfactory using the following command:
-
-```
-pip install gdsfactory --upgrade
-```
-
-If you want to install the latest pre-released version you can run:
-
-```
-pip install git+https://github.com/gdsfactory/gdsfactory --force-reinstall
+pip install gdsfactory_install
+gfi install
 ```
 
 ## Installation for contributors
@@ -148,6 +119,7 @@ Make sure you pin the version of gdsfactory that you are using in your `pyprojec
 
 You can take a look at the tests of other open source PDKs.
 
+- [Cornerstone PDK](https://github.com/gdsfactory/cspdk)
 - [SiEPIC Ebeam UBC PDK](https://gdsfactory.github.io/ubc) (open source)
 - [VTT photonics PDK](https://gdsfactory.github.io/vtt) (open source)
 - [GlobalFoundries 180nm MCU CMOS PDK](https://gdsfactory.github.io/gf180/) (open source)
@@ -190,8 +162,6 @@ def test_settings(component_name: str, data_regression: DataRegressionFixture) -
     data_regression.check(component.to_dict())
 
 ```
-
-For questions join the [![Join the chat at https://gitter.im/gdsfactory-dev/community](https://badges.gitter.im/gdsfactory-dev/community.svg)](https://gitter.im/gdsfactory-dev/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) with [element.io](https://element.io/download) or use GitHub issues or discussions.
 
 
 ## Docker container

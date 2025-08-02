@@ -1,10 +1,11 @@
 info: {}
-name: grating_coupler_array_g_ea39b0e7
+name: grating_coupler_array_g_1c646557
 settings:
   bend: bend_euler
   centered: true
   cross_section: strip
   grating_coupler: grating_coupler_elliptical
+  mirror_grating_coupler: false
   n: 6
   pitch: 127
   port_name: o1

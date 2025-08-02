@@ -21,6 +21,7 @@ def grating_coupler_array(
     centered: bool = True,
     radius: float | None = None,
     bend: ComponentSpec = "bend_euler",
+    mirror_grating_coupler: bool = False,
 ) -> Component:
     """Array of grating couplers.
 
@@ -36,9 +37,12 @@ def grating_coupler_array(
         centered: if True, centers the array around the origin.
         radius: optional radius for routing the loopback.
         bend: ComponentSpec for the bend used in the loopback.
+        mirror_grating_coupler: if True, mirrors the grating coupler.
     """
     c = Component()
     grating_coupler = gf.get_component(grating_coupler)
+    if mirror_grating_coupler:
+        grating_coupler = gf.functions.mirror(grating_coupler)
     ports: dict[str, kf.DPort] = {}
 
     for i in range(n):

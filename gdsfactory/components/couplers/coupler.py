@@ -12,6 +12,7 @@ def coupler_symmetric(
     dy: Delta = 4.0,
     dx: Delta = 10.0,
     cross_section: CrossSectionSpec = "strip",
+    allow_min_radius_violation: bool = False,
 ) -> Component:
     r"""Two coupled straights with bends.
 
@@ -21,6 +22,7 @@ def coupler_symmetric(
         dy: port to port vertical spacing.
         dx: bend length in x direction.
         cross_section: section.
+        allow_min_radius_violation: if True does not check for min bend radius.
 
     .. code::
 
@@ -45,6 +47,7 @@ def coupler_symmetric(
         bend,
         size=(dx, dy),
         cross_section=cross_section,
+        allow_min_radius_violation=allow_min_radius_violation,
     )
     top_bend = c << bend_component
     bot_bend = c << bend_component
@@ -147,7 +150,12 @@ def coupler(
     """
     c = Component()
     sbend = coupler_symmetric(
-        gap=gap, dy=dy, dx=dx, cross_section=cross_section, bend=bend
+        gap=gap,
+        dy=dy,
+        dx=dx,
+        cross_section=cross_section,
+        bend=bend,
+        allow_min_radius_violation=allow_min_radius_violation,
     )
 
     sr = c << sbend

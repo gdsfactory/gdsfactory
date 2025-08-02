@@ -77,6 +77,8 @@ class PortOrientationError(ValueError):
 
 def get_port_definitions(ports: Ports) -> str:
     """Returns port definition string."""
+    import gdsfactory as gf
+
     return "\n".join(
         [
             f"c.add_port(name='{port.name}', center={port.center}, "
