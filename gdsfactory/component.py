@@ -1194,9 +1194,9 @@ class Component(ComponentBase, kf.DKCell):
     def fill(
         self,
         fill_cell: ComponentSpec,
-        fill_layers: Iterable[tuple[LayerSpecs, int]] = [],
+        fill_layers: Iterable[tuple[LayerSpec, float]] = [],
         fill_regions: Iterable[tuple[kdb.Region, float]] = [],
-        exclude_layers: Iterable[tuple[LayerSpec, int]] = [],
+        exclude_layers: Iterable[tuple[LayerSpec, float]] = [],
         exclude_regions: Iterable[tuple[kdb.Region, float]] = [],
         n_threads: int | None = None,
         tile_size: tuple[float, float] | None = None,
@@ -1230,26 +1230,26 @@ class Component(ComponentBase, kf.DKCell):
         from gdsfactory.pdk import get_component, get_layer_info
 
         fill_cell = get_component(fill_cell)
-        fill_layers = [
-            (get_layer_info(layer), spacing) for layer, spacing in fill_layers
+        fill_layers_converted = [
+            (get_layer_info(layer), int(spacing)) for layer, spacing in fill_layers
         ]
-        fill_regions = [
-            (region, self.kcl.to_dbu(spacing)) for region, spacing in fill_regions
+        fill_regions_converted = [
+            (region, int(spacing)) for region, spacing in fill_regions
         ]
-        exclude_layers = [
-            (get_layer_info(layer), spacing) for layer, spacing in exclude_layers
+        exclude_layers_converted = [
+            (get_layer_info(layer), int(spacing)) for layer, spacing in exclude_layers
         ]
-        exclude_regions = [
-            (region, self.kcl.to_dbu(spacing)) for region, spacing in exclude_regions
+        exclude_regions_converted = [
+            (region, int(spacing)) for region, spacing in exclude_regions
         ]
 
         fill_tiled(
             self,
             fill_cell=fill_cell,
-            fill_layers=fill_layers,
-            fill_regions=fill_regions,
-            exclude_layers=exclude_layers,
-            exclude_regions=exclude_regions,
+            fill_layers=fill_layers_converted,
+            fill_regions=fill_regions_converted,
+            exclude_layers=exclude_layers_converted,
+            exclude_regions=exclude_regions_converted,
             n_threads=n_threads,
             tile_size=tile_size,
             row_step=row_step,
