@@ -44,10 +44,12 @@ def coupler_ring(
                  o1──────▼─────────◄──────────────► o4
                                     length_extension
     """
-    radius = radius or gf.get_cross_section(cross_section).radius
+    if radius is None:
+        radius = gf.get_cross_section(cross_section).radius
+        assert radius is not None, "cross_section must have a radius"
 
     if length_extension is None:
-        length_extension = 3 + radius
+        length_extension = 3.0 + radius
 
     c = Component()
     gap = gf.snap.snap_to_grid(gap, grid_factor=2)

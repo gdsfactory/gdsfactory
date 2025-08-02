@@ -1,5 +1,5 @@
 info: {}
-name: ring_single_dut_gdsfact_9fdbcb54
+name: ring_single_dut_gdsfact_3cf05ffd
 settings:
   bend: bend_euler
   component: straight
@@ -8,5 +8,4 @@ settings:
   length_x: 4
   length_y: 0
   port_name: o1
-  radius: 5
   with_component: true

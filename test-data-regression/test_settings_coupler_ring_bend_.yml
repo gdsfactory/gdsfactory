@@ -1,5 +1,5 @@
 info: {}
-name: coupler_ring_bend_gdsfa_7e4f244b
+name: coupler_ring_bend_gdsfa_08bf6cd7
 settings:
   bend: bend_circular_all_angle
   bend_output: bend_euler
@@ -8,5 +8,4 @@ settings:
   cross_section_inner: strip
   cross_section_outer: strip
   length_x: 0
-  radius: 10
   straight: straight

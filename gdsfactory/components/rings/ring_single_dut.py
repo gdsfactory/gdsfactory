@@ -14,7 +14,7 @@ def ring_single_dut(
     gap: float = 0.2,
     length_x: float = 4,
     length_y: float = 0,
-    radius: float = 5.0,
+    radius: float | None = None,
     coupler: ComponentSpec = "coupler_ring",
     bend: ComponentSpec = "bend_euler",
     with_component: bool = True,
@@ -32,7 +32,7 @@ def ring_single_dut(
         gap: in um.
         length_x: in um.
         length_y: in um.
-        radius: in um.
+        radius: in um. Default is None, which uses the default radius of the cross_section.
         coupler: coupler function.
         bend: bend function.
         with_component: True adds component. False adds waveguide.
