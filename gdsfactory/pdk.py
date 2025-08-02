@@ -709,6 +709,19 @@ def get_layer_tuple(layer: LayerSpec) -> tuple[int, int]:
     return info.layer, info.datatype
 
 
+def get_layer_info(layer: LayerSpec) -> kf.kdb.LayerInfo:
+    """Returns layer info from a layer spec."""
+    layer_index = get_layer(layer)
+    if isinstance(layer_index, LayerEnum):
+        return kf.kcl.get_info(layer_index.value)  # type: ignore[no-any-return]
+    elif isinstance(layer_index, int):
+        return kf.kcl.get_info(layer_index)
+    else:
+        raise ValueError(
+            f"Invalid layer spec {layer!r} for PDK {get_active_pdk().name!r}"
+        )
+
+
 def get_layer_views() -> LayerViews:
     return get_active_pdk().get_layer_views()
 
