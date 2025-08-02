@@ -1194,9 +1194,9 @@ class Component(ComponentBase, kf.DKCell):
     def fill(
         self,
         fill_cell: ComponentSpec,
-        fill_layers: Iterable[tuple[LayerSpecs, float]] = [],
+        fill_layers: Iterable[tuple[LayerSpecs, int]] = [],
         fill_regions: Iterable[tuple[kdb.Region, float]] = [],
-        exclude_layers: Iterable[tuple[LayerSpec, float]] = [],
+        exclude_layers: Iterable[tuple[LayerSpec, int]] = [],
         exclude_regions: Iterable[tuple[kdb.Region, float]] = [],
         n_threads: int | None = None,
         tile_size: tuple[float, float] | None = None,
@@ -1210,7 +1210,6 @@ class Component(ComponentBase, kf.DKCell):
         """Fill a [KCell][kfactory.kcell.KCell].
 
         Args:
-            c: Target cell.
             fill_cell: The cell used as a cell to fill the regions.
             fill_layers: Tuples of layer and keepout in um.
             fill_regions: Specific regions to fill. Also tuples like the layers.
@@ -1232,13 +1231,13 @@ class Component(ComponentBase, kf.DKCell):
 
         fill_cell = get_component(fill_cell)
         fill_layers = [
-            (get_layer_info(layer), int(spacing)) for layer, spacing in fill_layers
+            (get_layer_info(layer), spacing) for layer, spacing in fill_layers
         ]
         fill_regions = [
             (region, self.kcl.to_dbu(spacing)) for region, spacing in fill_regions
         ]
         exclude_layers = [
-            (get_layer_info(layer), int(spacing)) for layer, spacing in exclude_layers
+            (get_layer_info(layer), spacing) for layer, spacing in exclude_layers
         ]
         exclude_regions = [
             (region, self.kcl.to_dbu(spacing)) for region, spacing in exclude_regions
