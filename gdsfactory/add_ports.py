@@ -524,6 +524,7 @@ def add_ports_from_labels(
     port_orientation: AngleInDegrees = 0,
     guess_port_orientation: bool = True,
     port_filter_prefix: str | None = None,
+    skip_duplicates: bool = False,
 ) -> Component:
     """Add ports from labels.
 
@@ -544,6 +545,7 @@ def add_ports_from_labels(
         port_orientation: None for electrical ports.
         guess_port_orientation: assumes right: 0, left: 180, top: 90, bot: 270.
         port_filter_prefix: prefix for the port name.
+        skip_duplicates: if True skips ports with the same name.
     """
     port_name_prefix_default = "o" if port_type == "optical" else "e"
     port_name_prefix = port_name_prefix or port_name_prefix_default
@@ -552,10 +554,18 @@ def add_ports_from_labels(
     port_name_to_index: dict[str, int] = {}
     layer_label = layer_label or port_layer
 
+    label_names = set()
+
     xc = xcenter or component.x
     for i, label in enumerate(component.get_labels(layer=layer_label)):
         dx = label.x
         dy = label.y
+
+        if skip_duplicates and label.string in label_names:
+            print("Skipping duplicate label:", label.string)
+            continue
+
+        label_names.add(label.string)
 
         if port_filter_prefix and not label.string.startswith(port_filter_prefix):
             continue
