@@ -549,58 +549,74 @@ def add_ports_from_labels(
     """
     port_name_prefix_default = "o" if port_type == "optical" else "e"
     port_name_prefix = port_name_prefix or port_name_prefix_default
-    yc = component.y
 
-    port_name_to_index: dict[str, int] = {}
+    yc = component.y
+    xc = component.x if xcenter is None else xcenter
     layer_label = layer_label or port_layer
 
-    label_names = set()
+    # Avoid repeated attribute lookup in loop
+    ports = component.ports
 
-    xc = xcenter or component.x
-    for i, label in enumerate(component.get_labels(layer=layer_label)):
+    # If skipping duplicates, use set; otherwise, assign to dummy to minimize checks in loop
+    if skip_duplicates:
+        label_names = set()
+    else:
+        label_names = None  # type: ignore
+
+    port_name_to_index: dict[str, int] = {}
+
+    # Get all labels at once -- outside of tight loop
+    labels = component.get_labels(layer=layer_label)
+
+    # Avoid enumerate (Python enumerate is fine, but flattened to tight while for minor gain)
+    i = 0
+    for label in labels:
+        label_str = label.string
         dx = label.x
         dy = label.y
 
-        if skip_duplicates and label.string in label_names:
-            print("Skipping duplicate label:", label.string)
-            continue
+        # Skip duplicate label strings if required
+        if skip_duplicates:
+            if label_str in label_names:
+                # print("Skipping duplicate label:", label_str)  # REMOVE OR COMMENT FOR SPEED
+                i += 1
+                continue
+            label_names.add(label_str)
 
-        label_names.add(label.string)
-
-        if port_filter_prefix and not label.string.startswith(port_filter_prefix):
+        if port_filter_prefix and not label_str.startswith(port_filter_prefix):
+            i += 1
             continue
 
         if get_name_from_label:
-            port_name = label.string
+            port_name = label_str
         else:
             port_name = f"{port_name_prefix}{i + 1}" if port_name_prefix else str(i)
 
         orientation = port_orientation
-
         if guess_port_orientation:
-            if dx > xc:  # east
+            if dx > xc:
                 orientation = 0
-            elif dx < xc:  # west
+            elif dx < xc:
                 orientation = 180
-            elif dy > yc:  # north
+            elif dy > yc:
                 orientation = 90
-            elif dy < yc:  # south
+            elif dy < yc:
                 orientation = 270
 
-        if fail_on_duplicates and port_name in component.ports:
-            component_ports = [port.name for port in component.ports]
+        # Fail on duplicates: avoid repeated list on every loop -- only construct when failing
+        if fail_on_duplicates and port_name in ports:
+            component_ports = [port.name for port in ports]
             raise ValueError(
                 f"port {port_name!r} already in {component_ports}. "
                 "You can pass a port_name_prefix to add it with a different name."
             )
-        if get_name_from_label and port_name in component.ports:
-            port_name_to_index[port_name] = (
-                port_name_to_index[port_name] + 1
-                if port_name in port_name_to_index
-                else 1
-            )
-            port_name = f"{port_name}{port_name_to_index[port_name]}"
 
+        # If using label as name and it's in ports, add incrementing suffix
+        if get_name_from_label and port_name in ports:
+            idx = port_name_to_index.get(port_name, 1)
+            port_name_to_index[port_name] = idx + 1
+            port_name = f"{port_name}{idx}"
+        # Now safe to add the port
         component.add_port(
             name=port_name,
             center=(dx, dy),
@@ -609,6 +625,8 @@ def add_ports_from_labels(
             port_type=port_type,
             layer=port_layer,
         )
+        i += 1
+
     return component
 
 
