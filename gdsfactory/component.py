@@ -1043,7 +1043,7 @@ class Component(ComponentBase, kf.DKCell):
         layer_views = get_layer_views()
 
         if isinstance(layer_views, str | pathlib.Path):
-            lyp_path = layer_views
+            lyp_path = pathlib.Path(layer_views)
         else:
             layer_views.to_lyp(filepath=lyp_path)
 
