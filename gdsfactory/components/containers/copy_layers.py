@@ -11,6 +11,7 @@ from gdsfactory.typings import ComponentSpec, LayerSpecs
 def copy_layers(
     factory: ComponentSpec = "cross",
     layers: LayerSpecs = ((1, 0), (2, 0)),
+    flatten: bool = False,
     **kwargs: Any,
 ) -> Component:
     """Returns a component with the geometry copied in different layers.
@@ -18,14 +19,19 @@ def copy_layers(
     Args:
         factory: component spec.
         layers: iterable of layers.
-        kwargs: keyword arguments.
+        flatten: flatten the result.
+        kwargs: keyword arguments passed to the component.
     """
     c = Component()
-    for layer in layers:
-        ci = gf.get_component(factory, layer=layer, **kwargs)
-        _ = c << ci
 
-    c.copy_child_info(ci)
+    ci = None
+    for layer in layers:
+        c << (ci := gf.get_component(factory, layer=layer, **kwargs))
+    if ci is not None:
+        c.copy_child_info(ci)
+
+    if flatten:
+        c.flatten()
     return c
 
 

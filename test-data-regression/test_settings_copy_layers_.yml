@@ -1,7 +1,8 @@
 info: {}
-name: copy_layers_gdsfactoryp_c7a2a834
+name: copy_layers_gdsfactoryp_eb05f809
 settings:
   factory: cross
+  flatten: false
   layers:
   - - 1
     - 0
