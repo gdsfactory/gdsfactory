@@ -433,21 +433,22 @@ class LayerView(BaseModel):
         **data: Any,
     ) -> None:
         """Initialize LayerView object."""
+        # Set 'layer' quickly if both present and not duplicated in data
         if (gds_layer is not None) and (gds_datatype is not None):
-            if "layer" in data and data["layer"] is not None:
+            if data.get("layer") is not None:
                 raise KeyError(
                     "Specify either 'layer' or both 'gds_layer' and 'gds_datatype'."
                 )
             data["layer"] = (gds_layer, gds_datatype)
 
         if color is not None:
-            if "fill_color" in data or "frame_color" in data:
+            if any(k in data for k in ("fill_color", "frame_color")):
                 raise KeyError(
                     "Specify either a single 'color' or both 'frame_color' and 'fill_color'."
                 )
             data["fill_color"] = data["frame_color"] = color
         if brightness is not None:
-            if "fill_brightness" in data or "frame_brightness" in data:
+            if any(k in data for k in ("fill_brightness", "frame_brightness")):
                 raise KeyError(
                     "Specify either a single 'brightness' or both 'frame_brightness' and 'fill_brightness'."
                 )
@@ -679,26 +680,31 @@ class LayerView(BaseModel):
             layer_pattern: Regex pattern to match layers with.
             source: Source field from XML that may contain layer name.
         """
-        # If name is empty but source exists, try to extract name from source
-        if not name and source:
-            # Extract name from source like "WG_COR 37/4@1"
-            match = re.search(layer_pattern, source)
-            if match:
-                # Get the part before the layer pattern
-                name = source[: match.start()].strip()
-                if name:
-                    return clean_name(name, remove_dots=True), False
-            return None, None
+        # Precompile if needed for efficiency
+        if isinstance(layer_pattern, str):
+            layer_pattern_c = re.compile(layer_pattern)
+        else:
+            layer_pattern_c = layer_pattern
 
         if not name:
+            # If name is empty but source exists, try to extract name from source
+            if source:
+                match = layer_pattern_c.search(source)
+                if match:
+                    n = source[: match.start()].strip()
+                    if n:
+                        return clean_name(n, remove_dots=True), False
             return None, None
 
         layer_in_name = False
-        match = re.search(layer_pattern, name)
+        match = layer_pattern_c.search(name)
         if match:
-            name = (name[: match.start()] + name[match.end() :]).strip()
+            # Remove matched pattern substring from name
+            n = (name[: match.start()] + name[match.end() :]).strip()
             layer_in_name = True
-        return clean_name(name, remove_dots=True), layer_in_name
+        else:
+            n = name
+        return clean_name(n, remove_dots=True), layer_in_name
 
     @staticmethod
     def _process_layer(
@@ -1286,3 +1292,26 @@ if __name__ == "__main__":
 
     # LAYER_VIEWS.to_yaml(PATH.generic_tech / "layer_views.yaml")
     # LAYER_VIEWS2 = LayerViews(filepath=PATH.generic_tech / "layer_views.yaml")
+
+_REPLACE_MAP = {
+    " ": "_",
+    "!": "",
+    "?": "",
+    "#": "_",
+    "%": "_",
+    "(": "",
+    ")": "",
+    "*": "_",
+    ",": "_",
+    "-": "m",
+    ".": "p",
+    "/": "_",
+    ":": "_",
+    "=": "",
+    "@": "_",
+    "[": "",
+    "]": "",
+    "{": "",
+    "}": "",
+    "$": "",
+}

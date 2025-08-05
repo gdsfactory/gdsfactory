@@ -127,32 +127,8 @@ def clean_name(
     # Pattern for characters to be replaced
     pattern = f"[^{allowed}]"
 
-    # Replacements map
-    replace_map = {
-        " ": "_",
-        "!": "",
-        "?": "",
-        "#": "_",
-        "%": "_",
-        "(": "",
-        ")": "",
-        "*": "_",
-        ",": "_",
-        "-": "m",
-        ".": "p",
-        "/": "_",
-        ":": "_",
-        "=": "",
-        "@": "_",
-        "[": "",
-        "]": "",
-        "{": "",
-        "}": "",
-        "$": "",
-    }
-
-    if remove_dots:
-        replace_map["."] = ""
+    # Use cached replace_map to avoid repeated dictionary creation
+    replace_map = _REPLACE_MAP if not remove_dots else {**_REPLACE_MAP, ".": ""}
 
     # Replace characters using the replace_map
     def replace_match(match: re.Match[str]) -> str:
@@ -209,3 +185,26 @@ if __name__ == "__main__":
     # }
     # d2 = clean_value(d)
     # print(d2)
+
+_REPLACE_MAP = {
+    " ": "_",
+    "!": "",
+    "?": "",
+    "#": "_",
+    "%": "_",
+    "(": "",
+    ")": "",
+    "*": "_",
+    ",": "_",
+    "-": "m",
+    ".": "p",
+    "/": "_",
+    ":": "_",
+    "=": "",
+    "@": "_",
+    "[": "",
+    "]": "",
+    "{": "",
+    "}": "",
+    "$": "",
+}
