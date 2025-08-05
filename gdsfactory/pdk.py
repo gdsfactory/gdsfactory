@@ -164,7 +164,7 @@ class Pdk(BaseModel):
     )
     layers: type[LayerEnum] | None = None
     layer_stack: LayerStack | None = None
-    layer_views: LayerViews | None = None
+    layer_views: LayerViews | PathType | None = None
     layer_transitions: LayerTransitions = Field(default_factory=dict)
     constants: dict[str, Any] = constants
     materials_index: dict[str, MaterialSpec] = Field(default_factory=dict)

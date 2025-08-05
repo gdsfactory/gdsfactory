@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import pathlib
 from typing import cast
 
 import shapely
@@ -44,6 +45,9 @@ def to_3d(
 
     layer_views = layer_views or get_layer_views()
     layer_stack = layer_stack or get_layer_stack()
+
+    if isinstance(layer_views, str | pathlib.Path):
+        layer_views = LayerViews(layer_views)
 
     scene = Scene()
     exclude_layers = exclude_layers or ()
