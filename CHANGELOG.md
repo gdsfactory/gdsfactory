@@ -1,12 +1,16 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.12.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.12.1...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.12.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.12.1) - 2025-08-05
 
-No significant changes.
-
+- Lyp is king [#4081](https://github.com/gdsfactory/gdsfactory/pull/4081)
+- Update route_single.py [#4078](https://github.com/gdsfactory/gdsfactory/pull/4078)
+- Allow to flatten on copy_layers [#4080](https://github.com/gdsfactory/gdsfactory/pull/4080)
+- skip_duplicate_labels [#4075](https://github.com/gdsfactory/gdsfactory/pull/4075)
+- simpler layer info check [#4074](https://github.com/gdsfactory/gdsfactory/pull/4074)
+- bump kfactory to 1.12.1 [#4077](https://github.com/gdsfactory/gdsfactory/pull/4077)
 
 ## [9.12.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.12.0) - 2025-08-02
 
