@@ -156,7 +156,7 @@ def route_single(
         steps = []
 
     if steps:
-        x, y = port1.center
+        x, y = p1.center
         for d in steps:
             if not STEP_DIRECTIVES.issuperset(d):
                 invalid_step_directives = list(set[str](d.keys()) - STEP_DIRECTIVES)
