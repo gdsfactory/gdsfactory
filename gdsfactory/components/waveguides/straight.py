@@ -4,6 +4,10 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentAllAngle
+from gdsfactory.components_functions.waveguides import (
+    straight_all_angle_function,
+    straight_function,
+)
 from gdsfactory.typings import CrossSectionSpec
 
 
@@ -27,18 +31,12 @@ def straight(
         o1  ──────────────── o2
                 length
     """
-    if width is not None:
-        x = gf.get_cross_section(cross_section, width=width)
-    else:
-        x = gf.get_cross_section(cross_section)
-    p = gf.path.straight(length=length, npoints=npoints)
-    c = p.extrude(x)
-    x.add_bbox(c)
-
-    c.info["length"] = length
-    c.info["width"] = x.width if len(x.sections) == 0 else x.sections[0].width
-    c.add_route_info(cross_section=x, length=length)
-    return c
+    return straight_function(
+        length=length,
+        npoints=npoints,
+        cross_section=cross_section,
+        width=width,
+    )
 
 
 @gf.vcell
@@ -61,18 +59,12 @@ def straight_all_angle(
         o1  ──────────────── o2
                 length
     """
-    if width is not None:
-        x = gf.get_cross_section(cross_section, width=width)
-    else:
-        x = gf.get_cross_section(cross_section)
-    p = gf.path.straight(length=length, npoints=npoints)
-    c = p.extrude(x, all_angle=True)
-    x.add_bbox(c)
-
-    c.info["length"] = length
-    c.info["width"] = x.width if len(x.sections) == 0 else x.sections[0].width
-    c.add_route_info(cross_section=x, length=length)
-    return c
+    return straight_all_angle_function(
+        length=length,
+        npoints=npoints,
+        cross_section=cross_section,
+        width=width,
+    )
 
 
 @gf.cell_with_module_name
