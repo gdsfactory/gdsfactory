@@ -20,7 +20,7 @@ def copy_layers(
         factory: component spec.
         layers: iterable of layers.
         flatten: flatten the result.
-        kwargs: keyword arguments.
+        kwargs: keyword arguments passed to the component.
     """
     c = Component()
 
