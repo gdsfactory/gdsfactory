@@ -529,14 +529,10 @@ class Pdk(BaseModel):
             except Exception:
                 raise ValueError(f"Could not find name for layer {layer_index}")
 
-    def get_layer_views(self) -> LayerViews:
+    def get_layer_views(self) -> LayerViews | str | PathType:
         if self.layer_views is None:
             raise ValueError(f"layer_views for Pdk {self.name!r} is None")
-        if isinstance(self.layer_views, LayerViews):
-            return self.layer_views
-        else:
-            # If it's a path, load it as LayerViews
-            return LayerViews(filepath=self.layer_views)
+        return self.layer_views
 
     def get_layer_stack(self) -> LayerStack:
         if self.layer_stack is None:
@@ -727,7 +723,7 @@ def get_layer_info(layer: LayerSpec) -> kf.kdb.LayerInfo:
     return kf.kcl.get_info(layer_index)  # type: ignore[no-any-return]
 
 
-def get_layer_views() -> LayerViews:
+def get_layer_views() -> LayerViews | str | PathType:
     return get_active_pdk().get_layer_views()
 
 
