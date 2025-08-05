@@ -670,14 +670,26 @@ class LayerView(BaseModel):
 
     @staticmethod
     def _process_name(
-        name: str, layer_pattern: str | re.Pattern[str]
+        name: str, layer_pattern: str | re.Pattern[str], source: str | None = None
     ) -> tuple[str | None, bool | None]:
         """Strip layer info from name if it exists.
 
         Args:
             name: XML-formatted name entry.
             layer_pattern: Regex pattern to match layers with.
+            source: Source field from XML that may contain layer name.
         """
+        # If name is empty but source exists, try to extract name from source
+        if not name and source:
+            # Extract name from source like "WG_COR 37/4@1"
+            match = re.search(layer_pattern, source)
+            if match:
+                # Get the part before the layer pattern
+                name = source[: match.start()].strip()
+                if name:
+                    return clean_name(name, remove_dots=True), False
+            return None, None
+
         if not name:
             return None, None
 
@@ -715,9 +727,13 @@ class LayerView(BaseModel):
             layer_pattern: Regex pattern to match layers with.
         """
         element_name = element.find("name")
+        element_source = element.find("source")
+        source_text = element_source.text if element_source is not None else None
+
         name, layer_in_name = cls._process_name(
             element_name.text or "" if element_name is not None else "",
             layer_pattern,
+            source_text,
         )
         if name is None:
             return None
@@ -1082,12 +1098,21 @@ class LayerViews(BaseModel):
             raise OSError("Layer properties file incorrectly formatted, cannot read.")
 
         dither_patterns: dict[str, HatchPattern] = {}
+        pattern_counter = 0
         for dither_block in root.iter("custom-dither-pattern"):
-            name = dither_block.find("name").text  # type: ignore[union-attr]
-            order = dither_block.find("order").text  # type: ignore[union-attr]
+            name_element = dither_block.find("name")
+            name = name_element.text if name_element is not None else None
+            order_element = dither_block.find("order")
+            order = order_element.text if order_element is not None else None
 
-            if name is None or order is None:
+            if order is None:
                 continue
+
+            # Generate a name if none exists
+            if not name:
+                name = f"custom_pattern_{pattern_counter}"
+                pattern_counter += 1
+
             pattern = "\n".join(
                 [line.text for line in dither_block.find("pattern").iter()]  # type: ignore[misc,union-attr]
             )
@@ -1105,12 +1130,20 @@ class LayerViews(BaseModel):
                 custom_pattern=pattern.lstrip(),
             )
         line_styles: dict[str, LineStyle] = {}
+        style_counter = 0
         for line_block in root.iter("custom-line-style"):
-            name = line_block.find("name").text  # type: ignore[union-attr]
-            order = line_block.find("order").text  # type: ignore[union-attr]
+            name_element = line_block.find("name")
+            name = name_element.text if name_element is not None else None
+            order_element = line_block.find("order")
+            order = order_element.text if order_element is not None else None
 
-            if name is None or order is None:
+            if order is None:
                 continue
+
+            # Generate a name if none exists
+            if not name:
+                name = f"custom_style_{style_counter}"
+                style_counter += 1
 
             if name in line_styles:
                 warnings.warn(
@@ -1119,10 +1152,13 @@ class LayerViews(BaseModel):
                 )
                 continue
 
+            pattern_element = line_block.find("pattern")
+            pattern = pattern_element.text if pattern_element is not None else None
+
             line_styles[name] = LineStyle(
                 name=name,
                 order=int(order),
-                custom_style=line_block.find("pattern").text,  # type: ignore[union-attr]
+                custom_style=pattern,
             )
 
         layer_views = {}
