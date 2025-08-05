@@ -1113,6 +1113,7 @@ class LayerViews(BaseModel):
                 name = f"custom_pattern_{pattern_counter}"
                 pattern_counter += 1
 
+            assert name is not None  # Type assertion for mypy
             pattern = "\n".join(
                 [line.text for line in dither_block.find("pattern").iter()]  # type: ignore[misc,union-attr]
             )
@@ -1145,6 +1146,7 @@ class LayerViews(BaseModel):
                 name = f"custom_style_{style_counter}"
                 style_counter += 1
 
+            assert name is not None  # Type assertion for mypy
             if name in line_styles:
                 warnings.warn(
                     f"Line style named {name!r} already exists. Keeping only the first defined.",
@@ -1153,12 +1155,12 @@ class LayerViews(BaseModel):
                 continue
 
             pattern_element = line_block.find("pattern")
-            pattern = pattern_element.text if pattern_element is not None else None
+            line_pattern = pattern_element.text if pattern_element is not None else None
 
             line_styles[name] = LineStyle(
                 name=name,
                 order=int(order),
-                custom_style=pattern,
+                custom_style=line_pattern,
             )
 
         layer_views = {}
@@ -1277,8 +1279,14 @@ if __name__ == "__main__":
     LAYER_VIEWS = PDK.layer_views
     # LAYER_VIEWS.to_yaml(PATH.repo / "extra" / "layers.yml")
     assert LAYER_VIEWS is not None
-    c = LAYER_VIEWS.preview_layerset()
-    c.show()
+    if isinstance(LAYER_VIEWS, LayerViews):
+        c = LAYER_VIEWS.preview_layerset()
+        c.show()
+    else:
+        # If it's a path, load it first
+        layer_views_obj = LayerViews(filepath=LAYER_VIEWS)
+        c = layer_views_obj.preview_layerset()
+        c.show()
 
     # LAYER_VIEWS = LayerViews(filepath=PATH.klayout_yaml)
     # LAYER_VIEWS.to_lyp(PATH.klayout_lyp)

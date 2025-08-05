@@ -532,7 +532,11 @@ class Pdk(BaseModel):
     def get_layer_views(self) -> LayerViews:
         if self.layer_views is None:
             raise ValueError(f"layer_views for Pdk {self.name!r} is None")
-        return self.layer_views
+        if isinstance(self.layer_views, LayerViews):
+            return self.layer_views
+        else:
+            # If it's a path, load it as LayerViews
+            return LayerViews(filepath=self.layer_views)
 
     def get_layer_stack(self) -> LayerStack:
         if self.layer_stack is None:
@@ -627,9 +631,17 @@ class Pdk(BaseModel):
             UserWarning if required properties for generating a KLayoutTechnology are not defined.
         """
         try:
+            # Convert layer_views path to LayerViews object if needed
+            layer_views_obj = None
+            if self.layer_views is not None:
+                if isinstance(self.layer_views, LayerViews):
+                    layer_views_obj = self.layer_views
+                else:
+                    layer_views_obj = LayerViews(filepath=self.layer_views)
+
             return klayout_tech.KLayoutTechnology(
                 name=self.name,
-                layer_views=self.layer_views,
+                layer_views=layer_views_obj,
                 connectivity=self.connectivity,
                 layer_map=self.layers,  # type: ignore[arg-type]
                 layer_stack=self.layer_stack,
