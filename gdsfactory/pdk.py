@@ -164,7 +164,7 @@ class Pdk(BaseModel):
     )
     layers: type[LayerEnum] | None = None
     layer_stack: LayerStack | None = None
-    layer_views: LayerViews | None = None
+    layer_views: LayerViews | PathType | None = None
     layer_transitions: LayerTransitions = Field(default_factory=dict)
     constants: dict[str, Any] = constants
     materials_index: dict[str, MaterialSpec] = Field(default_factory=dict)
@@ -529,7 +529,7 @@ class Pdk(BaseModel):
             except Exception:
                 raise ValueError(f"Could not find name for layer {layer_index}")
 
-    def get_layer_views(self) -> LayerViews:
+    def get_layer_views(self) -> LayerViews | str | PathType:
         if self.layer_views is None:
             raise ValueError(f"layer_views for Pdk {self.name!r} is None")
         return self.layer_views
@@ -627,9 +627,17 @@ class Pdk(BaseModel):
             UserWarning if required properties for generating a KLayoutTechnology are not defined.
         """
         try:
+            # Convert layer_views path to LayerViews object if needed
+            layer_views_obj = None
+            if self.layer_views is not None:
+                if isinstance(self.layer_views, LayerViews):
+                    layer_views_obj = self.layer_views
+                else:
+                    layer_views_obj = LayerViews(filepath=self.layer_views)
+
             return klayout_tech.KLayoutTechnology(
                 name=self.name,
-                layer_views=self.layer_views,
+                layer_views=layer_views_obj,
                 connectivity=self.connectivity,
                 layer_map=self.layers,  # type: ignore[arg-type]
                 layer_stack=self.layer_stack,
@@ -715,7 +723,7 @@ def get_layer_info(layer: LayerSpec) -> kf.kdb.LayerInfo:
     return kf.kcl.get_info(layer_index)  # type: ignore[no-any-return]
 
 
-def get_layer_views() -> LayerViews:
+def get_layer_views() -> LayerViews | str | PathType:
     return get_active_pdk().get_layer_views()
 
 

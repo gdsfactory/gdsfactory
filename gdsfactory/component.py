@@ -1041,7 +1041,11 @@ class Component(ComponentBase, kf.DKCell):
 
         lyp_path = GDSDIR_TEMP / "layer_properties.lyp"
         layer_views = get_layer_views()
-        layer_views.to_lyp(filepath=lyp_path)
+
+        if isinstance(layer_views, str | pathlib.Path):
+            lyp_path = pathlib.Path(layer_views)
+        else:
+            layer_views.to_lyp(filepath=lyp_path)
 
         layout_view = lay.LayoutView()
         cell_view_index = layout_view.create_layout(True)

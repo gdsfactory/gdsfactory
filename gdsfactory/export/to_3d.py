@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import pathlib
 from typing import cast
 
 import shapely
@@ -8,12 +9,12 @@ from trimesh.scene.scene import Scene
 
 from gdsfactory.component import Component
 from gdsfactory.technology import DerivedLayer, LayerStack, LayerViews, LogicalLayer
-from gdsfactory.typings import LayerSpecs
+from gdsfactory.typings import LayerSpecs, PathType
 
 
 def to_3d(
     component: Component,
-    layer_views: LayerViews | None = None,
+    layer_views: LayerViews | str | PathType | None = None,
     layer_stack: LayerStack | None = None,
     exclude_layers: LayerSpecs | None = None,
 ) -> Scene:
@@ -44,6 +45,9 @@ def to_3d(
 
     layer_views = layer_views or get_layer_views()
     layer_stack = layer_stack or get_layer_stack()
+
+    if isinstance(layer_views, str | pathlib.Path):
+        layer_views = LayerViews(layer_views)
 
     scene = Scene()
     exclude_layers = exclude_layers or ()
@@ -77,6 +81,8 @@ def to_3d(
             continue
 
         zmin = level.zmin
+        if layer_views is None:
+            continue
         layer_view = layer_views.get_from_tuple(layer_tuple)
         assert layer_view.fill_color is not None
         color_rgb = [c / 255 for c in layer_view.fill_color.as_rgb_tuple(alpha=False)]
