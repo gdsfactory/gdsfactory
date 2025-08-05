@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.12.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.12.1) - 2025-08-05
+
+No significant changes.
+
+
 ## [9.12.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.12.0) - 2025-08-02
 
 - Better message errors [#4072](https://github.com/gdsfactory/gdsfactory/pull/4072)
