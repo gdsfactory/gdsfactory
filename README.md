@@ -69,7 +69,7 @@ Your output: A GDSII or OASIS file for fabrication, alongside component settings
 
 We provide a common syntax for design (Ansys, Lumerical, Tidy3d, MEEP, DEVSIM, SAX, MEOW, Xyce ...), verification, and validation.
 
-![tool interfaces](https://i.imgur.com/j5qlFWj.png)
+![tool interfaces](https://i.imgur.com/OHyRVUu.png)
 
 
 ## Open-Source PDKs (No NDA Required)
