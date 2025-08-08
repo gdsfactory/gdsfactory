@@ -291,9 +291,8 @@ def route_bundle(
         x, y = ports1_[0].center
         for d in steps:
             if not STEP_DIRECTIVES.issuperset(d):
-                invalid_step_directives = list(set(d.keys()) - STEP_DIRECTIVES)
                 raise ValueError(
-                    f"Invalid step directives: {invalid_step_directives}."
+                    f"Invalid step directives: {list(d.keys() - STEP_DIRECTIVES)}."
                     f"Valid directives are {list(STEP_DIRECTIVES)}"
                 )
             x = d.get("x", x) + d.get("dx", 0)
