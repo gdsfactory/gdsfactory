@@ -27,7 +27,7 @@ To generate a route:
 
 from __future__ import annotations
 
-from collections.abc import Mapping, Sequence
+from collections.abc import Sequence
 from typing import Literal, cast
 
 import kfactory as kf
@@ -45,6 +45,7 @@ from gdsfactory.typings import (
     LayerSpec,
     LayerTransitions,
     Port,
+    Step,
     WayPoints,
 )
 
@@ -60,7 +61,7 @@ def route_single(
     start_straight_length: float = 0.0,
     end_straight_length: float = 0.0,
     waypoints: WayPoints | None = None,
-    steps: Sequence[Mapping[Literal["x", "y", "dx", "dy"], int | float]] | None = None,
+    steps: Sequence[Step] | None = None,
     port_type: str | None = None,
     allow_width_mismatch: bool = False,
     radius: float | None = None,

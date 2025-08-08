@@ -12,7 +12,7 @@ route_bundle calls different function depending on the port orientation.
 
 from __future__ import annotations
 
-from collections.abc import Mapping, Sequence
+from collections.abc import Sequence
 from functools import partial
 from typing import Literal
 from warnings import warn
@@ -32,6 +32,7 @@ from gdsfactory.typings import (
     LayerSpecs,
     LayerTransitions,
     Ports,
+    Step,
 )
 
 OpticalManhattanRoute = ManhattanRoute
@@ -112,7 +113,7 @@ def route_bundle(
     auto_taper: bool = True,
     auto_taper_taper: ComponentSpec | None = None,
     waypoints: Coordinates | Sequence[gf.kdb.DPoint] | None = None,
-    steps: Sequence[Mapping[str, int | float]] | None = None,
+    steps: Sequence[Step] | None = None,
     start_angles: float | list[float] | None = None,
     end_angles: float | list[float] | None = None,
     router: Literal["optical", "electrical"] | None = None,
