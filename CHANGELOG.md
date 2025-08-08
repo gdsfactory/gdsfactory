@@ -1,12 +1,12 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.12.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.12.2...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.12.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.12.2) - 2025-08-07
 
-No significant changes.
-
+- fix route_single width [#4088](https://github.com/gdsfactory/gdsfactory/pull/4088)
+- bump kf to 0.12.2 [#4084](https://github.com/gdsfactory/gdsfactory/pull/4084)
 
 ## [9.12.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.12.1) - 2025-08-05
 
