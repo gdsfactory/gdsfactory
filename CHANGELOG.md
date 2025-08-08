@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.12.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.12.2) - 2025-08-07
+
+No significant changes.
+
+
 ## [9.12.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.12.1) - 2025-08-05
 
 - Lyp is king [#4081](https://github.com/gdsfactory/gdsfactory/pull/4081)
