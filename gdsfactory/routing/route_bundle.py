@@ -206,10 +206,10 @@ def route_bundle(
         raise ValueError(
             f"ports1={len(ports1_)} and ports2={len(ports2_)} must be equal"
         )
-    if route_width is None or route_width == 0:
-        xs = gf.get_cross_section(cross_section)
-    else:
+    if route_width:
         xs = gf.get_cross_section(cross_section, width=route_width)
+    else:
+        xs = gf.get_cross_section(cross_section)
     width = route_width or xs.width
 
     radius = radius or xs.radius
