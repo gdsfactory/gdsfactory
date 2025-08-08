@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from collections.abc import Mapping, Sequence
+from collections.abc import Sequence
 from typing import Any
 
 import kfactory as kf
@@ -18,6 +18,7 @@ from gdsfactory.typings import (
     Coordinates,
     CrossSectionSpec,
     PortsFactory,
+    Step,
     Strs,
 )
 
@@ -56,7 +57,7 @@ def route_fiber_array(
     end_straight_length: float = 0,
     auto_taper: bool = True,
     waypoints: Coordinates | None = None,
-    steps: Sequence[Mapping[str, int | float]] | None = None,
+    steps: Sequence[Step] | None = None,
     bboxes: BoundingBoxes | None = None,
     avoid_component_bbox: bool = True,
     **kwargs: Any,
