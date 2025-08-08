@@ -128,20 +128,22 @@ def route_single(
             )
 
     port_type = port_type or p1.port_type
-    xs = gf.get_cross_section(cross_section)
+    if route_width:
+        xs = gf.get_cross_section(cross_section, width=route_width)
+    else:
+        xs = gf.get_cross_section(cross_section)
     width = route_width or xs.width
     radius = radius or xs.radius
-
-    bend90 = gf.get_component(bend, cross_section=cross_section, radius=radius)
+    bend90 = gf.get_component(bend, cross_section=xs, radius=radius)
     if auto_taper:
-        p1 = add_auto_tapers(component, [p1], cross_section, layer_transitions)[0]
-        p2 = add_auto_tapers(component, [p2], cross_section, layer_transitions)[0]
+        p1 = add_auto_tapers(component, [p1], xs, layer_transitions)[0]
+        p2 = add_auto_tapers(component, [p2], xs, layer_transitions)[0]
 
     def straight_dbu(width: int, length: int) -> kf.KCell:
         return gf.get_component(
             straight,
             length=c.kcl.to_um(length),
-            cross_section=cross_section,
+            cross_section=xs,
         ).to_itype()
 
     end_straight = c.kcl.to_dbu(end_straight_length)
@@ -448,13 +450,14 @@ if __name__ == "__main__":
 
     c = gf.Component()
     s1 = c << gf.components.straight()
-    s2 = c << gf.components.straight(width=2)
+    s2 = c << gf.components.straight()
     s2.move((100, 50))
-    r = gf.routing.route_single(
+    r = route_single(
         c,
         port1=s1.ports["o2"],
         port2=s2.ports["o1"],
         cross_section="strip",
         auto_taper=True,
+        # route_width=1,
     )
     c.show()
