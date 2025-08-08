@@ -118,7 +118,7 @@ def route_single(
 
     if cross_section is None:
         cross_section = gf.cross_section.cross_section(
-            layer=layer,
+            layer=cast(LayerSpec, layer),
             width=cast(float, route_width),
             port_names=("e1", "e2") if port_type == "electrical" else ("o1", "o2"),
             port_types=(port_type, port_type),
@@ -129,8 +129,9 @@ def route_single(
     else:
         xs = gf.get_cross_section(cross_section)
     width = route_width or xs.width
+
     radius = radius or xs.radius
-    bend90 = gf.get_component(bend, cross_section=xs, radius=radius)
+    bend90 = gf.get_component(bend, cross_section=xs, radius=radius, width=width)
     if auto_taper:
         p1 = add_auto_tapers(component, [p1], xs, layer_transitions)[0]
         p2 = add_auto_tapers(component, [p2], xs, layer_transitions)[0]
