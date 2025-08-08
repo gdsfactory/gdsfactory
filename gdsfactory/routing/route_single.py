@@ -105,29 +105,25 @@ def route_single(
         gf.routing.route_single(c, mmi1.ports["o2"], mmi2.ports["o1"], radius=5, cross_section="strip")
         c.plot()
     """
-    p1 = port1
-    p2 = port2
-    c = component
-
     if cross_section is None:
         if layer is None or route_width is None:
             raise ValueError(
                 f"Either {cross_section=} or {layer=} and route_width must be provided"
             )
 
-        elif radius:
-            cross_section = gf.cross_section.cross_section(
-                layer=layer,
-                width=route_width,
-                radius=radius,
-            )
-        else:
-            cross_section = gf.cross_section.cross_section(
-                layer=layer,
-                width=route_width,
-            )
-
+    c = component
+    p1 = port1
+    p2 = port2
     port_type = port_type or p1.port_type
+
+    if cross_section is None:
+        cross_section = gf.cross_section.cross_section(
+            layer=layer,
+            width=cast(float, route_width),
+            port_names=("e1", "e2") if port_type == "electrical" else ("o1", "o2"),
+            port_types=(port_type, port_type),
+        )
+
     if route_width:
         xs = gf.get_cross_section(cross_section, width=route_width)
     else:
