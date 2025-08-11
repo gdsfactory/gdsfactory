@@ -727,5 +727,47 @@ def test_get_netlist_recursive() -> None:
     assert c.name in c.get_netlist(recursive=True)
 
 
-if __name__ == "__main__":
-    pytest.main([__file__])
+def test_fix_min_width() -> None:
+    c = gf.Component()
+    c.add_polygon([(-8, -6), (6, 8), (7, 17), (9, 5)], layer=(1, 0))
+    c.fix_width(layer=(1, 0), min_width=1.0)
+    area_expected = 50.958775499999994
+    assert np.isclose(c.area((1, 0)), area_expected), (
+        f"{c.area((1, 0))} != {area_expected}"
+    )
+
+
+def test_fix_min_space() -> None:
+    c = gf.Component()
+    _ = c << gf.c.ring_single(cross_section="rib")
+    c.fix_spacing(layer=(3, 0), min_space=1.0)
+    expected_area = 1068.32764
+    assert np.isclose(c.area((3, 0)), expected_area), (
+        f"{c.area((3, 0))} != {expected_area}"
+    )
+
+
+@gf.cell
+def fill_cell() -> gf.Component:
+    c = gf.Component()
+    c << gf.c.rectangle(layer=(2, 0), size=(1, 1))
+    return c
+
+
+def test_fill() -> None:
+    c = gf.Component()
+    _ = c << gf.c.ellipse(layer=(1, 0), radii=(20, 30))
+    _ = c << gf.c.triangle(layer=(2, 0))
+
+    c.fill(
+        fill_cell=fill_cell(),
+        fill_layers=[("WG", -1)],
+        exclude_layers=[((2, 0), 10)],
+        x_space=1,
+        y_space=1,
+    )
+    fill_area = c.area((2, 0))
+    expected_fill_area = 264
+    assert np.isclose(fill_area, expected_fill_area), (
+        f"{fill_area} != {expected_fill_area}"
+    )
