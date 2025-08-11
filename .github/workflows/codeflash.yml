@@ -19,7 +19,7 @@ jobs:
       CODEFLASH_API_KEY: ${{ secrets.CODEFLASH_API_KEY }}
     steps:
       - name: 🛎️ Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
       - name: 🐍 Setup UV
