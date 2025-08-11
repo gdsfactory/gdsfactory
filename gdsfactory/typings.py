@@ -21,11 +21,10 @@ Specs:
 
 from __future__ import annotations
 
-import dataclasses
 import pathlib
 from collections.abc import Callable, Generator, Sequence
 from functools import partial
-from typing import Any, Literal, ParamSpec, Protocol, TypeAlias, TypeVar
+from typing import Any, Literal, ParamSpec, Protocol, TypeAlias, TypedDict, TypeVar
 
 import kfactory as kf
 import klayout.db as kdb
@@ -53,8 +52,7 @@ STEP_DIRECTIVES_ALL_ANGLE = {
 }
 
 
-@dataclasses.dataclass
-class Step:
+class Step(TypedDict, total=False):
     """Manhattan Step.
 
     Parameters:
@@ -65,10 +63,10 @@ class Step:
 
     """
 
-    x: float | None = None
-    y: float | None = None
-    dx: Delta | None = None
-    dy: Delta | None = None
+    x: float
+    y: float
+    dx: Delta
+    dy: Delta
 
 
 Anchor: TypeAlias = Literal[
