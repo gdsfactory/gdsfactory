@@ -41,28 +41,27 @@ def line(
 
     dx = x1 - x0
     dy = y1 - y0
-    ang = math.atan2(dy, dx)  # much faster than np.arctan2 for a scalar
+    ang = math.atan2(dy, dx)
     w2 = w * 0.5
     ca = math.cos(ang)
     sa = math.sin(ang)
 
-    # Precompute for offsets
     wsac = w2 * sa
     wcac = w2 * ca
 
-    # Corners as tuples first; avoid repeated NumPy construction.
-    c0 = (x0 - wsac, y0 + wcac)
-    c1 = (x0 + wsac, y0 - wcac)
-    c2 = (x1 + wsac, y1 - wcac)
-    c3 = (x1 - wsac, y1 + wcac)
+    # Allocate a (4,2) numpy array and fill directly for all corners
+    arr = np.empty((4, 2), dtype=float)
+    arr[0, 0] = x0 - wsac
+    arr[0, 1] = y0 + wcac
+    arr[1, 0] = x0 + wsac
+    arr[1, 1] = y0 - wcac
+    arr[2, 0] = x1 + wsac
+    arr[2, 1] = y1 - wcac
+    arr[3, 0] = x1 - wsac
+    arr[3, 1] = y1 + wcac
 
-    # Build np.arrays only at the end (what user expects for return type)
-    return (
-        np.array(c0, dtype=float),
-        np.array(c1, dtype=float),
-        np.array(c2, dtype=float),
-        np.array(c3, dtype=float),
-    )
+    # Return four views of shape (2,) (exact same as before, keeps tuple semantics)
+    return (arr[0], arr[1], arr[2], arr[3])
 
 
 def move_polar_rad_copy(
