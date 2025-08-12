@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from math import sin
 from typing import Any
 
 import numpy as np
@@ -161,4 +162,4 @@ def get_grating_period(
         n_clad: cladding index.
     """
     neff = (neff_high + neff_low) / 2
-    return wavelength / (neff - float(sin(DEG2RAD * fiber_angle)) * n_clad)
+    return wavelength / (neff - sin(DEG2RAD * fiber_angle) * n_clad)
