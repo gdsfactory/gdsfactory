@@ -24,21 +24,12 @@ from gdsfactory.read.from_yaml_template import cell_from_yaml_template
 from gdsfactory.serialization import clean_value_json, convert_tuples_to_lists
 from gdsfactory.symbols import floorplan_with_block_letters
 from gdsfactory.technology import LayerStack, LayerViews, klayout_tech
-from gdsfactory.typings import (
-    CellAllAngleSpec,
-    CellSpec,
-    ComponentAllAngleFactory,
-    ComponentFactory,
-    ComponentSpec,
-    ConnectivitySpec,
-    CrossSectionFactory,
-    CrossSectionSpec,
-    LayerSpec,
-    LayerTransitions,
-    MaterialSpec,
-    PathType,
-    RoutingStrategies,
-)
+from gdsfactory.typings import (CellAllAngleSpec, CellSpec,
+                                ComponentAllAngleFactory, ComponentFactory,
+                                ComponentSpec, ConnectivitySpec,
+                                CrossSectionFactory, CrossSectionSpec,
+                                LayerSpec, LayerTransitions, MaterialSpec,
+                                PathType, RoutingStrategies)
 
 _ACTIVE_PDK: Pdk | None = None
 component_settings = ["function", "component", "settings"]
@@ -683,7 +674,8 @@ def get_material_index(material: MaterialSpec, *args: Any, **kwargs: Any) -> Com
 def get_component(
     component: ComponentSpec, settings: Mapping[str, Any] | None = None, **kwargs: Any
 ) -> Component:
-    return get_active_pdk().get_component(component, settings=settings, **kwargs)
+    # NOTE: Not caching; can be mutable/parametric.
+    return get_active_pdk_cached().get_component(component, settings=settings, **kwargs)
 
 
 @overload
@@ -699,11 +691,21 @@ def get_cell(
 
 
 def get_cross_section(cross_section: CrossSectionSpec, **kwargs: Any) -> CrossSection:
-    return get_active_pdk().get_cross_section(cross_section, **kwargs)
+    # Pure functional lookup; often repeated for string-typed keys - cached for fast lookup.
+    key = (id(get_active_pdk_cached()), str(cross_section), frozenset(kwargs.items()))
+    try:
+        cache = get_cross_section._cache
+    except AttributeError:
+        cache = get_cross_section._cache = {}
+    if key in cache:
+        return cache[key]
+    xs = get_active_pdk_cached().get_cross_section(cross_section, **kwargs)
+    cache[key] = xs
+    return xs
 
 
 def get_layer(layer: LayerSpec | kf.kdb.LayerInfo) -> LayerEnum | int:
-    return get_active_pdk().get_layer(layer)
+    return get_active_pdk_cached().get_layer(layer)
 
 
 def get_layer_name(layer: LayerSpec) -> str:
@@ -747,14 +749,29 @@ def _set_active_pdk(pdk: Pdk) -> None:
 
 def get_routing_strategies() -> RoutingStrategies:
     """Gets a dictionary of named routing functions available to the PDK, if defined, or gdsfactory defaults otherwise."""
-    from gdsfactory.routing.factories import (
-        routing_strategies as default_routing_strategies,
-    )
+    from gdsfactory.routing.factories import \
+        routing_strategies as default_routing_strategies
 
     routing_strategies = get_active_pdk().routing_strategies
     if routing_strategies is None:
         routing_strategies = default_routing_strategies
     return routing_strategies
+
+
+def get_active_pdk_cached() -> Any:
+    pdk = _active_pdk_cache.get("pdk")
+    if pdk is not None:
+        return pdk
+    from gdsfactory.pdk import get_active_pdk as _real_get_active_pdk
+
+    pdk = _real_get_active_pdk()
+    _active_pdk_cache["pdk"] = pdk
+    return pdk
+
+
+def invalidate_pdk_cache():
+    """Call this when PDK might change to clear the global cache."""
+    _active_pdk_cache.clear()
 
 
 if __name__ == "__main__":
@@ -791,3 +808,5 @@ routes:
     # l2 = get_layer((3, 0))
     # print(l1)
     # print(l2)
+
+_active_pdk_cache = {}

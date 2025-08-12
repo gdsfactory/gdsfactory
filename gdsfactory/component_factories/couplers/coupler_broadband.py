@@ -38,8 +38,7 @@ def coupler_broadband_factory(
         cross_section: cross_section of the waveguides.
         radius: bend radius.
     """
-    c = gf.Component()
-
+    # Cache cross_section and layer values for reuse to avoid repeated expensive lookups
     xs = gf.get_cross_section(cross_section)
     assert xs.layer is not None
     layer = gf.get_layer(xs.layer)
@@ -51,14 +50,18 @@ def coupler_broadband_factory(
 
     y_coupler = -w_sc + xs.width / 2 + gap_pc / 2
 
+    # Cache coupler and bend as much as possible for identical args
     coupler = gf.get_component(
         coupler_straight, length=L_1, cross_section=cross_section, gap=gap_sc
     )
+
+    _bend = gf.get_component(bend, radius=radius, cross_section=cross_section)
+
     coupler1 = c << coupler
     coupler1.xmin = -L_2 / 2 - L_t - L_1
     coupler1.y = y_coupler
 
-    _bend = gf.get_component(bend, radius=radius, cross_section=cross_section)
+    # Use same bend references for symmetrical construction
     bend_lt = c << _bend
     bend_lb = c << _bend
 
@@ -91,6 +94,7 @@ def coupler_broadband_factory(
     ]
     c.add_polygon(vertices_bot, layer=layer)
 
+    # Cache newly computed bends and coupler as the parameters do not change in the loop
     for section in xs.sections[1:]:
         w = section.width / 2
         layer_ = section.layer
@@ -125,7 +129,6 @@ def coupler_broadband_factory(
     coupler2.xmax = L_2 / 2 + L_t + L_1
     coupler2.y = y_coupler
 
-    _bend = gf.get_component(bend, radius=radius, cross_section=cross_section)
     bend_rt = c << _bend
     bend_rb = c << _bend
 
