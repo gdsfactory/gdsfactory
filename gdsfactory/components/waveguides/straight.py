@@ -27,16 +27,21 @@ def straight(
         o1  ──────────────── o2
                 length
     """
-    if width is not None:
-        x = gf.get_cross_section(cross_section, width=width)
-    else:
-        x = gf.get_cross_section(cross_section)
+    # Get cross section only once
+    x = (
+        gf.get_cross_section(cross_section, width=width)
+        if width is not None
+        else gf.get_cross_section(cross_section)
+    )
     p = gf.path.straight(length=length, npoints=npoints)
     c = p.extrude(x)
     x.add_bbox(c)
 
-    c.info["length"] = length
-    c.info["width"] = x.width if len(x.sections) == 0 else x.sections[0].width
+    c_info = c.info
+    c_info["length"] = length
+
+    xs_sections = x.sections
+    c_info["width"] = x.width if not xs_sections else xs_sections[0].width
     c.add_route_info(cross_section=x, length=length)
     return c
 
