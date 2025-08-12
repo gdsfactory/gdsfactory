@@ -27,7 +27,7 @@ To generate a route:
 
 from __future__ import annotations
 
-from collections.abc import Mapping, Sequence
+from collections.abc import Sequence
 from typing import Literal, cast
 
 import kfactory as kf
@@ -45,6 +45,7 @@ from gdsfactory.typings import (
     LayerSpec,
     LayerTransitions,
     Port,
+    Step,
     WayPoints,
 )
 
@@ -60,7 +61,7 @@ def route_single(
     start_straight_length: float = 0.0,
     end_straight_length: float = 0.0,
     waypoints: WayPoints | None = None,
-    steps: Sequence[Mapping[Literal["x", "y", "dx", "dy"], int | float]] | None = None,
+    steps: Sequence[Step] | None = None,
     port_type: str | None = None,
     allow_width_mismatch: bool = False,
     radius: float | None = None,
@@ -154,20 +155,17 @@ def route_single(
         raise ValueError("Provide either steps or waypoints, not both")
 
     waypoints_list = [] if waypoints is None else list(waypoints)
-    if steps is None:
-        steps = []
 
     if steps:
         x, y = p1.center
         for d in steps:
             if not STEP_DIRECTIVES.issuperset(d):
-                invalid_step_directives = list(set[str](d.keys()) - STEP_DIRECTIVES)
                 raise ValueError(
-                    f"Invalid step directives: {invalid_step_directives}."
+                    f"Invalid step directives: {list(d.keys() - STEP_DIRECTIVES)}."
                     f"Valid directives are {list(STEP_DIRECTIVES)}"
                 )
-            x = float(d.get("x", x) + d.get("dx", 0.0))
-            y = float(d.get("y", y) + d.get("dy", 0.0))
+            x = d.get("x", x) + d.get("dx", 0)
+            y = d.get("y", y) + d.get("dy", 0)
             waypoints_list.append((x, y))
 
     if waypoints_list:
