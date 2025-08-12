@@ -363,14 +363,11 @@ class LayerLevel(BaseModel):
 
     @field_validator("layer")
     @classmethod
-    def check_layer(
-        cls, layer: BroadLayer | int | str | tuple[int, int] | LayerEnum
-    ) -> LogicalLayer | DerivedLayer:
-        if isinstance(layer, int | str | tuple | LayerEnum):
-            layer = gf.get_layer(layer)
+    def check_layer(cls, layer: BroadLayer) -> LogicalLayer | DerivedLayer:
+        if isinstance(layer, LogicalLayer | DerivedLayer):
+            return layer
+        else:
             return LogicalLayer(layer=layer)
-
-        return layer
 
     @property
     def bounds(self) -> tuple[float, float]:
