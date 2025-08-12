@@ -23,15 +23,16 @@ def bezier_curve(
     """
     from scipy.special import binom
 
-    xs = 0.0
-    ys = 0.0
     n = len(control_points) - 1
-    for k in range(n + 1):
-        ank = binom(n, k) * (1 - t) ** (n - k) * t**k
-        xs += ank * control_points[k][0]
-        ys += ank * control_points[k][1]
-
-    return np.column_stack([xs, ys])
+    control_points = np.asarray(control_points, dtype=np.float64)  # shape (N, 2)
+    ks = np.arange(n + 1)
+    binomial = binom(n, ks).reshape(-1, 1)
+    t = t.reshape(1, -1)
+    t1 = 1 - t
+    factors = binomial * (t1 ** (n - ks).reshape(-1, 1)) * (t ** ks.reshape(-1, 1))
+    # shape (n+1, t.size)
+    coords = factors.T @ control_points  # shape (t.size, 2)
+    return coords
 
 
 def bezier_factory(
@@ -332,22 +333,22 @@ def get_min_sbend_size(
 
     assert known_s is not None
 
-    # Guess sizes, iterate over them until we cannot achieve the min radius
-    # the max size corresponds to an ellipsoid
     max_size = float(np.sqrt(np.abs(min_radius * known_s)) * 2.5)
     sizes = np.linspace(max_size, 0.1 * max_size, num_points)
 
+    # inner variables reused
+    npoints = 201
+    t = np.linspace(0, 1, npoints)
+
     for s in sizes:
-        sz = size_list
+        sz = size_list.copy()
         sz[ind] = s
-        dx, dy = size_list
+        dx, dy = sz
         assert dx is not None and dy is not None
         control_points = ((0, 0), (dx / 2, 0), (dx / 2, dy), (dx, dy))
-        npoints = 201
-        t = np.linspace(0, 1, npoints)
         path_points = bezier_curve(t, control_points)
         curv = curvature(path_points, t)
-        min_bend_radius = 1 / max(np.abs(curv))
+        min_bend_radius = 1 / np.max(np.abs(curv))
         if min_bend_radius < min_radius:
             min_size = s
             break
