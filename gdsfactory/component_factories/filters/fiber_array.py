@@ -38,9 +38,13 @@ def fiber_array_factory(
     c = Component()
     layer_core = gf.get_layer(layer_core)
 
+    # Reuse circle components to avoid redundant creation
+    core_circle = circle(radius=core_diameter / 2, layer=layer_core)
+    cladding_circle = circle(radius=cladding_diameter / 2, layer=layer_cladding)
+
     for i in range(n):
-        core = c.add_ref(circle(radius=core_diameter / 2, layer=layer_core))
-        cladding = c.add_ref(circle(radius=cladding_diameter / 2, layer=layer_cladding))
+        core = c.add_ref(core_circle)
+        cladding = c.add_ref(cladding_circle)
         core.movex(i * pitch)
         cladding.movex(i * pitch)
         c.add_port(
