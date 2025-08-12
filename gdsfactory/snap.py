@@ -5,7 +5,7 @@ from __future__ import annotations
 import warnings
 from collections.abc import Sequence
 from functools import partial
-from typing import Any, TypeAlias, TypeVar, cast, overload
+from typing import Any, TypeAlias, TypeVar, overload
 
 import kfactory as kf
 import numpy as np
@@ -52,24 +52,84 @@ def assert_on_2x_grid(x: float) -> None:
 _T = TypeVar("_T", bound=npt.NDArray[np.floating[Any]])
 
 
-@overload
 def snap_to_grid(
     x: _T,
     nm: int | None = None,
     grid_factor: int = 1,
-) -> _T: ...
-@overload
+) -> _T:
+    """Snap x to grid.
+
+    Args:
+        x: value to snap.
+        nm: Optional grid size in nm. If None, it will use the default grid size from PDK multiplied by grid_factor.
+        grid_factor: snap to grid_factor * grid_size.
+    """
+    grid_size = kf.kcl.dbu
+    nm = nm or round(grid_size * 1000 * grid_factor)
+
+    # Fast path for scalar float or floating-point numpy scalar
+    if isinstance(x, (float, np.floating)):
+        snapped = nm * round(float(x) * 1e3 / nm) / 1e3
+        return float(snapped)
+
+    # Convert Sequence[float] and np.ndarray to np.ndarray and operate in bulk
+    arr = np.asarray(x, dtype=float)
+    snapped = nm * np.round(arr * 1e3 / nm) / 1e3
+    return snapped
+
+
 def snap_to_grid(
     x: Sequence[float],
     nm: int | None = None,
     grid_factor: int = 1,
-) -> npt.NDArray[np.floating[Any]]: ...
-@overload
+) -> npt.NDArray[np.floating[Any]]:
+    """Snap x to grid.
+
+    Args:
+        x: value to snap.
+        nm: Optional grid size in nm. If None, it will use the default grid size from PDK multiplied by grid_factor.
+        grid_factor: snap to grid_factor * grid_size.
+    """
+    grid_size = kf.kcl.dbu
+    nm = nm or round(grid_size * 1000 * grid_factor)
+
+    # Fast path for scalar float or floating-point numpy scalar
+    if isinstance(x, (float, np.floating)):
+        snapped = nm * round(float(x) * 1e3 / nm) / 1e3
+        return float(snapped)
+
+    # Convert Sequence[float] and np.ndarray to np.ndarray and operate in bulk
+    arr = np.asarray(x, dtype=float)
+    snapped = nm * np.round(arr * 1e3 / nm) / 1e3
+    return snapped
+
+
 def snap_to_grid(
     x: float,
     nm: int | None = None,
     grid_factor: int = 1,
-) -> float: ...
+) -> float:
+    """Snap x to grid.
+
+    Args:
+        x: value to snap.
+        nm: Optional grid size in nm. If None, it will use the default grid size from PDK multiplied by grid_factor.
+        grid_factor: snap to grid_factor * grid_size.
+    """
+    grid_size = kf.kcl.dbu
+    nm = nm or round(grid_size * 1000 * grid_factor)
+
+    # Fast path for scalar float or floating-point numpy scalar
+    if isinstance(x, (float, np.floating)):
+        snapped = nm * round(float(x) * 1e3 / nm) / 1e3
+        return float(snapped)
+
+    # Convert Sequence[float] and np.ndarray to np.ndarray and operate in bulk
+    arr = np.asarray(x, dtype=float)
+    snapped = nm * np.round(arr * 1e3 / nm) / 1e3
+    return snapped
+
+
 def snap_to_grid(
     x: float | Sequence[float] | _T,
     nm: int | None = None,
@@ -84,10 +144,16 @@ def snap_to_grid(
     """
     grid_size = kf.kcl.dbu
     nm = nm or round(grid_size * 1000 * grid_factor)
-    res = nm * np.round(np.asarray(x, dtype=float) * 1e3 / nm) / 1e3
-    if isinstance(res, np.floating):
-        return float(res)
-    return cast(_T | float, res)
+
+    # Fast path for scalar float or floating-point numpy scalar
+    if isinstance(x, (float, np.floating)):
+        snapped = nm * round(float(x) * 1e3 / nm) / 1e3
+        return float(snapped)
+
+    # Convert Sequence[float] and np.ndarray to np.ndarray and operate in bulk
+    arr = np.asarray(x, dtype=float)
+    snapped = nm * np.round(arr * 1e3 / nm) / 1e3
+    return snapped
 
 
 @overload
