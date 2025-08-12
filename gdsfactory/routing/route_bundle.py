@@ -14,7 +14,7 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 from functools import partial
-from typing import Literal
+from typing import Literal, cast
 from warnings import warn
 
 import kfactory as kf
@@ -179,34 +179,38 @@ def route_bundle(
         c.plot()
 
     """
-    if layer and cross_section:
-        raise ValueError(
-            f"Cannot have both {layer=} and {cross_section=} provided. Choose one."
-        )
     if cross_section is None:
-        if layer is not None and route_width is not None:
-            cross_section = partial(
-                gf.cross_section.cross_section, layer=layer, width=route_width
-            )
-
-        else:
+        if layer is None or route_width is None:
             raise ValueError(
                 f"Either {cross_section=} or {layer=} and {route_width=} must be provided"
             )
+    elif layer is not None:
+        raise ValueError(
+            f"Cannot have both {layer=} and {cross_section=} provided. Choose one."
+        )
 
     c = component
     ports1_ = list(ports1)
     ports2_ = list(ports2)
     port_type = port_type or ports1_[0].port_type
 
+    if cross_section is None:
+        cross_section = partial(
+            gf.cross_section.cross_section,
+            layer=cast(LayerSpec, layer),
+            width=cast(float, route_width),
+            port_names=("e1", "e2") if port_type == "electrical" else ("o1", "o2"),
+            port_types=(port_type, port_type),
+        )
+
     if len(ports1_) != len(ports2_):
         raise ValueError(
             f"ports1={len(ports1_)} and ports2={len(ports2_)} must be equal"
         )
-    if route_width is None or route_width == 0:
-        xs = gf.get_cross_section(cross_section)
-    else:
+    if route_width:
         xs = gf.get_cross_section(cross_section, width=route_width)
+    else:
+        xs = gf.get_cross_section(cross_section)
     width = route_width or xs.width
 
     radius = radius or xs.radius
