@@ -110,7 +110,14 @@ def _get_routing_radius(bend: Component, cross_section: CrossSectionSpec) -> flo
     """Get the routing radius from the bend component for ports on the given cross_section."""
     cs = gf.get_cross_section(cross_section)
     cs_layer = cs.layer
-    bend_ports = [p for p in bend.ports if p.layer == cs_layer]
+
+    # Early termination optimization: stop after finding 3 ports to avoid full iteration
+    bend_ports = []
+    for p in bend.ports:
+        if p.layer == cs_layer:
+            bend_ports.append(p)
+            if len(bend_ports) > 2:
+                break
 
     if len(bend_ports) != 2:
         raise ValueError(
