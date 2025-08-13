@@ -1169,6 +1169,10 @@ class LayerViews(BaseModel):
                 properties_element, layer_pattern=layer_pattern
             )
             if lv:
+                if re.match(r"C\d+", lv.hatch_pattern):
+                    lv.hatch_pattern = list(dither_patterns.keys())[
+                        int(lv.hatch_pattern[1:])
+                    ]
                 layer_views[lv.name] = lv
 
         return LayerViews(
