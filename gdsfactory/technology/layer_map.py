@@ -15,14 +15,24 @@ def lyp_to_dataclass(
     overwrite: bool = True,
     sort_by_name: bool = True,  # sort_by_name=False means same order as in lyp file
     map_name: str = "LayerMapFab",
-    filepathout: pathlib.Path | None = None,
+    output_filepath: pathlib.Path | str | None = None,
 ) -> str:
     """Returns python LayerMap script from a klayout layer properties file lyp."""
     filepathin = pathlib.Path(lyp_filepath)
-    filepathout = filepathout or filepathin.with_suffix(".py")
+
+    if output_filepath is None:
+        filepathout = filepathin.with_suffix(".py")
+    else:
+        filepathout = pathlib.Path(output_filepath)
+    filepathout.parent.mkdir(parents=True, exist_ok=True)
 
     if filepathout.exists() and not overwrite:
         raise FileExistsError(f"You can delete {filepathout}")
+
+    if not map_name.isidentifier():
+        raise ValueError(
+            f"Argument 'map_name' must be a valid python identifier, but {map_name} is not."
+        )
 
     script = f"""from gdsfactory.typings import Layer
 from gdsfactory.technology.layer_map import LayerMap
