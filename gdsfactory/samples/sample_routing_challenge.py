@@ -5,12 +5,12 @@ if __name__ == "__main__":
     m = c.add_ref(
         gf.components.mzi_phase_shifter(),
         rows=3,
-        row_pitch=200,
+        row_pitch=100,
     )
 
     w = c.add_ref(
         gf.components.straight(length=10),
-        rows=1,
+        rows=6,
         row_pitch=20,
         columns=6,
         column_pitch=20,
@@ -21,8 +21,9 @@ if __name__ == "__main__":
     gf.routing.route_bundle(
         c,
         [m.ports["o1", 0, 0], m.ports["o1", 0, 1], m.ports["o1", 0, 2]],
-        [w.ports["o1", 0, 0], w.ports["o1", 1, 0], w.ports["o1", 2, 0]],
+        [w.ports["o1", 0, 0], w.ports["o1", 0, 1], w.ports["o1", 0, 2]],
         cross_section="strip",
     )
 
-    c.show()
+    lyrdb = c.connectivity_check()
+    c.show(lyrdb=lyrdb)
