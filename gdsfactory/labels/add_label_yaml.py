@@ -11,7 +11,6 @@ import yaml
 import gdsfactory as gf
 from gdsfactory.read.from_yaml import valid_anchor_point_keywords
 from gdsfactory.routing.add_fiber_array import add_fiber_array
-from gdsfactory.serialization import convert_tuples_to_lists
 from gdsfactory.typings import LayerSpec
 
 
@@ -75,7 +74,7 @@ def add_label_yaml(
         xelec=[int(electrical_ports[0].x - xc)] if electrical_ports else [],
         yelec=[int(electrical_ports[0].y - yc)] if electrical_ports else [],
     )
-    text = yaml.dump(convert_tuples_to_lists(d)) if with_yaml_format else json.dumps(d)
+    text = yaml.safe_dump(d) if with_yaml_format else json.dumps(d)
     component.add_label(
         text=text,
         layer=layer,

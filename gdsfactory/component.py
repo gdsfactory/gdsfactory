@@ -38,7 +38,7 @@ from pydantic import Field
 from trimesh.scene.scene import Scene
 
 from gdsfactory.config import CONF, GDSDIR_TEMP
-from gdsfactory.serialization import clean_value_json, convert_tuples_to_lists
+from gdsfactory.serialization import clean_value_json
 from gdsfactory.utils import to_kdb_dpoints
 
 if TYPE_CHECKING:
@@ -418,12 +418,11 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             netlist: netlist to write.
             filepath: Optional file path to write to.
         """
-        netlist_converted = convert_tuples_to_lists(netlist)
-        yaml_string = yaml.dump(netlist_converted)
+        yaml_string = yaml.safe_dump(netlist)
         if filepath:
             filepath = pathlib.Path(filepath)
             filepath.write_text(yaml_string)
-        return str(yaml_string)
+        return yaml_string
 
     def to_dict(self, with_ports: bool = False) -> dict[str, Any]:
         """Returns a dictionary representation of the Component."""
