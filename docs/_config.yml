@@ -34,8 +34,8 @@ html:
   use_issues_button: true
   options:
     logo:
-      light: "_static/logo_black.png"
-      dark: "_static/logo_white.png"
+      light: "_static/logo_white_lettering.png"
+      dark: "_static/logo_black_lettering.png"
 # Information about where the book exists on the web
 repository:
   url: https://github.com/gdsfactory/gdsfactory # Online location of your book
@@ -78,5 +78,5 @@ sphinx:
     #         - fmt: py
     html_theme_options:
       logo:
-        image_light: logo_white.png
-        image_dark: logo_black.png
+        image_light: logo_black_lettering.png
+        image_dark: logo_white_lettering.png
