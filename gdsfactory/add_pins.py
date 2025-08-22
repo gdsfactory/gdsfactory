@@ -25,7 +25,6 @@ from gdsfactory import typings
 from gdsfactory.component import Component, ComponentReference, container
 from gdsfactory.config import CONF
 from gdsfactory.port import select_ports
-from gdsfactory.serialization import convert_tuples_to_lists
 from gdsfactory.typings import InstanceOrVInstance
 
 nm = 1e-3
@@ -471,7 +470,7 @@ def add_settings_label(
     )
     settings_dict = dict(info)
     settings_string = (
-        yaml.dump(convert_tuples_to_lists(settings_dict))
+        yaml.safe_dump(settings_dict)
         if with_yaml_format
         else f"settings={json.dumps(settings_dict)}"
     )

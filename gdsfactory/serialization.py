@@ -22,16 +22,6 @@ DEFAULT_SERIALIZATION_MAX_DIGITS = 3
 """By default, the maximum number of digits retained when serializing float-like arrays"""
 
 
-def convert_tuples_to_lists(
-    data: dict[str, Any] | list[Any] | tuple[Any, ...] | Any,
-) -> dict[str, Any] | list[Any] | Any:
-    if isinstance(data, dict):
-        return {key: convert_tuples_to_lists(value) for key, value in data.items()}
-    elif isinstance(data, list | tuple):
-        return [convert_tuples_to_lists(item) for item in data]
-    return data
-
-
 def get_string(value: Any) -> str:
     try:
         s = orjson.dumps(

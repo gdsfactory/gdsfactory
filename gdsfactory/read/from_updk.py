@@ -12,7 +12,7 @@ from typing import TYPE_CHECKING
 
 import yaml
 
-from gdsfactory.serialization import clean_value_name, convert_tuples_to_lists
+from gdsfactory.serialization import clean_value_name
 
 if TYPE_CHECKING:
     from gdsfactory.typings import LayerSpec, PathType
@@ -240,8 +240,7 @@ def {block_name}({parameters_string})->gf.Component:
             if layer_pin_label:
                 d = port
                 d["name"] = port_name
-                d = convert_tuples_to_lists(d)
-                text = yaml.dump(d)
+                text = yaml.safe_dump(d)
                 script += f"    c.add_label(text={text!r}, position=({xya[0]}, {xya[1]}), layer=layer_pin_label)\n"
         if layer_text:
             script += "    text = c << text_function(text=name)\n"
