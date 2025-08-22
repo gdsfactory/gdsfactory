@@ -452,7 +452,7 @@ def difftest(
     dirpath_ref.mkdir(exist_ok=True, parents=True)
     dirpath_run.mkdir(exist_ok=True, parents=True)
 
-    filename = get_name_short(clean_name(test_name), max_cellname_length=32)
+    filename = get_name_short(clean_name(test_name))
 
     ref_file = dirpath_ref / f"{filename}.gds"
     run_file = dirpath_run / f"{filename}.gds"
