@@ -9,7 +9,7 @@ import tempfile
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
-from kfactory.conf import Settings, config, get_affinity
+from kfactory.conf import Settings, get_affinity
 from pydantic import Field
 from rich.console import Console
 from rich.table import Table
@@ -138,7 +138,7 @@ class Config(Settings):
     )
 
 
-CONF: Config = config  # type: ignore[assignment]
+CONF = Config()
 
 
 class Paths:
