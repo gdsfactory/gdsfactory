@@ -147,6 +147,19 @@ class Config(Settings):
                 kwargs[key] = kfactory_dict[key]
         super().__init__(**kwargs)
 
+    def __setattr__(self, name: str, value: Any) -> None:
+        """Set attribute and sync to kfactory config if it's a shared setting."""
+        super().__setattr__(name, value)
+        # Sync to kfactory config if this is a shared attribute
+        if hasattr(kfactory_config, name):
+            setattr(kfactory_config, name, value)
+
+    def sync_to_kfactory(self) -> None:
+        """Explicitly sync all shared settings to kfactory config."""
+        for key in self.model_fields:
+            if hasattr(kfactory_config, key):
+                setattr(kfactory_config, key, getattr(self, key))
+
 
 CONF = Config()
 
