@@ -118,7 +118,7 @@ def route_bundle(
     end_angles: float | list[float] | None = None,
     router: Literal["optical", "electrical"] | None = None,
     layer_transitions: LayerTransitions | None = None,
-    layer_marker: LayerSpecs | None = None,
+    layer_marker: LayerSpec | None = None,
 ) -> list[ManhattanRoute]:
     """Places a bundle of routes to connect two groups of ports.
 
