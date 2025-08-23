@@ -57,7 +57,9 @@ sphinx:
     - "matplotlib.sphinxext.plot_directive"
     # - "sphinxcontrib.autodoc_pydantic"
   config:
-    #autodoc_typehints: description
+    autodoc_typehints: description
+    autodoc_typehints_format: short
+    python_use_unqualified_type_names: True
     autodoc_type_aliases:
       "ComponentFactory": "ComponentFactory"
       "ComponentSpec": "ComponentSpec"
@@ -68,6 +70,17 @@ sphinx:
       "Layer": "Layer"
       "Layers": "Layers"
       "PathType": "PathType"
+      "gdsfactory.typings.ComponentFactory": "ComponentFactory"
+      "gdsfactory.typings.ComponentSpec": "ComponentSpec"
+      "gdsfactory.typings.CrossSectionFactory": "CrossSectionFactory"
+      "gdsfactory.typings.CrossSectionSpec": "CrossSectionSpec"
+      "gdsfactory.typings.LayerSpec": "LayerSpec"
+      "gdsfactory.typings.LayerSpecs": "LayerSpecs"
+      "gdsfactory.typings.Layer": "Layer"
+      "gdsfactory.typings.Layers": "Layers"
+      "gdsfactory.typings.PathType": "PathType"
+      "CrossSection | str | dict[str, Any] | Callable[[...], CrossSection] | SymmetricalCrossSection | DCrossSection": "CrossSectionSpec"
+      "Component | ComponentAllAngle | str | dict[str, Any] | Callable[[...], Component]": "ComponentSpec"
     nb_execution_show_tb: True
     html_js_files:
       - https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js
