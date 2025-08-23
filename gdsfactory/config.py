@@ -10,6 +10,7 @@ from enum import Enum, auto
 from typing import TYPE_CHECKING
 
 from kfactory.conf import Settings, config, get_affinity
+from pydantic import Field
 from rich.console import Console
 from rich.table import Table
 
@@ -103,42 +104,41 @@ def print_version_plugins_raw() -> None:
 
 
 class Config(Settings):
-    difftest_ignore_label_differences: bool
-    difftest_ignore_sliver_differences: bool
-    difftest_ignore_cell_name_differences: bool
-    bend_radius_error_type: ErrorType
-    layer_error_path: tuple[int, int]
-    pdk: str
-    layer_label: tuple[int, int]
-    port_types: list[str]
-    port_types_grating_couplers: list[str]
+    difftest_ignore_label_differences: bool = False
+    difftest_ignore_sliver_differences: bool = False
+    difftest_ignore_cell_name_differences: bool = True
+    bend_radius_error_type: ErrorType = ErrorType.ERROR
+    layer_error_path: tuple[int, int] = (1000, 0)
+    connect_use_mirror: bool = False
+    max_cellname_length: int = 32
+    cell_layout_cache: bool = True
+    pdk: str = "generic"
+    layer_label: tuple[int, int] = (100, 0)
+    port_types: list[str] = Field(
+        default_factory=lambda: [
+            "optical",  # optical ports
+            "electrical",  # electrical ports
+            "placement",  # placement ports (excluded in netlist extraction)
+            "vertical_te",  # for grating couplers with TE polarization
+            "vertical_tm",  # for grating couplers with TM polarization
+            "vertical_dual",  # for grating couplers with TE and TM polarization
+            "electrical_rf",  # electrical ports for RF (high frequency)
+            "pad",  # for DC pads
+            "pad_rf",  # for RF pads
+            "bump",  # for bumps
+            "edge_coupler",  # for edge couplers
+        ]
+    )
+    port_types_grating_couplers: list[str] = Field(
+        default_factory=lambda: [
+            "vertical_te",
+            "vertical_tm",
+            "vertical_dual",
+        ]
+    )
 
 
 CONF: Config = config  # type: ignore[assignment]
-CONF.difftest_ignore_label_differences = False
-CONF.difftest_ignore_sliver_differences = False
-CONF.difftest_ignore_cell_name_differences = True
-CONF.bend_radius_error_type = ErrorType.ERROR
-CONF.layer_error_path = (1000, 0)
-CONF.connect_use_mirror = False
-CONF.max_cellname_length = 32
-CONF.cell_layout_cache = True
-CONF.pdk = "generic"
-CONF.layer_label = (100, 0)
-CONF.port_types = [
-    "optical",  # optical ports
-    "electrical",  # electrical ports
-    "placement",  # placement ports (excluded in netlist extraction)
-    "vertical_te",  # for grating couplers with TE polarization
-    "vertical_tm",  # for grating couplers with TM polarization
-    "vertical_dual",  # for grating couplers with TE and TM polarization
-    "electrical_rf",  # electrical ports for RF (high frequency)
-    "pad",  # for DC pads
-    "pad_rf",  # for RF pads
-    "bump",  # for bumps
-    "edge_coupler",  # for edge couplers
-]
-CONF.port_types_grating_couplers = ["vertical_te", "vertical_tm", "vertical_dual"]
 
 
 class Paths:
