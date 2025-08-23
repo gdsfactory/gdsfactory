@@ -17,11 +17,7 @@ RUN apt-get update --yes && \
         make \
         neovim \
         python3-gmsh \
-        software-properties-common \
         gnupg && \
-    # apt-add-repository ppa:elmer-csc-ubuntu/elmer-csc-ppa && \
-    # apt-get update --yes && \
-    # apt-get install --yes elmerfem-csc && \
     rm -rf /var/lib/apt/lists/*
 
 USER ${USER}

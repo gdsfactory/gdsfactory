@@ -314,7 +314,7 @@ def route_bundle(
             kf.kdb.DPoint(p[0], p[1])  # type: ignore[index]
             for p in waypoints
         ]
-        if layer_marker:
+        if layer_marker and waypoints_ is not None:
             for p in waypoints_:
                 marker = component << gf.components.rectangle(
                     size=(10, 10), layer=layer_marker, centered=True
@@ -413,7 +413,7 @@ def route_bundle(
             place_layer=layer_,
         )
 
-        if waypoints:
+        if waypoints and waypoints_ is not None:
             layer_marker = gf.CONF.layer_error_path
             for p in waypoints_:
                 marker = component << gf.components.rectangle(
@@ -551,7 +551,7 @@ if __name__ == "__main__":
         [c2.ports["o1"]],
         # waypoints=[(200, 40), (200, 50)],
         # steps=[dict(dx=50, dy=100)],
-        steps=[dict(dx=50, dy=100), dict(dy=150)],
+        steps=[dict(dx=50, dy=100), dict(dy=150, dx=50)],
         separation=5,
         cross_section="rib",
         # auto_taper=True,
