@@ -1,12 +1,24 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.12.2...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.12.3...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.12.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.12.3) - 2025-08-23
 
-No significant changes.
-
+- Undoing hardcoded max_cellname_length=32 (pull from CONF) [#4115](https://github.com/gdsfactory/gdsfactory/pull/4115)
+- Fix LayerViews.from_lyp() for custom hatch patterns [#4103](https://github.com/gdsfactory/gdsfactory/pull/4103)
+- add routing error traces [#4117](https://github.com/gdsfactory/gdsfactory/pull/4117)
+- add routing challenge [#4106](https://github.com/gdsfactory/gdsfactory/pull/4106)
+- Remove convert_tuples_to_lists in favor of yaml.safe_dump [#4108](https://github.com/gdsfactory/gdsfactory/pull/4108)
+- Extend optional parameters for lyp_to_dataclass [#4104](https://github.com/gdsfactory/gdsfactory/pull/4104)
+- Inferring port type for the cross section in route functions [#4090](https://github.com/gdsfactory/gdsfactory/pull/4090)
+- Fix check_layer() validator in LayerLevel to avoid circular dependency [#4100](https://github.com/gdsfactory/gdsfactory/pull/4100)
+- add more tests [#4094](https://github.com/gdsfactory/gdsfactory/pull/4094)
+- Using TypedDict instead of dataclass for Step [#4089](https://github.com/gdsfactory/gdsfactory/pull/4089)
+- better docs type hints [#4116](https://github.com/gdsfactory/gdsfactory/pull/4116)
+- Update logo to remove space for consistency [#4113](https://github.com/gdsfactory/gdsfactory/pull/4113)
+- update kfactory to 1.12.3 [#4092](https://github.com/gdsfactory/gdsfactory/pull/4092)
+- bump kf to resolve the port layer problems [#4095](https://github.com/gdsfactory/gdsfactory/pull/4095)
 
 ## [9.12.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.12.2) - 2025-08-07
 
