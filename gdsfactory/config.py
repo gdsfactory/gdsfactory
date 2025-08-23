@@ -7,9 +7,10 @@ import pathlib
 import sys
 import tempfile
 from enum import Enum, auto
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from kfactory.conf import Settings, get_affinity
+from kfactory.conf import config as kfactory_config
 from pydantic import Field
 from rich.console import Console
 from rich.table import Table
@@ -136,6 +137,15 @@ class Config(Settings):
             "vertical_dual",
         ]
     )
+
+    def __init__(self, **kwargs: Any) -> None:
+        """Initialize Config with kfactory config values as defaults."""
+        kfactory_dict = kfactory_config.model_dump()
+        # Only use kfactory values that are defined in Settings base class
+        for key in kfactory_dict:
+            if hasattr(Settings, key) and key not in kwargs:
+                kwargs[key] = kfactory_dict[key]
+        super().__init__(**kwargs)
 
 
 CONF = Config()
