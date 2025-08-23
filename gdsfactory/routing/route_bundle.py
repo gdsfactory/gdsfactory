@@ -118,6 +118,7 @@ def route_bundle(
     end_angles: float | list[float] | None = None,
     router: Literal["optical", "electrical"] | None = None,
     layer_transitions: LayerTransitions | None = None,
+    layer_marker: LayerSpec | None = None,
 ) -> list[ManhattanRoute]:
     """Places a bundle of routes to connect two groups of ports.
 
@@ -154,6 +155,7 @@ def route_bundle(
         router: Set the type of router to use, either the optical one or the electrical one.
             If None, the router is optical unless the port_type is "electrical".
         layer_transitions: dictionary of layer transitions to use for the routing when auto_taper=True.
+        layer_marker: layers to place markers on the route.
 
     .. plot::
         :include-source:
@@ -302,11 +304,22 @@ def route_bundle(
             x = d.get("x", x) + d.get("dx", 0)
             y = d.get("y", y) + d.get("dy", 0)
             waypoints += [(x, y)]  # type: ignore[arg-type]
+            if layer_marker:
+                marker = component << gf.components.rectangle(
+                    size=(10, 10), layer=layer_marker, centered=True
+                )
+                marker.center = (x, y)
     if waypoints is not None and not isinstance(waypoints[0], kf.kdb.DPoint):
         waypoints_: list[kf.kdb.DPoint] | None = [
             kf.kdb.DPoint(p[0], p[1])  # type: ignore[index]
             for p in waypoints
         ]
+        if layer_marker and waypoints_ is not None:
+            for p in waypoints_:
+                marker = component << gf.components.rectangle(
+                    size=(10, 10), layer=layer_marker, centered=True
+                )
+                marker.center = (p.x, p.y)
     else:
         waypoints_ = waypoints  # type: ignore[assignment]
 
@@ -354,32 +367,61 @@ def route_bundle(
             straight, length=length, cross_section=cross_section, width=width
         )
 
-    return kf.routing.optical.route_bundle(
-        component,
-        ports1_,
-        ports2_,
-        separation=separation,
-        straight_factory=straight_um,
-        bend90_cell=bend90,
-        taper_cell=taper_cell,
-        starts=start_straight_length,
-        ends=end_straight_length,
-        min_straight_taper=min_straight_taper,
-        place_port_type=port_type,
-        collision_check_layers=[
-            c.kcl.layout.get_info(layer) for layer in collision_check_layer_enums
-        ]
-        if collision_check_layer_enums
-        else None,
-        on_collision=on_collision,
-        allow_width_mismatch=allow_width_mismatch,
-        bboxes=list(bboxes or []),
-        route_width=width,
-        sort_ports=sort_ports,
-        waypoints=waypoints_,
-        end_angles=end_angles,
-        start_angles=start_angles,
-    )
+    try:
+        route = kf.routing.optical.route_bundle(
+            component,
+            ports1_,
+            ports2_,
+            separation=separation,
+            straight_factory=straight_um,
+            bend90_cell=bend90,
+            taper_cell=taper_cell,
+            starts=start_straight_length,
+            ends=end_straight_length,
+            min_straight_taper=min_straight_taper,
+            place_port_type=port_type,
+            collision_check_layers=[
+                c.kcl.layout.get_info(layer) for layer in collision_check_layer_enums
+            ]
+            if collision_check_layer_enums
+            else None,
+            on_collision=on_collision,
+            allow_width_mismatch=allow_width_mismatch,
+            bboxes=list(bboxes or []),
+            route_width=width,
+            sort_ports=sort_ports,
+            waypoints=waypoints_,
+            end_angles=end_angles,
+            start_angles=start_angles,
+        )
+    except Exception as e:
+        gf.logger.error(f"Error in route_bundle: {e}")
+        layer_ = gf.get_layer_info(gf.CONF.layer_error_path)
+        route = kf.routing.electrical.route_bundle(
+            component,
+            ports1_,
+            ports2_,
+            separation=separation,
+            starts=start_straight_length,
+            ends=end_straight_length,
+            on_collision=on_collision,
+            bboxes=bboxes,
+            route_width=width,
+            sort_ports=sort_ports,
+            end_angles=end_angles,
+            start_angles=start_angles,
+            place_layer=layer_,
+        )
+
+        if waypoints and waypoints_ is not None:
+            layer_marker = gf.CONF.layer_error_path
+            for p in waypoints_:
+                marker = component << gf.components.rectangle(
+                    size=(10, 10), layer=layer_marker, centered=True
+                )
+                marker.center = (p.x, p.y)
+
+    return route
 
 
 route_bundle_electrical = partial(
@@ -429,24 +471,24 @@ if __name__ == "__main__":
     # c.show()
     # pbot.ports.print()
 
-    c = gf.Component(name="demo")
-    c1 = c << gf.components.mmi2x2()
-    c2 = c << gf.components.mmi2x2()
-    c2.move((100, 70))
-    routes = route_bundle(
-        c,
-        [c1.ports["o2"], c1.ports["o1"]],
-        [c2.ports["o2"], c2.ports["o1"]],
-        separation=5,
-        cross_section="strip",
-        sort_ports=True,
-        # end_straight_length=0,
-        # collision_check_layers=[(1, 0)],
-        # bboxes=[c1.bbox(), c2.bbox()],
-        # layer=(2, 0),
-        # straight=partial(gf.components.straight, layer=(2, 0), width=1),
-    )
-    c.show()
+    # c = gf.Component(name="demo")
+    # c1 = c << gf.components.mmi2x2()
+    # c2 = c << gf.components.mmi2x2()
+    # c2.move((100, 70))
+    # routes = route_bundle(
+    #     c,
+    #     [c1.ports["o2"], c1.ports["o1"]],
+    #     [c2.ports["o2"], c2.ports["o1"]],
+    #     separation=5,
+    #     cross_section="strip",
+    #     sort_ports=True,
+    #     # end_straight_length=0,
+    #     # collision_check_layers=[(1, 0)],
+    #     # bboxes=[c1.bbox(), c2.bbox()],
+    #     # layer=(2, 0),
+    #     # straight=partial(gf.components.straight, layer=(2, 0), width=1),
+    # )
+    # c.show()
 
     # dy = 200.0
     # xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
@@ -509,7 +551,7 @@ if __name__ == "__main__":
         [c2.ports["o1"]],
         # waypoints=[(200, 40), (200, 50)],
         # steps=[dict(dx=50, dy=100)],
-        # steps=[dict(dx=50, dy=100), dict(dy=100)],
+        steps=[dict(dx=50, dy=100), dict(dy=150, dx=50)],
         separation=5,
         cross_section="rib",
         # auto_taper=True,
@@ -517,6 +559,7 @@ if __name__ == "__main__":
             gf.c.taper, cross_section="rib", length=10, width1=2, width2=1
         ),
         route_width=1,
+        layer_marker="M1",
         # auto_taper=False,
         # taper=gf.c.taper_sc_nc,
         # taper=gf.c.taper,
