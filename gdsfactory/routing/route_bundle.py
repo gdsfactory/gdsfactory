@@ -119,6 +119,7 @@ def route_bundle(
     router: Literal["optical", "electrical"] | None = None,
     layer_transitions: LayerTransitions | None = None,
     layer_marker: LayerSpec | None = None,
+    raise_on_error: bool = False,
 ) -> list[ManhattanRoute]:
     """Places a bundle of routes to connect two groups of ports.
 
@@ -156,6 +157,7 @@ def route_bundle(
             If None, the router is optical unless the port_type is "electrical".
         layer_transitions: dictionary of layer transitions to use for the routing when auto_taper=True.
         layer_marker: layers to place markers on the route.
+        raise_on_error: if True, raises an exception on routing error instead of adding error markers.
 
     .. plot::
         :include-source:
@@ -332,27 +334,59 @@ def route_bundle(
             )
         else:
             layer_ = None
-        return kf.routing.electrical.route_bundle(
-            component,
-            ports1_,
-            ports2_,
-            separation=separation,
-            starts=start_straight_length,
-            ends=end_straight_length,
-            collision_check_layers=[
-                c.kcl.layout.get_info(layer) for layer in collision_check_layer_enums
-            ]
-            if collision_check_layer_enums is not None
-            else None,
-            on_collision=on_collision,
-            bboxes=bboxes,
-            route_width=width,
-            sort_ports=sort_ports,
-            waypoints=waypoints_,
-            end_angles=end_angles,
-            start_angles=start_angles,
-            place_layer=layer_,
-        )
+        try:
+            route = kf.routing.electrical.route_bundle(
+                component,
+                ports1_,
+                ports2_,
+                separation=separation,
+                starts=start_straight_length,
+                ends=end_straight_length,
+                collision_check_layers=[
+                    c.kcl.layout.get_info(layer)
+                    for layer in collision_check_layer_enums
+                ]
+                if collision_check_layer_enums is not None
+                else None,
+                on_collision=on_collision,
+                bboxes=bboxes,
+                route_width=width,
+                sort_ports=sort_ports,
+                waypoints=waypoints_,
+                end_angles=end_angles,
+                start_angles=start_angles,
+                place_layer=layer_,
+            )
+        except Exception as e:
+            if raise_on_error:
+                raise e
+            gf.logger.error(f"Error in route_bundle: {e}")
+            layer_error_path = gf.get_layer_info(gf.CONF.layer_error_path)
+            route = kf.routing.electrical.route_bundle(
+                component,
+                ports1_,
+                ports2_,
+                separation=separation,
+                starts=start_straight_length,
+                ends=end_straight_length,
+                on_collision=on_collision,
+                bboxes=bboxes,
+                route_width=width,
+                sort_ports=sort_ports,
+                end_angles=end_angles,
+                start_angles=start_angles,
+                place_layer=layer_error_path,
+            )
+
+            if waypoints and waypoints_ is not None:
+                layer_marker = gf.CONF.layer_error_path
+                for p in waypoints_:
+                    marker = component << gf.components.rectangle(
+                        size=(10, 10), layer=layer_marker, centered=True
+                    )
+                    marker.center = (p.x, p.y)
+
+        return route
 
     bend90 = (
         bend
@@ -395,8 +429,10 @@ def route_bundle(
             start_angles=start_angles,
         )
     except Exception as e:
+        if raise_on_error:
+            raise e
         gf.logger.error(f"Error in route_bundle: {e}")
-        layer_ = gf.get_layer_info(gf.CONF.layer_error_path)
+        layer_error_path = gf.get_layer_info(gf.CONF.layer_error_path)
         route = kf.routing.electrical.route_bundle(
             component,
             ports1_,
@@ -410,7 +446,7 @@ def route_bundle(
             sort_ports=sort_ports,
             end_angles=end_angles,
             start_angles=start_angles,
-            place_layer=layer_,
+            place_layer=layer_error_path,
         )
 
         if waypoints and waypoints_ is not None:
