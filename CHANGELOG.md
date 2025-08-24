@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.12.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.12.4) - 2025-08-24
+
+No significant changes.
+
+
 ## [9.12.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.12.3) - 2025-08-23
 
 - Undoing hardcoded max_cellname_length=32 (pull from CONF) [#4115](https://github.com/gdsfactory/gdsfactory/pull/4115)
