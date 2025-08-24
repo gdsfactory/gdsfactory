@@ -118,10 +118,11 @@ class Path(UMGeometricObject):
                 and (np.shape(path)[1] == 2)
             ):
                 self.points = np.array(path, dtype=np.float64)
-                nx1, ny1 = self.points[1] - self.points[0]
-                self.start_angle = np.arctan2(ny1, nx1) / np.pi * 180
-                nx2, ny2 = self.points[-1] - self.points[-2]
-                self.end_angle = np.arctan2(ny2, nx2) / np.pi * 180
+                if len(self.points) > 1:
+                    nx1, ny1 = self.points[1] - self.points[0]
+                    self.start_angle = np.arctan2(ny1, nx1) / np.pi * 180
+                    nx2, ny2 = self.points[-1] - self.points[-2]
+                    self.end_angle = np.arctan2(ny2, nx2) / np.pi * 180
             elif np.asarray(path, dtype=object).size > 1:
                 self.append(path)
             else:
@@ -190,10 +191,11 @@ class Path(UMGeometricObject):
             new_points[:, 1] = -new_points[:, 1]
 
         self.points = new_points
-        nx1, ny1 = self.points[1] - self.points[0]
-        self.start_angle = np.arctan2(ny1, nx1) / np.pi * 180
-        nx2, ny2 = self.points[-1] - self.points[-2]
-        self.end_angle = np.arctan2(ny2, nx2) / np.pi * 180
+        if len(self.points) > 1:
+            nx1, ny1 = self.points[1] - self.points[0]
+            self.start_angle = np.arctan2(ny1, nx1) / np.pi * 180
+            nx2, ny2 = self.points[-1] - self.points[-2]
+            self.end_angle = np.arctan2(ny2, nx2) / np.pi * 180
 
     def dbbox(self, layer: int | None = None) -> kdb.DBox:
         return kdb.DBox(*self.bbox_np().flatten())
@@ -239,10 +241,12 @@ class Path(UMGeometricObject):
             and (np.shape(path)[1] == 2)  # type: ignore[arg-type]
         ):
             points = np.asarray(path, dtype=np.float64)
-            nx1, ny1 = points[1] - points[0]
-            start_angle = np.arctan2(ny1, nx1) / np.pi * 180
-            nx2, ny2 = points[-1] - points[-2]
-            end_angle = np.arctan2(ny2, nx2) / np.pi * 180
+            start_angle, end_angle = 0, 0
+            if len(points) > 1:
+                nx1, ny1 = points[1] - points[0]
+                start_angle = np.arctan2(ny1, nx1) / np.pi * 180
+                nx2, ny2 = points[-1] - points[-2]
+                end_angle = np.arctan2(ny2, nx2) / np.pi * 180
         elif isinstance(path, list):
             for p in path:
                 self.append(p)  # type: ignore[arg-type]
