@@ -1,12 +1,11 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.12.3...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.12.4...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.12.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.12.4) - 2025-08-24
 
-No significant changes.
-
+- in route_bundle add raise_on_error flag and expand to electrical [#4119](https://github.com/gdsfactory/gdsfactory/pull/4119)
 
 ## [9.12.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.12.3) - 2025-08-23
 
