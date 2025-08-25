@@ -467,8 +467,12 @@ class CrossSectionCallable(Protocol[P]):
     def __call__(self, *args: P.args, **kwargs: P.kwargs) -> CrossSection: ...
 
 
-def xsection(func: CrossSectionCallable[P]) -> CrossSectionCallable[P]:
-    """Decorator to register a cross section function.
+def xsection(
+    func: CrossSectionCallable[P],
+    xs_container: dict[str, CrossSectionFactory] = cross_sections,
+    xs_default_mapping: dict[str, str] = _cross_section_default_names,
+) -> CrossSectionCallable[P]:
+    """Decorator to register a cross-section function.
 
     Ensures that the cross-section name matches the name of the function that generated it when created using default parameters
 
@@ -479,16 +483,16 @@ def xsection(func: CrossSectionCallable[P]) -> CrossSectionCallable[P]:
             return gf.cross_section.cross_section(width=width, radius=radius)
     """
     default_xs = func()  # type: ignore[call-arg]
-    _cross_section_default_names[default_xs.name] = func.__name__
+    xs_default_mapping[default_xs.name] = func.__name__
 
     @wraps(func)
     def newfunc(*args: P.args, **kwargs: P.kwargs) -> CrossSection:
         xs = func(*args, **kwargs)
-        if xs.name in _cross_section_default_names:
-            xs._name = _cross_section_default_names[xs.name]
+        if xs.name in xs_default_mapping:
+            xs._name = xs_default_mapping[xs.name]
         return xs
 
-    cross_sections[func.__name__] = newfunc
+    xs_container[func.__name__] = newfunc
     return newfunc
 
 

@@ -213,11 +213,9 @@ class Pdk(BaseModel):
             def xs_sc(width=TECH.width_sc, radius=TECH.radius_sc):
                 return gf.cross_section.cross_section(width=width, radius=radius)
         """
-        decorated_func = cross_section_xsection(func)
-
-        self.cross_sections[func.__name__] = decorated_func
-
-        return decorated_func
+        return cross_section_xsection(
+            func, self.cross_sections, self.cross_section_default_names
+        )
 
     def activate(self, force: bool = False) -> None:
         """Set current pdk to the active pdk (if not already active)."""
@@ -462,8 +460,11 @@ class Pdk(BaseModel):
             if cross_section not in self.cross_sections:
                 cross_sections = list(self.cross_sections.keys())
                 raise ValueError(f"{cross_section!r} not in {cross_sections}")
-            xs = self.cross_sections[cross_section]
-            return xs(**kwargs)
+            xs_func = self.cross_sections[cross_section]
+            xs = xs_func(**kwargs)
+            if xs.name in self.cross_section_default_names:
+                xs._name = self.cross_section_default_names[xs.name]
+            return xs
         elif isinstance(cross_section, dict):
             xs_name = cross_section.get("cross_section", None)
             if xs_name is None:
