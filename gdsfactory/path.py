@@ -1464,7 +1464,7 @@ def arc(
         )
 
     if angular_step is not None:
-        npoints = abs(int(angle / angular_step)) + 1
+        npoints = math.ceil(abs(angle / angular_step)) + 1
     else:
         npoints = npoints or int(
             abs(angle) / 360 * radius / PDK.bend_points_distance / 2
@@ -1620,7 +1620,7 @@ def euler(
 
     pdk = get_active_pdk()
     if angular_step is not None:
-        npoints = abs(int(angle / angular_step)) + 1
+        npoints = math.ceil(abs(angle / angular_step)) + 1
         # For angular discretization, distribute points based on angle proportion
         euler_angle = p * angle / 2  # Angle covered by each Euler section
         arc_angle = (1 - p) * angle  # Angle covered by arc section
