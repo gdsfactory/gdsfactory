@@ -1478,12 +1478,12 @@ def arc(
     y = radius * (np.sin(t) + 1)
     points = np.array((x, y)).T * np.sign(angle)
 
-    P = Path()
+    path = Path()
     # Manually add points & adjust start and end angles
-    P.points = points
-    P.start_angle = start_angle + 90
-    P.end_angle = start_angle + angle + 90
-    return P
+    path.points = points
+    path.start_angle = start_angle + 90
+    path.end_angle = start_angle + angle + 90
+    return path
 
 
 def _fresnel(
