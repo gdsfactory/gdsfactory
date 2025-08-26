@@ -1474,7 +1474,7 @@ def arc(
 
 def _fresnel(
     R0: float, s: float, num_pts: int, n_iter: int = 8
-) -> tuple[npt.NDArray[np.floating[Any]], npt.NDArray[np.floating[Any]]]:
+) -> npt.NDArray[np.floating]:
     """Fresnel integral using a series expansion.
 
     Args:
@@ -1482,21 +1482,28 @@ def _fresnel(
         s: Length of the curve.
         num_pts: Number of points to generate.
         n_iter: Number of iterations to use in the series expansion.
+
+    Returns:
+        Array of shape (2, num_pts): [x; y]
     """
     t = np.linspace(0, s / float(np.sqrt(2) * R0), num_pts)
-    x = np.zeros(num_pts)
-    y = np.zeros(num_pts)
 
-    for n in range(n_iter):
-        x += (-1) ** n * t ** (4 * n + 1) / (math.factorial(2 * n) * (4 * n + 1))
-        y += (-1) ** n * t ** (4 * n + 3) / (math.factorial(2 * n + 1) * (4 * n + 3))
+    n = np.arange(n_iter)
+    exp = np.array([4 * n + 1, 4 * n + 3])
 
-    return np.sqrt(2) * R0 * x, np.sqrt(2) * R0 * y
+    den = np.empty(shape=(2, n_iter))
+    den[0] = [math.factorial(2 * i) * (4 * i + 1) for i in n]
+    den[1] = [math.factorial(2 * i + 1) * (4 * i + 3) for i in n]
+    den *= (-1.0) ** n
+
+    series = (t ** exp[..., None] / den[..., None]).sum(axis=1)
+
+    return (np.sqrt(2) * R0 * series).astype(np.float64)
 
 
 def _fresnel_angular(
     R0: float, s: float, num_pts: int, n_iter: int = 8
-) -> tuple[npt.NDArray[np.floating[Any]], npt.NDArray[np.floating[Any]]]:
+) -> npt.NDArray[np.floating]:
     """Fresnel integral with uniform angular sampling.
 
     Args:
@@ -1504,6 +1511,9 @@ def _fresnel_angular(
         s: Length of the curve.
         num_pts: Number of points to generate.
         n_iter: Number of iterations to use in the series expansion.
+
+    Returns:
+        Array of shape (2, num_pts): [x; y]
     """
     # For Fresnel spiral, the angle theta = t^2/2
     # So t = sqrt(2*theta), where theta is in radians
@@ -1514,14 +1524,17 @@ def _fresnel_angular(
     thetas = np.linspace(0, theta_max, num_pts)
     t = np.sqrt(2 * thetas)
 
-    x = np.zeros(num_pts)
-    y = np.zeros(num_pts)
+    n = np.arange(n_iter)
+    exp = np.array([4 * n + 1, 4 * n + 3])
 
-    for n in range(n_iter):
-        x += (-1) ** n * t ** (4 * n + 1) / (math.factorial(2 * n) * (4 * n + 1))
-        y += (-1) ** n * t ** (4 * n + 3) / (math.factorial(2 * n + 1) * (4 * n + 3))
+    den = np.empty(shape=(2, n_iter))
+    den[0] = [math.factorial(2 * i) * (4 * i + 1) for i in n]
+    den[1] = [math.factorial(2 * i + 1) * (4 * i + 3) for i in n]
+    den *= (-1.0) ** n
 
-    return np.sqrt(2) * R0 * x, np.sqrt(2) * R0 * y
+    series = (t ** exp[..., None] / den[..., None]).sum(axis=1)
+
+    return cast(npt.NDArray[np.floating], np.sqrt(2) * R0 * series)
 
 
 def euler(
