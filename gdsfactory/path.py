@@ -1429,6 +1429,7 @@ def arc(
     angle: float = 90,
     npoints: int | None = None,
     start_angle: float = -90,
+    angular_step: float | None = None,
 ) -> Path:
     """Returns a radial arc.
 
@@ -1437,6 +1438,8 @@ def arc(
         angle: total angle of the curve.
         npoints: Number of points used per 360 degrees. Defaults to pdk.bend_points_distance.
         start_angle: initial angle of the curve for drawing, default -90 degrees.
+        angular_step: If provided, determines the angular step (in degrees) between points. \
+                This overrides npoints calculation.
 
     .. plot::
         :include-source:
@@ -1454,8 +1457,19 @@ def arc(
     if not radius:
         raise ValueError("arc() requires a radius argument")
 
-    npoints = npoints or int(abs(angle) / 360 * radius / PDK.bend_points_distance / 2)
-    npoints = max(int(npoints), int(360 / abs(angle)) + 1)
+    if npoints is not None and angular_step is not None:
+        raise ValueError(
+            "arc() requires either npoints or angular_step, not both. "
+            "Use angular_step for angular discretization."
+        )
+
+    if angular_step is not None:
+        npoints = abs(int(angle / angular_step)) + 1
+    else:
+        npoints = npoints or int(
+            abs(angle) / 360 * radius / PDK.bend_points_distance / 2
+        )
+        npoints = max(int(npoints), int(360 / abs(angle)) + 1)
 
     t = np.linspace(
         start_angle * np.pi / 180, (angle + start_angle) * np.pi / 180, npoints
@@ -1587,9 +1601,7 @@ def euler(
     if (p < 0) or (p > 1):
         raise ValueError(f"euler requires argument `p` be between 0 and 1. Got {p}")
     if p == 0:
-        if angular_step is not None:
-            npoints = abs(int(angle / angular_step)) + 1
-        path = arc(radius=radius, angle=angle, npoints=npoints)
+        path = arc(radius, angle, npoints=npoints, angular_step=angular_step)
         path.info["Reff"] = radius
         path.info["Rmin"] = radius
         return path

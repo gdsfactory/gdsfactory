@@ -21,6 +21,7 @@ def _bend_circular(
     cross_section: CrossSectionSpec = "strip",
     allow_min_radius_violation: bool = False,
     all_angle: Literal[False] = False,
+    angular_step: float | None = None,
 ) -> Component: ...
 
 
@@ -34,6 +35,7 @@ def _bend_circular(
     cross_section: CrossSectionSpec = "strip",
     allow_min_radius_violation: bool = False,
     all_angle: Literal[True] = True,
+    angular_step: float | None = None,
 ) -> ComponentAllAngle: ...
 
 
@@ -46,6 +48,7 @@ def _bend_circular(
     cross_section: CrossSectionSpec = "strip",
     allow_min_radius_violation: bool = False,
     all_angle: bool = False,
+    angular_step: float | None = None,
 ) -> Component | ComponentAllAngle:
     """Returns a radial arc.
 
@@ -58,6 +61,7 @@ def _bend_circular(
         cross_section: spec (CrossSection, string or dict).
         allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
         all_angle: if True returns a ComponentAllAngle.
+        angular_step: If provided, determines the angular step (in degrees) between points. Mutually exclusive with npoints.
 
     .. code::
 
@@ -79,7 +83,7 @@ def _bend_circular(
     elif width:
         x = gf.get_cross_section(cross_section, width=width or x.width)
 
-    p = arc(radius=radius, angle=angle, npoints=npoints)
+    p = arc(radius=radius, angle=angle, npoints=npoints, angular_step=angular_step)
     c = p.extrude(x, all_angle=all_angle)
 
     c.info["length"] = float(snap_to_grid(p.length()))
@@ -105,6 +109,7 @@ def bend_circular(
     radius: float | None = None,
     angle: float = 90.0,
     npoints: int | None = None,
+    angular_step: float | None = None,
     layer: gf.typings.LayerSpec | None = None,
     width: float | None = None,
     cross_section: CrossSectionSpec = "strip",
@@ -116,6 +121,7 @@ def bend_circular(
         radius: in um. Defaults to cross_section_radius.
         angle: angle of arc (degrees).
         npoints: number of points.
+        angular_step: If provided, determines the angular step (in degrees) between points. Mutually exclusive with npoints.
         layer: layer to use. Defaults to cross_section.layer.
         width: width to use. Defaults to cross_section.width.
         cross_section: spec (CrossSection, string or dict).
@@ -136,6 +142,7 @@ def bend_circular(
         cross_section=cross_section,
         allow_min_radius_violation=allow_min_radius_violation,
         all_angle=False,
+        angular_step=angular_step,
     )
 
 
@@ -144,6 +151,7 @@ def bend_circular_all_angle(
     radius: float | None = None,
     angle: float = 90.0,
     npoints: int | None = None,
+    angular_step: float | None = None,
     layer: gf.typings.LayerSpec | None = None,
     width: float | None = None,
     cross_section: CrossSectionSpec = "strip",
@@ -155,6 +163,7 @@ def bend_circular_all_angle(
         radius: in um. Defaults to cross_section_radius.
         angle: angle of arc (degrees).
         npoints: number of points.
+        angular_step: If provided, determines the angular step (in degrees) between points. Mutually exclusive with npoints.
         layer: layer to use. Defaults to cross_section.layer.
         width: width to use. Defaults to cross_section.width.
         cross_section: spec (CrossSection, string or dict).
@@ -169,6 +178,7 @@ def bend_circular_all_angle(
         cross_section=cross_section,
         allow_min_radius_violation=allow_min_radius_violation,
         all_angle=True,
+        angular_step=angular_step,
     )
 
 
