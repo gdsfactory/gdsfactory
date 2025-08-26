@@ -1498,7 +1498,7 @@ def _fresnel(
 
     series = (t ** exp[..., None] / den[..., None]).sum(axis=1)
 
-    return cast(npt.NDArray[np.floating], np.sqrt(2) * R0 * series)
+    return (np.sqrt(2) * R0 * series).astype(np.float64)
 
 
 def _fresnel_angular(
