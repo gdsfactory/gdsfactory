@@ -236,7 +236,7 @@ def crossing45(
     crossing = gf.get_component(crossing)
 
     c = Component()
-    x = c << crossing
+    x = c.create_vinst(crossing)
     x.rotate(45)
 
     p_e = x.ports["o3"].center
@@ -268,10 +268,10 @@ def crossing45(
     )
     assert abs(bend.info["end_angle"] - end_angle) < tol, bend.info["end_angle"]
 
-    b_tr = c << bend
-    b_tl = c << bend
-    b_bl = c << bend
-    b_br = c << bend
+    b_tr = c.create_vinst(bend)
+    b_tl = c.create_vinst(bend)
+    b_bl = c.create_vinst(bend)
+    b_br = c.create_vinst(bend)
 
     b_tr.connect("o2", x.ports["o3"], mirror=True)
     b_tl.connect("o2", x.ports["o1"], mirror=True)
@@ -299,5 +299,9 @@ __all__ = [
 ]
 
 if __name__ == "__main__":
-    c = crossing45()
+    c = gf.Component()
+    x = c << crossing45()
+    s = c << gf.c.straight(length=100)
+    x.connect("o1", s.ports["o1"])
+    c.flatten()
     c.show()
