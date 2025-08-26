@@ -1425,6 +1425,7 @@ def arc(
     angle: float = 90,
     npoints: int | None = None,
     start_angle: float = -90,
+    angular_step: float | None = None,
 ) -> Path:
     """Returns a radial arc.
 
@@ -1433,6 +1434,8 @@ def arc(
         angle: total angle of the curve.
         npoints: Number of points used per 360 degrees. Defaults to pdk.bend_points_distance.
         start_angle: initial angle of the curve for drawing, default -90 degrees.
+        angular_step: If provided, determines the angular step (in degrees) between points. \
+                This overrides npoints calculation.
 
     .. plot::
         :include-source:
@@ -1450,8 +1453,19 @@ def arc(
     if not radius:
         raise ValueError("arc() requires a radius argument")
 
-    npoints = npoints or int(abs(angle) / 360 * radius / PDK.bend_points_distance / 2)
-    npoints = max(int(npoints), int(360 / abs(angle)) + 1)
+    if npoints is not None and angular_step is not None:
+        raise ValueError(
+            "arc() requires either npoints or angular_step, not both. "
+            "Use angular_step for angular discretization."
+        )
+
+    if angular_step is not None:
+        npoints = math.ceil(abs(angle / angular_step)) + 1
+    else:
+        npoints = npoints or int(
+            abs(angle) / 360 * radius / PDK.bend_points_distance / 2
+        )
+        npoints = max(int(npoints), int(360 / abs(angle)) + 1)
 
     t = np.linspace(
         start_angle * np.pi / 180, (angle + start_angle) * np.pi / 180, npoints
@@ -1460,12 +1474,12 @@ def arc(
     y = radius * (np.sin(t) + 1)
     points = np.array((x, y)).T * np.sign(angle)
 
-    P = Path()
+    path = Path()
     # Manually add points & adjust start and end angles
-    P.points = points
-    P.start_angle = start_angle + 90
-    P.end_angle = start_angle + angle + 90
-    return P
+    path.points = points
+    path.start_angle = start_angle + 90
+    path.end_angle = start_angle + angle + 90
+    return path
 
 
 def _fresnel(
@@ -1494,7 +1508,7 @@ def _fresnel(
 
     series = (t ** exp[..., None] / den[..., None]).sum(axis=1)
 
-    return (np.sqrt(2) * R0 * series).astype(np.float64)
+    return cast(npt.NDArray[np.floating], np.sqrt(2) * R0 * series)
 
 
 def _fresnel_angular(
@@ -1583,9 +1597,7 @@ def euler(
     if (p < 0) or (p > 1):
         raise ValueError(f"euler requires argument `p` be between 0 and 1. Got {p}")
     if p == 0:
-        if angular_step is not None:
-            npoints = abs(int(angle / angular_step)) + 1
-        path = arc(radius=radius, angle=angle, npoints=npoints)
+        path = arc(radius, angle, npoints=npoints, angular_step=angular_step)
         path.info["Reff"] = radius
         path.info["Rmin"] = radius
         return path
@@ -1604,7 +1616,7 @@ def euler(
 
     pdk = get_active_pdk()
     if angular_step is not None:
-        npoints = abs(int(angle / angular_step)) + 1
+        npoints = math.ceil(abs(angle / angular_step)) + 1
         # For angular discretization, distribute points based on angle proportion
         euler_angle = p * angle / 2  # Angle covered by each Euler section
         arc_angle = (1 - p) * angle  # Angle covered by arc section

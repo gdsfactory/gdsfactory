@@ -1,5 +1,5 @@
 instances:
-  bend_circular_gdsfactor_9f5f0004_0_700:
+  bend_circular_gdsfactor_949aafe9_0_700:
     component: bend_circular
     info:
       dy: 10
@@ -15,6 +15,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -37,7 +38,7 @@ instances:
 name: coupler90_gdsfactorypco_393cec8e
 nets: []
 placements:
-  bend_circular_gdsfactor_9f5f0004_0_700:
+  bend_circular_gdsfactor_949aafe9_0_700:
     mirror: false
     rotation: 0
     x: 0
@@ -49,6 +50,6 @@ placements:
     y: 0
 ports:
   o1: straight_gdsfactorypcom_f2286423_0_0,o1
-  o2: bend_circular_gdsfactor_9f5f0004_0_700,o1
-  o3: bend_circular_gdsfactor_9f5f0004_0_700,o2
+  o2: bend_circular_gdsfactor_949aafe9_0_700,o1
+  o3: bend_circular_gdsfactor_949aafe9_0_700,o2
   o4: straight_gdsfactorypcom_f2286423_0_0,o2

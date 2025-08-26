@@ -15,6 +15,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -36,6 +37,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -57,6 +59,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -78,6 +81,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -99,6 +103,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -120,6 +125,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -193,6 +199,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -214,6 +221,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -235,6 +243,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -256,6 +265,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -277,6 +287,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
@@ -298,6 +309,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90
+      angular_step: null
       cross_section: strip
       layer: null
       npoints: null
