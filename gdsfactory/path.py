@@ -912,38 +912,30 @@ def extrude(
     """
     from gdsfactory.pdk import get_cross_section, get_layer
 
-    x = None
-    if cross_section is None and layer is None:
-        raise ValueError("CrossSection or layer needed")
-
-    if cross_section is not None and layer is not None:
-        raise ValueError("Define only CrossSection or layer")
-
+    if (cross_section is None) == (layer is None):
+        raise ValueError("Provide exactly one of 'cross_section' or 'layer'")
     if layer is not None and width is None:
-        raise ValueError("Need to define layer width")
-    elif width and cross_section:
-        x = get_cross_section(cross_section, width=width)
+        raise ValueError("When providing 'layer', 'width' must also be provided")
 
-    elif width and layer:
-        assert layer is not None
+    if cross_section is not None:
+        x = (
+            get_cross_section(cross_section, width=width)
+            if width is not None
+            else get_cross_section(cross_section)
+        )
+    else:
         s = Section(
-            width=width,
-            layer=layer,
+            width=cast(float, width),
+            layer=cast(LayerSpec, layer),
             port_names=("o1", "o2"),
             port_types=("optical", "optical"),
         )
-        cross_section = CrossSection(sections=(s,))
+        x = get_cross_section(CrossSection(sections=(s,)))
 
     xsection_points: list[list[float | npt.NDArray[np.floating[Any]]]] = []
     c = ComponentAllAngle() if all_angle else Component()
 
-    assert cross_section is not None
-
-    if x is None:
-        x = get_cross_section(cross_section)
-
-    layer = layer or x.layer
-    layer = get_layer(layer)
+    layer = get_layer(layer or x.layer)
 
     for section in x.sections:
         p_sec = p.copy()
