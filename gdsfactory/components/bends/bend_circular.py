@@ -101,6 +101,8 @@ def _bend_circular(
         n_bend_90=abs(angle / 90.0),
         min_bend_radius=radius,
     )
+    for prt in c.ports:
+        prt.info["radius"] = radius
     return c
 
 
