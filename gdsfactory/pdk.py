@@ -12,6 +12,7 @@ from typing import Any, cast, overload
 import kfactory as kf
 import yaml
 from kfactory.layer import LayerEnum
+from kfactory.layout import Constants
 from pydantic import BaseModel, ConfigDict, Field
 
 from gdsfactory import logger
@@ -44,12 +45,16 @@ _ACTIVE_PDK: Pdk | None = None
 component_settings = ["function", "component", "settings"]
 cross_section_settings = ["function", "cross_section", "settings"]
 
-constants = {
-    "fiber_input_to_output_spacing": 200.0,
-    "metal_spacing": 10.0,
-    "pad_pitch": 100.0,
-    "pad_size": (80, 80),
-}
+
+class GenericConstants(Constants):
+    """Default constants for PDKs."""
+
+    fiber_input_to_output_spacing: float = 200.0
+    metal_spacing: float = 10.0
+    pad_pitch: float = 100.0
+    pad_size: tuple[float, float] = (80.0, 80.0)
+    wavelength: float = 1.55
+
 
 nm = 1e-3
 
@@ -166,7 +171,7 @@ class Pdk(BaseModel):
     layer_stack: LayerStack | None = None
     layer_views: LayerViews | PathType | None = None
     layer_transitions: LayerTransitions = Field(default_factory=dict)
-    constants: dict[str, Any] = constants
+    constants: Constants = Field(default_factory=Constants)
     materials_index: dict[str, MaterialSpec] = Field(default_factory=dict)
     routing_strategies: RoutingStrategies | None = None
     bend_points_distance: float = 20 * nm
