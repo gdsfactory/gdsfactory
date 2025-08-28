@@ -545,10 +545,11 @@ class Pdk(BaseModel):
         return self.layer_stack
 
     def get_constant(self, key: str) -> Any:
-        if key not in self.constants:
-            constants = list(self.constants.keys())
-            raise ValueError(f"{key!r} not in {constants}")
-        return self.constants[key]
+        try:
+            return getattr(self.constants, key)
+        except AttributeError:
+            constants = list(self.constants.model_dump().keys())
+            raise AttributeError(f"{key!r} not in {constants}")
 
     def to_updk(self, exclude: Sequence[str] | None = None) -> str:
         """Export to uPDK YAML definition."""

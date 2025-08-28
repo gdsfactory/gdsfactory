@@ -187,6 +187,6 @@ if __name__ == "__main__":
 
     # c = pad_array(port_orientation=270, pad=pad, size=(10, 10), column_pitch=15)
     # c.pprint_ports()
-    c = pad(bbox_layers=("MTOP", "M1"), bbox_offsets=(10, 20))
+    c = pad_rectangular()
     c.pprint_ports()
     c.show()
