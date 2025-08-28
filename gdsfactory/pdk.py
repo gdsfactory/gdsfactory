@@ -47,7 +47,7 @@ cross_section_settings = ["function", "cross_section", "settings"]
 
 
 class GenericConstants(Constants):
-    """Default constants for PDKs."""
+    """Generic PDK constants."""
 
     fiber_input_to_output_spacing: float = 200.0
     metal_spacing: float = 10.0
