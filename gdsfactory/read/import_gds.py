@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Any
 
 import kfactory as kf
+import kfactory.utilities
 from kfactory import KCLayout
 
 from gdsfactory.component import Component

@@ -598,7 +598,11 @@ class LayerStack(BaseModel):
                     txt += ", "
                     if layer in layer_views:  # type: ignore[operator]
                         props = layer_views.get_from_tuple(layer)  # type: ignore[arg-type]
-                        if hasattr(props, "color"):
+                        if (
+                            hasattr(props, "color")
+                            and hasattr(props.color, "fill")
+                            and hasattr(props.color, "frame")
+                        ):
                             if props.color.fill == props.color.frame:
                                 txt += f"color: {props.color.fill}"
                             else:
@@ -619,7 +623,11 @@ class LayerStack(BaseModel):
                 if layer_views:
                     txt += ", "
                     props = layer_views.get_from_tuple(get_layer_tuple(layer_tuple))
-                    if hasattr(props, "color"):
+                    if (
+                        hasattr(props, "color")
+                        and hasattr(props.color, "fill")
+                        and hasattr(props.color, "frame")
+                    ):
                         if props.color.fill == props.color.frame:
                             txt += f"color: {props.color.fill}"
                         else:

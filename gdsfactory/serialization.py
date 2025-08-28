@@ -16,6 +16,7 @@ import numpy as np
 import orjson
 import pydantic
 import toolz
+import toolz.functoolz
 from aenum import Enum
 
 DEFAULT_SERIALIZATION_MAX_DIGITS = 3
@@ -171,11 +172,13 @@ def clean_value_partial(
     func = value.func
     while hasattr(func, "func"):
         func = func.func
+    assert hasattr(func, "__name__")
     v = {
         "function": func.__name__,
         "settings": args_as_kwargs,
     }
     if include_module:
+        assert hasattr(func, "__module__")
         v.update(module=func.__module__)
     if not serialize_function_as_dict:
         return func.__name__
