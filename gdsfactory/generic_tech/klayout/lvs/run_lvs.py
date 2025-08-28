@@ -22,9 +22,11 @@ Options:
 import logging
 import os
 from collections.abc import Sequence
+from datetime import UTC, datetime
 from subprocess import check_call
 
 import klayout.db
+from docopt import docopt
 
 
 def check_klayout_version() -> None:
@@ -249,3 +251,35 @@ def main(lvs_run_dir: str, arguments: dict[str, str]) -> None:
 
     # Check run
     check_lvs_results(res_db_files)
+
+
+if __name__ == "__main__":
+    # arguments
+    arguments = docopt(__doc__, version="RUN LVS: 1.0")
+
+    # logs format
+    now_str = datetime.now(UTC).strftime("lvs_run_%Y_%m_%d_%H_%M_%S")
+
+    if (
+        arguments["--run_dir"] == "pwd"
+        or arguments["--run_dir"] == ""
+        or arguments["--run_dir"] is None
+    ):
+        lvs_run_dir = os.path.join(os.path.abspath(os.getcwd()), now_str)
+    else:
+        lvs_run_dir = os.path.abspath(arguments["--run_dir"])
+
+    os.makedirs(lvs_run_dir, exist_ok=True)
+
+    logging.basicConfig(
+        level=logging.DEBUG,
+        handlers=[
+            logging.FileHandler(os.path.join(lvs_run_dir, f"{now_str}.log")),
+            logging.StreamHandler(),
+        ],
+        format="%(asctime)s | %(levelname)-7s | %(message)s",
+        datefmt="%d-%b-%Y %H:%M:%S",
+    )
+
+    # Calling main function
+    main(lvs_run_dir, arguments)

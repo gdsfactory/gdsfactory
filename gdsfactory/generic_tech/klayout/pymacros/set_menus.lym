@@ -26,3 +26,9 @@ def set_menu():
     s0 = "gdsfactory"
     if not (menu.is_menu(s0)):
         menu.insert_menu("macros_menu", s0, f"gdsfactory {__version__}")
+
+
+if __name__ == "__main__":
+    set_menu()
+</text>
+</klayout-macro>
