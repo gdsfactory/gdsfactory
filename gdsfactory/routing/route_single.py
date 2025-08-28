@@ -201,9 +201,12 @@ def route_single(
             pts = w
             db = kf.rdb.ReportDatabase("Route Placing Errors")
             cell = db.create_cell(
-                c.kcl.future_cell_name or c.name
-                if c.name.startswith("Unnamed_")
-                else c.name
+                (
+                    c.kcl.future_cell_name or c.name
+                    if c.name is not None and c.name.startswith("Unnamed_")
+                    else c.name
+                )
+                or ""
             )
             cat = db.create_category(f"{ps.name} - {pe.name}")
             it = db.create_item(cell=cell, category=cat)
@@ -217,9 +220,9 @@ def route_single(
             if on_error == "error":
                 c.name = (
                     c.kcl.future_cell_name or c.name
-                    if c.name.startswith("Unnamed_")
+                    if c.name is not None and c.name.startswith("Unnamed_")
                     else c.name
-                )
+                ) or ""
                 c.show(lyrdb=db)
                 raise kf.routing.generic.PlacerError(
                     f"Error while trying to place route from {ps.name} to {pe.name} at"
