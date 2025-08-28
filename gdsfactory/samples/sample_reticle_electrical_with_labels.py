@@ -101,3 +101,16 @@ def sample_reticle_with_labels(grid: bool = False) -> gf.Component:
     copies = 3  # number of copies of each component
     components = res * copies + via_chains_ * copies
     return gf.grid(components) if grid else gf.pack(components)[0]
+
+
+if __name__ == "__main__":
+    c = sample_reticle_with_labels(grid=False)
+    gdspath = c.write_gds()
+    csvpath = gf.labels.write_labels(gdspath, layer_label=layer_label)
+
+    import pandas as pd
+
+    df = pd.read_csv(csvpath)
+    df = df.sort_values(by=["text"])
+    print(df)
+    c.show()

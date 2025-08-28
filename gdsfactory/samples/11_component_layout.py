@@ -58,3 +58,8 @@ def crossing_arm(
 
     c.add_port(name="o2", center=(xmax, 0), orientation=0, width=wg_width, layer=(1, 0))
     return c
+
+
+if __name__ == "__main__":
+    c = crossing_arm()
+    c.show()

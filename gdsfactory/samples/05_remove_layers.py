@@ -21,3 +21,8 @@ def remove_layers() -> Component:
 
     assert len(c.layers) == 1
     return c
+
+
+if __name__ == "__main__":
+    c = remove_layers()
+    c.show()

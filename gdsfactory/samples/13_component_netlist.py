@@ -55,3 +55,8 @@ def netlist_yaml() -> Component:
 
 def test_netlist_yaml_sample() -> None:
     assert netlist_yaml()
+
+
+if __name__ == "__main__":
+    c = netlist_yaml()
+    c.show()

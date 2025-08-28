@@ -85,3 +85,9 @@ def ring_single_sample(
 
 def test_ring_single_sample() -> None:
     assert ring_single_sample()
+
+
+if __name__ == "__main__":
+    c = ring_single_sample()
+    c.pprint_ports()
+    c.show()

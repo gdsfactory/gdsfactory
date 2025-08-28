@@ -16,3 +16,8 @@ def snap_bends_sample() -> gf.ComponentAllAngle:
     c.add_port("o1", port=b1.ports["o1"])
     c.add_port("o2", port=b2.ports["o2"])
     return c
+
+
+if __name__ == "__main__":
+    c = snap_bends_sample()
+    c.show()

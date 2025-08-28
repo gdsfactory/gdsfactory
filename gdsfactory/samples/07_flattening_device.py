@@ -25,3 +25,8 @@ def flatten_device() -> Component:
     c.flatten()
     assert len(c.insts) == 0
     return c
+
+
+if __name__ == "__main__":
+    c = flatten_device()
+    c.show()

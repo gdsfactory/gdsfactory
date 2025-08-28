@@ -191,3 +191,8 @@ def coh_rx_single_pol(
     )
 
     return c
+
+
+if __name__ == "__main__":
+    c = coh_rx_single_pol()
+    c.show()

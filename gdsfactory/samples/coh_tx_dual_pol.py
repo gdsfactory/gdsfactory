@@ -134,3 +134,8 @@ def coh_tx_dual_pol(
     c.add_ports(single_tx_1.ports.filter(port_type="electrical"), prefix="pol1_")
     c.add_ports(single_tx_2.ports.filter(port_type="electrical"), prefix="pol2_")
     return c
+
+
+if __name__ == "__main__":
+    c = coh_tx_dual_pol(combiner="mmi2x2")
+    c.show()

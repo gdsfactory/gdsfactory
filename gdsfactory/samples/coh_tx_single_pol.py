@@ -158,3 +158,8 @@ def coh_tx_single_pol(
     c.add_ports(mzm_i.ports.filter(port_type="electrical"), prefix="mzm_i_")
     c.add_ports(mzm_q.ports.filter(port_type="electrical"), prefix="mzm_q_")
     return c
+
+
+if __name__ == "__main__":
+    c = coh_tx_single_pol()
+    c.show()

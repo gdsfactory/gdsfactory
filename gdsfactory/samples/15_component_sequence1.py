@@ -48,3 +48,8 @@ def cutback_pn() -> Component:
 
 def test_cutback_pn() -> None:
     assert cutback_pn()
+
+
+if __name__ == "__main__":
+    c = cutback_pn()
+    c.show()

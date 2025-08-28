@@ -6,6 +6,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.routing.add_fiber_array import add_fiber_array
 from gdsfactory.typings import CrossSectionSpec, Size
 
 
@@ -86,3 +87,19 @@ def big_device(
 
     component.auto_rename_ports()
     return component
+
+
+if __name__ == "__main__":
+    import gdsfactory as gf
+
+    # pdk = gf.pdk.get_active_pdk()
+    # pdk.gds_write_settings.flatten_invalid_refs = False
+    c = big_device()
+    c = add_fiber_array(c)
+    c.show()
+    # lyrdb = c.connectivity_check()
+    # filepath = gf.config.home / "errors.lyrdb"
+    # lyrdb.save(filepath)
+    # gf.show(c, lyrdb=filepath)
+    # c = c.flatten_invalid_refs()
+    # c.write_gds("./test.gds")

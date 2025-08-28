@@ -63,3 +63,13 @@ def write_library(
     for function in component_factory.values():
         component = function()
         component.write_gds(gdsdir=dirpath, with_metadata=True)
+
+
+if __name__ == "__main__":
+    # import pathlib
+    # write_library(component_factory=component_factory, dirpath=pathlib.Path.cwd())
+
+    c = ps_heater_doped()
+    # c = ps_heater_metal()
+    # c = ps_pin()
+    c.show()

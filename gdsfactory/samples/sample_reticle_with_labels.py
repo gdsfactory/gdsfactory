@@ -140,3 +140,18 @@ def sample_reticle_with_labels(grid: bool = False) -> gf.Component:
     if len(components_packed) > 1:
         components_packed = gf.pack(components_packed)
     return components_packed[0]
+
+
+if __name__ == "__main__":
+    import pandas as pd
+
+    c = sample_reticle_with_labels()
+    # c.name = "sample_reticle_with_labels"
+    # c = spiral_gc()
+    # c = mzi_gc()
+    gdspath = c.write_gds()
+    csvpath = gf.labels.write_labels(gdspath, layer_label=layer_label)
+    df = pd.read_csv(csvpath)
+    df = df.sort_values(by=["text"])
+    print(df)
+    c.show()

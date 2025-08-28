@@ -234,3 +234,21 @@ PDK = gf.Pdk(
     layer_stack=layer_stack,
     layers=LAYER,
 )
+
+
+if __name__ == "__main__":
+    # c2 = mmi1x2_nc()
+    # d2 = c2.to_dict()
+
+    # from jsondiff import diff
+
+    # d = diff(d1, d2)
+    # c.show()
+
+    # c = straight_nc()
+    c = mzi_nc(length_x=100)
+    # _add_pins(c)
+    # gf.add_pins.add_pins(c)
+    # c = mmi1x2_sc()
+    # c.pprint_ports()
+    c.show()

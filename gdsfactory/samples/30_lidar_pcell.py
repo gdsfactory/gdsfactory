@@ -69,3 +69,8 @@ def lidar(
     )
 
     return c
+
+
+if __name__ == "__main__":
+    c = lidar(noutputs=2**4)
+    c.show()
