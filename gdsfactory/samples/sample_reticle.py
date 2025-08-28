@@ -102,12 +102,3 @@ def sample_reticle(grid: bool = False) -> gf.Component:
     if len(components) > 1:
         components = gf.pack(components)
     return components[0]
-
-
-if __name__ == "__main__":
-    c = sample_reticle()
-    # gdspath = c.write_gds("mask.gds")
-    # csvpath = write_labels(gdspath, prefixes=[""], layer_label="TEXT")
-    # df = pd.read_csv(csvpath)
-    # print(df)
-    c.show()

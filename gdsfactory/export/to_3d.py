@@ -102,22 +102,3 @@ def to_3d(
             f"layer_stack or layer_views for the active Pdk {get_active_pdk().name!r}"
         )
     return scene
-
-
-if __name__ == "__main__":
-    from gdsfactory.components import (
-        grating_coupler_elliptical_trenches,
-    )
-
-    # c = gf.components.mzi()
-    # c = gf.components.straight_heater_metal(length=40)
-    # p = c.get_polygons_points()
-    # c = gf.Component()
-    # c << gf.c.rectangle(layer=(113, 0))
-
-    c = grating_coupler_elliptical_trenches()
-    # c = taper_strip_to_ridge_trenches()
-
-    c.show()
-    s = c.to_3d()
-    s.show()

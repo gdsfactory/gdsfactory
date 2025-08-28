@@ -1866,25 +1866,3 @@ __all__ = [
     "transition",
     "transition_adiabatic",
 ]
-
-if __name__ == "__main__":
-    # import gdsfactory as gf
-    # p = gf.path.euler(angle=-30)
-    # c = p.extrude(cross_section=gf.cross_section.strip)
-    # c.show()
-
-    p = gf.path.euler(
-        radius=5,
-        angle=180,
-        p=1,
-        use_eff=False,
-        # angular_step=1
-    )
-
-    print(p.start_angle, p.end_angle)  # 0, 180
-    p.drotate(-90)
-    print(p.start_angle, p.end_angle)  # Still 0, 180
-
-    c = p.extrude(cross_section=gf.cross_section.strip)
-    print(c.area("WG"))
-    c.show()

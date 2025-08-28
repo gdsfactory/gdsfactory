@@ -26,8 +26,3 @@ def straight_narrow(
         name="o2", center=(length, width / 2), width=width, orientation=0, layer=layer
     )
     return wg
-
-
-if __name__ == "__main__":
-    c = straight_narrow()
-    c.show()

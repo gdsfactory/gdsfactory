@@ -92,8 +92,3 @@ def sample_reticle(
     )
     fp.x = grid.x
     return c
-
-
-if __name__ == "__main__":
-    c = sample_reticle(bend_s=None)
-    c.show()

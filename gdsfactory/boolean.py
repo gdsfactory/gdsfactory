@@ -97,20 +97,3 @@ def get_ref_shapes(ref: ComponentReference, layer_index: int) -> kf.kdb.Region:
             ref.cplx_trans
         )
     return br
-
-
-if __name__ == "__main__":
-    import gdsfactory as gf
-    from gdsfactory.components import bbox, coupler
-
-    # c = gf.Component()
-    # e2 = c << gf.components.ellipse(radii=(10, 6))
-    # e3 = c << gf.components.ellipse(radii=(10, 4))
-    # e3.movex(5)
-    # c = boolean(A=e2, B=e3, operation="and")
-    c0 = gf.Component()
-    core = c0 << coupler()
-    clad = c0 << bbox(core, layer=(2, 0))
-    clad.movex(5)
-    c = boolean(clad, core, operation="not", layer=(3, 0), layer1=(2, 0), layer2=(1, 0))
-    c.show()

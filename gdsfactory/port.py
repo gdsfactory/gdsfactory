@@ -867,13 +867,3 @@ __all__ = [
     "select_ports",
     "select_ports_list",
 ]
-
-if __name__ == "__main__":
-    import gdsfactory as gf
-    from gdsfactory.components import mzi
-
-    c = mzi()
-    p = c.ports["o1"]
-    d = gf.port.to_dict(p)
-    print(d)
-    c.show()

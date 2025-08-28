@@ -156,7 +156,3 @@ def from_updk_command(
         pathlib.Path(filepath_out) if filepath_out else filepath_path.with_suffix(".py")
     )
     from_updk(filepath, filepath_out=filepath_out_path)
-
-
-if __name__ == "__main__":
-    app()

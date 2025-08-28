@@ -145,14 +145,3 @@ grating_coupler_tm = partial(
     neff=1.8,
     grating_line_width=0.6,
 )
-
-
-if __name__ == "__main__":
-    c = grating_coupler_te(cross_section="rib_bbox")
-    # c = grating_coupler_elliptical_trenches(polarization="TE")
-    # print(c.polarization)
-    # c = grating_coupler_te(end_straight_length=10)
-    # c = grating_coupler_tm()
-    # print(c.ports.keys())
-    # c = gf.routing.add_fiber_array(grating_coupler=grating_coupler_elliptical_trenches)
-    c.show()

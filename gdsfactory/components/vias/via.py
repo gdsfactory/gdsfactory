@@ -126,10 +126,3 @@ def via_circular(
 viac = partial(via, layer="VIAC")
 via1 = partial(via, layer="VIA1", enclosure=2)
 via2 = partial(via, layer="VIA2")
-
-
-if __name__ == "__main__":
-    c = via_circular()
-    # c.pprint()
-    print(c)
-    c.show()

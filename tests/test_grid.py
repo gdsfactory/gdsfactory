@@ -23,8 +23,3 @@ def test_grid_with_ports(rows: int = 3, columns: int = 4) -> None:
     components = [gf.c.rectangle(size=(1, 1)) for _ in range(3)]
     c = gf.grid(components=components)
     assert len(c.ports) == n * 4, len(c.ports)
-
-
-if __name__ == "__main__":
-    # test_grid_with_None_ports()
-    test_grid_with_ports()

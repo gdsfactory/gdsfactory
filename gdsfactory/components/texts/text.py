@@ -118,20 +118,3 @@ def text_klayout(
         layer = gf.get_layer(layer)
         c.shapes(layer).insert(reg.bbox())
     return c
-
-
-if __name__ == "__main__":
-    # c1 = gf.components.text("hello", size=10, layer=(1, 0))
-    # c2 = gf.components.text("10.0")
-    c = text_klayout(
-        text=".[,ABCDEFGHIKKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789:/",
-        # size=4.0,
-        # justify="center",
-        bbox_layers=("M3",),
-        # position=(0, 0),
-    )
-    # c = text_lines(text=("a", "b"), size=10)
-    # c = logo()
-    # c2.show( )
-    # c.plot()
-    c.show()

@@ -52,7 +52,3 @@ def test_array_ports() -> None:
         for columns in range(1, 6):
             c = gf.components.array("compass", rows=rows, columns=columns)
             assert len(c.ports) == 4 * rows * columns
-
-
-if __name__ == "__main__":
-    pytest.main([__file__])

@@ -49,8 +49,3 @@ def cutback_phase(
 
 def test_cutback_phase() -> None:
     assert cutback_phase()
-
-
-if __name__ == "__main__":
-    c = cutback_phase(n=1)
-    c.show()

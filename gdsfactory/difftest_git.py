@@ -1,5 +1,3 @@
-import sys
-
 from gdsfactory.difftest import diff
 
 
@@ -26,7 +24,3 @@ def gdsdiff_git(
         new_mode: ignore.
     """
     diff(old_file, curr_file, xor=True)
-
-
-if __name__ == "__main__":
-    gdsdiff_git(*sys.argv)

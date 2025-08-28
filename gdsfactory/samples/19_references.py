@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from gdsfactory.read.from_yaml import from_yaml
-
 yaml = """
 name: mmis
 
@@ -20,8 +18,3 @@ placements:
         mirror: True
 
 """
-
-
-if __name__ == "__main__":
-    c = from_yaml(yaml)
-    c.show()

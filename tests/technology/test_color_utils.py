@@ -13,7 +13,3 @@ def test_ensure_six_digit_hex_color() -> None:
 
     assert ensure_six_digit_hex_color("#0fc") == "#00ffcc"
     assert ensure_six_digit_hex_color("#f0f") == "#ff00ff"
-
-
-if __name__ == "__main__":
-    test_ensure_six_digit_hex_color()

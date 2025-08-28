@@ -1,5 +1,4 @@
 import pathlib
-import tempfile
 
 import pytest
 
@@ -43,8 +42,3 @@ def test_lyp_to_dataclass(tmp_path: pathlib.Path) -> None:
 
     with pytest.raises(FileNotFoundError):
         lyp_to_dataclass("nonexistent.lyp")
-
-
-if __name__ == "__main__":
-    with tempfile.TemporaryDirectory() as tmpdir:
-        test_lyp_to_dataclass(pathlib.Path(tmpdir))

@@ -42,30 +42,3 @@ def straight_wide(
 # Let's create a new Component ``c`` which will act as a blank canvas (c can be
 # thought of as a blank GDS cell with some special features). Note that when we
 # make a Component
-
-if __name__ == "__main__":
-    c = gf.Component(name="MultiWaveguide")
-
-    # Now say we want to add a few straights to to our  Component" c.
-    # First we create the straights.  As you can see from the straight_wide() function
-    # definition, the sstraight_wide() function creates another Component ("WG").
-    # This can be thought of as the straight_wide() function creating another GDS cell,
-    # only this one has some geometry inside it.
-    #
-    # Let's create two of these Components by calling the straight_wide() function
-    _wg1 = straight_wide(length=10, width=1, layer=(1, 0))
-    _wg2 = straight_wide(length=12, width=2, layer=(2, 0))
-
-    # Now we've made two straights Component WG1 and WG2, and we have a blank
-    # Component c. We can add references from the devices WG1 and WG2 to our blank
-    # Component by using the add_ref() function.
-    # After adding WG1, we see that the add_ref() function returns a handle to our
-    # reference, which we will label with lowercase letters wg1 and wg2.  This
-    # handle will be useful later when we want to move wg1 and wg2 around in c.
-    wg1 = c.add_ref(_wg1)  # Using the function add_ref()
-    wg2 = c << _wg2  # Using the << operator which is identical to add_ref()
-
-    # Alternatively, we can do this all on one line
-    wg3 = c.add_ref(straight_wide(length=14, width=3, layer=(3, 0)))
-
-    c.show()  # show it in Klayout

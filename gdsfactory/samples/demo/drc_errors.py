@@ -78,16 +78,3 @@ def errors() -> Component:
     components = gf.pack(components, spacing=1.5)
     c = gf.add_padding_container(components[0], layers=((64, 0),), default=5)
     return c
-
-
-if __name__ == "__main__":
-    # c = width_min()
-    # c.write_gds("wmin.gds")
-    # c = gap_min()
-    # c.write_gds("gmin.gds")
-    # c = snapping_error()
-    # c.write_gds("snap.gds")
-
-    c = errors()
-    # c.write_gds("errors.gds")
-    c.show()

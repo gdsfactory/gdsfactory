@@ -149,8 +149,3 @@ grating_coupler_elliptical_lumerical_etch70 = partial(
         efficiency=0.55,
     ),
 )
-
-if __name__ == "__main__":
-    c = grating_coupler_elliptical_lumerical_etch70()
-    # c = grating_coupler_elliptical_lumerical()
-    c.show()

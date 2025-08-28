@@ -13,7 +13,3 @@ def test_is_cell() -> None:
 
     assert not is_cell(random_function)
     assert not is_cell(partial(random_function, 1))
-
-
-if __name__ == "__main__":
-    test_is_cell()

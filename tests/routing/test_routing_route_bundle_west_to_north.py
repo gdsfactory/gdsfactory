@@ -84,8 +84,3 @@ def test_route_bundle_west_to_north2(
 
     if check:
         data_regression.check(lengths)
-
-
-if __name__ == "__main__":
-    test_route_bundle_west_to_north(None, check=False)
-    # test_route_bundle_west_to_north2(None, check=False)

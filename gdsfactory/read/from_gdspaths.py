@@ -37,12 +37,3 @@ def from_gdsdir(dirpath: "PathType") -> Component:
     dirpath = pathlib.Path(dirpath)
     assert dirpath.exists(), f"{dirpath} does not exist"
     return from_gdspaths(list(dirpath.glob("*.gds")))
-
-
-if __name__ == "__main__":
-    from gdsfactory.config import diff_path
-
-    # c = gdspaths([gf.components.straight(), gf.components.bend_circular()])
-    # leave these two lines to end up tests showing the diff
-    c = from_gdspaths(list(diff_path.glob("*.gds")))
-    c.show()

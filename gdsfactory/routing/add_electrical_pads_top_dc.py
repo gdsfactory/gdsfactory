@@ -88,9 +88,3 @@ def add_electrical_pads_top_dc(
         c.add_port(port=port_pad, name=f"elec-{component.name}-{i}")
     c.copy_child_info(component)
     return c
-
-
-if __name__ == "__main__":
-    c = gf.c.wire_straight(length=200.0)
-    cc = add_electrical_pads_top_dc(c)
-    cc.show()

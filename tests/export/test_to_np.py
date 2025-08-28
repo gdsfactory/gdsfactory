@@ -1,5 +1,4 @@
 import numpy as np
-import pytest
 
 from gdsfactory.components import bend_circular, straight
 from gdsfactory.export.to_np import to_np
@@ -41,13 +40,3 @@ def test_to_np_with_bend_circular() -> None:
     c = bend_circular()
     img = to_np(c, nm_per_pixel=20)
     assert img is not None
-
-
-if __name__ == "__main__":
-    pytest.main(
-        [
-            __file__,
-            "--cov=gdsfactory.export.to_np",
-            "--cov-report=term-missing:skip-covered",
-        ]
-    )

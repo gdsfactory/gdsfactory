@@ -34,8 +34,3 @@ def ellipse(
     ypts = r * sin(t)
     c.add_polygon(points=list(zip(xpts, ypts)), layer=layer)
     return c
-
-
-if __name__ == "__main__":
-    c = ellipse()
-    c.show()

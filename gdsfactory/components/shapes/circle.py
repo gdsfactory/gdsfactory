@@ -28,8 +28,3 @@ def circle(
     points = np.stack((radius * np.cos(theta), radius * np.sin(theta)), axis=-1)
     c.add_polygon(points=points, layer=layer)
     return c
-
-
-if __name__ == "__main__":
-    c = circle()
-    c.show()

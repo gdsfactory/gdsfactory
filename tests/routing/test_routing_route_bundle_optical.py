@@ -60,8 +60,3 @@ def test_route_bundle_optical2(
 
     if check:
         data_regression.check(lengths)
-
-
-if __name__ == "__main__":
-    # test_route_bundle_optical(None, check=False)
-    test_route_bundle_optical2(None, check=False)

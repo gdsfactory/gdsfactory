@@ -136,8 +136,3 @@ def wire_straight(
     c.info["width"] = x.width if len(x.sections) == 0 else x.sections[0].width
     c.add_route_info(cross_section=x, length=length)
     return c
-
-
-if __name__ == "__main__":
-    c = straight(width=10)
-    print(c.ports)

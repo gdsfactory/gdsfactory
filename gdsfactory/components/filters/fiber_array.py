@@ -53,8 +53,3 @@ def fiber_array(
         )
 
     return c
-
-
-if __name__ == "__main__":
-    c = fiber_array()
-    c.show()

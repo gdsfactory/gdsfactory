@@ -110,8 +110,3 @@ def via_corner(
         y0 = -b + ch + h / 2
         ref.move((x0, y0))
     return c
-
-
-if __name__ == "__main__":
-    c = via_corner()
-    c.show()

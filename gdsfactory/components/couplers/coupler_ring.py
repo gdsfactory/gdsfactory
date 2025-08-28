@@ -96,8 +96,3 @@ def coupler_ring(
     c.auto_rename_ports()
     c.flatten()
     return c
-
-
-if __name__ == "__main__":
-    c = coupler_ring()
-    c.show()

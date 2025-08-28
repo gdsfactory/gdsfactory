@@ -60,8 +60,3 @@ def coupler_asymmetric(
     c.add_port(name="o2", port=wg_ref.ports[0])
     c.flatten()
     return c
-
-
-if __name__ == "__main__":
-    c = coupler_asymmetric(gap=0.2)
-    c.show()

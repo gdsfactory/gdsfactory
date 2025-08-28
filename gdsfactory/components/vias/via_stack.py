@@ -394,9 +394,3 @@ via_stack_heater_mtop_mini = partial(via_stack_heater_mtop, size=(4, 4))
 via_stack_heater_m2 = partial(via_stack, layers=("HEATER", "M2"), vias=(None, "via1"))
 
 via_stack_slab_m1_horizontal = partial(via_stack_slab_m1, slot_horizontal=True)
-
-
-if __name__ == "__main__":
-    c = via_stack_heater_mtop()
-    c.pprint_ports()
-    c.show()

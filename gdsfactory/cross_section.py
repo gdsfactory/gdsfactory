@@ -2833,31 +2833,3 @@ def get_cross_sections(
 
 
 # cross_sections = get_cross_sections(sys.modules[__name__])
-
-
-if __name__ == "__main__":
-    # xs = gf.cross_section.pn(
-    #     # slab_offset=0
-    #     # offset=1,
-    #     # cladding_layers=[(2, 0)],
-    #     # cladding_offsets=[3],
-    #     # bbox_layers=[(3, 0)],
-    #     # bbox_offsets=[2],
-    #     # slab_inset=0.2,
-    # )
-    # xs = xs.append_sections(sections=[gf.Section(width=1.0, layer=(2, 0), name="slab")])
-    # p = gf.path.straight()
-    # c = p.extrude(xs)
-    # c = gf.c.straight(cross_section=xs)
-    # xs = pn(slab_inset=0.2)
-    # xs = metal1()
-    # s0 = Section(width=2, layer=(1, 0))
-    # xs = strip()
-    # print(xs.name)
-    import gdsfactory as gf
-
-    xs1 = gf.get_cross_section("metal_routing")
-
-    xs2 = xs1.copy(width=10)
-    assert xs2.name == xs1.name, f"{xs2.name} != {xs1.name}"
-    print(xs2.name)

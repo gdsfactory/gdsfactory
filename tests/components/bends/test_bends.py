@@ -247,7 +247,3 @@ def test_bezier_bend() -> None:
     )
     assert isinstance(c4, gf.Component)
     assert len(c4.ports) == 2
-
-
-if __name__ == "__main__":
-    test_get_min_sbend_size()

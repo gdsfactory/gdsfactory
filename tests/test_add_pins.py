@@ -77,15 +77,3 @@ def test_add_pins_and_outline() -> None:
     gf.add_pins.add_pins_and_outline(c)
     assert len(c.get_polygons()[LAYER.PORT]) == 2
     assert len(c.get_polygons()[LAYER.DEVREC]) == 1
-
-
-if __name__ == "__main__":
-    test_add_bbox()
-    test_add_pins()
-    test_add_pins_triangle()
-    test_add_pins_siepic()
-    test_add_pins_siepic_electrical()
-    test_add_outline()
-    test_add_settings_label()
-    test_add_instance_label()
-    test_add_pins_and_outline()

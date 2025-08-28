@@ -17,8 +17,3 @@ def big_device_with_gratings() -> gf.Component:
 
 def test_big_device() -> None:
     assert big_device_with_gratings()
-
-
-if __name__ == "__main__":
-    c = big_device_with_gratings()
-    c.show()

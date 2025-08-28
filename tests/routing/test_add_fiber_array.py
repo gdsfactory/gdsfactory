@@ -43,9 +43,3 @@ def test_settings(component: Component, data_regression: DataRegressionFixture) 
     """Avoid regressions when exporting settings."""
     settings = component.to_dict()
     data_regression.check(settings)
-
-
-if __name__ == "__main__":
-    c = sample_excluded_ports()
-    c.pprint_ports()
-    c.show()

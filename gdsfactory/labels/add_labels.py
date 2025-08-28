@@ -27,17 +27,3 @@ def add_port_labels(
             layer=layer,
         )
     return component
-
-
-if __name__ == "__main__":
-    c = gf.Component()
-    from gdsfactory.components import wire_straight
-
-    # ref = c << gf.components.straight()
-    # ref = c << gf.routing.add_fiber_array(gf.components.straight())
-    # ref = c << gf.routing.add_fiber_array(gf.components.nxn())
-    ref = c << gf.routing.add_pads_top(wire_straight())
-    # c = add_port_labels(c, [ref.ports["o1"]], layer=(2, 0))
-    # c = add_port_labels(c, ref.ports, layer=(2, 0))
-    # c = label_farthest_right_port(c, ref.ports, layer=(2, 0), text="output")
-    c.show()

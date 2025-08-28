@@ -285,8 +285,3 @@ def show(component: ComponentSpec) -> None:
 
     c = gf.get_component(component)
     c.show()
-
-
-if __name__ == "__main__":
-    path = sys.argv[1] if len(sys.argv) > 1 else "."
-    watch(path)

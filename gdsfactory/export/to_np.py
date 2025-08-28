@@ -53,18 +53,3 @@ def to_np(
                 img[rr, cc] = value
 
     return np.pad(img, pad_width=pad_width)
-
-
-if __name__ == "__main__":
-    import matplotlib.pyplot as plt
-
-    from gdsfactory.components import bend_circular, straight
-
-    c = straight()
-    c = bend_circular()
-    # i = to_np(c, nm_per_pixel=250)
-    i = to_np(c, nm_per_pixel=20)
-    c.show()
-    plt.imshow(i.transpose(), origin="lower")
-    plt.colorbar()
-    plt.show()

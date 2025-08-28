@@ -297,11 +297,3 @@ __all__ = [
     "crossing_etched",
     "crossing_linear_taper",
 ]
-
-if __name__ == "__main__":
-    c = gf.Component()
-    x = c << crossing45()
-    s = c << gf.c.straight(length=100)
-    x.connect("o1", s.ports["o1"])
-    c.flatten()
-    c.show()

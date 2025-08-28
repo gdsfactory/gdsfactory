@@ -37,8 +37,3 @@ def component_with_port(
 
 def test_component_with_port() -> None:
     assert component_with_port()
-
-
-if __name__ == "__main__":
-    c = component_with_port()
-    c.show()

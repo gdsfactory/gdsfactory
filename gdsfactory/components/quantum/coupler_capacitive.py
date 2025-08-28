@@ -415,10 +415,3 @@ def coupler_tunable(
     c.info["tuning_gap"] = tuning_gap
 
     return c
-
-
-if __name__ == "__main__":
-    c = coupler_capacitive()
-    # c = coupler_interdigital()
-    c.pprint_ports()
-    c.show()

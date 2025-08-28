@@ -88,8 +88,3 @@ def crossing(
     x.add_bbox(c)
     c.flatten()
     return c
-
-
-if __name__ == "__main__":
-    c = crossing()
-    c.show()

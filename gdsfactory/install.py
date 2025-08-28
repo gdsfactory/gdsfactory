@@ -189,14 +189,3 @@ def convert_py_to_ipynb(
         notebook_file = f"{output_folder}/{file.stem}.ipynb"
         nb = jupytext.read(file)
         jupytext.write(nb, notebook_file)
-
-
-if __name__ == "__main__":
-    # cwd = pathlib.Path(__file__).resolve().parent
-    # home = pathlib.Path.home()
-    # src = cwd / "generic_tech" / "klayout" / "tech"
-
-    # write_git_attributes()
-    # install_gdsdiff()
-    install_klayout_package()
-    # convert_py_to_ipynb()

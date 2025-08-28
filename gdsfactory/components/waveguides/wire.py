@@ -202,11 +202,3 @@ def wire_corner_sections(
     c.info["dy"] = ymax - xmin
     x.add_bbox(c)
     return c
-
-
-if __name__ == "__main__":
-    c = wire_corner()
-    # c.pprint_ports()
-    # n = c.get_netlist()
-    # c = wire_corner45()
-    c.show()

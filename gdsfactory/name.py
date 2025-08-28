@@ -176,36 +176,3 @@ def clean_value(value: Any) -> str:
 
 def test_clean_name() -> None:
     assert clean_name("wg(:_=_2852") == "wg___2852"
-
-
-if __name__ == "__main__":
-    # testclean_value_json()
-    import gdsfactory as gf
-
-    # print(clean_value(gf.components.straight))
-    # c = gf.components.straight(polarization="TMeraer")
-    # print(c.settings["polarization"])
-    # print(clean_value(11.001))
-    c = gf.components.straight(length=10)
-
-    # print(c.name)
-    # print(c)
-    # c.show( )
-
-    # print(clean_name("Waveguidenol1_(:_=_2852"))
-    # print(clean_value(1.2))
-    # print(clean_value(0.2))
-    # print(clean_value([1, [2.4324324, 3]]))
-    # print(clean_value([1, 2.4324324, 3]))
-    # print(clean_value((0.001, 24)))
-    # print(clean_value({"a": 1, "b": 2}))
-    # import gdsfactory as gf
-
-    # d = {
-    #     "X": gf.components.crossing45(port_spacing=40.0),
-    #     "-": gf.components.compensation_path(
-    #         crossing45=gf.components.crossing45(port_spacing=40.0)
-    #     ),
-    # }
-    # d2 = clean_value(d)
-    # print(d2)

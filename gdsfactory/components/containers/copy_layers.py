@@ -33,8 +33,3 @@ def copy_layers(
     if flatten:
         c.flatten()
     return c
-
-
-if __name__ == "__main__":
-    c = copy_layers(gf.components.rectangle)
-    c.show()

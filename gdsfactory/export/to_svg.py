@@ -151,13 +151,3 @@ def to_svg(
             f"The component '{component.name}' does not contain any polygons in the specified layers "
             f"or the layers are excluded based on the active PDK '{get_active_pdk().name}'."
         )
-
-
-if __name__ == "__main__":
-    from gdsfactory.components import grating_coupler_elliptical_trenches
-
-    # Example usage
-    component = grating_coupler_elliptical_trenches()
-    svg_filename = "grating_coupler.svg"
-    to_svg(component, filename=svg_filename, scale=2.0)
-    print(f"SVG file '{svg_filename}' has been created successfully.")

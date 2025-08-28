@@ -94,8 +94,3 @@ def resistance_meander(
     net.ymin = pad1.ymin
     P.flatten()
     return P
-
-
-if __name__ == "__main__":
-    c = resistance_meander(num_squares=500)
-    c.show()

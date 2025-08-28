@@ -158,17 +158,3 @@ def pack_doe_grid(
     c.info["doe_names"] = [component.name for component in component_list]
     c.info["doe_settings"] = cast(kf.typings.MetaData, settings_list)
     return c
-
-
-if __name__ == "__main__":
-    c = pack_doe_grid(
-        doe="mmi1x2",
-        settings=dict(length_mmi=(2.5, 100), width_mmi=(4, 10)),
-        with_text=True,
-        spacing=(100, 100),
-        shape=(2, 2),
-        do_permutations=True,
-    )
-
-    c = pack_doe(doe="mmi1x2", settings=dict(length_mmi=(2, 100), width_mmi=(4, 10)))
-    c.show()
