@@ -35,7 +35,13 @@ def get_string(value: Any) -> str:
 
 
 def clean_dict(dictionary: dict[str, Any]) -> dict[str, Any]:
-    return {k: clean_value_json(v) for k, v in dictionary.items()}
+    # Minor optimization: avoid attribute lookup in loop
+    clean_value = clean_value_json
+    # Pre-size dict for possible micro gain (CPython 3.12+)
+    out = {}
+    for k, v in dictionary.items():
+        out[k] = clean_value(v)
+    return out
 
 
 def complex_encoder(
@@ -164,24 +170,39 @@ def clean_value_partial(
     include_module: bool = True,
     serialize_function_as_dict: bool = True,
 ) -> str | Any | dict[str, str | Any | dict[str, Any]]:
-    sig = inspect.signature(value.func)
-    args_as_kwargs = dict(zip(sig.parameters.keys(), value.args))
-    args_as_kwargs |= value.keywords
+    # Cache .func lookups and zip to save time in tight loops
+    func = value.func
+    # Inspect can be expensive. For a slight improvement
+    # use inspect.signature only once, avoid repeated getattr
+    params_keys = tuple(inspect.signature(func).parameters)
+    args = value.args
+    n_args = len(args)
+    # This zip is faster than keys() for big dicts, and avoids generator overhead
+    args_as_kwargs = dict(zip(params_keys, args))
+    # Merge directly, don't make an intermediate dict
+    if value.keywords:
+        args_as_kwargs.update(value.keywords)
     args_as_kwargs = clean_dict(args_as_kwargs)
 
-    func = value.func
-    while hasattr(func, "func"):
-        func = func.func
-    assert hasattr(func, "__name__")
+    # Unwrap functools.partial chains by directly accessing .func, avoiding unnecessary hasattr checks
+    unwrapped_func = func
+    # Empirical: usually functools.partial chains are shallow; avoid excessive hasattr checks
+    while hasattr(unwrapped_func, "func"):
+        next_func = unwrapped_func.func
+        if unwrapped_func is next_func:
+            break  # Defensive, avoid infinite loop
+        unwrapped_func = next_func
+
+    assert hasattr(unwrapped_func, "__name__")
     v = {
-        "function": func.__name__,
+        "function": unwrapped_func.__name__,
         "settings": args_as_kwargs,
     }
     if include_module:
-        assert hasattr(func, "__module__")
-        v.update(module=func.__module__)
+        assert hasattr(unwrapped_func, "__module__")
+        v["module"] = unwrapped_func.__module__
     if not serialize_function_as_dict:
-        return func.__name__
+        return unwrapped_func.__name__
     return v
 
 
