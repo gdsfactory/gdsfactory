@@ -59,10 +59,3 @@ def regular_polygon(
 
 hexagon = partial(regular_polygon, sides=6)
 octagon = partial(regular_polygon, sides=8)
-
-
-if __name__ == "__main__":
-    # c = regular_polygon(sides=8, side_length=20)
-    # c = rectangle(size=(3, 2), centered=True, layer=(2, 3))
-    c = octagon(sides=8)
-    c.show()

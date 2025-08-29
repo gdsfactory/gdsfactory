@@ -55,16 +55,3 @@ def spiral_double(
     component.info["length"] = float(path.length() + bend.info["length"]) * 2
     component.flatten()
     return component
-
-
-if __name__ == "__main__":
-    c = spiral_double(
-        # min_bend_radius=10,
-        # separation=2,
-        # number_of_loops=3,
-        # npoints=1000,
-        # cross_section="rib",
-    )
-    print(c.ports["o1"].orientation)
-    print(c.ports["o2"].orientation)
-    c.show()

@@ -260,8 +260,3 @@ def straight_heater_doped_strip(
         xoffset_tip1=xoffset_tip1,
         xoffset_tip2=xoffset_tip2,
     ).copy()
-
-
-if __name__ == "__main__":
-    c = straight_heater_doped_strip()
-    c.show()

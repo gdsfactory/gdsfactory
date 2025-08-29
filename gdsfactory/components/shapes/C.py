@@ -59,8 +59,3 @@ def C(
             port_type=port_type,
         )
     return c
-
-
-if __name__ == "__main__":
-    c = C(width=1.0)
-    c.show()

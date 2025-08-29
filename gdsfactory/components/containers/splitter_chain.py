@@ -52,9 +52,3 @@ def splitter_chain(
     c.add_port(name=f"o{i + 3}", port=cref.ports[e1_port_name])
     c.copy_child_info(splitter_component)
     return c
-
-
-if __name__ == "__main__":
-    # component = splitter_chain(splitter=gf.components.mmi1x2, columns=4)
-    component = splitter_chain()
-    component.show()

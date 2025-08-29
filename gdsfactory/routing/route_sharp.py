@@ -385,15 +385,3 @@ def route_sharp(
         d = p.extrude(width=width, layer=layer)
 
     component << d
-
-
-if __name__ == "__main__":
-    c = gf.Component(name="pads")
-    c1 = c << gf.components.pad()
-    c2 = c << gf.components.pad()
-
-    # c2.movex(400)
-    # c2.movey(-200)
-
-    route_sharp(c, c1.ports["e4"], c2.ports["e1"], path_type="L", layer=(1, 0))
-    c.show()

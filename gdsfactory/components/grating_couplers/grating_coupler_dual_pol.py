@@ -136,8 +136,3 @@ def grating_coupler_dual_pol(
 
     xs.add_bbox(c)
     return c
-
-
-if __name__ == "__main__":
-    c = grating_coupler_dual_pol()
-    c.show()

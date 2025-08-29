@@ -287,14 +287,3 @@ def mzit_lattice(
     c.add_port("o3", port=cp1.ports["o3"])
     c.add_port("o4", port=cp1.ports["o4"])
     return c
-
-
-if __name__ == "__main__":
-    c = mzit(cross_section="rib")
-    # c = mzit(coupler1=None)
-    # c = mzit(delta_length=20, layer=(2, 0))
-    # c = mzit(delta_length=20, cross_section="rib_bbox")
-    # c = mzit(delta_length=20, coupler_gap1=0.1, coupler_gap2=0.5)
-    # c = mzit(delta_length=20, coupler_gap1=0.5, coupler_gap2=0.1)
-    # c = mzit(coupler_length1=200)
-    c.show()

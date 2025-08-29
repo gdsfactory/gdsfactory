@@ -59,9 +59,3 @@ def straight_piecewise(
     cross_section = gf.CrossSection(sections=tuple(section_list))
 
     return gf.path.extrude(p, cross_section=cross_section)
-
-
-if __name__ == "__main__":
-    x, widths = [0, 4.0, 20, 40], [1, 2, 0.15, 0.4]
-    c = straight_piecewise(x, widths, "WG")
-    c.show()

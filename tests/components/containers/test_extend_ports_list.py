@@ -25,8 +25,3 @@ def test_extend_ports_list_with_ignore() -> None:
 
     port_names = {p.name for p in e.ports}
     assert set(ignore_ports) - port_names == set()
-
-
-if __name__ == "__main__":
-    test_extend_ports_list()
-    test_extend_ports_list_with_ignore()

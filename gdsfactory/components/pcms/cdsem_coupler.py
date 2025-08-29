@@ -54,10 +54,3 @@ def cdsem_coupler(
             t.ymin = p
 
     return c
-
-
-if __name__ == "__main__":
-    # c = cdsem_coupler(cross_section="rib_with_trenches")
-    # c = cdsem_coupler(cross_section="strip", width=1)
-    c = cdsem_coupler()
-    c.show()

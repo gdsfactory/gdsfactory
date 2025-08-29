@@ -17,7 +17,6 @@ from gdsfactory.routing.utils import direction_ports_from_list_ports
 from gdsfactory.typings import (
     ComponentSpec,
     CrossSectionSpec,
-    Radius,
     SelectPorts,
     Strs,
 )
@@ -279,28 +278,3 @@ def route_south(
     component.add_ports(south_ports)
     component.auto_rename_ports()
     return routes
-
-
-if __name__ == "__main__":
-    c = gf.Component()
-
-    @gf.cell
-    def mzi_with_bend(radius: Radius = 10) -> Component:
-        c = gf.Component()
-        bend = c.add_ref(gf.components.bend_euler(radius=radius))
-        mzi = c.add_ref(gf.components.mzi())
-        bend.connect("o1", mzi.ports["o2"])
-        c.add_port(name="o1", port=mzi.ports["o1"])
-        c.add_port(name="o2", port=bend.ports["o2"])
-        return c
-
-    component = gf.c.mzi_phase_shifter()
-    component = mzi_with_bend()
-    component = gf.components.mmi2x2()
-    component = gf.components.nxn(north=4, south=2, west=2, east=2)
-    component = gf.components.straight(length=10, width=2)
-    ref = c << component
-    # r = route_south(c, ref, optical_routing_type=1, start_straight_length=0)
-    r = route_south(c, ref, auto_taper=True)
-    # print(r.lengths)
-    c.show()

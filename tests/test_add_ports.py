@@ -61,7 +61,3 @@ def test_add_ports_from_labels() -> None:
     c2 = gf.import_gds(gdspath, post_process=(add_ports,))
     assert c2.ports["o1"].center[0] == 0
     assert c2.ports["o2"].center[0] == x, c2.ports["o2"].center[0]
-
-
-if __name__ == "__main__":
-    test_add_ports_from_pins()

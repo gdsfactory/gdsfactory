@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.shapes import circle
+from gdsfactory.components.shapes.circle import circle
 from gdsfactory.typings import LayerSpec
 
 
@@ -53,8 +53,3 @@ def fiber_array(
         )
 
     return c
-
-
-if __name__ == "__main__":
-    c = fiber_array()
-    c.show()

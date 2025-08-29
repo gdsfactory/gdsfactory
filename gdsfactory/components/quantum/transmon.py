@@ -226,9 +226,3 @@ def transmon_circular(
     c.info["junction_area"] = junction_width * junction_height
 
     return c
-
-
-if __name__ == "__main__":
-    # c = transmon()
-    c = transmon_circular()
-    c.show()

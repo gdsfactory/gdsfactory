@@ -156,12 +156,3 @@ def via_chain(
     c.add_port(name="e1", port=contact1.ports["e1"])
     c.add_port(name="e2", port=contact2.ports["e1"])
     return c
-
-
-if __name__ == "__main__":
-    contact = gf.c.via_stack(
-        layers=("M1", "M2", "MTOP"),
-        layer_offsets=(-2, -2, 0),
-    )
-    c = via_chain(num_vias=40, contact=contact, contact_offset=2)
-    c.show()

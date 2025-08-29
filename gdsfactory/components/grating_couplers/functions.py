@@ -162,10 +162,3 @@ def get_grating_period(
     """
     neff = (neff_high + neff_low) / 2
     return wavelength / (neff - float(sin(DEG2RAD * fiber_angle)) * n_clad)
-
-
-if __name__ == "__main__":
-    pc = get_grating_period_curved()
-    p = get_grating_period()
-    print(pc)
-    print(p)

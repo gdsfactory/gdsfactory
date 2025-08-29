@@ -112,11 +112,3 @@ cutback_loss_bend90 = partial(
 cutback_loss_bend180 = partial(
     cutback_loss, component="bend_euler180", cutback="cutback_bend180", cols=12
 )
-
-
-if __name__ == "__main__":
-    # components = cutback_loss_mmi1x2()
-    # c = gf.pack(components)[0]
-    # c = components[0]
-    c = cutback_loss()[0]
-    c.show()

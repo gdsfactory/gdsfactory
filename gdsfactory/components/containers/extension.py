@@ -209,16 +209,3 @@ def extend_ports(
 
     c.copy_child_info(component)
     return c
-
-
-if __name__ == "__main__":
-    # test_extend_ports()
-    # c0 = gf.c.straight(width=5)
-    # t = gf.components.taper(length=10, width1=5, width2=0.5)
-    # p0 = c0["o1"]
-    # c = extend_ports(c0, extension=t)
-    # c = extend_ports()
-    c = gf.c.mmi1x2(cross_section="rib")
-    c = extend_ports(component=c)
-    c.pprint_ports()
-    c.show()

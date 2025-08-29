@@ -150,8 +150,3 @@ def test_layer_view_dict() -> None:
 def test_layer_view_str() -> None:
     lv = LayerView(color="#00FF00")
     assert str(lv)
-
-
-if __name__ == "__main__":
-    lv = LayerView(color="#00FF00")
-    print(repr(lv))

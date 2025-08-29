@@ -67,10 +67,3 @@ placements:
 
 def test_circular_import_pass() -> None:
     gf.read.from_yaml(yaml_pass)
-
-
-if __name__ == "__main__":
-    # c = test_circular_import_pass()
-    # c = test_circular_import_fail()
-    c = gf.read.from_yaml(yaml_fail)
-    # c.show( )

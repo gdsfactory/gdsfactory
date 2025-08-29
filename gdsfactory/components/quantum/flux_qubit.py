@@ -360,9 +360,3 @@ def flux_qubit_asymmetric(
     )
 
     return c
-
-
-if __name__ == "__main__":
-    c = flux_qubit()
-    # c = flux_qubit_asymmetric()
-    c.show()

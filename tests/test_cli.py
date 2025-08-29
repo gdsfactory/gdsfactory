@@ -425,7 +425,3 @@ class TestCLIPathHandling:
                 assert result.exit_code == 0
             finally:
                 os.chdir(original_cwd)
-
-
-if __name__ == "__main__":
-    pytest.main([__file__])

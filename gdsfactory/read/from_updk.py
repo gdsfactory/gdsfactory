@@ -275,16 +275,3 @@ if __name__ == "__main__":
         filepath_out = pathlib.Path(filepath_out)
         filepath_out.write_text(script)
     return script
-
-
-if __name__ == "__main__":
-    from gdsfactory.config import GDSDIR_TEMP
-    from gdsfactory.samples.pdk.fab_c import PDK
-
-    PDK.activate()
-
-    yaml_pdk_decription = PDK.to_updk()
-    print(yaml_pdk_decription)
-    filepath = GDSDIR_TEMP / "pdk.yaml"
-    gdsfactory_script = from_updk(filepath, pdk_name="demo")
-    print(gdsfactory_script)

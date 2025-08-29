@@ -1338,31 +1338,3 @@ def container(
 
     c.copy_child_info(component)
     return c
-
-
-if __name__ == "__main__":
-    import gdsfactory as gf
-    from gdsfactory.generic_tech import LAYER
-
-    c = gf.Component()
-    c << gf.components.die_with_pads()
-    fill = gf.c.rectangle()
-    c.fill(
-        fill_cell=fill,
-        fill_layers=[(LAYER.FLOORPLAN, -100)],
-        exclude_layers=[((1, 0), 100), ("M3", 100)],
-        x_space=1,
-        y_space=1,
-    )
-    c.show()
-    # c2 = gf.Component()
-    # region = c.get_region(layer=LAYER.WG, smooth=1)
-    # region2 = region.sized(100)
-    # region3 = region2 - region
-
-    # c2.add_polygon(region3, layer=LAYER.WG)
-    # c2.show()
-
-    # polygons = c.get_polygons(smooth=1)[LAYER.WG]
-    # c2.add_polygon(region, layer=LAYER.WG)
-    # c2

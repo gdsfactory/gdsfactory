@@ -52,10 +52,3 @@ def cavity(
     c.add_port("o2", port=cr.ports["o4"])
     c.copy_child_info(mirror)
     return c
-
-
-if __name__ == "__main__":
-    from gdsfactory.components import dbr
-
-    c = cavity(component=dbr())
-    c.show()

@@ -126,11 +126,3 @@ def grating_coupler_rectangular(
     )
     c.flatten()
     return c
-
-
-if __name__ == "__main__":
-    # c = grating_coupler_rectangular(name='gcu', partial_etch=True)
-    c = grating_coupler_rectangular(cross_section="rib_bbox", slab_offset=4.0)
-    # c = gf.routing.add_fiber_array(grating_coupler=grating_coupler_rectangular)
-    print(c.ports)
-    c.show()

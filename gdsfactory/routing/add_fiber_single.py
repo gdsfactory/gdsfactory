@@ -192,14 +192,3 @@ def add_fiber_single(
         c2.add_port(name="loopback2", port=gc2.ports[gc_port_name_fiber])
 
     return c2
-
-
-if __name__ == "__main__":
-    from gdsfactory.samples.big_device import big_device
-
-    c = big_device(nports=1)
-    c.info["polarization"] = "te"
-    # c = gf.c.mmi2x2()
-    c = add_fiber_single(c, gc_port_name_fiber="o3")
-    c.pprint_ports()
-    c.show()

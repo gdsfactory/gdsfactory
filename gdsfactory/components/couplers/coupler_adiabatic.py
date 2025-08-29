@@ -120,8 +120,3 @@ def coupler_adiabatic(
     c.add_port("o4", port=sbend_right_bot.ports["o2"])
     c.flatten()
     return c
-
-
-if __name__ == "__main__":
-    c = coupler_adiabatic()
-    c.show()

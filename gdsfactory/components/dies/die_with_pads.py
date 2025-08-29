@@ -94,8 +94,3 @@ def die_with_pads(
 
     c.auto_rename_ports()
     return c
-
-
-if __name__ == "__main__":
-    c = die_with_pads(grating_coupler=None)
-    c.show()

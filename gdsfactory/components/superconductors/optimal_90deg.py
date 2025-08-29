@@ -78,8 +78,3 @@ def optimal_90deg(
         port_type=port_type,
     )
     return D
-
-
-if __name__ == "__main__":
-    c = optimal_90deg()
-    c.show()

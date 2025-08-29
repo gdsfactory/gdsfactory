@@ -266,21 +266,3 @@ straight_heater_metal_undercut_90_90 = partial(
     port_orientation1=90,
     port_orientation2=90,
 )
-
-
-if __name__ == "__main__":
-    # c = straight_heater_metal_simple(length=50.0)
-    c = straight_heater_metal_undercut(port_orientation1=90, port_orientation2=90)
-    c.pprint_ports()
-    c.show()
-    # print(c.ports['o2'].center[0])
-    # c.pprint_ports()
-    # c = straight_heater_metal(heater_width=5, length=50.0)
-
-    # c = straight_heater_metal_undercut(length=200)
-    # n = c.get_netlist()
-    # c = straight_heater_metal(length=20)
-    # c = straight_heater_metal_90_90(length=50)
-    # c.show()
-    # scene = c.to_3d()
-    # scene.show()

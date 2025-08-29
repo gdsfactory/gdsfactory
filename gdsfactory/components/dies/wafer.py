@@ -40,8 +40,3 @@ def wafer(
             i += 1
 
     return c
-
-
-if __name__ == "__main__":
-    c = wafer(die_name_col_row=True)
-    c.show()

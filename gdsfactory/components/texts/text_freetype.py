@@ -113,8 +113,3 @@ def text_freetype(
             inst.xmax = 0
     t.flatten()
     return t
-
-
-if __name__ == "__main__":
-    c = text_freetype()
-    c.show()

@@ -339,7 +339,3 @@ def test_get_netlist_virtual_cell() -> None:
     assert len(netlist["ports"]) == 2, (
         f"Expected 2 ports in netlist. Got {len(netlist['ports'])}"
     )
-
-
-if __name__ == "__main__":
-    test_get_netlist_rotated()

@@ -57,8 +57,3 @@ def spiral_inductor(
     P.end_angle += 90  # "Turn" 90 deg (left)
     P += gf.path.straight(length=tail)
     return gf.path.extrude(P, layer=(1, 0), width=width)
-
-
-if __name__ == "__main__":
-    c = spiral_inductor()
-    c.show()

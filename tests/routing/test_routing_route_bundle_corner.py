@@ -226,7 +226,3 @@ def test_connect_corner(
 
     if data_regression:
         data_regression.check(lengths)
-
-
-if __name__ == "__main__":
-    test_connect_corner(None, config="A")

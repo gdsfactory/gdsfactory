@@ -4,7 +4,6 @@ import jsonschema
 import yaml
 
 from gdsfactory.config import PATH
-from gdsfactory.schematic import write_schema
 
 
 def test_schematic() -> None:
@@ -62,8 +61,3 @@ routes:
     # from gdsfactory.components import factory
     # c = Netlist(factory=factory)
     # c.add_instance("mmi1", "mmi1x2", length=13.3)
-
-
-if __name__ == "__main__":
-    write_schema()
-    test_schematic()

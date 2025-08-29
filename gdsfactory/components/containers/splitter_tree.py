@@ -152,30 +152,3 @@ switch_tree = partial(
     coupler=_mzi1x2_2x2,
     spacing=(500, 100),
 )
-
-
-if __name__ == "__main__":
-    import gdsfactory as gf
-
-    # c = splitter_tree(
-    #     coupler=partial(mmi2x2, gap_mmi=2.0, width_mmi=5.0),
-    #     # noutputs=128 * 2,
-    #     # noutputs=2 ** 3,
-    #     noutputs=2**2,
-    #     # bend_s=None,
-    #     # dy=100.0,
-    #     # layer=(2, 0),
-    # )
-    c = splitter_tree(
-        noutputs=2**3,
-        spacing=(120.0, 100.0),
-        # bend_length=30,
-        # bend_s=None,
-        # cross_section="rib2",
-    )
-    c = switch_tree(noutputs=2**3)
-    # c = _mzi1x2_2x2()
-    c.show()
-    # print(len(c.ports))
-    # for port in c.get_ports_list():
-    #     print(port)

@@ -84,13 +84,3 @@ def _sort(
     ports1.sort(key=key_func)
     if not enforce_port_ordering:
         ports2.sort(key=key_func)
-
-
-if __name__ == "__main__":
-    import gdsfactory as gf
-
-    c = gf.Component()
-    c1 = c << gf.c.straight()
-    c2 = c << gf.c.straight()
-    sort_ports(c1.ports, c2.ports, enforce_port_ordering=True)
-    c.show()

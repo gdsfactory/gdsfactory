@@ -139,10 +139,3 @@ def grating_coupler_rectangular_arbitrary(
 
     xs.add_bbox(c)
     return c
-
-
-if __name__ == "__main__":
-    c = grating_coupler_rectangular_arbitrary(
-        cross_section="rib_bbox", slab_offset=2.0, layer_slab=(2, 0)
-    )
-    c.show()

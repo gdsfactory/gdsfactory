@@ -116,7 +116,3 @@ def straight_pin_slot(
 
 
 straight_pn_slot = partial(straight_pin_slot, cross_section=pn)
-
-if __name__ == "__main__":
-    c = straight_pin_slot(via_stack_width=4, via_stack_slab_width=3, length=50)
-    c.show()

@@ -118,8 +118,3 @@ def spiral(
     c.add_port(name="o2", port=p2)
     c.info["length"] = length * 2 * n_loops
     return c
-
-
-if __name__ == "__main__":
-    c = spiral(cross_section="rib", length=10, spacing=3.0)
-    c.show()

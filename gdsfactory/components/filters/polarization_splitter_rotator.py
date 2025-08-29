@@ -106,8 +106,3 @@ def polarization_splitter_rotator(
     c.auto_rename_ports()
     c.flatten()
     return c
-
-
-if __name__ == "__main__":
-    c = polarization_splitter_rotator(length_taper_in=(10, 69))
-    c.show()

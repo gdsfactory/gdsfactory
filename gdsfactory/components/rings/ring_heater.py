@@ -185,11 +185,3 @@ def ring_double_heater(
 
 
 ring_single_heater = partial(ring_double_heater, with_drop=False)
-
-
-if __name__ == "__main__":
-    c = ring_double_heater(
-        gap_top=0.4, length_y=2, length_extension=10, cross_section="strip"
-    )
-    c.pprint_ports()
-    c.show()

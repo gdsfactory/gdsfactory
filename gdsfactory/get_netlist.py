@@ -706,33 +706,3 @@ DEFAULT_CONNECTION_VALIDATORS = get_default_connection_validators()
 DEFAULT_CRITICAL_CONNECTION_ERROR_TYPES = {
     "optical": ["width_mismatch", "shear_angle_mismatch", "orientation_mismatch"]
 }
-
-
-if __name__ == "__main__":
-    from pprint import pprint
-
-    import gdsfactory as gf
-
-    # c = gf.Component()
-    # mzi = c << gf.c.mzi()
-    # mzi.xmin = 10
-    # mzi.name = "mzi"
-    # bend = c << gf.c.bend_euler()
-    # bend.connect("o1", mzi.ports["o2"])
-    # bend.name = "bend"
-    # c.add_port("o1", port=mzi.ports["o1"])
-    # c.add_port("o2", port=bend.ports["o2"])
-
-    c = gf.c.pad_array()
-    # c = gf.components.array(
-    #     gf.components.straight(length=100), spacing=(100, 0), columns=5, rows=1
-    # )
-    c.show()
-    n0 = c.get_netlist()
-    pprint(n0)
-
-    # gdspath = c.write_gds("test.gds")
-    # c = gf.import_gds(gdspath)
-    # n = c.get_netlist()
-    # pprint(n["placements"])
-    c.show()

@@ -93,8 +93,3 @@ def test_is_invalid_bundle_topology() -> None:
         Port(name="p4", orientation=180 + 1e-11, center=(10, 10), width=0.5, layer=1),
     ]
     assert not is_invalid_bundle_topology(p1, p2)
-
-
-if __name__ == "__main__":
-    test_make_error_traces()
-    test_is_invalid_bundle_topology()

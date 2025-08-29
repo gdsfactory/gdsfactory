@@ -19,9 +19,3 @@ def alphabet(dx: Delta = 10) -> gf.Component:
         x += dx
 
     return c
-
-
-if __name__ == "__main__":
-    c = alphabet()
-    c.write_gds("alphabet.gds")
-    c.show()

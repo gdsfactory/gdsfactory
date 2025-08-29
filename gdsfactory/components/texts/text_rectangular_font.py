@@ -321,8 +321,3 @@ def rectangular_font() -> dict[str, str]:
 
         characters[charac] = pixels
     return characters
-
-
-if __name__ == "__main__":
-    c = pixel_array()
-    c.show()

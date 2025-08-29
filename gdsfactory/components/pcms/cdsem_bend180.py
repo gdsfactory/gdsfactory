@@ -65,8 +65,3 @@ def cdsem_bend180(
     ref.rotate(90)
     c2.flatten()
     return c2
-
-
-if __name__ == "__main__":
-    c = cdsem_bend180(width=2)
-    c.show()
