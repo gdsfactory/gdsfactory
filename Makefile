@@ -104,6 +104,10 @@ git-rm-merged: ## Delete merged git branches
 notebooks: ## Convert python scripts to Jupyter notebooks
 	jupytext docs/notebooks/*.py --to ipynb
 
+.PHONY: remove-ifmain
+remove-ifmain: ## Remove all if __name__ == "__main__": blocks
+	find . -name "*.py" -exec perl -i -0pe 's/if\s+__name__\s*==\s*["\047]__main__["\047]:(.*(?:\n.*)*?)(?=\n(?:[^\s]|\Z))//gm' {} +
+
 .PHONY: clean
 clean: ## Remove build, cache and temporary files
 	rm -rf .venv
