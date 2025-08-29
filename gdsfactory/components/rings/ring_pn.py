@@ -329,9 +329,3 @@ def ring_single_pn(
     c.add_ports(ring.ports)
     c.flatten()
     return c
-
-
-if __name__ == "__main__":
-    c = ring_double_pn(radius=5)
-    c.pprint_ports()
-    c.show()

@@ -182,8 +182,3 @@ def optimal_step(
         )
 
     return D
-
-
-if __name__ == "__main__":
-    c = optimal_step()
-    c.show()

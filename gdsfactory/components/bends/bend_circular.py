@@ -185,12 +185,3 @@ def bend_circular_all_angle(
 
 
 bend_circular180 = partial(bend_circular, angle=180)
-
-
-if __name__ == "__main__":
-    c = gf.Component()
-    r = c << bend_circular(radius=5)
-    bend = bend_circular_all_angle(radius=5)
-    print(type(bend))
-    # r.dmirror()
-    c.show()

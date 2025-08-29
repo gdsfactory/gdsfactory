@@ -46,9 +46,3 @@ def grating_coupler_tree(
         cross_section=cross_section,
         **kwargs,
     )
-
-
-if __name__ == "__main__":
-    c = grating_coupler_tree()
-    # print(c.settings)
-    c.show()

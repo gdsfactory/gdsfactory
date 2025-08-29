@@ -36,8 +36,3 @@ def loop_mirror(
     )
     c.add_port(name="o1", port=cref.ports["o1"])
     return c
-
-
-if __name__ == "__main__":
-    c = loop_mirror()
-    c.show()

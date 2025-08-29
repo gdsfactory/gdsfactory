@@ -16,6 +16,7 @@ import numpy as np
 import orjson
 import pydantic
 import toolz
+import toolz.functoolz
 from aenum import Enum
 
 DEFAULT_SERIALIZATION_MAX_DIGITS = 3
@@ -171,11 +172,13 @@ def clean_value_partial(
     func = value.func
     while hasattr(func, "func"):
         func = func.func
+    assert hasattr(func, "__name__")
     v = {
         "function": func.__name__,
         "settings": args_as_kwargs,
     }
     if include_module:
+        assert hasattr(func, "__module__")
         v.update(module=func.__module__)
     if not serialize_function_as_dict:
         return func.__name__
@@ -203,29 +206,3 @@ def clean_value_name(value: Any) -> str:
 
 def get_hash(value: Any) -> str:
     return hashlib.md5((clean_value_name(value)).encode()).hexdigest()[:8]
-
-
-if __name__ == "__main__":
-    from gdsfactory.components import straight
-
-    s = clean_value_json(straight)
-    print(s)
-
-    # f = partial(gf.c.straight, length=3)
-    # d = clean_value_json(f)
-    # print(f"{d!r}")
-    # f = partial(gf.c.straight, length=3)
-    # c = f()
-    # d = clean_value_json(c)
-    # print(d, d)
-
-    # xs = partial(
-    #     gf.cross_section.strip,
-    #     width=3,
-    #     add_pins=gf.partial(gf.add_pins.add_pins_inside1nm, pin_length=0.1),
-    # )
-    # f = partial(gf.routing.add_fiber_array, cross_section=xs)
-    # c = f()
-    # c = gf.cross_section.strip(width=3)
-    # d = clean_value_json(c)
-    # print(get_hash(d))

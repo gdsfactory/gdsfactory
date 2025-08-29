@@ -154,9 +154,3 @@ def greek_cross_with_pads(
         )
 
     return c
-
-
-if __name__ == "__main__":
-    c = greek_cross_with_pads()
-    c.pprint_ports()
-    c.show()

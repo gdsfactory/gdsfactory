@@ -53,7 +53,3 @@ __all__ = [
     "sort_ports",
     "utils",
 ]
-
-
-if __name__ == "__main__":
-    print(__all__)

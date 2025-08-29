@@ -77,12 +77,3 @@ def mmi2x2_with_sbend(
 
     c.flatten()
     return c
-
-
-if __name__ == "__main__":
-    # c = mmi2x2_with_sbend(
-    #     with_sbend=True,
-    #     cross_section=dict(cross_section="strip", settings=dict(layer=(2, 0))),
-    # )
-    c = mmi2x2_with_sbend()
-    c.show()

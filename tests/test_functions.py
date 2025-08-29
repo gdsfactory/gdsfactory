@@ -68,7 +68,3 @@ def test_extract() -> None:
     assert area1 == 100.0, f"{area1} != 100"
     assert area2 == 100.0, f"{area2} != 100"
     assert area3 == 0.0, f"{area3} != 0"
-
-
-if __name__ == "__main__":
-    test_extract()

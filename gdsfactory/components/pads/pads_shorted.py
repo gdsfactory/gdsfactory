@@ -35,8 +35,3 @@ def pads_shorted(
     )
     c.add_ref(short)
     return c
-
-
-if __name__ == "__main__":
-    c = pads_shorted(metal_width=20)
-    c.show()

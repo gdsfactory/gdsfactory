@@ -190,8 +190,3 @@ def seal_ring_segmented(
         lefti.ymin = left.ymin + pitch / 2
 
     return c
-
-
-if __name__ == "__main__":
-    c = seal_ring_segmented()
-    c.show()

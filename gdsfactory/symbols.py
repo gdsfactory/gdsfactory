@@ -113,11 +113,3 @@ def floorplan_with_block_letters(
                 sym.add_polygon(poly, layer=layer)
 
     return sym
-
-
-if __name__ == "__main__":
-    import gdsfactory as gf
-
-    c = gf.c.mmi1x2()
-    s = floorplan_with_block_letters(c)
-    s.show()

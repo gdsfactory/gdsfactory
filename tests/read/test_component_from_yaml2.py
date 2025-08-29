@@ -110,8 +110,3 @@ def test_components(
     difftest(c)
     if check:
         data_regression.check(c.to_dict())
-
-
-if __name__ == "__main__":
-    c = gf.read.from_yaml(rotation)
-    c.show()

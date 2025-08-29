@@ -40,19 +40,3 @@ def test_transition_ports() -> None:
 
     assert c.ports["o1"].width == width1, c.ports["o1"].width
     assert c.ports["o2"].width == width2, c.ports["o2"].width
-
-
-if __name__ == "__main__":
-    # test_transition_ports()
-
-    x1 = gf.cross_section.strip(width=0.5)
-    x2 = gf.cross_section.strip(width=1.0)
-
-    xt = gf.path.transition(cross_section1=x1, cross_section2=x2, width_type="linear")
-    path = gf.path.straight(length=5)
-    c = gf.path.extrude_transition(path, xt)
-    width1 = round(0.5 / c.kcl.dbu)
-    width2 = round(1.0 / c.kcl.dbu)
-
-    assert c.ports["o1"].width == width1, c.ports["o1"].width
-    assert c.ports["o2"].width == width2, c.ports["o2"].width

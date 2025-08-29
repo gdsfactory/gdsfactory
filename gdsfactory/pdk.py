@@ -756,39 +756,3 @@ def get_routing_strategies() -> RoutingStrategies:
     if routing_strategies is None:
         routing_strategies = default_routing_strategies
     return routing_strategies
-
-
-if __name__ == "__main__":
-    import gdsfactory as gf
-
-    sample_routing_sbend = """
-instances:
-    cp1:
-      component: coupler
-
-    cp2:
-      component: coupler
-
-placements:
-    cp1:
-        x: 0
-
-    cp2:
-        x: 300
-        y: 300
-
-routes:
-    bundle1:
-        links:
-          cp1,o3: cp2,o2
-        routing_strategy: route_bundle_sbend
-
-"""
-
-    c = gf.read.from_yaml(sample_routing_sbend)
-    c.show()
-
-    # l1 = get_layer((1, 0))
-    # l2 = get_layer((3, 0))
-    # print(l1)
-    # print(l2)

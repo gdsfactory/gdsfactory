@@ -298,16 +298,3 @@ def bend_euler_all_angle(
 
 
 bend_euler180 = partial(bend_euler, angle=180)
-
-
-if __name__ == "__main__":
-    # c = bend_euler(cross_section="rib", angle=90, radius=5)
-    # c = bend_euler(cross_section="rib", angle=90, radius=20, clockwise=True)
-    c = bend_euler(angle=90)
-    c = gf.grid(
-        [
-            # bend_euler(p=0, with_arc_floorplan=False),
-            bend_euler(p=1, with_arc_floorplan=True, angular_step=10),
-        ]
-    )
-    c.show()

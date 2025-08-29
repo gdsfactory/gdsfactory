@@ -241,19 +241,3 @@ def straight_heater_meander(
     c.info["length"] = total_length
     c.flatten()
     return c
-
-
-if __name__ == "__main__":
-    c = straight_heater_meander(
-        radius=5.0
-        # heater_taper_length=0,
-        # straight_widths=(0.5,) * 7,
-        # taper_length=10,
-        # taper_length=10,
-        # length=1000,
-        # port_orientation1=0
-        # cross_section=partial(gf.cross_section.strip, width=0.8),
-    )
-    print("area from length", c.info["length"] * 0.5)
-    print(c.area((1, 0)))
-    c.show()

@@ -41,8 +41,3 @@ def verniers(
         y += width / 2 + gap
 
     return c
-
-
-if __name__ == "__main__":
-    c = verniers()
-    c.show()

@@ -61,9 +61,3 @@ def bend_circular_heater(
         x.validate_radius(radius)
     c.flatten()
     return c
-
-
-if __name__ == "__main__":
-    c = bend_circular_heater(heater_width=1, cross_section="rib")
-    print(c.ports)
-    c.show()

@@ -512,11 +512,3 @@ def test_route_bundle_width() -> None:
     )
     expected_length = 53274.356
     assert route[0].length == expected_length, route[0].length
-
-
-if __name__ == "__main__":
-    # pytest.main([__file__])
-    # test_route_bundle_width()
-    test_route_bundle_small()
-    # test_route_bundle_udirect(None, check=False)
-    # test_route_bundle(None)

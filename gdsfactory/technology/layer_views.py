@@ -1271,29 +1271,3 @@ def test_load_lyp() -> None:
 
     lys = LayerViews(PATH.klayout_lyp)
     assert len(lys.layer_views) > 10, len(lys.layer_views)
-
-
-if __name__ == "__main__":
-    test_load_lyp()
-    # import gdsfactory as gf
-    from gdsfactory.generic_tech import get_generic_pdk
-
-    PDK = get_generic_pdk()
-    LAYER_VIEWS = PDK.layer_views
-    # LAYER_VIEWS.to_yaml(PATH.repo / "extra" / "layers.yml")
-    assert LAYER_VIEWS is not None
-    if isinstance(LAYER_VIEWS, LayerViews):
-        c = LAYER_VIEWS.preview_layerset()
-        c.show()
-    else:
-        # If it's a path, load it first
-        layer_views_obj = LayerViews(filepath=LAYER_VIEWS)
-        c = layer_views_obj.preview_layerset()
-        c.show()
-
-    # LAYER_VIEWS = LayerViews(filepath=PATH.klayout_yaml)
-    # LAYER_VIEWS.to_lyp(PATH.klayout_lyp)
-    # print(LAYER_VIEWS.layer_views["Doping"])
-
-    # LAYER_VIEWS.to_yaml(PATH.generic_tech / "layer_views.yaml")
-    # LAYER_VIEWS2 = LayerViews(filepath=PATH.generic_tech / "layer_views.yaml")

@@ -86,13 +86,3 @@ def fanout2x2(
             c.add_port(port_name, port=ref.ports[port_name])
     c.copy_child_info(component)
     return c
-
-
-if __name__ == "__main__":
-    # c =gf.components.coupler(gap=1.0)
-    c = gf.components.nxn(west=2, east=2)
-
-    cc = fanout2x2(component=c, port_spacing=20)
-    # print(cc.ports["o3"].y - cc.ports["o4"].y)
-    # print(cc.ports)
-    cc.show()

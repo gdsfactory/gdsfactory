@@ -499,9 +499,3 @@ def mirror(component: Component, x_mirror: bool = True) -> gf.Component:
     c.add_ports(ref.ports)
     c.copy_child_info(component)
     return c
-
-
-if __name__ == "__main__":
-    c = gf.c.bend_circular()
-    c = mirror(c)
-    c.show()

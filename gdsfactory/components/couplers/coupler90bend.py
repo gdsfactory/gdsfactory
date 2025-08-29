@@ -59,8 +59,3 @@ def coupler90bend(
     c.add_port("o4", port=bend_outer_ref["o2"])
     c.flatten()
     return c
-
-
-if __name__ == "__main__":
-    c = coupler90bend()
-    c.show()

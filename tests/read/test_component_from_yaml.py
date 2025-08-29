@@ -703,18 +703,3 @@ def test_gds_and_settings(
 #     # pprint(d)
 #     d = jsondiff.diff(n, n2)
 #     assert len(d) == 0, pprint(d)
-
-
-if __name__ == "__main__":
-    # test_connections_regex()
-    # test_sample()
-    # test_docstring_sample()
-    # test_connections_2x2()
-    # test_connections_regex_backwards()
-    test_connections_different_factory()
-    # import gdsfactory as gf
-
-    # import gdsfactory as gf
-
-    # c = gf.read.from_yaml(sample_mmis)
-    # c.show()

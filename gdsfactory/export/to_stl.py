@@ -101,11 +101,3 @@ def to_stl(
             f"{component.name!r} does not have polygons defined in the "
             f"layer_stack or layer_views for the active Pdk {get_active_pdk().name!r}"
         )
-
-
-if __name__ == "__main__":
-    import gdsfactory as gf
-
-    c = gf.components.grating_coupler_elliptical_trenches()
-    c.show()
-    to_stl(c, filepath="a.stl")

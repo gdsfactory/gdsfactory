@@ -166,20 +166,3 @@ def ring_asymmetric(
     bend4.connect("o1", straight_ver2.ports["o2"])
 
     return ring
-
-
-if __name__ == "__main__":
-    c = ring_crow(
-        input_straight_cross_section="rib",
-        ring_cross_sections=("rib", "rib", "rib"),
-        radius=(20.0, 20.0, 20.0),
-    )
-    # c = ring_crow(gaps = [0.3, 0.4, 0.5, 0.2],
-    #     radius = [20.0, 5.0, 15.0],
-    #     input_straight_cross_section = strip,
-    #     output_straight_cross_section = strip,
-    #     bends = [bend_circular] * 3,
-    #     ring_cross_sections = [strip] * 3,
-    # )
-
-    c.show()

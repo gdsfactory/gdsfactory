@@ -137,15 +137,3 @@ def delay_snake_sbend(
             del c.insts[inst]
 
     return c
-
-
-if __name__ == "__main__":
-    # test_delay_snake_sbend_length()
-    # c = gf.grid(
-    #     [
-    #         delay_snake_sbend(length=length, cross_section="rib")
-    #         for length in [500, 3000]
-    #     ]
-    # )
-    c = delay_snake_sbend(length=200, cross_section="strip")
-    c.show()

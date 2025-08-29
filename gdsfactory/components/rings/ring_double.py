@@ -107,8 +107,3 @@ def ring_double(
     c.add_port("o3", port=ct.ports["o4"])
     c.add_port("o4", port=ct.ports["o1"])
     return c
-
-
-if __name__ == "__main__":
-    c = ring_double(length_y=2, bend="bend_circular", gap_top=0.4)
-    c.show()

@@ -1,5 +1,4 @@
 import pathlib
-import tempfile
 import xml.etree.ElementTree as ET
 
 import aenum
@@ -105,11 +104,3 @@ def test_klayout_tech_enum_layer_map() -> None:
 
     assert tech.layer_map["M1"] == (1, 0)
     assert tech.layer_map["M2"] == (2, 0)
-
-
-if __name__ == "__main__":
-    test_klayout_tech_enum_layer_map()
-    with tempfile.TemporaryDirectory() as tmp_dir:
-        test_klayout_tech_write(pathlib.Path(tmp_dir))
-        test_klayout_tech_mebes_config(pathlib.Path(tmp_dir))
-        test_klayout_tech_layer_views(pathlib.Path(tmp_dir))

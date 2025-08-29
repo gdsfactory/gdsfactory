@@ -225,9 +225,3 @@ def disk_heater(
     c.add_ports(c2.ports.filter(orientation=port_orientation), prefix="e2")
     c.auto_rename_ports()
     return c
-
-
-if __name__ == "__main__":
-    # c = disk_heater(wrap_angle_deg=75)
-    c = disk_heater(wrap_angle_deg=0)
-    c.show()

@@ -86,17 +86,3 @@ def write_test_manifest(
                     ]
                     + values
                 )
-
-
-if __name__ == "__main__":
-    import pandas as pd
-
-    from gdsfactory.samples.sample_reticle import sample_reticle
-
-    c = sample_reticle()
-
-    gdspath = c.write_gds()
-    csvpath = gdspath.with_suffix(".csv")
-    write_test_manifest(c, csvpath, search_strings=["ring_10"])
-    df = pd.read_csv(csvpath)
-    c.show()

@@ -219,9 +219,3 @@ def test_get_list_ports_angle() -> None:
     ]
     with pytest.raises(ValueError, match="All port angles should be the same"):
         get_list_ports_angle(ports_different)
-
-
-if __name__ == "__main__":
-    test_direction_ports_from_list_ports()
-    test_check_ports_have_equal_spacing()
-    test_get_list_ports_angle()

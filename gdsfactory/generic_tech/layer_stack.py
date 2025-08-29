@@ -406,15 +406,3 @@ def get_process() -> tuple[ProcessStep, ...]:
             - LayerStackParameters.thickness_slab_deep_etch,
         ),
     )
-
-
-if __name__ == "__main__":
-    # ls = get_layer_stack(substrate_thickness=50.0)
-    # ls = get_layer_stack()
-    # script = ls.get_klayout_3d_script()
-    # print(script)
-    # print(ls.get_layer_to_material())
-    # print(ls.get_layer_to_thickness())
-
-    for layername, layer in WAFER_STACK.layers.items():
-        print(layername, layer.zmin, layer.thickness)

@@ -222,12 +222,3 @@ def ring_single_bend_coupler(
     c.add_port("o1", port=cb["o1"])
     c.flatten()
     return c
-
-
-if __name__ == "__main__":
-    # c = coupler_bend()
-    # n = c.get_netlist()
-    c = coupler_ring_bend(cross_section_inner="rib", cross_section_outer="rib")
-    # c = ring_single_bend_coupler()
-    c.pprint_ports()
-    c.show()

@@ -114,11 +114,3 @@ def ring_crow_couplers(
     c.add_port(name="o3", port=couplers_refs[-1].ports["o2"])
     c.add_port(name="o4", port=couplers_refs[-1].ports["o3"])
     return c
-
-
-if __name__ == "__main__":
-    c = ring_crow_couplers(
-        # couplers=(gf.components.coupler_full(coupling_length=0.01, dw=0),) * 4
-    )
-    c.show()
-    # print(c.insts["bot_right_bend_ring_0"].ports)

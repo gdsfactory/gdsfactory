@@ -177,26 +177,3 @@ def grid_with_text(
                 if text_rotation:
                     t.rotate(text_rotation)
     return c
-
-
-if __name__ == "__main__":
-    import gdsfactory as gf
-
-    # test_grid()
-    # components = [gf.components.rectangle(size=(i, i)) for i in range(40, 66, 5)]
-    # c = tuple(gf.components.rectangle(size=(i, i)) for i in range(40, 66, 10))
-    components = tuple([gf.components.triangle(x=i) for i in range(1, 10)])
-    # components = tuple(gf.components.rectangle(size=(i, i)) for i in range(1, 3))
-    # print(len(c))
-
-    c = grid(
-        components,
-        shape=(3, 3),
-        rotation=90,
-        mirror=False,
-        spacing=(200.0, 200.0),
-        # spacing=1,
-        # text_offsets=((0, 100), (0, -100)),
-        # labels=["r1", "r2"],
-    )
-    c.show()

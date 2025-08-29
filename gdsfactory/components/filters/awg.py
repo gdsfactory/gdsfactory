@@ -161,9 +161,3 @@ def awg(
         c.add_port(f"E{i}", port=port)
 
     return c
-
-
-if __name__ == "__main__":
-    # c = free_propagation_region(inputs=2, outputs=4)
-    c = awg()
-    c.show()

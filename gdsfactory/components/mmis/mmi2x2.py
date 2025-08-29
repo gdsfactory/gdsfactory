@@ -103,10 +103,3 @@ def mmi2x2(
 
     c.flatten()
     return c
-
-
-if __name__ == "__main__":
-    # c = mmi2x2(gap_mmi=0.252, cross_section="metal1")
-    c = mmi2x2(gap_mmi=0.252, cross_section="rib")
-    c.show()
-    # c.pprint()

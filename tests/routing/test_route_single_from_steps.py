@@ -97,9 +97,3 @@ def test_route_waypoints_numpy() -> None:
             (p1x + o, p1y),
         ],
     )
-
-
-if __name__ == "__main__":
-    test_route_from_steps()
-    test_route_waypoints()
-    test_route_waypoints_numpy()

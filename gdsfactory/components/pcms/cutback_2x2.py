@@ -182,8 +182,3 @@ def cutback_2x2(
 
     c.info["components"] = 2 * n
     return c
-
-
-if __name__ == "__main__":
-    c = cutback_2x2(cols=3, rows=2, mirror=True)
-    c.show()

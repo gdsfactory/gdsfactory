@@ -65,9 +65,3 @@ def test_route_dubins_basic() -> None:
 
 def test_route_dubins_array() -> None:
     sample_route_dubins_array()
-
-
-if __name__ == "__main__":
-    # c = sample_route_dubins_basic()
-    c = sample_route_dubins_array()
-    c.show()

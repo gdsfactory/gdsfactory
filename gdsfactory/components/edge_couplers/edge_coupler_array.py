@@ -162,13 +162,3 @@ def edge_coupler_array_with_loopback(
 
     c.auto_rename_ports()
     return c
-
-
-if __name__ == "__main__":
-    # c = edge_coupler_array()
-    c = edge_coupler_silicon()
-    # c = edge_coupler_array_with_loopback(text_rotation=90)
-    # c = edge_coupler_silicon()
-    # c = edge_coupler_array(x_reflection=False)
-    # c = edge_coupler_array_with_loopback(x_reflection=False)
-    c.show()

@@ -82,8 +82,3 @@ def cutback_splitter(
     n = len(s) - 2
     c.info["components"] = n
     return c
-
-
-if __name__ == "__main__":
-    c = cutback_splitter()
-    c.show()

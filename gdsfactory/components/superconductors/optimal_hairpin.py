@@ -114,8 +114,3 @@ def optimal_hairpin(
         port_type=port_type,
     )
     return c
-
-
-if __name__ == "__main__":
-    c = optimal_hairpin()
-    c.show()

@@ -99,15 +99,3 @@ def coupler_full(
 
     c.flatten()
     return c
-
-
-if __name__ == "__main__":
-    c = coupler_full(
-        # coupling_length=40,
-        # gap=0.2,
-        # dw=0.1,
-        # cladding_layers=[(111, 0)],
-        # cladding_offsets=[3],
-    )
-    c.show()
-    # c.show( )

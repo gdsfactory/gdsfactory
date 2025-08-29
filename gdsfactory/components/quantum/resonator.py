@@ -379,10 +379,3 @@ def resonator_quarter_wave(
     )  # GHz, rough estimate
 
     return c
-
-
-if __name__ == "__main__":
-    c = resonator_cpw()
-    # c = resonator_lumped()
-    # c = resonator_quarter_wave()
-    c.show()

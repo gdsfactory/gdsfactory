@@ -26,7 +26,3 @@ def test_partial() -> None:
     b1 = gf.components.bend_euler(cross_section=x1)
     b2 = gf.components.bend_euler(cross_section=x2)
     assert b1.base is b2.base
-
-
-if __name__ == "__main__":
-    test_partial()

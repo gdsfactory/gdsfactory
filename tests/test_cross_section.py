@@ -148,9 +148,3 @@ def test_is_cross_section_private() -> None:
         return gf.cross_section.cross_section(width=1.0, layer=(1, 0))
 
     assert not gf.cross_section.is_cross_section("_private_xs", _private_xs)
-
-
-if __name__ == "__main__":
-    # test_transition_names()
-    # test_copy()
-    test_taper_cladding_offets()

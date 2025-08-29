@@ -58,11 +58,3 @@ def test_missing_zmin_or_thickness() -> None:
     layer_stack = get_layer_stack()
     with pytest.raises(ValueError):
         to_3d(c, layer_stack=layer_stack)
-
-
-if __name__ == "__main__":
-    # test_valid_component()
-    # test_no_polygons_defined()
-    # test_exclude_layers()
-    test_invisible_layers()
-    # test_missing_zmin_or_thickness()
