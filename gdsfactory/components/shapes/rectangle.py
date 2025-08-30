@@ -30,7 +30,10 @@ def rectangle(
     """
     c = Component()
     ref = c << gf.c.compass(
-        size=size, layer=layer, port_type=port_type, port_orientations=port_orientations
+        size=size,
+        layer=layer,
+        port_type=port_type,
+        port_orientations=port_orientations,
     )
     if not centered:
         ref.move((size[0] / 2, size[1] / 2))
@@ -86,7 +89,7 @@ def rectangles(
 
     if len(offsets) != len(layers):
         raise ValueError(f"len(offsets) != len(layers) {len(offsets)} != {len(layers)}")
-    for layer, offset in zip(layers, offsets):
+    for layer, offset in zip(layers, offsets, strict=False):
         current_size = size_np + 2 * offset
         ref = c << rectangle(
             size=(current_size[0], current_size[1]),

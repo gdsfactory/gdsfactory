@@ -20,7 +20,7 @@ def add_port_labels(
     """
     texts = texts or [port.name for port in ports if port.name is not None]
 
-    for text, port in zip(texts, ports):
+    for text, port in zip(texts, ports, strict=False):
         component.add_label(
             text=text,
             position=port.center,

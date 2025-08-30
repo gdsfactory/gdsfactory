@@ -21,7 +21,9 @@ DEG2RAD = 1 / RAD2DEG
 
 
 def move_port_to_zero(
-    component: Component, port_name: str = "o1", mirror: bool = False
+    component: Component,
+    port_name: str = "o1",
+    mirror: bool = False,
 ) -> gf.Component:
     """Return a container that contains a reference to the original component.
 
@@ -106,7 +108,10 @@ def move_to_center(component: Component, dx: float = 0, dy: float = 0) -> gf.Com
 
 
 def move_port(
-    component: Component, port_name: str, dx: float = 0, dy: float = 0
+    component: Component,
+    port_name: str,
+    dx: float = 0,
+    dy: float = 0,
 ) -> gf.Component:
     """Moves the component port to a specific location.
 
@@ -127,7 +132,7 @@ GetPolygonsResult: TypeAlias = "dict[LayerSpec, list[kf.kdb.Polygon]]"
 
 
 def get_polygons(
-    component_or_instance: "Component | ComponentReference",
+    component_or_instance: Component | ComponentReference,
     merge: bool = False,
     by: Literal["index", "name", "tuple"] = "index",
     layers: LayerSpecs | None = None,
@@ -145,7 +150,7 @@ def get_polygons(
     from gdsfactory.pdk import get_layer, get_layer_name, get_layer_tuple
 
     if by == "index":
-        get_key: "Callable[[LayerSpec], LayerSpec]" = get_layer
+        get_key: Callable[[LayerSpec], LayerSpec] = get_layer
     elif by == "name":
         get_key = get_layer_name
     elif by == "tuple":
@@ -171,7 +176,7 @@ def get_polygons(
             r = gf.kdb.Region(c.begin_shapes_rec(layer_index))
         else:
             r = kf.kdb.Region(c.cell.begin_shapes_rec(layer_index)).transformed(
-                c.cplx_trans
+                c.cplx_trans,
             )
         if layer_key not in polygons:
             polygons[layer_key] = []
@@ -185,7 +190,7 @@ def get_polygons(
 
 
 def get_polygons_points(
-    component_or_instance: "Component | ComponentReference",
+    component_or_instance: Component | ComponentReference,
     merge: bool = False,
     scale: float | None = None,
     by: Literal["index", "name", "tuple"] = "index",
@@ -201,10 +206,14 @@ def get_polygons_points(
         layers: list of layer specs to extract the polygons from. If None, extracts all layers.
     """
     polygons_dict = get_polygons(
-        component_or_instance=component_or_instance, merge=merge, by=by, layers=layers
+        component_or_instance=component_or_instance,
+        merge=merge,
+        by=by,
+        layers=layers,
     )
     polygons_points: dict[
-        tuple[int, int] | str | int, list[npt.NDArray[np.floating[Any]]]
+        tuple[int, int] | str | int,
+        list[npt.NDArray[np.floating[Any]]],
     ] = {}
     for layer, polygons in polygons_dict.items():
         all_points: list[npt.NDArray[np.floating[Any]]] = []
@@ -216,7 +225,7 @@ def get_polygons_points(
                         for point in polygon.to_simple_polygon()
                         .to_dtype(component_or_instance.kcl.dbu)
                         .each_point()
-                    ]
+                    ],
                 )
             else:
                 points = np.array(
@@ -225,7 +234,7 @@ def get_polygons_points(
                         for point in polygon.to_simple_polygon()
                         .to_dtype(component_or_instance.kcl.dbu)
                         .each_point()
-                    ]
+                    ],
                 )
             all_points.append(points)
         polygons_points[layer] = all_points
@@ -233,7 +242,8 @@ def get_polygons_points(
 
 
 def get_point_inside(
-    component_or_instance: "Component | ComponentReference", layer: LayerSpec
+    component_or_instance: Component | ComponentReference,
+    layer: LayerSpec,
 ) -> npt.NDArray[np.floating[Any]]:
     """Returns a point inside the component or instance.
 
@@ -243,7 +253,7 @@ def get_point_inside(
     """
     layer = gf.get_layer(layer)
     return np.array(
-        get_polygons_points(component_or_instance, layers=[layer])[layer][0][0]
+        get_polygons_points(component_or_instance, layers=[layer])[layer][0][0],
     )
 
 
@@ -273,7 +283,8 @@ def centered_diff2(a: npt.NDArray[np.floating[Any]]) -> npt.NDArray[np.floating[
 
 
 def curvature(
-    points: npt.NDArray[np.floating[Any]], t: npt.NDArray[np.floating[Any]]
+    points: npt.NDArray[np.floating[Any]],
+    t: npt.NDArray[np.floating[Any]],
 ) -> npt.NDArray[np.floating[Any]]:
     """Args are the points and the tangents at each point.
 
@@ -306,7 +317,8 @@ def curvature(
 
 
 def radius_of_curvature(
-    points: npt.NDArray[np.floating[Any]], t: npt.NDArray[np.floating[Any]]
+    points: npt.NDArray[np.floating[Any]],
+    t: npt.NDArray[np.floating[Any]],
 ) -> npt.NDArray[np.floating[Any]]:
     return 1 / curvature(points, t)
 
@@ -331,14 +343,13 @@ def snap_angle(a: float) -> float:
     a = a % 360
     if -45 < a < 45:
         return 0
-    elif 45 < a < 135:
+    if 45 < a < 135:
         return 90
-    elif 135 < a < 225:
+    if 135 < a < 225:
         return 180
-    elif 225 < a < 315:
+    if 225 < a < 315:
         return 270
-    else:
-        return 0
+    return 0
 
 
 def angles_rad(pts: npt.NDArray[np.floating[Any]]) -> npt.NDArray[np.floating[Any]]:
@@ -356,7 +367,7 @@ def extrude_path(
     points: npt.NDArray[np.floating[Any]],
     width: float,
     with_manhattan_facing_angles: bool = True,
-    spike_length: float64 | int | float = 0,
+    spike_length: float64 | float = 0,
     start_angle: int | None = None,
     end_angle: int | None = None,
     grid: float | None = None,

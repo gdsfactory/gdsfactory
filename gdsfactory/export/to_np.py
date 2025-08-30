@@ -41,14 +41,16 @@ def to_np(
 
     values = values or [1] * len(layers)
 
-    for layer, value in zip(layers, values):
+    for layer, value in zip(layers, values, strict=False):
         if layer in layer_to_polygons:
             polygons = layer_to_polygons[layer]
             for polygon in polygons:
                 r = polygon[:, 0] - xmin
                 c = polygon[:, 1] - ymin
                 rr, cc = skdraw.polygon(
-                    r * pixels_per_um, c * pixels_per_um, shape=shape
+                    r * pixels_per_um,
+                    c * pixels_per_um,
+                    shape=shape,
                 )
                 img[rr, cc] = value
 

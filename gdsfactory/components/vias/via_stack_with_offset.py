@@ -81,7 +81,7 @@ def via_stack_with_offset(
 
     port_orientations = (180, 90, 0, -90)
     layer_to_port_orientations_dict = layer_to_port_orientations or {
-        layers[-1]: list(port_orientations)
+        layers[-1]: list(port_orientations),
     }
 
     previous_layer = layers[0]
@@ -89,11 +89,16 @@ def via_stack_with_offset(
     for layer in layer_to_port_orientations_dict:
         if layer not in layers:
             raise ValueError(
-                f"layer {layer} in layer_to_port_orientations not in layers {layers}"
+                f"layer {layer} in layer_to_port_orientations not in layers {layers}",
             )
 
     for layer, via, size, size_offset, offset in zip(
-        layers, vias, sizes_list, layer_offsets, offsets
+        layers,
+        vias,
+        sizes_list,
+        layer_offsets,
+        offsets,
+        strict=False,
     ):
         width, height = size
         width += 2 * size_offset
@@ -131,11 +136,11 @@ def via_stack_with_offset(
                 raise ValueError(f"via {via.name!r} is missing enclosure info")
             if "column_pitch" not in via.info:
                 raise ValueError(
-                    f"Component {via.name!r} does not have a 'column_pitch' key in info"
+                    f"Component {via.name!r} does not have a 'column_pitch' key in info",
                 )
             if "row_pitch" not in via.info:
                 raise ValueError(
-                    f"Component {via.name!r} does not have a 'row_pitch' key in info"
+                    f"Component {via.name!r} does not have a 'row_pitch' key in info",
                 )
 
             w, h = via.info["xsize"], via.info["ysize"]

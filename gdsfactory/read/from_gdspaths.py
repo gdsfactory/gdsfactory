@@ -12,7 +12,7 @@ if TYPE_CHECKING:
     from gdsfactory.typings import ComponentOrPath, PathType
 
 
-def from_gdspaths(cells: "Sequence[ComponentOrPath]") -> Component:
+def from_gdspaths(cells: Sequence[ComponentOrPath]) -> Component:
     """Combine all GDS files or gf.components into a gf.component.
 
     Args:
@@ -32,7 +32,7 @@ def from_gdspaths(cells: "Sequence[ComponentOrPath]") -> Component:
     return component
 
 
-def from_gdsdir(dirpath: "PathType") -> Component:
+def from_gdsdir(dirpath: PathType) -> Component:
     """Merges GDS cells from a directory into a single Component."""
     dirpath = pathlib.Path(dirpath)
     assert dirpath.exists(), f"{dirpath} does not exist"

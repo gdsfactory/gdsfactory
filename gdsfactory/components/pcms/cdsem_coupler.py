@@ -44,7 +44,7 @@ def cdsem_coupler(
     else:
         positions = [i * spacing for i in range(len(gaps))]
 
-    for gap, position in zip(gaps, positions):
+    for gap, position in zip(gaps, positions, strict=False):
         line = c << gf.c.coupler_straight(length=length, cross_section=xs, gap=gap)
         p = position or p
         line.ymin = p

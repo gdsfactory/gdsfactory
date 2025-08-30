@@ -63,7 +63,7 @@ def ring_crow_couplers(
 
     # Cascade rings
     for index, (r, bend, cross_section) in enumerate(
-        zip(radius, bends, ring_cross_sections)
+        zip(radius, bends, ring_cross_sections, strict=False),
     ):
         # Add ring
         bend_c = gf.get_component(bend, radius=r, cross_section=cross_section)
@@ -86,7 +86,8 @@ def ring_crow_couplers(
         else:
             str_len = np.abs(coup1_extent - coup2_extent) / 2
             str_sec = gf.components.straight(
-                cross_section=cross_section, length=str_len
+                cross_section=cross_section,
+                length=str_len,
             )
 
             str1 = c << str_sec

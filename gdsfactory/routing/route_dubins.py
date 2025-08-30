@@ -59,7 +59,10 @@ def route_dubins(
 
 
 def general_planner(
-    planner: str, alpha: float, beta: float, d: float
+    planner: str,
+    alpha: float,
+    beta: float,
+    d: float,
 ) -> tuple[list[float | Literal[0]], list[str], float] | None:
     """Finds the optimal path between two points using various planning methods."""
     sa = m.sin(alpha)
@@ -215,7 +218,7 @@ def dubins_path(
     assert bt is not None and bp is not None and bq is not None and bmode is not None
 
     # Return path segments with lengths in um
-    return list(zip(bmode, [bt * c, bp * c, bq * c], [c] * 3))
+    return list(zip(bmode, [bt * c, bp * c, bq * c], [c] * 3, strict=False))
 
 
 def mod_to_pi(angle: float) -> float:
@@ -233,7 +236,9 @@ def pi_to_pi(angle: float) -> float:
 
 
 def linear(
-    start: tuple[float, float, float], end: tuple[float, float, float], steps: int
+    start: tuple[float, float, float],
+    end: tuple[float, float, float],
+    steps: int,
 ) -> tuple[list[float], list[float]]:
     """Creates a list of points on lines between a given start point and end point.
 
@@ -281,7 +286,7 @@ def place_dubins_path(
             # Length and radius are in um, convert to nm for gdsfactory
             arc_angle = 180 * length / (m.pi * radius)
             bend = c.create_vinst(
-                bend_circular_all_angle(angle=arc_angle, cross_section=xs)
+                bend_circular_all_angle(angle=arc_angle, cross_section=xs),
             )
             bend.connect("o1", current_position)
             current_position = bend.ports["o2"]
@@ -290,7 +295,7 @@ def place_dubins_path(
         elif mode == "R":
             arc_angle = -(180 * length / (m.pi * radius))
             bend = c.create_vinst(
-                bend_circular_all_angle(angle=arc_angle, cross_section=xs)
+                bend_circular_all_angle(angle=arc_angle, cross_section=xs),
             )
             bend.connect("o1", current_position)
             current_position = bend.ports["o2"]
@@ -298,7 +303,7 @@ def place_dubins_path(
 
         elif mode == "S":
             straight = c.create_vinst(
-                straight_all_angle(length=length, cross_section=xs)
+                straight_all_angle(length=length, cross_section=xs),
             )
             straight.connect("o1", current_position)
             current_position = straight.ports["o2"]

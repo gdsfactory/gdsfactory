@@ -39,9 +39,11 @@ def cdsem_straight(
     else:
         positions = [i * spacing for i in range(len(widths))]
 
-    for width, position in zip(widths, positions):
+    for width, position in zip(widths, positions, strict=False):
         line = c << gf.c.straight(
-            length=length, cross_section=cross_section, width=width
+            length=length,
+            cross_section=cross_section,
+            width=width,
         )
         p = position or p
         line.ymin = p

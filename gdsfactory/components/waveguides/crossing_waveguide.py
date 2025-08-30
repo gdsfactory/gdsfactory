@@ -119,7 +119,11 @@ def crossing_linear_taper(
         taper: taper spec.
     """
     arm = gf.get_component(
-        taper, width1=width1, width2=width2, length=length, cross_section=cross_section
+        taper,
+        width1=width1,
+        width2=width2,
+        length=length,
+        cross_section=cross_section,
     )
     return crossing(arm=arm)
 
@@ -185,7 +189,7 @@ def crossing_etched(
     positions = [(a, 0), (0, a), (-a, 0), (0, -a)]
     angles = [0, 90, 180, 270]
 
-    for i, (p, angle) in enumerate(zip(positions, angles)):
+    for i, (p, angle) in enumerate(zip(positions, angles, strict=False)):
         c.add_port(
             name=str(i),
             center=p,

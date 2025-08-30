@@ -41,7 +41,8 @@ from gdsfactory.typings import LayerSpec
 
 
 def nets_to_connections(
-    nets: list[dict[str, Any]], connections: dict[str, Any]
+    nets: list[dict[str, Any]],
+    connections: dict[str, Any],
 ) -> dict[str, str]:
     # Use the given connections; create a shallow copy to avoid mutating the input.
     connections = dict(connections)
@@ -62,7 +63,7 @@ def nets_to_connections(
             )
             raise ValueError(
                 "SAX currently does not support multiply connected ports. "
-                f"Got {p}<->{q} and {p}<->{_q}"
+                f"Got {p}<->{q} and {p}<->{_q}",
             )
         if q in used:
             _p = (
@@ -72,7 +73,7 @@ def nets_to_connections(
             )
             raise ValueError(
                 "SAX currently does not support multiply connected ports. "
-                f"Got {p}<->{q} and {_p}<->{q}"
+                f"Got {p}<->{q} and {_p}<->{q}",
             )
         connections[p] = q
         used.add(p)
@@ -221,7 +222,7 @@ def get_netlist(
     """
     if isinstance(component, VKCell):
         component_: Component | ComponentAllAngle = ComponentAllAngle(
-            base=component.base
+            base=component.base,
         )
     elif isinstance(component, ProtoTKCell):
         component_ = Component(base=component.base)
@@ -267,21 +268,20 @@ def get_netlist(
         component_name: str
         if c.function_name:
             component_name = c.function_name
+        elif c.name is None:
+            component_name = "unnamed_component"
+            warn(
+                "Component has no name or function_name. "
+                "Using 'unnamed_component' as default.",
+                stacklevel=2,
+            )
         else:
-            if c.name is None:
-                component_name = "unnamed_component"
-                warn(
-                    "Component has no name or function_name. "
-                    "Using 'unnamed_component' as default.",
-                    stacklevel=2,
-                )
-            else:
-                component_name = c.name
-                warn(
-                    f"Component {c.name} has no function_name. "
-                    "Using component.name instead.",
-                    stacklevel=2,
-                )
+            component_name = c.name
+            warn(
+                f"Component {c.name} has no function_name. "
+                "Using component.name instead.",
+                stacklevel=2,
+            )
 
         # Prefer name from settings over c.name
         if c.settings:
@@ -459,7 +459,9 @@ def _extract_connections(
             # Iterates over the list of multiple ports to create related two-port connectivity
             num_ports = len(ports_at_xy)
             for portindex1, portindex2 in zip(
-                range(-1, num_ports - 1), range(num_ports)
+                range(-1, num_ports - 1),
+                range(num_ports),
+                strict=False,
             ):
                 port1 = ports[ports_at_xy[portindex1]]
                 port2 = ports[ports_at_xy[portindex2]]
@@ -479,7 +481,7 @@ def _extract_connections(
                     ports=unconnected_non_top_level,
                     values=unconnected_xys,
                     message=f"{len(unconnected_non_top_level)} unconnected {port_type} ports!",
-                )
+                ),
             )
 
     critical_warnings = {
@@ -523,7 +525,7 @@ def validate_optical_connection(
 
     if len(port_names) != 2:
         raise ValueError(
-            f"More than two connected optical ports: {port_names} at {port1.center}"
+            f"More than two connected optical ports: {port_names} at {port1.center}",
         )
 
     if all(is_top_level):
@@ -536,7 +538,7 @@ def validate_optical_connection(
                 values=[port1.width, port2.width],
                 message=f"Widths of ports {port_names[0]} and {port_names[1]} not equal. "
                 f"Difference of {abs(port1.width - port2.width)} um",
-            )
+            ),
         )
 
     if any(is_top_level):
@@ -551,11 +553,11 @@ def validate_optical_connection(
                     values=[port1.orientation, port2.orientation],
                     message=f"{lower_port} was promoted to {top_port} but orientations"
                     f"do not match! Difference of {(abs(port1.orientation - port2.orientation))} deg",
-                )
+                ),
             )
     else:
         angle_misalignment = abs(
-            abs(difference_between_angles(port1.orientation, port2.orientation)) - 180
+            abs(difference_between_angles(port1.orientation, port2.orientation)) - 180,
         )
         if angle_misalignment > angle_tolerance:
             warnings["orientation_mismatch"].append(
@@ -563,7 +565,7 @@ def validate_optical_connection(
                     port_names,
                     values=[port1.orientation, port2.orientation],
                     message=f"{port_names[0]} and {port_names[1]} are misaligned by {angle_misalignment} deg",
-                )
+                ),
             )
 
     offset_mismatch = np.sqrt(np.sum(np.square(np.array(port2.center) - port1.center)))
@@ -573,7 +575,7 @@ def validate_optical_connection(
                 port_names,
                 values=[port1.center, port2.center],
                 message=f"{port_names[0]} and {port_names[1]} are offset by {offset_mismatch} um",
-            )
+            ),
         )
 
 
@@ -662,13 +664,13 @@ def get_netlist_recursive(
                 )
             else:
                 child_references = _get_references_to_netlist_all_angle(
-                    ComponentAllAngle(base=ref.cell)  # type: ignore[call-overload]
+                    ComponentAllAngle(base=ref.cell),  # type: ignore[call-overload]
                 )
 
             if child_references:
                 inst_name = get_instance_name(ref)
                 netlist_dict: dict[str, Any] = {
-                    "component": f"{rcell.name}{component_suffix}"
+                    "component": f"{rcell.name}{component_suffix}",
                 }
                 if hasattr(rcell, "settings"):
                     netlist_dict.update(settings=rcell.settings.model_dump())
@@ -704,5 +706,5 @@ def _demo_mzi_lattice() -> None:
 DEFAULT_CONNECTION_VALIDATORS = get_default_connection_validators()
 
 DEFAULT_CRITICAL_CONNECTION_ERROR_TYPES = {
-    "optical": ["width_mismatch", "shear_angle_mismatch", "orientation_mismatch"]
+    "optical": ["width_mismatch", "shear_angle_mismatch", "orientation_mismatch"],
 }

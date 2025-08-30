@@ -65,11 +65,17 @@ def add_electrical_pads_top(
 
     if direction == "top":
         pads = c << gf.get_component(
-            pad_array, columns=len(ports_electrical), rows=1, port_orientation=270
+            pad_array,
+            columns=len(ports_electrical),
+            rows=1,
+            port_orientation=270,
         )
     elif direction == "right":
         pads = c << gf.get_component(
-            pad_array, columns=1, rows=len(ports_electrical), orientation=270
+            pad_array,
+            columns=1,
+            rows=len(ports_electrical),
+            orientation=270,
         )
     else:
         raise ValueError(f"Invalid direction {direction}")
@@ -80,7 +86,7 @@ def add_electrical_pads_top(
     ports_pads = sort_ports_x(pads.ports)
     ports_component = sort_ports_x(ports_electrical)
 
-    for p1, p2 in zip(ports_component, ports_pads):
+    for p1, p2 in zip(ports_component, ports_pads, strict=False):
         route_quad(c, p1, p2, layer=layer)
 
     for port in ref.ports:

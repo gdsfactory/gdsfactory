@@ -30,9 +30,14 @@ def generate_doe(
         function: for the component (add padding, grating couplers ...)
     """
     if do_permutations:
-        settings_list = [dict(zip(settings, t)) for t in it.product(*settings.values())]
+        settings_list = [
+            dict(zip(settings, t, strict=False)) for t in it.product(*settings.values())
+        ]
     else:
-        settings_list = [dict(zip(settings, t)) for t in zip(*settings.values())]
+        settings_list = [
+            dict(zip(settings, t, strict=False))
+            for t in zip(*settings.values(), strict=False)
+        ]
 
     if function:
         function = gf.get_cell(function)
@@ -82,19 +87,22 @@ def pack_doe(
         v_mirror: vertical mirror using x axis (1, y) (0, y).
     """
     component_list, settings_list = generate_doe(
-        doe=doe, settings=settings, do_permutations=do_permutations, function=function
+        doe=doe,
+        settings=settings,
+        do_permutations=do_permutations,
+        function=function,
     )
 
     components = pack(component_list, **kwargs)
 
     if len(components) > 1:
         raise ValueError(
-            f"failed to pack in one Component, it created {len(components)} Components"
+            f"failed to pack in one Component, it created {len(components)} Components",
         )
 
     component = components[0]
     component.info["doe_names"] = [component.name for component in component_list]
-    component.info["doe_settings"] = cast(kf.typings.MetaData, settings_list)
+    component.info["doe_settings"] = cast("kf.typings.MetaData", settings_list)
     return component
 
 
@@ -133,9 +141,14 @@ def pack_doe_grid(
         v_mirror: vertical mirror using x axis (1, y) (0, y).
     """
     if do_permutations:
-        settings_list = [dict(zip(settings, t)) for t in it.product(*settings.values())]
+        settings_list = [
+            dict(zip(settings, t, strict=False)) for t in it.product(*settings.values())
+        ]
     else:
-        settings_list = [dict(zip(settings, t)) for t in zip(*settings.values())]
+        settings_list = [
+            dict(zip(settings, t, strict=False))
+            for t in zip(*settings.values(), strict=False)
+        ]
 
     if function:
         function = gf.get_cell(function)
@@ -156,5 +169,5 @@ def pack_doe_grid(
         c = grid(component_list, **kwargs)
 
     c.info["doe_names"] = [component.name for component in component_list]
-    c.info["doe_settings"] = cast(kf.typings.MetaData, settings_list)
+    c.info["doe_settings"] = cast("kf.typings.MetaData", settings_list)
     return c

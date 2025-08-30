@@ -101,10 +101,14 @@ def optimal_step(
         D.info["num_squares"] = 1
     else:
         xmin, _ = invert_step_point(
-            y_desired=start_width * (1 + width_tol), W=start_width, a=end_width
+            y_desired=start_width * (1 + width_tol),
+            W=start_width,
+            a=end_width,
         )
         xmax, _ = invert_step_point(
-            y_desired=end_width * (1 - width_tol), W=start_width, a=end_width
+            y_desired=end_width * (1 - width_tol),
+            W=start_width,
+            a=end_width,
         )
 
         xpts = list(np.linspace(xmin, xmax, num_pts))
@@ -140,11 +144,12 @@ def optimal_step(
 
         D.info["num_squares"] = float(
             np.round(
-                np.sum(np.diff(x_num_sq) / ((y_num_sq[:-1] + y_num_sq[1:]) / 2)), 3
-            )
+                np.sum(np.diff(x_num_sq) / ((y_num_sq[:-1] + y_num_sq[1:]) / 2)),
+                3,
+            ),
         )
 
-    D.add_polygon(list(zip(xpts, ypts)), layer=layer)
+    D.add_polygon(list(zip(xpts, ypts, strict=False)), layer=layer)
     port_type = "electrical"
     if not symmetric:
         D.add_port(

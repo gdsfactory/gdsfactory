@@ -63,7 +63,8 @@ def route_quad(
     """
 
     def get_port_edges(
-        port: Port, width: float
+        port: Port,
+        width: float,
     ) -> tuple[npt.NDArray[np.floating[Any]], npt.NDArray[np.floating[Any]]]:
         _, e1 = _get_rotated_basis(port.orientation)
         pt1 = port.center + e1 * width / 2
@@ -80,7 +81,13 @@ def route_quad(
     # sort vertices by angle from center of quadrilateral to make convex polygon
     angles = np.array([np.arctan2(disp[0], disp[1]) for disp in displacements])
     sorted_vertices: npt.NDArray[np.floating[Any]] = np.array(
-        [vert for _, vert in sorted(zip(angles, vertices), key=lambda x: x[0])],
+        [
+            vert
+            for _, vert in sorted(
+                zip(angles, vertices, strict=False),
+                key=lambda x: x[0],
+            )
+        ],
         dtype=np.float64,
     )
 

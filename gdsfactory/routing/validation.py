@@ -10,7 +10,10 @@ from gdsfactory.routing.utils import RouteWarning
 
 
 def make_error_traces(
-    component: gf.Component, ports1: list[Port], ports2: list[Port], message: str
+    component: gf.Component,
+    ports1: list[Port],
+    ports2: list[Port],
+    message: str,
 ) -> None:
     """Creates a set of error traces showing the intended connectivity between ports1 and ports2.
 
@@ -28,7 +31,7 @@ def make_error_traces(
     import gdsfactory as gf
 
     warn(message, RouteWarning, stacklevel=3)
-    for port1, port2 in zip(ports1, ports2):
+    for port1, port2 in zip(ports1, ports2, strict=False):
         path = gf.path.Path(np.array([port1.center, port2.center]))
         error_component = gf.path.extrude(path, layer=CONF.layer_error_path, width=1)
         _ = component << error_component
@@ -59,7 +62,7 @@ def is_invalid_bundle_topology(ports1: list[Port], ports2: list[Port]) -> bool:
     ] = []  # for intersection checking
 
     # Precompute all necessary quantities
-    for p1, p2 in zip(ports1, ports2):
+    for p1, p2 in zip(ports1, ports2, strict=False):
         c1: tuple[float, float] = p1.center
         c2: tuple[float, float] = p2.center
 
@@ -97,7 +100,9 @@ def _segment_intersects_fast(
     """Fast check if 2 segments intersect (excluding colinear cases)."""
 
     def ccw(
-        p1: tuple[float, float], p2: tuple[float, float], p3: tuple[float, float]
+        p1: tuple[float, float],
+        p2: tuple[float, float],
+        p3: tuple[float, float],
     ) -> bool:
         # Counter-clockwise test
         return (p3[1] - p1[1]) * (p2[0] - p1[0]) > (p2[1] - p1[1]) * (p3[0] - p1[0])

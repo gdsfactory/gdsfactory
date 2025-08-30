@@ -42,7 +42,8 @@ def text(
                     xpts = np.array(poly)[:, 0] * scaling
                     ypts = np.array(poly)[:, 1] * scaling
                     label.add_polygon(
-                        list(zip(xpts + xoffset, ypts + yoffset)), layer=layer
+                        list(zip(xpts + xoffset, ypts + yoffset, strict=False)),
+                        layer=layer,
                     )
                 xoffset += (_width[ascii_val] + _indent[ascii_val]) * scaling
             else:
@@ -61,7 +62,7 @@ def text(
             instance.xmin = xmin
         else:
             raise ValueError(
-                f"justify = {justify!r} not in ('center', 'right', 'left')"
+                f"justify = {justify!r} not in ('center', 'right', 'left')",
             )
     t.flatten()
     return t

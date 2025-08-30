@@ -38,7 +38,7 @@ def neff_TE1550SOI_220nm(w: float) -> float:
             -3.74726005e01,
             1.77381560e01,
             -1.12666286e00,
-        ]
+        ],
     )
     return float(np.poly1d(adiabatic_polyfit_TE1550SOI_220nm)(w).item())
 
@@ -112,7 +112,8 @@ def taper_adiabatic(
 
     c = gf.Component()
     c.add_polygon(
-        list(zip(x_array, y_array)) + list(zip(x_array, -y_array))[::-1],
+        list(zip(x_array, y_array, strict=False))
+        + list(zip(x_array, -y_array, strict=False))[::-1],
         layer=layer,
     )
 

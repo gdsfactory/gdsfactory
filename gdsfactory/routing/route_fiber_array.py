@@ -266,7 +266,7 @@ def route_fiber_array(
     io_gratings: list[Component | kf.DInstance] = []
     gc_ports: list[gf.Port] = []
     for j in range(nb_optical_ports_lines):
-        for i, gc in zip(grating_indices, grating_couplers):
+        for i, gc in zip(grating_indices, grating_couplers, strict=False):
             gc_ref = component << gc
             gc_ref.rotate(gc_rotation)
             gc_ref.x = x_c - offset + i * pitch
@@ -341,14 +341,14 @@ def route_fiber_array(
             gc_port_name_fiber = _gc_port_name_fiber
         else:
             raise ValueError(
-                f"{gc_port_name_fiber!r} not in {grating_coupler_port_names}"
+                f"{gc_port_name_fiber!r} not in {grating_coupler_port_names}",
             )
 
     fiber_ports = [gc.ports[gc_port_name_fiber] for gc in io_gratings]
 
     component.ports = kf.DPorts(kcl=component.kcl)
 
-    for component_port, port in zip(port_names, fiber_ports):
+    for component_port, port in zip(port_names, fiber_ports, strict=False):
         component.add_port(name=component_port, port=port)
 
     component.add_ports(ports_not_terminated)
@@ -385,17 +385,19 @@ def route_fiber_array(
             p.to_dtype(component.kcl.dbu) for p in waypoints_loopback
         ]
         bend90 = gf.get_component(
-            bend, cross_section=cross_section, radius=radius_loopback
+            bend,
+            cross_section=cross_section,
+            radius=radius_loopback,
         )
 
         sign = 1 if with_loopback_inside else -1
         wp_start = waypoints_loopback_[0]
         wp_end = waypoints_loopback_[-1]
         waypoints_loopback_[:3] = [
-            gf.kdb.DPoint(wp_start.x + sign * radius * 2, wp_start.y)
+            gf.kdb.DPoint(wp_start.x + sign * radius * 2, wp_start.y),
         ]
         waypoints_loopback_[-3:] = [
-            gf.kdb.DPoint(wp_end.x - sign * radius * 2, wp_end.y)
+            gf.kdb.DPoint(wp_end.x - sign * radius * 2, wp_end.y),
         ]
 
         route_bundle(

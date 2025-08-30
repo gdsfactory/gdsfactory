@@ -177,16 +177,17 @@ def pack(
     if density < 1.01:
         raise ValueError(
             "pack() `density` argument is too small. "
-            "The density argument must be >= 1.01"
+            "The density argument must be >= 1.01",
         )
 
     # Sanitize max_size variable
     max_size_filtered = tuple(np.inf if v is None else v for v in max_size)
     max_size_array: npt.NDArray[np.floating[Any]] = np.asarray(
-        max_size_filtered, dtype=np.float64
+        max_size_filtered,
+        dtype=np.float64,
     )  # In case it's integers
     max_size_array = max_size_array / precision
-    max_size_tuple = cast(tuple[float, float], tuple(max_size_array))
+    max_size_tuple = cast("tuple[float, float]", tuple(max_size_array))
 
     components = [gf.get_component(component) for component in component_list]
 
@@ -200,13 +201,13 @@ def pack(
             raise ValueError(
                 f"pack() failed because Component {_component.name!r} has x dimension "
                 "larger than `max_size` and cannot be packed.\n"
-                f"xsize = {size[0]}, max_xsize = {int(precision * w)}"
+                f"xsize = {size[0]}, max_xsize = {int(precision * w)}",
             )
-        elif h > max_size_tuple[1]:
+        if h > max_size_tuple[1]:
             raise ValueError(
                 f"pack() failed because Component {_component.name!r} has y dimension "
                 "larger than `max_size` and cannot be packed.\n"
-                f"ysize = {size[1]}, max_ysize = {int(precision * h)}"
+                f"ysize = {size[1]}, max_ysize = {int(precision * h)}",
             )
         rect_dict[n] = (w, h)
 
@@ -251,7 +252,7 @@ def pack(
             if v_mirror:
                 d.mirror_y()
             d.center = cast(
-                tuple[float, float],
+                "tuple[float, float]",
                 tuple(snap_to_grid((xcenter * precision, ycenter * precision))),
             )
             if add_ports_prefix:
@@ -267,14 +268,18 @@ def pack(
             index += 1
 
             if text:
-                for text_offset, text_anchor in zip(text_offsets, text_anchors):
+                for text_offset, text_anchor in zip(
+                    text_offsets,
+                    text_anchors,
+                    strict=False,
+                ):
                     label = packed << text(f"{text_prefix}{index}")
                     if text_mirror:
                         label.dmirror()
                     if text_rotation:
                         label.rotate(text_rotation)
                     label.move(
-                        np.array(text_offset) + getattr(d.dsize_info, text_anchor)
+                        np.array(text_offset) + getattr(d.dsize_info, text_anchor),
                     )
 
         components_packed_list.append(packed)

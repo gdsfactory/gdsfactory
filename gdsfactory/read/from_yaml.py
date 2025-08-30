@@ -156,17 +156,20 @@ valid_route_keys = [
 
 
 def _get_anchor_point_from_name(
-    ref: InstanceOrVInstance, anchor_name: str
+    ref: InstanceOrVInstance,
+    anchor_name: str,
 ) -> tuple[float, float] | None:
     if anchor_name in valid_anchor_point_keywords:
-        return cast(tuple[float, float], getattr(ref.dsize_info, anchor_name))
-    elif anchor_name in ref.ports:
+        return cast("tuple[float, float]", getattr(ref.dsize_info, anchor_name))
+    if anchor_name in ref.ports:
         return ref.ports[anchor_name].center
     return None
 
 
 def _get_anchor_value_from_name(
-    ref: InstanceOrVInstance, anchor_name: str, return_value: str
+    ref: InstanceOrVInstance,
+    anchor_name: str,
+    return_value: str,
 ) -> float | None:
     """Return the x or y value of an anchor point or port on a reference."""
     if anchor_name in valid_anchor_value_keywords:
@@ -176,10 +179,9 @@ def _get_anchor_value_from_name(
         return None
     if return_value == "x":
         return anchor_point[0]
-    elif return_value == "y":
+    if return_value == "y":
         return anchor_point[1]
-    else:
-        raise ValueError("Expected x or y as return_value.")
+    raise ValueError("Expected x or y as return_value.")
 
 
 def _move_ref(
@@ -195,7 +197,7 @@ def _move_ref(
         return x
     if len(x.split(",")) != 2:
         raise ValueError(
-            f"You can define {x_or_y} as `{x_or_y}: instanceName,portName` got `{x_or_y}: {x!r}`"
+            f"You can define {x_or_y} as `{x_or_y}: instanceName,portName` got `{x_or_y}: {x!r}`",
         )
     instance_name_ref, port_name = x.split(",")
     if instance_name_ref in all_remaining_insts:
@@ -210,7 +212,7 @@ def _move_ref(
     if instance_name_ref not in instances:
         raise ValueError(
             f"{instance_name_ref!r} not in {list(instances.keys())}."
-            f" You can define {x_or_y} as `{x_or_y}: instanceName,portName`, got {x_or_y}: {x!r}"
+            f" You can define {x_or_y} as `{x_or_y}: instanceName,portName`, got {x_or_y}: {x!r}",
         )
     if (
         port_name not in instances[instance_name_ref].ports
@@ -220,7 +222,7 @@ def _move_ref(
         raise ValueError(
             f"port = {port_name!r} can be a port_name in {ports}, "
             f"an anchor {valid_anchor_keywords} for {instance_name_ref!r}, "
-            f"or `{x_or_y}: instanceName,portName`, got `{x_or_y}: {x!r}`"
+            f"or `{x_or_y}: instanceName,portName`, got `{x_or_y}: {x!r}`",
         )
 
     return _get_anchor_value_from_name(instances[instance_name_ref], port_name, x_or_y)
@@ -240,7 +242,7 @@ def _parse_maybe_arrayed_instance(inst_spec: str) -> tuple[str, int | None, int 
     if inst_spec.find("<", left + 1) != -1:
         raise ValueError(
             f"Too many angle brackets (<) in instance specification '{inst_spec}'. "
-            "Array ref indices should end with <ia.ib>, and otherwise this character should be avoided."
+            "Array ref indices should end with <ia.ib>, and otherwise this character should be avoided.",
         )
 
     inst_name = inst_spec[:left]
@@ -248,12 +250,12 @@ def _parse_maybe_arrayed_instance(inst_spec: str) -> tuple[str, int | None, int 
     dot = array_spec.find(".")
     if dot == -1:
         raise ValueError(
-            f"Array specifier should contain a '.' and be of the format my_ref<ia.ib>. Got {inst_spec}"
+            f"Array specifier should contain a '.' and be of the format my_ref<ia.ib>. Got {inst_spec}",
         )
     # Check for too many periods
     if array_spec.find(".", dot + 1) != -1:
         raise ValueError(
-            f"Too many periods (.) in array specifier. Array specifier should be of the format my_ref<ia.ib>. Got {inst_spec}"
+            f"Too many periods (.) in array specifier. Array specifier should be of the format my_ref<ia.ib>. Got {inst_spec}",
         )
 
     ia = array_spec[:dot]
@@ -262,14 +264,14 @@ def _parse_maybe_arrayed_instance(inst_spec: str) -> tuple[str, int | None, int 
         ia_int = int(ia)
     except ValueError as e:
         raise ValueError(
-            f"When parsing array reference specifier '{inst_spec}', got a non-integer index '{ia}'"
+            f"When parsing array reference specifier '{inst_spec}', got a non-integer index '{ia}'",
         ) from e
 
     try:
         ib_int = int(ib)
     except ValueError as e:
         raise ValueError(
-            f"When parsing array reference specifier '{inst_spec}', got a non-integer index '{ib}'"
+            f"When parsing array reference specifier '{inst_spec}', got a non-integer index '{ib}'",
         ) from e
 
     return inst_name, ia_int, ib_int
@@ -307,7 +309,7 @@ def place(
         encountered_insts.append(instance_name)
         loop_str = " -> ".join(encountered_insts)
         raise ValueError(
-            f"circular reference in placement for {instance_name}! Loop: {loop_str}"
+            f"circular reference in placement for {instance_name}! Loop: {loop_str}",
         )
     encountered_insts.append(instance_name)
     if instance_name not in instances:
@@ -318,7 +320,7 @@ def place(
         placement_settings = placements_conf[instance_name] or {}
         if not isinstance(placement_settings, dict):
             raise ValueError(
-                f"Invalid placement {placement_settings} from {valid_placement_keys}"
+                f"Invalid placement {placement_settings} from {valid_placement_keys}",
             )
         for k in placement_settings.keys():
             if k not in valid_placement_keys:
@@ -363,7 +365,7 @@ def place(
                 port_names = [port.name for port in ref.ports]
                 raise ValueError(
                     f"{mirror!r} can only be a port name {port_names}, "
-                    "x value or True/False"
+                    "x value or True/False",
                 )
 
         if port:
@@ -409,7 +411,7 @@ def place(
 
         if ymin is not None and ymax is not None:
             raise ValueError("You cannot set ymin and ymax")
-        elif ymax is not None:
+        if ymax is not None:
             dymax = _move_ref(
                 ymax,
                 x_or_y="y",
@@ -436,7 +438,7 @@ def place(
 
         if xmin is not None and xmax is not None:
             raise ValueError("You cannot set xmin and xmax")
-        elif xmin is not None:
+        if xmin is not None:
             dxmin = _move_ref(
                 xmin,
                 x_or_y="x",
@@ -493,10 +495,10 @@ def transform_connections_dict(
         instance_src_name, port_src_name = port_src_string.split(",")
         instance_dst_name, port_dst_name = port_dst_string.split(",")
         instance_src_name, src_ia, src_ib = _parse_maybe_arrayed_instance(
-            instance_src_name
+            instance_src_name,
         )
         instance_dst_name, dst_ia, dst_ib = _parse_maybe_arrayed_instance(
-            instance_dst_name
+            instance_dst_name,
         )
         attrs_by_src_inst[instance_src_name] = {
             "instance_src_name": instance_src_name,
@@ -555,13 +557,13 @@ def make_connection(
         instance_src_port_names = [p.name for p in instance_src.ports]
         raise ValueError(
             f"{port_src_name!r} not in {instance_src_port_names} for"
-            f" {instance_src_name!r} "
+            f" {instance_src_name!r} ",
         )
     if port_dst_name not in instance_dst.ports:
         instance_dst_port_names = [p.name for p in instance_dst.ports]
         raise ValueError(
             f"{port_dst_name!r} not in {instance_dst_port_names} for"
-            f" {instance_dst_name!r}"
+            f" {instance_dst_name!r}",
         )
 
     if src_ia is None or src_ib is None:
@@ -826,10 +828,7 @@ def _load_yaml_str(yaml_str: Any) -> dict[str, Any]:
         dct = deepcopy(yaml_str.model_dump())
     elif (isinstance(yaml_str, str) and "\n" in yaml_str) or isinstance(yaml_str, IO):
         dct = yaml.load(yaml_str, Loader=yaml.FullLoader)
-    elif isinstance(yaml_str, str):
-        with open(yaml_str) as f:
-            dct = yaml.load(f, Loader=yaml.FullLoader)
-    elif isinstance(yaml_str, pathlib.Path):
+    elif isinstance(yaml_str, str) or isinstance(yaml_str, pathlib.Path):
         with open(yaml_str) as f:
             dct = yaml.load(f, Loader=yaml.FullLoader)
     else:
@@ -882,18 +881,20 @@ def _get_dependency_graph(net: Netlist) -> nx.DiGraph:
             cycle_nodes = [e[0] for e in example_cycle] + [example_cycle[0][0]]
             raise RuntimeError(
                 "Cyclical references when placing / connecting instances:\n"
-                + "->".join(cycle_nodes)
+                + "->".join(cycle_nodes),
             )
         except nx.NetworkXNoCycle:
             raise RuntimeError(
-                "Cyclical references detected, but no cycle found (unexpected state)"
+                "Cyclical references detected, but no cycle found (unexpected state)",
             )
 
     return g
 
 
 def _get_references(
-    c: Component, pdk: "Pdk", instances: dict[str, NetlistInstance]
+    c: Component,
+    pdk: Pdk,
+    instances: dict[str, NetlistInstance],
 ) -> dict[str, InstanceOrVInstance]:
     refs: dict[str, InstanceOrVInstance] = {}
 
@@ -922,12 +923,11 @@ def _get_references(
                     inst.array.pitch_b[1],
                 ),
             )
+        elif inst.virtual or isinstance(comp, ComponentAllAngle):
+            ref = c.create_vinst(comp)
+            ref.name = name
         else:
-            if inst.virtual or isinstance(comp, ComponentAllAngle):
-                ref = c.create_vinst(comp)
-                ref.name = name
-            else:
-                ref = c.add_ref(comp, name=name)
+            ref = c.add_ref(comp, name=name)
         refs[name] = ref
     return refs
 
@@ -967,21 +967,20 @@ def _place_and_connect(
                             raise ValueError(f"{i2!r} not in {list(refs)}")
                         refs[i1name].connect(port1, other=refs[i2], other_port_name=p2)
 
+                elif i2a is not None and i2b is not None:
+                    if i1 not in refs:
+                        raise ValueError(f"{i1!r} not in {list(refs)}")
+                    refs[i1].connect(
+                        p1,
+                        other=refs[i2name],  # type: ignore[arg-type]
+                        other_port_name=(p2, i2a, i2b),
+                    )
                 else:
-                    if i2a is not None and i2b is not None:
-                        if i1 not in refs:
-                            raise ValueError(f"{i1!r} not in {list(refs)}")
-                        refs[i1].connect(
-                            p1,
-                            other=refs[i2name],  # type: ignore[arg-type]
-                            other_port_name=(p2, i2a, i2b),
-                        )
-                    else:
-                        if i1 not in refs:
-                            raise ValueError(f"{i1!r} not in {list(refs)}")
-                        if i2 not in refs:
-                            raise ValueError(f"{i2!r} not in {list(refs)}")
-                        refs[i1].connect(p1, other=refs[i2], other_port_name=p2)
+                    if i1 not in refs:
+                        raise ValueError(f"{i1!r} not in {list(refs)}")
+                    if i2 not in refs:
+                        raise ValueError(f"{i2!r} not in {list(refs)}")
+                    refs[i1].connect(p1, other=refs[i2], other_port_name=p2)
 
 
 def _add_routes(
@@ -1001,7 +1000,7 @@ def _add_routes(
         except KeyError as e:
             raise ValueError(
                 f"Unknown routing strategy.\nvalid strategies: {list(routing_strategies)}\n"
-                f"Got:{bundle.routing_strategy}"
+                f"Got:{bundle.routing_strategy}",
             ) from e
 
         ports1: list[typings.Port] = []
@@ -1013,13 +1012,13 @@ def _add_routes(
             first2, middles2, last2 = _split_route_link(ip2)
             if len(middles1) != len(middles2):
                 raise ValueError(
-                    f"length of array bundles don't match. Got {ip1} <-> {ip2}"
+                    f"length of array bundles don't match. Got {ip1} <-> {ip2}",
                 )
             ports1 += _get_ports_from_portnames(refs, first1, middles1, last1)
             ports2 += _get_ports_from_portnames(refs, first2, middles2, last2)
             route_names += [
                 f"{bundle_name}-{first1}{m1}{last1}-{first2}{m2}{last2}"
-                for m1, m2 in zip(middles1, middles2)
+                for m1, m2 in zip(middles1, middles2, strict=False)
             ]
         routes_list = routing_strategy(
             c,
@@ -1027,13 +1026,15 @@ def _add_routes(
             ports2=ports2,
             **bundle.settings,
         )
-        routes_dict.update(dict(zip(route_names, routes_list)))
+        routes_dict.update(dict(zip(route_names, routes_list, strict=False)))
         c.routes = routes_dict
     return c
 
 
 def _add_ports(
-    c: Component, refs: dict[str, InstanceOrVInstance], ports: dict[str, str]
+    c: Component,
+    refs: dict[str, InstanceOrVInstance],
+    ports: dict[str, str],
 ) -> Component:
     """Add ports to Component using references and mapping."""
     for name, ip in ports.items():
@@ -1087,7 +1088,9 @@ def _two_out_of_three_none(one: Any, two: Any, three: Any) -> bool:
 
 
 def _update_reference_by_placement(
-    refs: dict[str, InstanceOrVInstance], name: str, p: Placement
+    refs: dict[str, InstanceOrVInstance],
+    name: str,
+    p: Placement,
 ) -> None:
     ref = refs[name]
     x = p.x
@@ -1126,14 +1129,14 @@ def _update_reference_by_placement(
                 ref.dmirror_x(x=ref.x)
             except Exception as e:
                 raise ValueError(
-                    f"{mirror!r} should be bool | float | str in {port_names}. Got: {mirror}."
+                    f"{mirror!r} should be bool | float | str in {port_names}. Got: {mirror}.",
                 ) from e
 
     if isinstance(port, str):
         if xmin is not None or xmax is not None or ymin is not None or ymax is not None:
             raise ValueError(
                 "Cannot combine 'port' setting with any of (xmin, xmax, ymin, ymax)."
-                f"Got:\n{port=},\n{xmin=},\n{xmax=},\n{ymin=},\n{ymax=}"
+                f"Got:\n{port=},\n{xmin=},\n{xmax=},\n{ymin=},\n{ymax=}",
             )
         a = _get_anchor_point_from_name(ref, port)
         if a is None:
@@ -1149,9 +1152,9 @@ def _update_reference_by_placement(
 
     if not _two_out_of_three_none(x, xmin, xmax):
         raise ValueError(
-            f"Can only set one of x, xmin, xmax. Got: {x=}, {xmin=}, {xmax=}"
+            f"Can only set one of x, xmin, xmax. Got: {x=}, {xmin=}, {xmax=}",
         )
-    elif isinstance(x, str):
+    if isinstance(x, str):
         i, q = x.split(",")
         if q in valid_anchor_value_keywords:
             _dx = _get_anchor_value_from_name(refs[i], q, "x")
@@ -1184,9 +1187,9 @@ def _update_reference_by_placement(
 
     if not _two_out_of_three_none(y, ymin, ymax):
         raise ValueError(
-            f"Can only set one of y, ymin, ymax. Got: {y=}, {ymin=}, {ymax=}"
+            f"Can only set one of y, ymin, ymax. Got: {y=}, {ymin=}, {ymax=}",
         )
-    elif isinstance(y, str):
+    if isinstance(y, str):
         i, q = y.split(",")
         if q in valid_anchor_value_keywords:
             _dy = _get_anchor_value_from_name(refs[i], q, "y")
@@ -1244,7 +1247,7 @@ def _split_route_link(s: str) -> tuple[str, list[str], str]:
         "Whereas the format for bundle routing instance ports are one of the following:\n"
         "1. 'inst,port{i}-{j}' (enumerate port index)\n"
         "2. 'inst{i}-{j},port' (enumerate instance index)\n"
-        "3. 'inst<{i}-{j}.{k}>,port (enumerate array instance index)"
+        "3. 'inst<{i}-{j}.{k}>,port (enumerate array instance index)",
     )
     warning = (
         "Bundle format 'inst,port:{i}:{j}' (with two columns) has been "
@@ -1280,22 +1283,24 @@ def _split_route_link(s: str) -> tuple[str, list[str], str]:
 
     if s.count("-") > 1:
         raise error
-    elif "-" not in s:
+    if "-" not in s:
         return s, [""], ""
-    else:
-        first, last = s.split("-")
-        first, j = _first_index(first)
-        last, k = _second_index(last)
+    first, last = s.split("-")
+    first, j = _first_index(first)
+    last, k = _second_index(last)
 
-        if k >= j:
-            middles = [f"{i}" for i in range(j, k + 1, 1)]
-        else:
-            middles = [f"{i}" for i in range(j, k - 1, -1)]
-        return first, middles, last
+    if k >= j:
+        middles = [f"{i}" for i in range(j, k + 1, 1)]
+    else:
+        middles = [f"{i}" for i in range(j, k - 1, -1)]
+    return first, middles, last
 
 
 def _get_ports_from_portnames(
-    refs: dict[str, InstanceOrVInstance], first: str, middles: list[str], last: str
+    refs: dict[str, InstanceOrVInstance],
+    first: str,
+    middles: list[str],
+    last: str,
 ) -> list[typings.Port]:
     ports = []
     for middle in middles:
@@ -1305,7 +1310,7 @@ def _get_ports_from_portnames(
         ref = refs[i]
         if p not in ref.ports:
             raise ValueError(
-                f"{p!r} not in {i!r} available ports: {[p.name for p in ref.ports]}"
+                f"{p!r} not in {i!r} available ports: {[p.name for p in ref.ports]}",
             )
         port = ref.ports[p] if (ia is None or ib is None) else ref.ports[p, ia, ib]  # type: ignore[index]
         ports.append(port)

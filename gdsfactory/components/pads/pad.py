@@ -77,12 +77,12 @@ def pad(
             size_ = (size_[0] + 2 * cladding_offset, size_[1] + 2 * cladding_offset)
             sizes.append(size_)
 
-        for layer, size_ in zip(bbox_layers, sizes):
+        for layer, size_ in zip(bbox_layers, sizes, strict=False):
             c.add_ref(
                 gf.c.compass(
                     size=size_,
                     layer=layer,
-                )
+                ),
             )
     c.flatten()
     return c
@@ -127,7 +127,10 @@ def pad_array(
     if size is not None:
         pad_kwargs["size"] = size
     pad_component = gf.get_component(
-        pad, port_orientations=None, port_orientation=port_orientation, **pad_kwargs
+        pad,
+        port_orientations=None,
+        port_orientation=port_orientation,
+        **pad_kwargs,
     )
 
     pad_size: Float2 = size or pad_component.info["size"]

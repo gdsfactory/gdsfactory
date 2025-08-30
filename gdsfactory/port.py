@@ -85,7 +85,7 @@ def get_port_definitions(ports: Ports) -> str:
             f"width={port.width}, orientation={port.orientation}, "
             f"layer={gf.get_layer_tuple(port.layer)}, port_type='{port.port_type}')"
             for port in ports
-        ]
+        ],
     )
 
 
@@ -183,9 +183,9 @@ def port_array(
             Port(
                 name=str(i),
                 center=cast(
-                    tuple[float, float],
+                    "tuple[float, float]",
                     tuple(
-                        np.array(center) + i * pitch_array - (n - 1) / 2 * pitch_array
+                        np.array(center) + i * pitch_array - (n - 1) / 2 * pitch_array,
                     ),
                 ),
                 orientation=orientation,
@@ -194,26 +194,26 @@ def port_array(
             )  # type: ignore[call-overload]
             for i in range(n)
         ]
-    else:
-        return [
-            Port(
-                name=str(i),
-                center=cast(
-                    tuple[float, float],
-                    tuple(
-                        np.array(center) + i * pitch_array - (n - 1) / 2 * pitch_array
-                    ),
+    return [
+        Port(
+            name=str(i),
+            center=cast(
+                "tuple[float, float]",
+                tuple(
+                    np.array(center) + i * pitch_array - (n - 1) / 2 * pitch_array,
                 ),
-                orientation=orientation,
-                width=width,
-                **kwargs,
-            )  # type: ignore[call-overload]
-            for i in range(n)
-        ]
+            ),
+            orientation=orientation,
+            width=width,
+            **kwargs,
+        )  # type: ignore[call-overload]
+        for i in range(n)
+    ]
 
 
 def read_port_markers(
-    component: Component, layers: LayerSpecs = ("PORT",)
+    component: Component,
+    layers: LayerSpecs = ("PORT",),
 ) -> Component:
     """Returns extracted polygons from component layers.
 
@@ -401,7 +401,8 @@ select_ports_placement = partial(select_ports, port_type="placement")
 
 
 def select_ports_list(
-    ports: Ports | Ports | ComponentReference, **kwargs: Any
+    ports: Ports | ComponentReference,
+    **kwargs: Any,
 ) -> Ports:
     return select_ports(ports=ports, **kwargs)
 
@@ -426,7 +427,8 @@ def move_copy(port: typings.Port, x: int = 0, y: int = 0) -> typings.Port:
 
 
 def get_ports_facing(
-    ports: Sequence[typings.Port], direction: str = "W"
+    ports: Sequence[typings.Port],
+    direction: str = "W",
 ) -> list[typings.Port]:
     from gdsfactory.component import Component, ComponentReference
 
@@ -458,7 +460,7 @@ def get_ports_facing(
     return direction_ports[direction]
 
 
-def deco_rename_ports(component_factory: "ComponentFactory") -> "ComponentFactory":
+def deco_rename_ports(component_factory: ComponentFactory) -> ComponentFactory:
     @functools.wraps(component_factory)
     def auto_named_component_factory(*args: Any, **kwargs: Any) -> Component:
         component = component_factory(*args, **kwargs)
@@ -469,7 +471,8 @@ def deco_rename_ports(component_factory: "ComponentFactory") -> "ComponentFactor
 
 
 def _rename_ports_facing_side(
-    direction_ports: dict[str, list[Port]], prefix: str = ""
+    direction_ports: dict[str, list[Port]],
+    prefix: str = "",
 ) -> None:
     """Renames ports clockwise."""
     for direction, list_ports in list(direction_ports.items()):
@@ -488,7 +491,8 @@ def _rename_ports_facing_side(
 
 
 def _rename_ports_facing_side_ccw(
-    direction_ports: dict[str, list[Port]], prefix: str = ""
+    direction_ports: dict[str, list[Port]],
+    prefix: str = "",
 ) -> None:
     """Renames ports counter-clockwise."""
     for direction, list_ports in list(direction_ports.items()):
@@ -550,7 +554,8 @@ def _rename_ports_clockwise(direction_ports: PortsDict, prefix: str = "") -> Non
 
 
 def _rename_ports_clockwise_top_right(
-    direction_ports: PortsDict, prefix: str = ""
+    direction_ports: PortsDict,
+    prefix: str = "",
 ) -> None:
     """Rename ports in clockwise direction starting from the top right corner."""
     east_ports = direction_ports["E"]
@@ -699,17 +704,19 @@ def auto_rename_ports(
 
 
 auto_rename_ports_counter_clockwise = partial(
-    auto_rename_ports, function=_rename_ports_counter_clockwise
+    auto_rename_ports,
+    function=_rename_ports_counter_clockwise,
 )
 auto_rename_ports_orientation = partial(
-    auto_rename_ports, function=_rename_ports_facing_side
+    auto_rename_ports,
+    function=_rename_ports_facing_side,
 )
 
 auto_rename_ports_electrical = partial(auto_rename_ports, select_ports_optical=None)
 
 
 def map_ports_layer_to_orientation(
-    ports: "PortDict",
+    ports: PortDict,
     function: Callable[..., None] = _rename_ports_facing_side,
     **kwargs: Any,
 ) -> dict[str, str]:
@@ -801,7 +808,8 @@ def map_ports_to_orientation_cw(
 
 
 map_ports_to_orientation_ccw = partial(
-    map_ports_to_orientation_cw, function=_rename_ports_facing_side_ccw
+    map_ports_to_orientation_cw,
+    function=_rename_ports_facing_side_ccw,
 )
 
 

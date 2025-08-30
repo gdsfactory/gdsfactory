@@ -19,8 +19,8 @@ if TYPE_CHECKING:
 
 
 def from_updk(
-    filepath: "PathType",
-    filepath_out: "PathType | None" = None,
+    filepath: PathType,
+    filepath_out: PathType | None = None,
     layer_bbox: tuple[int, int] = (68, 0),
     layer_bbmetal: tuple[int, int] | None = None,
     layer_label: tuple[int, int] | None = None,
@@ -30,7 +30,7 @@ def from_updk(
     layer_pin_electrical: tuple[int, int] | None = None,
     optical_xsections: Sequence[str] | None = None,
     electrical_xsections: Sequence[str] | None = None,
-    layer_text: "LayerSpec | None" = None,
+    layer_text: LayerSpec | None = None,
     text_size: float = 2.0,
     activate_pdk: bool = False,
     read_xsections: bool = True,
@@ -120,7 +120,7 @@ add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_
                 [
                     f"{clean_value_name(p_name)}:{p['type']}={p['value']}"
                     for p_name, p in parameters.items()
-                ]
+                ],
             )
             if parameters
             else ""
@@ -133,7 +133,7 @@ add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_
                     if "min" in p
                     else f"  {p_name}: {p['doc']}."
                     for p_name, p in parameters.items()
-                ]
+                ],
             )
             if parameters
             else ""
@@ -161,7 +161,7 @@ add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_
                 [
                     f"    c.add_label(text=f'{p_name}', position=(xc, yc-{i}/{len(parameters)}/2*ysize), layer=layer_label)\n"
                     for i, p_name in enumerate(parameters_colon)
-                ]
+                ],
             )
             if layer_label and parameters_colon
             else ""
