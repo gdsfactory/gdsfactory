@@ -219,9 +219,3 @@ def grating_coupler_elliptical_uniform(
     widths = (period * fill_factor,) * n_periods
     gaps = (period * (1 - fill_factor),) * n_periods
     return grating_coupler_elliptical_arbitrary(gaps=gaps, widths=widths, **kwargs)
-
-
-if __name__ == "__main__":
-    c = grating_coupler_elliptical_arbitrary(layer_grating=(3, 0))
-    # c = grating_coupler_elliptical_arbitrary()
-    c.show()

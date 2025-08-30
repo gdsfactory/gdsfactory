@@ -184,10 +184,3 @@ def _polygon_orientation(vertices: npt.NDArray[np.float64]) -> int:
         s += (x2 - x1) * (y2 + y1)
 
     return 0 if s > 0 else 1
-
-
-if __name__ == "__main__":
-    from gdsfactory.components import text_freetype
-
-    c = text_freetype("abcd")
-    c.show()

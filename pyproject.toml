@@ -294,3 +294,6 @@ showcontent = true
 directory = "fixed"
 name = "Fixed"
 showcontent = true
+
+[tool.ty.src]
+exclude = ["gdsfactory/samples"]

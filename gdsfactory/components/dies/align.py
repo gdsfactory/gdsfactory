@@ -108,10 +108,3 @@ def add_frame(
     rr.movex(+x)
     c.flatten()
     return c
-
-
-if __name__ == "__main__":
-    c = gf.components.straight()
-    c = add_frame(component=c)
-    # c = align_wafer()
-    c.show()

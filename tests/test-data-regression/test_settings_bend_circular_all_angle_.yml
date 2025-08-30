@@ -9,7 +9,7 @@ info:
   route_info_type: strip
   route_info_weight: 15.708
   width: 0.5
-name: bend_circular_gdsfactor_9f5f0004
+name: bend_circular_all_angle_18c02085
 settings:
   allow_min_radius_violation: false
   angle: 90

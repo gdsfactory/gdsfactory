@@ -138,8 +138,3 @@ def coupler_broadband(
     c.add_port("o3", port=bend_rt.ports["o2"])
     c.add_port("o4", port=bend_rb.ports["o2"])
     return c
-
-
-if __name__ == "__main__":
-    c = coupler_broadband(cross_section="rib")
-    c.show()

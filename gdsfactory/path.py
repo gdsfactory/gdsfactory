@@ -118,10 +118,11 @@ class Path(UMGeometricObject):
                 and (np.shape(path)[1] == 2)
             ):
                 self.points = np.array(path, dtype=np.float64)
-                nx1, ny1 = self.points[1] - self.points[0]
-                self.start_angle = np.arctan2(ny1, nx1) / np.pi * 180
-                nx2, ny2 = self.points[-1] - self.points[-2]
-                self.end_angle = np.arctan2(ny2, nx2) / np.pi * 180
+                if len(self.points) > 1:
+                    nx1, ny1 = self.points[1] - self.points[0]
+                    self.start_angle = np.arctan2(ny1, nx1) / np.pi * 180
+                    nx2, ny2 = self.points[-1] - self.points[-2]
+                    self.end_angle = np.arctan2(ny2, nx2) / np.pi * 180
             elif np.asarray(path, dtype=object).size > 1:
                 self.append(path)
             else:
@@ -190,10 +191,11 @@ class Path(UMGeometricObject):
             new_points[:, 1] = -new_points[:, 1]
 
         self.points = new_points
-        nx1, ny1 = self.points[1] - self.points[0]
-        self.start_angle = np.arctan2(ny1, nx1) / np.pi * 180
-        nx2, ny2 = self.points[-1] - self.points[-2]
-        self.end_angle = np.arctan2(ny2, nx2) / np.pi * 180
+        if len(self.points) > 1:
+            nx1, ny1 = self.points[1] - self.points[0]
+            self.start_angle = np.arctan2(ny1, nx1) / np.pi * 180
+            nx2, ny2 = self.points[-1] - self.points[-2]
+            self.end_angle = np.arctan2(ny2, nx2) / np.pi * 180
 
     def dbbox(self, layer: int | None = None) -> kdb.DBox:
         return kdb.DBox(*self.bbox_np().flatten())
@@ -239,10 +241,12 @@ class Path(UMGeometricObject):
             and (np.shape(path)[1] == 2)  # type: ignore[arg-type]
         ):
             points = np.asarray(path, dtype=np.float64)
-            nx1, ny1 = points[1] - points[0]
-            start_angle = np.arctan2(ny1, nx1) / np.pi * 180
-            nx2, ny2 = points[-1] - points[-2]
-            end_angle = np.arctan2(ny2, nx2) / np.pi * 180
+            start_angle, end_angle = 0, 0
+            if len(points) > 1:
+                nx1, ny1 = points[1] - points[0]
+                start_angle = np.arctan2(ny1, nx1) / np.pi * 180
+                nx2, ny2 = points[-1] - points[-2]
+                end_angle = np.arctan2(ny2, nx2) / np.pi * 180
         elif isinstance(path, list):
             for p in path:
                 self.append(p)  # type: ignore[arg-type]
@@ -912,38 +916,30 @@ def extrude(
     """
     from gdsfactory.pdk import get_cross_section, get_layer
 
-    x = None
-    if cross_section is None and layer is None:
-        raise ValueError("CrossSection or layer needed")
-
-    if cross_section is not None and layer is not None:
-        raise ValueError("Define only CrossSection or layer")
-
+    if (cross_section is None) == (layer is None):
+        raise ValueError("Provide exactly one of 'cross_section' or 'layer'")
     if layer is not None and width is None:
-        raise ValueError("Need to define layer width")
-    elif width and cross_section:
-        x = get_cross_section(cross_section, width=width)
+        raise ValueError("When providing 'layer', 'width' must also be provided")
 
-    elif width and layer:
-        assert layer is not None
+    if cross_section is not None:
+        x = (
+            get_cross_section(cross_section, width=width)
+            if width is not None
+            else get_cross_section(cross_section)
+        )
+    else:
         s = Section(
-            width=width,
-            layer=layer,
+            width=cast(float, width),
+            layer=cast(LayerSpec, layer),
             port_names=("o1", "o2"),
             port_types=("optical", "optical"),
         )
-        cross_section = CrossSection(sections=(s,))
+        x = get_cross_section(CrossSection(sections=(s,)))
 
     xsection_points: list[list[float | npt.NDArray[np.floating[Any]]]] = []
     c = ComponentAllAngle() if all_angle else Component()
 
-    assert cross_section is not None
-
-    if x is None:
-        x = get_cross_section(cross_section)
-
-    layer = layer or x.layer
-    layer = get_layer(layer)
+    layer = get_layer(layer or x.layer)
 
     for section in x.sections:
         p_sec = p.copy()
@@ -1429,6 +1425,7 @@ def arc(
     angle: float = 90,
     npoints: int | None = None,
     start_angle: float = -90,
+    angular_step: float | None = None,
 ) -> Path:
     """Returns a radial arc.
 
@@ -1437,6 +1434,8 @@ def arc(
         angle: total angle of the curve.
         npoints: Number of points used per 360 degrees. Defaults to pdk.bend_points_distance.
         start_angle: initial angle of the curve for drawing, default -90 degrees.
+        angular_step: If provided, determines the angular step (in degrees) between points. \
+                This overrides npoints calculation.
 
     .. plot::
         :include-source:
@@ -1454,8 +1453,19 @@ def arc(
     if not radius:
         raise ValueError("arc() requires a radius argument")
 
-    npoints = npoints or int(abs(angle) / 360 * radius / PDK.bend_points_distance / 2)
-    npoints = max(int(npoints), int(360 / abs(angle)) + 1)
+    if npoints is not None and angular_step is not None:
+        raise ValueError(
+            "arc() requires either npoints or angular_step, not both. "
+            "Use angular_step for angular discretization."
+        )
+
+    if angular_step is not None:
+        npoints = math.ceil(abs(angle / angular_step)) + 1
+    else:
+        npoints = npoints or int(
+            abs(angle) / 360 * radius / PDK.bend_points_distance / 2
+        )
+        npoints = max(int(npoints), int(360 / abs(angle)) + 1)
 
     t = np.linspace(
         start_angle * np.pi / 180, (angle + start_angle) * np.pi / 180, npoints
@@ -1464,17 +1474,17 @@ def arc(
     y = radius * (np.sin(t) + 1)
     points = np.array((x, y)).T * np.sign(angle)
 
-    P = Path()
+    path = Path()
     # Manually add points & adjust start and end angles
-    P.points = points
-    P.start_angle = start_angle + 90
-    P.end_angle = start_angle + angle + 90
-    return P
+    path.points = points
+    path.start_angle = start_angle + 90
+    path.end_angle = start_angle + angle + 90
+    return path
 
 
 def _fresnel(
     R0: float, s: float, num_pts: int, n_iter: int = 8
-) -> tuple[npt.NDArray[np.floating[Any]], npt.NDArray[np.floating[Any]]]:
+) -> npt.NDArray[np.floating]:
     """Fresnel integral using a series expansion.
 
     Args:
@@ -1482,21 +1492,28 @@ def _fresnel(
         s: Length of the curve.
         num_pts: Number of points to generate.
         n_iter: Number of iterations to use in the series expansion.
+
+    Returns:
+        Array of shape (2, num_pts): [x; y]
     """
     t = np.linspace(0, s / float(np.sqrt(2) * R0), num_pts)
-    x = np.zeros(num_pts)
-    y = np.zeros(num_pts)
 
-    for n in range(n_iter):
-        x += (-1) ** n * t ** (4 * n + 1) / (math.factorial(2 * n) * (4 * n + 1))
-        y += (-1) ** n * t ** (4 * n + 3) / (math.factorial(2 * n + 1) * (4 * n + 3))
+    n = np.arange(n_iter)
+    exp = np.array([4 * n + 1, 4 * n + 3])
 
-    return np.sqrt(2) * R0 * x, np.sqrt(2) * R0 * y
+    den = np.empty(shape=(2, n_iter))
+    den[0] = [math.factorial(2 * i) * (4 * i + 1) for i in n]
+    den[1] = [math.factorial(2 * i + 1) * (4 * i + 3) for i in n]
+    den *= (-1.0) ** n
+
+    series = (t ** exp[..., None] / den[..., None]).sum(axis=1)
+
+    return cast(npt.NDArray[np.floating], np.sqrt(2) * R0 * series)
 
 
 def _fresnel_angular(
     R0: float, s: float, num_pts: int, n_iter: int = 8
-) -> tuple[npt.NDArray[np.floating[Any]], npt.NDArray[np.floating[Any]]]:
+) -> npt.NDArray[np.floating]:
     """Fresnel integral with uniform angular sampling.
 
     Args:
@@ -1504,6 +1521,9 @@ def _fresnel_angular(
         s: Length of the curve.
         num_pts: Number of points to generate.
         n_iter: Number of iterations to use in the series expansion.
+
+    Returns:
+        Array of shape (2, num_pts): [x; y]
     """
     # For Fresnel spiral, the angle theta = t^2/2
     # So t = sqrt(2*theta), where theta is in radians
@@ -1514,14 +1534,17 @@ def _fresnel_angular(
     thetas = np.linspace(0, theta_max, num_pts)
     t = np.sqrt(2 * thetas)
 
-    x = np.zeros(num_pts)
-    y = np.zeros(num_pts)
+    n = np.arange(n_iter)
+    exp = np.array([4 * n + 1, 4 * n + 3])
 
-    for n in range(n_iter):
-        x += (-1) ** n * t ** (4 * n + 1) / (math.factorial(2 * n) * (4 * n + 1))
-        y += (-1) ** n * t ** (4 * n + 3) / (math.factorial(2 * n + 1) * (4 * n + 3))
+    den = np.empty(shape=(2, n_iter))
+    den[0] = [math.factorial(2 * i) * (4 * i + 1) for i in n]
+    den[1] = [math.factorial(2 * i + 1) * (4 * i + 3) for i in n]
+    den *= (-1.0) ** n
 
-    return np.sqrt(2) * R0 * x, np.sqrt(2) * R0 * y
+    series = (t ** exp[..., None] / den[..., None]).sum(axis=1)
+
+    return cast(npt.NDArray[np.floating], np.sqrt(2) * R0 * series)
 
 
 def euler(
@@ -1574,9 +1597,7 @@ def euler(
     if (p < 0) or (p > 1):
         raise ValueError(f"euler requires argument `p` be between 0 and 1. Got {p}")
     if p == 0:
-        if angular_step is not None:
-            npoints = abs(int(angle / angular_step)) + 1
-        path = arc(radius=radius, angle=angle, npoints=npoints)
+        path = arc(radius, angle, npoints=npoints, angular_step=angular_step)
         path.info["Reff"] = radius
         path.info["Rmin"] = radius
         return path
@@ -1595,7 +1616,7 @@ def euler(
 
     pdk = get_active_pdk()
     if angular_step is not None:
-        npoints = abs(int(angle / angular_step)) + 1
+        npoints = math.ceil(abs(angle / angular_step)) + 1
         # For angular discretization, distribute points based on angle proportion
         euler_angle = p * angle / 2  # Angle covered by each Euler section
         arc_angle = (1 - p) * angle  # Angle covered by arc section
@@ -1845,25 +1866,3 @@ __all__ = [
     "transition",
     "transition_adiabatic",
 ]
-
-if __name__ == "__main__":
-    # import gdsfactory as gf
-    # p = gf.path.euler(angle=-30)
-    # c = p.extrude(cross_section=gf.cross_section.strip)
-    # c.show()
-
-    p = gf.path.euler(
-        radius=5,
-        angle=180,
-        p=1,
-        use_eff=False,
-        # angular_step=1
-    )
-
-    print(p.start_angle, p.end_angle)  # 0, 180
-    p.drotate(-90)
-    print(p.start_angle, p.end_angle)  # Still 0, 180
-
-    c = p.extrude(cross_section=gf.cross_section.strip)
-    print(c.area("WG"))
-    c.show()

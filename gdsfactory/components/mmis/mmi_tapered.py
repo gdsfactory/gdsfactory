@@ -183,13 +183,3 @@ def mmi_tapered(
     c.auto_rename_ports()
     c.flatten()
     return c
-
-
-if __name__ == "__main__":
-    # c = gf.Component()
-    # s = c << gf.c.straight()
-    # b = c << gf.c.bend_circular()
-    # # b.dmirror()
-    # b.connect("o1", s.ports["o1"])
-    c = mmi_tapered(width_taper_in=5, width_taper_out=2, cross_section="rib")
-    c.show()

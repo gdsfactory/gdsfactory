@@ -105,17 +105,3 @@ def snap_to_grid2x(
     nm: int | None = None,
 ) -> npt.NDArray[np.floating[Any]] | float:
     return snap_to_grid(x, nm, grid_factor=2)
-
-
-if __name__ == "__main__":
-    assert_on_grid(1.1e-3)
-    # print(snap_to_grid(1.1e-3))
-    # print(snap_to_2nm_grid(1.1e-3))
-    # print(snap_to_2nm_grid(3.1e-3))
-
-    # print(on_1nm_grid(1.1e-3))
-    # print(on_1nm_grid(1e-3))
-
-    # print(on_2nm_grid(1.1e-3))
-    # print(on_2nm_grid(1e-3))
-    # print(on_2nm_grid(2e-3))

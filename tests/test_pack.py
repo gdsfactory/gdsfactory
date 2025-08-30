@@ -44,9 +44,3 @@ def test_pack_with_settings() -> None:
         precision=1e-3,
     )
     assert components_packed_list[0]
-
-
-if __name__ == "__main__":
-    test_pack()
-    test_pack_with_settings()
-    print("All tests passed.")

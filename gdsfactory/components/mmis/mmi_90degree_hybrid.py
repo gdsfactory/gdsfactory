@@ -149,8 +149,3 @@ def mmi_90degree_hybrid(
     c.flatten()
     x.add_bbox(c)
     return c
-
-
-if __name__ == "__main__":
-    c = mmi_90degree_hybrid()
-    c.show()

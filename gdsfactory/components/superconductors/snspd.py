@@ -101,8 +101,3 @@ def snspd(
     D.info["ysize"] = ysize
     D.flatten()
     return D
-
-
-if __name__ == "__main__":
-    c = snspd()
-    c.show()

@@ -132,8 +132,3 @@ def triangle4(**kwargs: Any) -> Component:
 triangle_thin = partial(triangle, xtop=0.2, x=2, y=5)
 triangle2_thin = partial(triangle2, xtop=0.2, x=2, y=5)
 triangle4_thin = partial(triangle2, xtop=0.2, x=2, y=5)
-
-if __name__ == "__main__":
-    # cc = triangle(xtop=5, ybot=5)
-    cc = triangle4_thin(spacing=0)
-    cc.show()

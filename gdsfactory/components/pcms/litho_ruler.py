@@ -35,8 +35,3 @@ def litho_ruler(
         ref.movex((n - num_marks / 2) * pitch + spacing / 2.0)
 
     return D
-
-
-if __name__ == "__main__":
-    c = litho_ruler()
-    c.show()

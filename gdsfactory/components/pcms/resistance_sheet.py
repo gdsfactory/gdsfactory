@@ -63,18 +63,3 @@ def resistance_sheet(
         port=pad2.ports[pad_port_name],
     )
     return c
-
-
-if __name__ == "__main__":
-    # import gdsfactory as gf
-    # sweep = [resistance_sheet(width=width, layers=((1,0), (1,1))) for width in [1, 10, 100]]
-    # c = gf.pack(sweep)[0]
-
-    c = resistance_sheet()
-    c.pprint_ports()
-    c.show()
-
-    # import gdsfactory as gf
-    # sweep_resistance = list(map(resistance_sheet, (5, 10, 80)))
-    # c = gf.grid(sweep_resistance)
-    # c.show( )

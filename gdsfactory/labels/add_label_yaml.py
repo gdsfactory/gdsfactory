@@ -10,7 +10,6 @@ import yaml
 
 import gdsfactory as gf
 from gdsfactory.read.from_yaml import valid_anchor_point_keywords
-from gdsfactory.routing.add_fiber_array import add_fiber_array
 from gdsfactory.typings import LayerSpec
 
 
@@ -84,31 +83,3 @@ def add_label_yaml(
 
 
 add_label_json = partial(add_label_yaml, with_yaml_format=False)
-
-
-if __name__ == "__main__":
-    measurement_settings = dict(
-        wavelenth_min=1550, wavelenth_max=1570, wavelength_steps=10
-    )
-    with_yaml_format = False
-    with_yaml_format = True
-
-    decorator = add_label_yaml if with_yaml_format else add_label_json
-
-    info = dict(
-        measurement_settings=measurement_settings,
-        with_yaml_format=with_yaml_format,
-    )
-
-    c = gf.c.straight(length=11)
-    c = gf.c.mmi2x2(length_mmi=2.2)
-    c = add_fiber_array(c, grating_coupler=gf.components.grating_coupler_te)
-    decorator(c)
-
-    # c = gf.components.spiral()
-    # c = decorator(c)
-    # print(len(c.labels[0].text))
-    # print(c.labels[0].text)
-    # d = yaml.safe_load(c.labels[0].text) if yaml else json.loads(c.labels[0].text)
-    # print(d)
-    c.show()

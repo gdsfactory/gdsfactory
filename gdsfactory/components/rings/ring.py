@@ -38,8 +38,3 @@ def ring(
     ypts = np.concatenate([inner_points_y, outer_points_y[::-1]])
     D.add_polygon(points=list(zip(xpts, ypts)), layer=layer)
     return D
-
-
-if __name__ == "__main__":
-    c = ring(radius=5, angle=270)
-    c.show()

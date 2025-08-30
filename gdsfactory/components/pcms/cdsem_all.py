@@ -97,8 +97,3 @@ def cdsem_all(
         ymin += ref.ysize + spacing
 
     return c
-
-
-if __name__ == "__main__":
-    c = cdsem_all()
-    c.show()

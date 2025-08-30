@@ -85,13 +85,3 @@ def test_route_south_with_io_gratings() -> None:
         component=c, component_to_route=cr, io_gratings_lines=[gc_line]
     )
     assert len(routes) == 6  # 4 north + 2 east ports
-
-
-if __name__ == "__main__":
-    test_route_south(None, check=False)
-    test_route_south_nxn()
-    test_route_south_mzi_with_bend()
-    test_route_south_with_auto_taper()
-    test_route_south_empty_ports()
-    test_route_south_with_port_names()
-    test_route_south_with_io_gratings()

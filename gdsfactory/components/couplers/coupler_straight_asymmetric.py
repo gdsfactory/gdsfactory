@@ -38,12 +38,3 @@ def coupler_straight_asymmetric(
     c.add_port("o4", port=bot.ports[1])
     c.flatten()
     return c
-
-
-if __name__ == "__main__":
-    # d = {"length": 7.0, "gap": 0.15, "width_top": 0.405, "width_bot": 0.9}
-    # d = dict(length=10.0, gap=0.1, width_top=0.5, width_bot=1)
-    # d = dict(length=10.0, gap=0.1, width_top=1.0, width_bot=0.5)
-    # c = coupler_straight_asymmetric(**d)
-    c = coupler_straight_asymmetric()
-    c.show()

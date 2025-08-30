@@ -55,9 +55,3 @@ LAYER = {map_name}
 
     filepathout.write_text(script)
     return script
-
-
-if __name__ == "__main__":
-    from gdsfactory.config import PATH
-
-    print(lyp_to_dataclass(PATH.klayout_lyp))

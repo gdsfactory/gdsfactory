@@ -51,8 +51,3 @@ def cdsem_straight(
             t.ymin = p
 
     return c
-
-
-if __name__ == "__main__":
-    c = cdsem_straight()
-    c.show()

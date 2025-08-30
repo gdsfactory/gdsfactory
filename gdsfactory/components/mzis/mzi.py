@@ -267,32 +267,3 @@ mzi_phase_shifter_top_heater_metal = partial(
 mzm = partial(
     mzi_phase_shifter, straight_x_top="straight_pin", straight_x_bot="straight_pin"
 )
-
-if __name__ == "__main__":
-    c = mzi1x2(combiner=partial(gf.components.mmi1x2, gap_mmi=0))
-    # c = mzi_coupler()
-    # c = mzi_pin()
-    # c = mzm()
-    # from gdsfactory import get_generic_pdk
-
-    # pdk = get_generic_pdk()
-    # pdk.activate()
-
-    # c = mzi(cross_section="strip")
-    # c = gf.components.mzi2x2_2x2(straight_x_top="straight_heater_metal")
-    # c.show( )
-
-    # c = gf.components.mzi2x2_2x2(straight_x_top="straight_heater_metal")
-    # c = gf.routing.add_fiber_array(c)
-    # gdspath = c.write_gds(flatten_invalid_refs=True)
-    # gf.show(gdspath)
-    # c.plot_netlist()
-    c.show()
-
-    # c1.write_gds("a.gds")
-
-    # c2 = gf.read.import_gds("a.gds")
-    # c2 = c2.flatten()
-
-    # c3 = gf.grid([c2, c1])
-    # c3.show()

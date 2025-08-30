@@ -22,10 +22,3 @@ def regenerate_regression_test() -> None:
     filepath = PATH.netlists / "bend_translated_rotated.yml"
     n = c.get_netlist()
     c.write_netlist(n, filepath)
-
-
-if __name__ == "__main__":
-    regenerate_regression_test()
-    gf.clear_cache()
-    filepath = PATH.netlists / "bend_translated_rotated.yml"
-    c = gf.read.from_yaml(filepath)

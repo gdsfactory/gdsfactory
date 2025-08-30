@@ -138,14 +138,3 @@ def test_component_sequence_different_sequence() -> None:
     c = component_sequence(sequence=sequence, symbol_to_component=symbol_to_component)
     assert c is not None
     assert len(c.ports) > 0
-
-
-if __name__ == "__main__":
-    wg = gf.components.straight()
-    symbol_to_component = {
-        "-": (wg, "o1", "o3"),
-        "A": (wg, "o1", "o2"),
-    }
-    sequence = "-A"
-    component_sequence(sequence=sequence, symbol_to_component=symbol_to_component)
-    pytest.main([__file__, "-s"])

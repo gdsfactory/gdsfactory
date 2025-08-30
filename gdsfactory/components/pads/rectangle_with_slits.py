@@ -75,9 +75,3 @@ def rectangle_with_slits(
     )
     slits.center = r.center
     return c
-
-
-if __name__ == "__main__":
-    # c = rectangle_with_slits(layer_slit=None)
-    c = rectangle_with_slits(slit_size=(10, 10), centered=True)
-    c.show()

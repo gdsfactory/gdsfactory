@@ -65,11 +65,3 @@ def cross(
         )
         c.auto_rename_ports()
     return c
-
-
-if __name__ == "__main__":
-    c = cross(port_type="optical")
-    c.show()
-    # c.pprint_ports()
-    # cc = gf.routing.add_fiber_array(component=c)
-    # cc.show( )

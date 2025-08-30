@@ -53,9 +53,3 @@ def terminator_spiral(
     c.add_port("o2", port=ref["o1"])
     c.flatten()
     return c
-
-
-if __name__ == "__main__":
-    c = terminator_spiral(number_of_loops=3)
-    c.draw_ports()
-    c.show()

@@ -47,9 +47,3 @@ def terminator(
         c.add_polygon(points, layer=layer)
     c.add_port(name="o1", port=taper.ports["o1"])
     return c
-
-
-if __name__ == "__main__":
-    # c = terminator(cross_section_input=partial(gf.cross_section.strip, width=10))
-    c = terminator()
-    c.show()

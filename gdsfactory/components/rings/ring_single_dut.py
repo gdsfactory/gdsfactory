@@ -88,8 +88,3 @@ def ring_single_dut(
     c.add_port("o2", port=cb.ports["o4"])
     c.add_port("o1", port=cb.ports["o1"])
     return c
-
-
-if __name__ == "__main__":
-    c = ring_single_dut()
-    c.show()

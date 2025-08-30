@@ -91,7 +91,3 @@ def test_connect_bundle_u_indirect(
     lengths = {i: route.length for i, route in enumerate(routes)}
     if check:
         data_regression.check(lengths)
-
-
-if __name__ == "__main__":
-    test_connect_bundle_u_indirect(None, orientation=0, check=False)

@@ -43,8 +43,3 @@ def test_strip_xml() -> None:
     child = doc.getElementsByTagName("child")[0]
     assert child.firstChild is not None
     assert child.firstChild.nodeValue == "text"
-
-
-if __name__ == "__main__":
-    test_make_pretty_xml()
-    test_strip_xml()

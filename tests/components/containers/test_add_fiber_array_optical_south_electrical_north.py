@@ -1,5 +1,3 @@
-import pytest
-
 import gdsfactory as gf
 from gdsfactory import cross_section as xs
 
@@ -67,7 +65,3 @@ def test_add_fiber_array_optical_south_electrical_north_custom_electrical_ports(
     )
     assert c is not None
     assert len(c.ports) > 0
-
-
-if __name__ == "__main__":
-    pytest.main([__file__])

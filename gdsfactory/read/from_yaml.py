@@ -2108,15 +2108,3 @@ connections:
   s1,o1: b1,o2
   s0,o2: b1,o1
 """
-
-if __name__ == "__main__":
-    c = from_yaml(sample_all_angle)
-    # c = from_yaml(sample_width_missmatch)
-    # c = from_yaml(sample_yaml_xmin)
-    # c = from_yaml(sample_doe_function)
-    # n = c.get_netlist()
-    c.show()
-    # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
-    # c2 = from_yaml(yaml_str)
-    # n2 = c2.get_netlist()
-    # c2.show()

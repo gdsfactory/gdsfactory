@@ -123,8 +123,3 @@ def mmi(
     c.auto_rename_ports()
     c.flatten()
     return c
-
-
-if __name__ == "__main__":
-    c = mmi(inputs=1, outputs=4)
-    c.show()

@@ -76,7 +76,3 @@ def test_good_bundle_passes_sorted(angle: float) -> None:
         for w in ws:
             if issubclass(w.category, RouteWarning):
                 raise AssertionError(f"Routing warning was raised: {w}")
-
-
-if __name__ == "__main__":
-    make_bundle(angle=0, reverse_ports=False, sort_ports=True)

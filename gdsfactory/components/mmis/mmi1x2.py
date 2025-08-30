@@ -105,8 +105,3 @@ def mmi1x2(
 
     c.flatten()
     return c
-
-
-if __name__ == "__main__":
-    c = mmi1x2(cross_section="rib")
-    c.show()

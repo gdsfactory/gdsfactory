@@ -558,29 +558,3 @@ def add_pins_and_outline(
 
 add_pins_container = partial(container, function=add_pins)
 add_pins_siepic_container = partial(container, function=add_pins_siepic)
-
-if __name__ == "__main__":
-    import gdsfactory as gf
-
-    # c = test_add_pins()
-    # c.show( )
-    # c = gf.components.straight(length=2)
-    # c.show(show_ports_suborts=True)
-    # p1 = len(c1.get_polygons())
-    # p2 = len(c2.get_polygons())
-    # assert p2 == p1 + 2
-    # c1 = gf.components.straight_heater_metal(length=2)
-    # c = gf.components.bend_euler()
-    # c = add_pins_container(c)
-    # add_pins_triangle(c)
-    # c = add_pins_container(c)
-    # cc.show()
-    # c.show(show_subports=True)
-    # c.show( )
-
-    c = gf.Component()
-    ref = c << gf.components.straight()
-    c.add_ports(ref.ports)
-
-    add_pin_rectangle(c, port=c.ports[0], port_margin=1)
-    c.show()

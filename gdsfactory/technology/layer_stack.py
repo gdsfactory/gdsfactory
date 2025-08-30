@@ -10,7 +10,6 @@ from pydantic import BaseModel, Field, field_validator
 from rich.console import Console
 from rich.table import Table
 
-import gdsfactory as gf
 from gdsfactory.technology.layer_views import LayerViews
 from gdsfactory.typings import LayerSpec
 
@@ -598,7 +597,11 @@ class LayerStack(BaseModel):
                     txt += ", "
                     if layer in layer_views:  # type: ignore[operator]
                         props = layer_views.get_from_tuple(layer)  # type: ignore[arg-type]
-                        if hasattr(props, "color"):
+                        if (
+                            hasattr(props, "color")
+                            and hasattr(props.color, "fill")
+                            and hasattr(props.color, "frame")
+                        ):
                             if props.color.fill == props.color.frame:
                                 txt += f"color: {props.color.fill}"
                             else:
@@ -619,7 +622,11 @@ class LayerStack(BaseModel):
                 if layer_views:
                     txt += ", "
                     props = layer_views.get_from_tuple(get_layer_tuple(layer_tuple))
-                    if hasattr(props, "color"):
+                    if (
+                        hasattr(props, "color")
+                        and hasattr(props.color, "fill")
+                        and hasattr(props.color, "frame")
+                    ):
                         if props.color.fill == props.color.frame:
                             txt += f"color: {props.color.fill}"
                         else:
@@ -685,79 +692,3 @@ def get_component_with_derived_layers(
 
     component_derived.add_ports(component.ports)
     return component_derived
-
-
-if __name__ == "__main__":
-    # For now, make regular layers trivial DerivedLayers
-    # This might be automatable during LayerStack instantiation, or we could modify the Layer object in LayerMap too
-
-    layer1 = LogicalLayer(layer=(1, 0))
-    layer2 = LogicalLayer(layer=(2, 0))
-    layer1_sized = LogicalLayer(layer=(1, 0)).sized(10000)
-    layer1_sized_asymmetric = LogicalLayer(layer=(1, 0)).sized(0, 50000)
-
-    layer3 = LogicalLayer(layer=(3, 0))
-    layer3_sequence = LogicalLayer(layer=(3, 0)).sized(2000, 2000).sized(-1000, -1000)
-    layer3_sequence_list = LogicalLayer(layer=(3, 0)).sized((2000, 2000))
-    layer3_sequence_lists = LogicalLayer(layer=(3, 0)).sized((0, 0), (5000, 1000))
-
-    ls = LayerStack(
-        layers={
-            "layerlevel_layer1": LayerLevel(layer=layer1, thickness=10, zmin=0),
-            "layerlevel_layer1_sized": LayerLevel(
-                layer=layer1_sized, thickness=10, zmin=0
-            ),
-            "layerlevel_layer1_asymmetric": LayerLevel(
-                layer=layer1_sized_asymmetric, thickness=10, zmin=0
-            ),
-            "layerlevel_layer1_to_layer2_derived": LayerLevel(
-                layer=layer1_sized, thickness=10, zmin=0, derived_layer=layer2
-            ),
-            "layerlevel_layer3": LayerLevel(layer=layer3, thickness=10, zmin=0),
-            "layer3_sequence": LayerLevel(
-                layer=layer3_sequence,
-                thickness=10,
-                zmin=0,
-                derived_layer=LogicalLayer(layer=(4, 0)),
-            ),
-            "layer3_sequence_list": LayerLevel(
-                layer=layer3_sequence_list,
-                thickness=10,
-                zmin=0,
-                derived_layer=LogicalLayer(layer=(5, 0)),
-            ),
-            "layer3_sequence_lists": LayerLevel(
-                layer=layer3_sequence_lists,
-                thickness=10,
-                zmin=0,
-                derived_layer=LogicalLayer(layer=(6, 0)),
-            ),
-        }
-    )
-
-    # Test with simple component
-    import gdsfactory as gf
-
-    c = gf.Component()
-
-    rect1 = c << gf.components.rectangle(size=(10, 10), layer=(1, 0))
-    rect2 = c << gf.components.rectangle(size=(10, 10), layer=(3, 0))
-    rect2.move((30, 30))
-    # c.show()
-
-    # import gdsfactory as gf
-
-    # c = gf.Component()
-
-    # rect1 = c << gf.components.rectangle(size=(10, 10), layer=(1, 0))
-    # rect2 = c << gf.components.rectangle(size=(10, 10), layer=(2, 0))
-    # rect2.move((5, 5))
-    # c.show()
-
-    c = get_component_with_derived_layers(c, ls)
-    c.show()
-
-    # s = ls.get_klayout_3d_script()
-    # print(s)
-
-    res = ls.get_klayout_3d_script()

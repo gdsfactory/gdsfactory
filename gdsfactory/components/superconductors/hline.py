@@ -62,9 +62,3 @@ def hline(
     c.info["width"] = width
     c.info["length"] = length
     return c
-
-
-if __name__ == "__main__":
-    c = hline(width=10)
-    print(c)
-    c.show()

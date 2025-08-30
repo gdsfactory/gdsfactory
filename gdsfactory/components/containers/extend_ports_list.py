@@ -42,25 +42,3 @@ def extend_ports_list(
 
     c.auto_rename_ports()
     return c
-
-
-if __name__ == "__main__":
-    import gdsfactory as gf
-
-    c = gf.Component(name="taper_extended")
-    c0 = gf.components.taper()
-    e = extend_ports_list(c0, extension="straight")
-    c << c0
-    c << e
-    c.show()
-
-    # c = gf.Component(name="mmi_extended")
-    # m = gf.components.mmi1x2()
-    # t = partial(gf.components.taper, width2=0.1)
-    # e = extend_ports_list(
-    #     ports=m.get_ports_list(), extension=t, extension_port_name="o1"
-    # )
-
-    # c << m
-    # c << e
-    # c.show( )

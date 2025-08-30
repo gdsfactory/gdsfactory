@@ -70,8 +70,3 @@ def coupler90(
 
 
 coupler90circular = partial(coupler90, bend="bend_circular")
-
-
-if __name__ == "__main__":
-    c = coupler90(cross_section_bend="strip_heater_metal", length_straight=0)
-    c.show()

@@ -56,7 +56,3 @@ def test_clean_value_name() -> None:
     assert clean_value_name("with*asterisk") == "withasterisk"
     assert clean_value_name("with?questionmark") == "withquestionmark"
     assert clean_value_name("with!exclamationmark") == "withexclamationmark"
-
-
-if __name__ == "__main__":
-    test_clean_value_name()

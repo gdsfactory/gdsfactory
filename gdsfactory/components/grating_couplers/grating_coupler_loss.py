@@ -55,8 +55,3 @@ def grating_coupler_loss(
         xmin = g2.xmax + grating_coupler_spacing + gc.xsize / 2
 
     return c
-
-
-if __name__ == "__main__":
-    c = grating_coupler_loss()
-    c.show()

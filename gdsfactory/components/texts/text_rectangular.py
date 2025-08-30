@@ -111,19 +111,3 @@ def text_rectangular_multi_layer(
 
 
 text_rectangular_mini = partial(text_rectangular, size=1)
-
-if __name__ == "__main__":
-    c = gf.Component()
-    text0 = c << gf.components.text_rectangular(
-        text="Center", size=10, position=(0, 40), justify="center", layer=(100, 0)
-    )
-    text1 = c << gf.components.text_rectangular(
-        text="Left", size=10, position=(0, 40), justify="left", layer=(100, 0)
-    )
-    text2 = c << gf.components.text_rectangular(
-        text="Right", size=10, position=(0, 40), justify="right", layer=(100, 0)
-    )
-
-    text1.ymin = text0.ymax + 10
-    text2.ymin = text1.ymax + 10
-    c.show()

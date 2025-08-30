@@ -98,22 +98,3 @@ def die(
             t.x, t.y = text_location
 
     return c
-
-
-if __name__ == "__main__":
-    # c = die(size=(3000, 5000), draw_dicing_lane=True)
-    # c = die()
-    c = die(
-        size=(13000, 3000),  # Size of die
-        street_width=100,  # Width of corner marks for die-sawing
-        street_length=1000,  # Length of corner marks for die-sawing
-        die_name="chip99",  # Label text
-        text_size=500,  # Label text size
-        text_location="SW",  # Label text compass location e.g. 'S', 'SE', 'SW'
-        layer=(2, 0),
-        # bbox_layer=(3, 0),
-        # bbox_layer=None,
-    )
-    c.show()
-    # c.show( )
-    # c.plot()

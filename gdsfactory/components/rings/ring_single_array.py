@@ -55,8 +55,3 @@ def ring_single_array(
     c.add_port("o1", port=ring1.ports["o1"])
     c.add_port("o2", port=ringi.ports["o2"])
     return c
-
-
-if __name__ == "__main__":
-    c = ring_single_array(cross_section="strip")
-    c.show()

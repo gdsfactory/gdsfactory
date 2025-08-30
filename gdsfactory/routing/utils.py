@@ -66,11 +66,3 @@ def get_list_ports_angle(list_ports: Sequence[Port]) -> float | None:
     if len({p.orientation for p in list_ports}) > 1:
         raise ValueError(f"All port angles should be the same. Got {list_ports}")
     return list_ports[0].orientation
-
-
-if __name__ == "__main__":
-    from gdsfactory.components import mmi1x2
-
-    c = mmi1x2()
-    d = direction_ports_from_list_ports(c.get_ports_list())
-    c.show()

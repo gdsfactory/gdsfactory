@@ -91,15 +91,3 @@ def add_electrical_pads_top(
     c.copy_child_info(component)
     c.auto_rename_ports()
     return c
-
-
-if __name__ == "__main__":
-    from gdsfactory.components import straight_heater_metal
-
-    c = straight_heater_metal()
-    # c = gf.components.mzi_phase_shifter_top_heater_metal()
-    # cc = gf.routing.add_electrical_pads_top(component=c, spacing=(-150, 30))
-    c = add_electrical_pads_top(c)
-    # c = _wire_long()
-    c.pprint_ports()
-    c.show()

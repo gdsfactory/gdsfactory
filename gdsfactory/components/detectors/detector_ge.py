@@ -75,8 +75,3 @@ def ge_detector_straight_si_contacts(
     c.add_ports(via_stack_bot.ports, prefix="bot_")
     c.add_ports(via_stack_top.ports, prefix="top_")
     return c
-
-
-if __name__ == "__main__":
-    c = ge_detector_straight_si_contacts(via_stack_offset=0)
-    c.show()

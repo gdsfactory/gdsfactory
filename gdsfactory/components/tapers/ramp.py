@@ -39,8 +39,3 @@ def ramp(
         layer=layer,
     )
     return c
-
-
-if __name__ == "__main__":
-    c = ramp()
-    c.show()

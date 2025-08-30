@@ -177,16 +177,3 @@ pad_array270 = partial(pad_array, port_orientation=270)
 
 pad_array0 = partial(pad_array, port_orientation=0, columns=1, rows=3)
 pad_array180 = partial(pad_array, port_orientation=180, columns=1, rows=3)
-
-
-if __name__ == "__main__":
-    # c = pad_array(port_orientation=270.)
-    # c = pad_array(columns=3, centered_ports=True, port_orientation=90)
-    # c = pad(port_orientations=[270])
-    # c = gf.get_component(pad)
-
-    # c = pad_array(port_orientation=270, pad=pad, size=(10, 10), column_pitch=15)
-    # c.pprint_ports()
-    c = pad_rectangular()
-    c.pprint_ports()
-    c.show()

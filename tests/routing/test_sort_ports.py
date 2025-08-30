@@ -313,13 +313,3 @@ def test_sort_ports_validation() -> None:
 
     with pytest.raises(ValueError, match="ports1 is an empty list"):
         sort_ports([], [], enforce_port_ordering=False)
-
-
-if __name__ == "__main__":
-    test_sort_ports_validation()
-    test_sort_ports_horizontal()
-    test_sort_ports_vertical()
-    test_sort_ports_mixed_orientation()
-    test_sort_ports_enforce_ordering()
-    test_sort_ports_x()
-    test_sort_ports_y()

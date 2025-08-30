@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Any
 
 import kfactory as kf
+import kfactory.utilities
 from kfactory import KCLayout
 
 from gdsfactory.component import Component
@@ -79,15 +80,3 @@ def import_gds_with_conflicts(
         SkipNewCell: The new cell is skipped entirely (including child cells which are not used otherwise)
     """
     return import_gds(gdspath, cellname=cellname, rename_duplicated_cells=True)
-
-
-if __name__ == "__main__":
-    from gdsfactory.components import mzi
-
-    c = mzi()
-    c.pprint_ports()
-    gdspath = c.write_gds()
-
-    c = import_gds(gdspath)
-    c.pprint_ports()
-    c.show()

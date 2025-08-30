@@ -89,7 +89,3 @@ def test_move_polar_rad_copy_function() -> None:
     new_pos = move_polar_rad_copy(pos, angle, length)
     assert new_pos is not None
     assert len(new_pos) == 2
-
-
-if __name__ == "__main__":
-    pytest.main([__file__])

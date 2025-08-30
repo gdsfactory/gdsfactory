@@ -153,10 +153,3 @@ def write_cells(
         component.write(gdspath)
         gdspaths[component.name] = gdspath
     return gdspaths
-
-
-if __name__ == "__main__":
-    c = gf.c.mzi()
-    gdspath = c.write_gds()
-    gf.clear_cache()
-    write_cells_recursively(gdspath)

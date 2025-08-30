@@ -24,8 +24,3 @@ def test_route_single_sbend_non_orthogonal() -> None:
 
     with pytest.raises(ValueError, match="Ports need to have orthogonal orientation"):
         gf.routing.route_single_sbend(c, mmi1.ports["o2"], mmi2.ports["o1"])
-
-
-if __name__ == "__main__":
-    test_route_single_sbend()
-    test_route_single_sbend_non_orthogonal()  # This will raise an error

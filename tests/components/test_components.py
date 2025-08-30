@@ -76,7 +76,3 @@ def test_settings(component_name: str, data_regression: DataRegressionFixture) -
     """Avoid regressions when exporting settings."""
     component = get_component_with_defaults(component_name)
     data_regression.check(clean_value_json(component.to_dict()))
-
-
-if __name__ == "__main__":
-    test_gds("bbox")
