@@ -84,12 +84,7 @@ def ring_crow(
     cum_y_dist = input_straight_width / 2
 
     for gap, r, bend, cross_section, length_y in zip(
-        gaps,
-        radius,
-        bends,
-        ring_cross_sections,
-        lengths_y,
-        strict=False,
+        gaps, radius, bends, ring_cross_sections, lengths_y, strict=False
     ):
         gap = gf.snap.snap_to_grid(gap, grid_factor=2)
         ring = ring_asymmetric(
@@ -152,14 +147,10 @@ def ring_asymmetric(
     bend4 = ring.add_ref(bend_c, name="bot_left_bend_ring")
 
     straight_hor_c = gf.get_component(
-        straight,
-        length=length_x,
-        cross_section=cross_section,
+        straight, length=length_x, cross_section=cross_section
     )
     straight_ver_c = gf.get_component(
-        straight,
-        length=length_y,
-        cross_section=cross_section,
+        straight, length=length_y, cross_section=cross_section
     )
     straight_hor1 = ring.add_ref(straight_hor_c, name="bot_hor_waveguide_ring")
     straight_hor2 = ring.add_ref(straight_hor_c, name="top_hor_waveguide_ring")

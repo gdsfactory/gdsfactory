@@ -62,7 +62,7 @@ def text(
             instance.xmin = xmin
         else:
             raise ValueError(
-                f"justify = {justify!r} not in ('center', 'right', 'left')",
+                f"justify = {justify!r} not in ('center', 'right', 'left')"
             )
     t.flatten()
     return t

@@ -97,10 +97,7 @@ def free_propagation_region(
 free_propagation_region_input = partial(free_propagation_region, inputs=1)
 
 free_propagation_region_output = partial(
-    free_propagation_region,
-    inputs=10,
-    width1=10,
-    width2=20.0,
+    free_propagation_region, inputs=10, width1=10, width2=20.0
 )
 
 

@@ -110,10 +110,7 @@ def mzit(
     )
     t3b.connect("o1", b1t.ports["o2"])
     wgs2 = c << gf.get_component(
-        straight,
-        length=length,
-        cross_section=cross_section,
-        width=w2,
+        straight, length=length, cross_section=cross_section, width=w2
     )
     wgs2.connect("o1", t3b.ports["o2"])
     t20i = c << gf.get_component(
@@ -141,10 +138,7 @@ def mzit(
     )
 
     wg2b = c << gf.get_component(
-        straight,
-        length=dx,
-        cross_section=cross_section,
-        width=w2,
+        straight, length=dx, cross_section=cross_section, width=w2
     )
     wg2b.connect("o1", t2.ports["o2"])
 
@@ -152,10 +146,7 @@ def mzit(
     b2t = c << b2
     b2b = c << b2
     wy = gf.get_component(
-        straight,
-        length=2 * dy,
-        cross_section=cross_section,
-        width=w2,
+        straight, length=2 * dy, cross_section=cross_section, width=w2
     )
     wx = gf.get_component(straight, length=dx, cross_section=cross_section, width=w2)
 
@@ -178,10 +169,7 @@ def mzit(
     )
     t3t.connect("o1", wg2t.ports["o2"])
     wgs1 = c << gf.get_component(
-        straight,
-        length=length,
-        cross_section=cross_section,
-        width=w1,
+        straight, length=length, cross_section=cross_section, width=w1
     )
     wgs1.connect("o1", t3t.ports["o2"])
     t20o = c << gf.get_component(
@@ -251,13 +239,13 @@ def mzit_lattice(
     if len(coupler_lengths) != len(coupler_gaps):
         raise ValueError(
             f"Got {len(coupler_lengths)} coupler_lengths and "
-            f"{len(coupler_gaps)} coupler_gaps",
+            f"{len(coupler_gaps)} coupler_gaps"
         )
     if len(coupler_lengths) != len(delta_lengths) + 1:
         raise ValueError(
             f"Got {len(coupler_lengths)} coupler_lengths and "
             f"{len(delta_lengths)} delta_lengths. "
-            "You need one more coupler_length than delta_lengths ",
+            "You need one more coupler_length than delta_lengths "
         )
 
     assert len(coupler_lengths) >= 2
@@ -283,10 +271,7 @@ def mzit_lattice(
             delta_length=delta_length,
         )
         for coupler_length, coupler_gap, delta_length in zip(
-            coupler_lengths[2:],
-            coupler_gaps[2:],
-            delta_lengths[1:],
-            strict=False,
+            coupler_lengths[2:], coupler_gaps[2:], delta_lengths[1:], strict=False
         )
     ]
 

@@ -46,7 +46,7 @@ def add_ports_from_markers_square(
     port_markers = read_port_markers(component, (pin_layer,))
     port_names = list(
         port_names
-        or [f"{port_name_prefix}{i + 1}" for i in range(len(port_markers.polygons))],
+        or [f"{port_name_prefix}{i + 1}" for i in range(len(port_markers.polygons))]
     )
     layer = port_layer or pin_layer
 
@@ -172,8 +172,7 @@ def add_ports_from_markers_center(
     polygons = component.get_polygons(by="index")
     if pin_layer not in polygons:
         warnings.warn(
-            f"no pin layer {pin_layer} found in {component.layers}",
-            stacklevel=3,
+            f"no pin layer {pin_layer} found in {component.layers}", stacklevel=3
         )
         return component
 
@@ -294,10 +293,11 @@ def add_ports_from_markers_center(
             component_ports = [p.name for p in component.ports]
             raise ValueError(
                 f"port {_port_name_or_none!r} already in {component_ports}. "
-                "You can pass a port_name_prefix to add it with a different name.",
+                "You can pass a port_name_prefix to add it with a different name."
             )
 
-        component.add_port(name=port_name, port=port)
+        else:
+            component.add_port(name=port_name, port=port)
     if auto_rename_ports:
         component.auto_rename_ports()
     return component
@@ -470,7 +470,7 @@ def add_ports_from_boxes(
 
         if orientation == -1:
             raise ValueError(
-                f"Unable to detect port at ({dx=}, {dy=}, {x=}, {y=}, {xc=}, {yc=}",
+                f"Unable to detect port at ({dx=}, {dy=}, {x=}, {y=}, {xc=}, {yc=}"
             )
 
         # Snap to the nearest 2 nm (0.002 µm)
@@ -498,10 +498,11 @@ def add_ports_from_boxes(
             component_ports = [p.name for p in component.ports]
             raise ValueError(
                 f"port {_port_name_or_none!r} already in {component_ports}. "
-                "You can pass a port_name_prefix to add it with a different name.",
+                "You can pass a port_name_prefix to add it with a different name."
             )
 
-        component.add_port(name=_port_name_or_none, port=port)
+        else:
+            component.add_port(name=_port_name_or_none, port=port)
     if auto_rename_ports:
         component.auto_rename_ports()
     return component
@@ -590,7 +591,7 @@ def add_ports_from_labels(
             component_ports = [port.name for port in component.ports]
             raise ValueError(
                 f"port {port_name!r} already in {component_ports}. "
-                "You can pass a port_name_prefix to add it with a different name.",
+                "You can pass a port_name_prefix to add it with a different name."
             )
         if get_name_from_label and port_name in component.ports:
             port_name_to_index[port_name] = (
@@ -654,10 +655,7 @@ def add_ports_from_siepic_pins(
             name=f"{port_prefix}{i + 1}",
             width=round(path.width / c.kcl.dbu) * c.kcl.dbu,
             dcplx_trans=gf.kdb.DCplxTrans(
-                1,
-                orientation,
-                False,
-                path.bbox().center().to_v(),
+                1, orientation, False, path.bbox().center().to_v()
             ),
             layer=port_layer,
             port_type=port_type,

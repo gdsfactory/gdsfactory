@@ -119,11 +119,7 @@ def crossing_linear_taper(
         taper: taper spec.
     """
     arm = gf.get_component(
-        taper,
-        width1=width1,
-        width2=width2,
-        length=length,
-        cross_section=cross_section,
+        taper, width1=width1, width2=width2, length=length, cross_section=cross_section
     )
     return crossing(arm=arm)
 

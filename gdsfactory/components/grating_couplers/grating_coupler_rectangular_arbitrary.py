@@ -102,7 +102,7 @@ def grating_coupler_rectangular_arbitrary(
                 [xi, +y0],
                 [xi + width, +y0],
                 [xi + width, -y0],
-            ],
+            ]
         )
         c.add_polygon(
             points,

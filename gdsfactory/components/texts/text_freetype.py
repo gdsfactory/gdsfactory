@@ -54,7 +54,7 @@ def text_freetype(
                         xpts = np.array(poly)[:, 0] * scaling + xoffset
                         ypts = np.array(poly)[:, 1] * scaling + yoffset
                         points: list[tuple[float, float]] = list(
-                            zip(xpts, ypts, strict=False),
+                            zip(xpts, ypts, strict=False)
                         )
                         char.add_polygon(points, layer=layer)
                     xoffset += (_width[ascii_val] + _indent[ascii_val]) * scaling
@@ -93,7 +93,7 @@ def text_freetype(
                     continue
                 letter_dev = Component()
                 for polygon_points in letter_template.get_polygons_points(
-                    scale=scale_factor,
+                    scale=scale_factor
                 ).values():
                     for layer in layers:
                         for points_ in polygon_points:

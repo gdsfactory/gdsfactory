@@ -53,7 +53,7 @@ def via_stack(
     layer_indices = [gf.get_layer(layer) for layer in layers]
     layer_offsets = layer_offsets or [0] * len(layers)
     layer_to_port_orientations_list = layer_to_port_orientations or {
-        gf.get_layer(layers[-1]): list(port_orientations or []),
+        gf.get_layer(layers[-1]): list(port_orientations or [])
     }
 
     elements = {len(layers), len(layer_offsets), len(vias)}
@@ -108,20 +108,20 @@ def via_stack(
 
             if "xsize" not in _via.info:
                 raise ValueError(
-                    f"Component {_via.name!r} does not have a 'xsize' key in info",
+                    f"Component {_via.name!r} does not have a 'xsize' key in info"
                 )
             if "ysize" not in _via.info:
                 raise ValueError(
-                    f"Component {_via.name!r} does not have a 'ysize' key in info",
+                    f"Component {_via.name!r} does not have a 'ysize' key in info"
                 )
 
             if "column_pitch" not in _via.info:
                 raise ValueError(
-                    f"Component {_via.name!r} does not have a 'column_pitch' key in info",
+                    f"Component {_via.name!r} does not have a 'column_pitch' key in info"
                 )
             if "row_pitch" not in _via.info:
                 raise ValueError(
-                    f"Component {_via.name!r} does not have a 'row_pitch' key in info",
+                    f"Component {_via.name!r} does not have a 'row_pitch' key in info"
                 )
 
             w, h = _via.xsize, _via.ysize
@@ -226,16 +226,12 @@ def via_stack_corner45(
     for layer, offset in zip(layers_list, layer_offsets_list, strict=False):
         if layer and layer == layer_port:
             ref = c << gf.c.wire_corner45(
-                width=width + 2 * offset,
-                layer=layer,
-                with_corner90_ports=False,
+                width=width + 2 * offset, layer=layer, with_corner90_ports=False
             )
             c.add_ports(ref.ports)
         elif layer is not None:
             ref = c << gf.c.wire_corner45(
-                width=width + 2 * offset,
-                layer=layer,
-                with_corner90_ports=False,
+                width=width + 2 * offset, layer=layer, with_corner90_ports=False
             )
     assert ref is not None
 
@@ -254,20 +250,20 @@ def via_stack_corner45(
             _via = gf.get_component(via)
             if "xsize" not in _via.info:
                 raise ValueError(
-                    f"Component {_via.name!r} does not have a 'xsize' key in info",
+                    f"Component {_via.name!r} does not have a 'xsize' key in info"
                 )
             if "ysize" not in _via.info:
                 raise ValueError(
-                    f"Component {_via.name!r} does not have a 'ysize' key in info",
+                    f"Component {_via.name!r} does not have a 'ysize' key in info"
                 )
 
             if "column_pitch" not in _via.info:
                 raise ValueError(
-                    f"Component {_via.name!r} does not have a 'column_pitch' key in info",
+                    f"Component {_via.name!r} does not have a 'column_pitch' key in info"
                 )
             if "row_pitch" not in _via.info:
                 raise ValueError(
-                    f"Component {_via.name!r} does not have a 'row_pitch' key in info",
+                    f"Component {_via.name!r} does not have a 'row_pitch' key in info"
                 )
 
             w, h = _via.info["xsize"], _via.info["ysize"]
@@ -291,7 +287,7 @@ def via_stack_corner45(
                 height = max(min_height, height)
             elif min_width > width45 or min_height > height:
                 raise ValueError(
-                    f"{min_width=} > {width=} or {min_height=} > {height=}",
+                    f"{min_width=} > {width=} or {min_height=} > {height=}"
                 )
 
             # Keep placing rows until we cover the whole height
@@ -391,9 +387,7 @@ via_stack_slab_npp_m3 = partial(
     vias=(None, None, "viac"),
 )
 via_stack_heater_mtop = via_stack_heater_m3 = partial(
-    via_stack,
-    layers=("HEATER", "M2", "MTOP"),
-    vias=(None, "via1", "via2"),
+    via_stack, layers=("HEATER", "M2", "MTOP"), vias=(None, "via1", "via2")
 )
 via_stack_heater_mtop_mini = partial(via_stack_heater_mtop, size=(4, 4))
 

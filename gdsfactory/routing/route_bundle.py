@@ -80,8 +80,10 @@ def get_min_spacing(
             j += 1
         else:
             j -= 1
-        min_j = min(min_j, j)
-        max_j = max(max_j, j)
+        if j < min_j:
+            min_j = j
+        if j > max_j:
+            max_j = j
     j = 0
 
     return (max_j - min_j) * separation + 2 * radius + 1.0
@@ -184,11 +186,11 @@ def route_bundle(
     if cross_section is None:
         if layer is None or route_width is None:
             raise ValueError(
-                f"Either {cross_section=} or {layer=} and {route_width=} must be provided",
+                f"Either {cross_section=} or {layer=} and {route_width=} must be provided"
             )
     elif layer is not None:
         raise ValueError(
-            f"Cannot have both {layer=} and {cross_section=} provided. Choose one.",
+            f"Cannot have both {layer=} and {cross_section=} provided. Choose one."
         )
 
     c = component
@@ -199,15 +201,15 @@ def route_bundle(
     if cross_section is None:
         cross_section = partial(
             gf.cross_section.cross_section,
-            layer=cast("LayerSpec", layer),
-            width=cast("float", route_width),
+            layer=cast(LayerSpec, layer),
+            width=cast(float, route_width),
             port_names=("e1", "e2") if port_type == "electrical" else ("o1", "o2"),
             port_types=(port_type, port_type),
         )
 
     if len(ports1_) != len(ports2_):
         raise ValueError(
-            f"ports1={len(ports1_)} and ports2={len(ports2_)} must be equal",
+            f"ports1={len(ports1_)} and ports2={len(ports2_)} must be equal"
         )
     if route_width:
         xs = gf.get_cross_section(cross_section, width=route_width)
@@ -273,16 +275,10 @@ def route_bundle(
             bbox2 += port.dcplx_trans.disp.to_p()
 
         ports1_ = add_auto_tapers(
-            component,
-            ports1_,
-            cross_section=xs,
-            layer_transitions=layer_transitions,
+            component, ports1_, cross_section=xs, layer_transitions=layer_transitions
         )
         ports2_ = add_auto_tapers(
-            component,
-            ports2_,
-            cross_section=xs,
-            layer_transitions=layer_transitions,
+            component, ports2_, cross_section=xs, layer_transitions=layer_transitions
         )
 
         for port in ports1_:
@@ -305,16 +301,14 @@ def route_bundle(
             if not STEP_DIRECTIVES.issuperset(d):
                 raise ValueError(
                     f"Invalid step directives: {list(d.keys() - STEP_DIRECTIVES)}."
-                    f"Valid directives are {list(STEP_DIRECTIVES)}",
+                    f"Valid directives are {list(STEP_DIRECTIVES)}"
                 )
             x = d.get("x", x) + d.get("dx", 0)
             y = d.get("y", y) + d.get("dy", 0)
             waypoints += [(x, y)]  # type: ignore[arg-type]
             if layer_marker:
                 marker = component << gf.components.rectangle(
-                    size=(10, 10),
-                    layer=layer_marker,
-                    centered=True,
+                    size=(10, 10), layer=layer_marker, centered=True
                 )
                 marker.center = (x, y)
     if waypoints is not None and not isinstance(waypoints[0], kf.kdb.DPoint):
@@ -325,9 +319,7 @@ def route_bundle(
         if layer_marker and waypoints_ is not None:
             for p in waypoints_:
                 marker = component << gf.components.rectangle(
-                    size=(10, 10),
-                    layer=layer_marker,
-                    centered=True,
+                    size=(10, 10), layer=layer_marker, centered=True
                 )
                 marker.center = (p.x, p.y)
     else:
@@ -338,7 +330,7 @@ def route_bundle(
         if cross_section is not None:
             xs = gf.get_cross_section(cross_section)
             layer_: gf.kdb.LayerInfo | None = gf.kcl.get_info(
-                gf.get_layer(xs.sections[0].layer),
+                gf.get_layer(xs.sections[0].layer)
             )
         else:
             layer_ = None
@@ -390,9 +382,7 @@ def route_bundle(
                 layer_marker = gf.CONF.layer_error_path
                 for p in waypoints_:
                     marker = component << gf.components.rectangle(
-                        size=(10, 10),
-                        layer=layer_marker,
-                        centered=True,
+                        size=(10, 10), layer=layer_marker, centered=True
                     )
                     marker.center = (p.x, p.y)
 
@@ -402,19 +392,13 @@ def route_bundle(
         bend
         if isinstance(bend, gf.Component)
         else gf.get_component(
-            bend,
-            cross_section=cross_section,
-            radius=radius,
-            width=width,
+            bend, cross_section=cross_section, radius=radius, width=width
         )
     )
 
     def straight_um(width: float, length: float) -> gf.Component:
         return gf.get_component(
-            straight,
-            length=length,
-            cross_section=cross_section,
-            width=width,
+            straight, length=length, cross_section=cross_section, width=width
         )
 
     try:
@@ -469,9 +453,7 @@ def route_bundle(
             layer_marker = gf.CONF.layer_error_path
             for p in waypoints_:
                 marker = component << gf.components.rectangle(
-                    size=(10, 10),
-                    layer=layer_marker,
-                    centered=True,
+                    size=(10, 10), layer=layer_marker, centered=True
                 )
                 marker.center = (p.x, p.y)
 

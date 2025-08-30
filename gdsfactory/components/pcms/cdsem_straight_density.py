@@ -38,9 +38,7 @@ def cdsem_straight_density(
     tooth_ref: ComponentReference | None = None
     for width, gap in zip(widths, gaps, strict=False):
         tooth_ref = c << gf.c.straight(
-            length=length,
-            cross_section=cross_section,
-            width=width,
+            length=length, cross_section=cross_section, width=width
         )
         tooth_ref.ymin = ymin
         ymin += width + gap

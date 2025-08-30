@@ -43,9 +43,7 @@ def route_bundle_sbend(
     """
     if sort_ports:
         ports1, ports2 = sort_ports_function(
-            ports1,
-            ports2,
-            enforce_port_ordering=enforce_port_ordering,
+            ports1, ports2, enforce_port_ordering=enforce_port_ordering
         )
 
     routes = []
@@ -67,10 +65,7 @@ def route_bundle_sbend(
 
         if use_port_width:
             bend = gf.get_component(
-                bend_s,
-                size=(xsize, ysize),
-                width=p1.width,
-                **kwargs,
+                bend_s, size=(xsize, ysize), width=p1.width, **kwargs
             )
         else:
             bend = gf.get_component(bend_s, size=(xsize, ysize), **kwargs)

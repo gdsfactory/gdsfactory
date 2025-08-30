@@ -10,10 +10,7 @@ from gdsfactory.routing.utils import RouteWarning
 
 
 def make_error_traces(
-    component: gf.Component,
-    ports1: list[Port],
-    ports2: list[Port],
-    message: str,
+    component: gf.Component, ports1: list[Port], ports2: list[Port], message: str
 ) -> None:
     """Creates a set of error traces showing the intended connectivity between ports1 and ports2.
 
@@ -100,9 +97,7 @@ def _segment_intersects_fast(
     """Fast check if 2 segments intersect (excluding colinear cases)."""
 
     def ccw(
-        p1: tuple[float, float],
-        p2: tuple[float, float],
-        p3: tuple[float, float],
+        p1: tuple[float, float], p2: tuple[float, float], p3: tuple[float, float]
     ) -> bool:
         # Counter-clockwise test
         return (p3[1] - p1[1]) * (p2[0] - p1[0]) > (p2[1] - p1[1]) * (p3[0] - p1[0])

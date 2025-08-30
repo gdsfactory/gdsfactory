@@ -38,27 +38,19 @@ def resistance_sheet(
     pad1 = c << pad
     pad2 = c << pad
     r0 = c << gf.c.compass(
-        size=(length + layer_offsets[0], width + layer_offsets[0]),
-        layer=layers[0],
+        size=(length + layer_offsets[0], width + layer_offsets[0]), layer=layers[0]
     )
 
     for layer, offset in zip(layers[1:], layer_offsets[1:], strict=False):
         _ = c << gf.c.compass(
-            size=(length + 2 * offset, width + 2 * offset),
-            layer=layer,
+            size=(length + 2 * offset, width + 2 * offset), layer=layer
         )
 
     pad1.connect(
-        "e3",
-        r0.ports["e1"],
-        allow_width_mismatch=True,
-        allow_layer_mismatch=True,
+        "e3", r0.ports["e1"], allow_width_mismatch=True, allow_layer_mismatch=True
     )
     pad2.connect(
-        "e1",
-        r0.ports["e3"],
-        allow_width_mismatch=True,
-        allow_layer_mismatch=True,
+        "e1", r0.ports["e3"], allow_width_mismatch=True, allow_layer_mismatch=True
     )
 
     c.info["resistance"] = ohms_per_square * width * length if ohms_per_square else 0

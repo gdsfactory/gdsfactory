@@ -120,7 +120,7 @@ add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_
                 [
                     f"{clean_value_name(p_name)}:{p['type']}={p['value']}"
                     for p_name, p in parameters.items()
-                ],
+                ]
             )
             if parameters
             else ""
@@ -133,7 +133,7 @@ add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_
                     if "min" in p
                     else f"  {p_name}: {p['doc']}."
                     for p_name, p in parameters.items()
-                ],
+                ]
             )
             if parameters
             else ""
@@ -161,7 +161,7 @@ add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_
                 [
                     f"    c.add_label(text=f'{p_name}', position=(xc, yc-{i}/{len(parameters)}/2*ysize), layer=layer_label)\n"
                     for i, p_name in enumerate(parameters_colon)
-                ],
+                ]
             )
             if layer_label and parameters_colon
             else ""

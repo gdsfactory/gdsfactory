@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections import defaultdict
 from collections.abc import Mapping, Sequence
-from typing import TYPE_CHECKING, Any, Literal, Self, TypeAlias, TypeVar
+from typing import TYPE_CHECKING, Any, Literal, TypeAlias, TypeVar
 
 import kfactory as kf
 from kfactory.layer import LayerEnum
@@ -33,13 +33,10 @@ class AbstractLayer(BaseModel):
     sizings_modes: Sequence[int] = (2,)
 
     def _perform_operation(
-        self,
-        other: AbstractLayer,
-        operation: Literal["and", "or", "xor", "not"],
+        self, other: AbstractLayer, operation: Literal["and", "or", "xor", "not"]
     ) -> DerivedLayer:
         if isinstance(other, DerivedLayer | LogicalLayer) and isinstance(
-            self,
-            DerivedLayer | LogicalLayer,
+            self, DerivedLayer | LogicalLayer
         ):
             return DerivedLayer(layer1=self, layer2=other, operation=operation)
         raise ValueError(f"{other} is not a DerivedLayer or LogicalLayer")
@@ -104,11 +101,11 @@ class AbstractLayer(BaseModel):
         return self._perform_operation(other, "not")
 
     def sized(
-        self,
+        self: T,
         xoffset: int | tuple[int, ...],
         yoffset: int | tuple[int, ...] | None = None,
         mode: int | tuple[int, ...] | None = None,
-    ) -> Self:
+    ) -> T:
         """Accumulates a list of sizing operations for the layer by the provided offset (in dbu).
 
         Args:
@@ -126,9 +123,10 @@ class AbstractLayer(BaseModel):
         if isinstance(yoffset, tuple):
             if len(yoffset) != len(xoffset_list):
                 raise ValueError(
-                    "If yoffset is provided as a tuple, length must be equal to xoffset!",
+                    "If yoffset is provided as a tuple, length must be equal to xoffset!"
                 )
-            yoffset_list = list(yoffset)
+            else:
+                yoffset_list = list(yoffset)
         elif yoffset is None:
             yoffset_list = xoffset_list
         else:
@@ -138,9 +136,10 @@ class AbstractLayer(BaseModel):
         if isinstance(mode, tuple):
             if len(mode) != len(xoffset_list):
                 raise ValueError(
-                    "If mode is provided as a tuple, length must be equal to xoffset!",
+                    "If mode is provided as a tuple, length must be equal to xoffset!"
                 )
-            mode_list = list(mode)
+            else:
+                mode_list = list(mode)
         elif mode is None:
             mode_list = [2] * len(xoffset_list)
         else:
@@ -275,7 +274,8 @@ class DerivedLayer(AbstractLayer):
     def get_symbol(self) -> str:
         if self.operation in self.keyword_to_symbol:
             return self.keyword_to_symbol[self.operation]
-        return self.operation
+        else:
+            return self.operation
 
     def get_shapes(self, component: Component) -> kf.kdb.Region:
         """Return the shapes of the component argument corresponding to this layer.
@@ -371,7 +371,8 @@ class LayerLevel(BaseModel):
     def check_layer(cls, layer: BroadLayer) -> LogicalLayer | DerivedLayer:
         if isinstance(layer, LogicalLayer | DerivedLayer):
             return layer
-        return LogicalLayer(layer=layer)
+        else:
+            return LogicalLayer(layer=layer)
 
     @property
     def bounds(self) -> tuple[float, float]:
@@ -398,10 +399,7 @@ class LayerStack(BaseModel):
     )
 
     def model_copy(
-        self,
-        *,
-        update: Mapping[str, Any] | None = None,
-        deep: bool = False,
+        self, *, update: Mapping[str, Any] | None = None, deep: bool = False
     ) -> LayerStack:
         """Returns a copy of the LayerStack."""
         return super().model_copy(update=update, deep=True)
@@ -443,15 +441,11 @@ class LayerStack(BaseModel):
         return layer_to_thickness
 
     def get_component_with_derived_layers(
-        self,
-        component: Component,
-        **kwargs: Any,
+        self, component: Component, **kwargs: Any
     ) -> Component:
         """Returns component with derived layers."""
         return get_component_with_derived_layers(
-            component=component,
-            layer_stack=self,
-            **kwargs,
+            component=component, layer_stack=self, **kwargs
         )
 
     def get_layer_to_zmin(self) -> dict[BroadLayer, float]:
@@ -544,7 +538,7 @@ class LayerStack(BaseModel):
                 f"{layer_name} = input({(__layer := get_layer_tuple(level.derived_layer.layer))[0]}, {__layer[1]})"
                 for layer_name, level in layers.items()
                 if level.derived_layer
-            ],
+            ]
         )
         out += "\n\n"
 
@@ -563,7 +557,7 @@ class LayerStack(BaseModel):
                 f"{layer_name} = input({level.layer.layer[0]}, {level.layer.layer[1]})"  # type: ignore[index,union-attr]
                 for layer_name, level in layers.items()
                 if hasattr(level.layer, "layer")
-            ],
+            ]
         )
         out += "\n\n"
 
@@ -654,7 +648,7 @@ class LayerStack(BaseModel):
     def filtered(self, layers: list[str]) -> LayerStack:
         """Returns filtered layerstack, given layer specs."""
         return LayerStack(
-            layers={k: self.layers[k] for k in layers if k in self.layers},
+            layers={k: self.layers[k] for k in layers if k in self.layers}
         )
 
     def z_offset(self, dz: float) -> LayerStack:
@@ -675,8 +669,7 @@ class LayerStack(BaseModel):
 
 
 def get_component_with_derived_layers(
-    component: Component,
-    layer_stack: LayerStack,
+    component: Component, layer_stack: LayerStack
 ) -> Component:
     """Returns a component with derived layers.
 
@@ -695,7 +688,7 @@ def get_component_with_derived_layers(
                 derived_layer_index = get_layer(level.layer.layer)
             else:
                 raise ValueError(
-                    "If derived_layer is not provided, the LayerLevel layer must be a LogicalLayer",
+                    "If derived_layer is not provided, the LayerLevel layer must be a LogicalLayer"
                 )
         else:
             derived_layer_index = get_layer(level.derived_layer.layer)

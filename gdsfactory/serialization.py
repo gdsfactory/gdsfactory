@@ -26,9 +26,7 @@ DEFAULT_SERIALIZATION_MAX_DIGITS = 3
 def get_string(value: Any) -> str:
     try:
         s = orjson.dumps(
-            value,
-            option=orjson.OPT_SERIALIZE_NUMPY,
-            default=clean_value_name,
+            value, option=orjson.OPT_SERIALIZE_NUMPY, default=clean_value_name
         ).decode()
     except TypeError as e:
         print(f"Error serializing {value!r}")
@@ -41,8 +39,7 @@ def clean_dict(dictionary: dict[str, Any]) -> dict[str, Any]:
 
 
 def complex_encoder(
-    obj: complex | np.complexfloating,
-    digits: int = DEFAULT_SERIALIZATION_MAX_DIGITS,
+    obj: complex | np.complexfloating, digits: int = DEFAULT_SERIALIZATION_MAX_DIGITS
 ) -> dict[str, Any]:
     real_part = np.round(obj.real, digits)
     imag_part = np.round(obj.imag, digits)
@@ -74,9 +71,7 @@ def clean_value_json(
 
 
 def clean_value_json(
-    value: Any,
-    include_module: bool = True,
-    serialize_function_as_dict: bool = True,
+    value: Any, include_module: bool = True, serialize_function_as_dict: bool = True
 ) -> str | int | float | dict[str, Any] | list[Any] | bool | Any | None:
     """Return JSON serializable object.
 
@@ -90,78 +85,78 @@ def clean_value_json(
     if isinstance(value, pydantic.BaseModel):
         return clean_dict(value.model_dump(exclude_none=True))
 
-    if hasattr(value, "get_component_spec"):
+    elif hasattr(value, "get_component_spec"):
         return value.get_component_spec()
 
-    if isinstance(value, bool):
+    elif isinstance(value, bool):
         return value
 
-    if isinstance(value, Enum):
+    elif isinstance(value, Enum):
         return str(value)
 
-    if isinstance(value, np.integer | int):
+    elif isinstance(value, np.integer | int):
         return int(value)
 
-    if isinstance(value, float | np.floating):
+    elif isinstance(value, float | np.floating):
         if value == round(value):
             return int(value)
         return float(np.round(value, DEFAULT_SERIALIZATION_MAX_DIGITS))
 
-    if isinstance(value, complex | np.complexfloating):
+    elif isinstance(value, complex | np.complexfloating):
         return complex_encoder(value)
 
-    if isinstance(value, np.ndarray):
+    elif isinstance(value, np.ndarray):
         value = np.round(value, DEFAULT_SERIALIZATION_MAX_DIGITS)
         return orjson.loads(orjson.dumps(value, option=orjson.OPT_SERIALIZE_NUMPY))
 
-    if callable(value) and isinstance(value, functools.partial):
+    elif callable(value) and isinstance(value, functools.partial):
         return clean_value_partial(
             value=value,
             include_module=include_module,
             serialize_function_as_dict=serialize_function_as_dict,
         )
-    if hasattr(value, "to_dict"):
+    elif hasattr(value, "to_dict"):
         return clean_dict(value.to_dict())
 
-    if callable(value) and isinstance(value, toolz.functoolz.Compose):
+    elif callable(value) and isinstance(value, toolz.functoolz.Compose):
         return [clean_value_json(value.first)] + [
             clean_value_json(func) for func in value.funcs
         ]
 
-    if callable(value) and hasattr(value, "__name__"):
+    elif callable(value) and hasattr(value, "__name__"):
         if serialize_function_as_dict:
             return (
                 {"function": value.__name__, "module": value.__module__}
                 if include_module
                 else {"function": value.__name__}
             )
-        return value.__name__
+        else:
+            return value.__name__
 
-    if isinstance(value, Path):
+    elif isinstance(value, Path):
         return value.hash_geometry()
 
-    if isinstance(value, pathlib.Path):
+    elif isinstance(value, pathlib.Path):
         return value.stem
 
-    if isinstance(value, dict):
+    elif isinstance(value, dict):
         return clean_dict(value.copy())
 
-    if isinstance(value, list | tuple | set | KeysView):
+    elif isinstance(value, list | tuple | set | KeysView):
         return tuple([clean_value_json(i) for i in value])
 
-    if attrs.has(type(value)):
+    elif attrs.has(type(value)):
         return attrs.asdict(value)
 
-    try:
-        value_json = orjson.dumps(
-            value,
-            option=orjson.OPT_SERIALIZE_NUMPY,
-            default=clean_value_json,
-        )
-        return orjson.loads(value_json)
-    except TypeError as e:
-        print(f"Error serializing {value!r}")
-        raise e
+    else:
+        try:
+            value_json = orjson.dumps(
+                value, option=orjson.OPT_SERIALIZE_NUMPY, default=clean_value_json
+            )
+            return orjson.loads(value_json)
+        except TypeError as e:
+            print(f"Error serializing {value!r}")
+            raise e
 
 
 def clean_value_partial(

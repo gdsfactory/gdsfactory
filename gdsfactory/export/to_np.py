@@ -48,9 +48,7 @@ def to_np(
                 r = polygon[:, 0] - xmin
                 c = polygon[:, 1] - ymin
                 rr, cc = skdraw.polygon(
-                    r * pixels_per_um,
-                    c * pixels_per_um,
-                    shape=shape,
+                    r * pixels_per_um, c * pixels_per_um, shape=shape
                 )
                 img[rr, cc] = value
 

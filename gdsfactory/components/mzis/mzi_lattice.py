@@ -53,26 +53,22 @@ def mzi_lattice(
     if len(coupler_lengths) != len(coupler_gaps):
         raise ValueError(
             f"Got {len(coupler_lengths)} coupler_lengths and "
-            f"{len(coupler_gaps)} coupler_gaps",
+            f"{len(coupler_gaps)} coupler_gaps"
         )
     if len(coupler_lengths) != len(delta_lengths) + 1:
         raise ValueError(
             f"Got {len(coupler_lengths)} coupler_lengths and "
             f"{len(delta_lengths)} delta_lengths. "
-            "You need one more coupler_length than delta_lengths ",
+            "You need one more coupler_length than delta_lengths "
         )
 
     c = Component()
 
     cp1 = splitter1 = gf.get_component(
-        splitter,
-        gap=coupler_gaps[0],
-        length=coupler_lengths[0],
+        splitter, gap=coupler_gaps[0], length=coupler_lengths[0]
     )
     combiner1 = gf.get_component(
-        splitter,
-        gap=coupler_gaps[1],
-        length=coupler_lengths[1],
+        splitter, gap=coupler_gaps[1], length=coupler_lengths[1]
     )
 
     sprevious = c << gf.get_component(
@@ -88,10 +84,7 @@ def mzi_lattice(
     stages: list[ComponentReference] = []
 
     for length, gap, delta_length in zip(
-        coupler_lengths[2:],
-        coupler_gaps[2:],
-        delta_lengths[1:],
-        strict=False,
+        coupler_lengths[2:], coupler_gaps[2:], delta_lengths[1:], strict=False
     ):
         splitter_settings = dict(gap=coupler_gaps[1], length=coupler_lengths[1])
         combiner_settings = dict(length=length, gap=gap)
@@ -220,7 +213,7 @@ def mzi_lattice_mmi(
         raise ValueError(
             f"Got {len(coupler_widths)} coupler_widths and "
             f"{len(delta_lengths)} delta_lengths. "
-            "You need one more coupler_width than delta_lengths ",
+            "You need one more coupler_width than delta_lengths "
         )
 
     c = Component()

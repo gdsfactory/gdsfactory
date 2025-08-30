@@ -71,7 +71,7 @@ def taper(
                 gf.kdb.DPoint(length, y2),
                 gf.kdb.DPoint(length, -y2),
                 gf.kdb.DPoint(0, -y1),
-            ],
+            ]
         )
         c.add_polygon(p1, layer=layer)
 
@@ -87,7 +87,7 @@ def taper(
                     gf.kdb.DPoint(length, y2),
                     gf.kdb.DPoint(length, -y2),
                     gf.kdb.DPoint(0, -y1),
-                ],
+                ]
             )
             c.add_polygon(p1, layer=section.layer)
 
@@ -234,11 +234,7 @@ def taper_strip_to_ridge_trenches(
 
     c.add_port(name="o1", center=(0, 0), width=width, orientation=180, layer=layer_wg)
     c.add_port(
-        name="o2",
-        center=(length, 0),
-        width=width,
-        orientation=0,
-        layer=layer_wg,
+        name="o2", center=(length, 0), width=width, orientation=0, layer=layer_wg
     )
     return c
 

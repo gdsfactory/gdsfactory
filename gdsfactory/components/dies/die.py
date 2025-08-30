@@ -49,7 +49,7 @@ def die(
                 sx - street_width,
                 sx - street_length,
                 sx - street_length,
-            ],
+            ]
         )
         if not draw_corners:
             street_length = sy
@@ -61,7 +61,7 @@ def die(
                 sy - street_width,
                 sy - street_width,
                 sy,
-            ],
+            ]
         )
         c.add_polygon(list(zip(xpts, ypts, strict=False)), layer=layer)
         c.add_polygon(list(zip(-xpts, ypts, strict=False)), layer=layer)
@@ -92,7 +92,7 @@ def die(
                 t.xmin, t.ymin = [-sx + d, -sy + d]
             else:
                 raise ValueError(
-                    f"Invalid text_location: {text_location} not in N, NE, NW, S, SE, SW",
+                    f"Invalid text_location: {text_location} not in N, NE, NW, S, SE, SW"
                 )
         else:
             t.x, t.y = text_location

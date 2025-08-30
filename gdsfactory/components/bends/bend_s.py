@@ -13,8 +13,7 @@ from gdsfactory.typings import Coordinate, Coordinates, CrossSectionSpec, Size
 
 
 def bezier_curve(
-    t: npt.NDArray[np.floating[Any]],
-    control_points: Coordinates,
+    t: npt.NDArray[np.floating[Any]], control_points: Coordinates
 ) -> npt.NDArray[np.floating[Any]]:
     """Returns bezier coordinates.
 
@@ -183,9 +182,7 @@ def bend_s(
 
     if dy == 0:
         return gf.components.straight(
-            length=dx,
-            cross_section=cross_section,
-            width=width,
+            length=dx, cross_section=cross_section, width=width
         )
 
     return bezier(
@@ -198,8 +195,7 @@ def bend_s(
 
 
 def _get_arc_sbend_angle_middle_length_from_jog(
-    jog: float,
-    radius: float,
+    jog: float, radius: float
 ) -> tuple[float, float]:
     """Compute the Euler bend angle and middle straight length for an S-bend."""
     if jog < 2 * radius:
@@ -212,8 +208,7 @@ def _get_arc_sbend_angle_middle_length_from_jog(
 
 
 def _get_euler_sbend_angle_middle_length_from_jog(
-    jog: float,
-    radius: float,
+    jog: float, radius: float
 ) -> tuple[float, float]:
     """Compute the Euler bend angle (in degrees) and middle straight length for an S-bend.
 
@@ -290,8 +285,7 @@ def bend_s_offset(
     xs.validate_radius(radius)
     if with_euler:
         angle, middle_length = _get_euler_sbend_angle_middle_length_from_jog(
-            jog=offset / 2,
-            radius=radius,
+            jog=offset / 2, radius=radius
         )
         path = gf.path.euler(radius=radius, angle=+angle, p=1, use_eff=False)
         path += gf.path.straight(length=middle_length)
