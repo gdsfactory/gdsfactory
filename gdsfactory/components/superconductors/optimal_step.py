@@ -144,7 +144,7 @@ def optimal_step(
             )
         )
 
-    D.add_polygon(list(zip(xpts, ypts)), layer=layer)
+    D.add_polygon(list(zip(xpts, ypts, strict=False)), layer=layer)
     port_type = "electrical"
     if not symmetric:
         D.add_port(

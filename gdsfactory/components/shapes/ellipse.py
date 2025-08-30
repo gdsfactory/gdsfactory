@@ -32,5 +32,5 @@ def ellipse(
     r = a * b / (sqrt((b * cos(t)) ** 2 + (a * sin(t)) ** 2))
     xpts = r * cos(t)
     ypts = r * sin(t)
-    c.add_polygon(points=list(zip(xpts, ypts)), layer=layer)
+    c.add_polygon(points=list(zip(xpts, ypts, strict=False)), layer=layer)
     return c

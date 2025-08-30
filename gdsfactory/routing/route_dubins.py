@@ -215,7 +215,7 @@ def dubins_path(
     assert bt is not None and bp is not None and bq is not None and bmode is not None
 
     # Return path segments with lengths in um
-    return list(zip(bmode, [bt * c, bp * c, bq * c], [c] * 3))
+    return list(zip(bmode, [bt * c, bp * c, bq * c], [c] * 3, strict=False))
 
 
 def mod_to_pi(angle: float) -> float:

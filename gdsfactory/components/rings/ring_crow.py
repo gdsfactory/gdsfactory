@@ -84,7 +84,7 @@ def ring_crow(
     cum_y_dist = input_straight_width / 2
 
     for gap, r, bend, cross_section, length_y in zip(
-        gaps, radius, bends, ring_cross_sections, lengths_y
+        gaps, radius, bends, ring_cross_sections, lengths_y, strict=False
     ):
         gap = gf.snap.snap_to_grid(gap, grid_factor=2)
         ring = ring_asymmetric(

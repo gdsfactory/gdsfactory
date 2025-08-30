@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 
 
 def to_kdb_dpoints(
-    points: "Sequence[Coordinate | kdb.Point | kdb.DPoint]",
+    points: Sequence[Coordinate | kdb.Point | kdb.DPoint],
 ) -> list[kdb.DPoint]:
     return [
         point
@@ -25,5 +25,5 @@ def to_kdb_dpoints(
     ]
 
 
-def is_component_spec(obj: Any) -> "TypeGuard[ComponentSpec]":
+def is_component_spec(obj: Any) -> TypeGuard[ComponentSpec]:
     return isinstance(obj, str | Callable | dict | kf.DKCell)

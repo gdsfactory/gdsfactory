@@ -191,7 +191,7 @@ class LogicalLayer(AbstractLayer):
         """
         return hash(self.layer)
 
-    def get_shapes(self, component: "Component") -> kf.kdb.Region:
+    def get_shapes(self, component: Component) -> kf.kdb.Region:
         """Return the shapes of the component argument corresponding to this layer.
 
         Arguments:
@@ -213,7 +213,10 @@ class LogicalLayer(AbstractLayer):
             and all(v == 0 for v in self.sizings_yoffsets)
         ):
             for xoffset, yoffset, mode in zip(
-                self.sizings_xoffsets, self.sizings_yoffsets, self.sizings_modes
+                self.sizings_xoffsets,
+                self.sizings_yoffsets,
+                self.sizings_modes,
+                strict=False,
             ):
                 region = region.sized(xoffset, yoffset, mode)
         return region
@@ -274,7 +277,7 @@ class DerivedLayer(AbstractLayer):
         else:
             return self.operation
 
-    def get_shapes(self, component: "Component") -> kf.kdb.Region:
+    def get_shapes(self, component: Component) -> kf.kdb.Region:
         """Return the shapes of the component argument corresponding to this layer.
 
         Arguments:
@@ -293,7 +296,10 @@ class DerivedLayer(AbstractLayer):
             and all(v == 0 for v in self.sizings_yoffsets)
         ):
             for xoffset, yoffset, mode in zip(
-                self.sizings_xoffsets, self.sizings_yoffsets, self.sizings_modes
+                self.sizings_xoffsets,
+                self.sizings_yoffsets,
+                self.sizings_modes,
+                strict=False,
             ):
                 region = region.sized(xoffset, yoffset, mode)
         return region
@@ -435,8 +441,8 @@ class LayerStack(BaseModel):
         return layer_to_thickness
 
     def get_component_with_derived_layers(
-        self, component: "Component", **kwargs: Any
-    ) -> "Component":
+        self, component: Component, **kwargs: Any
+    ) -> Component:
         """Returns component with derived layers."""
         return get_component_with_derived_layers(
             component=component, layer_stack=self, **kwargs
@@ -663,8 +669,8 @@ class LayerStack(BaseModel):
 
 
 def get_component_with_derived_layers(
-    component: "Component", layer_stack: LayerStack
-) -> "Component":
+    component: Component, layer_stack: LayerStack
+) -> Component:
     """Returns a component with derived layers.
 
     Args:

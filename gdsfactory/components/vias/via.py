@@ -74,7 +74,7 @@ def via(
             f"bbox_offsets {bbox_offsets=} should have the same length as bbox_layers {bbox_layers=}"
         )
 
-    for layer, bbox_offset in zip(bbox_layers, bbox_offsets):
+    for layer, bbox_offset in zip(bbox_layers, bbox_offsets, strict=False):
         a = (width + 2 * bbox_offset) / 2
         b = (height + 2 * bbox_offset) / 2
         c.add_polygon([(-a, -b), (a, -b), (a, b), (-a, b)], layer=layer)
@@ -110,7 +110,7 @@ def via_circular(
     ypts = (radius * np.sin(t)).tolist()
     xpts = cast(list[float], xpts)
     ypts = cast(list[float], ypts)
-    c.add_polygon(points=list(zip(xpts, ypts)), layer=layer)
+    c.add_polygon(points=list(zip(xpts, ypts, strict=False)), layer=layer)
     row_pitch = row_pitch or pitch
     column_pitch = column_pitch or pitch
 

@@ -59,7 +59,7 @@ def greek_cross(
     offsets = offsets or (0.0,) * len(layers)
     index = 0
 
-    for layer, width, offset in zip(layers, widths, offsets):
+    for layer, width, offset in zip(layers, widths, offsets, strict=False):
         ref = c << gf.c.cross(
             length=length + 2 * offset,
             width=width,

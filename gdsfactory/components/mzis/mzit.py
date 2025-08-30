@@ -271,7 +271,7 @@ def mzit_lattice(
             delta_length=delta_length,
         )
         for coupler_length, coupler_gap, delta_length in zip(
-            coupler_lengths[2:], coupler_gaps[2:], delta_lengths[1:]
+            coupler_lengths[2:], coupler_gaps[2:], delta_lengths[1:], strict=False
         )
     ]
 

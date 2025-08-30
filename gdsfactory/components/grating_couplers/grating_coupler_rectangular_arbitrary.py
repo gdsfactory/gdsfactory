@@ -94,7 +94,7 @@ def grating_coupler_rectangular_arbitrary(
 
     y0 = width_grating / 2
 
-    for width, gap in zip(widths, gaps):
+    for width, gap in zip(widths, gaps, strict=False):
         xi += gap
         points = np.array(
             [

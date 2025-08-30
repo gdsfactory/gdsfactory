@@ -41,7 +41,7 @@ def to_np(
 
     values = values or [1] * len(layers)
 
-    for layer, value in zip(layers, values):
+    for layer, value in zip(layers, values, strict=False):
         if layer in layer_to_polygons:
             polygons = layer_to_polygons[layer]
             for polygon in polygons:

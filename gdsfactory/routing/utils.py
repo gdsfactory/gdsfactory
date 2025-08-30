@@ -52,7 +52,7 @@ def check_ports_have_equal_spacing(list_ports: Sequence[Port]) -> float:
     else:
         xys = [p.x for p in list_ports]
 
-    seps = [round(abs(c2 - c1), 5) for c1, c2 in zip(xys[1:], xys[:-1])]
+    seps = [round(abs(c2 - c1), 5) for c1, c2 in zip(xys[1:], xys[:-1], strict=False)]
     different_seps = set(seps)
     if len(different_seps) > 1:
         raise ValueError(f"Ports should have the same separation. Got {different_seps}")

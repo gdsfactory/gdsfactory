@@ -93,7 +93,7 @@ def via_stack_with_offset(
             )
 
     for layer, via, size, size_offset, offset in zip(
-        layers, vias, sizes_list, layer_offsets, offsets
+        layers, vias, sizes_list, layer_offsets, offsets, strict=False
     ):
         width, height = size
         width += 2 * size_offset

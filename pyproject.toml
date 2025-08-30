@@ -126,9 +126,6 @@ enabled = true
 live_mode = true
 strict = true
 
-[tool.pyright]
-reportUnusedExpression = false
-
 [tool.pytest.ini_options]
 # addopts = --tb=no
 addopts = '--tb=short --ignore=gdsfactory/schematic_editor.py --ignore=gdsfactory/klayout_tech.py --ignore=gdsfactory/geometry/maskprep_flat.py --ignore=gdsfactory/fill_klayout.py --ignore=tests/test_samples.py'
@@ -153,24 +150,15 @@ fix = true
 ignore = [
   "B008",  # do not perform function calls in argument defaults
   "B904",
-  "B905",  # `zip()` without an explicit `strict=` parameter
   "C408",  # C408 Unnecessary `dict` call (rewrite as a literal)
   "C901",  # too complex
-  "D100",  # public module docstrings
-  "D101",  # public class docstrings
-  "D102",  # public method docstrings
-  "D103",  # public function docstrings
-  "D104",  # public package docstrings
-  "E501",  # line too long, handled by black
+  "E501",  # line too long
   "RUF005",  # Consider {expression} instead of concatenation
-  "ANN401",  # typing.Any is not allowed
-  "RUF015",  # Using next() instead of [0]
-  "UP037"  # Remove quotes from type annotations
+  "ANN401"  # typing.Any is not allowed
 ]
 select = [
   "B",  # flake8-bugbear
   "C",  # flake8-comprehensions
-  "D",  # pydocstyle
   "E",  # pycodestyle errors
   "F",  # pyflakes
   "I",  # isort

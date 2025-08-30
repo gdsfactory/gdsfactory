@@ -459,7 +459,7 @@ def _extract_connections(
             # Iterates over the list of multiple ports to create related two-port connectivity
             num_ports = len(ports_at_xy)
             for portindex1, portindex2 in zip(
-                range(-1, num_ports - 1), range(num_ports)
+                range(-1, num_ports - 1), range(num_ports), strict=False
             ):
                 port1 = ports[ports_at_xy[portindex1]]
                 port2 = ports[ports_at_xy[portindex2]]

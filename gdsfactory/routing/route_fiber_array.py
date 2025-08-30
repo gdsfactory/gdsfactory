@@ -266,7 +266,7 @@ def route_fiber_array(
     io_gratings: list[Component | kf.DInstance] = []
     gc_ports: list[gf.Port] = []
     for j in range(nb_optical_ports_lines):
-        for i, gc in zip(grating_indices, grating_couplers):
+        for i, gc in zip(grating_indices, grating_couplers, strict=False):
             gc_ref = component << gc
             gc_ref.rotate(gc_rotation)
             gc_ref.x = x_c - offset + i * pitch
@@ -348,7 +348,7 @@ def route_fiber_array(
 
     component.ports = kf.DPorts(kcl=component.kcl)
 
-    for component_port, port in zip(port_names, fiber_ports):
+    for component_port, port in zip(port_names, fiber_ports, strict=False):
         component.add_port(name=component_port, port=port)
 
     component.add_ports(ports_not_terminated)

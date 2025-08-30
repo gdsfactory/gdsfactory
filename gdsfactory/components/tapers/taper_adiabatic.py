@@ -112,7 +112,8 @@ def taper_adiabatic(
 
     c = gf.Component()
     c.add_polygon(
-        list(zip(x_array, y_array)) + list(zip(x_array, -y_array))[::-1],
+        list(zip(x_array, y_array, strict=False))
+        + list(zip(x_array, -y_array, strict=False))[::-1],
         layer=layer,
     )
 

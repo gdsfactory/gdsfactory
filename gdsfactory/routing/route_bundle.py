@@ -69,7 +69,7 @@ def get_min_spacing(
             sorted(ports1, key=get_port_x)
             sorted(ports2, key=get_port_x)
 
-    for port1, port2 in zip(ports1, ports2):
+    for port1, port2 in zip(ports1, ports2, strict=False):
         if axis in {"X", "x"}:
             x1 = get_port_y(port1)
             x2 = get_port_y(port2)
@@ -241,7 +241,7 @@ def route_bundle(
         ports1_new = []
         ports2_new = []
 
-        for p1, p2 in zip(ports1_, ports2_):
+        for p1, p2 in zip(ports1_, ports2_, strict=False):
             t1 = c << taper_
             t2 = c << taper_
             t1.connect(taper_o1, p1)

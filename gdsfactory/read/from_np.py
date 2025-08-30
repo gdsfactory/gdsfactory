@@ -20,7 +20,7 @@ def compute_area_signed(pr: npt.NDArray[np.floating[Any]]) -> float:
     indicates a counter-clockwise oriented ring.
 
     """
-    xs, ys = map(list, zip(*pr))
+    xs, ys = map(list, zip(*pr, strict=False))
     xs.append(xs[1])
     ys.append(ys[1])
     xs_ = cast(list[float], xs)

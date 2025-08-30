@@ -165,7 +165,7 @@ def clean_value_partial(
     serialize_function_as_dict: bool = True,
 ) -> str | Any | dict[str, str | Any | dict[str, Any]]:
     sig = inspect.signature(value.func)
-    args_as_kwargs = dict(zip(sig.parameters.keys(), value.args))
+    args_as_kwargs = dict(zip(sig.parameters.keys(), value.args, strict=False))
     args_as_kwargs |= value.keywords
     args_as_kwargs = clean_dict(args_as_kwargs)
 
