@@ -86,9 +86,6 @@ upload-twine: build ## Upload package to PyPI using twine
 	pip install twine
 	twine upload dist/*
 
-.PHONY: autopep8
-autopep8: ## Format python files with autopep8
-	autopep8 --in-place --aggressive --aggressive **/*.py
 .PHONY: docs
 docs: ## Build documentation
 	uv run python docs/write_cells.py
