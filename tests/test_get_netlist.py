@@ -62,7 +62,7 @@ def test_get_netlist_cell_array() -> None:
             assert expected_port_name in n["ports"]
             assert n["ports"][expected_port_name] == expected_lower_port_name
 
-    inst = list(n["instances"].values())[0]
+    inst = next(n["instances"].values())
     n_rows = inst["array"]["rows"]
     n_columns = inst["array"]["columns"]
     assert n_rows == rows and n_columns == 1, (
@@ -89,7 +89,7 @@ def test_get_netlist_cell_array_no_ports() -> None:
     assert len(n["instances"]) == 1, (
         f"Expected only one instance for array. Got {len(n['instances'])}"
     )
-    inst = list(n["instances"].values())[0]
+    inst = next(n["instances"].values())
     assert inst["array"]["columns"] == 1 and inst["array"]["rows"] == rows
 
 
