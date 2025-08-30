@@ -6,16 +6,16 @@ def test_get_polygons() -> None:
     c = gf.c.rectangle(size=(10, 10), centered=True)
 
     p = c.get_polygons(layers=("WG",), by="tuple")
-    key = next(p.keys())
+    key = next(iter(p.keys()))
 
     assert key == (1, 0)
 
     p = c.get_polygons(layers=("WG",), by="index")
-    key = next(p.keys())
+    key = next(iter(p.keys()))
     assert key == LAYER.WG
 
     p = c.get_polygons(layers=("WG",), by="name")
-    key = next(p.keys())
+    key = next(iter(p.keys()))
     assert key == "WG"
 
 

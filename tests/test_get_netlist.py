@@ -62,7 +62,7 @@ def test_get_netlist_cell_array() -> None:
             assert expected_port_name in n["ports"]
             assert n["ports"][expected_port_name] == expected_lower_port_name
 
-    inst = next(n["instances"].values())
+    inst = next(iter(n["instances"].values()))
     n_rows = inst["array"]["rows"]
     n_columns = inst["array"]["columns"]
     assert n_rows == rows and n_columns == 1, (
@@ -89,13 +89,16 @@ def test_get_netlist_cell_array_no_ports() -> None:
     assert len(n["instances"]) == 1, (
         f"Expected only one instance for array. Got {len(n['instances'])}"
     )
-    inst = next(n["instances"].values())
+    inst = next(iter(n["instances"].values()))
     assert inst["array"]["columns"] == 1 and inst["array"]["rows"] == rows
 
 
 def test_get_netlist_cell_array_connecting() -> None:
     c = gf.components.array(
-        gf.components.straight(length=100), columns=5, rows=1, column_pitch=100
+        gf.components.straight(length=100),
+        columns=5,
+        rows=1,
+        column_pitch=100,
     )
     with pytest.warns(UserWarning):
         # because the component-array has automatic external ports, we assume no internal self-connections
@@ -297,7 +300,7 @@ def test_get_netlist_virtual_insts() -> None:
     i1 = c.create_vinst(gf.components.straight(length=10, cross_section=cross_section))
     i2 = c.create_vinst(gf.components.straight(length=9, cross_section=cross_section))
     bend = c.create_vinst(
-        gf.components.bend_euler_all_angle(angle=90, cross_section=cross_section)
+        gf.components.bend_euler_all_angle(angle=90, cross_section=cross_section),
     )
     bend.connect("o1", i1.ports["o2"])
     i2.connect("o1", bend.ports["o2"])
@@ -322,7 +325,7 @@ def test_get_netlist_virtual_cell() -> None:
     i1 = c.create_vinst(gf.components.straight(length=10, cross_section=cross_section))
     i2 = c.create_vinst(gf.components.straight(length=9, cross_section=cross_section))
     bend = c.create_vinst(
-        gf.components.bend_euler_all_angle(angle=33, cross_section=cross_section)
+        gf.components.bend_euler_all_angle(angle=33, cross_section=cross_section),
     )
     bend.connect("o1", i1.ports["o2"])
     i2.connect("o1", bend.ports["o2"])
