@@ -9,12 +9,16 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec, PortsFactory
 
 
 def fanout2x2(
-    component: ComponentSpec = "straight",
+    component: ComponentSpec = "mmi2x2",
     port_spacing: float = 20.0,
     bend_length: float | None = None,
     npoints: int = 101,
     select_ports: PortsFactory = select_ports_optical,
     cross_section: CrossSectionSpec = "strip",
+    port1: str = "o1",
+    port2: str = "o2",
+    port3: str = "o3",
+    port4: str = "o4",
     **kwargs: Any,
 ) -> Component:
     """Returns component with Sbend fanout routes.
@@ -26,6 +30,10 @@ def fanout2x2(
         npoints: for sbend.
         select_ports: function to select  optical_ports ports.
         cross_section: cross_section spec.
+        port1: bottom west port.
+        port2: top west port.
+        port3: top east port.
+        port4: bottom east port.
         kwargs: cross_section settings.
 
     .. plot::
@@ -50,10 +58,10 @@ def fanout2x2(
 
     y = port_spacing / 2.0
 
-    p_w0 = ref.ports["o1"]
-    p_w1 = ref.ports["o2"]
-    p_e1 = ref.ports["o3"]
-    p_e0 = ref.ports["o4"]
+    p_w0 = ref.ports[port1]
+    p_w1 = ref.ports[port2]
+    p_e1 = ref.ports[port3]
+    p_e0 = ref.ports[port4]
 
     y0 = p_e1.center[1]
     dy = y - y0
@@ -66,15 +74,15 @@ def fanout2x2(
     b_tl = c << bend
     b_bl = c << bend
 
-    b_tr.connect(port="o1", other=p_e1)
-    b_br.connect(port="o1", other=p_e0, mirror=True)
-    b_tl.connect(port="o1", other=p_w1, mirror=True)
-    b_bl.connect(port="o1", other=p_w0)
+    b_tr.connect(port=port1, other=p_e1)
+    b_br.connect(port=port1, other=p_e0, mirror=True)
+    b_tl.connect(port=port1, other=p_w1, mirror=True)
+    b_bl.connect(port=port1, other=p_w0)
 
-    c.add_port("o1", port=b_bl.ports["o2"])
-    c.add_port("o2", port=b_tl.ports["o2"])
-    c.add_port("o3", port=b_tr.ports["o2"])
-    c.add_port("o4", port=b_br.ports["o2"])
+    c.add_port(port1, port=b_bl.ports[port2])
+    c.add_port(port2, port=b_tl.ports[port2])
+    c.add_port(port3, port=b_tr.ports[port2])
+    c.add_port(port4, port=b_br.ports[port2])
 
     c.info["min_bend_radius"] = bend.info["min_bend_radius"]
 
