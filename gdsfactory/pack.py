@@ -267,7 +267,9 @@ def pack(
             index += 1
 
             if text:
-                for text_offset, text_anchor in zip(text_offsets, text_anchors):
+                for text_offset, text_anchor in zip(
+                    text_offsets, text_anchors, strict=False
+                ):
                     label = packed << text(f"{text_prefix}{index}")
                     if text_mirror:
                         label.dmirror()

@@ -185,7 +185,7 @@ def crossing_etched(
     positions = [(a, 0), (0, a), (-a, 0), (0, -a)]
     angles = [0, 90, 180, 270]
 
-    for i, (p, angle) in enumerate(zip(positions, angles)):
+    for i, (p, angle) in enumerate(zip(positions, angles, strict=False)):
         c.add_port(
             name=str(i),
             center=p,

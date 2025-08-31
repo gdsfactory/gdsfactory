@@ -84,7 +84,7 @@ def mzi_lattice(
     stages: list[ComponentReference] = []
 
     for length, gap, delta_length in zip(
-        coupler_lengths[2:], coupler_gaps[2:], delta_lengths[1:]
+        coupler_lengths[2:], coupler_gaps[2:], delta_lengths[1:], strict=False
     ):
         splitter_settings = dict(gap=coupler_gaps[1], length=coupler_lengths[1])
         combiner_settings = dict(length=length, gap=gap)
@@ -278,6 +278,7 @@ def mzi_lattice_mmi(
         straight_functions_mmis[2:],
         cross_sections_mmis[2:],
         delta_lengths[1:],
+        strict=False,
     ):
         splitter_settings = dict(
             width=coupler_widths[1],

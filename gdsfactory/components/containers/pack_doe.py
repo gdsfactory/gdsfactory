@@ -30,9 +30,14 @@ def generate_doe(
         function: for the component (add padding, grating couplers ...)
     """
     if do_permutations:
-        settings_list = [dict(zip(settings, t)) for t in it.product(*settings.values())]
+        settings_list = [
+            dict(zip(settings, t, strict=False)) for t in it.product(*settings.values())
+        ]
     else:
-        settings_list = [dict(zip(settings, t)) for t in zip(*settings.values())]
+        settings_list = [
+            dict(zip(settings, t, strict=False))
+            for t in zip(*settings.values(), strict=False)
+        ]
 
     if function:
         function = gf.get_cell(function)
@@ -133,9 +138,14 @@ def pack_doe_grid(
         v_mirror: vertical mirror using x axis (1, y) (0, y).
     """
     if do_permutations:
-        settings_list = [dict(zip(settings, t)) for t in it.product(*settings.values())]
+        settings_list = [
+            dict(zip(settings, t, strict=False)) for t in it.product(*settings.values())
+        ]
     else:
-        settings_list = [dict(zip(settings, t)) for t in zip(*settings.values())]
+        settings_list = [
+            dict(zip(settings, t, strict=False))
+            for t in zip(*settings.values(), strict=False)
+        ]
 
     if function:
         function = gf.get_cell(function)

@@ -48,7 +48,7 @@ def route_bundle_sbend(
 
     routes = []
 
-    for p1, p2 in zip(list(ports1), list(ports2)):
+    for p1, p2 in zip(list(ports1), list(ports2), strict=False):
         ys = p2.center[1] - p1.center[1]
         xs = p2.center[0] - p1.center[0]
 

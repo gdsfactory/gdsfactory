@@ -28,7 +28,7 @@ def make_error_traces(
     import gdsfactory as gf
 
     warn(message, RouteWarning, stacklevel=3)
-    for port1, port2 in zip(ports1, ports2):
+    for port1, port2 in zip(ports1, ports2, strict=False):
         path = gf.path.Path(np.array([port1.center, port2.center]))
         error_component = gf.path.extrude(path, layer=CONF.layer_error_path, width=1)
         _ = component << error_component
@@ -59,7 +59,7 @@ def is_invalid_bundle_topology(ports1: list[Port], ports2: list[Port]) -> bool:
     ] = []  # for intersection checking
 
     # Precompute all necessary quantities
-    for p1, p2 in zip(ports1, ports2):
+    for p1, p2 in zip(ports1, ports2, strict=False):
         c1: tuple[float, float] = p1.center
         c2: tuple[float, float] = p2.center
 
