@@ -1,12 +1,11 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.13.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.13.1...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.13.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.13.1) - 2025-08-30
 
-No significant changes.
-
+- more configurable fanout2x2 with better defaults [#4142](https://github.com/gdsfactory/gdsfactory/pull/4142)
 
 ## [9.13.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.13.0) - 2025-08-30
 
