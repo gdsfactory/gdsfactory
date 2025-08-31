@@ -52,7 +52,7 @@ def get_generic_pdk() -> Pdk:
     from gdsfactory.cross_section import cross_sections
     from gdsfactory.generic_tech.simulation_settings import materials_index
     from gdsfactory.get_factories import get_cells
-    from gdsfactory.pdk import Pdk, constants
+    from gdsfactory.pdk import GenericConstants, Pdk
 
     LAYER_VIEWS = LayerViews(filepath=PATH.klayout_yaml)
 
@@ -81,6 +81,6 @@ def get_generic_pdk() -> Pdk:
         layer_views=LAYER_VIEWS,
         layer_transitions=layer_transitions,  # type: ignore[arg-type]
         materials_index=materials_index,  # type: ignore[arg-type]
-        constants=constants,
+        constants=GenericConstants(),
         connectivity=LAYER_CONNECTIVITY,
     )
