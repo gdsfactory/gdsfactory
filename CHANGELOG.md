@@ -1,12 +1,27 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.12.4...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.12.5...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.12.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.12.5) - 2025-08-30
 
-No significant changes.
-
+- Enable more ruff rules [#4139](https://github.com/gdsfactory/gdsfactory/pull/4139)
+- Update pre-commit [#4140](https://github.com/gdsfactory/gdsfactory/pull/4140)
+- Remove .sourcery file [#4135](https://github.com/gdsfactory/gdsfactory/pull/4135)
+- Remove netlist.yml file [#4136](https://github.com/gdsfactory/gdsfactory/pull/4136)
+- Move test regression data [#4137](https://github.com/gdsfactory/gdsfactory/pull/4137)
+- Remove all `if __name__ == "__main__":` blocks [#4134](https://github.com/gdsfactory/gdsfactory/pull/4134)
+- remove codeflash [#4133](https://github.com/gdsfactory/gdsfactory/pull/4133)
+- Allow passing angular step to arc/bend_arc [#4125](https://github.com/gdsfactory/gdsfactory/pull/4125)
+- Skip angle calculation with single point in path [#4124](https://github.com/gdsfactory/gdsfactory/pull/4124)
+- Simplify and fix the condition checks on path extrusion [#4123](https://github.com/gdsfactory/gdsfactory/pull/4123)
+- Fix cross-section default naming (particularly for PDKs) [#4120](https://github.com/gdsfactory/gdsfactory/pull/4120)
+- Vectorize fresnel implementation [#4127](https://github.com/gdsfactory/gdsfactory/pull/4127)
+- deps: bump actions/upload-pages-artifact from 3 to 4 [#4122](https://github.com/gdsfactory/gdsfactory/pull/4122)
+- Add PR template [#4130](https://github.com/gdsfactory/gdsfactory/pull/4130)
+- Typing fixes [#4131](https://github.com/gdsfactory/gdsfactory/pull/4131)
+- Fix for crossing45 port alignment and contour connectivity [#4121](https://github.com/gdsfactory/gdsfactory/pull/4121)
+- kfactory update [#4141](https://github.com/gdsfactory/gdsfactory/pull/4141)
 
 ## [9.12.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.12.4) - 2025-08-24
 
