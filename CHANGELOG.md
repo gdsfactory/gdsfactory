@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.12.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.12.5) - 2025-08-30
+
+No significant changes.
+
+
 ## [9.12.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.12.4) - 2025-08-24
 
 - in route_bundle add raise_on_error flag and expand to electrical [#4119](https://github.com/gdsfactory/gdsfactory/pull/4119)
