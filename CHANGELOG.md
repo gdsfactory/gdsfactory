@@ -1,12 +1,11 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.13.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.13.2...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.13.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.13.2) - 2025-09-01
 
-No significant changes.
-
+- fix spiral lengths [#4143](https://github.com/gdsfactory/gdsfactory/pull/4143)
 
 ## [9.13.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.13.1) - 2025-08-30
 
