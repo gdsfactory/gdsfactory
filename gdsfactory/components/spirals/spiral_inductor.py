@@ -56,4 +56,26 @@ def spiral_inductor(
     # create the inner tail
     P.end_angle += 90  # "Turn" 90 deg (left)
     P += gf.path.straight(length=tail)
-    return gf.path.extrude(P, layer=(1, 0), width=width)
+
+    # Store the path length in component info
+    c = gf.path.extrude(P, layer=(1, 0), width=width)
+    c.info["length"] = P.length()
+    return c
+
+
+if __name__ == "__main__":
+    import math
+
+    c = spiral_inductor()
+    print(c.info["length"])
+
+    area = c.area(layer=(1, 0))
+    # area = width * length
+    # The default width is 3.0, not 0.5
+    length = area / 3.0
+    print(length)
+
+    c.show()
+    assert math.isclose(c.info["length"], length, rel_tol=1e-3), (
+        f"{c.info['length']} != {length}"
+    )
