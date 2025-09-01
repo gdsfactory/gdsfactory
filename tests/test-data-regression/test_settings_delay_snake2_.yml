@@ -1,4 +1,5 @@
-info: {}
+info:
+  length: 1600
 name: delay_snake2_gdsfactory_ef000488
 settings:
   bend180: bend_euler180

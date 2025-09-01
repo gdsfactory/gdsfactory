@@ -91,6 +91,6 @@ def delay_snake2(
     sequence = "_)" + n // 2 * "-(-)"
     sequence = sequence[:-1]
     sequence += "."
-    return component_sequence(
-        sequence=sequence, symbol_to_component=symbol_to_component
-    )
+    c = component_sequence(sequence=sequence, symbol_to_component=symbol_to_component)
+    c.info["length"] = length
+    return c

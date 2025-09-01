@@ -1,5 +1,6 @@
 info:
   bend180_radius: 5
+  length: 300.356
   min_bend_radius: 364.774
 name: delay_snake_sbend_gdsfa_7f61a21a
 settings:

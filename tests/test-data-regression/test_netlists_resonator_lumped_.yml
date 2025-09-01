@@ -81,7 +81,7 @@ instances:
   spiral_gdsfactorypcompo_47b7831b_52000_0:
     component: spiral
     info:
-      length: 600
+      length: 977.644
     settings:
       bend: bend_euler
       cross_section: xs_68038e28
