@@ -131,8 +131,7 @@ def delay_snake_sbend(
             del c.insts[inst]
 
     # Calculate the actual total physical length
-    total_length = 0
-    total_length += length1  # straight1
+    total_length = length1  # straight1
     total_length += length2  # straight2
     total_length += length3  # straight3
     total_length += length4  # straight4
