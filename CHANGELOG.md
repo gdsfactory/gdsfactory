@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.13.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.13.3) - 2025-09-02
+
+No significant changes.
+
+
 ## [9.13.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.13.2) - 2025-09-01
 
 - fix spiral lengths [#4143](https://github.com/gdsfactory/gdsfactory/pull/4143)
