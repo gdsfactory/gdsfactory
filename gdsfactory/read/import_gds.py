@@ -51,6 +51,8 @@ def import_gds(
 
 
 def kcell_to_component(kcell: kf.kcell.ProtoTKCell[Any]) -> Component:
+    kcell.set_meta_data()
+
     c = Component()
     c.name = kcell.name
     c.kdb_cell.copy_tree(kcell.kdb_cell)
