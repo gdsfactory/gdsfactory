@@ -1,12 +1,11 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.13.2...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.13.3...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.13.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.13.3) - 2025-09-02
 
-No significant changes.
-
+- fix kcell converter [#4145](https://github.com/gdsfactory/gdsfactory/pull/4145)
 
 ## [9.13.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.13.2) - 2025-09-01
 
