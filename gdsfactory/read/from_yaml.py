@@ -924,7 +924,7 @@ def _get_references(
             )
         else:
             if inst.virtual or isinstance(comp, ComponentAllAngle):
-                ref = c.create_vinst(comp)
+                ref = c.add_ref_off_grid(comp)
                 ref.name = name
             else:
                 ref = c.add_ref(comp, name=name)

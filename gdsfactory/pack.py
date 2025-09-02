@@ -241,7 +241,7 @@ def pack(
             xcenter = x + w / 2 + spacing / 2
             ycenter = y + h / 2 + spacing / 2
             if isinstance(component, gf.ComponentAllAngle):
-                d = packed.create_vinst(component)
+                d = packed.add_ref_off_grid(component)
             else:
                 d = packed << component
             if rotation:

@@ -280,7 +280,7 @@ def place_dubins_path(
         if mode == "L":
             # Length and radius are in um, convert to nm for gdsfactory
             arc_angle = 180 * length / (m.pi * radius)
-            bend = c.create_vinst(
+            bend = c.add_ref_off_grid(
                 bend_circular_all_angle(angle=arc_angle, cross_section=xs)
             )
             bend.connect("o1", current_position)
@@ -289,7 +289,7 @@ def place_dubins_path(
 
         elif mode == "R":
             arc_angle = -(180 * length / (m.pi * radius))
-            bend = c.create_vinst(
+            bend = c.add_ref_off_grid(
                 bend_circular_all_angle(angle=arc_angle, cross_section=xs)
             )
             bend.connect("o1", current_position)
@@ -297,7 +297,7 @@ def place_dubins_path(
             instances.append(bend)
 
         elif mode == "S":
-            straight = c.create_vinst(
+            straight = c.add_ref_off_grid(
                 straight_all_angle(length=length, cross_section=xs)
             )
             straight.connect("o1", current_position)
