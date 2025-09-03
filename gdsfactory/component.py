@@ -597,7 +597,7 @@ class Component(ComponentBase, kf.DKCell):
         if self.locked:
             raise LockedError(self)
 
-        return self.add_ref_off_grid(component)
+        return self.create_vinst(component)
 
     def get_paths(self, layer: LayerSpec, recursive: bool = True) -> list[kf.kdb.DPath]:
         """Returns a list of paths.
