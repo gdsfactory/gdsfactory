@@ -1,12 +1,11 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.13.3...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.14.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.14.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.14.0) - 2025-09-03
 
-No significant changes.
-
+- add ref off grid [#4146](https://github.com/gdsfactory/gdsfactory/pull/4146)
 
 ## [9.13.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.13.3) - 2025-09-02
 
