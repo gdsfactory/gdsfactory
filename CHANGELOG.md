@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.14.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.14.0) - 2025-09-03
+
+No significant changes.
+
+
 ## [9.13.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.13.3) - 2025-09-02
 
 - fix kcell converter [#4145](https://github.com/gdsfactory/gdsfactory/pull/4145)
