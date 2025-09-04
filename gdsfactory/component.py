@@ -458,6 +458,17 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
 
         return get_netlist(self, **kwargs)  # type: ignore[arg-type]
 
+    def add_ref_off_grid(self, component: kf.ProtoTKCell[Any]) -> VInstance:
+        """Adds a component instance reference to a Component without snapping to grid.
+
+        Args:
+            component: The referenced component.
+        """
+        if self.locked:
+            raise LockedError(self)
+
+        return self.create_vinst(component)
+
 
 Route: TypeAlias = (
     kf.routing.generic.ManhattanRoute | kf.routing.aa.optical.OpticalAllAngleRoute

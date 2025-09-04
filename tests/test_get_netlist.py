@@ -297,9 +297,13 @@ def test_get_netlist_virtual_insts() -> None:
     """Test that virtual instances are included in the netlist."""
     c = gf.Component()
     cross_section = "strip"
-    i1 = c.create_vinst(gf.components.straight(length=10, cross_section=cross_section))
-    i2 = c.create_vinst(gf.components.straight(length=9, cross_section=cross_section))
-    bend = c.create_vinst(
+    i1 = c.add_ref_off_grid(
+        gf.components.straight(length=10, cross_section=cross_section)
+    )
+    i2 = c.add_ref_off_grid(
+        gf.components.straight(length=9, cross_section=cross_section)
+    )
+    bend = c.add_ref_off_grid(
         gf.components.bend_euler_all_angle(angle=90, cross_section=cross_section),
     )
     bend.connect("o1", i1.ports["o2"])
@@ -322,9 +326,13 @@ def test_get_netlist_virtual_cell() -> None:
     """Test that get_netlist works with virtual cells."""
     c = gf.ComponentAllAngle()
     cross_section = "strip"
-    i1 = c.create_vinst(gf.components.straight(length=10, cross_section=cross_section))
-    i2 = c.create_vinst(gf.components.straight(length=9, cross_section=cross_section))
-    bend = c.create_vinst(
+    i1 = c.add_ref_off_grid(
+        gf.components.straight(length=10, cross_section=cross_section)
+    )
+    i2 = c.add_ref_off_grid(
+        gf.components.straight(length=9, cross_section=cross_section)
+    )
+    bend = c.add_ref_off_grid(
         gf.components.bend_euler_all_angle(angle=33, cross_section=cross_section),
     )
     bend.connect("o1", i1.ports["o2"])

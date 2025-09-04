@@ -68,13 +68,13 @@ def coupler_bend(
         cross_section=cross_section_outer,
         angle=angle_outer,
     )
-    bend_inner_ref = c.create_vinst(bend90_inner_right)
-    bend_output_ref = c.create_vinst(bend_output_right)
+    bend_inner_ref = c.add_ref_off_grid(bend90_inner_right)
+    bend_output_ref = c.add_ref_off_grid(bend_output_right)
 
     output = gf.get_component(
         bend_output, angle=angle_outer, cross_section=cross_section_outer
     )
-    output_ref = c.create_vinst(output)
+    output_ref = c.add_ref_off_grid(output)
     output_ref.connect("o1", bend_output_ref.ports["o2"], mirror=True)
 
     pbw = bend_inner_ref.ports["o1"]
