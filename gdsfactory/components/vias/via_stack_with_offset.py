@@ -93,7 +93,7 @@ def via_stack_with_offset(
             )
 
     for layer, via, size, size_offset, offset in zip(
-        layers, vias, sizes_list, layer_offsets, offsets
+        layers, vias, sizes_list, layer_offsets, offsets, strict=False
     ):
         width, height = size
         width += 2 * size_offset
@@ -201,16 +201,3 @@ via_stack_with_offset_m1_m3 = partial(
     layers=("M1", "M2", "MTOP"),
     vias=(None, "via1", "via2"),
 )
-
-
-if __name__ == "__main__":
-    c = via_stack_with_offset(
-        layers=("M1", "M2", "MTOP"),
-        size=None,
-        sizes=((10, 10), (5, 5), (5, 5)),
-        vias=(None, "via1", "via2"),
-        # layer_to_port_orientations={"MTOP": [90], "M1": [270]},
-    )
-    # c = via_stack_with_offset_m1_m3(layer_offsets=[0, 5, 10])
-    # c = via_stack_with_offset(vias=(None, None))
-    c.show()

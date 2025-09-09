@@ -125,7 +125,7 @@ def find_min_curv_bezier_control_points(
     def array_1d_to_cpts(a: npt.NDArray[np.float64]) -> list[tuple[float, float]]:
         xs = a[::2]
         ys = a[1::2]
-        return list(zip(xs, ys))
+        return list(zip(xs, ys, strict=False))
 
     def objective_func(p: npt.NDArray[np.float64]) -> float:
         """Minimize  max curvaturea and negligible start angle and end angle mismatch."""
@@ -356,11 +356,3 @@ def get_min_sbend_size(
             break
 
     return min_size
-
-
-if __name__ == "__main__":
-    # xs = gf.cross_section.strip(width=2)
-    # c = bend_s_offset(offset=40, with_arc_floorplan=False, cross_section=xs, width=1)
-    # print(c.info["min_bend_radius"])
-    c = bend_s_offset(offset=1, radius=10, with_euler=True)
-    c.show()

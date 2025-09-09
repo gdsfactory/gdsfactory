@@ -75,14 +75,3 @@ def bbox(
     ]
     c.add_polygon(points, layer=layer)
     return c
-
-
-if __name__ == "__main__":
-    # c = gf.Component()
-    # l= gf.components.L()
-    r = gf.c.text()
-    b = bbox(r, layer=(2, 0))
-    c = gf.Component()
-    c << r
-    c << b
-    c.show()

@@ -30,8 +30,3 @@ def fiducial_squares(
         r.move((-dx, -dy))
 
     return c
-
-
-if __name__ == "__main__":
-    c = fiducial_squares()
-    c.show()

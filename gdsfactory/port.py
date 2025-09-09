@@ -458,7 +458,7 @@ def get_ports_facing(
     return direction_ports[direction]
 
 
-def deco_rename_ports(component_factory: "ComponentFactory") -> "ComponentFactory":
+def deco_rename_ports(component_factory: ComponentFactory) -> ComponentFactory:
     @functools.wraps(component_factory)
     def auto_named_component_factory(*args: Any, **kwargs: Any) -> Component:
         component = component_factory(*args, **kwargs)
@@ -709,7 +709,7 @@ auto_rename_ports_electrical = partial(auto_rename_ports, select_ports_optical=N
 
 
 def map_ports_layer_to_orientation(
-    ports: "PortDict",
+    ports: PortDict,
     function: Callable[..., None] = _rename_ports_facing_side,
     **kwargs: Any,
 ) -> dict[str, str]:
@@ -867,13 +867,3 @@ __all__ = [
     "select_ports",
     "select_ports_list",
 ]
-
-if __name__ == "__main__":
-    import gdsfactory as gf
-    from gdsfactory.components import mzi
-
-    c = mzi()
-    p = c.ports["o1"]
-    d = gf.port.to_dict(p)
-    print(d)
-    c.show()

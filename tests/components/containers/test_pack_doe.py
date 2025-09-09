@@ -96,7 +96,3 @@ def test_pack_doe_error() -> None:
             max_size=(135, 135),
             precision=1,
         )
-
-
-if __name__ == "__main__":
-    pytest.main([__file__, "-s"])

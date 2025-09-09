@@ -113,7 +113,3 @@ def test_route_connect_bundle_udirect(
         )
         lengths = {i: route.length for i, route in enumerate(routes)}
         data_regression.check(lengths)
-
-
-if __name__ == "__main__":
-    test_route_bundle_udirect_pads(None, check=False)

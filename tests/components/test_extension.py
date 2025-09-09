@@ -41,7 +41,3 @@ def assert_polygons(
     assert result == n_polygons, result
     assert len(component.insts) == n_polygons, len(component.insts)
     return result
-
-
-if __name__ == "__main__":
-    test_extend_ports()

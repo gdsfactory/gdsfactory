@@ -461,8 +461,3 @@ def test_path_angle() -> None:
     p.drotate(-90)
     c = p.extrude(cross_section=gf.cross_section.strip)
     assert np.isclose(c.area("WG"), 11.409315999999999)
-
-
-if __name__ == "__main__":
-    test_path_angle()
-    # pytest.main([__file__, "-s"])

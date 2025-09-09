@@ -30,9 +30,14 @@ def generate_doe(
         function: for the component (add padding, grating couplers ...)
     """
     if do_permutations:
-        settings_list = [dict(zip(settings, t)) for t in it.product(*settings.values())]
+        settings_list = [
+            dict(zip(settings, t, strict=False)) for t in it.product(*settings.values())
+        ]
     else:
-        settings_list = [dict(zip(settings, t)) for t in zip(*settings.values())]
+        settings_list = [
+            dict(zip(settings, t, strict=False))
+            for t in zip(*settings.values(), strict=False)
+        ]
 
     if function:
         function = gf.get_cell(function)
@@ -133,9 +138,14 @@ def pack_doe_grid(
         v_mirror: vertical mirror using x axis (1, y) (0, y).
     """
     if do_permutations:
-        settings_list = [dict(zip(settings, t)) for t in it.product(*settings.values())]
+        settings_list = [
+            dict(zip(settings, t, strict=False)) for t in it.product(*settings.values())
+        ]
     else:
-        settings_list = [dict(zip(settings, t)) for t in zip(*settings.values())]
+        settings_list = [
+            dict(zip(settings, t, strict=False))
+            for t in zip(*settings.values(), strict=False)
+        ]
 
     if function:
         function = gf.get_cell(function)
@@ -158,17 +168,3 @@ def pack_doe_grid(
     c.info["doe_names"] = [component.name for component in component_list]
     c.info["doe_settings"] = cast(kf.typings.MetaData, settings_list)
     return c
-
-
-if __name__ == "__main__":
-    c = pack_doe_grid(
-        doe="mmi1x2",
-        settings=dict(length_mmi=(2.5, 100), width_mmi=(4, 10)),
-        with_text=True,
-        spacing=(100, 100),
-        shape=(2, 2),
-        do_permutations=True,
-    )
-
-    c = pack_doe(doe="mmi1x2", settings=dict(length_mmi=(2, 100), width_mmi=(4, 10)))
-    c.show()

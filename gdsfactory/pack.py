@@ -241,7 +241,7 @@ def pack(
             xcenter = x + w / 2 + spacing / 2
             ycenter = y + h / 2 + spacing / 2
             if isinstance(component, gf.ComponentAllAngle):
-                d = packed.create_vinst(component)
+                d = packed.add_ref_off_grid(component)
             else:
                 d = packed << component
             if rotation:
@@ -267,7 +267,9 @@ def pack(
             index += 1
 
             if text:
-                for text_offset, text_anchor in zip(text_offsets, text_anchors):
+                for text_offset, text_anchor in zip(
+                    text_offsets, text_anchors, strict=False
+                ):
                     label = packed << text(f"{text_prefix}{index}")
                     if text_mirror:
                         label.dmirror()
@@ -293,48 +295,3 @@ def ellipse(number: int = 0) -> Component:
     n = number
     radii = (np.random.rand() * n + 2, np.random.rand() * n + 2)
     return gf.components.ellipse(radii=radii)
-
-
-if __name__ == "__main__":
-    # test_pack()
-    component_list = [
-        gf.components.ellipse(
-            radii=(np.random.rand() * n + 2, np.random.rand() * n + 2)
-        )
-        for n in range(10)
-    ]
-    component_list += [
-        gf.components.rectangle(
-            size=(np.random.rand() * n + 2, np.random.rand() * n + 2)
-        )
-        for n in range(10)
-    ]
-
-    component_list = [ellipse(i) for i in range(10)]
-
-    components_packed_list = pack(
-        component_list,  # Must be a list or tuple of Components
-        spacing=1.5,  # Minimum distance between adjacent shapes
-        aspect_ratio=(2, 1),  # (width, height) ratio of the rectangular bin
-        # max_size=(None, None),  # Limits the size into which the shapes will be packed
-        max_size=(30, 30),  # Limits the size into which the shapes will be packed
-        density=1.05,  # Values closer to 1 pack tighter but require more computation
-        sort_by_area=True,  # Pre-sorts the shapes by area
-        csvpath="locations3.csv",  # Optional path to save the packed component positions as a CSV file
-    )
-    c = components_packed_list[0]  # Only one bin was created, so we plot that
-
-    # p = pack(
-    #     [gf.components.straight(length=i) for i in [1, 1]],
-    #     spacing=20.0,
-    #     max_size=(100, 100),
-    #     text=partial(gf.components.text, justify="center"),
-    #     text_prefix="R",
-    #     name_prefix="demo",
-    #     text_anchors=["nc"],
-    #     text_offsets=[(-10, 0)],
-    #     text_mirror=True,
-    #     v_mirror=True,
-    # )
-    # c = p[0]
-    c.show()

@@ -69,7 +69,7 @@ def get_min_spacing(
             sorted(ports1, key=get_port_x)
             sorted(ports2, key=get_port_x)
 
-    for port1, port2 in zip(ports1, ports2):
+    for port1, port2 in zip(ports1, ports2, strict=False):
         if axis in {"X", "x"}:
             x1 = get_port_y(port1)
             x2 = get_port_y(port2)
@@ -241,7 +241,7 @@ def route_bundle(
         ports1_new = []
         ports2_new = []
 
-        for p1, p2 in zip(ports1_, ports2_):
+        for p1, p2 in zip(ports1_, ports2_, strict=False):
             t1 = c << taper_
             t2 = c << taper_
             t1.connect(taper_o1, p1)
@@ -488,169 +488,3 @@ route_bundle_electrical = partial(
     bend="wire_corner",
     allow_width_mismatch=True,
 )
-
-
-if __name__ == "__main__":
-    import gdsfactory as gf
-    from gdsfactory.generic_tech import LAYER
-
-    pdk = gf.get_active_pdk()
-    pdk.layer_transitions[LAYER.WG] = partial(
-        gf.c.taper, cross_section="rib", length=20
-    )
-    pdk.layer_transitions[LAYER.WG, LAYER.WGN] = gf.c.taper_sc_nc
-    pdk.layer_transitions[LAYER.WGN, LAYER.WG] = gf.c.taper_nc_sc
-
-    # c = gf.Component()
-    # columns = 2
-    # ptop = c << gf.components.pad_array(columns=columns, port_orientation=270)
-    # pbot = c << gf.components.pad_array(port_orientation=270, columns=columns)
-    # # pbot = c << gf.components.pad_array(port_orientation=90, columns=columns)
-
-    # ptop.movex(300)
-    # ptop.movey(300)
-    # routes = gf.routing.route_bundle_electrical(
-    #     c,
-    #     list(reversed(pbot.ports)),
-    #     ptop.ports,
-    #     # end_straight_length=50,
-    #     start_straight_length=100,
-    #     separation=20,
-    #     bboxes=[ptop.bbox(), pbot.bbox()],
-    #     cross_section="metal_routing",
-    #     start_angles=None,
-    #     end_angles=None,
-    #     route_width=2,
-    #     steps=[
-    #         {"dy": 1, "dx": 1},
-    #         {"dy": 2, "dx": 1},
-    #     ],
-    # )
-
-    # c.show()
-    # pbot.ports.print()
-
-    # c = gf.Component(name="demo")
-    # c1 = c << gf.components.mmi2x2()
-    # c2 = c << gf.components.mmi2x2()
-    # c2.move((100, 70))
-    # routes = route_bundle(
-    #     c,
-    #     [c1.ports["o2"], c1.ports["o1"]],
-    #     [c2.ports["o2"], c2.ports["o1"]],
-    #     separation=5,
-    #     cross_section="strip",
-    #     sort_ports=True,
-    #     # end_straight_length=0,
-    #     # collision_check_layers=[(1, 0)],
-    #     # bboxes=[c1.bbox(), c2.bbox()],
-    #     # layer=(2, 0),
-    #     # straight=partial(gf.components.straight, layer=(2, 0), width=1),
-    # )
-    # c.show()
-
-    # dy = 200.0
-    # xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
-    # pitch = 10.0
-    # N = len(xs1)
-    # xs2 = [-20 + i * pitch for i in range(N // 2)]
-    # xs2 += [400 + i * pitch for i in range(N // 2)]
-    # a1 = 90
-    # a2 = a1 + 180
-
-    # ports1 = [
-    #     gf.Port(
-    #         f"bot_{i}", center=(xs1[i], +0), width=0.5, orientation=a1, layer=(1, 0)
-    #     )
-    #     for i in range(N)
-    # ]
-    # ports2 = [
-    #     gf.Port(
-    #         f"top_{i}", center=(xs2[i], dy), width=0.5, orientation=a2, layer=(1, 0)
-    #     )
-    #     for i in range(N)
-    # ]
-
-    # c = gf.Component()
-    # route_bundle(
-    #     c,
-    #     ports1,
-    #     ports2,
-    #     end_straight_length=1,
-    #     start_straight_length=100,
-    # )
-    # c.add_ports(ports1)
-    # c.add_ports(ports2)
-    # c.show()
-
-    # nitride case
-    # c = gf.Component()
-    # c1 = c << gf.components.straight(width=0.5, cross_section="strip")
-    # c2 = c << gf.components.straight(cross_section="strip", width=0.5)
-    # c2.move((150, 50))
-    # routes = route_bundle(
-    #     c,
-    #     [c1.ports["o2"]],
-    #     [c2.ports["o1"]],
-    #     separation=5,
-    #     cross_section="nitride",
-    #     auto_taper=True,
-    # )
-    # c.show()
-
-    # rib
-
-    c = gf.Component()
-    c1 = c << gf.components.straight(cross_section="rib", width=2)
-    c2 = c << gf.components.straight(cross_section="rib", width=2)
-    c2.move((300, 90))
-    routes = route_bundle(
-        c,
-        [c1.ports["o2"]],
-        [c2.ports["o1"]],
-        # waypoints=[(200, 40), (200, 50)],
-        # steps=[dict(dx=50, dy=100)],
-        steps=[dict(dx=50, dy=100), dict(dy=150, dx=50)],
-        separation=5,
-        cross_section="rib",
-        # auto_taper=True,
-        auto_taper_taper=partial(
-            gf.c.taper, cross_section="rib", length=10, width1=2, width2=1
-        ),
-        route_width=1,
-        layer_marker="M1",
-        # auto_taper=False,
-        # taper=gf.c.taper_sc_nc,
-        # taper=gf.c.taper,
-    )
-    c.show()
-
-    # c = gf.Component()
-    # w = gf.components.array(gf.c.straight, columns=1, rows=3, spacing=(3, 3))
-    # left = c << w
-    # right = c << w
-    # right.move((100, 80))
-
-    # obstacle = gf.components.rectangle(size=(100, 10))
-    # obstacle1 = c << obstacle
-    # obstacle2 = c << obstacle
-    # obstacle1.ymin = 40
-    # obstacle2.xmin = 35
-
-    # ports1 = left.ports.filter(orientation=0)
-    # ports2 = right.ports.filter(orientation=180)
-
-    # routes = gf.routing.route_bundle(
-    #     c,
-    #     ports1,
-    #     ports2,
-    #     steps=[
-    #         {"dy": 30, "dx": 50},
-    #         {"dy": 30, "dx": 50},
-    #         # {"dx": 90},
-    #     ],
-    #     cross_section="strip",
-    #     # layer=(2, 0),
-    #     route_width=0.2,
-    # )
-    # c.show()

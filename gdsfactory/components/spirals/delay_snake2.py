@@ -91,17 +91,6 @@ def delay_snake2(
     sequence = "_)" + n // 2 * "-(-)"
     sequence = sequence[:-1]
     sequence += "."
-    return component_sequence(
-        sequence=sequence, symbol_to_component=symbol_to_component
-    )
-
-
-if __name__ == "__main__":
-    import gdsfactory as gf
-
-    # test_length_delay_snake2()
-    # c.show( )
-    # c = delay_snake2(n=2, length=500, layer=(2, 0), length0=100)
-    c = delay_snake2()
-    # c = gf.grid((gf.c.delay_snake, delay_snake2(length0=100), gf.c.delay_snake3))
-    c.show()
+    c = component_sequence(sequence=sequence, symbol_to_component=symbol_to_component)
+    c.info["length"] = length
+    return c

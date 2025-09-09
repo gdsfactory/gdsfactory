@@ -219,7 +219,7 @@ def taper_strip_to_ridge_trenches(
     # straight
     x = [0, length, length, 0]
     yw = [y0, yL, -yL, -y0]
-    c.add_polygon(list(zip(x, yw)), layer=layer_wg)
+    c.add_polygon(list(zip(x, yw, strict=False)), layer=layer_wg)
 
     # top trench
     ymin0 = width / 2
@@ -229,8 +229,8 @@ def taper_strip_to_ridge_trenches(
     x = [0, length, length, 0]
     ytt = [ymin0, yminL, ymaxL, ymax0]
     ytb = [-ymin0, -yminL, -ymaxL, -ymax0]
-    c.add_polygon(list(zip(x, ytt)), layer=trench_layer)
-    c.add_polygon(list(zip(x, ytb)), layer=trench_layer)
+    c.add_polygon(list(zip(x, ytt, strict=False)), layer=trench_layer)
+    c.add_polygon(list(zip(x, ytb, strict=False)), layer=trench_layer)
 
     c.add_port(name="o1", center=(0, 0), width=width, orientation=180, layer=layer_wg)
     c.add_port(
@@ -327,25 +327,3 @@ taper_electrical = partial(
     port_names=("e1", "e2"),
     cross_section="metal_routing",
 )
-
-
-if __name__ == "__main__":
-    c = gf.components.straight(cross_section="nitride")
-    c = gf.routing.add_fiber_array(c)
-    # c1 = taper_sc_nc(width_tip_nitride=0.4)
-    # c = taper_nc_sc(width_tip_nitride=0.4)
-    # c = gf.grid([c1, c2])
-    # c = taper_electrical(width1=2, width2=1)
-    # c = gf.grid([taper_nc_sc(), taper_sc_nc()])
-    # c = taper(cross_section="rib", width2=5, port_types="optical")
-    # c = taper_strip_to_ridge_trenches()
-    # c = taper_strip_to_ridge()
-    # c = taper(width1=1.5, width2=1, cross_section="rib")
-    # c = taper_sc_nc()
-    # c = taper(cross_section="rib")
-    # c = taper(length=1, width1=0.54, width2=10, cross_section="strip")
-    # c = taper_strip_to_ridge()
-    # c = taper(width1=0.5, width2=10, length=20)
-    # c = taper_sc_nc()
-    # c.pprint_ports()
-    c.show()

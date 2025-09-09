@@ -52,8 +52,3 @@ def litho_calipers(
         )
         ref.movey(-notch_size[1] - row_spacing)
     return D
-
-
-if __name__ == "__main__":
-    c = litho_calipers()
-    c.show()

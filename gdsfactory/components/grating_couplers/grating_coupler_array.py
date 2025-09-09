@@ -126,11 +126,3 @@ def _get_routing_radius(bend: Component, cross_section: CrossSectionSpec) -> flo
             f"Expected ports to have equal spacing in x and y, got dx={dx} and dy={dy}"
         )
     return dx
-
-
-if __name__ == "__main__":
-    c = grating_coupler_array(
-        with_loopback=False, centered=True, cross_section="rib_bbox", n=2
-    )
-    c.pprint_ports()
-    c.show()

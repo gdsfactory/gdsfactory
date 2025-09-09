@@ -91,10 +91,3 @@ def compass(
         if auto_rename_ports:
             c.auto_rename_ports()
     return c
-
-
-if __name__ == "__main__":
-    # c = compass(size=(10, 4), port_type="electrical")
-    c = compass(port_orientations=[270])
-    c.pprint_ports()
-    c.show()

@@ -20,7 +20,7 @@ def compute_area_signed(pr: npt.NDArray[np.floating[Any]]) -> float:
     indicates a counter-clockwise oriented ring.
 
     """
-    xs, ys = map(list, zip(*pr))
+    xs, ys = map(list, zip(*pr, strict=False))
     xs.append(xs[1])
     ys.append(ys[1])
     xs_ = cast(list[float], xs)
@@ -94,20 +94,3 @@ def from_image(image_path: PathType, **kwargs: Any) -> Component:
     img_array = np.array(img)
 
     return from_np(img_array, **kwargs)
-
-
-if __name__ == "__main__":
-    from gdsfactory.config import PATH
-
-    # import gdsfactory as gf
-    # c1 = gf.components.straight()
-    # c1 = gf.components.bend_circular()
-    # c1 = gf.components.ring_single()
-    # img = c1.to_np()
-    # c2 = from_np(img)
-    # c2.show()
-
-    c = from_image(
-        PATH.module / "samples" / "images" / "logo.png", nm_per_pixel=500, invert=True
-    )
-    c.show()

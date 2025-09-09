@@ -120,28 +120,3 @@ def ring_single(
     c.add_port("o2", port=cb.ports["o4"])
     c.add_port("o1", port=cb.ports["o1"])
     return c
-
-
-if __name__ == "__main__":
-    # c = ring_single(layer=(2, 0), cross_section_factory=gf.cross_section.pin, width=1)
-    # c = ring_single(width=2, gap=1, layer=(2, 0), radius=7, length_y=1)
-    c = ring_single(
-        gap=0.111,
-        bend="bend_circular",
-        length_x=0,
-        length_y=0,
-        # length_extension=0,
-    )
-    # n = c.get_netlist()
-    # print(c.ports)
-
-    # c = gf.routing.add_fiber_array(ring_single)
-    # c = ring_single(cross_section="rib", width=2)
-    # c = ring_single(length_y=0, length_x=0)
-    # c.get_netlist()
-    c.show()
-
-    # cc = gf.add_pins(c)
-    # print(c.settings)
-    # print(c.settings)
-    # cc.show( )

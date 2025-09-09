@@ -39,10 +39,3 @@ def taper_parabolic(
     c.add_port(name="o1", center=(0, 0), width=width1, orientation=180, layer=layer)
     c.add_port(name="o2", center=(length, 0), width=width2, orientation=0, layer=layer)
     return c
-
-
-if __name__ == "__main__":
-    # c = taper_parabolic(width2=6, length=40, exp=0.6)
-    c = taper_parabolic()
-    print(c.name)
-    c.show()

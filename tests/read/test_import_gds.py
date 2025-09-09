@@ -102,7 +102,3 @@ def import_same_file_twice() -> None:
     c.add_ref(c3)
     c.write_gds()
     assert c
-
-
-if __name__ == "__main__":
-    test_import_gds_array()

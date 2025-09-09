@@ -180,9 +180,3 @@ def coupler(
     if not allow_min_radius_violation:
         x.validate_radius(x.radius)
     return c
-
-
-if __name__ == "__main__":
-    c = coupler(gap=0.2, dy=100)
-    n = c.get_netlist()
-    c.show()

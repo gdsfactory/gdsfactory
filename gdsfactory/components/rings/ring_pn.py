@@ -115,17 +115,17 @@ def ring_double_pn(
     undoped_path.append(gf.path.arc(radius=radius, angle=undoping_angle))
 
     r = gf.ComponentAllAngle()
-    left_doped_ring_ref = r.create_vinst(
-        doped_path.extrude(cross_section=pn_cross_section_, all_angle=True)
+    left_doped_ring_ref = r.add_ref_off_grid(
+        doped_path.extrude(cross_section=pn_cross_section_, all_angle=True)  # type: ignore[arg-type]
     )
-    right_doped_ring_ref = r.create_vinst(
-        doped_path.extrude(cross_section=pn_cross_section_, all_angle=True)
+    right_doped_ring_ref = r.add_ref_off_grid(
+        doped_path.extrude(cross_section=pn_cross_section_, all_angle=True)  # type: ignore[arg-type]
     )
-    bottom_undoped_ring_ref = r.create_vinst(
-        undoped_path.extrude(cross_section=cross_section_, all_angle=True)
+    bottom_undoped_ring_ref = r.add_ref_off_grid(
+        undoped_path.extrude(cross_section=cross_section_, all_angle=True)  # type: ignore[arg-type]
     )
-    top_undoped_ring_ref = r.create_vinst(
-        undoped_path.extrude(cross_section=cross_section_, all_angle=True)
+    top_undoped_ring_ref = r.add_ref_off_grid(
+        undoped_path.extrude(cross_section=cross_section_, all_angle=True)  # type: ignore[arg-type]
     )
 
     bottom_undoped_ring_ref.rotate(-undoping_angle / 2)
@@ -135,7 +135,7 @@ def ring_double_pn(
     right_doped_ring_ref.connect("o2", bottom_undoped_ring_ref.ports["o2"])
     top_undoped_ring_ref.connect("o2", left_doped_ring_ref.ports["o2"])
 
-    ring = c.create_vinst(r)
+    ring = c.add_ref_off_grid(r)  # type: ignore[arg-type]
     ring.center = (0, 0)
 
     drop_waveguide_dy = (
@@ -329,9 +329,3 @@ def ring_single_pn(
     c.add_ports(ring.ports)
     c.flatten()
     return c
-
-
-if __name__ == "__main__":
-    c = ring_double_pn(radius=5)
-    c.pprint_ports()
-    c.show()

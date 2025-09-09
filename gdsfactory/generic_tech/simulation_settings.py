@@ -164,6 +164,3 @@ sin = partial(
 
 
 materials_index = {"si": si, "sio2": sio2, "sin": sin}
-
-if __name__ == "__main__":
-    print(sio2(np.array([1.55])))

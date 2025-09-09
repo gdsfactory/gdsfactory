@@ -105,16 +105,10 @@ def delay_snake_sbend(
     straight3 = straight(length=length3, cross_section=cross_section)
     straight4 = straight(length=length4, cross_section=cross_section)
 
-    # sequence = ["s1", "b1", "bs", "s2", "b2", "s3", "s4"]
-    # for i_straight, component in enumerate(straight1, straight2, straight3, straight4):
-    #     inst_name = f"s{i_straight+1}"
-    #     if component.settings["length"] != 0:
-    #         sequence.remove()
     s1 = c.add_ref(straight1, "s1")
     s2 = c.add_ref(straight2, "s2")
     s3 = c.add_ref(straight3, "s3")
     s4 = c.add_ref(straight4, "s4")
-    # for inst_name in sequence:
 
     b1.connect("o2", s1.ports["o2"])
     bs.connect("o2", b1.ports["o1"])
@@ -136,16 +130,30 @@ def delay_snake_sbend(
         if inst.cell.settings["length"] == 0:
             del c.insts[inst]
 
+    # Calculate the actual total physical length
+    total_length = length1  # straight1
+    total_length += length2  # straight2
+    total_length += length3  # straight3
+    total_length += length4  # straight4
+    total_length += 2 * bend.info["length"]  # two 180-degree bends
+    total_length += sbend.info["length"]  # one s-bend
+
+    c.info["length"] = total_length
     return c
 
 
 if __name__ == "__main__":
-    # test_delay_snake_sbend_length()
-    # c = gf.grid(
-    #     [
-    #         delay_snake_sbend(length=length, cross_section="rib")
-    #         for length in [500, 3000]
-    #     ]
-    # )
-    c = delay_snake_sbend(length=200, cross_section="strip")
+    import math
+
+    c = delay_snake_sbend()
+    print(c.info["length"])
+
+    area = c.area(layer=(1, 0))
+    # area = width * length
+    length = area / 0.5
+    print(length)
+
+    assert math.isclose(c.info["length"], length, rel_tol=1e-3), (
+        f"{c.info['length']} != {length}"
+    )
     c.show()

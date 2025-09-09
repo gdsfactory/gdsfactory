@@ -48,11 +48,11 @@ LAYER_CONNECTIVITY = [
 @cache
 def get_generic_pdk() -> Pdk:
     import gdsfactory as gf
-    from gdsfactory.config import PATH, __version__
+    from gdsfactory.config import __version__
     from gdsfactory.cross_section import cross_sections
     from gdsfactory.generic_tech.simulation_settings import materials_index
     from gdsfactory.get_factories import get_cells
-    from gdsfactory.pdk import Pdk, constants
+    from gdsfactory.pdk import GenericConstants, Pdk
 
     LAYER_VIEWS = LayerViews(filepath=PATH.klayout_yaml)
 
@@ -81,32 +81,6 @@ def get_generic_pdk() -> Pdk:
         layer_views=LAYER_VIEWS,
         layer_transitions=layer_transitions,  # type: ignore[arg-type]
         materials_index=materials_index,  # type: ignore[arg-type]
-        constants=constants,
+        constants=GenericConstants(),
         connectivity=LAYER_CONNECTIVITY,
     )
-
-
-if __name__ == "__main__":
-    from gdsfactory.technology.klayout_tech import KLayoutTechnology
-
-    LAYER_VIEWS = LayerViews(filepath=PATH.klayout_yaml)
-    connectivity = [
-        ("HEATER", "VIA1", "M2"),
-        ("M1", "VIA1", "M2"),
-        ("M2", "VIA2", "M3"),
-    ]
-
-    t = KLayoutTechnology(
-        name="generic_tech",
-        layer_map=LAYER,  # type: ignore[arg-type]
-        layer_views=LAYER_VIEWS,
-        layer_stack=LAYER_STACK,
-        connectivity=connectivity,
-    )
-    t.write_tech(tech_dir=PATH.klayout)
-
-    layer_views = LayerViews(filepath=PATH.klayout_yaml)
-    layer_views.to_lyp(PATH.klayout_lyp)
-
-    pdk = get_generic_pdk()
-    pdk.activate()

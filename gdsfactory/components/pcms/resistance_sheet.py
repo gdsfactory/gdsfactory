@@ -41,7 +41,7 @@ def resistance_sheet(
         size=(length + layer_offsets[0], width + layer_offsets[0]), layer=layers[0]
     )
 
-    for layer, offset in zip(layers[1:], layer_offsets[1:]):
+    for layer, offset in zip(layers[1:], layer_offsets[1:], strict=False):
         _ = c << gf.c.compass(
             size=(length + 2 * offset, width + 2 * offset), layer=layer
         )
@@ -63,18 +63,3 @@ def resistance_sheet(
         port=pad2.ports[pad_port_name],
     )
     return c
-
-
-if __name__ == "__main__":
-    # import gdsfactory as gf
-    # sweep = [resistance_sheet(width=width, layers=((1,0), (1,1))) for width in [1, 10, 100]]
-    # c = gf.pack(sweep)[0]
-
-    c = resistance_sheet()
-    c.pprint_ports()
-    c.show()
-
-    # import gdsfactory as gf
-    # sweep_resistance = list(map(resistance_sheet, (5, 10, 80)))
-    # c = gf.grid(sweep_resistance)
-    # c.show( )

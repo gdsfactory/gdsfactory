@@ -12,6 +12,7 @@ from typing import Any, cast, overload
 import kfactory as kf
 import yaml
 from kfactory.layer import LayerEnum
+from kfactory.layout import Constants
 from pydantic import BaseModel, ConfigDict, Field
 
 from gdsfactory import logger
@@ -44,12 +45,16 @@ _ACTIVE_PDK: Pdk | None = None
 component_settings = ["function", "component", "settings"]
 cross_section_settings = ["function", "cross_section", "settings"]
 
-constants = {
-    "fiber_input_to_output_spacing": 200.0,
-    "metal_spacing": 10.0,
-    "pad_pitch": 100.0,
-    "pad_size": (80, 80),
-}
+
+class GenericConstants(Constants):
+    """Generic PDK constants."""
+
+    fiber_input_to_output_spacing: float = 200.0
+    metal_spacing: float = 10.0
+    pad_pitch: float = 100.0
+    pad_size: tuple[float, float] = (80.0, 80.0)
+    wavelength: float = 1.55
+
 
 nm = 1e-3
 
@@ -166,7 +171,7 @@ class Pdk(BaseModel):
     layer_stack: LayerStack | None = None
     layer_views: LayerViews | PathType | None = None
     layer_transitions: LayerTransitions = Field(default_factory=dict)
-    constants: dict[str, Any] = constants
+    constants: Constants = Field(default_factory=Constants)
     materials_index: dict[str, MaterialSpec] = Field(default_factory=dict)
     routing_strategies: RoutingStrategies | None = None
     bend_points_distance: float = 20 * nm
@@ -541,10 +546,11 @@ class Pdk(BaseModel):
         return self.layer_stack
 
     def get_constant(self, key: str) -> Any:
-        if key not in self.constants:
-            constants = list(self.constants.keys())
-            raise ValueError(f"{key!r} not in {constants}")
-        return self.constants[key]
+        try:
+            return getattr(self.constants, key)
+        except AttributeError:
+            constants = list(self.constants.model_dump().keys())
+            raise AttributeError(f"{key!r} not in {constants}")
 
     def to_updk(self, exclude: Sequence[str] | None = None) -> str:
         """Export to uPDK YAML definition."""
@@ -756,39 +762,3 @@ def get_routing_strategies() -> RoutingStrategies:
     if routing_strategies is None:
         routing_strategies = default_routing_strategies
     return routing_strategies
-
-
-if __name__ == "__main__":
-    import gdsfactory as gf
-
-    sample_routing_sbend = """
-instances:
-    cp1:
-      component: coupler
-
-    cp2:
-      component: coupler
-
-placements:
-    cp1:
-        x: 0
-
-    cp2:
-        x: 300
-        y: 300
-
-routes:
-    bundle1:
-        links:
-          cp1,o3: cp2,o2
-        routing_strategy: route_bundle_sbend
-
-"""
-
-    c = gf.read.from_yaml(sample_routing_sbend)
-    c.show()
-
-    # l1 = get_layer((1, 0))
-    # l2 = get_layer((3, 0))
-    # print(l1)
-    # print(l2)

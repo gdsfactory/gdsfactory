@@ -235,16 +235,3 @@ def cutback_bend180(
 
 cutback_bend180circular = partial(cutback_bend180, component="bend_circular180")
 cutback_bend90circular = partial(cutback_bend90, component="bend_circular")
-
-if __name__ == "__main__":
-    # c = cutback_bend()
-    c = cutback_bend90()
-    # c = cutback_bend90circular(rows=7, cols=4)
-    # c = cutback_bend_circular(rows=14, cols=4)
-    # c = cutback_bend90()
-    # c = cutback_bend180(rows=3, cols=1)
-    # c = cutback_bend(rows=3, cols=2)
-    # c = cutback_bend90(rows=3, cols=2)
-    # c = cutback_bend180(rows=2, cols=2)
-    # c = cutback_bend(rows=3, cols=2)
-    c.show()

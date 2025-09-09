@@ -80,7 +80,7 @@ def add_electrical_pads_top(
     ports_pads = sort_ports_x(pads.ports)
     ports_component = sort_ports_x(ports_electrical)
 
-    for p1, p2 in zip(ports_component, ports_pads):
+    for p1, p2 in zip(ports_component, ports_pads, strict=False):
         route_quad(c, p1, p2, layer=layer)
 
     for port in ref.ports:
@@ -91,15 +91,3 @@ def add_electrical_pads_top(
     c.copy_child_info(component)
     c.auto_rename_ports()
     return c
-
-
-if __name__ == "__main__":
-    from gdsfactory.components import straight_heater_metal
-
-    c = straight_heater_metal()
-    # c = gf.components.mzi_phase_shifter_top_heater_metal()
-    # cc = gf.routing.add_electrical_pads_top(component=c, spacing=(-150, 30))
-    c = add_electrical_pads_top(c)
-    # c = _wire_long()
-    c.pprint_ports()
-    c.show()

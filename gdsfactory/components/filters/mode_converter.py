@@ -96,10 +96,3 @@ def mode_converter(
     c.add_port("o2", port=l_bend.ports["o2"])
     c.add_port("o4", port=r_bend.ports["o2"])
     return c
-
-
-if __name__ == "__main__":
-    # c = mode_converter(bbox_offsets=(0.5,), bbox_layers=((111, 0),))
-    c = mode_converter(cross_section="rib")
-    c.pprint_ports()
-    c.show()

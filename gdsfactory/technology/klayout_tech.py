@@ -12,7 +12,6 @@ import aenum
 import klayout.db as db
 from pydantic import BaseModel, ConfigDict, field_validator
 
-from gdsfactory.config import PATH
 from gdsfactory.technology import LayerStack, LayerViews
 from gdsfactory.technology.xml_utils import make_pretty_xml
 from gdsfactory.typings import ConnectivitySpec, PathType
@@ -188,37 +187,3 @@ class KLayoutTechnology(BaseModel):
     model_config = ConfigDict(
         arbitrary_types_allowed=True,
     )
-
-
-if __name__ == "__main__":
-    import klayout.db as kdb
-
-    from gdsfactory.config import PATH
-    from gdsfactory.generic_tech import LAYER, LAYER_STACK
-
-    lyp = LayerViews(PATH.klayout_yaml)
-    # lyp = LayerViews.from_lyp(str(PATH.klayout_yaml))
-
-    # str_xml = open(PATH.klayout_tech / "tech.lyt").read()
-    # new_tech = db.Technology.technology_from_xml(str_xml)
-    # generic_tech = KLayoutTechnology(layer_views=lyp)
-    connectivity = [
-        ("NPP", "VIAC", "M1"),
-        ("PPP", "VIAC", "M1"),
-        ("M1", "VIA1", "M2"),
-        ("M2", "VIA2", "M3"),
-    ]
-
-    c = generic_tech = KLayoutTechnology(
-        name="generic_tech",
-        layer_views=lyp,
-        connectivity=connectivity,
-        layer_map=LAYER,  # type: ignore[arg-type]
-        layer_stack=LAYER_STACK,
-    )
-    tech_dir = PATH.klayout_tech
-    tech_dir.mkdir(exist_ok=True, parents=True)
-    generic_tech.write_tech(tech_dir=tech_dir)
-
-    Tech = kdb.Technology()
-    technology = kdb.Technology.technology_from_xml(str(PATH.klayout_lyt))

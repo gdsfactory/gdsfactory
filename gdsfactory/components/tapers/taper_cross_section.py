@@ -63,23 +63,3 @@ taper_cross_section_sine = partial(taper_cross_section, linear=False, npoints=10
 taper_cross_section_parabolic = partial(
     taper_cross_section, linear=False, width_type="parabolic", npoints=101
 )
-
-
-if __name__ == "__main__":
-    # x1 = partial(strip, width=0.5)
-    # x2 = partial(strip, width=2.5)
-    # c = taper_cross_section_linear(x1, x2)
-
-    # x1 = partial(strip, width=0.5)
-    # x2 = partial(rib, width=2.5)
-    # c = taper_cross_section_linear(x1, x2)
-
-    # c = taper_cross_section(gf.cross_section.strip, gf.cross_section.rib)
-    # c = taper_cross_section_sine()
-    # c = taper_cross_section_linear()
-    # print([i.name for i in c.get_dependencies()])
-    # cross_section1 = gf.cross_section.rib_heater_doped
-    # cross_section2 = gf.cross_section.strip_rib_tip
-    # c = taper_cross_section(cross_section1, cross_section2)
-    c = taper_cross_section_parabolic()
-    c.show()

@@ -209,7 +209,7 @@ def test_connect_corner(
 
     lengths = {}
     if config in ["A", "C"]:
-        for ports1, ports2 in zip(ports_A, ports_B):
+        for ports1, ports2 in zip(ports_A, ports_B, strict=False):
             routes = gf.routing.route_bundle(
                 c, ports1, ports2, radius=5, cross_section=gf.cross_section.strip
             )
@@ -217,7 +217,7 @@ def test_connect_corner(
                 lengths[i] = route.length
 
     elif config in ["B", "D"]:
-        for ports1, ports2 in zip(ports_A, ports_B):
+        for ports1, ports2 in zip(ports_A, ports_B, strict=False):
             routes = gf.routing.route_bundle(
                 c, ports2, ports1, radius=5, cross_section=gf.cross_section.strip
             )
@@ -226,7 +226,3 @@ def test_connect_corner(
 
     if data_regression:
         data_regression.check(lengths)
-
-
-if __name__ == "__main__":
-    test_connect_corner(None, config="A")

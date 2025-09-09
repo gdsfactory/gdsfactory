@@ -151,9 +151,3 @@ def dbr_tapered(
     c.add_port("o1", port=input_taper.ports["o1"])
     c.add_port("o2", port=output_taper.ports["o2"])
     return c
-
-
-if __name__ == "__main__":
-    # c = dbr_tapered(length=10, period=0.85, dc=0.5, w2=1, w1=0.4, taper_length=20, fins=True)
-    c = dbr_tapered(cross_section="rib")
-    c.show()

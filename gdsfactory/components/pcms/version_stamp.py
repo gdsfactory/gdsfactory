@@ -100,15 +100,3 @@ def version_stamp(
 
     c.flatten()
     return c
-
-
-if __name__ == "__main__":
-    c = pixel()
-    c = version_stamp(
-        pixel_size=4,
-        layer="M1",
-        with_qr_code=True,
-        # text=["b1", "demo"],
-        text_size=20,
-    )
-    c.show()

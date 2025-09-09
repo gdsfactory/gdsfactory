@@ -24,7 +24,7 @@ def port_bank(
     c = gf.Component()
     xs = [spacing * i for i in range(count)]
     ys = [0 for _ in xs]
-    for i, (x, y) in enumerate(zip(xs, ys)):
+    for i, (x, y) in enumerate(zip(xs, ys, strict=False)):
         c.add_port(
             f"o{i + 1}", center=(x, y), cross_section=cross_section, orientation=90
         )
@@ -76,7 +76,3 @@ def test_good_bundle_passes_sorted(angle: float) -> None:
         for w in ws:
             if issubclass(w.category, RouteWarning):
                 raise AssertionError(f"Routing warning was raised: {w}")
-
-
-if __name__ == "__main__":
-    make_bundle(angle=0, reverse_ports=False, sort_ports=True)

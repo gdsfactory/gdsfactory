@@ -19,8 +19,8 @@ if TYPE_CHECKING:
 
 
 def from_updk(
-    filepath: "PathType",
-    filepath_out: "PathType | None" = None,
+    filepath: PathType,
+    filepath_out: PathType | None = None,
     layer_bbox: tuple[int, int] = (68, 0),
     layer_bbmetal: tuple[int, int] | None = None,
     layer_label: tuple[int, int] | None = None,
@@ -30,7 +30,7 @@ def from_updk(
     layer_pin_electrical: tuple[int, int] | None = None,
     optical_xsections: Sequence[str] | None = None,
     electrical_xsections: Sequence[str] | None = None,
-    layer_text: "LayerSpec | None" = None,
+    layer_text: LayerSpec | None = None,
     text_size: float = 2.0,
     activate_pdk: bool = False,
     read_xsections: bool = True,
@@ -275,16 +275,3 @@ if __name__ == "__main__":
         filepath_out = pathlib.Path(filepath_out)
         filepath_out.write_text(script)
     return script
-
-
-if __name__ == "__main__":
-    from gdsfactory.config import GDSDIR_TEMP
-    from gdsfactory.samples.pdk.fab_c import PDK
-
-    PDK.activate()
-
-    yaml_pdk_decription = PDK.to_updk()
-    print(yaml_pdk_decription)
-    filepath = GDSDIR_TEMP / "pdk.yaml"
-    gdsfactory_script = from_updk(filepath, pdk_name="demo")
-    print(gdsfactory_script)

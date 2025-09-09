@@ -36,7 +36,7 @@ def cdsem_straight_density(
 
     ymin = 0.0
     tooth_ref: ComponentReference | None = None
-    for width, gap in zip(widths, gaps):
+    for width, gap in zip(widths, gaps, strict=False):
         tooth_ref = c << gf.c.straight(
             length=length, cross_section=cross_section, width=width
         )
@@ -47,8 +47,3 @@ def cdsem_straight_density(
         marker_label = c << gf.get_component(text, text=f"{label}", size=text_size)
         marker_label.xmin = tooth_ref.xmax + 5
     return c
-
-
-if __name__ == "__main__":
-    c = cdsem_straight_density()
-    c.show()

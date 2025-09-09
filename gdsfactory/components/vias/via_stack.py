@@ -66,7 +66,7 @@ def via_stack(
     c = Component()
     c.info["xsize"], c.info["ysize"] = size
 
-    for layer_index, offset in zip(layer_indices, layer_offsets):
+    for layer_index, offset in zip(layer_indices, layer_offsets, strict=False):
         if isinstance(offset, Iterable):
             offset_x = offset[0]
             offset_y = offset[1]
@@ -94,7 +94,7 @@ def via_stack(
         # c.absorb(ref)
 
     vias_list = vias or []
-    for via, offset in zip(vias_list, layer_offsets):
+    for via, offset in zip(vias_list, layer_offsets, strict=False):
         if via is not None:
             width, height = size
             if isinstance(offset, Iterable):
@@ -223,7 +223,7 @@ def via_stack_corner45(
         c.info["layer"] = layer_port
 
     ref: ComponentReference | None = None
-    for layer, offset in zip(layers_list, layer_offsets_list):
+    for layer, offset in zip(layers_list, layer_offsets_list, strict=False):
         if layer and layer == layer_port:
             ref = c << gf.c.wire_corner45(
                 width=width + 2 * offset, layer=layer, with_corner90_ports=False
@@ -242,7 +242,7 @@ def via_stack_corner45(
     ymin = ref.ymin
 
     vias_list = vias or []
-    for via, offset in zip(vias_list, layer_offsets_list):
+    for via, offset in zip(vias_list, layer_offsets_list, strict=False):
         if via is not None:
             width45 = (
                 2 * (width_corner + 2 * offset) * np.cos(np.deg2rad(45))
@@ -394,9 +394,3 @@ via_stack_heater_mtop_mini = partial(via_stack_heater_mtop, size=(4, 4))
 via_stack_heater_m2 = partial(via_stack, layers=("HEATER", "M2"), vias=(None, "via1"))
 
 via_stack_slab_m1_horizontal = partial(via_stack_slab_m1, slot_horizontal=True)
-
-
-if __name__ == "__main__":
-    c = via_stack_heater_mtop()
-    c.pprint_ports()
-    c.show()

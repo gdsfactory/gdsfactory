@@ -1,4 +1,3 @@
-import os
 from functools import partial
 
 import gdsfactory as gf
@@ -100,12 +99,3 @@ def straight_heater_metal_lvs() -> gf.Component:
     route_single(c, c8.ports["o2"], c9.ports["o2"], cross_section=metal3)
     route_single(c, c9.ports["o1"], c10.ports["o1"], cross_section=metal3)
     return c
-
-
-if __name__ == "__main__":
-    testcase_path = os.path.dirname(os.path.abspath(__file__))
-    heater_path = os.path.join(testcase_path, "straight_heater_metal.gds")
-
-    c = straight_heater_metal_lvs()
-    c.show()
-    c.write_gds(heater_path)

@@ -37,12 +37,16 @@ def taper_from_csv(
     layer = x.layer
 
     c = gf.Component()
-    c.add_polygon(list(zip(xs, ys)) + list(zip(xs, -ys))[::-1], layer=layer)
+    c.add_polygon(
+        list(zip(xs, ys, strict=False)) + list(zip(xs, -ys, strict=False))[::-1],
+        layer=layer,
+    )
 
     for section in x.sections[1:]:
         ys_trench = ys + section.width
         c.add_polygon(
-            list(zip(xs, ys_trench)) + list(zip(xs, -ys_trench))[::-1],
+            list(zip(xs, ys_trench, strict=False))
+            + list(zip(xs, -ys_trench, strict=False))[::-1],
             layer=section.layer,
         )
 
@@ -72,10 +76,3 @@ taper_w10_l150 = partial(taper_from_csv, filepath=data / "taper_strip_0p5_10_150
 taper_w10_l200 = partial(taper_from_csv, filepath=data / "taper_strip_0p5_10_200.csv")
 taper_w11_l200 = partial(taper_from_csv, filepath=data / "taper_strip_0p5_11_200.csv")
 taper_w12_l200 = partial(taper_from_csv, filepath=data / "taper_strip_0p5_12_200.csv")
-
-
-if __name__ == "__main__":
-    # c = taper_0p5_to_3_l36()
-    c = taper_w10_l100(cross_section="rib")
-    # c = taper_w11_l200()
-    c.show()

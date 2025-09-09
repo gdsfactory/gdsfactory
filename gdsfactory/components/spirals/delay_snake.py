@@ -87,21 +87,6 @@ def delay_snake(
 
     sequence = "_)" + n // 2 * "-(-)"
     sequence = f"{sequence[:-1]}."
-    return component_sequence(
-        sequence=sequence, symbol_to_component=symbol_to_component
-    )
-
-
-if __name__ == "__main__":
-    # c = test_delay_snake3_length()
-
-    length = 1562
-    c = delay_snake(
-        n=2,
-        length=length,
-        length2=length - 120,
-        cross_section="strip",
-    )
-    # length_computed = c.area() / 0.5
-    # assert np.isclose(length, length_computed), length_computed
-    c.show()
+    c = component_sequence(sequence=sequence, symbol_to_component=symbol_to_component)
+    c.info["length"] = length
+    return c

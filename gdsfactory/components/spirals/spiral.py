@@ -26,6 +26,7 @@ def spiral(
     """
     c = gf.Component()
     b = gf.get_component(bend, cross_section=cross_section)
+    bend_length = b.info["length"]
 
     o1 = b["o1"]
     o2 = b["o2"]
@@ -36,6 +37,8 @@ def spiral(
         raise ValueError(f"bend component {b} must have dx == dy")
     radius = dx
     _length = length
+
+    total_length = 0
 
     b_inners = [c << b for _ in range(4)]
     b_inners[0].dmirror()
@@ -52,12 +55,18 @@ def spiral(
     l0_2.connect("o1", b_inners[3], "o2")
     p2 = l0_2.ports["o2"]
 
+    # Add the initial inner loop components to total_length
+    total_length += 4 * bend_length  # 4 inner bends
+    total_length += spacing  # s_space
+    total_length += _length + 2 * radius + spacing  # l0_2
+
     if length > 0:
         l0_1 = c << gf.get_component(
             straight, cross_section=cross_section, length=_length
         )
         l0_1.connect("o1", b_inners[0], "o1")
         p1 = l0_1.ports["o2"].copy()
+        total_length += _length
     else:
         p1 = b_inners[0].ports["o1"]
     p1.mirror = not p1.mirror
@@ -113,13 +122,24 @@ def spiral(
         h4.connect("o1", bends[7], "o2")
         p1 = h3.ports["o2"]
         p2 = h4.ports["o2"]
+        # Calculate lengths for this loop iteration
+        # 8 bends
+        total_length += 8 * bend_length
+        # 4 vertical segments: v1, v2, v3, v4
+        total_length += (
+            spacing * (1 + 4 * i)
+            + spacing * (3 + 4 * i)
+            + spacing * (3 + 4 * i)
+            + spacing * (5 + 4 * i)
+        )
+        # 4 horizontal segments: h1, h2, h3, h4
+        total_length += _length + 2 * radius + spacing * (1 + 4 * i)
+        total_length += _length + 2 * radius + spacing * (3 + 4 * i)
+        total_length += _length + 2 * radius + spacing * (3 + 4 * i)
+        total_length += _length + 2 * radius + spacing * (5 + 4 * i)
 
     c.add_port(name="o1", port=p1)
     c.add_port(name="o2", port=p2)
-    c.info["length"] = length * 2 * n_loops
+
+    c.info["length"] = total_length
     return c
-
-
-if __name__ == "__main__":
-    c = spiral(cross_section="rib", length=10, spacing=3.0)
-    c.show()

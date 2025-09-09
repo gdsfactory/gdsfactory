@@ -120,11 +120,3 @@ def mzi_pads_center(
 
     c.add_ports(m.ports)
     return c
-
-
-if __name__ == "__main__":
-    # mzi_ps_fa = gf.compose(gf.routing.add_fiber_array, mzi_pads_center)
-    # mzi_ps_fs = gf.compose(gf.routing.add_fiber_single, mzi_pads_center)
-    # c = mzi_ps_fs()
-    c = mzi_pads_center()
-    c.show()

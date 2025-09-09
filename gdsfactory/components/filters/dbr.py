@@ -115,11 +115,3 @@ def dbr(
 
     c.add_port("o1", port=s1.ports["o2"])
     return c
-
-
-if __name__ == "__main__":
-    # c = dbr(w1=0.5, w2=0.6, l1=0.2, l2=0.3, n=10)
-    c = dbr(n=2)
-    # c = dbr_cell()
-    # c.assert_ports_on_grid()
-    c.show()

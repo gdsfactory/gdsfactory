@@ -258,7 +258,7 @@ def test_connect_corner(
 
     lengths = {}
     i = 0
-    for ports1, ports2 in zip(ports_A, ports_B):
+    for ports1, ports2 in zip(ports_A, ports_B, strict=False):
         if config in {"A", "C"}:
             routes = route_bundle(c, ports1, ports2, cross_section="strip")
             for route in routes:
@@ -512,11 +512,3 @@ def test_route_bundle_width() -> None:
     )
     expected_length = 53274.356
     assert route[0].length == expected_length, route[0].length
-
-
-if __name__ == "__main__":
-    # pytest.main([__file__])
-    # test_route_bundle_width()
-    test_route_bundle_small()
-    # test_route_bundle_udirect(None, check=False)
-    # test_route_bundle(None)

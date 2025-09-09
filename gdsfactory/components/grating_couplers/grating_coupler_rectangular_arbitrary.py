@@ -94,7 +94,7 @@ def grating_coupler_rectangular_arbitrary(
 
     y0 = width_grating / 2
 
-    for width, gap in zip(widths, gaps):
+    for width, gap in zip(widths, gaps, strict=False):
         xi += gap
         points = np.array(
             [
@@ -139,10 +139,3 @@ def grating_coupler_rectangular_arbitrary(
 
     xs.add_bbox(c)
     return c
-
-
-if __name__ == "__main__":
-    c = grating_coupler_rectangular_arbitrary(
-        cross_section="rib_bbox", slab_offset=2.0, layer_slab=(2, 0)
-    )
-    c.show()

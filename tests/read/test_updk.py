@@ -24,7 +24,3 @@ def test_updk_generic() -> None:
     filepath.write_text(yaml_pdk_description)
     gdsfactory_script = from_updk(filepath)
     assert gdsfactory_script
-
-
-if __name__ == "__main__":
-    test_updk_generic()

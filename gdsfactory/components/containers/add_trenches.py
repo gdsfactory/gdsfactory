@@ -64,7 +64,3 @@ def add_trenches(
 add_trenches90 = partial(
     add_trenches, component="bend_euler", top=0, left=0, right=None
 )
-
-if __name__ == "__main__":
-    c = add_trenches90()
-    c.show()

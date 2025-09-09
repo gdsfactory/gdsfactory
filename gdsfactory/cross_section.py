@@ -391,7 +391,7 @@ class CrossSection(BaseModel):
                 )
                 padding.append(points)
 
-            for layer, points in zip(self.bbox_layers, padding):
+            for layer, points in zip(self.bbox_layers, padding, strict=False):
                 c.add_polygon(points, layer=layer)
         return c
 
@@ -636,6 +636,7 @@ def cross_section(
                     cladding_offsets_not_none,
                     cladding_simplify_not_none,
                     cladding_centers_not_none,
+                    strict=False,
                 )
             )
         ]
@@ -1250,7 +1251,9 @@ def pin(
             width=via_stack_width + 2 * cladding_offset,
             offset=+via_stack_offset,
         )
-        for layer, cladding_offset in zip(layers_via_stack1, bbox_offsets_via_stack1)
+        for layer, cladding_offset in zip(
+            layers_via_stack1, bbox_offsets_via_stack1, strict=False
+        )
     ]
     section_list += [
         Section(
@@ -1258,7 +1261,9 @@ def pin(
             width=via_stack_width + 2 * cladding_offset,
             offset=-via_stack_offset,
         )
-        for layer, cladding_offset in zip(layers_via_stack2, bbox_offsets_via_stack2)
+        for layer, cladding_offset in zip(
+            layers_via_stack2, bbox_offsets_via_stack2, strict=False
+        )
     ]
     if layer_via and via_width and via_offsets:
         section_list += [
@@ -2290,7 +2295,9 @@ def strip_heater_doped(
             offset=+heater_offset,
             name=f"heater_upper_{layer}",
         )
-        for layer, cladding_offset in zip(layers_heater, bbox_offsets_heater)
+        for layer, cladding_offset in zip(
+            layers_heater, bbox_offsets_heater, strict=False
+        )
     ]
 
     section_list += [
@@ -2300,7 +2307,9 @@ def strip_heater_doped(
             offset=-heater_offset,
             name=f"heater_lower_{layer}",
         )
-        for layer, cladding_offset in zip(layers_heater, bbox_offsets_heater)
+        for layer, cladding_offset in zip(
+            layers_heater, bbox_offsets_heater, strict=False
+        )
     ]
 
     return strip(
@@ -2507,7 +2516,9 @@ def rib_heater_doped_via_stack(
                 width=heater_width + 2 * cladding_offset,
                 offset=+via_stack_offset,
             )
-            for layer, cladding_offset in zip(layers_via_stack, bbox_offsets_via_stack)
+            for layer, cladding_offset in zip(
+                layers_via_stack, bbox_offsets_via_stack, strict=False
+            )
         ]
 
     if with_top_heater:
@@ -2517,7 +2528,9 @@ def rib_heater_doped_via_stack(
                 width=heater_width + 2 * cladding_offset,
                 offset=-via_stack_offset,
             )
-            for layer, cladding_offset in zip(layers_via_stack, bbox_offsets_via_stack)
+            for layer, cladding_offset in zip(
+                layers_via_stack, bbox_offsets_via_stack, strict=False
+            )
         ]
 
     return strip(
@@ -2642,7 +2655,7 @@ def pn_ge_detector_si_contacts(
     section_list += [
         Section(width=width_si + 2 * offset, layer=layer, simplify=simplify)
         for layer, offset, simplify in zip(
-            cladding_layers, cladding_offsets, cladding_simplify_not_none
+            cladding_layers, cladding_offsets, cladding_simplify_not_none, strict=False
         )
     ]
 
@@ -2776,6 +2789,7 @@ def is_cross_section(name: str, obj: Any, verbose: bool = False) -> bool:
                                 zip(
                                     freevars,
                                     [cell.cell_contents for cell in closure_values],
+                                    strict=False,
                                 )
                             )
                             resolved_type = closure_dict.get(return_type)
@@ -2833,31 +2847,3 @@ def get_cross_sections(
 
 
 # cross_sections = get_cross_sections(sys.modules[__name__])
-
-
-if __name__ == "__main__":
-    # xs = gf.cross_section.pn(
-    #     # slab_offset=0
-    #     # offset=1,
-    #     # cladding_layers=[(2, 0)],
-    #     # cladding_offsets=[3],
-    #     # bbox_layers=[(3, 0)],
-    #     # bbox_offsets=[2],
-    #     # slab_inset=0.2,
-    # )
-    # xs = xs.append_sections(sections=[gf.Section(width=1.0, layer=(2, 0), name="slab")])
-    # p = gf.path.straight()
-    # c = p.extrude(xs)
-    # c = gf.c.straight(cross_section=xs)
-    # xs = pn(slab_inset=0.2)
-    # xs = metal1()
-    # s0 = Section(width=2, layer=(1, 0))
-    # xs = strip()
-    # print(xs.name)
-    import gdsfactory as gf
-
-    xs1 = gf.get_cross_section("metal_routing")
-
-    xs2 = xs1.copy(width=10)
-    assert xs2.name == xs1.name, f"{xs2.name} != {xs1.name}"
-    print(xs2.name)

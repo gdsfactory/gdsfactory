@@ -119,8 +119,3 @@ def interdigital_capacitor(
         layer=layer,
     )
     return c
-
-
-if __name__ == "__main__":
-    c = interdigital_capacitor()
-    c.show()

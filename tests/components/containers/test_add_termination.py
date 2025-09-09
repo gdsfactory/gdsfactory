@@ -1,5 +1,3 @@
-import pytest
-
 import gdsfactory as gf
 
 
@@ -21,7 +19,3 @@ def test_add_termination_custom_terminator() -> None:
     custom_terminator = gf.components.taper(width2=0.2)
     cc = gf.components.add_termination(component=c, terminator=custom_terminator)
     assert len(cc.ports) == 0
-
-
-if __name__ == "__main__":
-    pytest.main([__file__])

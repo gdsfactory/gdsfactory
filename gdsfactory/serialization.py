@@ -165,7 +165,7 @@ def clean_value_partial(
     serialize_function_as_dict: bool = True,
 ) -> str | Any | dict[str, str | Any | dict[str, Any]]:
     sig = inspect.signature(value.func)
-    args_as_kwargs = dict(zip(sig.parameters.keys(), value.args))
+    args_as_kwargs = dict(zip(sig.parameters.keys(), value.args, strict=False))
     args_as_kwargs |= value.keywords
     args_as_kwargs = clean_dict(args_as_kwargs)
 
@@ -206,29 +206,3 @@ def clean_value_name(value: Any) -> str:
 
 def get_hash(value: Any) -> str:
     return hashlib.md5((clean_value_name(value)).encode()).hexdigest()[:8]
-
-
-if __name__ == "__main__":
-    from gdsfactory.components import straight
-
-    s = clean_value_json(straight)
-    print(s)
-
-    # f = partial(gf.c.straight, length=3)
-    # d = clean_value_json(f)
-    # print(f"{d!r}")
-    # f = partial(gf.c.straight, length=3)
-    # c = f()
-    # d = clean_value_json(c)
-    # print(d, d)
-
-    # xs = partial(
-    #     gf.cross_section.strip,
-    #     width=3,
-    #     add_pins=gf.partial(gf.add_pins.add_pins_inside1nm, pin_length=0.1),
-    # )
-    # f = partial(gf.routing.add_fiber_array, cross_section=xs)
-    # c = f()
-    # c = gf.cross_section.strip(width=3)
-    # d = clean_value_json(c)
-    # print(get_hash(d))

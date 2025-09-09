@@ -44,8 +44,3 @@ def L(
         layer=layer,
     )
     return D
-
-
-if __name__ == "__main__":
-    c = L()
-    c.show()

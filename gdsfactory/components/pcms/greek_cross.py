@@ -59,7 +59,7 @@ def greek_cross(
     offsets = offsets or (0.0,) * len(layers)
     index = 0
 
-    for layer, width, offset in zip(layers, widths, offsets):
+    for layer, width, offset in zip(layers, widths, offsets, strict=False):
         ref = c << gf.c.cross(
             length=length + 2 * offset,
             width=width,
@@ -154,9 +154,3 @@ def greek_cross_with_pads(
         )
 
     return c
-
-
-if __name__ == "__main__":
-    c = greek_cross_with_pads()
-    c.pprint_ports()
-    c.show()

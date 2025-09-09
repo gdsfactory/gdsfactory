@@ -215,7 +215,7 @@ def dubins_path(
     assert bt is not None and bp is not None and bq is not None and bmode is not None
 
     # Return path segments with lengths in um
-    return list(zip(bmode, [bt * c, bp * c, bq * c], [c] * 3))
+    return list(zip(bmode, [bt * c, bp * c, bq * c], [c] * 3, strict=False))
 
 
 def mod_to_pi(angle: float) -> float:
@@ -280,8 +280,8 @@ def place_dubins_path(
         if mode == "L":
             # Length and radius are in um, convert to nm for gdsfactory
             arc_angle = 180 * length / (m.pi * radius)
-            bend = c.create_vinst(
-                bend_circular_all_angle(angle=arc_angle, cross_section=xs)
+            bend = c.add_ref_off_grid(
+                bend_circular_all_angle(angle=arc_angle, cross_section=xs)  # type: ignore[arg-type]
             )
             bend.connect("o1", current_position)
             current_position = bend.ports["o2"]
@@ -289,16 +289,16 @@ def place_dubins_path(
 
         elif mode == "R":
             arc_angle = -(180 * length / (m.pi * radius))
-            bend = c.create_vinst(
-                bend_circular_all_angle(angle=arc_angle, cross_section=xs)
+            bend = c.add_ref_off_grid(
+                bend_circular_all_angle(angle=arc_angle, cross_section=xs)  # type: ignore[arg-type]
             )
             bend.connect("o1", current_position)
             current_position = bend.ports["o2"]
             instances.append(bend)
 
         elif mode == "S":
-            straight = c.create_vinst(
-                straight_all_angle(length=length, cross_section=xs)
+            straight = c.add_ref_off_grid(
+                straight_all_angle(length=length, cross_section=xs)  # type: ignore[arg-type]
             )
             straight.connect("o1", current_position)
             current_position = straight.ports["o2"]
@@ -308,24 +308,3 @@ def place_dubins_path(
             raise ValueError(f"Invalid mode: {mode}")
 
     return instances
-
-
-if __name__ == "__main__":
-    c = gf.Component()
-
-    # Create two straight waveguides with different orientations
-    wg1 = c << gf.components.straight(length=100, width=3.2)
-    wg2 = c << gf.components.straight(length=100, width=3.2)
-
-    # Move and rotate the second waveguide
-    wg2.move((300, 50))
-    wg2.rotate(45)
-
-    # Route between the output of wg1 and input of wg2
-    route = route_dubins(
-        c,
-        port1=wg1.ports["o2"],
-        port2=wg2.ports["o1"],
-        cross_section=gf.cross_section.strip(width=3.2, layer=(30, 0), radius=100),
-    )
-    c.show()

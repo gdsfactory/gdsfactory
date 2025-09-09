@@ -80,7 +80,12 @@ def route_quad(
     # sort vertices by angle from center of quadrilateral to make convex polygon
     angles = np.array([np.arctan2(disp[0], disp[1]) for disp in displacements])
     sorted_vertices: npt.NDArray[np.floating[Any]] = np.array(
-        [vert for _, vert in sorted(zip(angles, vertices), key=lambda x: x[0])],
+        [
+            vert
+            for _, vert in sorted(
+                zip(angles, vertices, strict=False), key=lambda x: x[0]
+            )
+        ],
         dtype=np.float64,
     )
 
@@ -91,36 +96,3 @@ def route_quad(
         )
     else:
         component.add_polygon(points=sorted_vertices, layer=layer)
-
-
-if __name__ == "__main__":
-    from gdsfactory.components import pad
-
-    c = gf.Component()
-    pad1 = c << pad(size=(50, 50))
-    pad2 = c << pad(size=(10, 10))
-    pad2.movex(100)
-    pad2.movey(50)
-    route_quad(
-        c,
-        pad1.ports["e2"],
-        pad2.ports["e4"],
-        width1=None,
-        width2=None,
-        manhattan_target_step=0.1,
-    )
-
-    # c = gf.Component(name="route")
-    # pad1 = c << gf.components.pad(size=(50, 50))
-    # pad2 = c << gf.components.pad(size=(10, 10))
-    # pad2.movex(100)
-    # pad2.movey(50)
-    # route_gnd = c << route_quad(
-    #     pad1.ports["e2"],
-    #     pad2.ports["e4"],
-    #     width1=None,
-    #     width2=None,
-    #     manhattan_min_step=0.1,
-    # )
-    c.show()
-    # test_manhattan_route_quad()

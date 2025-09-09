@@ -11,6 +11,7 @@ from toolz import compose
 from aenum import constant
 
 import kfactory as kf
+from kfactory.layout import Constants
 from kfactory import LayerEnum, show, Instance
 from kfactory.layout import kcl
 from kfactory import logger
@@ -104,6 +105,7 @@ __all__ = (
     "ComponentAlongPath",
     "ComponentBase",
     "ComponentReference",
+    "Constants",
     "CrossSection",
     "Instance",
     "LayerEnum",

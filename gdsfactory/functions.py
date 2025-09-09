@@ -127,7 +127,7 @@ GetPolygonsResult: TypeAlias = "dict[LayerSpec, list[kf.kdb.Polygon]]"
 
 
 def get_polygons(
-    component_or_instance: "Component | ComponentReference",
+    component_or_instance: Component | ComponentReference,
     merge: bool = False,
     by: Literal["index", "name", "tuple"] = "index",
     layers: LayerSpecs | None = None,
@@ -145,7 +145,7 @@ def get_polygons(
     from gdsfactory.pdk import get_layer, get_layer_name, get_layer_tuple
 
     if by == "index":
-        get_key: "Callable[[LayerSpec], LayerSpec]" = get_layer
+        get_key: Callable[[LayerSpec], LayerSpec] = get_layer
     elif by == "name":
         get_key = get_layer_name
     elif by == "tuple":
@@ -185,7 +185,7 @@ def get_polygons(
 
 
 def get_polygons_points(
-    component_or_instance: "Component | ComponentReference",
+    component_or_instance: Component | ComponentReference,
     merge: bool = False,
     scale: float | None = None,
     by: Literal["index", "name", "tuple"] = "index",
@@ -233,7 +233,7 @@ def get_polygons_points(
 
 
 def get_point_inside(
-    component_or_instance: "Component | ComponentReference", layer: LayerSpec
+    component_or_instance: Component | ComponentReference, layer: LayerSpec
 ) -> npt.NDArray[np.floating[Any]]:
     """Returns a point inside the component or instance.
 
@@ -499,9 +499,3 @@ def mirror(component: Component, x_mirror: bool = True) -> gf.Component:
     c.add_ports(ref.ports)
     c.copy_child_info(component)
     return c
-
-
-if __name__ == "__main__":
-    c = gf.c.bend_circular()
-    c = mirror(c)
-    c.show()

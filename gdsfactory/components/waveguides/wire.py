@@ -16,8 +16,8 @@ from gdsfactory.typings import CrossSectionSpec, LayerSpec, PortNames, PortTypes
 @gf.cell_with_module_name
 def wire_corner(
     cross_section: CrossSectionSpec = "metal_routing",
-    port_names: "PortNames" = port_names_electrical,
-    port_types: "PortTypes" = port_types_electrical,
+    port_names: PortNames = port_names_electrical,
+    port_types: PortTypes = port_types_electrical,
     width: float | None = None,
     radius: None | float = None,
 ) -> Component:
@@ -42,7 +42,7 @@ def wire_corner(
     a = width / 2
     xpts = [-a, a, a, -a]
     ypts = [-a, -a, a, a]
-    c.add_polygon(list(zip(xpts, ypts)), layer=layer)
+    c.add_polygon(list(zip(xpts, ypts, strict=False)), layer=layer)
     c.add_port(
         name=port_names[0],
         center=(-a, 0),
@@ -95,7 +95,7 @@ def wire_corner45(
     a = width / 2
     xpts = [0, radius + a, radius + a, -np.sqrt(2) * width]
     ypts = [-a, radius, radius + np.sqrt(2) * width, -a]
-    c.add_polygon(list(zip(xpts, ypts)), layer=layer)
+    c.add_polygon(list(zip(xpts, ypts, strict=False)), layer=layer)
 
     if with_corner90_ports:
         c.add_port(
@@ -180,7 +180,7 @@ def wire_corner_sections(
 
         assert layer is not None
 
-        c.add_polygon(list(zip(xpts, ypts)), layer=layer)
+        c.add_polygon(list(zip(xpts, ypts, strict=False)), layer=layer)
 
     c.add_port(
         name="e1",
@@ -202,11 +202,3 @@ def wire_corner_sections(
     c.info["dy"] = ymax - xmin
     x.add_bbox(c)
     return c
-
-
-if __name__ == "__main__":
-    c = wire_corner()
-    # c.pprint_ports()
-    # n = c.get_netlist()
-    # c = wire_corner45()
-    c.show()
