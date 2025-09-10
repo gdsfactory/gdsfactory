@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.14.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.14.1) - 2025-09-10
+
+No significant changes.
+
+
 ## [9.14.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.14.0) - 2025-09-03
 
 - add ref off grid [#4146](https://github.com/gdsfactory/gdsfactory/pull/4146)
