@@ -256,11 +256,23 @@ def route_bundle(
         bbox1 = gf.kdb.DBox()
         bbox2 = gf.kdb.DBox()
 
-        for port in ports1_:
-            bbox1 += port.dcplx_trans.disp.to_p()
+        if start_straight_length:
+            p_ = gf.kdb.DPoint(start_straight_length, 0)
+            for port in ports1_:
+                bbox1 += port.dcplx_trans.disp.to_p()
+                bbox1 += port.dcplx_trans * p_
+        else:
+            for port in ports1_:
+                bbox1 += port.dcplx_trans.disp.to_p()
 
-        for port in ports2_:
-            bbox2 += port.dcplx_trans.disp.to_p()
+        if end_straight_length:
+            p_ = gf.kdb.DPoint(end_straight_length, 0)
+            for port in ports2_:
+                bbox2 += port.dcplx_trans.disp.to_p()
+                bbox1 += port.dcplx_trans * p_
+        else:
+            for port in ports2_:
+                bbox2 += port.dcplx_trans.disp.to_p()
 
         bboxes.append(bbox1)
         bboxes.append(bbox2)
@@ -268,11 +280,22 @@ def route_bundle(
     elif auto_taper:
         bbox1 = gf.kdb.DBox()
         bbox2 = gf.kdb.DBox()
-        for port in ports1_:
-            bbox1 += port.dcplx_trans.disp.to_p()
-
-        for port in ports2_:
-            bbox2 += port.dcplx_trans.disp.to_p()
+        if start_straight_length:
+            p_ = gf.kdb.DPoint(start_straight_length, 0)
+            for port in ports1_:
+                bbox1 += port.dcplx_trans.disp.to_p()
+                bbox1 += port.dcplx_trans * p_
+        else:
+            for port in ports1_:
+                bbox1 += port.dcplx_trans.disp.to_p()
+        if end_straight_length:
+            p_ = gf.kdb.DPoint(end_straight_length, 0)
+            for port in ports2_:
+                bbox2 += port.dcplx_trans.disp.to_p()
+                bbox2 += port.dcplx_trans * p_
+        else:
+            for port in ports2_:
+                bbox2 += port.dcplx_trans.disp.to_p()
 
         ports1_ = add_auto_tapers(
             component, ports1_, cross_section=xs, layer_transitions=layer_transitions
