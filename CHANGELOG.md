@@ -1,12 +1,11 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.14.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.14.1...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.14.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.14.1) - 2025-09-10
 
-No significant changes.
-
+- fix start_straight_lenght messing up routing [#4149](https://github.com/gdsfactory/gdsfactory/pull/4149)
 
 ## [9.14.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.14.0) - 2025-09-03
 
