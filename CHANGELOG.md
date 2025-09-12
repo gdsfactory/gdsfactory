@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.14.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.14.2) - 2025-09-12
+
+No significant changes.
+
+
 ## [9.14.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.14.1) - 2025-09-10
 
 - fix start_straight_lenght messing up routing [#4149](https://github.com/gdsfactory/gdsfactory/pull/4149)
