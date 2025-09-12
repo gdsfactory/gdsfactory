@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable, Iterable
-from functools import partial
+from functools import partial, wraps
 from typing import TYPE_CHECKING, Any, ParamSpec, Protocol, overload
 
 from cachetools import Cache
@@ -118,8 +118,18 @@ def cell(
         lvs_equivalent_ports=lvs_equivalent_ports,
         ports=ports,
     )
-    c.is_gf_cell = True
-    return c  # type: ignore[no-any-return]
+    if callable(c):
+
+        @wraps(c)
+        def decorator(func: Callable) -> Any:
+            comp = c(func)
+            comp.is_gf_cell = True  # type: ignore
+            return comp
+
+        return decorator
+    else:
+        c.is_gf_cell = True
+        return c
 
 
 class ComponentAllAngleFunc(Protocol[ComponentParams]):
