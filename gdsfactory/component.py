@@ -1004,7 +1004,7 @@ class Component(ComponentBase, kf.DKCell):
         *,
         show_labels: bool = True,
         show_ruler: bool = True,
-        pixel_buffer_options: "PixelBufferOptions | None" = None,
+        pixel_buffer_options: PixelBufferOptions | None = None,
         return_fig: Literal[True] = True,
     ) -> Figure: ...
 
@@ -1016,7 +1016,7 @@ class Component(ComponentBase, kf.DKCell):
         *,
         show_labels: bool = True,
         show_ruler: bool = True,
-        pixel_buffer_options: "PixelBufferOptions | None" = None,
+        pixel_buffer_options: PixelBufferOptions | None = None,
         return_fig: Literal[False] = False,
     ) -> None: ...
 
@@ -1027,7 +1027,7 @@ class Component(ComponentBase, kf.DKCell):
         *,
         show_labels: bool = True,
         show_ruler: bool = True,
-        pixel_buffer_options: "PixelBufferOptions | None" = None,
+        pixel_buffer_options: PixelBufferOptions | None = None,
         return_fig: bool = False,
     ) -> Figure | None:
         """Plots the Component using klayout.
@@ -1078,19 +1078,8 @@ class Component(ComponentBase, kf.DKCell):
         layout_view.set_config("text-visible", "true" if show_labels else "false")
         layout_view.set_config("grid-show-ruler", "true" if show_ruler else "false")
 
-        # Set default pixel buffer options
-        if pixel_buffer_options is None:
-            pixel_buffer_options = {}
-        
-        # Extract options with defaults
-        width = pixel_buffer_options.get("width", 800)
-        height = pixel_buffer_options.get("height", 600)
-        linewidth = pixel_buffer_options.get("linewidth", 0)
-        oversampling = pixel_buffer_options.get("oversampling", 0)
-        resolution = pixel_buffer_options.get("resolution", 0)
-
         pixel_buffer = layout_view.get_pixels_with_options(
-            width, height, linewidth, oversampling, resolution
+            **({"width": 800, "height": 600} | (pixel_buffer_options or {}))
         )
         png_data = pixel_buffer.to_png_data()
 
