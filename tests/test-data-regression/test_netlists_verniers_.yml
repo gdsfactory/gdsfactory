@@ -1,5 +1,5 @@
 instances:
-  straight_gdsfactorypcom_5cb5b653_0_650:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L100_5cb5b653_0_650:
     component: straight
     info:
       length: 100
@@ -13,7 +13,7 @@ instances:
       length: 100
       npoints: 2
       width: 0.3
-  straight_gdsfactorypcom_93831052_0_300:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L100_93831052_0_300:
     component: straight
     info:
       length: 100
@@ -27,7 +27,7 @@ instances:
       length: 100
       npoints: 2
       width: 0.2
-  straight_gdsfactorypcom_ab962a62_0_50:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L100_ab962a62_0_50:
     component: straight
     info:
       length: 100
@@ -41,7 +41,7 @@ instances:
       length: 100
       npoints: 2
       width: 0.1
-  straight_gdsfactorypcom_b2466ad9_0_1100:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L100_b2466ad9_0_1100:
     component: straight
     info:
       length: 100
@@ -55,7 +55,7 @@ instances:
       length: 100
       npoints: 2
       width: 0.4
-  straight_gdsfactorypcom_c728c80e_0_1650:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L100_c728c80e_0_1650:
     component: straight
     info:
       length: 100
@@ -69,30 +69,30 @@ instances:
       length: 100
       npoints: 2
       width: 0.5
-name: verniers_gdsfactorypcom_2d122654
+name: verniers_gdsfactorypcomponentsppcmspverniers_W0p1_0p2_0_2d122654
 nets: []
 placements:
-  straight_gdsfactorypcom_5cb5b653_0_650:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L100_5cb5b653_0_650:
     mirror: false
     rotation: 0
     x: 0
     y: 0.65
-  straight_gdsfactorypcom_93831052_0_300:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L100_93831052_0_300:
     mirror: false
     rotation: 0
     x: 0
     y: 0.3
-  straight_gdsfactorypcom_ab962a62_0_50:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L100_ab962a62_0_50:
     mirror: false
     rotation: 0
     x: 0
     y: 0.05
-  straight_gdsfactorypcom_b2466ad9_0_1100:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L100_b2466ad9_0_1100:
     mirror: false
     rotation: 0
     x: 0
     y: 1.1
-  straight_gdsfactorypcom_c728c80e_0_1650:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L100_c728c80e_0_1650:
     mirror: false
     rotation: 0
     x: 0

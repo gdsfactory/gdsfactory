@@ -1,27 +1,27 @@
 instances:
-  circle_gdsfactorypcompo_60a92524_0_0:
+  circle_gdsfactorypcomponentspshapespcircle_R5_AR2p5_LWG_0_0:
     component: circle
     info: {}
     settings:
       angle_resolution: 2.5
       layer: WG
       radius: 5
-  circle_gdsfactorypcompo_aa7f03ec_0_0:
+  circle_gdsfactorypcomponentspshapespcircle_R62p5_AR2p5_LWGCLAD_0_0:
     component: circle
     info: {}
     settings:
       angle_resolution: 2.5
       layer: WGCLAD
       radius: 62.5
-name: fiber_gdsfactorypcompon_5fa599ce
+name: fiber_gdsfactorypcomponentspfilterspfiber_CD10_CD125_LC_5fa599ce
 nets: []
 placements:
-  circle_gdsfactorypcompo_60a92524_0_0:
+  circle_gdsfactorypcomponentspshapespcircle_R5_AR2p5_LWG_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  circle_gdsfactorypcompo_aa7f03ec_0_0:
+  circle_gdsfactorypcomponentspshapespcircle_R62p5_AR2p5_LWGCLAD_0_0:
     mirror: false
     rotation: 0
     x: 0

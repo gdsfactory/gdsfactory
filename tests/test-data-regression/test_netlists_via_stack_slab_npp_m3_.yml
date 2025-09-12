@@ -1,5 +1,5 @@
 instances:
-  compass_gdsfactorypcomp_5f83f55d_0_0:
+  compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_5f83f55d_0_0:
     component: compass
     info: {}
     settings:
@@ -15,23 +15,7 @@ instances:
       size:
       - 11
       - 11
-  compass_gdsfactorypcomp_b4ad9d31_0_0:
-    component: compass
-    info: {}
-    settings:
-      auto_rename_ports: true
-      layer: SLAB90
-      port_inclusion: 0
-      port_orientations:
-      - 180
-      - 90
-      - 0
-      - -90
-      port_type: null
-      size:
-      - 11
-      - 11
-  compass_gdsfactorypcomp_b5d41ec0_0_0:
+  compass_gdsfactorypcomponentspshapespcompass_S11_11_LNP_b5d41ec0_0_0:
     component: compass
     info: {}
     settings:
@@ -47,7 +31,23 @@ instances:
       size:
       - 11
       - 11
-  via_gdsfactorypcomponen_572539c8_m4000_m4000:
+  compass_gdsfactorypcomponentspshapespcompass_S11_11_LSL_b4ad9d31_0_0:
+    component: compass
+    info: {}
+    settings:
+      auto_rename_ports: true
+      layer: SLAB90
+      port_inclusion: 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: null
+      size:
+      - 11
+      - 11
+  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIAC_BL_572539c8_m4000_m4000:
     array:
       column_pitch: 2
       columns: 5
@@ -72,31 +72,31 @@ instances:
       size:
       - 0.7
       - 0.7
-name: via_stack_gdsfactorypco_6d506bb5
+name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_6d506bb5
 nets: []
 placements:
-  compass_gdsfactorypcomp_5f83f55d_0_0:
+  compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_5f83f55d_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  compass_gdsfactorypcomp_b4ad9d31_0_0:
+  compass_gdsfactorypcomponentspshapespcompass_S11_11_LNP_b5d41ec0_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  compass_gdsfactorypcomp_b5d41ec0_0_0:
+  compass_gdsfactorypcomponentspshapespcompass_S11_11_LSL_b4ad9d31_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  via_gdsfactorypcomponen_572539c8_m4000_m4000:
+  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIAC_BL_572539c8_m4000_m4000:
     mirror: false
     rotation: 0
     x: -4
     y: -4
 ports:
-  e1: compass_gdsfactorypcomp_5f83f55d_0_0,e1
-  e2: compass_gdsfactorypcomp_5f83f55d_0_0,e2
-  e3: compass_gdsfactorypcomp_5f83f55d_0_0,e3
-  e4: compass_gdsfactorypcomp_5f83f55d_0_0,e4
+  e1: compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_5f83f55d_0_0,e1
+  e2: compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_5f83f55d_0_0,e2
+  e3: compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_5f83f55d_0_0,e3
+  e4: compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_5f83f55d_0_0,e4

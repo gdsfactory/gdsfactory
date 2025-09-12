@@ -1,5 +1,5 @@
 instances:
-  straight_gdsfactorypcom_f2286423_0_0:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_0:
     component: straight
     info:
       length: 10
@@ -13,7 +13,7 @@ instances:
       length: 10
       npoints: 2
       width: null
-  straight_gdsfactorypcom_f2286423_0_13500:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_13500:
     component: straight
     info:
       length: 10
@@ -27,7 +27,7 @@ instances:
       length: 10
       npoints: 2
       width: null
-  straight_gdsfactorypcom_f2286423_0_4500:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_4500:
     component: straight
     info:
       length: 10
@@ -41,7 +41,7 @@ instances:
       length: 10
       npoints: 2
       width: null
-  straight_gdsfactorypcom_f2286423_0_9000:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_9000:
     component: straight
     info:
       length: 10
@@ -55,35 +55,35 @@ instances:
       length: 10
       npoints: 2
       width: null
-name: straight_array_gdsfacto_4d2a5b84
+name: straight_array_gdsfactorypcomponentspwaveguidespstraigh_4d2a5b84
 nets: []
 placements:
-  straight_gdsfactorypcom_f2286423_0_0:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  straight_gdsfactorypcom_f2286423_0_13500:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_13500:
     mirror: false
     rotation: 0
     x: 0
     y: 13.5
-  straight_gdsfactorypcom_f2286423_0_4500:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_4500:
     mirror: false
     rotation: 0
     x: 0
     y: 4.5
-  straight_gdsfactorypcom_f2286423_0_9000:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_9000:
     mirror: false
     rotation: 0
     x: 0
     y: 9
 ports:
-  o1: straight_gdsfactorypcom_f2286423_0_0,o1
-  o2: straight_gdsfactorypcom_f2286423_0_4500,o1
-  o3: straight_gdsfactorypcom_f2286423_0_9000,o1
-  o4: straight_gdsfactorypcom_f2286423_0_13500,o1
-  o5: straight_gdsfactorypcom_f2286423_0_13500,o2
-  o6: straight_gdsfactorypcom_f2286423_0_9000,o2
-  o7: straight_gdsfactorypcom_f2286423_0_4500,o2
-  o8: straight_gdsfactorypcom_f2286423_0_0,o2
+  o1: straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_0,o1
+  o2: straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_4500,o1
+  o3: straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_9000,o1
+  o4: straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_13500,o1
+  o5: straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_13500,o2
+  o6: straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_9000,o2
+  o7: straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_4500,o2
+  o8: straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_0,o2

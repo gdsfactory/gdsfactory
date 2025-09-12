@@ -4,7 +4,7 @@ info:
   length: 2500
   resonator_type: quarter_wave
   width: 10
-name: resonator_quarter_wave__f5b2b734
+name: resonator_quarter_wave_gdsfactorypcomponentspquantumpre_f5b2b734
 settings:
   coupling_gap: 5
   coupling_length: 100

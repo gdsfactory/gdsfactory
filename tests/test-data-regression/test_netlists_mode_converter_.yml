@@ -1,5 +1,5 @@
 instances:
-  bend_s_gdsfactorypcompo_0eac67c5_0_1050_A180_M:
+  bend_s_gdsfactorypcomponentspbendspbend_s_S25_3_N99_CSs_0eac67c5_0_1050_A180_M:
     component: bend_s
     info:
       end_angle: 0
@@ -20,7 +20,7 @@ instances:
       - 25
       - 3
       width: null
-  bend_s_gdsfactorypcompo_0eac67c5_10000_1050:
+  bend_s_gdsfactorypcomponentspbendspbend_s_S25_3_N99_CSs_0eac67c5_10000_1050:
     component: bend_s
     info:
       end_angle: 0
@@ -41,7 +41,7 @@ instances:
       - 25
       - 3
       width: null
-  coupler_straight_asymme_fd8c78fd_0_0:
+  coupler_straight_asymmetric_gdsfactorypcomponentspcoupl_fd8c78fd_0_0:
     component: coupler_straight_asymmetric
     info: {}
     settings:
@@ -50,7 +50,7 @@ instances:
       length: 10
       width_bot: 1
       width_top: 0.5
-  taper_gdsfactorypcompon_97c68b0b_0_0_A180:
+  taper_gdsfactorypcomponentsptapersptaper_L25_W1_W1p2_LN_97c68b0b_0_0_A180:
     component: taper
     info:
       length: 25
@@ -71,7 +71,7 @@ instances:
       width2: 1.2
       with_bbox: true
       with_two_ports: true
-  taper_gdsfactorypcompon_97c68b0b_10000_0:
+  taper_gdsfactorypcomponentsptapersptaper_L25_W1_W1p2_LN_97c68b0b_10000_0:
     component: taper
     info:
       length: 25
@@ -92,44 +92,44 @@ instances:
       width2: 1.2
       with_bbox: true
       with_two_ports: true
-name: mode_converter_gdsfacto_10a30c65
+name: mode_converter_gdsfactorypcomponentspfilterspmode_conve_10a30c65
 nets:
-- p1: bend_s_gdsfactorypcompo_0eac67c5_0_1050_A180_M,o1
-  p2: coupler_straight_asymme_fd8c78fd_0_0,o2
-- p1: bend_s_gdsfactorypcompo_0eac67c5_10000_1050,o1
-  p2: coupler_straight_asymme_fd8c78fd_0_0,o3
-- p1: coupler_straight_asymme_fd8c78fd_0_0,o1
-  p2: taper_gdsfactorypcompon_97c68b0b_0_0_A180,o1
-- p1: coupler_straight_asymme_fd8c78fd_0_0,o4
-  p2: taper_gdsfactorypcompon_97c68b0b_10000_0,o1
+- p1: bend_s_gdsfactorypcomponentspbendspbend_s_S25_3_N99_CSs_0eac67c5_0_1050_A180_M,o1
+  p2: coupler_straight_asymmetric_gdsfactorypcomponentspcoupl_fd8c78fd_0_0,o2
+- p1: bend_s_gdsfactorypcomponentspbendspbend_s_S25_3_N99_CSs_0eac67c5_10000_1050,o1
+  p2: coupler_straight_asymmetric_gdsfactorypcomponentspcoupl_fd8c78fd_0_0,o3
+- p1: coupler_straight_asymmetric_gdsfactorypcomponentspcoupl_fd8c78fd_0_0,o1
+  p2: taper_gdsfactorypcomponentsptapersptaper_L25_W1_W1p2_LN_97c68b0b_0_0_A180,o1
+- p1: coupler_straight_asymmetric_gdsfactorypcomponentspcoupl_fd8c78fd_0_0,o4
+  p2: taper_gdsfactorypcomponentsptapersptaper_L25_W1_W1p2_LN_97c68b0b_10000_0,o1
 placements:
-  bend_s_gdsfactorypcompo_0eac67c5_0_1050_A180_M:
+  bend_s_gdsfactorypcomponentspbendspbend_s_S25_3_N99_CSs_0eac67c5_0_1050_A180_M:
     mirror: true
     rotation: 180
     x: 0
     y: 1.05
-  bend_s_gdsfactorypcompo_0eac67c5_10000_1050:
+  bend_s_gdsfactorypcomponentspbendspbend_s_S25_3_N99_CSs_0eac67c5_10000_1050:
     mirror: false
     rotation: 0
     x: 10
     y: 1.05
-  coupler_straight_asymme_fd8c78fd_0_0:
+  coupler_straight_asymmetric_gdsfactorypcomponentspcoupl_fd8c78fd_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  taper_gdsfactorypcompon_97c68b0b_0_0_A180:
+  taper_gdsfactorypcomponentsptapersptaper_L25_W1_W1p2_LN_97c68b0b_0_0_A180:
     mirror: false
     rotation: 180
     x: 0
     y: 0
-  taper_gdsfactorypcompon_97c68b0b_10000_0:
+  taper_gdsfactorypcomponentsptapersptaper_L25_W1_W1p2_LN_97c68b0b_10000_0:
     mirror: false
     rotation: 0
     x: 10
     y: 0
 ports:
-  o1: taper_gdsfactorypcompon_97c68b0b_0_0_A180,o2
-  o2: bend_s_gdsfactorypcompo_0eac67c5_0_1050_A180_M,o2
-  o3: taper_gdsfactorypcompon_97c68b0b_10000_0,o2
-  o4: bend_s_gdsfactorypcompo_0eac67c5_10000_1050,o2
+  o1: taper_gdsfactorypcomponentsptapersptaper_L25_W1_W1p2_LN_97c68b0b_0_0_A180,o2
+  o2: bend_s_gdsfactorypcomponentspbendspbend_s_S25_3_N99_CSs_0eac67c5_0_1050_A180_M,o2
+  o3: taper_gdsfactorypcomponentsptapersptaper_L25_W1_W1p2_LN_97c68b0b_10000_0,o2
+  o4: bend_s_gdsfactorypcomponentspbendspbend_s_S25_3_N99_CSs_0eac67c5_10000_1050,o2

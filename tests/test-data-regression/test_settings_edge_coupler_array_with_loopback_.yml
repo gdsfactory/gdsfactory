@@ -1,5 +1,5 @@
 info: {}
-name: edge_coupler_array_with_76837e7b
+name: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_76837e7b
 settings:
   cross_section: strip
   edge_coupler: edge_coupler_silicon

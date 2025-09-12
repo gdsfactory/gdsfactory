@@ -1,20 +1,5 @@
 instances:
-  rectangle_gdsfactorypco_c82d519f_0_0:
-    component: rectangle
-    info: {}
-    settings:
-      centered: true
-      layer: WG
-      port_orientations:
-      - 180
-      - 90
-      - 0
-      - -90
-      port_type: null
-      size:
-      - 11
-      - 11
-  rectangle_gdsfactorypco_d85f7637_m5070_m5070:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S0p3_0_d85f7637_m5070_m5070:
     array:
       column_pitch: 0.58
       columns: 18
@@ -34,7 +19,22 @@ instances:
       size:
       - 0.3
       - 0.3
-  taper_gdsfactorypcompon_0368f7eb_0_m155500_A90:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S11_11_c82d519f_0_0:
+    component: rectangle
+    info: {}
+    settings:
+      centered: true
+      layer: WG
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: null
+      size:
+      - 11
+      - 11
+  taper_gdsfactorypcomponentsptapersptaper_L150_W0p5_W10__0368f7eb_0_m155500_A90:
     component: taper
     info:
       length: 150
@@ -55,7 +55,7 @@ instances:
       width2: 10
       with_bbox: true
       with_two_ports: true
-  taper_gdsfactorypcompon_0368f7eb_m155500_0:
+  taper_gdsfactorypcomponentsptapersptaper_L150_W0p5_W10__0368f7eb_m155500_0:
     component: taper
     info:
       length: 150
@@ -76,39 +76,39 @@ instances:
       width2: 10
       with_bbox: true
       with_two_ports: true
-name: grating_coupler_dual_po_bb68872e
+name: grating_coupler_dual_pol_gdsfactorypcomponentspgrating__bb68872e
 nets: []
 placements:
-  rectangle_gdsfactorypco_c82d519f_0_0:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 0
-  rectangle_gdsfactorypco_d85f7637_m5070_m5070:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S0p3_0_d85f7637_m5070_m5070:
     mirror: false
     rotation: 0
     x: -5.07
     y: -5.07
-  taper_gdsfactorypcompon_0368f7eb_0_m155500_A90:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S11_11_c82d519f_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  taper_gdsfactorypcomponentsptapersptaper_L150_W0p5_W10__0368f7eb_0_m155500_A90:
     mirror: false
     rotation: 90
     x: 0
     y: -155.5
-  taper_gdsfactorypcompon_0368f7eb_m155500_0:
+  taper_gdsfactorypcomponentsptapersptaper_L150_W0p5_W10__0368f7eb_m155500_0:
     mirror: false
     rotation: 0
     x: -155.5
     y: 0
 ports:
-  o1: taper_gdsfactorypcompon_0368f7eb_m155500_0,o1
-  o2: taper_gdsfactorypcompon_0368f7eb_0_m155500_A90,o1
+  o1: taper_gdsfactorypcomponentsptapersptaper_L150_W0p5_W10__0368f7eb_m155500_0,o1
+  o2: taper_gdsfactorypcomponentsptapersptaper_L150_W0p5_W10__0368f7eb_0_m155500_A90,o1
 warnings:
   optical:
     unconnected_ports:
     - message: 2 unconnected optical ports!
       ports:
-      - taper_gdsfactorypcompon_0368f7eb_m155500_0,o2
-      - taper_gdsfactorypcompon_0368f7eb_0_m155500_A90,o2
+      - taper_gdsfactorypcomponentsptapersptaper_L150_W0p5_W10__0368f7eb_m155500_0,o2
+      - taper_gdsfactorypcomponentsptapersptaper_L150_W0p5_W10__0368f7eb_0_m155500_A90,o2
       values:
       - - -5.5
         - 0

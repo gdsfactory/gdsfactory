@@ -1,5 +1,5 @@
 instances:
-  text_gdsfactorypcompone_0f73e94a_m4890000_m4850000:
+  text_gdsfactorypcomponentsptextsptext_Tchip99_S100_P0_0_0f73e94a_m4890000_m4850000:
     component: text
     info: {}
     settings:
@@ -10,10 +10,10 @@ instances:
       - 0
       size: 100
       text: chip99
-name: die_gdsfactorypcomponen_96550820
+name: die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_96550820
 nets: []
 placements:
-  text_gdsfactorypcompone_0f73e94a_m4890000_m4850000:
+  text_gdsfactorypcomponentsptextsptext_Tchip99_S100_P0_0_0f73e94a_m4890000_m4850000:
     mirror: false
     rotation: 0
     x: -4890

@@ -1,5 +1,5 @@
 instances:
-  straight_gdsfactorypcom_f2286423_0_0:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_0:
     component: straight
     info:
       length: 10
@@ -13,7 +13,7 @@ instances:
       length: 10
       npoints: 2
       width: null
-  straight_gdsfactorypcom_f2286423_0_770:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_770:
     component: straight
     info:
       length: 10
@@ -27,21 +27,21 @@ instances:
       length: 10
       npoints: 2
       width: null
-name: coupler_straight_gdsfac_a4c69b54
+name: coupler_straight_gdsfactorypcomponentspcouplerspcoupler_a4c69b54
 nets: []
 placements:
-  straight_gdsfactorypcom_f2286423_0_0:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  straight_gdsfactorypcom_f2286423_0_770:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_770:
     mirror: false
     rotation: 0
     x: 0
     y: 0.77
 ports:
-  o1: straight_gdsfactorypcom_f2286423_0_0,o1
-  o2: straight_gdsfactorypcom_f2286423_0_770,o1
-  o3: straight_gdsfactorypcom_f2286423_0_770,o2
-  o4: straight_gdsfactorypcom_f2286423_0_0,o2
+  o1: straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_0,o1
+  o2: straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_770,o1
+  o3: straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_770,o2
+  o4: straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_0,o2

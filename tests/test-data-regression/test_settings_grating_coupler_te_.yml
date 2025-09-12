@@ -2,7 +2,7 @@ info:
   period: 0.676
   polarization: te
   wavelength: 1.53
-name: grating_coupler_ellipti_c91c3207
+name: grating_coupler_elliptical_trenches_gdsfactorypcomponen_c91c3207
 settings:
   cross_section: strip
   end_straight_length: 0.2

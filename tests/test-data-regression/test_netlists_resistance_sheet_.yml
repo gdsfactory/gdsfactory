@@ -1,5 +1,5 @@
 instances:
-  compass_gdsfactorypcomp_3ed28489_0_0:
+  compass_gdsfactorypcomponentspshapespcompass_S50_10_LHE_3ed28489_0_0:
     component: compass
     info: {}
     settings:
@@ -15,7 +15,7 @@ instances:
       size:
       - 50
       - 10
-  via_stack_gdsfactorypco_13b6544f_50000_0:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_13b6544f_50000_0:
     component: via_stack
     info:
       xsize: 50
@@ -42,7 +42,7 @@ instances:
       - null
       - via1
       - via2
-  via_stack_gdsfactorypco_13b6544f_m50000_0:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_13b6544f_m50000_0:
     component: via_stack
     info:
       xsize: 50
@@ -69,42 +69,42 @@ instances:
       - null
       - via1
       - via2
-name: resistance_sheet_gdsfac_cb73a501
+name: resistance_sheet_gdsfactorypcomponentsppcmspresistance__cb73a501
 nets:
-- p1: compass_gdsfactorypcomp_3ed28489_0_0,e1
-  p2: via_stack_gdsfactorypco_13b6544f_m50000_0,e3
-- p1: compass_gdsfactorypcomp_3ed28489_0_0,e3
-  p2: via_stack_gdsfactorypco_13b6544f_50000_0,e1
+- p1: compass_gdsfactorypcomponentspshapespcompass_S50_10_LHE_3ed28489_0_0,e1
+  p2: via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_13b6544f_m50000_0,e3
+- p1: compass_gdsfactorypcomponentspshapespcompass_S50_10_LHE_3ed28489_0_0,e3
+  p2: via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_13b6544f_50000_0,e1
 placements:
-  compass_gdsfactorypcomp_3ed28489_0_0:
+  compass_gdsfactorypcomponentspshapespcompass_S50_10_LHE_3ed28489_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  via_stack_gdsfactorypco_13b6544f_50000_0:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_13b6544f_50000_0:
     mirror: false
     rotation: 0
     x: 50
     y: 0
-  via_stack_gdsfactorypco_13b6544f_m50000_0:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_13b6544f_m50000_0:
     mirror: false
     rotation: 0
     x: -50
     y: 0
 ports:
-  pad1: via_stack_gdsfactorypco_13b6544f_m50000_0,e4
-  pad2: via_stack_gdsfactorypco_13b6544f_50000_0,e4
+  pad1: via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_13b6544f_m50000_0,e4
+  pad2: via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_13b6544f_50000_0,e4
 warnings:
   electrical:
     unconnected_ports:
     - message: 6 unconnected electrical ports!
       ports:
-      - via_stack_gdsfactorypco_13b6544f_m50000_0,e1
-      - via_stack_gdsfactorypco_13b6544f_m50000_0,e2
-      - via_stack_gdsfactorypco_13b6544f_50000_0,e2
-      - via_stack_gdsfactorypco_13b6544f_50000_0,e3
-      - compass_gdsfactorypcomp_3ed28489_0_0,e2
-      - compass_gdsfactorypcomp_3ed28489_0_0,e4
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_13b6544f_m50000_0,e1
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_13b6544f_m50000_0,e2
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_13b6544f_50000_0,e2
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_13b6544f_50000_0,e3
+      - compass_gdsfactorypcomponentspshapespcompass_S50_10_LHE_3ed28489_0_0,e2
+      - compass_gdsfactorypcomponentspshapespcompass_S50_10_LHE_3ed28489_0_0,e4
       values:
       - - -75
         - 0

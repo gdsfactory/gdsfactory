@@ -1,5 +1,5 @@
 instances:
-  pad_gdsfactorypcomponen_457de54c_225000_0:
+  pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_225000_0:
     component: pad
     info:
       size:
@@ -22,7 +22,7 @@ instances:
       size:
       - 100
       - 100
-  pad_gdsfactorypcomponen_457de54c_375000_0:
+  pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_375000_0:
     component: pad
     info:
       size:
@@ -45,7 +45,7 @@ instances:
       size:
       - 100
       - 100
-  pad_gdsfactorypcomponen_457de54c_525000_0:
+  pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_525000_0:
     component: pad
     info:
       size:
@@ -68,7 +68,7 @@ instances:
       size:
       - 100
       - 100
-  pad_gdsfactorypcomponen_457de54c_75000_0:
+  pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_75000_0:
     component: pad
     info:
       size:
@@ -91,7 +91,7 @@ instances:
       size:
       - 100
       - 100
-  pad_gdsfactorypcomponen_457de54c_m225000_0:
+  pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_m225000_0:
     component: pad
     info:
       size:
@@ -114,7 +114,7 @@ instances:
       size:
       - 100
       - 100
-  pad_gdsfactorypcomponen_457de54c_m375000_0:
+  pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_m375000_0:
     component: pad
     info:
       size:
@@ -137,7 +137,7 @@ instances:
       size:
       - 100
       - 100
-  pad_gdsfactorypcomponen_457de54c_m525000_0:
+  pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_m525000_0:
     component: pad
     info:
       size:
@@ -160,7 +160,7 @@ instances:
       size:
       - 100
       - 100
-  pad_gdsfactorypcomponen_457de54c_m75000_0:
+  pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_m75000_0:
     component: pad
     info:
       size:
@@ -183,7 +183,7 @@ instances:
       size:
       - 100
       - 100
-  rectangle_gdsfactorypco_0d3b0661_0_0:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S1050__0d3b0661_0_0:
     component: rectangle
     info: {}
     settings:
@@ -198,50 +198,50 @@ instances:
       size:
       - 1050
       - 10
-name: pads_shorted_gdsfactory_ed8f83ce
+name: pads_shorted_gdsfactorypcomponentsppadsppads_shorted_Pp_ed8f83ce
 nets: []
 placements:
-  pad_gdsfactorypcomponen_457de54c_225000_0:
+  pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_225000_0:
     mirror: false
     rotation: 0
     x: 225
     y: 0
-  pad_gdsfactorypcomponen_457de54c_375000_0:
+  pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_375000_0:
     mirror: false
     rotation: 0
     x: 375
     y: 0
-  pad_gdsfactorypcomponen_457de54c_525000_0:
+  pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_525000_0:
     mirror: false
     rotation: 0
     x: 525
     y: 0
-  pad_gdsfactorypcomponen_457de54c_75000_0:
+  pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_75000_0:
     mirror: false
     rotation: 0
     x: 75
     y: 0
-  pad_gdsfactorypcomponen_457de54c_m225000_0:
+  pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_m225000_0:
     mirror: false
     rotation: 0
     x: -225
     y: 0
-  pad_gdsfactorypcomponen_457de54c_m375000_0:
+  pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_m375000_0:
     mirror: false
     rotation: 0
     x: -375
     y: 0
-  pad_gdsfactorypcomponen_457de54c_m525000_0:
+  pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_m525000_0:
     mirror: false
     rotation: 0
     x: -525
     y: 0
-  pad_gdsfactorypcomponen_457de54c_m75000_0:
+  pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_m75000_0:
     mirror: false
     rotation: 0
     x: -75
     y: 0
-  rectangle_gdsfactorypco_0d3b0661_0_0:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S1050__0d3b0661_0_0:
     mirror: false
     rotation: 0
     x: 0
@@ -252,42 +252,42 @@ warnings:
     unconnected_ports:
     - message: 36 unconnected electrical ports!
       ports:
-      - pad_gdsfactorypcomponen_457de54c_m525000_0,e1
-      - pad_gdsfactorypcomponen_457de54c_m525000_0,e2
-      - pad_gdsfactorypcomponen_457de54c_m525000_0,e3
-      - pad_gdsfactorypcomponen_457de54c_m525000_0,e4
-      - pad_gdsfactorypcomponen_457de54c_m375000_0,e1
-      - pad_gdsfactorypcomponen_457de54c_m375000_0,e2
-      - pad_gdsfactorypcomponen_457de54c_m375000_0,e3
-      - pad_gdsfactorypcomponen_457de54c_m375000_0,e4
-      - pad_gdsfactorypcomponen_457de54c_m225000_0,e1
-      - pad_gdsfactorypcomponen_457de54c_m225000_0,e2
-      - pad_gdsfactorypcomponen_457de54c_m225000_0,e3
-      - pad_gdsfactorypcomponen_457de54c_m225000_0,e4
-      - pad_gdsfactorypcomponen_457de54c_m75000_0,e1
-      - pad_gdsfactorypcomponen_457de54c_m75000_0,e2
-      - pad_gdsfactorypcomponen_457de54c_m75000_0,e3
-      - pad_gdsfactorypcomponen_457de54c_m75000_0,e4
-      - pad_gdsfactorypcomponen_457de54c_75000_0,e1
-      - pad_gdsfactorypcomponen_457de54c_75000_0,e2
-      - pad_gdsfactorypcomponen_457de54c_75000_0,e3
-      - pad_gdsfactorypcomponen_457de54c_75000_0,e4
-      - pad_gdsfactorypcomponen_457de54c_225000_0,e1
-      - pad_gdsfactorypcomponen_457de54c_225000_0,e2
-      - pad_gdsfactorypcomponen_457de54c_225000_0,e3
-      - pad_gdsfactorypcomponen_457de54c_225000_0,e4
-      - pad_gdsfactorypcomponen_457de54c_375000_0,e1
-      - pad_gdsfactorypcomponen_457de54c_375000_0,e2
-      - pad_gdsfactorypcomponen_457de54c_375000_0,e3
-      - pad_gdsfactorypcomponen_457de54c_375000_0,e4
-      - pad_gdsfactorypcomponen_457de54c_525000_0,e1
-      - pad_gdsfactorypcomponen_457de54c_525000_0,e2
-      - pad_gdsfactorypcomponen_457de54c_525000_0,e3
-      - pad_gdsfactorypcomponen_457de54c_525000_0,e4
-      - rectangle_gdsfactorypco_0d3b0661_0_0,e1
-      - rectangle_gdsfactorypco_0d3b0661_0_0,e2
-      - rectangle_gdsfactorypco_0d3b0661_0_0,e3
-      - rectangle_gdsfactorypco_0d3b0661_0_0,e4
+      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_m525000_0,e1
+      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_m525000_0,e2
+      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_m525000_0,e3
+      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_m525000_0,e4
+      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_m375000_0,e1
+      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_m375000_0,e2
+      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_m375000_0,e3
+      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_m375000_0,e4
+      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_m225000_0,e1
+      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_m225000_0,e2
+      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_m225000_0,e3
+      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_m225000_0,e4
+      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_m75000_0,e1
+      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_m75000_0,e2
+      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_m75000_0,e3
+      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_m75000_0,e4
+      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_75000_0,e1
+      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_75000_0,e2
+      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_75000_0,e3
+      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_75000_0,e4
+      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_225000_0,e1
+      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_225000_0,e2
+      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_225000_0,e3
+      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_225000_0,e4
+      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_375000_0,e1
+      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_375000_0,e2
+      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_375000_0,e3
+      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_375000_0,e4
+      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_525000_0,e1
+      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_525000_0,e2
+      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_525000_0,e3
+      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_525000_0,e4
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S1050__0d3b0661_0_0,e1
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S1050__0d3b0661_0_0,e2
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S1050__0d3b0661_0_0,e3
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S1050__0d3b0661_0_0,e4
       values:
       - - -575
         - 0

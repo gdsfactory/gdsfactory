@@ -4,7 +4,7 @@ info:
   length: 1000
   resonator_type: cpw
   width: 10
-name: resonator_cpw_gdsfactor_cafe5f4c
+name: resonator_cpw_gdsfactorypcomponentspquantumpresonator_L_cafe5f4c
 settings:
   coupling_gap: 5
   coupling_length: 100

@@ -3,7 +3,7 @@ info:
   pad_gap: 6
   pad_radius: 100
   qubit_type: transmon_circular
-name: transmon_circular_gdsfa_29140297
+name: transmon_circular_gdsfactorypcomponentspquantumptransmo_29140297
 settings:
   island_radius: 5
   junction_height: 0.3

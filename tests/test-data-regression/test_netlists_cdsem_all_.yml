@@ -1,5 +1,5 @@
 instances:
-  cdsem_bend180_gdsfactor_16eb1146_430000_106100:
+  cdsem_bend180_gdsfactorypcomponentsppcmspcdsem_bend180__16eb1146_430000_106100:
     component: cdsem_bend180
     info: {}
     settings:
@@ -11,7 +11,7 @@ instances:
       text_size: 1
       wg_length: 420
       width: 0.5
-  cdsem_bend180_gdsfactor_27cf2646_430000_157350:
+  cdsem_bend180_gdsfactorypcomponentsppcmspcdsem_bend180__27cf2646_430000_157350:
     component: cdsem_bend180
     info: {}
     settings:
@@ -23,7 +23,7 @@ instances:
       text_size: 1
       wg_length: 420
       width: 0.8
-  cdsem_bend180_gdsfactor_2e87fec0_430000_183750:
+  cdsem_bend180_gdsfactorypcomponentsppcmspcdsem_bend180__2e87fec0_430000_183750:
     component: cdsem_bend180
     info: {}
     settings:
@@ -35,7 +35,7 @@ instances:
       text_size: 1
       wg_length: 420
       width: 1
-  cdsem_bend180_gdsfactor_2f1531ac_430000_55200:
+  cdsem_bend180_gdsfactorypcomponentsppcmspcdsem_bend180__2f1531ac_430000_55200:
     component: cdsem_bend180
     info: {}
     settings:
@@ -47,7 +47,7 @@ instances:
       text_size: 1
       wg_length: 420
       width: 0.4
-  cdsem_bend180_gdsfactor_b0ff722e_430000_80625:
+  cdsem_bend180_gdsfactorypcomponentsppcmspcdsem_bend180__b0ff722e_430000_80625:
     component: cdsem_bend180
     info: {}
     settings:
@@ -59,7 +59,7 @@ instances:
       text_size: 1
       wg_length: 420
       width: 0.45
-  cdsem_bend180_gdsfactor_c44baead_430000_131650:
+  cdsem_bend180_gdsfactorypcomponentsppcmspcdsem_bend180__c44baead_430000_131650:
     component: cdsem_bend180
     info: {}
     settings:
@@ -71,7 +71,7 @@ instances:
       text_size: 1
       wg_length: 420
       width: 0.6
-  cdsem_straight_density__56840864_0_220770:
+  cdsem_straight_density_gdsfactorypcomponentsppcmspcdsem_56840864_0_220770:
     component: cdsem_straight_density
     info: {}
     settings:
@@ -102,7 +102,7 @@ instances:
       - 0.32
       - 0.32
       - 0.32
-  cdsem_straight_density__eb82bc30_0_210070:
+  cdsem_straight_density_gdsfactorypcomponentsppcmspcdsem_eb82bc30_0_210070:
     component: cdsem_straight_density
     info: {}
     settings:
@@ -133,7 +133,7 @@ instances:
       - 0.3
       - 0.3
       - 0.3
-  cdsem_straight_density__f208e042_0_199750:
+  cdsem_straight_density_gdsfactorypcomponentsppcmspcdsem_f208e042_0_199750:
     component: cdsem_straight_density
     info: {}
     settings:
@@ -164,7 +164,7 @@ instances:
       - 0.28
       - 0.28
       - 0.28
-  cdsem_straight_gdsfacto_fe63fb62_0_0:
+  cdsem_straight_gdsfactorypcomponentsppcmspcdsem_straigh_fe63fb62_0_0:
     component: cdsem_straight
     info: {}
     settings:
@@ -181,55 +181,55 @@ instances:
       - 0.6
       - 0.8
       - 1
-name: cdsem_all_gdsfactorypco_a9617a4f
+name: cdsem_all_gdsfactorypcomponentsppcmspcdsem_all_W0p4_0p4_a9617a4f
 nets: []
 placements:
-  cdsem_bend180_gdsfactor_16eb1146_430000_106100:
+  cdsem_bend180_gdsfactorypcomponentsppcmspcdsem_bend180__16eb1146_430000_106100:
     mirror: false
     rotation: 0
     x: 430
     y: 106.1
-  cdsem_bend180_gdsfactor_27cf2646_430000_157350:
+  cdsem_bend180_gdsfactorypcomponentsppcmspcdsem_bend180__27cf2646_430000_157350:
     mirror: false
     rotation: 0
     x: 430
     y: 157.35
-  cdsem_bend180_gdsfactor_2e87fec0_430000_183750:
+  cdsem_bend180_gdsfactorypcomponentsppcmspcdsem_bend180__2e87fec0_430000_183750:
     mirror: false
     rotation: 0
     x: 430
     y: 183.75
-  cdsem_bend180_gdsfactor_2f1531ac_430000_55200:
+  cdsem_bend180_gdsfactorypcomponentsppcmspcdsem_bend180__2f1531ac_430000_55200:
     mirror: false
     rotation: 0
     x: 430
     y: 55.2
-  cdsem_bend180_gdsfactor_b0ff722e_430000_80625:
+  cdsem_bend180_gdsfactorypcomponentsppcmspcdsem_bend180__b0ff722e_430000_80625:
     mirror: false
     rotation: 0
     x: 430
     y: 80.625
-  cdsem_bend180_gdsfactor_c44baead_430000_131650:
+  cdsem_bend180_gdsfactorypcomponentsppcmspcdsem_bend180__c44baead_430000_131650:
     mirror: false
     rotation: 0
     x: 430
     y: 131.65
-  cdsem_straight_density__56840864_0_220770:
+  cdsem_straight_density_gdsfactorypcomponentsppcmspcdsem_56840864_0_220770:
     mirror: false
     rotation: 0
     x: 0
     y: 220.77
-  cdsem_straight_density__eb82bc30_0_210070:
+  cdsem_straight_density_gdsfactorypcomponentsppcmspcdsem_eb82bc30_0_210070:
     mirror: false
     rotation: 0
     x: 0
     y: 210.07
-  cdsem_straight_density__f208e042_0_199750:
+  cdsem_straight_density_gdsfactorypcomponentsppcmspcdsem_f208e042_0_199750:
     mirror: false
     rotation: 0
     x: 0
     y: 199.75
-  cdsem_straight_gdsfacto_fe63fb62_0_0:
+  cdsem_straight_gdsfactorypcomponentsppcmspcdsem_straigh_fe63fb62_0_0:
     mirror: false
     rotation: 0
     x: 0

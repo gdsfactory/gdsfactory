@@ -1,5 +1,5 @@
 instances:
-  interdigital_capacitor__412debcc_0_0:
+  interdigital_capacitor_gdsfactorypcomponentspanalogpint_412debcc_0_0:
     component: interdigital_capacitor
     info: {}
     settings:
@@ -10,7 +10,7 @@ instances:
       - 1
       - 0
       thickness: 5
-  rectangle_gdsfactorypco_12b34008_32000_m1000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S20_2__12b34008_32000_m1000:
     component: rectangle
     info: {}
     settings:
@@ -27,41 +27,7 @@ instances:
       size:
       - 20
       - 2
-  rectangle_gdsfactorypco_68f8d919_37000_10000:
-    component: rectangle
-    info: {}
-    settings:
-      centered: false
-      layer:
-      - 1
-      - 0
-      port_orientations:
-      - 180
-      - 90
-      - 0
-      - -90
-      port_type: electrical
-      size:
-      - 5
-      - 5
-  rectangle_gdsfactorypco_68f8d919_m10000_10000:
-    component: rectangle
-    info: {}
-    settings:
-      centered: false
-      layer:
-      - 1
-      - 0
-      port_orientations:
-      - 180
-      - 90
-      - 0
-      - -90
-      port_type: electrical
-      size:
-      - 5
-      - 5
-  rectangle_gdsfactorypco_b572c0cd_51000_m20000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_20__b572c0cd_51000_m20000:
     component: rectangle
     info: {}
     settings:
@@ -78,7 +44,41 @@ instances:
       size:
       - 2
       - 20
-  spiral_gdsfactorypcompo_47b7831b_52000_0:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f8d919_37000_10000:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 5
+      - 5
+  rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f8d919_m10000_10000:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 5
+      - 5
+  spiral_gdsfactorypcomponentspspiralspspiral_L100_Bbend__47b7831b_52000_0:
     component: spiral
     info:
       length: 977.644
@@ -89,61 +89,61 @@ instances:
       n_loops: 3
       spacing: 3
       straight: straight
-name: resonator_lumped_gdsfac_5db680c0
+name: resonator_lumped_gdsfactorypcomponentspquantumpresonato_5db680c0
 nets:
-- p1: rectangle_gdsfactorypco_12b34008_32000_m1000,e3
-  p2: rectangle_gdsfactorypco_b572c0cd_51000_m20000,e2
+- p1: rectangle_gdsfactorypcomponentspshapesprectangle_S20_2__12b34008_32000_m1000,e3
+  p2: rectangle_gdsfactorypcomponentspshapesprectangle_S2_20__b572c0cd_51000_m20000,e2
 placements:
-  interdigital_capacitor__412debcc_0_0:
+  interdigital_capacitor_gdsfactorypcomponentspanalogpint_412debcc_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  rectangle_gdsfactorypco_12b34008_32000_m1000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S20_2__12b34008_32000_m1000:
     mirror: false
     rotation: 0
     x: 32
     y: -1
-  rectangle_gdsfactorypco_68f8d919_37000_10000:
-    mirror: false
-    rotation: 0
-    x: 37
-    y: 10
-  rectangle_gdsfactorypco_68f8d919_m10000_10000:
-    mirror: false
-    rotation: 0
-    x: -10
-    y: 10
-  rectangle_gdsfactorypco_b572c0cd_51000_m20000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_20__b572c0cd_51000_m20000:
     mirror: false
     rotation: 0
     x: 51
     y: -20
-  spiral_gdsfactorypcompo_47b7831b_52000_0:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f8d919_37000_10000:
+    mirror: false
+    rotation: 0
+    x: 37
+    y: 10
+  rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f8d919_m10000_10000:
+    mirror: false
+    rotation: 0
+    x: -10
+    y: 10
+  spiral_gdsfactorypcomponentspspiralspspiral_L100_Bbend__47b7831b_52000_0:
     mirror: false
     rotation: 0
     x: 52
     y: 0
 ports:
-  input: rectangle_gdsfactorypco_68f8d919_m10000_10000,e4
-  output: rectangle_gdsfactorypco_68f8d919_37000_10000,e4
+  input: rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f8d919_m10000_10000,e4
+  output: rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f8d919_37000_10000,e4
 warnings:
   electrical:
     unconnected_ports:
     - message: 12 unconnected electrical ports!
       ports:
-      - rectangle_gdsfactorypco_12b34008_32000_m1000,e1
-      - rectangle_gdsfactorypco_12b34008_32000_m1000,e2
-      - rectangle_gdsfactorypco_12b34008_32000_m1000,e4
-      - rectangle_gdsfactorypco_b572c0cd_51000_m20000,e1
-      - rectangle_gdsfactorypco_b572c0cd_51000_m20000,e3
-      - rectangle_gdsfactorypco_b572c0cd_51000_m20000,e4
-      - rectangle_gdsfactorypco_68f8d919_m10000_10000,e1
-      - rectangle_gdsfactorypco_68f8d919_m10000_10000,e2
-      - rectangle_gdsfactorypco_68f8d919_m10000_10000,e3
-      - rectangle_gdsfactorypco_68f8d919_37000_10000,e1
-      - rectangle_gdsfactorypco_68f8d919_37000_10000,e2
-      - rectangle_gdsfactorypco_68f8d919_37000_10000,e3
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S20_2__12b34008_32000_m1000,e1
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S20_2__12b34008_32000_m1000,e2
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S20_2__12b34008_32000_m1000,e4
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S2_20__b572c0cd_51000_m20000,e1
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S2_20__b572c0cd_51000_m20000,e3
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S2_20__b572c0cd_51000_m20000,e4
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f8d919_m10000_10000,e1
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f8d919_m10000_10000,e2
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f8d919_m10000_10000,e3
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f8d919_37000_10000,e1
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f8d919_37000_10000,e2
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f8d919_37000_10000,e3
       values:
       - - 32
         - 0
@@ -173,10 +173,10 @@ warnings:
     unconnected_ports:
     - message: 4 unconnected optical ports!
       ports:
-      - interdigital_capacitor__412debcc_0_0,o1
-      - interdigital_capacitor__412debcc_0_0,o2
-      - spiral_gdsfactorypcompo_47b7831b_52000_0,o1
-      - spiral_gdsfactorypcompo_47b7831b_52000_0,o2
+      - interdigital_capacitor_gdsfactorypcomponentspanalogpint_412debcc_0_0,o1
+      - interdigital_capacitor_gdsfactorypcomponentspanalogpint_412debcc_0_0,o2
+      - spiral_gdsfactorypcomponentspspiralspspiral_L100_Bbend__47b7831b_52000_0,o1
+      - spiral_gdsfactorypcomponentspspiralspspiral_L100_Bbend__47b7831b_52000_0,o2
       values:
       - - 0
         - 13

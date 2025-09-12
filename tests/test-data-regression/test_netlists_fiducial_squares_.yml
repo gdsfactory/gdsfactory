@@ -1,5 +1,5 @@
 instances:
-  rectangle_gdsfactorypco_68f9f59d_2570_2570:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f9f59d_2570_2570:
     component: rectangle
     info: {}
     settings:
@@ -14,7 +14,7 @@ instances:
       size:
       - 5
       - 5
-  rectangle_gdsfactorypco_68f9f59d_m2570_m2570:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f9f59d_m2570_m2570:
     component: rectangle
     info: {}
     settings:
@@ -29,15 +29,15 @@ instances:
       size:
       - 5
       - 5
-name: fiducial_squares_gdsfac_9aab5a27
+name: fiducial_squares_gdsfactorypcomponentspshapespfiducial__9aab5a27
 nets: []
 placements:
-  rectangle_gdsfactorypco_68f9f59d_2570_2570:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f9f59d_2570_2570:
     mirror: false
     rotation: 0
     x: 2.57
     y: 2.57
-  rectangle_gdsfactorypco_68f9f59d_m2570_m2570:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f9f59d_m2570_m2570:
     mirror: false
     rotation: 0
     x: -2.57
@@ -48,14 +48,14 @@ warnings:
     unconnected_ports:
     - message: 8 unconnected electrical ports!
       ports:
-      - rectangle_gdsfactorypco_68f9f59d_2570_2570,e1
-      - rectangle_gdsfactorypco_68f9f59d_2570_2570,e2
-      - rectangle_gdsfactorypco_68f9f59d_2570_2570,e3
-      - rectangle_gdsfactorypco_68f9f59d_2570_2570,e4
-      - rectangle_gdsfactorypco_68f9f59d_m2570_m2570,e1
-      - rectangle_gdsfactorypco_68f9f59d_m2570_m2570,e2
-      - rectangle_gdsfactorypco_68f9f59d_m2570_m2570,e3
-      - rectangle_gdsfactorypco_68f9f59d_m2570_m2570,e4
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f9f59d_2570_2570,e1
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f9f59d_2570_2570,e2
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f9f59d_2570_2570,e3
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f9f59d_2570_2570,e4
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f9f59d_m2570_m2570,e1
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f9f59d_m2570_m2570,e2
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f9f59d_m2570_m2570,e3
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f9f59d_m2570_m2570,e4
       values:
       - - 0.07
         - 2.57

@@ -1267,7 +1267,7 @@ instances:
       length: 20
       npoints: 2
       width: null
-name: cutback_splitter_gdsfac_81980618
+name: cutback_splitter_gdsfactorypcomponentsppcmspcutback_spl_81980618
 nets:
 - p1: A1,o2
   p2: B1,o3

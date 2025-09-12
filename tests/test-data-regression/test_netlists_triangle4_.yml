@@ -1,23 +1,23 @@
 instances:
-  triangle2_gdsfactorypco_698bd164_0_0:
+  triangle2_gdsfactorypcomponentspshapesptriangles_S3_0_0:
     component: triangle2
     info: {}
     settings:
       spacing: 3
-  triangle2_gdsfactorypco_698bd164_0_0_A180_M:
+  triangle2_gdsfactorypcomponentspshapesptriangles_S3_0_0_A180_M:
     component: triangle2
     info: {}
     settings:
       spacing: 3
-name: triangle4_gdsfactorypco_97f844ed
+name: triangle4_gdsfactorypcomponentspshapesptriangles
 nets: []
 placements:
-  triangle2_gdsfactorypco_698bd164_0_0:
+  triangle2_gdsfactorypcomponentspshapesptriangles_S3_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  triangle2_gdsfactorypco_698bd164_0_0_A180_M:
+  triangle2_gdsfactorypcomponentspshapesptriangles_S3_0_0_A180_M:
     mirror: true
     rotation: 180
     x: 0

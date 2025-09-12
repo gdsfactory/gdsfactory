@@ -1,5 +1,39 @@
 instances:
-  rectangle_gdsfactorypco_3fd3374e_m7500_21000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S10_30_421ff531_m5000_41000:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer:
+      - 3
+      - 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 10
+      - 30
+  rectangle_gdsfactorypcomponentspshapesprectangle_S10_30_421ff531_m5000_m71000:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer:
+      - 3
+      - 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 10
+      - 30
+  rectangle_gdsfactorypcomponentspshapesprectangle_S15_20_3fd3374e_m7500_21000:
     component: rectangle
     info: {}
     settings:
@@ -16,7 +50,7 @@ instances:
       size:
       - 15
       - 20
-  rectangle_gdsfactorypco_3fd3374e_m7500_m41000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S15_20_3fd3374e_m7500_m41000:
     component: rectangle
     info: {}
     settings:
@@ -33,41 +67,7 @@ instances:
       size:
       - 15
       - 20
-  rectangle_gdsfactorypco_421ff531_m5000_41000:
-    component: rectangle
-    info: {}
-    settings:
-      centered: false
-      layer:
-      - 3
-      - 0
-      port_orientations:
-      - 180
-      - 90
-      - 0
-      - -90
-      port_type: electrical
-      size:
-      - 10
-      - 30
-  rectangle_gdsfactorypco_421ff531_m5000_m71000:
-    component: rectangle
-    info: {}
-    settings:
-      centered: false
-      layer:
-      - 3
-      - 0
-      port_orientations:
-      - 180
-      - 90
-      - 0
-      - -90
-      port_type: electrical
-      size:
-      - 10
-      - 30
-  rectangle_gdsfactorypco_8e0991d1_31500_m5000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S30_10_8e0991d1_31500_m5000:
     component: rectangle
     info: {}
     settings:
@@ -84,7 +84,7 @@ instances:
       size:
       - 30
       - 10
-  rectangle_gdsfactorypco_8e0991d1_m61500_m5000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S30_10_8e0991d1_m61500_m5000:
     component: rectangle
     info: {}
     settings:
@@ -101,7 +101,7 @@ instances:
       size:
       - 30
       - 10
-  rectangle_gdsfactorypco_bc503d72_1500_m20000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S30_40_bc503d72_1500_m20000:
     component: rectangle
     info: {}
     settings:
@@ -118,7 +118,7 @@ instances:
       size:
       - 30
       - 40
-  rectangle_gdsfactorypco_bc503d72_m31500_m20000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S30_40_bc503d72_m31500_m20000:
     component: rectangle
     info: {}
     settings:
@@ -135,87 +135,87 @@ instances:
       size:
       - 30
       - 40
-name: coupler_tunable_gdsfact_ab73fca4
+name: coupler_tunable_gdsfactorypcomponentspquantumpcoupler_c_ab73fca4
 nets:
-- p1: rectangle_gdsfactorypco_3fd3374e_m7500_21000,e2
-  p2: rectangle_gdsfactorypco_421ff531_m5000_41000,e4
-- p1: rectangle_gdsfactorypco_3fd3374e_m7500_m41000,e4
-  p2: rectangle_gdsfactorypco_421ff531_m5000_m71000,e2
-- p1: rectangle_gdsfactorypco_8e0991d1_31500_m5000,e1
-  p2: rectangle_gdsfactorypco_bc503d72_1500_m20000,e3
-- p1: rectangle_gdsfactorypco_8e0991d1_m61500_m5000,e3
-  p2: rectangle_gdsfactorypco_bc503d72_m31500_m20000,e1
+- p1: rectangle_gdsfactorypcomponentspshapesprectangle_S10_30_421ff531_m5000_41000,e4
+  p2: rectangle_gdsfactorypcomponentspshapesprectangle_S15_20_3fd3374e_m7500_21000,e2
+- p1: rectangle_gdsfactorypcomponentspshapesprectangle_S10_30_421ff531_m5000_m71000,e2
+  p2: rectangle_gdsfactorypcomponentspshapesprectangle_S15_20_3fd3374e_m7500_m41000,e4
+- p1: rectangle_gdsfactorypcomponentspshapesprectangle_S30_10_8e0991d1_31500_m5000,e1
+  p2: rectangle_gdsfactorypcomponentspshapesprectangle_S30_40_bc503d72_1500_m20000,e3
+- p1: rectangle_gdsfactorypcomponentspshapesprectangle_S30_10_8e0991d1_m61500_m5000,e3
+  p2: rectangle_gdsfactorypcomponentspshapesprectangle_S30_40_bc503d72_m31500_m20000,e1
 placements:
-  rectangle_gdsfactorypco_3fd3374e_m7500_21000:
-    mirror: false
-    rotation: 0
-    x: -7.5
-    y: 21
-  rectangle_gdsfactorypco_3fd3374e_m7500_m41000:
-    mirror: false
-    rotation: 0
-    x: -7.5
-    y: -41
-  rectangle_gdsfactorypco_421ff531_m5000_41000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S10_30_421ff531_m5000_41000:
     mirror: false
     rotation: 0
     x: -5
     y: 41
-  rectangle_gdsfactorypco_421ff531_m5000_m71000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S10_30_421ff531_m5000_m71000:
     mirror: false
     rotation: 0
     x: -5
     y: -71
-  rectangle_gdsfactorypco_8e0991d1_31500_m5000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S15_20_3fd3374e_m7500_21000:
+    mirror: false
+    rotation: 0
+    x: -7.5
+    y: 21
+  rectangle_gdsfactorypcomponentspshapesprectangle_S15_20_3fd3374e_m7500_m41000:
+    mirror: false
+    rotation: 0
+    x: -7.5
+    y: -41
+  rectangle_gdsfactorypcomponentspshapesprectangle_S30_10_8e0991d1_31500_m5000:
     mirror: false
     rotation: 0
     x: 31.5
     y: -5
-  rectangle_gdsfactorypco_8e0991d1_m61500_m5000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S30_10_8e0991d1_m61500_m5000:
     mirror: false
     rotation: 0
     x: -61.5
     y: -5
-  rectangle_gdsfactorypco_bc503d72_1500_m20000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S30_40_bc503d72_1500_m20000:
     mirror: false
     rotation: 0
     x: 1.5
     y: -20
-  rectangle_gdsfactorypco_bc503d72_m31500_m20000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S30_40_bc503d72_m31500_m20000:
     mirror: false
     rotation: 0
     x: -31.5
     y: -20
 ports:
-  left: rectangle_gdsfactorypco_8e0991d1_m61500_m5000,e1
-  right: rectangle_gdsfactorypco_8e0991d1_31500_m5000,e3
-  tuning_bottom: rectangle_gdsfactorypco_421ff531_m5000_m71000,e4
-  tuning_top: rectangle_gdsfactorypco_421ff531_m5000_41000,e2
+  left: rectangle_gdsfactorypcomponentspshapesprectangle_S30_10_8e0991d1_m61500_m5000,e1
+  right: rectangle_gdsfactorypcomponentspshapesprectangle_S30_10_8e0991d1_31500_m5000,e3
+  tuning_bottom: rectangle_gdsfactorypcomponentspshapesprectangle_S10_30_421ff531_m5000_m71000,e4
+  tuning_top: rectangle_gdsfactorypcomponentspshapesprectangle_S10_30_421ff531_m5000_41000,e2
 warnings:
   electrical:
     unconnected_ports:
     - message: 20 unconnected electrical ports!
       ports:
-      - rectangle_gdsfactorypco_bc503d72_m31500_m20000,e2
-      - rectangle_gdsfactorypco_bc503d72_m31500_m20000,e3
-      - rectangle_gdsfactorypco_bc503d72_m31500_m20000,e4
-      - rectangle_gdsfactorypco_bc503d72_1500_m20000,e1
-      - rectangle_gdsfactorypco_bc503d72_1500_m20000,e2
-      - rectangle_gdsfactorypco_bc503d72_1500_m20000,e4
-      - rectangle_gdsfactorypco_3fd3374e_m7500_21000,e1
-      - rectangle_gdsfactorypco_3fd3374e_m7500_21000,e3
-      - rectangle_gdsfactorypco_3fd3374e_m7500_21000,e4
-      - rectangle_gdsfactorypco_3fd3374e_m7500_m41000,e1
-      - rectangle_gdsfactorypco_3fd3374e_m7500_m41000,e2
-      - rectangle_gdsfactorypco_3fd3374e_m7500_m41000,e3
-      - rectangle_gdsfactorypco_8e0991d1_m61500_m5000,e2
-      - rectangle_gdsfactorypco_8e0991d1_m61500_m5000,e4
-      - rectangle_gdsfactorypco_8e0991d1_31500_m5000,e2
-      - rectangle_gdsfactorypco_8e0991d1_31500_m5000,e4
-      - rectangle_gdsfactorypco_421ff531_m5000_41000,e1
-      - rectangle_gdsfactorypco_421ff531_m5000_41000,e3
-      - rectangle_gdsfactorypco_421ff531_m5000_m71000,e1
-      - rectangle_gdsfactorypco_421ff531_m5000_m71000,e3
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S30_40_bc503d72_m31500_m20000,e2
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S30_40_bc503d72_m31500_m20000,e3
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S30_40_bc503d72_m31500_m20000,e4
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S30_40_bc503d72_1500_m20000,e1
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S30_40_bc503d72_1500_m20000,e2
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S30_40_bc503d72_1500_m20000,e4
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S15_20_3fd3374e_m7500_21000,e1
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S15_20_3fd3374e_m7500_21000,e3
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S15_20_3fd3374e_m7500_21000,e4
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S15_20_3fd3374e_m7500_m41000,e1
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S15_20_3fd3374e_m7500_m41000,e2
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S15_20_3fd3374e_m7500_m41000,e3
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S30_10_8e0991d1_m61500_m5000,e2
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S30_10_8e0991d1_m61500_m5000,e4
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S30_10_8e0991d1_31500_m5000,e2
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S30_10_8e0991d1_31500_m5000,e4
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S10_30_421ff531_m5000_41000,e1
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S10_30_421ff531_m5000_41000,e3
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S10_30_421ff531_m5000_m71000,e1
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S10_30_421ff531_m5000_m71000,e3
       values:
       - - -16.5
         - 20

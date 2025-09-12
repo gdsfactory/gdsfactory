@@ -1,7 +1,7 @@
 info:
   polarization: te
   wavelength: 1.55
-name: grating_coupler_dual_po_bb68872e
+name: grating_coupler_dual_pol_gdsfactorypcomponentspgrating__bb68872e
 settings:
   base_layer: WG
   cross_section: strip

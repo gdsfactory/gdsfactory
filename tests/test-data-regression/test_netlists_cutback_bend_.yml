@@ -2651,7 +2651,7 @@ instances:
       length: 5
       npoints: 2
       width: null
-name: cutback_bend_gdsfactory_73a3f7dd
+name: cutback_bend_gdsfactorypcomponentsppcmspcutback_bend_Cb_73a3f7dd
 nets:
 - p1: A1,o2
   p2: S1,o1

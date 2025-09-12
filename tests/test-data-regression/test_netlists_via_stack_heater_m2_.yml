@@ -1,5 +1,5 @@
 instances:
-  compass_gdsfactorypcomp_3406ca65_0_0:
+  compass_gdsfactorypcomponentspshapespcompass_S11_11_LHE_3406ca65_0_0:
     component: compass
     info: {}
     settings:
@@ -15,7 +15,7 @@ instances:
       size:
       - 11
       - 11
-  compass_gdsfactorypcomp_e1084b17_0_0:
+  compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_e1084b17_0_0:
     component: compass
     info: {}
     settings:
@@ -31,7 +31,7 @@ instances:
       size:
       - 11
       - 11
-  via_gdsfactorypcomponen_efa29aa3_m3000_m3000:
+  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E2_LVIA1_BL_efa29aa3_m3000_m3000:
     array:
       column_pitch: 2
       columns: 4
@@ -56,26 +56,26 @@ instances:
       size:
       - 0.7
       - 0.7
-name: via_stack_gdsfactorypco_8a35f6e2
+name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_8a35f6e2
 nets: []
 placements:
-  compass_gdsfactorypcomp_3406ca65_0_0:
+  compass_gdsfactorypcomponentspshapespcompass_S11_11_LHE_3406ca65_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  compass_gdsfactorypcomp_e1084b17_0_0:
+  compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_e1084b17_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  via_gdsfactorypcomponen_efa29aa3_m3000_m3000:
+  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E2_LVIA1_BL_efa29aa3_m3000_m3000:
     mirror: false
     rotation: 0
     x: -3
     y: -3
 ports:
-  e1: compass_gdsfactorypcomp_e1084b17_0_0,e1
-  e2: compass_gdsfactorypcomp_e1084b17_0_0,e2
-  e3: compass_gdsfactorypcomp_e1084b17_0_0,e3
-  e4: compass_gdsfactorypcomp_e1084b17_0_0,e4
+  e1: compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_e1084b17_0_0,e1
+  e2: compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_e1084b17_0_0,e2
+  e3: compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_e1084b17_0_0,e3
+  e4: compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_e1084b17_0_0,e4

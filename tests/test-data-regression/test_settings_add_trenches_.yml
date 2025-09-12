@@ -1,7 +1,7 @@
 info:
   min_bend_radius: 11.857
   path_length: 40.372
-name: add_trenches_gdsfactory_7f03f8c6
+name: add_trenches_gdsfactorypcomponentspcontainerspadd_trenc_7f03f8c6
 settings:
   component: coupler
   cross_section: rib_with_trenches
