@@ -78,6 +78,7 @@ These PDKs are publicly available and do not require an NDA:
 
 - [Cornerstone PDK](https://github.com/gdsfactory/cspdk)
 - [SiEPIC Ebeam UBC PDK](https://github.com/gdsfactory/ubc)
+- [Quantum RF PDK](https://github.com/gdsfactory/quantum-rf-pdk)
 - [GlobalFoundries 180nm MCU CMOS PDK](https://gdsfactory.github.io/gf180/)
 - [ANT / SiEPIC Ebeam UBC PDK](https://gdsfactory.github.io/ubc)
 - [SkyWater 130nm CMOS PDK](https://gdsfactory.github.io/skywater130/)
