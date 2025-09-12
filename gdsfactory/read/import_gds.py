@@ -28,7 +28,7 @@ def import_gds(
     temp_kcl = KCLayout(name=str(gdspath))
     options = kf.utilities.load_layout_options()
     options.warn_level = 0
-    temp_kcl.read(gdspath, options=options)
+    temp_kcl.layout.read(gdspath, options=options)
     cellname = cellname or temp_kcl.layout.top_cell().name
     kcell = temp_kcl[cellname]
     if rename_duplicated_cells:
