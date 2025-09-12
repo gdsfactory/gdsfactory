@@ -1,5 +1,5 @@
 instances:
-  ring_asymmetric_gdsfact_df3911fe_0_21400:
+  ring_asymmetric_gdsfactorypcomponentspringspring_crow_R_df3911fe_0_21400:
     component: ring_asymmetric
     info: {}
     settings:
@@ -9,7 +9,7 @@ instances:
       length_y: 0
       radius: 10
       straight: straight
-  ring_asymmetric_gdsfact_df3911fe_0_42100:
+  ring_asymmetric_gdsfactorypcomponentspringspring_crow_R_df3911fe_0_42100:
     component: ring_asymmetric
     info: {}
     settings:
@@ -19,7 +19,7 @@ instances:
       length_y: 0
       radius: 10
       straight: straight
-  ring_asymmetric_gdsfact_df3911fe_0_700:
+  ring_asymmetric_gdsfactorypcomponentspringspring_crow_R_df3911fe_0_700:
     component: ring_asymmetric
     info: {}
     settings:
@@ -29,7 +29,7 @@ instances:
       length_y: 0
       radius: 10
       straight: straight
-  straight_gdsfactorypcom_31a8c163_m10000_0:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L20__31a8c163_m10000_0:
     component: straight
     info:
       length: 20
@@ -43,7 +43,7 @@ instances:
       length: 20
       npoints: 2
       width: null
-  straight_gdsfactorypcom_31a8c163_m10000_62800:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L20__31a8c163_m10000_62800:
     component: straight
     info:
       length: 20
@@ -57,36 +57,36 @@ instances:
       length: 20
       npoints: 2
       width: null
-name: ring_crow_gdsfactorypco_d55005d8
+name: ring_crow_gdsfactorypcomponentspringspring_crow_G0p2_0p_d55005d8
 nets: []
 placements:
-  ring_asymmetric_gdsfact_df3911fe_0_21400:
+  ring_asymmetric_gdsfactorypcomponentspringspring_crow_R_df3911fe_0_21400:
     mirror: false
     rotation: 0
     x: 0
     y: 21.4
-  ring_asymmetric_gdsfact_df3911fe_0_42100:
+  ring_asymmetric_gdsfactorypcomponentspringspring_crow_R_df3911fe_0_42100:
     mirror: false
     rotation: 0
     x: 0
     y: 42.1
-  ring_asymmetric_gdsfact_df3911fe_0_700:
+  ring_asymmetric_gdsfactorypcomponentspringspring_crow_R_df3911fe_0_700:
     mirror: false
     rotation: 0
     x: 0
     y: 0.7
-  straight_gdsfactorypcom_31a8c163_m10000_0:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L20__31a8c163_m10000_0:
     mirror: false
     rotation: 0
     x: -10
     y: 0
-  straight_gdsfactorypcom_31a8c163_m10000_62800:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L20__31a8c163_m10000_62800:
     mirror: false
     rotation: 0
     x: -10
     y: 62.8
 ports:
-  o1: straight_gdsfactorypcom_31a8c163_m10000_0,o1
-  o2: straight_gdsfactorypcom_31a8c163_m10000_0,o2
-  o3: straight_gdsfactorypcom_31a8c163_m10000_62800,o1
-  o4: straight_gdsfactorypcom_31a8c163_m10000_62800,o2
+  o1: straight_gdsfactorypcomponentspwaveguidespstraight_L20__31a8c163_m10000_0,o1
+  o2: straight_gdsfactorypcomponentspwaveguidespstraight_L20__31a8c163_m10000_0,o2
+  o3: straight_gdsfactorypcomponentspwaveguidespstraight_L20__31a8c163_m10000_62800,o1
+  o4: straight_gdsfactorypcomponentspwaveguidespstraight_L20__31a8c163_m10000_62800,o2

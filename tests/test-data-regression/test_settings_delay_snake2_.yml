@@ -1,6 +1,6 @@
 info:
   length: 1600
-name: delay_snake2_gdsfactory_ef000488
+name: delay_snake2_gdsfactorypcomponentspspiralspdelay_snake2_ef000488
 settings:
   bend180: bend_euler180
   cross_section: strip

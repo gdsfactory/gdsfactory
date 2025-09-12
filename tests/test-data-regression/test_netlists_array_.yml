@@ -1,5 +1,5 @@
 instances:
-  pad_gdsfactorypcomponen_457de54c_0_0:
+  pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_0_0:
     array:
       column_pitch: 150
       columns: 6
@@ -27,36 +27,36 @@ instances:
       size:
       - 100
       - 100
-name: array_gdsfactorypcompon_b1820754
+name: array_gdsfactorypcomponentspcontainersparray_component__b1820754
 nets: []
 placements:
-  pad_gdsfactorypcomponen_457de54c_0_0:
+  pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
 ports:
-  e1_1_1: pad_gdsfactorypcomponen_457de54c_0_0<0.0>,e1
-  e1_1_2: pad_gdsfactorypcomponen_457de54c_0_0<1.0>,e1
-  e1_1_3: pad_gdsfactorypcomponen_457de54c_0_0<2.0>,e1
-  e1_1_4: pad_gdsfactorypcomponen_457de54c_0_0<3.0>,e1
-  e1_1_5: pad_gdsfactorypcomponen_457de54c_0_0<4.0>,e1
-  e1_1_6: pad_gdsfactorypcomponen_457de54c_0_0<5.0>,e1
-  e2_1_1: pad_gdsfactorypcomponen_457de54c_0_0<0.0>,e2
-  e2_1_2: pad_gdsfactorypcomponen_457de54c_0_0<1.0>,e2
-  e2_1_3: pad_gdsfactorypcomponen_457de54c_0_0<2.0>,e2
-  e2_1_4: pad_gdsfactorypcomponen_457de54c_0_0<3.0>,e2
-  e2_1_5: pad_gdsfactorypcomponen_457de54c_0_0<4.0>,e2
-  e2_1_6: pad_gdsfactorypcomponen_457de54c_0_0<5.0>,e2
-  e3_1_1: pad_gdsfactorypcomponen_457de54c_0_0<0.0>,e3
-  e3_1_2: pad_gdsfactorypcomponen_457de54c_0_0<1.0>,e3
-  e3_1_3: pad_gdsfactorypcomponen_457de54c_0_0<2.0>,e3
-  e3_1_4: pad_gdsfactorypcomponen_457de54c_0_0<3.0>,e3
-  e3_1_5: pad_gdsfactorypcomponen_457de54c_0_0<4.0>,e3
-  e3_1_6: pad_gdsfactorypcomponen_457de54c_0_0<5.0>,e3
-  e4_1_1: pad_gdsfactorypcomponen_457de54c_0_0<0.0>,e4
-  e4_1_2: pad_gdsfactorypcomponen_457de54c_0_0<1.0>,e4
-  e4_1_3: pad_gdsfactorypcomponen_457de54c_0_0<2.0>,e4
-  e4_1_4: pad_gdsfactorypcomponen_457de54c_0_0<3.0>,e4
-  e4_1_5: pad_gdsfactorypcomponen_457de54c_0_0<4.0>,e4
-  e4_1_6: pad_gdsfactorypcomponen_457de54c_0_0<5.0>,e4
+  e1_1_1: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_0_0<0.0>,e1
+  e1_1_2: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_0_0<1.0>,e1
+  e1_1_3: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_0_0<2.0>,e1
+  e1_1_4: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_0_0<3.0>,e1
+  e1_1_5: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_0_0<4.0>,e1
+  e1_1_6: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_0_0<5.0>,e1
+  e2_1_1: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_0_0<0.0>,e2
+  e2_1_2: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_0_0<1.0>,e2
+  e2_1_3: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_0_0<2.0>,e2
+  e2_1_4: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_0_0<3.0>,e2
+  e2_1_5: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_0_0<4.0>,e2
+  e2_1_6: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_0_0<5.0>,e2
+  e3_1_1: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_0_0<0.0>,e3
+  e3_1_2: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_0_0<1.0>,e3
+  e3_1_3: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_0_0<2.0>,e3
+  e3_1_4: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_0_0<3.0>,e3
+  e3_1_5: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_0_0<4.0>,e3
+  e3_1_6: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_0_0<5.0>,e3
+  e4_1_1: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_0_0<0.0>,e4
+  e4_1_2: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_0_0<1.0>,e4
+  e4_1_3: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_0_0<2.0>,e4
+  e4_1_4: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_0_0<3.0>,e4
+  e4_1_5: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_0_0<4.0>,e4
+  e4_1_6: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_0_0<5.0>,e4

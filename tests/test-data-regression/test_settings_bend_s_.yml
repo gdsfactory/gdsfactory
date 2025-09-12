@@ -9,7 +9,7 @@ info:
   route_info_type: strip
   route_info_weight: 11.206
   start_angle: 0
-name: bend_s_gdsfactorypcompo_42908c8c
+name: bend_s_gdsfactorypcomponentspbendspbend_s_S11_1p8_N99_C_42908c8c
 settings:
   allow_min_radius_violation: false
   cross_section: strip

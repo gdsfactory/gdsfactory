@@ -1,5 +1,5 @@
 instances:
-  straight_gdsfactorypcom_f2286423_0_0:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_0:
     component: straight
     info:
       length: 10
@@ -13,7 +13,7 @@ instances:
       length: 10
       npoints: 2
       width: null
-  taper_gdsfactorypcompon_ca999620_0_0_A180:
+  taper_gdsfactorypcomponentsptapersptaper_L10_W0p5_W0p1__ca999620_0_0_A180:
     component: taper
     info:
       length: 10
@@ -34,7 +34,7 @@ instances:
       width2: 0.1
       with_bbox: true
       with_two_ports: true
-  taper_gdsfactorypcompon_ca999620_10000_0:
+  taper_gdsfactorypcomponentsptapersptaper_L10_W0p5_W0p1__ca999620_10000_0:
     component: taper
     info:
       length: 10
@@ -55,24 +55,24 @@ instances:
       width2: 0.1
       with_bbox: true
       with_two_ports: true
-name: add_termination_gdsfact_c053bff2
+name: add_termination_gdsfactorypcomponentspcontainerspadd_te_c053bff2
 nets:
-- p1: straight_gdsfactorypcom_f2286423_0_0,o1
-  p2: taper_gdsfactorypcompon_ca999620_0_0_A180,o1
-- p1: straight_gdsfactorypcom_f2286423_0_0,o2
-  p2: taper_gdsfactorypcompon_ca999620_10000_0,o1
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_0,o1
+  p2: taper_gdsfactorypcomponentsptapersptaper_L10_W0p5_W0p1__ca999620_0_0_A180,o1
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_0,o2
+  p2: taper_gdsfactorypcomponentsptapersptaper_L10_W0p5_W0p1__ca999620_10000_0,o1
 placements:
-  straight_gdsfactorypcom_f2286423_0_0:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  taper_gdsfactorypcompon_ca999620_0_0_A180:
+  taper_gdsfactorypcomponentsptapersptaper_L10_W0p5_W0p1__ca999620_0_0_A180:
     mirror: false
     rotation: 180
     x: 0
     y: 0
-  taper_gdsfactorypcompon_ca999620_10000_0:
+  taper_gdsfactorypcomponentsptapersptaper_L10_W0p5_W0p1__ca999620_10000_0:
     mirror: false
     rotation: 0
     x: 10
@@ -83,8 +83,8 @@ warnings:
     unconnected_ports:
     - message: 2 unconnected optical ports!
       ports:
-      - taper_gdsfactorypcompon_ca999620_0_0_A180,o2
-      - taper_gdsfactorypcompon_ca999620_10000_0,o2
+      - taper_gdsfactorypcomponentsptapersptaper_L10_W0p5_W0p1__ca999620_0_0_A180,o2
+      - taper_gdsfactorypcomponentsptapersptaper_L10_W0p5_W0p1__ca999620_10000_0,o2
       values:
       - - -10
         - 0

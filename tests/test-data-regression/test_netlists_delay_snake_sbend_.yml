@@ -1,5 +1,5 @@
 instances:
-  bend_euler_gdsfactorypc_2e206d34_0_m10000:
+  bend_euler_gdsfactorypcomponentspbendspbend_euler_R5_A1_2e206d34_0_m10000:
     component: bend_euler
     info:
       dy: 0
@@ -24,7 +24,7 @@ instances:
       radius: 5
       width: null
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_2e206d34_m178681_m5000_A180:
+  bend_euler_gdsfactorypcomponentspbendspbend_euler_R5_A1_2e206d34_m178681_m5000_A180:
     component: bend_euler
     info:
       dy: 0
@@ -49,7 +49,7 @@ instances:
       radius: 5
       width: null
       with_arc_floorplan: true
-  bend_s_gdsfactorypcompo_980b37fc_m100000_m5000_M:
+  bend_s_gdsfactorypcomponentspbendspbend_s_S100_5_N99_CS_980b37fc_m100000_m5000_M:
     component: bend_s
     info:
       end_angle: 0
@@ -98,28 +98,28 @@ instances:
       length: 78.681
       npoints: 2
       width: null
-name: delay_snake_sbend_gdsfa_7f61a21a
+name: delay_snake_sbend_gdsfactorypcomponentspspiralspdelay_s_7f61a21a
 nets:
-- p1: bend_euler_gdsfactorypc_2e206d34_0_m10000,o1
-  p2: bend_s_gdsfactorypcompo_980b37fc_m100000_m5000_M,o2
-- p1: bend_euler_gdsfactorypc_2e206d34_m178681_m5000_A180,o1
+- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R5_A1_2e206d34_0_m10000,o1
+  p2: bend_s_gdsfactorypcomponentspbendspbend_s_S100_5_N99_CS_980b37fc_m100000_m5000_M,o2
+- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R5_A1_2e206d34_m178681_m5000_A180,o1
   p2: s2,o1
-- p1: bend_euler_gdsfactorypc_2e206d34_m178681_m5000_A180,o2
+- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R5_A1_2e206d34_m178681_m5000_A180,o2
   p2: s3,o1
-- p1: bend_s_gdsfactorypcompo_980b37fc_m100000_m5000_M,o1
+- p1: bend_s_gdsfactorypcomponentspbendspbend_s_S100_5_N99_CS_980b37fc_m100000_m5000_M,o1
   p2: s2,o2
 placements:
-  bend_euler_gdsfactorypc_2e206d34_0_m10000:
+  bend_euler_gdsfactorypcomponentspbendspbend_euler_R5_A1_2e206d34_0_m10000:
     mirror: false
     rotation: 0
     x: 0
     y: -10
-  bend_euler_gdsfactorypc_2e206d34_m178681_m5000_A180:
+  bend_euler_gdsfactorypcomponentspbendspbend_euler_R5_A1_2e206d34_m178681_m5000_A180:
     mirror: false
     rotation: 180
     x: -178.681
     y: -5
-  bend_s_gdsfactorypcompo_980b37fc_m100000_m5000_M:
+  bend_s_gdsfactorypcomponentspbendspbend_s_S100_5_N99_CS_980b37fc_m100000_m5000_M:
     mirror: true
     rotation: 0
     x: -100
@@ -135,5 +135,5 @@ placements:
     x: -178.681
     y: -15
 ports:
-  o1: bend_euler_gdsfactorypc_2e206d34_0_m10000,o2
+  o1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R5_A1_2e206d34_0_m10000,o2
   o2: s3,o2

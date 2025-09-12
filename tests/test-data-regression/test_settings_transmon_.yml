@@ -4,7 +4,7 @@ info:
   pad_height: 100
   pad_width: 200
   qubit_type: transmon
-name: transmon_gdsfactorypcom_b8f72fdf
+name: transmon_gdsfactorypcomponentspquantumptransmon_PW200_P_b8f72fdf
 settings:
   island_height: 4
   island_width: 10

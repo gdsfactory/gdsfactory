@@ -1,5 +1,5 @@
 info: {}
-name: grating_coupler_loss_gd_e0b001ca
+name: grating_coupler_loss_gdsfactorypcomponentspgrating_coup_e0b001ca
 settings:
   cross_section: strip
   grating_coupler: grating_coupler_elliptical_trenches

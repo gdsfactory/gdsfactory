@@ -1,5 +1,5 @@
 instances:
-  bend_euler_gdsfactorypc_387600b2_10000_11300_A90:
+  bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2_10000_11300_A90:
     component: bend_euler
     info:
       dy: 10
@@ -24,7 +24,7 @@ instances:
       radius: null
       width: null
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_387600b2_m4000_21300_A180:
+  bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2_m4000_21300_A180:
     component: bend_euler
     info:
       dy: 10
@@ -49,7 +49,7 @@ instances:
       radius: null
       width: null
       with_arc_floorplan: true
-  coupler_ring_gdsfactory_9cdfdde6_0_0:
+  coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_9cdfdde6_0_0:
     component: coupler_ring
     info: {}
     settings:
@@ -61,7 +61,7 @@ instances:
       length_x: 4
       radius: null
       straight: straight
-  straight_gdsfactorypcom_058e2168_10000_11300_A270:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L0p6_058e2168_10000_11300_A270:
     component: straight
     info:
       length: 0.6
@@ -75,7 +75,7 @@ instances:
       length: 0.6
       npoints: 2
       width: null
-  straight_gdsfactorypcom_058e2168_m14000_10700_A90:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L0p6_058e2168_m14000_10700_A90:
     component: straight
     info:
       length: 0.6
@@ -89,7 +89,7 @@ instances:
       length: 0.6
       npoints: 2
       width: null
-  straight_gdsfactorypcom_a6eac62c_0_21300_A180:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L4_N_a6eac62c_0_21300_A180:
     component: straight
     info:
       length: 4
@@ -103,51 +103,51 @@ instances:
       length: 4
       npoints: 2
       width: null
-name: ring_single_gdsfactoryp_87a10a39
+name: ring_single_gdsfactorypcomponentspringspring_single_G0p_87a10a39
 nets:
-- p1: bend_euler_gdsfactorypc_387600b2_10000_11300_A90,o1
-  p2: straight_gdsfactorypcom_058e2168_10000_11300_A270,o1
-- p1: bend_euler_gdsfactorypc_387600b2_10000_11300_A90,o2
-  p2: straight_gdsfactorypcom_a6eac62c_0_21300_A180,o1
-- p1: bend_euler_gdsfactorypc_387600b2_m4000_21300_A180,o1
-  p2: straight_gdsfactorypcom_a6eac62c_0_21300_A180,o2
-- p1: bend_euler_gdsfactorypc_387600b2_m4000_21300_A180,o2
-  p2: straight_gdsfactorypcom_058e2168_m14000_10700_A90,o2
-- p1: coupler_ring_gdsfactory_9cdfdde6_0_0,o2
-  p2: straight_gdsfactorypcom_058e2168_m14000_10700_A90,o1
-- p1: coupler_ring_gdsfactory_9cdfdde6_0_0,o3
-  p2: straight_gdsfactorypcom_058e2168_10000_11300_A270,o2
+- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2_10000_11300_A90,o1
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L0p6_058e2168_10000_11300_A270,o1
+- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2_10000_11300_A90,o2
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L4_N_a6eac62c_0_21300_A180,o1
+- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2_m4000_21300_A180,o1
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L4_N_a6eac62c_0_21300_A180,o2
+- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2_m4000_21300_A180,o2
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L0p6_058e2168_m14000_10700_A90,o2
+- p1: coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_9cdfdde6_0_0,o2
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L0p6_058e2168_m14000_10700_A90,o1
+- p1: coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_9cdfdde6_0_0,o3
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L0p6_058e2168_10000_11300_A270,o2
 placements:
-  bend_euler_gdsfactorypc_387600b2_10000_11300_A90:
+  bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2_10000_11300_A90:
     mirror: false
     rotation: 90
     x: 10
     y: 11.3
-  bend_euler_gdsfactorypc_387600b2_m4000_21300_A180:
+  bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2_m4000_21300_A180:
     mirror: false
     rotation: 180
     x: -4
     y: 21.3
-  coupler_ring_gdsfactory_9cdfdde6_0_0:
+  coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_9cdfdde6_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  straight_gdsfactorypcom_058e2168_10000_11300_A270:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L0p6_058e2168_10000_11300_A270:
     mirror: false
     rotation: 270
     x: 10
     y: 11.3
-  straight_gdsfactorypcom_058e2168_m14000_10700_A90:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L0p6_058e2168_m14000_10700_A90:
     mirror: false
     rotation: 90
     x: -14
     y: 10.7
-  straight_gdsfactorypcom_a6eac62c_0_21300_A180:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L4_N_a6eac62c_0_21300_A180:
     mirror: false
     rotation: 180
     x: 0
     y: 21.3
 ports:
-  o1: coupler_ring_gdsfactory_9cdfdde6_0_0,o1
-  o2: coupler_ring_gdsfactory_9cdfdde6_0_0,o4
+  o1: coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_9cdfdde6_0_0,o1
+  o2: coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_9cdfdde6_0_0,o4

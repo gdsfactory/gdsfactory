@@ -1,7 +1,7 @@
 info:
   dy: 10
   length: 10
-name: wire_corner_sections_gd_e46bef83
+name: wire_corner_sections_gdsfactorypcomponentspwaveguidespw_e46bef83
 settings:
   cross_section: metal_routing
   port_type: electrical

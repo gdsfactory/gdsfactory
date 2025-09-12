@@ -707,7 +707,7 @@ instances:
       length: 20
       npoints: 2
       width: null
-name: cutback_component_gdsfa_dddf14d5
+name: cutback_component_gdsfactorypcomponentsppcmspcutback_co_dddf14d5
 nets:
 - p1: A1,o2
   p2: B1,o2

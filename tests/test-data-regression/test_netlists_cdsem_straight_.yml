@@ -1,5 +1,5 @@
 instances:
-  straight_gdsfactorypcom_07da3079_0_7225:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L420_07da3079_0_7225:
     component: straight
     info:
       length: 420
@@ -13,7 +13,7 @@ instances:
       length: 420
       npoints: 2
       width: 0.45
-  straight_gdsfactorypcom_0bee2ead_0_21300:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L420_0bee2ead_0_21300:
     component: straight
     info:
       length: 420
@@ -27,7 +27,7 @@ instances:
       length: 420
       npoints: 2
       width: 0.6
-  straight_gdsfactorypcom_6f1b292d_0_35500:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L420_6f1b292d_0_35500:
     component: straight
     info:
       length: 420
@@ -41,7 +41,7 @@ instances:
       length: 420
       npoints: 2
       width: 1
-  straight_gdsfactorypcom_76448b74_0_200:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L420_76448b74_0_200:
     component: straight
     info:
       length: 420
@@ -55,7 +55,7 @@ instances:
       length: 420
       npoints: 2
       width: 0.4
-  straight_gdsfactorypcom_c3e256fe_0_28400:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L420_c3e256fe_0_28400:
     component: straight
     info:
       length: 420
@@ -69,7 +69,7 @@ instances:
       length: 420
       npoints: 2
       width: 0.8
-  straight_gdsfactorypcom_d9869369_0_14250:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L420_d9869369_0_14250:
     component: straight
     info:
       length: 420
@@ -83,7 +83,7 @@ instances:
       length: 420
       npoints: 2
       width: 0.5
-  text_rectangular_gdsfac_658e2e39_425000_28000:
+  text_rectangular_gdsfactorypcomponentsptextsptext_recta_658e2e39_425000_28000:
     component: text_rectangular
     info: {}
     settings:
@@ -96,7 +96,7 @@ instances:
       - 0
       size: 1
       text: '800'
-  text_rectangular_gdsfac_969c6630_425000_35000:
+  text_rectangular_gdsfactorypcomponentsptextsptext_recta_969c6630_425000_35000:
     component: text_rectangular
     info: {}
     settings:
@@ -109,7 +109,7 @@ instances:
       - 0
       size: 1
       text: '1000'
-  text_rectangular_gdsfac_b5863166_425000_14000:
+  text_rectangular_gdsfactorypcomponentsptextsptext_recta_b5863166_425000_14000:
     component: text_rectangular
     info: {}
     settings:
@@ -122,7 +122,7 @@ instances:
       - 0
       size: 1
       text: '500'
-  text_rectangular_gdsfac_e6f6754a_425000_0:
+  text_rectangular_gdsfactorypcomponentsptextsptext_recta_e6f6754a_425000_0:
     component: text_rectangular
     info: {}
     settings:
@@ -135,7 +135,7 @@ instances:
       - 0
       size: 1
       text: '400'
-  text_rectangular_gdsfac_e9d3e611_425000_7000:
+  text_rectangular_gdsfactorypcomponentsptextsptext_recta_e9d3e611_425000_7000:
     component: text_rectangular
     info: {}
     settings:
@@ -148,7 +148,7 @@ instances:
       - 0
       size: 1
       text: '450'
-  text_rectangular_gdsfac_ebfeacf5_425000_21000:
+  text_rectangular_gdsfactorypcomponentsptextsptext_recta_ebfeacf5_425000_21000:
     component: text_rectangular
     info: {}
     settings:
@@ -161,65 +161,65 @@ instances:
       - 0
       size: 1
       text: '600'
-name: cdsem_straight_gdsfacto_ba231691
+name: cdsem_straight_gdsfactorypcomponentsppcmspcdsem_straigh_ba231691
 nets: []
 placements:
-  straight_gdsfactorypcom_07da3079_0_7225:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L420_07da3079_0_7225:
     mirror: false
     rotation: 0
     x: 0
     y: 7.225
-  straight_gdsfactorypcom_0bee2ead_0_21300:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L420_0bee2ead_0_21300:
     mirror: false
     rotation: 0
     x: 0
     y: 21.3
-  straight_gdsfactorypcom_6f1b292d_0_35500:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L420_6f1b292d_0_35500:
     mirror: false
     rotation: 0
     x: 0
     y: 35.5
-  straight_gdsfactorypcom_76448b74_0_200:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L420_76448b74_0_200:
     mirror: false
     rotation: 0
     x: 0
     y: 0.2
-  straight_gdsfactorypcom_c3e256fe_0_28400:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L420_c3e256fe_0_28400:
     mirror: false
     rotation: 0
     x: 0
     y: 28.4
-  straight_gdsfactorypcom_d9869369_0_14250:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L420_d9869369_0_14250:
     mirror: false
     rotation: 0
     x: 0
     y: 14.25
-  text_rectangular_gdsfac_658e2e39_425000_28000:
+  text_rectangular_gdsfactorypcomponentsptextsptext_recta_658e2e39_425000_28000:
     mirror: false
     rotation: 0
     x: 425
     y: 28
-  text_rectangular_gdsfac_969c6630_425000_35000:
+  text_rectangular_gdsfactorypcomponentsptextsptext_recta_969c6630_425000_35000:
     mirror: false
     rotation: 0
     x: 425
     y: 35
-  text_rectangular_gdsfac_b5863166_425000_14000:
+  text_rectangular_gdsfactorypcomponentsptextsptext_recta_b5863166_425000_14000:
     mirror: false
     rotation: 0
     x: 425
     y: 14
-  text_rectangular_gdsfac_e6f6754a_425000_0:
+  text_rectangular_gdsfactorypcomponentsptextsptext_recta_e6f6754a_425000_0:
     mirror: false
     rotation: 0
     x: 425
     y: 0
-  text_rectangular_gdsfac_e9d3e611_425000_7000:
+  text_rectangular_gdsfactorypcomponentsptextsptext_recta_e9d3e611_425000_7000:
     mirror: false
     rotation: 0
     x: 425
     y: 7
-  text_rectangular_gdsfac_ebfeacf5_425000_21000:
+  text_rectangular_gdsfactorypcomponentsptextsptext_recta_ebfeacf5_425000_21000:
     mirror: false
     rotation: 0
     x: 425

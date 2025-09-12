@@ -9,7 +9,7 @@ info:
   route_info_type: strip
   route_info_weight: 15.708
   width: 0.5
-name: bend_circular_all_angle_18c02085
+name: bend_circular_all_angle_RNone_A90_NNone_ASNone_LNone_WN_18c02085
 settings:
   allow_min_radius_violation: false
   angle: 90

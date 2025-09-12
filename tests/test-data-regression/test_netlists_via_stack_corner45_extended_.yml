@@ -1,5 +1,5 @@
 instances:
-  via_stack_corner45_gdsf_67d18565_0_0:
+  via_stack_corner45_gdsfactorypcomponentspviaspvia_stack_67d18565_0_0:
     component: via_stack_corner45
     info:
       layer: MTOP
@@ -16,7 +16,7 @@ instances:
       - via2
       - null
       width: 2.121
-  via_stack_gdsfactorypco_127e025a_16061_11500:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S10_3_LM_127e025a_16061_11500:
     component: via_stack
     info:
       xsize: 10
@@ -43,7 +43,7 @@ instances:
       - via1
       - via2
       - null
-  via_stack_gdsfactorypco_127e025a_m1500_m6061_A270:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S10_3_LM_127e025a_m1500_m6061_A270:
     component: via_stack
     info:
       xsize: 10
@@ -70,24 +70,24 @@ instances:
       - via1
       - via2
       - null
-name: via_stack_corner45_exte_a2f90c7d
+name: via_stack_corner45_extended_gdsfactorypcomponentspviasp_a2f90c7d
 nets:
-- p1: via_stack_corner45_gdsf_67d18565_0_0,e1
-  p2: via_stack_gdsfactorypco_127e025a_m1500_m6061_A270,e1
-- p1: via_stack_corner45_gdsf_67d18565_0_0,e2
-  p2: via_stack_gdsfactorypco_127e025a_16061_11500,e1
+- p1: via_stack_corner45_gdsfactorypcomponentspviaspvia_stack_67d18565_0_0,e1
+  p2: via_stack_gdsfactorypcomponentspviaspvia_stack_S10_3_LM_127e025a_m1500_m6061_A270,e1
+- p1: via_stack_corner45_gdsfactorypcomponentspviaspvia_stack_67d18565_0_0,e2
+  p2: via_stack_gdsfactorypcomponentspviaspvia_stack_S10_3_LM_127e025a_16061_11500,e1
 placements:
-  via_stack_corner45_gdsf_67d18565_0_0:
+  via_stack_corner45_gdsfactorypcomponentspviaspvia_stack_67d18565_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  via_stack_gdsfactorypco_127e025a_16061_11500:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S10_3_LM_127e025a_16061_11500:
     mirror: false
     rotation: 0
     x: 16.061
     y: 11.5
-  via_stack_gdsfactorypco_127e025a_m1500_m6061_A270:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S10_3_LM_127e025a_m1500_m6061_A270:
     mirror: false
     rotation: 270
     x: -1.5
@@ -98,12 +98,12 @@ warnings:
     unconnected_ports:
     - message: 6 unconnected electrical ports!
       ports:
-      - via_stack_gdsfactorypco_127e025a_m1500_m6061_A270,e2
-      - via_stack_gdsfactorypco_127e025a_m1500_m6061_A270,e3
-      - via_stack_gdsfactorypco_127e025a_m1500_m6061_A270,e4
-      - via_stack_gdsfactorypco_127e025a_16061_11500,e2
-      - via_stack_gdsfactorypco_127e025a_16061_11500,e3
-      - via_stack_gdsfactorypco_127e025a_16061_11500,e4
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S10_3_LM_127e025a_m1500_m6061_A270,e2
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S10_3_LM_127e025a_m1500_m6061_A270,e3
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S10_3_LM_127e025a_m1500_m6061_A270,e4
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S10_3_LM_127e025a_16061_11500,e2
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S10_3_LM_127e025a_16061_11500,e3
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S10_3_LM_127e025a_16061_11500,e4
       values:
       - - 0
         - -6.061

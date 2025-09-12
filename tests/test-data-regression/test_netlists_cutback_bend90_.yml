@@ -5685,7 +5685,7 @@ instances:
       length: 5
       npoints: 2
       width: null
-name: cutback_bend90_gdsfacto_2e65ed36
+name: cutback_bend90_gdsfactorypcomponentsppcmspcutback_bend__2e65ed36
 nets:
 - p1: 1,o1
   p2: m24,o2

@@ -1,5 +1,5 @@
 instances:
-  pad_gdsfactorypcomponen_14496117_0_0:
+  pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_14496117_0_0:
     array:
       column_pitch: 150
       columns: 1
@@ -23,10 +23,10 @@ instances:
       size:
       - 100
       - 100
-name: pad_array_gdsfactorypco_dc726c53
+name: pad_array_gdsfactorypcomponentsppadsppad_Ppad_C1_R3_CP1_dc726c53
 nets: []
 placements:
-  pad_gdsfactorypcomponen_14496117_0_0:
+  pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_14496117_0_0:
     mirror: false
     rotation: 0
     x: 0

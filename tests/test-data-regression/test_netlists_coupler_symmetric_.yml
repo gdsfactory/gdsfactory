@@ -1,5 +1,5 @@
 instances:
-  bend_s_gdsfactorypcompo_77ca5fd8_0_367:
+  bend_s_gdsfactorypcomponentspbendspbend_s_S10_1p633_N99_77ca5fd8_0_367:
     component: bend_s
     info:
       end_angle: 0
@@ -20,7 +20,7 @@ instances:
       - 10
       - 1.633
       width: null
-  bend_s_gdsfactorypcompo_77ca5fd8_0_m367_M:
+  bend_s_gdsfactorypcomponentspbendspbend_s_S10_1p633_N99_77ca5fd8_0_m367_M:
     component: bend_s
     info:
       end_angle: 0
@@ -41,21 +41,21 @@ instances:
       - 10
       - 1.633
       width: null
-name: coupler_symmetric_gdsfa_7357aaee
+name: coupler_symmetric_gdsfactorypcomponentspcouplerspcouple_7357aaee
 nets: []
 placements:
-  bend_s_gdsfactorypcompo_77ca5fd8_0_367:
+  bend_s_gdsfactorypcomponentspbendspbend_s_S10_1p633_N99_77ca5fd8_0_367:
     mirror: false
     rotation: 0
     x: 0
     y: 0.367
-  bend_s_gdsfactorypcompo_77ca5fd8_0_m367_M:
+  bend_s_gdsfactorypcomponentspbendspbend_s_S10_1p633_N99_77ca5fd8_0_m367_M:
     mirror: true
     rotation: 0
     x: 0
     y: -0.367
 ports:
-  o1: bend_s_gdsfactorypcompo_77ca5fd8_0_m367_M,o1
-  o2: bend_s_gdsfactorypcompo_77ca5fd8_0_367,o1
-  o3: bend_s_gdsfactorypcompo_77ca5fd8_0_367,o2
-  o4: bend_s_gdsfactorypcompo_77ca5fd8_0_m367_M,o2
+  o1: bend_s_gdsfactorypcomponentspbendspbend_s_S10_1p633_N99_77ca5fd8_0_m367_M,o1
+  o2: bend_s_gdsfactorypcomponentspbendspbend_s_S10_1p633_N99_77ca5fd8_0_367,o1
+  o3: bend_s_gdsfactorypcomponentspbendspbend_s_S10_1p633_N99_77ca5fd8_0_367,o2
+  o4: bend_s_gdsfactorypcomponentspbendspbend_s_S10_1p633_N99_77ca5fd8_0_m367_M,o2

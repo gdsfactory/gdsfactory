@@ -1,5 +1,5 @@
 instances:
-  mzit_gdsfactorypcompone_e032093e_0_0:
+  mzit_gdsfactorypcomponentspmzispmzit_W0p5_W0p45_W0p55_D_e032093e_0_0:
     component: mzit
     info: {}
     settings:
@@ -20,16 +20,16 @@ instances:
       w0: 0.5
       w1: 0.45
       w2: 0.55
-name: mzit_lattice_gdsfactory_33537b6f
+name: mzit_lattice_gdsfactorypcomponentspmzispmzit_CL10_20_CG_33537b6f
 nets: []
 placements:
-  mzit_gdsfactorypcompone_e032093e_0_0:
+  mzit_gdsfactorypcomponentspmzispmzit_W0p5_W0p45_W0p55_D_e032093e_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
 ports:
-  o1: mzit_gdsfactorypcompone_e032093e_0_0,o1
-  o2: mzit_gdsfactorypcompone_e032093e_0_0,o2
-  o3: mzit_gdsfactorypcompone_e032093e_0_0,o3
-  o4: mzit_gdsfactorypcompone_e032093e_0_0,o4
+  o1: mzit_gdsfactorypcomponentspmzispmzit_W0p5_W0p45_W0p55_D_e032093e_0_0,o1
+  o2: mzit_gdsfactorypcomponentspmzispmzit_W0p5_W0p45_W0p55_D_e032093e_0_0,o2
+  o3: mzit_gdsfactorypcomponentspmzispmzit_W0p5_W0p45_W0p55_D_e032093e_0_0,o3
+  o4: mzit_gdsfactorypcomponentspmzispmzit_W0p5_W0p45_W0p55_D_e032093e_0_0,o4

@@ -1,11 +1,11 @@
 info:
   doe_names:
-  - mmi1x2_gdsfactorypcompo_e7347a11
-  - mmi1x2_gdsfactorypcompo_970bc9eb
+  - mmi1x2_gdsfactorypcomponentspmmispmmi1x2_WNone_WT1_LT10_e7347a11
+  - mmi1x2_gdsfactorypcomponentspmmispmmi1x2_WNone_WT1_LT10_970bc9eb
   doe_settings:
   - length_mmi: 100
   - length_mmi: 200
-name: pack_doe_gdsfactorypcom_1c0df6f4
+name: pack_doe_gdsfactorypcomponentspcontainersppack_doe_Dmmi_1c0df6f4
 settings:
   do_permutations: false
   doe: mmi1x2

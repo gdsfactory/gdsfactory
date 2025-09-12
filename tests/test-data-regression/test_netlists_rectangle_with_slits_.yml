@@ -1,5 +1,5 @@
 instances:
-  array_gdsfactorypcompon_207ad241_19500_19500:
+  array_gdsfactorypcomponentspcontainersparray_component__83c06869_19500_19500:
     component: array
     info: {}
     settings:
@@ -8,12 +8,12 @@ instances:
       centered: false
       column_pitch: 20
       columns: 4
-      component: rectangle_gdsfactorypco_87bf09b9
+      component: rectangle_gdsfactorypcomponentspshapesprectangle_S1_1_L_87bf09b9
       post_process: null
       row_pitch: 20
       rows: 9
       size: null
-  rectangle_gdsfactorypco_1f6c5d69_0_0:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S100_2_1f6c5d69_0_0:
     component: rectangle
     info: {}
     settings:
@@ -28,15 +28,15 @@ instances:
       size:
       - 100
       - 200
-name: rectangle_with_slits_gd_442d6bfc
+name: rectangle_with_slits_gdsfactorypcomponentsppadsprectang_442d6bfc
 nets: []
 placements:
-  array_gdsfactorypcompon_207ad241_19500_19500:
+  array_gdsfactorypcomponentspcontainersparray_component__83c06869_19500_19500:
     mirror: false
     rotation: 0
     x: 19.5
     y: 19.5
-  rectangle_gdsfactorypco_1f6c5d69_0_0:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S100_2_1f6c5d69_0_0:
     mirror: false
     rotation: 0
     x: 0
