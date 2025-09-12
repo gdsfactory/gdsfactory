@@ -1,12 +1,14 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.14.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.14.2...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.14.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.14.2) - 2025-09-12
 
-No significant changes.
-
+- fix types [#4159](https://github.com/gdsfactory/gdsfactory/pull/4159)
+- Pass down all vcell kwargs to kfactory [#4155](https://github.com/gdsfactory/gdsfactory/pull/4155)
+- improve git guide [#4153](https://github.com/gdsfactory/gdsfactory/pull/4153)
+- bump kfactory to 1.14 [#4157](https://github.com/gdsfactory/gdsfactory/pull/4157)
 
 ## [9.14.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.14.1) - 2025-09-10
 
