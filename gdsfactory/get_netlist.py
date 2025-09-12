@@ -190,6 +190,7 @@ def get_netlist(
     get_instance_name: Callable[..., str] = get_instance_name_from_alias,
     allow_multiple: bool = True,
     connection_error_types: dict[str, list[str]] | None = None,
+    add_interface_on_mismatch: bool = False,
 ) -> dict[str, Any]:
     """From Component returns a dict with instances, connections and placements.
 
@@ -209,6 +210,7 @@ def get_netlist(
         allow_multiple: False to raise an error if more than two ports share the same connection. \
                 if True, will return key: [value] pairs with [value] a list of all connected instances.
         connection_error_types: optional dictionary of port types and error types to raise an error for.
+        add_interface_on_mismatch: when True, additional interface instances are added to the netlist (e.g. to model mode mismatch)
 
     Returns:
         instances: Dict of instance name and settings.
@@ -360,9 +362,41 @@ def get_netlist(
                 elif dst in top_ports_list:
                     top_ports[dst] = src
                 else:
-                    src_dest = sorted([src, dst])
-                    net = {"p1": src_dest[0], "p2": src_dest[1]}
-                    nets.append(net)
+                    src_xs = name2port[src].cross_section
+                    src_xs_name = name2port[src].info.get("cross_section")
+                    src_r = name2port[src].info.get("radius")
+                    dst_xs = name2port[dst].cross_section
+                    dst_xs_name = name2port[dst].info.get("cross_section")
+                    dst_r = name2port[dst].info.get("radius")
+                    mismatch = src_xs.width != dst_xs.width or src_r != dst_r
+                    if add_interface_on_mismatch and mismatch:
+                        # inject interface instance and reconnect ports
+                        intf_inst_name = f"interface__{src.replace(',', '_')}__{dst.replace(',', '_')}"
+                        if intf_inst_name in instances:
+                            raise ValueError(
+                                f"'{intf_inst_name}' already present in instances."
+                            )
+                        settings = {
+                            "width1": src_xs.width,
+                            "width2": dst_xs.width,
+                            "radius1": src_r,
+                            "radius2": dst_r,
+                            "cross_section1": src_xs_name,
+                            "cross_section2": dst_xs_name,
+                        }
+                        instances[intf_inst_name] = {
+                            "component": "interface",
+                            "settings": settings,
+                        }
+                        src1, dst1 = sorted([src, f"{intf_inst_name},o1"])
+                        src2, dst2 = sorted([dst, f"{intf_inst_name},o2"])
+                        nets.extend(
+                            [{"p1": src1, "p2": dst1}, {"p1": src2, "p2": dst2}]
+                        )
+                    else:
+                        src_dest = sorted([src, dst])
+                        net = {"p1": src_dest[0], "p2": src_dest[1]}
+                        nets.append(net)
 
     # sort nets by p1 (and then p2, in the case of a tie)
     nets_sorted = sorted(nets, key=lambda net: f"{net['p1']},{net['p2']}")
