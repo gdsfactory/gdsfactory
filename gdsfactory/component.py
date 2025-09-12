@@ -53,6 +53,7 @@ if TYPE_CHECKING:
         LayerSpec,
         LayerSpecs,
         PathType,
+        PixelBufferOptions,
         Port,
         Position,
     )
@@ -1003,6 +1004,7 @@ class Component(ComponentBase, kf.DKCell):
         *,
         show_labels: bool = True,
         show_ruler: bool = True,
+        pixel_buffer_options: PixelBufferOptions | None = None,
         return_fig: Literal[True] = True,
     ) -> Figure: ...
 
@@ -1014,6 +1016,7 @@ class Component(ComponentBase, kf.DKCell):
         *,
         show_labels: bool = True,
         show_ruler: bool = True,
+        pixel_buffer_options: PixelBufferOptions | None = None,
         return_fig: Literal[False] = False,
     ) -> None: ...
 
@@ -1024,6 +1027,7 @@ class Component(ComponentBase, kf.DKCell):
         *,
         show_labels: bool = True,
         show_ruler: bool = True,
+        pixel_buffer_options: PixelBufferOptions | None = None,
         return_fig: bool = False,
     ) -> Figure | None:
         """Plots the Component using klayout.
@@ -1033,6 +1037,9 @@ class Component(ComponentBase, kf.DKCell):
             display_type: if "image", displays the image.
             show_labels: if True, shows labels.
             show_ruler: if True, shows ruler.
+            pixel_buffer_options: options for KLayout's get_pixels_with_options.
+                If None, uses default values (width=800, height=600, linewidth=0,
+                oversampling=0, resolution=0).
             return_fig: if True, returns the figure.
         """
         from io import BytesIO
@@ -1071,7 +1078,9 @@ class Component(ComponentBase, kf.DKCell):
         layout_view.set_config("text-visible", "true" if show_labels else "false")
         layout_view.set_config("grid-show-ruler", "true" if show_ruler else "false")
 
-        pixel_buffer = layout_view.get_pixels_with_options(800, 600)
+        pixel_buffer = layout_view.get_pixels_with_options(
+            **({"width": 800, "height": 600} | (pixel_buffer_options or {}))
+        )
         png_data = pixel_buffer.to_png_data()
 
         # Convert PNG data to NumPy array and display with matplotlib

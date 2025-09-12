@@ -69,6 +69,26 @@ class Step(TypedDict, total=False):
     dy: Delta
 
 
+class PixelBufferOptions(TypedDict, total=False):
+    """Options for KLayout's get_pixels_with_options method.
+
+    Parameters:
+        width: The width of the image to render in pixels.
+        height: The height of the image to render in pixels.
+        linewidth: The width of a line in pixels (usually 1) or 0 for default.
+        oversampling: The oversampling factor (1..3) or 0 for default.
+        resolution: The resolution (pixel size compared to a screen pixel size, i.e 1/oversampling) or 0 for default.
+        target_box: The box to draw or an empty box for default (DBox).
+
+    """
+
+    width: int
+    height: int
+    linewidth: int
+    oversampling: int
+    resolution: float
+
+
 Anchor: TypeAlias = Literal[
     "ce",
     "cw",
