@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import json
 import warnings
+from collections.abc import Sequence
 from functools import partial
 from typing import Any, Protocol
 
@@ -409,6 +410,7 @@ def add_pins(
     component: Component,
     port_type: str | None = None,
     function: AddPinFunction = add_pin_rectangle_inside,  # type: ignore[assignment]
+    skip_cross_sections: Sequence[str] | None = None,
     **kwargs: Any,
 ) -> None:
     """Add Pin port markers.
@@ -416,8 +418,8 @@ def add_pins(
     Args:
         component: to add ports to.
         port_type: Which port type do you want to add pins to. optical, electrical, ...  If None, it will add to all.
-        layer: layer for the pin marker.
         function: to add each pin.
+        skip_cross_sections: list of cross_sections to skip.
         kwargs: add pins function settings.
     """
     from gdsfactory.pdk import get_component
@@ -429,6 +431,12 @@ def add_pins(
         ports=component.ports,
         port_type=port_type,
     )
+    if skip_cross_sections:
+        ports = [
+            port
+            for port in ports
+            if getattr(port.info, "cross_section", None) not in skip_cross_sections
+        ]
 
     for port in ports:
         function(component, port, **kwargs)
