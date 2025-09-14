@@ -1,11 +1,13 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.14.2...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.15.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.15.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.15.0) - 2025-09-14
 
-No significant changes.
+- Expose resolution options for Component.plot() through pixel_buffer_options parameter [#4161](https://github.com/gdsfactory/gdsfactory/pull/4161)
+- add_skip_cross_section_for_adding_pins [#4165](https://github.com/gdsfactory/gdsfactory/pull/4165)
+- double max_cellname_length [#4163](https://github.com/gdsfactory/gdsfactory/pull/4163)
 
 
 ## [9.14.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.14.2) - 2025-09-12
