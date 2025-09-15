@@ -1,5 +1,7 @@
 info:
+  length: 50
   resistance: 0
+  width: 10
 name: resistance_sheet_gdsfactorypcomponentsppcmspresistance__cb73a501
 settings:
   layer_offsets:
