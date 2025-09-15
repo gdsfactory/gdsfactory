@@ -26,7 +26,7 @@ from kfactory import (
     save_layout_options,
 )
 from kfactory.exceptions import LockedError
-from kfactory.kcell import AnyTKCell, BaseKCell, ProtoKCell
+from kfactory.kcell import BaseKCell, ProtoKCell
 from kfactory.port import ProtoPort
 from kfactory.utils.fill import fill_tiled
 from kfactory.utils.violations import (
@@ -561,7 +561,7 @@ class Component(ComponentBase, kf.DKCell):
             if flatten:
                 c.flatten()
 
-    def __lshift__(self, cell: AnyTKCell) -> kf.Instance:
+    def __lshift__(self, cell: kf.ProtoTKCell[Any]) -> ComponentReference:
         """Convenience function for adding instances/references to a Component.
 
         Args:
