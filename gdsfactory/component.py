@@ -575,7 +575,7 @@ class Component(ComponentBase, kf.DKCell):
                 f"Use Component.add_ref_off_grid() for all angle {cell.name!r}"
             )
 
-        elif not isinstance(cell, kf.ProtoTKCell):
+        if not isinstance(cell, kf.ProtoTKCell):
             raise ValueError(f"Expected a Component, got {type(cell)}")
         return self.create_inst(cell)
 
