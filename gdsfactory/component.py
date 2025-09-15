@@ -468,6 +468,9 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         if self.locked:
             raise LockedError(self)
 
+        if not isinstance(component, kf.ProtoTKCell):
+            raise ValueError(f"Expected a Component, got {type(component)}")
+
         return self.create_vinst(component)
 
 
@@ -571,6 +574,9 @@ class Component(ComponentBase, kf.DKCell):
             raise ValueError(
                 f"Use Component.add_ref_off_grid() for all angle {cell.name!r}"
             )
+
+        elif not isinstance(cell, kf.ProtoTKCell):
+            raise ValueError(f"Expected a Component, got {type(cell)}")
         return self.create_inst(cell)
 
     def add_ref(
@@ -597,6 +603,8 @@ class Component(ComponentBase, kf.DKCell):
             raise ValueError(
                 f"Use Component.add_ref_off_grid() for all angle {component.name!r}"
             )
+        elif not isinstance(component, kf.ProtoTKCell):
+            raise ValueError(f"Expected a Component, got {type(component)}")
 
         if self.locked:
             raise LockedError(self)
