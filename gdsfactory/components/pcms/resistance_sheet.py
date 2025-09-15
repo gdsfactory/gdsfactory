@@ -54,6 +54,8 @@ def resistance_sheet(
     )
 
     c.info["resistance"] = ohms_per_square * width * length if ohms_per_square else 0
+    c.info["length"] = length
+    c.info["width"] = width
     c.add_port(
         name="pad1",
         port=pad1.ports[pad_port_name],

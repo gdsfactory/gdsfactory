@@ -561,6 +561,18 @@ class Component(ComponentBase, kf.DKCell):
             if flatten:
                 c.flatten()
 
+    def __lshift__(self, cell: kf.ProtoTKCell[Any]) -> ComponentReference:
+        """Convenience function for adding instances/references to a Component.
+
+        Args:
+            cell: The cell to be added as an instance
+        """
+        if isinstance(cell, ComponentAllAngle):
+            raise ValueError(
+                f"Use Component.add_ref_off_grid() for all angle {cell.name!r}"
+            )
+        return self.create_inst(cell)
+
     def add_ref(
         self,
         component: kf.ProtoTKCell[Any],
@@ -580,6 +592,12 @@ class Component(ComponentBase, kf.DKCell):
             column_pitch: column pitch.
             row_pitch: row pitch.
         """
+
+        if isinstance(component, ComponentAllAngle):
+            raise ValueError(
+                f"Use Component.add_ref_off_grid() for all angle {component.name!r}"
+            )
+
         if self.locked:
             raise LockedError(self)
 
