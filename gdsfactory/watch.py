@@ -166,21 +166,17 @@ class FileWatcher(FileSystemEventHandler):
             print(f"Ignored {what}: {src_path}")
 
     def get_component(self, filepath: PathType) -> Component | None:
-        import git
-        import git.repo as gr
+        from pygit2 import discover_repository
 
         from gdsfactory.get_factories import get_cells_from_dict
 
-        try:
-            repo = gr.Repo(".", search_parent_directories=True)
-            dirpath = repo.working_tree_dir
-        except git.InvalidGitRepositoryError:
-            dirpath = cwd
-        if dirpath is None:
-            dirpath = cwd
+        dirpath = cwd
+        if (repo := discover_repository(cwd)) is not None:
+            dirpath = pathlib.Path(repo).parent
+
         try:
             filepath = pathlib.Path(filepath)
-            dirpath = pathlib.Path(dirpath) / "build/gds"
+            dirpath = dirpath / "build" / "gds"
             dirpath.mkdir(parents=True, exist_ok=True)
 
             if filepath.exists():

@@ -8,19 +8,11 @@ import pathlib
 import shutil
 import sys
 
-from git import Repo
+from pygit2 import clone_repository
 
 from gdsfactory.config import PATH
 
 home = pathlib.Path.home()
-
-
-def clone_repository(repo_url: str, clone_dir: pathlib.Path) -> None:
-    try:
-        Repo.clone_from(repo_url, clone_dir)
-        print(f"Repository cloned to {clone_dir}")
-    except Exception as e:
-        print("Error cloning repository:", e)
 
 
 def remove_path_or_dir(dest: pathlib.Path) -> None:
