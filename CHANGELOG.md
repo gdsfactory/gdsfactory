@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.15.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.15.1) - 2025-09-17
+
+No significant changes.
+
+
 ## [9.15.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.15.0) - 2025-09-14
 
 - Expose resolution options for Component.plot() through pixel_buffer_options parameter [#4161](https://github.com/gdsfactory/gdsfactory/pull/4161)
