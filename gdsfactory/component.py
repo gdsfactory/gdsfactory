@@ -831,29 +831,38 @@ class Component(ComponentBase, kf.DKCell):
         self,
         layers: LayerSpecs,
         recursive: bool = True,
+        unlock: bool = False,
     ) -> Self:
         """Removes a list of layers and returns the same Component.
 
         Args:
             layers: list of layers to remove.
             recursive: if True, removes layers recursively.
+            unlock: if True, unlocks the component before removing layers. Be careful with this option as it modifies the component and can have unintended side effects.
         """
         from gdsfactory import get_layer
+
+        if unlock:
+            self.locked = False
 
         if self.locked:
             raise LockedError(self)
 
-        layers = [get_layer(layer) for layer in layers]
+        layer_indexes = self.kcl.layer_indexes()
+        layers = [get_layer(layer) for layer in layers if layer in layer_indexes]
+
         for layer_index in layers:
             assert isinstance(layer_index, int)
             self.kdb_cell.shapes(layer_index).clear()
             if recursive:
-                [
-                    self.kcl[ci].kdb_cell.shapes(layer).clear()
-                    for ci in self.kdb_cell.called_cells()
-                    for layer in layers
-                    if isinstance(layer, int)
-                ]
+                for ci in self.kdb_cell.called_cells():
+                    for layer in layers:
+                        was_locked = self.kcl[ci].locked
+                        if unlock:
+                            self.kcl[ci].locked = False
+                        self.kcl[ci].kdb_cell.shapes(layer).clear()
+                        if unlock and was_locked:
+                            self.kcl[ci].locked = True
         return self
 
     def remap_layers(
@@ -928,6 +937,7 @@ class Component(ComponentBase, kf.DKCell):
         layer_index = get_layer(layer)
         region = kdb.Region(self.kdb_cell.begin_shapes_rec(layer_index))
         region.size(+distance_dbu).size(-distance_dbu)
+
         if remove_old_layer:
             self.remove_layers([layer])
         self.kdb_cell.shapes(layer_index).insert(region)
