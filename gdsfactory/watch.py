@@ -166,7 +166,7 @@ class FileWatcher(FileSystemEventHandler):
             print(f"Ignored {what}: {src_path}")
 
     def get_component(self, filepath: PathType) -> Component | None:
-        from pygit2 import discover_repository
+        from pygit2 import pygit2
 
         from gdsfactory.get_factories import get_cells_from_dict
 
