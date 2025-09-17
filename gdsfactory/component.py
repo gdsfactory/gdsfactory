@@ -468,9 +468,6 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         if self.locked:
             raise LockedError(self)
 
-        if not isinstance(component, kf.ProtoTKCell):
-            raise ValueError(f"Expected a Component, got {type(component)}")
-
         return self.create_vinst(component)
 
 
