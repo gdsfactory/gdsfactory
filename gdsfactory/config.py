@@ -112,6 +112,7 @@ class Config(Settings):
     layer_label: tuple[int, int]
     port_types: list[str]
     port_types_grating_couplers: list[str]
+    exclude_layers: list[tuple[int, int]] | list[str] | None
 
 
 CONF: Config = config  # type: ignore[assignment]
@@ -139,6 +140,7 @@ CONF.port_types = [
     "edge_coupler",  # for edge couplers
 ]
 CONF.port_types_grating_couplers = ["vertical_te", "vertical_tm", "vertical_dual"]
+CONF.exclude_layers = None
 
 
 class Paths:

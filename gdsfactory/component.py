@@ -355,6 +355,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         gdsdir: PathType | None = None,
         save_options: kdb.SaveLayoutOptions | None = None,
         with_metadata: bool = True,
+        exclude_layers: Sequence[LayerSpec] | None = None,
     ) -> pathlib.Path:
         """Write component to GDS and returns gdspath.
 
@@ -363,7 +364,10 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             gdsdir: directory for the GDS file. Defaults to /tmp/randomFile/gdsfactory.
             save_options: klayout save options.
             with_metadata: if True, writes metadata (ports, settings) to the GDS file.
+            exlude_layers: list of layers to exclude from the GDS file.
         """
+        from gdsfactory.pdk import get_layer
+
         if gdspath and gdsdir:
             warnings.warn(
                 "gdspath and gdsdir have both been specified. "
@@ -381,6 +385,16 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
 
         if save_options is None:
             save_options = save_layout_options()
+
+        exclude_layers = exclude_layers or CONF.exclude_layers
+
+        if exclude_layers:
+            save_options.deselect_all_layers()
+            selected_layers = set(self.kcl.layer_indexes()) - {
+                get_layer(drop_layer) for drop_layer in exclude_layers
+            }
+            for layer in selected_layers:
+                save_options.add_layer(layer, kf.kdb.LayerInfo())
 
         if not with_metadata:
             save_options.write_context_info = False
