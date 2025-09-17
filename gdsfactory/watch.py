@@ -178,7 +178,7 @@ class FileWatcher(FileSystemEventHandler):
 
         try:
             filepath = pathlib.Path(filepath)
-            dirpath = dirpath / "build" / "gds"
+            dirpath = pathlib.Path(dirpath) / "build" / "gds"
             dirpath.mkdir(parents=True, exist_ok=True)
 
             if filepath.exists():
