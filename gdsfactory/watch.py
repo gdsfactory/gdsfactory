@@ -170,9 +170,11 @@ class FileWatcher(FileSystemEventHandler):
 
         from gdsfactory.get_factories import get_cells_from_dict
 
-        dirpath = cwd
-        if (repo := discover_repository(cwd)) is not None:
-            dirpath = pathlib.Path(repo).parent
+        try:
+            repo = pygit2.Repository(cwd)
+            dirpath = repo.workdir or repo.path
+        except pygit2.GitError:
+            dirpath = cwd
 
         try:
             filepath = pathlib.Path(filepath)
