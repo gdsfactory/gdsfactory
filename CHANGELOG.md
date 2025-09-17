@@ -1,12 +1,12 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.15.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.15.1...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.15.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.15.1) - 2025-09-17
 
-No significant changes.
-
+- Use pygit2 and depend on it explicitly [#4168](https://github.com/gdsfactory/gdsfactory/pull/4168)
+- better error message [#4166](https://github.com/gdsfactory/gdsfactory/pull/4166)
 
 ## [9.15.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.15.0) - 2025-09-14
 
