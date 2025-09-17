@@ -174,7 +174,7 @@ class FileWatcher(FileSystemEventHandler):
             repo = pygit2.Repository(cwd)
             dirpath_str = repo.workdir or repo.path
         except pygit2.GitError:
-            dirpath_str = cwd
+            dirpath_str = str(cwd)
 
         try:
             filepath = pathlib.Path(filepath)
