@@ -172,13 +172,13 @@ class FileWatcher(FileSystemEventHandler):
 
         try:
             repo = pygit2.Repository(cwd)
-            dirpath = repo.workdir or repo.path
+            dirpath_str = repo.workdir or repo.path
         except pygit2.GitError:
-            dirpath = cwd
+            dirpath_str = cwd
 
         try:
             filepath = pathlib.Path(filepath)
-            dirpath = pathlib.Path(dirpath) / "build" / "gds"
+            dirpath = pathlib.Path(dirpath_str) / "build" / "gds"
             dirpath.mkdir(parents=True, exist_ok=True)
 
             if filepath.exists():
