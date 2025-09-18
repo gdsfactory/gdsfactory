@@ -12,6 +12,7 @@ route_bundle calls different function depending on the port orientation.
 
 from __future__ import annotations
 
+import warnings
 from collections.abc import Sequence
 from functools import partial
 from typing import Literal, cast
@@ -181,8 +182,16 @@ def route_bundle(
         c = gf.Component()
         gf.routing.route_bundle(component=c, ports1=ports1, ports2=ports2, cross_section='strip', separation=5)
         c.plot()
-
     """
+
+    if router:
+        warnings.warn(
+            f"{router=} is being ignored and will be removed in future versions.",
+            stacklevel=2,
+        )
+
+    router = "optical"
+
     if cross_section is None:
         if layer is None or route_width is None:
             raise ValueError(
@@ -256,23 +265,11 @@ def route_bundle(
         bbox1 = gf.kdb.DBox()
         bbox2 = gf.kdb.DBox()
 
-        if start_straight_length:
-            p_ = gf.kdb.DPoint(start_straight_length, 0)
-            for port in ports1_:
-                bbox1 += port.dcplx_trans.disp.to_p()
-                bbox1 += port.dcplx_trans * p_
-        else:
-            for port in ports1_:
-                bbox1 += port.dcplx_trans.disp.to_p()
+        for port in ports1_:
+            bbox1 += port.dcplx_trans.disp.to_p()
 
-        if end_straight_length:
-            p_ = gf.kdb.DPoint(end_straight_length, 0)
-            for port in ports2_:
-                bbox2 += port.dcplx_trans.disp.to_p()
-                bbox1 += port.dcplx_trans * p_
-        else:
-            for port in ports2_:
-                bbox2 += port.dcplx_trans.disp.to_p()
+        for port in ports2_:
+            bbox2 += port.dcplx_trans.disp.to_p()
 
         bboxes.append(bbox1)
         bboxes.append(bbox2)
@@ -280,22 +277,11 @@ def route_bundle(
     elif auto_taper:
         bbox1 = gf.kdb.DBox()
         bbox2 = gf.kdb.DBox()
-        if start_straight_length:
-            p_ = gf.kdb.DPoint(start_straight_length, 0)
-            for port in ports1_:
-                bbox1 += port.dcplx_trans.disp.to_p()
-                bbox1 += port.dcplx_trans * p_
-        else:
-            for port in ports1_:
-                bbox1 += port.dcplx_trans.disp.to_p()
-        if end_straight_length:
-            p_ = gf.kdb.DPoint(end_straight_length, 0)
-            for port in ports2_:
-                bbox2 += port.dcplx_trans.disp.to_p()
-                bbox2 += port.dcplx_trans * p_
-        else:
-            for port in ports2_:
-                bbox2 += port.dcplx_trans.disp.to_p()
+        for port in ports1_:
+            bbox1 += port.dcplx_trans.disp.to_p()
+
+        for port in ports2_:
+            bbox2 += port.dcplx_trans.disp.to_p()
 
         ports1_ = add_auto_tapers(
             component, ports1_, cross_section=xs, layer_transitions=layer_transitions
@@ -347,69 +333,6 @@ def route_bundle(
                 marker.center = (p.x, p.y)
     else:
         waypoints_ = waypoints  # type: ignore[assignment]
-
-    router = router or "electrical" if port_type == "electrical" else "optical"
-    if router == "electrical":
-        if cross_section is not None:
-            xs = gf.get_cross_section(cross_section)
-            layer_: gf.kdb.LayerInfo | None = gf.kcl.get_info(
-                gf.get_layer(xs.sections[0].layer)
-            )
-        else:
-            layer_ = None
-        try:
-            route = kf.routing.electrical.route_bundle(
-                component,
-                ports1_,
-                ports2_,
-                separation=separation,
-                starts=start_straight_length,
-                ends=end_straight_length,
-                collision_check_layers=[
-                    c.kcl.layout.get_info(layer)
-                    for layer in collision_check_layer_enums
-                ]
-                if collision_check_layer_enums is not None
-                else None,
-                on_collision=on_collision,
-                bboxes=bboxes,
-                route_width=width,
-                sort_ports=sort_ports,
-                waypoints=waypoints_,
-                end_angles=end_angles,
-                start_angles=start_angles,
-                place_layer=layer_,
-            )
-        except Exception as e:
-            if raise_on_error:
-                raise e
-            gf.logger.error(f"Error in route_bundle: {e}")
-            layer_error_path = gf.get_layer_info(gf.CONF.layer_error_path)
-            route = kf.routing.electrical.route_bundle(
-                component,
-                ports1_,
-                ports2_,
-                separation=separation,
-                starts=start_straight_length,
-                ends=end_straight_length,
-                on_collision=on_collision,
-                bboxes=bboxes,
-                route_width=width,
-                sort_ports=sort_ports,
-                end_angles=end_angles,
-                start_angles=start_angles,
-                place_layer=layer_error_path,
-            )
-
-            if waypoints and waypoints_ is not None:
-                layer_marker = gf.CONF.layer_error_path
-                for p in waypoints_:
-                    marker = component << gf.components.rectangle(
-                        size=(10, 10), layer=layer_marker, centered=True
-                    )
-                    marker.center = (p.x, p.y)
-
-        return route
 
     bend90 = (
         bend
