@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Any
+
 import numpy as np
 
 import gdsfactory as gf
@@ -65,8 +67,37 @@ def wire_corner(
     return c
 
 
-@gf.cell_with_module_name
+@gf.cell
 def wire_corner45(
+    radius: float = 10,
+    width: float | None = 5.0,
+    cross_section: CrossSectionSpec = "metal_routing",
+) -> gf.Component:
+    """Returns 45 degrees electrical corner wire.
+
+    Args:
+        radius: of the corner.
+        width: of the wire.
+        cross_section: metal_routing.
+    """
+    c = gf.Component()
+
+    p = gf.Path(
+        [
+            (0.0, 0.0),
+            (radius / 2.0, 0.0),
+            (radius, radius / 2.0),
+            (radius, radius),
+        ]
+    )
+
+    xs = gf.get_cross_section(cross_section, width=width)
+    c = p.extrude(cross_section=xs)
+    return c
+
+
+@gf.cell_with_module_name
+def wire_corner45_single_layer(
     cross_section: CrossSectionSpec = "metal_routing",
     radius: float = 10,
     width: float | None = None,
@@ -142,6 +173,7 @@ def wire_corner45(
 def wire_corner_sections(
     cross_section: CrossSectionSpec = "metal_routing",
     port_type: str = "electrical",
+    **kwargs: Any,
 ) -> Component:
     """Returns 90 degrees electrical corner wire, where all cross_section sections properly represented.
 
@@ -150,6 +182,7 @@ def wire_corner_sections(
     Args:
         cross_section: spec.
         port_type: "electrical" or "optical".
+        kwargs: cross_section settings, ignored (such as radius, width, layer).
     """
     x = gf.get_cross_section(cross_section)
 
@@ -202,3 +235,8 @@ def wire_corner_sections(
     c.info["dy"] = ymax - xmin
     x.add_bbox(c)
     return c
+
+
+if __name__ == "__main__":
+    c = wire_corner45_single_layer()
+    c.show()

@@ -1116,6 +1116,69 @@ def metal3(
 
 
 @xsection
+def gs(
+    width_metal: float = 10,
+    layer: typings.LayerSpec = "M3",
+    gap: float = 2,
+    layer_port: typings.LayerSpec = "M3_ABSTRACT",
+    radius: float | None = None,
+    **kwargs: Any,
+) -> CrossSection:
+    """Return Ground-Signal-Ground cross_section.
+
+    Args:
+        width_metal: in um.
+        layer: metal layer.
+        gap: between metal lines in um.
+        layer_port: port layer.
+        radius: bend radius. Optional, defaults to 2*width+gap.
+        kwargs: cross_section settings. (ignored)
+    """
+    width = width_metal
+    sections = [
+        Section(
+            width=gap,
+            layer=layer_port,
+            offset=0,
+            port_names=port_names_electrical,
+            port_types=port_types_electrical,
+        ),
+        Section(width=width, layer=layer, offset=+gap / 2 + width / 2),
+        Section(width=width, layer=layer, offset=-gap / 2 - width / 2),
+    ]
+    return CrossSection(sections=tuple(sections), radius=radius or 2 * width + gap)
+
+
+def gsg(
+    width: float = 10,
+    layer: typings.LayerSpec = "M3",
+    gap: float = 2,
+    radius: float | None = None,
+) -> CrossSection:
+    """Return Ground-Signal-Ground cross_section.
+
+    Args:
+        width_metal: in um.
+        layer: metal layer.
+        gap: between metal lines in um.
+        layer_port: port layer.
+        radius: bend radius. Optional, defaults to 3*width+2*gap.
+    """
+    sections = [
+        Section(
+            width=gap,
+            layer=layer,
+            offset=0,
+            port_names=port_names_electrical,
+            port_types=port_types_electrical,
+        ),
+        Section(width=width, layer=layer, offset=-gap - width / 2),
+        Section(width=width, layer=layer, offset=+gap + width / 2),
+    ]
+    return CrossSection(sections=tuple(sections), radius=radius or 3 * width + 2 * gap)
+
+
+@xsection
 def metal_routing(
     width: float = 10,
     layer: typings.LayerSpec = "M3",

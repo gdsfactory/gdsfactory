@@ -95,9 +95,6 @@ def _bend_euler(
     x = gf.get_cross_section(cross_section)
     radius = radius or x.radius
 
-    if radius is None:
-        return gf.c.wire_corner(cross_section=x)
-
     if layer and width:
         x = gf.get_cross_section(
             cross_section, layer=layer or x.layer, width=width or x.width
@@ -246,6 +243,7 @@ def bend_euler(
         p=p,
         with_arc_floorplan=with_arc_floorplan,
         npoints=npoints,
+        angular_step=angular_step,
         layer=layer,
         width=width,
         cross_section=cross_section,

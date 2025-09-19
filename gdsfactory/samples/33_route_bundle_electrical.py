@@ -38,5 +38,5 @@ if __name__ == "__main__":
         # router=router,
     )
 
-    lyrdb = c.connectivity_check()
+    lyrdb = c.connectivity_check(port_types=["electrical", "optical"])
     c.show(lyrdb=lyrdb)
