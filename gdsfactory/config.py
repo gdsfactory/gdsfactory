@@ -16,8 +16,8 @@ from rich.table import Table
 if TYPE_CHECKING:
     pass
 
-__version__ = "9.15.1"
-__next_major_version__ = "9.15.1"
+__version__ = "9.16.0"
+__next_major_version__ = "9.16.0"
 
 PathType = str | pathlib.Path
 

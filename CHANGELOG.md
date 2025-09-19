@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.16.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.16.0) - 2025-09-19
+
+No significant changes.
+
+
 ## [9.15.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.15.1) - 2025-09-17
 
 - Use pygit2 and depend on it explicitly [#4168](https://github.com/gdsfactory/gdsfactory/pull/4168)
