@@ -27,6 +27,7 @@ routes:
     routing_strategy: route_bundle
     settings:
       cross_section: metal_routing
+      bend: wire_corner
       steps:
         - dy: 100
           dx: -100

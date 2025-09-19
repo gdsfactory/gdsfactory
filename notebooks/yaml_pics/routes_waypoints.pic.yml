@@ -18,6 +18,7 @@ routes:
   route1:
     routing_strategy: route_bundle
     settings:
+      bend: wire_corner
       cross_section: metal_routing
       waypoints:
         - [0, 300]

@@ -572,6 +572,7 @@ def cross_section(
            │                                                            │
            └────────────────────────────────────────────────────────────┘
     """
+    radius = radius or width
     section_list: list[Section] = list(sections or [])
     cladding_simplify_not_none: list[float | None] | None = None
     cladding_offsets_not_none: list[float] | None = None
@@ -1188,6 +1189,7 @@ def metal_routing(
     **kwargs: Any,
 ) -> CrossSection:
     """Return Metal Strip cross_section."""
+
     return cross_section(
         width=width,
         layer=layer,

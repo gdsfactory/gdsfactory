@@ -69,18 +69,19 @@ def wire_corner(
 
 @gf.cell
 def wire_corner45_straight(
-    radius: float = 10,
     width: float | None = 5.0,
+    radius: float | None = None,
     cross_section: CrossSectionSpec = "metal_routing",
 ) -> gf.Component:
     """Returns 45 degrees wire straight ends.
 
     Args:
-        radius: of the corner.
         width: of the wire.
+        radius: of the corner. Defaults to width.
         cross_section: metal_routing.
     """
     c = gf.Component()
+    radius = radius or width
 
     p = gf.Path(
         [
