@@ -1,5 +1,5 @@
 instances: {}
-name: wire_corner45_straight_R10_W5_CSmetal_routing
+name: wire_corner45_straight_W5_RNone_CSmetal_routing
 nets: []
 placements: {}
 ports: {}
