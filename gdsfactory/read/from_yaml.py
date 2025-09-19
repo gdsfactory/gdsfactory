@@ -807,13 +807,21 @@ def from_yaml(
     c = Component()
     dct = _load_yaml_str(yaml_str)
     pdk = get_active_pdk()
-    net = Netlist.model_validate(dct)
-    g = _get_dependency_graph(net)
-    refs = _get_references(c, pdk, net.instances)
-    _place_and_connect(g, refs, net.connections, net.placements)
-    c = _add_routes(c, refs, net.routes, routing_strategies)
-    c = _add_ports(c, refs, net.ports)
-    c = _add_labels(c, refs, label_instance_function)
+    net = kf.DSchematic.model_validate(dct)
+    net.create_cell(
+        output_type=Component,
+        factories=pdk.cells,
+        routing_strategies=pdk.routing_strategies,
+        place_unknown=True,
+    )
+
+    # net = Netlist.model_validate(dct)
+    # g = _get_dependency_graph(net)
+    # refs = _get_references(c, pdk, net.instances)
+    # _place_and_connect(g, refs, net.connections, net.placements)
+    # c = _add_routes(c, refs, net.routes, routing_strategies)
+    # c = _add_ports(c, refs, net.ports)
+    # c = _add_labels(c, refs, label_instance_function)
     c.name = name or net.name or c.name
     return c
 
@@ -2108,3 +2116,7 @@ connections:
   s1,o1: b1,o2
   s0,o2: b1,o1
 """
+
+if __name__ == "__main__":
+    c = from_yaml(sample_all_angle)
+    c.show()
