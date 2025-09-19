@@ -45,8 +45,10 @@ def taper_from_csv(
     for section in x.sections[1:]:
         ys_trench = ys + section.width
         c.add_polygon(
-            list(zip(xs, ys_trench, strict=False))
-            + list(zip(xs, -ys_trench, strict=False))[::-1],
+            [(float(x), float(y)) for x, y in zip(xs, ys_trench, strict=False)]
+            + [(float(x), float(y)) for x, y in zip(xs, -ys_trench, strict=False)][
+                ::-1
+            ],
             layer=section.layer,
         )
 

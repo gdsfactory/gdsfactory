@@ -192,11 +192,11 @@ def route_astar(
     # Find the closest valid nodes
     start_node = min(
         G.nodes,
-        key=lambda node: np.linalg.norm(np.array(node) - np.array(start_node)),
+        key=lambda node: float(np.linalg.norm(np.array(node) - np.array(start_node))),
     )
     end_node = min(
         G.nodes,
-        key=lambda node: np.linalg.norm(np.array(node) - np.array(end_node)),
+        key=lambda node: float(np.linalg.norm(np.array(node) - np.array(end_node))),
     )
 
     path = nx.astar_path(G, start_node, end_node)  # Find shortest path
