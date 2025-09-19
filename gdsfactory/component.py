@@ -849,7 +849,8 @@ class Component(ComponentBase, kf.DKCell):
             raise LockedError(self)
 
         layer_indexes = self.kcl.layer_indexes()
-        layers = [get_layer(layer) for layer in layers if layer in layer_indexes]
+        layer_indexes_to_remove = [get_layer(layer) for layer in layers]
+        layers = [layer for layer in layer_indexes_to_remove if layer in layer_indexes]
 
         for layer_index in layers:
             assert isinstance(layer_index, int)
