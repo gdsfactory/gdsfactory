@@ -107,7 +107,9 @@ def route_bundle(
     collision_check_layers: LayerSpecs | None = None,
     on_collision: Literal["error", "show_error"] | None = None,
     bboxes: Sequence[kf.kdb.DBox] | None = None,
-    allow_width_mismatch: bool = False,
+    allow_width_mismatch: bool | None = None,
+    allow_layer_mismatch: bool | None = None,
+    allow_type_mismatch: bool | None = None,
     radius: float | None = None,
     route_width: float | None = None,
     straight: ComponentSpec = "straight",
@@ -145,6 +147,8 @@ def route_bundle(
         on_collision: action to take on collision. Defaults to None (ignore).
         bboxes: list of bounding boxes to avoid collisions.
         allow_width_mismatch: allow different port widths.
+        allow_layer_mismatch: allow different port layers to connect.
+        allow_type_mismatch: allow different port types to connect.
         radius: bend radius. If None, defaults to cross_section.radius.
         route_width: width of the route. If None, defaults to cross_section.width.
         straight: function for the straight. Defaults to straight.
@@ -367,6 +371,8 @@ def route_bundle(
             else None,
             on_collision=on_collision,
             allow_width_mismatch=allow_width_mismatch,
+            allow_layer_mismatch=allow_layer_mismatch,
+            allow_type_mismatch=allow_type_mismatch,
             bboxes=list(bboxes or []),
             route_width=width,
             sort_ports=sort_ports,
