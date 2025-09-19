@@ -146,6 +146,7 @@ routes:
         settings:
             port_type: electrical
             separation: 20
+            bend: wire_corner
             cross_section:
                 cross_section: metal3
                 settings:

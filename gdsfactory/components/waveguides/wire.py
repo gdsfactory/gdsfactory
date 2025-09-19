@@ -68,12 +68,12 @@ def wire_corner(
 
 
 @gf.cell
-def wire_corner45(
+def wire_corner45_straight(
     radius: float = 10,
     width: float | None = 5.0,
     cross_section: CrossSectionSpec = "metal_routing",
 ) -> gf.Component:
-    """Returns 45 degrees electrical corner wire.
+    """Returns 45 degrees wire straight ends.
 
     Args:
         radius: of the corner.
@@ -97,7 +97,7 @@ def wire_corner45(
 
 
 @gf.cell_with_module_name
-def wire_corner45_single_layer(
+def wire_corner45(
     cross_section: CrossSectionSpec = "metal_routing",
     radius: float = 10,
     width: float | None = None,

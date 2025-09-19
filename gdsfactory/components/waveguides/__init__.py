@@ -39,7 +39,7 @@ from gdsfactory.components.waveguides.straight_pin_slot import (
 from gdsfactory.components.waveguides.wire import (
     wire_corner,
     wire_corner45,
-    wire_corner45_single_layer,
+    wire_corner45_straight,
     wire_corner_sections,
 )
 
@@ -67,7 +67,7 @@ __all__ = [
     "straight_pn_slot",
     "wire_corner",
     "wire_corner45",
-    "wire_corner45_single_layer",
+    "wire_corner45_straight",
     "wire_corner_sections",
     "wire_straight",
 ]

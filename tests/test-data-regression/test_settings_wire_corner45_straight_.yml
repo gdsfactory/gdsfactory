@@ -1,0 +1,7 @@
+info:
+  length: 17.071
+name: wire_corner45_straight_R10_W5_CSmetal_routing
+settings:
+  cross_section: metal_routing
+  radius: 10
+  width: 5

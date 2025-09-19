@@ -363,7 +363,7 @@ from gdsfactory.components.waveguides import (
     wire,
     wire_corner,
     wire_corner45,
-    wire_corner45_single_layer,
+    wire_corner45_straight,
     wire_corner_sections,
     wire_straight,
 )
@@ -693,7 +693,7 @@ __all__ = [
     "wire",
     "wire_corner",
     "wire_corner45",
-    "wire_corner45_single_layer",
+    "wire_corner45_straight",
     "wire_corner_sections",
     "wire_straight",
 ]
