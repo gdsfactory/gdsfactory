@@ -190,6 +190,7 @@ def get_netlist(
     get_instance_name: Callable[..., str] = get_instance_name_from_alias,
     allow_multiple: bool = True,
     connection_error_types: dict[str, list[str]] | None = None,
+    ignore_warnings: bool = False,
 ) -> dict[str, Any]:
     """From Component returns a dict with instances, connections and placements.
 
@@ -209,6 +210,7 @@ def get_netlist(
         allow_multiple: False to raise an error if more than two ports share the same connection. \
                 if True, will return key: [value] pairs with [value] a list of all connected instances.
         connection_error_types: optional dictionary of port types and error types to raise an error for.
+        ignore_warnings: if True, will not include warnings in the returned netlist.
 
     Returns:
         instances: Dict of instance name and settings.
@@ -350,7 +352,7 @@ def get_netlist(
             allow_multiple=allow_multiple,
             connection_error_types=connection_error_types,
         )
-        if warnings_t:
+        if warnings_t and not ignore_warnings:
             warnings[port_type] = warnings_t
         for connection in connections_t:
             if len(connection) == 2:
