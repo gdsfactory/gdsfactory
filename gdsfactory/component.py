@@ -862,11 +862,11 @@ class Component(ComponentBase, kf.DKCell):
             self.kdb_cell.shapes(layer_index).clear()
             if recursive:
                 for ci in self.kdb_cell.called_cells():
-                    for layer in layers:
+                    for layer_index in layers:
                         was_locked = self.kcl[ci].locked
                         if unlock:
                             self.kcl[ci].locked = False
-                        self.kcl[ci].kdb_cell.shapes(layer).clear()
+                        self.kcl[ci].kdb_cell.shapes(layer_index).clear()
                         if unlock and was_locked:
                             self.kcl[ci].locked = True
         return self
