@@ -1,12 +1,16 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.15.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.16.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.16.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.16.0) - 2025-09-19
 
-No significant changes.
-
+- add unlock flag [#4173](https://github.com/gdsfactory/gdsfactory/pull/4173)
+- deprecate electrical router flag [#4174](https://github.com/gdsfactory/gdsfactory/pull/4174)
+- add exclude layers to write_gds and CONF [#4172](https://github.com/gdsfactory/gdsfactory/pull/4172)
+- add allow_layer_missmatch in route_bundle, add wire_corner45_straight [#4177](https://github.com/gdsfactory/gdsfactory/pull/4177)
+- better error message v2 [#4167](https://github.com/gdsfactory/gdsfactory/pull/4167)
+- Add ignore_warnings to get_netlist [#4175](https://github.com/gdsfactory/gdsfactory/pull/4175)
 
 ## [9.15.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.15.1) - 2025-09-17
 
