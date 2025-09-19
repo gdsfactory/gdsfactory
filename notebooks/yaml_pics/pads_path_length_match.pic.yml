@@ -27,6 +27,7 @@ placements:
 routes:
     electrical:
         settings:
+            bend: wire_corner
             separation: 20
             width: 10
             path_length_match_loops: 2

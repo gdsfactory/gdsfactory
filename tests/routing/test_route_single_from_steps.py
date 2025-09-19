@@ -56,6 +56,7 @@ def test_route_waypoints() -> None:
         p0,
         p1,
         cross_section="metal_routing",
+        bend="wire_corner",
         waypoints=[
             (p0x + o, p0y),
             (p0x + o, ytop),
@@ -89,6 +90,7 @@ def test_route_waypoints_numpy() -> None:
         c,
         p0,
         p1,
+        bend="wire_corner",
         cross_section="metal_routing",
         waypoints=[
             (p0x + o, p0y),

@@ -1,0 +1,6 @@
+info:
+  length: 8.536
+name: wire_corner45_straight_W5_RNone_CSmetal_routing
+settings:
+  cross_section: metal_routing
+  width: 5
