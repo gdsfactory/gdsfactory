@@ -661,7 +661,15 @@ def strip(
     radius_min: float = 5,
     **kwargs: Any,
 ) -> CrossSection:
-    """Return Strip cross_section."""
+    """Return Strip cross_section.
+
+    Args:
+        width: main Section width (um).
+        layer: main section layer.
+        radius: routing bend radius (um).
+        radius_min: min acceptable bend radius.
+        kwargs: cross_section settings.
+    """
     return cross_section(
         width=width,
         layer=layer,
@@ -680,7 +688,16 @@ def strip_no_ports(
     port_names: typings.IOPorts = ("", ""),
     **kwargs: Any,
 ) -> CrossSection:
-    """Return Strip cross_section."""
+    """Return Strip cross_section without ports.
+
+    Args:
+        width: main Section width (um).
+        layer: main section layer.
+        radius: routing bend radius (um).
+        radius_min: min acceptable bend radius.
+        port_names: for input and output ('o1', 'o2').
+        kwargs: cross_section settings.
+    """
     return cross_section(
         width=width,
         layer=layer,
