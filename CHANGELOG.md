@@ -1,12 +1,11 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.16.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.16.2...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.16.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.16.2) - 2025-09-20
 
-No significant changes.
-
+- fix wire_corner45_straight radius [#4181](https://github.com/gdsfactory/gdsfactory/pull/4181)
 
 ## [9.16.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.16.1) - 2025-09-20
 
