@@ -21,7 +21,7 @@ def wire_corner(
     port_names: PortNames = port_names_electrical,
     port_types: PortTypes = port_types_electrical,
     width: float | None = None,
-    radius: None | float = None,
+    radius: float | None = None,
 ) -> Component:
     """Returns 45 degrees electrical corner wire.
 
@@ -36,6 +36,7 @@ def wire_corner(
         x = gf.get_cross_section(cross_section, width=width)
     else:
         x = gf.get_cross_section(cross_section)
+
     layer = x.layer
     assert layer is not None
     width = x.width
@@ -81,7 +82,8 @@ def wire_corner45_straight(
         cross_section: metal_routing.
     """
     c = gf.Component()
-    radius = radius or width
+    xs = gf.get_cross_section(cross_section)
+    radius = radius or xs.radius
 
     if radius is None:
         raise ValueError("Either radius or width must be specified")
