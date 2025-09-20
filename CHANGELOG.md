@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.16.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.16.2) - 2025-09-20
+
+No significant changes.
+
+
 ## [9.16.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.16.1) - 2025-09-20
 
 - cross_section can have None bend radius [#4178](https://github.com/gdsfactory/gdsfactory/pull/4178)
