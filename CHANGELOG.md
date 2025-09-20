@@ -1,12 +1,12 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.16.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.16.1...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.16.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.16.1) - 2025-09-20
 
-No significant changes.
-
+- cross_section can have None bend radius [#4178](https://github.com/gdsfactory/gdsfactory/pull/4178)
+- better docs [#4180](https://github.com/gdsfactory/gdsfactory/pull/4180)
 
 ## [9.16.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.16.0) - 2025-09-19
 
