@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.16.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.16.1) - 2025-09-20
+
+No significant changes.
+
+
 ## [9.16.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.16.0) - 2025-09-19
 
 - add unlock flag [#4173](https://github.com/gdsfactory/gdsfactory/pull/4173)
