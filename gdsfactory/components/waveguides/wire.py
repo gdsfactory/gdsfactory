@@ -70,7 +70,7 @@ def wire_corner(
 
 @gf.cell
 def wire_corner45_straight(
-    width: float | None = 5.0,
+    width: float | None = None,
     radius: float | None = None,
     cross_section: CrossSectionSpec = "metal_routing",
 ) -> gf.Component:
@@ -97,7 +97,10 @@ def wire_corner45_straight(
         ]
     )
 
-    xs = gf.get_cross_section(cross_section, width=width)
+    if width:
+        xs = gf.get_cross_section(cross_section, width=width)
+    else:
+        xs = gf.get_cross_section(cross_section)
     c = p.extrude(cross_section=xs)
     return c
 
