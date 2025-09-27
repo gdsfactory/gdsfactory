@@ -1,12 +1,13 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.16.3...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.17.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.17.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.17.0) - 2025-09-27
 
-No significant changes.
-
+- add die_with_pads_gsg [#4187](https://github.com/gdsfactory/gdsfactory/pull/4187)
+- improve die with pads. Expose port names. [#4186](https://github.com/gdsfactory/gdsfactory/pull/4186)
+- Use Literal for boolean operation type [#4184](https://github.com/gdsfactory/gdsfactory/pull/4184)
 
 ## [9.16.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.16.3) - 2025-09-22
 
