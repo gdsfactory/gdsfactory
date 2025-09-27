@@ -77,10 +77,14 @@ def litho_ruler_staircase(
 
     Args:
         height_long: Height of the long ruling marks in um.
+        height_short: Height of the short ruling marks in um.
+        height_numbered: Height of the numbered ruling marks in um.
         width: Width of the ruling marks in um.
         spacing: Center-to-center spacing of the ruling marks in um.
-        marks: list of marks.
+        marks: Height scale pattern of marks.
         layer: Specific layer to put the ruler geometry on.
+        long_marks: Marks that are long.
+        text_size: Size of the text in um.
     """
     ymin = 0
     c = gf.Component()

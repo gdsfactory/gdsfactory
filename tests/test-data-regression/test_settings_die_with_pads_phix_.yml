@@ -1,0 +1,23 @@
+info: {}
+name: die_with_pads_phix_gdsfactorypcomponentspdiespdie_with__2a8eacfb
+settings:
+  cross_section: strip
+  edge_to_grating_distance: 150
+  edge_to_pad_distance: 200
+  fiber_pitch: 127
+  grating_coupler: grating_coupler_te
+  layer_fiducial: M3
+  layer_floorplan: FLOORPLAN
+  layer_ruler: M3
+  ngratings: 14
+  npads: 59
+  pad: pad
+  pad_pitch: 150
+  pad_port_name_bot: e2
+  pad_port_name_top: e4
+  size:
+  - 10570
+  - 5000
+  with_left_edge_coupler: true
+  with_loopback: true
+  with_right_edge_coupler: true

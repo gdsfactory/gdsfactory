@@ -1,0 +1,35 @@
+info: {}
+name: litho_ruler_staircase_gdsfactorypcomponentsppcmsplitho__1da3dea3
+settings:
+  height_long: 55
+  height_numbered: 10
+  height_short: 5
+  layer: WG
+  long_marks:
+  - -50
+  - 0
+  marks:
+  - -100
+  - null
+  - -90
+  - null
+  - -80
+  - null
+  - -70
+  - null
+  - -60
+  - null
+  - -50
+  - null
+  - -40
+  - null
+  - -30
+  - null
+  - -20
+  - null
+  - -10
+  - null
+  - 0
+  spacing: 5
+  text_size: 3.5
+  width: 2
