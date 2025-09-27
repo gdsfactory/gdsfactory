@@ -99,7 +99,9 @@ def litho_ruler_staircase(
         ref.ymin = ymin
 
         if mark is not None:
-            t = c << gf.c.text(text=str(mark), size=text_size, layer=layer)
+            t = c << gf.c.text_rectangular(
+                text=str(mark), size=text_size / 5, layer=layer
+            )
             t.rotate(90)
             t.ymin = ref.ymin + 1
             t.xmax = ref.xmin - 1
