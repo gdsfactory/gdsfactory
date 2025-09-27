@@ -18,6 +18,8 @@ def die_with_pads(
     edge_to_grating_distance: float = 150.0,
     with_loopback: bool = True,
     loopback_radius: float | None = None,
+    pad_port_name_top: str = "e4",
+    pad_port_name_bot: str = "e2",
 ) -> Component:
     """A die with grating couplers and pads.
 
@@ -35,6 +37,8 @@ def die_with_pads(
         edge_to_grating_distance: the distance from the edge to the grating couplers, in um.
         with_loopback: if True, adds a loopback between edge GCs. Only works for rotation = 90 for now.
         loopback_radius: optional radius for loopback.
+        pad_port_name_top: name of the pad port name at the btop facing south.
+        pad_port_name_bot: name of the pad port name at the bottom facing north.
     """
     c = Component()
     fp = c << gf.c.rectangle(
@@ -77,7 +81,7 @@ def die_with_pads(
         pad_ref.ymax = ys / 2 - edge_to_pad_distance
         c.add_port(
             name=f"N{i}",
-            port=pad_ref.ports["e4"],
+            port=pad_ref.ports[pad_port_name_top],
         )
 
     x0 = -npads * pad_pitch / 2 + edge_to_pad_distance
@@ -89,7 +93,7 @@ def die_with_pads(
         pad_ref.ymin = -ys / 2 + edge_to_pad_distance
         c.add_port(
             name=f"S{i}",
-            port=pad_ref.ports["e2"],
+            port=pad_ref.ports[pad_port_name_bot],
         )
 
     c.auto_rename_ports()
