@@ -1381,6 +1381,7 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):
 def container(
     component: ComponentSpec,
     function: Callable[..., Any] | None = None,
+    copy_ports: bool = True,
     **kwargs: Any,
 ) -> Component:
     """Returns new component with a component reference.
@@ -1388,6 +1389,7 @@ def container(
     Args:
         component: to add to container.
         function: function to apply to component.
+        copy_ports: if True, copies ports from component to container.
         kwargs: keyword arguments to pass to function.
     """
     import gdsfactory as gf
@@ -1395,7 +1397,8 @@ def container(
     component = gf.get_component(component)
     c = Component()
     cref = c << component
-    c.add_ports(cref.ports)
+    if copy_ports:
+        c.add_ports(cref.ports)
     if function:
         function(component=c, **kwargs)
 

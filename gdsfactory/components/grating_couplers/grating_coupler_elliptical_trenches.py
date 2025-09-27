@@ -145,3 +145,9 @@ grating_coupler_tm = partial(
     neff=1.8,
     grating_line_width=0.6,
 )
+
+
+if __name__ == "__main__":
+    c = grating_coupler_elliptical_trenches()
+    s = c.to_3d()
+    s.show()

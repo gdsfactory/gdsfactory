@@ -9,6 +9,8 @@ from gdsfactory.components.pads.pad import (
     pad_small,
 )
 from gdsfactory.components.pads.pad_gsg import (
+    pad_gs,
+    pad_gsg,
     pad_gsg_open,
     pad_gsg_short,
 )
@@ -26,6 +28,7 @@ __all__ = [
     "pad_array90",
     "pad_array180",
     "pad_array270",
+    "pad_gs",
     "pad_gsg",
     "pad_gsg_open",
     "pad_gsg_short",
