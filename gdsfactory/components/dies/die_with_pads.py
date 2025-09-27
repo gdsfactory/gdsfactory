@@ -229,7 +229,7 @@ def die_with_pads_phix(
         size: the size of the die, in um.
         ngratings: the number of grating couplers.
         npads: the number of pads.
-        grating_pitch: the pitch of the grating couplers, in um.
+        fiber_pitch: the pitch of the grating couplers, in um.
         pad_pitch: the pitch of the pads, in um.
         grating_coupler: the grating coupler component.
         cross_section: the cross section.
@@ -241,7 +241,10 @@ def die_with_pads_phix(
         loopback_radius: optional radius for loopback.
         pad_port_name_top: name of the pad port name at the btop facing south.
         pad_port_name_bot: name of the pad port name at the bottom facing north.
-
+        layer_fiducial: layer for fiducials.
+        layer_ruler: layer for ruler.
+        with_right_edge_coupler: if True, adds edge couplers on the right side.
+        with_left_edge_coupler: if True, adds edge couplers on the left side.
     """
     c = Component()
     fp = c << gf.c.rectangle(
