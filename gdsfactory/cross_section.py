@@ -1149,9 +1149,9 @@ def metal3(
 
 @xsection
 def gs(
-    width_metal: float = 10,
+    trace_width: float = 40,
     layer: typings.LayerSpec = "M3",
-    gap: float = 2,
+    gap: float = 120,
     layer_port: typings.LayerSpec = "M3_ABSTRACT",
     radius: float | None = None,
     **kwargs: Any,
@@ -1159,14 +1159,14 @@ def gs(
     """Return Ground-Signal-Ground cross_section.
 
     Args:
-        width_metal: in um.
+        trace_width: in um.
         layer: metal layer.
         gap: between metal lines in um.
         layer_port: port layer.
         radius: bend radius. Optional, defaults to 2*width+gap.
         kwargs: cross_section settings. (ignored)
     """
-    width = width_metal
+    width = trace_width
     sections = [
         Section(
             width=gap,
@@ -1181,31 +1181,33 @@ def gs(
     return CrossSection(sections=tuple(sections), radius=radius or 2 * width + gap)
 
 
+@xsection
 def gsg(
-    width: float = 10,
+    trace_width: float = 40,
     layer: typings.LayerSpec = "M3",
-    gap: float = 2,
+    gap: float = 60,
     radius: float | None = None,
 ) -> CrossSection:
     """Return Ground-Signal-Ground cross_section.
 
     Args:
-        width_metal: in um.
+        trace_width: in um.
         layer: metal layer.
         gap: between metal lines in um.
         layer_port: port layer.
         radius: bend radius. Optional, defaults to 3*width+2*gap.
     """
+    width = trace_width
     sections = [
         Section(
-            width=gap,
+            width=width,
             layer=layer,
             offset=0,
             port_names=port_names_electrical,
             port_types=port_types_electrical,
         ),
-        Section(width=width, layer=layer, offset=-gap - width / 2),
-        Section(width=width, layer=layer, offset=+gap + width / 2),
+        Section(width=width, layer=layer, offset=-gap - width),
+        Section(width=width, layer=layer, offset=+gap + width),
     ]
     return CrossSection(sections=tuple(sections), radius=radius or 3 * width + 2 * gap)
 
