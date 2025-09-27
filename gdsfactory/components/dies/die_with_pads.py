@@ -206,7 +206,7 @@ def die_with_pads_phix(
     size: Size = (10570.0, 5000.0),
     ngratings: int = 14,
     npads: int = 59,
-    grating_pitch: float = 250.0,
+    fiber_pitch: float = 127.0,
     pad_pitch: float = 150.0,
     grating_coupler: ComponentSpec | None = "grating_coupler_te",
     cross_section: CrossSectionSpec = "strip",
@@ -219,6 +219,9 @@ def die_with_pads_phix(
     pad_port_name_top: str = "e4",
     pad_port_name_bot: str = "e2",
     layer_fiducial: LayerSpec = "M3",
+    layer_ruler: LayerSpec = "M3",
+    with_right_edge_coupler: bool = True,
+    with_left_edge_coupler: bool = True,
 ) -> Component:
     """A die with grating couplers and pads.
 
@@ -249,10 +252,10 @@ def die_with_pads_phix(
     # Add optical ports
     x0 = xs / 2 + edge_to_grating_distance
 
-    if grating_coupler:
+    if grating_coupler and not with_right_edge_coupler:
         gca = gf.c.grating_coupler_array(
             n=ngratings,
-            pitch=grating_pitch,
+            pitch=fiber_pitch,
             with_loopback=with_loopback,
             grating_coupler=grating_coupler,
             cross_section=cross_section,
@@ -269,6 +272,26 @@ def die_with_pads_phix(
         right.xmax = xs / 2 - edge_to_grating_distance
         right.y = fp.y
         c.add_ports(right.ports, prefix="E")
+
+    if with_right_edge_coupler:
+        ruler_top_right = c << gf.c.litho_ruler_staircase(layer=layer_ruler)
+        ruler_top_right.xmax = fp.xmax
+        ruler_top_right.ymax = fp.ymax - 300
+
+        ruler_bot_right = c << gf.c.litho_ruler_staircase(layer=layer_ruler)
+        ruler_bot_right.xmax = fp.xmax
+        ruler_bot_right.ymin = fp.ymin + 300
+
+    if with_left_edge_coupler:
+        ruler_top_left = c << gf.c.litho_ruler_staircase(layer=layer_ruler)
+        ruler_top_left.rotate(180)
+        ruler_top_left.xmin = fp.xmin
+        ruler_top_left.ymax = fp.ymax - 300
+
+        ruler_bot_left = c << gf.c.litho_ruler_staircase(layer=layer_ruler)
+        ruler_bot_left.rotate(180)
+        ruler_bot_left.xmin = fp.xmin
+        ruler_bot_left.ymin = fp.ymin + 300
 
     # Add electrical ports
     pad = gf.get_component(pad)
