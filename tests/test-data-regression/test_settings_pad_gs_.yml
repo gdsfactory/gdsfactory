@@ -1,0 +1,11 @@
+info:
+  length: 100
+  route_info_gs_length: 100
+  route_info_length: 100
+  route_info_type: gs
+  route_info_weight: 100
+  width: 120
+name: pad_gs_gdsfactorypcomponentsppadsppad_gsg_L100_CSgs
+settings:
+  cross_section: gs
+  length: 100

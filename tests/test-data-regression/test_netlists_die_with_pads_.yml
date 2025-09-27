@@ -1472,7 +1472,7 @@ instances:
       size:
       - 11470
       - 4900
-name: die_with_pads_gdsfactorypcomponentspdiespdie_with_pads__9da714b1
+name: die_with_pads_gdsfactorypcomponentspdiespdie_with_pads__650efb91
 nets: []
 placements:
   grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5524199_0_A90:
