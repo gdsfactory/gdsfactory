@@ -1,0 +1,20 @@
+info: {}
+name: die_with_pads_gsg_gdsfactorypcomponentspdiespdie_with_p_f2cebd76
+settings:
+  cross_section: strip
+  edge_to_grating_distance: 150
+  edge_to_pad_distance: 150
+  grating_coupler: grating_coupler_te
+  grating_pitch: 250
+  layer_floorplan: FLOORPLAN
+  ngratings: 14
+  npads: 31
+  pad: pad_gsg
+  pad_pitch: 300
+  pad_port_name_bot: e1
+  pad_port_name_top: e1
+  pad_rotation: 90
+  size:
+  - 11470
+  - 4900
+  with_loopback: true
