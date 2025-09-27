@@ -52,6 +52,7 @@ from gdsfactory.components.pcms.litho_calipers import (
 )
 from gdsfactory.components.pcms.litho_ruler import (
     litho_ruler,
+    litho_ruler_staircase,
 )
 from gdsfactory.components.pcms.litho_steps import (
     litho_steps,
@@ -97,6 +98,7 @@ __all__ = [
     "greek_cross_with_pads",
     "litho_calipers",
     "litho_ruler",
+    "litho_ruler_staircase",
     "litho_steps",
     "pixel",
     "qrcode",
