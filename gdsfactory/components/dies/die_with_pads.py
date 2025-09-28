@@ -208,9 +208,11 @@ def die_with_pads_phix(
     npads: int = 59,
     fiber_pitch: float = 127.0,
     pad_pitch: float = 150.0,
-    grating_coupler: ComponentSpec | None = "grating_coupler_te",
+    pad_pitch_gsg: float = 720.0,
+    grating_coupler: ComponentSpec | None = None,
     cross_section: CrossSectionSpec = "strip",
     pad: ComponentSpec = "pad",
+    pad_gsg: ComponentSpec = "pad_gsg",
     layer_floorplan: LayerSpec = "FLOORPLAN",
     edge_to_pad_distance: float = 200.0,
     edge_to_grating_distance: float = 150.0,
@@ -221,7 +223,7 @@ def die_with_pads_phix(
     layer_fiducial: LayerSpec = "M3",
     layer_ruler: LayerSpec = "M3",
     with_right_edge_coupler: bool = True,
-    with_left_edge_coupler: bool = True,
+    with_left_edge_coupler: bool = False,
 ) -> Component:
     """A die with grating couplers and pads.
 
@@ -255,7 +257,7 @@ def die_with_pads_phix(
     # Add optical ports
     x0 = xs / 2 + edge_to_grating_distance
 
-    if grating_coupler and not with_right_edge_coupler:
+    if grating_coupler:
         gca = gf.c.grating_coupler_array(
             n=ngratings,
             pitch=fiber_pitch,
@@ -264,17 +266,20 @@ def die_with_pads_phix(
             cross_section=cross_section,
             radius=loopback_radius,
         )
-        left = c << gca
-        left.rotate(-90)
-        left.xmin = -xs / 2 + edge_to_grating_distance
-        left.y = fp.y
-        c.add_ports(left.ports, prefix="W")
 
-        right = c << gca
-        right.rotate(+90)
-        right.xmax = xs / 2 - edge_to_grating_distance
-        right.y = fp.y
-        c.add_ports(right.ports, prefix="E")
+        if not with_left_edge_coupler:
+            left = c << gca
+            left.rotate(-90)
+            left.xmin = -xs / 2 + edge_to_grating_distance
+            left.y = fp.y
+            c.add_ports(left.ports, prefix="W")
+
+        if not with_right_edge_coupler:
+            right = c << gca
+            right.rotate(+90)
+            right.xmax = xs / 2 - edge_to_grating_distance
+            right.y = fp.y
+            c.add_ports(right.ports, prefix="E")
 
     if with_right_edge_coupler:
         ruler_top_right = c << gf.c.ruler(layer=layer_ruler)
@@ -295,6 +300,19 @@ def die_with_pads_phix(
         ruler_bot_left.rotate(180)
         ruler_bot_left.xmin = fp.xmin
         ruler_bot_left.ymin = fp.ymin + 300
+
+    else:
+        # left RF pads
+        y0 = fp.ymax - 390 - pad_pitch_gsg / 2
+        npads_rf = 6
+        for i in range(npads_rf):
+            pad_ref = c << gf.get_component(pad_gsg)
+            pad_ref.y = y0 - i * pad_pitch_gsg
+            pad_ref.xmin = fp.xmin + 50
+            c.add_port(
+                name=f"e{i}",
+                port=pad_ref.ports["e2"],
+            )
 
     # Add electrical ports
     pad = gf.get_component(pad)
