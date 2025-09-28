@@ -206,6 +206,7 @@ def die_with_pads_phix(
     size: Size = (10570.0, 5000.0),
     ngratings: int = 14,
     npads: int = 59,
+    npads_rf: int = 6,
     fiber_pitch: float = 127.0,
     pad_pitch: float = 150.0,
     pad_pitch_gsg: float = 720.0,
@@ -231,6 +232,7 @@ def die_with_pads_phix(
         size: the size of the die, in um.
         ngratings: the number of grating couplers.
         npads: the number of pads.
+        npads_rf: the number of RF pads on the left side.
         fiber_pitch: the pitch of the grating couplers, in um.
         pad_pitch: the pitch of the pads, in um.
         grating_coupler: the grating coupler component.
@@ -304,7 +306,6 @@ def die_with_pads_phix(
     else:
         # left RF pads
         y0 = fp.ymax - 390 - pad_pitch_gsg / 2
-        npads_rf = 6
         for i in range(npads_rf):
             pad_ref = c << gf.get_component(pad_gsg)
             pad_ref.y = y0 - i * pad_pitch_gsg

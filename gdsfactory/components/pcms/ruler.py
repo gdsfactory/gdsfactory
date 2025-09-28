@@ -53,14 +53,14 @@ def ruler(
         long_marks: Marks that are long.
         text_size: Size of the text in um.
     """
-    ymin = 0
+    ymin = 0.0
     c = gf.Component()
     for i, mark in enumerate(marks):
         h = height_numbered if mark else height_short
         h = height_long if mark in long_marks else h
 
         if mark in long_marks:
-            ymin = 0
+            ymin = 0.0
         else:
             ymin += height_short
 
