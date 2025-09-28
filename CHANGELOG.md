@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.18.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.18.0) - 2025-09-28
+
+No significant changes.
+
+
 ## [9.17.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.17.0) - 2025-09-27
 
 - add die_with_pads_gsg [#4187](https://github.com/gdsfactory/gdsfactory/pull/4187)
