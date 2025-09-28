@@ -8,7 +8,8 @@ from gdsfactory.components.dies.die import (
 from gdsfactory.components.dies.die_with_pads import (
     die_with_pads,
     die_with_pads_gsg,
-    die_with_pads_phix,
+    die_with_pads_phix_dc,
+    die_with_pads_phix_rf,
 )
 from gdsfactory.components.dies.seal_ring import (
     seal_ring,
@@ -24,7 +25,8 @@ __all__ = [
     "die",
     "die_with_pads",
     "die_with_pads_gsg",
-    "die_with_pads_phix",
+    "die_with_pads_phix_dc",
+    "die_with_pads_phix_rf",
     "seal_ring",
     "seal_ring_segmented",
     "wafer",
