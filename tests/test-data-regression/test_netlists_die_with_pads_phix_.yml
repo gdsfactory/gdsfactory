@@ -28,150 +28,6 @@ instances:
       length: 150
       port_type: null
       width: 20
-  litho_ruler_staircase_gdsfactorypcomponentsppcmsplitho__33c16a2f_5183000_2142800:
-    component: litho_ruler_staircase
-    info: {}
-    settings:
-      height_long: 55
-      height_numbered: 10
-      height_short: 5
-      layer: M3
-      long_marks:
-      - -50
-      - 0
-      marks:
-      - -100
-      - null
-      - -90
-      - null
-      - -80
-      - null
-      - -70
-      - null
-      - -60
-      - null
-      - -50
-      - null
-      - -40
-      - null
-      - -30
-      - null
-      - -20
-      - null
-      - -10
-      - null
-      - 0
-      spacing: 5
-      text_size: 3.5
-      width: 2
-  litho_ruler_staircase_gdsfactorypcomponentsppcmsplitho__33c16a2f_5183000_m2200000:
-    component: litho_ruler_staircase
-    info: {}
-    settings:
-      height_long: 55
-      height_numbered: 10
-      height_short: 5
-      layer: M3
-      long_marks:
-      - -50
-      - 0
-      marks:
-      - -100
-      - null
-      - -90
-      - null
-      - -80
-      - null
-      - -70
-      - null
-      - -60
-      - null
-      - -50
-      - null
-      - -40
-      - null
-      - -30
-      - null
-      - -20
-      - null
-      - -10
-      - null
-      - 0
-      spacing: 5
-      text_size: 3.5
-      width: 2
-  litho_ruler_staircase_gdsfactorypcomponentsppcmsplitho__33c16a2f_m5183000_2200000_A180:
-    component: litho_ruler_staircase
-    info: {}
-    settings:
-      height_long: 55
-      height_numbered: 10
-      height_short: 5
-      layer: M3
-      long_marks:
-      - -50
-      - 0
-      marks:
-      - -100
-      - null
-      - -90
-      - null
-      - -80
-      - null
-      - -70
-      - null
-      - -60
-      - null
-      - -50
-      - null
-      - -40
-      - null
-      - -30
-      - null
-      - -20
-      - null
-      - -10
-      - null
-      - 0
-      spacing: 5
-      text_size: 3.5
-      width: 2
-  litho_ruler_staircase_gdsfactorypcomponentsppcmsplitho__33c16a2f_m5183000_m2142800_A180:
-    component: litho_ruler_staircase
-    info: {}
-    settings:
-      height_long: 55
-      height_numbered: 10
-      height_short: 5
-      layer: M3
-      long_marks:
-      - -50
-      - 0
-      marks:
-      - -100
-      - null
-      - -90
-      - null
-      - -80
-      - null
-      - -70
-      - null
-      - -60
-      - null
-      - -50
-      - null
-      - -40
-      - null
-      - -30
-      - null
-      - -20
-      - null
-      - -10
-      - null
-      - 0
-      spacing: 5
-      text_size: 3.5
-      width: 2
   pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_1035000_2250000:
     component: pad
     info:
@@ -2901,6 +2757,150 @@ instances:
       size:
       - 10570
       - 5000
+  ruler_gdsfactorypcomponentsppcmspruler_HL55_HS5_HN10_W2_c3e4e56b_5183000_2142800:
+    component: ruler
+    info: {}
+    settings:
+      height_long: 55
+      height_numbered: 10
+      height_short: 5
+      layer: M3
+      long_marks:
+      - -50
+      - 0
+      marks:
+      - -100
+      - null
+      - -90
+      - null
+      - -80
+      - null
+      - -70
+      - null
+      - -60
+      - null
+      - -50
+      - null
+      - -40
+      - null
+      - -30
+      - null
+      - -20
+      - null
+      - -10
+      - null
+      - 0
+      spacing: 5
+      text_size: 3.5
+      width: 2
+  ruler_gdsfactorypcomponentsppcmspruler_HL55_HS5_HN10_W2_c3e4e56b_5183000_m2200000:
+    component: ruler
+    info: {}
+    settings:
+      height_long: 55
+      height_numbered: 10
+      height_short: 5
+      layer: M3
+      long_marks:
+      - -50
+      - 0
+      marks:
+      - -100
+      - null
+      - -90
+      - null
+      - -80
+      - null
+      - -70
+      - null
+      - -60
+      - null
+      - -50
+      - null
+      - -40
+      - null
+      - -30
+      - null
+      - -20
+      - null
+      - -10
+      - null
+      - 0
+      spacing: 5
+      text_size: 3.5
+      width: 2
+  ruler_gdsfactorypcomponentsppcmspruler_HL55_HS5_HN10_W2_c3e4e56b_m5183000_2200000_A180:
+    component: ruler
+    info: {}
+    settings:
+      height_long: 55
+      height_numbered: 10
+      height_short: 5
+      layer: M3
+      long_marks:
+      - -50
+      - 0
+      marks:
+      - -100
+      - null
+      - -90
+      - null
+      - -80
+      - null
+      - -70
+      - null
+      - -60
+      - null
+      - -50
+      - null
+      - -40
+      - null
+      - -30
+      - null
+      - -20
+      - null
+      - -10
+      - null
+      - 0
+      spacing: 5
+      text_size: 3.5
+      width: 2
+  ruler_gdsfactorypcomponentsppcmspruler_HL55_HS5_HN10_W2_c3e4e56b_m5183000_m2142800_A180:
+    component: ruler
+    info: {}
+    settings:
+      height_long: 55
+      height_numbered: 10
+      height_short: 5
+      layer: M3
+      long_marks:
+      - -50
+      - 0
+      marks:
+      - -100
+      - null
+      - -90
+      - null
+      - -80
+      - null
+      - -70
+      - null
+      - -60
+      - null
+      - -50
+      - null
+      - -40
+      - null
+      - -30
+      - null
+      - -20
+      - null
+      - -10
+      - null
+      - 0
+      spacing: 5
+      text_size: 3.5
+      width: 2
 name: die_with_pads_phix_gdsfactorypcomponentspdiespdie_with__2a8eacfb
 nets: []
 placements:
@@ -2924,26 +2924,6 @@ placements:
     rotation: 0
     x: -4865
     y: 2250
-  litho_ruler_staircase_gdsfactorypcomponentsppcmsplitho__33c16a2f_5183000_2142800:
-    mirror: false
-    rotation: 0
-    x: 5183
-    y: 2142.8
-  litho_ruler_staircase_gdsfactorypcomponentsppcmsplitho__33c16a2f_5183000_m2200000:
-    mirror: false
-    rotation: 0
-    x: 5183
-    y: -2200
-  litho_ruler_staircase_gdsfactorypcomponentsppcmsplitho__33c16a2f_m5183000_2200000_A180:
-    mirror: false
-    rotation: 180
-    x: -5183
-    y: 2200
-  litho_ruler_staircase_gdsfactorypcomponentsppcmsplitho__33c16a2f_m5183000_m2142800_A180:
-    mirror: false
-    rotation: 180
-    x: -5183
-    y: -2142.8
   pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_1035000_2250000:
     mirror: false
     rotation: 0
@@ -3539,6 +3519,26 @@ placements:
     rotation: 0
     x: 0
     y: 0
+  ruler_gdsfactorypcomponentsppcmspruler_HL55_HS5_HN10_W2_c3e4e56b_5183000_2142800:
+    mirror: false
+    rotation: 0
+    x: 5183
+    y: 2142.8
+  ruler_gdsfactorypcomponentsppcmspruler_HL55_HS5_HN10_W2_c3e4e56b_5183000_m2200000:
+    mirror: false
+    rotation: 0
+    x: 5183
+    y: -2200
+  ruler_gdsfactorypcomponentsppcmspruler_HL55_HS5_HN10_W2_c3e4e56b_m5183000_2200000_A180:
+    mirror: false
+    rotation: 180
+    x: -5183
+    y: 2200
+  ruler_gdsfactorypcomponentsppcmspruler_HL55_HS5_HN10_W2_c3e4e56b_m5183000_m2142800_A180:
+    mirror: false
+    rotation: 180
+    x: -5183
+    y: -2142.8
 ports:
   e1: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_m4665000_m2250000,e2
   e10: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_m3315000_m2250000,e2

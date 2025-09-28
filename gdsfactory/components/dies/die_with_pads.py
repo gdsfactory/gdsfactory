@@ -277,21 +277,21 @@ def die_with_pads_phix(
         c.add_ports(right.ports, prefix="E")
 
     if with_right_edge_coupler:
-        ruler_top_right = c << gf.c.litho_ruler_staircase(layer=layer_ruler)
+        ruler_top_right = c << gf.c.ruler(layer=layer_ruler)
         ruler_top_right.xmax = fp.xmax
         ruler_top_right.ymax = fp.ymax - 300
 
-        ruler_bot_right = c << gf.c.litho_ruler_staircase(layer=layer_ruler)
+        ruler_bot_right = c << gf.c.ruler(layer=layer_ruler)
         ruler_bot_right.xmax = fp.xmax
         ruler_bot_right.ymin = fp.ymin + 300
 
     if with_left_edge_coupler:
-        ruler_top_left = c << gf.c.litho_ruler_staircase(layer=layer_ruler)
+        ruler_top_left = c << gf.c.ruler(layer=layer_ruler)
         ruler_top_left.rotate(180)
         ruler_top_left.xmin = fp.xmin
         ruler_top_left.ymax = fp.ymax - 300
 
-        ruler_bot_left = c << gf.c.litho_ruler_staircase(layer=layer_ruler)
+        ruler_bot_left = c << gf.c.ruler(layer=layer_ruler)
         ruler_bot_left.rotate(180)
         ruler_bot_left.xmin = fp.xmin
         ruler_bot_left.ymin = fp.ymin + 300

@@ -52,7 +52,6 @@ from gdsfactory.components.pcms.litho_calipers import (
 )
 from gdsfactory.components.pcms.litho_ruler import (
     litho_ruler,
-    litho_ruler_staircase,
 )
 from gdsfactory.components.pcms.litho_steps import (
     litho_steps,
@@ -62,6 +61,9 @@ from gdsfactory.components.pcms.resistance_meander import (
 )
 from gdsfactory.components.pcms.resistance_sheet import (
     resistance_sheet,
+)
+from gdsfactory.components.pcms.ruler import (
+    ruler,
 )
 from gdsfactory.components.pcms.verniers import (
     verniers,
@@ -98,12 +100,12 @@ __all__ = [
     "greek_cross_with_pads",
     "litho_calipers",
     "litho_ruler",
-    "litho_ruler_staircase",
     "litho_steps",
     "pixel",
     "qrcode",
     "resistance_meander",
     "resistance_sheet",
+    "ruler",
     "staircase",
     "verniers",
     "version_stamp",
