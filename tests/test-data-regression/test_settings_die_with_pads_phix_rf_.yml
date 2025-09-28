@@ -1,0 +1,28 @@
+info: {}
+name: die_with_pads_phix_rf_gdsfactorypcomponentspdiespdie_wi_de6b3da5
+settings:
+  cross_section: strip
+  edge_coupler: edge_coupler_silicon
+  edge_to_pad_distance: 200
+  fiber_pitch: 127
+  layer_fiducial: M3
+  layer_floorplan: FLOORPLAN
+  layer_ruler: M3
+  nfibers: 32
+  npads: 59
+  npads_rf: 6
+  pad: pad
+  pad_gsg: pad_gsg
+  pad_pitch: 150
+  pad_pitch_gsg: 720
+  pad_port_name_bot: e2
+  pad_port_name_top: e4
+  size:
+  - 10570
+  - 5000
+  text: text_rectangular
+  text_offset:
+  - 20
+  - 10
+  with_left_edge_coupler: false
+  with_right_edge_coupler: true

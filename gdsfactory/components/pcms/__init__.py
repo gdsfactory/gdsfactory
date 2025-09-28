@@ -62,6 +62,9 @@ from gdsfactory.components.pcms.resistance_meander import (
 from gdsfactory.components.pcms.resistance_sheet import (
     resistance_sheet,
 )
+from gdsfactory.components.pcms.ruler import (
+    ruler,
+)
 from gdsfactory.components.pcms.verniers import (
     verniers,
 )
@@ -102,6 +105,7 @@ __all__ = [
     "qrcode",
     "resistance_meander",
     "resistance_sheet",
+    "ruler",
     "staircase",
     "verniers",
     "version_stamp",

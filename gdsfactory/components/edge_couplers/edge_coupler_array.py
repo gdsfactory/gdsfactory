@@ -93,7 +93,7 @@ def edge_coupler_array(
 def edge_coupler_array_with_loopback(
     edge_coupler: ComponentSpec = "edge_coupler_silicon",
     cross_section: CrossSectionSpec = "strip",
-    radius: float = 30,
+    radius: float | None = None,
     n: int = 8,
     pitch: float = 127.0,
     extension_length: float = 1.0,
@@ -116,6 +116,9 @@ def edge_coupler_array_with_loopback(
         text_offset: x, y.
         text_rotation: text rotation in degrees.
     """
+    xs = gf.get_cross_section(cross_section)
+    radius = radius or xs.radius
+
     c = Component()
     ec = edge_coupler_array(
         edge_coupler=edge_coupler,
