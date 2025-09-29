@@ -202,9 +202,9 @@ def die_with_pads_gsg(
 
 
 def die_with_pads_phix(
-    size: Size = (10570.0, 5000.0),
+    size: Size = (11570.0, 5000.0),
     nfibers: int = 32,
-    npads: int = 59,
+    npads: int = 60,
     npads_rf: int = 6,
     fiber_pitch: float = 127.0,
     pad_pitch: float = 150.0,
@@ -218,7 +218,7 @@ def die_with_pads_phix(
     pad_port_name_top: str = "e4",
     pad_port_name_bot: str = "e2",
     layer_fiducial: LayerSpec = "M3",
-    layer_ruler: LayerSpec = "M3",
+    layer_ruler: LayerSpec = "WG",
     with_right_edge_coupler: bool = True,
     with_left_edge_coupler: bool = True,
     text_offset: Float2 = (20, 10),
@@ -247,6 +247,9 @@ def die_with_pads_phix(
         text_offset: offset for text.
         text: text component spec.
     """
+    if npads > 60:
+        raise ValueError("npads should be <= 60. Reach out to PHIX for support.")
+
     c = Component()
     fp = c << gf.c.rectangle(
         size=size, layer=layer_floorplan, centered=True, port_type=None
@@ -325,7 +328,7 @@ def die_with_pads_phix(
     # Add electrical ports
     pad = gf.get_component(pad)
 
-    x0_pads = -npads * pad_pitch / 2 + edge_to_pad_distance - 490
+    x0_pads = -npads * pad_pitch / 2 + edge_to_pad_distance - pad_pitch / 2
     x0 = x0_pads
 
     top_left = c << gf.c.cross(layer=layer_fiducial, length=150, width=20)
@@ -370,7 +373,7 @@ def die_with_pads_phix(
 
 @gf.cell_with_module_name
 def die_with_pads_phix_dc(
-    size: Size = (10570.0, 5000.0),
+    size: Size = (11570.0, 5000.0),
     nfibers: int = 32,
     npads: int = 59,
     npads_rf: int = 6,
@@ -386,7 +389,7 @@ def die_with_pads_phix_dc(
     pad_port_name_top: str = "e4",
     pad_port_name_bot: str = "e2",
     layer_fiducial: LayerSpec = "M3",
-    layer_ruler: LayerSpec = "M3",
+    layer_ruler: LayerSpec = "WG",
     with_right_edge_coupler: bool = True,
     with_left_edge_coupler: bool = True,
     text_offset: Float2 = (20, 10),
@@ -435,11 +438,11 @@ def die_with_pads_phix_rf(
     pad_port_name_top: str = "e4",
     pad_port_name_bot: str = "e2",
     layer_fiducial: LayerSpec = "M3",
-    layer_ruler: LayerSpec = "M3",
+    layer_ruler: LayerSpec = "WG",
     with_right_edge_coupler: bool = True,
     with_left_edge_coupler: bool = False,
     text_offset: Float2 = (20, 10),
-    text: ComponentSpec | None = "text_rectangular",
+    text: ComponentSpec | None = "text_rectangular_mini",
 ) -> Component:
     return die_with_pads_phix(
         size=size,
@@ -473,7 +476,7 @@ if __name__ == "__main__":
     edge_coupler = partial(gf.c.edge_coupler_silicon, length=200)
 
     c = die_with_pads_phix_rf(edge_coupler=edge_coupler, text=text_m3)
-    c.write_gds("/Users/j/Downloads/die_with_pads_phix_rf.gds")
+    # c.write_gds("/Users/j/Downloads/die_with_pads_phix_rf.gds")
+    # c = die_with_pads_phix_dc(edge_coupler=edge_coupler, text=text_m3)
+    # c.write_gds("/Users/j/Downloads/die_with_pads_phix_dc.gds")
     c.show()
-    c = die_with_pads_phix_dc(edge_coupler=edge_coupler, text=text_m3)
-    c.write_gds("/Users/j/Downloads/die_with_pads_phix_dc.gds")

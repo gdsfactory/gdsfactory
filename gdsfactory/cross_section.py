@@ -1149,7 +1149,7 @@ def metal3(
 
 @xsection
 def gs(
-    trace_width: float = 40,
+    trace_width: float = 140,
     layer: typings.LayerSpec = "M3",
     gap: float = 120,
     layer_port: typings.LayerSpec = "M3_ABSTRACT",
@@ -1183,9 +1183,9 @@ def gs(
 
 @xsection
 def gsg(
-    trace_width: float = 40,
+    trace_width: float = 140,
     layer: typings.LayerSpec = "M3",
-    gap: float = 60,
+    gap: float = 100,
     radius: float | None = None,
 ) -> CrossSection:
     """Return Ground-Signal-Ground cross_section.
