@@ -264,15 +264,18 @@ def die_with_pads_phix(
             cross_section=cross_section,
             text_offset=text_offset,
             text=text,
+            port_orientation=180,
+            x_reflection=False,
         )
         gca_left = gf.c.edge_coupler_array_with_loopback(
             n=nfibers,
             pitch=fiber_pitch,
             edge_coupler=edge_coupler,
             cross_section=cross_section,
-            x_reflection=True,
             text_offset=text_offset,
             text=text,
+            port_orientation=0,
+            x_reflection=True,
         )
 
         if with_left_edge_coupler:

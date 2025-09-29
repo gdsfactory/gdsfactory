@@ -1,9 +1,10 @@
 info: {}
-name: edge_coupler_array_gdsfactorypcomponentspedge_couplersp_00badbf2
+name: edge_coupler_array_gdsfactorypcomponentspedge_couplersp_e2b8ee19
 settings:
   edge_coupler: edge_coupler_silicon
   n: 5
   pitch: 127
+  port_orientation: 180
   text: text_rectangular
   text_offset:
   - 10
