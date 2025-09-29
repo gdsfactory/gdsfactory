@@ -5,8 +5,7 @@
 
 ## [9.18.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.18.1) - 2025-09-29
 
-No significant changes.
-
+- fix port orientation [#4191](https://github.com/gdsfactory/gdsfactory/pull/4191)
 
 ## [9.18.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.18.0) - 2025-09-28
 
