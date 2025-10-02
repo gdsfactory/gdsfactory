@@ -406,3 +406,11 @@ def get_process() -> tuple[ProcessStep, ...]:
             - LayerStackParameters.thickness_slab_deep_etch,
         ),
     )
+
+
+if __name__ == "__main__":
+    import gdsfactory as gf
+
+    c = gf.c.grating_coupler_elliptical_trenches()
+    s = c.to_3d()
+    s.show()

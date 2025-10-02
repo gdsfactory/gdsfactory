@@ -1,5 +1,5 @@
 instances:
-  bend_euler_gdsfactorypc_387600b2_0_700:
+  bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2_0_700:
     component: bend_euler
     info:
       dy: 10
@@ -24,7 +24,7 @@ instances:
       radius: null
       width: null
       with_arc_floorplan: true
-  straight_gdsfactorypcom_f2286423_0_0:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_0:
     component: straight
     info:
       length: 10
@@ -38,21 +38,21 @@ instances:
       length: 10
       npoints: 2
       width: null
-name: coupler90_gdsfactorypco_9253bfe3
+name: coupler90_gdsfactorypcomponentspcouplerspcoupler90_G0p2_9253bfe3
 nets: []
 placements:
-  bend_euler_gdsfactorypc_387600b2_0_700:
+  bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2_0_700:
     mirror: false
     rotation: 0
     x: 0
     y: 0.7
-  straight_gdsfactorypcom_f2286423_0_0:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
 ports:
-  o1: straight_gdsfactorypcom_f2286423_0_0,o1
-  o2: bend_euler_gdsfactorypc_387600b2_0_700,o1
-  o3: bend_euler_gdsfactorypc_387600b2_0_700,o2
-  o4: straight_gdsfactorypcom_f2286423_0_0,o2
+  o1: straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_0,o1
+  o2: bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2_0_700,o1
+  o3: bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2_0_700,o2
+  o4: straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_0,o2

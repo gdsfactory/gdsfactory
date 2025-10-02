@@ -57,7 +57,7 @@ def big_device(
         center = tuple(p0 + (-dx, (i - n / 2) * spacing))
         create_port_with_port_settings(
             name=f"W{i}",
-            center=(center[0], center[1]),
+            center=(float(center[0]), float(center[1])),
             orientation=180,
         )
 
@@ -65,7 +65,7 @@ def big_device(
         center = tuple(p0 + (dx, (i - n / 2) * spacing))
         create_port_with_port_settings(
             name=f"E{i}",
-            center=(center[0], center[1]),
+            center=(float(center[0]), float(center[1])),
             orientation=0,
         )
 
@@ -73,7 +73,7 @@ def big_device(
         center = tuple(p0 + ((i - n / 2) * spacing, dy))
         create_port_with_port_settings(
             name=f"N{i}",
-            center=(center[0], center[1]),
+            center=(float(center[0]), float(center[1])),
             orientation=90,
         )
 
@@ -81,7 +81,7 @@ def big_device(
         center = tuple(p0 + ((i - n / 2) * spacing, -dy))
         create_port_with_port_settings(
             name=f"S{i}",
-            center=(center[0], center[1]),
+            center=(float(center[0]), float(center[1])),
             orientation=-90,
         )
 

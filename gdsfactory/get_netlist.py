@@ -191,6 +191,7 @@ def get_netlist(
     allow_multiple: bool = True,
     connection_error_types: dict[str, list[str]] | None = None,
     add_interface_on_mismatch: bool = False,
+    ignore_warnings: bool = False,
 ) -> dict[str, Any]:
     """From Component returns a dict with instances, connections and placements.
 
@@ -211,6 +212,7 @@ def get_netlist(
                 if True, will return key: [value] pairs with [value] a list of all connected instances.
         connection_error_types: optional dictionary of port types and error types to raise an error for.
         add_interface_on_mismatch: when True, additional interface instances are added to the netlist (e.g. to model mode mismatch)
+        ignore_warnings: if True, will not include warnings in the returned netlist.
 
     Returns:
         instances: Dict of instance name and settings.
@@ -352,7 +354,7 @@ def get_netlist(
             allow_multiple=allow_multiple,
             connection_error_types=connection_error_types,
         )
-        if warnings_t:
+        if warnings_t and not ignore_warnings:
             warnings[port_type] = warnings_t
         for connection in connections_t:
             if len(connection) == 2:
@@ -493,7 +495,7 @@ def _extract_connections(
             # Iterates over the list of multiple ports to create related two-port connectivity
             num_ports = len(ports_at_xy)
             for portindex1, portindex2 in zip(
-                range(-1, num_ports - 1), range(num_ports)
+                range(-1, num_ports - 1), range(num_ports), strict=False
             ):
                 port1 = ports[ports_at_xy[portindex1]]
                 port2 = ports[ports_at_xy[portindex2]]

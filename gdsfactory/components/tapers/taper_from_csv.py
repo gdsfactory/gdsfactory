@@ -37,12 +37,18 @@ def taper_from_csv(
     layer = x.layer
 
     c = gf.Component()
-    c.add_polygon(list(zip(xs, ys)) + list(zip(xs, -ys))[::-1], layer=layer)
+    c.add_polygon(
+        list(zip(xs, ys, strict=False)) + list(zip(xs, -ys, strict=False))[::-1],
+        layer=layer,
+    )
 
     for section in x.sections[1:]:
         ys_trench = ys + section.width
         c.add_polygon(
-            list(zip(xs, ys_trench)) + list(zip(xs, -ys_trench))[::-1],
+            [(float(x), float(y)) for x, y in zip(xs, ys_trench, strict=False)]
+            + [(float(x), float(y)) for x, y in zip(xs, -ys_trench, strict=False)][
+                ::-1
+            ],
             layer=section.layer,
         )
 

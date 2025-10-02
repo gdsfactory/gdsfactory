@@ -5,7 +5,7 @@ info:
   route_info_type: metal3
   route_info_weight: 10
   width: 10
-name: wire_straight_gdsfactor_2896ba69
+name: wire_straight_gdsfactorypcomponentspwaveguidespstraight_2896ba69
 settings:
   cross_section: metal_routing
   length: 10

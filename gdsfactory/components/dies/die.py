@@ -63,10 +63,10 @@ def die(
                 sy,
             ]
         )
-        c.add_polygon(list(zip(xpts, ypts)), layer=layer)
-        c.add_polygon(list(zip(-xpts, ypts)), layer=layer)
-        c.add_polygon(list(zip(xpts, -ypts)), layer=layer)
-        c.add_polygon(list(zip(-xpts, -ypts)), layer=layer)
+        c.add_polygon(list(zip(xpts, ypts, strict=False)), layer=layer)
+        c.add_polygon(list(zip(-xpts, ypts, strict=False)), layer=layer)
+        c.add_polygon(list(zip(xpts, -ypts, strict=False)), layer=layer)
+        c.add_polygon(list(zip(-xpts, -ypts, strict=False)), layer=layer)
 
     if bbox_layer:
         c.add_polygon([(sx, sy), (sx, -sy), (-sx, -sy), (-sx, sy)], layer=bbox_layer)

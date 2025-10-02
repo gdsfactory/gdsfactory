@@ -1,7 +1,106 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.12.4...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.18.0...main)
 
 <!-- towncrier release notes start -->
+
+## [9.18.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.18.1) - 2025-09-29
+
+- fix port orientation [#4191](https://github.com/gdsfactory/gdsfactory/pull/4191)
+
+## [9.18.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.18.0) - 2025-09-28
+
+- add phix package [#4189](https://github.com/gdsfactory/gdsfactory/pull/4189)
+
+## [9.17.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.17.0) - 2025-09-27
+
+- add die_with_pads_gsg [#4187](https://github.com/gdsfactory/gdsfactory/pull/4187)
+- improve die with pads. Expose port names. [#4186](https://github.com/gdsfactory/gdsfactory/pull/4186)
+- Use Literal for boolean operation type [#4184](https://github.com/gdsfactory/gdsfactory/pull/4184)
+
+## [9.16.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.16.3) - 2025-09-22
+
+- allow none wire corner [#4183](https://github.com/gdsfactory/gdsfactory/pull/4183)
+
+## [9.16.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.16.2) - 2025-09-20
+
+- fix wire_corner45_straight radius [#4181](https://github.com/gdsfactory/gdsfactory/pull/4181)
+
+## [9.16.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.16.1) - 2025-09-20
+
+- cross_section can have None bend radius [#4178](https://github.com/gdsfactory/gdsfactory/pull/4178)
+- better docs [#4180](https://github.com/gdsfactory/gdsfactory/pull/4180)
+
+## [9.16.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.16.0) - 2025-09-19
+
+- add unlock flag [#4173](https://github.com/gdsfactory/gdsfactory/pull/4173)
+- deprecate electrical router flag [#4174](https://github.com/gdsfactory/gdsfactory/pull/4174)
+- add exclude layers to write_gds and CONF [#4172](https://github.com/gdsfactory/gdsfactory/pull/4172)
+- add allow_layer_missmatch in route_bundle, add wire_corner45_straight [#4177](https://github.com/gdsfactory/gdsfactory/pull/4177)
+- better error message v2 [#4167](https://github.com/gdsfactory/gdsfactory/pull/4167)
+- Add ignore_warnings to get_netlist [#4175](https://github.com/gdsfactory/gdsfactory/pull/4175)
+
+## [9.15.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.15.1) - 2025-09-17
+
+- Use pygit2 and depend on it explicitly [#4168](https://github.com/gdsfactory/gdsfactory/pull/4168)
+- better error message [#4166](https://github.com/gdsfactory/gdsfactory/pull/4166)
+
+## [9.15.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.15.0) - 2025-09-14
+
+- Expose resolution options for Component.plot() through pixel_buffer_options parameter [#4161](https://github.com/gdsfactory/gdsfactory/pull/4161)
+- add_skip_cross_section_for_adding_pins [#4165](https://github.com/gdsfactory/gdsfactory/pull/4165)
+- double max_cellname_length [#4163](https://github.com/gdsfactory/gdsfactory/pull/4163)
+
+
+## [9.14.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.14.2) - 2025-09-12
+
+- fix types [#4159](https://github.com/gdsfactory/gdsfactory/pull/4159)
+- Pass down all vcell kwargs to kfactory [#4155](https://github.com/gdsfactory/gdsfactory/pull/4155)
+- improve git guide [#4153](https://github.com/gdsfactory/gdsfactory/pull/4153)
+- bump kfactory to 1.14 [#4157](https://github.com/gdsfactory/gdsfactory/pull/4157)
+
+## [9.14.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.14.1) - 2025-09-10
+
+- fix start_straight_lenght messing up routing [#4149](https://github.com/gdsfactory/gdsfactory/pull/4149)
+
+## [9.14.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.14.0) - 2025-09-03
+
+- add ref off grid [#4146](https://github.com/gdsfactory/gdsfactory/pull/4146)
+
+## [9.13.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.13.3) - 2025-09-02
+
+- fix kcell converter [#4145](https://github.com/gdsfactory/gdsfactory/pull/4145)
+
+## [9.13.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.13.2) - 2025-09-01
+
+- fix spiral lengths [#4143](https://github.com/gdsfactory/gdsfactory/pull/4143)
+
+## [9.13.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.13.1) - 2025-08-30
+
+- more configurable fanout2x2 with better defaults [#4142](https://github.com/gdsfactory/gdsfactory/pull/4142)
+
+## [9.13.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.13.0) - 2025-08-30
+
+- enforce types in constants [#4129](https://github.com/gdsfactory/gdsfactory/pull/4129)
+
+## [9.12.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.12.5) - 2025-08-30
+
+- Enable more ruff rules [#4139](https://github.com/gdsfactory/gdsfactory/pull/4139)
+- Update pre-commit [#4140](https://github.com/gdsfactory/gdsfactory/pull/4140)
+- Remove .sourcery file [#4135](https://github.com/gdsfactory/gdsfactory/pull/4135)
+- Remove netlist.yml file [#4136](https://github.com/gdsfactory/gdsfactory/pull/4136)
+- Move test regression data [#4137](https://github.com/gdsfactory/gdsfactory/pull/4137)
+- Remove all `if __name__ == "__main__":` blocks [#4134](https://github.com/gdsfactory/gdsfactory/pull/4134)
+- remove codeflash [#4133](https://github.com/gdsfactory/gdsfactory/pull/4133)
+- Allow passing angular step to arc/bend_arc [#4125](https://github.com/gdsfactory/gdsfactory/pull/4125)
+- Skip angle calculation with single point in path [#4124](https://github.com/gdsfactory/gdsfactory/pull/4124)
+- Simplify and fix the condition checks on path extrusion [#4123](https://github.com/gdsfactory/gdsfactory/pull/4123)
+- Fix cross-section default naming (particularly for PDKs) [#4120](https://github.com/gdsfactory/gdsfactory/pull/4120)
+- Vectorize fresnel implementation [#4127](https://github.com/gdsfactory/gdsfactory/pull/4127)
+- deps: bump actions/upload-pages-artifact from 3 to 4 [#4122](https://github.com/gdsfactory/gdsfactory/pull/4122)
+- Add PR template [#4130](https://github.com/gdsfactory/gdsfactory/pull/4130)
+- Typing fixes [#4131](https://github.com/gdsfactory/gdsfactory/pull/4131)
+- Fix for crossing45 port alignment and contour connectivity [#4121](https://github.com/gdsfactory/gdsfactory/pull/4121)
+- kfactory update [#4141](https://github.com/gdsfactory/gdsfactory/pull/4141)
 
 ## [9.12.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.12.4) - 2025-08-24
 

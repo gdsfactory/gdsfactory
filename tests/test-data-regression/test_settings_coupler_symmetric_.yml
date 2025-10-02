@@ -1,7 +1,7 @@
 info:
   length: 10.187
   min_bend_radius: 11.851
-name: coupler_symmetric_gdsfa_7357aaee
+name: coupler_symmetric_gdsfactorypcomponentspcouplerspcouple_7357aaee
 settings:
   allow_min_radius_violation: false
   bend: bend_s

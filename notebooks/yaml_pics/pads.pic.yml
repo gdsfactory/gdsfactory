@@ -24,6 +24,7 @@ placements:
 routes:
   electrical:
     settings:
+      bend: wire_corner
       separation: 20
       cross_section: metal_routing
       allow_width_mismatch: True

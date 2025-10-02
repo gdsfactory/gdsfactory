@@ -258,7 +258,7 @@ def test_connect_corner(
 
     lengths = {}
     i = 0
-    for ports1, ports2 in zip(ports_A, ports_B):
+    for ports1, ports2 in zip(ports_A, ports_B, strict=False):
         if config in {"A", "C"}:
             routes = route_bundle(c, ports1, ports2, cross_section="strip")
             for route in routes:

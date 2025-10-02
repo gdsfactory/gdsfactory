@@ -41,7 +41,7 @@ def resistance_sheet(
         size=(length + layer_offsets[0], width + layer_offsets[0]), layer=layers[0]
     )
 
-    for layer, offset in zip(layers[1:], layer_offsets[1:]):
+    for layer, offset in zip(layers[1:], layer_offsets[1:], strict=False):
         _ = c << gf.c.compass(
             size=(length + 2 * offset, width + 2 * offset), layer=layer
         )
@@ -54,6 +54,8 @@ def resistance_sheet(
     )
 
     c.info["resistance"] = ohms_per_square * width * length if ohms_per_square else 0
+    c.info["length"] = length
+    c.info["width"] = width
     c.add_port(
         name="pad1",
         port=pad1.ports[pad_port_name],

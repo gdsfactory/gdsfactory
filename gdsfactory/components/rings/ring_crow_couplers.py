@@ -63,7 +63,7 @@ def ring_crow_couplers(
 
     # Cascade rings
     for index, (r, bend, cross_section) in enumerate(
-        zip(radius, bends, ring_cross_sections)
+        zip(radius, bends, ring_cross_sections, strict=False)
     ):
         # Add ring
         bend_c = gf.get_component(bend, radius=r, cross_section=cross_section)

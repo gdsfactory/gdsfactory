@@ -1,5 +1,5 @@
 instances:
-  bend_euler_gdsfactorypc_a86bc407_15750_250:
+  bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407_15750_250:
     component: bend_euler
     info:
       dy: 10
@@ -24,7 +24,7 @@ instances:
       radius: 10
       width: null
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_a86bc407_15750_m450_M:
+  bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407_15750_m450_M:
     component: bend_euler
     info:
       dy: 10
@@ -49,7 +49,7 @@ instances:
       radius: 10
       width: null
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_a86bc407_m15750_250_A180_M:
+  bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407_m15750_250_A180_M:
     component: bend_euler
     info:
       dy: 10
@@ -74,7 +74,7 @@ instances:
       radius: 10
       width: null
       with_arc_floorplan: true
-  bend_euler_gdsfactorypc_a86bc407_m15750_m450_A180:
+  bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407_m15750_m450_A180:
     component: bend_euler
     info:
       dy: 10
@@ -99,75 +99,75 @@ instances:
       radius: 10
       width: null
       with_arc_floorplan: true
-  coupler_straight_gdsfac_18868fc8_3350_m450:
+  coupler_straight_gdsfactorypcomponentspcouplerspcoupler_18868fc8_3350_m450:
     component: coupler_straight
     info: {}
     settings:
       cross_section: strip
       gap: 0.2
       length: 12.4
-  coupler_straight_gdsfac_18868fc8_m15750_m450:
+  coupler_straight_gdsfactorypcomponentspcouplerspcoupler_18868fc8_m15750_m450:
     component: coupler_straight
     info: {}
     settings:
       cross_section: strip
       gap: 0.2
       length: 12.4
-name: coupler_broadband_gdsfa_ee79a992
+name: coupler_broadband_gdsfactorypcomponentspcouplerspcouple_ee79a992
 nets:
-- p1: bend_euler_gdsfactorypc_a86bc407_15750_250,o1
-  p2: coupler_straight_gdsfac_18868fc8_3350_m450,o3
-- p1: bend_euler_gdsfactorypc_a86bc407_15750_m450_M,o1
-  p2: coupler_straight_gdsfac_18868fc8_3350_m450,o4
-- p1: bend_euler_gdsfactorypc_a86bc407_m15750_250_A180_M,o1
-  p2: coupler_straight_gdsfac_18868fc8_m15750_m450,o2
-- p1: bend_euler_gdsfactorypc_a86bc407_m15750_m450_A180,o1
-  p2: coupler_straight_gdsfac_18868fc8_m15750_m450,o1
+- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407_15750_250,o1
+  p2: coupler_straight_gdsfactorypcomponentspcouplerspcoupler_18868fc8_3350_m450,o3
+- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407_15750_m450_M,o1
+  p2: coupler_straight_gdsfactorypcomponentspcouplerspcoupler_18868fc8_3350_m450,o4
+- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407_m15750_250_A180_M,o1
+  p2: coupler_straight_gdsfactorypcomponentspcouplerspcoupler_18868fc8_m15750_m450,o2
+- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407_m15750_m450_A180,o1
+  p2: coupler_straight_gdsfactorypcomponentspcouplerspcoupler_18868fc8_m15750_m450,o1
 placements:
-  bend_euler_gdsfactorypc_a86bc407_15750_250:
+  bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407_15750_250:
     mirror: false
     rotation: 0
     x: 15.75
     y: 0.25
-  bend_euler_gdsfactorypc_a86bc407_15750_m450_M:
+  bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407_15750_m450_M:
     mirror: true
     rotation: 0
     x: 15.75
     y: -0.45
-  bend_euler_gdsfactorypc_a86bc407_m15750_250_A180_M:
+  bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407_m15750_250_A180_M:
     mirror: true
     rotation: 180
     x: -15.75
     y: 0.25
-  bend_euler_gdsfactorypc_a86bc407_m15750_m450_A180:
+  bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407_m15750_m450_A180:
     mirror: false
     rotation: 180
     x: -15.75
     y: -0.45
-  coupler_straight_gdsfac_18868fc8_3350_m450:
+  coupler_straight_gdsfactorypcomponentspcouplerspcoupler_18868fc8_3350_m450:
     mirror: false
     rotation: 0
     x: 3.35
     y: -0.45
-  coupler_straight_gdsfac_18868fc8_m15750_m450:
+  coupler_straight_gdsfactorypcomponentspcouplerspcoupler_18868fc8_m15750_m450:
     mirror: false
     rotation: 0
     x: -15.75
     y: -0.45
 ports:
-  o1: bend_euler_gdsfactorypc_a86bc407_m15750_m450_A180,o2
-  o2: bend_euler_gdsfactorypc_a86bc407_m15750_250_A180_M,o2
-  o3: bend_euler_gdsfactorypc_a86bc407_15750_m450_M,o2
-  o4: bend_euler_gdsfactorypc_a86bc407_15750_250,o2
+  o1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407_m15750_m450_A180,o2
+  o2: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407_m15750_250_A180_M,o2
+  o3: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407_15750_m450_M,o2
+  o4: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407_15750_250,o2
 warnings:
   optical:
     unconnected_ports:
     - message: 4 unconnected optical ports!
       ports:
-      - coupler_straight_gdsfac_18868fc8_m15750_m450,o4
-      - coupler_straight_gdsfac_18868fc8_m15750_m450,o3
-      - coupler_straight_gdsfac_18868fc8_3350_m450,o1
-      - coupler_straight_gdsfac_18868fc8_3350_m450,o2
+      - coupler_straight_gdsfactorypcomponentspcouplerspcoupler_18868fc8_m15750_m450,o4
+      - coupler_straight_gdsfactorypcomponentspcouplerspcoupler_18868fc8_m15750_m450,o3
+      - coupler_straight_gdsfactorypcomponentspcouplerspcoupler_18868fc8_3350_m450,o1
+      - coupler_straight_gdsfactorypcomponentspcouplerspcoupler_18868fc8_3350_m450,o2
       values:
       - - -3.35
         - -0.45

@@ -893,7 +893,7 @@ def _get_dependency_graph(net: Netlist) -> nx.DiGraph:
 
 
 def _get_references(
-    c: Component, pdk: "Pdk", instances: dict[str, NetlistInstance]
+    c: Component, pdk: Pdk, instances: dict[str, NetlistInstance]
 ) -> dict[str, InstanceOrVInstance]:
     refs: dict[str, InstanceOrVInstance] = {}
 
@@ -924,7 +924,7 @@ def _get_references(
             )
         else:
             if inst.virtual or isinstance(comp, ComponentAllAngle):
-                ref = c.create_vinst(comp)
+                ref = c.add_ref_off_grid(comp)
                 ref.name = name
             else:
                 ref = c.add_ref(comp, name=name)
@@ -1019,7 +1019,7 @@ def _add_routes(
             ports2 += _get_ports_from_portnames(refs, first2, middles2, last2)
             route_names += [
                 f"{bundle_name}-{first1}{m1}{last1}-{first2}{m2}{last2}"
-                for m1, m2 in zip(middles1, middles2)
+                for m1, m2 in zip(middles1, middles2, strict=False)
             ]
         routes_list = routing_strategy(
             c,
@@ -1027,7 +1027,7 @@ def _add_routes(
             ports2=ports2,
             **bundle.settings,
         )
-        routes_dict.update(dict(zip(route_names, routes_list)))
+        routes_dict.update(dict(zip(route_names, routes_list, strict=False)))
         c.routes = routes_dict
     return c
 

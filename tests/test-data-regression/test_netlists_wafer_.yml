@@ -1,5 +1,5 @@
 instances:
-  die_gdsfactorypcomponen_06916fad_10000000_60000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_06916fad_10000000_60000000:
     component: die
     info: {}
     settings:
@@ -15,7 +15,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_0a1f8550_0_30000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_0a1f8550_0_30000000:
     component: die
     info: {}
     settings:
@@ -31,7 +31,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_1397f308_0_50000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_1397f308_0_50000000:
     component: die
     info: {}
     settings:
@@ -47,7 +47,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_229e5a8e_m30000000_40000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_229e5a8e_m30000000_40000000:
     component: die
     info: {}
     settings:
@@ -63,7 +63,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_2386961a_m20000000_20000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_2386961a_m20000000_20000000:
     component: die
     info: {}
     settings:
@@ -79,7 +79,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_28c0d74f_10000000_40000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_28c0d74f_10000000_40000000:
     component: die
     info: {}
     settings:
@@ -95,7 +95,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_2ccb9c0b_0_60000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_2ccb9c0b_0_60000000:
     component: die
     info: {}
     settings:
@@ -111,7 +111,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_33ec6cc8_m20000000_30000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_33ec6cc8_m20000000_30000000:
     component: die
     info: {}
     settings:
@@ -127,7 +127,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_34c0b4cf_m30000000_30000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_34c0b4cf_m30000000_30000000:
     component: die
     info: {}
     settings:
@@ -143,7 +143,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_36d65b04_30000000_30000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_36d65b04_30000000_30000000:
     component: die
     info: {}
     settings:
@@ -159,7 +159,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_38b3da58_20000000_20000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_38b3da58_20000000_20000000:
     component: die
     info: {}
     settings:
@@ -175,7 +175,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_42570cb2_m30000000_60000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_42570cb2_m30000000_60000000:
     component: die
     info: {}
     settings:
@@ -191,7 +191,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_44225785_0_40000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_44225785_0_40000000:
     component: die
     info: {}
     settings:
@@ -207,7 +207,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_58572038_m10000000_20000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_58572038_m10000000_20000000:
     component: die
     info: {}
     settings:
@@ -223,7 +223,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_5cc77141_m10000000_50000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_5cc77141_m10000000_50000000:
     component: die
     info: {}
     settings:
@@ -239,7 +239,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_61d12e5a_20000000_10000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_61d12e5a_20000000_10000000:
     component: die
     info: {}
     settings:
@@ -255,7 +255,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_6d349c38_m30000000_10000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_6d349c38_m30000000_10000000:
     component: die
     info: {}
     settings:
@@ -271,7 +271,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_6ff3ecb8_m20000000_50000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_6ff3ecb8_m20000000_50000000:
     component: die
     info: {}
     settings:
@@ -287,7 +287,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_71490482_20000000_30000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_71490482_20000000_30000000:
     component: die
     info: {}
     settings:
@@ -303,7 +303,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_7c953756_m10000000_10000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_7c953756_m10000000_10000000:
     component: die
     info: {}
     settings:
@@ -319,7 +319,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_7cc689e7_m10000000_40000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_7cc689e7_m10000000_40000000:
     component: die
     info: {}
     settings:
@@ -335,7 +335,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_7ea13611_m20000000_10000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_7ea13611_m20000000_10000000:
     component: die
     info: {}
     settings:
@@ -351,7 +351,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_7f560616_30000000_40000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_7f560616_30000000_40000000:
     component: die
     info: {}
     settings:
@@ -367,7 +367,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_86fb5f36_10000000_20000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_86fb5f36_10000000_20000000:
     component: die
     info: {}
     settings:
@@ -383,7 +383,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_8d1a5985_m30000000_20000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_8d1a5985_m30000000_20000000:
     component: die
     info: {}
     settings:
@@ -399,7 +399,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_94e1cf7b_m10000000_60000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_94e1cf7b_m10000000_60000000:
     component: die
     info: {}
     settings:
@@ -415,7 +415,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_95a87010_0_0:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_95a87010_0_0:
     component: die
     info: {}
     settings:
@@ -431,7 +431,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_9cd91486_20000000_60000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_9cd91486_20000000_60000000:
     component: die
     info: {}
     settings:
@@ -447,7 +447,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_9fe31bef_m10000000_0:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_9fe31bef_m10000000_0:
     component: die
     info: {}
     settings:
@@ -463,7 +463,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_a036bede_10000000_30000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_a036bede_10000000_30000000:
     component: die
     info: {}
     settings:
@@ -479,7 +479,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_a501a613_m30000000_50000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_a501a613_m30000000_50000000:
     component: die
     info: {}
     settings:
@@ -495,7 +495,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_a64cb6e5_20000000_40000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_a64cb6e5_20000000_40000000:
     component: die
     info: {}
     settings:
@@ -511,7 +511,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_ab27e161_m20000000_40000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_ab27e161_m20000000_40000000:
     component: die
     info: {}
     settings:
@@ -527,7 +527,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_ad91d358_0_70000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_ad91d358_0_70000000:
     component: die
     info: {}
     settings:
@@ -543,7 +543,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_bf1c632c_20000000_50000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_bf1c632c_20000000_50000000:
     component: die
     info: {}
     settings:
@@ -559,7 +559,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_c4981899_0_10000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_c4981899_0_10000000:
     component: die
     info: {}
     settings:
@@ -575,7 +575,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_c7783a57_0_20000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_c7783a57_0_20000000:
     component: die
     info: {}
     settings:
@@ -591,7 +591,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_cb4330c5_10000000_50000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_cb4330c5_10000000_50000000:
     component: die
     info: {}
     settings:
@@ -607,7 +607,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_d3c5f59a_10000000_10000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_d3c5f59a_10000000_10000000:
     component: die
     info: {}
     settings:
@@ -623,7 +623,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_e72add41_m40000000_30000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_e72add41_m40000000_30000000:
     component: die
     info: {}
     settings:
@@ -639,7 +639,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_e80e6ef4_m40000000_40000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_e80e6ef4_m40000000_40000000:
     component: die
     info: {}
     settings:
@@ -655,7 +655,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_f6c85b5a_m20000000_60000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_f6c85b5a_m20000000_60000000:
     component: die
     info: {}
     settings:
@@ -671,7 +671,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_fb158ce1_m10000000_30000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_fb158ce1_m10000000_30000000:
     component: die
     info: {}
     settings:
@@ -687,7 +687,7 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponen_fe1da1df_m10000000_70000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_fe1da1df_m10000000_70000000:
     component: die
     info: {}
     settings:
@@ -703,225 +703,225 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-name: wafer_gdsfactorypcompon_ddb8201b
+name: wafer_gdsfactorypcomponentspdiespwafer_Rdie_C2_6_6_8_8__ddb8201b
 nets: []
 placements:
-  die_gdsfactorypcomponen_06916fad_10000000_60000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_06916fad_10000000_60000000:
     mirror: false
     rotation: 0
     x: 10000
     y: 60000
-  die_gdsfactorypcomponen_0a1f8550_0_30000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_0a1f8550_0_30000000:
     mirror: false
     rotation: 0
     x: 0
     y: 30000
-  die_gdsfactorypcomponen_1397f308_0_50000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_1397f308_0_50000000:
     mirror: false
     rotation: 0
     x: 0
     y: 50000
-  die_gdsfactorypcomponen_229e5a8e_m30000000_40000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_229e5a8e_m30000000_40000000:
     mirror: false
     rotation: 0
     x: -30000
     y: 40000
-  die_gdsfactorypcomponen_2386961a_m20000000_20000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_2386961a_m20000000_20000000:
     mirror: false
     rotation: 0
     x: -20000
     y: 20000
-  die_gdsfactorypcomponen_28c0d74f_10000000_40000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_28c0d74f_10000000_40000000:
     mirror: false
     rotation: 0
     x: 10000
     y: 40000
-  die_gdsfactorypcomponen_2ccb9c0b_0_60000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_2ccb9c0b_0_60000000:
     mirror: false
     rotation: 0
     x: 0
     y: 60000
-  die_gdsfactorypcomponen_33ec6cc8_m20000000_30000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_33ec6cc8_m20000000_30000000:
     mirror: false
     rotation: 0
     x: -20000
     y: 30000
-  die_gdsfactorypcomponen_34c0b4cf_m30000000_30000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_34c0b4cf_m30000000_30000000:
     mirror: false
     rotation: 0
     x: -30000
     y: 30000
-  die_gdsfactorypcomponen_36d65b04_30000000_30000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_36d65b04_30000000_30000000:
     mirror: false
     rotation: 0
     x: 30000
     y: 30000
-  die_gdsfactorypcomponen_38b3da58_20000000_20000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_38b3da58_20000000_20000000:
     mirror: false
     rotation: 0
     x: 20000
     y: 20000
-  die_gdsfactorypcomponen_42570cb2_m30000000_60000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_42570cb2_m30000000_60000000:
     mirror: false
     rotation: 0
     x: -30000
     y: 60000
-  die_gdsfactorypcomponen_44225785_0_40000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_44225785_0_40000000:
     mirror: false
     rotation: 0
     x: 0
     y: 40000
-  die_gdsfactorypcomponen_58572038_m10000000_20000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_58572038_m10000000_20000000:
     mirror: false
     rotation: 0
     x: -10000
     y: 20000
-  die_gdsfactorypcomponen_5cc77141_m10000000_50000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_5cc77141_m10000000_50000000:
     mirror: false
     rotation: 0
     x: -10000
     y: 50000
-  die_gdsfactorypcomponen_61d12e5a_20000000_10000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_61d12e5a_20000000_10000000:
     mirror: false
     rotation: 0
     x: 20000
     y: 10000
-  die_gdsfactorypcomponen_6d349c38_m30000000_10000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_6d349c38_m30000000_10000000:
     mirror: false
     rotation: 0
     x: -30000
     y: 10000
-  die_gdsfactorypcomponen_6ff3ecb8_m20000000_50000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_6ff3ecb8_m20000000_50000000:
     mirror: false
     rotation: 0
     x: -20000
     y: 50000
-  die_gdsfactorypcomponen_71490482_20000000_30000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_71490482_20000000_30000000:
     mirror: false
     rotation: 0
     x: 20000
     y: 30000
-  die_gdsfactorypcomponen_7c953756_m10000000_10000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_7c953756_m10000000_10000000:
     mirror: false
     rotation: 0
     x: -10000
     y: 10000
-  die_gdsfactorypcomponen_7cc689e7_m10000000_40000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_7cc689e7_m10000000_40000000:
     mirror: false
     rotation: 0
     x: -10000
     y: 40000
-  die_gdsfactorypcomponen_7ea13611_m20000000_10000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_7ea13611_m20000000_10000000:
     mirror: false
     rotation: 0
     x: -20000
     y: 10000
-  die_gdsfactorypcomponen_7f560616_30000000_40000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_7f560616_30000000_40000000:
     mirror: false
     rotation: 0
     x: 30000
     y: 40000
-  die_gdsfactorypcomponen_86fb5f36_10000000_20000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_86fb5f36_10000000_20000000:
     mirror: false
     rotation: 0
     x: 10000
     y: 20000
-  die_gdsfactorypcomponen_8d1a5985_m30000000_20000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_8d1a5985_m30000000_20000000:
     mirror: false
     rotation: 0
     x: -30000
     y: 20000
-  die_gdsfactorypcomponen_94e1cf7b_m10000000_60000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_94e1cf7b_m10000000_60000000:
     mirror: false
     rotation: 0
     x: -10000
     y: 60000
-  die_gdsfactorypcomponen_95a87010_0_0:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_95a87010_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  die_gdsfactorypcomponen_9cd91486_20000000_60000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_9cd91486_20000000_60000000:
     mirror: false
     rotation: 0
     x: 20000
     y: 60000
-  die_gdsfactorypcomponen_9fe31bef_m10000000_0:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_9fe31bef_m10000000_0:
     mirror: false
     rotation: 0
     x: -10000
     y: 0
-  die_gdsfactorypcomponen_a036bede_10000000_30000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_a036bede_10000000_30000000:
     mirror: false
     rotation: 0
     x: 10000
     y: 30000
-  die_gdsfactorypcomponen_a501a613_m30000000_50000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_a501a613_m30000000_50000000:
     mirror: false
     rotation: 0
     x: -30000
     y: 50000
-  die_gdsfactorypcomponen_a64cb6e5_20000000_40000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_a64cb6e5_20000000_40000000:
     mirror: false
     rotation: 0
     x: 20000
     y: 40000
-  die_gdsfactorypcomponen_ab27e161_m20000000_40000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_ab27e161_m20000000_40000000:
     mirror: false
     rotation: 0
     x: -20000
     y: 40000
-  die_gdsfactorypcomponen_ad91d358_0_70000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_ad91d358_0_70000000:
     mirror: false
     rotation: 0
     x: 0
     y: 70000
-  die_gdsfactorypcomponen_bf1c632c_20000000_50000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_bf1c632c_20000000_50000000:
     mirror: false
     rotation: 0
     x: 20000
     y: 50000
-  die_gdsfactorypcomponen_c4981899_0_10000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_c4981899_0_10000000:
     mirror: false
     rotation: 0
     x: 0
     y: 10000
-  die_gdsfactorypcomponen_c7783a57_0_20000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_c7783a57_0_20000000:
     mirror: false
     rotation: 0
     x: 0
     y: 20000
-  die_gdsfactorypcomponen_cb4330c5_10000000_50000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_cb4330c5_10000000_50000000:
     mirror: false
     rotation: 0
     x: 10000
     y: 50000
-  die_gdsfactorypcomponen_d3c5f59a_10000000_10000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_d3c5f59a_10000000_10000000:
     mirror: false
     rotation: 0
     x: 10000
     y: 10000
-  die_gdsfactorypcomponen_e72add41_m40000000_30000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_e72add41_m40000000_30000000:
     mirror: false
     rotation: 0
     x: -40000
     y: 30000
-  die_gdsfactorypcomponen_e80e6ef4_m40000000_40000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_e80e6ef4_m40000000_40000000:
     mirror: false
     rotation: 0
     x: -40000
     y: 40000
-  die_gdsfactorypcomponen_f6c85b5a_m20000000_60000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_f6c85b5a_m20000000_60000000:
     mirror: false
     rotation: 0
     x: -20000
     y: 60000
-  die_gdsfactorypcomponen_fb158ce1_m10000000_30000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_fb158ce1_m10000000_30000000:
     mirror: false
     rotation: 0
     x: -10000
     y: 30000
-  die_gdsfactorypcomponen_fe1da1df_m10000000_70000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_fe1da1df_m10000000_70000000:
     mirror: false
     rotation: 0
     x: -10000

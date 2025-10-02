@@ -241,7 +241,7 @@ def pack(
             xcenter = x + w / 2 + spacing / 2
             ycenter = y + h / 2 + spacing / 2
             if isinstance(component, gf.ComponentAllAngle):
-                d = packed.create_vinst(component)
+                d = packed.add_ref_off_grid(component)
             else:
                 d = packed << component
             if rotation:
@@ -267,7 +267,9 @@ def pack(
             index += 1
 
             if text:
-                for text_offset, text_anchor in zip(text_offsets, text_anchors):
+                for text_offset, text_anchor in zip(
+                    text_offsets, text_anchors, strict=False
+                ):
                     label = packed << text(f"{text_prefix}{index}")
                     if text_mirror:
                         label.dmirror()

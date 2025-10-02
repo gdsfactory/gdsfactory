@@ -1,5 +1,5 @@
 info: {}
-name: coupler_ring_bend_gdsfa_08bf6cd7
+name: coupler_ring_bend_gdsfactorypcomponentspringspring_sing_08bf6cd7
 settings:
   bend: bend_circular_all_angle
   bend_output: bend_euler

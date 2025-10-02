@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Any
+
 import numpy as np
 
 import gdsfactory as gf
@@ -16,10 +18,10 @@ from gdsfactory.typings import CrossSectionSpec, LayerSpec, PortNames, PortTypes
 @gf.cell_with_module_name
 def wire_corner(
     cross_section: CrossSectionSpec = "metal_routing",
-    port_names: "PortNames" = port_names_electrical,
-    port_types: "PortTypes" = port_types_electrical,
+    port_names: PortNames = port_names_electrical,
+    port_types: PortTypes = port_types_electrical,
     width: float | None = None,
-    radius: None | float = None,
+    radius: float | None = None,
 ) -> Component:
     """Returns 45 degrees electrical corner wire.
 
@@ -34,6 +36,7 @@ def wire_corner(
         x = gf.get_cross_section(cross_section, width=width)
     else:
         x = gf.get_cross_section(cross_section)
+
     layer = x.layer
     assert layer is not None
     width = x.width
@@ -42,7 +45,7 @@ def wire_corner(
     a = width / 2
     xpts = [-a, a, a, -a]
     ypts = [-a, -a, a, a]
-    c.add_polygon(list(zip(xpts, ypts)), layer=layer)
+    c.add_polygon(list(zip(xpts, ypts, strict=False)), layer=layer)
     c.add_port(
         name=port_names[0],
         center=(-a, 0),
@@ -62,6 +65,43 @@ def wire_corner(
     c.info["length"] = width
     c.info["dy"] = width
     x.add_bbox(c)
+    return c
+
+
+@gf.cell
+def wire_corner45_straight(
+    width: float | None = None,
+    radius: float | None = None,
+    cross_section: CrossSectionSpec = "metal_routing",
+) -> gf.Component:
+    """Returns 45 degrees wire straight ends.
+
+    Args:
+        width: of the wire.
+        radius: of the corner. Defaults to width.
+        cross_section: metal_routing.
+    """
+    c = gf.Component()
+    xs = gf.get_cross_section(cross_section)
+    radius = radius or xs.radius
+
+    if radius is None:
+        raise ValueError("Either radius or width must be specified")
+
+    p = gf.Path(
+        [
+            (0.0, 0.0),
+            (radius / 2.0, 0.0),
+            (radius, radius / 2.0),
+            (radius, radius),
+        ]
+    )
+
+    if width:
+        xs = gf.get_cross_section(cross_section, width=width)
+    else:
+        xs = gf.get_cross_section(cross_section)
+    c = p.extrude(cross_section=xs)
     return c
 
 
@@ -95,7 +135,7 @@ def wire_corner45(
     a = width / 2
     xpts = [0, radius + a, radius + a, -np.sqrt(2) * width]
     ypts = [-a, radius, radius + np.sqrt(2) * width, -a]
-    c.add_polygon(list(zip(xpts, ypts)), layer=layer)
+    c.add_polygon(list(zip(xpts, ypts, strict=False)), layer=layer)
 
     if with_corner90_ports:
         c.add_port(
@@ -142,6 +182,7 @@ def wire_corner45(
 def wire_corner_sections(
     cross_section: CrossSectionSpec = "metal_routing",
     port_type: str = "electrical",
+    **kwargs: Any,
 ) -> Component:
     """Returns 90 degrees electrical corner wire, where all cross_section sections properly represented.
 
@@ -150,6 +191,7 @@ def wire_corner_sections(
     Args:
         cross_section: spec.
         port_type: "electrical" or "optical".
+        kwargs: cross_section settings, ignored (such as radius, width, layer).
     """
     x = gf.get_cross_section(cross_section)
 
@@ -180,7 +222,7 @@ def wire_corner_sections(
 
         assert layer is not None
 
-        c.add_polygon(list(zip(xpts, ypts)), layer=layer)
+        c.add_polygon(list(zip(xpts, ypts, strict=False)), layer=layer)
 
     c.add_port(
         name="e1",

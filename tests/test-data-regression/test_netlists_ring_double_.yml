@@ -1,5 +1,5 @@
 instances:
-  coupler_ring_gdsfactory_dd30faef_0_0:
+  coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_dd30faef_0_0:
     component: coupler_ring
     info: {}
     settings:
@@ -11,7 +11,7 @@ instances:
       length_x: 0.01
       radius: null
       straight: straight
-  coupler_ring_gdsfactory_dd30faef_m10_21410_A180:
+  coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_dd30faef_m10_21410_A180:
     component: coupler_ring
     info: {}
     settings:
@@ -23,7 +23,7 @@ instances:
       length_x: 0.01
       radius: null
       straight: straight
-  straight_gdsfactorypcom_05377f40_10000_10710_A270:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L0p0_05377f40_10000_10710_A270:
     component: straight
     info:
       length: 0.01
@@ -37,7 +37,7 @@ instances:
       length: 0.01
       npoints: 2
       width: null
-  straight_gdsfactorypcom_05377f40_m10010_10700_A90:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L0p0_05377f40_m10010_10700_A90:
     component: straight
     info:
       length: 0.01
@@ -51,39 +51,39 @@ instances:
       length: 0.01
       npoints: 2
       width: null
-name: ring_double_gdsfactoryp_fee0c62d
+name: ring_double_gdsfactorypcomponentspringspring_double_G0p_fee0c62d
 nets:
-- p1: coupler_ring_gdsfactory_dd30faef_0_0,o2
-  p2: straight_gdsfactorypcom_05377f40_m10010_10700_A90,o1
-- p1: coupler_ring_gdsfactory_dd30faef_0_0,o3
-  p2: straight_gdsfactorypcom_05377f40_10000_10710_A270,o2
-- p1: coupler_ring_gdsfactory_dd30faef_m10_21410_A180,o2
-  p2: straight_gdsfactorypcom_05377f40_10000_10710_A270,o1
-- p1: coupler_ring_gdsfactory_dd30faef_m10_21410_A180,o3
-  p2: straight_gdsfactorypcom_05377f40_m10010_10700_A90,o2
+- p1: coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_dd30faef_0_0,o2
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L0p0_05377f40_m10010_10700_A90,o1
+- p1: coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_dd30faef_0_0,o3
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L0p0_05377f40_10000_10710_A270,o2
+- p1: coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_dd30faef_m10_21410_A180,o2
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L0p0_05377f40_10000_10710_A270,o1
+- p1: coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_dd30faef_m10_21410_A180,o3
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L0p0_05377f40_m10010_10700_A90,o2
 placements:
-  coupler_ring_gdsfactory_dd30faef_0_0:
+  coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_dd30faef_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  coupler_ring_gdsfactory_dd30faef_m10_21410_A180:
+  coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_dd30faef_m10_21410_A180:
     mirror: false
     rotation: 180
     x: -0.01
     y: 21.41
-  straight_gdsfactorypcom_05377f40_10000_10710_A270:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L0p0_05377f40_10000_10710_A270:
     mirror: false
     rotation: 270
     x: 10
     y: 10.71
-  straight_gdsfactorypcom_05377f40_m10010_10700_A90:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L0p0_05377f40_m10010_10700_A90:
     mirror: false
     rotation: 90
     x: -10.01
     y: 10.7
 ports:
-  o1: coupler_ring_gdsfactory_dd30faef_0_0,o1
-  o2: coupler_ring_gdsfactory_dd30faef_0_0,o4
-  o3: coupler_ring_gdsfactory_dd30faef_m10_21410_A180,o4
-  o4: coupler_ring_gdsfactory_dd30faef_m10_21410_A180,o1
+  o1: coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_dd30faef_0_0,o1
+  o2: coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_dd30faef_0_0,o4
+  o3: coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_dd30faef_m10_21410_A180,o4
+  o4: coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_dd30faef_m10_21410_A180,o1

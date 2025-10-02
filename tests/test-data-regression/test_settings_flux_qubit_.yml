@@ -5,7 +5,7 @@ info:
   loop_height: 50
   loop_width: 50
   qubit_type: flux_qubit
-name: flux_qubit_gdsfactorypc_806ac625
+name: flux_qubit_gdsfactorypcomponentspquantumpflux_qubit_LW5_806ac625
 settings:
   alpha_junction_height: 0.25
   alpha_junction_width: 0.12

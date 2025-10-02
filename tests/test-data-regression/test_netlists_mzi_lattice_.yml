@@ -1,12 +1,12 @@
 instances:
-  mzi_gdsfactorypcomponen_67bce537_0_0:
+  mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LXNone_Bben_b972a199_0_0:
     component: mzi
     info: {}
     settings:
       add_optical_ports_arms: false
       auto_rename_ports: true
       bend: bend_euler
-      combiner: coupler_gdsfactorypcomp_ab86c00a
+      combiner: coupler_gdsfactorypcomponentspcouplerspcoupler_G0p3_L20_ab86c00a
       cross_section: strip
       cross_section_x_bot: null
       cross_section_x_top: null
@@ -22,22 +22,22 @@ instances:
       port_e0_splitter: o4
       port_e1_combiner: o3
       port_e1_splitter: o3
-      splitter: coupler_gdsfactorypcomp_64d8ecb8
+      splitter: coupler_gdsfactorypcomponentspcouplerspcoupler_G0p2_L10_64d8ecb8
       straight: straight
       straight_x_bot: null
       straight_x_top: null
       straight_y: null
       with_splitter: true
-name: mzi_lattice_gdsfactoryp_ffe6cf26
+name: mzi_lattice_gdsfactorypcomponentspmzispmzi_lattice_CL10_ffe6cf26
 nets: []
 placements:
-  mzi_gdsfactorypcomponen_67bce537_0_0:
+  mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LXNone_Bben_b972a199_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
 ports:
-  o1: mzi_gdsfactorypcomponen_67bce537_0_0,o1
-  o2: mzi_gdsfactorypcomponen_67bce537_0_0,o2
-  o3: mzi_gdsfactorypcomponen_67bce537_0_0,o3
-  o4: mzi_gdsfactorypcomponen_67bce537_0_0,o4
+  o1: mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LXNone_Bben_b972a199_0_0,o1
+  o2: mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LXNone_Bben_b972a199_0_0,o2
+  o3: mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LXNone_Bben_b972a199_0_0,o3
+  o4: mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LXNone_Bben_b972a199_0_0,o4

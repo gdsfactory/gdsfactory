@@ -1,0 +1,1399 @@
+instances:
+  grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5524199_0_A90:
+    component: grating_coupler_array
+    info: {}
+    settings:
+      bend: bend_euler
+      centered: true
+      cross_section: strip
+      grating_coupler: grating_coupler_te
+      mirror_grating_coupler: false
+      n: 14
+      pitch: 250
+      port_name: o1
+      radius: null
+      rotation: -90
+      straight_to_grating_spacing: 10
+      with_loopback: true
+  grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5524199_0_A270:
+    component: grating_coupler_array
+    info: {}
+    settings:
+      bend: bend_euler
+      centered: true
+      cross_section: strip
+      grating_coupler: grating_coupler_te
+      mirror_grating_coupler: false
+      n: 14
+      pitch: 250
+      port_name: o1
+      radius: null
+      rotation: -90
+      straight_to_grating_spacing: 10
+      with_loopback: true
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_1020000_2200000_A90:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_1020000_m2200000_A270:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_120000_2200000_A90:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_120000_m2200000_A270:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_1320000_2200000_A90:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_1320000_m2200000_A270:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_1620000_2200000_A90:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_1620000_m2200000_A270:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_1920000_2200000_A90:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_1920000_m2200000_A270:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_2220000_2200000_A90:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_2220000_m2200000_A270:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_2520000_2200000_A90:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_2520000_m2200000_A270:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_2820000_2200000_A90:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_2820000_m2200000_A270:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_3120000_2200000_A90:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_3120000_m2200000_A270:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_3420000_2200000_A90:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_3420000_m2200000_A270:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_3720000_2200000_A90:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_3720000_m2200000_A270:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_4020000_2200000_A90:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_4020000_m2200000_A270:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_420000_2200000_A90:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_420000_m2200000_A270:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_4320000_2200000_A90:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_4320000_m2200000_A270:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_4620000_2200000_A90:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_4620000_m2200000_A270:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_720000_2200000_A90:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_720000_m2200000_A270:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m1080000_2200000_A90:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m1080000_m2200000_A270:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m1380000_2200000_A90:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m1380000_m2200000_A270:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m1680000_2200000_A90:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m1680000_m2200000_A270:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m180000_2200000_A90:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m180000_m2200000_A270:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m1980000_2200000_A90:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m1980000_m2200000_A270:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m2280000_2200000_A90:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m2280000_m2200000_A270:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m2580000_2200000_A90:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m2580000_m2200000_A270:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m2880000_2200000_A90:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m2880000_m2200000_A270:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m3180000_2200000_A90:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m3180000_m2200000_A270:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m3480000_2200000_A90:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m3480000_m2200000_A270:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m3780000_2200000_A90:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m3780000_m2200000_A270:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m4080000_2200000_A90:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m4080000_m2200000_A270:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m4380000_2200000_A90:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m4380000_m2200000_A270:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m480000_2200000_A90:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m480000_m2200000_A270:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m780000_2200000_A90:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m780000_m2200000_A270:
+    component: pad_gsg
+    info:
+      length: 100
+      route_info_gsg_length: 100
+      route_info_length: 100
+      route_info_type: gsg
+      route_info_weight: 100
+      width: 40
+    settings:
+      cross_section: gsg
+      length: 100
+  rectangle_gdsfactorypcomponentspshapesprectangle_S11470_1fc93ee1_0_0:
+    component: rectangle
+    info: {}
+    settings:
+      centered: true
+      layer: FLOORPLAN
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: null
+      size:
+      - 11470
+      - 4900
+name: die_with_pads_gsg_gdsfactorypcomponentspdiespdie_with_p_f2cebd76
+nets: []
+placements:
+  grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5524199_0_A90:
+    mirror: false
+    rotation: 90
+    x: 5524.199
+    y: 0
+  grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5524199_0_A270:
+    mirror: false
+    rotation: 270
+    x: -5524.199
+    y: 0
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_1020000_2200000_A90:
+    mirror: false
+    rotation: 90
+    x: 1020
+    y: 2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_1020000_m2200000_A270:
+    mirror: false
+    rotation: 270
+    x: 1020
+    y: -2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_120000_2200000_A90:
+    mirror: false
+    rotation: 90
+    x: 120
+    y: 2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_120000_m2200000_A270:
+    mirror: false
+    rotation: 270
+    x: 120
+    y: -2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_1320000_2200000_A90:
+    mirror: false
+    rotation: 90
+    x: 1320
+    y: 2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_1320000_m2200000_A270:
+    mirror: false
+    rotation: 270
+    x: 1320
+    y: -2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_1620000_2200000_A90:
+    mirror: false
+    rotation: 90
+    x: 1620
+    y: 2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_1620000_m2200000_A270:
+    mirror: false
+    rotation: 270
+    x: 1620
+    y: -2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_1920000_2200000_A90:
+    mirror: false
+    rotation: 90
+    x: 1920
+    y: 2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_1920000_m2200000_A270:
+    mirror: false
+    rotation: 270
+    x: 1920
+    y: -2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_2220000_2200000_A90:
+    mirror: false
+    rotation: 90
+    x: 2220
+    y: 2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_2220000_m2200000_A270:
+    mirror: false
+    rotation: 270
+    x: 2220
+    y: -2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_2520000_2200000_A90:
+    mirror: false
+    rotation: 90
+    x: 2520
+    y: 2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_2520000_m2200000_A270:
+    mirror: false
+    rotation: 270
+    x: 2520
+    y: -2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_2820000_2200000_A90:
+    mirror: false
+    rotation: 90
+    x: 2820
+    y: 2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_2820000_m2200000_A270:
+    mirror: false
+    rotation: 270
+    x: 2820
+    y: -2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_3120000_2200000_A90:
+    mirror: false
+    rotation: 90
+    x: 3120
+    y: 2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_3120000_m2200000_A270:
+    mirror: false
+    rotation: 270
+    x: 3120
+    y: -2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_3420000_2200000_A90:
+    mirror: false
+    rotation: 90
+    x: 3420
+    y: 2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_3420000_m2200000_A270:
+    mirror: false
+    rotation: 270
+    x: 3420
+    y: -2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_3720000_2200000_A90:
+    mirror: false
+    rotation: 90
+    x: 3720
+    y: 2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_3720000_m2200000_A270:
+    mirror: false
+    rotation: 270
+    x: 3720
+    y: -2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_4020000_2200000_A90:
+    mirror: false
+    rotation: 90
+    x: 4020
+    y: 2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_4020000_m2200000_A270:
+    mirror: false
+    rotation: 270
+    x: 4020
+    y: -2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_420000_2200000_A90:
+    mirror: false
+    rotation: 90
+    x: 420
+    y: 2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_420000_m2200000_A270:
+    mirror: false
+    rotation: 270
+    x: 420
+    y: -2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_4320000_2200000_A90:
+    mirror: false
+    rotation: 90
+    x: 4320
+    y: 2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_4320000_m2200000_A270:
+    mirror: false
+    rotation: 270
+    x: 4320
+    y: -2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_4620000_2200000_A90:
+    mirror: false
+    rotation: 90
+    x: 4620
+    y: 2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_4620000_m2200000_A270:
+    mirror: false
+    rotation: 270
+    x: 4620
+    y: -2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_720000_2200000_A90:
+    mirror: false
+    rotation: 90
+    x: 720
+    y: 2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_720000_m2200000_A270:
+    mirror: false
+    rotation: 270
+    x: 720
+    y: -2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m1080000_2200000_A90:
+    mirror: false
+    rotation: 90
+    x: -1080
+    y: 2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m1080000_m2200000_A270:
+    mirror: false
+    rotation: 270
+    x: -1080
+    y: -2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m1380000_2200000_A90:
+    mirror: false
+    rotation: 90
+    x: -1380
+    y: 2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m1380000_m2200000_A270:
+    mirror: false
+    rotation: 270
+    x: -1380
+    y: -2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m1680000_2200000_A90:
+    mirror: false
+    rotation: 90
+    x: -1680
+    y: 2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m1680000_m2200000_A270:
+    mirror: false
+    rotation: 270
+    x: -1680
+    y: -2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m180000_2200000_A90:
+    mirror: false
+    rotation: 90
+    x: -180
+    y: 2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m180000_m2200000_A270:
+    mirror: false
+    rotation: 270
+    x: -180
+    y: -2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m1980000_2200000_A90:
+    mirror: false
+    rotation: 90
+    x: -1980
+    y: 2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m1980000_m2200000_A270:
+    mirror: false
+    rotation: 270
+    x: -1980
+    y: -2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m2280000_2200000_A90:
+    mirror: false
+    rotation: 90
+    x: -2280
+    y: 2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m2280000_m2200000_A270:
+    mirror: false
+    rotation: 270
+    x: -2280
+    y: -2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m2580000_2200000_A90:
+    mirror: false
+    rotation: 90
+    x: -2580
+    y: 2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m2580000_m2200000_A270:
+    mirror: false
+    rotation: 270
+    x: -2580
+    y: -2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m2880000_2200000_A90:
+    mirror: false
+    rotation: 90
+    x: -2880
+    y: 2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m2880000_m2200000_A270:
+    mirror: false
+    rotation: 270
+    x: -2880
+    y: -2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m3180000_2200000_A90:
+    mirror: false
+    rotation: 90
+    x: -3180
+    y: 2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m3180000_m2200000_A270:
+    mirror: false
+    rotation: 270
+    x: -3180
+    y: -2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m3480000_2200000_A90:
+    mirror: false
+    rotation: 90
+    x: -3480
+    y: 2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m3480000_m2200000_A270:
+    mirror: false
+    rotation: 270
+    x: -3480
+    y: -2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m3780000_2200000_A90:
+    mirror: false
+    rotation: 90
+    x: -3780
+    y: 2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m3780000_m2200000_A270:
+    mirror: false
+    rotation: 270
+    x: -3780
+    y: -2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m4080000_2200000_A90:
+    mirror: false
+    rotation: 90
+    x: -4080
+    y: 2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m4080000_m2200000_A270:
+    mirror: false
+    rotation: 270
+    x: -4080
+    y: -2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m4380000_2200000_A90:
+    mirror: false
+    rotation: 90
+    x: -4380
+    y: 2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m4380000_m2200000_A270:
+    mirror: false
+    rotation: 270
+    x: -4380
+    y: -2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m480000_2200000_A90:
+    mirror: false
+    rotation: 90
+    x: -480
+    y: 2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m480000_m2200000_A270:
+    mirror: false
+    rotation: 270
+    x: -480
+    y: -2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m780000_2200000_A90:
+    mirror: false
+    rotation: 90
+    x: -780
+    y: 2200
+  pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m780000_m2200000_A270:
+    mirror: false
+    rotation: 270
+    x: -780
+    y: -2200
+  rectangle_gdsfactorypcomponentspshapesprectangle_S11470_1fc93ee1_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+ports:
+  e1: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m4380000_m2200000_A270,e1
+  e10: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m1680000_m2200000_A270,e1
+  e11: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m1380000_m2200000_A270,e1
+  e12: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m1080000_m2200000_A270,e1
+  e13: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m780000_m2200000_A270,e1
+  e14: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m480000_m2200000_A270,e1
+  e15: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m180000_m2200000_A270,e1
+  e16: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_120000_m2200000_A270,e1
+  e17: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_420000_m2200000_A270,e1
+  e18: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_720000_m2200000_A270,e1
+  e19: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_1020000_m2200000_A270,e1
+  e2: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m4080000_m2200000_A270,e1
+  e20: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_1320000_m2200000_A270,e1
+  e21: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_1620000_m2200000_A270,e1
+  e22: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_1920000_m2200000_A270,e1
+  e23: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_2220000_m2200000_A270,e1
+  e24: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_2520000_m2200000_A270,e1
+  e25: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_2820000_m2200000_A270,e1
+  e26: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_3120000_m2200000_A270,e1
+  e27: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_3420000_m2200000_A270,e1
+  e28: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_3720000_m2200000_A270,e1
+  e29: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_4020000_m2200000_A270,e1
+  e3: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m3780000_m2200000_A270,e1
+  e30: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_4320000_m2200000_A270,e1
+  e31: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_4620000_m2200000_A270,e1
+  e32: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_4620000_2200000_A90,e1
+  e33: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_4320000_2200000_A90,e1
+  e34: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_4020000_2200000_A90,e1
+  e35: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_3720000_2200000_A90,e1
+  e36: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_3420000_2200000_A90,e1
+  e37: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_3120000_2200000_A90,e1
+  e38: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_2820000_2200000_A90,e1
+  e39: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_2520000_2200000_A90,e1
+  e4: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m3480000_m2200000_A270,e1
+  e40: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_2220000_2200000_A90,e1
+  e41: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_1920000_2200000_A90,e1
+  e42: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_1620000_2200000_A90,e1
+  e43: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_1320000_2200000_A90,e1
+  e44: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_1020000_2200000_A90,e1
+  e45: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_720000_2200000_A90,e1
+  e46: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_420000_2200000_A90,e1
+  e47: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_120000_2200000_A90,e1
+  e48: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m180000_2200000_A90,e1
+  e49: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m480000_2200000_A90,e1
+  e5: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m3180000_m2200000_A270,e1
+  e50: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m780000_2200000_A90,e1
+  e51: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m1080000_2200000_A90,e1
+  e52: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m1380000_2200000_A90,e1
+  e53: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m1680000_2200000_A90,e1
+  e54: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m1980000_2200000_A90,e1
+  e55: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m2280000_2200000_A90,e1
+  e56: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m2580000_2200000_A90,e1
+  e57: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m2880000_2200000_A90,e1
+  e58: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m3180000_2200000_A90,e1
+  e59: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m3480000_2200000_A90,e1
+  e6: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m2880000_m2200000_A270,e1
+  e60: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m3780000_2200000_A90,e1
+  e61: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m4080000_2200000_A90,e1
+  e62: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m4380000_2200000_A90,e1
+  e7: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m2580000_m2200000_A270,e1
+  e8: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m2280000_m2200000_A270,e1
+  e9: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m1980000_m2200000_A270,e1
+  o1: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5524199_0_A90,o1
+  o10: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5524199_0_A90,o10
+  o11: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5524199_0_A90,o11
+  o12: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5524199_0_A90,o12
+  o13: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5524199_0_A270,o1
+  o14: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5524199_0_A270,o2
+  o15: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5524199_0_A270,o3
+  o16: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5524199_0_A270,o4
+  o17: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5524199_0_A270,o5
+  o18: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5524199_0_A270,o6
+  o19: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5524199_0_A270,o7
+  o2: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5524199_0_A90,o2
+  o20: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5524199_0_A270,o8
+  o21: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5524199_0_A270,o9
+  o22: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5524199_0_A270,o10
+  o23: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5524199_0_A270,o11
+  o24: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5524199_0_A270,o12
+  o3: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5524199_0_A90,o3
+  o4: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5524199_0_A90,o4
+  o5: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5524199_0_A90,o5
+  o6: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5524199_0_A90,o6
+  o7: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5524199_0_A90,o7
+  o8: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5524199_0_A90,o8
+  o9: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5524199_0_A90,o9
+warnings:
+  electrical:
+    unconnected_ports:
+    - message: 62 unconnected electrical ports!
+      ports:
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m4380000_2200000_A90,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m4080000_2200000_A90,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m3780000_2200000_A90,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m3480000_2200000_A90,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m3180000_2200000_A90,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m2880000_2200000_A90,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m2580000_2200000_A90,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m2280000_2200000_A90,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m1980000_2200000_A90,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m1680000_2200000_A90,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m1380000_2200000_A90,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m1080000_2200000_A90,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m780000_2200000_A90,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m480000_2200000_A90,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m180000_2200000_A90,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_120000_2200000_A90,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_420000_2200000_A90,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_720000_2200000_A90,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_1020000_2200000_A90,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_1320000_2200000_A90,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_1620000_2200000_A90,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_1920000_2200000_A90,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_2220000_2200000_A90,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_2520000_2200000_A90,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_2820000_2200000_A90,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_3120000_2200000_A90,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_3420000_2200000_A90,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_3720000_2200000_A90,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_4020000_2200000_A90,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_4320000_2200000_A90,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_4620000_2200000_A90,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m4380000_m2200000_A270,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m4080000_m2200000_A270,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m3780000_m2200000_A270,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m3480000_m2200000_A270,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m3180000_m2200000_A270,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m2880000_m2200000_A270,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m2580000_m2200000_A270,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m2280000_m2200000_A270,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m1980000_m2200000_A270,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m1680000_m2200000_A270,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m1380000_m2200000_A270,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m1080000_m2200000_A270,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m780000_m2200000_A270,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m480000_m2200000_A270,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_m180000_m2200000_A270,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_120000_m2200000_A270,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_420000_m2200000_A270,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_720000_m2200000_A270,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_1020000_m2200000_A270,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_1320000_m2200000_A270,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_1620000_m2200000_A270,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_1920000_m2200000_A270,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_2220000_m2200000_A270,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_2520000_m2200000_A270,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_2820000_m2200000_A270,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_3120000_m2200000_A270,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_3420000_m2200000_A270,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_3720000_m2200000_A270,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_4020000_m2200000_A270,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_4320000_m2200000_A270,e2
+      - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg_4620000_m2200000_A270,e2
+      values:
+      - - -4380
+        - 2300
+      - - -4080
+        - 2300
+      - - -3780
+        - 2300
+      - - -3480
+        - 2300
+      - - -3180
+        - 2300
+      - - -2880
+        - 2300
+      - - -2580
+        - 2300
+      - - -2280
+        - 2300
+      - - -1980
+        - 2300
+      - - -1680
+        - 2300
+      - - -1380
+        - 2300
+      - - -1080
+        - 2300
+      - - -780
+        - 2300
+      - - -480
+        - 2300
+      - - -180
+        - 2300
+      - - 120
+        - 2300
+      - - 420
+        - 2300
+      - - 720
+        - 2300
+      - - 1020
+        - 2300
+      - - 1320
+        - 2300
+      - - 1620
+        - 2300
+      - - 1920
+        - 2300
+      - - 2220
+        - 2300
+      - - 2520
+        - 2300
+      - - 2820
+        - 2300
+      - - 3120
+        - 2300
+      - - 3420
+        - 2300
+      - - 3720
+        - 2300
+      - - 4020
+        - 2300
+      - - 4320
+        - 2300
+      - - 4620
+        - 2300
+      - - -4380
+        - -2300
+      - - -4080
+        - -2300
+      - - -3780
+        - -2300
+      - - -3480
+        - -2300
+      - - -3180
+        - -2300
+      - - -2880
+        - -2300
+      - - -2580
+        - -2300
+      - - -2280
+        - -2300
+      - - -1980
+        - -2300
+      - - -1680
+        - -2300
+      - - -1380
+        - -2300
+      - - -1080
+        - -2300
+      - - -780
+        - -2300
+      - - -480
+        - -2300
+      - - -180
+        - -2300
+      - - 120
+        - -2300
+      - - 420
+        - -2300
+      - - 720
+        - -2300
+      - - 1020
+        - -2300
+      - - 1320
+        - -2300
+      - - 1620
+        - -2300
+      - - 1920
+        - -2300
+      - - 2220
+        - -2300
+      - - 2520
+        - -2300
+      - - 2820
+        - -2300
+      - - 3120
+        - -2300
+      - - 3420
+        - -2300
+      - - 3720
+        - -2300
+      - - 4020
+        - -2300
+      - - 4320
+        - -2300
+      - - 4620
+        - -2300

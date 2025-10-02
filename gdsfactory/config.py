@@ -16,8 +16,8 @@ from rich.table import Table
 if TYPE_CHECKING:
     pass
 
-__version__ = "9.12.4"
-__next_major_version__ = "9.12.4"
+__version__ = "9.18.1"
+__next_major_version__ = "9.18.1"
 
 PathType = str | pathlib.Path
 
@@ -112,6 +112,7 @@ class Config(Settings):
     layer_label: tuple[int, int]
     port_types: list[str]
     port_types_grating_couplers: list[str]
+    exclude_layers: list[tuple[int, int]] | list[str] | None
 
 
 CONF: Config = config  # type: ignore[assignment]
@@ -121,7 +122,7 @@ CONF.difftest_ignore_cell_name_differences = True
 CONF.bend_radius_error_type = ErrorType.ERROR
 CONF.layer_error_path = (1000, 0)
 CONF.connect_use_mirror = False
-CONF.max_cellname_length = 32
+CONF.max_cellname_length = 64
 CONF.cell_layout_cache = True
 CONF.pdk = "generic"
 CONF.layer_label = (100, 0)
@@ -139,6 +140,7 @@ CONF.port_types = [
     "edge_coupler",  # for edge couplers
 ]
 CONF.port_types_grating_couplers = ["vertical_te", "vertical_tm", "vertical_dual"]
+CONF.exclude_layers = None
 
 
 class Paths:

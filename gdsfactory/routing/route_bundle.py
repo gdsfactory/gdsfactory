@@ -12,6 +12,7 @@ route_bundle calls different function depending on the port orientation.
 
 from __future__ import annotations
 
+import warnings
 from collections.abc import Sequence
 from functools import partial
 from typing import Literal, cast
@@ -69,7 +70,7 @@ def get_min_spacing(
             sorted(ports1, key=get_port_x)
             sorted(ports2, key=get_port_x)
 
-    for port1, port2 in zip(ports1, ports2):
+    for port1, port2 in zip(ports1, ports2, strict=False):
         if axis in {"X", "x"}:
             x1 = get_port_y(port1)
             x2 = get_port_y(port2)
@@ -106,7 +107,9 @@ def route_bundle(
     collision_check_layers: LayerSpecs | None = None,
     on_collision: Literal["error", "show_error"] | None = None,
     bboxes: Sequence[kf.kdb.DBox] | None = None,
-    allow_width_mismatch: bool = False,
+    allow_width_mismatch: bool | None = None,
+    allow_layer_mismatch: bool | None = None,
+    allow_type_mismatch: bool | None = None,
     radius: float | None = None,
     route_width: float | None = None,
     straight: ComponentSpec = "straight",
@@ -144,6 +147,8 @@ def route_bundle(
         on_collision: action to take on collision. Defaults to None (ignore).
         bboxes: list of bounding boxes to avoid collisions.
         allow_width_mismatch: allow different port widths.
+        allow_layer_mismatch: allow different port layers to connect.
+        allow_type_mismatch: allow different port types to connect.
         radius: bend radius. If None, defaults to cross_section.radius.
         route_width: width of the route. If None, defaults to cross_section.width.
         straight: function for the straight. Defaults to straight.
@@ -175,14 +180,22 @@ def route_bundle(
         a1 = 90
         a2 = a1 + 180
 
-        ports1 = [gf.Port(name=f"top_{i}", center=(xs1[i], +0), width=0.5, orientation=a1, layer=(1,0)) for i in range(N)]
-        ports2 = [gf.Port(name=f"bot_{i}", center=(xs2[i], dy), width=0.5, orientation=a2, layer=(1,0)) for i in range(N)]
+        ports1 = [gf.Port(name=f"top_{i}", center=(xs1[i], +0), width=0.5, orientation=a1, layer=(1, 0)) for i in range(N)]
+        ports2 = [gf.Port(name=f"bot_{i}", center=(xs2[i], dy), width=0.5, orientation=a2, layer=(1, 0)) for i in range(N)]
 
         c = gf.Component()
         gf.routing.route_bundle(component=c, ports1=ports1, ports2=ports2, cross_section='strip', separation=5)
         c.plot()
-
     """
+
+    if router:
+        warnings.warn(
+            f"The argument {router=} is ignored and will be removed in a future release.",
+            stacklevel=2,
+        )
+
+    router = "optical"
+
     if cross_section is None:
         if layer is None or route_width is None:
             raise ValueError(
@@ -241,7 +254,7 @@ def route_bundle(
         ports1_new = []
         ports2_new = []
 
-        for p1, p2 in zip(ports1_, ports2_):
+        for p1, p2 in zip(ports1_, ports2_, strict=False):
             t1 = c << taper_
             t2 = c << taper_
             t1.connect(taper_o1, p1)
@@ -325,69 +338,6 @@ def route_bundle(
     else:
         waypoints_ = waypoints  # type: ignore[assignment]
 
-    router = router or "electrical" if port_type == "electrical" else "optical"
-    if router == "electrical":
-        if cross_section is not None:
-            xs = gf.get_cross_section(cross_section)
-            layer_: gf.kdb.LayerInfo | None = gf.kcl.get_info(
-                gf.get_layer(xs.sections[0].layer)
-            )
-        else:
-            layer_ = None
-        try:
-            route = kf.routing.electrical.route_bundle(
-                component,
-                ports1_,
-                ports2_,
-                separation=separation,
-                starts=start_straight_length,
-                ends=end_straight_length,
-                collision_check_layers=[
-                    c.kcl.layout.get_info(layer)
-                    for layer in collision_check_layer_enums
-                ]
-                if collision_check_layer_enums is not None
-                else None,
-                on_collision=on_collision,
-                bboxes=bboxes,
-                route_width=width,
-                sort_ports=sort_ports,
-                waypoints=waypoints_,
-                end_angles=end_angles,
-                start_angles=start_angles,
-                place_layer=layer_,
-            )
-        except Exception as e:
-            if raise_on_error:
-                raise e
-            gf.logger.error(f"Error in route_bundle: {e}")
-            layer_error_path = gf.get_layer_info(gf.CONF.layer_error_path)
-            route = kf.routing.electrical.route_bundle(
-                component,
-                ports1_,
-                ports2_,
-                separation=separation,
-                starts=start_straight_length,
-                ends=end_straight_length,
-                on_collision=on_collision,
-                bboxes=bboxes,
-                route_width=width,
-                sort_ports=sort_ports,
-                end_angles=end_angles,
-                start_angles=start_angles,
-                place_layer=layer_error_path,
-            )
-
-            if waypoints and waypoints_ is not None:
-                layer_marker = gf.CONF.layer_error_path
-                for p in waypoints_:
-                    marker = component << gf.components.rectangle(
-                        size=(10, 10), layer=layer_marker, centered=True
-                    )
-                    marker.center = (p.x, p.y)
-
-        return route
-
     bend90 = (
         bend
         if isinstance(bend, gf.Component)
@@ -421,6 +371,8 @@ def route_bundle(
             else None,
             on_collision=on_collision,
             allow_width_mismatch=allow_width_mismatch,
+            allow_layer_mismatch=allow_layer_mismatch,
+            allow_type_mismatch=allow_type_mismatch,
             bboxes=list(bboxes or []),
             route_width=width,
             sort_ports=sort_ports,

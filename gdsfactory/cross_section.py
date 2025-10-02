@@ -391,7 +391,7 @@ class CrossSection(BaseModel):
                 )
                 padding.append(points)
 
-            for layer, points in zip(self.bbox_layers, padding):
+            for layer, points in zip(self.bbox_layers, padding, strict=False):
                 c.add_polygon(points, layer=layer)
         return c
 
@@ -636,6 +636,7 @@ def cross_section(
                     cladding_offsets_not_none,
                     cladding_simplify_not_none,
                     cladding_centers_not_none,
+                    strict=False,
                 )
             )
         ]
@@ -660,7 +661,15 @@ def strip(
     radius_min: float = 5,
     **kwargs: Any,
 ) -> CrossSection:
-    """Return Strip cross_section."""
+    """Return Strip cross_section.
+
+    Args:
+        width: main Section width (um).
+        layer: main section layer.
+        radius: routing bend radius (um).
+        radius_min: min acceptable bend radius.
+        kwargs: cross_section settings.
+    """
     return cross_section(
         width=width,
         layer=layer,
@@ -679,7 +688,16 @@ def strip_no_ports(
     port_names: typings.IOPorts = ("", ""),
     **kwargs: Any,
 ) -> CrossSection:
-    """Return Strip cross_section."""
+    """Return Strip cross_section without ports.
+
+    Args:
+        width: main Section width (um).
+        layer: main section layer.
+        radius: routing bend radius (um).
+        radius_min: min acceptable bend radius.
+        port_names: for input and output ('o1', 'o2').
+        kwargs: cross_section settings.
+    """
     return cross_section(
         width=width,
         layer=layer,
@@ -788,7 +806,7 @@ def strip_rib_tip(
     radius_min: float | None = 5,
     **kwargs: Any,
 ) -> CrossSection:
-    """Return Strip cross_section."""
+    """Return Rib tip cross_section."""
     sections = (Section(width=width_tip, layer=layer_slab, name="slab"),)
     return cross_section(
         width=width,
@@ -811,7 +829,19 @@ def strip_nitride_tip(
     radius_min: float | None = None,
     **kwargs: Any,
 ) -> CrossSection:
-    """Return Strip cross_section."""
+    """Return the end of the nitride tip.
+
+    Args:
+        width: main Section width (um).
+        layer: main section layer.
+        layer_silicon: silicon layer.
+        width_tip_nitride: in um.
+        width_tip_silicon: in um.
+        radius: routing bend radius (um).
+        radius_min: min acceptable bend radius.
+        kwargs: cross_section settings.
+
+    """
     sections = (
         Section(width=width_tip_nitride, layer=layer, name="tip_nitride"),
         Section(width=width_tip_silicon, layer=layer_silicon, name="tip_silicon"),
@@ -1064,6 +1094,7 @@ def metal1(
     **kwargs: Any,
 ) -> CrossSection:
     """Return Metal Strip cross_section."""
+    radius = radius or width
     return cross_section(
         width=width,
         layer=layer,
@@ -1084,6 +1115,7 @@ def metal2(
     **kwargs: Any,
 ) -> CrossSection:
     """Return Metal Strip cross_section."""
+    radius = radius or width
     return cross_section(
         width=width,
         layer=layer,
@@ -1104,6 +1136,7 @@ def metal3(
     **kwargs: Any,
 ) -> CrossSection:
     """Return Metal Strip cross_section."""
+    radius = radius or width
     return cross_section(
         width=width,
         layer=layer,
@@ -1112,6 +1145,71 @@ def metal3(
         port_types=port_types,
         **kwargs,
     )
+
+
+@xsection
+def gs(
+    trace_width: float = 40,
+    layer: typings.LayerSpec = "M3",
+    gap: float = 120,
+    layer_port: typings.LayerSpec = "M3_ABSTRACT",
+    radius: float | None = None,
+    **kwargs: Any,
+) -> CrossSection:
+    """Return Ground-Signal-Ground cross_section.
+
+    Args:
+        trace_width: in um.
+        layer: metal layer.
+        gap: between metal lines in um.
+        layer_port: port layer.
+        radius: bend radius. Optional, defaults to 2*width+gap.
+        kwargs: cross_section settings. (ignored)
+    """
+    width = trace_width
+    sections = [
+        Section(
+            width=gap,
+            layer=layer_port,
+            offset=0,
+            port_names=port_names_electrical,
+            port_types=port_types_electrical,
+        ),
+        Section(width=width, layer=layer, offset=+gap / 2 + width / 2),
+        Section(width=width, layer=layer, offset=-gap / 2 - width / 2),
+    ]
+    return CrossSection(sections=tuple(sections), radius=radius or 2 * width + gap)
+
+
+@xsection
+def gsg(
+    trace_width: float = 40,
+    layer: typings.LayerSpec = "M3",
+    gap: float = 60,
+    radius: float | None = None,
+) -> CrossSection:
+    """Return Ground-Signal-Ground cross_section.
+
+    Args:
+        trace_width: in um.
+        layer: metal layer.
+        gap: between metal lines in um.
+        layer_port: port layer.
+        radius: bend radius. Optional, defaults to 3*width+2*gap.
+    """
+    width = trace_width
+    sections = [
+        Section(
+            width=width,
+            layer=layer,
+            offset=0,
+            port_names=port_names_electrical,
+            port_types=port_types_electrical,
+        ),
+        Section(width=width, layer=layer, offset=-gap - width),
+        Section(width=width, layer=layer, offset=+gap + width),
+    ]
+    return CrossSection(sections=tuple(sections), radius=radius or 3 * width + 2 * gap)
 
 
 @xsection
@@ -1124,6 +1222,9 @@ def metal_routing(
     **kwargs: Any,
 ) -> CrossSection:
     """Return Metal Strip cross_section."""
+
+    radius = radius or width
+
     return cross_section(
         width=width,
         layer=layer,
@@ -1144,6 +1245,7 @@ def heater_metal(
     **kwargs: Any,
 ) -> CrossSection:
     """Return Metal Strip cross_section."""
+    radius = radius or width
     return cross_section(
         width=width,
         layer=layer,
@@ -1250,7 +1352,9 @@ def pin(
             width=via_stack_width + 2 * cladding_offset,
             offset=+via_stack_offset,
         )
-        for layer, cladding_offset in zip(layers_via_stack1, bbox_offsets_via_stack1)
+        for layer, cladding_offset in zip(
+            layers_via_stack1, bbox_offsets_via_stack1, strict=False
+        )
     ]
     section_list += [
         Section(
@@ -1258,7 +1362,9 @@ def pin(
             width=via_stack_width + 2 * cladding_offset,
             offset=-via_stack_offset,
         )
-        for layer, cladding_offset in zip(layers_via_stack2, bbox_offsets_via_stack2)
+        for layer, cladding_offset in zip(
+            layers_via_stack2, bbox_offsets_via_stack2, strict=False
+        )
     ]
     if layer_via and via_width and via_offsets:
         section_list += [
@@ -2290,7 +2396,9 @@ def strip_heater_doped(
             offset=+heater_offset,
             name=f"heater_upper_{layer}",
         )
-        for layer, cladding_offset in zip(layers_heater, bbox_offsets_heater)
+        for layer, cladding_offset in zip(
+            layers_heater, bbox_offsets_heater, strict=False
+        )
     ]
 
     section_list += [
@@ -2300,7 +2408,9 @@ def strip_heater_doped(
             offset=-heater_offset,
             name=f"heater_lower_{layer}",
         )
-        for layer, cladding_offset in zip(layers_heater, bbox_offsets_heater)
+        for layer, cladding_offset in zip(
+            layers_heater, bbox_offsets_heater, strict=False
+        )
     ]
 
     return strip(
@@ -2507,7 +2617,9 @@ def rib_heater_doped_via_stack(
                 width=heater_width + 2 * cladding_offset,
                 offset=+via_stack_offset,
             )
-            for layer, cladding_offset in zip(layers_via_stack, bbox_offsets_via_stack)
+            for layer, cladding_offset in zip(
+                layers_via_stack, bbox_offsets_via_stack, strict=False
+            )
         ]
 
     if with_top_heater:
@@ -2517,7 +2629,9 @@ def rib_heater_doped_via_stack(
                 width=heater_width + 2 * cladding_offset,
                 offset=-via_stack_offset,
             )
-            for layer, cladding_offset in zip(layers_via_stack, bbox_offsets_via_stack)
+            for layer, cladding_offset in zip(
+                layers_via_stack, bbox_offsets_via_stack, strict=False
+            )
         ]
 
     return strip(
@@ -2642,7 +2756,7 @@ def pn_ge_detector_si_contacts(
     section_list += [
         Section(width=width_si + 2 * offset, layer=layer, simplify=simplify)
         for layer, offset, simplify in zip(
-            cladding_layers, cladding_offsets, cladding_simplify_not_none
+            cladding_layers, cladding_offsets, cladding_simplify_not_none, strict=False
         )
     ]
 
@@ -2776,6 +2890,7 @@ def is_cross_section(name: str, obj: Any, verbose: bool = False) -> bool:
                                 zip(
                                     freevars,
                                     [cell.cell_contents for cell in closure_values],
+                                    strict=False,
                                 )
                             )
                             resolved_type = closure_dict.get(return_type)

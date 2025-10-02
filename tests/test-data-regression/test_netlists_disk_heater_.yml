@@ -1,5 +1,5 @@
 instances:
-  disk_gdsfactorypcompone_5cd43a8c_0_0:
+  disk_gdsfactorypcomponentspringspdisk_R10_G0p2_WAD180_P1_CSstrip_0_0:
     component: disk
     info: {}
     settings:
@@ -8,7 +8,7 @@ instances:
       parity: 1
       radius: 10
       wrap_angle_deg: 180
-  rectangle_gdsfactorypco_ae271b9b_m33350_m2149:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S45p80_ae271b9b_m33350_m2149:
     component: rectangle
     info: {}
     settings:
@@ -23,7 +23,7 @@ instances:
       size:
       - 45.8
       - 5
-  via_stack_gdsfactorypco_e178153c_17450_351:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S10_10_L_e178153c_17450_351:
     component: via_stack
     info:
       xsize: 10
@@ -50,7 +50,7 @@ instances:
       - null
       - via1
       - via2
-  via_stack_gdsfactorypco_e178153c_m38350_351:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S10_10_L_e178153c_m38350_351:
     component: via_stack
     info:
       xsize: 10
@@ -77,49 +77,49 @@ instances:
       - null
       - via1
       - via2
-name: disk_heater_gdsfactoryp_9f50c453
+name: disk_heater_gdsfactorypcomponentspringspdisk_R10_G0p2_W_9f50c453
 nets:
-- p1: rectangle_gdsfactorypco_ae271b9b_m33350_m2149,e1
-  p2: via_stack_gdsfactorypco_e178153c_m38350_351,e3
-- p1: rectangle_gdsfactorypco_ae271b9b_m33350_m2149,e3
-  p2: via_stack_gdsfactorypco_e178153c_17450_351,e1
+- p1: rectangle_gdsfactorypcomponentspshapesprectangle_S45p80_ae271b9b_m33350_m2149,e1
+  p2: via_stack_gdsfactorypcomponentspviaspvia_stack_S10_10_L_e178153c_m38350_351,e3
+- p1: rectangle_gdsfactorypcomponentspshapesprectangle_S45p80_ae271b9b_m33350_m2149,e3
+  p2: via_stack_gdsfactorypcomponentspviaspvia_stack_S10_10_L_e178153c_17450_351,e1
 placements:
-  disk_gdsfactorypcompone_5cd43a8c_0_0:
+  disk_gdsfactorypcomponentspringspdisk_R10_G0p2_WAD180_P1_CSstrip_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  rectangle_gdsfactorypco_ae271b9b_m33350_m2149:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S45p80_ae271b9b_m33350_m2149:
     mirror: false
     rotation: 0
     x: -33.35
     y: -2.149
-  via_stack_gdsfactorypco_e178153c_17450_351:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S10_10_L_e178153c_17450_351:
     mirror: false
     rotation: 0
     x: 17.45
     y: 0.351
-  via_stack_gdsfactorypco_e178153c_m38350_351:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S10_10_L_e178153c_m38350_351:
     mirror: false
     rotation: 0
     x: -38.35
     y: 0.351
 ports:
-  e1: via_stack_gdsfactorypco_e178153c_m38350_351,e2
-  e2: via_stack_gdsfactorypco_e178153c_17450_351,e2
-  o1: disk_gdsfactorypcompone_5cd43a8c_0_0,o1
-  o2: disk_gdsfactorypcompone_5cd43a8c_0_0,o2
+  e1: via_stack_gdsfactorypcomponentspviaspvia_stack_S10_10_L_e178153c_m38350_351,e2
+  e2: via_stack_gdsfactorypcomponentspviaspvia_stack_S10_10_L_e178153c_17450_351,e2
+  o1: disk_gdsfactorypcomponentspringspdisk_R10_G0p2_WAD180_P1_CSstrip_0_0,o1
+  o2: disk_gdsfactorypcomponentspringspdisk_R10_G0p2_WAD180_P1_CSstrip_0_0,o2
 warnings:
   electrical:
     unconnected_ports:
     - message: 6 unconnected electrical ports!
       ports:
-      - rectangle_gdsfactorypco_ae271b9b_m33350_m2149,e2
-      - rectangle_gdsfactorypco_ae271b9b_m33350_m2149,e4
-      - via_stack_gdsfactorypco_e178153c_m38350_351,e1
-      - via_stack_gdsfactorypco_e178153c_m38350_351,e4
-      - via_stack_gdsfactorypco_e178153c_17450_351,e3
-      - via_stack_gdsfactorypco_e178153c_17450_351,e4
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S45p80_ae271b9b_m33350_m2149,e2
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S45p80_ae271b9b_m33350_m2149,e4
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S10_10_L_e178153c_m38350_351,e1
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S10_10_L_e178153c_m38350_351,e4
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S10_10_L_e178153c_17450_351,e3
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S10_10_L_e178153c_17450_351,e4
       values:
       - - -10.45
         - 2.851

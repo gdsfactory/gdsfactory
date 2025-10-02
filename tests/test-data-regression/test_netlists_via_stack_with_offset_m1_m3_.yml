@@ -1,5 +1,61 @@
 instances:
-  compass_gdsfactorypcomp_509e5c58_0_15000:
+  compass_gdsfactorypcomponentspshapespcompass_S10_10_LM1_5fd368c5_0_5000:
+    component: compass
+    info: {}
+    settings:
+      auto_rename_ports: true
+      layer: M1
+      port_inclusion: 0
+      port_orientations: null
+      port_type: null
+      size:
+      - 10
+      - 10
+  compass_gdsfactorypcomponentspshapespcompass_S10_10_LM1_bbd90e5e_0_5000:
+    component: compass
+    info: {}
+    settings:
+      auto_rename_ports: true
+      layer: M1
+      port_inclusion: 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: null
+      size:
+      - 10
+      - 10
+  compass_gdsfactorypcomponentspshapespcompass_S10_10_LM2_76817f2c_0_15000:
+    component: compass
+    info: {}
+    settings:
+      auto_rename_ports: true
+      layer: M2
+      port_inclusion: 0
+      port_orientations: null
+      port_type: null
+      size:
+      - 10
+      - 10
+  compass_gdsfactorypcomponentspshapespcompass_S10_10_LM2_ef1a02c5_0_5000:
+    component: compass
+    info: {}
+    settings:
+      auto_rename_ports: true
+      layer: M2
+      port_inclusion: 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: null
+      size:
+      - 10
+      - 10
+  compass_gdsfactorypcomponentspshapespcompass_S10_10_LMT_509e5c58_0_15000:
     component: compass
     info: {}
     settings:
@@ -15,31 +71,7 @@ instances:
       size:
       - 10
       - 10
-  compass_gdsfactorypcomp_5fd368c5_0_5000:
-    component: compass
-    info: {}
-    settings:
-      auto_rename_ports: true
-      layer: M1
-      port_inclusion: 0
-      port_orientations: null
-      port_type: null
-      size:
-      - 10
-      - 10
-  compass_gdsfactorypcomp_76817f2c_0_15000:
-    component: compass
-    info: {}
-    settings:
-      auto_rename_ports: true
-      layer: M2
-      port_inclusion: 0
-      port_orientations: null
-      port_type: null
-      size:
-      - 10
-      - 10
-  compass_gdsfactorypcomp_aa7c9a8d_0_15000:
+  compass_gdsfactorypcomponentspshapespcompass_S10_10_LMT_aa7c9a8d_0_15000:
     component: compass
     info: {}
     settings:
@@ -55,39 +87,7 @@ instances:
       size:
       - 10
       - 10
-  compass_gdsfactorypcomp_bbd90e5e_0_5000:
-    component: compass
-    info: {}
-    settings:
-      auto_rename_ports: true
-      layer: M1
-      port_inclusion: 0
-      port_orientations:
-      - 180
-      - 90
-      - 0
-      - -90
-      port_type: null
-      size:
-      - 10
-      - 10
-  compass_gdsfactorypcomp_ef1a02c5_0_5000:
-    component: compass
-    info: {}
-    settings:
-      auto_rename_ports: true
-      layer: M2
-      port_inclusion: 0
-      port_orientations:
-      - 180
-      - 90
-      - 0
-      - -90
-      port_type: null
-      size:
-      - 10
-      - 10
-  via_gdsfactorypcomponen_c51b5ebb_m3000_12000:
+  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb_m3000_12000:
     array:
       column_pitch: 2
       columns: 4
@@ -112,7 +112,7 @@ instances:
       size:
       - 0.7
       - 0.7
-  via_gdsfactorypcomponen_efa29aa3_m2000_3000:
+  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E2_LVIA1_BL_efa29aa3_m2000_3000:
     array:
       column_pitch: 2
       columns: 3
@@ -137,51 +137,51 @@ instances:
       size:
       - 0.7
       - 0.7
-name: via_stack_with_offset_g_aa50dc00
+name: via_stack_with_offset_gdsfactorypcomponentspviaspvia_st_aa50dc00
 nets: []
 placements:
-  compass_gdsfactorypcomp_509e5c58_0_15000:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 15
-  compass_gdsfactorypcomp_5fd368c5_0_5000:
+  compass_gdsfactorypcomponentspshapespcompass_S10_10_LM1_5fd368c5_0_5000:
     mirror: false
     rotation: 0
     x: 0
     y: 5
-  compass_gdsfactorypcomp_76817f2c_0_15000:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 15
-  compass_gdsfactorypcomp_aa7c9a8d_0_15000:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 15
-  compass_gdsfactorypcomp_bbd90e5e_0_5000:
+  compass_gdsfactorypcomponentspshapespcompass_S10_10_LM1_bbd90e5e_0_5000:
     mirror: false
     rotation: 0
     x: 0
     y: 5
-  compass_gdsfactorypcomp_ef1a02c5_0_5000:
+  compass_gdsfactorypcomponentspshapespcompass_S10_10_LM2_76817f2c_0_15000:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 15
+  compass_gdsfactorypcomponentspshapespcompass_S10_10_LM2_ef1a02c5_0_5000:
     mirror: false
     rotation: 0
     x: 0
     y: 5
-  via_gdsfactorypcomponen_c51b5ebb_m3000_12000:
+  compass_gdsfactorypcomponentspshapespcompass_S10_10_LMT_509e5c58_0_15000:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 15
+  compass_gdsfactorypcomponentspshapespcompass_S10_10_LMT_aa7c9a8d_0_15000:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 15
+  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb_m3000_12000:
     mirror: false
     rotation: 0
     x: -3
     y: 12
-  via_gdsfactorypcomponen_efa29aa3_m2000_3000:
+  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E2_LVIA1_BL_efa29aa3_m2000_3000:
     mirror: false
     rotation: 0
     x: -2
     y: 3
 ports:
-  e1: compass_gdsfactorypcomp_aa7c9a8d_0_15000,e1
-  e2: compass_gdsfactorypcomp_aa7c9a8d_0_15000,e2
-  e3: compass_gdsfactorypcomp_aa7c9a8d_0_15000,e3
-  e4: compass_gdsfactorypcomp_aa7c9a8d_0_15000,e4
+  e1: compass_gdsfactorypcomponentspshapespcompass_S10_10_LMT_aa7c9a8d_0_15000,e1
+  e2: compass_gdsfactorypcomponentspshapespcompass_S10_10_LMT_aa7c9a8d_0_15000,e2
+  e3: compass_gdsfactorypcomponentspshapespcompass_S10_10_LMT_aa7c9a8d_0_15000,e3
+  e4: compass_gdsfactorypcomponentspshapespcompass_S10_10_LMT_aa7c9a8d_0_15000,e4

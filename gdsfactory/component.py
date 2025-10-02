@@ -53,6 +53,7 @@ if TYPE_CHECKING:
         LayerSpec,
         LayerSpecs,
         PathType,
+        PixelBufferOptions,
         Port,
         Position,
     )
@@ -172,7 +173,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         layer: LayerSpec | None = None,
         port_type: str = "optical",
         keep_mirror: bool = False,
-        cross_section: "CrossSectionSpec | None" = None,
+        cross_section: CrossSectionSpec | None = None,
     ) -> DPort:
         """Adds a Port to the Component.
 
@@ -271,7 +272,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         trans = kdb.DTrans(0, False, x, y)
         self.shapes(layer).insert(kf.kdb.DText(text, trans))
 
-    def get_ports_list(self, **kwargs: Any) -> "list[Port]":
+    def get_ports_list(self, **kwargs: Any) -> list[Port]:
         """Returns list of ports.
 
         Args:
@@ -294,7 +295,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
 
     def add_route_info(
         self,
-        cross_section: "CrossSection | str",
+        cross_section: CrossSection | str,
         length: float,
         length_eff: float | None = None,
         taper: bool = False,
@@ -350,10 +351,11 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
 
     def write_gds(
         self,
-        gdspath: "PathType | None" = None,
-        gdsdir: "PathType | None" = None,
-        save_options: "kdb.SaveLayoutOptions | None" = None,
+        gdspath: PathType | None = None,
+        gdsdir: PathType | None = None,
+        save_options: kdb.SaveLayoutOptions | None = None,
         with_metadata: bool = True,
+        exclude_layers: Sequence[LayerSpec] | None = None,
     ) -> pathlib.Path:
         """Write component to GDS and returns gdspath.
 
@@ -362,7 +364,10 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             gdsdir: directory for the GDS file. Defaults to /tmp/randomFile/gdsfactory.
             save_options: klayout save options.
             with_metadata: if True, writes metadata (ports, settings) to the GDS file.
+            exlude_layers: list of layers to exclude from the GDS file.
         """
+        from gdsfactory.pdk import get_layer
+
         if gdspath and gdsdir:
             warnings.warn(
                 "gdspath and gdsdir have both been specified. "
@@ -380,6 +385,16 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
 
         if save_options is None:
             save_options = save_layout_options()
+
+        exclude_layers = exclude_layers or CONF.exclude_layers
+
+        if exclude_layers:
+            save_options.deselect_all_layers()
+            selected_layers = set(self.kcl.layer_indexes()) - {
+                get_layer(drop_layer) for drop_layer in exclude_layers
+            }
+            for layer in selected_layers:
+                save_options.add_layer(layer, kf.kdb.LayerInfo())
 
         if not with_metadata:
             save_options.write_context_info = False
@@ -458,6 +473,17 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
 
         return get_netlist(self, **kwargs)  # type: ignore[arg-type]
 
+    def add_ref_off_grid(self, component: kf.ProtoTKCell[Any]) -> VInstance:
+        """Adds a component instance reference to a Component without snapping to grid.
+
+        Args:
+            component: The referenced component.
+        """
+        if self.locked:
+            raise LockedError(self)
+
+        return self.create_vinst(component)
+
 
 Route: TypeAlias = (
     kf.routing.generic.ManhattanRoute | kf.routing.aa.optical.OpticalAllAngleRoute
@@ -478,7 +504,7 @@ class Component(ComponentBase, kf.DKCell):
         info: dictionary that includes derived properties, simulation_settings, settings (test_protocol, docs, ...)
     """
 
-    routes: "dict[str, Route]" = Field(default_factory=dict)
+    routes: dict[str, Route] = Field(default_factory=dict)
 
     @property
     def layers(self) -> list[Layer]:
@@ -549,6 +575,21 @@ class Component(ComponentBase, kf.DKCell):
             if flatten:
                 c.flatten()
 
+    def __lshift__(self, cell: kf.ProtoTKCell[Any]) -> ComponentReference:
+        """Convenience function for adding instances/references to a Component.
+
+        Args:
+            cell: The cell to be added as an instance
+        """
+        if isinstance(cell, ComponentAllAngle):
+            raise ValueError(
+                f"Use Component.add_ref_off_grid() for all angle {cell.name!r}"
+            )
+
+        if not isinstance(cell, kf.ProtoTKCell):
+            raise ValueError(f"Expected a Component, got {type(cell)}")
+        return self.create_inst(cell)
+
     def add_ref(
         self,
         component: kf.ProtoTKCell[Any],
@@ -568,6 +609,14 @@ class Component(ComponentBase, kf.DKCell):
             column_pitch: column pitch.
             row_pitch: row pitch.
         """
+
+        if isinstance(component, ComponentAllAngle):
+            raise ValueError(
+                f"Use Component.add_ref_off_grid() for all angle {component.name!r}"
+            )
+        elif not isinstance(component, kf.ProtoTKCell):
+            raise ValueError(f"Expected a Component, got {type(component)}")
+
         if self.locked:
             raise LockedError(self)
 
@@ -588,9 +637,7 @@ class Component(ComponentBase, kf.DKCell):
             inst.name = name
         return ComponentReference(kcl=self.kcl, instance=inst.instance)
 
-    def get_paths(
-        self, layer: "LayerSpec", recursive: bool = True
-    ) -> list[kf.kdb.DPath]:
+    def get_paths(self, layer: LayerSpec, recursive: bool = True) -> list[kf.kdb.DPath]:
         """Returns a list of paths.
 
         Args:
@@ -616,9 +663,7 @@ class Component(ComponentBase, kf.DKCell):
             )
         return paths
 
-    def get_boxes(
-        self, layer: "LayerSpec", recursive: bool = True
-    ) -> list[kf.kdb.DBox]:
+    def get_boxes(self, layer: LayerSpec, recursive: bool = True) -> list[kf.kdb.DBox]:
         """Returns a list of boxes.
 
         Args:
@@ -645,7 +690,7 @@ class Component(ComponentBase, kf.DKCell):
         return boxes
 
     def get_labels(
-        self, layer: "LayerSpec", recursive: bool = True
+        self, layer: LayerSpec, recursive: bool = True
     ) -> list[kf.kdb.DText]:
         """Returns a list of labels from the Component.
 
@@ -671,7 +716,7 @@ class Component(ComponentBase, kf.DKCell):
             )
         return texts
 
-    def area(self, layer: "LayerSpec") -> float:
+    def area(self, layer: LayerSpec) -> float:
         """Returns the area of the Component in um2."""
         from gdsfactory import get_layer
 
@@ -684,7 +729,7 @@ class Component(ComponentBase, kf.DKCell):
         self,
         merge: bool = False,
         by: Literal["index", "name", "tuple"] = "index",
-        layers: "LayerSpecs | None" = None,
+        layers: LayerSpecs | None = None,
         smooth: float | None = None,
     ) -> dict[tuple[int, int] | str | int, list[kf.kdb.Polygon]]:
         """Returns a dict of Polygons per layer.
@@ -703,7 +748,7 @@ class Component(ComponentBase, kf.DKCell):
         return get_polygons(self, merge=merge, by=by, layers=layers, smooth=smooth)
 
     def get_region(
-        self, layer: "LayerSpec", merge: bool = False, smooth: float | None = None
+        self, layer: LayerSpec, merge: bool = False, smooth: float | None = None
     ) -> kdb.Region:
         """Returns a Region of the Component.
 
@@ -731,7 +776,7 @@ class Component(ComponentBase, kf.DKCell):
         merge: bool = False,
         scale: float | None = None,
         by: Literal["index", "name", "tuple"] = "index",
-        layers: "LayerSpecs | None" = None,
+        layers: LayerSpecs | None = None,
     ) -> dict[int | str | tuple[int, int], list[npt.NDArray[np.floating[Any]]]]:
         """Returns a dict with list of points per layer.
 
@@ -750,7 +795,7 @@ class Component(ComponentBase, kf.DKCell):
 
     def extract(
         self,
-        layers: "LayerSpecs",
+        layers: LayerSpecs,
         recursive: bool = True,
     ) -> Component:
         """Extracts a list of layers and adds them to a new Component.
@@ -764,7 +809,7 @@ class Component(ComponentBase, kf.DKCell):
         return extract(self, layers=layers, recursive=recursive)
 
     def copy_layers(
-        self, layer_map: "dict[LayerSpec, LayerSpec]", recursive: bool = False
+        self, layer_map: dict[LayerSpec, LayerSpec], recursive: bool = False
     ) -> Self:
         """Remaps a list of layers and returns the same Component.
 
@@ -789,35 +834,46 @@ class Component(ComponentBase, kf.DKCell):
 
     def remove_layers(
         self,
-        layers: "LayerSpecs",
+        layers: LayerSpecs,
         recursive: bool = True,
+        unlock: bool = False,
     ) -> Self:
         """Removes a list of layers and returns the same Component.
 
         Args:
             layers: list of layers to remove.
             recursive: if True, removes layers recursively.
+            unlock: if True, unlocks the component before removing layers. Be careful with this option as it modifies the component and can have unintended side effects.
         """
         from gdsfactory import get_layer
+
+        if unlock:
+            self.locked = False
 
         if self.locked:
             raise LockedError(self)
 
-        layers = [get_layer(layer) for layer in layers]
+        layer_indexes = self.kcl.layer_indexes()
+        layer_indexes_to_remove = [get_layer(layer) for layer in layers]
+        layers = [layer for layer in layer_indexes_to_remove if layer in layer_indexes]
+
         for layer_index in layers:
             assert isinstance(layer_index, int)
             self.kdb_cell.shapes(layer_index).clear()
             if recursive:
-                [
-                    self.kcl[ci].kdb_cell.shapes(layer).clear()
-                    for ci in self.kdb_cell.called_cells()
-                    for layer in layers
-                    if isinstance(layer, int)
-                ]
+                for ci in self.kdb_cell.called_cells():
+                    for layer_idx in layers:
+                        assert isinstance(layer_idx, int)
+                        was_locked = self.kcl[ci].locked
+                        if unlock:
+                            self.kcl[ci].locked = False
+                        self.kcl[ci].kdb_cell.shapes(layer_idx).clear()
+                        if unlock and was_locked:
+                            self.kcl[ci].locked = True
         return self
 
     def remap_layers(
-        self, layer_map: "dict[LayerSpec, LayerSpec]", recursive: bool = False
+        self, layer_map: dict[LayerSpec, LayerSpec], recursive: bool = False
     ) -> Self:
         """Remaps a list of layers and returns the same Component.
 
@@ -842,9 +898,9 @@ class Component(ComponentBase, kf.DKCell):
 
     def to_3d(
         self,
-        layer_views: "LayerViews | None" = None,
-        layer_stack: "LayerStack | None" = None,
-        exclude_layers: "Sequence[Layer] | None " = None,
+        layer_views: LayerViews | None = None,
+        layer_stack: LayerStack | None = None,
+        exclude_layers: Sequence[Layer] | None = None,
     ) -> Scene:
         """Return Component 3D trimesh Scene.
 
@@ -867,7 +923,7 @@ class Component(ComponentBase, kf.DKCell):
         )
 
     def over_under(
-        self, layer: "LayerSpec", distance: float = 0.001, remove_old_layer: bool = True
+        self, layer: LayerSpec, distance: float = 0.001, remove_old_layer: bool = True
     ) -> None:
         """Returns a Component over-under on a layer in the Component.
 
@@ -888,12 +944,13 @@ class Component(ComponentBase, kf.DKCell):
         layer_index = get_layer(layer)
         region = kdb.Region(self.kdb_cell.begin_shapes_rec(layer_index))
         region.size(+distance_dbu).size(-distance_dbu)
+
         if remove_old_layer:
             self.remove_layers([layer])
         self.kdb_cell.shapes(layer_index).insert(region)
         self.kcl.layout.end_changes()
 
-    def fix_spacing(self, layer: "LayerSpec", min_space: float = 0.2) -> None:
+    def fix_spacing(self, layer: LayerSpec, min_space: float = 0.2) -> None:
         """Fixes layer spacing in the Component.
 
         Args:
@@ -912,7 +969,7 @@ class Component(ComponentBase, kf.DKCell):
 
     def fix_width(
         self,
-        layer: "LayerSpec",
+        layer: LayerSpec,
         min_width: float = 0.2,
         n_threads: int | None = None,
         tile_size: tuple[float, float] | None = None,
@@ -948,7 +1005,7 @@ class Component(ComponentBase, kf.DKCell):
         self.shapes(layer).clear()
         self.shapes(layer).insert(fix)
 
-    def offset(self, layer: "LayerSpec", distance: float) -> None:
+    def offset(self, layer: LayerSpec, distance: float) -> None:
         """Offsets a Component layer by a distance in um.
 
         Args:
@@ -970,9 +1027,7 @@ class Component(ComponentBase, kf.DKCell):
 
         self.kcl.layout.end_changes()
 
-    def add_polygon(
-        self, points: _PolygonPoints, layer: "LayerSpec"
-    ) -> kdb.Shape | None:
+    def add_polygon(self, points: _PolygonPoints, layer: LayerSpec) -> kdb.Shape | None:
         """Adds a Polygon to the Component and returns a klayout Shape.
 
         Args:
@@ -998,6 +1053,7 @@ class Component(ComponentBase, kf.DKCell):
         *,
         show_labels: bool = True,
         show_ruler: bool = True,
+        pixel_buffer_options: PixelBufferOptions | None = None,
         return_fig: Literal[True] = True,
     ) -> Figure: ...
 
@@ -1009,6 +1065,7 @@ class Component(ComponentBase, kf.DKCell):
         *,
         show_labels: bool = True,
         show_ruler: bool = True,
+        pixel_buffer_options: PixelBufferOptions | None = None,
         return_fig: Literal[False] = False,
     ) -> None: ...
 
@@ -1019,6 +1076,7 @@ class Component(ComponentBase, kf.DKCell):
         *,
         show_labels: bool = True,
         show_ruler: bool = True,
+        pixel_buffer_options: PixelBufferOptions | None = None,
         return_fig: bool = False,
     ) -> Figure | None:
         """Plots the Component using klayout.
@@ -1028,6 +1086,9 @@ class Component(ComponentBase, kf.DKCell):
             display_type: if "image", displays the image.
             show_labels: if True, shows labels.
             show_ruler: if True, shows ruler.
+            pixel_buffer_options: options for KLayout's get_pixels_with_options.
+                If None, uses default values (width=800, height=600, linewidth=0,
+                oversampling=0, resolution=0).
             return_fig: if True, returns the figure.
         """
         from io import BytesIO
@@ -1066,7 +1127,9 @@ class Component(ComponentBase, kf.DKCell):
         layout_view.set_config("text-visible", "true" if show_labels else "false")
         layout_view.set_config("grid-show-ruler", "true" if show_ruler else "false")
 
-        pixel_buffer = layout_view.get_pixels_with_options(800, 600)
+        pixel_buffer = layout_view.get_pixels_with_options(
+            **({"width": 800, "height": 600} | (pixel_buffer_options or {}))
+        )
         png_data = pixel_buffer.to_png_data()
 
         # Convert PNG data to NumPy array and display with matplotlib
@@ -1290,7 +1353,7 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):
 
         return c
 
-    def add_polygon(self, points: _PolygonPoints, layer: "LayerSpec") -> None:
+    def add_polygon(self, points: _PolygonPoints, layer: LayerSpec) -> None:
         """Adds a Polygon to the Component and returns a klayout Shape.
 
         Args:
@@ -1308,7 +1371,7 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):
 
         return self.shapes(_layer).insert(polygon)
 
-    def get_polygons(self, layer: "LayerSpec") -> list[kf.kdb.DPolygon]:
+    def get_polygons(self, layer: LayerSpec) -> list[kf.kdb.DPolygon]:
         """Returns a list of polygons from the Component."""
         from gdsfactory import get_layer
 
@@ -1318,6 +1381,7 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):
 def container(
     component: ComponentSpec,
     function: Callable[..., Any] | None = None,
+    copy_ports: bool = True,
     **kwargs: Any,
 ) -> Component:
     """Returns new component with a component reference.
@@ -1325,6 +1389,7 @@ def container(
     Args:
         component: to add to container.
         function: function to apply to component.
+        copy_ports: if True, copies ports from component to container.
         kwargs: keyword arguments to pass to function.
     """
     import gdsfactory as gf
@@ -1332,7 +1397,8 @@ def container(
     component = gf.get_component(component)
     c = Component()
     cref = c << component
-    c.add_ports(cref.ports)
+    if copy_ports:
+        c.add_ports(cref.ports)
     if function:
         function(component=c, **kwargs)
 

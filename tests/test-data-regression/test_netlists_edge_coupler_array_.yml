@@ -89,7 +89,7 @@ instances:
       width1: 0.5
       width2: 0.2
       with_two_ports: true
-  text_rectangular_gdsfac_2c507e43_10000_274000:
+  text_rectangular_gdsfactorypcomponentsptextsptext_recta_2c507e43_10000_274000:
     component: text_rectangular
     info: {}
     settings:
@@ -102,7 +102,7 @@ instances:
       - 0
       size: 10
       text: '3'
-  text_rectangular_gdsfac_4290a35d_10000_528000:
+  text_rectangular_gdsfactorypcomponentsptextsptext_recta_4290a35d_10000_528000:
     component: text_rectangular
     info: {}
     settings:
@@ -115,7 +115,7 @@ instances:
       - 0
       size: 10
       text: '5'
-  text_rectangular_gdsfac_83d1342a_10000_20000:
+  text_rectangular_gdsfactorypcomponentsptextsptext_recta_83d1342a_10000_20000:
     component: text_rectangular
     info: {}
     settings:
@@ -128,7 +128,7 @@ instances:
       - 0
       size: 10
       text: '1'
-  text_rectangular_gdsfac_86ca6ae5_10000_147000:
+  text_rectangular_gdsfactorypcomponentsptextsptext_recta_86ca6ae5_10000_147000:
     component: text_rectangular
     info: {}
     settings:
@@ -141,7 +141,7 @@ instances:
       - 0
       size: 10
       text: '2'
-  text_rectangular_gdsfac_8c12df02_10000_401000:
+  text_rectangular_gdsfactorypcomponentsptextsptext_recta_8c12df02_10000_401000:
     component: text_rectangular
     info: {}
     settings:
@@ -154,7 +154,7 @@ instances:
       - 0
       size: 10
       text: '4'
-name: edge_coupler_array_gdsf_00badbf2
+name: edge_coupler_array_gdsfactorypcomponentspedge_couplersp_e2b8ee19
 nets: []
 placements:
   ec_0:
@@ -182,39 +182,55 @@ placements:
     rotation: 0
     x: 0
     y: 508
-  text_rectangular_gdsfac_2c507e43_10000_274000:
+  text_rectangular_gdsfactorypcomponentsptextsptext_recta_2c507e43_10000_274000:
     mirror: false
     rotation: 0
     x: 10
     y: 274
-  text_rectangular_gdsfac_4290a35d_10000_528000:
+  text_rectangular_gdsfactorypcomponentsptextsptext_recta_4290a35d_10000_528000:
     mirror: false
     rotation: 0
     x: 10
     y: 528
-  text_rectangular_gdsfac_83d1342a_10000_20000:
+  text_rectangular_gdsfactorypcomponentsptextsptext_recta_83d1342a_10000_20000:
     mirror: false
     rotation: 0
     x: 10
     y: 20
-  text_rectangular_gdsfac_86ca6ae5_10000_147000:
+  text_rectangular_gdsfactorypcomponentsptextsptext_recta_86ca6ae5_10000_147000:
     mirror: false
     rotation: 0
     x: 10
     y: 147
-  text_rectangular_gdsfac_8c12df02_10000_401000:
+  text_rectangular_gdsfactorypcomponentsptextsptext_recta_8c12df02_10000_401000:
     mirror: false
     rotation: 0
     x: 10
     y: 401
 ports:
-  0o2: ec_0,o2
-  1o2: ec_1,o2
-  2o2: ec_2,o2
-  3o2: ec_3,o2
-  4o2: ec_4,o2
   o1: ec_0,o1
   o2: ec_1,o1
   o3: ec_2,o1
   o4: ec_3,o1
   o5: ec_4,o1
+warnings:
+  edge_coupler:
+    unconnected_ports:
+    - message: 5 unconnected edge_coupler ports!
+      ports:
+      - ec_0,o2
+      - ec_1,o2
+      - ec_2,o2
+      - ec_3,o2
+      - ec_4,o2
+      values:
+      - - 100
+        - 0
+      - - 100
+        - 127
+      - - 100
+        - 254
+      - - 100
+        - 381
+      - - 100
+        - 508

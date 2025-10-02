@@ -18,6 +18,7 @@ placements:
 routes:
   electrical:
     settings:
+      bend: wire_corner
       start_straight_length: 150
       end_straight_length: 150
       cross_section: metal_routing

@@ -50,7 +50,7 @@ def add_ports_from_markers_square(
     )
     layer = port_layer or pin_layer
 
-    for port_name, p in zip(port_names, port_markers.polygons):
+    for port_name, p in zip(port_names, port_markers.polygons, strict=False):
         (xmin, ymin), (xmax, ymax) = p.bounding_box()
         x, y = np.sum(p.bounding_box(), 0) / 2
 

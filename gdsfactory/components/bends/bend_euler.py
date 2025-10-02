@@ -96,7 +96,7 @@ def _bend_euler(
     radius = radius or x.radius
 
     if radius is None:
-        return gf.c.wire_corner(cross_section=x)
+        raise ValueError("radius must be specified")
 
     if layer and width:
         x = gf.get_cross_section(
@@ -122,7 +122,7 @@ def _bend_euler(
         np.round(abs(float(path.points[0][0] - path.points[-1][0])), 3)
     )
     c.info["min_bend_radius"] = min_bend_radius
-    c.info["radius"] = float(radius)
+    c.info["radius"] = radius
     c.info["width"] = width or x.width
 
     if not allow_min_radius_violation:
@@ -246,6 +246,7 @@ def bend_euler(
         p=p,
         with_arc_floorplan=with_arc_floorplan,
         npoints=npoints,
+        angular_step=angular_step,
         layer=layer,
         width=width,
         cross_section=cross_section,

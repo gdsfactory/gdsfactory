@@ -1,5 +1,5 @@
 instances:
-  circle_gdsfactorypcompo_2f08a648_103000_0:
+  circle_gdsfactorypcomponentspshapespcircle_R100_AR2p5_L1_0_103000_0:
     component: circle
     info: {}
     settings:
@@ -8,7 +8,7 @@ instances:
       - 1
       - 0
       radius: 100
-  circle_gdsfactorypcompo_2f08a648_m103000_0:
+  circle_gdsfactorypcomponentspshapespcircle_R100_AR2p5_L1_0_m103000_0:
     component: circle
     info: {}
     settings:
@@ -17,7 +17,7 @@ instances:
       - 1
       - 0
       radius: 100
-  circle_gdsfactorypcompo_65f994bc_0_0:
+  circle_gdsfactorypcomponentspshapespcircle_R5_AR2p5_L1_0_0_0:
     component: circle
     info: {}
     settings:
@@ -26,7 +26,7 @@ instances:
       - 1
       - 0
       radius: 5
-  rectangle_gdsfactorypco_aa94d32a_m75_m150:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S0p15__aa94d32a_m75_m150:
     component: rectangle
     info: {}
     settings:
@@ -43,25 +43,25 @@ instances:
       size:
       - 0.15
       - 0.3
-name: transmon_circular_gdsfa_29140297
+name: transmon_circular_gdsfactorypcomponentspquantumptransmo_29140297
 nets: []
 placements:
-  circle_gdsfactorypcompo_2f08a648_103000_0:
+  circle_gdsfactorypcomponentspshapespcircle_R100_AR2p5_L1_0_103000_0:
     mirror: false
     rotation: 0
     x: 103
     y: 0
-  circle_gdsfactorypcompo_2f08a648_m103000_0:
+  circle_gdsfactorypcomponentspshapespcircle_R100_AR2p5_L1_0_m103000_0:
     mirror: false
     rotation: 0
     x: -103
     y: 0
-  circle_gdsfactorypcompo_65f994bc_0_0:
+  circle_gdsfactorypcomponentspshapespcircle_R5_AR2p5_L1_0_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  rectangle_gdsfactorypco_aa94d32a_m75_m150:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S0p15__aa94d32a_m75_m150:
     mirror: false
     rotation: 0
     x: -0.075
@@ -72,10 +72,10 @@ warnings:
     unconnected_ports:
     - message: 4 unconnected electrical ports!
       ports:
-      - rectangle_gdsfactorypco_aa94d32a_m75_m150,e1
-      - rectangle_gdsfactorypco_aa94d32a_m75_m150,e2
-      - rectangle_gdsfactorypco_aa94d32a_m75_m150,e3
-      - rectangle_gdsfactorypco_aa94d32a_m75_m150,e4
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S0p15__aa94d32a_m75_m150,e1
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S0p15__aa94d32a_m75_m150,e2
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S0p15__aa94d32a_m75_m150,e3
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S0p15__aa94d32a_m75_m150,e4
       values:
       - - -0.075
         - 0

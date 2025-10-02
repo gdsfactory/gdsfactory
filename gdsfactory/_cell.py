@@ -157,12 +157,12 @@ def vcell(
     *,
     set_settings: bool = True,
     set_name: bool = True,
-    check_ports: bool = True,
     add_port_layers: bool = True,
     cache: Cache[int, Any] | dict[int, Any] | None = None,
     basename: str | None = None,
     drop_params: tuple[str, ...] = ("self", "cls"),
     register_factory: bool = True,
+    check_ports: bool = True,
     ports: PortsDefinition | None = None,
 ) -> (
     ComponentAllAngleFunc[ComponentParams]
@@ -174,13 +174,15 @@ def vcell(
 
     vc = _vcell(  # type: ignore[call-overload]
         _func,
+        output_type=ComponentAllAngle,
         set_settings=set_settings,
         set_name=set_name,
-        check_ports=check_ports,
+        add_port_layers=add_port_layers,
+        cache=cache,
         basename=basename,
         drop_params=list(drop_params),
         register_factory=register_factory,
-        output_type=ComponentAllAngle,
+        check_ports=check_ports,
         ports=ports,
     )
     vc.is_gf_vcell = True

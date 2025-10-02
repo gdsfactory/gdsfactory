@@ -1,5 +1,5 @@
 instances:
-  rectangle_gdsfactorypco_f70ae5a1_0_0:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S4_2_L_f70ae5a1_0_0:
     component: rectangle
     info: {}
     settings:
@@ -14,7 +14,7 @@ instances:
       size:
       - 4
       - 2
-  rectangle_gdsfactorypco_f967813b_0_0:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S4_2_L_f967813b_0_0:
     component: rectangle
     info: {}
     settings:
@@ -29,23 +29,23 @@ instances:
       size:
       - 4
       - 2
-name: rectangles_gdsfactorypc_6806a983
+name: rectangles_gdsfactorypcomponentspshapesprectangle_S4_2__6806a983
 nets:
-- p1: rectangle_gdsfactorypco_f70ae5a1_0_0,e1
-  p2: rectangle_gdsfactorypco_f967813b_0_0,e1
-- p1: rectangle_gdsfactorypco_f70ae5a1_0_0,e2
-  p2: rectangle_gdsfactorypco_f967813b_0_0,e2
-- p1: rectangle_gdsfactorypco_f70ae5a1_0_0,e3
-  p2: rectangle_gdsfactorypco_f967813b_0_0,e3
-- p1: rectangle_gdsfactorypco_f70ae5a1_0_0,e4
-  p2: rectangle_gdsfactorypco_f967813b_0_0,e4
+- p1: rectangle_gdsfactorypcomponentspshapesprectangle_S4_2_L_f70ae5a1_0_0,e1
+  p2: rectangle_gdsfactorypcomponentspshapesprectangle_S4_2_L_f967813b_0_0,e1
+- p1: rectangle_gdsfactorypcomponentspshapesprectangle_S4_2_L_f70ae5a1_0_0,e2
+  p2: rectangle_gdsfactorypcomponentspshapesprectangle_S4_2_L_f967813b_0_0,e2
+- p1: rectangle_gdsfactorypcomponentspshapesprectangle_S4_2_L_f70ae5a1_0_0,e3
+  p2: rectangle_gdsfactorypcomponentspshapesprectangle_S4_2_L_f967813b_0_0,e3
+- p1: rectangle_gdsfactorypcomponentspshapesprectangle_S4_2_L_f70ae5a1_0_0,e4
+  p2: rectangle_gdsfactorypcomponentspshapesprectangle_S4_2_L_f967813b_0_0,e4
 placements:
-  rectangle_gdsfactorypco_f70ae5a1_0_0:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S4_2_L_f70ae5a1_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  rectangle_gdsfactorypco_f967813b_0_0:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S4_2_L_f967813b_0_0:
     mirror: false
     rotation: 0
     x: 0

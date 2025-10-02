@@ -49,6 +49,7 @@ def edge_coupler_array(
     text: ComponentSpec | None = "text_rectangular",
     text_offset: Float2 = (10, 20),
     text_rotation: float = 0,
+    port_orientation: int = 180,
 ) -> Component:
     """Fiber array edge coupler based on an inverse taper.
 
@@ -62,6 +63,7 @@ def edge_coupler_array(
         text: text spec.
         text_offset: from edge coupler.
         text_rotation: text rotation in degrees.
+        port_orientation: filter ports by orientation.
     """
     edge_coupler = gf.get_component(edge_coupler)
 
@@ -74,10 +76,12 @@ def edge_coupler_array(
         if x_reflection:
             ref.dmirror()
 
-        # for port in ref.ports:
-        #     c.add_port(f"{port.name}_{i}", port=port)
-
-        c.add_ports(ref.ports, prefix=str(i))
+        for port in ref.ports:
+            if (
+                int(port.orientation) == port_orientation
+                and port.port_type == "optical"
+            ):
+                c.add_port(name=f"o{i}", port=port)
 
         if text:
             t = c << gf.get_component(text, text=str(i + 1))
@@ -93,14 +97,15 @@ def edge_coupler_array(
 def edge_coupler_array_with_loopback(
     edge_coupler: ComponentSpec = "edge_coupler_silicon",
     cross_section: CrossSectionSpec = "strip",
-    radius: float = 30,
+    radius: float | None = None,
     n: int = 8,
     pitch: float = 127.0,
-    extension_length: float = 1.0,
+    extension_length: float = 0.0,
     x_reflection: bool = False,
     text: ComponentSpec | None = "text_rectangular",
     text_offset: Float2 = (0, 10),
     text_rotation: float = 0,
+    port_orientation: int = 180,
 ) -> Component:
     """Fiber array edge coupler.
 
@@ -115,7 +120,11 @@ def edge_coupler_array_with_loopback(
         text: Optional text spec.
         text_offset: x, y.
         text_rotation: text rotation in degrees.
+        port_orientation: filter ports by orientation.
     """
+    xs = gf.get_cross_section(cross_section)
+    radius = radius or xs.radius
+
     c = Component()
     ec = edge_coupler_array(
         edge_coupler=edge_coupler,
@@ -125,6 +134,7 @@ def edge_coupler_array_with_loopback(
         text=text,
         text_offset=text_offset,
         text_rotation=text_rotation,
+        port_orientation=port_orientation,
     )
     if extension_length > 0:
         ec = gf.c.extend_ports(
@@ -157,8 +167,25 @@ def edge_coupler_array_with_loopback(
     )
 
     for i, port in enumerate(ec_ref.ports):
-        if port not in [p1, p2, p3, p4]:
+        if port not in [p1, p2, p3, p4] and int(port.orientation) == port_orientation:
             c.add_port(str(i), port=port)
 
     c.auto_rename_ports()
     return c
+
+
+if __name__ == "__main__":
+    # c = edge_coupler_array(x_reflection=True, port_orientation=0)
+    # c = edge_coupler_array(x_reflection=False, port_orientation=180)
+    c = edge_coupler_array_with_loopback(
+        n=8,
+        pitch=127.0,
+        extension_length=20.0,
+        x_reflection=False,
+        text="text_rectangular",
+        text_offset=(0, 10),
+        text_rotation=0,
+        port_orientation=180,
+    )
+    c.pprint_ports()
+    c.show()

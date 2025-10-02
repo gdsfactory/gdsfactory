@@ -1,12 +1,12 @@
 info: {}
-name: edge_coupler_array_with_76837e7b
+name: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_c5e87dbd
 settings:
   cross_section: strip
   edge_coupler: edge_coupler_silicon
-  extension_length: 1
+  extension_length: 0
   n: 8
   pitch: 127
-  radius: 30
+  port_orientation: 180
   text: text_rectangular
   text_offset:
   - 0

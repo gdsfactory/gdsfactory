@@ -1,5 +1,5 @@
 instances:
-  text_rectangular_gdsfac_91ffd302_0_0:
+  text_rectangular_gdsfactorypcomponentsptextsptext_recta_91ffd302_0_0:
     component: text_rectangular
     info: {}
     settings:
@@ -12,7 +12,7 @@ instances:
       - 0
       size: 10
       text: abcd
-  text_rectangular_gdsfac_93ab1193_0_0:
+  text_rectangular_gdsfactorypcomponentsptextsptext_recta_93ab1193_0_0:
     component: text_rectangular
     info: {}
     settings:
@@ -25,7 +25,7 @@ instances:
       - 0
       size: 10
       text: abcd
-  text_rectangular_gdsfac_dfbef80b_0_0:
+  text_rectangular_gdsfactorypcomponentsptextsptext_recta_dfbef80b_0_0:
     component: text_rectangular
     info: {}
     settings:
@@ -38,7 +38,7 @@ instances:
       - 0
       size: 10
       text: abcd
-  text_rectangular_gdsfac_e089aeed_0_0:
+  text_rectangular_gdsfactorypcomponentsptextsptext_recta_e089aeed_0_0:
     component: text_rectangular
     info: {}
     settings:
@@ -51,25 +51,25 @@ instances:
       - 0
       size: 10
       text: abcd
-name: text_rectangular_multi__9efe36c2
+name: text_rectangular_multi_layer_gdsfactorypcomponentsptext_9efe36c2
 nets: []
 placements:
-  text_rectangular_gdsfac_91ffd302_0_0:
+  text_rectangular_gdsfactorypcomponentsptextsptext_recta_91ffd302_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  text_rectangular_gdsfac_93ab1193_0_0:
+  text_rectangular_gdsfactorypcomponentsptextsptext_recta_93ab1193_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  text_rectangular_gdsfac_dfbef80b_0_0:
+  text_rectangular_gdsfactorypcomponentsptextsptext_recta_dfbef80b_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  text_rectangular_gdsfac_e089aeed_0_0:
+  text_rectangular_gdsfactorypcomponentsptextsptext_recta_e089aeed_0_0:
     mirror: false
     rotation: 0
     x: 0

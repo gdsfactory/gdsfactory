@@ -131,7 +131,7 @@ instances:
       npoints: null
       radius: 10
       width: null
-  coupler_gdsfactorypcomp_75dd060a_0_0:
+  coupler_gdsfactorypcomponentspcouplerspcoupler_G0p236_L_75dd060a_0_0:
     component: coupler
     info:
       min_bend_radius: 11.857
@@ -144,7 +144,7 @@ instances:
       dy: 4
       gap: 0.236
       length: 20
-  coupler_gdsfactorypcomp_75dd060a_0_24000:
+  coupler_gdsfactorypcomponentspcouplerspcoupler_G0p236_L_75dd060a_0_24000:
     component: coupler
     info:
       min_bend_radius: 11.857
@@ -157,7 +157,7 @@ instances:
       dy: 4
       gap: 0.236
       length: 20
-  coupler_gdsfactorypcomp_75dd060a_0_48000:
+  coupler_gdsfactorypcomponentspcouplerspcoupler_G0p236_L_75dd060a_0_48000:
     component: coupler
     info:
       min_bend_radius: 11.857
@@ -170,7 +170,7 @@ instances:
       dy: 4
       gap: 0.236
       length: 20
-  coupler_gdsfactorypcomp_75dd060a_0_72000:
+  coupler_gdsfactorypcomponentspcouplerspcoupler_G0p236_L_75dd060a_0_72000:
     component: coupler
     info:
       min_bend_radius: 11.857
@@ -315,43 +315,43 @@ instances:
       npoints: null
       radius: 10
       width: null
-name: ring_crow_couplers_gdsf_cb10ddba
+name: ring_crow_couplers_gdsfactorypcomponentspringspring_cro_cb10ddba
 nets:
 - p1: bot_left_bend_ring_0,o1
   p2: top_left_bend_ring_0,o2
 - p1: bot_left_bend_ring_0,o2
-  p2: coupler_gdsfactorypcomp_75dd060a_0_0,o2
+  p2: coupler_gdsfactorypcomponentspcouplerspcoupler_G0p236_L_75dd060a_0_0,o2
 - p1: bot_left_bend_ring_1,o1
   p2: top_left_bend_ring_1,o2
 - p1: bot_left_bend_ring_1,o2
-  p2: coupler_gdsfactorypcomp_75dd060a_0_24000,o2
+  p2: coupler_gdsfactorypcomponentspcouplerspcoupler_G0p236_L_75dd060a_0_24000,o2
 - p1: bot_left_bend_ring_2,o1
   p2: top_left_bend_ring_2,o2
 - p1: bot_left_bend_ring_2,o2
-  p2: coupler_gdsfactorypcomp_75dd060a_0_48000,o2
+  p2: coupler_gdsfactorypcomponentspcouplerspcoupler_G0p236_L_75dd060a_0_48000,o2
 - p1: bot_right_bend_ring_0,o1
-  p2: coupler_gdsfactorypcomp_75dd060a_0_0,o3
+  p2: coupler_gdsfactorypcomponentspcouplerspcoupler_G0p236_L_75dd060a_0_0,o3
 - p1: bot_right_bend_ring_0,o2
   p2: top_right_bend_ring_0,o1
 - p1: bot_right_bend_ring_1,o1
-  p2: coupler_gdsfactorypcomp_75dd060a_0_24000,o3
+  p2: coupler_gdsfactorypcomponentspcouplerspcoupler_G0p236_L_75dd060a_0_24000,o3
 - p1: bot_right_bend_ring_1,o2
   p2: top_right_bend_ring_1,o1
 - p1: bot_right_bend_ring_2,o1
-  p2: coupler_gdsfactorypcomp_75dd060a_0_48000,o3
+  p2: coupler_gdsfactorypcomponentspcouplerspcoupler_G0p236_L_75dd060a_0_48000,o3
 - p1: bot_right_bend_ring_2,o2
   p2: top_right_bend_ring_2,o1
-- p1: coupler_gdsfactorypcomp_75dd060a_0_24000,o1
+- p1: coupler_gdsfactorypcomponentspcouplerspcoupler_G0p236_L_75dd060a_0_24000,o1
   p2: top_left_bend_ring_0,o1
-- p1: coupler_gdsfactorypcomp_75dd060a_0_24000,o4
+- p1: coupler_gdsfactorypcomponentspcouplerspcoupler_G0p236_L_75dd060a_0_24000,o4
   p2: top_right_bend_ring_0,o2
-- p1: coupler_gdsfactorypcomp_75dd060a_0_48000,o1
+- p1: coupler_gdsfactorypcomponentspcouplerspcoupler_G0p236_L_75dd060a_0_48000,o1
   p2: top_left_bend_ring_1,o1
-- p1: coupler_gdsfactorypcomp_75dd060a_0_48000,o4
+- p1: coupler_gdsfactorypcomponentspcouplerspcoupler_G0p236_L_75dd060a_0_48000,o4
   p2: top_right_bend_ring_1,o2
-- p1: coupler_gdsfactorypcomp_75dd060a_0_72000,o1
+- p1: coupler_gdsfactorypcomponentspcouplerspcoupler_G0p236_L_75dd060a_0_72000,o1
   p2: top_left_bend_ring_2,o1
-- p1: coupler_gdsfactorypcomp_75dd060a_0_72000,o4
+- p1: coupler_gdsfactorypcomponentspcouplerspcoupler_G0p236_L_75dd060a_0_72000,o4
   p2: top_right_bend_ring_2,o2
 placements:
   bot_left_bend_ring_0:
@@ -384,22 +384,22 @@ placements:
     rotation: 0
     x: 30
     y: 50.368
-  coupler_gdsfactorypcomp_75dd060a_0_0:
+  coupler_gdsfactorypcomponentspcouplerspcoupler_G0p236_L_75dd060a_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  coupler_gdsfactorypcomp_75dd060a_0_24000:
+  coupler_gdsfactorypcomponentspcouplerspcoupler_G0p236_L_75dd060a_0_24000:
     mirror: false
     rotation: 0
     x: 0
     y: 24
-  coupler_gdsfactorypcomp_75dd060a_0_48000:
+  coupler_gdsfactorypcomponentspcouplerspcoupler_G0p236_L_75dd060a_0_48000:
     mirror: false
     rotation: 0
     x: 0
     y: 48
-  coupler_gdsfactorypcomp_75dd060a_0_72000:
+  coupler_gdsfactorypcomponentspcouplerspcoupler_G0p236_L_75dd060a_0_72000:
     mirror: false
     rotation: 0
     x: 0
@@ -435,7 +435,7 @@ placements:
     x: 40
     y: 60.368
 ports:
-  o1: coupler_gdsfactorypcomp_75dd060a_0_0,o1
-  o2: coupler_gdsfactorypcomp_75dd060a_0_0,o4
-  o3: coupler_gdsfactorypcomp_75dd060a_0_72000,o2
-  o4: coupler_gdsfactorypcomp_75dd060a_0_72000,o3
+  o1: coupler_gdsfactorypcomponentspcouplerspcoupler_G0p236_L_75dd060a_0_0,o1
+  o2: coupler_gdsfactorypcomponentspcouplerspcoupler_G0p236_L_75dd060a_0_0,o4
+  o3: coupler_gdsfactorypcomponentspcouplerspcoupler_G0p236_L_75dd060a_0_72000,o2
+  o4: coupler_gdsfactorypcomponentspcouplerspcoupler_G0p236_L_75dd060a_0_72000,o3

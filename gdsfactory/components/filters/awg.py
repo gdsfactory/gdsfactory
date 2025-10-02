@@ -53,7 +53,7 @@ def free_propagation_region(
     ypts = [y1, y2, -y2, -y1]
 
     c = gf.Component()
-    c.add_polygon(list(zip(xpts, ypts)), layer=layer)
+    c.add_polygon(list(zip(xpts, ypts, strict=False)), layer=layer)
 
     if inputs == 1:
         c.add_port(

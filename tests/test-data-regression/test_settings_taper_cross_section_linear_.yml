@@ -4,7 +4,7 @@ info:
   route_info_strip_rib_tip_taper_length: 10
   route_info_type: strip_rib_tip
   route_info_weight: 10
-name: taper_cross_section_gds_e425c93b
+name: taper_cross_section_gdsfactorypcomponentsptapersptaper__e425c93b
 settings:
   cross_section1: strip_rib_tip
   cross_section2: rib2

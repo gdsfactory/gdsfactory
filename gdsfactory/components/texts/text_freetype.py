@@ -53,7 +53,9 @@ def text_freetype(
                     for poly in _glyph[ascii_val]:
                         xpts = np.array(poly)[:, 0] * scaling + xoffset
                         ypts = np.array(poly)[:, 1] * scaling + yoffset
-                        points: list[tuple[float, float]] = list(zip(xpts, ypts))
+                        points: list[tuple[float, float]] = list(
+                            zip(xpts, ypts, strict=False)
+                        )
                         char.add_polygon(points, layer=layer)
                     xoffset += (_width[ascii_val] + _indent[ascii_val]) * scaling
                 else:
