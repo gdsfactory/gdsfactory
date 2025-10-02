@@ -9,7 +9,7 @@ from typing import Any
 import kfactory as kf
 
 from gdsfactory.component import Component, ComponentAllAngle
-from gdsfactory.typings import ComponentFactory
+from gdsfactory.typings import ComponentAllAngleFactory, ComponentFactory
 
 
 def get_cells(
@@ -17,7 +17,7 @@ def get_cells(
     ignore_non_decorated: bool = False,
     ignore_underscored: bool = True,
     ignore_partials: bool = False,
-) -> dict[str, ComponentFactory]:
+) -> dict[str, ComponentFactory | ComponentAllAngleFactory]:
     """Returns PCells (component functions) from a module or list of modules.
 
     Args:
@@ -27,7 +27,7 @@ def get_cells(
         ignore_partials: only include functions, not partials.
     """
     modules = modules if isinstance(modules, Iterable) else [modules]
-    cells: dict[str, ComponentFactory] = {}
+    cells: dict[str, ComponentFactory | ComponentAllAngleFactory] = {}
     for module in modules:
         cells.update(
             {
@@ -89,12 +89,12 @@ def is_cell(
             return False
 
         # Fast attribute check
-        is_cell_attr = getattr(func, "is_gf_cell", None)
-
-        if func in kf.kcl.virtual_factories.values():
+        if getattr(func, "is_gf_cell", None):
+            return True
+        if getattr(func, "is_gf_vcell", None):
             return True
 
-        if is_cell_attr:
+        if func in kf.kcl.virtual_factories.values():
             return True
 
         if not ignore_non_decorated:
