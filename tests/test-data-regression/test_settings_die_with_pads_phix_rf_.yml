@@ -1,5 +1,5 @@
 info: {}
-name: die_with_pads_phix_rf_gdsfactorypcomponentspdiespdie_wi_de6b3da5
+name: die_with_pads_phix_rf_gdsfactorypcomponentspdiespdie_wi_9e5c9285
 settings:
   cross_section: strip
   edge_coupler: edge_coupler_silicon
@@ -7,7 +7,7 @@ settings:
   fiber_pitch: 127
   layer_fiducial: M3
   layer_floorplan: FLOORPLAN
-  layer_ruler: M3
+  layer_ruler: WG
   nfibers: 32
   npads: 59
   npads_rf: 6
@@ -20,7 +20,6 @@ settings:
   size:
   - 10570
   - 5000
-  text: text_rectangular
   text_offset:
   - 20
   - 10
