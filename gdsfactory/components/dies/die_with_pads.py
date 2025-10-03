@@ -3,6 +3,16 @@ from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Float2, LayerSpec, Size
 
 
+@gf.cell
+def die(
+    size: Size = (11470.0, 4900.0),
+    layer_floorplan: LayerSpec = "FLOORPLAN",
+) -> gf.Component:
+    return gf.c.rectangle(
+        size=size, layer=layer_floorplan, centered=True, port_type=None
+    )
+
+
 @gf.cell_with_module_name
 def die_with_pads(
     size: Size = (11470.0, 4900.0),
@@ -219,6 +229,8 @@ def die_with_pads_phix(
     pad_port_name_bot: str = "e2",
     layer_fiducial: LayerSpec = "M3",
     layer_ruler: LayerSpec = "WG",
+    ruler_yoffset: float = 0,
+    edge_coupler_xoffset: float = 0,
     with_right_edge_coupler: bool = True,
     with_left_edge_coupler: bool = True,
     text_offset: Float2 = (20, 10),
@@ -267,7 +279,6 @@ def die_with_pads_phix(
             cross_section=cross_section,
             text_offset=text_offset,
             text=text,
-            port_orientation=180,
             x_reflection=False,
         )
         gca_left = gf.c.edge_coupler_array_with_loopback(
@@ -277,41 +288,40 @@ def die_with_pads_phix(
             cross_section=cross_section,
             text_offset=text_offset,
             text=text,
-            port_orientation=0,
             x_reflection=True,
         )
 
         if with_left_edge_coupler:
             left = c << gca_left
-            left.xmin = -xs / 2
+            left.xmin = -xs / 2 - edge_coupler_xoffset
             left.y = fp.y
             c.add_ports(left.ports, prefix="W")
 
         if with_right_edge_coupler:
             right = c << gca
-            right.xmax = xs / 2
+            right.xmax = xs / 2 + edge_coupler_xoffset
             right.y = fp.y
             c.add_ports(right.ports, prefix="E")
 
     if with_right_edge_coupler:
         ruler_top_right = c << gf.c.ruler(layer=layer_ruler)
         ruler_top_right.xmax = fp.xmax
-        ruler_top_right.ymax = fp.ymax - 300
+        ruler_top_right.ymax = fp.ymax - 300 + ruler_yoffset
 
         ruler_bot_right = c << gf.c.ruler(layer=layer_ruler)
         ruler_bot_right.xmax = fp.xmax
-        ruler_bot_right.ymin = fp.ymin + 300
+        ruler_bot_right.ymin = fp.ymin + 300 - ruler_yoffset
 
     if with_left_edge_coupler:
         ruler_top_left = c << gf.c.ruler(layer=layer_ruler)
         ruler_top_left.rotate(180)
         ruler_top_left.xmin = fp.xmin
-        ruler_top_left.ymax = fp.ymax - 300
+        ruler_top_left.ymax = fp.ymax - 300 + ruler_yoffset
 
         ruler_bot_left = c << gf.c.ruler(layer=layer_ruler)
         ruler_bot_left.rotate(180)
         ruler_bot_left.xmin = fp.xmin
-        ruler_bot_left.ymin = fp.ymin + 300
+        ruler_bot_left.ymin = fp.ymin + 300 - ruler_yoffset
 
     else:
         # left RF pads
