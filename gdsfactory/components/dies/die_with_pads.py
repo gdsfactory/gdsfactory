@@ -237,7 +237,7 @@ def die_with_pads_phix(
         cross_section: the cross section.
         pad: the pad component.
         layer_floorplan: the layer of the floorplan.
-        edge_to_pad_distance: the distance from the edge to the pads, in um.
+        edge_to_pad_distance: the distance from the edge to the pads, in um. For foundries that need polishing landing area extend by 30u,,.
         pad_port_name_top: name of the pad port name at the btop facing south.
         pad_port_name_bot: name of the pad port name at the bottom facing north.
         layer_fiducial: layer for fiducials.
@@ -315,7 +315,7 @@ def die_with_pads_phix(
 
     else:
         # left RF pads
-        y0 = fp.ymax - 390 - pad_pitch_gsg / 2
+        y0 = fp.ymax - 390 - pad_pitch_gsg / 2 + 50
         for i in range(npads_rf):
             pad_ref = c << gf.get_component(pad_gsg)
             pad_ref.y = y0 - i * pad_pitch_gsg
@@ -393,7 +393,7 @@ def die_with_pads_phix_dc(
     with_right_edge_coupler: bool = True,
     with_left_edge_coupler: bool = True,
     text_offset: Float2 = (20, 10),
-    text: ComponentSpec | None = "text_rectangular",
+    text: ComponentSpec | None = None,
 ) -> Component:
     return die_with_pads_phix(
         size=size,
@@ -442,7 +442,7 @@ def die_with_pads_phix_rf(
     with_right_edge_coupler: bool = True,
     with_left_edge_coupler: bool = False,
     text_offset: Float2 = (20, 10),
-    text: ComponentSpec | None = "text_rectangular_mini",
+    text: ComponentSpec | None = None,
 ) -> Component:
     return die_with_pads_phix(
         size=size,
@@ -475,7 +475,7 @@ if __name__ == "__main__":
     text_m3 = partial(gf.c.text_rectangular, layer="M3", size=20)
     edge_coupler = partial(gf.c.edge_coupler_silicon, length=200)
 
-    c = die_with_pads_phix_rf(edge_coupler=edge_coupler, text=text_m3)
+    c = die_with_pads_phix_rf(edge_coupler=edge_coupler)
     # c.write_gds("/Users/j/Downloads/die_with_pads_phix_rf.gds")
     # c = die_with_pads_phix_dc(edge_coupler=edge_coupler, text=text_m3)
     # c.write_gds("/Users/j/Downloads/die_with_pads_phix_dc.gds")
