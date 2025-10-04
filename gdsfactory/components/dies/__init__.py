@@ -1,11 +1,11 @@
 from gdsfactory.components.dies.align import (
-    add_die_frame,
+    add_frame,
     align_wafer,
 )
 from gdsfactory.components.dies.die import (
     die,
 )
-from gdsfactory.components.dies.die_die_frame_with_pads import (
+from gdsfactory.components.dies.die_frame_with_pads import (
     die_frame,
     die_frame_phix,
     die_frame_phix_dc,
@@ -24,7 +24,7 @@ from gdsfactory.components.dies.wafer import (
 )
 
 __all__ = [
-    "add_die_frame",
+    "add_frame",
     "align_wafer",
     "die",
     "die_frame",
