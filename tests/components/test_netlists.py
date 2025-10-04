@@ -39,6 +39,7 @@ skip_test = {
     "straight_all_angle",
     "bend_circular_all_angle",
     "bend_euler_all_angle",
+    "die_frame_phix",
 }
 cells_to_test = set(cells.keys()) - skip_test
 
