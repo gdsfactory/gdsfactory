@@ -90,26 +90,71 @@ instances:
       width2: 0.2
       with_two_ports: true
   text_rectangular_gdsfactorypcomponentsptextsptext_recta_2c507e43_10000_274000:
-    component: text_rectangular_gdsfactorypcomponentsptextsptext_recta_2c507e43
+    component: text_rectangular
     info: {}
-    settings: {}
+    settings:
+      font: rectangular_font
+      justify: left
+      layer: WG
+      layers: null
+      position:
+      - 0
+      - 0
+      size: 10
+      text: '3'
   text_rectangular_gdsfactorypcomponentsptextsptext_recta_4290a35d_10000_528000:
-    component: text_rectangular_gdsfactorypcomponentsptextsptext_recta_4290a35d
+    component: text_rectangular
     info: {}
-    settings: {}
+    settings:
+      font: rectangular_font
+      justify: left
+      layer: WG
+      layers: null
+      position:
+      - 0
+      - 0
+      size: 10
+      text: '5'
   text_rectangular_gdsfactorypcomponentsptextsptext_recta_83d1342a_10000_20000:
-    component: text_rectangular_gdsfactorypcomponentsptextsptext_recta_83d1342a
+    component: text_rectangular
     info: {}
-    settings: {}
+    settings:
+      font: rectangular_font
+      justify: left
+      layer: WG
+      layers: null
+      position:
+      - 0
+      - 0
+      size: 10
+      text: '1'
   text_rectangular_gdsfactorypcomponentsptextsptext_recta_86ca6ae5_10000_147000:
-    component: text_rectangular_gdsfactorypcomponentsptextsptext_recta_86ca6ae5
+    component: text_rectangular
     info: {}
-    settings: {}
+    settings:
+      font: rectangular_font
+      justify: left
+      layer: WG
+      layers: null
+      position:
+      - 0
+      - 0
+      size: 10
+      text: '2'
   text_rectangular_gdsfactorypcomponentsptextsptext_recta_8c12df02_10000_401000:
-    component: text_rectangular_gdsfactorypcomponentsptextsptext_recta_8c12df02
+    component: text_rectangular
     info: {}
-    settings: {}
-name: edge_coupler_array_gdsfactorypcomponentspedge_couplersp_e2b8ee19
+    settings:
+      font: rectangular_font
+      justify: left
+      layer: WG
+      layers: null
+      position:
+      - 0
+      - 0
+      size: 10
+      text: '4'
+name: edge_coupler_array_gdsfactorypcomponentspedge_couplersp_00badbf2
 nets: []
 placements:
   ec_0:
