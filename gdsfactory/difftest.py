@@ -351,11 +351,13 @@ def diff(
         layer_label = kf.kcl.layout.layer(1, 0)
         c.shapes(layer_label).insert(kf.kdb.DText("old", old_ref.dtrans))
         c.shapes(layer_label).insert(kf.kdb.DText("new", new_ref.dtrans))
-        c.shapes(layer_label).insert(
-            kf.kdb.DText(
-                "xor", kf.kdb.DTrans(new_ref.xmin, old_ref.ymax - old_ref.ysize - dy)
+        if xor:
+            c.shapes(layer_label).insert(
+                kf.kdb.DText(
+                    "xor",
+                    kf.kdb.DTrans(new_ref.xmin, old_ref.ymax - old_ref.ysize - dy),
+                )
             )
-        )
 
         if xor:
             print("Running XOR on differences...")
