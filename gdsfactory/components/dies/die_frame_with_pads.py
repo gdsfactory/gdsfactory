@@ -129,6 +129,7 @@ def die_frame_phix(
     pad_pitch: float = 150.0,
     pad_pitch_gsg: float = 720.0,
     edge_coupler: ComponentSpec | None = "edge_coupler_silicon",
+    grating_coupler: ComponentSpec | None = None,
     cross_section: CrossSectionSpec = "strip",
     pad: ComponentSpec = "pad",
     pad_gsg: ComponentSpec = "pad_gsg",
@@ -138,9 +139,9 @@ def die_frame_phix(
     layer_fiducial: LayerSpec = "M3",
     layer_ruler: LayerSpec = "WG",
     ruler_yoffset: float = 0,
-    edge_coupler_xoffset: float = 0,
-    with_right_edge_coupler: bool = True,
-    with_left_edge_coupler: bool = True,
+    fiber_coupler_xoffset: float = 0,
+    with_right_fiber_coupler: bool = True,
+    with_left_fiber_coupler: bool = True,
     text_offset: Float2 = (20, 10),
     text: ComponentSpec | None = "text_rectangular",
     xoffset_dc_pads: float = 0,
@@ -156,6 +157,7 @@ def die_frame_phix(
         fiber_pitch: the pitch of the grating couplers, in um.
         pad_pitch: the pitch of the pads, in um.
         edge_coupler: the grating coupler component.
+        grating_coupler: Optional grating coupler.
         cross_section: the cross section.
         pad: the pad component.
         layer_floorplan: the layer of the floorplan.
@@ -164,8 +166,8 @@ def die_frame_phix(
         pad_port_name_bot: name of the pad port name at the bottom facing north.
         layer_fiducial: layer for fiducials.
         layer_ruler: layer for ruler.
-        with_right_edge_coupler: if True, adds edge couplers on the right side.
-        with_left_edge_coupler: if True, adds edge couplers on the left side.
+        with_right_fiber_coupler: if True, adds edge couplers on the right side.
+        with_left_fiber_coupler: if True, adds edge couplers on the left side.
         text_offset: offset for text.
         text: text component spec.
         xoffset_dc_pads: DC pads x-offset.
@@ -184,39 +186,69 @@ def die_frame_phix(
     # Add optical ports
     x0 = xs / 2
 
-    if edge_coupler:
-        gca = gf.c.edge_coupler_array_with_loopback(
-            n=nfibers,
-            pitch=fiber_pitch,
-            edge_coupler=edge_coupler,
-            cross_section=cross_section,
-            text_offset=text_offset,
-            text=text,
-            x_reflection=False,
-        )
-        gca_left = gf.c.edge_coupler_array_with_loopback(
-            n=nfibers,
-            pitch=fiber_pitch,
-            edge_coupler=edge_coupler,
-            cross_section=cross_section,
-            text_offset=text_offset,
-            text=text,
-            x_reflection=True,
-        )
+    if edge_coupler or grating_coupler:
+        if edge_coupler:
+            gca = gf.c.edge_coupler_array_with_loopback(
+                n=nfibers,
+                pitch=fiber_pitch,
+                edge_coupler=edge_coupler,
+                cross_section=cross_section,
+                text_offset=text_offset,
+                text=text,
+                x_reflection=False,
+            )
+            gca_left = gf.c.edge_coupler_array_with_loopback(
+                n=nfibers,
+                pitch=fiber_pitch,
+                edge_coupler=edge_coupler,
+                cross_section=cross_section,
+                text_offset=text_offset,
+                text=text,
+                x_reflection=True,
+            )
 
-        if with_left_edge_coupler:
-            left = c << gca_left
-            left.xmin = -xs / 2 - edge_coupler_xoffset
-            left.y = fp.y
-            c.add_ports(left.ports, prefix="W")
+            if with_left_fiber_coupler:
+                left = c << gca_left
+                left.xmin = -xs / 2 - fiber_coupler_xoffset
+                left.y = fp.y
+                c.add_ports(left.ports, prefix="W")
 
-        if with_right_edge_coupler:
-            right = c << gca
-            right.xmax = xs / 2 + edge_coupler_xoffset
-            right.y = fp.y
-            c.add_ports(right.ports, prefix="E")
+            if with_right_fiber_coupler:
+                right = c << gca
+                right.xmax = xs / 2 + fiber_coupler_xoffset
+                right.y = fp.y
+                c.add_ports(right.ports, prefix="E")
 
-    if with_right_edge_coupler:
+        else:
+            gca = gf.c.grating_coupler_array(
+                n=nfibers,
+                pitch=fiber_pitch,
+                cross_section=cross_section,
+                with_loopback=True,
+            )
+            gca_left = gf.c.grating_coupler_array(
+                n=nfibers,
+                pitch=fiber_pitch,
+                cross_section=cross_section,
+                with_loopback=True,
+            )
+            fiber_coupler_xoffset -= 750
+
+            if with_left_fiber_coupler:
+                left = c << gca_left
+                left.rotate(-90)
+                left.xmin = -xs / 2 - fiber_coupler_xoffset
+                left.y = fp.y
+                c.add_ports(left.ports, prefix="W")
+
+            if with_right_fiber_coupler:
+                right = c << gca
+                right.rotate(+90)
+                right.xmax = xs / 2 + fiber_coupler_xoffset
+                right.y = fp.y
+                c.add_ports(right.ports, prefix="E")
+
+    if with_right_fiber_coupler:
         ruler_top_right = c << gf.c.ruler(layer=layer_ruler)
         ruler_top_right.xmax = fp.xmax
         ruler_top_right.ymax = fp.ymax - 300 + ruler_yoffset
@@ -225,7 +257,7 @@ def die_frame_phix(
         ruler_bot_right.xmax = fp.xmax
         ruler_bot_right.ymin = fp.ymin + 300 - ruler_yoffset
 
-    if with_left_edge_coupler:
+    if with_left_fiber_coupler:
         ruler_top_left = c << gf.c.ruler(layer=layer_ruler)
         ruler_top_left.rotate(180)
         ruler_top_left.xmin = fp.xmin
@@ -306,6 +338,7 @@ def die_frame_phix_dc(
     pad_pitch: float = 150.0,
     pad_pitch_gsg: float = 720.0,
     edge_coupler: ComponentSpec | None = "edge_coupler_silicon",
+    grating_coupler: ComponentSpec | None = None,
     cross_section: CrossSectionSpec = "strip",
     pad: ComponentSpec = "pad",
     pad_gsg: ComponentSpec = "pad_gsg",
@@ -314,8 +347,8 @@ def die_frame_phix_dc(
     pad_port_name_bot: str = "e2",
     layer_fiducial: LayerSpec = "M3",
     layer_ruler: LayerSpec = "WG",
-    with_right_edge_coupler: bool = True,
-    with_left_edge_coupler: bool = True,
+    with_right_fiber_coupler: bool = True,
+    with_left_fiber_coupler: bool = True,
     text_offset: Float2 = (20, 10),
     text: ComponentSpec | None = None,
 ) -> Component:
@@ -328,6 +361,7 @@ def die_frame_phix_dc(
         pad_pitch=pad_pitch,
         pad_pitch_gsg=pad_pitch_gsg,
         edge_coupler=edge_coupler,
+        grating_coupler=grating_coupler,
         cross_section=cross_section,
         pad=pad,
         pad_gsg=pad_gsg,
@@ -336,8 +370,8 @@ def die_frame_phix_dc(
         pad_port_name_bot=pad_port_name_bot,
         layer_fiducial=layer_fiducial,
         layer_ruler=layer_ruler,
-        with_right_edge_coupler=with_right_edge_coupler,
-        with_left_edge_coupler=with_left_edge_coupler,
+        with_right_fiber_coupler=with_right_fiber_coupler,
+        with_left_fiber_coupler=with_left_fiber_coupler,
         text_offset=text_offset,
         text=text,
     )
@@ -353,6 +387,7 @@ def die_frame_phix_rf(
     pad_pitch: float = 150.0,
     pad_pitch_gsg: float = 720.0,
     edge_coupler: ComponentSpec | None = "edge_coupler_silicon",
+    grating_coupler: ComponentSpec | None = None,
     cross_section: CrossSectionSpec = "strip",
     pad: ComponentSpec = "pad",
     pad_gsg: ComponentSpec = "pad_gsg",
@@ -361,8 +396,8 @@ def die_frame_phix_rf(
     pad_port_name_bot: str = "e2",
     layer_fiducial: LayerSpec = "M3",
     layer_ruler: LayerSpec = "WG",
-    with_right_edge_coupler: bool = True,
-    with_left_edge_coupler: bool = False,
+    with_right_fiber_coupler: bool = True,
+    with_left_fiber_coupler: bool = False,
     text_offset: Float2 = (20, 10),
     text: ComponentSpec | None = None,
     xoffset_dc_pads: float = -387.5,
@@ -384,8 +419,8 @@ def die_frame_phix_rf(
         pad_port_name_bot=pad_port_name_bot,
         layer_fiducial=layer_fiducial,
         layer_ruler=layer_ruler,
-        with_right_edge_coupler=with_right_edge_coupler,
-        with_left_edge_coupler=with_left_edge_coupler,
+        with_right_fiber_coupler=with_right_fiber_coupler,
+        with_left_fiber_coupler=with_left_fiber_coupler,
         text_offset=text_offset,
         text=text,
         xoffset_dc_pads=xoffset_dc_pads,
@@ -398,9 +433,21 @@ if __name__ == "__main__":
     text_m3 = partial(gf.c.text_rectangular, layer="M3", size=20)
     text_m3 = None
     edge_coupler = partial(gf.c.edge_coupler_silicon, length=200)
+    edge_coupler = None
+    grating_coupler = "grating_coupler_te"
 
-    # c = die_frame_phix_dc(edge_coupler=edge_coupler, text=text_m3)
+    c = die_frame_phix_dc(edge_coupler=edge_coupler, text=text_m3)
+    c.write_gds("/Users/j/Downloads/die_frame_phix_dc.gds")
+
+    edge_coupler = None
+    grating_coupler = "grating_coupler_te"
+    c = die_frame_phix_dc(
+        edge_coupler=edge_coupler,
+        text=text_m3,
+        grating_coupler=grating_coupler,
+    )
+    c.write_gds("/Users/j/Downloads/die_frame_phix_rf_grating_coupler.gds")
+
     c = die_frame_phix_rf(edge_coupler=edge_coupler)
-    # c.write_gds("/Users/j/Downloads/die_frame_phix_rf.gds")
-    # c.write_gds("/Users/j/Downloads/die_frame_phix_dc.gds")
+    c.write_gds("/Users/j/Downloads/die_frame_phix_rf.gds")
     c.show()
