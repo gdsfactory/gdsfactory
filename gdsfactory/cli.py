@@ -6,9 +6,9 @@ from enum import Enum
 import typer
 from kfactory.cli.build import build
 
+import gdsfactory as gf
 from gdsfactory import show as _show
 from gdsfactory.config import print_version_plugins
-from gdsfactory.difftest import diff
 from gdsfactory.install import install_gdsdiff, install_klayout_package
 from gdsfactory.read.from_updk import from_updk
 from gdsfactory.watch import watch as _watch
@@ -122,7 +122,28 @@ def gds_diff(
     gdspath1: str, gdspath2: str, xor: bool = False, show: bool = False
 ) -> None:
     """Show boolean difference between two GDS files."""
-    diff(gdspath1, gdspath2, xor=xor, show=show)
+    gf.diff(gdspath1, gdspath2, xor=xor, show=show)
+
+
+@app.command()
+def diff(
+    path1: pathlib.Path,
+    path2: pathlib.Path,
+    xor: bool = False,
+    show: bool = False,
+    stagger: bool = True,
+    output: pathlib.Path | None = None,
+) -> None:
+    """Show boolean difference between two layout files."""
+    gf.diff(
+        path1,
+        path2,
+        test_name=output.stem if output else "gf",
+        xor=xor,
+        show=show,
+        stagger=stagger,
+        out_file=output,
+    )
 
 
 @app.command()
