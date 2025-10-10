@@ -13,6 +13,16 @@ def die_frame(
     )
 
 
+@gf.cell
+def die_frame_rf(
+    size: Size = (10625.0, 5000.0),
+    layer_floorplan: LayerSpec = "FLOORPLAN",
+) -> gf.Component:
+    return gf.c.rectangle(
+        size=size, layer=layer_floorplan, centered=True, port_type=None
+    )
+
+
 @gf.cell_with_module_name
 def die_frame_with_pads(
     die_frame: ComponentSpec = "die_frame",
@@ -133,6 +143,7 @@ def die_frame_phix(
     with_left_edge_coupler: bool = True,
     text_offset: Float2 = (20, 10),
     text: ComponentSpec | None = "text_rectangular",
+    xoffset_dc_pads: float = 0,
 ) -> Component:
     """A die_frame with grating couplers and pads.
 
@@ -157,6 +168,7 @@ def die_frame_phix(
         with_left_edge_coupler: if True, adds edge couplers on the left side.
         text_offset: offset for text.
         text: text component spec.
+        xoffset_dc_pads: DC pads x-offset.
     """
     if npads > 60:
         raise ValueError("npads should be <= 60. Reach out to PHIX for support.")
@@ -239,7 +251,9 @@ def die_frame_phix(
     # Add electrical ports
     pad = gf.get_component(pad)
 
-    x0_pads = -npads * pad_pitch / 2 + edge_to_pad_distance - pad_pitch / 2
+    x0_pads = (
+        -npads * pad_pitch / 2 + edge_to_pad_distance - pad_pitch / 2 + xoffset_dc_pads
+    )
     x0 = x0_pads
 
     top_left = c << gf.c.cross(layer=layer_fiducial, length=150, width=20)
@@ -331,7 +345,7 @@ def die_frame_phix_dc(
 
 @gf.cell_with_module_name
 def die_frame_phix_rf(
-    die_frame: ComponentSpec = "die_frame",
+    die_frame: ComponentSpec = "die_frame_rf",
     nfibers: int = 32,
     npads: int = 59,
     npads_rf: int = 6,
@@ -351,6 +365,7 @@ def die_frame_phix_rf(
     with_left_edge_coupler: bool = False,
     text_offset: Float2 = (20, 10),
     text: ComponentSpec | None = None,
+    xoffset_dc_pads: float = -387.5,
 ) -> Component:
     return die_frame_phix(
         die_frame=die_frame,
@@ -373,6 +388,7 @@ def die_frame_phix_rf(
         with_left_edge_coupler=with_left_edge_coupler,
         text_offset=text_offset,
         text=text,
+        xoffset_dc_pads=xoffset_dc_pads,
     )
 
 
@@ -380,10 +396,11 @@ if __name__ == "__main__":
     from functools import partial
 
     text_m3 = partial(gf.c.text_rectangular, layer="M3", size=20)
+    text_m3 = None
     edge_coupler = partial(gf.c.edge_coupler_silicon, length=200)
 
+    # c = die_frame_phix_dc(edge_coupler=edge_coupler, text=text_m3)
     c = die_frame_phix_rf(edge_coupler=edge_coupler)
     # c.write_gds("/Users/j/Downloads/die_frame_phix_rf.gds")
-    # c = die_frame_phix_dc(edge_coupler=edge_coupler, text=text_m3)
     # c.write_gds("/Users/j/Downloads/die_frame_phix_dc.gds")
     c.show()
