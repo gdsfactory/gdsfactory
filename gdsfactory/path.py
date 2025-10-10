@@ -1174,12 +1174,31 @@ def extrude(
     return c
 
 
-def extrude_transition(p: Path, transition: Transition) -> Component:
-    """Extrudes a path along a transition.
+def extrude_transition(
+    p: Path,
+    transition: Transition,
+    width_type1: Callable | str | None = None,
+    width_type2: Callable | str | None = None,
+    offset_type1: Callable | str | None = None,
+    offset_type2: Callable | str | None = None,
+) -> Component:
+    """
+    Extrudes a path along a transition, allowing different transition methods for the upper and lower edges.
 
     Args:
-        p: path to extrude.
-        transition: transition to extrude along.
+        p: Path to extrude.
+        transition: Transition object describing the cross-sections and default transition types.
+        width_type1: (Optional) Transition type or function for the lower edge width. If None, uses transition.width_type.
+        width_type2: (Optional) Transition type or function for the upper edge width. If None, uses transition.width_type.
+        offset_type1: (Optional) Transition type or function for the lower edge offset. If None, uses transition.offset_type.
+        offset_type2: (Optional) Transition type or function for the upper edge offset. If None, uses transition.offset_type.
+
+    Returns:
+        Component: The extruded component with the specified transition methods for each edge.
+
+    Notes:
+        - If any of width_type1, width_type2, offset_type1, or offset_type2 are not provided, the corresponding value from the transition object is used.
+        - This allows for asymmetric or custom transitions on each edge of the extruded path.
     """
     from gdsfactory.pdk import get_cross_section, get_layer
 
@@ -1187,8 +1206,12 @@ def extrude_transition(p: Path, transition: Transition) -> Component:
 
     x1 = get_cross_section(transition.cross_section1)
     x2 = get_cross_section(transition.cross_section2)
-    width_type = transition.width_type
-    offset_type = transition.offset_type
+    # Support different transition methods for points1 and points2
+    # If not provided, use the transition's default methods
+    width_type1 = width_type1 if width_type1 is not None else transition.width_type
+    width_type2 = width_type2 if width_type2 is not None else transition.width_type
+    offset_type1 = offset_type1 if offset_type1 is not None else transition.offset_type
+    offset_type2 = offset_type2 if offset_type2 is not None else transition.offset_type
 
     # if named, prefer name over layer
     named_sections1 = _get_named_sections(x1.sections)
@@ -1220,32 +1243,73 @@ def extrude_transition(p: Path, transition: Transition) -> Component:
         width1 = section1.width
         width2 = section2.width
 
-        if offset_type == "linear":
-            offset = _linear_transition(offset1, offset2)
-        elif offset_type == "sine":
-            offset = _sinusoidal_transition(offset1, offset2)  # type: ignore[assignment]
-        elif offset_type == "parabolic":
-            offset = _parabolic_transition(offset1, offset2)
-        elif callable(offset_type):
+        # Transition for points1 (lower edge)
+        if offset_type1 == "linear":
+            offset_func1 = _linear_transition(offset1, offset2)
+        elif offset_type1 == "sine":
+            offset_func1 = _sinusoidal_transition(offset1, offset2)
+        elif offset_type1 == "parabolic":
+            offset_func1 = _parabolic_transition(offset1, offset2)
+        elif callable(offset_type1):
 
-            def offset_func(t: float) -> float:
-                return offset_type(t, offset1, offset2)  # noqa: B023
+            def _offset_func1(
+                t: float, offset1: float = offset1, offset2: float = offset2
+            ) -> float:
+                return offset_type1(t, offset1, offset2)
 
-            offset = offset_func  # type: ignore[assignment]
+            offset_func1 = _offset_func1
         else:
             raise NotImplementedError()
-        if width_type == "linear":
-            width = _linear_transition(width1, width2)
-        elif width_type == "sine":
-            width = _sinusoidal_transition(width1, width2)  # type: ignore[assignment]
-        elif width_type == "parabolic":
-            width = _parabolic_transition(width1, width2)
-        elif callable(width_type):
 
-            def width_func(t: float) -> float:
-                return width_type(t, width1, width2)  # noqa: B023
+        if width_type1 == "linear":
+            width_func1 = _linear_transition(width1, width2)
+        elif width_type1 == "sine":
+            width_func1 = _sinusoidal_transition(width1, width2)
+        elif width_type1 == "parabolic":
+            width_func1 = _parabolic_transition(width1, width2)
+        elif callable(width_type1):
 
-            width = width_func  # type: ignore[assignment]
+            def _width_func1(
+                t: float, width1: float = width1, width2: float = width2
+            ) -> float:
+                return width_type1(t, width1, width2)
+
+            width_func1 = _width_func1
+        else:
+            raise NotImplementedError()
+
+        # Transition for points2 (upper edge)
+        if offset_type2 == "linear":
+            offset_func2 = _linear_transition(offset1, offset2)
+        elif offset_type2 == "sine":
+            offset_func2 = _sinusoidal_transition(offset1, offset2)
+        elif offset_type2 == "parabolic":
+            offset_func2 = _parabolic_transition(offset1, offset2)
+        elif callable(offset_type2):
+
+            def _offset_func2(
+                t: float, offset1: float = offset1, offset2: float = offset2
+            ) -> float:
+                return offset_type2(t, offset1, offset2)
+
+            offset_func2 = _offset_func2
+        else:
+            raise NotImplementedError()
+
+        if width_type2 == "linear":
+            width_func2 = _linear_transition(width1, width2)
+        elif width_type2 == "sine":
+            width_func2 = _sinusoidal_transition(width1, width2)
+        elif width_type2 == "parabolic":
+            width_func2 = _parabolic_transition(width1, width2)
+        elif callable(width_type2):
+
+            def _width_func2(
+                t: float, width1: float = width1, width2: float = width2
+            ) -> float:
+                return width_type2(t, width1, width2)
+
+            width_func2 = _width_func2
         else:
             raise NotImplementedError()
 
@@ -1262,19 +1326,21 @@ def extrude_transition(p: Path, transition: Transition) -> Component:
         end_angle = p.end_angle
         start_angle = p.start_angle
         points = p.points
-        width_value = width(lengths)
-        offset_value = offset(lengths)
+        width_value1 = width_func1(lengths)
+        offset_value1 = offset_func1(lengths)
+        width_value2 = width_func2(lengths)
+        offset_value2 = offset_func2(lengths)
 
         points1 = p.centerpoint_offset_curve(
             points,
-            offset_distance=offset_value + width_value / 2,
+            offset_distance=offset_value1 + width_value1 / 2,
             start_angle=start_angle,
             end_angle=end_angle,
         )
 
         points2 = p.centerpoint_offset_curve(
             points,
-            offset_distance=offset_value - width_value / 2,
+            offset_distance=offset_value2 - width_value2 / 2,
             start_angle=start_angle,
             end_angle=end_angle,
         )
@@ -1294,10 +1360,10 @@ def extrude_transition(p: Path, transition: Transition) -> Component:
         if port_names[0] is not None:
             port_width = width1
             port_orientation = (p.start_angle + 180) % 360
-            assert not isinstance(offset_value, float)
+            assert not isinstance(offset_value1, float)
             center = p.centerpoint_offset_curve(
                 points[:2],
-                offset_distance=offset_value[:2],
+                offset_distance=offset_value1[:2],
                 start_angle=start_angle,
                 end_angle=None,
             )[0]
@@ -1314,10 +1380,10 @@ def extrude_transition(p: Path, transition: Transition) -> Component:
         if port_names[1] is not None:
             port_width = width2
             port_orientation = (p.end_angle) % 360
-            assert not isinstance(offset_value, float)
+            assert not isinstance(offset_value1, float)
             center = p.centerpoint_offset_curve(
                 points[-2:],
-                offset_distance=offset_value[-2:],
+                offset_distance=offset_value1[-2:],
                 start_angle=None,
                 end_angle=end_angle,
             )[-1]
