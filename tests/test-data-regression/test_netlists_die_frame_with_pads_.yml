@@ -1,13 +1,13 @@
 instances:
-  die_frame_S11570_5000_LFFLOORPLAN_0_0:
+  die_frame_S11200_5000_LFFLOORPLAN_0_0:
     component: die_frame
     info: {}
     settings:
       layer_floorplan: FLOORPLAN
       size:
-      - 11570
+      - 11200
       - 5000
-  grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5574199_0_A90:
+  grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5389199_0_A90:
     component: grating_coupler_array
     info: {}
     settings:
@@ -23,7 +23,7 @@ instances:
       rotation: -90
       straight_to_grating_spacing: 10
       with_loopback: true
-  grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5574199_0_A270:
+  grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5389199_0_A270:
     component: grating_coupler_array
     info: {}
     settings:
@@ -1468,20 +1468,20 @@ instances:
 name: die_frame_with_pads_gdsfactorypcomponentspdiespdie_fram_928ce23b
 nets: []
 placements:
-  die_frame_S11570_5000_LFFLOORPLAN_0_0:
+  die_frame_S11200_5000_LFFLOORPLAN_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5574199_0_A90:
+  grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5389199_0_A90:
     mirror: false
     rotation: 90
-    x: 5574.199
+    x: 5389.199
     y: 0
-  grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5574199_0_A270:
+  grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5389199_0_A270:
     mirror: false
     rotation: 270
-    x: -5574.199
+    x: -5389.199
     y: 0
   pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_1250000_2300000:
     mirror: false
@@ -1856,30 +1856,30 @@ ports:
   e7: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_m2650000_m2300000,e2
   e8: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_m2350000_m2300000,e2
   e9: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_m2050000_m2300000,e2
-  o1: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5574199_0_A90,o1
-  o10: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5574199_0_A90,o10
-  o11: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5574199_0_A90,o11
-  o12: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5574199_0_A90,o12
-  o13: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5574199_0_A270,o1
-  o14: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5574199_0_A270,o2
-  o15: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5574199_0_A270,o3
-  o16: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5574199_0_A270,o4
-  o17: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5574199_0_A270,o5
-  o18: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5574199_0_A270,o6
-  o19: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5574199_0_A270,o7
-  o2: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5574199_0_A90,o2
-  o20: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5574199_0_A270,o8
-  o21: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5574199_0_A270,o9
-  o22: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5574199_0_A270,o10
-  o23: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5574199_0_A270,o11
-  o24: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5574199_0_A270,o12
-  o3: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5574199_0_A90,o3
-  o4: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5574199_0_A90,o4
-  o5: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5574199_0_A90,o5
-  o6: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5574199_0_A90,o6
-  o7: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5574199_0_A90,o7
-  o8: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5574199_0_A90,o8
-  o9: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5574199_0_A90,o9
+  o1: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5389199_0_A90,o1
+  o10: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5389199_0_A90,o10
+  o11: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5389199_0_A90,o11
+  o12: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5389199_0_A90,o12
+  o13: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5389199_0_A270,o1
+  o14: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5389199_0_A270,o2
+  o15: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5389199_0_A270,o3
+  o16: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5389199_0_A270,o4
+  o17: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5389199_0_A270,o5
+  o18: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5389199_0_A270,o6
+  o19: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5389199_0_A270,o7
+  o2: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5389199_0_A90,o2
+  o20: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5389199_0_A270,o8
+  o21: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5389199_0_A270,o9
+  o22: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5389199_0_A270,o10
+  o23: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5389199_0_A270,o11
+  o24: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_m5389199_0_A270,o12
+  o3: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5389199_0_A90,o3
+  o4: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5389199_0_A90,o4
+  o5: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5389199_0_A90,o5
+  o6: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5389199_0_A90,o6
+  o7: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5389199_0_A90,o7
+  o8: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5389199_0_A90,o8
+  o9: grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92_5389199_0_A90,o9
 warnings:
   electrical:
     unconnected_ports:

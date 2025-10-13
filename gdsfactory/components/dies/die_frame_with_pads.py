@@ -5,7 +5,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Float2, LayerSpe
 
 @gf.cell
 def die_frame(
-    size: Size = (11570.0, 5000.0),
+    size: Size = (11200.0, 5000.0),
     layer_floorplan: LayerSpec = "FLOORPLAN",
 ) -> gf.Component:
     return gf.c.rectangle(
@@ -15,7 +15,7 @@ def die_frame(
 
 @gf.cell
 def die_frame_rf(
-    size: Size = (10625.0, 5000.0),
+    size: Size = (10400.0, 5000.0),
     layer_floorplan: LayerSpec = "FLOORPLAN",
 ) -> gf.Component:
     return gf.c.rectangle(
@@ -144,7 +144,7 @@ def die_frame_phix(
     with_left_fiber_coupler: bool = True,
     text_offset: Float2 = (20, 10),
     text: ComponentSpec | None = "text_rectangular",
-    xoffset_dc_pads: float = 0,
+    xoffset_dc_pads: float = -100,
 ) -> Component:
     """A die_frame with grating couplers and pads.
 
@@ -400,7 +400,7 @@ def die_frame_phix_rf(
     with_left_fiber_coupler: bool = False,
     text_offset: Float2 = (20, 10),
     text: ComponentSpec | None = None,
-    xoffset_dc_pads: float = -387.5,
+    xoffset_dc_pads: float = -500,
 ) -> Component:
     return die_frame_phix(
         die_frame=die_frame,
@@ -411,6 +411,7 @@ def die_frame_phix_rf(
         pad_pitch=pad_pitch,
         pad_pitch_gsg=pad_pitch_gsg,
         edge_coupler=edge_coupler,
+        grating_coupler=grating_coupler,
         cross_section=cross_section,
         pad=pad,
         pad_gsg=pad_gsg,
@@ -436,18 +437,20 @@ if __name__ == "__main__":
     edge_coupler = None
     grating_coupler = "grating_coupler_te"
 
-    c = die_frame_phix_dc(edge_coupler=edge_coupler, text=text_m3)
-    c.write_gds("/Users/j/Downloads/die_frame_phix_dc.gds")
+    # c = die_frame_phix_dc(edge_coupler=edge_coupler, text=text_m3)
+    # c.write_gds("/Users/j/Downloads/die_frame_phix_dc.gds")
 
     edge_coupler = None
+    die_frame = die_frame(size=(11800, 5000))
     grating_coupler = "grating_coupler_te"
     c = die_frame_phix_dc(
+        die_frame=die_frame,
         edge_coupler=edge_coupler,
         text=text_m3,
         grating_coupler=grating_coupler,
     )
     c.write_gds("/Users/j/Downloads/die_frame_phix_rf_grating_coupler.gds")
 
-    c = die_frame_phix_rf(edge_coupler=edge_coupler)
-    c.write_gds("/Users/j/Downloads/die_frame_phix_rf.gds")
+    # c = die_frame_phix_rf(edge_coupler=edge_coupler)
+    # c.write_gds("/Users/j/Downloads/die_frame_phix_rf.gds")
     c.show()

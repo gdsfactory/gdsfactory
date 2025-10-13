@@ -1,7 +1,7 @@
 info: {}
-name: die_frame_S11200_5000_LFFLOORPLAN
+name: die_frame_rf_S10400_5000_LFFLOORPLAN
 settings:
   layer_floorplan: FLOORPLAN
   size:
-  - 11200
+  - 10400
   - 5000

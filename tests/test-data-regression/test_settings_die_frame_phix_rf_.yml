@@ -1,8 +1,8 @@
 info: {}
-name: die_frame_phix_rf_gdsfactorypcomponentspdiespdie_frame__e496470a
+name: die_frame_phix_rf_gdsfactorypcomponentspdiespdie_frame__3bca66c4
 settings:
   cross_section: strip
-  die_frame: die_frame
+  die_frame: die_frame_rf
   edge_coupler: edge_coupler_silicon
   edge_to_pad_distance: 200
   fiber_pitch: 127
@@ -20,5 +20,6 @@ settings:
   text_offset:
   - 20
   - 10
-  with_left_edge_coupler: false
-  with_right_edge_coupler: true
+  with_left_fiber_coupler: false
+  with_right_fiber_coupler: true
+  xoffset_dc_pads: -500
