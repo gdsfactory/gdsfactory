@@ -1,5 +1,5 @@
 info: {}
-name: die_with_pads_phix_dc_gdsfactorypcomponentspdiespdie_wi_e126a67d
+name: die_with_pads_phix_dc_gdsfactorypcomponentspdiespdie_wi_2b0e09ef
 settings:
   cross_section: strip
   edge_coupler: edge_coupler_silicon
@@ -7,7 +7,7 @@ settings:
   fiber_pitch: 127
   layer_fiducial: M3
   layer_floorplan: FLOORPLAN
-  layer_ruler: M3
+  layer_ruler: WG
   nfibers: 32
   npads: 59
   npads_rf: 6
@@ -18,9 +18,8 @@ settings:
   pad_port_name_bot: e2
   pad_port_name_top: e4
   size:
-  - 10570
+  - 11570
   - 5000
-  text: text_rectangular
   text_offset:
   - 20
   - 10

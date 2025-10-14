@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from functools import partial
-
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Float2
@@ -49,7 +47,6 @@ def edge_coupler_array(
     text: ComponentSpec | None = "text_rectangular",
     text_offset: Float2 = (10, 20),
     text_rotation: float = 0,
-    port_orientation: int = 180,
 ) -> Component:
     """Fiber array edge coupler based on an inverse taper.
 
@@ -63,7 +60,6 @@ def edge_coupler_array(
         text: text spec.
         text_offset: from edge coupler.
         text_rotation: text rotation in degrees.
-        port_orientation: filter ports by orientation.
     """
     edge_coupler = gf.get_component(edge_coupler)
 
@@ -74,13 +70,10 @@ def edge_coupler_array(
         ref.y = i * pitch
 
         if x_reflection:
-            ref.dmirror()
+            ref.mirror()
 
         for port in ref.ports:
-            if (
-                int(port.orientation) == port_orientation
-                and port.port_type == "optical"
-            ):
+            if port.port_type == "optical":
                 c.add_port(name=f"o{i}", port=port)
 
         if text:
@@ -105,7 +98,6 @@ def edge_coupler_array_with_loopback(
     text: ComponentSpec | None = "text_rectangular",
     text_offset: Float2 = (0, 10),
     text_rotation: float = 0,
-    port_orientation: int = 180,
 ) -> Component:
     """Fiber array edge coupler.
 
@@ -120,7 +112,6 @@ def edge_coupler_array_with_loopback(
         text: Optional text spec.
         text_offset: x, y.
         text_rotation: text rotation in degrees.
-        port_orientation: filter ports by orientation.
     """
     xs = gf.get_cross_section(cross_section)
     radius = radius or xs.radius
@@ -134,17 +125,16 @@ def edge_coupler_array_with_loopback(
         text=text,
         text_offset=text_offset,
         text_rotation=text_rotation,
-        port_orientation=port_orientation,
     )
-    if extension_length > 0:
-        ec = gf.c.extend_ports(
-            component=ec,
-            port_names=("o1", "o2"),
-            length=extension_length,
-            extension=partial(
-                gf.c.straight, cross_section=cross_section, length=extension_length
-            ),
-        )
+    # if extension_length > 0:
+    #     ec = gf.c.extend_ports(
+    #         component=ec,
+    #         port_names=("o1", "o2"),
+    #         length=extension_length,
+    #         extension=partial(
+    #             gf.c.straight, cross_section=cross_section, length=extension_length
+    #         ),
+    #     )
     ec_ref = c << ec
     p1 = ec_ref.ports["o1"]
     p2 = ec_ref.ports["o2"]
@@ -167,7 +157,7 @@ def edge_coupler_array_with_loopback(
     )
 
     for i, port in enumerate(ec_ref.ports):
-        if port not in [p1, p2, p3, p4] and int(port.orientation) == port_orientation:
+        if port not in [p1, p2, p3, p4]:
             c.add_port(str(i), port=port)
 
     c.auto_rename_ports()
@@ -185,7 +175,6 @@ if __name__ == "__main__":
         text="text_rectangular",
         text_offset=(0, 10),
         text_rotation=0,
-        port_orientation=180,
     )
     c.pprint_ports()
     c.show()

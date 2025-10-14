@@ -1005,17 +1005,21 @@ class Component(ComponentBase, kf.DKCell):
         self.shapes(layer).clear()
         self.shapes(layer).insert(fix)
 
-    def offset(self, layer: LayerSpec, distance: float) -> None:
+    def offset(self, layer: LayerSpec, distance: float, flatten: bool = False) -> None:
         """Offsets a Component layer by a distance in um.
 
         Args:
             layer: layer to offset the Component on.
             distance: distance to offset the Component in um.
+            flatten: if True, flattens the Component before offsetting.
         """
         from gdsfactory import get_layer
 
         if self.locked:
             raise LockedError(self)
+
+        if flatten:
+            self.flatten()
 
         distance_dbu = self.kcl.to_dbu(distance)
 
