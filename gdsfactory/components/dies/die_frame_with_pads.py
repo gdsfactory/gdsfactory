@@ -443,21 +443,18 @@ def die_frame_phix_rf(
 if __name__ == "__main__":
     from functools import partial
 
-    text_m3 = partial(gf.c.text_rectangular, layer="M3", size=20)
+    # text_m3 = partial(gf.c.text_rectangular, layer="M3", size=20)
     text_m3 = None
     edge_coupler = partial(gf.c.edge_coupler_silicon, length=200)
-    edge_coupler = None
     grating_coupler = "grating_coupler_te"
 
-    # c = die_frame_phix_dc(edge_coupler=edge_coupler, text=text_m3)
-    # c.write_gds("/Users/j/Downloads/die_frame_phix_dc.gds")
+    c = die_frame_phix_dc(edge_coupler=edge_coupler, text=text_m3)
+    c.write_gds("/Users/j/Downloads/die_frame_phix_dc.gds")
 
-    edge_coupler = None
-    die_frame = die_frame(size=(11800, 5000))
     grating_coupler = "grating_coupler_te"
     c = die_frame_phix_dc(
-        die_frame=die_frame,
-        edge_coupler=edge_coupler,
+        die_frame=die_frame(size=(11800, 5000)),
+        edge_coupler=None,
         text=text_m3,
         grating_coupler=grating_coupler,
     )
