@@ -154,7 +154,7 @@ instances:
       - 0
       size: 10
       text: '4'
-name: edge_coupler_array_gdsfactorypcomponentspedge_couplersp_e2b8ee19
+name: edge_coupler_array_gdsfactorypcomponentspedge_couplersp_00badbf2
 nets: []
 placements:
   ec_0:

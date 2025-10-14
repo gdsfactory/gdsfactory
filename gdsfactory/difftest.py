@@ -217,6 +217,7 @@ def diff(
     ignore_label_differences: bool | None = None,
     show: bool = False,
     stagger: bool = True,
+    out_file: PathType | None = None,
 ) -> bool:
     """Returns True if files are different, prints differences and shows them in klayout.
 
@@ -230,6 +231,7 @@ def diff(
         ignore_label_differences: if True, ignores any label differences when run in XOR mode. If None (default) defers to the value set in CONF.difftest_ignore_label_differences
         show: shows diff in klayout.
         stagger: if True, staggers the old/new/xor views. If False, all three are overlaid.
+        out_file: if not None, saves the diff to the specified file.
     """
     ref_file, run_file = pathlib.Path(ref_file), pathlib.Path(run_file)
     if ref_file == run_file:
@@ -349,11 +351,13 @@ def diff(
         layer_label = kf.kcl.layout.layer(1, 0)
         c.shapes(layer_label).insert(kf.kdb.DText("old", old_ref.dtrans))
         c.shapes(layer_label).insert(kf.kdb.DText("new", new_ref.dtrans))
-        c.shapes(layer_label).insert(
-            kf.kdb.DText(
-                "xor", kf.kdb.DTrans(new_ref.xmin, old_ref.ymax - old_ref.ysize - dy)
+        if xor:
+            c.shapes(layer_label).insert(
+                kf.kdb.DText(
+                    "xor",
+                    kf.kdb.DTrans(new_ref.xmin, old_ref.ymax - old_ref.ysize - dy),
+                )
             )
-        )
 
         if xor:
             print("Running XOR on differences...")
@@ -410,8 +414,12 @@ def diff(
             # if no additional xor verification, the two files are not equivalent
             equivalent = False
 
-        if show and not equivalent:
-            c.show()
+        if not equivalent:
+            if out_file is not None:
+                c.write(out_file)
+            if show:
+                c.show()
+
         return not equivalent
     return False
 

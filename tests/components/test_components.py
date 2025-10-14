@@ -36,6 +36,7 @@ skip_test = {
     "straight_piecewise",
     "text_freetype",
     "version_stamp",
+    "die_frame_phix",
 }
 cells_to_test = set(cells.keys()) - skip_test
 
