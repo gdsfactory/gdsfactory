@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.19.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.19.0) - 2025-10-14
+
+No significant changes.
+
+
 ## [9.18.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.18.1) - 2025-09-29
 
 - fix port orientation [#4191](https://github.com/gdsfactory/gdsfactory/pull/4191)
