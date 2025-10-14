@@ -1,0 +1,16 @@
+info: {}
+name: die_frame_with_pads_gdsfactorypcomponentspdiespdie_fram_928ce23b
+settings:
+  cross_section: strip
+  die_frame: die_frame
+  edge_to_grating_distance: 150
+  edge_to_pad_distance: 150
+  grating_coupler: grating_coupler_te
+  grating_pitch: 250
+  ngratings: 14
+  npads: 31
+  pad: pad
+  pad_pitch: 300
+  pad_port_name_bot: e2
+  pad_port_name_top: e4
+  with_loopback: true
