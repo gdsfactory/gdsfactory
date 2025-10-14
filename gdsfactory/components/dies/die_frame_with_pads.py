@@ -139,6 +139,7 @@ def die_frame_phix(
     layer_fiducial: LayerSpec = "M3",
     layer_ruler: LayerSpec = "WG",
     ruler_yoffset: float = 0,
+    ruler_xoffset: float = 0,
     fiber_coupler_xoffset: float = 0,
     with_right_fiber_coupler: bool = True,
     with_left_fiber_coupler: bool = True,
@@ -166,6 +167,9 @@ def die_frame_phix(
         pad_port_name_bot: name of the pad port name at the bottom facing north.
         layer_fiducial: layer for fiducials.
         layer_ruler: layer for ruler.
+        ruler_yoffset: y-offset for ruler.
+        ruler_xoffset: x-offset for ruler.
+        fiber_coupler_xoffset: x-offset for fiber couplers.
         with_right_fiber_coupler: if True, adds edge couplers on the right side.
         with_left_fiber_coupler: if True, adds edge couplers on the left side.
         text_offset: offset for text.
@@ -250,22 +254,22 @@ def die_frame_phix(
 
     if with_right_fiber_coupler:
         ruler_top_right = c << gf.c.ruler(layer=layer_ruler)
-        ruler_top_right.xmax = fp.xmax
+        ruler_top_right.xmax = fp.xmax - ruler_xoffset
         ruler_top_right.ymax = fp.ymax - 300 + ruler_yoffset
 
         ruler_bot_right = c << gf.c.ruler(layer=layer_ruler)
-        ruler_bot_right.xmax = fp.xmax
+        ruler_bot_right.xmax = fp.xmax - ruler_xoffset
         ruler_bot_right.ymin = fp.ymin + 300 - ruler_yoffset
 
     if with_left_fiber_coupler:
         ruler_top_left = c << gf.c.ruler(layer=layer_ruler)
         ruler_top_left.rotate(180)
-        ruler_top_left.xmin = fp.xmin
+        ruler_top_left.xmin = fp.xmin + ruler_xoffset
         ruler_top_left.ymax = fp.ymax - 300 + ruler_yoffset
 
         ruler_bot_left = c << gf.c.ruler(layer=layer_ruler)
         ruler_bot_left.rotate(180)
-        ruler_bot_left.xmin = fp.xmin
+        ruler_bot_left.xmin = fp.xmin + ruler_xoffset
         ruler_bot_left.ymin = fp.ymin + 300 - ruler_yoffset
 
     else:
@@ -347,6 +351,8 @@ def die_frame_phix_dc(
     pad_port_name_bot: str = "e2",
     layer_fiducial: LayerSpec = "M3",
     layer_ruler: LayerSpec = "WG",
+    ruler_yoffset: float = 0,
+    ruler_xoffset: float = 0,
     with_right_fiber_coupler: bool = True,
     with_left_fiber_coupler: bool = True,
     text_offset: Float2 = (20, 10),
@@ -370,6 +376,8 @@ def die_frame_phix_dc(
         pad_port_name_bot=pad_port_name_bot,
         layer_fiducial=layer_fiducial,
         layer_ruler=layer_ruler,
+        ruler_yoffset=ruler_yoffset,
+        ruler_xoffset=ruler_xoffset,
         with_right_fiber_coupler=with_right_fiber_coupler,
         with_left_fiber_coupler=with_left_fiber_coupler,
         text_offset=text_offset,
@@ -396,6 +404,8 @@ def die_frame_phix_rf(
     pad_port_name_bot: str = "e2",
     layer_fiducial: LayerSpec = "M3",
     layer_ruler: LayerSpec = "WG",
+    ruler_yoffset: float = 0,
+    ruler_xoffset: float = 0,
     with_right_fiber_coupler: bool = True,
     with_left_fiber_coupler: bool = False,
     text_offset: Float2 = (20, 10),
@@ -420,6 +430,8 @@ def die_frame_phix_rf(
         pad_port_name_bot=pad_port_name_bot,
         layer_fiducial=layer_fiducial,
         layer_ruler=layer_ruler,
+        ruler_yoffset=ruler_yoffset,
+        ruler_xoffset=ruler_xoffset,
         with_right_fiber_coupler=with_right_fiber_coupler,
         with_left_fiber_coupler=with_left_fiber_coupler,
         text_offset=text_offset,
