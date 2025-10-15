@@ -26,7 +26,12 @@ from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.component_layout import (
     rotate_points,
 )
-from gdsfactory.cross_section import CrossSection, Section, Transition
+from gdsfactory.cross_section import (
+    CrossSection,
+    Section,
+    Transition,
+    TransitionAsymmetric,
+)
 from gdsfactory.pdk import get_layer_name
 from gdsfactory.typings import (
     AngleInDegrees,
@@ -784,6 +789,50 @@ def transition(
     )
 
 
+def transition_asymmetric(
+    cross_section1: CrossSectionSpec,
+    cross_section2: CrossSectionSpec,
+    width_type1: WidthTypes | Callable[[float, float, float], float] = "sine",
+    width_type2: WidthTypes | Callable[[float, float, float], float] = "sine",
+    offset_type1: WidthTypes | Callable[[float, float, float], float] = "sine",
+    offset_type2: WidthTypes | Callable[[float, float, float], float] = "sine",
+) -> TransitionAsymmetric:
+    """Returns a smoothly-transitioning object between two CrossSections with asymmetric transitions.
+
+    Args:
+        cross_section1: First CrossSection.
+        cross_section2: Second CrossSection.
+        width_type1: transition type for lower edge width.
+        width_type2: transition type for upper edge width.
+        offset_type1: transition type for lower edge offset.
+        offset_type2: transition type for upper edge offset.
+    """
+    from gdsfactory.pdk import get_cross_section, get_layer
+
+    X1 = get_cross_section(cross_section1)
+    X2 = get_cross_section(cross_section2)
+
+    layers1 = {get_layer(section.layer) for section in X1.sections}
+    layers2 = {get_layer(section.layer) for section in X2.sections}
+    layers1.add(get_layer(X1.layer))
+    layers2.add(get_layer(X2.layer))
+
+    has_common_layers = bool(layers1.intersection(layers2))
+    if not has_common_layers:
+        raise ValueError(
+            f"transition_asymmetric() found no common layers X1 {layers1} and X2 {layers2}"
+        )
+
+    return TransitionAsymmetric(
+        cross_section1=X1,
+        cross_section2=X2,
+        width_type1=width_type1,
+        width_type2=width_type2,
+        offset_type1=offset_type1,
+        offset_type2=offset_type2,
+    )
+
+
 def along_path(
     p: Path,
     component: ComponentSpec,
@@ -1175,43 +1224,40 @@ def extrude(
 
 
 def extrude_transition(
-    p: Path,
-    transition: Transition,
-    width_type1: Callable | str | None = None,
-    width_type2: Callable | str | None = None,
-    offset_type1: Callable | str | None = None,
-    offset_type2: Callable | str | None = None,
+    p: Path, transition: Transition | TransitionAsymmetric
 ) -> Component:
     """
     Extrudes a path along a transition, allowing different transition methods for the upper and lower edges.
 
     Args:
         p: Path to extrude.
-        transition: Transition object describing the cross-sections and default transition types.
-        width_type1: (Optional) Transition type or function for the lower edge width. If None, uses transition.width_type.
-        width_type2: (Optional) Transition type or function for the upper edge width. If None, uses transition.width_type.
-        offset_type1: (Optional) Transition type or function for the lower edge offset. If None, uses transition.offset_type.
-        offset_type2: (Optional) Transition type or function for the upper edge offset. If None, uses transition.offset_type.
+        transition: Transition or TransitionAsymmetric object describing the cross-sections and default transition types.
 
     Returns:
         Component: The extruded component with the specified transition methods for each edge.
-
-    Notes:
-        - If any of width_type1, width_type2, offset_type1, or offset_type2 are not provided, the corresponding value from the transition object is used.
-        - This allows for asymmetric or custom transitions on each edge of the extruded path.
     """
     from gdsfactory.pdk import get_cross_section, get_layer
 
     c = Component()
 
+    if not isinstance(transition, Transition | TransitionAsymmetric):
+        raise TypeError(
+            f"Expected Transition or TransitionAsymmetric, got {type(transition).__name__}"
+        )
+
     x1 = get_cross_section(transition.cross_section1)
     x2 = get_cross_section(transition.cross_section2)
-    # Support different transition methods for points1 and points2
-    # If not provided, use the transition's default methods
-    width_type1 = width_type1 if width_type1 is not None else transition.width_type
-    width_type2 = width_type2 if width_type2 is not None else transition.width_type
-    offset_type1 = offset_type1 if offset_type1 is not None else transition.offset_type
-    offset_type2 = offset_type2 if offset_type2 is not None else transition.offset_type
+    # Support different transition methods for points1 and points2 in case of asymmetric transition
+    if isinstance(transition, TransitionAsymmetric):
+        width_type1 = transition.width_type1
+        width_type2 = transition.width_type2
+        offset_type1 = transition.offset_type1
+        offset_type2 = transition.offset_type2
+    elif isinstance(transition, Transition):
+        width_type1 = transition.width_type
+        width_type2 = transition.width_type
+        offset_type1 = transition.offset_type
+        offset_type2 = transition.offset_type
 
     # if named, prefer name over layer
     named_sections1 = _get_named_sections(x1.sections)
