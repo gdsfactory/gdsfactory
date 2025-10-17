@@ -567,7 +567,7 @@ def make_connection(
     if src_ia is None or src_ib is None:
         src_port = instance_src.ports[port_src_name]
     else:
-        src_port = instance_src.ports[port_src_name, src_ia, src_ib]  # type: ignore[index]
+        src_port = instance_src.ports[port_src_name, src_ia, src_ib]
 
     # if dst_ia is None or dst_ib is None:
     #     instance_src.connect(port=src_port, other=instance_dst, other_port_name=port_dst_name, use_mirror=True, mirror=True)
@@ -578,7 +578,7 @@ def make_connection(
     if dst_ia is None or dst_ib is None:
         dst_port = instance_dst.ports[port_dst_name]
     else:
-        dst_port = instance_dst.ports[port_dst_name, dst_ia, dst_ib]  # type: ignore[index]
+        dst_port = instance_dst.ports[port_dst_name, dst_ia, dst_ib]
     instance_src.connect(port=src_port, other=dst_port, use_mirror=True, mirror=False)
 
 
@@ -959,9 +959,9 @@ def _place_and_connect(
                         raise ValueError(f"{i!r} not in {list(refs)}")
 
                 if i1a is not None and i1b is not None:
-                    port1 = refs[i1name].ports[p1, i1a, i1b]  # type: ignore[index]
+                    port1 = refs[i1name].ports[p1, i1a, i1b]
                     if i2a is not None and i2b is not None:
-                        refs[i1name].connect(port1, refs[i2name].ports[p2, i2a, i2b])  # type: ignore[index]
+                        refs[i1name].connect(port1, refs[i2name].ports[p2, i2a, i2b])
                     else:
                         if i2 not in refs:
                             raise ValueError(f"{i2!r} not in {list(refs)}")
@@ -1307,7 +1307,7 @@ def _get_ports_from_portnames(
             raise ValueError(
                 f"{p!r} not in {i!r} available ports: {[p.name for p in ref.ports]}"
             )
-        port = ref.ports[p] if (ia is None or ib is None) else ref.ports[p, ia, ib]  # type: ignore[index]
+        port = ref.ports[p] if (ia is None or ib is None) else ref.ports[p, ia, ib]
         ports.append(port)
     return ports
 

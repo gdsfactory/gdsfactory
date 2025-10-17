@@ -138,7 +138,7 @@ def _is_array_reference(ref: DInstance | VInstance) -> bool:
     # Direct attribute access is much faster than hasattr(),
     # and in the common case (attributes present) the try branch is very fast.
     try:
-        return ref.na > 1 or ref.nb > 1  # type: ignore[union-attr]
+        return ref.na > 1 or ref.nb > 1
     except AttributeError:
         return False
 
@@ -164,11 +164,11 @@ def _has_ports_on_same_location(reference: VInstance | DInstance) -> bool:
     """
     if _is_array_reference(reference):
         # For array references, check each instance
-        for ia in range(reference.na):  # type: ignore[union-attr]
-            for ib in range(reference.nb):  # type: ignore[union-attr]
+        for ia in range(reference.na):
+            for ib in range(reference.nb):
                 port_locations = set()
                 for port in reference.cell.ports:
-                    ref_port = reference.ports[port.name, ia, ib]  # type: ignore[index]
+                    ref_port = reference.ports[port.name, ia, ib]
                     port_loc = ref_port.to_itype().center
                     if port_loc in port_locations:
                         return True
@@ -306,23 +306,23 @@ def get_netlist(
         if _is_array_reference(reference):
             if _is_orthogonal_array_reference(reference):  # type: ignore[arg-type]
                 instances[reference_name]["array"] = {
-                    "columns": reference.na,  # type: ignore[union-attr]
-                    "rows": reference.nb,  # type: ignore[union-attr]
+                    "columns": reference.na,
+                    "rows": reference.nb,
                     "column_pitch": reference.instance.da.x,  # type: ignore[union-attr]
                     "row_pitch": reference.instance.db.y,  # type: ignore[union-attr]
                 }
             else:
                 instances[reference_name]["array"] = {
-                    "num_a": reference.na,  # type: ignore[union-attr]
-                    "num_b": reference.nb,  # type: ignore[union-attr]
+                    "num_a": reference.na,
+                    "num_b": reference.nb,
                     "pitch_a": (reference.instance.da.x, reference.instance.da.y),  # type: ignore[union-attr]
                     "pitch_b": (reference.instance.db.x, reference.instance.db.y),  # type: ignore[union-attr]
                 }
             reference_name = get_instance_name(reference)
-            for ia in range(reference.na):  # type: ignore[union-attr]
-                for ib in range(reference.nb):  # type: ignore[union-attr]
+            for ia in range(reference.na):
+                for ib in range(reference.nb):
                     for port in reference.cell.ports:
-                        ref_port = reference.ports[port.name, ia, ib]  # type: ignore[index]
+                        ref_port = reference.ports[port.name, ia, ib]
                         src = f"{reference_name}<{ia}.{ib}>,{port.name}"
                         name2port[src] = ref_port
                         ports_by_type[port.port_type].append(src)

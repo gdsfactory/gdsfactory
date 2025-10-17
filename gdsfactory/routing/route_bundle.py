@@ -187,7 +187,7 @@ def route_bundle(
         gf.routing.route_bundle(component=c, ports1=ports1, ports2=ports2, cross_section='strip', separation=5)
         c.plot()
     """
-    component = gf.Component(base=component.base)
+    component = gf.Component(base=component.base)  # type: ignore[call-overload]
     ports1 = [gf.Port(base=p1.base) for p1 in ports1]
     ports2 = [gf.Port(base=p2.base) for p2 in ports2]
 
