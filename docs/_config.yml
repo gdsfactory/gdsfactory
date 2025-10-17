@@ -3,12 +3,14 @@
 title: "GDSFactory"
 author: GDSFactory
 # Force re-execution of notebooks on each build.
+
 # See https://jupyterbook.org/content/execute.html
 execute:
   execute_notebooks: cache
   timeout: 600
   allow_errors: false
   # timeout: -1
+
   # execute_notebooks: force
   # execute_notebooks: "off"
   exclude_patterns:
@@ -19,14 +21,16 @@ execute:
     - "*03_numerical_implantation*"
     - "*02_model_extraction*"
     # - "*20_schematic_driven_layout*"
-    # - "*001_meep_sparameters*"
-    # - "*00_tidy3d.ipynb"
-    # - "*03_cascaded_mzi*"
-    # - "*jupyter_notebooks*"
+# - "*001_meep_sparameters*"
+# - "*00_tidy3d.ipynb"
+# - "*03_cascaded_mzi*"
+# - "*jupyter_notebooks*"
+
 latex:
   latex_engine: pdflatex # one of 'pdflatex', 'xelatex' (recommended for unicode), 'luatex', 'platex', 'uplatex'
   use_jupyterbook_latex: true # use sphinx-jupyterbook-latex for pdf builds as default
 # Add a bibtex file so that we can create citations
+
 html:
   home_page_in_navbar: true
   use_edit_page_button: true
@@ -37,11 +41,13 @@ html:
       light: "_static/logo_white_lettering.png"
       dark: "_static/logo_black_lettering.png"
 # Information about where the book exists on the web
+
 repository:
   url: https://github.com/gdsfactory/gdsfactory # Online location of your book
   path_to_book: docs # Optional path to your book, relative to the repository root
   branch: main # Which branch of the repository should be used when creating links (optional)
 # launch_buttons:
+
 # binderhub_url: "https://mybinder.org/v2/gh/gdsfactory/binder-sandbox/HEAD"
 # thebe: true
 # jupyterhub_url: "https://mybinder.org/v2/gh/gdsfactory/binder-sandbox/HEAD"
@@ -86,6 +92,7 @@ sphinx:
       - https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js
     nb_execution_raise_on_error: true
     # nb_custom_formats:
+
     #     .py:
     #         - jupytext.reads
     #         - fmt: py

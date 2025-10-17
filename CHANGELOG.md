@@ -1,7 +1,13 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.18.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.19.0...main)
 
 <!-- towncrier release notes start -->
+
+## [9.19.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.19.0) - 2025-10-14
+
+- Fix phix package [#4195](https://github.com/gdsfactory/gdsfactory/pull/4195)
+- Updated notebooks [#4201](https://github.com/gdsfactory/gdsfactory/pull/4201)
+- Ability to output diff to a file [#4200](https://github.com/gdsfactory/gdsfactory/pull/4200)
 
 ## [9.18.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.18.1) - 2025-09-29
 
