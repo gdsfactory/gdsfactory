@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import pathlib
 from collections.abc import Callable, Generator, Sequence
+from enum import Enum
 from functools import partial
 from typing import Any, Literal, ParamSpec, Protocol, TypeAlias, TypedDict, TypeVar
 
@@ -176,7 +177,7 @@ RoutingStrategy: TypeAlias = Callable[..., Sequence[Route]]
 RoutingStrategies: TypeAlias = dict[str, RoutingStrategy]
 
 
-from gdsfactory.cross_section import CrossSectionFactory, CrossSectionSpec  # noqa: E402
+from gdsfactory.cross_section import CrossSectionSpec  # noqa: E402
 
 MultiCrossSectionAngleSpec: TypeAlias = Sequence[
     tuple[CrossSectionSpec, tuple[int, ...]]
@@ -260,12 +261,20 @@ class ArrayMeta(type):
 class Array(np.ndarray[Any, np.dtype[Any]], metaclass=ArrayMeta): ...
 
 
+class CornerMode(Enum):
+    diamond_limit = 0
+    octagon_limit = 1
+    square_limit = 2  # The GDSFactory default and klayout default
+    acute_limit = 3
+    no_limit = 4
+
+
 __all__ = (
     "AngleInDegrees",
     "ComponentSpec",
     "Coordinate",
     "Coordinates",
-    "CrossSectionFactory",
+    "CornerMode",
     "CrossSectionSpec",
     "Delta",
     "Float2",
