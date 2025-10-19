@@ -177,7 +177,7 @@ RoutingStrategy: TypeAlias = Callable[..., Sequence[Route]]
 RoutingStrategies: TypeAlias = dict[str, RoutingStrategy]
 
 
-from gdsfactory.cross_section import CrossSectionSpec  # noqa: E402
+from gdsfactory.cross_section import CrossSectionFactory, CrossSectionSpec  # noqa: E402
 
 MultiCrossSectionAngleSpec: TypeAlias = Sequence[
     tuple[CrossSectionSpec, tuple[int, ...]]
@@ -275,6 +275,7 @@ __all__ = (
     "Coordinate",
     "Coordinates",
     "CornerMode",
+    "CrossSectionFactory",
     "CrossSectionSpec",
     "Delta",
     "Float2",
