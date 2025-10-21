@@ -129,27 +129,24 @@ def via_stack(
             pitch_y = _via.info["row_pitch"]
             pitch_x = _via.info["column_pitch"]
 
-            min_width = w + enclosure
-            min_height = h + enclosure
+            min_width = w + 2 * enclosure
+            min_height = h + 2 * enclosure
 
             if slot_horizontal:
                 width = size[0] - 2 * enclosure
                 via = gf.get_component(via, size=(width, h))
                 nb_vias_x = 1
-                nb_vias_y = abs(height - h - 2 * enclosure) / pitch_y + 1
+                nb_vias_y = max(0, (height - h - 2 * enclosure) / pitch_y + 1)
 
             elif slot_vertical:
                 height = size[1] - 2 * enclosure
                 via = gf.get_component(via, size=(w, height))
-                nb_vias_x = abs(width - w - 2 * enclosure) / pitch_x + 1
+                nb_vias_x = max(0, (width - w - 2 * enclosure) / pitch_x + 1)
                 nb_vias_y = 1
             else:
                 via = _via
-                nb_vias_x = abs(width - w - 2 * enclosure) / pitch_x + 1
-                nb_vias_y = abs(height - h - 2 * enclosure) / pitch_y + 1
-
-            min_width = w + enclosure
-            min_height = h + enclosure
+                nb_vias_x = max(0, (width - w - 2 * enclosure) / pitch_x + 1)
+                nb_vias_y = max(0, (height - h - 2 * enclosure) / pitch_y + 1)
 
             if (min_width > width and correct_size) or (
                 min_width <= width and min_height > height and correct_size
@@ -177,6 +174,16 @@ def via_stack(
             b = height / 2
             cw = (width - (nb_vias_x - 1) * pitch_x - w) / 2
             ch = (height - (nb_vias_y - 1) * pitch_y - h) / 2
+
+            # Verify that enclosure is respected
+            if cw < enclosure or ch < enclosure:
+                raise ValueError(
+                    f"Enclosure violation: calculated margins (cw={cw:.3f}, ch={ch:.3f}) "
+                    f"are less than required enclosure={enclosure}. "
+                    f"Size ({width:.3f}, {height:.3f}) is too small for {nb_vias_x}x{nb_vias_y} "
+                    f"vias of size ({w}, {h}) with pitch ({pitch_x}, {pitch_y})."
+                )
+
             x0 = -a + cw + w / 2
             y0 = -b + ch + h / 2
             ref.move((x0, y0))
@@ -273,8 +280,8 @@ def via_stack_corner45(
 
             via = _via
 
-            min_width = w + enclosure
-            min_height = h + enclosure
+            min_width = w + 2 * enclosure
+            min_height = h + 2 * enclosure
 
             if (min_width > width45 and correct_size) or (
                 min_width <= width45 and min_height > height and correct_size
