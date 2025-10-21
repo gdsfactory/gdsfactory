@@ -18,7 +18,7 @@ def via_stack(
     layer_offsets: Floats | tuple[float | tuple[float, float], ...] | None = None,
     vias: Sequence[ComponentSpec | None] = ("via1", "via2", None),
     layer_to_port_orientations: dict[LayerSpec, list[int]] | None = None,
-    correct_size: bool = True,
+    correct_size: bool = False,
     slot_horizontal: bool = False,
     slot_vertical: bool = False,
     port_orientations: Ints | None = (180, 90, 0, -90),
@@ -133,12 +133,28 @@ def via_stack(
             min_height = h + 2 * enclosure
 
             if slot_horizontal:
+                # Check that size allows for enclosure in horizontal slot mode
+                slot_width = size[0] + 2 * offset_x - 2 * enclosure
+                if slot_width <= 0:
+                    raise ValueError(
+                        f"Enclosure cannot be satisfied in slot_horizontal mode: "
+                        f"size[0]={size[0]}, offset_x={offset_x}, enclosure={enclosure}. "
+                        f"Need size[0] + 2*offset_x > 2*enclosure, got {size[0] + 2 * offset_x} <= {2 * enclosure}"
+                    )
                 width = size[0] - 2 * enclosure
                 via = gf.get_component(via, size=(width, h))
                 nb_vias_x = 1
                 nb_vias_y = max(0, (height - h - 2 * enclosure) / pitch_y + 1)
 
             elif slot_vertical:
+                # Check that size allows for enclosure in vertical slot mode
+                slot_height = size[1] + 2 * offset_y - 2 * enclosure
+                if slot_height <= 0:
+                    raise ValueError(
+                        f"Enclosure cannot be satisfied in slot_vertical mode: "
+                        f"size[1]={size[1]}, offset_y={offset_y}, enclosure={enclosure}. "
+                        f"Need size[1] + 2*offset_y > 2*enclosure, got {size[1] + 2 * offset_y} <= {2 * enclosure}"
+                    )
                 height = size[1] - 2 * enclosure
                 via = gf.get_component(via, size=(w, height))
                 nb_vias_x = max(0, (width - w - 2 * enclosure) / pitch_x + 1)
@@ -158,7 +174,11 @@ def via_stack(
                 width = max(min_width, width)
                 height = max(min_height, height)
             elif min_width > width or min_height > height:
-                raise ValueError(f"size {size} is too small to fit a {(w, h)} um via")
+                raise ValueError(
+                    f"Enclosure cannot be satisfied: size ({width}, {height}) is too small "
+                    f"to fit a {(w, h)} um via with enclosure={enclosure}. "
+                    f"Minimum required size is ({min_width}, {min_height})."
+                )
 
             nb_vias_x = int(np.floor(nb_vias_x)) or 1
             nb_vias_y = int(np.floor(nb_vias_y)) or 1
