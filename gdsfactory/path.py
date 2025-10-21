@@ -613,13 +613,11 @@ PathFactory = Callable[..., Path]
 T = TypeVar("T", float, npt.NDArray[np.floating[Any]])
 
 
-def _sinusoidal_transition(
-    y1: float, y2: float
-) -> Callable[[float], npt.NDArray[np.floating[Any]]]:
+def _sinusoidal_transition(y1: float, y2: float) -> Callable[[T], T]:
     dy = y2 - y1
 
-    def sine(t: float) -> npt.NDArray[np.floating[Any]]:
-        return np.array(y1 + (1 - np.cos(np.pi * t)) / 2 * dy)
+    def sine(t: T) -> T:
+        return cast(T, y1 + (1 - np.cos(np.pi * t)) / 2 * dy)
 
     return sine
 
@@ -1299,9 +1297,9 @@ def extrude_transition(
         elif callable(offset_type1):
 
             def _offset_func1(
-                t: float, offset1: float = offset1, offset2: float = offset2
-            ) -> float:
-                return offset_type1(t, offset1, offset2)
+                t: T, offset1: float = offset1, offset2: float = offset2
+            ) -> T:
+                return cast(T, offset_type1(t, offset1, offset2))  # type: ignore[misc,arg-type]
 
             offset_func1 = _offset_func1
         else:
@@ -1315,10 +1313,8 @@ def extrude_transition(
             width_func1 = _parabolic_transition(width1, width2)
         elif callable(width_type1):
 
-            def _width_func1(
-                t: float, width1: float = width1, width2: float = width2
-            ) -> float:
-                return width_type1(t, width1, width2)
+            def _width_func1(t: T, width1: float = width1, width2: float = width2) -> T:
+                return cast(T, width_type1(t, width1, width2))  # type: ignore[misc,arg-type]
 
             width_func1 = _width_func1
         else:
@@ -1334,9 +1330,9 @@ def extrude_transition(
         elif callable(offset_type2):
 
             def _offset_func2(
-                t: float, offset1: float = offset1, offset2: float = offset2
-            ) -> float:
-                return offset_type2(t, offset1, offset2)
+                t: T, offset1: float = offset1, offset2: float = offset2
+            ) -> T:
+                return cast(T, offset_type2(t, offset1, offset2))  # type: ignore[misc,arg-type]
 
             offset_func2 = _offset_func2
         else:
@@ -1350,10 +1346,8 @@ def extrude_transition(
             width_func2 = _parabolic_transition(width1, width2)
         elif callable(width_type2):
 
-            def _width_func2(
-                t: float, width1: float = width1, width2: float = width2
-            ) -> float:
-                return width_type2(t, width1, width2)
+            def _width_func2(t: T, width1: float = width1, width2: float = width2) -> T:
+                return cast(T, width_type2(t, width1, width2))  # type: ignore[misc,arg-type]
 
             width_func2 = _width_func2
         else:
