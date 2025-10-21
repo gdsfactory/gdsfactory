@@ -124,5 +124,5 @@ def via_circular(
 
 
 viac = partial(via, layer="VIAC")
-via1 = partial(via, layer="VIA1", enclosure=2)
+via1 = partial(via, layer="VIA1", enclosure=1)
 via2 = partial(via, layer="VIA2")

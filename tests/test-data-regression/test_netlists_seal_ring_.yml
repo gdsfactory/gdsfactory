@@ -1,11 +1,11 @@
 instances:
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S10_520__d79adfd9_515000_250000:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S10_520__e0b757eb_515000_250000:
     component: via_stack
     info:
       xsize: 10
       ysize: 520
     settings:
-      correct_size: true
+      correct_size: false
       layer_offsets: null
       layer_to_port_orientations: null
       layers:
@@ -22,13 +22,13 @@ instances:
       - via1
       - via2
       - null
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S10_520__d79adfd9_m15000_250000:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S10_520__e0b757eb_m15000_250000:
     component: via_stack
     info:
       xsize: 10
       ysize: 520
     settings:
-      correct_size: true
+      correct_size: false
       layer_offsets: null
       layer_to_port_orientations: null
       layers:
@@ -45,13 +45,13 @@ instances:
       - via1
       - via2
       - null
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S540_10__56b347d8_250000_515000:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S540_10__91c9810b_250000_515000:
     component: via_stack
     info:
       xsize: 540
       ysize: 10
     settings:
-      correct_size: true
+      correct_size: false
       layer_offsets: null
       layer_to_port_orientations: null
       layers:
@@ -68,13 +68,13 @@ instances:
       - via1
       - via2
       - null
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S540_10__56b347d8_250000_m15000:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S540_10__91c9810b_250000_m15000:
     component: via_stack
     info:
       xsize: 540
       ysize: 10
     settings:
-      correct_size: true
+      correct_size: false
       layer_offsets: null
       layer_to_port_orientations: null
       layers:
@@ -94,22 +94,22 @@ instances:
 name: seal_ring_gdsfactorypcomponentspdiespseal_ring_S500_500_540c1ebf
 nets: []
 placements:
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S10_520__d79adfd9_515000_250000:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S10_520__e0b757eb_515000_250000:
     mirror: false
     rotation: 0
     x: 515
     y: 250
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S10_520__d79adfd9_m15000_250000:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S10_520__e0b757eb_m15000_250000:
     mirror: false
     rotation: 0
     x: -15
     y: 250
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S540_10__56b347d8_250000_515000:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S540_10__91c9810b_250000_515000:
     mirror: false
     rotation: 0
     x: 250
     y: 515
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S540_10__56b347d8_250000_m15000:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S540_10__91c9810b_250000_m15000:
     mirror: false
     rotation: 0
     x: 250

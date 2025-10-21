@@ -105,13 +105,13 @@ instances:
       size:
       - 100
       - 100
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_04495e70_200000_m55500:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_200000_m55500:
     component: via_stack
     info:
       xsize: 11
       ysize: 11
     settings:
-      correct_size: true
+      correct_size: false
       layer_offsets: null
       layer_to_port_orientations: null
       layers:
@@ -132,13 +132,13 @@ instances:
       - via1
       - via2
       - null
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_04495e70_350000_55500:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_350000_55500:
     component: via_stack
     info:
       xsize: 11
       ysize: 11
     settings:
-      correct_size: true
+      correct_size: false
       layer_offsets: null
       layer_to_port_orientations: null
       layers:
@@ -159,13 +159,13 @@ instances:
       - via1
       - via2
       - null
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_04495e70_500000_55500:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_500000_55500:
     component: via_stack
     info:
       xsize: 11
       ysize: 11
     settings:
-      correct_size: true
+      correct_size: false
       layer_offsets: null
       layer_to_port_orientations: null
       layers:
@@ -186,13 +186,13 @@ instances:
       - via1
       - via2
       - null
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_04495e70_50000_m55500:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_50000_m55500:
     component: via_stack
     info:
       xsize: 11
       ysize: 11
     settings:
-      correct_size: true
+      correct_size: false
       layer_offsets: null
       layer_to_port_orientations: null
       layers:
@@ -216,13 +216,13 @@ instances:
 name: greek_cross_with_pads_gdsfactorypcomponentsppcmspgreek__3aa1f2b4
 nets:
 - p1: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_200000_0,e4
-  p2: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_04495e70_200000_m55500,e2
+  p2: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_200000_m55500,e2
 - p1: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_350000_0,e2
-  p2: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_04495e70_350000_55500,e4
+  p2: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_350000_55500,e4
 - p1: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_500000_0,e2
-  p2: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_04495e70_500000_55500,e4
+  p2: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_500000_55500,e4
 - p1: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_50000_0,e4
-  p2: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_04495e70_50000_m55500,e2
+  p2: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_50000_m55500,e2
 placements:
   greek_cross_gdsfactorypcomponentsppcmspgreek_cross_L30__65b5a1f3_275000_0:
     mirror: false
@@ -249,29 +249,29 @@ placements:
     rotation: 0
     x: 50
     y: 0
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_04495e70_200000_m55500:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_200000_m55500:
     mirror: false
     rotation: 0
     x: 200
     y: -55.5
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_04495e70_350000_55500:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_350000_55500:
     mirror: false
     rotation: 0
     x: 350
     y: 55.5
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_04495e70_500000_55500:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_500000_55500:
     mirror: false
     rotation: 0
     x: 500
     y: 55.5
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_04495e70_50000_m55500:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_50000_m55500:
     mirror: false
     rotation: 0
     x: 50
     y: -55.5
 ports:
-  e1: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_04495e70_50000_m55500,e2
-  e2: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_04495e70_200000_m55500,e2
+  e1: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_50000_m55500,e2
+  e2: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_200000_m55500,e2
   e3: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_350000_0,e4
   e4: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_500000_0,e4
 warnings:
@@ -286,25 +286,25 @@ warnings:
       - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_50000_0,e1
       - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_50000_0,e2
       - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_50000_0,e3
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_04495e70_50000_m55500,e1
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_04495e70_50000_m55500,e3
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_04495e70_50000_m55500,e4
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_50000_m55500,e1
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_50000_m55500,e3
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_50000_m55500,e4
       - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_200000_0,e1
       - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_200000_0,e2
       - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_200000_0,e3
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_04495e70_200000_m55500,e1
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_04495e70_200000_m55500,e3
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_04495e70_200000_m55500,e4
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_200000_m55500,e1
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_200000_m55500,e3
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_200000_m55500,e4
       - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_350000_0,e1
       - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_350000_0,e3
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_04495e70_350000_55500,e1
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_04495e70_350000_55500,e2
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_04495e70_350000_55500,e3
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_350000_55500,e1
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_350000_55500,e2
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_350000_55500,e3
       - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_500000_0,e1
       - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_500000_0,e3
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_04495e70_500000_55500,e1
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_04495e70_500000_55500,e2
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_04495e70_500000_55500,e3
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_500000_55500,e1
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_500000_55500,e2
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_500000_55500,e3
       values:
       - - 301
         - 0
