@@ -46,8 +46,6 @@ def via_stack(
         port_orientations: list of port_orientations to add. None does not add ports.
     """
     width_m, height_m = size
-    a = width_m / 2
-    b = height_m / 2
 
     layers = layers or []
     layer_indices = [gf.get_layer(layer) for layer in layers]
@@ -63,9 +61,65 @@ def via_stack(
             stacklevel=3,
         )
 
-    c = Component()
-    c.info["xsize"], c.info["ysize"] = size
+    # Determine required size from all vias BEFORE drawing metal layers
+    vias_list = vias or []
+    for via, offset in zip(vias_list, layer_offsets, strict=False):
+        if via is not None:
+            width, height = size
+            if isinstance(offset, Iterable):
+                offset_x = offset[0]
+                offset_y = offset[1]
+            else:
+                offset_x = offset_y = offset
+            width += 2 * offset_x
+            height += 2 * offset_y
 
+            _via = gf.get_component(via)
+            if "xsize" not in _via.info:
+                raise ValueError(
+                    f"Component {_via.name!r} does not have a 'xsize' key in info"
+                )
+            if "ysize" not in _via.info:
+                raise ValueError(
+                    f"Component {_via.name!r} does not have a 'ysize' key in info"
+                )
+            if "column_pitch" not in _via.info:
+                raise ValueError(
+                    f"Component {_via.name!r} does not have a 'column_pitch' key in info"
+                )
+            if "row_pitch" not in _via.info:
+                raise ValueError(
+                    f"Component {_via.name!r} does not have a 'row_pitch' key in info"
+                )
+
+            w, h = _via.xsize, _via.ysize
+            enclosure = _via.info["enclosure"]
+
+            min_width = w + 2 * enclosure
+            min_height = h + 2 * enclosure
+
+            # Check and correct size if needed
+            if correct_size and (min_width > width or min_height > height):
+                corrected_width = max(min_width, width)
+                corrected_height = max(min_height, height)
+                warnings.warn(
+                    f"Changing size from ({width}, {height}) to ({corrected_width}, {corrected_height}) to fit a via!",
+                    stacklevel=3,
+                )
+                # Update the base size (accounting for offsets)
+                width_m = max(width_m, corrected_width - 2 * offset_x)
+                height_m = max(height_m, corrected_height - 2 * offset_y)
+            elif min_width > width or min_height > height:
+                raise ValueError(
+                    f"Enclosure cannot be satisfied: size ({width}, {height}) is too small "
+                    f"to fit a {(w, h)} um via with enclosure={enclosure}. "
+                    f"Minimum required size is ({min_width}, {min_height})."
+                )
+
+    c = Component()
+    c.info["xsize"], c.info["ysize"] = (width_m, height_m)
+
+    # Draw metal layers with corrected size
     for layer_index, offset in zip(layer_indices, layer_offsets, strict=False):
         if isinstance(offset, Iterable):
             offset_x = offset[0]
@@ -93,92 +147,57 @@ def via_stack(
             )
         # c.absorb(ref)
 
-    vias_list = vias or []
+    # Place vias using the corrected size
     for via, offset in zip(vias_list, layer_offsets, strict=False):
         if via is not None:
-            width, height = size
+            # Use corrected width_m, height_m plus offsets
             if isinstance(offset, Iterable):
                 offset_x = offset[0]
                 offset_y = offset[1]
             else:
                 offset_x = offset_y = offset
-            width += 2 * offset_x
-            height += 2 * offset_y
+            width = width_m + 2 * offset_x
+            height = height_m + 2 * offset_y
+
             _via = gf.get_component(via)
-
-            if "xsize" not in _via.info:
-                raise ValueError(
-                    f"Component {_via.name!r} does not have a 'xsize' key in info"
-                )
-            if "ysize" not in _via.info:
-                raise ValueError(
-                    f"Component {_via.name!r} does not have a 'ysize' key in info"
-                )
-
-            if "column_pitch" not in _via.info:
-                raise ValueError(
-                    f"Component {_via.name!r} does not have a 'column_pitch' key in info"
-                )
-            if "row_pitch" not in _via.info:
-                raise ValueError(
-                    f"Component {_via.name!r} does not have a 'row_pitch' key in info"
-                )
-
             w, h = _via.xsize, _via.ysize
             enclosure = _via.info["enclosure"]
             pitch_y = _via.info["row_pitch"]
             pitch_x = _via.info["column_pitch"]
 
-            min_width = w + 2 * enclosure
-            min_height = h + 2 * enclosure
-
             if slot_horizontal:
                 # Check that size allows for enclosure in horizontal slot mode
-                slot_width = size[0] + 2 * offset_x - 2 * enclosure
-                if slot_width <= 0:
+                slot_via_width = width - 2 * enclosure
+                if slot_via_width <= 0:
                     raise ValueError(
                         f"Enclosure cannot be satisfied in slot_horizontal mode: "
-                        f"size[0]={size[0]}, offset_x={offset_x}, enclosure={enclosure}. "
-                        f"Need size[0] + 2*offset_x > 2*enclosure, got {size[0] + 2 * offset_x} <= {2 * enclosure}"
+                        f"width={width}, enclosure={enclosure}. "
+                        f"Need width > 2*enclosure, got {width} <= {2 * enclosure}"
                     )
-                width = size[0] - 2 * enclosure
-                via = gf.get_component(via, size=(width, h))
+                via = gf.get_component(via, size=(slot_via_width, h))
                 nb_vias_x = 1
                 nb_vias_y = max(0, (height - h - 2 * enclosure) / pitch_y + 1)
+                # Use slot_via_width for via sizing, but keep width for positioning
+                w = slot_via_width
 
             elif slot_vertical:
                 # Check that size allows for enclosure in vertical slot mode
-                slot_height = size[1] + 2 * offset_y - 2 * enclosure
-                if slot_height <= 0:
+                slot_via_height = height - 2 * enclosure
+                if slot_via_height <= 0:
                     raise ValueError(
                         f"Enclosure cannot be satisfied in slot_vertical mode: "
-                        f"size[1]={size[1]}, offset_y={offset_y}, enclosure={enclosure}. "
-                        f"Need size[1] + 2*offset_y > 2*enclosure, got {size[1] + 2 * offset_y} <= {2 * enclosure}"
+                        f"height={height}, enclosure={enclosure}. "
+                        f"Need height > 2*enclosure, got {height} <= {2 * enclosure}"
                     )
-                height = size[1] - 2 * enclosure
-                via = gf.get_component(via, size=(w, height))
+                via = gf.get_component(via, size=(w, slot_via_height))
                 nb_vias_x = max(0, (width - w - 2 * enclosure) / pitch_x + 1)
                 nb_vias_y = 1
+                # Use slot_via_height for via sizing, but keep height for positioning
+                h = slot_via_height
             else:
                 via = _via
                 nb_vias_x = max(0, (width - w - 2 * enclosure) / pitch_x + 1)
                 nb_vias_y = max(0, (height - h - 2 * enclosure) / pitch_y + 1)
-
-            if (min_width > width and correct_size) or (
-                min_width <= width and min_height > height and correct_size
-            ):
-                warnings.warn(
-                    f"Changing size from ({width}, {height}) to ({min_width}, {min_height}) to fit a via!",
-                    stacklevel=3,
-                )
-                width = max(min_width, width)
-                height = max(min_height, height)
-            elif min_width > width or min_height > height:
-                raise ValueError(
-                    f"Enclosure cannot be satisfied: size ({width}, {height}) is too small "
-                    f"to fit a {(w, h)} um via with enclosure={enclosure}. "
-                    f"Minimum required size is ({min_width}, {min_height})."
-                )
 
             nb_vias_x = int(np.floor(nb_vias_x)) or 1
             nb_vias_y = int(np.floor(nb_vias_y)) or 1
