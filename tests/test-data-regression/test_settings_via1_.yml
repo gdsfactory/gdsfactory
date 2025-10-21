@@ -1,13 +1,13 @@
 info:
   column_pitch: 2
-  enclosure: 2
+  enclosure: 1
   row_pitch: 2
   xsize: 0.7
   ysize: 0.7
-name: via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E2_LVIA1_BL_efa29aa3
+name: via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
 settings:
   bbox_offset: 0
-  enclosure: 2
+  enclosure: 1
   layer: VIA1
   pitch: 2
   size:

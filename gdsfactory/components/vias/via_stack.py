@@ -443,5 +443,5 @@ via_stack_slab_m1_horizontal = partial(via_stack_slab_m1, slot_horizontal=True)
 
 
 if __name__ == "__main__":
-    c = via_stack_heater_mtop_mini()
+    c = via_stack_heater_mtop_mini(size=(1, 1), correct_size=True)
     c.show()

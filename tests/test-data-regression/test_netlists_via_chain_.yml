@@ -73,7 +73,7 @@ instances:
       size:
       - 6.4
       - 2.7
-  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E2_LVIA1_BL_efa29aa3_4050_350:
+  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e_4050_350:
     array:
       column_pitch: 3.7
       columns: 10
@@ -82,7 +82,7 @@ instances:
     component: via
     info:
       column_pitch: 2
-      enclosure: 2
+      enclosure: 1
       row_pitch: 2
       xsize: 0.7
       ysize: 0.7
@@ -91,7 +91,7 @@ instances:
       bbox_offset: 0
       bbox_offsets: null
       column_pitch: null
-      enclosure: 2
+      enclosure: 1
       layer: VIA1
       pitch: 2
       row_pitch: null
@@ -171,7 +171,7 @@ placements:
     rotation: 0
     x: 2.2
     y: 0.35
-  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E2_LVIA1_BL_efa29aa3_4050_350:
+  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e_4050_350:
     mirror: false
     rotation: 0
     x: 4.05

@@ -87,6 +87,31 @@ instances:
       size:
       - 10
       - 10
+  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e_m3000_2000:
+    array:
+      column_pitch: 2
+      columns: 4
+      row_pitch: 2
+      rows: 4
+    component: via
+    info:
+      column_pitch: 2
+      enclosure: 1
+      row_pitch: 2
+      xsize: 0.7
+      ysize: 0.7
+    settings:
+      bbox_layers: null
+      bbox_offset: 0
+      bbox_offsets: null
+      column_pitch: null
+      enclosure: 1
+      layer: VIA1
+      pitch: 2
+      row_pitch: null
+      size:
+      - 0.7
+      - 0.7
   via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb_m3000_12000:
     array:
       column_pitch: 2
@@ -107,31 +132,6 @@ instances:
       column_pitch: null
       enclosure: 1
       layer: VIA2
-      pitch: 2
-      row_pitch: null
-      size:
-      - 0.7
-      - 0.7
-  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E2_LVIA1_BL_efa29aa3_m2000_3000:
-    array:
-      column_pitch: 2
-      columns: 3
-      row_pitch: 2
-      rows: 3
-    component: via
-    info:
-      column_pitch: 2
-      enclosure: 2
-      row_pitch: 2
-      xsize: 0.7
-      ysize: 0.7
-    settings:
-      bbox_layers: null
-      bbox_offset: 0
-      bbox_offsets: null
-      column_pitch: null
-      enclosure: 2
-      layer: VIA1
       pitch: 2
       row_pitch: null
       size:
@@ -170,16 +170,16 @@ placements:
     rotation: 0
     x: 0
     y: 15
+  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e_m3000_2000:
+    mirror: false
+    rotation: 0
+    x: -3
+    y: 2
   via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb_m3000_12000:
     mirror: false
     rotation: 0
     x: -3
     y: 12
-  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E2_LVIA1_BL_efa29aa3_m2000_3000:
-    mirror: false
-    rotation: 0
-    x: -2
-    y: 3
 ports:
   e1: compass_gdsfactorypcomponentspshapespcompass_S10_10_LMT_aa7c9a8d_0_15000,e1
   e2: compass_gdsfactorypcomponentspshapespcompass_S10_10_LMT_aa7c9a8d_0_15000,e2

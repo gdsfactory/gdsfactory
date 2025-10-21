@@ -1,9 +1,9 @@
 info:
   xsize: 4
   ysize: 4
-name: via_stack_gdsfactorypcomponentspviaspvia_stack_S4_4_LHE_b14a7723
+name: via_stack_gdsfactorypcomponentspviaspvia_stack_S4_4_LHE_33f305c1
 settings:
-  correct_size: true
+  correct_size: false
   layers:
   - HEATER
   - M2

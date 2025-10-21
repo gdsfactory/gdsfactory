@@ -31,30 +31,30 @@ instances:
       size:
       - 11
       - 11
-  via_gdsfactorypcomponentspviaspvia_S7_0p700000000000000_c765d1f3_0_m3000:
+  via_gdsfactorypcomponentspviaspvia_S9_0p700000000000000_3d274afd_0_m4000:
     array:
       column_pitch: 2
       columns: 1
       row_pitch: 2
-      rows: 4
+      rows: 5
     component: via
     info:
       column_pitch: 2
-      enclosure: 2
+      enclosure: 1
       row_pitch: 2
-      xsize: 7
+      xsize: 9
       ysize: 0.7
     settings:
       bbox_layers: null
       bbox_offset: 0
       bbox_offsets: null
       column_pitch: null
-      enclosure: 2
+      enclosure: 1
       layer: VIA1
       pitch: 2
       row_pitch: null
       size:
-      - 7
+      - 9
       - 0.7
   via_gdsfactorypcomponentspviaspvia_S9_0p700000000000000_b26d0493_0_m4000:
     array:
@@ -94,11 +94,11 @@ placements:
     rotation: 0
     x: 0
     y: 0
-  via_gdsfactorypcomponentspviaspvia_S7_0p700000000000000_c765d1f3_0_m3000:
+  via_gdsfactorypcomponentspviaspvia_S9_0p700000000000000_3d274afd_0_m4000:
     mirror: false
     rotation: 0
     x: 0
-    y: -3
+    y: -4
   via_gdsfactorypcomponentspviaspvia_S9_0p700000000000000_b26d0493_0_m4000:
     mirror: false
     rotation: 0
