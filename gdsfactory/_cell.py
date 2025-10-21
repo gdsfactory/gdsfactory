@@ -4,6 +4,7 @@ from collections.abc import Callable, Iterable
 from functools import partial
 from typing import TYPE_CHECKING, Any, ParamSpec, Protocol, overload
 
+import kfactory as kf
 from cachetools import Cache
 from kfactory import cell as _cell
 from kfactory import vcell as _vcell
@@ -197,3 +198,5 @@ def override_defaults(
 
 
 cell_with_module_name = override_defaults(cell, with_module_name=True)
+
+schematic_cell = kf.kcl.schematic_cell
