@@ -47,6 +47,31 @@ instances:
       size:
       - 11
       - 11
+  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e_m4000_m4000:
+    array:
+      column_pitch: 2
+      columns: 5
+      row_pitch: 2
+      rows: 5
+    component: via
+    info:
+      column_pitch: 2
+      enclosure: 1
+      row_pitch: 2
+      xsize: 0.7
+      ysize: 0.7
+    settings:
+      bbox_layers: null
+      bbox_offset: 0
+      bbox_offsets: null
+      column_pitch: null
+      enclosure: 1
+      layer: VIA1
+      pitch: 2
+      row_pitch: null
+      size:
+      - 0.7
+      - 0.7
   via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb_m4000_m4000:
     array:
       column_pitch: 2
@@ -72,32 +97,7 @@ instances:
       size:
       - 0.7
       - 0.7
-  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E2_LVIA1_BL_efa29aa3_m3000_m3000:
-    array:
-      column_pitch: 2
-      columns: 4
-      row_pitch: 2
-      rows: 4
-    component: via
-    info:
-      column_pitch: 2
-      enclosure: 2
-      row_pitch: 2
-      xsize: 0.7
-      ysize: 0.7
-    settings:
-      bbox_layers: null
-      bbox_offset: 0
-      bbox_offsets: null
-      column_pitch: null
-      enclosure: 2
-      layer: VIA1
-      pitch: 2
-      row_pitch: null
-      size:
-      - 0.7
-      - 0.7
-name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_04495e70
+name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a
 nets: []
 placements:
   compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_4b943683_0_0:
@@ -115,16 +115,16 @@ placements:
     rotation: 0
     x: 0
     y: 0
+  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e_m4000_m4000:
+    mirror: false
+    rotation: 0
+    x: -4
+    y: -4
   via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb_m4000_m4000:
     mirror: false
     rotation: 0
     x: -4
     y: -4
-  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E2_LVIA1_BL_efa29aa3_m3000_m3000:
-    mirror: false
-    rotation: 0
-    x: -3
-    y: -3
 ports:
   e1: compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_4637d102_0_0,e1
   e2: compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_4637d102_0_0,e2

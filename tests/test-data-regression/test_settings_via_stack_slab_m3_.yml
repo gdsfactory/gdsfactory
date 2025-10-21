@@ -1,9 +1,9 @@
 info:
   xsize: 11
   ysize: 11
-name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_49642bbb
+name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_7d5dfd8f
 settings:
-  correct_size: true
+  correct_size: false
   layers:
   - SLAB90
   - M1

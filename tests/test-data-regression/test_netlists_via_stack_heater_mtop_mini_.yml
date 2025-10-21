@@ -47,6 +47,26 @@ instances:
       size:
       - 4
       - 4
+  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e_0_0:
+    component: via
+    info:
+      column_pitch: 2
+      enclosure: 1
+      row_pitch: 2
+      xsize: 0.7
+      ysize: 0.7
+    settings:
+      bbox_layers: null
+      bbox_offset: 0
+      bbox_offsets: null
+      column_pitch: null
+      enclosure: 1
+      layer: VIA1
+      pitch: 2
+      row_pitch: null
+      size:
+      - 0.7
+      - 0.7
   via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb_0_0:
     component: via
     info:
@@ -67,27 +87,7 @@ instances:
       size:
       - 0.7
       - 0.7
-  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E2_LVIA1_BL_efa29aa3_0_0:
-    component: via
-    info:
-      column_pitch: 2
-      enclosure: 2
-      row_pitch: 2
-      xsize: 0.7
-      ysize: 0.7
-    settings:
-      bbox_layers: null
-      bbox_offset: 0
-      bbox_offsets: null
-      column_pitch: null
-      enclosure: 2
-      layer: VIA1
-      pitch: 2
-      row_pitch: null
-      size:
-      - 0.7
-      - 0.7
-name: via_stack_gdsfactorypcomponentspviaspvia_stack_S4_4_LHE_b14a7723
+name: via_stack_gdsfactorypcomponentspviaspvia_stack_S4_4_LHE_33f305c1
 nets: []
 placements:
   compass_gdsfactorypcomponentspshapespcompass_S4_4_LHEAT_eae1a523_0_0:
@@ -105,12 +105,12 @@ placements:
     rotation: 0
     x: 0
     y: 0
-  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb_0_0:
+  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E2_LVIA1_BL_efa29aa3_0_0:
+  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb_0_0:
     mirror: false
     rotation: 0
     x: 0

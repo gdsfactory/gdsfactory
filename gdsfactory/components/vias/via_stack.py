@@ -18,7 +18,7 @@ def via_stack(
     layer_offsets: Floats | tuple[float | tuple[float, float], ...] | None = None,
     vias: Sequence[ComponentSpec | None] = ("via1", "via2", None),
     layer_to_port_orientations: dict[LayerSpec, list[int]] | None = None,
-    correct_size: bool = True,
+    correct_size: bool = False,
     slot_horizontal: bool = False,
     slot_vertical: bool = False,
     port_orientations: Ints | None = (180, 90, 0, -90),
@@ -46,8 +46,6 @@ def via_stack(
         port_orientations: list of port_orientations to add. None does not add ports.
     """
     width_m, height_m = size
-    a = width_m / 2
-    b = height_m / 2
 
     layers = layers or []
     layer_indices = [gf.get_layer(layer) for layer in layers]
@@ -63,9 +61,65 @@ def via_stack(
             stacklevel=3,
         )
 
-    c = Component()
-    c.info["xsize"], c.info["ysize"] = size
+    # Determine required size from all vias BEFORE drawing metal layers
+    vias_list = vias or []
+    for via, offset in zip(vias_list, layer_offsets, strict=False):
+        if via is not None:
+            width, height = size
+            if isinstance(offset, Iterable):
+                offset_x = offset[0]
+                offset_y = offset[1]
+            else:
+                offset_x = offset_y = offset
+            width += 2 * offset_x
+            height += 2 * offset_y
 
+            _via = gf.get_component(via)
+            if "xsize" not in _via.info:
+                raise ValueError(
+                    f"Component {_via.name!r} does not have a 'xsize' key in info"
+                )
+            if "ysize" not in _via.info:
+                raise ValueError(
+                    f"Component {_via.name!r} does not have a 'ysize' key in info"
+                )
+            if "column_pitch" not in _via.info:
+                raise ValueError(
+                    f"Component {_via.name!r} does not have a 'column_pitch' key in info"
+                )
+            if "row_pitch" not in _via.info:
+                raise ValueError(
+                    f"Component {_via.name!r} does not have a 'row_pitch' key in info"
+                )
+
+            w, h = _via.xsize, _via.ysize
+            enclosure = _via.info["enclosure"]
+
+            min_width = w + 2 * enclosure
+            min_height = h + 2 * enclosure
+
+            # Check and correct size if needed
+            if correct_size and (min_width > width or min_height > height):
+                corrected_width = max(min_width, width)
+                corrected_height = max(min_height, height)
+                warnings.warn(
+                    f"Changing size from ({width}, {height}) to ({corrected_width}, {corrected_height}) to fit a via!",
+                    stacklevel=3,
+                )
+                # Update the base size (accounting for offsets)
+                width_m = max(width_m, corrected_width - 2 * offset_x)
+                height_m = max(height_m, corrected_height - 2 * offset_y)
+            elif min_width > width or min_height > height:
+                raise ValueError(
+                    f"Enclosure cannot be satisfied: size ({width}, {height}) is too small "
+                    f"to fit a {(w, h)} um via with enclosure={enclosure}. "
+                    f"Minimum required size is ({min_width}, {min_height})."
+                )
+
+    c = Component()
+    c.info["xsize"], c.info["ysize"] = (width_m, height_m)
+
+    # Draw metal layers with corrected size
     for layer_index, offset in zip(layer_indices, layer_offsets, strict=False):
         if isinstance(offset, Iterable):
             offset_x = offset[0]
@@ -93,75 +147,57 @@ def via_stack(
             )
         # c.absorb(ref)
 
-    vias_list = vias or []
+    # Place vias using the corrected size
     for via, offset in zip(vias_list, layer_offsets, strict=False):
         if via is not None:
-            width, height = size
+            # Use corrected width_m, height_m plus offsets
             if isinstance(offset, Iterable):
                 offset_x = offset[0]
                 offset_y = offset[1]
             else:
                 offset_x = offset_y = offset
-            width += 2 * offset_x
-            height += 2 * offset_y
+            width = width_m + 2 * offset_x
+            height = height_m + 2 * offset_y
+
             _via = gf.get_component(via)
-
-            if "xsize" not in _via.info:
-                raise ValueError(
-                    f"Component {_via.name!r} does not have a 'xsize' key in info"
-                )
-            if "ysize" not in _via.info:
-                raise ValueError(
-                    f"Component {_via.name!r} does not have a 'ysize' key in info"
-                )
-
-            if "column_pitch" not in _via.info:
-                raise ValueError(
-                    f"Component {_via.name!r} does not have a 'column_pitch' key in info"
-                )
-            if "row_pitch" not in _via.info:
-                raise ValueError(
-                    f"Component {_via.name!r} does not have a 'row_pitch' key in info"
-                )
-
             w, h = _via.xsize, _via.ysize
             enclosure = _via.info["enclosure"]
             pitch_y = _via.info["row_pitch"]
             pitch_x = _via.info["column_pitch"]
 
-            min_width = w + enclosure
-            min_height = h + enclosure
-
             if slot_horizontal:
-                width = size[0] - 2 * enclosure
-                via = gf.get_component(via, size=(width, h))
+                # Check that size allows for enclosure in horizontal slot mode
+                slot_via_width = width - 2 * enclosure
+                if slot_via_width <= 0:
+                    raise ValueError(
+                        f"Enclosure cannot be satisfied in slot_horizontal mode: "
+                        f"width={width}, enclosure={enclosure}. "
+                        f"Need width > 2*enclosure, got {width} <= {2 * enclosure}"
+                    )
+                via = gf.get_component(via, size=(slot_via_width, h))
                 nb_vias_x = 1
-                nb_vias_y = abs(height - h - 2 * enclosure) / pitch_y + 1
+                nb_vias_y = max(0, (height - h - 2 * enclosure) / pitch_y + 1)
+                # Use slot_via_width for via sizing, but keep width for positioning
+                w = slot_via_width
 
             elif slot_vertical:
-                height = size[1] - 2 * enclosure
-                via = gf.get_component(via, size=(w, height))
-                nb_vias_x = abs(width - w - 2 * enclosure) / pitch_x + 1
+                # Check that size allows for enclosure in vertical slot mode
+                slot_via_height = height - 2 * enclosure
+                if slot_via_height <= 0:
+                    raise ValueError(
+                        f"Enclosure cannot be satisfied in slot_vertical mode: "
+                        f"height={height}, enclosure={enclosure}. "
+                        f"Need height > 2*enclosure, got {height} <= {2 * enclosure}"
+                    )
+                via = gf.get_component(via, size=(w, slot_via_height))
+                nb_vias_x = max(0, (width - w - 2 * enclosure) / pitch_x + 1)
                 nb_vias_y = 1
+                # Use slot_via_height for via sizing, but keep height for positioning
+                h = slot_via_height
             else:
                 via = _via
-                nb_vias_x = abs(width - w - 2 * enclosure) / pitch_x + 1
-                nb_vias_y = abs(height - h - 2 * enclosure) / pitch_y + 1
-
-            min_width = w + enclosure
-            min_height = h + enclosure
-
-            if (min_width > width and correct_size) or (
-                min_width <= width and min_height > height and correct_size
-            ):
-                warnings.warn(
-                    f"Changing size from ({width}, {height}) to ({min_width}, {min_height}) to fit a via!",
-                    stacklevel=3,
-                )
-                width = max(min_width, width)
-                height = max(min_height, height)
-            elif min_width > width or min_height > height:
-                raise ValueError(f"size {size} is too small to fit a {(w, h)} um via")
+                nb_vias_x = max(0, (width - w - 2 * enclosure) / pitch_x + 1)
+                nb_vias_y = max(0, (height - h - 2 * enclosure) / pitch_y + 1)
 
             nb_vias_x = int(np.floor(nb_vias_x)) or 1
             nb_vias_y = int(np.floor(nb_vias_y)) or 1
@@ -177,6 +213,16 @@ def via_stack(
             b = height / 2
             cw = (width - (nb_vias_x - 1) * pitch_x - w) / 2
             ch = (height - (nb_vias_y - 1) * pitch_y - h) / 2
+
+            # Verify that enclosure is respected
+            if cw < enclosure or ch < enclosure:
+                raise ValueError(
+                    f"Enclosure violation: calculated margins (cw={cw:.3f}, ch={ch:.3f}) "
+                    f"are less than required enclosure={enclosure}. "
+                    f"Size ({width:.3f}, {height:.3f}) is too small for {nb_vias_x}x{nb_vias_y} "
+                    f"vias of size ({w}, {h}) with pitch ({pitch_x}, {pitch_y})."
+                )
+
             x0 = -a + cw + w / 2
             y0 = -b + ch + h / 2
             ref.move((x0, y0))
@@ -190,7 +236,7 @@ def via_stack_corner45(
     layer_offsets: Floats | None = None,
     vias: Sequence[ComponentSpec | None] = ("via1", "via2", None),
     layer_port: LayerSpec | None = None,
-    correct_size: bool = True,
+    correct_size: bool = False,
 ) -> Component:
     """Rectangular via array stack at a 45 degree angle.
 
@@ -273,8 +319,8 @@ def via_stack_corner45(
 
             via = _via
 
-            min_width = w + enclosure
-            min_height = h + enclosure
+            min_width = w + 2 * enclosure
+            min_height = h + 2 * enclosure
 
             if (min_width > width45 and correct_size) or (
                 min_width <= width45 and min_height > height and correct_size
@@ -394,3 +440,8 @@ via_stack_heater_mtop_mini = partial(via_stack_heater_mtop, size=(4, 4))
 via_stack_heater_m2 = partial(via_stack, layers=("HEATER", "M2"), vias=(None, "via1"))
 
 via_stack_slab_m1_horizontal = partial(via_stack_slab_m1, slot_horizontal=True)
+
+
+if __name__ == "__main__":
+    c = via_stack_heater_mtop_mini(size=(1, 1), correct_size=True)
+    c.show()

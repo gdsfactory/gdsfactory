@@ -1,9 +1,9 @@
 info:
   xsize: 11
   ysize: 11
-name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_8a35f6e2
+name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_0e403e34
 settings:
-  correct_size: true
+  correct_size: false
   layers:
   - HEATER
   - M2

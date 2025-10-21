@@ -73,7 +73,7 @@ instances:
       size:
       - 6.4
       - 2.7
-  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E2_LVIA1_BL_efa29aa3_4050_350:
+  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e_4050_350:
     array:
       column_pitch: 3.7
       columns: 10
@@ -82,7 +82,7 @@ instances:
     component: via
     info:
       column_pitch: 2
-      enclosure: 2
+      enclosure: 1
       row_pitch: 2
       xsize: 0.7
       ysize: 0.7
@@ -91,20 +91,20 @@ instances:
       bbox_offset: 0
       bbox_offsets: null
       column_pitch: null
-      enclosure: 2
+      enclosure: 1
       layer: VIA1
       pitch: 2
       row_pitch: null
       size:
       - 0.7
       - 0.7
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_fdb19589_m6500_37800:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_5955c8fd_m6500_37800:
     component: via_stack
     info:
       xsize: 11
       ysize: 11
     settings:
-      correct_size: true
+      correct_size: false
       layer_offsets: null
       layer_to_port_orientations: null
       layers:
@@ -123,13 +123,13 @@ instances:
       vias:
       - via2
       - null
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_fdb19589_m6500_m3800:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_5955c8fd_m6500_m3800:
     component: via_stack
     info:
       xsize: 11
       ysize: 11
     settings:
-      correct_size: true
+      correct_size: false
       layer_offsets: null
       layer_to_port_orientations: null
       layers:
@@ -171,24 +171,24 @@ placements:
     rotation: 0
     x: 2.2
     y: 0.35
-  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E2_LVIA1_BL_efa29aa3_4050_350:
+  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e_4050_350:
     mirror: false
     rotation: 0
     x: 4.05
     y: 0.35
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_fdb19589_m6500_37800:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_5955c8fd_m6500_37800:
     mirror: false
     rotation: 0
     x: -6.5
     y: 37.8
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_fdb19589_m6500_m3800:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_5955c8fd_m6500_m3800:
     mirror: false
     rotation: 0
     x: -6.5
     y: -3.8
 ports:
-  e1: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_fdb19589_m6500_m3800,e1
-  e2: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_fdb19589_m6500_37800,e1
+  e1: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_5955c8fd_m6500_m3800,e1
+  e2: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_5955c8fd_m6500_37800,e1
 warnings:
   electrical:
     unconnected_ports:
@@ -230,12 +230,12 @@ warnings:
       - rectangle_gdsfactorypcomponentspshapesprectangle_S2p7_6_ddce550a_m1000_2700<0.3>,e2
       - rectangle_gdsfactorypcomponentspshapesprectangle_S2p7_6_ddce550a_m1000_2700<0.3>,e3
       - rectangle_gdsfactorypcomponentspshapesprectangle_S2p7_6_ddce550a_m1000_2700<0.3>,e4
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_fdb19589_m6500_m3800,e2
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_fdb19589_m6500_m3800,e3
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_fdb19589_m6500_m3800,e4
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_fdb19589_m6500_37800,e2
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_fdb19589_m6500_37800,e3
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_fdb19589_m6500_37800,e4
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_5955c8fd_m6500_m3800,e2
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_5955c8fd_m6500_m3800,e3
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_5955c8fd_m6500_m3800,e4
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_5955c8fd_m6500_37800,e2
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_5955c8fd_m6500_37800,e3
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_5955c8fd_m6500_37800,e4
       values:
       - - 36
         - 2.2
