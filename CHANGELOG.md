@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.20.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.20.0) - 2025-10-21
+
+No significant changes.
+
+
 ## [9.19.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.19.0) - 2025-10-14
 
 - Fix phix package [#4195](https://github.com/gdsfactory/gdsfactory/pull/4195)
