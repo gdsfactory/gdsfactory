@@ -1,12 +1,13 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.19.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.20.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.20.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.20.0) - 2025-10-21
 
-No significant changes.
-
+- fix mypy [#4213](https://github.com/gdsfactory/gdsfactory/pull/4213)
+- fix via stack [#4212](https://github.com/gdsfactory/gdsfactory/pull/4212)
+- optionally add interface instances in gf.get_netlist() to (e.g. to model mode mismatch) [#4126](https://github.com/gdsfactory/gdsfactory/pull/4126)
 
 ## [9.19.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.19.0) - 2025-10-14
 
