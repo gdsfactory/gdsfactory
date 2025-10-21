@@ -34,16 +34,17 @@ _heater_vias = partial(
     size=(0.5, 0.5),
     layers=("M1", "M2", "M3"),
     vias=(
-        partial(via, layer="VIAC", size=(0.1, 0.1), enclosure=0.1, pitch=0.2),
+        partial(via, layer="VIAC", size=(0.1, 0.1), enclosure=0.01, pitch=0.2),
         partial(
             via,
             layer="VIA1",
             size=(0.1, 0.1),
-            enclosure=0.1,
+            enclosure=0.01,
             pitch=0.2,
         ),
         None,
     ),
+    correct_size=True,
 )
 
 
@@ -329,3 +330,8 @@ def ring_single_pn(
     c.add_ports(ring.ports)
     c.flatten()
     return c
+
+
+if __name__ == "__main__":
+    c = ring_single_pn()
+    c.show()

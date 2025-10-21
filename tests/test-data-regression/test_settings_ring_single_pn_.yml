@@ -1,5 +1,5 @@
 info: {}
-name: ring_single_pn_gdsfactorypcomponentspringspring_pn_G0p3_9890a16c
+name: ring_single_pn_gdsfactorypcomponentspringspring_pn_G0p3_f991280a
 settings:
   cross_section: rib
   doped_heater: true
@@ -9,7 +9,7 @@ settings:
   doped_heater_width: 0.5
   doping_angle: 250
   gap: 0.3
-  heater_vias: Fvia_stack_Mgdsfactorypcomponentspviaspvia_stack_SS0p5_0p5_LM1_M2_M3_VFvia_Mgdsfactorypcomponentspviaspvia_SLVIAC_S0p1_0p1_E0p1_P0p2_Fvia_Mgdsfactorypcomponentspviaspvia_SLVIA1_S0p1_0p1_E0p1_P0p2_None
+  heater_vias: Fvia_stack_Mgdsfactorypcomponentspviaspvia_stack_SS0p5_0p5_LM1_M2_M3_VFvia_Mgdsfactorypcomponentspviaspvia_SLVIAC_S0p1_0p1_E0p01_P0p2_Fvia_Mgdsfactorypcomponentspviaspvia_SLVIA1_S0p1_0p1_E0p01_P0p2_None_CSTrue
   pn_cross_section: Fpn_Mgdsfactorypcross_section_SWD2p425_WS4p85_LVVIAC_WV0p5_LMM1_WM0p5
   pn_vias: via_stack_slab_m3
   pn_vias_width: 3
