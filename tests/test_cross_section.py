@@ -41,6 +41,27 @@ def test_transition_names() -> None:
     assert c1.name != c2.name
 
 
+def test_transition_asymmetric_names() -> None:
+    layer = (1, 0)
+    s1 = gf.Section(width=5, layer=layer, port_names=("o1", "o2"), name="core")
+    s2 = gf.Section(width=50, layer=layer, port_names=("o1", "o2"), name="core")
+
+    xs1 = gf.CrossSection(sections=(s1,))
+    xs2 = gf.CrossSection(sections=(s2,))
+    trans12 = gf.path.transition_asymmetric(
+        cross_section1=xs1, cross_section2=xs2, width_type1="linear", width_type2="sine"
+    )
+    trans21 = gf.path.transition_asymmetric(
+        cross_section1=xs2, cross_section2=xs1, width_type1="linear", width_type2="sine"
+    )
+
+    WG4Path = gf.Path()
+    WG4Path.append(gf.path.straight(length=100, npoints=2))
+    c1 = gf.path.extrude_transition(WG4Path, trans12)
+    c2 = gf.path.extrude_transition(WG4Path, trans21)
+    assert c1.name != c2.name
+
+
 def test_copy() -> None:
     s = gf.Section(width=0.5, offset=0, layer=(3, 0), port_names=("in", "out"))
     x1 = gf.CrossSection(sections=(s,))

@@ -576,7 +576,9 @@ class Path(UMGeometricObject):
             all_angle=all_angle,
         )
 
-    def extrude_transition(self, transition: Transition) -> Component:
+    def extrude_transition(
+        self, transition: Transition | TransitionAsymmetric
+    ) -> Component:
         return extrude_transition(p=self, transition=transition)
 
     def copy(self) -> Path:
