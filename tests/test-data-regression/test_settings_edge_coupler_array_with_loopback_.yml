@@ -1,9 +1,8 @@
 info: {}
-name: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_bacac422
+name: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_e95db816
 settings:
   cross_section: strip
   edge_coupler: edge_coupler_silicon
-  extension_length: 0
   n: 8
   pitch: 127
   text: text_rectangular

@@ -36,13 +36,12 @@ instances:
       size:
       - 10400
       - 5000
-  edge_coupler_array_with_loopback_gdsfactorypcomponentsp_fcf8ee14_5100000_m1968500:
+  edge_coupler_array_with_loopback_gdsfactorypcomponentsp_6386b7da_5100000_m1968500:
     component: edge_coupler_array_with_loopback
     info: {}
     settings:
       cross_section: strip
       edge_coupler: edge_coupler_silicon
-      extension_length: 0
       n: 32
       pitch: 127
       radius: null
@@ -2938,7 +2937,7 @@ placements:
     rotation: 0
     x: 0
     y: 0
-  edge_coupler_array_with_loopback_gdsfactorypcomponentsp_fcf8ee14_5100000_m1968500:
+  edge_coupler_array_with_loopback_gdsfactorypcomponentsp_6386b7da_5100000_m1968500:
     mirror: false
     rotation: 0
     x: 5100
@@ -3698,34 +3697,34 @@ ports:
   e97: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_m700000_2250000,e4
   e98: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_m850000_2250000,e4
   e99: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_m1000000_2250000,e4
-  o1: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_fcf8ee14_5100000_m1968500,o1
-  o10: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_fcf8ee14_5100000_m1968500,o10
-  o11: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_fcf8ee14_5100000_m1968500,o11
-  o12: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_fcf8ee14_5100000_m1968500,o12
-  o13: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_fcf8ee14_5100000_m1968500,o13
-  o14: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_fcf8ee14_5100000_m1968500,o14
-  o15: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_fcf8ee14_5100000_m1968500,o15
-  o16: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_fcf8ee14_5100000_m1968500,o16
-  o17: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_fcf8ee14_5100000_m1968500,o17
-  o18: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_fcf8ee14_5100000_m1968500,o18
-  o19: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_fcf8ee14_5100000_m1968500,o19
-  o2: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_fcf8ee14_5100000_m1968500,o2
-  o20: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_fcf8ee14_5100000_m1968500,o20
-  o21: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_fcf8ee14_5100000_m1968500,o21
-  o22: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_fcf8ee14_5100000_m1968500,o22
-  o23: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_fcf8ee14_5100000_m1968500,o23
-  o24: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_fcf8ee14_5100000_m1968500,o24
-  o25: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_fcf8ee14_5100000_m1968500,o25
-  o26: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_fcf8ee14_5100000_m1968500,o26
-  o27: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_fcf8ee14_5100000_m1968500,o27
-  o28: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_fcf8ee14_5100000_m1968500,o28
-  o3: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_fcf8ee14_5100000_m1968500,o3
-  o4: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_fcf8ee14_5100000_m1968500,o4
-  o5: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_fcf8ee14_5100000_m1968500,o5
-  o6: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_fcf8ee14_5100000_m1968500,o6
-  o7: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_fcf8ee14_5100000_m1968500,o7
-  o8: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_fcf8ee14_5100000_m1968500,o8
-  o9: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_fcf8ee14_5100000_m1968500,o9
+  o1: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_6386b7da_5100000_m1968500,o1
+  o10: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_6386b7da_5100000_m1968500,o10
+  o11: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_6386b7da_5100000_m1968500,o11
+  o12: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_6386b7da_5100000_m1968500,o12
+  o13: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_6386b7da_5100000_m1968500,o13
+  o14: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_6386b7da_5100000_m1968500,o14
+  o15: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_6386b7da_5100000_m1968500,o15
+  o16: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_6386b7da_5100000_m1968500,o16
+  o17: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_6386b7da_5100000_m1968500,o17
+  o18: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_6386b7da_5100000_m1968500,o18
+  o19: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_6386b7da_5100000_m1968500,o19
+  o2: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_6386b7da_5100000_m1968500,o2
+  o20: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_6386b7da_5100000_m1968500,o20
+  o21: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_6386b7da_5100000_m1968500,o21
+  o22: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_6386b7da_5100000_m1968500,o22
+  o23: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_6386b7da_5100000_m1968500,o23
+  o24: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_6386b7da_5100000_m1968500,o24
+  o25: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_6386b7da_5100000_m1968500,o25
+  o26: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_6386b7da_5100000_m1968500,o26
+  o27: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_6386b7da_5100000_m1968500,o27
+  o28: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_6386b7da_5100000_m1968500,o28
+  o3: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_6386b7da_5100000_m1968500,o3
+  o4: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_6386b7da_5100000_m1968500,o4
+  o5: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_6386b7da_5100000_m1968500,o5
+  o6: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_6386b7da_5100000_m1968500,o6
+  o7: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_6386b7da_5100000_m1968500,o7
+  o8: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_6386b7da_5100000_m1968500,o8
+  o9: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_6386b7da_5100000_m1968500,o9
 warnings:
   electrical:
     unconnected_ports:
