@@ -51,7 +51,7 @@ license = {file = "LICENSE"}
 name = "gdsfactory"
 readme = "README.md"
 requires-python = ">=3.11,<3.14"
-version = "9.20.0"
+version = "9.20.1"
 
 [project.optional-dependencies]
 cad = ["kweb>=1.1.9,<2.1"]
@@ -235,7 +235,7 @@ message_template = "Bump to {new_version}"
 tag_template = "v{new_version}"
 
 [tool.tbump.version]
-current = "9.20.0"
+current = "9.20.1"
 regex = '''
   (?P<major>\d+)
   \.
