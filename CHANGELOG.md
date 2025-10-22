@@ -1,12 +1,11 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.20.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.20.1...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.20.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.20.1) - 2025-10-21
 
-No significant changes.
-
+- fix edge coupler array [#4214](https://github.com/gdsfactory/gdsfactory/pull/4214)
 
 ## [9.20.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.20.0) - 2025-10-21
 
