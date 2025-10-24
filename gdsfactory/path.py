@@ -1571,7 +1571,11 @@ def arc(
         npoints = npoints or int(
             abs(angle) / 360 * radius / PDK.bend_points_distance / 2
         )
-        npoints = max(int(npoints), int(360 / abs(angle)) + 1)
+        # Fix for zero-angle division by zero
+        if abs(angle) < 1e-6:  # Essentially zero angle
+            npoints = max(int(npoints), 2)  # Minimum points for straight line
+        else:
+            npoints = max(int(npoints), int(360 / abs(angle)) + 1)
 
     t = np.linspace(
         start_angle * np.pi / 180, (angle + start_angle) * np.pi / 180, npoints
