@@ -15,6 +15,7 @@ from kfactory.typings import MetaData
 
 if TYPE_CHECKING:
     from gdsfactory.component import Component, ComponentAllAngle
+    from gdsfactory.typings import ComponentFactory, RoutingStrategies
 
 ComponentParams = ParamSpec("ComponentParams")
 
@@ -199,4 +200,18 @@ def override_defaults(
 
 cell_with_module_name = override_defaults(cell, with_module_name=True)
 
-schematic_cell = kf.kcl.schematic_cell
+
+def schematic_cell(
+    factories: dict[str, ComponentFactory] | None = None,
+    routing_strategies: RoutingStrategies | None = None,
+) -> Any:
+    import gdsfactory as gf
+
+    pdk = gf.get_active_pdk()
+
+    factories = factories or pdk.cells
+    routing_strategies = routing_strategies or pdk.routing_strategies
+    return kf.kcl.schematic_cell(
+        factories=factories,
+        routing_strategies=routing_strategies,
+    )
