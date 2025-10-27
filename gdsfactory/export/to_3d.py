@@ -39,6 +39,7 @@ def to_3d(
     try:
         from trimesh.creation import extrude_polygon
         from trimesh.scene import Scene
+        from trimesh.visual import ColorVisuals
     except ImportError as e:
         print("you need to `pip install trimesh`")
         raise e
@@ -94,7 +95,8 @@ def to_3d(
                 p = shapely.geometry.Polygon(polygon)
                 mesh = extrude_polygon(p, height=height)
                 mesh.apply_translation((0, 0, zmin))
-                mesh.visual.face_colors = (*color_rgb, 0.5)
+                if isinstance(mesh.visual, ColorVisuals):
+                    mesh.visual.face_colors = (*color_rgb, 0.5)
                 scene.add_geometry(mesh)
     if not has_polygons:
         raise ValueError(
