@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.20.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.20.2) - 2025-10-27
+
+No significant changes.
+
+
 ## [9.20.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.20.1) - 2025-10-21
 
 - fix edge coupler array [#4214](https://github.com/gdsfactory/gdsfactory/pull/4214)
