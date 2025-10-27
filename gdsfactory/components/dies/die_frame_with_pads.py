@@ -355,6 +355,7 @@ def die_frame_phix_dc(
     ruler_xoffset: float = 0,
     with_right_fiber_coupler: bool = True,
     with_left_fiber_coupler: bool = True,
+    fiber_coupler_xoffset: float = 0,
     text_offset: Float2 = (20, 10),
     text: ComponentSpec | None = None,
 ) -> Component:
@@ -382,6 +383,7 @@ def die_frame_phix_dc(
         with_left_fiber_coupler=with_left_fiber_coupler,
         text_offset=text_offset,
         text=text,
+        fiber_coupler_xoffset=fiber_coupler_xoffset,
     )
 
 
@@ -408,6 +410,7 @@ def die_frame_phix_rf(
     ruler_xoffset: float = 0,
     with_right_fiber_coupler: bool = True,
     with_left_fiber_coupler: bool = False,
+    fiber_coupler_xoffset: float = 0,
     text_offset: Float2 = (20, 10),
     text: ComponentSpec | None = None,
     xoffset_dc_pads: float = -500,
@@ -437,6 +440,7 @@ def die_frame_phix_rf(
         text_offset=text_offset,
         text=text,
         xoffset_dc_pads=xoffset_dc_pads,
+        fiber_coupler_xoffset=fiber_coupler_xoffset,
     )
 
 
