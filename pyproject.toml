@@ -119,6 +119,7 @@ exclude = [
   "gdsfactory/samples/demo/layers_sky130.py",
   "notebooks/*"
 ]
+explicit_package_bases = true
 python_version = "3.11"
 strict = true
 
