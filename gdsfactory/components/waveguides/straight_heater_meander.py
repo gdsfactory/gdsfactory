@@ -227,14 +227,14 @@ def straight_heater_meander(
             )
 
         if port_orientation1 is not None:
-            p1 = via_stack_west.ports.filter(orientation=port_orientation1)
+            p1 = list(via_stack_west.ports.filter(orientation=port_orientation1))
         else:
-            p1 = via_stack_west.ports
+            p1 = list(via_stack_west.ports)
 
         if port_orientation2 is not None:
-            p2 = via_stack_east.ports.filter(orientation=port_orientation2)
+            p2 = list(via_stack_east.ports.filter(orientation=port_orientation2))
         else:
-            p2 = via_stack_east.ports
+            p2 = list(via_stack_east.ports)
 
         if not p1:
             raise ValueError(
