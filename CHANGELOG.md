@@ -1,7 +1,19 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.20.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.20.2...main)
 
 <!-- towncrier release notes start -->
+
+## [9.20.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.20.3) - 2025-10-28
+
+No significant changes.
+
+
+## [9.20.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.20.2) - 2025-10-27
+
+- fix mypy issues [#4218](https://github.com/gdsfactory/gdsfactory/pull/4218)
+- Fix division by zero error when using arcs at 0° angles. [#4216](https://github.com/gdsfactory/gdsfactory/pull/4216)
+- Asymmetric transition tests and documentation [#4215](https://github.com/gdsfactory/gdsfactory/pull/4215)
+- expose fiber_coupler_xoffset in die_frame_phix [#4217](https://github.com/gdsfactory/gdsfactory/pull/4217)
 
 ## [9.20.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.20.1) - 2025-10-21
 
