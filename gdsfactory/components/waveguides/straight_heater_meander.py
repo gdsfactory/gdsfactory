@@ -197,19 +197,6 @@ def straight_heater_meander(
         via_stack_east.move(via_stack_east_center)
 
         valid_orientations = {p.orientation for p in via.ports}
-        p1 = via_stack_west.ports.filter(orientation=port_orientation1)
-        p2 = via_stack_east.ports.filter(orientation=port_orientation2)
-        c.add_ports(p1, prefix="l_")
-        c.add_ports(p2, prefix="r_")
-
-        if not p1:
-            raise ValueError(
-                f"No ports for port_orientation1 {port_orientation1} in {valid_orientations}"
-            )
-        if not p2:
-            raise ValueError(
-                f"No ports for port_orientation2 {port_orientation2} in {valid_orientations}"
-            )
 
         if heater_taper_length and heater_cross_section:
             taper = gf.c.taper(
@@ -238,6 +225,33 @@ def straight_heater_meander(
                 allow_layer_mismatch=True,
                 allow_type_mismatch=True,
             )
+
+        if port_orientation1 is not None:
+            p1 = via_stack_west.ports.filter(orientation=port_orientation1)
+        else:
+            p1 = via_stack_west.ports
+
+        if port_orientation2 is not None:
+            p2 = via_stack_east.ports.filter(orientation=port_orientation2)
+        else:
+            p2 = via_stack_east.ports
+
+        if not p1:
+            raise ValueError(
+                f"No ports for port_orientation1 {port_orientation1} in {valid_orientations}"
+            )
+        if not p2:
+            raise ValueError(
+                f"No ports for port_orientation2 {port_orientation2} in {valid_orientations}"
+            )
+
+        c.add_ports(p1, prefix="l_")
+        c.add_ports(p2, prefix="r_")
     c.info["length"] = total_length
     c.flatten()
     return c
+
+
+if __name__ == "__main__":
+    c = straight_heater_meander(port_orientation1=None, port_orientation2=90)
+    c.show()
