@@ -201,7 +201,54 @@ def override_defaults(
 cell_with_module_name = override_defaults(cell, with_module_name=True)
 
 
+@overload
 def schematic_cell(
+    _func: ComponentFunc[ComponentParams], /
+) -> ComponentFunc[ComponentParams]: ...
+@overload
+def schematic_cell(
+    *,
+    set_settings: bool = True,
+    set_name: bool = True,
+    check_ports: bool = True,
+    check_instances: CheckInstances | None = None,
+    snap_ports: bool = True,
+    add_port_layers: bool = True,
+    cache: Cache[int, Any] | dict[int, Any] | None = None,
+    basename: str | None = None,
+    register_factory: bool = True,
+    overwrite_existing: bool | None = None,
+    layout_cache: bool | None = None,
+    info: dict[str, MetaData] | None = None,
+    debug_names: bool | None = None,
+    tags: list[str] | None = None,
+    with_module_name: bool = False,
+    factories: dict[str, ComponentFactory] | None = None,
+    routing_strategies: RoutingStrategies | None = None,
+) -> Callable[[ComponentFunc[ComponentParams]], ComponentFunc[ComponentParams]]: ...
+
+
+def schematic_cell(
+    _func: ComponentFunc[ComponentParams] | None = None,
+    /,
+    *,
+    set_settings: bool = True,
+    set_name: bool = True,
+    check_ports: bool = True,
+    check_instances: CheckInstances | None = None,
+    snap_ports: bool = True,
+    add_port_layers: bool = True,
+    cache: Cache[int, Any] | dict[int, Any] | None = None,
+    basename: str | None = None,
+    register_factory: bool = True,
+    overwrite_existing: bool | None = None,
+    layout_cache: bool | None = None,
+    info: dict[str, MetaData] | None = None,
+    debug_names: bool | None = None,
+    tags: list[str] | None = None,
+    with_module_name: bool = False,
+    lvs_equivalent_ports: list[list[str]] | None = None,
+    ports: PortsDefinition | None = None,
     factories: dict[str, ComponentFactory] | None = None,
     routing_strategies: RoutingStrategies | None = None,
 ) -> Any:
@@ -212,6 +259,21 @@ def schematic_cell(
     factories = factories or pdk.cells
     routing_strategies = routing_strategies or pdk.routing_strategies
     return kf.kcl.schematic_cell(
+        output_type=Component,
+        set_settings=set_settings,
+        set_name=set_name,
+        check_ports=check_ports,
+        check_instances=check_instances,
+        snap_ports=snap_ports,
+        add_port_layers=add_port_layers,
+        cache=cache,
+        basename=basename,
+        register_factory=register_factory,
+        overwrite_existing=overwrite_existing,
+        layout_cache=layout_cache,
+        info=info,
+        debug_names=debug_names,
+        tags=tags,
         factories=factories,
         routing_strategies=routing_strategies,
     )
