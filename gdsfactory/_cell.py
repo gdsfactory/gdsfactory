@@ -259,7 +259,7 @@ def schematic_cell(
     factories = factories or pdk.cells
     routing_strategies = routing_strategies or pdk.routing_strategies
     return kf.kcl.schematic_cell(
-        output_type=Component,
+        output_type=gf.Component,
         set_settings=set_settings,
         set_name=set_name,
         check_ports=check_ports,
