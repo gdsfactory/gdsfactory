@@ -50,6 +50,5 @@ def terminator_spiral(
     c = gf.Component()
     ref = c << spiral
     c.add_port("o1", port=ref["o2"])
-    c.add_port("o2", port=ref["o1"])
     c.flatten()
     return c
