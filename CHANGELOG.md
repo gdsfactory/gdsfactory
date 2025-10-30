@@ -1,12 +1,16 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.20.2...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.20.4...main)
 
 <!-- towncrier release notes start -->
 
+## [9.20.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.20.4) - 2025-10-29
+
+- fix spiral [#4223](https://github.com/gdsfactory/gdsfactory/pull/4223)
+- single_port_terminator [#4222](https://github.com/gdsfactory/gdsfactory/pull/4222)
+
 ## [9.20.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.20.3) - 2025-10-28
 
-No significant changes.
-
+- add ports at the correct via stack location for straight_heater_meander [#4220](https://github.com/gdsfactory/gdsfactory/pull/4220)
 
 ## [9.20.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.20.2) - 2025-10-27
 

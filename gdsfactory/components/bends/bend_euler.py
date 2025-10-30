@@ -121,9 +121,9 @@ def _bend_euler(
     c.info["dy"] = float(
         np.round(abs(float(path.points[0][0] - path.points[-1][0])), 3)
     )
-    c.info["min_bend_radius"] = min_bend_radius
-    c.info["radius"] = radius
-    c.info["width"] = width or x.width
+    c.info["min_bend_radius"] = float(min_bend_radius)
+    c.info["radius"] = float(radius)
+    c.info["width"] = float(width or x.width)
 
     if not allow_min_radius_violation:
         x.validate_radius(radius)
