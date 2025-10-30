@@ -89,6 +89,12 @@ def ring_double_heater(
 
     coupler_ring_top = coupler_ring_top or coupler_ring
 
+    if length_extension_bot is None:
+        length_extension_bot = length_extension
+
+    if length_extension_top is None:
+        length_extension_top = length_extension
+
     coupler_component = gf.get_component(
         coupler_ring,
         gap=gap_bot,
@@ -97,7 +103,7 @@ def ring_double_heater(
         bend=bend,
         cross_section=cross_section,
         cross_section_bend=cross_section_waveguide_heater,
-        length_extension=length_extension_bot or length_extension,
+        length_extension=length_extension_bot,
     )
     coupler_component_top = gf.get_component(
         coupler_ring_top,
@@ -107,7 +113,7 @@ def ring_double_heater(
         bend=bend,
         cross_section=cross_section,
         cross_section_bend=cross_section_waveguide_heater,
-        length_extension=length_extension_top or length_extension,
+        length_extension=length_extension_top,
     )
     straight_component = gf.get_component(
         straight,
