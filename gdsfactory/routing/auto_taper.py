@@ -60,6 +60,7 @@ def add_auto_tapers(
     for p in ports:
         port_layer = gf.get_layer(p.layer)
         port_width = p.width
+        port_width_dbu = p.iwidth
         reverse = False
 
         if port_layer != cs_layer:
@@ -72,7 +73,7 @@ def add_auto_tapers(
                 raise KeyError(
                     f"No registered tapers between routing layers {gf.get_layer_name(port_layer)!r} and {gf.get_layer_name(cs_layer)!r}!"
                 ) from e
-        elif port_width != cs_width:
+        elif port_width_dbu != component.kcl.to_dbu(cs_width):
             try:
                 taper = layer_transitions[port_layer]
             except KeyError:
