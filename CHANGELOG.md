@@ -3,6 +3,16 @@
 
 <!-- towncrier release notes start -->
 
+## [9.20.6](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.20.6) - 2025-10-30
+
+No significant changes.
+
+
+## [9.20.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.20.5) - 2025-10-30
+
+No significant changes.
+
+
 ## [9.20.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.20.4) - 2025-10-29
 
 - fix spiral [#4223](https://github.com/gdsfactory/gdsfactory/pull/4223)
