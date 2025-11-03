@@ -81,10 +81,10 @@ def _generate_grid(
     bbox_int = _parse_bbox_to_array(c.dbbox())
     bbox = bbox_int
 
-    _a1 = float(bbox[0][0]) - resolution
-    _a2 = float(bbox[1][0]) + resolution
-    _b1 = float(bbox[0][1]) - resolution
-    _b2 = float(bbox[1][1]) + resolution
+    _a1 = float(bbox[0][0]) - max(distance, resolution)
+    _a2 = float(bbox[1][0]) + max(distance, resolution)
+    _b1 = float(bbox[0][1]) - max(distance, resolution)
+    _b2 = float(bbox[1][1]) + max(distance, resolution)
 
     _a = np.linspace(_a1, _a2, int((_a2 - _a1) / resolution), endpoint=True)
 
