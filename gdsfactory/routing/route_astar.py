@@ -173,7 +173,8 @@ def route_astar(
             if grid[i, j] == 1:
                 G.remove_node((i, j))
 
-    distance_from_node_to_port = 3 * cross_section.radius
+    # Account for the case where cross_section.radius is None
+    distance_from_node_to_port = 3 * (cross_section.radius or 3)  # in um
     # Define coordinates of the start and end nodes, adjusted for the orientation of the ports
     port1x = (
         port1.x + np.cos(port1.orientation * np.pi / 180) * distance_from_node_to_port
