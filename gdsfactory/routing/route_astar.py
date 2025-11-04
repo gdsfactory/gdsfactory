@@ -148,7 +148,7 @@ def route_astar(
     cross_section: CrossSectionSpec = "strip",
     bend: ComponentSpec = "wire_corner",
     **kwargs: Any,
-) -> Route:
+) -> list[Route]:
     """Bidirectional routing function using NetworkX. Finds a route between two ports avoiding obstacles.
 
     Args:
@@ -173,11 +173,22 @@ def route_astar(
             if grid[i, j] == 1:
                 G.remove_node((i, j))
 
-    # Unit conversion
-    port1x = port1.x
-    port1y = port1.y
-    port2x = port2.x
-    port2y = port2.y
+    distance_from_node_to_port = 3 * cross_section.radius
+    # Define coordinates of the start and end nodes, adjusted for the orientation of the ports
+    port1x = (
+        port1.x + np.cos(port1.orientation * np.pi / 180) * distance_from_node_to_port
+    )
+    port1y = (
+        port1.y + np.sin(port1.orientation * np.pi / 180) * distance_from_node_to_port
+    )
+    port2x = (
+        port2.x + np.cos(port2.orientation * np.pi / 180) * distance_from_node_to_port
+    )
+    port2y = (
+        port2.y + np.sin(port2.orientation * np.pi / 180) * distance_from_node_to_port
+    )
+    print("There are the points on the grid: ", port1x, port1y, port2x, port2y)
+    print("These are the points of the ports: ", port1.x, port1.y, port2.x, port2.y)
 
     # Define start and end nodes
     start_node = (
@@ -189,7 +200,7 @@ def route_astar(
         (round((port2y - y.min()) / resolution)),
     )
 
-    # Find the closest valid nodes
+    # Find the indices of the closest valid nodes
     start_node = min(
         G.nodes,
         key=lambda node: float(np.linalg.norm(np.array(node) - np.array(start_node))),
@@ -198,42 +209,93 @@ def route_astar(
         G.nodes,
         key=lambda node: float(np.linalg.norm(np.array(node) - np.array(end_node))),
     )
+    print(x[start_node[0]], y[start_node[1]], x[end_node[0]], y[end_node[1]])
 
     path = nx.astar_path(G, start_node, end_node)  # Find shortest path
 
-    # Convert path to waypoints
+    # Convert path to waypoints, move to center of grid cell
     waypoints = [(x[i] + resolution / 2, y[j] + resolution / 2) for i, j in path]
 
     # Simplify the route
-    simplified_path = simplify_path([(port1x, port1y)] + waypoints, tolerance=0.05)
+    simplified_path = simplify_path(waypoints, tolerance=0.05)
 
-    # Prepare waypoints
+    # Turning simplified_path, which is list of tuples, to my_waypoints, which is list of lists
     my_waypoints = [list(np.round(pt, 1)) for pt in simplified_path]
-    if port2.orientation in [0, 180]:
-        my_waypoints += [[my_waypoints[-1][0], port2y]]
-    else:
-        my_waypoints += [[port2x, my_waypoints[-1][1]]]
 
-    # Align second waypoint y with first waypoint y
-    # my_waypoints[1][1] = my_waypoints[0][1]
+    # List to iterate through both ports and the indices of the two waypoints closest to them
+    port_data = [
+        (port1, 0, 1),
+        (port2, -1, -2),
+    ]
 
-    if port1.orientation in [0, 180]:
-        my_waypoints[0:1] = [my_waypoints[0], [my_waypoints[0][0], my_waypoints[1][1]]]
-    else:
-        my_waypoints[0:1] = [my_waypoints[0], [my_waypoints[1][0], my_waypoints[0][1]]]
-    if port2.orientation in [0, 180]:
-        my_waypoints.append([port2x, my_waypoints[-1][1]])
-    else:
-        my_waypoints.append([my_waypoints[-1][0], port2y])
-    my_waypoints += [[port2x, port2y]]
+    for port, closest_index, second_closest_index in port_data:
+        # If the orientation of the port is horizontal, the last point is close to the port, and the path leading to it is vertical
+        if (
+            port.orientation in [0, 180]
+            and abs(my_waypoints[closest_index][1] - port.y) <= resolution
+            and my_waypoints[second_closest_index][0] == my_waypoints[closest_index][0]
+        ):
+            print(f"For {port.name}, the 1st condition is met")
+            # for downgoing path, raise the last waypoint's y
+            if (
+                my_waypoints[second_closest_index][1]
+                > my_waypoints[closest_index][1] + distance_from_node_to_port
+            ):
+                my_waypoints[closest_index][1] += distance_from_node_to_port
+            # for upgoing path, lower the last waypoint's y
+            elif (
+                my_waypoints[second_closest_index][1]
+                < my_waypoints[closest_index][1] - distance_from_node_to_port
+            ):
+                my_waypoints[closest_index][1] -= distance_from_node_to_port
+        # If the orientation of the port is vertical and the path leading to it is vertical
+        elif (
+            port.orientation in [90, 270]
+            and abs(my_waypoints[closest_index][0] - port.x) <= resolution
+            and my_waypoints[second_closest_index][0] == my_waypoints[closest_index][0]
+        ):
+            print(f"For {port.name}, the 2nd condition is met")
+            # In order to not have a bend, the last two waypoints must be aligned with the port x
+            my_waypoints[second_closest_index][0] = port.x
+            my_waypoints[closest_index][0] = port.x
+        # If the orientation of the port is vertical and the path leading to it is horizontal
+        elif (
+            port.orientation in [90, 270]
+            and abs(my_waypoints[closest_index][0] - port.x) <= resolution
+            and my_waypoints[second_closest_index][1] == my_waypoints[closest_index][1]
+        ):
+            print(f"For {port.name}, the 3rd condition is met")
+            # for leftgoing path, raise the last waypoint's x
+            if (
+                my_waypoints[second_closest_index][0]
+                > my_waypoints[closest_index][0] + distance_from_node_to_port
+            ):
+                my_waypoints[closest_index][0] += distance_from_node_to_port
+            # for rightgoing path, lower the last waypoint's x
+            elif (
+                my_waypoints[second_closest_index][0]
+                < my_waypoints[closest_index][0] - distance_from_node_to_port
+            ):
+                my_waypoints[closest_index][0] -= distance_from_node_to_port
+        # If the orientation of the port is horizontal and the path leading to it is horizontal
+        elif (
+            port.orientation in [0, 180]
+            and abs(my_waypoints[closest_index][1] - port.y) <= resolution
+            and my_waypoints[second_closest_index][1] == my_waypoints[closest_index][1]
+        ):
+            print(f"For {port.name}, the 4th condition is met")
+            # In order to not have a bend, the last two waypoints must be aligned with the port y
+            my_waypoints[second_closest_index][1] = port.y
+            my_waypoints[closest_index][1] = port.y
 
     # Convert to native floats or Point instances
     waypoints_ = [DPoint(x, y) for x, y in my_waypoints]
-    return gf.routing.route_single(
+    print(waypoints_)
+    return gf.routing.route_bundle(
         component=component,
-        port1=port1,
-        port2=port2,
+        ports1=[port1],
+        ports2=[port2],
         waypoints=gf.kf.routing.manhattan.clean_points(waypoints_),
         cross_section=cross_section,
         bend=bend,
-    )
+    )  # type: ignore
