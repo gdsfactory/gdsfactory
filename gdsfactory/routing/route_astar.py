@@ -7,6 +7,8 @@ import klayout.dbcore as kdb
 import networkx as nx
 import numpy as np
 import numpy.typing as npt
+from kfactory.routing.aa.optical import OpticalAllAngleRoute
+from kfactory.routing.generic import ManhattanRoute
 from klayout.dbcore import DPoint
 from shapely.geometry import LineString
 
@@ -21,6 +23,22 @@ from gdsfactory.typings import (
     Port,
     Route,
 )
+
+
+def get_route_bend_count(route: Route) -> int:
+    """
+    Returns the number of 90° bends for any Route type.
+
+    ManhattanRoute → uses n_bend90 attribute
+    OpticalAllAngleRoute → treated as having 100 Manhattan bends, so that it is
+    deprioritized when selecting the route with the fewest bends.
+    """
+    if isinstance(route, ManhattanRoute):
+        return route.n_bend90
+    if isinstance(route, OpticalAllAngleRoute):
+        return 100
+    # mypy exhaustiveness
+    raise TypeError(f"Unsupported Route type: {type(route)}")
 
 
 class Node:
@@ -177,6 +195,12 @@ def route_astar_single(
         ValueError: If start_node or end_node is None.
         nx.NetworkXNoPath: If no valid A* route exists between the nodes.
     """
+    assert G is not None, "route_astar_with_nodes: G must not be None"
+    assert x is not None, "x array must not be None"
+    assert y is not None, "y array must not be None"
+    assert start_node is not None, "start_node must not be None"
+    assert end_node is not None, "end_node must not be None"
+
     # Find the indices of the closest valid nodes
     start_node = min(
         G.nodes,
@@ -400,7 +424,7 @@ def route_astar(
 
     # Choose the route with the fewest bends
     _, optimized_start_coords, optimized_end_coords = min(
-        candidates, key=lambda item: item[0].n_bend90
+        candidates, key=lambda item: get_route_bend_count(item[0])
     )
 
     # Build optimized route on real component
