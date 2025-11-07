@@ -945,9 +945,6 @@ class Component(ComponentBase, kf.DKCell):
         if self.locked:
             raise LockedError(self)
 
-        if type(corner_mode) is not int:
-            corner_mode = corner_mode.value
-
         distance_dbu = self.kcl.to_dbu(distance)
 
         layer_index = get_layer(layer)
@@ -1035,9 +1032,6 @@ class Component(ComponentBase, kf.DKCell):
 
         if self.locked:
             raise LockedError(self)
-
-        if type(corner_mode) is not int:
-            corner_mode = corner_mode.value
 
         if flatten:
             self.flatten()
