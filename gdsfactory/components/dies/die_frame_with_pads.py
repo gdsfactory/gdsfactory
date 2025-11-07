@@ -146,6 +146,7 @@ def die_frame_phix(
     text_offset: Float2 = (20, 10),
     text: ComponentSpec | None = "text_rectangular",
     xoffset_dc_pads: float = -100,
+    xoffset_rf_pads: float = 50,
 ) -> Component:
     """A die_frame with grating couplers and pads.
 
@@ -175,6 +176,7 @@ def die_frame_phix(
         text_offset: offset for text.
         text: text component spec.
         xoffset_dc_pads: DC pads x-offset.
+        xoffset_rf_pads: RF pads x-offset.
     """
     if npads > 60:
         raise ValueError("npads should be <= 60. Reach out to PHIX for support.")
@@ -278,7 +280,7 @@ def die_frame_phix(
         for i in range(npads_rf):
             pad_ref = c << gf.get_component(pad_gsg)
             pad_ref.y = y0 - i * pad_pitch_gsg
-            pad_ref.xmin = fp.xmin + 50
+            pad_ref.xmin = fp.xmin + xoffset_rf_pads
             c.add_port(
                 name=f"e{i}",
                 port=pad_ref.ports["e2"],
@@ -414,6 +416,7 @@ def die_frame_phix_rf(
     text_offset: Float2 = (20, 10),
     text: ComponentSpec | None = None,
     xoffset_dc_pads: float = -500,
+    xoffset_rf_pads: float = 50,
 ) -> Component:
     return die_frame_phix(
         die_frame=die_frame,
@@ -441,6 +444,7 @@ def die_frame_phix_rf(
         text=text,
         xoffset_dc_pads=xoffset_dc_pads,
         fiber_coupler_xoffset=fiber_coupler_xoffset,
+        xoffset_rf_pads=xoffset_rf_pads,
     )
 
 
