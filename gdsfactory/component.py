@@ -49,6 +49,7 @@ if TYPE_CHECKING:
         AngleInDegrees,
         ComponentSpec,
         Coordinates,
+        CornerMode,
         Layer,
         LayerSpec,
         LayerSpecs,
@@ -923,7 +924,11 @@ class Component(ComponentBase, kf.DKCell):
         )
 
     def over_under(
-        self, layer: LayerSpec, distance: float = 0.001, remove_old_layer: bool = True
+        self,
+        layer: LayerSpec,
+        distance: float = 0.001,
+        remove_old_layer: bool = True,
+        corner_mode: int | CornerMode = 2,
     ) -> None:
         """Returns a Component over-under on a layer in the Component.
 
@@ -933,6 +938,7 @@ class Component(ComponentBase, kf.DKCell):
             layer: layer to perform over-under on.
             distance: distance to perform over-under in um.
             remove_old_layer: if True, removes the old layer.
+            corner_mode: determines behavior around corners
         """
         from gdsfactory import get_layer
 
@@ -943,7 +949,9 @@ class Component(ComponentBase, kf.DKCell):
 
         layer_index = get_layer(layer)
         region = kdb.Region(self.kdb_cell.begin_shapes_rec(layer_index))
-        region.size(+distance_dbu).size(-distance_dbu)
+        region.size(+distance_dbu, +distance_dbu, corner_mode).size(
+            -distance_dbu, -distance_dbu, corner_mode
+        )
 
         if remove_old_layer:
             self.remove_layers([layer])
@@ -1005,13 +1013,20 @@ class Component(ComponentBase, kf.DKCell):
         self.shapes(layer).clear()
         self.shapes(layer).insert(fix)
 
-    def offset(self, layer: LayerSpec, distance: float, flatten: bool = False) -> None:
+    def offset(
+        self,
+        layer: LayerSpec,
+        distance: float,
+        flatten: bool = False,
+        corner_mode: int | CornerMode = 2,
+    ) -> None:
         """Offsets a Component layer by a distance in um.
 
         Args:
             layer: layer to offset the Component on.
             distance: distance to offset the Component in um.
             flatten: if True, flattens the Component before offsetting.
+            corner_mode: determines behavior around corners
         """
         from gdsfactory import get_layer
 
@@ -1025,7 +1040,7 @@ class Component(ComponentBase, kf.DKCell):
 
         layer_index = get_layer(layer)
         region = kdb.Region(self.kdb_cell.begin_shapes_rec(layer_index))
-        region.size(distance_dbu)
+        region.size(distance_dbu, distance_dbu, corner_mode)
         self.remove_layers([layer])
         self.kdb_cell.shapes(layer_index).insert(region)
 
