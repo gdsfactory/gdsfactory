@@ -37,7 +37,7 @@ def demo_route_astar_electrical() -> gf.Component:
         port2=port2,
         cross_section=cross_section,
         resolution=10,
-        distance=12,
+        distance=15,
         avoid_layers=("M3",),
         bend=bend,
     )
