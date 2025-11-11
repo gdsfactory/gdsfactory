@@ -85,7 +85,7 @@ These PDKs are publicly available and do not require an NDA:
 - Quantum:
     - [Quantum RF PDK](https://github.com/gdsfactory/quantum-rf-pdk)
 - RF/AMS/Digital/Analog:
-    - [IHP](https://gdsfactory.github.io/ihp)
+    - [IHP](https://gdsfactory.github.io/IHP)
     - [GlobalFoundries 180nm MCU CMOS PDK](https://gdsfactory.github.io/gf180mcu/)
     - [SkyWater 130nm CMOS PDK](https://gdsfactory.github.io/skywater130/)
 
