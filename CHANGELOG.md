@@ -5,8 +5,11 @@
 
 ## [9.20.8](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.20.8) - 2025-11-11
 
-No significant changes.
-
+- add via_stack tolerances [#4238](https://github.com/gdsfactory/gdsfactory/pull/4238)
+- Fixing Routing A*'s distance violation and discontinuity [#4229](https://github.com/gdsfactory/gdsfactory/pull/4229)
+- Add corner mode to Component.offset and Component.over_under [#4231](https://github.com/gdsfactory/gdsfactory/pull/4231)
+- update changelog [#4239](https://github.com/gdsfactory/gdsfactory/pull/4239)
+- add new pdks to readme [#4235](https://github.com/gdsfactory/gdsfactory/pull/4235)
 
 ## [9.20.7](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.20.7) - 2025-11-06
 
