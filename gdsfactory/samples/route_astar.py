@@ -2,11 +2,11 @@ import gdsfactory as gf
 
 if __name__ == "__main__":
     c = gf.Component()
-    cross_section = "strip"
+    cross_section_name = "strip"
     port_prefix = "o"
     bend = gf.components.bend_euler
 
-    cross_section = gf.get_cross_section(cross_section, radius=5)
+    cross_section = gf.get_cross_section(cross_section_name, radius=5)
     w = gf.components.straight(cross_section=cross_section)
     left = c << w
     right = c << w
