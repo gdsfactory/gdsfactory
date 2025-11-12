@@ -176,7 +176,7 @@ def via_stack(
                     )
                 via = gf.get_component(via, size=(slot_via_width, h))
                 nb_vias_x = 1
-                nb_vias_y = max(0, (height - h - 2 * enclosure) / pitch_y + 1)
+                nb_vias_y = max(1, (height - 2 * enclosure - h) / pitch_y + 1)
                 # Use slot_via_width for via sizing, but keep width for positioning
                 w = slot_via_width
 
@@ -214,8 +214,9 @@ def via_stack(
             cw = (width - (nb_vias_x - 1) * pitch_x - w) / 2
             ch = (height - (nb_vias_y - 1) * pitch_y - h) / 2
 
-            # Verify that enclosure is respected
-            if cw < enclosure or ch < enclosure:
+            # Verify that enclosure is respected (with small tolerance for floating point precision)
+            tolerance = 1e-9
+            if cw < enclosure - tolerance or ch < enclosure - tolerance:
                 raise ValueError(
                     f"Enclosure violation: calculated margins (cw={cw:.3f}, ch={ch:.3f}) "
                     f"are less than required enclosure={enclosure}. "
