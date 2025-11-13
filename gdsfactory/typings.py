@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import pathlib
 from collections.abc import Callable, Generator, Sequence
+from enum import IntEnum
 from functools import partial
 from typing import Any, Literal, ParamSpec, Protocol, TypeAlias, TypedDict, TypeVar
 
@@ -260,11 +261,20 @@ class ArrayMeta(type):
 class Array(np.ndarray[Any, np.dtype[Any]], metaclass=ArrayMeta): ...
 
 
+class CornerMode(IntEnum):
+    diamond_limit = 0
+    octagon_limit = 1
+    square_limit = 2  # The GDSFactory default and klayout default
+    acute_limit = 3
+    no_limit = 4
+
+
 __all__ = (
     "AngleInDegrees",
     "ComponentSpec",
     "Coordinate",
     "Coordinates",
+    "CornerMode",
     "CrossSectionFactory",
     "CrossSectionSpec",
     "Delta",

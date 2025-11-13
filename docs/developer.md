@@ -122,7 +122,7 @@ You can take a look at the tests of other open source PDKs.
 - [Cornerstone PDK](https://github.com/gdsfactory/cspdk)
 - [SiEPIC Ebeam UBC PDK](https://gdsfactory.github.io/ubc) (open source)
 - [VTT photonics PDK](https://gdsfactory.github.io/vtt) (open source)
-- [GlobalFoundries 180nm MCU CMOS PDK](https://gdsfactory.github.io/gf180/) (open source)
+- [GlobalFoundries 180nm MCU CMOS PDK](https://gdsfactory.github.io/gf180mcu/) (open source)
 - [Skywater130 CMOS PDK](https://gdsfactory.github.io/skywater130) (open source)
 
 What do we test?
