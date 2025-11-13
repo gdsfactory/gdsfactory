@@ -10,6 +10,7 @@ from kfactory import cell as _cell
 from kfactory import vcell as _vcell
 from kfactory.conf import CheckInstances
 from kfactory.decorators import PortsDefinition
+from kfactory.schematic import DSchematic
 from kfactory.serialization import clean_name
 from kfactory.typings import MetaData
 
@@ -203,7 +204,7 @@ cell_with_module_name = override_defaults(cell, with_module_name=True)
 
 @overload
 def schematic_cell(
-    _func: ComponentFunc[ComponentParams], /
+    _func: Callable[ComponentParams, DSchematic], /
 ) -> ComponentFunc[ComponentParams]: ...
 @overload
 def schematic_cell(
@@ -229,7 +230,7 @@ def schematic_cell(
 
 
 def schematic_cell(
-    _func: ComponentFunc[ComponentParams] | None = None,
+    _func: Callable[ComponentParams, DSchematic] | None = None,
     /,
     *,
     set_settings: bool = True,
@@ -258,6 +259,27 @@ def schematic_cell(
 
     factories = factories or pdk.cells
     routing_strategies = routing_strategies or pdk.routing_strategies
+    if _func is None:
+        return kf.kcl.schematic_cell(
+            output_type=gf.Component,
+            set_settings=set_settings,
+            set_name=set_name,
+            check_ports=check_ports,
+            check_instances=check_instances,
+            snap_ports=snap_ports,
+            add_port_layers=add_port_layers,
+            cache=cache,
+            basename=basename,
+            register_factory=register_factory,
+            overwrite_existing=overwrite_existing,
+            layout_cache=layout_cache,
+            info=info,
+            debug_names=debug_names,
+            tags=tags,
+            factories=factories,
+            routing_strategies=routing_strategies,
+        )
+
     return kf.kcl.schematic_cell(
         output_type=gf.Component,
         set_settings=set_settings,
@@ -276,4 +298,4 @@ def schematic_cell(
         tags=tags,
         factories=factories,
         routing_strategies=routing_strategies,
-    )
+    )(_func)
