@@ -1,4 +1,4 @@
-# GDSFactory 9.20.4
+# GDSFactory 9.20.8
 
 [![docs](https://github.com/gdsfactory/gdsfactory/actions/workflows/pages.yml/badge.svg)](https://gdsfactory.github.io/gdsfactory/)
 [![PyPI](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
@@ -76,15 +76,18 @@ We provide a common syntax for design (Ansys, Lumerical, Tidy3d, MEEP, DEVSIM, S
 
 These PDKs are publicly available and do not require an NDA:
 
-- [Cornerstone PDK](https://github.com/gdsfactory/cspdk)
-- [SiEPIC Ebeam UBC PDK](https://github.com/gdsfactory/ubc)
-- [Quantum RF PDK](https://github.com/gdsfactory/quantum-rf-pdk)
-- [GlobalFoundries 180nm MCU CMOS PDK](https://gdsfactory.github.io/gf180/)
-- [ANT / SiEPIC Ebeam UBC PDK](https://gdsfactory.github.io/ubc)
-- [SkyWater 130nm CMOS PDK](https://gdsfactory.github.io/skywater130/)
-- [VTT PDK](https://github.com/gdsfactory/vtt)
-- [Luxtelligence GF PDK](https://github.com/Luxtelligence/lxt_pdk_gf)
-
+- Photonics:
+    - [Cornerstone PDK](https://github.com/gdsfactory/cspdk)
+    - [SiEPIC Ebeam UBC PDK](https://github.com/gdsfactory/ubc)
+    - [VTT PDK](https://github.com/gdsfactory/vtt)
+    - [Luxtelligence GF PDK](https://github.com/Luxtelligence/lxt_pdk_gf)
+    - [ANT / SiEPIC Ebeam UBC PDK](https://gdsfactory.github.io/ubc)
+- Quantum:
+    - [Quantum RF PDK](https://github.com/gdsfactory/quantum-rf-pdk)
+- RF/AMS/Digital/Analog:
+    - [IHP](https://gdsfactory.github.io/IHP)
+    - [GlobalFoundries 180nm MCU CMOS PDK](https://gdsfactory.github.io/gf180mcu/)
+    - [SkyWater 130nm CMOS PDK](https://gdsfactory.github.io/skywater130/)
 
 ## Foundry PDKs (NDA Required)
 
