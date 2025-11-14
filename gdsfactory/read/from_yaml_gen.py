@@ -108,6 +108,7 @@ def from_yaml_to_code(
     if any(inst.virtual for inst in net.instances.values()):
         lines.append("from gdsfactory.component import ComponentAllAngle")
     lines.append("from gdsfactory.pdk import get_active_pdk")
+    lines.append("from gdsfactory.add_pins import add_instance_label")
 
     # Check if we need kfactory for GridArray instances
     for inst in net.instances.values():
@@ -177,6 +178,15 @@ def from_yaml_to_code(
         lines.append("    # Add routes")
         for bundle_name, bundle in net.routes.items():
             lines.extend(_generate_route_code(bundle_name, bundle))
+        lines.append("")
+
+    # Add instance labels
+    if net.instances:
+        lines.append("    # Add instance labels")
+        lines.extend(
+            f"    add_instance_label(c, {name}, instance_name={_format_value(name)})"
+            for name in net.instances.keys()
+        )
         lines.append("")
 
     # Add ports
