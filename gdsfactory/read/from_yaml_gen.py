@@ -92,7 +92,12 @@ def from_yaml_to_code(
         >>> print(code)
     """
     # Load and validate YAML using existing infrastructure
+    from copy import deepcopy
+
     dct = _load_yaml_str(yaml_str)
+    # Keep the raw dict to know which settings were actually specified
+    # IMPORTANT: deepcopy before validation because model_validate modifies dict in place!
+    raw_instances = deepcopy(dct.get("instances", {}))
     net = Netlist.model_validate(dct)
     g = _get_dependency_graph(net)
 
@@ -137,7 +142,12 @@ def from_yaml_to_code(
     if net.instances:
         lines.append("    # Create instances")
         for name, inst in net.instances.items():
-            lines.extend(_generate_instance_code(name, inst))
+            # Get raw settings from YAML (before validation filled in defaults)
+            raw_inst = raw_instances.get(name, {})
+            raw_settings = (
+                raw_inst.get("settings", {}) if isinstance(raw_inst, dict) else {}
+            )
+            lines.extend(_generate_instance_code(name, inst, raw_settings))
         lines.append("")
 
     # Process placements and connections in dependency order
@@ -210,55 +220,68 @@ def from_yaml_to_code(
     return "\n".join(lines)
 
 
-def _generate_instance_code(name: str, inst: Any) -> list[str]:
+def _generate_instance_code(
+    name: str, inst: Any, raw_settings: dict[str, Any]
+) -> list[str]:
     """Generate code for creating an instance.
 
     Args:
         name: Instance name.
         inst: Instance specification from netlist.
+        raw_settings: Settings actually specified in YAML (before validation).
 
     Returns:
         List of code lines.
     """
     lines: list[str] = []
 
-    # Build component getter
+    # Build component getter - unpack settings as kwargs from YAML
     comp_str = _format_value(inst.component)
-    settings_str = ""
-    if inst.settings:
-        settings_items = ", ".join(
-            f"{k}={_format_value(v)}" for k, v in inst.settings.items()
-        )
-        settings_str = f", {settings_items}"
 
-    component_getter = f"pdk.get_component({comp_str}{settings_str})"
+    # Only include settings that were actually specified in the YAML (not defaults)
+    if raw_settings:
+        settings_kwargs = ", ".join(
+            f"{k}={_format_value(v)}" for k, v in raw_settings.items()
+        )
+        component_getter = f"pdk.get_component({comp_str}, {settings_kwargs})"
+    else:
+        component_getter = f"pdk.get_component({comp_str})"
 
     # Handle different instance types
     if isinstance(inst.array, OrthogonalGridArray):
         arr = inst.array
-        lines.append(f"    {name} = c.add_ref(")
-        lines.append(f"        {component_getter},")
-        lines.append(f"        rows={arr.rows},")
-        lines.append(f"        columns={arr.columns},")
-        lines.append(f"        name={_format_value(name)},")
+        # Build arguments list - only include what's specified
+        args = [
+            f"        {component_getter},",
+            f"        rows={arr.rows},",
+            f"        columns={arr.columns},",
+            f"        name={_format_value(name)},",
+        ]
         if arr.column_pitch is not None:
-            lines.append(f"        column_pitch={arr.column_pitch},")
+            args.append(f"        column_pitch={arr.column_pitch},")
         if arr.row_pitch is not None:
-            lines.append(f"        row_pitch={arr.row_pitch},")
-        # Remove trailing comma from last line
-        lines[-1] = lines[-1].rstrip(",")
+            args.append(f"        row_pitch={arr.row_pitch},")
+        # Remove trailing comma from last arg
+        args[-1] = args[-1].rstrip(",")
+
+        lines.append(f"    {name} = c.add_ref(")
+        lines.extend(args)
         lines.append("    )")
 
     elif isinstance(inst.array, GridArray):
         arr = inst.array
+        args = [
+            f"        {component_getter},",
+            f"        na={arr.num_a},",
+            f"        nb={arr.num_b},",
+            f"        a=kf.kdb.DVector({arr.pitch_a[0]}, {arr.pitch_a[1]}),",
+            f"        b=kf.kdb.DVector({arr.pitch_b[0]}, {arr.pitch_b[1]}),",
+        ]
+        # Remove trailing comma from last arg
+        args[-1] = args[-1].rstrip(",")
+
         lines.append(f"    {name} = c.create_inst(")
-        lines.append(f"        {component_getter},")
-        lines.append(f"        na={arr.num_a},")
-        lines.append(f"        nb={arr.num_b},")
-        lines.append(f"        a=kf.kdb.DVector({arr.pitch_a[0]}, {arr.pitch_a[1]}),")
-        lines.append(f"        b=kf.kdb.DVector({arr.pitch_b[0]}, {arr.pitch_b[1]}),")
-        # Remove trailing comma
-        lines[-1] = lines[-1].rstrip(",")
+        lines.extend(args)
         lines.append("    )")
 
     else:
