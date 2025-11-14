@@ -20,9 +20,16 @@ As input you write python code, as an output GDSFactory creates CAD files (GDS, 
 Here's a simple example to get you started:
 
 ```bash
+pip install gdsfactory
+```
+
+If you prefer a faster setup, you can use the installer package:
+
+```bash
 pip install gdsfactory_install
 gfi install
 ```
+
 
 ```python
 import gdsfactory as gf
