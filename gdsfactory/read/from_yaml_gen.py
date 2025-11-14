@@ -263,13 +263,13 @@ def _generate_instance_code(
         lines.append("    )")
 
     elif isinstance(inst.array, GridArray):
-        arr = inst.array
+        grid_arr = inst.array
         args = [
             f"        {component_getter},",
-            f"        na={arr.num_a},",
-            f"        nb={arr.num_b},",
-            f"        a=kf.kdb.DVector({arr.pitch_a[0]}, {arr.pitch_a[1]}),",
-            f"        b=kf.kdb.DVector({arr.pitch_b[0]}, {arr.pitch_b[1]}),",
+            f"        na={grid_arr.num_a},",
+            f"        nb={grid_arr.num_b},",
+            f"        a=kf.kdb.DVector({grid_arr.pitch_a[0]}, {grid_arr.pitch_a[1]}),",
+            f"        b=kf.kdb.DVector({grid_arr.pitch_b[0]}, {grid_arr.pitch_b[1]}),",
         ]
         # Remove trailing comma from last arg
         args[-1] = args[-1].rstrip(",")
