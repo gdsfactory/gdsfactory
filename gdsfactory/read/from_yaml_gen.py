@@ -312,16 +312,19 @@ def _generate_placement_code(inst_name: str, placement: Placement) -> list[str]:
         if placement.mirror is True:
             if placement.port:
                 anchor_x_code = _get_anchor_value_code(inst_name, placement.port, "x")
-                chain_parts.append(f"dmirror_x(x={anchor_x_code})")
+                chain_parts.append(
+                    f"mirror(p1=({anchor_x_code}, 0), p2=({anchor_x_code}, 1))"
+                )
             else:
-                chain_parts.append("dmirror_x()")
+                chain_parts.append("mirror()")
         elif isinstance(placement.mirror, str):
-            chain_parts.append(
-                f"dmirror_x({inst_name}.ports[{_format_value(placement.mirror)}].x)"
-            )
+            port_x = f"{inst_name}.ports[{_format_value(placement.mirror)}].x"
+            chain_parts.append(f"mirror(p1=({port_x}, 0), p2=({port_x}, 1))")
         else:
             # Numeric mirror
-            chain_parts.append(f"dmirror_x(x={placement.mirror})")
+            chain_parts.append(
+                f"mirror(p1=({placement.mirror}, 0), p2=({placement.mirror}, 1))"
+            )
 
     # 3. Calculate final position
     # Start with port anchor offset if specified
