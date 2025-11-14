@@ -9,6 +9,7 @@ from gdsfactory.config import PATH
 from gdsfactory.generic_tech.layer_map import LAYER
 from gdsfactory.generic_tech.layer_stack import LAYER_STACK
 from gdsfactory.technology import LayerViews
+from gdsfactory.typings import RoutingStrategy
 
 if typing.TYPE_CHECKING:
     from gdsfactory.pdk import Pdk
@@ -69,6 +70,15 @@ def get_generic_pdk() -> Pdk:
     gf.kcl.infos = kf.LayerInfos(
         **{v.name: kf.kdb.LayerInfo(v.layer, v.datatype) for v in LAYER},  # type: ignore[attr-defined]
     )
+    routing_strategies: dict[str, RoutingStrategy] = dict(
+        route_bundle=partial(gf.routing.route_bundle, cross_section="strip"),
+        route_bundle_all_angle=partial(
+            gf.routing.route_bundle_all_angle, cross_section="strip"
+        ),
+        route_bundle_electrical=partial(
+            gf.routing.route_bundle_electrical, cross_section="metal_routing"
+        ),
+    )
 
     return Pdk(
         name="generic",
@@ -83,4 +93,5 @@ def get_generic_pdk() -> Pdk:
         materials_index=materials_index,  # type: ignore[arg-type]
         constants=GenericConstants(),
         connectivity=LAYER_CONNECTIVITY,
+        routing_strategies=routing_strategies,
     )
