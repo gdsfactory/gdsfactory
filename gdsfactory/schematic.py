@@ -90,10 +90,13 @@ class Instance(BaseModel):
         c = gf.get_component(component, settings=settings)
         component_info = c.info.model_dump(exclude_none=True)
         component_settings = c.settings.model_dump(exclude_none=True)
-        values["info"] = {**component_info, **info}
-        values["settings"] = {**component_settings, **settings}
-        values["component"] = c.function_name or component
-        return values
+
+        # Create a new dict to avoid modifying the input in place
+        result = values.copy()
+        result["info"] = {**component_info, **info}
+        result["settings"] = {**component_settings, **settings}
+        result["component"] = c.function_name or component
+        return result
 
     @model_validator(mode="after")
     def validate_array(self) -> Self:

@@ -92,12 +92,9 @@ def from_yaml_to_code(
         >>> print(code)
     """
     # Load and validate YAML using existing infrastructure
-    from copy import deepcopy
-
     dct = _load_yaml_str(yaml_str)
     # Keep the raw dict to know which settings were actually specified
-    # IMPORTANT: deepcopy before validation because model_validate modifies dict in place!
-    raw_instances = deepcopy(dct.get("instances", {}))
+    raw_instances = dct.get("instances", {})
     net = Netlist.model_validate(dct)
     g = _get_dependency_graph(net)
 
