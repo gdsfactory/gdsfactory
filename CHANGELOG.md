@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.21.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.21.0) - 2025-11-14
+
+No significant changes.
+
+
 ## [9.20.8](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.20.8) - 2025-11-11
 
 - add via_stack tolerances [#4238](https://github.com/gdsfactory/gdsfactory/pull/4238)
