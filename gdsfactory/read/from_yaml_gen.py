@@ -181,15 +181,8 @@ def from_yaml_to_code(
     # Add routes
     if net.routes:
         lines.append("    # Add routes")
-        lines.append("    from gdsfactory.pdk import get_routing_strategies")
-        lines.append("    routing_strategies = get_routing_strategies()")
-        lines.append("    routes_dict = {}")
-        lines.append("")
-
         for bundle_name, bundle in net.routes.items():
             lines.extend(_generate_route_code(bundle_name, bundle))
-
-        lines.append("    c.routes = routes_dict")
         lines.append("")
 
     # Add ports
@@ -514,9 +507,10 @@ def _generate_route_code(bundle_name: str, bundle: Any) -> list[str]:
 
     routing_strategy = bundle.routing_strategy
     lines.append(f"    # Route: {bundle_name}")
-    lines.append("    ports1 = []")
-    lines.append("    ports2 = []")
-    lines.append("    route_names = []")
+
+    # Collect port access code
+    ports1_code: list[str] = []
+    ports2_code: list[str] = []
 
     # Process links
     for ip1, ip2 in bundle.links.items():
@@ -546,17 +540,14 @@ def _generate_route_code(bundle_name: str, bundle: Any) -> list[str]:
             else:
                 port2_code = f"{i2name}.ports[{_format_value(p2)}, {i2a}, {i2b}]"
 
-            lines.append(f"    ports1.append({port1_code})")
-            lines.append(f"    ports2.append({port2_code})")
+            ports1_code.append(port1_code)
+            ports2_code.append(port2_code)
 
-            route_name = f"{bundle_name}-{first1}{m1}{last1}-{first2}{m2}{last2}"
-            lines.append(f"    route_names.append({_format_value(route_name)})")
+    # Build port list literals
+    ports1_literal = "[" + ", ".join(ports1_code) + "]"
+    ports2_literal = "[" + ", ".join(ports2_code) + "]"
 
     # Generate routing call
-    lines.append(
-        f"    routing_strategy = routing_strategies[{_format_value(routing_strategy)}]"
-    )
-
     # Build settings kwargs
     settings_str = ""
     if bundle.settings:
@@ -564,10 +555,7 @@ def _generate_route_code(bundle_name: str, bundle: Any) -> list[str]:
         settings_str = ", " + ", ".join(settings_items)
 
     lines.append(
-        f"    routes_list = routing_strategy(c, ports1=ports1, ports2=ports2{settings_str})"
-    )
-    lines.append(
-        "    routes_dict.update(dict(zip(route_names, routes_list, strict=False)))"
+        f"    pdk.routing_strategies[{_format_value(routing_strategy)}](c, ports1={ports1_literal}, ports2={ports2_literal}{settings_str})"
     )
     lines.append("")
 
