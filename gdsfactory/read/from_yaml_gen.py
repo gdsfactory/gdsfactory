@@ -378,9 +378,9 @@ def _generate_placement_code(inst_name: str, placement: Placement) -> list[str]:
         y_offset_parts.append("_y_offset")
 
     # Add dx/dy offsets
-    if placement.dx and placement.dx != 0:
+    if placement.dx is not None:
         x_offset_parts.append(str(placement.dx))
-    if placement.dy and placement.dy != 0:
+    if placement.dy is not None:
         y_offset_parts.append(str(placement.dy))
 
     # Build final position expression
