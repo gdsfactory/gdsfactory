@@ -138,6 +138,8 @@ def die_frame_phix(
     pad_port_name_bot: str = "e2",
     layer_fiducial: LayerSpec = "M3",
     layer_ruler: LayerSpec = "WG",
+    ruler_bbox_layers: tuple[LayerSpec, ...] | None = None,
+    ruler_bbox_offsets: tuple[float, ...] | None = None,
     ruler_yoffset: float = 0,
     ruler_xoffset: float = 0,
     fiber_coupler_xoffset: float = 0,
@@ -168,6 +170,8 @@ def die_frame_phix(
         pad_port_name_bot: name of the pad port name at the bottom facing north.
         layer_fiducial: layer for fiducials.
         layer_ruler: layer for ruler.
+        ruler_bbox_layers: layers for bbox.
+        ruler_bbox_offsets: offsets for bbox.
         ruler_yoffset: y-offset for ruler.
         ruler_xoffset: x-offset for ruler.
         fiber_coupler_xoffset: x-offset for fiber couplers.
@@ -253,23 +257,28 @@ def die_frame_phix(
                 right.xmax = xs / 2 + fiber_coupler_xoffset
                 right.y = fp.y
                 c.add_ports(right.ports, prefix="E")
+    ruler = gf.c.ruler(
+        layer=layer_ruler,
+        bbox_layers=ruler_bbox_layers,
+        bbox_offsets=ruler_bbox_offsets,
+    )
 
     if with_right_fiber_coupler:
-        ruler_top_right = c << gf.c.ruler(layer=layer_ruler)
+        ruler_top_right = c << ruler
         ruler_top_right.xmax = fp.xmax - ruler_xoffset
         ruler_top_right.ymax = fp.ymax - 300 + ruler_yoffset
 
-        ruler_bot_right = c << gf.c.ruler(layer=layer_ruler)
+        ruler_bot_right = c << ruler
         ruler_bot_right.xmax = fp.xmax - ruler_xoffset
         ruler_bot_right.ymin = fp.ymin + 300 - ruler_yoffset
 
     if with_left_fiber_coupler:
-        ruler_top_left = c << gf.c.ruler(layer=layer_ruler)
+        ruler_top_left = c << ruler
         ruler_top_left.rotate(180)
         ruler_top_left.xmin = fp.xmin + ruler_xoffset
         ruler_top_left.ymax = fp.ymax - 300 + ruler_yoffset
 
-        ruler_bot_left = c << gf.c.ruler(layer=layer_ruler)
+        ruler_bot_left = c << ruler
         ruler_bot_left.rotate(180)
         ruler_bot_left.xmin = fp.xmin + ruler_xoffset
         ruler_bot_left.ymin = fp.ymin + 300 - ruler_yoffset
@@ -353,6 +362,8 @@ def die_frame_phix_dc(
     pad_port_name_bot: str = "e2",
     layer_fiducial: LayerSpec = "M3",
     layer_ruler: LayerSpec = "WG",
+    ruler_bbox_layers: tuple[LayerSpec, ...] | None = None,
+    ruler_bbox_offsets: tuple[float, ...] | None = None,
     ruler_yoffset: float = 0,
     ruler_xoffset: float = 0,
     with_right_fiber_coupler: bool = True,
@@ -379,6 +390,8 @@ def die_frame_phix_dc(
         pad_port_name_bot=pad_port_name_bot,
         layer_fiducial=layer_fiducial,
         layer_ruler=layer_ruler,
+        ruler_bbox_layers=ruler_bbox_layers,
+        ruler_bbox_offsets=ruler_bbox_offsets,
         ruler_yoffset=ruler_yoffset,
         ruler_xoffset=ruler_xoffset,
         with_right_fiber_coupler=with_right_fiber_coupler,
