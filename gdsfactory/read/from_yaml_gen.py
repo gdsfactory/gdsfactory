@@ -109,16 +109,11 @@ def from_yaml_to_code(
         lines.append("from gdsfactory.component import ComponentAllAngle")
     lines.append("from gdsfactory.pdk import get_active_pdk")
 
-    # Check if we need kfactory for arrays or mirror operations
+    # Check if we need kfactory for GridArray instances
     for inst in net.instances.values():
         if isinstance(inst.array, GridArray):
             needs_kf = True
             break
-    if not needs_kf:
-        for pl in net.placements.values():
-            if pl.mirror is True:
-                needs_kf = True
-                break
 
     if needs_kf:
         lines.append("import kfactory as kf")
