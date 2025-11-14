@@ -295,7 +295,10 @@ def _generate_instance_code(
 
 
 def _generate_placement_code(inst_name: str, placement: Placement) -> list[str]:
-    """Generate code for placing an instance.
+    """Generate code for placing an instance using chained rotate().mirror().move() pattern.
+
+    The order is always: rotate -> mirror -> move
+    This maps 1-1 to a KLayout DCplxTrans transformation.
 
     Args:
         inst_name: Instance name.
@@ -306,68 +309,90 @@ def _generate_placement_code(inst_name: str, placement: Placement) -> list[str]:
     """
     lines: list[str] = []
 
-    # Handle rotation
-    if placement.rotation is not None:
-        if placement.port:
-            lines.append(
-                f"    {inst_name}.rotate({placement.rotation}, "
-                f"center={_get_anchor_point_code(inst_name, placement.port)})"
-            )
-        else:
-            lines.append(f"    {inst_name}.rotate({placement.rotation})")
+    # Build chained transformation: rotate().mirror().move()
+    chain_parts: list[str] = []
 
-    # Handle mirror
+    # 1. Rotation (if specified)
+    if placement.rotation and placement.rotation != 0:
+        if placement.port:
+            center_code = _get_anchor_point_code(inst_name, placement.port)
+            chain_parts.append(f"rotate({placement.rotation}, center={center_code})")
+        else:
+            chain_parts.append(f"rotate({placement.rotation})")
+
+    # 2. Mirror (if specified)
     if placement.mirror:
         if placement.mirror is True:
             if placement.port:
                 anchor_x_code = _get_anchor_value_code(inst_name, placement.port, "x")
-                lines.append(f"    {inst_name}.dmirror_x(x={anchor_x_code})")
+                chain_parts.append(f"dmirror_x(x={anchor_x_code})")
             else:
-                lines.append(
-                    f"    {inst_name}.dcplx_trans *= kf.kdb.DCplxTrans(1, 0, True, 0, 0)"
-                )
+                chain_parts.append("dmirror_x()")
         elif isinstance(placement.mirror, str):
-            lines.append(
-                f"    {inst_name}.dmirror_x({inst_name}.ports[{_format_value(placement.mirror)}].x)"
+            chain_parts.append(
+                f"dmirror_x({inst_name}.ports[{_format_value(placement.mirror)}].x)"
             )
         else:
             # Numeric mirror
-            lines.append(f"    {inst_name}.dmirror_x(x={inst_name}.x)")
+            chain_parts.append(f"dmirror_x(x={placement.mirror})")
 
-    # Handle port anchor
+    # 3. Calculate final position
+    # Start with port anchor offset if specified
+    x_offset_parts: list[str] = []
+    y_offset_parts: list[str] = []
+
     if placement.port:
         anchor_code = _get_anchor_point_code(inst_name, placement.port)
-        lines.append(f"    _anchor = {anchor_code}")
-        lines.append(f"    {inst_name}.x -= _anchor[0]")
-        lines.append(f"    {inst_name}.y -= _anchor[1]")
+        x_offset_parts.append(f"-{anchor_code}[0]")
+        y_offset_parts.append(f"-{anchor_code}[1]")
 
-    # Handle x/xmin/xmax (mutually exclusive)
+    # Add x/xmin/xmax positioning
     if placement.x is not None:
         x_code = _generate_position_code(placement.x, "x")
-        lines.append(f"    {inst_name}.x += {x_code}")
+        x_offset_parts.append(x_code)
     elif placement.xmin is not None:
         xmin_code = _generate_position_code(placement.xmin, "x")
-        lines.append(f"    {inst_name}.xmin = {xmin_code}")
+        # For xmin, we need to calculate: target_xmin - current_xmin
+        lines.append(f"    _target_xmin = {xmin_code}")
+        lines.append(f"    _x_offset = _target_xmin - {inst_name}.xmin")
+        x_offset_parts.append("_x_offset")
     elif placement.xmax is not None:
         xmax_code = _generate_position_code(placement.xmax, "x")
-        lines.append(f"    {inst_name}.xmax = {xmax_code}")
+        lines.append(f"    _target_xmax = {xmax_code}")
+        lines.append(f"    _x_offset = _target_xmax - {inst_name}.xmax")
+        x_offset_parts.append("_x_offset")
 
-    # Handle y/ymin/ymax (mutually exclusive)
+    # Add y/ymin/ymax positioning
     if placement.y is not None:
         y_code = _generate_position_code(placement.y, "y")
-        lines.append(f"    {inst_name}.y += {y_code}")
+        y_offset_parts.append(y_code)
     elif placement.ymin is not None:
         ymin_code = _generate_position_code(placement.ymin, "y")
-        lines.append(f"    {inst_name}.ymin = {ymin_code}")
+        lines.append(f"    _target_ymin = {ymin_code}")
+        lines.append(f"    _y_offset = _target_ymin - {inst_name}.ymin")
+        y_offset_parts.append("_y_offset")
     elif placement.ymax is not None:
         ymax_code = _generate_position_code(placement.ymax, "y")
-        lines.append(f"    {inst_name}.ymax = {ymax_code}")
+        lines.append(f"    _target_ymax = {ymax_code}")
+        lines.append(f"    _y_offset = _target_ymax - {inst_name}.ymax")
+        y_offset_parts.append("_y_offset")
 
-    # Handle dx/dy offsets
-    if placement.dx is not None:
-        lines.append(f"    {inst_name}.x += {placement.dx}")
-    if placement.dy is not None:
-        lines.append(f"    {inst_name}.y += {placement.dy}")
+    # Add dx/dy offsets
+    if placement.dx and placement.dx != 0:
+        x_offset_parts.append(str(placement.dx))
+    if placement.dy and placement.dy != 0:
+        y_offset_parts.append(str(placement.dy))
+
+    # Build final position expression
+    if x_offset_parts or y_offset_parts:
+        x_expr = " + ".join(x_offset_parts) if x_offset_parts else "0"
+        y_expr = " + ".join(y_offset_parts) if y_offset_parts else "0"
+        chain_parts.append(f"move(({x_expr}, {y_expr}))")
+
+    # Generate the chained call
+    if chain_parts:
+        chain = ".".join(chain_parts)
+        lines.append(f"    {inst_name}.{chain}")
 
     return lines
 
