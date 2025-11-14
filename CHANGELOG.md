@@ -1,12 +1,14 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.20.8...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.21.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.21.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.21.0) - 2025-11-14
 
-No significant changes.
-
+- add ruler bboxes [#4242](https://github.com/gdsfactory/gdsfactory/pull/4242)
+- Generate python cell from yaml [#4241](https://github.com/gdsfactory/gdsfactory/pull/4241)
+- add new python schematic docs [#4219](https://github.com/gdsfactory/gdsfactory/pull/4219)
+- deps: update gplugins[devsim,femwell,gmsh,meow,sax,schematic,tidy3d] requirement from ~=1.1 to >=1.1,<3.0 [#4240](https://github.com/gdsfactory/gdsfactory/pull/4240)
 
 ## [9.20.8](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.20.8) - 2025-11-11
 
