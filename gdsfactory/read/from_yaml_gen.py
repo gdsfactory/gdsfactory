@@ -42,7 +42,7 @@ def _format_value(value: Any, indent: int = 0) -> str:
         return str(value)
     elif isinstance(value, str):
         return repr(value)
-    elif isinstance(value, (int, float)):
+    elif isinstance(value, int | float):
         return str(value)
     elif isinstance(value, dict):
         if not value:
@@ -53,7 +53,7 @@ def _format_value(value: Any, indent: int = 0) -> str:
         if len(items) == 1 and len(items[0]) < 60:
             return "{" + items[0] + "}"
         return "{" + ", ".join(items) + "}"
-    elif isinstance(value, (list, tuple)):
+    elif isinstance(value, list | tuple):
         if not value:
             return "[]" if isinstance(value, list) else "()"
         items = [_format_value(v) for v in value]
@@ -102,7 +102,6 @@ def from_yaml_to_code(
 
     # Track required imports
     needs_kf = False
-    needs_routing = bool(net.routes)
 
     # Add imports
     lines.append("from gdsfactory.component import Component")
