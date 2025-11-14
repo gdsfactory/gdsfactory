@@ -47,9 +47,7 @@ def _format_value(value: Any, indent: int = 0) -> str:
     elif isinstance(value, dict):
         if not value:
             return "{}"
-        items = []
-        for k, v in value.items():
-            items.append(f"{_format_value(k)}: {_format_value(v)}")
+        items = [f"{_format_value(k)}: {_format_value(v)}" for k, v in value.items()]
         if len(items) == 1 and len(items[0]) < 60:
             return "{" + items[0] + "}"
         return "{" + ", ".join(items) + "}"
