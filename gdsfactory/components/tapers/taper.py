@@ -183,7 +183,7 @@ def taper_strip_to_ridge(
     c.info["length"] = length
     c.add_port(name="o1", port=taper_ref_wg.ports["o1"])
 
-    if slab_port_layer is not None and use_slab_port:
+    if slab_port_layer:
         port = taper_ref_wg.ports["o2"]
         c.add_port(
             name="o2",
