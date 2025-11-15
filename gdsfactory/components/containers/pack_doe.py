@@ -29,14 +29,24 @@ def generate_doe(
         do_permutations: for each setting.
         function: for the component (add padding, grating couplers ...)
     """
+    # Ensure all setting values are iterable
+    normalized_settings = {}
+    for key, value in settings.items():
+        if isinstance(value, str | bytes) or not hasattr(value, "__iter__"):
+            # Wrap non-iterable values (or strings) in a list
+            normalized_settings[key] = [value]
+        else:
+            normalized_settings[key] = value
+
     if do_permutations:
         settings_list = [
-            dict(zip(settings, t, strict=False)) for t in it.product(*settings.values())
+            dict(zip(normalized_settings, t, strict=False))
+            for t in it.product(*normalized_settings.values())
         ]
     else:
         settings_list = [
-            dict(zip(settings, t, strict=False))
-            for t in zip(*settings.values(), strict=False)
+            dict(zip(normalized_settings, t, strict=False))
+            for t in zip(*normalized_settings.values(), strict=False)
         ]
 
     if function:
@@ -137,14 +147,24 @@ def pack_doe_grid(
         h_mirror: horizontal mirror y axis (x, 1) (1, 0). most common mirror.
         v_mirror: vertical mirror using x axis (1, y) (0, y).
     """
+    # Ensure all setting values are iterable
+    normalized_settings = {}
+    for key, value in settings.items():
+        if isinstance(value, str | bytes) or not hasattr(value, "__iter__"):
+            # Wrap non-iterable values (or strings) in a list
+            normalized_settings[key] = [value]
+        else:
+            normalized_settings[key] = value
+
     if do_permutations:
         settings_list = [
-            dict(zip(settings, t, strict=False)) for t in it.product(*settings.values())
+            dict(zip(normalized_settings, t, strict=False))
+            for t in it.product(*normalized_settings.values())
         ]
     else:
         settings_list = [
-            dict(zip(settings, t, strict=False))
-            for t in zip(*settings.values(), strict=False)
+            dict(zip(normalized_settings, t, strict=False))
+            for t in zip(*normalized_settings.values(), strict=False)
         ]
 
     if function:
@@ -168,3 +188,48 @@ def pack_doe_grid(
     c.info["doe_names"] = [component.name for component in component_list]
     c.info["doe_settings"] = cast(kf.typings.MetaData, settings_list)
     return c
+
+
+yaml_str = """
+
+instances:
+  rings:
+    component: pack_doe
+    settings:
+      doe: ring_single
+      settings:
+        length_x: [1, 2, 3]
+        radius: [10, 20, 30]
+        length_y: 100
+      do_permutations: True
+      function:
+        function: add_fiber_array
+        settings:
+          fanout_length: 200
+  mzis:
+    component: pack_doe_grid
+    settings:
+      doe: mzi
+      settings:
+        delta_length: [10, 20, 30, 40]
+      do_permutations: True
+      spacing: [10, 10]
+      function: add_fiber_array
+
+placements:
+  rings:
+    x: 50
+    y: 50
+  mzis:
+    xmin: rings,east
+    ymin: rings,south
+    dx: 100
+    dy: 00
+
+"""
+
+if __name__ == "__main__":
+    import gdsfactory as gf
+
+    c = gf.read.from_yaml(yaml_str)
+    c.show()
