@@ -130,6 +130,7 @@ def taper_strip_to_ridge(
     layer_slab: LayerSpec = "SLAB90",
     cross_section: CrossSectionSpec = "strip",
     use_slab_port: bool = False,
+    slab_port_layer: LayerSpec | None = None,
 ) -> Component:
     r"""Linear taper from strip to rib.
 
@@ -143,6 +144,7 @@ def taper_strip_to_ridge(
         layer_slab: for output waveguide with slab.
         cross_section: for input waveguide.
         use_slab_port: if True adds a second port for the slab.
+        slab_port_layer: if specified, overrides the layer for the slab port.
 
     .. code::
 
@@ -180,6 +182,17 @@ def taper_strip_to_ridge(
 
     c.info["length"] = length
     c.add_port(name="o1", port=taper_ref_wg.ports["o1"])
+
+    if slab_port_layer:
+        port = taper_ref_wg.ports["o2"]
+        c.add_port(
+            name="o2",
+            width=port.width,
+            orientation=port.orientation,
+            layer=slab_port_layer,
+            center=port.center,
+        )
+
     if use_slab_port:
         c.add_port(name="o2", port=taper_ref_slab.ports["o2"])
     else:
