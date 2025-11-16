@@ -1,0 +1,20 @@
+info:
+  Z1: 50
+  Z2: 100
+  f_cutoff: 18530067674.861
+  length: 200
+  num_squares: 7.828
+  time_length: 0
+  width1: 37.237
+  width2: 18.472
+name: taper_hecken_gdsfactorypcomponentsptapersptaper_hecken__d91fa220
+settings:
+  B: 4.009
+  Lk_per_sq: 0
+  Z1: 50
+  Z2: 100
+  dielectric_thickness: 0.25
+  eps_r: 2
+  layer: WG
+  length: 200
+  num_pts: 100

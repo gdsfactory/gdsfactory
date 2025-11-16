@@ -1,0 +1,23 @@
+info:
+  diameter: 25.35
+  inductance: 0
+  length: 88.397
+  model: inductor2
+  resistance: 0.578
+  space: 2.1
+  turns: 1
+  width: 2
+name: inductor_gdsfactorypcomponentspanalogpinductors_W2_S2p1_080a6fa6
+settings:
+  diameter: 25.35
+  inductance: 0
+  layer_inductor: M1
+  layer_metal: M3
+  layer_metal_pin: WG_PIN
+  layers_no_fill:
+  - DEVREC
+  - NO_TILE_SI
+  resistance: 0.578
+  space: 2.1
+  turns: 1
+  width: 2

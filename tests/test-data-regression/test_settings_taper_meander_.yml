@@ -1,0 +1,7 @@
+info: {}
+name: taper_meander_gdsfactorypcomponentsptapersptaper_meande_6dc0c113
+settings:
+  layer: WG
+  meander_length: 1000
+  min_spacing: 0.5
+  spacing_factor: 3

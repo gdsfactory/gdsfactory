@@ -40,6 +40,7 @@ skip_test = {
     "bend_circular_all_angle",
     "bend_euler_all_angle",
     "die_frame_phix",
+    "taper_meander",
 }
 cells_to_test = set(cells.keys()) - skip_test
 

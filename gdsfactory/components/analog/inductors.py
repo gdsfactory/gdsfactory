@@ -81,7 +81,7 @@ def inductor(
 
     # Create the path
     path = gf.Path(path_points)
-    _ = c << gf.path.extrude(path, layer=layer_metal, width=w)
+    c = gf.path.extrude(path, layer=layer_metal, width=w)
 
     # Adding ports
     length = 2 * r + s
@@ -125,3 +125,8 @@ def inductor(
     c.info["space"] = space
     c.info["diameter"] = diameter
     return c
+
+
+if __name__ == "__main__":
+    c = inductor()
+    c.show()
