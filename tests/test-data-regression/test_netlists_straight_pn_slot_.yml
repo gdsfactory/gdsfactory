@@ -13,7 +13,7 @@ instances:
       length: 480
       npoints: 2
       width: null
-  taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_947a0bf0_490000_0_A180:
+  taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_eb2ac5f7_490000_0_A180:
     component: taper_strip_to_ridge
     info:
       length: 10
@@ -22,12 +22,13 @@ instances:
       layer_slab: SLAB90
       layer_wg: WG
       length: 10
+      slab_port_layer: null
       use_slab_port: false
       w_slab1: 0.15
       w_slab2: 6
       width1: 0.5
       width2: 0.5
-  taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_947a0bf0_m10000_0:
+  taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_eb2ac5f7_m10000_0:
     component: taper_strip_to_ridge
     info:
       length: 10
@@ -36,6 +37,7 @@ instances:
       layer_slab: SLAB90
       layer_wg: WG
       length: 10
+      slab_port_layer: null
       use_slab_port: false
       w_slab1: 0.15
       w_slab2: 6
@@ -148,21 +150,21 @@ instances:
 name: straight_pin_slot_gdsfactorypcomponentspwaveguidespstra_36f9c569
 nets:
 - p1: straight_gdsfactorypcomponentspwaveguidespstraight_L480_9b7ec76b_0_0,o1
-  p2: taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_947a0bf0_m10000_0,o2
+  p2: taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_eb2ac5f7_m10000_0,o2
 - p1: straight_gdsfactorypcomponentspwaveguidespstraight_L480_9b7ec76b_0_0,o2
-  p2: taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_947a0bf0_490000_0_A180,o2
+  p2: taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_eb2ac5f7_490000_0_A180,o2
 placements:
   straight_gdsfactorypcomponentspwaveguidespstraight_L480_9b7ec76b_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_947a0bf0_490000_0_A180:
+  taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_eb2ac5f7_490000_0_A180:
     mirror: false
     rotation: 180
     x: 490
     y: 0
-  taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_947a0bf0_m10000_0:
+  taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_eb2ac5f7_m10000_0:
     mirror: false
     rotation: 0
     x: -10
@@ -192,8 +194,8 @@ ports:
   bot_e2: via_stack_gdsfactorypcomponentspviaspvia_stack_S480_10__b0079b0e_240000_m6500,e2
   bot_e3: via_stack_gdsfactorypcomponentspviaspvia_stack_S480_10__b0079b0e_240000_m6500,e3
   bot_e4: via_stack_gdsfactorypcomponentspviaspvia_stack_S480_10__b0079b0e_240000_m6500,e4
-  o1: taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_947a0bf0_m10000_0,o1
-  o2: taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_947a0bf0_490000_0_A180,o1
+  o1: taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_eb2ac5f7_m10000_0,o1
+  o2: taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_eb2ac5f7_490000_0_A180,o1
   top_e1: via_stack_gdsfactorypcomponentspviaspvia_stack_S480_10__b0079b0e_240000_6500,e1
   top_e2: via_stack_gdsfactorypcomponentspviaspvia_stack_S480_10__b0079b0e_240000_6500,e2
   top_e3: via_stack_gdsfactorypcomponentspviaspvia_stack_S480_10__b0079b0e_240000_6500,e3

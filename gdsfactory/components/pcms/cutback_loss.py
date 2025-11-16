@@ -112,3 +112,56 @@ cutback_loss_bend90 = partial(
 cutback_loss_bend180 = partial(
     cutback_loss, component="bend_euler180", cutback="cutback_bend180", cols=12
 )
+
+
+def cutback_loss_mmi2x2(
+    component: gf.typings.ComponentSpec,
+    loss: tuple[float, ...] = (1.0, 2.0, 3.0),
+    loss_dB: float = 10e-3,
+    cols: int | None = 4,
+    rows: int | None = None,
+    **kwargs: Any,
+) -> list[gf.Component]:
+    """Returns a list of component cutbacks for 2x2 MMI.
+
+    Args:
+        component: component to test.
+        loss: list of target loss in dB.
+        loss_dB: loss per component.
+        cols: number of columns.
+        rows: number of rows.
+        kwargs: additional kwargs for cutback_2x2.
+    """
+    loss_array = np.array(loss)
+
+    if rows is not None and cols is not None:
+        raise ValueError("Specify either 'cols' or 'rows', but not both.")
+
+    if cols is not None:
+        # Calculate rows for each target loss
+        rows_array = (loss_array / loss_dB) / cols
+        rows_list = [int(np.ceil(rows) // 2 * 2 + 1) for rows in rows_array]
+        return [
+            gf.components.cutback_2x2(
+                component=component,
+                cols=cols,
+                rows=rows,
+                **kwargs,
+            )
+            for rows in rows_list
+        ]
+    elif rows is not None:
+        # Calculate cols for each target loss
+        cols_array = (loss_array / loss_dB) / rows
+        cols_list = [int(np.ceil(cols)) for cols in cols_array]
+        return [
+            gf.components.cutback_2x2(
+                component=component,
+                rows=rows,
+                cols=cols,
+                **kwargs,
+            )
+            for cols in cols_list
+        ]
+    else:
+        raise ValueError("You must specify either 'cols' or 'rows'.")
