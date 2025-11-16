@@ -24,6 +24,7 @@ def cutback_component(
     straight_length_pair: float | None = None,
     straight: ComponentSpec = "straight",
     cross_section: CrossSectionSpec = "strip",
+    radius: float | None = None,
     **kwargs: Any,
 ) -> Component:
     """Returns a daisy chain of components for measuring their loss.
@@ -44,6 +45,7 @@ def cutback_component(
         straight_length_pair: length of the straight section between each component pair.
         cross_section: specification (CrossSection, string or dict).
         straight: straight spec.
+        radius: bend radius. Defaults to cross_section radius.
         kwargs: component settings.
     """
     xs = gf.get_cross_section(cross_section)
@@ -51,8 +53,9 @@ def cutback_component(
     component = gf.get_component(component, **kwargs)
     bendu = gf.get_component(bend180, cross_section=xs)
 
-    radius = xs.radius
-    assert radius is not None
+    radius = radius or xs.radius
+    if radius is None:
+        raise ValueError("Please specify radius or cross_section with radius.")
     straight_length = radius * 2 if straight_length is None else straight_length
     straight_component = gf.get_component(
         straight, length=straight_length, cross_section=xs
