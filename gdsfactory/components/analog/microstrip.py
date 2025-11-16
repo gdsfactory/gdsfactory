@@ -25,7 +25,7 @@ def _G_integrand(xip: float, B: float) -> float:
             "To run this function you need scipy, please install it with "
             "`pip install scipy`"
         ) from err
-    return besseli(0, B * sqrt(1 - xip**2))
+    return float(besseli(0, B * sqrt(1 - xip**2)))
 
 
 def _G(xi: float, B: float) -> float:
@@ -45,7 +45,7 @@ def _G(xi: float, B: float) -> float:
             "To run the microstrip functions you need scipy, please install it with "
             "`pip install scipy`"
         ) from err
-    return B / sinh(B) * scipy.integrate.quad(_G_integrand, 0, xi, args=(B,))[0]
+    return float(B / sinh(B) * scipy.integrate.quad(_G_integrand, 0, xi, args=(B,))[0])
 
 
 def _microstrip_Z(
@@ -133,7 +133,7 @@ def _microstrip_Z_with_Lk(
     L_m, C_m = _microstrip_LC_per_meter(wire_width, dielectric_thickness, eps_r)
     Lk_m = Lk_per_sq * (1.0 / wire_width)
     Z = sqrt((L_m + Lk_m) / C_m)
-    return Z
+    return float(Z)
 
 
 def _microstrip_v_with_Lk(
@@ -157,7 +157,7 @@ def _microstrip_v_with_Lk(
     L_m, C_m = _microstrip_LC_per_meter(wire_width, dielectric_thickness, eps_r)
     Lk_m = Lk_per_sq * (1.0 / wire_width)
     v = 1 / sqrt((L_m + Lk_m) * C_m)
-    return v
+    return float(v)
 
 
 def _find_microstrip_wire_width(
@@ -194,4 +194,4 @@ def _find_microstrip_wire_width(
             "`pip install scipy`"
         ) from err
     w = fmin(error_fun, x0, args=(), disp=False)
-    return w[0]
+    return float(w[0])

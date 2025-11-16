@@ -48,7 +48,7 @@ def taper_meander(
 
     def taper_width(x: float) -> float:
         """Interpolate width at a given x position."""
-        return np.interp(x, x_taper_arr, w_taper_arr)
+        return float(np.interp(x, x_taper_arr, w_taper_arr))
 
     @gf.cell
     def taper_section(

@@ -61,6 +61,10 @@ def taper_hecken(
         )
     # Normalized length of the wire [-1 to +1]
     xi_list = np.linspace(-1, 1, num_pts)
+    if Z1 is None or Z2 is None:
+        raise ValueError(
+            "Z1 and Z2 must be specified either directly or via width1/width2"
+        )
     Z = [np.exp(0.5 * log(Z1 * Z2) + 0.5 * log(Z2 / Z1) * _G(xi, B)) for xi in xi_list]
     widths = np.array(
         [
