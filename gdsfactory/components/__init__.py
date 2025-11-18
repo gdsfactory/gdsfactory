@@ -18,7 +18,7 @@ from gdsfactory.components import (
     vias,
     waveguides,
 )
-from gdsfactory.components.analog import interdigital_capacitor
+from gdsfactory.components.analog import inductor, interdigital_capacitor
 from gdsfactory.components.bends import (
     bend_circular,
     bend_circular180,
@@ -280,6 +280,7 @@ from gdsfactory.components.superconductors import (
     optimal_hairpin,
     optimal_step,
     snspd,
+    ytron_round,
 )
 from gdsfactory.components.tapers import (
     ramp,
@@ -292,6 +293,8 @@ from gdsfactory.components.tapers import (
     taper_cross_section_sine,
     taper_electrical,
     taper_from_csv,
+    taper_hecken,
+    taper_meander,
     taper_nc_sc,
     taper_parabolic,
     taper_sc_nc,
@@ -509,6 +512,7 @@ __all__ = [
     "greek_cross_with_pads",
     "hexagon",
     "hline",
+    "inductor",
     "interdigital_capacitor",
     "line",
     "litho_calipers",
@@ -643,6 +647,8 @@ __all__ = [
     "taper_cross_section_sine",
     "taper_electrical",
     "taper_from_csv",
+    "taper_hecken",
+    "taper_meander",
     "taper_nc_sc",
     "taper_parabolic",
     "taper_sc_nc",
@@ -712,4 +718,5 @@ __all__ = [
     "wire_corner45_straight",
     "wire_corner_sections",
     "wire_straight",
+    "ytron_round",
 ]

@@ -1,0 +1,131 @@
+instances:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2p1_2_6cdef846_1050_0:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer: WG_PIN
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 2.1
+      - 2.1
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2p1_2_6cdef846_m3150_0:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer: WG_PIN
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 2.1
+      - 2.1
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2p1_3_e7e1313e_1050_0:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer: M3
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 2.1
+      - 31.66
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2p1_3_e7e1313e_m3150_0:
+    component: rectangle
+    info: {}
+    settings:
+      centered: false
+      layer: M3
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 2.1
+      - 31.66
+name: inductor_gdsfactorypcomponentspanalogpinductors_W2_S2p1_080a6fa6
+nets:
+- p1: rectangle_gdsfactorypcomponentspshapesprectangle_S2p1_2_6cdef846_1050_0,e4
+  p2: rectangle_gdsfactorypcomponentspshapesprectangle_S2p1_3_e7e1313e_1050_0,e4
+- p1: rectangle_gdsfactorypcomponentspshapesprectangle_S2p1_2_6cdef846_m3150_0,e4
+  p2: rectangle_gdsfactorypcomponentspshapesprectangle_S2p1_3_e7e1313e_m3150_0,e4
+placements:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2p1_2_6cdef846_1050_0:
+    mirror: false
+    rotation: 0
+    x: 1.05
+    y: 0
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2p1_2_6cdef846_m3150_0:
+    mirror: false
+    rotation: 0
+    x: -3.15
+    y: 0
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2p1_3_e7e1313e_1050_0:
+    mirror: false
+    rotation: 0
+    x: 1.05
+    y: 0
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2p1_3_e7e1313e_m3150_0:
+    mirror: false
+    rotation: 0
+    x: -3.15
+    y: 0
+ports: {}
+warnings:
+  electrical:
+    unconnected_ports:
+    - message: 12 unconnected electrical ports!
+      ports:
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S2p1_3_e7e1313e_m3150_0,e1
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S2p1_3_e7e1313e_m3150_0,e2
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S2p1_3_e7e1313e_m3150_0,e3
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S2p1_3_e7e1313e_1050_0,e1
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S2p1_3_e7e1313e_1050_0,e2
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S2p1_3_e7e1313e_1050_0,e3
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S2p1_2_6cdef846_1050_0,e1
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S2p1_2_6cdef846_1050_0,e2
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S2p1_2_6cdef846_1050_0,e3
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S2p1_2_6cdef846_m3150_0,e1
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S2p1_2_6cdef846_m3150_0,e2
+      - rectangle_gdsfactorypcomponentspshapesprectangle_S2p1_2_6cdef846_m3150_0,e3
+      values:
+      - - -3.15
+        - 15.83
+      - - -2.1
+        - 31.66
+      - - -1.05
+        - 15.83
+      - - 1.05
+        - 15.83
+      - - 2.1
+        - 31.66
+      - - 3.15
+        - 15.83
+      - - 1.05
+        - 1.05
+      - - 2.1
+        - 2.1
+      - - 3.15
+        - 1.05
+      - - -3.15
+        - 1.05
+      - - -2.1
+        - 2.1
+      - - -1.05
+        - 1.05

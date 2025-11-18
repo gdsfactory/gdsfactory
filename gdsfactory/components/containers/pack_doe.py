@@ -54,8 +54,8 @@ def generate_doe(
 
 @gf.cell_with_module_name
 def pack_doe(
-    doe: ComponentSpec,
-    settings: Mapping[str, Sequence[kf.typings.MetaData]],
+    doe: ComponentSpec | None = None,
+    settings: Mapping[str, Sequence[kf.typings.MetaData]] | None = None,
     do_permutations: bool = False,
     function: CellSpec | None = None,
     **kwargs: Any,
@@ -86,6 +86,9 @@ def pack_doe(
         h_mirror: horizontal mirror in y axis (x, 1) (1, 0). This is the most common.
         v_mirror: vertical mirror using x axis (1, y) (0, y).
     """
+    doe = doe or "straight"
+    settings = settings or {"length": [5.0]}
+
     component_list, settings_list = generate_doe(
         doe=doe, settings=settings, do_permutations=do_permutations, function=function
     )
@@ -105,8 +108,8 @@ def pack_doe(
 
 @gf.cell_with_module_name
 def pack_doe_grid(
-    doe: ComponentSpec,
-    settings: Mapping[str, Sequence[kf.typings.MetaData]],
+    doe: ComponentSpec | None = None,
+    settings: Mapping[str, Sequence[kf.typings.MetaData]] | None = None,
     do_permutations: bool = False,
     function: CellSpec | None = None,
     with_text: bool = False,
@@ -122,13 +125,13 @@ def pack_doe_grid(
         with_text: includes text label.
         kwargs: for grid.
 
-    Keyword Args:
+        Keyword Args:
         spacing: between adjacent elements on the grid, can be a tuple for
-            different distances in height and width.
+        different distances in height and width.
         separation: If True, guarantees elements are separated with fixed spacing
-            if False, elements are spaced evenly along a grid.
+        if False, elements are spaced evenly along a grid.
         shape: x, y shape of the grid (see np.reshape).
-            If no shape and the list is 1D, if np.reshape were run with (1, -1).
+        If no shape and the list is 1D, if np.reshape were run with (1, -1).
         align_x: {'x', 'xmin', 'xmax'} for x (column) alignment along.
         align_y: {'y', 'ymin', 'ymax'} for y (row) alignment along.
         edge_x: {'x', 'xmin', 'xmax'} for x (column) (ignored if separation = True).
@@ -137,6 +140,9 @@ def pack_doe_grid(
         h_mirror: horizontal mirror y axis (x, 1) (1, 0). most common mirror.
         v_mirror: vertical mirror using x axis (1, y) (0, y).
     """
+    doe = doe or "straight"
+    settings = settings or {"length": [5.0]}
+
     if do_permutations:
         settings_list = [
             dict(zip(settings, t, strict=False)) for t in it.product(*settings.values())
@@ -168,3 +174,8 @@ def pack_doe_grid(
     c.info["doe_names"] = [component.name for component in component_list]
     c.info["doe_settings"] = cast(kf.typings.MetaData, settings_list)
     return c
+
+
+if __name__ == "__main__":
+    c = pack_doe_grid()
+    c.show()

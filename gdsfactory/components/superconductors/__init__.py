@@ -13,5 +13,15 @@ from gdsfactory.components.superconductors.optimal_step import (
 from gdsfactory.components.superconductors.snspd import (
     snspd,
 )
+from gdsfactory.components.superconductors.ytron import (
+    ytron_round,
+)
 
-__all__ = ["hline", "optimal_90deg", "optimal_hairpin", "optimal_step", "snspd"]
+__all__ = [
+    "hline",
+    "optimal_90deg",
+    "optimal_hairpin",
+    "optimal_step",
+    "snspd",
+    "ytron_round",
+]

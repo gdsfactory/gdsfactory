@@ -28,6 +28,12 @@ from gdsfactory.components.tapers.taper_from_csv import (
     taper_w11_l200,
     taper_w12_l200,
 )
+from gdsfactory.components.tapers.taper_hecken import (
+    taper_hecken,
+)
+from gdsfactory.components.tapers.taper_meander import (
+    taper_meander,
+)
 from gdsfactory.components.tapers.taper_parabolic import (
     taper_parabolic,
 )
@@ -43,6 +49,8 @@ __all__ = [
     "taper_cross_section_sine",
     "taper_electrical",
     "taper_from_csv",
+    "taper_hecken",
+    "taper_meander",
     "taper_nc_sc",
     "taper_parabolic",
     "taper_sc_nc",
