@@ -136,6 +136,7 @@ def die_frame_phix(
     edge_to_pad_distance: float = 200.0,
     pad_port_name_top: str = "e4",
     pad_port_name_bot: str = "e2",
+    pad_port_name_rf: str = "e2",
     layer_fiducial: LayerSpec = "M3",
     layer_ruler: LayerSpec = "WG",
     ruler_bbox_layers: tuple[LayerSpec, ...] | None = None,
@@ -149,6 +150,9 @@ def die_frame_phix(
     text: ComponentSpec | None = "text_rectangular",
     xoffset_dc_pads: float = -100,
     xoffset_rf_pads: float = 50,
+    pad_rotation_dc_north: float = 0,
+    pad_rotation_dc_south: float = 0,
+    pad_rotation_rf: float = 0,
 ) -> Component:
     """A die_frame with grating couplers and pads.
 
@@ -181,6 +185,9 @@ def die_frame_phix(
         text: text component spec.
         xoffset_dc_pads: DC pads x-offset.
         xoffset_rf_pads: RF pads x-offset.
+        pad_rotation_dc_north: rotation for DC pads.
+        pad_rotation_dc_south: rotation for DC pads.
+        pad_rotation_rf: rotation for RF pads.
     """
     if npads > 60:
         raise ValueError("npads should be <= 60. Reach out to PHIX for support.")
@@ -288,11 +295,12 @@ def die_frame_phix(
         y0 = fp.ymax - 390 - pad_pitch_gsg / 2 + 50
         for i in range(npads_rf):
             pad_ref = c << gf.get_component(pad_gsg)
+            pad_ref.rotate(pad_rotation_rf)
             pad_ref.y = y0 - i * pad_pitch_gsg
             pad_ref.xmin = fp.xmin + xoffset_rf_pads
             c.add_port(
                 name=f"e{i}",
-                port=pad_ref.ports["e2"],
+                port=pad_ref.ports[pad_port_name_rf],
             )
 
     # Add electrical ports
@@ -310,6 +318,7 @@ def die_frame_phix(
     # north pads
     for i in range(npads):
         pad_ref = c << pad
+        pad_ref.rotate(pad_rotation_dc_north)
         pad_ref.xmin = x0 + i * pad_pitch
         pad_ref.ymax = ys / 2 - edge_to_pad_distance
         c.add_port(
@@ -329,6 +338,7 @@ def die_frame_phix(
     # south pads
     for i in range(npads):
         pad_ref = c << pad
+        pad_ref.rotate(pad_rotation_dc_south)
         pad_ref.xmin = x0 + i * pad_pitch
         pad_ref.ymin = -ys / 2 + edge_to_pad_distance
         c.add_port(
@@ -371,6 +381,8 @@ def die_frame_phix_dc(
     fiber_coupler_xoffset: float = 0,
     text_offset: Float2 = (20, 10),
     text: ComponentSpec | None = None,
+    pad_rotation_dc_north: float = 0,
+    pad_rotation_dc_south: float = 0,
 ) -> Component:
     return die_frame_phix(
         die_frame=die_frame,
@@ -399,6 +411,8 @@ def die_frame_phix_dc(
         text_offset=text_offset,
         text=text,
         fiber_coupler_xoffset=fiber_coupler_xoffset,
+        pad_rotation_dc_north=pad_rotation_dc_north,
+        pad_rotation_dc_south=pad_rotation_dc_south,
     )
 
 
@@ -419,6 +433,7 @@ def die_frame_phix_rf(
     edge_to_pad_distance: float = 200.0,
     pad_port_name_top: str = "e4",
     pad_port_name_bot: str = "e2",
+    pad_port_name_rf: str = "e2",
     layer_fiducial: LayerSpec = "M3",
     layer_ruler: LayerSpec = "WG",
     ruler_yoffset: float = 0,
@@ -430,6 +445,9 @@ def die_frame_phix_rf(
     text: ComponentSpec | None = None,
     xoffset_dc_pads: float = -500,
     xoffset_rf_pads: float = 50,
+    pad_rotation_rf: float = 0,
+    pad_rotation_dc_north: float = 0,
+    pad_rotation_dc_south: float = 0,
 ) -> Component:
     return die_frame_phix(
         die_frame=die_frame,
@@ -447,6 +465,7 @@ def die_frame_phix_rf(
         edge_to_pad_distance=edge_to_pad_distance,
         pad_port_name_top=pad_port_name_top,
         pad_port_name_bot=pad_port_name_bot,
+        pad_port_name_rf=pad_port_name_rf,
         layer_fiducial=layer_fiducial,
         layer_ruler=layer_ruler,
         ruler_yoffset=ruler_yoffset,
@@ -458,6 +477,9 @@ def die_frame_phix_rf(
         xoffset_dc_pads=xoffset_dc_pads,
         fiber_coupler_xoffset=fiber_coupler_xoffset,
         xoffset_rf_pads=xoffset_rf_pads,
+        pad_rotation_dc_south=pad_rotation_dc_south,
+        pad_rotation_dc_north=pad_rotation_dc_north,
+        pad_rotation_rf=pad_rotation_rf,
     )
 
 
