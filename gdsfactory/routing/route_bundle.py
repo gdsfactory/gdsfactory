@@ -388,7 +388,7 @@ def route_bundle(
             e = ValueError("You need at least 2 waypoints or steps.")
         elif "non-manhattan" in str(e):
             e = ValueError(
-                "Wayopoints need to be Manhattan (axis-aligned) coordinates."
+                "Waypoints need to be Manhattan (axis-aligned) coordinates."
             )
 
         if raise_on_error:
