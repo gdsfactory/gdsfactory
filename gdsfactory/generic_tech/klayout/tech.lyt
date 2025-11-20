@@ -6,7 +6,7 @@
  <dbu>0.001</dbu>
  <default-grids/>
  <base-path/>
- <original-base-path/>
+ <original-base-path>/Users/j/c/pdks/gdsfactory/gdsfactory/generic_tech/klayout</original-base-path>
  <layer-properties_file>layers.lyp</layer-properties_file>
  <add-other-layers>true</add-other-layers>
  <reader-options>
@@ -74,21 +74,6 @@
    <joined-paths>false</joined-paths>
    <map-file/>
   </lefdef>
-  <mebes>
-   <invert>false</invert>
-   <subresolution>true</subresolution>
-   <produce-boundary>true</produce-boundary>
-   <num-stripes-per-cell>64</num-stripes-per-cell>
-   <num-shapes-per-cell>0</num-shapes-per-cell>
-   <data-layer>1</data-layer>
-   <data-datatype>0</data-datatype>
-   <data-name>DATA</data-name>
-   <boundary-layer>0</boundary-layer>
-   <boundary-datatype>0</boundary-datatype>
-   <boundary-name>BORDER</boundary-name>
-   <layer-map>layer_map()</layer-map>
-   <create-other-layers>true</create-other-layers>
-  </mebes>
   <dxf>
    <dbu>0.001</dbu>
    <unit>1</unit>
@@ -117,8 +102,14 @@
    <create-other-layers>true</create-other-layers>
    <keep-layer-names>false</keep-layer-names>
    <merge>true</merge>
-   <lib-paths/>
+   <lib-paths>
+   </lib-paths>
   </mag>
+  <maly>
+   <dbu>0.001</dbu>
+   <layer-map>layer_map()</layer-map>
+   <create-other-layers>true</create-other-layers>
+  </maly>
  </reader-options>
  <writer-options>
   <format>GDS2</format>
@@ -127,6 +118,7 @@
    <write-cell-properties>false</write-cell-properties>
    <write-file-properties>false</write-file-properties>
    <no-zero-length-paths>false</no-zero-length-paths>
+   <default-text-size>-1</default-text-size>
    <multi-xy-records>false</multi-xy-records>
    <resolve-skew-arrays>false</resolve-skew-arrays>
    <max-vertex-count>8000</max-vertex-count>
@@ -155,6 +147,17 @@
   </mag>
  </writer-options>
  <connectivity>
+  <stack>
+   <name/>
+   <description/>
+   <connection>HEATER,VIA1,M2</connection>
+   <connection>M1,VIA1,M2</connection>
+   <connection>M2,VIA2,M3</connection>
+   <symbols>VIA2='43/0'</symbols>
+   <symbols>M2='45/0'</symbols>
+   <symbols>VIA1='44/0'</symbols>
+   <symbols>M3='49/0'</symbols>
+  </stack>
   <connection>HEATER,VIA1,M2</connection>
   <connection>M1,VIA1,M2</connection>
   <connection>M2,VIA2,M3</connection>

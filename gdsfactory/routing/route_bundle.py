@@ -384,8 +384,16 @@ def route_bundle(
             start_angles=start_angles,
         )
     except Exception as e:
+        if "kdb.Trans" in str(e):
+            e = ValueError("You need at least 2 waypoints or steps.")
+        elif "non-manhattan" in str(e):
+            e = ValueError(
+                "Wayopoints need to be Manhattan (axis-aligned) coordinates."
+            )
+
         if raise_on_error:
             raise e
+
         gf.logger.error(f"Error in route_bundle: {e}")
         layer_error_path = gf.get_layer_info(gf.CONF.layer_error_path)
         route = kf.routing.electrical.route_bundle(
