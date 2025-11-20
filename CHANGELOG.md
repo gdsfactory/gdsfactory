@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.22.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.22.0) - 2025-11-20
+
+No significant changes.
+
+
 ## [9.21.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.21.0) - 2025-11-14
 
 - add ruler bboxes [#4242](https://github.com/gdsfactory/gdsfactory/pull/4242)
