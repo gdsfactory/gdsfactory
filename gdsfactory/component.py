@@ -810,13 +810,16 @@ class Component(ComponentBase, kf.DKCell):
         return extract(self, layers=layers, recursive=recursive)
 
     def copy_layers(
-        self, layer_map: dict[LayerSpec, LayerSpec], recursive: bool = False
+            self,
+            layer_map: dict[LayerSpec, LayerSpec],
+            recursive: bool = False, unlock: bool = False
     ) -> Self:
         """Remaps a list of layers and returns the same Component.
 
         Args:
             layer_map: dictionary of layers to copy.
             recursive: if True, remaps layers recursively.
+            unlock: if True, unlocks the component before copying layers. Be careful with this option as it modifies the component and can have unintended side effects.
         """
         from gdsfactory import get_layer
 
@@ -830,7 +833,12 @@ class Component(ComponentBase, kf.DKCell):
 
             if recursive:
                 for ci in self.kdb_cell.called_cells():
+                    was_locked = self.kcl[ci].locked
+                    if unlock:
+                        self.kcl[ci].locked = False
                     self.kcl[ci].kdb_cell.copy(src_layer_index, dst_layer_index)
+                    if unlock and was_locked:
+                        self.kcl[ci].locked = True
         return self
 
     def remove_layers(
