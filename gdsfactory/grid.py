@@ -25,6 +25,7 @@ def grid(
     align_y: Literal["origin", "ymin", "ymax", "center"] = "center",
     rotation: int = 0,
     mirror: bool = False,
+    flex: bool = False,
 ) -> Component:
     """Returns Component with a 1D or 2D grid of components.
 
@@ -38,6 +39,7 @@ def grid(
         align_y: y alignment along (origin, ymin, ymax, center).
         rotation: for each component in degrees.
         mirror: horizontal mirror y axis (x, 1) (1, 0). most common mirror.
+        flex: use minimal row height and column width where possible.
 
     Returns:
         Component containing components grid.
@@ -59,7 +61,8 @@ def grid(
 
     """
     c = gf.Component()
-    instances = kf.grid(
+    grid_func = kf.flexgrid if flex else kf.grid
+    instances = grid_func(
         c,
         kcells=[gf.get_component(component) for component in components],
         shape=shape,
@@ -93,6 +96,7 @@ def grid_with_text(
     rotation: int = 0,
     mirror: bool = False,
     labels: Sequence[str] | None = None,
+    flex: bool = False,
 ) -> Component:
     """Returns Component with 1D or 2D grid of components with text labels.
 
@@ -112,6 +116,7 @@ def grid_with_text(
         rotation: for each component in degrees.
         mirror: horizontal mirror y axis (x, 1) (1, 0). most common mirror.
         labels: list of labels for each component.
+        flex: use minimal row height and column width where possible.
 
 
     .. plot::
@@ -145,7 +150,8 @@ def grid_with_text(
         )
 
     c = gf.Component()
-    instances = kf.grid(
+    grid_func = kf.flexgrid if flex else kf.grid
+    instances = grid_func(
         c,
         kcells=component_list,
         shape=shape,
