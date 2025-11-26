@@ -836,10 +836,9 @@ class Component(ComponentBase, kf.DKCell):
             if recursive:
                 for ci in self.kdb_cell.called_cells():
                     was_locked = self.kcl[ci].locked
-                    if recursive:
-                        self.kcl[ci].locked = False
+                    self.kcl[ci].locked = False
                     self.kcl[ci].kdb_cell.copy(src_layer_index, dst_layer_index)
-                    if recursive and was_locked:
+                    if was_locked:
                         self.kcl[ci].locked = True
         return self
 
@@ -852,8 +851,7 @@ class Component(ComponentBase, kf.DKCell):
 
         Args:
             layers: list of layers to remove.
-            recursive: if True, removes layers recursively.
-            unlock: if True, unlocks the component before removing layers. Be careful with this option as it modifies the component and can have unintended side effects.
+            recursive: if True, removes layers recursively and temporarily unlocks components.
         """
         from gdsfactory import get_layer
 
