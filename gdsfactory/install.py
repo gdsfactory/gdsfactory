@@ -161,7 +161,7 @@ def clone_or_update_repository(url: str, path: pathlib.Path) -> None:
                     # Check if remote branch exists and update to it
                     try:
                         repo.references[f"refs/remotes/{remote_branch}"]
-                        # Fast-forward merge if possible
+                        # Update working directory to match remote (discards local changes)
                         repo.checkout(
                             f"refs/remotes/{remote_branch}",
                             strategy=GIT_CHECKOUT_FORCE | GIT_CHECKOUT_RECREATE_MISSING,
