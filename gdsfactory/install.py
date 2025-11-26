@@ -8,7 +8,13 @@ import pathlib
 import shutil
 import sys
 
-from pygit2 import GitError, Repository, clone_repository
+from pygit2 import (
+    GIT_CHECKOUT_FORCE,
+    GIT_CHECKOUT_RECREATE_MISSING,
+    GitError,
+    Repository,
+    clone_repository,
+)
 
 from gdsfactory.config import PATH
 
@@ -152,28 +158,33 @@ def clone_or_update_repository(url: str, path: pathlib.Path) -> None:
                     branch_name = repo.head.shorthand
                     remote_branch = f"{remote.name}/{branch_name}"
 
-                    # Check if remote branch exists
+                    # Check if remote branch exists and update to it
                     try:
                         repo.references[f"refs/remotes/{remote_branch}"]
                         # Fast-forward merge if possible
                         repo.checkout(
                             f"refs/remotes/{remote_branch}",
-                            strategy=(
-                                # GIT_CHECKOUT_SAFE allows updating files
-                                1  # GIT_CHECKOUT_SAFE
-                                | 2  # GIT_CHECKOUT_FORCE
-                            ),
+                            strategy=GIT_CHECKOUT_FORCE | GIT_CHECKOUT_RECREATE_MISSING,
                         )
                         repo.set_head(f"refs/heads/{branch_name}")
                         print(f"Updated to latest from {remote_branch}")
-                    except (KeyError, GitError) as e:
-                        print(f"Could not update from remote: {e}")
-                        print("Continuing with existing repository state")
+                    except KeyError:
+                        print(
+                            f"Remote branch '{remote_branch}' not found. "
+                            "Continuing with existing repository state"
+                        )
+                    except GitError as e:
+                        print(
+                            f"Git operation failed while updating: {e}. "
+                            "Continuing with existing repository state"
+                        )
             else:
                 print("No remotes configured, using existing repository")
-        except (GitError, Exception) as e:
-            print(f"Could not fetch updates: {e}")
-            print("Continuing with existing repository")
+        except GitError as e:
+            print(
+                f"Could not fetch updates from remote: {e}. "
+                "Continuing with existing repository"
+            )
 
     except GitError:
         # Path exists but is not a git repository
