@@ -812,16 +812,17 @@ class Component(ComponentBase, kf.DKCell):
     def copy_layers(
             self,
             layer_map: dict[LayerSpec, LayerSpec],
-            recursive: bool = False, unlock: bool = False
+            recursive: bool = False, 
     ) -> Self:
         """Remaps a list of layers and returns the same Component.
 
         Args:
             layer_map: dictionary of layers to copy.
             recursive: if True, remaps layers recursively.
-            unlock: if True, unlocks the component before copying layers. Be careful with this option as it modifies the component and can have unintended side effects.
         """
         from gdsfactory import get_layer
+        if recursive:
+            self.locked = False
 
         if self.locked:
             raise LockedError(self)
@@ -834,10 +835,10 @@ class Component(ComponentBase, kf.DKCell):
             if recursive:
                 for ci in self.kdb_cell.called_cells():
                     was_locked = self.kcl[ci].locked
-                    if unlock:
+                    if recursive:
                         self.kcl[ci].locked = False
                     self.kcl[ci].kdb_cell.copy(src_layer_index, dst_layer_index)
-                    if unlock and was_locked:
+                    if recursive and was_locked:
                         self.kcl[ci].locked = True
         return self
 
@@ -845,7 +846,6 @@ class Component(ComponentBase, kf.DKCell):
         self,
         layers: LayerSpecs,
         recursive: bool = True,
-        unlock: bool = False,
     ) -> Self:
         """Removes a list of layers and returns the same Component.
 
@@ -856,7 +856,7 @@ class Component(ComponentBase, kf.DKCell):
         """
         from gdsfactory import get_layer
 
-        if unlock:
+        if recursive:
             self.locked = False
 
         if self.locked:
@@ -874,10 +874,10 @@ class Component(ComponentBase, kf.DKCell):
                     for layer_idx in layers:
                         assert isinstance(layer_idx, int)
                         was_locked = self.kcl[ci].locked
-                        if unlock:
+                        if recursive:
                             self.kcl[ci].locked = False
                         self.kcl[ci].kdb_cell.shapes(layer_idx).clear()
-                        if unlock and was_locked:
+                        if recursive and was_locked:
                             self.kcl[ci].locked = True
         return self
 
