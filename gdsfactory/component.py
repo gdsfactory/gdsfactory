@@ -810,9 +810,9 @@ class Component(ComponentBase, kf.DKCell):
         return extract(self, layers=layers, recursive=recursive)
 
     def copy_layers(
-            self,
-            layer_map: dict[LayerSpec, LayerSpec],
-            recursive: bool = False, 
+        self,
+        layer_map: dict[LayerSpec, LayerSpec],
+        recursive: bool = False,
     ) -> Self:
         """Remaps a list of layers and returns the same Component.
 
@@ -821,6 +821,7 @@ class Component(ComponentBase, kf.DKCell):
             recursive: if True, remaps layers recursively.
         """
         from gdsfactory import get_layer
+
         if recursive:
             self.locked = False
 

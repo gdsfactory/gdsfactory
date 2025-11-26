@@ -387,9 +387,7 @@ def route_bundle(
         if "kdb.Trans" in str(e):
             e = ValueError("You need at least 2 waypoints or steps.")
         elif "non-manhattan" in str(e):
-            e = ValueError(
-                "Waypoints need to be Manhattan (axis-aligned) coordinates."
-            )
+            e = ValueError("Waypoints need to be Manhattan (axis-aligned) coordinates.")
 
         if raise_on_error:
             raise e
