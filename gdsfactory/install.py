@@ -8,7 +8,13 @@ import pathlib
 import shutil
 import sys
 
-from pygit2 import clone_repository
+from pygit2 import (
+    GIT_CHECKOUT_FORCE,
+    GIT_CHECKOUT_RECREATE_MISSING,
+    GitError,
+    Repository,
+    clone_repository,
+)
 
 from gdsfactory.config import PATH
 
@@ -113,6 +119,78 @@ def copy(src: pathlib.Path, dest: pathlib.Path) -> None:
     print(f"{src} copied to {dest}")
 
 
+def clone_or_update_repository(url: str, path: str | pathlib.Path) -> None:
+    """Clone a repository or update it if it already exists.
+
+    Args:
+        url: Git repository URL.
+        path: Destination path for the repository.
+
+    This function handles the case where the repository already exists by:
+    1. Checking if the path exists and is a git repository
+    2. If it exists and is a git repo, fetch the latest changes from the default remote
+    3. If it doesn't exist, clone the repository
+    4. If it exists but is not a git repo, raise an error
+    """
+    path = pathlib.Path(path)
+
+    if not path.exists():
+        print(f"Cloning {url} to {path}...")
+        clone_repository(url, str(path))
+        print(f"Successfully cloned {url}")
+        return
+
+    try:
+        repo = Repository(path)
+        print(f"Repository already exists at {path}")
+
+        # Try to fetch and update from remote
+        try:
+            if repo.remotes:
+                remote = repo.remotes[0]
+                print(f"Fetching latest changes from {remote.name}...")
+                remote.fetch()
+
+                # Get the default branch
+                if not repo.head_is_unborn:
+                    branch_name = repo.head.shorthand
+                    remote_branch = f"{remote.name}/{branch_name}"
+
+                    # Check if remote branch exists and update to it
+                    try:
+                        repo.references[f"refs/remotes/{remote_branch}"]
+                        # Update working directory to match remote (discards local changes)
+                        repo.checkout(
+                            f"refs/remotes/{remote_branch}",
+                            strategy=GIT_CHECKOUT_FORCE | GIT_CHECKOUT_RECREATE_MISSING,
+                        )
+                        repo.set_head(f"refs/heads/{branch_name}")
+                        print(f"Updated to latest from {remote_branch}")
+                    except KeyError:
+                        print(
+                            f"Remote branch '{remote_branch}' not found. "
+                            "Continuing with existing repository state"
+                        )
+                    except GitError as e:
+                        print(
+                            f"Git operation failed while updating: {e}. "
+                            "Continuing with existing repository state"
+                        )
+            else:
+                print("No remotes configured, using existing repository")
+        except GitError as e:
+            print(
+                f"Could not fetch updates from remote: {e}. "
+                "Continuing with existing repository"
+            )
+
+    except GitError:
+        raise ValueError(
+            f"'{path}' exists but is not a git repository. "
+            f"Please remove it or use a different path."
+        )
+
+
 def _install_to_klayout(
     src: pathlib.Path, klayout_subdir_name: str, package_name: str
 ) -> None:
@@ -146,12 +224,12 @@ def install_klayout_package() -> None:
     subdir = home / klayout_folder / "salt"
 
     # install metainfo-ports
-    clone_repository(
+    clone_or_update_repository(
         "git@github.com:gdsfactory/metainfo-ports.git", subdir / "metainfo-ports"
     )
 
     # install klive
-    clone_repository("git@github.com:gdsfactory/klive.git", subdir / "klive")
+    clone_or_update_repository("git@github.com:gdsfactory/klive.git", subdir / "klive")
 
 
 def install_klayout_technology(
