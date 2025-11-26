@@ -119,7 +119,7 @@ def copy(src: pathlib.Path, dest: pathlib.Path) -> None:
     print(f"{src} copied to {dest}")
 
 
-def clone_or_update_repository(url: str, path: pathlib.Path) -> None:
+def clone_or_update_repository(url: str, path: str | pathlib.Path) -> None:
     """Clone a repository or update it if it already exists.
 
     Args:
@@ -134,14 +134,12 @@ def clone_or_update_repository(url: str, path: pathlib.Path) -> None:
     """
     path = pathlib.Path(path)
 
-    # If path doesn't exist, clone the repository
     if not path.exists():
         print(f"Cloning {url} to {path}...")
         clone_repository(url, str(path))
         print(f"Successfully cloned {url}")
         return
 
-    # If path exists, check if it's a git repository
     try:
         repo = Repository(path)
         print(f"Repository already exists at {path}")
@@ -187,7 +185,6 @@ def clone_or_update_repository(url: str, path: pathlib.Path) -> None:
             )
 
     except GitError:
-        # Path exists but is not a git repository
         raise ValueError(
             f"'{path}' exists but is not a git repository. "
             f"Please remove it or use a different path."
