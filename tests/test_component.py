@@ -114,7 +114,7 @@ def test_locked_cell() -> None:
         c.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(2, 0))
 
     with pytest.raises(LockedError):
-        c.remove_layers(layers=["WG"])
+        c.remove_layers(layers=["WG"], recursive=False)
 
     with pytest.raises(LockedError):
         c.remap_layers({"WG": "SLAB90"})
