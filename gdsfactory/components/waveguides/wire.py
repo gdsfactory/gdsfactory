@@ -83,7 +83,7 @@ def wire_corner45_straight(
     """
     c = gf.Component()
     xs = gf.get_cross_section(cross_section)
-    radius = radius or xs.radius
+    radius = radius or xs.radius or width
 
     if radius is None:
         raise ValueError("Either radius or width must be specified")
