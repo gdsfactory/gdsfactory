@@ -181,6 +181,11 @@ class FileWatcher(FileSystemEventHandler):
             dirpath = pathlib.Path(dirpath_str) / "build" / "gds"
             dirpath.mkdir(parents=True, exist_ok=True)
 
+            # Create .gitignore in build directory to ignore all contents
+            gitignore_path = pathlib.Path(dirpath_str) / "build" / ".gitignore"
+            if not gitignore_path.exists():
+                gitignore_path.write_text("*\n")
+
             if filepath.exists():
                 if str(filepath).endswith(".pic.yml"):
                     return self.get_component_yaml(filepath, dirpath)
