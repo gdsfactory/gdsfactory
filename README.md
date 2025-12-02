@@ -88,7 +88,6 @@ These PDKs are publicly available and do not require an NDA:
     - [SiEPIC Ebeam UBC PDK](https://github.com/gdsfactory/ubc)
     - [VTT PDK](https://github.com/gdsfactory/vtt)
     - [Luxtelligence GF PDK](https://github.com/Luxtelligence/lxt_pdk_gf)
-    - [ANT / SiEPIC Ebeam UBC PDK](https://gdsfactory.github.io/ubc)
 - Quantum:
     - [Quantum RF PDK](https://github.com/gdsfactory/quantum-rf-pdk)
 - RF/AMS/Digital/Analog:
