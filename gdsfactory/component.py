@@ -990,6 +990,7 @@ class Component(ComponentBase, kf.DKCell):
         tile_size: tuple[float, float] | None = None,
         overlap: int = 1,
         smooth: int | None = None,
+        flatten: bool = True,
     ) -> None:
         """Fixes layer min width in the Component.
 
@@ -1000,11 +1001,13 @@ class Component(ComponentBase, kf.DKCell):
             tile_size: size of the tiles to use for processing.
             overlap: overlap between tiles.
             smooth: smooth the polygons by this amount in um.
+            flatten: if True, flattens the Component before fixing width.
         """
         import gdsfactory as gf
         from gdsfactory.pdk import get_layer
 
-        self.flatten()
+        if flatten:
+            self.flatten()
         layer = get_layer(layer)
         layer_info = gf.kcl.get_info(layer)
 
