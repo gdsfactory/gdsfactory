@@ -67,7 +67,7 @@ def route_single(
     radius: float | None = None,
     route_width: float | None = None,
     auto_taper: bool = True,
-    on_error: Literal["error"] | None = "error",
+    on_error: Literal["error"] | None = None,
     layer_transitions: LayerTransitions | None = None,
 ) -> ManhattanRoute:
     """Returns a Manhattan Route between 2 ports.
