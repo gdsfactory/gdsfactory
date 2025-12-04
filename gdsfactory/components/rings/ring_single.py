@@ -94,7 +94,8 @@ def ring_single(
         settings["length_extension"] = length_extension
 
     # Create and place the coupler
-    cb = c << gf.get_component(coupler_ring, settings=settings)
+    coupler = gf.get_component(coupler_ring, settings=settings)
+    cb = c << coupler
 
     # Create waveguide components
     sy = gf.get_component(straight, length=length_y, cross_section=cross_section)
@@ -119,4 +120,5 @@ def ring_single(
     # Add ports
     c.add_port("o2", port=cb.ports["o4"])
     c.add_port("o1", port=cb.ports["o1"])
+    c.info["radius"] = coupler.info["radius"]
     return c

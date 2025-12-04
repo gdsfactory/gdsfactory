@@ -95,4 +95,5 @@ def coupler_ring(
     )
     c.auto_rename_ports()
     c.flatten()
+    c.info["radius"] = radius
     return c
