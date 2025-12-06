@@ -1,7 +1,8 @@
 instances:
   coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_dd30faef_0_0:
     component: coupler_ring
-    info: {}
+    info:
+      radius: 10
     settings:
       bend: bend_euler
       cross_section: strip
@@ -13,7 +14,8 @@ instances:
       straight: straight
   coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_dd30faef_m10_21410_A180:
     component: coupler_ring
-    info: {}
+    info:
+      radius: 10
     settings:
       bend: bend_euler
       cross_section: strip

@@ -51,7 +51,8 @@ instances:
       with_arc_floorplan: true
   coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_9cdfdde6_0_0:
     component: coupler_ring
-    info: {}
+    info:
+      radius: 10
     settings:
       bend: bend_euler
       cross_section: strip

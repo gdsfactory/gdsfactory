@@ -1,4 +1,5 @@
-info: {}
+info:
+  radius: 10
 name: ring_single_gdsfactorypcomponentspringspring_single_G0p_87a10a39
 settings:
   bend: bend_euler
