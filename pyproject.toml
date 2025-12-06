@@ -128,6 +128,24 @@ enabled = true
 live_mode = true
 strict = true
 
+[tool.pyright]
+exclude = ["gdsfactory/samples", "notebooks", "docs"]
+pythonVersion = "3.11"
+reportArgumentType = false
+reportAttributeAccessIssue = false
+reportCallIssue = false
+reportFunctionMemberAccess = false
+reportGeneralTypeIssues = false
+reportIndexIssue = false
+reportMissingImports = false
+reportMissingModuleSource = false
+reportOperatorIssue = false
+reportOptionalMemberAccess = false
+reportOverlappingOverload = false
+reportPossiblyUnboundVariable = false
+reportReturnType = false
+reportUnusedExpression = false
+
 [tool.pytest.ini_options]
 # addopts = --tb=no
 addopts = '--tb=short --ignore=gdsfactory/schematic_editor.py --ignore=gdsfactory/klayout_tech.py --ignore=gdsfactory/geometry/maskprep_flat.py --ignore=gdsfactory/fill_klayout.py --ignore=tests/test_samples.py'
