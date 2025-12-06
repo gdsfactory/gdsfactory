@@ -1,7 +1,8 @@
 instances:
   ring_single_gdsfactorypcomponentspringspring_single_G0p_914c3c45_0_0:
     component: ring_single
-    info: {}
+    info:
+      radius: 5
     settings:
       bend: bend_euler
       coupler_ring: coupler_ring
@@ -14,7 +15,8 @@ instances:
       straight: straight
   ring_single_gdsfactorypcomponentspringspring_single_G0p_c8ab51a3_56000_0:
     component: ring_single
-    info: {}
+    info:
+      radius: 10
     settings:
       bend: bend_euler
       coupler_ring: coupler_ring

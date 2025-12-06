@@ -1,4 +1,5 @@
-info: {}
+info:
+  radius: 10
 name: ring_double_gdsfactorypcomponentspringspring_double_G0p_fee0c62d
 settings:
   bend: bend_euler
