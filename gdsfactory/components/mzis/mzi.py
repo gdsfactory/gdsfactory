@@ -204,13 +204,12 @@ def mzi(
     else:
         c.add_port(port1, port=b1.ports[port1])
         c.add_port(port2, port=b5.ports[port1])
+
     c.add_ports(cp2_reference.ports.filter(orientation=0), prefix="ou_")
     c.add_ports(sxt.ports.filter(port_type="electrical"), prefix="top_")
     c.add_ports(sxb.ports.filter(port_type="electrical"), prefix="bot_")
     c.add_ports(sxt.ports.filter(port_type="placement"), prefix="top_")
     c.add_ports(sxb.ports.filter(port_type="placement"), prefix="bot_")
-
-    # c.auto_rename_ports(port_type="optical", prefix="o")
 
     if add_optical_ports_arms:
         c.add_ports(sxt.ports.filter(port_type="optical"), prefix="top_")
