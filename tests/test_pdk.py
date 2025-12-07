@@ -33,5 +33,5 @@ def test_container_cell_conflict_raises_error() -> None:
         containers={"add_pads_top": gf.containers.add_pads_top},
     )
 
-    with pytest.raises(ValueError, match=".* overlapping cell names .*add_pads_top.*"):
+    with pytest.raises(ValueError, match=r".* overlapping cell names .*add_pads_top.*"):
         pdk.get_component("add_pads_top")

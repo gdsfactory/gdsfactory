@@ -56,7 +56,7 @@ def path_L(port1: typings.Port, port2: typings.Port) -> Path:
     )
     if delta_orientation not in (90, 270):
         raise ValueError("path_L(): ports must be orthogonal.")
-    e1, e2 = _get_rotated_basis(port1.orientation)
+    e1, _e2 = _get_rotated_basis(port1.orientation)
 
     # assemble waypoints
     pt1 = np.array(port1.center)
