@@ -2,20 +2,28 @@
 
 Exercise1. increase the number of elements of the phase array.
 
-Exercise2. Make a PCell.
-
 """
 
 from __future__ import annotations
 
 import gdsfactory as gf
 
-if __name__ == "__main__":
+
+@gf.cell
+def sample_lidar_with_pads(
+    elements: float = 2**2,
+    antenna_pitch: float = 2.0,
+    splitter_tree_spacing: tuple[float, float] = (50.0, 70.0),
+) -> gf.Component:
+    """LiDAR demo with pads.
+
+    Args:
+        elements: number of elements in the phased array.
+        antenna_pitch: pitch between antennas.
+        splitter_tree_spacing: spacing of the splitter tree.
+
+    """
     c = gf.Component()
-    elements = 2**2
-    # elements = 2**4
-    antenna_pitch = 2.0
-    splitter_tree_spacing = (50.0, 70.0)
 
     splitter_tree = c << gf.components.splitter_tree(
         noutputs=elements, spacing=splitter_tree_spacing
@@ -49,7 +57,7 @@ if __name__ == "__main__":
     antennas.mirror_y()
     antennas.y = 0
 
-    routes = gf.routing.route_bundle(
+    _ = gf.routing.route_bundle(
         c,
         ports1=antennas.ports.filter(orientation=180),
         ports2=phase_shifter_optical_ports,
@@ -64,11 +72,16 @@ if __name__ == "__main__":
     pads1.xmax = splitter_tree.xmin - 10
     pads1.y = 0
     ports1 = pads1.ports.filter(orientation=0, port_type="electrical")
-    routes = gf.routing.route_bundle_electrical(
+    _ = gf.routing.route_bundle_electrical(
         c,
         ports1=ports1,
         ports2=phase_shifter_electrical_ports_west,
         sort_ports=True,
         cross_section="metal_routing",
     )
+    return c
+
+
+if __name__ == "__main__":
+    c = sample_lidar_with_pads(elements=2**4)
     c.show()
