@@ -7,14 +7,10 @@ import pathlib
 import sys
 import tempfile
 from enum import Enum, auto
-from typing import TYPE_CHECKING
 
 from kfactory.conf import Settings, config, get_affinity
 from rich.console import Console
 from rich.table import Table
-
-if TYPE_CHECKING:
-    pass
 
 __version__ = "9.24.0"
 __next_major_version__ = "9.24.0"

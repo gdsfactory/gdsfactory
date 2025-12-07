@@ -1,45 +1,15 @@
-from gdsfactory.components.rings.disk import (
-    disk,
-    disk_heater,
-)
-from gdsfactory.components.rings.ring import (
-    ring,
-)
-from gdsfactory.components.rings.ring_crow import (
-    ring_asymmetric,
-    ring_crow,
-)
-from gdsfactory.components.rings.ring_crow_couplers import (
-    ring_crow_couplers,
-)
-from gdsfactory.components.rings.ring_double import (
-    ring_double,
-)
-from gdsfactory.components.rings.ring_double_bend_coupler import (
-    ring_double_bend_coupler,
-)
-from gdsfactory.components.rings.ring_heater import (
-    ring_double_heater,
-    ring_single_heater,
-)
-from gdsfactory.components.rings.ring_pn import (
-    ring_double_pn,
-    ring_single_pn,
-)
-from gdsfactory.components.rings.ring_single import (
-    ring_single,
-)
-from gdsfactory.components.rings.ring_single_array import (
-    ring_single_array,
-)
-from gdsfactory.components.rings.ring_single_bend_coupler import (
-    coupler_bend,
-    coupler_ring_bend,
-    ring_single_bend_coupler,
-)
-from gdsfactory.components.rings.ring_single_dut import (
-    ring_single_dut,
-)
+from .disk import *
+from .ring import *
+from .ring_crow import *
+from .ring_crow_couplers import *
+from .ring_double import *
+from .ring_double_bend_coupler import *
+from .ring_heater import *
+from .ring_pn import *
+from .ring_single import *
+from .ring_single_array import *
+from .ring_single_bend_coupler import *
+from .ring_single_dut import *
 
 __all__ = [
     "coupler_bend",

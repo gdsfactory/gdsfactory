@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["via", "via1", "via2", "via_circular", "viac"]
+
 from collections.abc import Sequence
 from functools import partial
 from typing import cast
@@ -108,8 +110,8 @@ def via_circular(
     t = np.linspace(0, 360, int(360 / angle_resolution) + 1) * np.pi / 180
     xpts = (radius * np.cos(t)).tolist()
     ypts = (radius * np.sin(t)).tolist()
-    xpts = cast(list[float], xpts)
-    ypts = cast(list[float], ypts)
+    xpts = cast("list[float]", xpts)
+    ypts = cast("list[float]", ypts)
     c.add_polygon(points=list(zip(xpts, ypts, strict=False)), layer=layer)
     row_pitch = row_pitch or pitch
     column_pitch = column_pitch or pitch

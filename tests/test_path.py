@@ -113,7 +113,7 @@ component_factory = dict(
 component_names = component_factory.keys()
 
 
-@pytest.fixture(params=component_names, scope="function")
+@pytest.fixture(params=component_names)
 def component(request: pytest.FixtureRequest) -> Component:
     return component_factory[request.param]()
 

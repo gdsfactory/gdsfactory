@@ -1,5 +1,12 @@
 from __future__ import annotations
 
+__all__ = [
+    "taper_cross_section",
+    "taper_cross_section_linear",
+    "taper_cross_section_parabolic",
+    "taper_cross_section_sine",
+]
+
 from functools import partial
 
 import gdsfactory as gf

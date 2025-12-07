@@ -50,11 +50,11 @@ def to_stl(
 
         if isinstance(layer, LogicalLayer):
             assert isinstance(layer.layer, tuple | LayerEnum)
-            layer_tuple = cast(tuple[int, int], layer.layer)
+            layer_tuple = cast("tuple[int, int]", layer.layer)
         elif isinstance(layer, DerivedLayer):
             assert level.derived_layer is not None
             assert isinstance(level.derived_layer.layer, tuple | LayerEnum)
-            layer_tuple = cast(tuple[int, int], level.derived_layer.layer)
+            layer_tuple = cast("tuple[int, int]", level.derived_layer.layer)
         else:
             raise ValueError(f"Layer {layer!r} is not a DerivedLayer or LogicalLayer")
 

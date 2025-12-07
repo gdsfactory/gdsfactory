@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["coupler_ring"]
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.couplers.coupler import coupler_straight

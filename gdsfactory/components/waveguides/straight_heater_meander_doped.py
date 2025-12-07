@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+__all__ = ["straight_heater_meander_doped"]
+
 from collections.abc import Iterable
 from functools import partial
 

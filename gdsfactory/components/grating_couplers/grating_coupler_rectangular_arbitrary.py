@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["grating_coupler_rectangular_arbitrary"]
+
 import numpy as np
 
 import gdsfactory as gf

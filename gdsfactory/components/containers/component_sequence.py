@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["SequenceGenerator", "component_sequence", "parse_component_name"]
+
 from collections import Counter
 from typing import Any
 

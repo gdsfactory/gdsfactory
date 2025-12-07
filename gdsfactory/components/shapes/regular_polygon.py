@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["hexagon", "octagon", "regular_polygon"]
+
 from functools import partial
 
 import numpy as np

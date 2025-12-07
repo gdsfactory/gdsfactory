@@ -1,3 +1,5 @@
+__all__ = ["mmi2x2_with_sbend"]
+
 import numpy as np
 import numpy.typing as npt
 

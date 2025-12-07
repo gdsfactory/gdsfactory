@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+__all__ = ["cdsem_straight"]
+
 from collections.abc import Sequence
 
 import gdsfactory as gf

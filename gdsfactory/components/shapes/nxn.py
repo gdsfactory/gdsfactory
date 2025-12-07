@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["nxn"]
+
 from typing import Any
 
 import numpy as np

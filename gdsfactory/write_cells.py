@@ -58,8 +58,7 @@ def {cell}()->gf.Component:
 
 """
 
-    else:
-        return f"""
+    return f"""
 
 @gf.cell
 def {cell}()->gf.Component:

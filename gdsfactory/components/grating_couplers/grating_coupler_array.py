@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["grating_coupler_array"]
+
 import kfactory as kf
 
 import gdsfactory as gf
@@ -66,10 +68,10 @@ def grating_coupler_array(
             try:
                 radius = _get_routing_radius(bend_component, cross_section)
                 bend = bend_component
-            except KeyError:
+            except KeyError as err:
                 raise ValueError(
                     "Radius must be set in the cross_section or bend component if not provided explicitly."
-                )
+                ) from err
 
         port0 = ports["o0"]
         port1 = ports[f"o{n - 1}"]

@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+__all__ = ["cdsem_straight_density", "gaps", "widths"]
+
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats

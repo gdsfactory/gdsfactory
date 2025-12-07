@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["ring_single_array"]
+
 from typing import Any
 
 import gdsfactory as gf

@@ -106,11 +106,10 @@ def route_single(
         gf.routing.route_single(c, mmi1.ports["o2"], mmi2.ports["o1"], radius=5, cross_section="strip")
         c.plot()
     """
-    if cross_section is None:
-        if layer is None or route_width is None:
-            raise ValueError(
-                f"Either {cross_section=} or {layer=} and route_width must be provided"
-            )
+    if cross_section is None and (layer is None or route_width is None):
+        raise ValueError(
+            f"Either {cross_section=} or {layer=} and route_width must be provided"
+        )
 
     c = component
     p1 = port1
@@ -119,8 +118,8 @@ def route_single(
 
     if cross_section is None:
         cross_section = gf.cross_section.cross_section(
-            layer=cast(LayerSpec, layer),
-            width=cast(float, route_width),
+            layer=cast("LayerSpec", layer),
+            width=cast("float", route_width),
             port_names=("e1", "e2") if port_type == "electrical" else ("o1", "o2"),
             port_types=(port_type, port_type),
         )
@@ -178,7 +177,7 @@ def route_single(
         else:
             w = [
                 p.to_itype(c.kcl.dbu)
-                for p in cast(Sequence[gf.kdb.DPoint], waypoints_list)
+                for p in cast("Sequence[gf.kdb.DPoint]", waypoints_list)
             ]
 
         try:
@@ -228,10 +227,9 @@ def route_single(
                     f"Error while trying to place route from {ps.name} to {pe.name} at"
                     f" points (dbu): {pts}"
                 ) from e
-            else:
-                layer_error = (1, 0)
-                layer_index = c.kcl.layer(*layer_error)
-                c.shapes(layer_index).insert(path)
+            layer_error = (1, 0)
+            layer_index = c.kcl.layer(*layer_error)
+            c.shapes(layer_index).insert(path)
             return ManhattanRoute(
                 backbone=pts,
                 start_port=p1.to_itype(),

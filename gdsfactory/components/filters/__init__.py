@@ -1,35 +1,13 @@
-from gdsfactory.components.filters.awg import (
-    awg,
-    free_propagation_region,
-)
-from gdsfactory.components.filters.dbr import (
-    dbr,
-    dbr_cell,
-)
-from gdsfactory.components.filters.dbr_tapered import (
-    dbr_tapered,
-)
-from gdsfactory.components.filters.fiber import (
-    fiber,
-)
-from gdsfactory.components.filters.fiber_array import (
-    fiber_array,
-)
-from gdsfactory.components.filters.loop_mirror import (
-    loop_mirror,
-)
-from gdsfactory.components.filters.mode_converter import (
-    mode_converter,
-)
-from gdsfactory.components.filters.polarization_splitter_rotator import (
-    polarization_splitter_rotator,
-)
-from gdsfactory.components.filters.terminator import (
-    terminator,
-)
-from gdsfactory.components.filters.terminator_spiral import (
-    terminator_spiral,
-)
+from .awg import *
+from .dbr import *
+from .dbr_tapered import *
+from .fiber import *
+from .fiber_array import *
+from .loop_mirror import *
+from .mode_converter import *
+from .polarization_splitter_rotator import *
+from .terminator import *
+from .terminator_spiral import *
 
 __all__ = [
     "awg",

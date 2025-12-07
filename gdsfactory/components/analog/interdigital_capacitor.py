@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["interdigital_capacitor"]
+
 from itertools import chain
 from math import ceil, floor
 

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["spiral_inductor"]
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 

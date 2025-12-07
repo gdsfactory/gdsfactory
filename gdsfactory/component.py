@@ -72,7 +72,7 @@ def ensure_tuple_of_tuples(points: Any) -> tuple[tuple[float, float], ...]:
         # If it's a list, check if the first element is an np.ndarray or a list to decide on conversion
         if len(points) > 0 and isinstance(points[0], np.ndarray | list):
             points = tuple(tuple(point) for point in points)
-    return cast(tuple[tuple[float, float], ...], points)
+    return cast("tuple[tuple[float, float], ...]", points)
 
 
 def points_to_polygon(
@@ -224,7 +224,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         if center is None:
             raise ValueError("Must specify center")
 
-        elif isinstance(center, kdb.DPoint):
+        if isinstance(center, kdb.DPoint):
             layer = get_layer(layer)
             trans = kdb.DCplxTrans(1, orientation, False, center.to_v())
         else:
@@ -615,7 +615,7 @@ class Component(ComponentBase, kf.DKCell):
             raise ValueError(
                 f"Use Component.add_ref_off_grid() for all angle {component.name!r}"
             )
-        elif not isinstance(component, kf.ProtoTKCell):
+        if not isinstance(component, kf.ProtoTKCell):
             raise ValueError(f"Expected a Component, got {type(component)}")
 
         if self.locked:
@@ -1229,7 +1229,7 @@ class Component(ComponentBase, kf.DKCell):
                     ]
                 )
                 pos |= {k: (v["x"], v["y"]) for k, v in placements.items()}
-                labels |= {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
+                labels |= {k: ",".join(k.split(",")[:1]) for k in placements}
 
         else:
             nets = netlist.get("nets", [])
@@ -1243,7 +1243,7 @@ class Component(ComponentBase, kf.DKCell):
                 ]
             )
             pos = {k: (v["x"], v["y"]) for k, v in placements.items()}
-            labels = {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
+            labels = {k: ",".join(k.split(",")[:1]) for k in placements}
 
         nx.draw(
             G,

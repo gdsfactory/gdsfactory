@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["mode_converter"]
+
 from functools import partial
 
 import gdsfactory as gf

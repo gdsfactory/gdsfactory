@@ -1,21 +1,9 @@
-from gdsfactory.components.superconductors.hline import (
-    hline,
-)
-from gdsfactory.components.superconductors.optimal_90deg import (
-    optimal_90deg,
-)
-from gdsfactory.components.superconductors.optimal_hairpin import (
-    optimal_hairpin,
-)
-from gdsfactory.components.superconductors.optimal_step import (
-    optimal_step,
-)
-from gdsfactory.components.superconductors.snspd import (
-    snspd,
-)
-from gdsfactory.components.superconductors.ytron import (
-    ytron_round,
-)
+from .hline import *
+from .optimal_90deg import *
+from .optimal_hairpin import *
+from .optimal_step import *
+from .snspd import *
+from .ytron import *
 
 __all__ = [
     "hline",

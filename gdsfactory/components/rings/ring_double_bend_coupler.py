@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["ring_double_bend_coupler"]
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bends.bend_circular import bend_circular_all_angle

@@ -82,10 +82,7 @@ def is_invalid_bundle_topology(ports1: list[Port], ports2: list[Port]) -> bool:
 
     if not has_intersections and all(s < -angle_tolerance for s in ports_facing):
         return True
-    if has_intersections and all(s > angle_tolerance for s in ports_facing):
-        return True
-
-    return False
+    return bool(has_intersections and all(s > angle_tolerance for s in ports_facing))
 
 
 def _segment_intersects_fast(

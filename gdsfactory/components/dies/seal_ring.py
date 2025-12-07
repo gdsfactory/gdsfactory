@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["seal_ring", "seal_ring_segmented"]
+
 import gdsfactory as gf
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import ComponentSpec, Float2

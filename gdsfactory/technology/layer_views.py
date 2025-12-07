@@ -501,9 +501,7 @@ class LayerView(BaseModel):
                 fill = f"fill_{key}"
                 frame = f"frame_{key}"
 
-                if (fill in _dict.keys() and frame in _dict.keys()) and (
-                    _dict[fill] == _dict[frame]
-                ):
+                if (fill in _dict and frame in _dict) and (_dict[fill] == _dict[frame]):
                     _dict[key] = _dict.pop(f"frame_{key}")
                     _dict.pop(f"fill_{key}")
         return _dict
@@ -521,16 +519,14 @@ class LayerView(BaseModel):
     def get_alpha(self) -> float:
         if not self.visible:
             return 0.0
-        elif not self.transparent:
+        if not self.transparent:
             dither_name = getattr(self.hatch_pattern, "name", self.hatch_pattern)
             if dither_name in ["I0", "solid"]:
                 return 0.6
-            elif dither_name in ["I1", "hollow"]:
+            if dither_name in ["I1", "hollow"]:
                 return 0.1
-            else:
-                return 0.4
-        else:
-            return 0.3
+            return 0.4
+        return 0.3
 
     def get_color_dict(self) -> builtins.dict[str, str | None]:
         if self.fill_color is not None and self.frame_color is not None:
@@ -878,26 +874,24 @@ class LayerViews(BaseModel):
         dither_pattern = layer_view.hatch_pattern
         if isinstance(dither_pattern, HatchPattern) and (
             dither_pattern.name is not None
-            and dither_pattern.name not in self.custom_dither_patterns.keys()
+            and dither_pattern.name not in self.custom_dither_patterns
         ):
             self.custom_dither_patterns[dither_pattern.name] = dither_pattern
 
         # If hatch_pattern is the name of a custom pattern, replace string with the CustomDitherPattern
         elif (
             isinstance(dither_pattern, str)
-            and dither_pattern in self.custom_dither_patterns.keys()
+            and dither_pattern in self.custom_dither_patterns
         ):
             layer_view.hatch_pattern = self.custom_dither_patterns[dither_pattern]
 
         line_style = layer_view.line_style
         if isinstance(line_style, LineStyle) and (
             line_style.name is not None
-            and line_style.name not in self.custom_line_styles.keys()
+            and line_style.name not in self.custom_line_styles
         ):
             self.custom_line_styles[line_style.name] = line_style
-        elif (
-            isinstance(line_style, str) and line_style in self.custom_line_styles.keys()
-        ):
+        elif isinstance(line_style, str) and line_style in self.custom_line_styles:
             layer_view.line_style = self.custom_line_styles[line_style]
 
     def get_layer_views(self, exclude_groups: bool = False) -> dict[str, LayerView]:
@@ -935,8 +929,7 @@ class LayerViews(BaseModel):
         """
         if name not in self.layer_views:
             raise ValueError(f"Layer {name!r} not in {list(self.layer_views.keys())}")
-        else:
-            return self.layer_views[name]
+        return self.layer_views[name]
 
     def __getitem__(self, val: str) -> LayerView:
         """Allows accessing to the layer names like ls['gold2'].

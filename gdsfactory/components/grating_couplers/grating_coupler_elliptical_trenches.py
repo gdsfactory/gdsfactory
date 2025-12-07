@@ -1,5 +1,11 @@
 from __future__ import annotations
 
+__all__ = [
+    "grating_coupler_elliptical_trenches",
+    "grating_coupler_te",
+    "grating_coupler_tm",
+]
+
 from functools import partial
 
 import numpy as np

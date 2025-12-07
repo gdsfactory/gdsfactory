@@ -168,33 +168,73 @@ fix = true
 
 [tool.ruff.lint]
 ignore = [
+  "ANN401",  # typing.Any is not allowed
+  "ARG001",  # unused function argument (common in callbacks/overrides)
+  "ARG002",  # unused method argument
   "B008",  # do not perform function calls in argument defaults
   "B904",
   "C408",  # C408 Unnecessary `dict` call (rewrite as a literal)
   "C901",  # too complex
   "E501",  # line too long
+  "LOG015",  # root logger call (loguru is used)
+  "PLC0415",  # import outside top-level (used for optional deps)
+  "PLW0602",  # global variable not assigned
+  "PLW0603",  # global statement
+  "PLW2901",  # redefined loop name
+  "PT011",  # pytest.raises too broad
+  "PT012",  # pytest.raises with multiple statements
+  "PT018",  # pytest composite assertion
+  "PT028",  # pytest.mark.parametrize with default values
+  "PT030",  # pytest.warns too broad
+  "PTH",  # prefer pathlib (too noisy for existing codebase)
+  "RET504",  # unnecessary assign before return
   "RUF005",  # Consider {expression} instead of concatenation
-  "ANN401"  # typing.Any is not allowed
+  "SIM102",  # collapsible if
+  "SIM105",  # use contextlib.suppress
+  "SIM108",  # use ternary instead of if-else
+  "SIM117",  # multiple with statements
+  "T201",  # print found (used intentionally for user feedback)
+  "TRY003",  # long message in exception class
+  "TRY004"  # prefer TypeError for type checks
 ]
 select = [
+  "A",  # flake8-builtins
+  "ANN",  # flake8-annotations
+  "ARG",  # flake8-unused-arguments
   "B",  # flake8-bugbear
   "C",  # flake8-comprehensions
   "E",  # pycodestyle errors
   "F",  # pyflakes
+  "FA",  # flake8-future-annotations
+  "FLY",  # flynt (string formatting)
+  "FURB",  # refurb (modern Python)
   "I",  # isort
+  "LOG",  # flake8-logging
+  "PERF",  # performance improvements
+  "PIE",  # flake8-pie
+  "PLC",  # pylint convention
+  "PLE",  # pylint error
+  "PLW",  # pylint warning
+  "PT",  # flake8-pytest-style
+  "PTH",  # flake8-use-pathlib
+  "RET",  # flake8-return
+  "RSE",  # flake8-raise
+  "RUF",  # ruff
+  "SIM",  # flake8-simplify
   "T10",  # flake8-debugger
+  "T20",  # flake8-print
+  "TRY",  # tryceratops
   "UP",  # pyupgrade
   "W",  # pycodestyle warnings
-  "PERF",  # performance improvements
-  "RUF",  # ruff
-  "ANN"  # flake8-annotations
+  "YTT"  # flake8-2020 (sys.version checks)
 ]
 
 [tool.ruff.lint.per-file-ignores]
-"gdsfactory/samples/*.py" = ["N999"]
+"gdsfactory/components/*.py" = ["F403", "F405"]  # import *
+"gdsfactory/samples/*.py" = ["N999"]  # module name
 "gdsfactory/typings.py" = ["UP035"]
-"notebooks/*.ipynb" = ["F821", 'E402', 'F405', 'F403', "D103"]
-"tests/*.py" = ["D103"]
+"notebooks/*.ipynb" = ["F821", "E402", "F405", "F403", "D103"]
+"tests/*.py" = ["D103"]  # docstring
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"

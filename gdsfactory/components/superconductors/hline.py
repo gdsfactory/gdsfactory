@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["hline"]
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec

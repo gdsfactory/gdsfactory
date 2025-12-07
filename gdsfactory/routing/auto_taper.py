@@ -22,9 +22,9 @@ def _normalize_layer_transitions(
             if all(isinstance(k, LayerEnum) for k in key):
                 normalized_key = gf.get_layer(key[0]), gf.get_layer(key[1])
             else:
-                normalized_key = gf.get_layer(cast(LayerSpec, key))
+                normalized_key = gf.get_layer(cast("LayerSpec", key))
         else:
-            normalized_key = gf.get_layer(cast(LayerSpec, key))
+            normalized_key = gf.get_layer(cast("LayerSpec", key))
         normalized[normalized_key] = value
     return normalized
 

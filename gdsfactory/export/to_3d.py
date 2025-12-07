@@ -40,9 +40,9 @@ def to_3d(
         from trimesh.creation import extrude_polygon
         from trimesh.scene import Scene
         from trimesh.visual import ColorVisuals
-    except ImportError as e:
+    except ImportError:
         print("you need to `pip install trimesh`")
-        raise e
+        raise
 
     layer_views = layer_views or get_layer_views()
     layer_stack = layer_stack or get_layer_stack()
@@ -65,11 +65,11 @@ def to_3d(
 
         if isinstance(layer, LogicalLayer):
             assert isinstance(layer.layer, tuple | LayerEnum)
-            layer_tuple = cast(tuple[int, int], tuple(layer.layer))
+            layer_tuple = cast("tuple[int, int]", tuple(layer.layer))
         elif isinstance(layer, DerivedLayer):
             assert level.derived_layer is not None
             assert isinstance(level.derived_layer.layer, tuple | LayerEnum)
-            layer_tuple = cast(tuple[int, int], tuple(level.derived_layer.layer))
+            layer_tuple = cast("tuple[int, int]", tuple(level.derived_layer.layer))
         else:
             raise ValueError(f"Layer {layer!r} is not a DerivedLayer or LogicalLayer")
 

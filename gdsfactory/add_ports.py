@@ -62,8 +62,6 @@ def add_ports_from_markers_square(
         width = np.round((width - pin_extra_width) / 0.002) * 0.002
 
         if dx == dy and max_pin_area_um2 > dx * dy > min_pin_area_um2:
-            x = x
-            y = y
             component.add_port(
                 port_name,
                 center=(x, y),
@@ -296,8 +294,7 @@ def add_ports_from_markers_center(
                 "You can pass a port_name_prefix to add it with a different name."
             )
 
-        else:
-            component.add_port(name=port_name, port=port)
+        component.add_port(name=port_name, port=port)
     if auto_rename_ports:
         component.auto_rename_ports()
     return component
@@ -501,8 +498,7 @@ def add_ports_from_boxes(
                 "You can pass a port_name_prefix to add it with a different name."
             )
 
-        else:
-            component.add_port(name=_port_name_or_none, port=port)
+        component.add_port(name=_port_name_or_none, port=port)
     if auto_rename_ports:
         component.auto_rename_ports()
     return component

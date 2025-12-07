@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["bend_circular_heater"]
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.path import arc

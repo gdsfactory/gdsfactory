@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["ellipse"]
+
 import numpy as np
 from numpy import cos, pi, sin, sqrt
 

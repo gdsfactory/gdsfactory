@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["extend_ports_list"]
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, Strs

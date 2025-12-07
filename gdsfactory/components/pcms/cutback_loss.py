@@ -1,3 +1,11 @@
+__all__ = [
+    "cutback_loss",
+    "cutback_loss_bend90",
+    "cutback_loss_bend180",
+    "cutback_loss_mmi1x2",
+    "cutback_loss_spirals",
+]
+
 from collections.abc import Sequence
 from functools import partial
 from typing import Any
@@ -59,7 +67,7 @@ def cutback_loss(
             gf.get_component(cutback, settings=settings, rows=rows)
             for rows in rows_list
         ]
-    elif rows is not None:
+    if rows is not None:
         # Calculate cols for each target loss
         cols_array = (loss_array / loss_dB) / rows
         cols_list = [int(np.ceil(cols)) for cols in cols_array]
@@ -73,8 +81,7 @@ def cutback_loss(
             gf.get_component(cutback, settings=settings, cols=cols)
             for cols in cols_list
         ]
-    else:
-        raise ValueError("You must specify either 'cols' or 'rows'.")
+    raise ValueError("You must specify either 'cols' or 'rows'.")
 
 
 _loss_default = tuple(4 + 3 * i for i in range(3))
@@ -150,7 +157,7 @@ def cutback_loss_mmi2x2(
             )
             for rows in rows_list
         ]
-    elif rows is not None:
+    if rows is not None:
         # Calculate cols for each target loss
         cols_array = (loss_array / loss_dB) / rows
         cols_list = [int(np.ceil(cols)) for cols in cols_array]
@@ -163,5 +170,4 @@ def cutback_loss_mmi2x2(
             )
             for cols in cols_list
         ]
-    else:
-        raise ValueError("You must specify either 'cols' or 'rows'.")
+    raise ValueError("You must specify either 'cols' or 'rows'.")

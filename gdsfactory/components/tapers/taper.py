@@ -1,5 +1,15 @@
 from __future__ import annotations
 
+__all__ = [
+    "taper",
+    "taper_electrical",
+    "taper_nc_sc",
+    "taper_sc_nc",
+    "taper_strip_to_ridge",
+    "taper_strip_to_ridge_trenches",
+    "taper_strip_to_slab150",
+]
+
 from functools import partial
 
 import gdsfactory as gf

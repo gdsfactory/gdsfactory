@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["mzi_lattice", "mzi_lattice_mmi"]
+
 from collections.abc import Sequence
 from typing import Any
 

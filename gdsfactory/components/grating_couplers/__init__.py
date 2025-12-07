@@ -1,39 +1,13 @@
-from gdsfactory.components.grating_couplers.grating_coupler_array import (
-    grating_coupler_array,
-)
-from gdsfactory.components.grating_couplers.grating_coupler_dual_pol import (
-    grating_coupler_dual_pol,
-)
-from gdsfactory.components.grating_couplers.grating_coupler_elliptical import (
-    grating_coupler_elliptical,
-    grating_coupler_elliptical_te,
-    grating_coupler_elliptical_tm,
-)
-from gdsfactory.components.grating_couplers.grating_coupler_elliptical_arbitrary import (
-    grating_coupler_elliptical_arbitrary,
-    grating_coupler_elliptical_uniform,
-)
-from gdsfactory.components.grating_couplers.grating_coupler_elliptical_lumerical import (
-    grating_coupler_elliptical_lumerical,
-    grating_coupler_elliptical_lumerical_etch70,
-)
-from gdsfactory.components.grating_couplers.grating_coupler_elliptical_trenches import (
-    grating_coupler_elliptical_trenches,
-    grating_coupler_te,
-    grating_coupler_tm,
-)
-from gdsfactory.components.grating_couplers.grating_coupler_loss import (
-    grating_coupler_loss,
-)
-from gdsfactory.components.grating_couplers.grating_coupler_rectangular import (
-    grating_coupler_rectangular,
-)
-from gdsfactory.components.grating_couplers.grating_coupler_rectangular_arbitrary import (
-    grating_coupler_rectangular_arbitrary,
-)
-from gdsfactory.components.grating_couplers.grating_coupler_tree import (
-    grating_coupler_tree,
-)
+from .grating_coupler_array import *
+from .grating_coupler_dual_pol import *
+from .grating_coupler_elliptical import *
+from .grating_coupler_elliptical_arbitrary import *
+from .grating_coupler_elliptical_lumerical import *
+from .grating_coupler_elliptical_trenches import *
+from .grating_coupler_loss import *
+from .grating_coupler_rectangular import *
+from .grating_coupler_rectangular_arbitrary import *
+from .grating_coupler_tree import *
 
 __all__ = [
     "grating_coupler_array",

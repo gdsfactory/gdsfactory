@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["terminator_spiral"]
+
 import gdsfactory as gf
 from gdsfactory.path import extrude_transition, spiral_archimedean, transition
 from gdsfactory.typings import CrossSectionSpec

@@ -240,7 +240,7 @@ class CrossSection(BaseModel):
             if error_type == ErrorType.ERROR:
                 raise ValueError(message)
 
-            elif error_type == ErrorType.WARNING:
+            if error_type == ErrorType.WARNING:
                 warnings.warn(message, stacklevel=3)
 
     @property
@@ -268,8 +268,7 @@ class CrossSection(BaseModel):
         key_to_section = {s.name: s for s in self.sections}
         if key in key_to_section:
             return key_to_section[key]
-        else:
-            raise KeyError(f"{key} not in {list(key_to_section.keys())}")
+        raise KeyError(f"{key} not in {list(key_to_section.keys())}")
 
     @property
     def hash(self) -> str:
@@ -1034,10 +1033,10 @@ def rib_with_trenches(
     if slab_offset is None and width_slab is None:
         raise ValueError("Must specify either slab_offset or width_slab")
 
-    elif slab_offset is not None and width_slab is not None:
+    if slab_offset is not None and width_slab is not None:
         raise ValueError("Cannot specify both slab_offset and width_slab")
 
-    elif slab_offset is not None:
+    if slab_offset is not None:
         width_slab = width + 2 * width_trench + 2 * slab_offset
 
     trench_offset = width / 2 + width_trench / 2
@@ -1728,10 +1727,10 @@ def pn_with_trenches(
     if slab_offset is None and width_slab is None:
         raise ValueError("Must specify either slab_offset or width_slab")
 
-    elif slab_offset is not None and width_slab is not None:
+    if slab_offset is not None and width_slab is not None:
         raise ValueError("Cannot specify both slab_offset and width_slab")
 
-    elif slab_offset is not None:
+    if slab_offset is not None:
         width_slab = width + 2 * width_trench + 2 * slab_offset
 
     trench_offset = width / 2 + width_trench / 2
@@ -1946,10 +1945,10 @@ def pn_with_trenches_asymmetric(
     if slab_offset is None and width_slab is None:
         raise ValueError("Must specify either slab_offset or width_slab")
 
-    elif slab_offset is not None and width_slab is not None:
+    if slab_offset is not None and width_slab is not None:
         raise ValueError("Cannot specify both slab_offset and width_slab")
 
-    elif slab_offset is not None:
+    if slab_offset is not None:
         width_slab = width + 2 * width_trench + 2 * slab_offset
 
     # Trenches
@@ -2179,10 +2178,10 @@ def l_wg_doped_with_trenches(
     if slab_offset is None and width_slab is None:
         raise ValueError("Must specify either slab_offset or width_slab")
 
-    elif slab_offset is not None and width_slab is not None:
+    if slab_offset is not None and width_slab is not None:
         raise ValueError("Cannot specify both slab_offset and width_slab")
 
-    elif slab_offset is not None:
+    if slab_offset is not None:
         width_slab = width + 2 * width_trench + 2 * slab_offset
 
     trench_offset = -1 * (width / 2 + width_trench / 2)

@@ -2,6 +2,8 @@
 
 import math
 
+__all__ = ["inductor"]
+
 import gdsfactory as gf
 from gdsfactory import Component
 from gdsfactory.typings import LayerSpec, LayerSpecs
@@ -45,7 +47,10 @@ def inductor(
         resistance: Resistance in ohms.
         inductance: Inductance in henries.
         turns: Number of turns (default 1 for inductor2).
-        block_qrc: Block QRC layer.
+        layer_metal: Layer for the metal trace.
+        layer_inductor: Layer for the inductor region.
+        layer_metal_pin: Layer for the metal pins.
+        layers_no_fill: Layers to exclude from fill.
 
     Returns:
         Component with inductor layout.

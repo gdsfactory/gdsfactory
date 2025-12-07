@@ -1,3 +1,5 @@
+__all__ = ["straight_piecewise"]
+
 from collections.abc import Sequence
 from typing import Any
 

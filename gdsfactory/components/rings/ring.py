@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["ring"]
+
 import numpy as np
 from numpy import cos, pi, sin
 

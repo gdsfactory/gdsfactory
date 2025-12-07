@@ -87,7 +87,7 @@ def snap_to_grid(
     res = nm * np.round(np.asarray(x, dtype=float) * 1e3 / nm) / 1e3
     if isinstance(res, np.floating):
         return float(res)
-    return cast(_T | float, res)
+    return cast("_T | float", res)
 
 
 @overload

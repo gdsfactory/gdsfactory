@@ -619,7 +619,7 @@ def _sinusoidal_transition(y1: float, y2: float) -> Callable[[T], T]:
     dy = y2 - y1
 
     def sine(t: T) -> T:
-        return cast(T, y1 + (1 - np.cos(np.pi * t)) / 2 * dy)
+        return cast("T", y1 + (1 - np.cos(np.pi * t)) / 2 * dy)
 
     return sine
 
@@ -628,7 +628,7 @@ def _parabolic_transition(y1: float, y2: float) -> Callable[[T], T]:
     dy = y2 - y1
 
     def parabolic(t: T) -> T:
-        return cast(T, y1 + np.sqrt(t) * dy)
+        return cast("T", y1 + np.sqrt(t) * dy)
 
     return parabolic
 
@@ -978,8 +978,8 @@ def extrude(
         )
     else:
         s = Section(
-            width=cast(float, width),
-            layer=cast(LayerSpec, layer),
+            width=cast("float", width),
+            layer=cast("LayerSpec", layer),
             port_names=("o1", "o2"),
             port_types=("optical", "optical"),
         )
@@ -1301,11 +1301,11 @@ def extrude_transition(
             def _offset_func1(
                 t: T, offset1: float = offset1, offset2: float = offset2
             ) -> T:
-                return cast(T, offset_type1(t, offset1, offset2))  # type: ignore[misc,arg-type]
+                return cast("T", offset_type1(t, offset1, offset2))  # type: ignore[misc,arg-type]
 
             offset_func1 = _offset_func1
         else:
-            raise NotImplementedError()
+            raise NotImplementedError
 
         if width_type1 == "linear":
             width_func1 = _linear_transition(width1, width2)
@@ -1316,11 +1316,11 @@ def extrude_transition(
         elif callable(width_type1):
 
             def _width_func1(t: T, width1: float = width1, width2: float = width2) -> T:
-                return cast(T, width_type1(t, width1, width2))  # type: ignore[misc,arg-type]
+                return cast("T", width_type1(t, width1, width2))  # type: ignore[misc,arg-type]
 
             width_func1 = _width_func1
         else:
-            raise NotImplementedError()
+            raise NotImplementedError
 
         # Transition for points2 (upper edge)
         if offset_type2 == "linear":
@@ -1334,11 +1334,11 @@ def extrude_transition(
             def _offset_func2(
                 t: T, offset1: float = offset1, offset2: float = offset2
             ) -> T:
-                return cast(T, offset_type2(t, offset1, offset2))  # type: ignore[misc,arg-type]
+                return cast("T", offset_type2(t, offset1, offset2))  # type: ignore[misc,arg-type]
 
             offset_func2 = _offset_func2
         else:
-            raise NotImplementedError()
+            raise NotImplementedError
 
         if width_type2 == "linear":
             width_func2 = _linear_transition(width1, width2)
@@ -1349,11 +1349,11 @@ def extrude_transition(
         elif callable(width_type2):
 
             def _width_func2(t: T, width1: float = width1, width2: float = width2) -> T:
-                return cast(T, width_type2(t, width1, width2))  # type: ignore[misc,arg-type]
+                return cast("T", width_type2(t, width1, width2))  # type: ignore[misc,arg-type]
 
             width_func2 = _width_func2
         else:
-            raise NotImplementedError()
+            raise NotImplementedError
 
         if section1.layer != section2.layer:
             hidden = True
@@ -1620,7 +1620,7 @@ def _fresnel(
 
     series = (t ** exp[..., None] / den[..., None]).sum(axis=1)
 
-    return cast(npt.NDArray[np.floating], np.sqrt(2) * R0 * series)
+    return cast("npt.NDArray[np.floating]", np.sqrt(2) * R0 * series)
 
 
 def _fresnel_angular(
@@ -1656,7 +1656,7 @@ def _fresnel_angular(
 
     series = (t ** exp[..., None] / den[..., None]).sum(axis=1)
 
-    return cast(npt.NDArray[np.floating], np.sqrt(2) * R0 * series)
+    return cast("npt.NDArray[np.floating]", np.sqrt(2) * R0 * series)
 
 
 def euler(
@@ -1959,7 +1959,7 @@ def smooth(
     path = Path()
     path.append(new_points_np)
     path.rotate(float(theta[0]))
-    path.move(cast(tuple[float, float], points[0, :]))
+    path.move(cast("tuple[float, float]", points[0, :]))
     path.start_angle = theta[0]
     path.end_angle = theta[-1]
     return path

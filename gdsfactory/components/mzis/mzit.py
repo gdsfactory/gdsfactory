@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["mzit", "mzit_lattice"]
+
 from collections.abc import Sequence
 
 import gdsfactory as gf

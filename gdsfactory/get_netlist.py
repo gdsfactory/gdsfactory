@@ -21,7 +21,6 @@ from __future__ import annotations
 from collections import defaultdict
 from collections.abc import Callable, Sequence
 from hashlib import md5
-from pprint import pprint
 from typing import Any, Protocol
 from warnings import warn
 
@@ -549,7 +548,6 @@ def _extract_connections(
     }
 
     if critical_warnings and raise_error_for_warnings:
-        pprint(critical_warnings)
         warn("Found critical warnings while extracting netlist", stacklevel=3)
     return connections, dict(warnings)
 

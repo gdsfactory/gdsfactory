@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["generate_doe", "pack_doe", "pack_doe_grid"]
+
 import itertools as it
 from collections.abc import Mapping, Sequence
 from typing import Any, cast
@@ -102,7 +104,7 @@ def pack_doe(
 
     component = components[0]
     component.info["doe_names"] = [component.name for component in component_list]
-    component.info["doe_settings"] = cast(kf.typings.MetaData, settings_list)
+    component.info["doe_settings"] = cast("kf.typings.MetaData", settings_list)
     return component
 
 
@@ -125,7 +127,7 @@ def pack_doe_grid(
         with_text: includes text label.
         kwargs: for grid.
 
-        Keyword Args:
+    Keyword Args:
         spacing: between adjacent elements on the grid, can be a tuple for
         different distances in height and width.
         separation: If True, guarantees elements are separated with fixed spacing
@@ -172,7 +174,7 @@ def pack_doe_grid(
         c = grid(component_list, **kwargs)
 
     c.info["doe_names"] = [component.name for component in component_list]
-    c.info["doe_settings"] = cast(kf.typings.MetaData, settings_list)
+    c.info["doe_settings"] = cast("kf.typings.MetaData", settings_list)
     return c
 
 

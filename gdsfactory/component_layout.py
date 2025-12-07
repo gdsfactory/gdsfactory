@@ -138,8 +138,8 @@ def parse_coordinate(
     """
     if isinstance(c, Port):
         return c.center
-    elif np.array(c).size == 2:
-        return cast(tuple[float, float], tuple(c))
+    if np.array(c).size == 2:
+        return cast("tuple[float, float]", tuple(c))
     raise ValueError(
         "Could not parse coordinate, input should be array-like (e.g. [1.5,2.3] or a Port"
     )

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["straight_heater_doped_rib", "straight_heater_doped_strip"]
+
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.snap import snap_to_grid

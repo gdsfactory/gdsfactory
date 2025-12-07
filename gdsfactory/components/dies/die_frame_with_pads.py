@@ -1,3 +1,12 @@
+__all__ = [
+    "die_frame",
+    "die_frame_phix",
+    "die_frame_phix_dc",
+    "die_frame_phix_rf",
+    "die_frame_rf",
+    "die_frame_with_pads",
+]
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Float2, LayerSpec, Size
@@ -158,20 +167,21 @@ def die_frame_phix(
 
     Args:
         die_frame: die_frame spec.
-        size: the size of the die_frame, in um.
         nfibers: the number of grating couplers.
         npads: the number of pads.
         npads_rf: the number of RF pads on the left side.
         fiber_pitch: the pitch of the grating couplers, in um.
         pad_pitch: the pitch of the pads, in um.
+        pad_pitch_gsg: the pitch of the GSG pads, in um.
         edge_coupler: the grating coupler component.
         grating_coupler: Optional grating coupler.
         cross_section: the cross section.
         pad: the pad component.
-        layer_floorplan: the layer of the floorplan.
-        edge_to_pad_distance: the distance from the edge to the pads, in um. For foundries that need polishing landing area extend by 30u,,.
-        pad_port_name_top: name of the pad port name at the btop facing south.
+        pad_gsg: the GSG pad component.
+        edge_to_pad_distance: the distance from the edge to the pads, in um.
+        pad_port_name_top: name of the pad port name at the top facing south.
         pad_port_name_bot: name of the pad port name at the bottom facing north.
+        pad_port_name_rf: name of the RF pad port name.
         layer_fiducial: layer for fiducials.
         layer_ruler: layer for ruler.
         ruler_bbox_layers: layers for bbox.

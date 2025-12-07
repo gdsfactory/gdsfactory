@@ -90,8 +90,8 @@ def route_ports_to_side(
     if side in {"north", "south"}:
         y_value = y if y is not None else side
         if isinstance(y_value, str):
-            y_value = cast(Literal["north", "south"], y_value)
-        side = cast(Literal["north", "south"], side)
+            y_value = cast("Literal['north', 'south']", y_value)
+        side = cast("Literal['north', 'south']", side)
         return route_ports_to_y(
             component=component,
             ports=ports,
@@ -100,11 +100,11 @@ def route_ports_to_side(
             cross_section=cross_section,
             **kwargs,
         )
-    elif side in {"east", "west"}:
+    if side in {"east", "west"}:
         x_value = x if x is not None else side
         if isinstance(x_value, str):
-            x_value = cast(Literal["east", "west"], x_value)
-        side = cast(Literal["west", "east"], side)
+            x_value = cast("Literal['east', 'west']", x_value)
+        side = cast("Literal['west', 'east']", side)
         return route_ports_to_x(
             component=component,
             ports=ports,
@@ -113,8 +113,7 @@ def route_ports_to_side(
             cross_section=cross_section,
             **kwargs,
         )
-    else:
-        raise ValueError(f"side={side} must be 'north', 'south', 'east' or 'west'")
+    raise ValueError(f"side={side} must be 'north', 'south', 'east' or 'west'")
 
 
 def route_ports_to_x(

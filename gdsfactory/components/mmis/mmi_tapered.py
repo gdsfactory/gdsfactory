@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["mmi_tapered"]
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.tapers.taper import taper as taper_function

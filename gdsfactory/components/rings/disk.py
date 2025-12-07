@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["disk", "disk_heater"]
+
 import math
 
 import gdsfactory as gf
@@ -60,8 +62,7 @@ def _generate_bends(
         bend_output.connect("o2", bend_middle.ports["o1"], mirror=True)
 
         return (c, bend_input, bend_middle, bend_output)
-    else:
-        return (c, None, None, None)
+    return (c, None, None, None)
 
 
 def _generate_straights(

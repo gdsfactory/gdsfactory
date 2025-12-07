@@ -1,5 +1,10 @@
 from __future__ import annotations
 
+__all__ = [
+    "grating_coupler_elliptical_arbitrary",
+    "grating_coupler_elliptical_uniform",
+]
+
 from typing import Any
 
 import numpy as np

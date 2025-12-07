@@ -217,8 +217,8 @@ def route_bundle(
     if cross_section is None:
         cross_section = partial(
             gf.cross_section.cross_section,
-            layer=cast(LayerSpec, layer),
-            width=cast(float, route_width),
+            layer=cast("LayerSpec", layer),
+            width=cast("float", route_width),
             port_names=("e1", "e2") if port_type == "electrical" else ("o1", "o2"),
             port_types=(port_type, port_type),
         )
@@ -390,7 +390,7 @@ def route_bundle(
             e = ValueError("Waypoints need to be Manhattan (axis-aligned) coordinates.")
 
         if raise_on_error:
-            raise e
+            raise
 
         gf.logger.error(f"Error in route_bundle: {e}")
         layer_error_path = gf.get_layer_info(gf.CONF.layer_error_path)

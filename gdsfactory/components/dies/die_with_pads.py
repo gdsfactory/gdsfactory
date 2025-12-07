@@ -1,3 +1,5 @@
+__all__ = ["die_with_pads"]
+
 import warnings
 
 import gdsfactory as gf

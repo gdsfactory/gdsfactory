@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["spiral"]
+
 import gdsfactory as gf
 from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.typings import ComponentSpec
