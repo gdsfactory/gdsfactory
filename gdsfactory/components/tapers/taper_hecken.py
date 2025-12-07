@@ -5,6 +5,8 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 
 from __future__ import annotations
 
+__all__ = ["taper_hecken"]
+
 import numpy as np
 from numpy import log
 

@@ -1,45 +1,15 @@
-from gdsfactory.components.containers.add_fiber_array_optical_south_electrical_north import (
-    add_fiber_array_optical_south_electrical_north,
-)
-from gdsfactory.components.containers.add_termination import (
-    add_termination,
-)
-from gdsfactory.components.containers.add_trenches import (
-    add_trenches,
-    add_trenches90,
-)
-from gdsfactory.components.containers.array_component import (
-    array,
-)
-from gdsfactory.components.containers.component_sequence import (
-    SequenceGenerator,
-    component_sequence,
-    parse_component_name,
-)
-from gdsfactory.components.containers.copy_layers import (
-    copy_layers,
-)
-from gdsfactory.components.containers.extend_ports_list import (
-    extend_ports_list,
-)
-from gdsfactory.components.containers.extension import (
-    DEG2RAD,
-    extend_ports,
-    line,
-    move_polar_rad_copy,
-)
-from gdsfactory.components.containers.pack_doe import (
-    generate_doe,
-    pack_doe,
-    pack_doe_grid,
-)
-from gdsfactory.components.containers.splitter_chain import (
-    splitter_chain,
-)
-from gdsfactory.components.containers.splitter_tree import (
-    splitter_tree,
-    switch_tree,
-)
+from . import array_component, extension
+from .add_fiber_array_optical_south_electrical_north import *
+from .add_termination import *
+from .add_trenches import *
+from .array_component import *
+from .component_sequence import *
+from .copy_layers import *
+from .extend_ports_list import *
+from .extension import *
+from .pack_doe import *
+from .splitter_chain import *
+from .splitter_tree import *
 
 __all__ = [
     "DEG2RAD",
@@ -49,10 +19,12 @@ __all__ = [
     "add_trenches",
     "add_trenches90",
     "array",
+    "array_component",
     "component_sequence",
     "copy_layers",
     "extend_ports",
     "extend_ports_list",
+    "extension",
     "generate_doe",
     "line",
     "move_polar_rad_copy",

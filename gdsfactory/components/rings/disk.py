@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["disk", "disk_heater"]
+
 import math
 
 import gdsfactory as gf

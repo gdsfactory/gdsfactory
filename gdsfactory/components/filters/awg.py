@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+__all__ = ["awg", "free_propagation_region"]
+
 from functools import partial
 
 import numpy as np

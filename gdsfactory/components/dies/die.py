@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+__all__ = ["die"]
+
 import numpy as np
 
 import gdsfactory as gf

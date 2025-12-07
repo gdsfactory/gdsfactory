@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["taper_adiabatic"]
+
 from collections.abc import Callable
 from typing import Any
 

@@ -1,3 +1,12 @@
+__all__ = [
+    "die_frame",
+    "die_frame_phix",
+    "die_frame_phix_dc",
+    "die_frame_phix_rf",
+    "die_frame_rf",
+    "die_frame_with_pads",
+]
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Float2, LayerSpec, Size

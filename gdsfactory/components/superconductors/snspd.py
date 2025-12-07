@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["snspd"]
+
 import numpy as np
 
 import gdsfactory as gf

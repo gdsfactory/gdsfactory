@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["compass"]
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import valid_port_orientations

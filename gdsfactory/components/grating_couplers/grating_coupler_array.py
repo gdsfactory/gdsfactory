@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["grating_coupler_array"]
+
 import kfactory as kf
 
 import gdsfactory as gf

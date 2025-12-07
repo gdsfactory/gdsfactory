@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["terminator"]
+
 import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component

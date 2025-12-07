@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["character_a", "pixel_array", "rectangular_font"]
+
 from functools import cache
 
 import gdsfactory as gf

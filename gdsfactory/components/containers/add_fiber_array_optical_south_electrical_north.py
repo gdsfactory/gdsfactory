@@ -1,5 +1,7 @@
 from typing import Any
 
+__all__ = ["add_fiber_array_optical_south_electrical_north"]
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import AngleInDegrees, ComponentSpec, CrossSectionSpec

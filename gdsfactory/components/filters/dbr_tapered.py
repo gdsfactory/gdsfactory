@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["dbr_tapered"]
+
 from typing import cast
 
 import gdsfactory as gf

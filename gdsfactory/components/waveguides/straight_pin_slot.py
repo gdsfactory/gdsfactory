@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+__all__ = ["straight_pin_slot", "straight_pn_slot"]
+
 from functools import partial
 
 import gdsfactory as gf

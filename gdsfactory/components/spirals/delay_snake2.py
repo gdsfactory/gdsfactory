@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["delay_snake2"]
+
 import warnings
 
 import gdsfactory as gf

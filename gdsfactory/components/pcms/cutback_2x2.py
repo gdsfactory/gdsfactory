@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["cutback_2x2"]
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.containers.component_sequence import component_sequence

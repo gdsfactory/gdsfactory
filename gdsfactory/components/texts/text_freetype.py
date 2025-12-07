@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["text_freetype"]
+
 import pathlib
 import warnings
 

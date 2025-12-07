@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["add_termination"]
+
 from functools import partial
 
 import gdsfactory as gf

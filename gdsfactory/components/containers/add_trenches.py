@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["add_trenches", "add_trenches90"]
+
 from functools import partial
 
 import gdsfactory as gf

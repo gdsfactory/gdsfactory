@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["grating_coupler_tree"]
+
 from typing import Any
 
 import gdsfactory as gf

@@ -5,6 +5,8 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 
 from __future__ import annotations
 
+__all__ = ["taper_meander"]
+
 from math import pi
 
 import numpy as np

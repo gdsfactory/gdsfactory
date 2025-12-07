@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["text_rectangular", "text_rectangular_multi_layer"]
+
 from collections.abc import Callable
 from functools import partial
 from typing import Any

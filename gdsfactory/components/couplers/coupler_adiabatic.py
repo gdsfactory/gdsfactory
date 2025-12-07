@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["coupler_adiabatic"]
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bends.bend_s import bezier

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["coupler_full"]
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import CrossSectionSpec, Delta

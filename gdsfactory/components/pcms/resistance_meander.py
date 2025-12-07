@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["resistance_meander"]
+
 import numpy as np
 
 import gdsfactory as gf

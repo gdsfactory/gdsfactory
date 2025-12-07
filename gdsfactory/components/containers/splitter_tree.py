@@ -16,6 +16,8 @@ _|  |__          |dy
 
 from __future__ import annotations
 
+__all__ = ["splitter_tree", "switch_tree"]
+
 from functools import partial
 
 import numpy as np

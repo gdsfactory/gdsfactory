@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["straight_heater_meander"]
+
 from functools import partial
 
 import numpy as np

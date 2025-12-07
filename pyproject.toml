@@ -191,6 +191,7 @@ select = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
+"gdsfactory/components/*.py" = ["F403", "F405"]  # import *
 "gdsfactory/samples/*.py" = ["N999"]
 "gdsfactory/typings.py" = ["UP035"]
 "notebooks/*.ipynb" = ["F821", 'E402', 'F405', 'F403', "D103"]

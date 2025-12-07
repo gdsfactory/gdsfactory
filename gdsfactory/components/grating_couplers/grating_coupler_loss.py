@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__ = ["grating_coupler_loss"]
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.routing.route_single import route_single

@@ -1,5 +1,7 @@
 """Greek cross test structure."""
 
+__all__ = ["greek_cross", "greek_cross_with_pads"]
+
 import gdsfactory as gf
 from gdsfactory.cross_section import metal1
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats, LayerSpecs

@@ -1,20 +1,7 @@
-from gdsfactory.components.texts.text import (
-    text,
-    text_klayout,
-    text_lines,
-)
-from gdsfactory.components.texts.text_freetype import (
-    text_freetype,
-)
-from gdsfactory.components.texts.text_rectangular import (
-    text_rectangular,
-    text_rectangular_multi_layer,
-)
-from gdsfactory.components.texts.text_rectangular_font import (
-    character_a,
-    pixel_array,
-    rectangular_font,
-)
+from .text import *
+from .text_freetype import *
+from .text_rectangular import *
+from .text_rectangular_font import *
 
 __all__ = [
     "character_a",

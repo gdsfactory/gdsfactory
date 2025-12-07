@@ -2,6 +2,8 @@
 
 import math
 
+__all__ = ["inductor"]
+
 import gdsfactory as gf
 from gdsfactory import Component
 from gdsfactory.typings import LayerSpec, LayerSpecs
