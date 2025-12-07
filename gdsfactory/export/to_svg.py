@@ -38,9 +38,9 @@ def to_svg(
 
     try:
         from shapely.geometry import Polygon
-    except ImportError as e:
+    except ImportError:
         print("You need to `pip install shapely` to use the `to_svg` function.")
-        raise e
+        raise
 
     layer_views = layer_views or get_layer_views()
     layer_stack = layer_stack or get_layer_stack()
@@ -77,11 +77,11 @@ def to_svg(
             # Determine the layer tuple based on its type
             if isinstance(layer, LogicalLayer):
                 assert isinstance(layer.layer, tuple | LayerEnum)
-                layer_tuple = cast(tuple[int, int], tuple(layer.layer))
+                layer_tuple = cast("tuple[int, int]", tuple(layer.layer))
             elif isinstance(layer, DerivedLayer):
                 assert level.derived_layer is not None
                 assert isinstance(level.derived_layer.layer, tuple | LayerEnum)
-                layer_tuple = cast(tuple[int, int], tuple(level.derived_layer.layer))
+                layer_tuple = cast("tuple[int, int]", tuple(level.derived_layer.layer))
             else:
                 raise ValueError(
                     f"Layer {layer!r} is not a DerivedLayer or LogicalLayer"

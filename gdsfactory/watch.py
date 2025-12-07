@@ -157,9 +157,7 @@ class FileWatcher(FileSystemEventHandler):
             src_path = event.src_path
 
         # Check if the file matches the extensions we care about
-        if what == "file" and (
-            src_path.endswith(".pic.yml") or src_path.endswith(".py")
-        ):
+        if what == "file" and (src_path.endswith((".pic.yml", ".py"))):
             self.logger.info("Modified %s: %s", what, src_path)
             self.get_component(src_path)
         else:
@@ -189,7 +187,7 @@ class FileWatcher(FileSystemEventHandler):
             if filepath.exists():
                 if str(filepath).endswith(".pic.yml"):
                     return self.get_component_yaml(filepath, dirpath)
-                elif str(filepath).endswith(".py"):
+                if str(filepath).endswith(".py"):
                     context = dict(locals(), **globals())
                     if self.run_main:
                         context.update(__name__="__main__")
@@ -270,7 +268,7 @@ def watch(
         for root, _, fns in os.walk(path):
             for fn in fns:
                 path = os.path.join(root, fn)
-                if path.endswith(".py") or path.endswith(".pic.yml"):
+                if path.endswith((".py", ".pic.yml")):
                     event = SimpleNamespace(is_directory=False, src_path=path)
                     watcher.on_created(event)  # type: ignore
 

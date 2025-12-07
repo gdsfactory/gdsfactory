@@ -224,7 +224,7 @@ def to_yaml_graph_networkx(
         ]
     )
     pos = {k: (v["x"], v["y"]) for k, v in placements.items()}
-    labels = {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
+    labels = {k: ",".join(k.split(",")[:1]) for k in placements}
 
     for node, placement in placements.items():
         if not graph.has_node(

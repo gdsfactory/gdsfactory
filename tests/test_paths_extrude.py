@@ -168,7 +168,6 @@ def test_transition_cross_section_different_layers() -> None:
     p = gf.path.straight(length=length)
     c = gf.path.extrude_transition(p=p, transition=transition)
 
-    core_width = core_width
     intent_layer_1_ = gf.get_layer(intent_layer_1)
     intent_layer_2_ = gf.get_layer(intent_layer_2)
 
@@ -220,7 +219,6 @@ def test_transition_asymmetric_cross_section_different_layers() -> None:
     p = gf.path.straight(length=length, npoints=100)
     c = gf.path.extrude_transition(p=p, transition=transition)
 
-    core_width = core_width
     intent_layer_1_ = gf.get_layer(intent_layer_1)
     intent_layer_2_ = gf.get_layer(intent_layer_2)
 

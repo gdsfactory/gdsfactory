@@ -186,7 +186,7 @@ def pack(
         max_size_filtered, dtype=np.float64
     )  # In case it's integers
     max_size_array = max_size_array / precision
-    max_size_tuple = cast(tuple[float, float], tuple(max_size_array))
+    max_size_tuple = cast("tuple[float, float]", tuple(max_size_array))
 
     components = [gf.get_component(component) for component in component_list]
 
@@ -202,7 +202,7 @@ def pack(
                 "larger than `max_size` and cannot be packed.\n"
                 f"xsize = {size[0]}, max_xsize = {int(precision * w)}"
             )
-        elif h > max_size_tuple[1]:
+        if h > max_size_tuple[1]:
             raise ValueError(
                 f"pack() failed because Component {_component.name!r} has y dimension "
                 "larger than `max_size` and cannot be packed.\n"
@@ -251,7 +251,7 @@ def pack(
             if v_mirror:
                 d.mirror_y()
             d.center = cast(
-                tuple[float, float],
+                "tuple[float, float]",
                 tuple(snap_to_grid((xcenter * precision, ycenter * precision))),
             )
             if add_ports_prefix:

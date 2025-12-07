@@ -125,8 +125,7 @@ class AbstractLayer(BaseModel):
                 raise ValueError(
                     "If yoffset is provided as a tuple, length must be equal to xoffset!"
                 )
-            else:
-                yoffset_list = list(yoffset)
+            yoffset_list = list(yoffset)
         elif yoffset is None:
             yoffset_list = xoffset_list
         else:
@@ -138,8 +137,7 @@ class AbstractLayer(BaseModel):
                 raise ValueError(
                     "If mode is provided as a tuple, length must be equal to xoffset!"
                 )
-            else:
-                mode_list = list(mode)
+            mode_list = list(mode)
         elif mode is None:
             mode_list = [2] * len(xoffset_list)
         else:
@@ -204,9 +202,7 @@ class LogicalLayer(AbstractLayer):
 
         polygons_per_layer = component.get_polygons()
         layer_index = get_layer(self.layer)
-        polygons = (
-            polygons_per_layer[layer_index] if layer_index in polygons_per_layer else []
-        )
+        polygons = polygons_per_layer.get(layer_index, [])
         region = kf.kdb.Region(polygons)
         if not (
             all(v == 0 for v in self.sizings_xoffsets)
@@ -274,8 +270,7 @@ class DerivedLayer(AbstractLayer):
     def get_symbol(self) -> str:
         if self.operation in self.keyword_to_symbol:
             return self.keyword_to_symbol[self.operation]
-        else:
-            return self.operation
+        return self.operation
 
     def get_shapes(self, component: Component) -> kf.kdb.Region:
         """Return the shapes of the component argument corresponding to this layer.
@@ -371,8 +366,7 @@ class LayerLevel(BaseModel):
     def check_layer(cls, layer: BroadLayer) -> LogicalLayer | DerivedLayer:
         if isinstance(layer, LogicalLayer | DerivedLayer):
             return layer
-        else:
-            return LogicalLayer(layer=layer)
+        return LogicalLayer(layer=layer)
 
     @property
     def bounds(self) -> tuple[float, float]:

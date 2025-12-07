@@ -38,30 +38,28 @@ def _format_value(value: Any, indent: int = 0) -> str:
     """
     if value is None:
         return "None"
-    elif isinstance(value, bool):
+    if isinstance(value, bool):
         return str(value)
-    elif isinstance(value, str):
+    if isinstance(value, str):
         return repr(value)
-    elif isinstance(value, int | float):
+    if isinstance(value, int | float):
         return str(value)
-    elif isinstance(value, dict):
+    if isinstance(value, dict):
         if not value:
             return "{}"
         items = [f"{_format_value(k)}: {_format_value(v)}" for k, v in value.items()]
         if len(items) == 1 and len(items[0]) < 60:
             return "{" + items[0] + "}"
         return "{" + ", ".join(items) + "}"
-    elif isinstance(value, list | tuple):
+    if isinstance(value, list | tuple):
         if not value:
             return "[]" if isinstance(value, list) else "()"
         items = [_format_value(v) for v in value]
         result = ", ".join(items)
         if isinstance(value, list):
             return f"[{result}]"
-        else:
-            return f"({result})" if len(value) != 1 else f"({result},)"
-    else:
-        return repr(value)
+        return f"({result})" if len(value) != 1 else f"({result},)"
+    return repr(value)
 
 
 def from_yaml_to_code(
@@ -183,7 +181,7 @@ def from_yaml_to_code(
         lines.append("    # Add instance labels")
         lines.extend(
             f"    add_instance_label(c, {name}, instance_name={_format_value(name)})"
-            for name in net.instances.keys()
+            for name in net.instances
         )
         lines.append("")
 
@@ -407,8 +405,7 @@ def _get_anchor_point_code(inst_name: str, anchor: str) -> str:
     """
     if anchor in valid_anchor_point_keywords:
         return f"{inst_name}.dsize_info.{anchor}"
-    else:
-        return f"{inst_name}.ports[{_format_value(anchor)}].center"
+    return f"{inst_name}.ports[{_format_value(anchor)}].center"
 
 
 def _get_anchor_value_code(inst_name: str, anchor: str, coord: str) -> str:
@@ -424,12 +421,11 @@ def _get_anchor_value_code(inst_name: str, anchor: str, coord: str) -> str:
     """
     if anchor in valid_anchor_value_keywords:
         return f"{inst_name}.dsize_info.{anchor}"
-    elif anchor in valid_anchor_point_keywords:
+    if anchor in valid_anchor_point_keywords:
         return (
             f"{_get_anchor_point_code(inst_name, anchor)}[{0 if coord == 'x' else 1}]"
         )
-    else:
-        return f"{inst_name}.ports[{_format_value(anchor)}].{coord}"
+    return f"{inst_name}.ports[{_format_value(anchor)}].{coord}"
 
 
 def _generate_position_code(value: str | int | float, coord: str) -> str:
@@ -449,10 +445,8 @@ def _generate_position_code(value: str | int | float, coord: str) -> str:
 
         if anchor_ref in valid_anchor_value_keywords:
             return _get_anchor_value_code(inst_ref, anchor_ref, coord)
-        else:
-            return f"{inst_ref}.ports[{_format_value(anchor_ref)}].{coord}"
-    else:
-        return str(value)
+        return f"{inst_ref}.ports[{_format_value(anchor_ref)}].{coord}"
+    return str(value)
 
 
 def _generate_connection_code(i1: str, i2: str, ports: tuple[str, str]) -> list[str]:

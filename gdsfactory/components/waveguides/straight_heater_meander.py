@@ -72,9 +72,8 @@ def straight_heater_meander(
     assert radius is not None
     assert n
 
-    if n and not straight_widths:
-        if n % 2 == 0:
-            raise ValueError(f"n={n} should be odd")
+    if n and not straight_widths and n % 2 == 0:
+        raise ValueError(f"n={n} should be odd")
 
     ##############
     # Straights

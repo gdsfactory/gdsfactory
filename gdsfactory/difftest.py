@@ -66,16 +66,14 @@ def xor(
             reg = kdb.Region()
             regions[key] = reg
             return reg
-        else:
-            return regions[key]
+        return regions[key]
 
     def get_texts(key: int, texts_dict: dict[int, kdb.Texts]) -> kdb.Texts:
         if key not in texts_dict:
             texts = kdb.Texts()
             texts_dict[key] = texts
             return texts
-        else:
-            return texts_dict[key]
+        return texts_dict[key]
 
     def polygon_diff_a(anotb: kdb.Polygon, prop_id: int) -> None:
         get_region(ld.layer_index_a(), a_regions).insert(anotb)
@@ -267,16 +265,14 @@ def diff(
             reg = kdb.Region()
             regions[key] = reg
             return reg
-        else:
-            return regions[key]
+        return regions[key]
 
     def get_texts(key: int, texts_dict: dict[int, kdb.Texts]) -> kdb.Texts:
         if key not in texts_dict:
             texts = kdb.Texts()
             texts_dict[key] = texts
             return texts
-        else:
-            return texts_dict[key]
+        return texts_dict[key]
 
     def polygon_diff_a(anotb: kdb.Polygon, prop_id: int) -> None:
         get_region(ld.layer_index_a(), a_regions).insert(anotb)

@@ -159,8 +159,8 @@ def _get_anchor_point_from_name(
     ref: InstanceOrVInstance, anchor_name: str
 ) -> tuple[float, float] | None:
     if anchor_name in valid_anchor_point_keywords:
-        return cast(tuple[float, float], getattr(ref.dsize_info, anchor_name))
-    elif anchor_name in ref.ports:
+        return cast("tuple[float, float]", getattr(ref.dsize_info, anchor_name))
+    if anchor_name in ref.ports:
         return ref.ports[anchor_name].center
     return None
 
@@ -176,10 +176,9 @@ def _get_anchor_value_from_name(
         return None
     if return_value == "x":
         return anchor_point[0]
-    elif return_value == "y":
+    if return_value == "y":
         return anchor_point[1]
-    else:
-        raise ValueError("Expected x or y as return_value.")
+    raise ValueError("Expected x or y as return_value.")
 
 
 def _move_ref(
@@ -320,7 +319,7 @@ def place(
             raise ValueError(
                 f"Invalid placement {placement_settings} from {valid_placement_keys}"
             )
-        for k in placement_settings.keys():
+        for k in placement_settings:
             if k not in valid_placement_keys:
                 raise ValueError(f"Invalid placement {k} from {valid_placement_keys}")
 
@@ -409,7 +408,7 @@ def place(
 
         if ymin is not None and ymax is not None:
             raise ValueError("You cannot set ymin and ymax")
-        elif ymax is not None:
+        if ymax is not None:
             dymax = _move_ref(
                 ymax,
                 x_or_y="y",
@@ -436,7 +435,7 @@ def place(
 
         if xmin is not None and xmax is not None:
             raise ValueError("You cannot set xmin and xmax")
-        elif xmin is not None:
+        if xmin is not None:
             dxmin = _move_ref(
                 xmin,
                 x_or_y="x",
@@ -826,10 +825,7 @@ def _load_yaml_str(yaml_str: Any) -> dict[str, Any]:
         dct = deepcopy(yaml_str.model_dump())
     elif (isinstance(yaml_str, str) and "\n" in yaml_str) or isinstance(yaml_str, IO):
         dct = yaml.load(yaml_str, Loader=yaml.FullLoader)
-    elif isinstance(yaml_str, str):
-        with open(yaml_str) as f:
-            dct = yaml.load(f, Loader=yaml.FullLoader)
-    elif isinstance(yaml_str, pathlib.Path):
+    elif isinstance(yaml_str, (str, pathlib.Path)):
         with open(yaml_str) as f:
             dct = yaml.load(f, Loader=yaml.FullLoader)
     else:
@@ -1151,7 +1147,7 @@ def _update_reference_by_placement(
         raise ValueError(
             f"Can only set one of x, xmin, xmax. Got: {x=}, {xmin=}, {xmax=}"
         )
-    elif isinstance(x, str):
+    if isinstance(x, str):
         i, q = x.split(",")
         if q in valid_anchor_value_keywords:
             _dx = _get_anchor_value_from_name(refs[i], q, "x")
@@ -1186,7 +1182,7 @@ def _update_reference_by_placement(
         raise ValueError(
             f"Can only set one of y, ymin, ymax. Got: {y=}, {ymin=}, {ymax=}"
         )
-    elif isinstance(y, str):
+    if isinstance(y, str):
         i, q = y.split(",")
         if q in valid_anchor_value_keywords:
             _dy = _get_anchor_value_from_name(refs[i], q, "y")
@@ -1280,18 +1276,17 @@ def _split_route_link(s: str) -> tuple[str, list[str], str]:
 
     if s.count("-") > 1:
         raise error
-    elif "-" not in s:
+    if "-" not in s:
         return s, [""], ""
-    else:
-        first, last = s.split("-")
-        first, j = _first_index(first)
-        last, k = _second_index(last)
+    first, last = s.split("-")
+    first, j = _first_index(first)
+    last, k = _second_index(last)
 
-        if k >= j:
-            middles = [f"{i}" for i in range(j, k + 1, 1)]
-        else:
-            middles = [f"{i}" for i in range(j, k - 1, -1)]
-        return first, middles, last
+    if k >= j:
+        middles = [f"{i}" for i in range(j, k + 1, 1)]
+    else:
+        middles = [f"{i}" for i in range(j, k - 1, -1)]
+    return first, middles, last
 
 
 def _get_ports_from_portnames(

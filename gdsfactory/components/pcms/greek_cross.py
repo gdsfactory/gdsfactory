@@ -59,9 +59,10 @@ def greek_cross(
         raise ValueError("len(layers) must equal len(widths).")
 
     offsets = offsets or (0.0,) * len(layers)
-    index = 0
 
-    for layer, width, offset in zip(layers, widths, offsets, strict=False):
+    for index, (layer, width, offset) in enumerate(
+        zip(layers, widths, offsets, strict=False)
+    ):
         ref = c << gf.c.cross(
             length=length + 2 * offset,
             width=width,
@@ -70,7 +71,6 @@ def greek_cross(
         )
         if index == layer_index:
             cross_ref = ref
-        index += 1
 
     # Add via
     for port in cross_ref.ports:

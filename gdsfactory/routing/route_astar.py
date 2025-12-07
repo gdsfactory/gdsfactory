@@ -300,7 +300,7 @@ def route_astar(
     cross_section = gf.get_cross_section(cross_section, **kwargs)
     grid, x, y = _generate_grid(component, resolution, avoid_layers, distance)
     G_ = nx.grid_2d_graph(len(x), len(y))
-    G = cast(nx.Graph, G_)
+    G = cast("nx.Graph", G_)
 
     # Remove nodes representing obstacles
     for i in range(len(x)):

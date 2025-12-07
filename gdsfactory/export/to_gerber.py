@@ -136,9 +136,8 @@ def to_gerber(
             f.write("%ADD10C,0.050000*%\n")
 
             # Only supports polygons for now
-            if layer_tup in layer_to_polygons.keys():
-                for poly in layer_to_polygons[layer_tup]:
-                    f.write(polygon(poly))  # type: ignore[arg-type]
+            if layer_tup in layer_to_polygons:
+                f.writelines(polygon(poly) for poly in layer_to_polygons[layer_tup])  # type: ignore[arg-type]
 
             # File end
             f.write("M02*\n")

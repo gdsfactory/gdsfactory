@@ -183,7 +183,7 @@ def port_array(
             Port(
                 name=str(i),
                 center=cast(
-                    tuple[float, float],
+                    "tuple[float, float]",
                     tuple(
                         np.array(center) + i * pitch_array - (n - 1) / 2 * pitch_array
                     ),
@@ -194,22 +194,19 @@ def port_array(
             )  # type: ignore[call-overload]
             for i in range(n)
         ]
-    else:
-        return [
-            Port(
-                name=str(i),
-                center=cast(
-                    tuple[float, float],
-                    tuple(
-                        np.array(center) + i * pitch_array - (n - 1) / 2 * pitch_array
-                    ),
-                ),
-                orientation=orientation,
-                width=width,
-                **kwargs,
-            )  # type: ignore[call-overload]
-            for i in range(n)
-        ]
+    return [
+        Port(
+            name=str(i),
+            center=cast(
+                "tuple[float, float]",
+                tuple(np.array(center) + i * pitch_array - (n - 1) / 2 * pitch_array),
+            ),
+            orientation=orientation,
+            width=width,
+            **kwargs,
+        )  # type: ignore[call-overload]
+        for i in range(n)
+    ]
 
 
 def read_port_markers(

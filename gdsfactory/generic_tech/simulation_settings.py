@@ -1,15 +1,11 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import TYPE_CHECKING
 
 import numpy as np
 import numpy.typing as npt
 from pydantic import BaseModel, ConfigDict
 from scipy import interpolate
-
-if TYPE_CHECKING:
-    pass
 
 material_name_to_lumerical_default = {
     "si": "Si (Silicon) - Palik",

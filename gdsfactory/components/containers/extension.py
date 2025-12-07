@@ -145,7 +145,7 @@ def extend_ports(
         gf.port.get_ports_list(cref.ports, port_type=port_type, **kwargs)
     )
     ports_to_extend_names = [p.name for p in ports_to_extend if p.name is not None]
-    ports_to_extend_names = cast(list[str], port_names or ports_to_extend_names)
+    ports_to_extend_names = cast("list[str]", port_names or ports_to_extend_names)
 
     if auto_taper and cross_section:
         from gdsfactory.routing.auto_taper import add_auto_tapers

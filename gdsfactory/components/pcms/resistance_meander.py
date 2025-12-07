@@ -36,11 +36,11 @@ def resistance_meander(
     # Checking validity of input
     if x <= 0 or z <= 0:
         raise ValueError("Pad must have positive, real dimensions")
-    elif width > z:
+    if width > z:
         raise ValueError("Width of cell cannot be greater than height of pad")
-    elif num_squares <= 0:
+    if num_squares <= 0:
         raise ValueError("Number of squares must be a positive real number")
-    elif width <= 0:
+    if width <= 0:
         raise ValueError("Width of cell must be a positive real number")
 
     # Performing preliminary calculations

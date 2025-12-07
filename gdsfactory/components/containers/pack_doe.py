@@ -104,7 +104,7 @@ def pack_doe(
 
     component = components[0]
     component.info["doe_names"] = [component.name for component in component_list]
-    component.info["doe_settings"] = cast(kf.typings.MetaData, settings_list)
+    component.info["doe_settings"] = cast("kf.typings.MetaData", settings_list)
     return component
 
 
@@ -174,7 +174,7 @@ def pack_doe_grid(
         c = grid(component_list, **kwargs)
 
     c.info["doe_names"] = [component.name for component in component_list]
-    c.info["doe_settings"] = cast(kf.typings.MetaData, settings_list)
+    c.info["doe_settings"] = cast("kf.typings.MetaData", settings_list)
     return c
 
 

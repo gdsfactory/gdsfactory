@@ -331,14 +331,13 @@ def snap_angle(a: float) -> float:
     a = a % 360
     if -45 < a < 45:
         return 0
-    elif 45 < a < 135:
+    if 45 < a < 135:
         return 90
-    elif 135 < a < 225:
+    if 135 < a < 225:
         return 180
-    elif 225 < a < 315:
+    if 225 < a < 315:
         return 270
-    else:
-        return 0
+    return 0
 
 
 def angles_rad(pts: npt.NDArray[np.floating[Any]]) -> npt.NDArray[np.floating[Any]]:

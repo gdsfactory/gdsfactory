@@ -130,7 +130,7 @@ def dbr_tapered(
     output_taper.connect("o1", straight.ports["o2"])
     num = (2 * taper_length + length) // period
 
-    size = cast(tuple[float, float], tuple(snap_to_grid2x((period * dc, w2))))
+    size = cast("tuple[float, float]", tuple(snap_to_grid2x((period * dc, w2))))
     assert xs.layer is not None
     teeth = gf.components.rectangle(size=size, layer=xs.layer, port_type=None)
 
