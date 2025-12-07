@@ -127,7 +127,7 @@ def pack_doe_grid(
         with_text: includes text label.
         kwargs: for grid.
 
-        Keyword Args:
+    Keyword Args:
         spacing: between adjacent elements on the grid, can be a tuple for
         different distances in height and width.
         separation: If True, guarantees elements are separated with fixed spacing
