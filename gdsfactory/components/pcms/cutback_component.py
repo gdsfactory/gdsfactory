@@ -45,7 +45,7 @@ def cutback_component(
         straight_length_pair: length of the straight section between each component pair.
         cross_section: specification (CrossSection, string or dict).
         straight: straight spec.
-        radius: bend radius. Defaults to cross_section radius.
+        radius: radius for the bends. Defaults to cross_section radius.
         kwargs: component settings.
     """
     xs = gf.get_cross_section(cross_section)
@@ -54,8 +54,7 @@ def cutback_component(
     bendu = gf.get_component(bend180, cross_section=xs)
 
     radius = radius or xs.radius
-    if radius is None:
-        raise ValueError("Please specify radius or cross_section with radius.")
+    assert radius is not None
     straight_length = radius * 2 if straight_length is None else straight_length
     straight_component = gf.get_component(
         straight, length=straight_length, cross_section=xs
@@ -77,14 +76,14 @@ def cutback_component(
 
     # Generate the sequence of staircases
     s = ""
-    for i in range(rows):
-        a = "!A" if mirror1 else "A"
-        b = "!B" if mirror2 else "B"
+    a = "!A" if mirror1 else "A"
+    b = "!B" if mirror2 else "B"
 
+    for i in range(rows):
         if straight_length_pair:
-            s += f"{a}.{b}" * cols if straight_length_pair else (a + b) * cols
+            s += f"{a}.{b}" * cols
         else:
-            s += f"{a}{b}" * cols if straight_length_pair else (a + b) * cols
+            s += (a + b) * cols
 
         if mirror:
             s += "C" if i % 2 == 0 else "D"
@@ -96,9 +95,9 @@ def cutback_component(
 
     for i in range(rows):
         if straight_length_pair:
-            s += f"{a}.{b}" * cols if straight_length_pair else (a + b) * cols
+            s += f"{a}.{b}" * cols
         else:
-            s += f"{a}{b}" * cols if straight_length_pair else (a + b) * cols
+            s += (a + b) * cols
         s += "D" if (i + rows) % 2 == 0 else "C"
 
     s = s[:-1]

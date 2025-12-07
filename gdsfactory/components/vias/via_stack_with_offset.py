@@ -92,10 +92,11 @@ def via_stack_with_offset(
                 f"layer {layer} in layer_to_port_orientations not in layers {layers}"
             )
 
-    for layer, via, size, size_offset, offset in zip(
+    for layer, via, layer_size, size_offset, offset in zip(
         layers, vias, sizes_list, layer_offsets, offsets, strict=False
     ):
-        width, height = size
+        assert layer_size is not None
+        width, height = layer_size
         width += 2 * size_offset
         height += 2 * size_offset
         x0 = -width / 2

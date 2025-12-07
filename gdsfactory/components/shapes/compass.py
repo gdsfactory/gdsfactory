@@ -30,7 +30,7 @@ def compass(
     _temp = snap_to_grid2x(size)
     dx = float(_temp[0])
     dy = float(_temp[1])
-    port_orientations = port_orientations or []
+    port_orientations_list = port_orientations if port_orientations is not None else []
 
     if dx <= 0 or dy <= 0:
         raise ValueError(f"dx={dx} and dy={dy} must be > 0")
@@ -45,13 +45,13 @@ def compass(
     c.add_polygon(points, layer=layer)
 
     if port_type:
-        for port_orientation in port_orientations:
+        for port_orientation in port_orientations_list:
             if port_orientation not in valid_port_orientations:
                 raise ValueError(
                     f"{port_orientation=} must be in {valid_port_orientations}"
                 )
 
-        if 180 in port_orientations:
+        if 180 in port_orientations_list:
             c.add_port(
                 name="e1",
                 center=(-dx / 2 + port_inclusion, 0),
@@ -60,7 +60,7 @@ def compass(
                 layer=layer,
                 port_type=port_type,
             )
-        if 90 in port_orientations:
+        if 90 in port_orientations_list:
             c.add_port(
                 name="e2",
                 center=(0, dy / 2 - port_inclusion),
@@ -69,7 +69,7 @@ def compass(
                 layer=layer,
                 port_type=port_type,
             )
-        if 0 in port_orientations:
+        if 0 in port_orientations_list:
             c.add_port(
                 name="e3",
                 center=(dx / 2 - port_inclusion, 0),
@@ -78,7 +78,7 @@ def compass(
                 layer=layer,
                 port_type=port_type,
             )
-        if -90 in port_orientations or 270 in port_orientations:
+        if -90 in port_orientations_list or 270 in port_orientations_list:
             c.add_port(
                 name="e4",
                 center=(0, -dy / 2 + port_inclusion),
