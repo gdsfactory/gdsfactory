@@ -11,9 +11,7 @@ PYTHON_SAMPLE_SCRIPTS = list(scripts_dir.glob("*.py"))
 
 # parameterize the tests by stem to get better test names
 PYTHON_SAMPLE_SCRIPTS_BY_STEM = {p.stem: p for p in PYTHON_SAMPLE_SCRIPTS}
-SCRIPTS_TO_SKIP: set[str] = {
-    "coh_rx_single_pol",  # Uses port names that don't exist on ge_detector_straight_si_contacts
-}
+SCRIPTS_TO_SKIP: set[str] = set()
 
 
 @pytest.mark.parametrize("script_name", PYTHON_SAMPLE_SCRIPTS_BY_STEM.keys())

@@ -11,7 +11,7 @@ import gdsfactory as gf
 
 @gf.cell
 def sample_lidar_with_pads(
-    elements: float = 2**2,
+    elements: int = 2**2,
     antenna_pitch: float = 2.0,
     splitter_tree_spacing: tuple[float, float] = (50.0, 70.0),
 ) -> gf.Component:
