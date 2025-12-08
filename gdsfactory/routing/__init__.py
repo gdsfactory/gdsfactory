@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from kfactory.routing.optical import LoopPosition, LoopSide, PathLengthConfig
+
 from gdsfactory.routing import sort_ports, utils
 from gdsfactory.routing.add_electrical_pads_shortest import add_electrical_pads_shortest
 from gdsfactory.routing.add_electrical_pads_top import add_electrical_pads_top
@@ -27,6 +29,9 @@ from gdsfactory.routing.route_single_sbend import route_single_sbend
 from gdsfactory.routing.route_south import route_south
 
 __all__ = [
+    "LoopPosition",
+    "LoopSide",
+    "PathLengthConfig",
     "add_electrical_pads_shortest",
     "add_electrical_pads_top",
     "add_electrical_pads_top_dc",
