@@ -135,8 +135,8 @@ def coh_rx_single_pol(
     # --- Draw metal connections ----
     gf.routing.route_single_electrical(
         c,
-        pd_i1.ports["bot_e3"],
-        pd_i2.ports["top_e3"],
+        pd_i1.ports["bot"],
+        pd_i2.ports["top"],
         cross_section=cross_section_metal_top,
     )
 
@@ -146,15 +146,15 @@ def coh_rx_single_pol(
         name="i_out",
         port_type="placement",
         layer="MTOP",
-        center=(x_max, (pd_i1.ports["bot_e3"].y + pd_i2.ports["top_e3"].y) / 2),
+        center=(x_max, (pd_i1.ports["bot"].y + pd_i2.ports["top"].y) / 2),
         orientation=0,
         width=2.0,
     )
 
     gf.routing.route_single_electrical(
         c,
-        pd_q1.ports["bot_e3"],
-        pd_q2.ports["top_e3"],
+        pd_q1.ports["bot"],
+        pd_q2.ports["top"],
         cross_section=cross_section_metal,
     )
 
@@ -166,7 +166,7 @@ def coh_rx_single_pol(
         layer="M2",
         center=(
             x_max,
-            (pd_q1.ports["bot_e3"].y + pd_q2.ports["top_e3"].y) / 2 - 15.0,
+            (pd_q1.ports["bot"].y + pd_q2.ports["top"].y) / 2 - 15.0,
         ),  # - 20.0 so that the traces for I and Q do not overlap
         orientation=0,
         width=2.0,
