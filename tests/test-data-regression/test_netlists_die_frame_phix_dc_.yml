@@ -2780,12 +2780,12 @@ instances:
       size:
       - 100
       - 100
-  ruler_gdsfactorypcomponentsppcmspruler_HL55_HS5_HN10_W2_d82bf289_5498000_2142800:
+  ruler_gdsfactorypcomponentsppcmspruler_HL55_HS5_HN10_W2_fdc92807_5498000_2142800:
     component: ruler
     info: {}
     settings:
       bbox_layers: null
-      bbox_offsets: null
+      bbox_offset: 3
       height_long: 55
       height_numbered: 10
       height_short: 5
@@ -2818,12 +2818,12 @@ instances:
       spacing: 5
       text_size: 3.5
       width: 2
-  ruler_gdsfactorypcomponentsppcmspruler_HL55_HS5_HN10_W2_d82bf289_5498000_m2200000:
+  ruler_gdsfactorypcomponentsppcmspruler_HL55_HS5_HN10_W2_fdc92807_5498000_m2200000:
     component: ruler
     info: {}
     settings:
       bbox_layers: null
-      bbox_offsets: null
+      bbox_offset: 3
       height_long: 55
       height_numbered: 10
       height_short: 5
@@ -2856,12 +2856,12 @@ instances:
       spacing: 5
       text_size: 3.5
       width: 2
-  ruler_gdsfactorypcomponentsppcmspruler_HL55_HS5_HN10_W2_d82bf289_m5498000_2200000_A180:
+  ruler_gdsfactorypcomponentsppcmspruler_HL55_HS5_HN10_W2_fdc92807_m5498000_2200000_A180:
     component: ruler
     info: {}
     settings:
       bbox_layers: null
-      bbox_offsets: null
+      bbox_offset: 3
       height_long: 55
       height_numbered: 10
       height_short: 5
@@ -2894,12 +2894,12 @@ instances:
       spacing: 5
       text_size: 3.5
       width: 2
-  ruler_gdsfactorypcomponentsppcmspruler_HL55_HS5_HN10_W2_d82bf289_m5498000_m2142800_A180:
+  ruler_gdsfactorypcomponentsppcmspruler_HL55_HS5_HN10_W2_fdc92807_m5498000_m2142800_A180:
     component: ruler
     info: {}
     settings:
       bbox_layers: null
-      bbox_offsets: null
+      bbox_offset: 3
       height_long: 55
       height_numbered: 10
       height_short: 5
@@ -2932,7 +2932,7 @@ instances:
       spacing: 5
       text_size: 3.5
       width: 2
-name: die_frame_phix_dc_gdsfactorypcomponentspdiespdie_frame__ed6043e8
+name: die_frame_phix_dc_gdsfactorypcomponentspdiespdie_frame__874088ce
 nets: []
 placements:
   circle_gdsfactorypcomponentspshapespcircle_R75_AR2p5_LM3_4955000_2250000:
@@ -3560,22 +3560,22 @@ placements:
     rotation: 0
     x: -900
     y: -2250
-  ruler_gdsfactorypcomponentsppcmspruler_HL55_HS5_HN10_W2_d82bf289_5498000_2142800:
+  ruler_gdsfactorypcomponentsppcmspruler_HL55_HS5_HN10_W2_fdc92807_5498000_2142800:
     mirror: false
     rotation: 0
     x: 5498
     y: 2142.8
-  ruler_gdsfactorypcomponentsppcmspruler_HL55_HS5_HN10_W2_d82bf289_5498000_m2200000:
+  ruler_gdsfactorypcomponentsppcmspruler_HL55_HS5_HN10_W2_fdc92807_5498000_m2200000:
     mirror: false
     rotation: 0
     x: 5498
     y: -2200
-  ruler_gdsfactorypcomponentsppcmspruler_HL55_HS5_HN10_W2_d82bf289_m5498000_2200000_A180:
+  ruler_gdsfactorypcomponentsppcmspruler_HL55_HS5_HN10_W2_fdc92807_m5498000_2200000_A180:
     mirror: false
     rotation: 180
     x: -5498
     y: 2200
-  ruler_gdsfactorypcomponentsppcmspruler_HL55_HS5_HN10_W2_d82bf289_m5498000_m2142800_A180:
+  ruler_gdsfactorypcomponentsppcmspruler_HL55_HS5_HN10_W2_fdc92807_m5498000_m2142800_A180:
     mirror: false
     rotation: 180
     x: -5498
