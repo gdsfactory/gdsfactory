@@ -82,7 +82,8 @@ def ruler(
             t.rotate(90)
             t.ymin = ref.ymin + 1
             t.xmax = ref.xmin - 1
-    gf.add_padding(c, layers=bbox_layers, default=bbox_offset)
+    if bbox_layers:
+        gf.add_padding(c, layers=bbox_layers, default=bbox_offset)
     return c
 
 
