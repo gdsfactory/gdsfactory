@@ -38,7 +38,7 @@ def ruler(
     ),
     layer: LayerSpec = "WG",
     bbox_layers: tuple[LayerSpec, ...] | None = None,
-    bbox_offsets: tuple[float, ...] | None = None,
+    bbox_offset: float = 3.0,
     long_marks: tuple[float, ...] = (-50, 0),
     text_size: float = 3.5,
 ) -> gf.Component:
@@ -55,7 +55,7 @@ def ruler(
         marks: Height scale pattern of marks.
         layer: Specific layer to put the ruler geometry on.
         bbox_layers: Layers to include in the bounding box.
-        bbox_offsets: Offsets for each bounding box layer.
+        bbox_offset: Offsets for each bounding box layer.
         cross_section: Cross-section spec for the ruler. Overrides layer if provided.
         long_marks: Marks that are long.
         text_size: Size of the text in um.
@@ -75,17 +75,6 @@ def ruler(
         ref.xmin = i * spacing
         ref.ymin = ymin
 
-        for bbox_layer, bbox_offset in zip(
-            bbox_layers or (), bbox_offsets or (), strict=True
-        ):
-            bbox = c << gf.components.rectangle(
-                size=(width + 2 * bbox_offset, h + 2 * bbox_offset),
-                layer=bbox_layer,
-                port_orientations=None,
-            )
-            bbox.xmin = ref.xmin - bbox_offset
-            bbox.ymin = ref.ymin - bbox_offset
-
         if mark is not None:
             t = c << gf.c.text_rectangular(
                 text=str(mark), size=text_size / 5, layer=layer
@@ -93,20 +82,10 @@ def ruler(
             t.rotate(90)
             t.ymin = ref.ymin + 1
             t.xmax = ref.xmin - 1
-            for bbox_layer, bbox_offset in zip(
-                bbox_layers or (), bbox_offsets or (), strict=True
-            ):
-                bbox = c << gf.components.rectangle(
-                    size=(t.xsize + 2 * bbox_offset, t.ysize + 2 * bbox_offset),
-                    layer=bbox_layer,
-                    port_orientations=None,
-                )
-                bbox.xmin = t.xmin - bbox_offset
-                bbox.ymin = t.ymin - bbox_offset
-
+    gf.add_padding(c, layers=bbox_layers, default=bbox_offset)
     return c
 
 
 if __name__ == "__main__":
-    c = ruler(bbox_layers=("SLAB90",), bbox_offsets=(2,))
+    c = ruler(bbox_layers=("SLAB90",), bbox_offset=2)
     c.show()
