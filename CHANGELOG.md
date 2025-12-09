@@ -1,27 +1,37 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.21.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.25.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.25.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.25.0) - 2025-12-10
 
-No significant changes.
-
+- add path length matching to route_bundle [#4279](https://github.com/gdsfactory/gdsfactory/pull/4279)
+- improve die frame [#4282](https://github.com/gdsfactory/gdsfactory/pull/4282)
+- add pyright [#4273](https://github.com/gdsfactory/gdsfactory/pull/4273)
+- add radius info [#4268](https://github.com/gdsfactory/gdsfactory/pull/4268)
+- fix and test samples [#4278](https://github.com/gdsfactory/gdsfactory/pull/4278)
+- more ruff rules [#4276](https://github.com/gdsfactory/gdsfactory/pull/4276)
+- improve ge detector [#4274](https://github.com/gdsfactory/gdsfactory/pull/4274)
+- route_single not fail on error by default [#4267](https://github.com/gdsfactory/gdsfactory/pull/4267)
 
 ## [9.24.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.24.0) - 2025-12-02
 
-No significant changes.
-
+- Add an optional flatten flag to Component.fix_width [#4265](https://github.com/gdsfactory/gdsfactory/pull/4265)
+- Add an optional flatten flag to Component.fix_width [#4265](https://github.com/gdsfactory/gdsfactory/pull/4265)
+- Fix: Handle existing repositories in install_klayout_genericpdk [#4257](https://github.com/gdsfactory/gdsfactory/pull/4257)
+- Add an optional flatten flag to Component.fix_width [#4265](https://github.com/gdsfactory/gdsfactory/pull/4265)
+- Create gitignore in the build directory [#4261](https://github.com/gdsfactory/gdsfactory/pull/4261)
 
 ## [9.23.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.23.0) - 2025-11-25
 
-No significant changes.
-
+- make copy layers recursive flag to unlock locked components [#4254](https://github.com/gdsfactory/gdsfactory/pull/4254)
+- Allow flex grid placements in gf.grid() and gf.grid_with_text() [#4253](https://github.com/gdsfactory/gdsfactory/pull/4253)
+- remove redundant conditions [#4255](https://github.com/gdsfactory/gdsfactory/pull/4255)
 
 ## [9.22.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.22.0) - 2025-11-20
 
-No significant changes.
-
+- add rf components [#4246](https://github.com/gdsfactory/gdsfactory/pull/4246)
+- improve rib transition port [#4244](https://github.com/gdsfactory/gdsfactory/pull/4244)
 
 ## [9.21.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.21.0) - 2025-11-14
 
