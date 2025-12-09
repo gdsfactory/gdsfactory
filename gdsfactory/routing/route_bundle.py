@@ -20,6 +20,7 @@ from warnings import warn
 
 import kfactory as kf
 from kfactory.routing.generic import ManhattanRoute
+from kfactory.routing.optical import PathLengthConfig
 
 import gdsfactory as gf
 from gdsfactory.routing.auto_taper import add_auto_tapers
@@ -123,6 +124,7 @@ def route_bundle(
     layer_transitions: LayerTransitions | None = None,
     layer_marker: LayerSpec | None = None,
     raise_on_error: bool = False,
+    path_length_matching_config: PathLengthConfig | None = None,
 ) -> list[ManhattanRoute]:
     """Places a bundle of routes to connect two groups of ports.
 
@@ -382,6 +384,7 @@ def route_bundle(
             waypoints=waypoints_,
             end_angles=end_angles,
             start_angles=start_angles,
+            path_length_matching_config=path_length_matching_config,
         )
     except Exception as e:
         if "kdb.Trans" in str(e):
