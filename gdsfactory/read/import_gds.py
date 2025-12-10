@@ -16,6 +16,7 @@ def import_gds(
     cellname: str | None = None,
     post_process: PostProcesses | None = None,
     rename_duplicated_cells: bool = False,
+    skip_new_cells: bool = False,
 ) -> Component:
     """Reads a GDS file and returns a Component.
 
@@ -24,10 +25,17 @@ def import_gds(
         cellname: name of the cell to return. Defaults to top cell.
         post_process: function to run after reading the GDS file.
         rename_duplicated_cells: if True, rename duplicated cells.
+        skip_new_cells: if True, skip new cells that conflict with existing ones.
     """
     temp_kcl = KCLayout(name=str(gdspath))
     options = kf.utilities.load_layout_options()
     options.warn_level = 0
+
+    if skip_new_cells:
+        options = kf.utilities.load_layout_options(
+            cell_conflict_resolution=kf.kdb.LoadLayoutOptions.CellConflictResolution.SkipNewCell
+        )
+
     temp_kcl.read(gdspath, options=options)
     cellname = cellname or temp_kcl.layout.top_cell().name
     kcell = temp_kcl[cellname]
