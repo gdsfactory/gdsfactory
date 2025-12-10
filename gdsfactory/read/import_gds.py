@@ -24,7 +24,7 @@ def import_gds(
         gdspath: path to GDS file.
         cellname: name of the cell to return. Defaults to top cell.
         post_process: function to run after reading the GDS file.
-        rename_duplicated_cells: if True, rename duplicated cells.
+        rename_duplicated_cells: if True, rename duplicated cells. By default appends $n to the cell name.
         skip_new_cells: if True, skip new cells that conflict with existing ones.
     """
     temp_kcl = KCLayout(name=str(gdspath))
@@ -32,18 +32,17 @@ def import_gds(
     options.warn_level = 0
 
     if skip_new_cells:
-        options = kf.utilities.load_layout_options(
-            cell_conflict_resolution=kf.kdb.LoadLayoutOptions.CellConflictResolution.SkipNewCell
+        options.cell_conflict_resolution = (
+            kf.kdb.LoadLayoutOptions.CellConflictResolution.SkipNewCell
+        )
+    elif rename_duplicated_cells:
+        options.cell_conflict_resolution = (
+            kf.kdb.LoadLayoutOptions.CellConflictResolution.RenameCell
         )
 
     temp_kcl.read(gdspath, options=options)
     cellname = cellname or temp_kcl.layout.top_cell().name
     kcell = temp_kcl[cellname]
-    if rename_duplicated_cells:
-        read_options = kf.utilities.load_layout_options()
-        read_options.cell_conflict_resolution = (
-            kf.kdb.LoadLayoutOptions.CellConflictResolution.RenameCell
-        )
 
     if hasattr(temp_kcl, "cross_sections"):
         for cross_section in temp_kcl.cross_sections.cross_sections.values():
