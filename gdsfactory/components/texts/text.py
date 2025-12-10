@@ -34,7 +34,6 @@ def text(
     t = gf.Component()
 
     for line in text.split("\n"):
-        label = gf.Component()
         for c in line:
             ascii_val = ord(c)
             if c == " ":
@@ -43,14 +42,13 @@ def text(
                 for poly in _glyph[ascii_val]:
                     xpts = np.array(poly)[:, 0] * scaling
                     ypts = np.array(poly)[:, 1] * scaling
-                    label.add_polygon(
+                    t.add_polygon(
                         list(zip(xpts + xoffset, ypts + yoffset, strict=False)),
                         layer=layer,
                     )
                 xoffset += (_width[ascii_val] + _indent[ascii_val]) * scaling
             else:
                 raise ValueError(f"No character with ascii value {ascii_val!r}")
-        t.add_ref(label)
         yoffset -= 1500 * scaling
         xoffset = position[0]
     justify = justify.lower()
