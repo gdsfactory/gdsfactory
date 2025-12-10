@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.25.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.25.1) - 2025-12-10
+
+No significant changes.
+
+
 ## [9.25.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.25.0) - 2025-12-10
 
 - add path length matching to route_bundle [#4279](https://github.com/gdsfactory/gdsfactory/pull/4279)
