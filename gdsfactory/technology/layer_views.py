@@ -46,6 +46,7 @@ _klayout_line_styles = {
     "long dashed": "*****..*****",
     "dash-double-dotted": "***..*.*..**",
 }
+
 _klayout_dither_patterns = {
     "solid": "*",
     "hollow": ".",
@@ -277,6 +278,15 @@ _klayout_dither_patterns = {
     "...**...\n"
     "...**...\n",
 }
+
+# Pre-computed lists for O(1) index lookups (avoid repeated list() conversions)
+_klayout_dither_patterns_list = list(_klayout_dither_patterns.keys())
+_klayout_line_styles_list = list(_klayout_line_styles.keys())
+
+# Pre-compiled regex patterns for from_lyp parsing
+_PATTERN_LAYER = re.compile(r"(\d+|\*)/(\d+|\*)")
+_PATTERN_BUILTIN_INDEX = re.compile(r"^I(\d+)$")
+_PATTERN_CUSTOM_INDEX = re.compile(r"^C(\d+)$")
 
 
 class HatchPattern(BaseModel):
@@ -718,74 +728,205 @@ class LayerView(BaseModel):
 
     @classmethod
     def from_xml_element(
-        cls, element: ET.Element, layer_pattern: str | re.Pattern[str]
+        cls,
+        element: ET.Element,
+        layer_pattern: re.Pattern[str],
+        custom_dither_names: list[str] | None = None,
     ) -> LayerView | None:
         """Read properties from .lyp XML and generate LayerViews from them.
 
         Args:
             element: XML Element to iterate over.
-            layer_pattern: Regex pattern to match layers with.
+            layer_pattern: Compiled regex pattern to match layers with.
+            custom_dither_names: List of custom dither pattern names (ordered by index).
         """
-        element_name = element.find("name")
-        element_source = element.find("source")
-        source_text = element_source.text if element_source is not None else None
+        # Cache all element lookups upfront
+        elements: dict[str, ET.Element | None] = {
+            tag: element.find(tag)
+            for tag in (
+                "name",
+                "source",
+                "dither-pattern",
+                "line-style",
+                "fill-color",
+                "frame-color",
+                "fill-brightness",
+                "frame-brightness",
+                "valid",
+                "visible",
+                "transparent",
+                "width",
+                "marked",
+                "xfill",
+                "animation",
+            )
+        }
+
+        source_el = elements["source"]
+        source_text = source_el.text if source_el is not None else None
+        name_el = elements["name"]
 
         name, layer_in_name = cls._process_name(
-            element_name.text or "" if element_name is not None else "",
+            name_el.text or "" if name_el is not None else "",
             layer_pattern,
             source_text,
         )
         if name is None:
             return None
 
-        hatch_pattern = element.find("dither-pattern").text  # type: ignore[union-attr]
-        # Translate KLayout index to hatch name
-        if hatch_pattern and re.match(r"I\d+", hatch_pattern):
-            hatch_pattern = list(_klayout_dither_patterns.keys())[
-                int(hatch_pattern[1:])
-            ]
+        # Parse layer from source
+        layer = cls._process_layer(source_text, layer_pattern) if source_text else None
 
-        # Translate KLayout index to line style name
-        line_style = element.find("line-style")
-        if (
-            line_style is not None
-            and line_style.text is not None
-            and re.match(r"I\d+", line_style.text)
-        ):
-            line_style = list(_klayout_line_styles.keys())[int(line_style.text[1:])]  # type: ignore[assignment]
+        # Translate dither pattern index to name
+        dither_el = elements["dither-pattern"]
+        hatch_pattern: str | None = dither_el.text if dither_el is not None else None
+        if hatch_pattern:
+            if match := _PATTERN_BUILTIN_INDEX.match(hatch_pattern):
+                hatch_pattern = _klayout_dither_patterns_list[int(match.group(1))]
+            elif match := _PATTERN_CUSTOM_INDEX.match(hatch_pattern):
+                if custom_dither_names:
+                    hatch_pattern = custom_dither_names[int(match.group(1))]
 
-        lv = LayerView(
+        # Translate line style index to name
+        line_style_el = elements["line-style"]
+        line_style: str | None = (
+            line_style_el.text if line_style_el is not None else None
+        )
+        if line_style:
+            if match := _PATTERN_BUILTIN_INDEX.match(line_style):
+                line_style = _klayout_line_styles_list[int(match.group(1))]
+
+        # Helper to get text with default
+        def get_text(
+            tag: str, default: str | int | bool | None = None
+        ) -> str | int | bool | None:
+            el = elements[tag]
+            return el.text if el is not None and el.text else default
+
+        # Use model_construct to bypass validation (data comes from trusted XML)
+        lv = LayerView.model_construct(
             name=name,
-            layer=cls._process_layer(element.find("source").text, layer_pattern),  # type: ignore[union-attr,arg-type]
-            fill_color=getattr(element.find("fill-color"), "text", None),
-            frame_color=getattr(element.find("frame-color"), "text", None),
-            fill_brightness=element.find("fill-brightness").text or 0,  # type: ignore[union-attr]
-            frame_brightness=element.find("frame-brightness").text or 0,  # type: ignore[union-attr]
+            layer=layer,
+            fill_color=get_text("fill-color"),
+            frame_color=get_text("frame-color"),
+            fill_brightness=get_text("fill-brightness", 0),
+            frame_brightness=get_text("frame-brightness", 0),
             hatch_pattern=hatch_pattern or None,
-            line_style=line_style
-            if line_style is not None and len(line_style) > 0
-            else None,
-            valid=getattr(element.find("valid"), "text", True),
-            visible=getattr(element.find("visible"), "text", True),
-            transparent=getattr(element.find("transparent"), "text", False),
-            width=getattr(element.find("width"), "text", None),
-            marked=getattr(element.find("marked"), "text", False),
-            xfill=getattr(element.find("xfill"), "text", False),
-            animation=getattr(element.find("animation"), "text", False),
+            line_style=line_style or None,
+            valid=get_text("valid", True),
+            visible=get_text("visible", True),
+            transparent=get_text("transparent", False),
+            width=get_text("width"),
+            marked=get_text("marked", False),
+            xfill=get_text("xfill", False),
+            animation=get_text("animation", 0),
             layer_in_name=layer_in_name,
+            group_members={},
+            info=None,
         )
 
-        # Add only if needed, so we can filter by defaults when dumping to yaml
-        group_members: builtins.dict[str, LayerView] = {}
+        # Process group members
         for member in element.iterfind("group-members"):
-            member_lv = cls.from_xml_element(member, layer_pattern)
+            member_lv = cls.from_xml_element(
+                member, layer_pattern, custom_dither_names
+            )
             if member_lv and member_lv.name is not None:
-                group_members[member_lv.name] = member_lv
-
-        if group_members != {}:
-            lv.group_members = group_members
+                lv.group_members[member_lv.name] = member_lv
 
         return lv
+
+
+def _parse_custom_dither_patterns(root: ET.Element) -> dict[str, HatchPattern]:
+    """Parse custom dither patterns from XML root, ordered by their 'order' attribute."""
+    patterns_by_order: list[tuple[int, str, HatchPattern]] = []
+    seen_names: set[str] = set()
+    auto_counter = 0
+
+    for block in root.iter("custom-dither-pattern"):
+        order_el = block.find("order")
+        if order_el is None or order_el.text is None:
+            continue
+        order = int(order_el.text)
+
+        name_el = block.find("name")
+        name = name_el.text if name_el is not None and name_el.text else None
+        if not name:
+            name = f"custom_pattern_{auto_counter}"
+            auto_counter += 1
+
+        if name in seen_names:
+            warnings.warn(
+                f"Dither pattern named {name!r} already exists. Keeping only the first defined.",
+                stacklevel=4,
+            )
+            continue
+        seen_names.add(name)
+
+        pattern_el = block.find("pattern")
+        if pattern_el is not None:
+            pattern_text = "\n".join(
+                line.text for line in pattern_el.iter("line") if line.text
+            )
+        else:
+            pattern_text = ""
+
+        patterns_by_order.append(
+            (
+                order,
+                name,
+                HatchPattern.model_construct(
+                    name=name, order=order, custom_pattern=pattern_text
+                ),
+            )
+        )
+
+    # Sort by order and return as dict (preserves insertion order in Python 3.7+)
+    patterns_by_order.sort(key=lambda x: x[0])
+    return {name: pattern for _, name, pattern in patterns_by_order}
+
+
+def _parse_custom_line_styles(root: ET.Element) -> dict[str, LineStyle]:
+    """Parse custom line styles from XML root, ordered by their 'order' attribute."""
+    styles_by_order: list[tuple[int, str, LineStyle]] = []
+    seen_names: set[str] = set()
+    auto_counter = 0
+
+    for block in root.iter("custom-line-style"):
+        order_el = block.find("order")
+        if order_el is None or order_el.text is None:
+            continue
+        order = int(order_el.text)
+
+        name_el = block.find("name")
+        name = name_el.text if name_el is not None and name_el.text else None
+        if not name:
+            name = f"custom_style_{auto_counter}"
+            auto_counter += 1
+
+        if name in seen_names:
+            warnings.warn(
+                f"Line style named {name!r} already exists. Keeping only the first defined.",
+                stacklevel=4,
+            )
+            continue
+        seen_names.add(name)
+
+        pattern_el = block.find("pattern")
+        pattern_text = pattern_el.text if pattern_el is not None else None
+
+        styles_by_order.append(
+            (
+                order,
+                name,
+                LineStyle.model_construct(
+                    name=name, order=order, custom_style=pattern_text
+                ),
+            )
+        )
+
+    # Sort by order and return as dict
+    styles_by_order.sort(key=lambda x: x[0])
+    return {name: style for _, name, style in styles_by_order}
 
 
 class LayerViews(BaseModel):
@@ -1075,109 +1216,49 @@ class LayerViews(BaseModel):
     @staticmethod
     def from_lyp(
         filepath: str | pathlib.Path,
-        layer_pattern: str | re.Pattern[str] | None = None,
+        layer_pattern: re.Pattern[str] | None = None,
     ) -> LayerViews:
-        r"""Write all layer properties to a KLayout .lyp file.
+        r"""Read layer properties from a KLayout .lyp file.
 
         Args:
-            filepath: to write the .lyp file to (appends .lyp extension if not present).
-            layer_pattern: Regex pattern to match layers with. Defaults to r'(\d+|\*)/(\d+|\*)'.
+            filepath: Path to the .lyp file to read.
+            layer_pattern: Compiled regex pattern to match layers with.
+                Defaults to r'(\d+|\*)/(\d+|\*)'.
         """
-        layer_pattern = re.compile(layer_pattern or r"(\d+|\*)/(\d+|\*)")
-
         filepath = pathlib.Path(filepath)
-
         if not filepath.exists():
             raise FileNotFoundError(
                 f"File {str(filepath)!r} does not exist, cannot read."
             )
 
-        tree = ET.parse(filepath)
-        root = tree.getroot()
+        if layer_pattern is None:
+            layer_pattern = _PATTERN_LAYER
+
+        root = ET.parse(filepath).getroot()
         if root.tag != "layer-properties":
             raise OSError("Layer properties file incorrectly formatted, cannot read.")
 
-        dither_patterns: dict[str, HatchPattern] = {}
-        pattern_counter = 0
-        for dither_block in root.iter("custom-dither-pattern"):
-            name_element = dither_block.find("name")
-            name = name_element.text if name_element is not None else None
-            order_element = dither_block.find("order")
-            order = order_element.text if order_element is not None else None
+        # Parse custom dither patterns (need these first for layer view references)
+        dither_patterns = _parse_custom_dither_patterns(root)
+        dither_names = list(dither_patterns.keys())
 
-            if order is None:
+        # Parse custom line styles
+        line_styles = _parse_custom_line_styles(root)
+
+        # Parse layer views (only direct children, not nested group-members)
+        layer_views: dict[str, LayerView] = {}
+        for element in root:
+            if element.tag != "properties":
                 continue
-
-            # Generate a name if none exists
-            if not name:
-                name = f"custom_pattern_{pattern_counter}"
-                pattern_counter += 1
-
-            assert name is not None  # Type assertion for mypy
-            pattern = "\n".join(
-                [line.text for line in dither_block.find("pattern").iter()]  # type: ignore[misc,union-attr]
-            )
-
-            if name in dither_patterns:
-                warnings.warn(
-                    f"Dither pattern named {name!r} already exists. Keeping only the first defined.",
-                    stacklevel=3,
-                )
-                continue
-
-            dither_patterns[name] = HatchPattern(
-                name=name,
-                order=int(order),
-                custom_pattern=pattern.lstrip(),
-            )
-        line_styles: dict[str, LineStyle] = {}
-        style_counter = 0
-        for line_block in root.iter("custom-line-style"):
-            name_element = line_block.find("name")
-            name = name_element.text if name_element is not None else None
-            order_element = line_block.find("order")
-            order = order_element.text if order_element is not None else None
-
-            if order is None:
-                continue
-
-            # Generate a name if none exists
-            if not name:
-                name = f"custom_style_{style_counter}"
-                style_counter += 1
-
-            assert name is not None  # Type assertion for mypy
-            if name in line_styles:
-                warnings.warn(
-                    f"Line style named {name!r} already exists. Keeping only the first defined.",
-                    stacklevel=3,
-                )
-                continue
-
-            pattern_element = line_block.find("pattern")
-            line_pattern = pattern_element.text if pattern_element is not None else None
-
-            line_styles[name] = LineStyle(
-                name=name,
-                order=int(order),
-                custom_style=line_pattern,
-            )
-
-        layer_views = {}
-        for properties_element in root.iter("properties"):
-            lv = LayerView.from_xml_element(
-                properties_element, layer_pattern=layer_pattern
-            )
-            if lv:
-                hp = lv.hatch_pattern
-                if isinstance(hp, str) and re.match(r"C\d+", hp):
-                    lv.hatch_pattern = list(dither_patterns.keys())[int(hp[1:])]
+            lv = LayerView.from_xml_element(element, layer_pattern, dither_names)
+            if lv and lv.name:
                 layer_views[lv.name] = lv
 
-        return LayerViews(
+        return LayerViews.model_construct(
             layer_views=layer_views,
             custom_dither_patterns=dither_patterns,
             custom_line_styles=line_styles,
+            layers=None,
         )
 
     def to_yaml(self, layer_file: str | pathlib.Path) -> None:
