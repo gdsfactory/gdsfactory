@@ -1,11 +1,12 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.25.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.25.2...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.25.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.25.2) - 2025-12-11
 
-No significant changes.
+- add ruler_xoffset [#4285](https://github.com/gdsfactory/gdsfactory/pull/4285)
+- update kfactory22 [#4286](https://github.com/gdsfactory/gdsfactory/pull/4286)
 
 
 ## [9.25.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.25.1) - 2025-12-10
