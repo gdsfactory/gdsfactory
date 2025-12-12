@@ -7,8 +7,9 @@ import platform
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.texts.text import text
 from gdsfactory.typings import LayerSpec
+
+from ..texts.text import text
 
 
 @gf.cell_with_module_name

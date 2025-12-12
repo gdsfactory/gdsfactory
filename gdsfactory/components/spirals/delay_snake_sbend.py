@@ -4,8 +4,9 @@ __all__ = ["delay_snake_sbend"]
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.waveguides.straight import straight
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+
+from ..waveguides.straight import straight
 
 diagram = r"""
 
