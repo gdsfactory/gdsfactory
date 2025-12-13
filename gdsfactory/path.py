@@ -1824,6 +1824,8 @@ def straight(length: float = 10.0, npoints: int = 2) -> Path:
     """
     if length < 0:
         raise ValueError(f"length = {length} needs to be > 0")
+    if length == 0:
+        npoints = 1
     x = np.linspace(0, length, npoints)
     y = x * 0
     points = np.array((x, y)).T
