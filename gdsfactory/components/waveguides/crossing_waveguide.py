@@ -9,11 +9,12 @@ from kfactory.conf import CheckInstances
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bends.bend_s import (
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Delta, LayerSpec
+
+from ..bends.bend_s import (
     bezier,
     find_min_curv_bezier_control_points,
 )
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Delta, LayerSpec
 
 
 @gf.cell_with_module_name

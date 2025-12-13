@@ -12,13 +12,14 @@ from numpy import log
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.analog.microstrip import (
+from gdsfactory.typings import LayerSpec
+
+from ..analog.microstrip import (
     _G,
     _find_microstrip_wire_width,
     _microstrip_v_with_Lk,
     _microstrip_Z_with_Lk,
 )
-from gdsfactory.typings import LayerSpec
 
 
 @gf.cell_with_module_name

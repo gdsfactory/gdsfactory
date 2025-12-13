@@ -9,10 +9,11 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.components.vias.via import via
-from gdsfactory.components.vias.via_stack import via_stack
 from gdsfactory.cross_section import Section
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats, LayerSpecs, Port
+
+from ..vias.via import via
+from ..vias.via_stack import via_stack
 
 _via_stack = partial(
     via_stack,

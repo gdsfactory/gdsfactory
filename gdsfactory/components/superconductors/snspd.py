@@ -6,8 +6,9 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.superconductors.optimal_hairpin import optimal_hairpin
 from gdsfactory.typings import LayerSpec, Port, Size
+
+from ..superconductors.optimal_hairpin import optimal_hairpin
 
 
 @gf.cell_with_module_name

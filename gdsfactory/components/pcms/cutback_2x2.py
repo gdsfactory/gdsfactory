@@ -4,8 +4,9 @@ __all__ = ["cutback_2x2"]
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.containers.component_sequence import component_sequence
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+
+from ..containers.component_sequence import component_sequence
 
 
 @gf.cell_with_module_name

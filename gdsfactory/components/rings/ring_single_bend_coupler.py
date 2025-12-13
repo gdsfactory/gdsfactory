@@ -6,8 +6,9 @@ from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bends.bend_circular import bend_circular_all_angle
 from gdsfactory.typings import AnyComponentFactory, ComponentSpec, CrossSectionSpec
+
+from ..bends.bend_circular import bend_circular_all_angle
 
 
 @gf.cell_with_module_name

@@ -11,9 +11,6 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bends.bend_euler import bend_euler
-from gdsfactory.components.bends.bend_s import get_min_sbend_size
-from gdsfactory.components.waveguides.straight import straight
 from gdsfactory.routing.route_single import route_single
 from gdsfactory.typings import (
     ComponentSpec,
@@ -21,6 +18,10 @@ from gdsfactory.typings import (
     Floats,
     Port,
 )
+
+from ..bends.bend_euler import bend_euler
+from ..bends.bend_s import get_min_sbend_size
+from ..waveguides.straight import straight
 
 
 @gf.cell_with_module_name

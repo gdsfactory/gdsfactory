@@ -15,8 +15,9 @@ from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.containers.component_sequence import component_sequence
 from gdsfactory.typings import ComponentSpec
+
+from ..containers.component_sequence import component_sequence
 
 
 def _get_bend_size(bend90: Component) -> float:
