@@ -6,8 +6,9 @@ import warnings
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.containers.component_sequence import component_sequence
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+
+from ..containers.component_sequence import component_sequence
 
 diagram = """
        | length0 | length1 |

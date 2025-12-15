@@ -4,8 +4,9 @@ __all__ = ["coupler_adiabatic"]
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bends.bend_s import bezier
 from gdsfactory.typings import CrossSectionSpec
+
+from ..bends.bend_s import bezier
 
 
 @gf.cell_with_module_name

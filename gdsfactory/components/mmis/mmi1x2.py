@@ -4,9 +4,10 @@ __all__ = ["mmi1x2"]
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.tapers.taper import taper as taper_function
-from gdsfactory.components.waveguides.straight import straight as straight_function
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+
+from ..tapers.taper import taper as taper_function
+from ..waveguides.straight import straight as straight_function
 
 
 @gf.cell_with_module_name
