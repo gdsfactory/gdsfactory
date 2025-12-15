@@ -278,7 +278,7 @@ def pack(
                     label.move(
                         np.array(text_offset) + getattr(d.dsize_info, text_anchor)
                     )
-                    component.info["tex_label"] = f"{text_prefix}{index}"
+                    component.info["text_label"] = f"{text_prefix}{index}"
 
         components_packed_list.append(packed)
 
