@@ -57,15 +57,35 @@ Classes and functions for construction and manipulation of geometric objects.
    Section
    cross_section
    strip
+   strip_no_ports
+   slot
+   rib
+   rib_bbox
+   rib2
+   rib_with_trenches
+   nitride
+   strip_rib_tip
+   strip_nitride_tip
+   l_with_trenches
+   metal1
+   metal2
+   metal3
+   metal_routing
+   gs
+   gsg
    heater_metal
+   npp
    pin
    pn
    pn_with_trenches
+   pn_with_trenches_asymmetric
+   l_wg_doped_with_trenches
    strip_heater_metal_undercut
    strip_heater_metal
    strip_heater_doped
    rib_heater_doped
    rib_heater_doped_via_stack
+   pn_ge_detector_si_contacts
    CrossSectionFactory
    CrossSectionSpec
 
