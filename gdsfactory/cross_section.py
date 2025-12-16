@@ -914,9 +914,11 @@ def strip_nitride_tip(
 @xsection
 def slot(
     width: float = 0.5,
-    layer: typings.LayerSpec = "WG",
+    layer: typings.LayerSpec = "WG_ABSTRACT",
     slot_width: float = 0.04,
+    rail_layer: typings.LayerSpec = "WG",
     sections: Sections | None = None,
+    **kwargs: Any,
 ) -> CrossSection:
     """Return CrossSection Slot (with an etched region in the center).
 
@@ -926,7 +928,9 @@ def slot(
                 the width at t==1 is the width at the end.
         layer: main section layer.
         slot_width: in um.
+        rail_layer: rail layer.
         sections: list of Sections(width, offset, layer, ports).
+        kwargs: other cross section parameters.
 
     .. plot::
         :include-source:
@@ -938,6 +942,9 @@ def slot(
         c = p.extrude(xs)
         c.plot()
     """
+    if slot_width >= width:
+        raise ValueError(f"{width=} must be greater than {slot_width=}")
+
     rail_width = (width - slot_width) / 2
     rail_offset = (rail_width + slot_width) / 2
 
@@ -945,18 +952,25 @@ def slot(
     section_list.extend(
         [
             Section(
-                width=rail_width, offset=rail_offset, layer=layer, name="left_rail"
+                width=rail_width,
+                offset=+rail_offset,
+                layer=rail_layer,
+                name="left_rail",
             ),
             Section(
-                width=rail_width, offset=-rail_offset, layer=layer, name="right rail"
+                width=rail_width,
+                offset=-rail_offset,
+                layer=rail_layer,
+                name="right_rail",
             ),
         ]
     )
 
     return strip(
         width=width,
-        layer="WG_ABSTRACT",
-        sections=sections,
+        layer=layer,
+        sections=section_list,
+        **kwargs,
     )
 
 
