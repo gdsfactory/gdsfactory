@@ -1,0 +1,193 @@
+instances:
+  regular_polygon_gdsfactorypcomponentspshapespregular_po_f7d137c5_0_0:
+    component: regular_polygon
+    info: {}
+    settings:
+      layer: M3
+      port_type: pad
+      port_width: 10
+      side_length: 36.244
+      sides: 8
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_0_38250:
+    component: via_stack
+    info:
+      xsize: 11
+      ysize: 11
+    settings:
+      correct_size: false
+      layer_offsets: null
+      layer_to_port_orientations: null
+      layers:
+      - M1
+      - M2
+      - MTOP
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      size:
+      - 11
+      - 11
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - via1
+      - via2
+      - null
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_0_m38250:
+    component: via_stack
+    info:
+      xsize: 11
+      ysize: 11
+    settings:
+      correct_size: false
+      layer_offsets: null
+      layer_to_port_orientations: null
+      layers:
+      - M1
+      - M2
+      - MTOP
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      size:
+      - 11
+      - 11
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - via1
+      - via2
+      - null
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_38250_0:
+    component: via_stack
+    info:
+      xsize: 11
+      ysize: 11
+    settings:
+      correct_size: false
+      layer_offsets: null
+      layer_to_port_orientations: null
+      layers:
+      - M1
+      - M2
+      - MTOP
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      size:
+      - 11
+      - 11
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - via1
+      - via2
+      - null
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_m38250_0:
+    component: via_stack
+    info:
+      xsize: 11
+      ysize: 11
+    settings:
+      correct_size: false
+      layer_offsets: null
+      layer_to_port_orientations: null
+      layers:
+      - M1
+      - M2
+      - MTOP
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      size:
+      - 11
+      - 11
+      slot_horizontal: false
+      slot_vertical: false
+      vias:
+      - via1
+      - via2
+      - null
+name: bump_pad_gdsfactorypcomponentsppadspbump_pad_S36p244_LM_a4046926
+nets: []
+placements:
+  regular_polygon_gdsfactorypcomponentspshapespregular_po_f7d137c5_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_0_38250:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 38.25
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_0_m38250:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: -38.25
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_38250_0:
+    mirror: false
+    rotation: 0
+    x: 38.25
+    y: 0
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_m38250_0:
+    mirror: false
+    rotation: 0
+    x: -38.25
+    y: 0
+ports:
+  e1: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_m38250_0,e1
+  e2: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_0_38250,e2
+  e3: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_38250_0,e3
+  e4: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_0_m38250,e4
+warnings:
+  electrical:
+    unconnected_ports:
+    - message: 12 unconnected electrical ports!
+      ports:
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_0_38250,e1
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_0_38250,e3
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_0_38250,e4
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_38250_0,e1
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_38250_0,e2
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_38250_0,e4
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_0_m38250,e1
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_0_m38250,e2
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_0_m38250,e3
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_m38250_0,e2
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_m38250_0,e3
+      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_m38250_0,e4
+      values:
+      - - -5.5
+        - 38.25
+      - - 5.5
+        - 38.25
+      - - 0
+        - 32.75
+      - - 32.75
+        - 0
+      - - 38.25
+        - 5.5
+      - - 38.25
+        - -5.5
+      - - -5.5
+        - -38.25
+      - - 0
+        - -32.75
+      - - 5.5
+        - -38.25
+      - - -38.25
+        - 5.5
+      - - -32.75
+        - 0
+      - - -38.25
+        - -5.5
