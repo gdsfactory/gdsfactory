@@ -68,6 +68,8 @@ __all__ = [
     "bend_s_offset",
     "bends",
     "bezier",
+    "bump_pad",
+    "bump_pad_grid",
     "cavity",
     "cdsem_all",
     "cdsem_bend180",
