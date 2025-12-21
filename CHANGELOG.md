@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.26.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.26.0) - 2025-12-22
+
+No significant changes.
+
+
 ## [9.25.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.25.2) - 2025-12-11
 
 - add ruler_xoffset [#4285](https://github.com/gdsfactory/gdsfactory/pull/4285)
