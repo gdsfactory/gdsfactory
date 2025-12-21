@@ -1,26 +1,22 @@
 from __future__ import annotations
 
-from functools import partial
 from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import (
     LayerSpec,
-    Size,
 )
 
-from ..shapes import regular_polygon
+from ..shapes import octagon
 from ..vias import via_stack
 
 __all__ = ["bump_pad", "bump_pad_grid"]
 
-octagon = partial(regular_polygon, sides=8)
-
 
 @gf.cell_with_module_name
 def bump_pad(
-    size: Size | str = 36.244,
+    size: float = 36.244,
     layer: LayerSpec = "MTOP",
     port_width: float = 10.0,
     port_layer: LayerSpec = "M2",
