@@ -125,6 +125,7 @@ def route_bundle(
     layer_marker: LayerSpec | None = None,
     raise_on_error: bool = False,
     path_length_matching_config: PathLengthConfig | None = None,
+    layer_label: LayerSpec | None = None,
 ) -> list[ManhattanRoute]:
     """Places a bundle of routes to connect two groups of ports.
 
@@ -165,6 +166,7 @@ def route_bundle(
         layer_transitions: dictionary of layer transitions to use for the routing when auto_taper=True.
         layer_marker: layers to place markers on the route.
         raise_on_error: if True, raises an exception on routing error instead of adding error markers.
+        layer_label: layer to place length labels on the route.
 
     .. plot::
         :include-source:
@@ -420,6 +422,14 @@ def route_bundle(
                     size=(10, 10), layer=layer_marker, centered=True
                 )
                 marker.center = (p.x, p.y)
+
+    if layer_label:
+        for route_i in route:
+            c.add_label(
+                text=str(route_i.length),
+                layer=layer_label,
+                position=route_i.instances[0].dcenter,
+            )
 
     return route
 
