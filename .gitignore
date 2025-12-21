@@ -16,7 +16,7 @@ notebooks/schematic.yaml
 uv.lock
 openrouter/
 .aider.*
-
+scalene-profile.json
 
 # C extensions
 *.so

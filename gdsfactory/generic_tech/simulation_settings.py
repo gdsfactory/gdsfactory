@@ -5,7 +5,6 @@ from functools import partial
 import numpy as np
 import numpy.typing as npt
 from pydantic import BaseModel, ConfigDict
-from scipy import interpolate
 
 material_name_to_lumerical_default = {
     "si": "Si (Silicon) - Palik",
@@ -138,6 +137,8 @@ def _interpolate_material(
         wavelengths: list of reference wavelengths (um).
         refractive_index: list of reference refractive indices.
     """
+    from scipy import interpolate
+
     f = interpolate.interp1d(wavelengths, refractive_index)
     return f(wav)  # type: ignore[no-any-return]
 
