@@ -16,6 +16,8 @@ def regular_polygon(
     sides: int = 6,
     side_length: float = 10,
     layer: LayerSpec = "WG",
+    port_width: float
+    | None = None,  # port width doesn't need to be side length all the time
     port_type: str | None = "placement",
 ) -> Component:
     """Returns a regular N-sided polygon, with ports on each edge.
@@ -24,11 +26,14 @@ def regular_polygon(
         sides: number of sides for the polygon.
         side_length: of the edges.
         layer: Specific layer to put polygon geometry on.
+        port_width: the width of port of the polygon (in electrical pads, the port width may not equal to the side length).
         port_type: optical, electrical.
     """
     c = Component()
     angle_step = 2 * np.pi / sides
     radius = side_length / (2 * np.sin(np.pi / sides))
+
+    port_width = port_width or side_length
 
     # Rotate the polygon to make one facet flat
     rotation_angle = np.pi / 2 - angle_step / 2
@@ -49,7 +54,7 @@ def regular_polygon(
             c.add_port(
                 name=f"o{side_index + 1}",
                 center=center,
-                width=side_length,
+                width=port_width,
                 layer=layer,
                 port_type=port_type,
                 orientation=angle,
