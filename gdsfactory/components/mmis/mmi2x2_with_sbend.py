@@ -5,8 +5,9 @@ import numpy.typing as npt
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bends.bend_s import bend_s
 from gdsfactory.typings import ComponentFactory, CrossSectionSpec
+
+from ..bends.bend_s import bend_s
 
 
 @gf.cell_with_module_name

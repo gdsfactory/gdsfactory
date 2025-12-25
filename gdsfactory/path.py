@@ -576,10 +576,33 @@ class Path(UMGeometricObject):
             all_angle=all_angle,
         )
 
+    @overload
     def extrude_transition(
-        self, transition: Transition | TransitionAsymmetric
-    ) -> Component:
-        return extrude_transition(p=self, transition=transition)
+        self,
+        transition: Transition | TransitionAsymmetric,
+        all_angle: Literal[False] = False,
+    ) -> Component: ...
+
+    @overload
+    def extrude_transition(
+        self,
+        transition: Transition | TransitionAsymmetric,
+        all_angle: Literal[True] = True,
+    ) -> ComponentAllAngle: ...
+
+    @overload
+    def extrude_transition(
+        self,
+        transition: Transition | TransitionAsymmetric,
+        all_angle: bool = True,
+    ) -> AnyComponent: ...
+
+    def extrude_transition(
+        self,
+        transition: Transition | TransitionAsymmetric,
+        all_angle: bool = False,
+    ) -> AnyComponent:
+        return extrude_transition(p=self, transition=transition, all_angle=all_angle)
 
     def copy(self) -> Path:
         """Returns a copy of the Path."""
@@ -961,7 +984,7 @@ def extrude(
         simplify: Tolerance value for the simplification algorithm. \
                 All points that can be removed without changing the resulting polygon \
                 by more than the value listed here will be removed.
-        all_angle: if True, the bend is drawn with a single euler curve.
+        all_angle: if True, returns a ComponentAllAngle.
     """
     from gdsfactory.pdk import get_cross_section, get_layer
 
@@ -1223,22 +1246,49 @@ def extrude(
     return c
 
 
+@overload
 def extrude_transition(
-    p: Path, transition: Transition | TransitionAsymmetric
-) -> Component:
+    p: Path,
+    transition: Transition | TransitionAsymmetric,
+    all_angle: Literal[False] = False,
+) -> Component: ...
+
+
+@overload
+def extrude_transition(
+    p: Path,
+    transition: Transition | TransitionAsymmetric,
+    all_angle: Literal[True] = True,
+) -> ComponentAllAngle: ...
+
+
+@overload
+def extrude_transition(
+    p: Path,
+    transition: Transition | TransitionAsymmetric,
+    all_angle: bool = True,
+) -> AnyComponent: ...
+
+
+def extrude_transition(
+    p: Path,
+    transition: Transition | TransitionAsymmetric,
+    all_angle: bool = False,
+) -> AnyComponent:
     """
     Extrudes a path along a transition, allowing different transition methods for the upper and lower edges.
 
     Args:
         p: Path to extrude.
         transition: Transition or TransitionAsymmetric object describing the cross-sections and default transition types.
+        all_angle: if True, returns a ComponentAllAngle.
 
     Returns:
         Component: The extruded component with the specified transition methods for each edge.
     """
     from gdsfactory.pdk import get_cross_section, get_layer
 
-    c = Component()
+    c = ComponentAllAngle() if all_angle else Component()
 
     if not isinstance(transition, Transition | TransitionAsymmetric):
         raise TypeError(

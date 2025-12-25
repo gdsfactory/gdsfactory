@@ -1,18 +1,25 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.25.2...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.26.0...main)
 
 <!-- towncrier release notes start -->
+
+## [9.26.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.26.0) - 2025-12-22
+
+- add bump_pad and bump_pad_grid [#4294](https://github.com/gdsfactory/gdsfactory/pull/4294)
+- lazy scipy import [#4297](https://github.com/gdsfactory/gdsfactory/pull/4297)
+- Add all_angle to extrude_transition [#4295](https://github.com/gdsfactory/gdsfactory/pull/4295)
+- Fixing the slot cross-section [#4293](https://github.com/gdsfactory/gdsfactory/pull/4293)
+- when packing with label, add label into info [#4291](https://github.com/gdsfactory/gdsfactory/pull/4291)
+- use rel imports [#4288](https://github.com/gdsfactory/gdsfactory/pull/4288)
 
 ## [9.25.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.25.2) - 2025-12-11
 
 - add ruler_xoffset [#4285](https://github.com/gdsfactory/gdsfactory/pull/4285)
 - update kfactory22 [#4286](https://github.com/gdsfactory/gdsfactory/pull/4286)
 
-
 ## [9.25.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.25.1) - 2025-12-10
 
-No significant changes.
-
+- add skip new cells [#4283](https://github.com/gdsfactory/gdsfactory/pull/4283)
 
 ## [9.25.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.25.0) - 2025-12-10
 
