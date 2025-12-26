@@ -505,7 +505,7 @@ def remove_shapes_near_exclusion(
     target_layer: LayerSpec,
     exclusion_layer: LayerSpec,
     *,
-    margin_um: float = 2.0,
+    margin: float = 2.0,
     remove_entire_shapes: bool = True,
     flatten: bool = True,
 ) -> gf.Component:
@@ -515,7 +515,7 @@ def remove_shapes_near_exclusion(
         c: Component to modify.
         target_layer: Layer containing shapes to potentially remove.
         exclusion_layer: Layer defining exclusion zones.
-        margin_um: Exclusion margin/halo in microns (default 2.0).
+        margin: Exclusion margin/halo in microns (default 2.0).
         remove_entire_shapes: If True, removes entire shapes that touch the
             exclusion zone. If False, only clips the overlapping portions.
         flatten: If True, flattens the component before processing.
@@ -532,7 +532,7 @@ def remove_shapes_near_exclusion(
     exclusion_layer_idx = gf.get_layer(exclusion_layer)
 
     # Convert margin to database units
-    margin_dbu = c.kcl.to_dbu(margin_um)
+    margin_dbu = c.kcl.to_dbu(margin)
 
     # Get the exclusion region and expand it
     exclusion_layer_kdb = c.kcl.layer(*exclusion_layer_idx)
