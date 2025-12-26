@@ -47,7 +47,7 @@ def mzi(
     add_optical_ports_arms: bool = False,
     min_length: float = 10e-3,
     auto_rename_ports: bool = True,
-    auto_detect_port_names: bool = True,
+    auto_detect_port_names: bool = False,
 ) -> Component:
     """Mzi.
 

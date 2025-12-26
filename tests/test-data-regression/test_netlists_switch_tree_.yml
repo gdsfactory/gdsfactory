@@ -188,6 +188,7 @@ instances:
     info: {}
     settings:
       add_optical_ports_arms: false
+      auto_detect_port_names: false
       auto_rename_ports: true
       bend: bend_euler
       combiner: mmi2x2
@@ -217,6 +218,7 @@ instances:
     info: {}
     settings:
       add_optical_ports_arms: false
+      auto_detect_port_names: false
       auto_rename_ports: true
       bend: bend_euler
       combiner: mmi2x2
@@ -246,6 +248,7 @@ instances:
     info: {}
     settings:
       add_optical_ports_arms: false
+      auto_detect_port_names: false
       auto_rename_ports: true
       bend: bend_euler
       combiner: mmi2x2

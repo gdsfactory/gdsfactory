@@ -309,7 +309,7 @@ instances:
       length: 2
       npoints: 2
       width: null
-name: mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LX0p1_Bbend_f7d7b0f0
+name: mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LX0p1_Bbend_afb45bea
 nets:
 - p1: b1,o1
   p2: cp1,o2

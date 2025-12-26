@@ -1,7 +1,8 @@
 info: {}
-name: mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LX0p1_Bbend_24d33bd2
+name: mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LX0p1_Bbend_cc98f3e2
 settings:
   add_optical_ports_arms: false
+  auto_detect_port_names: false
   auto_rename_ports: true
   bend: bend_euler
   combiner: mmi2x2
