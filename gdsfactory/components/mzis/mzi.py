@@ -100,18 +100,24 @@ def mzi(
     if auto_detect_port_names:
         splitter_instance = gf.get_component(splitter)
         combiner_instance = gf.get_component(combiner or splitter)
-        port_e1_splitter = splitter_instance.get_ports_list(
+        splitter_ports = splitter_instance.get_ports_list(
             port_type="optical", orientation=0
-        )[0].name
-        port_e0_splitter = splitter_instance.get_ports_list(
+        )
+        combiner_ports = combiner_instance.get_ports_list(
             port_type="optical", orientation=0
-        )[1].name
-        port_e1_combiner = combiner_instance.get_ports_list(
-            port_type="optical", orientation=0
-        )[0].name
-        port_e0_combiner = combiner_instance.get_ports_list(
-            port_type="optical", orientation=0
-        )[1].name
+        )
+        _name1 = splitter_ports[0].name
+        _name2 = splitter_ports[1].name
+        _name3 = combiner_ports[0].name
+        _name4 = combiner_ports[1].name
+        assert _name1 is not None, "splitter port 1 must have a name"
+        assert _name2 is not None, "splitter port 2 must have a name"
+        assert _name3 is not None, "combiner port 1 must have a name"
+        assert _name4 is not None, "combiner port 2 must have a name"
+        port_e1_splitter = _name1
+        port_e0_splitter = _name2
+        port_e1_combiner = _name3
+        port_e0_combiner = _name4
 
     combiner = combiner or splitter
 

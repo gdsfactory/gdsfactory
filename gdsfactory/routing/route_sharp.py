@@ -203,7 +203,7 @@ def path_manhattan(port1: typings.Port, port2: typings.Port, radius: float) -> P
             length1 = (
                 2 * radius + xrel if (np.abs(radius - xrel) < 2 * radius) else radius
             )
-            pts = path_J(port1, port2, length1=length1, length2=length2)
+            pts = path_J(port1, port2, length1=float(length1), length2=float(length2))
     elif orel == 180 and yrel == 0 and xrel > 0:
         pts = path_straight(port1, port2)
     elif (orel == 180 and xrel <= 2 * radius) or (np.abs(yrel) < 2 * radius):
@@ -220,11 +220,17 @@ def path_manhattan(port1: typings.Port, port2: typings.Port, radius: float) -> P
             else radius
         )
 
-        pts = path_C(port1, port2, length1=length1, length2=length2, left1=left1)
+        pts = path_C(
+            port1,
+            port2,
+            length1=float(length1),
+            length2=float(length2),
+            left1=float(left1),
+        )
     else:
         # Adjust length1 to ensure segment comes out of port2
         length1 = radius + xrel if (orel == 0 and xrel > 0) else radius
-        pts = path_U(port1, port2, length1=length1)
+        pts = path_U(port1, port2, length1=float(length1))
     return pts
 
 
