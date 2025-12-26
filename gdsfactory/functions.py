@@ -528,26 +528,23 @@ def remove_shapes_near_exclusion(
     if flatten:
         c.flatten()
 
-    target_layer_idx = gf.get_layer(target_layer)
-    exclusion_layer_idx = gf.get_layer(exclusion_layer)
-
     # Convert margin to database units
     margin_dbu = c.kcl.to_dbu(margin)
 
     # Get the exclusion region and expand it
-    exclusion_layer_kdb = c.kcl.layer(*exclusion_layer_idx)
+    exclusion_layer_kdb = gf.get_layer(exclusion_layer)
     exclusion_region = kdb.Region(c.begin_shapes_rec(exclusion_layer_kdb))
     halo_region = exclusion_region.sized(margin_dbu)
 
     # Get target shapes
-    target_layer_kdb = c.kcl.layer(*target_layer_idx)
-    target_region = kdb.Region(c.begin_shapes_rec(target_layer_kdb))
+    target_layer_kdb = gf.get_layer(target_layer)
+    target_region = kdb.Region(c.shapes(target_layer_kdb))
 
     if remove_entire_shapes:
         # Remove entire shapes that interact with the exclusion halo
         # A shape "interacts" if it has any overlap with the halo
-        interacting = target_region.interacting(halo_region)
-        cleaned_region = target_region - interacting
+        overlapping = target_region.overlapping(halo_region)
+        cleaned_region = target_region - overlapping
     else:
         # Just clip/subtract the overlapping portions
         cleaned_region = target_region - halo_region
