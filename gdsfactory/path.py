@@ -1205,7 +1205,7 @@ def extrude(
                 port_type=port_types[0],
                 width=port_width,
                 orientation=port_orientation,
-                center=center,
+                center=(float(center[0]), float(center[1])),
                 cross_section=x,
             )
         if port_names[1]:
@@ -1222,7 +1222,7 @@ def extrude(
                 layer=layer,
                 port_type=port_types[1],
                 width=port_width,
-                center=center,
+                center=(float(center[0]), float(center[1])),
                 orientation=port_orientation,
                 cross_section=x,
             )

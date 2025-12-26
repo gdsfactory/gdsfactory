@@ -47,6 +47,7 @@ def mzi(
     add_optical_ports_arms: bool = False,
     min_length: float = 10e-3,
     auto_rename_ports: bool = True,
+    auto_detect_port_names: bool = False,
 ) -> Component:
     """Mzi.
 
@@ -77,6 +78,7 @@ def mzi(
             with top_ and bot_ prefix.
         min_length: minimum length for the straight.
         auto_rename_ports: if True, renames ports.
+        auto_detect_port_names: whether to auto detect ports names. Ignores port_e* arguments if True.
 
     .. code::
 
@@ -95,6 +97,28 @@ def mzi(
                      b6__sxbot__b7
                           Lx
     """
+    if auto_detect_port_names:
+        splitter_instance = gf.get_component(splitter)
+        combiner_instance = gf.get_component(combiner or splitter)
+        splitter_ports = splitter_instance.get_ports_list(
+            port_type="optical", orientation=0
+        )
+        combiner_ports = combiner_instance.get_ports_list(
+            port_type="optical", orientation=0
+        )
+        _name1 = splitter_ports[0].name
+        _name2 = splitter_ports[1].name
+        _name3 = combiner_ports[0].name
+        _name4 = combiner_ports[1].name
+        assert _name1 is not None, "splitter port 1 must have a name"
+        assert _name2 is not None, "splitter port 2 must have a name"
+        assert _name3 is not None, "combiner port 1 must have a name"
+        assert _name4 is not None, "combiner port 2 must have a name"
+        port_e1_splitter = _name1
+        port_e0_splitter = _name2
+        port_e1_combiner = _name3
+        port_e0_combiner = _name4
+
     combiner = combiner or splitter
 
     straight_x_top = straight_x_top or straight

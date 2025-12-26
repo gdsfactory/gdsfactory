@@ -1,9 +1,10 @@
 instances:
-  mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LXNone_Bben_b972a199_0_0:
+  mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LXNone_Bben_5b65d3b9_0_0:
     component: mzi
     info: {}
     settings:
       add_optical_ports_arms: false
+      auto_detect_port_names: false
       auto_rename_ports: true
       bend: bend_euler
       combiner: coupler_gdsfactorypcomponentspcouplerspcoupler_G0p3_L20_ab86c00a
@@ -31,13 +32,13 @@ instances:
 name: mzi_lattice_gdsfactorypcomponentspmzispmzi_lattice_CL10_ffe6cf26
 nets: []
 placements:
-  mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LXNone_Bben_b972a199_0_0:
+  mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LXNone_Bben_5b65d3b9_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
 ports:
-  o1: mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LXNone_Bben_b972a199_0_0,o1
-  o2: mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LXNone_Bben_b972a199_0_0,o2
-  o3: mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LXNone_Bben_b972a199_0_0,o3
-  o4: mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LXNone_Bben_b972a199_0_0,o4
+  o1: mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LXNone_Bben_5b65d3b9_0_0,o1
+  o2: mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LXNone_Bben_5b65d3b9_0_0,o2
+  o3: mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LXNone_Bben_5b65d3b9_0_0,o3
+  o4: mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LXNone_Bben_5b65d3b9_0_0,o4

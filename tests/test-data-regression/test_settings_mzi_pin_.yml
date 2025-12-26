@@ -1,7 +1,8 @@
 info: {}
-name: mzi_gdsfactorypcomponentspmzispmzi_DL0_LY2_LX100_Bbend__8434fa62
+name: mzi_gdsfactorypcomponentspmzispmzi_DL0_LY2_LX100_Bbend__0b693139
 settings:
   add_optical_ports_arms: false
+  auto_detect_port_names: false
   auto_rename_ports: true
   bend: bend_euler
   cross_section: strip
