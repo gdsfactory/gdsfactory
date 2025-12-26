@@ -1,12 +1,13 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.26.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.27.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.27.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.27.0) - 2025-12-26
 
-No significant changes.
-
+- auto detect port names [#4299](https://github.com/gdsfactory/gdsfactory/pull/4299)
+- add remove_shapes_near_exclusion [#4300](https://github.com/gdsfactory/gdsfactory/pull/4300)
+- add length label [#4296](https://github.com/gdsfactory/gdsfactory/pull/4296)
 
 ## [9.26.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.26.0) - 2025-12-22
 
