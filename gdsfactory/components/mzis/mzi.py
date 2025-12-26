@@ -47,6 +47,7 @@ def mzi(
     add_optical_ports_arms: bool = False,
     min_length: float = 10e-3,
     auto_rename_ports: bool = True,
+    auto_detect_port_names: bool = True,
 ) -> Component:
     """Mzi.
 
@@ -77,6 +78,7 @@ def mzi(
             with top_ and bot_ prefix.
         min_length: minimum length for the straight.
         auto_rename_ports: if True, renames ports.
+        auto_detect_port_names: whether to auto detect ports names. Ignores port_e* arguments if True.
 
     .. code::
 
@@ -95,6 +97,22 @@ def mzi(
                      b6__sxbot__b7
                           Lx
     """
+    if auto_detect_port_names:
+        splitter_instance = gf.get_component(splitter)
+        combiner_instance = gf.get_component(combiner or splitter)
+        port_e1_splitter = splitter_instance.get_ports_list(
+            port_type="optical", orientation=0
+        )[0].name
+        port_e0_splitter = splitter_instance.get_ports_list(
+            port_type="optical", orientation=0
+        )[1].name
+        port_e1_combiner = combiner_instance.get_ports_list(
+            port_type="optical", orientation=0
+        )[0].name
+        port_e0_combiner = combiner_instance.get_ports_list(
+            port_type="optical", orientation=0
+        )[1].name
+
     combiner = combiner or splitter
 
     straight_x_top = straight_x_top or straight

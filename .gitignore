@@ -17,6 +17,8 @@ uv.lock
 openrouter/
 .aider.*
 scalene-profile.json
+scalene-output.json
+scalene-profile.html
 
 # C extensions
 *.so
