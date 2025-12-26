@@ -426,7 +426,7 @@ def route_bundle(
     if layer_label:
         for route_i in route:
             c.add_label(
-                text=str(route_i.length),
+                text=f"{route_i.length:.3f}",
                 layer=layer_label,
                 position=route_i.instances[0].dcenter,
             )
