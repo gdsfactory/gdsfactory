@@ -229,7 +229,7 @@ def die_frame_phix(
                 pitch=fiber_pitch,
                 edge_coupler=edge_coupler,
                 cross_section=cross_section,
-                text_offset=text_offset,
+                text_offset=(-text_offset[0], text_offset[1]),
                 text=text,
                 x_reflection=True,
             )
