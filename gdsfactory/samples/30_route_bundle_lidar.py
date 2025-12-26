@@ -45,6 +45,7 @@ if __name__ == "__main__":
         radius=5,
         sort_ports=True,
         cross_section="strip",
+        layer_label="TEXT",
     )
 
     c.show()
