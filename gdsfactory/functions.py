@@ -532,8 +532,7 @@ def remove_shapes_near_exclusion(
     exclusion_layer_idx = gf.get_layer(exclusion_layer)
 
     # Convert margin to database units
-    dbu = c.kcl.dbu
-    margin_dbu = int(margin_um / dbu)
+    margin_dbu = c.kcl.to_dbu(margin_um)
 
     # Get the exclusion region and expand it
     exclusion_layer_kdb = c.kcl.layer(*exclusion_layer_idx)
