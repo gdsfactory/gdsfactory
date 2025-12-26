@@ -543,8 +543,8 @@ def remove_shapes_near_exclusion(
     if remove_entire_shapes:
         # Remove entire shapes that interact with the exclusion halo
         # A shape "interacts" if it has any overlap with the halo
-        interacting = target_region.interacting(halo_region)
-        cleaned_region = target_region - interacting
+        overlapping = target_region.overlapping(halo_region)
+        cleaned_region = target_region - overlapping
     else:
         # Just clip/subtract the overlapping portions
         cleaned_region = target_region - halo_region
