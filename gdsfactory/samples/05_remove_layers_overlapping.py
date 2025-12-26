@@ -18,7 +18,7 @@ def remove_layers_overlapping() -> Component:
         c,
         target_layer="VIA2",
         exclusion_layer="VIAC",
-        margin=0.1,
+        margin=1,
     )
     return c
 
