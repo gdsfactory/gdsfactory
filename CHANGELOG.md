@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.27.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.27.0) - 2025-12-26
+
+No significant changes.
+
+
 ## [9.26.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.26.0) - 2025-12-22
 
 - add bump_pad and bump_pad_grid [#4294](https://github.com/gdsfactory/gdsfactory/pull/4294)
