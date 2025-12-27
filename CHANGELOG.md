@@ -1,7 +1,14 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.27.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.28.0...main)
 
 <!-- towncrier release notes start -->
+
+## [9.28.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.28.0) - 2025-12-27
+
+- add sized flag for the fix_min_space [#4301](https://github.com/gdsfactory/gdsfactory/pull/4301)
+- fix phix offset [#4302](https://github.com/gdsfactory/gdsfactory/pull/4302)
+- rename variable sized to size_bias [#4304](https://github.com/gdsfactory/gdsfactory/pull/4304)
+
 
 ## [9.27.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.27.0) - 2025-12-26
 
