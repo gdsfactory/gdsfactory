@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.28.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.28.1) - 2025-12-27
+
+No significant changes.
+
+
 ## [9.28.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.28.0) - 2025-12-27
 
 - add sized flag for the fix_min_space [#4301](https://github.com/gdsfactory/gdsfactory/pull/4301)
