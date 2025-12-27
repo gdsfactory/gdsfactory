@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.28.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.28.0) - 2025-12-27
+
+No significant changes.
+
+
 ## [9.27.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.27.0) - 2025-12-26
 
 - auto detect port names [#4299](https://github.com/gdsfactory/gdsfactory/pull/4299)

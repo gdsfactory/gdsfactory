@@ -12,8 +12,8 @@ from kfactory.conf import Settings, config, get_affinity
 from rich.console import Console
 from rich.table import Table
 
-__version__ = "9.27.0"
-__next_major_version__ = "9.27.0"
+__version__ = "9.28.0"
+__next_major_version__ = "9.28.0"
 
 PathType = str | pathlib.Path
 
