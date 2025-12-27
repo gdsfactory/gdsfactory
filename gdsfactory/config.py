@@ -104,7 +104,7 @@ class Config(Settings):
     difftest_ignore_cell_name_differences: bool
     bend_radius_error_type: ErrorType
     layer_error_path: tuple[int, int]
-    pdk: str
+    pdk: str | None
     layer_label: tuple[int, int]
     port_types: list[str]
     port_types_grating_couplers: list[str]

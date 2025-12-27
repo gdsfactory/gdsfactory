@@ -664,7 +664,7 @@ def get_active_pdk(name: str | None = None) -> Pdk:
             PDK.activate()
             return PDK
         if name:
-            pdk_module = importlib.import_module(name or CONF.pdk)
+            pdk_module = importlib.import_module(name)
             pdk_module.PDK.activate()
 
         else:
