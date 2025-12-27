@@ -648,30 +648,41 @@ class Pdk(BaseModel):
 
 
 def get_active_pdk(name: str | None = None) -> Pdk:
-    """Returns active PDK.
+    """Return the currently active PDK.
 
-    By default it will return the PDK defined in the name or config file.
-    Otherwise it will return the generic PDK.
+    Resolution order:
+    1. If a PDK is already active, return it.
+    2. Otherwise, try to activate the PDK specified by `name`
+       or by the configuration (CONF.pdk).
+    3. If the name is "generic", activate and return the generic PDK.
+
+    Raises:
+        ValueError: If no PDK can be resolved or activated.
     """
     from gdsfactory.gpdk import get_generic_pdk
 
     global _ACTIVE_PDK
 
-    if _ACTIVE_PDK is None:
-        name = name or CONF.pdk
-        if name == "generic":
-            PDK = get_generic_pdk()
-            PDK.activate()
-            return PDK
-        if name:
-            pdk_module = importlib.import_module(name)
-            pdk_module.PDK.activate()
+    if _ACTIVE_PDK is not None:
+        return _ACTIVE_PDK
 
-        else:
-            raise ValueError(
-                "No active pdk. Make sure you import and activate a PDK. You can also activate the generic PDK with `gf.gpdk.PDK.activate()`"
-            )
-    assert _ACTIVE_PDK is not None, "Could not find active PDK"
+    pdk_name = name or CONF.pdk
+    if not pdk_name:
+        raise ValueError(
+            "No active PDK. Import and activate a PDK, or activate the generic "
+            "PDK with `gf.gpdk.PDK.activate()`."
+        )
+
+    if pdk_name == "generic":
+        pdk = get_generic_pdk()
+        return pdk
+
+    try:
+        pdk_module = importlib.import_module(pdk_name)
+        pdk_module.PDK.activate()
+    except ImportError as e:
+        raise ValueError(f"Could not import PDK module '{pdk_name}'.") from e
+
     return _ACTIVE_PDK
 
 
