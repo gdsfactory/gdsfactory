@@ -988,7 +988,8 @@ class Component(ComponentBase, kf.DKCell):
         )
         if size_bias:
             size_offset_dbu = self.kcl.to_dbu(size_bias)
-            fix = fix.sized(size_offset_dbu)
+            fix = fix.sized(+size_offset_dbu)
+            fix = fix.sized(-size_offset_dbu)
 
         self.shapes(layer).insert(fix)
 
