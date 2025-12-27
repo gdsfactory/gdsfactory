@@ -966,14 +966,17 @@ class Component(ComponentBase, kf.DKCell):
         self.kcl.layout.end_changes()
 
     def fix_spacing(
-        self, layer: LayerSpec, min_space: float = 0.2, sized: float = 0
+        self,
+        layer: LayerSpec,
+        min_space: float = 0.2,
+        size_bias: float = 0.0,
     ) -> None:
         """Fixes layer spacing in the Component.
 
         Args:
             layer: layer to fix spacing on.
             min_space: minimum space in um.
-            sized: size to use for the fix spacing operation. in um.
+            size_bias: optional geometry bias applied after spacing fix (um).
         """
         import gdsfactory as gf
         from gdsfactory.pdk import get_layer
@@ -983,9 +986,9 @@ class Component(ComponentBase, kf.DKCell):
         fix = fix_spacing_tiled(
             self.to_itype(), min_space=self.kcl.to_dbu(min_space), layer=layer_info
         )
-        if sized:
-            sized_dbu = self.kcl.to_dbu(sized)
-            fix = fix.sized(sized_dbu)
+        if size_bias:
+            size_offset_dbu = self.kcl.to_dbu(size_bias)
+            fix = fix.sized(size_offset_dbu)
 
         self.shapes(layer).insert(fix)
 
