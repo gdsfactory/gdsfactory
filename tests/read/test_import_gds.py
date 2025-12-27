@@ -7,7 +7,7 @@ import pandas as pd
 from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
-from gdsfactory.generic_tech.layer_map import LAYER
+from gdsfactory.gpdk.layer_map import LAYER
 from gdsfactory.read.import_gds import import_gds
 from gdsfactory.serialization import clean_value_json
 

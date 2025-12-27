@@ -1,7 +1,7 @@
 from gdsfactory.component import Component
 from gdsfactory.components import straight, taper, taper_sc_nc
 from gdsfactory.cross_section import strip
-from gdsfactory.generic_tech.layer_map import LAYER
+from gdsfactory.gpdk.layer_map import LAYER
 from gdsfactory.routing.auto_taper import auto_taper_to_cross_section
 from gdsfactory.typings import LayerTransitions
 

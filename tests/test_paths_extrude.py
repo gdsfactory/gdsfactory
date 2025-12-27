@@ -7,7 +7,7 @@ from scipy.integrate import quad
 import gdsfactory as gf
 from gdsfactory import Section
 from gdsfactory.cross_section import CrossSection
-from gdsfactory.generic_tech import LAYER
+from gdsfactory.gpdk import LAYER
 from gdsfactory.typings import LayerSpec
 
 

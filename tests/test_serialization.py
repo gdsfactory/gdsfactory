@@ -5,7 +5,7 @@ from pathlib import Path
 
 import numpy as np
 
-from gdsfactory.generic_tech import LAYER
+from gdsfactory.gpdk import LAYER
 from gdsfactory.serialization import (
     clean_dict,
     clean_value_json,

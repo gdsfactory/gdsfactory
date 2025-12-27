@@ -20,7 +20,6 @@ from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.config import CONF
 from gdsfactory.cross_section import CrossSection, Section
 from gdsfactory.cross_section import xsection as cross_section_xsection
-from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
 from gdsfactory.serialization import clean_value_json
 from gdsfactory.symbols import floorplan_with_block_letters
@@ -654,12 +653,16 @@ def get_active_pdk(name: str | None = None) -> Pdk:
     By default it will return the PDK defined in the name or config file.
     Otherwise it will return the generic PDK.
     """
+    from gdsfactory.gpdk import get_generic_pdk
+
     global _ACTIVE_PDK
 
     if _ACTIVE_PDK is None:
         name = name or CONF.pdk
         if name == "generic":
-            return get_generic_pdk()
+            PDK = get_generic_pdk()
+            PDK.activate()
+            return PDK
         if name:
             pdk_module = importlib.import_module(name or CONF.pdk)
             pdk_module.PDK.activate()

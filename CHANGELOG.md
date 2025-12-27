@@ -1,6 +1,18 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.27.0...main)
 
+### Changed
+
+- **BREAKING (with deprecation):** Renamed `gdsfactory.generic_tech` module to `gdsfactory.gpdk` for clarity and consistency. The old `generic_tech` module remains available with deprecation warnings for backward compatibility.
+
+  **Migration guide:**
+  - `from gdsfactory.generic_tech import LAYER` → `from gdsfactory.gpdk import LAYER`
+  - `from gdsfactory.generic_tech.layer_map import LAYER` → `from gdsfactory.gpdk.layer_map import LAYER`
+  - `from gdsfactory.generic_tech.layer_stack import LAYER_STACK` → `from gdsfactory.gpdk.layer_stack import LAYER_STACK`
+  - `PATH.generic_tech` → `PATH.gpdk` (old attribute still works as an alias)
+
+- Moved KLayout integration files from `generic_tech/klayout/` to `gpdk/klayout/`
+
 <!-- towncrier release notes start -->
 
 ## [9.27.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.27.0) - 2025-12-26

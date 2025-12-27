@@ -143,12 +143,15 @@ class Paths:
     module = module_path
     repo = repo_path
     results_tidy3d = home / ".tidy3d"
-    generic_tech = module / "generic_tech"
-    klayout = generic_tech / "klayout"
+    # Primary paths use new gpdk naming
+    gpdk = module / "gpdk"
+    klayout = gpdk / "klayout"
     klayout_tech = klayout
     klayout_lyp = klayout_tech / "layers.lyp"
     klayout_lyt = klayout_tech / "tech.lyt"
-    klayout_yaml = generic_tech / "layer_views.yaml"
+    klayout_yaml = gpdk / "layer_views.yaml"
+    # Deprecated: backward compatibility alias
+    generic_tech = gpdk  # Deprecated: use gpdk instead
     schema_netlist = repo_path / "tests" / "schemas" / "netlist.json"
     netlists = module_path / "samples" / "netlists"
     gdsdir = repo_path / "tests" / "gds"
