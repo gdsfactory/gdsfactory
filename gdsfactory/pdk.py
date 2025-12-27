@@ -675,6 +675,7 @@ def get_active_pdk(name: str | None = None) -> Pdk:
 
     if pdk_name == "generic":
         pdk = get_generic_pdk()
+        pdk.activate()
         return pdk
 
     try:
