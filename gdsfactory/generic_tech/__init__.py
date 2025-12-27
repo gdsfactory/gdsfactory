@@ -95,3 +95,6 @@ def get_generic_pdk() -> Pdk:
         connectivity=LAYER_CONNECTIVITY,
         routing_strategies=routing_strategies,
     )
+
+
+PDK = get_generic_pdk()

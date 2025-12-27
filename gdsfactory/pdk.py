@@ -665,7 +665,9 @@ def get_active_pdk(name: str | None = None) -> Pdk:
             pdk_module.PDK.activate()
 
         else:
-            raise ValueError("no active pdk")
+            raise ValueError(
+                "No active pdk. Make sure you import and activate a PDK. You can also activate the generic PDK with `gf.gpdk.PDK.activate()`"
+            )
     assert _ACTIVE_PDK is not None, "Could not find active PDK"
     return _ACTIVE_PDK
 

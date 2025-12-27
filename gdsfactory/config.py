@@ -120,7 +120,7 @@ CONF.layer_error_path = (1000, 0)
 CONF.connect_use_mirror = False
 CONF.max_cellname_length = 64
 CONF.cell_layout_cache = True
-CONF.pdk = "generic"
+CONF.pdk = None
 CONF.layer_label = (100, 0)
 CONF.port_types = [
     "optical",  # optical ports
