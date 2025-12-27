@@ -683,6 +683,7 @@ def get_active_pdk(name: str | None = None) -> Pdk:
     except ImportError as e:
         raise ValueError(f"Could not import PDK module '{pdk_name}'.") from e
 
+    assert _ACTIVE_PDK is not None, "Could not find active PDK"
     return _ACTIVE_PDK
 
 
