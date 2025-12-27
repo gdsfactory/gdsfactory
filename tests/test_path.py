@@ -11,7 +11,7 @@ from pytest_regressions.data_regression import DataRegressionFixture
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.difftest import difftest
-from gdsfactory.generic_tech import LAYER
+from gdsfactory.gpdk import LAYER
 from gdsfactory.path import Path, _parabolic_transition
 
 

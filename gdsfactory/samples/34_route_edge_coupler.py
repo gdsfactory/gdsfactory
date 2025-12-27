@@ -7,8 +7,11 @@ from functools import partial
 import gdsfactory as gf
 import gdsfactory.components as pc
 from gdsfactory.component import Component
-from gdsfactory.generic_tech.layer_map import LAYER
+from gdsfactory.gpdk import PDK
+from gdsfactory.gpdk.layer_map import LAYER
 from gdsfactory.typings import Size
+
+PDK.activate()
 
 
 @gf.cell

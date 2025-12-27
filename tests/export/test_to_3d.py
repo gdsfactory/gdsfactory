@@ -3,7 +3,7 @@ import trimesh
 
 import gdsfactory as gf
 from gdsfactory.export.to_3d import to_3d
-from gdsfactory.generic_tech.layer_map import LAYER
+from gdsfactory.gpdk.layer_map import LAYER
 from gdsfactory.technology import LayerLevel, LayerStack, LogicalLayer
 
 

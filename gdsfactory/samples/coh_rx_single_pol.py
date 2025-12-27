@@ -4,7 +4,10 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
+from gdsfactory.gpdk import PDK
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Port, Spacing
+
+PDK.activate()
 
 
 @gf.cell

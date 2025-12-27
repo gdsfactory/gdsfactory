@@ -156,7 +156,7 @@ norecursedirs = [
   "extra",
   "gdsfactory/watch.py",
   "gdsfactory/schematic_editor.py",
-  "gdsfactory/generic_tech/klayout",
+  "gdsfactory/gpdk/klayout",
   "docs"
 ]
 python_files = ["gdsfactory/*.py", "tests/*.py"]
@@ -284,10 +284,10 @@ src = "gdsfactory/config.py"
 src = "notebooks/08_pdk.ipynb"
 
 [[tool.tbump.file]]
-src = "gdsfactory/generic_tech/klayout/grain.xml"
+src = "gdsfactory/gpdk/klayout/grain.xml"
 
 [[tool.tbump.file]]
-src = "gdsfactory/generic_tech/klayout/pymacros/set_menus.lym"
+src = "gdsfactory/gpdk/klayout/pymacros/set_menus.lym"
 
 [tool.tbump.git]
 message_template = "Bump to {new_version}"

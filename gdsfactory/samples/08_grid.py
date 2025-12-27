@@ -2,6 +2,9 @@
 
 if __name__ == "__main__":
     import gdsfactory as gf
+    from gdsfactory.gpdk import PDK
+
+    PDK.activate()
 
     t1 = gf.components.text("1")
     t2 = gf.components.text("2")

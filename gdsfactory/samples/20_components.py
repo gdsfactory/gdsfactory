@@ -6,6 +6,9 @@ from functools import partial
 from typing import Any
 
 import gdsfactory as gf
+from gdsfactory.gpdk import PDK
+
+PDK.activate()
 
 
 def straight_wide1(width: float = 10, **kwargs: Any) -> gf.Component:

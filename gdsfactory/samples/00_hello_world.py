@@ -1,6 +1,10 @@
 import gdsfactory as gf
 
 if __name__ == "__main__":
+    from gdsfactory.gpdk import PDK
+
+    PDK.activate()
+
     c = gf.Component()
     ref1 = c.add_ref(gf.components.rectangle(size=(10, 10), layer=(1, 0)))
     ref2 = c.add_ref(gf.components.text("Hello", size=10, layer=(2, 0)))

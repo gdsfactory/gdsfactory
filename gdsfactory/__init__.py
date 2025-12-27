@@ -56,6 +56,7 @@ from gdsfactory import technology
 from gdsfactory import routing
 from gdsfactory import export
 from gdsfactory import functions
+from gdsfactory import gpdk
 
 from gdsfactory.add_padding import (
     add_padding,
@@ -149,6 +150,7 @@ __all__ = (
     "get_layer_name",
     "get_layer_tuple",
     "get_padding_points",
+    "gpdk",
     "grid",
     "grid_with_text",
     "import_gds",

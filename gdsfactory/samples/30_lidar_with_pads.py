@@ -7,6 +7,9 @@ Exercise1. increase the number of elements of the phase array.
 from __future__ import annotations
 
 import gdsfactory as gf
+from gdsfactory.gpdk import PDK
+
+PDK.activate()
 
 
 @gf.cell

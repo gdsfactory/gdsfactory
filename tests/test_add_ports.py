@@ -9,7 +9,7 @@ from gdsfactory.add_ports import (
     add_ports_from_markers_inside,
     add_ports_from_siepic_pins,
 )
-from gdsfactory.generic_tech import LAYER
+from gdsfactory.gpdk import LAYER
 
 
 def test_add_ports() -> None:

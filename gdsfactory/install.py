@@ -215,7 +215,7 @@ def install_klayout_package() -> None:
 
     # install layermap
     _install_to_klayout(
-        src=cwd / "generic_tech" / "klayout",
+        src=cwd / "gpdk" / "klayout",
         klayout_subdir_name="salt",
         package_name="gdsfactory",
     )

@@ -15,7 +15,7 @@ from gdsfactory.component import (
     size,
 )
 from gdsfactory.config import GDSDIR_TEMP
-from gdsfactory.generic_tech import LAYER
+from gdsfactory.gpdk import LAYER
 from gdsfactory.pdk import get_layer
 
 

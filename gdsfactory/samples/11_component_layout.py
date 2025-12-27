@@ -14,6 +14,9 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.gpdk import PDK
+
+PDK.activate()
 
 
 @gf.cell

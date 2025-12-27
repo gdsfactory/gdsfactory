@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.generic_tech import LAYER
+from gdsfactory.gpdk import LAYER
 
 
 def test_add_pins() -> None:

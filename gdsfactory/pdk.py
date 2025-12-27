@@ -20,7 +20,6 @@ from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.config import CONF
 from gdsfactory.cross_section import CrossSection, Section
 from gdsfactory.cross_section import xsection as cross_section_xsection
-from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
 from gdsfactory.serialization import clean_value_json
 from gdsfactory.symbols import floorplan_with_block_letters
@@ -649,23 +648,42 @@ class Pdk(BaseModel):
 
 
 def get_active_pdk(name: str | None = None) -> Pdk:
-    """Returns active PDK.
+    """Return the currently active PDK.
 
-    By default it will return the PDK defined in the name or config file.
-    Otherwise it will return the generic PDK.
+    Resolution order:
+    1. If a PDK is already active, return it.
+    2. Otherwise, try to activate the PDK specified by `name`
+       or by the configuration (CONF.pdk).
+    3. If the name is "generic", activate and return the generic PDK.
+
+    Raises:
+        ValueError: If no PDK can be resolved or activated.
     """
+    from gdsfactory.gpdk import get_generic_pdk
+
     global _ACTIVE_PDK
 
-    if _ACTIVE_PDK is None:
-        name = name or CONF.pdk
-        if name == "generic":
-            return get_generic_pdk()
-        if name:
-            pdk_module = importlib.import_module(name or CONF.pdk)
-            pdk_module.PDK.activate()
+    if _ACTIVE_PDK is not None:
+        return _ACTIVE_PDK
 
-        else:
-            raise ValueError("no active pdk")
+    pdk_name = name or CONF.pdk
+    if not pdk_name:
+        raise ValueError(
+            "No active PDK. Import and activate a PDK, or activate the generic "
+            "PDK with `gf.gpdk.PDK.activate()`."
+        )
+
+    if pdk_name == "generic":
+        pdk = get_generic_pdk()
+        pdk.activate()
+        return pdk
+
+    try:
+        pdk_module = importlib.import_module(pdk_name)
+        pdk_module.PDK.activate()
+    except ImportError as e:
+        raise ValueError(f"Could not import PDK module '{pdk_name}'.") from e
+
     assert _ACTIVE_PDK is not None, "Could not find active PDK"
     return _ACTIVE_PDK
 

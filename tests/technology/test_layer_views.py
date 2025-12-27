@@ -54,7 +54,7 @@ def get_layer_stack_faba(
 
 
 def test_preview_layerset() -> None:
-    from gdsfactory.generic_tech import get_generic_pdk
+    from gdsfactory.gpdk import get_generic_pdk
 
     PDK = get_generic_pdk()
     LAYER_VIEWS = PDK.get_layer_views()

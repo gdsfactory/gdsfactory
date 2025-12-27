@@ -6,7 +6,7 @@ import gdsfactory as gf
 from gdsfactory import Port
 from gdsfactory.components.tapers import taper
 from gdsfactory.difftest import difftest
-from gdsfactory.generic_tech import LAYER
+from gdsfactory.gpdk import LAYER
 from gdsfactory.routing.route_bundle import route_bundle
 
 

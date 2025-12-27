@@ -3,7 +3,10 @@
 from __future__ import annotations
 
 import gdsfactory as gf
+from gdsfactory.gpdk import PDK
 from gdsfactory.typings import LayerSpec
+
+PDK.activate()
 
 
 @gf.cell
@@ -29,5 +32,6 @@ def straight_narrow(
 
 
 if __name__ == "__main__":
+    gf.gpdk.PDK.activate()
     c = straight_narrow()
     c.show()

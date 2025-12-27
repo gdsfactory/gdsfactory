@@ -44,7 +44,11 @@ def straight_wide(
 # make a Component
 
 if __name__ == "__main__":
-    c = gf.Component(name="MultiWaveguide")
+    from gdsfactory.gpdk import PDK
+
+    PDK.activate()
+
+    c = gf.Component()
 
     # Now say we want to add a few straights to to our  Component" c.
     # First we create the straights.  As you can see from the straight_wide() function

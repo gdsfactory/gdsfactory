@@ -1,5 +1,5 @@
 from gdsfactory.config import GDSDIR_TEMP
-from gdsfactory.generic_tech import get_generic_pdk
+from gdsfactory.gpdk import get_generic_pdk
 from gdsfactory.read.from_updk import from_updk
 
 exclude = [

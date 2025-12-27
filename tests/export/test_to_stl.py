@@ -4,7 +4,7 @@ import pytest
 
 import gdsfactory as gf
 from gdsfactory.export.to_stl import to_stl
-from gdsfactory.generic_tech.layer_map import LAYER
+from gdsfactory.gpdk.layer_map import LAYER
 
 
 def test_export_filepath() -> None:
