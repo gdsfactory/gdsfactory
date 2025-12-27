@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+from gdsfactory.gpdk import PDK
 from gdsfactory.read.from_yaml import from_yaml
+
+PDK.activate()
 
 yaml = """
 name: mmis

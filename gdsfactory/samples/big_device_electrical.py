@@ -88,6 +88,9 @@ def big_device(
 
 if __name__ == "__main__":
     import gdsfactory as gf
+    from gdsfactory.gpdk import PDK
+
+    PDK.activate()
 
     c = big_device()
     c = gf.routing.add_pads_top(c, fanout_length=None)
