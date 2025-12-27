@@ -969,7 +969,7 @@ class Component(ComponentBase, kf.DKCell):
         self,
         layer: LayerSpec,
         min_space: float = 0.2,
-        over_under: float = 0.0,
+        size_bias: float = 0.0,
     ) -> None:
         """Fixes layer spacing in the Component.
 
@@ -986,8 +986,8 @@ class Component(ComponentBase, kf.DKCell):
         fix = fix_spacing_tiled(
             self.to_itype(), min_space=self.kcl.to_dbu(min_space), layer=layer_info
         )
-        if over_under:
-            size_offset_dbu = self.kcl.to_dbu(over_under)
+        if size_bias:
+            size_offset_dbu = self.kcl.to_dbu(size_bias)
             fix = fix.sized(+size_offset_dbu)
             fix = fix.sized(-size_offset_dbu)
 
