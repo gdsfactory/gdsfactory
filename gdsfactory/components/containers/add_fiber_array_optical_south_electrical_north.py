@@ -9,10 +9,10 @@ from gdsfactory.typings import AngleInDegrees, ComponentSpec, CrossSectionSpec
 
 @gf.cell_with_module_name
 def add_fiber_array_optical_south_electrical_north(
-    component: ComponentSpec,
-    pad: ComponentSpec,
-    grating_coupler: ComponentSpec,
-    cross_section_metal: CrossSectionSpec,
+    component: ComponentSpec = "straight_heater_metal",
+    pad: ComponentSpec = "pad",
+    grating_coupler: ComponentSpec = "grating_coupler_te",
+    cross_section_metal: CrossSectionSpec = "metal_routing",
     with_loopback: bool = True,
     pad_pitch: float = 100.0,
     pitch: float = 127.0,

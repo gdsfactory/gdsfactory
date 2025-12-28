@@ -27,7 +27,6 @@ scalene-profile.html
 test_manifest.csv
 gdsfactory/plugins/kweb/gds_files/
 profile.html
-docs/components.rst
 
 *.properties
 *.sqlite3
