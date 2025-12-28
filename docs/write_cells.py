@@ -1,3 +1,11 @@
+"""
+- Walks through the `gdsfactory/components` directory
+- Finds all component modules (subfolders with __init__.py)
+- extracts all cell functions from each module
+- Generates reStructuredText for cell and and writes to `docs/components.rst`
+  Automatically extracts default parameter values from function signatures
+"""
+
 import functools
 import inspect
 import os
