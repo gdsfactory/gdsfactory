@@ -31,23 +31,6 @@ def spiral_inductor(
 
     Returns:
         Component: A GDSFactory component containing the spiral inductor pattern.
-
-    Example:
-        ```python
-        import gdsfactory as gf
-
-        # Create a standard spiral inductor
-        inductor = gf.components.spiral_inductor()
-
-        # Create a custom spiral inductor with specific parameters
-        custom_inductor = gf.components.spiral_inductor(
-            width=2.0,
-            pitch=2.5,
-            turns=12,
-            outer_diameter=600,
-            tail=40.0
-        )
-        ```
     """
     # create the outer tail
     P = gf.path.straight(length=tail)

@@ -21,7 +21,7 @@ Here are some other ideas for possible contributions:
 
 The workflow is:
 
-- Fork the repo. This creates a copy into your GitHub account namespace. `git clone` it into your computer and install it.
+- Fork the repo. This creates a copy into your GitHub account namespace. `git clone` it into your computer and [install](developer.md#installation-for-contributors) it.
 - `git add`, `git commit`, `git push` your work as many times as needed. Make sure [GitHub Actions](https://github.com/gdsfactory/gdsfactory/actions) pass so it all keeps working correctly.
 - open a Pull request (PR) to merge your improvements to the main repository.
 
@@ -30,4 +30,4 @@ The workflow is:
 
 ## Code of Conduct
 
-This project is a community effort, and everyone is welcome to contribute. Everyone within the community is expected to abide by our [code of conduct](https://github.com/gdsfactory/gdsfactory/blob/main/docs/code_of_conduct.md)
+This project is a community effort, and everyone is welcome to contribute. Everyone within the community is expected to abide by our [code of conduct](code_of_conduct.md)
