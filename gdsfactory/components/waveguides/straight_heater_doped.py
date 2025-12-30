@@ -219,7 +219,7 @@ def straight_heater_doped_strip(
         xoffset_tip2: distance in um from output taper to via_stack.
 
     .. code::
-    
+
                               length
           <-|--------|--------------------------------->
             |        | length_section
@@ -236,11 +236,11 @@ def straight_heater_doped_strip(
                                           |          |
                                           |          |
                                           |__________|
-                                          
+
     cross_section
-    
+
     .. code::
-    
+
                                   |<------width------>|
           ____________             ___________________               ______________
          |            |           |     undoped Si    |             |              |
