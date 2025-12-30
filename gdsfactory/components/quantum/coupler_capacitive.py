@@ -23,7 +23,7 @@ def coupler_capacitive(
     providing capacitive coupling between circuit elements like qubits and resonators.
 
     .. code::
-    
+
                     ______               ______
           _______  |      |             |      | _______
          |       | |      |             |      ||       |
@@ -122,7 +122,7 @@ def coupler_interdigital(
     """Creates an interdigital capacitive coupler.
 
     Each side includes a base column (a vertical metal block) to which the fingers are attached.
-    
+
     - The width of the base column is equal to the height of the fingers.
     - The finger_length parameter refers only to the length of the fingers *extending from the base*,
       and does NOT include the base column width
@@ -142,7 +142,7 @@ def coupler_interdigital(
         Component: A gdsfactory component with the interdigital coupler geometry.
 
     .. code::
-    
+
                     ┌────────┐
                    base columns
                    ↓                    ↓

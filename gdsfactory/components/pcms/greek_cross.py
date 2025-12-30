@@ -42,7 +42,7 @@ def greek_cross(
 
 
     References:
-    
+
     - Walton, Anthony J.. “MICROELECTRONIC TEST STRUCTURES.” (1999).
     - W. Versnel, Analysis of the Greek cross, a Van der Pauw structure with finite
       contacts, Solid-State Electronics, Volume 22, Issue 11, 1979, Pages 911-914,
