@@ -25,7 +25,6 @@ execute:
 # - "*00_tidy3d.ipynb"
 # - "*03_cascaded_mzi*"
 # - "*jupyter_notebooks*"
-
 latex:
   latex_engine: pdflatex # one of 'pdflatex', 'xelatex' (recommended for unicode), 'luatex', 'platex', 'uplatex'
   use_jupyterbook_latex: true # use sphinx-jupyterbook-latex for pdf builds as default
