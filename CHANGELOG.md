@@ -1,12 +1,11 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.28.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.29.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.29.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.29.0) - 2026-01-01
 
-No significant changes.
-
+- do not activate generic_pdk by default [#4303](https://github.com/gdsfactory/gdsfactory/pull/4303)
 
 ## [9.28.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.28.1) - 2025-12-27
 
