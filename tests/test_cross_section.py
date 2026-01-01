@@ -6,7 +6,7 @@ from typing import Any
 import jsondiff
 
 import gdsfactory as gf
-from gdsfactory.generic_tech import LAYER
+from gdsfactory.gpdk import LAYER
 
 
 def test_waveguide_setting() -> None:

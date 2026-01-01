@@ -1,7 +1,7 @@
 import pytest
 
 import gdsfactory as gf
-from gdsfactory.generic_tech import LAYER, LAYER_STACK
+from gdsfactory.gpdk import LAYER, LAYER_STACK
 from gdsfactory.technology import LayerLevel
 from gdsfactory.technology.layer_stack import LogicalLayer
 

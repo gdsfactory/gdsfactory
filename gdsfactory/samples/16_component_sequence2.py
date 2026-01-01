@@ -3,6 +3,9 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components import component_sequence, straight, taper_strip_to_ridge
+from gdsfactory.gpdk import PDK
+
+PDK.activate()
 
 
 @gf.cell

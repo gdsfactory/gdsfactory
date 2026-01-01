@@ -3,7 +3,10 @@ from __future__ import annotations
 from typing import Any
 
 import gdsfactory as gf
+from gdsfactory.gpdk import PDK
 from gdsfactory.typings import LayerSpec, Ports
+
+PDK.activate()
 
 layer_label = "TEXT"
 

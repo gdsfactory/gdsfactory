@@ -1,6 +1,9 @@
 import time
 
 import gdsfactory as gf
+from gdsfactory.gpdk import PDK
+
+PDK.activate()
 
 if __name__ == "__main__":
     c = gf.Component()

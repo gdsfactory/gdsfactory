@@ -7,6 +7,9 @@ from gdsfactory.components.containers.add_fiber_array_optical_south_electrical_n
     add_fiber_array_optical_south_electrical_north,
 )
 from gdsfactory.components.spirals.spiral import spiral
+from gdsfactory.gpdk import PDK
+
+PDK.activate()
 
 
 @gf.cell
