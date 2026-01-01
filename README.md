@@ -59,9 +59,9 @@ c.show()
 
 Highlights:
 
-- +2M downloads
-- +81 Contributors
-- +25 PDKs available
+- 3M+ downloads
+- 105+ Contributors
+- 25+ PDKs available
 
 ![workflow](https://i.imgur.com/KyavbHh.png)
 
