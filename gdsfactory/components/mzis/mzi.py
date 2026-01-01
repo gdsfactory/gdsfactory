@@ -75,7 +75,7 @@ def mzi(
         cross_section_x_bot: optional bottom cross_section (defaults to cross_section).
         mirror_bot: if true, mirrors the bottom arm.
         add_optical_ports_arms: add all other optical ports in the arms
-            with top_ and bot_ prefix.
+            with top\\_ and bot\\_ prefix.
         min_length: minimum length for the straight.
         auto_rename_ports: if True, renames ports.
         auto_detect_port_names: whether to auto detect ports names. Ignores port_e* arguments if True.
