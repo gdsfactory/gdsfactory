@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.29.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.29.0) - 2026-01-01
+
+No significant changes.
+
+
 ## [9.28.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.28.1) - 2025-12-27
 
 - Apply positive and negative bias to merge 1nm gaps in Component.fix_min_space() [#4305](https://github.com/gdsfactory/gdsfactory/pull/4305)
