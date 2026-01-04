@@ -1,12 +1,11 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.29.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.29.1...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.29.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.29.1) - 2026-01-04
 
-No significant changes.
-
+- backwards compat [#4316](https://github.com/gdsfactory/gdsfactory/pull/4316)
 
 ## [9.29.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.29.0) - 2026-01-01
 
