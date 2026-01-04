@@ -9,6 +9,8 @@ from __future__ import annotations
 import warnings
 from typing import TYPE_CHECKING, Any
 
+from gdsfactory.gpdk import *
+
 # Issue deprecation warning on import
 warnings.warn(
     "The 'gdsfactory.generic_tech' module is deprecated and will be removed in a future version. "

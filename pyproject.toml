@@ -157,6 +157,7 @@ norecursedirs = [
   "gdsfactory/watch.py",
   "gdsfactory/schematic_editor.py",
   "gdsfactory/gpdk/klayout",
+  "gdsfactory/generic_tech/klayout",
   "docs"
 ]
 python_files = ["gdsfactory/*.py", "tests/*.py"]
@@ -232,6 +233,7 @@ select = [
 [tool.ruff.lint.per-file-ignores]
 "docs/notebooks/*.ipynb" = ["F821", "E402", "F405", "F403", "D103"]
 "gdsfactory/components/*.py" = ["F403", "F405"]  # import *
+"gdsfactory/generic_tech/*.py" = ["F403", "F405"]  # import *
 "gdsfactory/samples/*.py" = ["N999"]  # module name
 "gdsfactory/typings.py" = ["UP035"]
 "tests/*.py" = ["D103"]  # docstring
@@ -284,10 +286,10 @@ src = "gdsfactory/config.py"
 src = "docs/notebooks/08_pdk.ipynb"
 
 [[tool.tbump.file]]
-src = "gdsfactory/gpdk/klayout/grain.xml"
+src = "gdsfactory/generic_tech/klayout/grain.xml"
 
 [[tool.tbump.file]]
-src = "gdsfactory/gpdk/klayout/pymacros/set_menus.lym"
+src = "gdsfactory/generic_tech/klayout/pymacros/set_menus.lym"
 
 [tool.tbump.git]
 message_template = "Bump to {new_version}"
