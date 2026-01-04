@@ -285,10 +285,10 @@ src = "gdsfactory/config.py"
 src = "docs/notebooks/08_pdk.ipynb"
 
 [[tool.tbump.file]]
-src = "gdsfactory/gpdk/klayout/grain.xml"
+src = "gdsfactory/generic_tech/klayout/grain.xml"
 
 [[tool.tbump.file]]
-src = "gdsfactory/gpdk/klayout/pymacros/set_menus.lym"
+src = "gdsfactory/generic_tech/klayout/pymacros/set_menus.lym"
 
 [tool.tbump.git]
 message_template = "Bump to {new_version}"
