@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.29.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.29.1) - 2026-01-04
+
+No significant changes.
+
+
 ## [9.29.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.29.0) - 2026-01-01
 
 - do not activate generic_pdk by default [#4303](https://github.com/gdsfactory/gdsfactory/pull/4303)
