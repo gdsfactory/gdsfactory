@@ -157,6 +157,7 @@ norecursedirs = [
   "gdsfactory/watch.py",
   "gdsfactory/schematic_editor.py",
   "gdsfactory/gpdk/klayout",
+  "gdsfactory/generic_tech/klayout",
   "docs"
 ]
 python_files = ["gdsfactory/*.py", "tests/*.py"]
