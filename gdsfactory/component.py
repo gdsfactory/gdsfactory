@@ -357,6 +357,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         save_options: kdb.SaveLayoutOptions | None = None,
         with_metadata: bool = True,
         exclude_layers: Sequence[LayerSpec] | None = None,
+        no_empty_cells: bool = False,
     ) -> pathlib.Path:
         """Write component to GDS and returns gdspath.
 
@@ -366,6 +367,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             save_options: klayout save options.
             with_metadata: if True, writes metadata (ports, settings) to the GDS file.
             exlude_layers: list of layers to exclude from the GDS file.
+            no_empty_cells: if True, does not save empty cells.
         """
         from gdsfactory.pdk import get_layer
 
@@ -385,7 +387,10 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         gdspath.parent.mkdir(parents=True, exist_ok=True)
 
         if save_options is None:
-            save_options = save_layout_options()
+            if no_empty_cells:
+                save_options = save_layout_options(no_empty_cells=True)
+            else:
+                save_options = save_layout_options()
 
         exclude_layers = exclude_layers or CONF.exclude_layers
 
