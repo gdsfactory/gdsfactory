@@ -387,10 +387,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         gdspath.parent.mkdir(parents=True, exist_ok=True)
 
         if save_options is None:
-            if no_empty_cells:
-                save_options = save_layout_options(no_empty_cells=True)
-            else:
-                save_options = save_layout_options()
+            save_options = save_layout_options(no_empty_cells=no_empty_cells)
 
         exclude_layers = exclude_layers or CONF.exclude_layers
 
