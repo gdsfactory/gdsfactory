@@ -1,12 +1,12 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.29.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.30.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.30.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.30.0) - 2026-01-09
 
-No significant changes.
-
+- allow markers in opposite side [#4322](https://github.com/gdsfactory/gdsfactory/pull/4322)
+- add flag to write GDS with no empty cells [#4320](https://github.com/gdsfactory/gdsfactory/pull/4320)
 
 ## [9.29.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.29.1) - 2026-01-04
 
