@@ -78,14 +78,9 @@ def ensure_tuple_of_tuples(points: Any) -> tuple[tuple[float, float], ...]:
 def points_to_polygon(
     points: _PolygonPoints,
 ) -> kdb.Polygon | kdb.DPolygon | kdb.DSimplePolygon | kdb.Region:
-    if isinstance(points, tuple | list | np.ndarray):
-        points = ensure_tuple_of_tuples(points)
-        polygon = kdb.DPolygon()
-        polygon.assign_hull(to_kdb_dpoints(points))
-    elif isinstance(
-        points, kdb.Polygon | kdb.DPolygon | kdb.DSimplePolygon | kdb.Region
-    ):
+    if isinstance(points, kdb.Polygon | kdb.DPolygon | kdb.DSimplePolygon | kdb.Region):
         return points
+    points = ensure_tuple_of_tuples(points)
     return kdb.DPolygon(to_kdb_dpoints(points))
 
 
@@ -1084,6 +1079,8 @@ class Component(ComponentBase, kf.DKCell):
         _layer = get_layer(layer)
 
         polygon = points_to_polygon(points)
+        if isinstance(polygon, kdb.DPolygon | kdb.DSimplePolygon):
+            polygon = polygon.to_itype(self.kcl.dbu)  # type: ignore[assignment]
 
         return self.kdb_cell.shapes(_layer).insert(polygon)
 
