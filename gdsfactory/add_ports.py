@@ -305,6 +305,7 @@ def add_ports_from_boxes(
     pin_layer: LayerSpec,
     port_layer: LayerSpec | None = None,
     inside: bool = False,
+    use_opposite_side: bool = False,
     tol: float = 0.1,
     pin_extra_width: float = 0.0,
     min_pin_area_um2: float | None = None,
@@ -325,6 +326,7 @@ def add_ports_from_boxes(
         pin_layer: layer for pin maker.
         port_layer: for the new created port. Defaults to pin_layer.
         inside: True-> markers  inside. False-> markers at center.
+        use_opposite_side: if True and inside=True, place port at opposite edge of pin.
         tol: tolerance area to search ports at component boundaries dxmin, dymin, dxmax, dxmax.
         pin_extra_width: 2*offset from pin to straight.
         min_pin_area_um2: ignores pins with area smaller than min_pin_area_um2.
@@ -425,45 +427,85 @@ def add_ports_from_boxes(
             width = dy
             if x > xc:  # east
                 orientation = 0
-                x = pxmax if inside else x
+                if inside:
+                    if use_opposite_side:
+                        x = pxmin
+                    else:
+                        x = pxmax
             else:
                 orientation = 180
-                x = pxmin if inside else x
+                if inside:
+                    if use_opposite_side:
+                        x = pxmax
+                    else:
+                        x = pxmin
         elif dy > dx if ports_on_short_side else dx > dy:
             width = dx
             if y > yc:  # north
                 orientation = 90
-                y = pymax if inside else y
+                if inside:
+                    if use_opposite_side:
+                        y = pymin
+                    else:
+                        y = pymax
             else:
                 orientation = 270
-                y = pymin if inside else y
+                if inside:
+                    if use_opposite_side:
+                        y = pymax
+                    else:
+                        y = pymin
 
         elif pxmax > dxmax - tol:  # east
             orientation = 0
             width = dy
-            x = pxmax if inside else x
+            if inside:
+                if use_opposite_side:
+                    x = pxmin
+                else:
+                    x = pxmax
         elif pxmin < dxmin + tol:  # west
             orientation = 180
             width = dy
-            x = pxmin if inside else x
+            if inside:
+                if use_opposite_side:
+                    x = pxmax
+                else:
+                    x = pxmin
         elif pymax > dymax - tol:  # north
             orientation = 90
             width = dx
-            y = pymax if inside else y
+            if inside:
+                if use_opposite_side:
+                    y = pymin
+                else:
+                    y = pymax
         elif pymin < dymin + tol:  # south
             orientation = 270
             width = dx
-            y = pymin if inside else y
+            if inside:
+                if use_opposite_side:
+                    y = pymax
+                else:
+                    y = pymin
 
         elif pxmax > xc:
             orientation = 0
             width = dy
-            x = pxmax if inside else x
+            if inside:
+                if use_opposite_side:
+                    x = pxmin
+                else:
+                    x = pxmax
 
         else:
             orientation = 180
             width = dy
-            x = pxmin if inside else x
+            if inside:
+                if use_opposite_side:
+                    x = pxmax
+                else:
+                    x = pxmin
 
         if orientation == -1:
             raise ValueError(
