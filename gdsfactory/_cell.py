@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 from collections.abc import Callable, Iterable
-from functools import partial
-from typing import TYPE_CHECKING, Any, ParamSpec, Protocol, overload
+from functools import partial, wraps
+from typing import TYPE_CHECKING, Any, ParamSpec, Protocol, cast, overload
 
 import kfactory as kf
 from cachetools import Cache
@@ -121,8 +121,20 @@ def cell(
         lvs_equivalent_ports=lvs_equivalent_ports,
         ports=ports,
     )
-    c.is_gf_cell = True
-    return c  # type: ignore[no-any-return]
+
+    if _func is not None:
+        c.is_gf_cell = True
+        return cast(ComponentFunc[ComponentParams], c)
+
+    @wraps(c)
+    def wrapper(
+        func: ComponentFunc[ComponentParams],
+    ) -> ComponentFunc[ComponentParams]:
+        decorated = c(func)
+        decorated.is_gf_cell = True
+        return cast(ComponentFunc[ComponentParams], decorated)
+
+    return wrapper
 
 
 class ComponentAllAngleFunc(Protocol[ComponentParams]):
@@ -188,8 +200,20 @@ def vcell(
         check_ports=check_ports,
         ports=ports,
     )
-    vc.is_gf_vcell = True
-    return vc  # type: ignore[no-any-return]
+
+    if _func is not None:
+        vc.is_gf_vcell = True
+        return cast(ComponentAllAngleFunc[ComponentParams], vc)
+
+    @wraps(vc)
+    def wrapper(
+        func: ComponentAllAngleFunc[ComponentParams],
+    ) -> ComponentAllAngleFunc[ComponentParams]:
+        decorated = vc(func)
+        decorated.is_gf_vcell = True
+        return cast(ComponentAllAngleFunc[ComponentParams], decorated)
+
+    return wrapper
 
 
 def override_defaults(
