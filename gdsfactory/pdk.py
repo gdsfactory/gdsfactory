@@ -314,30 +314,40 @@ class Pdk(BaseModel):
     ) -> ComponentFactory | ComponentAllAngleFactory:
         """Returns ComponentFactory from a cell spec."""
         cells_and_containers = self._get_cells_and_containers()
+        settings = kwargs
 
         if callable(cell):
-            return cell
-        if isinstance(cell, str):
+            cell_func = cell
+        elif isinstance(cell, str):
             if cell not in cells_and_containers:
                 matching_cells = [c for c in cells_and_containers if cell in c]
                 raise ValueError(
                     f"{cell!r} from PDK {self.name!r} not in cells: Did you mean {matching_cells}?"
                 )
-            return cells_and_containers[cell]
-        for key in cell:
-            if key not in component_settings:
-                raise ValueError(f"Invalid setting {key!r} not in {component_settings}")
-        settings = dict(cell.get("settings", {}))
-        settings.update(**kwargs)
+            cell_func = cells_and_containers[cell]
+        elif isinstance(cell, dict):
+            for key in cell:
+                if key not in component_settings:
+                    raise ValueError(
+                        f"Invalid setting {key!r} not in {component_settings}"
+                    )
+            settings = dict(cell.get("settings", {}))
+            settings.update(**kwargs)
 
-        cell_name = cell.get("function")
-        if not isinstance(cell_name, str) or cell_name not in cells_and_containers:
-            matching_cells = [c for c in cells_and_containers if c in cell]
+            cell_name = cell.get("function")
+            if not isinstance(cell_name, str) or cell_name not in cells_and_containers:
+                matching_cells = [c for c in cells_and_containers if c in cell]
+                raise ValueError(
+                    f"{cell!r} from PDK {self.name!r} not in cells: Did you mean {matching_cells}?"
+                )
+            cell_func = cells_and_containers[cell_name]
+        else:
             raise ValueError(
-                f"{cell!r} from PDK {self.name!r} not in cells: Did you mean {matching_cells}?"
+                f"Parameter cell must be of type Callable, str or dict. Type {type(cell)} is not supported."
             )
-        cell = cells_and_containers[cell_name]
-        return partial(cell, **settings)
+        if settings:
+            return partial(cell_func, **settings)
+        return cell_func
 
     def get_component(
         self,
