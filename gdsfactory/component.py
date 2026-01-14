@@ -1168,7 +1168,10 @@ class Component(ComponentBase, kf.DKCell):
         layout_view.set_config("grid-show-ruler", "true" if show_ruler else "false")
 
         pixel_buffer = layout_view.get_pixels_with_options(
-            **({"width": CONF.plot_width, "height": CONF.plot_height} | (pixel_buffer_options or {}))
+            **({"width": CONF.plot_width, 
+                "height": CONF.plot_height, 
+                "oversampling": CONF.plot_oversampling}
+                  | (pixel_buffer_options or {}))
         )
         png_data = pixel_buffer.to_png_data()
 

@@ -111,6 +111,7 @@ class Config(Settings):
     exclude_layers: list[tuple[int, int]] | list[str] | None
     plot_width: int
     plot_height: int
+    plot_oversampling: float
 
 
 CONF: Config = config  # type: ignore[assignment]
@@ -141,6 +142,7 @@ CONF.port_types_grating_couplers = ["vertical_te", "vertical_tm", "vertical_dual
 CONF.exclude_layers = None
 CONF.plot_width = 800
 CONF.plot_height = 600
+CONF.plot_oversampling = 0
 
 
 class Paths:
