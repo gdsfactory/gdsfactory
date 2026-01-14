@@ -229,7 +229,7 @@ layer_stack = get_layer_stack_fab_c()
 
 PDK = gf.Pdk(
     name="fab_c_demopdk",
-    cells=cells,
+    cells=cells,  # type: ignore[arg-type]
     cross_sections=cross_sections,
     layer_stack=layer_stack,
     layers=LAYER,
