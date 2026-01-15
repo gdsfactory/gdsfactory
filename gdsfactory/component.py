@@ -584,14 +584,7 @@ class Component(ComponentBase, kf.DKCell):
         Args:
             cell: The cell to be added as an instance
         """
-        if isinstance(cell, ComponentAllAngle):
-            raise ValueError(
-                f"Use Component.add_ref_off_grid() for all angle {cell.name!r}"
-            )
-
-        if not isinstance(cell, kf.ProtoTKCell):
-            raise ValueError(f"Expected a Component, got {type(cell)}")
-        return self.create_inst(cell)
+        return self.add_ref(cell)
 
     def add_ref(
         self,
