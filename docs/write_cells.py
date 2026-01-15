@@ -134,6 +134,8 @@ By doing so, you'll possess a versatile, retargetable PDK, empowering you to des
 
   import gdsfactory as gf
 
+  gf.gpdk.PDK.activate()
+
   c = gf.components.{name}({kwargs}).copy()
   c.draw_ports()
   c.plot()
