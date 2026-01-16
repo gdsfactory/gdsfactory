@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.31.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.31.0) - 2026-01-15
+
+No significant changes.
+
+
 ## [9.30.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.30.0) - 2026-01-09
 
 - allow markers in opposite side [#4322](https://github.com/gdsfactory/gdsfactory/pull/4322)
