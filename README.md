@@ -8,7 +8,6 @@
 [![codecov](https://img.shields.io/codecov/c/github/gdsfactory/gdsfactory)](https://codecov.io/gh/gdsfactory/gdsfactory/tree/main/gdsfactory)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/gdsfactory/binder-sandbox/HEAD)
 
-
 GDSFactory is a Python library for designing chips (Photonics, Analog, Quantum, MEMS), PCBs, and 3D-printable objects. We aim to make hardware design accessible, intuitive, and fun—empowering everyone to build the future.
 
 As input you write python code, as an output GDSFactory creates CAD files (GDS, OASIS, STL, GERBER).
@@ -198,7 +197,6 @@ We welcome all contributions—whether you're adding new features, improving doc
 Join us and be part of the community. 🚀
 
 ![contributors](https://i.imgur.com/0AuMHZE.png)
-
 
 ## Stargazers
 

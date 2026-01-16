@@ -51,6 +51,8 @@ def spiral_inductor(
 if __name__ == "__main__":
     import math
 
+    gf.gpdk.PDK.activate()
+
     c = spiral_inductor()
     print(c.info["length"])
 
