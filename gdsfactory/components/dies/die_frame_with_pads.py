@@ -162,6 +162,7 @@ def die_frame_phix(
     pad_rotation_dc_north: float = 0,
     pad_rotation_dc_south: float = 0,
     pad_rotation_rf: float = 0,
+    with_loopback: bool = True,
 ) -> Component:
     """A die_frame with grating couplers and pads.
 
@@ -215,24 +216,42 @@ def die_frame_phix(
 
     if edge_coupler or grating_coupler:
         if edge_coupler:
-            gca = gf.c.edge_coupler_array_with_loopback(
-                n=nfibers,
-                pitch=fiber_pitch,
-                edge_coupler=edge_coupler,
-                cross_section=cross_section,
-                text_offset=text_offset,
-                text=text,
-                x_reflection=False,
-            )
-            gca_left = gf.c.edge_coupler_array_with_loopback(
-                n=nfibers,
-                pitch=fiber_pitch,
-                edge_coupler=edge_coupler,
-                cross_section=cross_section,
-                text_offset=(-text_offset[0], text_offset[1]),
-                text=text,
-                x_reflection=True,
-            )
+            if with_loopback:
+                gca = gf.c.edge_coupler_array_with_loopback(
+                    n=nfibers,
+                    pitch=fiber_pitch,
+                    edge_coupler=edge_coupler,
+                    cross_section=cross_section,
+                    text_offset=text_offset,
+                    text=text,
+                    x_reflection=False,
+                )
+                gca_left = gf.c.edge_coupler_array_with_loopback(
+                    n=nfibers,
+                    pitch=fiber_pitch,
+                    edge_coupler=edge_coupler,
+                    cross_section=cross_section,
+                    text_offset=(-text_offset[0], text_offset[1]),
+                    text=text,
+                    x_reflection=True,
+                )
+            else:
+                gca = gf.c.edge_coupler_array(
+                    n=nfibers,
+                    pitch=fiber_pitch,
+                    edge_coupler=edge_coupler,
+                    text_offset=text_offset,
+                    text=text,
+                    x_reflection=False,
+                )
+                gca_left = gf.c.edge_coupler_array(
+                    n=nfibers,
+                    pitch=fiber_pitch,
+                    edge_coupler=edge_coupler,
+                    text_offset=(-text_offset[0], text_offset[1]),
+                    text=text,
+                    x_reflection=True,
+                )
 
             if with_left_fiber_coupler:
                 left = c << gca_left
