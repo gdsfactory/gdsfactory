@@ -83,8 +83,8 @@ def get_generic_pdk() -> Pdk:
     return Pdk(
         name="generic",
         version=__version__,
-        cells={c: cells[c] for c in cells if c not in containers_dict},
-        containers=containers_dict,
+        cells={c: cells[c] for c in cells if c not in containers_dict},  # type: ignore
+        containers=containers_dict,  # type: ignore[arg-type]
         cross_sections=cross_sections,
         layers=LAYER,
         layer_stack=LAYER_STACK,
