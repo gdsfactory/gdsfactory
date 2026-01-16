@@ -20,6 +20,7 @@ execute:
     - "*ray_optimiser*"
     - "*03_numerical_implantation*"
     - "*02_model_extraction*"
+    - "*10_schematic*"
     # - "*20_schematic_driven_layout*"
 # - "*001_meep_sparameters*"
 # - "*00_tidy3d.ipynb"

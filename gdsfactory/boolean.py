@@ -22,10 +22,11 @@ def boolean(
 
     The `operation` parameter specifies the type of boolean operation to perform.
     Supported operations include {'not', 'and', 'or', 'xor', '-', '&', '|', '^'}:
-      - `'|'` is equivalent to `'or'`
-      - `'-'` is equivalent to `'not'`
-      - `'&'` is equivalent to `'and'`
-      - `'^'` is equivalent to `'xor'`
+
+    - `'|'` is equivalent to `'or'`
+    - `'-'` is equivalent to `'not'`
+    - `'&'` is equivalent to `'and'`
+    - `'^'` is equivalent to `'xor'`
 
     Args:
         A: Component(/Reference) or list of Component(/References).
