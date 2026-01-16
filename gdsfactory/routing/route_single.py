@@ -251,17 +251,6 @@ def route_single(
         )
 
 
-# FIXME
-# route_single_electrical = partial(
-#     route_single,
-#     cross_section="metal_routing",
-#     allow_width_mismatch=True,
-#     port_type="electrical",
-#     bend=wire_corner,
-#     taper=None,
-# )
-
-
 def route_single_electrical(
     component: Component,
     port1: Port,
