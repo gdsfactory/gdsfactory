@@ -1,12 +1,18 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.30.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.31.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.31.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.31.0) - 2026-01-15
 
-No significant changes.
-
+- Allow setting name for add_ref_off_grid [#4329](https://github.com/gdsfactory/gdsfactory/pull/4329)
+- Fix `get_cell` to handle kwargs settings correctly [#4324](https://github.com/gdsfactory/gdsfactory/pull/4324)
+- pass with_loopback flag [#4333](https://github.com/gdsfactory/gdsfactory/pull/4333)
+- Set the is_gf_cell and is_gf_vcell attributes correctly [#4328](https://github.com/gdsfactory/gdsfactory/pull/4328)
+- Use add_ref instead of create_inst in lshift [#4331](https://github.com/gdsfactory/gdsfactory/pull/4331)
+- Remove matthew from codeowners [#4325](https://github.com/gdsfactory/gdsfactory/pull/4325)
+- Avoid implicit point simplification on itype conversion in add_polygon [#4321](https://github.com/gdsfactory/gdsfactory/pull/4321)
+- Pcells documentation [#4332](https://github.com/gdsfactory/gdsfactory/pull/4332)
 
 ## [9.30.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.30.0) - 2026-01-09
 
