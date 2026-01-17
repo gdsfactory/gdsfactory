@@ -14,6 +14,8 @@ from gdsfactory.typings import RoutingStrategy
 if typing.TYPE_CHECKING:
     from gdsfactory.pdk import Pdk
 
+    PDK: Pdk
+
 __all__ = ["LAYER", "LAYER_STACK", "get_generic_pdk"]
 
 

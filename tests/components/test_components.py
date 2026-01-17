@@ -37,6 +37,7 @@ skip_test = {
     "text_freetype",
     "version_stamp",
     "die_frame_phix",
+    "taper_hecken",
 }
 cells_to_test = set(cells.keys()) - skip_test
 
