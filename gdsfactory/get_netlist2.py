@@ -132,13 +132,12 @@ class CountedNetlistNamer:
 
     def __init__(self, component_namer: ComponentNamer) -> None:
         self._component_namer = component_namer
-        self._cell_names: dict[int, str] = {}  # cell id -> assigned name
+        self._cell_names: dict[str, str] = {}  # cell.name -> assigned name
         self._used_names: set[str] = set()
 
     def __call__(self, cell: kf.ProtoTKCell[Any]) -> str:
-        cell_id = id(cell)
-        if cell_id in self._cell_names:
-            return self._cell_names[cell_id]
+        if cell.name in self._cell_names:
+            return self._cell_names[cell.name]
 
         if not _has_instances(cell):
             # Leaf cell: use component_namer (typically function_name)
@@ -148,7 +147,7 @@ class CountedNetlistNamer:
             base = self._component_namer(cell)
             name = self._get_unique_name(base)
 
-        self._cell_names[cell_id] = name
+        self._cell_names[cell.name] = name
         self._used_names.add(name)
         return name
 
