@@ -172,15 +172,74 @@ class PortMatcher(Protocol):
         ...
 
 
-def ports_coincident(
-    port1: kf.DPort | kf.Port,
-    port2: kf.DPort | kf.Port,
-    tolerance_dbu: int = 2,
-) -> bool:
-    """Return True if two ports are at the same location (within tolerance)."""
-    x1, y1 = port1.to_itype().center
-    x2, y2 = port2.to_itype().center
-    return abs(x2 - x1) < tolerance_dbu and abs(y2 - y1) < tolerance_dbu
+class PortCenterMatcher:
+    """Matches ports based on center position only."""
+
+    def __init__(self, tolerance_dbu: int = 2) -> None:
+        self.tolerance_dbu = tolerance_dbu
+
+    def __call__(self, port1: kf.DPort | kf.Port, port2: kf.DPort | kf.Port) -> bool:
+        """Return True if two ports are at the same location (within tolerance)."""
+        x1, y1 = port1.to_itype().center
+        x2, y2 = port2.to_itype().center
+        return abs(x2 - x1) < self.tolerance_dbu and abs(y2 - y1) < self.tolerance_dbu
+
+
+class SmartPortMatcher:
+    """Matches ports based on position, width, and orientation.
+
+    For electrical ports, orientation is not checked.
+    For other port types (e.g. optical), ports must face each other (180° apart).
+    """
+
+    def __init__(
+        self,
+        position_tolerance_dbu: int = 2,
+        width_tolerance: float = 0.001,
+        angle_tolerance: float = 0.01,
+    ) -> None:
+        self.position_tolerance_dbu = position_tolerance_dbu
+        self.width_tolerance = width_tolerance
+        self.angle_tolerance = angle_tolerance
+
+    def __call__(self, port1: kf.DPort | kf.Port, port2: kf.DPort | kf.Port) -> bool:
+        """Return True if ports match in position, width, and orientation."""
+        # Check position
+        x1, y1 = port1.to_itype().center
+        x2, y2 = port2.to_itype().center
+        if (
+            abs(x2 - x1) >= self.position_tolerance_dbu
+            or abs(y2 - y1) >= self.position_tolerance_dbu
+        ):
+            return False
+
+        # Check width
+        if abs(port1.width - port2.width) > self.width_tolerance:
+            return False
+
+        # Skip orientation check for electrical ports
+        if port1.port_type == "electrical" or port2.port_type == "electrical":
+            return True
+
+        # Check orientation: ports should face each other (180° apart)
+        angle_diff = abs(_angle_difference(port1.orientation, port2.orientation))
+        if abs(angle_diff - 180) > self.angle_tolerance:
+            return False
+
+        return True
+
+
+def _angle_difference(angle1: float, angle2: float) -> float:
+    """Return the difference between two angles, normalized to [-180, 180]."""
+    diff = angle2 - angle1
+    while diff < -180:
+        diff += 360
+    while diff > 180:
+        diff -= 360
+    return diff
+
+
+_default_port_matcher = SmartPortMatcher()
 
 
 def get_netlist(
@@ -190,7 +249,7 @@ def get_netlist(
     exclude_port_types: Iterable[str] = (),
     instance_namer: InstanceNamer | None = None,
     component_namer: ComponentNamer = function_namer,
-    port_matcher: PortMatcher = ports_coincident,
+    port_matcher: PortMatcher | None = None,
 ) -> dict[str, Any]:
     """Extract netlist from a cell's port connectivity.
 
@@ -203,7 +262,7 @@ def get_netlist(
         component_namer: Callable to name components.
             Defaults to function_namer.
         port_matcher: Callable to determine if two ports are connected.
-            Defaults to ports_coincident.
+            Defaults to SmartPortMatcher().
 
     Returns:
         A dictionary containing instances, placements, and nets.
@@ -217,7 +276,7 @@ def get_netlist(
         instance_namer or SmartNamer(component_namer),
         component_namer,
         component_namer,  # netlist_namer: use component_namer for non-recursive
-        port_matcher,
+        port_matcher or _default_port_matcher,
         recursive=False,
     )
     return recnet[next(iter(recnet))]
@@ -231,7 +290,7 @@ def get_netlist_recursive(
     instance_namer: InstanceNamer | None = None,
     component_namer: ComponentNamer = function_namer,
     netlist_namer: NetlistNamer | None = None,
-    port_matcher: PortMatcher = ports_coincident,
+    port_matcher: PortMatcher | None = None,
 ) -> dict[str, Any]:
     """Extract netlists recursively from a cell and all its subcells.
 
@@ -246,7 +305,7 @@ def get_netlist_recursive(
         netlist_namer: Callable to name cells in the recursive netlist.
             Defaults to CountedNetlistNamer(component_namer).
         port_matcher: Callable to determine if two ports are connected.
-            Defaults to ports_coincident.
+            Defaults to SmartPortMatcher().
 
     Returns:
         A dictionary mapping cell names to their netlists.
@@ -260,7 +319,7 @@ def get_netlist_recursive(
         instance_namer or SmartNamer(component_namer),
         component_namer,
         netlist_namer or CountedNetlistNamer(component_namer),
-        port_matcher,
+        port_matcher or _default_port_matcher,
         recursive=True,
     )
     return recnet
@@ -526,7 +585,6 @@ def _sample_circuit() -> Component:
         "o2", mzi["o2"]
     )
     s2.name = "s2"
-    c.add_ref(gf.c.mzi(delta_length=100))
     gf.routing.route_bundle(c, [s1["o2"]], [ring["o1"]], cross_section="strip")
     arr = c.add_ref(gf.c.straight(), columns=1, rows=4, row_pitch=30).move((150, 0))
     arr.name = "arr"
@@ -550,8 +608,10 @@ if __name__ == "__main__":
 
     PDK.activate()
     c = _sample_circuit()
-    recnet = get_netlist_recursive(c)
+    recnet = get_netlist_recursive(c, port_matcher=PortCenterMatcher())
     for name, netlist in recnet.items():
         print(f"Cell: {name}")
         for inst_name, inst in netlist["instances"].items():
             print(f"  Instance: {inst_name} -> {inst['component']}")
+    print(len(c.get_netlist()["nets"]), "nets")
+    print(len(netlist["nets"]), "nets")
